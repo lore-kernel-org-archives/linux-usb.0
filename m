@@ -2,78 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD17C43381
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5849C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:53:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95BE623A9C
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:39:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59EF723A80
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Jan 2021 20:53:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729550AbhAHUjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Jan 2021 15:39:20 -0500
-Received: from ficht.host.rs.currently.online ([178.63.44.182]:36584 "EHLO
-        ficht.host.rs.currently.online" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729087AbhAHUjT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Jan 2021 15:39:19 -0500
-X-Greylist: delayed 637 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Jan 2021 15:39:18 EST
-Received: from carbon.srv.schuermann.io (carbon.srv.schuermann.io [IPv6:2a01:4f8:120:614b:2::1])
-        by ficht.host.rs.currently.online (Postfix) with ESMTPS id D2F0A1E6FA;
-        Fri,  8 Jan 2021 20:28:00 +0000 (UTC)
-From:   Leon Schuermann <leon@is.currently.online>
-To:     oliver@neukum.org, davem@davemloft.net
-Cc:     hayeswang@realtek.com, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, Leon Schuermann <leon@is.currently.online>
-Subject: [PATCH 0/1] r8152: Add Lenovo Powered USB-C Travel Hub
-Date:   Fri,  8 Jan 2021 21:27:26 +0100
-Message-Id: <20210108202727.11728-1-leon@is.currently.online>
+        id S1729092AbhAHUxC convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Jan 2021 15:53:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728222AbhAHUxB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 8 Jan 2021 15:53:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 31FBA23A7F
+        for <linux-usb@vger.kernel.org>; Fri,  8 Jan 2021 20:52:21 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 211095] New: Linux accidentally hangs at EHCI HCD
+ initialization at VirtualBox
+Date:   Fri, 08 Jan 2021 20:52:20 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ekorenevsky@astralinux.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-211095-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=211095
 
-this patch resolves an issue with my Lenovo USB-C Hub with an
-integrated Realtek USB Ethernet controller.
+            Bug ID: 211095
+           Summary: Linux accidentally hangs at EHCI HCD initialization at
+                    VirtualBox
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.4
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: ekorenevsky@astralinux.ru
+        Regression: No
 
-When suspending my host system, along with an active Ethernet link
-using the Realtek USB Ethernet adapter on a somewhat busy network,
-after a few minutes the NIC would start to constantly send MAC pause
-frames. Presumably this is because flow control in the NIC is not
-disabled while the host system suspends, which triggers the pause
-frame transmission as soon as the internal buffers fill up. With
-multiple Ethernet switches from different manufactures this manages to
-bring large parts of my network down as soon as the laptop is in
-standby.
+Created attachment 294575
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294575&action=edit
+dmesg of hung EHCI HCD initialization
 
-Because of Lenovo's somewhat confusing naming scheme around their
-hubs, I've taken the liberty to add their product ID to the entry,
-such that others can find the device I'm referring to.
+VirtualBox 6.1.8 r137981
+Guest: Xubuntu 20.04, kernel 5.4.0-33-generic
 
-I did not find any specific git tree to base this patch on, so it is
-based on Linus' latest master. If you have a more appropriate tree I
-will of course rebase accordingly. Also, if this is the wrong address
-to direct this patch, I'd be happy if you could point me to the right
-people.
-
-Thanks!
-
-Leon
-
-
-Leon Schuermann (1):
-  r8152: Add Lenovo Powered USB-C Travel Hub
-
- drivers/net/usb/cdc_ether.c | 7 +++++++
- drivers/net/usb/r8152.c     | 1 +
- 2 files changed, 8 insertions(+)
+Steps to reproduce: try to boot several times. The guest hangs at least in 10%
+cases.
 
 
-base-commit: f5e6c330254ae691f6d7befe61c786eb5056007e
+Last dmesg messages:
+
+
+[    0.000000] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    0.000000] ehci-pci: EHCI PCI platform driver
+[    0.000000] ehci-pci 0000:00:0b.0: EHCI Host Controller
+[    0.000000] ehci-pci 0000:00:0b.0: new USB bus registered, assigned bus
+number 1
+[    0.000000] ehci-pci 0000:00:0b.0: irq 19, io mem 0xf1840000
+
 -- 
-2.29.2
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.
