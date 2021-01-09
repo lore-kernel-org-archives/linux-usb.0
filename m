@@ -2,106 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D037C433E0
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 21:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D94C433E0
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 22:43:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C3CD23A7F
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 21:27:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3151723888
+	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 22:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726195AbhAIV0u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Jan 2021 16:26:50 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:56859 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726006AbhAIV0t (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 9 Jan 2021 16:26:49 -0500
-Received: (qmail 1137346 invoked by uid 1000); 9 Jan 2021 16:26:08 -0500
-Date:   Sat, 9 Jan 2021 16:26:08 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Hamish Martin <hamish.martin@alliedtelesis.co.nz>,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] usb: ohci: Default to per-port over-current
- protection
-Message-ID: <20210109212608.GB1136657@rowland.harvard.edu>
-References: <20200910212512.16670-1-hamish.martin@alliedtelesis.co.nz>
- <X+huemxT9XOeDi5E@aptenodytes>
+        id S1726398AbhAIWnx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Jan 2021 17:43:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43708 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726223AbhAIWnx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Jan 2021 17:43:53 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A009823888;
+        Sat,  9 Jan 2021 22:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610232192;
+        bh=k6kk6F01bGxYTyYPJrz+JYD1LJ/D00VjaUlcsERDN7s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mJaTtJSGwLwfAh64b8YhG+0VXdoFaFkZcHnZJ0uP/lzaYR7RbAuUauCujeY91wx1f
+         lwo3TVT/JNUcf2mJZwjaAmo2w+L5b95L3pVCikDw2k0aUcB6IpyXGWJ5I9aYxteIaA
+         qP0KmwcR16pJHNRLJT0/zZcS6R5plY7JX6RS5tB7eZ81Hzc71VtLaH0lHDelB2mEVq
+         ugC6W8gCeg/+Gzrn/L+aruNbhe4Aw6zn51mXyVUz3CHGTchy/5zHaSNh7uGge2mF3Y
+         btxGwst+qxjct623pc43ANWW0YY/GiYyla6anFvzcmrCXIXqnoTmCs0wyAURJQMJ5k
+         rwon9JdJt/lIA==
+Date:   Sat, 9 Jan 2021 14:43:11 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Leon Schuermann <leon@is.currently.online>
+Cc:     oliver@neukum.org, davem@davemloft.net, hayeswang@realtek.com,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 1/1] r8152: Add Lenovo Powered USB-C Travel Hub
+Message-ID: <20210109144311.47760f7e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <87bldye9f4.fsf@is.currently.online>
+References: <20210108202727.11728-1-leon@is.currently.online>
+        <20210108202727.11728-2-leon@is.currently.online>
+        <20210108182030.77839d11@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <87bldye9f4.fsf@is.currently.online>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X+huemxT9XOeDi5E@aptenodytes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Dec 27, 2020 at 12:22:34PM +0100, Paul Kocialkowski wrote:
-> Hi,
-
-Sorry it has taken so long to respond to this.  The holidays intervened, 
-but that's no excuse.
-
-> On Fri 11 Sep 20, 09:25, Hamish Martin wrote:
-> > Some integrated OHCI controller hubs do not expose all ports of the hub
-> > to pins on the SoC. In some cases the unconnected ports generate
-> > spurious over-current events. For example the Broadcom 56060/Ranger 2 SoC
-> > contains a nominally 3 port hub but only the first port is wired.
-> > 
-> > Default behaviour for ohci-platform driver is to use global over-current
-> > protection mode (AKA "ganged"). This leads to the spurious over-current
-> > events affecting all ports in the hub.
-> > 
-> > We now alter the default to use per-port over-current protection.
+On Sat, 09 Jan 2021 10:39:27 +0100 Leon Schuermann wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
+> > On Fri,  8 Jan 2021 21:27:27 +0100 Leon Schuermann wrote:  
+> >> This USB-C Hub (17ef:721e) based on the Realtek RTL8153B chip used to
+> >> work with the cdc_ether driver.  
+> >
+> > When you say "used to work" do you mean there was a regression where
+> > the older kernels would work fine and newer don't? Or just "it works
+> > most of the time"?  
 > 
-> This specific patch lead to breaking OHCI on my mom's laptop (whom was about
-> to buy a new one thinking the hardware had failed). I get no OHCI interrupt at
-> all and no USB 1 device is ever detected.
+> Sorry, I should've clarified that. "Used to work" is supposed to say
+> "the device used the generic cdc_ether driver", as in
 > 
-> I haven't really found a reasonable explanation about why that is, but here
-> are some notes I was able to collect:
-> - The issue showed up on 5.8,18 and 5.9.15, which don't include the patch
->   from this series that sets distrust_firmware = false; This results in the NPS
->   bit being set via OHCI_QUIRK_HUB_POWER.
-> - Adding val &= ~RH_A_PSM; (as was done before this change) solves the issue
->   which is weird because the bit is supposed to be inactive when NPS is set;
-> - Setting ohci_hcd.distrust_firmware=0 in the cmdline results in not setting
->   the NPS bit and also solves the issue;
-> - The initial value of the register at function entry is 0x1001104 (PSM bit
->   is set, NPS is unset);
-> - The OHCI controller is the following:
-> 00:03.0 USB controller: Silicon Integrated Systems [SiS] USB 1.1 Controller (rev 0f) (prog-if 10 [OHCI])
-> 	Subsystem: ASUSTeK Computer Inc. Device 1aa7
-
-Great reporting -- thanks.
-
-> Does that make any sense to you?
+> [  +0.000004] usb 4-1.1: Product: Lenovo Powered Hub
+> [  +0.000003] usb 4-1.1: Manufacturer: Lenovo
+> [  +0.000002] usb 4-1.1: SerialNumber: xxxxxxxxx
+> [  +0.024803] cdc_ether 4-1.1:2.0 eth0: register 'cdc_ether' at
+>               usb-0000:2f:00.0-1.1, CDC Ethernet Device,
+>               xx:xx:xx:xx:xx:xx
 > 
-> I really wonder what a proper fix could be and here are some suggestions:
-> - Adding a specific quirk to clear the PSM bit for this hardware which seems to
->   consider the bit regardless of NPS;
+> I guess it did technically work correctly, except for the reported issue
+> when the host system suspends, which is fixed by using the dedicated
+> Realtek driver. As far as I know this hasn't been fixed before, so it's
+> not a regression.
 
-We don't need a quirk for this.  There shouldn't be anything wrong with 
-_always_ clearing PSM whenever NPS is set, since the controller is 
-supposed to ignore PSM under that condition.
+I see. In the last release cycle there were patches for allowing
+cdc_ether to drive RTL8153 devices when r8152 is not available. 
+I wanted to double check with you that nothing changed here,
+that's to say that the cdc_ether is not used even if r8152 is 
+built after an upgrade to 5.11-rc.
 
-Would you like to submit a patch for this?
+> Should I update the commit message accordingly? Thanks!
 
-> - Adding the patch that sets distrust_firmware = false to stable branches;
-
-That's certainly reasonable.  Nobody has reported any problems caused by 
-that patch, so adding it to the stable branches should be safe enough.
-
-> What do you think?
-
-We could even do both.  That would help if, for example, somebody 
-decided to set ohci_hcd.distrust_firmware=true explicitly.
-
-Greg, in the meantime can we have commit c4005a8f65ed ("usb: ohci: Make 
-distrust_firmware param default to false") added to all the stable 
-kernels which have back-ported versions of commit b77d2a0a223b?
-
-Alan Stern
+Yes please, otherwise backporters may be confused about how 
+to classify this change.
