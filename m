@@ -2,110 +2,55 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 977CDC433DB
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 22:45:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84E91C433DB
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Jan 2021 07:38:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66A8B2388E
-	for <linux-usb@archiver.kernel.org>; Sat,  9 Jan 2021 22:45:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DEAE239EB
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Jan 2021 07:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbhAIWpR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Jan 2021 17:45:17 -0500
-Received: from smtp.infotech.no ([82.134.31.41]:57317 "EHLO smtp.infotech.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726198AbhAIWpR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Jan 2021 17:45:17 -0500
-X-Greylist: delayed 446 seconds by postgrey-1.27 at vger.kernel.org; Sat, 09 Jan 2021 17:45:16 EST
-Received: from localhost (localhost [127.0.0.1])
-        by smtp.infotech.no (Postfix) with ESMTP id C062620425A;
-        Sat,  9 Jan 2021 23:37:08 +0100 (CET)
-X-Virus-Scanned: by amavisd-new-2.6.6 (20110518) (Debian) at infotech.no
-Received: from smtp.infotech.no ([127.0.0.1])
-        by localhost (smtp.infotech.no [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id w9BlicSeMm7Y; Sat,  9 Jan 2021 23:37:02 +0100 (CET)
-Received: from xtwo70.bingwo.ca (host-104-157-204-209.dyn.295.ca [104.157.204.209])
-        by smtp.infotech.no (Postfix) with ESMTPA id 5A36E204192;
-        Sat,  9 Jan 2021 23:37:01 +0100 (CET)
-From:   Douglas Gilbert <dgilbert@interlog.com>
-To:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Subject: [PATCH] [input]: hid-cp2112: fix multiple gpiochips
-Date:   Sat,  9 Jan 2021 17:36:58 -0500
-Message-Id: <20210109223658.749743-1-dgilbert@interlog.com>
-X-Mailer: git-send-email 2.25.1
+        id S1726414AbhAJHib (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 10 Jan 2021 02:38:31 -0500
+Received: from mail.astralinux.ru ([217.74.38.120]:34895 "EHLO
+        mail.astralinux.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726384AbhAJHib (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 10 Jan 2021 02:38:31 -0500
+Received: from [95.24.186.126] (account ekorenevsky@astralinux.ru HELO himera.home)
+  by astralinux.ru (CommuniGate Pro SMTP 6.3.4)
+  with ESMTPSA id 2776865; Sun, 10 Jan 2021 10:36:20 +0300
+Date:   Sun, 10 Jan 2021 10:37:37 +0300
+From:   Eugene Korenevsky <ekorenevsky@astralinux.ru>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v3] ehci: fix EHCI host controller initialization sequence
+Message-ID: <20210110073737.GA10541@himera.home>
+References: <20210109181828.GA7585@himera.home>
+ <20210109210452.GA1136657@rowland.harvard.edu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210109210452.GA1136657@rowland.harvard.edu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In lk 5.11.0-rc2 connecting a USB based Silicon Labs HID to I2C
-bridge evaluation board (CP2112EK) causes this warning:
-  gpio gpiochip0: (cp2112_gpio): detected irqchip that is shared
-       with multiple gpiochips: please fix the driver
+> > -	ehci_readl(ehci, &ehci->regs->command);	/* unblock posted writes */
 
-Simply copy what other gpio related drivers do to fix this
-particular warning: replicate the struct irq_chip object in each
-device instance rather than have a static object which makes that
-object (incorrectly) shared by each device.
+> You should not remove the ehci_readl call above.  With that line gone, 
+> the PCI bus might not send the new value of configured_flag to the 
+> controller until after the 5-ms sleep has ended, which makes the msleep 
+> useless.
 
-Signed-off-by: Douglas Gilbert <dgilbert@interlog.com>
----
- drivers/hid/hid-cp2112.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+Could not find reads from USBCMD in similar drivers (for
+example here: https://github.com/NetBSD/src/blob/trunk/sys/dev/usb/ehci.c#L625).
+Is this feature (reading from USBCMD for unblocking posted writes)
+documented anywhere or it is found empirically?
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index 21e15627a461..477baa30889c 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -161,6 +161,7 @@ struct cp2112_device {
- 	atomic_t read_avail;
- 	atomic_t xfer_avail;
- 	struct gpio_chip gc;
-+	struct irq_chip irq;
- 	u8 *in_out_buffer;
- 	struct mutex lock;
- 
-@@ -1175,16 +1176,6 @@ static int cp2112_gpio_irq_type(struct irq_data *d, unsigned int type)
- 	return 0;
- }
- 
--static struct irq_chip cp2112_gpio_irqchip = {
--	.name = "cp2112-gpio",
--	.irq_startup = cp2112_gpio_irq_startup,
--	.irq_shutdown = cp2112_gpio_irq_shutdown,
--	.irq_ack = cp2112_gpio_irq_ack,
--	.irq_mask = cp2112_gpio_irq_mask,
--	.irq_unmask = cp2112_gpio_irq_unmask,
--	.irq_set_type = cp2112_gpio_irq_type,
--};
--
- static int __maybe_unused cp2112_allocate_irq(struct cp2112_device *dev,
- 					      int pin)
- {
-@@ -1339,8 +1330,17 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	dev->gc.can_sleep		= 1;
- 	dev->gc.parent			= &hdev->dev;
- 
-+	dev->irq.name = "cp2112-gpio";
-+	dev->irq.irq_startup = cp2112_gpio_irq_startup;
-+	dev->irq.irq_shutdown = cp2112_gpio_irq_shutdown;
-+	dev->irq.irq_ack = cp2112_gpio_irq_ack;
-+	dev->irq.irq_mask = cp2112_gpio_irq_mask;
-+	dev->irq.irq_unmask = cp2112_gpio_irq_unmask;
-+	dev->irq.irq_set_type = cp2112_gpio_irq_type;
-+	dev->irq.flags = IRQCHIP_MASK_ON_SUSPEND;
-+
- 	girq = &dev->gc.irq;
--	girq->chip = &cp2112_gpio_irqchip;
-+	girq->chip = &dev->irq;
- 	/* The event comes from the outside so no parent handler */
- 	girq->parent_handler = NULL;
- 	girq->num_parents = 0;
--- 
-2.25.1
-
+--
+Eugene
