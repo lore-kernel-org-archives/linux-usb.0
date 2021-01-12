@@ -2,80 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 713FFC43332
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA97C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:11:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4821023104
+	by mail.kernel.org (Postfix) with ESMTP id 021012311E
 	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728843AbhALNL0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 08:11:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34288 "EHLO mail.kernel.org"
+        id S2404524AbhALM6D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 07:58:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726224AbhALNLZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 08:11:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E902A23104;
-        Tue, 12 Jan 2021 13:10:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1610457044;
-        bh=+I0/CAlCSgREEqQUkT62aVbfKK8iKlEIHmnPI9Xh+LU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oBRMoK91OPAtO51gk8exkl4tg1E+5bRaxZssSyfLuIrpFG/yq0ZO7NIiD9g1gjYxY
-         wRPw5f//p2rico1l2rTePxE8qvR7/ymw6MlxhHqHYYvfDLrvYM7TwbcwaGz6lMJ6Eh
-         NPcuF4XJPGTSasFb64QSpYyoyli1TAHm2oLJ8HSA=
-Date:   Tue, 12 Jan 2021 14:11:53 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Roland Dreier <roland@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>, linux-usb@vger.kernel.org,
+        id S2404403AbhALM6B (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 07:58:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BA70D23121;
+        Tue, 12 Jan 2021 12:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610456220;
+        bh=kHChC0PX9AlMu3NdLHgFXYHYy+a+bM7w1VqarGp3qCY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=fabJQ+N4wQelOYEhUNxx8/jEiPFerj2OB3rNTeoSadozwc3xl/WrOoPiGs6kP26eE
+         ceOgm2t5JdJ0RlMfNOXz00xQbHH76ZmkVkyuE6FSLn1arraZAfW18rb7x+nrKx7onf
+         OsFPiRC8SLASdxopjcK37AGDaM2KFeedAZD9rojRjBUSUQyyMwwCYTyG5NQOMzI4TX
+         I8EYItLwlspoJdj9goFVyjZdRTZZB+WpZho3lsw//apBdnZZtRnFSZvnXyEhrZeahn
+         XunntX2BnhVQbDZ8hQNoAavIIfqh0pF7i3i1u6zREN4lD1d8CSwFhcMtB96xqd9R50
+         ddmaotyGRr2Qw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Roland Dreier <roland@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.10 23/51] CDC-NCM: remove "connected" log
- message
-Message-ID: <X/2gGVG7Dn4nvj2V@kroah.com>
-References: <20210112125534.70280-1-sashal@kernel.org>
- <20210112125534.70280-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/28] CDC-NCM: remove "connected" log message
+Date:   Tue, 12 Jan 2021 07:56:27 -0500
+Message-Id: <20210112125645.70739-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210112125645.70739-1-sashal@kernel.org>
+References: <20210112125645.70739-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210112125534.70280-23-sashal@kernel.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 12, 2021 at 07:55:05AM -0500, Sasha Levin wrote:
-> From: Roland Dreier <roland@kernel.org>
-> 
-> [ Upstream commit 59b4a8fa27f5a895582ada1ae5034af7c94a57b5 ]
-> 
-> The cdc_ncm driver passes network connection notifications up to
-> usbnet_link_change(), which is the right place for any logging.
-> Remove the netdev_info() duplicating this from the driver itself.
-> 
-> This stops devices such as my "TRENDnet USB 10/100/1G/2.5G LAN"
-> (ID 20f4:e02b) adapter from spamming the kernel log with
-> 
->     cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
-> 
-> messages every 60 msec or so.
-> 
-> Signed-off-by: Roland Dreier <roland@kernel.org>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Link: https://lore.kernel.org/r/20201224032116.2453938-1-roland@kernel.org
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/net/usb/cdc_ncm.c | 3 ---
->  1 file changed, 3 deletions(-)
+From: Roland Dreier <roland@kernel.org>
 
-This is already queued up to be in the next round of stable releases, so
-no need to queue it up again :)
+[ Upstream commit 59b4a8fa27f5a895582ada1ae5034af7c94a57b5 ]
 
-thanks,
+The cdc_ncm driver passes network connection notifications up to
+usbnet_link_change(), which is the right place for any logging.
+Remove the netdev_info() duplicating this from the driver itself.
 
-greg k-h
+This stops devices such as my "TRENDnet USB 10/100/1G/2.5G LAN"
+(ID 20f4:e02b) adapter from spamming the kernel log with
+
+    cdc_ncm 2-2:2.0 enp0s2u2c2: network connection: connected
+
+messages every 60 msec or so.
+
+Signed-off-by: Roland Dreier <roland@kernel.org>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Link: https://lore.kernel.org/r/20201224032116.2453938-1-roland@kernel.org
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/cdc_ncm.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index c2c82e6391b4f..d407489cec904 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -1625,9 +1625,6 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
+ 		 * USB_CDC_NOTIFY_NETWORK_CONNECTION notification shall be
+ 		 * sent by device after USB_CDC_NOTIFY_SPEED_CHANGE.
+ 		 */
+-		netif_info(dev, link, dev->net,
+-			   "network connection: %sconnected\n",
+-			   !!event->wValue ? "" : "dis");
+ 		usbnet_link_change(dev, !!event->wValue, 0);
+ 		break;
+ 
+-- 
+2.27.0
+
