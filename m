@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6693CC43381
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA14C433E6
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:02:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2652A2312D
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 12:59:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47A232311E
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405330AbhALM6f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 07:58:35 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54632 "EHLO mail.kernel.org"
+        id S1728787AbhALNBj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 08:01:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405290AbhALM6e (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 07:58:34 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 28A392333D;
-        Tue, 12 Jan 2021 12:57:59 +0000 (UTC)
+        id S2390378AbhALM6t (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 07:58:49 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A6E523131;
+        Tue, 12 Jan 2021 12:58:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610456280;
-        bh=593Ov2s48jo+63p0/6Mok/bJ1IvcTz5WKdv0LdHmgno=;
+        s=k20201202; t=1610456308;
+        bh=QJ0A0EhUashHLTJ1XMRAOnWqgYjJaaUrFi4eR/gRtEM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iSkcaryDuq3ch5v6G/yxjsYg9Cu1TpMNa+lswz5IFAJkDQuHUnvU5u+bE9C+n6edy
-         FP/lAc1/S7Du9MvnifI09W4wOpFUzyRKsU7r8ohWlrWt4gSX2GG7YzkJNcpRYoLeLW
-         PEKDyN+aATjzAHBzSMnPeExP3kCOjMVzKPDvSQXk/XCzSn+kvtuKC+DqQUEthemSvM
-         dCga6pJ0l5aGMXwJGTa4zUwwlNTA8/X3Jgel75U36wsYuEkZjwfgR1xgCiTKBjzIRx
-         PsRogiHPGSxz8A7mq7eWnheH9ecSnPmfN4ID/tDo2o0xSdlCN66yffdr0e3bhPmL4z
-         KS/FZVYZih1IQ==
+        b=J1BJ4Te/u9pGr3nfF2iGOMJKqMBX7ZIAWaHuZCtZtsF3kMaN3Spy3bkGibfXaqZFc
+         fT5UtJteaPIBRiY1PE8R4npuQ3MYm9GZD8RAQ/OWj7LsfSkBtuBtqqUuc+Ypf/0OhF
+         yY/tm8Yjhvty1xjh5ktzETZaagnpo+4d4TF8327qILT4fHFTofH2T2FdTrdXMNic+6
+         rrsT7rzhobBs5bMIWNzUDVmh0xVcgixrPEl++6QsoZPEmMr4cJLG6SBgkFaSM7+Q7u
+         tNTNT5jXXzlKlHSS0N94kDqm8cEqBrbKiaCCk7hXImsvYY2cIFctM1fWFB9sMcXxAi
+         Z+FQSt2KNP3QQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Roland Dreier <roland@kernel.org>,
@@ -38,12 +38,12 @@ Cc:     Roland Dreier <roland@kernel.org>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 07/13] CDC-NCM: remove "connected" log message
-Date:   Tue, 12 Jan 2021 07:57:43 -0500
-Message-Id: <20210112125749.71193-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 3/8] CDC-NCM: remove "connected" log message
+Date:   Tue, 12 Jan 2021 07:58:18 -0500
+Message-Id: <20210112125823.71463-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125749.71193-1-sashal@kernel.org>
-References: <20210112125749.71193-1-sashal@kernel.org>
+In-Reply-To: <20210112125823.71463-1-sashal@kernel.org>
+References: <20210112125823.71463-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 deletions(-)
 
 diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index cb4c9d419bd39..97c4c301166c5 100644
+index bab13ccfb0850..e9f82b67c7edf 100644
 --- a/drivers/net/usb/cdc_ncm.c
 +++ b/drivers/net/usb/cdc_ncm.c
-@@ -1630,9 +1630,6 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
+@@ -1553,9 +1553,6 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
  		 * USB_CDC_NOTIFY_NETWORK_CONNECTION notification shall be
  		 * sent by device after USB_CDC_NOTIFY_SPEED_CHANGE.
  		 */
