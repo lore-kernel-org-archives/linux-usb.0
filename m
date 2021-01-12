@@ -5,44 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71933C43217
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:11:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 746F3C43381
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:14:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31B2D23104
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:11:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 352FC22CAF
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:14:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730732AbhALNLj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 08:11:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53818 "EHLO mail.kernel.org"
+        id S1733158AbhALNOZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 08:14:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404475AbhALM6D (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 07:58:03 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A0DE2312C;
-        Tue, 12 Jan 2021 12:57:06 +0000 (UTC)
+        id S2404093AbhALM5o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 07:57:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 98FCB23134;
+        Tue, 12 Jan 2021 12:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610456227;
-        bh=W4ju/Tja8E0RF+SIbo28RnuwMmUJu+LKvrId3OmdUxE=;
+        s=k20201202; t=1610456175;
+        bh=khkI+JpIx0jdrMo4tMoncKXpsYhTnyrCFunnCbhzriI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g1KCNxRKyElbK3H5QCwgz768sXYFRxNHMgNUz+djmnjiJWeNQqJGd3f3Ad5ukVBHn
-         Y+AVbZuxYY+MsZHP2RQoFbN/p12Xj3GKJFGqHebKRVxsokSpA4GyrSAixxFym29uPj
-         gJZxpFd28BXWk4ngdvurIUa0PXU+Gvjk7ad2mzP2KNhJmLesfeXrkTGzkfWrDPNZsg
-         ERHHu66v2ZMdEuFxDtS0/f6hd3qYxm9Tjouz+pqWfl5Ccr/n5QooxIDZDo2HPXYzgP
-         RqOxvz9X5zMZ/GNyzyChduIkyjU/qIvN07IvVABuONIYL1KX8WKOIuHPWLsL9l8/eU
-         mtjL092Xtpl8Q==
+        b=s1mDw2ylKN30jJEtyZ5FtV2kBkcpGGYI9hgrNYbISrdDIz3cMlIZhLqAK7PFVK3IH
+         pk9BBbaARRah9fQtQGKgMjeLOx37oHWW0Hztdl6THpPD5X0M4NewCBL3JNaZqCqSOs
+         gjxecANGtq8czl85mZrdF9vEQhR2iilKs2iAszcinyOmnF00rmAXpUbYPJnX8hob8S
+         xGZ5w3eTR6of/lHfJTyjnvMc7PQ+pQT7HXPc9uFgCIupwDEzNgg32O4w3mBRfqoMu+
+         qwpp7/XiAAiVbgKeILOocn1RGZpt67WlbWtsaXwfKD5i/qSex8CyMzYikP2KWIeu5Q
+         eD4E6I3IE/+hw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 16/28] net: usb: qmi_wwan: add Quectel EM160R-GL
-Date:   Tue, 12 Jan 2021 07:56:32 -0500
-Message-Id: <20210112125645.70739-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 31/51] net: usb: qmi_wwan: add Quectel EM160R-GL
+Date:   Tue, 12 Jan 2021 07:55:13 -0500
+Message-Id: <20210112125534.70280-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125645.70739-1-sashal@kernel.org>
-References: <20210112125645.70739-1-sashal@kernel.org>
+In-Reply-To: <20210112125534.70280-1-sashal@kernel.org>
+References: <20210112125534.70280-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -95,10 +95,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 74de621fa3504..b0d748a614a9e 100644
+index fc378ff56775b..21120b4e5637d 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1058,6 +1058,7 @@ static const struct usb_device_id products[] = {
+@@ -1036,6 +1036,7 @@ static const struct usb_device_id products[] = {
  	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
  	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
  	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
