@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D70BC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A354C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:07:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0761523110
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:05:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AEBE2311D
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 13:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727741AbhALNE1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 08:04:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53818 "EHLO mail.kernel.org"
+        id S1726108AbhALNHX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 08:07:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53820 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405323AbhALM6f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 07:58:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 901DB2333F;
-        Tue, 12 Jan 2021 12:58:00 +0000 (UTC)
+        id S2405131AbhALM6W (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 07:58:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5F9223339;
+        Tue, 12 Jan 2021 12:57:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610456281;
-        bh=UpGumYkVZZaMDfuk6uunnP8taHCnShB2Qy2JEVQn2Hw=;
+        s=k20201202; t=1610456258;
+        bh=pu5+4eUuvLzFgj2xJ+irwMznAzG/r9SCQy75eHiQEUU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jvZasEGIVnYx/Q9O+/Td4yal0Un7Xdc95MBrwwLQSkOU0cOt4YZFlZYAFaZW0rBp3
-         +Ys6mMgy2HCf71FngJfvbYE4EZL3hbLgwU+rdwpJCaUgx02lsS9MNRAO6lQoHlDQD1
-         2jkjlNP0tagFJYVav3/kVliRzxw0gr9NKHkGbf05/reVf3QeB3nED3ABtX+T3/SvKk
-         nWEDMvCFoVeIOLP3nUSea3QG9Rh3Ls1w5ThKli88VLJt6C4ehsa+vT9w8iZ4FLjYcw
-         gNEy/irGHSrW0LyOIW0xVYjxIXRg2YB876WfQyLsQrhum2YKmI6aKlT8TvYsMeP71+
-         9YNg9X70gb8Tw==
+        b=acYoeDV42OQ5WoawKQ12OyTYLtPkA2Yvwgpvnj8uxosXp9P2/VFECEV9eViz1fIcI
+         1pX1sJLySgPNT+SQKPJXGsrWUYzjBTGVWVakR7ZjcwBE7jzKjUdCQLP3JwoJ5XZU8c
+         Xukz76lI5XuQT43cJbbRYmRY16YdbGs644VQaTYojKspQwqAQF+xFrMu1gkGxZivu4
+         DP2MpUZdAIy7gMLZg8tEwn/VpTCkaZfBzm7SBsmuZL2JxpBiVsQaC0EZT1K3eU/+zR
+         M+H4YhUv6kGJBQ4LpsbtKOFZFVlHF30L1F2r93UdjQ/zWZtWSDXbNF3B9oep4ZG5uv
+         Ly2smTOE4xTVg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 08/13] net: usb: qmi_wwan: add Quectel EM160R-GL
-Date:   Tue, 12 Jan 2021 07:57:44 -0500
-Message-Id: <20210112125749.71193-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 09/16] net: usb: qmi_wwan: add Quectel EM160R-GL
+Date:   Tue, 12 Jan 2021 07:57:18 -0500
+Message-Id: <20210112125725.71014-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112125749.71193-1-sashal@kernel.org>
-References: <20210112125749.71193-1-sashal@kernel.org>
+In-Reply-To: <20210112125725.71014-1-sashal@kernel.org>
+References: <20210112125725.71014-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -95,7 +95,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index df84d98aa880d..6fed2fc4565b4 100644
+index ebd630a94571f..1b48d71dbc284 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
 @@ -995,6 +995,7 @@ static const struct usb_device_id products[] = {
