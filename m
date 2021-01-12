@@ -2,113 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D1DC433E9
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 08:47:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8B4C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 08:57:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 307B922E01
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 08:47:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3097229CA
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 08:57:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392405AbhALIrP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 03:47:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55062 "EHLO mail.kernel.org"
+        id S2387677AbhALI55 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 03:57:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58014 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727057AbhALIrP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 03:47:15 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4E2DD22D58;
-        Tue, 12 Jan 2021 08:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610441194;
-        bh=ciAXMWsi1OyGELvtpt/m0CxKb/Rp63H/1ov/9xDpsh0=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Dow033TIMEXBUvK39a+HbkQl5oExK3dD2H8Exj34bpAyN3K+YeGOG70iQbSyzOz59
-         K+v+e1FOSy3JA2W7gtCTMGyzZfdeaGk9hChJth9En0QvssfkedVOlk1/ZHP6V3hx1x
-         +5v7pZOhrffdm+fWLLEuOIhAl1NbhAw9IIDgv3eXALPd1EBSF0P2p8HibvAgeyqJT6
-         LXhfpGzcNFBrDAn9txs+Pg8yKuEXGWJctpWyPx9qJIbteSwoRRRwdpD6SRoGLE8gHT
-         dE5Z+puoi+dCmOhX7vvpMMXcycTaPz5VvGtkWCJhY3QUj6xEbyrTBMEqKZZye4xRzv
-         BeYP7sfjtOP4Q==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Remove one more platform_device_add_properties()
- call
-In-Reply-To: <20210111141045.14027-1-heikki.krogerus@linux.intel.com>
-References: <20210111141045.14027-1-heikki.krogerus@linux.intel.com>
-Date:   Tue, 12 Jan 2021 10:46:17 +0200
-Message-ID: <87v9c24k6e.fsf@kernel.org>
+        id S1726890AbhALI55 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 03:57:57 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 16290208E4;
+        Tue, 12 Jan 2021 08:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1610441836;
+        bh=/BWI8ml44u+WpRQf99FUNdGQQolq2s8YmjvOgv2Gx9E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P6v4HZnmbIf6s1L1kvGXIqJr72THbA1JTNmmDWZ+7hwGEEb2Qegb6siJTVFaK+Xx6
+         JV1t71yA5/PlkJyCNBZtsvV1eCp+LqPJjSWdGYzz6AfFyPAKPWo7ow+2hwpk54xny0
+         vopr8rQLZFm22raeL67E39XSnc9MwoqcwfnJjiy8=
+Date:   Tue, 12 Jan 2021 09:58:25 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc:     Alan Cooper <alcooperx@gmail.com>, Felipe Balbi <balbi@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: Conflicting PCI ID in bdc driver
+Message-ID: <X/1ksTC4SBgrQoak@kroah.com>
+References: <CAMeQTsacNs-YVWeX6vFJyMBLeD_AX6imNQRodV_X-QS54wAREA@mail.gmail.com>
+ <X/y1ekqBrjXK8lZO@kroah.com>
+ <CAMeQTsaL0mx=WW2Ekr2gh_aCWKnumS4mSr5tTH_ac+cdarzxMA@mail.gmail.com>
+ <CAOGqxeUkZ8VK-D3xutVvQk7e2t1=9GzLQL7oHz0GTj_FMdVeqw@mail.gmail.com>
+ <CAMeQTsZA7a9WcJq2tudWhaJbc6Z4vb4jtcUnHOCzg9u3oLxzbw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMeQTsZA7a9WcJq2tudWhaJbc6Z4vb4jtcUnHOCzg9u3oLxzbw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 12, 2021 at 09:42:58AM +0100, Patrik Jakobsson wrote:
+> On Tue, Jan 12, 2021 at 2:06 AM Alan Cooper <alcooperx@gmail.com> wrote:
+> >
+> > This driver was written for a PCI FPGA development board used to
+> > verify the controller logic and to help with driver development before
+> > adding the logic to our SoC's. I'm not sure why the driver was pushed
+> > upstream but I'd like to remove it. I'm checking with a few other
+> > groups to make sure I'm not missing anything.
+> 
+> That would solve my problem. Is removing a driver acceptable for
+> stable submission?
 
-Heikki Krogerus <heikki.krogerus@linux.intel.com> writes:
+Not really, if there are users of that driver.  Why not just mark the
+config to depend on BROKEN instead?
 
-> Hi Felipe, Rafael,
->
-> This is the second version of this series. There are no real changes,
-> but I added the Tiger Lake ID patch to this series in hope that it
-> will make your life a bit easier, assuming that Rafael will still pick
-> these.
->
->
-> The original over letter:
->
-> I originally introduced these as part of my series where I was
-> proposing PM ops for software nodes [1], but since that still needs
-> work, I'm sending these two separately.
->
-> So basically I'm only modifying dwc3-pci.c so it registers a software
-> node directly at this point. That will remove one more user of
-> platform_device_add_properties().
->
-> [1] https://lore.kernel.org/lkml/20201029105941.63410-1-heikki.krogerus@l=
-inux.intel.com/
->
-> thanks,
->
-> Heikki Krogerus (3):
->   software node: Introduce device_add_software_node()
->   usb: dwc3: pci: Register a software node for the dwc3 platform device
->   usb: dwc3: pci: ID for Tiger Lake CPU
+But first we need to ensure that the users of it are really all gone.
 
-Looks good to me.
+> If not, it would be helpful to have a patch
+> suitable for stable that disables the driver before removal. I'm
+> somewhat tired of explaining to people how to blacklist bdc.
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
+Why not submit your driver for inclusion in the kernel tree?  We can
+make sure it doesn't conflict when that happens.
 
-=2D-=20
-balbi
+thanks,
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAl/9YdkRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQZP8Q//SjHqtKRaghDM4izhNhkimSEdFbeFCGzK
-CmxKzi3ipE+TAXUceA2AEf1fjaVbn4L2yFQvaWx72exq3kco42rjNZMHURS+y0um
-zpFsaNsuzUojMJe9nJcOP2or0fU/5bZzl0Dt7FeEtT66wIwhBBW+YeuA5Acb4Cvz
-EV3JFq/YrCBoU5aaipyZmjH4E3WS8QWAfN40XkOc8Z5fGLNZ6XcdOyAxvLHX7W0S
-M0P1McOUPOA6weaRfbCfwHQ5g1hebPnpK/5kXBr4usxJ9TkjU4mGu3EFYtfhP1aq
-pds+DUXzTFnigBspfP/swr8t5lC7Qzqy07G4mKSNU0KnHH7lzrk1UKoKxlI5wy/o
-s+PhylYkLmpeoasRQzni6S3n48xxeHuZDWxSHA/NL8jV/J489SahB5qcz9p+omOP
-XCMM8Sf7xjSiXTohNw35RxqaAHo8kDJiof1yUSO13s9tpkjb8cSM+9wINGa34EPa
-wgZeHLmyMZ+dwMW7o6xoPktvi82ybcAvgpAdwOR4r+1uZGsvxds+EPtSZOI9cnc9
-1M8GnD/RnVJ5B2Aj+IZlsFcR3Elumk5NZJeJ/CnuXpBHshlZmStDDekoaZWGAOrd
-lK5VkgSUBxzl5hJrvna6MXS4nT3Ji4BWp6yAoykIMuDYjW6rsW0ssHAgk22BOVGC
-JQIyOTA7uKk=
-=FYgQ
------END PGP SIGNATURE-----
---=-=-=--
+greg k-h
