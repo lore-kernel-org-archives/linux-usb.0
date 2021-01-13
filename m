@@ -2,106 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0EAC43381
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AF2C433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:52:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07DA22343E
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:47:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DB19206C0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:52:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbhANBrK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 20:47:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59474 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbhANAz4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 19:55:56 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F6FFC0617A2;
-        Wed, 13 Jan 2021 16:55:03 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id c79so2358283pfc.2;
-        Wed, 13 Jan 2021 16:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8PvMhL6fxWNFHCVbbnqtdK4bZl7XKsjepw1o5suSyi8=;
-        b=TaTQmWAqV5uxDSklOLTXDoqh/CSQNEG2k/gb4SnywDb4Qi1K0fouvgrAfTPzQTRBBM
-         BNXwEHK63XMrDPkvUiNQ7Htk4EhhCpoztLYZYnqUbH0Q9SJiNdHptS7qW56HG+bc7Sx5
-         J4oLIRGJUrT8ywmjhttvHyjMjiu3mF9QCyBOVDckBiBUfiEZ20bEYateyzUuFKd5hl5n
-         UAdQ5MJzLgJ3yE0P0gQ+m5fZFEW0HQm+K4GM7v8arLEl64K7rG+oJ7I4fUHu1C9iE4V8
-         0ikiHBQ9fshpVEx1zaDfcgsJNLwwgPsQyMil4Rw8+WJn8fqeeX8CQxjAj4SbsvlClY9b
-         Ogkw==
+        id S1727105AbhANBv2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 20:51:28 -0500
+Received: from mail-pf1-f198.google.com ([209.85.210.198]:49239 "EHLO
+        mail-pf1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729726AbhANAKC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 19:10:02 -0500
+Received: by mail-pf1-f198.google.com with SMTP id c70so2241906pfb.16
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 16:09:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8PvMhL6fxWNFHCVbbnqtdK4bZl7XKsjepw1o5suSyi8=;
-        b=XhwtXqLqYWWaF4mmqjq1ZtdGSpyF8vHIu9XZNkGdCLEKwkNW+uvEZmWFYIRo6JKhhd
-         bNg52RmTlZ1xPOSEiK4DNRVVcLDu/exps3zP7ZdRw2ZBFKmNAU3QHvQZF1x0VhIubVbf
-         nsvIC1LVBm0hva2jY1mkHD1+cjR3lDQfiPojCajGC4bC7oQZR5FjJcm9+LENNzdSX1WT
-         Fhpox9m2mhJrZM7ujCWCJuAj7zwy7WW8vFkxbtkQ3XrdSnA1vKR2nvVQnbX6hsj4F6RC
-         LX98ukAInbR+WzrvuDK/hMmUuI+Q/cLFMSLXENGp298SI0ukON8OkqAW8Hm4rFLWvGEL
-         1zKQ==
-X-Gm-Message-State: AOAM5321Gk8mfXwpLKRUvGkHGTmwgxPmPUuL3SbyupyZL3W2HWJrSinj
-        YLK7ZE3wuYlTzYkHkEpNZUw=
-X-Google-Smtp-Source: ABdhPJwGUNDoxClo0cBJX397ofAV3IAu6fO+8ouOGUg4pvmoNqoUpOq8314GAmgztD8lidpYbnMtvg==
-X-Received: by 2002:a63:f404:: with SMTP id g4mr4694268pgi.114.1610585702870;
-        Wed, 13 Jan 2021 16:55:02 -0800 (PST)
-Received: from b29397-desktop ([84.17.34.154])
-        by smtp.gmail.com with ESMTPSA id f64sm3661663pfb.146.2021.01.13.16.54.59
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Jan 2021 16:55:02 -0800 (PST)
-Date:   Thu, 14 Jan 2021 08:54:54 +0800
-From:   Peter Chen <hzpeterchen@gmail.com>
-To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>, Thierry Reding <treding@nvidia.com>
-Subject: Re: Infinite recursion in device_reorder_to_tail() due to circular
- device links
-Message-ID: <20210114005454.GA14220@b29397-desktop>
-References: <X/ycQpu7NIGI969v@gerhold.net>
- <CAJZ5v0gAsZ45O8mv-gz0UvbyxnKA6fQBYvambBYEH6OSk3-m3g@mail.gmail.com>
- <CAJZ5v0h8bNp-=1zVfY5gZ1ezr8JRV4L8cEV45e+0f-aRSJnb1A@mail.gmail.com>
- <X/7XCzdDG7kbiNfM@gerhold.net>
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=8vA6KH4yTnBPhCjwbGkm46PU7mMjPjZzD/vxDkOo7Gc=;
+        b=uQ+owrksUIfcw/VAHCQAVDMq3OaNM5cZ7f9JAugoopCskBTUKN/3DHCtUvprZzQZy/
+         DafQSo8QxBsgDvzTGWeZWalFwKtpq7g1mKAsOOn5fI0ahDy4Ky1HS44s+C0I/CHZRj6+
+         5q6gzrqnkumgNF9LI5VLxcZa8kALSXZi0GqU95+iKkVxZU9tKTMKzFBW1J8TRSbYwii7
+         ipCnM70wQbBdbxXHUaZswcRTBhv+pRJqGTz6HJHllcp99CCvgFfMgXTRwJ90sxjhVDtO
+         KVFYT5cp7N7KTpyNWNAFXdwtLsnYG5DJzktwX4lFziPCrI7GqPfLHgY1TSiZU5DIKP/o
+         aY0Q==
+X-Gm-Message-State: AOAM530ErUmRmc+acyfLsSjNmB0K/jRRQCU/AcN/Fsl6DmjkIpKPBFp+
+        kP2mabOkI23Avts9bNK35dm+24qBwx/245RRi9DNHCfa2iC3
+X-Google-Smtp-Source: ABdhPJyhwL31qQQQGIahEokxTy2M35uYNUcO7+u8PL7IugimTmxbyHHSFEY+nHdvbGotyb7u+HkHJ8hr8j+0vf2SMhtXcO2wBbm6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/7XCzdDG7kbiNfM@gerhold.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Received: by 2002:a05:6e02:11a6:: with SMTP id 6mr2381658ilj.87.1610578871736;
+ Wed, 13 Jan 2021 15:01:11 -0800 (PST)
+Date:   Wed, 13 Jan 2021 15:01:11 -0800
+In-Reply-To: <000000000000c19e7b05b4c35440@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000885f7605b8d01d5e@google.com>
+Subject: Re: WARNING in cm109_submit_buzz_toggle/usb_submit_urb
+From:   syzbot <syzbot+c7e665956b189738fe5e@syzkaller.appspotmail.com>
+To:     eli.billauer@gmail.com, gregkh@linuxfoundation.org,
+        gustavoars@kernel.org, ingrassia@epigenesys.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        oneukum@suse.com, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com, tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21-01-13 12:18:35, Stephan Gerhold wrote:
-> 
-> Also, on a completely different note I looked again at the chipidea USB
-> driver that produces this situation. To request the PHY (which ends up
-> in the circular device link) it does:
-> 
-> 	/* Look for a generic PHY first */
-> 	ci->phy = devm_phy_get(dev->parent, "usb-phy");
-> 
-> To me it doesn't really seem great to use the devm_* helpers on the
-> parent device either, so I will check if I can refactor this somehow.
-> Perhaps this situation can be prevented entirely.
-> 
+syzbot suspects this issue was fixed by commit:
 
-Hi Stephan,
+commit c318840fb2a42ce25febc95c4c19357acf1ae5ca
+Author: Alan Stern <stern@rowland.harvard.edu>
+Date:   Wed Dec 30 16:20:44 2020 +0000
 
-You could try to get the PHY at parent driver
-(drivers/usb/chipidea/ci_hdrc_msm.c) to see the difference.
+    USB: Gadget: dummy-hcd: Fix shift-out-of-bounds bug
 
--- 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1075dcaf500000
+start commit:   fa02fcd9 Merge tag 'media/v5.10-2' of git://git.kernel.org..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cb8d1a3819ba4356
+dashboard link: https://syzkaller.appspot.com/bug?extid=c7e665956b189738fe5e
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14ba912d500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10dfad85500000
 
-Thanks,
-Peter Chen
+If the result looks correct, please mark the issue as fixed by replying with:
 
+#syz fix: USB: Gadget: dummy-hcd: Fix shift-out-of-bounds bug
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
