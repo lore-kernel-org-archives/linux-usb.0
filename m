@@ -2,130 +2,181 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B62C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 00:48:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF321C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 01:21:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D588B23131
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 00:48:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8396A2311B
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 01:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437204AbhAMAnJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 19:43:09 -0500
-Received: from mail-eopbgr1320118.outbound.protection.outlook.com ([40.107.132.118]:50112
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2392213AbhAMAIw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 12 Jan 2021 19:08:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VOYwFyQUo9OWhK8l6osYIWDzyUnvW8ehVD7dVvBXNU2fO2+gIvs/UFEQfkERSFDx/zBS0UNs5KizFDHMCnWNFUQlJqVk5drwRqt1CIzo33IIBNzhOUkb5R82Bgp4dV00R9JS0XsEb7a/k6gjMsr1QUEBM3EHBKLKUNxepbd1ySB1/IhnFa4IRjkI9XYWzEEYthASGlamohb478uIxDuYds84Xejusl0b1klPf67BDjU5IYcX8s7vdAi53QCF7iBu9WIWQxRvBJgbutIfx9KlXjI5mLJx87F3srfuZDtyeFrCOZV7s5vu1y6p9nJ6d/g5Zkng61cr/Mj+TQUJ0zcFrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNut+MAOOGCPfH2O9UmxnaeyOXaudK6vNWmLYxY+HVI=;
- b=CyyXC4bNgjR/CIH/UhVc7TSurFWAb2oorIsJVLpMPw+bIpijv1Mjno5wk5o5MiYi92tK1g/gq5Chs2lyAMGGfbu1/DEfhC/+HwzLtEluq5EJsJZufuXOxOsDw3L9jgS3Dhd1Vrl7+mXOtNpN0Ue/BStGO62CuqPz5UxFjZHmoIqUK/z6tgipQ4eVzkjooc4Czqk8iTTzYoKajT8VMWdmwKP09jNfwpHe8KpVvTliu8eBhpH1TgZeWzh1EZD64qSOLmgzZwAzo62ZBu1XGiGH2122hj6gYq2eyCb4V7tyGyzJ5jSRqFs6kD3L8sgMluvGN4PMxcHz4MGky8oAV/9DgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        id S1726807AbhAMBV3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 20:21:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726345AbhAMBV2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 20:21:28 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08ABCC061575;
+        Tue, 12 Jan 2021 17:20:48 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id p15so29690pjv.3;
+        Tue, 12 Jan 2021 17:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BNut+MAOOGCPfH2O9UmxnaeyOXaudK6vNWmLYxY+HVI=;
- b=m8TANk7i1fjbLEHk23FCjQqNx7M6v04KZS/1RBLqJehTCb1paXXN1v3ybEHvWbo+LXO2LIoIi6VTuBkFsRIVg5L46VSll/0034AWA2/KDQwfEL2XkwTFSbtn5BPOBUEimxl1TKDXKd359VGL1ZIvXMrx616e3nqZaM77zXe9TTc=
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
- by TY2PR01MB3290.jpnprd01.prod.outlook.com (2603:1096:404:7b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Wed, 13 Jan
- 2021 00:07:17 +0000
-Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
- ([fe80::2023:7ed1:37c3:8037%5]) with mapi id 15.20.3763.010; Wed, 13 Jan 2021
- 00:07:17 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Rob Herring <robh@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: usb: Use OF graph schema
-Thread-Topic: [PATCH] dt-bindings: usb: Use OF graph schema
-Thread-Index: AQHW6PiQZUs3aLKeIkG4TfOxjpCPIKokrdfQ
-Date:   Wed, 13 Jan 2021 00:07:17 +0000
-Message-ID: <TY2PR01MB36921199AF76D6AE7AC9BE35D8A90@TY2PR01MB3692.jpnprd01.prod.outlook.com>
-References: <20210112153527.391232-1-robh@kernel.org>
-In-Reply-To: <20210112153527.391232-1-robh@kernel.org>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=renesas.com;
-x-originating-ip: [240f:60:5f3e:1:99a6:33ef:b98e:6b0]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 08751d33-1afc-4d03-4031-08d8b757304a
-x-ms-traffictypediagnostic: TY2PR01MB3290:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB329024896F020FF31B6F6D5BD8A90@TY2PR01MB3290.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:632;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lYDoHzA4kzQyXp0nF7G1E0L9Exe4Hj3Gsj3yy84dF6tjGcugp/wXmas2JIcCkYv9R+ZebYEQDxoUJLM+jVfSuCJ8jdO8JyaydmnKan978OV2XcU0Tgd2n/sgII8NrGB0FzFlEnXHJDhqjqO/UmgaPhIARdRJhxqwXKvzWymSYTQo1RvFWbsYyjYbF9hFF6OcIl4l/9Gj1PYRGeviLaB6q836CCoVQhPSVJYVYNP7Dz2neGPFRnXbADduTTleY5hSC+sj5ZiQQTcEJKqfjNjR0EssSkLklVM51gcRi1vCb25yLUCP1Nn1zKG03GyruM0QT0g8PXBM3F/YiihsxtxpCg29oP4z2iKycKamjECGeUwYQ0l3be10EgwHIwQzTy0G4fzbN/AwkHYuE47pWO8mZg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(396003)(39860400002)(136003)(6506007)(55016002)(2906002)(9686003)(66556008)(66476007)(64756008)(7696005)(66446008)(71200400001)(76116006)(316002)(8936002)(478600001)(54906003)(8676002)(186003)(86362001)(66946007)(52536014)(110136005)(4326008)(33656002)(5660300002)(4744005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?gdzUD5uW3D8c3tDb9F+vuwrIv1S3mDsSHOZFUbhoH9AfyEHuopeAoINO0HaQ?=
- =?us-ascii?Q?NQ0GMwolggc9DVyfHxmIcxp5cOgHjyIxKSoBDT/jZfJmGcUe/kGuwiDtafGD?=
- =?us-ascii?Q?yIc4myYyKunJ0/fa03tG7gkLiAXufGI/CUbpCBwbaAi9ZRF75rkK6IC8hCGV?=
- =?us-ascii?Q?X3ciRvW6eQwP0C7EXxX4MSopSAWrAb5/1WpXfx8VXkiGlLcr1q+Mef8g2QO2?=
- =?us-ascii?Q?RPHIIH1LjamHkjVnY6ZEt3DcHqokYL1woMzGTXIrEbbrQe2/E/78oCM0lkdG?=
- =?us-ascii?Q?I9rPluvO+YSLsnqxKGtufts2+OiHW0quTNry/eU3QV5aSew0/moGejbiXP5W?=
- =?us-ascii?Q?v84efNKtsixbcTVUHRFV/v96zYGD49WXnTySCuHEE0BmH3Jh0y5gv/OJoxeX?=
- =?us-ascii?Q?8DyjD2HZzMNIE9VJg/EmvFxo9K75D8M6oHFGYxrGt4wQeoElj1FNaUCr/xD8?=
- =?us-ascii?Q?WhIil96NDex+PfZV4MV/TdqQwDKKZZGel32gUsk9/Mf8fhbUiTN3OC46S1x0?=
- =?us-ascii?Q?27QbWn9u7KG0plPEQLMbR7CcGT53EvsYjsVu3gy0m4yZutSjU4XUi4DaQrRX?=
- =?us-ascii?Q?Fgygh0qv4HYql/CF8S5XX6KLfOC7yZk6/xt/FUHvHHYgoKK+VaWXm/X7AqMT?=
- =?us-ascii?Q?ruHxRpohQcTKtwn+6+JMzineq1JuZ8sQXuY3B3cvooQAz8Wvcn8qCY9AyTd4?=
- =?us-ascii?Q?T91zuWRFvUTDEMN3pF4ktHYfzvRa6KVG92D5cwQHqT97tmX3CMGhHoK6J8+g?=
- =?us-ascii?Q?qhA/3Ta3c81eRwlCk/zJbn/POBeoZXN2dVU+PMHys/9fG346oiqI8knNgLaJ?=
- =?us-ascii?Q?PM2xlA+7y07pzr2qxg89S3A7SZRFdSD8w7MzPAakCbT8Mfs/YEy+IYBe6WuJ?=
- =?us-ascii?Q?mCvIeArabOW7DM4n3wLYiew3pH/hBxxiRC72D4J8C6fYyO0SN568VhBzuPih?=
- =?us-ascii?Q?7LRfdcs6MJnsHcFtmF548uKHG5pdthUm38YahpWAg3QRUhELMXeZAei+kJtq?=
- =?us-ascii?Q?Ytgkkt8JiADws65w0wWzUSgeCmJY98bxrZqF6mfBHAZD9ak=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=LWJKx5e/3nBhUYP+sVXTWgSC9bn3CdJLTBX9fjR0myY=;
+        b=GDX+7VGOIINqOYBqiCBUfaOL/XOcA6euoO0h3za//aZwedDlehD3Si+8V8Fovqu8tw
+         O5oCO7pqbncIw+mKm+1ZiNGpz5jBM85FBCIDMPnDckkAsx+vSh6BLOZ25V5UP4vmExaq
+         kbqEOIAP+6Z6k/zjluH1RooZ5HNa/XFXbE1QR4Dzt4AkZQxB4YerdxLq2S0BOJGpvvmY
+         W+D2byFS5vrHkSHjH0SYe137KRV6QPHQ5ZClQiuBh4x6nTvQwHBZXVxZoPrF1qB7JHGh
+         TpCbCgiFKN9T3EsAoIFHnTPTPySNBI717DUgI26gOo7oAKDtIS1rfsDCgtn9Y0mW5nfJ
+         RFiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=LWJKx5e/3nBhUYP+sVXTWgSC9bn3CdJLTBX9fjR0myY=;
+        b=hVsjA2uxntGeCozfW02Lffj40b8PWl8Bx/jUu7wSUgmPVBKUxtNpjCwd7dxVDzSo4D
+         O1T8glXaF39o7Z4K+6vOgapsT0hWSL/O/HQJKx6wA1RDkFyF1mKqvfTYnecI+ODCgUHP
+         hkspWePgvhd0ori0GPsiEWc/KpWUPj/KUxd11PmMqZGGMqy2gV3wIEXQI3UR3uRnVlST
+         lM4KbEDSSL0NIGmsEhzZ+hOxuA3O5sq0kpzpFQcvr1Bwz3zOKYsouW7TjW8agAQ4pKtS
+         fZowNSshLcfRNQie2pJ4DEnFCZZgYFu3MAO2OsdRGqcDQVv0wQkygLnUAiUbaUlugPIY
+         J9gw==
+X-Gm-Message-State: AOAM533OE8tzbiJ7c7Txp0MxIeJejwYE8K6Jo2V0JZUEaYogJlMAL80K
+        ujLfxBXyCeSO787XNNnGIjU=
+X-Google-Smtp-Source: ABdhPJxm6gvC8e5Szk4GNsXqMZ73c0ahtHKRbf0g00YQY0/ymdib8nTj09R21K+oIPgXLDG2hZZ0FQ==
+X-Received: by 2002:a17:90a:ae02:: with SMTP id t2mr466890pjq.169.1610500847583;
+        Tue, 12 Jan 2021 17:20:47 -0800 (PST)
+Received: from b29397-desktop ([84.17.34.154])
+        by smtp.gmail.com with ESMTPSA id g30sm319909pfr.152.2021.01.12.17.20.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 12 Jan 2021 17:20:46 -0800 (PST)
+Date:   Wed, 13 Jan 2021 09:20:36 +0800
+From:   Peter Chen <hzpeterchen@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Matt Merhar <mattmerhar@protonmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Ion Agorria <ion@agorria.com>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/9] Support Runtime PM and host mode by Tegra
+ ChipIdea USB driver
+Message-ID: <20210113012036.GA1560@b29397-desktop>
+References: <20201218120246.7759-1-digetx@gmail.com>
+ <20201229051615.GA5823@b29397-desktop>
+ <b2c21687-4cb9-ba0a-a724-3a82ddd8daff@gmail.com>
+ <713c4b1a-a4b3-41ad-7aad-c49e594f778b@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08751d33-1afc-4d03-4031-08d8b757304a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2021 00:07:17.2385
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: L/Q0ympBNgSTWFbkH8FAvJj89KqYNDiovn6KVK3wGhzZpfNPlH93mnQ/3xTkzKN7oOQaqCK9TMQkionLPAtUnv/c53T//n0GS5OrsebAu7Zsv4bXVWFIldKAq9iIlqMc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB3290
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <713c4b1a-a4b3-41ad-7aad-c49e594f778b@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> From: Rob Herring, Sent: Wednesday, January 13, 2021 12:35 AM
->=20
-> Now that we have a graph schema, rework the USB related schemas to use
-> it. Mostly this is adding a reference to graph.yaml and dropping duplicat=
-e
-> parts from schemas.
->=20
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On 21-01-12 09:56:37, Dmitry Osipenko wrote:
+> 29.12.2020 17:26, Dmitry Osipenko пишет:
+> > 29.12.2020 08:16, Peter Chen пишет:
+> >> On 20-12-18 15:02:37, Dmitry Osipenko wrote:
+> >>> This series implements Runtime PM support for the Tegra ChipIdea USB driver.
+> >>> It also squashes the older ehci-tegra driver into the ChipIdea driver, hence
+> >>> the RPM is supported by both UDC and host controllers, secondly this opens
+> >>> opportunity for implementing OTG support in the future.
+> >>>
+> >>> Patchset was tested on various Tegra20, Tegra30 and Tegra124 devices.
+> >>> Thanks to Peter Geis, Matt Merhar, Nicolas Chauvet and Ion Agorria for
+> >>> helping with the extensive and productive testing!
+> >>>
+> >>> Changelog:
+> >>>
+> >>> v3: - Replaced "goto" with if-statements as was suggested by Thierry Reding.
+> >>>
+> >>>     - Improved wording of the deprecated Kconfig entry as was suggested
+> >>>       by Alan Stern.
+> >>>
+> >>>     - Added ACKs from Thierry Reding and Alan Stern.
+> >>>
+> >>>     - Added a new minor patch "Specify TX FIFO threshold in UDC SoC info"
+> >>>       just for completeness, since we can now switch OTG to host mode in
+> >>>       the ChipIdea driver. Although, OTG support remains a work-in-progress
+> >>>       for now.
+> >>>
+> >>> v2: - Improved comments in the code as it was suggested by Peter Chen and
+> >>>       Sergei Shtylyov for v1.
+> >>>
+> >>>     - Replaced mdelay() with fsleep() and made ci->hdc to reset to NULL in
+> >>>       a error code path, like it was suggested by Peter Chen.
+> >>>
+> >>>     - Redirected deprecated USB_EHCI_TEGRA Kconfig entry to USB_CHIPIDEA_TEGRA
+> >>>       as was suggested by Alan Stern.
+> >>>
+> >>>     - Improved commit message and added ACK from Thierry Reding to the patch
+> >>>       that removes MODULE_ALIAS.
+> >>>
+> >>>     - Fixed UDC PHY waking up on ASUS TF201 tablet device by utilizing
+> >>>       additional VBUS sensor. This was reported and tested by Ion Agorria.
+> >>>
+> >>>     - Added t-b from Ion Agorria.
+> >>>
+> >>> Dmitry Osipenko (8):
+> >>>   usb: phy: tegra: Add delay after power up
+> >>>   usb: phy: tegra: Support waking up from a low power mode
+> >>>   usb: chipidea: tegra: Remove MODULE_ALIAS
+> >>>   usb: chipidea: tegra: Rename UDC to USB
+> >>>   usb: chipidea: tegra: Support runtime PM
+> >>>   usb: chipidea: tegra: Specify TX FIFO threshold in UDC SoC info
+> >>>   usb: host: ehci-tegra: Remove the driver
+> >>>   ARM: tegra_defconfig: Enable USB_CHIPIDEA_HOST and remove
+> >>>     USB_EHCI_TEGRA
+> >>>
+> >>> Peter Geis (1):
+> >>>   usb: chipidea: tegra: Support host mode
+> >>
+> >> Chipidea related (patch 3-7) are applied, thanks.
+> > 
+> > Hello Peter,
+> > 
+> > Thank you for applying the patches.
+> > 
+> > Who will apply the remaining patches?
+> > 
+> > The Chipidea patch #6 depends on the PHY changes, otherwise USB will
+> > suspend and never resume.
+> > 
+> 
+> Peter, could you please apply the PHY and defconfig patches along with
+> the CI patches to -next? I.e. the whole series. Preferentially in
+> original ordering of patches should be preserved.
+> 
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Hi Dmitry,
 
-Best regards,
-Yoshihiro Shimoda
+Usually, Greg could apply all USB patches, if I apply other USB related
+patches, it may cause conflict with other patches in other's tree.
+Greg, free feel to apply this series with 
+Acked-by: Peter Chen <peter.chen@kernel.org>
+for chipidea part.
+
+For ARM defconfig patch, I think it should go ARM's tree.
+
+-- 
+
+Thanks,
+Peter Chen
 
