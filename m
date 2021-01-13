@@ -2,103 +2,154 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEC93C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 23:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3408C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 00:48:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 747AA2312F
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Jan 2021 23:27:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8ACC2312A
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 00:48:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388954AbhALX11 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 18:27:27 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:42882 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388275AbhALX11 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 18:27:27 -0500
-Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 82B3240109;
-        Tue, 12 Jan 2021 23:26:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1610493987; bh=UKg7IWSSwWSAYXGot7GhFfzSiXZ9QuCaLM/D4rQyQZg=;
-        h=Date:From:Subject:To:Cc:From;
-        b=Z5FmwyqlQDInPiN9qPmYhXeiQMWpcIifVHLmopJlrNlq6g52qXwTWfGnSlNwNySMO
-         fMTGzT4XI0bDsS6XNBzKWijLoaAiwSaw/ATL6f7SB2PyP7frACkIYR4t/NTEKio25p
-         m8QT4fYUxseVI2rMJFA7JpXCyo1bmmPEuCQ2pL+28VwKAykqXiGBLcx/MXlrolU1kS
-         LbSZeyyYWK9MOCGgom5gaJZnXrTWdvhjNf70pzA46rS6nIscLrhUz7Wj3ewe6k7tn0
-         YqfldTXDT5mXU4vgHyDi7XsG4+pfPDHi1Ez2mf+DLKAkciwPVjPhL9tre4Y3f41Z5N
-         w4ILLDPQY/JOw==
-Received: from te-lab16 (unknown [10.10.52.11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id A8CC8A0096;
-        Tue, 12 Jan 2021 23:26:22 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Tue, 12 Jan 2021 15:26:21 -0800
-Date:   Tue, 12 Jan 2021 15:26:21 -0800
-Message-Id: <8262fabe3aa7c02981f3b9d302461804c451ea5a.1610493934.git.Thinh.Nguyen@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH] usb: udc: core: Use lock for soft_connect
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Peter Chen <peter.chen@nxp.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dejin Zheng <zhengdejin5@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Michal Nazarewicz <mina86@mina86.com>
-Cc:     stable@vger.kernel.org
+        id S2393730AbhAMAnL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 19:43:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392455AbhAMAkr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 19:40:47 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32124C061575;
+        Tue, 12 Jan 2021 16:40:07 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id 91so286425wrj.7;
+        Tue, 12 Jan 2021 16:40:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=agaH5FJUb4ubbdgR/UcbnaFztHWYbAMVBCEVNxmNcy8=;
+        b=AEiVjcsifZD/SApb4CWBqPM8yQ6WK74QGMmg2REtPE/Tdx+vurF8XkOdcLWRXrxdPU
+         bQmqmRBuCE2cCYeK2XH2DHYBG6gT3IgNU0qZGQXy794LDOIS5/1U50L9IDAf2dD8G3iN
+         2budy9g2NYNdLUH3UPmHas//5wOJFn8R1LReu6FQsgJLvC7JzbAeFW+0eTfjJRlfwZMe
+         1IDCPT0oiFffYb4mQO5khNTAa+zHrtXbuIKksIIn4mkzTMUx3d5/HvSlAhgDMAyNRdk4
+         79z2PIuoH7rMivFXbDKjLi84he2EQA578J+tgcyEPFVIMSSuhXFfFi5bgyZV7GL/Fl4A
+         Z2wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=agaH5FJUb4ubbdgR/UcbnaFztHWYbAMVBCEVNxmNcy8=;
+        b=oR0ntZh3YRo3LFHC+BYtK4rn1MyRT/TQgijs3csb1M53T+Qmu4Uq8TWpZKbZVF4c0+
+         NDEfObIUXJzAUH2TO6uXf9869k4wu3SjFIfcIEKt1LaptUOgG+rwacKb6MmktDunq8dB
+         GOegmKRaT4xVIz6n2GoqRfxHGnlsbB184JNpGjoirSRfcUESXOrttPI7CzeTIA/oVgko
+         0W6Q6YPOlXkalTCiIUzSBSZ34mFfo4WBwpsvjUQYag8AFi5CiDA0+G2clgGayes6fI1v
+         GTUV6Wdlk5vg2atmkcwIGbvHZsgMruOpmRrx09U+qznt6JQ0ot6YZNxtBvAGKxfikETn
+         n9Uw==
+X-Gm-Message-State: AOAM5309a8fgOMKwWsDGqEKnU7yQ9kGJmhKIiBeWt9dULsX/dl2zHFbZ
+        AqaiGrXEgnTJDC3vqOPZs2cvaYyYX+E=
+X-Google-Smtp-Source: ABdhPJwvzNZjqoLMW8eDlE/oWXuA09aJJIhBO4f5MUR/UDgX93JftIaiVDErBWpr2ggyhb/0tiuEjw==
+X-Received: by 2002:adf:9467:: with SMTP id 94mr1295788wrq.235.1610498405779;
+        Tue, 12 Jan 2021 16:40:05 -0800 (PST)
+Received: from [192.168.1.211] ([2.29.208.120])
+        by smtp.gmail.com with ESMTPSA id l8sm202548wrb.73.2021.01.12.16.40.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Jan 2021 16:40:04 -0800 (PST)
+Subject: Re: [PATCH v2 1/3] software node: Introduce
+ device_add_software_node()
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+References: <20210111141045.14027-1-heikki.krogerus@linux.intel.com>
+ <20210111141045.14027-2-heikki.krogerus@linux.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <2f552de5-4839-a1e5-3012-c56f9fa3bdd5@gmail.com>
+Date:   Wed, 13 Jan 2021 00:40:03 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210111141045.14027-2-heikki.krogerus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use lock to guard against concurrent access for soft-connect/disconnect
-operations when writing to soft_connect sysfs.
+Hi Heikki
 
-Cc: stable@vger.kernel.org
-Fixes: 2ccea03a8f7e ("usb: gadget: introduce UDC Class")
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
----
- drivers/usb/gadget/udc/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On 11/01/2021 14:10, Heikki Krogerus wrote:
+> This helper will register a software node and then assign
+> it to device at the same time. The function will also make
+> sure that the device can't have more than one software node.
+> 
+> Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index 6a62bbd01324..44c67e765167 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -1530,7 +1530,9 @@ static ssize_t soft_connect_store(struct device *dev,
- {
- 	struct usb_udc		*udc = container_of(dev, struct usb_udc, dev);
- 
-+	mutex_lock(&udc_lock);
- 	if (!udc->driver) {
-+		mutex_unlock(&udc_lock);
- 		dev_err(dev, "soft-connect without a gadget driver\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1542,10 +1544,12 @@ static ssize_t soft_connect_store(struct device *dev,
- 		usb_gadget_disconnect(udc->gadget);
- 		usb_gadget_udc_stop(udc);
- 	} else {
-+		mutex_unlock(&udc_lock);
- 		dev_err(dev, "unsupported command '%s'\n", buf);
- 		return -EINVAL;
- 	}
- 
-+	mutex_unlock(&udc_lock);
- 	return n;
- }
- static DEVICE_ATTR_WO(soft_connect);
+I like this change. One comment below, but for what it's worth:
 
-base-commit: 4e0dcf62ab4cf917d0cbe751b8bf229a065248d4
--- 
-2.28.0
+Reviewed-by: Daniel Scally <djrscally@gmail.com>
+
+> +/**
+> + * device_remove_software_node - Remove device's software node
+> + * @dev: The device with the software node.
+> + *
+> + * This function will unregister the software node of @dev.
+> + */
+> +void device_remove_software_node(struct device *dev)
+> +{
+> +	struct swnode *swnode;
+> +
+> +	swnode = dev_to_swnode(dev);
+> +	if (!swnode)
+> +		return;
+> +
+> +	kobject_put(&swnode->kobj);
+> +}
+> +EXPORT_SYMBOL_GPL(device_remove_software_node);
+
+I wonder if this also ought to set dev_fwnode(dev)->secondary back to
+ERR_PTR(-ENODEV)?
+
+> +
+>  int software_node_notify(struct device *dev, unsigned long action)
+>  {
+> -	struct fwnode_handle *fwnode = dev_fwnode(dev);
+>  	struct swnode *swnode;
+>  	int ret;
+>  
+> -	if (!fwnode)
+> -		return 0;
+> -
+> -	if (!is_software_node(fwnode))
+> -		fwnode = fwnode->secondary;
+> -	if (!is_software_node(fwnode))
+> +	swnode = dev_to_swnode(dev);
+> +	if (!swnode)
+>  		return 0;
+>  
+> -	swnode = to_swnode(fwnode);
+> -
+>  	switch (action) {
+>  	case KOBJ_ADD:
+>  		ret = sysfs_create_link(&dev->kobj, &swnode->kobj,
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index 0a9001fe7aeab..b0e413dc59271 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -488,4 +488,7 @@ fwnode_create_software_node(const struct property_entry *properties,
+>  			    const struct fwnode_handle *parent);
+>  void fwnode_remove_software_node(struct fwnode_handle *fwnode);
+>  
+> +int device_add_software_node(struct device *dev, const struct software_node *swnode);
+> +void device_remove_software_node(struct device *dev);
+> +
+>  #endif /* _LINUX_PROPERTY_H_ */
+> 
 
