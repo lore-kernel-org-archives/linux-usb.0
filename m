@@ -2,162 +2,139 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 706C8C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 21:00:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97CB6C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 23:23:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3187B2313C
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 21:00:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 611A62339D
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 23:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbhAMU6Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 15:58:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24582 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728724AbhAMU5f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 15:57:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610571422;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=KyeVTvomgCzlV9Xq0HncJHDevMWvQaxSid6diziHy50=;
-        b=iGwsCkDf0987fTSNdrj/aZfBcSZcbABgvQ3f0kNqZv6giuYdf4AEasgKsmVFcNqv2XACe2
-        Ea+BzSWptZfWpZ4ALS40gAaHPsQfY1YEcA3XdGWPI9p4ln+gGP7T6Uh+aeXa5x/NkGh9QC
-        mz0MIYZmFzzv3NzP4g7Uh3eca6mJAuQ=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-BPCYKkWKNCOLyCpqF6KAWw-1; Wed, 13 Jan 2021 15:55:52 -0500
-X-MC-Unique: BPCYKkWKNCOLyCpqF6KAWw-1
-Received: by mail-ej1-f71.google.com with SMTP id q11so1384562ejd.0
-        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 12:55:52 -0800 (PST)
+        id S1729338AbhAMXW5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 18:22:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39192 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729259AbhAMXWT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 18:22:19 -0500
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE36C0617AB
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 15:21:09 -0800 (PST)
+Received: by mail-vk1-xa34.google.com with SMTP id p128so931177vkf.12
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 15:21:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dNpul3TmNz217TlWaHrp655cA39WwM3OTc2qb1ao4wM=;
+        b=EeWkeggv3kpf3wVa4+9KYipXjBKs3vj3zoCRJ6i1ClC8nN99P+Amx2t+UOy+5OVEZu
+         xdCMocOGmk7YLVYAjUx1f1N2i6M82Piiuw2PybHXgHjg5WG3jpiYL2+Le0loq6zMwcRJ
+         l5Pr7Vs3rIJ8zssw08oofEJspt8rTUjIIENuU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=KyeVTvomgCzlV9Xq0HncJHDevMWvQaxSid6diziHy50=;
-        b=Bbfj5PGZO+E1mMGZfZv/JP/1enzVRbYx0wimmdyLhDHu71Hr7LJ7ILqN/bgdj7AZ8Y
-         g5XATLIcfgbAksv5HMBuK+C1xgKYId7jgIdExoLJSR1+Jl9kbU8q4V+LB2aCUGMv/BmL
-         ubBC820qEix2Mv+3OpehxnEI+B69V/+sblcJ3AleH4RojcpmDNefWyONzWbMgqX/z/ef
-         UyGjHw/oGL3AgRt7PSJ5gA03pdfmDa0O7/dFJ0Eg5IIi/jet2+jkpowOdaxu7sqT/9Mh
-         e9ovAjqRzbJWBvM4kykBwd3wuLMa7wrhic0r88sqCo5D5YrVgo8LL9b7VP0hZ6ZtWUVh
-         A4JA==
-X-Gm-Message-State: AOAM531r0p+YARsbxRH9mDxwHifHHZlnhf86k+NmFt11aJfGMn1XtNYs
-        JAI88KkBSWn/QUOFb4E5gpq7hZZCXeCaw/iX8Gt2Zcc3zW3EBM7ry0BP77F6Hn+rWQRbAROIYqR
-        +YtgQ6XOjNqBrzV7xL/x6
-X-Received: by 2002:a17:906:24d1:: with SMTP id f17mr1985208ejb.21.1610571351326;
-        Wed, 13 Jan 2021 12:55:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzIFkrj0zV6MG35I2/95jUJA70odVCeRn+Mht21EoWlSfwxuvEVlcTT4VHqNFVhHDJZ3rHKfQ==
-X-Received: by 2002:a17:906:24d1:: with SMTP id f17mr1985197ejb.21.1610571351193;
-        Wed, 13 Jan 2021 12:55:51 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id i8sm1312749eds.72.2021.01.13.12.55.50
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dNpul3TmNz217TlWaHrp655cA39WwM3OTc2qb1ao4wM=;
+        b=tHfwOTiBZCQETal6pxv98SdEFvHXng9T/i04Y56Eo2SATap8YLZA5UWWdK/WYkkT26
+         N2UDdqcxsNOHa+IV8lK1WOUEcY78G3WzxlG8tCMbJv3GOiGRkakdFAWoiwcHqs6RysET
+         51SlQtd7ZVxMBYOyLyJU/r8OMdqxYiqQcpYBYuN3/NhU1OsorlEyDOEAqn4pJJRdYQ4g
+         oBf2CvVvzM1btGWcSLBhtabjOn9QFmrg4X0YEgfC3Vr3WV1UmVyJt1iPf863KbvveNBG
+         oslO4HzZntmCRFkMizscdSu3lMuN9rYXL0Rh9tiZRih4jOuVWeW0FLlFVlK1e5R2x1OU
+         lZng==
+X-Gm-Message-State: AOAM5308f+tPDCmaPZURE8OgMBESUF88ZCDBRs27nJRAdNwA5nagrU4Y
+        bEQYTLTrWP4q7OwxrkE+5vyfLGKs+J/4Yw==
+X-Google-Smtp-Source: ABdhPJyh+eMr/hQ7+1jjWtjWBQ7kNSqsrfRN+h0W2DlDyOO6rpVgbemDuwNdjsOopYq/NAeU2nXHlQ==
+X-Received: by 2002:ac5:cc75:: with SMTP id w21mr4213271vkm.14.1610580068502;
+        Wed, 13 Jan 2021 15:21:08 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id i45sm417026uah.11.2021.01.13.15.21.07
+        for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 12:55:50 -0800 (PST)
-Subject: Re: [PATCH v5 1/3] usb: typec: tcpm: AMS and Collision Avoidance
-To:     Kyle Tso <kyletso@google.com>,
-        Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        USB <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Will McVicker <willmcvicker@google.com>
-References: <20210105163927.1376770-1-kyletso@google.com>
- <20210105163927.1376770-2-kyletso@google.com>
- <20210112132925.GC2020859@kuha.fi.intel.com>
- <CAPTae5LLtjQAt4db+ZVttEGxnueydmEZ4eu+gQSEOaZE4B=u0A@mail.gmail.com>
- <CAGZ6i=2cQywq82QrJg=t-KVMqSdjME-dkd-8aH3au_RTju2zTA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <ad606425-8c2c-d95b-5d72-602d55ac6aa2@redhat.com>
-Date:   Wed, 13 Jan 2021 21:55:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Wed, 13 Jan 2021 15:21:07 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id b23so2095185vsp.9
+        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 15:21:07 -0800 (PST)
+X-Received: by 2002:a67:ed09:: with SMTP id l9mr4227683vsp.4.1610580067037;
+ Wed, 13 Jan 2021 15:21:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAGZ6i=2cQywq82QrJg=t-KVMqSdjME-dkd-8aH3au_RTju2zTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210113112052.17063-1-nsaenzjulienne@suse.de>
+In-Reply-To: <20210113112052.17063-1-nsaenzjulienne@suse.de>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Wed, 13 Jan 2021 15:20:55 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VnsVgTGTkr9VYQHCkBSVVksT1UGfsmk+dqTyQ1sqF=Qw@mail.gmail.com>
+Message-ID: <CAD=FV=VnsVgTGTkr9VYQHCkBSVVksT1UGfsmk+dqTyQ1sqF=Qw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] usb: dwc2: Fixes and improvements
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     Paul Zimmerman <Paul.Zimmerman@synopsys.com>,
+        Felipe Balbi <balbi@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nick Hudson <skrll@netbsd.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 Hi,
 
-On 1/13/21 3:46 PM, Kyle Tso wrote:
-> On Wed, Jan 13, 2021 at 2:11 PM Badhri Jagan Sridharan
-> <badhri@google.com> wrote:
->>
->> Hi Kyle,
->>
->> Do you want to handle the FAST_ROLE_SWAP case as well ?
->>
-> I forgot this part....
-> Thanks for catching this.
-> I will fix it.
+On Wed, Jan 13, 2021 at 3:21 AM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> I'm picking up this series by Guenter Roeck as he stated he has no time
+> for it ATM. It was found to solve some unaligned DMA access issues on
+> Raspberry Pi 3. You can find the original discussion here:
+> https://lore.kernel.org/linux-usb/20200226210414.28133-1-linux@roeck-us.net/
+>
+> I removed the fist patch from the original series as it turned out to be
+> contententious and needs more in-depth testing. Following is the edited
+> origin series description. Note that extra testing was performed on
+> RPi3:
+>
+> "This series addresses the following problems:
+>
+> - Fix receive transfers with 0 byte transfer length
+> - Abort transactions after unknown receive errors
+>   if the receive buffer is full
+> - Reduce "trimming xfer length" logging noise
+>
+> The problems fixed with this series were observed when connecting
+> a DM9600 Ethernet adapter to Veyron Chromebooks such as the ASUS
+> Chromebook C201PA. The series was tested extensively with this and
+> other adapters.
+>
+> The observed problems are also reported when tethering various
+> phones, so test coverage with such phones would be very appreciated."
+>
+> ---
+>
+> Guenter Roeck (3):
+>   usb: dwc2: Do not update data length if it is 0 on inbound transfers
+>   usb: dwc2: Abort transaction after errors with unknown reason
+>   usb: dwc2: Make "trimming xfer length" a debug message
+>
+>  drivers/usb/dwc2/hcd.c      | 15 ++++++++-------
+>  drivers/usb/dwc2/hcd_intr.c | 14 +++++++++++++-
+>  2 files changed, 21 insertions(+), 8 deletions(-)
 
-That sounds like a v6 is upcoming which not only will have
-code-style changes but also some functional changes ?
+It's been long enough ago that I've forgotten where this was left off,
+but IIRC the 3 patches that you have here are all fine to land (and
+have my Reviewed-by tag).  However, I think Guenter was still tracking
+down additional problems.  Guenter: does that match your recollection?
 
-In that case I will wait a bit before running the tests
-which I want to run with this patch-set and run those
-tests with v6 so that I don't have to redo them later.
+It looks like there are still bugs open for this on our public bug tracker:
 
-Regards,
+https://issuetracker.google.com/issues/172208170
+https://issuetracker.google.com/issues/172216241
 
-Hans
+...but, as Guenter said, I don't think there's anyone actively working on them.
 
+I'm not really doing too much with dwc2 these days either and don't
+currently have good HW setup for testing, so for the most part I'll
+leave it to you.  I wanted to at least summarize what I remembered,
+though!  :-)
 
-
-> 
-> 
->> You would have to fix up in two places:
->>
->> #1
->> -                       if (port->state == SNK_READY)
->> -                               tcpm_set_state(port, FR_SWAP_SEND, 0);
->> -                       else
->> +                       if (port->state == SNK_READY) {
->> +                               int ret;
->> +
->> +                               port->upcoming_state = FR_SWAP_SEND;
->> +                               ret = tcpm_ams_start(port, FAST_ROLE_SWAP);
->> +                               if (ret == -EAGAIN)
->> +                                       port->upcoming_state = INVALID_STATE;
->> +                       } else {
->>                                 tcpm_log(port, "Discarding FRS_SIGNAL!
->> Not in sink ready");
->> +                       }
->>
->> #2
->> --- a/drivers/usb/typec/tcpm/tcpm.c
->> +++ b/drivers/usb/typec/tcpm/tcpm.c
->> @@ -4449,9 +4449,14 @@ static void tcpm_enable_frs_work(struct
->> kthread_work *work)
->>         if (port->state != SNK_READY || port->vdm_state !=
->> VDM_STATE_DONE || port->send_discover)
->>                 goto resched;
->>
->> -       tcpm_set_state(port, GET_SINK_CAP, 0);
->> -       port->sink_cap_done = true;
->> -
->> +       port->upcoming_state = GET_SINK_CAP;
->> +       ret = tcpm_ams_start(port, GET_SINK_CAPABILITIES);
->> +       if (ret == -EAGAIN) {
->> +               port->upcoming_state = INVALID_STATE;
->> +       } else {
->> +               port->sink_cap_done = true;
->> +               goto unlock;
->> +       }
->>
->> Thanks,
->> Badhri
->>
->>
-> 
-
+-Doug
