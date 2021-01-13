@@ -2,65 +2,184 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63456C43381
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:00:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 182B4C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:20:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4A6C23435
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C0C6E2313E
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:20:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725943AbhAMP7o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 10:59:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38646 "EHLO mail.kernel.org"
+        id S1727245AbhAMQUU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 11:20:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43056 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbhAMP7o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:59:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 083D02339F;
-        Wed, 13 Jan 2021 15:59:02 +0000 (UTC)
-Date:   Wed, 13 Jan 2021 17:00:09 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Hayes Wang <hayeswang@realtek.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nt: usb: USB_RTL8153_ECM should not default to y
-Message-ID: <X/8ZCa/jgiAboGd7@kroah.com>
-References: <20210113144309.1384615-1-geert+renesas@glider.be>
+        id S1727081AbhAMQUT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 13 Jan 2021 11:20:19 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4AC2F2313C;
+        Wed, 13 Jan 2021 16:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1610554778;
+        bh=P8YfqyxeUpmTgxjSFmZaPSgIiYXmaEKMsiFceSe0dJA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=eFSMYdp4KhniJmec1P2W1pmdQV57hsWSR+6fW8pWEtR1kAHw68cDGzj98TZZLw5LP
+         x75XUcCGJDHSP+VtbJ9lTbRzPivk8eL2XK877EfUYXcSjPBOsAcG9VDm5DE8MpCgME
+         krE7tlK+y4weDVTIftMxGWv4VaJpaeLL6y/FQ6jk=
+Date:   Wed, 13 Jan 2021 17:20:45 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Lorenzo Colitti <lorenzo@google.com>
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org, zenczykowski@gmail.com
+Subject: Re: [PATCH v2] usb: gadget: u_ether: support configuring interface
+ names.
+Message-ID: <X/8d3bI5HP4FYnge@kroah.com>
+References: <20210113154550.789244-1-lorenzo@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210113144309.1384615-1-geert+renesas@glider.be>
+In-Reply-To: <20210113154550.789244-1-lorenzo@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 03:43:09PM +0100, Geert Uytterhoeven wrote:
-> In general, device drivers should not be enabled by default.
+On Thu, Jan 14, 2021 at 12:45:50AM +0900, Lorenzo Colitti wrote:
+> This patch allows the administrator to configure the interface
+> name of a function using u_ether (e.g., eem, ncm, rndis).
 > 
-> Fixes: 657bc1d10bfc23ac ("r8153_ecm: avoid to be prior to r8152 driver")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Currently, all such interfaces, regardless of function type, are
+> always called usb0, usb1, etc. This makes it very cumbersome to
+> use more than one such type at a time, because userspace cannnot
+> easily tell the interfaces apart and apply the right
+> configuration to each one. Interface renaming in userspace based
+> on driver doesn't help, because the interfaces all have the same
+> driver. Without this patch, doing this require hacks/workarounds
+> such as setting fixed MAC addresses on the functions, and then
+> renaming by MAC address, or scraping configfs after each
+> interface is created to find out what it is.
+> 
+> Setting the interface name is done by writing to the same
+> "ifname" configfs attribute that reports the interface name after
+> the function is bound. The write must contain an interface
+> pattern such as "usb%d" (which will cause the net core to pick
+> the next available interface name starting with "usb").
+> This patch does not allow writing an exact interface name (as
+> opposed to a pattern) because if the interface already exists at
+> bind time, the bind will fail and the whole gadget will fail to
+> activate. This could be allowed in a future patch.
+> 
+> For compatibility with current userspace, when reading an ifname
+> that has not currently been set, the result is still "(unnamed
+> net_device)". Once a write to ifname happens, then reading ifname
+> will return whatever was last written.
+> 
+> Tested by configuring an rndis function and an ncm function on
+> the same gadget, and writing "rndis%d" to ifname on the rndis
+> function and "ncm%d" to ifname on the ncm function. When the
+> gadget was bound, the rndis interface was rndis0 and the ncm
+> interface was ncm0.
+> 
+> Signed-off-by: Lorenzo Colitti <lorenzo@google.com>
 > ---
->  drivers/net/usb/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
+>  Documentation/usb/gadget-testing.rst          | 30 +++++++--------
+>  drivers/usb/gadget/function/u_ether.c         | 37 +++++++++++++++++--
+>  drivers/usb/gadget/function/u_ether.h         | 12 ++++++
+>  .../usb/gadget/function/u_ether_configfs.h    | 15 +++++++-
+>  4 files changed, 75 insertions(+), 19 deletions(-)
 > 
-> diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
-> index 1e37190287808973..fbbe786436319013 100644
-> --- a/drivers/net/usb/Kconfig
-> +++ b/drivers/net/usb/Kconfig
-> @@ -631,7 +631,6 @@ config USB_NET_AQC111
->  config USB_RTL8153_ECM
->  	tristate "RTL8153 ECM support"
->  	depends on USB_NET_CDCETHER && (USB_RTL8152 || USB_RTL8152=n)
-> -	default y
->  	help
->  	  This option supports ECM mode for RTL8153 ethernet adapter, when
->  	  CONFIG_USB_RTL8152 is not set, or the RTL8153 device is not
+> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+> index 2eeb3e9299e4..2085e7b24eeb 100644
+> --- a/Documentation/usb/gadget-testing.rst
+> +++ b/Documentation/usb/gadget-testing.rst
+> @@ -91,9 +91,9 @@ The ECM function provides these attributes in its function directory:
+>  
+>  and after creating the functions/ecm.<instance name> they contain default
+>  values: qmult is 5, dev_addr and host_addr are randomly selected.
+> -Except for ifname they can be written to until the function is linked to a
+> -configuration. The ifname is read-only and contains the name of the interface
+> -which was assigned by the net core, e. g. usb0.
+> +The ifname can be written to if the function is not bound. A write must be an
+> +interface pattern such as "usb%d", which will cause the net core to choose the
+> +next free usbX interface. By default, it is set to "usb%d".
+>  
+>  Testing the ECM function
+>  ------------------------
+> @@ -131,9 +131,9 @@ The ECM subset function provides these attributes in its function directory:
+>  
+>  and after creating the functions/ecm.<instance name> they contain default
+>  values: qmult is 5, dev_addr and host_addr are randomly selected.
+> -Except for ifname they can be written to until the function is linked to a
+> -configuration. The ifname is read-only and contains the name of the interface
+> -which was assigned by the net core, e. g. usb0.
+> +The ifname can be written to if the function is not bound. A write must be an
+> +interface pattern such as "usb%d", which will cause the net core to choose the
+> +next free usbX interface. By default, it is set to "usb%d".
+>  
+>  Testing the ECM subset function
+>  -------------------------------
+> @@ -171,9 +171,9 @@ The EEM function provides these attributes in its function directory:
+>  
+>  and after creating the functions/eem.<instance name> they contain default
+>  values: qmult is 5, dev_addr and host_addr are randomly selected.
+> -Except for ifname they can be written to until the function is linked to a
+> -configuration. The ifname is read-only and contains the name of the interface
+> -which was assigned by the net core, e. g. usb0.
+> +The ifname can be written to if the function is not bound. A write must be an
+> +interface pattern such as "usb%d", which will cause the net core to choose the
+> +next free usbX interface. By default, it is set to "usb%d".
+>  
+>  Testing the EEM function
+>  ------------------------
+> @@ -453,9 +453,9 @@ The NCM function provides these attributes in its function directory:
+>  
+>  and after creating the functions/ncm.<instance name> they contain default
+>  values: qmult is 5, dev_addr and host_addr are randomly selected.
+> -Except for ifname they can be written to until the function is linked to a
+> -configuration. The ifname is read-only and contains the name of the interface
+> -which was assigned by the net core, e. g. usb0.
+> +The ifname can be written to if the function is not bound. A write must be an
+> +interface pattern such as "usb%d", which will cause the net core to choose the
+> +next free usbX interface. By default, it is set to "usb%d".
+>  
+>  Testing the NCM function
+>  ------------------------
+> @@ -591,9 +591,9 @@ The RNDIS function provides these attributes in its function directory:
+>  
+>  and after creating the functions/rndis.<instance name> they contain default
+>  values: qmult is 5, dev_addr and host_addr are randomly selected.
+> -Except for ifname they can be written to until the function is linked to a
+> -configuration. The ifname is read-only and contains the name of the interface
+> -which was assigned by the net core, e. g. usb0.
+> +The ifname can be written to if the function is not bound. A write must be an
+> +interface pattern such as "usb%d", which will cause the net core to choose the
+> +next free usbX interface. By default, it is set to "usb%d".
+>  
+>  Testing the RNDIS function
+>  --------------------------
+> diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+> index c019f2b0c0af..a4ade7983402 100644
+> --- a/drivers/usb/gadget/function/u_ether.c
+> +++ b/drivers/usb/gadget/function/u_ether.c
+> @@ -78,8 +78,9 @@ struct eth_dev {
+>  	unsigned long		todo;
+>  #define	WORK_RX_MEMORY		0
+>  
+> -	bool			zlp;
+> -	bool			no_skb_reserve;
+> +	bool			zlp:1;
+> +	bool			no_skb_reserve:1;
+> +	bool			ifname_set:1;
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Not to be a pain, but "bool var:1"?  What's wrong with just a bool
+itself?  gcc is known to have issues with setting/clearing bit fields
+like this, and there is no size issues here with this device, adding one
+more byte is just fine.
+
+So just add:
+	bool		ifname_set;
+please.
+
+thanks,
+
+greg k-h
