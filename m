@@ -2,117 +2,110 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EC7C43333
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 02:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DFEAC433E6
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 03:16:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73B5D23120
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 02:49:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFE5A23131
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 03:16:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728559AbhAMCsz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 21:48:55 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:26757 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728328AbhAMCsz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 21:48:55 -0500
-X-UUID: 50cf10c294634473bf595e55ff2e8952-20210113
-X-UUID: 50cf10c294634473bf595e55ff2e8952-20210113
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 361724587; Wed, 13 Jan 2021 10:42:50 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 13 Jan 2021 10:42:47 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 13 Jan 2021 10:42:46 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Felipe Balbi <balbi@kernel.org>
-CC:     Florian Fainelli <f.fainelli@gmail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: [PATCH RESEND v4 04/11] usb: gadget: bdc: fix warning of embedded function name
-Date:   Wed, 13 Jan 2021 10:42:21 +0800
-Message-ID: <1610505748-30616-4-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1610505748-30616-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1610505748-30616-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S1728616AbhAMDQ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 22:16:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39364 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728105AbhAMDQ2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 12 Jan 2021 22:16:28 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E72E6AD11;
+        Wed, 13 Jan 2021 03:15:46 +0000 (UTC)
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     jacmet@sunsite.dk
+Cc:     gregkh@linuxfoundation.org, sergei.shtylyov@gmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dave@stgolabs.net, Davidlohr Bueso <dbueso@suse.de>
+Subject: [PATCH v2] usb/c67x00: Replace tasklet with work
+Date:   Tue, 12 Jan 2021 19:15:37 -0800
+Message-Id: <20210113031537.79859-1-dave@stgolabs.net>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 5E9C83FEE143F88193865B2179E6816FEDB32C7BF385A469B417806DE17535112000:8
-X-MTK:  N
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use '"%s...", __func__' to replace embedded function name
+Tasklets have long been deprecated as being too heavy on the system
+by running in irq context - and this is not a performance critical
+path. If a higher priority process wants to run, it must wait for
+the tasklet to finish before doing so.
 
-Cc: Florian Fainelli <f.fainelli@gmail.com>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Acked-by: Florian Fainelli <f.fainelli@gmail.com>
----
-v4 resend: base on kernel 5.11-rc1
-v4: no changes, but rebase on kernel 5.10-rc1
-v3: add acked-by Florian
-v2: add Cc Florian
----
- drivers/usb/gadget/udc/bdc/bdc_dbg.c | 2 +-
- drivers/usb/gadget/udc/bdc/bdc_ep.c  | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+c67x00_do_work() will now run in process context and have further
+concurrency (tasklets being serialized among themselves), but this
+is done holding the c67x00->lock, so it should be fine. Furthermore,
+this patch fixes the usage of the lock in the callback as otherwise
+it would need to be irq-safe.
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_dbg.c b/drivers/usb/gadget/udc/bdc/bdc_dbg.c
-index 7ba7448ad743..9c03e13308ca 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_dbg.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_dbg.c
-@@ -68,7 +68,7 @@ void bdc_dbg_srr(struct bdc *bdc, u32 srr_num)
+Signed-off-by: Davidlohr Bueso <dbueso@suse.de>
+---
+Changes from v1: cleaned up busted white spaces.
+
+ drivers/usb/c67x00/c67x00-hcd.h   |  2 +-
+ drivers/usb/c67x00/c67x00-sched.c | 12 +++++++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/c67x00/c67x00-hcd.h b/drivers/usb/c67x00/c67x00-hcd.h
+index 6b6b04a3fe0f..6332a6b5dce6 100644
+--- a/drivers/usb/c67x00/c67x00-hcd.h
++++ b/drivers/usb/c67x00/c67x00-hcd.h
+@@ -76,7 +76,7 @@ struct c67x00_hcd {
+ 	u16 next_td_addr;
+ 	u16 next_buf_addr;
  
- 	sr = bdc->srr.sr_bds;
- 	addr = bdc->srr.dma_addr;
--	dev_vdbg(bdc->dev, "bdc_dbg_srr sr:%p dqp_index:%d\n",
-+	dev_vdbg(bdc->dev, "%s sr:%p dqp_index:%d\n", __func__,
- 						sr, bdc->srr.dqp_index);
- 	for (i = 0; i < NUM_SR_ENTRIES; i++) {
- 		sr = &bdc->srr.sr_bds[i];
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-index 76463de75595..44f3a122546d 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-@@ -756,7 +756,7 @@ static int ep_dequeue(struct bdc_ep *ep, struct bdc_req *req)
+-	struct tasklet_struct tasklet;
++	struct work_struct work;
  
- 	dev_dbg(bdc->dev, "%s ep:%s start:%d end:%d\n",
- 					__func__, ep->name, start_bdi, end_bdi);
--	dev_dbg(bdc->dev, "ep_dequeue ep=%p ep->desc=%p\n",
-+	dev_dbg(bdc->dev, "%s ep=%p ep->desc=%p\n", __func__,
- 						ep, (void *)ep->usb_ep.desc);
- 	/* if still connected, stop the ep to see where the HW is ? */
- 	if (!(bdc_readl(bdc->regs, BDC_USPC) & BDC_PST_MASK)) {
-@@ -1858,12 +1858,12 @@ static int bdc_gadget_ep_enable(struct usb_ep *_ep,
- 	int ret;
+ 	struct completion endpoint_disable;
  
- 	if (!_ep || !desc || desc->bDescriptorType != USB_DT_ENDPOINT) {
--		pr_debug("bdc_gadget_ep_enable invalid parameters\n");
-+		pr_debug("%s invalid parameters\n", __func__);
- 		return -EINVAL;
- 	}
+diff --git a/drivers/usb/c67x00/c67x00-sched.c b/drivers/usb/c67x00/c67x00-sched.c
+index e65f1a0ae80b..c7d3e907be81 100644
+--- a/drivers/usb/c67x00/c67x00-sched.c
++++ b/drivers/usb/c67x00/c67x00-sched.c
+@@ -1123,24 +1123,26 @@ static void c67x00_do_work(struct c67x00_hcd *c67x00)
  
- 	if (!desc->wMaxPacketSize) {
--		pr_debug("bdc_gadget_ep_enable missing wMaxPacketSize\n");
-+		pr_debug("%s missing wMaxPacketSize\n", __func__);
- 		return -EINVAL;
- 	}
+ /* -------------------------------------------------------------------------- */
  
+-static void c67x00_sched_tasklet(struct tasklet_struct *t)
++static void c67x00_sched_work(struct work_struct *work)
+ {
+-	struct c67x00_hcd *c67x00 = from_tasklet(c67x00, t, tasklet);
++	struct c67x00_hcd *c67x00;
++
++	c67x00 = container_of(work, struct c67x00_hcd, work);
+ 	c67x00_do_work(c67x00);
+ }
+ 
+ void c67x00_sched_kick(struct c67x00_hcd *c67x00)
+ {
+-	tasklet_hi_schedule(&c67x00->tasklet);
++	queue_work(system_highpri_wq, &c67x00->work);
+ }
+ 
+ int c67x00_sched_start_scheduler(struct c67x00_hcd *c67x00)
+ {
+-	tasklet_setup(&c67x00->tasklet, c67x00_sched_tasklet);
++	INIT_WORK(&c67x00->work, c67x00_sched_work);
+ 	return 0;
+ }
+ 
+ void c67x00_sched_stop_scheduler(struct c67x00_hcd *c67x00)
+ {
+-	tasklet_kill(&c67x00->tasklet);
++	cancel_work_sync(&c67x00->work);
+ }
 -- 
-2.18.0
+2.26.2
 
