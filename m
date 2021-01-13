@@ -2,80 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED48AC433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 11:22:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDB8C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 11:41:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A60CF2339F
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 11:22:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C946B233ED
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 11:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728179AbhAMLWK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 06:22:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40966 "EHLO mx2.suse.de"
+        id S1725770AbhAMLlI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 06:41:08 -0500
+Received: from mga12.intel.com ([192.55.52.136]:11586 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbhAMLVq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 13 Jan 2021 06:21:46 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 408ADAEE0;
-        Wed, 13 Jan 2021 11:21:04 +0000 (UTC)
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Paul Zimmerman <Paul.Zimmerman@synopsys.com>,
-        Felipe Balbi <balbi@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Hudson <skrll@netbsd.org>, linux-usb@vger.kernel.org
-Cc:     linux@roeck-us.net, dianders@chromium.org, hminas@synopsys.com,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] usb: dwc2: Fixes and improvements
-Date:   Wed, 13 Jan 2021 12:20:48 +0100
-Message-Id: <20210113112052.17063-1-nsaenzjulienne@suse.de>
-X-Mailer: git-send-email 2.29.2
+        id S1725372AbhAMLlH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 13 Jan 2021 06:41:07 -0500
+IronPort-SDR: 0i/DJgzDG2v72HNx/gP4SEJejiEDICLZHB/KkUkUET9U+x6OXX4BvavmY/zXEuj0XG4JoPUmGx
+ s+APbaj6DHKg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="157372307"
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
+   d="scan'208";a="157372307"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2021 03:39:22 -0800
+IronPort-SDR: F4QfWDhQmMVhm/NBOenRV64v/39JG/j8AwMg5wJsMkCr3vaTbrJI8I9ozWX/mELeduZ0GDaAIM
+ BGP8qV/wx+OA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
+   d="scan'208";a="464880901"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 13 Jan 2021 03:39:19 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 13 Jan 2021 13:39:18 +0200
+Date:   Wed, 13 Jan 2021 13:39:18 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] software node: Introduce
+ device_add_software_node()
+Message-ID: <20210113113918.GA2584629@kuha.fi.intel.com>
+References: <20210111141045.14027-1-heikki.krogerus@linux.intel.com>
+ <20210111141045.14027-2-heikki.krogerus@linux.intel.com>
+ <2f552de5-4839-a1e5-3012-c56f9fa3bdd5@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2f552de5-4839-a1e5-3012-c56f9fa3bdd5@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I'm picking up this series by Guenter Roeck as he stated he has no time
-for it ATM. It was found to solve some unaligned DMA access issues on
-Raspberry Pi 3. You can find the original discussion here:
-https://lore.kernel.org/linux-usb/20200226210414.28133-1-linux@roeck-us.net/
+Hi Daniel,
 
-I removed the fist patch from the original series as it turned out to be
-contententious and needs more in-depth testing. Following is the edited
-origin series description. Note that extra testing was performed on
-RPi3:
+On Wed, Jan 13, 2021 at 12:40:03AM +0000, Daniel Scally wrote:
+> Hi Heikki
+> 
+> On 11/01/2021 14:10, Heikki Krogerus wrote:
+> > This helper will register a software node and then assign
+> > it to device at the same time. The function will also make
+> > sure that the device can't have more than one software node.
+> > 
+> > Tested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > ---
+> 
+> I like this change. One comment below, but for what it's worth:
+> 
+> Reviewed-by: Daniel Scally <djrscally@gmail.com>
 
-"This series addresses the following problems:
+Thanks!
 
-- Fix receive transfers with 0 byte transfer length
-- Abort transactions after unknown receive errors
-  if the receive buffer is full
-- Reduce "trimming xfer length" logging noise
+> > +/**
+> > + * device_remove_software_node - Remove device's software node
+> > + * @dev: The device with the software node.
+> > + *
+> > + * This function will unregister the software node of @dev.
+> > + */
+> > +void device_remove_software_node(struct device *dev)
+> > +{
+> > +	struct swnode *swnode;
+> > +
+> > +	swnode = dev_to_swnode(dev);
+> > +	if (!swnode)
+> > +		return;
+> > +
+> > +	kobject_put(&swnode->kobj);
+> > +}
+> > +EXPORT_SYMBOL_GPL(device_remove_software_node);
+> 
+> I wonder if this also ought to set dev_fwnode(dev)->secondary back to
+> ERR_PTR(-ENODEV)?
 
-The problems fixed with this series were observed when connecting
-a DM9600 Ethernet adapter to Veyron Chromebooks such as the ASUS
-Chromebook C201PA. The series was tested extensively with this and
-other adapters.
-
-The observed problems are also reported when tethering various
-phones, so test coverage with such phones would be very appreciated."
-
----
-
-Guenter Roeck (3):
-  usb: dwc2: Do not update data length if it is 0 on inbound transfers
-  usb: dwc2: Abort transaction after errors with unknown reason
-  usb: dwc2: Make "trimming xfer length" a debug message
-
- drivers/usb/dwc2/hcd.c      | 15 ++++++++-------
- drivers/usb/dwc2/hcd_intr.c | 14 +++++++++++++-
- 2 files changed, 21 insertions(+), 8 deletions(-)
+We can't do that here unfortunately. Other places still have a
+reference to the swnode at this point and they may still need to
+access it using the dev_fwnode(dev)->secondary pointer.
 
 -- 
-2.29.2
-
+heikki
