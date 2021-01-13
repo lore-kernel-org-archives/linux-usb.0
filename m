@@ -8,261 +8,108 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C81FEC433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:21:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5F1C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 17:53:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 763BD23339
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 16:21:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A64012343F
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 17:53:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbhAMQU4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 11:20:56 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47493 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727207AbhAMQUz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 11:20:55 -0500
-X-Greylist: delayed 386 seconds by postgrey-1.27 at vger.kernel.org; Wed, 13 Jan 2021 11:20:53 EST
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id zimDkKApjAiIczimGkeE1o; Wed, 13 Jan 2021 17:13:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1610554425; bh=HzrXUilug86PLx1Vw8PZd+vVdhpakB6XRCIlfqxWffA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=eMdbUMTlQ5fjxDK5qjM0B3ZvLHCL54r7qmaSKEhictc0sXWCNB04tIym5sTKWU9Jn
-         S4IJQYeJt9j7NsQAltsJN0gAHR27UsglLLs7Z7Qedi2NqYQcUL4825aSBA+bWujY4k
-         EyDzPcE8z94FiLwJbO1frwM08iIo+7CgDPxc+ZJ/aq8eteyyzbj1q3Efji2i2pL7+P
-         P7vWEhgG/oTw8LRrbj/OVPf9wm0prTebfRtlufp5OxKPn6O8q0CPiLwFxDY8P/imRw
-         u70fetlUUushTvx59YdzvvSIJYV+PUbHmz1iZj5iFVW/BsJxOVVTkFSzpQ42Z32Ntu
-         FRj9aKEoYEjjg==
-Subject: Re: [PATCH] media: zr364xx: fix memory leaks in probe()
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Antoine Jacquet <royale@zerezo.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-References: <X/WMfVDCsxRghKHH@mwanda>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <196887f5-677f-0aeb-5f5c-fb4a918d6128@xs4all.nl>
-Date:   Wed, 13 Jan 2021 17:13:41 +0100
+        id S1728007AbhAMRxX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 12:53:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727984AbhAMRxX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 12:53:23 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B396FC061575;
+        Wed, 13 Jan 2021 09:52:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=g97u/LLEJ1YBimCAOlC5uc788cogRUnQO844OVvNDss=; b=DgcoOLZPgBiUJLGzw/INrHwqey
+        FzdDNVSIqBba3vN4w8qyAJW9DLvDxUhEq37VKYLT204nN3wJyaLQSERzaKqvNe+KNWwMrp6tRyaBA
+        vpbbdDM2fgvWaOKCmVjqNAb/PiGgHCto6g10V8SNB4n0zG0gmvXQ98ISX3LAbQ67NHcGYe6eco8Kd
+        +LR0dDs/lHsS+yXsyArrxlmRIoBI+GCc0ZXIcRzvUNS6ahtyKhglNmQInd1MjtT9MGTbR/WTr/ljX
+        sG8Wn2EHzd8Hu3DESlkmJ4TZXNzACBy91rgACGfq0aBoxBaUtVI8HFMohJZogCMrSAUOVgI8cethe
+        q5myGCPA==;
+Received: from [2601:1c0:6280:3f0::9abc]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kzkJy-0005q0-2j; Wed, 13 Jan 2021 17:52:38 +0000
+Subject: Re: [PATCH v2] usb: cdnsp: fixes undefined reference to cdns_remove
+To:     Pawel Laszczak <pawell@cadence.com>, peter.chen@nxp.com
+Cc:     a-govindraju@ti.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kurahul@cadence.com, geert@linux-m68k.org
+References: <20210113141407.25473-1-pawell@cadence.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <13f338f1-9ba9-c848-0b75-10e73e8c6a7d@infradead.org>
+Date:   Wed, 13 Jan 2021 09:52:30 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <X/WMfVDCsxRghKHH@mwanda>
+In-Reply-To: <20210113141407.25473-1-pawell@cadence.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDXh2XWp6fTGeyDWm3kbeTQQ3axRB7wBD3Y4RGogQGVoH/5MrSX/GpUR0Gm9U6r/pqcSNsUghVzESuyjFfq0uRB2XtdVPhJgaBnOqBrxSiw1prrKH5sa
- j9EBAgbwD7DEi9DsqDitffkj+6hAhrnG+XR6QR2a5I2A8re+QCbkENsP2z6IuGO00nbLsJ0T0DY1lohKUQCa7Owst048gVtgdKnv7TSKCsuJj4PGLHW2Novi
- yGUtyWuY93nWdBzF/iSzXGJsak5XQBtWNtMC0q2rsmkgeZOnn2GMDF6P3psAkxT2ZMMjVS5qUoTPeytevqqwDLgKiRNPkyKFd5FkdcbT/82KvbtL0gCHTVBM
- Q8I2ksbniHXAORxnDJYK9+O4/crQujL04tSt3wUmTkbPwopf5/YW0q5SAA2s+hZIxiLlPEGySkuWuqBabrjR4jvpyBNZG/WsiJFv5qhsQJEZnyR197Nu3pP2
- h6L2ONjqLmjcSVt1m6DQ+UdBI0L8c8CYTk+0dwl40zlQeGR5E5cORXyTSI/yoUAmu5/y6XqNqpv6lFRfbJkBoBtmcyZTBSHfhN9Rm1P33MI4HOeQAdjBbD6O
- VRA=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Dan,
+On 1/13/21 6:14 AM, Pawel Laszczak wrote:
+> Patch fixes the following errors:
+> ld: drivers/usb/cdns3/cdnsp-pci.o: in function `cdnsp_pci_remove':
+> cdnsp-pci.c:(.text+0x80): undefined reference to `cdns_remove'
+> ld: drivers/usb/cdns3/cdnsp-pci.o: in function `cdnsp_pci_probe':
+> cdnsp-pci.c:(.text+0x34c): undefined reference to `cdns_init'
+> 
+> Issue occurs for USB/CDNS3/CDNSP kernel configuration:
+> CONFIG_USB=m
+> CONFIG_USB_CDNS_SUPPORT=y
+> CONFIG_USB_CDNS3=m
+> CONFIG_USB_CDNS3_PCI_WRAP=m
+> CONFIG_USB_CDNSP_PCI=y
+> 
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 
-On 06/01/2021 11:10, Dan Carpenter wrote:
-> Syzbot discovered that the probe error handling doesn't clean up the
-> resources allocated in zr364xx_board_init().  There are several
-> related bugs in this code so I have re-written the error handling.
-> 
-> 1)  Introduce a new function zr364xx_board_uninit() which cleans up
->     the resources in zr364xx_board_init().
-> 2)  In zr364xx_board_init() if the call to zr364xx_start_readpipe()
->     fails then release the "cam->buffer.frame[i].lpvbits" memory
->     before returning.  This way every function either allocates
->     everything successfully or it cleans up after itself.
-> 3)  Re-write the probe function so that each failure path goto frees
->     the most recent allocation.  That way we don't free anything
->     before it has been allocated and we can also verify that
->     everything is freed.
-> 4)  Originally, in the probe function the "cam->v4l2_dev.release"
->     pointer was set to "zr364xx_release" near the start but I moved
->     that assignment to the end, after everything had succeeded.  The
->     release function was never actually called during the probe cleanup
->     process, but with this change I wanted to make it clear that we
->     don't want to call zr364xx_release() until everything is
->     allocated successfully.
-> 
-> Next I re-wrote the zr364xx_release() function.  Ideally this would
-> have been a simple matter of copy and pasting the cleanup code from
-> probe and adding an additional call to video_unregister_device().  But
-> there are several quirks to note.
-> 
-> 1)  The original code never called video_unregister_device().  In other
->     words, this is an additional bugfix.
+After removing the v1 patch and applying this one, my build errors are gone.
+Thanks.
 
-Not a bug, see below.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-> 2)  The probe function does not call videobuf_mmap_free() and I don't
->     know where the videobuf_mmap is allocated.  I left the code as-is to
->     avoid introducing a bug in code I don't understand.
-> 3)  The zr364xx_board_uninit() has a call to zr364xx_stop_readpipe()
->     which is a change from the original behavior with regards to
->     unloading the driver.  Calling zr364xx_stop_readpipe() on a stopped
->     pipe is not a problem so this is safe and is potentially a bugfix.
-> 
-> Reported-by: syzbot+b4d54814b339b5c6bbd4@syzkaller.appspotmail.com
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > ---
->  drivers/media/usb/zr364xx/zr364xx.c | 50 ++++++++++++++++++-----------
->  1 file changed, 32 insertions(+), 18 deletions(-)
+> changelog:
+> v2
+> - added missing condition
 > 
-> diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-> index 1e1c6b4d1874..62a232f995a7 100644
-> --- a/drivers/media/usb/zr364xx/zr364xx.c
-> +++ b/drivers/media/usb/zr364xx/zr364xx.c
-> @@ -1181,15 +1181,11 @@ static int zr364xx_open(struct file *file)
->  	return err;
->  }
+>  drivers/usb/cdns3/Makefile | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/usb/cdns3/Makefile b/drivers/usb/cdns3/Makefile
+> index 3f9b7fa8a594..61edb2f89276 100644
+> --- a/drivers/usb/cdns3/Makefile
+> +++ b/drivers/usb/cdns3/Makefile
+> @@ -26,7 +26,15 @@ obj-$(CONFIG_USB_CDNS3_TI)			+= cdns3-ti.o
+>  obj-$(CONFIG_USB_CDNS3_IMX)			+= cdns3-imx.o
 >  
-> -static void zr364xx_release(struct v4l2_device *v4l2_dev)
-> +static void zr364xx_board_uninit(struct zr364xx_camera *cam)
->  {
-> -	struct zr364xx_camera *cam =
-> -		container_of(v4l2_dev, struct zr364xx_camera, v4l2_dev);
->  	unsigned long i;
->  
-> -	v4l2_device_unregister(&cam->v4l2_dev);
-> -
-> -	videobuf_mmap_free(&cam->vb_vidq);
-> +	zr364xx_stop_readpipe(cam);
->  
->  	/* release sys buffers */
->  	for (i = 0; i < FRAMES; i++) {
-> @@ -1200,9 +1196,20 @@ static void zr364xx_release(struct v4l2_device *v4l2_dev)
->  		cam->buffer.frame[i].lpvbits = NULL;
->  	}
->  
-> -	v4l2_ctrl_handler_free(&cam->ctrl_handler);
->  	/* release transfer buffer */
->  	kfree(cam->pipe->transfer_buffer);
-> +}
+>  cdnsp-udc-pci-y					:= cdnsp-pci.o
 > +
-> +static void zr364xx_release(struct v4l2_device *v4l2_dev)
-> +{
-> +	struct zr364xx_camera *cam =
-> +		container_of(v4l2_dev, struct zr364xx_camera, v4l2_dev);
+> +ifdef CONFIG_USB_CDNSP_PCI
+> +ifeq ($(CONFIG_USB),m)
+> +obj-m						+= cdnsp-udc-pci.o
+> +else
+>  obj-$(CONFIG_USB_CDNSP_PCI) 			+= cdnsp-udc-pci.o
+> +endif
+> +endif
 > +
-> +	videobuf_mmap_free(&cam->vb_vidq);
-> +	video_unregister_device(&cam->vdev);
-
-video_unregister_device() is called in the disconnect function, so calling it again
-here is wrong (it detects that the video device is already unregistered, so this
-effectively is a NOP).
-
-I have tested this patch with an actual zr364xx device without this line and it works
-fine. So you can add my:
-
-Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-for a v2 without this spurious video_unregister_device().
-
-The v4l2_dev.release() callback is called when all video devices are unregistered
-and when all open filehandles to those video devices are closed, i.e. it is called
-when the very last user is gone.
-
-Regards,
-
-	Hans
-
-> +	v4l2_ctrl_handler_free(&cam->ctrl_handler);
-> +	zr364xx_board_uninit(cam);
-> +	v4l2_device_unregister(&cam->v4l2_dev);
->  	kfree(cam);
->  }
+>  cdnsp-udc-pci-$(CONFIG_USB_CDNSP_GADGET)	+= cdnsp-ring.o cdnsp-gadget.o \
+>  						   cdnsp-mem.o cdnsp-ep0.o
 >  
-> @@ -1376,11 +1383,14 @@ static int zr364xx_board_init(struct zr364xx_camera *cam)
->  	/* start read pipe */
->  	err = zr364xx_start_readpipe(cam);
->  	if (err)
-> -		goto err_free;
-> +		goto err_free_frames;
->  
->  	DBG(": board initialized\n");
->  	return 0;
->  
-> +err_free_frames:
-> +	for (i = 0; i < FRAMES; i++)
-> +		vfree(cam->buffer.frame[i].lpvbits);
->  err_free:
->  	kfree(cam->pipe->transfer_buffer);
->  	cam->pipe->transfer_buffer = NULL;
-> @@ -1409,12 +1419,10 @@ static int zr364xx_probe(struct usb_interface *intf,
->  	if (!cam)
->  		return -ENOMEM;
->  
-> -	cam->v4l2_dev.release = zr364xx_release;
->  	err = v4l2_device_register(&intf->dev, &cam->v4l2_dev);
->  	if (err < 0) {
->  		dev_err(&udev->dev, "couldn't register v4l2_device\n");
-> -		kfree(cam);
-> -		return err;
-> +		goto free_cam;
->  	}
->  	hdl = &cam->ctrl_handler;
->  	v4l2_ctrl_handler_init(hdl, 1);
-> @@ -1423,7 +1431,7 @@ static int zr364xx_probe(struct usb_interface *intf,
->  	if (hdl->error) {
->  		err = hdl->error;
->  		dev_err(&udev->dev, "couldn't register control\n");
-> -		goto fail;
-> +		goto unregister;
->  	}
->  	/* save the init method used by this camera */
->  	cam->method = id->driver_info;
-> @@ -1496,7 +1504,7 @@ static int zr364xx_probe(struct usb_interface *intf,
->  	if (!cam->read_endpoint) {
->  		err = -ENOMEM;
->  		dev_err(&intf->dev, "Could not find bulk-in endpoint\n");
-> -		goto fail;
-> +		goto unregister;
->  	}
->  
->  	/* v4l */
-> @@ -1507,10 +1515,11 @@ static int zr364xx_probe(struct usb_interface *intf,
->  
->  	/* load zr364xx board specific */
->  	err = zr364xx_board_init(cam);
-> -	if (!err)
-> -		err = v4l2_ctrl_handler_setup(hdl);
->  	if (err)
-> -		goto fail;
-> +		goto unregister;
-> +	err = v4l2_ctrl_handler_setup(hdl);
-> +	if (err)
-> +		goto board_uninit;
->  
->  	spin_lock_init(&cam->slock);
->  
-> @@ -1525,16 +1534,21 @@ static int zr364xx_probe(struct usb_interface *intf,
->  	err = video_register_device(&cam->vdev, VFL_TYPE_VIDEO, -1);
->  	if (err) {
->  		dev_err(&udev->dev, "video_register_device failed\n");
-> -		goto fail;
-> +		goto free_handler;
->  	}
-> +	cam->v4l2_dev.release = zr364xx_release;
->  
->  	dev_info(&udev->dev, DRIVER_DESC " controlling device %s\n",
->  		 video_device_node_name(&cam->vdev));
->  	return 0;
->  
-> -fail:
-> +free_handler:
->  	v4l2_ctrl_handler_free(hdl);
-> +board_uninit:
-> +	zr364xx_board_uninit(cam);
-> +unregister:
->  	v4l2_device_unregister(&cam->v4l2_dev);
-> +free_cam:
->  	kfree(cam);
->  	return err;
->  }
 > 
 
+
+-- 
+~Randy
+You can't do anything without having to do something else first.
+-- Belefant's Law
