@@ -2,292 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5BF6C43381
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8845BC4332D
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 02:03:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 921552343E
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 01:58:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5775523447
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 02:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728307AbhANB6N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 20:58:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43810 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729566AbhAMXnV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 18:43:21 -0500
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3102FC061575
-        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 15:42:29 -0800 (PST)
-Received: by mail-qk1-x74a.google.com with SMTP id l138so2895495qke.4
-        for <linux-usb@vger.kernel.org>; Wed, 13 Jan 2021 15:42:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=0r3B8eTwYCB8pf4+wZLM/Wl3Cy6lSUjOGNDawS3+VY4=;
-        b=Bh9eyjD54vV5Bsh2jWYs8Y7YEJL3B7StYIBU5r057tJvx9Wn2tM8Bsymd8TK47yPGG
-         OmqSjPEt4/0OpIdz5wSobGlJBKPHgONVRtISfOccETPpBUX7Pi0SD8XDZM8gT8WDGjev
-         3lQzGR3XTS2COEcEEDymsM51e7NR08TIIva6jD9nZSc9QwZQmcs4JMMuGtDHPKCq5MiC
-         fKU79hmLZfJZOpT5U3MVriY+rrtSCtSudwxpZN+EiuqtSAr6UQ3aesU5iS4s1ac4gQLy
-         cw3z0LrLDdhZzhSvkmT2cNSfe8BfYYljfMO0DUsITq69f3UI5CTFRWnVTLExZU0kiVjo
-         XBdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=0r3B8eTwYCB8pf4+wZLM/Wl3Cy6lSUjOGNDawS3+VY4=;
-        b=HCfXCOSdGcC8R6EKRk+/aOQnJ3oTZzngNQJB/2UUzIszZFHFE0iURXaXP6cYTvT36y
-         +i4SLpfgXHc+Wj/2PZuA4J/ntmfqidz/ZLwDpMR+T3h2+fru2rYgbuMrwj16iDN1pKVE
-         XqW/6BW4fx2o4Kg2onOl71pavJ+hhNzOMROMzhnDLG3ClgNQpR5UoWQo9gFEkIIX1Jdp
-         aMMnT3M9cM5QkEHgJn3DDwGQ+X9zDv8RImFgVReKO+pFPZIE5PeXYi3/8QT7zc18E6QR
-         O8m+4WA+/WmiWBxFTRVn0wYNKVZP6f4qNuSNe3CblcL2q8CSFgELRbBSxJQWXFnIcYUy
-         Yh6g==
-X-Gm-Message-State: AOAM532Sr3dD8oE+2WSDec7tufT2CCHtDRMS2KtzIABQ/07xmwwZbsC4
-        d+3yT7CyosA8CRdqRwxchncSzlxKqVRglDukndtM3tcDxaV9PH4tZP1klPD2ZGQMPjjT9PR1g7X
-        g8rHCSnJE+0fATsHHobVODh5bTbfbMwu6pWm24Lg6+HUnt8ecxktKQo7x0OOTNV639Ki6
-X-Google-Smtp-Source: ABdhPJwTBwLyP0VRFm/UnMUEWnLqYIrY2dM3i4v/TsnxxnsoyzY4vdUJn2n62Z3VOPsZ5BYkcGeC1YdB7F1c
-Sender: "lorenzo via sendgmr" <lorenzo@drone.tok.corp.google.com>
-X-Received: from drone.tok.corp.google.com ([2401:fa00:8f:2:a6ae:11ff:fe18:6f64])
- (user=lorenzo job=sendgmr) by 2002:a25:5f06:: with SMTP id
- t6mr5887937ybb.136.1610581348272; Wed, 13 Jan 2021 15:42:28 -0800 (PST)
-Date:   Thu, 14 Jan 2021 08:42:22 +0900
-Message-Id: <20210113234222.3272933-1-lorenzo@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH v3] usb: gadget: u_ether: support configuring interface names.
-From:   Lorenzo Colitti <lorenzo@google.com>
-To:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-        balbi@kernel.org
-Cc:     zenczykowski@gmail.com, Lorenzo Colitti <lorenzo@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1729809AbhANCCG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 21:02:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50594 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727932AbhAMXWd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 13 Jan 2021 18:22:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C0232339D;
+        Wed, 13 Jan 2021 23:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1610580060;
+        bh=DjPgudHbrnHAGcPGdkrf9UfBtWEcCS9KiLS476ze6qA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XyBmY50wB5phYVMcRm3FMAMiQ1KgmcQP6WqXSqqi7eTaACdd5Q7Q0aUwMvEa5PH+g
+         pQswJX2kbhdgg+vFwxZ+m21qpYKJ71XJVVyFibOMVrYa65IQnfR5m62wxYq5OKKInt
+         /AsY/67mvjlMBfKD2KB3zCenYvYT9G57fps6myOuhXcDiUorWv4aMdhwh2pskTBbQE
+         HiYt4v5Dpsd/J65Rp30w39ppSImgsU1/LM3ZGIGzCmC/QNcZ8FbXmnz1ip+Ca2L7zX
+         RrsFfBmyPvpXtobOrVV8AVsSQvXt+eYgC/PghNzqtyD285NoFEoDSH14Vyo2D0rKOs
+         Q/egy6ur/qvMw==
+Received: by pali.im (Postfix)
+        id D06427C5; Thu, 14 Jan 2021 00:20:57 +0100 (CET)
+Date:   Thu, 14 Jan 2021 00:20:57 +0100
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jun Li <jun.li@nxp.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] usb: host: xhci-plat: fix support for
+ XHCI_SKIP_PHY_INIT quirk
+Message-ID: <20210113232057.niqamgsqlaw7gojw@pali>
+References: <20201221150903.26630-1-pali@kernel.org>
+ <20201223161847.10811-1-pali@kernel.org>
+ <20201224055836.GB27629@b29397-desktop>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201224055836.GB27629@b29397-desktop>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch allows the administrator to configure the interface
-name of a function using u_ether (e.g., eem, ncm, rndis).
+On Thursday 24 December 2020 05:59:05 Peter Chen wrote:
+> On 20-12-23 17:18:47, Pali Rohár wrote:
+> > Currently init_quirk callbacks for xhci platform drivers are called
+> > xhci_plat_setup() function which is called after chip reset completes.
+> > It happens in the middle of the usb_add_hcd() function.
+> > 
+> > But XHCI_SKIP_PHY_INIT quirk is checked in the xhci_plat_probe() function
+> > prior calling usb_add_hcd() function. Therefore this XHCI_SKIP_PHY_INIT
+> > currently does nothing as prior xhci_plat_setup() it is not set.
+> > 
+> > Quirk XHCI_SKIP_PHY_INIT is only setting hcd->skip_phy_initialization value
+> > which really needs to be set prior calling usb_add_hcd() as this function
+> > at its beginning skips PHY init if this member is set.
+> > 
+> > This patch fixes implementation of the XHCI_SKIP_PHY_INIT quirk by calling
+> > init_quirk callbacks (via xhci_priv_init_quirk()) prior checking if
+> > XHCI_SKIP_PHY_INIT is set. Also checking if either xhci->quirks or
+> > priv->quirks contains this XHCI_SKIP_PHY_INIT quirk.
+> > 
+> > Signed-off-by: Pali Rohár <pali@kernel.org>
+> > 
+> > ---
+> > Changes in v2:
+> > * Check also xhci->quirks as xhci_priv_init_quirk() callbacks are setting xhci->quirks
+> > * Tested with "usb: host: xhci: mvebu: make USB 3.0 PHY optional for Armada 3720" patch
+> > * Removed Fixes: line
+> > ---
+> >  drivers/usb/host/xhci-plat.c | 16 ++++++++--------
+> >  1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+> > index 4d34f6005381..0eab7cb5a767 100644
+> > --- a/drivers/usb/host/xhci-plat.c
+> > +++ b/drivers/usb/host/xhci-plat.c
+> > @@ -89,13 +89,6 @@ static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
+> >  /* called during probe() after chip reset completes */
+> >  static int xhci_plat_setup(struct usb_hcd *hcd)
+> >  {
+> > -	int ret;
+> > -
+> > -
+> > -	ret = xhci_priv_init_quirk(hcd);
+> > -	if (ret)
+> > -		return ret;
+> > -
+> >  	return xhci_gen_setup(hcd, xhci_plat_quirks);
+> >  }
+> >  
+> > @@ -330,7 +323,14 @@ static int xhci_plat_probe(struct platform_device *pdev)
+> >  
+> >  	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
+> >  	xhci->shared_hcd->tpl_support = hcd->tpl_support;
+> > -	if (priv && (priv->quirks & XHCI_SKIP_PHY_INIT))
+> > +
+> > +	if (priv) {
+> > +		ret = xhci_priv_init_quirk(hcd);
+> > +		if (ret)
+> > +			goto disable_usb_phy;
+> > +	}
+> > +
+> > +	if ((xhci->quirks & XHCI_SKIP_PHY_INIT) || (priv && (priv->quirks & XHCI_SKIP_PHY_INIT)))
+> >  		hcd->skip_phy_initialization = 1;
+> 
+> I am not sure if others agree with you move the position of
+> xhci_priv_init_quirk, Let's see Mathias opinion.
 
-Currently, all such interfaces, regardless of function type, are
-always called usb0, usb1, etc. This makes it very cumbersome to
-use more than one such type at a time, because userspace cannnot
-easily tell the interfaces apart and apply the right
-configuration to each one. Interface renaming in userspace based
-on driver doesn't help, because the interfaces all have the same
-driver. Without this patch, doing this require hacks/workarounds
-such as setting fixed MAC addresses on the functions, and then
-renaming by MAC address, or scraping configfs after each
-interface is created to find out what it is.
-
-Setting the interface name is done by writing to the same
-"ifname" configfs attribute that reports the interface name after
-the function is bound. The write must contain an interface
-pattern such as "usb%d" (which will cause the net core to pick
-the next available interface name starting with "usb").
-This patch does not allow writing an exact interface name (as
-opposed to a pattern) because if the interface already exists at
-bind time, the bind will fail and the whole gadget will fail to
-activate. This could be allowed in a future patch.
-
-For compatibility with current userspace, when reading an ifname
-that has not currently been set, the result is still "(unnamed
-net_device)". Once a write to ifname happens, then reading ifname
-will return whatever was last written.
-
-Tested by configuring an rndis function and an ncm function on
-the same gadget, and writing "rndis%d" to ifname on the rndis
-function and "ncm%d" to ifname on the ncm function. When the
-gadget was bound, the rndis interface was rndis0 and the ncm
-interface was ncm0.
-
-Signed-off-by: Lorenzo Colitti <lorenzo@google.com>
----
- Documentation/usb/gadget-testing.rst          | 30 ++++++++---------
- drivers/usb/gadget/function/u_ether.c         | 33 ++++++++++++++++++-
- drivers/usb/gadget/function/u_ether.h         | 12 +++++++
- .../usb/gadget/function/u_ether_configfs.h    | 15 ++++++++-
- 4 files changed, 73 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 2eeb3e9299e4..2085e7b24eeb 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -91,9 +91,9 @@ The ECM function provides these attributes in its function directory:
- 
- and after creating the functions/ecm.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
--Except for ifname they can be written to until the function is linked to a
--configuration. The ifname is read-only and contains the name of the interface
--which was assigned by the net core, e. g. usb0.
-+The ifname can be written to if the function is not bound. A write must be an
-+interface pattern such as "usb%d", which will cause the net core to choose the
-+next free usbX interface. By default, it is set to "usb%d".
- 
- Testing the ECM function
- ------------------------
-@@ -131,9 +131,9 @@ The ECM subset function provides these attributes in its function directory:
- 
- and after creating the functions/ecm.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
--Except for ifname they can be written to until the function is linked to a
--configuration. The ifname is read-only and contains the name of the interface
--which was assigned by the net core, e. g. usb0.
-+The ifname can be written to if the function is not bound. A write must be an
-+interface pattern such as "usb%d", which will cause the net core to choose the
-+next free usbX interface. By default, it is set to "usb%d".
- 
- Testing the ECM subset function
- -------------------------------
-@@ -171,9 +171,9 @@ The EEM function provides these attributes in its function directory:
- 
- and after creating the functions/eem.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
--Except for ifname they can be written to until the function is linked to a
--configuration. The ifname is read-only and contains the name of the interface
--which was assigned by the net core, e. g. usb0.
-+The ifname can be written to if the function is not bound. A write must be an
-+interface pattern such as "usb%d", which will cause the net core to choose the
-+next free usbX interface. By default, it is set to "usb%d".
- 
- Testing the EEM function
- ------------------------
-@@ -453,9 +453,9 @@ The NCM function provides these attributes in its function directory:
- 
- and after creating the functions/ncm.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
--Except for ifname they can be written to until the function is linked to a
--configuration. The ifname is read-only and contains the name of the interface
--which was assigned by the net core, e. g. usb0.
-+The ifname can be written to if the function is not bound. A write must be an
-+interface pattern such as "usb%d", which will cause the net core to choose the
-+next free usbX interface. By default, it is set to "usb%d".
- 
- Testing the NCM function
- ------------------------
-@@ -591,9 +591,9 @@ The RNDIS function provides these attributes in its function directory:
- 
- and after creating the functions/rndis.<instance name> they contain default
- values: qmult is 5, dev_addr and host_addr are randomly selected.
--Except for ifname they can be written to until the function is linked to a
--configuration. The ifname is read-only and contains the name of the interface
--which was assigned by the net core, e. g. usb0.
-+The ifname can be written to if the function is not bound. A write must be an
-+interface pattern such as "usb%d", which will cause the net core to choose the
-+next free usbX interface. By default, it is set to "usb%d".
- 
- Testing the RNDIS function
- --------------------------
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index c019f2b0c0af..d1d044d9f859 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -80,6 +80,7 @@ struct eth_dev {
- 
- 	bool			zlp;
- 	bool			no_skb_reserve;
-+	bool			ifname_set;
- 	u8			host_mac[ETH_ALEN];
- 	u8			dev_mac[ETH_ALEN];
- };
-@@ -1004,15 +1005,45 @@ EXPORT_SYMBOL_GPL(gether_get_qmult);
- 
- int gether_get_ifname(struct net_device *net, char *name, int len)
- {
-+	struct eth_dev *dev = netdev_priv(net);
- 	int ret;
- 
- 	rtnl_lock();
--	ret = scnprintf(name, len, "%s\n", netdev_name(net));
-+	ret = scnprintf(name, len, "%s\n",
-+			dev->ifname_set ? net->name : netdev_name(net));
- 	rtnl_unlock();
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(gether_get_ifname);
- 
-+int gether_set_ifname(struct net_device *net, const char *name, int len)
-+{
-+	struct eth_dev *dev = netdev_priv(net);
-+	char tmp[IFNAMSIZ];
-+	const char *p;
-+
-+	if (name[len - 1] == '\n')
-+		len--;
-+
-+	if (len >= sizeof(tmp))
-+		return -E2BIG;
-+
-+	strscpy(tmp, name, len + 1);
-+	if (!dev_valid_name(tmp))
-+		return -EINVAL;
-+
-+	/* Require exactly one %d, so binding will not fail with EEXIST. */
-+	p = strchr(name, '%');
-+	if (!p || p[1] != 'd' || strchr(p + 2, '%'))
-+		return -EINVAL;
-+
-+	strncpy(net->name, tmp, sizeof(net->name));
-+	dev->ifname_set = true;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(gether_set_ifname);
-+
- /*
-  * gether_cleanup - remove Ethernet-over-USB device
-  * Context: may sleep
-diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
-index 10dd640684e2..40144546d1b0 100644
---- a/drivers/usb/gadget/function/u_ether.h
-+++ b/drivers/usb/gadget/function/u_ether.h
-@@ -244,6 +244,18 @@ unsigned gether_get_qmult(struct net_device *net);
-  */
- int gether_get_ifname(struct net_device *net, char *name, int len);
- 
-+/**
-+ * gether_set_ifname - set an ethernet-over-usb link interface name
-+ * @net: device representing this link
-+ * @name: new interface name
-+ * @len: length of @name
-+ *
-+ * This sets the interface name of this ethernet-over-usb link.
-+ * A single terminating newline, if any, is ignored.
-+ * Returns zero on success, else negative errno.
-+ */
-+int gether_set_ifname(struct net_device *net, const char *name, int len);
-+
- void gether_cleanup(struct eth_dev *dev);
- 
- /* connect/disconnect is handled by individual functions */
-diff --git a/drivers/usb/gadget/function/u_ether_configfs.h b/drivers/usb/gadget/function/u_ether_configfs.h
-index bd92b5703013..3dfb460908fa 100644
---- a/drivers/usb/gadget/function/u_ether_configfs.h
-+++ b/drivers/usb/gadget/function/u_ether_configfs.h
-@@ -148,7 +148,20 @@ out:									\
- 		return ret;						\
- 	}								\
- 									\
--	CONFIGFS_ATTR_RO(_f_##_opts_, ifname)
-+	static ssize_t _f_##_opts_ifname_store(struct config_item *item, \
-+					       const char *page, size_t len)\
-+	{								\
-+		struct f_##_f_##_opts *opts = to_f_##_f_##_opts(item);	\
-+		int ret = -EBUSY;					\
-+									\
-+		mutex_lock(&opts->lock);				\
-+		if (!opts->refcnt)					\
-+			ret = gether_set_ifname(opts->net, page, len);	\
-+		mutex_unlock(&opts->lock);				\
-+		return ret ?: len;					\
-+	}								\
-+									\
-+	CONFIGFS_ATTR(_f_##_opts_, ifname)
- 
- #define USB_ETHER_CONFIGFS_ITEM_ATTR_U8_RW(_f_, _n_)			\
- 	static ssize_t _f_##_opts_##_n_##_show(struct config_item *item,\
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
-
+Hello! Do you have an opinion how to handle this issue? As currently it
+is needed for another patch which is fixing issue/regression in xhci-mvebu:
+https://lore.kernel.org/linux-usb/20201223162403.10897-1-pali@kernel.org/
