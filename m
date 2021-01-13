@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADEB2C43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1ECDC4332B
 	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 02:49:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9003723120
+	by mail.kernel.org (Postfix) with ESMTP id ACFED2311F
 	for <linux-usb@archiver.kernel.org>; Wed, 13 Jan 2021 02:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728614AbhAMCs6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Jan 2021 21:48:58 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:1846 "EHLO
+        id S1728634AbhAMCs7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Jan 2021 21:48:59 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:31952 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728327AbhAMCs4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 21:48:56 -0500
-X-UUID: fed401ab309c435c8e801da8d84c0691-20210113
-X-UUID: fed401ab309c435c8e801da8d84c0691-20210113
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        with ESMTP id S1728602AbhAMCs7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Jan 2021 21:48:59 -0500
+X-UUID: 2755d58cb4134bf7b49d47969534faa9-20210113
+X-UUID: 2755d58cb4134bf7b49d47969534faa9-20210113
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2033691329; Wed, 13 Jan 2021 10:42:56 +0800
+        with ESMTP id 1659275320; Wed, 13 Jan 2021 10:42:50 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 13 Jan 2021 10:42:54 +0800
+ 15.0.1497.2; Wed, 13 Jan 2021 10:42:48 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 13 Jan 2021 10:42:53 +0800
+ Transport; Wed, 13 Jan 2021 10:42:47 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Felipe Balbi <balbi@kernel.org>
 CC:     Florian Fainelli <f.fainelli@gmail.com>,
@@ -43,22 +43,23 @@ CC:     Florian Fainelli <f.fainelli@gmail.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: [PATCH RESEND v4 10/11] usb: gadget: bdc: fix checkpatch.pl spacing error
-Date:   Wed, 13 Jan 2021 10:42:27 +0800
-Message-ID: <1610505748-30616-10-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH RESEND v4 05/11] usb: gadget: bdc: fix check warning of block comments alignment
+Date:   Wed, 13 Jan 2021 10:42:22 +0800
+Message-ID: <1610505748-30616-5-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1610505748-30616-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1610505748-30616-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 86A3D306D60C2C774488CA8C84741C9DE7B076502D7F56028A047AA0525232EC2000:8
+X-TM-SNTS-SMTP: BCD91CF0E5005D3CE8CAECC4BDB3E6CE2EE9B78D141FBD94DA72A261EC228A0D2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-fix checkpatch.pl error:
-ERROR:SPACING: space prohibited before that ','
+fix the warning:
+  WARNING:BLOCK_COMMENT_STYLE:
+  Block comments should align the * on each line
 
 Cc: Florian Fainelli <f.fainelli@gmail.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
@@ -69,22 +70,68 @@ v4: no changes, but rebase on kernel 5.10-rc1
 v3: add acked-by Florian
 v2: add Cc Florian
 ---
- drivers/usb/gadget/udc/bdc/bdc_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/bdc/bdc.h     | 2 +-
+ drivers/usb/gadget/udc/bdc/bdc_ep.c  | 2 +-
+ drivers/usb/gadget/udc/bdc/bdc_udc.c | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/usb/gadget/udc/bdc/bdc.h b/drivers/usb/gadget/udc/bdc/bdc.h
+index fcba77e42fd1..c0ee735bd887 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc.h
++++ b/drivers/usb/gadget/udc/bdc/bdc.h
+@@ -35,7 +35,7 @@
+ /*
+  * Maximum size of ep0 response buffer for ch9 requests,
+  * the set_sel request uses 6 so far, the max.
+-*/
++ */
+ #define EP0_RESPONSE_BUFF  6
+ /* Start with SS as default */
+ #define EP0_MAX_PKT_SIZE 512
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+index 44f3a122546d..3fb36c8454fc 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+@@ -68,7 +68,7 @@ static void ep_bd_list_free(struct bdc_ep *ep, u32 num_tabs)
+ 		 * check if the bd_table struct is allocated ?
+ 		 * if yes, then check if bd memory has been allocated, then
+ 		 * free the dma_pool and also the bd_table struct memory
+-		*/
++		 */
+ 		bd_table = bd_list->bd_table_array[index];
+ 		dev_dbg(bdc->dev, "bd_table:%p index:%d\n", bd_table, index);
+ 		if (!bd_table) {
 diff --git a/drivers/usb/gadget/udc/bdc/bdc_udc.c b/drivers/usb/gadget/udc/bdc/bdc_udc.c
-index 0c1ab9548786..5ac0ef88334e 100644
+index 248426a3e88a..0c1ab9548786 100644
 --- a/drivers/usb/gadget/udc/bdc/bdc_udc.c
 +++ b/drivers/usb/gadget/udc/bdc/bdc_udc.c
-@@ -530,7 +530,7 @@ int bdc_udc_init(struct bdc *bdc)
- 
- 	bdc->gadget.name = BRCM_BDC_NAME;
- 	ret = devm_request_irq(bdc->dev, bdc->irq, bdc_udc_interrupt,
--				IRQF_SHARED , BRCM_BDC_NAME, bdc);
-+				IRQF_SHARED, BRCM_BDC_NAME, bdc);
+@@ -164,7 +164,7 @@ static void bdc_func_wake_timer(struct work_struct *work)
+ 	/*
+ 	 * Check if host has started transferring on endpoints
+ 	 * FUNC_WAKE_ISSUED is cleared when transfer has started after resume
+-	*/
++	 */
+ 	if (bdc->devstatus & FUNC_WAKE_ISSUED) {
+ 		dev_dbg(bdc->dev, "FUNC_WAKE_ISSUED FLAG IS STILL SET\n");
+ 		/* flag is still set, so again send func wake */
+@@ -205,7 +205,7 @@ static void handle_link_state_change(struct bdc *bdc, u32 uspc)
+ 				 * if not then send function wake again every
+ 				 * TNotification secs until host initiates
+ 				 * transfer to BDC, USB3 spec Table 8.13
+-				*/
++				 */
+ 				schedule_delayed_work(
+ 						&bdc->func_wake_notify,
+ 						msecs_to_jiffies(BDC_TNOTIFY));
+@@ -379,7 +379,7 @@ static int bdc_udc_start(struct usb_gadget *gadget,
+ 	 * Run the controller from here and when BDC is connected to
+ 	 * Host then driver will receive a USPC SR with VBUS present
+ 	 * and then driver will do a softconnect.
+-	*/
++	 */
+ 	ret = bdc_run(bdc);
  	if (ret) {
- 		dev_err(bdc->dev,
- 			"failed to request irq #%d %d\n",
+ 		dev_err(bdc->dev, "%s bdc run fail\n", __func__);
 -- 
 2.18.0
 
