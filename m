@@ -2,52 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2142C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 06:27:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B212C433E9
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 06:27:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B03BB2395C
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 06:27:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21827238E7
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 06:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbhANG0s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726924AbhANG0s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 14 Jan 2021 01:26:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45376 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:45374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726199AbhANG0r (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1726882AbhANG0r (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 14 Jan 2021 01:26:47 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 130582395B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11602238E7;
         Thu, 14 Jan 2021 06:26:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610605567;
-        bh=42C0pdj5Y949qvNInjCRVOhKPbX/Y0ICcm1eaq7sGx0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=KpWxmgAQaWasCB8P/NGyzyeEO0mxJfq+97d0aGBsc8Ka75pqUpwdy6CiB8xbfb2D2
-         8TCsZI/UwKSuBo88NvgC7oKlDSExX4i7dQ2SyvRFUBSt4YgjTVCGxqeVPzt5is8t/k
-         /lwa/+sMXPWMY+AqFfCkLdDtCJoGrZ/iWOCUzxsty6lsg0c0/DhHKibgAC37e2AsQ4
-         NmOLtGKWvRulS7WvlY84ssOW1FUYmDKdnwzB+NBJRh1mOJ/siJr7fErBMbVxN2ZGUi
-         6pblfeIdeMEEgKpNVLw4Hqb5z9BKHKSuTtziEpi5lIeHUKHMLC8LJ3aL9vvGR9tmi4
-         E0WeU0Sx5BGIQ==
+        bh=bK/dLNM7Vog121qYXM4GcqzdLhmfDEMXzDwUKOT9i8M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=fu0n6AhEZS3CUyI4s4FezlFOCXRCeJjSndghs/fTZHZZSgaa1slZdnVerlYCrd8cx
+         I7Tj1PBwAkU0zTinpU4lWnkyNl1IA95WVtgx8twEcKVJJd6nR9maJpnvvR47GrzmhJ
+         kePJZAMn0u1/b+7nixf+Lcpee7/Z40Byp//fpXeHsailaBlJMJ6uS4vOLnPZrXitW/
+         ceStgLL99LqD/x+g5Hm5vkvducRcdnFp30Ip38esLsYkd4qlFVWYszisHTMb/rCeks
+         53BbozoUrWa2hPU3rLBWU+ujfNx97QcT/CfC3eDbir8cEdd+l6v+1hFac7coSUJrzC
+         oqe/575nTujmQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kzw56-00EJ7C-F5; Thu, 14 Jan 2021 07:26:04 +0100
+        id 1kzw56-00EJ7G-Ht; Thu, 14 Jan 2021 07:26:04 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 0/3] Fix broken  references at next-20210114 due to yaml conversion
-Date:   Thu, 14 Jan 2021 07:25:57 +0100
-Message-Id: <cover.1610605373.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 2/3] Documentation/devicetree/bindings/usb/dwc3-st.txt: update usb-drd.yaml reference
+Date:   Thu, 14 Jan 2021 07:25:59 +0100
+Message-Id: <43d5049a8ed688980bee12ecf18ef9937981de39.1610605373.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1610605373.git.mchehab+huawei@kernel.org>
+References: <cover.1610605373.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -55,30 +55,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Three new broken references were added between next-20210113 and
-next-20210114, due to yaml conversion. 
+Changeset b0864e1a4d9d ("dt-bindings: usb: Convert generic USB properties to DT schemas")
+renamed: Documentation/devicetree/bindings/usb/generic.txt
+to: Documentation/devicetree/bindings/usb/usb-drd.yaml.
 
-Address them.
+Update its cross-reference accordingly.
 
-Please add those patches  at the same tree as the respective
-conversion changesets were added.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/dwc3-st.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks!
-Mauro
-
-Mauro Carvalho Chehab (3):
-  dt-bindings: usb: update snps,dwc3.yaml references
-  Documentation/devicetree/bindings/usb/dwc3-st.txt: update usb-drd.yaml
-    reference
-  MAINTAINERS: update mediatek,ufs-phy.yaml reference
-
- Documentation/devicetree/bindings/usb/dwc3-st.txt    | 4 ++--
- Documentation/devicetree/bindings/usb/exynos-usb.txt | 2 +-
- Documentation/devicetree/bindings/usb/omap-usb.txt   | 2 +-
- MAINTAINERS                                          | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/usb/dwc3-st.txt b/Documentation/devicetree/bindings/usb/dwc3-st.txt
+index ad526e76f2a8..bf73de0d5b4a 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3-st.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3-st.txt
+@@ -37,7 +37,7 @@ NB: The dr_mode property described in [1] is NOT optional for this driver, as th
+ is "otg", which isn't supported by this SoC. Valid dr_mode values for dwc3-st are either "host"
+ or "device".
+ 
+-[1] Documentation/devicetree/bindings/usb/generic.txt
++[1] Documentation/devicetree/bindings/usb/usb-drd.yaml
+ 
+ Example:
+ 
 -- 
 2.29.2
-
 
