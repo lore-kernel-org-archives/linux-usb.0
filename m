@@ -5,25 +5,26 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7B9C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 15:40:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6731FC433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 15:41:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43C2823B27
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 15:40:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AB4723B27
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 15:41:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbhANPkT convert rfc822-to-8bit (ORCPT
+        id S1726461AbhANPlx convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 Jan 2021 10:40:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39536 "EHLO mail.kernel.org"
+        Thu, 14 Jan 2021 10:41:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39804 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbhANPkS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 Jan 2021 10:40:18 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0F45523B40
-        for <linux-usb@vger.kernel.org>; Thu, 14 Jan 2021 15:39:38 +0000 (UTC)
+        id S1726259AbhANPlx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 Jan 2021 10:41:53 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id A2D9A23B27
+        for <linux-usb@vger.kernel.org>; Thu, 14 Jan 2021 15:41:12 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
-Subject: [Bug 210777] pwc driver doesn't work anymore
-Date:   Thu, 14 Jan 2021 15:39:37 +0000
+Subject: [Bug 210801] TopSeed Technology Corp. eHome Infrared Transceiver
+ spams log with Error: urb status = -71
+Date:   Thu, 14 Jan 2021 15:41:12 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -32,16 +33,16 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mister.freeman@laposte.net
+X-Bugzilla-Who: hpj@urpla.net
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210777-208809-7YvkPivC6z@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210777-208809@https.bugzilla.kernel.org/>
-References: <bug-210777-208809@https.bugzilla.kernel.org/>
+Message-ID: <bug-210801-208809-MEJMeNodUW@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210801-208809@https.bugzilla.kernel.org/>
+References: <bug-210801-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -51,13 +52,29 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210777
+https://bugzilla.kernel.org/show_bug.cgi?id=210801
 
---- Comment #6 from Barto (mister.freeman@laposte.net) ---
-@Harald Jenny: can you provide the link to this patch, or add it as attachment
-with the bugreport ?
+--- Comment #8 from Hans-Peter Jansen (hpj@urpla.net) ---
+Sorry Sean, was distracted from day job(s) the last couple of days. 
 
-Thanks
+I hereby promise to do my homework soon...
+
+Device: Hewlett Packard TSGI-IR01
+
+https://paste.opensuse.org/19971413
+
+There are two similar models, this one is easily distinguished from the other
+by the cable attachment on the rear side, our's is asymmetric. 
+
+Send me your post address and I'm happy to send you one! (I bought a bundle due
+to a couple of my friends operate similar VDR setups, based on my packages on
+OBS). While the device is somewhat chunky, it does support RC06 well, as being
+used by the most common Hauppauge IR remote, that we all accumulated over time:
+
+https://hauppauge.co.uk/site/webstore/webstore_product.html?prod=7
+
+Cheers,
+Pete
 
 -- 
 You may reply to this email to add a comment.
