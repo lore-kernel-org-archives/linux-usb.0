@@ -5,25 +5,25 @@ X-Spam-Level:
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0FECC433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 17:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EAF1C433E9
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 17:13:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D4C923B1C
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 17:07:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 054B223B53
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 17:13:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbhANRHZ convert rfc822-to-8bit (ORCPT
+        id S1727699AbhANRNL convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 Jan 2021 12:07:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54476 "EHLO mail.kernel.org"
+        Thu, 14 Jan 2021 12:13:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56108 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725961AbhANRHZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 Jan 2021 12:07:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 95F8B23B44
-        for <linux-usb@vger.kernel.org>; Thu, 14 Jan 2021 17:06:42 +0000 (UTC)
+        id S1726067AbhANRNK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 Jan 2021 12:13:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6D70723B40
+        for <linux-usb@vger.kernel.org>; Thu, 14 Jan 2021 17:12:30 +0000 (UTC)
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 210777] pwc driver doesn't work anymore
-Date:   Thu, 14 Jan 2021 17:06:42 +0000
+Date:   Thu, 14 Jan 2021 17:12:30 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,8 +38,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210777-208809-bt6iw413HY@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210777-208809-ySW0rjtjc1@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210777-208809@https.bugzilla.kernel.org/>
 References: <bug-210777-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,10 +53,8 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210777
 
---- Comment #7 from Harald Jenny (harald@a-little-linux-box.at) ---
-Created attachment 294633
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294633&action=edit
-patch for pwc courtesy of Matwey V. Kornilov
+--- Comment #8 from Harald Jenny (harald@a-little-linux-box.at) ---
+I attached the patch to this bug report hopefully it fixes your problem too.
 
 -- 
 You may reply to this email to add a comment.
