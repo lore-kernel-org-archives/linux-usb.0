@@ -2,99 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 105B7C433E6
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 03:34:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C055C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 03:39:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBDD62368A
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 03:34:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01F7323343
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Jan 2021 03:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbhANDdz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Jan 2021 22:33:55 -0500
-Received: from lgeamrelo13.lge.com ([156.147.23.53]:51139 "EHLO
-        lgeamrelo11.lge.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726469AbhANDdz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 22:33:55 -0500
-Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
-        by 156.147.23.53 with ESMTP; 14 Jan 2021 12:03:12 +0900
-X-Original-SENDERIP: 156.147.1.126
-X-Original-MAILFROM: daewoong00.kim@lge.com
-Received: from unknown (HELO marvel.156.147.1.1) (10.178.35.47)
-        by 156.147.1.126 with ESMTP; 14 Jan 2021 12:03:12 +0900
-X-Original-SENDERIP: 10.178.35.47
-X-Original-MAILFROM: daewoong00.kim@lge.com
-From:   Daewoong Kim <daewoong00.kim@lge.com>
-To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     allen.lkml@gmail.com, gustavoars@kernel.org,
-        a.darwish@linutronix.de, romain.perier@gmail.com,
-        dvyukov@google.com, andreyknvl@google.com, mathias.nyman@intel.com,
-        gregkh@linuxfoundation.org, Daewoong Kim <daewoong00.kim@lge.com>
-Subject: [PATCH 1/1] usb: xhci: setup packets don't need DMA mapping
-Date:   Thu, 14 Jan 2021 11:59:07 +0900
-Message-Id: <1610593147-12511-1-git-send-email-daewoong00.kim@lge.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726404AbhANDjb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Jan 2021 22:39:31 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:43270 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726198AbhANDja (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Jan 2021 22:39:30 -0500
+Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 15B114025A;
+        Thu, 14 Jan 2021 03:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1610595510; bh=av7mt7Tvas77VdAORFuYEb9QVuhpUCn+UocN3bdElgw=;
+        h=Date:From:Subject:To:Cc:From;
+        b=JSGOQsHAYq/g9YnFSgY5pxq3Oe5GmRs02S0kAO4Xv8aDHNSeOhvwbnQvta8zEpm6e
+         uXdTm2s2I3mIkLuq3L98A9MwQ87bF0hsuUhugQTyhcTql6B7IaAhR8wDeOMmDiLZ7O
+         RwTimFeVl7PbDeHYuuB0SadjuDbGwn/N9cEUsIJRN5n5vozVisDRjtqvxDlL7r122U
+         zmdaDRainSB7xeDQNCrIaQ/19Y//9Dtp6gd6U5DN//2NJgf5BAMqEwUESLIs5UisKU
+         IeeEY4eQCyc8OKcnUzrb4I7R+WlYw/1mzADdxFDrFARlCFhbTpEe61gFNPGlAkG8ID
+         Mb4pdt3hZ5SHg==
+Received: from te-lab16 (unknown [10.10.52.11])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 76789A007A;
+        Thu, 14 Jan 2021 03:38:28 +0000 (UTC)
+Received: by te-lab16 (sSMTP sendmail emulation); Wed, 13 Jan 2021 19:38:28 -0800
+Date:   Wed, 13 Jan 2021 19:38:28 -0800
+Message-Id: <311bc6d30b23427420133602c2833308310b7fcb.1610595364.git.Thinh.Nguyen@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: [PATCH v2] usb: udc: core: Use lock when write to soft_connect
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Peter Chen <peter.chen@nxp.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Dejin Zheng <zhengdejin5@gmail.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
+        Michal Nazarewicz <mina86@mina86.com>
+Cc:     stable@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-DMA mapping of urb->setup_packet is not necessary for xHCI host
-controllers. The xHCI specification says that Setup Stage TRB includes
-whole Setup Data; therefore, urb->setup_dma will not be used in the xhci
-HCD code.
+Use lock to guard against concurrent access for soft-connect/disconnect
+operations when writing to soft_connect sysfs.
 
-Signed-off-by: Daewoong Kim <daewoong00.kim@lge.com>
+Cc: stable@vger.kernel.org
+Fixes: 2ccea03a8f7e ("usb: gadget: introduce UDC Class")
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
- drivers/usb/core/hcd.c  | 4 +++-
- drivers/usb/host/xhci.c | 1 +
- include/linux/usb.h     | 4 ++++
- 3 files changed, 8 insertions(+), 1 deletion(-)
+ Changes in v2:
+ - Consolidate mutex_unlock to a single place using "goto out"
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index ad5a0f405a75..b1f9eac93f0d 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1411,7 +1411,9 @@ int usb_hcd_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
- 	if (usb_endpoint_xfer_control(&urb->ep->desc)) {
- 		if (hcd->self.uses_pio_for_control)
- 			return ret;
--		if (hcd->localmem_pool) {
-+		if (hcd->self.uses_pio_for_setup_pkt) {
-+			;	/* do nothing */
-+		} else if (hcd->localmem_pool) {
- 			ret = hcd_alloc_coherent(
- 					urb->dev->bus, mem_flags,
- 					&urb->setup_dma,
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index e86940571b4c..c263aee82dc0 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -643,6 +643,7 @@ int xhci_run(struct usb_hcd *hcd)
- 	 */
+ drivers/usb/gadget/udc/core.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index 6a62bbd01324..3363f5c282f1 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -1529,10 +1529,13 @@ static ssize_t soft_connect_store(struct device *dev,
+ 		struct device_attribute *attr, const char *buf, size_t n)
+ {
+ 	struct usb_udc		*udc = container_of(dev, struct usb_udc, dev);
++	ssize_t			ret = n;
  
- 	hcd->uses_new_polling = 1;
-+	hcd->self.uses_pio_for_setup_pkt = 1;
- 	if (!usb_hcd_is_primary_hcd(hcd))
- 		return xhci_run_finished(xhci);
++	mutex_lock(&udc_lock);
+ 	if (!udc->driver) {
+ 		dev_err(dev, "soft-connect without a gadget driver\n");
+-		return -EOPNOTSUPP;
++		ret = -EOPNOTSUPP;
++		goto out;
+ 	}
  
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 7d72c4e0713c..76600e8de414 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -430,6 +430,10 @@ struct usb_bus {
- 					 * Does the host controller use PIO
- 					 * for control transfers?
- 					 */
-+	u8 uses_pio_for_setup_pkt;	/*
-+					 * Does the host controller use PIO
-+					 * for setup packets?
-+					 */
- 	u8 otg_port;			/* 0, or number of OTG/HNP port */
- 	unsigned is_b_host:1;		/* true during some HNP roleswitches */
- 	unsigned b_hnp_enable:1;	/* OTG: did A-Host enable HNP? */
+ 	if (sysfs_streq(buf, "connect")) {
+@@ -1543,10 +1546,12 @@ static ssize_t soft_connect_store(struct device *dev,
+ 		usb_gadget_udc_stop(udc);
+ 	} else {
+ 		dev_err(dev, "unsupported command '%s'\n", buf);
+-		return -EINVAL;
++		ret = -EINVAL;
+ 	}
+ 
+-	return n;
++out:
++	mutex_unlock(&udc_lock);
++	return ret;
+ }
+ static DEVICE_ATTR_WO(soft_connect);
+ 
+
+base-commit: 4e0dcf62ab4cf917d0cbe751b8bf229a065248d4
 -- 
-2.17.1
+2.28.0
 
