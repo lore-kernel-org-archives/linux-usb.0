@@ -2,65 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BC0C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 06:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951B5C433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 07:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90E30235DD
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 06:40:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4314D221FB
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 07:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbhAOGkh convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 01:40:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42552 "EHLO mail.kernel.org"
+        id S1731998AbhAOH7Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 02:59:16 -0500
+Received: from mga04.intel.com ([192.55.52.120]:43100 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726200AbhAOGkh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 15 Jan 2021 01:40:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3C4F023436
-        for <linux-usb@vger.kernel.org>; Fri, 15 Jan 2021 06:39:57 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 210777] pwc driver doesn't work anymore
-Date:   Fri, 15 Jan 2021 06:39:57 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: harald@a-little-linux-box.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210777-208809-KvNY6uQgDf@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210777-208809@https.bugzilla.kernel.org/>
-References: <bug-210777-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1728688AbhAOH7P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 15 Jan 2021 02:59:15 -0500
+IronPort-SDR: HhKihgQMw3fwCvikzy9M2OdjgrbhdR/8Ntgoi4R9Kz2JA/dhjX9/7fpjm2+E2EP9bFu5tNE60v
+ ZDm9wDd85RvA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="175935420"
+X-IronPort-AV: E=Sophos;i="5.79,348,1602572400"; 
+   d="scan'208";a="175935420"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 23:57:27 -0800
+IronPort-SDR: 8EElx/k8/cRK3gbQxBTJnL+oOe0vzs2NsZn8zV9ot+fZTvtspVlOHMPp8daBG64Kw8gk4DbiQY
+ /GQbjCFfXzsQ==
+X-IronPort-AV: E=Sophos;i="5.79,348,1602572400"; 
+   d="scan'208";a="425227787"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 23:57:23 -0800
+Received: by lahna (sSMTP sendmail emulation); Fri, 15 Jan 2021 09:57:21 +0200
+Date:   Fri, 15 Jan 2021 09:57:21 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Yehezkel Bernat <yehezkelshb@gmail.com>
+Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Christian Kellner <christian@kellner.me>,
+        Mario Limonciello <mario.limonciello@dell.com>
+Subject: Re: [PATCH v2] thunderbolt: Add support for de-authorizing devices
+Message-ID: <20210115075721.GB968855@lahna.fi.intel.com>
+References: <20210113100750.32692-1-mika.westerberg@linux.intel.com>
+ <CA+CmpXscND_KCPj0yX=OEBW3=NibX3jDc3uKzcpTnVCL4c5AEw@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CmpXscND_KCPj0yX=OEBW3=NibX3jDc3uKzcpTnVCL4c5AEw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210777
+On Wed, Jan 13, 2021 at 02:56:14PM +0200, Yehezkel Bernat wrote:
+> On Wed, Jan 13, 2021 at 12:07 PM Mika Westerberg
+> <mika.westerberg@linux.intel.com> wrote:
+> >
+> > In some cases it is useful to be able de-authorize devices. For example
+> > if user logs out the userspace can have a policy that disconnects PCIe
+> > devices until logged in again. This is only possible for software based
+> > connection manager as it directly controls the tunnels.
+> >
+> > For this reason make the authorized attribute accept writing 0 which
+> > makes the software connection manager to tear down the corresponding
+> > PCIe tunnel. Userspace can check if this is supported by reading a new
+> > domain attribute deauthorization, that holds 1 in that case.
+> >
+> > While there correct tb_domain_approve_switch() kernel-doc and
+> > description of authorized attribute to mention that it is only about
+> > PCIe tunnels.
+> >
+> > Cc: Christian Kellner <christian@kellner.me>
+> > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > ---
+> 
+> Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com>
 
---- Comment #13 from Harald Jenny (harald@a-little-linux-box.at) ---
-The patch was just uploaded here to allow people to fix already released
-kernels, patch submitter Matwey V. Kornilov took care of submitting it for
-kernel inclusion. But thanks for your hint anyway :-).
+Thanks!
 
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Applied to thunderbolt.git/next.
