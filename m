@@ -2,87 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E0AC433E6
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:52:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4D3AC43381
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 10:42:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4914B23718
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:52:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FCD4238E7
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 10:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728586AbhAOJw2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 04:52:28 -0500
-Received: from mga18.intel.com ([134.134.136.126]:51117 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726468AbhAOJw1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:52:27 -0500
-IronPort-SDR: V9n0IZqqLGcF/MWWZWF6UxPih8NdNvXYA5bFBi1QEUVHWNXLhMT7gicweslN+QNktgc7LLJQeU
- fEghD05DKSTA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166195741"
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="166195741"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:49:28 -0800
-IronPort-SDR: rwaTZ4a1Tqz8CAN764orIUjovWeFNTacOHQ+WPIUXIlWBuQ9WPDfWdKDRshFrY+qFjoNW0TTgn
- zv/TplXA7iNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="465538747"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2021 01:49:25 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg KH <greg@kroah.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: [PATCH v3 4/4] usb: dwc3: pci: add support for the Intel Alder Lake-P
-Date:   Fri, 15 Jan 2021 12:49:14 +0300
-Message-Id: <20210115094914.88401-5-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
-References: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
+        id S1731426AbhAOKmK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 05:42:10 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:10588 "EHLO
+        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731333AbhAOKmD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 05:42:03 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1610707301; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=fx3iEICIQ3xcsBUZZuCUmPDnj2VVlP6W6Q3W+bu+4DA=; b=KRQO6RBLSWBio4kkQyP96rfQsczpyGBv1iwGZFkgZemkSGePjeHZRmGgkjT7NOYpIkaqYI+A
+ hfn8+imaHvkB2UVnI+XRJtjWbPmaMBhoEPyeM36t8juzFP0UFIFbXlj0bS4o1u6oDR1uf+ns
+ q/9f2EuavUyxrgSOKjpfn3Quj2M=
+X-Mailgun-Sending-Ip: 198.61.254.31
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 600171498a0374a5016c798a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 10:41:13
+ GMT
+Sender: jackp=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 517B8C43461; Fri, 15 Jan 2021 10:41:12 +0000 (UTC)
+Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jackp)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6A8DBC433C6;
+        Fri, 15 Jan 2021 10:41:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6A8DBC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
+From:   Jack Pham <jackp@codeaurora.org>
+To:     Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Wesley Cheng <wcheng@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Jack Pham <jackp@codeaurora.org>
+Subject: [PATCH 4/4] dt-bindings: usb: qcom,dwc3: Add bindings for SM8150, SM8250, SM8350
+Date:   Fri, 15 Jan 2021 02:40:47 -0800
+Message-Id: <20210115104047.3460-5-jackp@codeaurora.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20210115104047.3460-1-jackp@codeaurora.org>
+References: <20210115104047.3460-1-jackp@codeaurora.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds the necessary PCI ID for Intel Alder Lake-P
-devices.
+Add compatible strings for the USB DWC3 controller on QCOM SM8150,
+SM8250 and SM8350 SoCs.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Note the SM8150 & SM8250 compatibles are already being used in the
+dts and driver implementation but was missing from the documentation.
+
+Signed-off-by: Jack Pham <jackp@codeaurora.org>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 51029cec119ed..3d3918a8d5fbc 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -40,6 +40,7 @@
- #define PCI_DEVICE_ID_INTEL_TGPLP		0xa0ee
- #define PCI_DEVICE_ID_INTEL_TGPH		0x43ee
- #define PCI_DEVICE_ID_INTEL_JSP			0x4dee
-+#define PCI_DEVICE_ID_INTEL_ADLP		0x51ee
- #define PCI_DEVICE_ID_INTEL_ADLS		0x7ae1
- #define PCI_DEVICE_ID_INTEL_TGL			0x9a15
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 2cf525d21e05..da47f43d6b04 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -17,6 +17,9 @@ properties:
+           - qcom,msm8998-dwc3
+           - qcom,sc7180-dwc3
+           - qcom,sdm845-dwc3
++          - qcom,sm8150-dwc3
++          - qcom,sm8250-dwc3
++          - qcom,sm8350-dwc3
+       - const: qcom,dwc3
  
-@@ -382,6 +383,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_JSP),
- 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
- 
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ADLP),
-+	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
-+
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ADLS),
- 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
- 
+   reg:
 -- 
-2.29.2
+2.24.0
 
