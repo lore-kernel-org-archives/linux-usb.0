@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF514C433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:48:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C54C43381
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:48:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A643F23A7C
+	by mail.kernel.org (Postfix) with ESMTP id D4D3E23A6C
 	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:48:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732937AbhAORse (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 12:48:34 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:15791 "EHLO
+        id S1733115AbhAORsh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 12:48:37 -0500
+Received: from so254-31.mailgun.net ([198.61.254.31]:53974 "EHLO
         so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731856AbhAORsb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 12:48:31 -0500
+        with ESMTP id S1732973AbhAORsh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 12:48:37 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610732892; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=yPs9AZ7vGF+EOyeowC3T0JA6NYTKMrHgZGdMhY8gYQI=; b=in5SW5aBQDW/9z5OJPkf8uxBnlQfYi/FY2xEACN3Nmi/Fo8KmR6kMpS1HYSd7xEfx5FkQcRN
- 9wriyzMpgb5zUnIMX9UGCVAFiFaBhlvTabVkOnyr+0yEzrh+m9vZl5ZziaPvW1N25lH8PrUZ
- WpHqMedrMXY3Nd/9nUPwSuRDarQ=
+ s=smtp; t=1610732898; h=Content-Transfer-Encoding: MIME-Version:
+ References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=tl2cpBi4QtB0FYMLpeVjas/HGR4Q2xP3gVdgJcJblqQ=; b=w5B55rIrthaKFRnOfxdNHQlvP0G805+jMjhnyvkyKYFN/jGejnZxPHQMZTAJZx6rVw91KDfd
+ TqGl27JJMxIIVzHqEx+PSDf3ZorzrLuNNIcyPeRb08bD866Stwv6sotu4vET4wau8yJGUSeV
+ C/t3ABzt5S8tvyCaX4wNZ5Pg8rg=
 X-Mailgun-Sending-Ip: 198.61.254.31
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-west-2.postgun.com with SMTP id
- 6001d53c3b6dceb132aab1dd (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 17:47:40
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 6001d5451e3bf9b6690d186e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 17:47:49
  GMT
 Sender: jackp=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 40968C433C6; Fri, 15 Jan 2021 17:47:40 +0000 (UTC)
+        id 36D7BC43461; Fri, 15 Jan 2021 17:47:49 +0000 (UTC)
 Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 22C23C433CA;
-        Fri, 15 Jan 2021 17:47:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 22C23C433CA
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 53E89C433CA;
+        Fri, 15 Jan 2021 17:47:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 53E89C433CA
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
 From:   Jack Pham <jackp@codeaurora.org>
@@ -57,39 +57,43 @@ Cc:     Wesley Cheng <wcheng@codeaurora.org>,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         Jack Pham <jackp@codeaurora.org>
-Subject: [PATCH v2 0/4] SM8350 USB and dt-bindings updates
-Date:   Fri, 15 Jan 2021 09:47:19 -0800
-Message-Id: <20210115174723.7424-1-jackp@codeaurora.org>
+Subject: [PATCH v2 4/4] dt-bindings: usb: qcom,dwc3: Add bindings for SM8150, SM8250, SM8350
+Date:   Fri, 15 Jan 2021 09:47:23 -0800
+Message-Id: <20210115174723.7424-5-jackp@codeaurora.org>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20210115174723.7424-1-jackp@codeaurora.org>
+References: <20210115174723.7424-1-jackp@codeaurora.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds support for the SM8350 USB PHY to the QMP PHY driver
-as well as adds the documentation for the QMP, SNPS PHY and DWC3
-controller bindings. This also adds the bindings for SM8150 and SM8250
-to the same docs which had not been added previously even though they
-are in use now.
+Add compatible strings for the USB DWC3 controller on QCOM SM8150,
+SM8250 and SM8350 SoCs.
 
-v2: Reordered Patches 1 & 2; added missing entry to match_table
+Note the SM8150 & SM8250 compatibles are already being used in the
+dts but was missing from the documentation.
 
-Jack Pham (4):
-  dt-bindings: phy: qcom,qmp: Add SM8150, SM8250 and SM8350 USB PHY
-    bindings
-  phy: qcom-qmp: Add SM8350 USB QMP PHYs
-  dt-bindings: phy: qcom,usb-snps-femto-v2: Add SM8250 and SM8350
-    bindings
-  dt-bindings: usb: qcom,dwc3: Add bindings for SM8150, SM8250, SM8350
+Signed-off-by: Jack Pham <jackp@codeaurora.org>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
- .../devicetree/bindings/phy/qcom,qmp-phy.yaml |  67 ++++++
- .../bindings/phy/qcom,usb-snps-femto-v2.yaml  |   2 +
- .../devicetree/bindings/usb/qcom,dwc3.yaml    |   3 +
- drivers/phy/qualcomm/phy-qcom-qmp.c           | 209 ++++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-qmp.h           | 100 +++++++++
- 5 files changed, 381 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 2cf525d21e05..da47f43d6b04 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -17,6 +17,9 @@ properties:
+           - qcom,msm8998-dwc3
+           - qcom,sc7180-dwc3
+           - qcom,sdm845-dwc3
++          - qcom,sm8150-dwc3
++          - qcom,sm8250-dwc3
++          - qcom,sm8350-dwc3
+       - const: qcom,dwc3
+ 
+   reg:
 -- 
 2.24.0
 
