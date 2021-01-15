@@ -2,93 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE878C433E6
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 11:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34CF9C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 12:02:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E3CF2336E
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 11:15:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0123C23128
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 12:02:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728820AbhAOLPH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 06:15:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726981AbhAOLPH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 15 Jan 2021 06:15:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D629D235F9;
-        Fri, 15 Jan 2021 11:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610709266;
-        bh=5lyd6863Ma27pfAieJ1TVSBg4uSrd4TdeURetyMDZ5s=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=JgLoSKVFZXEFLeQ9VJ6doX1KcvL+dKiPZU9EI2ux/xHVxXAM8Wa+aE15bjHoQaYYW
-         Ni2tuj4Ss0tEMlWy1MvpICkTxMNV719fsug7BBFZ2pkt5TbV4/uZ1eGpHj7y0bNGmR
-         gM4QRu7BOGqdp1ZBG5xzoeqWH+rUS0OztIQhO6zKxMQaAihYyKEjIqz6RODX5mtcCp
-         vcg64mWL9p8mIgAmANGKAVOeDqqC1F+JEvaMplAXiq7DDoQDuEaPCIY0xNXDkpQc4X
-         E5NG/Pkl9QVFpNNMcgXxqoAXrIS59v10bGgympBE9y6NjhHuZjyMlnQTyMZvyQkkTM
-         20SIB5W08XuBg==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg KH <greg@kroah.com>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] usb: dwc3: pci: add support for the Intel Alder
- Lake-P
-In-Reply-To: <20210115094914.88401-5-heikki.krogerus@linux.intel.com>
-References: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
- <20210115094914.88401-5-heikki.krogerus@linux.intel.com>
-Date:   Fri, 15 Jan 2021 13:14:19 +0200
-Message-ID: <87sg721mgk.fsf@kernel.org>
+        id S1727676AbhAOMC0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 07:02:26 -0500
+Received: from relay05.th.seeweb.it ([5.144.164.166]:44505 "EHLO
+        relay05.th.seeweb.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbhAOMC0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 07:02:26 -0500
+X-Greylist: delayed 414 seconds by postgrey-1.27 at vger.kernel.org; Fri, 15 Jan 2021 07:02:25 EST
+Received: from [192.168.1.101] (abaf224.neoplus.adsl.tpnet.pl [83.6.169.224])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 362E33EBB7;
+        Fri, 15 Jan 2021 12:54:28 +0100 (CET)
+Subject: Re: [PATCH 1/4] phy: qcom-qmp: Add SM8350 USB QMP PHYs
+To:     Jack Pham <jackp@codeaurora.org>, Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Wesley Cheng <wcheng@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20210115104047.3460-1-jackp@codeaurora.org>
+ <20210115104047.3460-2-jackp@codeaurora.org>
+From:   Konrad Dybcio <konrad.dybcio@somainline.org>
+Message-ID: <2c5481fe-f5be-5d6a-f62f-c93d04b9210e@somainline.org>
+Date:   Fri, 15 Jan 2021 12:54:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <20210115104047.3460-2-jackp@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Heikki Krogerus <heikki.krogerus@linux.intel.com> writes:
 
-> This patch adds the necessary PCI ID for Intel Alder Lake-P
-> devices.
->
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+I might be wrong but it looks as if you forgot to add a compatible for the "sm8350_usb3_uniphy_cfg" configuration.
 
-The only missing my ack:
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
+Konrad
 
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmABeQsRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQbrIQ//ZAxEwchAfysHEqsi/Ie4N1H323D8J3HA
-jkOYCv20KTb+uja9TWcp0r5Ef1yQ6ATqc5mheL+R+mVdVQQVpb0rotECK81fArur
-BGYPLoR/wRe4yFMff+WuzG3idKaZEcY2lKwQOyClApU4PJpzdg6n36WfQJTzEx6s
-WMaQETXakRACSdKY1mop6oMvbElG3Fgd2Da8posUBO00NKVkRpnSd0L339JDrf34
-2WH9T/Lc94d1937xM/y4/PrC255vIkwtSYxS1ZwKcCpPIz9/HPpXNAMui2nXjTXT
-NuFQ85oIU5R/kMdx3aDvIJ5d2t/vxxHDu6KN7AKdoGsJv+KH35XckCGKMPNl31AU
-jei0Eseg20HZyi5aJEQoMLApzCGdLw7IBaDqvTujG9GJZfIJzqX3E5FavepZeO8v
-vHT5jqKrzOvKDlSrm8Y53dAjyI+5iKVHXvsYr1vQxVzvp/ocK8SsOfBikEHcFwib
-fLCXpg8o2iZ1Z5+MjULUQWVGkr3n8nQA703Ly/8pTWfiFZvfRMb7njxuHONhav4s
-Fp3OcHrMmxGRalvVSLu3ngmPDdOiKZZ2ywiCZExF8wx8qWEs2oeywkXXTroEcx1l
-7Wmj9UOMKdHhV9+xXOrTeyqr5kAqpO1vcTQ4RNaWYHtWMK1yO517ZmQAzFWBozno
-DZcUEyRBYDM=
-=ZzEF
------END PGP SIGNATURE-----
---=-=-=--
