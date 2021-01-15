@@ -2,36 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D041DC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:51:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B80DDC433E9
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:52:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E7D12339D
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:51:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7664823730
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 09:52:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730147AbhAOJuz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 04:50:55 -0500
+        id S1727180AbhAOJw1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 04:52:27 -0500
 Received: from mga18.intel.com ([134.134.136.126]:51113 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726829AbhAOJuz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 15 Jan 2021 04:50:55 -0500
-IronPort-SDR: WcKDESq7H4ynFERcAiuFJDutXHrOgSR8bdXsDVoPCUJQpMhFsa8h4ZzzVe6XbSTsE9zaba2fE0
- 9DHx4/LDSPng==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166195715"
+        id S1726439AbhAOJwZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 15 Jan 2021 04:52:25 -0500
+IronPort-SDR: A9k092C0vRj7qXZ5QF1TqL4n+ayXHxQdE/TXRdMfcD7ydlYTCb1Damrt5dzBBf1B445CCtGVhX
+ mP4mz6rvcu6Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166195734"
 X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="166195715"
+   d="scan'208";a="166195734"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:49:17 -0800
-IronPort-SDR: ogNTLClcTE7XycGsagNh8CZ8d+3nIpa8dtTrJhgV+fBOcf75Yt0rJ05O8A2nv8KbMmNHmn3h0S
- J/oi4N1lmU/Q==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2021 01:49:25 -0800
+IronPort-SDR: V79JTIO8NnWe8QVsQXb4bdQPw+qEO2PDZz5+t4tfvJzNcm9MZ9GR7vLl4Fk78n6UUMNqmUG8P6
+ 6GPraI8zQ2hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; 
-   d="scan'208";a="465538723"
+   d="scan'208";a="465538743"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2021 01:49:15 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jan 2021 01:49:23 -0800
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg KH <greg@kroah.com>
 Cc:     Felipe Balbi <balbi@kernel.org>,
@@ -40,63 +41,59 @@ Cc:     Felipe Balbi <balbi@kernel.org>,
         Daniel Scally <djrscally@gmail.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-acpi@vger.kernel.org
-Subject: [PATCH v3 0/4] Remove one more platform_device_add_properties() call
-Date:   Fri, 15 Jan 2021 12:49:10 +0300
-Message-Id: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 3/4] usb: dwc3: pci: ID for Tiger Lake CPU
+Date:   Fri, 15 Jan 2021 12:49:13 +0300
+Message-Id: <20210115094914.88401-4-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
+References: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Tiger Lake SOC (the versions of it that have integrated USB4
+controller) may have two DWC3 controllers. One is part of
+the PCH (Platform Controller Hub, i.e. the chipset) as
+usual, and the other is inside the actual CPU block.
 
-I'm now clearing the dev_fwnode(dev)->secondary pointer in
-device_remove_software_node() as requested by Daniel and Andy. Thanks
-guys, it's much better now. I also took the liberty of including one
-more PCI ID patch where I add PCI ID for the Alder Lake-P variant. I
-hope that is OK.
+On all Intel platforms that have the two separate DWC3
+controllers, the one inside the CPU handles USB3 and only
+USB3 traffic, while the PCH version handles USB2 and USB2
+alone. The reason for splitting the two busses like this is
+to allow easy USB3 tunneling over USB4 connections. As USB2
+is not tunneled over USB4, it has dedicated USB controllers
+(both xHCI and DWC3).
 
-Andy, I dropped your Tested-by tag because of the change I made to the
-first patch. If you have time to retest these, I would much appreciate.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Acked-by: Felipe Balbi <balbi@kernel.org>
+---
+ drivers/usb/dwc3/dwc3-pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-
-v2 cover letter:
-
-Hi Felipe, Rafael,
-
-This is the second version of this series. There are no real changes,
-but I added the Tiger Lake ID patch to this series in hope that it
-will make your life a bit easier, assuming that Rafael will still pick
-these.
-
-
-The original over letter:
-
-I originally introduced these as part of my series where I was
-proposing PM ops for software nodes [1], but since that still needs
-work, I'm sending these two separately.
-
-So basically I'm only modifying dwc3-pci.c so it registers a software
-node directly at this point. That will remove one more user of
-platform_device_add_properties().
-
-[1] https://lore.kernel.org/lkml/20201029105941.63410-1-heikki.krogerus@linux.intel.com/
-
-thanks,
-
-Heikki Krogerus (4):
-  software node: Introduce device_add_software_node()
-  usb: dwc3: pci: Register a software node for the dwc3 platform device
-  usb: dwc3: pci: ID for Tiger Lake CPU
-  usb: dwc3: pci: add support for the Intel Alder Lake-P
-
- drivers/base/swnode.c       | 71 ++++++++++++++++++++++++++++++++-----
- drivers/usb/dwc3/dwc3-pci.c | 69 ++++++++++++++++++++++-------------
- include/linux/property.h    |  3 ++
- 3 files changed, 110 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
+index 037bc21bffa66..51029cec119ed 100644
+--- a/drivers/usb/dwc3/dwc3-pci.c
++++ b/drivers/usb/dwc3/dwc3-pci.c
+@@ -41,6 +41,7 @@
+ #define PCI_DEVICE_ID_INTEL_TGPH		0x43ee
+ #define PCI_DEVICE_ID_INTEL_JSP			0x4dee
+ #define PCI_DEVICE_ID_INTEL_ADLS		0x7ae1
++#define PCI_DEVICE_ID_INTEL_TGL			0x9a15
+ 
+ #define PCI_INTEL_BXT_DSM_GUID		"732b85d5-b7a7-4a1b-9ba0-4bbd00ffd511"
+ #define PCI_INTEL_BXT_FUNC_PMU_PWR	4
+@@ -384,6 +385,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ADLS),
+ 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
+ 
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_TGL),
++	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
++
+ 	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_NL_USB),
+ 	  (kernel_ulong_t) &dwc3_pci_amd_swnode, },
+ 	{  }	/* Terminating Entry */
 -- 
 2.29.2
 
