@@ -2,180 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD8E2C433E6
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CAFEC433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:58:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A272423A6C
-	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:49:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02F9323A5A
+	for <linux-usb@archiver.kernel.org>; Fri, 15 Jan 2021 17:58:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733054AbhAORsg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 15 Jan 2021 12:48:36 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:37895 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731791AbhAORsb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 12:48:31 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610732890; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=VauDd45xSSN3CEAyZoE9ERuoz3UVyIDJB7nhr/3ovFc=; b=YPFSL9inPbDWOd1plmFSoI+Lpg1QonC6ecGmgazehPyD7ZaWG5liCOkY6P1holsW52EQIldw
- 1VPpJrlMOAAN8be9ZitRH3Yn6DQ/rugCPuw1ws54rgY/j4E6iw9JNO8Pn1Z98XESquREFKkn
- P/D/05h99yxgGrFzccqQdT1Mebw=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 6001d53f75e5c01cba48f80a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 17:47:43
- GMT
-Sender: jackp=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 7AA28C433CA; Fri, 15 Jan 2021 17:47:43 +0000 (UTC)
-Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 31E42C433C6;
-        Fri, 15 Jan 2021 17:47:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 31E42C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
-From:   Jack Pham <jackp@codeaurora.org>
-To:     Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Wesley Cheng <wcheng@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Jack Pham <jackp@codeaurora.org>
-Subject: [PATCH v2 1/4] dt-bindings: phy: qcom,qmp: Add SM8150, SM8250 and SM8350 USB PHY bindings
-Date:   Fri, 15 Jan 2021 09:47:20 -0800
-Message-Id: <20210115174723.7424-2-jackp@codeaurora.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20210115174723.7424-1-jackp@codeaurora.org>
-References: <20210115174723.7424-1-jackp@codeaurora.org>
+        id S1727726AbhAOR6H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 15 Jan 2021 12:58:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52952 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725818AbhAOR6G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 15 Jan 2021 12:58:06 -0500
+Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5945DC0613C1
+        for <linux-usb@vger.kernel.org>; Fri, 15 Jan 2021 09:57:26 -0800 (PST)
+Received: by mail-io1-xd35.google.com with SMTP id d9so19763505iob.6
+        for <linux-usb@vger.kernel.org>; Fri, 15 Jan 2021 09:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=M5BcvnzgflJduEgKE2tu+RY63yJ/WtPEtTDr/c+TeE0=;
+        b=ZW5wj3+U+c90HGP5GaNhKJ2gsEvMj6pxKQrrnVzHqrsKDGbvbXy+wgKbBTxWeo0g/f
+         FZjdRxhnICm0GU8xIzBOydRTChXCzMLS9/aGuruWEJ/Ik0BUM+3llZlxz3xcwWenwfSo
+         ObeznzDrdtzgT/B1NaSsHrLyytHz9VkfwVEio=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=M5BcvnzgflJduEgKE2tu+RY63yJ/WtPEtTDr/c+TeE0=;
+        b=acS+kOiW9Y+Mtcv8SE9AQidQ/13ieCdZUScd7t5jn6v0O7RjUqXP4lzSA0ADlC/ksz
+         o6nBQct7yRD70RCgXRs8kQod03WQYblJSfGOq9wdplZKmTv5EWufw+VOIQd2oHZsNQBw
+         xLwZ5iYi3ZBzVVIG5rnV59JMTJlxZjaGlY/lQmBDmvAPcjWXpCsoZHxr/oziU2Tw+aIt
+         Zte3bNuHdc4MEds5G2wOPrx3Pt7XzhyVSV6Sps2mBTJ0+QiF8yhP0VSvK52aa4EeMI5k
+         hGjf/JWmgJsdcFnKZf1fgh3NqL51q6zC7n2iorZA4uDuoxbz5HemWAjhgwr8w8SSIZTX
+         /7pA==
+X-Gm-Message-State: AOAM531OtEuf1o3TpHxUU6vrcxvVb2lywLzuQQPNVc05lnBeO/yGwakG
+        oeaprJO+zjO1HcUvEghDavT3rg==
+X-Google-Smtp-Source: ABdhPJwojGycUje7NlW8TGiVdxup+AVmyN/RuH9EDoAAE6grjW/n8pvUKxk7ZASjnBeUQ9Lu6ewI0Q==
+X-Received: by 2002:a92:4101:: with SMTP id o1mr12217020ila.82.1610733444929;
+        Fri, 15 Jan 2021 09:57:24 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id i4sm1610172ios.54.2021.01.15.09.57.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jan 2021 09:57:24 -0800 (PST)
+Subject: Re: [PATCH -next] usb: usbip: Use DEFINE_SPINLOCK() for spinlock
+To:     Zheng Yongjun <zhengyongjun3@huawei.com>,
+        valentina.manea.m@gmail.com, shuah@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20201223141431.835-1-zhengyongjun3@huawei.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <de699446-4f00-ce6a-4dfb-1f95669325f1@linuxfoundation.org>
+Date:   Fri, 15 Jan 2021 10:57:23 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201223141431.835-1-zhengyongjun3@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the compatible strings for the USB3 PHYs found on SM8150, SM8250
-and SM8350 SoCs. These require separate subschemas due to the different
-required clock entries.
+On 12/23/20 7:14 AM, Zheng Yongjun wrote:
+> spinlock can be initialized automatically with DEFINE_SPINLOCK()
+> rather than explicitly calling spin_lock_init().
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+> ---
+>   drivers/usb/usbip/stub_main.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/usbip/stub_main.c b/drivers/usb/usbip/stub_main.c
+> index c1c0bbc9f8b1..77a5b3f8736a 100644
+> --- a/drivers/usb/usbip/stub_main.c
+> +++ b/drivers/usb/usbip/stub_main.c
+> @@ -23,7 +23,7 @@ struct kmem_cache *stub_priv_cache;
+>    */
+>   #define MAX_BUSID 16
+>   static struct bus_id_priv busid_table[MAX_BUSID];
+> -static spinlock_t busid_table_lock;
+> +static DEFINE_SPINLOCK(busid_table_lock);
+>   
+>   static void init_busid_table(void)
+>   {
+> @@ -35,8 +35,6 @@ static void init_busid_table(void)
+>   	 */
+>   	memset(busid_table, 0, sizeof(busid_table));
+>   
+> -	spin_lock_init(&busid_table_lock);
+> -
+>   	for (i = 0; i < MAX_BUSID; i++)
+>   		spin_lock_init(&busid_table[i].busid_lock);
+>   }
+> 
 
-Note the SM8150 and SM8250 compatibles have already been in place in
-the dts as well as the driver implementation but were missing from
-the documentation.
 
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
----
- .../devicetree/bindings/phy/qcom,qmp-phy.yaml | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
+Sorry for the delay on this.
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-index 390df23b82e7..841c72863b4f 100644
---- a/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,qmp-phy.yaml
-@@ -30,15 +30,24 @@ properties:
-       - qcom,sdm845-qmp-ufs-phy
-       - qcom,sdm845-qmp-usb3-uni-phy
-       - qcom,sm8150-qmp-ufs-phy
-+      - qcom,sm8150-qmp-usb3-phy
-+      - qcom,sm8150-qmp-usb3-uni-phy
-       - qcom,sm8250-qmp-ufs-phy
-       - qcom,sm8250-qmp-gen3x1-pcie-phy
-       - qcom,sm8250-qmp-gen3x2-pcie-phy
-       - qcom,sm8250-qmp-modem-pcie-phy
-+      - qcom,sm8250-qmp-usb3-phy
-+      - qcom,sm8250-qmp-usb3-uni-phy
-+      - qcom,sm8350-qmp-usb3-phy
-+      - qcom,sm8350-qmp-usb3-uni-phy
-       - qcom,sdx55-qmp-usb3-uni-phy
- 
-   reg:
-+    minItems: 1
-+    maxItems: 2
-     items:
-       - description: Address and length of PHY's common serdes block.
-+      - description: Address and length of PHY's DP_COM control block.
- 
-   "#clock-cells":
-     enum: [ 1, 2 ]
-@@ -287,6 +296,64 @@ allOf:
-         reset-names:
-           items:
-             - const: phy
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,sm8150-qmp-usb3-phy
-+              - qcom,sm8150-qmp-usb3-uni-phy
-+              - qcom,sm8250-qmp-usb3-uni-phy
-+              - qcom,sm8350-qmp-usb3-uni-phy
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Phy aux clock.
-+            - description: 19.2 MHz ref clk source.
-+            - description: 19.2 MHz ref clk.
-+            - description: Phy common block aux clock.
-+        clock-names:
-+          items:
-+            - const: aux
-+            - const: ref_clk_src
-+            - const: ref
-+            - const: com_aux
-+        resets:
-+          items:
-+            - description: reset of phy block.
-+            - description: phy common block reset.
-+        reset-names:
-+          items:
-+            - const: phy
-+            - const: common
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - qcom,sm8250-qmp-usb3-phy
-+              - qcom,sm8350-qmp-usb3-phy
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Phy aux clock.
-+            - description: 19.2 MHz ref clk.
-+            - description: Phy common block aux clock.
-+        clock-names:
-+          items:
-+            - const: aux
-+            - const: ref_clk_src
-+            - const: com_aux
-+        resets:
-+          items:
-+            - description: reset of phy block.
-+            - description: phy common block reset.
-+        reset-names:
-+          items:
-+            - const: phy
-+            - const: common
- 
- examples:
-   - |
--- 
-2.24.0
+Looks good to me.
 
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
