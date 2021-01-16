@@ -2,172 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B89AAC433E9
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Jan 2021 05:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B53ECC433E9
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Jan 2021 09:08:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8552C23AC0
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Jan 2021 05:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B0D723A75
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Jan 2021 09:08:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbhAPF2L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 16 Jan 2021 00:28:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbhAPF2K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jan 2021 00:28:10 -0500
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732A5C061799
-        for <linux-usb@vger.kernel.org>; Fri, 15 Jan 2021 21:27:16 -0800 (PST)
-Received: by mail-ot1-x336.google.com with SMTP id f6so1555921ots.9
-        for <linux-usb@vger.kernel.org>; Fri, 15 Jan 2021 21:27:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MQG99hmEs+jm/LvVCjiZprhkiqjwfzt+Jg3xINgEKjM=;
-        b=LiZxsf4OcoSXehQoNzHnUlYjJxMgCQ+3xFvngfwsqKwT7lQizZj1IzW2M1345vvWCb
-         sI/JB1jG55Ntixm1svalk1mLKw4m8FFZGRnDpnXOzZD2WHk2i+Iw3L9eUILQzH93vfG3
-         OhP5nldvH311qffuxlpI2my3+06D+tvfKT020=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MQG99hmEs+jm/LvVCjiZprhkiqjwfzt+Jg3xINgEKjM=;
-        b=SquhpjOuZl/0saxPyT9aHzy7SdmiA6h3uRP1OgQupriOZ28GgzsNJby2DGbp15AWcn
-         Ej+dUZVEmMDnbAIujwNN+J4YsFuioFfLz7lwH7CawOhb4lXzNTBlKU/9dVWsVJeU2Gnn
-         fR+iOomYaJ4cz4FZPGfJkfy9cauR5w8b7PjpRP2mdIdfwEMiNpw6xoVLtnhJK8oBN0Zr
-         D6nSH281qDF2GqIQW/zoD9MGvv0AYnOFw0dwh2lxzO9WMrytrfE5laXPptuFiHrcpZTP
-         N+87gWOhjnV4yc50h9U46P0mBKLtl29g88jyfuab5JWD5LZeBlorjLqFmtn25A1RN3vi
-         DA+Q==
-X-Gm-Message-State: AOAM532DZ3ESxmi64GNO4zxO862uz3Oe1Hq4oCvyWgKij3fWWvAAiD7+
-        DBsLB1e3aTJQIiqFuobIOTRvTQ==
-X-Google-Smtp-Source: ABdhPJxukKQ1dpghDQU4L5E3YI7oypsEzcF9dQOmplV8O2VC++cgA+TXNjwmeGXB4BlVVbqLoxMT8w==
-X-Received: by 2002:a05:6830:1605:: with SMTP id g5mr10750341otr.369.1610774834421;
-        Fri, 15 Jan 2021 21:27:14 -0800 (PST)
-Received: from grundler-glapstation.lan ([70.134.62.80])
-        by smtp.gmail.com with ESMTPSA id 94sm2359230otw.41.2021.01.15.21.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 21:27:13 -0800 (PST)
-From:   Grant Grundler <grundler@chromium.org>
-To:     Oliver Neukum <oliver@neukum.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S1726894AbhAPJH5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 16 Jan 2021 04:07:57 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:6112 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726595AbhAPJHx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 16 Jan 2021 04:07:53 -0500
+X-UUID: 547eb8ad9f114c21ac9dbc17e4146e30-20210116
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=uDNLP7ADdXCMr8hSuR/u2EkeXQr9wsPK4ssl9r4Wats=;
+        b=FO+fXLlqwKtHWU4TNdteO+/qkcuU/XBgIyyQeyzhHZm1Dgye2ys2SJEee5oZXdxkrCmnitAyqsAcFvGd36AsQxuZLvEp3ekwG3mbNFH6C+WmrH1N/Iyx5LIhLI0xp6O8C1yfijadfEVXl8MH/ntQlY2fFQAUykXbsPvuP62sYk0=;
+X-UUID: 547eb8ad9f114c21ac9dbc17e4146e30-20210116
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 264209683; Sat, 16 Jan 2021 17:07:05 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 16 Jan 2021 17:07:04 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 16 Jan 2021 17:07:04 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Grant Grundler <grundler@chromium.org>
-Subject: [PATCH 3/3] net: usb: cdc_ncm: don't spew notifications
-Date:   Fri, 15 Jan 2021 21:26:23 -0800
-Message-Id: <20210116052623.3196274-3-grundler@chromium.org>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-In-Reply-To: <20210116052623.3196274-1-grundler@chromium.org>
-References: <20210116052623.3196274-1-grundler@chromium.org>
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Min Guo <min.guo@mediatek.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH next 14/15] arm: dts: mt7623: harmonize node names and compatibles
+Date:   Sat, 16 Jan 2021 17:06:55 +0800
+Message-ID: <20210116090656.11752-14-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210116090656.11752-1-chunfeng.yun@mediatek.com>
+References: <20210116090656.11752-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 54C35A6C593BFAA8C54FCFEAE478818AD46520745EBBB51584EBB75785034DB32000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-RTL8156 sends notifications about every 32ms.
-Only display/log notifications when something changes.
-
-This issue has been reported by others:
-	https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1832472
-	https://lkml.org/lkml/2020/8/27/1083
-
-...
-[785962.779840] usb 1-1: new high-speed USB device number 5 using xhci_hcd
-[785962.929944] usb 1-1: New USB device found, idVendor=0bda, idProduct=8156, bcdDevice=30.00
-[785962.929949] usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
-[785962.929952] usb 1-1: Product: USB 10/100/1G/2.5G LAN
-[785962.929954] usb 1-1: Manufacturer: Realtek
-[785962.929956] usb 1-1: SerialNumber: 000000001
-[785962.991755] usbcore: registered new interface driver cdc_ether
-[785963.017068] cdc_ncm 1-1:2.0: MAC-Address: 00:24:27:88:08:15
-[785963.017072] cdc_ncm 1-1:2.0: setting rx_max = 16384
-[785963.017169] cdc_ncm 1-1:2.0: setting tx_max = 16384
-[785963.017682] cdc_ncm 1-1:2.0 usb0: register 'cdc_ncm' at usb-0000:00:14.0-1, CDC NCM, 00:24:27:88:08:15
-[785963.019211] usbcore: registered new interface driver cdc_ncm
-[785963.023856] usbcore: registered new interface driver cdc_wdm
-[785963.025461] usbcore: registered new interface driver cdc_mbim
-[785963.038824] cdc_ncm 1-1:2.0 enx002427880815: renamed from usb0
-[785963.089586] cdc_ncm 1-1:2.0 enx002427880815: network connection: disconnected
-[785963.121673] cdc_ncm 1-1:2.0 enx002427880815: network connection: disconnected
-[785963.153682] cdc_ncm 1-1:2.0 enx002427880815: network connection: disconnected
-...
-
-This is about 2KB per second and will overwrite all contents of a 1MB
-dmesg buffer in under 10 minutes rendering them useless for debugging
-many kernel problems.
-
-This is also an extra 180 MB/day in /var/logs (or 1GB per week) rendering
-the majority of those logs useless too.
-
-When the link is up (expected state), spew amount is >2x higher:
-...
-[786139.600992] cdc_ncm 2-1:2.0 enx002427880815: network connection: connected
-[786139.632997] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink 2500 mbit/s uplink
-[786139.665097] cdc_ncm 2-1:2.0 enx002427880815: network connection: connected
-[786139.697100] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink 2500 mbit/s uplink
-[786139.729094] cdc_ncm 2-1:2.0 enx002427880815: network connection: connected
-[786139.761108] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink 2500 mbit/s uplink
-...
-
-Chrome OS cannot support RTL8156 until this is fixed.
-
-Signed-off-by: Grant Grundler <grundler@chromium.org>
----
- drivers/net/usb/cdc_ncm.c  | 12 +++++++++++-
- include/linux/usb/usbnet.h |  2 ++
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 25498c311551..5de096545b86 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -1827,6 +1827,15 @@ cdc_ncm_speed_change(struct usbnet *dev,
- 	uint32_t rx_speed = le32_to_cpu(data->DLBitRRate);
- 	uint32_t tx_speed = le32_to_cpu(data->ULBitRate);
- 
-+	/* if the speed hasn't changed, don't report it.
-+	 * RTL8156 shipped before 2021 sends notification about every 32ms.
-+	 */
-+	if (dev->rx_speed == rx_speed && dev->tx_speed == tx_speed)
-+		return;
-+
-+	dev->rx_speed = rx_speed;
-+	dev->tx_speed = tx_speed;
-+
- 	/*
- 	 * Currently the USB-NET API does not support reporting the actual
- 	 * device speed. Do print it instead.
-@@ -1867,7 +1876,8 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
- 		 * USB_CDC_NOTIFY_NETWORK_CONNECTION notification shall be
- 		 * sent by device after USB_CDC_NOTIFY_SPEED_CHANGE.
- 		 */
--		usbnet_link_change(dev, !!event->wValue, 0);
-+		if (netif_carrier_ok(dev->net) != !!event->wValue)
-+			usbnet_link_change(dev, !!event->wValue, 0);
- 		break;
- 
- 	case USB_CDC_NOTIFY_SPEED_CHANGE:
-diff --git a/include/linux/usb/usbnet.h b/include/linux/usb/usbnet.h
-index 88a7673894d5..cfbfd6fe01df 100644
---- a/include/linux/usb/usbnet.h
-+++ b/include/linux/usb/usbnet.h
-@@ -81,6 +81,8 @@ struct usbnet {
- #		define EVENT_LINK_CHANGE	11
- #		define EVENT_SET_RX_MODE	12
- #		define EVENT_NO_IP_ALIGN	13
-+	u32			rx_speed;	/* in bps - NOT Mbps */
-+	u32			tx_speed;	/* in bps - NOT Mbps */
- };
- 
- static inline struct usb_driver *driver_of(struct usb_interface *intf)
--- 
-2.29.2
+VGhpcyBpcyB1c2VkIHRvIGZpeCBkdGJzX2NoZWNrIHdhcm5pbmcNCg0KU2lnbmVkLW9mZi1ieTog
+Q2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KLS0tDQogYXJjaC9hcm0v
+Ym9vdC9kdHMvbXQ3NjIzLmR0c2kgIHwgMjYgKysrKysrKysrKysrKystLS0tLS0tLS0tLS0NCiBh
+cmNoL2FybS9ib290L2R0cy9tdDc2MjNuLmR0c2kgfCAgNCArKy0tDQogMiBmaWxlcyBjaGFuZ2Vk
+LCAxNiBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2FyY2gv
+YXJtL2Jvb3QvZHRzL210NzYyMy5kdHNpIGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzLmR0c2kN
+CmluZGV4IGFlYTY4MDk1MDBkNy4uM2MxMWY3Y2ZjYzQwIDEwMDY0NA0KLS0tIGEvYXJjaC9hcm0v
+Ym9vdC9kdHMvbXQ3NjIzLmR0c2kNCisrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyMy5kdHNp
+DQpAQCAtNzg3LDggKzc4Nyw5IEBADQogCQl9Ow0KIAl9Ow0KIA0KLQlwY2llMF9waHk6IHBjaWUt
+cGh5QDFhMTQ5MDAwIHsNCi0JCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssZ2VuZXJpYy10cGh5LXYx
+IjsNCisJcGNpZTBfcGh5OiB0LXBoeUAxYTE0OTAwMCB7DQorCQljb21wYXRpYmxlID0gIm1lZGlh
+dGVrLG10NzYyMy10cGh5IiwNCisJCQkgICAgICJtZWRpYXRlayxnZW5lcmljLXRwaHktdjEiOw0K
+IAkJcmVnID0gPDAgMHgxYTE0OTAwMCAwIDB4MDcwMD47DQogCQkjYWRkcmVzcy1jZWxscyA9IDwy
+PjsNCiAJCSNzaXplLWNlbGxzID0gPDI+Ow0KQEAgLTgwNCw4ICs4MDUsOSBAQA0KIAkJfTsNCiAJ
+fTsNCiANCi0JcGNpZTFfcGh5OiBwY2llLXBoeUAxYTE0YTAwMCB7DQotCQljb21wYXRpYmxlID0g
+Im1lZGlhdGVrLGdlbmVyaWMtdHBoeS12MSI7DQorCXBjaWUxX3BoeTogdC1waHlAMWExNGEwMDAg
+ew0KKwkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMtdHBoeSIsDQorCQkJICAgICAibWVk
+aWF0ZWssZ2VuZXJpYy10cGh5LXYxIjsNCiAJCXJlZyA9IDwwIDB4MWExNGEwMDAgMCAweDA3MDA+
+Ow0KIAkJI2FkZHJlc3MtY2VsbHMgPSA8Mj47DQogCQkjc2l6ZS1jZWxscyA9IDwyPjsNCkBAIC04
+MjMsNyArODI1LDcgQEANCiANCiAJdXNiMTogdXNiQDFhMWMwMDAwIHsNCiAJCWNvbXBhdGlibGUg
+PSAibWVkaWF0ZWssbXQ3NjIzLXhoY2kiLA0KLQkJCSAgICAgIm1lZGlhdGVrLG10ODE3My14aGNp
+IjsNCisJCQkgICAgICJtZWRpYXRlayxtdGsteGhjaSI7DQogCQlyZWcgPSA8MCAweDFhMWMwMDAw
+IDAgMHgxMDAwPiwNCiAJCSAgICAgIDwwIDB4MWExYzQ3MDAgMCAweDAxMDA+Ow0KIAkJcmVnLW5h
+bWVzID0gIm1hYyIsICJpcHBjIjsNCkBAIC04MzYsOSArODM4LDkgQEANCiAJCXN0YXR1cyA9ICJk
+aXNhYmxlZCI7DQogCX07DQogDQotCXUzcGh5MTogdXNiLXBoeUAxYTFjNDAwMCB7DQotCQljb21w
+YXRpYmxlID0gIm1lZGlhdGVrLG10NzYyMy11M3BoeSIsDQotCQkJICAgICAibWVkaWF0ZWssbXQy
+NzAxLXUzcGh5IjsNCisJdTNwaHkxOiB0LXBoeUAxYTFjNDAwMCB7DQorCQljb21wYXRpYmxlID0g
+Im1lZGlhdGVrLG10NzYyMy10cGh5IiwNCisJCQkgICAgICJtZWRpYXRlayxnZW5lcmljLXRwaHkt
+djEiOw0KIAkJcmVnID0gPDAgMHgxYTFjNDAwMCAwIDB4MDcwMD47DQogCQkjYWRkcmVzcy1jZWxs
+cyA9IDwyPjsNCiAJCSNzaXplLWNlbGxzID0gPDI+Ow0KQEAgLTg2NCw3ICs4NjYsNyBAQA0KIA0K
+IAl1c2IyOiB1c2JAMWEyNDAwMDAgew0KIAkJY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDc2MjMt
+eGhjaSIsDQotCQkJICAgICAibWVkaWF0ZWssbXQ4MTczLXhoY2kiOw0KKwkJCSAgICAgIm1lZGlh
+dGVrLG10ay14aGNpIjsNCiAJCXJlZyA9IDwwIDB4MWEyNDAwMDAgMCAweDEwMDA+LA0KIAkJICAg
+ICAgPDAgMHgxYTI0NDcwMCAwIDB4MDEwMD47DQogCQlyZWctbmFtZXMgPSAibWFjIiwgImlwcGMi
+Ow0KQEAgLTg3Nyw5ICs4NzksOSBAQA0KIAkJc3RhdHVzID0gImRpc2FibGVkIjsNCiAJfTsNCiAN
+Ci0JdTNwaHkyOiB1c2ItcGh5QDFhMjQ0MDAwIHsNCi0JCWNvbXBhdGlibGUgPSAibWVkaWF0ZWss
+bXQ3NjIzLXUzcGh5IiwNCi0JCQkgICAgICJtZWRpYXRlayxtdDI3MDEtdTNwaHkiOw0KKwl1M3Bo
+eTI6IHQtcGh5QDFhMjQ0MDAwIHsNCisJCWNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ3NjIzLXRw
+aHkiLA0KKwkJCSAgICAgIm1lZGlhdGVrLGdlbmVyaWMtdHBoeS12MSI7DQogCQlyZWcgPSA8MCAw
+eDFhMjQ0MDAwIDAgMHgwNzAwPjsNCiAJCSNhZGRyZXNzLWNlbGxzID0gPDI+Ow0KIAkJI3NpemUt
+Y2VsbHMgPSA8Mj47DQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi5kdHNp
+IGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi5kdHNpDQppbmRleCAxODgwYWM5ZTMyY2YuLmJj
+YjA4NDZlMjlmZCAxMDA2NDQNCi0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL210NzYyM24uZHRzaQ0K
+KysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvbXQ3NjIzbi5kdHNpDQpAQCAtMjQ2LDcgKzI0Niw3IEBA
+DQogCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KIAl9Ow0KIA0KLQltaXBpX3R4MDogbWlwaS1kcGh5
+QDEwMDEwMDAwIHsNCisJbWlwaV90eDA6IGRzaS1waHlAMTAwMTAwMDAgew0KIAkJY29tcGF0aWJs
+ZSA9ICJtZWRpYXRlayxtdDc2MjMtbWlwaS10eCIsDQogCQkJICAgICAibWVkaWF0ZWssbXQyNzAx
+LW1pcGktdHgiOw0KIAkJcmVnID0gPDAgMHgxMDAxMDAwMCAwIDB4OTA+Ow0KQEAgLTI2NSw3ICsy
+NjUsNyBAQA0KIAkJc3RhdHVzID0gImRpc2FibGVkIjsNCiAJfTsNCiANCi0JaGRtaV9waHk6IHBo
+eUAxMDIwOTEwMCB7DQorCWhkbWlfcGh5OiBoZG1pLXBoeUAxMDIwOTEwMCB7DQogCQljb21wYXRp
+YmxlID0gIm1lZGlhdGVrLG10NzYyMy1oZG1pLXBoeSIsDQogCQkJICAgICAibWVkaWF0ZWssbXQy
+NzAxLWhkbWktcGh5IjsNCiAJCXJlZyA9IDwwIDB4MTAyMDkxMDAgMCAweDI0PjsNCi0tIA0KMi4x
+OC4wDQo=
 
