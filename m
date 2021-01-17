@@ -2,222 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16127C433E6
-	for <linux-usb@archiver.kernel.org>; Sun, 17 Jan 2021 17:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F51BC433E0
+	for <linux-usb@archiver.kernel.org>; Sun, 17 Jan 2021 21:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDECA21919
-	for <linux-usb@archiver.kernel.org>; Sun, 17 Jan 2021 17:44:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 428562247F
+	for <linux-usb@archiver.kernel.org>; Sun, 17 Jan 2021 21:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729993AbhAQRof (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 17 Jan 2021 12:44:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
+        id S1729202AbhAQVGj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 17 Jan 2021 16:06:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729972AbhAQRod (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 17 Jan 2021 12:44:33 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD907C061573;
-        Sun, 17 Jan 2021 09:43:52 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id c18so8252054oto.3;
-        Sun, 17 Jan 2021 09:43:52 -0800 (PST)
+        with ESMTP id S1729755AbhAQVGg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 17 Jan 2021 16:06:36 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328E8C061573;
+        Sun, 17 Jan 2021 13:05:56 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id n10so9664899pgl.10;
+        Sun, 17 Jan 2021 13:05:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tMDYAz1pcj84nMeQHFK12E26S9/O9jmFFjULa1oURTA=;
-        b=pLjOXjUntYAE/ggZnSXScD/DaoICvnle5d0XGm/a32S7PAxfN6QuhxNKsIF3FpSZMh
-         nb5WMrfb9NayshRIO7QN4P70Vpf2if/ILkN0n7zr9xoQvpDQSdjhtV4jELZlY3BUZuEM
-         trW6mJpGt6t4qhE50N0LoWjcy8X4mqYtqAo9QD1nucRNympCqZ2N/yHtD0exhfumM4Er
-         c2qfsS+9Add6z2tU3dDWObKxTfnZnenetyNLv/Mz1cf3lK1XTvt0u+1qDl4sv99KCe+S
-         TTGAofvOkJcaGgUvwhfWTCwWtbIklPeDTCP9LFishRNtFqdVo8kISVp1V8HKN/sMJ+lF
-         wK+w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xiGgpCOMLVvvF9WOTNFX2PUnJFl3Im7GCb/838FY8K0=;
+        b=h5MpDdNNlaywbMeHtLCOkKGg0rqIU+7qo0RnhFCcKeYI6cfK0L1XFUpchPVK7dzlL3
+         ptCthdEin3/btB83rIq849MmVd6Etci0R0/Et02MUr+0DWHM2dcT0JnpCow1ux0zXPcB
+         N2QdzP8QSJKeD6ZTwldL61676CYcmiD08jAAKMzC1SSoK7P5V/oLp5lh0YLKaJ0TBPXj
+         nQ7e+4J5zNonniPcdWOd9oZ4pPA8PIrnmnk53A3afiGX79cSsOkuTwxStiDZC0udgg+o
+         Th5HUZnuZ2CD/jjgXLAFcxc14BfN/BlEV+6N4EOLVx2eqj3ZkzEeOTZsXKN8yEMYywjI
+         62/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=tMDYAz1pcj84nMeQHFK12E26S9/O9jmFFjULa1oURTA=;
-        b=gUoFvzH6DTxNXVPY9ILJGsxVU5bfgpSGW7k/XglbQRmceQrvS/x4QWzqulqSLnfeBP
-         HcOiU9YmjEE1FZMdKtNNlfOci2bWMtD/b7q6Vy2CDTA+bSrdU+AX/9jhQ8dzuK3PoUQj
-         RlbDdZgqF5fTVxCXHCwNQAlAMBSywiNpXQtCgtcI+RhqJSA5COqEuulsB/RsY4k2H/Wn
-         FNVoi66kHdQqloup85/Uq+x5KrqqMhFiDkBJzfQ5jsoVLYnlmF34CQlSVmXGbtTWF3Mc
-         B5IyVm5l+zDojTiaZqS/v+/N/DSRsvZU3i8OUsNenzdG1Z7ObtGBQuU4M+9mgYDxdB3K
-         H0mA==
-X-Gm-Message-State: AOAM531RL/6GxPvkFuH/deJt6ZRGKk1izgJAXvl00KcROcnhwMoMVcY8
-        mr0/ClOCQcHQqmyE50uqxb00LxXE7QQ=
-X-Google-Smtp-Source: ABdhPJw1xzKjrlHsz0gVmd2NFTcsxhLrktpAuJiCemlq78SyrLFQkTyV8dbuErOUO1x8yxfC8/LqwA==
-X-Received: by 2002:a9d:ea6:: with SMTP id 35mr15093975otj.188.1610905431845;
-        Sun, 17 Jan 2021 09:43:51 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l12sm3142862ooq.22.2021.01.17.09.43.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Jan 2021 09:43:51 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 1/2] usb typec: tcpci: mt6360: Add vsafe0v support and
- external vbus supply control
-To:     cy_huang <u0084500@gmail.com>, heikki.krogerus@linux.intel.com,
-        matthias.bgg@gmail.com, robh+dt@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        cy_huang@richtek.com, gene_chen@richtek.com,
-        devicetree@vger.kernel.org
-References: <1610720001-15300-1-git-send-email-u0084500@gmail.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <3a4a88a9-f0e3-2b65-9df4-6c1d4e3f1c14@roeck-us.net>
-Date:   Sun, 17 Jan 2021 09:43:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xiGgpCOMLVvvF9WOTNFX2PUnJFl3Im7GCb/838FY8K0=;
+        b=ufgAkclTrJQCijzSJrDzl6yfOMfT0vn63YkONtCBrnOXosIu1ZHm5eQllo5v5hipCx
+         +6ibGXSQPdScgarHQ57sYkIWAdusOrcWDWyjHH+MEaFDW3z2Mtsh+uzY5xoBLJ0F8Sxz
+         O3UjolqL27U04MGUdsLL39ADSvgbzQAH0ra7pK9Qry3fvb9Hud/0v7g3IwzmuNrwv8Rl
+         zEix49Q/v0Vnp0PIihepGdk7WSz5V3j0fdBSBY1pQ4KkaxhFZrB97FZRrRN/oaB1eXY+
+         lNzpdhAtsk/VUfXPjGUO7Iyd6WsYZa3TRdHUcD2VDuv+ejoSU+NJKO4zNkYOSyMaeprx
+         H2dQ==
+X-Gm-Message-State: AOAM532PQ2zjLNMU5iwSrSPDDDNFyDbWaMOUGWYYXkL6zKA2OBRFBU5j
+        dmchCuDttWGALUNBLPDw++j7eE1xDwjv1dAbkEk=
+X-Google-Smtp-Source: ABdhPJwjg5Yk5pppvzZNoyX+G14S7BE0gcMIIaGeDa21EYhslEqdMfrwUvtYV854GA05PDl4Fau5aZtrx0r53yTkgP8=
+X-Received: by 2002:a05:6a00:854:b029:1b7:6233:c5f with SMTP id
+ q20-20020a056a000854b02901b762330c5fmr2467555pfk.73.1610917555805; Sun, 17
+ Jan 2021 13:05:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1610720001-15300-1-git-send-email-u0084500@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210115094914.88401-1-heikki.krogerus@linux.intel.com>
+ <CAHp75Vc3xjaOugX3d8bohz12OEP=n4BAonNyQJQ=UgBfVZorOg@mail.gmail.com> <c644e72c-bb46-56c2-931e-7cb98b024cc3@gmail.com>
+In-Reply-To: <c644e72c-bb46-56c2-931e-7cb98b024cc3@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 17 Jan 2021 23:05:39 +0200
+Message-ID: <CAHp75VfMOcPyXELoD4S+oQjAaVg6H0Hn2hs2UAbYEKhnFZp36A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Remove one more platform_device_add_properties() call
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg KH <greg@kroah.com>, Felipe Balbi <balbi@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 1/15/21 6:13 AM, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> MT6360 not support for TCPC command to control source and sink.
+On Sat, Jan 16, 2021 at 11:29 PM Daniel Scally <djrscally@gmail.com> wrote:
+> On 16/01/2021 20:23, Andy Shevchenko wrote:
+> > On Fri, Jan 15, 2021 at 11:52 AM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> >> Hi,
+> >>
+> >> I'm now clearing the dev_fwnode(dev)->secondary pointer in
+> >> device_remove_software_node() as requested by Daniel and Andy. Thanks
+> >> guys, it's much better now. I also took the liberty of including one
+> >> more PCI ID patch where I add PCI ID for the Alder Lake-P variant. I
+> >> hope that is OK.
+> >>
+> >> Andy, I dropped your Tested-by tag because of the change I made to the
+> >> first patch. If you have time to retest these, I would much appreciate.
+> > Since Greg already grabbed a v3 I will test it when it appears in linux-next.
+> >
+> It seems the grabbed one is the v2 one though actually
 
-does not
+In his last message he wrote that he noticed the v3 *as I understand that*.
+Greg, is it right? I mean you took v3 eventually?
 
-> Uses external 5V vbus regulator as the vbus source control.
-> 
-Use
-
-> Also adds the capability to report vsafe0v.
-> 
-add
-
-So far this driver works without regulator. Unless I am missing something,
-this patch makes regulator support mandatory, meaning existing code will fail.
-I am not sure if that is appropriate/acceptable. Can we be sure that this will
-work for existing users of this driver ?
-
-Thanks,
-Guenter
-
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  drivers/usb/typec/tcpm/tcpci_mt6360.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6360.c b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> index f1bd9e0..0edf4b6 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> @@ -11,6 +11,7 @@
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
-> +#include <linux/regulator/consumer.h>
->  #include <linux/usb/tcpm.h>
->  
->  #include "tcpci.h"
-> @@ -36,6 +37,7 @@ struct mt6360_tcpc_info {
->  	struct tcpci_data tdata;
->  	struct tcpci *tcpci;
->  	struct device *dev;
-> +	struct regulator *vbus;
->  	int irq;
->  };
->  
-> @@ -51,6 +53,27 @@ static inline int mt6360_tcpc_write16(struct regmap *regmap,
->  	return regmap_raw_write(regmap, reg, &val, sizeof(u16));
->  }
->  
-> +static int mt6360_tcpc_set_vbus(struct tcpci *tcpci, struct tcpci_data *data, bool src, bool snk)
-> +{
-> +	struct mt6360_tcpc_info *mti = container_of(data, struct mt6360_tcpc_info, tdata);
-> +	int ret;
-> +
-> +	/* To correctly handle the already enabled vbus and disable its supply first */
-> +	if (regulator_is_enabled(mti->vbus)) {
-> +		ret = regulator_disable(mti->vbus);
-> +		if (ret)
-> +			return ret;
-> +	}
-
-Is it really a good idea to disable vbus if it happens to be already enabled
-and there is (another ?) request to enable it ?
-
-> +
-> +	if (src) {
-> +		ret = regulator_enable(mti->vbus);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int mt6360_tcpc_init(struct tcpci *tcpci, struct tcpci_data *tdata)
->  {
->  	struct regmap *regmap = tdata->regmap;
-> @@ -138,7 +161,13 @@ static int mt6360_tcpc_probe(struct platform_device *pdev)
->  	if (mti->irq < 0)
->  		return mti->irq;
->  
-> +	mti->vbus = devm_regulator_get(&pdev->dev, "vbus");
-> +	if (IS_ERR(mti->vbus))
-> +		return PTR_ERR(mti->vbus);
-> +
->  	mti->tdata.init = mt6360_tcpc_init;
-> +	mti->tdata.set_vbus = mt6360_tcpc_set_vbus;
-> +	mti->tdata.vbus_vsafe0v = 1;
->  	mti->tcpci = tcpci_register_port(&pdev->dev, &mti->tdata);
->  	if (IS_ERR(mti->tcpci)) {
->  		dev_err(&pdev->dev, "Failed to register tcpci port\n");
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
