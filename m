@@ -2,95 +2,132 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD856C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 13:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E819C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A72FA2225C
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 13:51:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEB5722D03
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392315AbhARNev (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 08:34:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36088 "EHLO mail.kernel.org"
+        id S2391750AbhARO6G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 09:58:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730796AbhARNe2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 08:34:28 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50B7A21D93;
-        Mon, 18 Jan 2021 13:33:48 +0000 (UTC)
+        id S1726594AbhARO5U (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 Jan 2021 09:57:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 18BB622CA1;
+        Mon, 18 Jan 2021 14:56:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610976828;
-        bh=jHHQV6dbIJ9v2eZ4J7iBy1Y2Qc19JplunFt64jt8TXo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=njE8n+ES6+OGG2qSlslHJvl5yETrXlrnbPg/ceTCr5U2ySyavV2TL/NvNeK622CFL
-         8o2R9rq9XiPc54eIz0wguFaI+ezrZ8v+jwc4WuRutKA6MUOZgSBc5vXYJWev4OP7my
-         e5GkImV9VusKo3EOTtscglKIcnLuaXfhWfk8me5BdokUtFkkEYlI6ZQFMleqXqMRuF
-         qkiKP7KKuSrVmMN5rswnY3OfLgLR8ArSiGo8MjokeC289QQbsedh27cwX1U+155RZn
-         cAuzYr2oUChHSftEX1rLhJVx/AVnWOd+jJEvenT/FjmKs8OMGoUR8X3q4wREi0Z6nM
-         tfrq/j6/k7IiQ==
-Received: from johan by xi with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l1UfK-0004ZC-8f; Mon, 18 Jan 2021 14:33:55 +0100
-Date:   Mon, 18 Jan 2021 14:33:54 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        Sheng Long Wang <china_shenglong@163.com>,
-        Wang Sheng Long <shenglong.wang.ext@siemens.com>
-Subject: Re: [PATCH 1/6] USB: serial: cp210x: add support for software flow
- control
-Message-ID: <YAWOQpoN9oDfvFo9@hovoldconsulting.com>
-References: <20210118111331.5048-1-johan@kernel.org>
- <20210118111331.5048-2-johan@kernel.org>
- <YAWCU9D+FTHgW5wj@kroah.com>
+        s=k20201202; t=1610981799;
+        bh=Han/yBiP7YCv1DXxaRT5BucStPwaHvat3bP/RRDdIcU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=avLtiyDQmnR9BLa+wtOvaFsMFXNbe1OmFAoxgLQkXH0IEdgaE75ZVyjzlyMov/hQ7
+         W2qi1DcjEyu/UvCF3CNjQ+truPkhUjN2RBEExIROxXkqy5XCa0kC1z5Nvw7j5/wCle
+         hVEiqpdTgj3qSrL3Nl7umSk+NETXx8QVdf8qIck/dc6q3fk7kOrlOhJ4G/N4/bOzqD
+         uZY3Bw3s9+FIJVgFValBTrFZcA+gvjo/O95OBgs7rA9ExusVsBbvwR+vy5CzrLa++q
+         JA3gF6hT9ZZ+uKbh+fM+ZskKfu1j+pGh7cvaedstV0rV7zw3fOhJObJILZRmUCAQ1n
+         C2UMHnJ7kHpTA==
+Received: by mail-ej1-f41.google.com with SMTP id 6so24082386ejz.5;
+        Mon, 18 Jan 2021 06:56:39 -0800 (PST)
+X-Gm-Message-State: AOAM5330uGqGn3ZFF5AuVUY1IylC6/88GEYLrl8P3zVD+EffpZ5Lm3kv
+        vvyaUjFbo1mfA0YO5cfOk9f8wpyOhQA8d//9bg==
+X-Google-Smtp-Source: ABdhPJzQmiS9/MsRXPQe1QLclHpEy2erv8VURiXmHTwJ59O6sI9r4nQ58rZnC7a+vUSVQmEFf565IppWMasuz6EtwSo=
+X-Received: by 2002:a17:906:35c9:: with SMTP id p9mr77562ejb.310.1610981797653;
+ Mon, 18 Jan 2021 06:56:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YAWCU9D+FTHgW5wj@kroah.com>
+References: <20210116090656.11752-1-chunfeng.yun@mediatek.com> <20210116090656.11752-3-chunfeng.yun@mediatek.com>
+In-Reply-To: <20210116090656.11752-3-chunfeng.yun@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Mon, 18 Jan 2021 22:56:25 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8FV87MTSi_Mc2MA3uWzCUBcpCC5Sne2Wc6X1R57EiCkw@mail.gmail.com>
+Message-ID: <CAAOTY_8FV87MTSi_Mc2MA3uWzCUBcpCC5Sne2Wc6X1R57EiCkw@mail.gmail.com>
+Subject: Re: [PATCH next 03/15] dt-bindings: phy: mediatek: dsi-phy: modify
+ compatible dependence
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Min Guo <min.guo@mediatek.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 18, 2021 at 01:42:59PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Jan 18, 2021 at 12:13:26PM +0100, Johan Hovold wrote:
-> > From: Wang Sheng Long <shenglong.wang.ext@siemens.com>
+Hi, Chunfeng:
 
-> > +static int cp210x_set_chars(struct usb_serial_port *port,
-> > +		struct cp210x_special_chars *chars)
-> > +{
-> > +	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
-> > +	struct usb_serial *serial = port->serial;
-> > +	void *dmabuf;
-> > +	int result;
-> > +
-> > +	dmabuf = kmemdup(chars, sizeof(*chars), GFP_KERNEL);
-> > +	if (!dmabuf)
-> > +		return -ENOMEM;
-> > +
-> > +	result = usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
-> > +				CP210X_SET_CHARS, REQTYPE_HOST_TO_INTERFACE, 0,
-> > +				port_priv->bInterfaceNumber,
-> > +				dmabuf, sizeof(*chars), USB_CTRL_SET_TIMEOUT);
-> > +
-> > +	kfree(dmabuf);
-> > +
-> > +	if (result < 0) {
-> > +		dev_err(&port->dev, "failed to set special chars: %d\n", result);
-> > +		return result;
-> > +	}
-> 
-> This is an "open coded" usb_control_msg_send() call :)
+Chunfeng Yun <chunfeng.yun@mediatek.com> =E6=96=BC 2021=E5=B9=B41=E6=9C=881=
+6=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=885:07=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> The compatilbe "mediatek,mt7623-mipi-tx" is not supported in driver,
+> and in fact uses "mediatek,mt2701-mipi-tx" instead on MT7623, so changes
+> the compatible items to make dependence clear.
+>
+> And add an optional "clock-names" property, it's not used to get the cloc=
+k,
+> but some DTS files provide it.
 
-Right, but there are a few more functions like this one in this driver
-so I kept it for consistency for now.
+Separate the clock part to another patch.
 
-> Other than that minor thing:
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Regards,
+Chun-Kuang.
 
-Thanks for reviewing all of these. Now applied.
-
-Johan
+>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  .../bindings/phy/mediatek,dsi-phy.yaml          | 17 ++++++++++++-----
+>  1 file changed, 12 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml =
+b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> index 71d4acea1f66..af6e554c5b69 100644
+> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> @@ -19,11 +19,14 @@ properties:
+>      pattern: "^dsi-phy@[0-9a-f]+$"
+>
+>    compatible:
+> -    enum:
+> -      - mediatek,mt2701-mipi-tx
+> -      - mediatek,mt7623-mipi-tx
+> -      - mediatek,mt8173-mipi-tx
+> -      - mediatek,mt8183-mipi-tx
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - mediatek,mt7623-mipi-tx
+> +          - const: mediatek,mt2701-mipi-tx
+> +      - const: mediatek,mt2701-mipi-tx
+> +      - const: mediatek,mt8173-mipi-tx
+> +      - const: mediatek,mt8183-mipi-tx
+>
+>    reg:
+>      maxItems: 1
+> @@ -32,6 +35,10 @@ properties:
+>      items:
+>        - description: PLL reference clock
+>
+> +  clock-names:
+> +    items:
+> +      - const: ref
+> +
+>    clock-output-names:
+>      maxItems: 1
+>
+> --
+> 2.18.0
