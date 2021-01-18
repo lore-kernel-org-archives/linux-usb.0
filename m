@@ -2,74 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20117C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E250C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:29:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5013222B3
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:26:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2590C222B3
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389982AbhARLSA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 06:18:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56316 "EHLO mail.kernel.org"
+        id S2390288AbhARL3b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 06:29:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389036AbhARLOU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:14:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BD2E3221F8;
-        Mon, 18 Jan 2021 11:13:39 +0000 (UTC)
+        id S2390258AbhARL3P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 Jan 2021 06:29:15 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 985D7222B3;
+        Mon, 18 Jan 2021 11:28:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610968419;
-        bh=kTv+tUyQ6u2j665x237Rx1YwKwkcMZQgCYKyjtHNKRI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=AHfVu8MMiQU9Hf3E/1JCeYwnAwmB0H94M7yWk+bEZ4BII+LQm8CJXjQ0DxOmXqGSM
-         +Hr3ei+vq6KyJZ+5R+Ktz7kRJEz506Bu7G+rQzWmcqYwA5XI+MmfssgdIpptTQKBx6
-         Uz4EirCDDUu6xAU5t+LE9FL8tjA6pCpxhBR9Z1ul0CHddkYUAHtSSfRIlCRma3SRz6
-         5nLlRJfn9QGqxag5m7gQ9gPQYTSoUQDDPOHUNWrPBG82rcN1SDlHRMNSN3X+iqSKjj
-         4MDPJCjwvAH890lacJdZvunwg8P1LMnzt4cduyk14kVUuosBU15TK/KoTuIdD5uuAd
-         1T8a0TrM60qHg==
-Received: from johan by xi with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l1STh-0001KM-Qv; Mon, 18 Jan 2021 12:13:45 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Sheng Long Wang <china_shenglong@163.com>,
-        Wang Sheng Long <shenglong.wang.ext@siemens.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/6] USB: serial: cp210x: add software flow-control support
-Date:   Mon, 18 Jan 2021 12:13:25 +0100
-Message-Id: <20210118111331.5048-1-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        s=k20201202; t=1610969315;
+        bh=c0eIqJRbjT0hCCLPG5GwxthzWmzDFeiFgXMCYn+LmlY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=lB1ioYhrWdqAFFmMLMnMvOZr01UynnQXGh6AdayJn9NvgqbwMkjxlnA85qWf6UI74
+         WWxPyw+mnPVjMbKE9RVw0CeyX8gGoTtB7gzlccRHSsG1uEUY/S7LR6n1bdJNJr9JhQ
+         bsq/JRaowISt1zcs9ZVk5nMLGfEwXcZ65RzOdC5Y98065jkPI6IX9KyfD4XR/Npbxa
+         6F27m4IHFg0PKcWENF5OTaws7jPju4payFoGYFxZBC0abBiKHIFuAtnhPIFZv7JtWJ
+         4/E7dBwdJPnyf8RJ8oPP4nZB0kyP/T+NQEJpmQfX8gCX1gIxdJddNGMTTY1Gc1siX3
+         eb8q1NkXmdZJQ==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Shawn Guo <shawn.guo@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        Shawn Guo <shawn.guo@linaro.org>
+Subject: Re: [PATCH v2] usb: dwc3: qcom: add URS Host support for sdm845
+ ACPI boot
+In-Reply-To: <20210115035057.10994-1-shawn.guo@linaro.org>
+References: <20210115035057.10994-1-shawn.guo@linaro.org>
+Date:   Mon, 18 Jan 2021 13:28:27 +0200
+Message-ID: <87bldmwkkk.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series, based on a patch by Wang Sheng Long, adds support for
-software flow control to the cp210x driver. Included are also some
-related cleanups.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Johan
+Shawn Guo <shawn.guo@linaro.org> writes:
 
+> For sdm845 ACPI boot, the URS (USB Role Switch) node in ACPI DSDT table
+> holds the memory resource, while interrupt resources reside in the child
+> nodes USB0 and UFN0.  It adds USB0 host support by probing URS node,
+> creating platform device for USB0 node, and then retrieve interrupt
+> resources from USB0 platform device.
+>
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> ---
 
-Johan Hovold (5):
-  USB: serial: cp210x: set IXOFF thresholds
-  USB: serial: cp210x: update control-characters on every change
-  USB: serial: cp210x: drop short control-transfer checks
-  USB: serial: cp210x: drop unused includes
-  USB: serial: cp210x: add copyright notice
+Acked-by: Felipe Balbi <balbi@.kernel.org>
 
-Wang Sheng Long (1):
-  USB: serial: cp210x: add support for software flow control
+=2D-=20
+balbi
 
- drivers/usb/serial/cp210x.c | 100 +++++++++++++++++++++++++++++-------
- 1 file changed, 81 insertions(+), 19 deletions(-)
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-2.26.2
+-----BEGIN PGP SIGNATURE-----
 
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmAFcNsRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQb8Uw/9G8O+kcOYMlymXXcbWA5asT96XHu4Kmoo
+PiApVcFo0+KKMuTjH+MAAo72AjffVcp5fmY5RkbfiSLgdW4qOhZNLF+tkBy1YdG1
+pNkvZA+9LhpYFV2U3iAbD7XkZMhhTZrye/GQcyXtRAFQrLrt53IQPg1lR2PRcM+P
+vEfuTwZ3rdRqZ/DG00fjSYq5gYcS+pA7fkulCsjOCS/9H+jHlgK5rPocFIvNhgcy
+4UBdctmInbKJC5Oh1amGdYAiZ3ij5yAPSPcdZW3mgL4euNFbWAB31cXtA8xDbjGW
+/yspgOnr9HFEcTwmuIkLiM9n5cq5iuEnfaW6VMmvualhP5GEZOqZJOB3eaQW+zWB
+y9fWpSrl/dUHJROFSWOlissVdbozLGAC3yy6DAHc3dL2/ZY0dXPreyGvbFB9zUj9
+r3EMc8vbMk0sbIDliwb10kj8Qjb6nNOcorZuuumi/SXv+4O+pWYRMoJWnAa8IDdz
+2QcgKHgxPnjFqknQ3HaB+fAddupbic1NSMbdv9OtqtjuYRjpJfbDTgUXBdq7dh/e
+GGRhJaJVyOzbkGSD3pGQoBLhDg1LFldqo+SmxmyIsYQtp3w/ld0axEu7Cs2J0RX9
+RXOhjMPK9S8/3Ey55vzEPubYoid1zOqr7ffhIhdpWctg2jj8HnPWFczIKvWdkFqk
+TBVE1ihoLD4=
+=Y34q
+-----END PGP SIGNATURE-----
+--=-=-=--
