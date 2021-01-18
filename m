@@ -2,132 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E819C433E6
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A08E9C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:31:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEB5722D03
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 14:58:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74FE422CA0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:31:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391750AbhARO6G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 09:58:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50776 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726594AbhARO5U (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 09:57:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18BB622CA1;
-        Mon, 18 Jan 2021 14:56:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610981799;
-        bh=Han/yBiP7YCv1DXxaRT5BucStPwaHvat3bP/RRDdIcU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=avLtiyDQmnR9BLa+wtOvaFsMFXNbe1OmFAoxgLQkXH0IEdgaE75ZVyjzlyMov/hQ7
-         W2qi1DcjEyu/UvCF3CNjQ+truPkhUjN2RBEExIROxXkqy5XCa0kC1z5Nvw7j5/wCle
-         hVEiqpdTgj3qSrL3Nl7umSk+NETXx8QVdf8qIck/dc6q3fk7kOrlOhJ4G/N4/bOzqD
-         uZY3Bw3s9+FIJVgFValBTrFZcA+gvjo/O95OBgs7rA9ExusVsBbvwR+vy5CzrLa++q
-         JA3gF6hT9ZZ+uKbh+fM+ZskKfu1j+pGh7cvaedstV0rV7zw3fOhJObJILZRmUCAQ1n
-         C2UMHnJ7kHpTA==
-Received: by mail-ej1-f41.google.com with SMTP id 6so24082386ejz.5;
-        Mon, 18 Jan 2021 06:56:39 -0800 (PST)
-X-Gm-Message-State: AOAM5330uGqGn3ZFF5AuVUY1IylC6/88GEYLrl8P3zVD+EffpZ5Lm3kv
-        vvyaUjFbo1mfA0YO5cfOk9f8wpyOhQA8d//9bg==
-X-Google-Smtp-Source: ABdhPJzQmiS9/MsRXPQe1QLclHpEy2erv8VURiXmHTwJ59O6sI9r4nQ58rZnC7a+vUSVQmEFf565IppWMasuz6EtwSo=
-X-Received: by 2002:a17:906:35c9:: with SMTP id p9mr77562ejb.310.1610981797653;
- Mon, 18 Jan 2021 06:56:37 -0800 (PST)
+        id S2405883AbhARPbB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 10:31:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405877AbhARP3I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jan 2021 10:29:08 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD09EC061573
+        for <linux-usb@vger.kernel.org>; Mon, 18 Jan 2021 07:28:27 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id o18so1812169qtp.10
+        for <linux-usb@vger.kernel.org>; Mon, 18 Jan 2021 07:28:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ysweUzLzeiCYFl+DLTVwTcwLOex2FvHGSV44HDG9Rl8=;
+        b=X9mSWuHiPBYDp8CAXHIWpIZ2FuQj6rir4Q5nCWJ7Auc+DbUqcC3sWHh/xvkC3f2Bvy
+         8dU048xOzPyD2sRImo5EsMANiQymtbYy5wEN7ruaNIY1XvsXtGD4zCu3RCO10kGGSIAB
+         la5ITXOYS/gtQL2IFXAGrr0YeTOGJoFbvKi8L6bmf8jKPAVRq/uJN1BmDoVy53fCo9JE
+         okksmL7w+I+UI2/q4LFVYnpPHe1pnjBpkme7xKpAE+ug2+PcT+F59xWBt6tB5Im8ef5+
+         In7ha5SyjNpGPNg+qJ/0vcgsO7TF9YKpMqYdON2EZCc8SVltTxBNb1htnWD97tFPeWtY
+         9DUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ysweUzLzeiCYFl+DLTVwTcwLOex2FvHGSV44HDG9Rl8=;
+        b=ueGqpmspKvnzHsuMI1Vu4l4g5yiVQmp59CC/rK+bZSUjbmr2qy5KqSldUkdLx6EIPM
+         cGJqRH4Qr55KiiZpQNmhz1XjxxVsiQIMYK/0fI6CzV67int7eB4pblGc5LUM84NGRcPA
+         eZZeMxPDtojnJsy3WAUgasnIt2yL0SkpnfstkhNtd9gVBUCT3G/sAXmuGu2d2oAhBbO9
+         yGzPklW9PTAGV+6IoO4z5qPVOwtFoFDPkfotaaFrnY8yUChCj5em8mWriszmyHQSmcB0
+         C4bKLe62uGVzYdmpjjYaw6/187+ZMzZl8u38DsjNuU0ysHe+OnkbhnjOU3Ks9cYuzvU0
+         tOsg==
+X-Gm-Message-State: AOAM530TEWBAhdySZszWaBucabWbFjcx1kRl/f0YCjAQMAb5+ioYwXNe
+        vsrw95eQklCcRKEUhZ0MQIg=
+X-Google-Smtp-Source: ABdhPJziaNnLXDZSdJ0HBfRObisQoLwDfQptILQwO8z5btPpfBvBFO/Ps7odOJBuVKSVsvrBXJbQrw==
+X-Received: by 2002:ac8:7559:: with SMTP id b25mr153998qtr.126.1610983706869;
+        Mon, 18 Jan 2021 07:28:26 -0800 (PST)
+Received: from localhost.localdomain ([177.194.79.136])
+        by smtp.gmail.com with ESMTPSA id y67sm10854490qka.68.2021.01.18.07.28.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jan 2021 07:28:26 -0800 (PST)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     balbi@kernel.org
+Cc:     linux-usb@vger.kernel.org, peter.chen@nxp.com,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH RESEND] usb: phy: phy-mxs-usb: Use of_device_get_match_data()
+Date:   Mon, 18 Jan 2021 12:26:15 -0300
+Message-Id: <20210118152615.1644861-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210116090656.11752-1-chunfeng.yun@mediatek.com> <20210116090656.11752-3-chunfeng.yun@mediatek.com>
-In-Reply-To: <20210116090656.11752-3-chunfeng.yun@mediatek.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Mon, 18 Jan 2021 22:56:25 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8FV87MTSi_Mc2MA3uWzCUBcpCC5Sne2Wc6X1R57EiCkw@mail.gmail.com>
-Message-ID: <CAAOTY_8FV87MTSi_Mc2MA3uWzCUBcpCC5Sne2Wc6X1R57EiCkw@mail.gmail.com>
-Subject: Re: [PATCH next 03/15] dt-bindings: phy: mediatek: dsi-phy: modify
- compatible dependence
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Min Guo <min.guo@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi, Chunfeng:
+The retrieval of driver data via of_device_get_match_data() can make
+the code simpler.
 
-Chunfeng Yun <chunfeng.yun@mediatek.com> =E6=96=BC 2021=E5=B9=B41=E6=9C=881=
-6=E6=97=A5 =E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=885:07=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> The compatilbe "mediatek,mt7623-mipi-tx" is not supported in driver,
-> and in fact uses "mediatek,mt2701-mipi-tx" instead on MT7623, so changes
-> the compatible items to make dependence clear.
->
-> And add an optional "clock-names" property, it's not used to get the cloc=
-k,
-> but some DTS files provide it.
+Use of_device_get_match_data() to simplify the code. 
 
-Separate the clock part to another patch.
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Acked-by: Peter Chen <peter.chen@nxp.com>
+---
+ drivers/usb/phy/phy-mxs-usb.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-Regards,
-Chun-Kuang.
+diff --git a/drivers/usb/phy/phy-mxs-usb.c b/drivers/usb/phy/phy-mxs-usb.c
+index 67b39dc62b37..8a262c5a0408 100644
+--- a/drivers/usb/phy/phy-mxs-usb.c
++++ b/drivers/usb/phy/phy-mxs-usb.c
+@@ -714,14 +714,9 @@ static int mxs_phy_probe(struct platform_device *pdev)
+ 	struct clk *clk;
+ 	struct mxs_phy *mxs_phy;
+ 	int ret;
+-	const struct of_device_id *of_id;
+ 	struct device_node *np = pdev->dev.of_node;
+ 	u32 val;
+ 
+-	of_id = of_match_device(mxs_phy_dt_ids, &pdev->dev);
+-	if (!of_id)
+-		return -ENODEV;
+-
+ 	base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(base))
+ 		return PTR_ERR(base);
+@@ -797,7 +792,7 @@ static int mxs_phy_probe(struct platform_device *pdev)
+ 	mxs_phy->phy.charger_detect	= mxs_phy_charger_detect;
+ 
+ 	mxs_phy->clk = clk;
+-	mxs_phy->data = of_id->data;
++	mxs_phy->data = of_device_get_match_data(&pdev->dev);
+ 
+ 	platform_set_drvdata(pdev, mxs_phy);
+ 
+-- 
+2.17.1
 
->
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
->  .../bindings/phy/mediatek,dsi-phy.yaml          | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml =
-b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> index 71d4acea1f66..af6e554c5b69 100644
-> --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> @@ -19,11 +19,14 @@ properties:
->      pattern: "^dsi-phy@[0-9a-f]+$"
->
->    compatible:
-> -    enum:
-> -      - mediatek,mt2701-mipi-tx
-> -      - mediatek,mt7623-mipi-tx
-> -      - mediatek,mt8173-mipi-tx
-> -      - mediatek,mt8183-mipi-tx
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - mediatek,mt7623-mipi-tx
-> +          - const: mediatek,mt2701-mipi-tx
-> +      - const: mediatek,mt2701-mipi-tx
-> +      - const: mediatek,mt8173-mipi-tx
-> +      - const: mediatek,mt8183-mipi-tx
->
->    reg:
->      maxItems: 1
-> @@ -32,6 +35,10 @@ properties:
->      items:
->        - description: PLL reference clock
->
-> +  clock-names:
-> +    items:
-> +      - const: ref
-> +
->    clock-output-names:
->      maxItems: 1
->
-> --
-> 2.18.0
