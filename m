@@ -7,88 +7,83 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C879EC433E6
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AADEFC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90DDA223E8
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 697C3221F8
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390123AbhARLS1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 06:18:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57300 "EHLO mail.kernel.org"
+        id S2390114AbhARLSV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 06:18:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57286 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390063AbhARLRB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2390064AbhARLRB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 18 Jan 2021 06:17:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 80D3422B4E;
-        Mon, 18 Jan 2021 11:14:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DC9D3229CA;
+        Mon, 18 Jan 2021 11:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610968475;
-        bh=ZmiwXvU1fPkhwjAFY6wchIWp1xM+P3XaMY4OdYYItgU=;
+        s=k20201202; t=1610968420;
+        bh=pAcNSWqR5YRVGOErrCQ1NR9P9H5lWByvE/049bY4OSY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=frZAJ8h7VYXTMeR0QnRgda1XE9XKXd2JUBZPtCKsZ8gOyy4LYD1DT3LpdC0KfCLel
-         eo/r1eY5tkVLkH8Lug47HZWV2bh8h/7vrCxZSKvPOsX0ZGppTSUpY7r177THIooL4n
-         iUguEA770KBcM0eEQ65XSZeljSCyrhiLf7lgkjwMnELF01nI9dWYM+2pKx9gk1pedh
-         2AevsTqpx0KfjSrT1iOKSVn4AKwaevTdPsNYdyLLp2CmqBuxDv+avyMJL8yMkdtxW9
-         iF0HlGdLDOhzkwFsoQK3o/dQISAmgCozqtDmOn4Dbzvt4YiUgOaWijrOejR0Sz9f7B
-         jbOg7s/No90AQ==
+        b=dklJuHz8AQsb2JhLv7sUdmu2RYc0jgp3YHFd60fWdyhw76sTG7nmz7l+z6WLeiW3u
+         RM/2ymG+kUZy90OyPjGXk6Og10/DSR3QnDHz5fkHPAxM/XCzc7byef5LO3146H07MC
+         xFUxGtbKt0TvEA8O/4hSiatov0ZqeKBLW33TH5eMdsvF7odIRBkksp16rlW+ZHE6x9
+         VS8pmI1GTNusVBw9RzQlCCr/Co0tcgrlQ43ueNdue6WFJsTETieaiqsOojdUm6UxT/
+         VEoYcTyIRFCfA3C9yxhQc2lyAhC7psr7PGDIVhC8Q4XahVNt6QmarvEQ6J86gKhlpI
+         auc9NFXBuRQYg==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l1SUc-0001M7-7e; Mon, 18 Jan 2021 12:14:42 +0100
+        id 1l1STi-0001KQ-1w; Mon, 18 Jan 2021 12:13:46 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Sheng Long Wang <china_shenglong@163.com>,
+        Wang Sheng Long <shenglong.wang.ext@siemens.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/6] USB: serial: f81232: drop short control-transfer checks
-Date:   Mon, 18 Jan 2021 12:14:25 +0100
-Message-Id: <20210118111426.5147-6-johan@kernel.org>
+Subject: [PATCH 2/6] USB: serial: cp210x: set IXOFF thresholds
+Date:   Mon, 18 Jan 2021 12:13:27 +0100
+Message-Id: <20210118111331.5048-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210118111426.5147-1-johan@kernel.org>
-References: <20210118111426.5147-1-johan@kernel.org>
+In-Reply-To: <20210118111331.5048-1-johan@kernel.org>
+References: <20210118111331.5048-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's no need to check for short control transfers when sending data
-so remove the redundant sanity checks.
+At least CP2102 requires the XON/XOFF limits to be initialised in order
+for software input flow control (IXOFF) to work. Specifically, XOFF is
+never sent if the XOFF limit is left at its default value of zero.
+
+Set the limits so that input is throttled when the FIFO free level drops
+below 128 bytes and restarted when the FIFO fill level drops below 128
+bytes.
+
+Note that the threshold values have been chosen so that they can be used
+also with CP2105 which has the smallest FIFO of the currently supported
+device types (288 byte for the SCI port). If needed the limits can be
+made device specific later.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/f81232.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/usb/serial/cp210x.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-index 0c7eacc630e0..6a8f39147d8e 100644
---- a/drivers/usb/serial/f81232.c
-+++ b/drivers/usb/serial/f81232.c
-@@ -192,13 +192,9 @@ static int f81232_set_register(struct usb_serial_port *port, u16 reg, u8 val)
- 				tmp,
- 				sizeof(val),
- 				USB_CTRL_SET_TIMEOUT);
--	if (status != sizeof(val)) {
-+	if (status < 0) {
- 		dev_err(&port->dev, "%s failed status: %d\n", __func__, status);
--
--		if (status < 0)
--			status = usb_translate_errors(status);
--		else
--			status = -EIO;
-+		status = usb_translate_errors(status);
- 	} else {
- 		status = 0;
- 	}
-@@ -886,10 +882,6 @@ static int f81534a_ctrl_set_register(struct usb_interface *intf, u16 reg,
- 			status = usb_translate_errors(status);
- 			if (status == -EIO)
- 				continue;
--		} else if (status != size) {
--			/* Retry on short transfers */
--			status = -EIO;
--			continue;
- 		} else {
- 			status = 0;
- 		}
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index 5bd14770065b..ee0139eb6636 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1181,6 +1181,9 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 	else
+ 		flow_repl &= ~CP210X_SERIAL_AUTO_TRANSMIT;
+ 
++	flow_ctl.ulXonLimit = cpu_to_le32(128);
++	flow_ctl.ulXoffLimit = cpu_to_le32(128);
++
+ 	dev_dbg(&port->dev, "%s - ulControlHandshake=0x%08x, ulFlowReplace=0x%08x\n",
+ 			__func__, ctl_hs, flow_repl);
+ 
 -- 
 2.26.2
 
