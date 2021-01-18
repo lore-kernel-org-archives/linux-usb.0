@@ -2,90 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF94C43332
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:31:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B0DC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:58:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48DE922285
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:31:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F24822C7E
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 15:58:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405721AbhARP0s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 10:26:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56096 "EHLO mail.kernel.org"
+        id S2391666AbhARPsC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 10:48:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57810 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405648AbhARPZY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 10:25:24 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 31EA8206B2;
-        Mon, 18 Jan 2021 15:24:41 +0000 (UTC)
+        id S2405905AbhARPfS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 Jan 2021 10:35:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 656F7206F7;
+        Mon, 18 Jan 2021 15:34:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610983483;
-        bh=xe8zwdAs5oOqIiJX/sypIYB/hScfzOBO8s8ms7b/orw=;
+        s=k20201202; t=1610984077;
+        bh=6GTqoZchCCl+pg1cvsUfjvtaJ2GscCX3936gcI2+0qE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YUN6F/h0JVIQc690a0hOxEg0P0nkAdEGtCqiDVl75aaLa/DMDTT+1Bp68uS9c55Uq
-         zSx7tOiQT3wMxTko6W8AUUP1O2JcnUiFlHJO3ynYz7kP959PXdSHAzObI92S3KK1ZK
-         DUad8lfjw/6pr47fst9Xphk7+dOVXahroGzNOuIWU9lmB2SGKtPHsNd7WOYwoQOSiK
-         jg6yHJezEb5pQKWu9PP5Ek5o9JJCA9QFLShpW59q8RmfhzkCWgo7a0LePUcN6yd6GW
-         UnRrYOqQ+SgjjOwI+BOD7t5W9VNup4/XOrxuF6pf0OiuqOUK7dD3Qv/9IWQfbMBliQ
-         v9ein479sfIJw==
+        b=gEryLTwTdXXu5rnS26oASmTsdHClm8w/AgPiKIuqWiPxxTpY3ddfWozwytkZ1+wfk
+         FZOU1VjgKeaqgQS5A/2kMswhTWuJOS6ZTw68jzJgPxkoY7Vsu4G0XwcKq52xHE1H8L
+         M8TUv+aTrj8MWC1M9BMnulUbALGfpOMRmuKkZ2NF2MFBZMM74Gi1QSv6lLs/aq1kfv
+         g7LyGS5DjfbXuaKw6MeMPETKiYdE1bsCmtJDTmud18h6RwjGqaSgHzdkepfnm6f9n4
+         +GsM8fiu2l2VUNhckjND0SP8ZbfEG5Nf66bizRFE5Po5vi//g0ooWhbdgMowF6IZ2l
+         cDfu43ORntkXQ==
 From:   Felipe Balbi <balbi@kernel.org>
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Manish Narani <manish.narani@xilinx.com>
-Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        michal.simek@xilinx.com, p.zabel@pengutronix.de,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, git@xilinx.com,
-        linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Subject: Re: [RESEND PATCH v3 2/2] usb: dwc3: Add driver for Xilinx platforms
-In-Reply-To: <20210118134223.GE12316@pengutronix.de>
-References: <1608015291-52007-1-git-send-email-manish.narani@xilinx.com>
- <1608015291-52007-3-git-send-email-manish.narani@xilinx.com>
- <20210118134223.GE12316@pengutronix.de>
-Date:   Mon, 18 Jan 2021 17:24:38 +0200
-Message-ID: <87r1miuv2h.fsf@kernel.org>
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     linux-usb@vger.kernel.org, peter.chen@nxp.com,
+        Fabio Estevam <festevam@gmail.com>
+Subject: Re: [PATCH RESEND] usb: phy: phy-mxs-usb: Use
+ of_device_get_match_data()
+In-Reply-To: <20210118152615.1644861-1-festevam@gmail.com>
+References: <20210118152615.1644861-1-festevam@gmail.com>
+Date:   Mon, 18 Jan 2021 17:34:30 +0200
+Message-ID: <87o8hmuum1.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Michael Grzeschik <mgr@pengutronix.de> writes:
-> On Tue, Dec 15, 2020 at 12:24:51PM +0530, Manish Narani wrote:
->>Add a new driver for supporting Xilinx platforms. This driver is used
->>for some sequence of operations required for Xilinx USB controllers.
->>This driver is also used to choose between PIPE clock coming from SerDes
->>and the Suspend Clock. Before the controller is out of reset, the clock
->>selection should be changed to PIPE clock in order to make the USB
->>controller work. There is a register added in Xilinx USB controller
->>register space for the same.
->
-> I tried out this driver with the vanilla kernel on an zynqmp. Without
-> this patch the USB-Gadget is already acting buggy. In the gadget mode,
-> some iterations of plug/unplug results to an stalled gadget which will
-> never come back without a reboot.
->
-> With the corresponding code of this driver (reset assert, clk modify,
-> reset deassert) in the downstream kernels phy driver we found out it is
-> totaly stable. But using this exact glue driver which should do the same
-> as the downstream code, the gadget still was buggy the way described
-> above.
->
-> I suspect the difference lays in the different order of operations.
-> While the downstream code is runing the resets inside the phy driver
-> which is powered and initialized in the dwc3-core itself. With this glue
-> layser approach of this patch the whole phy init is done before even
-> touching dwc3-core in any way. It seems not to have the same effect,
-> though.
->
-> If really the order of operations is limiting us, we probably need
-> another solution than this glue layer. Any Ideas?
+Fabio Estevam <festevam@gmail.com> writes:
 
-might be a good idea to collect dwc3 trace events. Can you do that?
+> The retrieval of driver data via of_device_get_match_data() can make
+> the code simpler.
+>
+> Use of_device_get_match_data() to simplify the code.=20
+>
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> Acked-by: Peter Chen <peter.chen@nxp.com>
 
--- 
+Acked-by: Felipe Balbi <balbi@kernel.org>
+
+=2D-=20
 balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmAFqoYRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQZw+Q//WDljAbn2YHdu0Q2SHCB7ry8J8DOFyWPO
+9JiP6zUQLQj2HxwIWsnsg5snh8CJteVtrmJkqy3loKKhXa9jXHV2+0QlZ0OkRPIt
+cJFyj2ypnbwLAlDo5oRVJa82pLNPX3OvSys3GDuYZCjocKEpveVkhAcGD2/9QMWw
+Jd+K4fcMmeEs0NGWXptmR1eKS6I9IL4lIUuDyt232tOgDEUZh+aEVTA6rKp0ORBm
+yGKF54tB64RdtsyTq9qvczRmBNojETOMN5F4cHweZXFtfwId8NSh5/8rieZEWggn
+orNpnCs66qnrEyCjAbN6vMB7QAOiKSlXS4kUZpRzncVZdqotBqZwZAkSHxhmiUUB
+Dc4KgMadczxHiwXpz3Yj9akxlcA2QL660FrAa9VJn3X7viZiou9nkgfDGk5kEuOs
+puCRw7J5p3acXUQVIGcfqJWgm3Wbvhvq64uMZOURV88c/1meOMY6vnNy6gpXOZjv
+AAdua0sV/d0i+FWTPWlig52b/+KjI+IP9vX7Fhu5dNfPXRETTo05AxCk/0z6T+1N
+vlU7ciewSAJRatvGIi/PNIDmbLu+8HY+ngkwyd2E9TGE3uoBekIuTI2lWdf9Stj+
+WOJ1GU7jQf4Z7zGI/OrVOjBzekNxx/1ue+T4o0F1nAlX9RoUzHdtMYS49gIXX13n
+kBZoxoWOKCc=
+=0NIQ
+-----END PGP SIGNATURE-----
+--=-=-=--
