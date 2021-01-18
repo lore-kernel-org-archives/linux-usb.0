@@ -2,93 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A914C433E9
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 19:51:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3551C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 20:07:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 613C822CA1
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 19:51:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A719622CAD
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 20:07:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437293AbhART0u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 14:26:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33394 "EHLO mail.kernel.org"
+        id S2394175AbhARUHD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 15:07:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57304 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390424AbhARLiE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:38:04 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 385FF22CAD;
-        Mon, 18 Jan 2021 11:37:20 +0000 (UTC)
+        id S2390067AbhARLRB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 Jan 2021 06:17:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D9B422BE9;
+        Mon, 18 Jan 2021 11:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610969842;
-        bh=DFDLTsvgjvFrpYts0MUpDKjSJv7X4cfmoGmxg2T+lxE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ht/K/dOm+n6j+u4svc925LDLs7DG0tdGysPEGezRHEQ/ebqEso/O5saSc7kmWadXV
-         /JyQEf9IQNXMGToB5jEMQT3iUdB4shoFnfHzwJBKDSD05Fi6PCVVpVxXlDGP1Sn1nj
-         MKnl++d/T1RP7oj8YwCWeVerHgo7Hffwz0ye3T/grhGJ8McwpKAYw5JkmVNyh/3zx7
-         +rBLamk68TUHdDNi84r/8RIFAlAVfvs76/Sat5LZkkNWf2fJ6eSH15402pGzdrfhrd
-         vVrDgTWH+kPj1/kj+CVgLG353yl0vv+EL2h7AhoKS5WsPWnEHu7dNUu8u1mYSidrCU
-         bLWa0+5qSHtag==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: usb: qcom,dwc3: Add binding for SDX55
-In-Reply-To: <20210118051005.55958-2-manivannan.sadhasivam@linaro.org>
-References: <20210118051005.55958-1-manivannan.sadhasivam@linaro.org>
- <20210118051005.55958-2-manivannan.sadhasivam@linaro.org>
-Date:   Mon, 18 Jan 2021 13:37:14 +0200
-Message-ID: <8735yywk5x.fsf@kernel.org>
+        s=k20201202; t=1610968475;
+        bh=03DJ2Xb4vsYJDuCHccpkiDCJVeNJxj4+xL4tAslZr+M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RQTmTJdlmDK0BfNq+Skgf8pvxf0R3fhCnS9e3o0zqhOv2aJOd93/r8yz7DdEfX0h9
+         i+ZIlfndlOnFDb+p4ZCfHeh7gi6yDL6x0c8lZ69mpFw3/3AC+eqdKjxVl5Mzux47RB
+         HJ9uJLOVmKTVapRm//y61lGJkUlFfYmqRds2iuWhDG7HqqBcrtUwBbYw/jhb6olRXU
+         i1rs/MX5M7brlDRBmMgWtFD4M+eEsDINcifQDafbsU+g1ITVVcYRICvxoVT/ykJZFY
+         kMYy2Ga4NkJUYGBZsRZdinR77yGyxmp4sdQCSz66ILMpKm5vbdYNqfdsXLfrKhqA+z
+         i6tAcDa5sDcIw==
+Received: from johan by xi with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1l1SUc-0001MA-BB; Mon, 18 Jan 2021 12:14:42 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 6/6] USB: serial: f81534: drop short control-transfer check
+Date:   Mon, 18 Jan 2021 12:14:26 +0100
+Message-Id: <20210118111426.5147-7-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210118111426.5147-1-johan@kernel.org>
+References: <20210118111426.5147-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+There's no need to check for short control transfers when sending data
+so remove the redundant sanity check.
 
-Hi,
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/f81534.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org> writes:
-> Add devicetree binding for SDX55 USB controller based on Qcom designware
-> IP.
->
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+diff --git a/drivers/usb/serial/f81534.c b/drivers/usb/serial/f81534.c
+index 5661fd03e545..dd7e55e822ef 100644
+--- a/drivers/usb/serial/f81534.c
++++ b/drivers/usb/serial/f81534.c
+@@ -235,11 +235,9 @@ static int f81534_set_register(struct usb_serial *serial, u16 reg, u8 data)
+ 					 USB_TYPE_VENDOR | USB_DIR_OUT,
+ 					 reg, 0, tmp, sizeof(u8),
+ 					 F81534_USB_TIMEOUT);
+-		if (status > 0) {
++		if (status == sizeof(u8)) {
+ 			status = 0;
+ 			break;
+-		} else if (status == 0) {
+-			status = -EIO;
+ 		}
+ 	}
+ 
+-- 
+2.26.2
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmAFcuoRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQZxIRAAlpEpxTpJDTCzj+N4SW/IvB68Da7w97Zi
-3Y1rUZSbQmbLkclkDEnF0H10rF1oT2b39xeVbj++j56S1BCB3XVRli+LRYcnEx+o
-SissxEDGr1baczSn8uZJ/UgWIEFrp1JztyqLSWtA62NCEmC7+HQoZf0765CMELVv
-V3dC8Y6GFRWBNErxfuwoJdVgbWe3SPNrrkTodnAZxNKsxiV2V23jy1j+kWRKMabx
-50gMSKBbAhbLNuvZMVoOHp3TgXZofcCboT0RH6sr0ycBGipJkIjApn03zslFL2RW
-tgIR2Y1H4HN3JimLP4NEfERyCU0v0ibwf/gLMdMy4/psfEcoE7E+I2GLadAlL5wa
-0iDVPyLvjmpyj136DAM0X07iZsak5mpeaTMvkrYqPDABnOflfyOAv5eysXPkh+Sf
-xh/676DIR7LfNBrdPrql/69sQmW54t9kBR803jYHhYr8tvVdqYLnKFGNMpEFGH1+
-/05EFqwnR3M5cppmBPL2qhP7y8Blig29o/YTB6ysrArdkcfosp7ZrABliUJ0CuU4
-bfKjRDeJamJGoYTZu0hcKX5pF+/3teJXESoBK3j0jXTGkr+mCCJG+VfWArXEd3x5
-BoKrdA2D65G+i/kyZ6x983augUgAit9GW4y2IldPMHhE0E4GgDWnpoEuBnmuxk3+
-s2CVt/FiDaI=
-=KbUF
------END PGP SIGNATURE-----
---=-=-=--
