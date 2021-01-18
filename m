@@ -2,87 +2,191 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF1A0C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:24:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0659EC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:26:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8530B222B3
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:24:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4B67222B3
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390245AbhARLYH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 06:24:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58386 "EHLO mail.kernel.org"
+        id S2390058AbhARLSF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 06:18:05 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56330 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390237AbhARLX5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Jan 2021 06:23:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 28A03221FF;
-        Mon, 18 Jan 2021 11:23:17 +0000 (UTC)
+        id S2389977AbhARLOV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 18 Jan 2021 06:14:21 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CE36C229C7;
+        Mon, 18 Jan 2021 11:13:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610968997;
-        bh=7mfplVtSgfwJuKBBASVd77oQsEZkeU1UF6z66d0kKcs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lUieiu5KEyUG09Ql0TEUFft2wQnbEfQhGVMEwzAUbBgpBibWVkzpqQTMlA0+rqtUj
-         JvUR9Ddw0Mfrcj2uFmBgVbir4yFNj7Wi8z1nqvkZAd/IEPzteZRXkQ9cqObioIag4z
-         PowXDKU/RKqAdpYgzuSeOmnhqmm6CzIh1Ou7ZdopncqDFRAPqUq+IGeyeHO32ovT/x
-         dlOiZhCjY9ZVHzdCg/CXRju98lN5nN08Qmzpr3roMZ39ybSGo9RFQoVK8DwAaV4AlE
-         UQpy9HKCgMq5fD6uivGmy/imPZ9TQU9uXtTFqMXC4p+lRXc1guCm3ec3NWetc3RTpm
-         SSc0W2Zj31XVw==
+        s=k20201202; t=1610968420;
+        bh=7ONUXsP3mlzBDyTQmfltqwQMxBokUGZgZ2sCZjW9zxA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QoVX/En+UQuaIzUJVymz9XctFcB9ApuqWeRecZTk3LuqrfbkQvFIT6ziB+uvbOwtS
+         1atR19JFgDoS2IrVDsEkXLv3mwgzHHzrLmJQkNO0OUPfeAkN8Cz0yebt3LWAp/xyNV
+         7MT51T1p/bEvGx3feFWo/bh26ZqbWFRE9yzlbdgFPwJRVPZiqUjCgDug06u64FaCj3
+         3C7q687HIDNg8X15ftzSn9RH9Qr2Jx9BDpvQQDdZ8M6aRK58Ai1jGMJJYJo8bnGU3u
+         baMbtKcDxlTVWx/MURSTKuYj8RbCSXTKgX6WPPELt9IcgBiBOuOYJrJFW794KaVuvt
+         OrqBdfvBV6k+w==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l1Sd0-0001NX-Jz; Mon, 18 Jan 2021 12:23:23 +0100
-Date:   Mon, 18 Jan 2021 12:23:22 +0100
+        id 1l1STh-0001KO-Uc; Mon, 18 Jan 2021 12:13:45 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     Himadri Pandya <himadrispandya@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 0/6] USB: serial: drop short control-transfer checks
-Message-ID: <YAVvqmeBBfk6hEyb@hovoldconsulting.com>
-References: <20210118111426.5147-1-johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Sheng Long Wang <china_shenglong@163.com>,
+        Wang Sheng Long <shenglong.wang.ext@siemens.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 1/6] USB: serial: cp210x: add support for software flow control
+Date:   Mon, 18 Jan 2021 12:13:26 +0100
+Message-Id: <20210118111331.5048-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210118111331.5048-1-johan@kernel.org>
+References: <20210118111331.5048-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210118111426.5147-1-johan@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Himadri,
+From: Wang Sheng Long <shenglong.wang.ext@siemens.com>
 
-On Mon, Jan 18, 2021 at 12:14:20PM +0100, Johan Hovold wrote:
-> There's no need to check for short control transfers when sending data
-> so remove the redundant sanity checks from the drivers that had them.
-> 
-> Included is also a related fix of a copy-paste error in a debug message.
-> 
-> Johan
-> 
-> 
-> Johan Hovold (6):
->   USB: serial: mxuport: drop short control-transfer check
->   USB: serial: upd78f0730: drop short control-transfer check
->   USB: serial: io_ti: drop short control-transfer check
->   USB: serial: io_ti: fix a debug-message copy-paste error
->   USB: serial: f81232: drop short control-transfer checks
->   USB: serial: f81534: drop short control-transfer check
-> 
->  drivers/usb/serial/f81232.c     | 12 ++----------
->  drivers/usb/serial/f81534.c     |  4 +---
->  drivers/usb/serial/io_ti.c      |  8 ++------
->  drivers/usb/serial/mxuport.c    |  7 -------
->  drivers/usb/serial/upd78f0730.c |  5 +----
->  5 files changed, 6 insertions(+), 30 deletions(-)
+When data is transmitted between two serial ports, the phenomenon of
+data loss often occurs. The two kinds of flow control commonly used in
+serial communication are hardware flow control and software flow
+control.
 
-I intended to CC you on this series, but forgot to do so before hitting
-send.
+In serial communication, If you only use RX/TX/GND Pins, you can't do
+hardware flow. So we often used software flow control and prevent data
+loss. The user sets the software flow control through the application
+program, and the application program sets the software flow control mode
+for the serial port chip through the driver.
 
-The series can be found here:
+For the cp210 serial port chip, its driver lacks the software flow
+control setting code, so the user cannot set the software flow control
+function through the application program. This adds the missing software
+flow control.
 
-	https://lore.kernel.org/r/20210118111426.5147-1-johan@kernel.org
+Signed-off-by: Wang Sheng Long <shenglong.wang.ext@siemens.com>
+Link: https://lore.kernel.org/r/20210104094502.3942-1-china_shenglong@163.com
+[ johan: rework properly on top of recent termios changes ]
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 67 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 65 insertions(+), 2 deletions(-)
 
-I checked to make sure it doesn't interfere too much with your revised
-series.
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index fbb10dfc56e3..5bd14770065b 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -377,6 +377,16 @@ static struct usb_serial_driver * const serial_drivers[] = {
+ #define CONTROL_WRITE_DTR	0x0100
+ #define CONTROL_WRITE_RTS	0x0200
+ 
++/* CP210X_(GET|SET)_CHARS */
++struct cp210x_special_chars {
++	u8	bEofChar;
++	u8	bErrorChar;
++	u8	bBreakChar;
++	u8	bEventChar;
++	u8	bXonChar;
++	u8	bXoffChar;
++};
++
+ /* CP210X_VENDOR_SPECIFIC values */
+ #define CP210X_READ_2NCONFIG	0x000E
+ #define CP210X_READ_LATCH	0x00C2
+@@ -1074,11 +1084,38 @@ static void cp210x_disable_event_mode(struct usb_serial_port *port)
+ 	port_priv->event_mode = false;
+ }
+ 
++static int cp210x_set_chars(struct usb_serial_port *port,
++		struct cp210x_special_chars *chars)
++{
++	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
++	struct usb_serial *serial = port->serial;
++	void *dmabuf;
++	int result;
++
++	dmabuf = kmemdup(chars, sizeof(*chars), GFP_KERNEL);
++	if (!dmabuf)
++		return -ENOMEM;
++
++	result = usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
++				CP210X_SET_CHARS, REQTYPE_HOST_TO_INTERFACE, 0,
++				port_priv->bInterfaceNumber,
++				dmabuf, sizeof(*chars), USB_CTRL_SET_TIMEOUT);
++
++	kfree(dmabuf);
++
++	if (result < 0) {
++		dev_err(&port->dev, "failed to set special chars: %d\n", result);
++		return result;
++	}
++
++	return 0;
++}
++
+ static bool cp210x_termios_change(const struct ktermios *a, const struct ktermios *b)
+ {
+ 	bool iflag_change;
+ 
+-	iflag_change = ((a->c_iflag ^ b->c_iflag) & INPCK);
++	iflag_change = ((a->c_iflag ^ b->c_iflag) & (INPCK | IXON | IXOFF));
+ 
+ 	return tty_termios_hw_change(a, b) || iflag_change;
+ }
+@@ -1086,13 +1123,29 @@ static bool cp210x_termios_change(const struct ktermios *a, const struct ktermio
+ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		struct usb_serial_port *port, struct ktermios *old_termios)
+ {
++	struct cp210x_special_chars chars;
+ 	struct cp210x_flow_ctl flow_ctl;
+ 	u32 flow_repl;
+ 	u32 ctl_hs;
+ 	int ret;
+ 
+-	if (old_termios && C_CRTSCTS(tty) == (old_termios->c_cflag & CRTSCTS))
++	if (old_termios &&
++			C_CRTSCTS(tty) == (old_termios->c_cflag & CRTSCTS) &&
++			I_IXON(tty) == (old_termios->c_iflag & IXON) &&
++			I_IXOFF(tty) == (old_termios->c_iflag & IXOFF)) {
+ 		return;
++	}
++
++	if (I_IXON(tty) || I_IXOFF(tty)) {
++		memset(&chars, 0, sizeof(chars));
++
++		chars.bXonChar = START_CHAR(tty);
++		chars.bXoffChar = STOP_CHAR(tty);
++
++		ret = cp210x_set_chars(port, &chars);
++		if (ret)
++			return;
++	}
+ 
+ 	ret = cp210x_read_reg_block(port, CP210X_GET_FLOW, &flow_ctl,
+ 			sizeof(flow_ctl));
+@@ -1118,6 +1171,16 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_ACTIVE);
+ 	}
+ 
++	if (I_IXOFF(tty))
++		flow_repl |= CP210X_SERIAL_AUTO_RECEIVE;
++	else
++		flow_repl &= ~CP210X_SERIAL_AUTO_RECEIVE;
++
++	if (I_IXON(tty))
++		flow_repl |= CP210X_SERIAL_AUTO_TRANSMIT;
++	else
++		flow_repl &= ~CP210X_SERIAL_AUTO_TRANSMIT;
++
+ 	dev_dbg(&port->dev, "%s - ulControlHandshake=0x%08x, ulFlowReplace=0x%08x\n",
+ 			__func__, ctl_hs, flow_repl);
+ 
+-- 
+2.26.2
 
-Johan
