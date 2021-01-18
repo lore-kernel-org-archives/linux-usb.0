@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 681CEC433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB4AC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B0E8221F8
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EA93221F8
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Jan 2021 11:18:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390107AbhARLSJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 06:18:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57292 "EHLO mail.kernel.org"
+        id S2390108AbhARLSW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Jan 2021 06:18:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390059AbhARLRB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2390061AbhARLRB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 18 Jan 2021 06:17:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EB2822226;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 60CF322B40;
         Mon, 18 Jan 2021 11:14:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1610968475;
-        bh=ZQ07/waqfaC2N5t4AtnlnRpzU0Lw+vRibiaKx/GbcPs=;
+        bh=Jrf86bTZuvWL7qBEsZp5Tt7u1ih/Pww254arLofaApY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PGzzMgmUF1F2zbk4etrkRZGTNFyjxt8XEt0KJOs+fqtdKlyI/DJfAM5C3ldXFDInG
-         mPilrfDN/4heZRPPo0V8xZYp7vTuSBB64XSYtByI908tUHhLaKgO/Au3ddBe2XGyTM
-         nwirypFYIeceVj6KqhRhJnrqv1b9iv5T9cS/R4OvvJyx9p3Kvdozt6p4yTj8GxZ5Ig
-         Um8SbdtQKVmHx4VCx1uBM4Zsi5WyQotfR6mihHVJ5yXARTlazPFtSdUmgTeItCmg0i
-         CGyQJ7hkjJlKC4R+82z6C07ErM32vtyHykPmGNBCAg8pVsPMFwtqmwRfCj2L0cxC6p
-         H50jZOFdIcMDQ==
+        b=nXmqaJLNpOzmuYj0+XlqRg3Sx/kVpfjnQrLfekP1F6jEVxyfuSIwPZ8wO1Ra6RNVs
+         txgiJOjlFhWef4C8ec9qTO5iCHAIgoTKu0FTedS4zSrQw3qCnytDzkr+/39N+73gj4
+         NwTCrYDl+Z4jKaOva3S05NiiwXWenkU835qX/0CYUnz5AR2Ivr2QENLActHCkdUKqd
+         HvYWp2WiGPRdqSFeV7XbLg0QlmyF8Eii5rj8Er97ZxRnjcU3NOiSMCFgxxcP7EBte4
+         Xfp+iA8xNAqCCGhbqCeRdxb4Nwip5zXO0F/Q3B0Lh6ItE1/wGZiwUdh5TWV8SJU83p
+         XtAOfI4ciu9YA==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l1SUb-0001Lw-TM; Mon, 18 Jan 2021 12:14:41 +0100
+        id 1l1SUc-0001M3-3y; Mon, 18 Jan 2021 12:14:42 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/6] USB: serial: upd78f0730: drop short control-transfer check
-Date:   Mon, 18 Jan 2021 12:14:22 +0100
-Message-Id: <20210118111426.5147-3-johan@kernel.org>
+Subject: [PATCH 4/6] USB: serial: io_ti: fix a debug-message copy-paste error
+Date:   Mon, 18 Jan 2021 12:14:24 +0100
+Message-Id: <20210118111426.5147-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210118111426.5147-1-johan@kernel.org>
 References: <20210118111426.5147-1-johan@kernel.org>
@@ -50,33 +50,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's no need to check for short control transfers when sending data
-so remove the redundant sanity check.
+Fix a copy-paste error in the ti_vread_sync() debug message.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/upd78f0730.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/usb/serial/io_ti.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/serial/upd78f0730.c b/drivers/usb/serial/upd78f0730.c
-index 0a2268c479af..1ca9c1881621 100644
---- a/drivers/usb/serial/upd78f0730.c
-+++ b/drivers/usb/serial/upd78f0730.c
-@@ -145,14 +145,11 @@ static int upd78f0730_send_ctl(struct usb_serial_port *port,
- 
- 	kfree(buf);
- 
--	if (res != size) {
-+	if (res < 0) {
- 		struct device *dev = &port->dev;
- 
- 		dev_err(dev, "failed to send control request %02x: %d\n",
- 			*(u8 *)data, res);
--		/* The maximum expected length of a transfer is 6 bytes */
--		if (res >= 0)
--			res = -EIO;
- 
- 		return res;
+diff --git a/drivers/usb/serial/io_ti.c b/drivers/usb/serial/io_ti.c
+index 0c4062698603..0bbfa47e04b7 100644
+--- a/drivers/usb/serial/io_ti.c
++++ b/drivers/usb/serial/io_ti.c
+@@ -266,7 +266,7 @@ static int ti_vread_sync(struct usb_device *dev, __u8 request,
+ 	if (status < 0)
+ 		return status;
+ 	if (status != size) {
+-		dev_dbg(&dev->dev, "%s - wanted to write %d, but only wrote %d\n",
++		dev_dbg(&dev->dev, "%s - wanted to read %d, but only read %d\n",
+ 			__func__, size, status);
+ 		return -ECOMM;
  	}
 -- 
 2.26.2
