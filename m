@@ -2,616 +2,185 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09977C432C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37E2C433DB
 	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDBC42310E
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B623022D2A
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392175AbhASMQi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 07:16:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53986 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387746AbhASKND (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 05:13:03 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E595CC061757
-        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 02:12:20 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id 9so10005149ybj.16
-        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 02:12:20 -0800 (PST)
+        id S2392562AbhASMRI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 07:17:08 -0500
+Received: from mail-bn8nam11on2053.outbound.protection.outlook.com ([40.107.236.53]:3314
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2404482AbhASKnW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 19 Jan 2021 05:43:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LNKwCegSWeKo2YTJggRq10GtVUhfv0noCgFecFLvHiuf8YNoH+AHDYlRSn7A3BMOEfFs1hloEKZYD2zpP4yeFNCXrpVhBrFsC+i+8myo2smqg9XKrNAwivWR3uE74PseFiqnVdkH8aBR89VHaUQyFTNmlTJyb61kQICTus5tegDctXQ0nnqS6O6+2e8JV6/Bwv07jEBn2gBr7lUtS7Acy7A/mtnz/6673w7YGq0JZo1R/2LbAIeYUSk8XnrP4BOwkmUnoYMVYcEs/Gl+gA6/CRCclItHtdKECHRfm3do7q0FWEeu6e53YRvpYdSYrCPobeaXb3ZMzSthLN8CSeFZAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xrlxLo5f9dVS1dJUgEsBIcT64zB2gvcyqLxKOZKD+Yw=;
+ b=Rowa/darKqqlB2f3xXASN3K8SvN+vK+sPbUob9xj4GtoxJGkg+/660XdlWceiGk6GN/ylOFY6oTLr8hDDXxNp5iSzxvwDaFflVm9BCSPUXbppz11Rcpd40dmQtu/dTBrDAB1r5YyiOc/aG5U3n9LBaaA2W6DUZ4liYJum6JfC8dlOSMWr9iob/E9tnq30D5ixXzGbdzwiMZf3jRmqsNjxdNux4H3H31NjPohZcjMFsO3j0vF4TsLd3MKsKEEflL8tOb+AakN+qMwNi1JPLq+To5uXGUVbofSNQ0HduBdBI2zkq6f+aiCQshXK/TZFSVIKjgo2+vNIbj1IcSMva1gFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=2Ry9b7PtA4XQ5tGK+lflCi58DS41JyI68UEiY/MK3Ds=;
-        b=cnFbPV80yOCeyup7xQRxOgXGUBs0iWMzq0qncOfhs3tvvyrmV1rpNaMhzqBEkjnN5Z
-         hJv09lyBgNd3H8798JqmZbkwh8o3WiNE7RVsNH1K9tBP+jZqvOLdKhU2rRQ64CtBmV5R
-         vn/L9bGrLVdPjwNjG5kPeHw38yKXJSXr/sAPi/4nC8YEglUOChfzmMZa2sIcWeiNEuCC
-         5n/tvMX74+bzMaoBaxwnBBbZ2M6AF8Y+DwZC14ONLY/pyj4aW+6aQUGm5mJfreRzFBRN
-         TnHd7kq061IM0svU1TBHLmJ4+eTybyacvaHI0PTbbC5/FiVXSp84sMaRAiBFRt9ehBxe
-         /7kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=2Ry9b7PtA4XQ5tGK+lflCi58DS41JyI68UEiY/MK3Ds=;
-        b=ar/hM2rtXr6LbsGVFlQZcxF/MzYaE/EmvN78w2kFvOP+2hV4vQxoUyZ1PtE0bcOwjA
-         qY3UXI8SXlF2e3pfmuZOK9TVcz9JOIV7frtcoKeF2Id6tTK1j+GK4L+dx0fM6TC2+XIq
-         ofKkfadKj0ymQgv3PQW4s5XmUcSMURjL3RAk035PGqdnN+nytXPLJhDhnnJXc7CNXo2q
-         Y6EK6dfCxKMhkVDbQ52oGqi5123ufM8dHXyUzpYWEC29OJE5HOT0CVHhC9xyFqzxsFcr
-         zMwWurKY64HRyf2s+SOA/DV1/pzkr/qVJPjvZ6eHlr0su9K6F1VE3OfGkmRIpFj/lCsu
-         cTAw==
-X-Gm-Message-State: AOAM530SYlbCgwG9ASJVZVj3x3wYrT53TmYr581OEmm0xwSapR5vjNXJ
-        HAogHgyhacbu+Snxak0uZxrlK615PoiPu5I=
-X-Google-Smtp-Source: ABdhPJw7Q1ASPWCvGQesEVdQ7hNvLOji+JPX3fFf+dROtis8dHQT15Ks89gaAljRyJc8hIiNK7WU3AtAYJrRFwY=
-Sender: "howardyen via sendgmr" <howardyen@howardyen.ntc.corp.google.com>
-X-Received: from howardyen.ntc.corp.google.com ([2401:fa00:fc:202:5d06:ba6f:6a89:a201])
- (user=howardyen job=sendgmr) by 2002:a25:bbc3:: with SMTP id
- c3mr4790995ybk.345.1611051140130; Tue, 19 Jan 2021 02:12:20 -0800 (PST)
-Date:   Tue, 19 Jan 2021 18:10:41 +0800
-In-Reply-To: <20210119101044.1637023-1-howardyen@google.com>
-Message-Id: <20210119101044.1637023-2-howardyen@google.com>
-Mime-Version: 1.0
-References: <20210119101044.1637023-1-howardyen@google.com>
-X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
-Subject: [PATCH 1/4] usb: host: add xhci hooks for USB offload
-From:   Howard Yen <howardyen@google.com>
-To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Howard Yen <howardyen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xrlxLo5f9dVS1dJUgEsBIcT64zB2gvcyqLxKOZKD+Yw=;
+ b=CVTc368z5FPTqUpIQHfFuV/fY0y3HUiYJLPNtRtUyXxf6Oe19FD27BDmDecVmtSlUmmnVdOwfLbjZNBjvI1rStjLVisB2cHVgLXqHkxa7FTma+Vibjmde/CWFFdfQI73+C4GXAjahZaDBKr1ZLmqpJ8CZkbEw7qqiNiJoMnH0RE=
+Received: from SJ0PR11MB5008.namprd11.prod.outlook.com (2603:10b6:a03:2d5::17)
+ by BYAPR11MB2806.namprd11.prod.outlook.com (2603:10b6:a02:c7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Tue, 19 Jan
+ 2021 10:42:33 +0000
+Received: from SJ0PR11MB5008.namprd11.prod.outlook.com
+ ([fe80::589d:3fe7:733c:eb72]) by SJ0PR11MB5008.namprd11.prod.outlook.com
+ ([fe80::589d:3fe7:733c:eb72%6]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
+ 10:42:33 +0000
+From:   Pho Tran <Pho.Tran@silabs.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "johan@kernel.org" <johan@kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Hung Nguyen <Hung.Nguyen@silabs.com>,
+        Tung Pham <Tung.Pham@silabs.com>
+Subject: [PATCH] USB: serial: cp210x: Fix error 32 when hardware flow control
+  is enabled.
+Thread-Topic: [PATCH] USB: serial: cp210x: Fix error 32 when hardware flow
+ control  is enabled.
+Thread-Index: AQHW7k/Lr4wvXm4zSEeYaCxGmsK9ZA==
+Date:   Tue, 19 Jan 2021 10:42:33 +0000
+Message-ID: <EFED51C2-797F-49CD-9B05-923993641BDE@silabs.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.31)
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=silabs.com;
+x-originating-ip: [118.70.199.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5aba72a9-3060-4a8e-9abc-08d8bc66edc3
+x-ms-traffictypediagnostic: BYAPR11MB2806:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB2806F9AE20EA0AF3A56CFA26E3A30@BYAPR11MB2806.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qlrQbVJf2PtpUO1bOM1+tmd5oZ0O3PcLmPYe0vGMTRS2cIXe1uyfXyvSuXC7kSgdRg4Ba63k9jyL/LTkhOK4IEz7xA149qU922uGAdpKSvfrGpdIOI3geSoI0FsrgJEJrsJMZJczIeYroUWcR5JVqWP7AjrGzssq/mDVfrzOJ92iQ21/7p2Wfnk66FhXFSCgdsOQvDjuZ1E/NFwmEesEekeVNvM7hAXwK6MOR6NKBfljbGkV0/8QDtYz/I827yWbNOefzw5bz8w9cNgi1K+eVclMHbnfGdYSwxst9pdQ3E8cUH5g8ygu37GPit1EOr7/cpsbbOb5THedz8LYKstTovVql0sw1EZoafRCIYlobrQxZtKFHPFy60stZW+eWTYIDcvR3gAF6yyqj5w3NM/sekpVsJGTcILjoQvOK84/VsYtCoH0/tL7gbn2JIAIRKLt
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5008.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(2616005)(66946007)(186003)(66556008)(66446008)(64756008)(66476007)(71200400001)(86362001)(76116006)(6506007)(91956017)(5660300002)(36756003)(8936002)(498600001)(54906003)(107886003)(6512007)(26005)(4326008)(83380400001)(6486002)(33656002)(2906002)(8676002)(110136005)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?S2rbAhatgvY2efEnnnOgdom8ivsjDiOSfkoPUbPHJMHQ3eaNzpMERjWouFJO?=
+ =?us-ascii?Q?D1EpvFhhKT9HcpyHsrd/lD69i1WgTj1slbb8t+6Fh4oWbbMSDsAC5wsRR9K7?=
+ =?us-ascii?Q?RGUXnhCYGxCY4dfOc0LTciFiOcYbN431bvwVT569fQXbwZGaw+Tp+Wk8n+2g?=
+ =?us-ascii?Q?hAxq6G7BzcrKDNhiU/N3N6BJuHiXobu2Pzz62JiK2kpEBQr8q2uaFZSzbF/j?=
+ =?us-ascii?Q?u5q9lXxnTJFj4n/vUWAOQw74VjvcqQCdpahXSoqaDNGxWhrqYWedvI85z8+W?=
+ =?us-ascii?Q?4/rJj3nNx8PT8zYcSQJE8TcowiilAoOGKSTGckfY6lAa53y6OdRwimf9/nmf?=
+ =?us-ascii?Q?CQMpQdLrPvuvnVUHWg2o3Wl7nPIC9B4AhyOqrF7z5Iowo9HEqKTOCojaPv8+?=
+ =?us-ascii?Q?fub55t8ufBm6KJ6nRECwplS8uYbTBjwX07HACxvIKNg5rnC5/BNp/nBJxXhy?=
+ =?us-ascii?Q?5BrwU14+hZYwG7yqK3GX0OpURwendx2FBS0RfvlGkiWABS55tiTTgrujOAHj?=
+ =?us-ascii?Q?gs2PhtJTIqyCC1jPkA+EuGXhrsa4gcIvFLWRpj5kyUh9WzIuylf/9bidGPtV?=
+ =?us-ascii?Q?8cCBBB49Wna8CQQFOS8haUOVQ050g7F2s/Lpug76eioOnZ6pnmZckOsRre8E?=
+ =?us-ascii?Q?YI1UzMhWhgaOeBLe6uW1Hhs7HZ2Gs6jcmO4ZSCOc8966wl43g00Q/lbtk2WF?=
+ =?us-ascii?Q?y+50GxyojvIpAWw0+RSZczJOewDdYIeUUspi1ifbUGuxJVsr8fqN+f+3Cd68?=
+ =?us-ascii?Q?nrccrePVDe8K+vH8HKhzzpjUyewMoVztdrHwjVv+cCA2GCOmZBAtaKPlsDE1?=
+ =?us-ascii?Q?jHlqINcw+u+eGy1DpGP/RIIxfa8hJ2vmV0CsIvo79UWXLfWeNrOvFc25hq4t?=
+ =?us-ascii?Q?xURYGfaofzJnmVZShP6NItdSvk3uKgpzVNYNd8mkXH7Qspng6M3Zy5xFcpAc?=
+ =?us-ascii?Q?EbjGCT6ZAuLttaSVCXmuI/oVwmFy0s4RE45etorBj0tiMcgHc1vR4aQFE1yA?=
+ =?us-ascii?Q?zC50?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <18DBE83EB4E8B1469714D6CB56916A81@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5008.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5aba72a9-3060-4a8e-9abc-08d8bc66edc3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2021 10:42:33.3396
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VI+71yE5rspeVzo8dqXDvlrr8pEs/okYGu1u8QImXTfHvGWaVAnruYWN3dO2ywN9Q/kz142uhaMUM1dHiMz2iQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2806
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-To enable supporting for USB offload, define "offload" in usb controller
-node of device tree. "offload" value can be used to determine which type
-of offload was been enabled in the SoC.
+Fix error 32 returned by CP210X_SET_MHS when hardware flow control is enabl=
+ed.
 
-For example:
+The root cause of error 32 is that user application (CoolTerm, linux-serial=
+-test)
+opened cp210x device with hardware flow control then attempt to control RTS=
+/DTR pins.
+In hardware flow control, RTS/DTR pins will be controlled by hardware only,
+any attempt to control those pins will cause error 32 from the device.
+This fix will block MHS command(command to control RTS/DTR pins) to the dev=
+ice
+if hardware flow control is being used.
 
-&usbdrd_dwc3 {
-	...
-	/* support usb offloading, 0: disabled, 1: audio */
-	offload = <1>;
-	...
-};
-
-There are several vendor_ops introduced by this patch:
-
-struct xhci_vendor_ops - function callbacks for vendor specific operations
-{
-	@vendor_init:
-		- called for vendor init process during xhci-plat-hcd
-		  probe.
-	@vendor_cleanup:
-		- called for vendor cleanup process during xhci-plat-hcd
-		  remove.
-	@is_usb_offload_enabled:
-		- called to check if usb offload enabled.
-	@queue_irq_work:
-		- called to queue vendor specific irq work.
-	@alloc_dcbaa:
-		- called when allocating vendor specific dcbaa during
-		  memory initializtion.
-	@free_dcbaa:
-		- called to free vendor specific dcbaa when cleanup the
-		  memory.
-	@alloc_transfer_ring:
-		- called when vendor specific transfer ring allocation is required
-	@free_transfer_ring:
-		- called to free vendor specific transfer ring
-	@sync_dev_ctx:
-		- called when synchronization for device context is required
-}
-
-The xhci hooks with prefix "xhci_vendor_" on the ops in xhci_vendor_ops.
-For example, vendor_init ops will be invoked by xhci_vendor_init() hook,
-is_usb_offload_enabled ops will be invoked by
-xhci_vendor_is_usb_offload_enabled(), and so on.
-
-Signed-off-by: Howard Yen <howardyen@google.com>
+Signed-off-by: Pho Tran <pho.tran@silabs.com>
 ---
- drivers/usb/host/xhci-hub.c  |  5 ++
- drivers/usb/host/xhci-mem.c  | 96 +++++++++++++++++++++++++++++++-----
- drivers/usb/host/xhci-plat.c | 25 +++++++++-
- drivers/usb/host/xhci-plat.h |  2 +
- drivers/usb/host/xhci-ring.c | 13 +++++
- drivers/usb/host/xhci.c      | 89 +++++++++++++++++++++++++++++++++
- drivers/usb/host/xhci.h      | 38 ++++++++++++++
- 7 files changed, 254 insertions(+), 14 deletions(-)
+ drivers/usb/serial/cp210x.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index f37316d2c8fa..0eda5bb23ed8 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -448,8 +448,13 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
- 	    cmd->status == COMP_COMMAND_RING_STOPPED) {
- 		xhci_warn(xhci, "Timeout while waiting for stop endpoint command\n");
- 		ret = -ETIME;
-+		goto cmd_cleanup;
- 	}
- 
-+	ret = xhci_vendor_sync_dev_ctx(xhci, slot_id);
-+	if (ret)
-+		xhci_warn(xhci, "Sync device context failed, ret=%d\n", ret);
-+
- cmd_cleanup:
- 	xhci_free_command(xhci, cmd);
- 	return ret;
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 9764122c9cdf..f3dbc5956290 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -352,6 +352,37 @@ static int xhci_alloc_segments_for_ring(struct xhci_hcd *xhci,
- 	return 0;
- }
- 
-+static struct xhci_ring *xhci_vendor_alloc_transfer_ring(struct xhci_hcd *xhci,
-+		u32 endpoint_type, enum xhci_ring_type ring_type,
-+		gfp_t mem_flags)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->alloc_transfer_ring)
-+		return ops->alloc_transfer_ring(xhci, endpoint_type, ring_type,
-+						mem_flags);
-+	return 0;
-+}
-+
-+static void xhci_vendor_free_transfer_ring(struct xhci_hcd *xhci,
-+		struct xhci_virt_device *virt_dev, unsigned int ep_index)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->free_transfer_ring)
-+		ops->free_transfer_ring(xhci, virt_dev, ep_index);
-+}
-+
-+static bool xhci_vendor_is_usb_offload_enabled(struct xhci_hcd *xhci,
-+		struct xhci_virt_device *virt_dev, unsigned int ep_index)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->is_usb_offload_enabled)
-+		return ops->is_usb_offload_enabled(xhci, virt_dev, ep_index);
-+	return false;
-+}
-+
- /**
-  * Create a new ring with zero or more segments.
-  *
-@@ -403,7 +434,11 @@ void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
- 		struct xhci_virt_device *virt_dev,
- 		unsigned int ep_index)
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index fbb10dfc56e3..3694b7c62290 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1211,6 +1211,12 @@ static int cp210x_tiocmset_port(struct usb_serial_po=
+rt *port,
+ 		unsigned int set, unsigned int clear)
  {
--	xhci_ring_free(xhci, virt_dev->eps[ep_index].ring);
-+	if (xhci_vendor_is_usb_offload_enabled(xhci, virt_dev, ep_index))
-+		xhci_vendor_free_transfer_ring(xhci, virt_dev, ep_index);
+ 	u16 control =3D 0;
++	struct cp210x_flow_ctl flow_ctl;
++	u32 ctl_hs =3D 0;
++	u32 flow_repl =3D 0;
++	bool auto_dtr =3D false;
++	bool auto_rts =3D false;
++	int ret;
+=20
+ 	if (set & TIOCM_RTS) {
+ 		control |=3D CONTROL_RTS;
+@@ -1231,6 +1237,27 @@ static int cp210x_tiocmset_port(struct usb_serial_po=
+rt *port,
+=20
+ 	dev_dbg(&port->dev, "%s - control =3D 0x%.4x\n", __func__, control);
+=20
++	// Don't send MHS command if device in hardware flowcontrol mode
++	ret =3D cp210x_read_reg_block(port, CP210X_GET_FLOW, &flow_ctl, sizeof(fl=
+ow_ctl));
++	if (ret)
++		return ret;
++
++	ctl_hs =3D le32_to_cpu(flow_ctl.ulControlHandshake);
++	flow_repl =3D le32_to_cpu(flow_ctl.ulFlowReplace);
++
++	if (CP210X_SERIAL_DTR_SHIFT(CP210X_SERIAL_DTR_FLOW_CTL) =3D=3D (ctl_hs & =
+CP210X_SERIAL_DTR_MASK))
++		auto_dtr =3D true;
 +	else
-+		xhci_ring_free(xhci, virt_dev->eps[ep_index].ring);
++		auto_dtr =3D false;
 +
- 	virt_dev->eps[ep_index].ring = NULL;
++	if (CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_FLOW_CTL) =3D=3D (flow_repl=
+ & CP210X_SERIAL_RTS_MASK))
++		auto_rts =3D true;
++	else
++		auto_rts =3D false;
++
++	if (auto_dtr || auto_rts)
++		return 0;
++
+ 	return cp210x_write_u16_reg(port, CP210X_SET_MHS, control);
  }
- 
-@@ -897,7 +932,7 @@ void xhci_free_virt_device(struct xhci_hcd *xhci, int slot_id)
- 
- 	for (i = 0; i < 31; i++) {
- 		if (dev->eps[i].ring)
--			xhci_ring_free(xhci, dev->eps[i].ring);
-+			xhci_free_endpoint_ring(xhci, dev, i);
- 		if (dev->eps[i].stream_info)
- 			xhci_free_stream_info(xhci,
- 					dev->eps[i].stream_info);
-@@ -1492,8 +1527,15 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
- 		mult = 0;
- 
- 	/* Set up the endpoint ring */
--	virt_dev->eps[ep_index].new_ring =
--		xhci_ring_alloc(xhci, 2, 1, ring_type, max_packet, mem_flags);
-+	if (xhci_vendor_is_usb_offload_enabled(xhci, virt_dev, ep_index) &&
-+	    usb_endpoint_xfer_isoc(&ep->desc)) {
-+		virt_dev->eps[ep_index].new_ring =
-+			xhci_vendor_alloc_transfer_ring(xhci, endpoint_type, ring_type, mem_flags);
-+	} else {
-+		virt_dev->eps[ep_index].new_ring =
-+			xhci_ring_alloc(xhci, 2, 1, ring_type, max_packet, mem_flags);
-+	}
-+
- 	if (!virt_dev->eps[ep_index].new_ring)
- 		return -ENOMEM;
- 
-@@ -1837,6 +1879,24 @@ void xhci_free_erst(struct xhci_hcd *xhci, struct xhci_erst *erst)
- 	erst->entries = NULL;
- }
- 
-+static struct xhci_device_context_array *xhci_vendor_alloc_dcbaa(
-+		struct xhci_hcd *xhci, gfp_t flags)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->alloc_dcbaa)
-+		return ops->alloc_dcbaa(xhci, flags);
-+	return 0;
-+}
-+
-+static void xhci_vendor_free_dcbaa(struct xhci_hcd *xhci)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->free_dcbaa)
-+		ops->free_dcbaa(xhci);
-+}
-+
- void xhci_mem_cleanup(struct xhci_hcd *xhci)
- {
- 	struct device	*dev = xhci_to_hcd(xhci)->self.sysdev;
-@@ -1891,9 +1951,13 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"Freed medium stream array pool");
- 
--	if (xhci->dcbaa)
--		dma_free_coherent(dev, sizeof(*xhci->dcbaa),
--				xhci->dcbaa, xhci->dcbaa->dma);
-+	if (xhci_vendor_is_usb_offload_enabled(xhci, NULL, 0)) {
-+		xhci_vendor_free_dcbaa(xhci);
-+	} else {
-+		if (xhci->dcbaa)
-+			dma_free_coherent(dev, sizeof(*xhci->dcbaa),
-+					xhci->dcbaa, xhci->dcbaa->dma);
-+	}
- 	xhci->dcbaa = NULL;
- 
- 	scratchpad_free(xhci);
-@@ -2420,15 +2484,21 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 	 * xHCI section 5.4.6 - doorbell array must be
- 	 * "physically contiguous and 64-byte (cache line) aligned".
- 	 */
--	xhci->dcbaa = dma_alloc_coherent(dev, sizeof(*xhci->dcbaa), &dma,
--			flags);
--	if (!xhci->dcbaa)
--		goto fail;
--	xhci->dcbaa->dma = dma;
-+	if (xhci_vendor_is_usb_offload_enabled(xhci, NULL, 0)) {
-+		xhci->dcbaa = xhci_vendor_alloc_dcbaa(xhci, flags);
-+		if (!xhci->dcbaa)
-+			goto fail;
-+	} else {
-+		xhci->dcbaa = dma_alloc_coherent(dev, sizeof(*xhci->dcbaa), &dma,
-+				flags);
-+		if (!xhci->dcbaa)
-+			goto fail;
-+		xhci->dcbaa->dma = dma;
-+	}
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"// Device context base array address = 0x%llx (DMA), %p (virt)",
- 			(unsigned long long)xhci->dcbaa->dma, xhci->dcbaa);
--	xhci_write_64(xhci, dma, &xhci->op_regs->dcbaa_ptr);
-+	xhci_write_64(xhci, xhci->dcbaa->dma, &xhci->op_regs->dcbaa_ptr);
- 
- 	/*
- 	 * Initialize the ring segment pool.  The ring must be a contiguous
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index f6b4089bfc4a..5f8e69089654 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -163,6 +163,23 @@ static const struct of_device_id usb_xhci_of_match[] = {
- MODULE_DEVICE_TABLE(of, usb_xhci_of_match);
- #endif
- 
-+static int xhci_vendor_init(struct xhci_hcd *xhci)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->vendor_init)
-+		return ops->vendor_init(xhci);
-+	return 0;
-+}
-+
-+static void xhci_vendor_cleanup(struct xhci_hcd *xhci)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->vendor_cleanup)
-+		ops->vendor_cleanup(xhci);
-+}
-+
- static int xhci_plat_probe(struct platform_device *pdev)
- {
- 	const struct xhci_plat_priv *priv_match;
-@@ -314,6 +331,10 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 			goto put_usb3_hcd;
- 	}
- 
-+	ret = xhci_vendor_init(xhci);
-+	if (ret)
-+		goto disable_usb_phy;
-+
- 	hcd->tpl_support = of_usb_host_tpl_support(sysdev->of_node);
- 	xhci->shared_hcd->tpl_support = hcd->tpl_support;
- 	ret = usb_add_hcd(hcd, irq, IRQF_SHARED);
-@@ -380,8 +401,10 @@ static int xhci_plat_remove(struct platform_device *dev)
- 	usb_phy_shutdown(hcd->usb_phy);
- 
- 	usb_remove_hcd(hcd);
--	usb_put_hcd(shared_hcd);
- 
-+	xhci_vendor_cleanup(xhci);
-+
-+	usb_put_hcd(shared_hcd);
- 	clk_disable_unprepare(clk);
- 	clk_disable_unprepare(reg_clk);
- 	usb_put_hcd(hcd);
-diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
-index b49f6447bd3a..2b2d090c4c01 100644
---- a/drivers/usb/host/xhci-plat.h
-+++ b/drivers/usb/host/xhci-plat.h
-@@ -13,6 +13,8 @@
- struct xhci_plat_priv {
- 	const char *firmware_name;
- 	unsigned long long quirks;
-+	struct xhci_vendor_ops *vendor_ops;
-+	struct xhci_vendor_data *vendor_data;
- 	void (*plat_start)(struct usb_hcd *);
- 	int (*init_quirk)(struct usb_hcd *);
- 	int (*resume_quirk)(struct usb_hcd *);
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 2c255d0620b0..bfd653a1e5f6 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -2823,6 +2823,15 @@ static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
- 	xhci_write_64(xhci, temp_64, &xhci->ir_set->erst_dequeue);
- }
- 
-+static irqreturn_t xhci_vendor_queue_irq_work(struct xhci_hcd *xhci)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->queue_irq_work)
-+		return ops->queue_irq_work(xhci);
-+	return IRQ_NONE;
-+}
-+
- /*
-  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
-  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
-@@ -2857,6 +2866,10 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		goto out;
- 	}
- 
-+	ret = xhci_vendor_queue_irq_work(xhci);
-+	if (ret == IRQ_HANDLED)
-+		goto out;
-+
- 	/*
- 	 * Clear the op reg interrupt status first,
- 	 * so we can receive interrupts from other MSI-X interrupters.
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index bee5deccc83d..59e1b8813ca4 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -23,6 +23,7 @@
- #include "xhci-mtk.h"
- #include "xhci-debugfs.h"
- #include "xhci-dbgcap.h"
-+#include "xhci-plat.h"
- 
- #define DRIVER_AUTHOR "Sarah Sharp"
- #define DRIVER_DESC "'eXtensible' Host Controller (xHC) Driver"
-@@ -1482,6 +1483,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		return -ENODEV;
- 	}
- 
-+	if (xhci_vendor_usb_offload_skip_urb(xhci, urb)) {
-+		xhci_dbg(xhci, "skip urb for usb offload\n");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	if (usb_endpoint_xfer_isoc(&urb->ep->desc))
- 		num_tds = urb->number_of_packets;
- 	else if (usb_endpoint_is_bulk_out(&urb->ep->desc) &&
-@@ -2832,6 +2838,14 @@ static int xhci_configure_endpoint(struct xhci_hcd *xhci,
- 			xhci_finish_resource_reservation(xhci, ctrl_ctx);
- 		spin_unlock_irqrestore(&xhci->lock, flags);
- 	}
-+	if (ret)
-+		goto failed;
-+
-+	ret = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
-+	if (ret)
-+		xhci_warn(xhci, "sync device context failed, ret=%d", ret);
-+
-+failed:
- 	return ret;
- }
- 
-@@ -3212,6 +3226,13 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 
- 	wait_for_completion(stop_cmd->completion);
- 
-+	err = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
-+	if (err) {
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, err);
-+		goto cleanup;
-+	}
-+
- 	spin_lock_irqsave(&xhci->lock, flags);
- 
- 	/* config ep command clears toggle if add and drop ep flags are set */
-@@ -3235,6 +3256,11 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
- 
- 	wait_for_completion(cfg_cmd->completion);
- 
-+	err = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
-+	if (err)
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, err);
-+
- 	ep->ep_state &= ~EP_SOFT_CLEAR_TOGGLE;
- 	xhci_free_command(xhci, cfg_cmd);
- cleanup:
-@@ -3773,6 +3799,13 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
- 	/* Wait for the Reset Device command to finish */
- 	wait_for_completion(reset_device_cmd->completion);
- 
-+	ret = xhci_vendor_sync_dev_ctx(xhci, slot_id);
-+	if (ret) {
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, ret);
-+		goto command_cleanup;
-+	}
-+
- 	/* The Reset Device command can't fail, according to the 0.95/0.96 spec,
- 	 * unless we tried to reset a slot ID that wasn't enabled,
- 	 * or the device wasn't in the addressed or configured state.
-@@ -4012,6 +4045,14 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
- 		goto disable_slot;
- 	}
-+
-+	ret = xhci_vendor_sync_dev_ctx(xhci, slot_id);
-+	if (ret) {
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, ret);
-+		goto disable_slot;
-+	}
-+
- 	vdev = xhci->devs[slot_id];
- 	slot_ctx = xhci_get_slot_ctx(xhci, vdev->out_ctx);
- 	trace_xhci_alloc_dev(slot_ctx);
-@@ -4145,6 +4186,13 @@ static int xhci_setup_device(struct usb_hcd *hcd, struct usb_device *udev,
- 	/* ctrl tx can take up to 5 sec; XXX: need more time for xHC? */
- 	wait_for_completion(command->completion);
- 
-+	ret = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
-+	if (ret) {
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, ret);
-+		goto out;
-+	}
-+
- 	/* FIXME: From section 4.3.4: "Software shall be responsible for timing
- 	 * the SetAddress() "recovery interval" required by USB and aborting the
- 	 * command on a timeout.
-@@ -4291,6 +4339,14 @@ static int __maybe_unused xhci_change_max_exit_latency(struct xhci_hcd *xhci,
- 		return -ENOMEM;
- 	}
- 
-+	ret = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
-+	if (ret) {
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, ret);
-+		return ret;
-+	}
-+
- 	xhci_slot_copy(xhci, command->in_ctx, virt_dev->out_ctx);
- 	spin_unlock_irqrestore(&xhci->lock, flags);
- 
-@@ -4315,6 +4371,30 @@ static int __maybe_unused xhci_change_max_exit_latency(struct xhci_hcd *xhci,
- 	return ret;
- }
- 
-+struct xhci_vendor_ops *xhci_vendor_get_ops(struct xhci_hcd *xhci)
-+{
-+	return xhci_to_priv(xhci)->vendor_ops;
-+}
-+EXPORT_SYMBOL_GPL(xhci_vendor_get_ops);
-+
-+int xhci_vendor_sync_dev_ctx(struct xhci_hcd *xhci, unsigned int slot_id)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->sync_dev_ctx)
-+		return ops->sync_dev_ctx(xhci, slot_id);
-+	return 0;
-+}
-+
-+bool xhci_vendor_usb_offload_skip_urb(struct xhci_hcd *xhci, struct urb *urb)
-+{
-+	struct xhci_vendor_ops *ops = xhci_vendor_get_ops(xhci);
-+
-+	if (ops && ops->usb_offload_skip_urb)
-+		return ops->usb_offload_skip_urb(xhci, urb);
-+	return false;
-+}
-+
- #ifdef CONFIG_PM
- 
- /* BESL to HIRD Encoding array for USB2 LPM */
-@@ -5048,6 +5128,15 @@ static int xhci_update_hub_device(struct usb_hcd *hcd, struct usb_device *hdev,
- 		return -ENOMEM;
- 	}
- 
-+	ret = xhci_vendor_sync_dev_ctx(xhci, hdev->slot_id);
-+	if (ret) {
-+		xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
-+			  __func__, ret);
-+		xhci_free_command(xhci, config_cmd);
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		return ret;
-+	}
-+
- 	xhci_slot_copy(xhci, config_cmd->in_ctx, vdev->out_ctx);
- 	ctrl_ctx->add_flags |= cpu_to_le32(SLOT_FLAG);
- 	slot_ctx = xhci_get_slot_ctx(xhci, config_cmd->in_ctx);
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 2c6c4f8d1ee1..4b110590561b 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -2177,6 +2177,44 @@ static inline struct xhci_ring *xhci_urb_to_transfer_ring(struct xhci_hcd *xhci,
- 					urb->stream_id);
- }
- 
-+/**
-+ * struct xhci_vendor_ops - function callbacks for vendor specific operations
-+ * @vendor_init: called for vendor init process
-+ * @vendor_cleanup: called for vendor cleanup process
-+ * @is_usb_offload_enabled: called to check if usb offload enabled
-+ * @queue_irq_work: called to queue vendor specific irq work
-+ * @alloc_dcbaa: called when allocating vendor specific dcbaa
-+ * @free_dcbaa: called to free vendor specific dcbaa
-+ * @alloc_transfer_ring: called when remote transfer ring allocation is required
-+ * @free_transfer_ring: called to free vendor specific transfer ring
-+ * @sync_dev_ctx: called when synchronization for device context is required
-+ */
-+struct xhci_vendor_ops {
-+	int (*vendor_init)(struct xhci_hcd *xhci);
-+	void (*vendor_cleanup)(struct xhci_hcd *xhci);
-+	bool (*is_usb_offload_enabled)(struct xhci_hcd *xhci,
-+				       struct xhci_virt_device *vdev,
-+				       unsigned int ep_index);
-+	irqreturn_t (*queue_irq_work)(struct xhci_hcd *xhci);
-+
-+	struct xhci_device_context_array *(*alloc_dcbaa)(struct xhci_hcd *xhci,
-+							 gfp_t flags);
-+	void (*free_dcbaa)(struct xhci_hcd *xhci);
-+
-+	struct xhci_ring *(*alloc_transfer_ring)(struct xhci_hcd *xhci,
-+			u32 endpoint_type, enum xhci_ring_type ring_type,
-+			gfp_t mem_flags);
-+	void (*free_transfer_ring)(struct xhci_hcd *xhci,
-+			struct xhci_virt_device *virt_dev, unsigned int ep_index);
-+	int (*sync_dev_ctx)(struct xhci_hcd *xhci, unsigned int slot_id);
-+	bool (*usb_offload_skip_urb)(struct xhci_hcd *xhci, struct urb *urb);
-+};
-+
-+struct xhci_vendor_ops *xhci_vendor_get_ops(struct xhci_hcd *xhci);
-+
-+int xhci_vendor_sync_dev_ctx(struct xhci_hcd *xhci, unsigned int slot_id);
-+bool xhci_vendor_usb_offload_skip_urb(struct xhci_hcd *xhci, struct urb *urb);
-+
- /*
-  * TODO: As per spec Isochronous IDT transmissions are supported. We bypass
-  * them anyways as we where unable to find a device that matches the
--- 
-2.30.0.284.gd98b1dd5eaa7-goog
-
+=20
+--=20
+2.17.1=
