@@ -2,100 +2,191 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA42C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 02:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80EB6C43381
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:36:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 365F020702
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 02:58:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F6AA230FA
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388922AbhASC6c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Jan 2021 21:58:32 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:5392 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728406AbhASC60 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Jan 2021 21:58:26 -0500
-X-UUID: 4aa5831c37c94efc9917aa7cfb334fbd-20210119
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=y0UZs5dA/PPpNGMkAHG+Gh9GacqKAGQOXUeOBfQ5b04=;
-        b=loSxy2IcmD66TQ9ppfty/Nerq5zYx78/xOPX6hsCcpVYoXOzx4EGEGufiV7FW04P/Fy+7ndNwEe9B4yygUG0eBV6cFRWVzC0ZYYNv0rGfjnLQQSwBwaQ/Tk3lo6k3S3MMULhmTmw4IisitOfbqytCYZSgynbzsVkoWinlCe09J0=;
-X-UUID: 4aa5831c37c94efc9917aa7cfb334fbd-20210119
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1526855402; Tue, 19 Jan 2021 10:57:41 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 19 Jan
- 2021 10:57:39 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 19 Jan 2021 10:57:23 +0800
-Message-ID: <1611025043.11995.20.camel@mhfsdcap03>
-Subject: Re: [PATCH next 04/15] dt-bindings: phy: mediatek: hdmi-phy: modify
- compatible items
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        "Philipp Zabel" <p.zabel@pengutronix.de>,
-        Min Guo <min.guo@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Date:   Tue, 19 Jan 2021 10:57:23 +0800
-In-Reply-To: <CAAOTY__DtGc85JNyxWcebof5h3_Os2ugyy1P0jZsOs0Yzj2miw@mail.gmail.com>
-References: <20210116090656.11752-1-chunfeng.yun@mediatek.com>
-         <20210116090656.11752-4-chunfeng.yun@mediatek.com>
-         <CAAOTY__DtGc85JNyxWcebof5h3_Os2ugyy1P0jZsOs0Yzj2miw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S1728261AbhASGXd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 01:23:33 -0500
+Received: from mga17.intel.com ([192.55.52.151]:13780 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728273AbhASGDE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 19 Jan 2021 01:03:04 -0500
+IronPort-SDR: RPpLwurxbzqU87QVFfPOM2YclD9wiicrK/cmeHLpcx0bjW+R6zVWF2dDRPYTd/9nYa9LGiNfDE
+ jiyOAQtULX7A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="158655543"
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="158655543"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:02:02 -0800
+IronPort-SDR: 9HP+hkece3r9AVLSmiBuP0D1jIpFzqi0NIzB6U7XuujlyS92p80Ff2MuQ9EKYbQwfs5PcSf/I2
+ DWplsR+njlWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="569413325"
+Received: from lkp-server01.sh.intel.com (HELO 260eafd5ecd0) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 18 Jan 2021 22:02:00 -0800
+Received: from kbuild by 260eafd5ecd0 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1l1k5Y-0004lW-0q; Tue, 19 Jan 2021 06:02:00 +0000
+Date:   Tue, 19 Jan 2021 14:01:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ d70f7598c4583c6326cbd499b66bc9b3dd821e12
+Message-ID: <600675b2.IJhUANlo46HubRb2%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 37AC6E5033AF9021B31736C14DAFE0ED9E6A0ACFA4071DDEED4904F8820B42AC2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gTW9uLCAyMDIxLTAxLTE4IGF0IDIzOjA1ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
-PiBIaSwgQ2h1bmZlbmc6DQo+IA0KPiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRl
-ay5jb20+IOaWvCAyMDIx5bm0MeaciDE25pelIOmAseWFrSDkuIvljYg1OjA35a+r6YGT77yaDQo+
-ID4NCj4gPiBUaGUgY29tcGF0aWxiZSAibWVkaWF0ZWssbXQ3NjIzLWhkbWktdHgiIGlzIG5vdCBz
-dXBwb3J0ZWQgaW4gZHJpdmVyLA0KPiA+IGFuZCBpbiBmYWN0IHVzZXMgIm1lZGlhdGVrLG10Mjcw
-MS1oZG1pLXR4IiBpbnN0ZWFkIG9uIE1UNzYyMywgc28gY2hhbmdlcw0KPiA+IHRoZSBjb21wYXRp
-YmxlIGl0ZW1zIHRvIG1ha2UgZGVwZW5kZW5jZSBjbGVhci4NCj4gPg0KPiA+IENjOiBDaHVuLUt1
-YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4NCj4gPiBDYzogUGhpbGlwcCBaYWJlbCA8
-cC56YWJlbEBwZW5ndXRyb25peC5kZT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4g
-PGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL3BoeS9tZWRpYXRlayxoZG1pLXBoeS55YW1sICAgIHwgMTEgKysrKysrKy0tLS0N
-Cj4gPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4g
-Pg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGh5
-L21lZGlhdGVrLGhkbWktcGh5LnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvcGh5L21lZGlhdGVrLGhkbWktcGh5LnlhbWwNCj4gPiBpbmRleCA0NzUyNTE3YTE0NDYuLjBk
-OTQ5NTBiODRjYSAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvcGh5L21lZGlhdGVrLGhkbWktcGh5LnlhbWwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvcGh5L21lZGlhdGVrLGhkbWktcGh5LnlhbWwNCj4gPiBAQCAt
-MjEsMTAgKzIxLDEzIEBAIHByb3BlcnRpZXM6DQo+ID4gICAgICBwYXR0ZXJuOiAiXmhkbWktcGh5
-QFswLTlhLWZdKyQiDQo+ID4NCj4gPiAgICBjb21wYXRpYmxlOg0KPiA+IC0gICAgZW51bToNCj4g
-PiAtICAgICAgLSBtZWRpYXRlayxtdDI3MDEtaGRtaS1waHkNCj4gPiAtICAgICAgLSBtZWRpYXRl
-ayxtdDc2MjMtaGRtaS1waHkNCj4gPiAtICAgICAgLSBtZWRpYXRlayxtdDgxNzMtaGRtaS1waHkN
-Cj4gPiArICAgIG9uZU9mOg0KPiA+ICsgICAgICAtIGl0ZW1zOg0KPiA+ICsgICAgICAgICAgLSBl
-bnVtOg0KPiA+ICsgICAgICAgICAgICAgIC0gbWVkaWF0ZWssbXQ3NjIzLWhkbWktcGh5DQo+ID4g
-KyAgICAgICAgICAtIGNvbnN0OiBtZWRpYXRlayxtdDI3MDEtaGRtaS1waHkNCj4gPiArICAgICAg
-LSBjb25zdDogbWVkaWF0ZWssbXQyNzAxLWhkbWktcGh5DQo+ID4gKyAgICAgIC0gY29uc3Q6IG1l
-ZGlhdGVrLG10ODE3My1oZG1pLXBoeQ0KPiA+DQo+IA0KPiBJIGxpa2UgbW92ZSAnaXRlbXMnIHRv
-IHRoZSBib3R0b20uDQpJIGZvbGxvdyB0aGUgc2FtZSBzdHlsZSBhcyBvdGhlciBiaW5kaW5ncw0K
-DQo+IA0KPiAtIGNvbnN0OiBtZWRpYXRlayxtdDI3MDEtaGRtaS1waHkNCj4gLSBjb25zdDogbWVk
-aWF0ZWssbXQ4MTczLWhkbWktcGh5DQo+IA0KPiAtIGl0ZW1zOg0KPiAgIC0gZW51bToNCj4gICAg
-ICAgLSBtZWRpYXRlayxtdDc2MjMtaGRtaS1waHkNCj4gICAtIGNvbnN0OiBtZWRpYXRlayxtdDI3
-MDEtaGRtaS1waHkNCj4gDQo+IFJlZ2FyZHMsDQo+IENodW4tS3VhbmcuDQo+IA0KPiA+ICAgIHJl
-ZzoNCj4gPiAgICAgIG1heEl0ZW1zOiAxDQo+ID4gLS0NCj4gPiAyLjE4LjANCg0K
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: d70f7598c4583c6326cbd499b66bc9b3dd821e12  usb: gadget: u_audio: clean up locking
 
+elapsed time: 722m
+
+configs tested: 122
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                 kfr2r09-romimage_defconfig
+sparc                            allyesconfig
+sparc64                             defconfig
+arm                          pxa910_defconfig
+powerpc                    amigaone_defconfig
+ia64                                defconfig
+arm                           tegra_defconfig
+arm                          collie_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                         ps3_defconfig
+arm                     am200epdkit_defconfig
+mips                      loongson3_defconfig
+ia64                             alldefconfig
+powerpc                      tqm8xx_defconfig
+sh                          polaris_defconfig
+m68k                        mvme147_defconfig
+arm                          tango4_defconfig
+powerpc                  iss476-smp_defconfig
+powerpc                      ep88xc_defconfig
+arm                            xcep_defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                         nhk8815_defconfig
+s390                       zfcpdump_defconfig
+powerpc                      mgcoge_defconfig
+h8300                     edosk2674_defconfig
+mips                     decstation_defconfig
+mips                malta_qemu_32r6_defconfig
+arm                         s3c2410_defconfig
+sh                              ul2_defconfig
+m68k                          multi_defconfig
+powerpc                      pcm030_defconfig
+sh                   sh7724_generic_defconfig
+xtensa                    smp_lx200_defconfig
+arm                             ezx_defconfig
+arm                           viper_defconfig
+arm                            zeus_defconfig
+mips                      bmips_stb_defconfig
+arm                            hisi_defconfig
+arm                         vf610m4_defconfig
+mips                          rm200_defconfig
+arm                        magician_defconfig
+h8300                               defconfig
+openrisc                 simple_smp_defconfig
+powerpc                 mpc85xx_cds_defconfig
+powerpc                 xes_mpc85xx_defconfig
+arm                      tct_hammer_defconfig
+mips                           jazz_defconfig
+powerpc                     skiroot_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                             allyesconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a004-20210118
+i386                 randconfig-a002-20210118
+i386                 randconfig-a005-20210118
+i386                 randconfig-a006-20210118
+i386                 randconfig-a001-20210118
+i386                 randconfig-a003-20210118
+x86_64               randconfig-a015-20210118
+x86_64               randconfig-a013-20210118
+x86_64               randconfig-a012-20210118
+x86_64               randconfig-a016-20210118
+x86_64               randconfig-a011-20210118
+x86_64               randconfig-a014-20210118
+i386                 randconfig-a011-20210118
+i386                 randconfig-a012-20210118
+i386                 randconfig-a016-20210118
+i386                 randconfig-a015-20210118
+i386                 randconfig-a013-20210118
+i386                 randconfig-a014-20210118
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20210118
+x86_64               randconfig-a006-20210118
+x86_64               randconfig-a001-20210118
+x86_64               randconfig-a003-20210118
+x86_64               randconfig-a005-20210118
+x86_64               randconfig-a002-20210118
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
