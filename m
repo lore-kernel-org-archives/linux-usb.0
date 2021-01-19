@@ -7,56 +7,57 @@ X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06778C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 929CEC433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:55:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CD93A23120
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:44:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D0FE23121
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 06:55:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbhASGoR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 01:44:17 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:46352 "EHLO
+        id S1727131AbhASGzY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 01:55:24 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:55718 "EHLO
         fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbhASGoK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 01:44:10 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10J6gWVH005772;
-        Tue, 19 Jan 2021 00:42:32 -0600
+        with ESMTP id S2389541AbhASF37 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 00:29:59 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10J5SHn6107404;
+        Mon, 18 Jan 2021 23:28:17 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1611038552;
-        bh=kicaJWe4lJcpgcnt3hDVKDopAjMnUwOLVZVReyXGh54=;
+        s=ti-com-17Q1; t=1611034097;
+        bh=P84E62N8TVeB4W4nzlsbIsQbTAOSl6XX6QtuJ8sPF9M=;
         h=From:To:CC:Subject:Date;
-        b=S7uOWjQLnuNq0BxAtgjLQ8OqfzknwlknkT7S+2aTWu+EpTt9tk5yFbAy1N+ijl+S8
-         rXSuY9l2XZzF75XA36inpVQvlOegueCZ/CHqXzQrnv1qBnRt4Dy5ad/H6/fEn0sgT9
-         Ma6sLrtglUMtmh2PkFIlOJ9Zvq5rsGdg+9+gz+9c=
-Received: from DFLE101.ent.ti.com (dfle101.ent.ti.com [10.64.6.22])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10J6gW0N099790
+        b=k+NwWc/pxVDwWTWvYNWmOTm33sBitSarHwMdHXv4gafocHmzzeMFC9JXvNmWvMZqW
+         uoEv/COT77ceYQHS2OHoefyNCQBSn+1LmvdoYkhocmyaq8q1tOdJcwVjBqiwYPMPUH
+         U3TeSHGdwHUkuzH1kov6eoao8Q8ouNOJL0zxBTp0=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10J5SHX1063201
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 19 Jan 2021 00:42:32 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 19
- Jan 2021 00:42:31 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 18 Jan 2021 23:28:17 -0600
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 18
+ Jan 2021 23:28:16 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 19 Jan 2021 00:42:31 -0600
+ Frontend Transport; Mon, 18 Jan 2021 23:28:16 -0600
 Received: from gsaswath-HP-ProBook-640-G5.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10J6gQ2V017026;
-        Tue, 19 Jan 2021 00:42:27 -0600
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10J5SCS8011267;
+        Mon, 18 Jan 2021 23:28:12 -0600
 From:   Aswath Govindraju <a-govindraju@ti.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
+CC:     Vignesh Raghavendra <vigneshr@ti.com>,
         Lokesh Vutla <lokeshvutla@ti.com>,
         Sekhar Nori <nsekhar@ti.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
-        Aswath Govindraju <a-govindraju@ti.com>
-Subject: [PATCH] dt-bindings: usb: Add ranges and dma-coherent property
-Date:   Tue, 19 Jan 2021 12:12:24 +0530
-Message-ID: <20210119064224.6946-1-a-govindraju@ti.com>
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: cdns3: Add support for TI's AM64 SoC
+Date:   Tue, 19 Jan 2021 10:58:10 +0530
+Message-ID: <20210119052810.20457-1-a-govindraju@ti.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -66,51 +67,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add ranges and dma-coherent property in ti,j721e-usb dt-binding.
+Add support for USB controller present on the AM64x SoC.
 
 Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
 ---
- Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/cdns3/cdns3-ti.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-index 4423f0a29f54..0c553e72d2ff 100644
---- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-@@ -38,6 +38,8 @@ properties:
-       - const: ref
-       - const: lpm
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index 90e246601537..eccb1c766bba 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -214,6 +214,7 @@ static int cdns_ti_remove(struct platform_device *pdev)
  
-+  ranges: true
-+
-   ti,usb2-only:
-     description:
-       If present, it restricts the controller to USB2.0 mode of
-@@ -63,6 +65,8 @@ properties:
-   '#size-cells':
-     const: 2
- 
-+  dma-coherent: true
-+
- patternProperties:
-   "^usb@":
-     type: object
-@@ -73,6 +77,7 @@ required:
-   - power-domains
-   - clocks
-   - clock-names
-+  - ranges
- 
- additionalProperties: false
- 
-@@ -95,6 +100,7 @@ examples:
-             assigned-clock-parents = <&k3_clks 288 16>; /* HFOSC0 */
-             #address-cells = <2>;
-             #size-cells = <2>;
-+            ranges;
- 
-             usb@6000000 {
-                   compatible = "cdns,usb3";
+ static const struct of_device_id cdns_ti_of_match[] = {
+ 	{ .compatible = "ti,j721e-usb", },
++	{ .compatible = "ti,am64-usb", },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, cdns_ti_of_match);
 -- 
 2.17.1
 
