@@ -4,45 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A3DC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 07:36:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2D5C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 07:37:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22C1A22CB1
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 07:36:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 39BDC22CB1
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 07:37:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730806AbhASHgR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 02:36:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57930 "EHLO mail.kernel.org"
+        id S1730580AbhASHhb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 02:37:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57320 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730671AbhASHWf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 19 Jan 2021 02:22:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 832DA23120;
-        Tue, 19 Jan 2021 07:21:53 +0000 (UTC)
+        id S1730726AbhASHU6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 19 Jan 2021 02:20:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 52C2E23132;
+        Tue, 19 Jan 2021 07:20:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611040915;
-        bh=v4ZXRANqxTm8AXgrGw8/I95EBx658quDLQ3wvEBtIkM=;
+        s=k20201202; t=1611040817;
+        bh=vWlNWoexDWnARx1InVT9kBcUWp8ol7xoVdoAXYJZ4ZQ=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kkoJlXa//Fa0VXJ/TCwnwTmRS1iHefbjfRFqDzj7u0fjGIRJJRVgHPuoWaxR+uMEh
-         uviOBCAWITQec0Dmu6jzgeulGq5L+DF4v8Q3uDXrAw/NcdH5UT2TEHBNno0rLWc9U3
-         1YNNWZxhawWzNe1ILnRSrECnOTKu2Ez0/SY9tKK4Q8QqulrRtjghzSROS0Vlveqtoi
-         uGpmaS5xRo7WtPxOiECuYdZX4agzJbhdCQ9q7fBL3uZGZCW36jVRCNjszFiUfiR9oU
-         ULd6ronQ6i9rNViTh3pJoFzFTgDeAZo5xK+mDIzoXgvHoPvLFXBoHJLltGakkjmms/
-         q1MTiWetmjG0w==
+        b=L1UAhVGuIcr5OltWL0RV/BiL1VD8I4nSTEz8gOrgbuft8kKN0yM2Ahyu5Ta6IlSMD
+         NP2QwxG6EglPoHmt+fVBoDE2FwhaTZwui1CV87kk4fZ28ewYYxOlftW6gnUwdaaUVp
+         W6/ecSFRSQVM9lgYMTd8ktPEs2rUYrDNsEQnUnOKxuOOjqHRE6JoOxxhtQqL9/FC+w
+         W0bJZdlmkfeFUCLg4YvyzIV+TA2OZcerr0QoFYYjbPuGyQdwKw84w8y2J+eIEkt8ke
+         U2BxfGaP0LUTnZ1GEczHRbrUSXrAo61TnYBBeQkThAOytZZR/5kLJ3GjuyO9NSkoGV
+         pNY3YSVd5VhnQ==
 From:   Felipe Balbi <balbi@kernel.org>
-To:     Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        linux-usb@vger.kernel.org
-Cc:     Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] usb: bdc: Make bdc pci driver depend on BROKEN
-In-Reply-To: <20210118203615.13995-1-patrik.r.jakobsson@gmail.com>
-References: <20210118203615.13995-1-patrik.r.jakobsson@gmail.com>
-Date:   Tue, 19 Jan 2021 09:21:48 +0200
-Message-ID: <87eeihv1bn.fsf@kernel.org>
+To:     Davidlohr Bueso <dave@stgolabs.net>, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dave@stgolabs.net, Davidlohr Bueso <dbueso@suse.de>
+Subject: Re: [PATCH] usb: gadget: u_serial: Remove old tasklet comments
+In-Reply-To: <20210119001321.127750-1-dave@stgolabs.net>
+References: <20210119001321.127750-1-dave@stgolabs.net>
+Date:   Tue, 19 Jan 2021 09:20:10 +0200
+Message-ID: <87h7ndv1ed.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -54,18 +50,12 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Patrik Jakobsson <patrik.r.jakobsson@gmail.com> writes:
+Davidlohr Bueso <dave@stgolabs.net> writes:
 
-> The bdc pci driver is going to be removed due to it not existing in the
-> wild. This patch turns off compilation of the driver so that stable
-> kernels can also pick up the change. This helps the out-of-tree
-> facetimehd webcam driver as the pci id conflicts with bdc.
+> Update old comments as of 8b4c62aef6f (usb: gadget: u_serial: process RX
+> in workqueue instead of tasklet).
 >
-> Cc: Al Cooper <alcooperx@gmail.com>
-> Cc: Felipe Balbi <balbi@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Signed-off-by: Davidlohr Bueso <dbueso@suse.de>
 
 Acked-by: Felipe Balbi <balbi@kernel.org>
 
@@ -77,19 +67,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmAGiIwRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQbq7Q//VajGAsA55jEf/5NV/P8Zg9rbaDtoTNE6
-GvmISo1+2p/H28TgvVAJ5e83f2aT+ejYWQthpMAO1J1S4p9rXCtmAFp37U/8nIdi
-xBKSwA0PeE5DkKvbVPARnb/5GiB4Keruj6w+Ejo7VT+gRu0VWLNv9KT6xB0spQVa
-EnpC9CaDWaV3S62zyXtrLFtWto2FVomezAYWEgk0h+ky3QJHUzhhFdo+4+hYkI20
-QB5xxPxU2heGbqxSJSb8rCU2qe3l3HW3Jg+vwxVKwJu3/i38qJhltviyOfkwPwr/
-a2VtlLocxe7aMjX1NwtU3E+36lZ6eqByPNMPySeAo14hUSBWEq7+CYELv+G/PSR5
-JENhL1r4Wwp9lsibcK3vZrmuSldmnFLXyd4hqlJYkcnPYfW5MdlzekyOPSRjONlV
-DBEqoMVQUNphjIh0xZ+p9JLLMOWDcKK+NHSXJcGXpy726sp8fMa42Ok1Bx+DDHYa
-kzT7OUIWKCslshd7q2IlsZyQ5vzXdPYEMWsdfnLs0qH6+wMzkUgV7PhnMNMw5z1+
-+Uf03ybGUgcn4I1qZF/g0auiOPj35Ntd3gVHRBFqq0DF0iqI0fdCGXnc1gzH677Q
-poLyUase0PSwwiNqzTr4oTQ9ZWUZfPMnB5A8lLlc8wIKpS6AV4u8Da0yywvPMOEF
-BDGbkDBUpyE=
-=XwzK
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmAGiCoRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQb/3hAAya2vhv/vFDAHC/DuZE9M4GrBtwav2kif
+UscVHLMFMtu78a/mFTbqVB9sJfaHG/8PMblBJqHfUDzP9qIsSCVyv3+AB6y9dDpa
+cAhXV+N2HIeOGuLolhOSqmFierJZv2p3Qyu9EETZOybvVlEqklLQDLXgvYigBC1J
+yRF375U/pk4mQwIBJcrt5MrcqcuG48CYnSlPVY1hRxeWYhcK6+nAvsksLRXGd5tv
+J/kgSmXvSoeJiBVR/oAppmwBK+WgtoxjPMPTINSiYg96SeflHV/UXUWV4V2B0k5G
+RrV36bRbikrmTW3T1XZZmKGVWwfXGZUEpleTjvCZLgvPhLVlRKrmXwBjLWUs/HBK
+ge4E82cEEXaDA2tPkvjrUnuHTH89JChsVtZ6zKzjZjQiXcEfXHsWTY5uTaAKSa3X
+TI5BTZQLkVZAenCeQFXLnYiIKwqKNdWdQbokTACbfs7ztNnisaGEeQheEygkCH+z
+ZOXftV28NMBY3zXp7SfCqAlHJnU2wduTbvftTUKdLo/TzGO1S0tkmiPGZ4Ceyc+O
+32XbnLZqnnGa2Fzhg2SD3GjHw8QdWtySjc7/07qc5tHHlpFn/ET+coUVcXA9pNOI
+DXuGDXvk6bgPS7ob1bFu26D0bQQzvW71yYHdz7IZQ06LBgAP0yNopBLzrUMh95BX
+7cjCNoDpnqE=
+=a+0J
 -----END PGP SIGNATURE-----
 --=-=-=--
