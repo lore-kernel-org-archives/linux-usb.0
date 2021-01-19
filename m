@@ -2,109 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6229AC4160E
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA862C43332
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F91223104
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4FA123104
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 12:21:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392581AbhASMRQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 07:17:16 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:35244 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732409AbhASMIu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 07:08:50 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 10JC6QJi052188;
-        Tue, 19 Jan 2021 06:06:26 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1611057986;
-        bh=gx/uox2HkSxRJWIW+/oeYtSkbyPUTy3/ZXHFNZSNNKw=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=DqftxCR6hZnMQ2Pl+ozI5bfYcVORgcjHQWaL7RoxBpG/AG/4RkUO8dF3Wlqnb+udT
-         FNVp/XOrgjtuy0Dt39XYMAKzlBCZAMyST52hPhZ9RmlkGT1GeD2zHBlfF/GsqpJuhy
-         h5bPSGoThLJ640BbX43rNuKeyp6I274Juof8lfyc=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 10JC6Qsm034414
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 19 Jan 2021 06:06:26 -0600
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 19
- Jan 2021 06:06:25 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 19 Jan 2021 06:06:25 -0600
-Received: from [10.250.232.169] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 10JC6MRl004593;
-        Tue, 19 Jan 2021 06:06:23 -0600
-Subject: Re: [PATCH] dt-bindings: usb: j721e: add ranges and dma-coherent
- props
-To:     Grygorii Strashko <grygorii.strashko@ti.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Nishanth Menon <nm@ti.com>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        <linux-usb@vger.kernel.org>
-References: <20210115193124.5706-1-grygorii.strashko@ti.com>
-From:   Aswath Govindraju <a-govindraju@ti.com>
-Message-ID: <a9a36b3e-d93e-5e23-d040-22da1d65f991@ti.com>
-Date:   Tue, 19 Jan 2021 17:36:21 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210115193124.5706-1-grygorii.strashko@ti.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S2392169AbhASMQb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 07:16:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732015AbhASKMM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 05:12:12 -0500
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E72CC061573
+        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 02:11:25 -0800 (PST)
+Received: by mail-qv1-xf4a.google.com with SMTP id i20so19223886qvk.18
+        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 02:11:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=YXlxgq14VnReTcxjg/LBvkVDEl6P7FQiD3lR26uEf+M=;
+        b=n9ztNgQi+mAAwySt5egAqA2o/ifrV1Ii75qwTpMnEdAI6pDb2Y00BJnlNj/sjetxXx
+         Ll7e97CHvHAtxUJw/J/WqINf2uhNbd2yuV7DrZ0msvCCEISoJYa4JNByBhQOCR/PDxN3
+         Lst0+9QZSaZGGyUDraseAAUs9OoZJ9HAuTdC6/e2Z+MFxIpR0KRxafFvZj0WO5t/U3ft
+         3Y7+xONXH2uMoxUps/1p0cQpo710Hl1JbvfVH7KVX/z+2Uq0u44xjbqBrpMEJmyMAYgF
+         oCKD/THQVrS7SRC2po374lxrQvASw/JvNyV+3TTqfcN+SlYk4BfHPg3sub+39nME48Ma
+         xwDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=YXlxgq14VnReTcxjg/LBvkVDEl6P7FQiD3lR26uEf+M=;
+        b=MRbSciesrY7qYA29DqgL6MPkLuSPcj1V61p3mZICJSPKZmWNFbsuOfw1mc3CHwdqA9
+         RNy8Gq3HoX5KxnW6bw/ewP9zoWQjInc+2bQ1FdbBCtXBg+FJOApWr1cMO2sRP9DIsA6e
+         Qj9p30lOeGYYTb84oYG5zp+UGs9n8JwNqA73WoGnJXpGIWtbiHPbNRQua0Sf+7sI9su1
+         HV0oFtJ8KzgIbB6bxsfNt9xVUG7lpOW1QTYCdnTTosBgc3h8MGtPpu0HDBGOoQw8Jd2X
+         gWmYsHFMoSzeLZD9RI9b6zbdpIQAaYtfFEDl0AAnYSjuwxuiVAfyPHJBSwBXmhAv0zVU
+         JVXQ==
+X-Gm-Message-State: AOAM533rAKXGkaVCco7qSj1VxVd2NfDXRXFgjJJYVibDiBtfp7HUFfpF
+        RKqDBXZWo2fF9rE5yrIJ+fVDVZpIEzS+y04=
+X-Google-Smtp-Source: ABdhPJy/H8P5Ssvj6Q6sdyThV3lNfl0AFUG9nrdcbvbYDh85EnMukbtmyHIen93Tj7+5uHOXvtlWg3vvMuY3SRE=
+Sender: "howardyen via sendgmr" <howardyen@howardyen.ntc.corp.google.com>
+X-Received: from howardyen.ntc.corp.google.com ([2401:fa00:fc:202:5d06:ba6f:6a89:a201])
+ (user=howardyen job=sendgmr) by 2002:ad4:476c:: with SMTP id
+ d12mr3421233qvx.20.1611051084664; Tue, 19 Jan 2021 02:11:24 -0800 (PST)
+Date:   Tue, 19 Jan 2021 18:10:40 +0800
+Message-Id: <20210119101044.1637023-1-howardyen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH 0/4] add xhci hooks for USB offload
+From:   Howard Yen <howardyen@google.com>
+To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Howard Yen <howardyen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 16/01/21 1:01 am, Grygorii Strashko wrote:
-> Add missed 'ranges' and 'dma-coherent' properties as cdns-usb DT nodes has
-> child node and DMA IO is coherent on TI K3 J721E/J7200 SoCs.
-> 
-> This also fixes dtbs_check warning:
->  cdns-usb@4104000: 'dma-coherent', 'ranges' do not match any of the regexes: '^usb@', 'pinctrl-[0-9]+'
-> 
-> Signed-off-by: Grygorii Strashko <grygorii.strashko@ti.com>
-> ---
->  Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> index 4423f0a29f54..7ec87a783c5c 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,j721e-usb.yaml
-> @@ -21,6 +21,8 @@ properties:
->    reg:
->      maxItems: 1
->  
-> +  ranges: true
-> +
->    power-domains:
->      description:
->        PM domain provider node and an args specifier containing
-> @@ -63,6 +65,8 @@ properties:
->    '#size-cells':
->      const: 2
->  
-> +  dma-coherent: true
-> +
->  patternProperties:
->    "^usb@":
->      type: object
-> 
+To let the xhci driver support USB offload, add hooks for vendor to have
+customized behavior for the initialization, memory allocation, irq work, and 
+device context synchronization. Detail is in each patch commit message.
 
-Acked-by: Aswath Govindraju <a-govindraju@ti.com>
-Reviewed-by: Aswath Govindraju <a-govindraju@ti.com>
+Howard Yen (4):
+  usb: host: add xhci hooks for USB offload
+  usb: host: export symbols for xhci hooks usage
+  usb: xhci-plat: add xhci_plat_priv_overwrite
+  dt-bindings: usb: usb-xhci: add USB offload support
+
+ .../devicetree/bindings/usb/usb-xhci.txt      |  1 +
+ drivers/usb/host/xhci-hub.c                   |  5 +
+ drivers/usb/host/xhci-mem.c                   | 99 ++++++++++++++++---
+ drivers/usb/host/xhci-plat.c                  | 45 ++++++++-
+ drivers/usb/host/xhci-plat.h                  |  9 ++
+ drivers/usb/host/xhci-ring.c                  | 19 +++-
+ drivers/usb/host/xhci.c                       | 89 +++++++++++++++++
+ drivers/usb/host/xhci.h                       | 38 +++++++
+ 8 files changed, 289 insertions(+), 16 deletions(-)
+
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
+
