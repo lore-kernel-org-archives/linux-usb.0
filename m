@@ -5,147 +5,128 @@ X-Spam-Level:
 X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AFA8C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:48:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A356C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:49:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC4F023104
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:48:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6428723108
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:49:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728942AbhASXhA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 18:37:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47290 "EHLO
+        id S1728331AbhASXtN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 18:49:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395056AbhASOFD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 09:05:03 -0500
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC21C061574;
-        Tue, 19 Jan 2021 06:04:20 -0800 (PST)
-Received: by mail-qt1-x833.google.com with SMTP id e15so13678885qte.9;
-        Tue, 19 Jan 2021 06:04:20 -0800 (PST)
+        with ESMTP id S1731589AbhASOAc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 09:00:32 -0500
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A2C8C0613CF;
+        Tue, 19 Jan 2021 05:59:31 -0800 (PST)
+Received: by mail-qt1-x82a.google.com with SMTP id c1so13684888qtc.1;
+        Tue, 19 Jan 2021 05:59:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=TH6tIa7KmmTBxKCeREOLdZWW+HlzUZd6P/Dq1uJJcvo=;
-        b=VGhLZsyv+gpGddxVKxIkOaWu3PVVMK8hpdjXJLLlA4F81h1k0YkPSiEnQAd4bVv6pA
-         JgRtf+bhPCzcUdd4sqblBP/PyDjQApDKodflTiZblp036j001pZm9Alho8iS2tbT1Q8/
-         QNfPnykbPuA0b6XZ576Qnd9SMZqKKnKAWAaRnkJbbPsWv7651gHbAh28Ux0GhBiF0TgW
-         Su5atvXpCaAczl3eSAFErJsOJo07stP2icTwHW/KLsF5mq0XiZu0Z/SFLrfLLdTccYhW
-         lPG/+rmgZs4h3P1Aqj7PuIRE0aRIOnAV5CzIF/sY/D9I07KZ38x47Xbgey18jILnNadU
-         FLdw==
+        bh=Ym9OdXfOruhx0VJLHJZTkysCmTkqfAJuYVRSw4XnoL8=;
+        b=EBZb1OECg0pM/OcFrJFHHcTW2Gfd64bzWcWr9Vc9asStUH1lSYwKZQIkBDMAOcfUO5
+         1Geu+QFg/NgTXuWqA6fpl8lFr9TqzTs8WRbPPVnC8NORmxaFEnLTTuevU4xy2DlEmX6v
+         D360/Cv/ncHzhuqU0qcoCvs/OGAW7WOC8lyeEDKvQoZk0+mZubKZNdJbaH6xBxf1d1WF
+         P9IUbHPVAc4H0wysQK6+8c0ukYe4R+V9zCjz9FQXsbLW769m0+OAQUTdlA84EZOW2LRN
+         XyGJ102USONTAtaqrDEP5D3qrROhN5GWVxnn/4iM47Fa/8EVmmwnJ2HjtdRjC2ZxDnCI
+         ZLLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TH6tIa7KmmTBxKCeREOLdZWW+HlzUZd6P/Dq1uJJcvo=;
-        b=KBoHpUvhWb1pK4+BwCKiEkTE9Yn47FisVdu8Ys00jokLUu3GcbZ7Wz8D2O4tyU/Bx9
-         Pq+uoI2U/k8MWqokGawPqoW0eS3SMezJPuHKNXG02oHvaz4iVfy8Jrir/Ck7p3fc5A62
-         M6rJAY3lPAtKdQ1ksIyGPi6skB5/yZRG1v7/ICdbWhEFhKmR+TZNZq57dCjklx6VaL4K
-         Dl9WKPPt37XuroEsqSoQR26Vn3KKvFYK++OxZ8iGsGW8Or9XErJyDoCU+df0gnyNELGU
-         u83OyYZC+n11Lz8+Iqpxbtig8dSWHT0oB0hx8yP2hHPeCqozCMi25cHPGdsvwwUIf5lW
-         wGKg==
-X-Gm-Message-State: AOAM530fQWjoPEtmBKvPcWZRmqAsmMYQL0gBFNKUWJa114YBUIQbhAPX
-        YFQFFtH4qZqmpI307G05QJE=
-X-Google-Smtp-Source: ABdhPJzMe8jbW50g1iVGM3lGWpJV0ziRnIiiTGPcykrnoO8Tj71NQBBD2B/hMWGfGZj5U2douqQ5KA==
-X-Received: by 2002:ac8:742:: with SMTP id k2mr4228578qth.46.1611065059735;
-        Tue, 19 Jan 2021 06:04:19 -0800 (PST)
+        bh=Ym9OdXfOruhx0VJLHJZTkysCmTkqfAJuYVRSw4XnoL8=;
+        b=trA0do/jNkoQrWQl9nOsKxsnMNfPduwTLAbda6qhy31PnPNAkpEHLWWBJfGqB6/k5f
+         k8GFhLzmpPnPg10FhQ/I3SssxNO2GG0JPCjBWirMDeTAtmRksz1Af8kHRelgTXAUyYCX
+         qE/uYEDcHsocpINYg6Zmp7u9yiVVXh214bKwqYhDLp1k6zKapAZXq0bRk/5YMYoSJ1ni
+         OmSqNEW9gUnaqX0IQQyO0vKHB5XlWChawGxX8oyEWXXkUphV0QAi0ua3sQ3UaGw8pY5g
+         Rcjz43H0UH+2c+PkWP8Oy6gqmVzcJNeqJJJYDfSmVOFgyUbXqJHQHp9/UuynsvnRIbCi
+         nfbw==
+X-Gm-Message-State: AOAM532VOJnWo7FpQll+Oalo8uBdhLOGH0vIe935pLxNGHWUMHet7E90
+        JVOfwYiwOGntg/TetVx1oAg=
+X-Google-Smtp-Source: ABdhPJxfvNtzwj2msR5tqNRB5ZxUuEV+4weiNh12lt3ZDH5679gJY1FRS5R4LNSD8MOrNxHQ4fGu+w==
+X-Received: by 2002:ac8:7767:: with SMTP id h7mr4400936qtu.136.1611064770511;
+        Tue, 19 Jan 2021 05:59:30 -0800 (PST)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id b16sm5234059qtx.85.2021.01.19.06.04.17
+        by smtp.gmail.com with ESMTPSA id b78sm12913371qkg.29.2021.01.19.05.59.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 06:04:17 -0800 (PST)
-Date:   Tue, 19 Jan 2021 15:04:15 +0100
+        Tue, 19 Jan 2021 05:59:29 -0800 (PST)
+Date:   Tue, 19 Jan 2021 14:59:27 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     JC Kuo <jckuo@nvidia.com>
 Cc:     gregkh@linuxfoundation.org, robh@kernel.org, jonathanh@nvidia.com,
         kishon@ti.com, linux-tegra@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, nkristam@nvidia.com
-Subject: Re: [PATCH v6 15/15] xhci: tegra: Enable ELPG for runtime/system PM
-Message-ID: <YAbm39gww7F3okLP@ulmo>
+Subject: Re: [PATCH v6 13/15] phy: tegra: xusb: Add wake/sleepwalk for
+ Tegra186
+Message-ID: <YAblv4Mk01wrHmEj@ulmo>
 References: <20210119085546.725005-1-jckuo@nvidia.com>
- <20210119085546.725005-16-jckuo@nvidia.com>
+ <20210119085546.725005-14-jckuo@nvidia.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="m4cIgoQOaH3JJzUk"
+        protocol="application/pgp-signature"; boundary="2pZGkO1M510CWEK5"
 Content-Disposition: inline
-In-Reply-To: <20210119085546.725005-16-jckuo@nvidia.com>
+In-Reply-To: <20210119085546.725005-14-jckuo@nvidia.com>
 User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
---m4cIgoQOaH3JJzUk
+--2pZGkO1M510CWEK5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 19, 2021 at 04:55:46PM +0800, JC Kuo wrote:
-> This commit implements the complete programming sequence for ELPG
-> entry and exit.
->=20
->  1. At ELPG entry, invokes tegra_xusb_padctl_enable_phy_sleepwalk()
->     and tegra_xusb_padctl_enable_phy_wake() to configure XUSB PADCTL
->     sleepwalk and wake detection circuits to maintain USB lines level
->     and respond to wake events (wake-on-connect, wake-on-disconnect,
->     device-initiated-wake).
->=20
->  2. At ELPG exit, invokes tegra_xusb_padctl_disable_phy_sleepwalk()
->     and tegra_xusb_padctl_disable_phy_wake() to disarm sleepwalk and
->     wake detection circuits.
->=20
-> At runtime suspend, XUSB host controller can enter ELPG to reduce
-> power consumption. When XUSB PADCTL wake detection circuit detects
-> a wake event, an interrupt will be raised. xhci-tegra driver then
-> will invoke pm_runtime_resume() for xhci-tegra.
->=20
-> Runtime resume could also be triggered by protocol drivers, this is
-> the host-initiated-wake event. At runtime resume, xhci-tegra driver
-> brings XUSB host controller out of ELPG to handle the wake events.
->=20
-> The same ELPG enter/exit procedure will be performed for system
-> suspend/resume path so USB devices can remain connected across SC7.
+On Tue, Jan 19, 2021 at 04:55:44PM +0800, JC Kuo wrote:
+> This commit implements Tegra186/Tegra194 XUSB PADCTL/AO wake and
+> sleepwalk operations.
 >=20
 > Signed-off-by: JC Kuo <jckuo@nvidia.com>
 > ---
 > v6:
->    fix compiling warning: extra tokens at end of #ifdef directive
+>    no change
 > v5:
->    avoid using xhci_get_rhub()
->    protect ELPG routines with (CONFIG_PM || CONFIG_PM_SLEEP)
+>    no change
 > v4:
->    reshuffle the code to avoid these pre-declarations
+>    move sleepwalk/wake stubs from 'struct tegra_xusb_padctl_ops' to
+>    'struct tegra_xusb_lane_ops'
 > v3:
->    use 'unsigned int' for PHY index
+>    move 'ao_regs' to the top of 'struct tegra186_xusb_padctl'
+>    change return data of .phy_remote_wake_detected() to 'bool'
+>    change input parameter of .phy_remote_wake_detected() to 'struct phy*'
 >    remove unnecessary 'else'
->    drop IRQF_TRIGGER_HIGH when invokes devm_request_threaded_irq()
+>    rename 'val' with 'value'
 >=20
->  drivers/usb/host/xhci-tegra.c | 407 ++++++++++++++++++++++++++++++----
->  1 file changed, 370 insertions(+), 37 deletions(-)
+>  drivers/phy/tegra/xusb-tegra186.c | 558 +++++++++++++++++++++++++++++-
+>  1 file changed, 557 insertions(+), 1 deletion(-)
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---m4cIgoQOaH3JJzUk
+--2pZGkO1M510CWEK5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAG5t8ACgkQ3SOs138+
-s6FiRA/+JzS85x8wlzd3wVtXLr/NrOGVX+ABlM+gzXd5MCguuF81Ih/SXmYHBc3Z
-99OFwL708T0qXOS0/DM7Wq/VUmFM8mlbyjSujsrG3Daa69CrEbH9pboUMBihc6ki
-I1TNQe+SWlnrMxaS9YjuMtM8bSIWIiVmSDUlpOuzFFjm37CESKGCTx3u3T4+jO9D
-IsVDgcwkX63kIb25yeIyVkfS9mYwD4NlMkBdIo4NIULSscGQB2fKX9gZX2HCBA7u
-qQvxc2+1jdnp5mV4wZGmQ2iXZ55ErmCh315kLI5jIE3KYGsilwvcvJAYAsZDN1rL
-wyp9Bq0pkT41f/xQqe7OYKYUxKBHdD5LgbSpXf7CvqyMG930rCgHDDooERfnQNAN
-8cly6toEj/ugUhknxB7TU7mt1FO3c2BNjSYc7xPHlLXGaKEqa5reYYGoufP+SEuL
-uAY/4tqxWroI+8afW4BVYCrDevQNjDH7FniUePgX5xd6ejhvjfFPU0YnyszM7dE9
-egmqzDp9bpkM4ddIwHXZYYITL8AdM0n9FsgYvFu6/evzy2oUDC4caQTZwoiU2s6r
-4Imn6H/rxR5zShSi6zZKTrDdnFQIUwfPHPLbNHuiqzcucaaLIXFSMVHZYiBPhX6M
-yh1hWi2U4b1gPfPb8Rpy3ZWvWKfkYOrwg5l4GTIPphIWJ9MKnBg=
-=B9a4
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAG5b4ACgkQ3SOs138+
+s6HlEQ/8CuPqb+9pMvyV/wNLtjmK+GLs+WUaLtoxCnl3s8UhYpzW6EPvjKKbaaIR
+iaKf5i0I1WSdNwmKLV2qn/jalkJ3VrY9169HgBDx1LAiS8lzZAjNBLSfsgUFa8Fe
+G2PeRi7O2Trln5D62lvpkURcvPnzShZPZ7kUKi1wOQk4XvzGejsUGgPWHrEEn/wB
+5D9aihWByZDp3IlprcVZ9HPHE4zxNPIjkMXYNjdK2uqgUWR3D8Sf11kV3ZLKvkym
+9dh65nZNCKg9KTPg8+dnpi+LaH6TmwZAnc1h7FeQy0Nx2KYwW4jeiWI90dcr1INS
+1otONRUT8WtR1DCBve1/F3Vv0bcswgnA3QHYnfempGBYhsSLT5N3yk5oKEUoGJYO
+8BQOPqteicsw+EKyySpWRLPukGXCeTFp1ipWD8j9klTXQiRemtKy8ZuhVWCSI1On
+s+Q80pXYDgrFBHnVzpRimVuG8eDUhuS0LlPHr1qvMXrXvUILTBfBGs1IXgmcV90O
+5AY04GbPBGLIn8WkoBGFf5DOfFFwbAaXpckHtC2h/jtIyLJRBL04BhInwyvGtAoK
+EYJ5lC6u3WpsLIZGFYHuTdbMGotPU0oc6ZcK24EuNu+zYu8vLbr0C8+1FtiY/WRR
+3W6HUk9VthfAtGFTD9QBkLAdFf7fgXBXcXHMIGyKFP8cLtRNXrg=
+=Kz45
 -----END PGP SIGNATURE-----
 
---m4cIgoQOaH3JJzUk--
+--2pZGkO1M510CWEK5--
