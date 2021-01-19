@@ -2,113 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E2FC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAB32C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:33:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A484522DD3
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F62E23104
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Jan 2021 23:33:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727073AbhASXPZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 18:15:25 -0500
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:39776 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728496AbhASXLn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 18:11:43 -0500
-Received: by mail-ot1-f46.google.com with SMTP id i30so8621037ota.6;
-        Tue, 19 Jan 2021 15:11:25 -0800 (PST)
+        id S1728133AbhASX1B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 18:27:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730232AbhASX0Z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 18:26:25 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 259B0C061573
+        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 15:25:45 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id n6so8518638edt.10
+        for <linux-usb@vger.kernel.org>; Tue, 19 Jan 2021 15:25:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nLVmnjsRjsvPfcv+qR81fqQ82nCHzCwJpCr3gMa8qpM=;
+        b=dAcWGwcZtOkGl91KAQMik53LuZX6ZSccMFs3bWza9LyO6HI/lLfwFkwQlQ/01ybUmj
+         k1wJaO07PHYttGv51JjnNL3KeZKrxz0FkL8MHwZ1+sRHblVhTtD6+8Dk1x86E6CkHLaV
+         TwJKIm9tsm8JqdI9B/9cPQbV+eJ/uhc2hIfwDwms0xo/yRuM7KLh1iSazZtCZC8m+/rV
+         qZYYudXenbF1RCPDn+tzzpCO9szONFhqvZRVfiR2xmDODdJADrrOnfAfFn8B5A1PVIjr
+         Ih1xHbt74jirEAHXok5TvKhEniAJu4BDy1LTrWSK9KdKPcUfCgyUp4VTRaMId/q0jfbM
+         ku+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zwnspLO1XU1UxAjviLLOho2793ZeLPfsqMsqct/RJD4=;
-        b=I5p36v8nFPGov43Xa1UYERG+V0gM6jF+5D0bBQWU43E5o9eNphYHXgvk+Chaa1xecP
-         41Vq/8rFz7MJLVprcK6PfeBzI04li/dWROHEq14rSvy7y6kTfYxmGNyJskvWuytAIVqS
-         013ksw1IHmOJ6KnA0j5YoUhy5YtM/hzvPuskuz7m8VAckMwLlfTPl5hQzWeEOPMTI2E+
-         9YvXmiHjuer+sMu0SL4Jfcda55SY0DH8f9Ud10Nc4Dl4o5qWZpoIEYWo6Q9hVxLmeE08
-         +fEi3tmAA0MVGTKI598IcMXuBF71WxlTB6LBjVHog/IHgjR9ZwNfz+WXFNmS6imHVHkM
-         VjwA==
-X-Gm-Message-State: AOAM530VJCefrYW79vck7PVIiAD6ZQYqlieyGOFGzinZTh8N8Fm92/qh
-        ZSBfhWgCDvpzln3w7z0nuRP2Fzw1RQ==
-X-Google-Smtp-Source: ABdhPJyTgJTFM5NXoV7ntdMWXNrAUbzEb6Iwjg696qOUlnMDqKMVqsb1IVxmC6Gqyn9VRUxLSXvACQ==
-X-Received: by 2002:a9d:4e8d:: with SMTP id v13mr5250786otk.12.1611097860450;
-        Tue, 19 Jan 2021 15:11:00 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h203sm31052oib.11.2021.01.19.15.10.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 15:10:59 -0800 (PST)
-Received: (nullmailer pid 2774332 invoked by uid 1000);
-        Tue, 19 Jan 2021 23:10:58 -0000
-Date:   Tue, 19 Jan 2021 17:10:58 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     cy_huang <u0084500@gmail.com>
-Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        matthias.bgg@gmail.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        cy_huang@richtek.com, gene_chen@richtek.com,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb typec: tcpci: mt6360: Add vbus supply into
- dt-binding description
-Message-ID: <20210119231058.GA2772032@robh.at.kernel.org>
-References: <1610720001-15300-1-git-send-email-u0084500@gmail.com>
- <1610720001-15300-2-git-send-email-u0084500@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nLVmnjsRjsvPfcv+qR81fqQ82nCHzCwJpCr3gMa8qpM=;
+        b=kersT2/94jTvCrSSZaqvNRII+FuPl60tMInuAA2wTqLY32IdxByylV/rRjOv0TiQF7
+         NSR8cWmjRyc0oXkBRufpeBwwrEYiFzMznBFRZ5bzVOdyAW0JKBwKQSsU1Cb61L4oPyQX
+         0HVbcjSaFMuN1tVLBUducoKdJMhoppsow7Qz1dbqtoIY6kvDsjnwHzULR1IvFclWAMG2
+         qumheP76WmdZ3gMXbaFyW46XP909WtV8NXafY+H5iW0MiIJ0Zl4xsK5356wXCDNkxrvz
+         iO1rxPxP5FM8WnGIkwVP3ixgIhOSTpVYz1w/jiSkCqTrHNQPfxx6aEehla00uCeAN2b/
+         wJgw==
+X-Gm-Message-State: AOAM530ly2XslG0e+lHggDBdwVpcGf5Tm5yHlf9vn/CGygGqnefhxYwC
+        1r/QNYIoGBQl1IXdmZgo7t0fNS7eXHltJvD9ZI/okQ==
+X-Google-Smtp-Source: ABdhPJwmRrrtgu0RFvV2SL4uC48edxmHQXwLDsUMFnVk1a39Rsf61wCV1LIWhaaZmRERT6egGEuA6VFV23bOMKvwWfM=
+X-Received: by 2002:a05:6402:60a:: with SMTP id n10mr5096942edv.230.1611098743762;
+ Tue, 19 Jan 2021 15:25:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1610720001-15300-2-git-send-email-u0084500@gmail.com>
+References: <20210115161907.2875631-1-mathias.nyman@linux.intel.com>
+ <20210115161907.2875631-2-mathias.nyman@linux.intel.com> <42c6632e-28f1-9aae-e1a6-3525bb493c58@gmail.com>
+ <b70e0bb512d44f00ac5f8380ba450ba6@AcuMS.aculab.com> <f439cf12-106f-3634-397f-dc17a4d0e94d@gmail.com>
+ <2722043c-208b-c965-e6cf-8474c698df2c@linux.intel.com>
+In-Reply-To: <2722043c-208b-c965-e6cf-8474c698df2c@linux.intel.com>
+From:   Ross Zwisler <zwisler@google.com>
+Date:   Tue, 19 Jan 2021 16:25:32 -0700
+Message-ID: <CAGRrVHxvhUyc=z1W13QUJJ8pJgscTJSLGgjV=1OmOKi0F16uqw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] xhci: make sure TRB is fully written before giving it
+ to the controller
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        David Laight <David.Laight@aculab.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 10:13:21PM +0800, cy_huang wrote:
-> From: ChiYuan Huang <cy_huang@richtek.com>
-> 
-> Add external vbus source into dt-binding description.
-> 
-> Signed-off-by: ChiYuan Huang <cy_huang@richtek.com>
-> ---
->  Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml b/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-> index 1e8e1c2..b8d842b 100644
-> --- a/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-> +++ b/Documentation/devicetree/bindings/usb/mediatek,mt6360-tcpc.yaml
-> @@ -26,6 +26,11 @@ properties:
->      items:
->        - const: PD_IRQB
->  
-> +  vbus-supply:
-> +    description:
-> +      Vbus source supply regulator.
-> +    maxItems: 1
+On Mon, Jan 18, 2021 at 5:05 AM Mathias Nyman
+<mathias.nyman@linux.intel.com> wrote:
+<>
+> True, good point, dma_wmb() should be enough here.
+> In fact most other wmb()s in xhci could be turned into dma_wmb().
 
-vbus-supply is already in the 'connector' node, you don't need it here.
-
-> +
->    connector:
->      type: object
->      $ref: ../connector/usb-connector.yaml#
-> @@ -38,6 +43,7 @@ required:
->    - compatible
->    - interrupts
->    - interrupt-names
-> +  - vbus-supply
->  
->  examples:
->    - |
-> @@ -54,6 +60,7 @@ examples:
->            compatible = "mediatek,mt6360-tcpc";
->            interrupts-extended = <&gpio26 3 IRQ_TYPE_LEVEL_LOW>;
->            interrupt-names = "PD_IRQB";
-> +          vbus-supply = <&otg_vbus>;
->  
->            connector {
->              compatible = "usb-c-connector";
-> -- 
-> 2.7.4
-> 
+FWIW I've confirmed in my testing that dma_wmb() does indeed also
+solve the problem.
