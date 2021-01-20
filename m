@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50659C433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:37:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48542C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:38:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CD7022241
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:37:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDD5322241
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:38:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729072AbhATBhq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:37:46 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:57290 "EHLO
+        id S1728289AbhATBiA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:38:00 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:47308 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730501AbhATBh3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 20:37:29 -0500
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        by vger.kernel.org with ESMTP id S1730690AbhATBhm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 20:37:42 -0500
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com [10.205.2.133])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 259524016E;
-        Wed, 20 Jan 2021 01:36:29 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8E662C00AF;
+        Wed, 20 Jan 2021 01:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1611106589; bh=u7wcMZWvv0kYzYKLIaZbn5/H0ZOO1Y7sImkRLYeJlJw=;
+        t=1611106601; bh=/Od4x7TMuGQaxDBKbCNGNEOLL331Eb+0dM4nSypOd3c=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=audGfjgLwsWjRWsf90Bn/tx/3MzxHP1P/EtsICujkg771R7DPSABc66cYTeUZxuKo
-         8w54Gz02y6xwcQurxQijlZ9I8rH9cYJbrqBLbH0QHHK1SWwhewkep+SqmNeQGHpdrd
-         BehuKSWnHHzI5wNIK8P9tR1WRksgYjprBy99QteTll/P89Wrw5J7MrSPXZhVTFM0h7
-         4Ha7gIDz8A6IhYKcrmSx75H2j4cqvdbwVR5TPsFcNNXZlszifrHYJtR+SumEhlJa1w
-         lfk7ne/PeFIU0WWCE4cQm/3/+sSQGH+TQ+la9lRsYw/gHFFt1hGTETZQ8RaM+3/plh
-         PSAzzPB7oZAUw==
+        b=FFJzWlxwCFYTOBAZRgv6z7+pH+SMuuRIIJCOqv4mncMqsgz8tqXDWOY+BbW16vZNm
+         bmD4VhCA0fHcyBu8Mti+M3JMKcmtvSFFAoEPb/61DTN2Zv9Y4+O4lLSpb+7kJXE1hx
+         xigYof8Pfc8gzcp5OiTiyXyTDrwWv4zvdRil43ZOAGoZGHZ/H+lcd3ZBOiod/H5mZN
+         PsKVUwC9LYZtzOc2yGhy0j3Eb/gxdp0qm9S+R5swYBGUXgR/Pja4YOT4PlY04Tu8rL
+         rDnUI/+8HRitzTlct1bRirYgq9Rk3CY1A+5XgOw0vTI0ntOq6wX6x62aTkklQ3Wyrt
+         dCFuXdNFeK31w==
 Received: from te-lab16 (unknown [10.10.52.11])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 0FA33A0068;
-        Wed, 20 Jan 2021 01:36:28 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Tue, 19 Jan 2021 17:36:28 -0800
-Date:   Tue, 19 Jan 2021 17:36:28 -0800
-Message-Id: <8998b65fddfa02cab57bfc6aa35e9f101b252068.1611106162.git.Thinh.Nguyen@synopsys.com>
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 37052A0096;
+        Wed, 20 Jan 2021 01:36:40 +0000 (UTC)
+Received: by te-lab16 (sSMTP sendmail emulation); Tue, 19 Jan 2021 17:36:40 -0800
+Date:   Tue, 19 Jan 2021 17:36:40 -0800
+Message-Id: <4fae4a9ebb60464d64d8b8f6fdfc2777a2206a69.1611106162.git.Thinh.Nguyen@synopsys.com>
 In-Reply-To: <cover.1611106162.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1611106162.git.Thinh.Nguyen@synopsys.com>
 X-SNPS-Relay: synopsys.com
 From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v7 4/6] usb: dwc3: gadget: Implement setting of SSP rate
+Subject: [PATCH v7 6/6] usb: dwc3: gadget: Set speed only up to the max supported
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org
@@ -54,18 +54,18 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Implement gadget ops udc_set_ssp_rate(). This allows the gadget/core
-driver to select SSP signaling rate and number of lanes to for DWC_usb32
-controller.
+The setting of the device speed should be limited by the device's
+maximum_speed. Check and prevent the driver from attempting to configure
+higher than the maximum_speed.
 
 Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
 Changes in v7:
 - Rebase on Greg's usb-testing branch
 Changes in v6:
-- Update to use usb_ssp_rate enum
 - Rebase on Greg's usb-testing branch
-- Update to match with the latest flow in dwc3 for setting speed
+- Update to follow the latest change of dwc3 on Greg's usb-testing branch
+- Update commit message
 Changes in v5:
 - Rebase on Felipe's testing/next branch
 - Changed Signed-off-by email to match From: email header
@@ -76,123 +76,58 @@ Changes in v3:
 Changes in v2:
 - None
 
- drivers/usb/dwc3/core.h   |  5 +++++
- drivers/usb/dwc3/gadget.c | 47 ++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 51 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index a482f4e954cb..61ac298f3e8e 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -386,6 +386,8 @@
- #define DWC3_GUCTL3_SPLITDISABLE		BIT(14)
- 
- /* Device Configuration Register */
-+#define DWC3_DCFG_NUMLANES(n)	(((n) & 0x3) << 30) /* DWC_usb32 only */
-+
- #define DWC3_DCFG_DEVADDR(addr)	((addr) << 3)
- #define DWC3_DCFG_DEVADDR_MASK	DWC3_DCFG_DEVADDR(0x7f)
- 
-@@ -966,6 +968,8 @@ struct dwc3_scratchpad_array {
-  * @maximum_speed: maximum speed requested (mainly for testing purposes)
-  * @max_ssp_rate: SuperSpeed Plus maximum signaling rate and lane count
-  * @gadget_max_speed: maximum gadget speed requested
-+ * @gadget_ssp_rate: Gadget driver's maximum supported SuperSpeed Plus signaling
-+ *			rate and lane count.
-  * @ip: controller's ID
-  * @revision: controller's version of an IP
-  * @version_type: VERSIONTYPE register contents, a sub release of a revision
-@@ -1130,6 +1134,7 @@ struct dwc3 {
- 	u32			maximum_speed;
- 	u32			gadget_max_speed;
- 	enum usb_ssp_rate	max_ssp_rate;
-+	enum usb_ssp_rate	gadget_ssp_rate;
- 
- 	u32			ip;
- 
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 00ba8f11ca32..14ab5594a595 100644
+index 0aa89e704a55..9acf515f6a67 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -2038,10 +2038,40 @@ static void dwc3_stop_active_transfers(struct dwc3 *dwc)
- 	}
- }
+@@ -2064,9 +2064,14 @@ static void __dwc3_gadget_set_ssp_rate(struct dwc3 *dwc)
  
-+static void __dwc3_gadget_set_ssp_rate(struct dwc3 *dwc)
-+{
-+	enum usb_ssp_rate	ssp_rate = dwc->gadget_ssp_rate;
-+	u32			reg;
-+
-+	if (ssp_rate == USB_SSP_GEN_UNKNOWN)
-+		ssp_rate = dwc->max_ssp_rate;
-+
-+	reg = dwc3_readl(dwc->regs, DWC3_DCFG);
-+	reg &= ~DWC3_DCFG_SPEED_MASK;
-+	reg &= ~DWC3_DCFG_NUMLANES(~0);
-+
-+	if (ssp_rate == USB_SSP_GEN_1x2)
-+		reg |= DWC3_DCFG_SUPERSPEED;
-+	else if (dwc->max_ssp_rate != USB_SSP_GEN_1x2)
-+		reg |= DWC3_DCFG_SUPERSPEED_PLUS;
-+
-+	if (ssp_rate != USB_SSP_GEN_2x1 &&
-+	    dwc->max_ssp_rate != USB_SSP_GEN_2x1)
-+		reg |= DWC3_DCFG_NUMLANES(1);
-+
-+	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
-+}
-+
  static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
  {
++	enum usb_device_speed	speed;
  	u32			reg;
  
-+	if (dwc->gadget_max_speed == USB_SPEED_SUPER_PLUS &&
-+	    DWC3_IP_IS(DWC32)) {
-+		__dwc3_gadget_set_ssp_rate(dwc);
-+		return;
-+	}
+-	if (dwc->gadget_max_speed == USB_SPEED_SUPER_PLUS &&
++	speed = dwc->gadget_max_speed;
++	if (speed > dwc->maximum_speed)
++		speed = dwc->maximum_speed;
 +
- 	reg = dwc3_readl(dwc->regs, DWC3_DCFG);
- 	reg &= ~(DWC3_DCFG_SPEED_MASK);
++	if (speed == USB_SPEED_SUPER_PLUS &&
+ 	    DWC3_IP_IS(DWC32)) {
+ 		__dwc3_gadget_set_ssp_rate(dwc);
+ 		return;
+@@ -2092,7 +2097,7 @@ static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
+ 	    !dwc->dis_metastability_quirk) {
+ 		reg |= DWC3_DCFG_SUPERSPEED;
+ 	} else {
+-		switch (dwc->gadget_max_speed) {
++		switch (speed) {
+ 		case USB_SPEED_LOW:
+ 			reg |= DWC3_DCFG_LOWSPEED;
+ 			break;
+@@ -2112,7 +2117,7 @@ static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
+ 				reg |= DWC3_DCFG_SUPERSPEED_PLUS;
+ 			break;
+ 		default:
+-			dev_err(dwc->dev, "invalid speed (%d)\n", dwc->gadget_max_speed);
++			dev_err(dwc->dev, "invalid speed (%d)\n", speed);
  
-@@ -2475,6 +2505,17 @@ static void dwc3_gadget_set_speed(struct usb_gadget *g,
- 	spin_unlock_irqrestore(&dwc->lock, flags);
- }
- 
-+static void dwc3_gadget_set_ssp_rate(struct usb_gadget *g,
-+				     enum usb_ssp_rate rate)
-+{
-+	struct dwc3		*dwc = gadget_to_dwc(g);
-+	unsigned long		flags;
-+
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	dwc->gadget_ssp_rate = rate;
-+	spin_unlock_irqrestore(&dwc->lock, flags);
-+}
-+
- static int dwc3_gadget_vbus_draw(struct usb_gadget *g, unsigned int mA)
- {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
-@@ -2493,6 +2534,7 @@ static const struct usb_gadget_ops dwc3_gadget_ops = {
- 	.udc_start		= dwc3_gadget_start,
- 	.udc_stop		= dwc3_gadget_stop,
- 	.udc_set_speed		= dwc3_gadget_set_speed,
-+	.udc_set_ssp_rate	= dwc3_gadget_set_ssp_rate,
- 	.get_config_params	= dwc3_gadget_config_params,
- 	.vbus_draw		= dwc3_gadget_vbus_draw,
- };
-@@ -3905,7 +3947,10 @@ int dwc3_gadget_init(struct dwc3 *dwc)
- 		goto err5;
+ 			if (DWC3_IP_IS(DWC3))
+ 				reg |= DWC3_DCFG_SUPERSPEED;
+@@ -2122,8 +2127,8 @@ static void __dwc3_gadget_set_speed(struct dwc3 *dwc)
  	}
  
--	dwc3_gadget_set_speed(dwc->gadget, dwc->maximum_speed);
-+	if (DWC3_IP_IS(DWC32) && dwc->maximum_speed == USB_SPEED_SUPER_PLUS)
-+		dwc3_gadget_set_ssp_rate(dwc->gadget, dwc->max_ssp_rate);
-+	else
-+		dwc3_gadget_set_speed(dwc->gadget, dwc->maximum_speed);
+ 	if (DWC3_IP_IS(DWC32) &&
+-	    dwc->gadget_max_speed > USB_SPEED_UNKNOWN &&
+-	    dwc->gadget_max_speed < USB_SPEED_SUPER_PLUS)
++	    speed > USB_SPEED_UNKNOWN &&
++	    speed < USB_SPEED_SUPER_PLUS)
+ 		reg &= ~DWC3_DCFG_NUMLANES(~0);
  
- 	return 0;
- 
+ 	dwc3_writel(dwc->regs, DWC3_DCFG, reg);
 -- 
 2.28.0
 
