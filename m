@@ -2,72 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1967EC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 813ACC433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:18:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE91D22CE3
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:17:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FFE922CE3
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:18:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbhATRRM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Jan 2021 12:17:12 -0500
-Received: from asav21.altibox.net ([109.247.116.8]:32934 "EHLO
-        asav21.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404157AbhATRLx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 12:11:53 -0500
-Received: from localhost.localdomain (unknown [81.166.168.211])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav21.altibox.net (Postfix) with ESMTPSA id 0EE6D8015D;
-        Wed, 20 Jan 2021 18:00:53 +0100 (CET)
-From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org, peter@stuge.se,
-        lkundrak@v3.sk, markus@raatikainen.cc, pontus.fuchs@gmail.com,
-        hudson@trmm.net, th020394@gmail.com,
-        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
-Subject: [PATCH v4 1/3] drm/uapi: Add USB connector type
-Date:   Wed, 20 Jan 2021 18:00:31 +0100
-Message-Id: <20210120170033.38468-2-noralf@tronnes.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20210120170033.38468-1-noralf@tronnes.org>
-References: <20210120170033.38468-1-noralf@tronnes.org>
+        id S2389565AbhATRSh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Jan 2021 12:18:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32932 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404050AbhATRSS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 20 Jan 2021 12:18:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 07C7022CE3;
+        Wed, 20 Jan 2021 17:17:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1611163058;
+        bh=9WZ/m19z2HGkINVwNeYp/+wcK7hXnj4kx5NeS4ydpJU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XAosQ5P65dgOHKIO0YQi5Sj0fPMVYX1loaU/SHZ1bBzto/EbQxH7ttoCeQld4jojx
+         6/YFWJLma/2eAPw1Aq2WhdJ/koSKXt+Fya54smDXwV0+VU8PRakWl1//ZmXzGgZqh6
+         sINSZtlc9ccu8xdTcFTKpVS6uIiPHUK7T5RbmVyc=
+Date:   Wed, 20 Jan 2021 18:17:35 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Kyle Tso <kyletso@google.com>, linux@roeck-us.net,
+        heikki.krogerus@linux.intel.com, badhri@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 0/3] AMS, Collision Avoidance, and Protocol Error
+Message-ID: <YAhlrxRdURu0djbf@kroah.com>
+References: <20210114145053.1952756-1-kyletso@google.com>
+ <2211ad43-b76c-fbe9-2cc8-bb40c4ee4e89@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=LfoSFAXi c=1 sm=1 tr=0
-        a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
-        a=DG4e56V3FeCVKFaCFEkA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2211ad43-b76c-fbe9-2cc8-bb40c4ee4e89@redhat.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a connector type for USB connected display panels.
+On Wed, Jan 20, 2021 at 02:45:02PM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 1/14/21 3:50 PM, Kyle Tso wrote:
+> > v5 https://lore.kernel.org/r/20210105163927.1376770-1-kyletso@google.com
+> > 
+> > "usb: typec: tcpm: AMS and Collision Avoidance"
+> >  - removed the signed-off
+> >  - modified the coding style suggested from Heikki
+> >  - added FR_SWAP AMS handling
+> > 
+> > "usb: typec: tcpm: Protocol Error handling"
+> >  - removed the signed-off
+> >  - modified the coding style suggested from Heikki
+> >  - modified more coding style problems (line wrapping limit)
+> > 
+> > "usb: typec: tcpm: Respond Wait if VDM state machine is running"
+> >  - no change
+> 
+> I've finally gotten around to testing this. I'm happy to
+> report that the power-role swapping regression seen in one
+> of the older versions of this patch-set is gone.
+> 
+> So the entire series is:
+> Tested-by: Hans de Goede <hdegoede@redhat.com>
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- include/uapi/drm/drm_mode.h | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for testing and the review.
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index fed66a03c7ae..33024cc5d26e 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -367,6 +367,7 @@ enum drm_mode_subconnector {
- #define DRM_MODE_CONNECTOR_DPI		17
- #define DRM_MODE_CONNECTOR_WRITEBACK	18
- #define DRM_MODE_CONNECTOR_SPI		19
-+#define DRM_MODE_CONNECTOR_USB		20
- 
- /**
-  * struct drm_mode_get_connector - Get connector metadata.
--- 
-2.23.0
+Heikki, any thoughts?
 
+thanks,
+
+greg k-h
