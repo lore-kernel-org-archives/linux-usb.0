@@ -2,100 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F88C4332E
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B29EC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:43:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB96923121
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:24:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 596E12310D
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:43:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730076AbhATDXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 22:23:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728131AbhATDXR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 22:23:17 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C29C061757;
-        Tue, 19 Jan 2021 19:22:37 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id e67so9536517ybc.12;
-        Tue, 19 Jan 2021 19:22:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=f9pMfHMJFLWFvKkxl3fDIxRex/hLf2XjpUacI+mZUlo=;
-        b=Y74qXsQE7DVaV2IaNQj6xHpHJyEOF2ivRh39VoknvHawJjTV3KMMtw2Zu26MXjH9V4
-         IQl0fm9vXz29qN4pKZVPWCbn8RY79Udnhfp4q3bmpixPzX0pRYkfzjj/KdyZv8GYMwf6
-         leD5Y+AS9fxDidVQ+wtTo06S5TWlTVlD/By0C4VKlj36a6aVD/6mW/j+CNyhbV3/7FZe
-         uEyYsEUIqiQx/7Fr9rFoOzPlwzCl98vpGt4wMbpCbEsJOeN/vMU0BhmwqYj307cNqWEX
-         vEWfkgDy2Osr3dv3yWSl2yKclvnYYY9cEovrPVbHaspDcq3EuwjfU7jS7Y69RXwI5vcK
-         gsnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=f9pMfHMJFLWFvKkxl3fDIxRex/hLf2XjpUacI+mZUlo=;
-        b=HEoDerz19yMzg5PVBLZhtOntX0HTAU6oArrkAdpOocLQvHKrYOYeBtm++Qbli58D7a
-         z4fwnUUj1KIdzcEABDMJyT10Dnqt+9qk8y7w+ozxBhsGH8K4kwAlL4Luy/s+81QdI4Yf
-         CNOz/Ajh5IYNElj3MRA3jcFhPxB9Neis3E6Ru1BEDthfoJAEvlTwwy0+ph5cCqRXjd35
-         EQpvWP4kEE/MVTJbdlV3JXQDk4YLhJmtL/Nd4VU/lGsMSP3G6GflckIt1kgeWHl7aiJB
-         jHOf0ThZft4cdUs7V0vGdTLV9XJQWRCB2lw2r+UOw8sIEZMsnLB542VbsXcVus7yIEMD
-         RgvQ==
-X-Gm-Message-State: AOAM5319kkuiz2OAuXaqzHMr9C+bCCjHFQof10CI51NFu+A4YcgXxk9I
-        1ThVBGLJXyPefgp8xilGYymZtq0xH/4fjVMi+m0=
-X-Google-Smtp-Source: ABdhPJzpBTZBCK5+V+Eko13BUTOyrdrdSVMlL6YqRHttJSTJr1LKYUuJjJUHuiZ75zl5fegkOpEfdFtTtwwqJ2/R9Pg=
-X-Received: by 2002:a25:688c:: with SMTP id d134mr10841417ybc.477.1611112956721;
- Tue, 19 Jan 2021 19:22:36 -0800 (PST)
+        id S1728883AbhATDkI convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 22:40:08 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:57853 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728756AbhATDjw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 22:39:52 -0500
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 10K3cXZv9031456, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmbs03.realtek.com.tw[172.21.6.96])
+        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 10K3cXZv9031456
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 20 Jan 2021 11:38:33 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 20 Jan 2021 11:38:32 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::ecca:80ca:53:e833]) by
+ RTEXMBS04.realtek.com.tw ([fe80::ecca:80ca:53:e833%12]) with mapi id
+ 15.01.2106.006; Wed, 20 Jan 2021 11:38:32 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     Grant Grundler <grundler@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Oliver Neukum <oliver@neukum.org>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        nic_swsd <nic_swsd@realtek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH net] net: usb: cdc_ncm: don't spew notifications
+Thread-Topic: [PATCH net] net: usb: cdc_ncm: don't spew notifications
+Thread-Index: AQHW7smNYWwyfviJ4EOtGXflgw3CLaov3Wqg
+Date:   Wed, 20 Jan 2021 03:38:32 +0000
+Message-ID: <0a5e1dad04494f16869b44b8457f0980@realtek.com>
+References: <20210120011208.3768105-1-grundler@chromium.org>
+In-Reply-To: <20210120011208.3768105-1-grundler@chromium.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.177.146]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Date:   Wed, 20 Jan 2021 11:22:11 +0800
-Message-ID: <CAD-N9QUVDpHjSwZa+w3Zxx_Pn5ZrBKuhGhbg9PoyR=xbrMb88g@mail.gmail.com>
-Subject: =?UTF-8?Q?=E2=80=9CKASAN=3A_null=2Dptr=2Dderef_Write_in_event=5Fhandler=E2=80=9D_a?=
-        =?UTF-8?Q?nd_=22KASAN=3A_null=2Dptr=2Dderef_Write_in_vhci=5Fshutdown=5Fconnection=22?=
-        =?UTF-8?Q?_should_share_the_same_root_cause=2E?=
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-usb@vger.kernel.org, shuah@kernel.org,
-        valentina.manea.m@gmail.com, hdanton@sina.com,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        syzkaller <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dear kernel developers,
+Grant Grundler <grundler@chromium.org>
+> Sent: Wednesday, January 20, 2021 9:12 AM
+> Subject: [PATCH net] net: usb: cdc_ncm: don't spew notifications
+> 
+> RTL8156 sends notifications about every 32ms.
+> Only display/log notifications when something changes.
+> 
+> This issue has been reported by others:
+> 	https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1832472
+> 	https://lkml.org/lkml/2020/8/27/1083
+> 
+> ...
+> [785962.779840] usb 1-1: new high-speed USB device number 5 using xhci_hcd
+> [785962.929944] usb 1-1: New USB device found, idVendor=0bda,
+> idProduct=8156, bcdDevice=30.00
+> [785962.929949] usb 1-1: New USB device strings: Mfr=1, Product=2,
+> SerialNumber=6
+> [785962.929952] usb 1-1: Product: USB 10/100/1G/2.5G LAN
+> [785962.929954] usb 1-1: Manufacturer: Realtek
+> [785962.929956] usb 1-1: SerialNumber: 000000001
+> [785962.991755] usbcore: registered new interface driver cdc_ether
+> [785963.017068] cdc_ncm 1-1:2.0: MAC-Address: 00:24:27:88:08:15
+> [785963.017072] cdc_ncm 1-1:2.0: setting rx_max = 16384
+> [785963.017169] cdc_ncm 1-1:2.0: setting tx_max = 16384
+> [785963.017682] cdc_ncm 1-1:2.0 usb0: register 'cdc_ncm' at
+> usb-0000:00:14.0-1, CDC NCM, 00:24:27:88:08:15
+> [785963.019211] usbcore: registered new interface driver cdc_ncm
+> [785963.023856] usbcore: registered new interface driver cdc_wdm
+> [785963.025461] usbcore: registered new interface driver cdc_mbim
+> [785963.038824] cdc_ncm 1-1:2.0 enx002427880815: renamed from usb0
+> [785963.089586] cdc_ncm 1-1:2.0 enx002427880815: network connection:
+> disconnected
+> [785963.121673] cdc_ncm 1-1:2.0 enx002427880815: network connection:
+> disconnected
+> [785963.153682] cdc_ncm 1-1:2.0 enx002427880815: network connection:
+> disconnected
+> ...
+> 
+> This is about 2KB per second and will overwrite all contents of a 1MB
+> dmesg buffer in under 10 minutes rendering them useless for debugging
+> many kernel problems.
+> 
+> This is also an extra 180 MB/day in /var/logs (or 1GB per week) rendering
+> the majority of those logs useless too.
+> 
+> When the link is up (expected state), spew amount is >2x higher:
+> ...
+> [786139.600992] cdc_ncm 2-1:2.0 enx002427880815: network connection:
+> connected
+> [786139.632997] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink
+> 2500 mbit/s uplink
+> [786139.665097] cdc_ncm 2-1:2.0 enx002427880815: network connection:
+> connected
+> [786139.697100] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink
+> 2500 mbit/s uplink
+> [786139.729094] cdc_ncm 2-1:2.0 enx002427880815: network connection:
+> connected
+> [786139.761108] cdc_ncm 2-1:2.0 enx002427880815: 2500 mbit/s downlink
+> 2500 mbit/s uplink
+> ...
+> 
+> Chrome OS cannot support RTL8156 until this is fixed.
+> 
+> Signed-off-by: Grant Grundler <grundler@chromium.org>
 
-I found that on the syzbot dashboard, =E2=80=9CKASAN: null-ptr-deref Write =
-in
-event_handler=E2=80=9D[1] and
-"KASAN: null-ptr-deref Write in vhci_shutdown_connection" () should
-share the same root cause.
+Reviewed-by: Hayes Wang <hayeswang@realtek.com>
 
+Best Regards,
+Hayes
 
-The reasons for the above statement:
-1) the stack trace is the same, and this title difference is due to
-the inline property of "vhci_shutdown_connection";
-2) their PoCs are the same as each other.
-
-If you can have any issues with this statement or our information is
-useful to you, please let us know. Thanks very much.
-
-[1] KASAN: null-ptr-deref Write in event_handler -
-https://syzkaller.appspot.com/bug?id=3D28cccdd18b4bb8670d077937fb8d4849dca9=
-6230
-[2] KASAN: null-ptr-deref Write in vhci_shutdown_connection -
-https://syzkaller.appspot.com/bug?id=3Dc21c07f3d51769405e8efc027bdb927515dc=
-c7d6
-
---
-My best regards to you.
-
-     No System Is Safe!
-     Dongliang Mu
