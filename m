@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A6FC433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:46:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19AF5C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:52:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56AE7221F7
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:46:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8501223DB
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:52:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390101AbhATRo4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Jan 2021 12:44:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38380 "EHLO
+        id S1732361AbhATRvk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Jan 2021 12:51:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387520AbhATRoM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 12:44:12 -0500
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76673C061575
-        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:42:56 -0800 (PST)
-Received: by mail-oi1-x229.google.com with SMTP id q205so25827120oig.13
-        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:42:56 -0800 (PST)
+        with ESMTP id S2388723AbhATRuN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 12:50:13 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61339C061757
+        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:49:28 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id w24so18006745ybi.7
+        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=ZHFJYxonu4R04UeV13qr5aQCh6joeK9ZeuixK9rcGkk=;
-        b=hKomSCRs608d2bMutf97y6mNcaeWWXi38yiePkG2w2tDIm25ynueBiiU9WRsqvl5kR
-         40Q3FP/QegTjhg3NumRkeSt0ET60h4KAM2xGtz8THPRERE4ob0Z7REuRhkEjg/FL3Ojk
-         NAfoS6rvq33lRcjP8PNDSnw57EN1/cYED3UnE=
+        bh=1PhAclZULQwbysk/mkrBuB0ypY2UFK2B9x9hQ0ArLyU=;
+        b=PKnCL3c12xNtaUgxfTXl1AFHvQy3cYfP7plFtQx8ivsifTomD+7OyzVK3rNBiKx8Jp
+         BfpdmStXrrd5YQjGo0eJibuoj0IEwDjxupUIVuiBk5RJC+OMsBVv/eWPFlfkIB45yBWA
+         8QOlOVEpLIG1bWahHIV2Hy817oGTKYP9WX1vk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZHFJYxonu4R04UeV13qr5aQCh6joeK9ZeuixK9rcGkk=;
-        b=nErw1K51WfvqA+d0auVtVHNnhy58UaASH609XG/NUnSQQymaatEQOS5X1mBQE1l/UQ
-         iAGjt3H+1KVIsWx4i5fkNuzV04cyJG1KdWFnN/ggIqUuUxm2tNGpvbNbqcfHkSuW71TA
-         Qo53hZEU4jKKK4yw4lIDScq9w3DsOCbFXnltNwVEoRE/OfWtgophA0BbxkmTG6ZOfrkn
-         6vrplLGfymAcEGlmfwgaXgaLa78tOa0yVh8tqj45l5Ssb+eX45xon+FYe00gKijP3m7M
-         rVdKT7jY3m4KG+Emo5sUeW1DVs/fb59Ao+TPFfyJ5ied6Uy/nnQ9OSNRKnmtPsTlGm85
-         2EMw==
-X-Gm-Message-State: AOAM532KPQT0Xq0TQRDJ12VE6TAelG3x44WyIcUALJWSjFRYlDh/okTk
-        lzcT3E78HDeJDUGjcysglJ9Ly2g+6YLWuv8vKotoxA==
-X-Google-Smtp-Source: ABdhPJyck96jsLs3n3qcqJVFLkf0UQpIkK0m0v7CRoC8WM/OLSvNQAyqVVOnAiMwOVCBFjuGfGkc9ejvNC8Cfc0RRFY=
-X-Received: by 2002:aca:4ac5:: with SMTP id x188mr3474327oia.14.1611164575945;
- Wed, 20 Jan 2021 09:42:55 -0800 (PST)
+        bh=1PhAclZULQwbysk/mkrBuB0ypY2UFK2B9x9hQ0ArLyU=;
+        b=iuCSJK1f3LUZQRxX+luXDJkys0vN9Tg6XdhxFRlsB8mtgrbR+XbxxxypYB/ET9UkAN
+         KwQsulxD3o8EV/bSB+C7n7psbkUlRrF4QRcvQ9rcTwDvZTlXvEaKtED1WT3ZCuiu5gn6
+         IKn1IB1/45HELyTBXzfww6M7gJG3DSCcVIPaiKNVCTRIRnP/EJZUj7UlmjlpFWWfNCMl
+         DA0pd+29Jsf4IjGC+7n3TUL5UMcZ62Rcppxntuoq2cosWDGGMQ9ZHGaVq2D2Dyb1IXeH
+         19yYToaZSug7QZUXe65r0hgA5DrYaxtoN0Xu9MELbsiQZXJ83eYB89syVQGxSkmnlwsR
+         oCEQ==
+X-Gm-Message-State: AOAM533jq09wydPyuNbuziPSm6HBB91C0EuqSItL5lqczjl8CGv18Saa
+        zVCYzvPBwWbnjdbhkbXh1hJ6cJlyzEDR/Z8VrJM/OB8gqjY=
+X-Google-Smtp-Source: ABdhPJyQJxihaFNA4A53Zw4JJfauiFp1ByT3l2+b9XytEbEObkDahNtSovQIudpiKYScOGBh9rACIAdh0+OPg31F68w=
+X-Received: by 2002:a05:6830:1bef:: with SMTP id k15mr7631084otb.303.1611164527608;
+ Wed, 20 Jan 2021 09:42:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20210120170033.38468-1-noralf@tronnes.org> <20210120170033.38468-2-noralf@tronnes.org>
-In-Reply-To: <20210120170033.38468-2-noralf@tronnes.org>
+References: <20210120170033.38468-1-noralf@tronnes.org> <20210120170033.38468-3-noralf@tronnes.org>
+In-Reply-To: <20210120170033.38468-3-noralf@tronnes.org>
 From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 20 Jan 2021 18:42:45 +0100
-Message-ID: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+Date:   Wed, 20 Jan 2021 18:41:56 +0100
+Message-ID: <CAKMK7uF62TrWhqBMM6qa+nXbKEs=sEGw6eF62S_NfTanyXc_Xg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] drm/probe-helper: Check epoch counter in output_poll_execute()
 To:     =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 Cc:     dri-devel <dri-devel@lists.freedesktop.org>, hudson@trmm.net,
         markus@raatikainen.cc, Sam Ravnborg <sam@ravnborg.org>,
@@ -71,30 +71,64 @@ X-Mailing-List: linux-usb@vger.kernel.org
 On Wed, Jan 20, 2021 at 6:10 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org> wr=
 ote:
 >
-> Add a connector type for USB connected display panels.
+> drm_helper_hpd_irq_event() checks the epoch counter to determine
+> connector status change. This was introduced in
+> commit 5186421cbfe2 ("drm: Introduce epoch counter to drm_connector").
+> Do the same for output_poll_execute() so it can detect other changes
+> beside connection status value changes.
 >
 > Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 > ---
->  include/uapi/drm/drm_mode.h | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/drm_probe_helper.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index fed66a03c7ae..33024cc5d26e 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -367,6 +367,7 @@ enum drm_mode_subconnector {
->  #define DRM_MODE_CONNECTOR_DPI         17
->  #define DRM_MODE_CONNECTOR_WRITEBACK   18
->  #define DRM_MODE_CONNECTOR_SPI         19
-> +#define DRM_MODE_CONNECTOR_USB         20
-
-Beware, new connector types have in the past resulted in userspace
-burning&crashing. Maybe it's become better ...
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_pro=
+be_helper.c
+> index d6017726cc2a..e5432dcf6999 100644
+> --- a/drivers/gpu/drm/drm_probe_helper.c
+> +++ b/drivers/gpu/drm/drm_probe_helper.c
+> @@ -623,6 +623,7 @@ static void output_poll_execute(struct work_struct *w=
+ork)
+>         struct drm_connector_list_iter conn_iter;
+>         enum drm_connector_status old_status;
+>         bool repoll =3D false, changed;
+> +       u64 old_epoch_counter;
 >
->  /**
->   * struct drm_mode_get_connector - Get connector metadata.
+>         if (!dev->mode_config.poll_enabled)
+>                 return;
+> @@ -659,8 +660,9 @@ static void output_poll_execute(struct work_struct *w=
+ork)
+>
+>                 repoll =3D true;
+>
+> +               old_epoch_counter =3D connector->epoch_counter;
+>                 connector->status =3D drm_helper_probe_detect(connector, =
+NULL, false);
+> -               if (old_status !=3D connector->status) {
+Was about to ask whether we're not missing connector status changes
+here, but that's already handled. Not sure why this wasn't done as
+part of the original patch, I'd include a cc: stable here.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> +               if (old_epoch_counter !=3D connector->epoch_counter) {
+>                         const char *old, *new;
+>
+>                         /*
+> @@ -689,6 +691,9 @@ static void output_poll_execute(struct work_struct *w=
+ork)
+>                                       connector->base.id,
+>                                       connector->name,
+>                                       old, new);
+> +                       DRM_DEBUG_KMS("[CONNECTOR:%d:%s] epoch counter %l=
+lu -> %llu\n",
+> +                                     connector->base.id, connector->name=
+,
+> +                                     old_epoch_counter, connector->epoch=
+_counter);
+>
+>                         changed =3D true;
+>                 }
 > --
 > 2.23.0
 >
