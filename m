@@ -2,108 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 763FCC43333
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89221C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:54:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4110C23119
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:54:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E5162311C
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:54:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729234AbhATC22 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 21:28:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47348 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729984AbhATB2N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:28:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E27523331;
-        Wed, 20 Jan 2021 01:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611105990;
-        bh=7IpY0UwZe9ppe5KB7Y5C665xMW42lX2p9h6Dq1MNHvE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K1C9l5/jeqE88BsrnN6KvIkR5lZymu02lfbWOdJfI8M4yyMcI1Yup1GL9K7hwJ2uk
-         lr/5hJprPbaNumciq9/NTp/FXFm25P6ccYlS3OsqmmGAh6LarDGHn0B9tMALrnGOrY
-         vqn5jfIg3mGWyBi9JfVfMkonX+qcHFBu/Vl5h5gvHlYlu6bZ2AI3Jgf9cIa2T3EnI3
-         IHGHiKXrhh7q616suzGic7yA+RMQspuqEhwgIgYipB1g1Z3GqhYz4mGYgusJCa0C9B
-         2ndXGAEPJ063KnCQ7fazoGRawV91B3HuOFJAXTJ86RCscmGUS4BBVukcwQe5wuDEhl
-         BEDWF5iyJyFUg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Leon Schuermann <leon@is.currently.online>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 21/45] r8152: Add Lenovo Powered USB-C Travel Hub
-Date:   Tue, 19 Jan 2021 20:25:38 -0500
-Message-Id: <20210120012602.769683-21-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
-References: <20210120012602.769683-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S1730552AbhATDyg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 22:54:36 -0500
+Received: from mailout4.samsung.com ([203.254.224.34]:51080 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731536AbhATDwJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 22:52:09 -0500
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20210120035125epoutp04535bd84bf7d18c31312e51a1d1e95be8~b1EVK-jlj0900909009epoutp04m
+        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 03:51:25 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20210120035125epoutp04535bd84bf7d18c31312e51a1d1e95be8~b1EVK-jlj0900909009epoutp04m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1611114685;
+        bh=rmNVsadvUvfUSqyjvLgSW52JXvqmaHb2Wy0DJaMu3Dg=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=Jazlue4oPk80MGKWtq5jer+gs20fKpSjCGr1pJE/DrdSbMNr1lJYqFkKyc7ahwJIy
+         UwJWQH88ZMMJY9oSa442Eh6ibJYxqsi3tiV1wZ7oUestD41JGUV0pk79U6gxIdVuaN
+         YtaXyW0nf9DROcgHREB+WlSAQQ85C4o2viH1/Jsc=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas2p1.samsung.com (KnoxPortal) with ESMTP id
+        20210120035124epcas2p19d47d33491f049d669e65b496a47d681~b1EUZf7cE0409004090epcas2p1n;
+        Wed, 20 Jan 2021 03:51:24 +0000 (GMT)
+Received: from epsmges2p3.samsung.com (unknown [182.195.40.187]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4DLBQg68wvz4x9Q2; Wed, 20 Jan
+        2021 03:51:23 +0000 (GMT)
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+        epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        AB.2A.05262.BB8A7006; Wed, 20 Jan 2021 12:51:23 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
+        20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610~b1ESmBk-Q0078900789epcas2p2A;
+        Wed, 20 Jan 2021 03:51:23 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20210120035123epsmtrp11506a9812d8877c7dc11adc1a9faa50c~b1ESlZgnC1321313213epsmtrp1k;
+        Wed, 20 Jan 2021 03:51:23 +0000 (GMT)
+X-AuditID: b6c32a47-b81ff7000000148e-33-6007a8bb19c1
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        8E.AE.13470.AB8A7006; Wed, 20 Jan 2021 12:51:22 +0900 (KST)
+Received: from ubuntu.dsn.sec.samsung.com (unknown [12.36.155.120]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210120035122epsmtip1d4e05b15d6286804b575393b25e403d7~b1ESaKF8o0536305363epsmtip1b;
+        Wed, 20 Jan 2021 03:51:22 +0000 (GMT)
+From:   Daehwan Jung <dh10.jung@samsung.com>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Daehwan Jung <dh10.jung@samsung.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: usb: dwc3: gadget: skip pullup and set_speed after suspend
+Date:   Wed, 20 Jan 2021 12:39:28 +0900
+Message-Id: <1611113968-102424-1-git-send-email-dh10.jung@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAKsWRmVeSWpSXmKPExsWy7bCmue7uFewJBqcmCVkca3vCbnFnwTQm
+        i+bF69ksLu+aw2axaFkrswOrx6ZVnWwe++euYffo27KK0ePzJrkAlqgcm4zUxJTUIoXUvOT8
+        lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygvUoKZYk5pUChgMTiYiV9O5ui
+        /NKSVIWM/OISW6XUgpScAkPDAr3ixNzi0rx0veT8XCtDAwMjU6DKhJyM3T9OMhV846jYd7SD
+        vYFxBXsXIyeHhICJxILJr9m6GLk4hAR2MErc/NLLCuF8YpToeP4JKvONUWLPm99wLX//vWOC
+        SOxllFj57RILhPODUaLh13ugfg4ONgEtie8LGUEaRASUJab8aANrYBaYxijxcO0WJpCEsICz
+        xP/lR5lBbBYBVYlLm06CbeAVcJPo+bOeDWKbnMTNc53MIM0SAtPZJebPOcMIkXCRuHv6PpQt
+        LPHq+Bao86QkXva3sYMcISFQLrFovh1EbwejxJpPZ6HqjSVmPWtnBKlhFtCUWL9LH6JcWeLI
+        LRaQCmYBPomOw3+hpvBKdLQJQTQqS0y/PIEVwpaUOPj6HDNEiYfEyXVaIGEhgViJpWvuMU1g
+        lJ2FMH4BI+MqRrHUguLc9NRiowJj5DjaxAhOSlruOxhnvP2gd4iRiYPxEKMEB7OSCG/TX7YE
+        Id6UxMqq1KL8+KLSnNTiQ4ymwNCayCwlmpwPTIt5JfGGpkZmZgaWphamZkYWSuK8xQYP4oUE
+        0hNLUrNTUwtSi2D6mDg4pRqYnG9Zun1ZeUTkvbdNdM+pm0qrTMPM2jeIaLBLclyWk0rbzXfY
+        g/OTeN727hu902P+vkv7qmNacvvkJOlD9T6TpFpPyq1at6niRpiUDBP3hSvGr+9enTktT0Pz
+        wodPhwo09SY+mH2E993cq1OeLMvomZ0i65Ap78IiWLrbUcORUeM1ry730+q0CtmlT4x6Nhhd
+        Eb14zbbg3cZ9oYEtiuks24Osps6MVljxYzsDv4yF6OZOQfnZt3UvbOLZMmHXj1NzLGekP9rN
+        9fCpj6BMVtvW9Ysj5jrOl1jGvTFT/JLSr0c37nUtfXvXOi1Fkv9oyvGL1xwsls/780jhoNDd
+        uOdymy2Za+6VLcnTmz+FSenUKyWW4oxEQy3mouJEAIwswA7TAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrAJMWRmVeSWpSXmKPExsWy7bCSnO6uFewJBj0fLS2OtT1ht7izYBqT
+        RfPi9WwWl3fNYbNYtKyV2YHVY9OqTjaP/XPXsHv0bVnF6PF5k1wASxSXTUpqTmZZapG+XQJX
+        xu4fJ5kKvnFU7Dvawd7AuIK9i5GTQ0LAROLvv3dMXYxcHEICuxklet7vgEpISiydewPKFpa4
+        33KEFaLoG6PEiRmbGbsYOTjYBLQkvi9kBKkREVCWmPKjDWwQs8AMoJr+bhaQhLCAs8T/5UeZ
+        QWwWAVWJS5tOgg3lFXCT6Pmzng1igZzEzXOdzBMYeRYwMqxilEwtKM5Nzy02LDDMSy3XK07M
+        LS7NS9dLzs/dxAgOFC3NHYzbV33QO8TIxMF4iFGCg1lJhLfpL1uCEG9KYmVValF+fFFpTmrx
+        IUZpDhYlcd4LXSfjhQTSE0tSs1NTC1KLYLJMHJxSDUxOPX4X3rdr/drQpNVtebRwq0nBP957
+        D6WS/1uECX+4sGBRw6aZrvkt3Mt5n2wv1jaRufiaSytz7TvTgu0CB4+JT/weJXfFuH/CCouC
+        f29sLhgKxy542X04YMr5ac87P7Z25DkWsAgxlDPd15rhNG+ClUf2lWMfq2L/FG+/fEfjmYdF
+        mYtkevRrHS7eh14PD5js2i2rZfSkOy+0a9/m1UnOP5Q5elevXhSWkdMcNtN908P5CsqLYv18
+        ll3c6RZtcXGfZ2+P42WdoK065Z7nVJONi04Efvm72G/h98B/3yv+ntLf8OmWWfTLoJA21X/W
+        rTkiB/74f5G7X7eA03kC5/WqxNx1HHfP//kd38xgHK3EUpyRaKjFXFScCABgoX4igwIAAA==
+X-CMS-MailID: 20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610
+References: <CGME20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610@epcas2p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Leon Schuermann <leon@is.currently.online>
+Sometimes dwc3_gadget_pullup and dwc3_gadget_set_speed are called after
+entering suspend. That's why it needs to check whether suspend
 
-[ Upstream commit cb82a54904a99df9e8f9e9d282046055dae5a730 ]
+1. dwc3 sends disconnect uevent and turn off. (suspend)
+2. Platform side causes pullup or set_speed(e.g., adbd closes ffs node)
+3. It causes unexpected behavior like ITMON error.
 
-This USB-C Hub (17ef:721e) based on the Realtek RTL8153B chip used to
-use the cdc_ether driver. However, using this driver, with the system
-suspended the device constantly sends pause-frames as soon as the
-receive buffer fills up. This causes issues with other devices, where
-some Ethernet switches stop forwarding packets altogether.
-
-Using the Realtek driver (r8152) fixes this issue. Pause frames are no
-longer sent while the host system is suspended.
-
-Signed-off-by: Leon Schuermann <leon@is.currently.online>
-Tested-by: Leon Schuermann <leon@is.currently.online>
-Link: https://lore.kernel.org/r/20210111190312.12589-2-leon@is.currently.online
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
 ---
- drivers/net/usb/cdc_ether.c | 7 +++++++
- drivers/net/usb/r8152.c     | 1 +
- 2 files changed, 8 insertions(+)
+ drivers/usb/dwc3/gadget.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index 8c1d61c2cbacb..6aaa0675c28a3 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -793,6 +793,13 @@ static const struct usb_device_id	products[] = {
- 	.driver_info = 0,
- },
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index ee44321..d7d4202 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2093,6 +2093,9 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+ 	unsigned long		flags;
+ 	int			ret;
  
-+/* Lenovo Powered USB-C Travel Hub (4X90S92381, based on Realtek RTL8153) */
-+{
-+	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0x721e, USB_CLASS_COMM,
-+			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-+	.driver_info = 0,
-+},
++	if (pm_runtime_suspended(dwc->dev))
++		return 0;
 +
- /* ThinkPad USB-C Dock Gen 2 (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0xa387, USB_CLASS_COMM,
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index b1770489aca51..88f177aca342e 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -6893,6 +6893,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7205)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x720c)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7214)},
-+	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x721e)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0xa387)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff)},
+ 	is_on = !!is_on;
+ 
+ 	/*
+@@ -2403,6 +2406,9 @@ static void dwc3_gadget_set_speed(struct usb_gadget *g,
+ 	unsigned long		flags;
+ 	u32			reg;
+ 
++	if (pm_runtime_suspended(dwc->dev))
++		return;
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	reg = dwc3_readl(dwc->regs, DWC3_DCFG);
+ 	reg &= ~(DWC3_DCFG_SPEED_MASK);
 -- 
-2.27.0
+2.7.4
 
