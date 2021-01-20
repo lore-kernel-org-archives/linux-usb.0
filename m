@@ -2,108 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03AE9C433E9
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 02:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F88C4332E
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:24:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A01AD2250E
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 02:27:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB96923121
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 03:24:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730915AbhATCUF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 21:20:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48240 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730829AbhATB3o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:29:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 042B823730;
-        Wed, 20 Jan 2021 01:28:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611106088;
-        bh=5yK5Fi0PTZ04fL2md8C6mizLSxtI95KJPCXu9GfAxsM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X7vJ6QoPCRPrBIvPwh+ZYiOCcoYHYqyAJuwMO2lFeUOLexYSqOgc9c4O5OjvZ6LO1
-         UXEARl25V7zQF3SVBa2Z+B5k0kjVhBQs7/jPzPIADs33P7I/rm0ERKAtOWnGD8WhHi
-         YG5Pmmeu4jCghydHJ3UC18agpKLqRvfPL2SLKjG/psHkfm6CttXfdD6hDF508h4h7L
-         X5mCZrhDoM7T4kwbPguG981lQ2l6uagwxB1pc59EzPyV/OCH1zBS7oHpOit0Et/Iv0
-         pCKOwfup660pe2NjhCDTZBF1uDys/HhFVIJrX0Fs/nlj6nSlS4Z0wHM6yyDyRi+ZEJ
-         Uy9cIyrdCH7AQ==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Leon Schuermann <leon@is.currently.online>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 4/9] r8152: Add Lenovo Powered USB-C Travel Hub
-Date:   Tue, 19 Jan 2021 20:27:57 -0500
-Message-Id: <20210120012802.770525-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012802.770525-1-sashal@kernel.org>
-References: <20210120012802.770525-1-sashal@kernel.org>
+        id S1730076AbhATDXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 22:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728131AbhATDXR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 22:23:17 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C29C061757;
+        Tue, 19 Jan 2021 19:22:37 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id e67so9536517ybc.12;
+        Tue, 19 Jan 2021 19:22:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=f9pMfHMJFLWFvKkxl3fDIxRex/hLf2XjpUacI+mZUlo=;
+        b=Y74qXsQE7DVaV2IaNQj6xHpHJyEOF2ivRh39VoknvHawJjTV3KMMtw2Zu26MXjH9V4
+         IQl0fm9vXz29qN4pKZVPWCbn8RY79Udnhfp4q3bmpixPzX0pRYkfzjj/KdyZv8GYMwf6
+         leD5Y+AS9fxDidVQ+wtTo06S5TWlTVlD/By0C4VKlj36a6aVD/6mW/j+CNyhbV3/7FZe
+         uEyYsEUIqiQx/7Fr9rFoOzPlwzCl98vpGt4wMbpCbEsJOeN/vMU0BhmwqYj307cNqWEX
+         vEWfkgDy2Osr3dv3yWSl2yKclvnYYY9cEovrPVbHaspDcq3EuwjfU7jS7Y69RXwI5vcK
+         gsnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=f9pMfHMJFLWFvKkxl3fDIxRex/hLf2XjpUacI+mZUlo=;
+        b=HEoDerz19yMzg5PVBLZhtOntX0HTAU6oArrkAdpOocLQvHKrYOYeBtm++Qbli58D7a
+         z4fwnUUj1KIdzcEABDMJyT10Dnqt+9qk8y7w+ozxBhsGH8K4kwAlL4Luy/s+81QdI4Yf
+         CNOz/Ajh5IYNElj3MRA3jcFhPxB9Neis3E6Ru1BEDthfoJAEvlTwwy0+ph5cCqRXjd35
+         EQpvWP4kEE/MVTJbdlV3JXQDk4YLhJmtL/Nd4VU/lGsMSP3G6GflckIt1kgeWHl7aiJB
+         jHOf0ThZft4cdUs7V0vGdTLV9XJQWRCB2lw2r+UOw8sIEZMsnLB542VbsXcVus7yIEMD
+         RgvQ==
+X-Gm-Message-State: AOAM5319kkuiz2OAuXaqzHMr9C+bCCjHFQof10CI51NFu+A4YcgXxk9I
+        1ThVBGLJXyPefgp8xilGYymZtq0xH/4fjVMi+m0=
+X-Google-Smtp-Source: ABdhPJzpBTZBCK5+V+Eko13BUTOyrdrdSVMlL6YqRHttJSTJr1LKYUuJjJUHuiZ75zl5fegkOpEfdFtTtwwqJ2/R9Pg=
+X-Received: by 2002:a25:688c:: with SMTP id d134mr10841417ybc.477.1611112956721;
+ Tue, 19 Jan 2021 19:22:36 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+From:   =?UTF-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
+Date:   Wed, 20 Jan 2021 11:22:11 +0800
+Message-ID: <CAD-N9QUVDpHjSwZa+w3Zxx_Pn5ZrBKuhGhbg9PoyR=xbrMb88g@mail.gmail.com>
+Subject: =?UTF-8?Q?=E2=80=9CKASAN=3A_null=2Dptr=2Dderef_Write_in_event=5Fhandler=E2=80=9D_a?=
+        =?UTF-8?Q?nd_=22KASAN=3A_null=2Dptr=2Dderef_Write_in_vhci=5Fshutdown=5Fconnection=22?=
+        =?UTF-8?Q?_should_share_the_same_root_cause=2E?=
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-usb@vger.kernel.org, shuah@kernel.org,
+        valentina.manea.m@gmail.com, hdanton@sina.com,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        syzkaller <syzkaller@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Leon Schuermann <leon@is.currently.online>
+Dear kernel developers,
 
-[ Upstream commit cb82a54904a99df9e8f9e9d282046055dae5a730 ]
+I found that on the syzbot dashboard, =E2=80=9CKASAN: null-ptr-deref Write =
+in
+event_handler=E2=80=9D[1] and
+"KASAN: null-ptr-deref Write in vhci_shutdown_connection" () should
+share the same root cause.
 
-This USB-C Hub (17ef:721e) based on the Realtek RTL8153B chip used to
-use the cdc_ether driver. However, using this driver, with the system
-suspended the device constantly sends pause-frames as soon as the
-receive buffer fills up. This causes issues with other devices, where
-some Ethernet switches stop forwarding packets altogether.
 
-Using the Realtek driver (r8152) fixes this issue. Pause frames are no
-longer sent while the host system is suspended.
+The reasons for the above statement:
+1) the stack trace is the same, and this title difference is due to
+the inline property of "vhci_shutdown_connection";
+2) their PoCs are the same as each other.
 
-Signed-off-by: Leon Schuermann <leon@is.currently.online>
-Tested-by: Leon Schuermann <leon@is.currently.online>
-Link: https://lore.kernel.org/r/20210111190312.12589-2-leon@is.currently.online
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/cdc_ether.c | 7 +++++++
- drivers/net/usb/r8152.c     | 1 +
- 2 files changed, 8 insertions(+)
+If you can have any issues with this statement or our information is
+useful to you, please let us know. Thanks very much.
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index f3def96d35d42..8c9eae5f30722 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -800,6 +800,13 @@ static const struct usb_device_id	products[] = {
- 	.driver_info = 0,
- },
- 
-+/* Lenovo Powered USB-C Travel Hub (4X90S92381, based on Realtek RTL8153) */
-+{
-+	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0x721e, USB_CLASS_COMM,
-+			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-+	.driver_info = 0,
-+},
-+
- /* ThinkPad USB-C Dock Gen 2 (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0xa387, USB_CLASS_COMM,
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index e30792380812a..bd91d4bad49b2 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -5337,6 +5337,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7205)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x720c)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7214)},
-+	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x721e)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0xa387)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LINKSYS, 0x0041)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_NVIDIA,  0x09ff)},
--- 
-2.27.0
+[1] KASAN: null-ptr-deref Write in event_handler -
+https://syzkaller.appspot.com/bug?id=3D28cccdd18b4bb8670d077937fb8d4849dca9=
+6230
+[2] KASAN: null-ptr-deref Write in vhci_shutdown_connection -
+https://syzkaller.appspot.com/bug?id=3Dc21c07f3d51769405e8efc027bdb927515dc=
+c7d6
 
+--
+My best regards to you.
+
+     No System Is Safe!
+     Dongliang Mu
