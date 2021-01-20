@@ -2,105 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97933C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 13:00:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18706C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 15:22:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5534B23359
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 13:00:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4FBD2336D
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 15:22:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728323AbhATNA3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Jan 2021 08:00:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732961AbhATL7x (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 06:59:53 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91473C061757
-        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 03:59:04 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 4D2CF1F456A9
+        id S2390975AbhATPUY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Jan 2021 10:20:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51286 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390194AbhATPUO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 20 Jan 2021 10:20:14 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F1D002336D;
+        Wed, 20 Jan 2021 15:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1611155973;
+        bh=4U0cTymur58aCFjU661WbxxMOBMWQK1vEfB7/iEaKLc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HBgp4x8eFraXqtYXTUW1lV84kzGeNpOtvon3qMNLeUeODmTc6Vq69VEPVB0yA6enr
+         RvXnPDHXzhZKIEC8swhl0U8ko+Sk/sEzlIY9i3ayf9+dPquDQBYU0nNy/IHtVEu6mV
+         Qs/1UbhV8MtmOFeIf5ZzCxAfa63qL/PhG1i7Hkd0=
+Date:   Wed, 20 Jan 2021 16:19:30 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Paul Wise <pabs3@bonedaddy.net>
+Cc:     Krzysztof Opasiak <k.opasiak@samsung.com>,
+        Matt Porter <mporter@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Karol Lewandowski <k.lewandowsk@samsung.com>,
+        linux-usb@vger.kernel.org
 Subject: Re: proposal: move Linux userspace USB gadget projects to linux-usb
  GitHub organisation?
-To:     Krzysztof Opasiak <k.opasiak@samsung.com>,
-        Paul Wise <pabs3@bonedaddy.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matt Porter <mporter@linaro.org>,
-        Karol Lewandowski <k.lewandowsk@samsung.com>
-Cc:     linux-usb@vger.kernel.org
-References: <CGME20210119200737eucas1p12bfb53d11543ee2ccb1a4bc2138f6535@eucas1p1.samsung.com>
- <c38162833d1c8fede734e41eb5ce23cf393d6555.camel@bonedaddy.net>
- <ef8906a7-0412-dbe3-d30a-2ac6d4f1b76d@samsung.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <72b91ed1-d2c8-cc02-9de4-344e8f423233@collabora.com>
-Date:   Wed, 20 Jan 2021 12:58:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Message-ID: <YAhKAiz2U9KQWQPE@kroah.com>
+References: <c38162833d1c8fede734e41eb5ce23cf393d6555.camel@bonedaddy.net>
 MIME-Version: 1.0
-In-Reply-To: <ef8906a7-0412-dbe3-d30a-2ac6d4f1b76d@samsung.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c38162833d1c8fede734e41eb5ce23cf393d6555.camel@bonedaddy.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
-
-W dniu 19.01.2021 o 21:15, Krzysztof Opasiak pisze:
+On Wed, Jan 20, 2021 at 04:06:59AM +0800, Paul Wise wrote:
+> Hi Greg, all,
 > 
+> Right now all the Linux userspace USB gadget projects (libusbg,
+> libusbgx, gt, gadgetd, cmtp-responder etc) are spread out across
+> different GitHub organisations and user accounts.
 > 
-> On 19.01.2021 21:06, Paul Wise wrote:
->> Hi Greg, all,
->>
->> Right now all the Linux userspace USB gadget projects (libusbg,
->> libusbgx, gt, gadgetd, cmtp-responder etc) are spread out across
->> different GitHub organisations and user accounts.
+> https://github.com/libusbg/libusbg
+> https://github.com/libusbgx/libusbgx
+> https://github.com/kopasiak/gt
+> https://github.com/gadgetd/gadgetd
+> https://github.com/cmtp-responder/cmtp-responder
+
+If you can get the "owners" of these repos to agree, than sure.
+
+But we should work out the libusbg and libusbx issue, which is really
+the "latest" one?
+
+> I would like to move each of these projects to the linux-usb GitHub
+> organisation and add some more folks to the list of admins so that
+> these projects can be more collaboratively maintained. The linux-usb
+> GitHub organisation is currently solely owned by Greg Kroah-Hartman.
 > 
-> Anything that could increase the bandwidth on the components that I
-> maintain makes perfect sense to me.
-> I've been moved to a little bit different challenges and I've very
-> little to no time for the maintenance...
+> https://github.com/linux-usb
 > 
+> I don't propose to move maintenance of these projects to kernel.org
+> since the issue and pull request databases for them are on GitHub and
+> would need to be preserved.
 
-I can offer 2h/week to help maintaining/developing.
+If you are moving the repos, why do you care about the issue and pull
+request database anymore?  Will they just not end up going away?
 
-(re-pasting the links to de-obfuscate them after Krzysztof's reply)
+I'm fine with keeping these on github, kernel.org is a great solution
+for kernel developers to use, but that's about it :)
 
-https://github.com/libusbg/libusbg
-https://github.com/libusbgx/libusbgx
-https://github.com/kopasiak/gt
-https://github.com/gadgetd/gadgetd
-https://github.com/cmtp-responder/cmtp-responder
+thanks,
 
-As far as I know switching from libusbg to libusbgx is a move endorsed by 
-libusbg's author.
-@Matt: Am I right?
-
-For sure gt depends on libusbgx, not libusbg.
-
->>
->> I would like to move each of these projects to the linux-usb GitHub
->> organisation and add some more folks to the list of admins so that
->> these projects can be more collaboratively maintained. The linux-usb
->> GitHub organisation is currently solely owned by Greg Kroah-Hartman.
->>
-
-https://github.com/linux-usb
-
->>
->> I don't propose to move maintenance of these projects to kernel.org
->> since the issue and pull request databases for them are on GitHub and
->> would need to be preserved.
->>
-> 
-
-Having an umbrella project for userspace USB gadget projects seems
-a good idea to me.
-
-Andrzej
+greg k-h
