@@ -2,109 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE23C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E97F3C433E6
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:43:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68F0D2310D
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:43:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6BEF22472
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 01:43:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727657AbhATBna (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Jan 2021 20:43:30 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:47280 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728591AbhATBhN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 20:37:13 -0500
-Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com [10.205.2.133])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 376E0C00AD;
-        Wed, 20 Jan 2021 01:36:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1611106570; bh=puVvPDC3uOYOQl6YSaOtQhB4hXZ/OPxDOYyjlaafVyo=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=lIXlvmBGXCI0CZqNVQaesHCXA9xUmDt4oralNmn5Y1z41UEvM0j9NMc6ADO1YMnC+
-         lbwAQe7HexGSJTJyvxCcWgSjBQJI1r0do88UA0+E3SUzSCuwn9upfKz5ZvHwPPiL5L
-         UNvKQpKCSN5tKvpIMCyLRUWTZAGxS99mstAcxG/e+LJC08EuURW1P67gOofnYqSO/c
-         CdMgasPyRcrldo9wfbykzNdBNRNITMEVUumWMojUG19GWazzPgr9GhjwS8afb1qGi6
-         +fP9t5XiZmrEGvoyK98UU8e/123Y6xkHTtr7R137f5DJ8qkicmRLqKPzo7dIjQ2cI9
-         Yt4k8+EcrxiXw==
-Received: from te-lab16 (unknown [10.10.52.11])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 94186A0251;
-        Wed, 20 Jan 2021 01:36:08 +0000 (UTC)
-Received: by te-lab16 (sSMTP sendmail emulation); Tue, 19 Jan 2021 17:36:08 -0800
-Date:   Tue, 19 Jan 2021 17:36:08 -0800
-Message-Id: <cc7cc15f87e209c9963f19129f51398cdc374358.1611106162.git.Thinh.Nguyen@synopsys.com>
-In-Reply-To: <cover.1611106162.git.Thinh.Nguyen@synopsys.com>
-References: <cover.1611106162.git.Thinh.Nguyen@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v7 1/6] dt-binding: usb: Include USB SSP rates in GenXxY
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Cc:     John Youn <John.Youn@synopsys.com>
+        id S1728587AbhATBn4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Jan 2021 20:43:56 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8876 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbhATBnw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Jan 2021 20:43:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B60078aaa0000>; Tue, 19 Jan 2021 17:43:06 -0800
+Received: from [10.19.109.31] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 Jan
+ 2021 01:43:00 +0000
+Subject: Re: [PATCH v6 04/15] phy: tegra: xusb: tegra210: Do not reset UPHY
+ PLL
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <gregkh@linuxfoundation.org>, <robh@kernel.org>,
+        <jonathanh@nvidia.com>, <kishon@ti.com>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>
+References: <20210119085546.725005-1-jckuo@nvidia.com>
+ <20210119085546.725005-5-jckuo@nvidia.com> <YAbkABc68aMTvIyr@ulmo>
+From:   JC Kuo <jckuo@nvidia.com>
+Organization: NVIDIA
+Message-ID: <f389ab2f-1ecf-9eb5-6897-f780a27f4fec@nvidia.com>
+Date:   Wed, 20 Jan 2021 09:42:57 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <YAbkABc68aMTvIyr@ulmo>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1611106986; bh=7ZWJjA3V1BT8uXEoBJb4nujxJszYGXToGqMzgsjGGFY=;
+        h=Subject:To:CC:References:From:Organization:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=Y0G9aiLxpNBJoGv63xS+8ysFT8PWHMqh+wxlTDSkRUzlwYbtHZSz9M876pF0JmHyn
+         WJfi7TVUl8oPq+nMtRK575C6RKbH1eJI9GuO4k7iGa9t9nw7jUWmk4/5jNPaSWnROq
+         BTCAbhkY5bmLt1AuiqqypRGjAGPyVNzqfjtz8sXKMabPBZi/QVGMRoFnwATyxgZaUR
+         m2OrSKX4xQHLIFSJm8gDmfDODNFaIfopdEXijBNGPwarAmajfIFOCRR6cYay36wT5+
+         a1NEJv9HYE3MAzmVpPP5aQvxie4zQvscRJEpS1+Yuu2F0nTUcE3dR3SmcacZi6kSxP
+         Mn62fT258b/XQ==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-According to the USB 3.2 spec, a SuperSpeed Plus device can operate at
-gen2x2, gen2x1, or gen1x2. If the USB controller device supports
-multiple lanes at different transfer rates, the user can specify the HW
-capability via these new speed strings:
 
-"super-speed-plus-gen2x2"
-"super-speed-plus-gen2x1"
-"super-speed-plus-gen1x2"
+On 1/19/21 9:52 PM, Thierry Reding wrote:
+> On Tue, Jan 19, 2021 at 04:55:35PM +0800, JC Kuo wrote:
+>> Once UPHY PLL hardware power sequencer is enabled, do not assert
+>> reset to PEX/SATA PLLs, otherwise UPHY PLL operation will be broken.
+>> This commit removes reset_control_assert(pcie->rst) and
+>> reset_control_assert(sata->rst) from PEX/SATA UPHY disable procedure.
+>>
+>> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+>> ---
+>> v6:
+>>    no change
+>> v5:
+>>    no change
+>> v4:
+>>    no change
+>> v3:
+>>    new, was a part of "phy: tegra: xusb: Rearrange UPHY init on Tegra210"
+>>
+>>  drivers/phy/tegra/xusb-tegra210.c | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/phy/tegra/xusb-tegra210.c b/drivers/phy/tegra/xusb-tegra210.c
+>> index 4dc9286ec1b8..9bfecdfecf35 100644
+>> --- a/drivers/phy/tegra/xusb-tegra210.c
+>> +++ b/drivers/phy/tegra/xusb-tegra210.c
+>> @@ -502,7 +502,6 @@ static void tegra210_pex_uphy_disable(struct tegra_xusb_padctl *padctl)
+>>  	if (--pcie->enable > 0)
+>>  		return;
+>>  
+>> -	reset_control_assert(pcie->rst);
+>>  	clk_disable_unprepare(pcie->pll);
+>>  }
+>>  
+>> @@ -739,7 +738,6 @@ static void tegra210_sata_uphy_disable(struct tegra_xusb_padctl *padctl)
+>>  	if (--sata->enable > 0)
+>>  		return;
+>>  
+>> -	reset_control_assert(sata->rst);
+>>  	clk_disable_unprepare(sata->pll);
+>>  }
+> 
+> Isn't this going to break things between here and patch 5 where the
+> hardware sequencer is enabled? If so, it might be better to move this
+> into patch 5 so that things stay functional and bisectible.
+Hi Thierry,
+Yes, I will move it into patch 5.
 
-If the argument is simply "super-speed-plus", USB controllers should
-default to their maximum transfer rate and number of lanes.
+Thanks,
+JC
 
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
----
-Changes in v7:
-- Rebase on Greg's usb-testing branch
-Changes in v6:
-- Update the different maximum_speed enums to the usb.yaml
-- Remove Reviewed-by: Rob Herring <robh@kernel.org> because the commit is updated
-- Rebase on Greg's usb-testing branch
-- Update commit message
-Changes in v5:
-- Add Reviewed-by: Rob Herring <robh@kernel.org>
-- Rebase on Felipe's testing/next branch
-- Changed Signed-off-by email to match From: email header
-Changes in v4:
-- None
-Changes in v3:
-- Use "maximum-speed" to include both the num-lane and transfer rate for SSP
-- Remove "num-lanes" and "lane-speed-mantissa-gbps" properties
-Changes in v2:
-- Make "num-lanes" and "lane-speed-mantissa-gbps" common USB properties
-
- Documentation/devicetree/bindings/usb/usb.yaml | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/usb.yaml b/Documentation/devicetree/bindings/usb/usb.yaml
-index ebe7f4275c59..78491e66ed24 100644
---- a/Documentation/devicetree/bindings/usb/usb.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb.yaml
-@@ -54,6 +54,9 @@ properties:
-       - high-speed
-       - super-speed
-       - super-speed-plus
-+      - super-speed-plus-gen2x1
-+      - super-speed-plus-gen1x2
-+      - super-speed-plus-gen2x2
- 
- additionalProperties: true
- 
--- 
-2.28.0
-
+> 
+> Thierry
+> 
