@@ -2,132 +2,110 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 756B5C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:37:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A6FC433E6
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:46:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49B2920705
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:37:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56AE7221F7
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Jan 2021 17:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387733AbhATRhg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Jan 2021 12:37:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36742 "EHLO
+        id S2390101AbhATRo4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Jan 2021 12:44:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732001AbhATRgC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 12:36:02 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E17C2C0613C1;
-        Wed, 20 Jan 2021 09:35:21 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id g10so5510936wrx.1;
-        Wed, 20 Jan 2021 09:35:21 -0800 (PST)
+        with ESMTP id S2387520AbhATRoM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Jan 2021 12:44:12 -0500
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76673C061575
+        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:42:56 -0800 (PST)
+Received: by mail-oi1-x229.google.com with SMTP id q205so25827120oig.13
+        for <linux-usb@vger.kernel.org>; Wed, 20 Jan 2021 09:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bgWbillt2EgWWG5wuhiDZDSvtc6oP4uvK/bDe7atus4=;
-        b=m/DQCZTCFDAKAA47Fqyr754WPbDeIlXyeMyJc5X1hFhVDLxtVxK9YanCcfypvzCVTm
-         f4oeRquI2HYah+oWSPGB44coBCY0pbzUGmiVjq3BoIZ5eRH7vPNGqWFa/++/wlUF9sog
-         vVUpbF0+aUvcbCf7q80COT84GSMUolRI9fk5M0uMlbX6aVemVh27ksTZuJy813zMym6i
-         8HndGkfMoxwVk0a/wGLhj5fbZJRz3EajFrz7YXvXOZJTPR8a9Cfo1iYoqIE95k3TYdoS
-         a+rbQYxnPf3dIIvpdkjdkO4X4zRPfgqLtnNZQK2K5ZCD16ZIYj/RMO831ok5u+jVJjz9
-         g4Wg==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZHFJYxonu4R04UeV13qr5aQCh6joeK9ZeuixK9rcGkk=;
+        b=hKomSCRs608d2bMutf97y6mNcaeWWXi38yiePkG2w2tDIm25ynueBiiU9WRsqvl5kR
+         40Q3FP/QegTjhg3NumRkeSt0ET60h4KAM2xGtz8THPRERE4ob0Z7REuRhkEjg/FL3Ojk
+         NAfoS6rvq33lRcjP8PNDSnw57EN1/cYED3UnE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bgWbillt2EgWWG5wuhiDZDSvtc6oP4uvK/bDe7atus4=;
-        b=pMkZHZIZbCZlrmsrS143XMv1/nfw8qtTk3DFN4pjLizPuYuTsewdyhYD2tKn5Q1rLc
-         04iP0BVNqrN/GzyX+QK/UdNZ10RrtMD6WuNdlNGrAO8gc6U8GHV5foyCxkBC3AyQBnqc
-         lL/FKP0Y2+UhB1ECBlXhbjkV8E0wxG3psK9fY5da0qyy9dbzmzMoLrlcY5/8NiZRQ8oQ
-         03LkTeIq2G4hpdj8x3eblZzrJJlGn40d+tWnqj2NU8IhPHM/RgwhJ4DM+T5ij5bvkFEo
-         XYMwawF5GUS8yUhC0aH6S8WM7O2LCcyG8H9//aLi8AldZ51Wnvt4TYLjGfgR1UGJ34f4
-         /ziw==
-X-Gm-Message-State: AOAM533QalzsIlaknlFzyfvRmGhFGJBwqPCtKnh9YqKdV8r8YOFmnBAX
-        3Eyj23PidBA7wDbvIiDEO7I=
-X-Google-Smtp-Source: ABdhPJzByxqsWOE3ecma2d/q4MjvAdPab8HfLtylXkpN1r5aMzK5sHc1+rLNxK0T60IIARVKjx0OjA==
-X-Received: by 2002:adf:e547:: with SMTP id z7mr10021098wrm.283.1611164120662;
-        Wed, 20 Jan 2021 09:35:20 -0800 (PST)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id r16sm5306760wrx.36.2021.01.20.09.35.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 09:35:19 -0800 (PST)
-Date:   Wed, 20 Jan 2021 18:35:18 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     gregkh@linuxfoundation.org, robh@kernel.org, jonathanh@nvidia.com,
-        kishon@ti.com, mturquette@baylibre.com, sboyd@kernel.org,
-        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        nkristam@nvidia.com, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v7 08/14] arm64: tegra210: XUSB PADCTL add "nvidia,pmc"
- prop
-Message-ID: <YAhp1tzeVszKFAXt@ulmo>
-References: <20210120073414.69208-1-jckuo@nvidia.com>
- <20210120073414.69208-9-jckuo@nvidia.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZHFJYxonu4R04UeV13qr5aQCh6joeK9ZeuixK9rcGkk=;
+        b=nErw1K51WfvqA+d0auVtVHNnhy58UaASH609XG/NUnSQQymaatEQOS5X1mBQE1l/UQ
+         iAGjt3H+1KVIsWx4i5fkNuzV04cyJG1KdWFnN/ggIqUuUxm2tNGpvbNbqcfHkSuW71TA
+         Qo53hZEU4jKKK4yw4lIDScq9w3DsOCbFXnltNwVEoRE/OfWtgophA0BbxkmTG6ZOfrkn
+         6vrplLGfymAcEGlmfwgaXgaLa78tOa0yVh8tqj45l5Ssb+eX45xon+FYe00gKijP3m7M
+         rVdKT7jY3m4KG+Emo5sUeW1DVs/fb59Ao+TPFfyJ5ied6Uy/nnQ9OSNRKnmtPsTlGm85
+         2EMw==
+X-Gm-Message-State: AOAM532KPQT0Xq0TQRDJ12VE6TAelG3x44WyIcUALJWSjFRYlDh/okTk
+        lzcT3E78HDeJDUGjcysglJ9Ly2g+6YLWuv8vKotoxA==
+X-Google-Smtp-Source: ABdhPJyck96jsLs3n3qcqJVFLkf0UQpIkK0m0v7CRoC8WM/OLSvNQAyqVVOnAiMwOVCBFjuGfGkc9ejvNC8Cfc0RRFY=
+X-Received: by 2002:aca:4ac5:: with SMTP id x188mr3474327oia.14.1611164575945;
+ Wed, 20 Jan 2021 09:42:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="18V6D7czgfXzXs7x"
-Content-Disposition: inline
-In-Reply-To: <20210120073414.69208-9-jckuo@nvidia.com>
-User-Agent: Mutt/2.0.4 (26f41dd1) (2020-12-30)
+References: <20210120170033.38468-1-noralf@tronnes.org> <20210120170033.38468-2-noralf@tronnes.org>
+In-Reply-To: <20210120170033.38468-2-noralf@tronnes.org>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 20 Jan 2021 18:42:45 +0100
+Message-ID: <CAKMK7uHoALsGRgJjPzpeAvN10CoBpLsT86=gUm82ki-h2DkPwQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] drm/uapi: Add USB connector type
+To:     =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>, hudson@trmm.net,
+        markus@raatikainen.cc, Sam Ravnborg <sam@ravnborg.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Tyler Hardin <th020394@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>, pontus.fuchs@gmail.com,
+        peter@stuge.se
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
---18V6D7czgfXzXs7x
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 20, 2021 at 03:34:08PM +0800, JC Kuo wrote:
-> PMC driver provides USB sleepwalk registers access to XUSB PADCTL
-> driver. This commit adds a "nvidia,pmc" property which points to
-> PMC node to XUSB PADCTL device node.
->=20
-> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+On Wed, Jan 20, 2021 at 6:10 PM Noralf Tr=C3=B8nnes <noralf@tronnes.org> wr=
+ote:
+>
+> Add a connector type for USB connected display panels.
+>
+> Signed-off-by: Noralf Tr=C3=B8nnes <noralf@tronnes.org>
 > ---
-> v7:
->    no change
-> v6:
->    no change
-> v5:
->    no change
-> v4:
->    no change
-> v3:
->    no change
->=20
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi | 1 +
+>  include/uapi/drm/drm_mode.h | 1 +
 >  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index fed66a03c7ae..33024cc5d26e 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -367,6 +367,7 @@ enum drm_mode_subconnector {
+>  #define DRM_MODE_CONNECTOR_DPI         17
+>  #define DRM_MODE_CONNECTOR_WRITEBACK   18
+>  #define DRM_MODE_CONNECTOR_SPI         19
+> +#define DRM_MODE_CONNECTOR_USB         20
 
-Applied, thanks.
+Beware, new connector types have in the past resulted in userspace
+burning&crashing. Maybe it's become better ...
 
-Thierry
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+>  /**
+>   * struct drm_mode_get_connector - Get connector metadata.
+> --
+> 2.23.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---18V6D7czgfXzXs7x
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAIadUACgkQ3SOs138+
-s6EDMRAAvfRgeCYikIL6BAwhM+SJloxBij+bHJARe9b4wi6pnROzxtFyJqUvo/cB
-g19sC695KcooGStaivQiO9I7P/oFiss+DW2X7p0gz/3QvOO9JCsjpw6rT87qi6d/
-ssfTnZ+vjiJg2YA+xvIomS9x6VTknLB4yNf0gN++hr/qkLUBviIg1WLwEKQ2TA4q
-42rT2OoJC1IXx+BJ7w6O1N+bu4RFRva2jv2E6dOrTFdgeP4WR6D3gvgoHfeqGYJ+
-HXtn/3j4X2DrTnUwAXkZ3EPBSTW/KxjUKKmUkZLkxILSZDFzQ2wIVH1DUEGIqQYn
-GN52PjCca4A7FYY0coZIEiW48lthCybbVu21NPs+C/qqBTwuyEBOZULvPfDeVJQa
-5b9K3RsL1M4z00iSTueUa/Q0aiiGcAoOoeOZIbdH+4E9AteeboFfO0NB+qmudQxi
-fpR0JJtEbov1KiE2xJG0McHesgUfWbqdcfyN9U2FNcEzNhppyDhdj1OfTiJ/frRy
-L8ryBXnTZ2aufYjDyJe7ShDJElIbssSBI4ETs48Zc9zYlejUuth8H4aNgNS7pCe1
-ihtyG2TegmRT2IgZDEvYn3CrPGElfcDaRBMBYaM0869tTa1Has8+SVIPxWO51UWK
-YZkkTPNo9qYFrMwP2E/EwyiImIxLsDeBQh8RTEUG0ED9CQgd/9M=
-=zY9/
------END PGP SIGNATURE-----
-
---18V6D7czgfXzXs7x--
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
