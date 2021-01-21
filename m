@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E79C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D48F2C433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D737123A00
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:04:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98DA3239FD
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730954AbhAUND7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 08:03:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59658 "EHLO mail.kernel.org"
+        id S1729527AbhAUNDX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 08:03:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59686 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729441AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729447AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 21 Jan 2021 05:30:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B4E62343E;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F15A23899;
         Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1611224969;
-        bh=yZsEYFxHhExQyS17apsnmD2VNyi2e+mhEdvR9PE0M50=;
+        bh=l37/E/vH4XbFHwCeL/usOurAN4NyJR1QzSmrjcbEVUE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PEKOd7okSE0hOqSVsTuk9LeSDjr7FBeAV5S+INLLYQ7R8bdpwPuUhUyGjSou9t12X
-         Crr4MGyXGaq7AMx9fg/v0PuKmdsQEAXAvB34jucYb5iYu/hSKSyZ24L2bd8XDpccEr
-         B4GtBq5lxRvAIkl4/Nx3gDQRD5aID930mP7BVzk/1CoIDWMHTH3F5ZeZ5ncYfTxi7H
-         tHyomuaTXzrg77aJAgEVgYlbbO3DZs68QaNfs8Hu7jbHDoMYu/jWJHAOjAwk44mwMY
-         /vZOLyIcaE3UKyswCUXifiayurVjO7kLb6ibpfR53ehQwRFrelSNDGZWOxDSZjf5p4
-         JJxltK3lmV9tw==
+        b=IeCt3T7xJntsvWfSdnZj23s60eW/tzIClgPhPw4LPMSdGpbnCgPDVjjnwbKWgVhLP
+         SQlMROeEU6Yv/cxQ8XMt+xB25mP/FrJsRhqEXjXXM4JJZJl97smwrCf7F58z51BfSZ
+         YOtwRKG8YBW69YzYo9EwphVdDyGNO6bZPAqNnHg3h8SehCRR++KvBinqCpVHf3dz9Q
+         VRlix76zis9/0rVn9wy/laoDBeZwlmhvZkhCy8U5Z7rKe9gDmFh+4t58BR4kmvEf9I
+         UmZTwcsupU5n4ShABu0eKhqAt12aR94azlCU1NKJssbq0Ftu4G4CUpkEqQlUzmcKhD
+         CxNUlwpkrDJWg==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2XDc-0004YU-UL; Thu, 21 Jan 2021 11:29:36 +0100
+        id 1l2XDc-0004YK-Ks; Thu, 21 Jan 2021 11:29:36 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 05/10] USB: serial: xr: document vendor-request recipient
-Date:   Thu, 21 Jan 2021 11:29:17 +0100
-Message-Id: <20210121102922.17439-7-johan@kernel.org>
+Subject: [PATCH 02/10] USB: serial: xr: fix interface leak at disconnect
+Date:   Thu, 21 Jan 2021 11:29:14 +0100
+Message-Id: <20210121102922.17439-4-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
 References: <20210121102922.17439-1-johan@kernel.org>
@@ -50,40 +50,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the missing device-recipient define to the vendor control requests
-for completeness.
+Make sure to release the control interface at disconnect so that the
+driver can be unbound without leaking resources (and later rebound).
 
+Fixes: a8f54b7bd132 ("USB: serial: add MaxLinear/Exar USB to Serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/serial/xr_serial.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 52909dccb4dc..202263211ba9 100644
+index 7be6da6a5cf3..5e110b0c8e71 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -116,8 +116,8 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
- 	ret = usb_control_msg(serial->dev,
- 			      usb_sndctrlpipe(serial->dev, 0),
- 			      XR21V141X_SET_REQ,
--			      USB_DIR_OUT | USB_TYPE_VENDOR, val,
--			      reg | (block << 8), NULL, 0,
-+			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+			      val, reg | (block << 8), NULL, 0,
- 			      USB_CTRL_SET_TIMEOUT);
- 	if (ret < 0) {
- 		dev_err(&port->dev, "Failed to set reg 0x%02x: %d\n", reg, ret);
-@@ -140,8 +140,8 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
- 	ret = usb_control_msg(serial->dev,
- 			      usb_rcvctrlpipe(serial->dev, 0),
- 			      XR21V141X_GET_REQ,
--			      USB_DIR_IN | USB_TYPE_VENDOR, 0,
--			      reg | (block << 8), dmabuf, 1,
-+			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+			      0, reg | (block << 8), dmabuf, 1,
- 			      USB_CTRL_GET_TIMEOUT);
- 	if (ret == 1) {
- 		*val = *dmabuf;
+@@ -564,6 +564,15 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ 	return 0;
+ }
+ 
++static void xr_disconnect(struct usb_serial *serial)
++{
++	struct usb_driver *driver = serial->type->usb_driver;
++	struct usb_interface *control_interface;
++
++	control_interface = usb_ifnum_to_if(serial->dev, 0);
++	usb_driver_release_interface(driver, control_interface);
++}
++
+ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x04e2, 0x1410) }, /* XR21V141X */
+ 	{ }
+@@ -578,6 +587,7 @@ static struct usb_serial_driver xr_device = {
+ 	.id_table		= id_table,
+ 	.num_ports		= 1,
+ 	.probe			= xr_probe,
++	.disconnect		= xr_disconnect,
+ 	.open			= xr_open,
+ 	.close			= xr_close,
+ 	.break_ctl		= xr_break_ctl,
 -- 
 2.26.2
 
