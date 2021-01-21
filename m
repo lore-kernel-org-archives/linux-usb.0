@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48F2C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 899BEC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98DA3239FD
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A2E023A01
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729527AbhAUNDX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 08:03:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59686 "EHLO mail.kernel.org"
+        id S1731491AbhAUND0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 08:03:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60228 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729447AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:30:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F15A23899;
+        id S1729294AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 21 Jan 2021 05:31:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E3562239EB;
         Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611224969;
-        bh=l37/E/vH4XbFHwCeL/usOurAN4NyJR1QzSmrjcbEVUE=;
+        s=k20201202; t=1611224970;
+        bh=v5TgOwXWj0YY94HrnCt3iZPfS8p5FlPm3RviRv/L0ME=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IeCt3T7xJntsvWfSdnZj23s60eW/tzIClgPhPw4LPMSdGpbnCgPDVjjnwbKWgVhLP
-         SQlMROeEU6Yv/cxQ8XMt+xB25mP/FrJsRhqEXjXXM4JJZJl97smwrCf7F58z51BfSZ
-         YOtwRKG8YBW69YzYo9EwphVdDyGNO6bZPAqNnHg3h8SehCRR++KvBinqCpVHf3dz9Q
-         VRlix76zis9/0rVn9wy/laoDBeZwlmhvZkhCy8U5Z7rKe9gDmFh+4t58BR4kmvEf9I
-         UmZTwcsupU5n4ShABu0eKhqAt12aR94azlCU1NKJssbq0Ftu4G4CUpkEqQlUzmcKhD
-         CxNUlwpkrDJWg==
+        b=mKY1pyJ5iW32eEeBPWbGWV4NQzWsqnbFjXsBeshkGsrUCN1s35y819qTxGvcME6H1
+         F20FMpcEU8JHAJjwQQXXrFj4HHLcDFTp40F+nr/aW6KNm8AhgESBChwxTKwlgtcnPx
+         athTudEMfwVgz0ygLTzGDk5PDX0SvHjpmTiSSP9rTaHE6a+otvPpZRWWz3+QcV4Kfr
+         frVdJD5r193stCExKb2PXyhSA5N6qwb7HtQdKmVoGUCIROHBxsBr2ARmeY2J46cGMl
+         eUeeoO85RR2s8pPvQ3G22lXcMBRuozk+1mghQOybuSFMELPAzM01Uf7oT6MyFyUXUi
+         AvGHeHZW6TAqw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2XDc-0004YK-Ks; Thu, 21 Jan 2021 11:29:36 +0100
+        id 1l2XDd-0004Yj-Fe; Thu, 21 Jan 2021 11:29:37 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 02/10] USB: serial: xr: fix interface leak at disconnect
-Date:   Thu, 21 Jan 2021 11:29:14 +0100
-Message-Id: <20210121102922.17439-4-johan@kernel.org>
+Subject: [PATCH 10/10] USB: serial: xr: fix B0 handling
+Date:   Thu, 21 Jan 2021 11:29:22 +0100
+Message-Id: <20210121102922.17439-12-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
 References: <20210121102922.17439-1-johan@kernel.org>
@@ -50,43 +50,79 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure to release the control interface at disconnect so that the
-driver can be unbound without leaking resources (and later rebound).
+Fix up B0 handling which should leave the baud rate unchanged and
+specifically not report back a non-B0 rate when B0 is requested; must
+temporarily disable hardware flow control so that RTS can be deasserted;
+and should reassert DTR/RTS when moving from B0.
 
 Fixes: a8f54b7bd132 ("USB: serial: add MaxLinear/Exar USB to Serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/usb/serial/xr_serial.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 7be6da6a5cf3..5e110b0c8e71 100644
+index f67e7dba9509..483d07dee19d 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -564,6 +564,15 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
- 	return 0;
+@@ -341,8 +341,11 @@ static int xr_set_baudrate(struct tty_struct *tty,
+ 	u16 tx_mask, rx_mask;
+ 	int ret;
+ 
+-	baud = clamp(tty->termios.c_ospeed, XR21V141X_MIN_SPEED,
+-		     XR21V141X_MAX_SPEED);
++	baud = tty->termios.c_ospeed;
++	if (!baud)
++		return 0;
++
++	baud = clamp(baud, XR21V141X_MIN_SPEED, XR21V141X_MAX_SPEED);
+ 	divisor = XR_INT_OSC_HZ / baud;
+ 	idx = ((32 * XR_INT_OSC_HZ) / baud) & 0x1f;
+ 	tx_mask = xr21v141x_txrx_clk_masks[idx].tx;
+@@ -399,7 +402,8 @@ static int xr_set_baudrate(struct tty_struct *tty,
  }
  
-+static void xr_disconnect(struct usb_serial *serial)
-+{
-+	struct usb_driver *driver = serial->type->usb_driver;
-+	struct usb_interface *control_interface;
+ static void xr_set_flow_mode(struct tty_struct *tty,
+-			     struct usb_serial_port *port)
++			     struct usb_serial_port *port,
++			     struct ktermios *old_termios)
+ {
+ 	u8 flow, gpio_mode;
+ 	int ret;
+@@ -411,7 +415,7 @@ static void xr_set_flow_mode(struct tty_struct *tty,
+ 	/* Set GPIO mode for controlling the pins manually by default. */
+ 	gpio_mode &= ~XR21V141X_UART_MODE_GPIO_MASK;
+ 
+-	if (C_CRTSCTS(tty)) {
++	if (C_CRTSCTS(tty) && C_BAUD(tty) != B0) {
+ 		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
+ 		gpio_mode |= XR21V141X_UART_MODE_RTS_CTS;
+ 		flow = XR21V141X_UART_FLOW_MODE_HW;
+@@ -438,6 +442,11 @@ static void xr_set_flow_mode(struct tty_struct *tty,
+ 	xr_uart_enable(port);
+ 
+ 	xr_set_reg_uart(port, XR21V141X_REG_GPIO_MODE, gpio_mode);
 +
-+	control_interface = usb_ifnum_to_if(serial->dev, 0);
-+	usb_driver_release_interface(driver, control_interface);
-+}
-+
- static const struct usb_device_id id_table[] = {
- 	{ USB_DEVICE(0x04e2, 0x1410) }, /* XR21V141X */
- 	{ }
-@@ -578,6 +587,7 @@ static struct usb_serial_driver xr_device = {
- 	.id_table		= id_table,
- 	.num_ports		= 1,
- 	.probe			= xr_probe,
-+	.disconnect		= xr_disconnect,
- 	.open			= xr_open,
- 	.close			= xr_close,
- 	.break_ctl		= xr_break_ctl,
++	if (C_BAUD(tty) == B0)
++		xr_dtr_rts(port, 0);
++	else if (old_termios && (old_termios->c_cflag & CBAUD) == B0)
++		xr_dtr_rts(port, 1);
+ }
+ 
+ static void xr_set_termios(struct tty_struct *tty,
+@@ -493,11 +502,7 @@ static void xr_set_termios(struct tty_struct *tty,
+ 	if (ret)
+ 		return;
+ 
+-	/* If baud rate is B0, clear DTR and RTS */
+-	if (C_BAUD(tty) == B0)
+-		xr_dtr_rts(port, 0);
+-
+-	xr_set_flow_mode(tty, port);
++	xr_set_flow_mode(tty, port, old_termios);
+ }
+ 
+ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
 -- 
 2.26.2
 
