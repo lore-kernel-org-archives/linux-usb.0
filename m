@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 600B8C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0127C433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BE6E239FD
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5593D239FD
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731590AbhAUND3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 08:03:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60224 "EHLO mail.kernel.org"
+        id S1731598AbhAUNDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 08:03:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60218 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729276AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729287AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 21 Jan 2021 05:31:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C80CA2399A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 951CD238D7;
         Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1611224969;
-        bh=DEeqkkmfzEshOH9YcHBTh0nZBMY1kefvozqEmVaGwrM=;
+        bh=cAZ+bdotNq2+OepIgVZlBcVcWLCXIE8JG8JDOtK1y0w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HoZVQnIfaIcftewG35mfdBs0Y22w215QvhpVz0YmxMvmWz7iSdBHXcsWmdvDvmygT
-         E02t+4D74xIYR8BAMctLk1QRdYnS85gkaD6dpYcVlm6pdu9aCj3KU58Go9tOBw7jVs
-         jJahfNOiZ7/+xahSl8lvGI27B71E5UEe9WAg7wWPFHhwi9jIq/b3qYdO8tEUr2nwAv
-         vBhMjZtsbma0Y3zTv/I8fjId3oyF5PwE+2xWsq8IU35cjzdDHAmBesu8I6ruaB62B0
-         taFq1SNw3dcWLPzXhU2NqLAKK3zD+RlnRJJF1gDlGov0/F498uwZGbd4qSK666an7v
-         xzS0NTBcKNbnw==
+        b=aNu4QWe29ncRnTTRRqNLAhTO3N5Pxq22g4ct+MhNDnCmZL0JMowzE1UQcYcThdyie
+         GZBlcZY1XFDsUd5YDCDtmFM3eaH/grtyX/yRfa3F8x6WMwxJ5b4TG8NV0Zi3ydqIve
+         HjnLi4Tc9yxwa7adRgPq9/CyJ0rhLGI99X8Baj8LdX7LsIaRW3g7Lpl3XcjCrLxLcx
+         D8LupIjWZqqfTgCYCiYh4NQX12fchVCFyJg9lCyomjUA9lnJZ+WDs1sNpDDhyIERSZ
+         cHM64ncsUdOcnNhjW+mzqLwOzVqI3SqadhcixmtGgDxcTnMh21HzV/s6uxxEF1Rl1r
+         NT92oIqElj2QA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2XDd-0004Yg-C6; Thu, 21 Jan 2021 11:29:37 +0100
+        id 1l2XDc-0004YR-R0; Thu, 21 Jan 2021 11:29:36 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 09/10] USB: serial: xr: fix pin configuration
-Date:   Thu, 21 Jan 2021 11:29:21 +0100
-Message-Id: <20210121102922.17439-11-johan@kernel.org>
+Subject: [PATCH 04/10] USB: serial: xr: use termios flag helpers
+Date:   Thu, 21 Jan 2021 11:29:16 +0100
+Message-Id: <20210121102922.17439-6-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
 References: <20210121102922.17439-1-johan@kernel.org>
@@ -50,45 +50,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure that the modem pins are set up correctly when opening the
-port to avoid leaving, for example, DTR and RTS configured as inputs,
-which is the device default.
+Use the termios flag helpers consistently, including for CRTSCTS.
 
-This is specifically needed to be able to control DTR and RTS when
-hardware flow control is disabled.
-
-Fixes: a8f54b7bd132 ("USB: serial: add MaxLinear/Exar USB to Serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/usb/serial/xr_serial.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 183731cd2ef7..f67e7dba9509 100644
+index 8f81f866d681..52909dccb4dc 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -502,6 +502,7 @@ static void xr_set_termios(struct tty_struct *tty,
- 
- static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+@@ -401,7 +401,6 @@ static int xr_set_baudrate(struct tty_struct *tty,
+ static void xr_set_flow_mode(struct tty_struct *tty,
+ 			     struct usb_serial_port *port)
  {
-+	u8 gpio_dir;
+-	unsigned int cflag = tty->termios.c_cflag;
+ 	u8 flow, gpio_mode;
  	int ret;
  
- 	ret = xr_uart_enable(port);
-@@ -510,6 +511,13 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		return ret;
- 	}
+@@ -409,7 +408,7 @@ static void xr_set_flow_mode(struct tty_struct *tty,
+ 	if (ret)
+ 		return;
  
-+	/*
-+	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
-+	 * inputs.
-+	 */
-+	gpio_dir = XR21V141X_UART_MODE_DTR | XR21V141X_UART_MODE_RTS;
-+	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
-+
- 	/* Setup termios */
- 	if (tty)
- 		xr_set_termios(tty, port, NULL);
+-	if (cflag & CRTSCTS) {
++	if (C_CRTSCTS(tty)) {
+ 		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
+ 
+ 		/*
 -- 
 2.26.2
 
