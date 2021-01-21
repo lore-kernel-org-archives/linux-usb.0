@@ -2,116 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63118C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600B8C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18209239FD
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:02:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BE6E239FD
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731183AbhAUM7L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 07:59:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59754 "EHLO mx2.suse.de"
+        id S1731590AbhAUND3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 08:03:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60224 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731516AbhAUM63 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 07:58:29 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1611233861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aRusZ61I9GXOgaHONkCKudk0iEbZ4a0skoyM91fFR9c=;
-        b=cinRI8f/KgQPJp5yD/UAUwJ7BWqcdcpz1YmiwjcuDUXLhgDmqu/lazGz6NFNwgeKPRHjBs
-        AisIFJrYR5S++eIeH+YAklOAxtJfDlsIDT94+iPozlVvVtmnLCyhhvOIMmTAEXylh2z8uP
-        4TCFnhMU9fCOeU+PfUCt/LIyHFIb8ig=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C09E7ABDA;
-        Thu, 21 Jan 2021 12:57:41 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     hayeswang@realtek.com, grundler@chromium.org, davem@davemloft.net,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>, Roland Dreier <roland@kernel.org>
-Subject: [PATCHv2 3/3] CDC-NCM: record speed in status method
-Date:   Thu, 21 Jan 2021 13:57:31 +0100
-Message-Id: <20210121125731.19425-4-oneukum@suse.com>
+        id S1729276AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 21 Jan 2021 05:31:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C80CA2399A;
+        Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611224969;
+        bh=DEeqkkmfzEshOH9YcHBTh0nZBMY1kefvozqEmVaGwrM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HoZVQnIfaIcftewG35mfdBs0Y22w215QvhpVz0YmxMvmWz7iSdBHXcsWmdvDvmygT
+         E02t+4D74xIYR8BAMctLk1QRdYnS85gkaD6dpYcVlm6pdu9aCj3KU58Go9tOBw7jVs
+         jJahfNOiZ7/+xahSl8lvGI27B71E5UEe9WAg7wWPFHhwi9jIq/b3qYdO8tEUr2nwAv
+         vBhMjZtsbma0Y3zTv/I8fjId3oyF5PwE+2xWsq8IU35cjzdDHAmBesu8I6ruaB62B0
+         taFq1SNw3dcWLPzXhU2NqLAKK3zD+RlnRJJF1gDlGov0/F498uwZGbd4qSK666an7v
+         xzS0NTBcKNbnw==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1l2XDd-0004Yg-C6; Thu, 21 Jan 2021 11:29:37 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 09/10] USB: serial: xr: fix pin configuration
+Date:   Thu, 21 Jan 2021 11:29:21 +0100
+Message-Id: <20210121102922.17439-11-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210121125731.19425-1-oneukum@suse.com>
-References: <20210121125731.19425-1-oneukum@suse.com>
+In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
+References: <20210121102922.17439-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver has a status method for receiving speed updates.
-The framework, however, had support functions only for devices
-that reported their speed upon an explicit query over a MDIO
-interface.
-CDC_NCM however gets direct notifications from the device.
-As new support functions have become available, we shall now
-record such notifications and tell the usbnet framework
-to make direct use of them without going through the PHY layer.
+Make sure that the modem pins are set up correctly when opening the
+port to avoid leaving, for example, DTR and RTS configured as inputs,
+which is the device default.
 
-v2: adjusted to recent changes
+This is specifically needed to be able to control DTR and RTS when
+hardware flow control is disabled.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Tested-by: Roland Dreier <roland@kernel.org>
+Fixes: a8f54b7bd132 ("USB: serial: add MaxLinear/Exar USB to Serial driver")
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/net/usb/cdc_ncm.c | 29 ++++-------------------------
- 1 file changed, 4 insertions(+), 25 deletions(-)
+ drivers/usb/serial/xr_serial.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 04174704bf7c..9b5bb8ae5eb8 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -142,7 +142,7 @@ static const struct ethtool_ops cdc_ncm_ethtool_ops = {
- 	.get_sset_count    = cdc_ncm_get_sset_count,
- 	.get_strings       = cdc_ncm_get_strings,
- 	.get_ethtool_stats = cdc_ncm_get_ethtool_stats,
--	.get_link_ksettings      = usbnet_get_link_ksettings_mdio,
-+	.get_link_ksettings      = usbnet_get_link_ksettings_internal,
- 	.set_link_ksettings      = usbnet_set_link_ksettings_mdio,
- };
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index 183731cd2ef7..f67e7dba9509 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -502,6 +502,7 @@ static void xr_set_termios(struct tty_struct *tty,
  
-@@ -1827,30 +1827,9 @@ cdc_ncm_speed_change(struct usbnet *dev,
- 	uint32_t rx_speed = le32_to_cpu(data->DLBitRRate);
- 	uint32_t tx_speed = le32_to_cpu(data->ULBitRate);
+ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+ {
++	u8 gpio_dir;
+ 	int ret;
  
--	/* if the speed hasn't changed, don't report it.
--	 * RTL8156 shipped before 2021 sends notification about every 32ms.
--	 */
--	if (dev->rx_speed == rx_speed && dev->tx_speed == tx_speed)
--		return;
--
--	dev->rx_speed = rx_speed;
--	dev->tx_speed = tx_speed;
--
--	/*
--	 * Currently the USB-NET API does not support reporting the actual
--	 * device speed. Do print it instead.
--	 */
--	if ((tx_speed > 1000000) && (rx_speed > 1000000)) {
--		netif_info(dev, link, dev->net,
--			   "%u mbit/s downlink %u mbit/s uplink\n",
--			   (unsigned int)(rx_speed / 1000000U),
--			   (unsigned int)(tx_speed / 1000000U));
--	} else {
--		netif_info(dev, link, dev->net,
--			   "%u kbit/s downlink %u kbit/s uplink\n",
--			   (unsigned int)(rx_speed / 1000U),
--			   (unsigned int)(tx_speed / 1000U));
--	}
-+	 /* RTL8156 shipped before 2021 sends notification about every 32ms. */
-+	dev->rxspeed = rx_speed;
-+	dev->txspeed = tx_speed;
- }
+ 	ret = xr_uart_enable(port);
+@@ -510,6 +511,13 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 		return ret;
+ 	}
  
- static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
++	/*
++	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
++	 * inputs.
++	 */
++	gpio_dir = XR21V141X_UART_MODE_DTR | XR21V141X_UART_MODE_RTS;
++	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
++
+ 	/* Setup termios */
+ 	if (tty)
+ 		xr_set_termios(tty, port, NULL);
 -- 
 2.26.2
 
