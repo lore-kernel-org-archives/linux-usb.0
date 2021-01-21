@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0127C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E61C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5593D239FD
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D2C5239FF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:03:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731598AbhAUNDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 08:03:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60218 "EHLO mail.kernel.org"
+        id S1731609AbhAUNDg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 08:03:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729287AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729272AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 21 Jan 2021 05:31:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 951CD238D7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AA94238E2;
         Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1611224969;
-        bh=cAZ+bdotNq2+OepIgVZlBcVcWLCXIE8JG8JDOtK1y0w=;
+        bh=xjg4bJ/WJ7UGY2kaqmpOdGZkHckPyPqK/EUxrrD9Eu0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aNu4QWe29ncRnTTRRqNLAhTO3N5Pxq22g4ct+MhNDnCmZL0JMowzE1UQcYcThdyie
-         GZBlcZY1XFDsUd5YDCDtmFM3eaH/grtyX/yRfa3F8x6WMwxJ5b4TG8NV0Zi3ydqIve
-         HjnLi4Tc9yxwa7adRgPq9/CyJ0rhLGI99X8Baj8LdX7LsIaRW3g7Lpl3XcjCrLxLcx
-         D8LupIjWZqqfTgCYCiYh4NQX12fchVCFyJg9lCyomjUA9lnJZ+WDs1sNpDDhyIERSZ
-         cHM64ncsUdOcnNhjW+mzqLwOzVqI3SqadhcixmtGgDxcTnMh21HzV/s6uxxEF1Rl1r
-         NT92oIqElj2QA==
+        b=ATQ1FSqCg5HJuJsGlh9XsipX3j0BDNJ6MttLxQdqPRBx3D1M3V1sdVbfebK7fqtyh
+         QjP0uYeW6zZfDjW14utme2iJNcumkwMsI2faC51MTwC1UP/3sJPOe0ptGidoK1YCFW
+         z7n5qGgRcSHMiNUSnv5qx30JlZ1tXaTkU/U2q7XFq9q6nCTbuzDNK/JIDx+5RmQcYb
+         9P8NcrpbPxx8g3oYQ/LN0DsYldmhrkmNMXBnXE6GMRFjTlZOunb6qsOtzfWGb708EK
+         RTL0Xtbl/Yup6MLKRR9kyogjrmGxSal/8xJFRDXyzUFRD7n1jW33f/zNirX+lu0sFs
+         gG9viQqb8RvNA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2XDc-0004YR-R0; Thu, 21 Jan 2021 11:29:36 +0100
+        id 1l2XDd-0004YW-1c; Thu, 21 Jan 2021 11:29:37 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 04/10] USB: serial: xr: use termios flag helpers
-Date:   Thu, 21 Jan 2021 11:29:16 +0100
-Message-Id: <20210121102922.17439-6-johan@kernel.org>
+Subject: [PATCH 06/10] USB: serial: xr: clean up line-settings handling
+Date:   Thu, 21 Jan 2021 11:29:18 +0100
+Message-Id: <20210121102922.17439-8-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
 References: <20210121102922.17439-1-johan@kernel.org>
@@ -50,34 +50,77 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the termios flag helpers consistently, including for CRTSCTS.
+Shift the line-setting values when defining them rather than in
+set_termios() for consistency and improved readability.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/serial/xr_serial.c | 34 +++++++++++++++-------------------
+ 1 file changed, 15 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 8f81f866d681..52909dccb4dc 100644
+index 202263211ba9..2000277bacc1 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -401,7 +401,6 @@ static int xr_set_baudrate(struct tty_struct *tty,
- static void xr_set_flow_mode(struct tty_struct *tty,
- 			     struct usb_serial_port *port)
- {
--	unsigned int cflag = tty->termios.c_cflag;
- 	u8 flow, gpio_mode;
- 	int ret;
+@@ -71,17 +71,17 @@ struct xr_txrx_clk_mask {
+ #define XR21V141X_UART_DATA_8		0x8
  
-@@ -409,7 +408,7 @@ static void xr_set_flow_mode(struct tty_struct *tty,
+ #define XR21V141X_UART_PARITY_MASK	GENMASK(6, 4)
+-#define XR21V141X_UART_PARITY_SHIFT	0x4
+-#define XR21V141X_UART_PARITY_NONE	0x0
+-#define XR21V141X_UART_PARITY_ODD	0x1
+-#define XR21V141X_UART_PARITY_EVEN	0x2
+-#define XR21V141X_UART_PARITY_MARK	0x3
+-#define XR21V141X_UART_PARITY_SPACE	0x4
++#define XR21V141X_UART_PARITY_SHIFT	4
++#define XR21V141X_UART_PARITY_NONE	(0x0 << XR21V141X_UART_PARITY_SHIFT)
++#define XR21V141X_UART_PARITY_ODD	(0x1 << XR21V141X_UART_PARITY_SHIFT)
++#define XR21V141X_UART_PARITY_EVEN	(0x2 << XR21V141X_UART_PARITY_SHIFT)
++#define XR21V141X_UART_PARITY_MARK	(0x3 << XR21V141X_UART_PARITY_SHIFT)
++#define XR21V141X_UART_PARITY_SPACE	(0x4 << XR21V141X_UART_PARITY_SHIFT)
+ 
+ #define XR21V141X_UART_STOP_MASK	BIT(7)
+-#define XR21V141X_UART_STOP_SHIFT	0x7
+-#define XR21V141X_UART_STOP_1		0x0
+-#define XR21V141X_UART_STOP_2		0x1
++#define XR21V141X_UART_STOP_SHIFT	7
++#define XR21V141X_UART_STOP_1		(0x0 << XR21V141X_UART_STOP_SHIFT)
++#define XR21V141X_UART_STOP_2		(0x1 << XR21V141X_UART_STOP_SHIFT)
+ 
+ #define XR21V141X_UART_FLOW_MODE_NONE	0x0
+ #define XR21V141X_UART_FLOW_MODE_HW	0x1
+@@ -477,25 +477,21 @@ static void xr_set_termios(struct tty_struct *tty,
+ 	if (C_PARENB(tty)) {
+ 		if (C_CMSPAR(tty)) {
+ 			if (C_PARODD(tty))
+-				bits |= XR21V141X_UART_PARITY_MARK <<
+-					XR21V141X_UART_PARITY_SHIFT;
++				bits |= XR21V141X_UART_PARITY_MARK;
+ 			else
+-				bits |= XR21V141X_UART_PARITY_SPACE <<
+-					XR21V141X_UART_PARITY_SHIFT;
++				bits |= XR21V141X_UART_PARITY_SPACE;
+ 		} else {
+ 			if (C_PARODD(tty))
+-				bits |= XR21V141X_UART_PARITY_ODD <<
+-					XR21V141X_UART_PARITY_SHIFT;
++				bits |= XR21V141X_UART_PARITY_ODD;
+ 			else
+-				bits |= XR21V141X_UART_PARITY_EVEN <<
+-					XR21V141X_UART_PARITY_SHIFT;
++				bits |= XR21V141X_UART_PARITY_EVEN;
+ 		}
+ 	}
+ 
+ 	if (C_CSTOPB(tty))
+-		bits |= XR21V141X_UART_STOP_2 << XR21V141X_UART_STOP_SHIFT;
++		bits |= XR21V141X_UART_STOP_2;
+ 	else
+-		bits |= XR21V141X_UART_STOP_1 << XR21V141X_UART_STOP_SHIFT;
++		bits |= XR21V141X_UART_STOP_1;
+ 
+ 	ret = xr_set_reg_uart(port, XR21V141X_REG_FORMAT, bits);
  	if (ret)
- 		return;
- 
--	if (cflag & CRTSCTS) {
-+	if (C_CRTSCTS(tty)) {
- 		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
- 
- 		/*
 -- 
 2.26.2
 
