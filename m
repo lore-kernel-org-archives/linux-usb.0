@@ -2,100 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FC5C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF930C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46214233EA
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:26:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65BA6204EF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729143AbhAUKZ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 05:25:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57384 "EHLO mail.kernel.org"
+        id S1729199AbhAUKau (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 05:30:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729104AbhAUKYc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:24:32 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1EF6F23356;
-        Thu, 21 Jan 2021 10:23:49 +0000 (UTC)
+        id S1729449AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 21 Jan 2021 05:30:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9692F238E1;
+        Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611224629;
-        bh=Vk+g6s1/mECeUrJ4TEUTgxd3IC/yHrCw9bhT4vdIydE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y//oif6RNho7eiB/JWL7uxdyTnNwfe6Ifi9MR5XodbwLLMrMhEK5H8/qaRkrWyHAG
-         aXW67zyO4Od3bbGPy3z4r1/nVh6zgS/QoZpqwQz6W4sZIXZFXLSejsr/5GzQaI52I8
-         sG+cYCkR0tZSYQcvQxrZxUuadGMHC5SrZMR0Lk03tjXa+CxlcfTlxCF3c8hH8P/EFg
-         lDNWSqqnb2RHiA0GDEbKwIlxGSVQaxhk4y6gUmt0Fpgah2WaioaLmqQylm420hB/Db
-         TnZiYnM1wugBTgtg28bpB4MpHMXMO6pIslQnZTDf1AdNBDQsmXEm9xfp6yGG3UPQv5
-         9E272uahxLWLQ==
-Received: from johan by xi with local (Exim 4.93.0.4)
+        s=k20201202; t=1611224969;
+        bh=muBD3IQ1TCM0qBQYVRvhSbDGJU6BeU5w0afjk7NjGbs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=r6ZIJg+uHqEEvjh9KRazuGtO3ToQJ09p5V6IUKO1F8IZowohPY+aI4TSaf+ARseJK
+         MUk/ih3UCWa2KhANYsQIBGq0IXpW2xwpAJjdwCII7xRgaqXKjijkwwzwNtzewgCxlv
+         cC6wD0tHv16UUGsw9XcbGvKd5aH/X33ID60BZaBVCaNHtYC6I8MThC7mE9ElRVqZGV
+         FWmvImwZNvOxBGTwP25ZvwRp3Y5aHO61oAKYZTQr8xMmBGmnxtQCTFdrxTNI/+J8zO
+         aG+1ctAW5bEJqEhzFYMnBpEUbrFY4zbMzQUkDPHL6XHQoBvEEft2QqLeMs39b9oXww
+         /LmOtr9uBER0w==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2X88-0004VM-4w; Thu, 21 Jan 2021 11:23:56 +0100
-Date:   Thu, 21 Jan 2021 11:23:56 +0100
+        id 1l2XDc-0004YN-Np; Thu, 21 Jan 2021 11:29:36 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     Manivannan Sadhasivam <mani@kernel.org>
-Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patong.mxl@gmail.com, linus.walleij@linaro.org,
-        mchehab+huawei@kernel.org, angelo.dureghello@timesys.com
-Subject: Re: [PATCH v5 3/3] usb: cdc-acm: Ignore Exar XR21V141X when serial
- driver is built
-Message-ID: <YAlWPF0vn/zFRsQu@hovoldconsulting.com>
-References: <20201122170822.21715-1-mani@kernel.org>
- <20201122170822.21715-4-mani@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 03/10] USB: serial: xr: use subsystem usb_device at probe
+Date:   Thu, 21 Jan 2021 11:29:15 +0100
+Message-Id: <20210121102922.17439-5-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
+References: <20210121102922.17439-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201122170822.21715-4-mani@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 10:38:22PM +0530, Manivannan Sadhasivam wrote:
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> The RTS/CTS line discipline for this device doesn't follow
-> the standard. So, in order to properly support TX, a separate
-> driver is needed.
+Use the subsystem struct usb_device pointer at probe instead of
+deriving it from the interface pointer.
 
-This took a bit of effort to understand, but I think I know what you're
-referring to now. In ACM mode the device has RTS/CTS flow control
-enabled, which means TX will be disabled in case CTS isn't wired up
-correctly.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/xr_serial.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-It as nothing to do with line disciplines though.
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index 5e110b0c8e71..8f81f866d681 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -541,7 +541,6 @@ static void xr_close(struct usb_serial_port *port)
+ 
+ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ {
+-	struct usb_device *usb_dev = interface_to_usbdev(serial->interface);
+ 	struct usb_driver *driver = serial->type->usb_driver;
+ 	struct usb_interface *control_interface;
+ 	int ret;
+@@ -551,7 +550,7 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ 		return -ENODEV;
+ 
+ 	/* But claim the control interface during data interface probe */
+-	control_interface = usb_ifnum_to_if(usb_dev, 0);
++	control_interface = usb_ifnum_to_if(serial->dev, 0);
+ 	if (!control_interface)
+ 		return -ENODEV;
+ 
+-- 
+2.26.2
 
-> Ensure that cdc_acm will ignore it during probe time, if the
-> Kernel is built with support for it.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Manivannan Sadhasivam <mani@kernel.org>
-
-> ---
->  drivers/usb/class/cdc-acm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-> index 30ef946a8e1a..719829e6b6db 100644
-> --- a/drivers/usb/class/cdc-acm.c
-> +++ b/drivers/usb/class/cdc-acm.c
-> @@ -1890,6 +1890,12 @@ static const struct usb_device_id acm_ids[] = {
->  	},
->  #endif
->  
-> +#if IS_ENABLED(CONFIG_USB_SERIAL_XR)
-> +	{ USB_DEVICE(0x04e2, 0x1410),   /* Ignore XR21V141X USB to Serial converter */
-> +	.driver_info = IGNORE_DEVICE,
-> +	},
-> +#endif
-> +
->  	/*Samsung phone in firmware update mode */
->  	{ USB_DEVICE(0x04e8, 0x685d),
->  	.driver_info = IGNORE_DEVICE,
-
-I've rewritten the commit message and applied this one now.
-
-Johan
