@@ -2,127 +2,145 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 899BEC433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C9BFC433E6
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 15:22:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A2E023A01
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 13:17:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C985B239FD
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 15:22:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731491AbhAUND0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 08:03:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60228 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729294AbhAUKbU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:31:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E3562239EB;
-        Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611224970;
-        bh=v5TgOwXWj0YY94HrnCt3iZPfS8p5FlPm3RviRv/L0ME=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mKY1pyJ5iW32eEeBPWbGWV4NQzWsqnbFjXsBeshkGsrUCN1s35y819qTxGvcME6H1
-         F20FMpcEU8JHAJjwQQXXrFj4HHLcDFTp40F+nr/aW6KNm8AhgESBChwxTKwlgtcnPx
-         athTudEMfwVgz0ygLTzGDk5PDX0SvHjpmTiSSP9rTaHE6a+otvPpZRWWz3+QcV4Kfr
-         frVdJD5r193stCExKb2PXyhSA5N6qwb7HtQdKmVoGUCIROHBxsBr2ARmeY2J46cGMl
-         eUeeoO85RR2s8pPvQ3G22lXcMBRuozk+1mghQOybuSFMELPAzM01Uf7oT6MyFyUXUi
-         AvGHeHZW6TAqw==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l2XDd-0004Yj-Fe; Thu, 21 Jan 2021 11:29:37 +0100
-From:   Johan Hovold <johan@kernel.org>
+        id S1732230AbhAUPWI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 10:22:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732560AbhAUPUt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Jan 2021 10:20:49 -0500
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74678C06174A;
+        Thu, 21 Jan 2021 07:20:08 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id y205so1680078pfc.5;
+        Thu, 21 Jan 2021 07:20:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=17KvraJzNRdjrYwPQoxY6CW4jRA/1iQCnE0aBjokmlU=;
+        b=SjOiqGWeuGStl1nyx4FwEFhMBizLfAB4ruWAD4Qi1ph6c8DZ6tHOIhOV6cdy2lZbN3
+         twNbQ00yelHEmH4M6BqAxk4pFN3oR9WUoQXA+aXpo1cm9mihFwpoJPeJsWnNXs3uWCHG
+         hteJSdrsIdCxBfQsKXZu/lLnPgf9iBP6yLmTUVRIA5xYaIb90VzjMEr2cDBhsa3FJ1NE
+         /GKC4BNrEB9eu2gqRqJ8nAQTzyaj1RSjzXn0ZorwyMXWuxTQPD/63KKz00ugTtQ8XOYY
+         HFoTEbb7rOfHTtqc7rarNJsnlKUP0Ud/aVe3If1K5wLCIWwkk8diD/XFbwpjMH5ZSc3C
+         F3dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=17KvraJzNRdjrYwPQoxY6CW4jRA/1iQCnE0aBjokmlU=;
+        b=YbHsqW8hG4Awd3R9l73MQ574hS0l17ZZBskxcpBJkFs+ZyE5ZnH4s3lX9MgHRKcKdG
+         8xbvZ3o6JiA9KdqEWfejeHMq9psKkEb/0XTMvWM5QEH750WrShdJQ21GQCTqP2XzjDnL
+         rjkdEdvJtMBPHjFBIBxjDwxXLFjRi8aNqv+v8lfLBtEPiiOZh6KeS1q8Yy56xTmrmsvv
+         /KQIcV/ilRpEinUstxgpHygYI0Da6YrqpF3sFLyStd0ct1TlfQ0Wj/r8f43pJ0Zk1QnD
+         jP2cK8bgE/2PFIKTIFeMkTjfk5LEdhurh3oi76sVqLzoyMNlNrkv4hbRZoL569BWXQvd
+         XGCA==
+X-Gm-Message-State: AOAM531/jDSoVeQ+YmhPhU68mNP6RQ3pUTT3rc/G/eVoyTqjNwOBNyje
+        NOWHDTLMc3sEutq1/EyPcBlRAtYd1n3yWjyVHkE=
+X-Google-Smtp-Source: ABdhPJwcVcFiWdMyynR3ZN1fs6rsTJq+vOi2ss4dGCgwHE7Bd1+AvpS37dAs+lgnoIjmolMg79lfTg==
+X-Received: by 2002:aa7:83c2:0:b029:1a5:daa9:f22f with SMTP id j2-20020aa783c20000b02901a5daa9f22fmr14131113pfn.48.1611242407660;
+        Thu, 21 Jan 2021 07:20:07 -0800 (PST)
+Received: from minh ([113.173.125.143])
+        by smtp.gmail.com with ESMTPSA id o20sm439309pgn.6.2021.01.21.07.20.03
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Jan 2021 07:20:06 -0800 (PST)
+Date:   Thu, 21 Jan 2021 22:19:55 +0700
+From:   Bui Quang Minh <minhquangbui99@gmail.com>
 To:     linux-usb@vger.kernel.org
-Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 10/10] USB: serial: xr: fix B0 handling
-Date:   Thu, 21 Jan 2021 11:29:22 +0100
-Message-Id: <20210121102922.17439-12-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
-References: <20210121102922.17439-1-johan@kernel.org>
+Cc:     a.darwish@linutronix.de, bigeasy@linutronix.de,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        syzkaller-bugs@googlegroups.com,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oliver Neukum <oneukum@suse.de>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>
+Subject: Re: [PATCH v2] can: mcba_usb: Fix memory leak when cancelling urb
+Message-ID: <20210121151955.GA3779@minh>
+References: <20210111104927.2561-1-minhquangbui99@gmail.com>
+ <7d6dc09fedc84f9fce942d85c34d5cd41931bbf6.camel@suse.de>
+ <20210111143120.GA2769@minh>
+ <CACtPs=FB_=JMEymLHE0_ko4ZF5zj9NBCHkRC7O3tj6pkSp3oiA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACtPs=FB_=JMEymLHE0_ko4ZF5zj9NBCHkRC7O3tj6pkSp3oiA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix up B0 handling which should leave the baud rate unchanged and
-specifically not report back a non-B0 rate when B0 is requested; must
-temporarily disable hardware flow control so that RTS can be deasserted;
-and should reassert DTR/RTS when moving from B0.
+On Tue, Jan 12, 2021 at 01:42:33PM +0700, Minh Bùi Quang wrote:
+> On Mon, Jan 11, 2021 at 9:31 PM Bui Quang Minh <minhquangbui99@gmail.com> wrote:
+> >
+> > On Mon, Jan 11, 2021 at 01:00:31PM +0100, Oliver Neukum wrote:
+> > > Am Montag, den 11.01.2021, 10:49 +0000 schrieb Bui Quang Minh:
+> > > > In mcba_usb_read_bulk_callback(), when we don't resubmit or fails to
+> > > > resubmit the urb, we need to deallocate the transfer buffer that is
+> > > > allocated in mcba_usb_start().
+> > > >
+> > > > Reported-by: syzbot+57281c762a3922e14dfe@syzkaller.appspotmail.com
+> > > > Signed-off-by: Bui Quang Minh <minhquangbui99@gmail.com>
+> > > > ---
+> > > > v1: add memory leak fix when not resubmitting urb
+> > > > v2: add memory leak fix when failing to resubmit urb
+> > > >
+> > > >  drivers/net/can/usb/mcba_usb.c | 11 ++++++++---
+> > > >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/net/can/usb/mcba_usb.c b/drivers/net/can/usb/mcba_usb.c
+> > > > index df54eb7d4b36..30236e640116 100644
+> > > > --- a/drivers/net/can/usb/mcba_usb.c
+> > > > +++ b/drivers/net/can/usb/mcba_usb.c
+> > > > @@ -584,6 +584,8 @@ static void mcba_usb_read_bulk_callback(struct urb *urb)
+> > > >     case -EPIPE:
+> > > >     case -EPROTO:
+> > > >     case -ESHUTDOWN:
+> > > > +           usb_free_coherent(urb->dev, urb->transfer_buffer_length,
+> > > > +                             urb->transfer_buffer, urb->transfer_dma);
+> > > >             return;
+> > > >
+> > >
+> > > Can you call usb_free_coherent() in what can be hard IRQ context?
+> >
+> > You are right, I digged in the code and saw some comments that on some
+> > architectures, usb_free_coherent() cannot be called in hard IRQ context.
+> > I see the usb_free_coherent() is called in write_bulk_callback too. I will
+> > send a patch that uses usb_anchor to keep track of these urbs and cleanup
+> > the transfer buffer later in disconnect().
+> 
+> Hi, I have sent a version 3 patch. However, I found out that usb_free_coherent()
+> is ok in this situation. In usb_free_coherent(), if the buffer is allocated via
+> dma_alloc_coherent() in usb_alloc_coherent(), dma_free_coherent() is called.
+> In dma_free_coherent(), ops->free() may be called in some cases which may
+> contains calls to vunmap() that is not permitted in interrupt context. However,
+> in usb_alloc_coherent(), buffer can be allocated from dma pool if the
+> size is less
+> than 2048 and the buffer size in mcba_usb is obviously less than 2048.
+> As a result,
+> usb_free_coherent() will at most fall in the path that calls
+> dma_pool_free(), which is
+> safe. Am I right?
 
-Fixes: a8f54b7bd132 ("USB: serial: add MaxLinear/Exar USB to Serial driver")
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/xr_serial.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+Hi, I'm CC'ing CAN network driver maintainers so we can discuss the patch properly.
 
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index f67e7dba9509..483d07dee19d 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -341,8 +341,11 @@ static int xr_set_baudrate(struct tty_struct *tty,
- 	u16 tx_mask, rx_mask;
- 	int ret;
- 
--	baud = clamp(tty->termios.c_ospeed, XR21V141X_MIN_SPEED,
--		     XR21V141X_MAX_SPEED);
-+	baud = tty->termios.c_ospeed;
-+	if (!baud)
-+		return 0;
-+
-+	baud = clamp(baud, XR21V141X_MIN_SPEED, XR21V141X_MAX_SPEED);
- 	divisor = XR_INT_OSC_HZ / baud;
- 	idx = ((32 * XR_INT_OSC_HZ) / baud) & 0x1f;
- 	tx_mask = xr21v141x_txrx_clk_masks[idx].tx;
-@@ -399,7 +402,8 @@ static int xr_set_baudrate(struct tty_struct *tty,
- }
- 
- static void xr_set_flow_mode(struct tty_struct *tty,
--			     struct usb_serial_port *port)
-+			     struct usb_serial_port *port,
-+			     struct ktermios *old_termios)
- {
- 	u8 flow, gpio_mode;
- 	int ret;
-@@ -411,7 +415,7 @@ static void xr_set_flow_mode(struct tty_struct *tty,
- 	/* Set GPIO mode for controlling the pins manually by default. */
- 	gpio_mode &= ~XR21V141X_UART_MODE_GPIO_MASK;
- 
--	if (C_CRTSCTS(tty)) {
-+	if (C_CRTSCTS(tty) && C_BAUD(tty) != B0) {
- 		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
- 		gpio_mode |= XR21V141X_UART_MODE_RTS_CTS;
- 		flow = XR21V141X_UART_FLOW_MODE_HW;
-@@ -438,6 +442,11 @@ static void xr_set_flow_mode(struct tty_struct *tty,
- 	xr_uart_enable(port);
- 
- 	xr_set_reg_uart(port, XR21V141X_REG_GPIO_MODE, gpio_mode);
-+
-+	if (C_BAUD(tty) == B0)
-+		xr_dtr_rts(port, 0);
-+	else if (old_termios && (old_termios->c_cflag & CBAUD) == B0)
-+		xr_dtr_rts(port, 1);
- }
- 
- static void xr_set_termios(struct tty_struct *tty,
-@@ -493,11 +502,7 @@ static void xr_set_termios(struct tty_struct *tty,
- 	if (ret)
- 		return;
- 
--	/* If baud rate is B0, clear DTR and RTS */
--	if (C_BAUD(tty) == B0)
--		xr_dtr_rts(port, 0);
--
--	xr_set_flow_mode(tty, port);
-+	xr_set_flow_mode(tty, port, old_termios);
- }
- 
- static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
--- 
-2.26.2
+I'm so sorry for spamming emails.
 
+Thanks,
+Quang Minh.
