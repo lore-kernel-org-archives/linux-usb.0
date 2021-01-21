@@ -4,43 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF930C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02DB1C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65BA6204EF
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A01E204EF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 10:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729199AbhAUKau (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 05:30:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59704 "EHLO mail.kernel.org"
+        id S1729260AbhAUKa4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 05:30:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59612 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729449AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729446AbhAUKaK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 21 Jan 2021 05:30:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9692F238E1;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EC06204EF;
         Thu, 21 Jan 2021 10:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1611224969;
-        bh=muBD3IQ1TCM0qBQYVRvhSbDGJU6BeU5w0afjk7NjGbs=;
+        bh=hDcCV63sIsqexDfHHTIRFTcbjagA3dzVFYGYL6Q444A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r6ZIJg+uHqEEvjh9KRazuGtO3ToQJ09p5V6IUKO1F8IZowohPY+aI4TSaf+ARseJK
-         MUk/ih3UCWa2KhANYsQIBGq0IXpW2xwpAJjdwCII7xRgaqXKjijkwwzwNtzewgCxlv
-         cC6wD0tHv16UUGsw9XcbGvKd5aH/X33ID60BZaBVCaNHtYC6I8MThC7mE9ElRVqZGV
-         FWmvImwZNvOxBGTwP25ZvwRp3Y5aHO61oAKYZTQr8xMmBGmnxtQCTFdrxTNI/+J8zO
-         aG+1ctAW5bEJqEhzFYMnBpEUbrFY4zbMzQUkDPHL6XHQoBvEEft2QqLeMs39b9oXww
-         /LmOtr9uBER0w==
+        b=HzN1xzDbp9s8hPuvQ3l6FBlFuw36AW377Gq9RsrrO7vELsew92gQUSAmBlCDqpEkE
+         EKQ4bcF9bj2jkgWpq/boJRqw9Ar1ySZnXvFlm540SVTulmca53XFl6OGrsUx1P9/eK
+         fLP6mGntfsglXmzqtfGqmuIG0Ijj5Z5oMYrsmqMV1URj9RuPSfEBJnbBgguS0MD10s
+         c8DFFEJFoYgpM/InNtDAKWTv6ANqaGklluB8cDEtBu23JB5G4YJlSWEjg4SrGgTzFD
+         6k+PeZgWXU9b3/8qh9qaREGraoel+Y/fUpKehXJksfl6PJI3UhbSSY8bgxL/3Pp5g2
+         1socv+cJ9vx8A==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l2XDc-0004YN-Np; Thu, 21 Jan 2021 11:29:36 +0100
+        id 1l2XDc-0004YF-EI; Thu, 21 Jan 2021 11:29:36 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Manivannan Sadhasivam <mani@kernel.org>,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 03/10] USB: serial: xr: use subsystem usb_device at probe
-Date:   Thu, 21 Jan 2021 11:29:15 +0100
-Message-Id: <20210121102922.17439-5-johan@kernel.org>
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Pho Tran <pho.tran@silabs.com>
+Subject: [PATCH] USB: serial: cp210x: suppress modem-control error on open and close
+Date:   Thu, 21 Jan 2021 11:29:12 +0100
+Message-Id: <20210121102922.17439-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121102922.17439-1-johan@kernel.org>
 References: <20210121102922.17439-1-johan@kernel.org>
@@ -50,35 +51,81 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the subsystem struct usb_device pointer at probe instead of
-deriving it from the interface pointer.
+The CP210X_SET_MHS request cannot be used to control DTR/RTS when
+hardware flow control is enabled and instead returns an error which is
+currently logged as:
 
+	cp210x ttyUSB0: failed set request 0x7 status: -32
+
+Add a crtscts flag to keep track of the hardware flow-control setting
+and use it to suppress the request in dtr_rts().
+
+Note that both lines are still deasserted when disabling the UART as
+part of close().
+
+Also note that TIOCMSET is left unchanged and will continue to return an
+error to user-space when flow control is enabled (i.e. instead of
+disabling and re-enabling auto-RTS when RTS is deasserted and
+re-asserted).
+
+Reported-by: Pho Tran <pho.tran@silabs.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/serial/cp210x.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 5e110b0c8e71..8f81f866d681 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -541,7 +541,6 @@ static void xr_close(struct usb_serial_port *port)
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index d813a052738f..ac1e5cbe61dd 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -264,7 +264,8 @@ struct cp210x_port_private {
+ 	u8			bInterfaceNumber;
+ 	bool			event_mode;
+ 	enum cp210x_event_state event_state;
+-	u8 lsr;
++	u8			lsr;
++	bool			crtscts;
+ };
  
- static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ static struct usb_serial_driver cp210x_device = {
+@@ -1117,6 +1118,7 @@ static bool cp210x_termios_change(const struct ktermios *a, const struct ktermio
+ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		struct usb_serial_port *port, struct ktermios *old_termios)
  {
--	struct usb_device *usb_dev = interface_to_usbdev(serial->interface);
- 	struct usb_driver *driver = serial->type->usb_driver;
- 	struct usb_interface *control_interface;
- 	int ret;
-@@ -551,7 +550,7 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
- 		return -ENODEV;
++	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
+ 	struct cp210x_special_chars chars;
+ 	struct cp210x_flow_ctl flow_ctl;
+ 	u32 flow_repl;
+@@ -1161,10 +1163,12 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		ctl_hs |= CP210X_SERIAL_CTS_HANDSHAKE;
+ 		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
+ 		flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_FLOW_CTL);
++		port_priv->crtscts = true;
+ 	} else {
+ 		ctl_hs &= ~CP210X_SERIAL_CTS_HANDSHAKE;
+ 		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
+ 		flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_ACTIVE);
++		port_priv->crtscts = false;
+ 	}
  
- 	/* But claim the control interface during data interface probe */
--	control_interface = usb_ifnum_to_if(usb_dev, 0);
-+	control_interface = usb_ifnum_to_if(serial->dev, 0);
- 	if (!control_interface)
- 		return -ENODEV;
+ 	if (I_IXOFF(tty))
+@@ -1298,6 +1302,16 @@ static int cp210x_tiocmset_port(struct usb_serial_port *port,
  
+ static void cp210x_dtr_rts(struct usb_serial_port *port, int on)
+ {
++	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
++
++	/*
++	 * CP210X_SET_MHS cannot be used to control DTR/RTS when hardware flow
++	 * control is enabled. Note that both lines are still deasserted when
++	 * disabling the UART.
++	 */
++	if (port_priv->crtscts)
++		return;
++
+ 	if (on)
+ 		cp210x_tiocmset_port(port, TIOCM_DTR | TIOCM_RTS, 0);
+ 	else
 -- 
 2.26.2
 
