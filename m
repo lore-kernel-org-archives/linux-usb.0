@@ -2,81 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B9A8C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 11:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1915FC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 12:44:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D6A4238E1
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 11:25:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4EDA23A21
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Jan 2021 12:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729212AbhAULXw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 06:23:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43894 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730394AbhAULXX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 06:23:23 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 613D1238D7;
-        Thu, 21 Jan 2021 11:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1611228163;
-        bh=E5lCW8e76KF7jwvUqsIhRLZSQqyjdf7prScrWNH7Nro=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wnSHf/ilpNKTbTEYx9lGFGhJB2AN0rQKyG+KR6aoSOC4W68hfqDHneEwtc8IlSvBS
-         zkSRN0BfTTA4tiWAy7ywdg633RBYVOtdc31M+MLCXoz1kkY1UUzPBhVojV2ZfcjSDl
-         pfdd7QZz0LQ6zz5N9lr7ZpLgfxlfSdiJW1B6SOQU=
-Date:   Thu, 21 Jan 2021 12:22:40 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Oh Eomji <eomji.oh@samsung.com>
-Cc:     balbi@kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_mass_storage: cahnge wait_event to
- wait_event_timeout
-Message-ID: <YAlkAHt5RQpE/qzZ@kroah.com>
-References: <eomji.oh@samsung.com>
- <CGME20210121070836epcas2p130c0f62d82aa3fcd2e021a1ef88a7ebd@epcas2p1.samsung.com>
- <1611212208-84202-1-git-send-email-eomji.oh@samsung.com>
+        id S1730933AbhAUMoN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 07:44:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731403AbhAUMnd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Jan 2021 07:43:33 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B241C0613D3
+        for <linux-usb@vger.kernel.org>; Thu, 21 Jan 2021 04:42:52 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id n6so2256495edt.10
+        for <linux-usb@vger.kernel.org>; Thu, 21 Jan 2021 04:42:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=monstr-eu.20150623.gappssmtp.com; s=20150623;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eQWNwCc24qdNR5GdkjJcm+92jiSw0doIFDbnYCqaaWg=;
+        b=Rpk47Pvaj4wgGKzcM5V4ZqUmt4pzADFZtZQmzg2G706i0Rfw+1aPsZPj+7H8IruIn7
+         oLBqSCnBrHUUMPgC9LRhL5wHKi+5nq3umcJLub489RLyp04TjIQyvB9acW+MbT/ln4Mq
+         nMItXcOr4O+0UgLxEN/wnTpE906gM+MfIzXq5VCvqipliz1Wfe8kSAxgoszoDkO0XA1d
+         SRM8OIMgxSvqCjgBTIaKim/tJnU2blwCrH9pLI7VZYnnh6qxRrc+nUrlsmyWByH5G05t
+         WEOmIxKgtoUoGR3LI8ykayVSuHOPdUy+slU7OM9NBuWBeoLAd4XLPee2iTefQhaudX5L
+         RoTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=eQWNwCc24qdNR5GdkjJcm+92jiSw0doIFDbnYCqaaWg=;
+        b=ZsUWXd61fPEbRWl94sOmxO4/+YOSW5iujoygvsvu53MSCdjEVlVi3RPcr04c9Tg71V
+         Kqn/8RLEQO77e9JcbWQbienUugeBKlP9iiXqpgN8Dajgm4usTyoz150rhqg4SWl9L1aw
+         cjZ6joJrvMd0CoXeVRVX5I/iIej4bO4Qechrv5bvbgxZcsdv68lRVmD8O5UTSBkRcU1X
+         ItJjnqw8MGYwrzMZEwZlTfW6t2T1KKhGMHx1sXu1WSZTLR2xBoid7yhPVOjYkIZWXuZ8
+         CBAFeP38Mqam0xx40Xn/14AXaVAMOs53757wgqMVEWMkLH6t8X3ucy1FkMIszAl6NJVb
+         UuxQ==
+X-Gm-Message-State: AOAM531HO0NPoObBfgQaTxeEAwKXEUR3LMznC01wwA6b0NHOLx5W/MtH
+        MkepXRQe5Au8gkcWMFiZnCTB0A==
+X-Google-Smtp-Source: ABdhPJz+YPxKctu7dUWTI2v4/qn01MOX9Sf1XI71H56FtD5pEb7C+jXZsIDf9X1ycFpJdaYTQh5W/Q==
+X-Received: by 2002:a05:6402:1249:: with SMTP id l9mr10393214edw.375.1611232971188;
+        Thu, 21 Jan 2021 04:42:51 -0800 (PST)
+Received: from localhost (nat-35.starnet.cz. [178.255.168.35])
+        by smtp.gmail.com with ESMTPSA id cn25sm2707062edb.63.2021.01.21.04.42.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Jan 2021 04:42:50 -0800 (PST)
+Sender: Michal Simek <monstr@monstr.eu>
+From:   Michal Simek <michal.simek@xilinx.com>
+To:     linux-kernel@vger.kernel.org, monstr@monstr.eu,
+        michal.simek@xilinx.com, git@xilinx.com
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: [PATCH] dt-bindings: dwc3-xilinx: Add missing comma in example
+Date:   Thu, 21 Jan 2021 13:42:49 +0100
+Message-Id: <8fa5edcaa6b93859cfda97d080aad378e89c1b44.1611232967.git.michal.simek@xilinx.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1611212208-84202-1-git-send-email-eomji.oh@samsung.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 21, 2021 at 03:56:45PM +0900, Oh Eomji wrote:
-> Changed to return a timeout error if there is no response for a certain
-> period of time in order to solve the problem of waiting for a event
-> complete while executing unbind.
-> 
-> Signed-off-by: Oh Eomji <eomji.oh@samsung.com>
-> ---
->  drivers/usb/gadget/function/f_mass_storage.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-> index 950c943..b474840 100644
-> --- a/drivers/usb/gadget/function/f_mass_storage.c
-> +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> @@ -3000,7 +3000,7 @@ static void fsg_unbind(struct usb_configuration *c, struct usb_function *f)
->  	if (fsg->common->fsg == fsg) {
->  		__raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE, NULL);
->  		/* FIXME: make interruptible or killable somehow? */
-> -		wait_event(common->fsg_wait, common->fsg != fsg);
-> +		wait_event_timeout(common->fsg_wait, common->fsg != fsg, HZ / 4);
+Trivial example fix.
 
-That's a random choice of a timeout value.
+Signed-off-by: Michal Simek <michal.simek@xilinx.com>
+---
 
-Please document this really really really well as to why you picked this
-number, and what it means.
+ Documentation/devicetree/bindings/usb/dwc3-xilinx.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also, is the commet above this line still correct now?
+diff --git a/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt b/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
+index 4aae5b2cef56..a668f43bedf5 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3-xilinx.txt
+@@ -19,7 +19,7 @@ Example device node:
+ 			#address-cells = <0x2>;
+ 			#size-cells = <0x1>;
+ 			compatible = "xlnx,zynqmp-dwc3";
+-			clock-names = "bus_clk" "ref_clk";
++			clock-names = "bus_clk", "ref_clk";
+ 			clocks = <&clk125>, <&clk125>;
+ 			ranges;
+ 
+-- 
+2.30.0
 
-thanks,
-
-greg k-h
