@@ -5,36 +5,36 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BEDC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 12:06:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DD6C433E6
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 12:07:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 480E523433
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 12:06:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF9D0235F7
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 12:07:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbhAVMGW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Jan 2021 07:06:22 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:59539 "EHLO
+        id S1727557AbhAVMHa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Jan 2021 07:07:30 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:28920 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727905AbhAVMFa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Jan 2021 07:05:30 -0500
-X-UUID: a64847cfdb3746a7820d3b6c9ff30284-20210122
+        with ESMTP id S1727836AbhAVMFK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Jan 2021 07:05:10 -0500
+X-UUID: 331a2452adb147d69964738430c2bc3a-20210122
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=IoSpFkZfN5zWBssj/M0jIzpQEODxOOztR6vrrRwST9Q=;
-        b=dSJzm5KGBcHcH68mPAZfkqYqtotcmCWyCKhRrKT5Ee18L+5I3XUNreHVTA3yuAIt6yWat5aYSOlAtDd05W6CN5k5efBVEeKkgSyLj/MlbikFrL/vxe2/5ITnJttcjVOJIpKDE1gaHyRoAHSDi9DdBgZ59qgrQ0gdxy3tuVZFABM=;
-X-UUID: a64847cfdb3746a7820d3b6c9ff30284-20210122
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=rQE86x1vLhhJsKySBxWyeudkJDwAAEMmDiZhyp7VOUA=;
+        b=N9892eY7wt9oLvDDK8EU3bIhpGbCyvX/05T7IfhMwGb1UxRb6cDqkLXibiMkz7wahY6Gcy6Jqjawe3o3A40KeN5DW73BgmM3F5G9FkQJOBUxeu4uw8KLqcO2GgZmfynZJRiX9ZUvVDiXRaY9nLnvjVz4frt9KChxSUMwRw9CpGw=;
+X-UUID: 331a2452adb147d69964738430c2bc3a-20210122
 Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 245057536; Fri, 22 Jan 2021 20:03:45 +0800
+        with ESMTP id 1835933710; Fri, 22 Jan 2021 20:03:40 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 22 Jan 2021 20:03:44 +0800
+ 15.0.1497.2; Fri, 22 Jan 2021 20:03:37 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 22 Jan 2021 20:03:43 +0800
+ Transport; Fri, 22 Jan 2021 20:03:36 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -48,45 +48,33 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>
-Subject: [PATCH next v2 14/17] arm64: dts: mediatek: mt8183: fix dtbs_check warning
-Date:   Fri, 22 Jan 2021 20:03:20 +0800
-Message-ID: <20210122120323.4337-14-chunfeng.yun@mediatek.com>
+Subject: [PATCH next v2 01/17] dt-bindings: usb: fix yamllint check warning
+Date:   Fri, 22 Jan 2021 20:03:07 +0800
+Message-ID: <20210122120323.4337-1-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210122120323.4337-1-chunfeng.yun@mediatek.com>
-References: <20210122120323.4337-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 62EA1FA93DE4F85F02C2B74F15D1006C0FC5CB1F644CDC0AB45944C9F7ED8D2A2000:8
+X-TM-SNTS-SMTP: ADFE0B5E22C8140947A86047B55443B9E361AEBABB43BE4979F31119D064070D2000:8
 X-MTK:  N
 Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGFybW9uaXplIG5vZGUgbmFtZXMsIGNvbXBhdGlibGVzIGFuZCBwcm9wZXJ0aWVzLg0KDQpTaWdu
-ZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+DQotLS0N
-CnYyOiBubyBjaGFuZ2VzDQotLS0NCiBhcmNoL2FybTY0L2Jvb3QvZHRzL21lZGlhdGVrL210ODE4
-My5kdHNpIHwgOSArKysrLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA1
-IGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9tZWRpYXRl
-ay9tdDgxODMuZHRzaSBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWVkaWF0ZWsvbXQ4MTgzLmR0c2kN
-CmluZGV4IDViNzgyYTQ3NjllNy4uYTY5YTAzM2E2OGFjIDEwMDY0NA0KLS0tIGEvYXJjaC9hcm02
-NC9ib290L2R0cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KKysrIGIvYXJjaC9hcm02NC9ib290L2R0
-cy9tZWRpYXRlay9tdDgxODMuZHRzaQ0KQEAgLTg2NSw3ICs4NjUsNyBAQA0KIAkJCXJhbmdlczsN
-CiAJCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KIA0KLQkJCXVzYl9ob3N0OiB4aGNpQDExMjAwMDAw
-IHsNCisJCQl1c2JfaG9zdDogdXNiQDExMjAwMDAwIHsNCiAJCQkJY29tcGF0aWJsZSA9ICJtZWRp
-YXRlayxtdDgxODMteGhjaSIsDQogCQkJCQkgICAgICJtZWRpYXRlayxtdGsteGhjaSI7DQogCQkJ
-CXJlZyA9IDwwIDB4MTEyMDAwMDAgMCAweDEwMDA+Ow0KQEAgLTkwOCwxMSArOTA4LDExIEBADQog
-CQkJc3RhdHVzID0gImRpc2FibGVkIjsNCiAJCX07DQogDQotCQltaXBpX3R4MDogbWlwaS1kcGh5
-QDExZTUwMDAwIHsNCisJCW1pcGlfdHgwOiBkc2ktcGh5QDExZTUwMDAwIHsNCiAJCQljb21wYXRp
-YmxlID0gIm1lZGlhdGVrLG10ODE4My1taXBpLXR4IjsNCiAJCQlyZWcgPSA8MCAweDExZTUwMDAw
-IDAgMHgxMDAwPjsNCiAJCQljbG9ja3MgPSA8JmFwbWl4ZWRzeXMgQ0xLX0FQTUlYRURfTUlQSUQw
-XzI2TT47DQotCQkJY2xvY2stbmFtZXMgPSAicmVmX2NsayI7DQorCQkJY2xvY2stbmFtZXMgPSAi
-cmVmIjsNCiAJCQkjY2xvY2stY2VsbHMgPSA8MD47DQogCQkJI3BoeS1jZWxscyA9IDwwPjsNCiAJ
-CQljbG9jay1vdXRwdXQtbmFtZXMgPSAibWlwaV90eDBfcGxsIjsNCkBAIC05MzEsMTEgKzkzMSwx
-MCBAQA0KIAkJCX07DQogCQl9Ow0KIA0KLQkJdTNwaHk6IHVzYi1waHlAMTFmNDAwMDAgew0KKwkJ
-dTNwaHk6IHQtcGh5QDExZjQwMDAwIHsNCiAJCQljb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE4
-My10cGh5IiwNCiAJCQkJICAgICAibWVkaWF0ZWssZ2VuZXJpYy10cGh5LXYyIjsNCiAJCQkjYWRk
-cmVzcy1jZWxscyA9IDwxPjsNCi0JCQkjcGh5LWNlbGxzID0gPDE+Ow0KIAkJCSNzaXplLWNlbGxz
-ID0gPDE+Ow0KIAkJCXJhbmdlcyA9IDwwIDAgMHgxMWY0MDAwMCAweDEwMDA+Ow0KIAkJCXN0YXR1
-cyA9ICJva2F5IjsNCi0tIA0KMi4xOC4wDQo=
+Rml4IHdhcm5pbmc6ICJtaXNzaW5nIHN0YXJ0aW5nIHNwYWNlIGluIGNvbW1lbnQiDQoNClNpZ25l
+ZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0K
+djI6IG5vIGNoYW5nZXMNCi0tLQ0KIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91
+c2IvdXNiLWRldmljZS55YW1sIHwgNiArKystLS0NCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRp
+b25zKCspLCAzIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL3VzYi91c2ItZGV2aWNlLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvdXNiL3VzYi1kZXZpY2UueWFtbA0KaW5kZXggN2JiMjVhNDU0MjdkLi4y
+M2U3NmNmYjIwNjYgMTAwNjQ0DQotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvdXNiL3VzYi1kZXZpY2UueWFtbA0KKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL3VzYi91c2ItZGV2aWNlLnlhbWwNCkBAIC04Miw5ICs4Miw5IEBAIHJlcXVpcmVkOg0K
+IGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiB0cnVlDQogDQogZXhhbXBsZXM6DQotICAjaHViIGNvbm5l
+Y3RlZCB0byBwb3J0IDENCi0gICNkZXZpY2UgY29ubmVjdGVkIHRvIHBvcnQgMg0KLSAgI2Rldmlj
+ZSBjb25uZWN0ZWQgdG8gcG9ydCAzDQorICAjIGh1YiBjb25uZWN0ZWQgdG8gcG9ydCAxDQorICAj
+IGRldmljZSBjb25uZWN0ZWQgdG8gcG9ydCAyDQorICAjIGRldmljZSBjb25uZWN0ZWQgdG8gcG9y
+dCAzDQogICAjICAgIGludGVyZmFjZSAwIG9mIGNvbmZpZ3VyYXRpb24gMQ0KICAgIyAgICBpbnRl
+cmZhY2UgMCBvZiBjb25maWd1cmF0aW9uIDINCiAgIC0gfA0KLS0gDQoyLjE4LjANCg==
 
