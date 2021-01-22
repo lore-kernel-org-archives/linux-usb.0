@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501AEC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73FC2C433DB
 	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 04:03:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22C8221D40
+	by mail.kernel.org (Postfix) with ESMTP id 3897D221E5
 	for <linux-usb@archiver.kernel.org>; Fri, 22 Jan 2021 04:03:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726855AbhAVEDB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Jan 2021 23:03:01 -0500
-Received: from m42-8.mailgun.net ([69.72.42.8]:14266 "EHLO m42-8.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726714AbhAVECd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Jan 2021 23:02:33 -0500
+        id S1726843AbhAVEC4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Jan 2021 23:02:56 -0500
+Received: from a1.mail.mailgun.net ([198.61.254.60]:64634 "EHLO
+        a1.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726737AbhAVECe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Jan 2021 23:02:34 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1611288132; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1611288134; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=eanmwdBiHTkc3FQfzz+OzW0CKv0pDb17uFWWX2u0Sow=; b=nda6mIGLcY6NpiucLcOLWDk25F1J8q7hTtYwylOiME5CIgY1qN90hQIsNadaJ21rOikuzwji
- 1fqDqddxiawRwTjEwvH1j4DVKurcPeWA9rw4+sG+y56XM1+GMP2YV6OoJO2QVM5/Gnsx6TMN
- CZ053EVUCRZ4XusR3yEI4WKWLKo=
-X-Mailgun-Sending-Ip: 69.72.42.8
+ bh=sun6PXmkpTos03dKinPR3tyIdnLtxhROStSolQ4hmZw=; b=mP14DI58FwGq36VYOkOYO04dePK4Bo800bytAos+c7Bt1BQyUccbFvsJ0EqFIhlmJOZVE3Rr
+ 0DlsV93VQ2826yLv/J+D1QWppX58IkoccA3bIyJTCg5tQi3QQez8RQ1COUXGKzmXXVoxcZZk
+ sqv5y3diSMaEQtTVxRRcnBr4+eA=
+X-Mailgun-Sending-Ip: 198.61.254.60
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 600a4e2a2c36b2106d36497f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 22 Jan 2021 04:01:46
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 600a4e2c5677aca7bdeb3b5f (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 22 Jan 2021 04:01:48
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 0EDF7C43461; Fri, 22 Jan 2021 04:01:46 +0000 (UTC)
+        id B681DC43467; Fri, 22 Jan 2021 04:01:48 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1B850C433C6;
-        Fri, 22 Jan 2021 04:01:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1B850C433C6
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 62CCFC43461;
+        Fri, 22 Jan 2021 04:01:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 62CCFC43461
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -52,9 +52,9 @@ Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         peter.chen@nxp.com, jackp@codeaurora.org,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v6 1/4] usb: gadget: udc: core: Introduce check_config to verify USB configuration
-Date:   Thu, 21 Jan 2021 20:01:37 -0800
-Message-Id: <1611288100-31118-2-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v6 4/4] arm64: boot: dts: qcom: sm8150: Enable dynamic TX FIFO resize logic
+Date:   Thu, 21 Jan 2021 20:01:40 -0800
+Message-Id: <1611288100-31118-5-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
 References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
@@ -62,57 +62,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDCs may have constraints on how many high bandwidth endpoints it can
-support in a certain configuration.  This API allows for the composite
-driver to pass down the total number of endpoints to the UDC so it can verify
-it has the required resources to support the configuration.
+Enable the flexible TX FIFO resize logic on SM8150.  Using a larger TX FIFO
+SZ can help account for situations when system latency is greater than the
+USB bus transmission latency.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/usb/gadget/udc/core.c | 9 +++++++++
- include/linux/usb/gadget.h    | 2 ++
- 2 files changed, 11 insertions(+)
+ arch/arm64/boot/dts/qcom/sm8150.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index 4173acd..469962f 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -1003,6 +1003,15 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
- }
- EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
- 
-+int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map)
-+{
-+	if (!gadget->ops->check_config)
-+		return 0;
-+
-+	return gadget->ops->check_config(gadget, ep_map);
-+}
-+EXPORT_SYMBOL_GPL(usb_gadget_check_config);
-+
- /* ------------------------------------------------------------------------- */
- 
- static void usb_gadget_state_work(struct work_struct *work)
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index ee04ef2..8393fa8 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -328,6 +328,7 @@ struct usb_gadget_ops {
- 	struct usb_ep *(*match_ep)(struct usb_gadget *,
- 			struct usb_endpoint_descriptor *,
- 			struct usb_ss_ep_comp_descriptor *);
-+	int	(*check_config)(struct usb_gadget *gadget, unsigned long ep_map);
- };
- 
- /**
-@@ -607,6 +608,7 @@ int usb_gadget_connect(struct usb_gadget *gadget);
- int usb_gadget_disconnect(struct usb_gadget *gadget);
- int usb_gadget_deactivate(struct usb_gadget *gadget);
- int usb_gadget_activate(struct usb_gadget *gadget);
-+int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map);
- #else
- static inline int usb_gadget_frame_number(struct usb_gadget *gadget)
- { return 0; }
+diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+index 5270bda..c7706f4 100644
+--- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+@@ -1569,6 +1569,7 @@
+ 				iommus = <&apps_smmu 0x140 0>;
+ 				snps,dis_u2_susphy_quirk;
+ 				snps,dis_enblslpm_quirk;
++				tx-fifo-resize;
+ 				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
+ 				phy-names = "usb2-phy", "usb3-phy";
+ 			};
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
