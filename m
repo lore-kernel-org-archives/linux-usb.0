@@ -2,173 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 152D9C433E0
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 08:10:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E971DC433DB
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 10:15:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2CC723A84
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 08:10:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94D7D22B2D
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 10:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbhAWIKF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Jan 2021 03:10:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42996 "EHLO mail.kernel.org"
+        id S1726858AbhAWKPR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 Jan 2021 05:15:17 -0500
+Received: from mx3.wp.pl ([212.77.101.10]:10726 "EHLO mx3.wp.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726598AbhAWIKD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 23 Jan 2021 03:10:03 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3340D233EB;
-        Sat, 23 Jan 2021 08:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1611389362;
-        bh=Fgm9/xbqlbNXszt11L5eQwhybmZiw4XD5SMRQe5jUIM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oG+CGP+ZVZ9oSSOiV1Qg0sGRmawQVb5C6oPmBheoeHxyQUEEjNzRjMHwoLITfwQ7m
-         s9TKa/dV/OAqZZ8zgH/U5d+8MbVjjl5Zm9Dfy5Rh0CjphJ428UCEnyxib0uS/P7gcO
-         T8PwfP4koOsW5TYLiyx7cqUL/yiZohaqZVGCFB2M=
-Date:   Sat, 23 Jan 2021 09:09:19 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     =?utf-8?B?5oWV5Yas5Lqu?= <mudongliangabcd@gmail.com>
-Cc:     davem@davemloft.net, kuba@kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com
-Subject: Re: Duplicate crash reports related with smsc75xx/smsc95xx and root
- cause analysis
-Message-ID: <YAvZr1OoDUj7Ze83@kroah.com>
-References: <CAD-N9QUdXFhTqZXpjg02Ya7viR8WmkORbU7pwNTquNg8k_kzMg@mail.gmail.com>
+        id S1726699AbhAWKPM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 23 Jan 2021 05:15:12 -0500
+Received: (wp-smtpd smtp.wp.pl 15961 invoked from network); 23 Jan 2021 11:14:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=1024a;
+          t=1611396859; bh=Izj47kXbtKgPCLKSTYUUa1Qo2RyDIFsf3IrPAR31R/U=;
+          h=From:To:Cc:Subject;
+          b=XnjgXp8SeijAClFNhxUsndJRGNpU55P0i83Iu3D+htF+lg0QF6EcRSSKItmWtkUmp
+           EjqXKMQtRGB7X/BXHjWRYK/vPquEQMan1i3NUEsmxsFjkKy/668qP+AhdYweB0stKs
+           BTuyIGBl3CkxEkuOzbwvx040SZ/00Qx50wzIqf9c=
+Received: from ip4-46-39-164-203.cust.nbox.cz (HELO localhost) (stf_xl@wp.pl@[46.39.164.203])
+          (envelope-sender <stf_xl@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
+          for <mathias.nyman@linux.intel.com>; 23 Jan 2021 11:14:19 +0100
+Date:   Sat, 23 Jan 2021 11:14:18 +0100
+From:   Stanislaw Gruszka <stf_xl@wp.pl>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Bernhard <bernhard.gebetsberger@gmx.at>
+Subject: Re: [PATCH] usb, xhci, rt2800usb: do not perform Soft Retry
+Message-ID: <20210123101418.GA16688@wp.pl>
+References: <20210122104342.12451-1-stf_xl@wp.pl>
+ <YAq9bt6q9dfk4F+F@kroah.com>
+ <20210122132650.GA13029@wp.pl>
+ <eb37b28d-5046-f0cd-92ee-55af0e350802@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD-N9QUdXFhTqZXpjg02Ya7viR8WmkORbU7pwNTquNg8k_kzMg@mail.gmail.com>
+In-Reply-To: <eb37b28d-5046-f0cd-92ee-55af0e350802@linux.intel.com>
+X-WP-MailID: ab018e1722f58129cd15be8400460f76
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 0000000 [YfMk]                               
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jan 23, 2021 at 01:40:30PM +0800, 慕冬亮 wrote:
-> Dear kernel developers,
+On Fri, Jan 22, 2021 at 05:00:21PM +0200, Mathias Nyman wrote:
+> >> Or is this due to the specific host controller device hardware?  Should
+> >> this be a xhci quirk for a specific pci device instead?
 > 
-> I found that on the syzbot dashboard, “KMSAN: uninit-value in
-> smsc75xx_read_eeprom (2)” [1],
-> "KMSAN: uninit-value in smsc95xx_read_eeprom (2)" [2], "KMSAN:
-> uninit-value in smsc75xx_bind" [3],
-> "KMSAN: uninit-value in smsc95xx_reset" [4], "KMSAN: uninit-value in
-> smsc95xx_wait_eeprom (2)" [5]
-> should share the same root cause.
-> 
-> ## Root Cause Analysis && Different behaviors
-> 
-> The root cause of these crash reports resides in the
-> "__smsc75xx_read_reg/__smsc95xx_read_reg". Take __smsc95xx_read_reg as
-> an example,
-> 
-> -----------------------------------------------------------------------------------------------------------------
-> static int __must_check __smsc95xx_read_reg(struct usbnet *dev, u32 index,
->                                             u32 *data, int in_pm)
-> {
->         u32 buf;
->         int ret;
->         int (*fn)(struct usbnet *, u8, u8, u16, u16, void *, u16);
-> 
->         BUG_ON(!dev);
-> 
->         if (!in_pm)
->                 fn = usbnet_read_cmd;
->         else
->                 fn = usbnet_read_cmd_nopm;
-> 
->         ret = fn(dev, USB_VENDOR_REQUEST_READ_REGISTER, USB_DIR_IN
->                  | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
->                  0, index, &buf, 4);
->         if (unlikely(ret < 0)) {
->                 netdev_warn(dev->net, "Failed to read reg index 0x%08x: %d\n",
->                             index, ret);
->                 return ret;
->         }
-> 
->         le32_to_cpus(&buf);
->         *data = buf;
-> 
->         return ret;
-> }
-> 
-> 
-> static int __must_check smsc95xx_eeprom_confirm_not_busy(struct usbnet *dev)
-> {
->         unsigned long start_time = jiffies;
->         u32 val;
->         int ret;
-> 
->         do {
->                 ret = smsc95xx_read_reg(dev, E2P_CMD, &val);
->                 if (ret < 0) {
->                         netdev_warn(dev->net, "Error reading E2P_CMD\n");
->                         return ret;
->                 }
-> 
->                 if (!(val & E2P_CMD_BUSY_))
->                         return 0;
->         ......
-> }
-> -----------------------------------------------------------------------------------------------------------------
-> 
-> In a special situation, local variable "buf" is not initialized with
-> "fn" function invocation. And the ret is bigger than zero, and buf is
-> assigned to "*data". In its parent function -
-> smsc95xx_eeprom_confirm_not_busy, KMSAN reports "uninit-value" when
-> accessing variable "val".
-> Note, due to the lack of testing environment, I don't know the
-> concrete reason for the uninitialization of "buf" local variable.
-> 
-> The reason for such different crash behaviors is that the event -
-> "buf" is not initialized is random when
-> "__smsc75xx_read_reg/__smsc95xx_read_reg" is invoked.
-> 
-> ## Patch
-> 
-> diff --git a/drivers/net/usb/smsc75xx.c b/drivers/net/usb/smsc75xx.c
-> index 4353b370249f..a8e500d92285 100644
-> --- a/drivers/net/usb/smsc75xx.c
-> +++ b/drivers/net/usb/smsc75xx.c
-> @@ -76,7 +76,7 @@ static int smsc75xx_phy_gig_workaround(struct usbnet *dev);
->  static int __must_check __smsc75xx_read_reg(struct usbnet *dev, u32 index,
->                                             u32 *data, int in_pm)
->  {
-> -       u32 buf;
-> +       u32 buf = 0;
->         int ret;
->         int (*fn)(struct usbnet *, u8, u8, u16, u16, void *, u16);
-> 
-> diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
-> index 4c8ee1cff4d4..dae3be723e0c 100644
-> --- a/drivers/net/usb/smsc95xx.c
-> +++ b/drivers/net/usb/smsc95xx.c
-> @@ -70,7 +70,7 @@ MODULE_PARM_DESC(turbo_mode, "Enable multiple frames
-> per Rx transaction");
->  static int __must_check __smsc95xx_read_reg(struct usbnet *dev, u32 index,
->                                             u32 *data, int in_pm)
->  {
-> -       u32 buf;
-> +       u32 buf = 0;
->         int ret;
->         int (*fn)(struct usbnet *, u8, u8, u16, u16, void *, u16);
-> 
-> If you can have any issues with this statement or our information is
-> useful to you, please let us know. Thanks very much.
-> 
-> [1] “KMSAN: uninit-value in smsc75xx_read_eeprom (2)” - url
-> [2] “KMSAN: uninit-value in smsc95xx_read_eeprom (2)” - URL
-> [3] "KMSAN: uninit-value in smsc75xx_bind" -
-> [4] "KMSAN: uninit-value in smsc95xx_reset" -
-> [5] "KMSAN: uninit-value in smsc95xx_wait_eeprom (2)" -
+> Exactly, this should be checked.
+> Stanislaw, weren't there a few users already that saw this issue?
 
-As I asked before, please just turn this into a real patch and submit it
-to the syzbot to see if it fixes the issue.  If so, then submit it
-normally, no need to do any huge writeup.
+There are 30+ users cc-ed in the bugzilla report. However I think some
+of them are not affected by issue originally reported by Bernhard.
+They just saw "WARN Set TR Deq Ptr cmd failed due to incorrect slot
+or ep state" message caused by different problem and added comment
+to this particular bug report.
 
-thnaks,
+> Do we know what xHCI controllers they were using?
 
-greg k-h
+What I can tell issue was reported mostly on ASMedia and AMD
+controllers. We can ask for exact vendor and device IDs and
+just add xhci->quirks flag.
+
+However I'm not entirely sure that xHCI hardware misbehave
+is actual root cause. I think equally probable is that
+connected device do not handle soft retry correctly. In that
+case disabling Soft Retry per device would be actually
+"lightest hammer" since other devices connected to the
+xHCI host could benefit from faster recovery.
+
+Is there way to debug/identify which side: host or device
+hardware misbehave when Soft Retry is performed ?
+
+Stanislaw
