@@ -2,102 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6B5C433DB
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 17:35:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D338CC433DB
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 18:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 956C2233EA
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 17:35:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A3A222D57
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 18:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbhAWRfd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Jan 2021 12:35:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725765AbhAWRdW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Jan 2021 12:33:22 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2C4C0613D6;
-        Sat, 23 Jan 2021 09:32:41 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id ke15so12120593ejc.12;
-        Sat, 23 Jan 2021 09:32:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AP3OwkTp0YWxBuX7mQrwCmymgPjHNWJQuUPHDC7WEYQ=;
-        b=AFHS7fvP5NonOYoSLJhPWjQ+KFbjUZM5Sk8hHImL+fI/2R7FcPSjxnXL+TSMdQtJnR
-         8rRlrGwadbHw4aroITLMmDYbc3zags/wtVwWTH309/k13pgpf4/pm8vPf10CeFspUz1p
-         ZMDYx+I8/B1mas0cqQTOJ2Lu+QVPNW0M/GJK3xBzOOHYNeO8gNTTJ9s3dNdt8VvsTFdr
-         N3usPVVBpQfoAHTJc/O1qVYKgvjVcsFFhPsM6ravI0ASUw6p37r1X2QXWwyaS1c/PhsS
-         90Sg9U2lf3+D9u09naTtgsFmqLpZYmgvU7RvYjBLLg+6WYZrpKYAPASe3RdHk5HXhoft
-         tfdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=AP3OwkTp0YWxBuX7mQrwCmymgPjHNWJQuUPHDC7WEYQ=;
-        b=UGKoNb2rpQT6MO7MY+kGFtMhembbrGUqDviKQK+CZh66yWnLb7sLuVV8w/Xx2ZN/va
-         XJj3SJXcJ/XuOw5Z/SzAzS2MH/gh9PnRNWLWsoCspucTe+KFqPysDgSn++BdkZ+inVvo
-         K/rWq/Pn9ScOtY6UmK/9D+/uRD9FK+AXAF+ELvsdQBoTtkJFBss4ib1AZyWBA59qmC40
-         BAxnIEyCTb2Pcc7htoD21RQLBDWuEY3MVvvF0ZTAuWXfGwKgyPLVAmXH6xKsrL16SLeG
-         qt9qXjEOFvB6SrcmYZaX3SWnlue6oo0xO+WMP6f9ttIp/v1YS0GtkomIUghI3G4Ow+En
-         Q0hw==
-X-Gm-Message-State: AOAM532adAxNQQZT3ELczTx9mUCVUwF6raSMRQMR8qvgtFb/851NmMWz
-        f6tNq/7HXdo2GFzcz+6x3lpy3Hu+DEyiOg==
-X-Google-Smtp-Source: ABdhPJyUhw8YuL4ZTKWKQr73JXMdAgj1zztDlewiH3u8a/UeKSNW63n00CXBDAoEbVMfxTMO0wVDKw==
-X-Received: by 2002:a17:906:cb82:: with SMTP id mf2mr5620098ejb.515.1611423160660;
-        Sat, 23 Jan 2021 09:32:40 -0800 (PST)
-Received: from stitch.. ([2a01:4262:1ab:c:de4:866f:76c3:151d])
-        by smtp.gmail.com with ESMTPSA id e19sm7528116eds.79.2021.01.23.09.32.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jan 2021 09:32:40 -0800 (PST)
-Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
-From:   Emil Renner Berthing <esmil@mailme.dk>
-To:     linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc:     Emil Renner Berthing <kernel@esmil.dk>,
-        Oliver Neukum <oneukum@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] net: usbnet: initialize tasklet using tasklet_init
-Date:   Sat, 23 Jan 2021 18:32:20 +0100
-Message-Id: <20210123173221.5855-2-esmil@mailme.dk>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210123173221.5855-1-esmil@mailme.dk>
-References: <20210123173221.5855-1-esmil@mailme.dk>
+        id S1726198AbhAWSKe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 Jan 2021 13:10:34 -0500
+Received: from m12-17.163.com ([220.181.12.17]:38700 "EHLO m12-17.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725922AbhAWSKc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 23 Jan 2021 13:10:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=dZlog
+        IuW7sctk2awWW/go12ku17levD4zYwiADbhmZU=; b=euI2BNUuqnaEbV0HNIUq4
+        gwWTHbeguMepe2L2W/hCZdKXyScNHF2Y1ESh7osAqL31mj9rqaFRiY///oxTNU1J
+        BTGQqqskD/GfBBiGMzRxl6Qbg/aASMDIiAwGIDI+dVzHEdZXyVa9y8EKjqLS/OLN
+        kTzZULOSOSXrt2NmayFgDQ=
+Received: from yangjunlin.ccdomain.com (unknown [119.137.55.101])
+        by smtp13 (Coremail) with SMTP id EcCowAAX5VxV9wtg1YothQ--.15504S2;
+        Sat, 23 Jan 2021 18:15:50 +0800 (CST)
+From:   angkery <angkery@163.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Junlin Yang <yangjunlin@yulong.com>
+Subject: [PATCH] usb: typec: tcpci_maxim: remove redundant assignment
+Date:   Sat, 23 Jan 2021 18:14:10 +0800
+Message-Id: <20210123101410.1354-1-angkery@163.com>
+X-Mailer: git-send-email 2.24.0.windows.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EcCowAAX5VxV9wtg1YothQ--.15504S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZF1DtFy7GF4ftry5Gr1xZrb_yoWfZrcEk3
+        WxWFs2vr109F9Yqr1UtayfZ3sYyrWkWFsa9F4vqwn0ywn8Cr9Fgryqyr15Ar9rWF4jqryD
+        Wrn8Wr4SkFZ8CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUe3rc3UUUUU==
+X-Originating-IP: [119.137.55.101]
+X-CM-SenderInfo: 5dqjyvlu16il2tof0z/xtbBHgMjI13l-YQ6DwAAsp
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Emil Renner Berthing <kernel@esmil.dk>
+From: Junlin Yang <yangjunlin@yulong.com>
 
-Initialize tasklet using tasklet_init() rather than open-coding it.
+PTR_ERR(chip->tcpci) has been used as a return value,
+it is not necessary to assign it to ret, so remove it.
 
-Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
+Signed-off-by: Junlin Yang <yangjunlin@yulong.com>
 ---
- drivers/net/usb/usbnet.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 1447da1d5729..26455c76588f 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -1673,8 +1673,7 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
- 	skb_queue_head_init (&dev->txq);
- 	skb_queue_head_init (&dev->done);
- 	skb_queue_head_init(&dev->rxq_pause);
--	dev->bh.func = usbnet_bh_tasklet;
--	dev->bh.data = (unsigned long)&dev->delay;
-+	tasklet_init(&dev->bh, usbnet_bh_tasklet, (unsigned long)&dev->delay);
- 	INIT_WORK (&dev->kevent, usbnet_deferred_kevent);
- 	init_usb_anchor(&dev->deferred);
- 	timer_setup(&dev->delay, usbnet_bh, 0);
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index 3192663..7f54f51a 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -461,7 +461,6 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
+ 	if (IS_ERR(chip->tcpci)) {
+ 		dev_err(&client->dev, "TCPCI port registration failed");
+-		ret = PTR_ERR(chip->tcpci);
+ 		return PTR_ERR(chip->tcpci);
+ 	}
+ 	chip->port = tcpci_get_tcpm_port(chip->tcpci);
 -- 
-2.30.0
+1.9.1
+
 
