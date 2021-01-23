@@ -2,118 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8259EC433E0
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 14:30:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E1DC433E9
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 16:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AECD22EBE
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 14:30:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF62722DFA
+	for <linux-usb@archiver.kernel.org>; Sat, 23 Jan 2021 16:42:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725889AbhAWOau (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Jan 2021 09:30:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51062 "EHLO
+        id S1726149AbhAWQmq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 23 Jan 2021 11:42:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbhAWOar (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Jan 2021 09:30:47 -0500
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A94C06174A;
-        Sat, 23 Jan 2021 06:30:06 -0800 (PST)
-Received: by mail-oi1-x229.google.com with SMTP id h6so8154541oie.5;
-        Sat, 23 Jan 2021 06:30:06 -0800 (PST)
+        with ESMTP id S1725765AbhAWQme (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Jan 2021 11:42:34 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874A4C0613D6;
+        Sat, 23 Jan 2021 08:41:53 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id q12so11855928lfo.12;
+        Sat, 23 Jan 2021 08:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Tqi/hAoYRQpxFv/JWdybPbBXxEqm9EFV5JJ/XlRp1HU=;
-        b=UMZsEgFXrKNtPeeZeAMxySABESBcMz2nLofCJNwRGpF7fFpbyA1leF9hOobbMBxQqq
-         apVtb/YuBKj8Y/Di/sMLFeXesdIpC3oejTVL2R0hJBK208sx9IUoSwPGeHc7EcmO0vxi
-         wwv6WQ3GIleSbknait2LYRLozmZ5UR7xx5IjNMgGLLK0N4ptZv1SY0mb+LAgEOgFDjKY
-         ip8AsicZJvCt4Kl8IlrzvqJ34WDUZ2UCe2pIXGA8BCAsFB/MTNsVgtIZEs4MmUf4Gyyt
-         K7JGTAYxV+/OlBJpEmd4bxYz0AFa7AhvkIe2hDPP3UfFTjePRC3B7+RsYMPCL0ISAXPw
-         2hAA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=s12qlChk6RemkoIoox1VilM8wjYso4uESt9Y0Hae84M=;
+        b=LGowOONvNPPLaHeSH1bgMM8A2VGqvkBNpkz7QLzz4RW9iK/7IWVlAZbmzpDVfvlHsN
+         9jgB/yInku+DSa9vyzLPXNUJi2zLhR6c/Jujqx5c0Ekqbc7FezSxjQFUvnPf5l73+OnS
+         ZJZ3t1VI4MZYKBL5SwIQ2A7wfZ+kp+mWnp1cHHJkXceelSZ5g8FzZiyi4HXsQtaEZSQ+
+         T2qH6d+hVaFg2FF+NN6zF3JNYNXnKd8//NEjvqlr8ck8DLqYglznZij2V8/S5X2qjn24
+         6+BFo3eXW2KfOVTSWdUDp4GKFpt4WAgI3zV2VC/mfpT1Ni/Wq3v6OS5+JcBGi4QiiyBC
+         CTfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Tqi/hAoYRQpxFv/JWdybPbBXxEqm9EFV5JJ/XlRp1HU=;
-        b=KICzu6GtMxwtExkpUU9somVL6zou5A2R7xPNdtspRxv1mfh2S2/bOo70HQhTfqj/Z3
-         dVq1Za3Rv8Ra+bHU7TB7vf0M8P7ohIMO9q127KDrZG4vzxUhn/SO5U3rgx1TytFMplM6
-         djYHRVERHgNXoaE8wNQxVzcdoE8wgt8N7pPvr7Bb+2kOpyPnzkrhFWJxYLs4qGrTpg75
-         FLrcPUNXrCg8371/efZg0O04+PvWGPQr1dEEhCY1WOqZtqzawX7ehzmwHOaBorEupcxH
-         8ZYJSfD5EKH8uGEfMJ4Wbi1vVKdRT6fxyKBGF4zu4/7nLtEZSZQKDvEk7Tm0rVyyokbe
-         h8Zw==
-X-Gm-Message-State: AOAM530Wobb5jdR14/FhwpACD6n0NY1Hwss5S+hGZfQLmHAHAh9kWaIu
-        w/yJpJEX6SX+UyHUNfmEQ6iMc4oD694=
-X-Google-Smtp-Source: ABdhPJyv0cebTnqbG26uLDqgzyULs6CpcJv9K8zd/sTyeuoQ/Etu3VIuFHjhjSneXACbrwvRsnar+g==
-X-Received: by 2002:aca:130a:: with SMTP id e10mr6068196oii.163.1611412205814;
-        Sat, 23 Jan 2021 06:30:05 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id p132sm2296123oia.41.2021.01.23.06.30.03
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=s12qlChk6RemkoIoox1VilM8wjYso4uESt9Y0Hae84M=;
+        b=N6U2LLFN11BPtGdwHT4ggPlM0BwG22aIRAOtF9nyo7Q3CTNaOZ6s7Wsgaynww1Q/V4
+         bK9sEa++04TQ3EXjZ48FkwSCEVqIbP8Y8kXmGHNeP7Z+VcSqfiarEXyNiOfOeInRZbyN
+         gxHUziOcjyGj89AbL15MkF20u5FSUQNu2q7dEP7VI3SlbzIP/vZTN6ijUBcNTqmz5wAf
+         tgSgLuchsxShQPAS6JC3eL0FTFgBvahjMwOGRJCkweSqztXcq9v2BTfp57f6jWFTWHi/
+         d+1mNR2GNM6fjdHoUDpH/G7cR+uE3kMdxyz6gK0GKwYqwYCtZWAniCxtlDtDEoI4izYg
+         OI4w==
+X-Gm-Message-State: AOAM530Z6sUEb0iTJnYXfJa66O//Hza8UUxCIaXRbZ4e1tbQlee2TUZf
+        rFYxDgxxQxWIX8Inln6WPmnCEvr2QqM=
+X-Google-Smtp-Source: ABdhPJxmFwN9UXnJ/wbEfL8snhwiiwm9PtxZeqECpgG1hIXbnm+C6JVgm0K7OOID/Y5pAqiC0TolEQ==
+X-Received: by 2002:ac2:43c5:: with SMTP id u5mr66347lfl.656.1611420110190;
+        Sat, 23 Jan 2021 08:41:50 -0800 (PST)
+Received: from [192.168.1.101] ([178.176.79.63])
+        by smtp.gmail.com with ESMTPSA id o12sm1130242lfl.249.2021.01.23.08.41.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Jan 2021 06:30:04 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH] usb: typec: tcpci_maxim: remove redundant assignment
-To:     angkery <angkery@163.com>, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Junlin Yang <yangjunlin@yulong.com>
-References: <20210123101410.1354-1-angkery@163.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <7b3b495d-38a9-a6b1-e60f-ac8796f9f268@roeck-us.net>
-Date:   Sat, 23 Jan 2021 06:30:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sat, 23 Jan 2021 08:41:49 -0800 (PST)
+Subject: Re: [RE-RESEND PATCH 1/4] usb: musb: Fix runtime PM race in
+ musb_queue_resume_work
+To:     Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Tony Lindgren <tony@atomide.com>, od@zcrc.me,
+        linux-mips@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20210123142502.16980-1-paul@crapouillou.net>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <72e48343-f87e-5fed-809c-41995197019e@gmail.com>
+Date:   Sat, 23 Jan 2021 19:41:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210123101410.1354-1-angkery@163.com>
+In-Reply-To: <20210123142502.16980-1-paul@crapouillou.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -121,31 +79,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 1/23/21 2:14 AM, angkery wrote:
-> From: Junlin Yang <yangjunlin@yulong.com>
-> 
-> PTR_ERR(chip->tcpci) has been used as a return value,
-> it is not necessary to assign it to ret, so remove it.
-> 
-> Signed-off-by: Junlin Yang <yangjunlin@yulong.com>
+On 1/23/21 5:24 PM, Paul Cercueil wrote:
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
->  drivers/usb/typec/tcpm/tcpci_maxim.c | 1 -
->  1 file changed, 1 deletion(-)
+> musb_queue_resume_work() would call the provided callback if the runtime
+> PM status was 'active'. Otherwise, it would enqueue the request if the
+> hardware was still suspended (musb->is_runtime_suspended is true).
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> index 3192663..7f54f51a 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> @@ -461,7 +461,6 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
->  	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
->  	if (IS_ERR(chip->tcpci)) {
->  		dev_err(&client->dev, "TCPCI port registration failed");
-> -		ret = PTR_ERR(chip->tcpci);
->  		return PTR_ERR(chip->tcpci);
->  	}
->  	chip->port = tcpci_get_tcpm_port(chip->tcpci);
-> 
+> This causes a race with the runtime PM handlers, as it is possible to be
+> in the case where the runtime PM status is not yet 'active', but the
+> hardware has been awaken (PM resume function has been called).
 
+   Awakened. :-)
+
+> When hitting the race, the resume work was not enqueued, which probably
+> triggered other bugs further down the stack. For instance, a telnet
+> connection on Ingenic SoCs would result in a 50/50 chance of a
+> segmentation fault somewhere in the musb code.
+> 
+> Rework the code so that either we call the callback directly if
+> (musb->is_runtime_suspended == 0), or enqueue the query otherwise.
+> 
+> Fixes: ea2f35c01d5e ("usb: musb: Fix sleeping function called from invalid context for hdrc glue")
+> Cc: stable@vger.kernel.org # v4.9+
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Reviewed-by: Tony Lindgren <tony@atomide.com>
+> Tested-by: Tony Lindgren <tony@atomide.com>
+[...]
+
+
+MBR, Sergei
