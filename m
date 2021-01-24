@@ -2,99 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F71C433DB
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6141C433E0
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 09:01:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA66822CF6
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:16:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E8BD22CF6
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 09:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbhAXIP6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 24 Jan 2021 03:15:58 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:36203 "EHLO
-        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726551AbhAXIP1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 24 Jan 2021 03:15:27 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 3A133CB4;
-        Sun, 24 Jan 2021 03:14:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 24 Jan 2021 03:14:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=Ku8zBaTMjNK7m3gXD+e3f56Hm66
-        AYnfWb8o3mq0cm90=; b=CysJUSGeyPxXHST1QpLRXY7MAaDcbPMIUCP4dlNJDUy
-        7RO+670rcbw08Hkx1sjtJFrdN/v7IvBPwAtYKskqXWyQfYikDVPZSaGgV/YRpHTD
-        +1BkkdTmv17uj93KOLHAhI4piU4JlU3AQRjcxfs+d6gt6ooNBhpAenolTMLZQKx8
-        8Hvpa/eJsbMA82vUVAmZw1Vp5eJpNFvevnYWD1HNHeL9ZBUoS4mxORNL/zX2NAFt
-        YX9+BKhbp0So5zqjjKeWp7vs4ziQ9kdR3wauU+PEY76PYXU2C2WvKiXRtK+LWbbs
-        Zav+YsiAmMACOR80A/RKzc35jE8pPjnpH2Xrq7lJRsA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ku8zBa
-        TMjNK7m3gXD+e3f56Hm66AYnfWb8o3mq0cm90=; b=ScZfTxXrfL0ZtAdV9jEFvt
-        hZiYOWmFzbUupg36Z6D/GZxTzK/XPt6JfkEveaOhKDVpuMdmo7WrR/eWJ8VVU60s
-        1YrqTOOyBjuInW85Ti82wY+wkYPXLqNkUHamMGIsVKqrmg/vPKkmm6JtdkwPjHIs
-        xVnEQGz7/4zq3fCKJf2E4BNdDcabtRwBLoeA6EiosJAywckpvfKwvUwtXQYZ3aV4
-        w1yFKb6U1/Iopv5YNkWF79yNHYThi6PP4cGOfhUhDJzZU5raZilaCXrlunrjE3cD
-        yj86HhSdMqTeEtI34TP+Ki18i8nCddWi2HPNsuf3SrLt+OCxYnoRi9mkmroXyvSA
-        ==
-X-ME-Sender: <xms:VSwNYFhBVoahOTMxPbEHKLEZ-0VwNKL14yjC1SmNs1RswcoZ3L4lEQ>
-    <xme:VSwNYKD-hIYIcDI5qGkRnBOhdEMgGFSBp2vbJWHtp7HFbNt1g7A4rDJkj__QUnu3c
-    ZhBF3Qj3pvizg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
-    ucggtffrrghtthgvrhhnpeeuleeltdehkeeltefhleduuddvhfffuedvffduveegheekge
-    eiffevheegfeetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeekfedr
-    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:VSwNYFGCRDZWMSrVl5S6NTDdWNrrsHBnMVHzDftD_oS5MzFfhdrbmA>
-    <xmx:VSwNYKSuz01kLGZ4C7Ff7L5LTkoOzKQpCuJXfOl4fe0bYKCBkr66iQ>
-    <xmx:VSwNYCx4yCv2QjFgkUNwv2fVxuKsmJcsGfF1HIOW9h-BiGx3gtIpjg>
-    <xmx:VSwNYHtlLo5rOb9bZQhr07kgaaqgEP5YIhQ3PLQabLfgjy1kMrC6kg>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 46A171080059;
-        Sun, 24 Jan 2021 03:14:13 -0500 (EST)
-Date:   Sun, 24 Jan 2021 09:14:11 +0100
-From:   Greg KH <greg@kroah.com>
-To:     bugzilla-daemon@bugzilla.kernel.org
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [Bug 211325] New: usbhid.mousepoll kernel cmd option not working
-Message-ID: <YA0sU+5gxO7oTy45@kroah.com>
-References: <bug-211325-208809@https.bugzilla.kernel.org/>
+        id S1726710AbhAXJBM convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 24 Jan 2021 04:01:12 -0500
+Received: from aposti.net ([89.234.176.197]:43768 "EHLO aposti.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726623AbhAXJBH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 24 Jan 2021 04:01:07 -0500
+Date:   Sun, 24 Jan 2021 08:38:13 +0000
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [RE-RESEND PATCH 1/4] usb: musb: Fix runtime PM race
+ =?UTF-8?Q?in=0D=0A?= musb_queue_resume_work
+To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc:     Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tony Lindgren <tony@atomide.com>, od@zcrc.me,
+        linux-mips@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Message-Id: <PZJFNQ.QM2LFFEGRUXN3@crapouillou.net>
+In-Reply-To: <72e48343-f87e-5fed-809c-41995197019e@gmail.com>
+References: <20210123142502.16980-1-paul@crapouillou.net>
+        <72e48343-f87e-5fed-809c-41995197019e@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bug-211325-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Jan 24, 2021 at 04:35:13AM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=211325
-> 
->             Bug ID: 211325
->            Summary: usbhid.mousepoll kernel cmd option not working
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 5.11-rc3
->           Hardware: ARM
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: low
->           Priority: P1
->          Component: USB
->           Assignee: drivers_usb@kernel-bugs.kernel.org
->           Reporter: mathias.steiger@gmail.com
->         Regression: No
-> 
-> It doesn't matter what value I use, it is treated as if unset (i.e. "0").
+Hi Sergei,
 
-Please email the linux-input@vger.kernel.org list about this.
+
+Le sam. 23 janv. 2021 à 19:41, Sergei Shtylyov 
+<sergei.shtylyov@gmail.com> a écrit :
+> On 1/23/21 5:24 PM, Paul Cercueil wrote:
+> 
+>>  musb_queue_resume_work() would call the provided callback if the 
+>> runtime
+>>  PM status was 'active'. Otherwise, it would enqueue the request if 
+>> the
+>>  hardware was still suspended (musb->is_runtime_suspended is true).
+>> 
+>>  This causes a race with the runtime PM handlers, as it is possible 
+>> to be
+>>  in the case where the runtime PM status is not yet 'active', but the
+>>  hardware has been awaken (PM resume function has been called).
+> 
+>    Awakened. :-)
+
+Oops. Hopefully Bin or Greg can fix it when merging (if I don't need to 
+v2, that is to say - feedback welcome).
+
+Cheers,
+-Paul
+
+>>  When hitting the race, the resume work was not enqueued, which 
+>> probably
+>>  triggered other bugs further down the stack. For instance, a telnet
+>>  connection on Ingenic SoCs would result in a 50/50 chance of a
+>>  segmentation fault somewhere in the musb code.
+>> 
+>>  Rework the code so that either we call the callback directly if
+>>  (musb->is_runtime_suspended == 0), or enqueue the query otherwise.
+>> 
+>>  Fixes: ea2f35c01d5e ("usb: musb: Fix sleeping function called from 
+>> invalid context for hdrc glue")
+>>  Cc: stable@vger.kernel.org # v4.9+
+>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  Reviewed-by: Tony Lindgren <tony@atomide.com>
+>>  Tested-by: Tony Lindgren <tony@atomide.com>
+> [...]
+> 
+> 
+> MBR, Sergei
+
+
