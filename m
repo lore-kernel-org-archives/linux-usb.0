@@ -2,60 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFC7CC433E9
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:15:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3F71C433DB
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:16:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80EAD22D0A
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:15:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CA66822CF6
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:16:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726651AbhAXIPG convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 24 Jan 2021 03:15:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48482 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726551AbhAXIO4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 24 Jan 2021 03:14:56 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 0497B22CF6
-        for <linux-usb@vger.kernel.org>; Sun, 24 Jan 2021 08:14:17 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 211325] usbhid.mousepoll kernel cmd option not working
-Date:   Sun, 24 Jan 2021 08:14:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: greg@kroah.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211325-208809-hWXY5LcxPV@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211325-208809@https.bugzilla.kernel.org/>
+        id S1726590AbhAXIP6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 24 Jan 2021 03:15:58 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:36203 "EHLO
+        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726551AbhAXIP1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 24 Jan 2021 03:15:27 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 3A133CB4;
+        Sun, 24 Jan 2021 03:14:14 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Sun, 24 Jan 2021 03:14:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=Ku8zBaTMjNK7m3gXD+e3f56Hm66
+        AYnfWb8o3mq0cm90=; b=CysJUSGeyPxXHST1QpLRXY7MAaDcbPMIUCP4dlNJDUy
+        7RO+670rcbw08Hkx1sjtJFrdN/v7IvBPwAtYKskqXWyQfYikDVPZSaGgV/YRpHTD
+        +1BkkdTmv17uj93KOLHAhI4piU4JlU3AQRjcxfs+d6gt6ooNBhpAenolTMLZQKx8
+        8Hvpa/eJsbMA82vUVAmZw1Vp5eJpNFvevnYWD1HNHeL9ZBUoS4mxORNL/zX2NAFt
+        YX9+BKhbp0So5zqjjKeWp7vs4ziQ9kdR3wauU+PEY76PYXU2C2WvKiXRtK+LWbbs
+        Zav+YsiAmMACOR80A/RKzc35jE8pPjnpH2Xrq7lJRsA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Ku8zBa
+        TMjNK7m3gXD+e3f56Hm66AYnfWb8o3mq0cm90=; b=ScZfTxXrfL0ZtAdV9jEFvt
+        hZiYOWmFzbUupg36Z6D/GZxTzK/XPt6JfkEveaOhKDVpuMdmo7WrR/eWJ8VVU60s
+        1YrqTOOyBjuInW85Ti82wY+wkYPXLqNkUHamMGIsVKqrmg/vPKkmm6JtdkwPjHIs
+        xVnEQGz7/4zq3fCKJf2E4BNdDcabtRwBLoeA6EiosJAywckpvfKwvUwtXQYZ3aV4
+        w1yFKb6U1/Iopv5YNkWF79yNHYThi6PP4cGOfhUhDJzZU5raZilaCXrlunrjE3cD
+        yj86HhSdMqTeEtI34TP+Ki18i8nCddWi2HPNsuf3SrLt+OCxYnoRi9mkmroXyvSA
+        ==
+X-ME-Sender: <xms:VSwNYFhBVoahOTMxPbEHKLEZ-0VwNKL14yjC1SmNs1RswcoZ3L4lEQ>
+    <xme:VSwNYKD-hIYIcDI5qGkRnBOhdEMgGFSBp2vbJWHtp7HFbNt1g7A4rDJkj__QUnu3c
+    ZhBF3Qj3pvizg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgddujecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttdertd
+    dttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
+    ucggtffrrghtthgvrhhnpeeuleeltdehkeeltefhleduuddvhfffuedvffduveegheekge
+    eiffevheegfeetgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:VSwNYFGCRDZWMSrVl5S6NTDdWNrrsHBnMVHzDftD_oS5MzFfhdrbmA>
+    <xmx:VSwNYKSuz01kLGZ4C7Ff7L5LTkoOzKQpCuJXfOl4fe0bYKCBkr66iQ>
+    <xmx:VSwNYCx4yCv2QjFgkUNwv2fVxuKsmJcsGfF1HIOW9h-BiGx3gtIpjg>
+    <xmx:VSwNYHtlLo5rOb9bZQhr07kgaaqgEP5YIhQ3PLQabLfgjy1kMrC6kg>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 46A171080059;
+        Sun, 24 Jan 2021 03:14:13 -0500 (EST)
+Date:   Sun, 24 Jan 2021 09:14:11 +0100
+From:   Greg KH <greg@kroah.com>
+To:     bugzilla-daemon@bugzilla.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [Bug 211325] New: usbhid.mousepoll kernel cmd option not working
+Message-ID: <YA0sU+5gxO7oTy45@kroah.com>
 References: <bug-211325-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bug-211325-208809@https.bugzilla.kernel.org/>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=211325
-
---- Comment #1 from Greg Kroah-Hartman (greg@kroah.com) ---
-On Sun, Jan 24, 2021 at 04:35:13AM +0000, bugzilla-daemon@bugzilla.kernel.org
-wrote:
+On Sun, Jan 24, 2021 at 04:35:13AM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
 > https://bugzilla.kernel.org/show_bug.cgi?id=211325
 > 
 >             Bug ID: 211325
@@ -77,9 +98,3 @@ wrote:
 > It doesn't matter what value I use, it is treated as if unset (i.e. "0").
 
 Please email the linux-input@vger.kernel.org list about this.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
