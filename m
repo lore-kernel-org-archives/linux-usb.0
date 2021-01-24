@@ -2,134 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D95C433E9
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 04:58:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94768C433E0
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:15:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9A5DB22D0A
-	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 04:58:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 622F222CF6
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Jan 2021 08:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726501AbhAXE5p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Jan 2021 23:57:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45958 "EHLO mail.kernel.org"
+        id S1726630AbhAXIOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 24 Jan 2021 03:14:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726367AbhAXE5o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 23 Jan 2021 23:57:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BC0A22C9F;
-        Sun, 24 Jan 2021 04:57:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611464223;
-        bh=+Dv2W7xUrIowE8lzvyg7LMXioDkpmKs4Tk/Bc5dD3ac=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=prxBeikQt0KHNBec0XCwiIrxyhDRs5m11VZV4O+vUx9PV25en2+tYSzhelYr2OUdB
-         1h3PXl5DgRhk7QeQCqoO4/4k4N90VQErSruYiXtZVnp7ltNt8qn9Un+bi9BzNr/G93
-         mlM/GrTlw39LKBbsza6Akhjt8kCE20GnK+9rzIWRFR4X7blMBdfmgOdJCNGxhVvfEP
-         NbbwJnLPXKa/v+Vb2XcgwdiOs05z9QduAFWc+tvgjY0XApV3g//X2Hwf1rhGgBFEBF
-         7v1QOOlghhLaT7xhldqbmG0/3SdTABCx1Jtm9XoAS/l0Wnr1TcXHRyQiLuc3yrjSnv
-         6x2UKyZAuaWVA==
-Received: by mail-ed1-f48.google.com with SMTP id g24so11270602edw.9;
-        Sat, 23 Jan 2021 20:57:03 -0800 (PST)
-X-Gm-Message-State: AOAM531E9ozVK1F4cv+Cd6dKjF/auxBlQRuT8OwUuceNA5/t/01vmACu
-        9pvnP1ZsREP6MMQNTN/gVr0j2wYIUtevLpMNjw==
-X-Google-Smtp-Source: ABdhPJwSMImeoz+A6pH+O3PAla2mGiOTiQQ5C2GVf4VJbqxKYrHrXCj9enw3rYIbJLnELNxQr2L4gK4y4v3aX1He228=
-X-Received: by 2002:a50:c3c5:: with SMTP id i5mr67225edf.166.1611464222173;
- Sat, 23 Jan 2021 20:57:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20210122120323.4337-1-chunfeng.yun@mediatek.com>
- <20210122120323.4337-3-chunfeng.yun@mediatek.com> <CAAOTY__O=z-AOo1RCRGfJYuSsXs1cUZgWFaTQz_3W_Tj=CeFBQ@mail.gmail.com>
-In-Reply-To: <CAAOTY__O=z-AOo1RCRGfJYuSsXs1cUZgWFaTQz_3W_Tj=CeFBQ@mail.gmail.com>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Sun, 24 Jan 2021 12:56:51 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8X35EpvLiSOuNdj4dVu7KBocw9mhaKG4TJy24LizvHNg@mail.gmail.com>
-Message-ID: <CAAOTY_8X35EpvLiSOuNdj4dVu7KBocw9mhaKG4TJy24LizvHNg@mail.gmail.com>
-Subject: Re: [PATCH next v2 03/17] dt-bindings: phy: mediatek: dsi-phy: modify
- compatible dependence
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726583AbhAXIOa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 24 Jan 2021 03:14:30 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5055B22582;
+        Sun, 24 Jan 2021 08:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1611476028;
+        bh=+S8i7tXq4gCZUj2yB3Crs9e2kW8EcJXUe2UEBs1rh0w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GVrZPRK2xV5GHODv5CgpRb40J8rVnGFLtz4LUnIRF3CVwWy3ipT+4QwvEr5hjldJj
+         ywBQJi/LFovYP5/1qZSqEhUdG3B8FUlvL50w1sNoYZXDrkAcLlOAv8ktxUI2l10iA0
+         SDLfO68IM5s8EWAHu2APGUD0gqAkwhS+M9z+a1Io=
+Date:   Sun, 24 Jan 2021 09:13:44 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Hugh Dickins <hughd@google.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Min Guo <min.guo@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>, Thierry Reding <treding@nvidia.com>,
+        Saravana Kannan <saravanak@google.com>,
+        linux-pm@vger.kernel.org
+Subject: Re: Infinite recursion in device_reorder_to_tail() due to circular
+ device links
+Message-ID: <YA0sOFj6VjQ8LUL2@kroah.com>
+References: <X/ycQpu7NIGI969v@gerhold.net>
+ <CAJZ5v0gAsZ45O8mv-gz0UvbyxnKA6fQBYvambBYEH6OSk3-m3g@mail.gmail.com>
+ <X/3kveeVrb35qsvb@kroah.com>
+ <alpine.LSU.2.11.2101231524290.1540@eggly.anvils>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.11.2101231524290.1540@eggly.anvils>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi, Chunfeng:
+On Sat, Jan 23, 2021 at 03:37:30PM -0800, Hugh Dickins wrote:
+> On Tue, 12 Jan 2021, Greg Kroah-Hartman wrote:
+> > On Tue, Jan 12, 2021 at 03:32:04PM +0100, Rafael J. Wysocki wrote:
+> > > On Mon, Jan 11, 2021 at 7:46 PM Stephan Gerhold <stephan@gerhold.net> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > since 5.11-rc1 I get kernel crashes with infinite recursion in
+> > > > device_reorder_to_tail() in some situations... It's a bit complicated to
+> > > > explain so I want to apologize in advance for the long mail. :)
+> > > >
+> > > >   Kernel panic - not syncing: kernel stack overflow
+> > > >   CPU: 1 PID: 33 Comm: kworker/1:1 Not tainted 5.11.0-rc3 #1
+> > > >   Hardware name: Qualcomm Technologies, Inc. APQ 8016 SBC (DT)
+> > > >   Call trace:
+> > > >    ...
+> > > >    device_reorder_to_tail+0x4c/0xf0
+> > > >    device_reorder_to_tail+0x98/0xf0
+> > > >    device_reorder_to_tail+0x60/0xf0
+> > > >    device_reorder_to_tail+0x60/0xf0
+> > > >    device_reorder_to_tail+0x60/0xf0
+> > > >    ...
+> > > >
+> > > > The crash happens only in 5.11 with commit 5b6164d3465f ("driver core:
+> > > > Reorder devices on successful probe"). It stops happening when I revert
+> > > > this commit.
+> > > 
+> > > Thanks for the report!
+> > > 
+> > > Greg, please revert commit 5b6164d3465f, it clearly is not an
+> > > improvement, at least at this point.
+> > 
+> > Now reverted, thanks.
+> > 
+> > greg k-h
+> 
+> I think that there has been a misunderstanding here: although
+> 5b6164d3465f ("driver core: Reorder devices on successful probe")
+> has been reverted from linux-next (thank you), it has not yet been
+> reverted from 5.11-rc, and still causing problems there (in my case,
+> not the infinite recursion Stephan reported in this thread, but the
+> ThinkPad rmi4 suspend failure that I reported in another thread).
 
-Chun-Kuang Hu <chunkuang.hu@kernel.org> =E6=96=BC 2021=E5=B9=B41=E6=9C=8824=
-=E6=97=A5 =E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=8812:47=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Hi, Chunfeng:
->
-> Chunfeng Yun <chunfeng.yun@mediatek.com> =E6=96=BC 2021=E5=B9=B41=E6=9C=
-=8822=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:04=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> >
-> > The compatilbe "mediatek,mt7623-mipi-tx" is not supported in driver,
-> > and in fact uses "mediatek,mt2701-mipi-tx" instead on MT7623, so change=
-s
-> > the compatible items to make dependence clear.
->
-> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+It will be sent to Linus in a few hours, thanks, so should show up in
+5.11-rc5.  I had other patches to go along with this to send him at the
+same time :)
 
-Sorry, please remove my reviewed-by tag. We should not define the
-binding document according to the implementation of driver. We define
-the binding document according to the hardware. So the description
-should be like "mt7623-mipi-tx is compatible to mt2701-mipi-tx".
-
-Regards,
-Chun-Kuang.
-
->
-> >
-> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> > ---
-> > v2: separate two patches suggested by CK
-> > ---
-> >  .../devicetree/bindings/phy/mediatek,dsi-phy.yaml   | 13 ++++++++-----
-> >  1 file changed, 8 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yam=
-l b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> > index 71d4acea1f66..6e4d795f9b02 100644
-> > --- a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> > @@ -19,11 +19,14 @@ properties:
-> >      pattern: "^dsi-phy@[0-9a-f]+$"
-> >
-> >    compatible:
-> > -    enum:
-> > -      - mediatek,mt2701-mipi-tx
-> > -      - mediatek,mt7623-mipi-tx
-> > -      - mediatek,mt8173-mipi-tx
-> > -      - mediatek,mt8183-mipi-tx
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - mediatek,mt7623-mipi-tx
-> > +          - const: mediatek,mt2701-mipi-tx
-> > +      - const: mediatek,mt2701-mipi-tx
-> > +      - const: mediatek,mt8173-mipi-tx
-> > +      - const: mediatek,mt8183-mipi-tx
-> >
-> >    reg:
-> >      maxItems: 1
-> > --
-> > 2.18.0
+greg k-h
