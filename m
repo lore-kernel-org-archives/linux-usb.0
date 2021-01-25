@@ -2,137 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8BA2C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF7CFC43381
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:41:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D32B229C4
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:40:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 972C722B37
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbhAZFkM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:40:12 -0500
-Received: from mail-co1nam11on2081.outbound.protection.outlook.com ([40.107.220.81]:24801
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726590AbhAYJ1p (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:27:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PgR9ZLhrBPsr3W7+qbc6usWr2BdHXd2eVcwInX1Y8oYwzgPW9JUTzRRjyDGqqhmNco8JcTpeELHDSBabfdlQjlhoCfCZhWXGZo4wfL8YQBrdAZEpUBKw7xR4xC3P5nSzbCrJ9iBc0bxFr7GGX3MD4jU3VRZKjNQn9uVx+7fw4ERrneKt3eiI2xaHs2GrGlD7MYkSherIor0NbdR4JRkku6FXB3l19hl9GIjWa2C0qh9rhaQps22xa2bdwVy8IEHn4wTtcEemRtTdEi7f4fNpS82cLAwumtO0sxPdfYGaYF8azuzZI27lXP/Piw7FBFBboZEDu7ufL+YSUYai358ghQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AHECe6md8Uxehyyn2d3+pQ3Z7bNQb0RzNUDb750MxQ8=;
- b=Qoi117YCetzfn2j1Rcy4Pbkq7b13avosuy+YN0Xo8cVikhVOQz8vaG4/Wwcpy34HJpO+7n2d94uU9lfAPPOVDxTCC6uVgsN+laymnbnLCqu22iM9YuKKVxRwXFQ2SkhzU2PEd1+k7lz5I73SWPYZGJ77jxA7EuAjAXlsPoIx1AhQbP2+NBsgWs0X9QP7pO3d5PNYp1wZ4Kv20azAEXxDoYfZb8LaG8e5Fc96jAJb3ZmpEvWpzE0QQYKUnZ3//YqDiZTS6KVv3W/BJ5aFQaDiKM69xFlvosGO37EwqNTHmJ3If13lxQMga4XjYb0eDlfzV66drwsC9oKLA/wveq6ppQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
- dkim=pass header.d=silabs.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AHECe6md8Uxehyyn2d3+pQ3Z7bNQb0RzNUDb750MxQ8=;
- b=HpWvsS6bYW5HDLWJPEK1+zw4j4qYUUrkGbIOHtn6VtVlY9VvI7yFjU+Rs7brB6MwiR68R1L4HfFjzVCr9Kx4NkK5my/WxztDRjc3QkqjsrBf2HS/htdZ9eNvr0ojUhndSIwUhbQGxYTk9Gfgdwy9bRBJuEVCnLQNg93MJWkKQYY=
-Received: from SJ0PR11MB5008.namprd11.prod.outlook.com (2603:10b6:a03:2d5::17)
- by BY5PR11MB3910.namprd11.prod.outlook.com (2603:10b6:a03:185::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Mon, 25 Jan
- 2021 09:26:55 +0000
-Received: from SJ0PR11MB5008.namprd11.prod.outlook.com
- ([fe80::589d:3fe7:733c:eb72]) by SJ0PR11MB5008.namprd11.prod.outlook.com
- ([fe80::589d:3fe7:733c:eb72%7]) with mapi id 15.20.3784.019; Mon, 25 Jan 2021
- 09:26:55 +0000
-From:   Pho Tran <Pho.Tran@silabs.com>
-To:     "johan@kernel.org" <johan@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Hung Nguyen <Hung.Nguyen@silabs.com>,
-        Tung Pham <Tung.Pham@silabs.com>
-Subject: [PATCH] USB: serial: cp210x: Add pid/vid for WSDA-200-USB
-Thread-Topic: [PATCH] USB: serial: cp210x: Add pid/vid for WSDA-200-USB
-Thread-Index: AQHW8vw4RSAQ130V60qksyLgAxTkIw==
-Date:   Mon, 25 Jan 2021 09:26:54 +0000
-Message-ID: <C3EAC35C-0CF6-481E-9532-024FFC176991@silabs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.40.0.2.31)
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=silabs.com;
-x-originating-ip: [118.70.199.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7cd3c933-db2b-4357-f72e-08d8c1135b2e
-x-ms-traffictypediagnostic: BY5PR11MB3910:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR11MB3910AFB6D12D3385210D4DDBE3BD9@BY5PR11MB3910.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:324;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cIGp8T2CQWQ3wKdW5LQmyaPa9a9Z3r7cYgN8/VF1/LXs3y9ep2ghdbBTDvSIR7cFisqlNnQ3NfkAG3zsjddYkiq10cuc6tV4nook84Won30IHzjZWc6qh0egy+Q7zsp9AAZnxTFbCk37S18NlkLwPwfgAWF1JQKIiR5Lu8ZLBcVKbVNg43rc4WmWMeK/rshHyaTJdbkV+/ifk7FoCpO8ylJei1Aw0BkL6qPDEmbsV+U1fdUf9JgX0tpYrORw9rm+/k+Vhxh/8Drapj7vpS6IanFaSyQXD1g29nsjVjbbIofO4nx9GDnIV1Z+J087ACEw95I1J/WrMFWIwLKWutx+PgbSlBlLSM4Dqqc5tKi0HOH14X6jBulzMG21F72qBZzOXzqeKG7IEcP8fuMQbhvu+up3kIXATHDiYTT6EPVr2TZbMw0uV/EF2cyFd78jNe7J
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5008.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(376002)(39850400004)(136003)(346002)(366004)(478600001)(33656002)(4744005)(6486002)(2616005)(26005)(6512007)(5660300002)(54906003)(86362001)(186003)(2906002)(83380400001)(316002)(71200400001)(8676002)(36756003)(6506007)(4326008)(66946007)(64756008)(66476007)(66446008)(8936002)(66556008)(91956017)(76116006)(110136005)(107886003)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JblN+/fQAhw3jL6lU1Et2zkKfR58PBQKx3cKcAJ6M2Tq3cSwT9r3ItM4Caby?=
- =?us-ascii?Q?1lHzRBWvSckEDLGEHLRAB/zX4PZBM1+Q4vVVKMeOXTWgv8cNjzw8RIXI4tJe?=
- =?us-ascii?Q?yDHL+cLeHX+SUA704y5o6fd6WA1dy65icngdJ74Jh3IEPc4jym+p/8g5bdfP?=
- =?us-ascii?Q?sQtArxhhFutxWS5ETjnhharHI7uHh1V8UYBcaGGADoIc+uSmPtsRBxAZl7P/?=
- =?us-ascii?Q?MFYBBrbVr0JIu2igfBnxZN8igo5BzlaHMCw4Ee4QCbtXImVcXplcUHWn+xga?=
- =?us-ascii?Q?NhMSf+PEdu8eYq/2oVyg9pBeSXYb2K/7y/fjl+04VA6caCRTV2cffmJRZ/9U?=
- =?us-ascii?Q?Iz0jp7dPVlfPtZIza6KcyxMT3i9G9jXzuLUevhQXaQ0amyAEg6K1nt/yA3O9?=
- =?us-ascii?Q?VMcx9kTmCyGc3Q0Np7Flhcdwo+9ZAs3ybmscNdi6ie6joO1ZHTWdvs23VRMi?=
- =?us-ascii?Q?OXrGMTX/58KcBjW7n0EV4j4/p4zK/B9wAFwm+5ABX7YyRg+WcQWl1emsjUOZ?=
- =?us-ascii?Q?R41rjvFjxqxsFDy+xrooroEZX0xsmkrOi4oXsEqcEbLbIxJRxGul06+aiAnQ?=
- =?us-ascii?Q?agB+1wV3EqiVmPzVIMl1gmNaz4SWzJWp/0RdJIl1f0dCeIDvAImiSHWVgZqC?=
- =?us-ascii?Q?9l1bny1XBLK+P+g5x7sJqvHQieOznNJhK6m0e3wDN9pZKAZm4KRnGI7DLa4b?=
- =?us-ascii?Q?bbWAzS6EH34FT5GKk9H31y8lpIjjUrsgVMehtLzeEsf9AoYV4PFJQS7NSf89?=
- =?us-ascii?Q?iXJQEgViBr1LvsU7FSyQ3MnwPhPede7skD/zoVzrvWl08sbJLGZHWv/E1/Rb?=
- =?us-ascii?Q?TQvYV+uiHEQlMpNdy6Nka+mdh3z34KhL9ocUXBwJYmENsh2y2vFOAsph5tIg?=
- =?us-ascii?Q?RjHE5czR8OriKTaxWVGd8P76IE68tzfpQYT9m4RcDex/Q64t2zA6psvPGaMQ?=
- =?us-ascii?Q?cxMv6U70UexgWXX9w2yGTMsTpWGkbVkJTGqHUgCwf5js4Wp2IxRaprvyzWaV?=
- =?us-ascii?Q?X8EAgLCtxSAj20mKZG1/e1NDmNrjt8wo4Ro7EWI283EnmN58Q3fFArQtU2uY?=
- =?us-ascii?Q?m2gi6MQX?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7D8FFD1CD447F74EBADADFC6707A93CE@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1732305AbhAZFlV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:41:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39732 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728292AbhAYMr1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Jan 2021 07:47:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8EB622D04;
+        Mon, 25 Jan 2021 12:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611578806;
+        bh=kXFZkQ9+v70aH3YVPuA5/lu+eenOiEeGF4vdN+dLFXQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DXTCMseCI/Zpe+8B3NRpfNUmZER45GKnjtDKktN9SOa5UxRqf7GzeMm26nh7vHuzB
+         a1vxPTVpUEG3IS8mGE/i695PZBWod8q4jJKIcWH5d5wgIPBxbpGTJV/c8Gxh8k9oJR
+         lZGpFG2I1enjOqDI7LYKBuArgdxcJcuN/jhMLEN0qt6b3GVquUJEDWlwQhWxNwIvis
+         bubRTpFAdqO4LuM8OB2fmrZHyuOs4XhU4zCVbDYasw46qtiSq+2SEg3bMvH/5iCX8R
+         ReLQ+Li7judC1UxCNTvdGb97OGiO+bLO1RK4szwMpzgfJULqIM5mYRMY+wUy4YNLgG
+         EoeAvpQdDw+JA==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Kees Cook <keescook@chromium.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Vitor Massaru Iha <vitor@massaru.org>,
+        linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kunit-dev@googlegroups.com,
+        Andreas Noever <andreas.noever@gmail.com>,
+        linux-usb@vger.kernel.org
+Subject: [RFC 3/3] thunderbolt: build kunit tests without structleak plugin
+Date:   Mon, 25 Jan 2021 13:45:28 +0100
+Message-Id: <20210125124533.101339-4-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210125124533.101339-1-arnd@kernel.org>
+References: <20210125124533.101339-1-arnd@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: silabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5008.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cd3c933-db2b-4357-f72e-08d8c1135b2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2021 09:26:54.6500
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 54dbd822-5231-4b20-944d-6f4abcd541fb
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +exnoehvqEw+2tXFNIu1J/cSmtPeoETarE4KjzG/JqNo8djKdPRFXNk5dnCdEZEReXV39kDRQuckx1PyQ5pyUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3910
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Information pid/vid of WSDA-200-USB, Lord corporation company:
-vid: 199b
-pid: ba30
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Pho Tran <pho.tran@silabs.com>
+The structleak plugin causes the stack frame size to grow immensely:
+
+drivers/thunderbolt/test.c:1529:1: error: the frame size of 1176 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+
+Turn it off in this file.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/usb/serial/cp210x.c | 1 +
+ drivers/thunderbolt/Makefile | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index fbb10dfc56e3..669f52107f94 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -201,6 +201,7 @@ static const struct usb_device_id id_table[] =3D {
- 	{ USB_DEVICE(0x1901, 0x0194) },	/* GE Healthcare Remote Alarm Box */
- 	{ USB_DEVICE(0x1901, 0x0195) },	/* GE B850/B650/B450 CP2104 DP UART inter=
-face */
- 	{ USB_DEVICE(0x1901, 0x0196) },	/* GE B850 CP2105 DP UART interface */
-+	{ USB_DEVICE(0x199B, 0xBA30) }, /* LORD Corporation */
- 	{ USB_DEVICE(0x19CF, 0x3000) }, /* Parrot NMEA GPS Flight Recorder */
- 	{ USB_DEVICE(0x1ADB, 0x0001) }, /* Schweitzer Engineering C662 Cable */
- 	{ USB_DEVICE(0x1B1C, 0x1C00) }, /* Corsair USB Dongle */
---=20
-2.17.1=
+diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+index 7aa48f6c41d9..e571c0495a84 100644
+--- a/drivers/thunderbolt/Makefile
++++ b/drivers/thunderbolt/Makefile
+@@ -7,6 +7,7 @@ thunderbolt-objs += nvm.o retimer.o quirks.o
+ thunderbolt-${CONFIG_ACPI} += acpi.o
+ thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+ thunderbolt-${CONFIG_USB4_KUNIT_TEST} += test.o
++CFLAGS_REMOVE_test.o += -fplugin-arg-structleak_plugin-byref -fplugin-arg-structleak_plugin-byref-all
+ 
+ thunderbolt_dma_test-${CONFIG_USB4_DMA_TEST} += dma_test.o
+ obj-$(CONFIG_USB4_DMA_TEST) += thunderbolt_dma_test.o
+-- 
+2.29.2
+
