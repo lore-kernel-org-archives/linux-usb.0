@@ -2,183 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A346C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 01:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8853C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 02:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56AA02310A
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 01:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 886CD22E03
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 02:40:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbhAZB2m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Jan 2021 20:28:42 -0500
-Received: from mga12.intel.com ([192.55.52.136]:14024 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731163AbhAZB0e (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Jan 2021 20:26:34 -0500
-IronPort-SDR: bUENstMRXUoo0jRLvwOkuuIK3bJgHT7hROuMP+4PqbVDlHvNOHEWBSLaelrPnOBDkdoQvP4y2P
- EpAaRpidY+PQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9875"; a="159004710"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="159004710"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 16:38:55 -0800
-IronPort-SDR: uWMYbV5nACIeJj1SCsWpnWq12M0369wGpWz2R0x70CUaDuLSSQFz3oVqVyXFvMFGi+kZae7iHV
- Oj8KzMOjNXsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="393570747"
-Received: from lkp-server02.sh.intel.com (HELO 625d3a354f04) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 25 Jan 2021 16:38:54 -0800
-Received: from kbuild by 625d3a354f04 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1l4CNh-0000Sj-QH; Tue, 26 Jan 2021 00:38:53 +0000
-Date:   Tue, 26 Jan 2021 08:38:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- 1d6a81519d9d27b99bca638d14eca63c31111afd
-Message-ID: <600f647f.2RqKBclKnQ98WMAL%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1730648AbhAYQVi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Jan 2021 11:21:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40874 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730170AbhAYQVd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 11:21:33 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1AC5C06178B
+        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 08:19:40 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id p15so6685471wrq.8
+        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 08:19:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=boundarydevices.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q9skQfAW6mvkX2OZYvMTD2P/DTOJaRYGHpGb9rH9Irk=;
+        b=ic75epSwm04koj2KNME8R6MTYgZxodqaksoi2qh/9aBdGXWBRoIxrCUlt50bi6FWtl
+         nwjVftA1JWERZAIq+yvnAd/D78aS05J0YnRHw3JLTtMjlNocvTHYEQVaPEs/Qfbonow+
+         0eSX4qriD4u8Oq0ZBMPDyJ6HSepS+ztJxdZ48=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q9skQfAW6mvkX2OZYvMTD2P/DTOJaRYGHpGb9rH9Irk=;
+        b=D77zdVkIaOGrwffRIds1tc1dWUUP4MR0jikxeHpmQNTxFAbPFmVQF0lYZW3NJAkqOc
+         Wkq2LPPIdQPHb04lcSowb12TGqxPyZcJi0PBW0RinbjXxLCzj7aWJqlqsB0ioThayBQF
+         Hm2Y0fKOB3g7K+6EYUASEMv0DpZykc48eEmV4MC02hHmtPb0BWOKBhPXd2G/B5u+1XBw
+         93kQm186yo/xc5gLbp4HE75rDK43Y9bjchORqGn3gsNvLpp+4BonhuDY9Ma4MCXLpFix
+         GBAIwONgfeoxKgHh4bOHrpkK4AVje5jGH1UgBlQmO5B986qnyvSfe31fSrW2ADlLbe8o
+         1wDg==
+X-Gm-Message-State: AOAM531vGVhSCGaiMjpP/JriCiabc3bXeuqqaff6QVg/eVDC5hRpbPsb
+        o8EU18MWq25qlUVdU3Rwxkjo0jAjwL2vqV9Q
+X-Google-Smtp-Source: ABdhPJzCEIhG+xkhbAQCDa90/NEtdNjVAYlKIwknDRb0e9tAYEAJekD2nIC5tTDk5r2/aUOeCvR3RQ==
+X-Received: by 2002:adf:9261:: with SMTP id 88mr1782812wrj.227.1611591578048;
+        Mon, 25 Jan 2021 08:19:38 -0800 (PST)
+Received: from p1g2.home (2a01cb000f9f0e008f0bd0d6ec94dd0e.ipv6.abo.wanadoo.fr. [2a01:cb00:f9f:e00:8f0b:d0d6:ec94:dd0e])
+        by smtp.gmail.com with ESMTPSA id a130sm21299198wmf.4.2021.01.25.08.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 08:19:37 -0800 (PST)
+From:   Gary Bisson <gary.bisson@boundarydevices.com>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org,
+        Gary Bisson <gary.bisson@boundarydevices.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] usb: dwc3: fix clock issue during resume in OTG mode
+Date:   Mon, 25 Jan 2021 17:19:34 +0100
+Message-Id: <20210125161934.527820-1-gary.bisson@boundarydevices.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-branch HEAD: 1d6a81519d9d27b99bca638d14eca63c31111afd  Merge v5.11-rc5 into usb-next
+Commit fe8abf332b8f ("usb: dwc3: support clocks and resets for DWC3
+core") introduced clock support and a new function named
+dwc3_core_init_for_resume() which enables the clock before calling
+dwc3_core_init() during resume as clocks get disabled during suspend.
 
-elapsed time: 735m
+Unfortunately in this commit the DWC3_GCTL_PRTCAP_OTG case was forgotten
+and therefore during resume, a platform could call dwc3_core_init()
+without re-enabling the clocks first, preventing to resume properly.
 
-configs tested: 113
-configs skipped: 2
+So update the resume path to call dwc3_core_init_for_resume() as it
+should.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Fixes: fe8abf332b8f ("usb: dwc3: support clocks and resets for DWC3
+core")
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                         rt305x_defconfig
-arm                       mainstone_defconfig
-sh                           se7712_defconfig
-arm                        keystone_defconfig
-powerpc                     ksi8560_defconfig
-sh                          rsk7201_defconfig
-sh                           se7722_defconfig
-powerpc               mpc834x_itxgp_defconfig
-sh                   sh7770_generic_defconfig
-arm                          badge4_defconfig
-sh                        sh7757lcr_defconfig
-c6x                                 defconfig
-mips                         tb0287_defconfig
-arm                         palmz72_defconfig
-arm                         assabet_defconfig
-powerpc                       eiger_defconfig
-sh                           sh2007_defconfig
-powerpc                     stx_gp3_defconfig
-powerpc                   motionpro_defconfig
-i386                             alldefconfig
-mips                  maltasmvp_eva_defconfig
-mips                          ath25_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                            mmp2_defconfig
-ia64                      gensparse_defconfig
-arm                              alldefconfig
-mips                   sb1250_swarm_defconfig
-arm                     eseries_pxa_defconfig
-m68k                          atari_defconfig
-sh                         ecovec24_defconfig
-arm                          collie_defconfig
-arc                            hsdk_defconfig
-powerpc                     mpc83xx_defconfig
-arm                          imote2_defconfig
-m68k                            q40_defconfig
-mips                malta_qemu_32r6_defconfig
-c6x                              allyesconfig
-arm                        multi_v7_defconfig
-m68k                                defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a003-20210125
-x86_64               randconfig-a002-20210125
-x86_64               randconfig-a001-20210125
-x86_64               randconfig-a005-20210125
-x86_64               randconfig-a006-20210125
-x86_64               randconfig-a004-20210125
-i386                 randconfig-a001-20210125
-i386                 randconfig-a002-20210125
-i386                 randconfig-a004-20210125
-i386                 randconfig-a006-20210125
-i386                 randconfig-a005-20210125
-i386                 randconfig-a003-20210125
-i386                 randconfig-a013-20210125
-i386                 randconfig-a011-20210125
-i386                 randconfig-a012-20210125
-i386                 randconfig-a015-20210125
-i386                 randconfig-a014-20210125
-i386                 randconfig-a016-20210125
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a012-20210125
-x86_64               randconfig-a016-20210125
-x86_64               randconfig-a015-20210125
-x86_64               randconfig-a011-20210125
-x86_64               randconfig-a013-20210125
-x86_64               randconfig-a014-20210125
-
+Cc: stable@vger.kernel.org
+Signed-off-by: Gary Bisson <gary.bisson@boundarydevices.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/usb/dwc3/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 841daec70b6e..3101f0dcf6ae 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1758,7 +1758,7 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
+ 		if (PMSG_IS_AUTO(msg))
+ 			break;
+ 
+-		ret = dwc3_core_init(dwc);
++		ret = dwc3_core_init_for_resume(dwc);
+ 		if (ret)
+ 			return ret;
+ 
+-- 
+2.29.2
+
