@@ -2,113 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E981C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:29:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7816C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:31:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 782AB21919
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:29:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D4B223109
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:31:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388428AbhAZFo2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:44:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52488 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731431AbhAZB42 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 20:56:28 -0500
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B35C0617AB
-        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 17:55:46 -0800 (PST)
-Received: by mail-ot1-x334.google.com with SMTP id d7so7098232otf.3
-        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 17:55:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9KzooEzNJudfs8vdN5QNNjT5ojSccFf8tRCUDI4AzCU=;
-        b=DrrZxszCva3FTmhjfGLJzJrc3wB1j9Eo1KC1LtQ1FsXEAot/Ybv1blTIhPyYfOyNgm
-         T+EnnqpzXEgGxvkc5i5z3xWPJFSweRtK1ezOLRhZqB9KkPfVkAJgZe+QbwttIrq6o+KV
-         P037KGFPglzPjXgxTXJS39oLXUzxdz5TXf6EzvuL3hKV7vjf1eejNoUmuw3U2b6RzyQZ
-         L6Q3IVVx+LIhLxC56CMMwW7q/y3HgIeMJ1R3w4HPKVYpiGvapKZzdhqMPfXaWX6WiDuO
-         WGSGo6/tKzYFvFHEgNt/XsbxjzZZ32UPz4bALilazsw8kaZcw0CPfmpBk9M+MS0mnh39
-         dFuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9KzooEzNJudfs8vdN5QNNjT5ojSccFf8tRCUDI4AzCU=;
-        b=fHUKjLTPAM+u1epXynptvlnHElvy+yZzyvPmh13uk8q5OE+ie2VHcpbSxio/TS6tvx
-         CG+pR2KMdR+en3ftGddT9MoK/0TLLsHd+qcwIfyBmYZJH5J1WC0iNu8uBcWncbS073fT
-         q9Iui6w2QDnqD88xzjJUlG7Gfc1W7S4Qk4C6vqj91LSGpyIrtn3ir1vt6VNUDNjsQnkf
-         P1igj3skzasK5GgoVRPwR3xYUjvEma6AMBXpZeXiIiYG0f2QtCv63ObtpIP1A3Grwftw
-         mUKYro1cCgUBflhhtFZPVfNo/ZzFxd5ABBR6PeIBlbwi/QsOxQnSmzYFduj1DUIDXpvn
-         hSJw==
-X-Gm-Message-State: AOAM531xGPxo0u3icH9YNv8MWXXO4Yc3F/nfKIl8Y9R+8Bc/eT3KDBHy
-        r6mkGyzTp/zdY1wO7dxw9tE1IA==
-X-Google-Smtp-Source: ABdhPJy0I4DahIrO5X9v/d1v+VookruyQO2N2rKgJW3rTf5Kc3BH3ob0xCJT8rOz43pd7Lzf+gYM+A==
-X-Received: by 2002:a9d:4e89:: with SMTP id v9mr2322939otk.171.1611626146046;
-        Mon, 25 Jan 2021 17:55:46 -0800 (PST)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id d10sm3570160ooh.32.2021.01.25.17.55.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 17:55:45 -0800 (PST)
-Date:   Mon, 25 Jan 2021 19:55:43 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Wesley Cheng <wcheng@codeaurora.org>
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        agross@kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, peter.chen@nxp.com,
-        jackp@codeaurora.org
-Subject: Re: [PATCH v6 3/4] usb: dwc3: Resize TX FIFOs to meet EP bursting
- requirements
-Message-ID: <20210126015543.GB1241218@yoga>
-References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
- <1611288100-31118-4-git-send-email-wcheng@codeaurora.org>
- <YAsHbj/mITeiY5Cq@builder.lan>
- <724cb274-36ce-fb48-a156-4eaf9e686fdf@codeaurora.org>
+        id S2388354AbhAZFmk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:42:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49194 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729100AbhAYNvC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Jan 2021 08:51:02 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 016D322C9C;
+        Mon, 25 Jan 2021 13:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611582505;
+        bh=AcaNsyqWS7E9fmbvohuWKvcflFmetUfBx4IeXZnGD3Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UZqlux7RLukfTj2YfBCZwuMTMbkWSEkLdm7vINoDLSM+CNHicYYw7o28YSyXaMvmj
+         Ac5ZCQlFjGsoPB6gD3P5CgFUHh2p+wfe2poSThrdW6DWm5SCk8ZjSzphmPbBBjyeS1
+         9RyL0wd8BmVANDKR3UYE0dc34vWOdqMkEe9O9vtpb+kObXem83NGcLr7eFsAqcQ3l7
+         TjQRM1cJDiu0+H3K3AEr1scca2ztrBIvwth2f4coeruuhN1Gctm2dNVPZz0BaFZWOn
+         +/PQmVmODCdZAT2w33F+a7dwT0sJHsPPXJnwJK5lvDR7HR/3cSEJ713CDpYIELhiXP
+         sDycd++19dPKQ==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1l42EL-00034X-RZ; Mon, 25 Jan 2021 14:48:33 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Pho Tran <Pho.Tran@silabs.com>, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 4/7] USB: serial: cp210x: clean up flow-control debug message
+Date:   Mon, 25 Jan 2021 14:48:14 +0100
+Message-Id: <20210125134817.11749-5-johan@kernel.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210125134817.11749-1-johan@kernel.org>
+References: <20210125134817.11749-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <724cb274-36ce-fb48-a156-4eaf9e686fdf@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon 25 Jan 19:14 CST 2021, Wesley Cheng wrote:
+Shorten the flow-control debug message by abbreviating the field names
+and reducing the value width to two characters. The latter improves
+readability since all but the least significant byte will almost always
+be zero anyway.
 
-> 
-> 
-> On 1/22/2021 9:12 AM, Bjorn Andersson wrote:
-> > On Thu 21 Jan 22:01 CST 2021, Wesley Cheng wrote:
-> > 
-> 
-> Hi Bjorn,
-> > 
-> > Under what circumstances should we specify this? And in particular are
-> > there scenarios (in the Qualcomm platforms) where this must not be set?
-> >The TXFIFO dynamic allocation is actually a feature within the DWC3
-> controller, and isn't specifically for QCOM based platforms.  It won't
-> do any harm functionally if this flag is not set, as this is meant for
-> enhancing performance/bandwidth.
-> 
-> > In particular, the composition can be changed in runtime, so should we
-> > set this for all Qualcomm platforms?
-> > 
-> Ideally yes, if we want to increase bandwith for situations where SS
-> endpoint bursting is set to a higher value.
-> 
-> > And if that's the case, can we not just set it from the qcom driver?
-> > 
-> Since this is a common DWC3 core feature, I think it would make more
-> sense to have it in DWC3 core instead of a vendor's DWC3 glue driver.
-> 
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I don't have any objections to implementing it in the core driver, but
-my question is can we just skip the DT binding and just enable it from
-the vendor driver?
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index aa874641374a..36ae44818c13 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1191,8 +1191,8 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 	flow_ctl.ulXonLimit = cpu_to_le32(128);
+ 	flow_ctl.ulXoffLimit = cpu_to_le32(128);
+ 
+-	dev_dbg(&port->dev, "%s - ulControlHandshake=0x%08x, ulFlowReplace=0x%08x\n",
+-			__func__, ctl_hs, flow_repl);
++	dev_dbg(&port->dev, "%s - ctrl = 0x%02x, flow = 0x%02x\n", __func__,
++			ctl_hs, flow_repl);
+ 
+ 	flow_ctl.ulControlHandshake = cpu_to_le32(ctl_hs);
+ 	flow_ctl.ulFlowReplace = cpu_to_le32(flow_repl);
+-- 
+2.26.2
 
-Regards,
-Bjorn
