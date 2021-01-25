@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC4C2C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23734C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 930A92223D
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C76D4229C4
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388289AbhAZFmA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:42:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48904 "EHLO mail.kernel.org"
+        id S2388322AbhAZFmX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:42:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48912 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729033AbhAYNtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729058AbhAYNtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 25 Jan 2021 08:49:06 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D050F22240;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E3CA4229C6;
         Mon, 25 Jan 2021 13:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1611582505;
-        bh=+S7YYu4UwJ/+d67bdn3tDZJmcJ+L2q4qiPherOrHwI4=;
+        bh=gNPpisxTbUwwqpcarWd4vsslU7KVrvVl4+pWDDJcseg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BS6Nk75EKakwUxbwZHRj2tjH7BrY8cwmGZA15o60M4Pz6our4NOjF05ytcHnkjA5N
-         isQ0iSlStROkYrYefAwKpFsPb2+z73zmMzEVHAXRy7pckJWrEF+HUZD3WGcXt6iIPj
-         U6wBfQgMKIEG9NsfB5SzA7HcOWLCW1GB3mbG0wKOC7a68AG2NTdVsmytTKLIM5ZBCb
-         avzVbBU+hAFc6En8Vqm3f2yjTrrJWPEjud+zruWEqOVJGvjlrmxnKCIQzNUKfDcHdV
-         lYEdDczvKMiRBikwHYxW3CMrVs05UDBSoBPlYCflaV6uB4EnLssjt/QmeFTF0C+n+a
-         hMUpwTwvLaUJg==
+        b=IndhCtYi8f3X5eK6kcHYvEUAGjqsZUgmCs34ycFHu6jgYnr6JPbFS6bsXq3+OdQls
+         cgxp2dc0nU5AJWrWb8+mZ6I8z8HwEAyQB7Qw9q6O1vdQLSs+KD/Qd8gJz4PSyiJpwW
+         GxSlsbf6YyNMLCgWmFRNf9Ch48hsNdCapeT3QqSeyXIycoJjvv34QfXQ5YSTDnLdrR
+         3AK/PYsOp529th7m/JpwCBO0Oq7gTfxWpqWOk2UulEz36ZAs9Yi3kMS55NzGKA/r8N
+         wMSxw2rpyaD3jkivzL2a4P1GE5gkBypg74SWFragOP7dY3/m8E0YeifP3BE8YbR5Ke
+         R2aYKH0QTIhfg==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1l42EL-00034Q-LT; Mon, 25 Jan 2021 14:48:33 +0100
+        id 1l42EM-00034g-4P; Mon, 25 Jan 2021 14:48:34 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Pho Tran <Pho.Tran@silabs.com>, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/7] USB: serial: cp210x: fix modem-control handling
-Date:   Mon, 25 Jan 2021 14:48:12 +0100
-Message-Id: <20210125134817.11749-3-johan@kernel.org>
+Subject: [PATCH 7/7] USB: serial: cp210x: clean up auto-RTS handling
+Date:   Mon, 25 Jan 2021 14:48:17 +0100
+Message-Id: <20210125134817.11749-8-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210125134817.11749-1-johan@kernel.org>
 References: <20210125134817.11749-1-johan@kernel.org>
@@ -50,90 +50,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The vendor request used to set the flow-control settings also sets the
-state of the modem-control lines.
-
-Add state variables to keep track of the modem-control lines to avoid
-always asserting the lines whenever the flow-control settings are
-updated.
-
-This specifically also avoids asserting DTR/RTS when opening a port with
-the line speed set to B0.
+Clear the RTS bits of the flow-control request before determining the
+new value when updating the settings.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/cp210x.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ drivers/usb/serial/cp210x.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 7e4a09b42c99..9378b4bba34b 100644
+index f00b736f3cd3..cc4f63a06f9e 100644
 --- a/drivers/usb/serial/cp210x.c
 +++ b/drivers/usb/serial/cp210x.c
-@@ -269,6 +269,8 @@ struct cp210x_port_private {
+@@ -1163,9 +1163,9 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 	else
+ 		ctl_hs |= CP210X_SERIAL_DTR_INACTIVE;
  
- 	struct mutex		mutex;
- 	bool			crtscts;
-+	bool			dtr;
-+	bool			rts;
- };
- 
- static struct usb_serial_driver cp210x_device = {
-@@ -1162,7 +1164,10 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 	ctl_hs &= ~CP210X_SERIAL_DCD_HANDSHAKE;
- 	ctl_hs &= ~CP210X_SERIAL_DSR_SENSITIVITY;
- 	ctl_hs &= ~CP210X_SERIAL_DTR_MASK;
--	ctl_hs |= CP210X_SERIAL_DTR_SHIFT(CP210X_SERIAL_DTR_ACTIVE);
-+	if (port_priv->dtr)
-+		ctl_hs |= CP210X_SERIAL_DTR_SHIFT(CP210X_SERIAL_DTR_ACTIVE);
-+	else
-+		ctl_hs |= CP210X_SERIAL_DTR_SHIFT(CP210X_SERIAL_DTR_INACTIVE);
- 
++	flow_repl &= ~CP210X_SERIAL_RTS_MASK;
  	if (C_CRTSCTS(tty)) {
  		ctl_hs |= CP210X_SERIAL_CTS_HANDSHAKE;
-@@ -1172,7 +1177,10 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+-		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
+ 		if (port_priv->rts)
+ 			flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
+ 		else
+@@ -1173,7 +1173,6 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		port_priv->crtscts = true;
  	} else {
  		ctl_hs &= ~CP210X_SERIAL_CTS_HANDSHAKE;
- 		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
--		flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_ACTIVE);
-+		if (port_priv->rts)
-+			flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_ACTIVE);
-+		else
-+			flow_repl |= CP210X_SERIAL_RTS_SHIFT(CP210X_SERIAL_RTS_INACTIVE);
- 		port_priv->crtscts = false;
- 	}
- 
-@@ -1287,25 +1295,29 @@ static int cp210x_tiocmset_port(struct usb_serial_port *port,
- 	u16 control = 0;
- 	int ret;
- 
-+	mutex_lock(&port_priv->mutex);
-+
- 	if (set & TIOCM_RTS) {
-+		port_priv->rts = true;
- 		control |= CONTROL_RTS;
- 		control |= CONTROL_WRITE_RTS;
- 	}
- 	if (set & TIOCM_DTR) {
-+		port_priv->dtr = true;
- 		control |= CONTROL_DTR;
- 		control |= CONTROL_WRITE_DTR;
- 	}
- 	if (clear & TIOCM_RTS) {
-+		port_priv->rts = false;
- 		control &= ~CONTROL_RTS;
- 		control |= CONTROL_WRITE_RTS;
- 	}
- 	if (clear & TIOCM_DTR) {
-+		port_priv->dtr = false;
- 		control &= ~CONTROL_DTR;
- 		control |= CONTROL_WRITE_DTR;
- 	}
- 
--	mutex_lock(&port_priv->mutex);
--
- 	/*
- 	 * SET_MHS cannot be used to control RTS when auto-RTS is enabled.
- 	 * Note that RTS is still deasserted when disabling the UART on close.
+-		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
+ 		if (port_priv->rts)
+ 			flow_repl |= CP210X_SERIAL_RTS_ACTIVE;
+ 		else
 -- 
 2.26.2
 
