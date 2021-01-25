@@ -2,110 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D018C433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 06:41:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E19C433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 09:37:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F04D9224DE
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 06:41:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B31A422CF6
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 09:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727128AbhAYGZL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Jan 2021 01:25:11 -0500
-Received: from mailgw02.mediatek.com ([1.203.163.81]:6021 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726610AbhAYGWh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 01:22:37 -0500
-X-UUID: a73e573b52af4bd3b8620a5507ebbc62-20210125
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=RkBjNee7qodbBjXWytdsq3tw/Ruzw7CJns/vlQiqKFU=;
-        b=dGpOYdpYECfL8LZ64VOtCBZ+JPffM3Yau77hC7XAdz0QSDcg8G0M42c8dfj4z9ORACCfKdFQPvZmZXJULKeCzcQD2Vk3WYzUGhZBivSeL6oR6Rri6KRNf//gdVQKLXhwFWMLLKYfr4uQCQsrsujB7sCJFqLB1GLq9gdvBPzcJu8=;
-X-UUID: a73e573b52af4bd3b8620a5507ebbc62-20210125
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 266813712; Mon, 25 Jan 2021 14:21:51 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 25 Jan
- 2021 14:21:49 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 25 Jan 2021 14:21:48 +0800
-Message-ID: <1611555708.3905.5.camel@mhfsdcap03>
-Subject: Re: [PATCH next v2 03/17] dt-bindings: phy: mediatek: dsi-phy:
- modify compatible dependence
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>
-CC:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Min Guo <min.guo@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Date:   Mon, 25 Jan 2021 14:21:48 +0800
-In-Reply-To: <CAAOTY_8X35EpvLiSOuNdj4dVu7KBocw9mhaKG4TJy24LizvHNg@mail.gmail.com>
-References: <20210122120323.4337-1-chunfeng.yun@mediatek.com>
-         <20210122120323.4337-3-chunfeng.yun@mediatek.com>
-         <CAAOTY__O=z-AOo1RCRGfJYuSsXs1cUZgWFaTQz_3W_Tj=CeFBQ@mail.gmail.com>
-         <CAAOTY_8X35EpvLiSOuNdj4dVu7KBocw9mhaKG4TJy24LizvHNg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S1726896AbhAYJhP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Jan 2021 04:37:15 -0500
+Received: from mga07.intel.com ([134.134.136.100]:24038 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726877AbhAYJgO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Jan 2021 04:36:14 -0500
+IronPort-SDR: Dn95e+Aoqt+2rOkCCMsRPXYcm5NRPagHtgpvX+E8hpNJd+e6viPw9snJSJ/TYEFISlOmsXRSnm
+ IvnDaqKnBdBg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="243773061"
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
+   d="scan'208";a="243773061"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 01:33:07 -0800
+IronPort-SDR: RxOm6rrh1dDY3i+iQcTZxCM31BRr2g7l8RmphZurkcw7VIoiXSQHW/iHKoaOZoY1JJga1/IB+z
+ rWb5F7YleaNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
+   d="scan'208";a="471993329"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 25 Jan 2021 01:33:03 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 25 Jan 2021 11:33:02 +0200
+Date:   Mon, 25 Jan 2021 11:33:02 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     angkery <angkery@163.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Junlin Yang <yangjunlin@yulong.com>
+Subject: Re: [PATCH v3 1/2] usb: typec: tcpci_maxim: remove redundant
+ assignment
+Message-ID: <20210125093302.GB1720720@kuha.fi.intel.com>
+References: <20210124143853.1630-1-angkery@163.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 33DF050E4937CAA986E03A517E71BC2F5B0404FC0D6422DC1121661C8FF5150C2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210124143853.1630-1-angkery@163.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gU3VuLCAyMDIxLTAxLTI0IGF0IDEyOjU2ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
-PiBIaSwgQ2h1bmZlbmc6DQo+IA0KPiBDaHVuLUt1YW5nIEh1IDxjaHVua3VhbmcuaHVAa2VybmVs
-Lm9yZz4g5pa8IDIwMjHlubQx5pyIMjTml6Ug6YCx5pelIOS4i+WNiDEyOjQ35a+r6YGT77yaDQo+
-ID4NCj4gPiBIaSwgQ2h1bmZlbmc6DQo+ID4NCj4gPiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1
-bkBtZWRpYXRlay5jb20+IOaWvCAyMDIx5bm0MeaciDIy5pelIOmAseS6lCDkuIvljYg4OjA05a+r
-6YGT77yaDQo+ID4gPg0KPiA+ID4gVGhlIGNvbXBhdGlsYmUgIm1lZGlhdGVrLG10NzYyMy1taXBp
-LXR4IiBpcyBub3Qgc3VwcG9ydGVkIGluIGRyaXZlciwNCj4gPiA+IGFuZCBpbiBmYWN0IHVzZXMg
-Im1lZGlhdGVrLG10MjcwMS1taXBpLXR4IiBpbnN0ZWFkIG9uIE1UNzYyMywgc28gY2hhbmdlcw0K
-PiA+ID4gdGhlIGNvbXBhdGlibGUgaXRlbXMgdG8gbWFrZSBkZXBlbmRlbmNlIGNsZWFyLg0KPiA+
-DQo+ID4gUmV2aWV3ZWQtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3Jn
-Pg0KPiANCj4gU29ycnksIHBsZWFzZSByZW1vdmUgbXkgcmV2aWV3ZWQtYnkgdGFnLiBXZSBzaG91
-bGQgbm90IGRlZmluZSB0aGUNCj4gYmluZGluZyBkb2N1bWVudCBhY2NvcmRpbmcgdG8gdGhlIGlt
-cGxlbWVudGF0aW9uIG9mIGRyaXZlci4gV2UgZGVmaW5lDQo+IHRoZSBiaW5kaW5nIGRvY3VtZW50
-IGFjY29yZGluZyB0byB0aGUgaGFyZHdhcmUuIFNvIHRoZSBkZXNjcmlwdGlvbg0KPiBzaG91bGQg
-YmUgbGlrZSAibXQ3NjIzLW1pcGktdHggaXMgY29tcGF0aWJsZSB0byBtdDI3MDEtbWlwaS10eCIu
-DQpPaywgd2lsbCBtYWtlIHRoZSBkZXNjcmlwdGlvbiBjbGVhcmVyDQoNCj4gDQo+IFJlZ2FyZHMs
-DQo+IENodW4tS3VhbmcuDQo+IA0KPiA+DQo+ID4gPg0KPiA+ID4gQ2M6IENodW4tS3VhbmcgSHUg
-PGNodW5rdWFuZy5odUBrZXJuZWwub3JnPg0KPiA+ID4gQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFi
-ZWxAcGVuZ3V0cm9uaXguZGU+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNo
-dW5mZW5nLnl1bkBtZWRpYXRlay5jb20+DQo+ID4gPiAtLS0NCj4gPiA+IHYyOiBzZXBhcmF0ZSB0
-d28gcGF0Y2hlcyBzdWdnZXN0ZWQgYnkgQ0sNCj4gPiA+IC0tLQ0KPiA+ID4gIC4uLi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL3BoeS9tZWRpYXRlayxkc2ktcGh5LnlhbWwgICB8IDEzICsrKysrKysrLS0t
-LS0NCj4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygt
-KQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvcGh5L21lZGlhdGVrLGRzaS1waHkueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9waHkvbWVkaWF0ZWssZHNpLXBoeS55YW1sDQo+ID4gPiBpbmRleCA3MWQ0YWNl
-YTFmNjYuLjZlNGQ3OTVmOWIwMiAxMDA2NDQNCj4gPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9waHkvbWVkaWF0ZWssZHNpLXBoeS55YW1sDQo+ID4gPiArKysgYi9E
-b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGh5L21lZGlhdGVrLGRzaS1waHkueWFt
-bA0KPiA+ID4gQEAgLTE5LDExICsxOSwxNCBAQCBwcm9wZXJ0aWVzOg0KPiA+ID4gICAgICBwYXR0
-ZXJuOiAiXmRzaS1waHlAWzAtOWEtZl0rJCINCj4gPiA+DQo+ID4gPiAgICBjb21wYXRpYmxlOg0K
-PiA+ID4gLSAgICBlbnVtOg0KPiA+ID4gLSAgICAgIC0gbWVkaWF0ZWssbXQyNzAxLW1pcGktdHgN
-Cj4gPiA+IC0gICAgICAtIG1lZGlhdGVrLG10NzYyMy1taXBpLXR4DQo+ID4gPiAtICAgICAgLSBt
-ZWRpYXRlayxtdDgxNzMtbWlwaS10eA0KPiA+ID4gLSAgICAgIC0gbWVkaWF0ZWssbXQ4MTgzLW1p
-cGktdHgNCj4gPiA+ICsgICAgb25lT2Y6DQo+ID4gPiArICAgICAgLSBpdGVtczoNCj4gPiA+ICsg
-ICAgICAgICAgLSBlbnVtOg0KPiA+ID4gKyAgICAgICAgICAgICAgLSBtZWRpYXRlayxtdDc2MjMt
-bWlwaS10eA0KPiA+ID4gKyAgICAgICAgICAtIGNvbnN0OiBtZWRpYXRlayxtdDI3MDEtbWlwaS10
-eA0KPiA+ID4gKyAgICAgIC0gY29uc3Q6IG1lZGlhdGVrLG10MjcwMS1taXBpLXR4DQo+ID4gPiAr
-ICAgICAgLSBjb25zdDogbWVkaWF0ZWssbXQ4MTczLW1pcGktdHgNCj4gPiA+ICsgICAgICAtIGNv
-bnN0OiBtZWRpYXRlayxtdDgxODMtbWlwaS10eA0KPiA+ID4NCj4gPiA+ICAgIHJlZzoNCj4gPiA+
-ICAgICAgbWF4SXRlbXM6IDENCj4gPiA+IC0tDQo+ID4gPiAyLjE4LjANCg0K
+On Sun, Jan 24, 2021 at 10:38:53PM +0800, angkery wrote:
+> From: Junlin Yang <yangjunlin@yulong.com>
+> 
+> PTR_ERR(chip->tcpci) has been used as a return value,
+> it is not necessary to assign it to ret, so remove it.
+> 
+> Signed-off-by: Junlin Yang <yangjunlin@yulong.com>
 
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
+> v3:remove the newline modification.
+> 
+>  drivers/usb/typec/tcpm/tcpci_maxim.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> index 3192663..7f54f51a 100644
+> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
+> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> @@ -461,7 +461,6 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+>  	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
+>  	if (IS_ERR(chip->tcpci)) {
+>  		dev_err(&client->dev, "TCPCI port registration failed");
+> -		ret = PTR_ERR(chip->tcpci);
+>  		return PTR_ERR(chip->tcpci);
+>  	}
+>  	chip->port = tcpci_get_tcpm_port(chip->tcpci);
+> -- 
+> 1.9.1
+
+thanks,
+
+-- 
+heikki
