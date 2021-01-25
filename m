@@ -2,84 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBB4C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F05E3C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:43:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30225229C4
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:42:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C858F229C4
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 05:43:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388339AbhAZFmb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:42:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48906 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729004AbhAYNtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:49:06 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1A552229C;
-        Mon, 25 Jan 2021 13:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611582505;
-        bh=aM4WEZ4ICrEfWHuqpLjWreQ0Ds/6EnJrDpgFJXbEqQc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=izVYI39BOonN4h0GibLNCPs2UfWop+zTIvmjeSS1xUyQayPuO+uDSi3CqsYUvz/cX
-         HvFVCjCcG4iyrFgr8+6NCCaIVy+nodqU2KiIAVANwXJaq9d0OLDIOvVY0ylfN3U6wK
-         gI0uBYqqXyOoymZG2by1GJuKiAHL+YJ0Mg9E8ScUWOov7k3nxTNkUDXCkKjS8Djs/y
-         Ijpqpe6qmn3523MiZiLjwuH8LAy5FM6TivRaufw3aMmgF7td8BK74DF1W+75do18Kp
-         43bwNJEFV8D/f64WA6D8NFdlxlJc4NTEOWUg5/eYX8PK2nJ+5G86niR0xlm62nIxrT
-         syWf9QRp1X6Tg==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l42EL-00034Z-Uq; Mon, 25 Jan 2021 14:48:33 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Pho Tran <Pho.Tran@silabs.com>, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/7] USB: serial: cp210x: clean up printk zero padding
-Date:   Mon, 25 Jan 2021 14:48:15 +0100
-Message-Id: <20210125134817.11749-6-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210125134817.11749-1-johan@kernel.org>
-References: <20210125134817.11749-1-johan@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728891AbhAZFn3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:43:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730006AbhAYPgH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 10:36:07 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA59EC061226;
+        Mon, 25 Jan 2021 07:23:20 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id d16so12338230wro.11;
+        Mon, 25 Jan 2021 07:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=/tGkcqmhsn9CH2w55SDFq0iWv5ul//RuUKfZo0AIfJg=;
+        b=HnHOkdT1DhgRrkY8rKkFowRSqjP4WIjbOC7Gr1OxgfxKF0C/1wqRnl1LEzemX8WDKT
+         KjGGdJA9L0zON2nYPsLmRovk0XazESNve4EV9b+Bm/zmi5VhTdVAcPDEE+ruKrMsVny+
+         T/pAYsB3OqgujebXrkhiVCIEuyScUrkpFdOsBH5EVwWpLW4nruf/QO6kbOY9wBc7T0yT
+         en0CPipnxRTh6Eq4dU2YZx2Xtcy4lPy+ZRgD+kjB4Qrrcej/T993RnIk54sm6oMeS42o
+         a+Exro6v2ntvYrq7a2Y7yyMxB+ZmElJMuiQVz1fVTBuaLtAGb7I+Qqn9V7ojQYGrvRQd
+         17Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=/tGkcqmhsn9CH2w55SDFq0iWv5ul//RuUKfZo0AIfJg=;
+        b=mLqZZnNgErTFm/hHK7J0yshc6tEVpf8A2Eckf6dr36hjNi1Xq2g6O02eObZcgYU39W
+         IaRvibN9+odaDfqMd6FlUsjVHJ3wQhVypBiwZEo8FvBnFbGzD4lXrRVV66nVkGkGjtJQ
+         ZbIZ5rl8DL+PNdOhnQNO5cjeTZWan17BzCckXZAyhuLMVY8EnBHktSg3qYdS0ZKSm0M0
+         AiPclL1QGP41xWCqYUSHk2zzDUZDztbToLUpB81kne44tF/ni1T3DYiCLgnsiSbvfFNT
+         WNSl+ypsyiYuXAdMkMYeBC1+SulyOooVBx/m+T8jNmvYRr/vO6RkzX2YqMprpGwbPx/Z
+         2jVQ==
+X-Gm-Message-State: AOAM5329oUGOq2LdvbcQUxTk6xqOw0Hkv7YMATukPVl/Q5W27Q8TnwKY
+        GTONPPBJdtpaJwHXB1ASl+w=
+X-Google-Smtp-Source: ABdhPJyI02B9YvkJbG2iUp+OLQYdbcmGCYVgEgNwtD+Atj06XYHgnMluRL8L0x0CKHacE30e4DAV4Q==
+X-Received: by 2002:adf:e88f:: with SMTP id d15mr1556733wrm.17.1611588199706;
+        Mon, 25 Jan 2021 07:23:19 -0800 (PST)
+Received: from LABNL-ITC-SW01.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
+        by smtp.gmail.com with ESMTPSA id l84sm13071307wmf.17.2021.01.25.07.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 07:23:19 -0800 (PST)
+From:   Daniele Palmas <dnlplm@gmail.com>
+To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        Aleksander Morgado <aleksander@aleksander.es>,
+        Daniele Palmas <dnlplm@gmail.com>
+Subject: [PATCH net-next 2/2] net: qmi_wwan: document qmap/mux_id sysfs file
+Date:   Mon, 25 Jan 2021 16:22:35 +0100
+Message-Id: <20210125152235.2942-3-dnlplm@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210125152235.2942-1-dnlplm@gmail.com>
+References: <20210125152235.2942-1-dnlplm@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the 0-flag and a field width to specify zero-padding consistently in
-printk messages.
+Document qmap/mux_id sysfs file showing qmimux interface id
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 ---
- drivers/usb/serial/cp210x.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/ABI/testing/sysfs-class-net-qmi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 36ae44818c13..4ba3fb096bf1 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -1319,7 +1319,7 @@ static int cp210x_tiocmset_port(struct usb_serial_port *port,
- 	if (port_priv->crtscts)
- 		control &= ~CONTROL_WRITE_RTS;
+diff --git a/Documentation/ABI/testing/sysfs-class-net-qmi b/Documentation/ABI/testing/sysfs-class-net-qmi
+index c310db4ccbc2..ed79f5893421 100644
+--- a/Documentation/ABI/testing/sysfs-class-net-qmi
++++ b/Documentation/ABI/testing/sysfs-class-net-qmi
+@@ -48,3 +48,13 @@ Description:
  
--	dev_dbg(&port->dev, "%s - control = 0x%.4x\n", __func__, control);
-+	dev_dbg(&port->dev, "%s - control = 0x%04x\n", __func__, control);
- 
- 	ret = cp210x_write_u16_reg(port, CP210X_SET_MHS, control);
- 
-@@ -1353,7 +1353,7 @@ static int cp210x_tiocmget(struct tty_struct *tty)
- 		|((control & CONTROL_RING)? TIOCM_RI  : 0)
- 		|((control & CONTROL_DCD) ? TIOCM_CD  : 0);
- 
--	dev_dbg(&port->dev, "%s - control = 0x%.2x\n", __func__, control);
-+	dev_dbg(&port->dev, "%s - control = 0x%02x\n", __func__, control);
- 
- 	return result;
- }
+ 		Write a number ranging from 1 to 254 to delete a previously
+ 		created qmap mux based network device.
++
++What:		/sys/class/net/<qmimux iface>/qmap/mux_id
++Date:		January 2021
++KernelVersion:	5.12
++Contact:	Daniele Palmas <dnlplm@gmail.com>
++Description:
++		Unsigned integer
++
++		Indicates the mux id associated to the qmimux network interface
++		during its creation.
 -- 
-2.26.2
+2.17.1
 
