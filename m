@@ -2,130 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85470C43332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF300C43219
 	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6250323110
+	by mail.kernel.org (Postfix) with ESMTP id D3AAF23110
 	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388379AbhAZFnT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:43:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58986 "EHLO
+        id S1732243AbhAZFnv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:43:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730009AbhAYPgH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 10:36:07 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BB9C061225;
-        Mon, 25 Jan 2021 07:23:10 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id u14so11435554wmq.4;
-        Mon, 25 Jan 2021 07:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=bonaNtQOYdal1eJtZWnTWz1u25uAbcWM2s+Tk4ODo6o=;
-        b=nDw4+r+GuwRJX5fPNU4BcC6ZlTzTTY4EI2/3gSnuZZpYf8l12Ql+FFL/MOn+Gngf5R
-         xz0Skd06kxpS+pwljFitrBrZ+8E11D5GeQl9MbQIO4u23DF/f6XwPK0raexzxwDhi+sw
-         GsHLw4PfVRHWMA7RuJzi70Rg4GEefl/2egTZp9XqPqbC4UPZ7Ewo0pCoNZ55TLy7yUuV
-         xtb202eOC2FP5z+7UYsf4K41T9fmeOvleuCZrTHRAQZDMldoH2CzU1/o92M5Xo+QULOA
-         ynvxmaK4aSfjStoyeyqIsTxJcwAmWTbRc4TUD3FkNA+DzlnZF2od3XMlwtoByDNypQm5
-         o/tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=bonaNtQOYdal1eJtZWnTWz1u25uAbcWM2s+Tk4ODo6o=;
-        b=NOmr9aC2pnpIBAic8wvKtuic4NOnrkQ4ceA94F95v/taJJighV3o0HgwL9BuhdAq6M
-         EPfgjcc9Zr08qBuBKmTT7cTc+BREmjznfwArSzZOxPDpCi013ZKrBXBnkNNDOkcTvj90
-         nE7wZOL5vc3WKQXki9xArBIz2z3NNO/Nhq0ny9zsvhj4hozykFdgvyut7X26kN5Ib4o3
-         xhUHieqosCcggw0UHg+EdkiOUBU2XqThK14XOfETmOIEHyh7lW7VS8SLexJBu8wtLfES
-         PjaImxJ0B0GhKs9A/7cB73Fc/6PosnsTzb+jjjPDdVPSRFnloyzLek9dcqIySq1pvfwK
-         mbAQ==
-X-Gm-Message-State: AOAM532bDcmt+u6W9B77BjKTEdywwQxynjDZ7qbXLOPApPcI14CzYVWP
-        yE5DDQ67kJVlAm7ndCEcgcQ=
-X-Google-Smtp-Source: ABdhPJzDzziMZ3RQVf8GVDCFp9muT3RhPjTIECOGJiaXXW9bFFUnZMnwjH16axbS8S/sVTkrQmacfw==
-X-Received: by 2002:a1c:6709:: with SMTP id b9mr623368wmc.102.1611588188781;
-        Mon, 25 Jan 2021 07:23:08 -0800 (PST)
-Received: from LABNL-ITC-SW01.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id l84sm13071307wmf.17.2021.01.25.07.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 07:23:08 -0800 (PST)
-From:   Daniele Palmas <dnlplm@gmail.com>
-To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Aleksander Morgado <aleksander@aleksander.es>,
-        Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH net-next 1/2] net: usb: qmi_wwan: add qmap id sysfs file for qmimux interfaces
-Date:   Mon, 25 Jan 2021 16:22:34 +0100
-Message-Id: <20210125152235.2942-2-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210125152235.2942-1-dnlplm@gmail.com>
-References: <20210125152235.2942-1-dnlplm@gmail.com>
+        with ESMTP id S1731037AbhAYStQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 13:49:16 -0500
+Received: from mout0.freenet.de (mout0.freenet.de [IPv6:2001:748:100:40::2:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75731C061573
+        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 10:48:44 -0800 (PST)
+Received: from [195.4.92.126] (helo=sub7.freenet.de)
+        by mout0.freenet.de with esmtpa (ID andihartmann@freenet.de) (port 25) (Exim 4.92 #3)
+        id 1l46uo-00042W-1k; Mon, 25 Jan 2021 19:48:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=01019freenet.de; s=mjaymdexmjqk; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=xqM0IkomII5QgtcP+rHBltCkZhJafwjhf2np7Chpx/g=; b=lq86bCoE7Jkmg3IOwvq3PpoGaM
+        LaiYVzfVRBC6C6lj4d0yx9t12OEMpwpU32BTTY5AldBCNa1xKsWWQJpOtOaP8BdX82dspPwBWXoUe
+        PAi5w3JxkWJRDjJin8rkAFOB/ZRtbmDZV25I83fXTzxEblUDlC7eivxegCrwy9e0ipwgv+evcgXld
+        Q6O/ucEz5nLEcpJe2zPMOGGfR+3hX4fQzT61r/7fAYp2IEWRHzgzfKQAG7QHQefBWxjlgkicwMJjy
+        B4YnnqACzFKrhOKWRpgSrNfXQ0fPWs46vOfYGMg4jbau+bnQTOrQ3fFW7b+DsUXlAOY5+rKoNoIHp
+        toL5fDAA==;
+Received: from p200300de573c8400505400fffe15ac42.dip0.t-ipconnect.de ([2003:de:573c:8400:5054:ff:fe15:ac42]:44038 helo=mail.maya.org)
+        by sub7.freenet.de with esmtpsa (ID andihartmann@freenet.de) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (port 465) (Exim 4.92 #3)
+        id 1l46un-0007nl-W0; Mon, 25 Jan 2021 19:48:42 +0100
+Received: internal info suppressed
+Subject: Re: USB2 / USB3 compatibility problems: xhci_hcd 0000:00:06.0: WARN
+ Wrong bounce buffer write length: 0 != 512
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        linux-usb@vger.kernel.org
+References: <3b4e35d2-9508-e0aa-eaf8-32e524ad81c4@01019freenet.de>
+ <756e7b88-1142-4758-b8f7-a8eaf510b422@01019freenet.de>
+ <edc3c7b1-98fa-9062-5c17-426e8ad17370@01019freenet.de>
+ <7e953b15-925a-1512-4d15-c07fc03f9059@01019freenet.de>
+ <f83677b5-e3d1-afdb-c8d4-f9969fa3fe84@linux.intel.com>
+From:   Andreas Hartmann <andihartmann@01019freenet.de>
+Message-ID: <f3f85222-0d9d-2f31-0a3e-d1d60ea9d153@01019freenet.de>
+Date:   Mon, 25 Jan 2021 19:48:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+MIME-Version: 1.0
+In-Reply-To: <f83677b5-e3d1-afdb-c8d4-f9969fa3fe84@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originated-At: 2003:de:573c:8400:5054:ff:fe15:ac42!44038
+X-FNSign: v=2 s=B2272646190B054E4BB650EE6BDD96CBA26C4F6D9C25825F90CA06DD75D8995F
+X-Scan-TS: Mon, 25 Jan 2021 19:48:42 +0100
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add qmimux interface sysfs file qmap/mux_id to show qmap id set
-during the interface creation, in order to provide a method for
-userspace to associate QMI control channels to network interfaces.
+Hello Mathias!
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
----
- drivers/net/usb/qmi_wwan.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+On 25.01.21 at 19:28 Mathias Nyman wrote:
+> Hi
+> 
+> On 25.1.2021 12.18, Andreas Hartmann wrote:
+>>
+>> Hello!
+>>
+>> Meanwhile I found the culprit:
+>>
+>> https://www.spinics.net/lists/linux-usb/msg141467.html
+>> and
+>> https://www.spinics.net/lists/linux-usb/msg141468.html
+>>
+>> Especially the last change breaks things here completely. After removing them
+>> by the attached patch, problems are gone and device works again as expected
+>> (I tested with the original 24 kB bulk size which was horribly broken w/o the
+>> attached patch). This means: the additional repair steps are not just breaking
+>> things but are even unnecessary (it's working perfectly without those changes)
+>> here.
+> 
+> Unfortunately this isn't enough to remove the alignment code for those
+> controllers. This is just once specific usecase. We need to figure out what
+> really goes wrong.
+> 
+> Looks like 0 bytes is copied from sg list to bounce buffer when we want 512
+> bytes copied.
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 7ea113f51074..9b85e2ed4760 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -218,6 +218,31 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 	return 1;
- }
- 
-+static ssize_t mux_id_show(struct device *d, struct device_attribute *attr, char *buf)
-+{
-+	struct net_device *dev = to_net_dev(d);
-+	struct qmimux_priv *priv;
-+	ssize_t count = 0;
-+
-+	priv = netdev_priv(dev);
-+	count += scnprintf(&buf[count], PAGE_SIZE - count,
-+			   "0x%02x\n", priv->mux_id);
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RO(mux_id);
-+
-+static struct attribute *qmi_wwan_sysfs_qmimux_attrs[] = {
-+	&dev_attr_mux_id.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group qmi_wwan_sysfs_qmimux_attr_group = {
-+	.name = "qmap",
-+	.attrs = qmi_wwan_sysfs_qmimux_attrs,
-+};
-+
- static int qmimux_register_device(struct net_device *real_dev, u8 mux_id)
- {
- 	struct net_device *new_dev;
-@@ -240,6 +265,8 @@ static int qmimux_register_device(struct net_device *real_dev, u8 mux_id)
- 		goto out_free_newdev;
- 	}
- 
-+	new_dev->sysfs_groups[0] = &qmi_wwan_sysfs_qmimux_attr_group;
-+
- 	err = register_netdevice(new_dev);
- 	if (err < 0)
- 		goto out_free_newdev;
--- 
-2.17.1
+I don't have only 512 bytes cases, but also 100, 136, 424, 396, 144,
+292. It's working anyway w/o any modifications. Why does it work w/o any
+modification? Do those chips really need any alignment?
 
+> Just noticed the alignment code assumes sg lists are used without
+> checking it first.
+> 
+> Could you add the below code and test again, it should print more debugging info.
+
+Is there a way to compile this code external - w/o recompiling the whole
+kernel?
+
+
+Thanks
+Andreas
