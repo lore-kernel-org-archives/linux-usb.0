@@ -2,142 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC289C43381
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47B14C4332D
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B83932311D
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BE9B23123
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388363AbhAZFm5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:42:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49192 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729103AbhAYNvF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Jan 2021 08:51:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 089F222C9E;
-        Mon, 25 Jan 2021 13:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611582505;
-        bh=8xzLVqBc4Jci34US4grEu+cGJ0o9R2i13nNACkFy6Uw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dh8ErcIB19k7yiaBeige7PIdnVy8VVUvNQxYDjOyJzpN4pdb0F4CWI0s6Op2DTorV
-         +Yo/siyb/mg3+EGN7gli+8GQcpPS1FPIPS0MGgkZeP7e3fQx8rFV+HsZWDQD3vQlAt
-         7bpTfksWKytTqSK1lGrO8R2cBCv3FPIwoVWRYINoFWqCHDm6fZzfkFM9Ay0DMgmmhq
-         oJJenFniHGbOymYupI7Qn3frFY1BQc1SKu5eq2kinr4F7+2rf7Ydq+c3/UxLz1PuF3
-         yvRLS22Auf6i7ivEfE66f5tUIniio5UnCb4MYbqr6CKdSvPCM5WcB2jLxfvClVwcm8
-         rNSG6O6Lg4tgQ==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l42EM-00034c-1a; Mon, 25 Jan 2021 14:48:34 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Pho Tran <Pho.Tran@silabs.com>, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 6/7] USB: serial: cp210x: fix RTS handling
-Date:   Mon, 25 Jan 2021 14:48:16 +0100
-Message-Id: <20210125134817.11749-7-johan@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210125134817.11749-1-johan@kernel.org>
-References: <20210125134817.11749-1-johan@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S2388372AbhAZFnI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:43:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729861AbhAYPgH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 10:36:07 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C559C061222;
+        Mon, 25 Jan 2021 07:23:00 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id g10so13031622wrx.1;
+        Mon, 25 Jan 2021 07:23:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=OOTy6fNrhJY2K2USMMux+wkYQZdHpCv0X8RL8tZbIEU=;
+        b=HgWwTns+zy4irzb2UxnAOmScmhS/xutBzEqYQCws6MB/PZwmJv1cJ0RaaPHSNYUwfU
+         gVhPCjLHjbQHtopqjQ6clvFk0jIa99vV6d5WKGsluy0B1AL7KODMB4g32faHQAqcOvE6
+         QDeq7cnG3RY26FtdAxx9sSAx09InH8AwoOH/w5d4ki6EcZLQVVO2VwpuXjPi0fZkorBB
+         XjI8nrnZ1QLIwIAPtnxKE/WyyYqbRbvaUaeVp8pSlgo7qzmutyFIuWmC0o8x99mV63uh
+         scDwyXh3+hiey6ktOb0pTUeVYLoUmxrlDfP/JSDUsklTIuB7fLK/EtwFj8DXN+WykvwI
+         fUdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=OOTy6fNrhJY2K2USMMux+wkYQZdHpCv0X8RL8tZbIEU=;
+        b=O4bhx/T4GxRfQY4yj0/hRErpS6boG9Vk8kdGe5PumyV1zeP18oczeJi85U9qePOsVt
+         6GSDYrr6bX5zGwRuMzlAnBfBxZZwunimyxpdyy9epO5UxU6S5ppBUT86ZGwCCM4cvQix
+         CZWmKqJmZkBGALbILEfZbMIfFlPlLa/lPsgxUxc2NTLalYlKItUxLNISKflovuKK+DiG
+         s2D8bDG+29iRWDhh/i4yTnOX5O2RtYAcCr/f1Qn11MCP1oClSlLZuEEiXi5TnL9MvE/p
+         pC2xfwuvhkytuZ2fki4cvuXg0WE7EDHZcRvHNl8JZ/tEvlev+0UP9yzb8iweHE4ek8eo
+         Jhxw==
+X-Gm-Message-State: AOAM530hTGXiZhjEW0Daov5KlrLf1bVrvCcBARIURWR8LMPLWoFwoZ+w
+        f5JCalB60sRYx9+kRo4a7Os=
+X-Google-Smtp-Source: ABdhPJzb3WmqjpPKO6PKDfrZ2pGpWIH/ADfEzi0kcnHuuzUQ+P2Tcnx6b8BfdZ46g+JWnI/BO4Earw==
+X-Received: by 2002:adf:83a6:: with SMTP id 35mr1563489wre.274.1611588179101;
+        Mon, 25 Jan 2021 07:22:59 -0800 (PST)
+Received: from LABNL-ITC-SW01.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
+        by smtp.gmail.com with ESMTPSA id l84sm13071307wmf.17.2021.01.25.07.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 07:22:58 -0800 (PST)
+From:   Daniele Palmas <dnlplm@gmail.com>
+To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        Aleksander Morgado <aleksander@aleksander.es>,
+        Daniele Palmas <dnlplm@gmail.com>
+Subject: [PATCH 0/2] net: usb: qmi_wwan: new mux_id sysfs file
+Date:   Mon, 25 Jan 2021 16:22:33 +0100
+Message-Id: <20210125152235.2942-1-dnlplm@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Clearing TIOCM_RTS should always deassert RTS and setting the same bit
-should enable auto-RTS if hardware flow control is enabled.
+Hello,
 
-This allows user space to throttle input directly at the source also
-when hardware-assisted flow control is enabled and makes dtr_rts()
-always deassert both lines during close (when HUPCL is set).
+this patch series add a sysfs file to let userspace know which mux
+id has been used to create a qmimux network interface.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/cp210x.c | 47 +++++++++++++++++++++++++++++++------
- 1 file changed, 40 insertions(+), 7 deletions(-)
+I'm aware that adding new sysfs files is not usually the right path,
+but my understanding is that this piece of information can't be
+retrieved in any other way and its absence restricts how
+userspace application (e.g. like libqmi) can take advantage of the
+qmimux implementation in qmi_wwan.
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 4ba3fb096bf1..f00b736f3cd3 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -1166,7 +1166,10 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 	if (C_CRTSCTS(tty)) {
- 		ctl_hs |= CP210X_SERIAL_CTS_HANDSHAKE;
- 		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
--		flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
-+		if (port_priv->rts)
-+			flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
-+		else
-+			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
- 		port_priv->crtscts = true;
- 	} else {
- 		ctl_hs &= ~CP210X_SERIAL_CTS_HANDSHAKE;
-@@ -1286,6 +1289,8 @@ static int cp210x_tiocmset_port(struct usb_serial_port *port,
- 		unsigned int set, unsigned int clear)
- {
- 	struct cp210x_port_private *port_priv = usb_get_serial_port_data(port);
-+	struct cp210x_flow_ctl flow_ctl;
-+	u32 ctl_hs, flow_repl;
- 	u16 control = 0;
- 	int ret;
- 
-@@ -1313,16 +1318,44 @@ static int cp210x_tiocmset_port(struct usb_serial_port *port,
- 	}
- 
- 	/*
--	 * SET_MHS cannot be used to control RTS when auto-RTS is enabled.
--	 * Note that RTS is still deasserted when disabling the UART on close.
-+	 * Use SET_FLOW to set DTR and enable/disable auto-RTS when hardware
-+	 * flow control is enabled.
- 	 */
--	if (port_priv->crtscts)
--		control &= ~CONTROL_WRITE_RTS;
-+	if (port_priv->crtscts && control & CONTROL_WRITE_RTS) {
-+		ret = cp210x_read_reg_block(port, CP210X_GET_FLOW, &flow_ctl,
-+				sizeof(flow_ctl));
-+		if (ret)
-+			goto out_unlock;
- 
--	dev_dbg(&port->dev, "%s - control = 0x%04x\n", __func__, control);
-+		ctl_hs = le32_to_cpu(flow_ctl.ulControlHandshake);
-+		flow_repl = le32_to_cpu(flow_ctl.ulFlowReplace);
- 
--	ret = cp210x_write_u16_reg(port, CP210X_SET_MHS, control);
-+		ctl_hs &= ~CP210X_SERIAL_DTR_MASK;
-+		if (port_priv->dtr)
-+			ctl_hs |= CP210X_SERIAL_DTR_ACTIVE;
-+		else
-+			ctl_hs |= CP210X_SERIAL_DTR_INACTIVE;
- 
-+		flow_repl &= ~CP210X_SERIAL_RTS_MASK;
-+		if (port_priv->rts)
-+			flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
-+		else
-+			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
-+
-+		flow_ctl.ulControlHandshake = cpu_to_le32(ctl_hs);
-+		flow_ctl.ulFlowReplace = cpu_to_le32(flow_repl);
-+
-+		dev_dbg(&port->dev, "%s - ctrl = 0x%02x, flow = 0x%02x\n",
-+				__func__, ctl_hs, flow_repl);
-+
-+		ret = cp210x_write_reg_block(port, CP210X_SET_FLOW, &flow_ctl,
-+				sizeof(flow_ctl));
-+	} else {
-+		dev_dbg(&port->dev, "%s - control = 0x%04x\n", __func__, control);
-+
-+		ret = cp210x_write_u16_reg(port, CP210X_SET_MHS, control);
-+	}
-+out_unlock:
- 	mutex_unlock(&port_priv->mutex);
- 
- 	return ret;
+Thanks,
+Daniele
+
+Daniele Palmas (2):
+  net: usb: qmi_wwan: add qmap id sysfs file for qmimux interfaces
+  net: qmi_wwan: document qmap/mux_id sysfs file
+
+ Documentation/ABI/testing/sysfs-class-net-qmi | 10 +++++++
+ drivers/net/usb/qmi_wwan.c                    | 27 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
 -- 
-2.26.2
+2.17.1
 
