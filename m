@@ -2,150 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC75FC433E0
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 15:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 739A1C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 16:15:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68365230FC
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 15:37:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 445D3229C5
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Jan 2021 16:15:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729678AbhAYPhV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Jan 2021 10:37:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58980 "EHLO
+        id S1730589AbhAYQPh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Jan 2021 11:15:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729973AbhAYPfk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 10:35:40 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9CEC061574
-        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 07:02:43 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1l43Nz-0006BO-TQ; Mon, 25 Jan 2021 16:02:35 +0100
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1l43Nu-0007EN-Tu; Mon, 25 Jan 2021 16:02:30 +0100
-Date:   Mon, 25 Jan 2021 16:02:30 +0100
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Paul Wise <pabs3@bonedaddy.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Opasiak <k.opasiak@samsung.com>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Karol Lewandowski <k.lewandowsk@samsung.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: proposal: move Linux userspace USB gadget projects to linux-usb
- GitHub organisation?
-Message-ID: <20210125150230.GA19259@pengutronix.de>
-References: <c38162833d1c8fede734e41eb5ce23cf393d6555.camel@bonedaddy.net>
- <YAhKAiz2U9KQWQPE@kroah.com>
- <42c4ad2fa7709312b7ac7bc682f05ed1a3edc9a7.camel@bonedaddy.net>
+        with ESMTP id S1730459AbhAYQP1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 11:15:27 -0500
+Received: from canardo.mork.no (canardo.mork.no [IPv6:2001:4641::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31985C061786;
+        Mon, 25 Jan 2021 08:14:47 -0800 (PST)
+Received: from miraculix.mork.no (fwa142.mork.no [192.168.9.142])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 10PGEdiJ030958
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Mon, 25 Jan 2021 17:14:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1611591279; bh=UN3uOc7FebGzkt3Gvm088yaxFp7SRgBakJvkISXvozw=;
+        h=From:To:Cc:Subject:References:Date:Message-ID:From;
+        b=gR+OmekVkJHD1dXGIxEKP6IkVlwgoP4VALDWx8mf0Akb2/qOBaGxypGCpkUiZ8kb/
+         hYCQV/5l8u5kd/lhH17BbC7nrDhQIm+xABJ5hg+AaUjeoH3xiGeRZaBWkSTw7j6m74
+         lS+77ooVLyFI/XGtt4ODgY4ScxzJ3IyN+ExPvUBU=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.94)
+        (envelope-from <bjorn@mork.no>)
+        id 1l44Vi-000ERv-NM; Mon, 25 Jan 2021 17:14:38 +0100
+From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To:     Daniele Palmas <dnlplm@gmail.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Aleksander Morgado <aleksander@aleksander.es>
+Subject: Re: [PATCH net-next 2/2] net: qmi_wwan: document qmap/mux_id sysfs
+ file
+Organization: m
+References: <20210125152235.2942-1-dnlplm@gmail.com>
+        <20210125152235.2942-3-dnlplm@gmail.com>
+Date:   Mon, 25 Jan 2021 17:14:38 +0100
+In-Reply-To: <20210125152235.2942-3-dnlplm@gmail.com> (Daniele Palmas's
+        message of "Mon, 25 Jan 2021 16:22:35 +0100")
+Message-ID: <87sg6pf0y9.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
-Content-Disposition: inline
-In-Reply-To: <42c4ad2fa7709312b7ac7bc682f05ed1a3edc9a7.camel@bonedaddy.net>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 16:01:33 up 54 days,  3:28, 96 users,  load average: 1.05, 0.45,
- 0.29
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.102.4 at canardo
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Daniele Palmas <dnlplm@gmail.com> writes:
 
---ew6BAiZeqk4r7MaW
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-On Wed, Jan 20, 2021 at 11:39:22PM +0800, Paul Wise wrote:
->On Wed, 2021-01-20 at 16:19 +0100, Greg Kroah-Hartman wrote:
+> Document qmap/mux_id sysfs file showing qmimux interface id
 >
->> If you can get the "owners" of these repos to agree, than sure.
->
->Excellent, please invite these GitHub users to the linux-usb admin
->list, so that they can move the projects if they want to.
->
->Matt Porter: @ohporter (for libusbg)
->Krzysztof Opasiak: @kopasiak (for libusbgx, gt)
->Karol Lewandowski: @lmctl (for gadgetd)
->Andrzej Pietrasiewicz: @andrzejtp (for cmtp-responder)
->
->If you would like to invite me too, I'm @pabs3 on GitHub.
->
->I expect some other folks on linux-usb might like to join too.
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-After the ptp-gadget on git.denx.de is no longer available there,
-I moved the latest stack of the project to my own github account.
-
-https://github.com/mgrzeschik/ptp-gadget
-
-This could be added as well.
-
-Thanks,
-Michael
-
->> But we should work out the libusbg and libusbx issue, which is really
->> the "latest" one?
->
->libusbgx is a fork of libusbg and is more recently updated.
->
->I'd suggest to also move libusbg and archive it (make it read-only).
->
->> If you are moving the repos, why do you care about the issue and pull
->> request database anymore?  Will they just not end up going away?
->
->When moving projects (as opposed to forking them), GitHub moves
->everything along with the git repo, including issues and pull requests.
->
->--=20
->bye,
->pabs
->
->https://bonedaddy.net/pabs3/
-
-
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---ew6BAiZeqk4r7MaW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmAO3YEACgkQC+njFXoe
-LGRlbw/9HcrrsdADLHJuEHwmUzVyxr3i6p5Rx5ARvMa2F6W8MykrJOlRjdeIcxgY
-K5ly2JBnNNLped4wlWYN33N/WXtfIiMzY1QuqC73U1xkJ65RGufV0OVAmLSudUWr
-b5AByzikM62AYDSqpS2n/ieWPoMWhPg25w1OuSnIJbG2LCaKWYM5sMnPu+MKa9uN
-ukOU6Qv+X693xIGjNpQHJZyY18Vv0Dgw//9q0b2IO0PBespflAU27vNAG07AWGSN
-bCATUZlyYAs0eVsx9zy2GuIrkCE5tLVuZX9yRHBo3RqPd5hp7h9NlYFb7uyDslF0
-2IYjqegoVcUSwpCPkdK305uXJohzMU2Ly1FsspCfViC0cYQpdFNUGhGYHWZN3MZb
-dAZLOIONecEE93FLKOUIoQqRKiQ7HCvR9UX9YVwpLF+HNLNCQ456yQvBYkFRhc2L
-E2gNBTvbR62zjoPFWLmB2WsaGeSxoe6MBs6BMVZtXiUl3c5kYO35TvNIFqpn7LVj
-F2YVDZuzQWO/r6sOcDG6SXhz7eEGqMkTkOtIqrLTdg7xQcDmuam8FV7I2omXkWrI
-PwMMCNS0LpWvl2P6av92r4ip+HDFudsY/P0ZemJbcExoGgBEd9456TDjiiKGgM10
-Wf7CDPO4D4TW7NCSzcWwHtLaaLidGg3K5iFOk7w2FIjf7qH5umU=
-=BDvq
------END PGP SIGNATURE-----
-
---ew6BAiZeqk4r7MaW--
+Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
