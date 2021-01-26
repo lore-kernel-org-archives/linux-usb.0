@@ -4,64 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 710BCC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:14:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E2AC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47C1822B2C
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:14:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D74E8206CA
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:21:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405772AbhAZONr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 09:13:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52468 "EHLO mail.kernel.org"
+        id S2405900AbhAZOUh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 09:20:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405753AbhAZONE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Jan 2021 09:13:04 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FBBC22B2C;
-        Tue, 26 Jan 2021 14:12:23 +0000 (UTC)
+        id S2405882AbhAZOUK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 26 Jan 2021 09:20:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B0B2206CA;
+        Tue, 26 Jan 2021 14:19:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1611670343;
-        bh=G8RbizNkdNhtYdbjdcp6CKdodVotlaNcKkCrkrgBOM4=;
+        s=korg; t=1611670769;
+        bh=b+c5T4n9jRaht6O5yOfV/FqKLavfrxzcJDIn1MjA930=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RebdL0YABKv/TCxvi7C2gTeM2+0QKQEemTQWlYvunvF5ClLDr0dn/6NpKVgViC+yW
-         BEj0iJ9GJRY8O3yXcKbITcIeI/SidE3xJ2cbdiMgzmjbLqYZFxUWAlIvkSMOd96LqI
-         rre5pS6FU1M0YjFBWfPesiGrOCmP9mjr/LE4I8ME=
-Date:   Tue, 26 Jan 2021 15:12:21 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Ikjoon Jang <ikjn@chromium.org>,
-        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org,
-        Zhanyong Wang <zhanyong.wang@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] usb: xhci-mtk: fix unreleased bandwidth data
-Message-ID: <YBAjRUSEd/6sCl4O@kroah.com>
-References: <20210113180444.v6.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
- <1611640920.3905.13.camel@mhfsdcap03>
+        b=2lBpWeSC29oVeuZA6cKzBaKlSzU0oEFOh2eh/D3NFKYLCkzk4YH+deCKOwPHnwzfE
+         B75IGiTpdEHsT2OvpqsSPcj0p1TrDSTL7t5eAmB8JJ29CzJ3wAUlEpg4aL9dbwVkaf
+         qBznZa5/CL4hGZXjIZlnS586fJo49ogasQOXQKrk=
+Date:   Tue, 26 Jan 2021 15:19:27 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Howard Yen <howardyen@google.com>,
+        Mathias Nyman <mathias.nyman@intel.com>, robh+dt@kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] add xhci hooks for USB offload
+Message-ID: <YBAk795ccXBPgJWp@kroah.com>
+References: <20210119101044.1637023-1-howardyen@google.com>
+ <af91bbf1-6731-3e87-4086-de0dbba22c22@intel.com>
+ <CAJDAHvbTY3Z_bRg+++uLefWSvCWo_nGq+3OOQX3QHJ2w3X1SQw@mail.gmail.com>
+ <ca442ca7-a434-2527-9945-861dafa685cc@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1611640920.3905.13.camel@mhfsdcap03>
+In-Reply-To: <ca442ca7-a434-2527-9945-861dafa685cc@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 02:02:00PM +0800, Chunfeng Yun wrote:
-> Hi Ikjoon,
+On Fri, Jan 22, 2021 at 05:32:58PM +0200, Mathias Nyman wrote:
+> On 20.1.2021 12.04, Howard Yen wrote:
+> > On Tue, Jan 19, 2021 at 8:47 PM Mathias Nyman <mathias.nyman@intel.com> wrote:
+> >>
+> >> On 19.1.2021 12.10, Howard Yen wrote:
+> >>> To let the xhci driver support USB offload, add hooks for vendor to have
+> >>> customized behavior for the initialization, memory allocation, irq work, and
+> >>> device context synchronization. Detail is in each patch commit message.
+> >>
+> >> Is this related to the usb audio sideband capability that was added to the xHCI specification?
+> >> If yes, then we should probably implement the generic parts first, and then add
+> >> the vendor specific hooks.
+> >>
+> >> -Mathias
+> >>
+> >>
+> > 
+> > This is for offloading, no matter what type of offloading.
+> > I made the hooks generically and can be used for usb audio on the xhci
+> > which is not including the usb audio sideband capability.
+> > 
 > 
-> Can I put this patch into my patch series about bandwidth scheduler?
-> the series also include "[RFC PATCH v3 1/5] usb: xhci-mtk: improve
-> bandwidth scheduling with multi-TT", put them together will help to fix
-> dependence issue, meanwhile I try to build xhci-mtk-sch.c into
-> xhci-mtk.ko instead of xhci-hcd.ko.
+> Ok, before adding hooks like this I think we need to see how they are used.
+> Do you have the rest of the patches that go on top of this series?
+> 
+> Maybe it could make sense to use overrides for the functions in struct hc_driver
+> instead in some cases? There is support for that already.
 
-This should probably be merged now, first, as it fixes an issue that
-showed up in 4.20 so this needs to be backported to older kernels.
-
-Please rebase your future patches on top of this.
+What overrides could be done for these changes?  At first glance that
+would seem to require a lot of duplicated code in whatever override
+happens to be needed.
 
 thanks,
 
