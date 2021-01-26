@@ -2,145 +2,185 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C515C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A2EBC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 22:52:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D93CF22B2C
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:36:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1EE2B2065D
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 22:52:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727688AbhAZFkB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:40:01 -0500
-Received: from mga09.intel.com ([134.134.136.24]:40319 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726470AbhAYJX6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Jan 2021 04:23:58 -0500
-IronPort-SDR: fL6ScXw1Hp8bLEj59EFm5bfpo8AMBoczSzdx3WYukJOdTBq+UDL3qdzL1A8LRDVXv0d2OraUJO
- FY66PbeV49MQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9874"; a="179842884"
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
-   d="scan'208";a="179842884"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2021 01:22:00 -0800
-IronPort-SDR: A+6R6t4KFN+e7YYc+geD8CA4cFQ+E9AOnuQE+MgzQsYJHCnyIceMqXckBGSXfWBevySIvu5olx
- KSclSfI92Czg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,373,1602572400"; 
-   d="scan'208";a="471989144"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 25 Jan 2021 01:21:57 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 25 Jan 2021 11:21:56 +0200
-Date:   Mon, 25 Jan 2021 11:21:56 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Kyle Tso <kyletso@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        USB <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: typec: tcpm: Create legacy PDOs for PD2 connection
-Message-ID: <20210125092156.GA1720720@kuha.fi.intel.com>
-References: <20210115163311.391332-1-kyletso@google.com>
- <20210121084101.GC423216@kuha.fi.intel.com>
- <CAGZ6i=0M6=cZpfm=Eu4s4XTjwz5GPbpStNNOdjnPAkJ1y2MRRA@mail.gmail.com>
+        id S1730449AbhAZWuh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 17:50:37 -0500
+Received: from mail-oo1-f52.google.com ([209.85.161.52]:46116 "EHLO
+        mail-oo1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391180AbhAZRWA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 12:22:00 -0500
+Received: by mail-oo1-f52.google.com with SMTP id n127so4293219ooa.13;
+        Tue, 26 Jan 2021 09:21:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aPQdBJqdYP+qjgNaEERsih40G8gcGBWaXApD47b4ab0=;
+        b=sJeWnktIr47xO0D5JsPzu/8l/za2M+V7XQkb4jKuhAzapyj7hDwoIAy0z+Aq8FVchp
+         ouq2ZHMrZAwj6VRkwDRT3wyg0vFfG9Ty5iObELf13U1yA9YpcIilRkvc1FqXbcL1d3D9
+         8AdQlG3YPlwdhrxoUoK10PgFkmLQRGpxUhGtFNmDw5cGozyaVcEgahFkAE7qmrXXL4uw
+         7NCZIo/aLhGyt+08ny/qmRRbZKn5OlaRj67XAL9L+mRUEKSSzla39NB6XVGORzV9IHN3
+         NK+T3JuAItrvnwlfHV6cVVEKoQBj6vgpCoJK8gQfoNwYkI0BF7brxyZDNxZGZ1io46LB
+         SjvA==
+X-Gm-Message-State: AOAM531fyHEIWaVIPYZTOUTkW8nHVdRDqMGuxBOd6As4pwyRin/L/kU6
+        ioOvaO6Wq3BhYifr3ryF1g+tuLWMOsZMjj+JC9M=
+X-Google-Smtp-Source: ABdhPJxzN3Vcgug7hAy03MdX9gmNg4LeJVwDsLrr/J+QfPOD4Fh1+RoiZaAX+fHDULYI/9pIjb7W32My19sL/x1R3Bc=
+X-Received: by 2002:a4a:cb87:: with SMTP id y7mr4754105ooq.1.1611681679111;
+ Tue, 26 Jan 2021 09:21:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGZ6i=0M6=cZpfm=Eu4s4XTjwz5GPbpStNNOdjnPAkJ1y2MRRA@mail.gmail.com>
+References: <20210126155723.9388-1-mika.westerberg@linux.intel.com> <20210126155723.9388-5-mika.westerberg@linux.intel.com>
+In-Reply-To: <20210126155723.9388-5-mika.westerberg@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 26 Jan 2021 18:21:08 +0100
+Message-ID: <CAJZ5v0i+wCOFZOhyx6i=TUGMeWyQR4vXzDN06G6xheFwC66Tuw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] ACPI: Execute platform _OSC also with query bit clear
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Christian Kellner <christian@kellner.me>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On Tue, Jan 26, 2021 at 5:01 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> From: Mario Limonciello <mario.limonciello@dell.com>
+>
+> The platform _OSC can change the hardware state when query bit is not
+> set. According to ACPI spec it is recommended that the OS runs _OSC with
+> query bit set until the platform does not mask any of the capabilities.
+> Then it should run it with query bit clear in order to actually commit
+> the changes. At the moment Linux only runs the _OSC with query bit set
 
-On Thu, Jan 21, 2021 at 05:48:46PM +0800, Kyle Tso wrote:
-> On Thu, Jan 21, 2021 at 4:41 PM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > Hi Kyle,
-> >
-> > On Sat, Jan 16, 2021 at 12:33:11AM +0800, Kyle Tso wrote:
-> > > If the port partner is PD2, the PDOs of the local port should follow the
-> > > format defined in PD2 Spec. Dynamically modify the pre-defined PD3 PDOs
-> > > and transform them into PD2 format before sending them to the PD2 port
-> > > partner.
-> >
-> > I guess it's not possible for the system to supply separate static
-> > PDOs for each PD revision?
-> >
-> We can do that for sure. But a problem is that if there are more PD
-> revisions in the future, we will need to add more PDO arrays.
-> For backward compatibility, the new revision usually uses the
-> previously-reserved bits for the new features.
-> >From my perspective, the better way to achieve the backward
-> compatibility is to just clear the bits if those are reserved in the
-> previous revision.
+And that's because there was nothing it could ask to control using the
+_SB scope _OSC.
 
-I was trying to think of something better for this, but I got nothing.
-I'm not completely comfortable with this, but never mind. Let's just go
-with this.
+Today it is just reporting what features are supported by it.
 
-> I can submit another patch which adds another PDO array for PD2 if you
-> think it is more appropriate.
+However, with the upcoming USB4 CM support it needs to ask for the
+control of that feature and that's why the _SB scope _OSC support
+needs to be extended.  So it is not a fix for a bug or missing spec
+coverage, which this part of the changelog kind of implies, it's just
+enabling a new feature.
 
-Not necessary.
+> and this is going to cause problems with the USB4 CM (Connection
+> Manager) switch that is going to commit the switch only when the OS
+> requests control over the feature.
+>
+> For this reason modify the _OSC support so that we first execute it with
+> query bit set, then use the returned valu as base of the features we
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+s/valu/value/
 
-> > > Signed-off-by: Kyle Tso <kyletso@google.com>
-> > > ---
-> > >  drivers/usb/typec/tcpm/tcpm.c | 62 +++++++++++++++++++++++++++++------
-> > >  include/linux/usb/pd.h        |  1 +
-> > >  2 files changed, 53 insertions(+), 10 deletions(-)
-> > >
-> > > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> > > index 22a85b396f69..1220ab1ed47d 100644
-> > > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > > @@ -911,13 +911,47 @@ static int tcpm_set_pwr_role(struct tcpm_port *port, enum typec_role role)
-> > >       return 0;
-> > >  }
-> > >
-> > > +/*
-> > > + * Transform the PDO to be compliant to PD rev2.0.
-> > > + * Return 0 if the PDO type is not defined in PD rev2.0.
-> > > + * Otherwise, return the converted PDO.
-> > > + */
-> > > +static u32 tcpm_forge_legacy_pdo(struct tcpm_port *port, u32 pdo, enum typec_role role)
-> > > +{
-> > > +     switch (pdo_type(pdo)) {
-> > > +     case PDO_TYPE_FIXED:
-> > > +             if (role == TYPEC_SINK)
-> > > +                     return pdo & ~PDO_FIXED_FRS_CURR_MASK;
-> > > +             else
-> > > +                     return pdo & ~PDO_FIXED_UNCHUNK_EXT;
-> > > +     case PDO_TYPE_VAR:
-> > > +     case PDO_TYPE_BATT:
-> > > +             return pdo;
-> > > +     case PDO_TYPE_APDO:
-> > > +     default:
-> > > +             return 0;
-> > > +     }
-> > > +}
-> > > +
-> > >  static int tcpm_pd_send_source_caps(struct tcpm_port *port)
-> > >  {
-> > >       struct pd_message msg;
-> > > -     int i;
-> > > +     u32 pdo;
-> > > +     unsigned int i, nr_pdo = 0;
-> >
-> > Side note. I think this driver uses the "reverse christmas tree"
-> > style with the variables.
-> 
-> I will change the order (if there is a next version)
-> 
-> thanks,
-> Kyle
+> want to control and run the _OSC again with query bit clear.
+>
+> Also rename the function to better match what it does.
+>
+> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+>
+> ---
+>  drivers/acpi/bus.c | 43 +++++++++++++++++++++++++++++++------------
+>  1 file changed, 31 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+> index 1682f8b454a2..ca7c7b2bf56e 100644
+> --- a/drivers/acpi/bus.c
+> +++ b/drivers/acpi/bus.c
+> @@ -282,9 +282,9 @@ bool osc_pc_lpi_support_confirmed;
+>  EXPORT_SYMBOL_GPL(osc_pc_lpi_support_confirmed);
+>
+>  static u8 sb_uuid_str[] = "0811B06E-4A27-44F9-8D60-3CBBC22E7B48";
+> -static void acpi_bus_osc_support(void)
+> +static void acpi_bus_osc_negotiate_platform_control(void)
+>  {
+> -       u32 capbuf[2];
+> +       u32 capbuf[2], *capbuf_ret;
+>         struct acpi_osc_context context = {
+>                 .uuid_str = sb_uuid_str,
+>                 .rev = 1,
+> @@ -321,17 +321,36 @@ static void acpi_bus_osc_support(void)
+>                 capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_APEI_SUPPORT;
+>         if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
+>                 return;
+> -       if (ACPI_SUCCESS(acpi_run_osc(handle, &context))) {
+> -               u32 *capbuf_ret = context.ret.pointer;
+> -               if (context.ret.length > OSC_SUPPORT_DWORD) {
+> -                       osc_sb_apei_support_acked =
+> -                               capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
+> -                       osc_pc_lpi_support_confirmed =
+> -                               capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
+> -               }
+> +
+> +       if (ACPI_FAILURE(acpi_run_osc(handle, &context)))
+> +               return;
+> +
+> +       capbuf_ret = context.ret.pointer;
+> +       if (context.ret.length <= OSC_SUPPORT_DWORD) {
+>                 kfree(context.ret.pointer);
+> +               return;
+>         }
+> -       /* do we need to check other returned cap? Sounds no */
+> +
+> +       /*
+> +        * Now run _OSC again with query flag clean and with the caps
 
--- 
-heikki
+s/clean/clear/
+
+> +        * both platform and OS supports.
+
+s/both platform and OS supports/supported by both the OS and the platform/
+
+> +        */
+> +       capbuf[OSC_QUERY_DWORD] = 0;
+> +       capbuf[OSC_SUPPORT_DWORD] = capbuf_ret[OSC_SUPPORT_DWORD];
+> +       kfree(context.ret.pointer);
+> +
+> +       if (ACPI_FAILURE(acpi_run_osc(handle, &context)))
+> +               return;
+> +
+> +       capbuf_ret = context.ret.pointer;
+> +       if (context.ret.length > OSC_SUPPORT_DWORD) {
+> +               osc_sb_apei_support_acked =
+> +                       capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
+> +               osc_pc_lpi_support_confirmed =
+> +                       capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
+> +       }
+> +
+> +       kfree(context.ret.pointer);
+>  }
+>
+>  /* --------------------------------------------------------------------------
+> @@ -1168,7 +1187,7 @@ static int __init acpi_bus_init(void)
+>          * _OSC method may exist in module level code,
+>          * so it must be run after ACPI_FULL_INITIALIZATION
+>          */
+> -       acpi_bus_osc_support();
+> +       acpi_bus_osc_negotiate_platform_control();
+>
+>         /*
+>          * _PDC control method may load dynamic SSDT tables,
+> --
+> 2.29.2
+>
