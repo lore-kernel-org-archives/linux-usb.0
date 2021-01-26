@@ -2,43 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AE55C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C504C433E6
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:19:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D058E221EC
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:01:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6082A20735
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:19:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391485AbhAZP7h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 10:59:37 -0500
-Received: from mga12.intel.com ([192.55.52.136]:8773 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404398AbhAZP7Q (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Jan 2021 10:59:16 -0500
-IronPort-SDR: /9B17KPWgeKddBnpiNAA0yfPzYx6IdumXBYYiRHmrXh4gd8rXlSOSA7p5W46AV4jKeoKLp7eWc
- ghSeAq1DY99Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="159097256"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="159097256"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 07:57:27 -0800
-IronPort-SDR: BDQjXphgcuUODvQYURSRw8HXhmoiH5TskUs/6ZflevEMn5dB9XXP87TLDiX1V7wbks79oUR+10
- uLll+fB9D5Jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="574085209"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Jan 2021 07:57:25 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 46E77288; Tue, 26 Jan 2021 17:57:24 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        id S2391045AbhAZQTw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 11:19:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391113AbhAZQTp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 11:19:45 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C276FC061797;
+        Tue, 26 Jan 2021 08:19:04 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id c6so20483255ede.0;
+        Tue, 26 Jan 2021 08:19:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QipIjt+uBCsYaw/A90Tt+IbpJbpCFCsG7g/7AL0vBWI=;
+        b=miaxiC+WS/vBt9/lVPQ0ut9jTmA2iv5gqIP3Q/NYBIXmsRDk5eGDNvWKAyc7E34xuV
+         j3aj630ZiG2HOVR73dvzQUz323UkzNHvd2x9WXmEAabGaylX/gNz20PiWIS8y/3ffeIB
+         EHkre64MNOKYEYdhtltL4iNQL4hRBMSlvhldmH0pWmwT3sHBPdrkBetb8DZMQPnHEUIn
+         YwdtXEmEFD9LGGpB87BIvucwXwrENgO41Xi+o4ZvVm+ixf2tJxGXwQ0qSBV1nHazueE7
+         RvOyVLjSYG2PHwfwLnJTuqDV4UaiSH6nXHwo/wTsNrijhguzXrWHFcUxrcA4FvqqcH/y
+         hs5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QipIjt+uBCsYaw/A90Tt+IbpJbpCFCsG7g/7AL0vBWI=;
+        b=mAdztDPADYxXfaj1MjnVqliCxQrYSsVWZs8+rWkfzdpy8vjqyV+NhznxubINHNnVbb
+         N1Xl4VzhJPGfYgJPE/oFClPrL1F3BALDKrxRmA5zTO1z4/Phua3ePNhmQJ+l10GuPI/X
+         6FJHYlpta+ogMfyjKwM68EaepVY26cQHJqn4rCBYPv8XHtntEkC+PXJcOiSRiOqqMSj8
+         w5Nex2HXbpPfkzvD11lRYo4/zP7Q1CXPINhOJ9MVsxsRKmP4gfxETMfxgs9E3S0CqNK2
+         vN+z5eWIZDFKbOcpkktgHp6iavOyB6bmcKjvufVvhGtDmnPwze8mErBI/jHaIgnDcYx4
+         qPNA==
+X-Gm-Message-State: AOAM531+OoWES+pEXbuVh3biGfS53rxPqu6MJ3iBkmrbenJZMr+Xflf/
+        Z3q+cZTglmKSIB6dgRox5speLr7CO3qtqd9u6CQ=
+X-Google-Smtp-Source: ABdhPJxLSLsYfO08q1+h9uOTF6V9AnF7nUi2K4AFp1Ly6GzB9D2wpTUHj5mJVALJ2sYC9m93Fx9CkAdOQDO6+QnHMso=
+X-Received: by 2002:a50:b223:: with SMTP id o32mr5236582edd.79.1611677943482;
+ Tue, 26 Jan 2021 08:19:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20210126155723.9388-1-mika.westerberg@linux.intel.com> <20210126155723.9388-3-mika.westerberg@linux.intel.com>
+In-Reply-To: <20210126155723.9388-3-mika.westerberg@linux.intel.com>
+From:   Yehezkel Bernat <yehezkelshb@gmail.com>
+Date:   Tue, 26 Jan 2021 18:18:47 +0200
+Message-ID: <CA+CmpXscOVjn20ffw37GRLBWhQDRJ9J8svYvU1-VWg5eA-Bm4A@mail.gmail.com>
+Subject: Re: [PATCH 2/6] thunderbolt: Add support for PCIe tunneling disabled (SL5)
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Mario Limonciello <mario.limonciello@dell.com>,
@@ -46,115 +68,27 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Christian Kellner <christian@kellner.me>,
         Len Brown <lenb@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-acpi@vger.kernel.org
-Subject: [PATCH 4/6] ACPI: Execute platform _OSC also with query bit clear
-Date:   Tue, 26 Jan 2021 18:57:21 +0300
-Message-Id: <20210126155723.9388-5-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
-References: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mario Limonciello <mario.limonciello@dell.com>
+On Tue, Jan 26, 2021 at 5:57 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> Recent Intel Thunderbolt firmware connection manager has support for
+> another security level, SL5, that disables PCIe tunneling. This option
+> can be turned on from the BIOS.
+>
+> When this is set the driver exposes a new security level "nopcie" to the
+> userspace and hides the authorized attribute under connected devices.
+>
+> While there we also hide it when "dponly" security level is enabled
+> since it is not really usable in that case anyway.
+>
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> ---
 
-The platform _OSC can change the hardware state when query bit is not
-set. According to ACPI spec it is recommended that the OS runs _OSC with
-query bit set until the platform does not mask any of the capabilities.
-Then it should run it with query bit clear in order to actually commit
-the changes. At the moment Linux only runs the _OSC with query bit set
-and this is going to cause problems with the USB4 CM (Connection
-Manager) switch that is going to commit the switch only when the OS
-requests control over the feature.
-
-For this reason modify the _OSC support so that we first execute it with
-query bit set, then use the returned valu as base of the features we
-want to control and run the _OSC again with query bit clear.
-
-Also rename the function to better match what it does.
-
-Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/acpi/bus.c | 43 +++++++++++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-index 1682f8b454a2..ca7c7b2bf56e 100644
---- a/drivers/acpi/bus.c
-+++ b/drivers/acpi/bus.c
-@@ -282,9 +282,9 @@ bool osc_pc_lpi_support_confirmed;
- EXPORT_SYMBOL_GPL(osc_pc_lpi_support_confirmed);
- 
- static u8 sb_uuid_str[] = "0811B06E-4A27-44F9-8D60-3CBBC22E7B48";
--static void acpi_bus_osc_support(void)
-+static void acpi_bus_osc_negotiate_platform_control(void)
- {
--	u32 capbuf[2];
-+	u32 capbuf[2], *capbuf_ret;
- 	struct acpi_osc_context context = {
- 		.uuid_str = sb_uuid_str,
- 		.rev = 1,
-@@ -321,17 +321,36 @@ static void acpi_bus_osc_support(void)
- 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_APEI_SUPPORT;
- 	if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
- 		return;
--	if (ACPI_SUCCESS(acpi_run_osc(handle, &context))) {
--		u32 *capbuf_ret = context.ret.pointer;
--		if (context.ret.length > OSC_SUPPORT_DWORD) {
--			osc_sb_apei_support_acked =
--				capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
--			osc_pc_lpi_support_confirmed =
--				capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
--		}
-+
-+	if (ACPI_FAILURE(acpi_run_osc(handle, &context)))
-+		return;
-+
-+	capbuf_ret = context.ret.pointer;
-+	if (context.ret.length <= OSC_SUPPORT_DWORD) {
- 		kfree(context.ret.pointer);
-+		return;
- 	}
--	/* do we need to check other returned cap? Sounds no */
-+
-+	/*
-+	 * Now run _OSC again with query flag clean and with the caps
-+	 * both platform and OS supports.
-+	 */
-+	capbuf[OSC_QUERY_DWORD] = 0;
-+	capbuf[OSC_SUPPORT_DWORD] = capbuf_ret[OSC_SUPPORT_DWORD];
-+	kfree(context.ret.pointer);
-+
-+	if (ACPI_FAILURE(acpi_run_osc(handle, &context)))
-+		return;
-+
-+	capbuf_ret = context.ret.pointer;
-+	if (context.ret.length > OSC_SUPPORT_DWORD) {
-+		osc_sb_apei_support_acked =
-+			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
-+		osc_pc_lpi_support_confirmed =
-+			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
-+	}
-+
-+	kfree(context.ret.pointer);
- }
- 
- /* --------------------------------------------------------------------------
-@@ -1168,7 +1187,7 @@ static int __init acpi_bus_init(void)
- 	 * _OSC method may exist in module level code,
- 	 * so it must be run after ACPI_FULL_INITIALIZATION
- 	 */
--	acpi_bus_osc_support();
-+	acpi_bus_osc_negotiate_platform_control();
- 
- 	/*
- 	 * _PDC control method may load dynamic SSDT tables,
--- 
-2.29.2
-
+Looks good to me, I'm just not sure I understand how this is different from
+dponly mode. Is this just because it comes from the new _OSC?
