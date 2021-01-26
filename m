@@ -5,67 +5,67 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BACEDC433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35ED1C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:47:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AB8B207B1
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:46:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED592207B1
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:47:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S313688AbhAZWyY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 17:54:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42264 "EHLO
+        id S313986AbhAZWxn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 17:53:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394786AbhAZSf4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 13:35:56 -0500
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 414FEC0613ED;
-        Tue, 26 Jan 2021 10:35:15 -0800 (PST)
-Received: by mail-pg1-x52e.google.com with SMTP id r38so6094039pgk.13;
-        Tue, 26 Jan 2021 10:35:15 -0800 (PST)
+        with ESMTP id S2392183AbhAZSfQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 13:35:16 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B939C061574;
+        Tue, 26 Jan 2021 10:34:36 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id w18so10934662pfu.9;
+        Tue, 26 Jan 2021 10:34:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bx/cdqgCma3iJlb8vZQT1JZ3qzb90ip49lgcVaqCQT4=;
-        b=EJMrC+txD3IibE4RjJTLeJTuzedtcFYTmUJkcn1eVGc80DtwSuR/EcGdGNwRSTecPV
-         FtLjuT1AAW/qNN037/aYSj4FeojMzsdii6pt9izxTvfVR5N8KGz/GDFBoV8NMK+9RU+S
-         di1OssSp00gaJ/wyNv9viH8t56ymmxdSX2l6t0o1KlXajkSQiq5bWsnjsOhL73On1ebu
-         oum8vbRWtI7k4qQU1PrJLwtPD2JuiMxx4zBVIw6MDEpaotlhNkoq4SZEd9d8DZfrojUw
-         ibSoB/Ww8ZZcQ2y6cu2vzS6bNfKzgMAPJ0mn91m/YEyNJfMJTlcWH49jqnIt9mDSE4QQ
-         hbxw==
+        bh=cBTsPIheAREODwP7ehxYmG/rqbt0+8mgZWOAMNTxbTk=;
+        b=FLafbb7XTRsKX1L715KcNJg+CKnrIAYDl4z0BCWsEL3BAed2CJrMAruBQHkjGdf9Hd
+         JRiDavYtVe2Xen/sfUfAb5EK1/Kh5muVC8EY3FrjO0qfLfkmV8fwOKa2lM1cFbu+RmhT
+         B9mNEybzMhPOTuMRk79VmW3MAnTZBoTzofVgNTAagqvp4yRssiYV4+BMTAip7lWbXwAG
+         1IICIxLMSxv7ZfmOjbdceUTVDTJ2DFW9BAYPeY4eoFu4Ed5fFvrUXXCL8Y05XqQ9ZkAy
+         HSGtojL/GP311Xu+FUv06mzVIdghRzMpjf44DA7xEMgBlj5lACdyKIV3oKAet03DGqfg
+         HNsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bx/cdqgCma3iJlb8vZQT1JZ3qzb90ip49lgcVaqCQT4=;
-        b=PtO6r+xVyMxgKR1Pw1wGGB4JWOFPxN+LZqZHttSd5Y4zrBBRsV+wLApilhHl12nxul
-         Rj6me46g4En97bwf4Alvn6iOojqsG8NsqIgiY/2U9GNld/n80Ddraw/CSny+Uh2j57tu
-         s9vmi9p4yKLx7HFADZADMcSPMSkP3WnopX06L1sg8Dm5y9ueN/8GG6VlRtZTku5fePtp
-         2Z2d61rW024H9zwFFfIw/vFVTlSNSLcmJArrAZ1jQojLq5NoexojQlADowYiiQdo+10q
-         VZgBWOTCzexNdGi10+aSBS51UKwyXemrxVpSkv7rSkpqfD1VkwijIghupTcxJzEq4KIE
-         cl9A==
-X-Gm-Message-State: AOAM532u9UlikzGmN3faLkheT2Q87oZa/UniHCT9bzeG9DhIFsGWKYQW
-        UQNuDbUV5Ifohfk39VmhC3/lvHSgrmycR+kyNsE=
-X-Google-Smtp-Source: ABdhPJxsmzYM41sw3Zm/u83d4UqAR9pPCvyLi9JYwpsBEL3ZWQjorpTAKyBIOVb0F6ZLsN10DPNvqw==
-X-Received: by 2002:a62:1b95:0:b029:19b:178f:84d7 with SMTP id b143-20020a621b950000b029019b178f84d7mr6633080pfb.70.1611686114735;
-        Tue, 26 Jan 2021 10:35:14 -0800 (PST)
+        bh=cBTsPIheAREODwP7ehxYmG/rqbt0+8mgZWOAMNTxbTk=;
+        b=jdugLVhsXtCCg+FFavyuV2bXEGQPE7MzJZnAbgfTV6wAwaPkHiu3BlhwNerBYms/4V
+         GyEu6YpthvRQ0VuTmFHNBGgILPguo+eQNmYvgxTZgvBnXhWsNxZBzRcan8ovAcy/Al2t
+         xZFDy3Uh3Ebqwo6tTO1RBbLcikLIxmkwAkfnvr6qcYVdCq2sOsPn2rfvX3887oDVCgAs
+         GCko836Sj1Kq5qf/QjuwXOoi27q7BpOKv8uUHX/NM7/BbpPzXB1usw47ILV7SnHxKjXB
+         Y3E6LyOwgM9PT4Tzvxfn9dbd4Ka8m4OY9FdOBAXk9AvxZkQN5tBPVC04uztruphI6dWW
+         5rOg==
+X-Gm-Message-State: AOAM531uSVZX9mNB+uiOeK2Tqj/ytGcC/IYH1nt4hCexH3FhlXQl6Rtr
+        1s9EwJzA3AySDVPqP7Q61ITfknDF0azM5V9g+ig=
+X-Google-Smtp-Source: ABdhPJx+KcEI8M10QX5h8Tn2JGd06zfMciGCORZutfxv+gahx/R8EXxq3UQTRvIhfCtDKIMy4CLBaQ==
+X-Received: by 2002:a63:4443:: with SMTP id t3mr6947500pgk.297.1611686075647;
+        Tue, 26 Jan 2021 10:34:35 -0800 (PST)
 Received: from localhost.localdomain ([49.207.195.86])
-        by smtp.gmail.com with ESMTPSA id y75sm472711pfg.119.2021.01.26.10.35.11
+        by smtp.gmail.com with ESMTPSA id y75sm472711pfg.119.2021.01.26.10.34.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 10:35:13 -0800 (PST)
+        Tue, 26 Jan 2021 10:34:34 -0800 (PST)
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Xu Wang <vulab@iscas.ac.cn>,
+        Liu Shixin <liushixin2@huawei.com>,
         Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 04/12] usb: misc: ehset: update to use the usb_control_msg_{send|recv}() API
-Date:   Wed, 27 Jan 2021 00:03:55 +0530
-Message-Id: <20210126183403.911653-5-anant.thazhemadam@gmail.com>
+Subject: [PATCH v3 01/12] usb: misc: appledisplay: update to use the usb_control_msg_{send|recv}() API
+Date:   Wed, 27 Jan 2021 00:03:52 +0530
+Message-Id: <20210126183403.911653-2-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
 References: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
@@ -80,139 +80,81 @@ existing usb_control_msg() as it ensures that a short read/write is treated
 as an error, data can be used off the stack, and raw usb pipes need not be
 created in the calling functions.
 For this reason, instances of usb_control_msg() have been replaced with
-usb_control_msg_{recv|send}() appropriately.
+usb_control_msg_{recv|send}(), and all return value checking
+conditions have also been modified appropriately.
 
 Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Reviewed-by: Peter Chen <peter.chen@nxp.com>
 ---
- drivers/usb/misc/ehset.c | 76 +++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 44 deletions(-)
+ drivers/usb/misc/appledisplay.c | 46 ++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/usb/misc/ehset.c b/drivers/usb/misc/ehset.c
-index 2752e1f4f4d0..f87890f9cd26 100644
---- a/drivers/usb/misc/ehset.c
-+++ b/drivers/usb/misc/ehset.c
-@@ -24,68 +24,57 @@ static int ehset_probe(struct usb_interface *intf,
- 	int ret = -EINVAL;
- 	struct usb_device *dev = interface_to_usbdev(intf);
- 	struct usb_device *hub_udev = dev->parent;
--	struct usb_device_descriptor *buf;
-+	struct usb_device_descriptor buf;
- 	u8 portnum = dev->portnum;
- 	u16 test_pid = le16_to_cpu(dev->descriptor.idProduct);
+diff --git a/drivers/usb/misc/appledisplay.c b/drivers/usb/misc/appledisplay.c
+index c8098e9b432e..117deb2fdc29 100644
+--- a/drivers/usb/misc/appledisplay.c
++++ b/drivers/usb/misc/appledisplay.c
+@@ -132,21 +132,17 @@ static int appledisplay_bl_update_status(struct backlight_device *bd)
+ 	pdata->msgdata[0] = 0x10;
+ 	pdata->msgdata[1] = bd->props.brightness;
  
- 	switch (test_pid) {
- 	case TEST_SE0_NAK_PID:
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_TEST,
--					(USB_TEST_SE0_NAK << 8) | portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_TEST,
-+					   (USB_TEST_SE0_NAK << 8) | portnum,
-+					   NULL, 0, 1000, GFP_KERNEL);
- 		break;
- 	case TEST_J_PID:
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_TEST,
--					(USB_TEST_J << 8) | portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_TEST,
-+					   (USB_TEST_J << 8) | portnum, NULL, 0,
-+					   1000, GFP_KERNEL);
- 		break;
- 	case TEST_K_PID:
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_TEST,
--					(USB_TEST_K << 8) | portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_TEST,
-+					   (USB_TEST_K << 8) | portnum, NULL, 0,
-+					   1000, GFP_KERNEL);
- 		break;
- 	case TEST_PACKET_PID:
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_TEST,
--					(USB_TEST_PACKET << 8) | portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_TEST,
-+					   (USB_TEST_PACKET << 8) | portnum,
-+					   NULL, 0, 1000, GFP_KERNEL);
- 		break;
- 	case TEST_HS_HOST_PORT_SUSPEND_RESUME:
- 		/* Test: wait for 15secs -> suspend -> 15secs delay -> resume */
- 		msleep(15 * 1000);
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_SUSPEND, portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_SUSPEND,
-+					   portnum, NULL, 0, 1000, GFP_KERNEL);
- 		if (ret < 0)
- 			break;
+-	retval = usb_control_msg(
+-		pdata->udev,
+-		usb_sndctrlpipe(pdata->udev, 0),
+-		USB_REQ_SET_REPORT,
+-		USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+-		ACD_USB_BRIGHTNESS,
+-		0,
+-		pdata->msgdata, 2,
+-		ACD_USB_TIMEOUT);
++	retval = usb_control_msg_send(pdata->udev,
++				      0,
++				      USB_REQ_SET_REPORT,
++				      USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
++				      ACD_USB_BRIGHTNESS,
++				      0,
++				      pdata->msgdata, 2,
++				      ACD_USB_TIMEOUT, GFP_KERNEL);
+ 	mutex_unlock(&pdata->sysfslock);
  
- 		msleep(15 * 1000);
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_CLEAR_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_SUSPEND, portnum,
--					NULL, 0, 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_CLEAR_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_SUSPEND,
-+					   portnum, NULL, 0, 1000, GFP_KERNEL);
- 		break;
- 	case TEST_SINGLE_STEP_GET_DEV_DESC:
- 		/* Test: wait for 15secs -> GetDescriptor request */
- 		msleep(15 * 1000);
--		buf = kmalloc(USB_DT_DEVICE_SIZE, GFP_KERNEL);
--		if (!buf)
--			return -ENOMEM;
- 
--		ret = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
--					USB_REQ_GET_DESCRIPTOR, USB_DIR_IN,
--					USB_DT_DEVICE << 8, 0,
--					buf, USB_DT_DEVICE_SIZE,
--					USB_CTRL_GET_TIMEOUT);
--		kfree(buf);
-+		ret = usb_control_msg_recv(dev, 0, USB_REQ_GET_DESCRIPTOR,
-+					   USB_DIR_IN, USB_DT_DEVICE << 8, 0,
-+					   &buf, USB_DT_DEVICE_SIZE,
-+					   USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
- 		break;
- 	case TEST_SINGLE_STEP_SET_FEATURE:
- 		/*
-@@ -100,11 +89,10 @@ static int ehset_probe(struct usb_interface *intf,
- 			break;
- 		}
- 
--		ret = usb_control_msg(hub_udev, usb_sndctrlpipe(hub_udev, 0),
--					USB_REQ_SET_FEATURE, USB_RT_PORT,
--					USB_PORT_FEAT_TEST,
--					(6 << 8) | portnum,
--					NULL, 0, 60 * 1000);
-+		ret = usb_control_msg_send(hub_udev, 0, USB_REQ_SET_FEATURE,
-+					   USB_RT_PORT, USB_PORT_FEAT_TEST,
-+					   (6 << 8) | portnum, NULL, 0,
-+					   60 * 1000, GFP_KERNEL);
- 
- 		break;
- 	default:
-@@ -112,7 +100,7 @@ static int ehset_probe(struct usb_interface *intf,
- 			__func__, test_pid);
- 	}
- 
--	return (ret < 0) ? ret : 0;
-+	return ret;
+-	if (retval < 0)
+-		return retval;
+-	else
+-		return 0;
++	return retval;
  }
  
- static void ehset_disconnect(struct usb_interface *intf)
+ static int appledisplay_bl_get_brightness(struct backlight_device *bd)
+@@ -155,21 +151,17 @@ static int appledisplay_bl_get_brightness(struct backlight_device *bd)
+ 	int retval, brightness;
+ 
+ 	mutex_lock(&pdata->sysfslock);
+-	retval = usb_control_msg(
+-		pdata->udev,
+-		usb_rcvctrlpipe(pdata->udev, 0),
+-		USB_REQ_GET_REPORT,
+-		USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+-		ACD_USB_BRIGHTNESS,
+-		0,
+-		pdata->msgdata, 2,
+-		ACD_USB_TIMEOUT);
+-	if (retval < 2) {
+-		if (retval >= 0)
+-			retval = -EMSGSIZE;
+-	} else {
++	retval = usb_control_msg_recv(pdata->udev,
++				      0,
++				      USB_REQ_GET_REPORT,
++				      USB_DIR_IN | USB_TYPE_CLASS | USB_RECIP_INTERFACE,
++				      ACD_USB_BRIGHTNESS,
++				      0,
++				      pdata->msgdata, 2,
++				      ACD_USB_TIMEOUT, GFP_KERNEL);
++	if (retval == 0)
+ 		brightness = pdata->msgdata[1];
+-	}
++
+ 	mutex_unlock(&pdata->sysfslock);
+ 
+ 	if (retval < 0)
 -- 
 2.25.1
 
