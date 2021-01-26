@@ -2,100 +2,125 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F4ABC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 18:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8260C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:29:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4626A22286
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 18:48:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6924621919
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389714AbhAZRRy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 12:17:54 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:20753 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729503AbhAZGDE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 01:03:04 -0500
-X-UUID: 2d7ec4f07c9e4302a984a65ee1b9eef6-20210126
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=dKXUzd4QfWfdXhez2qIYlgB4VKFnh57HVcDONeqjh1g=;
-        b=rQLDoUatx8DSmy0gZgxgKWUTTeNxviTVNMYOtDM7g9bP/Zj3nq1UQTczzNNMfNC8SYv3eT5DgZqRkAsFoa2hjj/3zlhcAuPjOtXJ8yGA/qro8bH/MJebXbrRhnq0gqaAw96l5USixpec8JSdWaeQLTXmLDF7h7+pmZTBbQeHgt8=;
-X-UUID: 2d7ec4f07c9e4302a984a65ee1b9eef6-20210126
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 266509547; Tue, 26 Jan 2021 14:02:09 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
- (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 26 Jan
- 2021 14:02:00 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 26 Jan 2021 14:02:00 +0800
-Message-ID: <1611640920.3905.13.camel@mhfsdcap03>
-Subject: Re: [PATCH v6] usb: xhci-mtk: fix unreleased bandwidth data
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Ikjoon Jang <ikjn@chromium.org>
-CC:     <linux-mediatek@lists.infradead.org>, <linux-usb@vger.kernel.org>,
-        "Zhanyong Wang" <zhanyong.wang@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Date:   Tue, 26 Jan 2021 14:02:00 +0800
-In-Reply-To: <20210113180444.v6.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
-References: <20210113180444.v6.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S2388459AbhAZFoc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:44:32 -0500
+Received: from a1.mail.mailgun.net ([198.61.254.60]:56043 "EHLO
+        a1.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726953AbhAZEd7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 23:33:59 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1611635616; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=YoZ7b2gqHviotf0RFHsePw2Vtw+XQmyfSKqQucAiqTU=; b=NPA0NozxXTC3Lngu5bdmjCX8CmhhOFJnffv/BwHSuBEMosRVxuySmGVbMs9DPtJHWAtKwXWJ
+ kOEOVVphkPHPbly1gD1fOHPGc83B6M9OiGow3x4M5lfT0N4kXGHJnYIFjc86Qrw7ZF7mpN3L
+ CvC1Ft2HgQHz72OBtR/IWytsplg=
+X-Mailgun-Sending-Ip: 198.61.254.60
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 600f9b72bdcf468287eeb288 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 Jan 2021 04:32:50
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 755FEC43464; Tue, 26 Jan 2021 04:32:49 +0000 (UTC)
+Received: from [10.110.78.65] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1E8F0C433C6;
+        Tue, 26 Jan 2021 04:32:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1E8F0C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [PATCH v6 3/4] usb: dwc3: Resize TX FIFOs to meet EP bursting
+ requirements
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, peter.chen@nxp.com,
+        jackp@codeaurora.org
+References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
+ <1611288100-31118-4-git-send-email-wcheng@codeaurora.org>
+ <YAsHbj/mITeiY5Cq@builder.lan>
+ <724cb274-36ce-fb48-a156-4eaf9e686fdf@codeaurora.org>
+ <20210126015543.GB1241218@yoga>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <99dd9419-a8fd-9eb2-9582-d24f865ecf70@codeaurora.org>
+Date:   Mon, 25 Jan 2021 20:32:47 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 5D3DE7CE5C32552355CF39D9DCA8F35668EC69EFD0B94DE935E059906A1B7EA92000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <20210126015543.GB1241218@yoga>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgSWtqb29uLA0KDQpDYW4gSSBwdXQgdGhpcyBwYXRjaCBpbnRvIG15IHBhdGNoIHNlcmllcyBh
-Ym91dCBiYW5kd2lkdGggc2NoZWR1bGVyPw0KdGhlIHNlcmllcyBhbHNvIGluY2x1ZGUgIltSRkMg
-UEFUQ0ggdjMgMS81XSB1c2I6IHhoY2ktbXRrOiBpbXByb3ZlDQpiYW5kd2lkdGggc2NoZWR1bGlu
-ZyB3aXRoIG11bHRpLVRUIiwgcHV0IHRoZW0gdG9nZXRoZXIgd2lsbCBoZWxwIHRvIGZpeA0KZGVw
-ZW5kZW5jZSBpc3N1ZSwgbWVhbndoaWxlIEkgdHJ5IHRvIGJ1aWxkIHhoY2ktbXRrLXNjaC5jIGlu
-dG8NCnhoY2ktbXRrLmtvIGluc3RlYWQgb2YgeGhjaS1oY2Qua28uDQoNClRoYW5rcyBhIGxvdA0K
-DQoNCk9uIFdlZCwgMjAyMS0wMS0xMyBhdCAxODowNSArMDgwMCwgSWtqb29uIEphbmcgd3JvdGU6
-DQo+IHhoY2ktbXRrIG5lZWRzIFhIQ0lfTVRLX0hPU1QgcXVpcmsgZnVuY3Rpb25zIGluIGFkZF9l
-bmRwb2ludCgpIGFuZA0KPiBkcm9wX2VuZHBvaW50KCkgdG8gaGFuZGxlIGl0cyBvd24gc3cgYmFu
-ZHdpZHRoIG1hbmFnZW1lbnQuDQo+IA0KPiBJdCBzdG9yZXMgYmFuZHdpZHRoIGRhdGEgaW50byBh
-biBpbnRlcm5hbCB0YWJsZSBldmVyeSB0aW1lDQo+IGFkZF9lbmRwb2ludCgpIGlzIGNhbGxlZCwg
-YW5kIGRyb3BzIHRob3NlIGluIGRyb3BfZW5kcG9pbnQoKS4NCj4gQnV0IHdoZW4gYmFuZHdpZHRo
-IGFsbG9jYXRpb24gZmFpbHMgYXQgb25lIGVuZHBvaW50LCBhbGwgZWFybGllcg0KPiBhbGxvY2F0
-aW9uIGZyb20gdGhlIHNhbWUgaW50ZXJmYWNlIGNvdWxkIHN0aWxsIHJlbWFpbiBhdCB0aGUgdGFi
-bGUuDQo+IA0KPiBUaGlzIHBhdGNoIG1vdmVzIGJhbmR3aWR0aCBtYW5hZ2VtZW50IGNvZGVzIHRv
-IGNoZWNrX2JhbmR3aWR0aCgpIGFuZA0KPiByZXNldF9iYW5kd2lkdGgoKSBwYXRoLiBUbyBkbyBz
-bywgdGhpcyBwYXRjaCBhbHNvIGFkZHMgdGhvc2UgZnVuY3Rpb25zDQo+IHRvIHhoY2lfZHJpdmVy
-X292ZXJyaWRlcyBhbmQgbGV0cyBtdGsteGhjaSB0byByZWxlYXNlIGFsbCBmYWlsZWQNCj4gZW5k
-cG9pbnRzIGluIHJlc2V0X2JhbmR3aWR0aCgpIHBhdGguDQo+IA0KPiBGaXhlczogMDhlNDY5ZGU4
-N2EyICgidXNiOiB4aGNpLW10azogc3VwcG9ydHMgYmFuZHdpZHRoIHNjaGVkdWxpbmcgd2l0aCBt
-dWx0aS1UVCIpDQo+IFNpZ25lZC1vZmYtYnk6IElram9vbiBKYW5nIDxpa2puQGNocm9taXVtLm9y
-Zz4NCj4gDQo+IC0tLQ0KPiANCj4gQ2hhbmdlcyBpbiB2NjoNCj4gLSB1c2UgeGhjaSBvdmVycmlk
-ZXMgaW5zdGVhZCBvZiBxdWlyayBmdW5jdGlvbnMgZm9yDQo+ICAge2NoZWNrfHJlc2V0fV9iYW5k
-d2lkdGgoKS4NCj4gDQo+IENoYW5nZXMgaW4gdjU6DQo+IC0gRml4IGEgd3JvbmcgY29tbWl0IGlk
-IGluIEZpeGVzIHRhZw0KPiANCj4gQ2hhbmdlcyBpbiB2NDoNCj4gLSBidWdmaXggaW4gdjMsIGNo
-ZWNrX2JhbmR3aWR0aCgpIHJldHVybiB1bmluaXRpYWxpemVkIHZhbHVlDQo+ICAgd2hlbiBubyBu
-ZXcgZW5kcG9pbnRzIHdlcmUgYWRkZWQuDQo+IC0gY2hhbmdlIEZpeGVzIHRhZyB0byBrZWVwIGRl
-cGVuZGVuY3kNCj4gDQo+IENoYW5nZXMgaW4gdjM6DQo+IC0gZHJvcCB1bnJlbGF0ZWQgY29kZSBj
-bGVhbnVwcw0KPiAtIGNoYW5nZSBGaXhlcyB0YWcgdG8ga2VlcCBkZXBlbmRlbmN5DQo+IA0KPiBD
-aGFuZ2VzIGluIHYyOg0KPiAtIGZpeCBhIDAtZGF5IHdhcm5pbmcgZnJvbSB1bnVzZWQgdmFyaWFi
-bGUNCj4gLSBzcGxpdCBvbmUgYmlnIHBhdGNoIGludG8gdGhyZWUgcGF0Y2hlcw0KPiAtIGZpeCB3
-cm9uZyBvZmZzZXQgaW4gbWVkaWF0ZWsgaHcgZmxhZ3MNCj4gDQo+ICBkcml2ZXJzL3VzYi9ob3N0
-L3hoY2ktbXRrLXNjaC5jIHwgMTIzICsrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tDQo+
-ICBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMgICAgIHwgICAyICsNCj4gIGRyaXZlcnMvdXNi
-L2hvc3QveGhjaS1tdGsuaCAgICAgfCAgMTMgKysrKw0KPiAgZHJpdmVycy91c2IvaG9zdC94aGNp
-LmMgICAgICAgICB8ICAgOCArKy0NCj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS5oICAgICAgICAg
-fCAgIDQgKysNCj4gIDUgZmlsZXMgY2hhbmdlZCwgMTExIGluc2VydGlvbnMoKyksIDM5IGRlbGV0
-aW9ucygtKQ0KDQoNCg==
 
+
+On 1/25/2021 5:55 PM, Bjorn Andersson wrote:
+> On Mon 25 Jan 19:14 CST 2021, Wesley Cheng wrote:
+> 
+>>
+>>
+>> On 1/22/2021 9:12 AM, Bjorn Andersson wrote:
+>>> On Thu 21 Jan 22:01 CST 2021, Wesley Cheng wrote:
+>>>
+>>
+>> Hi Bjorn,
+>>>
+>>> Under what circumstances should we specify this? And in particular are
+>>> there scenarios (in the Qualcomm platforms) where this must not be set?
+>>> The TXFIFO dynamic allocation is actually a feature within the DWC3
+>> controller, and isn't specifically for QCOM based platforms.  It won't
+>> do any harm functionally if this flag is not set, as this is meant for
+>> enhancing performance/bandwidth.
+>>
+>>> In particular, the composition can be changed in runtime, so should we
+>>> set this for all Qualcomm platforms?
+>>>
+>> Ideally yes, if we want to increase bandwith for situations where SS
+>> endpoint bursting is set to a higher value.
+>>
+>>> And if that's the case, can we not just set it from the qcom driver?
+>>>
+>> Since this is a common DWC3 core feature, I think it would make more
+>> sense to have it in DWC3 core instead of a vendor's DWC3 glue driver.
+>>
+> 
+> I don't have any objections to implementing it in the core driver, but
+> my question is can we just skip the DT binding and just enable it from
+> the vendor driver?
+> 
+> Regards,
+> Bjorn
+> 
+
+Hi Bjorn,
+
+I see.  I think there are some designs which don't have a DWC3 glue
+driver, so assuming there may be other platforms using this, there may
+not always be a vendor driver to set this.
+
+Thanks
+Wesley Cheng
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
