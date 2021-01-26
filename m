@@ -8,62 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47DAC433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:45:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8BDC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:46:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72E05207B5
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:45:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9EF71207A3
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:46:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S314011AbhAZWzH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 17:55:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42802 "EHLO
+        id S314003AbhAZWya (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 17:54:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388986AbhAZSiW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 13:38:22 -0500
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DDF7C061797;
-        Tue, 26 Jan 2021 10:35:41 -0800 (PST)
-Received: by mail-pj1-x1033.google.com with SMTP id my11so1676515pjb.1;
-        Tue, 26 Jan 2021 10:35:41 -0800 (PST)
+        with ESMTP id S2394789AbhAZSgB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 13:36:01 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D827DC061786;
+        Tue, 26 Jan 2021 10:35:20 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id u11so10222004plg.13;
+        Tue, 26 Jan 2021 10:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ulF9m3lqljtgmnGhz+SzghBzSRKlHANlsmi6yEyMAeU=;
-        b=mdkARqUaBx6BYjBGoLgLYxqnNyDZzozEta95Nt4Wx+CmpeY4Su3Ep4Km/eXaTqawLd
-         FhfPBg0TUjr/icrS2cKTIKKjeMsuKstqollbCzy9YqsyxFLt0FkGWttEVeQ/dFu00dbX
-         sKifMG8oLeya/Gw2htNKn1tVBNQzSteP4nDca/kbfYpE6/9qvTxlvOYR9+bj/2xkLuYA
-         cdxG4Jv9HJvHkWbRXEZImf220S1xG0i7aFN+62T3SGt8PQWgwn6CCzu/ONpkOS/UTQ93
-         +pmHze667S3uRvaRTm59DqbiRg/XV7LZ6h8K4SlrW7ANISM0iMmjPcXL12/EP4iolqIf
-         joag==
+        bh=Rlm5PUymFHRx39FCcGjfRRBHQ3f0wd7qTZT6jsgLwkA=;
+        b=pldzPP87+IAjdQFo5gB4mTAxJDiykolSRf9RJD1R29q+gjloKdScXFVNudyO2fzqLd
+         pKGc4a8CbMMLXXFffBakorBGXvFI86RZ4j54HqOtEntkoiiBUjp223sTRA+iSmxpftjA
+         xLKf34yLq+7cgACxqGLUK7nVpQDDrtZcgzdz8ppQTvf0MLoYNkD0fbs+XTrLz9qVo9Uv
+         4qRfAPcsocDP0VYL6DYm6hCQRQJpXlLUOJb1Bk9mKW21y4Py/bP4/h9mJPrlQJXqurAH
+         qBOlxTdCrH6skMWJ5s4Ix/QoYqGxilFFEXgDpfGN+vcQUZf8M/B+T0PE8QCqCkIB0p5+
+         9i+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ulF9m3lqljtgmnGhz+SzghBzSRKlHANlsmi6yEyMAeU=;
-        b=jw3PMn1gOQvH5fc0n96k29VGcW9Dae5rd6OU+Tv0i7kxTf7figXOAIG5zHefVu9XDN
-         OKPcDisKiWly1usjX06mt0Jf8trky8zCKMY/mxoljzb7aM3NM8OYE9q9JjThBvTc9+uz
-         aNne9xIOmRfgvdQNCQToZJepXiMdLNwcjx/pGkPRu24uGY/olK9VT7A+L2I8cCGhYsl2
-         99GXfZAVpxPbzcfNVQtlTe/wkYPbKwXJ7hk86uYtVURDJuGPiRF3e1VGqKZazTtB3Y/u
-         uGbJDywNgQllDG965bzYUXI2YQjaXx6Gy++6DXzNXNef6USUZUkzKIcJ38CzReoAcqRN
-         IIvw==
-X-Gm-Message-State: AOAM530AOYdd0D/gJbrz4CSWQWwOW/nV3ARTjI8Z5WI8vVRuqTu3piyw
-        dWxYXPmfzWP5wMOZcrIIonY=
-X-Google-Smtp-Source: ABdhPJy6lhnce8iilLJcfvNf5E8E51/GvUznO8hznRRkxLqV7nDlbWGG5fGC75DRp6djnGnL1uVNUQ==
-X-Received: by 2002:a17:90b:8d1:: with SMTP id ds17mr1149476pjb.194.1611686140789;
-        Tue, 26 Jan 2021 10:35:40 -0800 (PST)
+        bh=Rlm5PUymFHRx39FCcGjfRRBHQ3f0wd7qTZT6jsgLwkA=;
+        b=d9F0KGX3HtxxiydluBJ9QGcKZa2a3ZOlng1+IFzPP3tAw//6spQAhEknBwgfzApfX/
+         sD/0KIVldUwq9b7T1opzraPqlhopK+LbNmEWzr6OfT1Vtxfl0Ekh1U4/ETkS+nlEg0JI
+         nX6mhC5gaP0WqyMMaL9MoBF018/+qXoxOauBZu3cWiF2/SrNAsCOSLisx8ZArISXt4Ls
+         zlmvF8tOTZ6yaAs5TXLyrdEEb1J+gAEU24IDdopEjzysP4VCtZqRbmC2MfWM02bmU0Dn
+         8bg4dJ/kWX6UgKbuHOlclYpSnJdje0QxIYt5OqGgXVBbuzzEZOXRiSmemq5upC/4KquI
+         rlbA==
+X-Gm-Message-State: AOAM531YqJHyzE8f1SdbuK2LbYQs1pulML/sx9wuo4DvL7KV6waHkn44
+        56KC+2g0/Gv4qrJTt7xXSrE=
+X-Google-Smtp-Source: ABdhPJx3PTeB+SUcDOUGdw45AWK8WChpigGSoWVxOGNYaACq2CBMS5O81epaga9lJRTIOjl3cqyexg==
+X-Received: by 2002:a17:90b:4a4d:: with SMTP id lb13mr1164903pjb.44.1611686120413;
+        Tue, 26 Jan 2021 10:35:20 -0800 (PST)
 Received: from localhost.localdomain ([49.207.195.86])
-        by smtp.gmail.com with ESMTPSA id y75sm472711pfg.119.2021.01.26.10.35.37
+        by smtp.gmail.com with ESMTPSA id y75sm472711pfg.119.2021.01.26.10.35.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 10:35:40 -0800 (PST)
+        Tue, 26 Jan 2021 10:35:19 -0800 (PST)
 From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
         Anant Thazhemadam <anant.thazhemadam@gmail.com>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 08/12] usb: misc: ldusb: update to use usb_control_msg_send()
-Date:   Wed, 27 Jan 2021 00:03:59 +0530
-Message-Id: <20210126183403.911653-9-anant.thazhemadam@gmail.com>
+Subject: [PATCH v3 05/12] usb: misc: ezusb: update to use usb_control_msg_send()
+Date:   Wed, 27 Jan 2021 00:03:56 +0530
+Message-Id: <20210126183403.911653-6-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
 References: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
@@ -77,37 +76,45 @@ The newer usb_control_msg_{send|recv}() API are an improvement on the
 existing usb_control_msg() as it ensures that a short read/write is treated
 as an error, data can be used off the stack, and raw usb pipes need not be
 created in the calling functions.
-For this reason, the instance of usb_control_msg_send() has been replaced
-with usb_control_msg_send() appropriately.
+For this reason, the instance of usb_control_msg() has been replaced with
+usb_control_msg_send() appropriately.
 
 Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- drivers/usb/misc/ldusb.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/misc/ezusb.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/usb/misc/ldusb.c b/drivers/usb/misc/ldusb.c
-index 670e4d91e9ca..259ead4edecb 100644
---- a/drivers/usb/misc/ldusb.c
-+++ b/drivers/usb/misc/ldusb.c
-@@ -573,15 +573,13 @@ static ssize_t ld_usb_write(struct file *file, const char __user *buffer,
- 	}
+diff --git a/drivers/usb/misc/ezusb.c b/drivers/usb/misc/ezusb.c
+index f058d8029761..78aaee56c2b7 100644
+--- a/drivers/usb/misc/ezusb.c
++++ b/drivers/usb/misc/ezusb.c
+@@ -31,24 +31,12 @@ static const struct ezusb_fx_type ezusb_fx1 = {
+ static int ezusb_writememory(struct usb_device *dev, int address,
+ 				unsigned char *data, int length, __u8 request)
+ {
+-	int result;
+-	unsigned char *transfer_buffer;
+-
+ 	if (!dev)
+ 		return -ENODEV;
  
- 	if (dev->interrupt_out_endpoint == NULL) {
--		/* try HID_REQ_SET_REPORT=9 on control_endpoint instead of interrupt_out_endpoint */
--		retval = usb_control_msg(interface_to_usbdev(dev->intf),
--					 usb_sndctrlpipe(interface_to_usbdev(dev->intf), 0),
--					 9,
-+		retval = usb_control_msg_send(interface_to_usbdev(dev->intf),
-+					 0, 9,
- 					 USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,
- 					 1 << 8, 0,
- 					 dev->interrupt_out_buffer,
- 					 bytes_to_write,
--					 USB_CTRL_SET_TIMEOUT);
-+					 USB_CTRL_SET_TIMEOUT, GFP_KERNEL);
- 		if (retval < 0)
- 			dev_err(&dev->intf->dev,
- 				"Couldn't submit HID_REQ_SET_REPORT %d\n",
+-	transfer_buffer = kmemdup(data, length, GFP_KERNEL);
+-	if (!transfer_buffer) {
+-		dev_err(&dev->dev, "%s - kmalloc(%d) failed.\n",
+-							__func__, length);
+-		return -ENOMEM;
+-	}
+-	result = usb_control_msg(dev, usb_sndctrlpipe(dev, 0), request,
++	return usb_control_msg_send(dev, 0, request,
+ 				 USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+-				 address, 0, transfer_buffer, length, 3000);
+-
+-	kfree(transfer_buffer);
+-	return result;
++				 address, 0, data, length, 3000, GFP_KERNEL);
+ }
+ 
+ static int ezusb_set_reset(struct usb_device *dev, unsigned short cpucs_reg,
 -- 
 2.25.1
 
