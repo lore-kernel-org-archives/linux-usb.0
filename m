@@ -2,102 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EDDDC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 518C2C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:27:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D29E2074A
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:26:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2224022210
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:27:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392885AbhAZQ0T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 11:26:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391137AbhAZQ0G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 11:26:06 -0500
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26CFC061574;
-        Tue, 26 Jan 2021 08:25:25 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id bl23so3182248ejb.5;
-        Tue, 26 Jan 2021 08:25:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fTb57WaXs9+RToXoyfP0nmHHPNlNXV/8n6vT36KFqWk=;
-        b=C0lIxIvzqJlAgD5F1KLFkqG9mvUHLETFM0BiU8i9zEk3rCqG+rWWdJvZ7QlHfOnOep
-         ER7oSzmIyUyCd9A1lALdwjvtAqR7XrJu+9F+lWKoLtgGbQzHfj9/GcoPoT0rAL3v+dA4
-         7Y5KSphaWR1J0qDMCOVqdq9dYSbASAaE3i8FzMWW9FS9GM9n4ywTjDOoCFhaKkYlUiNm
-         BYtarTEKYmnw7pPyF86n/375ZGz/WMRKxIldCnHLTtINFQ7Xnbvbtl1MiBxCeSZKxIBD
-         9eWL0nNqdireY2qe+Nxe6j6LTxq769kBhsar/b/Zj5c59azU0By+vEKpsS4ct4iqgtfU
-         LB+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fTb57WaXs9+RToXoyfP0nmHHPNlNXV/8n6vT36KFqWk=;
-        b=EO0GTCbNvoIHw6sHYtm3bm33XWn6KmPUijILkTJnTu3gtIVWLBsZk0sFYvfOPyTIcn
-         wmEe9JiWWH77qBNtIaxeJ4kZAXkG3yQuF0qjHo3kdnB9rkOD0jE3hf51bRk5vYPhSiGB
-         82O9exo29Q/NWKR+0iiWtf1z0Ar553eKzXRrMYTn02lWjKJkei15NG0jYuL6UdAXzjfs
-         f+lGk9A29SIK3gVPEjNrgHgDtJq2G1r/4iDpjDlioQ7mRU7Xy/AngMk901ZXTXSoGTRg
-         xwqWhqM3wnsG+7JqEZCIE5aym6YGneP3jnPSbzB+y4ETYaHaHgVMdhOLd4cXCQkxw2kv
-         UGnw==
-X-Gm-Message-State: AOAM530DDXyoP+IzmkBHdcYFob+jD72ZljoxRSfozlCZVhWEtyNvBSeM
-        hsCBicCQGFkHHtuRElGiZQwix+Xie7yCxEDcwi4=
-X-Google-Smtp-Source: ABdhPJy/0EQcVlEXvZLyWsRSSML5wxyWRPUcvErggT4htJLMR110Eibr5lvQi1zgrc4b024GhN+UhIZtAc0DNx4kuTo=
-X-Received: by 2002:a17:906:cc89:: with SMTP id oq9mr3921954ejb.154.1611678324621;
- Tue, 26 Jan 2021 08:25:24 -0800 (PST)
+        id S2405511AbhAZQ10 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 11:27:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53504 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405368AbhAZQ1U (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 26 Jan 2021 11:27:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 099D42073C;
+        Tue, 26 Jan 2021 16:26:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611678387;
+        bh=JCjAPE8ug3WSp9UDc2ln8+T9VoZO6/IylryIblgM7CY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ONA29Moi3PVGprJZYRhlFc16COTpCKRF3EgjgdrYzzShW4MLskk6aMy1M8bnmFHq2
+         rATfaucKk1withUfolD07+DcAwjz5Ksx7Ip/t/GC5wKc1klUK3LynBbz7y4/V35m/f
+         VOhgZQ6a1gLKpwc4Bqr4jLB62mVBkaOUlUcYyQwdgjqSOkaJnmSoZZlxXFOEUtS58w
+         RCTwSqH8RsmATihExUl6xmevfvT10/IlpsI4clTTK8uzKOyffBiYmtg+fOOXen7V/Y
+         cTDWdyNT5oUXVW721j39fcX7OIUPvgi9HfaTIMC+IBnY6XnE5SbsD+uAQG268h0n85
+         mSs6xwXN7QwAw==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1l4RAq-0000yG-KU; Tue, 26 Jan 2021 17:26:36 +0100
+Date:   Tue, 26 Jan 2021 17:26:36 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Manivannan Sadhasivam <mani@kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patong.mxl@gmail.com, linus.walleij@linaro.org,
+        mchehab+huawei@kernel.org, angelo.dureghello@timesys.com
+Subject: Re: [PATCH v5 1/3] usb: serial: Add MaxLinear/Exar USB to Serial
+ driver
+Message-ID: <YBBCvHvduivta07b@hovoldconsulting.com>
+References: <20201122170822.21715-1-mani@kernel.org>
+ <20201122170822.21715-2-mani@kernel.org>
+ <YAlVLOqzx8otPgOg@hovoldconsulting.com>
+ <20210126154604.GC29751@thinkpad>
 MIME-Version: 1.0
-References: <20210126155723.9388-1-mika.westerberg@linux.intel.com> <20210126155723.9388-5-mika.westerberg@linux.intel.com>
-In-Reply-To: <20210126155723.9388-5-mika.westerberg@linux.intel.com>
-From:   Yehezkel Bernat <yehezkelshb@gmail.com>
-Date:   Tue, 26 Jan 2021 18:25:08 +0200
-Message-ID: <CA+CmpXu-LQZyEiAD_1Nb+SntnTojn-T_HPSa=K_6-u2WC7biNQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] ACPI: Execute platform _OSC also with query bit clear
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Christian Kellner <christian@kellner.me>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-acpi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126154604.GC29751@thinkpad>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 5:57 PM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> From: Mario Limonciello <mario.limonciello@dell.com>
->
-> The platform _OSC can change the hardware state when query bit is not
-> set. According to ACPI spec it is recommended that the OS runs _OSC with
-> query bit set until the platform does not mask any of the capabilities.
-> Then it should run it with query bit clear in order to actually commit
-> the changes. At the moment Linux only runs the _OSC with query bit set
-> and this is going to cause problems with the USB4 CM (Connection
-> Manager) switch that is going to commit the switch only when the OS
-> requests control over the feature.
->
-> For this reason modify the _OSC support so that we first execute it with
-> query bit set, then use the returned valu as base of the features we
+On Tue, Jan 26, 2021 at 09:16:04PM +0530, Manivannan Sadhasivam wrote:
+> On Thu, Jan 21, 2021 at 11:19:24AM +0100, Johan Hovold wrote:
+> > On Sun, Nov 22, 2020 at 10:38:20PM +0530, Manivannan Sadhasivam wrote:
+> > > Add support for MaxLinear/Exar USB to Serial converters. This driver
+> > > only supports XR21V141X series but it can be extended to other series
+> > > from Exar as well in future.
+> > 
+> > There are still a few issues with this driver, but I really don't want
+> > to have to review it again in a couple of months so I've fixed it up
+> > myself this time.
+> > 
+> > The trivial stuff I folded into this patch, and I'll submit a follow-on
+> > series for the rest.
+> > 
+> 
+> Many thanks for doing this! These days it is really difficult to find
+> time for spare time stuffs.
+> 
+> And all of your fixes makes sense to me.
 
-Totally out of my depth here, but just noticed the typo (valu => value).
+Thanks for taking a look!
 
-> want to control and run the _OSC again with query bit clear.
->
-> Also rename the function to better match what it does.
->
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> ---
+Johan
