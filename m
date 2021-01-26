@@ -2,85 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B8B5C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:29:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 949EFC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 17:19:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21A3822228
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 16:29:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CDD72083E
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 17:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392909AbhAZQ2m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 11:28:42 -0500
-Received: from mga02.intel.com ([134.134.136.20]:22254 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392722AbhAZQ22 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Jan 2021 11:28:28 -0500
-IronPort-SDR: yR7xAnJxcESn5oZPalV0TMocXFIDQhERIWKSx+kvFqtuNzarbigAIAtdNBcYI3oFk/sxXqrMQi
- h04QodAl7nYA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="167028845"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="167028845"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 08:26:36 -0800
-IronPort-SDR: 2L8j2f9TFsRPZxtVzcEO45/L+uJEcceaGqUAlVY5H1DSO2oEyjPXUhUuefwCJiBDQacfzcAQpU
- DaFiTASvDqHQ==
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208";a="472802064"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 08:26:32 -0800
-Received: by lahna (sSMTP sendmail emulation); Tue, 26 Jan 2021 18:26:30 +0200
-Date:   Tue, 26 Jan 2021 18:26:30 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Yehezkel Bernat <yehezkelshb@gmail.com>
-Cc:     linux-usb@vger.kernel.org, Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Christian Kellner <christian@kellner.me>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-acpi@vger.kernel.org
-Subject: Re: [PATCH 2/6] thunderbolt: Add support for PCIe tunneling disabled
- (SL5)
-Message-ID: <20210126162630.GA1988617@lahna.fi.intel.com>
-References: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
- <20210126155723.9388-3-mika.westerberg@linux.intel.com>
- <CA+CmpXscOVjn20ffw37GRLBWhQDRJ9J8svYvU1-VWg5eA-Bm4A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+CmpXscOVjn20ffw37GRLBWhQDRJ9J8svYvU1-VWg5eA-Bm4A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        id S2390355AbhAZRSa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 12:18:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390382AbhAZIql (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 03:46:41 -0500
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA616C061786
+        for <linux-usb@vger.kernel.org>; Tue, 26 Jan 2021 00:45:53 -0800 (PST)
+Received: by mail-pf1-x44a.google.com with SMTP id x206so7721158pfc.16
+        for <linux-usb@vger.kernel.org>; Tue, 26 Jan 2021 00:45:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=TvDirtp33tQ52/+xfhxSiL9lDOUp03iq0TnEaNmWwQQ=;
+        b=bo/qYJO/oWZGzk/RT0zMkXs3Ry7yVRr04zttXknovn8ZuFXa85/EcnqhgYLpg/kLbC
+         ZWi25BKBWd+66y9XCGYfS6iWMVwQyMFbxQnPtFE8O4lfNB667xGyiY56IChHH5YB/1Nr
+         xVMu7drtb+kPwQrKYh2Sw6cQ9XyZIw3C/RCMG0kob1M7vsf9ESRo+z08g+QqZ2eFABBj
+         z/a75c12n1yZwUHSTUZm5dRT4imd4DyIWQZav4p6wRf1k7jP9DU2GkqN9z+2VY2meGig
+         SYmGDNQNvt73YAgmYVacSqt671mlNnaohCuusHnX1z3PrqM7efAL/R9V5CEAK4bL1z52
+         Mjog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=TvDirtp33tQ52/+xfhxSiL9lDOUp03iq0TnEaNmWwQQ=;
+        b=Ld7Ut6laLhmVhphz04454z5FDxsh9kXJWRxBOAbS7Nt3TfIomHShsPxkvnX+j8UkR0
+         bse+ZW25GWOXq+BXlTGk7a19h0n2+VHHOZ9lsYEmGMsw95yOH97lN4adkVYrrQRhDxL2
+         xUt7vFVs1ShUOjdRAn8FOo1SsAignPYnLHG6x3OpUEwRVLWWZDOMP5ron+CrMavTO1Xf
+         zPlCFXPx9R81SVTyonJu3xQi91jsiI2vBK9tYdD3wbHJUGe7/wYo7wBhA+/oRct/HE+Q
+         kAHkVMoLXTU6en42ZQl6Kxwt6nYvFVEgvqs/MGoMWX4USkFsTBC6ZkZkeOY3RUlCs02z
+         tprg==
+X-Gm-Message-State: AOAM532OA9Z0GT/Jj/ib56zlakKPrz3GRau2yx9wBwUBahN2gSrvsrLW
+        s/AB35QOmz9/xxjpBHNDZI/Uyp/sFN0i
+X-Google-Smtp-Source: ABdhPJwpx0HIv3y1JBgyuhRp7JMI+b0CQQDa80hg7y5P3WpuD9CFOIEDueuJD8x6PH4eP17R4/5Rq0r2uH0y
+Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
+X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:4430:c29c:1e76:3e65])
+ (user=kyletso job=sendgmr) by 2002:a17:90b:3789:: with SMTP id
+ mz9mr5203328pjb.4.1611650753479; Tue, 26 Jan 2021 00:45:53 -0800 (PST)
+Date:   Tue, 26 Jan 2021 16:45:41 +0800
+Message-Id: <20210126084544.682641-1-kyletso@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
+Subject: [PATCH 0/3] common SVDM version and VDO from dt
+From:   Kyle Tso <kyletso@google.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        hdegoede@redhat.com, badhri@google.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Kyle Tso <kyletso@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 06:18:47PM +0200, Yehezkel Bernat wrote:
-> On Tue, Jan 26, 2021 at 5:57 PM Mika Westerberg
-> <mika.westerberg@linux.intel.com> wrote:
-> >
-> > Recent Intel Thunderbolt firmware connection manager has support for
-> > another security level, SL5, that disables PCIe tunneling. This option
-> > can be turned on from the BIOS.
-> >
-> > When this is set the driver exposes a new security level "nopcie" to the
-> > userspace and hides the authorized attribute under connected devices.
-> >
-> > While there we also hide it when "dponly" security level is enabled
-> > since it is not really usable in that case anyway.
-> >
-> > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > ---
-> 
-> Looks good to me, I'm just not sure I understand how this is different from
-> dponly mode. Is this just because it comes from the new _OSC?
+The correct SVDM version we should use is the lowest common version             
+between the port partners (plug) as stated in the PD3 Spec 6.4.4.2.3.           
+It is determined in the Discovery Identity command so cache it and set          
+the value to the version field of the VDM header in every later SVDM.           
+                                                                                
+Like the previous patch "usb: typec: tcpm: Create legacy PDOs for PD2           
+connection"                                                                     
+(https://lore.kernel.org/linux-usb/20210115163311.391332-1-kyletso@google.com/) 
+The field is changed before sending it out of the port. I know this is          
+not a good idea but at least it works.                                          
+                                                                                
+The other two patches are about to get the VDO from fwnode so as to give         
+more flexibility.
 
-The firmware connection manager reports this new security level instead
-of dponly so we reflect that to the userspace, and while at it take
-advantage of the nopcie when USB4 _OSC disables PCIe tunneling so they
-both look the same from userspace perspective.
+Kyle Tso (3):
+  usb: typec: Determine common SVDM Versions
+  dt-bindings: connector: Add SVDM VDO properties
+  usb: typec: tcpm: Get Sink VDO from fwnode
+
+ drivers/usb/typec/altmodes/displayport.c |  6 ++-
+ drivers/usb/typec/class.c                |  8 ++--
+ drivers/usb/typec/tcpm/tcpm.c            | 56 ++++++++++++++++++++----
+ drivers/usb/typec/ucsi/displayport.c     | 12 +++--
+ include/dt-bindings/usb/pd.h             | 53 +++++++++++++++++++++-
+ include/linux/usb/pd_vdo.h               | 40 ++++++++++++-----
+ 6 files changed, 147 insertions(+), 28 deletions(-)
+
+-- 
+2.30.0.280.ga3ce27912f-goog
+
