@@ -2,106 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32ADFC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75DF8C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C648D2079A
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E4FB2079A
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343680AbhA0Mzd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 07:55:33 -0500
-Received: from mga11.intel.com ([192.55.52.93]:48650 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238066AbhA0Mwi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 27 Jan 2021 07:52:38 -0500
-IronPort-SDR: CZB6JRl299cKdDBLVezpuoH95l8KaZPXMy87ZusmDfMXf820Ge0MaFAB1rT8XSbayo3MVNU7Oq
- /HEOEehY/jnQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="176551754"
-X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
-   d="scan'208";a="176551754"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:49:44 -0800
-IronPort-SDR: NJDK9KRqBG61tdPn3HyFnSon9wtk2ujx9vVoCAGI5VRYIYZ7c7AZDO6Raw4eqkCxGCsEMa8N96
- 97IuSuPBu5Tg==
-X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
-   d="scan'208";a="362420090"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:49:38 -0800
-Received: by lahna (sSMTP sendmail emulation); Wed, 27 Jan 2021 14:49:35 +0200
-Date:   Wed, 27 Jan 2021 14:49:35 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Christian Kellner <christian@kellner.me>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Subject: Re: [PATCH 4/6] ACPI: Execute platform _OSC also with query bit clear
-Message-ID: <20210127124935.GC2542@lahna.fi.intel.com>
-References: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
- <20210126155723.9388-5-mika.westerberg@linux.intel.com>
- <CAJZ5v0i+wCOFZOhyx6i=TUGMeWyQR4vXzDN06G6xheFwC66Tuw@mail.gmail.com>
- <SA1PR19MB4926907D028D3F924FF42A36FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
- <CAJZ5v0hQ_JZVfOpSZY0hxc01He9x7uzgU2rsKffmQubaeKy=EA@mail.gmail.com>
- <SA1PR19MB4926A9A1E4D0AD96FAE236B3FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
+        id S313941AbhAZWu3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 17:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726883AbhAZFPv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 00:15:51 -0500
+Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com [IPv6:2607:f8b0:4864:20::c29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CC3AC061786
+        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 21:15:03 -0800 (PST)
+Received: by mail-oo1-xc29.google.com with SMTP id y14so3845912oom.10
+        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 21:15:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WEj3tmR62zGvDZoGCGiPRerSzNBbdxbd1rRwr/9kJUk=;
+        b=P49sxvgT7xsvQvhm489+UNNHRjydA/7wRy7XhqQbQIEkgQQAJ3Ky16ENSRxcKRMsku
+         k/7TmktrWpSOkzI7k/20H5wHVS2SGi0YbY5HGLE53sqXPhVr2wo/NpOooPbYSQdU34Th
+         VBiPWougzOxqABN3qvXy7YNvpWcY6w7UNtQtxoAoswujsC2EWr3NxiczgXM2u5/HQfUJ
+         LrYERBbGVl9yBkB6uzN0NsKTR4wJpcH5jAlCdV1KToNzMym5qVxYxIbTP3TXsKB3rNPf
+         YAimxbu0HMBI1BBPkEWfvePe+eS4LQX5r7rOmyYjBxH4L8adq6dBB7mzBCOL2xoUrgJN
+         30Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WEj3tmR62zGvDZoGCGiPRerSzNBbdxbd1rRwr/9kJUk=;
+        b=F1sJ1AHruBgxlg2/vzZQOMSnnHT/+g8qjZm8XpwTPfj2sfy1iilL+KrmDbqOsEaoI4
+         he3p9/cXFTQdrzCEqS9E0Y2U1zYpILM6Ingk8WbrIZ+gQn20MnscMRQblaPXZEnZi+VD
+         2srxYWZWX9Zu0NnMwE4OVZD5WehpEJP7nnTO/kLZk/4Vw7vjSdJ2Bgx6dBSF9TJBsRp+
+         WvpRqVl6BXrOwyxpWVkVgpA1EbIwHHsKnc8uMk292zj2ZMGKRjwrssQdxc46hZ3mmxlK
+         clSxCcaWDAEF6oPGHrtUAUHsr5gB9K1QL7QQYNZmJMSV8IDV+V6rHqMhZEodsZ+1CVsG
+         M1hw==
+X-Gm-Message-State: AOAM533QT0L2+foSu2IP5ee7KM/4VcokYw1vSMH26XzaZw722vt7qltb
+        6/iL6hpHMTeF9cUKXJURb+9Pog==
+X-Google-Smtp-Source: ABdhPJxQy38LYIBO8JfsuhJvZQAab+eu72Dtx+aE1TieErPJ/G0DWwha/Ormwzl0NukmD+JYSYVKPw==
+X-Received: by 2002:a4a:9092:: with SMTP id j18mr1040063oog.19.1611638102791;
+        Mon, 25 Jan 2021 21:15:02 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id f10sm2357672oom.18.2021.01.25.21.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 21:15:02 -0800 (PST)
+Date:   Mon, 25 Jan 2021 23:15:00 -0600
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, peter.chen@nxp.com,
+        jackp@codeaurora.org
+Subject: Re: [PATCH v6 3/4] usb: dwc3: Resize TX FIFOs to meet EP bursting
+ requirements
+Message-ID: <YA+lVFWlBDvN4MTF@builder.lan>
+References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
+ <1611288100-31118-4-git-send-email-wcheng@codeaurora.org>
+ <YAsHbj/mITeiY5Cq@builder.lan>
+ <724cb274-36ce-fb48-a156-4eaf9e686fdf@codeaurora.org>
+ <20210126015543.GB1241218@yoga>
+ <99dd9419-a8fd-9eb2-9582-d24f865ecf70@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SA1PR19MB4926A9A1E4D0AD96FAE236B3FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <99dd9419-a8fd-9eb2-9582-d24f865ecf70@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 10:43:32PM +0000, Limonciello, Mario wrote:
-> > I would put that information into the changelog.
-> 
-> Thanks, @Mika Westerberg can you collapse that in when you re-spin the
-> series?
-
-Sure.
-
+On Mon 25 Jan 22:32 CST 2021, Wesley Cheng wrote:
+> On 1/25/2021 5:55 PM, Bjorn Andersson wrote:
+> > On Mon 25 Jan 19:14 CST 2021, Wesley Cheng wrote:
 > > 
-> > Moreover, have you looked at acpi_pci_osc_control_set()?
+> >>
+> >>
+> >> On 1/22/2021 9:12 AM, Bjorn Andersson wrote:
+> >>> On Thu 21 Jan 22:01 CST 2021, Wesley Cheng wrote:
+> >>>
+> >>
+> >> Hi Bjorn,
+> >>>
+> >>> Under what circumstances should we specify this? And in particular are
+> >>> there scenarios (in the Qualcomm platforms) where this must not be set?
+> >>> The TXFIFO dynamic allocation is actually a feature within the DWC3
+> >> controller, and isn't specifically for QCOM based platforms.  It won't
+> >> do any harm functionally if this flag is not set, as this is meant for
+> >> enhancing performance/bandwidth.
+> >>
+> >>> In particular, the composition can be changed in runtime, so should we
+> >>> set this for all Qualcomm platforms?
+> >>>
+> >> Ideally yes, if we want to increase bandwith for situations where SS
+> >> endpoint bursting is set to a higher value.
+> >>
+> >>> And if that's the case, can we not just set it from the qcom driver?
+> >>>
+> >> Since this is a common DWC3 core feature, I think it would make more
+> >> sense to have it in DWC3 core instead of a vendor's DWC3 glue driver.
+> >>
 > > 
-> > What it does is analogous to what you are proposing, but a bit
-> > different, and I would like to preserve consistency between _OSC use
-> > cases.
+> > I don't have any objections to implementing it in the core driver, but
+> > my question is can we just skip the DT binding and just enable it from
+> > the vendor driver?
 > > 
-> > So would it be possible to adjust the _SB _OSC evaluation flow to
-> > follow the PCI _OSC one?  That is, if any control bits are there, pass
-> > them along with the last evaluation of _OSC with the query flag clear.
-> > Or is the latter defective and if so then why?
+> > Regards,
+> > Bjorn
+> > 
 > 
-> Basically the only difference is another line cloning OSC_CONTROL_DWORD from
-> capbuf_ret to capbuf?
+> Hi Bjorn,
 > 
-> Yes, this actually sounds like it better adheres to the spec to me.
+> I see.  I think there are some designs which don't have a DWC3 glue
+> driver, so assuming there may be other platforms using this, there may
+> not always be a vendor driver to set this.
 > 
-> Quoting spec:
-> " If the OS is granted control of a feature in the Control Field in one call to
-> _OSC, then it must preserve the set state of that bit (requesting that feature)
-> in all subsequent calls."
 
-However, the platform wide _OSC does not actually have this
-OSC_CONTROL_DWORD at all ;-)
+You mean that there are implementations of dwc3 without an associated
+glue driver that haven't yet realized that they need this feature?
 
-I think what we do in this patch is already equivalent to what the PCI
-_OSC is doing:
+I would suggest then that we implement the core code necessary, we
+enable it from the Qualcomm glue layer and when someone realize that
+they need this without a glue driver it's going to be trivial to add the
+DT binding.
 
-  1. Query bit set _OSC
-  2. Take the returned OSC_SUPPORT_DWORD buffer and
-  3. Pass it to the _OSC with query bit clear.
 
-I may be missing something, though.
+The alternative is that we're lugging around a requirement to specify
+this property in all past, present and future Qualcomm dts files - and
+then we'll need to hard code it for ACPI anyways.
+
+Regards,
+Bjorn
