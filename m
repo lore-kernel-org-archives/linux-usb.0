@@ -2,67 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC34C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 12:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77290C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 13:41:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 064B823104
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 12:45:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4763922EBD
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 13:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391383AbhAZMpY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 07:45:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50886 "EHLO mail.kernel.org"
+        id S2404462AbhAZNkl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 08:40:41 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:60120 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391070AbhAZKCf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Jan 2021 05:02:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 25293207B3;
-        Tue, 26 Jan 2021 10:01:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1611655300;
-        bh=y1MOKASzLXlgv5G7Z2WdzbbQ7vAhq5jKKktHAEjEmOQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gpxee3bgMTnI9BbSPYoCB38fdhNoRnccEg7Je314xkCqZEky4Zfv0Tulvf4NqX3dd
-         YLnmRY4Ds0nDQ4rCQVHg3EYtzNE70fioscJLZycCtMoPxHO+Y+TdGDJkpBy8R3ZBxs
-         7ExB+HL/uYSx93v3famMEJVEz/dxayyut6oXGJr4=
-Date:   Tue, 26 Jan 2021 11:01:37 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ray Chi <raychi@google.com>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kyletso@google.com
-Subject: Re: [PATCH] usb: dwc3: add EXPORT_SYMBOL_GPL for role init functions
-Message-ID: <YA/ogYkHrbmd1Eyo@kroah.com>
-References: <20210126094913.180945-1-raychi@google.com>
+        id S2404797AbhAZNfk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 26 Jan 2021 08:35:40 -0500
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1l4OUX-002hpL-4I; Tue, 26 Jan 2021 14:34:45 +0100
+Date:   Tue, 26 Jan 2021 14:34:45 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     hayeswang@realtek.com, grundler@chromium.org, davem@davemloft.net,
+        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        Roland Dreier <roland@kernel.org>
+Subject: Re: [PATCHv2 1/3] usbnet: specify naming of
+ usbnet_set/get_link_ksettings
+Message-ID: <YBAadd6iuN0Ov2Ba@lunn.ch>
+References: <20210121125731.19425-1-oneukum@suse.com>
+ <20210121125731.19425-2-oneukum@suse.com>
+ <YAomCIEWCsquQODX@lunn.ch>
+ <3da2bd93f8da246d9032f4b07dff53a1b3648ccd.camel@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210126094913.180945-1-raychi@google.com>
+In-Reply-To: <3da2bd93f8da246d9032f4b07dff53a1b3648ccd.camel@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 05:49:13PM +0800, Ray Chi wrote:
-> Currently, role init functions are used in dwc3 driver but
-> can't be called from kernel modules.
->   dwc3_host_init
->   dwc3_host_exit
->   dwc3_gadget_init
->   dwc3_gadget_exit
->   dwc3_event_buffers_setup
->   dwc3_event_buffers_cleanup
+On Tue, Jan 26, 2021 at 10:42:09AM +0100, Oliver Neukum wrote:
+> Am Freitag, den 22.01.2021, 02:10 +0100 schrieb Andrew Lunn:
+> > On Thu, Jan 21, 2021 at 01:57:29PM +0100, Oliver Neukum wrote:
+> > > The old generic functions assume that the devices includes
+> > > an MDIO interface. This is true only for genuine ethernet.
+> > > Devices with a higher level of abstraction or based on different
+> > > technologies do not have it. So in preparation for
+> > > supporting that, we rename the old functions to something specific.
+> > > 
+> > > v2: adjusted to recent changes
+> > 
+> > Hi Oliver
+> > 
+> > It  looks like my comment:
+> > 
+> > https://www.spinics.net/lists/netdev/msg711869.html
+> > 
+> > was ignored. Do you not like the name mii?
 > 
-> If other kernel modules want to use these functions, it needs
-> EXPORT_SYMBOL_GPL() to get compile pass.
+> Hi,
 > 
-> Signed-off-by: Ray Chi <raychi@google.com>
+> sorry for not replying earlier.
+> 
+> It was my understanding that on the hardware level of the
+> networking devices we are using MII, but to control MII we
+> use MDIO, don't we?
+> So it seems to me that hardware could use MII but not
+> MDIO, yet for this purpose we require MDIO. So could
+> you please explain your reasoning about networking stuff?
 
-What current kernel configuration fails without this patch applied?  I
-don't see any in-tree users of this as a module that would break, or am
-I missing something?
+Hi Oliver
 
-thanks,
+To some extent, it is a terminology problem. First off, MII includes
+the two MDIO pins. MDIO is a subset of MII.
 
-greg k-h
+However, the bigger issue is Linux has two different bits of code
+which can be used to talk to the PHY. There is the old mii code,
+driver/net/mii.c. This code assumes the PHY exactly follows 802.3
+clause 22.
+
+Then we have drivers/net/mdio, drivers/net/phy, phylib, and a
+collection of PHYs drivers. The MDIO drivers implement the MDIO bus,
+allowing transfers over the bus. And the PHY drivers then handle the
+devices on this bus. These PHY drivers can handle nearly any quirk the
+PHY might have which deviate from C22. It also allows drivers to use
+C45, the alternative register set PHYs can use. And it allows for
+added extras, like temperature sensors, cable diagnostics and
+statistics, none of which is standardised.
+
+The code you are changing makes use of the older mii code.  There are
+however some USB devices which use phylib. By using the postfix _mii
+for these ops, it makes it clear it is using the older mii code. In
+the future, there might be _phylib versions of these ops. It is very
+unlikely any USB device driver will directly use an MDIO bus drivers,
+so _mdio does not really make sense, from the perspective of Linux
+code.
+
+    Andrew
