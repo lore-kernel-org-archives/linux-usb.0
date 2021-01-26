@@ -2,67 +2,67 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 727D6C43142
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 786F3C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5295123109
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CF3323118
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388386AbhAZFoV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:44:21 -0500
-Received: from a1.mail.mailgun.net ([198.61.254.60]:14396 "EHLO
+        id S2388406AbhAZFoY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:44:24 -0500
+Received: from a1.mail.mailgun.net ([198.61.254.60]:47150 "EHLO
         a1.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732584AbhAZBYO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 20:24:14 -0500
+        with ESMTP id S2387461AbhAZBY5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 20:24:57 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1611624228; h=Content-Transfer-Encoding: Content-Type:
+ s=smtp; t=1611624273; h=Content-Transfer-Encoding: Content-Type:
  In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=VQEIbhrLU9m+11s5BHDp50s8B60S1267RkQ7GGN1GuI=; b=tbAD24OISthbGhS+3eoj78p4A5Ore71fRSZ5nDX0JjzkOKO7nlHXrlyaPNit2z/1X8MZMt/+
- 7FWajbaHXQ7sHQY8TTbROiLM8tLMcdOJZkH5pVlTa4YOpht6+eGJB7JnHI3zKoYn6yqbeJdz
- iiGKhor2FBDcuw3lXGe2UNnVS/8=
+ Subject: Sender; bh=7OsIShq8IRb2YDHJ4/j58ebi3yNhkVmimR5GqE3wAqY=; b=Le4bjoAVRpxHoYKUKz2QMmyACcfeqwxkkEPHJ6oPnLOymoW/iOs9sSWD5Tm5chbsQmT1jRFd
+ oSVbghvBGE9lxKWSky4A1m7iRxbHFFRmWpYOa+n85OkBUasTtrvikdTtHW3UPX+bV0p1Ou9G
+ 19hNFMYAuk+Cop0UEYzTcr7T2ew=
 X-Mailgun-Sending-Ip: 198.61.254.60
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 600f69fd5677aca7bd4031db (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 Jan 2021 01:01:49
+ 600f6cfe5677aca7bd490ac1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 Jan 2021 01:14:38
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id F15D3C43462; Tue, 26 Jan 2021 01:01:48 +0000 (UTC)
+        id D725AC43463; Tue, 26 Jan 2021 01:14:37 +0000 (UTC)
 Received: from [10.110.78.65] (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 85303C433ED;
-        Tue, 26 Jan 2021 01:01:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 85303C433ED
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 91F3AC433C6;
+        Tue, 26 Jan 2021 01:14:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 91F3AC433C6
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-Subject: Re: [PATCH v6 1/4] usb: gadget: udc: core: Introduce check_config to
- verify USB configuration
-To:     Jack Pham <jackp@codeaurora.org>
+Subject: Re: [PATCH v6 3/4] usb: dwc3: Resize TX FIFOs to meet EP bursting
+ requirements
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        peter.chen@nxp.com
+        agross@kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, peter.chen@nxp.com,
+        jackp@codeaurora.org
 References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
- <1611288100-31118-2-git-send-email-wcheng@codeaurora.org>
- <20210122051743.GE31406@jackp-linux.qualcomm.com>
+ <1611288100-31118-4-git-send-email-wcheng@codeaurora.org>
+ <YAsHbj/mITeiY5Cq@builder.lan>
 From:   Wesley Cheng <wcheng@codeaurora.org>
-Message-ID: <f5d04121-fd8c-9644-59c0-0ee8aa132de0@codeaurora.org>
-Date:   Mon, 25 Jan 2021 17:01:46 -0800
+Message-ID: <724cb274-36ce-fb48-a156-4eaf9e686fdf@codeaurora.org>
+Date:   Mon, 25 Jan 2021 17:14:35 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210122051743.GE31406@jackp-linux.qualcomm.com>
+In-Reply-To: <YAsHbj/mITeiY5Cq@builder.lan>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,41 +72,36 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 
 
-On 1/21/2021 9:17 PM, Jack Pham wrote:
-> Hi Wesley,
+On 1/22/2021 9:12 AM, Bjorn Andersson wrote:
+> On Thu 21 Jan 22:01 CST 2021, Wesley Cheng wrote:
 > 
-> On Thu, Jan 21, 2021 at 08:01:37PM -0800, Wesley Cheng wrote:
->> Some UDCs may have constraints on how many high bandwidth endpoints it can
->> support in a certain configuration.  This API allows for the composite
->> driver to pass down the total number of endpoints to the UDC so it can verify
->> it has the required resources to support the configuration.
->>
->> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
->> ---
->>  drivers/usb/gadget/udc/core.c | 9 +++++++++
->>  include/linux/usb/gadget.h    | 2 ++
->>  2 files changed, 11 insertions(+)
->>
->> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
->> index 4173acd..469962f 100644
->> --- a/drivers/usb/gadget/udc/core.c
->> +++ b/drivers/usb/gadget/udc/core.c
->> @@ -1003,6 +1003,15 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
->>  }
->>  EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
->>  
->> +int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map)
-> 
-> You should probably add a kernel-doc for this function.
-> 
-> Jack
-> 
-Hi Jack,
 
-Sure, I'll update a bit more about how this API can be used.
+Hi Bjorn,
+> 
+> Under what circumstances should we specify this? And in particular are
+> there scenarios (in the Qualcomm platforms) where this must not be set?
+>The TXFIFO dynamic allocation is actually a feature within the DWC3
+controller, and isn't specifically for QCOM based platforms.  It won't
+do any harm functionally if this flag is not set, as this is meant for
+enhancing performance/bandwidth.
+
+> In particular, the composition can be changed in runtime, so should we
+> set this for all Qualcomm platforms?
+> 
+Ideally yes, if we want to increase bandwith for situations where SS
+endpoint bursting is set to a higher value.
+
+> And if that's the case, can we not just set it from the qcom driver?
+> 
+Since this is a common DWC3 core feature, I think it would make more
+sense to have it in DWC3 core instead of a vendor's DWC3 glue driver.
 
 Thanks
 Wesley Cheng
+
+> Regards,
+> Bjorn
+
 
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
