@@ -2,70 +2,67 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2796C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:12:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 710BCC433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:14:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3B8022B3B
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:12:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47C1822B2C
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 14:14:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392407AbhAZOLk convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 09:11:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51876 "EHLO mail.kernel.org"
+        id S2405772AbhAZONr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 09:13:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52468 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405770AbhAZOKF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Jan 2021 09:10:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 39D7F22D04
-        for <linux-usb@vger.kernel.org>; Tue, 26 Jan 2021 14:09:20 +0000 (UTC)
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 210351] Wrong setting baudrate for FTDI chip FT230X
-Date:   Tue, 26 Jan 2021 14:09:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: johan@kernel.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210351-208809-8KTTIUc3fD@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210351-208809@https.bugzilla.kernel.org/>
-References: <bug-210351-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S2405753AbhAZONE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 26 Jan 2021 09:13:04 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FBBC22B2C;
+        Tue, 26 Jan 2021 14:12:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1611670343;
+        bh=G8RbizNkdNhtYdbjdcp6CKdodVotlaNcKkCrkrgBOM4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RebdL0YABKv/TCxvi7C2gTeM2+0QKQEemTQWlYvunvF5ClLDr0dn/6NpKVgViC+yW
+         BEj0iJ9GJRY8O3yXcKbITcIeI/SidE3xJ2cbdiMgzmjbLqYZFxUWAlIvkSMOd96LqI
+         rre5pS6FU1M0YjFBWfPesiGrOCmP9mjr/LE4I8ME=
+Date:   Tue, 26 Jan 2021 15:12:21 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Ikjoon Jang <ikjn@chromium.org>,
+        linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org,
+        Zhanyong Wang <zhanyong.wang@mediatek.com>,
+        Tianping Fang <tianping.fang@mediatek.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] usb: xhci-mtk: fix unreleased bandwidth data
+Message-ID: <YBAjRUSEd/6sCl4O@kroah.com>
+References: <20210113180444.v6.1.Id0d31b5f3ddf5e734d2ab11161ac5821921b1e1e@changeid>
+ <1611640920.3905.13.camel@mhfsdcap03>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1611640920.3905.13.camel@mhfsdcap03>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210351
+On Tue, Jan 26, 2021 at 02:02:00PM +0800, Chunfeng Yun wrote:
+> Hi Ikjoon,
+> 
+> Can I put this patch into my patch series about bandwidth scheduler?
+> the series also include "[RFC PATCH v3 1/5] usb: xhci-mtk: improve
+> bandwidth scheduling with multi-TT", put them together will help to fix
+> dependence issue, meanwhile I try to build xhci-mtk-sch.c into
+> xhci-mtk.ko instead of xhci-hcd.ko.
 
---- Comment #5 from Johan Hovold (johan@kernel.org) ---
-Your reply never made it to the linux-usb list so I didn't see it until
-today when I was preparing the patch I just CCed you on.
+This should probably be merged now, first, as it fixes an issue that
+showed up in 4.20 so this needs to be backported to older kernels.
 
-I'll queue it up for 5.12, but then I think we can backport it to the
-stable trees as well.
+Please rebase your future patches on top of this.
 
-Thanks again for reporting this.
+thanks,
 
-Johan
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.
+greg k-h
