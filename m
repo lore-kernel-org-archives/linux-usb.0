@@ -2,85 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E08FDC4321A
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B802C4360C
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE08323109
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08D2923110
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Jan 2021 19:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731914AbhAZFns (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 00:43:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730741AbhAYQeK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 11:34:10 -0500
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 948DEC0613D6
-        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 08:33:24 -0800 (PST)
-Received: by mail-oi1-x234.google.com with SMTP id p5so15343648oif.7
-        for <linux-usb@vger.kernel.org>; Mon, 25 Jan 2021 08:33:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=aleksander-es.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E1l/fbEu9i0n+FeOZGvlHJfjYTj1jsf5qQmy8O5q578=;
-        b=XyA8QCTZG1kV2SzDW4DeEoE71/ufMNgW0iOc8VK7XKr5piOucwxTYQ3DbpjG9kmJIU
-         MCHIjvOvoXtAz12XdS020eBLEs8UlmXX78LWRbin0LznZbxuKVYCvu6XCKnsB0orfpp0
-         Y8wHgD65sfi3naUK1xh/X2FUHba3ph/HggyDxNnUQN6P1o9+K2xg9acudqS/l7GRWanD
-         /fBb2UNmjOcN96phPNx8Muyv7khwd3ibHzsAE9fLmHzzz4eRb5Z0lO/SgbXT5h7j2srw
-         /RmZdP6zW84O/lPMZh0Fcg9hdOSrhD80JbL+lH94p9z8SjbHnq/pL7o3BHflBoh+OF8v
-         LWXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E1l/fbEu9i0n+FeOZGvlHJfjYTj1jsf5qQmy8O5q578=;
-        b=SGqv7yOc1lTC8WP7dAdLJhLl3lx4CMQv5IzB8IkAvsmpmrMiTA0XDAywN8IH0KB9MQ
-         387cZxaCLvhbJRmBwIAsakeQ37Da7GUzaAvDlJ8ORw5PiCOiHUqqRQWd0KxGLy3x6ktF
-         Kr7p3zY6XS3MWsnoKbYZLdo0LuwYuFk0sahFD4VzZDVVxKz1eXuJ7KaX/90d7BIW11OH
-         IeFBoCtHUm36+uwcBft1P6sdVTvPH7zGey3NCJmKCOga4Owe5l0MgX/N8uDus8MZt+H4
-         Ew1AgwFsHm7qPsRBCzRzcklCVug3QgOGcJ34KoWkE/OUNgI42KxrMoS3qGgmTIFmrjFX
-         yiUg==
-X-Gm-Message-State: AOAM530L3WgbkiS4/eqnUlGXYH7G6Tt3hjaOtfFO4zEl+C0kQujP//hJ
-        /IfhEAu+VRraUkcktxtu8/mY6XPugeDBNSwttXKG4nJ9XFeHTno7
-X-Google-Smtp-Source: ABdhPJxtLd0WcE8JllcebiqJLhsC8alI7Nz81nUAXn4yOUWs8uyP3XpSIRvCTWQKRRTMGLG2mmy/pkSnZ9rCRARQ/m8=
-X-Received: by 2002:aca:be54:: with SMTP id o81mr606108oif.67.1611592404007;
- Mon, 25 Jan 2021 08:33:24 -0800 (PST)
+        id S1732477AbhAZFn4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Jan 2021 00:43:56 -0500
+Received: from a1.mail.mailgun.net ([198.61.254.60]:21441 "EHLO
+        a1.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387447AbhAZBXt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Jan 2021 20:23:49 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1611624209; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=O9V4up07IpE1qF4+xHCrvY2NGhcP/Eg6BkRDYO1CsiU=; b=OG4Y+hUn7b3I0mzy5UulPhCks6cKNxPHun1asfLja8inNEpKXlCdIq8oJAn1wIawtnwntmr/
+ QiLyEmpFs0/2gVU2outbsuWhPRv5X1aWVhIUcdxzoOM1g2QSzcnjEcNcIu+BG9p+JlLPybZL
+ eBmLUuKetwpdW329PCKjF1Bb+6M=
+X-Mailgun-Sending-Ip: 198.61.254.60
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 600f6a462c36b2106d3966e8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 Jan 2021 01:03:02
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 08905C43461; Tue, 26 Jan 2021 01:03:02 +0000 (UTC)
+Received: from [10.110.78.65] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 51560C433ED;
+        Tue, 26 Jan 2021 01:03:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 51560C433ED
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [PATCH v6 1/4] usb: gadget: udc: core: Introduce check_config to
+ verify USB configuration
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        peter.chen@nxp.com, jackp@codeaurora.org
+References: <1611288100-31118-1-git-send-email-wcheng@codeaurora.org>
+ <1611288100-31118-2-git-send-email-wcheng@codeaurora.org>
+ <20210122162447.GC43566@rowland.harvard.edu>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <784ce67c-d4ef-63ae-8f81-c52fc5b2e794@codeaurora.org>
+Date:   Mon, 25 Jan 2021 17:02:59 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210125152235.2942-1-dnlplm@gmail.com> <20210125152235.2942-2-dnlplm@gmail.com>
-In-Reply-To: <20210125152235.2942-2-dnlplm@gmail.com>
-From:   Aleksander Morgado <aleksander@aleksander.es>
-Date:   Mon, 25 Jan 2021 17:33:13 +0100
-Message-ID: <CAAP7ucJBw7P6e+e+tkE4vXBCKK+OhvsGzOgPqVsGRvUW+gkyWg@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/2] net: usb: qmi_wwan: add qmap id sysfs file
- for qmimux interfaces
-To:     Daniele Palmas <dnlplm@gmail.com>
-Cc:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210122162447.GC43566@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 25, 2021 at 4:23 PM Daniele Palmas <dnlplm@gmail.com> wrote:
->
-> Add qmimux interface sysfs file qmap/mux_id to show qmap id set
-> during the interface creation, in order to provide a method for
-> userspace to associate QMI control channels to network interfaces.
->
-> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-Thanks for doing this!
 
-Acked-by: Aleksander Morgado <aleksander@aleksander.es>
+On 1/22/2021 8:24 AM, Alan Stern wrote:
+> On Thu, Jan 21, 2021 at 08:01:37PM -0800, Wesley Cheng wrote:
+>> Some UDCs may have constraints on how many high bandwidth endpoints it can
+>> support in a certain configuration.  This API allows for the composite
+>> driver to pass down the total number of endpoints to the UDC so it can verify
+>> it has the required resources to support the configuration.
+>>
+>> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> 
+> 
+>> --- a/include/linux/usb/gadget.h
+>> +++ b/include/linux/usb/gadget.h
+>> @@ -328,6 +328,7 @@ struct usb_gadget_ops {
+>>  	struct usb_ep *(*match_ep)(struct usb_gadget *,
+>>  			struct usb_endpoint_descriptor *,
+>>  			struct usb_ss_ep_comp_descriptor *);
+>> +	int	(*check_config)(struct usb_gadget *gadget, unsigned long ep_map);
+>>  };
+>>  
+>>  /**
+>> @@ -607,6 +608,7 @@ int usb_gadget_connect(struct usb_gadget *gadget);
+>>  int usb_gadget_disconnect(struct usb_gadget *gadget);
+>>  int usb_gadget_deactivate(struct usb_gadget *gadget);
+>>  int usb_gadget_activate(struct usb_gadget *gadget);
+>> +int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map);
+>>  #else
+>>  static inline int usb_gadget_frame_number(struct usb_gadget *gadget)
+>>  { return 0; }
+> 
+> Don't you also need an entry for the case where CONFIG_USB_GADGET isn't 
+> enabled?
+> 
+> Alan Stern
+> 
+Hi Alan,
+
+Thanks for pointing that out.  I missed that, and will add it to the
+next rev.
+
+Thanks
+Wesley Cheng
+
 
 -- 
-Aleksander
-https://aleksander.es
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
