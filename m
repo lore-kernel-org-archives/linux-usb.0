@@ -2,166 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C6EAC433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A7AAC433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D50E2076B
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:44:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2143C207B6
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236774AbhA0LoA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 06:44:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236636AbhA0L3M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:29:12 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98AD9C061354
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:08 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id m187so1230433wme.2
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uAcqugrgmh8drWeQR+i/2G20G7LeMdKvoS3TGhgRh3k=;
-        b=ki5sKBbvUH97xRS17R7ZRIfdT505bJXJc9ycIieG3YZtQaTkl6hn3yT88GSXjJuHaU
-         G8uyBhNCIhFO9tEnbFNRwqusT2pALL0FwFllWU2+xaIXeB0tpu2BvCR8Mm2p7WNtR/EA
-         UF7gMvG9H6vTfL41sL8BMOkYwIpyE8FqlZeVbbVVOVjCtiqekiIPwYXSReB5adhLy7FH
-         YhcNNMOKwxHYfgOX35RJibYYXNdxm9qbFNxss2BxQLPRkK5vMju+WJD0FdzGFUeDAp9J
-         K+fJZ3OwNg6PL/c1WHUJ6qLk0sX/CykQF8o9ZM+aggfzWS9Es44h7IpCPzwKgf+5Yo+f
-         jB5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uAcqugrgmh8drWeQR+i/2G20G7LeMdKvoS3TGhgRh3k=;
-        b=MagSOxs6CuC5asnKE/0wD+xCzrNzneTLH4xZsep3LiqAlY229xD4H38Gf6DqERTyQ4
-         B0ljjqjmVHnAeetpN7rDY5hyUGhlpa28cm9BtGWLBiPjyw4QzuWkUWSoeZtIwLsulMvU
-         Zn1I1aRsyW/rE/fJYosz24g4M09ofv8hN2tLauvKV+A9OLXo4Gwql+xKT4ZY5EeaNIAS
-         p11VrV6HRDDPsLzwOIEi6OaGC0v3ZliihGFjweDDFA9vIW3DkyvIoh6d7yIVURYIZs0o
-         d7mPLN2gRGJX6icLjSu9atZJZ3AbXYsYWZw16StvzyKrK/VUYaaNmxgNKgdwTuePRHni
-         F6aw==
-X-Gm-Message-State: AOAM5306dfwJPArj/i//Pa2P0ka6BmpXqEOXEMHWGD/IJgqOeuGK19Vy
-        7meyqUYzxHTqxcLFrv5EfnH4Kw==
-X-Google-Smtp-Source: ABdhPJzrgEGUcdu6J/3N6xbN495gRs1VHWUonXUpRjsX+BWZK2Id+wPxgtjubHMm9Bnty6EeBy2rRQ==
-X-Received: by 2002:a7b:cf34:: with SMTP id m20mr3889202wmg.84.1611746767374;
-        Wed, 27 Jan 2021 03:26:07 -0800 (PST)
-Received: from dell.default ([91.110.221.188])
-        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.26.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 03:26:06 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 07/12] thunderbolt: nhi: Demote some non-conformant kernel-doc headers
-Date:   Wed, 27 Jan 2021 11:25:49 +0000
-Message-Id: <20210127112554.3770172-8-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210127112554.3770172-1-lee.jones@linaro.org>
-References: <20210127112554.3770172-1-lee.jones@linaro.org>
+        id S237208AbhA0Lrg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 06:47:36 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:47629 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237111AbhA0Lpb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:45:31 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 719A45C016C;
+        Wed, 27 Jan 2021 06:44:25 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 27 Jan 2021 06:44:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=HAeWuxzEk/nfTJp7RJzz13OWedp
+        CZg4BJzHyl85uNN4=; b=GT8DnDQDwtnptxHsbKu0tM6JxjOGsHnil9MUrfzmUUx
+        /FUBA4I40tLGXHYeI2ciqdEGe45ZnQ8KbuqqvS5zCz9w/+k3aIanMhZV09rzT8pb
+        E3dFcRNFSibSL9j7rvDYh6Lp7rUZSz/5e3wT3s5bMFuJ05fTldZ2MBsvC99hcTKO
+        +KeR33S9puTq3KLsuzupcfIoM01bK0axRx5IenKKOPWkG+amYd5lZUEiqwXpYZa6
+        NFMNIjNY4GJxzGN0OAOknqVRx+GYkkdTP4ZEkRXbdKPLkAjELW5Vjx1FbYmeBt14
+        +dM8Qu8rquu7u0zJR4KII8ULc48v3ecyKonOKJYzKUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HAeWux
+        zEk/nfTJp7RJzz13OWedpCZg4BJzHyl85uNN4=; b=UIaUDsHI7DuZQ5r0wDuUFm
+        p2pySn4/AeV8q3OgBMjGf+dUrxyM8iEcsaA+O6q1ywBKPhgfIgUxW2CEonOlrZBM
+        589bmj18bB2TtrPJ9AH9TTqtmj/1Y1r46WNPxnZSjYLV2ZWlSvjYWPpac2bhzanD
+        XBzlD6gxngqPWG4+RCDlIlgTA4yLCG2u6WpMaJ/60XfEO1lc+rv4nspdaesKVgKX
+        N0NYNYj4BWWDvYXu9jXn4+ulfaWvrtiax2b8nF60bsbWrQxIPvk4yftoiIuSig3v
+        lWHkKV0jWoVFpX01zPwXRgR4c95nmfTzRWYaD/DFgy0XNRm3v8k4kV0mVvSRx71Q
+        ==
+X-ME-Sender: <xms:GFIRYLBFKXc5k_hTuBLbYWBBXBB0ndNio_VmLRamKgyyA5sNn7y_Ew>
+    <xme:GFIRYBjoZPdLYQJpGzFADjEJm3tAt_KI1zZm3OcoR1z7H6ROvLdl04sqjJmye_75K
+    r_IZPKYhU1i9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgdeftdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:GFIRYGm6_Lub3CWRJPuWlmPehwlHv85iNpuBe0NpAb0hnIyP9fcscw>
+    <xmx:GFIRYNwgxUXxzIMM3FslFaQKhHjFlkIx_cJj-Xuyn20pYMtSAAOuwQ>
+    <xmx:GFIRYARqiB-J9aTu_26zXnEpn8mSeBEHOE7iEAPGR-nn4lWWug-BqA>
+    <xmx:GVIRYJ5b1YOobsO0vVSlpwCCe4iP57V0IQe8xaYZkx3uPC_MMjfc_A>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id B62B424005D;
+        Wed, 27 Jan 2021 06:44:24 -0500 (EST)
+Date:   Wed, 27 Jan 2021 12:44:22 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Prike Liang <Prike.Liang@amd.com>
+Cc:     linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: [PATCH] usb: pci-quirks: add XHCI_COMP_MODE_QUIRK for disabling
+ amd xhci D3cold
+Message-ID: <YBFSFhgk+O40GYhO@kroah.com>
+References: <1611020924-17178-1-git-send-email-Prike.Liang@amd.com>
+ <YBFPdf6Mc0ZgPsuy@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YBFPdf6Mc0ZgPsuy@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+On Wed, Jan 27, 2021 at 12:33:09PM +0100, Greg KH wrote:
+> On Tue, Jan 19, 2021 at 09:48:44AM +0800, Prike Liang wrote:
+> > During xhci suspend some AMD USB host will lose port status change events and
+> > need to have the registers polled during D3, so now just avoid D3cold.
+> > 
+> > Signed-off-by: Prike Liang <Prike.Liang@amd.com>
+> > ---
+> >  drivers/usb/host/xhci-pci.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> > index 3feaafe..bff817a 100644
+> > --- a/drivers/usb/host/xhci-pci.c
+> > +++ b/drivers/usb/host/xhci-pci.c
+> > @@ -170,6 +170,11 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+> >  		(pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_1)))
+> >  		xhci->quirks |= XHCI_U2_DISABLE_WAKE;
+> >  
+> > +	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
+> > +		pdev->device == 0x1639) {
+> > +		xhci->quirks |= XHCI_COMP_MODE_QUIRK;
+> > +	}
+> 
+> Why not add this check to the
+> xhci_compliance_mode_recovery_timer_quirk_check() function instead,
+> where all other systems that need this quirk are tested for?
 
- drivers/thunderbolt/nhi.c:53: warning: Function parameter or member 'ring' not described in 'ring_interrupt_active'
- drivers/thunderbolt/nhi.c:53: warning: Function parameter or member 'active' not described in 'ring_interrupt_active'
- drivers/thunderbolt/nhi.c:114: warning: Function parameter or member 'nhi' not described in 'nhi_disable_interrupts'
- drivers/thunderbolt/nhi.c:191: warning: Function parameter or member 'ring' not described in 'ring_write_descriptors'
- drivers/thunderbolt/nhi.c:225: warning: Function parameter or member 'work' not described in 'ring_work'
- drivers/thunderbolt/nhi.c:599: warning: Function parameter or member 'ring' not described in 'tb_ring_start'
- drivers/thunderbolt/nhi.c:682: warning: Function parameter or member 'ring' not described in 'tb_ring_stop'
+Ah, you don't have a pci device at that point in time.  But, why aren't
+you making the same calls that the caller of that function does when
+setting this quirk here?  Isn't that also required?
 
-Cc: Andreas Noever <andreas.noever@gmail.com>
-Cc: Michael Jamet <michael.jamet@intel.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/thunderbolt/nhi.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+thanks,
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index cfc622da4f832..2ba33b53d4eb1 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -44,7 +44,7 @@ static int ring_interrupt_index(struct tb_ring *ring)
- 	return bit;
- }
- 
--/**
-+/*
-  * ring_interrupt_active() - activate/deactivate interrupts for a single ring
-  *
-  * ring->nhi->lock must be held.
-@@ -105,7 +105,7 @@ static void ring_interrupt_active(struct tb_ring *ring, bool active)
- 	iowrite32(new, ring->nhi->iobase + reg);
- }
- 
--/**
-+/*
-  * nhi_disable_interrupts() - disable interrupts for all rings
-  *
-  * Use only during init and shutdown.
-@@ -182,7 +182,7 @@ static bool ring_empty(struct tb_ring *ring)
- 	return ring->head == ring->tail;
- }
- 
--/**
-+/*
-  * ring_write_descriptors() - post frames from ring->queue to the controller
-  *
-  * ring->lock is held.
-@@ -212,7 +212,7 @@ static void ring_write_descriptors(struct tb_ring *ring)
- 	}
- }
- 
--/**
-+/*
-  * ring_work() - progress completed frames
-  *
-  * If the ring is shutting down then all frames are marked as canceled and
-@@ -590,7 +590,7 @@ struct tb_ring *tb_ring_alloc_rx(struct tb_nhi *nhi, int hop, int size,
- }
- EXPORT_SYMBOL_GPL(tb_ring_alloc_rx);
- 
--/**
-+/*
-  * tb_ring_start() - enable a ring
-  *
-  * Must not be invoked in parallel with tb_ring_stop().
-@@ -665,7 +665,7 @@ void tb_ring_start(struct tb_ring *ring)
- }
- EXPORT_SYMBOL_GPL(tb_ring_start);
- 
--/**
-+/*
-  * tb_ring_stop() - shutdown a ring
-  *
-  * Must not be invoked from a callback.
-@@ -754,7 +754,7 @@ void tb_ring_free(struct tb_ring *ring)
- 	dev_dbg(&ring->nhi->pdev->dev, "freeing %s %d\n", RING_TYPE(ring),
- 		ring->hop);
- 
--	/**
-+	/*
- 	 * ring->work can no longer be scheduled (it is scheduled only
- 	 * by nhi_interrupt_work, ring_stop and ring_msix). Wait for it
- 	 * to finish before freeing the ring.
--- 
-2.25.1
-
+greg k-h
