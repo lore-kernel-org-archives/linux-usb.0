@@ -2,107 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86EAC433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C874C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:37:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 830CD20754
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:34:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46F812075B
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:37:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236891AbhA0Ld0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 06:33:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236749AbhA0LbI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:31:08 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395FAC061221
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:13 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id i9so1317929wmq.1
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HRGqS1Ub4m0YbvVmKTGmVzBFWciGxN2mIYxOHlmuFFQ=;
-        b=aFxHUHZG0if3sG9m3uw+QqOVHvX6FbbHalFoG7h6dCnk8s42nSq/jKBdsJWQ0Hbq4p
-         Z1SlStAl/veU82UOU+zuLWWwwPLQ3cGM4aWLgam854/2L3ZjWICBDEz8GSvXFWMtWsCw
-         Czr1b/cwT6ymhR4o6GQV05OUSWK+jB0PPmbzyMn97mKM6dRLyTMzBxAm/9pvaE+vm+oV
-         T2X1eeb0gUgd1xgKH2lKqpimfTvBfTzOfy4i8/qK8IEUbSGBt1z/FaOn6uDoIwgZt4sj
-         362O5PTo2SMXRygxmUwFf4dcnefnUgODnQurChgh1grzCXnDzJn5TQwuWRiFYMVZ8Y4k
-         N77g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HRGqS1Ub4m0YbvVmKTGmVzBFWciGxN2mIYxOHlmuFFQ=;
-        b=BwzOdog09/kK6YmQTzkC6jMnXRUa4BvrbQ2BAwuRUd6qd56dQh0Pzm08rq6CEsF1MJ
-         6BmQMXwz4rwXkVEU3ZXA4c12zpmPFk2pvDsiH6b+3Y9r9NIW5gY4IIPZ6i2ltJ4riD21
-         SpNYNMSj6CF8BQ1sqdm5dXBKfxHtp7AxqldO+pLD0mZD80OJaec21V5vlfXMygFS1BLp
-         ykrLhbbqPBAOV/eFBXsC/0G2vtXLZOWszT6SHc2uuZU3gTQF7ISEnf0ZvqkRwjQ13BrQ
-         6TvYC+/Fek10a84s83bayFsuc9j00PQvrZYd2WQv3pstlumXQIRP/Qu8h1vhz902T68c
-         xqNQ==
-X-Gm-Message-State: AOAM533i8ie2NUSutHTz6JU/hdR9BHO5dzgSAMlucNf9rzuOXvO3Eq6e
-        /OIe0L/9MMQ/Uq9/w5F78SyB1w==
-X-Google-Smtp-Source: ABdhPJzG1p4TDwfwkVY8TRuVEWbSgCecvhUfiUzcBZpZEG7669W9TlG+ARfXy+Ebey91FVQPSqnGog==
-X-Received: by 2002:a1c:dd08:: with SMTP id u8mr3766904wmg.121.1611746772007;
-        Wed, 27 Jan 2021 03:26:12 -0800 (PST)
-Received: from dell.default ([91.110.221.188])
-        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.26.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 03:26:11 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 11/12] thunderbolt: tunnel: Fix misspelling of 'receive_path'
-Date:   Wed, 27 Jan 2021 11:25:53 +0000
-Message-Id: <20210127112554.3770172-12-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210127112554.3770172-1-lee.jones@linaro.org>
-References: <20210127112554.3770172-1-lee.jones@linaro.org>
+        id S236724AbhA0Lgt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 06:36:49 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:56023 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236982AbhA0Lei (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:34:38 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id E4EEA5C01C9;
+        Wed, 27 Jan 2021 06:33:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 27 Jan 2021 06:33:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=AeenwuKFg6WBhfcyd8t/iMi4fyZ
+        gGZCL6/5e7j2DIyc=; b=fevZ3tNGsJAIP66FZnIFA/IzbEVbsGyxWc5/MXVvmFQ
+        uqqJJ2ApD1U3xMfxpoZzr27gd/w+B7EVDtPoFJR8u//Zc9fLCO2pnt83JSX6fD6A
+        m+yXlXAWI8vcyXQOFY9mT9MVcjjzSpCuLr4f5vc2w2RIBr9GLr38c2aBOC5fORKL
+        DNZx9r7aJDlr7WyLFNMDeWeY7umuRF7tckoGDCP+jNMTfcDmVKNEe2UVakNbXvP3
+        vrvH0cz+HJPzFx/cZ7xz6Onv+40hFTJfnHL9Ai/72XT1GB41ksuhTw34BxTubHX+
+        Wkn2/JPgQUjGsQY2Js9q/8ghS+M5BzFtH9v0Ze8tABA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Aeenwu
+        KFg6WBhfcyd8t/iMi4fyZgGZCL6/5e7j2DIyc=; b=ZNbvqYrD/P00hXqx/d9wjx
+        emQlpXB/Dmz1qOWcxKOoej7UsgV3bHPB6vfynrneXgNcC4ic1/3F8LbaUdp4ni7G
+        er/X2dT2WRmfbMolC2twNfWT2d2kKT1XyHB4iViVDz1ROvw4Dc0v9H49NN+yxlzy
+        fpob1tEU55GYQhEkqoIxEPHPkyeztIQszN8e+DIL5KDcGxp2s0mtR2IGj/EucnDe
+        z7btfj/ijVdhYiKlv3jSAWA0kAeNHpQJRf3FzGXEAOiI4eLss2yocGaII0cqeA2u
+        pSjoYyiCHXxkXaMMV9rLKIxB2ic+VIWh4jKAor5oLHBKXL/8MGeyRk9qdc6h88lw
+        ==
+X-ME-Sender: <xms:d08RYFWMNkT3RoqrSCNBaeNowUVr-vyr_VxZ0RuYJXCy_VnR7hBxNA>
+    <xme:d08RYDhm43cD8HIPNAL18g1O1P_M0eTMZbu_C5Qdlmgk2yFSE2ft43i5oRxfrAPm5
+    2cqeCExzfx5iw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgddvkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
+    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
+    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:d08RYDsXuhysYfWCFXJRzjiYZt7AZCiWIrb23r7aXMColFXw8a41VQ>
+    <xmx:d08RYM5AQkkvEf9KDh49FrnRp3zW9ESqr8hymio3ke3-1nBpZw2BJw>
+    <xmx:d08RYHMbRP15oiC2mMQYEME9sqc2JhyYUyO03yg4nXESBb2I7deZ_Q>
+    <xmx:d08RYAh-4xOpsbcty3QCjOzWuuoLMXGfIJif9WjuuWlnHR-lLuAFzg>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3FA96240062;
+        Wed, 27 Jan 2021 06:33:11 -0500 (EST)
+Date:   Wed, 27 Jan 2021 12:33:09 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Prike Liang <Prike.Liang@amd.com>
+Cc:     linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: [PATCH] usb: pci-quirks: add XHCI_COMP_MODE_QUIRK for disabling
+ amd xhci D3cold
+Message-ID: <YBFPdf6Mc0ZgPsuy@kroah.com>
+References: <1611020924-17178-1-git-send-email-Prike.Liang@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1611020924-17178-1-git-send-email-Prike.Liang@amd.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+On Tue, Jan 19, 2021 at 09:48:44AM +0800, Prike Liang wrote:
+> During xhci suspend some AMD USB host will lose port status change events and
+> need to have the registers polled during D3, so now just avoid D3cold.
+> 
+> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
+> ---
+>  drivers/usb/host/xhci-pci.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 3feaafe..bff817a 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -170,6 +170,11 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>  		(pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_1)))
+>  		xhci->quirks |= XHCI_U2_DISABLE_WAKE;
+>  
+> +	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
+> +		pdev->device == 0x1639) {
+> +		xhci->quirks |= XHCI_COMP_MODE_QUIRK;
+> +	}
 
- drivers/thunderbolt/tunnel.c:841: warning: Function parameter or member 'receive_path' not described in 'tb_tunnel_alloc_dma'
- drivers/thunderbolt/tunnel.c:841: warning: Excess function parameter 'reveive_path' description in 'tb_tunnel_alloc_dma'
+Why not add this check to the
+xhci_compliance_mode_recovery_timer_quirk_check() function instead,
+where all other systems that need this quirk are tested for?
 
-Cc: Andreas Noever <andreas.noever@gmail.com>
-Cc: Michael Jamet <michael.jamet@intel.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/thunderbolt/tunnel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index dcdf9c7a9caed..37943b0379abc 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -830,7 +830,7 @@ static void tb_dma_init_path(struct tb_path *path, unsigned int isb,
-  * @transmit_path: HopID used for transmitting packets
-  * @receive_ring: NHI ring number used to receive packets from the
-  *		  other domain. Set to %0 if RX path is not needed.
-- * @reveive_path: HopID used for receiving packets
-+ * @receive_path: HopID used for receiving packets
-  *
-  * Return: Returns a tb_tunnel on success or NULL on failure.
-  */
--- 
-2.25.1
-
+greg k-h
