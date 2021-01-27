@@ -2,114 +2,205 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BD1C433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34282C433E9
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:22:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BD92207B7
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:49:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E99BA20786
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:22:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237135AbhA0LtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 06:49:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33692 "EHLO
+        id S237819AbhA0MVz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 07:21:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232148AbhA0L2O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:28:14 -0500
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70276C061788
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:01 -0800 (PST)
-Received: by mail-wm1-x329.google.com with SMTP id j18so1223705wmi.3
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:01 -0800 (PST)
+        with ESMTP id S237336AbhA0MOk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 07:14:40 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E32C061573;
+        Wed, 27 Jan 2021 04:13:59 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id md11so1154087pjb.0;
+        Wed, 27 Jan 2021 04:13:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mqKIorWT4gXh/otNkPIF0uCkC/OA7zuZgaSdIUKa4VQ=;
-        b=aENfasNI0ky/TTcKZj0RBlkmPCXTD05TgexoPZIddRhq2koMze0DuPLrwkMae41+Hp
-         c4o6F6D3wsQBlrVlCmZ7aUQdCCtmmo1Zy/78VoBb3SeSGekBmMxa85XjSaL4+Z5W0ASW
-         frcfDqvGEiRbLqe7mqxqfEYadOGB40lkBdpuV0z/FjpwvW2yJL5Pwh2NNPym0lQPP6q7
-         pVSQBXlr8NMYn89mIrrXheymk2bzoxqMB3pRsyc2GhVhJsPvPEnrPk6YOe4MBLgROBt8
-         xFOHtLnV/n+gPs2Qyi3kw1aR/PrbGWVqpF4DWAU84kXuY0JrWyd6GPdZQd3BqmzT/enI
-         8/Xw==
+        bh=YLLhgi+NiVGDqhBaYQHDfMrKV4DMWFVLqCYi85ZNzho=;
+        b=K/LKbJ18NNtDlWPKhhN9q8pyPtPZcXJNc0IclJOz2d4MmqjquK68m1DYuIAIObBQjx
+         S8bV5zkpxajM1TXSWIILfAA+BMOBLmnQT7MMuTTU0vIk4tckHYSivJ3jGocs/rWjw5CC
+         L01TVUA+PGr2MMvekkAHBI+HuGlmsBaGXnSKkT3l6AXIkTLw8U+7U9Ijqr3OpqGfneno
+         AVpfI4EwEg1Dzq2l8YrvEmwzJco05mk89YZKwABIpHVexBioetJBQGuqkBJOyzMFkWo9
+         26a8VcKrkx0aaD2H21dK75yGbfbf+0cYq3oMNWNuBlneq71AeR4pimCYtCJqYDRQWIVb
+         394w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mqKIorWT4gXh/otNkPIF0uCkC/OA7zuZgaSdIUKa4VQ=;
-        b=szy+5ItlInO8AwU1Q27DtdyeIBk8BaC5wahbpbnk4BWzKLK50vLjGFLBMyYAsI+Snm
-         L0cRWwANlw2PbeTrEMMyb6c0TrwmB7FqHNB6YzBWqvfsq5V0QtUhYPbLsbTZK44oByAc
-         /ajl9s0VQnSJsH1Puh6pDgJLiSDq3Ydso61zisw/dA7IodPaI09sGZIBoqVmT4gGZSoY
-         9GYJ2nPHRh7M0A6+mwK54z16m0Et7dRm5vbQif1VzSYcKpUJvz5Bc/qALahEAo/HoITx
-         tdgCoHUNjo1x5iZVo/WyXfPLuTdXd3BN3dPwHtrErrqEHVlALm3Ibdk/uZroRMWK2ZI/
-         znrg==
-X-Gm-Message-State: AOAM530D9FAkQnH/aR9w2B6xgR9A/vrV+tTpHDT9uj4/lOWxKwIG7i4B
-        ItofBbCcQsHnhWHgOUQNuOfsng==
-X-Google-Smtp-Source: ABdhPJzD79rhcX17fcmbNib/cgUuSVbYrVZ1wACd3viDqTyTSWbDLxZfJHt8w81Z9WiY7cPeOnh/jg==
-X-Received: by 2002:a1c:4483:: with SMTP id r125mr3710279wma.80.1611746760177;
-        Wed, 27 Jan 2021 03:26:00 -0800 (PST)
-Received: from dell.default ([91.110.221.188])
-        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.25.59
+        bh=YLLhgi+NiVGDqhBaYQHDfMrKV4DMWFVLqCYi85ZNzho=;
+        b=Gvl9dC3MsblE4tvKst+tZG+gw/L14t1+caAMgHj2Zqp2zH18cu2yV78ZYaZN01H03s
+         AF1IXN3afurCrMuphoBuF2Pfn9inictVZH8UR3/ZNvhSwjZjS9HZDIv6XdP9rF5AxjbP
+         cMsZ1wpcwOyxkkI/H9TChbMYe2xK4d/denwaU1VZs2GWUjjkbadCI+QAKR6nV7uzw9B/
+         O8XG8IP0UwGeQ9Yl0q/XuAhd+W/0zLGfcKyw9T9sm+UOuJZz8k3vxXJhAGqkZpjd4Vn/
+         1nxuO5QUIgWdUFwNpRcTKQ3OJLzkblRB6MmkWXE+YTlAjfwnP6J+bUrt9RrXPtUbNwhn
+         Guxw==
+X-Gm-Message-State: AOAM53084di7D2n8x+pMglWcOqIBGohwR1X/scUe6SWQ4XKQN/p64eMs
+        MYOWu6YZZGCYNef51V4XbYo=
+X-Google-Smtp-Source: ABdhPJwGlxqoH0mpc3HshizQEQaAmfuPRd9Ap8ytEXfRDlWeUY6tHV3ZCb0e9VW5oWGOTadzRqU9sA==
+X-Received: by 2002:a17:903:1c2:b029:de:ad0a:2dbf with SMTP id e2-20020a17090301c2b02900dead0a2dbfmr11190998plh.44.1611749639192;
+        Wed, 27 Jan 2021 04:13:59 -0800 (PST)
+Received: from localhost.localdomain ([49.207.195.86])
+        by smtp.gmail.com with ESMTPSA id 67sm2365488pfv.20.2021.01.27.04.13.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 03:25:59 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 01/12] thunderbolt: dma_port: Remove unused variable 'ret'
-Date:   Wed, 27 Jan 2021 11:25:43 +0000
-Message-Id: <20210127112554.3770172-2-lee.jones@linaro.org>
+        Wed, 27 Jan 2021 04:13:58 -0800 (PST)
+From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        Bixuan Cui <cuibixuan@huawei.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Zqiang <qiang.zhang@windriver.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH v3 12/12] usb: misc: usbtest: update to use the usb_control_msg_{send|recv}() API
+Date:   Wed, 27 Jan 2021 17:42:47 +0530
+Message-Id: <20210127121247.9938-1-anant.thazhemadam@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210127112554.3770172-1-lee.jones@linaro.org>
-References: <20210127112554.3770172-1-lee.jones@linaro.org>
+In-Reply-To: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
+References: <20210126183403.911653-1-anant.thazhemadam@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+The newer usb_control_msg_{send|recv}() API are an improvement on the
+existing usb_control_msg() as it ensures that a short read/write is treated
+as an error, data can be used off the stack, and raw usb pipes need not be
+created in the calling functions.
+For this reason, instances of usb_control_msg() have been replaced with
+usb_control_msg_{recv|send}() and the return value checking conditions have
+also been modified appropriately.
 
- drivers/thunderbolt/dma_port.c: In function ‘dma_port_flash_write_block’:
- drivers/thunderbolt/dma_port.c:331:6: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
-
-Cc: Andreas Noever <andreas.noever@gmail.com>
-Cc: Michael Jamet <michael.jamet@intel.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
 ---
- drivers/thunderbolt/dma_port.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Resending this patch since the subject line for the initial submission 
+(sent as a part of the patch series) wasn't set correctly.
 
-diff --git a/drivers/thunderbolt/dma_port.c b/drivers/thunderbolt/dma_port.c
-index 847dd07a7b172..5aced91e17dc4 100644
---- a/drivers/thunderbolt/dma_port.c
-+++ b/drivers/thunderbolt/dma_port.c
-@@ -328,13 +328,12 @@ static int dma_port_flash_write_block(struct tb_dma_port *dma, u32 address,
- {
- 	struct tb_switch *sw = dma->sw;
- 	u32 in, dwaddress, dwords;
--	int ret;
+ drivers/usb/misc/usbtest.c | 69 ++++++++++++++++----------------------
+ 1 file changed, 29 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
+index 150090ee4ec1..4337eff2a749 100644
+--- a/drivers/usb/misc/usbtest.c
++++ b/drivers/usb/misc/usbtest.c
+@@ -672,19 +672,15 @@ static int get_altsetting(struct usbtest_dev *dev)
+ 	struct usb_device	*udev = interface_to_usbdev(iface);
+ 	int			retval;
  
- 	dwords = size / 4;
+-	retval = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+-			USB_REQ_GET_INTERFACE, USB_DIR_IN|USB_RECIP_INTERFACE,
+-			0, iface->altsetting[0].desc.bInterfaceNumber,
+-			dev->buf, 1, USB_CTRL_GET_TIMEOUT);
+-	switch (retval) {
+-	case 1:
+-		return dev->buf[0];
+-	case 0:
+-		retval = -ERANGE;
+-		fallthrough;
+-	default:
++	retval = usb_control_msg_recv(udev, 0, USB_REQ_GET_INTERFACE,
++				      USB_DIR_IN|USB_RECIP_INTERFACE,
++				      0, iface->altsetting[0].desc.bInterfaceNumber,
++				      dev->buf, 1, USB_CTRL_GET_TIMEOUT, GFP_KERNEL);
++
++	if (retval < 0)
+ 		return retval;
+-	}
++
++	return dev->buf[0];
+ }
  
- 	/* Write the block to MAIL_DATA registers */
--	ret = dma_port_write(sw->tb->ctl, buf, tb_route(sw), dma->port,
--			    dma->base + MAIL_DATA, dwords, DMA_PORT_TIMEOUT);
-+	dma_port_write(sw->tb->ctl, buf, tb_route(sw), dma->port,
-+		       dma->base + MAIL_DATA, dwords, DMA_PORT_TIMEOUT);
+ static int set_altsetting(struct usbtest_dev *dev, int alternate)
+@@ -872,14 +868,15 @@ static int ch9_postconfig(struct usbtest_dev *dev)
+ 		 * ... although some cheap devices (like one TI Hub I've got)
+ 		 * won't return config descriptors except before set_config.
+ 		 */
+-		retval = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+-				USB_REQ_GET_CONFIGURATION,
+-				USB_DIR_IN | USB_RECIP_DEVICE,
+-				0, 0, dev->buf, 1, USB_CTRL_GET_TIMEOUT);
+-		if (retval != 1 || dev->buf[0] != expected) {
++		retval = usb_control_msg_recv(udev, 0, USB_REQ_GET_CONFIGURATION,
++					      USB_DIR_IN | USB_RECIP_DEVICE,  0,
++					      0, dev->buf, 1, USB_CTRL_GET_TIMEOUT,
++					      GFP_KERNEL);
++
++		if (retval != 0 || dev->buf[0] != expected) {
+ 			dev_err(&iface->dev, "get config --> %d %d (1 %d)\n",
+ 				retval, dev->buf[0], expected);
+-			return (retval < 0) ? retval : -EDOM;
++			return retval;
+ 		}
+ 	}
  
- 	in = MAIL_IN_CMD_FLASH_WRITE << MAIL_IN_CMD_SHIFT;
+@@ -1683,10 +1680,10 @@ static int test_halt(struct usbtest_dev *tdev, int ep, struct urb *urb)
+ 		return retval;
+ 
+ 	/* set halt (protocol test only), verify it worked */
+-	retval = usb_control_msg(urb->dev, usb_sndctrlpipe(urb->dev, 0),
+-			USB_REQ_SET_FEATURE, USB_RECIP_ENDPOINT,
+-			USB_ENDPOINT_HALT, ep,
+-			NULL, 0, USB_CTRL_SET_TIMEOUT);
++	retval = usb_control_msg_send(urb->dev, 0, USB_REQ_SET_FEATURE,
++				      USB_RECIP_ENDPOINT, USB_ENDPOINT_HALT,
++				      ep, NULL, 0, USB_CTRL_SET_TIMEOUT,
++				      GFP_KERNEL);
+ 	if (retval < 0) {
+ 		ERROR(tdev, "ep %02x couldn't set halt, %d\n", ep, retval);
+ 		return retval;
+@@ -1845,30 +1842,22 @@ static int ctrl_out(struct usbtest_dev *dev,
+ 		/* write patterned data */
+ 		for (j = 0; j < len; j++)
+ 			buf[j] = (u8)(i + j);
+-		retval = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+-				0x5b, USB_DIR_OUT|USB_TYPE_VENDOR,
+-				0, 0, buf, len, USB_CTRL_SET_TIMEOUT);
+-		if (retval != len) {
++		retval = usb_control_msg_send(udev, 0, 0x5b,
++					      USB_DIR_OUT | USB_TYPE_VENDOR, 0,
++					      0, buf, len, USB_CTRL_SET_TIMEOUT,
++					      GFP_KERNEL);
++		if (retval < 0) {
+ 			what = "write";
+-			if (retval >= 0) {
+-				ERROR(dev, "ctrl_out, wlen %d (expected %d)\n",
+-						retval, len);
+-				retval = -EBADMSG;
+-			}
+ 			break;
+ 		}
+ 
+ 		/* read it back -- assuming nothing intervened!!  */
+-		retval = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+-				0x5c, USB_DIR_IN|USB_TYPE_VENDOR,
+-				0, 0, buf, len, USB_CTRL_GET_TIMEOUT);
+-		if (retval != len) {
++		retval = usb_control_msg_recv(udev, 0,
++					      0x5c, USB_DIR_IN|USB_TYPE_VENDOR,
++					      0, 0, buf, len, USB_CTRL_GET_TIMEOUT,
++					      GFP_KERNEL);
++		if (retval < 0) {
+ 			what = "read";
+-			if (retval >= 0) {
+-				ERROR(dev, "ctrl_out, rlen %d (expected %d)\n",
+-						retval, len);
+-				retval = -EBADMSG;
+-			}
+ 			break;
+ 		}
  
 -- 
 2.25.1
