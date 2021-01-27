@@ -2,225 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C20FAC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:48:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32ADFC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70FBC20771
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:48:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C648D2079A
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 12:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S313127AbhAZWxE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Jan 2021 17:53:04 -0500
-Received: from mail-ot1-f43.google.com ([209.85.210.43]:38269 "EHLO
-        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389919AbhAZS2f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Jan 2021 13:28:35 -0500
-Received: by mail-ot1-f43.google.com with SMTP id s2so14980411otp.5;
-        Tue, 26 Jan 2021 10:28:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qvmjRU4vLqrugRhSX00gkIjq8wIoIE/XEIcN8DtiKuE=;
-        b=SAGnkRyXVlf1GZPQKEWnL40rNe90j1c0ewT/y0pGvNGaQ7qbZwv1IqPWRoUHsV0tJO
-         smRhp+FQL5yn+R9V9CeRKFgX4NF2Tqekz5YgyhGMGwrABCnFHKQ2BoenZLHv27fdK83i
-         ni0qihsAIZIBMrdqMIlKLczufKjZdMjR4+dOMB7czsddPBZO2oJL0rV2ksezMEESgkc7
-         4WmRj9fG4XmON1Imd85Ag+Da2sAcDWxwfQjKGuj8xAnMk0ESzYXnmc+q/obYWaQ4FTQe
-         yolY1ososnjh02iBL56TTkjQvNVLTOLmFrD87hcfq/5SYEoxDqmkszloOFJSfVN5xxJL
-         AIUw==
-X-Gm-Message-State: AOAM5317INulFbDe6xhOYb3dD3go47Yw1z57ASUJQbBW8hx+WHDKvPnC
-        DtFk3JOggoCrcEUHEFhBCGIOimkIY+vaQGEuegQ=
-X-Google-Smtp-Source: ABdhPJx9LhMbNU6k3LrL4EYj7kHNDp6IURievBPQQGwcjjjGCzdjHTollhV6O/srU4Q32A0xpH0mQcrpAELah6EDIwA=
-X-Received: by 2002:a9d:1710:: with SMTP id i16mr4839780ota.260.1611685673920;
- Tue, 26 Jan 2021 10:27:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20210126155723.9388-1-mika.westerberg@linux.intel.com> <20210126155723.9388-6-mika.westerberg@linux.intel.com>
-In-Reply-To: <20210126155723.9388-6-mika.westerberg@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Tue, 26 Jan 2021 19:27:42 +0100
-Message-ID: <CAJZ5v0i3b5Ke_a3JEGVaYz6htRvmCPaN2cshB-XiQD2p-iQ+Wg@mail.gmail.com>
-Subject: Re: [PATCH 5/6] ACPI: Add support for native USB4 control _OSC
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        id S1343680AbhA0Mzd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 07:55:33 -0500
+Received: from mga11.intel.com ([192.55.52.93]:48650 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S238066AbhA0Mwi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 27 Jan 2021 07:52:38 -0500
+IronPort-SDR: CZB6JRl299cKdDBLVezpuoH95l8KaZPXMy87ZusmDfMXf820Ge0MaFAB1rT8XSbayo3MVNU7Oq
+ /HEOEehY/jnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="176551754"
+X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
+   d="scan'208";a="176551754"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:49:44 -0800
+IronPort-SDR: NJDK9KRqBG61tdPn3HyFnSon9wtk2ujx9vVoCAGI5VRYIYZ7c7AZDO6Raw4eqkCxGCsEMa8N96
+ 97IuSuPBu5Tg==
+X-IronPort-AV: E=Sophos;i="5.79,379,1602572400"; 
+   d="scan'208";a="362420090"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2021 04:49:38 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 27 Jan 2021 14:49:35 +0200
+Date:   Wed, 27 Jan 2021 14:49:35 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
         <linux-usb@vger.kernel.org>,
         Michael Jamet <michael.jamet@intel.com>,
         Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
-        Mario Limonciello <mario.limonciello@dell.com>,
         "Rafael J. Wysocki" <rjw@rjwysocki.net>,
         Christian Kellner <christian@kellner.me>,
         Len Brown <lenb@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 4/6] ACPI: Execute platform _OSC also with query bit clear
+Message-ID: <20210127124935.GC2542@lahna.fi.intel.com>
+References: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
+ <20210126155723.9388-5-mika.westerberg@linux.intel.com>
+ <CAJZ5v0i+wCOFZOhyx6i=TUGMeWyQR4vXzDN06G6xheFwC66Tuw@mail.gmail.com>
+ <SA1PR19MB4926907D028D3F924FF42A36FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
+ <CAJZ5v0hQ_JZVfOpSZY0hxc01He9x7uzgU2rsKffmQubaeKy=EA@mail.gmail.com>
+ <SA1PR19MB4926A9A1E4D0AD96FAE236B3FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SA1PR19MB4926A9A1E4D0AD96FAE236B3FABC9@SA1PR19MB4926.namprd19.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 5:01 PM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> ACPI 6.4 introduced a new _OSC capability that is used negotiate native
-> connection manager support. Connection manager is the entity that is
-> responsible for tunneling over the USB4 fabric. If the platform rejects
-> the native access then firmware based connection manager is used.
->
-> The new _OSC also includes a set of bits that can be used to disable
-> certain tunnel types such as PCIe for security reasons for instance.
->
-> This implements the new USB4 _OSC so that we try to negotiate native
-> USB4 support if the Thunderbolt/USB4 (CONFIG_USB4) driver is enabled.
-> Drivers can determine what was negotiated by checking two new variables
-> exposed in this patch.
->
-> Cc: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+On Tue, Jan 26, 2021 at 10:43:32PM +0000, Limonciello, Mario wrote:
+> > I would put that information into the changelog.
+> 
+> Thanks, @Mika Westerberg can you collapse that in when you re-spin the
+> series?
 
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Sure.
 
-> ---
->  drivers/acpi/bus.c   | 76 ++++++++++++++++++++++++++++++++++++++++++++
->  include/linux/acpi.h | 10 ++++++
->  2 files changed, 86 insertions(+)
->
-> diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
-> index ca7c7b2bf56e..f7ad2d283e51 100644
-> --- a/drivers/acpi/bus.c
-> +++ b/drivers/acpi/bus.c
-> @@ -281,6 +281,12 @@ bool osc_sb_apei_support_acked;
->  bool osc_pc_lpi_support_confirmed;
->  EXPORT_SYMBOL_GPL(osc_pc_lpi_support_confirmed);
->
-> +/*
-> + * ACPI 6.4 Operating System Capabilities for USB.
-> + */
-> +bool osc_sb_native_usb4_support_confirmed;
-> +EXPORT_SYMBOL_GPL(osc_sb_native_usb4_support_confirmed);
-> +
->  static u8 sb_uuid_str[] = "0811B06E-4A27-44F9-8D60-3CBBC22E7B48";
->  static void acpi_bus_osc_negotiate_platform_control(void)
->  {
-> @@ -317,6 +323,9 @@ static void acpi_bus_osc_negotiate_platform_control(void)
->         if (IS_ENABLED(CONFIG_SCHED_MC_PRIO))
->                 capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_CPC_DIVERSE_HIGH_SUPPORT;
->
-> +       if (IS_ENABLED(CONFIG_USB4))
-> +               capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_NATIVE_USB4_SUPPORT;
-> +
->         if (!ghes_disable)
->                 capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_APEI_SUPPORT;
->         if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
-> @@ -348,8 +357,74 @@ static void acpi_bus_osc_negotiate_platform_control(void)
->                         capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
->                 osc_pc_lpi_support_confirmed =
->                         capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
-> +               osc_sb_native_usb4_support_confirmed =
-> +                       capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_NATIVE_USB4_SUPPORT;
-> +       }
-> +
-> +       kfree(context.ret.pointer);
-> +}
-> +
-> +/*
-> + * Native control of USB4 capabilities. If any of the tunneling bits is
-> + * set it means OS is in control and we use software based connection
-> + * manager.
-> + */
-> +u32 osc_sb_native_usb4_control;
-> +EXPORT_SYMBOL_GPL(osc_sb_native_usb4_control);
-> +
-> +static void acpi_bus_decode_usb_osc(const char *msg, u32 bits)
-> +{
-> +       printk(KERN_INFO PREFIX "%s USB3%c DisplayPort%c PCIe%c XDomain%c\n", msg,
-> +              (bits & OSC_USB_USB3_TUNNELING) ? '+' : '-',
-> +              (bits & OSC_USB_DP_TUNNELING) ? '+' : '-',
-> +              (bits & OSC_USB_PCIE_TUNNELING) ? '+' : '-',
-> +              (bits & OSC_USB_XDOMAIN) ? '+' : '-');
-> +}
-> +
-> +static u8 sb_usb_uuid_str[] = "23A0D13A-26AB-486C-9C5F-0FFA525A575A";
-> +static void acpi_bus_osc_negotiate_usb_control(void)
-> +{
-> +       u32 capbuf[3];
-> +       struct acpi_osc_context context = {
-> +               .uuid_str = sb_usb_uuid_str,
-> +               .rev = 1,
-> +               .cap.length = sizeof(capbuf),
-> +               .cap.pointer = capbuf,
-> +       };
-> +       acpi_handle handle;
-> +       acpi_status status;
-> +       u32 control;
-> +
-> +       if (!osc_sb_native_usb4_support_confirmed)
-> +               return;
-> +
-> +       if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
-> +               return;
-> +
-> +       control = OSC_USB_USB3_TUNNELING | OSC_USB_DP_TUNNELING |
-> +                 OSC_USB_PCIE_TUNNELING | OSC_USB_XDOMAIN;
-> +
-> +       capbuf[OSC_QUERY_DWORD] = 0;
-> +       capbuf[OSC_SUPPORT_DWORD] = 0;
-> +       capbuf[OSC_CONTROL_DWORD] = control;
-> +
-> +       status = acpi_run_osc(handle, &context);
-> +       if (ACPI_FAILURE(status))
-> +               return;
-> +
-> +       if (context.ret.length != sizeof(capbuf)) {
-> +               printk(KERN_INFO PREFIX "USB4 _OSC: returned invalid length buffer\n");
-> +               goto out_free;
->         }
->
-> +       osc_sb_native_usb4_control =
-> +               control & ((u32 *)context.ret.pointer)[OSC_CONTROL_DWORD];
-> +
-> +       acpi_bus_decode_usb_osc("USB4 _OSC: OS supports", control);
-> +       acpi_bus_decode_usb_osc("USB4 _OSC: OS controls",
-> +                               osc_sb_native_usb4_control);
-> +
-> +out_free:
->         kfree(context.ret.pointer);
->  }
->
-> @@ -1188,6 +1263,7 @@ static int __init acpi_bus_init(void)
->          * so it must be run after ACPI_FULL_INITIALIZATION
->          */
->         acpi_bus_osc_negotiate_platform_control();
-> +       acpi_bus_osc_negotiate_usb_control();
->
->         /*
->          * _PDC control method may load dynamic SSDT tables,
-> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
-> index 2630c2e953f7..ac68c2d4e393 100644
-> --- a/include/linux/acpi.h
-> +++ b/include/linux/acpi.h
-> @@ -546,9 +546,19 @@ acpi_status acpi_run_osc(acpi_handle handle, struct acpi_osc_context *context);
->  #define OSC_SB_OSLPI_SUPPORT                   0x00000100
->  #define OSC_SB_CPC_DIVERSE_HIGH_SUPPORT                0x00001000
->  #define OSC_SB_GENERIC_INITIATOR_SUPPORT       0x00002000
-> +#define OSC_SB_NATIVE_USB4_SUPPORT             0x00040000
->
->  extern bool osc_sb_apei_support_acked;
->  extern bool osc_pc_lpi_support_confirmed;
-> +extern bool osc_sb_native_usb4_support_confirmed;
-> +
-> +/* USB4 Capabilities */
-> +#define OSC_USB_USB3_TUNNELING                 0x00000001
-> +#define OSC_USB_DP_TUNNELING                   0x00000002
-> +#define OSC_USB_PCIE_TUNNELING                 0x00000004
-> +#define OSC_USB_XDOMAIN                                0x00000008
-> +
-> +extern u32 osc_sb_native_usb4_control;
->
->  /* PCI Host Bridge _OSC: Capabilities DWORD 2: Support Field */
->  #define OSC_PCI_EXT_CONFIG_SUPPORT             0x00000001
-> --
-> 2.29.2
->
+> > 
+> > Moreover, have you looked at acpi_pci_osc_control_set()?
+> > 
+> > What it does is analogous to what you are proposing, but a bit
+> > different, and I would like to preserve consistency between _OSC use
+> > cases.
+> > 
+> > So would it be possible to adjust the _SB _OSC evaluation flow to
+> > follow the PCI _OSC one?  That is, if any control bits are there, pass
+> > them along with the last evaluation of _OSC with the query flag clear.
+> > Or is the latter defective and if so then why?
+> 
+> Basically the only difference is another line cloning OSC_CONTROL_DWORD from
+> capbuf_ret to capbuf?
+> 
+> Yes, this actually sounds like it better adheres to the spec to me.
+> 
+> Quoting spec:
+> " If the OS is granted control of a feature in the Control Field in one call to
+> _OSC, then it must preserve the set state of that bit (requesting that feature)
+> in all subsequent calls."
+
+However, the platform wide _OSC does not actually have this
+OSC_CONTROL_DWORD at all ;-)
+
+I think what we do in this patch is already equivalent to what the PCI
+_OSC is doing:
+
+  1. Query bit set _OSC
+  2. Take the returned OSC_SUPPORT_DWORD buffer and
+  3. Pass it to the _OSC with query bit clear.
+
+I may be missing something, though.
