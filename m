@@ -2,114 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A7AAC433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3E6C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2143C207B6
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0FBE207B7
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:48:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237208AbhA0Lrg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 06:47:36 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:47629 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237111AbhA0Lpb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:45:31 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 719A45C016C;
-        Wed, 27 Jan 2021 06:44:25 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 27 Jan 2021 06:44:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=HAeWuxzEk/nfTJp7RJzz13OWedp
-        CZg4BJzHyl85uNN4=; b=GT8DnDQDwtnptxHsbKu0tM6JxjOGsHnil9MUrfzmUUx
-        /FUBA4I40tLGXHYeI2ciqdEGe45ZnQ8KbuqqvS5zCz9w/+k3aIanMhZV09rzT8pb
-        E3dFcRNFSibSL9j7rvDYh6Lp7rUZSz/5e3wT3s5bMFuJ05fTldZ2MBsvC99hcTKO
-        +KeR33S9puTq3KLsuzupcfIoM01bK0axRx5IenKKOPWkG+amYd5lZUEiqwXpYZa6
-        NFMNIjNY4GJxzGN0OAOknqVRx+GYkkdTP4ZEkRXbdKPLkAjELW5Vjx1FbYmeBt14
-        +dM8Qu8rquu7u0zJR4KII8ULc48v3ecyKonOKJYzKUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HAeWux
-        zEk/nfTJp7RJzz13OWedpCZg4BJzHyl85uNN4=; b=UIaUDsHI7DuZQ5r0wDuUFm
-        p2pySn4/AeV8q3OgBMjGf+dUrxyM8iEcsaA+O6q1ywBKPhgfIgUxW2CEonOlrZBM
-        589bmj18bB2TtrPJ9AH9TTqtmj/1Y1r46WNPxnZSjYLV2ZWlSvjYWPpac2bhzanD
-        XBzlD6gxngqPWG4+RCDlIlgTA4yLCG2u6WpMaJ/60XfEO1lc+rv4nspdaesKVgKX
-        N0NYNYj4BWWDvYXu9jXn4+ulfaWvrtiax2b8nF60bsbWrQxIPvk4yftoiIuSig3v
-        lWHkKV0jWoVFpX01zPwXRgR4c95nmfTzRWYaD/DFgy0XNRm3v8k4kV0mVvSRx71Q
-        ==
-X-ME-Sender: <xms:GFIRYLBFKXc5k_hTuBLbYWBBXBB0ndNio_VmLRamKgyyA5sNn7y_Ew>
-    <xme:GFIRYBjoZPdLYQJpGzFADjEJm3tAt_KI1zZm3OcoR1z7H6ROvLdl04sqjJmye_75K
-    r_IZPKYhU1i9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgdeftdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuheejgf
-    ffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeekfedr
-    keeirdejgedrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:GFIRYGm6_Lub3CWRJPuWlmPehwlHv85iNpuBe0NpAb0hnIyP9fcscw>
-    <xmx:GFIRYNwgxUXxzIMM3FslFaQKhHjFlkIx_cJj-Xuyn20pYMtSAAOuwQ>
-    <xmx:GFIRYARqiB-J9aTu_26zXnEpn8mSeBEHOE7iEAPGR-nn4lWWug-BqA>
-    <xmx:GVIRYJ5b1YOobsO0vVSlpwCCe4iP57V0IQe8xaYZkx3uPC_MMjfc_A>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id B62B424005D;
-        Wed, 27 Jan 2021 06:44:24 -0500 (EST)
-Date:   Wed, 27 Jan 2021 12:44:22 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Prike Liang <Prike.Liang@amd.com>
-Cc:     linux-usb@vger.kernel.org, mathias.nyman@intel.com
-Subject: Re: [PATCH] usb: pci-quirks: add XHCI_COMP_MODE_QUIRK for disabling
- amd xhci D3cold
-Message-ID: <YBFSFhgk+O40GYhO@kroah.com>
-References: <1611020924-17178-1-git-send-email-Prike.Liang@amd.com>
- <YBFPdf6Mc0ZgPsuy@kroah.com>
+        id S236995AbhA0LsI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 06:48:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236670AbhA0L2R (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:28:17 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 997CCC06178B
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:02 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id s24so3110734wmj.0
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eaLLflOnKxP3ffgsiKs11jelhSBcLmsQ05hbA36SRWk=;
+        b=mop6sJKsuKx109i4wFRGzFHjuny65TlVpW/7jqa/q7gNTSVaUSOSdZ3d1poYKmgZnZ
+         LFfIDPqBNfwkj809/WBG0/EPIbR91wJ0pZv2VkttW8wfp3PI858ttY5oqYaStU92ulC0
+         DTFAQS/CSfXFPx3pUYfdA93oroFJ1ttmFgdRoW9bZQrTZhyxGjI9zrnMcc1yY12eMlkn
+         JOcrizBGsX3DzwOgb78uWR3SExVaTr0lakUgb/gy63zB7TVQud6x8KwFHTzaHSn2acSB
+         FbMYD/wo0N/kXS+k3zUAEDBJxCJxJGQEeafDMfYrQKBSevW3TQYGo2cD0MkpktIku3mL
+         t+Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eaLLflOnKxP3ffgsiKs11jelhSBcLmsQ05hbA36SRWk=;
+        b=qenQxtysGt69JrcH+8cEVsnhglVZEBE6r86NuZylyVgq1SYQ5MlkXVuP/Qfqm9n4uU
+         xsV8uoZ+a496u/7R+K+dR7r4HWf7Rn5TDWaHFqQ4Xg6mvFEyckdCpKV4i/3abxXhveeI
+         6d6xAjzKO+0WWgH7Z4bT+b68fxPeGEOj7mwSoWeFQlt6nTO+d2wK0npzKI6o7Q3QnE2F
+         AFunyVO2Gac7wTDyAgnknK1Z2euZ3AbFe4JNNkIbckSXkC6caqiPrHEB6K0GBVlABLHZ
+         aKawYRpNJdGF2xVEvDkosKoUEbU11VsQZMT1xVKPohZM1aQGCB7ok+fq1HU1aIYHbLP+
+         IKQA==
+X-Gm-Message-State: AOAM530UpdE82fnb8gEEMUzGDPaT4qZhsvBjKHrwt5xkfxUzQuMfG7W3
+        Q33lM1zb63ykBW3TFdDtAdL6rA==
+X-Google-Smtp-Source: ABdhPJxszX1z1YoVOvKrPQMaHwIfewhwrriy4HtebjVjpjgLl2GWclwbcMjFkzPxFOv2GciQaXRU/Q==
+X-Received: by 2002:a1c:6486:: with SMTP id y128mr3965686wmb.12.1611746761314;
+        Wed, 27 Jan 2021 03:26:01 -0800 (PST)
+Received: from dell.default ([91.110.221.188])
+        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jan 2021 03:26:00 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 02/12] thunderbolt: cap: Fix kernel-doc formatting issue
+Date:   Wed, 27 Jan 2021 11:25:44 +0000
+Message-Id: <20210127112554.3770172-3-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210127112554.3770172-1-lee.jones@linaro.org>
+References: <20210127112554.3770172-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBFPdf6Mc0ZgPsuy@kroah.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 12:33:09PM +0100, Greg KH wrote:
-> On Tue, Jan 19, 2021 at 09:48:44AM +0800, Prike Liang wrote:
-> > During xhci suspend some AMD USB host will lose port status change events and
-> > need to have the registers polled during D3, so now just avoid D3cold.
-> > 
-> > Signed-off-by: Prike Liang <Prike.Liang@amd.com>
-> > ---
-> >  drivers/usb/host/xhci-pci.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> > index 3feaafe..bff817a 100644
-> > --- a/drivers/usb/host/xhci-pci.c
-> > +++ b/drivers/usb/host/xhci-pci.c
-> > @@ -170,6 +170,11 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
-> >  		(pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_1)))
-> >  		xhci->quirks |= XHCI_U2_DISABLE_WAKE;
-> >  
-> > +	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
-> > +		pdev->device == 0x1639) {
-> > +		xhci->quirks |= XHCI_COMP_MODE_QUIRK;
-> > +	}
-> 
-> Why not add this check to the
-> xhci_compliance_mode_recovery_timer_quirk_check() function instead,
-> where all other systems that need this quirk are tested for?
+Fixes the following W=1 kernel build warning(s):
 
-Ah, you don't have a pci device at that point in time.  But, why aren't
-you making the same calls that the caller of that function does when
-setting this quirk here?  Isn't that also required?
+ drivers/thunderbolt/cap.c:189: warning: Function parameter or member 'sw' not described in 'tb_switch_find_cap'
 
-thanks,
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Michael Jamet <michael.jamet@intel.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/thunderbolt/cap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
+index 6f571e912cf21..8ecd610c62d50 100644
+--- a/drivers/thunderbolt/cap.c
++++ b/drivers/thunderbolt/cap.c
+@@ -178,7 +178,7 @@ int tb_switch_next_cap(struct tb_switch *sw, unsigned int offset)
+ 
+ /**
+  * tb_switch_find_cap() - Find switch capability
+- * @sw Switch to find the capability for
++ * @sw: Switch to find the capability for
+  * @cap: Capability to look
+  *
+  * Returns offset to start of capability or %-ENOENT if no such
+-- 
+2.25.1
+
