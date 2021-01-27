@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9A7C433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA933C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:32:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 352D920773
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:30:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0CBE2075E
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 11:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236697AbhA0Lav (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 06:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33360 "EHLO
+        id S236875AbhA0Lcw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 06:32:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236704AbhA0L2l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:28:41 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF59C061797
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:04 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id q7so1484131wre.13
-        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:04 -0800 (PST)
+        with ESMTP id S236691AbhA0Lan (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 06:30:43 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04917C06121D
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:11 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id j18so1224132wmi.3
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 03:26:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3gNjVcguBm3iHiG+H/50H6Ct3jriN+3gNPTKUDiVErk=;
-        b=Wtq2YxioRtkgawh7qJpG8HD2X/HY1bKKGFuf8Pcz48KrwrLGePpkmmlSS1eUL+FMlK
-         +gsf93A5JGiHJtLYqiOirMxkpo2lmzv7MNnzmjozAC3NSaVENeoMMDAJ1AZ7e9TQf51u
-         +vfIb4aPkruQShNg3SV8Fc6+tYkjmqP/c6DoDifN9uEyqAxTCjciJOO1TbBram3V8aFp
-         0TprhXTdBq5PW6krbA0x77a8Eq2erIJ5JUXLTOv5zrII0OSya4x4VjIA6m5brHW8DnO9
-         UvhlO7nkrGkmgV2NQPDq0nQeEMvP+KMzV4N5KQan4V1fo3uFwxdVLiRo+wLjzzDoQR0o
-         /cBg==
+        bh=mwkTQ1nP1bLt6tR6lEnllegWqUs+MQYhQRklBiDlKoQ=;
+        b=TECRuVSe4dnnPdOZ3qR5o+DV52hnLhGLAxQdA7gxPlQOxjeODPEdP7CQAZHat31ble
+         wLQoPMy9pOhXcsz/6tW7pPJcKNhgLbTohtlvHttbI1k49AZeWJjjDOh7L8kG5ReuzLEi
+         828/CAZHL6Lzyi/TChi7d3krhiR23NS8cUjvSXXeCm5f0cnpqmm+WZFQNkUfiqwbCRzl
+         1abB6e9DEowFsRE9W6sVuPyJCU9t3ODjhnKbxw1EkJ7MGR7wZ/NfZvJIS4O3HEZSbiC/
+         nWkbPp8U6agq6crMMXjtYH+QYnybAS+CXhs6eNbh33tcQpA4S3joP06IZzVINNJ8A4N4
+         CHdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3gNjVcguBm3iHiG+H/50H6Ct3jriN+3gNPTKUDiVErk=;
-        b=jG+/7bGpfU4qcoLGgox1g6cK4udWEbmGY0xuFx5c4IgThok0qoiX58nUy4tWphVjWi
-         B97lQEVINUfywmOhJ84Of6RXGN1lRNLguXog9vzYeqDQ55eA4dP8exaiBgZezFN1UxNX
-         TEccyCqpizpqJ13l5O0nxJrCYbRIiTMHUsLwx8q8k6xIhMaEvIzg9UdTwUnRfBy2OsgQ
-         vtrsX3fvx1WIs6Kyhe+ziDRqkm8cmT+4cN6n5iaG7Kd3mfGaBwPhlMUgzCZQCie3/5Sh
-         AyXoRWV+UB/6CGAF/yQJ+viYfLnwDzmWd19kbHbNlF8uR3NpWendDEU3AgTPXjf9pTfH
-         Uhsg==
-X-Gm-Message-State: AOAM530QwEr6jzcjYTjXiD/PqBe78Kb/HRIdNZOaZicGn6ZthoTjNv52
-        ICZJpdO0Ur9ePay98b8Vet6F6w==
-X-Google-Smtp-Source: ABdhPJy4E+H0lQ3NmN4AOzPEglY0JTWYItaNl2G6bCZyk69savGjQ7hmVp0aic/hUbiYfbJaeMrzkw==
-X-Received: by 2002:adf:c14d:: with SMTP id w13mr10453640wre.383.1611746763650;
-        Wed, 27 Jan 2021 03:26:03 -0800 (PST)
+        bh=mwkTQ1nP1bLt6tR6lEnllegWqUs+MQYhQRklBiDlKoQ=;
+        b=VyOMUJVvHBJTO0sNrmr1ghYu337t48QyQ9WwRct/kncgB8NqF1qLGNfXMTJaBZ6H0E
+         NH60zO1FzfPFfVG7Nx/EfmBWQtKKMzaZJvNfINoXwu+gjJS5cwzYSduQ2iGutfC7aK0Y
+         54shZ0WJ4aCPfGs/bZKIwixKtclC9raLfiqzc6k6IzOL4ILmchzoYnG1IQmQqQ4vTh7x
+         oSGKtv7Av+jaRCD7K0eEz0TzESllLD6Ncv5GF8a7rJUwWaUBGe6WrbxJwkZi4FK4+Wzv
+         p+mI1/z77ykYNZeMJ/gPHR7R7oQPQBKYXs8ZphArb0Mdrrd0sjuySuvOV2SiXdWSWJ5W
+         zzBw==
+X-Gm-Message-State: AOAM533/0T9WUslwmbfd1gBLPIJ4WPGfN62mgx1SRCndzzLUxhU2Inx6
+        KWvJIwkbz29qGYf52S7C7fw9dA==
+X-Google-Smtp-Source: ABdhPJzWCLrV0XonIhL5ykP68TTE3wBEGA002zEywUiOWL+7xnfhuyOYUsnFiVlQ2vc9hHLEHxf5BQ==
+X-Received: by 2002:a1c:8002:: with SMTP id b2mr3944058wmd.94.1611746769810;
+        Wed, 27 Jan 2021 03:26:09 -0800 (PST)
 Received: from dell.default ([91.110.221.188])
-        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.26.02
+        by smtp.gmail.com with ESMTPSA id m2sm2040065wml.34.2021.01.27.03.26.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 03:26:02 -0800 (PST)
+        Wed, 27 Jan 2021 03:26:09 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -63,9 +63,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         Yehezkel Bernat <YehezkelShB@gmail.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 04/12] thunderbolt: eeprom: Demote non-conformant kernel-doc headers to standard comment blocks
-Date:   Wed, 27 Jan 2021 11:25:46 +0000
-Message-Id: <20210127112554.3770172-5-lee.jones@linaro.org>
+Subject: [PATCH 09/12] thunderbolt: swit: Demote a bunch of non-conformant kernel-doc headers
+Date:   Wed, 27 Jan 2021 11:25:51 +0000
+Message-Id: <20210127112554.3770172-10-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210127112554.3770172-1-lee.jones@linaro.org>
 References: <20210127112554.3770172-1-lee.jones@linaro.org>
@@ -77,32 +77,16 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/thunderbolt/eeprom.c:19: warning: Function parameter or member 'sw' not described in 'tb_eeprom_ctl_write'
- drivers/thunderbolt/eeprom.c:19: warning: Function parameter or member 'ctl' not described in 'tb_eeprom_ctl_write'
- drivers/thunderbolt/eeprom.c:27: warning: Function parameter or member 'sw' not described in 'tb_eeprom_ctl_read'
- drivers/thunderbolt/eeprom.c:27: warning: Function parameter or member 'ctl' not described in 'tb_eeprom_ctl_read'
- drivers/thunderbolt/eeprom.c:27: warning: expecting prototype for tb_eeprom_ctl_write(). Prototype was for tb_eeprom_ctl_read() instead
- drivers/thunderbolt/eeprom.c:43: warning: Function parameter or member 'sw' not described in 'tb_eeprom_active'
- drivers/thunderbolt/eeprom.c:43: warning: Function parameter or member 'enable' not described in 'tb_eeprom_active'
- drivers/thunderbolt/eeprom.c:73: warning: Function parameter or member 'sw' not described in 'tb_eeprom_transfer'
- drivers/thunderbolt/eeprom.c:73: warning: Function parameter or member 'ctl' not described in 'tb_eeprom_transfer'
- drivers/thunderbolt/eeprom.c:73: warning: Function parameter or member 'direction' not described in 'tb_eeprom_transfer'
- drivers/thunderbolt/eeprom.c:97: warning: Function parameter or member 'sw' not described in 'tb_eeprom_out'
- drivers/thunderbolt/eeprom.c:97: warning: Function parameter or member 'val' not described in 'tb_eeprom_out'
- drivers/thunderbolt/eeprom.c:117: warning: Function parameter or member 'sw' not described in 'tb_eeprom_in'
- drivers/thunderbolt/eeprom.c:117: warning: Function parameter or member 'val' not described in 'tb_eeprom_in'
- drivers/thunderbolt/eeprom.c:138: warning: Function parameter or member 'sw' not described in 'tb_eeprom_get_drom_offset'
- drivers/thunderbolt/eeprom.c:138: warning: Function parameter or member 'offset' not described in 'tb_eeprom_get_drom_offset'
- drivers/thunderbolt/eeprom.c:170: warning: Function parameter or member 'sw' not described in 'tb_eeprom_read_n'
- drivers/thunderbolt/eeprom.c:170: warning: Function parameter or member 'offset' not described in 'tb_eeprom_read_n'
- drivers/thunderbolt/eeprom.c:170: warning: Function parameter or member 'val' not described in 'tb_eeprom_read_n'
- drivers/thunderbolt/eeprom.c:170: warning: Function parameter or member 'count' not described in 'tb_eeprom_read_n'
- drivers/thunderbolt/eeprom.c:288: warning: Function parameter or member 'sw' not described in 'tb_drom_read_uid_only'
- drivers/thunderbolt/eeprom.c:288: warning: Function parameter or member 'uid' not described in 'tb_drom_read_uid_only'
- drivers/thunderbolt/eeprom.c:383: warning: Function parameter or member 'sw' not described in 'tb_drom_parse_entries'
- drivers/thunderbolt/eeprom.c:417: warning: Function parameter or member 'sw' not described in 'tb_drom_copy_efi'
- drivers/thunderbolt/eeprom.c:417: warning: Function parameter or member 'size' not described in 'tb_drom_copy_efi'
- drivers/thunderbolt/eeprom.c:526: warning: Function parameter or member 'sw' not described in 'tb_drom_read'
+ drivers/thunderbolt/switch.c:540: warning: Function parameter or member 'port' not described in 'tb_wait_for_port'
+ drivers/thunderbolt/switch.c:540: warning: Function parameter or member 'wait_if_unplugged' not described in 'tb_wait_for_port'
+ drivers/thunderbolt/switch.c:599: warning: Function parameter or member 'port' not described in 'tb_port_add_nfc_credits'
+ drivers/thunderbolt/switch.c:599: warning: Function parameter or member 'credits' not described in 'tb_port_add_nfc_credits'
+ drivers/thunderbolt/switch.c:653: warning: Function parameter or member 'port' not described in 'tb_port_clear_counter'
+ drivers/thunderbolt/switch.c:653: warning: Function parameter or member 'counter' not described in 'tb_port_clear_counter'
+ drivers/thunderbolt/switch.c:730: warning: Function parameter or member 'port' not described in 'tb_init_port'
+ drivers/thunderbolt/switch.c:1348: warning: Function parameter or member 'sw' not described in 'tb_plug_events_active'
+ drivers/thunderbolt/switch.c:1348: warning: Function parameter or member 'active' not described in 'tb_plug_events_active'
+ drivers/thunderbolt/switch.c:2654: warning: Function parameter or member 'sw' not described in 'tb_sw_set_unplugged'
 
 Cc: Andreas Noever <andreas.noever@gmail.com>
 Cc: Michael Jamet <michael.jamet@intel.com>
@@ -111,121 +95,67 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/thunderbolt/eeprom.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/switch.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-index 0c8471be3e32f..e8cb8399069c9 100644
---- a/drivers/thunderbolt/eeprom.c
-+++ b/drivers/thunderbolt/eeprom.c
-@@ -12,7 +12,7 @@
- #include <linux/slab.h>
- #include "tb.h"
- 
--/**
-+/*
-  * tb_eeprom_ctl_write() - write control word
-  */
- static int tb_eeprom_ctl_write(struct tb_switch *sw, struct tb_eeprom_ctl *ctl)
-@@ -20,7 +20,7 @@ static int tb_eeprom_ctl_write(struct tb_switch *sw, struct tb_eeprom_ctl *ctl)
- 	return tb_sw_write(sw, ctl, TB_CFG_SWITCH, sw->cap_plug_events + 4, 1);
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index cdba05e72486b..ce1b120d1cd46 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -523,7 +523,7 @@ int tb_port_state(struct tb_port *port)
+ 	return phy.state;
  }
  
 -/**
 +/*
-  * tb_eeprom_ctl_write() - read control word
-  */
- static int tb_eeprom_ctl_read(struct tb_switch *sw, struct tb_eeprom_ctl *ctl)
-@@ -33,7 +33,7 @@ enum tb_eeprom_transfer {
- 	TB_EEPROM_OUT,
- };
- 
--/**
-+/*
-  * tb_eeprom_active - enable rom access
+  * tb_wait_for_port() - wait for a port to become ready
   *
-  * WARNING: Always disable access after usage. Otherwise the controller will
-@@ -62,7 +62,7 @@ static int tb_eeprom_active(struct tb_switch *sw, bool enable)
- 	}
+  * Wait up to 1 second for a port to reach state TB_PORT_UP. If
+@@ -587,7 +587,7 @@ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged)
+ 	return 0;
  }
  
 -/**
 +/*
-  * tb_eeprom_transfer - transfer one bit
+  * tb_port_add_nfc_credits() - add/remove non flow controlled credits to port
   *
-  * If TB_EEPROM_IN is passed, then the bit can be retrieved from ctl->data_in.
-@@ -90,7 +90,7 @@ static int tb_eeprom_transfer(struct tb_switch *sw, struct tb_eeprom_ctl *ctl,
- 	return tb_eeprom_ctl_write(sw, ctl);
+  * Change the number of NFC credits allocated to @port by @credits. To remove
+@@ -644,7 +644,7 @@ int tb_port_set_initial_credits(struct tb_port *port, u32 credits)
+ 	return tb_port_write(port, &data, TB_CFG_PORT, ADP_CS_5, 1);
  }
  
 -/**
 +/*
-  * tb_eeprom_out - write one byte to the bus
-  */
- static int tb_eeprom_out(struct tb_switch *sw, u8 val)
-@@ -110,7 +110,7 @@ static int tb_eeprom_out(struct tb_switch *sw, u8 val)
- 	return 0;
- }
- 
--/**
-+/*
-  * tb_eeprom_in - read one byte from the bus
-  */
- static int tb_eeprom_in(struct tb_switch *sw, u8 *val)
-@@ -131,7 +131,7 @@ static int tb_eeprom_in(struct tb_switch *sw, u8 *val)
- 	return 0;
- }
- 
--/**
-+/*
-  * tb_eeprom_get_drom_offset - get drom offset within eeprom
-  */
- static int tb_eeprom_get_drom_offset(struct tb_switch *sw, u16 *offset)
-@@ -162,7 +162,7 @@ static int tb_eeprom_get_drom_offset(struct tb_switch *sw, u16 *offset)
- 	return 0;
- }
- 
--/**
-+/*
-  * tb_eeprom_read_n - read count bytes from offset into val
-  */
- static int tb_eeprom_read_n(struct tb_switch *sw, u16 offset, u8 *val,
-@@ -278,7 +278,7 @@ struct tb_drom_entry_port {
- } __packed;
- 
- 
--/**
-+/*
-  * tb_drom_read_uid_only - read uid directly from drom
+  * tb_port_clear_counter() - clear a counter in TB_CFG_COUNTER
   *
-  * Does not use the cached copy in sw->drom. Used during resume to check switch
-@@ -374,7 +374,7 @@ static int tb_drom_parse_entry_port(struct tb_switch *sw,
- 	return 0;
+  * Return: Returns 0 on success or an error code on failure.
+@@ -718,7 +718,7 @@ int tb_port_disable(struct tb_port *port)
+ 	return __tb_port_enable(port, false);
  }
  
 -/**
 +/*
-  * tb_drom_parse_entries - parse the linked list of drom entries
+  * tb_init_port() - initialize a port
   *
-  * Drom must have been copied to sw->drom.
-@@ -410,7 +410,7 @@ static int tb_drom_parse_entries(struct tb_switch *sw)
- 	return 0;
+  * This is a helper method for tb_switch_alloc. Does not check or initialize
+@@ -1337,7 +1337,7 @@ int tb_switch_reset(struct tb_switch *sw)
+ 	return res.err;
  }
  
 -/**
 +/*
-  * tb_drom_copy_efi - copy drom supplied by EFI to sw->drom if present
-  */
- static int tb_drom_copy_efi(struct tb_switch *sw, u16 *size)
-@@ -519,7 +519,7 @@ static int tb_drom_read_n(struct tb_switch *sw, u16 offset, u8 *val,
- 	return tb_eeprom_read_n(sw, offset, val, count);
+  * tb_plug_events_active() - enable/disable plug events on a switch
+  *
+  * Also configures a sane plug_events_delay of 255ms.
+@@ -2647,7 +2647,7 @@ void tb_switch_remove(struct tb_switch *sw)
+ 	device_unregister(&sw->dev);
  }
  
 -/**
 +/*
-  * tb_drom_read - copy drom to sw->drom and parse it
+  * tb_sw_set_unplugged() - set is_unplugged on switch and downstream switches
   */
- int tb_drom_read(struct tb_switch *sw)
+ void tb_sw_set_unplugged(struct tb_switch *sw)
 -- 
 2.25.1
 
