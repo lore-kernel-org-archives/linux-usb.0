@@ -2,97 +2,158 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B32C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 15:40:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29453C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 16:16:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB734207D8
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 15:40:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E73B820791
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Jan 2021 16:16:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236186AbhA0Pjo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Jan 2021 10:39:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58674 "EHLO
+        id S1343956AbhA0QPg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Jan 2021 11:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235666AbhA0Pf3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 10:35:29 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25BFAC061788;
-        Wed, 27 Jan 2021 07:34:49 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id q7so2329039wre.13;
-        Wed, 27 Jan 2021 07:34:49 -0800 (PST)
+        with ESMTP id S1343662AbhA0QOE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Jan 2021 11:14:04 -0500
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 773F0C061573
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 08:13:24 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id o10so3599550wmc.1
+        for <linux-usb@vger.kernel.org>; Wed, 27 Jan 2021 08:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=rTRSEv0yvyo3PPUejUzJ5llScpDRGYrc5zOg/mjz0jE=;
-        b=Kr+HnUanrSYI7TF8hWB9wEyvNO8zvTpwqMTv7HsijAhelbMwbdUZ9W1NjDtVXvQasT
-         YOb+0aTVzN/id4ve7T2GZoxYgQu+Ztua8G36fl+1LSEkC3KLfDipROHq662K33CWOfwW
-         D1L5JYMFj/zZRjASSy17Tt49k+4hoAQT7+QuIgs5Kzv2i3ML5xZjvo9IMO4PGmilx+op
-         0ZLMfd13cZHMCgNN/70NS68zQ8dKf/Gi/Xhb0Dvi2wQqmxsX/pVe5nZHDbGr2KgvdFaG
-         FuClP9aYmsb1NuS3tMI7RXlk2eTYMxu4JYW5tTaK7/Scwz7yi4jD6fZ79oymm1HmSB+h
-         4pgA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Eb7sLjN+Y9Ss6oMnkExpYMqyva1tVQLoNcD1qYBJPYk=;
+        b=N6ub1XjAtQx7WmiG4vrpAQirtSWSUAMcjbeqPVR0QUemZKeLHTSnd/q3txovfURo7K
+         Yd+rQV9Ya9qo3jAEDYnh6LPckR+wg+iOFPHO1u0Vnxa/enIttLVAdbv8oNHbbbhOm2Ho
+         +qycK05etzRVLlDBT4zPdhd4fmmWPjcB+uDVhTpN+AtKJu7XRY4kpbgTVi1iHW2AIkn6
+         tpj3iTM8fUTBupWHyh/lRS53aJxXJUfCL3wlDKheaZ21Sce9wGEbrM7WPSy2e03FmYzH
+         LkjuPBPFucObSzkHOVMPAaUEGHtd3cK5FM4Wm4VWNVzQlhAV6OFHqngCe0sQxWeD6ndw
+         Ta6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=rTRSEv0yvyo3PPUejUzJ5llScpDRGYrc5zOg/mjz0jE=;
-        b=NaBQu1N61HZAJilqXhb5feKxyMq7Mz8s/eui2M8qAFgMKUioNCKd+kp4M/NO7bDmBT
-         Jw4uIbiTRMpOKVBuJQYdoCh74TZkWvT2AWzdANWPyeXQMfHCJD04MApWqn1jYvAkVdzH
-         2Z/0DH8kav6Dw1fZMxg66ZNweXrRm5mRzNxraQR9kM/LHNHlbqIHvwEzlLHD+6A7vMGI
-         TiCIcYYpzMxF8ue7L10Mg1ONbASQBA69NAs2u4u9uuwpu7+b6JJQeaYr/a9Hpapd6hXm
-         jpCIIuwet+YHw5oJZSkPTmYoo99Kg5H0vt8dbeCLOWn35LFQ4uMQ7f5X9RL+Y6ROVDxB
-         8/Hg==
-X-Gm-Message-State: AOAM530D1c5iJVl/oJ79tUW0pMI09WCVvDEfEv7Af/VQw1EYCr6sUe38
-        TlJW4N9iF1bZ5dC9q8kgGFE=
-X-Google-Smtp-Source: ABdhPJxEbADSJmI2f+6JbkXwibkiYfDqfXOk/EwuRFc9Pdof6ImhiNR47a1spCUVPw5le7cm6KLA1w==
-X-Received: by 2002:adf:83a6:: with SMTP id 35mr11676078wre.274.1611761687815;
-        Wed, 27 Jan 2021 07:34:47 -0800 (PST)
-Received: from LABNL-ITC-SW01.tmt.telital.com (static-82-85-31-68.clienti.tiscali.it. [82.85.31.68])
-        by smtp.gmail.com with ESMTPSA id m8sm3386132wrv.37.2021.01.27.07.34.46
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Eb7sLjN+Y9Ss6oMnkExpYMqyva1tVQLoNcD1qYBJPYk=;
+        b=TJvadjb2NnE19jFZZz69HrUYBzmv5TH69RmrkPTFx3321Me+ts3kMcqLXN6LgeDvrg
+         KteTsWx2NIbKyZLdf3Fue7YlcvTa/ShRQET7HbXX+kUfGMh9D4HUOcY+3Vq7wU0u9GMM
+         NUZYkaNL6M2eAGEoMJhY1SNwkwOXFBeBMVFtuTAdIEFUpUFrEXuR3BKNdREfihKniDaO
+         rL4DzzW9KxXC2DKzbDn9FIep/FkbACu9KYcbbihu6N4zuiV0vZewwHAE76AHYAYiVrWu
+         BwTvEjygDAF9OkotGTuwwna8l2e1Sw4VBG02Mjf+8V5WegJv6ZfBneMcvVtrJXj+hLwe
+         j08g==
+X-Gm-Message-State: AOAM5303GwFP4FEurE5xBQPPV3HWtck9mOGx9Wg0oVH7bMdR/2B/uF56
+        rwkXd1ns86Wn3aCnCr+yGegko97ARdM8wIaL
+X-Google-Smtp-Source: ABdhPJzbMMGbN5e0ZaCk6x3GmeJosmPXN5IJRaPjZdcCOUI+L431yoTD4b8/uWDViNe853x5jjGI5Q==
+X-Received: by 2002:a1c:7914:: with SMTP id l20mr4993637wme.85.1611764003161;
+        Wed, 27 Jan 2021 08:13:23 -0800 (PST)
+Received: from dell ([91.110.221.188])
+        by smtp.gmail.com with ESMTPSA id h16sm3495413wrq.29.2021.01.27.08.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 07:34:46 -0800 (PST)
-From:   Daniele Palmas <dnlplm@gmail.com>
-To:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Aleksander Morgado <aleksander@aleksander.es>,
-        Daniele Palmas <dnlplm@gmail.com>
-Subject: [PATCH 0/2] net: usb: qmi_wwan: new mux_id sysfs file
-Date:   Wed, 27 Jan 2021 16:34:31 +0100
-Message-Id: <20210127153433.12237-1-dnlplm@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 27 Jan 2021 08:13:22 -0800 (PST)
+Date:   Wed, 27 Jan 2021 16:13:20 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 05/12] thunderbolt: pa: Demote non-conformant kernel-doc
+ headers
+Message-ID: <20210127161320.GK4903@dell>
+References: <20210127112554.3770172-1-lee.jones@linaro.org>
+ <20210127112554.3770172-6-lee.jones@linaro.org>
+ <CAHp75VcFSQqDqjKCiCxdWyRpDDeMo4H6ELMHX15JSPfpt7nGHQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcFSQqDqjKCiCxdWyRpDDeMo4H6ELMHX15JSPfpt7nGHQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Wed, 27 Jan 2021, Andy Shevchenko wrote:
 
-this patch series add a sysfs file to let userspace know which mux
-id has been used to create a qmimux network interface.
+> On Wednesday, January 27, 2021, Lee Jones <lee.jones@linaro.org> wrote:
+> 
+> > Fixes the following W=1 kernel build warning(s):
+> >
+> >  drivers/thunderbolt/path.c:476: warning: Function parameter or member
+> > 'path' not described in 'tb_path_activate'
+> >  drivers/thunderbolt/path.c:568: warning: Function parameter or member
+> > 'path' not described in 'tb_path_is_invalid'
+> >
+> >
+> I think the intention was to describe them in kernel doc format, perhaps
+> you need to add descriptions of the fields?
 
-I'm aware that adding new sysfs files is not usually the right path,
-but my understanding is that this piece of information can't be
-retrieved in any other way and its absence restricts how
-userspace application (e.g. like libqmi) can take advantage of the
-qmimux implementation in qmi_wwan.
+For changes like this, I've been working to the following rule:
 
-Thanks,
-Daniele
+ - I'll provide fix-ups; if and only if the author has had a
+ reasonable attempt at providing a conformant kernel-doc header.
 
-v2: used sysfs_emit in mux_id_show
+So if the headers are just suffering from a little doc-rot i.e. the
+API has changed, but the doc update was omitted, or most of the
+parameters/members are documented, but some were forgotten about etc,
+or if there are formatting issues, I'll happily take up the slack and
+polish those up a bit.
 
-Daniele Palmas (2):
-  net: usb: qmi_wwan: add qmap id sysfs file for qmimux interfaces
-  net: qmi_wwan: document qmap/mux_id sysfs file
+However, if no attempt was made, then they get demoted.
 
- Documentation/ABI/testing/sysfs-class-net-qmi | 10 +++++++
- drivers/net/usb/qmi_wwan.c                    | 27 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+I don't want to get into a situation where authors delicately provide
+weak documentation with the expectation that someone else will come
+along and turn them into conformant docs.
+
+If authors wish to come back, provide proper descriptions &
+formatting and subsequently re-promote them again, then all power to
+them.
+
+> > Cc: Andreas Noever <andreas.noever@gmail.com>
+> > Cc: Michael Jamet <michael.jamet@intel.com>
+> > Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> > Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+> > Cc: linux-usb@vger.kernel.org
+> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> > ---
+> >  drivers/thunderbolt/path.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+> > index ca7d738d66dea..758b5fa0060c6 100644
+> > --- a/drivers/thunderbolt/path.c
+> > +++ b/drivers/thunderbolt/path.c
+> > @@ -464,7 +464,7 @@ void tb_path_deactivate(struct tb_path *path)
+> >         path->activated = false;
+> >  }
+> >
+> > -/**
+> > +/*
+> >   * tb_path_activate() - activate a path
+> >   *
+> >   * Activate a path starting with the last hop and iterating backwards. Thee
+> > @@ -559,7 +559,7 @@ int tb_path_activate(struct tb_path *path)
+> >         return res;
+> >  }
+> >
+> > -/**
+> > +/*
+> >   * tb_path_is_invalid() - check whether any ports on the path are invalid
+> >   *
+> >   * Return: Returns true if the path is invalid, false otherwise.
+> >
+> >
+> 
 
 -- 
-2.17.1
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
