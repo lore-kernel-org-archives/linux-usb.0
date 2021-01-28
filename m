@@ -2,88 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6430C433E0
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 12:32:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02951C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 12:38:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97CAC64D9D
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 12:32:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF52064DDD
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 12:38:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231156AbhA1Mcy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Jan 2021 07:32:54 -0500
-Received: from mga01.intel.com ([192.55.52.88]:54368 "EHLO mga01.intel.com"
+        id S229616AbhA1MiL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Jan 2021 07:38:11 -0500
+Received: from mga12.intel.com ([192.55.52.136]:36810 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229594AbhA1Mcw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 Jan 2021 07:32:52 -0500
-IronPort-SDR: 27yjiIXMg9Q3dQ9DDSPWmxz1aC3IFisLvpGlhV4OSG+MDqVvGcYjFYrRpjz7uZoeKLvINk3Vl/
- W0rWaVKeDM7A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9877"; a="199057043"
+        id S229531AbhA1MiL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 28 Jan 2021 07:38:11 -0500
+IronPort-SDR: uCb+vf+YnLQyZXXZ6aym8NLTRDceuvcOpkuo2C+5Re5tzmFxbQM92qAY73iUddDyFQanVHkTME
+ 7i9stZzW74YA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9877"; a="159397952"
 X-IronPort-AV: E=Sophos;i="5.79,382,1602572400"; 
-   d="scan'208";a="199057043"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 04:29:37 -0800
-IronPort-SDR: 7cgQwmWUwu55mJJZGI4+ch2zM8s2I21ie37Jh243uoE1VzQ5CQ+El+n6PKCwtyKJL4QW+1Q5sW
- zGNQH0D2Ad3Q==
-X-ExtLoop1: 1
+   d="scan'208";a="159397952"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 04:36:26 -0800
+IronPort-SDR: /wEbY7Hliq/Us8TWDwwVLU4FJbNr5YiVZRrlhybuf9O+2/rgGdYYBlkEltZH9cgGrZI0B0u2r2
+ 3gWNo7iyNtuQ==
 X-IronPort-AV: E=Sophos;i="5.79,382,1602572400"; 
-   d="scan'208";a="369832555"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jan 2021 04:29:35 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id E260A214; Thu, 28 Jan 2021 14:29:34 +0200 (EET)
+   d="scan'208";a="473655031"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 04:36:22 -0800
+Received: by lahna (sSMTP sendmail emulation); Thu, 28 Jan 2021 14:36:20 +0200
+Date:   Thu, 28 Jan 2021 14:36:20 +0200
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 3/5] thunderbolt: path: Fix kernel-doc descriptions of non-static functions
-Date:   Thu, 28 Jan 2021 15:29:32 +0300
-Message-Id: <20210128122934.36897-4-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210128122934.36897-1-mika.westerberg@linux.intel.com>
-References: <20210128122934.36897-1-mika.westerberg@linux.intel.com>
+        Mario Limonciello <mario.limonciello@dell.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Christian Kellner <christian@kellner.me>,
+        Len Brown <lenb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH 1/6] thunderbolt: Fix possible NULL pointer dereference
+ in tb_acpi_add_link()
+Message-ID: <20210128123620.GS2542@lahna.fi.intel.com>
+References: <20210126155723.9388-1-mika.westerberg@linux.intel.com>
+ <20210126155723.9388-2-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210126155723.9388-2-mika.westerberg@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix kernel-doc descriptions of the two non-static functions. This also
-gets rid of the warnings on W=1 build.
+On Tue, Jan 26, 2021 at 06:57:18PM +0300, Mika Westerberg wrote:
+> From: Mario Limonciello <mario.limonciello@dell.com>
+> 
+> When we walk up the device hierarchy in tb_acpi_add_link() make sure we
+> break the loop if the device has no parent. Otherwise we may crash the
+> kernel by dereferencing a NULL pointer.
+> 
+> Fixes: b2be2b05cf3b ("thunderbolt: Create device links from ACPI description")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mario Limonciello <mario.limonciello@dell.com>
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-Reported-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/path.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index ca7d738d66de..f63e205a35d9 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -466,6 +466,7 @@ void tb_path_deactivate(struct tb_path *path)
- 
- /**
-  * tb_path_activate() - activate a path
-+ * @path: Path to activate
-  *
-  * Activate a path starting with the last hop and iterating backwards. The
-  * caller must fill path->hops before calling tb_path_activate().
-@@ -561,6 +562,7 @@ int tb_path_activate(struct tb_path *path)
- 
- /**
-  * tb_path_is_invalid() - check whether any ports on the path are invalid
-+ * @path: Path to check
-  *
-  * Return: Returns true if the path is invalid, false otherwise.
-  */
--- 
-2.29.2
-
+Applied this one separately to thunderbolt.git/fixes.
