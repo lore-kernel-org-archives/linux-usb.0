@@ -2,44 +2,44 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17969C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 17:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE02DC433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 18:30:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFD1E64D9A
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 17:38:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9372964E24
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Jan 2021 18:30:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233232AbhA1RhV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Jan 2021 12:37:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
+        id S231964AbhA1SaF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Jan 2021 13:30:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233178AbhA1RhQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Jan 2021 12:37:16 -0500
-Received: from mout0.freenet.de (mout0.freenet.de [IPv6:2001:748:100:40::2:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B17EC061573
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 09:36:20 -0800 (PST)
-Received: from [195.4.92.125] (helo=sub6.freenet.de)
-        by mout0.freenet.de with esmtpa (ID andihartmann@freenet.de) (port 25) (Exim 4.92 #3)
-        id 1l5BDO-0003Im-Et; Thu, 28 Jan 2021 18:36:18 +0100
+        with ESMTP id S231929AbhA1S2V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Jan 2021 13:28:21 -0500
+Received: from mout1.freenet.de (mout1.freenet.de [IPv6:2001:748:100:40::2:3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97A8FC061786
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 10:27:25 -0800 (PST)
+Received: from [195.4.92.121] (helo=sub2.freenet.de)
+        by mout1.freenet.de with esmtpa (ID andihartmann@freenet.de) (port 25) (Exim 4.92 #3)
+        id 1l5C0n-0001YR-PY; Thu, 28 Jan 2021 19:27:21 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=01019freenet.de; s=mjaymdexmjqk; h=Content-Transfer-Encoding:Content-Type:
         In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
         Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=p5MvETlHRYRrVpSLYKJJH7EA9ym+lMcWG97Ezj2QDoI=; b=p+mexFkI2lVbE7Q48KDPeoBIL0
-        emMBLUeK/lCafkF/W30DrzkE1PswzROEHZ5Px+SUdgkAGF7RGgWV7xiqfQSySQsBk6CSUhL1T7FKu
-        G0xbWhxCjE3hMCuqqsK3vQgj4qd+SOArAe1ZKXuPOEG5Z4W7/ntwqV/IXfoeIZvLwwNTLsY7Et/Xf
-        PxaF7WKUkCy0RTv93DtlVUdA/emikc/vIU+sc4ktdo1aSnyYj8YqPYy2TqDiSKG++DScTApbMuaC4
-        3wbFIsd5HBiVRXE72ceU65HXWuzoEsWH57CvWk7OqNQYDWrSvrRftGsX1qHqKInkw7cWIXbJBkRII
-        nf0SklGQ==;
-Received: from p200300de573c8400505400fffe15ac42.dip0.t-ipconnect.de ([2003:de:573c:8400:5054:ff:fe15:ac42]:51890 helo=mail.maya.org)
-        by sub6.freenet.de with esmtpsa (ID andihartmann@freenet.de) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (port 465) (Exim 4.92 #3)
-        id 1l5BDO-0001Ry-Cy; Thu, 28 Jan 2021 18:36:18 +0100
+        bh=sThhcVBOnii7Z6VExoD8zAUo4jrLfgi2M1u1jTnh6KQ=; b=wbC7SJE4I1mQTuXHWotGqVNmfF
+        iuuMaCPy0RH7yA+m1n3ynOEb9EB2HlvpEvfJYwycU9VkW8iEbxFVdODNeXsYklwKHd0s1cGZos+ny
+        TicZLjYB2Akz4BKV0GcYIFD2zLHukV7lkQ7YewdMa3uI4LKK6DCUHWHcsvRJJWWmMXDVsE8hN+Pcu
+        zkcIK8DbmiWsqMqpmg0vJq/t0wfejpRcKJyvaObwojkRwIXXfK8uTIgxo7z/b3qb3eD5K/bZnyCLL
+        ni0bDdNNZCqOj6ZB75uqygBgYrV1n+cGtHTqCbotNMa3fR3FvAsJX/oXMAvp40tzGh2zJ1g3fi8lE
+        1HVyfpqA==;
+Received: from p200300de573c8400505400fffe15ac42.dip0.t-ipconnect.de ([2003:de:573c:8400:5054:ff:fe15:ac42]:53376 helo=mail.maya.org)
+        by sub2.freenet.de with esmtpsa (ID andihartmann@freenet.de) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (port 465) (Exim 4.92 #3)
+        id 1l5C0n-0001dd-N6; Thu, 28 Jan 2021 19:27:21 +0100
 Received: internal info suppressed
 Subject: Re: USB2 / USB3 compatibility problems: xhci_hcd 0000:00:06.0: WARN
  Wrong bounce buffer write length: 0 != 512
@@ -58,8 +58,8 @@ References: <3b4e35d2-9508-e0aa-eaf8-32e524ad81c4@01019freenet.de>
  <9c3c9dd7-bcfb-785c-8c11-39f78a7fca01@01019freenet.de>
  <ab675d28-d80f-ed72-5db0-943cb26819f1@linux.intel.com>
 From:   Andreas Hartmann <andihartmann@01019freenet.de>
-Message-ID: <c7c45204-c63e-01c3-4879-7495cbdd1788@01019freenet.de>
-Date:   Thu, 28 Jan 2021 18:36:16 +0100
+Message-ID: <bb597700-4320-f57c-c1cf-4eb2d428492a@01019freenet.de>
+Date:   Thu, 28 Jan 2021 19:27:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
 MIME-Version: 1.0
@@ -67,25 +67,21 @@ In-Reply-To: <ab675d28-d80f-ed72-5db0-943cb26819f1@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originated-At: 2003:de:573c:8400:5054:ff:fe15:ac42!51890
-X-FNSign: v=2 s=B19339E32DFCB8DFCDF5DD52A599210473FB11EC0F4CAE25614F701E14B7B77C
-X-Scan-TS: Thu, 28 Jan 2021 18:36:18 +0100
+X-Originated-At: 2003:de:573c:8400:5054:ff:fe15:ac42!53376
+X-FNSign: v=2 s=46C948E5222D9BC73950518F5785765F30614101C79C54E2D4635EA09874419A
+X-Scan-TS: Thu, 28 Jan 2021 19:27:21 +0100
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 Hello Mathias,
 
-On 28.01.21 at 15:14 Mathias Nyman wrote:
-> 
-> I think I'll submit this patch as it is (with a proper commit message)
-> can I add reported-by: Andreas Hartmann <andihartmann@01019freenet.de>, and
-> tested-by: Andreas Hartmann <andihartmann@01019freenet.de> tags to the patch?
-
-I forgot:
-Would it be possible to add the warning about wrong bounce buffer write
-length to the transfer_buffer-case, too?
+out of curiosity: could the same happen, too, on the receive side? I can
+see a similar check in static void xhci_unmap_td_bounce_buffer.
+rt5572sta e.g. uses for receiving urb->transfer_buffer, too. I can see
+no problems at all for this path at the moment (not even a warning) -
+but couldn't this just be chance?
 
 
 Thanks
-Andreas
+Michael
