@@ -5,62 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61714C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A697AC433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2968364DFF
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A0A664DFB
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbhA2GP5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 Jan 2021 01:15:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48176 "EHLO
+        id S232126AbhA2GQN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Jan 2021 01:16:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232051AbhA2GPl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 01:15:41 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE87C061794
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:25 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id cq1so5228867pjb.4
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:25 -0800 (PST)
+        with ESMTP id S232029AbhA2GPi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 01:15:38 -0500
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6741BC06178A
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:22 -0800 (PST)
+Received: by mail-pj1-x1034.google.com with SMTP id cq1so5228807pjb.4
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mi7AOcfFUGitVONrprMsQHj4LxmZ5B1spR/6XE6WI24=;
-        b=XWHrA5wQcaxgT/7wCdE1JwDfaXQZ+6ETii1M/NKnsgNmm3Rw0RzKplmiJYI6VPRJqE
-         0xz1x9AjPLjEBJEKui8w9LNIIVBNokzbBHkM3jJvfhS+ZigqdvXJG2ZKKOWa7PAHVNGV
-         CWqOsMMjCSNOeaHl/EtNw2zhND/tOS0cP5cps=
+        bh=mV7nf+buXJQ9+XxF7K4sp0VELy5hFFaKIItPtbNn5WA=;
+        b=VW9HbEAybqcA1AcQzeng934Z38FnPt59yz4mXRIKlMpe5SQDtsrOKXZ7wXiwjXQ5in
+         dMoVzuudHfCWL+oeqJIGNf8rSqwowKHCbbg+nheiIx+FYSXtUeTBSenrjKQvb6KU0W7z
+         zTEdksDK+dbWC3uLKhX9KyO6xRyoP0nQOqY+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mi7AOcfFUGitVONrprMsQHj4LxmZ5B1spR/6XE6WI24=;
-        b=ugK3L9NUYo+KtQlo6/bohiJuOZYMqtNZyxNMyc0tcUmYaIcx8l3eP3vxIj17fCJNhK
-         vPRY3t3MIf/EKar2uWW5kYzIRGC0mThn3pwTK8JSEjvSImq+z7iiZrrW14HtzFvWalJd
-         cV2JRP7iJH3BCLzY62JluWGaVjcdOE8cc9xITRW4KTJDhIwa/X8mL4Vl+2t97s65jvcL
-         OYY1BMwZqK3LR93/caVq+vdvU2J3AyB28L0AcCP8GpY3MjWP+001EwHhgSzJ0vXPKppX
-         FtUvmaAk+A2PbFjzUAwDMImRpq4rntarKLoX2ErvSf7Y6PH7m7tA5H8y3/DtD6+DUsx4
-         3hPQ==
-X-Gm-Message-State: AOAM5316D5R/x79W8aOBb60bzp5ING6ijCvGUZMfDp68rAqzjbpDZ+n4
-        taMlXQH/RHoUWOx4hD5wOvCQIg==
-X-Google-Smtp-Source: ABdhPJwyEQVWnLU1mfrtjCHnnHYhyoYWWlRB3ViU90872VJ/R7QtJKmcFPBN54F36ErRPpUa6buMSg==
-X-Received: by 2002:a17:90b:246:: with SMTP id fz6mr3087603pjb.131.1611900864828;
-        Thu, 28 Jan 2021 22:14:24 -0800 (PST)
+        bh=mV7nf+buXJQ9+XxF7K4sp0VELy5hFFaKIItPtbNn5WA=;
+        b=ElTJ53PHYKTv4d7z88P0HGH5uq0bBNI2ER9zqSbAysJv0j5A5p59zSZTnlNpdqrC0e
+         weoMzvUuEEqyHvkSN7QckUD4Bhwaizs2zicuhOzT9yLfs8Iq6/2qJ7Va/qZbGCngnFQu
+         47mlRQ+W3htDgosC34xk8L13fDLNhaMd4kdsBCDeXlWf46bXWgRMsageT2f8Jnpxwy38
+         rjq6lp0e75Sqs1nGWAzTzaXlhQggK8vqnYaPtvN1+ysTXVLTVMZQxxnlq7casvFYLVVS
+         Wt7mCit68cF4JedN7F7j3C0BFUWim3hlDDxLMGEm/y73ww0D0VhdnEefHouY/2U27Jo3
+         7wwg==
+X-Gm-Message-State: AOAM533wHKOyahccRYP38gtMl4IeHV/HxohrKSV/nlrEv2rtSYjL+4Td
+        zVoEO1Hg1YHrqon4twdtwccaoQ==
+X-Google-Smtp-Source: ABdhPJwtT0ZRfXmWvhktB4knPBnVOUNlL3eryEdErZCiOeAPwExtYPJGu5aBc7eSz+b/QAuGP0mB5A==
+X-Received: by 2002:a17:902:fe08:b029:de:36a1:9f12 with SMTP id g8-20020a170902fe08b02900de36a19f12mr2816050plj.30.1611900862047;
+        Thu, 28 Jan 2021 22:14:22 -0800 (PST)
 Received: from bleung.mtv.corp.google.com ([2620:15c:202:201:f693:9fff:fef4:fc72])
-        by smtp.gmail.com with ESMTPSA id 17sm7551013pfv.13.2021.01.28.22.14.23
+        by smtp.gmail.com with ESMTPSA id 17sm7551013pfv.13.2021.01.28.22.14.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 22:14:24 -0800 (PST)
+        Thu, 28 Jan 2021 22:14:21 -0800 (PST)
 From:   Benson Leung <bleung@chromium.org>
 To:     heikki.krogerus@linux.intel.com, enric.balletbo@collabora.com,
         pmalani@chromium.org, gregkh@linuxfoundation.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     groeck@chromium.org, bleung@google.com, bleung@chromium.org
-Subject: [PATCH 6/6] platform/chrome: cros_ec_typec: Set opmode to PD on SOP connected
-Date:   Thu, 28 Jan 2021 22:14:06 -0800
-Message-Id: <20210129061406.2680146-7-bleung@chromium.org>
+Subject: [PATCH 4/6] platform/chrome: cros_ec_typec: Report SOP' PD revision from status
+Date:   Thu, 28 Jan 2021 22:14:04 -0800
+Message-Id: <20210129061406.2680146-5-bleung@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210129061406.2680146-1-bleung@chromium.org>
 References: <20210129061406.2680146-1-bleung@chromium.org>
@@ -70,32 +69,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When SOP Discovery is done, set the opmode to PD if status indicates
-SOP is connected.
+cros_typec_handle_sop_prime_disc now takes the PD revision provided
+by the EC_CMD_TYPEC_STATUS command response for the SOP'.
 
-SOP connected indicates a PD contract is in place, and is a solid
-indication we have transitioned to PD power negotiation, either as
-source or sink.
+Attach the properly formatted pd_revision to the cable desc before
+registering the cable.
 
 Signed-off-by: Benson Leung <bleung@chromium.org>
 ---
- drivers/platform/chrome/cros_ec_typec.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/platform/chrome/cros_ec_typec.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
-index 6bc6fafd54a4..a7778258d0a0 100644
+index e724a5eaef1c..30600e9454e1 100644
 --- a/drivers/platform/chrome/cros_ec_typec.c
 +++ b/drivers/platform/chrome/cros_ec_typec.c
-@@ -900,6 +900,9 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
- 			dev_err(typec->dev, "Couldn't parse SOP Disc data, port: %d\n", port_num);
- 		else
- 			typec->ports[port_num]->sop_disc_done = true;
-+
-+		if (resp.sop_connected)
-+			typec_set_pwr_opmode(typec->ports[port_num]->port, TYPEC_PWR_MODE_PD);
+@@ -748,7 +748,7 @@ static void cros_typec_parse_pd_identity(struct usb_pd_identity *id,
+ 		id->vdo[i - 3] = disc->discovery_vdo[i];
+ }
+ 
+-static int cros_typec_handle_sop_prime_disc(struct cros_typec_data *typec, int port_num)
++static int cros_typec_handle_sop_prime_disc(struct cros_typec_data *typec, int port_num, u16 pd_revision)
+ {
+ 	struct cros_typec_port *port = typec->ports[port_num];
+ 	struct ec_response_typec_discovery *disc = port->disc_data;
+@@ -794,6 +794,7 @@ static int cros_typec_handle_sop_prime_disc(struct cros_typec_data *typec, int p
  	}
  
+ 	c_desc.identity = &port->c_identity;
++	c_desc.pd_revision = pd_revision;
+ 
+ 	port->cable = typec_register_cable(port->port, &c_desc);
+ 	if (IS_ERR(port->cable)) {
+@@ -893,7 +894,11 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
+ 
  	if (resp.events & PD_STATUS_EVENT_SOP_PRIME_DISC_DONE &&
+ 	    !typec->ports[port_num]->sop_prime_disc_done) {
+-		ret = cros_typec_handle_sop_prime_disc(typec, port_num);
++		u16 sop_prime_revision;
++
++		/* Convert BCD to the format preferred by the TypeC framework */
++		sop_prime_revision = (le16_to_cpu(resp.sop_prime_revision) & 0xff00) >> 4;
++		ret = cros_typec_handle_sop_prime_disc(typec, port_num, sop_prime_revision);
+ 		if (ret < 0)
+ 			dev_err(typec->dev, "Couldn't parse SOP' Disc data, port: %d\n", port_num);
+ 		else
 -- 
 2.30.0.365.g02bc693789-goog
 
