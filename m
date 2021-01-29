@@ -2,149 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BDCAC433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 00:58:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6977BC433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 02:01:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C894364D99
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 00:58:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FC3264DFB
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 02:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231486AbhA2A5t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Jan 2021 19:57:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbhA2A5l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Jan 2021 19:57:41 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2098CC061573
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 16:57:01 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id f16so5638674wmq.5
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 16:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=0EQ8oHxswQLReramq9MegxVqQbGVrPNP9ryMhszFjBk=;
-        b=jwq8M9JUZCx6Pnwz1HkbsBA2fTitT+cg4tdbXBhP45yNzL13pw+G2HWtAFapRoG7SK
-         qyor7CDorsFQsC+9cpI8TPo35+nDzR56NPZukataTMmUNirp+VvY6jYKjZ/dfRWkLwxA
-         B3PkJ/2JCcEvFkfC6POrhHi+IZtEEk8X/AL+cg9NrqVFrPaqifCS5ZEBrOFzClf4oLh6
-         TU1TlxZ4KnDOSZAikzBzfDX3Lv/urkmVwGzy5d3XDyqOe6WuYPLHt+jz6mXmhHx9cpjU
-         PbNW9nlZQbKD9GOABpFXPHlyR/KYPVPI6G5kOOZXxtj3ESCLRjmPAsDsJO0esui+9Rpo
-         2TXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0EQ8oHxswQLReramq9MegxVqQbGVrPNP9ryMhszFjBk=;
-        b=JNufeYKqmQereVApRRqn+94wC/HGbv6dbkH4rCNhVsNFYUniUVQveKe6ovUKYWRSqp
-         dvAQ+CzGR/z2hTYShwjcIf+w5BEESasNS99FpC2HFZ9Sbel1HMLJOVfwgbq/di22MMN0
-         y2UbwxrQqovg1lGXc2OLCnwoIc6CpjQsedSrNumK1HC7PrjXICYFGC1dItPIsLP9mCGQ
-         4c2Irdi/5smZqhyyv1ehS3i7sZkRy4O3X8VSMzJNO3eNxiB+H/CzoO1teauWLZwqHcB7
-         6tMb5SJ6wcAW748tuDQ/2n91TKE6nKv5u51pBN95mrom5M6NGAukLwjqxeGm0oTYlZqp
-         mOrg==
-X-Gm-Message-State: AOAM53117R6S+qOwTYl/dY5JK6pQ3AfNAJkuEAcg/IT2Xf40Mwuii5fY
-        iuPL7ezoRcYJN85u93TeODM18jna4Nfiug==
-X-Google-Smtp-Source: ABdhPJys7hSWhUI0t0CZYBMud1VhQErR8P6z+a5CQRh2QM9TbVxDiCmcvce6I0WEcPAc1wKhdSysNg==
-X-Received: by 2002:a1c:9850:: with SMTP id a77mr1443768wme.163.1611881819906;
-        Thu, 28 Jan 2021 16:56:59 -0800 (PST)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id z184sm8185018wmg.7.2021.01.28.16.56.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jan 2021 16:56:59 -0800 (PST)
-Subject: Re: [PATCH] usb: dwc3: gadget: Init only available HW eps
-To:     Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc:     John Youn <John.Youn@synopsys.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <3080c0452df14d510d24471ce0f9bb7592cdfd4d.1609866964.git.Thinh.Nguyen@synopsys.com>
- <87eeiycxld.fsf@kernel.org>
- <75d63bab-1cdc-737e-8ae2-64e0ddeeef75@synopsys.com>
- <87k0spay6z.fsf@kernel.org>
- <cacf58e7-e131-2caa-5fb3-1af7db8270b4@synopsys.com>
- <19b685a9-0c25-9b6c-ecaf-ffca4069182b@synopsys.com>
- <87eeivwrb9.fsf@kernel.org>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Message-ID: <c322742e-271d-e267-f499-3cc8a2dc7df6@nexus-software.ie>
-Date:   Fri, 29 Jan 2021 00:58:19 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+        id S229819AbhA2CBl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Jan 2021 21:01:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56106 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229627AbhA2CBk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 28 Jan 2021 21:01:40 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4601364DD8;
+        Fri, 29 Jan 2021 02:00:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611885659;
+        bh=p0uHFwUvCH/6f8HoOpLMSnv8kygVAGKQioPwd2Bn850=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Vv79sw3oz/2XNH3HNycl0o0xiymVHSHmUYfgb9Hya162IWQmY/UwxldSg7SCNCh5+
+         aD2BWxsxRsPA7MlRxUrLvbEaRyAPH8xiUwEnfGBpem0m65J5EdarVbu3Jq4TlRHI22
+         d2MeOr1p3zLTtGiOs7JA20oLsuC/mw0krk6KT1oWL+8oZ7I6BWOmmsIrF24fAtEpU4
+         J4TK6Dnkuy3aWbMxZwjdjltpV4VNkQyiSliBgY1MG4R//hU6+CL5XiqEsjTYhaoVZK
+         r3xcOlSTqelyDZL7SDRuJFK6t8AsE3bg5zyVtlImbCEiv3X57f37ghPW6Br7AL6fUu
+         oN3fxh8QVqBdw==
+Date:   Thu, 28 Jan 2021 18:00:58 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     =?UTF-8?B?QmrDuHJu?= Mork <bjorn@mork.no>
+Cc:     Daniele Palmas <dnlplm@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Aleksander Morgado <aleksander@aleksander.es>
+Subject: Re: [PATCH net-next 1/2] net: usb: qmi_wwan: add qmap id sysfs file
+ for qmimux interfaces
+Message-ID: <20210128180058.3224e376@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <87mtwudene.fsf@miraculix.mork.no>
+References: <20210125152235.2942-1-dnlplm@gmail.com>
+        <20210125152235.2942-2-dnlplm@gmail.com>
+        <87wnw1f0yj.fsf@miraculix.mork.no>
+        <20210126180231.75e19557@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <87mtwudene.fsf@miraculix.mork.no>
 MIME-Version: 1.0
-In-Reply-To: <87eeivwrb9.fsf@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 08/01/2021 12:23, Felipe Balbi wrote:
-> 
-> Hi,
-> 
-> Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
->>>>>> How have you verified this patch? Did you read Bryan's commit log? This
->>>>>> is likely to reintroduce the problem raised by Bryan.
->>>>>>
->>>>> We verified with our FPGA HAPS with various number of endpoints. No
->>>>> issue is seen.
->>>> That's cool. Could you please make sure our understanding of this is
->>>> sound and won't interfere with any designs? If we modify this part of
->>>> the code again, I'd like to see a clear reference to a specific section
->>>> of the databook detailing the expected behavior :-)
->>>>
->>>> cheers
->>>>
->>> Hm... I didn't consider bidirection endpoint other than control endpoint.
->>>
->>> DWC3_USB3x_NUM_EPS specifies the number of device mode for single
->>> directional endpoints. A bidirectional endpoint needs 2 single
->>> directional endpoints, 1 IN and 1 OUT. So, if your setup uses 3
->>> bidirection endpoints and only those, DWC3_USB3x_NUM_EPS should be 6.
->>> DWC3_USB3x_NUM_IN_EPS specifies the maximum number of IN endpoint active
->>> at any time.
->>>
->>> However, I will have to double check and confirm internally regarding
->>> how to determine many endpoint would be available if bidirection
->>> endpoints come into play.
->>>
->>> Thanks for pointing this out. Will get back on this.
->>>
->>> Thinh
->>>
->>
->> Ok. Just had some discussion internally. So, like you said, any endpoint
->> can be configured in either direction. However, we are limited to
->> configuring up to DWC_USB3x_NUM_IN_EPS because each IN endpoint has its
->> own TxFIFO while for OUT, they share the same RxFIFO. So we could have
->> up to DWC_USB3x_NUM_EPS number of OUT endpoints. So, the issue Bryan
->> attempted to address is still there.
->>
->> However, the current code still has some assumption on the number of IN
->> and OUT endpoints, I need to think of a better solution.
-> 
-> Yes, the assumption still exists because at the time there was no better
-> solution :-)
-> 
+On Wed, 27 Jan 2021 08:26:13 +0100 Bj=C3=B8rn Mork wrote:
+> Jakub Kicinski <kuba@kernel.org> writes:
+> > We got two patches adding new sysfs files for QMI in close succession -
+> > is there a sense of how much this interface will grow over time? =20
+>=20
+> The honest answer is no.
+>=20
+> I do not expect this interface to grow at all.  But then I didn't expect
+> it to grow before the two recent additions either...  Both are results
+> of feedback from the userspace developers actually using this interface.
+>=20
+> If I try to look into the future, then I do believe the first addition,
+> the "pass_through" flag, makes further changes unnecessary.  It allows
+> the "rmnet" driver to take over all the functionality related to
+> qmap/qmimux.  The rmnet driver has a proper netlink interface for
+> management.  This is how the design should have been from the start, and
+> would have been if the "rmnet" driver had existed when we added qmap
+> support to qmi_wwan.  Or if I had been aware that someone was working on
+> such a driver.
+>=20
+> So why do we still need this last addition discussed here? Well, there
+> are users of the qmi_wwan internal qmimux interface.  They should move
+> to "rmnet", but this might take some time and we obviously can't remove
+> the old interface in any case. But there is a design flaw in that
+> interface, which makes it rather difficult to use. This last addition
+> fixes that flaw.
+>=20
+> I'll definitely accept the judgement if you want to put your foot down
+> and say that this has to stop here, and that we are better served
+> without this last fix.
+>=20
+> > It's no secret that we prefer netlink in networking land. =20
+>=20
+> Yes.  But given that we have the sysfs interface for managing this
+> qmimux feature, I don't see netlink as an alternative to this patch.
+>=20
+> The same really applies to the previous sysfs attribute, adding another
+> flag to a set which is already exposed as sysfs attributes.
+>=20
+> The good news is that it allowed further qmimux handling to be offloaded
+> to "rmnet", which does have a netlink interface.
 
-Just found this now.
+Thanks for the explanation. I'll trust you on this one :)
 
-The commit log is too wordy. You can configure the RTL so that every 
-endpoint can be either direction.
-
-So DWC_USB3_NUM == DWC_USB3_NUM_IN_EPS
-
-The old code was predicated on the notion the RTL was configured with 
-EP0 IN/OUT basically fixed.
-
-In practice this _should_ be the case but the RTL does not enforce it 
-and yes this appears in a real SoC from Imagination.
-
----
-bod
+I applied v2 and added the acks from v1.
