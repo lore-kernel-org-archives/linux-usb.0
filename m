@@ -2,169 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E294AC433E9
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AEE7C433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:58:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC30065014
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD56264E32
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232261AbhA2Ly2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 Jan 2021 06:54:28 -0500
-Received: from mga14.intel.com ([192.55.52.115]:19271 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232109AbhA2K0S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 29 Jan 2021 05:26:18 -0500
-IronPort-SDR: pkrHSNmBuJDJGvPEjaWzjSymThCU/x1/wFHt6espIElXApWdcrX9LJUH+sADir6WQU5ML35kxI
- g0TVn3+5z0MQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="179606838"
-X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; 
-   d="scan'208";a="179606838"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 00:32:46 -0800
-IronPort-SDR: utZ0SjJOclrME2v02nVNELV19iZ+n05EkDwphomRpzn+S1QGsIQ7nGaAQhIrvjY7cS3xXyOu+r
- NabEQYuh367w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; 
-   d="scan'208";a="575444604"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 29 Jan 2021 00:32:42 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id AE5302534; Fri, 29 Jan 2021 10:32:41 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Christian Kellner <christian@kellner.me>,
-        Len Brown <lenb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-acpi@vger.kernel.org
-Subject: [PATCH v2 2/5] thunderbolt: Allow disabling XDomain protocol
-Date:   Fri, 29 Jan 2021 11:32:38 +0300
-Message-Id: <20210129083241.72497-3-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210129083241.72497-1-mika.westerberg@linux.intel.com>
-References: <20210129083241.72497-1-mika.westerberg@linux.intel.com>
+        id S232320AbhA2L6I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Jan 2021 06:58:08 -0500
+Received: from a1.mail.mailgun.net ([198.61.254.60]:37721 "EHLO
+        a1.mail.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232935AbhA2L5L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 06:57:11 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1611921192; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=5AabeFLj+R2/kUqGBVgyCe3CiNQ0rCCGgoMltFDsJ10=; b=vd8skBU7TDjH+MAjMm0B17QdCfjMpAvwoUuiFTaPR2FhKwlTb0DF41Cy6QS98n5B77qD9QhJ
+ pIgHzE70QMPuElg7MhacevhYfIYQAS8VZWm0ABOuUvWnWli4Wvw9ONZ/OfuFSBG1veKQJF9a
+ A43jFgXdBgvEJUfsZhG96cG1LpA=
+X-Mailgun-Sending-Ip: 198.61.254.60
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 6013d448bcde41216200dc1a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 29 Jan 2021 09:24:24
+ GMT
+Sender: jackp=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id E81E4C433ED; Fri, 29 Jan 2021 09:24:23 +0000 (UTC)
+Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: jackp)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id BDBEBC433CA;
+        Fri, 29 Jan 2021 09:24:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BDBEBC433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
+Date:   Fri, 29 Jan 2021 01:24:18 -0800
+From:   Jack Pham <jackp@codeaurora.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v7 4/5] usb: dwc3: dwc3-qcom: Enable tx-fifo-resize
+ property by default
+Message-ID: <20210129092418.GA1879@jackp-linux.qualcomm.com>
+References: <1611895604-4496-1-git-send-email-wcheng@codeaurora.org>
+ <1611895604-4496-5-git-send-email-wcheng@codeaurora.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1611895604-4496-5-git-send-email-wcheng@codeaurora.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This allows disabling XDomain protocol completely if the user does not
-plan to use the USB4/Thunderbolt peer-to-peer functionality, or for
-security reasons.
+Hi Wesley,
 
-XDomain protocol is enabled by default but with this commit it is
-possible to disable it by passing "xdomain=0" as module parameter (or
-through the kernel command line).
+On Thu, Jan 28, 2021 at 08:46:43PM -0800, Wesley Cheng wrote:
+> In order to take advantage of the TX fifo resizing logic, manually add
+> these properties to the DWC3 child node by default.  This will allow
+> the DWC3 gadget to resize the TX fifos for the IN endpoints, which
+> help with performance.
+> 
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> ---
+>  drivers/usb/dwc3/dwc3-qcom.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+> index d803ee9..4ea6be3 100644
+> --- a/drivers/usb/dwc3/dwc3-qcom.c
+> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+> @@ -564,6 +564,7 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
+>  
+>  static const struct property_entry dwc3_qcom_acpi_properties[] = {
+>  	PROPERTY_ENTRY_STRING("dr_mode", "host"),
+> +	PROPERTY_ENTRY_BOOL("tx-fifo-resize"),
+>  	{}
+>  };
+>  
+> @@ -634,6 +635,7 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+>  	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
+>  	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
+>  	struct device		*dev = &pdev->dev;
+> +	struct property		*prop;
+>  	int			ret;
+>  
+>  	dwc3_np = of_get_child_by_name(np, "dwc3");
+> @@ -642,6 +644,14 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+>  		return -ENODEV;
+>  	}
+>  
+> +	prop = kzalloc(sizeof(*prop), GFP_KERNEL);
+> +	if (prop) {
+> +		prop->name = "tx-fifo-resize";
+> +		ret = of_add_property(dwc3_np, prop);
+> +		if (ret < 0)
+> +			dev_info(dev, "unable to add tx-fifo-resize prop\n");
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Acked-by: Yehezkel Bernat <YehezkelShB@gmail.com>
----
- drivers/thunderbolt/domain.c  | 4 +++-
- drivers/thunderbolt/icm.c     | 6 ++++--
- drivers/thunderbolt/tb.c      | 3 +++
- drivers/thunderbolt/tb.h      | 1 +
- drivers/thunderbolt/xdomain.c | 9 +++++++++
- 5 files changed, 20 insertions(+), 3 deletions(-)
+You'll need to kfree(prop) both in case of error here as well as in the
+driver's .remove() callback. Maybe easier to devm_kzalloc()?
 
-diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-index a1c79c9c4f66..89ae614eaba2 100644
---- a/drivers/thunderbolt/domain.c
-+++ b/drivers/thunderbolt/domain.c
-@@ -412,7 +412,9 @@ static bool tb_domain_event_cb(void *data, enum tb_cfg_pkg_type type,
- 	switch (type) {
- 	case TB_CFG_PKG_XDOMAIN_REQ:
- 	case TB_CFG_PKG_XDOMAIN_RESP:
--		return tb_xdomain_handle_request(tb, type, buf, size);
-+		if (tb_is_xdomain_enabled())
-+			return tb_xdomain_handle_request(tb, type, buf, size);
-+		break;
- 
- 	default:
- 		tb->cm_ops->handle_event(tb, type, buf, size);
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index 14340ec61703..8cd7b3054d14 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -1701,10 +1701,12 @@ static void icm_handle_notification(struct work_struct *work)
- 			icm->device_disconnected(tb, n->pkg);
- 			break;
- 		case ICM_EVENT_XDOMAIN_CONNECTED:
--			icm->xdomain_connected(tb, n->pkg);
-+			if (tb_is_xdomain_enabled())
-+				icm->xdomain_connected(tb, n->pkg);
- 			break;
- 		case ICM_EVENT_XDOMAIN_DISCONNECTED:
--			icm->xdomain_disconnected(tb, n->pkg);
-+			if (tb_is_xdomain_enabled())
-+				icm->xdomain_disconnected(tb, n->pkg);
- 			break;
- 		case ICM_EVENT_RTD3_VETO:
- 			icm->rtd3_veto(tb, n->pkg);
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 413955aa6a94..ad3c285026d5 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -179,6 +179,9 @@ static void tb_scan_xdomain(struct tb_port *port)
- 	struct tb_xdomain *xd;
- 	u64 route;
- 
-+	if (!tb_is_xdomain_enabled())
-+		return;
-+
- 	route = tb_downstream_route(port);
- 	xd = tb_xdomain_find_by_route(tb, route);
- 	if (xd) {
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 31468de658e4..01fe849e9d4c 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -953,6 +953,7 @@ static inline u64 tb_downstream_route(struct tb_port *port)
- 	       | ((u64) port->port << (port->sw->config.depth * 8));
- }
- 
-+bool tb_is_xdomain_enabled(void);
- bool tb_xdomain_handle_request(struct tb *tb, enum tb_cfg_pkg_type type,
- 			       const void *buf, size_t size);
- struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 6e8bea6a7d39..b242161868c2 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -30,6 +30,10 @@ struct xdomain_request_work {
- 	struct tb *tb;
- };
- 
-+static bool tb_xdomain_enabled = true;
-+module_param_named(xdomain, tb_xdomain_enabled, bool, 0444);
-+MODULE_PARM_DESC(xdomain, "allow XDomain protocol (default: true)");
-+
- /* Serializes access to the properties and protocol handlers below */
- static DEFINE_MUTEX(xdomain_lock);
- 
-@@ -47,6 +51,11 @@ static const uuid_t tb_xdp_uuid =
- 	UUID_INIT(0xb638d70e, 0x42ff, 0x40bb,
- 		  0x97, 0xc2, 0x90, 0xe2, 0xc0, 0xb2, 0xff, 0x07);
- 
-+bool tb_is_xdomain_enabled(void)
-+{
-+	return tb_xdomain_enabled;
-+}
-+
- static bool tb_xdomain_match(const struct tb_cfg_request *req,
- 			     const struct ctl_pkg *pkg)
- {
--- 
-2.29.2
-
+Jack
