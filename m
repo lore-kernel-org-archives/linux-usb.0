@@ -2,39 +2,39 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58FFBC433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 10:56:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC25EC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0E7DE64E31
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 10:56:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD8E764EDE
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 11:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232063AbhA2Kzw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 Jan 2021 05:55:52 -0500
-Received: from mga17.intel.com ([192.55.52.151]:49161 "EHLO mga17.intel.com"
+        id S232297AbhA2LuX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Jan 2021 06:50:23 -0500
+Received: from mga02.intel.com ([134.134.136.20]:38578 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232261AbhA2K0d (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 29 Jan 2021 05:26:33 -0500
-IronPort-SDR: Uvx2dhu8cyxjzyVcnZu3afwdlOensRhF+l62caHw9nbz56w7KcFbHASoIlAB4oKdMALWQ0zgVd
- nkNQj+mpq5BA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="160159828"
+        id S232157AbhA2K0S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 29 Jan 2021 05:26:18 -0500
+IronPort-SDR: 3XcvTSNvQge+gsYirSDdZBcX0yfgkelViP91pVPdj/d4s0CsoFSfvmFDwc7LblPT/ut50NfY/F
+ qQDkeYFMnuLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="167487519"
 X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; 
-   d="scan'208";a="160159828"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 00:32:45 -0800
-IronPort-SDR: wYoluzMQ6lR5oyzLGSxGA4EDnT5TlS1ZBQS/Ox4X1C+G1PBEFow2nr/f8A2KF8BHqQnAfrwiRi
- Y/JlcW7wKLaA==
+   d="scan'208";a="167487519"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2021 00:32:45 -0800
+IronPort-SDR: MP5165eMSq14eTclMl9OilF+HPa/qiU+din218ejiKxs5MQEocQ7fnNflzh8V2yd8jGOmtZXAm
+ fkOnFsTS203w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,385,1602572400"; 
-   d="scan'208";a="409564863"
+   d="scan'208";a="364317646"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2021 00:32:42 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 29 Jan 2021 00:32:42 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 97F0B17F; Fri, 29 Jan 2021 10:32:41 +0200 (EET)
+        id C857C2621; Fri, 29 Jan 2021 10:32:41 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -48,70 +48,172 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-acpi@vger.kernel.org
-Subject: [PATCH v2 0/5] thunderbolt / ACPI: Add support for USB4 _OSC
-Date:   Fri, 29 Jan 2021 11:32:36 +0300
-Message-Id: <20210129083241.72497-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 4/5] ACPI: Add support for native USB4 control _OSC
+Date:   Fri, 29 Jan 2021 11:32:40 +0300
+Message-Id: <20210129083241.72497-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210129083241.72497-1-mika.westerberg@linux.intel.com>
+References: <20210129083241.72497-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+ACPI 6.4 introduced a new _OSC capability that is used negotiate native
+connection manager support. Connection manager is the entity that is
+responsible for tunneling over the USB4 fabric. If the platform rejects
+the native access then firmware based connection manager is used.
 
-The just released ACPI 6.4 spec [1] adds a new _OSC method that is used to
-negotiate OS support for native USB4 features such as PCIe tunneling. This
-patch series adds Linux support for the new _OSC and modifies the
-Thunderbolt/USB4 driver accordingly to enable/disable tunneling of
-different protocols.
+The new _OSC also includes a set of bits that can be used to disable
+certain tunnel types such as PCIe for security reasons for instance.
 
-There is an additional setting in the firmware connection manager that
-allows the BIOS to disable PCIe tunneling, so we add support for this and
-also make the software connection manager to switch to this "nopcie"
-security level when the _OSC does not allow PCIe tunneling.
+This implements the new USB4 _OSC so that we try to negotiate native
+USB4 support if the Thunderbolt/USB4 (CONFIG_USB4) driver is enabled.
+Drivers can determine what was negotiated by checking two new variables
+exposed in this patch.
 
-This applies on top of thunderbolt.git/next.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+---
+ drivers/acpi/bus.c   | 76 ++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/acpi.h | 10 ++++++
+ 2 files changed, 86 insertions(+)
 
-[1] https://uefi.org/sites/default/files/resources/ACPI_Spec_6_4_Jan22.pdf
-
-The previous version of the patch series can be found here:
-
-  https://lore.kernel.org/linux-usb/20210126155723.9388-1-mika.westerberg@linux.intel.com/
-
-Changes from v1:
-
-  * Dropped patch 1/6. I already applied it to thunderbolt.git/fixes
-  * Added ACK from Yehezkel to TBT patches
-  * Updated changelog of patch 1/5 and fixed typos too
-  * Added Rafael's tag to patch 4/5.
-
-Mario Limonciello (1):
-  ACPI: Execute platform _OSC also with query bit clear
-
-Mika Westerberg (4):
-  thunderbolt: Add support for PCIe tunneling disabled (SL5)
-  thunderbolt: Allow disabling XDomain protocol
-  ACPI: Add support for native USB4 control _OSC
-  thunderbolt: Add support for native USB4 _OSC
-
- .../ABI/testing/sysfs-bus-thunderbolt         |   2 +
- Documentation/admin-guide/thunderbolt.rst     |   7 ++
- drivers/acpi/bus.c                            | 119 ++++++++++++++++--
- drivers/thunderbolt/acpi.c                    |  65 ++++++++++
- drivers/thunderbolt/domain.c                  |  16 ++-
- drivers/thunderbolt/icm.c                     |   6 +-
- drivers/thunderbolt/nhi.c                     |  27 +++-
- drivers/thunderbolt/switch.c                  |   6 +-
- drivers/thunderbolt/tb.c                      |  22 +++-
- drivers/thunderbolt/tb.h                      |  13 ++
- drivers/thunderbolt/tunnel.c                  |  10 +-
- drivers/thunderbolt/usb4.c                    |  11 +-
- drivers/thunderbolt/xdomain.c                 |   9 ++
- include/linux/acpi.h                          |  10 ++
- include/linux/thunderbolt.h                   |   3 +
- 15 files changed, 298 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/acpi/bus.c b/drivers/acpi/bus.c
+index a52cb28c40d8..9c3fe08e8f18 100644
+--- a/drivers/acpi/bus.c
++++ b/drivers/acpi/bus.c
+@@ -281,6 +281,12 @@ bool osc_sb_apei_support_acked;
+ bool osc_pc_lpi_support_confirmed;
+ EXPORT_SYMBOL_GPL(osc_pc_lpi_support_confirmed);
+ 
++/*
++ * ACPI 6.4 Operating System Capabilities for USB.
++ */
++bool osc_sb_native_usb4_support_confirmed;
++EXPORT_SYMBOL_GPL(osc_sb_native_usb4_support_confirmed);
++
+ static u8 sb_uuid_str[] = "0811B06E-4A27-44F9-8D60-3CBBC22E7B48";
+ static void acpi_bus_osc_negotiate_platform_control(void)
+ {
+@@ -317,6 +323,9 @@ static void acpi_bus_osc_negotiate_platform_control(void)
+ 	if (IS_ENABLED(CONFIG_SCHED_MC_PRIO))
+ 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_CPC_DIVERSE_HIGH_SUPPORT;
+ 
++	if (IS_ENABLED(CONFIG_USB4))
++		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_NATIVE_USB4_SUPPORT;
++
+ 	if (!ghes_disable)
+ 		capbuf[OSC_SUPPORT_DWORD] |= OSC_SB_APEI_SUPPORT;
+ 	if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
+@@ -348,8 +357,74 @@ static void acpi_bus_osc_negotiate_platform_control(void)
+ 			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_APEI_SUPPORT;
+ 		osc_pc_lpi_support_confirmed =
+ 			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_PCLPI_SUPPORT;
++		osc_sb_native_usb4_support_confirmed =
++			capbuf_ret[OSC_SUPPORT_DWORD] & OSC_SB_NATIVE_USB4_SUPPORT;
++	}
++
++	kfree(context.ret.pointer);
++}
++
++/*
++ * Native control of USB4 capabilities. If any of the tunneling bits is
++ * set it means OS is in control and we use software based connection
++ * manager.
++ */
++u32 osc_sb_native_usb4_control;
++EXPORT_SYMBOL_GPL(osc_sb_native_usb4_control);
++
++static void acpi_bus_decode_usb_osc(const char *msg, u32 bits)
++{
++	printk(KERN_INFO PREFIX "%s USB3%c DisplayPort%c PCIe%c XDomain%c\n", msg,
++	       (bits & OSC_USB_USB3_TUNNELING) ? '+' : '-',
++	       (bits & OSC_USB_DP_TUNNELING) ? '+' : '-',
++	       (bits & OSC_USB_PCIE_TUNNELING) ? '+' : '-',
++	       (bits & OSC_USB_XDOMAIN) ? '+' : '-');
++}
++
++static u8 sb_usb_uuid_str[] = "23A0D13A-26AB-486C-9C5F-0FFA525A575A";
++static void acpi_bus_osc_negotiate_usb_control(void)
++{
++	u32 capbuf[3];
++	struct acpi_osc_context context = {
++		.uuid_str = sb_usb_uuid_str,
++		.rev = 1,
++		.cap.length = sizeof(capbuf),
++		.cap.pointer = capbuf,
++	};
++	acpi_handle handle;
++	acpi_status status;
++	u32 control;
++
++	if (!osc_sb_native_usb4_support_confirmed)
++		return;
++
++	if (ACPI_FAILURE(acpi_get_handle(NULL, "\\_SB", &handle)))
++		return;
++
++	control = OSC_USB_USB3_TUNNELING | OSC_USB_DP_TUNNELING |
++		  OSC_USB_PCIE_TUNNELING | OSC_USB_XDOMAIN;
++
++	capbuf[OSC_QUERY_DWORD] = 0;
++	capbuf[OSC_SUPPORT_DWORD] = 0;
++	capbuf[OSC_CONTROL_DWORD] = control;
++
++	status = acpi_run_osc(handle, &context);
++	if (ACPI_FAILURE(status))
++		return;
++
++	if (context.ret.length != sizeof(capbuf)) {
++		printk(KERN_INFO PREFIX "USB4 _OSC: returned invalid length buffer\n");
++		goto out_free;
+ 	}
+ 
++	osc_sb_native_usb4_control =
++		control & ((u32 *)context.ret.pointer)[OSC_CONTROL_DWORD];
++
++	acpi_bus_decode_usb_osc("USB4 _OSC: OS supports", control);
++	acpi_bus_decode_usb_osc("USB4 _OSC: OS controls",
++				osc_sb_native_usb4_control);
++
++out_free:
+ 	kfree(context.ret.pointer);
+ }
+ 
+@@ -1188,6 +1263,7 @@ static int __init acpi_bus_init(void)
+ 	 * so it must be run after ACPI_FULL_INITIALIZATION
+ 	 */
+ 	acpi_bus_osc_negotiate_platform_control();
++	acpi_bus_osc_negotiate_usb_control();
+ 
+ 	/*
+ 	 * _PDC control method may load dynamic SSDT tables,
+diff --git a/include/linux/acpi.h b/include/linux/acpi.h
+index 2630c2e953f7..ac68c2d4e393 100644
+--- a/include/linux/acpi.h
++++ b/include/linux/acpi.h
+@@ -546,9 +546,19 @@ acpi_status acpi_run_osc(acpi_handle handle, struct acpi_osc_context *context);
+ #define OSC_SB_OSLPI_SUPPORT			0x00000100
+ #define OSC_SB_CPC_DIVERSE_HIGH_SUPPORT		0x00001000
+ #define OSC_SB_GENERIC_INITIATOR_SUPPORT	0x00002000
++#define OSC_SB_NATIVE_USB4_SUPPORT		0x00040000
+ 
+ extern bool osc_sb_apei_support_acked;
+ extern bool osc_pc_lpi_support_confirmed;
++extern bool osc_sb_native_usb4_support_confirmed;
++
++/* USB4 Capabilities */
++#define OSC_USB_USB3_TUNNELING			0x00000001
++#define OSC_USB_DP_TUNNELING			0x00000002
++#define OSC_USB_PCIE_TUNNELING			0x00000004
++#define OSC_USB_XDOMAIN				0x00000008
++
++extern u32 osc_sb_native_usb4_control;
+ 
+ /* PCI Host Bridge _OSC: Capabilities DWORD 2: Support Field */
+ #define OSC_PCI_EXT_CONFIG_SUPPORT		0x00000001
 -- 
 2.29.2
 
