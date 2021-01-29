@@ -2,143 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E9EC4332E
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 04:49:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A54C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:15:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1939A64DFF
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 04:49:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1BC964DFF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:15:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231932AbhA2Et3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Jan 2021 23:49:29 -0500
-Received: from m42-8.mailgun.net ([69.72.42.8]:24645 "EHLO m42-8.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231734AbhA2Ery (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 Jan 2021 23:47:54 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1611895641; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=5YdyGpnp9iAsPKBIGOkXjQtQssDjo5Ew4Tm1HYo+Zt4=; b=YRL3LH7Yw/j/cPA52/M7IvK06mJc1JkgH6kteDerTPzScS9h9l9fTONSVuFhQEJvn9MGWz0c
- PnHXR5CYa3P9DrbMy65RGd84h6u84Shms7lW5BazrjDxDj1gruvfN4Jhod/cw4Yo8sVOC4+8
- g9vPAq53yglmFxCEfV7KDyCoU4A=
-X-Mailgun-Sending-Ip: 69.72.42.8
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 6013933c9137d6636dc93ff0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 29 Jan 2021 04:46:52
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 3D1FEC43463; Fri, 29 Jan 2021 04:46:51 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 9D7D6C433ED;
-        Fri, 29 Jan 2021 04:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 9D7D6C433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, balbi@kernel.org,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v7 1/5] usb: gadget: udc: core: Introduce check_config to verify USB configuration
-Date:   Thu, 28 Jan 2021 20:46:40 -0800
-Message-Id: <1611895604-4496-2-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1611895604-4496-1-git-send-email-wcheng@codeaurora.org>
-References: <1611895604-4496-1-git-send-email-wcheng@codeaurora.org>
+        id S232091AbhA2GO7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Jan 2021 01:14:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231868AbhA2GO5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 01:14:57 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8BA8C061573
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:16 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id kx7so5243440pjb.2
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u5XPU2O92MWNnCS3LVkCZpTO8otBVCUVbbrYWvGV4XU=;
+        b=B1d8OMzUWxIcJs3Nh5oCqsfJaWFt4KFNUhkf0zXV53Jm52BfVmRXvqbq8TcRIUM8i8
+         gDPRtWeMChqoYd4SxJwOCATj+9P0/p1lPBJ7rMI3BoxR3OLohzmulkPcRp2a1OeH1Lrj
+         QWu2wxCq9ssjTX7j/KSJYf2AIVvxmTBR/tdS0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u5XPU2O92MWNnCS3LVkCZpTO8otBVCUVbbrYWvGV4XU=;
+        b=Yqwlf7XxufcHD/gHBBqgMWyYuFbc8u7eLluUGtPnqpyUPkwONN8bjHNlZyjYiuK+j0
+         Uj9ki/SUVYtaWwyBm/92+eR0XhGW/UJY0dTCBbA/k/K7ZvqlmxqNJTbjlAqXGO9UYMD5
+         O+Rb74qw+HKdU9JDaV821NMOXqTDduqhRPkPZl9fXBhdmq+pIpfwRDHvlm82VAinRnSo
+         qcWBREgWuLu7O5rEPaOMmjCxyGJmALGCIeN3EMu99N8CXa3nw7I0E+QGZJoAMMKu2oHE
+         NnhcifoDI+IBG1Zjwgyshdo2aW/JCAUZ1B4CK7QKGKMBPbID1W7/o7En8Xh7sj/ONJR/
+         DEOg==
+X-Gm-Message-State: AOAM532aFMIo5Jz0SRW/AqdmjjT3q9EjC0PYxH+S61Kz98ehpL9zcbj8
+        +9vvpt1/4NtnXm5joDfEiRN/LQ==
+X-Google-Smtp-Source: ABdhPJyxB6vx5pQsRDOZMdlIx2/tW7HucM03QMW9SkTmUrh/OcTHy8sq9gjZULItqURsORdeeT/Plw==
+X-Received: by 2002:a17:90b:3c8:: with SMTP id go8mr3103108pjb.105.1611900856579;
+        Thu, 28 Jan 2021 22:14:16 -0800 (PST)
+Received: from bleung.mtv.corp.google.com ([2620:15c:202:201:f693:9fff:fef4:fc72])
+        by smtp.gmail.com with ESMTPSA id 17sm7551013pfv.13.2021.01.28.22.14.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 22:14:16 -0800 (PST)
+From:   Benson Leung <bleung@chromium.org>
+To:     heikki.krogerus@linux.intel.com, enric.balletbo@collabora.com,
+        pmalani@chromium.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     groeck@chromium.org, bleung@google.com, bleung@chromium.org
+Subject: [PATCH 0/6] usb: typec: and platform/chrome: Add PD revision numbers
+Date:   Thu, 28 Jan 2021 22:14:00 -0800
+Message-Id: <20210129061406.2680146-1-bleung@chromium.org>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDCs may have constraints on how many high bandwidth endpoints it can
-support in a certain configuration.  This API allows for the composite
-driver to pass down the total number of endpoints to the UDC so it can verify
-it has the required resources to support the configuration.
+USB Power Delivery has a 3 entity handshake (port, cable, partner), and as
+of USB PD R3.0, each entity may independently support either Revision 2 or
+Revision 3 signaling and protocol. In order for userspace and the kernel
+to properly process the data objects received from a particular SOP*, we
+must know to which revision of the spec each conforms.
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/gadget/udc/core.c | 25 +++++++++++++++++++++++++
- include/linux/usb/gadget.h    |  5 +++++
- 2 files changed, 30 insertions(+)
+This series adds individual version numbers for the partner and the cable,
+and exposes them in the appropriate sysfs in /sys/class/typec.
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index 4173acd..81252e5 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -1003,6 +1003,31 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
- }
- EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
- 
-+/**
-+ * usb_gadget_check_config - checks if the UDC can support the number of eps
-+ * @gadget: controller to check the USB configuration
-+ * @ep_map: bitmap of endpoints being requested by a USB configuration
-+ *
-+ * Ensure that a UDC is able to support the number of endpoints within a USB
-+ * configuration, and that there are no resource limitations to support all
-+ * requested eps.
-+ *
-+ * Returns zero on success, else a negative errno.
-+ */
-+int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map)
-+{
-+	int ret = 0;
-+
-+	if (!gadget->ops->check_config)
-+		goto out;
-+
-+	ret = gadget->ops->check_config(gadget, ep_map);
-+
-+out:
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(usb_gadget_check_config);
-+
- /* ------------------------------------------------------------------------- */
- 
- static void usb_gadget_state_work(struct work_struct *work)
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index ee04ef2..9fb69eb 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -328,6 +328,7 @@ struct usb_gadget_ops {
- 	struct usb_ep *(*match_ep)(struct usb_gadget *,
- 			struct usb_endpoint_descriptor *,
- 			struct usb_ss_ep_comp_descriptor *);
-+	int	(*check_config)(struct usb_gadget *gadget, unsigned long ep_map);
- };
- 
- /**
-@@ -607,6 +608,7 @@ int usb_gadget_connect(struct usb_gadget *gadget);
- int usb_gadget_disconnect(struct usb_gadget *gadget);
- int usb_gadget_deactivate(struct usb_gadget *gadget);
- int usb_gadget_activate(struct usb_gadget *gadget);
-+int usb_gadget_check_config(struct usb_gadget *gadget, unsigned long ep_map);
- #else
- static inline int usb_gadget_frame_number(struct usb_gadget *gadget)
- { return 0; }
-@@ -630,6 +632,9 @@ static inline int usb_gadget_deactivate(struct usb_gadget *gadget)
- { return 0; }
- static inline int usb_gadget_activate(struct usb_gadget *gadget)
- { return 0; }
-+static inline int usb_gadget_check_config(struct usb_gadget *gadget,
-+					  unsigned long ep_map)
-+{ return 0; }
- #endif /* CONFIG_USB_GADGET */
- 
- /*-------------------------------------------------------------------------*/
+I provide as a first implementation of this, platform/chrome's cros_ec_typec
+driver, whose underlying status messages convey the SOP and SOP' revisions
+already.
+
+Thanks,
+Benson
+
+Benson Leung (6):
+  usb: typec: Standardize PD Revision format with Type-C Revision
+  usb: typec: Provide PD Specification Revision for cable and partner
+  usb: typec: Add typec_partner_set_pd_revision
+  platform/chrome: cros_ec_typec: Report SOP' PD revision from status
+  platform/chrome: cros_ec_typec: Set Partner PD revision from status
+  platform/chrome: cros_ec_typec: Set opmode to PD on SOP connected
+
+ Documentation/ABI/testing/sysfs-class-typec | 20 ++++++-
+ drivers/platform/chrome/cros_ec_typec.c     | 26 +++++++--
+ drivers/usb/typec/class.c                   | 59 +++++++++++++++++++--
+ include/linux/usb/typec.h                   | 11 ++++
+ 4 files changed, 108 insertions(+), 8 deletions(-)
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.30.0.365.g02bc693789-goog
 
