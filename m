@@ -8,59 +8,59 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F1FC433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61714C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D579264DFF
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2968364DFF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Jan 2021 06:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232072AbhA2GPt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 Jan 2021 01:15:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48148 "EHLO
+        id S232076AbhA2GP5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Jan 2021 01:15:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbhA2GPi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 01:15:38 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADD01C0613ED
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:19 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id c132so5973167pga.3
-        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:19 -0800 (PST)
+        with ESMTP id S232051AbhA2GPl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Jan 2021 01:15:41 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE87C061794
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:25 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id cq1so5228867pjb.4
+        for <linux-usb@vger.kernel.org>; Thu, 28 Jan 2021 22:14:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VG+CFdFGOlLcoNTjFCZePZjqocxq9mnm/N79AG4wxhM=;
-        b=cv9Ge/7s9evbDApQ5Vz73qw5LA3h/ChF4WumCkvr0xileVrKKfEaNtOXA765fvAQWT
-         g4tn/VDTZoG9oJFMdTs6zv4s3Nz/OKgQLasg7u8Qd+n9fQ5sgQrSm1+KsYq0FksVGUWu
-         t7kkT7nkrdouy2nHNViC1hgm7xrW36TGsIpIA=
+        bh=mi7AOcfFUGitVONrprMsQHj4LxmZ5B1spR/6XE6WI24=;
+        b=XWHrA5wQcaxgT/7wCdE1JwDfaXQZ+6ETii1M/NKnsgNmm3Rw0RzKplmiJYI6VPRJqE
+         0xz1x9AjPLjEBJEKui8w9LNIIVBNokzbBHkM3jJvfhS+ZigqdvXJG2ZKKOWa7PAHVNGV
+         CWqOsMMjCSNOeaHl/EtNw2zhND/tOS0cP5cps=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VG+CFdFGOlLcoNTjFCZePZjqocxq9mnm/N79AG4wxhM=;
-        b=Htq72qett8MLerxqzd4LodyQjW1i6YGM9VDn6fDcdI4BGcrEFDCdmLgJmspz4teJjt
-         2nHKjO//Y2oPeQlU+wz+qSu2RoiYAVc6n8hsB2ZEgGpCAbLEGAnXnk8sjanbU5pF6PL+
-         yqL1Da9zpGFZ08hawWwL83C3G7wUQ5R7/Ip+BaSTWjRum//Dr6+uGtIAWs5zKxKuzIIb
-         1M45ThfDn9srK6Yk1mp1ieURGOpEeuBCPB2r4j+uf+WRLjZFzi3etCZwlewXy/dGoXPD
-         mKB3IWxnuRHwlTkQDuKftg4S2xmIsAwiOnTMiH2M2wFEbGU1B/7UZUiMEGOxI+x5OAzo
-         NQXQ==
-X-Gm-Message-State: AOAM532Hb7wIODwIUOYviP7hHowq0uUFytpiOVY7E7GrwcFtbmuy9AyI
-        TWcgGHkeuET+zeA41AZis3pwMg==
-X-Google-Smtp-Source: ABdhPJykMK4csnuyWBmuvaUcg8Wgc3DUSA1bXJaLLOKmVXiSoxFYwgcEBVc2awHnwzSYfw7ZQFLsFQ==
-X-Received: by 2002:a63:c207:: with SMTP id b7mr3201495pgd.184.1611900859252;
-        Thu, 28 Jan 2021 22:14:19 -0800 (PST)
+        bh=mi7AOcfFUGitVONrprMsQHj4LxmZ5B1spR/6XE6WI24=;
+        b=ugK3L9NUYo+KtQlo6/bohiJuOZYMqtNZyxNMyc0tcUmYaIcx8l3eP3vxIj17fCJNhK
+         vPRY3t3MIf/EKar2uWW5kYzIRGC0mThn3pwTK8JSEjvSImq+z7iiZrrW14HtzFvWalJd
+         cV2JRP7iJH3BCLzY62JluWGaVjcdOE8cc9xITRW4KTJDhIwa/X8mL4Vl+2t97s65jvcL
+         OYY1BMwZqK3LR93/caVq+vdvU2J3AyB28L0AcCP8GpY3MjWP+001EwHhgSzJ0vXPKppX
+         FtUvmaAk+A2PbFjzUAwDMImRpq4rntarKLoX2ErvSf7Y6PH7m7tA5H8y3/DtD6+DUsx4
+         3hPQ==
+X-Gm-Message-State: AOAM5316D5R/x79W8aOBb60bzp5ING6ijCvGUZMfDp68rAqzjbpDZ+n4
+        taMlXQH/RHoUWOx4hD5wOvCQIg==
+X-Google-Smtp-Source: ABdhPJwyEQVWnLU1mfrtjCHnnHYhyoYWWlRB3ViU90872VJ/R7QtJKmcFPBN54F36ErRPpUa6buMSg==
+X-Received: by 2002:a17:90b:246:: with SMTP id fz6mr3087603pjb.131.1611900864828;
+        Thu, 28 Jan 2021 22:14:24 -0800 (PST)
 Received: from bleung.mtv.corp.google.com ([2620:15c:202:201:f693:9fff:fef4:fc72])
-        by smtp.gmail.com with ESMTPSA id 17sm7551013pfv.13.2021.01.28.22.14.18
+        by smtp.gmail.com with ESMTPSA id 17sm7551013pfv.13.2021.01.28.22.14.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 22:14:18 -0800 (PST)
+        Thu, 28 Jan 2021 22:14:24 -0800 (PST)
 From:   Benson Leung <bleung@chromium.org>
 To:     heikki.krogerus@linux.intel.com, enric.balletbo@collabora.com,
         pmalani@chromium.org, gregkh@linuxfoundation.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     groeck@chromium.org, bleung@google.com, bleung@chromium.org
-Subject: [PATCH 2/6] usb: typec: Provide PD Specification Revision for cable and partner
-Date:   Thu, 28 Jan 2021 22:14:02 -0800
-Message-Id: <20210129061406.2680146-3-bleung@chromium.org>
+Subject: [PATCH 6/6] platform/chrome: cros_ec_typec: Set opmode to PD on SOP connected
+Date:   Thu, 28 Jan 2021 22:14:06 -0800
+Message-Id: <20210129061406.2680146-7-bleung@chromium.org>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
 In-Reply-To: <20210129061406.2680146-1-bleung@chromium.org>
 References: <20210129061406.2680146-1-bleung@chromium.org>
@@ -70,191 +70,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB Power Delivery specification Section 6.2.1.1.5 outlines
-revision backward compatibility requirements starting from Revision 3.0.
+When SOP Discovery is done, set the opmode to PD if status indicates
+SOP is connected.
 
-The Port, the Cable Plug, and the Port Partner may support either
-revision 2 or revision 3 independently, and communication between ports,
-partners, and cables of different revisions are allowed under rules
-that the parties agree to communicate between each other using the
-lowest common operating revision.
-
-This may mean that Port-to-Partner operating revision comms may be
-different than Port-to-CablePlug operating revision comms. For example,
-it is possible for a R3.0 port to communicate with a R3.0 partner
-using R3.0 messages, while the R3.0 port (in the same session) must
-communicate with the R2.0 cable using R2.0 messages only.
-
-Introduce individual revision number properties for cable
-and port partner so that the port can track them independently.
+SOP connected indicates a PD contract is in place, and is a solid
+indication we have transitioned to PD power negotiation, either as
+source or sink.
 
 Signed-off-by: Benson Leung <bleung@chromium.org>
 ---
- Documentation/ABI/testing/sysfs-class-typec | 13 +++++++++
- drivers/usb/typec/class.c                   | 30 ++++++++++++++++++---
- include/linux/usb/typec.h                   | 10 +++++++
- 3 files changed, 49 insertions(+), 4 deletions(-)
+ drivers/platform/chrome/cros_ec_typec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-index b61480535fdc..40122d915ae1 100644
---- a/Documentation/ABI/testing/sysfs-class-typec
-+++ b/Documentation/ABI/testing/sysfs-class-typec
-@@ -112,6 +112,19 @@ Description:
- 		- "3.0": USB Power Delivery Release 3.0
- 		- "3.1": USB Power Delivery Release 3.1
- 
-+What:		/sys/class/typec/<port>-{partner|cable}/usb_power_delivery_revision
-+Date:		January 2021
-+Contact:	Benson Leung <bleung@chromium.org>
-+Description:
-+		Revision number of the supported USB Power Delivery
-+		specification of the port partner or cable, or 0.0 when USB
-+		Power Delivery is not supported.
+diff --git a/drivers/platform/chrome/cros_ec_typec.c b/drivers/platform/chrome/cros_ec_typec.c
+index 6bc6fafd54a4..a7778258d0a0 100644
+--- a/drivers/platform/chrome/cros_ec_typec.c
++++ b/drivers/platform/chrome/cros_ec_typec.c
+@@ -900,6 +900,9 @@ static void cros_typec_handle_status(struct cros_typec_data *typec, int port_num
+ 			dev_err(typec->dev, "Couldn't parse SOP Disc data, port: %d\n", port_num);
+ 		else
+ 			typec->ports[port_num]->sop_disc_done = true;
 +
-+		Example values:
-+		- "2.0": USB Power Delivery Release 2.0
-+		- "3.0": USB Power Delivery Release 3.0
-+		- "3.1": USB Power Delivery Release 3.1
-+
- What:		/sys/class/typec/<port>/usb_typec_revision
- Date:		April 2017
- Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 4f60ee7ba76a..b5241f4756c2 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -27,6 +27,7 @@ struct typec_cable {
- 	enum typec_plug_type		type;
- 	struct usb_pd_identity		*identity;
- 	unsigned int			active:1;
-+	u16				pd_revision; /* 0300H = "3.0" */
- };
++		if (resp.sop_connected)
++			typec_set_pwr_opmode(typec->ports[port_num]->port, TYPEC_PWR_MODE_PD);
+ 	}
  
- struct typec_partner {
-@@ -36,6 +37,7 @@ struct typec_partner {
- 	enum typec_accessory		accessory;
- 	struct ida			mode_ids;
- 	int				num_altmodes;
-+	u16				pd_revision; /* 0300H = "3.0" */
- };
- 
- struct typec_port {
-@@ -264,6 +266,11 @@ type_show(struct device *dev, struct device_attribute *attr, char *buf)
- }
- static DEVICE_ATTR_RO(type);
- 
-+static ssize_t usb_power_delivery_revision_show(struct device *dev,
-+						struct device_attribute *attr,
-+						char *buf);
-+static DEVICE_ATTR_RO(usb_power_delivery_revision);
-+
- /* ------------------------------------------------------------------------- */
- /* Alternate Modes */
- 
-@@ -680,6 +687,7 @@ static struct attribute *typec_partner_attrs[] = {
- 	&dev_attr_supports_usb_power_delivery.attr,
- 	&dev_attr_number_of_alternate_modes.attr,
- 	&dev_attr_type.attr,
-+	&dev_attr_usb_power_delivery_revision.attr,
- 	NULL
- };
- 
-@@ -815,6 +823,7 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
- 	partner->usb_pd = desc->usb_pd;
- 	partner->accessory = desc->accessory;
- 	partner->num_altmodes = -1;
-+	partner->pd_revision = desc->pd_revision;
- 
- 	if (desc->identity) {
- 		/*
-@@ -1028,6 +1037,7 @@ static DEVICE_ATTR_RO(plug_type);
- static struct attribute *typec_cable_attrs[] = {
- 	&dev_attr_type.attr,
- 	&dev_attr_plug_type.attr,
-+	&dev_attr_usb_power_delivery_revision.attr,
- 	NULL
- };
- ATTRIBUTE_GROUPS(typec_cable);
-@@ -1130,6 +1140,7 @@ struct typec_cable *typec_register_cable(struct typec_port *port,
- 
- 	cable->type = desc->type;
- 	cable->active = desc->active;
-+	cable->pd_revision = desc->pd_revision;
- 
- 	if (desc->identity) {
- 		/*
-@@ -1499,12 +1510,23 @@ static ssize_t usb_power_delivery_revision_show(struct device *dev,
- 						struct device_attribute *attr,
- 						char *buf)
- {
--	struct typec_port *p = to_typec_port(dev);
--	u16 rev = p->cap->pd_revision;
-+	u16 rev = 0;
- 
--	return sprintf(buf, "%d.%d\n", (rev >> 8) & 0xff, (rev >> 4) & 0xf);
-+	if (is_typec_partner(dev)) {
-+		struct typec_partner *partner = to_typec_partner(dev);
-+
-+		rev = partner->pd_revision;
-+	} else if (is_typec_cable(dev)) {
-+		struct typec_cable *cable = to_typec_cable(dev);
-+
-+		rev = cable->pd_revision;
-+	} else if (is_typec_port(dev)) {
-+		struct typec_port *p = to_typec_port(dev);
-+
-+		rev = p->cap->pd_revision;
-+	}
-+	return sysfs_emit(buf, "%d.%d\n", (rev >> 8) & 0xff, (rev >> 4) & 0xf);
- }
--static DEVICE_ATTR_RO(usb_power_delivery_revision);
- 
- static ssize_t orientation_show(struct device *dev,
- 				   struct device_attribute *attr,
-diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-index 54475323f83b..42c6b7c07a99 100644
---- a/include/linux/usb/typec.h
-+++ b/include/linux/usb/typec.h
-@@ -164,6 +164,7 @@ struct typec_plug_desc {
-  * @type: The plug type from USB PD Cable VDO
-  * @active: Is the cable active or passive
-  * @identity: Result of Discover Identity command
-+ * @pd_revision: USB Power Delivery Specification revision if supported
-  *
-  * Represents USB Type-C Cable attached to USB Type-C port.
-  */
-@@ -171,6 +172,8 @@ struct typec_cable_desc {
- 	enum typec_plug_type	type;
- 	unsigned int		active:1;
- 	struct usb_pd_identity	*identity;
-+	u16			pd_revision; /* 0300H = "3.0" */
-+
- };
- 
- /*
-@@ -178,15 +181,22 @@ struct typec_cable_desc {
-  * @usb_pd: USB Power Delivery support
-  * @accessory: Audio, Debug or none.
-  * @identity: Discover Identity command data
-+ * @pd_revision: USB Power Delivery Specification Revision if supported
-  *
-  * Details about a partner that is attached to USB Type-C port. If @identity
-  * member exists when partner is registered, a directory named "identity" is
-  * created to sysfs for the partner device.
-+ *
-+ * @pd_revision is based on the setting of the "Specification Revision" field
-+ * in the message header on the initial "Source Capabilities" message received
-+ * from the partner, or a "Request" message received from the partner, depending
-+ * on whether our port is a Sink or a Source.
-  */
- struct typec_partner_desc {
- 	unsigned int		usb_pd:1;
- 	enum typec_accessory	accessory;
- 	struct usb_pd_identity	*identity;
-+	u16			pd_revision; /* 0300H = "3.0" */
- };
- 
- /**
+ 	if (resp.events & PD_STATUS_EVENT_SOP_PRIME_DISC_DONE &&
 -- 
 2.30.0.365.g02bc693789-goog
 
