@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 145B0C433DB
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:02:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFCAC433E9
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:05:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D78C164E17
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:02:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABA7F64E13
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:05:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232728AbhAaAB3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 30 Jan 2021 19:01:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44276 "EHLO
+        id S232483AbhAaAE7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 30 Jan 2021 19:04:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232498AbhA3XtS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:49:18 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B412C06178A;
-        Sat, 30 Jan 2021 15:48:00 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id a9so198181ejr.2;
-        Sat, 30 Jan 2021 15:48:00 -0800 (PST)
+        with ESMTP id S232491AbhA3XtP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:49:15 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B7AC061786;
+        Sat, 30 Jan 2021 15:47:58 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id rv9so18534735ejb.13;
+        Sat, 30 Jan 2021 15:47:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=H1Cm87epGk3yHYnXa/HQswxlCoCs7d3pmbS6SaZIvj4=;
-        b=TJXAnUPIZF10U5PRVBvJdbP2vJux0LwiO3RRWlJviahAakyN78HEwz2dUa7HF6dmmO
-         7TMNBrg3tVG2YXp7U93Z+EFb5wNOKvX8RtpY4QR6HehnL4kEEPRwYNUsgVZ0ppnALdFP
-         uEPky/DLZMKJunM5ba3+usxTJd5+B5zfqHqm83MrIpkt/s75f9yROcEr9u6NNQov2aJA
-         R14gkm8sDmwB3a6cdnWpknyVEY1tP09cunI4nexbe22bk3Grvw/J5ZAPEqZKSqam1yD0
-         GMcuVQtuyq5DSASAqRNIFPfauwlpHbkKygSKfBZsp1FK1CQHgLT1PuIViq6RkJcM3sXD
-         Jeag==
+        bh=0v5iUM3eT/Ti20q6q3wWUPuMtx4BAW9jWHtnT7+e1x0=;
+        b=jZi79RK3zOvgTyMxfQZEtxWUx5P6eDuovUByfA9QylBMoW85T7Tp0l9kLjCGvOp9f7
+         nqVTP4d//0v/S5xfdFn7n180vNe7RHKk5/J/MZ1MRq8k9HhGpWpE59SQjgft8gW3CkYw
+         y62iMD+x2FLr1u9xDXqbJ/q6xaTbcKpb4k3PqCGBjFL6VzRZZlqet1FXVwQzOW99OPyT
+         Mic9FKuYQ7enAWA7jDwfknEQ4sXATzg4DbjfiYnnshibJwnU0RLcJ0AjtuVKuQJCifa8
+         NST47QVBz/DqOZ0HC9R5X/i+q5F/b9V6t0WlH/lKHQ3eiSNf1mrqbPdmPR3MunTWcSIi
+         V4ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=H1Cm87epGk3yHYnXa/HQswxlCoCs7d3pmbS6SaZIvj4=;
-        b=qlOMjt3LJK3VicYPg07RwJXMdktjb5+1/SY+hDOMZFrwVna2vQr4orjck38kn/hLLp
-         fsYhiWUrkjlreCRuTFl2vaRwdbZjfYYpnY/z0A1zM2kGcwBgMGHfsrS2Fshmn3ABbvSM
-         4n287eGHAjpgpbpWuUfwj5WvVLvo1TwBQVdM87GAbn7WykawwTnyC/KR4jeBL6wDakVz
-         xBzDAHptvzTXnltvkNtyqUtHnKduvxu01ziJc/EIIR6PBT73I8sPJ6qLFDuWcOJV6u/S
-         TaWgkuowah1F71TtnDcUHc5yneV0lQYopJ3oIUmVMYD+Xiv4zh8IXrTtfw0aZL+7vrdK
-         RyuA==
-X-Gm-Message-State: AOAM5310GeEwk0uQkSmZxGN8qY4V4LPZVQfEF5qNfLHO99MOeDOgNeCS
-        JTLLJwDmqEIbs0HEMxdKkwUs5XgJGnGDqOVm
-X-Google-Smtp-Source: ABdhPJzVZQCuacEHAoUL9tmDvVCy+E07YZGMhK0kuMceg4CjgHl97CiERxEwjneP2WiYS2xngi2dNQ==
-X-Received: by 2002:a17:906:a450:: with SMTP id cb16mr11315700ejb.167.1612050479257;
-        Sat, 30 Jan 2021 15:47:59 -0800 (PST)
+        bh=0v5iUM3eT/Ti20q6q3wWUPuMtx4BAW9jWHtnT7+e1x0=;
+        b=bI6O5tBRSIqdwdwpjH7j7RySHurJwpC6fl6st2Aq15r7Ze+skFQU8cfjGh0PLQ8BDr
+         GMsVJ5oz3M1UiQqk7s2DYNzFcK47aPq/T/Tb153efaEfBZBo0nTq0bjba2A9Wwud718Y
+         O2WSlydIaqoXYl2oTUbciZeIVGzMnCgLVeJmtSmQI6Fyk3xdyiu3IzFJySo1uM7hyGge
+         yAfb49Hlq0ceN5o62d+wZazoc5YI0KLG57NqctIGfFk1WW18wQrWpkmJMTWZa1wHxOG/
+         t9BnB0tIFBv2RWBpJtIGPowp174MEBgDXcLGF97wW5tGwbFZ8Qqb5CxhLiBodnj6Q6Oe
+         IwEw==
+X-Gm-Message-State: AOAM5338ZaWu6kL67s+qVOw3IRo/gM/UrsHW32wa1POPn+xF+FbENCmp
+        l/N8n5NA69O/6lX/dLpsHD+ZhaEkpv/bz1U6
+X-Google-Smtp-Source: ABdhPJxa055rLt/kprUEzHj/QF/UnfhydMDdukv7bcT6+oULsgxWoaTsoV3hJmZosgqEMVGg/wJigw==
+X-Received: by 2002:a17:906:3fc4:: with SMTP id k4mr10765930ejj.137.1612050477214;
+        Sat, 30 Jan 2021 15:47:57 -0800 (PST)
 Received: from stitch.. ([80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.58
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 15:47:58 -0800 (PST)
+        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
 Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
 To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc:     Emil Renner Berthing <kernel@esmil.dk>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jing Xiangfeng <jingxiangfeng@huawei.com>,
         Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 8/9] net: usb: r8152: use new tasklet API
-Date:   Sun, 31 Jan 2021 00:47:29 +0100
-Message-Id: <20210130234730.26565-9-kernel@esmil.dk>
+Subject: [PATCH 6/9] net: usb: lan78xx: use new tasklet API
+Date:   Sun, 31 Jan 2021 00:47:27 +0100
+Message-Id: <20210130234730.26565-7-kernel@esmil.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
 References: <20210130234730.26565-1-kernel@esmil.dk>
@@ -86,36 +86,34 @@ commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
 Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 ---
- drivers/net/usb/r8152.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/net/usb/lan78xx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 67cd6986634f..0d7d2938e21d 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -2393,11 +2393,9 @@ static void tx_bottom(struct r8152 *tp)
- 	} while (res == 0);
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index bf243edeb064..e81c5699c952 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -3375,9 +3375,9 @@ static void lan78xx_rx_bh(struct lan78xx_net *dev)
+ 		netif_wake_queue(dev->net);
  }
  
--static void bottom_half(unsigned long data)
-+static void bottom_half(struct tasklet_struct *t)
+-static void lan78xx_bh(unsigned long param)
++static void lan78xx_bh(struct tasklet_struct *t)
  {
--	struct r8152 *tp;
--
--	tp = (struct r8152 *)data;
-+	struct r8152 *tp = from_tasklet(tp, t, tx_tl);
+-	struct lan78xx_net *dev = (struct lan78xx_net *)param;
++	struct lan78xx_net *dev = from_tasklet(dev, t, bh);
+ 	struct sk_buff *skb;
+ 	struct skb_data *entry;
  
- 	if (test_bit(RTL8152_UNPLUG, &tp->flags))
- 		return;
-@@ -6714,7 +6712,7 @@ static int rtl8152_probe(struct usb_interface *intf,
- 	mutex_init(&tp->control);
- 	INIT_DELAYED_WORK(&tp->schedule, rtl_work_func_t);
- 	INIT_DELAYED_WORK(&tp->hw_phy_work, rtl_hw_phy_work_func_t);
--	tasklet_init(&tp->tx_tl, bottom_half, (unsigned long)tp);
-+	tasklet_setup(&tp->tx_tl, bottom_half);
- 	tasklet_disable(&tp->tx_tl);
+@@ -3655,7 +3655,7 @@ static int lan78xx_probe(struct usb_interface *intf,
+ 	skb_queue_head_init(&dev->txq_pend);
+ 	mutex_init(&dev->phy_mutex);
  
- 	netdev->netdev_ops = &rtl8152_netdev_ops;
+-	tasklet_init(&dev->bh, lan78xx_bh, (unsigned long)dev);
++	tasklet_setup(&dev->bh, lan78xx_bh);
+ 	INIT_DELAYED_WORK(&dev->wq, lan78xx_delayedwork);
+ 	init_usb_anchor(&dev->deferred);
+ 
 -- 
 2.30.0
 
