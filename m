@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFCAC433E9
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:05:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72827C433E6
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:06:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABA7F64E13
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:05:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4587064E18
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:06:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232483AbhAaAE7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 30 Jan 2021 19:04:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44264 "EHLO
+        id S232434AbhA3Xss (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 30 Jan 2021 18:48:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232491AbhA3XtP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:49:15 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B7AC061786;
-        Sat, 30 Jan 2021 15:47:58 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id rv9so18534735ejb.13;
-        Sat, 30 Jan 2021 15:47:58 -0800 (PST)
+        with ESMTP id S232321AbhA3Xsh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:48:37 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E9DC0613D6;
+        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id n6so14747010edt.10;
+        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0v5iUM3eT/Ti20q6q3wWUPuMtx4BAW9jWHtnT7+e1x0=;
-        b=jZi79RK3zOvgTyMxfQZEtxWUx5P6eDuovUByfA9QylBMoW85T7Tp0l9kLjCGvOp9f7
-         nqVTP4d//0v/S5xfdFn7n180vNe7RHKk5/J/MZ1MRq8k9HhGpWpE59SQjgft8gW3CkYw
-         y62iMD+x2FLr1u9xDXqbJ/q6xaTbcKpb4k3PqCGBjFL6VzRZZlqet1FXVwQzOW99OPyT
-         Mic9FKuYQ7enAWA7jDwfknEQ4sXATzg4DbjfiYnnshibJwnU0RLcJ0AjtuVKuQJCifa8
-         NST47QVBz/DqOZ0HC9R5X/i+q5F/b9V6t0WlH/lKHQ3eiSNf1mrqbPdmPR3MunTWcSIi
-         V4ng==
+        bh=1zRwD9qdAbO8fK598YRqxgb8mENfF+ajdr9W7w7+HkI=;
+        b=Ohy7riB2thMin4OEstXOEn/eLXtkv998O6y0+FvfpNSYWu+23y99sNMmDhwS78t4Yq
+         NMq7iWUIOsTkKBkCa0h7lRebOEYTeuiG+kvXuoN+GDr39McsTuwlPMHrSSt7Sb4pximB
+         ++asPFQkaDe9WD/3/4PkB9fPGpMpvWOvH9yd4KrcmO/FEwhkBXmWVwfpZt1MqxesqZAK
+         mCpnJqzWEA6vWSgzY1ngEdH+1GI7lA34WEWYeyyJzH531pfrnq8EO95FyAbg4ucjyPPL
+         eDuXhiSdfC7CwdnfrE3Y4uOUQUuBz/neUytCBjmmlXVhyes1YnpbvoYV/yZSNQ6d2mYN
+         WcZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=0v5iUM3eT/Ti20q6q3wWUPuMtx4BAW9jWHtnT7+e1x0=;
-        b=bI6O5tBRSIqdwdwpjH7j7RySHurJwpC6fl6st2Aq15r7Ze+skFQU8cfjGh0PLQ8BDr
-         GMsVJ5oz3M1UiQqk7s2DYNzFcK47aPq/T/Tb153efaEfBZBo0nTq0bjba2A9Wwud718Y
-         O2WSlydIaqoXYl2oTUbciZeIVGzMnCgLVeJmtSmQI6Fyk3xdyiu3IzFJySo1uM7hyGge
-         yAfb49Hlq0ceN5o62d+wZazoc5YI0KLG57NqctIGfFk1WW18wQrWpkmJMTWZa1wHxOG/
-         t9BnB0tIFBv2RWBpJtIGPowp174MEBgDXcLGF97wW5tGwbFZ8Qqb5CxhLiBodnj6Q6Oe
-         IwEw==
-X-Gm-Message-State: AOAM5338ZaWu6kL67s+qVOw3IRo/gM/UrsHW32wa1POPn+xF+FbENCmp
-        l/N8n5NA69O/6lX/dLpsHD+ZhaEkpv/bz1U6
-X-Google-Smtp-Source: ABdhPJxa055rLt/kprUEzHj/QF/UnfhydMDdukv7bcT6+oULsgxWoaTsoV3hJmZosgqEMVGg/wJigw==
-X-Received: by 2002:a17:906:3fc4:: with SMTP id k4mr10765930ejj.137.1612050477214;
-        Sat, 30 Jan 2021 15:47:57 -0800 (PST)
+        bh=1zRwD9qdAbO8fK598YRqxgb8mENfF+ajdr9W7w7+HkI=;
+        b=J5H9ZrecplGWFDgizAKH1VvCHdie0VS8hI13gW4WsGu+v8+xQ/0aPbcurwXMPffrZ9
+         a9T5D9Xit+jQq532L9+rvZM0KqmZVLWmdgwyKZDULXrRY0RTCmdoi6SI86Q6Lc36GdUo
+         R0G0y0C4+CuOMsRaDmN7IWsBk9X0LuYbEbEsFSxa6r68KQ0cwykX351F2VwCiNZUBaOi
+         yxLj+Cc1yNUjhAgfIto/1k13zXE9DF6yQdcJLjE2aDqcb6mvSm/66XPWfoH8P2829KRY
+         SFioH9k1j97FWNNINlCozXHuZcAZmFL8YSNG/r5EBX3pPmYR++2Idp//CpxVcfc7H8G6
+         EwIQ==
+X-Gm-Message-State: AOAM533WSFeznIPLQfhCl3GZJwopG1zkJ9xornzDuaYJp7wtNFweAZcm
+        iVbwsqQCYwxNxKfBRijlCze1foLrJY+3Rl24
+X-Google-Smtp-Source: ABdhPJxiIz46Vt1P0xn/IbTDl3Bas4tq2o8OftuhU9qGcPDm2XgWBaZOIX7kG3EQMvyhnncrtuRw2w==
+X-Received: by 2002:aa7:cdc7:: with SMTP id h7mr12234530edw.353.1612050475189;
+        Sat, 30 Jan 2021 15:47:55 -0800 (PST)
 Received: from stitch.. ([80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.56
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
+        Sat, 30 Jan 2021 15:47:54 -0800 (PST)
 Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
 To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc:     Emil Renner Berthing <kernel@esmil.dk>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jing Xiangfeng <jingxiangfeng@huawei.com>,
         Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/9] net: usb: lan78xx: use new tasklet API
-Date:   Sun, 31 Jan 2021 00:47:27 +0100
-Message-Id: <20210130234730.26565-7-kernel@esmil.dk>
+Subject: [PATCH 4/9] ppp: use new tasklet API
+Date:   Sun, 31 Jan 2021 00:47:25 +0100
+Message-Id: <20210130234730.26565-5-kernel@esmil.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
 References: <20210130234730.26565-1-kernel@esmil.dk>
@@ -81,39 +81,83 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This converts the driver to use the new tasklet API introduced in
+This converts the async and synctty drivers to use the new tasklet API n
 commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
 Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 ---
- drivers/net/usb/lan78xx.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/net/ppp/ppp_async.c   | 8 ++++----
+ drivers/net/ppp/ppp_synctty.c | 8 ++++----
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index bf243edeb064..e81c5699c952 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -3375,9 +3375,9 @@ static void lan78xx_rx_bh(struct lan78xx_net *dev)
- 		netif_wake_queue(dev->net);
- }
+diff --git a/drivers/net/ppp/ppp_async.c b/drivers/net/ppp/ppp_async.c
+index 29a0917a81e6..2b66cf301b0e 100644
+--- a/drivers/net/ppp/ppp_async.c
++++ b/drivers/net/ppp/ppp_async.c
+@@ -101,7 +101,7 @@ static void ppp_async_input(struct asyncppp *ap, const unsigned char *buf,
+ 			    char *flags, int count);
+ static int ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd,
+ 			   unsigned long arg);
+-static void ppp_async_process(unsigned long arg);
++static void ppp_async_process(struct tasklet_struct *t);
  
--static void lan78xx_bh(unsigned long param)
-+static void lan78xx_bh(struct tasklet_struct *t)
+ static void async_lcp_peek(struct asyncppp *ap, unsigned char *data,
+ 			   int len, int inbound);
+@@ -179,7 +179,7 @@ ppp_asynctty_open(struct tty_struct *tty)
+ 	ap->lcp_fcs = -1;
+ 
+ 	skb_queue_head_init(&ap->rqueue);
+-	tasklet_init(&ap->tsk, ppp_async_process, (unsigned long) ap);
++	tasklet_setup(&ap->tsk, ppp_async_process);
+ 
+ 	refcount_set(&ap->refcnt, 1);
+ 	init_completion(&ap->dead);
+@@ -488,9 +488,9 @@ ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
+  * to the ppp_generic code, and to tell the ppp_generic code
+  * if we can accept more output now.
+  */
+-static void ppp_async_process(unsigned long arg)
++static void ppp_async_process(struct tasklet_struct *t)
  {
--	struct lan78xx_net *dev = (struct lan78xx_net *)param;
-+	struct lan78xx_net *dev = from_tasklet(dev, t, bh);
+-	struct asyncppp *ap = (struct asyncppp *) arg;
++	struct asyncppp *ap = from_tasklet(ap, t, tsk);
  	struct sk_buff *skb;
- 	struct skb_data *entry;
  
-@@ -3655,7 +3655,7 @@ static int lan78xx_probe(struct usb_interface *intf,
- 	skb_queue_head_init(&dev->txq_pend);
- 	mutex_init(&dev->phy_mutex);
+ 	/* process received packets */
+diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
+index 0f338752c38b..86ee5149f4f2 100644
+--- a/drivers/net/ppp/ppp_synctty.c
++++ b/drivers/net/ppp/ppp_synctty.c
+@@ -90,7 +90,7 @@ static struct sk_buff* ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *);
+ static int ppp_sync_send(struct ppp_channel *chan, struct sk_buff *skb);
+ static int ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd,
+ 			  unsigned long arg);
+-static void ppp_sync_process(unsigned long arg);
++static void ppp_sync_process(struct tasklet_struct *t);
+ static int ppp_sync_push(struct syncppp *ap);
+ static void ppp_sync_flush_output(struct syncppp *ap);
+ static void ppp_sync_input(struct syncppp *ap, const unsigned char *buf,
+@@ -177,7 +177,7 @@ ppp_sync_open(struct tty_struct *tty)
+ 	ap->raccm = ~0U;
  
--	tasklet_init(&dev->bh, lan78xx_bh, (unsigned long)dev);
-+	tasklet_setup(&dev->bh, lan78xx_bh);
- 	INIT_DELAYED_WORK(&dev->wq, lan78xx_delayedwork);
- 	init_usb_anchor(&dev->deferred);
+ 	skb_queue_head_init(&ap->rqueue);
+-	tasklet_init(&ap->tsk, ppp_sync_process, (unsigned long) ap);
++	tasklet_setup(&ap->tsk, ppp_sync_process);
  
+ 	refcount_set(&ap->refcnt, 1);
+ 	init_completion(&ap->dead_cmp);
+@@ -480,9 +480,9 @@ ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
+  * to the ppp_generic code, and to tell the ppp_generic code
+  * if we can accept more output now.
+  */
+-static void ppp_sync_process(unsigned long arg)
++static void ppp_sync_process(struct tasklet_struct *t)
+ {
+-	struct syncppp *ap = (struct syncppp *) arg;
++	struct syncppp *ap = from_tasklet(ap, t, tsk);
+ 	struct sk_buff *skb;
+ 
+ 	/* process received packets */
 -- 
 2.30.0
 
