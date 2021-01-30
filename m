@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C271C433E0
-	for <linux-usb@archiver.kernel.org>; Sat, 30 Jan 2021 23:49:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4D26C433E9
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:01:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CD8E64E13
-	for <linux-usb@archiver.kernel.org>; Sat, 30 Jan 2021 23:49:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C89564E15
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 00:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232462AbhA3XtE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 30 Jan 2021 18:49:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44118 "EHLO
+        id S232680AbhAaABU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 30 Jan 2021 19:01:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232002AbhA3Xsh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:48:37 -0500
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A23FC061756;
-        Sat, 30 Jan 2021 15:47:55 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id l9so18613194ejx.3;
-        Sat, 30 Jan 2021 15:47:55 -0800 (PST)
+        with ESMTP id S232499AbhA3XtT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 30 Jan 2021 18:49:19 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793BCC06178B;
+        Sat, 30 Jan 2021 15:48:01 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id c2so14752851edr.11;
+        Sat, 30 Jan 2021 15:48:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cxSfak/V43jKqWcO6/6SQQ+5yWV+HRDzMcHjvD41g54=;
-        b=uxz6anzkuqOHZ/axAQOWNhrzh3/gFCvhu56kTjpD210Q7s4PpFZ1pSLRyNECjCXTWq
-         r/pgJeBEgw2QLehfInddLOuB0QMBglGV5l/63EIp1uNeTcKuBcBmAQIv4o+XCKfhnbkK
-         0mvMnpaBGPs0lueb8QLC/SakCdoNOldhbY8ok/dnP9iERYVG6gkBxCS526aOUpPhacaP
-         C57EBXxoZWdiLDnm0vbTduo8YO+sAIHVI2f4DH4jWlgJr2OhswCy2L3/g+CkJ9hhbZvs
-         w0JhWpAmQuM3bUM11ztARQh7SkbTzPbEVzb3W6vJaq3pg10sAFOgY3mjFj8ucVx1jI22
-         1kOA==
+        bh=4ClukBPu+CYzsZoBz7wV2vFswdP1FSRh8zSK4OVbxTg=;
+        b=LR8tfNCxCknUbtdIjDpZOfe2+uThFtGib/Yfq0wcUy1mi+le6/6wPRmpJmh4Co5Ipo
+         KrGfVpsMfasytLcyfIwnUIwzmICWAqPuFuPGwm5/vr+qbkJqNTEHXy/4T3IekfaAiBtR
+         f+jjBrnLNa0VkOK5w3soXT1boKghPyAm4mPY0stUvfBU4WgHvy41CMKaM18bOLL2K/rY
+         0yipkrTtBB/3rS4JMZTcwQDOYE7HEwot0GYSTwzn/bLIsGYP0tmQGhpfXDVPsuF49GWl
+         RyaWFzhtW2eBXwRfFkCiMviK5lxQpl/U+zzuRyHWRSn2u5Xha210DVWqCVOESzi/DHR3
+         6ARw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=cxSfak/V43jKqWcO6/6SQQ+5yWV+HRDzMcHjvD41g54=;
-        b=BoeEeMcKq2+KCgMJgUvxOVVoluTjVkTIpWTLKL7WIE/HsQzGIpPbzUy5gQ5xfn4I6b
-         b9FNZgxTalsHN4CEbt2mgpCcxAIBDDccEHUXKCXvmr5wNR8yQGuicHQsXbReTIKLMfsG
-         jQVDlzc4BTjr6ARBuKQRze4NqIlVnvhBbEyxV2Umsmp0IrcQT9v+Q3KmgUe9Bw669in6
-         jBkvAqrJ05POR6enKL/77l10mAdmDc3mUJNpVm/YttjIJ0+iPaVQ3kCQZqwGC5VcKZUn
-         IN4DmG/lLpyoUKHas9zCCM17wU5RKv0/frEYewiLO/YBvxnszv2jWVNsT2Mlm4Zh0FyW
-         I/oQ==
-X-Gm-Message-State: AOAM531eoo0oSx4ozDdtdT1t8bKaBjE1s2f6PtxT+mdNd8H6oOPlL/0E
-        01cHKst4Mo7paOAhvTcwW/7zlCI6l4xHWJFE
-X-Google-Smtp-Source: ABdhPJzpIZ7klZL3V2lxnJc2o27HrHtk93XeCrArdoVu/g6/UkjAF1Bh0O3bnuTPL2BF7rasRGrkWQ==
-X-Received: by 2002:a17:907:7785:: with SMTP id ky5mr11296923ejc.176.1612050474133;
-        Sat, 30 Jan 2021 15:47:54 -0800 (PST)
+        bh=4ClukBPu+CYzsZoBz7wV2vFswdP1FSRh8zSK4OVbxTg=;
+        b=fI6keJQg5El1YO7mtXcQ8uCfKJWJJBaJoQh7v1o5U+hJOuv8Hq248jqVES6P2eJqaN
+         GJFaj9QTLwtANY9EaEwROH3hH8halqs3+s/VSDZw3z1zFnIf7b0ymdPA8t8kf5A5O6p1
+         YdivlIIk5CJvKiycjB8bwisw8gwdPslxXnFRfipZfYxJb59TTYn4RilMC2VoxV29vfrX
+         X/gxYRVoEtnrUdj9Hxcypd+6ModUYzV8001IC2viTiHcjUtjGmeq7YhF0lw0GLx2JG1+
+         RP1N8nXbq5UTjkF/utrkjsL5qsn3xwpp+8lFC3S4XXhtQ1cTjGqgEKlVNelE7ACHK5Bx
+         G+Qg==
+X-Gm-Message-State: AOAM5319O4Z42fFv0MCjjS8MENwuxDscPBvHXNH9g57BE1bpJgP9gmgw
+        DF+XNGIXqcWgHSJMvLletxmhh9t2JX4/J//C
+X-Google-Smtp-Source: ABdhPJwNkQ4S/Zil30PaizXC32fjiWhgKh2kcrkZDrtkS9FXIguHxJZ5gBPRq7WSBzRkLzYecjVHEQ==
+X-Received: by 2002:a05:6402:22a8:: with SMTP id cx8mr12211009edb.32.1612050480283;
+        Sat, 30 Jan 2021 15:48:00 -0800 (PST)
 Received: from stitch.. ([80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.53
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 15:47:53 -0800 (PST)
+        Sat, 30 Jan 2021 15:47:59 -0800 (PST)
 Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
 To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -69,9 +69,9 @@ Cc:     Emil Renner Berthing <kernel@esmil.dk>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jing Xiangfeng <jingxiangfeng@huawei.com>,
         Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/9] ifb: use new tasklet API
-Date:   Sun, 31 Jan 2021 00:47:24 +0100
-Message-Id: <20210130234730.26565-4-kernel@esmil.dk>
+Subject: [PATCH 9/9] net: usb: rtl8150: use new tasklet API
+Date:   Sun, 31 Jan 2021 00:47:30 +0100
+Message-Id: <20210130234730.26565-10-kernel@esmil.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
 References: <20210130234730.26565-1-kernel@esmil.dk>
@@ -86,35 +86,34 @@ commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
 Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 ---
- drivers/net/ifb.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/net/usb/rtl8150.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ifb.c b/drivers/net/ifb.c
-index fa63d4dee0ba..ab7022582154 100644
---- a/drivers/net/ifb.c
-+++ b/drivers/net/ifb.c
-@@ -59,9 +59,9 @@ static netdev_tx_t ifb_xmit(struct sk_buff *skb, struct net_device *dev);
- static int ifb_open(struct net_device *dev);
- static int ifb_close(struct net_device *dev);
+diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+index bf8a60533f3e..7656f2a3afd9 100644
+--- a/drivers/net/usb/rtl8150.c
++++ b/drivers/net/usb/rtl8150.c
+@@ -577,9 +577,9 @@ static void free_skb_pool(rtl8150_t *dev)
+ 		dev_kfree_skb(dev->rx_skb_pool[i]);
+ }
  
--static void ifb_ri_tasklet(unsigned long _txp)
-+static void ifb_ri_tasklet(struct tasklet_struct *t)
+-static void rx_fixup(unsigned long data)
++static void rx_fixup(struct tasklet_struct *t)
  {
--	struct ifb_q_private *txp = (struct ifb_q_private *)_txp;
-+	struct ifb_q_private *txp = from_tasklet(txp, t, ifb_tasklet);
- 	struct netdev_queue *txq;
+-	struct rtl8150 *dev = (struct rtl8150 *)data;
++	struct rtl8150 *dev = from_tasklet(dev, t, tl);
  	struct sk_buff *skb;
+ 	int status;
  
-@@ -170,8 +170,7 @@ static int ifb_dev_init(struct net_device *dev)
- 		__skb_queue_head_init(&txp->tq);
- 		u64_stats_init(&txp->rsync);
- 		u64_stats_init(&txp->tsync);
--		tasklet_init(&txp->ifb_tasklet, ifb_ri_tasklet,
--			     (unsigned long)txp);
-+		tasklet_setup(&txp->ifb_tasklet, ifb_ri_tasklet);
- 		netif_tx_start_queue(netdev_get_tx_queue(dev, i));
+@@ -878,7 +878,7 @@ static int rtl8150_probe(struct usb_interface *intf,
+ 		return -ENOMEM;
  	}
- 	return 0;
+ 
+-	tasklet_init(&dev->tl, rx_fixup, (unsigned long)dev);
++	tasklet_setup(&dev->tl, rx_fixup);
+ 	spin_lock_init(&dev->rx_pool_lock);
+ 
+ 	dev->udev = udev;
 -- 
 2.30.0
 
