@@ -2,176 +2,173 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E4FC433E0
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F43C433E6
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 23:46:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66F3B64E27
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 16:04:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D974864E15
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 23:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231274AbhAaQDx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 31 Jan 2021 11:03:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53772 "EHLO
+        id S229656AbhAaXpy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 31 Jan 2021 18:45:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229474AbhAaQDa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 31 Jan 2021 11:03:30 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19582C061573;
-        Sun, 31 Jan 2021 08:02:46 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id x71so15990859oia.9;
-        Sun, 31 Jan 2021 08:02:46 -0800 (PST)
+        with ESMTP id S229495AbhAaXps (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 31 Jan 2021 18:45:48 -0500
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A5CCC061573;
+        Sun, 31 Jan 2021 15:45:08 -0800 (PST)
+Received: by mail-oi1-x22a.google.com with SMTP id h6so16949530oie.5;
+        Sun, 31 Jan 2021 15:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oQ+2ejn58IaNi0MlouEDRv20CpSyRPS7iSs23L+c8cI=;
-        b=tOHyvD+KFtPn0SkNL6yxfETU1l8kjNB0YQveWLFiVbun+vbpFNoP/UNBN+ZGgbOp42
-         NGoH0aFOIrYnrW0Tgeh8eEKGNc/h7YV904UMA0dp/RdafV8fKL8wIwt2Fkwb7UAIvjuu
-         k8iOX7lwLu3DGLbwRfw4sROESBv0/Uvi5kkOBIflUKNnEoX31OisYcE6LdMxEVVE4Gmz
-         k3VDHl9IVflw+n416Rg4mB33aGNp+KqO5aO7WABCZOEMRMgfRizlNz6JL5Fg/WQygkAd
-         +oUAC2rHzQtTb0ZgJGFNq85arRQI9tNud5zAH0PC9OZjFparQo68Ip0lm+0bDr2P6+rN
-         onXA==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=/MfklXb/fPreEZTP4a/+2979i0zJ9HYWRF0rUS01xT4=;
+        b=Q7P9XwZrFaqX3BfRtb5F59wxFQFPracuGkwFgBC5GxyKvAuYFMbk9YovhUnLw2b5J0
+         WeTAlgEi38LFVusmVYZSJ9WjNNvRGNckNn3GV6lpm3lo09Cb9aKfneru75uV0qRQfffd
+         12Mf5/wZL1vEuCabdtEeZqC3JALYEBup2tqZCLr62ZTmip28TES3gfRuLFNxhRDjMdan
+         ZLdvy16LsaBTrw2eobYJJpOXXBnrHsaKsiYciPo1bgqBBD23FWM/OPUpbmPYpvEjRWMF
+         RgDksqEdw9xOOuTQHsWQbnSWD591BC9Ll+8Cfe8z3xWO5OoUhsaWAhO0uI7KAvjPGFdJ
+         odZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=oQ+2ejn58IaNi0MlouEDRv20CpSyRPS7iSs23L+c8cI=;
-        b=cGenCWa2VnuGX14CjkXFBfOZdlc59n7N6c+jUsbuXJ/JO+y/XD+h/SOWHeGJmnB0zL
-         u5v3o5ZYDWnGNjiYgaIUfv+bDAFGhDWkRghUc+FaiEyx8hE4N/norcWwreEFWJlhDQjG
-         sPC0nsasjnLogRdR3VsUkvzB3PkQBXpdUMFgtCOMDweYfAPeObHC7EsEVdUITKBp+hQ4
-         CTBCNMl9I10e/83Cdr6Fl+2dktLAHXhNKpykESJmTwyJ/pttgwww1GLGran+3nQv1MgC
-         8batuhvgpMQ0iFcj52OjWovY1VM+xc69HZ88c6/8F495HqpC9HXHD7HmVo7YEltjlj4N
-         +jMg==
-X-Gm-Message-State: AOAM533XzwIAT29RV4wXGYNvw32silMoclz2ClKMBuDA+uOSk5GKSRHk
-        4g2UphvZLD+5mchz4kPP4AbPOFRuc7o=
-X-Google-Smtp-Source: ABdhPJzxark+lfhMH04nQ/2Z4ygSqSYh+S69Hb9UkWuyLyiPos+JAb94L0LCfAqQtxvEbWVdnfC7Tg==
-X-Received: by 2002:aca:47ce:: with SMTP id u197mr8208137oia.101.1612108965017;
-        Sun, 31 Jan 2021 08:02:45 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u81sm827643oia.49.2021.01.31.08.02.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Jan 2021 08:02:43 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH v2 3/3] usb: typec: tcpm: Get Sink VDO from fwnode
-To:     Kyle Tso <kyletso@google.com>, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20210131151832.215931-1-kyletso@google.com>
- <20210131151832.215931-4-kyletso@google.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <950a9361-4cc8-5c01-8c3d-80d812fd663d@roeck-us.net>
-Date:   Sun, 31 Jan 2021 08:02:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=/MfklXb/fPreEZTP4a/+2979i0zJ9HYWRF0rUS01xT4=;
+        b=p1cVl34Yno+6mqGbc3MKxEk5Rd7/VBpSNC4YYe1lHaMaZplsxxSjEhsC5q/4xkv4HN
+         49iPxZqP95Dqhfa+KfHKAt7K0fNufX1lnsvps7A6BoE9eLyt6fQ8gf8niJ5d/P4/o53N
+         NKE1P1NjIdrULc03HSvvhBkZk1gEq/oqn1QjtdAOuKkFve16NLnM3ScOBVkA+v4/6X43
+         M7LGbi3De4qlTZ1u4yTFP9z0pTn+258XBlQ0wKmuto4pMrRJw3jeTCkQ1QKeWhSETmCv
+         FeoECHkncG1pKHoLLOXaPKnU/kRWnFM3ttofZHlNYndOEpERSieRk3Il+Yw08VJxrHe+
+         f2AA==
+X-Gm-Message-State: AOAM530ACLMN17efTt0MIzMVxxV/ooGzPPUNEFDtKTucdxxVLpwKeNFV
+        hAuzx9XWmB/GdLRZ9I2Ut9yNX7ZTyDKi6vipZ84=
+X-Google-Smtp-Source: ABdhPJxzE/iWBwXGLvMTUc1b0SKuduY8Kx1fkFZPrhoYcU21x3VptgyFcRoMFIgK6brg1e0HsV7LWP1iUzwUMqYk6rI=
+X-Received: by 2002:aca:d11:: with SMTP id 17mr9423685oin.6.1612136707670;
+ Sun, 31 Jan 2021 15:45:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210131151832.215931-4-kyletso@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Date:   Mon, 1 Feb 2021 01:44:56 +0200
+Message-ID: <CAB=otbTVxa=nGWF4K1AYcYyPceYYRkC_1HYSb_Nhu6C9RMZEHA@mail.gmail.com>
+Subject: RPi4 DWC2 gadget doesn't copy data to a buffer in ep0 SETUP + DATA
+ OUT transaction
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Linux USB <linux-usb@vger.kernel.org>
+Cc:     linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 1/31/21 7:18 AM, Kyle Tso wrote:
-> Commit a079973f462a ("usb: typec: tcpm: Remove tcpc_config
-> configuration mechanism") removed the tcpc_config which includes the
-> Sink VDO and it is not yet added back with fwnode. Add it now.
-> 
-> Signed-off-by: Kyle Tso <kyletso@google.com>
-> ---
-> Changes since v1:
-> - updated the commit message
-> 
->  drivers/usb/typec/tcpm/tcpm.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 403a483645dd..84c8a52f8af1 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -5677,6 +5677,18 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
->  			port->new_source_frs_current = frs_current;
->  	}
->  
-> +	ret = fwnode_property_read_u32_array(fwnode, "sink-vdos", NULL, 0);
+Hi Minas and other USB experts,
 
-fwnode_property_count_u32(), maybe ?
+I'm currently developing new features for UAC1/UAC2 audio gadgets
+like Volume/Mute controls which use Control SETUP + DATA OUT
+transactions through ep0.
 
-> +	if (ret <= 0 && ret != -EINVAL) {
-> +		return -EINVAL;
+While it works fine on BeagleBone black board with MUSB UDC,
+on Raspberry Pi 4 with DWC2 UDC there is an issue.
 
-Why return any error except -EINVAL (including return values of 0) as -EINVAL,
-and -EINVAL as no error ?
+I found that when DWC2 receives ep0 SETUP + DATA OUT transaction,
+it doesn't copy data transferred from the host to EP0 in DATA OUT stage
+to the usb_request->buf buffer. This buffer contains unchanged data from
+previous transactions.
 
-> +	} else if (ret > 0) {
-> +		port->nr_snk_vdo = min(ret, VDO_MAX_OBJECTS);
-> +		ret = fwnode_property_read_u32_array(fwnode, "sink-vdos",
-> +						     port->snk_vdo,
-> +						     port->nr_snk_vdo);
-> +		if (ret < 0)
-> +			return -EINVAL;
+However, when I disable DMA for DWC2 controller (see the patch below)
+it starts to work as expected and correctly copies data transferred from
+the host in the DATA OUT stage, to the usb_request->buf buffer.
 
-static analyzer code used to complain about overriding error codes.
-Not sure if that is still true. Either case, why not return the
-original error ?
+So far I tested it on v5.9 kernel and v5.10.10 stable kernel both have
+the same issue.
+
+This issue is easily reproducible with RNDIS gadget which also
+uses ep0 SETUP + DATA OUT transactions for transferring
+RNDIS control messages.
+
+During enumeration of RNDIS gadget attached to Linux host,
+I see next messages for RPi4 DWC2 with DMA enabled:
+
+| ## RPi4 DWC2 DMA
+| [   91.029881] rndis_msg_parser: unknown RNDIS message 0x0052033A len 4456526
+| [   91.029889] RNDIS command error -524, 24/24
+
+In this case rndis_msg_parser can't parse messages from the host
+because they are sent through SETUP + DATA OUT transaction and
+DWC2 didn't copy that messages to the buffer, so buffer contains
+some garbage from previous transactions which can't be parsed.
+
+In case of BBB black or DWC2 with disabled DMA, it looks like:
+
+| ## BBB black
+| [   32.867751] rndis_msg_parser: RNDIS_MSG_INIT
+
+| ## RPi4 DWC2 no DMA
+| [  151.080724] rndis_msg_parser: RNDIS_MSG_INIT
+
+I also did a quick googling and found that same issue was
+recently reported for Raspberry pi OS:
+https://github.com/raspberrypi/Raspberry-Pi-OS-64bit/issues/127
+
+I spent some time on debugging this issue, but without having
+DWC2 documentation and experience with DWC2 internals
+that's all that I found so far.
+
+Is this a known issue? Anybody debugging it? Any ideas?
 
 Thanks,
-Guenter
+Ruslan
 
-> +	}
-> +
->  	return 0;
->  }
->  
-> 
+-------------------------------------8<----------------------------------------
+From ced7a3631d9800d04bcbcd756dac4583459fe48c Mon Sep 17 00:00:00 2001
+From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Date: Wed, 20 Jan 2021 00:27:52 +0200
+Subject: [PATCH] usb: dwc2: workaround: disable DMA for gadget
 
+On Raspberry PI 4 it was observer that in case of control
+transfers with DATA phase from a host, the driver for some
+reason doesn't copy transferred data to the buffer, leaving
+previous data in it.
+
+With disabled DMA the issue isn't reproducible, thus
+temporarily disable it
+
+Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+---
+ drivers/usb/dwc2/params.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 267543c..46c18af 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -357,7 +357,11 @@ static void dwc2_set_default_params(struct
+dwc2_hsotg *hsotg)
+ {
+  struct dwc2_hw_params *hw = &hsotg->hw_params;
+  struct dwc2_core_params *p = &hsotg->params;
++#if 0
+  bool dma_capable = !(hw->arch == GHWCFG2_SLAVE_ONLY_ARCH);
++#else
++ bool dma_capable = 0;
++#endif
+
+  dwc2_set_param_otg_cap(hsotg);
+  dwc2_set_param_phy_type(hsotg);
+@@ -651,7 +655,11 @@ static void dwc2_check_params(struct dwc2_hsotg *hsotg)
+ {
+  struct dwc2_hw_params *hw = &hsotg->hw_params;
+  struct dwc2_core_params *p = &hsotg->params;
++#if 0
+  bool dma_capable = !(hw->arch == GHWCFG2_SLAVE_ONLY_ARCH);
++#else
++ bool dma_capable = 0;
++#endif
+
+  dwc2_check_param_otg_cap(hsotg);
+  dwc2_check_param_phy_type(hsotg);
+-- 
+1.9.1
