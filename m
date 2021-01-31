@@ -2,78 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9018BC433DB
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 05:25:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF93C433E0
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:20:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4905F64E1F
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 05:25:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23E2464E35
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbhAaFZR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 31 Jan 2021 00:25:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39188 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229481AbhAaFZN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 31 Jan 2021 00:25:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1891264E1F;
-        Sun, 31 Jan 2021 05:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612070672;
-        bh=rztIUAxj6lRAykEeYYAw3qte7w6d9rekhBKaDwj2+Jc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YnHqzVJk0k+sY1TSm1uZwU59CQDtrLY92VcaRhW5Dfvoa0WLqc7ZrXmKWEo6WH/Q/
-         7XiNMa6ztfGry4jYnHVKfVNUYBtC8DVmjBJzLkrd5SzsGglP9OJr2gfoBgX67Pg8ia
-         0AnugPFCWY9L/b+ySVLFywNfWeiwU6RUpBwdXo9g=
-Date:   Sun, 31 Jan 2021 06:24:28 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mychaela Falconia <mychaela.falconia@gmail.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Maarten Brock <m.brock@vanmierlo.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "Mychaela N . Falconia" <falcon@freecalypso.org>,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/7] tty: add flag to suppress ready signalling on open
-Message-ID: <YBY/DDSWB+YT2r8m@kroah.com>
-References: <CA+uuBqYTzXCHGY8QnP+OQ5nRNAbqx2rMNzLM7OKLM1_4AzzinQ@mail.gmail.com>
- <6b81cca21561305b55ba8f019b78da28@vanmierlo.com>
- <X9H9i98E1Gro+mDP@kroah.com>
- <3fc3097ce1d35ce1e45fa5a3c7173666@vanmierlo.com>
- <X9IcKoofq+2iGZn7@kroah.com>
- <CA+uuBqaNcKadyLRyufm+6HUHXcs7o0rtgw84BrHc7Jq9PauV8Q@mail.gmail.com>
- <X9d039qPr/LO/2R/@localhost>
- <CA+uuBqZgq4KRZsqGRKDUbKAcQxYr1XPhYDrjzMNfWMYgDX8Wfg@mail.gmail.com>
- <YBPxG+i/ZLP8/wg1@hovoldconsulting.com>
- <CA+uuBqaf7cDJcXPsba5qKG78sak0dF4aHHtKOpUMj-0zNS-hAQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+uuBqaf7cDJcXPsba5qKG78sak0dF4aHHtKOpUMj-0zNS-hAQ@mail.gmail.com>
+        id S232360AbhAaPUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 31 Jan 2021 10:20:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231569AbhAaPTg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 31 Jan 2021 10:19:36 -0500
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65E3C061574
+        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:18:55 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id 145so363766pgh.2
+        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=pWaLe0rxHbHoPOLQnEvoezPzhzm6i0a3yIHNzO6Spxk=;
+        b=mDzEma259JaxNYPUJkK9uxCS0LAAZ9LXdKSP3LVU12Vi8V7H6sp0T7rSJv7hryYsJG
+         rwNH94ZeWqUo9blERZI9sZBbyOvPMsCJTLmWAq0TB10TvkpQgpS1do0PXiaAdObX3uh0
+         ykGTav9EiPmQRgEjySssbVR/VdXnw1pKv6y7Xi/OMrCRQaep1RAqszstj7zrcImUntBk
+         oXVqIHptfuWhlTCm3FDLebHEXCRW5OCCA/ft8yTUUVT/1YO8J8n63MV9Kfc8SKIoB48e
+         xQH/QJan5fT3xDlbTzKJr6jMTm/0lbBf4Qcc5p5GbM4wvqd/UDR7cvO70clPJa+pakTC
+         SFoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=pWaLe0rxHbHoPOLQnEvoezPzhzm6i0a3yIHNzO6Spxk=;
+        b=mqBK3HthjInft20ZHjG2yfzE9YnoWHgnLoYBYVHmB9lAvUjbTrP0wJ7QIqJHroiJmx
+         PKZ2QMBncH2udQGv9KEf6l0X5Lvle5B7qWuDxTgpbsXAtf9BRTQLsamqvbOuwMQV+Zwl
+         9kkWluyXD5mexhRc3v1vUi46to5nFwqZhD3kWWbmzW4VV3Q4Ai8CRQ9sZ74MLkBKJRow
+         FCe5SC0pgmMjmsfjsaeWQIVrAfRoFVwBu5JdsAnuZBHqzR7LZyskCJJIs91x9ZyIHk3s
+         feD9lRbXpp1CZe086l5cuzkqoPexdtty39trN/GYFnJI5Olj4YXkdD3eZhLDFsNDNUNM
+         XPWQ==
+X-Gm-Message-State: AOAM530kOfAhjCRWSgFy9epD8MeXlqr0spxBe4N6dAho2Hi2sI39uNQt
+        ZNpxGfNAgEVcFPNRKYm+GtO3K5WIyRcy
+X-Google-Smtp-Source: ABdhPJywFKKoP2bv0t61mkd7QNeIMNNNaNVtp5gAUYkkOnYtoFhNJw0USKf/elBk7HmgEQqF2OBoi4neN7bE
+Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
+X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:5d70:9e45:7deb:72a7])
+ (user=kyletso job=sendgmr) by 2002:a17:902:26a:b029:da:af47:77c7 with SMTP id
+ 97-20020a170902026ab02900daaf4777c7mr14027694plc.10.1612106335130; Sun, 31
+ Jan 2021 07:18:55 -0800 (PST)
+Date:   Sun, 31 Jan 2021 23:18:29 +0800
+Message-Id: <20210131151832.215931-1-kyletso@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v2 0/3] common SVDM version and VDO from dt
+From:   Kyle Tso <kyletso@google.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
+Cc:     badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 04:18:04PM -0800, Mychaela Falconia wrote:
-> Greg K-H wrote:
-> 
-> > our job is to make Linux work for everyone.
-> 
-> But as your refusal to accept the purely additive (zero impact on
-> anything other than specific hw in question) patch adding support for
-> a new hardware device clearly indicates, your job is NOT to make Linux
-> work for everyone, but rather for a smaller subset of "everyone"
-> *other than* hardware designers who come to the maintainers in good
-> faith, asking to mainline support for new hardware they just made.
+patch v1 is here:                                                               
+https://lore.kernel.org/linux-devicetree/20210126084544.682641-1-kyletso@google.com/
+                                                                                
+Changes from v1:                                                                
+=================                                                               
+usb: typec: Determine common SVDM Versions                                      
+- removed the "local" variables (svdm_version) in tcpm.c and                    
+  (altmodes/ucsi)/displayport.c                                                 
+- added a member "svdm_version" in struct typec_capabilities indicating         
+  the default SVDM version of the port                                          
+- added a member "common_svdm_ver" in struct typec_port indicating the          
+  common SVDM version between the port and the partner                          
+- implemented the get/set API of the common_svdm_ver in typec/class.c so        
+  that clients can read/update the common SVDM version                          
+- added more definitions of Product Type VDOs                                   
+                                                                                
+dt-bindings: connector: Add SVDM VDO properties                                 
+- updated the dt-bindings documentations                                        
+- added more definitions of Product Type VDOs                                   
+                                                                                
+usb: typec: tcpm: Get Sink VDO from fwnode                                      
+- updated the commit message
 
-Anything we take adds work to our overall effort to support that new
-feature added.  And you are asking us to do that work for you, for free,
-for forever.  Sorry, given that your attitude does not understand that
-this is a community and we need to work together, I don't think it's
-worth continuing here, sorry.
+Kyle Tso (3):
+  usb: typec: Determine common SVDM Versions
+  dt-bindings: connector: Add SVDM VDO properties
+  usb: typec: tcpm: Get Sink VDO from fwnode
 
-If you change your mind in the future, you know how to contact us.
+ .../bindings/connector/usb-connector.yaml     |  11 +
+ drivers/usb/typec/altmodes/displayport.c      |   5 +-
+ drivers/usb/typec/class.c                     |  21 +-
+ drivers/usb/typec/tcpm/tcpm.c                 |  61 +++-
+ drivers/usb/typec/ucsi/displayport.c          |  10 +-
+ drivers/usb/typec/ucsi/ucsi.c                 |   2 +
+ include/dt-bindings/usb/pd.h                  | 311 ++++++++++++++++-
+ include/linux/usb/pd_vdo.h                    | 315 ++++++++++++++----
+ include/linux/usb/typec.h                     |  10 +
+ 9 files changed, 656 insertions(+), 90 deletions(-)
 
-greg k-h
+-- 
+2.30.0.365.g02bc693789-goog
+
