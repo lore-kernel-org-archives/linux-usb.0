@@ -2,62 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF93C433E0
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD77C433DB
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:21:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23E2464E35
-	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58E7364E35
+	for <linux-usb@archiver.kernel.org>; Sun, 31 Jan 2021 15:21:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232360AbhAaPUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 31 Jan 2021 10:20:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44416 "EHLO
+        id S232530AbhAaPUv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 31 Jan 2021 10:20:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231569AbhAaPTg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 31 Jan 2021 10:19:36 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B65E3C061574
-        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:18:55 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id 145so363766pgh.2
-        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:18:55 -0800 (PST)
+        with ESMTP id S232748AbhAaPUg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 31 Jan 2021 10:20:36 -0500
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81637C061793
+        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:19:07 -0800 (PST)
+Received: by mail-qt1-x849.google.com with SMTP id v65so6582418qtd.0
+        for <linux-usb@vger.kernel.org>; Sun, 31 Jan 2021 07:19:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=pWaLe0rxHbHoPOLQnEvoezPzhzm6i0a3yIHNzO6Spxk=;
-        b=mDzEma259JaxNYPUJkK9uxCS0LAAZ9LXdKSP3LVU12Vi8V7H6sp0T7rSJv7hryYsJG
-         rwNH94ZeWqUo9blERZI9sZBbyOvPMsCJTLmWAq0TB10TvkpQgpS1do0PXiaAdObX3uh0
-         ykGTav9EiPmQRgEjySssbVR/VdXnw1pKv6y7Xi/OMrCRQaep1RAqszstj7zrcImUntBk
-         oXVqIHptfuWhlTCm3FDLebHEXCRW5OCCA/ft8yTUUVT/1YO8J8n63MV9Kfc8SKIoB48e
-         xQH/QJan5fT3xDlbTzKJr6jMTm/0lbBf4Qcc5p5GbM4wvqd/UDR7cvO70clPJa+pakTC
-         SFoQ==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=FRzaEhvDPo4h4QFnnXdsfoodxN30fydIjOqX0xUgHaA=;
+        b=tUGY1emCCr3kTH3BPSrJyXjd0HfNm6m/oZWbXkNxMlSgLYhkmo5Gd0ss84pV2g0Cc+
+         bO0sWEXymTVZZ0UC4AYb3BLvWUjpuxGFnuaqq0XpqpxSF1S40UMb+sB9RP9PcU8+G3hT
+         BZ3bfhkqscQaHgvvs8h2eDB2jfLE6YgoDiHoPL/v+Sh0tWFMziINtCqUWUWzClGMs2w6
+         +9IhcfmeLuKo1/L63JRv+rQHW6y+/fAPEUdl+N71Ehp4OiSR9hf5IhDtalwYnIK/GTiV
+         OQa3diqA2Np8ZOp5zQGrGhzH5os9qdIGek9WglCiB2W8WQOh9GlzXTgH+olyDTFZ3PVI
+         XgXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=pWaLe0rxHbHoPOLQnEvoezPzhzm6i0a3yIHNzO6Spxk=;
-        b=mqBK3HthjInft20ZHjG2yfzE9YnoWHgnLoYBYVHmB9lAvUjbTrP0wJ7QIqJHroiJmx
-         PKZ2QMBncH2udQGv9KEf6l0X5Lvle5B7qWuDxTgpbsXAtf9BRTQLsamqvbOuwMQV+Zwl
-         9kkWluyXD5mexhRc3v1vUi46to5nFwqZhD3kWWbmzW4VV3Q4Ai8CRQ9sZ74MLkBKJRow
-         FCe5SC0pgmMjmsfjsaeWQIVrAfRoFVwBu5JdsAnuZBHqzR7LZyskCJJIs91x9ZyIHk3s
-         feD9lRbXpp1CZe086l5cuzkqoPexdtty39trN/GYFnJI5Olj4YXkdD3eZhLDFsNDNUNM
-         XPWQ==
-X-Gm-Message-State: AOAM530kOfAhjCRWSgFy9epD8MeXlqr0spxBe4N6dAho2Hi2sI39uNQt
-        ZNpxGfNAgEVcFPNRKYm+GtO3K5WIyRcy
-X-Google-Smtp-Source: ABdhPJywFKKoP2bv0t61mkd7QNeIMNNNaNVtp5gAUYkkOnYtoFhNJw0USKf/elBk7HmgEQqF2OBoi4neN7bE
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=FRzaEhvDPo4h4QFnnXdsfoodxN30fydIjOqX0xUgHaA=;
+        b=Es5zsv0dbz5fNdiekn94K0Sn617L61q9XCWd8TLXieq7MQszSln/uAJRfhloolsxja
+         VHjnBSUz1kIXHtLIXrElGotd9Ft/U47W6DTqB4qVnOV31j1MocWhY0tYVzzUSt8HP2Me
+         vorv6oR4dKN/hJMXllklIjqj4l6t3s89QdbBckwwOaGhmmvyeeXBWxbN+BytgCHSWXKr
+         mmEkIO7msvGOc035MB/vOrOEHhpTThY+fpJZDvAbgRWNUiZVYVHAORlpQBdmvgQY3JKg
+         dTu27Qq0AWyJaioCmNoI+DmenhTzty+vzEblqijk245a0w8iXjouKo/6msomd14Qn5xh
+         gBwA==
+X-Gm-Message-State: AOAM532L/tsTyTcVuUF/S9g8ji5DNH2/82iLC9ozc29NeNURGxQpXXqT
+        K3yHSoRorkJjhkhxLP43DrM7XI5yEYFf
+X-Google-Smtp-Source: ABdhPJyB3wtOX9xa281yjX0idXO53Tyh6XK5JoI5qT6Zab+ZrxbjcpWzhxQjvGoXzDrg5s3l92IejlfUQFhd
 Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
 X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:5d70:9e45:7deb:72a7])
- (user=kyletso job=sendgmr) by 2002:a17:902:26a:b029:da:af47:77c7 with SMTP id
- 97-20020a170902026ab02900daaf4777c7mr14027694plc.10.1612106335130; Sun, 31
- Jan 2021 07:18:55 -0800 (PST)
-Date:   Sun, 31 Jan 2021 23:18:29 +0800
-Message-Id: <20210131151832.215931-1-kyletso@google.com>
+ (user=kyletso job=sendgmr) by 2002:a0c:eb4c:: with SMTP id
+ c12mr11582424qvq.62.1612106346714; Sun, 31 Jan 2021 07:19:06 -0800 (PST)
+Date:   Sun, 31 Jan 2021 23:18:32 +0800
+In-Reply-To: <20210131151832.215931-1-kyletso@google.com>
+Message-Id: <20210131151832.215931-4-kyletso@google.com>
 Mime-Version: 1.0
+References: <20210131151832.215931-1-kyletso@google.com>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH v2 0/3] common SVDM version and VDO from dt
+Subject: [PATCH v2 3/3] usb: typec: tcpm: Get Sink VDO from fwnode
 From:   Kyle Tso <kyletso@google.com>
 To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
@@ -69,45 +72,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-patch v1 is here:                                                               
-https://lore.kernel.org/linux-devicetree/20210126084544.682641-1-kyletso@google.com/
-                                                                                
-Changes from v1:                                                                
-=================                                                               
-usb: typec: Determine common SVDM Versions                                      
-- removed the "local" variables (svdm_version) in tcpm.c and                    
-  (altmodes/ucsi)/displayport.c                                                 
-- added a member "svdm_version" in struct typec_capabilities indicating         
-  the default SVDM version of the port                                          
-- added a member "common_svdm_ver" in struct typec_port indicating the          
-  common SVDM version between the port and the partner                          
-- implemented the get/set API of the common_svdm_ver in typec/class.c so        
-  that clients can read/update the common SVDM version                          
-- added more definitions of Product Type VDOs                                   
-                                                                                
-dt-bindings: connector: Add SVDM VDO properties                                 
-- updated the dt-bindings documentations                                        
-- added more definitions of Product Type VDOs                                   
-                                                                                
-usb: typec: tcpm: Get Sink VDO from fwnode                                      
+Commit a079973f462a ("usb: typec: tcpm: Remove tcpc_config
+configuration mechanism") removed the tcpc_config which includes the
+Sink VDO and it is not yet added back with fwnode. Add it now.
+
+Signed-off-by: Kyle Tso <kyletso@google.com>
+---
+Changes since v1:
 - updated the commit message
 
-Kyle Tso (3):
-  usb: typec: Determine common SVDM Versions
-  dt-bindings: connector: Add SVDM VDO properties
-  usb: typec: tcpm: Get Sink VDO from fwnode
+ drivers/usb/typec/tcpm/tcpm.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
- .../bindings/connector/usb-connector.yaml     |  11 +
- drivers/usb/typec/altmodes/displayport.c      |   5 +-
- drivers/usb/typec/class.c                     |  21 +-
- drivers/usb/typec/tcpm/tcpm.c                 |  61 +++-
- drivers/usb/typec/ucsi/displayport.c          |  10 +-
- drivers/usb/typec/ucsi/ucsi.c                 |   2 +
- include/dt-bindings/usb/pd.h                  | 311 ++++++++++++++++-
- include/linux/usb/pd_vdo.h                    | 315 ++++++++++++++----
- include/linux/usb/typec.h                     |  10 +
- 9 files changed, 656 insertions(+), 90 deletions(-)
-
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 403a483645dd..84c8a52f8af1 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -5677,6 +5677,18 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 			port->new_source_frs_current = frs_current;
+ 	}
+ 
++	ret = fwnode_property_read_u32_array(fwnode, "sink-vdos", NULL, 0);
++	if (ret <= 0 && ret != -EINVAL) {
++		return -EINVAL;
++	} else if (ret > 0) {
++		port->nr_snk_vdo = min(ret, VDO_MAX_OBJECTS);
++		ret = fwnode_property_read_u32_array(fwnode, "sink-vdos",
++						     port->snk_vdo,
++						     port->nr_snk_vdo);
++		if (ret < 0)
++			return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.30.0.365.g02bc693789-goog
 
