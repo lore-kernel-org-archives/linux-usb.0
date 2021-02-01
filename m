@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 000F9C4332B
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED90AC43381
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFC4164EC3
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D2D7264EAB
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232226AbhBATmK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 14:42:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39562 "EHLO
+        id S232164AbhBATmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 14:42:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231864AbhBATmC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:42:02 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E8AC0613ED;
-        Mon,  1 Feb 2021 11:41:21 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id s3so6564397edi.7;
-        Mon, 01 Feb 2021 11:41:21 -0800 (PST)
+        with ESMTP id S231665AbhBATl7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:41:59 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F74C06174A;
+        Mon,  1 Feb 2021 11:41:19 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id s11so20299362edd.5;
+        Mon, 01 Feb 2021 11:41:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=mllDDoFqrKsaQ7KlxScyjYXTToCMmRRcsUF13aNpIwo=;
-        b=lOq2v9Lwl5m1ENUAEOwokF4SpIw39mkXEtSS3xvZQt9PTK8ta89rTe4PBQbsZ+1K2d
-         DA7GGQISOUJMllrvPP5H5VbogNvgccK2OMJsUzr4NCgoNg3pNM8k0SGe+HRI8ttTVNRH
-         LZlK6nRYuj/Bk8mvyaqPEduEYzgv9Vdfy8Seta5HjZXOydQEStn68fVG/QVtRhjVRmL0
-         sqN8AB4o0ndeL5qczfEq5827rQTijdZmfblpnV3iCm+pJg+dHMNx2ML7unBR7fHa4Ebb
-         YpCoO5mtYRvneAXajWTTNuBt3UETAsXfqkWKszKElZKvLbSSrFmixl3+izQzyswgNXn+
-         xbzA==
+        bh=VqBtzEvAwNKiwVYCrfCe2jfiFhnACOLKHc4Xbe7Gosc=;
+        b=GdxxfM5G06yroEWjLqtPD4kPmnDUkQ3xWGnxslPz0GFCgNmobccwnyM02eyfY95jFa
+         2TwDRK43sMe9pkNWJDBE5ShS0RqKz4zg5Ye7mCXQtyxmkowfyBe5nOTR33icBwDerEoV
+         vSoxMXV3eKOcJbtJIyIMCG+sr3tlIO4SECl/fdby6NW4oYFLJ57oYCTTwkEgdV7gWFsX
+         l/K5ISUWrlo2oWyg1lB1+XEWi4Ch+EfB62y5GVAD0iwUJ/MqVtg5GahiWkeuMvB5FBip
+         aW0fgTYgqp+poC/QEZfDmWb/GyOh5TNvomoZiO3HUAIFVPZknPHLQ8qT5sy2xJX8x7UN
+         ng4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=mllDDoFqrKsaQ7KlxScyjYXTToCMmRRcsUF13aNpIwo=;
-        b=kxPI93HECn4z7X5dDF1B5YhE4hFSgTYoJ3DJY4D/hREtljYiZIpSZjExC9sMjclefn
-         sR9gFM7WbDj0W7BR8xUX+7NKLHcw4Gjc7z4SqaHfTOZG9KUPA1ULtjr33OoiJuYunuBP
-         aWnRG8WcZG57d0lx9nNnywXJ7hrBmS9rJYcZQNdwwCLXKNN3infyKVDqohF9Db7vbJHR
-         G659cFFrsbfmaHP4uLx4ATE5xv1P9XvRM0uYn0Ci2pUBlyUcyBGBYnqR8I2ugin3/dO3
-         RNabyZOt6EI4VglKEHHOoCIiDAbEL77GTYZBtSt7QR+CCeChzhXaJ30tMgpt0oe//WLT
-         a8Cw==
-X-Gm-Message-State: AOAM5329kXgKEpw5IH6trMBYlH4RYDyocOycxhbJwv4QiJ4ZX/qge+Ec
-        HGpc/99nGjcPY9s7NmFchMY=
-X-Google-Smtp-Source: ABdhPJzflGvb9KJYZGMytp1I8l3QpW1wrHny5906kgyPSsIc4FpU96o1x39WcYNA3eK15Jfh5c97ZQ==
-X-Received: by 2002:a05:6402:11d3:: with SMTP id j19mr20525720edw.314.1612208480752;
-        Mon, 01 Feb 2021 11:41:20 -0800 (PST)
+        bh=VqBtzEvAwNKiwVYCrfCe2jfiFhnACOLKHc4Xbe7Gosc=;
+        b=CN/k3Q2xkvC/4AuNgmyQ4/g1Q/johhPJTYMBlXxjT8koEuy6sry0P2emAW49H5Veo0
+         aGXNTRue2lAPm+//9Kd63Wi2fwIGJ7v/BO+9uvmaXqDi7hXRrpcMWIB9PJy7hgHhhTF2
+         07MKYsWg4qL7HHiRXGhzgTZ/6FXVRYADH73YBv+pxFZLCvHCNsQuCZsrVzamQtUGz73o
+         c47vIRry97pNGzXSjGAQNXeSWQg+Vseib6958KRGN0WOrVKc7SdETKp4fYx3QOZP8B7k
+         D4FhsKjPn+YE2qvFvooZZjT/eU2cJi4SAY2+D9UD4W+7QzG9DAlRGJEil8ra0S4q2W2r
+         0Qjg==
+X-Gm-Message-State: AOAM532pB6j/lyGf6WGK+HTIYVkQz2CoV0uuZ7wVtu2YWrSQBNA+OHhV
+        SZOIdinROqFVDoGEkqRjq94=
+X-Google-Smtp-Source: ABdhPJxPoBbnKGy9ZsZFVlQb7gmSL256Hs0FuaKI09XIprF+AOL90+g2tF8xnMRdc2ztysdU8IaQYQ==
+X-Received: by 2002:aa7:d58b:: with SMTP id r11mr2741013edq.241.1612208478309;
+        Mon, 01 Feb 2021 11:41:18 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id du6sm6702799ejc.78.2021.02.01.11.41.20
+        by smtp.gmail.com with ESMTPSA id du6sm6702799ejc.78.2021.02.01.11.41.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Feb 2021 11:41:20 -0800 (PST)
+        Mon, 01 Feb 2021 11:41:17 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 5/5] dts64: rockchip: enable dwc3 usb for A95X Z2
-Date:   Mon,  1 Feb 2021 20:41:05 +0100
-Message-Id: <20210201194105.32673-5-jbx6244@gmail.com>
+Subject: [PATCH v1 2/5] dt-bindings: usb: dwc3: add description for rk3328
+Date:   Mon,  1 Feb 2021 20:41:02 +0100
+Message-Id: <20210201194105.32673-2-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20210201194105.32673-1-jbx6244@gmail.com>
 References: <20210201194105.32673-1-jbx6244@gmail.com>
@@ -71,33 +71,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable dwc3 usb for A95X Z2.
+Add description for "rockchip,rk3328-dwc3".
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-index 30c73ef25..b26c653c6 100644
---- a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-@@ -357,6 +357,15 @@
- 	status = "okay";
- };
+diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
+index 681086fa6..f4de1b2ee 100644
+--- a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
+@@ -12,9 +12,11 @@ maintainers:
+ properties:
+   compatible:
+     enum:
++      - rockchip,rk3328-dwc3
+       - rockchip,rk3399-dwc3
  
-+&usbdrd3 {
-+	status = "okay";
-+};
-+
-+&usbdrd_dwc3 {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
- &usb_host0_ehci {
- 	status = "okay";
- };
+   clocks:
++    minItems: 3
+     items:
+       - description:
+           Controller reference clock, must to be 24 MHz
+@@ -31,6 +33,7 @@ properties:
+           Controller grf clock
+ 
+   clock-names:
++    minItems: 3
+     items:
+       - const: ref_clk
+       - const: suspend_clk
 -- 
 2.11.0
 
