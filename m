@@ -2,39 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79422C433E6
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B6CC433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39CDA64E96
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18D3D64E9E
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231272AbhBAMST (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 07:18:19 -0500
-Received: from mga12.intel.com ([192.55.52.136]:2645 "EHLO mga12.intel.com"
+        id S231311AbhBAMSU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 07:18:20 -0500
+Received: from mga18.intel.com ([134.134.136.126]:57403 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231192AbhBAMST (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231219AbhBAMST (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 1 Feb 2021 07:18:19 -0500
-IronPort-SDR: jSN9b8a/5AFMz+gBRC++yXY+Sc77od/uuJHW150/7i/c8tADS4qPtrh3WIR2h3yzw9m7A8Rq79
- UikxYdie55vA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="159841707"
+IronPort-SDR: uEIOFw8KlX1WfeiWghYugrusdwGDeeo+NBww7yZT8gDCVko49+YarlMLrVD3WXcre17X+eFvm+
+ 90S4HeHILPww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="168356410"
 X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="159841707"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 04:16:32 -0800
-IronPort-SDR: q2po7mvQgdvEmio2cDC+PI5owAuX3eEg+NXd39d+9Y/fMm9JiK1pYY5AIwkf9lIWW4C0sCNiG0
- vacMkRr2MjYQ==
+   d="scan'208";a="168356410"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 04:16:34 -0800
+IronPort-SDR: iGHSJX3lWxQlg94tuxYcUKOAtmxaioaR3lKIqaC+2McSVQGQrgqZ8F1cZvODLmkoAIM6TaD6X+
+ bLsMzqS/y/TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="581443236"
+   d="scan'208";a="353975902"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Feb 2021 04:16:30 -0800
+  by fmsmga007.fm.intel.com with ESMTP; 01 Feb 2021 04:16:30 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 8E53B1A2; Mon,  1 Feb 2021 14:16:29 +0200 (EET)
+        id 75C3111E; Mon,  1 Feb 2021 14:16:29 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -43,59 +42,55 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Lee Jones <lee.jones@linaro.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 2/6] thunderbolt: eeprom: Fix kernel-doc descriptions of non-static functions
-Date:   Mon,  1 Feb 2021 15:16:25 +0300
-Message-Id: <20210201121629.76969-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 0/6] thunderbolt: Fix kernel-doc descriptions of non-static functions
+Date:   Mon,  1 Feb 2021 15:16:23 +0300
+Message-Id: <20210201121629.76969-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210201121629.76969-1-mika.westerberg@linux.intel.com>
-References: <20210201121629.76969-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix kernel-doc descriptions of the two non-static functions. This also
-gets rid of the rest of the warnings on W=1 build.
+Hi all,
 
-Reported-by: Lee Jones <lee.jones@linaro.org>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Reviewed-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/thunderbolt/eeprom.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+This series was inspired by the patch series from Lee Jones that fixed a
+bunch of warnings with W=1 build:
 
-diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-index 63c64f503faa..dd03d3096653 100644
---- a/drivers/thunderbolt/eeprom.c
-+++ b/drivers/thunderbolt/eeprom.c
-@@ -279,7 +279,9 @@ struct tb_drom_entry_port {
- 
- 
- /**
-- * tb_drom_read_uid_only - read uid directly from drom
-+ * tb_drom_read_uid_only() - Read UID directly from DROM
-+ * @sw: Router whose UID to read
-+ * @uid: UID is placed here
-  *
-  * Does not use the cached copy in sw->drom. Used during resume to check switch
-  * identity.
-@@ -520,7 +522,14 @@ static int tb_drom_read_n(struct tb_switch *sw, u16 offset, u8 *val,
- }
- 
- /**
-- * tb_drom_read - copy drom to sw->drom and parse it
-+ * tb_drom_read() - Copy DROM to sw->drom and parse it
-+ * @sw: Router whose DROM to read and parse
-+ *
-+ * This function reads router DROM and if successful parses the entries and
-+ * populates the fields in @sw accordingly. Can be called for any router
-+ * generation.
-+ *
-+ * Returns %0 in case of success and negative errno otherwise.
-  */
- int tb_drom_read(struct tb_switch *sw)
- {
+  https://lore.kernel.org/linux-usb/20210127112554.3770172-1-lee.jones@linaro.org/
+
+For non-static functions we fix missing kernel-doc descriptions
+accordingly. This fixes the rest of the warnings with W=1 build.
+
+Applies on top of thunderbolt.git/next.
+
+v1 can be found here:
+
+  https://lore.kernel.org/linux-usb/20210128122934.36897-1-mika.westerberg@linux.intel.com/
+
+Changes from v1:
+
+  * Drop @ before port in patch 5/6.
+  * Added tags from Lee Jones.
+  * New patch that clarifies router/adapter USB4 terms in structs
+    tb_switch/port.
+
+Mika Westerberg (6):
+  thunderbolt: ctl: Fix kernel-doc descriptions of non-static functions
+  thunderbolt: eeprom: Fix kernel-doc descriptions of non-static functions
+  thunderbolt: path: Fix kernel-doc descriptions of non-static functions
+  thunderbolt: nhi: Fix kernel-doc descriptions of non-static functions
+  thunderbolt: switch: Fix kernel-doc descriptions of non-static functions
+  thunderbolt: Add clarifying comments about USB4 terms router and adapter
+
+ drivers/thunderbolt/ctl.c    | 47 ++++++++++++++++++++++++++++++++----
+ drivers/thunderbolt/eeprom.c | 13 ++++++++--
+ drivers/thunderbolt/nhi.c    |  2 ++
+ drivers/thunderbolt/path.c   |  2 ++
+ drivers/thunderbolt/switch.c |  7 ++++++
+ drivers/thunderbolt/tb.h     |  5 ++++
+ 6 files changed, 69 insertions(+), 7 deletions(-)
+
 -- 
 2.29.2
 
