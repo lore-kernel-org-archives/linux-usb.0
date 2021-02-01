@@ -7,87 +7,72 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C77F9C433E0
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E920FC433E0
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:23:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7563F64EA0
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:18:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A07A264D9D
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 12:23:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231403AbhBAMSi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 07:18:38 -0500
-Received: from mga09.intel.com ([134.134.136.24]:22929 "EHLO mga09.intel.com"
+        id S229707AbhBAMXE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 07:23:04 -0500
+Received: from mga14.intel.com ([192.55.52.115]:12018 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229525AbhBAMSg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 1 Feb 2021 07:18:36 -0500
-IronPort-SDR: ixnjdWZQ7SqrLPuY0qTTrTcnGKAgtkzR4pGtCIe95d8Ehvztq6bRkNAh+KdrqECsgUlCww9wIr
- qmcmGbpT3n0g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="180820114"
+        id S229500AbhBAMWv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 1 Feb 2021 07:22:51 -0500
+IronPort-SDR: sLlTq2L9Fu6J+DNglEnXnp0Vk2C4r2sbiFPMog59ol9j0R8LOd+ASBheWvOvhjzkcRbC4mStlZ
+ FN0lzDhQah8g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9881"; a="179897705"
 X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="180820114"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 04:16:35 -0800
-IronPort-SDR: 3Jx53TZ/+ySAyRrjshAkxt3dIwi6niIZfbyzVDx5CUaY33LPa1rC6MblzmRsZPjEQBDp5vpF/4
- X3Q9dhXc98DQ==
+   d="scan'208";a="179897705"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 04:21:04 -0800
+IronPort-SDR: 55xEm2p+dJSDIQdkomBKhFVOXh3W2hQbIxcGc/xEIbbgrNHxJtSE+R0Z6iONufsNmCBVjunK76
+ ncvFyq7BJ4Tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,392,1602572400"; 
-   d="scan'208";a="390886510"
+   d="scan'208";a="506831435"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga008.jf.intel.com with ESMTP; 01 Feb 2021 04:16:33 -0800
+  by orsmga004.jf.intel.com with ESMTP; 01 Feb 2021 04:21:01 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id B4B6E38F; Mon,  1 Feb 2021 14:16:29 +0200 (EET)
+        id 59DA811E; Mon,  1 Feb 2021 14:21:01 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+Cc:     Isaac Hazan <isaac.hazan@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
         Michael Jamet <michael.jamet@intel.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
-        Lee Jones <lee.jones@linaro.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 6/6] thunderbolt: Add clarifying comments about USB4 terms router and adapter
-Date:   Mon,  1 Feb 2021 15:16:29 +0300
-Message-Id: <20210201121629.76969-7-mika.westerberg@linux.intel.com>
+Subject: [PATCH] thunderbolt: dma_test: Drop unnecessary include
+Date:   Mon,  1 Feb 2021 15:21:01 +0300
+Message-Id: <20210201122101.87783-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210201121629.76969-1-mika.westerberg@linux.intel.com>
-References: <20210201121629.76969-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB4 spec talks about routers and adapters whereas Thunderbolt 1-3
-talked about CIO (Converged I/O) switches and ports. These are the same
-thing but might cause confusion so add clarifying comments to struct
-tb_switch and struct tb_port about the USB4 terms.
+It seems <linux/acpi.h> is not actually needed in this driver so we can
+drop it.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/thunderbolt/dma_test.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 31468de658e4..37679b54808d 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -138,6 +138,8 @@ struct tb_switch_tmu {
-  *
-  * When the switch is being added or removed to the domain (other
-  * switches) you need to have domain lock held.
-+ *
-+ * In USB4 terminology this structure represents a router.
+diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
+index 955f980986ca..6debaf5a6604 100644
+--- a/drivers/thunderbolt/dma_test.c
++++ b/drivers/thunderbolt/dma_test.c
+@@ -7,7 +7,6 @@
+  *	    Mika Westerberg <mika.westerberg@linux.intel.com>
   */
- struct tb_switch {
- 	struct device dev;
-@@ -196,6 +198,9 @@ struct tb_switch {
-  * @in_hopids: Currently allocated input HopIDs
-  * @out_hopids: Currently allocated output HopIDs
-  * @list: Used to link ports to DP resources list
-+ *
-+ * In USB4 terminology this structure represents an adapter (protocol or
-+ * lane adapter).
-  */
- struct tb_port {
- 	struct tb_regs_port_header config;
+ 
+-#include <linux/acpi.h>
+ #include <linux/completion.h>
+ #include <linux/debugfs.h>
+ #include <linux/module.h>
 -- 
 2.29.2
 
