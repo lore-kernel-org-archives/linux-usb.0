@@ -6,264 +6,124 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D9EC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E054BC43381
 	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5453B64EA8
+	by mail.kernel.org (Postfix) with ESMTP id B356764EA8
 	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232070AbhBATmD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 14:42:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
+        id S232208AbhBATmJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 14:42:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231610AbhBATl6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:41:58 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC758C061573;
-        Mon,  1 Feb 2021 11:41:18 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id s11so20299324edd.5;
-        Mon, 01 Feb 2021 11:41:18 -0800 (PST)
+        with ESMTP id S231754AbhBATmB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:42:01 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26662C0613D6;
+        Mon,  1 Feb 2021 11:41:21 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id g10so2002776eds.2;
+        Mon, 01 Feb 2021 11:41:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Vudz7Jq3CovoiOUmAZDu7pX1ATasm53I9HD8Bq8Ch+U=;
-        b=uRRkmtSb0gkM4AwKwMZrg0TnMdgcY+sOAQP5H0Fgg6DCU/zZ+a03NzSE+iRuYcT0zh
-         3TmaXRqIJijh6ZUxMY/gKL6NfU6RZAmNm2BO+9WnFeqcON1TgvuIG0R7mnYbWyV2aOwS
-         ccNJCoVu3YMd3prw7pg9vYw8Cc2+UJtNtT2WqLetlTKigTmmg91QPm3bDHVyd0E2i20s
-         +wD81KaOSpoinlgmaaW97zaW248dDcGmVyV4zIjpds20LwjuuIdo87Cm7OdUwG0DDTWQ
-         91Ya4IFiC/VjouZG7rHa0T60S93zO/AkxgDs6yfWE+fClD+Cag/g1QNheHM9+ZqFqFsd
-         RVmA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=X2oJ/oS9W6B6NjUjWeyWWEJnoptgHKF+k6enHUja9os=;
+        b=U/v8lwUONcQVdPmXvuzDftJuNNKgu/kZIz9dZstTYnJVBjMLk//Jn9D8cQh0YhZjW9
+         QniU2yKt7T6i+fXOik+J34btYypV3PLqYArdrta1pvoF0vh0XzC2yX0+eukut0IS/ZSC
+         TlAXhCWmoJei5Wa6wKZ2oeUgVXZ774eFQUlUdjjhcRwrcvnTaoZDiJnW8QOn1qQ0+hjA
+         fuP8375zh0z0DiLvPTRpOwFFToLepqUJHXbr27apOBCjUMbkXemrB0dORU+Bo5hCWfYy
+         j8ixwlMOUyO7segg/AE5AlCmepc/dT040V0Gi9zqz0jNjVRrokOU4OaHGgHVOPZZ8ZbT
+         PrLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Vudz7Jq3CovoiOUmAZDu7pX1ATasm53I9HD8Bq8Ch+U=;
-        b=evcQGXTfQlh7gR8f5z9nMh0vNATlKbUmThhQRtWTOwhqaG1sC7SeFExE+l0ry4ieAZ
-         WfO7kwT4vlBOtgV2WVknUWGS91oD4ykru/kfdf9JXeSTEq5uujf+cacYSSNhvV3WF+Qz
-         Fuv7qgySm/n+5v5uJ/8FoKvp1+MLTornAsMkvFNkS74GsIG+SXUz1SmLZG7aKEsZSSxo
-         2vJFgswuk66DLmaRjBOlDxNgYNRf/PwrZ+woCgksfnj+u2X4f8szPvd2TTlDhBOxqP68
-         FNKkXHxNR0am/aTlKbCUPSXwHchDe4xjHkeEGVq5/xcfB0pQNVs36r0k3zL3OuNAU+HO
-         aH3g==
-X-Gm-Message-State: AOAM532oHFTLk5QhBLKuVVn5t+Gh3ox7kDhg8S03ur1TA57+dujqNA8l
-        qp+XhLWYAgtEsr/8u338njU=
-X-Google-Smtp-Source: ABdhPJxSZTnKN9WR55MOnNEgcHmJn9O9hya7WEb4ex42obOcKRcFi5f4yDoWnP2PHvnNEchyZtNDKg==
-X-Received: by 2002:a05:6402:1bde:: with SMTP id ch30mr20541649edb.151.1612208477429;
-        Mon, 01 Feb 2021 11:41:17 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=X2oJ/oS9W6B6NjUjWeyWWEJnoptgHKF+k6enHUja9os=;
+        b=lrHHUDqwqDToqpF5NfIgQNIaFkHSiuCIKWzdEFJvoxvFsQdhchDn8mW2ip/VIJmANs
+         5qDABo35NRt6wVCfJDr7zkTXXUF9snvPO67CQClQn+0NDxRG5Ex24K2JLLhd7r0dvub5
+         wt5+xtQhHC3vcyOf+Lkh/1kokLQb82XT6iedOxUdqkfZkuikWkv3BRDy6NgQy/2BJ+d7
+         lbspEVsIl/kR8Hgbe6tDNWOzUUjEIxwU3tu/2qgKJ1tClEoKy7Z8+RyKxkViQVOqoASv
+         mhJy5OjO0G4X0hbkhTZN/xRDWNXHvU/j+EFmkgSXjo7RJBrMZApz3H53vukE6FnpHR5R
+         fMsA==
+X-Gm-Message-State: AOAM532piiZ4beMGWED0NBMPAMcagtD1FREHsoyOE2VkM070/UqVLsli
+        e9krnTV5z4zEBIxHFc/dCoE=
+X-Google-Smtp-Source: ABdhPJw+3+upS6Y8szLFRK1M7jQuDS+kNgSwi9O2KTrM5d/ESlEqDOL9XgQ/Mnvc8ng0V8MdhhUQ0A==
+X-Received: by 2002:a50:ee99:: with SMTP id f25mr9033753edr.17.1612208479932;
+        Mon, 01 Feb 2021 11:41:19 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id du6sm6702799ejc.78.2021.02.01.11.41.16
+        by smtp.gmail.com with ESMTPSA id du6sm6702799ejc.78.2021.02.01.11.41.19
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Feb 2021 11:41:16 -0800 (PST)
+        Mon, 01 Feb 2021 11:41:19 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/5] dt-bindings: usb: convert rockchip,dwc3.txt to yaml
-Date:   Mon,  1 Feb 2021 20:41:01 +0100
-Message-Id: <20210201194105.32673-1-jbx6244@gmail.com>
+Subject: [PATCH v1 4/5] arm64: dts: rockchip: add rk3328 dwc3 usb controller node
+Date:   Mon,  1 Feb 2021 20:41:04 +0100
+Message-Id: <20210201194105.32673-4-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20210201194105.32673-1-jbx6244@gmail.com>
+References: <20210201194105.32673-1-jbx6244@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the past Rockchip dwc3 usb nodes were manually checked.
-With the conversion of snps,dwc3.yaml as common document
-we now can convert rockchip,dwc3.txt to yaml as well.
+From: Cameron Nemo <cnemo@tutanota.com>
 
-Added properties for rk3399 are:
-  resets
-  reset-names
+RK3328 SoCs have one USB 3.0 OTG controller which uses DWC_USB3
+core's general architecture. It can act as static xHCI host
+controller, static device controller, USB 3.0/2.0 OTG basing
+on ID of USB3.0 PHY.
 
-Generic properties that are now also filtered:
-  "#address-cells"
-  "#size-cells"
-  ranges
-
+Signed-off-by: William Wu <william.wu@rock-chips.com>
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- .../devicetree/bindings/usb/rockchip,dwc3.txt      |  56 -----------
- .../devicetree/bindings/usb/rockchip,dwc3.yaml     | 107 +++++++++++++++++++++
- 2 files changed, 107 insertions(+), 56 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
- create mode 100644 Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt b/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
-deleted file mode 100644
-index 945204932..000000000
---- a/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Rockchip SuperSpeed DWC3 USB SoC controller
--
--Required properties:
--- compatible:	should contain "rockchip,rk3399-dwc3" for rk3399 SoC
--- clocks:	A list of phandle + clock-specifier pairs for the
--		clocks listed in clock-names
--- clock-names:	Should contain the following:
--  "ref_clk"	Controller reference clk, have to be 24 MHz
--  "suspend_clk"	Controller suspend clk, have to be 24 MHz or 32 KHz
--  "bus_clk"	Master/Core clock, have to be >= 62.5 MHz for SS
--		operation and >= 30MHz for HS operation
--  "grf_clk"	Controller grf clk
--
--Required child node:
--A child node must exist to represent the core DWC3 IP block. The name of
--the node is not important. The content of the node is defined in dwc3.txt.
--
--Phy documentation is provided in the following places:
--Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml - USB2.0 PHY
--Documentation/devicetree/bindings/phy/phy-rockchip-typec.txt     - Type-C PHY
--
--Example device nodes:
--
--	usbdrd3_0: usb@fe800000 {
--		compatible = "rockchip,rk3399-dwc3";
--		clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
--			 <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_GRF>;
--		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "grf_clk";
--		#address-cells = <2>;
--		#size-cells = <2>;
--		ranges;
--		usbdrd_dwc3_0: dwc3@fe800000 {
--			compatible = "snps,dwc3";
--			reg = <0x0 0xfe800000 0x0 0x100000>;
--			interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
--			dr_mode = "otg";
--		};
--	};
--
--	usbdrd3_1: usb@fe900000 {
--		compatible = "rockchip,rk3399-dwc3";
--		clocks = <&cru SCLK_USB3OTG1_REF>, <&cru SCLK_USB3OTG1_SUSPEND>,
--			 <&cru ACLK_USB3OTG1>, <&cru ACLK_USB3_GRF>;
--		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "grf_clk";
--		#address-cells = <2>;
--		#size-cells = <2>;
--		ranges;
--		usbdrd_dwc3_1: dwc3@fe900000 {
--			compatible = "snps,dwc3";
--			reg = <0x0 0xfe900000 0x0 0x100000>;
--			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
--			dr_mode = "otg";
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-new file mode 100644
-index 000000000..681086fa6
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/rockchip/rk3328.dtsi b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+index 17709faf6..2bb666d35 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3328.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3328.dtsi
+@@ -987,6 +987,33 @@
+ 		status = "disabled";
+ 	};
+ 
++	usbdrd3: usb@ff600000 {
++		compatible = "rockchip,rk3328-dwc3";
++		clocks = <&cru SCLK_USB3OTG_REF>, <&cru SCLK_USB3OTG_SUSPEND>,
++			 <&cru ACLK_USB3OTG>;
++		clock-names = "ref_clk", "suspend_clk",
++			      "bus_clk";
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++		status = "disabled";
 +
-+title: Rockchip SuperSpeed DWC3 USB SoC controller
++		usbdrd_dwc3: usb@ff600000 {
++			compatible = "snps,dwc3";
++			reg = <0x0 0xff600000 0x0 0x100000>;
++			interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>;
++			dr_mode = "otg";
++			phy_type = "utmi_wide";
++			snps,dis_enblslpm_quirk;
++			snps,dis-u2-freeclk-exists-quirk;
++			snps,dis_u2_susphy_quirk;
++			snps,dis_u3_susphy_quirk;
++			snps,dis-del-phy-power-chg-quirk;
++			snps,dis-tx-ipgap-linecheck-quirk;
++			status = "disabled";
++		};
++	};
 +
-+maintainers:
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - rockchip,rk3399-dwc3
-+
-+  clocks:
-+    items:
-+      - description:
-+          Controller reference clock, must to be 24 MHz
-+      - description:
-+          Controller suspend clock, must to be 24 MHz or 32 KHz
-+      - description:
-+          Master/Core clock, must to be >= 62.5 MHz for SS
-+          operation and >= 30MHz for HS operation
-+      - description:
-+          Controller aclk_usb3_rksoc_axi_perf clock
-+      - description:
-+          Controller aclk_usb3 clock
-+      - description:
-+          Controller grf clock
-+
-+  clock-names:
-+    items:
-+      - const: ref_clk
-+      - const: suspend_clk
-+      - const: bus_clk
-+      - const: aclk_usb3_rksoc_axi_perf
-+      - const: aclk_usb3
-+      - const: grf_clk
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: usb3-otg
-+
-+  "#address-cells":
-+    const: 2
-+
-+  "#size-cells":
-+    const: 2
-+
-+  ranges: true
-+
-+patternProperties:
-+  "^usb@[a-f0-9]+$":
-+    type: object
-+
-+    $ref: "snps,dwc3.yaml"
-+
-+    description:
-+      A child node must exist to represent the core DWC3 IP block.
-+      The content of the node is defined in snps,dwc3.yaml.
-+
-+      Phy documentation is provided in the following places.
-+
-+      USB2.0 PHY
-+      Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-+
-+      Type-C PHY
-+      Documentation/devicetree/bindings/phy/phy-rockchip-typec.txt
-+
-+    unevaluatedProperties: false
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - clocks
-+  - clock-names
-+  - "#address-cells"
-+  - "#size-cells"
-+  - ranges
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3399-cru.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    usbdrd3_0: usb@fe800000 {
-+      compatible = "rockchip,rk3399-dwc3";
-+      clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
-+               <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_RKSOC_AXI_PERF>,
-+               <&cru ACLK_USB3>, <&cru ACLK_USB3_GRF>;
-+      clock-names = "ref_clk", "suspend_clk",
-+                    "bus_clk", "aclk_usb3_rksoc_axi_perf",
-+                    "aclk_usb3", "grf_clk";
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+      ranges;
-+      usbdrd_dwc3_0: usb@fe800000 {
-+        compatible = "snps,dwc3";
-+        reg = <0x0 0xfe800000 0x0 0x100000>;
-+        interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-+        dr_mode = "otg";
-+      };
-+    };
+ 	gic: interrupt-controller@ff811000 {
+ 		compatible = "arm,gic-400";
+ 		#interrupt-cells = <3>;
 -- 
 2.11.0
 
