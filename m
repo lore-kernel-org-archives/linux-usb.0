@@ -8,60 +8,61 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D9CC433E0
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87D9EC433DB
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C158264E8D
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:17:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5453B64EA8
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 19:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230094AbhBATRJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 14:17:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34226 "EHLO
+        id S232070AbhBATmD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 14:42:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbhBATRI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:17:08 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1054BC061573;
-        Mon,  1 Feb 2021 11:16:28 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id y8so5053965ede.6;
-        Mon, 01 Feb 2021 11:16:27 -0800 (PST)
+        with ESMTP id S231610AbhBATl6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 14:41:58 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC758C061573;
+        Mon,  1 Feb 2021 11:41:18 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id s11so20299324edd.5;
+        Mon, 01 Feb 2021 11:41:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
         bh=Vudz7Jq3CovoiOUmAZDu7pX1ATasm53I9HD8Bq8Ch+U=;
-        b=NOlicBRSikm/UtWBLnB71WogDHzgE/ktshfE/+H9dMxldgy4S53TuPHzO6DFWyp7om
-         Tkisu2JF0glF1rVvZId9xYSyvLmsVoHCNRBN4A2sWamEKXSTGHRpOpkTnTqDOg82Spy9
-         pa232VTfbmnzbh4ZjA/ivPBI2ayKjpEsXY9s8uPYIxWEwX7Om8Amt50CgB1BVWm+Qyva
-         G8O1tsMPBvl/eiaiy8vZU/ADdjoC18CYxDLE0oL8bXFuYlBJKp6/MYkGbhx85TmhqDIX
-         LtgCN4wW4Kj/LeFFca28hSmeRriTBQnbAAiUVRoeoysAIthTT9KGWtO18IjyUOazj5k1
-         FE9Q==
+        b=uRRkmtSb0gkM4AwKwMZrg0TnMdgcY+sOAQP5H0Fgg6DCU/zZ+a03NzSE+iRuYcT0zh
+         3TmaXRqIJijh6ZUxMY/gKL6NfU6RZAmNm2BO+9WnFeqcON1TgvuIG0R7mnYbWyV2aOwS
+         ccNJCoVu3YMd3prw7pg9vYw8Cc2+UJtNtT2WqLetlTKigTmmg91QPm3bDHVyd0E2i20s
+         +wD81KaOSpoinlgmaaW97zaW248dDcGmVyV4zIjpds20LwjuuIdo87Cm7OdUwG0DDTWQ
+         91Ya4IFiC/VjouZG7rHa0T60S93zO/AkxgDs6yfWE+fClD+Cag/g1QNheHM9+ZqFqFsd
+         RVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
         bh=Vudz7Jq3CovoiOUmAZDu7pX1ATasm53I9HD8Bq8Ch+U=;
-        b=o9YNdaMhCzBWNhOl/+65mKXiiJUhkJhJwa1y0vVCwMshmp46qIBL2YrcRLfhKDsf6X
-         SASiLgOLzqo4YY+3f5LZUyisSPAE3eHL3J0R3+HKvDhymzOvWasZgvFVqvaGMhC/1Q32
-         mX12DywpnC8gnEPfgcpfHj6BdOE1VsM6lhvdQA+5cw0Kt/6zKRS3aBZDjhsrWNVT9iZS
-         hClIY7sG6IHhyYn575pKWNEeQdHFCfXM/WVr2/fG+uVQOG8J8xYfikTbimBI574Qk/St
-         RXHiqNnQZDcd+TLdCl/hNmLq4qizVqQbJNaBO8H0SYxgUuw3ge8HVywAKsClySUgFi/3
-         Nkhw==
-X-Gm-Message-State: AOAM530CFUzmP/8dl32DWn/k9PwZV1bYcUpBEqJnMJZgQTxPiC4UMN99
-        mSQEB1nq93RQLCRN2dJW70U=
-X-Google-Smtp-Source: ABdhPJwj/wg6nbbgC4bHudj+wMwJo0zVmkxIcLcYyFNyKLt7bB/XHOd8IiYRotcGBgJyuBgFB5azcw==
-X-Received: by 2002:a50:fd0b:: with SMTP id i11mr11985392eds.387.1612206986770;
-        Mon, 01 Feb 2021 11:16:26 -0800 (PST)
+        b=evcQGXTfQlh7gR8f5z9nMh0vNATlKbUmThhQRtWTOwhqaG1sC7SeFExE+l0ry4ieAZ
+         WfO7kwT4vlBOtgV2WVknUWGS91oD4ykru/kfdf9JXeSTEq5uujf+cacYSSNhvV3WF+Qz
+         Fuv7qgySm/n+5v5uJ/8FoKvp1+MLTornAsMkvFNkS74GsIG+SXUz1SmLZG7aKEsZSSxo
+         2vJFgswuk66DLmaRjBOlDxNgYNRf/PwrZ+woCgksfnj+u2X4f8szPvd2TTlDhBOxqP68
+         FNKkXHxNR0am/aTlKbCUPSXwHchDe4xjHkeEGVq5/xcfB0pQNVs36r0k3zL3OuNAU+HO
+         aH3g==
+X-Gm-Message-State: AOAM532oHFTLk5QhBLKuVVn5t+Gh3ox7kDhg8S03ur1TA57+dujqNA8l
+        qp+XhLWYAgtEsr/8u338njU=
+X-Google-Smtp-Source: ABdhPJxSZTnKN9WR55MOnNEgcHmJn9O9hya7WEb4ex42obOcKRcFi5f4yDoWnP2PHvnNEchyZtNDKg==
+X-Received: by 2002:a05:6402:1bde:: with SMTP id ch30mr20541649edb.151.1612208477429;
+        Mon, 01 Feb 2021 11:41:17 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id a11sm8243630ejc.64.2021.02.01.11.16.25
+        by smtp.gmail.com with ESMTPSA id du6sm6702799ejc.78.2021.02.01.11.41.16
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Feb 2021 11:16:26 -0800 (PST)
+        Mon, 01 Feb 2021 11:41:16 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
-        linux-usb@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 Subject: [PATCH v1 1/5] dt-bindings: usb: convert rockchip,dwc3.txt to yaml
-Date:   Mon,  1 Feb 2021 20:16:15 +0100
-Message-Id: <20210201191619.32353-1-jbx6244@gmail.com>
+Date:   Mon,  1 Feb 2021 20:41:01 +0100
+Message-Id: <20210201194105.32673-1-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
