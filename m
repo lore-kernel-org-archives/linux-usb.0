@@ -2,162 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3082EC433DB
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 06:38:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E07EDC433E9
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 07:02:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E3E3464E2B
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 06:38:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8F6D64E31
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 07:02:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbhBAGij (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 01:38:39 -0500
-Received: from mailout2.samsung.com ([203.254.224.25]:59563 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231516AbhBAGUD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 01:20:03 -0500
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20210201061822epoutp026d5ae058bcf1350ed2f340aa387332fd~fi0D6bgXe0699706997epoutp02P
-        for <linux-usb@vger.kernel.org>; Mon,  1 Feb 2021 06:18:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20210201061822epoutp026d5ae058bcf1350ed2f340aa387332fd~fi0D6bgXe0699706997epoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1612160302;
-        bh=/gKgMicK2/d+7RHapjaLlXXe/213s+qKQEHFeVCiDa0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=gs2Eqm1it+UBJJRmKvrJyW+NC5j0gsXO6I+vXwPmStc7+6M01nMTz7SJVqa9XlBea
-         6tG/YUKLuK5pc9cH5VkUfAkAp6JuFFp1Z+1/wyPROI6907r7eG2NYDh2b5hVGldK3k
-         KDUYxq1krEdck9Xkgk9z8vg1R73nUr01xJOgxusQ=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
-        20210201061822epcas2p2af78c3eda718f01591645078f300e38d~fi0DjRlJO3100031000epcas2p2Y;
-        Mon,  1 Feb 2021 06:18:22 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.40.186]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4DTd6j2ss4z4x9Q2; Mon,  1 Feb
-        2021 06:18:21 +0000 (GMT)
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
-        epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        0D.E5.05262.C2D97106; Mon,  1 Feb 2021 15:18:20 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-        20210201061820epcas2p4ee9f0c9415c2157b6ebcb152625c2d2f~fi0BV_7_o0777207772epcas2p4f;
-        Mon,  1 Feb 2021 06:18:20 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20210201061820epsmtrp23b5ae3713cdcfa462a2315431aa947b6~fi0BVEN5H2931129311epsmtrp2d;
-        Mon,  1 Feb 2021 06:18:20 +0000 (GMT)
-X-AuditID: b6c32a47-1259fa800000148e-22-60179d2c6235
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        08.41.13470.B2D97106; Mon,  1 Feb 2021 15:18:19 +0900 (KST)
-Received: from ubuntu (unknown [12.36.155.120]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20210201061819epsmtip18a5bfe678b5f2c4de91c098ac373cc7a~fi0BKdoA82739327393epsmtip1c;
-        Mon,  1 Feb 2021 06:18:19 +0000 (GMT)
-Date:   Mon, 1 Feb 2021 15:06:46 +0900
-From:   Jung Daehwan <dh10.jung@samsung.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Wesley Cheng <wcheng@codeaurora.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+        id S231740AbhBAHB2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 02:01:28 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:54256 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230370AbhBAHBQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 02:01:16 -0500
+X-UUID: b2f6422f227e43cd86d15f20426e9095-20210201
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=ksWDjdJ48Btfk8ddOv3fAwt5z0f3FlnUo8s+iKrtJGk=;
+        b=ER6sv75y4sxH0ddu1H4Xr56vRdTB8ZUoyZNSVQOhoB39J429omyvbTvq8F9JPZwWehVKjfTWzdXEnca4Z3Nq6dbVE2h4Ft4EHYKTx9j1Ninh0SFNhik0RB/efXyuxCi57fBhrgNzalMSNqmOb80cc+R5zG60LQ6+tyyaFnwdsQU=;
+X-UUID: b2f6422f227e43cd86d15f20426e9095-20210201
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1950401544; Mon, 01 Feb 2021 15:00:28 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 1 Feb 2021 15:00:26 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 1 Feb 2021 15:00:26 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "supporter:USB SUBSYSTEM open list:DESIGNWARE USB3 DRD IP DRIVER" 
-        <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: Re: usb: dwc3: gadget: skip pullup and set_speed after suspend
-Message-ID: <20210201060646.GA188943@ubuntu>
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Min Guo <min.guo@mediatek.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH next v3 06/16] dt-bindings: usb: mtk-xhci: add optional assigned clock properties
+Date:   Mon, 1 Feb 2021 15:00:06 +0800
+Message-ID: <20210201070016.41721-6-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210201070016.41721-1-chunfeng.yun@mediatek.com>
+References: <20210201070016.41721-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <20210201054539.GA188887@ubuntu>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnk+LIzCtJLcpLzFFi42LZdljTVFdnrniCwYoWCYtjbU/YLZoXr2ez
-        uLxrDpvFomWtzBarFhxgt1jbNIvNgc3jcl8vk8emVZ1sHvvnrmH32LL/M6PH501yAaxROTYZ
-        qYkpqUUKqXnJ+SmZeem2St7B8c7xpmYGhrqGlhbmSgp5ibmptkouPgG6bpk5QBcoKZQl5pQC
-        hQISi4uV9O1sivJLS1IVMvKLS2yVUgtScgoMDQv0ihNzi0vz0vWS83OtDA0MjEyBKhNyMm5c
-        n8JaMJerYvvkYywNjPs5uhg5OCQETCR275DpYuTiEBLYwSixfOpXVgjnE6PE7tkdLBDON0aJ
-        ByefsHcxcoJ1PNpzBcwWEtjLKNFxSAOi6AmjxIlVPWAJFgEViV0dTWwgNpuAlsS9HyeYQWwR
-        AU+J6ws+s4LYzAK9TBIPN5qD2MIC7hITb99lAbF5BXQkVr2azwZhC0qcnPkELM4poCvRPuMX
-        G8jZokDzXx2sB9krIfCTXWLvrmVQx7lILH55nhHCFpZ4dXwLVFxK4vO7vWwQL5dLLJpvB9Hb
-        wSix5tNZqHpjiVnP2hkhbsuQmPdzPgtEvbLEkVssEGE+iY7Df9khwrwSHW1CEJ3KEtMvT2CF
-        sCUlDr4+xwxR4iFxcp0WJKRuMkpceCM+gVF+FpK/ZiHZBWHrSCzY/YltFlA3s4C0xPJ/HBCm
-        psT6XfoLGFlXMYqlFhTnpqcWGxUYI0f0JkZwytRy38E44+0HvUOMTByMhxglOJiVRHhPTRJL
-        EOJNSaysSi3Kjy8qzUktPsRoCoykicxSosn5wKSdVxJvaGpkZmZgaWphamZkoSTOW2zwIF5I
-        ID2xJDU7NbUgtQimj4mDU6qBSSrL5fOa3btajBaULJvKkLpOa251J++h2OQpzpycOts2cSgt
-        uT7hbYR2wtPn2Zuer/7lukNme/2MqLnOhpfPOE7MMwh2mrTUjeH41x+HjOUOfugrS/24P7BF
-        el/Zuwff8na9TN8dzLih+UTV9vzP7zv1s0psr+y6EHLKrvXu29ev/lpHh/J9mO3Cv6pwr773
-        /hPvl2eWCKZwpJmu2ZHb4X3r2Lqzif83lfAt576WWi5rOFHHhNGh7Z5JVR6HpefVfR/15zV3
-        2M/wf7zCPHqLnc8vrftb8k5EX+Bl2y/OYVL4Lf3epHkfVpbeFuY7+Z3/bZ7Vkw/MHZ8cBW5G
-        P1OaLv7Z/t7DxnzGTwW5locfpCuxFGckGmoxFxUnAgAotogvIgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBLMWRmVeSWpSXmKPExsWy7bCSnK72XPEEg12frSyOtT1ht2hevJ7N
-        4vKuOWwWi5a1MlusWnCA3WJt0yw2BzaPy329TB6bVnWyeeyfu4bdY8v+z4wenzfJBbBGcdmk
-        pOZklqUW6dslcGUsnH2fqeAue8Xvj/+ZGxhnsHUxcnJICJhIPNpzhb2LkYtDSGA3o0TbwQZG
-        iISkxNK5N9ghbGGJ+y1HWEFsIYFHjBIHZ3GD2CwCKhK7OprABrEJaEnc+3GCGcQWEfCUuL7g
-        MyvIUGaBfiaJXxcugDULC7hLTLx9lwXE5hXQkVj1aj4bxObbjBL9e3ewQSQEJU7OfAJWxAw0
-        9ca/l0xdjBxAtrTE8n8cIGFOAV2J9hm/2EDCokBHvDpYP4FRcBaS5llImmchNC9gZF7FKJla
-        UJybnltsWGCYl1quV5yYW1yal66XnJ+7iREc+FqaOxi3r/qgd4iRiYPxEKMEB7OSCO+pSWIJ
-        QrwpiZVVqUX58UWlOanFhxilOViUxHkvdJ2MFxJITyxJzU5NLUgtgskycXBKNTCdvNgrpW7I
-        3P+B8aiw8ce991z+TV/bPYHhYu0SWecSx/d9sn2N9u+7bm14OW1jf+39h0e3l6zxeuPkvOZf
-        e0F04DXDjJjE/o+awasLrnp1s/YF3J6TEyLLfjtN6prEpV8hMlub37hcfPZ2nb3qyWtVxYsT
-        A06EbGO/nPvt2ALnk4teSUwuuTzZf3+mZ0W8f8+f46tEQ+R3/xOcdybN6NNsdVcvoWNmAQL/
-        CrO6t2SxSNz74F/odiG/Z90NNR3Wxr8m0+vbAoXyF2ydp5/62/PVAY6tMfnqL+yusdxO4hIL
-        mH+7ZfkWpQx/zb33FLLOLBfy2dUY1TgzwvWSsOkjrlqp43qsU/+aLGpdscfpSaESS3FGoqEW
-        c1FxIgBB1Q696wIAAA==
-X-CMS-MailID: 20210201061820epcas2p4ee9f0c9415c2157b6ebcb152625c2d2f
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----dZHoiG3rfwxb_Py8wGLYailixDOP787k4OKmtNPLilWg7srF=_804b8_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610
-References: <CGME20210120035123epcas2p2048f6d9896bd21f19d939a56fe0b6610@epcas2p2.samsung.com>
-        <1611113968-102424-1-git-send-email-dh10.jung@samsung.com>
-        <87ft2qgxle.fsf@kernel.org> <20210201054539.GA188887@ubuntu>
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 90453647E3F7F6ACB7CF83D112EDEDFBD61840F07330ADBCDC51CC288D4D823A2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-------dZHoiG3rfwxb_Py8wGLYailixDOP787k4OKmtNPLilWg7srF=_804b8_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+QWRkIG9wdGlvbmFsIHByb3BlcnR5ICJhc3NpZ25lZC1jbG9jayIgYW5kICJhc3NpZ25lZC1jbG9j
+ay1wYXJlbnRzIg0KdXNlZCBieSBtdDc2MjkuDQoNClNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1
+biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0KdjM6IG5vIGNoYW5nZXMNCnYyOiBz
+ZXBhcmF0ZSBjb21wYXRpYmxlIG91dCBvZiB0aGUgcGF0Y2gNCi0tLQ0KIC4uLi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL3VzYi9tZWRpYXRlayxtdGsteGhjaS55YW1sICAgICAgICB8IDggKysrKysrKysN
+CiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL21lZGlhdGVrLG10ay14aGNpLnlhbWwgYi9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL21lZGlhdGVrLG10ay14aGNpLnlh
+bWwNCmluZGV4IGEzODE3ZjNhZjU5ZC4uNWViOGQ3Y2Q4MTU1IDEwMDY0NA0KLS0tIGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9tZWRpYXRlayxtdGsteGhjaS55YW1sDQor
+KysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL21lZGlhdGVrLG10ay14
+aGNpLnlhbWwNCkBAIC02Nyw2ICs2NywxNCBAQCBwcm9wZXJ0aWVzOg0KICAgICAgIC0gY29uc3Q6
+IGRtYV9jaw0KICAgICAgIC0gY29uc3Q6IHhoY2lfY2sNCiANCisgIGFzc2lnbmVkLWNsb2NrczoN
+CisgICAgbWluSXRlbXM6IDENCisgICAgbWF4SXRlbXM6IDUNCisNCisgIGFzc2lnbmVkLWNsb2Nr
+LXBhcmVudHM6DQorICAgIG1pbkl0ZW1zOiAxDQorICAgIG1heEl0ZW1zOiA1DQorDQogICBwaHlz
+Og0KICAgICBkZXNjcmlwdGlvbjoNCiAgICAgICBMaXN0IG9mIGFsbCBQSFlzIHVzZWQgb24gdGhp
+cyBIQ0QsIGl0J3MgYmV0dGVyIHRvIGtlZXAgUEhZcyBpbiBvcmRlcg0KLS0gDQoyLjE4LjANCg==
 
-On Sun, Jan 24, 2021 at 05:31:57PM +0200, Felipe Balbi wrote:
-> 
-> Hi,
-> 
-> Daehwan Jung <dh10.jung@samsung.com> writes:
-> > Sometimes dwc3_gadget_pullup and dwc3_gadget_set_speed are called after
-> > entering suspend. That's why it needs to check whether suspend
-> >
-> > 1. dwc3 sends disconnect uevent and turn off. (suspend)
-> > 2. Platform side causes pullup or set_speed(e.g., adbd closes ffs node)
-> > 3. It causes unexpected behavior like ITMON error.
-> 
-> please collect dwc3 trace events showing this problem.
-> 
-> -- 
-> balbi
-
-Hi, balbi
-
-I'm sorry for late reply. I pulled in belo patch and that issue didn't occur
-
-usb: dwc3: gadget: Restart DWC3 gadget when enabling pullup
-
-@ Wesley cheng
-But, I think it needs to modify pm_rumtime_put to pm_runtime_put_sync_suspend
-for syncronization. pm_rumtime_put calls rumtime_idle not runtime_suspend
-Please check it.
-
-usb: dwc3: gadget: Allow runtime suspend if UDC unbinded
-
-Best Regards,
-Jung Daehwan
-
-------dZHoiG3rfwxb_Py8wGLYailixDOP787k4OKmtNPLilWg7srF=_804b8_
-Content-Type: text/plain; charset="utf-8"
-
-
-------dZHoiG3rfwxb_Py8wGLYailixDOP787k4OKmtNPLilWg7srF=_804b8_--
