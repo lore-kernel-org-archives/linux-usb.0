@@ -2,128 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6717FC433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 19:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E26C433E9
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 19:45:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38BAC64E60
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 19:42:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA46F64E56
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 19:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232947AbhBBTlf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 14:41:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36467 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233318AbhBBNym (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 08:54:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612273993;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RXWyGsw/g+kXDg92dby3YWd7Rwh1t4c3WfYN8+M0r30=;
-        b=NOQfMfycVZhtOPr8sVf8d/EZ1ZT5GVL3RHSMEPWh7GFCZ/guVCbsHV5Dpxz07bu1xz46mp
-        grnXxopgUo3daajA9mAVf9uNmwuX1sJXOZk1MHsx/ewZ0Q7iP+KaczVpMH7Fv2TQVi73vm
-        CdOLFDywsr8jcM+nmfcXSqcFDP1Q/d4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-mJJAjyy0NLyiR55smz7OMA-1; Tue, 02 Feb 2021 08:53:11 -0500
-X-MC-Unique: mJJAjyy0NLyiR55smz7OMA-1
-Received: by mail-ej1-f70.google.com with SMTP id n25so9988683ejd.5
-        for <linux-usb@vger.kernel.org>; Tue, 02 Feb 2021 05:53:11 -0800 (PST)
+        id S234387AbhBBTpA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 14:45:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239969AbhBBTov (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 14:44:51 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B28C06174A
+        for <linux-usb@vger.kernel.org>; Tue,  2 Feb 2021 11:44:10 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id y10so8821316plk.7
+        for <linux-usb@vger.kernel.org>; Tue, 02 Feb 2021 11:44:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=be7aBeIY/8GVSevF3q1F/dqUWCcQlFIIlaYYOVflylo=;
+        b=sdNBl36acOZEVoIf9GpSfHHlHwntB72XtuUKJhldfLmaYNcslLPkajfu93vSPFEa02
+         nL6lt8tMT27Fa9S8KDIVWVenltIyVKMZcCh8N79IjNDz1rvM8ZoJLVRAOn/jvHMibObh
+         J5XsmUTm2FpHJczthvW3mwhO2DH72u32qnCr7SPWnYSS/a9Erlb5D2wrXbOrPpVMy135
+         i+lqTR24UiEODyseZYNe+zIyL/Qz4fxMx/j7sMQs1/GqNuzryXJsRVCQPZrNZ9/1M2nG
+         x4GU7Q8f8kw7C3VhYweFsf2ktxHD9erANuA2g/Cuj8sm+KLdl7/RmA5vKnIu+Bm6qT11
+         BE8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RXWyGsw/g+kXDg92dby3YWd7Rwh1t4c3WfYN8+M0r30=;
-        b=c71bYWeUcHvJ5WHF341/+a9eplkwtdV74a7/cC4Ci64qHkAodKJsLkO1qv3znLUd6Q
-         VGAA0z1rk3Sy1ZqMCl3AIVKfpAoTY8MTqnmyQ/11flnBRi+K2qBn8MKVEECBuhF7d1rS
-         CPEpNtU/M1SFvhnE/uZFQEGgaEJaYM2O8DEOudUZS5fWcMHB8SMlR2GzgOVBBUtjg6gI
-         m42tf/3VwK/dl1b5enmkOmT1XcRdIdvtedZ+IJKuOxYLjGh8TUKJOpJJMbQGCzW/HE8Z
-         CgdJeOYJwyP3BXR4VBGN2fxgq9GOFtJ86LETsTBGXqX/S8tzkbqbiab21cKqAgyZLy3l
-         9prA==
-X-Gm-Message-State: AOAM531h4wcfUVSdioVxO0wLEk7dVF5+B2Orwwq/q48uKOMBRT/iN1as
-        BzfMW5kkwP9YH2VIjn4BL/OeP71/y3tT6oQeF/xSWpA8s1lmLPsdoCHvI+tt/QvH1TRtcuWBBiD
-        1OCY1kmXqkMHunQr7HzYwZxYdPxaSKBR1S2VWqRqLgGiWYHFKBNlfWvMx2KSbg2yppdX1BZe0
-X-Received: by 2002:a05:6402:202a:: with SMTP id ay10mr3009434edb.93.1612273990012;
-        Tue, 02 Feb 2021 05:53:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQDeS/pPYAoLQFBALZHEC5WdFDmOL6+GAB9vty5Ldgr6v4dvAH9SHZ7dAbwCe4h7PJkiF0kQ==
-X-Received: by 2002:a05:6402:202a:: with SMTP id ay10mr3009417edb.93.1612273989802;
-        Tue, 02 Feb 2021 05:53:09 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
-        by smtp.gmail.com with ESMTPSA id s1sm9640961ejx.25.2021.02.02.05.53.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Feb 2021 05:53:09 -0800 (PST)
-Subject: Re: [PATCH 6/6] xhci: ext-caps: Use software node API with the
- properties
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20210202125032.64982-1-heikki.krogerus@linux.intel.com>
- <20210202125032.64982-7-heikki.krogerus@linux.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9ca885a2-4d42-58d8-3724-52c409eecf05@redhat.com>
-Date:   Tue, 2 Feb 2021 14:53:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=be7aBeIY/8GVSevF3q1F/dqUWCcQlFIIlaYYOVflylo=;
+        b=r3Ni8orIKEH61I5jhG4KpMJg2pfmqzNTE5b37i7niNSqU8tMeL47PQMy6WkBZHFLKm
+         mF6I2h3GIJ0JwtZm8GbFwkbaS3YX7G8/i3XvaTHhuH+eclGMbsT/zg7YD3+lcPSmo0X/
+         khgQ/jeP6gp1Ln/+aHtz9sZngcQvf+9U9za1dscwq03PwQ4fZkCpQDj5TEnWpTe19zbC
+         fuVjuNhYMZk/y8Zg6yLCNQ9X9qJDqaJL/isvYA5dyAHO5zmyWfaUplpGFqKFN0WDrKln
+         L7cnUIwGZA3jWw7Id8Rn+kslLwOMLvciUbcpbRrjijTG3L6FlF5GTWCwI5wjmEzYcocr
+         1cUg==
+X-Gm-Message-State: AOAM530ygcSzeCnzqcZP/VlL5mVNCKLZoR2Xo/j74cWBD7/NOiGWOjcY
+        d7AkNd6fxbZVWwQSO7bzbQwklg==
+X-Google-Smtp-Source: ABdhPJx1/aUcWTdTWq0Qh9m8KnI3edPhARgNztAGZ/DGRuijGaT4Qj6RIGSY7bSAYZiJB6f1Y+erFg==
+X-Received: by 2002:a17:90a:4611:: with SMTP id w17mr6042809pjg.18.1612295049928;
+        Tue, 02 Feb 2021 11:44:09 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:f693:9fff:fef4:fc72])
+        by smtp.gmail.com with ESMTPSA id r22sm23075435pgu.68.2021.02.02.11.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 11:44:08 -0800 (PST)
+Date:   Tue, 2 Feb 2021 11:44:03 -0800
+From:   Benson Leung <bleung@google.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Benson Leung <bleung@chromium.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Kyle Tso <kyletso@google.com>
+Subject: Re: [PATCH v2] platform/chrome: cros_ec_typec: Fix call to
+ typec_partner_set_pd_revision
+Message-ID: <YBmrg+hxqNQkUUPg@google.com>
+References: <20210202164531.3982778-1-bleung@chromium.org>
+ <YBmFo5L1eeUwCJ9B@kroah.com>
+ <CANLzEkuFgLK9saqHhHdrKhOjsiG001d1N9EYXsnohoMPHsAPGg@mail.gmail.com>
+ <YBmaLi5hhEj1zy8J@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20210202125032.64982-7-heikki.krogerus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2wqZXJn6hDALmgK+"
+Content-Disposition: inline
+In-Reply-To: <YBmaLi5hhEj1zy8J@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
 
-On 2/2/21 1:50 PM, Heikki Krogerus wrote:
-> This replaces the platform_device_add_properties() call with
-> the safer device_create_managed_software_node() that does
-> exactly the same, but can also guarantee that the lifetime
-> of the node that is created for the device is tied to the
-> lifetime of device itself.
-> 
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
+--2wqZXJn6hDALmgK+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, patch looks good to me:
+On Tue, Feb 02, 2021 at 07:30:06PM +0100, Greg KH wrote:
+> On Tue, Feb 02, 2021 at 09:52:13AM -0800, Benson Leung wrote:
+> > Hi Greg,
+> >=20
+> > On Tue, Feb 2, 2021 at 9:02 AM Greg KH <gregkh@linuxfoundation.org> wro=
+te:
+> > >
+> > > On Tue, Feb 02, 2021 at 08:45:31AM -0800, Benson Leung wrote:
+> > > > typec_partner_set_pd_revision returns void now.
+> > > >
+> > > > Fixes: cefc011f8daf ("platform/chrome: cros_ec_typec: Set Partner P=
+D revision from status")
+> > > > Signed-off-by: Benson Leung <bleung@chromium.org>
+> > > > ---
+> > > >  drivers/platform/chrome/cros_ec_typec.c | 6 +-----
+> > > >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > >
+> > > What changed from "v1"?
+> > >
+> >=20
+> > Just the "Fixes" line in the commit message.
+>=20
+> That should always go below the --- line, remember, some of us deal with
+> hundreds of patches a day :)
+>=20
+> I'll go take this...
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Thanks so much, Greg!
 
-Regards,
+Benson
 
-Hans
+>=20
+> thanks,
+>=20
+> greg k-h
 
+--=20
+Benson Leung
+Staff Software Engineer
+Chrome OS Kernel
+Google Inc.
+bleung@google.com
+Chromium OS Project
+bleung@chromium.org
 
+--2wqZXJn6hDALmgK+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> ---
->  drivers/usb/host/xhci-ext-caps.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/host/xhci-ext-caps.c b/drivers/usb/host/xhci-ext-caps.c
-> index 3351d07c431f1..7a4c2c4ad50e8 100644
-> --- a/drivers/usb/host/xhci-ext-caps.c
-> +++ b/drivers/usb/host/xhci-ext-caps.c
-> @@ -54,7 +54,8 @@ static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
->  	}
->  
->  	if (pci->device == PCI_DEVICE_ID_INTEL_CHERRYVIEW_XHCI) {
-> -		ret = platform_device_add_properties(pdev, role_switch_props);
-> +		ret = device_create_managed_software_node(&pdev->dev, role_switch_props,
-> +							  NULL);
->  		if (ret) {
->  			dev_err(dev, "failed to register device properties\n");
->  			platform_device_put(pdev);
-> 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCYBmrgwAKCRBzbaomhzOw
+wrbtAP0cTRnK7uxA4/uovfcaIbD41XJv7FBIOjtwyY7s75QBlAEA0Zb3xNXFZNp2
+fFkEELg2P2sRLhCj2T69DXlKTPm9IwM=
+=geEL
+-----END PGP SIGNATURE-----
+
+--2wqZXJn6hDALmgK+--
