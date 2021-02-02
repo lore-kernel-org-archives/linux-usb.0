@@ -2,141 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F19D4C433E9
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC256C43333
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:28:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5F6364F76
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:28:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84DA464E9B
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:28:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234212AbhBBQ1X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 11:27:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51228 "EHLO
+        id S236406AbhBBQ2B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 11:28:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236348AbhBBQZD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 11:25:03 -0500
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82313C061797
-        for <linux-usb@vger.kernel.org>; Tue,  2 Feb 2021 08:23:09 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id h192so23353063oib.1
-        for <linux-usb@vger.kernel.org>; Tue, 02 Feb 2021 08:23:09 -0800 (PST)
+        with ESMTP id S236188AbhBBQ0G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 11:26:06 -0500
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52DC0C061786;
+        Tue,  2 Feb 2021 08:25:25 -0800 (PST)
+Received: by mail-ot1-x332.google.com with SMTP id k8so20362942otr.8;
+        Tue, 02 Feb 2021 08:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nmtKOztRPU1FHLWkkh8andN7amnZAPXC6AXlDwUJfkM=;
-        b=xNfXP/GMRfWtyYmR9X6j3Nh5jpiQWgvYPDyLx6wo9BR1leBdbgF/GRp292X0xCbDLo
-         B8cDJzU8sTUW6RmBsm847N2mLoDOnrdopQyxp1b4Jr7gDGa+jXrvkQxO7rcu6inHKgdL
-         tavjCt2VYeCDmdZL59OfjHZ9FxvBYU7rjqgTHt+M+kAn0EvcsDV1w2wOtQUkpD7Lu5wr
-         mjW/+i2cCdzKU47Ya9YSlwSiVtGWlf1C3AsZSAili3iYsHJrRDhRG4k8I3jaXVG+SqGX
-         +2Tal4E0nSdNaANLcxedEHeXD6p4qCN4crrT8EMJqzkaijuMhmTkN5FRbkzg4muxKKDt
-         achw==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8qpjCVpfsHX2AIFNw0saiuCmrgZLB2nZof3OkZsMUIY=;
+        b=MtjQLpqDg//C4cmpaGz1rR6AjkA8JnaS8KEv9+oN/fIOja7Yf8iqWD/vp6xuvINFUL
+         6fHThocMr9aFGiFaFliksB8f/LPsoWYtOxQaon7CGwIvT6K6oSbh0qm4PiqcFOoYp6pT
+         nJRr70SIyca3J3yyEqdfbKbiHLPXMGdAq7WYAOd8LDsjhKrNx5CqVb4nSzmqw35Px6K1
+         f3nJBUAV1GsNY3vEhtrERGW+Ip/9Gu1P+zstBg+deHan+f5MK8t+fvX8fqS+j84B30Yw
+         HNtQO4OA/6KOL7XZ646AvOPH4N4glsOU3wi3+yAkbCjF5uejReVeW1hQetSVJeQmn2gA
+         Lidw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nmtKOztRPU1FHLWkkh8andN7amnZAPXC6AXlDwUJfkM=;
-        b=OfergFkb2A+nLF2h6io4s0fDbWfw9r/VtyIZ+9T0RP0OXfaNoVOvlT90VUeqeC0wpA
-         x/s0tt+RmzlmsqKI3XFHsQd6We/JOW/dR/GnXvf6kafKr3DCvxA+kYk+iIKGgMiXwzft
-         TROK3GvRvWwNlVXqs98v+wVhDnQ+5K/agVx2qNut1/5+H2CubHmsHXI4hSAz+hdJZVSw
-         sYvdTmMXOEDd/AcDSZz4kTHUBsep0p0x0eGTwV94Ms+YvkYgBXg117YRqnzl0BGRSG36
-         KTO3Iww5VOazbd1Nlfn7bQ0I+dKgRYs5khnn4M7fMLuTcOv44d6LhUn2LCQNQy0BOfpn
-         NCJQ==
-X-Gm-Message-State: AOAM531nBvxzeD4UCxLtkYv12PiFY94JdF4k+0D6h5CFyJRlTc03Qdt4
-        i1zBTXrRy35ILAXKEyWFbmpMAg==
-X-Google-Smtp-Source: ABdhPJztV5fpvulQl1IAaifHUQhhM0mV4tu9adu6SEVgj9qRz3WaVUCEDUhOOYl0wj0Dwz1yPDqKSA==
-X-Received: by 2002:aca:308a:: with SMTP id w132mr3114257oiw.69.1612282988874;
-        Tue, 02 Feb 2021 08:23:08 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id q3sm4239695oih.35.2021.02.02.08.23.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 08:23:08 -0800 (PST)
-Date:   Tue, 2 Feb 2021 10:23:06 -0600
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Wesley Cheng <wcheng@codeaurora.org>
-Cc:     agross@kernel.org, balbi@kernel.org, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v7 4/5] usb: dwc3: dwc3-qcom: Enable tx-fifo-resize
- property by default
-Message-ID: <YBl8aszdk1xgbg1i@builder.lan>
-References: <1611895604-4496-1-git-send-email-wcheng@codeaurora.org>
- <1611895604-4496-5-git-send-email-wcheng@codeaurora.org>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8qpjCVpfsHX2AIFNw0saiuCmrgZLB2nZof3OkZsMUIY=;
+        b=GevoANV9AEH/kobB7o+jk40u+zsTrd3MOUMRQzg3AOxi2DqPKzJ3bZzweG2EJo9tyh
+         XPnvOGXMNjB+2eKvIaS6BMDDZ6ALT0OZXuTV1JMt/zxXrx5zRQQO4PbYcHbCjDMVvke8
+         BCmSVr6CGApHwoc9NHx1SZ/MR4ms/LYfwYe7CDt+xBw0lYMOIBSEC4t/us+7zYwbLzFm
+         tR4zc3rpAZ769q7o6iV/pmoogfnLy/ln1Uuhcg2789cuVOS9awqFfEGt44B41sGFjrC2
+         sZlbHMpfiqv2uwAeikn1msffjcngmJEEgV2aTX672tAqr7taxTe5nsZ2UA/xDMUpzQd9
+         FM1Q==
+X-Gm-Message-State: AOAM531VEz6JNSeFaKAf50hEA0PpwVBT0PGc+fZqoy3KDol/opUjl8uA
+        SGY4FmCTV+yxN5YCeg9JfIQ=
+X-Google-Smtp-Source: ABdhPJwV38TS/t9OQuN2ujZdvcAJZboQB6ox/icmMdcFbUXTO+CxYZnHPJGagJYPDbxlUiJx4ftr7Q==
+X-Received: by 2002:a05:6830:1db8:: with SMTP id z24mr16146305oti.50.1612283124685;
+        Tue, 02 Feb 2021 08:25:24 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id r1sm4882811ooq.16.2021.02.02.08.25.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 02 Feb 2021 08:25:24 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 2 Feb 2021 08:25:22 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] usb: typec: tcpci: Add Callback to Usb
+ Communication capable partner
+Message-ID: <20210202162522.GB159455@roeck-us.net>
+References: <20210202003101.221145-1-badhri@google.com>
+ <20210202003101.221145-2-badhri@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1611895604-4496-5-git-send-email-wcheng@codeaurora.org>
+In-Reply-To: <20210202003101.221145-2-badhri@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu 28 Jan 22:46 CST 2021, Wesley Cheng wrote:
-
-> In order to take advantage of the TX fifo resizing logic, manually add
-> these properties to the DWC3 child node by default.  This will allow
-> the DWC3 gadget to resize the TX fifos for the IN endpoints, which
-> help with performance.
+On Mon, Feb 01, 2021 at 04:31:00PM -0800, Badhri Jagan Sridharan wrote:
+> The USB Communications Capable bit indicates if port
+> partner is capable of communication over the USB data lines
+> (e.g. D+/- or SS Tx/Rx). TCPM passes this information for chip specific
+> operations.
 > 
-> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+
 > ---
->  drivers/usb/dwc3/dwc3-qcom.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/usb/typec/tcpm/tcpci.c | 9 +++++++++
+>  drivers/usb/typec/tcpm/tcpci.h | 6 ++++++
+>  2 files changed, 15 insertions(+)
 > 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index d803ee9..4ea6be3 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -564,6 +564,7 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index f676abab044b..a27deb0b5f03 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -255,6 +255,14 @@ static int tcpci_set_polarity(struct tcpc_dev *tcpc,
+>  			   TCPC_TCPC_CTRL_ORIENTATION : 0);
+>  }
 >  
->  static const struct property_entry dwc3_qcom_acpi_properties[] = {
->  	PROPERTY_ENTRY_STRING("dr_mode", "host"),
-> +	PROPERTY_ENTRY_BOOL("tx-fifo-resize"),
-
-I checked the ACPI tables for Lenovo Miix 630, Yoga C630 and Flex 5G and
-neither one has this property specified. So while we could just add this
-here, it would have to be done in collaboration with the people who
-actually define these. And as said before, I believe we want this to
-always be enabled.
-
->  	{}
+> +static void tcpci_set_partner_usb_comm_capable(struct tcpc_dev *tcpc, bool capable)
+> +{
+> +	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> +
+> +	if (tcpci->data->set_partner_usb_comm_capable)
+> +		tcpci->data->set_partner_usb_comm_capable(tcpci, tcpci->data, capable);
+> +}
+> +
+>  static int tcpci_set_vconn(struct tcpc_dev *tcpc, bool enable)
+>  {
+>  	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> @@ -720,6 +728,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
+>  	tcpci->tcpc.set_bist_data = tcpci_set_bist_data;
+>  	tcpci->tcpc.enable_frs = tcpci_enable_frs;
+>  	tcpci->tcpc.frs_sourcing_vbus = tcpci_frs_sourcing_vbus;
+> +	tcpci->tcpc.set_partner_usb_comm_capable = tcpci_set_partner_usb_comm_capable;
+>  
+>  	if (tcpci->data->auto_discharge_disconnect) {
+>  		tcpci->tcpc.enable_auto_vbus_discharge = tcpci_enable_auto_vbus_discharge;
+> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> index c3c7d07d9b4e..57b6e24e0a0c 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.h
+> +++ b/drivers/usb/typec/tcpm/tcpci.h
+> @@ -161,6 +161,10 @@ struct tcpci;
+>   *		Optional; Enables TCPC to autonously discharge vbus on disconnect.
+>   * @vbus_vsafe0v:
+>   *		optional; Set when TCPC can detect whether vbus is at VSAFE0V.
+> + * @set_partner_usb_comm_capable:
+> + *		Optional; The USB Communications Capable bit indicates if port
+> + *		partner is capable of communication over the USB data lines
+> + *		(e.g. D+/- or SS Tx/Rx). Called to notify the status of the bit.
+>   */
+>  struct tcpci_data {
+>  	struct regmap *regmap;
+> @@ -175,6 +179,8 @@ struct tcpci_data {
+>  				  enum typec_cc_status cc);
+>  	int (*set_vbus)(struct tcpci *tcpci, struct tcpci_data *data, bool source, bool sink);
+>  	void (*frs_sourcing_vbus)(struct tcpci *tcpci, struct tcpci_data *data);
+> +	void (*set_partner_usb_comm_capable)(struct tcpci *tcpci, struct tcpci_data *data,
+> +					     bool capable);
 >  };
 >  
-> @@ -634,6 +635,7 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
->  	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
->  	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
->  	struct device		*dev = &pdev->dev;
-> +	struct property		*prop;
->  	int			ret;
->  
->  	dwc3_np = of_get_child_by_name(np, "dwc3");
-> @@ -642,6 +644,14 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
->  		return -ENODEV;
->  	}
->  
-> +	prop = kzalloc(sizeof(*prop), GFP_KERNEL);
-> +	if (prop) {
-> +		prop->name = "tx-fifo-resize";
-> +		ret = of_add_property(dwc3_np, prop);
-
-Can't we come up with a way where the platform driver enables this on
-the core driver without modifying DT?
-
-Regards,
-Bjorn
-
-> +		if (ret < 0)
-> +			dev_info(dev, "unable to add tx-fifo-resize prop\n");
-> +	}
-> +
->  	ret = of_platform_populate(np, NULL, NULL, dev);
->  	if (ret) {
->  		dev_err(dev, "failed to register dwc3 core - %d\n", ret);
+>  struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data);
 > -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
+> 2.30.0.365.g02bc693789-goog
 > 
