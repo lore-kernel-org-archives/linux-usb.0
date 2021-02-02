@@ -2,74 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FA8C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A8F8C433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D08C64DDD
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:35:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 017B064DDD
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:35:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231751AbhBBHfv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 02:35:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55892 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229920AbhBBHfj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Feb 2021 02:35:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id BA73564DDD
-        for <linux-usb@vger.kernel.org>; Tue,  2 Feb 2021 07:34:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612251298;
-        bh=1MYPBTJzheCviQxechVGUl36Dh6esNgoCi7dMzBUb1w=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=HhQCBm3rsDA0S4udOO8WW9WWc9KjmccAXl/5F3Xb94TWyFnAi7j5xgY9QdLF4cgTS
-         b3nO45WXd+QybRHqyyElYRZutTXFjn2y6MwK7WUwzu3kHBG47IMm2YbU7H9K/auDiB
-         vCfAV8MnZafs8t9lybrYtjyBd/dIGu6sb0AJR/elthCLx2nDvVUfs+2UMpirW5bzfF
-         8h1JVabbd6EXiiEdIxBqoQX0qvPaJMmc68Wk8sFL+kzGaLZL7bKyz69GM9ADevGSkB
-         pNMFwj1j6YBvi4KdF8XlDzu/qxdKWXf2X2EPFP+koQseFCLYZsEydd6d4avnPMxP1d
-         toPALGoGi61cw==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 211525] USB Canon DSLR camera seen (lsusb/dmesg) but no longer
- accessible (not mountable)
-Date:   Tue, 02 Feb 2021 07:34:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: greg@kroah.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211525-208809-Ciy1blKqcL@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211525-208809@https.bugzilla.kernel.org/>
+        id S231739AbhBBHfy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 02:35:54 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:49145 "EHLO
+        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231701AbhBBHfs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 02:35:48 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 42321528;
+        Tue,  2 Feb 2021 02:34:56 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Tue, 02 Feb 2021 02:34:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=w0TteEqMlwUd+feceKdyxFkFiad
+        fAzKbz98qeSgtl1U=; b=URYsgl4a/r43F/UwdQ5ZVoLK6Bxlp68HZtzAp/eMn9+
+        zZY00dSfQvCoo+y70AIFnLS9OChGjLkIB9n570ektf4qhHG76z2k7ppXSFGJxNY7
+        vgD1QuzK21UXHkSsA59WXMMimZ9sAfvFZAdtwCK9Yio3XTIRThZgKtC9l5H8Bf11
+        i/8HqQzO1ZKlcjVOeV8xIYslQeopdzBSIeC97ydYhOzAo5hFm38sgMvOPBaamLWJ
+        uEM/WFBXX4NMs1GbjWUeqcQa1l7kaplR+RCy7EMXeQNcbGkAayHHiA6OPBIbFwzs
+        PZBeUPt653249Ugj/5DCsq/7567wtCgBZ/jOsJGhqnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=w0TteE
+        qMlwUd+feceKdyxFkFiadfAzKbz98qeSgtl1U=; b=lkSbW7xvx/JASfEjlp92XO
+        9g1NMB5IQaj/tilGGEH3XAsJot6mKOMmYVRTBXe89MYnEed01/JJvLgHRRw9F9T0
+        z2/cjBAMRrSqmOCPGyRbTIbJNvdgPwTxF9v2Ixftp5xre+qR9vOUZXlGaClNBG6j
+        /N+RYs0IWeZrIB/yq18BpJ0IZgV5NM8SzU8JWPNOPq5oTudaiBCdPGjw3nY4Ga+R
+        BL2svaczmh7Wq6y8U4soifMkVxhk9gDR0nkji6J/OsLr90Xc2Vq4RGk3m2h9dk5g
+        l0Khffv3LGUxK6RvkfYdUBRRS0krQSH48GuEgDZH1W+TZT16ULulNFjHk2/Us3PQ
+        ==
+X-ME-Sender: <xms:nwAZYCOSt03PbFUeAJ6tmTcuLOIHny-nNNVIxbRZ4E8Rpd_Navltow>
+    <xme:nwAZYA_Hrl7KwHDp1P5snsGBix69NtwkdNCyIcyZSfFtl2ygX4JmVERTNg0I6ZU0z
+    Z3pXTmaOjp7ww>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeelgddutddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepueelledtheekleethfeludduvdfhffeuvdffudevgeehke
+    egieffveehgeeftefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepkeef
+    rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:nwAZYJSTdtJf9LPAld404pqtga3TRJkxwVx7TEbcP-hRrgpbgTADWQ>
+    <xmx:nwAZYCs6Z84B-UCDJG-UOr2YbAX7FQQOWSFrnlPQVoUCA8DLAd5fHQ>
+    <xmx:nwAZYKcqHsZxrblT94x35IFjJnngV-pC0Sze49iWDtgMnlc2VVEzTw>
+    <xmx:nwAZYMosGUisfYUIKcyV8f-Wgf8Qi6UGkCDLwtu1t9niKjU2-nOJVw>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 721C2108005B;
+        Tue,  2 Feb 2021 02:34:55 -0500 (EST)
+Date:   Tue, 2 Feb 2021 08:34:53 +0100
+From:   Greg KH <greg@kroah.com>
+To:     bugzilla-daemon@bugzilla.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [Bug 211525] New: USB Canon DSLR camera seen (lsusb/dmesg) but
+ no longer accessible (not mountable)
+Message-ID: <YBkAnQqjRh+0+puc@kroah.com>
 References: <bug-211525-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bug-211525-208809@https.bugzilla.kernel.org/>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211525
-
---- Comment #2 from Greg Kroah-Hartman (greg@kroah.com) ---
-On Tue, Feb 02, 2021 at 03:49:04AM +0000, bugzilla-daemon@bugzilla.kernel.o=
-rg
-wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D211525
->=20
+On Tue, Feb 02, 2021 at 03:49:04AM +0000, bugzilla-daemon@bugzilla.kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=211525
+> 
 >             Bug ID: 211525
 >            Summary: USB Canon DSLR camera seen (lsusb/dmesg) but no longer
 >                     accessible (not mountable)
@@ -83,9 +93,3 @@ are the only ones that can provide it.
 thanks,
 
 greg k-h
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
