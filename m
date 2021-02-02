@@ -2,153 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C8BC433E9
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 08:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CB90C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 08:46:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8219D64F59
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 08:40:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1CF064E27
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 08:46:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232704AbhBBIkJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 03:40:09 -0500
-Received: from mga03.intel.com ([134.134.136.65]:16630 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232615AbhBBIjs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Feb 2021 03:39:48 -0500
-IronPort-SDR: Be285akiY7xZm8LIAWTkmeQtV/9DlAu2ulzCCjE656sGI7dhr0DfsBlDCApiYIPW+hMFPAAM0Y
- I7E/kS906oWQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180895945"
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="180895945"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 00:38:01 -0800
-IronPort-SDR: TnXPoelUMJxQZXtpPVzvl2zGMEQqJ3O2NXLRrsvG9ENL51cfo2rsv5X23Ku/WJhIHDotq+hmYN
- /xrcbEItkCMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,394,1602572400"; 
-   d="scan'208";a="479486332"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 02 Feb 2021 00:37:58 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 02 Feb 2021 10:37:57 +0200
-Date:   Tue, 2 Feb 2021 10:37:57 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] usb: typec: tcpm: Add Callback to Usb
- Communication capable partner
-Message-ID: <20210202083757.GE1433721@kuha.fi.intel.com>
-References: <20210202003101.221145-1-badhri@google.com>
+        id S232667AbhBBIqW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 03:46:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229975AbhBBIqU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 03:46:20 -0500
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B995C061573;
+        Tue,  2 Feb 2021 00:45:39 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id z22so21948010edb.9;
+        Tue, 02 Feb 2021 00:45:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ox99HVhgfkKQy0YFujzXMK6SWexfPe2JQZv9y+VkcQ=;
+        b=KQqLLQ5D9PDuj7IMWXFPJw+E5m8aYBX8Lxr9FdeNTJu+pa+Vq5B0ourfQE7E3lPMhN
+         K5qk9cVGTkFvLrJWXuUpRd9j2IC0lLG4/lkfncm6xTRmjd4tp5Ymbmtv5s2AFXxHcHl9
+         mUQ+e1AmMynwhmTjOtcrPuq45eOGaFwXa1orqVkrnFa/dZsS8GAGb+ZM/ujhsezbQww2
+         K/M/EaNImksbZXS5P+4F+7vfqVUuELd/DtH70rhZmBqYpi41R73x70b3w1ZQ9e15UIne
+         /y7MbheEZ+BgDPeKQ3iH2l9nTkbaT4WW30K6F52zlolPph4a2zFEzWz07enU8ppK32t7
+         lE3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2ox99HVhgfkKQy0YFujzXMK6SWexfPe2JQZv9y+VkcQ=;
+        b=KDnnHCCUU+oJ/uXQ08Suxxzw6KOdeYlTvHM5WF+l/lIaINmufRRLyDxTIYsCIhzLBP
+         4E58mSxhGlXFCOZYTqoM5fcf8swXVrN7fg0zaAUBmxjQYIbwvmRcxEzHlHeSZWFex3x7
+         ecCG85w7F61xFkVTlfY7lnboQWlo9hk3/T5H85OexBONwG6rt+1QLPIJtp+Ywr59P9f2
+         O0kMEbXTPb2PY3/eIVijTcF0n/XTQMraUqPmIPDBEwdJn+FobTwOUlw82B2Y+iQ2rpXP
+         vk4s+Tmeq3YnFhA3Qw/0/1H8XrxQZ/b6rVpLrt5KpyeDfX/LgrWg/pKB6ZnaMBdkRcNq
+         duXA==
+X-Gm-Message-State: AOAM532JzficvF49uUX2cy8jqPXKpf8m+mWs8LjXnw2Y82rY0xQw6HE3
+        Qcqmqfu8MmyeYStQozMLQSRNoCdP2NjYQg==
+X-Google-Smtp-Source: ABdhPJwy1hOut8xmhbJYwdSaY8cB723WFUy9Ci9dGMt9By8iU7bWfhtUVzU1A/HpRwRDN07RR+XR/w==
+X-Received: by 2002:a05:6402:3122:: with SMTP id dd2mr22702869edb.262.1612255538290;
+        Tue, 02 Feb 2021 00:45:38 -0800 (PST)
+Received: from cinterion-pc.localdomain (dynamic-077-011-076-043.77.11.pool.telefonica.de. [77.11.76.43])
+        by smtp.googlemail.com with ESMTPSA id k3sm3683517ejv.121.2021.02.02.00.45.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 00:45:37 -0800 (PST)
+From:   Christoph Schemmel <christoph.schemmel@gmail.com>
+To:     bjorn@mork.no, avem@davemloft.net, kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        hans-christoph.schemmel@thalesgroup.com,
+        Christoph Schemmel <christoph.schemmel@gmail.com>
+Subject: [PATCH] NET: usb: qmi_wwan: Adding support for Cinterion MV31
+Date:   Tue,  2 Feb 2021 09:45:23 +0100
+Message-Id: <20210202084523.4371-1-christoph.schemmel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210202003101.221145-1-badhri@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 01, 2021 at 04:30:59PM -0800, Badhri Jagan Sridharan wrote:
-> The USB Communications Capable bit indicates if port
-> partner is capable of communication over the USB data lines
-> (e.g. D+/- or SS Tx/Rx). Notify the status of the bit to low
-> level drivers to perform chip specific operation.
-> For instance, low level driver enables USB switches on D+/D-
-> lines to set up data path when the bit is set.
-> 
-> Refactored from patch initially authored by
-> Kyle Tso <kyletso@google.com>
-> 
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Adding support for Cinterion MV31 with PID 0x00B7.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+T:  Bus=04 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#= 11 Spd=5000 MxCh= 0
+D:  Ver= 3.20 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
+P:  Vendor=1e2d ProdID=00b7 Rev=04.14
+S:  Manufacturer=Cinterion
+S:  Product=Cinterion USB Mobile Broadband
+S:  SerialNumber=b3246eed
+C:  #Ifs= 4 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
 
-> ---
-> Changes since V1:
-> - Removed partner_usb_comm_capable flag.
-> - Fixed capable flag for SNK_NEGOTIATE_CAPABILITIES.
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 13 +++++++++++++
->  include/linux/usb/tcpm.h      |  5 +++++
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 0afd8ef692e8..997a1a56c161 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3429,6 +3429,14 @@ static void tcpm_unregister_altmodes(struct tcpm_port *port)
->  	memset(modep, 0, sizeof(*modep));
->  }
->  
-> +static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capable)
-> +{
-> +	tcpm_log(port, "Setting usb_comm capable %s", capable ? "true" : "false");
-> +
-> +	if (port->tcpc->set_partner_usb_comm_capable)
-> +		port->tcpc->set_partner_usb_comm_capable(port->tcpc, capable);
-> +}
-> +
->  static void tcpm_reset_port(struct tcpm_port *port)
->  {
->  	int ret;
-> @@ -3445,6 +3453,7 @@ static void tcpm_reset_port(struct tcpm_port *port)
->  	port->attached = false;
->  	port->pd_capable = false;
->  	port->pps_data.supported = false;
-> +	tcpm_set_partner_usb_comm_capable(port, false);
->  
->  	/*
->  	 * First Rx ID should be 0; set this to a sentinel of -1 so that
-> @@ -3785,6 +3794,8 @@ static void run_state_machine(struct tcpm_port *port)
->  			}
->  		} else {
->  			tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-> +			tcpm_set_partner_usb_comm_capable(port,
-> +							  !!(port->sink_request & RDO_USB_COMM));
->  			tcpm_set_state(port, SRC_TRANSITION_SUPPLY,
->  				       PD_T_SRC_TRANSITION);
->  		}
-> @@ -4004,6 +4015,8 @@ static void run_state_machine(struct tcpm_port *port)
->  		break;
->  	case SNK_NEGOTIATE_CAPABILITIES:
->  		port->pd_capable = true;
-> +		tcpm_set_partner_usb_comm_capable(port,
-> +						  !!(port->source_caps[0] & PDO_FIXED_USB_COMM));
->  		port->hard_reset_count = 0;
->  		ret = tcpm_pd_send_request(port);
->  		if (ret < 0) {
-> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-> index 3af99f85e8b9..42fcfbe10590 100644
-> --- a/include/linux/usb/tcpm.h
-> +++ b/include/linux/usb/tcpm.h
-> @@ -108,6 +108,10 @@ enum tcpm_transmit_type {
->   *		is supported by TCPC, set this callback for TCPM to query
->   *		whether vbus is at VSAFE0V when needed.
->   *		Returns true when vbus is at VSAFE0V, false otherwise.
-> + * @set_partner_usb_comm_capable:
-> + *              Optional; The USB Communications Capable bit indicates if port
-> + *              partner is capable of communication over the USB data lines
-> + *              (e.g. D+/- or SS Tx/Rx). Called to notify the status of the bit.
->   */
->  struct tcpc_dev {
->  	struct fwnode_handle *fwnode;
-> @@ -139,6 +143,7 @@ struct tcpc_dev {
->  	int (*set_auto_vbus_discharge_threshold)(struct tcpc_dev *dev, enum typec_pwr_opmode mode,
->  						 bool pps_active, u32 requested_vbus_voltage);
->  	bool (*is_vbus_vsafe0v)(struct tcpc_dev *dev);
-> +	void (*set_partner_usb_comm_capable)(struct tcpc_dev *dev, bool enable);
->  };
->  
->  struct tcpm_port;
-> -- 
-> 2.30.0.365.g02bc693789-goog
+Signed-off-by: Christoph Schemmel <christoph.schemmel@gmail.com>
+---
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks,
-
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index cc4819282820..4edf94f1e880 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1309,6 +1309,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x1e2d, 0x0082, 5)},	/* Cinterion PHxx,PXxx (2 RmNet) */
+ 	{QMI_FIXED_INTF(0x1e2d, 0x0083, 4)},	/* Cinterion PHxx,PXxx (1 RmNet + USB Audio)*/
+ 	{QMI_QUIRK_SET_DTR(0x1e2d, 0x00b0, 4)},	/* Cinterion CLS8 */
++	{QMI_FIXED_INTF(0x1e2d, 0x00b7, 0)},	/* Cinterion MV31 RmNet */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a2, 8)},	/* Dell Wireless 5806 Gobi(TM) 4G LTE Mobile Broadband Card */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a3, 8)},	/* Dell Wireless 5570 HSPA+ (42Mbps) Mobile Broadband Card */
+ 	{QMI_FIXED_INTF(0x413c, 0x81a4, 8)},	/* Dell Wireless 5570e HSPA+ (42Mbps) Mobile Broadband Card */
 -- 
-heikki
+2.25.1
+
