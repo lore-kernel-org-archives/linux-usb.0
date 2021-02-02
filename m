@@ -2,146 +2,172 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85712C433E9
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 13:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECCACC4332B
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 14:46:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5450D64F5E
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 13:51:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE54064F49
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 14:46:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233090AbhBBNvK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 08:51:10 -0500
-Received: from mga06.intel.com ([134.134.136.31]:50874 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233011AbhBBNsp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Feb 2021 08:48:45 -0500
-IronPort-SDR: LCqgA4oTitdj3WPzt9GGjv2h9DVEsZ9CKPJTiBGeuEYsf1srd8sscgJzbbx/WyZH+uNEekpe9K
- IBTLBhBxGTLQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="242368464"
-X-IronPort-AV: E=Sophos;i="5.79,395,1602572400"; 
-   d="scan'208";a="242368464"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2021 05:46:58 -0800
-IronPort-SDR: LCD/QKN6fcvXZdH3WkWLFFKV01q+1OlQSLExUqlDQyVPi6RCM2tGh5udhwJWGlXMPP0DxEh02u
- MVW9rEtBfrUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,395,1602572400"; 
-   d="scan'208";a="391475746"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by orsmga008.jf.intel.com with ESMTP; 02 Feb 2021 05:46:56 -0800
-Subject: Re: [PATCH] usb: pci-quirks: add XHCI_COMP_MODE_QUIRK for disabling
- amd xhci D3cold
-To:     "Liang, Prike" <Prike.Liang@amd.com>, Greg KH <greg@kroah.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-References: <1611020924-17178-1-git-send-email-Prike.Liang@amd.com>
- <YBFPdf6Mc0ZgPsuy@kroah.com> <YBFSFhgk+O40GYhO@kroah.com>
- <BYAPR12MB3238626A32C6E62DA008B72CFBB69@BYAPR12MB3238.namprd12.prod.outlook.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
- 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 fiD/
-Message-ID: <39a54be4-dc68-8385-bb65-9c7619e16cf6@linux.intel.com>
-Date:   Tue, 2 Feb 2021 15:48:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S234639AbhBBOqm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 09:46:42 -0500
+Received: from mail-oo1-f46.google.com ([209.85.161.46]:42139 "EHLO
+        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234569AbhBBOo5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 09:44:57 -0500
+Received: by mail-oo1-f46.google.com with SMTP id g46so5167367ooi.9;
+        Tue, 02 Feb 2021 06:44:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k/jQlVybev7AS8XByYXCtRCWWc/mZPrcWcS9SplOVXI=;
+        b=uSC5JyOSKpmoQT7USVJmzsc12R9X0hRV9oUg5auK4if6kPe0U4Hp+F+oZ5mzgYa9Ul
+         nX3UIT9KQNvTpYi1u1b7erFBEIbGZ6KZydfgRWdiZFfMPcUWD5/LPGbC+NNslv6CQwcq
+         x4c1++pK8A+Whi3zqW91uEB5xfZU3Pzskh6v41fUAEXdzwU+jqbxyw3+MSHNkwZUIuoB
+         HbMximXXdnduWFQE1+8kTllJHIuD4bSHq19rxi8tNf8BxJVNW4CpltGTfKBqgoOrHHaU
+         SASQ9M7b4po+3+T0Nd2TwUUxi83NAQ3+CdANDoghkT7NosJR5lMIoaUfKQTt3zehNxWj
+         RNkA==
+X-Gm-Message-State: AOAM530kpjmixewzClG/IE5jOcGqqVBffed8qZcTblt0a7g7jdGxc8BM
+        KJUihjedVcjvpP3tHYTXQMO+xpyy1MFZCkT0nj0=
+X-Google-Smtp-Source: ABdhPJyNp6HgZd7qylrM0AlHJLm2D/AGUq/xZy6rpsCfOoDSMj5OpAmclnKRL2X9SzGGGciSrR0dKuGBmy7MmbrTzpg=
+X-Received: by 2002:a4a:d50d:: with SMTP id m13mr6409159oos.2.1612277056134;
+ Tue, 02 Feb 2021 06:44:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <BYAPR12MB3238626A32C6E62DA008B72CFBB69@BYAPR12MB3238.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210202125032.64982-1-heikki.krogerus@linux.intel.com> <20210202125032.64982-2-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20210202125032.64982-2-heikki.krogerus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 2 Feb 2021 15:44:05 +0100
+Message-ID: <CAJZ5v0gMEBV=Gm-R=5zkN-J_p7cMTBwoOJrv=ec1j6SfSYRg_w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] software node: Provide replacement for device_add_properties()
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 1.2.2021 16.08, Liang, Prike wrote:
-> [AMD Official Use Only - Internal Distribution Only]
-> 
->>
->> On Wed, Jan 27, 2021 at 12:33:09PM +0100, Greg KH wrote:
->>> On Tue, Jan 19, 2021 at 09:48:44AM +0800, Prike Liang wrote:
->>>> During xhci suspend some AMD USB host will lose port status change
->>>> events and need to have the registers polled during D3, so now just avoid
->> D3cold.
->>>>
->>>> Signed-off-by: Prike Liang <Prike.Liang@amd.com>
->>>> ---
->>>>  drivers/usb/host/xhci-pci.c | 5 +++++
->>>>  1 file changed, 5 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/host/xhci-pci.c
->>>> b/drivers/usb/host/xhci-pci.c index 3feaafe..bff817a 100644
->>>> --- a/drivers/usb/host/xhci-pci.c
->>>> +++ b/drivers/usb/host/xhci-pci.c
->>>> @@ -170,6 +170,11 @@ static void xhci_pci_quirks(struct device *dev,
->> struct xhci_hcd *xhci)
->>>>  (pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_1)))
->>>>  xhci->quirks |= XHCI_U2_DISABLE_WAKE;
->>>>
->>>> +if (pdev->vendor == PCI_VENDOR_ID_AMD &&
->>>> +pdev->device == 0x1639) {
->>>> +xhci->quirks |= XHCI_COMP_MODE_QUIRK;
->>>> +}
->>>
->>> Why not add this check to the
->>> xhci_compliance_mode_recovery_timer_quirk_check() function instead,
->>> where all other systems that need this quirk are tested for?
->>
->> Ah, you don't have a pci device at that point in time.  But, why aren't you
->> making the same calls that the caller of that function does when setting this
->> quirk here?  Isn't that also required?
->>
-> [Prike]  Thanks comment. This XHCI host port status lost issue was seen on the s2idle wake up period and poll the CNR bit failed in xhci_resume() that eventually result in the XHCI device resume failed. However, this issue may not totally caused by the entry of XHCI compliance mode and seems only partially enable the COMP flag with disable XHCI D3cold can work around this failed case. Regards to this issue maybe we needn't the COMP quirk and only need disable the D3cold for some specific XHCI device during processing xhci_pci_suspend().
+On Tue, Feb 2, 2021 at 1:50 PM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Adding function device_create_managed_software_node() that
+> is designed to work as a drop-in replacement for
+> device_add_properties(). The function has one additional
+> feature compared to device_add_properties(). It takes also
+> an optional parent node as parameter, and that way allow the
+> nodes created with it to be part of a node hierarchy.
+>
+> The lifetime of the software nodes created with this
+> function will be tied to the device they are assigned to.
+> The function will therefore behave exactly the same way as
+> device_add_properties() is expected to behave, except that
+> it does not simply assume that the nodes attached to the
+> device are always destroyed in device_del() unconditionally.
+>
+> The nodes created with this function are guaranteed to be
+> removed when the device is removed even after device_del()
+> stops calling device_remove_properties() unconditionally.
+>
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  drivers/base/swnode.c    | 43 ++++++++++++++++++++++++++++++++++++++++
+>  include/linux/property.h |  4 ++++
+>  2 files changed, 47 insertions(+)
+>
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 20faa9f4f5ed2..37179a8b1ceba 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -24,6 +24,7 @@ struct swnode {
+>         struct swnode *parent;
+>
+>         unsigned int allocated:1;
+> +       unsigned int managed:1;
+>  };
+>
+>  static DEFINE_IDA(swnode_root_ids);
+> @@ -1045,6 +1046,43 @@ void device_remove_software_node(struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(device_remove_software_node);
+>
+> +/**
+> + * device_create_managed_software_node - Create a software node for a device
+> + * @dev: The device the software node is assigned to.
+> + * @properties: Device properties for the software node.
+> + * @parent: Parent of the software node.
+> + *
+> + * Creates a software node as a managed resource for @dev, which means the
+> + * lifetime of the newly created software node is tied to the lifetime of @dev.
+> + * Software nodes created with this function should not be reused or shared
+> + * because of that. The function takes a deep copy of @properties for the
+> + * software node.
+> + *
+> + * Since the new software node is assigned directly to @dev, and since it should
+> + * not be shared, it is not returned to the caller. The function returns 0 on
+> + * success, and errno in case of an error.
+> + */
+> +int device_create_managed_software_node(struct device *dev,
+> +                                       const struct property_entry *properties,
+> +                                       const struct software_node *parent)
+> +{
+> +       struct fwnode_handle *p = software_node_fwnode(parent);
+> +       struct fwnode_handle *fwnode;
+> +
+> +       if (parent && !p)
+> +               return -EINVAL;
+> +
+> +       fwnode = fwnode_create_software_node(properties, p);
+> +       if (IS_ERR(fwnode))
+> +               return PTR_ERR(fwnode);
+> +
+> +       to_swnode(fwnode)->managed = true;
+> +       set_secondary_fwnode(dev, fwnode);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(device_create_managed_software_node);
+> +
+>  int software_node_notify(struct device *dev, unsigned long action)
+>  {
+>         struct swnode *swnode;
+> @@ -1073,6 +1111,11 @@ int software_node_notify(struct device *dev, unsigned long action)
+>                 sysfs_remove_link(&swnode->kobj, dev_name(dev));
+>                 sysfs_remove_link(&dev->kobj, "software_node");
+>                 kobject_put(&swnode->kobj);
+> +
+> +               if (swnode->managed) {
+> +                       set_secondary_fwnode(dev, NULL);
+> +                       kobject_put(&swnode->kobj);
 
-The XHCI_COMP_MODE_QUIRK is for cases where ports suddenly go to compliance mode.
-For those we start a timer that polls each port every 2 seconds and checks for 
-compliance mode, and recovers from it. Timer is not running while xhci is suspended.
-Can you see any port ending up in compliance mode?
+Where does the corresponding kobject_get() get called?
 
-The 'Controller Not Ready' (CNR) bit not being cleared by host in resume 
-sounds like the actual problem.
-
--Mathias
+> +               }
+>                 break;
+>         default:
+>                 break;
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index b0e413dc59271..dafccfce02624 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -491,4 +491,8 @@ void fwnode_remove_software_node(struct fwnode_handle *fwnode);
+>  int device_add_software_node(struct device *dev, const struct software_node *swnode);
+>  void device_remove_software_node(struct device *dev);
+>
+> +int device_create_managed_software_node(struct device *dev,
+> +                                       const struct property_entry *properties,
+> +                                       const struct software_node *parent);
+> +
+>  #endif /* _LINUX_PROPERTY_H_ */
+> --
+> 2.30.0
+>
