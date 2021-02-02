@@ -2,130 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F20AAC433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB95BC433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:12:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA93D64ECE
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:06:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E37B64F55
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 16:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231439AbhBBQGZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 11:06:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235042AbhBBPLD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 10:11:03 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD18EC06174A
-        for <linux-usb@vger.kernel.org>; Tue,  2 Feb 2021 07:10:22 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id u11so12610214plg.13
-        for <linux-usb@vger.kernel.org>; Tue, 02 Feb 2021 07:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=EqKW371o6rtP9En/4t0IaIqN6HCQJfdRkRnV8RVUO+s=;
-        b=WTQJVesWc4+AX+b1JtfEMaesjgFd0Mf3Q2pOWOaY0axttKC97JGbEs5gocxJuX+n14
-         2HM22Lu358PG9L4Y5jHBUc6rcZ8oBDUFnuwEVvi/ui2JYF2n1uiyPqNaQRU3/Ti01NGS
-         O2KQj2aUBb1n+A0uPoTdWTbuKvKZ2LGqDl7+glhz8Kp1Jv6Duo7CC2poq/miaH+TGxTh
-         p2n6IE1BTS4lXq0pGuKhx6eGg1Bj+4ijsUQgQMC8/SAYe7CS/SYCDH9ZDcVW48zL9sFm
-         qR2EJj5oWTh+KK0BfrP04IeJfEjNFijigKRA7GiOXuTquFARZ1Tvbraq3+1OQg6YQXL/
-         d5RA==
+        id S235989AbhBBQL5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 11:11:57 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:38549 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236077AbhBBQJc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 11:09:32 -0500
+Received: by mail-oi1-f180.google.com with SMTP id h6so23284636oie.5;
+        Tue, 02 Feb 2021 08:09:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EqKW371o6rtP9En/4t0IaIqN6HCQJfdRkRnV8RVUO+s=;
-        b=ZUTWewcO3h2o1Od06AAzRNbRx3LaOBT4Sd1zw1CH1dHmBkUCGwTA356vJbYJuokla/
-         /LXRFAJ8ippNTGQF47lk9fjws6o1eT8mZ7MCv8yjlswXWuwZMS8E9RfF1swFkQEPedAQ
-         SUoBEUQ0mNs1I5dGdLg2y037DMxxin++xXQZ5/+Ho7gsMzllpjb3b3aMY7RjB/4W8vbm
-         KvIptrRhn2MXE6Ol6/Dltevodf4+uTKB+KPErp4RcClLrvpbpuA/2jclgB3BZ5awwcOg
-         SCHtHkpAGMO5Ma/XyOmy87HcRFJB/vawbDR63HAu6mkHgvZb0pBbOOsQjEM5T0JsjABM
-         prBw==
-X-Gm-Message-State: AOAM531WpFbytw+fLFlkeVwcT8CT/0Qt6MUQyKlIy/vKaqFponVRWR6s
-        aXQ5gP10Zn1er8pMnEDd7USoVg==
-X-Google-Smtp-Source: ABdhPJz+xz+MQ9+W6QlJakZCeehrN7bMsTdCkNbX/tQMEC4KGLBHLnsH47+SRNxhnoC6OBBWgnx/4Q==
-X-Received: by 2002:a17:903:2305:b029:df:c991:8c49 with SMTP id d5-20020a1709032305b02900dfc9918c49mr23883745plh.8.1612278622095;
-        Tue, 02 Feb 2021 07:10:22 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:f693:9fff:fef4:fc72])
-        by smtp.gmail.com with ESMTPSA id k128sm21694983pfd.137.2021.02.02.07.10.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Feb 2021 07:10:20 -0800 (PST)
-Date:   Tue, 2 Feb 2021 07:10:14 -0800
-From:   Benson Leung <bleung@google.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Kyle Tso <kyletso@google.com>, heikki.krogerus@linux.intel.com,
-        bleung@chromium.org, badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: Return void in typec_partner_set_pd_revision
-Message-ID: <YBlrVgJJMXqiocv7@google.com>
-References: <20210202095512.761214-1-kyletso@google.com>
- <YBlpnMKzGBcP5Ybi@google.com>
- <YBlrGTaJQp/pCeJK@kroah.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7PQG9RXohKjGhW43A7xg3RzujYsI/E/4b2SuZLXEZ6I=;
+        b=d59NYYJ9DQjYeSai5F85JAf5cx8gcdqCWfoa8qBR1uvI5DgYqn/VDYxW402k15ACaA
+         Ocmi7PukCtau6TJsJ/X+xgPv/oR37ao0reCfdSmywyp3MbDNwINjgutDIoWosVeJYfIk
+         j1keuvz2keGAUEoLXHABNbfFxCGzEPqE9tLV4J+jecWQA+uhoW9/TpjuPm24eWP9XgYn
+         x2S+cbb/GKsoB24VY8N2RrUcEEHhlzT7rTbGM5C5RFz5TRZtrSvuz/V/V1g6PMKfmTRo
+         yHMEAa4yeQJlaRc+sqyzyRqGe0ZJcj7nsbd9GZWg1jR83l+viK5siKj7wEq6DGNlCmMk
+         HKHw==
+X-Gm-Message-State: AOAM531ssFDbHeTeVPp/bISN+hDTcnjHEgYtMZt0prGBywgBg2A4kmlu
+        xKbw/p1GoZwsYzB7ZyePqGbT38AqruE24EaNxag=
+X-Google-Smtp-Source: ABdhPJxPoQ82zmpLYTTPWXui4Jn5z0yBniLWotpEdWfv3jV6Oj3XJPigMDWtQ5fYbzGY4WDPugXFkAWX2in98Z72e+8=
+X-Received: by 2002:aca:308a:: with SMTP id w132mr3059387oiw.69.1612282131472;
+ Tue, 02 Feb 2021 08:08:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XEo4q5bdcjfPOAx4"
-Content-Disposition: inline
-In-Reply-To: <YBlrGTaJQp/pCeJK@kroah.com>
+References: <20210202125032.64982-1-heikki.krogerus@linux.intel.com>
+ <20210202125032.64982-2-heikki.krogerus@linux.intel.com> <CAJZ5v0gMEBV=Gm-R=5zkN-J_p7cMTBwoOJrv=ec1j6SfSYRg_w@mail.gmail.com>
+ <20210202150102.GA1687065@kuha.fi.intel.com>
+In-Reply-To: <20210202150102.GA1687065@kuha.fi.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 2 Feb 2021 17:08:40 +0100
+Message-ID: <CAJZ5v0hVZBhqzLPGPHDZYPcYyJPfwgYwjzKGYaUMZOBw7Eh7CQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] software node: Provide replacement for device_add_properties()
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Tue, Feb 2, 2021 at 4:01 PM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> Hi Rafael,
+>
+> On Tue, Feb 02, 2021 at 03:44:05PM +0100, Rafael J. Wysocki wrote:
+> > > +/**
+> > > + * device_create_managed_software_node - Create a software node for a device
+> > > + * @dev: The device the software node is assigned to.
+> > > + * @properties: Device properties for the software node.
+> > > + * @parent: Parent of the software node.
+> > > + *
+> > > + * Creates a software node as a managed resource for @dev, which means the
+> > > + * lifetime of the newly created software node is tied to the lifetime of @dev.
+> > > + * Software nodes created with this function should not be reused or shared
+> > > + * because of that. The function takes a deep copy of @properties for the
+> > > + * software node.
+> > > + *
+> > > + * Since the new software node is assigned directly to @dev, and since it should
+> > > + * not be shared, it is not returned to the caller. The function returns 0 on
+> > > + * success, and errno in case of an error.
+> > > + */
+> > > +int device_create_managed_software_node(struct device *dev,
+> > > +                                       const struct property_entry *properties,
+> > > +                                       const struct software_node *parent)
+> > > +{
+> > > +       struct fwnode_handle *p = software_node_fwnode(parent);
+> > > +       struct fwnode_handle *fwnode;
+> > > +
+> > > +       if (parent && !p)
+> > > +               return -EINVAL;
+> > > +
+> > > +       fwnode = fwnode_create_software_node(properties, p);
+>                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> To answer your question below: here.
+>
+> > > +       if (IS_ERR(fwnode))
+> > > +               return PTR_ERR(fwnode);
+> > > +
+> > > +       to_swnode(fwnode)->managed = true;
+> > > +       set_secondary_fwnode(dev, fwnode);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(device_create_managed_software_node);
+> > > +
+> > >  int software_node_notify(struct device *dev, unsigned long action)
+> > >  {
+> > >         struct swnode *swnode;
+> > > @@ -1073,6 +1111,11 @@ int software_node_notify(struct device *dev, unsigned long action)
+> > >                 sysfs_remove_link(&swnode->kobj, dev_name(dev));
+> > >                 sysfs_remove_link(&dev->kobj, "software_node");
+> > >                 kobject_put(&swnode->kobj);
+> > > +
+> > > +               if (swnode->managed) {
+> > > +                       set_secondary_fwnode(dev, NULL);
+> > > +                       kobject_put(&swnode->kobj);
+> >
+> > Where does the corresponding kobject_get() get called?
+>
+> So in function fwnode_create_software_node() we use
+> kobject_init_and_add().
 
---XEo4q5bdcjfPOAx4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK
 
-On Tue, Feb 02, 2021 at 04:09:13PM +0100, Greg KH wrote:
-> On Tue, Feb 02, 2021 at 07:02:52AM -0800, Benson Leung wrote:
-> > Hi Kyle,
-> >=20
-> > On Tue, Feb 02, 2021 at 05:55:12PM +0800, Kyle Tso wrote:
-> > > typec_partner_set_pd_revision doesn't need any return value.
-> > >=20
-> > > Fixes: 29b01295a829 ("usb: typec: Add typec_partner_set_pd_revision")
-> > > Signed-off-by: Kyle Tso <kyletso@google.com>
-> >=20
-> > Review tags for <bleung@chromium.org>
->=20
-> What does that mean?
->=20
-> Please respond with a line that I can use...
->=20
+It looks like there is a use case that cannot be addressed by using
+device_add_properties() and that's why you need this new function.
 
-Reviewed-by: Benson Leung <bleung@chromium.org>
-
-Sorry.=20
-
-Benson
-
-> thanks,
->=20
-> greg k-h
-
---=20
-Benson Leung
-Staff Software Engineer
-Chrome OS Kernel
-Google Inc.
-bleung@google.com
-Chromium OS Project
-bleung@chromium.org
-
---XEo4q5bdcjfPOAx4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCYBlrVgAKCRBzbaomhzOw
-wrlpAQC2RSA1yb6r7vnrVJ9NdP8Nf5SIvBJuPEdsD5C5omP7TAEAzVUprcBR5JdV
-kbMlfO1g6FGMwdsl20KXe0ngnkb7xQ8=
-=Y2N6
------END PGP SIGNATURE-----
-
---XEo4q5bdcjfPOAx4--
+Can you describe that use case, please, and explain what the problem
+with using device_add_properties() in it is?
