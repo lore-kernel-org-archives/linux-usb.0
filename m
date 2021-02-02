@@ -2,73 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AA59C4332B
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BF5C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECB2264EE6
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:06:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C36564EE2
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 07:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232428AbhBBHFy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 02:05:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51138 "EHLO mail.kernel.org"
+        id S229632AbhBBHcu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 02:32:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55574 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232222AbhBBHCs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Feb 2021 02:02:48 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 46E8264EDF;
-        Tue,  2 Feb 2021 07:00:55 +0000 (UTC)
+        id S229462AbhBBHcu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Feb 2021 02:32:50 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F33C464DDD;
+        Tue,  2 Feb 2021 07:32:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612249256;
-        bh=Sx91zXS5CZ2NCFm3joeQvkrfBaSq7Dz4/hhWtEtu4R4=;
+        s=korg; t=1612251129;
+        bh=PEpcMlXbAvVlCef+LCydHc4SZgper6ya9C4OFl1mH14=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PcVPk7bd6st8hJE1dMfrGQttc63UAXOr22gtcYkwt3I59ZNfBh1Br43xIUol7TVYX
-         aqRGj85hYZKxuPp6cc5EMXLVOHCnn2JR7+fIfx6lhKzs0oN890SINZpTXlMK++Xna8
-         FMi7Nsqp7GFyTYkbDj9LL01UTUibTBYoalIZprgM=
-Date:   Tue, 2 Feb 2021 08:00:53 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Ikjoon Jang <ikjn@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Zhanyong Wang <zhanyong.wang@mediatek.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        stable <stable@vger.kernel.org>
-Subject: Re: [next v2 PATCH] usb: xhci-mtk: skip dropping bandwidth of
- unchecked endpoints
-Message-ID: <YBj4pfN7iq+U4zW2@kroah.com>
-References: <1612247298-4654-1-git-send-email-chunfeng.yun@mediatek.com>
+        b=lQmHJzckD21+NYrm50hqqA0a5+ataMF5Qq5KGqL3JUZmSUOwVV/5TEc9vjyOt7heg
+         Fb61fQvgJ7QCh8dBcza7Y1VZXc88ilgn+Rp72VzMs8zOlgAvozNA+f71lwwSXUf7yD
+         JjkQRU5U7sxAPWSNPMeAiJxjSdBz7tl6RasVOG88=
+Date:   Tue, 2 Feb 2021 08:32:06 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benson Leung <bleung@google.com>
+Cc:     Benson Leung <bleung@chromium.org>,
+        heikki.krogerus@linux.intel.com, enric.balletbo@collabora.com,
+        pmalani@chromium.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, groeck@chromium.org
+Subject: Re: [PATCH 0/6] usb: typec: and platform/chrome: Add PD revision
+ numbers
+Message-ID: <YBj/9tP7b4CgeZ8r@kroah.com>
+References: <20210129061406.2680146-1-bleung@chromium.org>
+ <YBgRDwszRs3ULl5J@kroah.com>
+ <YBj5b7O60c6fh/nX@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1612247298-4654-1-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <YBj5b7O60c6fh/nX@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 02:28:18PM +0800, Chunfeng Yun wrote:
-> For those unchecked endpoints, we don't allocate bandwidth for
-> them, so no need free the bandwidth, otherwise will decrease
-> the allocated bandwidth.
-> Meanwhile use xhci_dbg() instead of dev_dbg() to print logs and
-> rename bw_ep_list_new as bw_ep_chk_list.
+On Mon, Feb 01, 2021 at 11:04:15PM -0800, Benson Leung wrote:
+> Hi Greg,
 > 
-> Fixes: 1d69f9d901ef ("usb: xhci-mtk: fix unreleased bandwidth data")
-> Cc: stable <stable@vger.kernel.org>
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> Tested-by: Ikjoon Jang <ikjn@chromium.org>
-> Reviewed-by: Ikjoon Jang <ikjn@chromium.org>
-> ---
-> v2: add 'break' when find the ep that will be dropped suggested by Ikjoon
->     add Tested-by and Reviewed-by Ikjoon
+> On Mon, Feb 01, 2021 at 03:32:47PM +0100, Greg KH wrote:
+> > On Thu, Jan 28, 2021 at 10:14:00PM -0800, Benson Leung wrote:
+> > > USB Power Delivery has a 3 entity handshake (port, cable, partner), and as
+> > > of USB PD R3.0, each entity may independently support either Revision 2 or
+> > > Revision 3 signaling and protocol. In order for userspace and the kernel
+> > > to properly process the data objects received from a particular SOP*, we
+> > > must know to which revision of the spec each conforms.
+> > > 
+> > > This series adds individual version numbers for the partner and the cable,
+> > > and exposes them in the appropriate sysfs in /sys/class/typec.
+> > > 
+> > > I provide as a first implementation of this, platform/chrome's cros_ec_typec
+> > > driver, whose underlying status messages convey the SOP and SOP' revisions
+> > > already.
+> > 
+> > I've taken the first 3 patches in my tree now, but the last 3 (for the
+> > chrome_ec_typec.c driver), they do not apply at all.
+> > 
+> 
+> Ah, that's because we have some other changes for the cros_ec_typec.c driver
+> already in platform/chrome for our 5.12 branch.
+> 
+> For 5.12, the changes for cros_ec_typec driver is pretty well contained,
+> although there is some dependence on typec subsystem changes now.
+> 
+> If I send you a pull request containing all of the changes for this driver we
+> have already merged, plus these last three that depend on both of our trees
+> would you merge it through usb for 5.12?
 
-As v1 is already in my public tree, please send a follow-on patch that
-fixes it instead.
+If the subsystem maintainer says it is ok, yes, I will be glad to take a
+stable git tag to pull from into my usb-next branch.
 
 thanks,
 
