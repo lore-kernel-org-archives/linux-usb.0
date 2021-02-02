@@ -2,172 +2,163 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E02BC433DB
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 21:47:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5518C433E0
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:31:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E21064EBF
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Feb 2021 21:47:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A453464ED0
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:31:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbhBAVrF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 16:47:05 -0500
-Received: from mga09.intel.com ([134.134.136.24]:56832 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229704AbhBAVrB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 1 Feb 2021 16:47:01 -0500
-IronPort-SDR: Z3yolrDVh0oazemumji18KjEuHPzUeAdA7c753Ev6N5jlQa6ng6T6SDmM9bAephwqxYlQqifd6
- rQq/UwTkMrpg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="180901363"
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; 
-   d="scan'208";a="180901363"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 13:46:17 -0800
-IronPort-SDR: +wuEcCCB7PFGgDRqnarp9hsSqqljqb1v2qn3f6JU2Ki1lFQAxskRdw/6GCCKmY1dpCU2jKTpA+
- Gr8HUtFIk7Jw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; 
-   d="scan'208";a="354638630"
-Received: from ccdtglu46.jer.intel.com ([10.12.50.142])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Feb 2021 13:46:14 -0800
-From:   Gil Fine <gil.fine@intel.com>
-To:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
-Cc:     gil.fine@intel.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: [PATCH] thunderbolt: debugfs: handle fail reading block
-Date:   Mon,  1 Feb 2021 23:46:37 +0200
-Message-Id: <20210201214637.2158-1-gil.fine@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S229927AbhBBAbr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 19:31:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229527AbhBBAbq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 19:31:46 -0500
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97342C061573
+        for <linux-usb@vger.kernel.org>; Mon,  1 Feb 2021 16:31:06 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id f16so12602389pgh.3
+        for <linux-usb@vger.kernel.org>; Mon, 01 Feb 2021 16:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=hjpuSlb6P3bXjOUeqREpOYD2lH5I31G9zQvLZVeEB98=;
+        b=qYrzgC9yxfnuj+YMkIfocI7w52BZSEvBnDaAEOBAfVC5+x/wSyKEU5mU5rw8/wMeC4
+         A6xbEr8L8qQuBIyvmZUVzScNftJxLt0iaddPgUIXH75Zlsdxoi6mSgoXrPQsrmcpdZv4
+         uSYoQeyKApWiaHtCFHmuGFKmg7RtrodUbqcD7TmrYe1zTLSygjRXWTMJkafSF5AWH/u2
+         xY3oC4stDPgxMX6yPukV/PsvzA6VpuIXpPdoMCqct8wlSqkdKFWP4pL9NOH8qt9ceGkG
+         qO74br8AOXFaCaDlEpEOpmTt4atdHrnTNvMilPhuOfNLTk38tscX57QmMfvp5gHkqu6O
+         N+bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=hjpuSlb6P3bXjOUeqREpOYD2lH5I31G9zQvLZVeEB98=;
+        b=qTZfj8le6Hf3gQIqKOyTZodDJXgSyiFiDNwMnckIAiHjVz6GTQPJsgVnc14dTHLuLh
+         BhR8DWQrJAQOLLLpwvCFdqCP42aAC+CxEtS2EKRfvwfFOqCo4fwmLZdQzqLziSZBw9+M
+         LbsMHnmMEG3ymQl2ELnxWJeJ5sPfxe+dBM10n3onM75cX5GVcUMGx9oa0++h4KUjdS/n
+         tr+wFbYWZvyUUcmNO/F4HawXtbS1zg/uPVSdjvTTcv24IlqqjfZ7StA2iW6Hz0RJKGB1
+         Sa9PRmOnKTiKIBQsUunGVEhvnmtvelBDsGh/k5EPSGE3JOQyEfUidMAuM3kZ3Rgt7ocd
+         wiMQ==
+X-Gm-Message-State: AOAM533jFEoJE3CXQ144/V8DLll+qb7Bgl7vrGq7suWRG8MHr79VDfje
+        8tRxddLW1FDYCJ9hptnaav/7htviR1c=
+X-Google-Smtp-Source: ABdhPJy01DdtX3UOPJ2GfeB4NeGYSbgYQqGCgzTHV5yivS8c3jlPanGVvx3SWW5S2oNw01UfpxdFTpFyBxA=
+Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
+X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:d56c:119f:44fb:5da4])
+ (user=badhri job=sendgmr) by 2002:a17:90a:df15:: with SMTP id
+ gp21mr1338867pjb.63.1612225866129; Mon, 01 Feb 2021 16:31:06 -0800 (PST)
+Date:   Mon,  1 Feb 2021 16:30:59 -0800
+Message-Id: <20210202003101.221145-1-badhri@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v2 1/3] usb: typec: tcpm: Add Callback to Usb Communication
+ capable partner
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kyle Tso <kyletso@google.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are cases when reading block of dwords in single transaction fail,
-for several reasons, mostly if HW publish to implement all of the dwords,
-while actually it doesn't or if some dwords not accessible for read
-for security reasons. We handle these cases by trying to read the block,
-dword-by-dword, one dword per transaction, till we get a failure.
-We drop the not-used functions:
-tb_switch_is_tiger_lake() and tb_switch_is_ice_lake()
+The USB Communications Capable bit indicates if port
+partner is capable of communication over the USB data lines
+(e.g. D+/- or SS Tx/Rx). Notify the status of the bit to low
+level drivers to perform chip specific operation.
+For instance, low level driver enables USB switches on D+/D-
+lines to set up data path when the bit is set.
 
-Signed-off-by: Gil Fine <gil.fine@intel.com>
+Refactored from patch initially authored by
+Kyle Tso <kyletso@google.com>
+
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
- drivers/thunderbolt/debugfs.c | 38 +++++++++++++++++++++++------------
- drivers/thunderbolt/tb.h      | 27 -------------------------
- 2 files changed, 25 insertions(+), 40 deletions(-)
+Changes since V1:
+- Removed partner_usb_comm_capable flag.
+- Fixed capable flag for SNK_NEGOTIATE_CAPABILITIES.
+---
+ drivers/usb/typec/tcpm/tcpm.c | 13 +++++++++++++
+ include/linux/usb/tcpm.h      |  5 +++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
-index 9541d7409ab1..f1012eed9511 100644
---- a/drivers/thunderbolt/debugfs.c
-+++ b/drivers/thunderbolt/debugfs.c
-@@ -251,6 +251,30 @@ static ssize_t counters_write(struct file *file, const char __user *user_buf,
- 	return ret < 0 ? ret : count;
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 0afd8ef692e8..997a1a56c161 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -3429,6 +3429,14 @@ static void tcpm_unregister_altmodes(struct tcpm_port *port)
+ 	memset(modep, 0, sizeof(*modep));
  }
  
-+static void cap_show_by_dw(struct seq_file *s, struct tb_switch *sw,
-+			   struct tb_port *port, unsigned int cap, unsigned int offset,
-+			   u8 cap_id, u8 vsec_id, int dwords)
++static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capable)
 +{
-+	int i, ret;
-+	u32 data;
++	tcpm_log(port, "Setting usb_comm capable %s", capable ? "true" : "false");
 +
-+	for (i = 0; i < dwords; i++) {
-+		if (port)
-+			ret = tb_port_read(port, &data, TB_CFG_PORT, cap + offset + i, 1);
-+		else
-+			ret = tb_sw_read(sw, &data, TB_CFG_SWITCH, cap + offset + i, 1);
-+		if (ret) {
-+			seq_printf(s, "0x%04x <not accessible>\n", cap + offset);
-+			if (dwords - i > 1)
-+				seq_printf(s, "0x%04x ...\n", cap + offset + 1);
-+			return;
-+		}
-+
-+		seq_printf(s, "0x%04x %4d 0x%02x 0x%02x 0x%08x\n", cap + offset + i,
-+			   offset + i, cap_id, vsec_id, data);
-+	}
++	if (port->tcpc->set_partner_usb_comm_capable)
++		port->tcpc->set_partner_usb_comm_capable(port->tcpc, capable);
 +}
 +
- static void cap_show(struct seq_file *s, struct tb_switch *sw,
- 		     struct tb_port *port, unsigned int cap, u8 cap_id,
- 		     u8 vsec_id, int length)
-@@ -267,10 +291,7 @@ static void cap_show(struct seq_file *s, struct tb_switch *sw,
- 		else
- 			ret = tb_sw_read(sw, data, TB_CFG_SWITCH, cap + offset, dwords);
- 		if (ret) {
--			seq_printf(s, "0x%04x <not accessible>\n",
--				   cap + offset);
--			if (dwords > 1)
--				seq_printf(s, "0x%04x ...\n", cap + offset + 1);
-+			cap_show_by_dw(s, sw, port, cap, offset, cap_id, vsec_id, dwords);
- 			return;
- 		}
+ static void tcpm_reset_port(struct tcpm_port *port)
+ {
+ 	int ret;
+@@ -3445,6 +3453,7 @@ static void tcpm_reset_port(struct tcpm_port *port)
+ 	port->attached = false;
+ 	port->pd_capable = false;
+ 	port->pps_data.supported = false;
++	tcpm_set_partner_usb_comm_capable(port, false);
  
-@@ -341,15 +362,6 @@ static void port_cap_show(struct tb_port *port, struct seq_file *s,
+ 	/*
+ 	 * First Rx ID should be 0; set this to a sentinel of -1 so that
+@@ -3785,6 +3794,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 			}
  		} else {
- 			length = header.extended_short.length;
- 			vsec_id = header.extended_short.vsec_id;
--			/*
--			 * Ice Lake and Tiger Lake do not implement the
--			 * full length of the capability, only first 32
--			 * dwords so hard-code it here.
--			 */
--			if (!vsec_id &&
--			    (tb_switch_is_ice_lake(port->sw) ||
--			     tb_switch_is_tiger_lake(port->sw)))
--				length = 32;
+ 			tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
++			tcpm_set_partner_usb_comm_capable(port,
++							  !!(port->sink_request & RDO_USB_COMM));
+ 			tcpm_set_state(port, SRC_TRANSITION_SUPPLY,
+ 				       PD_T_SRC_TRANSITION);
  		}
+@@ -4004,6 +4015,8 @@ static void run_state_machine(struct tcpm_port *port)
  		break;
+ 	case SNK_NEGOTIATE_CAPABILITIES:
+ 		port->pd_capable = true;
++		tcpm_set_partner_usb_comm_capable(port,
++						  !!(port->source_caps[0] & PDO_FIXED_USB_COMM));
+ 		port->hard_reset_count = 0;
+ 		ret = tcpm_pd_send_request(port);
+ 		if (ret < 0) {
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 3af99f85e8b9..42fcfbe10590 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -108,6 +108,10 @@ enum tcpm_transmit_type {
+  *		is supported by TCPC, set this callback for TCPM to query
+  *		whether vbus is at VSAFE0V when needed.
+  *		Returns true when vbus is at VSAFE0V, false otherwise.
++ * @set_partner_usb_comm_capable:
++ *              Optional; The USB Communications Capable bit indicates if port
++ *              partner is capable of communication over the USB data lines
++ *              (e.g. D+/- or SS Tx/Rx). Called to notify the status of the bit.
+  */
+ struct tcpc_dev {
+ 	struct fwnode_handle *fwnode;
+@@ -139,6 +143,7 @@ struct tcpc_dev {
+ 	int (*set_auto_vbus_discharge_threshold)(struct tcpc_dev *dev, enum typec_pwr_opmode mode,
+ 						 bool pps_active, u32 requested_vbus_voltage);
+ 	bool (*is_vbus_vsafe0v)(struct tcpc_dev *dev);
++	void (*set_partner_usb_comm_capable)(struct tcpc_dev *dev, bool enable);
+ };
  
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 49d34c45e10b..39dc4dd5302d 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -796,33 +796,6 @@ static inline bool tb_switch_is_titan_ridge(const struct tb_switch *sw)
- 	return false;
- }
- 
--static inline bool tb_switch_is_ice_lake(const struct tb_switch *sw)
--{
--	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
--		switch (sw->config.device_id) {
--		case PCI_DEVICE_ID_INTEL_ICL_NHI0:
--		case PCI_DEVICE_ID_INTEL_ICL_NHI1:
--			return true;
--		}
--	}
--	return false;
--}
--
--static inline bool tb_switch_is_tiger_lake(const struct tb_switch *sw)
--{
--	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL ||
--	    sw->config.vendor_id == 0x8087) {
--		switch (sw->config.device_id) {
--		case PCI_DEVICE_ID_INTEL_TGL_NHI0:
--		case PCI_DEVICE_ID_INTEL_TGL_NHI1:
--		case PCI_DEVICE_ID_INTEL_TGL_H_NHI0:
--		case PCI_DEVICE_ID_INTEL_TGL_H_NHI1:
--			return true;
--		}
--	}
--	return false;
--}
--
- /**
-  * tb_switch_is_usb4() - Is the switch USB4 compliant
-  * @sw: Switch to check
+ struct tcpm_port;
 -- 
-2.17.1
-
----------------------------------------------------------------------
-Intel Israel (74) Limited
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+2.30.0.365.g02bc693789-goog
 
