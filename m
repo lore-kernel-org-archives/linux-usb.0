@@ -2,318 +2,426 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA204C433DB
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 17:10:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83B6C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 17:15:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8957664E40
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 17:10:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E4F564F50
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 17:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236641AbhBBRJv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Feb 2021 12:09:51 -0500
-Received: from mail-db8eur05on2063.outbound.protection.outlook.com ([40.107.20.63]:9184
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S237043AbhBBRCe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Feb 2021 12:02:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Si5fuNi9pwYgPzAWTQjuLs3d01app7VjNI7FbXxvIWzJbL/R4L7orWjR2Endnv1n50mMlzKupkJ3vB1AgLQoul3rovbictjxZPJJPULKRIFGO0f3BUiC6VkVP2gSv/w98w3tdv7PRm9f8dRmCYhN7crDPXmu06r4vNZGRNWTozuc9ZfkO6PfW+vvvn14+XIU7Ypie6GxPeAeLR4zP+9IDpJbeT2Urq7CRBDOzmhgVfDbIp/Ipd5d9X5kx6CqeUnDRSPluwAESXnNj8CuGRrFMQJdCuivrbsZNEZ6RucXT7382HnMPZjIGQ2cq+cJwaIks5iB91BlBGb8n77SCajMtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4zI3FP+ef2u5dVGFSza/hpFI+RbgNnn2SiDm7nzjkc=;
- b=gTaYN1qHT3xPy3AVOh14Ut2XGo7dZ9EcUZ+Ct4c1+WZcXhvl7vQ2yo6aPbpWeA4MxdUaSpcbjzpDwbA+DtKLf4v2qv3K4RfC4jB1WnbhZe0iNxOVuNsD9jHweXhz09Y3vy886W3JPCCvMYMDsfH41T0RHcIxiJZZ7jA2IMmKpkoxKOIcyec0NsatAuWguMrcLP6FsT8hYK5bs+hZrsbXWWAx4uJ38BuJvoAMeRsM3dWlobOxOhHU8ISAdSSvvTZqkYIHKRpK2UkXnIXvSqn1tqfFebvwZbBqCU4iATulKwtpMCI+Pd8lOFXaBft3rzp8HycdXvx82zHk1acDz8DnNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4zI3FP+ef2u5dVGFSza/hpFI+RbgNnn2SiDm7nzjkc=;
- b=spq6lvAusgGgHzyG1doRl8irnjM0mdReRM7P0Cy4eCefTMX80aCRvmUFd8AIQIH4q6Jm651p6N2NntqR/ojdwTqS0AX/HIZ52788hb8raINL5PwOBv0fpk3mXQLxzPf1/Jzzp4VBLpDGeFNUPaMXOAblf8S52mOfFkTu2wQC5LE=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-Received: from AS8PR04MB8053.eurprd04.prod.outlook.com (2603:10a6:20b:2ad::12)
- by AM6PR04MB4103.eurprd04.prod.outlook.com (2603:10a6:209:50::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Tue, 2 Feb
- 2021 17:01:41 +0000
-Received: from AS8PR04MB8053.eurprd04.prod.outlook.com
- ([fe80::b8d2:f45a:dfd2:588e]) by AS8PR04MB8053.eurprd04.prod.outlook.com
- ([fe80::b8d2:f45a:dfd2:588e%4]) with mapi id 15.20.3805.025; Tue, 2 Feb 2021
- 17:01:41 +0000
-From:   Frank Li <Frank.Li@nxp.com>
-To:     peter.chen@kernel.org, pawell@cadence.com, a-govindraju@ti.com,
-        linux-imx@nxp.com, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, lznuaa@gmail.com
-Subject: [PATCH 1/1] usb: cdns3: add power lost support for system resume
-Date:   Tue,  2 Feb 2021 11:01:21 -0600
-Message-Id: <20210202170121.29777-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.24.0.rc1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [64.157.242.222]
-X-ClientProxiedBy: BYAPR08CA0044.namprd08.prod.outlook.com
- (2603:10b6:a03:117::21) To AS8PR04MB8053.eurprd04.prod.outlook.com
- (2603:10a6:20b:2ad::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from lizhi-Precision-Tower-5810.am.freescale.net (64.157.242.222) by BYAPR08CA0044.namprd08.prod.outlook.com (2603:10b6:a03:117::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.17 via Frontend Transport; Tue, 2 Feb 2021 17:01:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: eee2b113-1aa6-401e-882a-08d8c79c3615
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4103:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR04MB41033125DF0A807331FCE0EB88B59@AM6PR04MB4103.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U9EVamjAfuIcW7r5fSWM6iL8muBtLCDX3T56OdWMhNrrGlYOLrEAVnFTwWmtwhgc3JbYnScxH1SOdbfYpAkkyDtZrjHVlgnD/Xt7PlnpzGwSlDp54oiaTkw2Y+M6vDA9x66tc8EHAJTXfC9UtWLMJolEutuFH8/jzo8wt22xZL0CJxMnl6v6yjVRSQNUIU9MTKziggkGdc9Mf3xgsVTeaIj78WswBkILZj1w4ZdL8PIrlaoYWqgVpz2fYVtzZTO+J0ZZodpDBt3bU4YZa++CYhkXDJ+skzeLo/Yw1N1DosdvDd7ryedxjH9vGPrIUl+7cvpkBqGMX1yvXT53W0wU7JUB5EPBsqjMdIROC5h97Uqj4S11Fp/9zNnEOz92yeIcCJB/yX7XOSLi20h/zMrCYqkk9CxEu8SbVP1mWsj1h1z1Ooc48h8kEQ1QPb+sDL16HY5ngJ6uZcvW0Z63n0rKeHrLurFIb2amhFN0VDjUnJBy/YmiZ5j7aRbLiazL6GaJ9gYeMQwHfEOcDEsrzbznfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(39840400004)(366004)(376002)(396003)(66556008)(66476007)(6512007)(956004)(26005)(52116002)(2616005)(83380400001)(5660300002)(2906002)(186003)(6666004)(316002)(16526019)(8936002)(6506007)(66946007)(8676002)(478600001)(36756003)(86362001)(6486002)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?szXlKy2RQF/Mb9VITe6W/RXeliN43waTcnqXp0zr8GSKbjwGXVU5kREs9q0R?=
- =?us-ascii?Q?Yj2rB5ejBE3zT0uqXmLoUViPPlrgCseOVNTMRNRrQhQ4iLzNTync4V6HMUnX?=
- =?us-ascii?Q?WrkPTEMhwbjyFvBzYOwd8Wrs7gQxs9KOY1A+qgonpUX57J7wIr9oOjVbkdtd?=
- =?us-ascii?Q?M3eW4t56oU1bl3cpP0UXnZpbTnaCSBgI+rgN5g00TE/rL/lxtW9Nvs0gNWdJ?=
- =?us-ascii?Q?56v3ceYhYygOPKwHh4QX4cEHrwtx8Q4lpluY3obyBizJWgaXHCQRgYSpWn4T?=
- =?us-ascii?Q?hJcrn77+ZpU4kRL3KGOSflai/RxKYozZydDg2CsQtxxeEL+z7V/XqLmu7lA9?=
- =?us-ascii?Q?pKmVc3Iq6f7Vge5BuNnMy9Pv3Z1/umRorBNQs0ZL+Wh84cdDxjgnwyBOBaQq?=
- =?us-ascii?Q?b0V1lwygypKhRHQOncxXObRcw2Qlq1w5RoWFXtnYdmW6brDj4h79l1LS8OLg?=
- =?us-ascii?Q?k86S5blzsW3m2sOnZ6VP6fs5bltlv571hSHjNtt0OdsI/OxfTMxYBNMXw/Vd?=
- =?us-ascii?Q?kvsgxMkl5XjPl0sFPsbt8gCInCBtwaosYqggGye7D9BWTj6l6VorZ/+qXoym?=
- =?us-ascii?Q?/odnkUyyIo5Je8EcH5kqq7pXDGp0TzzP2Bgr4U7+aiwbF6rplqPiuekzDuR7?=
- =?us-ascii?Q?a1q4uc6VfFt1nQUWiKRd6VV6Uk+v5ALJe1WYqW4Lhgv8FZjeeEpxMDcDpliq?=
- =?us-ascii?Q?J0AloxuhiGi2eHuUvyr1D64A0RLFV4/epaIoQnn51Kl5ntAEqSWuOdMLx7AC?=
- =?us-ascii?Q?cTw0/gooxexByPvw4SBK0Kfp3CRQ7tV0QdB98BD0N7vKP7O/0RmcXnQHzY7E?=
- =?us-ascii?Q?K0N2bp8Q1lhy1UzDqZ/VzX5qGM7KLDpSma/yFHzeAC3ZEIETlRWJBU8aE8eu?=
- =?us-ascii?Q?dUqRK4Cn0CfStKBsaokknxfWFO08bWR40EkpUXRO/tLg9AMSsrL38seMIULs?=
- =?us-ascii?Q?aF77SLx17Le8RdjR1PwIlaZSz04/mMb9eDdvXIZuLBNBy3vsqHLDYU/6PvNX?=
- =?us-ascii?Q?j03uX/d3EbKCP5hiALzzVIuYIjYnadooztISIitAVyo+VNW6VZSlSLV6eP8o?=
- =?us-ascii?Q?cmfVERRk?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eee2b113-1aa6-401e-882a-08d8c79c3615
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2021 17:01:41.1700
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZ71ZS49nr6cF952bxTZRcJODMoV6EFrbVhFSph3a8vieJ9nWmsdJmmZT9eaaSvOTT1wTznTadc/vP9x2eX80A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR04MB4103
+        id S236906AbhBBRO6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Feb 2021 12:14:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233997AbhBBQVM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Feb 2021 11:21:12 -0500
+Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5AAAC06121D
+        for <linux-usb@vger.kernel.org>; Tue,  2 Feb 2021 08:18:05 -0800 (PST)
+Received: by mail-qt1-x849.google.com with SMTP id r18so14608741qta.19
+        for <linux-usb@vger.kernel.org>; Tue, 02 Feb 2021 08:18:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=6hmLrSxBz7O60U04E0yrIeCXr2F3Gct89g3OTTomtcI=;
+        b=ZFhmcwSReQKW/Ynerv+EtbwcW1saPiciDn2nCyjlaw3q0BqxeLWTqofiveC457NbJn
+         7pQiBMvZzRJWbbJyh7e1mMdhw8Enki4igmZ9h3LRer9GF5ppjXnaJsc9ga8HjlhyFqD1
+         wy2yb41kAfUv3NqhYjGwZXNDvQoylJ0IyvRS5lOqKCxzWfQPReBFODRQujhmhaYWOAm8
+         23RCx2WGHwGNvQZ7I4J3NoNmXnu8/YHYmjvGhmnno8ORYXRLuZr5M2vG47eyFRRWa+Rc
+         ngbe0FnHxz1IMTR6F1q+X18ANbI2kBuxHeOJloU7ceUpdwvlE3vmt0N04j54ltdneYq8
+         31BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=6hmLrSxBz7O60U04E0yrIeCXr2F3Gct89g3OTTomtcI=;
+        b=X+dgsy8R/+CjJ6NfjOLBCESMCipo+8YHfKJqg0KdNHYGMWec2h/LokwPrJET0dNsr8
+         F7ehe0pLyH6wUCUNwR4WQ5r99Qc9/jhWqzk0VS6H87cm9WPHtIOK4o6Ev9x3TnK8mW/+
+         fAzsazptshHwwfGOMHCsJL1VeTvsruwWO47cjBShKv4A/xzUcwHD3PNN0CN+4ZpwU3dG
+         JDg5BFnmdTnJM/vcK5EeuqxRMHNsysv1mXsu0Chcz3XsKNweuWIzB7K6kUtlfCXZc2HO
+         TOIwsWQYEoFbvwKD/uTEST1SMqDJNfVlEWvrgsHwy2Dhz4A7+Zj8z1kPzyvFJIw7kcHt
+         eo1Q==
+X-Gm-Message-State: AOAM531BSd/ifd/kyG53QT4IAySZXJ/Ab+TzYRB6XZWnduHYErSO2M//
+        jVMywXStbMDbodNnU1HsuUE4o0mYMeQ2
+X-Google-Smtp-Source: ABdhPJyGhSpWuOMD0cDslyFu6HM0T44HhKtMoVzxrQ3+GQBJEEUrJnZS9TUAgo5GysUK18dx8VhrIKTuslwf
+Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
+X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:dd94:c753:a81d:c855])
+ (user=kyletso job=sendgmr) by 2002:a0c:f64c:: with SMTP id
+ s12mr21017595qvm.2.1612282684991; Tue, 02 Feb 2021 08:18:04 -0800 (PST)
+Date:   Wed,  3 Feb 2021 00:17:32 +0800
+In-Reply-To: <20210202161733.932215-1-kyletso@google.com>
+Message-Id: <20210202161733.932215-8-kyletso@google.com>
+Mime-Version: 1.0
+References: <20210202161733.932215-1-kyletso@google.com>
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH v5 7/8] dt-bindings: connector: Add SVDM VDO properties
+From:   Kyle Tso <kyletso@google.com>
+To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
+Cc:     badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the controller lost its power during the system suspend, we need
-to do all initialiation operations.
+Add bindings of VDO properties of USB PD SVDM so that they can be
+used in device tree.
 
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Signed-off-by: Kyle Tso <kyletso@google.com>
 ---
- drivers/usb/cdns3/cdns3-gadget.c |  2 ++
- drivers/usb/cdns3/cdns3-imx.c    | 34 ++++++++++++++++++++++++++++++++
- drivers/usb/cdns3/cdns3-plat.c   | 22 ++++++++++++++++++++-
- drivers/usb/cdns3/core.c         | 29 ++++++++++++++++++++++++++-
- drivers/usb/cdns3/drd.c          | 16 +++++++++++++++
- drivers/usb/cdns3/drd.h          |  2 +-
- 6 files changed, 102 insertions(+), 3 deletions(-)
+ .../bindings/connector/usb-connector.yaml     |  11 +
+ include/dt-bindings/usb/pd.h                  | 311 +++++++++++++++++-
+ 2 files changed, 321 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 582bfeceedb4..44b7301b1888 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -3304,6 +3304,8 @@ static int cdns3_gadget_resume(struct cdns *cdns, bool hibernated)
- 		return 0;
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 4286ed767a0a..d385026944ec 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -137,6 +137,17 @@ properties:
+     maxItems: 7
+     $ref: /schemas/types.yaml#/definitions/uint32-array
  
- 	cdns3_gadget_config(priv_dev);
-+	if (hibernated)
-+		writel(USB_CONF_DEVEN, &priv_dev->regs->usb_conf);
- 
- 	return 0;
- }
-diff --git a/drivers/usb/cdns3/cdns3-imx.c b/drivers/usb/cdns3/cdns3-imx.c
-index 8f88eec0b0ea..708b51cc5844 100644
---- a/drivers/usb/cdns3/cdns3-imx.c
-+++ b/drivers/usb/cdns3/cdns3-imx.c
-@@ -361,6 +361,39 @@ static int cdns_imx_suspend(struct device *dev)
- 
- 	return 0;
- }
++  sink-vdos:
++    description: An array of u32 with each entry (VDM Objects) providing additional information
++      corresponding to the product, the detailed bit definitions and the order of each VDO can be
++      found in "USB Power Delivery Specification Revision 3.0, Version 2.0 + ECNs 2020-12-10"
++      chapter 6.4.4.3.1 Discover Identity. User can specify the VDO array via
++      VDO_IDH/_CERT/_PRODUCT/_UFP/_DFP/_PCABLE/_ACABLE(1/2)/_VPD() defined in
++      dt-bindings/usb/pd.h.
++    minItems: 3
++    maxItems: 6
++    $ref: /schemas/types.yaml#/definitions/uint32-array
 +
+   op-sink-microwatt:
+     description: Sink required operating power in microwatt, if source can't
+       offer the power, Capability Mismatch is set. Required for power sink and
+diff --git a/include/dt-bindings/usb/pd.h b/include/dt-bindings/usb/pd.h
+index 0352893697f0..fef3ef65967f 100644
+--- a/include/dt-bindings/usb/pd.h
++++ b/include/dt-bindings/usb/pd.h
+@@ -93,4 +93,313 @@
+ #define FRS_DEFAULT_POWER      1
+ #define FRS_5V_1P5A            2
+ #define FRS_5V_3A              3
+- #endif /* __DT_POWER_DELIVERY_H */
 +
-+/* Indicate if the controller was power lost before */
-+static inline bool cdns_imx_is_power_lost(struct cdns_imx *data)
-+{
-+	u32 value;
++/*
++ * SVDM Identity Header
++ * --------------------
++ * <31>     :: data capable as a USB host
++ * <30>     :: data capable as a USB device
++ * <29:27>  :: product type (UFP / Cable / VPD)
++ * <26>     :: modal operation supported (1b == yes)
++ * <25:23>  :: product type (DFP) (SVDM version 2.0+ only; set to zero in version 1.0)
++ * <22:21>  :: connector type (SVDM version 2.0+ only; set to zero in version 1.0)
++ * <20:16>  :: Reserved, Shall be set to zero
++ * <15:0>   :: USB-IF assigned VID for this cable vendor
++ */
++/* SOP Product Type (UFP) */
++#define IDH_PTYPE_NOT_UFP       0
++#define IDH_PTYPE_HUB           1
++#define IDH_PTYPE_PERIPH        2
++#define IDH_PTYPE_PSD           3
++#define IDH_PTYPE_AMA           5
 +
-+	value = cdns_imx_readl(data, USB3_CORE_CTRL1);
-+	if ((value & SW_RESET_MASK) == ALL_SW_RESET)
-+		return true;
-+	else
-+		return false;
-+}
++/* SOP' Product Type (Cable Plug / VPD) */
++#define IDH_PTYPE_NOT_CABLE     0
++#define IDH_PTYPE_PCABLE        3
++#define IDH_PTYPE_ACABLE        4
++#define IDH_PTYPE_VPD           6
 +
-+static int cdns_imx_system_resume(struct device *dev)
-+{
-+	struct cdns_imx *data = dev_get_drvdata(dev);
-+	int ret;
++/* SOP Product Type (DFP) */
++#define IDH_PTYPE_NOT_DFP       0
++#define IDH_PTYPE_DFP_HUB       1
++#define IDH_PTYPE_DFP_HOST      2
++#define IDH_PTYPE_DFP_PB        3
 +
-+	ret = cdns_imx_resume(dev);
-+	if (ret)
-+		return ret;
++#define VDO_IDH(usbh, usbd, ufp_cable, is_modal, dfp, conn, vid)                \
++	((usbh) << 31 | (usbd) << 30 | ((ufp_cable) & 0x7) << 27                \
++	 | (is_modal) << 26 | ((dfp) & 0x7) << 23 | ((conn) & 0x3) << 21        \
++	 | ((vid) & 0xffff))
 +
-+	if (cdns_imx_is_power_lost(data)) {
-+		dev_dbg(dev, "resume from power lost\n");
-+		ret = cdns_imx_noncore_init(data);
-+		if (ret)
-+			cdns_imx_suspend(dev);
-+	}
++/*
++ * Cert Stat VDO
++ * -------------
++ * <31:0>  : USB-IF assigned XID for this cable
++ */
++#define VDO_CERT(xid)		((xid) & 0xffffffff)
 +
-+	return ret;
-+}
++/*
++ * Product VDO
++ * -----------
++ * <31:16> : USB Product ID
++ * <15:0>  : USB bcdDevice
++ */
++#define VDO_PRODUCT(pid, bcd)   (((pid) & 0xffff) << 16 | ((bcd) & 0xffff))
 +
- #else
- static int cdns_imx_platform_suspend(struct device *dev,
- 	bool suspend, bool wakeup)
-@@ -372,6 +405,7 @@ static int cdns_imx_platform_suspend(struct device *dev,
- 
- static const struct dev_pm_ops cdns_imx_pm_ops = {
- 	SET_RUNTIME_PM_OPS(cdns_imx_suspend, cdns_imx_resume, NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(cdns_imx_suspend, cdns_imx_system_resume)
- };
- 
- static const struct of_device_id cdns_imx_of_match[] = {
-diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
-index 4b18e1c6a4bb..e61da57fe31a 100644
---- a/drivers/usb/cdns3/cdns3-plat.c
-+++ b/drivers/usb/cdns3/cdns3-plat.c
-@@ -19,6 +19,7 @@
- 
- #include "core.h"
- #include "gadget-export.h"
-+#include "drd.h"
- 
- static int set_phy_power_on(struct cdns *cdns)
- {
-@@ -236,6 +237,17 @@ static int cdns3_controller_resume(struct device *dev, pm_message_t msg)
- 	if (!cdns->in_lpm)
- 		return 0;
- 
-+	if (cdns_power_is_lost(cdns)) {
-+		phy_exit(cdns->usb2_phy);
-+		ret = phy_init(cdns->usb2_phy);
-+		if (ret)
-+			return ret;
-+		phy_exit(cdns->usb3_phy);
-+		ret = phy_init(cdns->usb3_phy);
-+		if (ret)
-+			return ret;
-+	}
++/*
++ * UFP VDO (PD Revision 3.0+ only)
++ * --------
++ * <31:29> :: UFP VDO version
++ * <28>    :: Reserved
++ * <27:24> :: Device capability
++ * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
++ * <21:11> :: Reserved
++ * <10:8>  :: Vconn power (AMA only)
++ * <7>     :: Vconn required (AMA only, 0b == no, 1b == yes)
++ * <6>     :: Vbus required (AMA only, 0b == yes, 1b == no)
++ * <5:3>   :: Alternate modes
++ * <2:0>   :: USB highest speed
++ */
++/* UFP VDO Version */
++#define UFP_VDO_VER1_2		2
 +
- 	ret = set_phy_power_on(cdns);
- 	if (ret)
- 		return ret;
-@@ -270,10 +282,18 @@ static int cdns3_plat_runtime_resume(struct device *dev)
- static int cdns3_plat_suspend(struct device *dev)
- {
- 	struct cdns *cdns = dev_get_drvdata(dev);
-+	int ret;
- 
- 	cdns_suspend(cdns);
- 
--	return cdns3_controller_suspend(dev, PMSG_SUSPEND);
-+	ret = cdns3_controller_suspend(dev, PMSG_SUSPEND);
-+	if (ret)
-+		return ret;
++/* Device Capability */
++#define DEV_USB2_CAPABLE	BIT(0)
++#define DEV_USB2_BILLBOARD	BIT(1)
++#define DEV_USB3_CAPABLE	BIT(2)
++#define DEV_USB4_CAPABLE	BIT(3)
 +
-+	if (device_may_wakeup(dev) && cdns->wakeup_irq)
-+		enable_irq_wake(cdns->wakeup_irq);
++/* Connector Type */
++#define UFP_RECEPTACLE		2
++#define UFP_CAPTIVE		3
 +
-+	return ret;
- }
- 
- static int cdns3_plat_resume(struct device *dev)
-diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
-index 199713769289..5d486c8a9d99 100644
---- a/drivers/usb/cdns3/core.c
-+++ b/drivers/usb/cdns3/core.c
-@@ -525,9 +525,36 @@ EXPORT_SYMBOL_GPL(cdns_suspend);
- int cdns_resume(struct cdns *cdns, u8 set_active)
- {
- 	struct device *dev = cdns->dev;
-+	enum usb_role real_role;
-+	bool role_changed = false;
-+	int ret;
++/* Vconn Power (AMA only, set to AMA_VCONN_NOT_REQ if Vconn is not required) */
++#define AMA_VCONN_PWR_1W	0
++#define AMA_VCONN_PWR_1W5	1
++#define AMA_VCONN_PWR_2W	2
++#define AMA_VCONN_PWR_3W	3
++#define AMA_VCONN_PWR_4W	4
++#define AMA_VCONN_PWR_5W	5
++#define AMA_VCONN_PWR_6W	6
 +
-+	if (cdns_power_is_lost(cdns)) {
-+		if (cdns->role_sw) {
-+			cdns->role = cdns_role_get(cdns->role_sw);
-+		} else {
-+			real_role = cdns_hw_role_state_machine(cdns);
-+			if (real_role != cdns->role) {
-+				ret = cdns_hw_role_switch(cdns);
-+				if (ret)
-+					return ret;
-+				role_changed = true;
-+			}
-+		}
++/* Vconn Required (AMA only) */
++#define AMA_VCONN_NOT_REQ	0
++#define AMA_VCONN_REQ		1
 +
-+		if (!role_changed) {
-+			if (cdns->role == USB_ROLE_HOST)
-+				ret = cdns_drd_host_on(cdns);
-+			else if (cdns->role == USB_ROLE_DEVICE)
-+				ret = cdns_drd_gadget_on(cdns);
++/* Vbus Required (AMA only) */
++#define AMA_VBUS_REQ		0
++#define AMA_VBUS_NOT_REQ	1
 +
-+			if (ret)
-+				return ret;
-+		}
-+	}
- 
- 	if (cdns->roles[cdns->role]->resume)
--		cdns->roles[cdns->role]->resume(cdns, false);
-+		cdns->roles[cdns->role]->resume(cdns, cdns_power_is_lost(cdns));
- 
- 	if (set_active) {
- 		pm_runtime_disable(dev);
-diff --git a/drivers/usb/cdns3/drd.c b/drivers/usb/cdns3/drd.c
-index 605a413db727..8b04e030df4d 100644
---- a/drivers/usb/cdns3/drd.c
-+++ b/drivers/usb/cdns3/drd.c
-@@ -478,3 +478,19 @@ int cdns_drd_exit(struct cdns *cdns)
- 
- 	return 0;
- }
++/* Alternate Modes */
++#define UFP_ALTMODE_NOT_SUPP	0
++#define UFP_ALTMODE_TBT3	BIT(0)
++#define UFP_ALTMODE_RECFG	BIT(1)
++#define UFP_ALTMODE_NO_RECFG	BIT(2)
 +
++/* USB Highest Speed */
++#define UFP_USB2_ONLY		0
++#define UFP_USB32_GEN1		1
++#define UFP_USB32_4_GEN2	2
++#define UFP_USB4_GEN3		3
 +
-+/* Indicate the cdns3 core was power lost before */
-+bool cdns_power_is_lost(struct cdns *cdns)
-+{
-+	int ret = false;
++#define VDO_UFP(ver, cap, conn, vcpwr, vcr, vbr, alt, spd)			\
++	(((ver) & 0x7) << 29 | ((cap) & 0xf) << 24 | ((conn) & 0x3) << 22	\
++	 | ((vcpwr) & 0x7) << 8 | (vcr) << 7 | (vbr) << 6 | ((alt) & 0x7) << 3	\
++	 | ((spd) & 0x7))
 +
-+	if (cdns->version == CDNS3_CONTROLLER_V1) {
-+		if (!(readl(&cdns->otg_v1_regs->simulate) & BIT(0)))
-+			ret = true;
-+	} else {
-+		if (!(readl(&cdns->otg_v0_regs->simulate) & BIT(0)))
-+			ret = true;
-+	}
-+	return ret;
-+}
-diff --git a/drivers/usb/cdns3/drd.h b/drivers/usb/cdns3/drd.h
-index 9724acdecbbb..cbdf94f73ed9 100644
---- a/drivers/usb/cdns3/drd.h
-+++ b/drivers/usb/cdns3/drd.h
-@@ -215,5 +215,5 @@ int cdns_drd_gadget_on(struct cdns *cdns);
- void cdns_drd_gadget_off(struct cdns *cdns);
- int cdns_drd_host_on(struct cdns *cdns);
- void cdns_drd_host_off(struct cdns *cdns);
--
-+bool cdns_power_is_lost(struct cdns *cdns);
- #endif /* __LINUX_CDNS3_DRD */
++/*
++ * DFP VDO (PD Revision 3.0+ only)
++ * --------
++ * <31:29> :: DFP VDO version
++ * <28:27> :: Reserved
++ * <26:24> :: Host capability
++ * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
++ * <21:5>  :: Reserved
++ * <4:0>   :: Port number
++ */
++#define DFP_VDO_VER1_1		1
++#define HOST_USB2_CAPABLE	BIT(0)
++#define HOST_USB3_CAPABLE	BIT(1)
++#define HOST_USB4_CAPABLE	BIT(2)
++#define DFP_RECEPTACLE		2
++#define DFP_CAPTIVE		3
++
++#define VDO_DFP(ver, cap, conn, pnum)						\
++	(((ver) & 0x7) << 29 | ((cap) & 0x7) << 24 | ((conn) & 0x3) << 22	\
++	 | ((pnum) & 0x1f))
++
++/*
++ * Passive Cable VDO
++ * ---------
++ * <31:28> :: Cable HW version
++ * <27:24> :: Cable FW version
++ * <23:21> :: VDO version
++ * <20>    :: Reserved, Shall be set to zero
++ * <19:18> :: Type-C to Type-C/Captive (10b == C, 11b == Captive)
++ * <17>    :: Reserved, Shall be set to zero
++ * <16:13> :: cable latency (0001 == <10ns(~1m length))
++ * <12:11> :: cable termination type (10b == Vconn not req, 01b == Vconn req)
++ * <10:9>  :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
++ * <8:7>   :: Reserved, Shall be set to zero
++ * <6:5>   :: Vbus current handling capability (01b == 3A, 10b == 5A)
++ * <4:3>   :: Reserved, Shall be set to zero
++ * <2:0>   :: USB highest speed
++ *
++ * Active Cable VDO 1
++ * ---------
++ * <31:28> :: Cable HW version
++ * <27:24> :: Cable FW version
++ * <23:21> :: VDO version
++ * <20>    :: Reserved, Shall be set to zero
++ * <19:18> :: Connector type (10b == C, 11b == Captive)
++ * <17>    :: Reserved, Shall be set to zero
++ * <16:13> :: cable latency (0001 == <10ns(~1m length))
++ * <12:11> :: cable termination type (10b == one end active, 11b == both ends active VCONN req)
++ * <10:9>  :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
++ * <8>     :: SBU supported (0b == supported, 1b == not supported)
++ * <7>     :: SBU type (0b == passive, 1b == active)
++ * <6:5>   :: Vbus current handling capability (01b == 3A, 10b == 5A)
++ * <4>     :: Vbus through cable (0b == no, 1b == yes)
++ * <3>     :: SOP" controller present? (0b == no, 1b == yes)
++ * <2:0>   :: USB highest speed
++ */
++/* Cable VDO Version */
++#define CABLE_VDO_VER1_0	0
++#define CABLE_VDO_VER1_3	3
++
++/* Connector Type */
++#define CABLE_CTYPE		2
++#define CABLE_CAPTIVE		3
++
++/* Cable Latency */
++#define CABLE_LATENCY_1M	1
++#define CABLE_LATENCY_2M	2
++#define CABLE_LATENCY_3M	3
++#define CABLE_LATENCY_4M	4
++#define CABLE_LATENCY_5M	5
++#define CABLE_LATENCY_6M	6
++#define CABLE_LATENCY_7M	7
++#define CABLE_LATENCY_7M_PLUS	8
++
++/* Cable Termination Type */
++#define PCABLE_VCONN_NOT_REQ	0
++#define PCABLE_VCONN_REQ	1
++#define ACABLE_ONE_END		2
++#define ACABLE_BOTH_END		3
++
++/* Maximum Vbus Voltage */
++#define CABLE_MAX_VBUS_20V	0
++#define CABLE_MAX_VBUS_30V	1
++#define CABLE_MAX_VBUS_40V	2
++#define CABLE_MAX_VBUS_50V	3
++
++/* Active Cable SBU Supported/Type */
++#define ACABLE_SBU_SUPP		0
++#define ACABLE_SBU_NOT_SUPP	1
++#define ACABLE_SBU_PASSIVE	0
++#define ACABLE_SBU_ACTIVE	1
++
++/* Vbus Current Handling Capability */
++#define CABLE_CURR_DEF		0
++#define CABLE_CURR_3A		1
++#define CABLE_CURR_5A		2
++
++/* USB Highest Speed */
++#define CABLE_USB2_ONLY		0
++#define CABLE_USB32_GEN1	1
++#define CABLE_USB32_4_GEN2	2
++#define CABLE_USB4_GEN3		3
++
++#define VDO_PCABLE(hw, fw, ver, conn, lat, term, vbm, cur, spd)			\
++	(((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21		\
++	 | ((conn) & 0x3) << 18 | ((lat) & 0xf) << 13 | ((term) & 0x3) << 11	\
++	 | ((vbm) & 0x3) << 9 | ((cur) & 0x3) << 5 | ((spd) & 0x7))
++#define VDO_ACABLE1(hw, fw, ver, conn, lat, term, vbm, sbu, sbut, cur, vbt, sopp, spd) \
++	(((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21		\
++	 | ((conn) & 0x3) << 18	| ((lat) & 0xf) << 13 | ((term) & 0x3) << 11	\
++	 | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) & 0x3) << 5	\
++	 | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
++
++/*
++ * Active Cable VDO 2
++ * ---------
++ * <31:24> :: Maximum operating temperature
++ * <23:16> :: Shutdown temperature
++ * <15>    :: Reserved, Shall be set to zero
++ * <14:12> :: U3/CLd power
++ * <11>    :: U3 to U0 transition mode (0b == direct, 1b == through U3S)
++ * <10>    :: Physical connection (0b == copper, 1b == optical)
++ * <9>     :: Active element (0b == redriver, 1b == retimer)
++ * <8>     :: USB4 supported (0b == yes, 1b == no)
++ * <7:6>   :: USB2 hub hops consumed
++ * <5>     :: USB2 supported (0b == yes, 1b == no)
++ * <4>     :: USB3.2 supported (0b == yes, 1b == no)
++ * <3>     :: USB lanes supported (0b == one lane, 1b == two lanes)
++ * <2>     :: Optically isolated active cable (0b == no, 1b == yes)
++ * <1>     :: Reserved, Shall be set to zero
++ * <0>     :: USB gen (0b == gen1, 1b == gen2+)
++ */
++/* U3/CLd Power*/
++#define ACAB2_U3_CLD_10MW_PLUS	0
++#define ACAB2_U3_CLD_10MW	1
++#define ACAB2_U3_CLD_5MW	2
++#define ACAB2_U3_CLD_1MW	3
++#define ACAB2_U3_CLD_500UW	4
++#define ACAB2_U3_CLD_200UW	5
++#define ACAB2_U3_CLD_50UW	6
++
++/* Other Active Cable VDO 2 Fields */
++#define ACAB2_U3U0_DIRECT	0
++#define ACAB2_U3U0_U3S		1
++#define ACAB2_PHY_COPPER	0
++#define ACAB2_PHY_OPTICAL	1
++#define ACAB2_REDRIVER		0
++#define ACAB2_RETIMER		1
++#define ACAB2_USB4_SUPP		0
++#define ACAB2_USB4_NOT_SUPP	1
++#define ACAB2_USB2_SUPP		0
++#define ACAB2_USB2_NOT_SUPP	1
++#define ACAB2_USB32_SUPP	0
++#define ACAB2_USB32_NOT_SUPP	1
++#define ACAB2_LANES_ONE		0
++#define ACAB2_LANES_TWO		1
++#define ACAB2_OPT_ISO_NO	0
++#define ACAB2_OPT_ISO_YES	1
++#define ACAB2_GEN_1		0
++#define ACAB2_GEN_2_PLUS	1
++
++#define VDO_ACABLE2(mtemp, stemp, u3p, trans, phy, ele, u4, hops, u2, u32, lane, iso, gen)	\
++	(((mtemp) & 0xff) << 24 | ((stemp) & 0xff) << 16 | ((u3p) & 0x7) << 12	\
++	 | (trans) << 11 | (phy) << 10 | (ele) << 9 | (u4) << 8			\
++	 | ((hops) & 0x3) << 6 | (u2) << 5 | (u32) << 4 | (lane) << 3		\
++	 | (iso) << 2 | (gen))
++
++/*
++ * VPD VDO
++ * ---------
++ * <31:28> :: HW version
++ * <27:24> :: FW version
++ * <23:21> :: VDO version
++ * <20:17> :: Reserved, Shall be set to zero
++ * <16:15> :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
++ * <14>    :: Charge through current support (0b == 3A, 1b == 5A)
++ * <13>    :: Reserved, Shall be set to zero
++ * <12:7>  :: Vbus impedance
++ * <6:1>   :: Ground impedance
++ * <0>     :: Charge through support (0b == no, 1b == yes)
++ */
++#define VPD_VDO_VER1_0		0
++#define VPD_MAX_VBUS_20V	0
++#define VPD_MAX_VBUS_30V	1
++#define VPD_MAX_VBUS_40V	2
++#define VPD_MAX_VBUS_50V	3
++#define VPDCT_CURR_3A		0
++#define VPDCT_CURR_5A		1
++#define VPDCT_NOT_SUPP		0
++#define VPDCT_SUPP		1
++
++#define VDO_VPD(hw, fw, ver, vbm, curr, vbi, gi, ct)			\
++	(((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21	\
++	 | ((vbm) & 0x3) << 15 | (curr) << 14 | ((vbi) & 0x3f) << 7	\
++	 | ((gi) & 0x3f) << 1 | (ct))
++
++#endif /* __DT_POWER_DELIVERY_H */
 -- 
-2.24.0.rc1
+2.30.0.365.g02bc693789-goog
 
