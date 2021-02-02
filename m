@@ -8,57 +8,60 @@ X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5518C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A08A9C433E6
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:32:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A453464ED0
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:31:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71FAC64EDC
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Feb 2021 00:32:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229927AbhBBAbr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Feb 2021 19:31:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45380 "EHLO
+        id S231312AbhBBAby (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Feb 2021 19:31:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229527AbhBBAbq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 19:31:46 -0500
-Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97342C061573
-        for <linux-usb@vger.kernel.org>; Mon,  1 Feb 2021 16:31:06 -0800 (PST)
-Received: by mail-pg1-x549.google.com with SMTP id f16so12602389pgh.3
-        for <linux-usb@vger.kernel.org>; Mon, 01 Feb 2021 16:31:06 -0800 (PST)
+        with ESMTP id S231259AbhBBAbv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Feb 2021 19:31:51 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7002C0613ED
+        for <linux-usb@vger.kernel.org>; Mon,  1 Feb 2021 16:31:10 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id v17so1669060ybq.9
+        for <linux-usb@vger.kernel.org>; Mon, 01 Feb 2021 16:31:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=hjpuSlb6P3bXjOUeqREpOYD2lH5I31G9zQvLZVeEB98=;
-        b=qYrzgC9yxfnuj+YMkIfocI7w52BZSEvBnDaAEOBAfVC5+x/wSyKEU5mU5rw8/wMeC4
-         A6xbEr8L8qQuBIyvmZUVzScNftJxLt0iaddPgUIXH75Zlsdxoi6mSgoXrPQsrmcpdZv4
-         uSYoQeyKApWiaHtCFHmuGFKmg7RtrodUbqcD7TmrYe1zTLSygjRXWTMJkafSF5AWH/u2
-         xY3oC4stDPgxMX6yPukV/PsvzA6VpuIXpPdoMCqct8wlSqkdKFWP4pL9NOH8qt9ceGkG
-         qO74br8AOXFaCaDlEpEOpmTt4atdHrnTNvMilPhuOfNLTk38tscX57QmMfvp5gHkqu6O
-         N+bg==
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=0uh+WToPVrT5nNi8VVC2Dny5IL46Dl8JAHJqCqtV+0E=;
+        b=SFTMdNMBaucckx4ugeVWqiTaqglAACSOnYW1A8/Ez40FvYEsGsO0865cf6SOLLRZMl
+         cmExytKpiIUQTLdGyeq+PUR8+HohaxLo62ySgm8hUBnNJJ8mgLdsddWbKPXMRA+E67eG
+         SaWVdQsXlr1DGAk5sISAxgbEgxZjQztEiPSMkFTiBzFTDoH2i9guief7sffShnkAG7u8
+         TMoF4o4nYGOdaEdrTSTHI+h1rUtOxgpNU4MHtE1VjEcJTKOHLug3obBT6AYxiwSd4G7y
+         gfT8tiVCijoHyEFRRycKzh7fSI9c+1FoSLpezB91zdOv5mTJXXTjZyfZ7t5IGvyV49I9
+         5M9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=hjpuSlb6P3bXjOUeqREpOYD2lH5I31G9zQvLZVeEB98=;
-        b=qTZfj8le6Hf3gQIqKOyTZodDJXgSyiFiDNwMnckIAiHjVz6GTQPJsgVnc14dTHLuLh
-         BhR8DWQrJAQOLLLpwvCFdqCP42aAC+CxEtS2EKRfvwfFOqCo4fwmLZdQzqLziSZBw9+M
-         LbsMHnmMEG3ymQl2ELnxWJeJ5sPfxe+dBM10n3onM75cX5GVcUMGx9oa0++h4KUjdS/n
-         tr+wFbYWZvyUUcmNO/F4HawXtbS1zg/uPVSdjvTTcv24IlqqjfZ7StA2iW6Hz0RJKGB1
-         Sa9PRmOnKTiKIBQsUunGVEhvnmtvelBDsGh/k5EPSGE3JOQyEfUidMAuM3kZ3Rgt7ocd
-         wiMQ==
-X-Gm-Message-State: AOAM533jFEoJE3CXQ144/V8DLll+qb7Bgl7vrGq7suWRG8MHr79VDfje
-        8tRxddLW1FDYCJ9hptnaav/7htviR1c=
-X-Google-Smtp-Source: ABdhPJy01DdtX3UOPJ2GfeB4NeGYSbgYQqGCgzTHV5yivS8c3jlPanGVvx3SWW5S2oNw01UfpxdFTpFyBxA=
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=0uh+WToPVrT5nNi8VVC2Dny5IL46Dl8JAHJqCqtV+0E=;
+        b=lRGX4VfSE01xt5cv/oRbKMrbscESF/Zq6R5uVbG/LCHYzhTCZQc/gSw43EIabi6KDP
+         YQ+LN6XYW+lhq35wTTLt9cOJ4I0X1ZH4KKHIYYY50h8lPfJSR/iI82dbR2BYcivy67+/
+         xWadT1lZ+TUuBZYeBxMaLSzTLsXhQSrYVnOB9wlbk9DwhVTCuXERNCjGvR6+Qbhkk2+T
+         htTwjJidv3d9r2M//+GPd99z3skkax5/DBlN81WMxyKKuXa6Lb7lZMPnVDfAkPHoeDWG
+         z7WiFzu0LY9jFHeV/hp/vV4lehzCMOiQEGmNH/ykYKn91/+JPy40aXWj4AGaxwu1Lj2+
+         cMug==
+X-Gm-Message-State: AOAM5315TOLaG0bFXLaqH7j7AgFpMUhSIs5RDIkIdWWzuvmmpCXjEKbp
+        WsKMsyC5aw2h3hU3/ELpGt3h2GVR6ag=
+X-Google-Smtp-Source: ABdhPJxS4YMkF5b8SGdcc3Ax0TQLzMLXyrGtOPZ0WQnmvJc3+bh0U5qT1yd0Va0gS871RnMu44QVgUNzi+Q=
 Sender: "badhri via sendgmr" <badhri@badhri.mtv.corp.google.com>
 X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:d56c:119f:44fb:5da4])
- (user=badhri job=sendgmr) by 2002:a17:90a:df15:: with SMTP id
- gp21mr1338867pjb.63.1612225866129; Mon, 01 Feb 2021 16:31:06 -0800 (PST)
-Date:   Mon,  1 Feb 2021 16:30:59 -0800
-Message-Id: <20210202003101.221145-1-badhri@google.com>
+ (user=badhri job=sendgmr) by 2002:a25:cd01:: with SMTP id d1mr11984442ybf.125.1612225870209;
+ Mon, 01 Feb 2021 16:31:10 -0800 (PST)
+Date:   Mon,  1 Feb 2021 16:31:01 -0800
+In-Reply-To: <20210202003101.221145-1-badhri@google.com>
+Message-Id: <20210202003101.221145-3-badhri@google.com>
 Mime-Version: 1.0
+References: <20210202003101.221145-1-badhri@google.com>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH v2 1/3] usb: typec: tcpm: Add Callback to Usb Communication
- capable partner
+Subject: [PATCH v2 3/3] usb: typec: tcpci_maxim: Enable data path when partner
+ is USB Comm capable
 From:   Badhri Jagan Sridharan <badhri@google.com>
 To:     Guenter Roeck <linux@roeck-us.net>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -71,94 +74,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB Communications Capable bit indicates if port
-partner is capable of communication over the USB data lines
-(e.g. D+/- or SS Tx/Rx). Notify the status of the bit to low
-level drivers to perform chip specific operation.
-For instance, low level driver enables USB switches on D+/D-
-lines to set up data path when the bit is set.
-
-Refactored from patch initially authored by
-Kyle Tso <kyletso@google.com>
+Configure USB switches when partner is USB Communication capable.
+The is enabled USB data communication over D+/D- pins.
 
 Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
-Changes since V1:
-- Removed partner_usb_comm_capable flag.
-- Fixed capable flag for SNK_NEGOTIATE_CAPABILITIES.
----
- drivers/usb/typec/tcpm/tcpm.c | 13 +++++++++++++
- include/linux/usb/tcpm.h      |  5 +++++
- 2 files changed, 18 insertions(+)
+ drivers/usb/typec/tcpm/tcpci_maxim.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 0afd8ef692e8..997a1a56c161 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -3429,6 +3429,14 @@ static void tcpm_unregister_altmodes(struct tcpm_port *port)
- 	memset(modep, 0, sizeof(*modep));
+diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+index f1674a611033..041a1c393594 100644
+--- a/drivers/usb/typec/tcpm/tcpci_maxim.c
++++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+@@ -19,6 +19,9 @@
+ #define PD_ACTIVITY_TIMEOUT_MS				10000
+ 
+ #define TCPC_VENDOR_ALERT				0x80
++#define TCPC_VENDOR_USBSW_CTRL				0x93
++#define TCPC_VENDOR_USBSW_CTRL_ENABLE_USB_DATA		0x9
++#define TCPC_VENDOR_USBSW_CTRL_DISABLE_USB_DATA		0
+ 
+ #define TCPC_RECEIVE_BUFFER_COUNT_OFFSET		0
+ #define TCPC_RECEIVE_BUFFER_FRAME_TYPE_OFFSET		1
+@@ -274,6 +277,21 @@ static void process_tx(struct max_tcpci_chip *chip, u16 status)
+ 		max_tcpci_init_regs(chip);
  }
  
-+static void tcpm_set_partner_usb_comm_capable(struct tcpm_port *port, bool capable)
++/* Enable USB switches when partner is USB communications capable */
++static void max_tcpci_set_partner_usb_comm_capable(struct tcpci *tcpci, struct tcpci_data *data,
++						   bool capable)
 +{
-+	tcpm_log(port, "Setting usb_comm capable %s", capable ? "true" : "false");
++	struct max_tcpci_chip *chip = tdata_to_max_tcpci(data);
++	int ret;
 +
-+	if (port->tcpc->set_partner_usb_comm_capable)
-+		port->tcpc->set_partner_usb_comm_capable(port->tcpc, capable);
++	ret = max_tcpci_write8(chip, TCPC_VENDOR_USBSW_CTRL, capable ?
++			       TCPC_VENDOR_USBSW_CTRL_ENABLE_USB_DATA :
++			       TCPC_VENDOR_USBSW_CTRL_DISABLE_USB_DATA);
++
++	if (ret < 0)
++		dev_err(chip->dev, "Failed to enable USB switches");
 +}
 +
- static void tcpm_reset_port(struct tcpm_port *port)
+ static irqreturn_t _max_tcpci_irq(struct max_tcpci_chip *chip, u16 status)
  {
- 	int ret;
-@@ -3445,6 +3453,7 @@ static void tcpm_reset_port(struct tcpm_port *port)
- 	port->attached = false;
- 	port->pd_capable = false;
- 	port->pps_data.supported = false;
-+	tcpm_set_partner_usb_comm_capable(port, false);
+ 	u16 mask;
+@@ -453,6 +471,7 @@ static int max_tcpci_probe(struct i2c_client *client, const struct i2c_device_id
+ 	chip->data.frs_sourcing_vbus = max_tcpci_frs_sourcing_vbus;
+ 	chip->data.auto_discharge_disconnect = true;
+ 	chip->data.vbus_vsafe0v = true;
++	chip->data.set_partner_usb_comm_capable = max_tcpci_set_partner_usb_comm_capable;
  
- 	/*
- 	 * First Rx ID should be 0; set this to a sentinel of -1 so that
-@@ -3785,6 +3794,8 @@ static void run_state_machine(struct tcpm_port *port)
- 			}
- 		} else {
- 			tcpm_pd_send_control(port, PD_CTRL_ACCEPT);
-+			tcpm_set_partner_usb_comm_capable(port,
-+							  !!(port->sink_request & RDO_USB_COMM));
- 			tcpm_set_state(port, SRC_TRANSITION_SUPPLY,
- 				       PD_T_SRC_TRANSITION);
- 		}
-@@ -4004,6 +4015,8 @@ static void run_state_machine(struct tcpm_port *port)
- 		break;
- 	case SNK_NEGOTIATE_CAPABILITIES:
- 		port->pd_capable = true;
-+		tcpm_set_partner_usb_comm_capable(port,
-+						  !!(port->source_caps[0] & PDO_FIXED_USB_COMM));
- 		port->hard_reset_count = 0;
- 		ret = tcpm_pd_send_request(port);
- 		if (ret < 0) {
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index 3af99f85e8b9..42fcfbe10590 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -108,6 +108,10 @@ enum tcpm_transmit_type {
-  *		is supported by TCPC, set this callback for TCPM to query
-  *		whether vbus is at VSAFE0V when needed.
-  *		Returns true when vbus is at VSAFE0V, false otherwise.
-+ * @set_partner_usb_comm_capable:
-+ *              Optional; The USB Communications Capable bit indicates if port
-+ *              partner is capable of communication over the USB data lines
-+ *              (e.g. D+/- or SS Tx/Rx). Called to notify the status of the bit.
-  */
- struct tcpc_dev {
- 	struct fwnode_handle *fwnode;
-@@ -139,6 +143,7 @@ struct tcpc_dev {
- 	int (*set_auto_vbus_discharge_threshold)(struct tcpc_dev *dev, enum typec_pwr_opmode mode,
- 						 bool pps_active, u32 requested_vbus_voltage);
- 	bool (*is_vbus_vsafe0v)(struct tcpc_dev *dev);
-+	void (*set_partner_usb_comm_capable)(struct tcpc_dev *dev, bool enable);
- };
- 
- struct tcpm_port;
+ 	max_tcpci_init_regs(chip);
+ 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
 -- 
 2.30.0.365.g02bc693789-goog
 
