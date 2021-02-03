@@ -2,75 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3147AC4332D
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D62AC433E0
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:16:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD13C64F46
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:13:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43B8764F48
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:16:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233120AbhBCJJ7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Feb 2021 04:09:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46984 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233222AbhBCJH3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Feb 2021 04:07:29 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AF9664E36;
-        Wed,  3 Feb 2021 09:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612343208;
-        bh=cfXwA5vl+xRuEQ7jto4OYIHNb7RwjaGVIgBR90aVD5o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j27MRuHrFC3WmDJ8mJJU5+/F2g6VCEDrTEcon21wZVNNlP9R+QNrcYM51/cjLAfs+
-         Lune3W+vbY0rdHalwdVP+ps3bknb44+7kMzz22NrBnpAjBAZlvsU0xA87J0gTsfpLO
-         KbVUCS+J+Cpm/CfxithtHXt+9piD62q6UyG2vgq4=
-Date:   Wed, 3 Feb 2021 10:06:46 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
-        Felipe Balbi <balbi@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Serge Semin <fancer.lancer@gmail.com>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/10] usb: dwc3: qcom: Detect DWC3 DT-nodes with
- "usb"-prefixed names
-Message-ID: <YBpnpj+0KHM1Q8l8@kroah.com>
-References: <20201205155621.3045-1-Sergey.Semin@baikalelectronics.ru>
- <20201205155621.3045-10-Sergey.Semin@baikalelectronics.ru>
- <YBnZ8O+zI/dzrjDQ@builder.lan>
+        id S233090AbhBCJQz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Feb 2021 04:16:55 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:44189 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233188AbhBCJPl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Feb 2021 04:15:41 -0500
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 1139EvyE6008964, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexmbs04.realtek.com.tw[172.21.6.97])
+        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 1139EvyE6008964
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 3 Feb 2021 17:14:58 +0800
+Received: from fc32.localdomain (172.21.177.102) by RTEXMBS04.realtek.com.tw
+ (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
+ 17:14:57 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     <netdev@vger.kernel.org>
+CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
+Subject: [PATCH net-next 0/2] r8152: adjust flow for power cut
+Date:   Wed, 3 Feb 2021 17:14:27 +0800
+Message-ID: <1394712342-15778-398-Taiwan-albertk@realtek.com>
+X-Mailer: Microsoft Office Outlook 11
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YBnZ8O+zI/dzrjDQ@builder.lan>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.21.177.102]
+X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
+ RTEXMBS04.realtek.com.tw (172.21.6.97)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 05:02:08PM -0600, Bjorn Andersson wrote:
-> On Sat 05 Dec 09:56 CST 2020, Serge Semin wrote:
-> 
-> > In accordance with the USB HCD/DRD schema all the USB controllers are
-> > supposed to have DT-nodes named with prefix "^usb(@.*)?".  Since the
-> > existing DT-nodes will be renamed in a subsequent patch let's first make
-> > sure the DWC3 Qualcomm driver supports them and second falls back to the
-> > deprecated naming so not to fail on the legacy DTS-files passed to the
-> > newer kernels.
-> > 
-> 
-> Felipe, will you merge this, so that I can merge the dts patch depending
-> on this into the Qualcomm DT tree?
+The two patches are used to adjust the flow about resuming from
+the state of power cut. For the purpose, some functions have to
+be updated first.
 
-Patches this old are long-gone out of our queues.  If it needs to be
-applied to a linux-usb tree, please resend.
+Hayes Wang (2):
+  r8152: replace several functions about phy patch request
+  r8152: adjust the flow of power cut for RTL8153B
 
-thanks,
+ drivers/net/usb/r8152.c | 150 ++++++++++++++++++++++++----------------
+ 1 file changed, 89 insertions(+), 61 deletions(-)
 
-greg k-h
+-- 
+2.26.2
+
