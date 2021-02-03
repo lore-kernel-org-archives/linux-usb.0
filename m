@@ -2,117 +2,121 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MIME_BASE64_TEXT,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB15BC433DB
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:48:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F969C433E9
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 10:28:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7DC0564F61
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:48:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE39264E38
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 10:28:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233405AbhBCJro (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Feb 2021 04:47:44 -0500
-Received: from mga09.intel.com ([134.134.136.24]:2805 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232967AbhBCJrk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Feb 2021 04:47:40 -0500
-IronPort-SDR: zdYSGFiqur8Mkbos/rqEUPOm8jXOXvnO4UeqJjdzEmUGTNFRlkJniEm1N+IrbZRdpVEg/9Hhh+
- D52PJRy/gjzA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="181160480"
-X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; 
-   d="scan'208";a="181160480"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 01:45:39 -0800
-IronPort-SDR: zESI6Be6g1Qr4aWJMp9MGP2WTezGi8bJymCwpLw3goEi+ZsveB8TGHGqxI3q6N1XmAPcp7X31O
- QNtcdAgwpn5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; 
-   d="scan'208";a="480285734"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 03 Feb 2021 01:45:36 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 03 Feb 2021 11:45:35 +0200
-Date:   Wed, 3 Feb 2021 11:45:35 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 1/6] software node: Provide replacement for
- device_add_properties()
-Message-ID: <20210203094535.GC1687065@kuha.fi.intel.com>
-References: <20210202125032.64982-1-heikki.krogerus@linux.intel.com>
- <20210202125032.64982-2-heikki.krogerus@linux.intel.com>
- <CAJZ5v0gMEBV=Gm-R=5zkN-J_p7cMTBwoOJrv=ec1j6SfSYRg_w@mail.gmail.com>
- <20210202150102.GA1687065@kuha.fi.intel.com>
- <CAJZ5v0hVZBhqzLPGPHDZYPcYyJPfwgYwjzKGYaUMZOBw7Eh7CQ@mail.gmail.com>
+        id S233863AbhBCK1w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Feb 2021 05:27:52 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:36954 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233694AbhBCK1f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Feb 2021 05:27:35 -0500
+X-UUID: 109044f3a5c24026a4f5930e4b0eaccf-20210203
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=qJXyUkhTG3EiVikkkhafwsut5EHurgvUe+hMMeVXd64=;
+        b=dnXVX1CYwJ4CMKrJYba4h/XDMwcANiwlJNop0YS7rA8ksPjSd55Yfm2RU5+Bw/82EJmsTGnOU8bnwRh3GBrzS0rOvzxdJ9iA8DTPuBGI8P7PP/cK62joq/xd1efg4pWLFzoNoLGesHCBDw9Sc0S136Lh17jGLgbpJ5D9/588zWo=;
+X-UUID: 109044f3a5c24026a4f5930e4b0eaccf-20210203
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 328501113; Wed, 03 Feb 2021 18:26:51 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 3 Feb 2021 18:26:46 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 3 Feb 2021 18:26:46 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: [RFC PATCH v2 2/3] usb: xhci-mtk: modify the SOF/ITP interval for mt8195
+Date:   Wed, 3 Feb 2021 18:26:41 +0800
+Message-ID: <20210203102642.7353-2-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210203102642.7353-1-chunfeng.yun@mediatek.com>
+References: <20210203102642.7353-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJZ5v0hVZBhqzLPGPHDZYPcYyJPfwgYwjzKGYaUMZOBw7Eh7CQ@mail.gmail.com>
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 69C95C417298EC51AE23FB6CAB8FFF25126E6644A83787837E3078CAF3F85B592000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 02, 2021 at 05:08:40PM +0100, Rafael J. Wysocki wrote:
-> It looks like there is a use case that cannot be addressed by using
-> device_add_properties() and that's why you need this new function.
-> 
-> Can you describe that use case, please, and explain what the problem
-> with using device_add_properties() in it is?
+VGhlcmUgYXJlIDQgVVNCIGNvbnRyb2xsZXJzIG9uIE1UODE5NSwgdGhlIGNvbnRyb2xsZXJzIChJ
+UDF+SVAzLA0KZXhjbHVkZSBJUDApIGhhdmUgYSB3cm9uZyBkZWZhdWx0IFNPRi9JVFAgaW50ZXJ2
+YWwgd2hpY2ggaXMNCmNhbGN1bGF0ZWQgZnJvbSB0aGUgZnJhbWUgY291bnRlciBjbG9jayAyNE1o
+eiBieSBkZWZhdWx0LCBidXQNCmluIGZhY3QsIHRoZSBmcmFtZSBjb3VudGVyIGNsb2NrIGlzIDQ4
+TWh6LCBzbyB3ZSBzaG91bGQgc2V0DQp0aGUgYWNjdXJhdGUgaW50ZXJ2YWwgYWNjb3JkaW5nIHRv
+IDQ4TWh6IGZvciB0aG9zZSBjb250cm9sbGVycy4NCk5vdGU6IHRoZSBmaXJzdCBjb250cm9sbGVy
+IG5vIG5lZWQgc2V0IGl0Lg0KDQpTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5n
+Lnl1bkBtZWRpYXRlay5jb20+DQotLS0NCnYyOiBmaXggdHlwbyBvZiBjb21hcHRpYmxlDQotLS0N
+CiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMgfCA2MyArKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrDQogMSBmaWxlIGNoYW5nZWQsIDYzIGluc2VydGlvbnMoKykNCg0KZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tdGsuYyBiL2RyaXZlcnMvdXNiL2hvc3Qv
+eGhjaS1tdGsuYw0KaW5kZXggOGYzMjFmMzlhYjk2Li4wYTY4YzRhYzhiNDggMTAwNjQ0DQotLS0g
+YS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMNCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhj
+aS1tdGsuYw0KQEAgLTY4LDExICs2OCw3MSBAQA0KICNkZWZpbmUgU1NDX0lQX1NMRUVQX0VOCUJJ
+VCg0KQ0KICNkZWZpbmUgU1NDX1NQTV9JTlRfRU4JCUJJVCgxKQ0KIA0KKy8qIHhIQ0kgY3NyICov
+DQorI2RlZmluZSBMU19FT0YJCQkweDkzMA0KKyNkZWZpbmUgTFNfRU9GX09GRlNFVAkJMHg4OQ0K
+Kw0KKyNkZWZpbmUgRlNfRU9GCQkJMHg5MzQNCisjZGVmaW5lIEZTX0VPRl9PRkZTRVQJCTB4MmUN
+CisNCisjZGVmaW5lIFNTX0dFTjFfRU9GCQkweDkzYw0KKyNkZWZpbmUgU1NfR0VOMV9FT0ZfT0ZG
+U0VUCTB4NzgNCisNCisjZGVmaW5lIEhGQ05UUl9DRkcJCTB4OTQ0DQorI2RlZmluZSBJVFBfREVM
+VEFfQ0xLCQkoMHhhIDw8IDEpDQorI2RlZmluZSBJVFBfREVMVEFfQ0xLX01BU0sJR0VOTUFTSyg1
+LCAxKQ0KKyNkZWZpbmUgRlJNQ05UX0xFVjFfUkFORwkoMHgxMmIgPDwgOCkNCisjZGVmaW5lIEZS
+TUNOVF9MRVYxX1JBTkdfTUFTSwlHRU5NQVNLKDE5LCA4KQ0KKw0KKyNkZWZpbmUgU1NfR0VOMl9F
+T0YJCTB4OTkwDQorI2RlZmluZSBTU19HRU4yX0VPRl9PRkZTRVQJMHgzYw0KKyNkZWZpbmUgRU9G
+X09GRlNFVF9NQVNLCQlHRU5NQVNLKDExLCAwKQ0KKw0KIGVudW0gc3N1c2JfdXdrX3ZlcnMgew0K
+IAlTU1VTQl9VV0tfVjEgPSAxLA0KIAlTU1VTQl9VV0tfVjIsDQogfTsNCiANCisvKg0KKyAqIE1U
+ODE5NSBoYXMgNCBjb250cm9sbGVycywgdGhlIGNvbnRyb2xsZXIxfjMncyBkZWZhdWx0IFNPRi9J
+VFAgaW50ZXJ2YWwNCisgKiBpcyBjYWxjdWxhdGVkIGZyb20gdGhlIGZyYW1lIGNvdW50ZXIgY2xv
+Y2sgMjRNLCBidXQgaW4gZmFjdCwgdGhlIGNsb2NrDQorICogaXMgNDhNLCBzbyBuZWVkIGNoYW5n
+ZSB0aGUgaW50ZXJ2YWwuDQorICovDQorc3RhdGljIHZvaWQgeGhjaV9tdGtfc2V0X2ZyYW1lX2lu
+dGVydmFsKHN0cnVjdCB4aGNpX2hjZF9tdGsgKm10aykNCit7DQorCXN0cnVjdCBkZXZpY2UgKmRl
+diA9IG10ay0+ZGV2Ow0KKwlzdHJ1Y3QgdXNiX2hjZCAqaGNkID0gbXRrLT5oY2Q7DQorCXUzMiB2
+YWx1ZTsNCisNCisJaWYgKCFvZl9kZXZpY2VfaXNfY29tcGF0aWJsZShkZXYtPm9mX25vZGUsICJt
+ZWRpYXRlayxtdDgxOTUteGhjaSIpKQ0KKwkJcmV0dXJuOw0KKw0KKwl2YWx1ZSA9IHJlYWRsKGhj
+ZC0+cmVncyArIEhGQ05UUl9DRkcpOw0KKwl2YWx1ZSAmPSB+KElUUF9ERUxUQV9DTEtfTUFTSyB8
+IEZSTUNOVF9MRVYxX1JBTkdfTUFTSyk7DQorCXZhbHVlIHw9IChJVFBfREVMVEFfQ0xLIHwgRlJN
+Q05UX0xFVjFfUkFORyk7DQorCXdyaXRlbCh2YWx1ZSwgaGNkLT5yZWdzICsgSEZDTlRSX0NGRyk7
+DQorDQorCXZhbHVlID0gcmVhZGwoaGNkLT5yZWdzICsgTFNfRU9GKTsNCisJdmFsdWUgJj0gfkVP
+Rl9PRkZTRVRfTUFTSzsNCisJdmFsdWUgfD0gTFNfRU9GX09GRlNFVDsNCisJd3JpdGVsKHZhbHVl
+LCBoY2QtPnJlZ3MgKyBMU19FT0YpOw0KKw0KKwl2YWx1ZSA9IHJlYWRsKGhjZC0+cmVncyArIEZT
+X0VPRik7DQorCXZhbHVlICY9IH5FT0ZfT0ZGU0VUX01BU0s7DQorCXZhbHVlIHw9IEZTX0VPRl9P
+RkZTRVQ7DQorCXdyaXRlbCh2YWx1ZSwgaGNkLT5yZWdzICsgRlNfRU9GKTsNCisNCisJdmFsdWUg
+PSByZWFkbChoY2QtPnJlZ3MgKyBTU19HRU4xX0VPRik7DQorCXZhbHVlICY9IH5FT0ZfT0ZGU0VU
+X01BU0s7DQorCXZhbHVlIHw9IFNTX0dFTjFfRU9GX09GRlNFVDsNCisJd3JpdGVsKHZhbHVlLCBo
+Y2QtPnJlZ3MgKyBTU19HRU4xX0VPRik7DQorDQorCXZhbHVlID0gcmVhZGwoaGNkLT5yZWdzICsg
+U1NfR0VOMl9FT0YpOw0KKwl2YWx1ZSAmPSB+RU9GX09GRlNFVF9NQVNLOw0KKwl2YWx1ZSB8PSBT
+U19HRU4yX0VPRl9PRkZTRVQ7DQorCXdyaXRlbCh2YWx1ZSwgaGNkLT5yZWdzICsgU1NfR0VOMl9F
+T0YpOw0KK30NCisNCiBzdGF0aWMgaW50IHhoY2lfbXRrX2hvc3RfZW5hYmxlKHN0cnVjdCB4aGNp
+X2hjZF9tdGsgKm10aykNCiB7DQogCXN0cnVjdCBtdTNjX2lwcGNfcmVncyBfX2lvbWVtICppcHBj
+ID0gbXRrLT5pcHBjX3JlZ3M7DQpAQCAtNDA3LDYgKzQ2Nyw4IEBAIHN0YXRpYyBpbnQgeGhjaV9t
+dGtfc2V0dXAoc3RydWN0IHVzYl9oY2QgKmhjZCkNCiAJCXJldCA9IHhoY2lfbXRrX3NzdXNiX2Nv
+bmZpZyhtdGspOw0KIAkJaWYgKHJldCkNCiAJCQlyZXR1cm4gcmV0Ow0KKw0KKwkJeGhjaV9tdGtf
+c2V0X2ZyYW1lX2ludGVydmFsKG10ayk7DQogCX0NCiANCiAJcmV0ID0geGhjaV9nZW5fc2V0dXAo
+aGNkLCB4aGNpX210a19xdWlya3MpOw0KQEAgLTY1NSw2ICs3MTcsNyBAQCBzdGF0aWMgY29uc3Qg
+c3RydWN0IGRldl9wbV9vcHMgeGhjaV9tdGtfcG1fb3BzID0gew0KICNpZmRlZiBDT05GSUdfT0YN
+CiBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCBtdGtfeGhjaV9vZl9tYXRjaFtdID0g
+ew0KIAl7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My14aGNpIn0sDQorCXsgLmNvbXBh
+dGlibGUgPSAibWVkaWF0ZWssbXQ4MTk1LXhoY2kifSwNCiAJeyAuY29tcGF0aWJsZSA9ICJtZWRp
+YXRlayxtdGsteGhjaSJ9LA0KIAl7IH0sDQogfTsNCi0tIA0KMi4xOC4wDQo=
 
-The problem with device_add_properties() is that it gives false
-impression that the device properties are somehow directly attached to
-the devices, which is not true. Now, that should not be a major issue,
-but it seems that it is. I think Lee Jones basically used that as an
-argument to refuse changes (and pretty minor changes) that would have
-allowed us to use software nodes with the MFD drivers.
-
-Nevertheless, I was not planning to provide a replacement for it
-originally. We do in any case have the real issue caused by that
-device_remove_properties() call in device_del() which has to be fixed.
-I started to fix that by moving device_add_properties() under
-drivers/base/swnode.c so I can implement it like I've implemented now
-that new function, but after that when I started to tackle the second
-issue by removing the subsystem wrappers like
-platform_device_add_device_properties() and replacing them with things
-like platform_device_add_software_node() in order to give the drivers
-a chance to actually use software nodes, I realised that there isn't
-much use for device_add_properties() after that.
-
-Also, even though I'm not super happy about adding more API to this
-thing, this function - device_create_managed_software_node() - I do
-like. Not only is it implemented so that we don't have to rely on
-anything else in drivers core in order to achieve the lifetime link
-with the device, it is also much more descriptive. The function name
-alone does not leave any questions about what is going to happen if
-that function is called. You'll end up with a software node that just
-happens to be attached to the device.
-
-On top of those two things, by adding the new function it also gives
-me a nice stepping stone to do these changes in the normal stages:
-
-        1. Add feature/modification.
-        2. Convert users.
-        3. Cleanup.
-
-And finally, even though we may not have any users left for
-device_add_properties() after I have updated all the subsystems and
-drivers, this new function will still be useful. That is because, even
-though it can be used as a drop-in replacement for
-device_add_properties(), it does add that one small but important
-change. It allows the nodes created with it to be part of node
-hierarchy, and that alone is useful to me, and I'm planning on using
-that feature later.
-
-I'm sorry about the long explanation.
-
-Br,
-
--- 
-heikki
