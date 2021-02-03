@@ -2,181 +2,157 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.4 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E592FC4332D
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:18:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D6AC433E6
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:47:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9579D64F4B
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:18:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8623864F7E
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 09:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232967AbhBCJRd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Feb 2021 04:17:33 -0500
-Received: from rtits2.realtek.com ([211.75.126.72]:44190 "EHLO
-        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233245AbhBCJPm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Feb 2021 04:15:42 -0500
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 1139Ew3J2008969, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexmbs04.realtek.com.tw[172.21.6.97])
-        by rtits2.realtek.com.tw (8.15.2/2.70/5.88) with ESMTPS id 1139Ew3J2008969
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Wed, 3 Feb 2021 17:14:58 +0800
-Received: from fc32.localdomain (172.21.177.102) by RTEXMBS04.realtek.com.tw
- (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 3 Feb 2021
- 17:14:57 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     <netdev@vger.kernel.org>
-CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net-next 2/2] r8152: adjust the flow of power cut for RTL8153B
-Date:   Wed, 3 Feb 2021 17:14:29 +0800
-Message-ID: <1394712342-15778-400-Taiwan-albertk@realtek.com>
-X-Mailer: Microsoft Office Outlook 11
-In-Reply-To: <1394712342-15778-398-Taiwan-albertk@realtek.com>
-References: <1394712342-15778-398-Taiwan-albertk@realtek.com>
+        id S233365AbhBCJrL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Feb 2021 04:47:11 -0500
+Received: from mga07.intel.com ([134.134.136.100]:57354 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233125AbhBCJqi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Feb 2021 04:46:38 -0500
+IronPort-SDR: 9Q6cE8sgMS5geuGshIU0DXXwj1KDqrEITT0bY2wczN5EhoY6N/wnQ+iT6dIXSgv3iVCCPDc63Q
+ L47XHkE0WPhw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9883"; a="245090923"
+X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; 
+   d="scan'208";a="245090923"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2021 01:44:51 -0800
+IronPort-SDR: iNEkkA99oJXr/xDktZgAFMc4eOBnxGRRgY49etX9b1grglY7/WxA5QyxJIMgssL9VkZQ3xBgfK
+ LaDc4UKIesKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,398,1602572400"; 
+   d="scan'208";a="480285552"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2021 01:44:48 -0800
+Subject: Re: [PATCH v2] usb: host: xhci: mvebu: make USB 3.0 PHY optional for
+ Armada 3720
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Tomasz Maciej Nowak <tmn505@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jun Li <jun.li@nxp.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Behun <marek.behun@nic.cz>
+References: <20201223162403.10897-1-pali@kernel.org>
+ <20210201150803.7305-1-pali@kernel.org> <YBmc8go9W1qZ8WMe@kroah.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <d630ced6-a662-399d-ed1a-184f74489d44@linux.intel.com>
+Date:   Wed, 3 Feb 2021 11:46:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.21.177.102]
-X-ClientProxiedBy: RTEXMBS02.realtek.com.tw (172.21.6.95) To
- RTEXMBS04.realtek.com.tw (172.21.6.97)
+In-Reply-To: <YBmc8go9W1qZ8WMe@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For runtime resuming, the RTL8153B may be resumed from the state
-of power cut, when enabling the feature of UPS. Then, the PHY
-would be reset, so it is necessary to be initailized again.
+On 2.2.2021 20.41, Greg Kroah-Hartman wrote:
+> On Mon, Feb 01, 2021 at 04:08:03PM +0100, Pali Rohár wrote:
+>> Older ATF does not provide SMC call for USB 3.0 phy power on functionality
+>> and therefore initialization of xhci-hcd is failing when older version of
+>> ATF is used. In this case phy_power_on() function returns -EOPNOTSUPP.
+>>
+>> [    3.108467] mvebu-a3700-comphy d0018300.phy: unsupported SMC call, try updating your firmware
+>> [    3.117250] phy phy-d0018300.phy.0: phy poweron failed --> -95
+>> [    3.123465] xhci-hcd: probe of d0058000.usb failed with error -95
+>>
+>> This patch introduces a new plat_setup callback for xhci platform drivers
+>> which is called prior calling usb_add_hcd() function. This function at its
+>> beginning skips PHY init if hcd->skip_phy_initialization is set.
+>>
+>> Current init_quirk callback for xhci platform drivers is called from
+>> xhci_plat_setup() function which is called after chip reset completes.
+>> It happens in the middle of the usb_add_hcd() function and therefore this
+>> callback cannot be used for setting if PHY init should be skipped or not.
+>>
+>> For Armada 3720 this patch introduce a new xhci_mvebu_a3700_plat_setup()
+>> function configured as a xhci platform plat_setup callback. This new
+>> function calls phy_power_on() and in case it returns -EOPNOTSUPP then
+>> XHCI_SKIP_PHY_INIT quirk is set to instruct xhci-plat to skip PHY
+>> initialization.
+>>
+>> This patch fixes above failure by ignoring 'not supported' error in
+>> xhci-hcd driver. In this case it is expected that phy is already power on.
+>>
+>> It fixes initialization of xhci-hcd on Espressobin boards where is older
+>> Marvell's Arm Trusted Firmware without SMC call for USB 3.0 phy power.
+>>
+>> This is regression introduced in commit bd3d25b07342 ("arm64: dts: marvell:
+>> armada-37xx: link USB hosts with their PHYs") where USB 3.0 phy was defined
+>> and therefore xhci-hcd on Espressobin with older ATF started failing.
+>>
+>> Signed-off-by: Pali Rohár <pali@kernel.org>
+>> Tested-by: Tomasz Maciej Nowak <tmn505@gmail.com>
+>> Fixes: bd3d25b07342 ("arm64: dts: marvell: armada-37xx: link USB hosts with their PHYs")
+>> Cc: <stable@vger.kernel.org> # 5.1+: ea17a0f153af: phy: marvell: comphy: Convert internal SMCC firmware return codes to errno
+>> Cc: <stable@vger.kernel.org> # 5.1+: f768e718911e: usb: host: xhci-plat: add priv quirk for skip PHY initialization
+> 
+> 
+> Mathias, any objection for me taking this now to get into 5.11-final?
+> 
+> thanks,
+> 
+> greg k-h
+> 
 
-Besides, the USB_U1U2_TIMER also has to be set again, so I move
-it from r8153b_init() to r8153b_hw_phy_cfg().
+No objections, looks good to me.
 
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
----
- drivers/net/usb/r8152.c | 68 ++++++++++++++++++++++++-----------------
- 1 file changed, 40 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index e792c1c69f14..d0048ebc114a 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1371,6 +1371,10 @@ void write_mii_word(struct net_device *netdev, int phy_id, int reg, int val)
- static int
- r8152_submit_rx(struct r8152 *tp, struct rx_agg *agg, gfp_t mem_flags);
- 
-+static int
-+rtl8152_set_speed(struct r8152 *tp, u8 autoneg, u32 speed, u8 duplex,
-+		  u32 advertising);
-+
- static int rtl8152_set_mac_address(struct net_device *netdev, void *p)
- {
- 	struct r8152 *tp = netdev_priv(netdev);
-@@ -3207,8 +3211,6 @@ static void r8153b_ups_en(struct r8152 *tp, bool enable)
- 		ocp_data |= BIT(0);
- 		ocp_write_byte(tp, MCU_TYPE_USB, 0xcfff, ocp_data);
- 	} else {
--		u16 data;
--
- 		ocp_data &= ~(UPS_EN | USP_PREWAKE);
- 		ocp_write_byte(tp, MCU_TYPE_USB, USB_POWER_CUT, ocp_data);
- 
-@@ -3216,31 +3218,20 @@ static void r8153b_ups_en(struct r8152 *tp, bool enable)
- 		ocp_data &= ~BIT(0);
- 		ocp_write_byte(tp, MCU_TYPE_USB, 0xcfff, ocp_data);
- 
--		ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
--		ocp_data &= ~PCUT_STATUS;
--		ocp_write_word(tp, MCU_TYPE_USB, USB_MISC_0, ocp_data);
--
--		data = r8153_phy_status(tp, 0);
--
--		switch (data) {
--		case PHY_STAT_PWRDN:
--		case PHY_STAT_EXT_INIT:
--			r8153b_green_en(tp,
--					test_bit(GREEN_ETHERNET, &tp->flags));
-+		if (ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0) & PCUT_STATUS) {
-+			int i;
- 
--			data = r8152_mdio_read(tp, MII_BMCR);
--			data &= ~BMCR_PDOWN;
--			data |= BMCR_RESET;
--			r8152_mdio_write(tp, MII_BMCR, data);
-+			for (i = 0; i < 500; i++) {
-+				if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
-+				    AUTOLOAD_DONE)
-+					break;
-+				msleep(20);
-+			}
- 
--			data = r8153_phy_status(tp, PHY_STAT_LAN_ON);
--			fallthrough;
-+			tp->rtl_ops.hw_phy_cfg(tp);
- 
--		default:
--			if (data != PHY_STAT_LAN_ON)
--				netif_warn(tp, link, tp->netdev,
--					   "PHY not ready");
--			break;
-+			rtl8152_set_speed(tp, tp->autoneg, tp->speed,
-+					  tp->duplex, tp->advertising);
- 		}
- 	}
- }
-@@ -4614,13 +4605,37 @@ static void r8153b_hw_phy_cfg(struct r8152 *tp)
- 	u32 ocp_data;
- 	u16 data;
- 
-+	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-+	if (ocp_data & PCUT_STATUS) {
-+		ocp_data &= ~PCUT_STATUS;
-+		ocp_write_word(tp, MCU_TYPE_USB, USB_MISC_0, ocp_data);
-+	}
-+
- 	/* disable ALDPS before updating the PHY parameters */
- 	r8153_aldps_en(tp, false);
- 
- 	/* disable EEE before updating the PHY parameters */
- 	rtl_eee_enable(tp, false);
- 
--	rtl8152_apply_firmware(tp, false);
-+	/* U1/U2/L1 idle timer. 500 us */
-+	ocp_write_word(tp, MCU_TYPE_USB, USB_U1U2_TIMER, 500);
-+
-+	data = r8153_phy_status(tp, 0);
-+
-+	switch (data) {
-+	case PHY_STAT_PWRDN:
-+	case PHY_STAT_EXT_INIT:
-+		rtl8152_apply_firmware(tp, true);
-+
-+		data = r8152_mdio_read(tp, MII_BMCR);
-+		data &= ~BMCR_PDOWN;
-+		r8152_mdio_write(tp, MII_BMCR, data);
-+		break;
-+	case PHY_STAT_LAN_ON:
-+	default:
-+		rtl8152_apply_firmware(tp, false);
-+		break;
-+	}
- 
- 	r8153b_green_en(tp, test_bit(GREEN_ETHERNET, &tp->flags));
- 
-@@ -5546,9 +5561,6 @@ static void r8153b_init(struct r8152 *tp)
- 	/* MSC timer = 0xfff * 8ms = 32760 ms */
- 	ocp_write_word(tp, MCU_TYPE_USB, USB_MSC_TIMER, 0x0fff);
- 
--	/* U1/U2/L1 idle timer. 500 us */
--	ocp_write_word(tp, MCU_TYPE_USB, USB_U1U2_TIMER, 500);
--
- 	r8153b_power_cut_en(tp, false);
- 	r8153b_ups_en(tp, false);
- 	r8153_queue_wake(tp, false);
--- 
-2.26.2
-
+Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
