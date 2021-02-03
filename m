@@ -2,68 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F06A3C433E0
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 16:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A098C433DB
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 16:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A69F864F8C
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 16:54:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EB98464F7E
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Feb 2021 16:55:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbhBCQxv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Feb 2021 11:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58152 "EHLO
+        id S231447AbhBCQyY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Feb 2021 11:54:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbhBCQx2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Feb 2021 11:53:28 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 710ABC06178C;
-        Wed,  3 Feb 2021 08:52:48 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id r22so344010edo.11;
-        Wed, 03 Feb 2021 08:52:48 -0800 (PST)
+        with ESMTP id S231372AbhBCQx1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Feb 2021 11:53:27 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D9CC06178A;
+        Wed,  3 Feb 2021 08:52:47 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id q2so406643edi.4;
+        Wed, 03 Feb 2021 08:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=PMs0NDSuf1zcUrhFtkHc3rUKSCkURTHcknmuZn+qw+Y=;
-        b=geo41BrGzKU4OH40sIUY27Y+Xsbx+6t3yM73U+tZTOLHdvnj8CwZgKZEGd6uOjnBse
-         hAH4OGul+2rrYOhXI7AmBMtRN1Rb4pyDDa1Ej+orYWa2Q+5naJzTlevELZGzZzmhMbbo
-         +XE3UbKggw6K4cOjTEItCBXiOi6z25mtJRPc4av12jDbsdPnA1E9f90y0XeB7A9a6EsC
-         Cr/XYdGiXZhetMrmBAjgGTTdkMvTk37EHjmy8SYhh0pb394jXeMal5gbw83aIplVlu/E
-         pPhnAUD3bQ3PHcLBKvq1wBLlxixLAK7c6s/3Cqk5Ns7o3nHGAIO68eli3q53cM41CD+i
-         5yHA==
+        bh=DUZ2th2akMgZXbhWAwF/Rtcar/hbaUZaN5WHosC7d0E=;
+        b=o8/fzD2S/d8LoSZrTQrPH9tV5gx9H7WTtioRDMhBmVkPGxm6j/s92sxTsLrkEjY1vH
+         LnU75m6o6ba5aPfKJUSFfPOEnD3Di8qQVRS96xUilv4kHsws9LXqOXtYxO6N4atUI30y
+         kj2CfK2OtvnnlYQiEkJW0AtengxgJVo+fKeaNiK0Z5J24qTVdnvGJ0VFzIPoLb5YnauJ
+         yuebdd7xxu3ptQWQ9zaw0TdIjVihaLn/OyP7YjpTcgV0dS+/tqa0rF4BADUU2C3ZH8t0
+         LZfPLSHtmxt6q7DYoWkC7wrO5FKWC/tQZjWrcsQripcPxidp3UTTZT+8jfnrPb5eUBM9
+         OXFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=PMs0NDSuf1zcUrhFtkHc3rUKSCkURTHcknmuZn+qw+Y=;
-        b=j0bcvkpqVQEXYt0gpyg1C0i3nY0z5M/XcXTOLv8a71s7bCu+2CWOcfUsluV6jmOhfx
-         iL5rt75aCG+/JgaAQ4CXmMRnmAWB4WwC3zSTVL7DWQOxFth+Qn8VWZRSjluZW3htvvDi
-         R+J0ClcTXqAIj0DL3rLljgbetp+EwK15deIgStvMKy1CKp1Bg2sNa2L+i+I0nyxW7PGL
-         kU2IURbISL86rlNzooyQKD8CbR+2RFBMvDUk3NauXeOsgeA2tT140ss6d75RPeYtPX7e
-         h2VksRDG+GlyHXd+IEKKjvJxsRD7u9wx0j8KevLits6D5E9z/1JyA0IDoQQWrIXWaUBx
-         otnQ==
-X-Gm-Message-State: AOAM530a4LWqD44sN3Be62izsII8EnpPHQI8s/E3pv/SMmZHTkSaX/Ba
-        osNo3M01t/qLtQO0X0HD07U=
-X-Google-Smtp-Source: ABdhPJwSKL2/RABPjQr6OIwdlGCvg4cQWkDOExMBDUqjjU3Sl65Zz7+TwMx1lj3vzItxNZDBk8F3Sw==
-X-Received: by 2002:a50:acc1:: with SMTP id x59mr3898959edc.43.1612371167242;
-        Wed, 03 Feb 2021 08:52:47 -0800 (PST)
+        bh=DUZ2th2akMgZXbhWAwF/Rtcar/hbaUZaN5WHosC7d0E=;
+        b=WxB+a/GATi+KYvmV63XnEQ8YsqzNmfgbMy/JYTJ3eSllt4CTADcv2WXQmxkHG1pk+y
+         erhKJ2hcsV7rruWyX1EytrZMcNOOV2eZ0LT88PKOLbpthZoCQTHwIuGo3mHqv3naICoL
+         d/4Wzzvg5pcqxxUJsU8Qf0x3EQXgoI+jn686A+c9GJHNdsHI4e8hLajwMX2lIkGGtAlM
+         DZkZUv0UnUzYrJua+ZlvTXtDzNrl3CPBd4aD0jpQavcnxT+c4N2mOOhIE5s/RioyLsKM
+         os2JtKJD6C8HVA9YFJdOggzUfyBZd8Qbs0w4U48MYzrusMiDWBZ+izIpDTt8XC7UoKub
+         k+CA==
+X-Gm-Message-State: AOAM532W3AjKTaj181xyIAkyGDf4fR/J4DJm/U4Zvn+C7ledjUV+3KtP
+        lf5mNBL1gR+aAeoli4DxBNA=
+X-Google-Smtp-Source: ABdhPJzTgDqt1ssHuoUoFiEUrOATMDbYckqfoEHbqtFgG8DiQ8X/zQJTy1QpJaV5fm9ul+FVLXn2iQ==
+X-Received: by 2002:aa7:c34f:: with SMTP id j15mr3958007edr.120.1612371165676;
+        Wed, 03 Feb 2021 08:52:45 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id a25sm1135471eds.48.2021.02.03.08.52.46
+        by smtp.gmail.com with ESMTPSA id a25sm1135471eds.48.2021.02.03.08.52.44
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Feb 2021 08:52:46 -0800 (PST)
+        Wed, 03 Feb 2021 08:52:45 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] dts64: rockchip: enable dwc3 usb for A95X Z2
-Date:   Wed,  3 Feb 2021 17:52:33 +0100
-Message-Id: <20210203165233.22177-7-jbx6244@gmail.com>
+Subject: [PATCH v2 5/7] usb: dwc3: of-simple: add compatible for rk3328
+Date:   Wed,  3 Feb 2021 17:52:31 +0100
+Message-Id: <20210203165233.22177-5-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20210203165233.22177-1-jbx6244@gmail.com>
 References: <20210203165233.22177-1-jbx6244@gmail.com>
@@ -71,29 +71,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable dwc3 usb for A95X Z2.
+From: Cameron Nemo <cnemo@tutanota.com>
 
+Add a compatible to be hooked into by the Rockchip rk3328 device tree.
+
+The rk3399 compatible cannot be reused because the rk3328 SoCs may
+require a specialized driver in the future and old device trees must
+remain compatible with newer kernels.
+
+Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/dwc3/dwc3-of-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-index 30c73ef25..e71870768 100644
---- a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
-@@ -357,6 +357,11 @@
- 	status = "okay";
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index e62ecd22b..93bc34328 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
  };
  
-+&usbdrd3 {
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
- &usb_host0_ehci {
- 	status = "okay";
- };
+ static const struct of_device_id of_dwc3_simple_match[] = {
++	{ .compatible = "rockchip,rk3328-dwc3" },
+ 	{ .compatible = "rockchip,rk3399-dwc3" },
+ 	{ .compatible = "xlnx,zynqmp-dwc3" },
+ 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
 -- 
 2.11.0
 
