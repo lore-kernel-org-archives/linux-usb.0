@@ -2,36 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771AAC433DB
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:19:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A619FC433E6
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:21:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 346C864F51
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:19:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57F8864F51
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:21:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236582AbhBDOTV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Feb 2021 09:19:21 -0500
-Received: from mga12.intel.com ([192.55.52.136]:58183 "EHLO mga12.intel.com"
+        id S236626AbhBDOUt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Feb 2021 09:20:49 -0500
+Received: from mga12.intel.com ([192.55.52.136]:58197 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236541AbhBDOTC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 4 Feb 2021 09:19:02 -0500
-IronPort-SDR: PUVi+kWwbLf8HR+Hc6Myvybs0HEN4MXQhS5GWOp4yyyeHYDsJL6Eh7/ouq40LM3ObOjul9+UFJ
- 7UeFOl3OA/ug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160410013"
+        id S236545AbhBDOUi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 4 Feb 2021 09:20:38 -0500
+IronPort-SDR: oMr2BQ4GiffFp3tD82B8MF2LThK7gZ29p28w1K9XKwCGXpWXXyiJn9psQgjzekFDD2Rq1Zg60r
+ lJlawmuwQ6NA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160410051"
 X-IronPort-AV: E=Sophos;i="5.79,401,1602572400"; 
-   d="scan'208";a="160410013"
+   d="scan'208";a="160410051"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 06:17:13 -0800
-IronPort-SDR: la72V9P5+yXesPGNQ4AS6+gToQhZG77ubAEPui2BDRK7SUU/C9EpsSu8KuMSQfNEcwC+km1h3V
- aBxDwjRQoVSQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 06:17:25 -0800
+IronPort-SDR: 1oU18j337v1WVmIOAE2WNvfzpIT/G4aftdmIpYAds+5OUcbs7B8mE5iA+Hg2k7L5SJg7xUXX0F
+ Gn5qESGBYbdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,401,1602572400"; 
-   d="scan'208";a="483254604"
+   d="scan'208";a="483254639"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2021 06:17:11 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2021 06:17:23 -0800
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -39,65 +40,42 @@ Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Felipe Balbi <balbi@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 0/6] usb: Handle device properties with software node API
-Date:   Thu,  4 Feb 2021 17:17:05 +0300
-Message-Id: <20210204141711.53775-1-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2 5/6] usb: dwc3: host: Use software node API with the properties
+Date:   Thu,  4 Feb 2021 17:17:10 +0300
+Message-Id: <20210204141711.53775-6-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210204141711.53775-1-heikki.krogerus@linux.intel.com>
+References: <20210204141711.53775-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+This replaces the platform_device_add_properties() call with
+the safer device_create_managed_software_node() that does
+exactly the same, but can also guarantee that the lifetime
+of the node that is created for the device is tied to the
+lifetime of device itself.
 
-I've now rewritten the commit message of the first patch introducing
-the new function device_create_managed_software_node(). It should now
-explanation why we need that function in more detail. I think
-that is what Rafael wanted. Also, everything should now compile.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/dwc3/host.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-v1 cover letter:
-
-Currently it is not possible to take full advantage of software
-fwnodes in the drivers because device_del() is calling
-device_remove_properties() (that removes the software node attached to
-the device) unconditionally which prevents the software nodes from
-being reused or shared, and because subsystems are dealing with device
-properties instead of software nodes which in many cases prevents the
-drivers from using software nodes at all.
-
-To fix the situation, the device_remove_properties() call in
-device_del() has to be removed, and later the subsystems need to be
-converted so that they deal with software nodes instead of just device
-properties. But before that can be done, the drivers must be prepared
-for those changes. These patches do that for the USB drivers.
-
-The first patch introduces device_create_managed_software_node()
-function that can be used as a drop-in replacement for
-device_add_properties(). The rest of the patches simply use that
-function, or convert the drivers in some other way to use software
-nodes instead of just the device properties in them.
-
-thanks,
-
-Heikki Krogerus (6):
-  software node: Provide replacement for device_add_properties()
-  usb: dwc2: pci: Drop the empty quirk function
-  usb: dwc3: haps: Constify the software node
-  usb: dwc3: qcom: Constify the software node
-  usb: dwc3: host: Use software node API with the properties
-  xhci: ext-caps: Use software node API with the properties
-
- drivers/base/swnode.c            | 43 ++++++++++++++++++++++++++++++++
- drivers/usb/dwc2/pci.c           | 18 -------------
- drivers/usb/dwc3/dwc3-haps.c     |  8 +++++-
- drivers/usb/dwc3/dwc3-qcom.c     | 12 ++++++---
- drivers/usb/dwc3/host.c          |  2 +-
- drivers/usb/host/xhci-ext-caps.c |  3 ++-
- include/linux/property.h         |  4 +++
- 7 files changed, 66 insertions(+), 24 deletions(-)
-
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index e195176580de1..f29a264635aa1 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -108,7 +108,7 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+ 
+ 	if (prop_idx) {
+-		ret = platform_device_add_properties(xhci, props);
++		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
+ 		if (ret) {
+ 			dev_err(dwc->dev, "failed to add properties to xHCI\n");
+ 			goto err;
 -- 
 2.30.0
 
