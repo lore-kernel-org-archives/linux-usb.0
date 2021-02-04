@@ -7,32 +7,32 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A619FC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4A5C433E0
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:21:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57F8864F51
+	by mail.kernel.org (Postfix) with ESMTP id 3DBF264F5C
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Feb 2021 14:21:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236626AbhBDOUt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Feb 2021 09:20:49 -0500
-Received: from mga12.intel.com ([192.55.52.136]:58197 "EHLO mga12.intel.com"
+        id S236602AbhBDOUo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Feb 2021 09:20:44 -0500
+Received: from mga12.intel.com ([192.55.52.136]:58183 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236545AbhBDOUi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 4 Feb 2021 09:20:38 -0500
-IronPort-SDR: oMr2BQ4GiffFp3tD82B8MF2LThK7gZ29p28w1K9XKwCGXpWXXyiJn9psQgjzekFDD2Rq1Zg60r
- lJlawmuwQ6NA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160410051"
+        id S236541AbhBDOUg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 4 Feb 2021 09:20:36 -0500
+IronPort-SDR: WUA5WBzdYJDNJFKV02UR2m6s8b6hvjbVjw9iIYjaX0/Jewsa4CJ5GItw951qYCxugH2ll6VDKP
+ Efc+HWJfx+VQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9884"; a="160410033"
 X-IronPort-AV: E=Sophos;i="5.79,401,1602572400"; 
-   d="scan'208";a="160410051"
+   d="scan'208";a="160410033"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 06:17:25 -0800
-IronPort-SDR: 1oU18j337v1WVmIOAE2WNvfzpIT/G4aftdmIpYAds+5OUcbs7B8mE5iA+Hg2k7L5SJg7xUXX0F
- Gn5qESGBYbdQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2021 06:17:21 -0800
+IronPort-SDR: 20PnZ1QU9rRWt9o6zjlZPxy3eeKvzTTwj60c1HUnIINbmtRAre1cshHfUOTQU/U2WU2vxiLOQG
+ L+IBIYzZW+Pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,401,1602572400"; 
-   d="scan'208";a="483254639"
+   d="scan'208";a="483254624"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2021 06:17:23 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2021 06:17:18 -0800
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
@@ -40,9 +40,9 @@ Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
         Felipe Balbi <balbi@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 5/6] usb: dwc3: host: Use software node API with the properties
-Date:   Thu,  4 Feb 2021 17:17:10 +0300
-Message-Id: <20210204141711.53775-6-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2 3/6] usb: dwc3: haps: Constify the software node
+Date:   Thu,  4 Feb 2021 17:17:08 +0300
+Message-Id: <20210204141711.53775-4-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210204141711.53775-1-heikki.krogerus@linux.intel.com>
 References: <20210204141711.53775-1-heikki.krogerus@linux.intel.com>
@@ -52,30 +52,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This replaces the platform_device_add_properties() call with
-the safer device_create_managed_software_node() that does
-exactly the same, but can also guarantee that the lifetime
-of the node that is created for the device is tied to the
-lifetime of device itself.
+What platform_device_add_properties() does is it allocates
+dynamically a software node that will contain the device
+properties supplied to it, and then couples that node with
+the device. Since that node is always created, it might as
+well be constant.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/dwc3/host.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc3/dwc3-haps.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index e195176580de1..f29a264635aa1 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -108,7 +108,7 @@ int dwc3_host_init(struct dwc3 *dwc)
- 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
+diff --git a/drivers/usb/dwc3/dwc3-haps.c b/drivers/usb/dwc3/dwc3-haps.c
+index 55b4a901168e8..f6e3817fa7af0 100644
+--- a/drivers/usb/dwc3/dwc3-haps.c
++++ b/drivers/usb/dwc3/dwc3-haps.c
+@@ -33,6 +33,10 @@ static const struct property_entry initial_properties[] = {
+ 	{ },
+ };
  
- 	if (prop_idx) {
--		ret = platform_device_add_properties(xhci, props);
-+		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
- 		if (ret) {
- 			dev_err(dwc->dev, "failed to add properties to xHCI\n");
- 			goto err;
++static const struct software_node dwc3_haps_swnode = {
++	.properties = initial_properties,
++};
++
+ static int dwc3_haps_probe(struct pci_dev *pci,
+ 			   const struct pci_device_id *id)
+ {
+@@ -77,7 +81,7 @@ static int dwc3_haps_probe(struct pci_dev *pci,
+ 	dwc->pci = pci;
+ 	dwc->dwc3->dev.parent = dev;
+ 
+-	ret = platform_device_add_properties(dwc->dwc3, initial_properties);
++	ret = device_add_software_node(&dwc->dwc3->dev, &dwc3_haps_swnode);
+ 	if (ret)
+ 		goto err;
+ 
+@@ -91,6 +95,7 @@ static int dwc3_haps_probe(struct pci_dev *pci,
+ 
+ 	return 0;
+ err:
++	device_remove_software_node(&dwc->dwc3->dev);
+ 	platform_device_put(dwc->dwc3);
+ 	return ret;
+ }
+@@ -99,6 +104,7 @@ static void dwc3_haps_remove(struct pci_dev *pci)
+ {
+ 	struct dwc3_haps *dwc = pci_get_drvdata(pci);
+ 
++	device_remove_software_node(&dwc->dwc3->dev);
+ 	platform_device_unregister(dwc->dwc3);
+ }
+ 
 -- 
 2.30.0
 
