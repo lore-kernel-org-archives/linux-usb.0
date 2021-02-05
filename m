@@ -2,101 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33146C433DB
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:44:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81EC4C433E9
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:47:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC2FD64E55
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:44:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 407C464E43
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:47:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231965AbhBELoc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 06:44:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231757AbhBELlR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 06:41:17 -0500
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EAB7C061794;
-        Fri,  5 Feb 2021 03:40:36 -0800 (PST)
-Received: by mail-ej1-x633.google.com with SMTP id hs11so11529703ejc.1;
-        Fri, 05 Feb 2021 03:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=DUZ2th2akMgZXbhWAwF/Rtcar/hbaUZaN5WHosC7d0E=;
-        b=f6WLEzoX0YM3pJ/2GhrxKeXnaaiA5sYjXtPQX7wV9zO5f5TqAVgxWZq5Y/PPOhy1FY
-         VYv1XRwJUHWjOE3yTC+8+DAqDK56eUppD5qN7sBDKxb9hjID3iutLMuTxXou9Btm8FAF
-         t3cTZYJTMtuzapncz1CVgvNl8O+sbfxLCjPO/9ac39ZDVWlG0D2afoX1Md4R7Al8BT7d
-         KnXhyvpQpj4Rw5Zlgxs32xdh0v6mGXFiJkM0omi6OUELi8bkMFm/nzauKFNxuSTCZTFh
-         t9JRJaQDQT7rX5xFPjT8Nx3LLJPGGe9lGiQAGVVR08gJI6JDZaZs60gU/VI5F6k5cmlq
-         AwSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=DUZ2th2akMgZXbhWAwF/Rtcar/hbaUZaN5WHosC7d0E=;
-        b=IeYmFQjdH4QdA3MIqCJ2VQTa5To5Q3YUG5HvzmzXtCG61NMPwAY7nNujnJnwgNu18V
-         vLF6bQqmbLEHwOEbApHja9f/V81FDvTmRc8bsUZu/yeuCgtHSCsHDKDHX/jZUsXRfQp7
-         aLkSMA2DD2PP8JkOvxHKhREqD+YwTJWbhJZDC7GR8wx8bIdQNLSsQu0pOPMJfPzWzjYl
-         yG9Ahqc02Q5JoOoRKuqbE5SCcNUmEt/Bp5+hftBGM1d6QKXLSla13/qyTaeTUwDW6Zmv
-         CH8dwUMwkAuiuU1VNvsX+NvgBwuRYC9DsQv1c9EEoB2jDFnhMn4NBoysGE7eqmHAQZwn
-         XVqg==
-X-Gm-Message-State: AOAM531t8K6sgBwRin2ZDUWsHHgHfsxBHamOQ3aXBjicM8ClI8qcKexz
-        44g/W4SfWoJ8RNC/ptiXBTk=
-X-Google-Smtp-Source: ABdhPJyGtC2+rZ/s56VvOPOR0Xd9wRs0zBRTjb2MtyEeIhdb1SAlC4pzD+JV1KnPtu0vn5G4JuUOkg==
-X-Received: by 2002:a17:906:f2cd:: with SMTP id gz13mr3592128ejb.83.1612525235435;
-        Fri, 05 Feb 2021 03:40:35 -0800 (PST)
-Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id o4sm3883476edw.78.2021.02.05.03.40.34
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Feb 2021 03:40:35 -0800 (PST)
-From:   Johan Jonker <jbx6244@gmail.com>
-To:     heiko@sntech.de
-Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/8] usb: dwc3: of-simple: add compatible for rk3328
-Date:   Fri,  5 Feb 2021 12:40:09 +0100
-Message-Id: <20210205114011.10381-6-jbx6244@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20210205114011.10381-1-jbx6244@gmail.com>
-References: <20210205114011.10381-1-jbx6244@gmail.com>
+        id S231972AbhBELrE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 06:47:04 -0500
+Received: from mga04.intel.com ([192.55.52.120]:24544 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231290AbhBELo2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Feb 2021 06:44:28 -0500
+IronPort-SDR: PrhTMBByXsJKyj+XgV7/24vB5Smre3qJ7G562bgwoB4+GJOh5uxHiesNPgtVkHBu9FHTiL0cai
+ 4Xk+y2/JgZOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9885"; a="178859630"
+X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
+   d="scan'208";a="178859630"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Feb 2021 03:42:37 -0800
+IronPort-SDR: Uue4XEHUmBnkESacLps3AFN5v4NEmkGfMu4v41c9saOAerT1MEAXzEiUAU5nttPq1+yfKM74at
+ YcH7hdXFsnlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,154,1610438400"; 
+   d="scan'208";a="484104587"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 05 Feb 2021 03:42:34 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Feb 2021 13:42:34 +0200
+Date:   Fri, 5 Feb 2021 13:42:34 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Kyle Tso <kyletso@google.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        hdegoede@redhat.com, robh+dt@kernel.org, badhri@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 0/7] common SVDM version and VDO from dt
+Message-ID: <20210205114234.GB2476581@kuha.fi.intel.com>
+References: <20210205033415.3320439-1-kyletso@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210205033415.3320439-1-kyletso@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Cameron Nemo <cnemo@tutanota.com>
+On Fri, Feb 05, 2021 at 11:34:08AM +0800, Kyle Tso wrote:
+> v5 is here:
+> https://patchwork.kernel.org/project/linux-usb/cover/20210202161733.932215-1-kyletso@google.com/
+> 
+> Changes since v5:
+> =================
+> usb: typec: Manage SVDM version
+> - !! most changes are from Heikki
+> - location of the negotiated SVDM version is changed. Now the variable
+>   resides in typec_partner
+> - The setter and getter functions were modified according to the above
+>   changes
+> - the default SVDM version is stored upon calling to
+>   typec_register_partner
+> 
+> usb: pd: Make SVDM Version configurable in VDM header
+> - no change
+> 
+> usb: typec: tcpm: Determine common SVDM Version
+> - follow the changes of "usb: typec: Manage SVDM version"
+> - remove the "reset to default". Now the default SVDM version will be
+>   set when calling to typec_register_partner
+> 
+> usb: typec: ucsi: Determine common SVDM Version
+> - follow the changes of "usb: typec: Manage SVDM version"
+> - remove the "reset to default". Now the default SVDM version will be
+>   set when calling to typec_register_partner
+> 
+> usb: typec: displayport: Fill the negotiated SVDM Version in the header
+> - follow the changes of "usb: typec: Manage SVDM version"
+> 
+> dt-bindings: connector: Add SVDM VDO properties
+> - no change
+> 
+> usb: typec: tcpm: Get Sink VDO from fwnode
+> - no change
+> 
+> Kyle Tso (7):
+>   usb: typec: Manage SVDM version
+>   usb: pd: Make SVDM Version configurable in VDM header
+>   usb: typec: tcpm: Determine common SVDM Version
+>   usb: typec: ucsi: Determine common SVDM Version
+>   usb: typec: displayport: Fill the negotiated SVDM Version in the header
+>   dt-bindings: connector: Add SVDM VDO properties
+>   usb: typec: tcpm: Get Sink VDO from fwnode
 
-Add a compatible to be hooked into by the Rockchip rk3328 device tree.
+These are OK by me, but I think it would be great if Guenter could
+give them the once-over, as usual. I hope he has time. FWIW, for all
+of these:
 
-The rk3399 compatible cannot be reused because the rk3328 SoCs may
-require a specialized driver in the future and old device trees must
-remain compatible with newer kernels.
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
- drivers/usb/dwc3/dwc3-of-simple.c | 1 +
- 1 file changed, 1 insertion(+)
+thanks,
 
-diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-index e62ecd22b..93bc34328 100644
---- a/drivers/usb/dwc3/dwc3-of-simple.c
-+++ b/drivers/usb/dwc3/dwc3-of-simple.c
-@@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
- };
- 
- static const struct of_device_id of_dwc3_simple_match[] = {
-+	{ .compatible = "rockchip,rk3328-dwc3" },
- 	{ .compatible = "rockchip,rk3399-dwc3" },
- 	{ .compatible = "xlnx,zynqmp-dwc3" },
- 	{ .compatible = "cavium,octeon-7130-usb-uctl" },
 -- 
-2.11.0
-
+heikki
