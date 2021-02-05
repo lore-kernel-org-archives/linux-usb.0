@@ -2,115 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB0AC433DB
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 20:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EAFEC433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 20:53:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C09664E16
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 20:32:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D32E64FB1
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 20:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233104AbhBESuN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 13:50:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233086AbhBEPEk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Feb 2021 10:04:40 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7681664DA8;
-        Fri,  5 Feb 2021 16:22:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612542152;
-        bh=2FOXgrVvrtQQwxzm4Wfix8cnVUh7IkUdTTu1De+bjtU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KfFDSzcVzjJbQYJ7meo6+XLjz46z89rptPO7r0cjN61WrYRyEN3XrG1sLfkaa43Ud
-         ExG/AI741QCRdc2A3z0dnPK65OJTg2MFRTlWFMlkLM7X9XtAOfKjQzqhv0OqXyG8pr
-         tgMWAaKQ8D5iEAfl3J+c1jPNT7ZfVcyr1oRM+yq0=
-Date:   Fri, 5 Feb 2021 17:22:29 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     kishon@ti.com, mturquette@baylibre.com, sboyd@kernel.org,
-        JC Kuo <jckuo@nvidia.com>, robh@kernel.org,
-        jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, nkristam@nvidia.com,
-        linux-clk@vger.kernel.org
-Subject: Re: [PATCH v7 00/14] Tegra XHCI controller ELPG support
-Message-ID: <YB1wxazg/QpRSJz6@kroah.com>
-References: <20210120073414.69208-1-jckuo@nvidia.com>
- <YB1vGTt0ufzsYBgo@ulmo>
+        id S233430AbhBETK4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 14:10:56 -0500
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:38925 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232825AbhBETKI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 14:10:08 -0500
+Received: by mail-ot1-f52.google.com with SMTP id d7so5930375otq.6;
+        Fri, 05 Feb 2021 12:52:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7dpIcPNrn53fvnnVwCVgKpxpuzXaWSPTWVeWzDJnTbs=;
+        b=jYZTOEmb2U9/MBAmx8WjtjHFBuZxCCvRZWxgWHMyInaBGLDFSnsDMgA+iDyiIAro2S
+         DHHzVwlTmfIzMsdkPjJaOlmOZ7pB1CP/iU4t+OSCNHFU3iwxiMan9cUCUqCF3DPbvFvy
+         4kvV4gTpQ5OECy3sk6x+0ke8eQiOFuyUxojx/4SDvD2cVYtwa6ppm5wfiTlTeIIeiDbl
+         T7JV7by9H0vP1PJ885aQIYvghJ6yAj32M1HQam2/zqBUc/4n9yYBNErxgKpdd+yV4Vz4
+         3nVy4bgPvorQCEzkOllNRsxUttw+ADo7kIqxsP6LYPuvyqKVlVyMCbCD8a2p1+tpn9Et
+         1lLw==
+X-Gm-Message-State: AOAM5321RRZkdkbuXx3d+4tv5OzPsT8JB+3jyNlqfsUfU7AV32l0P+fi
+        1JqM238Qs+/NSzhy7gPeUSk38gLRSA==
+X-Google-Smtp-Source: ABdhPJyvwtwFGwOzKaVzlvCltLu1G83dbOuYAgS1Tt5BqgQt4uKQhLtYHxDwWm5BmVmuvr4CgjpIoA==
+X-Received: by 2002:a4a:c896:: with SMTP id t22mr4892539ooq.8.1612558069392;
+        Fri, 05 Feb 2021 12:47:49 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s26sm2044191otp.54.2021.02.05.12.47.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 12:47:48 -0800 (PST)
+Received: (nullmailer pid 3705653 invoked by uid 1000);
+        Fri, 05 Feb 2021 20:47:47 -0000
+Date:   Fri, 5 Feb 2021 14:47:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, robh+dt@kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH v7 5/5] dt-bindings: usb: dwc3: Update dwc3 TX fifo
+ properties
+Message-ID: <20210205204747.GA3705591@robh.at.kernel.org>
+References: <1611895604-4496-1-git-send-email-wcheng@codeaurora.org>
+ <1611895604-4496-6-git-send-email-wcheng@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YB1vGTt0ufzsYBgo@ulmo>
+In-Reply-To: <1611895604-4496-6-git-send-email-wcheng@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 05:15:21PM +0100, Thierry Reding wrote:
-> On Wed, Jan 20, 2021 at 03:34:00PM +0800, JC Kuo wrote:
-> > Tegra XHCI controler can be placed in ELPG (Engine Level PowerGated)
-> > state for power saving when all of the connected USB devices are in
-> > suspended state. This patch series includes clk, phy and pmc changes
-> > that are required for properly place controller in ELPG and bring
-> > controller out of ELPG.
-> > 
-> > JC Kuo (14):
-> >   clk: tegra: Add PLLE HW power sequencer control
-> >   clk: tegra: Don't enable PLLE HW sequencer at init
-> >   phy: tegra: xusb: Move usb3 port init for Tegra210
-> >   phy: tegra: xusb: Rearrange UPHY init on Tegra210
-> >   phy: tegra: xusb: Add Tegra210 lane_iddq operation
-> >   phy: tegra: xusb: Add sleepwalk and suspend/resume
-> >   soc/tegra: pmc: Provide USB sleepwalk register map
-> >   arm64: tegra210: XUSB PADCTL add "nvidia,pmc" prop
-> >   dt-bindings: phy: tegra-xusb: Add nvidia,pmc prop
-> >   phy: tegra: xusb: Add wake/sleepwalk for Tegra210
-> >   phy: tegra: xusb: Tegra210 host mode VBUS control
-> >   phy: tegra: xusb: Add wake/sleepwalk for Tegra186
-> >   usb: host: xhci-tegra: Unlink power domain devices
-> >   xhci: tegra: Enable ELPG for runtime/system PM
-> > 
-> >  .../phy/nvidia,tegra124-xusb-padctl.txt       |    1 +
-> >  arch/arm64/boot/dts/nvidia/tegra210.dtsi      |    1 +
-> >  drivers/clk/tegra/clk-pll.c                   |   12 -
-> >  drivers/clk/tegra/clk-tegra210.c              |   53 +-
-> >  drivers/phy/tegra/xusb-tegra186.c             |  558 ++++-
-> >  drivers/phy/tegra/xusb-tegra210.c             | 1889 +++++++++++++----
-> >  drivers/phy/tegra/xusb.c                      |   92 +-
-> >  drivers/phy/tegra/xusb.h                      |   22 +-
-> >  drivers/soc/tegra/pmc.c                       |   94 +
-> >  drivers/usb/host/xhci-tegra.c                 |  613 ++++--
-> >  include/linux/clk/tegra.h                     |    4 +-
-> >  include/linux/phy/tegra/xusb.h                |   10 +-
-> >  12 files changed, 2784 insertions(+), 565 deletions(-)
-> > 
-> > v5 "phy: tegra: xusb: tegra210: Do not reset UPHY PLL" is moved
-> > into v6 "phy: tegra: xusb: Rearrange UPHY init on Tegra210"
+On Thu, 28 Jan 2021 20:46:44 -0800, Wesley Cheng wrote:
+> Update the tx-fifo-resize property with a better description, while
+> adding the tx-fifo-max-num, which is a new parameter allowing
+> adjustments for the maximum number of packets the txfifo resizing logic
+> can account for while resizing the endpoints.
 > 
-> Mike, Stephen,
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> ---
+>  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> could you guys take a look at the two clk patches here and give an
-> Acked-by? There's build-time dependencies throughout the series, so it'd
-> be good if they can all go through either the PHY or USB trees.
-> 
-> Kishon, Greg,
-> 
-> any comments on these patches? Unfortunately, the USB patches in this
-> series have a build-time dependency on the PHY patches, so this should
-> all go through one tree. Since this all culminates in the XHCI driver,
-> merging this through the USB tree might be best, provided that Kishon
-> provides his Acked-by on the PHY patches.
-> 
-> Alternatively, I can create a set of branches with the correct
-> dependencies and send out pull requests for the three subsystems if
-> that's preferrable.
 
-I have no objection for the usb patches to go through your tree as they
-are hardware-specific.
-
-thanks,
-
-greg k-h
+Reviewed-by: Rob Herring <robh@kernel.org>
