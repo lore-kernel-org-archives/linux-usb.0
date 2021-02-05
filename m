@@ -5,62 +5,62 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE730C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:35:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E698C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:36:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8911B64FCE
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:35:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2214264FA3
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:36:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhBEDfI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Feb 2021 22:35:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54034 "EHLO
+        id S230419AbhBEDgB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Feb 2021 22:36:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230206AbhBEDfH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Feb 2021 22:35:07 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E736DC06178B
-        for <linux-usb@vger.kernel.org>; Thu,  4 Feb 2021 19:34:26 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id l197so5494291ybf.17
-        for <linux-usb@vger.kernel.org>; Thu, 04 Feb 2021 19:34:26 -0800 (PST)
+        with ESMTP id S230316AbhBEDfs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Feb 2021 22:35:48 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF6EC061356
+        for <linux-usb@vger.kernel.org>; Thu,  4 Feb 2021 19:34:34 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id b125so5528581ybg.10
+        for <linux-usb@vger.kernel.org>; Thu, 04 Feb 2021 19:34:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=TY/cIJ2lz/cuhJtZ2QRLRNyD9hhczDvNRqFenFoSo88=;
-        b=uQHJkkyPdM1kTXNA0yrXHWUnD8qztnfv5csKg0rFQPJ0m0aE4DkUeASlpRoekBahd7
-         g2FdmKaOoczBojr7PTQey4YZsa26ewx14mffCyz5RKiApkhTeG1SflqM0SQkgEfML/yp
-         mP54dMwNPN0IigdywDOqvztKCp+duc7lxO+aC5y5v8ZwCwwsmxvjCgicGKUfxyD7ezM3
-         ZXSuAwK+dUKCBuZw6t39IcErgqoKfNWSc68EIWOCt9qmSLk604weMZ/Rsb3wlxkO0Qqc
-         eah9S3EZ77GFI4+Vzfz034RSJtBV7p0JjNe8r3FRSyB78FCziDRsJ0dw3j02pGUIF6af
-         4sJg==
+        bh=te5TC5o7z+08nRgeYdD6aL+WuHf6FIET6989xegBsak=;
+        b=i3EXnw3e9dkVDZtkIuz/aYPstUKgyoqZeVMYyOfoDHa7iLOMVJW6KQsZ6BUuORy9aj
+         wro1iwgw3ZDCkzriV8X9zjw+FpNYuZnyqOf6tFPsL95iBLrJJlqUtbb/Zm8UmQFNzOBg
+         D2AJmzfnoeViFQpPu3iEniXBLBVIsbsLsgyEIlcS4mWZu8EunMCsmn3MakPhTBx4Y86R
+         eZpHhVlgIZ81iBPJauze7oDMOWEfX5f2rcYZUz9l3Ma1XaAy6NsHMN45FqJ4SmbzYFNE
+         +2ZjQsE3BRq1Yn7cdHc6XwyEY9t+iAKhG9k/89qrBhQDUUcg+cuK7pm9FEVQTkTDdlOO
+         KS+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=TY/cIJ2lz/cuhJtZ2QRLRNyD9hhczDvNRqFenFoSo88=;
-        b=LakXT1a342Ff312NXfrlLtrdEGvAWs2QKjycyQOif2NcRJpcsCt4S4+A9ubzPSQMoy
-         wd5yw96gBZWwQxixY5ybDk7aOjXZwZXkYNSq1wTr7xZ0EcQzmzG6Dl+abtTKqkg+aLim
-         SEMgyElJHi6do4QeV73WS5zHqH3s8Dm/uUO0gMxRM1fTNj7uw3OXgBgKqjprpli8bKKL
-         wmuvFLboAt3KfRxmUDEzcejXDB+qRTKD6LavAVfXcrLLGylZhTymzHAj0vbFQwMKNweD
-         Z7bQW/1MRCdVvNAiBghCSiIq+p5RTv9cRFRK88MP5/v85tstH6hBMRsx11DzebUSMaNC
-         UoVQ==
-X-Gm-Message-State: AOAM531L9z7Y5IK4CjFQdEPP0OOYM/2JhCFqoB4P55I0xR6T0JrrKodG
-        uqYn1j0KBrYcuPj8xC+OJDll/38+LBF0
-X-Google-Smtp-Source: ABdhPJyDS0xP+3dt7PYoCZnfjYfb/LsNJHR0nfzEHobo452TiQToDQtJtfSADrumcV7aEQVR4EjbuVuzb9Hh
+        bh=te5TC5o7z+08nRgeYdD6aL+WuHf6FIET6989xegBsak=;
+        b=icCRmIL4AUYOqFd0/VeCvfiEDlxoaJXuPonHhU5qFtmw3r78h99FsI/SsUNq8coDO5
+         4F1BuZMSHmxPlpbk4DLEZs8RvGafn7cD8YqkmAOiX9pNGW8SL7yy1k9hQ5Er3TsYzq49
+         QXpKcOYwCzhkR1lVj6aqnG5kgB2FHmxhPFJbUQq5/4EoQ0tkHqt2tvkjl3f8Wudab2NS
+         WXw0bQvta8sHm9nd7S2W2q4cOPAFpn3gKYoRxQN3v4py/+KS2t41HlCUnG/6I9OOFSmL
+         0U/PqtQZjGFk1LeAt9xmUm6XtDAhNKBIccU+3ygRwbPpPpsRJx4MgPDfcZcFBG622tR9
+         9Bfg==
+X-Gm-Message-State: AOAM531GcjJZQ3w+G/8wtfTBR48d9Pp1POaUt1gUsUtKFkpedNbjQLjd
+        jH30gkTZ4GEoMrOztbZCy0NPmC7jSfxE
+X-Google-Smtp-Source: ABdhPJxN8rLE9Dec2QxPVTdL0a1YBs3lOSp6sQwe+49YmL/BersNUK165HnPrHGMSk9j+WtpyJC94l98P5r6
 Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
 X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:dd94:c753:a81d:c855])
- (user=kyletso job=sendgmr) by 2002:a25:c244:: with SMTP id
- s65mr3581959ybf.128.1612496066228; Thu, 04 Feb 2021 19:34:26 -0800 (PST)
-Date:   Fri,  5 Feb 2021 11:34:09 +0800
+ (user=kyletso job=sendgmr) by 2002:a25:2645:: with SMTP id
+ m66mr3595778ybm.356.1612496073336; Thu, 04 Feb 2021 19:34:33 -0800 (PST)
+Date:   Fri,  5 Feb 2021 11:34:11 +0800
 In-Reply-To: <20210205033415.3320439-1-kyletso@google.com>
-Message-Id: <20210205033415.3320439-2-kyletso@google.com>
+Message-Id: <20210205033415.3320439-4-kyletso@google.com>
 Mime-Version: 1.0
 References: <20210205033415.3320439-1-kyletso@google.com>
 X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCHi v6 1/7] usb: typec: Manage SVDM version
+Subject: [PATCH v6 3/7] usb: typec: tcpm: Determine common SVDM Version
 From:   Kyle Tso <kyletso@google.com>
 To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
         gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
@@ -80,165 +80,217 @@ PD Spec Revision 3.0 Version 2.0 + ECNs 2020-12-10
   Cable Plug and Shall continue to operate using this Specification
   Revision until they are Detached."
 
-Add a variable in typec_capability to specify the highest SVDM version
-supported by the port and another variable in typec_partner to cache the
-negotiated SVDM version between the port and the partner.
-
-Also add setter/getter functions for the negotiated SVDM version.
+Also clear the fields newly defined in SVDM version 2.0 if the
+negotiated SVDM version is 1.0.
 
 Signed-off-by: Kyle Tso <kyletso@google.com>
 ---
-Changes since v5
-- !! most changes are from Heikki
-- location of the negotiated SVDM version is changed. Now the variable
-  resides in typec_partner
-- The setter and getter functions were modified according to the above
-  changes
-- the default SVDM version is stored upon calling to
-  typec_register_partner
+Changes since v5:
+- follow the changes of "usb: typec: Manage SVDM version"
+- remove the "reset to default". Now the default SVDM version will be
+  set when calling to typec_register_partner
 
- drivers/usb/typec/class.c         | 43 +++++++++++++++++++++++++++++++
- include/linux/usb/typec.h         | 12 +++++++++
- include/linux/usb/typec_altmode.h | 10 +++++++
- 3 files changed, 65 insertions(+)
+ drivers/usb/typec/tcpm/tcpm.c | 71 ++++++++++++++++++++++++++++++-----
+ 1 file changed, 61 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index b4a5d9d4564f..45f0bf65e9ab 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -38,6 +38,7 @@ struct typec_partner {
- 	struct ida			mode_ids;
- 	int				num_altmodes;
- 	u16				pd_revision; /* 0300H = "3.0" */
-+	enum usb_pd_svdm_ver		svdm_version;
- };
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 9aadb1e1bec5..b45cd191a8a4 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -1475,8 +1475,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			const u32 *p, int cnt, u32 *response,
+ 			enum adev_actions *adev_action)
+ {
++	struct typec_port *typec = port->typec_port;
+ 	struct typec_altmode *pdev;
+ 	struct pd_mode_data *modep;
++	int svdm_version;
+ 	int rlen = 0;
+ 	int cmd_type;
+ 	int cmd;
+@@ -1493,6 +1495,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
+ 				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
  
- struct typec_port {
-@@ -824,6 +825,20 @@ typec_partner_register_altmode(struct typec_partner *partner,
++	svdm_version = typec_get_negotiated_svdm_version(typec);
++	if (svdm_version < 0)
++		return 0;
++
+ 	switch (cmd_type) {
+ 	case CMDT_INIT:
+ 		switch (cmd) {
+@@ -1500,10 +1506,22 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			if (PD_VDO_VID(p[0]) != USB_SID_PD)
+ 				break;
+ 
++			if (PD_VDO_SVDM_VER(p[0]) < svdm_version)
++				typec_partner_set_svdm_version(port->partner,
++							       PD_VDO_SVDM_VER(p[0]));
+ 			/* 6.4.4.3.1: Only respond as UFP (device) */
+ 			if (port->data_role == TYPEC_DEVICE &&
+ 			    port->nr_snk_vdo) {
+-				for (i = 0; i <  port->nr_snk_vdo; i++)
++				/*
++				 * Product Type DFP and Connector Type are not defined in SVDM
++				 * version 1.0 and shall be set to zero.
++				 */
++				if (typec_get_negotiated_svdm_version(typec) < SVDM_VER_2_0)
++					response[1] = port->snk_vdo[0] & ~IDH_DFP_MASK
++						      & ~IDH_CONN_MASK;
++				else
++					response[1] = port->snk_vdo[0];
++				for (i = 1; i <  port->nr_snk_vdo; i++)
+ 					response[i + 1] = port->snk_vdo[i];
+ 				rlen = port->nr_snk_vdo + 1;
+ 			}
+@@ -1532,6 +1550,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			response[0] = p[0] | VDO_CMDT(CMDT_RSP_BUSY);
+ 			rlen = 1;
+ 		}
++		response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
++			      (VDO_SVDM_VERS(typec_get_negotiated_svdm_version(typec)));
+ 		break;
+ 	case CMDT_RSP_ACK:
+ 		/* silently drop message if we are not connected */
+@@ -1542,19 +1562,22 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 
+ 		switch (cmd) {
+ 		case CMD_DISCOVER_IDENT:
++			if (PD_VDO_SVDM_VER(p[0]) < svdm_version)
++				typec_partner_set_svdm_version(port->partner,
++							       PD_VDO_SVDM_VER(p[0]));
+ 			/* 6.4.4.3.1 */
+ 			svdm_consume_identity(port, p, cnt);
+-			response[0] = VDO(USB_SID_PD, 1, SVDM_VER_1_0, CMD_DISCOVER_SVID);
++			response[0] = VDO(USB_SID_PD, 1, typec_get_negotiated_svdm_version(typec),
++					  CMD_DISCOVER_SVID);
+ 			rlen = 1;
+ 			break;
+ 		case CMD_DISCOVER_SVID:
+ 			/* 6.4.4.3.2 */
+ 			if (svdm_consume_svids(port, p, cnt)) {
+-				response[0] = VDO(USB_SID_PD, 1, SVDM_VER_1_0,
+-						  CMD_DISCOVER_SVID);
++				response[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
+ 				rlen = 1;
+ 			} else if (modep->nsvids && supports_modal(port)) {
+-				response[0] = VDO(modep->svids[0], 1, SVDM_VER_1_0,
++				response[0] = VDO(modep->svids[0], 1, svdm_version,
+ 						  CMD_DISCOVER_MODES);
+ 				rlen = 1;
+ 			}
+@@ -1565,7 +1588,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			modep->svid_index++;
+ 			if (modep->svid_index < modep->nsvids) {
+ 				u16 svid = modep->svids[modep->svid_index];
+-				response[0] = VDO(svid, 1, SVDM_VER_1_0, CMD_DISCOVER_MODES);
++				response[0] = VDO(svid, 1, svdm_version, CMD_DISCOVER_MODES);
+ 				rlen = 1;
+ 			} else {
+ 				tcpm_register_partner_altmodes(port);
+@@ -1592,6 +1615,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			/* Unrecognized SVDM */
+ 			response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
+ 			rlen = 1;
++			response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
++				      (VDO_SVDM_VERS(svdm_version));
+ 			break;
+ 		}
+ 		break;
+@@ -1611,6 +1636,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 			/* Unrecognized SVDM */
+ 			response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
+ 			rlen = 1;
++			response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
++				      (VDO_SVDM_VERS(svdm_version));
+ 			break;
+ 		}
+ 		port->vdm_sm_running = false;
+@@ -1618,6 +1645,8 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 	default:
+ 		response[0] = p[0] | VDO_CMDT(CMDT_RSP_NAK);
+ 		rlen = 1;
++		response[0] = (response[0] & ~VDO_SVDM_VERS_MASK) |
++			      (VDO_SVDM_VERS(svdm_version));
+ 		port->vdm_sm_running = false;
+ 		break;
+ 	}
+@@ -1695,7 +1724,13 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+ 			break;
+ 		case ADEV_QUEUE_VDM_SEND_EXIT_MODE_ON_FAIL:
+ 			if (typec_altmode_vdm(adev, p[0], &p[1], cnt)) {
+-				response[0] = VDO(adev->svid, 1, SVDM_VER_1_0, CMD_EXIT_MODE);
++				int svdm_version = typec_get_negotiated_svdm_version(
++									port->typec_port);
++				if (svdm_version < 0)
++					break;
++
++				response[0] = VDO(adev->svid, 1, svdm_version,
++						  CMD_EXIT_MODE);
+ 				response[0] |= VDO_OPOS(adev->mode);
+ 				rlen = 1;
+ 			}
+@@ -1722,14 +1757,19 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+ static void tcpm_send_vdm(struct tcpm_port *port, u32 vid, int cmd,
+ 			  const u32 *data, int count)
+ {
++	int svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
+ 	u32 header;
+ 
++	if (svdm_version < 0)
++		return;
++
+ 	if (WARN_ON(count > VDO_MAX_SIZE - 1))
+ 		count = VDO_MAX_SIZE - 1;
+ 
+ 	/* set VDM header with VID & CMD */
+ 	header = VDO(vid, ((vid & USB_SID_PD) == USB_SID_PD) ?
+-			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION), SVDM_VER_1_0, cmd);
++			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION),
++			svdm_version, cmd);
+ 	tcpm_queue_vdm(port, header, data, count);
  }
- EXPORT_SYMBOL_GPL(typec_partner_register_altmode);
  
-+/**
-+ * typec_partner_set_svdm_version - Set negotiated Structured VDM (SVDM) Version
-+ * @partner: USB Type-C Partner that supports SVDM
-+ * @svdm_version: Negotiated SVDM Version
-+ *
-+ * This routine is used to save the negotiated SVDM Version.
-+ */
-+void typec_partner_set_svdm_version(struct typec_partner *partner,
-+				   enum usb_pd_svdm_ver svdm_version)
-+{
-+	partner->svdm_version = svdm_version;
-+}
-+EXPORT_SYMBOL_GPL(typec_partner_set_svdm_version);
-+
- /**
-  * typec_register_partner - Register a USB Type-C Partner
-  * @port: The USB Type-C Port the partner is connected to
-@@ -848,6 +863,7 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
- 	partner->accessory = desc->accessory;
- 	partner->num_altmodes = -1;
- 	partner->pd_revision = desc->pd_revision;
-+	partner->svdm_version = port->cap->svdm_version;
+@@ -2022,9 +2062,14 @@ static int tcpm_validate_caps(struct tcpm_port *port, const u32 *pdo,
+ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
+ {
+ 	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
++	int svdm_version;
+ 	u32 header;
  
- 	if (desc->identity) {
- 		/*
-@@ -1894,6 +1910,33 @@ EXPORT_SYMBOL_GPL(typec_set_mode);
+-	header = VDO(altmode->svid, vdo ? 2 : 1, SVDM_VER_1_0, CMD_ENTER_MODE);
++	svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
++	if (svdm_version < 0)
++		return svdm_version;
++
++	header = VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTER_MODE);
+ 	header |= VDO_OPOS(altmode->mode);
  
- /* --------------------------------------- */
+ 	tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0);
+@@ -2034,9 +2079,14 @@ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
+ static int tcpm_altmode_exit(struct typec_altmode *altmode)
+ {
+ 	struct tcpm_port *port = typec_altmode_get_drvdata(altmode);
++	int svdm_version;
+ 	u32 header;
  
-+/**
-+ * typec_get_negotiated_svdm_version - Get negotiated SVDM Version
-+ * @port: USB Type-C Port.
-+ *
-+ * Get the negotiated SVDM Version. The Version is set to the port default
-+ * value stored in typec_capability on partner registration, and updated after
-+ * a successful Discover Identity if the negotiated value is less than the
-+ * default value.
-+ *
-+ * Returns usb_pd_svdm_ver if the partner has been registered otherwise -ENODEV.
-+ */
-+int typec_get_negotiated_svdm_version(struct typec_port *port)
-+{
-+	enum usb_pd_svdm_ver svdm_version;
-+	struct device *partner_dev;
+-	header = VDO(altmode->svid, 1, SVDM_VER_1_0, CMD_EXIT_MODE);
++	svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
++	if (svdm_version < 0)
++		return svdm_version;
 +
-+	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-+	if (!partner_dev)
-+		return -ENODEV;
-+
-+	svdm_version = to_typec_partner(partner_dev)->svdm_version;
-+	put_device(partner_dev);
-+
-+	return svdm_version;
-+}
-+EXPORT_SYMBOL_GPL(typec_get_negotiated_svdm_version);
-+
- /**
-  * typec_get_drvdata - Return private driver data pointer
-  * @port: USB Type-C port
-diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-index a94df82ab62f..91b4303ca305 100644
---- a/include/linux/usb/typec.h
-+++ b/include/linux/usb/typec.h
-@@ -217,12 +217,19 @@ struct typec_operations {
- 			     enum typec_port_type type);
- };
++	header = VDO(altmode->svid, 1, svdm_version, CMD_EXIT_MODE);
+ 	header |= VDO_OPOS(altmode->mode);
  
-+enum usb_pd_svdm_ver {
-+	SVDM_VER_1_0 = 0,
-+	SVDM_VER_2_0 = 1,
-+	SVDM_VER_MAX = SVDM_VER_2_0,
-+};
-+
- /*
-  * struct typec_capability - USB Type-C Port Capabilities
-  * @type: Supported power role of the port
-  * @data: Supported data role of the port
-  * @revision: USB Type-C Specification release. Binary coded decimal
-  * @pd_revision: USB Power Delivery Specification revision if supported
-+ * @svdm_version: USB PD Structured VDM version if supported
-  * @prefer_role: Initial role preference (DRP ports).
-  * @accessory: Supported Accessory Modes
-  * @fwnode: Optional fwnode of the port
-@@ -236,6 +243,7 @@ struct typec_capability {
- 	enum typec_port_data	data;
- 	u16			revision; /* 0120H = "1.2" */
- 	u16			pd_revision; /* 0300H = "3.0" */
-+	enum usb_pd_svdm_ver	svdm_version;
- 	int			prefer_role;
- 	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
- 	unsigned int		orientation_aware:1;
-@@ -286,4 +294,8 @@ int typec_find_orientation(const char *name);
- int typec_find_port_power_role(const char *name);
- int typec_find_power_role(const char *name);
- int typec_find_port_data_role(const char *name);
-+
-+void typec_partner_set_svdm_version(struct typec_partner *partner,
-+				    enum usb_pd_svdm_ver svdm_version);
-+int typec_get_negotiated_svdm_version(struct typec_port *port);
- #endif /* __LINUX_USB_TYPEC_H */
-diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-index 5e0a7b7647c3..65933cbe9129 100644
---- a/include/linux/usb/typec_altmode.h
-+++ b/include/linux/usb/typec_altmode.h
-@@ -132,6 +132,16 @@ typec_altmode_get_orientation(struct typec_altmode *altmode)
- 	return typec_get_orientation(typec_altmode2port(altmode));
- }
- 
-+/**
-+ * typec_altmode_get_svdm_version - Get negotiated SVDM version
-+ * @altmode: Handle to the alternate mode
-+ */
-+static inline int
-+typec_altmode_get_svdm_version(struct typec_altmode *altmode)
-+{
-+	return typec_get_negotiated_svdm_version(typec_altmode2port(altmode));
-+}
-+
- /**
-  * struct typec_altmode_driver - USB Type-C alternate mode device driver
-  * @id_table: Null terminated array of SVIDs
+ 	tcpm_queue_vdm_unlocked(port, header, NULL, 0);
+@@ -5977,6 +6027,7 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+ 	port->typec_caps.fwnode = tcpc->fwnode;
+ 	port->typec_caps.revision = 0x0120;	/* Type-C spec release 1.2 */
+ 	port->typec_caps.pd_revision = 0x0300;	/* USB-PD spec release 3.0 */
++	port->typec_caps.svdm_version = SVDM_VER_2_0;
+ 	port->typec_caps.driver_data = port;
+ 	port->typec_caps.ops = &tcpm_ops;
+ 	port->typec_caps.orientation_aware = 1;
 -- 
 2.30.0.365.g02bc693789-goog
 
