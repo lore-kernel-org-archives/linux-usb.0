@@ -2,138 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E85C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56800C433DB
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 04:28:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 383C664FBE
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 03:37:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1D5364F58
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 04:28:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231181AbhBEDg4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Feb 2021 22:36:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230523AbhBEDg1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Feb 2021 22:36:27 -0500
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8120DC061222
-        for <linux-usb@vger.kernel.org>; Thu,  4 Feb 2021 19:34:41 -0800 (PST)
-Received: by mail-qt1-x84a.google.com with SMTP id d1so4216691qtp.11
-        for <linux-usb@vger.kernel.org>; Thu, 04 Feb 2021 19:34:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=mEd4FTkoIBVEm4F+2S7f9RkcZv4AxQI1AwgNCprZwuk=;
-        b=vEetQxmQz8ho7HXn1xdXwOPHDHA/cRRYB/U5tVoa2W57Vpu+KFdA/ELfbMuqk9WPm8
-         jDn7yWu30yg73aDCBBYCcT8V/bChvPuI3K10Y8OE3u8Fx5nxJ+QjOqncwiGRzSOFmCec
-         N+PmoDS2KP6jl01qq2nDWS4J7hG70y1AF+Rew+mR3ZcNVEZtAI3z4MDBtkc7vIfTLvZ5
-         5YVS01uOKXNV84ZmOZ+tJMMpf0tOcJjtz3UV4RwxiEGTZlN/uBtsQHDM47jIOqFldAib
-         f7P4Gue3lshUQ0f1z73B3GEDzfkb0URo1/bxJtrKUmSZvSZKMP97ixRRdNlKJ5FqxUF4
-         MOrQ==
+        id S229876AbhBEE2L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Feb 2021 23:28:11 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:44411 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229586AbhBEE2H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Feb 2021 23:28:07 -0500
+Received: from mail-lf1-f71.google.com ([209.85.167.71])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1l7siK-0004eO-IN
+        for linux-usb@vger.kernel.org; Fri, 05 Feb 2021 04:27:24 +0000
+Received: by mail-lf1-f71.google.com with SMTP id k14so3712615lfg.16
+        for <linux-usb@vger.kernel.org>; Thu, 04 Feb 2021 20:27:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=mEd4FTkoIBVEm4F+2S7f9RkcZv4AxQI1AwgNCprZwuk=;
-        b=PaXWCjeyV9J6PZTNlb3ySWDi2Cj4N3wYyz9kMPEQLsqjyoV0PlKIN7rOXBL3fTOLQr
-         OD2UEr/U7EuIg+IpuU7fQIzJzliK14yTBRnF33RmhFrivA/Pzmo6fqu9xPI1rKPGm241
-         Jal69Kl70O8zlklKsSVSn4PtHZtWPGyHTWXfkaXgOXROTkOZN4vMhqP7TIXKlaU2/CEH
-         Tis30Pwz0t4LP0/+hwE30LtsO/md6bo2U/l5nYFJBu/Q6jyue+dfBqCgoj2wtxDOLdad
-         O9Y7mEdMYGOe3xeKErA6dL//mpsMe3p1Vz7qFcUYMA0++irRzwd4Z2ZPnAvK69LytZdv
-         mH1A==
-X-Gm-Message-State: AOAM533IdFbIMF+V6TNWeKRD6kcR4V6hvjgpcPrjm09CHlSSSspkPltU
-        O4sgGq1QUPXGf5fxMcFB+zNtBxvg5tlF
-X-Google-Smtp-Source: ABdhPJymMyffcfDrxC34DHJwSAMAyoUcX6YhpeZ+Cy+HdNdWFhhB+q1RJrugDpxUY2CNHqICKkaMP011aAQJ
-Sender: "kyletso via sendgmr" <kyletso@kyletso.ntc.corp.google.com>
-X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:dd94:c753:a81d:c855])
- (user=kyletso job=sendgmr) by 2002:ad4:4f41:: with SMTP id
- eu1mr2526004qvb.34.1612496080440; Thu, 04 Feb 2021 19:34:40 -0800 (PST)
-Date:   Fri,  5 Feb 2021 11:34:13 +0800
-In-Reply-To: <20210205033415.3320439-1-kyletso@google.com>
-Message-Id: <20210205033415.3320439-6-kyletso@google.com>
-Mime-Version: 1.0
-References: <20210205033415.3320439-1-kyletso@google.com>
-X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
-Subject: [PATCH v6 5/7] usb: typec: displayport: Fill the negotiated SVDM
- Version in the header
-From:   Kyle Tso <kyletso@google.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, hdegoede@redhat.com, robh+dt@kernel.org
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Kyle Tso <kyletso@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n5C7ID7G2UvKjWjufV22Fa1Sv36FB+FI8SSi249Wd+I=;
+        b=E7Ld+nJC8zs3wsiigJMHtu8UEObsvk01TNUi/A0W8ZgNrzuF0rznIN06MJy4vjf0mA
+         1RjZ4iuEVouRbMF1ZWlh4W2InMGCvpliDk6wJlCSQtONHM90fZtE0HYdIZ0Xy9BTWWi3
+         PrPr0Her6pDwe9ezc6xvIY/DvMLjpxoeb7i17F6VxCxFoEcZAtibmg75GGJEBs7H0xZn
+         7QujNmqAYypT+Jajy0v6DrO3JfNAyOD0u2lVBG2oa8eCDl8gteYa6i/57RFRS5BHklml
+         MrPSn4vEdVyMCZn2kv/T1zNPbL4qurTHgc/vSKQjQCGKy+4tSVJN7XH2Gono2/uSql5j
+         M+lQ==
+X-Gm-Message-State: AOAM5336wt35F4Zj8yPBTyEt1b/XBj9hcNhoRowuZsebpFBw+sOyAWCP
+        B4Z/Cg6UAuQCrA8s4WTIqAQppIdfcKb/65vJ5bZbgRfzcsc0kEzyNRo7Ajh0kmmUvcjMWAReK4J
+        aioKAiqDctFWouRPxOYRjZPNLZKoxZDp3SYXcqgpvZcl/8qMb/qqwNw==
+X-Received: by 2002:a2e:9bd8:: with SMTP id w24mr1575821ljj.126.1612499243990;
+        Thu, 04 Feb 2021 20:27:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxAROX3NBDY8t05hB5Oona3HjOfSSl1ABIXZQWhVcZMuwiFce13KCzBfaZfdYvJTVkPKnqJVQAGzuS8MpNZ+Pg=
+X-Received: by 2002:a2e:9bd8:: with SMTP id w24mr1575796ljj.126.1612499243414;
+ Thu, 04 Feb 2021 20:27:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20210204051850.64857-1-aaron.ma@canonical.com>
+In-Reply-To: <20210204051850.64857-1-aaron.ma@canonical.com>
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date:   Fri, 5 Feb 2021 12:27:12 +0800
+Message-ID: <CAAd53p4euFiw7pfDnD2H8oMVeeTqQ_c+wOFDLM2xPccn5MewiA@mail.gmail.com>
+Subject: Re: [PATCH] xhci-pci: Set AMD Renoir USB controller to D3 when shutdown
+To:     Aaron Ma <aaron.ma@canonical.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>, lee.jones@linaro.org,
+        peter.chen@nxp.com, USB list <linux-usb@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VDM header now requires SVDM Version. Get it from typec_partner.
+On Thu, Feb 4, 2021 at 1:20 PM Aaron Ma <aaron.ma@canonical.com> wrote:
+>
+> On AMD Renoir/Cezanne platforms, when set "Always on USB" to "On" in BIOS,
+> USB controller will consume more power than 0.03w.
+>
+> Set it to D3cold when shutdown, S5 power consumption will be 0.03w lower.
+> The USB can charge other devices as before.
+> USB controller works fine after power on and reboot.
 
-Signed-off-by: Kyle Tso <kyletso@google.com>
----
-Changes since v5:
-- follow the changes of "usb: typec: Manage SVDM version"
+Can you please test the following patch, which should address the root cause:
+https://lore.kernel.org/linux-acpi/20201201213019.1558738-1-furquan@google.com/
 
- drivers/usb/typec/altmodes/displayport.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+It also helps another AMD laptop on S5:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1912935
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 0abc3121238f..b7f094435b00 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -15,8 +15,8 @@
- #include <linux/usb/typec_dp.h>
- #include "displayport.h"
- 
--#define DP_HEADER(_dp, cmd)		(VDO((_dp)->alt->svid, 1, SVDM_VER_1_0, cmd) | \
--					 VDO_OPOS(USB_TYPEC_DP_MODE))
-+#define DP_HEADER(_dp, ver, cmd)	(VDO((_dp)->alt->svid, 1, ver, cmd)	\
-+					 | VDO_OPOS(USB_TYPEC_DP_MODE))
- 
- enum {
- 	DP_CONF_USB,
-@@ -156,9 +156,14 @@ static int dp_altmode_configured(struct dp_altmode *dp)
- 
- static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
- {
--	u32 header = DP_HEADER(dp, DP_CMD_CONFIGURE);
-+	int svdm_version = typec_altmode_get_svdm_version(dp->alt);
-+	u32 header;
- 	int ret;
- 
-+	if (svdm_version < 0)
-+		return svdm_version;
-+
-+	header = DP_HEADER(dp, svdm_version, DP_CMD_CONFIGURE);
- 	ret = typec_altmode_notify(dp->alt, TYPEC_STATE_SAFE, &dp->data);
- 	if (ret) {
- 		dev_err(&dp->alt->dev,
-@@ -181,6 +186,7 @@ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
- static void dp_altmode_work(struct work_struct *work)
- {
- 	struct dp_altmode *dp = container_of(work, struct dp_altmode, work);
-+	int svdm_version;
- 	u32 header;
- 	u32 vdo;
- 	int ret;
-@@ -194,7 +200,10 @@ static void dp_altmode_work(struct work_struct *work)
- 			dev_err(&dp->alt->dev, "failed to enter mode\n");
- 		break;
- 	case DP_STATE_UPDATE:
--		header = DP_HEADER(dp, DP_CMD_STATUS_UPDATE);
-+		svdm_version = typec_altmode_get_svdm_version(dp->alt);
-+		if (svdm_version < 0)
-+			break;
-+		header = DP_HEADER(dp, svdm_version, DP_CMD_STATUS_UPDATE);
- 		vdo = 1;
- 		ret = typec_altmode_vdm(dp->alt, header, &vdo, 2);
- 		if (ret)
--- 
-2.30.0.365.g02bc693789-goog
+We don't need to put bandage on drivers one by one once the patch with
+alternative approach is in upstream.
 
+Kai-Heng
+
+>
+> Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+> ---
+>  drivers/usb/host/xhci-pci.c | 8 ++++++++
+>  drivers/usb/host/xhci.h     | 1 +
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 84da8406d5b4..a31be1ba927f 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -62,6 +62,7 @@
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_3                        0x43ba
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_2                        0x43bb
+>  #define PCI_DEVICE_ID_AMD_PROMONTORYA_1                        0x43bc
+> +#define PCI_DEVICE_ID_AMD_RENOIR_USB31                 0x1639
+>  #define PCI_DEVICE_ID_ASMEDIA_1042_XHCI                        0x1042
+>  #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI               0x1142
+>  #define PCI_DEVICE_ID_ASMEDIA_1142_XHCI                        0x1242
+> @@ -171,6 +172,10 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+>         if (pdev->vendor == PCI_VENDOR_ID_AMD)
+>                 xhci->quirks |= XHCI_TRUST_TX_LENGTH;
+>
+> +       if (pdev->vendor == PCI_VENDOR_ID_AMD &&
+> +               pdev->device == PCI_DEVICE_ID_AMD_RENOIR_USB31)
+> +               xhci->quirks |= XHCI_SHUTDOWN_D3COLD;
+> +
+>         if ((pdev->vendor == PCI_VENDOR_ID_AMD) &&
+>                 ((pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4) ||
+>                 (pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_3) ||
+> @@ -594,6 +599,9 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
+>         /* Yet another workaround for spurious wakeups at shutdown with HSW */
+>         if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+>                 pci_set_power_state(pdev, PCI_D3hot);
+> +
+> +       if (xhci->quirks & XHCI_SHUTDOWN_D3COLD)
+> +               pci_set_power_state(pdev, PCI_D3cold);
+>  }
+>  #endif /* CONFIG_PM */
+>
+> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+> index 25e57bc9c3cc..0684193da4bd 100644
+> --- a/drivers/usb/host/xhci.h
+> +++ b/drivers/usb/host/xhci.h
+> @@ -1883,6 +1883,7 @@ struct xhci_hcd {
+>  #define XHCI_SKIP_PHY_INIT     BIT_ULL(37)
+>  #define XHCI_DISABLE_SPARSE    BIT_ULL(38)
+>  #define XHCI_SG_TRB_CACHE_SIZE_QUIRK   BIT_ULL(39)
+> +#define XHCI_SHUTDOWN_D3COLD   BIT_ULL(40)
+>
+>         unsigned int            num_active_eps;
+>         unsigned int            limit_active_eps;
+> --
+> 2.30.0
+>
