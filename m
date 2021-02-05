@@ -2,104 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE289C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 18:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D982C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 19:16:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D5EA64F09
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 18:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E875064E3D
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 19:16:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233551AbhBERCU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 12:02:20 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47880 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233693AbhBERAU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Feb 2021 12:00:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 74E7464F19;
-        Fri,  5 Feb 2021 18:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612550521;
-        bh=Och95jZSPmS5JZOu3rWCNdzFapqEaxA4bX7uCQJwQso=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IX2kVxDXqUuV7iowgJJWwlByQAXihwSnK8hf2TkQT1LjJOn+hvItadXV2bJyoRau7
-         HOKkWGUOj+U72dTLpf3ngoAqJxxjr7HVVQLOZ3JeSerI0czD9EOtEjff0dN5pwjAzL
-         lHXtfzrHcLi0OEG13gFG+8vkS1XZn7EwSFmEV6Q4u24sKbaLeKU3RydjLgcxSyVqH9
-         o8/POigpER9rYtSUxohfdtok+MTincfAKZNBVtrzVs0qURvp6KhO+I3fVBFRCsQ/aP
-         QPOOkbBMHxXEPzJyBa4FDHBlm1WDl8DvdHUM+I5p77ZkVSZ+QkDIpX6sWoKuZFbqjt
-         APStkyUYfhrCw==
-Received: by mail-ed1-f43.google.com with SMTP id l12so10002193edt.3;
-        Fri, 05 Feb 2021 10:42:01 -0800 (PST)
-X-Gm-Message-State: AOAM530innO9ERQUQ/am41MEWx4Qu/qorp7E0r2caH9R81WGpvfQEKWP
-        sUFaZeUzEZeJ6a1MuJHoNZCVWgMDku+W4FuPKg==
-X-Google-Smtp-Source: ABdhPJwnoYzJJaU11tmANzpBNOiB4Jrz6Z0M34lW0MRbvQXE//h7k1Ng7TT1yLPvbcgMbS512EbgqHcxVP6l+HwWAJM=
-X-Received: by 2002:aa7:c895:: with SMTP id p21mr4907518eds.165.1612550519893;
- Fri, 05 Feb 2021 10:41:59 -0800 (PST)
+        id S233480AbhBERdX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 12:33:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233305AbhBEP6Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 10:58:24 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D09AC06178A;
+        Fri,  5 Feb 2021 09:39:45 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id a12so11085108lfb.1;
+        Fri, 05 Feb 2021 09:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=hseLb0dwWumgxU/+HV0VWRPn5JhtqayFxSzk7wGDI0A=;
+        b=YYyzUyNidCYEs9vScdRQDO8FiLHKo2XmBcrp9CZaN6HRQeQs6rDCB7RfAlhSJcieMj
+         UAG0dfnPO3SHfIGI0eimbXemT5HTZ1rzP6jxWOXfUmqOMnJQuaLx9EomeHsMxpKV5BYc
+         1vFprZ6Q39fK1JwpHblakPJnNt0V44EFplrIzflfmJc0ZWG4ljZXQmK8jONYoZj7Extr
+         pDxiIciKQsi2yiAgvOLedPf3x76RP7UjLG1H6eQQ79BvrOUcCKy/TehY0T4BkQAl/JLB
+         ftyMovMboKeF31NdPB+BSrO4doGBfxx0sYKzhoOlOWGuQZm7fzguhJH6eC1dd99+fesh
+         nOyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hseLb0dwWumgxU/+HV0VWRPn5JhtqayFxSzk7wGDI0A=;
+        b=GSQQiWpZLORm9c0j2cZFpJL1z6OgPPqY/u8n5qCiGZ8NB/47T9H2qJDvCUsJg+IEjL
+         frg84SYamqmQgdzJiB4mdA37bdWVKiHGSlkjQRpDGQgQ//enybR8De1hn9+ezSiV9pjw
+         ISQ0fNpzvrtJ40qoKZ9mCvYd5EgbLbF4EuMpMh0Gx5/oaA+OkQgDcHi+Xu0P86u6N8qv
+         wuSj5wyd7OHP7Yk+KAVs67lRJwMxujQkaAkUooDwykInI7bWpP3gYIjLdaUAYaKBOAGh
+         fW8DrDKkDuNg5H+TjmKQEjbnBGFlJbx67oAPn6UvYruzEoVNSWk0k0amPljXMpFeSVwt
+         5qjA==
+X-Gm-Message-State: AOAM531uwJSEesheFqj7e17RVoUN2unpesniydLmy5iSVvTgBIpg4Li3
+        /QV02ykNXLRhL7j4cZaLQJNhskcf1nHSPA==
+X-Google-Smtp-Source: ABdhPJxP5sMoD/gCL4SiOmeR7Jb0WdHCMLb5NQG0CukrEqhNQjU1FgXtZHVGNf9yHo9uWsH5NSkbcg==
+X-Received: by 2002:a19:347:: with SMTP id 68mr3126116lfd.110.1612546782596;
+        Fri, 05 Feb 2021 09:39:42 -0800 (PST)
+Received: from rafiki.local (user-5-173-242-247.play-internet.pl. [5.173.242.247])
+        by smtp.gmail.com with ESMTPSA id n16sm1053230lfq.301.2021.02.05.09.39.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 09:39:42 -0800 (PST)
+From:   Lech Perczak <lech.perczak@gmail.com>
+To:     linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Cc:     Lech Perczak <lech.perczak@gmail.com>,
+        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Subject: [PATCH v2 1/2] net: usb: qmi_wwan: support ZTE P685M modem
+Date:   Fri,  5 Feb 2021 18:39:03 +0100
+Message-Id: <20210205173904.13916-2-lech.perczak@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210205173904.13916-1-lech.perczak@gmail.com>
+References: <20210205173904.13916-1-lech.perczak@gmail.com>
 MIME-Version: 1.0
-References: <20210205114011.10381-1-jbx6244@gmail.com> <20210205114011.10381-6-jbx6244@gmail.com>
-In-Reply-To: <20210205114011.10381-6-jbx6244@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 5 Feb 2021 12:41:45 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJwNdUfoYM8SZmOgMG9iAyZkJ4-kzjjiDDm_mdmghTEOA@mail.gmail.com>
-Message-ID: <CAL_JsqJwNdUfoYM8SZmOgMG9iAyZkJ4-kzjjiDDm_mdmghTEOA@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] usb: dwc3: of-simple: add compatible for rk3328
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     "heiko@sntech.de" <heiko@sntech.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Feb 5, 2021 at 5:40 AM Johan Jonker <jbx6244@gmail.com> wrote:
->
-> From: Cameron Nemo <cnemo@tutanota.com>
->
-> Add a compatible to be hooked into by the Rockchip rk3328 device tree.
->
-> The rk3399 compatible cannot be reused because the rk3328 SoCs may
-> require a specialized driver in the future and old device trees must
-> remain compatible with newer kernels.
+The modem is used inside ZTE MF283+ router and carriers identify it as
+such.
+Interface mapping is:
+0: QCDM, 1: AT (PCUI), 2: AT (Modem), 3: QMI, 4: ADB
 
-Yes that's important, but...
+T:  Bus=02 Lev=02 Prnt=02 Port=05 Cnt=01 Dev#=  3 Spd=480  MxCh= 0
+D:  Ver= 2.01 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=19d2 ProdID=1275 Rev=f0.00
+S:  Manufacturer=ZTE,Incorporated
+S:  Product=ZTE Technologies MSM
+S:  SerialNumber=P685M510ZTED0000CP&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&0
+C:* #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=500mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+E:  Ad=87(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
-> Signed-off-by: Cameron Nemo <cnemo@tutanota.com>
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
->  drivers/usb/dwc3/dwc3-of-simple.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
-> index e62ecd22b..93bc34328 100644
-> --- a/drivers/usb/dwc3/dwc3-of-simple.c
-> +++ b/drivers/usb/dwc3/dwc3-of-simple.c
-> @@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
->  };
->
->  static const struct of_device_id of_dwc3_simple_match[] = {
-> +       { .compatible = "rockchip,rk3328-dwc3" },
+Cc: Bjørn Mork <bjorn@mork.no>
+Signed-off-by: Lech Perczak <lech.perczak@gmail.com>
+---
+v2: no changes to this patch, resend as series.
 
-Why does this driver need it? In fact, you don't want this driver to
-bind to the dwc3 node as we're binding to the 'snps,dwc3' driver.
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->         { .compatible = "rockchip,rk3399-dwc3" },
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index cc4819282820..a0bf7737402f 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1235,6 +1235,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x19d2, 0x1255, 4)},
+ 	{QMI_FIXED_INTF(0x19d2, 0x1256, 4)},
+ 	{QMI_FIXED_INTF(0x19d2, 0x1270, 5)},	/* ZTE MF667 */
++	{QMI_FIXED_INTF(0x19d2, 0x1275, 3)},	/* ZTE P685M */
+ 	{QMI_FIXED_INTF(0x19d2, 0x1401, 2)},
+ 	{QMI_FIXED_INTF(0x19d2, 0x1402, 2)},	/* ZTE MF60 */
+ 	{QMI_FIXED_INTF(0x19d2, 0x1424, 2)},
+-- 
+2.20.1
 
-Given the above, you might think we should remove this, but we can't
-since there are old dtb's with the dwc3 child node.
-
-Presumably you are getting lucky here (with link order). The kernel
-has no logic to decide which driver to bind to if there are 2 matching
-drivers. If we did, it would probably be the opposite of what you want
-here as we'd pick the most specific match. This driver should probably
-bail probe if no dwc3 child node.
-
-Rob
