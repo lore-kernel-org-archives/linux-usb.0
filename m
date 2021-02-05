@@ -2,130 +2,168 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE578C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 22:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D059C433E6
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 22:15:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BDF864F92
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 22:07:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C886664FE4
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 22:15:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbhBEWGo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 17:06:44 -0500
-Received: from mail-il1-f198.google.com ([209.85.166.198]:35566 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232589AbhBEOxx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 09:53:53 -0500
-Received: by mail-il1-f198.google.com with SMTP id i7so6783416ilu.2
-        for <linux-usb@vger.kernel.org>; Fri, 05 Feb 2021 08:32:22 -0800 (PST)
+        id S231810AbhBEWOB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 17:14:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44714 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232674AbhBEOhh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 09:37:37 -0500
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9596C06178B;
+        Fri,  5 Feb 2021 08:15:26 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id 190so6476734wmz.0;
+        Fri, 05 Feb 2021 08:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=mACicL3rE+Kh0IehlID0L8VuwnVf9CB87E6ZMKmgukU=;
+        b=PBL7qppo0ij8tdwx68ivvnBR12W0uA9PnbUlNDF4iPl4aRGOW1Ux+UrVSXDgpyQbwS
+         mKa+pmVe9gZg7WNyuaI6m7hb066N+EWYyvPBqSCV2a8FrDWBJ5/QPUI1aUI0LquSL+Uz
+         XvljK1qhu1BLFIU0x5P4JmHKsOsAKlEe12MH6CNW+8yZWGj1SZp7iD4KqlXtzGiyEWw7
+         4BFW5Cdbl+CybT3K0UHwVJ/xSnZA8U1furIBoE6S/pBcp+urgpC7VbZMCxXjmgFCnnLo
+         xJZ7yuOH0tGOvEw6EYIuKaDVtyu+jZfJOpM95hYkY442HOmOSJa2zrNbTyukwfhE3MQf
+         AfAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=COK0jar7QCaPbpiILJ8gBR8WTNlmrabRXDL400SLEHU=;
-        b=Aja8nikJzQuA5ySWOg7KxpHzt5SKvQL7J1PbcSxTKzha7bo5s7jHmRpRHy9vsb/Uf5
-         JtYdt3hK8F9Xn2a76HPfUdJNMgoJePvjEkq09wEua2r2uhc0LFFM5NTt50UXfE1oSycc
-         vaLVACuLhWn++HjrGA9t1liuM5Vw+w+b6qYj1RoupqYyuwreN2fT6GLWZSNZb74kqe7F
-         7QDqcXUJmd6c2a6+qVNd70xfnmQPCojvvDt8X/RUlCDKquLBRmXDwW37h7/KSK9W04Ym
-         fYals7I5P6OXgPsDfWHOf37pudbADU/tcG6seuSHgIaLhUATEqTf2dyGGo5qkgTHOGTw
-         y36A==
-X-Gm-Message-State: AOAM532KE4KMD917VS6zmq70ZRFcM12mOC9C6q4U9ma+xLYcguwVg78S
-        aS8/no3KnT+CxwTLS1SEfK/zWlOsC44x2GbIfB3+fdCgKVLE
-X-Google-Smtp-Source: ABdhPJy3pstMGPURM6PMaQSauQLwpFDbN8XmssQ/05c82tcTlHUCJKCKg/IIQTdVlyROKtWpJqZRfSaQoDe3s/B61QgyC6LcijL3
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=mACicL3rE+Kh0IehlID0L8VuwnVf9CB87E6ZMKmgukU=;
+        b=Cdbyi745bIGCN572JfZyTNP32Xl+pvZ7YUnE2309IDVGxpU9dKSCdHWo9+nRy5BLkG
+         IIbZkH8Oj9xbdHfMocidQtr2oJSCJzw8D2xhPz0KyvBJkYtvm/hM4X9VvSA2ZfjUCtPB
+         QFUYhUkZrl056imL9ukCb2agO1noAiVJ6N6UT9nvhhnJFI7NsoiRaDXnn8EeQKGqTWr9
+         66X06liIVkqGcZVBlxJD7YfzaYQ7lDLhN7cqOkrZWo9MVDgE9UxRaPusu5UAUXZTA6SA
+         WYB8mGjwUQL2E5A0YT3ELT1SdIecFZyazDDaowa2AtyEII53ndWTFnwJukk6IoT4SbF/
+         GauQ==
+X-Gm-Message-State: AOAM533gaqHv/LPYszVI/L5d3rRRYlz0qjQEWtqQCq27cPBqXLz1wgA4
+        BI2Xy0uZkAB9a7aXNb21CQk=
+X-Google-Smtp-Source: ABdhPJx8X8W0cynwZXl8aKAQ163MTMwsU5DJ+VhIRSM5tIIit2yHBlZDBooRC5fOiOG/QM2ZOpSqDg==
+X-Received: by 2002:a1c:32c4:: with SMTP id y187mr4261470wmy.120.1612541725495;
+        Fri, 05 Feb 2021 08:15:25 -0800 (PST)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id h15sm13085203wrt.10.2021.02.05.08.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 08:15:23 -0800 (PST)
+Date:   Fri, 5 Feb 2021 17:15:21 +0100
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     gregkh@linuxfoundation.org, kishon@ti.com, mturquette@baylibre.com,
+        sboyd@kernel.org
+Cc:     JC Kuo <jckuo@nvidia.com>, robh@kernel.org, jonathanh@nvidia.com,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        nkristam@nvidia.com, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v7 00/14] Tegra XHCI controller ELPG support
+Message-ID: <YB1vGTt0ufzsYBgo@ulmo>
+References: <20210120073414.69208-1-jckuo@nvidia.com>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:db0a:: with SMTP id t10mr4528032ioc.158.1612536620371;
- Fri, 05 Feb 2021 06:50:20 -0800 (PST)
-Date:   Fri, 05 Feb 2021 06:50:20 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000071d34805ba97f0f4@google.com>
-Subject: kernel BUG in attach_store
-From:   syzbot <syzbot+a30e620779ec2718f731@syzkaller.appspotmail.com>
-To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, shuah@kernel.org,
-        syzkaller-bugs@googlegroups.com, valentina.manea.m@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="zgswFb86aj1T/vHg"
+Content-Disposition: inline
+In-Reply-To: <20210120073414.69208-1-jckuo@nvidia.com>
+User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
 
-syzbot found the following issue on:
+--zgswFb86aj1T/vHg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-HEAD commit:    0e2c50f4 Add linux-next specific files for 20210204
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1294915f500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b5009c5bf1512a87
-dashboard link: https://syzkaller.appspot.com/bug?extid=a30e620779ec2718f731
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1047b68cd00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=150f3f6f500000
+On Wed, Jan 20, 2021 at 03:34:00PM +0800, JC Kuo wrote:
+> Tegra XHCI controler can be placed in ELPG (Engine Level PowerGated)
+> state for power saving when all of the connected USB devices are in
+> suspended state. This patch series includes clk, phy and pmc changes
+> that are required for properly place controller in ELPG and bring
+> controller out of ELPG.
+>=20
+> JC Kuo (14):
+>   clk: tegra: Add PLLE HW power sequencer control
+>   clk: tegra: Don't enable PLLE HW sequencer at init
+>   phy: tegra: xusb: Move usb3 port init for Tegra210
+>   phy: tegra: xusb: Rearrange UPHY init on Tegra210
+>   phy: tegra: xusb: Add Tegra210 lane_iddq operation
+>   phy: tegra: xusb: Add sleepwalk and suspend/resume
+>   soc/tegra: pmc: Provide USB sleepwalk register map
+>   arm64: tegra210: XUSB PADCTL add "nvidia,pmc" prop
+>   dt-bindings: phy: tegra-xusb: Add nvidia,pmc prop
+>   phy: tegra: xusb: Add wake/sleepwalk for Tegra210
+>   phy: tegra: xusb: Tegra210 host mode VBUS control
+>   phy: tegra: xusb: Add wake/sleepwalk for Tegra186
+>   usb: host: xhci-tegra: Unlink power domain devices
+>   xhci: tegra: Enable ELPG for runtime/system PM
+>=20
+>  .../phy/nvidia,tegra124-xusb-padctl.txt       |    1 +
+>  arch/arm64/boot/dts/nvidia/tegra210.dtsi      |    1 +
+>  drivers/clk/tegra/clk-pll.c                   |   12 -
+>  drivers/clk/tegra/clk-tegra210.c              |   53 +-
+>  drivers/phy/tegra/xusb-tegra186.c             |  558 ++++-
+>  drivers/phy/tegra/xusb-tegra210.c             | 1889 +++++++++++++----
+>  drivers/phy/tegra/xusb.c                      |   92 +-
+>  drivers/phy/tegra/xusb.h                      |   22 +-
+>  drivers/soc/tegra/pmc.c                       |   94 +
+>  drivers/usb/host/xhci-tegra.c                 |  613 ++++--
+>  include/linux/clk/tegra.h                     |    4 +-
+>  include/linux/phy/tegra/xusb.h                |   10 +-
+>  12 files changed, 2784 insertions(+), 565 deletions(-)
+>=20
+> v5 "phy: tegra: xusb: tegra210: Do not reset UPHY PLL" is moved
+> into v6 "phy: tegra: xusb: Rearrange UPHY init on Tegra210"
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a30e620779ec2718f731@syzkaller.appspotmail.com
+Mike, Stephen,
 
-------------[ cut here ]------------
-kernel BUG at drivers/usb/usbip/vhci_sysfs.c:396!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 1 PID: 9885 Comm: syz-executor837 Not tainted 5.11.0-rc6-next-20210204-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-RIP: 0010:attach_store.cold+0x376/0x396 drivers/usb/usbip/vhci_sysfs.c:396
-Code: e8 b9 3d d0 f8 48 8b 5d 70 48 c7 c7 00 f0 ff ff 48 89 de e8 66 97 8c f8 48 81 fb 00 f0 ff ff 0f 87 56 ff ff ff e8 64 8f 8c f8 <0f> 0b e8 5d 8f 8c f8 8b b4 24 90 00 00 00 48 89 ef e8 fe 31 b4 fc
-RSP: 0018:ffffc9000ad47b58 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff8880206c1c00 RCX: 0000000000000000
-RDX: ffff888020909c00 RSI: ffffffff88e65b5c RDI: 0000000000000003
-RBP: ffff8881445785d0 R08: fffffffffffff000 R09: ffff88802282d8a7
-R10: ffffffff88e65b4a R11: 000000000000003f R12: fffffffffffffffc
-R13: ffff888144578640 R14: ffff8881445785e8 R15: ffff888031a38fc0
-FS:  00007f294068c700(0000) GS:ffff8880b9d00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000004df500 CR3: 0000000029449000 CR4: 00000000001506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- dev_attr_store+0x50/0x80 drivers/base/core.c:1936
- sysfs_kf_write+0x110/0x160 fs/sysfs/file.c:139
- kernfs_fop_write_iter+0x342/0x500 fs/kernfs/file.c:296
- call_write_iter include/linux/fs.h:1977 [inline]
- new_sync_write+0x426/0x650 fs/read_write.c:519
- vfs_write+0x791/0xa30 fs/read_write.c:606
- ksys_write+0x12d/0x250 fs/read_write.c:659
- do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x40b5ff
-Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 99 fd ff ff 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 cc fd ff ff 48
-RSP: 002b:00007f294068bd60 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000000000000008 RCX: 000000000040b5ff
-RDX: 0000000000000008 RSI: 00007f294068bdb0 RDI: 0000000000000005
-RBP: 0000000000000005 R08: 0000000000000000 R09: 00007f294068bd00
-R10: 0000000000000000 R11: 0000000000000293 R12: 00007f294068bdb0
-R13: 0000000000000000 R14: 00007f294068c400 R15: 0000000000022000
-Modules linked in:
+could you guys take a look at the two clk patches here and give an
+Acked-by? There's build-time dependencies throughout the series, so it'd
+be good if they can all go through either the PHY or USB trees.
 
----[ end trace 375e0f0107ff6180 ]---
-RIP: 0010:attach_store.cold+0x376/0x396 drivers/usb/usbip/vhci_sysfs.c:396
-Code: e8 b9 3d d0 f8 48 8b 5d 70 48 c7 c7 00 f0 ff ff 48 89 de e8 66 97 8c f8 48 81 fb 00 f0 ff ff 0f 87 56 ff ff ff e8 64 8f 8c f8 <0f> 0b e8 5d 8f 8c f8 8b b4 24 90 00 00 00 48 89 ef e8 fe 31 b4 fc
-RSP: 0018:ffffc9000ad47b58 EFLAGS: 00010293
+Kishon, Greg,
 
-RAX: 0000000000000000 RBX: ffff8880206c1c00 RCX: 0000000000000000
-RDX: ffff888020909c00 RSI: ffffffff88e65b5c RDI: 0000000000000003
-RBP: ffff8881445785d0 R08: fffffffffffff000 R09: ffff88802282d8a7
-R10: ffffffff88e65b4a R11: 000000000000003f R12: fffffffffffffffc
-R13: ffff888144578640 R14: ffff8881445785e8 R15: ffff888031a38fc0
-FS:  00007f294068c700(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000004d1974 CR3: 0000000029449000 CR4: 00000000001506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+any comments on these patches? Unfortunately, the USB patches in this
+series have a build-time dependency on the PHY patches, so this should
+all go through one tree. Since this all culminates in the XHCI driver,
+merging this through the USB tree might be best, provided that Kishon
+provides his Acked-by on the PHY patches.
 
+Alternatively, I can create a set of branches with the correct
+dependencies and send out pull requests for the three subsystems if
+that's preferrable.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Let me know how you want to handle these.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Thanks,
+Thierry
+
+--zgswFb86aj1T/vHg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAdbxUACgkQ3SOs138+
+s6HPWA//bsqVHuTYuYpOfFyr9+CAEKLUWRjjySBwjp2J0wzqbpAm1VJZqxGyCP2n
+C1rHW7FNBhXcH1fy68JWC9fovri9TtEXmmNusF4BPnnqacJeQ8FpGKxVi7wqlzBf
+FgkqEdFWbtjVY+Pb9roDzEI3pp6V0dN2133j/9Z278ushVoPg21eqPnY2mAnOZBQ
+lyU9JIEbR3Zos1fb9/Hhi2vNhk4sbJsviktAi/OYmFj2NlDGHxg8JMHA7Xk8e5P6
+9MuFqxclirj7bwhkRgCH/BmiHqhO1rmLhGi+Hfrd/VKDeF9srcY8J5eAUHRtaibt
+bg9tCbnLk4dN/JXAZgTly4obqxx2WayLZhxXuG18otd0sX9vis+dFnO/dw78TVET
+Nmm3zUcqvSvA0X/pEH9ijC7YT3lbpcWvVnCuRCjJt8FF4O0ecXUyqqA2wIRd4+I5
+7xPkIubuvOZsERheGrQoTSlD43Yt8ky/IiyNz3z/RNa4uj5DxK90BpXQtppr3lE3
+PKngxHkeeAm3DTstpr1z4IAglFuOnhh7H9Cc/leD3mnJDfwzs7qp9cTg0Lg50V4V
+dukwQV06CFWWA+TpyJkRjrBJw2Tw6pnFALrWzeT61Zg9KsoAVcTZI4so+BjaEPPg
+MsGzpg0gcHVGdFzfAI1LU/MuFDdkZwQ4Rtjv28ZAko7NcR7eoUQ=
+=+est
+-----END PGP SIGNATURE-----
+
+--zgswFb86aj1T/vHg--
