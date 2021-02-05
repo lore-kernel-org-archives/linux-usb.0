@@ -5,65 +5,65 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70EDEC433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0B27C433DB
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F4BD64E55
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:43:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 816A664E56
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 11:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231913AbhBELn1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 06:43:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45300 "EHLO
+        id S231931AbhBELny (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 06:43:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231756AbhBELlQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 06:41:16 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA690C06178C;
-        Fri,  5 Feb 2021 03:40:35 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id y8so8467638ede.6;
-        Fri, 05 Feb 2021 03:40:35 -0800 (PST)
+        with ESMTP id S230073AbhBELlS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 06:41:18 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CE9C0617A7;
+        Fri,  5 Feb 2021 03:40:38 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id df22so8509856edb.1;
+        Fri, 05 Feb 2021 03:40:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cNFFFBXY6L5UHLHUyj3rIyUKC+rbFyqqqVFEOT4uqFw=;
-        b=ahB32WzDsm/wCAllVe7CyZf0Rf7AO9VVUmt/hYIo2g+23U1fXa4dfkq9r2mMrvq9UE
-         D28HY3O2tdoVBYU3FhxzltQZ2CxjV7CQix0uN2m8BvrUEhabYvBEbTXRpZbv1qSpYt7o
-         I++opCff3wF+yu5JZGMW7gCWwPp09tjUN1EYjMHHUjuZJlSteyU8H8BLwnw9Bhx+2CdJ
-         8sy7PD9a9BNWgAD/BJzYdHNaIpHXI29T11FWcT009Y03sswsw/fg06Lj37a/FrqUdwoa
-         8MiYr0oxqZyNfsg2MG2EcbdOOgvIpo50BD5t5NV+eKW4ekUTTy99aOgMCDMmENdcbOZY
-         qSHg==
+        bh=VKpw+TGxcSonBmJvYVbjnLKEXkavUls9cDkglgeREzs=;
+        b=O3iPYbX4hg0w4sjb5uql2pazoXLBRhd3nlnGtE0Z6MRxETQ9aAo04oAycLYKf7DxoS
+         Lp5IIHOM4Hs2AzazeNugfLCd7tV6c8IspQyFEHBo2aXNcAaHmC+uPaiF/lqFHN5d4gMc
+         p93QTmDSZNOoPj1Y2B7DoJKkmjV4lYoLxNSJyGBknoswt7ZOs9UQvU8MjyJo2/H24edG
+         NKR/7E29vD4TuX3bKdDJQvqKPD93QFoKUApHc4L20EzqtvScZBvqnaEBiPLeTmR3QprI
+         qXwUdPEBPowIM/FkWCwBSswuoXdKmchZoK3JvYrylAwHdwkYlfVCGrbHPkiHsrnC5ZVf
+         nfUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=cNFFFBXY6L5UHLHUyj3rIyUKC+rbFyqqqVFEOT4uqFw=;
-        b=RjZLQMBBoDcmd9lA7xlp8Q7V+q7LGWMByuifoH2azPQtWkRZursijfiscQnDm0Wx1X
-         9Vb1qXIKzMtZ/YuVTMpixM/mkHTSjxmjvVWHntYYU/hW8VhIVIJB7UV3Gt7ltD12u/A5
-         iaNOpWNCHybr0N8z3GkA4s8GrEc7+SvolHPrtBqhyZVA8EioDsLWknYnM98u6o9C0oeQ
-         OXLhDovl9VRQQSibGNWC5oR6CWdDu4bvK3kqUiRDfhjPLnd9expr7kHyRpG9ZRegmzIY
-         es5T/5k4L1/WkidiwZ+6QtQyeEO3l0ZsFLkVNuAczob7ePRdZz+uGjSe3D6r9CVssTTC
-         32xA==
-X-Gm-Message-State: AOAM531MN6I6BM61FBT76pDB3LenV7pkdP5xOU/WvctkM+263dcbnOrM
-        pqnD8cZdMKNHVF2MY8dnp7Gh254tTc4=
-X-Google-Smtp-Source: ABdhPJzV30e9Zsy9VnCpm0mQ5RKvCPwM/JwHEW6pk4wgqKQLWPOZYzu9IQTafZp5nbtHqjCTAImsyA==
-X-Received: by 2002:a05:6402:270d:: with SMTP id y13mr3109884edd.149.1612525234585;
-        Fri, 05 Feb 2021 03:40:34 -0800 (PST)
+        bh=VKpw+TGxcSonBmJvYVbjnLKEXkavUls9cDkglgeREzs=;
+        b=KUlJQxrCr2GEubgupV+nPEaCeck6ggS8ud65t6XvB3EmFRBI+ZomwkTogR4YVqGVpu
+         mB1o0UQirmwyv7bBTudRsn1KnmXTbgloSCqighXv3HIKv57lo/LZyohK0RQR3TjkhXN+
+         Jz4rrxaeYA9rrAUVdT9tWIuduNNqfW6MQAnjXhbm/RwAEINkFMUH9BWnQSz1ep2FMArs
+         K2Y14DJs1dOhXLms6EP4YhUU3tAq7ITtjb4wYKytvoj342z/HwUD6IcTL3idGO717ctY
+         sSNZLZ0s/9UuD69g8cI+pUcv3avbILPKscHLngYdULXWkjfaaQ5SUzUhKXDNXu4Zrgmm
+         B0OA==
+X-Gm-Message-State: AOAM530Q8VctpeNwMX8d+uZXvLgfiUM7jDqTgbKv/AXK3zoB+FxROLLB
+        vMr7tNXe2P0DbF6ei4YRkM3UHkBh4+w=
+X-Google-Smtp-Source: ABdhPJxS81UgtOu9TvukRpaKhut4UQ+qD1CMdOAim5WvZkmqsRE4OZy3Di8ETppRgpphBwWKyT4jgA==
+X-Received: by 2002:aa7:c7d8:: with SMTP id o24mr3160923eds.121.1612525237159;
+        Fri, 05 Feb 2021 03:40:37 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id o4sm3883476edw.78.2021.02.05.03.40.33
+        by smtp.gmail.com with ESMTPSA id o4sm3883476edw.78.2021.02.05.03.40.36
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Feb 2021 03:40:34 -0800 (PST)
+        Fri, 05 Feb 2021 03:40:36 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/8] dt-bindings: usb: dwc3: add description for rk3328
-Date:   Fri,  5 Feb 2021 12:40:08 +0100
-Message-Id: <20210205114011.10381-5-jbx6244@gmail.com>
+Subject: [PATCH v3 8/8] dts64: rockchip: enable dwc3 usb for A95X Z2
+Date:   Fri,  5 Feb 2021 12:40:11 +0100
+Message-Id: <20210205114011.10381-8-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20210205114011.10381-1-jbx6244@gmail.com>
 References: <20210205114011.10381-1-jbx6244@gmail.com>
@@ -71,41 +71,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add description for "rockchip,rk3328-dwc3".
+Enable dwc3 usb for A95X Z2.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+Changed V2:
+  remove node wrapper
+---
+ arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-index d815aacfc..08a08ffce 100644
---- a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-@@ -27,6 +27,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - rockchip,rk3328-dwc3
-           - rockchip,rk3399-dwc3
-       - const: snps,dwc3
+diff --git a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
+index 30c73ef25..e71870768 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
+@@ -357,6 +357,11 @@
+ 	status = "okay";
+ };
  
-@@ -37,6 +38,7 @@ properties:
-     maxItems: 1
- 
-   clocks:
-+    minItems: 3
-     items:
-       - description:
-           Controller reference clock, must to be 24 MHz
-@@ -49,6 +51,7 @@ properties:
-           Controller grf clock
- 
-   clock-names:
-+    minItems: 3
-     items:
-       - const: ref_clk
-       - const: suspend_clk
++&usbdrd3 {
++	dr_mode = "host";
++	status = "okay";
++};
++
+ &usb_host0_ehci {
+ 	status = "okay";
+ };
 -- 
 2.11.0
 
