@@ -2,260 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7BDC433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:04:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7540BC43381
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:06:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2248964FEA
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:04:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 463DE64FDE
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:06:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhBEXEM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 18:04:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        id S232191AbhBEXFH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 18:05:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbhBELlO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 06:41:14 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39372C0613D6;
-        Fri,  5 Feb 2021 03:40:32 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id sa23so11536249ejb.0;
-        Fri, 05 Feb 2021 03:40:32 -0800 (PST)
+        with ESMTP id S231429AbhBEMVM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 07:21:12 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6957C06178A;
+        Fri,  5 Feb 2021 04:20:32 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id v1so6647670ott.10;
+        Fri, 05 Feb 2021 04:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=bP2TkjSLtuteWO1JClrvBULCopI78AgBBGVLp8X9jmQ=;
-        b=WbEmw6/Vz1nLwAr+gdpAGswlyFhuvsApUtNAtIHCywpR0lXlNSV5ptZ8ME15lFgBFg
-         zf9D2AP4+XBGWTGiIoIy6SZS2rHIrcTAiCekzUdSJVAPzOEVrTAJvKw8Weuef3bGmZrf
-         BW38RM2o9HeAcvj4ky7bGvc5vMAOxKpHi4GYAwM0NyVn6Tpn4elFm2BZbbIQ1F0cERbK
-         0as3Q1QsZpMY6lWX1ERV+JN4PY2BzhHI2ZSqY9mQ+jfFZKgcYMjS4l+p16tGCUdhspzx
-         jBYUk9npifoO2jlbouI2ezr+lfz17A3YlcYaBAIMe/lZ5kTbV0NQ8htPVIQ+Rs1r+tM9
-         Xclw==
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fCs7IE516zQ19D9vt6jCBZXhuJNVNEljBAYvbM9SaJ0=;
+        b=ho3ObzkRYNSmgdKNBv7/fQfoPZLx2b6H5wugiL+qVF/t24188pREP5xbh9sXBhJ1eu
+         +fwDfhF4WuFIF0pSJA2Sh7qoHvp/0bgIP8lMPyBY+V5aOLeD7xf8bCPNXVY8dHWruPUk
+         mshN/MGGuXbaBtDJjtkCQ73XZGJeXwm4GFgUqm2AWLHeawCaP0PM8BUjVmc6dJWOIBbv
+         uJj/VVov1EJvjxSIvAJWiOH0kvhkCP3oT29u6bEfZiOeA0VZ61KTZAAWXEGp3s5ci/qZ
+         Q1RUe5Kszei2DhJvT2yqkscC1HfiwuoDBTOLsTp4uOejB0w/b4jDkoAOP31u7I7N5iXW
+         MaSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=bP2TkjSLtuteWO1JClrvBULCopI78AgBBGVLp8X9jmQ=;
-        b=WCmEwMFk8Xx1dPk+eAdENu72NkmA/70igcj4l1gKKAfSI99k/IQhqrkXdY+DmESwVf
-         lV/3lbyH6+VpAdymMWXHCsCPhN/A1+fgQzHsEHuGfwPV1NXMmM2v2oS5hXhmC/hFe4Zy
-         cil1U3B5Ry9Hw8FQzIrN3zAalHxN0JUabDGvT0rBMGj9jml9ITRFBRlRXE4ET2xHvOkp
-         61LFBs8hzNdY1BjMg32VHzbMVRNNMwA8eqnkekI4WW1apa4/R6UXmhNfoFDoF8lxrMNt
-         BlLSsO1729RhEdKFD71VPwnWeXKQf75PB+t8x8O5Hh+Puv6/8bSX5+FhWDvT1iNTauZZ
-         dTzg==
-X-Gm-Message-State: AOAM532UXGKydeheVi4bmgsePVLU41jLsRYAbp0oaR29ewqyY6WosMJ9
-        ovLYI8jLVZi9cWfo1t9vBMsmt/ZocsQ=
-X-Google-Smtp-Source: ABdhPJy/0oDDNoKhXjsHBRIgx9GxBumXkGJoHcm/SEzx/UU3FS4jUNO9ItogkKaDjPFYZ1s9S4xg6g==
-X-Received: by 2002:a17:906:f2ca:: with SMTP id gz10mr3523918ejb.285.1612525230965;
-        Fri, 05 Feb 2021 03:40:30 -0800 (PST)
-Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id o4sm3883476edw.78.2021.02.05.03.40.29
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Feb 2021 03:40:30 -0800 (PST)
-From:   Johan Jonker <jbx6244@gmail.com>
-To:     heiko@sntech.de
-Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/8] dt-bindings: usb: convert rockchip,dwc3.txt to yaml
-Date:   Fri,  5 Feb 2021 12:40:04 +0100
-Message-Id: <20210205114011.10381-1-jbx6244@gmail.com>
-X-Mailer: git-send-email 2.11.0
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=fCs7IE516zQ19D9vt6jCBZXhuJNVNEljBAYvbM9SaJ0=;
+        b=bndEAHXqCFHO+5cTuZ7qFx6U6iaL0h7R+ZdrSfOjrI7aQ8u3VD8NrmJnImuep4rtlI
+         ymae37AwCHObb+frrdyB89IVb7+SRV/XFwNUQCRvP44aWfiXkfPUhvPJz6V2zcS974aR
+         J64GDuico0duOi9fJ5LQ7X6B65LmY1grOaD7ISGyUT1vR/l5pJB9+X5AuvwV8HZiUhHt
+         Vu6GHkI+TciyMaCtJSuWfmKJvix1gE1GiNZ77nr4eY1OYI7ZCn0s7oFS+M/agT6eX4tQ
+         wNH/lbhFtr4jfiQdoHcn5shCtWLDGlPVT9AsvkpjlDQQiMrjWNUsIsiB/8nCYqtHe+63
+         KEIQ==
+X-Gm-Message-State: AOAM532gS+hH3JhHim3EGXRBwNbSyYn95oZO0nwD7cdpS8KMY7WibhGp
+        iqjJ3hqiNGnKQ8PUAkllBxRYEGGoAYA=
+X-Google-Smtp-Source: ABdhPJyw6Tk/ajNVsLnemw8o2xP/w2QpdNOU6Fmkbm77g4YwslcBprLvbur3pFC484VpqELrbP7rVA==
+X-Received: by 2002:a9d:2c2:: with SMTP id 60mr1346148otl.357.1612527631840;
+        Fri, 05 Feb 2021 04:20:31 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id l24sm1782827otq.5.2021.02.05.04.20.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Feb 2021 04:20:30 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v6 0/7] common SVDM version and VDO from dt
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Kyle Tso <kyletso@google.com>
+Cc:     gregkh@linuxfoundation.org, hdegoede@redhat.com,
+        robh+dt@kernel.org, badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20210205033415.3320439-1-kyletso@google.com>
+ <20210205114234.GB2476581@kuha.fi.intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <648bcf2f-8f75-26c9-2427-87bc13234335@roeck-us.net>
+Date:   Fri, 5 Feb 2021 04:20:28 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210205114234.GB2476581@kuha.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the past Rockchip dwc3 usb nodes were manually checked.
-With the conversion of snps,dwc3.yaml as common document
-we now can convert rockchip,dwc3.txt to yaml as well.
-Remove node wrapper.
+On 2/5/21 3:42 AM, Heikki Krogerus wrote:
+[ ... ]
+>> Kyle Tso (7):
+>>   usb: typec: Manage SVDM version
+>>   usb: pd: Make SVDM Version configurable in VDM header
+>>   usb: typec: tcpm: Determine common SVDM Version
+>>   usb: typec: ucsi: Determine common SVDM Version
+>>   usb: typec: displayport: Fill the negotiated SVDM Version in the header
+>>   dt-bindings: connector: Add SVDM VDO properties
+>>   usb: typec: tcpm: Get Sink VDO from fwnode
+> 
+> These are OK by me, but I think it would be great if Guenter could
+> give them the once-over, as usual. I hope he has time. FWIW, for all
 
-Added properties for rk3399 are:
-  power-domains
-  resets
-  reset-names
+I'll try my best, but I'll need a couple of days.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
-Changed V3:
-  remove aclk_usb3_rksoc_axi_perf
-  remove aclk_usb3
-
-Changed V2:
-  remove node wrapper
----
- .../devicetree/bindings/usb/rockchip,dwc3.txt      | 56 -------------
- .../devicetree/bindings/usb/rockchip,dwc3.yaml     | 95 ++++++++++++++++++++++
- 2 files changed, 95 insertions(+), 56 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
- create mode 100644 Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-
-diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt b/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
-deleted file mode 100644
-index 945204932..000000000
---- a/Documentation/devicetree/bindings/usb/rockchip,dwc3.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Rockchip SuperSpeed DWC3 USB SoC controller
--
--Required properties:
--- compatible:	should contain "rockchip,rk3399-dwc3" for rk3399 SoC
--- clocks:	A list of phandle + clock-specifier pairs for the
--		clocks listed in clock-names
--- clock-names:	Should contain the following:
--  "ref_clk"	Controller reference clk, have to be 24 MHz
--  "suspend_clk"	Controller suspend clk, have to be 24 MHz or 32 KHz
--  "bus_clk"	Master/Core clock, have to be >= 62.5 MHz for SS
--		operation and >= 30MHz for HS operation
--  "grf_clk"	Controller grf clk
--
--Required child node:
--A child node must exist to represent the core DWC3 IP block. The name of
--the node is not important. The content of the node is defined in dwc3.txt.
--
--Phy documentation is provided in the following places:
--Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml - USB2.0 PHY
--Documentation/devicetree/bindings/phy/phy-rockchip-typec.txt     - Type-C PHY
--
--Example device nodes:
--
--	usbdrd3_0: usb@fe800000 {
--		compatible = "rockchip,rk3399-dwc3";
--		clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
--			 <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_GRF>;
--		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "grf_clk";
--		#address-cells = <2>;
--		#size-cells = <2>;
--		ranges;
--		usbdrd_dwc3_0: dwc3@fe800000 {
--			compatible = "snps,dwc3";
--			reg = <0x0 0xfe800000 0x0 0x100000>;
--			interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
--			dr_mode = "otg";
--		};
--	};
--
--	usbdrd3_1: usb@fe900000 {
--		compatible = "rockchip,rk3399-dwc3";
--		clocks = <&cru SCLK_USB3OTG1_REF>, <&cru SCLK_USB3OTG1_SUSPEND>,
--			 <&cru ACLK_USB3OTG1>, <&cru ACLK_USB3_GRF>;
--		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "grf_clk";
--		#address-cells = <2>;
--		#size-cells = <2>;
--		ranges;
--		usbdrd_dwc3_1: dwc3@fe900000 {
--			compatible = "snps,dwc3";
--			reg = <0x0 0xfe900000 0x0 0x100000>;
--			interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
--			dr_mode = "otg";
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-new file mode 100644
-index 000000000..d815aacfc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml
-@@ -0,0 +1,95 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/rockchip,dwc3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip SuperSpeed DWC3 USB SoC controller
-+
-+maintainers:
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+description:
-+  The common content of the node is defined in snps,dwc3.yaml.
-+
-+  Phy documentation is provided in the following places.
-+
-+  USB2.0 PHY
-+  Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb2.yaml
-+
-+  Type-C PHY
-+  Documentation/devicetree/bindings/phy/phy-rockchip-typec.txt
-+
-+allOf:
-+  - $ref: snps,dwc3.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - rockchip,rk3399-dwc3
-+      - const: snps,dwc3
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description:
-+          Controller reference clock, must to be 24 MHz
-+      - description:
-+          Controller suspend clock, must to be 24 MHz or 32 KHz
-+      - description:
-+          Master/Core clock, must to be >= 62.5 MHz for SS
-+          operation and >= 30MHz for HS operation
-+      - description:
-+          Controller grf clock
-+
-+  clock-names:
-+    items:
-+      - const: ref_clk
-+      - const: suspend_clk
-+      - const: bus_clk
-+      - const: grf_clk
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: usb3-otg
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3399-cru.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    bus {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      usbdrd3_0: usb@fe800000 {
-+        compatible = "rockchip,rk3399-dwc3", "snps,dwc3";
-+        reg = <0x0 0xfe800000 0x0 0x100000>;
-+        interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
-+                 <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_GRF>;
-+        clock-names = "ref_clk", "suspend_clk",
-+                      "bus_clk", "grf_clk";
-+        dr_mode = "otg";
-+      };
-+    };
--- 
-2.11.0
-
+Guenter
