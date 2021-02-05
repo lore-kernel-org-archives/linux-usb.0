@@ -2,63 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0016C433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 09:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E440C433E0
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 09:31:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7361D64F38
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 09:15:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32BF064F70
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 09:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbhBEJOz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 04:14:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59932 "EHLO mail.kernel.org"
+        id S230355AbhBEJaM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 04:30:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35340 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230063AbhBEJHb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Feb 2021 04:07:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3DCCC64FD8;
-        Fri,  5 Feb 2021 09:05:09 +0000 (UTC)
+        id S230484AbhBEJ1N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Feb 2021 04:27:13 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7109E64FBB;
+        Fri,  5 Feb 2021 09:26:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612515909;
-        bh=8kU1sOKnvGKSA4kIBOEOBJ3217Z14XZu+oE3K4f1cQA=;
+        s=korg; t=1612517192;
+        bh=0oCayZYiMEnz10eSMk33EJVBfDRkEJ/U8AfnlYuWt+Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y7XI5F+lzNajjT25oNcGlutpm2IPyEgAQxbOcOiddR6D8BvgtQnv6uIt0yyHHDgLN
-         ID7LtHXs76OaIjAhJutoR/SesieoOtHddmHVl+kILlGRmXOw0JkUwVJxEHGnu98pjc
-         VZg7aASArxwmIzmH/EOmowRMH06PqqS1dhaUYEMA=
-Date:   Fri, 5 Feb 2021 10:04:59 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benson Leung <bleung@google.com>
-Cc:     enric.balletbo@collabora.com, bleung@chromium.org,
-        bleung@kernel.org, linux-usb@vger.kernel.org, pmalani@chromium.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] Fix for cros_ec_typec for USB for v5.12 merge window
-Message-ID: <YB0KO7Nhira7NPBy@kroah.com>
-References: <YBxKC0IeWBJ/X/wJ@google.com>
+        b=x4/8dWY709bxPYw9fe+YKJBTtmdnMbs58eOV+JlGBw06GKmRX7mOXHhjwVxyqI5oB
+         2sCg4IEktwpDp07qLxoPDSdFEAIXzQk7PynIEHxRpwkcRtixVosm1jSWpJavuug5io
+         sDed1y3x01IZhPCMRqf4dCe9TUQOPkHJetZh4pYk=
+Date:   Fri, 5 Feb 2021 10:26:29 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH] usb: dwc3: gadget: Remove check for bounded driver
+Message-ID: <YB0PRf9H2erqMGB6@kroah.com>
+References: <7077bb0f5691732b9814ea76d38ae8e9312a61f5.1612412038.git.Thinh.Nguyen@synopsys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YBxKC0IeWBJ/X/wJ@google.com>
+In-Reply-To: <7077bb0f5691732b9814ea76d38ae8e9312a61f5.1612412038.git.Thinh.Nguyen@synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Feb 04, 2021 at 11:24:59AM -0800, Benson Leung wrote:
-> Hi Greg,
-> 
-> I found a bug in the typec driver you pulled earlier this week
-> and Prashant developed a fix.
-> 
-> The following changes since commit 64eaa0fa66ac55965f793a8b65730299854e55cd:
-> 
->   platform/chrome: cros_ec_typec: Fix call to typec_partner_set_pd_revision (2021-02-02 19:42:52 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git tags/tag-ib-usb-typec-chrome-platform-cros-ec-typec-clear-pd-discovery-events-for-5.12
+On Wed, Feb 03, 2021 at 08:14:37PM -0800, Thinh Nguyen wrote:
+> The check for bounded gadget driver in dwc3_gadget_start() was to
+> prevent going through the initialization again without any cleanup. With
+> a recent update, the UDC framework guarantees this won't happen while
+> the UDC is started. Also, this check doesn't prevent requesting threaded
+> irq to the same dev_id, which will mess up the irq freeing logic. Let's
+> remove it.
 
-Now pulled and pushed out, thanks.
+What "recent update" caused this?  Is this a fix for something that
+needs to be backported?  If so, can you provide a "Fixes:" tag on here?
+Or is this just a general cleanup that is good to do now.
+
+thanks,
 
 greg k-h
