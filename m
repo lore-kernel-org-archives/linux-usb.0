@@ -2,183 +2,451 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0113DC433E0
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1D63C433DB
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Feb 2021 02:55:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD9C464FDE
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Feb 2021 23:25:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9990864FA7
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Feb 2021 02:55:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbhBEXYt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Feb 2021 18:24:49 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:53858 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230379AbhBEJ5J (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 04:57:09 -0500
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6812CC00CA;
-        Fri,  5 Feb 2021 09:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1612518966; bh=W7tZCDqbBtsbL+yo2hZB4lyFWjoh0J74Rk417P0YqhU=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=UjO6dQ8aZPlnl0bpRDhwnjprF/DUE1D5XwH0g0l6ARjNIckfa1zbfFzjEIPFONuqI
-         Do4sFi2NBEBgg0j4VPkl+MKTJ5M1VtP3wV6oezcMwYzl3rwUu+UW0H/KcwCKh6xR0l
-         RtN8Et2/pXpKMdqnHXlnQ2aPq7Eh8b4KfxM7ju8YA/1+y+HZECylwiN7Qzc8FQHEj7
-         BjvFcNSSoxBUNE0QhE3AcAJj+GYeL/c98DDUnDVwSP1RBtToYu4AoBTGbJNIcS0TIX
-         nvzO5esEa54K2BNH+JCwdZXaVwXrewMNUGxJbyNVHZjUs0wwZCDXC3+4Jeii4ZsLmy
-         Ln3pRVnlXZn2g==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 23DF6A006C;
-        Fri,  5 Feb 2021 09:56:05 +0000 (UTC)
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (mail-bn3nam04lp2059.outbound.protection.outlook.com [104.47.46.59])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id C957980218;
-        Fri,  5 Feb 2021 09:56:04 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="RSIGXWJ3";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QSe5MjKaEB/Nsys6jFjLJeVfx1S+zEFVLUhnRgrt+Bon7vtTU9oKz1eUxmzy4ExFG+8Xc0+IDbtXKajdhapC/F1cxVNfK2CWCk3O6nK2vkq8+MH6QtLTzsVj61STTuqHEALDg+1tgyzN2vR0rVnBPMjWuvwkCYQvkfxsHN+uJCMtt76JRg15bqvApEsXE8+WxbO5/n9ECFbLKYDkY5L2fksNNrXXFDe8aouctc4nXlq0IitPOddxRcHEei//g/8+KYBHEB/QvZ2lp1sskWsBRUzqT/tqH85tfqcJ3IozteANXR5CRa66SPiGm53XpwV3NId8GRjIca2ZbC8HI1vScA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W7tZCDqbBtsbL+yo2hZB4lyFWjoh0J74Rk417P0YqhU=;
- b=B8TXIi9qAPadjzzf/uydJQ1MIjFq38fAVz+OnbKzKRskwfHFqF4hH5kAP2I3brKtgdicbMvsmkXO2LwVSIfw395o364D4TgQtt3gV+luLupOaCwBtI5Hnwdo2+e70d4Fo+th+K4CobUwD0B6OAhgqXrRxU8rzCp14zyVXm2cIAZ3VRADLuGFZ8KbgSQCDISYt4tinvMHmMy+V96Kvs1VFtNLiLyr7KcOW8SyK+WE2ih6ppokb1KxsPefOt2/7NKltRFs3LXgwXjaa4f4ZVpfrs7cWVrKrt/jMdpnszwru+/Hgz69UMD4DwZuxhXzVEfQPnp9bIKY6rS99QUrF/0tgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W7tZCDqbBtsbL+yo2hZB4lyFWjoh0J74Rk417P0YqhU=;
- b=RSIGXWJ3O5fvE6OrhGI6q3fUP2Oxr9pcDZxNJEGM7sBRBmxkx/68U+1bnNI0hhptb2G4Vw0xMnUi6ctKFErOSnJodkX7LWm6+VL+/3yRf1T8O1Wz57vOjmzwXN4dP3RJkFOEC9wkv4tUSEoHhFsUehQ+Z7xGZP9kBlBul+xhxjA=
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com (2603:10b6:a03:10a::12)
- by BY5PR12MB4933.namprd12.prod.outlook.com (2603:10b6:a03:1d5::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3825.20; Fri, 5 Feb
- 2021 09:55:01 +0000
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::895b:620d:8f20:c4d6]) by BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::895b:620d:8f20:c4d6%6]) with mapi id 15.20.3805.026; Fri, 5 Feb 2021
- 09:55:01 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>
-Subject: Re: [PATCH] usb: dwc3: gadget: Remove check for bounded driver
-Thread-Topic: [PATCH] usb: dwc3: gadget: Remove check for bounded driver
-Thread-Index: AQHW+qx2ypzmJFmPtESHlvJqVGtiU6pJTJ6AgAADq4CAAABzgIAAA9oA
-Date:   Fri, 5 Feb 2021 09:55:01 +0000
-Message-ID: <8afe1bff-3a95-7930-1d2b-65d46267cfc3@synopsys.com>
-References: <7077bb0f5691732b9814ea76d38ae8e9312a61f5.1612412038.git.Thinh.Nguyen@synopsys.com>
- <YB0PRf9H2erqMGB6@kroah.com>
- <e81699b8-1768-d54c-0419-3cbdf5b84ee8@synopsys.com>
- <YB0Sudllcc8f4lN+@kroah.com>
-In-Reply-To: <YB0Sudllcc8f4lN+@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [98.248.94.126]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a03eb2d4-4f06-4e5f-048b-08d8c9bc1ac9
-x-ms-traffictypediagnostic: BY5PR12MB4933:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BY5PR12MB49334BD4D832498827FB9E9CAAB29@BY5PR12MB4933.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: nAC2RusQjUXg/Opf2Ch9OpE0ICJE3WrTAD15765+EkUiVwMCpClE2uIsIdnScdmLNEB0ax1zG6iGzf0eSDudWndFVNKg+qsdzj/ljk2w6LB0PjBlgaxK8jIe83htG8isQQZaAKidDc4WD6h0lciJhnkEorb8dZ3WD+8tHxXwxO7zqZxf5XYGzBfal3aJ0L9NFTJX7+FW9naAyQ8gijuKUTHHic9tV8xzWBb+5J0zbGh+2wCd9um+GgXwBErW7QsVjIF1wfDs7gDePQucFNVZ7ui/Wlz2Kb0GkKpwMJ59WI7dutYUWW1SCQsabh3/kfAVQoAeut0rTIn/u0gDY7dA5/MLzc0infyq5GusMxQzBxElGscDQV8Fcdm1PJK9wDZVJnCwW0VBx2s+CKnwWIL5mCosJ9P1GpLLrVloqo5jIF2388v3KAPRRckEleb/XyaWbWnP7GWvzhu4bQd9slNXzVDo9M3S+k2dmasBr2GUC30Ax9XK0mjqfMKaOSdtWkmXmvKoBdNcwTqYnRCfnxOBwky57TQuDjLg7uDcPBaIgM/eGcopEmHZ1uyWsbFGy9k2Yfyvc4pZVH2LlVB0+Yga4Mr1hhAs3/CkdEIBZYOsZpo=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4791.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(39860400002)(136003)(396003)(366004)(376002)(31686004)(186003)(2906002)(26005)(2616005)(66446008)(6506007)(64756008)(66556008)(66476007)(478600001)(6512007)(110136005)(316002)(86362001)(31696002)(54906003)(66946007)(6486002)(83380400001)(71200400001)(5660300002)(8936002)(8676002)(36756003)(76116006)(4326008)(107886003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?R0YyY1AySjhrS3QyOXk4dTBhUkwzYlAxOGZ4eDh5NGd6b05UZVNDSTdPZUtO?=
- =?utf-8?B?Ukg4dDQrZVNab2w4NEdzTEtyTGlIQnNnZXJNQytOYUswb3VGMzNHc0g3Rlhi?=
- =?utf-8?B?Z0ZxUHRsdGxQWWR2amlNOTlLOEE2TGtpMWw3L1VlaEpHd2wvaitkOW5LSGw4?=
- =?utf-8?B?Zk5Dc2grZ3NINGI4cFUrLzVuRTFCZGpTeGZ2aUd3WWR4anoyZ0M2dVBjdnF3?=
- =?utf-8?B?WVNOU000b1NMVC9Vdm4yY3pPOXp3R0RLbjQ0MUo4K29JcGJjdzRPRGtMOXIz?=
- =?utf-8?B?YWMydDlpUmZWbXhndDdoZUNJUGk4eGZ6ZldMckVQMUFWdjFTa1VzSEVYcXlK?=
- =?utf-8?B?d0N5bzRWaU1VOGJuSG5zOE1OYU1yNjIrRngxL0lEWncra2QrUGF3akpXa0Vy?=
- =?utf-8?B?MERoMFNaYVRvNkw2eldkdnNzN3F3Z2poTy9pbEU3bk9hOC9YaDRld21SUndH?=
- =?utf-8?B?UHptOGd0OUk2SGgzTWNPc09NOTI2TllKZlhwZHRqZS84UEwyUlBDV0cxQ3pm?=
- =?utf-8?B?TWJMM2dGcUg3WS81Zy9vT05RSEVVN21WZUp1aEk5TkpqWC9RL01TWGJQNjRY?=
- =?utf-8?B?ajdzN3ZiSnJkSEFpMXBFdVJoejRKT2xIcUNIZXBNZ0JzdjZia08rdTUrcHd2?=
- =?utf-8?B?UnVQWUM5L2hVaHhoUUViaUVidGtlSDQ1UDBhY25HUmJLRnRSTkVaVEIrZDdq?=
- =?utf-8?B?R1Y0Q1AzMWt4c0JWWlhrOUoySEJpTWwvVDVXR3NWZ2NBY3Z4SmFTcnNKanV2?=
- =?utf-8?B?WlI2RnV0eVpWdW9xdWtacHJrdnVEQWNyRWxmMXpTazFjd2Vrb2dFV2R0cFMv?=
- =?utf-8?B?RVN0eGtuTVdPZyt2SnB1amJRMGt1anFuNzdjZ3hrZXBnQlljQkNiakU3b051?=
- =?utf-8?B?Vm5tdXhORXpZZUtoVnBwaURCSWtTUVV4OFhnNXRpMEh4K0xsMHZTcXZkT1g0?=
- =?utf-8?B?RFY2TWpmMDRKQ2phYUpmQ1J4WUxWQ1Y1M3pFbHdDS1J5UGRvU0pkdkRqR3I4?=
- =?utf-8?B?U3NTRWU0M0s2RC94aXM5Sk5nWWYzNzlQa2JBN0RLalpsNjB5K3dWNXU0L1lM?=
- =?utf-8?B?T1VNN0RjYjZ0TmE0ZURYTjI2ektlUDcveHg0VUh6WUtWdjM4TG5lR0x3cHdt?=
- =?utf-8?B?NFlSZGdjQlRaUnMreVpUci85TzkyM1czb2pjOE9IOTR4Vm92WXgrb0cvR1F6?=
- =?utf-8?B?K2lmektLUGZ6Yk5qZXA1Uy9FNGk5OGZqN0ZENUhXWlBJWklEcFpGczY5OU4x?=
- =?utf-8?B?K3hYUytxVmtjMndqUlR0d2pBTjFFZWZxKzB6R2V3ZTA3Sm1TZkpzTGNQaG5q?=
- =?utf-8?B?L0JTemdqOEw3Y1BGbEd6cnA3dkI1MFdIOFA3cGVSSDlmRjZON3hYWEJuTWt4?=
- =?utf-8?B?Z3ZacjAwN25QUjJEU0ZPTmVuYUdKZldXVXBwK0R4bDl6aW8yWCt6THUvb2dL?=
- =?utf-8?B?NTZnNmVMY0hrUXR3MU1XeVZjbHVHeEgrOGs3dnM5Q3ZEd1d0ZnEwdTJsUXpp?=
- =?utf-8?B?TUt2LzAzampGcXZJalQweEY5SWhGazhzLzBxTnViaTh1d3lweWd4ZVE5QlZT?=
- =?utf-8?B?eEQ4OHRmMWtic28xR0t4eEpXdWJoaHczeVhFZmpSRTRmR3ZVUmptM2xEcWQy?=
- =?utf-8?B?R2VYdGdSS3E2WUdEb09aM0R2ZmlKMXdTREZ2NzRlOExhTzZydExXcGRDNjJT?=
- =?utf-8?B?MmVSUUtKTDU2aW5Sa3BZYi9CTzZuSUY5R2wwNVZnU2tjVWdCVmRQWkVOb0dm?=
- =?utf-8?Q?2AEMVAddEHqajoHLbqYNp+Frjg++kU4ZUgGMIaD?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9980AD47601EDD4D9CD26EFADD74C737@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S231561AbhBFCyj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Feb 2021 21:54:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231532AbhBFCks (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Feb 2021 21:40:48 -0500
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47500C08EE2B
+        for <linux-usb@vger.kernel.org>; Fri,  5 Feb 2021 16:30:03 -0800 (PST)
+Received: by mail-qv1-xf2f.google.com with SMTP id w11so4355591qvz.12
+        for <linux-usb@vger.kernel.org>; Fri, 05 Feb 2021 16:30:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CUOyz0JApmAerE3CGFZrKWYuf+9QAjw+bZZGlxr3LTw=;
+        b=s64H440z63RTVBaYPipR17pSfhaZw6vZVI9IFEK06N7leJ3u7O+Ln7mK4Hzsk2AZwp
+         SZpd3fLc6H070Ywn2YHr+lqfeWDl2Ln7TP32BKrpQBEHWyQcgegrVh7fn5dUEVNOL2V3
+         qoLNBul8Ql6mdNE2OrSReBLxYqSNs+apiasc/0XaQo+mQTwU6tluq7/AOx6J/WC4h38q
+         9UrWcQi1KU0EXNaY10bfUYcBBYuDh9gxRuSssrrI+jOmAXElFv1GfWpX0+MgWHpKR6vH
+         jINBem5fySSzQRTUNYk0lU9lr6c86urcEZr88UNspquDWNGobZ7+BXq5q53cBJ1EUd2h
+         h4Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CUOyz0JApmAerE3CGFZrKWYuf+9QAjw+bZZGlxr3LTw=;
+        b=UP9xj4m21BGGn/pdI4VkNeJz/XEgHwUIHzipy0xkh+JB8ELjUhLx7P6zHVwhepwqcs
+         FEqBf8C0VMThl/ZJpKSB3zfZ/EhzvGUEmkcLBNWxvYQn66C+BQnHqCnfdN+STXW0sEIF
+         qgrwBXIUxaOSZOAV7PIGCVR2XHvw42qoim8IdXaFWQIiCn14Ogm1C9Yk4urnG3RL5Y5W
+         Z1TKF49l2pUvfckFzyDH3yW6ZLxUEyOP3jZWzXG7s6K1NhDJbUegx/U4Tf3YMNaYmSla
+         0xOKt99zizs2pY/aIVtVrjDttoKZi/9WZ6o5Qej4Yek3pewv+N6tNU336Qx80O770TzP
+         oRXA==
+X-Gm-Message-State: AOAM5323Smo2ANpHj6itxD6JLndOHtt+n9NtrY6beLSuZGesg5UrzvgS
+        +kZI7zi2OirBnw3P2+14b90cSSjYOlL8SUMVMnGZow==
+X-Google-Smtp-Source: ABdhPJxo2hLIo/4Dv/c0Oj1KiXz0CXv9uKzb6p7G+gPzSGFKOmM9Rmrr1AGukxrXud3/IvxWHWTubUAclaqa1nTWIPo=
+X-Received: by 2002:a0c:8365:: with SMTP id j92mr6967174qva.19.1612571401993;
+ Fri, 05 Feb 2021 16:30:01 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4791.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a03eb2d4-4f06-4e5f-048b-08d8c9bc1ac9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2021 09:55:01.1902
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VO7qzYv7HyL8JYg6O/LPjoLgfTZUFAmEJNM/sxCSeTqceUlDtzX7g9+cKVvu+mmiOCgKYKUDlCL1oqrl3GHB1Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4933
+References: <20210205033415.3320439-1-kyletso@google.com> <20210205033415.3320439-7-kyletso@google.com>
+ <20210205212957.GA3766168@robh.at.kernel.org>
+In-Reply-To: <20210205212957.GA3766168@robh.at.kernel.org>
+From:   Kyle Tso <kyletso@google.com>
+Date:   Sat, 6 Feb 2021 08:29:45 +0800
+Message-ID: <CAGZ6i=1nkPCc-Q0A6+X+iL6oYqU0gfNV6ig2SBYOhrNd5KcLXA@mail.gmail.com>
+Subject: Re: [PATCH v6 6/7] dt-bindings: connector: Add SVDM VDO properties
+To:     Rob Herring <robh@kernel.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        USB <linux-usb@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-R3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOg0KPiBPbiBGcmksIEZlYiAwNSwgMjAyMSBhdCAwOToz
-OTozN0FNICswMDAwLCBUaGluaCBOZ3V5ZW4gd3JvdGU6DQo+PiBHcmVnIEtyb2FoLUhhcnRtYW4g
-d3JvdGU6DQo+Pj4gT24gV2VkLCBGZWIgMDMsIDIwMjEgYXQgMDg6MTQ6MzdQTSAtMDgwMCwgVGhp
-bmggTmd1eWVuIHdyb3RlOg0KPj4+PiBUaGUgY2hlY2sgZm9yIGJvdW5kZWQgZ2FkZ2V0IGRyaXZl
-ciBpbiBkd2MzX2dhZGdldF9zdGFydCgpIHdhcyB0bw0KPj4+PiBwcmV2ZW50IGdvaW5nIHRocm91
-Z2ggdGhlIGluaXRpYWxpemF0aW9uIGFnYWluIHdpdGhvdXQgYW55IGNsZWFudXAuIFdpdGgNCj4+
-Pj4gYSByZWNlbnQgdXBkYXRlLCB0aGUgVURDIGZyYW1ld29yayBndWFyYW50ZWVzIHRoaXMgd29u
-J3QgaGFwcGVuIHdoaWxlDQo+Pj4+IHRoZSBVREMgaXMgc3RhcnRlZC4gQWxzbywgdGhpcyBjaGVj
-ayBkb2Vzbid0IHByZXZlbnQgcmVxdWVzdGluZyB0aHJlYWRlZA0KPj4+PiBpcnEgdG8gdGhlIHNh
-bWUgZGV2X2lkLCB3aGljaCB3aWxsIG1lc3MgdXAgdGhlIGlycSBmcmVlaW5nIGxvZ2ljLiBMZXQn
-cw0KPj4+PiByZW1vdmUgaXQuDQo+Pj4gV2hhdCAicmVjZW50IHVwZGF0ZSIgY2F1c2VkIHRoaXM/
-ICBJcyB0aGlzIGEgZml4IGZvciBzb21ldGhpbmcgdGhhdA0KPj4+IG5lZWRzIHRvIGJlIGJhY2tw
-b3J0ZWQ/ICBJZiBzbywgY2FuIHlvdSBwcm92aWRlIGEgIkZpeGVzOiIgdGFnIG9uIGhlcmU/DQo+
-Pj4gT3IgaXMgdGhpcyBqdXN0IGEgZ2VuZXJhbCBjbGVhbnVwIHRoYXQgaXMgZ29vZCB0byBkbyBu
-b3cuDQo+Pj4NCj4+PiB0aGFua3MsDQo+Pj4NCj4+PiBncmVnIGstaA0KPj4gSXQncyBnZW5lcmFs
-IGNsZWFudXAuIFRoZSAicmVjZW50IHVwZGF0ZSIgaXMgbm90IGluIG1haW5saW5lIHlldCBidXQg
-b24NCj4+IHlvdXIgInVzYi1uZXh0IiBicmFuY2ggc28gSSdtIG5vdCBzdXJlIGhvdyB0byBwcm9w
-ZXJseSByZWZlcmVuY2UgaXQuDQo+Pg0KPj4gQnV0IGhlcmUncyB0aGUgY29tbWl0IG9uIHlvdXIg
-YnJhbmNoIEkgd2FzIHJlZmVycmluZyB0bzogNDlkMDhjZmM3ODMwDQo+PiAoInVzYjogdWRjOiBj
-b3JlOiBJbnRyb2R1Y2Ugc3RhcnRlZCBzdGF0ZSIpDQo+IFBsZWFzZSByZWZlciB0byB0aGlzIGNv
-bW1pdCBqdXN0IGxpa2UgdGhpcywgYXMgdGhlIGlkIGlzIG5vdCBnb2luZyB0bw0KPiBjaGFuZ2Uu
-ICBDYW4geW91IHJlZG8gdGhpcyBwYXRjaCB3aXRoIHRoYXQgaW5mb3JtYXRpb24gaW4gaXQ/DQo+
-DQo+IHRoYW5rcywNCj4NCj4gZ3JlZyBrLWgNCg0KV2lsbCBkby4NCg0KVGhhbmtzLA0KVGhpbmgN
-Cg==
+On Sat, Feb 6, 2021 at 5:30 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Fri, Feb 05, 2021 at 11:34:14AM +0800, Kyle Tso wrote:
+> > Add bindings of VDO properties of USB PD SVDM so that they can be
+> > used in device tree.
+> >
+> > Signed-off-by: Kyle Tso <kyletso@google.com>
+> > ---
+> > Changes since v5:
+> > - no change
+> >
+> >  .../bindings/connector/usb-connector.yaml     |  11 +
+> >  include/dt-bindings/usb/pd.h                  | 311 +++++++++++++++++-
+> >  2 files changed, 321 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> > index 4286ed767a0a..d385026944ec 100644
+> > --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> > +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> > @@ -137,6 +137,17 @@ properties:
+> >      maxItems: 7
+> >      $ref: /schemas/types.yaml#/definitions/uint32-array
+> >
+> > +  sink-vdos:
+> > +    description: An array of u32 with each entry (VDM Objects) providing additional information
+>
+> VDO stands for 'VDM Objects' and VDM stands for ???
+>
+> Other than that,
+>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+>
+
+Thanks for the review.
+
+The full name of VDM is "Vendor Defined Message"
+If the patch set is accepted, I will have another patch for this.
+If there will be a next version of this patchset, it will include the change.
+
+thanks,
+Kyle
+
+> > +      corresponding to the product, the detailed bit definitions and the order of each VDO can be
+> > +      found in "USB Power Delivery Specification Revision 3.0, Version 2.0 + ECNs 2020-12-10"
+> > +      chapter 6.4.4.3.1 Discover Identity. User can specify the VDO array via
+> > +      VDO_IDH/_CERT/_PRODUCT/_UFP/_DFP/_PCABLE/_ACABLE(1/2)/_VPD() defined in
+> > +      dt-bindings/usb/pd.h.
+> > +    minItems: 3
+> > +    maxItems: 6
+> > +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> > +
+> >    op-sink-microwatt:
+> >      description: Sink required operating power in microwatt, if source can't
+> >        offer the power, Capability Mismatch is set. Required for power sink and
+> > diff --git a/include/dt-bindings/usb/pd.h b/include/dt-bindings/usb/pd.h
+> > index 0352893697f0..fef3ef65967f 100644
+> > --- a/include/dt-bindings/usb/pd.h
+> > +++ b/include/dt-bindings/usb/pd.h
+> > @@ -93,4 +93,313 @@
+> >  #define FRS_DEFAULT_POWER      1
+> >  #define FRS_5V_1P5A            2
+> >  #define FRS_5V_3A              3
+> > - #endif /* __DT_POWER_DELIVERY_H */
+> > +
+> > +/*
+> > + * SVDM Identity Header
+> > + * --------------------
+> > + * <31>     :: data capable as a USB host
+> > + * <30>     :: data capable as a USB device
+> > + * <29:27>  :: product type (UFP / Cable / VPD)
+> > + * <26>     :: modal operation supported (1b == yes)
+> > + * <25:23>  :: product type (DFP) (SVDM version 2.0+ only; set to zero in version 1.0)
+> > + * <22:21>  :: connector type (SVDM version 2.0+ only; set to zero in version 1.0)
+> > + * <20:16>  :: Reserved, Shall be set to zero
+> > + * <15:0>   :: USB-IF assigned VID for this cable vendor
+> > + */
+> > +/* SOP Product Type (UFP) */
+> > +#define IDH_PTYPE_NOT_UFP       0
+> > +#define IDH_PTYPE_HUB           1
+> > +#define IDH_PTYPE_PERIPH        2
+> > +#define IDH_PTYPE_PSD           3
+> > +#define IDH_PTYPE_AMA           5
+> > +
+> > +/* SOP' Product Type (Cable Plug / VPD) */
+> > +#define IDH_PTYPE_NOT_CABLE     0
+> > +#define IDH_PTYPE_PCABLE        3
+> > +#define IDH_PTYPE_ACABLE        4
+> > +#define IDH_PTYPE_VPD           6
+> > +
+> > +/* SOP Product Type (DFP) */
+> > +#define IDH_PTYPE_NOT_DFP       0
+> > +#define IDH_PTYPE_DFP_HUB       1
+> > +#define IDH_PTYPE_DFP_HOST      2
+> > +#define IDH_PTYPE_DFP_PB        3
+> > +
+> > +#define VDO_IDH(usbh, usbd, ufp_cable, is_modal, dfp, conn, vid)                \
+> > +     ((usbh) << 31 | (usbd) << 30 | ((ufp_cable) & 0x7) << 27                \
+> > +      | (is_modal) << 26 | ((dfp) & 0x7) << 23 | ((conn) & 0x3) << 21        \
+> > +      | ((vid) & 0xffff))
+> > +
+> > +/*
+> > + * Cert Stat VDO
+> > + * -------------
+> > + * <31:0>  : USB-IF assigned XID for this cable
+> > + */
+> > +#define VDO_CERT(xid)                ((xid) & 0xffffffff)
+> > +
+> > +/*
+> > + * Product VDO
+> > + * -----------
+> > + * <31:16> : USB Product ID
+> > + * <15:0>  : USB bcdDevice
+> > + */
+> > +#define VDO_PRODUCT(pid, bcd)   (((pid) & 0xffff) << 16 | ((bcd) & 0xffff))
+> > +
+> > +/*
+> > + * UFP VDO (PD Revision 3.0+ only)
+> > + * --------
+> > + * <31:29> :: UFP VDO version
+> > + * <28>    :: Reserved
+> > + * <27:24> :: Device capability
+> > + * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
+> > + * <21:11> :: Reserved
+> > + * <10:8>  :: Vconn power (AMA only)
+> > + * <7>     :: Vconn required (AMA only, 0b == no, 1b == yes)
+> > + * <6>     :: Vbus required (AMA only, 0b == yes, 1b == no)
+> > + * <5:3>   :: Alternate modes
+> > + * <2:0>   :: USB highest speed
+> > + */
+> > +/* UFP VDO Version */
+> > +#define UFP_VDO_VER1_2               2
+> > +
+> > +/* Device Capability */
+> > +#define DEV_USB2_CAPABLE     BIT(0)
+> > +#define DEV_USB2_BILLBOARD   BIT(1)
+> > +#define DEV_USB3_CAPABLE     BIT(2)
+> > +#define DEV_USB4_CAPABLE     BIT(3)
+> > +
+> > +/* Connector Type */
+> > +#define UFP_RECEPTACLE               2
+> > +#define UFP_CAPTIVE          3
+> > +
+> > +/* Vconn Power (AMA only, set to AMA_VCONN_NOT_REQ if Vconn is not required) */
+> > +#define AMA_VCONN_PWR_1W     0
+> > +#define AMA_VCONN_PWR_1W5    1
+> > +#define AMA_VCONN_PWR_2W     2
+> > +#define AMA_VCONN_PWR_3W     3
+> > +#define AMA_VCONN_PWR_4W     4
+> > +#define AMA_VCONN_PWR_5W     5
+> > +#define AMA_VCONN_PWR_6W     6
+> > +
+> > +/* Vconn Required (AMA only) */
+> > +#define AMA_VCONN_NOT_REQ    0
+> > +#define AMA_VCONN_REQ                1
+> > +
+> > +/* Vbus Required (AMA only) */
+> > +#define AMA_VBUS_REQ         0
+> > +#define AMA_VBUS_NOT_REQ     1
+> > +
+> > +/* Alternate Modes */
+> > +#define UFP_ALTMODE_NOT_SUPP 0
+> > +#define UFP_ALTMODE_TBT3     BIT(0)
+> > +#define UFP_ALTMODE_RECFG    BIT(1)
+> > +#define UFP_ALTMODE_NO_RECFG BIT(2)
+> > +
+> > +/* USB Highest Speed */
+> > +#define UFP_USB2_ONLY                0
+> > +#define UFP_USB32_GEN1               1
+> > +#define UFP_USB32_4_GEN2     2
+> > +#define UFP_USB4_GEN3                3
+> > +
+> > +#define VDO_UFP(ver, cap, conn, vcpwr, vcr, vbr, alt, spd)                   \
+> > +     (((ver) & 0x7) << 29 | ((cap) & 0xf) << 24 | ((conn) & 0x3) << 22       \
+> > +      | ((vcpwr) & 0x7) << 8 | (vcr) << 7 | (vbr) << 6 | ((alt) & 0x7) << 3  \
+> > +      | ((spd) & 0x7))
+> > +
+> > +/*
+> > + * DFP VDO (PD Revision 3.0+ only)
+> > + * --------
+> > + * <31:29> :: DFP VDO version
+> > + * <28:27> :: Reserved
+> > + * <26:24> :: Host capability
+> > + * <23:22> :: Connector type (10b == receptacle, 11b == captive plug)
+> > + * <21:5>  :: Reserved
+> > + * <4:0>   :: Port number
+> > + */
+> > +#define DFP_VDO_VER1_1               1
+> > +#define HOST_USB2_CAPABLE    BIT(0)
+> > +#define HOST_USB3_CAPABLE    BIT(1)
+> > +#define HOST_USB4_CAPABLE    BIT(2)
+> > +#define DFP_RECEPTACLE               2
+> > +#define DFP_CAPTIVE          3
+> > +
+> > +#define VDO_DFP(ver, cap, conn, pnum)                                                \
+> > +     (((ver) & 0x7) << 29 | ((cap) & 0x7) << 24 | ((conn) & 0x3) << 22       \
+> > +      | ((pnum) & 0x1f))
+> > +
+> > +/*
+> > + * Passive Cable VDO
+> > + * ---------
+> > + * <31:28> :: Cable HW version
+> > + * <27:24> :: Cable FW version
+> > + * <23:21> :: VDO version
+> > + * <20>    :: Reserved, Shall be set to zero
+> > + * <19:18> :: Type-C to Type-C/Captive (10b == C, 11b == Captive)
+> > + * <17>    :: Reserved, Shall be set to zero
+> > + * <16:13> :: cable latency (0001 == <10ns(~1m length))
+> > + * <12:11> :: cable termination type (10b == Vconn not req, 01b == Vconn req)
+> > + * <10:9>  :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
+> > + * <8:7>   :: Reserved, Shall be set to zero
+> > + * <6:5>   :: Vbus current handling capability (01b == 3A, 10b == 5A)
+> > + * <4:3>   :: Reserved, Shall be set to zero
+> > + * <2:0>   :: USB highest speed
+> > + *
+> > + * Active Cable VDO 1
+> > + * ---------
+> > + * <31:28> :: Cable HW version
+> > + * <27:24> :: Cable FW version
+> > + * <23:21> :: VDO version
+> > + * <20>    :: Reserved, Shall be set to zero
+> > + * <19:18> :: Connector type (10b == C, 11b == Captive)
+> > + * <17>    :: Reserved, Shall be set to zero
+> > + * <16:13> :: cable latency (0001 == <10ns(~1m length))
+> > + * <12:11> :: cable termination type (10b == one end active, 11b == both ends active VCONN req)
+> > + * <10:9>  :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
+> > + * <8>     :: SBU supported (0b == supported, 1b == not supported)
+> > + * <7>     :: SBU type (0b == passive, 1b == active)
+> > + * <6:5>   :: Vbus current handling capability (01b == 3A, 10b == 5A)
+> > + * <4>     :: Vbus through cable (0b == no, 1b == yes)
+> > + * <3>     :: SOP" controller present? (0b == no, 1b == yes)
+> > + * <2:0>   :: USB highest speed
+> > + */
+> > +/* Cable VDO Version */
+> > +#define CABLE_VDO_VER1_0     0
+> > +#define CABLE_VDO_VER1_3     3
+> > +
+> > +/* Connector Type */
+> > +#define CABLE_CTYPE          2
+> > +#define CABLE_CAPTIVE                3
+> > +
+> > +/* Cable Latency */
+> > +#define CABLE_LATENCY_1M     1
+> > +#define CABLE_LATENCY_2M     2
+> > +#define CABLE_LATENCY_3M     3
+> > +#define CABLE_LATENCY_4M     4
+> > +#define CABLE_LATENCY_5M     5
+> > +#define CABLE_LATENCY_6M     6
+> > +#define CABLE_LATENCY_7M     7
+> > +#define CABLE_LATENCY_7M_PLUS        8
+> > +
+> > +/* Cable Termination Type */
+> > +#define PCABLE_VCONN_NOT_REQ 0
+> > +#define PCABLE_VCONN_REQ     1
+> > +#define ACABLE_ONE_END               2
+> > +#define ACABLE_BOTH_END              3
+> > +
+> > +/* Maximum Vbus Voltage */
+> > +#define CABLE_MAX_VBUS_20V   0
+> > +#define CABLE_MAX_VBUS_30V   1
+> > +#define CABLE_MAX_VBUS_40V   2
+> > +#define CABLE_MAX_VBUS_50V   3
+> > +
+> > +/* Active Cable SBU Supported/Type */
+> > +#define ACABLE_SBU_SUPP              0
+> > +#define ACABLE_SBU_NOT_SUPP  1
+> > +#define ACABLE_SBU_PASSIVE   0
+> > +#define ACABLE_SBU_ACTIVE    1
+> > +
+> > +/* Vbus Current Handling Capability */
+> > +#define CABLE_CURR_DEF               0
+> > +#define CABLE_CURR_3A                1
+> > +#define CABLE_CURR_5A                2
+> > +
+> > +/* USB Highest Speed */
+> > +#define CABLE_USB2_ONLY              0
+> > +#define CABLE_USB32_GEN1     1
+> > +#define CABLE_USB32_4_GEN2   2
+> > +#define CABLE_USB4_GEN3              3
+> > +
+> > +#define VDO_PCABLE(hw, fw, ver, conn, lat, term, vbm, cur, spd)                      \
+> > +     (((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21          \
+> > +      | ((conn) & 0x3) << 18 | ((lat) & 0xf) << 13 | ((term) & 0x3) << 11    \
+> > +      | ((vbm) & 0x3) << 9 | ((cur) & 0x3) << 5 | ((spd) & 0x7))
+> > +#define VDO_ACABLE1(hw, fw, ver, conn, lat, term, vbm, sbu, sbut, cur, vbt, sopp, spd) \
+> > +     (((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21          \
+> > +      | ((conn) & 0x3) << 18 | ((lat) & 0xf) << 13 | ((term) & 0x3) << 11    \
+> > +      | ((vbm) & 0x3) << 9 | (sbu) << 8 | (sbut) << 7 | ((cur) & 0x3) << 5   \
+> > +      | (vbt) << 4 | (sopp) << 3 | ((spd) & 0x7))
+> > +
+> > +/*
+> > + * Active Cable VDO 2
+> > + * ---------
+> > + * <31:24> :: Maximum operating temperature
+> > + * <23:16> :: Shutdown temperature
+> > + * <15>    :: Reserved, Shall be set to zero
+> > + * <14:12> :: U3/CLd power
+> > + * <11>    :: U3 to U0 transition mode (0b == direct, 1b == through U3S)
+> > + * <10>    :: Physical connection (0b == copper, 1b == optical)
+> > + * <9>     :: Active element (0b == redriver, 1b == retimer)
+> > + * <8>     :: USB4 supported (0b == yes, 1b == no)
+> > + * <7:6>   :: USB2 hub hops consumed
+> > + * <5>     :: USB2 supported (0b == yes, 1b == no)
+> > + * <4>     :: USB3.2 supported (0b == yes, 1b == no)
+> > + * <3>     :: USB lanes supported (0b == one lane, 1b == two lanes)
+> > + * <2>     :: Optically isolated active cable (0b == no, 1b == yes)
+> > + * <1>     :: Reserved, Shall be set to zero
+> > + * <0>     :: USB gen (0b == gen1, 1b == gen2+)
+> > + */
+> > +/* U3/CLd Power*/
+> > +#define ACAB2_U3_CLD_10MW_PLUS       0
+> > +#define ACAB2_U3_CLD_10MW    1
+> > +#define ACAB2_U3_CLD_5MW     2
+> > +#define ACAB2_U3_CLD_1MW     3
+> > +#define ACAB2_U3_CLD_500UW   4
+> > +#define ACAB2_U3_CLD_200UW   5
+> > +#define ACAB2_U3_CLD_50UW    6
+> > +
+> > +/* Other Active Cable VDO 2 Fields */
+> > +#define ACAB2_U3U0_DIRECT    0
+> > +#define ACAB2_U3U0_U3S               1
+> > +#define ACAB2_PHY_COPPER     0
+> > +#define ACAB2_PHY_OPTICAL    1
+> > +#define ACAB2_REDRIVER               0
+> > +#define ACAB2_RETIMER                1
+> > +#define ACAB2_USB4_SUPP              0
+> > +#define ACAB2_USB4_NOT_SUPP  1
+> > +#define ACAB2_USB2_SUPP              0
+> > +#define ACAB2_USB2_NOT_SUPP  1
+> > +#define ACAB2_USB32_SUPP     0
+> > +#define ACAB2_USB32_NOT_SUPP 1
+> > +#define ACAB2_LANES_ONE              0
+> > +#define ACAB2_LANES_TWO              1
+> > +#define ACAB2_OPT_ISO_NO     0
+> > +#define ACAB2_OPT_ISO_YES    1
+> > +#define ACAB2_GEN_1          0
+> > +#define ACAB2_GEN_2_PLUS     1
+> > +
+> > +#define VDO_ACABLE2(mtemp, stemp, u3p, trans, phy, ele, u4, hops, u2, u32, lane, iso, gen)   \
+> > +     (((mtemp) & 0xff) << 24 | ((stemp) & 0xff) << 16 | ((u3p) & 0x7) << 12  \
+> > +      | (trans) << 11 | (phy) << 10 | (ele) << 9 | (u4) << 8                 \
+> > +      | ((hops) & 0x3) << 6 | (u2) << 5 | (u32) << 4 | (lane) << 3           \
+> > +      | (iso) << 2 | (gen))
+> > +
+> > +/*
+> > + * VPD VDO
+> > + * ---------
+> > + * <31:28> :: HW version
+> > + * <27:24> :: FW version
+> > + * <23:21> :: VDO version
+> > + * <20:17> :: Reserved, Shall be set to zero
+> > + * <16:15> :: Maximum Vbus voltage (00b == 20V, 01b == 30V, 10b == 40V, 11b == 50V)
+> > + * <14>    :: Charge through current support (0b == 3A, 1b == 5A)
+> > + * <13>    :: Reserved, Shall be set to zero
+> > + * <12:7>  :: Vbus impedance
+> > + * <6:1>   :: Ground impedance
+> > + * <0>     :: Charge through support (0b == no, 1b == yes)
+> > + */
+> > +#define VPD_VDO_VER1_0               0
+> > +#define VPD_MAX_VBUS_20V     0
+> > +#define VPD_MAX_VBUS_30V     1
+> > +#define VPD_MAX_VBUS_40V     2
+> > +#define VPD_MAX_VBUS_50V     3
+> > +#define VPDCT_CURR_3A                0
+> > +#define VPDCT_CURR_5A                1
+> > +#define VPDCT_NOT_SUPP               0
+> > +#define VPDCT_SUPP           1
+> > +
+> > +#define VDO_VPD(hw, fw, ver, vbm, curr, vbi, gi, ct)                 \
+> > +     (((hw) & 0xf) << 28 | ((fw) & 0xf) << 24 | ((ver) & 0x7) << 21  \
+> > +      | ((vbm) & 0x3) << 15 | (curr) << 14 | ((vbi) & 0x3f) << 7     \
+> > +      | ((gi) & 0x3f) << 1 | (ct))
+> > +
+> > +#endif /* __DT_POWER_DELIVERY_H */
+> > --
+> > 2.30.0.365.g02bc693789-goog
+> >
