@@ -2,115 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C83BDC433E9
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Feb 2021 09:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E15C433DB
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Feb 2021 11:31:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E0FB64EA1
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Feb 2021 09:59:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8463764E42
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Feb 2021 11:31:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231708AbhBHJ7Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Feb 2021 04:59:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55686 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231977AbhBHJw0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Feb 2021 04:52:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2AD4664DAF;
-        Mon,  8 Feb 2021 09:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612777900;
-        bh=vUGvH2rTgv3CsvnCqAs4max/LMW/UGzO/ndyuBSY3fM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zn162aXLG25NO5WLQmuhTLjBLoHL0KH0pVwfvYsEvu1z9lmk/ZRgGzPQPS2t/c8yN
-         XzWScKJlJ46dpEcMZ8d+Wqs995+eArmDADX1Wn5CnMlfQSRNKepqC98TUpnThfg58P
-         3a13thVuljgD+lrH1ZMpZH9mZYsH3Uij7jaPrtXnyIqRh6I8NdA2GmhqHPnlNvk9+8
-         WSONfag48oCrOdhs9EIYunsMEcYjvKFC8u7UcG6se7fIEWlWDNajP9+rjoxRdpnr65
-         fGjvwlzh23uBoM5PdV27kT/phQZZJZG5b742S5N04/R8CUc0OsKplwWqDaCAk2v5bo
-         00o9iFoR31NtQ==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1l93D1-0006w0-4n; Mon, 08 Feb 2021 10:51:55 +0100
-Date:   Mon, 8 Feb 2021 10:51:55 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Lech Perczak <lech.perczak@gmail.com>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        =?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>
-Subject: Re: [PATCH v3] usb: serial: option: update interface mapping for ZTE
- P685M
-Message-ID: <YCEJu7lic8Sf4EoL@hovoldconsulting.com>
-References: <20210206121322.074ddbd3@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20210207005443.12936-1-lech.perczak@gmail.com>
+        id S233299AbhBHLbj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Feb 2021 06:31:39 -0500
+Received: from mailout4.samsung.com ([203.254.224.34]:21115 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233117AbhBHL3Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Feb 2021 06:29:24 -0500
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20210208112818epoutp04c2ce04ce79ee125e8f267373900b56b3~hwjqoWfvT1320713207epoutp04N
+        for <linux-usb@vger.kernel.org>; Mon,  8 Feb 2021 11:28:18 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20210208112818epoutp04c2ce04ce79ee125e8f267373900b56b3~hwjqoWfvT1320713207epoutp04N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1612783698;
+        bh=G/YGXetst+g+ng+HSczUSLlDg6C553zVGP+ZGVKuFLc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=SgSRbgYpw375mLvf+mdnuvTwAuiLiZMVctsWlvjB5UVzd2HTxLPcX85MH8UFSCc7f
+         01Z14LqAbbF2baUduGkMojIZI3XSfaH5a/GAJY2FFVgtPA+Fww1CK1bU40VxdA9py4
+         G6nh5NjQ2mMeqzy+BL/KdByQOrvglyT0mhdNXPnE=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+        20210208112818epcas2p4638de8ba999c81f3d9aad75a23340bef~hwjqRaMfi1089110891epcas2p4y;
+        Mon,  8 Feb 2021 11:28:18 +0000 (GMT)
+Received: from epsmges2p1.samsung.com (unknown [182.195.40.184]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4DZ3g51WVhz4x9Q2; Mon,  8 Feb
+        2021 11:28:17 +0000 (GMT)
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        1D.0A.10621.15021206; Mon,  8 Feb 2021 20:28:17 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
+        20210208112816epcas2p43777bb9740f7307e38cb534f01099126~hwjowg9Ql1089110891epcas2p4v;
+        Mon,  8 Feb 2021 11:28:16 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20210208112816epsmtrp2bae6f5d1817ee5dbee05dfb4dd4b8467~hwjov0D3C0167301673epsmtrp2r;
+        Mon,  8 Feb 2021 11:28:16 +0000 (GMT)
+X-AuditID: b6c32a45-337ff7000001297d-d3-602120515fe2
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        02.32.08745.05021206; Mon,  8 Feb 2021 20:28:16 +0900 (KST)
+Received: from rack03.dsn.sec.samsung.com (unknown [12.36.155.109]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20210208112816epsmtip2b1195a246a6236c6edfc78fe0eda3045~hwjog34oS1209912099epsmtip24;
+        Mon,  8 Feb 2021 11:28:16 +0000 (GMT)
+From:   taehyun cho <taehyun.cho@samsung.com>
+To:     balbi@kernel.org
+Cc:     taehyun.cho@samsung.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
+Date:   Mon,  8 Feb 2021 20:29:06 +0900
+Message-Id: <20210208112906.134448-1-taehyun.cho@samsung.com>
+X-Mailer: git-send-email 2.26.0
+In-Reply-To: <taehyun cho>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210207005443.12936-1-lech.perczak@gmail.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrDKsWRmVeSWpSXmKPExsWy7bCmuW6ggmKCwYzL7BbH2p6wWzQvXs9m
+        cXnXHDaLRctamS0mHRR1YPXYtKqTzWP/3DXsHn1bVjF6fN4kF8ASlWOTkZqYklqkkJqXnJ+S
+        mZduq+QdHO8cb2pmYKhraGlhrqSQl5ibaqvk4hOg65aZA7RWSaEsMacUKBSQWFyspG9nU5Rf
+        WpKqkJFfXGKrlFqQklNgaFigV5yYW1yal66XnJ9rZWhgYGQKVJmQk7F7x1vmgu/sFQ9Wv2ds
+        YDzE1sXIySEhYCLRtH4nM4gtJLCDUaJvAwuE/YlRYlI3XxcjF5D9mVHi2adFTDAN9xe2s0Ik
+        djFKbH88jxWi4wejxOXd/iA2m4C2xP7mm2BxEQERibbnM5hAGpgFOhklrjx+DDZJWMBG4v3n
+        ZYwgNouAqsTP5xPBzuAVsJVo7XnCCrFNXmJRw2+wek4BKYnPx/ayQNQISpyc+QTMZgaqad46
+        mxlkgYTAOXaJ1TtWQTW7SFxZ+IMdwhaWeHV8C5QNNOjdXjaIhnZGiV8n1rBCOFMYJT6sO8UI
+        UWUsMetZO5DNAbRCU2L9Ln0QU0JAWeLILajFfBIdh/+yQ4R5JTrahCAaVSXaL96HBq+0xKXN
+        N6FsD4mDGyBsIYFcibOfH7NOYFSYheSdWUjemYWwdwEj8ypGsdSC4tz01GKjAkPkCN7ECE6G
+        Wq47GCe//aB3iJGJg/EQowQHs5IIb2CnXIIQb0piZVVqUX58UWlOavEhRlNgYE9klhJNzgem
+        47ySeENTIzMzA0tTC1MzIwslcd5igwfxQgLpiSWp2ampBalFMH1MHJxSDUylR55fK+p471l6
+        50Fq6c2VQnWpneKby7eb8izebD03pcfF+b71Q66TDVPLv+55G1O/zVVccn37vH+Ht1V+e+8r
+        4SSvfu+ablG8c/s0Z0/HC9fCPSwtD899tkNqtbbToaDdEfYzbpdYXtiWHxBtYXJDpUuUUeNf
+        7cpZ3x4t/BYx7/2UpsU/93wz+rdJ1YiL+9+m0yVLRcK7nE4v/BN/UDTuRKNNzxXDfm3zTE3h
+        G575HZVliotq0vf+XqXNK7HZ/M7W+dcfGTC/nniAPVbXYuJHy5+8jauu3pOP/LPSLMPt5GtW
+        251vC2yOT1pbtjEwv5Q3OerSg23pwm51dU5eHD9Lpu467GizMfy8dlrLUTUlluKMREMt5qLi
+        RAAQAhu7DwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBLMWRmVeSWpSXmKPExsWy7bCSvG6AgmKCQd8hVYtjbU/YLZoXr2ez
+        uLxrDpvFomWtzBaTDoo6sHpsWtXJ5rF/7hp2j74tqxg9Pm+SC2CJ4rJJSc3JLEst0rdL4MrY
+        veMtc8F39ooHq98zNjAeYuti5OSQEDCRuL+wnbWLkYtDSGAHo8SCzS+YIBLSEqceL2CGsIUl
+        7rccgSr6xijx8vIVsG42AW2J/c03WUFsEQERibbnM5hAipgFuhkl+p4eBZskLGAj8f7zMkYQ
+        m0VAVeLn84lgU3kFbCVae56wQmyQl1jU8BusnlNASuLzsb0sILaQgKTE0xtb2CHqBSVOznwC
+        FmcGqm/eOpt5AqPALCSpWUhSCxiZVjFKphYU56bnFhsWGOWllusVJ+YWl+al6yXn525iBAeu
+        ltYOxj2rPugdYmTiYDzEKMHBrCTCG9gplyDEm5JYWZValB9fVJqTWnyIUZqDRUmc90LXyXgh
+        gfTEktTs1NSC1CKYLBMHp1QDk7rL/izjKZL7Xug0zGrPeHsppKVZzOiTqpNxUfiirWJ3fmny
+        SycLLa1X7N17/l9cvYmZi2mXXpNynPCU3NeMITFfNi3/kWF+5khkZuJGq5bkA+wL4mLWX1l4
+        1lGJzf1irtQNvupF3jY969/q7b/VIls/+RaD4nyd/8EXHsU/qrNezdO0mm3DUcMWjWy7FUdv
+        bLorW+a+dINW4uE9ebYGh2S/qHjLKpwKb9t45k7+LqNtEqafLj9c6LykhkOhriVns1dOmv1h
+        Nvb8Dj1/s7Os8xhnOYhGbHqrwPlZ7BnLmSnTm2bOkj6VKr/c3u2T+QpDY+fC8F9Hjzo1937S
+        2+x1oHi17fRqfo94Pr1p92YqsRRnJBpqMRcVJwIA9C0PFMsCAAA=
+X-CMS-MailID: 20210208112816epcas2p43777bb9740f7307e38cb534f01099126
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210208112816epcas2p43777bb9740f7307e38cb534f01099126
+References: <taehyun cho>
+        <CGME20210208112816epcas2p43777bb9740f7307e38cb534f01099126@epcas2p4.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Feb 07, 2021 at 01:54:43AM +0100, Lech Perczak wrote:
-> This patch prepares for qmi_wwan driver support for the device.
-> Previously "option" driver mapped itself to interfaces 0 and 3 (matching
-> ff/ff/ff), while interface 3 is in fact a QMI port.
-> Interfaces 1 and 2 (matching ff/00/00) expose AT commands,
-> and weren't supported previously at all.
-> Without this patch, a possible conflict would exist if device ID was
-> added to qmi_wwan driver for interface 3.
-> 
-> Update and simplify device ID to match interfaces 0-2 directly,
-> to expose QCDM (0), PCUI (1), and modem (2) ports and avoid conflict
-> with QMI (3), and ADB (4).
-> 
-> The modem is used inside ZTE MF283+ router and carriers identify it as
-> such.
-> Interface mapping is:
-> 0: QCDM, 1: AT (PCUI), 2: AT (Modem), 3: QMI, 4: ADB
-> 
-> T:  Bus=02 Lev=02 Prnt=02 Port=05 Cnt=01 Dev#=  3 Spd=480  MxCh= 0
-> D:  Ver= 2.01 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
-> P:  Vendor=19d2 ProdID=1275 Rev=f0.00
-> S:  Manufacturer=ZTE,Incorporated
-> S:  Product=ZTE Technologies MSM
-> S:  SerialNumber=P685M510ZTED0000CP&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&0
-> C:* #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=500mA
-> I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-> E:  Ad=87(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-> E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 4 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
-> E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> 
-> Cc: Johan Hovold <johan@kernel.org>
-> Cc: Bjørn Mork <bjorn@mork.no>
-> Signed-off-by: Lech Perczak <lech.perczak@gmail.com>
-> ---
-> v3: No changes to contents of the patch.
-> Resend as separate patch to be merged through USB subsystem, the
-> following patch for qmi_wwan will go through netdev tree after this is
-> merged.
-> Updated commit description, added note about possible qmi_wwan conflict.
-> 
-> v2: Blacklist ports 3-4 and simplify device ID,
-> as suggested by Lars Melin.
+'ARCH_EXYNOS' is no more used. 'USB_DWC3_EXYNOS' is glue layer
+which can be used with Synopsys DWC3 controller on Exynos SoCs.
+'USB_DWC3_EXYNOS' can be used from Exynos5 to Exynos9.
 
-Now applied for -next, thanks.
+Change-Id: I965b415252a4c64ec5527488be7392113f7ceeb3
+Signed-off-by: taehyun cho <taehyun.cho@samsung.com>
+---
+ drivers/usb/dwc3/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Johan
+diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
+index 2133acf8ee69..dc2f92ac8ef6 100644
+--- a/drivers/usb/dwc3/Kconfig
++++ b/drivers/usb/dwc3/Kconfig
+@@ -67,10 +67,10 @@ config USB_DWC3_OMAP
+ 
+ config USB_DWC3_EXYNOS
+ 	tristate "Samsung Exynos Platform"
+-	depends on (ARCH_EXYNOS || COMPILE_TEST) && OF
++	depends on (USB_DWC3 || COMPILE_TEST) && OF
+ 	default USB_DWC3
+ 	help
+-	  Recent Exynos5 SoCs ship with one DesignWare Core USB3 IP inside,
++	  Exynos SoCs chip with one DesignWare Core USB3 IP inside,
+ 	  say 'Y' or 'M' if you have one such device.
+ 
+ config USB_DWC3_PCI
+-- 
+2.26.0
+
