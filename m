@@ -2,68 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EE5C433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:46:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DC8BC433E6
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:46:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1B7364E7D
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:46:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A7FB64ED7
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233727AbhBITpA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Feb 2021 14:45:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48706 "EHLO
+        id S233672AbhBITns (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Feb 2021 14:43:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233639AbhBIT0F (ORCPT
+        with ESMTP id S233669AbhBIT0F (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Feb 2021 14:26:05 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6398C0611C1;
-        Tue,  9 Feb 2021 11:24:01 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id jj19so33687967ejc.4;
-        Tue, 09 Feb 2021 11:24:01 -0800 (PST)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1404FC0611BE;
+        Tue,  9 Feb 2021 11:24:06 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id b9so33558851ejy.12;
+        Tue, 09 Feb 2021 11:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=r7BU1Ua7cwHe6jzoj7pIEXXpfnh5K4Y+YXR073vkvQE=;
-        b=bh1IT2E376Yq6oXbtlLRVU+ZZgwlQGngdXEgtoCLNApGVLxKZgNcwTXuBftb9haijP
-         IIjApj2MGOwBkU4/qoDv8H5kROC7Ft9rXktG0pwxcodKCht0kPvXTv/S5Sw/XF2cBeGd
-         qAwGBS1P4pNyT8b2GVyW1VbiAFE2pbYimxz6Wh3twMtY5kDU0JRy1UKKWpaK6ujwF9SI
-         qp3oeiRdTb0QMw0J4grCoBzbrLvAzZhdNi++4bjwbOkdPCyOyiYcuj5p8D4S+Lwffwzd
-         zTXauPyAD+rCiPkeMGS8u2Z9aqlADrMziri6dNWDPabmtIt8ewRfL1HgSNzN38rADgBh
-         he3w==
+        bh=VKpw+TGxcSonBmJvYVbjnLKEXkavUls9cDkglgeREzs=;
+        b=HO1rEER2rQ/ib60OX4LykRzzHUV7TK6M7FXnGi0rK0kf7M3lRCrxd5vuud4Y69slyc
+         gcJcjDFwAEKBdd+CV7Gdib0WaDgHMbaLMAOqwcG29CQeTgTSv609bh1St5YhZ6hOsqqF
+         dDW3AWzG1b8Qti44pryaVZ/3AdrFfSX9D6q0kPADnuf3JVyEBXU0hpDflZXLPyS8FBmP
+         HWCk8sOTr0s4EiNvcw9auqxdZnmoi0Qh+y3CnG4UVM7wkkvzxIRJedjelEyYsRDqxzro
+         U2O0iq8BSbNG3VEySL8f/ZrCDoLuvevjlzBFvHyeSwKavRzoA4RxaSDNIne33B53yQCr
+         U/EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=r7BU1Ua7cwHe6jzoj7pIEXXpfnh5K4Y+YXR073vkvQE=;
-        b=g6kfxvLv+JkZ4DVu99B/nhi+DAvpqmQTrAlxgHE/mbHVHN89lM2RkxXi6X0Wi19P0y
-         lZBOPEv8Tenae+eRelrsBXyRXdqqNoaouddaEqg4OXKmkTy1OXqW9pXo8qJQ6TkQs/fm
-         IPvZIjY7CqISYvCs6qX4YXgbCqZTCIhyDdCdpKNGrx5zp7pAw5f+9OD+zq2+C2bnKE2x
-         nJugeuhMdFP6v5cAAVh/uWWFSMLCyAus55RuDWzux4ROWZdsnT9DlWWEqJRwXoRtpMIs
-         /aDOvB9vIDTz9R9a1+mueSTG1YouqUsB3bA6j5MekMZ6U/EUmq08DCz7IzZqEAU3iqlA
-         cXKQ==
-X-Gm-Message-State: AOAM530KC3v7rYkq7xYQQ8yAHAevWYTFdY+GDK7u5060b+kOuZ6ZuU1M
-        E5k5NSJ5IC9GVtHfzIjM820=
-X-Google-Smtp-Source: ABdhPJxKg0jN0s/0ilpBmiIkOppmd8gfTSX0HME5CQ924LQSHlmH/a9j412UFHOcO2XDV1B8AX7bGw==
-X-Received: by 2002:a17:906:7b8d:: with SMTP id s13mr23864808ejo.479.1612898640598;
-        Tue, 09 Feb 2021 11:24:00 -0800 (PST)
+        bh=VKpw+TGxcSonBmJvYVbjnLKEXkavUls9cDkglgeREzs=;
+        b=hQ7m9XAUVD3VuNfag27wGegY1qKXHDErsiJf8lRXycKD2ShMh5CqT6maGFGVVpUMLS
+         mPhKfmJ/KGXY9prfFZUbI84sbb5Ms+r2N2sC1wD5abbtwWWKeQQm81W7P0aQDJciQ2t9
+         nErtn8AEQMFLzJXUn1tqOR9Fb8ZiXw2UQJXyhxL9qJxJEV5zFIINvaccyDYHBbo1pemN
+         /KxEMLc0lbJDGP2mLczlYpx+S0rZhq97ex7RzkG4FBEbuJ9ZKfAPiGKW2mB6MOLbjNk9
+         cJw1FkYFFB4Rruwn6Qxux/Ewz8jlLS++BePDan9CuQbEV+Jp5jdErzKshH8lkVwKGBaf
+         5A6Q==
+X-Gm-Message-State: AOAM533mHRuDCIct3LnhIJmIF3sc4JEZtB3P4I5swfHXyw1iP4JhOg8Y
+        sFYH58kZrn/9VRqR5nCwiUw=
+X-Google-Smtp-Source: ABdhPJw9959wQBn5cvY2Fqpt5Xz+QaWW6YioQ2FYuvburiVrHGpT8oFcjVbVZLt3nDg+4Z/13u4xQA==
+X-Received: by 2002:a17:906:b752:: with SMTP id fx18mr24723372ejb.17.1612898644828;
+        Tue, 09 Feb 2021 11:24:04 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id w3sm11075779eja.52.2021.02.09.11.23.59
+        by smtp.gmail.com with ESMTPSA id w3sm11075779eja.52.2021.02.09.11.24.04
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Feb 2021 11:24:00 -0800 (PST)
+        Tue, 09 Feb 2021 11:24:04 -0800 (PST)
 From:   Johan Jonker <jbx6244@gmail.com>
 To:     heiko@sntech.de
 Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-rockchip@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 3/8] arm64: dts: rockchip: optimize clks for rk3399 dwc3
-Date:   Tue,  9 Feb 2021 20:23:45 +0100
-Message-Id: <20210209192350.7130-3-jbx6244@gmail.com>
+Subject: [PATCH v5 8/8] dts64: rockchip: enable dwc3 usb for A95X Z2
+Date:   Tue,  9 Feb 2021 20:23:50 +0100
+Message-Id: <20210209192350.7130-8-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20210209192350.7130-1-jbx6244@gmail.com>
 References: <20210209192350.7130-1-jbx6244@gmail.com>
@@ -71,53 +71,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wu Liang feng <wulf@rock-chips.com>
+Enable dwc3 usb for A95X Z2.
 
-Remove unnecessary clocks, refer to rk3399 TRM, aclk_usb3 is the
-parent of aclk_usb3otg0/1 and aclk_usb3_grf, and we will enable
-aclk_usb3otg0/1 and aclk_usb3_grf, so don't need to enable aclk_usb3
-again. In addition, the aclk_usb3_rksoc_axi_perf clk is used for usb3
-performance monitor module which we don't use now, so don't need to
-enable it.
-
-Signed-off-by: Wu Liang feng <wulf@rock-chips.com>
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3399.dtsi | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+Changed V2:
+  remove node wrapper
+---
+ arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-index 04f7cc5c3..b125cac89 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
-@@ -399,11 +399,9 @@
- 		#size-cells = <2>;
- 		ranges;
- 		clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
--			 <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_RKSOC_AXI_PERF>,
--			 <&cru ACLK_USB3>, <&cru ACLK_USB3_GRF>;
-+			 <&cru ACLK_USB3OTG0>, <&cru ACLK_USB3_GRF>;
- 		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "aclk_usb3_rksoc_axi_perf",
--			      "aclk_usb3", "grf_clk";
-+			      "bus_clk", "grf_clk";
- 		resets = <&cru SRST_A_USB3_OTG0>;
- 		reset-names = "usb3-otg";
- 		status = "disabled";
-@@ -435,11 +433,9 @@
- 		#size-cells = <2>;
- 		ranges;
- 		clocks = <&cru SCLK_USB3OTG1_REF>, <&cru SCLK_USB3OTG1_SUSPEND>,
--			 <&cru ACLK_USB3OTG1>, <&cru ACLK_USB3_RKSOC_AXI_PERF>,
--			 <&cru ACLK_USB3>, <&cru ACLK_USB3_GRF>;
-+			 <&cru ACLK_USB3OTG1>, <&cru ACLK_USB3_GRF>;
- 		clock-names = "ref_clk", "suspend_clk",
--			      "bus_clk", "aclk_usb3_rksoc_axi_perf",
--			      "aclk_usb3", "grf_clk";
-+			      "bus_clk", "grf_clk";
- 		resets = <&cru SRST_A_USB3_OTG1>;
- 		reset-names = "usb3-otg";
- 		status = "disabled";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
+index 30c73ef25..e71870768 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dts
+@@ -357,6 +357,11 @@
+ 	status = "okay";
+ };
+ 
++&usbdrd3 {
++	dr_mode = "host";
++	status = "okay";
++};
++
+ &usb_host0_ehci {
+ 	status = "okay";
+ };
 -- 
 2.11.0
 
