@@ -2,77 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD6CEC433E0
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 08:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0641C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 09:56:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 849AE64E79
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 08:38:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A48064E9A
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 09:56:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbhBIIh4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Feb 2021 03:37:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47068 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229918AbhBIIhp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Feb 2021 03:37:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3504C64E79;
-        Tue,  9 Feb 2021 08:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612859823;
-        bh=i8uBJJbz4wyAmxHfuAXfsQmKEl6vb3POsuLIzc8SaIU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mqxvFz4YCv9q3RSFDSqKmmqpJ2aMZLcQyQJopYaMfvjN4as7D8HT+M39QGKlE9GF8
-         OE9Vbk1XUnX84l+wmiYTZdK+2ZcuGIZsOv+afPaafbC2KZeeqSr9t7Vq9XZ1m/ig4a
-         Z5c/SzTR2rAlMhkL+qbL3tGY7tkBqBlTyyElglPY=
-Date:   Tue, 9 Feb 2021 09:37:01 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     Aaron Ma <aaron.ma@canonical.com>,
+        id S230372AbhBIJ4T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Feb 2021 04:56:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230107AbhBIJyM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Feb 2021 04:54:12 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DF7C06121D
+        for <linux-usb@vger.kernel.org>; Tue,  9 Feb 2021 01:53:26 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id f14so30247084ejc.8
+        for <linux-usb@vger.kernel.org>; Tue, 09 Feb 2021 01:53:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=monstr-eu.20150623.gappssmtp.com; s=20150623;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pqbb2hbiFk/I6vb7TmhkdeW2Dsvn3o0tV40ygJzupJY=;
+        b=b9Yr/WFLNTMKwRU/2j24yNwf+F6THMtjELrnzsywsXAvhuvqobOJXsTvc+lpvKP3TV
+         JjyxjnXcK6zymN3TICdIcYxmJPe59Buw647pX/xX1GwjeksqDvnR1xClt3jNL9cruFPT
+         k1RBj5wUH74f0g5nDeoMk/IqVDQCAhH6uMFIjZeTxzg2VE8FYH74AN+Lmk3AC8+F1tR8
+         wbdLI8NTK+qLD5yeAJxvhqx5NUL70wwjvLH5qYX1e1lrfYQqjLOLmMF8f6ccCcSBIR6h
+         0I35KsZlmdqauVSYeSmPW+hz/Smm1QWs2ndz0HZdUJ8n78SOkSI9E+davlobcA2tDpWP
+         QqvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Pqbb2hbiFk/I6vb7TmhkdeW2Dsvn3o0tV40ygJzupJY=;
+        b=pU0x68zv2n60bKQbNIvANcazFVDEdTG1N9aAfOsc4L6o56k+XiJYWohPi+rMac3/CX
+         rR5f4TqgiLL8PVFvhiVj2dfkDpwiGhCaHOa70FxTiV41e78KA2zckymECdnG/WQLV86v
+         Va6d1FA76EK5xjzRLB8Hltacj15YVgh67x2yoEftODrRGatXjAD7n14dRbS/hTP5Jj78
+         RcM9Sgw2GddtQTff7h1m09WTzT5nz1fEUH4A1vCemIUX5hIcjL/szXka+MMo6Oo47zg7
+         AyQEiSK36G3nHgd4m1rYQDhMdZo++VswWRHoVFIINsMPkNaDhOg48fD/JCWXx3/R20y5
+         vmzA==
+X-Gm-Message-State: AOAM530u21zn32/saDRlGSLm2UQYfWyATlXRx0Rw51CG0djIymWtwNBq
+        hH0EM2O/z8FCjm8lpBgOfj7stA==
+X-Google-Smtp-Source: ABdhPJxTHff2sFseU/wwogexEzr83TWbeERuCDSraUtmSFT/XUiOPJ0B8MHbnrKRymb0cLjUniSZRw==
+X-Received: by 2002:a17:906:880f:: with SMTP id zh15mr8838974ejb.268.1612864405279;
+        Tue, 09 Feb 2021 01:53:25 -0800 (PST)
+Received: from localhost (nat-35.starnet.cz. [178.255.168.35])
+        by smtp.gmail.com with ESMTPSA id i13sm10249734ejj.2.2021.02.09.01.53.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 09 Feb 2021 01:53:24 -0800 (PST)
+Sender: Michal Simek <monstr@monstr.eu>
+From:   Michal Simek <michal.simek@xilinx.com>
+To:     linux-kernel@vger.kernel.org, monstr@monstr.eu,
+        michal.simek@xilinx.com, git@xilinx.com
+Cc:     Al Cooper <alcooperx@gmail.com>,
         Alan Stern <stern@rowland.harvard.edu>,
-        Lee Jones <lee.jones@linaro.org>, peter.chen@nxp.com,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] xhci-pci: Set AMD Renoir USB controller to D3 when
- shutdown
-Message-ID: <YCJJrVp2DvCzigCw@kroah.com>
-References: <20210204051850.64857-1-aaron.ma@canonical.com>
- <CAAd53p4euFiw7pfDnD2H8oMVeeTqQ_c+wOFDLM2xPccn5MewiA@mail.gmail.com>
- <cd4595e6-67da-885c-1a67-6dfd71425b8c@canonical.com>
- <CAAd53p4z1ydFi5pwOZJnsrBDPNVLKU0ygqa0+kdZdXWYocPLgQ@mail.gmail.com>
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Bastien Nocera <hadess@hadess.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Piyush Mehta <piyush.mehta@xilinx.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: [PATCH 0/2] usb: misc: Add support for Microchip USB5744
+Date:   Tue,  9 Feb 2021 10:53:18 +0100
+Message-Id: <cover.1612864393.git.michal.simek@xilinx.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAd53p4z1ydFi5pwOZJnsrBDPNVLKU0ygqa0+kdZdXWYocPLgQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 02:50:15PM +0800, Kai-Heng Feng wrote:
-> On Fri, Feb 5, 2021 at 2:45 PM Aaron Ma <aaron.ma@canonical.com> wrote:
-> >
-> >
-> > On 2/5/21 12:27 PM, Kai-Heng Feng wrote:
-> > > Can you please test the following patch, which should address the root cause:
-> > > https://lore.kernel.org/linux-acpi/20201201213019.1558738-1-furquan@google.com/
-> > >
-> > > It also helps another AMD laptop on S5:
-> > > https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1912935
-> > >
-> >
-> > No, this patch doesn't help on ThinkPad AMD platform.
-> 
-> Thanks for the confirmation!
-> 
-> Acked-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Hi,
 
-Mathias, want me to take this in my tree now, or are you going to send
-me more patches for 5.12-rc1?
+the series is adding basic support for this USB hub. The key part is
+running reset over GPIO line and when i2c is connected it is necessary to
+send command to boot the hub. This chip is available on Xilinx
+zcu100/Ultra96 v1 board.
 
-thanks,
+Thanks,
+Michal
 
-greg k-h
+
+Piyush Mehta (2):
+  dt-bindings: usb: misc: Add binding for Microchip usb5744 hub
+  usb: misc: usb5744: Add support for USB hub controller
+
+ .../bindings/usb/microchip,usb5744.yaml       |  56 +++++++++
+ MAINTAINERS                                   |   2 +
+ drivers/usb/misc/Kconfig                      |   9 ++
+ drivers/usb/misc/Makefile                     |   1 +
+ drivers/usb/misc/usb5744.c                    | 115 ++++++++++++++++++
+ 5 files changed, 183 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/microchip,usb5744.yaml
+ create mode 100644 drivers/usb/misc/usb5744.c
+
+-- 
+2.30.0
+
