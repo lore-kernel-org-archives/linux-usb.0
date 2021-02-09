@@ -2,243 +2,154 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A448C433DB
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 11:22:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 960C7C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 11:44:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 067EB64E79
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 11:22:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B74664E77
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 11:44:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhBILWx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Feb 2021 06:22:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47288 "EHLO mail.kernel.org"
+        id S230244AbhBILn0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Feb 2021 06:43:26 -0500
+Received: from mga07.intel.com ([134.134.136.100]:24673 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229789AbhBILUv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Feb 2021 06:20:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 941FD64E6B;
-        Tue,  9 Feb 2021 11:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612869610;
-        bh=O66toB/7BMykQ77TijJRtJ+Twsm+4LxeZAE82BtmgTU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ylg3/b9g0w+Em/zrEMNoKWNN/on+pUJdzinH6/iqrLfJOJwnMkZNfjz8MGjaNzObO
-         rge7MtjJFZKImE3wmE23XKSjyW3G5nfdSFoENID+BHLJPGZTKR/ZWZH1dCGucCKa2r
-         MT8SCFgIqsnDdOcfIKW6uVCGsAyqycmC0C9+7ks8=
-Date:   Tue, 9 Feb 2021 12:20:07 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Michal Simek <michal.simek@xilinx.com>
-Cc:     linux-kernel@vger.kernel.org, monstr@monstr.eu, git@xilinx.com,
-        Piyush Mehta <piyush.mehta@xilinx.com>,
-        Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Bastien Nocera <hadess@hadess.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: misc: usb5744: Add support for USB hub
- controller
-Message-ID: <YCJv59g3Tq2haDSa@kroah.com>
-References: <cover.1612867682.git.michal.simek@xilinx.com>
- <d6accf76bb5d060a13067816f23008e93264f317.1612867682.git.michal.simek@xilinx.com>
+        id S230241AbhBILgl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 9 Feb 2021 06:36:41 -0500
+IronPort-SDR: hWjcm5U3JNSagWqaLFtUK7uwiyvy8wZziRXEAGasxQQZvVkH/A5tI5CvH21NkhjDlSHg+rZJco
+ hVvd82ZbIDkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="245934128"
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; 
+   d="scan'208";a="245934128"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 03:34:32 -0800
+IronPort-SDR: TQQ+WDtcoX9Vu8HwUW/4bpqNHU7PFN4XGfOSF5NmJx2/eRxGboCepIuro8K9ZWCWPoNEOtLY44
+ MRqwZQBbS22Q==
+X-IronPort-AV: E=Sophos;i="5.81,164,1610438400"; 
+   d="scan'208";a="436060526"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2021 03:34:29 -0800
+Received: by lahna (sSMTP sendmail emulation); Tue, 09 Feb 2021 13:34:26 +0200
+Date:   Tue, 9 Feb 2021 13:34:26 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [GIT PULL] Thunderbolt/USB4 changes for v5.12 merge window
+Message-ID: <20210209113426.GH2542@lahna.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d6accf76bb5d060a13067816f23008e93264f317.1612867682.git.michal.simek@xilinx.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 09, 2021 at 11:48:10AM +0100, Michal Simek wrote:
-> From: Piyush Mehta <piyush.mehta@xilinx.com>
-> 
-> This patch adds a USB GPIO based hub reset for USB5744 hub. This usb5744
-> driver trigger hub reset signal after soft reset or core Reset. The HUB
-> needs to be resetted after completion of phy initialization. After the
-> toggling of gpio, hub configure using i2c usb attached command.
-> 
-> USB5744 hub can be used without any I2C connection, is handled by a
-> simple platform device driver.
-> 
-> As part of the reset, sets the direction of the pin to output before
-> toggling the pin. Delay of millisecond is added in between low and
-> high to meet the setup and hold time requirement of the reset.
-> 
-> Signed-off-by: Piyush Mehta <piyush.mehta@xilinx.com>
-> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-> ---
-> 
-> Changes in v2:
-> - s/USB_USB5744/USB_HUB_USB5744/g
-> - Fix order in Makefile and Kconfig
-> 
->  MAINTAINERS                |   1 +
->  drivers/usb/misc/Kconfig   |   9 +++
->  drivers/usb/misc/Makefile  |   1 +
->  drivers/usb/misc/usb5744.c | 115 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 126 insertions(+)
->  create mode 100644 drivers/usb/misc/usb5744.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7439471b5d37..56d1fcdd24f6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2706,6 +2706,7 @@ F:	drivers/edac/synopsys_edac.c
->  F:	drivers/i2c/busses/i2c-cadence.c
->  F:	drivers/i2c/busses/i2c-xiic.c
->  F:	drivers/mmc/host/sdhci-of-arasan.c
-> +F:	drivers/usb/misc/usb5744.c
->  N:	zynq
->  N:	xilinx
->  
-> diff --git a/drivers/usb/misc/Kconfig b/drivers/usb/misc/Kconfig
-> index 8f1144359012..9995a5701fd9 100644
-> --- a/drivers/usb/misc/Kconfig
-> +++ b/drivers/usb/misc/Kconfig
-> @@ -255,6 +255,15 @@ config USB_HSIC_USB4604
->  	help
->  	  This option enables support for SMSC USB4604 HSIC to USB 2.0 Driver.
->  
-> +config USB_HUB_USB5744
-> +	tristate "Microchip USB5744 Hub driver"
-> +	depends on I2C
-> +	depends on GPIOLIB
-> +	help
-> +	  This option enables support for Microchip USB5744 Hub. This driver
-> +	  optionally reset the hub using gpio pin and configure hub via i2c if
-> +	  connected.
-> +
->  config USB_LINK_LAYER_TEST
->  	tristate "USB Link Layer Test driver"
->  	help
-> diff --git a/drivers/usb/misc/Makefile b/drivers/usb/misc/Makefile
-> index 5f4e598573ab..fbb9adf08f8c 100644
-> --- a/drivers/usb/misc/Makefile
-> +++ b/drivers/usb/misc/Makefile
-> @@ -27,6 +27,7 @@ obj-$(CONFIG_USB_YUREX)			+= yurex.o
->  obj-$(CONFIG_USB_HUB_USB251XB)		+= usb251xb.o
->  obj-$(CONFIG_USB_HSIC_USB3503)		+= usb3503.o
->  obj-$(CONFIG_USB_HSIC_USB4604)		+= usb4604.o
-> +obj-$(CONFIG_USB_HUB_USB5744)		+= usb5744.o
->  obj-$(CONFIG_USB_CHAOSKEY)		+= chaoskey.o
->  
->  obj-$(CONFIG_USB_SISUSBVGA)		+= sisusbvga/
-> diff --git a/drivers/usb/misc/usb5744.c b/drivers/usb/misc/usb5744.c
-> new file mode 100644
-> index 000000000000..729b76345c69
-> --- /dev/null
-> +++ b/drivers/usb/misc/usb5744.c
-> @@ -0,0 +1,115 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for the Microchip USB5744 4-port hub.
-> + *
-> + * Copyright (c) 2021 Xilinx, Inc.
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/platform_device.h>
-> +
-> +static int usb5744_init_hw(struct device *dev)
-> +{
-> +	struct gpio_desc *reset_gpio;
-> +
-> +	reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(reset_gpio)) {
-> +		dev_err(dev, "Failed to bind reset gpio");
-> +		return -ENODEV;
-> +	}
-> +
-> +	if (reset_gpio) {
-> +		/* Toggle RESET_N to reset the hub. */
-> +		gpiod_set_value(reset_gpio, 0);
-> +		usleep_range(5, 20); /* trstia */
-> +		gpiod_set_value(reset_gpio, 1);
-> +		usleep_range(5000, 10000); /* tcsh */
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int usb5744_i2c_probe(struct i2c_client *client,
-> +			     const struct i2c_device_id *id)
-> +{
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +
-> +	/* Trigger gpio reset to the hub. */
-> +	ret = usb5744_init_hw(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Send SMBus command to boot hub. */
-> +	ret = i2c_smbus_write_word_data(client, 0xAA, swab16(0x5600));
-> +	if (ret < 0)
-> +		dev_err(dev, "Sending boot command failed");
-> +
-> +	return ret;
-> +}
-> +
-> +static int usb5744_platform_probe(struct platform_device *pdev)
-> +{
-> +	/* Trigger gpio reset to the hub. */
-> +	return usb5744_init_hw(&pdev->dev);
-> +}
-> +
-> +static const struct i2c_device_id usb5744_id[] = {
-> +	{ "usb5744", 0 },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, usb5744_id);
-> +
-> +static struct i2c_driver usb5744_i2c_driver = {
-> +	.driver = {
-> +		.name = "usb5744",
-> +	},
-> +	.probe = usb5744_i2c_probe,
-> +	.id_table = usb5744_id,
-> +};
-> +
-> +static const struct of_device_id usb5744_platform_id[] = {
-> +	{ .compatible = "microchip,usb5744", },
-> +	{ }
-> +};
-> +
-> +static struct platform_driver usb5744_platform_driver = {
-> +	.driver = {
-> +		.name = "microchip,usb5744",
-> +		.of_match_table = usb5744_platform_id,
-> +	},
-> +	.probe = usb5744_platform_probe,
-> +};
-> +
-> +static int __init usb5744_init(void)
-> +{
-> +	int err;
-> +
-> +	err = i2c_add_driver(&usb5744_i2c_driver);
-> +	if (err != 0)
-> +		pr_err("usb5744: Failed to register I2C driver: %d\n", err);
-> +
-> +	err = platform_driver_register(&usb5744_platform_driver);
-> +	if (err != 0)
-> +		pr_err("usb5744: Failed to register platform driver: %d\n",
-> +		       err);
-> +	return 0;
+Hi Greg,
 
-So, no matter how many failures happen, you still say everything is good
-and continue on with loading the module?
+The following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
 
-Please don't.
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
 
-thanks,
+are available in the Git repository at:
 
-greg k-h
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.12-rc1
+
+for you to fetch changes up to c6da62a219d028de10f2e22e93a34c7ee2b88d03:
+
+  thunderbolt: Add support for native USB4 _OSC (2021-02-04 10:45:25 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Changes for v5.12 merge window
+
+This includes following Thunderbolt/USB4 changes for v5.12 merge
+window:
+
+  * Start lane initialization after sleep for Thunderbolt 3 compatible
+    devices
+
+  * Add support for de-authorizing PCIe tunnels (software based
+    connection manager only)
+
+  * Add support for new ACPI 6.4 USB4 _OSC
+
+  * Allow disabling XDomain protocol
+
+  * Add support for new SL5 security level
+
+  * Clean up kernel-docs to pass W=1 builds
+
+  * A couple of cleanups and minor fixes
+
+All these have been in linux-next without reported issues.
+
+----------------------------------------------------------------
+Lee Jones (11):
+      thunderbolt: dma_port: Check 'dma_port_flash_write_block()'s return value
+      thunderbolt: cap: Fix kernel-doc formatting issue
+      thunderbolt: ctl: Demote non-conformant kernel-doc headers
+      thunderbolt: eeprom: Demote non-conformant kernel-doc headers to standard comment blocks
+      thunderbolt: xdomain: Fix 'tb_unregister_service_driver()'s 'drv' param
+      thunderbolt: nhi: Demote some non-conformant kernel-doc headers
+      thunderbolt: tb: Kernel-doc function headers should document their parameters
+      thunderbolt: switch: Demote a bunch of non-conformant kernel-doc headers
+      thunderbolt: icm: Fix a couple of formatting issues
+      thunderbolt: tunnel: Fix misspelling of 'receive_path'
+      thunderbolt: switch: Fix function name in the header
+
+Mario Limonciello (1):
+      ACPI: Execute platform _OSC also with query bit clear
+
+Mika Westerberg (13):
+      thunderbolt: Start lane initialization after sleep
+      thunderbolt: Add support for de-authorizing devices
+      thunderbolt: ctl: Fix kernel-doc descriptions of non-static functions
+      thunderbolt: eeprom: Fix kernel-doc descriptions of non-static functions
+      thunderbolt: path: Fix kernel-doc descriptions of non-static functions
+      thunderbolt: nhi: Fix kernel-doc descriptions of non-static functions
+      thunderbolt: switch: Fix kernel-doc descriptions of non-static functions
+      thunderbolt: Add clarifying comments about USB4 terms router and adapter
+      thunderbolt: dma_test: Drop unnecessary include
+      thunderbolt: Add support for PCIe tunneling disabled (SL5)
+      thunderbolt: Allow disabling XDomain protocol
+      ACPI: Add support for native USB4 control _OSC
+      thunderbolt: Add support for native USB4 _OSC
+
+Rikard Falkeborn (1):
+      thunderbolt: Constify static attribute_group structs
+
+Tian Tao (1):
+      thunderbolt: Use kmemdup instead of kzalloc and memcpy
+
+ Documentation/ABI/testing/sysfs-bus-thunderbolt |  22 ++++-
+ Documentation/admin-guide/thunderbolt.rst       |  23 +++++
+ drivers/acpi/bus.c                              | 119 +++++++++++++++++++++---
+ drivers/thunderbolt/acpi.c                      |  65 +++++++++++++
+ drivers/thunderbolt/cap.c                       |   2 +-
+ drivers/thunderbolt/ctl.c                       |  51 ++++++++--
+ drivers/thunderbolt/dma_port.c                  |   2 +
+ drivers/thunderbolt/dma_test.c                  |   5 +-
+ drivers/thunderbolt/domain.c                    |  48 +++++++++-
+ drivers/thunderbolt/eeprom.c                    |  33 ++++---
+ drivers/thunderbolt/icm.c                       |  10 +-
+ drivers/thunderbolt/lc.c                        |  35 +++++++
+ drivers/thunderbolt/nhi.c                       |  39 ++++++--
+ drivers/thunderbolt/path.c                      |   2 +
+ drivers/thunderbolt/switch.c                    |  82 ++++++++++++++--
+ drivers/thunderbolt/tb.c                        |  54 +++++++++--
+ drivers/thunderbolt/tb.h                        |  22 +++++
+ drivers/thunderbolt/tb_regs.h                   |   1 +
+ drivers/thunderbolt/tunnel.c                    |  12 ++-
+ drivers/thunderbolt/usb4.c                      |  11 ++-
+ drivers/thunderbolt/xdomain.c                   |  15 ++-
+ include/linux/acpi.h                            |  10 ++
+ include/linux/thunderbolt.h                     |   3 +
+ 23 files changed, 585 insertions(+), 81 deletions(-)
+
