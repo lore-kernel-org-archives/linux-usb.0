@@ -2,67 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65959C433E9
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 18:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73F12C433E9
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:40:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 233E864EC8
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 18:49:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4388964E7D
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Feb 2021 19:40:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233260AbhBISrk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Feb 2021 13:47:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35794 "EHLO
+        id S233689AbhBITiO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Feb 2021 14:38:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233460AbhBIS2z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Feb 2021 13:28:55 -0500
-X-Greylist: delayed 570 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 09 Feb 2021 10:22:32 PST
-Received: from unicorn.mansr.com (unicorn.mansr.com [IPv6:2001:8b0:ca0d:8d8e::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7313AC061793;
-        Tue,  9 Feb 2021 10:22:32 -0800 (PST)
-Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:8d8e::3])
-        by unicorn.mansr.com (Postfix) with ESMTPS id 93A9C15360;
-        Tue,  9 Feb 2021 18:12:58 +0000 (GMT)
-Received: by raven.mansr.com (Postfix, from userid 51770)
-        id 87057219FD0; Tue,  9 Feb 2021 18:12:58 +0000 (GMT)
-From:   Mans Rullgard <mans@mansr.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] dt-bindings: usb: usb-device: fix typo in required properties
-Date:   Tue,  9 Feb 2021 18:12:40 +0000
-Message-Id: <20210209181240.28017-1-mans@mansr.com>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S233638AbhBIT0F (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Feb 2021 14:26:05 -0500
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B514C0611C0;
+        Tue,  9 Feb 2021 11:24:01 -0800 (PST)
+Received: by mail-ed1-x535.google.com with SMTP id s5so25371035edw.8;
+        Tue, 09 Feb 2021 11:24:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=pyReI/BEuC4BzvSRo5mXE3P7CpFBNp0uOKqtRDtZmz0=;
+        b=YJPjb0dS96lYDOexjOydBEkgbTkDbxwnkeUSHVABRARJeOksmXglyDYD2RqyVw3O2E
+         t+EVY/HYTcyuQPEAkxjsWudzToJR098RylZVaKH1Of8kbjRGDnhUfN64E81gKOABvlTN
+         BPs/t2qVYxNAG2t7UXIasMOM9q+jQDV4jJrw72K7hdOKuZAdn7uHWPmj+kh8XogAP30L
+         SHqKpYLguNlitYOH2Ih4GBSHsujJDoOn8KvJ19oO+GMVUp5V2bjf6t8a85fd+zJhhlTp
+         bMNFWbKlGIOe1EmF9QeWKZXkz1AiCvIGuhtWnq35HOS2ukzxBa+E7DK/Dl2kle/gS8gh
+         cVHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=pyReI/BEuC4BzvSRo5mXE3P7CpFBNp0uOKqtRDtZmz0=;
+        b=hrjZcO390JwyQnP8IiAhI16GQSyfjKY33nLiuhfAZfwASQruohg81zvgtHRMiP9mOQ
+         6WsynAGLuG8CX32qbcJdt3Wl1RcU0wHtwybQfAef/5ul8Myt6dJiAvsPWMOrjGqRxEwO
+         Z1a7DZ+fM4AwKjEqlMpwFtWQPaP7jYHKtZh8hVPh7jVifhos3mykzPYI9vZkRnpnnszi
+         e3cHZ3T0EKITOjjAOPyQ7A+99Ibto59Fty9MqGFPN5SqokQI41Q5tFqnw5moyN7MP+y1
+         gBf7j74jMCqUfuFwyMD0CD62QeC5R/dqIlcnv/ZgUgTM7Gk1qU2Qi7TkOOC8NNgl5FIG
+         IPxw==
+X-Gm-Message-State: AOAM533fqwsCLhCT9TaefCZxpqc7S4aRl/WZQLZb4F7KQTVHQ9c5GvF5
+        xu85LtEDO5HvbnaAPEfXMtvX7bq3scw=
+X-Google-Smtp-Source: ABdhPJz+bOuBJ3/9q6WA9aKGxDaFG4ToV8V9ky4ts+krOYiuFJikzdaJMlOuwtuQTxx8Th0zBx7T9A==
+X-Received: by 2002:a05:6402:104b:: with SMTP id e11mr22202102edu.367.1612898639910;
+        Tue, 09 Feb 2021 11:23:59 -0800 (PST)
+Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id w3sm11075779eja.52.2021.02.09.11.23.59
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Feb 2021 11:23:59 -0800 (PST)
+From:   Johan Jonker <jbx6244@gmail.com>
+To:     heiko@sntech.de
+Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 2/8] usb: dwc3: of-simple: bail probe if no dwc3 child node
+Date:   Tue,  9 Feb 2021 20:23:44 +0100
+Message-Id: <20210209192350.7130-2-jbx6244@gmail.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20210209192350.7130-1-jbx6244@gmail.com>
+References: <20210209192350.7130-1-jbx6244@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix typo in 'compatible' property name.
+For some of the dwc3-of-simple compatible SoCs we
+don't want to bind this driver to a dwc3 node,
+but bind that node to the 'snps,dwc3' driver instead.
+The kernel has no logic to decide which driver to bind
+to if there are 2 matching drivers, so bail probe if no
+dwc3 child node.
 
-Signed-off-by: Mans Rullgard <mans@mansr.com>
+Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/usb-device.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc3/dwc3-of-simple.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
-index 7bb25a45427d..d4c99809ee9a 100644
---- a/Documentation/devicetree/bindings/usb/usb-device.yaml
-+++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
-@@ -76,7 +76,7 @@ patternProperties:
-         maxItems: 1
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index e62ecd22b..347b4d384 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -38,6 +38,10 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
  
- required:
--  - compatile
-+  - compatible
-   - reg
+ 	int			ret;
  
- additionalProperties: true
++	/* Bail probe if no dwc3 child node. */
++	if (!of_get_compatible_child(dev->of_node, "snps,dwc3"))
++		return -ENODEV;
++
+ 	simple = devm_kzalloc(dev, sizeof(*simple), GFP_KERNEL);
+ 	if (!simple)
+ 		return -ENOMEM;
 -- 
-2.30.0
+2.11.0
 
