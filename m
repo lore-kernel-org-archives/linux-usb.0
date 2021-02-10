@@ -7,18 +7,18 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C549FC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E956BC433E6
 	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 17:31:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9365864E05
+	by mail.kernel.org (Postfix) with ESMTP id B330464E77
 	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 17:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232692AbhBJRa7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Feb 2021 12:30:59 -0500
-Received: from mail.baikalelectronics.com ([87.245.175.226]:34912 "EHLO
+        id S232180AbhBJRbF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Feb 2021 12:31:05 -0500
+Received: from mail.baikalelectronics.com ([87.245.175.226]:34906 "EHLO
         mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232750AbhBJRag (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Feb 2021 12:30:36 -0500
+        with ESMTP id S232766AbhBJRai (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Feb 2021 12:30:38 -0500
 From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
 To:     Felipe Balbi <balbi@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -26,12 +26,14 @@ To:     Felipe Balbi <balbi@kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 09/10] usb: dwc3: qcom: Detect DWC3 DT-nodes with "usb"-prefixed names
-Date:   Wed, 10 Feb 2021 20:28:49 +0300
-Message-ID: <20210210172850.20849-10-Sergey.Semin@baikalelectronics.ru>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v6 05/10] powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
+Date:   Wed, 10 Feb 2021 20:28:45 +0300
+Message-ID: <20210210172850.20849-6-Sergey.Semin@baikalelectronics.ru>
 In-Reply-To: <20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru>
 References: <20210210172850.20849-1-Sergey.Semin@baikalelectronics.ru>
 MIME-Version: 1.0
@@ -42,33 +44,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In accordance with the USB HCD/DRD schema all the USB controllers are
-supposed to have DT-nodes named with prefix "^usb(@.*)?".  Since the
-existing DT-nodes will be renamed in a subsequent patch let's first make
-sure the DWC3 Qualcomm driver supports them and second falls back to the
-deprecated naming so not to fail on the legacy DTS-files passed to the
-newer kernels.
+In accordance with the Generic EHCI/OHCI bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
+nodes are correctly named.
 
 Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/powerpc/boot/dts/akebono.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index c703d552bbcf..49ad8d507d37 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -630,7 +630,8 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
- 	struct device		*dev = &pdev->dev;
- 	int			ret;
+diff --git a/arch/powerpc/boot/dts/akebono.dts b/arch/powerpc/boot/dts/akebono.dts
+index df18f8dc4642..343326c30380 100644
+--- a/arch/powerpc/boot/dts/akebono.dts
++++ b/arch/powerpc/boot/dts/akebono.dts
+@@ -126,7 +126,7 @@ SATA0: sata@30000010000 {
+ 			interrupts = <93 2>;
+ 		};
  
--	dwc3_np = of_get_child_by_name(np, "dwc3");
-+	dwc3_np = of_get_child_by_name(np, "usb") ?:
-+		  of_get_child_by_name(np, "dwc3");
- 	if (!dwc3_np) {
- 		dev_err(dev, "failed to find dwc3 core child\n");
- 		return -ENODEV;
+-		EHCI0: ehci@30010000000 {
++		EHCI0: usb@30010000000 {
+ 			compatible = "ibm,476gtr-ehci", "generic-ehci";
+ 			reg = <0x300 0x10000000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
+@@ -140,14 +140,14 @@ SD0: sd@30000000000 {
+ 			interrupt-parent = <&MPIC>;
+ 		};
+ 
+-		OHCI0: ohci@30010010000 {
++		OHCI0: usb@30010010000 {
+ 			compatible = "ibm,476gtr-ohci", "generic-ohci";
+ 			reg = <0x300 0x10010000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
+ 			interrupts = <89 1>;
+ 			};
+ 
+-		OHCI1: ohci@30010020000 {
++		OHCI1: usb@30010020000 {
+ 			compatible = "ibm,476gtr-ohci", "generic-ohci";
+ 			reg = <0x300 0x10020000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
 -- 
 2.30.0
 
