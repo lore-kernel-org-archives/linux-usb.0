@@ -2,105 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0BBC433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 09:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BB4C433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 11:06:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C618664E2F
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 09:22:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE53264E25
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 11:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229890AbhBJJWc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Feb 2021 04:22:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59154 "EHLO mail.kernel.org"
+        id S231559AbhBJLGe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Feb 2021 06:06:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54012 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229646AbhBJJT7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 10 Feb 2021 04:19:59 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5F82C64DB1
-        for <linux-usb@vger.kernel.org>; Wed, 10 Feb 2021 09:19:15 +0000 (UTC)
+        id S231630AbhBJLEp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 10 Feb 2021 06:04:45 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 99A7F64E2F;
+        Wed, 10 Feb 2021 11:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612948755;
-        bh=lxpaMNiK+R3HSMB38A98suE34JqvKwCZPGQD54PyI6Q=;
-        h=From:To:Subject:Date:From;
-        b=II8Ht0Fr0UrcsWKnThp5dafje9NH8Rh0oF68gXu2BEfDb9741VBl00RsYNGq77+Gz
-         PYVrvNo9al5UO6aSKJbMkRhfiULSuyIAvSgLoQ2AUjR4xtUNpfksEiNHQGZr0jSwMz
-         hICNgqpcj4zzVlp3PqEDP9cd95935qlMQFVmjvht5dH8xY/DqBTe5nYuVASOKoQxTw
-         Q6xDCg4Iiz6l6sKQplE1if0//8XGXEP+NNTDwxWXEFOu39sD4k7PUQ9YzUJFH3ewCV
-         Z3tnjKhr4kJui5uwd9tDLOg/DFQ0t5yshLuHQmjEhO2seVFkCpMJNdvnh5ml8n1rr5
-         XHonjBMh0dIbw==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 211667] New: USB attached HDD enclosure failure
-Date:   Wed, 10 Feb 2021 09:19:15 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: sec@dschroeder.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-211667-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        s=k20201202; t=1612955030;
+        bh=mUhu9PKRysORVYVGtZgYfDLrCRCblnoUgWoaKX9kNds=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RQ4X8oyzURKgX2ffLpHenlZEaJ9M6N0rBUdq6qayIc6ynQtuGMe1ES9g2KyFrEApV
+         fBi/rtSqNetldEMB469rN6C6MQxfVPD4BL7bOdhjmMweerXRbmjFOE+6azTS6dtJvv
+         yxa1Gdru02+PKjUqhN4tjem6tY0Wj/M5aSnYi3acZ6j+uEkO6z/ZuAumQnMS3tszB5
+         9FDNIjheneiIUrZUG3Mikev0ndejbQ8jVolsaCUcYrT8K4FSUot0akfnWNReySxktp
+         oaPEMlpWCeBoLUYvRmWE+ThAmFlP+ZhC22PGAx85C3w+0tQCyAgaSzYiN7kyfvqvzZ
+         A0C1kflMqOqCQ==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1l9nHw-0002SM-L7; Wed, 10 Feb 2021 12:04:04 +0100
+Date:   Wed, 10 Feb 2021 12:04:04 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Stefan Ursella <stefan.ursella@wolfvision.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Kars Mulder <kerneldev@karsmulder.nl>,
+        Jonathan Cox <jonathan@jdcox.net>,
+        Tomasz =?utf-8?Q?Meresi=C5=84ski?= <tomasz@meresinski.eu>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: quirks: add quirk to start video capture on ELMO
+ L-12F document camera reliable
+Message-ID: <YCO9pNI1hZhJ+Z9y@hovoldconsulting.com>
+References: <20210210102821.31779-1-stefan.ursella@wolfvision.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210210102821.31779-1-stefan.ursella@wolfvision.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211667
+On Wed, Feb 10, 2021 at 11:28:20AM +0100, Stefan Ursella wrote:
+> Without this quirk starting a video capture from the device often fails with
+> 
+> kernel: uvcvideo: Failed to set UVC probe control : -110 (exp. 34).
+> Signed-off-by: Stefan Ursella <stefan.ursella@wolfvision.net>
+> ---
+>  drivers/usb/core/quirks.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index f232914de5fd..f888deaf7bab 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -480,6 +480,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  	/* novation SoundControl XL */
+>  	{ USB_DEVICE(0x1235, 0x0061), .driver_info = USB_QUIRK_RESET_RESUME },
+>  
+> +	/* ELMO L-12F document camera */
+> +	{ USB_DEVICE(0x09a1, 0x0028), .driver_info = USB_QUIRK_DELAY_CTRL_MSG },
+> +
 
-            Bug ID: 211667
-           Summary: USB attached HDD enclosure failure
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.10.14
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: sec@dschroeder.info
-        Regression: No
+Please keep the entries sorted by VID/PID (all but the recently added
+last one are).
 
-Created attachment 295177
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D295177&action=3Dedit
-dmesg
+>  	{ }  /* terminating entry must be last */
+>  };
 
-Only three out of four drives are recognized at the time the enclosure is
-powered on.
-As a workaround the following device is resetted:
-
-path=3D/dev/bus/usb/004/008
-    description=3DVIA Labs, Inc. USB3.1 Hub
-    manufacturer=3DVIA Labs, Inc.
-    device=3DUSB3.1 Hub
-    search string=3DVIA Labs, Inc. USB3.1 Hub VIA Labs, Inc. USB3.1 Hub
-
-which is a HUB integrated into the external enclosure.
-
-External enclosure model: IB-3740-C31
-
-Attached dmesg shows the initial power up and the following manual reset.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Johan
