@@ -2,76 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FC1DC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A830C433DB
 	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 18:47:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6485664E2A
+	by mail.kernel.org (Postfix) with ESMTP id 2FD1564E26
 	for <linux-usb@archiver.kernel.org>; Wed, 10 Feb 2021 18:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234341AbhBJSrC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Feb 2021 13:47:02 -0500
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:41016 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234087AbhBJSof (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Feb 2021 13:44:35 -0500
-Received: by mail-ot1-f53.google.com with SMTP id s107so2753001otb.8;
-        Wed, 10 Feb 2021 10:44:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JLKTPoir/h9R65s1iDflvlmy5CWbPRCBVjFlvRoyomw=;
-        b=lg9ixo4cXxQveA11bx6o7dyK8+LSRARIQwR6Xs7QGZ0CdMyYhEI4KWiOCm7Hb2l1CH
-         RStdDdmLCh33g0PFxFzoM8XZHbvsGY7MJ8z+Ek/EzGx/2fBEVKj9HatGdHr9lTTZADVR
-         wIktFwpRgDamlTvs2AD7Je78DNMYtA7xZm2rAYvP35KbS6kg9d5qdGV8qILStndtoE5Q
-         vPYst4iGghV78ZZvCnDhpCirvb4Hgrpab0t2cmpBAk+suKHMe+Ye/mzEyeboJiGqU2Qx
-         +tv+G0V2ULgG+5RAHyp154bBXyRCm9BRJX18qFUUYxpPOuGoDfV6Avk2KmstD1YP96qc
-         SKcw==
-X-Gm-Message-State: AOAM531dO2O5A+GxEzHAirjdKxV32CaM1W0m/SYNtWPmRx/h3ad5eU4v
-        KFYDYVjqqoNf2kPNXYxZyw==
-X-Google-Smtp-Source: ABdhPJxM1FaimNqlBQvzW+q9M3P/dnUkivLE3Ea3GcFgSXrF/r89b3iadrMmpJCYaYpo7zH5UMgNkA==
-X-Received: by 2002:a05:6830:1496:: with SMTP id s22mr3099422otq.249.1612982634364;
-        Wed, 10 Feb 2021 10:43:54 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id w13sm541373otp.51.2021.02.10.10.43.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Feb 2021 10:43:53 -0800 (PST)
-Received: (nullmailer pid 2520857 invoked by uid 1000);
-        Wed, 10 Feb 2021 18:43:52 -0000
-Date:   Wed, 10 Feb 2021 12:43:52 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Johan Jonker <jbx6244@gmail.com>
-Cc:     heiko@sntech.de, linux-arm-kernel@lists.infradead.org,
-        robh+dt@kernel.org, balbi@kernel.org,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Subject: Re: [PATCH v5 6/8] dt-bindings: usb: dwc3: add description for rk3328
-Message-ID: <20210210184352.GA2520802@robh.at.kernel.org>
-References: <20210209192350.7130-1-jbx6244@gmail.com>
- <20210209192350.7130-6-jbx6244@gmail.com>
+        id S234318AbhBJSqs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Feb 2021 13:46:48 -0500
+Received: from www262.sakura.ne.jp ([202.181.97.72]:51010 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234372AbhBJSo3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Feb 2021 13:44:29 -0500
+Received: from fsav401.sakura.ne.jp (fsav401.sakura.ne.jp [133.242.250.100])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 11AIhVMe090924;
+        Thu, 11 Feb 2021 03:43:31 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav401.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav401.sakura.ne.jp);
+ Thu, 11 Feb 2021 03:43:31 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav401.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 11AIhVKQ090918
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+        Thu, 11 Feb 2021 03:43:31 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH] usb: usbip: fix error handling of kthread_get_run()
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     Hillf Danton <hdanton@sina.com>, linux-usb@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>
+References: <000000000000414db905b6e9bae8@google.com>
+ <20210205135707.4574-1-penguin-kernel@I-love.SAKURA.ne.jp>
+ <6b2b9f7c-a412-0f52-3373-bc58d1e95ad9@linuxfoundation.org>
+ <ee936421-66ea-c6a7-fa1e-d4077ab28ed0@i-love.sakura.ne.jp>
+ <1f4b36a1-460e-1154-b46c-32ba72b88205@linuxfoundation.org>
+ <dffdefc9-9499-2cd0-fce9-b084df1511af@i-love.sakura.ne.jp>
+ <2f922e76-623e-1d87-17a5-c4a87dc8f2fc@linuxfoundation.org>
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <bb8f438f-8a77-2aac-cb2b-b2551f6a64b0@i-love.sakura.ne.jp>
+Date:   Thu, 11 Feb 2021 03:43:25 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210209192350.7130-6-jbx6244@gmail.com>
+In-Reply-To: <2f922e76-623e-1d87-17a5-c4a87dc8f2fc@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 09 Feb 2021 20:23:48 +0100, Johan Jonker wrote:
-> Add description for "rockchip,rk3328-dwc3".
+On 2021/02/11 3:20, Shuah Khan wrote:
+> On 2/10/21 11:16 AM, Tetsuo Handa wrote:
+>> On 2021/02/11 3:11, Shuah Khan wrote:
+>>> I would like to see to see a complete fix. This patch changes
+>>> kthread_get_run() to return NULL. Without adding handling for
+>>> NULL in the callers of kthread_get_run(), we will start seeing
+>>> problems.
+>>
+>> What problems are you aware of?
+>>
 > 
-> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> ---
-> Changed V5:
->   add select
-> ---
->  Documentation/devicetree/bindings/usb/rockchip,dwc3.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+> The fact that driver doesn't cleanup after failing to create
+> the thread is a problem.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+What are the cleanup functions?
+
+Future attach_store() will succeed if cleanup operation (which does
+vdev->ud.status = VDEV_ST_NULL;) is done, doesn't it?
+
+And vhci_device_reset() and/or vhci_device_init() involves cleanup
+operation (which does vdev->ud.status = VDEV_ST_NULL;), doesn't it?
+
+> 
+>>>
+>>> Does this patch fix the problem syzbot found?
+>>
+>> Yes, this patch as-is avoids the crash syzbot found.
+>>
+> 
+> Good to know. Please add handling for kthread_get_run() return
+> in the places I suggested in you next version of this patch.
+
+Since vhci_{rx,tx}_loop() do not involve cleanup operation (they simply
+terminate upon kthread_should_stop() == true), I don't understand why
+failing to start vhci_{rx,tx}_loop() makes difference. Cleanup will be
+done by functions other than vhci_{rx,tx}_loop(), won't it?
+
