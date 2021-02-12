@@ -2,285 +2,218 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F077C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Feb 2021 23:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5295DC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 03:06:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2E8064E3D
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Feb 2021 23:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2814764DE9
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 03:06:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229960AbhBKX2e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Feb 2021 18:28:34 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:41592 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbhBKX2c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Feb 2021 18:28:32 -0500
-Received: by mail-ot1-f47.google.com with SMTP id s107so6825330otb.8;
-        Thu, 11 Feb 2021 15:28:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1LjpgA7tiF9kF4NWWgBGZv/yfZD76E+O6IzMfolNrhI=;
-        b=DUYqxJ1ApAtglRnSJxbrvoj2uEE8Ol+nKcSANCBt4T0Q1w6W9Pa910AUgfqAbjJAME
-         LazzB+BPQtjJdOz8NG1+wq+7m6YWRiOEZ3asvqXhVP8i6dD7WTYMxrvt4VkgpXFACDCJ
-         KpxuSASzLLUCbRAB2S1v6XGxwRBzz5hQklXPQuS+km5BYcC2W55I1zTmbBP64tGLf9WA
-         66XWVAnD/okamejAM5FGhWYYXDUTgtr9LdmesXpDT7QXRZu4FxlQpX0m89iYb8OT4l2A
-         XEyPDhuoV/kXdeOqnYhspja1NMKv4BIaAAiNpvVzE7+U5iluwkBuwEIAaZxM5U4ixLPt
-         Uw1g==
-X-Gm-Message-State: AOAM532UqtSOMa/teFl1HMhwCtww3U+OoaA68PSUngE38RyeE9I/sP1u
-        erJ5mGtutzWmN3QAobtpig==
-X-Google-Smtp-Source: ABdhPJzzrST9kvv3AkVN3oDgJ7rYWtqJYXycBW1mTioCcuYcJpNSC7VHw0MA7N+JhUlgaKQBsRlBPA==
-X-Received: by 2002:a9d:7a81:: with SMTP id l1mr289355otn.180.1613086070567;
-        Thu, 11 Feb 2021 15:27:50 -0800 (PST)
-Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.googlemail.com with ESMTPSA id s18sm1283922oih.53.2021.02.11.15.27.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 15:27:49 -0800 (PST)
-From:   Rob Herring <robh@kernel.org>
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        devicetree@vger.kernel.org
-Cc:     Paul Mackerras <paulus@samba.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Patrice Chotard <patrice.chotard@st.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>,
-        Gilles Muller <Gilles.Muller@inria.fr>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-usb@vger.kernel.org, cocci@systeme.lip6.fr,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v2 1/2] of: Remove of_dev_{get,put}()
-Date:   Thu, 11 Feb 2021 17:27:44 -0600
-Message-Id: <20210211232745.1498137-2-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210211232745.1498137-1-robh@kernel.org>
-References: <20210211232745.1498137-1-robh@kernel.org>
+        id S229787AbhBLDG1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Feb 2021 22:06:27 -0500
+Received: from mga03.intel.com ([134.134.136.65]:19703 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229575AbhBLDG0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Feb 2021 22:06:26 -0500
+IronPort-SDR: Zm6BAwK55tYs3aW3X0djFsfFFEKjqXfuanljis4Ws2uD5i+FKQszpnA89GzOMI+D1eg1aqQVIa
+ WJOZ3FBBtUmQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9892"; a="182429487"
+X-IronPort-AV: E=Sophos;i="5.81,172,1610438400"; 
+   d="scan'208";a="182429487"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2021 19:05:43 -0800
+IronPort-SDR: XjCfJJL05U3bdqBK/vmLsOvfD2550Pesxaf0rio59YCPah2lfUEXkj0hLU7XEvPaB5yj9aZ/nh
+ NMq06EBVNZ4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,172,1610438400"; 
+   d="scan'208";a="422315905"
+Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Feb 2021 19:05:41 -0800
+Received: from kbuild by cd560a204411 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lAOm4-0004JZ-KV; Fri, 12 Feb 2021 03:05:40 +0000
+Date:   Fri, 12 Feb 2021 11:05:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 7a1e838d0cdce7d09a0bd81d45c7b5a660e71ac7
+Message-ID: <6025f081.9HL6VlbFC0f2MEdi%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-of_dev_get() and of_dev_put are just wrappers for get_device()/put_device()
-on a platform_device. There's also already platform_device_{get,put}()
-wrappers for this purpose. Let's update the few users and remove
-of_dev_{get,put}().
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 7a1e838d0cdce7d09a0bd81d45c7b5a660e71ac7  usb: misc: usb3503: Fix logic in usb3503_init()
 
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: Patrice Chotard <patrice.chotard@st.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <Julia.Lawall@inria.fr>
-Cc: Gilles Muller <Gilles.Muller@inria.fr>
-Cc: Nicolas Palix <nicolas.palix@imag.fr>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: netdev@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-usb@vger.kernel.org
-Cc: cocci@systeme.lip6.fr
-Signed-off-by: Rob Herring <robh@kernel.org>
+elapsed time: 730m
+
+configs tested: 148
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+alpha                            alldefconfig
+arc                     haps_hs_smp_defconfig
+sh                               j2_defconfig
+powerpc                      ppc64e_defconfig
+arm                       netwinder_defconfig
+powerpc                         ps3_defconfig
+h8300                     edosk2674_defconfig
+arm                          moxart_defconfig
+arm                             rpc_defconfig
+mips                         mpc30x_defconfig
+arm                  colibri_pxa300_defconfig
+powerpc                    ge_imp3a_defconfig
+m68k                          atari_defconfig
+mips                      bmips_stb_defconfig
+powerpc                     stx_gp3_defconfig
+arm                           sunxi_defconfig
+sh                           se7705_defconfig
+m68k                          hp300_defconfig
+powerpc                 linkstation_defconfig
+sh                            migor_defconfig
+mips                      maltasmvp_defconfig
+mips                     cu1830-neo_defconfig
+mips                         tb0219_defconfig
+sh                          rsk7264_defconfig
+arm                            u300_defconfig
+mips                         rt305x_defconfig
+xtensa                    xip_kc705_defconfig
+powerpc                     tqm5200_defconfig
+sh                     sh7710voipgw_defconfig
+mips                      maltaaprp_defconfig
+powerpc                     redwood_defconfig
+arm                          exynos_defconfig
+arc                          axs101_defconfig
+powerpc                 mpc8540_ads_defconfig
+mips                      malta_kvm_defconfig
+s390                          debug_defconfig
+powerpc                 xes_mpc85xx_defconfig
+powerpc                       holly_defconfig
+powerpc                     kmeter1_defconfig
+sh                                  defconfig
+powerpc                     taishan_defconfig
+powerpc                       eiger_defconfig
+arm                          pxa910_defconfig
+powerpc                    sam440ep_defconfig
+powerpc                  mpc885_ads_defconfig
+c6x                        evmc6457_defconfig
+openrisc                            defconfig
+arm                           omap1_defconfig
+arm                         shannon_defconfig
+powerpc                      chrp32_defconfig
+arc                        vdk_hs38_defconfig
+arm                         vf610m4_defconfig
+sparc                       sparc32_defconfig
+mips                            e55_defconfig
+powerpc                      pcm030_defconfig
+mips                    maltaup_xpa_defconfig
+arm                         palmz72_defconfig
+powerpc                     tqm8548_defconfig
+microblaze                          defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20210209
+x86_64               randconfig-a001-20210209
+x86_64               randconfig-a005-20210209
+x86_64               randconfig-a004-20210209
+x86_64               randconfig-a002-20210209
+x86_64               randconfig-a003-20210209
+i386                 randconfig-a001-20210209
+i386                 randconfig-a005-20210209
+i386                 randconfig-a003-20210209
+i386                 randconfig-a002-20210209
+i386                 randconfig-a006-20210209
+i386                 randconfig-a004-20210209
+x86_64               randconfig-a016-20210211
+x86_64               randconfig-a013-20210211
+x86_64               randconfig-a012-20210211
+x86_64               randconfig-a015-20210211
+x86_64               randconfig-a014-20210211
+x86_64               randconfig-a011-20210211
+i386                 randconfig-a016-20210209
+i386                 randconfig-a013-20210209
+i386                 randconfig-a012-20210209
+i386                 randconfig-a014-20210209
+i386                 randconfig-a011-20210209
+i386                 randconfig-a015-20210209
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a003-20210211
+x86_64               randconfig-a002-20210211
+x86_64               randconfig-a001-20210211
+x86_64               randconfig-a004-20210211
+x86_64               randconfig-a005-20210211
+x86_64               randconfig-a006-20210211
+x86_64               randconfig-a013-20210209
+x86_64               randconfig-a014-20210209
+x86_64               randconfig-a015-20210209
+x86_64               randconfig-a012-20210209
+x86_64               randconfig-a016-20210209
+x86_64               randconfig-a011-20210209
+
 ---
-v2:
- - Fix build
----
- arch/powerpc/platforms/pseries/ibmebus.c |  4 ++--
- drivers/net/ethernet/ibm/emac/core.c     | 15 ++++++++-------
- drivers/of/device.c                      | 21 ---------------------
- drivers/of/platform.c                    |  4 ++--
- drivers/of/unittest.c                    |  2 +-
- drivers/usb/dwc3/dwc3-st.c               |  2 +-
- include/linux/of_device.h                |  3 ---
- scripts/coccinelle/free/put_device.cocci |  1 -
- 8 files changed, 14 insertions(+), 38 deletions(-)
-
-diff --git a/arch/powerpc/platforms/pseries/ibmebus.c b/arch/powerpc/platforms/pseries/ibmebus.c
-index 8c6e509f6967..a15ab33646b3 100644
---- a/arch/powerpc/platforms/pseries/ibmebus.c
-+++ b/arch/powerpc/platforms/pseries/ibmebus.c
-@@ -355,12 +355,12 @@ static int ibmebus_bus_device_probe(struct device *dev)
- 	if (!drv->probe)
- 		return error;
- 
--	of_dev_get(of_dev);
-+	get_device(dev);
- 
- 	if (of_driver_match_device(dev, dev->driver))
- 		error = drv->probe(of_dev);
- 	if (error)
--		of_dev_put(of_dev);
-+		put_device(dev);
- 
- 	return error;
- }
-diff --git a/drivers/net/ethernet/ibm/emac/core.c b/drivers/net/ethernet/ibm/emac/core.c
-index c00b9097eeea..471be6ec7e8a 100644
---- a/drivers/net/ethernet/ibm/emac/core.c
-+++ b/drivers/net/ethernet/ibm/emac/core.c
-@@ -38,6 +38,7 @@
- #include <linux/of_irq.h>
- #include <linux/of_net.h>
- #include <linux/of_mdio.h>
-+#include <linux/platform_device.h>
- #include <linux/slab.h>
- 
- #include <asm/processor.h>
-@@ -2390,11 +2391,11 @@ static int emac_check_deps(struct emac_instance *dev,
- 
- static void emac_put_deps(struct emac_instance *dev)
- {
--	of_dev_put(dev->mal_dev);
--	of_dev_put(dev->zmii_dev);
--	of_dev_put(dev->rgmii_dev);
--	of_dev_put(dev->mdio_dev);
--	of_dev_put(dev->tah_dev);
-+	platform_device_put(dev->mal_dev);
-+	platform_device_put(dev->zmii_dev);
-+	platform_device_put(dev->rgmii_dev);
-+	platform_device_put(dev->mdio_dev);
-+	platform_device_put(dev->tah_dev);
- }
- 
- static int emac_of_bus_notify(struct notifier_block *nb, unsigned long action,
-@@ -2435,7 +2436,7 @@ static int emac_wait_deps(struct emac_instance *dev)
- 	for (i = 0; i < EMAC_DEP_COUNT; i++) {
- 		of_node_put(deps[i].node);
- 		if (err)
--			of_dev_put(deps[i].ofdev);
-+			platform_device_put(deps[i].ofdev);
- 	}
- 	if (err == 0) {
- 		dev->mal_dev = deps[EMAC_DEP_MAL_IDX].ofdev;
-@@ -2444,7 +2445,7 @@ static int emac_wait_deps(struct emac_instance *dev)
- 		dev->tah_dev = deps[EMAC_DEP_TAH_IDX].ofdev;
- 		dev->mdio_dev = deps[EMAC_DEP_MDIO_IDX].ofdev;
- 	}
--	of_dev_put(deps[EMAC_DEP_PREV_IDX].ofdev);
-+	platform_device_put(deps[EMAC_DEP_PREV_IDX].ofdev);
- 	return err;
- }
- 
-diff --git a/drivers/of/device.c b/drivers/of/device.c
-index aedfaaafd3e7..9a748855b39d 100644
---- a/drivers/of/device.c
-+++ b/drivers/of/device.c
-@@ -33,27 +33,6 @@ const struct of_device_id *of_match_device(const struct of_device_id *matches,
- }
- EXPORT_SYMBOL(of_match_device);
- 
--struct platform_device *of_dev_get(struct platform_device *dev)
--{
--	struct device *tmp;
--
--	if (!dev)
--		return NULL;
--	tmp = get_device(&dev->dev);
--	if (tmp)
--		return to_platform_device(tmp);
--	else
--		return NULL;
--}
--EXPORT_SYMBOL(of_dev_get);
--
--void of_dev_put(struct platform_device *dev)
--{
--	if (dev)
--		put_device(&dev->dev);
--}
--EXPORT_SYMBOL(of_dev_put);
--
- int of_device_add(struct platform_device *ofdev)
- {
- 	BUG_ON(ofdev->dev.of_node == NULL);
-diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-index 79bd5f5a1bf1..020bf860c72c 100644
---- a/drivers/of/platform.c
-+++ b/drivers/of/platform.c
-@@ -687,7 +687,7 @@ static int of_platform_notify(struct notifier_block *nb,
- 		pdev_parent = of_find_device_by_node(rd->dn->parent);
- 		pdev = of_platform_device_create(rd->dn, NULL,
- 				pdev_parent ? &pdev_parent->dev : NULL);
--		of_dev_put(pdev_parent);
-+		platform_device_put(pdev_parent);
- 
- 		if (pdev == NULL) {
- 			pr_err("%s: failed to create for '%pOF'\n",
-@@ -712,7 +712,7 @@ static int of_platform_notify(struct notifier_block *nb,
- 		of_platform_device_destroy(&pdev->dev, &children_left);
- 
- 		/* and put the reference of the find */
--		of_dev_put(pdev);
-+		platform_device_put(pdev);
- 		break;
- 	}
- 
-diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
-index eb51bc147440..eb100627c186 100644
---- a/drivers/of/unittest.c
-+++ b/drivers/of/unittest.c
-@@ -1286,7 +1286,7 @@ static void __init of_unittest_platform_populate(void)
- 			unittest(pdev,
- 				 "Could not create device for node '%pOFn'\n",
- 				 grandchild);
--			of_dev_put(pdev);
-+			platform_device_put(pdev);
- 		}
- 	}
- 
-diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
-index e733be840545..b06b7092b1a2 100644
---- a/drivers/usb/dwc3/dwc3-st.c
-+++ b/drivers/usb/dwc3/dwc3-st.c
-@@ -274,7 +274,7 @@ static int st_dwc3_probe(struct platform_device *pdev)
- 
- 	dwc3_data->dr_mode = usb_get_dr_mode(&child_pdev->dev);
- 	of_node_put(child);
--	of_dev_put(child_pdev);
-+	platform_device_put(child_pdev);
- 
- 	/*
- 	 * Configure the USB port as device or host according to the static
-diff --git a/include/linux/of_device.h b/include/linux/of_device.h
-index 937f32f6aecb..d7a407dfeecb 100644
---- a/include/linux/of_device.h
-+++ b/include/linux/of_device.h
-@@ -26,9 +26,6 @@ static inline int of_driver_match_device(struct device *dev,
- 	return of_match_device(drv->of_match_table, dev) != NULL;
- }
- 
--extern struct platform_device *of_dev_get(struct platform_device *dev);
--extern void of_dev_put(struct platform_device *dev);
--
- extern int of_device_add(struct platform_device *pdev);
- extern int of_device_register(struct platform_device *ofdev);
- extern void of_device_unregister(struct platform_device *ofdev);
-diff --git a/scripts/coccinelle/free/put_device.cocci b/scripts/coccinelle/free/put_device.cocci
-index 120921366e84..f09f1e79bfa6 100644
---- a/scripts/coccinelle/free/put_device.cocci
-+++ b/scripts/coccinelle/free/put_device.cocci
-@@ -21,7 +21,6 @@ id = of_find_device_by_node@p1(x)
- if (id == NULL || ...) { ... return ...; }
- ... when != put_device(&id->dev)
-     when != platform_device_put(id)
--    when != of_dev_put(id)
-     when != if (id) { ... put_device(&id->dev) ... }
-     when != e1 = (T)id
-     when != e1 = (T)(&id->dev)
--- 
-2.27.0
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
