@@ -2,42 +2,39 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA876C433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 12:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B59E5C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 12:05:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A485A64E05
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 12:05:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90CEF64DD7
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Feb 2021 12:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhBLMFe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Feb 2021 07:05:34 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:47040 "EHLO honk.sigxcpu.org"
+        id S229497AbhBLMFg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Feb 2021 07:05:36 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:47052 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230493AbhBLMFU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 12 Feb 2021 07:05:20 -0500
+        id S230510AbhBLMFV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 12 Feb 2021 07:05:21 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id DBBC6FB07;
-        Fri, 12 Feb 2021 13:04:36 +0100 (CET)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 903B0FB03;
+        Fri, 12 Feb 2021 13:04:38 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ozr4KSAtwlU2; Fri, 12 Feb 2021 13:04:34 +0100 (CET)
+        with ESMTP id tTQevExgCqMb; Fri, 12 Feb 2021 13:04:34 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id A270541889; Fri, 12 Feb 2021 13:04:33 +0100 (CET)
+        id 866B14188B; Fri, 12 Feb 2021 13:04:33 +0100 (CET)
 From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 3/4] usb: typec: tps6598x: Add trace event for power status register
-Date:   Fri, 12 Feb 2021 13:04:32 +0100
-Message-Id: <b633e5e921398e5e8e6bc943d9c8f1731487eb05.1613131413.git.agx@sigxcpu.org>
+Subject: [PATCH v2 0/4] usb: typec: tps6598x: Add IRQ flag and register tracing
+Date:   Fri, 12 Feb 2021 13:04:29 +0100
+Message-Id: <cover.1613131413.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1613131413.git.agx@sigxcpu.org>
-References: <cover.1613131413.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -45,151 +42,64 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Together with the PD status register this is vital for debugging power
-negotiations at runtime.
+This series adds tracing events for the chips IRQ and registers that are useful
+to figure out the current data and power status. This came about since
+diagnosing why a certain usb-c hub or dp-alt-mode adapter fails is hard with
+the information in /sys/class/typec alone since this does not have a timeline
+of events (and we don't want every typec user having to also buy a PD
+analyzer). With this series debugging these kinds of things starts to become
+fun:
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/usb/typec/tps6598x.c       | 19 +++++++++------
- drivers/usb/typec/tps6598x.h       | 19 +++++++++++++++
- drivers/usb/typec/tps6598x_trace.h | 38 ++++++++++++++++++++++++++++++
- 3 files changed, 69 insertions(+), 7 deletions(-)
+   # echo 1 > /sys/kernel/debug/tracing/events/tps6598x/enable
+   # cat /sys/kernel/debug/tracing/trace_pipe
+   irq/79-0-003f-526     [003] ....   512.717871: tps6598x_irq: event1=PLUG_EVENT|DATA_STATUS_UPDATE|STATUS_UPDATE, event2=
+   irq/79-0-003f-526     [003] ....   512.722408: tps6598x_status: conn: conn-Ra, pp_5v0: off, pp_hv: off, pp_ext: off, pp_cable: off, pwr-src: vin-3p3, vbus: vSafe0V, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE
+   irq/79-0-003f-526     [003] ....   512.727127: tps6598x_data_status: DATA_CONNECTION|USB2_CONNECTION|USB3_CONNECTION
+   irq/79-0-003f-526     [003] ....   512.769571: tps6598x_irq: event1=PP_SWITCH_CHANGED|STATUS_UPDATE, event2=
+   irq/79-0-003f-526     [003] ....   512.773380: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: vSafe0V, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   512.872450: tps6598x_irq: event1=POWER_STATUS_UPDATE|PD_STATUS_UPDATE, event2=
+   irq/79-0-003f-526     [003] ....   512.876311: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: vSafe0V, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   512.880237: tps6598x_power_status: conn: 1, pwr-role: source, typec: usb, bc: sdp
+   irq/79-0-003f-526     [003] ....   513.072682: tps6598x_irq: event1=STATUS_UPDATE, event2=
+   irq/79-0-003f-526     [003] ....   513.076390: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: vSafe5V, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.090676: tps6598x_irq: event1=ERROR_CANNOT_PROVIDE_PWR, event2=
+   irq/79-0-003f-526     [003] ....   513.094368: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: vSafe5V, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.109606: tps6598x_irq: event1=NEW_CONTRACT_AS_PROVIDER|POWER_STATUS_UPDATE|STATUS_UPDATE|SRC_TRANSITION, event2=
+   irq/79-0-003f-526     [003] ....   513.113777: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: pd, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.117475: tps6598x_power_status: conn: 1, pwr-role: source, typec: pd, bc: sdp
+   irq/79-0-003f-526     [003] ....   513.137469: tps6598x_irq: event1=VDM_RECEIVED, event2=
+   irq/79-0-003f-526     [003] ....   513.141570: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: pd, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.281926: tps6598x_irq: event1=VDM_RECEIVED, event2=
+   irq/79-0-003f-526     [003] ....   513.285638: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: pd, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.300515: tps6598x_irq: event1=VDM_RECEIVED|DATA_STATUS_UPDATE, event2=
+   irq/79-0-003f-526     [003] ....   513.304226: tps6598x_status: conn: conn-Ra, pp_5v0: out, pp_hv: off, pp_ext: off, pp_cable: in, pwr-src: vin-3p3, vbus: pd, usb-host: no, legacy: no, flags: PLUG_PRESENT|PORTROLE|DATAROLE|VCONN
+   irq/79-0-003f-526     [003] ....   513.308302: tps6598x_data_status: DATA_CONNECTION|USB2_CONNECTION|USB3_CONNECTION|DP_CONNECTION, DP pinout D
 
-diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
-index 559aa175f948..3e6ad3ba7fc8 100644
---- a/drivers/usb/typec/tps6598x.c
-+++ b/drivers/usb/typec/tps6598x.c
-@@ -50,11 +50,6 @@ enum {
- 	TPS_PORTINFO_SOURCE,
- };
- 
--/* TPS_REG_POWER_STATUS bits */
--#define TPS_POWER_STATUS_CONNECTION	BIT(0)
--#define TPS_POWER_STATUS_SOURCESINK	BIT(1)
--#define TPS_POWER_STATUS_PWROPMODE(p)	(((p) & GENMASK(3, 2)) >> 2)
--
- /* TPS_REG_RX_IDENTITY_SOP */
- struct tps6598x_rx_identity_reg {
- 	u8 status;
-@@ -414,6 +409,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	u64 event1;
- 	u64 event2;
- 	u32 status;
-+	u16 pwr_status;
- 	int ret;
- 
- 	mutex_lock(&tps->lock);
-@@ -433,6 +429,15 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	}
- 	trace_tps6598x_status(status);
- 
-+	if ((event1 | event2) & TPS_REG_INT_POWER_STATUS_UPDATE) {
-+		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
-+		if (ret < 0) {
-+			dev_err(tps->dev, "failed to read power status: %d\n", ret);
-+			goto err_clear_ints;
-+		}
-+		trace_tps6598x_power_status(pwr_status);
-+	}
-+
- 	/* Handle plug insert or removal */
- 	if ((event1 | event2) & TPS_REG_INT_PLUG_EVENT) {
- 		if (status & TPS_STATUS_PLUG_PRESENT) {
-@@ -497,8 +502,8 @@ static int tps6598x_psy_get_online(struct tps6598x *tps,
- 	if (ret < 0)
- 		return ret;
- 
--	if ((pwr_status & TPS_POWER_STATUS_CONNECTION) &&
--	    (pwr_status & TPS_POWER_STATUS_SOURCESINK)) {
-+	if (TPS_POWER_STATUS_CONNECTION(pwr_status) &&
-+	    TPS_POWER_STATUS_SOURCESINK(pwr_status)) {
- 		val->intval = 1;
- 	} else {
- 		val->intval = 0;
-diff --git a/drivers/usb/typec/tps6598x.h b/drivers/usb/typec/tps6598x.h
-index 866fd1deb471..3f6503377678 100644
---- a/drivers/usb/typec/tps6598x.h
-+++ b/drivers/usb/typec/tps6598x.h
-@@ -127,4 +127,23 @@
- #define TPS_REG_INT_HARD_RESET				BIT(1)
- #define TPS_REG_INT_PD_SOFT_RESET			BIT(0)
- 
-+/* TPS_REG_POWER_STATUS bits */
-+#define TPS_POWER_STATUS_CONNECTION(x)  FIELD_GET(BIT(0), (x))
-+#define TPS_POWER_STATUS_SOURCESINK(x)	FIELD_GET(BIT(1), (x))
-+#define TPS_POWER_STATUS_BC12_DET(x)	FIELD_GET(BIT(2), (x))
-+
-+#define TPS_POWER_STATUS_TYPEC_CURRENT_MASK GENMASK(3, 2)
-+#define TPS_POWER_STATUS_PWROPMODE(p)	    FIELD_GET(TPS_POWER_STATUS_TYPEC_CURRENT_MASK, (p))
-+#define TPS_POWER_STATUS_BC12_STATUS_MASK   GENMASK(6, 5)
-+#define TPS_POWER_STATUS_BC12_STATUS(p)	    FIELD_GET(TPS_POWER_STATUS_BC12_STATUS_MASK, (p))
-+
-+#define TPS_POWER_STATUS_TYPEC_CURRENT_USB     0
-+#define TPS_POWER_STATUS_TYPEC_CURRENT_1A5     1
-+#define TPS_POWER_STATUS_TYPEC_CURRENT_3A0     2
-+#define TPS_POWER_STATUS_TYPEC_CURRENT_PD      3
-+
-+#define TPS_POWER_STATUS_BC12_STATUS_SDP 0
-+#define TPS_POWER_STATUS_BC12_STATUS_CDP 2
-+#define TPS_POWER_STATUS_BC12_STATUS_DCP 3
-+
- #endif /* __TPS6598X_H__ */
-diff --git a/drivers/usb/typec/tps6598x_trace.h b/drivers/usb/typec/tps6598x_trace.h
-index e0677b9c5c53..78a5a6ca337b 100644
---- a/drivers/usb/typec/tps6598x_trace.h
-+++ b/drivers/usb/typec/tps6598x_trace.h
-@@ -134,6 +134,24 @@
- 		      { TPS_STATUS_HIGH_VOLAGE_WARNING,	"HIGH_VOLAGE_WARNING" }, \
- 		      { TPS_STATUS_HIGH_LOW_VOLTAGE_WARNING, "HIGH_LOW_VOLTAGE_WARNING" })
- 
-+#define show_power_status_source_sink(power_status) \
-+	__print_symbolic(TPS_POWER_STATUS_SOURCESINK(power_status), \
-+		{ 1, "sink" }, \
-+		{ 0, "source" })
-+
-+#define show_power_status_typec_status(power_status) \
-+	__print_symbolic(TPS_POWER_STATUS_PWROPMODE(power_status), \
-+		{ TPS_POWER_STATUS_TYPEC_CURRENT_PD,  "pd" }, \
-+		{ TPS_POWER_STATUS_TYPEC_CURRENT_3A0, "3.0A" }, \
-+		{ TPS_POWER_STATUS_TYPEC_CURRENT_1A5, "1.5A" }, \
-+		{ TPS_POWER_STATUS_TYPEC_CURRENT_USB, "usb" })
-+
-+#define show_power_status_bc12_status(power_status) \
-+	__print_symbolic(TPS_POWER_STATUS_BC12_STATUS(power_status), \
-+		{ TPS_POWER_STATUS_BC12_STATUS_DCP, "dcp" }, \
-+		{ TPS_POWER_STATUS_BC12_STATUS_CDP, "cdp" }, \
-+		{ TPS_POWER_STATUS_BC12_STATUS_SDP, "sdp" })
-+
- TRACE_EVENT(tps6598x_irq,
- 	    TP_PROTO(u64 event1,
- 		     u64 event2),
-@@ -181,6 +199,26 @@ TRACE_EVENT(tps6598x_status,
- 		    )
- );
- 
-+TRACE_EVENT(tps6598x_power_status,
-+	    TP_PROTO(u16 power_status),
-+	    TP_ARGS(power_status),
-+
-+	    TP_STRUCT__entry(
-+			     __field(u16, power_status)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->power_status = power_status;
-+			   ),
-+
-+	    TP_printk("conn: %d, pwr-role: %s, typec: %s, bc: %s",
-+		      !!TPS_POWER_STATUS_CONNECTION(__entry->power_status),
-+		      show_power_status_source_sink(__entry->power_status),
-+		      show_power_status_typec_status(__entry->power_status),
-+		      show_power_status_bc12_status(__entry->power_status)
-+		    )
-+);
-+
- #endif /* _TPS6598X_TRACE_H_ */
- 
- /* This part must be outside protection */
+It should not impose any problems for firmwares that don't have IRQs for the
+registers enabled. The trace will then just be missing those events.
+
+Patch is against next-20210210.
+
+changes from v1:
+- Fix issues on 32bit arches and missing include spotted by kbuild
+  (build testes on mips)
+
+
+
+Guido Günther (4):
+  usb: typec: tps6598x: Add trace event for IRQ events
+  usb: typec: tps6598x: Add trace event for status register
+  usb: typec: tps6598x: Add trace event for power status register
+  usb: typec: tps6598x: Add trace event for data status
+
+ drivers/usb/typec/Makefile         |   3 +
+ drivers/usb/typec/tps6598x.c       |  66 ++++---
+ drivers/usb/typec/tps6598x.h       | 185 +++++++++++++++++++
+ drivers/usb/typec/tps6598x_trace.h | 283 +++++++++++++++++++++++++++++
+ 4 files changed, 511 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/usb/typec/tps6598x.h
+ create mode 100644 drivers/usb/typec/tps6598x_trace.h
+
 -- 
 2.30.0
 
