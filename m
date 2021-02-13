@@ -2,216 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80369C433E9
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Feb 2021 13:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 934CBC433E0
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Feb 2021 14:52:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5152B64E44
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Feb 2021 13:35:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F07764DE3
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Feb 2021 14:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhBMNfe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 13 Feb 2021 08:35:34 -0500
-Received: from mga09.intel.com ([134.134.136.24]:26194 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229625AbhBMNfV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 13 Feb 2021 08:35:21 -0500
-IronPort-SDR: On+Rpc9sPKL6SICyyWHgqonqNQnM2w7CNqxKfthM2wV4y19cEsUwcUzI6dcWa/LgYCUV8yDFpN
- asITeAB8jXEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9893"; a="182656652"
-X-IronPort-AV: E=Sophos;i="5.81,176,1610438400"; 
-   d="scan'208";a="182656652"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2021 05:34:38 -0800
-IronPort-SDR: h9G7t47udPZZF2LZ4mDv/gaP0xCoIB8SkleE1xe+dCFQUaztm7rewwewToAwifaajdtA/N3v+6
- ACH02JGftyMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,176,1610438400"; 
-   d="scan'208";a="416571690"
-Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Feb 2021 05:34:36 -0800
-Received: from kbuild by cd560a204411 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lAv4G-0005Sx-2A; Sat, 13 Feb 2021 13:34:36 +0000
-Date:   Sat, 13 Feb 2021 21:33:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- b5a12546e779d4f5586f58e60e0ef5070a833a64
-Message-ID: <6027d537.MQ26Ca6BCXQ7lSLj%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229587AbhBMOw1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 13 Feb 2021 09:52:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229539AbhBMOw0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Feb 2021 09:52:26 -0500
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5CF4C061574
+        for <linux-usb@vger.kernel.org>; Sat, 13 Feb 2021 06:51:44 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id f14so4182223ejc.8
+        for <linux-usb@vger.kernel.org>; Sat, 13 Feb 2021 06:51:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=m+0jd54fAPfu9VhnAlJqXSUucy/8kmZAEnMMufPy+ZA=;
+        b=E82ydnZ9WVCK7sv/7JBXk9qsRSAqbyxGqsIrqnteqNGz23A9Z7p6PFvFRG6dc388+H
+         nf63UBuIuUnqgt4mqZBOzdY/M/dzd+JXfR+FtKukEgDwfrj8T4nL42Am5YR7KVripLKg
+         BoXUDJ7lBAOfj2DWkfF0rf3L0ro0AxJ2gNVvxl2wIFti99Xlf4+uzuQXJDG31yZe7YfG
+         1FLq4NoaKKxIdY8ZQSQ5/MHSTg60p62gz46i0oO9yJ0bdioODlHZGyug6Q6609f1nuh4
+         nZ/FUpl2q06Nxi9QlLRO1OCOxfdDljd6pNtvy/bFVWxRSg0LpMP2FmWlL7Db3c083DO9
+         3ufA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=m+0jd54fAPfu9VhnAlJqXSUucy/8kmZAEnMMufPy+ZA=;
+        b=dKfc6ZgRk1EwNa6aqumW9Hvf3+sjGotcrW2VEBkr2EJx74jECPWn1fEY1i2z+FeMgk
+         +Z8kMjyq87ZKbwkhWFBcTeVSR4Gyi1G0xSflyBGDsmYChOve8ULgmFtY7YiqZVNM8dzT
+         /HTQgmj/bAvZk81+7V1/qbBIL/QHftTsMJ8DHXaUvOPxObXlDgXIEJ1KYzDjdWA0MleJ
+         ecfgnNTipicMSOUjwbtI+4EIjm3Zg3UyXm4ufCIBllty6a+zwB+aY3B7gSRbGBYwKWOs
+         HLz7HX1WTRK3CBNS5gF1+y9WmamxUI8Hg9lWrbPkg9SijXdfgPTRqXK92yk6SQz2ToTX
+         E59A==
+X-Gm-Message-State: AOAM53319oUk3SidKToApavBjWKFVJ7ovFJTnBmkT+h0NGBGLHcLcogN
+        AFV/jXNthbL2CDDhU8o6hA4=
+X-Google-Smtp-Source: ABdhPJz8ZiE91yG2fZuX17/ORBUIwd/7HtXgTldBnx6BXOkl/Ox4q+gAEz+IMn+3S+hM+he0BzU+MQ==
+X-Received: by 2002:a17:906:2b11:: with SMTP id a17mr7670571ejg.203.1613227903227;
+        Sat, 13 Feb 2021 06:51:43 -0800 (PST)
+Received: from dell-xps159570.domain_not_set.invalid (129-228-158-163.dynamic.caiway.nl. [163.158.228.129])
+        by smtp.gmail.com with ESMTPSA id bk2sm7598376ejb.98.2021.02.13.06.51.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Feb 2021 06:51:42 -0800 (PST)
+From:   Yorick de Wid <ydewid@gmail.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
+        Yorick de Wid <ydewid@gmail.com>
+Subject: [PATCH v4] Goodix Fingerprint device is not a modem
+Date:   Sat, 13 Feb 2021 15:49:02 +0100
+Message-Id: <20210213144901.53199-1-ydewid@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <YCagIeWw3bNmSkhJ@kroah.com>
+References: <YCagIeWw3bNmSkhJ@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: b5a12546e779d4f5586f58e60e0ef5070a833a64  dt-bindings: usb: mediatek: musb: add mt8516 compatbile
+The CDC ACM driver is false matching the Goodix Fingerprint device
+against the USB_CDC_ACM_PROTO_AT_V25TER.
 
-elapsed time: 728m
+The Goodix Fingerprint device is a biometrics sensor that should be
+handled in user-space. libfprint has some support for Goodix
+fingerprint sensors, although not for this particular one. It is
+possible that the vendor allocates a PID per OEM (Lenovo, Dell etc).
+If this happens to be the case then more devices from the same vendor
+could potentially match the ACM modem module table.
 
-configs tested: 147
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                         shannon_defconfig
-arm                     davinci_all_defconfig
-arc                        vdk_hs38_defconfig
-sh                        sh7763rdp_defconfig
-c6x                        evmc6474_defconfig
-sh                      rts7751r2d1_defconfig
-m68k                            q40_defconfig
-arm                            lart_defconfig
-arm                            pleb_defconfig
-arm                   milbeaut_m10v_defconfig
-h8300                            alldefconfig
-openrisc                         alldefconfig
-sh                           se7712_defconfig
-h8300                               defconfig
-sh                            hp6xx_defconfig
-arm                          simpad_defconfig
-powerpc                 mpc8315_rdb_defconfig
-arm                          pxa3xx_defconfig
-sh                           se7206_defconfig
-sh                         ap325rxa_defconfig
-powerpc                       eiger_defconfig
-xtensa                  cadence_csp_defconfig
-powerpc                 linkstation_defconfig
-mips                           jazz_defconfig
-powerpc                 mpc832x_mds_defconfig
-mips                       capcella_defconfig
-arm                       netwinder_defconfig
-powerpc64                           defconfig
-arc                              alldefconfig
-microblaze                      mmu_defconfig
-powerpc                 mpc834x_mds_defconfig
-mips                        nlm_xlp_defconfig
-powerpc                   bluestone_defconfig
-sh                          rsk7203_defconfig
-powerpc                    gamecube_defconfig
-mips                          ath79_defconfig
-powerpc64                        alldefconfig
-nds32                               defconfig
-powerpc                     mpc5200_defconfig
-arm                        clps711x_defconfig
-arc                        nsim_700_defconfig
-powerpc                      pmac32_defconfig
-openrisc                 simple_smp_defconfig
-powerpc                        icon_defconfig
-arm                             rpc_defconfig
-arm                         lpc32xx_defconfig
-arm                          badge4_defconfig
-mips                      maltaaprp_defconfig
-xtensa                         virt_defconfig
-mips                         bigsur_defconfig
-sparc                               defconfig
-arm                        magician_defconfig
-mips                            e55_defconfig
-parisc                              defconfig
-parisc                generic-32bit_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210209
-x86_64               randconfig-a001-20210209
-x86_64               randconfig-a005-20210209
-x86_64               randconfig-a004-20210209
-x86_64               randconfig-a002-20210209
-x86_64               randconfig-a003-20210209
-x86_64               randconfig-a003-20210212
-x86_64               randconfig-a002-20210212
-x86_64               randconfig-a004-20210212
-x86_64               randconfig-a001-20210212
-x86_64               randconfig-a005-20210212
-x86_64               randconfig-a006-20210212
-i386                 randconfig-a001-20210209
-i386                 randconfig-a005-20210209
-i386                 randconfig-a003-20210209
-i386                 randconfig-a002-20210209
-i386                 randconfig-a006-20210209
-i386                 randconfig-a004-20210209
-i386                 randconfig-a003-20210212
-i386                 randconfig-a005-20210212
-i386                 randconfig-a002-20210212
-i386                 randconfig-a001-20210212
-i386                 randconfig-a004-20210212
-i386                 randconfig-a006-20210212
-i386                 randconfig-a016-20210209
-i386                 randconfig-a013-20210209
-i386                 randconfig-a012-20210209
-i386                 randconfig-a014-20210209
-i386                 randconfig-a011-20210209
-i386                 randconfig-a015-20210209
-i386                 randconfig-a016-20210211
-i386                 randconfig-a014-20210211
-i386                 randconfig-a012-20210211
-i386                 randconfig-a013-20210211
-i386                 randconfig-a011-20210211
-i386                 randconfig-a015-20210211
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a013-20210209
-x86_64               randconfig-a014-20210209
-x86_64               randconfig-a015-20210209
-x86_64               randconfig-a012-20210209
-x86_64               randconfig-a016-20210209
-x86_64               randconfig-a011-20210209
-
+Signed-off-by: Yorick de Wid <ydewid@gmail.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+v1 -> v3:
+Moved the entry down to keep the VID/PID order.
+v3 -> v4:
+Patch description of device in question
+
+ drivers/usb/class/cdc-acm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 78190574581..2f4e5174e78 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1929,6 +1929,11 @@ static const struct usb_device_id acm_ids[] = {
+ 	.driver_info = SEND_ZERO_PACKET,
+ 	},
+ 
++	/* Exclude Goodix Fingerprint Reader */
++	{ USB_DEVICE(0x27c6, 0x5395),
++	.driver_info = IGNORE_DEVICE,
++	},
++
+ 	/* control interfaces without any protocol set */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_COMM, USB_CDC_SUBCLASS_ACM,
+ 		USB_CDC_PROTO_NONE) },
+-- 
+2.30.0
+
