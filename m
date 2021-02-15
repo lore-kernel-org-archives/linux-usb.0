@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5A83C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C3DC433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1A3664E00
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F333164E52
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbhBOLsF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Feb 2021 06:48:05 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:51164 "EHLO honk.sigxcpu.org"
+        id S229802AbhBOLsI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Feb 2021 06:48:08 -0500
+Received: from honk.sigxcpu.org ([24.134.29.49]:51172 "EHLO honk.sigxcpu.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229866AbhBOLrq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S229925AbhBOLrq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 15 Feb 2021 06:47:46 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 8E761FB03;
-        Mon, 15 Feb 2021 12:46:52 +0100 (CET)
+        by honk.sigxcpu.org (Postfix) with ESMTP id 224BFFB04;
+        Mon, 15 Feb 2021 12:46:54 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
         by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id i4GYLCPjd4gC; Mon, 15 Feb 2021 12:46:49 +0100 (CET)
+        with ESMTP id witfILfWZ_2L; Mon, 15 Feb 2021 12:46:51 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 88C6F4188C; Mon, 15 Feb 2021 12:46:45 +0100 (CET)
+        id 9C07B4188D; Mon, 15 Feb 2021 12:46:45 +0100 (CET)
 From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v3 1/4] usb: typec: tps6598x: Add trace event for IRQ events
-Date:   Mon, 15 Feb 2021 12:46:42 +0100
-Message-Id: <11444ae487d69da98ec20a18f2e49259e68319e3.1613389531.git.agx@sigxcpu.org>
+Subject: [PATCH v3 4/4] usb: typec: tps6598x: Add trace event for data status
+Date:   Mon, 15 Feb 2021 12:46:45 +0100
+Message-Id: <1125497fb83eac13fa1ee532759b91ce03770572.1613389531.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <cover.1613389531.git.agx@sigxcpu.org>
 References: <cover.1613389531.git.agx@sigxcpu.org>
@@ -45,245 +45,172 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Allow to get irq event information via the tracing framework.  This
-allows to inspect USB-C negotiation at runtime.
+This is useful to debug DP negotiation and pin assignment even
+when the firmware does all the work.
 
 Signed-off-by: Guido Günther <agx@sigxcpu.org>
 ---
- drivers/usb/typec/Makefile         |  3 +
- drivers/usb/typec/tps6598x.c       |  9 ++-
- drivers/usb/typec/tps6598x.h       | 64 ++++++++++++++++++++
- drivers/usb/typec/tps6598x_trace.h | 97 ++++++++++++++++++++++++++++++
- 4 files changed, 170 insertions(+), 3 deletions(-)
- create mode 100644 drivers/usb/typec/tps6598x.h
- create mode 100644 drivers/usb/typec/tps6598x_trace.h
+ drivers/usb/typec/tps6598x.c       | 12 ++++++-
+ drivers/usb/typec/tps6598x.h       | 38 +++++++++++++++++++++
+ drivers/usb/typec/tps6598x_trace.h | 54 ++++++++++++++++++++++++++++++
+ 3 files changed, 103 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-index d03b48c4b864..27aa12129190 100644
---- a/drivers/usb/typec/Makefile
-+++ b/drivers/usb/typec/Makefile
-@@ -1,4 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
-+# define_trace.h needs to know how to find our header
-+CFLAGS_tps6598x.o		:= -I$(src)
-+
- obj-$(CONFIG_TYPEC)		+= typec.o
- typec-y				:= class.o mux.o bus.o
- obj-$(CONFIG_TYPEC)		+= altmodes/
 diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
-index 6e6ef6317523..bc34b35e909f 100644
+index 3e6ad3ba7fc8..a4ec8e56c2b9 100644
 --- a/drivers/usb/typec/tps6598x.c
 +++ b/drivers/usb/typec/tps6598x.c
-@@ -6,6 +6,8 @@
-  * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-  */
- 
-+#include "tps6598x.h"
-+
- #include <linux/i2c.h>
- #include <linux/acpi.h>
- #include <linux/module.h>
-@@ -15,6 +17,9 @@
- #include <linux/usb/typec.h>
- #include <linux/usb/role.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include "tps6598x_trace.h"
-+
- /* Register offsets */
- #define TPS_REG_VID			0x00
- #define TPS_REG_MODE			0x03
-@@ -32,9 +37,6 @@
+@@ -36,6 +36,7 @@
+ #define TPS_REG_CTRL_CONF		0x29
  #define TPS_REG_POWER_STATUS		0x3f
  #define TPS_REG_RX_IDENTITY_SOP		0x48
++#define TPS_REG_DATA_STATUS		0x5f
  
--/* TPS_REG_INT_* bits */
--#define TPS_REG_INT_PLUG_EVENT		BIT(3)
--
- /* TPS_REG_STATUS bits */
- #define TPS_STATUS_PLUG_PRESENT		BIT(0)
- #define TPS_STATUS_ORIENTATION		BIT(4)
-@@ -428,6 +430,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 		dev_err(tps->dev, "%s: failed to read events\n", __func__);
- 		goto err_unlock;
+ /* TPS_REG_SYSTEM_CONF bits */
+ #define TPS_SYSCONF_PORTINFO(c)		((c) & 7)
+@@ -408,7 +409,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
+ 	struct tps6598x *tps = data;
+ 	u64 event1;
+ 	u64 event2;
+-	u32 status;
++	u32 status, data_status;
+ 	u16 pwr_status;
+ 	int ret;
+ 
+@@ -438,6 +439,15 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
+ 		trace_tps6598x_power_status(pwr_status);
  	}
-+	trace_tps6598x_irq(event1, event2);
  
- 	ret = tps6598x_read32(tps, TPS_REG_STATUS, &status);
- 	if (ret) {
++	if ((event1 | event2) & TPS_REG_INT_DATA_STATUS_UPDATE) {
++		ret = tps6598x_read32(tps, TPS_REG_DATA_STATUS, &data_status);
++		if (ret < 0) {
++			dev_err(tps->dev, "failed to read data status: %d\n", ret);
++			goto err_clear_ints;
++		}
++		trace_tps6598x_data_status(data_status);
++	}
++
+ 	/* Handle plug insert or removal */
+ 	if ((event1 | event2) & TPS_REG_INT_PLUG_EVENT) {
+ 		if (status & TPS_STATUS_PLUG_PRESENT) {
 diff --git a/drivers/usb/typec/tps6598x.h b/drivers/usb/typec/tps6598x.h
-new file mode 100644
-index 000000000000..b83b8a6a1504
---- /dev/null
+index 9a34c020f3e5..003a577be216 100644
+--- a/drivers/usb/typec/tps6598x.h
 +++ b/drivers/usb/typec/tps6598x.h
-@@ -0,0 +1,64 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Driver for TI TPS6598x USB Power Delivery controller family
-+ *
-+ * Copyright (C) 2017, Intel Corporation
-+ * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-+ */
+@@ -148,4 +148,42 @@
+ #define TPS_POWER_STATUS_BC12_STATUS_CDP 2
+ #define TPS_POWER_STATUS_BC12_STATUS_DCP 3
+ 
++/* TPS_REG_DATA_STATUS bits */
++#define TPS_DATA_STATUS_DATA_CONNECTION	     BIT(0)
++#define TPS_DATA_STATUS_UPSIDE_DOWN	     BIT(1)
++#define TPS_DATA_STATUS_ACTIVE_CABLE	     BIT(2)
++#define TPS_DATA_STATUS_USB2_CONNECTION	     BIT(4)
++#define TPS_DATA_STATUS_USB3_CONNECTION	     BIT(5)
++#define TPS_DATA_STATUS_USB3_GEN2	     BIT(6)
++#define TPS_DATA_STATUS_USB_DATA_ROLE	     BIT(7)
++#define TPS_DATA_STATUS_DP_CONNECTION	     BIT(8)
++#define TPS_DATA_STATUS_DP_SINK		     BIT(9)
++#define TPS_DATA_STATUS_TBT_CONNECTION	     BIT(16)
++#define TPS_DATA_STATUS_TBT_TYPE	     BIT(17)
++#define TPS_DATA_STATUS_OPTICAL_CABLE	     BIT(18)
++#define TPS_DATA_STATUS_ACTIVE_LINK_TRAIN    BIT(20)
++#define TPS_DATA_STATUS_FORCE_LSX	     BIT(23)
++#define TPS_DATA_STATUS_POWER_MISMATCH	     BIT(24)
 +
-+#include <linux/bits.h>
-+#include <linux/bitfield.h>
++#define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK GENMASK(11, 10)
++#define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) \
++	TPS_FIELD_GET(TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK, (x))
++#define TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK   GENMASK(27, 25)
++#define TPS_DATA_STATUS_TBT_CABLE_SPEED \
++	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK, (x))
++#define TPS_DATA_STATUS_TBT_CABLE_GEN_MASK     GENMASK(29, 28)
++#define TPS_DATA_STATUS_TBT_CABLE_GEN \
++	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_GEN_MASK, (x))
 +
-+#ifndef __TPS6598X_H__
-+#define __TPS6598X_H__
++/* Map data status to DP spec assignments */
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(x) \
++	((TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) << 1) | \
++		TPS_FIELD_GET(TPS_DATA_STATUS_USB3_CONNECTION, (x)))
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E    0
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F    BIT(0)
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C    BIT(1)
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D    (BIT(1) | BIT(0))
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A    BIT(2)
++#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B    (BIT(2) | BIT(1))
 +
-+
-+/* TPS_REG_INT_* bits */
-+#define TPS_REG_INT_USER_VID_ALT_MODE_OTHER_VDM		BIT_ULL(27+32)
-+#define TPS_REG_INT_USER_VID_ALT_MODE_ATTN_VDM		BIT_ULL(26+32)
-+#define TPS_REG_INT_USER_VID_ALT_MODE_EXIT		BIT_ULL(25+32)
-+#define TPS_REG_INT_USER_VID_ALT_MODE_ENTERED		BIT_ULL(24+32)
-+#define TPS_REG_INT_EXIT_MODES_COMPLETE			BIT_ULL(20+32)
-+#define TPS_REG_INT_DISCOVER_MODES_COMPLETE		BIT_ULL(19+32)
-+#define TPS_REG_INT_VDM_MSG_SENT			BIT_ULL(18+32)
-+#define TPS_REG_INT_VDM_ENTERED_MODE			BIT_ULL(17+32)
-+#define TPS_REG_INT_ERROR_UNABLE_TO_SOURCE		BIT_ULL(14+32)
-+#define TPS_REG_INT_SRC_TRANSITION			BIT_ULL(10+32)
-+#define TPS_REG_INT_ERROR_DISCHARGE_FAILED		BIT_ULL(9+32)
-+#define TPS_REG_INT_ERROR_MESSAGE_DATA			BIT_ULL(7+32)
-+#define TPS_REG_INT_ERROR_PROTOCOL_ERROR		BIT_ULL(6+32)
-+#define TPS_REG_INT_ERROR_MISSING_GET_CAP_MESSAGE	BIT_ULL(4+32)
-+#define TPS_REG_INT_ERROR_POWER_EVENT_OCCURRED		BIT_ULL(3+32)
-+#define TPS_REG_INT_ERROR_CAN_PROVIDE_PWR_LATER		BIT_ULL(2+32)
-+#define TPS_REG_INT_ERROR_CANNOT_PROVIDE_PWR		BIT_ULL(1+32)
-+#define TPS_REG_INT_ERROR_DEVICE_INCOMPATIBLE		BIT_ULL(0+32)
-+#define TPS_REG_INT_CMD2_COMPLETE			BIT(31)
-+#define TPS_REG_INT_CMD1_COMPLETE			BIT(30)
-+#define TPS_REG_INT_ADC_HIGH_THRESHOLD			BIT(29)
-+#define TPS_REG_INT_ADC_LOW_THRESHOLD			BIT(28)
-+#define TPS_REG_INT_PD_STATUS_UPDATE			BIT(27)
-+#define TPS_REG_INT_STATUS_UPDATE			BIT(26)
-+#define TPS_REG_INT_DATA_STATUS_UPDATE			BIT(25)
-+#define TPS_REG_INT_POWER_STATUS_UPDATE			BIT(24)
-+#define TPS_REG_INT_PP_SWITCH_CHANGED			BIT(23)
-+#define TPS_REG_INT_HIGH_VOLTAGE_WARNING		BIT(22)
-+#define TPS_REG_INT_USB_HOST_PRESENT_NO_LONGER		BIT(21)
-+#define TPS_REG_INT_USB_HOST_PRESENT			BIT(20)
-+#define TPS_REG_INT_GOTO_MIN_RECEIVED			BIT(19)
-+#define TPS_REG_INT_PR_SWAP_REQUESTED			BIT(17)
-+#define TPS_REG_INT_SINK_CAP_MESSAGE_READY		BIT(15)
-+#define TPS_REG_INT_SOURCE_CAP_MESSAGE_READY		BIT(14)
-+#define TPS_REG_INT_NEW_CONTRACT_AS_PROVIDER		BIT(13)
-+#define TPS_REG_INT_NEW_CONTRACT_AS_CONSUMER		BIT(12)
-+#define TPS_REG_INT_VDM_RECEIVED			BIT(11)
-+#define TPS_REG_INT_ATTENTION_RECEIVED			BIT(10)
-+#define TPS_REG_INT_OVERCURRENT				BIT(9)
-+#define TPS_REG_INT_BIST				BIT(8)
-+#define TPS_REG_INT_RDO_RECEIVED_FROM_SINK		BIT(7)
-+#define TPS_REG_INT_DR_SWAP_COMPLETE			BIT(5)
-+#define TPS_REG_INT_PR_SWAP_COMPLETE			BIT(4)
-+#define TPS_REG_INT_PLUG_EVENT				BIT(3)
-+#define TPS_REG_INT_HARD_RESET				BIT(1)
-+#define TPS_REG_INT_PD_SOFT_RESET			BIT(0)
-+
-+#endif /* __TPS6598X_H__ */
+ #endif /* __TPS6598X_H__ */
 diff --git a/drivers/usb/typec/tps6598x_trace.h b/drivers/usb/typec/tps6598x_trace.h
-new file mode 100644
-index 000000000000..4ec96e3b2c3e
---- /dev/null
+index 78a5a6ca337b..38bfb2f04e46 100644
+--- a/drivers/usb/typec/tps6598x_trace.h
 +++ b/drivers/usb/typec/tps6598x_trace.h
-@@ -0,0 +1,97 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Driver for TI TPS6598x USB Power Delivery controller family
-+ *
-+ * Copyright (C) 2020 Purism SPC
-+ * Author: Guido Günther <agx@sigxcpu.org>
-+ */
+@@ -152,6 +152,41 @@
+ 		{ TPS_POWER_STATUS_BC12_STATUS_CDP, "cdp" }, \
+ 		{ TPS_POWER_STATUS_BC12_STATUS_SDP, "sdp" })
+ 
++#define TPS_DATA_STATUS_FLAGS_MASK (GENMASK(31, 0) ^ (TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK | \
++						      TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK | \
++						      TPS_DATA_STATUS_TBT_CABLE_GEN_MASK))
 +
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM tps6598x
++#define show_data_status_flags(data_status) \
++	__print_flags(data_status & TPS_DATA_STATUS_FLAGS_MASK, "|", \
++		{ TPS_DATA_STATUS_DATA_CONNECTION,	"DATA_CONNECTION" }, \
++		{ TPS_DATA_STATUS_UPSIDE_DOWN,		"DATA_UPSIDE_DOWN" }, \
++		{ TPS_DATA_STATUS_ACTIVE_CABLE,		"ACTIVE_CABLE" }, \
++		{ TPS_DATA_STATUS_USB2_CONNECTION,	"USB2_CONNECTION" }, \
++		{ TPS_DATA_STATUS_USB3_CONNECTION,	"USB3_CONNECTION" }, \
++		{ TPS_DATA_STATUS_USB3_GEN2,		"USB3_GEN2" }, \
++		{ TPS_DATA_STATUS_USB_DATA_ROLE,	"USB_DATA_ROLE" }, \
++		{ TPS_DATA_STATUS_DP_CONNECTION,	"DP_CONNECTION" }, \
++		{ TPS_DATA_STATUS_DP_SINK,		"DP_SINK" }, \
++		{ TPS_DATA_STATUS_TBT_CONNECTION,	"TBT_CONNECTION" }, \
++		{ TPS_DATA_STATUS_TBT_TYPE,		"TBT_TYPE" }, \
++		{ TPS_DATA_STATUS_OPTICAL_CABLE,	"OPTICAL_CABLE" }, \
++		{ TPS_DATA_STATUS_ACTIVE_LINK_TRAIN,	"ACTIVE_LINK_TRAIN" }, \
++		{ TPS_DATA_STATUS_FORCE_LSX,		"FORCE_LSX" }, \
++		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
 +
-+#if !defined(_TPS6598x_TRACE_H_) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TPS6598X_TRACE_H_
++#define show_data_status_dp_pin_assignment(data_status) \
++	__print_symbolic(TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(data_status), \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E, "E" }, \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F, "F" }, \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C, "C" }, \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D, "D" }, \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A, "A" }, \
++		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B, "B" })
 +
-+#include "tps6598x.h"
++#define maybe_show_data_status_dp_pin_assignment(data_status) \
++	(data_status & TPS_DATA_STATUS_DP_CONNECTION ? \
++	 show_data_status_dp_pin_assignment(data_status) : "")
 +
-+#include <linux/stringify.h>
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+
-+#define show_irq_flags(flags) \
-+	__print_flags_u64(flags, "|", \
-+		{ TPS_REG_INT_PD_SOFT_RESET,			"PD_SOFT_RESET" }, \
-+		{ TPS_REG_INT_HARD_RESET,			"HARD_RESET" }, \
-+		{ TPS_REG_INT_PLUG_EVENT,			"PLUG_EVENT" }, \
-+		{ TPS_REG_INT_PR_SWAP_COMPLETE,			"PR_SWAP_COMPLETE" }, \
-+		{ TPS_REG_INT_DR_SWAP_COMPLETE,			"DR_SWAP_COMPLETE" }, \
-+		{ TPS_REG_INT_RDO_RECEIVED_FROM_SINK,		"RDO_RECEIVED_FROM_SINK" }, \
-+		{ TPS_REG_INT_BIST,				"BIST" }, \
-+		{ TPS_REG_INT_OVERCURRENT,			"OVERCURRENT" }, \
-+		{ TPS_REG_INT_ATTENTION_RECEIVED,		"ATTENTION_RECEIVED" }, \
-+		{ TPS_REG_INT_VDM_RECEIVED,			"VDM_RECEIVED" }, \
-+		{ TPS_REG_INT_NEW_CONTRACT_AS_CONSUMER,		"NEW_CONTRACT_AS_CONSUMER" }, \
-+		{ TPS_REG_INT_NEW_CONTRACT_AS_PROVIDER,		"NEW_CONTRACT_AS_PROVIDER" }, \
-+		{ TPS_REG_INT_SOURCE_CAP_MESSAGE_READY,		"SOURCE_CAP_MESSAGE_READY" }, \
-+		{ TPS_REG_INT_SINK_CAP_MESSAGE_READY,		"SINK_CAP_MESSAGE_READY" }, \
-+		{ TPS_REG_INT_PR_SWAP_REQUESTED,		"PR_SWAP_REQUESTED" }, \
-+		{ TPS_REG_INT_GOTO_MIN_RECEIVED,		"GOTO_MIN_RECEIVED" }, \
-+		{ TPS_REG_INT_USB_HOST_PRESENT,			"USB_HOST_PRESENT" }, \
-+		{ TPS_REG_INT_USB_HOST_PRESENT_NO_LONGER,	"USB_HOST_PRESENT_NO_LONGER" }, \
-+		{ TPS_REG_INT_HIGH_VOLTAGE_WARNING,		"HIGH_VOLTAGE_WARNING" }, \
-+		{ TPS_REG_INT_PP_SWITCH_CHANGED,		"PP_SWITCH_CHANGED" }, \
-+		{ TPS_REG_INT_POWER_STATUS_UPDATE,		"POWER_STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_DATA_STATUS_UPDATE,		"DATA_STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_STATUS_UPDATE,			"STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_PD_STATUS_UPDATE,			"PD_STATUS_UPDATE" }, \
-+		{ TPS_REG_INT_ADC_LOW_THRESHOLD,		"ADC_LOW_THRESHOLD" }, \
-+		{ TPS_REG_INT_ADC_HIGH_THRESHOLD,		"ADC_HIGH_THRESHOLD" }, \
-+		{ TPS_REG_INT_CMD1_COMPLETE,			"CMD1_COMPLETE" }, \
-+		{ TPS_REG_INT_CMD2_COMPLETE,			"CMD2_COMPLETE" }, \
-+		{ TPS_REG_INT_ERROR_DEVICE_INCOMPATIBLE,	"ERROR_DEVICE_INCOMPATIBLE" }, \
-+		{ TPS_REG_INT_ERROR_CANNOT_PROVIDE_PWR,		"ERROR_CANNOT_PROVIDE_PWR" }, \
-+		{ TPS_REG_INT_ERROR_CAN_PROVIDE_PWR_LATER,	"ERROR_CAN_PROVIDE_PWR_LATER" }, \
-+		{ TPS_REG_INT_ERROR_POWER_EVENT_OCCURRED,	"ERROR_POWER_EVENT_OCCURRED" }, \
-+		{ TPS_REG_INT_ERROR_MISSING_GET_CAP_MESSAGE,	"ERROR_MISSING_GET_CAP_MESSAGE" }, \
-+		{ TPS_REG_INT_ERROR_PROTOCOL_ERROR,		"ERROR_PROTOCOL_ERROR" }, \
-+		{ TPS_REG_INT_ERROR_MESSAGE_DATA,		"ERROR_MESSAGE_DATA" }, \
-+		{ TPS_REG_INT_ERROR_DISCHARGE_FAILED,		"ERROR_DISCHARGE_FAILED" }, \
-+		{ TPS_REG_INT_SRC_TRANSITION,			"SRC_TRANSITION" }, \
-+		{ TPS_REG_INT_ERROR_UNABLE_TO_SOURCE,		"ERROR_UNABLE_TO_SOURCE" }, \
-+		{ TPS_REG_INT_VDM_ENTERED_MODE,			"VDM_ENTERED_MODE" }, \
-+		{ TPS_REG_INT_VDM_MSG_SENT,			"VDM_MSG_SENT" }, \
-+		{ TPS_REG_INT_DISCOVER_MODES_COMPLETE,		"DISCOVER_MODES_COMPLETE" }, \
-+		{ TPS_REG_INT_EXIT_MODES_COMPLETE,		"EXIT_MODES_COMPLETE" }, \
-+		{ TPS_REG_INT_USER_VID_ALT_MODE_ENTERED,	"USER_VID_ALT_MODE_ENTERED" }, \
-+		{ TPS_REG_INT_USER_VID_ALT_MODE_EXIT,		"USER_VID_ALT_MODE_EXIT" }, \
-+		{ TPS_REG_INT_USER_VID_ALT_MODE_ATTN_VDM,	"USER_VID_ALT_MODE_ATTN_VDM" }, \
-+		{ TPS_REG_INT_USER_VID_ALT_MODE_OTHER_VDM,	"USER_VID_ALT_MODE_OTHER_VDM" })
-+
-+TRACE_EVENT(tps6598x_irq,
-+	    TP_PROTO(u64 event1,
-+		     u64 event2),
-+	    TP_ARGS(event1, event2),
+ TRACE_EVENT(tps6598x_irq,
+ 	    TP_PROTO(u64 event1,
+ 		     u64 event2),
+@@ -219,6 +254,25 @@ TRACE_EVENT(tps6598x_power_status,
+ 		    )
+ );
+ 
++TRACE_EVENT(tps6598x_data_status,
++	    TP_PROTO(u32 data_status),
++	    TP_ARGS(data_status),
 +
 +	    TP_STRUCT__entry(
-+			     __field(u64, event1)
-+			     __field(u64, event2)
++			     __field(u32, data_status)
 +			     ),
 +
 +	    TP_fast_assign(
-+			   __entry->event1 = event1;
-+			   __entry->event2 = event2;
++			   __entry->data_status = data_status;
 +			   ),
 +
-+	    TP_printk("event1=%s, event2=%s",
-+		      show_irq_flags(__entry->event1),
-+		      show_irq_flags(__entry->event2))
++	    TP_printk("%s%s%s",
++		      show_data_status_flags(__entry->data_status),
++		      __entry->data_status & TPS_DATA_STATUS_DP_CONNECTION ? ", DP pinout " : "",
++		      maybe_show_data_status_dp_pin_assignment(__entry->data_status)
++		    )
 +);
 +
-+#endif /* _TPS6598X_TRACE_H_ */
-+
-+/* This part must be outside protection */
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_FILE tps6598x_trace
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+#include <trace/define_trace.h>
+ #endif /* _TPS6598X_TRACE_H_ */
+ 
+ /* This part must be outside protection */
 -- 
 2.30.0
 
