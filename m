@@ -2,215 +2,249 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C3DC433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B344C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 12:06:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F333164E52
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 11:48:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CE1764DEB
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Feb 2021 12:06:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229802AbhBOLsI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Feb 2021 06:48:08 -0500
-Received: from honk.sigxcpu.org ([24.134.29.49]:51172 "EHLO honk.sigxcpu.org"
+        id S230059AbhBOMGO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Feb 2021 07:06:14 -0500
+Received: from foo.stuge.se ([212.116.89.98]:35878 "EHLO foo.stuge.se"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229925AbhBOLrq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Feb 2021 06:47:46 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by honk.sigxcpu.org (Postfix) with ESMTP id 224BFFB04;
-        Mon, 15 Feb 2021 12:46:54 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
-        by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id witfILfWZ_2L; Mon, 15 Feb 2021 12:46:51 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
-        id 9C07B4188D; Mon, 15 Feb 2021 12:46:45 +0100 (CET)
-From:   =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v3 4/4] usb: typec: tps6598x: Add trace event for data status
-Date:   Mon, 15 Feb 2021 12:46:45 +0100
-Message-Id: <1125497fb83eac13fa1ee532759b91ce03770572.1613389531.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1613389531.git.agx@sigxcpu.org>
-References: <cover.1613389531.git.agx@sigxcpu.org>
+        id S229968AbhBOMGJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Feb 2021 07:06:09 -0500
+X-Greylist: delayed 398 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Feb 2021 07:06:08 EST
+Received: (qmail 18304 invoked by uid 1000); 15 Feb 2021 11:58:44 -0000
+Message-ID: <20210215115844.18303.qmail@stuge.se>
+Date:   Mon, 15 Feb 2021 11:58:44 +0000
+From:   Peter Stuge <peter@stuge.se>
+To:     Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc:     dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+        sam@ravnborg.org, lkundrak@v3.sk, markus@raatikainen.cc,
+        pontus.fuchs@gmail.com, hudson@trmm.net, th020394@gmail.com,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v5 3/3] drm: Add Generic USB Display driver
+References: <20210212174609.58977-1-noralf@tronnes.org>
+ <20210212174609.58977-4-noralf@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210212174609.58977-4-noralf@tronnes.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is useful to debug DP negotiation and pin assignment even
-when the firmware does all the work.
+Hi Noralf,
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
- drivers/usb/typec/tps6598x.c       | 12 ++++++-
- drivers/usb/typec/tps6598x.h       | 38 +++++++++++++++++++++
- drivers/usb/typec/tps6598x_trace.h | 54 ++++++++++++++++++++++++++++++
- 3 files changed, 103 insertions(+), 1 deletion(-)
+I was happy to see v4 - thanks for accepting so much of my feedback -
+and I have to say that the new recursive acronym makes me smile! :)
 
-diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
-index 3e6ad3ba7fc8..a4ec8e56c2b9 100644
---- a/drivers/usb/typec/tps6598x.c
-+++ b/drivers/usb/typec/tps6598x.c
-@@ -36,6 +36,7 @@
- #define TPS_REG_CTRL_CONF		0x29
- #define TPS_REG_POWER_STATUS		0x3f
- #define TPS_REG_RX_IDENTITY_SOP		0x48
-+#define TPS_REG_DATA_STATUS		0x5f
- 
- /* TPS_REG_SYSTEM_CONF bits */
- #define TPS_SYSCONF_PORTINFO(c)		((c) & 7)
-@@ -408,7 +409,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	struct tps6598x *tps = data;
- 	u64 event1;
- 	u64 event2;
--	u32 status;
-+	u32 status, data_status;
- 	u16 pwr_status;
- 	int ret;
- 
-@@ -438,6 +439,15 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 		trace_tps6598x_power_status(pwr_status);
- 	}
- 
-+	if ((event1 | event2) & TPS_REG_INT_DATA_STATUS_UPDATE) {
-+		ret = tps6598x_read32(tps, TPS_REG_DATA_STATUS, &data_status);
-+		if (ret < 0) {
-+			dev_err(tps->dev, "failed to read data status: %d\n", ret);
-+			goto err_clear_ints;
-+		}
-+		trace_tps6598x_data_status(data_status);
-+	}
-+
- 	/* Handle plug insert or removal */
- 	if ((event1 | event2) & TPS_REG_INT_PLUG_EVENT) {
- 		if (status & TPS_STATUS_PLUG_PRESENT) {
-diff --git a/drivers/usb/typec/tps6598x.h b/drivers/usb/typec/tps6598x.h
-index 9a34c020f3e5..003a577be216 100644
---- a/drivers/usb/typec/tps6598x.h
-+++ b/drivers/usb/typec/tps6598x.h
-@@ -148,4 +148,42 @@
- #define TPS_POWER_STATUS_BC12_STATUS_CDP 2
- #define TPS_POWER_STATUS_BC12_STATUS_DCP 3
- 
-+/* TPS_REG_DATA_STATUS bits */
-+#define TPS_DATA_STATUS_DATA_CONNECTION	     BIT(0)
-+#define TPS_DATA_STATUS_UPSIDE_DOWN	     BIT(1)
-+#define TPS_DATA_STATUS_ACTIVE_CABLE	     BIT(2)
-+#define TPS_DATA_STATUS_USB2_CONNECTION	     BIT(4)
-+#define TPS_DATA_STATUS_USB3_CONNECTION	     BIT(5)
-+#define TPS_DATA_STATUS_USB3_GEN2	     BIT(6)
-+#define TPS_DATA_STATUS_USB_DATA_ROLE	     BIT(7)
-+#define TPS_DATA_STATUS_DP_CONNECTION	     BIT(8)
-+#define TPS_DATA_STATUS_DP_SINK		     BIT(9)
-+#define TPS_DATA_STATUS_TBT_CONNECTION	     BIT(16)
-+#define TPS_DATA_STATUS_TBT_TYPE	     BIT(17)
-+#define TPS_DATA_STATUS_OPTICAL_CABLE	     BIT(18)
-+#define TPS_DATA_STATUS_ACTIVE_LINK_TRAIN    BIT(20)
-+#define TPS_DATA_STATUS_FORCE_LSX	     BIT(23)
-+#define TPS_DATA_STATUS_POWER_MISMATCH	     BIT(24)
-+
-+#define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK GENMASK(11, 10)
-+#define TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) \
-+	TPS_FIELD_GET(TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK, (x))
-+#define TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK   GENMASK(27, 25)
-+#define TPS_DATA_STATUS_TBT_CABLE_SPEED \
-+	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK, (x))
-+#define TPS_DATA_STATUS_TBT_CABLE_GEN_MASK     GENMASK(29, 28)
-+#define TPS_DATA_STATUS_TBT_CABLE_GEN \
-+	TPS_FIELD_GET(TPS_DATA_STATUS_TBT_CABLE_GEN_MASK, (x))
-+
-+/* Map data status to DP spec assignments */
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(x) \
-+	((TPS_DATA_STATUS_DP_PIN_ASSIGNMENT(x) << 1) | \
-+		TPS_FIELD_GET(TPS_DATA_STATUS_USB3_CONNECTION, (x)))
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E    0
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F    BIT(0)
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C    BIT(1)
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D    (BIT(1) | BIT(0))
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A    BIT(2)
-+#define TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B    (BIT(2) | BIT(1))
-+
- #endif /* __TPS6598X_H__ */
-diff --git a/drivers/usb/typec/tps6598x_trace.h b/drivers/usb/typec/tps6598x_trace.h
-index 78a5a6ca337b..38bfb2f04e46 100644
---- a/drivers/usb/typec/tps6598x_trace.h
-+++ b/drivers/usb/typec/tps6598x_trace.h
-@@ -152,6 +152,41 @@
- 		{ TPS_POWER_STATUS_BC12_STATUS_CDP, "cdp" }, \
- 		{ TPS_POWER_STATUS_BC12_STATUS_SDP, "sdp" })
- 
-+#define TPS_DATA_STATUS_FLAGS_MASK (GENMASK(31, 0) ^ (TPS_DATA_STATUS_DP_PIN_ASSIGNMENT_MASK | \
-+						      TPS_DATA_STATUS_TBT_CABLE_SPEED_MASK | \
-+						      TPS_DATA_STATUS_TBT_CABLE_GEN_MASK))
-+
-+#define show_data_status_flags(data_status) \
-+	__print_flags(data_status & TPS_DATA_STATUS_FLAGS_MASK, "|", \
-+		{ TPS_DATA_STATUS_DATA_CONNECTION,	"DATA_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_UPSIDE_DOWN,		"DATA_UPSIDE_DOWN" }, \
-+		{ TPS_DATA_STATUS_ACTIVE_CABLE,		"ACTIVE_CABLE" }, \
-+		{ TPS_DATA_STATUS_USB2_CONNECTION,	"USB2_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_USB3_CONNECTION,	"USB3_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_USB3_GEN2,		"USB3_GEN2" }, \
-+		{ TPS_DATA_STATUS_USB_DATA_ROLE,	"USB_DATA_ROLE" }, \
-+		{ TPS_DATA_STATUS_DP_CONNECTION,	"DP_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_DP_SINK,		"DP_SINK" }, \
-+		{ TPS_DATA_STATUS_TBT_CONNECTION,	"TBT_CONNECTION" }, \
-+		{ TPS_DATA_STATUS_TBT_TYPE,		"TBT_TYPE" }, \
-+		{ TPS_DATA_STATUS_OPTICAL_CABLE,	"OPTICAL_CABLE" }, \
-+		{ TPS_DATA_STATUS_ACTIVE_LINK_TRAIN,	"ACTIVE_LINK_TRAIN" }, \
-+		{ TPS_DATA_STATUS_FORCE_LSX,		"FORCE_LSX" }, \
-+		{ TPS_DATA_STATUS_POWER_MISMATCH,	"POWER_MISMATCH" })
-+
-+#define show_data_status_dp_pin_assignment(data_status) \
-+	__print_symbolic(TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT(data_status), \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_E, "E" }, \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_F, "F" }, \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_C, "C" }, \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_D, "D" }, \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_A, "A" }, \
-+		{ TPS_DATA_STATUS_DP_SPEC_PIN_ASSIGNMENT_B, "B" })
-+
-+#define maybe_show_data_status_dp_pin_assignment(data_status) \
-+	(data_status & TPS_DATA_STATUS_DP_CONNECTION ? \
-+	 show_data_status_dp_pin_assignment(data_status) : "")
-+
- TRACE_EVENT(tps6598x_irq,
- 	    TP_PROTO(u64 event1,
- 		     u64 event2),
-@@ -219,6 +254,25 @@ TRACE_EVENT(tps6598x_power_status,
- 		    )
- );
- 
-+TRACE_EVENT(tps6598x_data_status,
-+	    TP_PROTO(u32 data_status),
-+	    TP_ARGS(data_status),
-+
-+	    TP_STRUCT__entry(
-+			     __field(u32, data_status)
-+			     ),
-+
-+	    TP_fast_assign(
-+			   __entry->data_status = data_status;
-+			   ),
-+
-+	    TP_printk("%s%s%s",
-+		      show_data_status_flags(__entry->data_status),
-+		      __entry->data_status & TPS_DATA_STATUS_DP_CONNECTION ? ", DP pinout " : "",
-+		      maybe_show_data_status_dp_pin_assignment(__entry->data_status)
-+		    )
-+);
-+
- #endif /* _TPS6598X_TRACE_H_ */
- 
- /* This part must be outside protection */
--- 
-2.30.0
 
+Noralf Trønnes wrote:
+> +++ b/drivers/gpu/drm/gud/Kconfig
+> @@ -0,0 +1,14 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +config DRM_GUD
+> +	tristate "GUD USB Display"
+> +	depends on DRM && USB
+> +	select LZ4_COMPRESS
+
+Just a thought: Maybe LZ4_COMPRESS should be optional also on the host?
+
+Ie. not select it here and make lz4 code conditional on CONFIG_LZ4_COMPRESS?
+
+
+> +++ b/drivers/gpu/drm/gud/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +gud-objs			:= gud_drv.o gud_pipe.o gud_connector.o
+
+Should this be gud-y instead, like in other drm/*/Makefile ?
+
+
+> +++ b/drivers/gpu/drm/gud/gud_connector.c
+..
+> +static int gud_connector_atomic_check(struct drm_connector *connector,
+> +				      struct drm_atomic_state *state)
+> +{
+
+This always returns 0, so could be void?
+
+
+> +int gud_connector_create(struct gud_device *gdrm, unsigned int index)
+> +{
+> +	struct gud_connector_descriptor_req desc;
+> +	struct drm_device *drm = &gdrm->drm;
+> +	struct gud_connector *gconn;
+> +	struct drm_connector *connector;
+> +	struct drm_encoder *encoder;
+> +	int ret, connector_type;
+> +	u32 flags;
+> +
+> +	ret = gud_usb_get(gdrm, GUD_REQ_GET_CONNECTOR, index, &desc, sizeof(desc));
+
+Watch out for endianness bugs.
+
+I'd suggest to stay with the pattern "little-endian on wire" and add
+complexity on the host to deserialize/convert transfered data to native,
+but perhaps with some generic method that scales better than explicitly
+converting values on every use.
+
+
+> +++ b/drivers/gpu/drm/gud/gud_drv.c
+..
+> +static int gud_usb_control_msg(struct usb_device *usb, u8 ifnum, bool in,
+> +			       u8 request, u16 value, void *buf, size_t len)
+> +{
+> +	u8 requesttype = USB_TYPE_VENDOR | USB_RECIP_INTERFACE;
+> +	unsigned int pipe;
+> +	int ret;
+> +
+> +	if (in) {
+> +		pipe = usb_rcvctrlpipe(usb, 0);
+> +		requesttype |= USB_DIR_IN;
+> +	} else {
+> +		pipe = usb_sndctrlpipe(usb, 0);
+> +		requesttype |= USB_DIR_OUT;
+
+The above line seems unneccessary since USB_DIR_OUT is 0 by spec.
+
+
+> +static int gud_get_display_descriptor(struct usb_interface *interface,
+> +				      struct gud_display_descriptor_req *desc)
+> +{
+> +	u8 ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
+> +	struct usb_device *usb = interface_to_usbdev(interface);
+> +	void *buf;
+> +	int ret;
+> +
+> +	buf = kmalloc(sizeof(*desc), GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	ret = gud_usb_control_msg(usb, ifnum, true, GUD_REQ_GET_DESCRIPTOR, 0, buf, sizeof(*desc));
+> +	memcpy(desc, buf, sizeof(*desc));
+> +	kfree(buf);
+
+Is buf neccessary here? This isn't the hot path, but less dynamic memory
+and copying is always nicer.
+
+
+> +	if (desc->magic != GUD_DISPLAY_MAGIC)
+> +		return -ENODATA;
+
+It seems like this checks overlooks endianness, which happens very easily.
+
+Maybe it's a good idea to create a function to fix endianness directly
+after data transfers?
+
+Such a function could take a pointer to memory and a kind of format
+string made up of 'b', 'w', 'l' and 'q' or '1', '2', '4' and '8' to
+describe field sizes, and would then convert wlq fields to native
+endianness in-place.
+
+Or are there some parts of the code that could really benefit from
+keeping wire-endian values in host memory?
+
+
+> +static int gud_usb_get_status(struct usb_device *usb, u8 ifnum, u8 *status)
+> +{
+> +	u8 *buf;
+> +	int ret;
+> +
+> +	buf = kmalloc(sizeof(*buf), GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	ret = gud_usb_control_msg(usb, ifnum, true, GUD_REQ_GET_STATUS, 0, buf, sizeof(*buf));
+> +	*status = *buf;
+> +	kfree(buf);
+
+Ouch, kmalloc for a single byte here, this is the extreme case! :)
+
+If it's not cool to transfer data directly through to the provided pointer
+then how about bouncing onto a stack variable rather than kmalloc memory?
+
+Ie:
+
+u8 val;
+
+gud_usb_control_msg(.. GUD_REQ_GET_STATUS, 0, &val, sizeof val)
+
+
+> +static int gud_usb_transfer(struct gud_device *gdrm, bool in, u8 request, u16 index,
+> +			    void *buf, size_t len)
+> +{
+> +	struct usb_device *usb = gud_to_usb_device(gdrm);
+> +	void *trbuf = NULL;
+> +	int idx, ret;
+> +
+> +	drm_dbg(&gdrm->drm, "%s: request=0x%x index=%u len=%zu\n",
+> +		in ? "get" : "set", request, index, len);
+> +
+> +	if (!drm_dev_enter(&gdrm->drm, &idx))
+> +		return -ENODEV;
+> +
+> +	mutex_lock(&gdrm->ctrl_lock);
+> +
+> +	if (buf) {
+> +		if (in)
+> +			trbuf = kmalloc(len, GFP_KERNEL);
+> +		else
+> +			trbuf = kmemdup(buf, len, GFP_KERNEL);
+
+Also not the hot path, but is there no way to avoid copying memory around?
+
+
+> +static int gud_set_version(struct usb_device *usb, u8 ifnum, u32 flags, u8 version)
+> +{
+> +	u8 *buf;
+> +	int ret;
+> +
+> +	buf = kmalloc(sizeof(*buf), GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	*buf = version;
+> +	ret = gud_usb_control_msg(usb, ifnum, false, GUD_REQ_SET_VERSION, 0, buf, sizeof(*buf));
+
+USB devices are usually expected to only support one protocol as advertised
+by the device using some combination of bcdDevice in the device descriptor
+and bInterfaceProtocol in interface descriptor(s), while the host is expected
+to handle the complexities of different versions - so something like this
+where the host instructs the device about versions isn't typical for USB.
+
+The motivation behind that split is that USB devices are typically
+simpler and lower cost than USB hosts, so devices should try to be
+trivial to implement.
+
+You can of course keep it anyway if you really want, I'm just letting
+you know about the common pattern.
+
+
+> +static int gud_probe(struct usb_interface *interface, const struct usb_device_id *id)
+..
+> +retry:
+> +	/*
+> +	 * Use plain kmalloc here since devm_kmalloc() places struct devres at the beginning
+> +	 * of the buffer it allocates. This wastes a lot of memory when allocating big buffers.
+> +	 * Asking for 2M would actually allocate 4M. This would also prevent getting the biggest
+> +	 * possible buffer potentially leading to split transfers.
+> +	 */
+
+Just a note here that split transfers are not per se a big problem if
+they are all submitted at once, since the USB host controller is able
+to schedule different transfers back-to-back on the wire.
+
+
+Kind regards
+
+//Peter
