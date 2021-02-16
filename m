@@ -7,37 +7,35 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6000CC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77FA0C433E9
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36B6164E02
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55AB164E07
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbhBPOru (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 09:47:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36896 "EHLO mail.kernel.org"
+        id S230380AbhBPOrw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 09:47:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36862 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230186AbhBPOrj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 16 Feb 2021 09:47:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 42C4364E07;
-        Tue, 16 Feb 2021 14:46:59 +0000 (UTC)
+        id S229827AbhBPOrc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Feb 2021 09:47:32 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5F6A264E02;
+        Tue, 16 Feb 2021 14:46:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613486819;
-        bh=zmn614JYtoyUSsnbtbv/zyWvVIMu+sq0svOUWahtZ78=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O2CiQRx3M4H7477TdblHZicJ2o7E//l4JcfToUPRluCndks033NdMgF4aAm5R6b2A
-         bKbQJm7+Rpb3mwlcNE4+vGXafi9YlLm7l6XnDACzsjEtIwqsJDz8P87GySbqLyYS3B
-         90r40Wuxn1y0dfMxlrXSZFwg/f67blpiHUIV781Y=
+        s=korg; t=1613486811;
+        bh=TEBV9VpD6nk0YI4sr84nQAcKYMYfEM1N6EDn0jtm5uo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MoSPiqkOdnhLOdtjDgsK+M4QjDdtVcSHYAWKUmMQjnmb/t65HQR6nqG1zSiYNeR9J
+         Zj+6ZDgRgnFJn9DBope+zHoLLrXvN3VHhATtQ6SaGVDkxcDtZWeFBRNlTBI/9fpk3y
+         s1W3U2yanZguusNf2SqtqjjQsNeh75e6UZMCr/VY=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH 4/6] USB: host: uhci: remove dentry pointer for debugfs
-Date:   Tue, 16 Feb 2021 15:46:43 +0100
-Message-Id: <20210216144645.3813043-4-gregkh@linuxfoundation.org>
+        Olav Kongas <ok@artecdesign.ee>
+Subject: [PATCH 1/6] USB: host: isp116x: remove dentry pointer for debugfs
+Date:   Tue, 16 Feb 2021 15:46:40 +0100
+Message-Id: <20210216144645.3813043-1-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210216144645.3813043-1-gregkh@linuxfoundation.org>
-References: <20210216144645.3813043-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -49,77 +47,48 @@ debugfs file, as it is only needed when removing it from the system.
 When it is to be removed, ask debugfs itself for the pointer, to save on
 storage and make things a bit simpler.
 
-And, no one noticed that a __maybe_unused dentry * in uhci_start()
-really was unused, so remove that as it's obviously not needed, and
-hasn't been for quite some time.
-
-Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Olav Kongas <ok@artecdesign.ee>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/host/uhci-hcd.c | 12 +++++-------
- drivers/usb/host/uhci-hcd.h |  4 ----
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ drivers/usb/host/isp116x-hcd.c | 7 +++----
+ drivers/usb/host/isp116x.h     | 1 -
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
-index 03bc59755123..d90b869f5f40 100644
---- a/drivers/usb/host/uhci-hcd.c
-+++ b/drivers/usb/host/uhci-hcd.c
-@@ -536,7 +536,8 @@ static void release_uhci(struct uhci_hcd *uhci)
- 	uhci->is_initialized = 0;
- 	spin_unlock_irq(&uhci->lock);
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 8544a2a2c1e6..8835f6bd528e 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1200,14 +1200,13 @@ DEFINE_SHOW_ATTRIBUTE(isp116x_debug);
  
--	debugfs_remove(uhci->dentry);
-+	debugfs_remove(debugfs_lookup(uhci_to_hcd(uhci)->self.bus_name,
-+				      uhci_debugfs_root));
- 
- 	for (i = 0; i < UHCI_NUM_SKELQH; i++)
- 		uhci_free_qh(uhci, uhci->skelqh[i]);
-@@ -577,7 +578,6 @@ static int uhci_start(struct usb_hcd *hcd)
- 	struct uhci_hcd *uhci = hcd_to_uhci(hcd);
- 	int retval = -EBUSY;
- 	int i;
--	struct dentry __maybe_unused *dentry;
- 
- 	hcd->uses_new_polling = 1;
- 	/* Accept arbitrarily long scatter-gather lists */
-@@ -590,10 +590,8 @@ static int uhci_start(struct usb_hcd *hcd)
- 	init_waitqueue_head(&uhci->waitqh);
- 
- #ifdef UHCI_DEBUG_OPS
--	uhci->dentry = debugfs_create_file(hcd->self.bus_name,
--					   S_IFREG|S_IRUGO|S_IWUSR,
--					   uhci_debugfs_root, uhci,
--					   &uhci_debug_operations);
-+	debugfs_create_file(hcd->self.bus_name, S_IFREG|S_IRUGO|S_IWUSR,
-+			    uhci_debugfs_root, uhci, &uhci_debug_operations);
- #endif
- 
- 	uhci->frame = dma_alloc_coherent(uhci_dev(uhci),
-@@ -702,7 +700,7 @@ static int uhci_start(struct usb_hcd *hcd)
- 			uhci->frame, uhci->frame_dma_handle);
- 
- err_alloc_frame:
--	debugfs_remove(uhci->dentry);
-+	debugfs_remove(debugfs_lookup(hcd->self.bus_name, uhci_debugfs_root));
- 
- 	return retval;
+ static void create_debug_file(struct isp116x *isp116x)
+ {
+-	isp116x->dentry = debugfs_create_file(hcd_name,
+-					      S_IRUGO, NULL, isp116x,
+-					      &isp116x_debug_fops);
++	debugfs_create_file(hcd_name, S_IRUGO, usb_debug_root, isp116x,
++			    &isp116x_debug_fops);
  }
-diff --git a/drivers/usb/host/uhci-hcd.h b/drivers/usb/host/uhci-hcd.h
-index 7f9f33c8c232..8ae5ccd26753 100644
---- a/drivers/usb/host/uhci-hcd.h
-+++ b/drivers/usb/host/uhci-hcd.h
-@@ -381,10 +381,6 @@ enum uhci_rh_state {
-  * The full UHCI controller information:
-  */
- struct uhci_hcd {
--
--	/* debugfs */
--	struct dentry *dentry;
--
- 	/* Grabbed from PCI */
- 	unsigned long io_addr;
  
+ static void remove_debug_file(struct isp116x *isp116x)
+ {
+-	debugfs_remove(isp116x->dentry);
++	debugfs_remove(debugfs_lookup(hcd_name, usb_debug_root));
+ }
+ 
+ #else
+diff --git a/drivers/usb/host/isp116x.h b/drivers/usb/host/isp116x.h
+index a5e929c10d53..84904025fe7f 100644
+--- a/drivers/usb/host/isp116x.h
++++ b/drivers/usb/host/isp116x.h
+@@ -260,7 +260,6 @@ struct isp116x {
+ 
+ 	struct isp116x_platform_data *board;
+ 
+-	struct dentry *dentry;
+ 	unsigned long stat1, stat2, stat4, stat8, stat16;
+ 
+ 	/* HC registers */
 -- 
 2.30.1
 
