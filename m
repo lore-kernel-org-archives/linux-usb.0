@@ -7,33 +7,35 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 926A1C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FADCC43381
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6493664E07
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CED564E07
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 14:47:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230204AbhBPOrv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 09:47:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36878 "EHLO mail.kernel.org"
+        id S229827AbhBPOrx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 09:47:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36912 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229916AbhBPOrh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 16 Feb 2021 09:47:37 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9449A64E08;
-        Tue, 16 Feb 2021 14:46:56 +0000 (UTC)
+        id S230228AbhBPOrn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Feb 2021 09:47:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0762064E09;
+        Tue, 16 Feb 2021 14:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613486817;
-        bh=choReWIN0pqXvzc8anpJKfSAJDfLDEX9wCMLtcLg63w=;
+        s=korg; t=1613486822;
+        bh=IGtIdw03Dy8quYQG26ZnPMosaXl5fq260AHdsrFrT1g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lbGh2GWs7p6SnuU+/tEkZvsKlYeRwBKxjS0SaPc03Xm0H3cDoEgLX3pEoRv534+FM
-         PaV7HrYy46VUEkEPEtj9zqoYGaEN/mZjtpHgq1h/QI/1ZtO1b0ebpYmDEnr53l/rT2
-         rFmHZsWWgEBM8QZA6094Nu8zNPomnRAdWX4x8GKI=
+        b=aXkmY3X7LKVjrkABspnYpxp1IHeIMetbVFU2vJ9+wGqeUy/O5V4S0g9QkWzWRJqL1
+         FT6pyyubKhi7DktqsElXECloWgyRGqybermmLpnRhLWG2E2Ors5+Tv08XAFGMpXm+/
+         /PgUzVBdiAqRq0gAHAyHirt/iISFSyG2uqKLeJ68=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 3/6] USB: host: sl811: remove dentry pointer for debugfs
-Date:   Tue, 16 Feb 2021 15:46:42 +0100
-Message-Id: <20210216144645.3813043-3-gregkh@linuxfoundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [PATCH 5/6] USB: typec: fusb302: create debugfs subdir for the driver
+Date:   Tue, 16 Feb 2021 15:46:44 +0100
+Message-Id: <20210216144645.3813043-5-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210216144645.3813043-1-gregkh@linuxfoundation.org>
 References: <20210216144645.3813043-1-gregkh@linuxfoundation.org>
@@ -43,52 +45,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is no need to keep the dentry pointer around for the created
-debugfs file, as it is only needed when removing it from the system.
-When it is to be removed, ask debugfs itself for the pointer, to save on
-storage and make things a bit simpler.
+The single debugfs file for this driver really is a log file, so make a
+subdir and call it "log" to make it obvious this is what it is for.
+This makes cleanup simpler as we just remove the whole directory, no
+need to handle individual files anymore.
 
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/host/sl811-hcd.c | 7 +++----
- drivers/usb/host/sl811.h     | 1 -
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ drivers/usb/typec/tcpm/fusb302.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index 115ced0d93e1..d49fb656d34b 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -1496,14 +1496,13 @@ DEFINE_SHOW_ATTRIBUTE(sl811h_debug);
- /* expect just one sl811 per system */
- static void create_debug_file(struct sl811 *sl811)
- {
--	sl811->debug_file = debugfs_create_file("sl811h", S_IRUGO,
--						usb_debug_root, sl811,
--						&sl811h_debug_fops);
-+	debugfs_create_file("sl811h", S_IRUGO, usb_debug_root, sl811,
-+			    &sl811h_debug_fops);
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index ebc46b9f776c..7a2a17866a82 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -213,8 +213,9 @@ static void fusb302_debugfs_init(struct fusb302_chip *chip)
+ 
+ 	mutex_init(&chip->logbuffer_lock);
+ 	snprintf(name, NAME_MAX, "fusb302-%s", dev_name(chip->dev));
+-	chip->dentry = debugfs_create_file(name, S_IFREG | 0444, usb_debug_root,
+-					   chip, &fusb302_debug_fops);
++	chip->dentry = debugfs_create_dir(name, usb_debug_root);
++	debugfs_create_file("log", S_IFREG | 0444, chip->dentry, chip,
++			    &fusb302_debug_fops);
  }
  
- static void remove_debug_file(struct sl811 *sl811)
- {
--	debugfs_remove(sl811->debug_file);
-+	debugfs_remove(debugfs_lookup("sl811h", usb_debug_root));
- }
- 
- /*-------------------------------------------------------------------------*/
-diff --git a/drivers/usb/host/sl811.h b/drivers/usb/host/sl811.h
-index 2abe51a5db44..ba8c9aa7dee8 100644
---- a/drivers/usb/host/sl811.h
-+++ b/drivers/usb/host/sl811.h
-@@ -123,7 +123,6 @@ struct sl811 {
- 	void __iomem		*addr_reg;
- 	void __iomem		*data_reg;
- 	struct sl811_platform_data	*board;
--	struct dentry 		*debug_file;
- 
- 	unsigned long		stat_insrmv;
- 	unsigned long		stat_wake;
+ static void fusb302_debugfs_exit(struct fusb302_chip *chip)
 -- 
 2.30.1
 
