@@ -2,93 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2260FC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C46C43381
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 22:26:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED06E64E79
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 22:26:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6472464E10
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 22:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230446AbhBPW0N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 17:26:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40826 "EHLO
+        id S230520AbhBPW0T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 17:26:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229655AbhBPW0M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Feb 2021 17:26:12 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91F2CC061756;
-        Tue, 16 Feb 2021 14:25:31 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id b16so13739452lji.13;
-        Tue, 16 Feb 2021 14:25:31 -0800 (PST)
+        with ESMTP id S230493AbhBPW0R (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Feb 2021 17:26:17 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C02C061786;
+        Tue, 16 Feb 2021 14:25:36 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id f1so18500379lfu.3;
+        Tue, 16 Feb 2021 14:25:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=K98hVeDcDZJxSZfWfbNxqH8J1cAFlmmfibl33bktYFY=;
-        b=UPfvyzuIdkAQ9Ywk7shP2hbJY+ignE0bW7f9vkrr66daK+qbwcpwabsiJIxfJbpMNz
-         O7VdKdukhL8S+JCuVVoMGLocXH/AiDqMX5CM9VthHxD3jkh1QYL8QC0wWa7CE/As10cw
-         dQgyvvKfa6rjtYr+haFeOqnyAbUDQuWatIYIwEMAGAbP8hBgL6AeRSQseVAECL43lror
-         IOf+XbwOStJF+lAXVAcc1viIVvkL0LLstL7w+7lbxwZzxbrFfww9K5O+t1vu2TBtjcGp
-         INlOn0ZzIzv/HpxciPM9pbPHCMrWIA8dnbHoK271vzIq+cOxPqElQoPOGNpwYUhXEizp
-         cUow==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=a3fR6Ve9ApfA3U9S3BpD3B/5uX3W9BFd2HZqD0/PdZ8=;
+        b=CcBmOTWx4rOfOO2ml/nx0N0ujuOh1Je+9ZyiWKlffqIiTEcwTwAbuvhiwMh9QOxfxE
+         l/jJOrtMsJVKBJR9yj4J/FAIUsOixXDYcZDBPWCKWe85ongnmwwd7HdtSIyY6y8O2BF0
+         SJ0L9v5A7f93RRY3oshaAlXeLf6PSHX/uIxdjHp56A8/S903ylOhKu6AFyJ7ATWtUjO3
+         Gvalg23YbKGdSE1RDy8GgVswZ1FMvDvqbGeFaE0v+YsR4s3NlOjT75dTDlsczowqkMuP
+         WQdXDOfrwFCr9qj1oA9+IDq2Z8tdqFKmJNi1TMgoO/odVmefA6HqbiYcUiv39BU1WUcl
+         wM4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=K98hVeDcDZJxSZfWfbNxqH8J1cAFlmmfibl33bktYFY=;
-        b=k82WXllZDGwHSL5CG7a2An4EMYf6AZn9tem4yF7VhmHGNtcUgrRtsWFIsl3J7LXwMM
-         gl4lb+4fl+8ChdK8w0vBtQu8m5cNovHAb+XLdq3cl4igYWUADh+lbuvQMYmI3z1xSSWY
-         p4i/OmD0NhiVVI9qS/MzizXRypBvzN4w07jlIvvybY11BfOiMP6VU4w+y+1+sbe/RqYi
-         22YnbKh/aHDh6XAm3CS/NFcVPJB/Q8ieiJSKoVK6sQ0I6XIxYB6BuAtZ7fEMljPLsHvc
-         AtVLRsbehtmpJyA2TBLpSHCbhdVzdtAeMhK1pPPO3/yKF2wDUDr7sGuRolXaw2ecDbT6
-         wzNQ==
-X-Gm-Message-State: AOAM530g23h+TPOEw8h2kjTuizAtqK/IS+FTiaTlcL4NBUTQ8RfQ6Zx/
-        DrN30rAdDJvySnfMhz3BfRE=
-X-Google-Smtp-Source: ABdhPJyWNyeY5rVkSELx/u4xd7HRY3mMPtlpggKEB6qcERexs+/KAJbJ1k6iUufraeRbXAsqAXrjKQ==
-X-Received: by 2002:a2e:900c:: with SMTP id h12mr13165698ljg.219.1613514330017;
-        Tue, 16 Feb 2021 14:25:30 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=a3fR6Ve9ApfA3U9S3BpD3B/5uX3W9BFd2HZqD0/PdZ8=;
+        b=ICKs0CM7kL9Ve2o4Whrj4nmuUeymCwPohFBJzN1OPH67OK+HclVfZO1edQmONu3eCQ
+         slCndE8aWJfKEukDziBP0e2ix0jLkn44LbETQOCqwoQFJvjES9hnt/IOlWaOgIREPJ6y
+         G9zkWSRK8Yo39+pjJzuYjuyviFerMcRlAukuTbwySGf44ulZilOaS37EMxqOcbr6JXmK
+         XUiyTpuJbxsBa5CmbOp9x8wFiWnswaoAfN7Iz3m034Z2YR5xbRiCH4qRmVVt2O5Lg/TZ
+         nZ/bDyb/LlgYuOfN7NHtMYZS2gEhAG1l6fTjCAO/4NYv5gajzfWwt4YYGw8gAo6Be0vJ
+         wE0g==
+X-Gm-Message-State: AOAM532DEqwS/p6a/RVP8cBEJj5xEjboJAzpGv3sUusv0gjdk9YEoj3u
+        6eNpexjY+zneadurQhRxDpo=
+X-Google-Smtp-Source: ABdhPJzjojN33CXGc02zMNdLELDHamwSH8r6REBZbOciEeRZ8HwwODGWc+lHqfms29I7Rz7j9l4kiQ==
+X-Received: by 2002:a05:6512:a8e:: with SMTP id m14mr13116313lfu.641.1613514334570;
+        Tue, 16 Feb 2021 14:25:34 -0800 (PST)
 Received: from localhost (crossness-hoof.volia.net. [93.72.107.198])
-        by smtp.gmail.com with ESMTPSA id j18sm20971lfe.145.2021.02.16.14.25.28
+        by smtp.gmail.com with ESMTPSA id m14sm22593lfb.43.2021.02.16.14.25.32
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 16 Feb 2021 14:25:28 -0800 (PST)
+        Tue, 16 Feb 2021 14:25:33 -0800 (PST)
 From:   Ruslan Bilovol <ruslan.bilovol@gmail.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Peter Chen <peter.chen@freescale.com>,
         Daniel Mack <zonque@gmail.com>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Subject: [PATCH 0/5] USB Audio Gadget part 1: misc fixes and improvements
-Date:   Wed, 17 Feb 2021 00:24:54 +0200
-Message-Id: <1613514299-20668-1-git-send-email-ruslan.bilovol@gmail.com>
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH 2/5] usb: gadget: f_uac1: stop playback on function disable
+Date:   Wed, 17 Feb 2021 00:24:56 +0200
+Message-Id: <1613514299-20668-3-git-send-email-ruslan.bilovol@gmail.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1613514299-20668-1-git-send-email-ruslan.bilovol@gmail.com>
+References: <1613514299-20668-1-git-send-email-ruslan.bilovol@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Here are some bug fixes and improvements to
-USB Audio Gadget drivers which I made during
-my work on a new UAC features like feedback endpoint
-implementation and Volume/Mute controls.
+There is missing playback stop/cleanup in case of
+gadget's ->disable callback that happens on
+events like USB host resetting or gadget disconnection
 
-The new UAC features will be sent as a separate
-patch set (aka 'part 2') on top of these changes
-later this week
+Fixes: 0591bc236015 ("usb: gadget: add f_uac1 variant based on a new u_audio api")
 
-Ruslan Bilovol (5):
-  usb: gadget: f_uac2: always increase endpoint max_packet_size by one
-    audio slot
-  usb: gadget: f_uac1: stop playback on function disable
-  usb: gadget: f_uac2: validate input parameters
-  usb: gadget: f_uac1: validate input parameters
-  usb: gadget: f_uac1: disable IN/OUT ep if unused
+Cc: <stable@vger.kernel.org> # 4.13+
+Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+---
+ drivers/usb/gadget/function/f_uac1.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/usb/gadget/function/f_uac1.c | 273 ++++++++++++++++++++++++++---------
- drivers/usb/gadget/function/f_uac2.c |  42 +++++-
- 2 files changed, 246 insertions(+), 69 deletions(-)
-
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index 00d3469..560382e 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -499,6 +499,7 @@ static void f_audio_disable(struct usb_function *f)
+ 	uac1->as_out_alt = 0;
+ 	uac1->as_in_alt = 0;
+ 
++	u_audio_stop_playback(&uac1->g_audio);
+ 	u_audio_stop_capture(&uac1->g_audio);
+ }
+ 
 -- 
 1.9.1
 
