@@ -2,61 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8531EC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 09:17:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4AA5C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 10:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E7FA64DA1
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 09:17:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6D3864D73
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 10:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229919AbhBPJQu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 04:16:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbhBPJQm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Feb 2021 04:16:42 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC1CC061574;
-        Tue, 16 Feb 2021 01:15:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=5OncMz6XG/6O+UCADq1gQCjNLWIhEjBR9vW8asBdIko=; b=t0DIveLS5z7VKOVUisQxRGEnAa
-        5wsW31URbqcnLTYaiW41AonQpGUhzVUVEt/cHxpPV1O433ivvWSfBYykdxmLn2NuroMRXD80vEdPd
-        7zA4e1+/w+XN7GjOkN7bq0451WPrTHpNrk4O4EYO4YAqLOmhZtRvJ49zEMuJEQwIHjfw0/R3qU50g
-        92u3UBidSeWYA5NFlEU9naWsU87lo25mI596KtGnJWId03loJ/3WyIPkPDXaBoOKey43d2BqGb44S
-        pHoHKqADdLwzRfgx0NkO15WEBHOwqvD2BMupP/LWKJ8UxnrdANJKQK9X0ikAlKfbL9KtKSxnH7DNa
-        ieL+Z1FA==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lBwRI-00GgWK-6M; Tue, 16 Feb 2021 09:14:50 +0000
-Date:   Tue, 16 Feb 2021 09:14:36 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Kyle Tso <kyletso@google.com>
-Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, badhri@google.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: tcpm: Export partner Source Capabilities
-Message-ID: <20210216091436.GB3973504@infradead.org>
-References: <20210214033052.1284385-1-kyletso@google.com>
+        id S229998AbhBPKPT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 05:15:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56044 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229912AbhBPKPQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Feb 2021 05:15:16 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C5BFD64D9E;
+        Tue, 16 Feb 2021 10:14:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1613470475;
+        bh=O2Q27hr6Q2tu0G17tEJuGJHERt9K3knkkXeOktXAfwk=;
+        h=Date:From:To:Cc:Subject:From;
+        b=rq+FOR4tpAi54PAjrDtBB8HMXJZjFJAvf93AwJ2ej414Fuj74SKhcUl87ZiNO0h2u
+         Kb1u2ErgSpRtSTXREJUKYMYQUn0zVBGotZN+jkSkg8bKnObdffMm34RQc/zhwi3t4e
+         m79KK9VAje/FbLQTSUU6eLbEJUMF6HPra14fbL+k=
+Date:   Tue, 16 Feb 2021 11:14:32 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: core: no need to save usb_devices_root
+Message-ID: <YCubCA/trHAF7PtF@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210214033052.1284385-1-kyletso@google.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Feb 14, 2021 at 11:30:52AM +0800, Kyle Tso wrote:
-> Export a function for other drivers to get the partner Source
-> Capabilities.
-> 
-> Signed-off-by: Kyle Tso <kyletso@google.com>
+There is no need to save the usb_devices debugfs file as we only need it
+when removing it, so have the debugfs code look it up when it is needed
+instead, saving the storage.
 
-Who is going to use this?  Please submit any new export together with
-the actual user.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/core/usb.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 8f07b0516100..829dc8e85b00 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -950,17 +950,15 @@ static struct notifier_block usb_bus_nb = {
+ 	.notifier_call = usb_bus_notify,
+ };
+ 
+-static struct dentry *usb_devices_root;
+-
+ static void usb_debugfs_init(void)
+ {
+-	usb_devices_root = debugfs_create_file("devices", 0444, usb_debug_root,
+-					       NULL, &usbfs_devices_fops);
++	debugfs_create_file("devices", 0444, usb_debug_root, NULL,
++			    &usbfs_devices_fops);
+ }
+ 
+ static void usb_debugfs_cleanup(void)
+ {
+-	debugfs_remove(usb_devices_root);
++	debugfs_remove(debugfs_lookup("devices", usb_debug_root));
+ }
+ 
+ /*
+-- 
+2.30.1
+
