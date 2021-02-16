@@ -2,67 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81220C433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 13:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F011DC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 13:05:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F1AF64D99
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 13:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A108364D9F
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 13:05:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbhBPNFY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 08:05:24 -0500
-Received: from mga03.intel.com ([134.134.136.65]:42238 "EHLO mga03.intel.com"
+        id S229830AbhBPNFv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 08:05:51 -0500
+Received: from mga11.intel.com ([192.55.52.93]:56517 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229796AbhBPNFY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 16 Feb 2021 08:05:24 -0500
-IronPort-SDR: GmboY/7kGYQgZtdRvNHjjwqNlDc4WuY86rjotox27vBFE5ryvSJl/po1ecfwenNN9W7y8ZV7/c
- 4lP2EU4ldV3w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="182951201"
+        id S229796AbhBPNFp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Feb 2021 08:05:45 -0500
+IronPort-SDR: /emXvvFRONqVD04qDzZonN5yAqu80inT7NJbh9W9VjKWvykeentSnH80MmgoE6j1JegbXL0dWe
+ 9+MuKGWgqfWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="179375350"
 X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="182951201"
+   d="scan'208";a="179375350"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 05:04:40 -0800
-IronPort-SDR: U1uP5EoziXkGXGI7CdUKreczvobXUrO5ngD5PJzoF+Bd2KDDTxdn7NWcl+87S/yZFGxx3iQAJ3
- JdoCR1D55V/g==
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 05:05:01 -0800
+IronPort-SDR: JSIYZjJUYsrXneEnVJG+cVIMZhbEmtBj9mkmU8okz07Sw0u0fKN8RIiaDOchMqTmSUdy6Amq/W
+ Kp1Kb/dpk3Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,183,1610438400"; 
-   d="scan'208";a="512524003"
+   d="scan'208";a="512524070"
 Received: from ccdtglu46.jer.intel.com ([10.12.50.142])
-  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2021 05:04:38 -0800
+  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2021 05:04:59 -0800
 From:   Gil Fine <gil.fine@intel.com>
 To:     andreas.noever@gmail.com, michael.jamet@intel.com,
         mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
 Cc:     gil.fine@intel.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: [PATCH v2 0/2] thunderbolt: debugfs: handle fail reading block 
-Date:   Tue, 16 Feb 2021 15:04:25 +0200
-Message-Id: <20210216130427.7317-1-gil.fine@intel.com>
+Subject: [PATCH v2 2/2] thunderbolt: drop unused functions for TGL and ICL
+Date:   Tue, 16 Feb 2021 15:04:27 +0200
+Message-Id: <20210216130427.7317-3-gil.fine@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210216130427.7317-1-gil.fine@intel.com>
+References: <20210216130427.7317-1-gil.fine@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Applies on top of thunderbolt.git/next.
+We drop the unused functions:
+tb_switch_is_tiger_lake() and tb_switch_is_ice_lake()
 
-v1 can be found here:
+Signed-off-by: Gil Fine <gil.fine@intel.com>
+---
+ drivers/thunderbolt/tb.h | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
-  https://lore.kernel.org/linux-usb/20210201214637.2158-1-gil.fine@intel.com/
-
-Changes from v1:
-
-  * Split the previous patch into two patches so that
-    dropping of the unused functions reside in a separate patch
-
-Gil Fine (2):
-  thunderbolt: debugfs: handle fail reading block
-  thunderbolt: drop unused functions for TGL and ICL
-
- drivers/thunderbolt/debugfs.c | 38 +++++++++++++++++++++++------------
- drivers/thunderbolt/tb.h      | 26 ------------------------
- 2 files changed, 25 insertions(+), 39 deletions(-)
-
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index beea88c34c0f..0fd23db4ce92 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -787,32 +787,6 @@ static inline bool tb_switch_is_titan_ridge(const struct tb_switch *sw)
+ 	return false;
+ }
+ 
+-static inline bool tb_switch_is_ice_lake(const struct tb_switch *sw)
+-{
+-	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
+-		switch (sw->config.device_id) {
+-		case PCI_DEVICE_ID_INTEL_ICL_NHI0:
+-		case PCI_DEVICE_ID_INTEL_ICL_NHI1:
+-			return true;
+-		}
+-	}
+-	return false;
+-}
+-
+-static inline bool tb_switch_is_tiger_lake(const struct tb_switch *sw)
+-{
+-	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
+-		switch (sw->config.device_id) {
+-		case PCI_DEVICE_ID_INTEL_TGL_NHI0:
+-		case PCI_DEVICE_ID_INTEL_TGL_NHI1:
+-		case PCI_DEVICE_ID_INTEL_TGL_H_NHI0:
+-		case PCI_DEVICE_ID_INTEL_TGL_H_NHI1:
+-			return true;
+-		}
+-	}
+-	return false;
+-}
+-
+ /**
+  * tb_switch_is_usb4() - Is the switch USB4 compliant
+  * @sw: Switch to check
 -- 
 2.17.1
 
