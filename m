@@ -2,70 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B09CC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF3B8C4332E
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 22:26:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2F05F64DFF
+	by mail.kernel.org (Postfix) with ESMTP id A698A64E10
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Feb 2021 22:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbhBPW0Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Feb 2021 17:26:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40836 "EHLO
+        id S231129AbhBPW0X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Feb 2021 17:26:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230467AbhBPW0O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Feb 2021 17:26:14 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B79C0613D6;
-        Tue, 16 Feb 2021 14:25:33 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id e17so13785999ljl.8;
-        Tue, 16 Feb 2021 14:25:33 -0800 (PST)
+        with ESMTP id S230500AbhBPW0S (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Feb 2021 17:26:18 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BF71C06174A;
+        Tue, 16 Feb 2021 14:25:38 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id k22so13139168ljg.3;
+        Tue, 16 Feb 2021 14:25:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kCSnrPgWBKPuGz6BcK3jpWW2wafXy8uYMenYAYQXXAo=;
-        b=SK5NfxgBu+E5KJUrttqO57iuGVHAR1k5YOscj4fR3SL+ak/NLBfSNAcn/hED4Jxx8F
-         aUpCsbfPjqVbNgc4DxgP1hbVjNX6s0UBsm4Hq9hxfnpjmEM4io0adjDedF12dkuqjy03
-         UrHiJWEq6hT6t6Bd+zUdR3+LPGEbiTVlrRZU//iOutEMmuIuoG8kY9YW8NMiCz6VjHbp
-         9CEIjKNsLhzvaPfoByc7+MzGs9lACEJKS8A47ZiNY4E5CMHhP/J3pTzZK5dgLWIwIgJk
-         WgFdfgIhY4FulL7CiuYFu/uhTGfyQcnwcJPDiPuXvKKdLocraQM3jV9sb/Q5q/LnobYG
-         aPVA==
+        bh=N4o9VGOBWFA758XVAHeyCXnCwkuwkBvdGPfVojRuDf4=;
+        b=lo7wNep8PSSvtzIJHYo0Fcpqgc8lww4iyzOFamqEMZ4fwcl5KadKkJrJq+F5sxMaY3
+         x3fS+85wd/GAmArt/kL55Dghkzr1ja28x80buIMyJOzmqzv7F0QjcTQ8cEJ0fsJn8aK7
+         jKXf0CeYaEokvSWXstfZCJkt/iSIWmHRCTCZ1ImPp816NfrUpLqFwHtLeDoU8fLgfZ+k
+         QvIIOXjhqYiKTdMGAlvTe2wCeo/W5PisG1WacCAzUBsYlupnCyH4mUAU7HcvR3AV2zJT
+         dkTIbeAOPGhbIiU+Y+bz634j5ms+EYPBmTXhxqx+GYqYAlRIKZgUyknHEasSL+8wFDgr
+         EZEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=kCSnrPgWBKPuGz6BcK3jpWW2wafXy8uYMenYAYQXXAo=;
-        b=YJKStFZLOpqfoV95TJ6wSwmdWTVacfQ3HFUHncdSnq9WJsYDS0WieUBeqGEDKMM8Tz
-         Y8NLB9K7rfQDIpaWyDQWS2MEt2KgWXuYAhdxGMX/kdkIffCkvUI62rIw/U+zjlDAGY57
-         /bWvo3+KHklQLPDa3kVefo0Mv8f2Q8iQhyDiguVua/O5f+Wy7tmTnDwFB1KsK/XBv9zM
-         JgIi/mqrDYT8VHGrXVp5AaQKXlqqDOdWkh9tItU3KE8ZAgGbaNbtIWkrx8VE+dBdnD8k
-         F8ZJivNemzaNn1oOZRq9js0i0fBepqSB3ffI4T1Jt691D65RgPGAJkhuW9QQnGG6Dc5u
-         Zd3A==
-X-Gm-Message-State: AOAM5339dXtrVgHzb2NopgHWmfbQPtsK8hNBylqIQioRA8u9jl6XMhFa
-        pPUhBdI/cSaPA/ugfsR9yO8=
-X-Google-Smtp-Source: ABdhPJw9d+5KpTmwKiZm0g7q5mdilyRlFpGRxfAsBx1Fn5lUxBQhhX40SoGa7lwTh8eIcIXz1YczRA==
-X-Received: by 2002:a2e:804b:: with SMTP id p11mr13667816ljg.141.1613514332055;
-        Tue, 16 Feb 2021 14:25:32 -0800 (PST)
+        bh=N4o9VGOBWFA758XVAHeyCXnCwkuwkBvdGPfVojRuDf4=;
+        b=QmzAf//lvd9sa3fP8F1zWUuTaSez0CrJR/kTjv1C4DZ+8gjvo8s7wMVH3eLTe3gb5k
+         WM+FKiAb7NdJ5vm2dGD5wzXpH22dJwpG546KshIZGLmV45ogXs87RqAuPLd4v2S0msoe
+         0HJR/M8x8mc77WVocFw54V0vIfH01UIWZubAzOfBMbTqb50FW+W9ar4ESDvF8Kc3udH/
+         G79rBqWjsQtrcbTc4lrbaeO9pW/P+Z2osgNXlybIIyf0xI6dp5qKroxe7ixUWp9YEit8
+         IFLO1POiTkqR30YRdlE/1c0/l7frwWU3cCxyYqBUesQlbsPkX5ujqWRZFScXPL6Ee+X8
+         wL1Q==
+X-Gm-Message-State: AOAM53184YQ8BRSmDLYKt1uZAHZJW8+7lIvh3VTHapvRcnoH/mOLCHAO
+        CkFD5tcWxtRajbdsMpRiiVo=
+X-Google-Smtp-Source: ABdhPJzPteoeNpzGpmRaYqH29fxrI8vRh7u7OkfwDt7HNocuHro6bqsaqaHlKLb9do4HaycQWtLFyQ==
+X-Received: by 2002:a05:651c:2c5:: with SMTP id f5mr13193149ljo.357.1613514336497;
+        Tue, 16 Feb 2021 14:25:36 -0800 (PST)
 Received: from localhost (crossness-hoof.volia.net. [93.72.107.198])
-        by smtp.gmail.com with ESMTPSA id d14sm21366lfg.128.2021.02.16.14.25.30
+        by smtp.gmail.com with ESMTPSA id u1sm22628lff.58.2021.02.16.14.25.35
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 16 Feb 2021 14:25:31 -0800 (PST)
+        Tue, 16 Feb 2021 14:25:35 -0800 (PST)
 From:   Ruslan Bilovol <ruslan.bilovol@gmail.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Peter Chen <peter.chen@freescale.com>,
         Daniel Mack <zonque@gmail.com>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH 1/5] usb: gadget: f_uac2: always increase endpoint max_packet_size by one audio slot
-Date:   Wed, 17 Feb 2021 00:24:55 +0200
-Message-Id: <1613514299-20668-2-git-send-email-ruslan.bilovol@gmail.com>
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Subject: [PATCH 3/5] usb: gadget: f_uac2: validate input parameters
+Date:   Wed, 17 Feb 2021 00:24:57 +0200
+Message-Id: <1613514299-20668-4-git-send-email-ruslan.bilovol@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1613514299-20668-1-git-send-email-ruslan.bilovol@gmail.com>
 References: <1613514299-20668-1-git-send-email-ruslan.bilovol@gmail.com>
@@ -73,45 +72,92 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As per UAC2 Audio Data Formats spec (2.3.1.1 USB Packets),
-if the sampling rate is a constant, the allowable variation
-of number of audio slots per virtual frame is +/- 1 audio slot.
+Currently user can configure UAC2 function with
+parameters that violate UAC2 spec or are not supported
+by UAC2 gadget implementation.
 
-It means that endpoint should be able to accept/send +1 audio
-slot.
+This can lead to incorrect behavior if such gadget
+is connected to the host - like enumeration failure
+or other issues depending on host's UAC2 driver
+implementation, bringing user to a long hours
+of debugging the issue.
 
-Previous endpoint max_packet_size calculation code
-was adding sometimes +1 audio slot due to DIV_ROUND_UP
-behaviour which was rounding up to closest integer.
-However this doesn't work if the numbers are divisible.
+Instead of silently accept these parameters, throw
+an error if they are not valid.
 
-It had no any impact with Linux hosts which ignore
-this issue, but in case of more strict Windows it
-caused rejected enumeration
-
-Thus always add +1 audio slot to endpoint's max packet size
-
-Fixes: 913e4a90b6f9 ("usb: gadget: f_uac2: finalize wMaxPacketSize according to bandwidth")
-Cc: Peter Chen <peter.chen@freescale.com>
-Cc: <stable@vger.kernel.org> #v4.3+
 Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 ---
- drivers/usb/gadget/function/f_uac2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_uac2.c | 40 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 38 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 740cb64..c62cccb 100644
+index c62cccb..d0e50fc 100644
 --- a/drivers/usb/gadget/function/f_uac2.c
 +++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -478,7 +478,7 @@ static int set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
- 	}
+@@ -14,6 +14,9 @@
+ #include "u_audio.h"
+ #include "u_uac2.h"
  
- 	max_size_bw = num_channels(chmask) * ssize *
--		DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1)));
-+		((srate / (factor / (1 << (ep_desc->bInterval - 1)))) + 1);
- 	ep_desc->wMaxPacketSize = cpu_to_le16(min_t(u16, max_size_bw,
- 						    max_size_ep));
++/* UAC2 spec: 4.1 Audio Channel Cluster Descriptor */
++#define UAC2_CHANNEL_MASK 0x07FFFFFF
++
+ /*
+  * The driver implements a simple UAC_2 topology.
+  * USB-OUT -> IT_1 -> OT_3 -> ALSA_Capture
+@@ -604,6 +607,37 @@ static void setup_descriptor(struct f_uac2_opts *opts)
+ 	hs_audio_desc[i] = NULL;
+ }
  
++static int afunc_validate_opts(struct g_audio *agdev)
++{
++	struct f_uac2_opts *opts = g_audio_to_uac2_opts(agdev);
++	struct device *dev = &agdev->gadget->dev;
++
++	if (!opts->p_chmask && !opts->c_chmask) {
++		dev_err(dev, "Error: no playback and capture channels\n");
++		return -EINVAL;
++	} else if (opts->p_chmask & ~UAC2_CHANNEL_MASK) {
++		dev_err(dev, "Error: unsupported playback channels mask\n");
++		return -EINVAL;
++	} else if (opts->c_chmask & ~UAC2_CHANNEL_MASK) {
++		dev_err(dev, "Error: unsupported capture channels mask\n");
++		return -EINVAL;
++	} else if ((opts->p_ssize < 1) || (opts->p_ssize > 4)) {
++		dev_err(dev, "Error: incorrect playback sample size\n");
++		return -EINVAL;
++	} else if ((opts->c_ssize < 1) || (opts->c_ssize > 4)) {
++		dev_err(dev, "Error: incorrect capture sample size\n");
++		return -EINVAL;
++	} else if (!opts->p_srate) {
++		dev_err(dev, "Error: incorrect playback sampling rate\n");
++		return -EINVAL;
++	} else if (!opts->c_srate) {
++		dev_err(dev, "Error: incorrect capture sampling rate\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int
+ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ {
+@@ -612,11 +646,13 @@ static void setup_descriptor(struct f_uac2_opts *opts)
+ 	struct usb_composite_dev *cdev = cfg->cdev;
+ 	struct usb_gadget *gadget = cdev->gadget;
+ 	struct device *dev = &gadget->dev;
+-	struct f_uac2_opts *uac2_opts;
++	struct f_uac2_opts *uac2_opts = g_audio_to_uac2_opts(agdev);
+ 	struct usb_string *us;
+ 	int ret;
+ 
+-	uac2_opts = container_of(fn->fi, struct f_uac2_opts, func_inst);
++	ret = afunc_validate_opts(agdev);
++	if (ret)
++		return ret;
+ 
+ 	us = usb_gstrings_attach(cdev, fn_strings, ARRAY_SIZE(strings_fn));
+ 	if (IS_ERR(us))
 -- 
 1.9.1
 
