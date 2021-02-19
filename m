@@ -3,103 +3,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37815C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F7ADC433E6
 	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 12:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC09664EC0
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 12:18:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A0C464EC7
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 12:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230446AbhBSMSP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Feb 2021 07:18:15 -0500
-Received: from asav21.altibox.net ([109.247.116.8]:50412 "EHLO
+        id S230223AbhBSMSQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Feb 2021 07:18:16 -0500
+Received: from asav21.altibox.net ([109.247.116.8]:50372 "EHLO
         asav21.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229681AbhBSMSN (ORCPT
+        with ESMTP id S230170AbhBSMSN (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Feb 2021 07:18:13 -0500
 Received: from localhost.localdomain (unknown [81.166.168.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: noralf.tronnes@ebnett.no)
-        by asav21.altibox.net (Postfix) with ESMTPSA id 20F2F80079;
-        Fri, 19 Feb 2021 13:17:11 +0100 (CET)
+        by asav21.altibox.net (Postfix) with ESMTPSA id 6E45680173;
+        Fri, 19 Feb 2021 13:17:08 +0100 (CET)
 From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org, peter@stuge.se,
         lkundrak@v3.sk, markus@raatikainen.cc, pontus.fuchs@gmail.com,
         hudson@trmm.net, th020394@gmail.com,
-        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v6 2/3] drm/probe-helper: Check epoch counter in output_poll_execute()
-Date:   Fri, 19 Feb 2021 13:17:01 +0100
-Message-Id: <20210219121702.50964-3-noralf@tronnes.org>
+        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+Subject: [PATCH v6 0/3] GUD USB Display driver
+Date:   Fri, 19 Feb 2021 13:16:59 +0100
+Message-Id: <20210219121702.50964-1-noralf@tronnes.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20210219121702.50964-1-noralf@tronnes.org>
-References: <20210219121702.50964-1-noralf@tronnes.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=Kb38TzQD c=1 sm=1 tr=0
         a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
-        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
-        a=rnb-knuk5dQJkhbuddwA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
-        a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=gAmX6pxEAAAA:20
+        a=hV_BJ6Dg7UyOQLaYyLEA:9 a=QEXdDO2ut3YA:10 a=7zwkRhCwzGnCyznlyk9i:22
+        a=Z5ABNNGmrOfJ6cZ5bIyy:22 a=jd6J4Gguk5HxikPWLKER:22
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-drm_helper_hpd_irq_event() checks the epoch counter to determine
-connector status change. This was introduced in
-commit 5186421cbfe2 ("drm: Introduce epoch counter to drm_connector").
-Do the same for output_poll_execute() so it can detect other changes
-beside connection status value changes.
+Hi,
 
-v2:
-- Add Fixes tag (Daniel)
+A while back I had the idea to turn a Raspberry Pi Zero into a $5
+USB to HDMI/SDTV/DPI display adapter.
 
-Fixes: 5186421cbfe2 ("drm: Introduce epoch counter to drm_connector")
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- drivers/gpu/drm/drm_probe_helper.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+The protocol is open so people are free to make displays implementing it and
+use this driver, all that's needed is to add a USB vid:pid to the driver for
+the display.
 
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index d6017726cc2a..e5432dcf6999 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -623,6 +623,7 @@ static void output_poll_execute(struct work_struct *work)
- 	struct drm_connector_list_iter conn_iter;
- 	enum drm_connector_status old_status;
- 	bool repoll = false, changed;
-+	u64 old_epoch_counter;
- 
- 	if (!dev->mode_config.poll_enabled)
- 		return;
-@@ -659,8 +660,9 @@ static void output_poll_execute(struct work_struct *work)
- 
- 		repoll = true;
- 
-+		old_epoch_counter = connector->epoch_counter;
- 		connector->status = drm_helper_probe_detect(connector, NULL, false);
--		if (old_status != connector->status) {
-+		if (old_epoch_counter != connector->epoch_counter) {
- 			const char *old, *new;
- 
- 			/*
-@@ -689,6 +691,9 @@ static void output_poll_execute(struct work_struct *work)
- 				      connector->base.id,
- 				      connector->name,
- 				      old, new);
-+			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] epoch counter %llu -> %llu\n",
-+				      connector->base.id, connector->name,
-+				      old_epoch_counter, connector->epoch_counter);
- 
- 			changed = true;
- 		}
+See the wiki[1] for more information and images for the Raspberry Pi Zero/4.
+
+Changes in this version:
+- Use obj-y in Makefile (Peter)
+- Fix missing le32_to_cpu() when using GUD_DISPLAY_MAGIC (Peter)
+- Set initial brightness on backlight device
+
+
+Noralf.
+
+[1] https://github.com/notro/gud/wiki
+
+
+Noralf Trønnes (3):
+  drm/uapi: Add USB connector type
+  drm/probe-helper: Check epoch counter in output_poll_execute()
+  drm: Add GUD USB Display driver
+
+ MAINTAINERS                         |   8 +
+ drivers/gpu/drm/Kconfig             |   2 +
+ drivers/gpu/drm/Makefile            |   1 +
+ drivers/gpu/drm/drm_connector.c     |   1 +
+ drivers/gpu/drm/drm_probe_helper.c  |   7 +-
+ drivers/gpu/drm/gud/Kconfig         |  14 +
+ drivers/gpu/drm/gud/Makefile        |   4 +
+ drivers/gpu/drm/gud/gud_connector.c | 738 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/gud/gud_drv.c       | 625 +++++++++++++++++++++++
+ drivers/gpu/drm/gud/gud_internal.h  | 149 ++++++
+ drivers/gpu/drm/gud/gud_pipe.c      | 475 ++++++++++++++++++
+ include/drm/gud.h                   | 356 ++++++++++++++
+ include/uapi/drm/drm_mode.h         |   1 +
+ 13 files changed, 2380 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/gud/Kconfig
+ create mode 100644 drivers/gpu/drm/gud/Makefile
+ create mode 100644 drivers/gpu/drm/gud/gud_connector.c
+ create mode 100644 drivers/gpu/drm/gud/gud_drv.c
+ create mode 100644 drivers/gpu/drm/gud/gud_internal.h
+ create mode 100644 drivers/gpu/drm/gud/gud_pipe.c
+ create mode 100644 include/drm/gud.h
+
 -- 
 2.23.0
 
