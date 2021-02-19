@@ -2,77 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC7E7C433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 17:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFFFEC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 18:23:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7D5964EAF
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 17:10:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8134064E76
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Feb 2021 18:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229755AbhBSRKy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Feb 2021 12:10:54 -0500
-Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:62783
-        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229726AbhBSRKx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Feb 2021 12:10:53 -0500
-X-IronPort-AV: E=Sophos;i="5.81,189,1610406000"; 
-   d="scan'208";a="373577845"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 18:10:10 +0100
-Date:   Fri, 19 Feb 2021 18:10:10 +0100 (CET)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-cc:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kbuild-all@lists.01.org
-Subject: [PATCH] usb: usbip: fix odd_ptr_err.cocci warnings
-Message-ID: <alpine.DEB.2.22.394.2102191807040.21109@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S229840AbhBSSXU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Feb 2021 13:23:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45730 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229765AbhBSSXT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 19 Feb 2021 13:23:19 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D7AEB64E4B;
+        Fri, 19 Feb 2021 18:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613758959;
+        bh=lvf63DGkJR2fWgH6f/qu5f+xu+b9akz5C3bLJxhEu40=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nyFNGPJFF/UKMapeJ9gM+Z3f++3DBwk6oyXh940tLUDw7DoyhMvbp9NW3PRSMdgr7
+         uGwOaYD/2NqbPXkc6lkbKiAqwOLHfQNoGBfWK+KkSyk9tmAyGUwz6dtIhpiB/SAPQd
+         fj6Y0CIBe+R1aQ0B+gGI8SRkJXTt+hO5xg3tupGNGMDz/t2fR9MubKtOce1c8UpooB
+         NOgyartMYwQZtEdaQd88qzZK9fq6RL7HLv+iuy3hZRXstzn8DIWzfCvFNqBzZ22u6f
+         oTaCnAJTg+QBJlYFdoFHP/MAIC0Uv7z5zJQYKp8qyPdZPwvClB2whlcyn3t1O1SDBK
+         9R1eU0cKhx59A==
+Date:   Fri, 19 Feb 2021 10:22:37 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Hayes Wang <hayeswang@realtek.com>
+Cc:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH net] r8152: move r8153_mac_clk_spd
+Message-ID: <20210219102237.024917a2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <1394712342-15778-346-Taiwan-albertk@realtek.com>
+References: <1394712342-15778-346-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: kernel test robot <lkp@intel.com>
+On Fri, 19 Feb 2021 17:38:03 +0800 Hayes Wang wrote:
+> Move calling r8153_mac_clk_spd() from r8153_first_init() to rtl8153_up(),
+> and from r8153_enter_oob() to rtl8153_down().
+> 
+> r8153_mac_clk_spd() is used for RTL8153A. However, RTL8153B use
+> r8153_first_init() and r8153_enter_oob(), too. Therefore,
+> r8153_mac_clk_spd() needs to be moved.
+> 
+> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 
-PTR_ERR should access the value just tested by IS_ERR
+Any word on what user-visible misbehavior this causes?
 
-Generated by: scripts/coccinelle/tests/odd_ptr_err.cocci
-
-CC: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
----
-
-tree:   https://github.com/0day-ci/linux/commits/UPDATE-20210219-175233/Tetsuo-Handa/usb-usbip-serialize-attach-detach-operations/20210219-083847
-head:   32963105fe23b600644ac10f0f9a42124a289990
-commit: 32963105fe23b600644ac10f0f9a42124a289990 usb: usbip: serialize attach/detach operations
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-
-The above link doesn't work for me, so I don't know whether the goto label
-is correct.
-
- usbip_common.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/usb/usbip/usbip_common.c
-+++ b/drivers/usb/usbip/usbip_common.c
-@@ -775,7 +775,7 @@ int usbip_prepare_threads(struct usbip_t
- 	}
- 	tx = kthread_create(tx_fn, ud, tx_name);
- 	if (IS_ERR(tx)) {
--		err = PTR_ERR(rx);
-+		err = PTR_ERR(tx);
- 		goto out_rx;
- 	}
- 	uti->tcp_socket = socket;
+Can you provide a Fixes tag?
