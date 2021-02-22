@@ -2,92 +2,138 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1579EC433E6
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA16C433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:18:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C92B164DF5
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 280D664E61
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:18:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230313AbhBVPQy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Feb 2021 10:16:54 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:38997 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbhBVPPV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Feb 2021 10:15:21 -0500
-Received: from [123.112.65.49] (helo=[192.168.0.106])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1lECuw-0007bc-Bw; Mon, 22 Feb 2021 15:14:34 +0000
-Subject: Re: [PATCH] USB: UAS: don't unbind and rebind the driver during
- usb_reset_device
-To:     Oliver Neukum <oneukum@suse.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-References: <20210221085100.4297-1-hui.wang@canonical.com>
- <b1fe6cf4-b48f-c7e6-17c0-2ed04d8f3aa1@redhat.com>
- <ad6601a93f8fc4ec4d1451df5457e51aadf37301.camel@suse.com>
- <b28b38fa-3d19-3251-e576-38bd4d828ac1@canonical.com>
- <aba904f15b0bd07592ad59c00c07f6472c8d9663.camel@suse.com>
- <e7064799-0320-d662-47de-11181074130b@canonical.com>
- <9fd28086226b7b8b49ac9047a06e92e4da154f73.camel@suse.com>
-From:   Hui Wang <hui.wang@canonical.com>
-Message-ID: <2b6d426d-068e-a66f-b3e2-9c8f2de9b8d0@canonical.com>
-Date:   Mon, 22 Feb 2021 23:14:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S231388AbhBVPRT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Feb 2021 10:17:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231392AbhBVPPR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Feb 2021 10:15:17 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B9D6C061A30;
+        Mon, 22 Feb 2021 07:13:05 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id l30so3772385wrb.12;
+        Mon, 22 Feb 2021 07:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=eE3vB1/Y8MdpJt97O9ILAeiKByH7vJluKckPn4DVjuc=;
+        b=qRBLvooKzzptyg4Na1vV+Zw3xpJrgdbtv8oSWAD7uDzDOAIsoTtNtDBnRP9zRr6tkh
+         9f6G6dKGjz9WqzquotrqA1GQ0V2DC9qo/WLqkVtNZzGlwHJ6egBZxwWujxTt/wYYKVgT
+         N9EkVwdrFyjVzqlI1Q150Z6RFloU34+sttMm2VStZnXAzwYTBae87xniZ9tqaDV+5Rv7
+         NlvoiH4/Btz0f3ojJebhRhpVbONzce8Rr1ksYkPxS50D3HLkxHENK/oyP9iYz9y4yD2S
+         Hj9yfnfnfRQn6PdUvWIhTP9ZODAnNhPVrqhvbkfziR3sCGsXj4jq1O1wu9GUWbxu1vW7
+         ylvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=eE3vB1/Y8MdpJt97O9ILAeiKByH7vJluKckPn4DVjuc=;
+        b=WBlUKL1tN8bZ6XztVQVBU8x6xuN3e5aYKOAqlDtULj0oEqGoYWNULqsNuwfTPm28aO
+         i7axW9SQEpKxWRx+PzHXXB15BGpRQwLDiGMRADSAnp1kMvyvlbLo8XB2P5hzInipC9FR
+         Df0up/4LHsA/cI278t5qOeyibraJKJgwbhL8rlARoYg1o01EZoQO6EfGhl2XtKMSwDkQ
+         k+ckj+JRUrz1q5hc0/2eS5g+OaAHihUgZirG1h8gtIfRbLSsPcTO7JDMpPlffrISQjuh
+         RB7MyfEnAZ4kA3j/s2DhZVUUhhflxIa0xkhwUozZfiI9Tt809kg9eLNoRaAmC8PqH8VQ
+         rqTw==
+X-Gm-Message-State: AOAM530Ip3E7rOhyuQp4fVfESHlICeoBHBsi2knhNHern1BEpOuQ3rxH
+        SXT6yEpEBZRNorRTY7KAY7Ai93/QcFSHkLA8CgE=
+X-Google-Smtp-Source: ABdhPJyfPGar/M7v1Lbgl1i6VGHfK9R+x8JNl1xnJQkxT/oA6TAsd7WzE2w4ZgIygKgSC/mrQJNzqg==
+X-Received: by 2002:adf:f1c4:: with SMTP id z4mr4346920wro.52.1614006783582;
+        Mon, 22 Feb 2021 07:13:03 -0800 (PST)
+Received: from debby (176-141-241-253.abo.bbox.fr. [176.141.241.253])
+        by smtp.gmail.com with ESMTPSA id y62sm30776774wmy.9.2021.02.22.07.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Feb 2021 07:13:03 -0800 (PST)
+From:   Romain Perier <romain.perier@gmail.com>
+To:     Kees Cook <keescook@chromium.org>,
+        kernel-hardening@lists.openwall.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     Romain Perier <romain.perier@gmail.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 18/20] usb: gadget: f_midi: Manual replacement of the deprecated strlcpy() with return values
+Date:   Mon, 22 Feb 2021 16:12:29 +0100
+Message-Id: <20210222151231.22572-19-romain.perier@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210222151231.22572-1-romain.perier@gmail.com>
+References: <20210222151231.22572-1-romain.perier@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9fd28086226b7b8b49ac9047a06e92e4da154f73.camel@suse.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+The strlcpy() reads the entire source buffer first, it is dangerous if
+the source buffer lenght is unbounded or possibility non NULL-terminated.
+It can lead to linear read overflows, crashes, etc...
 
-On 2/22/21 9:50 PM, Oliver Neukum wrote:
-> Am Montag, den 22.02.2021, 21:02 +0800 schrieb Hui Wang:
->> On 2/22/21 8:51 PM, Oliver Neukum wrote:
->>> Am Montag, den 22.02.2021, 20:40 +0800 schrieb Hui Wang:
->>>> On 2/22/21 3:59 PM, Oliver Neukum wrote:
->>>> OK, will find a UAS device to do the test.
->>> Hi,
->>>
->>> do you have a design at all?
->> No, so far what I could find is all driven by usb-storage, I tested a
->> couple of usb-sdcard-readers and usb-scsi/ata disk adapters, they all
->> belong to USB_INTERFACE_INFO(USB_CLASS_MASS_STORAGE, USB_SC_SCSI,
->> USB_PR_BULK) instead of USB_INTERFACE_INFO(USB_CLASS_MASS_STORAGE,
->> USB_SC_SCSI, USB_PR_UAS). I plan to go to the office to find some usb
->> storage devices to test.
-> Hi,
->
-> please wait.  First of all, you are making the assumption that all
-> resets originate from the SCSI layer. You cannot make that assumption.
->
-> Secondly, yes, ideally we should not pretend that a disconnect has
-> happened, when it hasn't happened, but what is your alternative.
-> What exactly do you want to test? You have not even defined the
-> desirable behavior and the problem you are seeing with the current
-> behavior.
+As recommended in the deprecated interfaces [1], it should be replaced
+by strscpy.
 
-I planed to forcibly (simulate) trigger calling 
-eh_device_reset_handler() from scsi layer and let pre_reset() or 
-post_reset() return a non-zero, and test if there is use-after-free 
-issue in the rest part of eh_device_reset_handler() and its callers. But 
-after thinking of your comment, looks like I was wrong. Thanks for your 
-instructions on this issue.
+This commit replaces all calls to strlcpy that handle the return values
+by the corresponding strscpy calls with new handling of the return
+values (as it is quite different between the two functions).
 
-Thanks,
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
 
-Hui.
+Signed-off-by: Romain Perier <romain.perier@gmail.com>
+---
+ drivers/usb/gadget/function/f_midi.c    |    4 ++--
+ drivers/usb/gadget/function/f_printer.c |    8 ++++----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-> 	Regards
-> 		Oliver
->
->
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index 71a1a26e85c7..1f2b0d4309b4 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -1143,11 +1143,11 @@ F_MIDI_OPT(out_ports, true, MAX_PORTS);
+ static ssize_t f_midi_opts_id_show(struct config_item *item, char *page)
+ {
+ 	struct f_midi_opts *opts = to_f_midi_opts(item);
+-	int result;
++	ssize_t result;
+ 
+ 	mutex_lock(&opts->lock);
+ 	if (opts->id) {
+-		result = strlcpy(page, opts->id, PAGE_SIZE);
++		result = strscpy(page, opts->id, PAGE_SIZE);
+ 	} else {
+ 		page[0] = 0;
+ 		result = 0;
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index 61ce8e68f7a3..af83953e6770 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -1212,15 +1212,15 @@ static ssize_t f_printer_opts_pnp_string_show(struct config_item *item,
+ 					      char *page)
+ {
+ 	struct f_printer_opts *opts = to_f_printer_opts(item);
+-	int result = 0;
++	ssize_t result = 0;
+ 
+ 	mutex_lock(&opts->lock);
+ 	if (!opts->pnp_string)
+ 		goto unlock;
+ 
+-	result = strlcpy(page, opts->pnp_string, PAGE_SIZE);
+-	if (result >= PAGE_SIZE) {
+-		result = PAGE_SIZE;
++	result = strscpy(page, opts->pnp_string, PAGE_SIZE);
++	if (result == -E2BIG) {
++		goto unlock;
+ 	} else if (page[result - 1] != '\n' && result + 1 < PAGE_SIZE) {
+ 		page[result++] = '\n';
+ 		page[result] = '\0';
+
