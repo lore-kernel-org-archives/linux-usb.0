@@ -2,74 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CC1C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 12:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6880C433E6
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 12:42:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72DE464E44
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 12:10:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65F1264F18
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 12:42:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbhBVMKh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Feb 2021 07:10:37 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56192 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230090AbhBVMKc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Feb 2021 07:10:32 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613995783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yLeSjdAn6ytvvSZ7l1bruf6v0eYDWUB2oiRB+v/1EnM=;
-        b=e/nAV+MYeJjAgiyPTwc40OITAzxjyTJR6GKilTsxVYuBh8sK8jo7wYdB+AV3weQEJR4YWY
-        hZ3CT15WUxeCSGnV7dmKjSzHJx4w88Ebamntg49TLET0SNTdnFQFE3G4pHu6cTJbJv4N10
-        aTyCPn+8FaTPp1cVYwCPRJ4lpv4xDYY=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1FB54AD5C;
-        Mon, 22 Feb 2021 12:09:43 +0000 (UTC)
-Message-ID: <d61ad9565e29a07086e52bc984e8e629285ff8cf.camel@suse.com>
-Subject: Re: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Sam Bingner <sam@bingner.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Martin Habets <mhabets@solarflare.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Matti Vuorela <matti.vuorela@bitfactor.fi>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Yves-Alexis Perez <corsac@corsac.net>
-Date:   Mon, 22 Feb 2021 13:09:38 +0100
-In-Reply-To: <370902e520c44890a44cb5dd0cb1595f@bingner.com>
-References: <370902e520c44890a44cb5dd0cb1595f@bingner.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S231339AbhBVMmb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Feb 2021 07:42:31 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:34517 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231245AbhBVMlc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Feb 2021 07:41:32 -0500
+Received: from [123.112.65.49] (helo=[192.168.0.106])
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <hui.wang@canonical.com>)
+        id 1lEAW8-00052k-0F; Mon, 22 Feb 2021 12:40:48 +0000
+Subject: Re: [PATCH] USB: UAS: don't unbind and rebind the driver during
+ usb_reset_device
+To:     Oliver Neukum <oneukum@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
+References: <20210221085100.4297-1-hui.wang@canonical.com>
+ <b1fe6cf4-b48f-c7e6-17c0-2ed04d8f3aa1@redhat.com>
+ <ad6601a93f8fc4ec4d1451df5457e51aadf37301.camel@suse.com>
+From:   Hui Wang <hui.wang@canonical.com>
+Message-ID: <b28b38fa-3d19-3251-e576-38bd4d828ac1@canonical.com>
+Date:   Mon, 22 Feb 2021 20:40:40 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <ad6601a93f8fc4ec4d1451df5457e51aadf37301.camel@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Sonntag, den 21.02.2021, 10:42 +0000 schrieb Sam Bingner:
-> There seems to be a problem with this patch:
-> 
-> Whenever the iPhone sends a packet to the tethered device that is 1500 bytes long, it gets the error "ipheth 1-1:4.2: ipheth_rcvbulk_callback: urb status: -79" on the connected device and stops passing traffic.  I am able to bring it back up by shutting and unshutting the interface, but the same thing happens very quickly.   I noticed that this patch dropped the max USB packet size from 1516 to 1514 bytes, so I decided to try lowering the MTU to 1498; this made the connection reliable and no more errors occurred.
-> 
-> It appears to me that the iPhone is still sending out 1516 bytes over USB for a 1500 byte packet and this patch makes USB abort when that happens?  I could duplicate reliably by sending a ping from the iphone (ping -s 1472) to the connected device, or vice versa as the reply would then break it.
-> 
-> I apologize if this reply doesn't end up where it should - I tried to reply to the last message in this thread but I wasn't actually *on* the thread so I had to just build it as much as possible myself.
 
-Is this a regression? Does it work after reverting the patch? Which
-version of iOS?
+On 2/22/21 3:59 PM, Oliver Neukum wrote:
+> Am Sonntag, den 21.02.2021, 11:20 +0100 schrieb Hans de Goede:
+>> Hi,
+> Hi,
+>
+>> On 2/21/21 9:51 AM, Hui Wang wrote:
+>>> Once pre_reset() or post_reset() returns non-zero, the disconnect()
+>>> and probe() of the usb_driver will be called. In the disconnect(),
+>>> the scsi_host will be removed and be freed after scsi_host_put(), in
+>>> the probe(), the new scsi_host and uas_dev_info will be created.
+>>>
+>>> If the usb_reset_device() is triggered by eh_device_reset_handler(),
+>>> and pre_reset()/post_reset() returns non-zero, the disconnect() and
+>>> probe() will be called, then returns to the eh_device_reset_handler(),
+>>> it still accesses old scsi related variables and uas_dev_info, and so
+>>> do its caller functions.
+>>>
+>>> Here change the pre_reset() and post_reset() to let them only return
+>>> 0, after this change, the usb_reset_device() will only reset this
+>>> usb devcie from its hub port, will not execute unbind and rebind
+>>> usb_driver during reset.
+>> We only return non 0 from the pre/post reset handles if we failed
+>> to ensure the device is in a known state.
+> correct. Technically it is a bit unfortunate that UAS devices react
+> a bit different to other SCSI devices, but we definitely cannot hide
+> a failure. Arguably we should go into OFFLINE state.
+> But that needs a
+> good reason beyond theoretical considerations.
+>
+> 	Regards
+> 		Oliver
+>
+>
+OK, will find a UAS device to do the test.
 
-	Regards
-		Oliver
+thanks,
 
+Hui.
 
