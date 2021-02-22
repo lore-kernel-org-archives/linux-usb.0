@@ -2,120 +2,174 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 978F2C433E9
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:18:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 528C7C433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:29:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E8C864ED6
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:18:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1A8D64E24
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Feb 2021 15:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231527AbhBVPRq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Feb 2021 10:17:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231405AbhBVPPX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Feb 2021 10:15:23 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A47CC061A31;
-        Mon, 22 Feb 2021 07:13:06 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id b3so19449630wrj.5;
-        Mon, 22 Feb 2021 07:13:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xsehZqvcvtb4tCCQoqeDviKqU/Y1YzBUUFjUVz3pAZk=;
-        b=rncFZJGMNdZtNXBSacAVdgQBb0oGFNyf4Hdrl4WXvGfYPpXc/Yp5sNVXRPxebcNuHS
-         7IwEN7oQqyGVvRqs7xITRH9BrQFVeMl9spTlXJbuc9zRHDrvQyCLU3I7tFJ1PyS/4HNJ
-         fzRC7nyB+goax8BUDRiSpHvvPl5rliAh3rGz2sJefngJxqQ91KSDr12SCvrRitANW/hI
-         0ZEPXb2d75NN21G4Mk1zMcEiEFxGfPE1x4YqmFFkLRQzfM4WHTL3WWIWjUQbfKTCBMaK
-         sivFSnlzPOUjk7O8xk+5jDWF/7ksajmmcO15qtMvYQi3A8BDvi2F/SkrsWH3iGHIEm/5
-         DhaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xsehZqvcvtb4tCCQoqeDviKqU/Y1YzBUUFjUVz3pAZk=;
-        b=IH6RySdRHvgOxuNtgtYPGTaJNrSBByIg+uwQNjs/TI51syOaXzvhOS+2H3k3I/6jaa
-         DOvdY1XkxlO3lMSQIB7sugWTf5YD7h3Rxi+IMCpRLN7c+peZs104KMr4uT0vlNlDYsqv
-         VDeHPj8DNCT9kMA021f4SSzTtXnutorxGzXETaSFN/b2b9+uz2/NIt6KeuQXoWinaPyP
-         bShDUMRHgWi0/NvPQ0ol6wnYoHTN0OOcIu2xyqo74AMShZuNmKwS5KdUib/CXAHR9luk
-         FL4xXW78JesCqbkaWb3PpSqDI1zVb4kQyPqCnmf/q3yxxolwHGWSuPJlIQ9QV6ihI2RS
-         hVmQ==
-X-Gm-Message-State: AOAM532HoYEiFyFAGLYgG+UHONFZnAAiuwOJ39Y5Xd4fb0oS/TSPHxEh
-        bjoG7EL0x4yE0nOCJByQH2VbbH6A2cpUdqe0pfE=
-X-Google-Smtp-Source: ABdhPJxRYTjEd7nsbxeIKUmEpWw/94Nm1leoqbaxX1B5ddNqok4WzlYQVzm9GVfAfVRtD+2oslhAOw==
-X-Received: by 2002:a5d:55d2:: with SMTP id i18mr5005134wrw.221.1614006784971;
-        Mon, 22 Feb 2021 07:13:04 -0800 (PST)
-Received: from debby (176-141-241-253.abo.bbox.fr. [176.141.241.253])
-        by smtp.gmail.com with ESMTPSA id h13sm29117488wrv.20.2021.02.22.07.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 07:13:04 -0800 (PST)
-From:   Romain Perier <romain.perier@gmail.com>
-To:     Kees Cook <keescook@chromium.org>,
-        kernel-hardening@lists.openwall.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Romain Perier <romain.perier@gmail.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 19/20] usbip: usbip_host: Manual replacement of the deprecated strlcpy() with return values
-Date:   Mon, 22 Feb 2021 16:12:30 +0100
-Message-Id: <20210222151231.22572-20-romain.perier@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210222151231.22572-1-romain.perier@gmail.com>
-References: <20210222151231.22572-1-romain.perier@gmail.com>
+        id S231148AbhBVP3U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Feb 2021 10:29:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57588 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230084AbhBVP21 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Feb 2021 10:28:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 721A764E24;
+        Mon, 22 Feb 2021 15:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614007659;
+        bh=q9Estwy8/COuQq0gmoB1jzKJT7r7o9dG+aiZnsncBrg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eO1cGdcxtFayjKzpEuEQAoVVTsItSUTEV7Zy90sBssqe1fe7c30+88S3SWP65BeDs
+         FaHGPdT3U8a7aP7pRsA7q6p+TNwGwnECaS16uEc45HOhNWAKSYkPUIwQ4y7/I6159k
+         aa5tobVGnUsBHPNsdZ6cdBlE0cTaAXvhlHGdZEwnDs/IKpG8/3TPNUoQvxi56QmEUV
+         AV0U3YIDdm4Y+23rTwqPIsAw/dvmWGITbs5/PWRYNVrv16OO96gidoq/ZXluQsy80m
+         zxHbatbyHLtk1CPI8XO2thrkz/+FnfPTVpGiFu3wEvyJJssDHfJfMR7+Li7Lft1Y11
+         wxRteMPpsHt7w==
+Date:   Mon, 22 Feb 2021 16:27:34 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Manivannan Sadhasivam <mani@kernel.org>,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patong.mxl@gmail.com,
+        linus.walleij@linaro.org, angelo.dureghello@timesys.com
+Subject: Re: [PATCH v5 1/3] usb: serial: Add MaxLinear/Exar USB to Serial
+ driver
+Message-ID: <20210222161119.0bd70a2b@coco.lan>
+In-Reply-To: <YBBCvHvduivta07b@hovoldconsulting.com>
+References: <20201122170822.21715-1-mani@kernel.org>
+        <20201122170822.21715-2-mani@kernel.org>
+        <YAlVLOqzx8otPgOg@hovoldconsulting.com>
+        <20210126154604.GC29751@thinkpad>
+        <YBBCvHvduivta07b@hovoldconsulting.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The strlcpy() reads the entire source buffer first, it is dangerous if
-the source buffer lenght is unbounded or possibility non NULL-terminated.
-It can lead to linear read overflows, crashes, etc...
+Hi Johan,
 
-As recommended in the deprecated interfaces [1], it should be replaced
-by strscpy.
+Em Tue, 26 Jan 2021 17:26:36 +0100
+Johan Hovold <johan@kernel.org> escreveu:
 
-This commit replaces all calls to strlcpy that handle the return values
-by the corresponding strscpy calls with new handling of the return
-values (as it is quite different between the two functions).
+> On Tue, Jan 26, 2021 at 09:16:04PM +0530, Manivannan Sadhasivam wrote:
+> > On Thu, Jan 21, 2021 at 11:19:24AM +0100, Johan Hovold wrote:  
+> > > On Sun, Nov 22, 2020 at 10:38:20PM +0530, Manivannan Sadhasivam wrote:  
+> > > > Add support for MaxLinear/Exar USB to Serial converters. This driver
+> > > > only supports XR21V141X series but it can be extended to other series
+> > > > from Exar as well in future.  
+> > > 
+> > > There are still a few issues with this driver, but I really don't want
+> > > to have to review it again in a couple of months so I've fixed it up
+> > > myself this time.
+> > > 
+> > > The trivial stuff I folded into this patch, and I'll submit a follow-on
+> > > series for the rest.
+> > >   
+> > 
+> > Many thanks for doing this! These days it is really difficult to find
+> > time for spare time stuffs.
+> > 
+> > And all of your fixes makes sense to me.  
+> 
+> Thanks for taking a look!
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+Thanks for merging it!
 
-Signed-off-by: Romain Perier <romain.perier@gmail.com>
----
- drivers/usb/usbip/stub_main.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
 
-diff --git a/drivers/usb/usbip/stub_main.c b/drivers/usb/usbip/stub_main.c
-index 77a5b3f8736a..5bc2c09c0d10 100644
---- a/drivers/usb/usbip/stub_main.c
-+++ b/drivers/usb/usbip/stub_main.c
-@@ -167,15 +167,15 @@ static ssize_t match_busid_show(struct device_driver *drv, char *buf)
- static ssize_t match_busid_store(struct device_driver *dev, const char *buf,
- 				 size_t count)
- {
--	int len;
-+	ssize_t len;
- 	char busid[BUSID_SIZE];
- 
- 	if (count < 5)
- 		return -EINVAL;
- 
- 	/* busid needs to include \0 termination */
--	len = strlcpy(busid, buf + 4, BUSID_SIZE);
--	if (sizeof(busid) <= len)
-+	len = strscpy(busid, buf + 4, BUSID_SIZE);
-+	if (len == -E2BIG)
- 		return -EINVAL;
- 
- 	if (!strncmp(buf, "add ", 4)) {
+I'm now facing an issue with this driver. I have here two different
+boards with those USB UART from MaxLinear/Exar.
 
+The first one is identical to Mani's one:
+	USB_DEVICE(0x04e2, 0x1411)
+The second one is a different version of it:
+	USB_DEVICE(0x04e2, 0x1424)
+
+By looking at the final driver merged at linux-next, it sounds that
+somewhere during the review of this series, it lost the priv struct,
+and the xr_probe function. It also lost support for all MaxLinear/Exar
+devices, except for just one model (04e2:1411).
+
+The original submission:
+
+	https://lore.kernel.org/linux-usb/20180404070634.nhspvmxcjwfgjkcv@advantechmxl-desktop
+
+And the manufacturer's Linux driver on their website:
+
+	https://www.maxlinear.com/support/design-tools/software-drivers
+
+Had support for other 12 different models of the MaxLinear/Exar USB
+UART. 
+
+Those are grouped into 5 different major types:
+
+	+	init_xr2280x_reg_map();
+	+	init_xr21b142x_reg_map();
+	+	init_xr21b1411_reg_map();
+	+	init_xr21v141x_reg_map();
+	+
+	+	if ((xrusb->DeviceProduct & 0xfff0) == 0x1400)
+	+		memcpy(&(xrusb->reg_map), &xr2280x_reg_map,
+	+			sizeof(struct reg_addr_map));
+	+	else if ((xrusb->DeviceProduct & 0xFFF0) == 0x1420)
+	+		memcpy(&(xrusb->reg_map), &xr21b142x_reg_map,
+	+			sizeof(struct reg_addr_map));
+	+	else if (xrusb->DeviceProduct == 0x1411)
+	+		memcpy(&(xrusb->reg_map), &xr21b1411_reg_map,
+	+			sizeof(struct reg_addr_map));
+	+	else if ((xrusb->DeviceProduct & 0xfff0) == 0x1410)
+	+		memcpy(&(xrusb->reg_map), &xr21v141x_reg_map,
+	+			sizeof(struct reg_addr_map));
+	+	else
+	+		rv = -1;
+
+Note: Please don't be confused by "reg_map" name. This has nothing
+      to do with Linux regmap API ;-)
+
+What happens is that different USB IDs have different values for
+each register. So, for instance, the UART enable register is set to
+either one of the following values, depending on the value of
+udev->descriptor.idProduct:
+
+	xr21b140x_reg_map.uart_enable_addr = 0x00;
+	xr21b1411_reg_map.uart_enable_addr = 0xc00;
+	xr21v141x_reg_map.uart_enable_addr = 0x03;
+	xr21b142x_reg_map.uart_enable_addr = 0x00;
+
+There are other values that depend on the probing time detection,
+based on other USB descriptors. Those set several fields at the
+priv data that would allow to properly map the registers.
+
+Also, there are 4 models that support multiple channels. On those,
+there are one pair of register get/set for each channel.
+
+-
+
+In summary, while supporting just 04e2:1411 there's no need for
+a private struct, in order to properly support the other models,
+some autodetection is needed. The best way of doing that is to
+re-add the .probe method and adding a priv struct.
+
+As I dunno why this was dropped in the first place, I'm wondering
+if it would be ok to re-introduce them.
+
+To be clear: my main focus here is just to avoid needing to use 
+Windows in order to use the serial console of the hardware with
+the 0x1424 variant ;-)
+
+I can't test the driver with the other hardware, but, IMHO, instead
+of adding a hack to support 0x1424, the better (but more painful)
+would be to re-add the auto-detection part and support for the
+other models.
+
+Thanks!
+Mauro
