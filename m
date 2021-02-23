@@ -2,108 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF39BC433E9
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D38D2C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:51:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1B5E64E6C
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:44:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A3321614A7
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:51:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233299AbhBWPoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Feb 2021 10:44:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60874 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233296AbhBWPoU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Feb 2021 10:44:20 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C729664E5C;
-        Tue, 23 Feb 2021 15:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614095016;
-        bh=WAhVeOGLACocx02ucbRxzqV77x8vxbUrpijOrxw1cOs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pcDEX5ZhJmQSRsolvEFH6or4hxSJ6VLZ+vJiVamhvYllLvtdVOETvRYRmIk3FAOCB
-         /GmCwayejVtt9RFxpDjEnStacpXJDiBvqF5H80T6xVB0OyEegwhl47q2j9JqH3oBjJ
-         MU2uo8zOTTL3w6bIpxifeBSUJpjK8vDjWPJaIsSktniKjm4KVzyCp94N++Yad69jv7
-         0qvU6XEs24lSjyssi7p2fRrjqlglMQNiir/dkuld/RwSCAJ292ZcRtb4kSSt9kJUsy
-         mQido7Opmrq7beVf/h1xhHASJrdKx4MBzR1Kt7XbKFX5ZNTtPGNUDv38PjCPceBmeq
-         +aSBHB4Elx63A==
-Received: from johan by xi.lan with local (Exim 4.93.0.4)
-        (envelope-from <johan@kernel.org>)
-        id 1lEZqq-0004Qf-MQ; Tue, 23 Feb 2021 16:43:53 +0100
-Date:   Tue, 23 Feb 2021 16:43:52 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     "Michael G. Katzmann" <michaelk@IEEE.org>
-Cc:     charles-yeh@prolific.com.tw, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, Charles Yeh <charlesyeh522@gmail.com>,
-        Joe Abbott <jabbott@rollanet.org>
-Subject: Re: non-standard baud rates with Prolific 2303 USB-serial
-Message-ID: <YDUiuLtwRkZ0D0Mi@hovoldconsulting.com>
-References: <3aee5708-7961-f464-8c5f-6685d96920d6@IEEE.org>
- <dc3458f1-830b-284b-3464-20124dc3900a@IEEE.org>
- <YDNwxtDxd7JntAXt@hovoldconsulting.com>
- <e2dcc839-3b43-2c80-6ad1-2d97e639b46a@IEEE.org>
- <YDOvLseYXaUHs0lS@hovoldconsulting.com>
- <fb1489c2-b972-619b-b7ce-4ae8e1d2cc0f@IEEE.org>
- <YDPO/JprcDTaPmR4@hovoldconsulting.com>
- <0f9caf26-af58-13a9-9947-47bb646f505e@IEEE.org>
- <YDPS3AP63/PwmwJU@hovoldconsulting.com>
- <780b9aa6-890d-47fd-d6b2-cd9a39f7634a@IEEE.org>
+        id S233403AbhBWPvI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Feb 2021 10:51:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233285AbhBWPu6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Feb 2021 10:50:58 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB86C061574;
+        Tue, 23 Feb 2021 07:50:10 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id v21so2865100wml.4;
+        Tue, 23 Feb 2021 07:50:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jq0kQtDSX5dH8ohcWOXbXLKCHW4XC2c+FwwnMqOyu8A=;
+        b=Mn95eKnody6kfmlE5fsuhDTGCKEpKYtcBWhBSJRoqeZmHsoLH5OuaAg433mD41zUd5
+         7+z/S0bNOSAlCu70n5GQ9tkHE+Xk5LG/UAUElWGDkBKzMg3CRkHRLUdmFhbFTj5jd+66
+         7uRatcu4Th3iB0YqtGDSWRET9tqBurnEwVtUL8d09G9jRNI8C1/3MDoXbbG580F7MNrf
+         VBc7JOz/B5YEAN8tmKMNjPbet1Zd91Fhfwn8SCTyS2KhhUVXT8viF2DeF1EHE2auzPjU
+         tpTWqnRncEcotdVvw35HBCFon7GIpTUAFP4TxQPbTBKB/5A4F9ORmDp90c3w/CtTPtBU
+         AHXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jq0kQtDSX5dH8ohcWOXbXLKCHW4XC2c+FwwnMqOyu8A=;
+        b=bfH9cWSRAqmJkghzYiiegRkzwZn7mC84EVB/vfEQeDCpQ+I0BKiSYt2q20jLFiyHt0
+         zb4gUp3NRfp16FQTFbLMwcxrzMd3n7J9TObRbgaauF2QvluxeTA6l4JBjIc6FIy9ViOA
+         fe0FBN+S/9Bw5Nc3aZdfhnsi6hbcrMN1GyfK96Cg/0HPm7WGVAvCYvae/6Jcl1kmgs7S
+         cETFBEEf/63YD7lKkrf+qAw3Mb15g7zZ0kcu6fkfARYo0cdDGln0mhe2uLwpmId0U0wS
+         IUTp/N3lXD9iMT/k9cMmH1hq9IdW32CLSwNHi+nui09TM8kWUEuUCU9qwIjTOw25ni8f
+         54Rw==
+X-Gm-Message-State: AOAM531U2Bs+C3rkiXxCceRKFW+JKwhGxELINyhEqyAqWBZs+NsoGHPe
+        u7ZuwIPTBac6CIilA8plikUL2coC2boIHV1/
+X-Google-Smtp-Source: ABdhPJxaWV+jkKPqgTfcLyedOekGOVSPfUwolyvZEyL1bt55OsE94y2kP27DZAoLfZmH+JvYySqJRg==
+X-Received: by 2002:a1c:4c0c:: with SMTP id z12mr797142wmf.60.1614095409667;
+        Tue, 23 Feb 2021 07:50:09 -0800 (PST)
+Received: from skynet.lan (170.red-88-1-105.dynamicip.rima-tde.net. [88.1.105.170])
+        by smtp.gmail.com with ESMTPSA id t23sm3209201wmn.13.2021.02.23.07.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Feb 2021 07:50:09 -0800 (PST)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     f.fainelli@gmail.com, jonas.gorski@gmail.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Tony Prisk <linux@prisktech.co.nz>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: usb: generic-ehci: document ignore-oc flag
+Date:   Tue, 23 Feb 2021 16:50:04 +0100
+Message-Id: <20210223155005.21712-2-noltari@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210223155005.21712-1-noltari@gmail.com>
+References: <20210223155005.21712-1-noltari@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <780b9aa6-890d-47fd-d6b2-cd9a39f7634a@IEEE.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 09:58:47AM -0500, Michael G. Katzmann wrote:
+Over-current reporting isn't supported on some platforms such as bcm63xx.
+These devices will incorrectly report over-current if this flag isn't properly
+activated.
 
-> Well I found I have another Prolific device here that I got from
-> Adafruit (https://www.adafruit.com/product/954)
-> 
-> It also has a Prolific 2303 and behaves exactly like the other one.
-> i.e. with the current Linux driver it gives a very high baudrate when
-> set to 110 bd and gives 110bd when the modifications are made to the
-> driver that I found.
+Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Interesting.
-
-> Is it that we are presuming that what Prolific is telling us is true
-> and only Joe and I are actually measuring the data rate?  (i.e. why
-> does the Prolific Windows driver set the values as Joe found ???)
-
-I'm starting to think they've added some alternate baud rate encoding in
-order to make life harder for the people pushing (or unknowingly buying)
-counterfeit devices.
-
-As you say, why else would the Windows driver support this encoding?
-
-The driver might be triggering on the device descriptors or some control
-request so having a packet trace might provide some insight.
-
-I think Joe may already have collected one?
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index cf83f2d9afac..294bbf02399e 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -117,6 +117,11 @@ properties:
+       Set this flag if EHCI has a Transaction Translator built into
+       the root hub.
  
-> Adafruit device:
-> 
-> Bus 001 Device 013: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass            0
->   bDeviceSubClass         0
->   bDeviceProtocol         0
->   bMaxPacketSize0        64
->   idVendor           0x067b Prolific Technology, Inc.
->   idProduct          0x2303 PL2303 Serial Port
->   bcdDevice            3.00
->   iManufacturer           1 Prolific Technology Inc.
->   iProduct                2 USB-Serial Controller
->   iSerial                 0
->   bNumConfigurations      1
++  ignore-oc:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description:
++      Set this flag for HCDs without over-current reporting support.
++
+   needs-reset-on-resume:
+     $ref: /schemas/types.yaml#/definitions/flag
+     description:
+-- 
+2.20.1
 
-Johan
