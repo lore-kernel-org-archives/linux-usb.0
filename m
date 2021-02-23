@@ -2,90 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D8ADC433E0
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 16:31:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD946C433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 16:45:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0023C61494
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 16:31:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 736F764E6B
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 16:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233340AbhBWQb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Feb 2021 11:31:29 -0500
-Received: from beige.elm.relay.mailchannels.net ([23.83.212.16]:32230 "EHLO
-        beige.elm.relay.mailchannels.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231742AbhBWQb2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Feb 2021 11:31:28 -0500
-X-Sender-Id: dreamhost|x-authsender|smtp@contentfirst.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id 45B51542F50;
-        Tue, 23 Feb 2021 16:30:45 +0000 (UTC)
-Received: from pdx1-sub0-mail-a45.g.dreamhost.com (100-96-17-34.trex.outbound.svc.cluster.local [100.96.17.34])
-        (Authenticated sender: dreamhost)
-        by relay.mailchannels.net (Postfix) with ESMTPA id B9DAD542DB0;
-        Tue, 23 Feb 2021 16:30:44 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|smtp@contentfirst.com
-Received: from pdx1-sub0-mail-a45.g.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
-        by 100.96.17.34 (trex/6.0.2);
-        Tue, 23 Feb 2021 16:30:45 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|smtp@contentfirst.com
-X-MailChannels-Auth-Id: dreamhost
-X-White-Abortive: 4c82e4e341bffef3_1614097845037_1763475294
-X-MC-Loop-Signature: 1614097845037:1705731403
-X-MC-Ingress-Time: 1614097845036
-Received: from pdx1-sub0-mail-a45.g.dreamhost.com (localhost [127.0.0.1])
-        by pdx1-sub0-mail-a45.g.dreamhost.com (Postfix) with ESMTP id 70CD77F04B;
-        Tue, 23 Feb 2021 08:30:44 -0800 (PST)
-Received: from industrynumbers.com (pool-100-15-209-187.washdc.fios.verizon.net [100.15.209.187])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: smtp@contentfirst.com)
-        by pdx1-sub0-mail-a45.g.dreamhost.com (Postfix) with ESMTPSA id DA9C37F03D;
-        Tue, 23 Feb 2021 08:30:42 -0800 (PST)
-Received: from industrynumbers.com (localhost [127.0.0.1])
-        by industrynumbers.com (Postfix) with ESMTP id BD586282D7A;
-        Tue, 23 Feb 2021 11:30:41 -0500 (EST)
-Subject: Re: non-standard baud rates with Prolific 2303 USB-serial
-To:     Johan Hovold <johan@kernel.org>
-Cc:     charles-yeh@prolific.com.tw, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, Charles Yeh <charlesyeh522@gmail.com>,
-        Joe Abbott <jabbott@rollanet.org>
-References: <YDNwxtDxd7JntAXt@hovoldconsulting.com>
- <e2dcc839-3b43-2c80-6ad1-2d97e639b46a@IEEE.org>
- <YDOvLseYXaUHs0lS@hovoldconsulting.com>
- <fb1489c2-b972-619b-b7ce-4ae8e1d2cc0f@IEEE.org>
- <YDPO/JprcDTaPmR4@hovoldconsulting.com>
- <0f9caf26-af58-13a9-9947-47bb646f505e@IEEE.org>
- <YDPS3AP63/PwmwJU@hovoldconsulting.com>
- <780b9aa6-890d-47fd-d6b2-cd9a39f7634a@IEEE.org>
- <YDUiuLtwRkZ0D0Mi@hovoldconsulting.com>
- <f63df659-6cdf-bba6-f892-1012b98f82e2@IEEE.org>
- <YDUp0tIThOZSTHJt@hovoldconsulting.com>
-X-DH-BACKEND: pdx1-sub0-mail-a45
-From:   "Michael G. Katzmann" <michaelk@IEEE.org>
-Message-ID: <93584ae4-665e-1e67-01e0-cc53f987bee4@IEEE.org>
-Date:   Tue, 23 Feb 2021 11:30:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S233381AbhBWQpM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Feb 2021 11:45:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58214 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233331AbhBWQpL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Feb 2021 11:45:11 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1F89C061574;
+        Tue, 23 Feb 2021 08:44:30 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 6BC2B1F41126
+Received: by jupiter.universe (Postfix, from userid 1000)
+        id C7A7F4800C3; Tue, 23 Feb 2021 17:44:20 +0100 (CET)
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com
+Subject: [PATCH] USB: serial: cp210x: add some more GE USB IDs
+Date:   Tue, 23 Feb 2021 17:44:18 +0100
+Message-Id: <20210223164418.118135-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <YDUp0tIThOZSTHJt@hovoldconsulting.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2/23/21 11:14 AM, Johan Hovold wrote:
-> I only have an HXD (and a GC) here.
->
-> The HXD has bcdUSB as 1.10 unlike your TA with 2.00, but not sure that
-> helps.
+GE CS1000 has some more custom USB IDs for CP2102N; add them
+to the driver to have working auto-probing.
 
-Sound promising .. why do you think this is this not reliable?
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/usb/serial/cp210x.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index 9e1c609792fb..0d2d2a3baa07 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -201,6 +201,8 @@ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x1901, 0x0194) },	/* GE Healthcare Remote Alarm Box */
+ 	{ USB_DEVICE(0x1901, 0x0195) },	/* GE B850/B650/B450 CP2104 DP UART interface */
+ 	{ USB_DEVICE(0x1901, 0x0196) },	/* GE B850 CP2105 DP UART interface */
++	{ USB_DEVICE(0x1901, 0x0197) }, /* GE CS1000 Display serial interface */
++	{ USB_DEVICE(0x1901, 0x0198) }, /* GE CS1000 M.2 Key E serial interface */
+ 	{ USB_DEVICE(0x199B, 0xBA30) }, /* LORD WSDA-200-USB */
+ 	{ USB_DEVICE(0x19CF, 0x3000) }, /* Parrot NMEA GPS Flight Recorder */
+ 	{ USB_DEVICE(0x1ADB, 0x0001) }, /* Schweitzer Engineering C662 Cable */
+-- 
+2.30.0
 
