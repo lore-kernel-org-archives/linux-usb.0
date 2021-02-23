@@ -2,93 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC56C433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACEFC433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:56:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3ED9C614A7
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:51:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FF3C64E7C
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Feb 2021 15:56:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233445AbhBWPvN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Feb 2021 10:51:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46552 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233363AbhBWPu6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Feb 2021 10:50:58 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D73E8C06174A;
-        Tue, 23 Feb 2021 07:50:11 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id r3so11423550wro.9;
-        Tue, 23 Feb 2021 07:50:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kUxd1NQzADzDyuGmI3T0uFcSxsw9DHxLT0ukNf1HOW8=;
-        b=ilnMKTOYJ6LGVB12ISauevTix4asIiKaNA8jH0/BW88WRCeqLP8m/GoHbUYoNlSJz+
-         nUmZIp3IKhMyzaGcksAxuMmJ3nNb+a/frTZcBc02bKPRncLawRksklcMmOwfv6z3akbG
-         Aau6aCIb1Nj7LLUMK7ajzu/uyK7Wz9+wzNCcIfl63+M9IsqUcWOADHuZCMdKGqxTApGj
-         4Qe3CwmHefnVgfqz2Z37Z+u9dE4C0yaqpZfYzPh5hjblCGnZntT5u+qcYfJ1h+mOEnXo
-         zna3at/QL9GUz6bco1+G0V5mxFb4a/xNkQfcsRPSHNg+AHguPkdRVSTHvN3RsJfsZH9O
-         v+wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kUxd1NQzADzDyuGmI3T0uFcSxsw9DHxLT0ukNf1HOW8=;
-        b=h2ZJdZhFyRYYbNbBnp/TglOE1h7IViB+JFlyxePkdRq3QI5UfNncsTYYzqTmIGZY4K
-         Fg27NXy38gaUwQ7QRTbR4KWA2ot7AvBqvZzj4yOx4OkXUUaEegtkeTdROOQ29rOxZAl+
-         UkXr+TunDFGJLbSDKw5/0Jbk1pBfWhdJhZar4GljItsWRA1fqbM2srZ2pDicTWbvavbZ
-         6YnVSor6zaajym7Z1Q083dsbmt18axlKejWZhu5n1V9J98A3Mf2S0OfROs7rCTDQ3r+w
-         mWEH6Sa+phDSu4Ui2zLdyiiWHOnMe27oDleSi4nBjkPluqN8QxKJ5Zk0796rKBxtDnug
-         oNuQ==
-X-Gm-Message-State: AOAM532BmH960s0aFWDwi4/HmE15TgrQ+IqsjQeggdkiD0OyGTectJ8L
-        Kl18VSgQoecj9jq0CP82j6jJSzbIm07pDdXm
-X-Google-Smtp-Source: ABdhPJx1jK0dqfaAO0LhsAq2ZXpl6IGoY5j+HsPmXHEfbGVhMQby5pUCJWFBrbcwNG8geodxx1Gm7w==
-X-Received: by 2002:a5d:67c2:: with SMTP id n2mr27435720wrw.298.1614095408559;
-        Tue, 23 Feb 2021 07:50:08 -0800 (PST)
-Received: from skynet.lan (170.red-88-1-105.dynamicip.rima-tde.net. [88.1.105.170])
-        by smtp.gmail.com with ESMTPSA id t23sm3209201wmn.13.2021.02.23.07.50.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Feb 2021 07:50:07 -0800 (PST)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     f.fainelli@gmail.com, jonas.gorski@gmail.com,
+        id S233422AbhBWPzp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Feb 2021 10:55:45 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:33137 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S233507AbhBWPzZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Feb 2021 10:55:25 -0500
+Received: (qmail 1263861 invoked by uid 1000); 23 Feb 2021 10:54:43 -0500
+Date:   Tue, 23 Feb 2021 10:54:43 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
+Cc:     f.fainelli@gmail.com, jonas.gorski@gmail.com,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
         Tony Prisk <linux@prisktech.co.nz>, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH 0/2] usb: host: ehci-platform: add ignore-oc DT support
-Date:   Tue, 23 Feb 2021 16:50:03 +0100
-Message-Id: <20210223155005.21712-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Subject: Re: [PATCH 1/2] dt-bindings: usb: generic-ehci: document ignore-oc
+ flag
+Message-ID: <20210223155443.GB1261797@rowland.harvard.edu>
+References: <20210223155005.21712-1-noltari@gmail.com>
+ <20210223155005.21712-2-noltari@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210223155005.21712-2-noltari@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Over-current reporting isn't supported on some platforms such as bcm63xx.
-These devices will incorrectly report over-current if this flag isn't properly
-activated.
+On Tue, Feb 23, 2021 at 04:50:04PM +0100, Álvaro Fernández Rojas wrote:
+> Over-current reporting isn't supported on some platforms such as bcm63xx.
+> These devices will incorrectly report over-current if this flag isn't properly
+> activated.
+> 
+> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> index cf83f2d9afac..294bbf02399e 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> @@ -117,6 +117,11 @@ properties:
+>        Set this flag if EHCI has a Transaction Translator built into
+>        the root hub.
+>  
+> +  ignore-oc:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Set this flag for HCDs without over-current reporting support.
 
-Ãlvaro FernÃ¡ndez Rojas (2):
-  dt-bindings: usb: generic-ehci: document ignore-oc flag
-  usb: host: ehci-platform: add ignore-oc DT support
+This is not a good description of a device property.  DT entries are 
+supposed to described the hardware, not talk about how to use it.
 
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 5 +++++
- drivers/usb/host/ehci-platform.c                        | 3 +++
- 2 files changed, 8 insertions(+)
+When you say that the bcm63xx doesn't support over-current reporting, 
+what exactly do you mean?  Do you mean that sometimes the hardware turns 
+on the over-current bit when an over-current isn't actually present?  Or 
+do you mean something else?
 
--- 
-2.20.1
+Alan Stern
 
+> +
+>    needs-reset-on-resume:
+>      $ref: /schemas/types.yaml#/definitions/flag
+>      description:
+> -- 
+> 2.20.1
+> 
