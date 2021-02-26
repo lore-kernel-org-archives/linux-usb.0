@@ -2,49 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F40FC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10CFEC433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A32664F0E
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A955764EF6
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhBZN3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Feb 2021 08:29:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53002 "EHLO mail.kernel.org"
+        id S230041AbhBZN3Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Feb 2021 08:29:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53012 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229556AbhBZN3S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S229886AbhBZN3S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Fri, 26 Feb 2021 08:29:18 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 48C5064F0D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4873F64F03;
         Fri, 26 Feb 2021 13:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1614346117;
-        bh=8+Bnf1EgRjwee+j0ox0+IGzR8HWhliKGIEOcAJ5Opj0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ifrB2cRWVmV8YwRzkGhVvZMQaAylDSzTgyoqbr2AKlbe632HS3QonfOCA9U6dOIHx
-         IRlyu5bCnWk/6K3fwtUmtBLksJ6GCgAcj2NPLRH/16d4AxZHIhEf0eNhNU1OgmqqBT
-         93e49qB5C2p7EzjmaOu79Makpu5xHtKF3H02Q8vK3BUC6wPLcFPAF8xCOgc6TXOplq
-         1SDgWt/AaG2eizo0VK3WpI7uPk9T8+mOwzT01VcKuNsUBLH1KRAwh2kmKkzlTWKnhO
-         5/QRT7famr11PygUcJunQbTeSuv/ponnMtC7JAZEwoESUjssUjRYkNhi8V9xtp1YtE
-         MwQA/1nBzmihQ==
+        bh=kFtDE0hhRB3jqoqlNzIz1b+FRsGJSaHnpl8grjpv4OM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=G9PLcAvUfrIZyYu9DiM6E3kapgitVkf2Sd932NaAmV793P/IwYcDgEPmMGHf5JxdX
+         8qLqD9dLEf57P4/BByUKBjD4NiRXSc9X5A88bVbd/hFgX7LmhtZxIGO49zQXpLv9B7
+         nFAY36LiBN8aUUaveSSnKstR8HSkEy9u+mIhYX3B208XdqmhJqwpXmuMpBWKNxywcU
+         HAWQEwHCQWT3pqxWfVayeWfYq0dOWlUP/oEnubHzZCZ6j8V8M3MHQ3sQlBt2pCo8G1
+         12DEKRZdxfKhwAkgE7AeiBa9yandFEWuBDt1j/55++mh7SZCTazLIYstLV/x0Rmz11
+         kMLueMMZW45Kg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lFdAY-002nby-MG; Fri, 26 Feb 2021 14:28:34 +0100
+        id 1lFdAY-002nbo-GZ; Fri, 26 Feb 2021 14:28:34 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 5/7] USB: serial: xr: add support for XR21B1411
-Date:   Fri, 26 Feb 2021 14:28:31 +0100
-Message-Id: <8acfa60a02c6f7473615fe4f53b3244579a1fa25.1614345081.git.mchehab+huawei@kernel.org>
+        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 0/7] Add support for the other MaxLinear/Exar UARTs
+Date:   Fri, 26 Feb 2021 14:28:26 +0100
+Message-Id: <cover.1614345081.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1614345081.git.mchehab+huawei@kernel.org>
-References: <cover.1614345081.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -52,84 +51,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's nothing special on this device: it has just one port.
+The current version of the xr_serial driver handles one one of the several
+MaxLinear/Exar UARTs and UART bridges. There are currently 12 such
+models. Only one is currently supported.
 
-The only difference is that it uses a different register set.
+This series apply on the top of linux-next + the bug fix patch sent
+today:
+	
+	https://lore.kernel.org/lkml/20210226100826.18987-1-johan@kernel.org/
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/usb/serial/xr_serial.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+They were tested only on  XR21B1410 and  XR21B1424 models,
+although I'm pretty much confident that the other models will also
+work, as they're very close to either one of those.
 
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index f7edab61a3d6..78722502da63 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -99,6 +99,7 @@ struct xr_txrx_clk_mask {
- #define VIA_CDC_REGISTER		-1
- 
- enum xr_model {
-+	XR21B1411,
- 	XR21V141X,
- 	XR21B142X,
- 	MAX_XR_MODELS
-@@ -132,6 +133,30 @@ enum xr_hal_type {
- };
- 
- static const int xr_hal_table[MAX_XR_MODELS][MAX_XR_HAL_TYPE] = {
-+	[XR21B1411] = {
-+		[REG_ENABLE] =				0xc00,
-+		[REG_FORMAT] =				VIA_CDC_REGISTER,
-+		[REG_FLOW_CTRL] =			0xc06,
-+		[REG_XON_CHAR] =			0xc07,
-+		[REG_XOFF_CHAR] =			0xc08,
-+		[REG_TX_BREAK] =			0xc0a,
-+		[REG_RS485_DELAY] =			0xc0b,
-+		[REG_GPIO_MODE] =			0xc0c,
-+		[REG_GPIO_DIR] =			0xc0d,
-+		[REG_GPIO_SET] =			0xc0e,
-+		[REG_GPIO_CLR] =			0xc0f,
-+		[REG_GPIO_STATUS] =			0xc10,
-+		[REG_GPIO_INT_MASK] =			0xc11,
-+		[REG_CUSTOMIZED_INT] =			0xc12,
-+		[REG_GPIO_PULL_UP_ENABLE] =		0xc14,
-+		[REG_GPIO_PULL_DOWN_ENABLE] =		0xc15,
-+		[REG_LOOPBACK] =			0xc16,
-+		[REG_LOW_LATENCY] =			0xcc2,
-+		[REG_CUSTOM_DRIVER] =			0x20d,
-+
-+		[REQ_SET] =				0,
-+		[REQ_GET] =				1,
-+	},
- 	[XR21V141X] = {
- 		[REG_ENABLE] =				0x03,
- 		[REG_FORMAT] =				0x0b,
-@@ -190,6 +215,8 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
- 	int ret;
- 
- 	switch (port_priv->model) {
-+	case XR21B1411:
-+		break;
- 	case XR21V141X:
- 		if (port_priv->channel)
- 			reg |= (port_priv->channel - 1) << 8;
-@@ -226,6 +253,8 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
- 		return -ENOMEM;
- 
- 	switch (port_priv->model) {
-+	case XR21B1411:
-+		break;
- 	case XR21V141X:
- 		if (port_priv->channel)
- 			reg |= (port_priv->channel - 1) << 8;
-@@ -874,6 +903,7 @@ static void xr_disconnect(struct usb_serial *serial)
- 
- static const struct usb_device_id id_table[] = {
- 	{ USB_DEVICE(0x04e2, 0x1410), .driver_info = XR21V141X},
-+	{ USB_DEVICE(0x04e2, 0x1411), .driver_info = XR21B1411},
- 	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = XR21V141X},
- 	{ USB_DEVICE(0x04e2, 0x1414), .driver_info = XR21V141X},
- 
+Patch 1 is just a cleanup for the registers namespace. It removes
+the model number from registers that are used on multiple versions
+of the chipset.
+
+Patch 2 adds a table to be used to map the register for each specific
+variant of this chipset;
+
+Patch 3 adds support for XR21B1412 and XR21B1414. The only
+difference on those devices is that they support multiple UART ports.
+
+Patch 4 adds support for  XR21B142X, which uses a mix of data and
+control interfaces to setup the line discipline.
+
+Patch 5 adds support for  XR21B1410 variant. This one is identical
+to  XR21B1411, except that it uses a different register set;
+
+Patch 6 adds support for XR2280X devices:
+	https://www.maxlinear.com/product/interface/bridges/usb-ethernet-bridges/xr22800
+
+Such devices are compound devices that are similar to the USB
+UARTs from programming PoV. The only difference is the register
+set.
+
+Patch 7 updates the CDC ignore list.
+
+After this series, all MaxLinear USB UARTs described at:
+	https://www.maxlinear.com/products/interface/uarts/usb-uarts
+
+Should be supported, except for XR21B1421. This one have just a control
+interface, and uses standard HID protocol. No idea how to support it. Also,
+I don't have such device to test ;-)
+
+In order to write this patch series, I used the datasheets, plus the Linux
+driver source code, available at MaxLinear, and a previous port made by
+Patong Yang:
+
+   https://lore.kernel.org/linux-usb/20180404070634.nhspvmxcjwfgjkcv@advantechmxl-desktop
+
+Regards,
+Mauro
+
+Mauro Carvalho Chehab (7):
+  USB: serial: xr: simplify its namespace
+  USB: serial: xr: use a table for device-specific settings
+  USB: serial: xr: add support for multi-port XR21V141X variants
+  USB: serial: xr: add support for XR21B142X devices
+  USB: serial: xr: add support for 
+  USB: serial: xr: add support for XR2280X devices
+  USB: cdc-acm: add other non-standard xr_serial models to ignore list
+
+ drivers/usb/class/cdc-acm.c    |  17 +-
+ drivers/usb/serial/xr_serial.c | 694 +++++++++++++++++++++++++--------
+ 2 files changed, 556 insertions(+), 155 deletions(-)
+
 -- 
 2.29.2
+
 
