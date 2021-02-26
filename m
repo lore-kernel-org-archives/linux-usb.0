@@ -2,68 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37179C433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 12:33:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F40FC433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D619164F1F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 12:33:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A32664F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 13:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbhBZMdk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Feb 2021 07:33:40 -0500
-Received: from server.atrad.com.au ([150.101.241.2]:35540 "EHLO
-        server.atrad.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230045AbhBZMdj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Feb 2021 07:33:39 -0500
-Received: from marvin.atrad.com.au (IDENT:1008@marvin.atrad.com.au [192.168.0.2])
-        by server.atrad.com.au (8.15.2/8.15.2) with ESMTPS id 11QCWX3F003084
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 26 Feb 2021 23:02:34 +1030
-Date:   Fri, 26 Feb 2021 23:02:33 +1030
-From:   Jonathan Woithe <jwoithe@just42.net>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     linux-usb@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: Samsung T5 500 GB USB3.1 SSD fails with ASMedia ASM1142, 250 GB
- version works
-Message-ID: <20210226123232.GA26589@marvin.atrad.com.au>
-References: <20210219102218.GA29156@marvin.atrad.com.au>
- <cdb0ab8e14de5f93dfae2164f18d9d1703b3fc36.camel@suse.com>
- <20210222111707.GA26487@marvin.atrad.com.au>
+        id S229991AbhBZN3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Feb 2021 08:29:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53002 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229556AbhBZN3S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Feb 2021 08:29:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 48C5064F0D;
+        Fri, 26 Feb 2021 13:28:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614346117;
+        bh=8+Bnf1EgRjwee+j0ox0+IGzR8HWhliKGIEOcAJ5Opj0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ifrB2cRWVmV8YwRzkGhVvZMQaAylDSzTgyoqbr2AKlbe632HS3QonfOCA9U6dOIHx
+         IRlyu5bCnWk/6K3fwtUmtBLksJ6GCgAcj2NPLRH/16d4AxZHIhEf0eNhNU1OgmqqBT
+         93e49qB5C2p7EzjmaOu79Makpu5xHtKF3H02Q8vK3BUC6wPLcFPAF8xCOgc6TXOplq
+         1SDgWt/AaG2eizo0VK3WpI7uPk9T8+mOwzT01VcKuNsUBLH1KRAwh2kmKkzlTWKnhO
+         5/QRT7famr11PygUcJunQbTeSuv/ponnMtC7JAZEwoESUjssUjRYkNhi8V9xtp1YtE
+         MwQA/1nBzmihQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lFdAY-002nby-MG; Fri, 26 Feb 2021 14:28:34 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 5/7] USB: serial: xr: add support for XR21B1411
+Date:   Fri, 26 Feb 2021 14:28:31 +0100
+Message-Id: <8acfa60a02c6f7473615fe4f53b3244579a1fa25.1614345081.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1614345081.git.mchehab+huawei@kernel.org>
+References: <cover.1614345081.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210222111707.GA26487@marvin.atrad.com.au>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-MIMEDefang-action: accept
-X-Scanned-By: MIMEDefang 2.79 on 192.168.0.1
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 09:47:07PM +1030, Jonathan Woithe wrote:
-> On Mon, Feb 22, 2021 at 11:24:18AM +0100, Oliver Neukum wrote:
-> > It is possible that the other machine can just supply more power.
-> 
-> On the machine with the ASMedia controller (where the problem occurs), the
-> 500 GB SSD works perfectly well when connected to USB2 sockets.  If a USB2
-> socket can supply sufficient power, wouldn't a USB3 port be more than
-> capable?
-> 
-> The specifications for both the 250 GB (working) and 500 GB (not working)
-> are 5V at 0.8A.  I'm guessing this is a worst-case scenario.  In any case,
-> this is well within the capabilities of a USB3 port.  If there was a power
-> issue with one of these drives it's surprising it's not seen in both -
-> unless the 250 GB is just under the critical power threshold and the 500 GB
-> is just above it.  Is there an easy way to tell if this is indeed the case?
+There's nothing special on this device: it has just one port.
 
-Another datapoint: on the system with the ASMedia controller where the 250
-GB T5 SSD works but the 500 GB T5 SSD does not, the same USB3 socket is able
-to power a traditional 2.5" spinning rust hard drive without any obvious
-problems.
+The only difference is that it uses a different register set.
 
-Regards
-  jonathan
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/usb/serial/xr_serial.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index f7edab61a3d6..78722502da63 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -99,6 +99,7 @@ struct xr_txrx_clk_mask {
+ #define VIA_CDC_REGISTER		-1
+ 
+ enum xr_model {
++	XR21B1411,
+ 	XR21V141X,
+ 	XR21B142X,
+ 	MAX_XR_MODELS
+@@ -132,6 +133,30 @@ enum xr_hal_type {
+ };
+ 
+ static const int xr_hal_table[MAX_XR_MODELS][MAX_XR_HAL_TYPE] = {
++	[XR21B1411] = {
++		[REG_ENABLE] =				0xc00,
++		[REG_FORMAT] =				VIA_CDC_REGISTER,
++		[REG_FLOW_CTRL] =			0xc06,
++		[REG_XON_CHAR] =			0xc07,
++		[REG_XOFF_CHAR] =			0xc08,
++		[REG_TX_BREAK] =			0xc0a,
++		[REG_RS485_DELAY] =			0xc0b,
++		[REG_GPIO_MODE] =			0xc0c,
++		[REG_GPIO_DIR] =			0xc0d,
++		[REG_GPIO_SET] =			0xc0e,
++		[REG_GPIO_CLR] =			0xc0f,
++		[REG_GPIO_STATUS] =			0xc10,
++		[REG_GPIO_INT_MASK] =			0xc11,
++		[REG_CUSTOMIZED_INT] =			0xc12,
++		[REG_GPIO_PULL_UP_ENABLE] =		0xc14,
++		[REG_GPIO_PULL_DOWN_ENABLE] =		0xc15,
++		[REG_LOOPBACK] =			0xc16,
++		[REG_LOW_LATENCY] =			0xcc2,
++		[REG_CUSTOM_DRIVER] =			0x20d,
++
++		[REQ_SET] =				0,
++		[REQ_GET] =				1,
++	},
+ 	[XR21V141X] = {
+ 		[REG_ENABLE] =				0x03,
+ 		[REG_FORMAT] =				0x0b,
+@@ -190,6 +215,8 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
+ 	int ret;
+ 
+ 	switch (port_priv->model) {
++	case XR21B1411:
++		break;
+ 	case XR21V141X:
+ 		if (port_priv->channel)
+ 			reg |= (port_priv->channel - 1) << 8;
+@@ -226,6 +253,8 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
+ 		return -ENOMEM;
+ 
+ 	switch (port_priv->model) {
++	case XR21B1411:
++		break;
+ 	case XR21V141X:
+ 		if (port_priv->channel)
+ 			reg |= (port_priv->channel - 1) << 8;
+@@ -874,6 +903,7 @@ static void xr_disconnect(struct usb_serial *serial)
+ 
+ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x04e2, 0x1410), .driver_info = XR21V141X},
++	{ USB_DEVICE(0x04e2, 0x1411), .driver_info = XR21B1411},
+ 	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = XR21V141X},
+ 	{ USB_DEVICE(0x04e2, 0x1414), .driver_info = XR21V141X},
+ 
+-- 
+2.29.2
+
