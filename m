@@ -2,82 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FROM_STARTS_WITH_NUMS,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C4EC433E0
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 20:57:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9123AC433DB
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Feb 2021 01:08:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5926964F13
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Feb 2021 20:57:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4718764EDB
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Feb 2021 01:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhBZU5d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Feb 2021 15:57:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbhBZU5a (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Feb 2021 15:57:30 -0500
-Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com [IPv6:2607:f8b0:4864:20::c32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4931C06174A
-        for <linux-usb@vger.kernel.org>; Fri, 26 Feb 2021 12:56:50 -0800 (PST)
-Received: by mail-oo1-xc32.google.com with SMTP id n19so2475499ooj.11
-        for <linux-usb@vger.kernel.org>; Fri, 26 Feb 2021 12:56:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:user-agent:mime-version
-         :content-transfer-encoding;
-        bh=4NltfgZTZVTcJkPdqjQ7/+K9bw+Jz6B0sQn1cG1ubn0=;
-        b=OKdhqlP58PYobni8E2k/eYwIfP0jzPQQ+Io7Ra/gSnhfKXLoZDtjhFrFo9t0j5fQ1l
-         Xp43NyE6hfGdEA7eRiBHJgRzdTvGFZGFcL70zzWsPqJfBMOjQc0dMkk/lzQEOP3+jL25
-         65XbLZ0sAeYtGkmxNvhPbuGQEaI6HhOedx5SMjWfvnuebDoa7w6YKdkYJucSw1fnNc/a
-         xeGZuXK7IaCf67rclWt09KiajbZswMnvyYeRVw2hYCer88Ukdm19E45muX2S81WSkylN
-         4ZN0yxjJ/7VFyuBFqdcEbN13U/DgdPQmbIkza7c1pgjH6c/cJFHHZijWJFu2BRpxlbMD
-         I+xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=4NltfgZTZVTcJkPdqjQ7/+K9bw+Jz6B0sQn1cG1ubn0=;
-        b=Sy9UtnBujWHLp3UQzf5C0CskSs7whmbCXBM22UeeUk30tiHILRbSNS3PJj47Tk1DLC
-         slg6IHjnwNV3cGCmFTmhL0ffjvR2yuVgnsdIL6DVBlXn0SZA41Au7JSaxTEcASZNjZw1
-         oZi4RnMpIV+/gc1+e7zERh9j0ME+rMXKvzNkfagwppUO7/eZ71mAP0uXGoxYpB6H7N7z
-         jzdcKl9m+u9lsBrshcKVB6MW77R+gyD3p6s0jSAkGmf3wkHD18d91fWm8MAefaOLDWFY
-         qmu3u6Fu5e3MQAe1+9D8ldlQTcG/umR+ovYp2mAUNMeOwBnfefBfjkGCAuYQ3d3mVxaQ
-         HC3g==
-X-Gm-Message-State: AOAM532g0+JfVNgt2TYEWBjBUGOaRKVXSVwMAqlNKo/JzoU0ClYEPBHB
-        OCleIuHndOVvXZFRAMRu8+MdcY3tmFs9Bg==
-X-Google-Smtp-Source: ABdhPJyU7toaPxfRB+GRGZ1B0AbgmhTb3xk3VvUnjilUNTmoU9IbdxVSNp9WKg1ElpgH0EglkgCFow==
-X-Received: by 2002:a4a:de88:: with SMTP id v8mr3700145oou.87.1614373009930;
-        Fri, 26 Feb 2021 12:56:49 -0800 (PST)
-Received: from [192.168.43.12] (wsip-72-214-132-169.sv.om.cox.net. [72.214.132.169])
-        by smtp.gmail.com with ESMTPSA id m11sm1860226oih.34.2021.02.26.12.56.48
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 12:56:49 -0800 (PST)
-Message-ID: <006e3315b5b18fc8b3d0df1e3fc5a0072316b278.camel@gmail.com>
-Subject: USB-C bug: port fails to initialize after an unplug/plug
-From:   420actionunits@gmail.com
-To:     linux-usb@vger.kernel.org
-Date:   Fri, 26 Feb 2021 13:56:32 -0700
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 
+        id S229745AbhB0BI6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Feb 2021 20:08:58 -0500
+Received: from smtp.bonedaddy.net ([45.33.94.42]:37376 "EHLO
+        smtp.bonedaddy.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229618AbhB0BI6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Feb 2021 20:08:58 -0500
+Received: from [192.168.1.209] (unknown [49.190.168.235])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: pabs3@bonedaddy.net)
+        by smtp.bonedaddy.net (Postfix) with ESMTPSA id B6B27180031;
+        Fri, 26 Feb 2021 20:08:28 -0500 (EST)
+Authentication-Results: smtp.bonedaddy.net; dmarc=fail (p=none dis=none) header.from=bonedaddy.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bonedaddy.net;
+        s=mail; t=1614388111;
+        bh=9ktoKNol23wyRJqjD73sAMsbRp3gtWVfZoW5SAwsV4g=;
+        h=Subject:From:To:Cc:In-Reply-To:References:Date;
+        b=kY/wqk7lkBq1pn1eFPPORM3ERpccds3mHfeJQ76un75Wv41I2L39hioiQOr1ULdzb
+         EI1kmkuK6KOed4rCPXAquqyRxJlDGjYqUYLgZRdFZAjXYLxtDC1YavrpxxOCBRzhkc
+         pW3S2pYtE7VAoj9UOxH3NRkCRVICEZUEJyngcVQYUZYWcbyH8OWDLoL91oSK20lFHd
+         hompFHsVRLgFjfJi7bvRxN5FVGZw9RfZdsmFv2gr4wIgNwYjJCqEKWEWQW/2L95PUY
+         AeC4sn60oTUEl1Yndd+aMVOLz1pIhLTqzOLQcF0FCuEC+IX+F5Ax51FW7RHeMyK1ew
+         kqzdaupA65YEQ==
+Message-ID: <f89e3e5b5e25b89a603e2d97542d60461b429910.camel@bonedaddy.net>
+Subject: Re: proposal: move Linux userspace USB gadget projects to
+ linux-usb GitHub organisation?
+From:   Paul Wise <pabs3@bonedaddy.net>
+To:     Mike Sweet <msweet@msweet.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Krzysztof Opasiak <k.opasiak@samsung.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Karol Lewandowski <k.lewandowsk@samsung.com>,
+        linux-usb@vger.kernel.org
+In-Reply-To: <DEA8D27F-3313-4457-A2F8-66B09CF392A7@msweet.org>
+References: <e6e918148b817e88efff77d3366cde057924fb45.camel@bonedaddy.net>
+         <DEA8D27F-3313-4457-A2F8-66B09CF392A7@msweet.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-R4bSRAWtLMqLjOX5wK66"
+Date:   Sat, 27 Feb 2021 09:08:02 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+User-Agent: Evolution 3.38.3-1 
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I'd like to report a USB-C bug. I recently switched from my linux distro's "stable" 5.4.99 kernel to the "testing" 5.11.2 version. A USB-C problem appeared in the 5.11.2 kernel. When a device is unplugged and then re-plugged back in, it does not initialize and the following message shows up in dmesg:
 
-[ 5082.822133] ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-95)
+--=-R4bSRAWtLMqLjOX5wK66
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This appears to be emitted by the code in drivers/usb/typec/ucsi/ucsi.c
+On Fri, 2021-02-26 at 14:24 -0500, Mike Sweet wrote:
 
-Booting a 5.4.99 kernel makes the issue go away.
+> Paul, please add me (GitHub user michaelrsweet)
 
-If the host is booted up with USB-C devices plugged in, they all come up. It's the unplugging and replugging at runtime that triggers the issue.
+Invited, you should get an email about it.
 
-Carlos Konstanski
+> I=E2=80=99m gearing up to work on the USB gadget documentation
+
+I guess you mean the documentation in the Linux kernel repository,
+I assume that the libusbgx/gt/gadgetd docs could use some work too.
+
+> Implementing IPP-USB has been an interesting challenge
+
+Are talking about a IPP-USB device implementation?
+I can't find your implementation on your GitHub account,
+could you provide a link, or is the code proprietary?
+
+--=20
+bye,
+pabs
+
+https://bonedaddy.net/pabs3/
+
+--=-R4bSRAWtLMqLjOX5wK66
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEYQsotVz8/kXqG1Y7MRa6Xp/6aaMFAmA5m24ACgkQMRa6Xp/6
+aaOjow/+NQ0pxM5aPN5Y/FmHK0U48Xsxe3HM5wbsrA4ISDcCM2becknCN7fa5qtn
+XyB19X7Lg5JoE/jxY361ewCvogrwr7t3TFwYw/VgLYKH/nq2A2gYTLOFfi4TdWyp
+HKbZeqMPvg7oGYcre2zAnV5o5LXf80trsnzub95Muhz9c9WwGe69k5sE4UMshz0m
+ieGpNsFBpzHQercCJbPWQ1PfHl0r7FwmWcJHIA+tEhkuovOMRcYMFENRCr41yiNZ
+b4WJs6Jbf0dqRFy/42UaFwYCSGmKoKPpyhUKTx/jv503dqaF3uTO+hohEin88VlL
+Ih5C/YqWukgSQ00dq7HQaxWdhBePSQgL3Ww2CEnrfZXVGOtP5PgHeGITLAea2L1I
+ehFomRtJHDtgXLaN+4TSGjO96W39gt0eTKlOwr3XFlTzivf+oCGwWvjnPOSEW/fZ
+jnDArvjVMhLd/DFqcP1gxfh6zd0bPWhleSHOr9/ItwyTqHVcmGuHwrDJWsUCoQRd
+vBcPomALSKFCyArTMmry8fL26sodbzln9jnTrE9iGAK8JSr2NrUSxycMt4le4ykC
+RyCH+wvsUVneMLlsQh+yQjE4QkKWaLhQLGl/KYPfY4p7a+dOp9JJ+HONn0jXP+/P
+sBgVnS94xO8D7jZF3v4CCziVE6pn9qbO/jkVHsfQw32ld21AJDU=
+=bktf
+-----END PGP SIGNATURE-----
+
+--=-R4bSRAWtLMqLjOX5wK66--
 
