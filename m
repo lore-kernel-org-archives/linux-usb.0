@@ -2,132 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A73C433E6
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Mar 2021 10:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04356C433DB
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Mar 2021 11:01:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F0E764F07
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Mar 2021 10:47:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE3A4601FB
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Mar 2021 11:01:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237163AbhCBKic (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Mar 2021 05:38:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344872AbhCAXCv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Mar 2021 18:02:51 -0500
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D94DC061756;
-        Mon,  1 Mar 2021 15:02:08 -0800 (PST)
-Received: by mail-lf1-x131.google.com with SMTP id v9so10450424lfa.1;
-        Mon, 01 Mar 2021 15:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3mPp40AUhbsnKl/pbYjlZ7ypcuT/iGIJ4xR8gm1e1pQ=;
-        b=UYqa36UZPmzn81Z+vlXZrf71q0aNgOFXH8hZPj7fG/RbxSVvhX+UqzaY4p3kRvaLhh
-         GJeU3sGpELzvgOYobxeNS8gGFV7SpFFJc4Le+O0ZXYfxqwDwduDuiydrNOUw5t4P9vcB
-         GD6hCcJKMqLMGz5/z7ideLnU3clBs7A6N8a7/X13yJEhUH8ggg4H4XeE4U2ZeMVV9if4
-         mvMX7V5Wf9jSr08hD+/GXZzRWetUOZvw0busAy0+ZfLmzutGuNc8e+8HPU9f5JScVmCw
-         bLAC/AgzK1h+fRSHnVd+y0coOsNzTSAP4l1VgKHbhmu/ntvgzeNqW/3zzbFVHIb7Ebni
-         KxxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3mPp40AUhbsnKl/pbYjlZ7ypcuT/iGIJ4xR8gm1e1pQ=;
-        b=C/82mpq54/wj3S63kwtzbUAeF4ZtILDbPoGBnRCFpQ58o61XplvDaMyTlTr35MvM5o
-         lKj/prUQf1AsjcEfjmROD+W2sJpeDrbo5p7pm4K/sROGT++kNO3y0Cz/vwbzXuc/WCfu
-         7Y/uNwghykQH30ptBUmOM9cbzMYHvo7r8tyv4bN6kiHyAFOK14fT1Gws63sNNXcUcddV
-         9k6lPGyvwPcDkA5aK6Lpo5UbfV2Uan/eVeJAW4UEcdAghz/eaQNrOsGoGZkqLPC/eL21
-         8mLNyMM4mScucurc4R8vA+u9BKgRgniWyM5sLVtXMd+jduT1CiyKQzI2+Eq8xJfbpVIt
-         2bjw==
-X-Gm-Message-State: AOAM532WzANJdXIE2JVg1npzUbv15elJg8qjpR8Vg7gj8ryJy2v83Ebx
-        HUJFawlNV6ryveM/KJ4wuuQ=
-X-Google-Smtp-Source: ABdhPJyxGuwO7i4pyWRbtBuyqIT6ZddzTc/BEGKMvQ0yrhDI0RdpOIGeiG/g8VYT4wutPvas8wfVAw==
-X-Received: by 2002:ac2:5ec1:: with SMTP id d1mr10292008lfq.48.1614639726988;
-        Mon, 01 Mar 2021 15:02:06 -0800 (PST)
-Received: from localhost.localdomain ([94.103.235.167])
-        by smtp.gmail.com with ESMTPSA id x27sm1152071lfn.95.2021.03.01.15.02.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 15:02:06 -0800 (PST)
-From:   Pavel Skripkin <paskripkin@gmail.com>
-To:     johan@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Pavel Skripkin <paskripkin@gmail.com>,
-        syzbot+59f777bdcbdd7eea5305@syzkaller.appspotmail.com
-Subject: [PATCH] usb: serial: io_edgeport: fix memory leak in edge_startup
-Date:   Tue,  2 Mar 2021 02:01:52 +0300
-Message-Id: <20210301230152.527093-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S1383174AbhCBKre (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Mar 2021 05:47:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1836606AbhCBHFp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Mar 2021 02:05:45 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B02C3600CD;
+        Tue,  2 Mar 2021 07:04:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1614668695;
+        bh=pOmSSnYbbtR/9TOEn1bApe04ogdZGTRfoSDl6AX/sio=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ldt/9YW2tFOGUoidmIYVm8jDOhoc6ggh+EzNOzqXdMOf1ZLs/jcmTrp/7DRvS5z+f
+         vm9VBZZPGCay6dpcgZdua02iTWNyGfODuDo/AH0+c+QNycagYpzcXtlkCtJb5LA/41
+         KLGKvFQB38N+fAUFVBZrrBLjoeQwgRtDG7z4WCyw=
+Date:   Tue, 2 Mar 2021 08:04:52 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Zhang, Qiang" <Qiang.Zhang@windriver.com>
+Cc:     "zaitcev@redhat.com" <zaitcev@redhat.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRD?= =?utf-8?Q?H=5D?= USB:
+ usblp: Add device status detection in usblp_poll()
+Message-ID: <YD3jlIR7UJjXT6Se@kroah.com>
+References: <20210301040300.20834-1-qiang.zhang@windriver.com>
+ <YDyfL/yg9QNM4nku@kroah.com>
+ <BYAPR11MB263268B5FD6EB3C3B80B63FBFF9A9@BYAPR11MB2632.namprd11.prod.outlook.com>
+ <YDymu1AlS+8UjdXG@kroah.com>
+ <BYAPR11MB2632AE1A6D78903112F86062FF9A9@BYAPR11MB2632.namprd11.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR11MB2632AE1A6D78903112F86062FF9A9@BYAPR11MB2632.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-sysbot found memory leak in edge_startup().
-The problem was that when an error was received from the usb_submit_urb(),
-nothing was cleaned up.
+On Mon, Mar 01, 2021 at 08:52:58AM +0000, Zhang, Qiang wrote:
+> 
+> 
+> ________________________________________
+> 发件人: Greg KH <gregkh@linuxfoundation.org>
+> 发送时间: 2021年3月1日 16:32
+> 收件人: Zhang, Qiang
+> 抄送: zaitcev@redhat.com; linux-usb@vger.kernel.org
+> 主题: Re: 回复: [PATCH] USB: usblp: Add device status detection in usblp_poll()
+> 
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+> 
+> On Mon, Mar 01, 2021 at 08:26:22AM +0000, Zhang, Qiang wrote:
+> >
+> >
+> > ________________________________________
+> > 发件人: Greg KH <gregkh@linuxfoundation.org>
+> > 发送时间: 2021年3月1日 16:00
+> > 收件人: Zhang, Qiang
+> > 抄送: zaitcev@redhat.com; linux-usb@vger.kernel.org
+> > 主题: Re: [PATCH] USB: usblp: Add device status detection in usblp_poll()
+> >
+> > [Please note: This e-mail is from an EXTERNAL e-mail address]
+> >
+> > On Mon, Mar 01, 2021 at 12:03:00PM +0800, qiang.zhang@windriver.com wrote:
+> > > From: Zqiang <qiang.zhang@windriver.com>
+> > >
+> > > If usblp device has been disconnected, direct return
+> > > 'EPOLLHUP | EPOLLERR' in usblp_poll().
+> > >
+> > >Why?  What problem are you solving here?  Is this fixing an >older
+> > >commit, if so, what one?
+> > >
+> >
+> > There is not need fix older commit.
+> > After the device is disconnected, if the userspace call >poll/select() function, will block and never be awakened .
+> >
+> >If the device is disconnected, how can the file be opened at >all?
+> >Shouldn't it have been torn down already?
+> 
+> If the device disconnect happen after the file be opend, and then we call poll/select() will always blocked.
+> Also  before we operate the device, we need to judge the state of the device. If it is disconnected, there is no need for subsequent operation .
 
-Reported-by: syzbot+59f777bdcbdd7eea5305@syzkaller.appspotmail.com
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
----
- drivers/usb/serial/io_edgeport.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+But shouldn't the normal call to poll_wait() fail here?
 
-diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
-index a493670c06e6..68401adcffde 100644
---- a/drivers/usb/serial/io_edgeport.c
-+++ b/drivers/usb/serial/io_edgeport.c
-@@ -3003,26 +3003,32 @@ static int edge_startup(struct usb_serial *serial)
- 				response = -ENODEV;
- 			}
- 
--			usb_free_urb(edge_serial->interrupt_read_urb);
--			kfree(edge_serial->interrupt_in_buffer);
--
--			usb_free_urb(edge_serial->read_urb);
--			kfree(edge_serial->bulk_in_buffer);
--
--			kfree(edge_serial);
--
--			return response;
-+			goto error;
- 		}
- 
- 		/* start interrupt read for this edgeport this interrupt will
- 		 * continue as long as the edgeport is connected */
- 		response = usb_submit_urb(edge_serial->interrupt_read_urb,
- 								GFP_KERNEL);
--		if (response)
-+		if (response) {
- 			dev_err(ddev, "%s - Error %d submitting control urb\n",
- 				__func__, response);
-+
-+			goto error;
-+		}
- 	}
- 	return response;
-+
-+error:
-+	usb_free_urb(edge_serial->interrupt_read_urb);
-+	kfree(edge_serial->interrupt_in_buffer);
-+
-+	usb_free_urb(edge_serial->read_urb);
-+	kfree(edge_serial->bulk_in_buffer);
-+
-+	kfree(edge_serial);
-+
-+	return response;
- }
- 
- 
--- 
-2.25.1
+> >And now you are holding a lock across some poll_wait() calls, >is that
+> >going to cause problems?
+> 
+> The 'usblp->present' is portect by 'usblp->mut',  when devices disconnect, will acquire 'usblp->mut', and set 'usblp->present'
+> zero. 
 
+But you are now holding a mutex across a very very long period of time,
+what will that change?
+
+thanks,
+
+greg k-h
