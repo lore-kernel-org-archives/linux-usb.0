@@ -2,74 +2,59 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E92C4321A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5FE1C4361B
 	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 572AB64E6C
+	by mail.kernel.org (Postfix) with ESMTP id AEAA464E6C
 	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239094AbhCCKbt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33864 "EHLO mail.kernel.org"
+        id S238766AbhCCKbr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:47 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355936AbhCCHDK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Mar 2021 02:03:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B62D664EE1;
-        Wed,  3 Mar 2021 07:02:28 +0000 (UTC)
+        id S1842206AbhCCG6P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 01:58:15 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BAC0564EDC;
+        Wed,  3 Mar 2021 06:57:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614754949;
-        bh=vaG1elq+sTvUfo7XCvsKUrb395oT0+MsMl9tgpolPhE=;
+        s=korg; t=1614754652;
+        bh=Il6NY7vYQFAtp00egyDxGLv8P/xc1G2uH83impl1d1w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o55/ZO+SxXBqFOWIgXAVgnXamKiQRklg1q9PBJHHZZ4wihpAiObdhbOw1V5HegMUe
-         JKd1+J/8S7+XIGIyKehwHfUCE7zroPTIdbJZ1Unt5u2TWRKmyGV7+lm1MK3OGSxdWL
-         p5mwxbO+YQYOiTIsz2BySBdx+jzl5ys1c1wPBRXI=
-Date:   Wed, 3 Mar 2021 08:02:26 +0100
+        b=2BCR1fdrzSHa8s+JIqAXfc6TPjAO6Ty/GptJwrHVEbMPCxQRXF+0z05d4aYa9DdhH
+         FOY5dvKjeJVUN9BpxCoBbUypmyAmDGKJry/VUKqKP73zo5wpjFS2RELINm/UXN4bcH
+         Ubchb8EQFcpjEySa+4T4vTF3VQILCRZoXTok/7j8=
+Date:   Wed, 3 Mar 2021 07:57:29 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Tian Tao <tiantao6@hisilicon.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: hcd: remove unused including <linux/version.h>
-Message-ID: <YD80gndsrjIRvy8H@kroah.com>
-References: <1614733752-56541-1-git-send-email-tiantao6@hisilicon.com>
+To:     Ray Chi <raychi@google.com>
+Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kyletso@google.com
+Subject: Re: [PATCH] usb: dwc3: document usb_psy in struct dwc3
+Message-ID: <YD8zWWH79HaTTyWR@kroah.com>
+References: <20210303064842.2723785-1-raychi@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1614733752-56541-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <20210303064842.2723785-1-raychi@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 09:09:12AM +0800, Tian Tao wrote:
-> Remove including <linux/version.h> that don't need it.
+On Wed, Mar 03, 2021 at 02:48:42PM +0800, Ray Chi wrote:
+> The new struct member was added to struct dwc3, but
+> a documentation was missing:
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/usb/core/hcd.c | 1 -
->  1 file changed, 1 deletion(-)
+> drivers/usb/dwc3/core.h:1273: warning: Function parameter or member 'usb_psy' not described in 'dwc3'
 > 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 3f03813..53bc93d 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -11,7 +11,6 @@
->  
->  #include <linux/bcd.h>
->  #include <linux/module.h>
-> -#include <linux/version.h>
->  #include <linux/kernel.h>
->  #include <linux/sched/task_stack.h>
->  #include <linux/slab.h>
+> Signed-off-by: Ray Chi <raychi@google.com>
 
-You obviously did not even test-build this patch, which is very odd when
-submitting something to the community.  Why did you not do this?
+You forgot the "Reported-by:" line here.
 
-This file _DOES_ need this .h file, whatever tool you are using to
-detect this is completely broken.  Please fix it and be more careful
-before sending new patches.
+Please fix up and resend a v2.
 
 thanks,
 
