@@ -2,75 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5E8C4332B
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:32:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5544C433DB
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:33:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60EFE64EE1
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DB8564E66
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:33:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241181AbhCCKcI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:32:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43298 "EHLO mail.kernel.org"
+        id S241459AbhCCKcW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:32:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1843032AbhCCKYp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:24:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6411564EDF;
-        Wed,  3 Mar 2021 10:24:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614767044;
-        bh=zMXJiOtRW2C2DuquOpLzInD+Ii95FnMEvcnmh7h8sNU=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=UvZ5ERh4xHqXS0CDVW0n8HHAn7u9oEoEUfmIUuxBZMaQzg6b+AURi3FnNGBmtFs+D
-         oOQeyGE7GimP9CUrXjnrt8ux/6RlPLjpt9zepruhsre+LTLyhdwjBOF68cfpcODeQo
-         lyuIYOoMFU52a4VYPbKg1gkfT7ZL0EvisP2cSMQo2Dle3Ar1blgmHJ82Xf9nx2/IG1
-         tEDWCTPS7oaNqVs9NieIaxxKbz6UXh+Gpf8xOiLkR4864jlhbTW20orf+CDXh+0C5+
-         XoQtPbu2KCcu4i2CFq3POmDcKX9lxPCq56QIEJuuwBK1kNrzBYKPybfvMPGtrC1+j5
-         qUGWpp6Pv88iQ==
-Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
-To:     taehyun cho <taehyun.cho@samsung.com>, balbi@kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
- <20210303022628.6540-1-taehyun.cho@samsung.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Message-ID: <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
-Date:   Wed, 3 Mar 2021 11:24:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S241117AbhCCK1F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 05:27:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E402164EE1;
+        Wed,  3 Mar 2021 09:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1614762597;
+        bh=rKzQViVrLLM19qCh+ONNHy/Oc+g0iNNTWOurFX2lbRo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=1IXpJQOnfIK9q+KHPeVPXtBrzKMVOQlB+wYpdid+B3vrLVuSL0an9+eFh6aA5Dh/l
+         Xpuk53Fx+aEU5TKSb/ad0qMLX/1W/FlqE3nVJL3wtfhEHpW6eFgjav0Q8+z0jipVeb
+         8xF12EplSBIFay0t2kUI5UyWb1J/TWhxYOiDmVUo=
+Date:   Wed, 3 Mar 2021 10:09:54 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Chien Kun Niu <rickyniu@google.com>
+Cc:     stern@rowland.harvard.edu, erosca@de.adit-jv.com,
+        gustavoars@kernel.org, a.darwish@linutronix.de, oneukum@suse.com,
+        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, James Wei <jameswei@google.com>
+Subject: Re: [PATCH] ANDROID: usb: core: Send uevent when USB TOPO layer over
+ 6
+Message-ID: <YD9SYklmQq5amDA7@kroah.com>
+References: <20210226091612.508639-1-rickyniu@google.com>
+ <YDi/+TN6AYXropf7@kroah.com>
+ <CADRPvQubTEjKeJc=+LQ2jb0L=N4mxY8n21Bf8U-tS1stpB_eGw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210303022628.6540-1-taehyun.cho@samsung.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADRPvQubTEjKeJc=+LQ2jb0L=N4mxY8n21Bf8U-tS1stpB_eGw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/03/2021 03:26, taehyun cho wrote:
-> 'ARCH_EXYNOS' is not suitable for DWC3_EXYNOS config.
-> 'USB_DWC3_EXYNOS' is glue layer which can be used with
-> Synopsys DWC3 controller on Exynos SoCs. USB_DWC3_EXYNOS'
-> can be used from Exynos5 to Exynos9.
+On Wed, Mar 03, 2021 at 05:03:25PM +0800, Chien Kun Niu wrote:
+> Hi , Greg
 > 
-> Signed-off-by: taehyun cho <taehyun.cho@samsung.com>
+> What tool will "catch" this?  Where is that code located at?
+> => I prepare merge the code to Android phone , so I used Android HLOS
+> to catch this uevent.
 
-NACK because you ignored comments from March. Please respond to them 
-instead of resending the same patch.
+Very odd quoting style, perhaps you might want to read up on how to do
+this properly at:
+	https://en.wikipedia.org/wiki/Posting_style#Interleaved_style
 
-Anyway, when resending you need to version your patches and explain the 
-differences. Please also Cc reviewers and other maintainers. I pointed 
-out this before:
-scripts/get_maintainer.pl -f drivers/usb/dwc3/dwc3-exynos.c
+> uevents are not for stuff like this, you are trying to send "error
+> conditions" to userspace, please use the "proper" interfaces like this
+> and not abuse existing ones.
+> => Sorry , I am not sure what is the "proper" interfaces your mean.
+>      Could you please give me more description?
 
-The driver - in current form - should not be available for other 
-architectures. It would clutter other platforms and kernel config 
-selection. If you want to change this, you need to provide rationale 
-(usually by adding support to new non-Exynos platform).
+How does the kernel normally send error conditions that it detects in
+hardware to userspace?
 
-Best regards,
-Krzysztof
+> You just created a whole new sysfs class with no Documentation/ABI/
+> update?
+> => Yes, I will add it.
+> 
+> Wait, how did you even test this code?  This will not work if you have
+> more than one hub in the system at a single time, right?
+> => I build the test build which flash in Android phone and connect
+> several hubs to try it.
+>      When the new hub which met MAX_TOPO_LEVEL connected , it sent
+> notify to user space.
+> 
+> Phone ------↓
+>                  hub ------↓
+>                              hub ------↓
+>                                            ...------↓
+>                                                     hub
+> 
+>      if (hdev->level == MAX_TOPO_LEVEL) {
+>                 dev_err(&intf->dev,
+>                         "Unsupported bus topology: hub nested too deep\n");
+>                 hub_over_tier();
+>                 return -E2BIG;
+>      }
+> 
+
+But you only have a single hub variable, and a huge memory leak, did you
+not detect that in your testing?
+
+> So, proof that this works?  How did you test this?
+> => I use the Pixel phone to verify the code , the framework received
+> the uevent when the last connected hub over "MAX_TOPO_LEVEL".
+
+Try it on a desktop as well, with many hubs and see what happens :(
+
+> Also, you have a memory leak in this submission :(
+> => Do you mean I should add device_destroy here ?
+
+What do you think should be done?
+
+> 
+> hub_device =
+> device_create(hub_class, NULL, MKDEV(0, 0), NULL, "usb_hub");
+> +if (IS_ERR(hub_device))
+> +               return PTR_ERR(hub_device);
+> 
+> void usb_hub_cleanup(void)
+> {
+> +if (!IS_ERR(hub_device))
+> +device_destroy(hub_class, hub_device->devt);
+> 
+> if (!IS_ERR(hub_class))
+> class_destroy(hub_class);
+
+I don't think you are understanding that you can have multiple hubs in
+the system at the same time :(
+
+thanks,
+
+greg k-h
