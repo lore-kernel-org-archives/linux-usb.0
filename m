@@ -2,84 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6585C432C3
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CA0C4160E
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A14F764EEC
+	by mail.kernel.org (Postfix) with ESMTP id E9C8764EDF
 	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245468AbhCCKe3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:34:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47032 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229756AbhCCKbZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:31:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F376164EE1;
-        Wed,  3 Mar 2021 10:30:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614767441;
-        bh=YkUt7e1p9mMc+VuaDIEttpy+Wk4e/s1d1rMVjVEMx7U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WKDnFaWQR2efae0gE0M3Yb0vTthj+v6Ocf1f1nJhU1Y5ryNg8VWgsHwu2ja6+TNhU
-         i9GeAlHOsyTURts43rdIYnq2R+2GOFYBxKSFEYvzng5UdxxzEaaJSbfEzgmHrDaI+l
-         RFNHsVAAjJr4EtdHxHVCCingTonARplZYRFbV9QI=
-Date:   Wed, 3 Mar 2021 11:30:38 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     taehyun cho <taehyun.cho@samsung.com>, balbi@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
-Message-ID: <YD9lTjWc25Nn7jAR@kroah.com>
-References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
- <20210303022628.6540-1-taehyun.cho@samsung.com>
- <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
+        id S240860AbhCCKby (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1842994AbhCCKXa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 05:23:30 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382B7C08ECB1
+        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 01:58:08 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id h10so17167181qvf.19
+        for <linux-usb@vger.kernel.org>; Wed, 03 Mar 2021 01:58:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=TSFbiHk2wopoWX9vUZpzk37wo66kS5QquU8TlUFLvVA=;
+        b=hofwvEuISaHVnfbjMGuHJ9z12jtJGJ3Qy9uq05ohrB0MDYJXYafKi++1Qxyxw9tnUK
+         T0w6CvVIxYCR/JnYnB8TG1CFQ8H/dgeA99w2Rl3VgEbRR3skZh6TM6nM/Ouz2IqpL+db
+         YjhUjEnIratoU1YqSvxjY0g4y2fsPNVbY639UNLr6L0wVCWMtlBT2C5G6sPEjl0mPd1z
+         tX+eRyddDHFQ/E+63L6shixo/RVUzPmMxYVT3mHORVtjd0Dg5OpL3n87f2SfyTcrhZMx
+         lgW8i4RMvFPDaeEOyzMHSmgg2c14etouW3WigfUhGa0tGM7OeeNOwhUhRw5gRv7PzoSy
+         Jcgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=TSFbiHk2wopoWX9vUZpzk37wo66kS5QquU8TlUFLvVA=;
+        b=AQJtuSQjz/it2++T8R9A41Q3slVjiJchFyz9TP4wsWzQpEdOxYhxeXb5mLfpvKXL5X
+         v7pAGcNVIXwvQ+v2opVFDoNmHAmP+G7juDNCw7R5CbOlgsKj6A9KTLxjA5FD/DZ4ri/Y
+         mF6HWw8raQs7gbGlFpP25Gcnfl4kqi479Xk6mUdzHz5UuTGBAShsR7aO8pInnRNy3oYP
+         okhK+p9uDh4dE9RPlx7aiHEpXwXzgeeojIdTJ59PuDvioiwBtxU2/DOqF8/DbyDmgLhm
+         pIj54qqEa16K5NUT45NmXADJDWeIwHuiOynqS6S7DLDw4qWIpSY0hBMVGR0sMIHgtQuP
+         IdiQ==
+X-Gm-Message-State: AOAM53016jWp/bNBDzQOXiivb/Y4fE14jtbk1XFsK89OY98tYadGuAdl
+        i9nxN8Kdgp7HXNDX+gLc8HHpZ4Nzo0E=
+X-Google-Smtp-Source: ABdhPJwQ/JiIgEDiPOARa1Nh5v97jWzDrd/L0iXI4ma6Im+lmhmIb9PjN2A2XnITINs7yMYi/Pvw8OA21pY=
+Sender: "raychi via sendgmr" <raychi@raychi.tao.corp.google.com>
+X-Received: from raychi.tao.corp.google.com ([2401:fa00:fc:202:d0b:ce1b:8f7e:f53a])
+ (user=raychi job=sendgmr) by 2002:a0c:e788:: with SMTP id x8mr7735388qvn.48.1614765487321;
+ Wed, 03 Mar 2021 01:58:07 -0800 (PST)
+Date:   Wed,  3 Mar 2021 17:58:02 +0800
+Message-Id: <20210303095802.2801733-1-raychi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+Subject: [Patch v3] usb: dwc3: document usb_psy in struct dwc3
+From:   Ray Chi <raychi@google.com>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kyletso@google.com, Ray Chi <raychi@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 11:24:01AM +0100, Krzysztof Kozlowski wrote:
-> On 03/03/2021 03:26, taehyun cho wrote:
-> > 'ARCH_EXYNOS' is not suitable for DWC3_EXYNOS config.
-> > 'USB_DWC3_EXYNOS' is glue layer which can be used with
-> > Synopsys DWC3 controller on Exynos SoCs. USB_DWC3_EXYNOS'
-> > can be used from Exynos5 to Exynos9.
-> > 
-> > Signed-off-by: taehyun cho <taehyun.cho@samsung.com>
-> 
-> NACK because you ignored comments from March. Please respond to them instead
-> of resending the same patch.
-> 
-> Anyway, when resending you need to version your patches and explain the
-> differences. Please also Cc reviewers and other maintainers. I pointed out
-> this before:
-> scripts/get_maintainer.pl -f drivers/usb/dwc3/dwc3-exynos.c
-> 
-> The driver - in current form - should not be available for other
-> architectures. It would clutter other platforms and kernel config selection.
-> If you want to change this, you need to provide rationale (usually by adding
-> support to new non-Exynos platform).
+The new struct member was added to struct dwc3, but
+a documentation was missing:
 
-No, these crazy "ARCH_FOO" things need to go away.  For systems that
-want to build "universal" kernels, why are they being forced to enable
-"ARCH_*" just so they can pick specific drivers?  That is not done on
-other architectures, why is ARM64 so "special" in this regard.
+drivers/usb/dwc3/core.h:1273: warning: Function parameter or member 'usb_psy' not described in 'dwc3'
 
-How do you "know" that these cores/devices are tied to specific ARCH_
-platforms?  We don't, so that dependency should not be there.
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Ray Chi <raychi@google.com>
+---
+Changelog since v2:
+- move Signed-off-by to the bottom
 
-Just let any arch pick any driver if it can be built, you never know
-what it might be run on.  Removing ARCH_ dependencies in Kconfig files
-is a good thing, please do not discourage that from happening.
+Changelog since v1:
+(reported-by Stephen Rothwell <sfr@canb.auug.org.au>)
+- added Reported-by line.
 
-thanks,
+ drivers/usb/dwc3/core.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-greg k-h
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 6708fdf358b3..ce6bd84e2b39 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -988,6 +988,7 @@ struct dwc3_scratchpad_array {
+  * @role_sw: usb_role_switch handle
+  * @role_switch_default_mode: default operation mode of controller while
+  *			usb role is USB_ROLE_NONE.
++ * @usb_psy: pointer to power supply interface.
+  * @usb2_phy: pointer to USB2 PHY
+  * @usb3_phy: pointer to USB3 PHY
+  * @usb2_generic_phy: pointer to USB2 PHY
+-- 
+2.30.1.766.gb4fecdf3b7-goog
+
