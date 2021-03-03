@@ -2,128 +2,226 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5F9C433DB
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2B9C4160E
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A32BF64E67
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5ACB64E68
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236519AbhCDA2B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:28:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388968AbhCCVaV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 16:30:21 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C49A4C06175F;
-        Wed,  3 Mar 2021 13:29:36 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id e23so6296152wmh.3;
-        Wed, 03 Mar 2021 13:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RHWM5gQcenxuOkY0x6Td3acOXwhJs3a6wdM3qoJf5Qc=;
-        b=Mpk2VE/skjGqPta3MrNp4DGLqRCWE+N099GW6R9jUTt3MKKuG7njT6vskx8DWMwZ1p
-         oTZq96hWm5zSX9nKgrKRpOU2JG8vt79w6z8fS8zkMnJC0di66MK6SZ8k8DKfi3iWXIYh
-         qBAfI9gQWlDcJUvAiBFOzjSk0tuhjjdTWru7g6yrWiW9FGEWIdJpnjeX2eOeehK/Ekut
-         Wl53XQ9kAuLaDB8Yy+iSfNXn+4U9yUAEhWqLQ2FOVmI50B+JTx2/ZlmRLFW/X5m40DBU
-         uQHSFAsR84DRjjXdNSTeyW2WP0uniy86GzZOfmLi4HHdw0Oh9J9ijdnYT2H2ziWJm8CL
-         in5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RHWM5gQcenxuOkY0x6Td3acOXwhJs3a6wdM3qoJf5Qc=;
-        b=WnBbTlSUWyvVxXI9p73sR/wbwmf4/Xu7W/Wk4CaK9J0aixYW/RQpVusQem8gFDf3ci
-         JN0waxmbWqV9M2+y92wOfCFqlVCcTMe/i+3PPTUrmZEi7SoPMgCmNSNoS1vfy9hAQJbk
-         8WSRZFJ7PWJWBi3eA15pRJMpDKqrahy7BqQm9M9xHtT0ZBwOjOKveFmgrWZJohWQbMfv
-         X85nww9eIUxIcAD24bAEO9Gs1oCTCY0DfSjZ/38EaHBrrL3UnrjGaMpwcpQMx0BDnIKg
-         9upTB5x/9D2XOHRgNt5+XHPZ5mk+1O94sX6eij0+mMwHrrQxgOrGUBurUe+nshChtNiy
-         ceLA==
-X-Gm-Message-State: AOAM531WYYgEX0Ym0ljHzCA0rzvVGp1BTT9reaPfyZEVdbl8EYUHe6m6
-        fg4SkRDl+weY0KJhQhHABGY=
-X-Google-Smtp-Source: ABdhPJzJhJzmLR3kVCrW+NRdh4CAxVetKaZCJTPOZjiMUgdhly7FLobuGadSCdUJrL3lBpUFQkw2Jw==
-X-Received: by 2002:a05:600c:2ca:: with SMTP id 10mr831328wmn.40.1614806975516;
-        Wed, 03 Mar 2021 13:29:35 -0800 (PST)
-Received: from hthiery.fritz.box (ip1f1322f8.dynamic.kabel-deutschland.de. [31.19.34.248])
-        by smtp.gmail.com with ESMTPSA id s23sm6950088wmc.35.2021.03.03.13.29.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 13:29:35 -0800 (PST)
-From:   Heiko Thiery <heiko.thiery@gmail.com>
-To:     raychi@google.com
-Cc:     balbi@kernel.org, colin.king@canonical.com,
-        gregkh@linuxfoundation.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Heiko Thiery <heiko.thiery@gmail.com>
-Subject: Re: [PATCH] usb: dwc3: Fix dereferencing of null dwc->usb_psy
-Date:   Wed,  3 Mar 2021 22:29:25 +0100
-Message-Id: <20210303212924.19733-1-heiko.thiery@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <CAPBYUsCPj12enyMp9AMzFEAgd5MdKh7dYN5DNFpZwofBYnjG8A@mail.gmail.com>
-References: <CAPBYUsCPj12enyMp9AMzFEAgd5MdKh7dYN5DNFpZwofBYnjG8A@mail.gmail.com>
+        id S1355204AbhCDA2F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:28:05 -0500
+Received: from mga01.intel.com ([192.55.52.88]:40620 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242176AbhCCWzn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 17:55:43 -0500
+IronPort-SDR: 08a/WyVsrLjqmhB8IiKLFpV/Ku0YLnVy+x2V7kswZzSg99lVQXbrIgGTiPkKh+/QjDZGhEH26k
+ m5S7kc78ByNw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="206991410"
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
+   d="scan'208";a="206991410"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 14:52:30 -0800
+IronPort-SDR: xWoO0PD2HvhtNrxaNv65KfJrkXeBb3CD/ZX4z/hFMirCQkSbtyH8FXGSp1HsIEeloP/iDEF7w5
+ 61MWCE+ip27g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
+   d="scan'208";a="374262864"
+Received: from lkp-server02.sh.intel.com (HELO 2482ff9f8ac0) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Mar 2021 14:52:28 -0800
+Received: from kbuild by 2482ff9f8ac0 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lHaM0-0001pL-C3; Wed, 03 Mar 2021 22:52:28 +0000
+Date:   Thu, 04 Mar 2021 06:52:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD REGRESSION
+ 5e17812c22bcd65fa9202595eef4bbf8fa814144
+Message-ID: <6040131f.auMvgehIX2dTeFpe%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 5e17812c22bcd65fa9202595eef4bbf8fa814144  usb: dwc3: document usb_psy in struct dwc3
 
-> On Wed, Mar 3, 2021 at 6:00 PM Colin King <colin.king@canonical.com> wrote:
->>
->> From: Colin Ian King <colin.king@canonical.com>
->>
->> Currently the null check logic on dwc->usb_psy is inverted as it allows
->> calls to power_supply_put with a null dwc->usb_psy causing a null
->> pointer dereference. Fix this by removing the ! operator.
->>
->> Addresses-Coverity: ("Dereference after null check")
->> Fixes: 59fa3def35de ("usb: dwc3: add a power supply for current control")
->
-> Acked-by: Ray Chi <raychi@google.com>
->
->> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Error/Warning reports:
 
-Tested-by: Heiko Thiery <heiko.thiery@gmail.com>
+https://lore.kernel.org/linux-usb/202103040522.zSmSOlyU-lkp@intel.com
 
->> ---
->>  drivers/usb/dwc3/core.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->> index d15f065849cd..94fdbe502ce9 100644
->> --- a/drivers/usb/dwc3/core.c
->> +++ b/drivers/usb/dwc3/core.c
->> @@ -1628,7 +1628,7 @@ static int dwc3_probe(struct platform_device *pdev)
->>  assert_reset:
->>         reset_control_assert(dwc->reset);
->>
->> -       if (!dwc->usb_psy)
->> +       if (dwc->usb_psy)
->>                 power_supply_put(dwc->usb_psy);
->>
->>         return ret;
->> @@ -1653,7 +1653,7 @@ static int dwc3_remove(struct platform_device *pdev)
->>         dwc3_free_event_buffers(dwc);
->>         dwc3_free_scratch_buffers(dwc);
->>
->> -       if (!dwc->usb_psy)
->> +       if (dwc->usb_psy)
->>                 power_supply_put(dwc->usb_psy);
->>
->>         return 0;
->> --
->> 2.30.0
->>
+Error/Warning in current branch:
 
-Thank you.
+core.c:(.text+0x20f8): undefined reference to `power_supply_put'
+core.c:(.text+0x560): undefined reference to `power_supply_get_by_name'
 
--- 
-Heiko
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+`-- mips-cavium_octeon_defconfig
+    |-- core.c:(.text):undefined-reference-to-power_supply_get_by_name
+    `-- core.c:(.text):undefined-reference-to-power_supply_put
+
+elapsed time: 723m
+
+configs tested: 143
+configs skipped: 2
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                     pseries_defconfig
+powerpc                     sbc8548_defconfig
+arm                          iop32x_defconfig
+sh                           se7721_defconfig
+powerpc                  mpc885_ads_defconfig
+i386                             alldefconfig
+powerpc                    klondike_defconfig
+sparc                       sparc64_defconfig
+powerpc                       eiger_defconfig
+powerpc                       maple_defconfig
+xtensa                         virt_defconfig
+sh                          rsk7203_defconfig
+csky                             alldefconfig
+powerpc                  iss476-smp_defconfig
+m68k                             alldefconfig
+mips                       capcella_defconfig
+powerpc                         wii_defconfig
+powerpc                      pmac32_defconfig
+m68k                          multi_defconfig
+powerpc                     mpc5200_defconfig
+powerpc                      tqm8xx_defconfig
+sh                           se7751_defconfig
+arc                 nsimosci_hs_smp_defconfig
+powerpc                      cm5200_defconfig
+powerpc                     tqm8555_defconfig
+sh                           se7722_defconfig
+xtensa                generic_kc705_defconfig
+arm                        mini2440_defconfig
+mips                   sb1250_swarm_defconfig
+mips                     loongson1b_defconfig
+arm                             mxs_defconfig
+sh                        sh7763rdp_defconfig
+riscv                            allmodconfig
+sh                           se7705_defconfig
+h8300                     edosk2674_defconfig
+arm                          pxa910_defconfig
+mips                        nlm_xlp_defconfig
+mips                      malta_kvm_defconfig
+h8300                    h8300h-sim_defconfig
+sh                          lboxre2_defconfig
+arm                        shmobile_defconfig
+nds32                             allnoconfig
+arm                          exynos_defconfig
+microblaze                      mmu_defconfig
+arm                        oxnas_v6_defconfig
+mips                malta_kvm_guest_defconfig
+arm                      footbridge_defconfig
+alpha                            allyesconfig
+powerpc                        cell_defconfig
+arm                         orion5x_defconfig
+arm                         bcm2835_defconfig
+parisc                           alldefconfig
+arm                            lart_defconfig
+arc                    vdk_hs38_smp_defconfig
+arm                          lpd270_defconfig
+powerpc                   motionpro_defconfig
+mips                             allyesconfig
+arc                        nsim_700_defconfig
+sh                           sh2007_defconfig
+m68k                           sun3_defconfig
+powerpc                           allnoconfig
+arc                     haps_hs_smp_defconfig
+m68k                       m5475evb_defconfig
+arm                       netwinder_defconfig
+arc                     nsimosci_hs_defconfig
+xtensa                           allyesconfig
+sh                         ap325rxa_defconfig
+powerpc                     ep8248e_defconfig
+arm                        multi_v5_defconfig
+arm                        trizeps4_defconfig
+alpha                            alldefconfig
+powerpc                  storcenter_defconfig
+arm                          collie_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a005-20210303
+i386                 randconfig-a003-20210303
+i386                 randconfig-a002-20210303
+i386                 randconfig-a004-20210303
+i386                 randconfig-a006-20210303
+i386                 randconfig-a001-20210303
+x86_64               randconfig-a013-20210303
+x86_64               randconfig-a016-20210303
+x86_64               randconfig-a015-20210303
+x86_64               randconfig-a014-20210303
+x86_64               randconfig-a012-20210303
+x86_64               randconfig-a011-20210303
+i386                 randconfig-a016-20210303
+i386                 randconfig-a012-20210303
+i386                 randconfig-a014-20210303
+i386                 randconfig-a013-20210303
+i386                 randconfig-a011-20210303
+i386                 randconfig-a015-20210303
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a006-20210303
+x86_64               randconfig-a001-20210303
+x86_64               randconfig-a004-20210303
+x86_64               randconfig-a002-20210303
+x86_64               randconfig-a005-20210303
+x86_64               randconfig-a003-20210303
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
