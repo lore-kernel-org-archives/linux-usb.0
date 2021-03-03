@@ -2,187 +2,159 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D6CC4332B
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53088C43381
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D248864E51
+	by mail.kernel.org (Postfix) with ESMTP id 2668964E67
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235450AbhCDA1X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:27:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378980AbhCCP3b (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 10:29:31 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A426FC06175F;
-        Wed,  3 Mar 2021 07:26:50 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id p10so9571052ils.9;
-        Wed, 03 Mar 2021 07:26:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=/+b0M2H+gosoJ79u2UNSRkbC9BoMHMgNBTho8YdX/KY=;
-        b=kZ0CQxzwwczsSO7NNjvLv/B37Rl82nhUefag/iMQi+vlJRuQ+dcg5uvxQPndxyLMRt
-         ZzFVY/t5NxZsMD6somA13llXxwht8oeDLhc22TPrQZv3hq1YxSRJU8+5S73XwPqMO9q8
-         Y/VJ3iLEzLlsYqJa21hDdIA3UJ7PaC0ixuNzLXjIRCvd8Rk6QIeQO0HOHsX08j1ykBxL
-         lwiaXlpaTsD+MMYZdA44ZptH2fURcLYgR/ChKxFwK1XPUmuvDiEJqhCzT7lNaI4eJWrd
-         13sQjbS37+kPJArOmItifDZ7+f2h+Jd8B0Vm6lzRSVEdHDcrk3pRZX5ZDK+eLTeSEAdb
-         7trw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=/+b0M2H+gosoJ79u2UNSRkbC9BoMHMgNBTho8YdX/KY=;
-        b=fsGYzuAkSAmV8cchf3hvDizq4zBBAk+SUHnLeGwZSGzPA3cNe5R/hpAs13Ksu7OMq1
-         dHJT4qB/Wh+oIwfDrgLLi81l//MRZdB5RKDpnyCKNsv7CXCU5jEr+rYiUODXAQ5Woe+b
-         ghIhp3hReif8hwAu9W2yI4lQbTOQHMmopcmgO5PVdV9/3zTk0TqGKo+fg2krHwwU19og
-         iFhX85HmPYnSK2l9qR9OWjsV9ol6xN6iU4AHjX89v6CYU+7NrDzpnxeftHbQ/30X4Dky
-         nNMO6udKAMTGEKig6yfEUXEL/2It20C7I3ALqYHAQN/6sQPA5pMUv0RRwPrZm80b1L7r
-         qGRA==
-X-Gm-Message-State: AOAM531Z+AylmMeZDFCE4jI7cCBV+LKrj49SrqfmLTYhjhOHHae0W1Yp
-        FNmqcwIXoe9eJtNCOhmMQPukXfaPabC5TqgsDyWYE2SOyILXcw==
-X-Google-Smtp-Source: ABdhPJzy7T6Q07FleS45PUV9vTkuaDh8XD/58Tp6UHQ1BCU1D4Fu/wOPrCP0/cVRnB0Zb3JxtCj8tWZCEKKnzqZJFCs=
-X-Received: by 2002:a92:d981:: with SMTP id r1mr21922502iln.98.1614785209987;
- Wed, 03 Mar 2021 07:26:49 -0800 (PST)
+        id S238372AbhCDA1U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:27:20 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:38951 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343905AbhCCM5W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 07:57:22 -0500
+Received: from mail-oo1-f42.google.com ([209.85.161.42]) by
+ mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MScHp-1lNs1p3eaf-00SySq; Wed, 03 Mar 2021 13:54:33 +0100
+Received: by mail-oo1-f42.google.com with SMTP id n19so5629513ooj.11;
+        Wed, 03 Mar 2021 04:54:32 -0800 (PST)
+X-Gm-Message-State: AOAM531NGPkJYWb1ZEFu6XbsC7YVWOmvzrRqhXBN6CfZkYA6PIa3yx1G
+        EScro9i4TbX7aw+6NikJzdSa+eL2n42XAXAJiM4=
+X-Google-Smtp-Source: ABdhPJwXgFWFO3RYa/2UyhwtfbPkpNjFdncGZfT0/SZ2aliOLqtfzNqIP0coHL8oImAR6W0F/2R4YD7CufcYWXAMvuE=
+X-Received: by 2002:a4a:304a:: with SMTP id z10mr21215393ooz.26.1614776071464;
+ Wed, 03 Mar 2021 04:54:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20210222115149.3606776-1-raychi@google.com> <20210303150126.24538-1-heiko.thiery@gmail.com>
-In-Reply-To: <20210303150126.24538-1-heiko.thiery@gmail.com>
-From:   Heiko Thiery <heiko.thiery@gmail.com>
-Date:   Wed, 3 Mar 2021 16:26:38 +0100
-Message-ID: <CAEyMn7bc8F940WZc0Xf-p9Ri6K4sKcLvG-VfYh2o+bjuhT82NQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] an additional path to control charging current
-To:     raychi@google.com
-Cc:     badhri@google.com, balbi@kernel.org, gregkh@linuxfoundation.org,
-        kyletso@google.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
+References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
+ <20210303022628.6540-1-taehyun.cho@samsung.com> <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
+ <YD9lTjWc25Nn7jAR@kroah.com> <20210303103839.it7grj3vtrdmngbd@kozik-lap>
+In-Reply-To: <20210303103839.it7grj3vtrdmngbd@kozik-lap>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 3 Mar 2021 13:54:14 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3Hyc9yCvi=htGdpHbYy-XWxPXOyEQSYxFXtLTpqYsD_A@mail.gmail.com>
+Message-ID: <CAK8P3a3Hyc9yCvi=htGdpHbYy-XWxPXOyEQSYxFXtLTpqYsD_A@mail.gmail.com>
+Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        taehyun cho <taehyun.cho@samsung.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/fY+IC7sdXVEt5DfeSZdLHFlKw5bjgFa/KafvJ86l5IJUoHp3ZD
+ Bu/WIRlIqig8NWh/Pcrp1AOHsrPePzPe0O0Vmwd0PhqYhQVnUfV2S4WAN6Ls0rT5NQqassk
+ B5MUqkJUjesuWPdRNeDqjnioP8FxUw7X0J34tvZvS5pCMuj8E+Vh0vonGdYW2ZG6qkIva5z
+ kUheakM7t0ZskNq/v/H9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mHeJUIhFkBQ=:7NK8Cc66O4L35N29NC8jfp
+ JplUWfG4ssECEkk6BhTiA9aJW3/0UQXO2eE64N+OuuKLZhLEQm5KfqXNJhsBcxSvDP9VGxKAb
+ 2bVdXlTeZIFee18bVjpcVXQAChGB2EaIamooFelFLf/RFxSUllOxf5DhCuInwu2P5NTOQIT+I
+ Y1/+MGg4ScFr8OoJ8stLXvG0ihXj+XeTy70vVxygPIYCebhN1J8JigJCzeRrKMlqFI+StowB9
+ h573BE54OtZJa8MfF1saf1fGnuD2fPbgdO4/VqFSNC30GdNWBuyJSsKeDhY5+/oR75HEsTnQF
+ gSiP6niITpG894AoZx0GvQTO0ru2tMkeFg1UPopSzLrEsEUclQTBVCEbDITfVIwPWhSJG16Ei
+ 2mkMOx7VWXCfe5WWpDOeDL/8iiptVyGaIBRhOWPjVNSxu3nK4u9bkllCWyDQG
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
-
-Am Mi., 3. M=C3=A4rz 2021 um 16:01 Uhr schrieb Heiko Thiery <heiko.thiery@g=
-mail.com>:
->
-> Hi Ray,
->
->
-> > Currently, VBUS draw callback does no action when the
-> > generic PHYs are used. The patches add an additional path
-> > to control charging current through power supply property
-> > POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT.
+On Wed, Mar 3, 2021 at 11:38 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On Wed, Mar 03, 2021 at 11:30:38AM +0100, Greg Kroah-Hartman wrote:
+> > On Wed, Mar 03, 2021 at 11:24:01AM +0100, Krzysztof Kozlowski wrote:
+> > > On 03/03/2021 03:26, taehyun cho wrote:
+> > > > 'ARCH_EXYNOS' is not suitable for DWC3_EXYNOS config.
+> > > > 'USB_DWC3_EXYNOS' is glue layer which can be used with
+> > > > Synopsys DWC3 controller on Exynos SoCs. USB_DWC3_EXYNOS'
+> > > > can be used from Exynos5 to Exynos9.
+> > > >
+> > > > Signed-off-by: taehyun cho <taehyun.cho@samsung.com>
+> > >
+> > > NACK because you ignored comments from March. Please respond to them instead
+> > > of resending the same patch.
+> > >
+> > > Anyway, when resending you need to version your patches and explain the
+> > > differences. Please also Cc reviewers and other maintainers. I pointed out
+> > > this before:
+> > > scripts/get_maintainer.pl -f drivers/usb/dwc3/dwc3-exynos.c
+> > >
+> > > The driver - in current form - should not be available for other
+> > > architectures. It would clutter other platforms and kernel config selection.
+> > > If you want to change this, you need to provide rationale (usually by adding
+> > > support to new non-Exynos platform).
 > >
-> > Ray Chi (2):
-> >   usb: dwc3: add a power supply for current control
-> >   usb: dwc3: add an alternate path in vbus_draw callback
+> > No, these crazy "ARCH_FOO" things need to go away.  For systems that
+> > want to build "universal" kernels, why are they being forced to enable
+> > "ARCH_*" just so they can pick specific drivers?  That is not done on
+> > other architectures, why is ARM64 so "special" in this regard.
+> >
+> > How do you "know" that these cores/devices are tied to specific ARCH_
+> > platforms?  We don't, so that dependency should not be there.
+> >
+> > Just let any arch pick any driver if it can be built, you never know
+> > what it might be run on.  Removing ARCH_ dependencies in Kconfig files
+> > is a good thing, please do not discourage that from happening.
 >
-> While using next-20210303 this patchset leads to the following kernel cra=
-sh on my board:
+> It's getting more generic topic, so let me Cc Arnd and Guenter (I think
+> once I discussed this with Guenter around watchdog).
 >
-> ---- 8< ----
+> This is so far component of a SoC, so it cannot be re-used outside of
+> SoC. Unless it appears in a new SoC (just like recent re-use of Samsung
+> serial driver for Apple M1). Because of the architecture, you cannot
+> build universal kernel without ARCH_EXYNOS. You need it. Otherwise the
+> kernel won't boot on hardware with DWC Exynos.
 >
-> [    1.392084] VFIO - User Level meta-driver version: 0.3
-> [    1.398370] Unable to handle kernel NULL pointer dereference at virtua=
-l address 00000000000003a0
-> [    1.407552] Mem abort info:
-> [    1.410479]   ESR =3D 0x96000004
-> [    1.413668]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
-> [    1.419217]   SET =3D 0, FnV =3D 0
-> [    1.422413]   EA =3D 0, S1PTW =3D 0
-> [    1.425690] Data abort info:
-> [    1.428705]   ISV =3D 0, ISS =3D 0x00000004
-> [    1.432715]   CM =3D 0, WnR =3D 0
-> [    1.435821] [00000000000003a0] user address but active_mm is swapper
-> [    1.442458] Internal error: Oops: 96000004 [#1] PREEMPT SMP
-> [    1.448274] Modules linked in:
-> [    1.451469] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.12.0-rc1-next-=
-20210303-00005-g090e892099db #126
-> [    1.461269] Hardware name: Kontron pITX-imx8m (DT)
-> [    1.466268] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=3D--)
-> [    1.472538] pc : devm_power_supply_get_by_phandle+0xe4/0x148
-> [    1.478455] lr : dwc3_probe+0xbac/0xfa0
-> [    1.482462] sp : ffff800011f1bb00
-> [    1.485918] x29: ffff800011f1bb00 x28: 0000000000000000
-> [    1.491467] x27: ffff800011681078 x26: ffff8000115d048c
-> [    1.497016] x25: ffff0000c089ea00 x24: 0000000000000003
-> [    1.502564] x23: ffff0000c089ea00 x22: ffff800011b89948
-> [    1.508112] x21: 0000000000000003 x20: 00000000fffffdfb
-> [    1.513660] x19: ffff0000c03f1080 x18: 00000000000000c0
-> [    1.519209] x17: 0000000000000000 x16: 0000000000000000
-> [    1.524757] x15: fffffc0000001000 x14: 0000000000000000
-> [    1.530306] x13: 0000000000000000 x12: 0000000000000030
-> [    1.535853] x11: 0101010101010101 x10: ffff800011f1ba50
-> [    1.541402] x9 : ffff0000ff784c70 x8 : 0000000000000010
-> [    1.546950] x7 : ffff0000c03a5590 x6 : 0000000000000080
-> [    1.552498] x5 : ffff0000c0098000 x4 : 00000000000003a0
-> [    1.558047] x3 : ffff800011cb2dc8 x2 : 0000000000000000
-> [    1.563596] x1 : 0000000000000001 x0 : 0000000000000000
-> [    1.569146] Call trace:
-> [    1.571700]  devm_power_supply_get_by_phandle+0xe4/0x148
-> [    1.577248]  dwc3_probe+0xbac/0xfa0
-> [    1.580890]  platform_probe+0x68/0xd8
-> [    1.584719]  really_probe+0xe4/0x3c0
-> [    1.588454]  driver_probe_device+0x58/0xb8
-> [    1.592733]  device_driver_attach+0x74/0x80
-> [    1.597100]  __driver_attach+0x58/0xe0
-> [    1.601016]  bus_for_each_dev+0x74/0xc8
-> [    1.605020]  driver_attach+0x24/0x30
-> [    1.608753]  bus_add_driver+0x184/0x1e8
-> [    1.612758]  driver_register+0x64/0x120
-> [    1.616764]  __platform_driver_register+0x28/0x38
-> [    1.621675]  dwc3_driver_init+0x1c/0x28
-> [    1.625684]  do_one_initcall+0x74/0x1d0
-> [    1.629691]  kernel_init_freeable+0x1d4/0x23c
-> [    1.634240]  kernel_init+0x14/0x118
-> [    1.637885]  ret_from_fork+0x10/0x30
-> [    1.641624] Code: 88027c01 35ffffa2 17fffe96 f9800091 (885f7c82)
-> [    1.647992] ---[ end trace c6e48cea897d0b0d ]---
-> [    1.652833] Kernel panic - not syncing: Attempted to kill init! exitco=
-de=3D0x0000000b
-> [    1.660822] SMP: stopping secondary CPUs
-> [    1.664921] Kernel Offset: disabled
-> [    1.668560] CPU features: 0x00240002,2000200c
-> [    1.673106] Memory Limit: none
-> [    1.676296] ---[ end Kernel panic - not syncing: Attempted to kill ini=
-t! exitcode=3D0x0000000b ]---
+> Since DWC Exynos won't work without ARCH_EXYNOS - the user will not get
+> any usable binary - I think all, or almost all, SoC specific drivers are
+> limited per ARCH. This limits the amount of choices for distro people
+> and other kernel configuring folks, so they won't have to consider
+> useless options.
 >
->
-> ---- 8< ----
+> Anyway, that's the convention or consensus so far for entire SoC. If we
+> want to change it - sure, but let's make it for everyone, not for just
+> this one USB driver.
 
-This fixes the crash.
+I think we should keep it like this, and have most platform specific
+drivers be guarded in Kconfig like this. There are two main advantages
+for this:
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index d15f065849cd..94fdbe502ce9 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1628,7 +1628,7 @@ static int dwc3_probe(struct platform_device *pdev)
- assert_reset:
-        reset_control_assert(dwc->reset);
+- Linus has mentioned several times that he does not want to
+  be asked about new drivers that cannot run on x86 when doing
+  'make oldconfig', and I'm fairly sure this applies to other users
+  as well. Life is too short to know 19000 Kconfig symbols and
+  whether you should enable them or not.
+  Drivers tend to not be tied to an instruction set, so if a driver
+  is used on mips32, arm32 and arm64, but is tied to a particular
+  SoC manufacturer, it should only need to depend on that platform
+  (|| COMPILE_TEST).
 
--       if (!dwc->usb_psy)
-+       if (dwc->usb_psy)
-                power_supply_put(dwc->usb_psy);
+- A default config enables tons of device drivers, most of which
+  are only ever used on a small number of SoCs. I like the convenience
+  of being able to turn a generic config into one for my particular SoC
+  by turning off all other platforms, and letting the platform specific
+  drivers disappear because of the dependency.
 
-        return ret;
-@@ -1653,7 +1653,7 @@ static int dwc3_remove(struct platform_device *pdev)
-        dwc3_free_event_buffers(dwc);
-        dwc3_free_scratch_buffers(dwc);
+There are two related points:
 
--       if (!dwc->usb_psy)
-+       if (dwc->usb_psy)
-                power_supply_put(dwc->usb_psy);
+- For the specific question of drivers like DWC3_EXYNOS, I
+  would indeed like to see fewer questions asked, and more
+  of the customization done in a generic driver. The same is
+  true for a lot of designware drivers (ethernet, pci, mmc, ...)
+  and similar IP blocks from other vendors. We know these are
+  all the same hardware design, just wired up in slightly different
+  ways, but without help from the hardware designers we have
+  no good way to come up with a generic driver that understands
+  all the possible ways it can be wired up.
 
-        return 0;
+- I don't like the way we deal with a lot of platform specific irqchip
+  and clocksource drivers. Unlike most other subsystems, these
+  drivers just get selected implicitly from a platform specific
+  Kconfig symbol. The main disadvantage is that this is inconsistent
+  with the rest of the kernel, but there is also a more general
+  problem with the use of 'select' that causes a couple of issues
+  when used too much.
 
-
---=20
-Heiko
+       Arnd
