@@ -2,102 +2,229 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36CA0C4160E
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7275C433E6
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9C8764EDF
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83A4A64E6C
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240860AbhCCKby (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37810 "EHLO
+        id S240718AbhCCKbv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1842994AbhCCKXa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 05:23:30 -0500
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382B7C08ECB1
-        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 01:58:08 -0800 (PST)
-Received: by mail-qv1-xf49.google.com with SMTP id h10so17167181qvf.19
-        for <linux-usb@vger.kernel.org>; Wed, 03 Mar 2021 01:58:08 -0800 (PST)
+        with ESMTP id S1842976AbhCCKXP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 05:23:15 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C8D1C0698C0
+        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 01:03:39 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id p8so14351818ejb.10
+        for <linux-usb@vger.kernel.org>; Wed, 03 Mar 2021 01:03:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=TSFbiHk2wopoWX9vUZpzk37wo66kS5QquU8TlUFLvVA=;
-        b=hofwvEuISaHVnfbjMGuHJ9z12jtJGJ3Qy9uq05ohrB0MDYJXYafKi++1Qxyxw9tnUK
-         T0w6CvVIxYCR/JnYnB8TG1CFQ8H/dgeA99w2Rl3VgEbRR3skZh6TM6nM/Ouz2IqpL+db
-         YjhUjEnIratoU1YqSvxjY0g4y2fsPNVbY639UNLr6L0wVCWMtlBT2C5G6sPEjl0mPd1z
-         tX+eRyddDHFQ/E+63L6shixo/RVUzPmMxYVT3mHORVtjd0Dg5OpL3n87f2SfyTcrhZMx
-         lgW8i4RMvFPDaeEOyzMHSmgg2c14etouW3WigfUhGa0tGM7OeeNOwhUhRw5gRv7PzoSy
-         Jcgg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=vMTqfQU5WtePmhqntDyTowla4Y3Wcf7Wf+OWv8RULi4=;
+        b=t5XWWmloQ6iS2paBEz94ecoH3Qc2Bl+Dg58Tk4QXlI23WpnXJTLTjBEEUjZ4YRwpvo
+         AHFqjIUAicuKlm+HKJnH9yq/XonTwm0hBPrTXOR130CtgepkQ8oGmNpOLj2pf9XJmVDB
+         qH9/r7qUlGtsZeR23FtWXL8HMz/HAcK+zq7Q9Kx+EZn6tT+yfc58IndcHOucZWZ2viye
+         vRdNiJ5lJH/+aoSqZgFF6wrwXiaRrJV/T1jUs1zOkQQ4zNEB3R7yDoRLdsafbdHw4k7S
+         qYGG8VKhFDDqCIpSiivZbrm+ObAH2/QomPlVX/54zzTzqc9urSuDj6LgFQlcggMffGuf
+         uldw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=TSFbiHk2wopoWX9vUZpzk37wo66kS5QquU8TlUFLvVA=;
-        b=AQJtuSQjz/it2++T8R9A41Q3slVjiJchFyz9TP4wsWzQpEdOxYhxeXb5mLfpvKXL5X
-         v7pAGcNVIXwvQ+v2opVFDoNmHAmP+G7juDNCw7R5CbOlgsKj6A9KTLxjA5FD/DZ4ri/Y
-         mF6HWw8raQs7gbGlFpP25Gcnfl4kqi479Xk6mUdzHz5UuTGBAShsR7aO8pInnRNy3oYP
-         okhK+p9uDh4dE9RPlx7aiHEpXwXzgeeojIdTJ59PuDvioiwBtxU2/DOqF8/DbyDmgLhm
-         pIj54qqEa16K5NUT45NmXADJDWeIwHuiOynqS6S7DLDw4qWIpSY0hBMVGR0sMIHgtQuP
-         IdiQ==
-X-Gm-Message-State: AOAM53016jWp/bNBDzQOXiivb/Y4fE14jtbk1XFsK89OY98tYadGuAdl
-        i9nxN8Kdgp7HXNDX+gLc8HHpZ4Nzo0E=
-X-Google-Smtp-Source: ABdhPJwQ/JiIgEDiPOARa1Nh5v97jWzDrd/L0iXI4ma6Im+lmhmIb9PjN2A2XnITINs7yMYi/Pvw8OA21pY=
-Sender: "raychi via sendgmr" <raychi@raychi.tao.corp.google.com>
-X-Received: from raychi.tao.corp.google.com ([2401:fa00:fc:202:d0b:ce1b:8f7e:f53a])
- (user=raychi job=sendgmr) by 2002:a0c:e788:: with SMTP id x8mr7735388qvn.48.1614765487321;
- Wed, 03 Mar 2021 01:58:07 -0800 (PST)
-Date:   Wed,  3 Mar 2021 17:58:02 +0800
-Message-Id: <20210303095802.2801733-1-raychi@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-Subject: [Patch v3] usb: dwc3: document usb_psy in struct dwc3
-From:   Ray Chi <raychi@google.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kyletso@google.com, Ray Chi <raychi@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=vMTqfQU5WtePmhqntDyTowla4Y3Wcf7Wf+OWv8RULi4=;
+        b=XcaRjlFCmTp+FYL/ghYeggDZ3el0TlloxjKu9G/gvy8aunuoIyM8XHHXwd78QwR++T
+         HBg4Kphso6H8eMGnxrYQ1KjJVLu6/R5ZrOiWpt621jgcNMOj9QOJl1LosEglawfW5Pdn
+         ipGry+NM9gAWxyFxhD7MdsmddEmKUgGcEL2YgYC7xE9WYbqFsxrPwbJNBBzEWyN7R1X5
+         /reRVxKWdNNp7n8WtRxF+QtQxZFcG9V86p1PogYX8toAxifgzlXrTi4UoB3w2vR72XnH
+         Ij0cXcSqSpVG9rMuqrw82HajApeKtiu3H37QuaQfu/l3pqnMCfbvSXgnbF2WqPwRnbL7
+         KP5A==
+X-Gm-Message-State: AOAM531MzRSnJ39GCSXBnpPUF/6FiOdmUAkqAGKCe86cDwEtaHIcgmy6
+        rynuSg8rdnKwXMXmi5i5fUBAZJHiM/qCT/HbMa0pDgqcer8kng==
+X-Google-Smtp-Source: ABdhPJwXJusg/HXyZqxi0tKgJM4v587Kmbq/V1XrIotrWvGZwIXuUDXVbiTz7yi+Hg/kCI155bCmI3w6ve4PJyyeJ/o=
+X-Received: by 2002:a17:906:73d5:: with SMTP id n21mr24685089ejl.8.1614762216616;
+ Wed, 03 Mar 2021 01:03:36 -0800 (PST)
+MIME-Version: 1.0
+References: <20210226091612.508639-1-rickyniu@google.com> <YDi/+TN6AYXropf7@kroah.com>
+In-Reply-To: <YDi/+TN6AYXropf7@kroah.com>
+From:   Chien Kun Niu <rickyniu@google.com>
+Date:   Wed, 3 Mar 2021 17:03:25 +0800
+Message-ID: <CADRPvQubTEjKeJc=+LQ2jb0L=N4mxY8n21Bf8U-tS1stpB_eGw@mail.gmail.com>
+Subject: Re: [PATCH] ANDROID: usb: core: Send uevent when USB TOPO layer over 6
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stern@rowland.harvard.edu, erosca@de.adit-jv.com,
+        gustavoars@kernel.org, a.darwish@linutronix.de, oneukum@suse.com,
+        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, James Wei <jameswei@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The new struct member was added to struct dwc3, but
-a documentation was missing:
+Hi , Greg
 
-drivers/usb/dwc3/core.h:1273: warning: Function parameter or member 'usb_psy' not described in 'dwc3'
+What tool will "catch" this?  Where is that code located at?
+=3D> I prepare merge the code to Android phone , so I used Android HLOS
+to catch this uevent.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Ray Chi <raychi@google.com>
----
-Changelog since v2:
-- move Signed-off-by to the bottom
+uevents are not for stuff like this, you are trying to send "error
+conditions" to userspace, please use the "proper" interfaces like this
+and not abuse existing ones.
+=3D> Sorry , I am not sure what is the "proper" interfaces your mean.
+     Could you please give me more description?
 
-Changelog since v1:
-(reported-by Stephen Rothwell <sfr@canb.auug.org.au>)
-- added Reported-by line.
+You just created a whole new sysfs class with no Documentation/ABI/
+update?
+=3D> Yes, I will add it.
 
- drivers/usb/dwc3/core.h | 1 +
- 1 file changed, 1 insertion(+)
+Wait, how did you even test this code?  This will not work if you have
+more than one hub in the system at a single time, right?
+=3D> I build the test build which flash in Android phone and connect
+several hubs to try it.
+     When the new hub which met MAX_TOPO_LEVEL connected , it sent
+notify to user space.
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 6708fdf358b3..ce6bd84e2b39 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -988,6 +988,7 @@ struct dwc3_scratchpad_array {
-  * @role_sw: usb_role_switch handle
-  * @role_switch_default_mode: default operation mode of controller while
-  *			usb role is USB_ROLE_NONE.
-+ * @usb_psy: pointer to power supply interface.
-  * @usb2_phy: pointer to USB2 PHY
-  * @usb3_phy: pointer to USB3 PHY
-  * @usb2_generic_phy: pointer to USB2 PHY
--- 
-2.30.1.766.gb4fecdf3b7-goog
+Phone ------=E2=86=93
+                 hub ------=E2=86=93
+                             hub ------=E2=86=93
+                                           ...------=E2=86=93
+                                                    hub
 
+     if (hdev->level =3D=3D MAX_TOPO_LEVEL) {
+                dev_err(&intf->dev,
+                        "Unsupported bus topology: hub nested too deep\n");
+                hub_over_tier();
+                return -E2BIG;
+     }
+
+
+So, proof that this works?  How did you test this?
+=3D> I use the Pixel phone to verify the code , the framework received
+the uevent when the last connected hub over "MAX_TOPO_LEVEL".
+
+Also, you have a memory leak in this submission :(
+=3D> Do you mean I should add device_destroy here ?
+
+hub_device =3D
+device_create(hub_class, NULL, MKDEV(0, 0), NULL, "usb_hub");
++if (IS_ERR(hub_device))
++               return PTR_ERR(hub_device);
+
+void usb_hub_cleanup(void)
+{
++if (!IS_ERR(hub_device))
++device_destroy(hub_class, hub_device->devt);
+
+if (!IS_ERR(hub_class))
+class_destroy(hub_class);
+
+Best Regards,
+
+Chien Kun Niu
+rickyniu@google.com
+
+
+Chien Kun Niu
+SSD USB
+rickyniu@google.com
+02 8729 0651
+
+
+Greg KH <gregkh@linuxfoundation.org> =E6=96=BC 2021=E5=B9=B42=E6=9C=8826=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:31=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Fri, Feb 26, 2021 at 05:16:12PM +0800, Ricky Niu wrote:
+> > When the topology of the nested hubs are over 6 layers
+> > Send uevent to user space when USB TOPO layer over 6.
+> > Let end user more understand what happened.
+> >
+> > Signed-off-by: Ricky Niu <rickyniu@google.com>
+> > ---
+> >  drivers/usb/core/hub.c | 22 ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
+> >
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 7f71218cc1e5..e5e924526822 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -55,6 +55,10 @@ static DEFINE_SPINLOCK(device_state_lock);
+> >  static struct workqueue_struct *hub_wq;
+> >  static void hub_event(struct work_struct *work);
+> >
+> > +/* struct to notify userspace of hub events */
+> > +static struct class *hub_class;
+> > +static struct device *hub_device;
+>
+> Wait, how did you even test this code?  This will not work if you have
+> more than one hub in the system at a single time, right?
+>
+> That's going to be really rough, given here's the output of just my
+> desktop system, count the number of hubs in it:rdevmgmt.msc
+>
+> $ lsusb -t
+> /:  Bus 10.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 10000M
+> /:  Bus 09.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/6p, 480M
+>     |__ Port 5: Dev 2, If 0, Class=3DWireless, Driver=3Dbtusb, 12M
+>     |__ Port 5: Dev 2, If 1, Class=3DWireless, Driver=3Dbtusb, 12M
+>     |__ Port 6: Dev 3, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
+> /:  Bus 08.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 10000M
+>     |__ Port 2: Dev 2, If 0, Class=3DHub, Driver=3Dhub/4p, 5000M
+>     |__ Port 3: Dev 3, If 0, Class=3DMass Storage, Driver=3Duas, 10000M
+> /:  Bus 07.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/6p, 480M
+>     |__ Port 2: Dev 2, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
+>         |__ Port 2: Dev 4, If 0, Class=3DHub, Driver=3Dhub/2p, 12M
+>             |__ Port 2: Dev 5, If 0, Class=3DHuman Interface Device, Driv=
+er=3Dusbhid, 12M
+>             |__ Port 2: Dev 5, If 1, Class=3DHuman Interface Device, Driv=
+er=3Dusbhid, 12M
+>             |__ Port 2: Dev 5, If 2, Class=3DHuman Interface Device, Driv=
+er=3Dusbhid, 12M
+>     |__ Port 5: Dev 3, If 3, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 1, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 6, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 4, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 2, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 0, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 5: Dev 3, If 7, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 480M
+>     |__ Port 5: Dev 3, If 5, Class=3DAudio, Driver=3Dsnd-usb-audio, 480M
+>     |__ Port 6: Dev 6, If 0, Class=3DHuman Interface Device, Driver=3Dusb=
+hid, 12M
+> /:  Bus 06.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/1p, 10000M/=
+x2
+> /:  Bus 05.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/1p, 480M
+> /:  Bus 04.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 10000M
+>     |__ Port 1: Dev 11, If 0, Class=3DHub, Driver=3Dhub/3p, 5000M
+>         |__ Port 3: Dev 12, If 0, Class=3DHub, Driver=3Dhub/3p, 5000M
+>             |__ Port 1: Dev 13, If 0, Class=3DMass Storage, Driver=3Dusb-=
+storage, 5000M
+> /:  Bus 03.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 480M
+>     |__ Port 1: Dev 14, If 0, Class=3DHub, Driver=3Dhub/3p, 480M
+>         |__ Port 3: Dev 15, If 0, Class=3DHub, Driver=3Dhub/3p, 480M
+>             |__ Port 2: Dev 17, If 0, Class=3DHuman Interface Device, Dri=
+ver=3Dusbhid, 12M
+>             |__ Port 3: Dev 18, If 3, Class=3DHuman Interface Device, Dri=
+ver=3Dusbhid, 12M
+>             |__ Port 3: Dev 18, If 1, Class=3DAudio, Driver=3Dsnd-usb-aud=
+io, 12M
+>             |__ Port 3: Dev 18, If 2, Class=3DAudio, Driver=3Dsnd-usb-aud=
+io, 12M
+>             |__ Port 3: Dev 18, If 0, Class=3DAudio, Driver=3Dsnd-usb-aud=
+io, 12M
+> /:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 10000M
+> /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 480M
+>
+>
+> So, proof that this works?  How did you test this?
+>
+> Also, you have a memory leak in this submission :(
+>
+> greg k-h
