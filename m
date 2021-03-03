@@ -2,103 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E6ABC4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADFC0C43331
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5335064E68
+	by mail.kernel.org (Postfix) with ESMTP id 7B62F6023B
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355402AbhCDA2I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:28:08 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:53484 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230527AbhCCX5t (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 18:57:49 -0500
-Received: from 1.general.cking.uk.vpn ([10.172.193.212])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1lHaH5-0004Mx-2a; Wed, 03 Mar 2021 22:47:23 +0000
-Subject: Re: [PATCH] usb: dwc3: Fix dereferencing of null dwc->usb_psy
-To:     Heiko Thiery <heiko.thiery@gmail.com>, raychi@google.com
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <CAPBYUsCPj12enyMp9AMzFEAgd5MdKh7dYN5DNFpZwofBYnjG8A@mail.gmail.com>
- <20210303212924.19733-1-heiko.thiery@gmail.com>
-From:   Colin Ian King <colin.king@canonical.com>
-Message-ID: <b93ff323-e03c-10b3-c38d-921bc6b2edc0@canonical.com>
-Date:   Wed, 3 Mar 2021 22:47:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S1344667AbhCDA2J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:28:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39418 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235303AbhCDAHI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 19:07:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id 50EB864F3A
+        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 23:51:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614815483;
+        bh=IvOUEj7A2JeNn+ddawNO6Ze+8c8gLK1RNZRcf15pj8Y=;
+        h=From:To:Subject:Date:From;
+        b=o9umoLLFvbgROMDKHM8ILHFCuHerlRteCTRUZujEv3rwNAZEawizuhJjVPTa8xYwk
+         HF5soW0R4nWIGMhlh9gmqc/eBg2Kg+FRFGO3+aXLt3Ny2PdxmVZB22YdKDckyBHCHv
+         WLYCVdIz5kSFzDL/m6Jk0wGAfPjfYbYdfT/M0V5gEOQVRX2WeO6iOCBTomRs3zG9F2
+         6VK6JBkubksjlivJy4A1TA+ISSDOVTttCOvEqyNuWd6tsimzYWtGhpEl6i6tKRV2y1
+         Nu+a1Anmxs6FHB+lcXXUyZl93Hnj5u3EXfTEK3K4rhhg97Z///CFzeHGw0oN6JCC5W
+         1xKafPZoCyPrQ==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 212045] New: dwc2 gadget mode read call blocks
+Date:   Wed, 03 Mar 2021 23:51:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: tomasz@grobelny.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-212045-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210303212924.19733-1-heiko.thiery@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/03/2021 21:29, Heiko Thiery wrote:
-> Hi all,
-> 
->> On Wed, Mar 3, 2021 at 6:00 PM Colin King <colin.king@canonical.com> wrote:
->>>
->>> From: Colin Ian King <colin.king@canonical.com>
->>>
->>> Currently the null check logic on dwc->usb_psy is inverted as it allows
->>> calls to power_supply_put with a null dwc->usb_psy causing a null
->>> pointer dereference. Fix this by removing the ! operator.
->>>
->>> Addresses-Coverity: ("Dereference after null check")
->>> Fixes: 59fa3def35de ("usb: dwc3: add a power supply for current control")
->>
->> Acked-by: Ray Chi <raychi@google.com>
->>
->>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> 
-> Tested-by: Heiko Thiery <heiko.thiery@gmail.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212045
 
-Thanks for testing. Much appreciated.
+            Bug ID: 212045
+           Summary: dwc2 gadget mode read call blocks
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: tomasz@grobelny.net
+        Regression: No
 
-Colin
-> 
->>> ---
->>>  drivers/usb/dwc3/core.c | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>> index d15f065849cd..94fdbe502ce9 100644
->>> --- a/drivers/usb/dwc3/core.c
->>> +++ b/drivers/usb/dwc3/core.c
->>> @@ -1628,7 +1628,7 @@ static int dwc3_probe(struct platform_device *pdev)
->>>  assert_reset:
->>>         reset_control_assert(dwc->reset);
->>>
->>> -       if (!dwc->usb_psy)
->>> +       if (dwc->usb_psy)
->>>                 power_supply_put(dwc->usb_psy);
->>>
->>>         return ret;
->>> @@ -1653,7 +1653,7 @@ static int dwc3_remove(struct platform_device *pdev)
->>>         dwc3_free_event_buffers(dwc);
->>>         dwc3_free_scratch_buffers(dwc);
->>>
->>> -       if (!dwc->usb_psy)
->>> +       if (dwc->usb_psy)
->>>                 power_supply_put(dwc->usb_psy);
->>>
->>>         return 0;
->>> --
->>> 2.30.0
->>>
-> 
-> Thank you.
-> 
+When implementing USB gadget on Odroid N2 I write descriptors for two endpo=
+ints
+so I get ep0, ep1 and ep2 files. I open those files and try to read from ep0
+and ep2. While ep0 more or less works, for ep2 I get weird behaviour: the
+select() call returns 1 indicating that there is data to read and then read=
+()
+call blocks. It happens even if I set the file descriptor to O_NONBLOCK. He=
+re
+is the kernel log: https://pastebin.pl/view/aaa2d7f0
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
