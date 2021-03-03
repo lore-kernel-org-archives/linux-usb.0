@@ -2,86 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF2AEC433E0
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 367ACC433E9
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 777BE64E51
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07C9564E5F
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345549AbhCDA1N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:27:13 -0500
-Received: from mail-wr1-f42.google.com ([209.85.221.42]:36986 "EHLO
-        mail-wr1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245091AbhCCLCS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 06:02:18 -0500
-Received: by mail-wr1-f42.google.com with SMTP id v15so23183297wrx.4;
-        Wed, 03 Mar 2021 03:01:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pfwuBLP4HxQKFR1+p3roGMfBodVu9+mUeNmz3GhCsLA=;
-        b=nYMpqXEtn3sviUmHdhP1u52QVfKr3ANAQjRmmzncH3TUSLIGbFdWfAxyRW20TPq/Yn
-         sKvsERmjR3NzDvl/8ROOv7oYJJabYoSz6AQvXJLuNfkQrt/7sdGzjI0ISC77dBvqtm+8
-         bUI4EIM2Im6g75VV4bRMTF/MKOD25YuL5GD82wMTYa6fbL1JkZFIcTYfd0tpskFo0etC
-         AyP59nfW0dEKro4HwVSWBdFX4CB2z7GYXbZz7YHk/6uOv5zoQtAdlYJNHb6rfowGCsx6
-         Pc7seH0lE+z2oz4+3Z/hYWW3b6lf3NFz+9LkRpOAP72iP2R80JEg9+Wgb4KFjUDou7yt
-         YVsw==
-X-Gm-Message-State: AOAM532saRAyAoLFvproVzhriLkFuII5L46zTz5OK3NFUXqJrFPh5a5o
-        qw6Pu0011nRebGiW5G0BnGaStA7+M1k=
-X-Google-Smtp-Source: ABdhPJzwR7PM12VP0KJZ1ODkJkfdBXCSztN/U9kduBif3L8xVXURxbFdR+fAa2qMkDGx46JHdITBzQ==
-X-Received: by 2002:a5d:6cab:: with SMTP id a11mr26856577wra.419.1614769279130;
-        Wed, 03 Mar 2021 03:01:19 -0800 (PST)
-Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id i4sm5119308wmq.12.2021.03.03.03.01.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 03:01:18 -0800 (PST)
-Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     taehyun cho <taehyun.cho@samsung.com>, balbi@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
- <20210303022628.6540-1-taehyun.cho@samsung.com>
- <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
- <YD9lTjWc25Nn7jAR@kroah.com> <20210303103839.it7grj3vtrdmngbd@kozik-lap>
-Message-ID: <97c95215-54da-ab44-e0ab-0b0e9cab8c7c@kernel.org>
-Date:   Wed, 3 Mar 2021 12:01:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S232772AbhCDA1S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:27:18 -0500
+Received: from mga06.intel.com ([134.134.136.31]:61841 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1444678AbhCCMPn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 07:15:43 -0500
+IronPort-SDR: P+ZQhKbvpiuu9vOMaI6mirN65tX4nqfayCUlh8FYpwlsEhtoZdp+jS00huOsMjn3viFVa2VBhM
+ G8FkiHOjDkzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="248585374"
+X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
+   d="scan'208";a="248585374"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 04:13:12 -0800
+IronPort-SDR: +NietHrzMBM2rKTsW6Gn7aq9fdeBxhBXfagqUbOKVjWKkNSTQHAzzrpDKKk+tWxLDFMUOH5dw+
+ W3fO5YSMt3Qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
+   d="scan'208";a="373959470"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Mar 2021 04:13:10 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 5E313103; Wed,  3 Mar 2021 14:13:10 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Lukas Wunner <lukas@wunner.de>
+Subject: [PATCH 2/2] thunderbolt: Increase runtime PM reference count on DP tunnel discovery
+Date:   Wed,  3 Mar 2021 15:13:10 +0300
+Message-Id: <20210303121310.80937-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210303121310.80937-1-mika.westerberg@linux.intel.com>
+References: <20210303121310.80937-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210303103839.it7grj3vtrdmngbd@kozik-lap>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/03/2021 11:38, Krzysztof Kozlowski wrote:
-> On Wed, Mar 03, 2021 at 11:30:38AM +0100, Greg Kroah-Hartman wrote:
->>
->> Just let any arch pick any driver if it can be built, you never know
->> what it might be run on.  Removing ARCH_ dependencies in Kconfig files
->> is a good thing, please do not discourage that from happening.
+If the driver is unbound and then bound back it goes over the topology
+and figure out the existing tunnels. However, if it finds DP tunnel it
+should make sure the domain does not runtime suspend as otherwise it
+will tear down the DP tunnel unexpectedly.
 
-If this is the consensus, then I'll add to my todo list removal of 
-ARCH_EXYNOS, ARCH_S3C, ARCH_S5P (and later OMAP, QCOM, NXP and so on) 
-from all drivers. Blindly. Because DWC Exynos is the same as watchdog, 
-clocksource timer, PWM, GPIO/pinctrl
+Fixes: 6ac6faee5d7d ("thunderbolt: Add runtime PM for Software CM")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/tb.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Are everyone okay with that?
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 1f000ac1728b..c348b1fc0efc 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -138,6 +138,10 @@ static void tb_discover_tunnels(struct tb_switch *sw)
+ 				parent->boot = true;
+ 				parent = tb_switch_parent(parent);
+ 			}
++		} else if (tb_tunnel_is_dp(tunnel)) {
++			/* Keep the domain from powering down */
++			pm_runtime_get_sync(&tunnel->src_port->sw->dev);
++			pm_runtime_get_sync(&tunnel->dst_port->sw->dev);
+ 		}
+ 
+ 		list_add_tail(&tunnel->list, &tcm->tunnel_list);
+-- 
+2.30.1
 
-I remember also someone from Suse wanted the opposite - be sure that 
-none of SoC related options appear for his choices, when he configures 
-his kernel without Exynos support. I can't remember the name though...
-
-Best regards,
-Krzysztof
