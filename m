@@ -2,82 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54B23C433DB
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC89C001C7
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:27:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 098C164ED7
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CB5764E56
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:27:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238170AbhCCKbq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58282 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1842195AbhCCG5f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Mar 2021 01:57:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B6FF64ECE;
-        Wed,  3 Mar 2021 06:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614754613;
-        bh=I6l92LzMh5YUaseZIvqu7vZ5CAdgxdLLuRuet+wabjU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n5XtWpOdCLjo9xQEIOkXYdz0HUIOkHRqqW6pJajsAkJQTkioiRhyLE+2u/ZoX9Zty
-         LIQ2OSqWbBW+mNbTW8N282ZKHIQJPrLfuzZ32VT/Wxuthk6FUOyZY/ph08F6byunZs
-         pChJcojalVI+L7zZftlukisSeQzkBxwCLCtJjDtU=
-Date:   Wed, 3 Mar 2021 07:56:49 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Zhang, Qiang" <Qiang.Zhang@windriver.com>
-Cc:     Pete Zaitcev <zaitcev@redhat.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSNOiBbUEFUQ0g=?= =?utf-8?Q?=5D?= USB: usblp: Add
- device status detection in usblp_poll()
-Message-ID: <YD8zMaqC489jOGir@kroah.com>
-References: <20210301040300.20834-1-qiang.zhang@windriver.com>
- <YDyfL/yg9QNM4nku@kroah.com>
- <BYAPR11MB263268B5FD6EB3C3B80B63FBFF9A9@BYAPR11MB2632.namprd11.prod.outlook.com>
- <YDymu1AlS+8UjdXG@kroah.com>
- <BYAPR11MB2632AE1A6D78903112F86062FF9A9@BYAPR11MB2632.namprd11.prod.outlook.com>
- <YD3jlIR7UJjXT6Se@kroah.com>
- <BYAPR11MB263258B4BD102A08BF454D82FF999@BYAPR11MB2632.namprd11.prod.outlook.com>
- <20210302231254.7a0e32cb@suzdal.zaitcev.lan>
- <BYAPR11MB2632C3C64F5B9116E0D074E4FF989@BYAPR11MB2632.namprd11.prod.outlook.com>
+        id S1345369AbhCDA1I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:27:08 -0500
+Received: from mail-lf1-f46.google.com ([209.85.167.46]:45992 "EHLO
+        mail-lf1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1356812AbhCCKsX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 05:48:23 -0500
+Received: by mail-lf1-f46.google.com with SMTP id k9so16441723lfo.12;
+        Wed, 03 Mar 2021 02:48:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jYgzsnlOAmYZJCXvodiiaS5LSTl/fmjcB2g3B44MqBU=;
+        b=kiKxQTi1UmFpZGW2AB3jjJm0rurOjuD0TSrDUC8W2CSRi3BaAXLHb70YbAXukbaS1U
+         sKWJH9mkj5I/ZxjoJJ05MgD/bG1GqKwoEBLNTdvIlFAs1blZOQlh6IBNdtolYJ+IJ1Mw
+         0N4pSoZxmfvnCasEUR89xoG8qdEv7/wW51FVjnOFd4LJC0F8/fHxiG9462DreYWrambg
+         IoWTTtY6ixXFwTfXBbu9YEx8EX2DQtlsXwDsxtYDVWgF9kZkUp+vwNq2L02IagXuEV5Q
+         kXg1KZwg7H33i/xxS7/GupdygW684pbmQG+vW3FA61UT/oWu8eZWa6jPC6Qo+P4BWZrt
+         nJ0Q==
+X-Gm-Message-State: AOAM532wZ+/+MynSgFjyc1d0TmoSEaFFDdVpMFZXeWe2ZRfynZzrQMkU
+        E9y3gStoX/W8AFPxluPTp6N+lTMKfT0=
+X-Google-Smtp-Source: ABdhPJxWgi3dnPLit7ylRzc3OmTAEL9RYSBCM13MOHiSLsmqvfM1liV4Oac7SYcpo1euA5vnbYeGrQ==
+X-Received: by 2002:adf:b345:: with SMTP id k5mr27360948wrd.14.1614767920947;
+        Wed, 03 Mar 2021 02:38:40 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id a21sm7112918wmb.5.2021.03.03.02.38.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 02:38:40 -0800 (PST)
+Date:   Wed, 3 Mar 2021 11:38:39 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     taehyun cho <taehyun.cho@samsung.com>, balbi@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
+Message-ID: <20210303103839.it7grj3vtrdmngbd@kozik-lap>
+References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
+ <20210303022628.6540-1-taehyun.cho@samsung.com>
+ <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
+ <YD9lTjWc25Nn7jAR@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BYAPR11MB2632C3C64F5B9116E0D074E4FF989@BYAPR11MB2632.namprd11.prod.outlook.com>
+In-Reply-To: <YD9lTjWc25Nn7jAR@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 06:12:47AM +0000, Zhang, Qiang wrote:
+On Wed, Mar 03, 2021 at 11:30:38AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Mar 03, 2021 at 11:24:01AM +0100, Krzysztof Kozlowski wrote:
+> > On 03/03/2021 03:26, taehyun cho wrote:
+> > > 'ARCH_EXYNOS' is not suitable for DWC3_EXYNOS config.
+> > > 'USB_DWC3_EXYNOS' is glue layer which can be used with
+> > > Synopsys DWC3 controller on Exynos SoCs. USB_DWC3_EXYNOS'
+> > > can be used from Exynos5 to Exynos9.
+> > > 
+> > > Signed-off-by: taehyun cho <taehyun.cho@samsung.com>
+> > 
+> > NACK because you ignored comments from March. Please respond to them instead
+> > of resending the same patch.
+> > 
+> > Anyway, when resending you need to version your patches and explain the
+> > differences. Please also Cc reviewers and other maintainers. I pointed out
+> > this before:
+> > scripts/get_maintainer.pl -f drivers/usb/dwc3/dwc3-exynos.c
+> > 
+> > The driver - in current form - should not be available for other
+> > architectures. It would clutter other platforms and kernel config selection.
+> > If you want to change this, you need to provide rationale (usually by adding
+> > support to new non-Exynos platform).
 > 
+> No, these crazy "ARCH_FOO" things need to go away.  For systems that
+> want to build "universal" kernels, why are they being forced to enable
+> "ARCH_*" just so they can pick specific drivers?  That is not done on
+> other architectures, why is ARM64 so "special" in this regard.
 > 
-> >________________________________________
-> >发件人: Pete Zaitcev <zaitcev@redhat.com>
-> >发送时间: 2021年3月3日 13:12
-> >收件人: Zhang, Qiang
-> >抄送: Greg KH; linux-usb@vger.kernel.org; zaitcev@redhat.com
-> >主题: Re: [PATCH] USB: usblp: Add device status detection in >usblp_poll()
-> >
-> >[Please note: This e-mail is from an EXTERNAL e-mail address]
-> >
-> >On Tue, 2 Mar 2021 07:41:07 +0000
-> >"Zhang, Qiang" <Qiang.Zhang@windriver.com> wrote:
+> How do you "know" that these cores/devices are tied to specific ARCH_
+> platforms?  We don't, so that dependency should not be there.
 > 
-> > and also I find  similar usage in usb/class/usbtmc.c
-> 
-> >Seems like a bug indeed, but I don't like the example in usbtmc.c.
-> >Please let me know if the following is acceptable:
->  
-> I agree with this change .
+> Just let any arch pick any driver if it can be built, you never know
+> what it might be run on.  Removing ARCH_ dependencies in Kconfig files
+> is a good thing, please do not discourage that from happening.
 
-Great, can I get a "Reviewed-by:" line from you then?
+It's getting more generic topic, so let me Cc Arnd and Guenter (I think
+once I discussed this with Guenter around watchdog).
 
-thanks,
+This is so far component of a SoC, so it cannot be re-used outside of
+SoC. Unless it appears in a new SoC (just like recent re-use of Samsung
+serial driver for Apple M1). Because of the architecture, you cannot
+build universal kernel without ARCH_EXYNOS. You need it. Otherwise the
+kernel won't boot on hardware with DWC Exynos.
 
-greg k-h
+Since DWC Exynos won't work without ARCH_EXYNOS - the user will not get
+any usable binary - I think all, or almost all, SoC specific drivers are
+limited per ARCH. This limits the amount of choices for distro people
+and other kernel configuring folks, so they won't have to consider
+useless options.
+
+Anyway, that's the convention or consensus so far for entire SoC. If we
+want to change it - sure, but let's make it for everyone, not for just
+this one USB driver.
+
+Best regards,
+Krzysztof
+
