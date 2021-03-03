@@ -2,102 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CC9C433DB
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90794C43381
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1CFE64E62
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6569C64EA4
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343905AbhCDA1Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:27:24 -0500
-Received: from mail-ed1-f49.google.com ([209.85.208.49]:44166 "EHLO
-        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231135AbhCCPrb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 10:47:31 -0500
-Received: by mail-ed1-f49.google.com with SMTP id g3so30521224edb.11;
-        Wed, 03 Mar 2021 07:46:50 -0800 (PST)
+        id S1347074AbhCDA11 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:27:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235604AbhCCQFw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 11:05:52 -0500
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE1EC061762
+        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 08:03:04 -0800 (PST)
+Received: by mail-il1-x135.google.com with SMTP id z9so11514439iln.1
+        for <linux-usb@vger.kernel.org>; Wed, 03 Mar 2021 08:03:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LlCoHdrHwzFyKrGMLRWyNUHIOyPdF/GbZeImGDz8wq0=;
+        b=cjQNm2CYodjavO8DTOBBmNVCObrgXF1DrthYCbp5n7yaDb5GFnh4C75DJT863fC6p5
+         /q/7FAQCECdCA2YfWzpr4ivpCYy9ssaptU0g/GE5fhyusrfyB2U03unAMlvBMIY0H3zF
+         Qze4WC0h9kaPldZaAbiuG1vJVKsp6SNIjFO9CEoruKp+VXjwozWuKsLDRfwGM1SHfTnr
+         b/DSF6lu7uTo+MgrkQtNujqDztM2dh4JgBTqE/jrk+k/QkjyMSZ5Ufksc6DRf/XlFKwV
+         fI9jX0yIww9a8md5w11AsfLgx2SuzaSbCAF31efbshqYO20fGHOHIR9nPra5XCKInpBm
+         idvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FGedAH/WSb7Haous5rA0I81fQoY4mqnQ+QpVc2HQfyI=;
-        b=ha6joqd35V1rb+qGxsL2IYzvNR+O0yycuNGqCXN9mw3/IepSuPktcDbFYXmrTMm9E8
-         U0Mk6Y2PmYNF9yCJCtUxctELn+wjzvLnRTpjSM9CaaSfn0fBGRtHsJ8CBEiEwdgKlqF0
-         qDeSv4EzctHhO+zsxf4gT/ydFZ82a5TerP/iCDaI8jFyxc5wK5VcackbmOzI1qiWiki1
-         EXgjEuw+SkjjgmPHoKU9NkUGXvML5kAygenM2li/w0wayvk3o0fFQYCWktit58QgjhuF
-         ehWoFrYshkBxqaoD4/yDDLU07NYhuv+m7tDbTngNu54ptv+HxWZWx+e1EQQRMGA2ouPM
-         wv8w==
-X-Gm-Message-State: AOAM530K1H19c94Dtb+Vznx4NssdRtLwNxaBoyBcnKRtwk+doCUEpiK+
-        NXIs0q0EGcLZI4IdqO12whw=
-X-Google-Smtp-Source: ABdhPJyfWEgPI3HMjClvGzUw4IdZZ8yKXY0cYpHRoUeaP2UHUBWyZEwws5T0LeEg1WxiFVwO/1BbHg==
-X-Received: by 2002:a50:bec3:: with SMTP id e3mr25827097edk.290.1614786384255;
-        Wed, 03 Mar 2021 07:46:24 -0800 (PST)
-Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id s18sm25561008edc.21.2021.03.03.07.46.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Mar 2021 07:46:23 -0800 (PST)
-Subject: Re: [PATCH] usb: dwc3: make USB_DWC3_EXYNOS independent
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        taehyun cho <taehyun.cho@samsung.com>, balbi@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>
-References: <CGME20210303022537epcas2p1b85ab825ceca3a411a177cc1af8a2c7b@epcas2p1.samsung.com>
- <20210303022628.6540-1-taehyun.cho@samsung.com>
- <c9ac155c-56c2-4025-d1ae-d0c6c95533b8@kernel.org>
- <YD9lTjWc25Nn7jAR@kroah.com> <20210303103839.it7grj3vtrdmngbd@kozik-lap>
- <YD+XkFAfoKpSsea3@kroah.com>
- <cf330a12-82b9-3d6a-eeeb-28630e0a5f2b@roeck-us.net>
- <YD+mkse29UwwYbFB@kroah.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Message-ID: <6e9d6831-f88e-477f-6256-7ab155bfa7ac@kernel.org>
-Date:   Wed, 3 Mar 2021 16:46:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LlCoHdrHwzFyKrGMLRWyNUHIOyPdF/GbZeImGDz8wq0=;
+        b=nYGy/ilzM3MMXMJqwag26tqkBuWrmCsYW8D90jCvXgueInjjAWfh4lagx7O1V+xgl0
+         x0QiSOnskJQmQso3Fz2xqC3hx9KyyWhB6o+V4GG+x7nuNXpVHaj6R8dHYSW20YbV57yB
+         ICt5FhNsV6tGzVefJt0B/wq6rCn9EFSRSDQTuLzX2/OCbvRDobSmvO5ZLIoLRik2HpVU
+         8hAYytna1SPIp+oHgVwCL+zWsj3g6MiwOvnnikvZJTeGWAOHVgD+c36NFDagHyDliFfY
+         HO1LJnCEdYI8BO3YMh95LLgaVSBe93G53nSKtG1i7JqLGIYcc7hUM5QUjgJy9vlDYaCd
+         +rmg==
+X-Gm-Message-State: AOAM533A/Lc2ozrJgFiZv0uzuSxLArzv8aBTha/Ln/gDTXB7hBgC7xXX
+        RAESdH+PHBSqvd+HfcupGZbIb6a0H188/J4xJpmO9Q==
+X-Google-Smtp-Source: ABdhPJzWkHyxJe0NzceF7XETf16b9fqLN4/ttrAqSVQHhs60VadqEDCFHTCSwfAGtHcxxc863jggycnhWNNy/tkOA40=
+X-Received: by 2002:a05:6e02:e87:: with SMTP id t7mr22630570ilj.211.1614787383623;
+ Wed, 03 Mar 2021 08:03:03 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YD+mkse29UwwYbFB@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210303095826.6143-1-colin.king@canonical.com>
+In-Reply-To: <20210303095826.6143-1-colin.king@canonical.com>
+From:   Ray Chi <raychi@google.com>
+Date:   Thu, 4 Mar 2021 00:02:51 +0800
+Message-ID: <CAPBYUsCPj12enyMp9AMzFEAgd5MdKh7dYN5DNFpZwofBYnjG8A@mail.gmail.com>
+Subject: Re: [PATCH] usb: dwc3: Fix dereferencing of null dwc->usb_psy
+To:     Colin King <colin.king@canonical.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 03/03/2021 16:09, Greg Kroah-Hartman wrote:
-> On Wed, Mar 03, 2021 at 06:56:38AM -0800, Guenter Roeck wrote:
->> On 3/3/21 6:05 AM, Greg Kroah-Hartman wrote:
->> [ ... ]
->>>> Anyway, that's the convention or consensus so far for entire SoC. If we
->>>> want to change it - sure, but let's make it for everyone, not for just
->>>> this one USB driver.
->>>
->>> Great, let's change it for everyone, I don't see a need for ARCH_*
->>> symbols except for people who want to make it simpler for their one
->>> board type.  And for that, use a defconfig.
->>>
->>
->> I don't think that will work in practice. Many ARCH_ symbols for various
->> architectures contradict with each other. Almost all watchdog drivers
->> only _build_ for specific platforms/architectures.
-> 
-> Great, that's horrible to hear, so much for a "generic arm64 kernel
-> binary" which I _thought_ was the goal.
-> 
-> ugh, you would have thought we would have learned our lesson with
-> arm32...
+On Wed, Mar 3, 2021 at 6:00 PM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> Currently the null check logic on dwc->usb_psy is inverted as it allows
+> calls to power_supply_put with a null dwc->usb_psy causing a null
+> pointer dereference. Fix this by removing the ! operator.
+>
+> Addresses-Coverity: ("Dereference after null check")
+> Fixes: 59fa3def35de ("usb: dwc3: add a power supply for current control")
 
-I think Guenter here refers to drivers which actually came from arm32 
-and were not cleaned up to be build without machine-specific bits 
-(arch/arm/mach-xxx).
+Acked-by: Ray Chi <raychi@google.com>
 
-Most or all of the new code is made buildable outside of 
-machine/ARCH_xxx (so COMPILE_TEST).
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/usb/dwc3/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index d15f065849cd..94fdbe502ce9 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -1628,7 +1628,7 @@ static int dwc3_probe(struct platform_device *pdev)
+>  assert_reset:
+>         reset_control_assert(dwc->reset);
+>
+> -       if (!dwc->usb_psy)
+> +       if (dwc->usb_psy)
+>                 power_supply_put(dwc->usb_psy);
+>
+>         return ret;
+> @@ -1653,7 +1653,7 @@ static int dwc3_remove(struct platform_device *pdev)
+>         dwc3_free_event_buffers(dwc);
+>         dwc3_free_scratch_buffers(dwc);
+>
+> -       if (!dwc->usb_psy)
+> +       if (dwc->usb_psy)
+>                 power_supply_put(dwc->usb_psy);
+>
+>         return 0;
+> --
+> 2.30.0
+>
 
-Best regards,
-Krzysztof
+Thanks for fixing this bug!
+
+Regards,
+Ray
