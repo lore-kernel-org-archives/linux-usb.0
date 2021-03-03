@@ -2,99 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E43F9C43332
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A1EC43603
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3A2D64ED7
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2ABA464ED7
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240809AbhCCKbx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1842991AbhCCKX1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 05:23:27 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A983C08EB26
-        for <linux-usb@vger.kernel.org>; Wed,  3 Mar 2021 01:40:53 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id 6so26168329ybq.7
-        for <linux-usb@vger.kernel.org>; Wed, 03 Mar 2021 01:40:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=XuDHw3O1srmLKsSoSJf7jMgqz2ffuZm3aO6BAJ189BA=;
-        b=ua0Yw5zjlfjCqKHVLIv3cJaneXUfA3FK9C2+mEXp6+8xI9jMNNs4U49S+28oh4k3SE
-         W5hkTE5GYypEGerM0kW8VGKF0kBPcPE+hxeLtMnwBrFmeridcwkZ2rJ/ocb56DXTVktl
-         XEVRCwVrrKzo4hBIIA6GbVOMbm4/ncKaZAeuHt9zdBVg5rIR6PH0s0nACxj02ugUtAut
-         Demfq0hUBFRQppiKfkoEsAtICHeqCWh5QDv61kPaQ9JqZpXwIhSL1dhjG+hiCbXCm5sq
-         NgeLOwwvTYvWkGAgveyJlzSb9KaEpjN7GVDj+X0VU3L9l2PashFHORmezPHYOLalFgBa
-         KS2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=XuDHw3O1srmLKsSoSJf7jMgqz2ffuZm3aO6BAJ189BA=;
-        b=nnXaGNL4w6X6lMOsqX7tD7z94wb1/5t2d1+J8HGbJNJmfH5peokI7llvgWYCpBKaZc
-         cRL4ER5wN8QOtmsAoIa+anRX+XilYLNlAvd/sKKptgwqR77SffE52aY/Rkn5eZPW514a
-         Uz8ysV76nZyIwnpPjK1KuZBL54n/ouJrB4znZQLDwUCi7WzsTVw1q6yqZiuveURrLwIh
-         MzJVIr6ZWF8gpS749v7atUbFlwgHOsRRkDiEH6sBs6ug+b1DI/nqMLH4PonkOEYbOQ5R
-         8j7AxsH/YgvuwKFYG3klMZB5xrfb+lqstrA/5TFtxIkHiLcZQoKZ9JBrud5aICLyF7Sw
-         QO0Q==
-X-Gm-Message-State: AOAM530h6GLbdC5Ax/MFEWILiGcX/mcWOZggdV7XZXjgfll+Ste6xxva
-        xIVBZMuaLtCwgSi9wt6fQ+Chtoy+UpE=
-X-Google-Smtp-Source: ABdhPJyRhUYTr6tzygLKQIL3hxEKRNYaM+RzAhBvDfbibZwl8U6wV8e2G/k94KHj2iFlyzJwPyRBDQYB5qE=
-Sender: "raychi via sendgmr" <raychi@raychi.tao.corp.google.com>
-X-Received: from raychi.tao.corp.google.com ([2401:fa00:fc:202:d0b:ce1b:8f7e:f53a])
- (user=raychi job=sendgmr) by 2002:a25:cc46:: with SMTP id l67mr39991239ybf.16.1614764452378;
- Wed, 03 Mar 2021 01:40:52 -0800 (PST)
-Date:   Wed,  3 Mar 2021 17:40:47 +0800
-Message-Id: <20210303094047.2788465-1-raychi@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-Subject: [Patch v2] usb: dwc3: document usb_psy in struct dwc3
-From:   Ray Chi <raychi@google.com>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kyletso@google.com, Ray Chi <raychi@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
+        id S240540AbhCCKbv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51644 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1575975AbhCCHco (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Mar 2021 02:32:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3176364EE4;
+        Wed,  3 Mar 2021 07:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1614756722;
+        bh=JwuBlz/eJ28FzLdCxE/vHNKLwCXKoSTBBTBJf+8TJdg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fWSwcLkXg1WGBFAwRy6ydf5ZcUePVbYvCmJsjazJyDyhdcgMqMiW3ZBL/1x4DYnVj
+         /vBgTNdbKSQfhhs6JDL5FLEvL9BdMKhWDtkhgt/F5LCHsxv15Y3NpnAz8onvFe59zH
+         IQinCLnZdNf6Czo3LtC/KgjELQ9g734pdXx0ZE1E=
+Date:   Wed, 3 Mar 2021 08:31:59 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "tiantao (H)" <tiantao6@huawei.com>
+Cc:     Tian Tao <tiantao6@hisilicon.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: hcd: remove unused including <linux/version.h>
+Message-ID: <YD87b/zYXgEFmmXl@kroah.com>
+References: <1614733752-56541-1-git-send-email-tiantao6@hisilicon.com>
+ <YD80gndsrjIRvy8H@kroah.com>
+ <ff94889c-1d51-e6e3-65dc-739b7509e05c@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff94889c-1d51-e6e3-65dc-739b7509e05c@huawei.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The new struct member was added to struct dwc3, but
-a documentation was missing:
+On Wed, Mar 03, 2021 at 03:15:53PM +0800, tiantao (H) wrote:
+> 
+> 在 2021/3/3 15:02, Greg KH 写道:
+> > On Wed, Mar 03, 2021 at 09:09:12AM +0800, Tian Tao wrote:
+> > > Remove including <linux/version.h> that don't need it.
+> > > 
+> > > Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> > > ---
+> > >   drivers/usb/core/hcd.c | 1 -
+> > >   1 file changed, 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > > index 3f03813..53bc93d 100644
+> > > --- a/drivers/usb/core/hcd.c
+> > > +++ b/drivers/usb/core/hcd.c
+> > > @@ -11,7 +11,6 @@
+> > >   #include <linux/bcd.h>
+> > >   #include <linux/module.h>
+> > > -#include <linux/version.h>
+> > >   #include <linux/kernel.h>
+> > >   #include <linux/sched/task_stack.h>
+> > >   #include <linux/slab.h>
+> > You obviously did not even test-build this patch, which is very odd when
+> > submitting something to the community.  Why did you not do this?
+> > 
+> > This file _DOES_ need this .h file, whatever tool you are using to
+> > detect this is completely broken.  Please fix it and be more careful
+> > before sending new patches.
+> this is reported by command “make versioncheck”
 
-drivers/usb/dwc3/core.h:1273: warning: Function parameter or member 'usb_psy' not described in 'dwc3'
+Then the tool is broken.  Why did you not test-build your change before
+sending it?  Did you read the checklist of "what to do before sending a
+patch" that we have in our documentation?  If not, please do so.
 
-Signed-off-by: Ray Chi <raychi@google.com>
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
-Changelog since v1:
-(reported-by Stephen Rothwell <sfr@canb.auug.org.au>)
-- added Reported-by line.
+thanks,
 
- drivers/usb/dwc3/core.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 6708fdf358b3..ce6bd84e2b39 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -988,6 +988,7 @@ struct dwc3_scratchpad_array {
-  * @role_sw: usb_role_switch handle
-  * @role_switch_default_mode: default operation mode of controller while
-  *			usb role is USB_ROLE_NONE.
-+ * @usb_psy: pointer to power supply interface.
-  * @usb2_phy: pointer to USB2 PHY
-  * @usb3_phy: pointer to USB3 PHY
-  * @usb2_generic_phy: pointer to USB2 PHY
--- 
-2.30.1.766.gb4fecdf3b7-goog
-
+greg k-h
