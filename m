@@ -2,134 +2,187 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27779C433E6
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07D6CC4332B
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6E3C64E62
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D248864E51
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 00:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237845AbhCDA1R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:27:17 -0500
-Received: from mga09.intel.com ([134.134.136.24]:25628 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1443655AbhCCMO7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Mar 2021 07:14:59 -0500
-IronPort-SDR: rY9xXrA/m07oLD9H7pqXDEv+liEO2rab+A8tqZu14fUgbtjbt9aw/UmKaupqy/1efCtXOIAH0h
- VE0ZyCqV7lDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="187299463"
-X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
-   d="scan'208";a="187299463"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 04:13:12 -0800
-IronPort-SDR: UnOimma7BB3u0E0a0Q9LIEAUJe9TMZIwRWSI0eFasLpu4uRFm66mNHoxHsWuZ3ArD3L8Akawtw
- coJuHLLH9ikA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
-   d="scan'208";a="586338810"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 03 Mar 2021 04:13:10 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 5227F128; Wed,  3 Mar 2021 14:13:10 +0200 (EET)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
-        Lukas Wunner <lukas@wunner.de>
-Subject: [PATCH 1/2] thunderbolt: Initialize HopID IDAs in tb_switch_alloc()
-Date:   Wed,  3 Mar 2021 15:13:09 +0300
-Message-Id: <20210303121310.80937-1-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.30.1
+        id S235450AbhCDA1X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:27:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1378980AbhCCP3b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Mar 2021 10:29:31 -0500
+Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A426FC06175F;
+        Wed,  3 Mar 2021 07:26:50 -0800 (PST)
+Received: by mail-il1-x133.google.com with SMTP id p10so9571052ils.9;
+        Wed, 03 Mar 2021 07:26:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/+b0M2H+gosoJ79u2UNSRkbC9BoMHMgNBTho8YdX/KY=;
+        b=kZ0CQxzwwczsSO7NNjvLv/B37Rl82nhUefag/iMQi+vlJRuQ+dcg5uvxQPndxyLMRt
+         ZzFVY/t5NxZsMD6somA13llXxwht8oeDLhc22TPrQZv3hq1YxSRJU8+5S73XwPqMO9q8
+         Y/VJ3iLEzLlsYqJa21hDdIA3UJ7PaC0ixuNzLXjIRCvd8Rk6QIeQO0HOHsX08j1ykBxL
+         lwiaXlpaTsD+MMYZdA44ZptH2fURcLYgR/ChKxFwK1XPUmuvDiEJqhCzT7lNaI4eJWrd
+         13sQjbS37+kPJArOmItifDZ7+f2h+Jd8B0Vm6lzRSVEdHDcrk3pRZX5ZDK+eLTeSEAdb
+         7trw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/+b0M2H+gosoJ79u2UNSRkbC9BoMHMgNBTho8YdX/KY=;
+        b=fsGYzuAkSAmV8cchf3hvDizq4zBBAk+SUHnLeGwZSGzPA3cNe5R/hpAs13Ksu7OMq1
+         dHJT4qB/Wh+oIwfDrgLLi81l//MRZdB5RKDpnyCKNsv7CXCU5jEr+rYiUODXAQ5Woe+b
+         ghIhp3hReif8hwAu9W2yI4lQbTOQHMmopcmgO5PVdV9/3zTk0TqGKo+fg2krHwwU19og
+         iFhX85HmPYnSK2l9qR9OWjsV9ol6xN6iU4AHjX89v6CYU+7NrDzpnxeftHbQ/30X4Dky
+         nNMO6udKAMTGEKig6yfEUXEL/2It20C7I3ALqYHAQN/6sQPA5pMUv0RRwPrZm80b1L7r
+         qGRA==
+X-Gm-Message-State: AOAM531Z+AylmMeZDFCE4jI7cCBV+LKrj49SrqfmLTYhjhOHHae0W1Yp
+        FNmqcwIXoe9eJtNCOhmMQPukXfaPabC5TqgsDyWYE2SOyILXcw==
+X-Google-Smtp-Source: ABdhPJzy7T6Q07FleS45PUV9vTkuaDh8XD/58Tp6UHQ1BCU1D4Fu/wOPrCP0/cVRnB0Zb3JxtCj8tWZCEKKnzqZJFCs=
+X-Received: by 2002:a92:d981:: with SMTP id r1mr21922502iln.98.1614785209987;
+ Wed, 03 Mar 2021 07:26:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210222115149.3606776-1-raychi@google.com> <20210303150126.24538-1-heiko.thiery@gmail.com>
+In-Reply-To: <20210303150126.24538-1-heiko.thiery@gmail.com>
+From:   Heiko Thiery <heiko.thiery@gmail.com>
+Date:   Wed, 3 Mar 2021 16:26:38 +0100
+Message-ID: <CAEyMn7bc8F940WZc0Xf-p9Ri6K4sKcLvG-VfYh2o+bjuhT82NQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] an additional path to control charging current
+To:     raychi@google.com
+Cc:     badhri@google.com, balbi@kernel.org, gregkh@linuxfoundation.org,
+        kyletso@google.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If there is a failure before the tb_switch_add() is called the switch
-object is released by tb_switch_release() but at that point HopID IDAs
-have not yet been initialized. So we see splat like this:
+Hi,
 
-BUG: spinlock bad magic on CPU#2, kworker/u8:5/115
-...
-Workqueue: thunderbolt0 tb_handle_hotplug
-Call Trace:
- dump_stack+0x97/0xdc
- ? spin_bug+0x9a/0xa7
- do_raw_spin_lock+0x68/0x98
- _raw_spin_lock_irqsave+0x3f/0x5d
- ida_destroy+0x4f/0x127
- tb_switch_release+0x6d/0xfd
- device_release+0x2c/0x7d
- kobject_put+0x9b/0xbc
- tb_handle_hotplug+0x278/0x452
- process_one_work+0x1db/0x396
- worker_thread+0x216/0x375
- kthread+0x14d/0x155
- ? pr_cont_work+0x58/0x58
- ? kthread_blkcg+0x2e/0x2e
- ret_from_fork+0x1f/0x40
+Am Mi., 3. M=C3=A4rz 2021 um 16:01 Uhr schrieb Heiko Thiery <heiko.thiery@g=
+mail.com>:
+>
+> Hi Ray,
+>
+>
+> > Currently, VBUS draw callback does no action when the
+> > generic PHYs are used. The patches add an additional path
+> > to control charging current through power supply property
+> > POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT.
+> >
+> > Ray Chi (2):
+> >   usb: dwc3: add a power supply for current control
+> >   usb: dwc3: add an alternate path in vbus_draw callback
+>
+> While using next-20210303 this patchset leads to the following kernel cra=
+sh on my board:
+>
+> ---- 8< ----
+>
+> [    1.392084] VFIO - User Level meta-driver version: 0.3
+> [    1.398370] Unable to handle kernel NULL pointer dereference at virtua=
+l address 00000000000003a0
+> [    1.407552] Mem abort info:
+> [    1.410479]   ESR =3D 0x96000004
+> [    1.413668]   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+> [    1.419217]   SET =3D 0, FnV =3D 0
+> [    1.422413]   EA =3D 0, S1PTW =3D 0
+> [    1.425690] Data abort info:
+> [    1.428705]   ISV =3D 0, ISS =3D 0x00000004
+> [    1.432715]   CM =3D 0, WnR =3D 0
+> [    1.435821] [00000000000003a0] user address but active_mm is swapper
+> [    1.442458] Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> [    1.448274] Modules linked in:
+> [    1.451469] CPU: 1 PID: 1 Comm: swapper/0 Not tainted 5.12.0-rc1-next-=
+20210303-00005-g090e892099db #126
+> [    1.461269] Hardware name: Kontron pITX-imx8m (DT)
+> [    1.466268] pstate: 60000005 (nZCv daif -PAN -UAO -TCO BTYPE=3D--)
+> [    1.472538] pc : devm_power_supply_get_by_phandle+0xe4/0x148
+> [    1.478455] lr : dwc3_probe+0xbac/0xfa0
+> [    1.482462] sp : ffff800011f1bb00
+> [    1.485918] x29: ffff800011f1bb00 x28: 0000000000000000
+> [    1.491467] x27: ffff800011681078 x26: ffff8000115d048c
+> [    1.497016] x25: ffff0000c089ea00 x24: 0000000000000003
+> [    1.502564] x23: ffff0000c089ea00 x22: ffff800011b89948
+> [    1.508112] x21: 0000000000000003 x20: 00000000fffffdfb
+> [    1.513660] x19: ffff0000c03f1080 x18: 00000000000000c0
+> [    1.519209] x17: 0000000000000000 x16: 0000000000000000
+> [    1.524757] x15: fffffc0000001000 x14: 0000000000000000
+> [    1.530306] x13: 0000000000000000 x12: 0000000000000030
+> [    1.535853] x11: 0101010101010101 x10: ffff800011f1ba50
+> [    1.541402] x9 : ffff0000ff784c70 x8 : 0000000000000010
+> [    1.546950] x7 : ffff0000c03a5590 x6 : 0000000000000080
+> [    1.552498] x5 : ffff0000c0098000 x4 : 00000000000003a0
+> [    1.558047] x3 : ffff800011cb2dc8 x2 : 0000000000000000
+> [    1.563596] x1 : 0000000000000001 x0 : 0000000000000000
+> [    1.569146] Call trace:
+> [    1.571700]  devm_power_supply_get_by_phandle+0xe4/0x148
+> [    1.577248]  dwc3_probe+0xbac/0xfa0
+> [    1.580890]  platform_probe+0x68/0xd8
+> [    1.584719]  really_probe+0xe4/0x3c0
+> [    1.588454]  driver_probe_device+0x58/0xb8
+> [    1.592733]  device_driver_attach+0x74/0x80
+> [    1.597100]  __driver_attach+0x58/0xe0
+> [    1.601016]  bus_for_each_dev+0x74/0xc8
+> [    1.605020]  driver_attach+0x24/0x30
+> [    1.608753]  bus_add_driver+0x184/0x1e8
+> [    1.612758]  driver_register+0x64/0x120
+> [    1.616764]  __platform_driver_register+0x28/0x38
+> [    1.621675]  dwc3_driver_init+0x1c/0x28
+> [    1.625684]  do_one_initcall+0x74/0x1d0
+> [    1.629691]  kernel_init_freeable+0x1d4/0x23c
+> [    1.634240]  kernel_init+0x14/0x118
+> [    1.637885]  ret_from_fork+0x10/0x30
+> [    1.641624] Code: 88027c01 35ffffa2 17fffe96 f9800091 (885f7c82)
+> [    1.647992] ---[ end trace c6e48cea897d0b0d ]---
+> [    1.652833] Kernel panic - not syncing: Attempted to kill init! exitco=
+de=3D0x0000000b
+> [    1.660822] SMP: stopping secondary CPUs
+> [    1.664921] Kernel Offset: disabled
+> [    1.668560] CPU features: 0x00240002,2000200c
+> [    1.673106] Memory Limit: none
+> [    1.676296] ---[ end Kernel panic - not syncing: Attempted to kill ini=
+t! exitcode=3D0x0000000b ]---
+>
+>
+> ---- 8< ----
 
-Fix this by always initializing HopID IDAs in tb_switch_alloc().
+This fixes the crash.
 
-Fixes: 0b2863ac3cfd ("thunderbolt: Add functions for allocating and releasing HopIDs")
-Cc: stable@vger.kernel.org
-Reported-by: Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/switch.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index d15f065849cd..94fdbe502ce9 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1628,7 +1628,7 @@ static int dwc3_probe(struct platform_device *pdev)
+ assert_reset:
+        reset_control_assert(dwc->reset);
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index b63fecca6c2a..2a95b4ce06c0 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -768,12 +768,6 @@ static int tb_init_port(struct tb_port *port)
- 
- 	tb_dump_port(port->sw->tb, &port->config);
- 
--	/* Control port does not need HopID allocation */
--	if (port->port) {
--		ida_init(&port->in_hopids);
--		ida_init(&port->out_hopids);
--	}
--
- 	INIT_LIST_HEAD(&port->list);
- 	return 0;
- 
-@@ -1842,10 +1836,8 @@ static void tb_switch_release(struct device *dev)
- 	dma_port_free(sw->dma_port);
- 
- 	tb_switch_for_each_port(sw, port) {
--		if (!port->disabled) {
--			ida_destroy(&port->in_hopids);
--			ida_destroy(&port->out_hopids);
--		}
-+		ida_destroy(&port->in_hopids);
-+		ida_destroy(&port->out_hopids);
- 	}
- 
- 	kfree(sw->uuid);
-@@ -2025,6 +2017,12 @@ struct tb_switch *tb_switch_alloc(struct tb *tb, struct device *parent,
- 		/* minimum setup for tb_find_cap and tb_drom_read to work */
- 		sw->ports[i].sw = sw;
- 		sw->ports[i].port = i;
-+
-+		/* Control port does not need HopID allocation */
-+		if (i) {
-+			ida_init(&sw->ports[i].in_hopids);
-+			ida_init(&sw->ports[i].out_hopids);
-+		}
- 	}
- 
- 	ret = tb_switch_find_vse_cap(sw, TB_VSE_CAP_PLUG_EVENTS);
--- 
-2.30.1
+-       if (!dwc->usb_psy)
++       if (dwc->usb_psy)
+                power_supply_put(dwc->usb_psy);
 
+        return ret;
+@@ -1653,7 +1653,7 @@ static int dwc3_remove(struct platform_device *pdev)
+        dwc3_free_event_buffers(dwc);
+        dwc3_free_scratch_buffers(dwc);
+
+-       if (!dwc->usb_psy)
++       if (dwc->usb_psy)
+                power_supply_put(dwc->usb_psy);
+
+        return 0;
+
+
+--=20
+Heiko
