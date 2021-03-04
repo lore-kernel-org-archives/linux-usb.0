@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F396C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36000C43381
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 12:34:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CEC0164F2B
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 12:34:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0FF5264F1E
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 12:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240593AbhCDMdW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Mar 2021 07:33:22 -0500
-Received: from mga01.intel.com ([192.55.52.88]:37596 "EHLO mga01.intel.com"
+        id S240815AbhCDMdX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Mar 2021 07:33:23 -0500
+Received: from mga05.intel.com ([192.55.52.43]:28648 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240613AbhCDMdO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 4 Mar 2021 07:33:14 -0500
-IronPort-SDR: CioQHSl8vrKy5M+Aq0fl59k2xZGhEmvxuTV3GonqE+1QFQi8+jOr+SdMtY2EQ7beU+KbSeOPGj
- rOT7hWErtznQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="207113146"
+        id S240793AbhCDMdR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 4 Mar 2021 07:33:17 -0500
+IronPort-SDR: DY77keBVuFDQh+P3ooo494ZblgDX50DgcMAYm6GMlKuBixXPEX01E16vwszCc/jz2ZnKTgcdEQ
+ jXJnxi+uWjYw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="272407035"
 X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="207113146"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 04:31:29 -0800
-IronPort-SDR: 5n3gJrn0wB4W3i2igPQKvofZRm9c8dfzD9od3nSAc0eIb3KVouGxW4rM7IxRxjnOWOnhxC6HVh
- ZgyLh8vxu79A==
+   d="scan'208";a="272407035"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 04:31:32 -0800
+IronPort-SDR: ZMBkdcqeVaa10YyY/yZr1AIrzgTmoQQZDwHiDWdtyD+Gtlr8bxfEDcq5PHfQr4g/nh/b7cNXCh
+ gzEIwyEztrZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="407764313"
+   d="scan'208";a="600508099"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga008.jf.intel.com with ESMTP; 04 Mar 2021 04:31:26 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 04 Mar 2021 04:31:29 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 3BF3AB8; Thu,  4 Mar 2021 14:31:26 +0200 (EET)
+        id 729C83EA; Thu,  4 Mar 2021 14:31:26 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -45,9 +45,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 01/18] thunderbolt: Disable retry logic for intra-domain control packets
-Date:   Thu,  4 Mar 2021 15:31:08 +0300
-Message-Id: <20210304123125.43630-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 07/18] thunderbolt: Use pseudo-random number as initial property block generation
+Date:   Thu,  4 Mar 2021 15:31:14 +0300
+Message-Id: <20210304123125.43630-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210304123125.43630-1-mika.westerberg@linux.intel.com>
 References: <20210304123125.43630-1-mika.westerberg@linux.intel.com>
@@ -57,32 +57,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In most cases the response packet is lost because the router in question
-was disconnected by the user. Resending the control packet in that case
-just adds unnecessary delays, so disable that for intra-domain control
-packets. For inter-domain (XDomain) packets we continue retrying.
-
-This also aligns the driver better what the Intel connection manager
-firmware is doing.
+As recommended by USB4 inter-domain service spec use pseudo-random value
+instead of zero as initial XDomain property block generation value.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/ctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/thunderbolt/xdomain.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
-index f1aeaff9f368..875922133782 100644
---- a/drivers/thunderbolt/ctl.c
-+++ b/drivers/thunderbolt/ctl.c
-@@ -17,7 +17,7 @@
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index a1657663a95e..cfe6fa7e84f4 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -12,6 +12,7 @@
+ #include <linux/kmod.h>
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/prandom.h>
+ #include <linux/utsname.h>
+ #include <linux/uuid.h>
+ #include <linux/workqueue.h>
+@@ -1880,6 +1881,7 @@ int tb_xdomain_init(void)
+ 	tb_property_add_immediate(xdomain_property_dir, "deviceid", 0x1);
+ 	tb_property_add_immediate(xdomain_property_dir, "devicerv", 0x80000100);
  
++	xdomain_property_block_gen = prandom_u32();
+ 	return 0;
+ }
  
- #define TB_CTL_RX_PKG_COUNT	10
--#define TB_CTL_RETRIES		4
-+#define TB_CTL_RETRIES		1
- 
- /**
-  * struct tb_ctl - Thunderbolt control channel
 -- 
 2.30.1
 
