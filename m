@@ -2,36 +2,36 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D823BC4360C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF0B4C43619
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:27:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B77DA64FDA
+	by mail.kernel.org (Postfix) with ESMTP id D24EA64F21
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234800AbhCDP0r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S234796AbhCDP0r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 4 Mar 2021 10:26:47 -0500
-Received: from www262.sakura.ne.jp ([202.181.97.72]:62152 "EHLO
+Received: from www262.sakura.ne.jp ([202.181.97.72]:62157 "EHLO
         www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234317AbhCDP0X (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 10:26:23 -0500
-Received: from fsav303.sakura.ne.jp (fsav303.sakura.ne.jp [153.120.85.134])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 124FP3Qq030955;
-        Fri, 5 Mar 2021 00:25:03 +0900 (JST)
+        with ESMTP id S234111AbhCDP0Y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 10:26:24 -0500
+Received: from fsav302.sakura.ne.jp (fsav302.sakura.ne.jp [153.120.85.133])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 124FP2XR030900;
+        Fri, 5 Mar 2021 00:25:02 +0900 (JST)
         (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
 Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav303.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav303.sakura.ne.jp);
- Fri, 05 Mar 2021 00:25:03 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav303.sakura.ne.jp)
+ by fsav302.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp);
+ Fri, 05 Mar 2021 00:25:02 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp)
 Received: from localhost.localdomain (M106072142033.v4.enabler.ne.jp [106.72.142.33])
         (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 124FOtnC030882
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 124FOtn0030882
         (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 5 Mar 2021 00:25:03 +0900 (JST)
+        Fri, 5 Mar 2021 00:25:02 +0900 (JST)
         (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
 From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 To:     Valentina Manea <valentina.manea.m@gmail.com>,
@@ -39,49 +39,61 @@ To:     Valentina Manea <valentina.manea.m@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org,
         Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: [PATCH v4 12/12] usb: usbip: remove unused kthread_get_run()
-Date:   Fri,  5 Mar 2021 00:24:55 +0900
-Message-Id: <20210304152455.3685-13-penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH v4 00/12] usb: usbip: serialize attach/detach operations
+Date:   Fri,  5 Mar 2021 00:24:43 +0900
+Message-Id: <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
 X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <df337d16-2a6e-f671-7134-449d7da6a9cb@linuxfoundation.org>
 References: <df337d16-2a6e-f671-7134-449d7da6a9cb@linuxfoundation.org>
- <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-All kthread_get_run() users are now using usbip_prepare_threads().
+On 2021/02/27 0:04, Shuah Khan wrote:
+> I will send it out later on today.
 
-Tested-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- drivers/usb/usbip/usbip_common.h | 13 -------------
- 1 file changed, 13 deletions(-)
+Since I haven't received it, here comes an update.
 
-diff --git a/drivers/usb/usbip/usbip_common.h b/drivers/usb/usbip/usbip_common.h
-index 6e5394dba2ec..71dae36c9e3b 100644
---- a/drivers/usb/usbip/usbip_common.h
-+++ b/drivers/usb/usbip/usbip_common.h
-@@ -284,19 +284,6 @@ struct usbip_device {
- #endif
- };
- 
--#define kthread_get_run(threadfn, data, namefmt, ...)			   \
--({									   \
--	struct task_struct *__k						   \
--		= kthread_create(threadfn, data, namefmt, ## __VA_ARGS__); \
--	if (!IS_ERR(__k)) {						   \
--		get_task_struct(__k);					   \
--		wake_up_process(__k);					   \
--	} else {							   \
--		__k = NULL;						   \
--	}								   \
--	__k;								   \
--})
--
- #define kthread_stop_put(k)		\
- 	do {				\
- 		kthread_stop(k);	\
+Changes since v1:
+
+  Tetsuo Handa found that the PTR_ERR() access in usbip_prepare_threads()
+  in v1 was wrong, and fixed it in v2.
+
+Changes since v2:
+
+  The kernel test robot <lkp@intel.com> found the same error using
+  scripts/coccinelle/tests/odd_ptr_err.cocci and
+  Julia Lawall <julia.lawall@inria.fr> sent us a patch, but nothing
+  changed because that error was already fixed in v2.
+
+Changes since v3:
+
+  Reduce lines changed in drivers/usb/usbip/stub_dev.c .
+  Split into 12 patches.
+
+Tetsuo Handa (12):
+  usb: usbip: introduce usbip_event_mutex for serialization
+  usb: usbip: vhci: serialize attach_store()/detach_store() against event_handler()
+  usb: usbip: vudc: serialize usbip_sockfd_store() against event_handler()
+  usb: usbip: stub: serialize usbip_sockfd_store() against event_handler()
+  usb: usbip: don't reset tcp_socket at vhci_device_reset()
+  usb: usbip: fix error handling of kthread_get_run()
+  usb: usbip: preallocate kernel threads for consistent attach operation
+  usb: usbip: check that stream socket is used
+  usb: usbip: vhci: add automatic recovery to attach_store()
+  usb: usbip: vudc: add automatic recovery to usbip_sockfd_store()
+  usb: usbip: stub: add automatic recovery to usbip_sockfd_store()
+  usb: usbip: remove unused kthread_get_run()
+
+ drivers/usb/usbip/stub_dev.c     | 44 ++++++++++++++-----------
+ drivers/usb/usbip/usbip_common.c | 55 ++++++++++++++++++++++++++++++++
+ drivers/usb/usbip/usbip_common.h | 25 ++++++++-------
+ drivers/usb/usbip/usbip_event.c  | 15 +++++++++
+ drivers/usb/usbip/vhci_hcd.c     |  6 ----
+ drivers/usb/usbip/vhci_sysfs.c   | 50 +++++++++++++++++++++--------
+ drivers/usb/usbip/vudc_sysfs.c   | 50 +++++++++++++++++------------
+ 7 files changed, 176 insertions(+), 69 deletions(-)
+
 -- 
 2.18.4
 
