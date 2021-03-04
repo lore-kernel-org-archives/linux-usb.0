@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB88C15502
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B8A8C4160E
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 12:34:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 593B264F40
+	by mail.kernel.org (Postfix) with ESMTP id 4510564F42
 	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 12:34:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240802AbhCDMdX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Mar 2021 07:33:23 -0500
-Received: from mga07.intel.com ([134.134.136.100]:47218 "EHLO mga07.intel.com"
+        id S240828AbhCDMdY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Mar 2021 07:33:24 -0500
+Received: from mga12.intel.com ([192.55.52.136]:64925 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240795AbhCDMdR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S240790AbhCDMdR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 4 Mar 2021 07:33:17 -0500
-IronPort-SDR: 1LokIG9WDc1nY/Pngc4SlwXO7RFScTUXSo7OVzryNA+iywqfFmsI1Lim5cXMhfY5sz145YVNu/
- FdQ+6TQoArdA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="251444259"
+IronPort-SDR: v5rkH88SEXvPBlgm7FZvrUbXfWx+wb4bWZZQ9hGgkhCfN0F6Wy3GIjaH2oHw/SVymTkG+Pv/O+
+ 6y/lY1/EPG6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="166662647"
 X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="251444259"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 04:31:32 -0800
-IronPort-SDR: OG4/PFjM71UZlrAoJxFahoECFI/eAaZS72wRmEHJiqfVkSbPL3u5lAxs2eN84VW3AiCw6lHEmf
- gRFV479VVxIQ==
+   d="scan'208";a="166662647"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 04:31:32 -0800
+IronPort-SDR: WVxsua+vzA1ipbqiaRRk6YFiLfvoi2lSCGml4HxF5zPGG+EqgWLYJtWjTZqocAPgEFK1pxpS/l
+ S9jJKSjHi4+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="368170056"
+   d="scan'208";a="435785755"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 04 Mar 2021 04:31:29 -0800
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Mar 2021 04:31:29 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 6126B39E; Thu,  4 Mar 2021 14:31:26 +0200 (EET)
+        id 8418444E; Thu,  4 Mar 2021 14:31:26 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Michael Jamet <michael.jamet@intel.com>,
@@ -45,9 +45,9 @@ Cc:     Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         "David S . Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org
-Subject: [PATCH 05/18] thunderbolt: Add more logging to XDomain connections
-Date:   Thu,  4 Mar 2021 15:31:12 +0300
-Message-Id: <20210304123125.43630-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/18] thunderbolt: Add tb_property_copy_dir()
+Date:   Thu,  4 Mar 2021 15:31:16 +0300
+Message-Id: <20210304123125.43630-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210304123125.43630-1-mika.westerberg@linux.intel.com>
 References: <20210304123125.43630-1-mika.westerberg@linux.intel.com>
@@ -57,128 +57,110 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently the driver is pretty quiet when another host is connected
-which makes debugging possible issues harder. For this reason add more
-logging on debug level that can be turned on as needed.
-
-While there log the host-to-host connection on info level analogous to
-routers and retimers.
+This function takes a deep copy of the properties. We need this in order
+to support more dynamic properties per XDomain connection as required by
+the USB4 inter-domain service spec.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/xdomain.c | 34 +++++++++++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
+ drivers/thunderbolt/property.c | 71 ++++++++++++++++++++++++++++++++++
+ include/linux/thunderbolt.h    |  1 +
+ 2 files changed, 72 insertions(+)
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 7cf8b9c85ab7..584bb5ec06f8 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -591,6 +591,8 @@ static void tb_xdp_handle_request(struct work_struct *work)
- 
- 	finalize_property_block();
- 
-+	tb_dbg(tb, "%llx: received XDomain request %#x\n", route, pkg->type);
-+
- 	switch (pkg->type) {
- 	case PROPERTIES_REQUEST:
- 		ret = tb_xdp_properties_response(tb, ctl, route, sequence, uuid,
-@@ -1002,9 +1004,12 @@ static void tb_xdomain_get_uuid(struct work_struct *work)
- 	uuid_t uuid;
- 	int ret;
- 
-+	dev_dbg(&xd->dev, "requesting remote UUID\n");
-+
- 	ret = tb_xdp_uuid_request(tb->ctl, xd->route, xd->uuid_retries, &uuid);
- 	if (ret < 0) {
- 		if (xd->uuid_retries-- > 0) {
-+			dev_dbg(&xd->dev, "failed to request UUID, retrying\n");
- 			queue_delayed_work(xd->tb->wq, &xd->get_uuid_work,
- 					   msecs_to_jiffies(100));
- 		} else {
-@@ -1013,6 +1018,8 @@ static void tb_xdomain_get_uuid(struct work_struct *work)
- 		return;
- 	}
- 
-+	dev_dbg(&xd->dev, "got remote UUID %pUb\n", &uuid);
-+
- 	if (uuid_equal(&uuid, xd->local_uuid))
- 		dev_dbg(&xd->dev, "intra-domain loop detected\n");
- 
-@@ -1052,11 +1059,15 @@ static void tb_xdomain_get_properties(struct work_struct *work)
- 	u32 gen = 0;
- 	int ret;
- 
-+	dev_dbg(&xd->dev, "requesting remote properties\n");
-+
- 	ret = tb_xdp_properties_request(tb->ctl, xd->route, xd->local_uuid,
- 					xd->remote_uuid, xd->properties_retries,
- 					&block, &gen);
- 	if (ret < 0) {
- 		if (xd->properties_retries-- > 0) {
-+			dev_dbg(&xd->dev,
-+				"failed to request remote properties, retrying\n");
- 			queue_delayed_work(xd->tb->wq, &xd->get_properties_work,
- 					   msecs_to_jiffies(1000));
- 		} else {
-@@ -1123,6 +1134,11 @@ static void tb_xdomain_get_properties(struct work_struct *work)
- 			dev_err(&xd->dev, "failed to add XDomain device\n");
- 			return;
- 		}
-+		dev_info(&xd->dev, "new host found, vendor=%#x device=%#x\n",
-+			 xd->vendor, xd->device);
-+		if (xd->vendor_name && xd->device_name)
-+			dev_info(&xd->dev, "%s %s\n", xd->vendor_name,
-+				 xd->device_name);
- 	} else {
- 		kobject_uevent(&xd->dev.kobj, KOBJ_CHANGE);
- 	}
-@@ -1143,13 +1159,19 @@ static void tb_xdomain_properties_changed(struct work_struct *work)
- 					     properties_changed_work.work);
- 	int ret;
- 
-+	dev_dbg(&xd->dev, "sending properties changed notification\n");
-+
- 	ret = tb_xdp_properties_changed_request(xd->tb->ctl, xd->route,
- 				xd->properties_changed_retries, xd->local_uuid);
- 	if (ret) {
--		if (xd->properties_changed_retries-- > 0)
-+		if (xd->properties_changed_retries-- > 0) {
-+			dev_dbg(&xd->dev,
-+				"failed to send properties changed notification, retrying\n");
- 			queue_delayed_work(xd->tb->wq,
- 					   &xd->properties_changed_work,
- 					   msecs_to_jiffies(1000));
-+		}
-+		dev_err(&xd->dev, "failed to send properties changed notification\n");
- 		return;
- 	}
- 
-@@ -1390,6 +1412,10 @@ struct tb_xdomain *tb_xdomain_alloc(struct tb *tb, struct device *parent,
- 	xd->dev.groups = xdomain_attr_groups;
- 	dev_set_name(&xd->dev, "%u-%llx", tb->index, route);
- 
-+	dev_dbg(&xd->dev, "local UUID %pUb\n", local_uuid);
-+	if (remote_uuid)
-+		dev_dbg(&xd->dev, "remote UUID %pUb\n", remote_uuid);
-+
- 	/*
- 	 * This keeps the DMA powered on as long as we have active
- 	 * connection to another host.
-@@ -1452,10 +1478,12 @@ void tb_xdomain_remove(struct tb_xdomain *xd)
- 	pm_runtime_put_noidle(&xd->dev);
- 	pm_runtime_set_suspended(&xd->dev);
- 
--	if (!device_is_registered(&xd->dev))
-+	if (!device_is_registered(&xd->dev)) {
- 		put_device(&xd->dev);
--	else
-+	} else {
-+		dev_info(&xd->dev, "host disconnected\n");
- 		device_unregister(&xd->dev);
-+	}
+diff --git a/drivers/thunderbolt/property.c b/drivers/thunderbolt/property.c
+index d5b0cdb8f0b1..dc555cda98e6 100644
+--- a/drivers/thunderbolt/property.c
++++ b/drivers/thunderbolt/property.c
+@@ -501,6 +501,77 @@ ssize_t tb_property_format_dir(const struct tb_property_dir *dir, u32 *block,
+ 	return ret < 0 ? ret : 0;
  }
  
++/**
++ * tb_property_copy_dir() - Take a deep copy of directory
++ * @dir: Directory to copy
++ *
++ * This function takes a deep copy of @dir and returns back the copy. In
++ * case of error returns %NULL. The resulting directory needs to be
++ * released by calling tb_property_free_dir().
++ */
++struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir)
++{
++	struct tb_property *property, *p = NULL;
++	struct tb_property_dir *d;
++
++	if (!dir)
++		return NULL;
++
++	d = tb_property_create_dir(dir->uuid);
++	if (!d)
++		return NULL;
++
++	list_for_each_entry(property, &dir->properties, list) {
++		struct tb_property *p;
++
++		p = tb_property_alloc(property->key, property->type);
++		if (!p)
++			goto err_free;
++
++		p->length = property->length;
++
++		switch (property->type) {
++		case TB_PROPERTY_TYPE_DIRECTORY:
++			p->value.dir = tb_property_copy_dir(property->value.dir);
++			if (!p->value.dir)
++				goto err_free;
++			break;
++
++		case TB_PROPERTY_TYPE_DATA:
++			p->value.data = kmemdup(property->value.data,
++						property->length * 4,
++						GFP_KERNEL);
++			if (!p->value.data)
++				goto err_free;
++			break;
++
++		case TB_PROPERTY_TYPE_TEXT:
++			p->value.text = kzalloc(p->length * 4, GFP_KERNEL);
++			if (!p->value.text)
++				goto err_free;
++			strcpy(p->value.text, property->value.text);
++			break;
++
++		case TB_PROPERTY_TYPE_VALUE:
++			p->value.immediate = property->value.immediate;
++			break;
++
++		default:
++			break;
++		}
++
++		list_add_tail(&p->list, &d->properties);
++	}
++
++	return d;
++
++err_free:
++	kfree(p);
++	tb_property_free_dir(d);
++
++	return NULL;
++}
++
  /**
+  * tb_property_add_immediate() - Add immediate property to directory
+  * @parent: Directory to add the property
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index 7ec977161f5c..003a9ad29168 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -146,6 +146,7 @@ struct tb_property_dir *tb_property_parse_dir(const u32 *block,
+ 					      size_t block_len);
+ ssize_t tb_property_format_dir(const struct tb_property_dir *dir, u32 *block,
+ 			       size_t block_len);
++struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir);
+ struct tb_property_dir *tb_property_create_dir(const uuid_t *uuid);
+ void tb_property_free_dir(struct tb_property_dir *dir);
+ int tb_property_add_immediate(struct tb_property_dir *parent, const char *key,
 -- 
 2.30.1
 
