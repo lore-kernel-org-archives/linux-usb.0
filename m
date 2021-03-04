@@ -2,111 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10C70C4361B
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82080C433DB
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:54:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED14364FD3
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:27:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5286464E60
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:54:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234804AbhCDP0s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Mar 2021 10:26:48 -0500
-Received: from www262.sakura.ne.jp ([202.181.97.72]:62431 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234737AbhCDP0j (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 10:26:39 -0500
-Received: from fsav302.sakura.ne.jp (fsav302.sakura.ne.jp [153.120.85.133])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 124FP2Er030912;
-        Fri, 5 Mar 2021 00:25:02 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav302.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp);
- Fri, 05 Mar 2021 00:25:02 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav302.sakura.ne.jp)
-Received: from localhost.localdomain (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 124FOtn4030882
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 5 Mar 2021 00:25:02 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To:     Valentina Manea <valentina.manea.m@gmail.com>,
+        id S235993AbhCDPx4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Mar 2021 10:53:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235883AbhCDPxd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 10:53:33 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED90CC061574
+        for <linux-usb@vger.kernel.org>; Thu,  4 Mar 2021 07:52:52 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id o9so15310621iow.6
+        for <linux-usb@vger.kernel.org>; Thu, 04 Mar 2021 07:52:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0afcnadyae2u9sGEYX0+zIKXHQaX0WMPgwa1AIbiGkA=;
+        b=XpnHp/mbDQsXfndCV5fG+D2Gk83K8/+5fRIdK3cHwsCLbnwnnAZnaJ3KON+M0HqnMr
+         LvI/Bc+Fn5KKDpFtN8yY9nNoh798DQxx02Emljvw0tZsPh4NYtij9eKiqjruS3JjX+5X
+         kp65EoUV8gLlZmwWa6ozjGUG2xyxD9EBK/KIU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0afcnadyae2u9sGEYX0+zIKXHQaX0WMPgwa1AIbiGkA=;
+        b=laY5HnYMnJ+VODoOL383kNDgd4nzaA3GtymsxL+M3qXiRwUHd7MBnDrO4o5xd55zBJ
+         Lk2ctE33iRLePZzm4EXTRR1VId8VVYDHHh6cUKJxaUrbNuitc6EEG68FwuCiM+N1Hama
+         6lX1peuNvXDyYX/Hk0v5rODsn8Fc5vBCUbYldMo1MKalxmhOLx+UKUl0qWoP0EnPqqQj
+         JPUsfqiW0hisFE+GmRgZlMQZIx8JgZDsdzGs8JrmZSm0SxoXWWynduF4Qzi/USL/Sr4Y
+         vGWlCwQ7aQ45wlPhFlmNvYoqosPUtv1/7z8oM/wh0uJKHujldYet6W4RFIk5eNNbIGq1
+         K0wg==
+X-Gm-Message-State: AOAM533qQW7DCpVBtRqi2hhHCjcebYO2i4619deizp50hljp1qgp0SpJ
+        k0ZRulXu5+H5fDwaMmNSag8ETA==
+X-Google-Smtp-Source: ABdhPJyO59ZiDY8RgDtFmw3HNs7n2U+wKMXWeONPjQThnJCbzZg6ZfmKVhExKsfss1LhN3d+wZewPA==
+X-Received: by 2002:a05:6602:14c3:: with SMTP id b3mr4091974iow.202.1614873172444;
+        Thu, 04 Mar 2021 07:52:52 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id j12sm13477482ila.75.2021.03.04.07.52.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Mar 2021 07:52:52 -0800 (PST)
+Subject: Re: [PATCH v4 00/12] usb: usbip: serialize attach/detach operations
+To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
         Shuah Khan <shuah@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: [PATCH v4 04/12] usb: usbip: stub: serialize usbip_sockfd_store() against event_handler()
-Date:   Fri,  5 Mar 2021 00:24:47 +0900
-Message-Id: <20210304152455.3685-5-penguin-kernel@I-love.SAKURA.ne.jp>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
+        Shuah Khan <skhan@linuxfoundation.org>
 References: <df337d16-2a6e-f671-7134-449d7da6a9cb@linuxfoundation.org>
  <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <353d42fe-d730-63bb-7d40-33ee67d20411@linuxfoundation.org>
+Date:   Thu, 4 Mar 2021 08:52:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-usbip_sockfd_store() must perform
+On 3/4/21 8:24 AM, Tetsuo Handa wrote:
+> On 2021/02/27 0:04, Shuah Khan wrote:
+>> I will send it out later on today.
+> 
+> Since I haven't received it, here comes an update.
+> 
 
-      if (sdev->ud.status != SDEV_ST_AVAILABLE) {
-        /* misc assignments for attach operation */
-        sdev->ud.status = SDEV_ST_USED;
-      }
+Thanks for you the update.
 
-under a lock, or multiple ud->tcp_{tx,rx} are created (which will later
-cause a crash like [1]) and refcount on ud->tcp_socket is leaked when
-usbip_sockfd_store() is concurrently called.
+I have a patch series that works well to go into stables.
 
-Since I don't want to replace "return" with "goto" in order to call
-usbip_event_unlock(), wrap whole function in order to keep changes
-minimal.
+As I said, it uses a simpler approach and reduces the number
+of changes. I would rather go with what I am working on.
 
-[1] https://syzkaller.appspot.com/bug?extid=95ce4b142579611ef0a9
+These fixes have to go all the way into Linux 4.4. I will handle
+this series.
 
-Reported-by: syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>
-Tested-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
----
- drivers/usb/usbip/stub_dev.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
-index 2305d425e6c9..cea5663d1994 100644
---- a/drivers/usb/usbip/stub_dev.c
-+++ b/drivers/usb/usbip/stub_dev.c
-@@ -39,8 +39,8 @@ static DEVICE_ATTR_RO(usbip_status);
-  * is used to transfer usbip requests by kernel threads. -1 is a magic number
-  * by which usbip connection is finished.
-  */
--static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t count)
-+static ssize_t __usbip_sockfd_store(struct device *dev, struct device_attribute *attr,
-+				    const char *buf, size_t count)
- {
- 	struct stub_device *sdev = dev_get_drvdata(dev);
- 	int sockfd = 0;
-@@ -104,6 +104,17 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
- 	spin_unlock_irq(&sdev->ud.lock);
- 	return -EINVAL;
- }
-+static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *attr,
-+				  const char *buf, size_t count)
-+{
-+	ssize_t ret = usbip_event_lock_killable();
-+
-+	if (ret)
-+		return ret;
-+	ret = __usbip_sockfd_store(dev, attr, buf, count);
-+	usbip_event_unlock();
-+	return ret;
-+}
- static DEVICE_ATTR_WO(usbip_sockfd);
- 
- static struct attribute *usbip_attrs[] = {
--- 
-2.18.4
-
+thanks,
+-- Shuah
