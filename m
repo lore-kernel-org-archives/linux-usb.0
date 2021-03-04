@@ -2,80 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED89AC433DB
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 14:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B17FC433E6
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:26:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC3E764F39
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 14:30:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CB6064FAA
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Mar 2021 15:26:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231903AbhCDOaN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Mar 2021 09:30:13 -0500
-Received: from mail-il1-f197.google.com ([209.85.166.197]:44308 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbhCDO3r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 09:29:47 -0500
-Received: by mail-il1-f197.google.com with SMTP id c11so10799648ilq.11
-        for <linux-usb@vger.kernel.org>; Thu, 04 Mar 2021 06:29:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=+kcrwDzNNHcCwSp7vaCGNHpSpPV6e8DUvjBhwiEP8pU=;
-        b=hwHoY+t1NNGcyHcPP4yG/FImyvOi14c+NVD29jyYSvpMFXWW+X2dP+4FTglcrXZXbv
-         k9Ptfp+dMebXAHBSDhhLb+ggDzNfiKHSU9HTQztS8z3fZxap0gEwfN0qaT/g1c0OVgMr
-         ntT9TsqnprQPktE1AKH9yk4nOrkKpn5g0qWs/bkM0iWJwHygDYGEkac1h81AJB2QTLsx
-         vSJ2/VClwUOF8n6MRAeBout0UhXja3DF9zqCX62bkzhTh7kV21fgmMnq/J42kASmVSfV
-         btQ5jTsYFMKWjgxypyOM8sZa2PcL5Fy9GUi09T4ZDPNlq9jQjavMIuWNwdZFIovSkhn0
-         r9rw==
-X-Gm-Message-State: AOAM533HzLOYQUIL3ZdwedNZ83UJrDXRisKdYHjPqSzvI1r4tO5+NJLO
-        rwyVfjEEhZ35/T7n1Jfl2fU9AWkhrLNQEifT1SB5Udn9O0XG
-X-Google-Smtp-Source: ABdhPJzJnSKr1pWXAFbJrRBB8V9CltBDMNX/c17YuUTYDXIwLV1cTTAvSc+KIpn15cTGHwMS5UEGEbdw2dURRxZ9663vlJyC/w8d
-MIME-Version: 1.0
-X-Received: by 2002:a5d:818b:: with SMTP id u11mr3615979ion.59.1614868146643;
- Thu, 04 Mar 2021 06:29:06 -0800 (PST)
-Date:   Thu, 04 Mar 2021 06:29:06 -0800
-In-Reply-To: <0000000000004dbaa505a5a165f7@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003d692a05bcb6ca26@google.com>
-Subject: Re: WARNING in carl9170_usb_submit_cmd_urb/usb_submit_urb
-From:   syzbot <syzbot+9468df99cb63a4a4c4e1@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, brookebasile@gmail.com,
-        chunkeey@googlemail.com, davem@davemloft.net,
-        gregkh@linuxfoundation.org, ingrassia@epigenesys.com, jack@suse.cz,
-        kuba@kernel.org, kvalo@codeaurora.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com, tytso@mit.edu, yi.zhang@huawei.com
-Content-Type: text/plain; charset="UTF-8"
+        id S234214AbhCDP0N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Mar 2021 10:26:13 -0500
+Received: from www262.sakura.ne.jp ([202.181.97.72]:61804 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234048AbhCDP0J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Mar 2021 10:26:09 -0500
+Received: from fsav303.sakura.ne.jp (fsav303.sakura.ne.jp [153.120.85.134])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 124FP3M3030950;
+        Fri, 5 Mar 2021 00:25:03 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav303.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav303.sakura.ne.jp);
+ Fri, 05 Mar 2021 00:25:03 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav303.sakura.ne.jp)
+Received: from localhost.localdomain (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 124FOtnB030882
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 5 Mar 2021 00:25:03 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To:     Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH v4 11/12] usb: usbip: stub: add automatic recovery to usbip_sockfd_store()
+Date:   Fri,  5 Mar 2021 00:24:54 +0900
+Message-Id: <20210304152455.3685-12-penguin-kernel@I-love.SAKURA.ne.jp>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
+References: <df337d16-2a6e-f671-7134-449d7da6a9cb@linuxfoundation.org>
+ <20210304152455.3685-1-penguin-kernel@I-love.SAKURA.ne.jp>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot has bisected this issue to:
+Handle kthread_create() failure by replacing kthread_get_run() with
+usbip_prepare_threads()/usbip_unprepare_threads().
 
-commit 6a66a7ded12baa6ebbb2e3e82f8cb91382814839
-Author: zhangyi (F) <yi.zhang@huawei.com>
-Date:   Thu Feb 13 06:38:20 2020 +0000
+Tested-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ drivers/usb/usbip/stub_dev.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-    jbd2: move the clearing of b_modified flag to the journal_unmap_buffer()
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index cea5663d1994..ff7d0cd5a557 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -44,7 +44,7 @@ static ssize_t __usbip_sockfd_store(struct device *dev, struct device_attribute
+ {
+ 	struct stub_device *sdev = dev_get_drvdata(dev);
+ 	int sockfd = 0;
+-	struct socket *socket;
++	struct usbip_thread_info uti = { };
+ 	int rv;
+ 
+ 	if (!sdev) {
+@@ -57,7 +57,11 @@ static ssize_t __usbip_sockfd_store(struct device *dev, struct device_attribute
+ 		return -EINVAL;
+ 
+ 	if (sockfd != -1) {
+-		int err;
++		int err = usbip_prepare_threads(&uti, &sdev->ud, sockfd,
++						stub_tx_loop, "stub_tx", stub_rx_loop, "stub_rx");
++
++		if (err)
++			return err;
+ 
+ 		dev_info(dev, "stub up\n");
+ 
+@@ -68,24 +72,15 @@ static ssize_t __usbip_sockfd_store(struct device *dev, struct device_attribute
+ 			goto err;
+ 		}
+ 
+-		socket = sockfd_lookup(sockfd, &err);
+-		if (!socket)
+-			goto err;
+-
+-		sdev->ud.tcp_socket = socket;
++		sdev->ud.tcp_socket = uti.tcp_socket;
+ 		sdev->ud.sockfd = sockfd;
+-
+-		spin_unlock_irq(&sdev->ud.lock);
+-
+-		sdev->ud.tcp_rx = kthread_get_run(stub_rx_loop, &sdev->ud,
+-						  "stub_rx");
+-		sdev->ud.tcp_tx = kthread_get_run(stub_tx_loop, &sdev->ud,
+-						  "stub_tx");
+-
+-		spin_lock_irq(&sdev->ud.lock);
++		sdev->ud.tcp_rx = uti.tcp_rx;
++		sdev->ud.tcp_tx = uti.tcp_tx;
+ 		sdev->ud.status = SDEV_ST_USED;
+ 		spin_unlock_irq(&sdev->ud.lock);
+ 
++		wake_up_process(sdev->ud.tcp_rx);
++		wake_up_process(sdev->ud.tcp_tx);
+ 	} else {
+ 		dev_info(dev, "stub down\n");
+ 
+@@ -102,6 +97,8 @@ static ssize_t __usbip_sockfd_store(struct device *dev, struct device_attribute
+ 
+ err:
+ 	spin_unlock_irq(&sdev->ud.lock);
++	if (uti.tcp_socket)
++		usbip_unprepare_threads(&uti);
+ 	return -EINVAL;
+ }
+ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *attr,
+-- 
+2.18.4
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14bd498ed00000
-start commit:   f69d02e3 Merge tag 'misc-5.12-2021-03-02' of git://git.ker..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=16bd498ed00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=12bd498ed00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e0da2d01cc636e2c
-dashboard link: https://syzkaller.appspot.com/bug?extid=9468df99cb63a4a4c4e1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11770346d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17be69ccd00000
-
-Reported-by: syzbot+9468df99cb63a4a4c4e1@syzkaller.appspotmail.com
-Fixes: 6a66a7ded12b ("jbd2: move the clearing of b_modified flag to the journal_unmap_buffer()")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
