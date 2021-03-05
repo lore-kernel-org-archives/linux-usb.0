@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCB6C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5125C4332B
 	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A07964F5F
+	by mail.kernel.org (Postfix) with ESMTP id 86F1464F45
 	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhCEJDb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Mar 2021 04:03:31 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:44144 "EHLO
+        id S229615AbhCEJDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Mar 2021 04:03:33 -0500
+Received: from mailgw02.mediatek.com ([210.61.82.184]:44181 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229592AbhCEJDV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:21 -0500
-X-UUID: 72add01885ab4103978fc8f1637a6efd-20210305
-X-UUID: 72add01885ab4103978fc8f1637a6efd-20210305
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
+        with ESMTP id S229711AbhCEJDY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:24 -0500
+X-UUID: 5d4811683113423d801f7f83a0b2104f-20210305
+X-UUID: 5d4811683113423d801f7f83a0b2104f-20210305
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1708881881; Fri, 05 Mar 2021 17:03:16 +0800
+        with ESMTP id 1793124227; Fri, 05 Mar 2021 17:03:20 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 5 Mar 2021 17:03:15 +0800
+ 15.0.1497.2; Fri, 5 Mar 2021 17:03:19 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 5 Mar 2021 17:03:14 +0800
+ Transport; Fri, 5 Mar 2021 17:03:18 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -42,11 +42,10 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Nicolas Boichat <drinkcat@chromium.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        stable <stable@vger.kernel.org>, Yaqii Wu <yaqii.wu@mediatek.com>
-Subject: [PATCH 02/17] usb: xhci-mtk: improve bandwidth scheduling with TT
-Date:   Fri, 5 Mar 2021 17:02:40 +0800
-Message-ID: <1614934975-15188-2-git-send-email-chunfeng.yun@mediatek.com>
+        Eddie Hung <eddie.hung@mediatek.com>
+Subject: [PATCH 07/17] usb: xhci-mtk: add a function to get bandwidth boundary
+Date:   Fri, 5 Mar 2021 17:02:45 +0800
+Message-ID: <1614934975-15188-7-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -57,177 +56,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When the USB headset is plug into an external hub, sometimes
-can't set config due to not enough bandwidth, so need improve
-LS/FS INT/ISOC bandwidth scheduling with TT.
+This is used to simplify unit test.
 
-Fixes: 54f6a8af3722 ("usb: xhci-mtk: skip dropping bandwidth of unchecked endpoints")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Yaqii Wu <yaqii.wu@mediatek.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/host/xhci-mtk-sch.c | 74 ++++++++++++++++++++++++++-------
- drivers/usb/host/xhci-mtk.h     |  6 ++-
- 2 files changed, 64 insertions(+), 16 deletions(-)
+ drivers/usb/host/xhci-mtk-sch.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 5891f56c64da..8950d1f10a7f 100644
+index bef82c1f909d..cb597357f134 100644
 --- a/drivers/usb/host/xhci-mtk-sch.c
 +++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -378,6 +378,31 @@ static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
- 	sch_ep->allocated = used;
+@@ -37,6 +37,25 @@ static int is_fs_or_ls(enum usb_device_speed speed)
+ 	return speed == USB_SPEED_FULL || speed == USB_SPEED_LOW;
  }
  
-+static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
++static u32 get_bw_boundary(enum usb_device_speed speed)
 +{
-+	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
-+	u32 num_esit, tmp;
-+	int base;
-+	int i, j;
++	u32 boundary;
 +
-+	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
-+	for (i = 0; i < num_esit; i++) {
-+		base = offset + i * sch_ep->esit;
-+
-+		/*
-+		 * Compared with hs bus, no matter what ep type,
-+		 * the hub will always delay one uframe to send data
-+		 */
-+		for (j = 0; j < sch_ep->cs_count; j++) {
-+			tmp = tt->fs_bus_bw[base + j] + sch_ep->bw_cost_per_microframe;
-+			if (tmp > FS_PAYLOAD_MAX)
-+				return -ERANGE;
-+		}
++	switch (speed) {
++	case USB_SPEED_SUPER_PLUS:
++		boundary = SSP_BW_BOUNDARY;
++		break;
++	case USB_SPEED_SUPER:
++		boundary = SS_BW_BOUNDARY;
++		break;
++	default:
++		boundary = HS_BW_BOUNDARY;
++		break;
 +	}
 +
-+	return 0;
++	return boundary;
 +}
 +
- static int check_sch_tt(struct usb_device *udev,
- 	struct mu3h_sch_ep_info *sch_ep, u32 offset)
- {
-@@ -402,7 +427,7 @@ static int check_sch_tt(struct usb_device *udev,
- 			return -ERANGE;
- 
- 		for (i = 0; i < sch_ep->cs_count; i++)
--			if (test_bit(offset + i, tt->split_bit_map))
-+			if (test_bit(offset + i, tt->ss_bit_map))
- 				return -ERANGE;
- 
- 	} else {
-@@ -432,7 +457,7 @@ static int check_sch_tt(struct usb_device *udev,
- 			cs_count = 7; /* HW limit */
- 
- 		for (i = 0; i < cs_count + 2; i++) {
--			if (test_bit(offset + i, tt->split_bit_map))
-+			if (test_bit(offset + i, tt->ss_bit_map))
- 				return -ERANGE;
- 		}
- 
-@@ -448,24 +473,44 @@ static int check_sch_tt(struct usb_device *udev,
- 			sch_ep->num_budget_microframes = sch_ep->esit;
+ /*
+ * get the index of bandwidth domains array which @ep belongs to.
+ *
+@@ -579,13 +598,7 @@ static int check_sch_bw(struct usb_device *udev,
+ 			break;
  	}
  
--	return 0;
-+	return check_fs_bus_bw(sch_ep, offset);
- }
- 
- static void update_sch_tt(struct usb_device *udev,
--	struct mu3h_sch_ep_info *sch_ep)
-+	struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
- 	u32 base, num_esit;
-+	int bw_updated;
-+	int bits;
- 	int i, j;
- 
- 	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
-+	bits = (sch_ep->ep_type == ISOC_OUT_EP) ? sch_ep->cs_count : 1;
-+
-+	if (used)
-+		bw_updated = sch_ep->bw_cost_per_microframe;
-+	else
-+		bw_updated = -sch_ep->bw_cost_per_microframe;
-+
- 	for (i = 0; i < num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
--		for (j = 0; j < sch_ep->num_budget_microframes; j++)
--			set_bit(base + j, tt->split_bit_map);
-+
-+		for (j = 0; j < bits; j++) {
-+			if (used)
-+				set_bit(base + j, tt->ss_bit_map);
-+			else
-+				clear_bit(base + j, tt->ss_bit_map);
-+		}
-+
-+		for (j = 0; j < sch_ep->cs_count; j++)
-+			tt->fs_bus_bw[base + j] += bw_updated;
- 	}
- 
--	list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
-+	if (used)
-+		list_add_tail(&sch_ep->tt_endpoint, &tt->ep_list);
-+	else
-+		list_del(&sch_ep->tt_endpoint);
- }
- 
- static int check_sch_bw(struct usb_device *udev,
-@@ -535,7 +580,7 @@ static int check_sch_bw(struct usb_device *udev,
- 		if (!tt_offset_ok)
- 			return -ERANGE;
- 
--		update_sch_tt(udev, sch_ep);
-+		update_sch_tt(udev, sch_ep, 1);
- 	}
- 
- 	/* update bus bandwidth info */
-@@ -548,15 +593,16 @@ static void destroy_sch_ep(struct usb_device *udev,
- 	struct mu3h_sch_bw_info *sch_bw, struct mu3h_sch_ep_info *sch_ep)
- {
- 	/* only release ep bw check passed by check_sch_bw() */
--	if (sch_ep->allocated)
-+	if (sch_ep->allocated) {
- 		update_bus_bw(sch_bw, sch_ep, 0);
-+		if (sch_ep->sch_tt)
-+			update_sch_tt(udev, sch_ep, 0);
-+	}
- 
--	list_del(&sch_ep->endpoint);
+-	if (udev->speed == USB_SPEED_SUPER_PLUS)
+-		bw_boundary = SSP_BW_BOUNDARY;
+-	else if (udev->speed == USB_SPEED_SUPER)
+-		bw_boundary = SS_BW_BOUNDARY;
+-	else
+-		bw_boundary = HS_BW_BOUNDARY;
 -
--	if (sch_ep->sch_tt) {
--		list_del(&sch_ep->tt_endpoint);
-+	if (sch_ep->sch_tt)
- 		drop_tt(udev);
--	}
-+
-+	list_del(&sch_ep->endpoint);
- 	kfree(sch_ep);
- }
- 
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index cbb09dfea62e..f42769c69249 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -20,13 +20,15 @@
- #define XHCI_MTK_MAX_ESIT	64
- 
- /**
-- * @split_bit_map: used to avoid split microframes overlay
-+ * @ss_bit_map: used to avoid start split microframes overlay
-+ * @fs_bus_bw: array to keep track of bandwidth already used for FS
-  * @ep_list: Endpoints using this TT
-  * @usb_tt: usb TT related
-  * @tt_port: TT port number
-  */
- struct mu3h_sch_tt {
--	DECLARE_BITMAP(split_bit_map, XHCI_MTK_MAX_ESIT);
-+	DECLARE_BITMAP(ss_bit_map, XHCI_MTK_MAX_ESIT);
-+	u32 fs_bus_bw[XHCI_MTK_MAX_ESIT];
- 	struct list_head ep_list;
- 	struct usb_tt *usb_tt;
- 	int tt_port;
++	bw_boundary = get_bw_boundary(udev->speed);
+ 	/* check bandwidth */
+ 	if (min_bw > bw_boundary)
+ 		return -ERANGE;
 -- 
 2.18.0
 
