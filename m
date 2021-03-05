@@ -2,100 +2,104 @@ Return-Path: <SRS0=a8JY=ID=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D89C433DB
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 16:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D71E2C433E6
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 16:32:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BF356508F
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 16:08:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A247765094
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 16:32:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbhCEQH4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Mar 2021 11:07:56 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:35623 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S230139AbhCEQH3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 11:07:29 -0500
-Received: (qmail 41316 invoked by uid 1000); 5 Mar 2021 11:07:28 -0500
-Date:   Fri, 5 Mar 2021 11:07:28 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [xhci] usb 4-1: reset SuperSpeed Gen 1 USB device number 2 using
- xhci_hcd
-Message-ID: <20210305160728.GE38200@rowland.harvard.edu>
-References: <CA+icZUWJyPTefHkGEgQtDO9TOM4CN_b2qPJGQVF7NE=Q=fGAEQ@mail.gmail.com>
- <CA+icZUUzBvmi9SvJ4Bh8ER_+Rkm9vv9FkKwoS8ofmRsko_fJhg@mail.gmail.com>
- <CA+icZUXCgW0bPcqNf+DSubBciQeBMbNX5zbjkMXinqRdkE1PfA@mail.gmail.com>
- <20210301155321.GA1490228@rowland.harvard.edu>
- <CA+icZUVpQtsq8y=rjR3Ad_G1VXWpR4D4xao8DGUkRiuxoT+cPA@mail.gmail.com>
+        id S231124AbhCEQbl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Mar 2021 11:31:41 -0500
+Received: from asav21.altibox.net ([109.247.116.8]:37740 "EHLO
+        asav21.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230050AbhCEQbX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 11:31:23 -0500
+Received: from localhost.localdomain (unknown [81.166.168.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: noralf.tronnes@ebnett.no)
+        by asav21.altibox.net (Postfix) with ESMTPSA id C57B480199;
+        Fri,  5 Mar 2021 17:31:16 +0100 (CET)
+From:   =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-usb@vger.kernel.org, sam@ravnborg.org, peter@stuge.se,
+        lkundrak@v3.sk, markus@raatikainen.cc, pontus.fuchs@gmail.com,
+        hudson@trmm.net, th020394@gmail.com,
+        =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v7 2/3] drm/probe-helper: Check epoch counter in output_poll_execute()
+Date:   Fri,  5 Mar 2021 17:31:03 +0100
+Message-Id: <20210305163104.30756-3-noralf@tronnes.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20210305163104.30756-1-noralf@tronnes.org>
+References: <20210305163104.30756-1-noralf@tronnes.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUVpQtsq8y=rjR3Ad_G1VXWpR4D4xao8DGUkRiuxoT+cPA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=PJ4hB8iC c=1 sm=1 tr=0
+        a=OYZzhG0JTxDrWp/F2OJbnw==:117 a=OYZzhG0JTxDrWp/F2OJbnw==:17
+        a=IkcTkHD0fZMA:10 a=M51BFTxLslgA:10 a=SJz97ENfAAAA:8
+        a=rnb-knuk5dQJkhbuddwA:9 a=QEXdDO2ut3YA:10 a=vFet0B0WnEQeilDPIY6i:22
+        a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Mar 05, 2021 at 01:09:16PM +0100, Sedat Dilek wrote:
-> On Mon, Mar 1, 2021 at 4:53 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> [ ... ]
-> > You can use usbmon on bus 4 to record the USB traffic.  It may indicate
-> > why the resets occur.
-> >
-> 
-> Hi Alan,
-> 
-> I followed the instructions in [1].
-> 
-> root# modprobe -v usbmon
-> 
-> root# ls /sys/kernel/debug/usb/usbmon
-> 0s  0u  1s  1t  1u  2s  2t  2u  3s  3t  3u  4s  4t  4u
-> 
-> root# cat /sys/kernel/debug/usb/usbmon/4u > /tmp/usbmon-log_4u.txt
-> [ Ctrl+C ]
-> 
-> I recorded 13:03 - 13:04 (one minute).
-> 
-> So these xhci-resets should be included:
-> 
-> [Fri Mar  5 13:03:07 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:07 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:27 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:27 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:27 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:28 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> [Fri Mar  5 13:03:28 2021] usb 4-1: reset SuperSpeed Gen 1 USB device
-> number 2 using xhci_hcd
-> 
-> The usbmon-log is attached.
-> 
-> Unsure how to interpret the log - the kernel-doc says `raw data`.
-> How can I bring this into a human-readable format?
-> Can you give me a hand?
+drm_helper_hpd_irq_event() checks the epoch counter to determine
+connector status change. This was introduced in
+commit 5186421cbfe2 ("drm: Introduce epoch counter to drm_connector").
+Do the same for output_poll_execute() so it can detect other changes
+beside connection status value changes.
 
-Don't worry about trying to decode the output.  To me it looks like the 
-drive crashes and needs to be reset at times when the computer sends it 
-an ATA command.  (Not all ATA commands, but some.)  You can prevent this 
-by setting the following module parameter for the usb-storage driver:
+v2:
+- Add Fixes tag (Daniel)
 
-	quirks=174c:55aa:t
+Fixes: 5186421cbfe2 ("drm: Introduce epoch counter to drm_connector")
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+ drivers/gpu/drm/drm_probe_helper.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-where the two numbers are the Vendor and Product IDs for the external 
-drive, and the 't' is a quirks flag saying not to use any ATA commands.  
-If this module parameter fixes the problem, we can add a permanent quirk 
-setting to the kernel.
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index d6017726cc2a..e5432dcf6999 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -623,6 +623,7 @@ static void output_poll_execute(struct work_struct *work)
+ 	struct drm_connector_list_iter conn_iter;
+ 	enum drm_connector_status old_status;
+ 	bool repoll = false, changed;
++	u64 old_epoch_counter;
+ 
+ 	if (!dev->mode_config.poll_enabled)
+ 		return;
+@@ -659,8 +660,9 @@ static void output_poll_execute(struct work_struct *work)
+ 
+ 		repoll = true;
+ 
++		old_epoch_counter = connector->epoch_counter;
+ 		connector->status = drm_helper_probe_detect(connector, NULL, false);
+-		if (old_status != connector->status) {
++		if (old_epoch_counter != connector->epoch_counter) {
+ 			const char *old, *new;
+ 
+ 			/*
+@@ -689,6 +691,9 @@ static void output_poll_execute(struct work_struct *work)
+ 				      connector->base.id,
+ 				      connector->name,
+ 				      old, new);
++			DRM_DEBUG_KMS("[CONNECTOR:%d:%s] epoch counter %llu -> %llu\n",
++				      connector->base.id, connector->name,
++				      old_epoch_counter, connector->epoch_counter);
+ 
+ 			changed = true;
+ 		}
+-- 
+2.23.0
 
-Alan Stern
