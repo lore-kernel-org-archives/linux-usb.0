@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B783C43332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB7CC43603
 	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4F5864EE8
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5838364F44
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbhCEJDf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Mar 2021 04:03:35 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:44144 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229718AbhCEJDY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:24 -0500
-X-UUID: 51c3d46dc1bb46ddb1f7f643ceaf82d1-20210305
-X-UUID: 51c3d46dc1bb46ddb1f7f643ceaf82d1-20210305
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        id S229793AbhCEJDg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Mar 2021 04:03:36 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:59067 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229730AbhCEJD0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:26 -0500
+X-UUID: e4d4f5dc98774011b08562a38892245c-20210305
+X-UUID: e4d4f5dc98774011b08562a38892245c-20210305
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1792679114; Fri, 05 Mar 2021 17:03:18 +0800
+        with ESMTP id 1953373046; Fri, 05 Mar 2021 17:03:23 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 5 Mar 2021 17:03:16 +0800
+ 15.0.1497.2; Fri, 5 Mar 2021 17:03:21 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 5 Mar 2021 17:03:15 +0800
+ Transport; Fri, 5 Mar 2021 17:03:21 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,92 +43,189 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Nicolas Boichat <drinkcat@chromium.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 03/17] usb: xhci-mtk: get the microframe boundary for ESIT
-Date:   Fri, 5 Mar 2021 17:02:41 +0800
-Message-ID: <1614934975-15188-3-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 10/17] usb: xhci-mtk: add a member @speed in mu3h_sch_ep_info struct
+Date:   Fri, 5 Mar 2021 17:02:48 +0800
+Message-ID: <1614934975-15188-10-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: F037F6C908867B89B8E91ED5FD7323317E49810CA8B051728F0C5F89284DE6532000:8
+X-TM-SNTS-SMTP: 1B25B4EDC1A2509635C7D4E57290E45ADE5CD84AA693B570C8277828EBF3C3582000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Tune the boundary for FS/LS ESIT due to CS:
-For ISOC out-ep, the controller starts transfer data after
-the first SS; for others, the data is already transfered
-before the last CS.
+This is used to drop parameter @udev for some functions,
+meanwhile remove some unused @udev parameter.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/host/xhci-mtk-sch.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+ drivers/usb/host/xhci-mtk-sch.c | 37 ++++++++++++++++-----------------
+ drivers/usb/host/xhci-mtk.h     |  1 +
+ 2 files changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 8950d1f10a7f..e3b18dfca874 100644
+index 1e8af5973a5e..e75628f82706 100644
 --- a/drivers/usb/host/xhci-mtk-sch.c
 +++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -513,22 +513,35 @@ static void update_sch_tt(struct usb_device *udev,
+@@ -214,14 +214,15 @@ static struct mu3h_sch_ep_info *create_sch_ep(struct usb_device *udev,
+ 
+ 	sch_ep->sch_tt = tt;
+ 	sch_ep->ep = ep;
++	sch_ep->speed = udev->speed;
+ 	INIT_LIST_HEAD(&sch_ep->endpoint);
+ 	INIT_LIST_HEAD(&sch_ep->tt_endpoint);
+ 
+ 	return sch_ep;
+ }
+ 
+-static void setup_sch_info(struct usb_device *udev,
+-		struct xhci_ep_ctx *ep_ctx, struct mu3h_sch_ep_info *sch_ep)
++static void setup_sch_info(struct xhci_ep_ctx *ep_ctx,
++			   struct mu3h_sch_ep_info *sch_ep)
+ {
+ 	u32 ep_type;
+ 	u32 maxpkt;
+@@ -248,7 +249,7 @@ static void setup_sch_info(struct usb_device *udev,
+ 	sch_ep->burst_mode = 0;
+ 	sch_ep->repeat = 0;
+ 
+-	if (udev->speed == USB_SPEED_HIGH) {
++	if (sch_ep->speed == USB_SPEED_HIGH) {
+ 		sch_ep->cs_count = 0;
+ 
+ 		/*
+@@ -266,7 +267,7 @@ static void setup_sch_info(struct usb_device *udev,
+ 		sch_ep->pkts = max_burst + 1;
+ 		sch_ep->bw_cost_per_microframe = maxpkt * sch_ep->pkts;
+ 		bwb_table[0] = sch_ep->bw_cost_per_microframe;
+-	} else if (udev->speed >= USB_SPEED_SUPER) {
++	} else if (sch_ep->speed >= USB_SPEED_SUPER) {
+ 		/* usb3_r1 spec section4.4.7 & 4.4.8 */
+ 		sch_ep->cs_count = 0;
+ 		sch_ep->burst_mode = 1;
+@@ -311,7 +312,7 @@ static void setup_sch_info(struct usb_device *udev,
+ 			/* last one <= bw_cost_per_microframe */
+ 			bwb_table[i] = remainder;
+ 		}
+-	} else if (is_fs_or_ls(udev->speed)) {
++	} else if (is_fs_or_ls(sch_ep->speed)) {
+ 		sch_ep->pkts = 1; /* at most one packet for each microframe */
+ 
+ 		/*
+@@ -416,8 +417,7 @@ static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
+ 	return 0;
+ }
+ 
+-static int check_sch_tt(struct usb_device *udev,
+-	struct mu3h_sch_ep_info *sch_ep, u32 offset)
++static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
+ {
+ 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
+ 	u32 extra_cs_count;
+@@ -485,8 +485,7 @@ static int check_sch_tt(struct usb_device *udev,
+ 	return check_fs_bus_bw(sch_ep, offset);
+ }
+ 
+-static void update_sch_tt(struct usb_device *udev,
+-	struct mu3h_sch_ep_info *sch_ep, bool used)
++static void update_sch_tt(struct mu3h_sch_ep_info *sch_ep, bool used)
+ {
+ 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
+ 	u32 base, num_esit;
+@@ -522,11 +521,11 @@ static void update_sch_tt(struct usb_device *udev,
  		list_del(&sch_ep->tt_endpoint);
  }
  
-+static u32 get_esit_boundary(struct mu3h_sch_ep_info *sch_ep)
-+{
-+	u32 boundary = sch_ep->esit;
-+
-+	if (sch_ep->sch_tt) { /* LS/FS with TT */
-+		/* tune for CS */
-+		if (sch_ep->ep_type != ISOC_OUT_EP)
-+			boundary += 1;
-+		else if (boundary > 1) /* normally esit >= 8 for FS/LS */
-+			boundary -= 1;
-+	}
-+
-+	return boundary;
-+}
-+
- static int check_sch_bw(struct usb_device *udev,
- 	struct mu3h_sch_bw_info *sch_bw, struct mu3h_sch_ep_info *sch_ep)
+-static int load_ep_bw(struct usb_device *udev, struct mu3h_sch_bw_info *sch_bw,
++static int load_ep_bw(struct mu3h_sch_bw_info *sch_bw,
+ 		      struct mu3h_sch_ep_info *sch_ep, bool loaded)
+ {
+ 	if (sch_ep->sch_tt)
+-		update_sch_tt(udev, sch_ep, loaded);
++		update_sch_tt(sch_ep, loaded);
+ 
+ 	/* update bus bandwidth info */
+ 	update_bus_bw(sch_bw, sch_ep, loaded);
+@@ -550,8 +549,8 @@ static u32 get_esit_boundary(struct mu3h_sch_ep_info *sch_ep)
+ 	return boundary;
+ }
+ 
+-static int check_sch_bw(struct usb_device *udev,
+-	struct mu3h_sch_bw_info *sch_bw, struct mu3h_sch_ep_info *sch_ep)
++static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
++			struct mu3h_sch_ep_info *sch_ep)
  {
  	u32 offset;
--	u32 esit;
  	u32 min_bw;
- 	u32 min_index;
- 	u32 worst_bw;
- 	u32 bw_boundary;
-+	u32 esit_boundary;
- 	u32 min_num_budget;
- 	u32 min_cs_count;
- 	bool tt_offset_ok = false;
- 	int ret;
- 
--	esit = sch_ep->esit;
--
- 	/*
- 	 * Search through all possible schedule microframes.
- 	 * and find a microframe where its worst bandwidth is minimum.
-@@ -537,7 +550,8 @@ static int check_sch_bw(struct usb_device *udev,
- 	min_index = 0;
- 	min_cs_count = sch_ep->cs_count;
- 	min_num_budget = sch_ep->num_budget_microframes;
--	for (offset = 0; offset < esit; offset++) {
-+	esit_boundary = get_esit_boundary(sch_ep);
-+	for (offset = 0; offset < sch_ep->esit; offset++) {
- 		if (is_fs_or_ls(udev->speed)) {
- 			ret = check_sch_tt(udev, sch_ep, offset);
+@@ -574,7 +573,7 @@ static int check_sch_bw(struct usb_device *udev,
+ 	esit_boundary = get_esit_boundary(sch_ep);
+ 	for (offset = 0; offset < sch_ep->esit; offset++) {
+ 		if (sch_ep->sch_tt) {
+-			ret = check_sch_tt(udev, sch_ep, offset);
++			ret = check_sch_tt(sch_ep, offset);
  			if (ret)
-@@ -546,7 +560,7 @@ static int check_sch_bw(struct usb_device *udev,
- 				tt_offset_ok = true;
+ 				continue;
  		}
- 
--		if ((offset + sch_ep->num_budget_microframes) > sch_ep->esit)
-+		if ((offset + sch_ep->num_budget_microframes) > esit_boundary)
+@@ -593,7 +592,7 @@ static int check_sch_bw(struct usb_device *udev,
  			break;
+ 	}
  
- 		worst_bw = get_max_bw(sch_bw, sch_ep, offset);
+-	bw_boundary = get_bw_boundary(udev->speed);
++	bw_boundary = get_bw_boundary(sch_ep->speed);
+ 	/* check bandwidth */
+ 	if (min_bw > bw_boundary)
+ 		return -ERANGE;
+@@ -602,7 +601,7 @@ static int check_sch_bw(struct usb_device *udev,
+ 	sch_ep->cs_count = min_cs_count;
+ 	sch_ep->num_budget_microframes = min_num_budget;
+ 
+-	return load_ep_bw(udev, sch_bw, sch_ep, true);
++	return load_ep_bw(sch_bw, sch_ep, true);
+ }
+ 
+ static void destroy_sch_ep(struct usb_device *udev,
+@@ -610,7 +609,7 @@ static void destroy_sch_ep(struct usb_device *udev,
+ {
+ 	/* only release ep bw check passed by check_sch_bw() */
+ 	if (sch_ep->allocated)
+-		load_ep_bw(udev, sch_bw, sch_ep, false);
++		load_ep_bw(sch_bw, sch_ep, false);
+ 
+ 	if (sch_ep->sch_tt)
+ 		drop_tt(udev);
+@@ -711,7 +710,7 @@ int xhci_mtk_add_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
+ 	if (IS_ERR_OR_NULL(sch_ep))
+ 		return -ENOMEM;
+ 
+-	setup_sch_info(udev, ep_ctx, sch_ep);
++	setup_sch_info(ep_ctx, sch_ep);
+ 
+ 	list_add_tail(&sch_ep->endpoint, &mtk->bw_ep_chk_list);
+ 
+@@ -771,7 +770,7 @@ int xhci_mtk_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev)
+ 		bw_index = get_bw_index(xhci, udev, sch_ep->ep);
+ 		sch_bw = &mtk->sch_array[bw_index];
+ 
+-		ret = check_sch_bw(udev, sch_bw, sch_ep);
++		ret = check_sch_bw(sch_bw, sch_ep);
+ 		if (ret) {
+ 			xhci_err(xhci, "Not enough bandwidth!\n");
+ 			return -ENOSPC;
+diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
+index 076b9bbc89dd..d25bf9e49136 100644
+--- a/drivers/usb/host/xhci-mtk.h
++++ b/drivers/usb/host/xhci-mtk.h
+@@ -85,6 +85,7 @@ struct mu3h_sch_ep_info {
+ 	u32 ep_type;
+ 	u32 maxpkt;
+ 	struct usb_host_endpoint *ep;
++	enum usb_device_speed speed;
+ 	bool allocated;
+ 	/*
+ 	 * mtk xHCI scheduling information put into reserved DWs
 -- 
 2.18.0
 
