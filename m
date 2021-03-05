@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2793CC43619
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0969FC4361A
 	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED9EA64F45
+	by mail.kernel.org (Postfix) with ESMTP id C1A4264F44
 	for <linux-usb@archiver.kernel.org>; Fri,  5 Mar 2021 09:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbhCEJDi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S229865AbhCEJDi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 5 Mar 2021 04:03:38 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:59161 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229740AbhCEJD2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:28 -0500
-X-UUID: 5df9f42ae9be49f2b54e09f945e45cfe-20210305
-X-UUID: 5df9f42ae9be49f2b54e09f945e45cfe-20210305
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184]:44259 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229747AbhCEJD3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Mar 2021 04:03:29 -0500
+X-UUID: 43c83aa59ea5411ea7889b21e73aee26-20210305
+X-UUID: 43c83aa59ea5411ea7889b21e73aee26-20210305
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1918660796; Fri, 05 Mar 2021 17:03:24 +0800
+        with ESMTP id 1434150454; Fri, 05 Mar 2021 17:03:26 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 5 Mar 2021 17:03:22 +0800
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 5 Mar 2021 17:03:24 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 5 Mar 2021 17:03:21 +0800
+ Transport; Fri, 5 Mar 2021 17:03:24 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,83 +43,63 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Nicolas Boichat <drinkcat@chromium.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 11/17] usb: xhci-mtk: use @tt_info to check the FS/LS device is under a HS hub
-Date:   Fri, 5 Mar 2021 17:02:49 +0800
-Message-ID: <1614934975-15188-11-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 14/17] usb: xhci-mtk: remove declaration of xhci_mtk_setup()
+Date:   Fri, 5 Mar 2021 17:02:52 +0800
+Message-ID: <1614934975-15188-14-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1614934975-15188-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: E394FF94E19BE99EEFB4B02F7C35F7A23C8C9D95F848F399261E29230F48E3CA2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the LS/FS device is connected to an external HS hub, the member
-@tt_info in xhci_virt_device struct in not NULL, use it to check
-whether a LS/FS device is under an exernal HS hub, then no need get
-the slot context of this device.
+Move xhci_driver_overrides struct variable after definition
+of xhci_mtk_setup(), then we can remove it's declaration.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/host/xhci-mtk-sch.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/usb/host/xhci-mtk.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index e75628f82706..1562875c04ab 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -678,7 +678,6 @@ int xhci_mtk_add_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
- 	struct xhci_hcd_mtk *mtk = hcd_to_mtk(hcd);
- 	struct xhci_hcd *xhci;
- 	struct xhci_ep_ctx *ep_ctx;
--	struct xhci_slot_ctx *slot_ctx;
- 	struct xhci_virt_device *virt_dev;
- 	struct mu3h_sch_ep_info *sch_ep;
- 	unsigned int ep_index;
-@@ -686,7 +685,6 @@ int xhci_mtk_add_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
- 	xhci = hcd_to_xhci(hcd);
- 	virt_dev = xhci->devs[udev->slot_id];
- 	ep_index = xhci_get_endpoint_index(&ep->desc);
--	slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->in_ctx);
- 	ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index fe010cc61f19..fb4e56f6a6c3 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -344,15 +344,6 @@ static void usb_wakeup_set(struct xhci_hcd_mtk *mtk, bool enable)
+ 		usb_wakeup_ip_sleep_set(mtk, enable);
+ }
  
- 	xhci_dbg(xhci, "%s() type:%d, speed:%d, mpkt:%d, dir:%d, ep:%p\n",
-@@ -694,7 +692,7 @@ int xhci_mtk_add_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
- 		usb_endpoint_maxp(&ep->desc),
- 		usb_endpoint_dir_in(&ep->desc), ep);
- 
--	if (!need_bw_sch(ep, udev->speed, slot_ctx->tt_info & TT_SLOT)) {
-+	if (!need_bw_sch(ep, udev->speed, !!virt_dev->tt_info)) {
- 		/*
- 		 * set @bpkts to 1 if it is LS or FS periodic endpoint, and its
- 		 * device does not connected through an external HS hub
-@@ -723,7 +721,6 @@ void xhci_mtk_drop_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
+-static int xhci_mtk_setup(struct usb_hcd *hcd);
+-static const struct xhci_driver_overrides xhci_mtk_overrides __initconst = {
+-	.reset = xhci_mtk_setup,
+-	.check_bandwidth = xhci_mtk_check_bandwidth,
+-	.reset_bandwidth = xhci_mtk_reset_bandwidth,
+-};
+-
+-static struct hc_driver __read_mostly xhci_mtk_hc_driver;
+-
+ static int xhci_mtk_ldos_enable(struct xhci_hcd_mtk *mtk)
  {
- 	struct xhci_hcd_mtk *mtk = hcd_to_mtk(hcd);
- 	struct xhci_hcd *xhci;
--	struct xhci_slot_ctx *slot_ctx;
- 	struct xhci_virt_device *virt_dev;
- 	struct mu3h_sch_bw_info *sch_array;
- 	struct mu3h_sch_bw_info *sch_bw;
-@@ -732,7 +729,6 @@ void xhci_mtk_drop_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
+ 	int ret;
+@@ -424,6 +415,14 @@ static int xhci_mtk_setup(struct usb_hcd *hcd)
+ 	return ret;
+ }
  
- 	xhci = hcd_to_xhci(hcd);
- 	virt_dev = xhci->devs[udev->slot_id];
--	slot_ctx = xhci_get_slot_ctx(xhci, virt_dev->in_ctx);
- 	sch_array = mtk->sch_array;
- 
- 	xhci_dbg(xhci, "%s() type:%d, speed:%d, mpks:%d, dir:%d, ep:%p\n",
-@@ -740,7 +736,7 @@ void xhci_mtk_drop_ep_quirk(struct usb_hcd *hcd, struct usb_device *udev,
- 		usb_endpoint_maxp(&ep->desc),
- 		usb_endpoint_dir_in(&ep->desc), ep);
- 
--	if (!need_bw_sch(ep, udev->speed, slot_ctx->tt_info & TT_SLOT))
-+	if (!need_bw_sch(ep, udev->speed, !!virt_dev->tt_info))
- 		return;
- 
- 	bw_index = get_bw_index(xhci, udev, ep);
++static const struct xhci_driver_overrides xhci_mtk_overrides __initconst = {
++	.reset = xhci_mtk_setup,
++	.check_bandwidth = xhci_mtk_check_bandwidth,
++	.reset_bandwidth = xhci_mtk_reset_bandwidth,
++};
++
++static struct hc_driver __read_mostly xhci_mtk_hc_driver;
++
+ static int xhci_mtk_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
 -- 
 2.18.0
 
