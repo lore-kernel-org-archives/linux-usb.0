@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DBAC433E6
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 02:54:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC89C433E9
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 02:54:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AEC9065159
+	by mail.kernel.org (Postfix) with ESMTP id CEBCD6515E
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 02:54:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233830AbhCHCxV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 7 Mar 2021 21:53:21 -0500
-Received: from mailgw02.mediatek.com ([210.61.82.184]:36638 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232433AbhCHCwb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 21:52:31 -0500
-X-UUID: 523272512cec4d37bda901bb7867a839-20210308
-X-UUID: 523272512cec4d37bda901bb7867a839-20210308
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        id S233840AbhCHCxX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 7 Mar 2021 21:53:23 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:39854 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233690AbhCHCwf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 21:52:35 -0500
+X-UUID: 873e6e4de9d148aa9bc4cf378213ea7a-20210308
+X-UUID: 873e6e4de9d148aa9bc4cf378213ea7a-20210308
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1423636283; Mon, 08 Mar 2021 10:52:28 +0800
+        with ESMTP id 449079268; Mon, 08 Mar 2021 10:52:30 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 8 Mar 2021 10:52:27 +0800
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 8 Mar 2021 10:52:29 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 8 Mar 2021 10:52:26 +0800
+ Transport; Mon, 8 Mar 2021 10:52:28 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -45,194 +45,223 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v2 16/18] usb: common: add function to get interval expressed in us unit
-Date:   Mon, 8 Mar 2021 10:52:05 +0800
-Message-ID: <25c8a09b055f716c1e5bf11fea72c3418f844482.1615170625.git.chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 18/18] usb: common: move function's kerneldoc next to its definition
+Date:   Mon, 8 Mar 2021 10:52:07 +0800
+Message-ID: <c4d2e010ae2bf67cdfa0b55e6d1deb9339d9d3dc.1615170625.git.chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <d287899e6beb2fc1bfb8900c75a872f628ecde55.1615170625.git.chunfeng.yun@mediatek.com>
 References: <d287899e6beb2fc1bfb8900c75a872f628ecde55.1615170625.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: 295B076C86783B6D5C9C099F862ED377CF98F0332CAA103A0B377829A1BD079C2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a new function to convert bInterval into the time expressed
-in 1us unit.
+Following a general rule, add the kerneldoc for a function next
+to it's definition, but not next to its declaration in a header
+file.
 
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v2: move kerneldoc next to function's definition suggested by Alan
+v2: new patch
 ---
- drivers/usb/common/common.c | 41 +++++++++++++++++++++++++++++++++++++
- drivers/usb/core/devices.c  | 21 ++++---------------
- drivers/usb/core/endpoint.c | 35 ++++---------------------------
- include/linux/usb/ch9.h     |  3 +++
- 4 files changed, 52 insertions(+), 48 deletions(-)
+ drivers/usb/common/common.c | 35 +++++++++++++++++++++
+ drivers/usb/common/debug.c  | 22 +++++++++++--
+ include/linux/usb/ch9.h     | 61 -------------------------------------
+ 3 files changed, 55 insertions(+), 63 deletions(-)
 
 diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
-index fc21cf2d36f6..675e8a4e683a 100644
+index 675e8a4e683a..347fb3d3894a 100644
 --- a/drivers/usb/common/common.c
 +++ b/drivers/usb/common/common.c
-@@ -165,6 +165,47 @@ enum usb_dr_mode usb_get_dr_mode(struct device *dev)
- }
- EXPORT_SYMBOL_GPL(usb_get_dr_mode);
+@@ -25,6 +25,12 @@ static const char *const ep_type_names[] = {
+ 	[USB_ENDPOINT_XFER_INT] = "intr",
+ };
  
 +/**
-+ * usb_decode_interval - Decode bInterval into the time expressed in 1us unit
-+ * @epd: The descriptor of the endpoint
-+ * @speed: The speed that the endpoint works as
-+ *
-+ * Function returns the interval expressed in 1us unit for servicing
-+ * endpoint for data transfers.
++ * usb_ep_type_string() - Returns human readable-name of the endpoint type.
++ * @ep_type: The endpoint type to return human-readable name for.  If it's not
++ *   any of the types: USB_ENDPOINT_XFER_{CONTROL, ISOC, BULK, INT},
++ *   usually got by usb_endpoint_type(), the string 'unknown' will be returned.
 + */
-+unsigned int usb_decode_interval(const struct usb_endpoint_descriptor *epd,
-+				 enum usb_device_speed speed)
-+{
-+	unsigned int interval = 0;
-+
-+	switch (usb_endpoint_type(epd)) {
-+	case USB_ENDPOINT_XFER_CONTROL:
-+		/* uframes per NAK */
-+		if (speed == USB_SPEED_HIGH)
-+			interval = epd->bInterval;
-+		break;
-+	case USB_ENDPOINT_XFER_ISOC:
-+		interval = 1 << (epd->bInterval - 1);
-+		break;
-+	case USB_ENDPOINT_XFER_BULK:
-+		/* uframes per NAK */
-+		if (speed == USB_SPEED_HIGH && usb_endpoint_dir_out(epd))
-+			interval = epd->bInterval;
-+		break;
-+	case USB_ENDPOINT_XFER_INT:
-+		if (speed >= USB_SPEED_HIGH)
-+			interval = 1 << (epd->bInterval - 1);
-+		else
-+			interval = epd->bInterval;
-+		break;
-+	}
-+
-+	interval *= (speed >= USB_SPEED_HIGH) ? 125 : 1000;
-+
-+	return interval;
-+}
-+EXPORT_SYMBOL_GPL(usb_decode_interval);
-+
- #ifdef CONFIG_OF
- /**
-  * of_usb_get_dr_mode_by_phy - Get dual role mode for the controller device
-diff --git a/drivers/usb/core/devices.c b/drivers/usb/core/devices.c
-index 1ef2de6e375a..d8b0041de612 100644
---- a/drivers/usb/core/devices.c
-+++ b/drivers/usb/core/devices.c
-@@ -157,38 +157,25 @@ static char *usb_dump_endpoint_descriptor(int speed, char *start, char *end,
- 	switch (usb_endpoint_type(desc)) {
- 	case USB_ENDPOINT_XFER_CONTROL:
- 		type = "Ctrl";
--		if (speed == USB_SPEED_HIGH)	/* uframes per NAK */
--			interval = desc->bInterval;
--		else
--			interval = 0;
- 		dir = 'B';			/* ctrl is bidirectional */
- 		break;
- 	case USB_ENDPOINT_XFER_ISOC:
- 		type = "Isoc";
--		interval = 1 << (desc->bInterval - 1);
- 		break;
- 	case USB_ENDPOINT_XFER_BULK:
- 		type = "Bulk";
--		if (speed == USB_SPEED_HIGH && dir == 'O') /* uframes per NAK */
--			interval = desc->bInterval;
--		else
--			interval = 0;
- 		break;
- 	case USB_ENDPOINT_XFER_INT:
- 		type = "Int.";
--		if (speed == USB_SPEED_HIGH || speed >= USB_SPEED_SUPER)
--			interval = 1 << (desc->bInterval - 1);
--		else
--			interval = desc->bInterval;
- 		break;
- 	default:	/* "can't happen" */
- 		return start;
- 	}
--	interval *= (speed == USB_SPEED_HIGH ||
--		     speed >= USB_SPEED_SUPER) ? 125 : 1000;
--	if (interval % 1000)
-+
-+	interval = usb_decode_interval(desc, speed);
-+	if (interval % 1000) {
- 		unit = 'u';
--	else {
-+	} else {
- 		unit = 'm';
- 		interval /= 1000;
- 	}
-diff --git a/drivers/usb/core/endpoint.c b/drivers/usb/core/endpoint.c
-index 903426b6d305..a2530811cf7d 100644
---- a/drivers/usb/core/endpoint.c
-+++ b/drivers/usb/core/endpoint.c
-@@ -84,40 +84,13 @@ static ssize_t interval_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
+ const char *usb_ep_type_string(int ep_type)
  {
- 	struct ep_device *ep = to_ep_device(dev);
-+	unsigned int interval;
- 	char unit;
--	unsigned interval = 0;
--	unsigned in;
+ 	if (ep_type < 0 || ep_type >= ARRAY_SIZE(ep_type_names))
+@@ -76,6 +82,12 @@ static const char *const ssp_rate[] = {
+ 	[USB_SSP_GEN_2x2] = "super-speed-plus-gen2x2",
+ };
  
--	in = (ep->desc->bEndpointAddress & USB_DIR_IN);
--
--	switch (usb_endpoint_type(ep->desc)) {
--	case USB_ENDPOINT_XFER_CONTROL:
--		if (ep->udev->speed == USB_SPEED_HIGH)
--			/* uframes per NAK */
--			interval = ep->desc->bInterval;
--		break;
--
--	case USB_ENDPOINT_XFER_ISOC:
--		interval = 1 << (ep->desc->bInterval - 1);
--		break;
--
--	case USB_ENDPOINT_XFER_BULK:
--		if (ep->udev->speed == USB_SPEED_HIGH && !in)
--			/* uframes per NAK */
--			interval = ep->desc->bInterval;
--		break;
--
--	case USB_ENDPOINT_XFER_INT:
--		if (ep->udev->speed == USB_SPEED_HIGH)
--			interval = 1 << (ep->desc->bInterval - 1);
--		else
--			interval = ep->desc->bInterval;
--		break;
--	}
--	interval *= (ep->udev->speed == USB_SPEED_HIGH) ? 125 : 1000;
--	if (interval % 1000)
-+	interval = usb_decode_interval(ep->desc, ep->udev->speed);
-+	if (interval % 1000) {
- 		unit = 'u';
--	else {
-+	} else {
- 		unit = 'm';
- 		interval /= 1000;
- 	}
++/**
++ * usb_speed_string() - Returns human readable-name of the speed.
++ * @speed: The speed to return human-readable name for.  If it's not
++ *   any of the speeds defined in usb_device_speed enum, string for
++ *   USB_SPEED_UNKNOWN will be returned.
++ */
+ const char *usb_speed_string(enum usb_device_speed speed)
+ {
+ 	if (speed < 0 || speed >= ARRAY_SIZE(speed_names))
+@@ -84,6 +96,14 @@ const char *usb_speed_string(enum usb_device_speed speed)
+ }
+ EXPORT_SYMBOL_GPL(usb_speed_string);
+ 
++/**
++ * usb_get_maximum_speed - Get maximum requested speed for a given USB
++ * controller.
++ * @dev: Pointer to the given USB controller device
++ *
++ * The function gets the maximum speed string from property "maximum-speed",
++ * and returns the corresponding enum usb_device_speed.
++ */
+ enum usb_device_speed usb_get_maximum_speed(struct device *dev)
+ {
+ 	const char *maximum_speed;
+@@ -102,6 +122,15 @@ enum usb_device_speed usb_get_maximum_speed(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(usb_get_maximum_speed);
+ 
++/**
++ * usb_get_maximum_ssp_rate - Get the signaling rate generation and lane count
++ *	of a SuperSpeed Plus capable device.
++ * @dev: Pointer to the given USB controller device
++ *
++ * If the string from "maximum-speed" property is super-speed-plus-genXxY where
++ * 'X' is the generation number and 'Y' is the number of lanes, then this
++ * function returns the corresponding enum usb_ssp_rate.
++ */
+ enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev)
+ {
+ 	const char *maximum_speed;
+@@ -116,6 +145,12 @@ enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(usb_get_maximum_ssp_rate);
+ 
++/**
++ * usb_state_string - Returns human readable name for the state.
++ * @state: The state to return a human-readable name for. If it's not
++ *	any of the states devices in usb_device_state_string enum,
++ *	the string UNKNOWN will be returned.
++ */
+ const char *usb_state_string(enum usb_device_state state)
+ {
+ 	static const char *const names[] = {
+diff --git a/drivers/usb/common/debug.c b/drivers/usb/common/debug.c
+index ba849c7bc5c7..a76a086b9c54 100644
+--- a/drivers/usb/common/debug.c
++++ b/drivers/usb/common/debug.c
+@@ -207,8 +207,26 @@ static void usb_decode_set_isoch_delay(__u8 wValue, char *str, size_t size)
+ 	snprintf(str, size, "Set Isochronous Delay(Delay = %d ns)", wValue);
+ }
+ 
+-/*
+- * usb_decode_ctrl - returns a string representation of ctrl request
++/**
++ * usb_decode_ctrl - Returns human readable representation of control request.
++ * @str: buffer to return a human-readable representation of control request.
++ *       This buffer should have about 200 bytes.
++ * @size: size of str buffer.
++ * @bRequestType: matches the USB bmRequestType field
++ * @bRequest: matches the USB bRequest field
++ * @wValue: matches the USB wValue field (CPU byte order)
++ * @wIndex: matches the USB wIndex field (CPU byte order)
++ * @wLength: matches the USB wLength field (CPU byte order)
++ *
++ * Function returns decoded, formatted and human-readable description of
++ * control request packet.
++ *
++ * The usage scenario for this is for tracepoints, so function as a return
++ * use the same value as in parameters. This approach allows to use this
++ * function in TP_printk
++ *
++ * Important: wValue, wIndex, wLength parameters before invoking this function
++ * should be processed by le16_to_cpu macro.
+  */
+ const char *usb_decode_ctrl(char *str, size_t size, __u8 bRequestType,
+ 			    __u8 bRequest, __u16 wValue, __u16 wIndex,
 diff --git a/include/linux/usb/ch9.h b/include/linux/usb/ch9.h
-index abdd310c77f0..74debc824645 100644
+index 74debc824645..1cffa34740b0 100644
 --- a/include/linux/usb/ch9.h
 +++ b/include/linux/usb/ch9.h
-@@ -90,6 +90,9 @@ extern enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev);
-  */
- extern const char *usb_state_string(enum usb_device_state state);
+@@ -45,76 +45,15 @@ enum usb_ssp_rate {
+ 	USB_SSP_GEN_2x2,
+ };
  
-+unsigned int usb_decode_interval(const struct usb_endpoint_descriptor *epd,
-+				 enum usb_device_speed speed);
-+
+-/**
+- * usb_ep_type_string() - Returns human readable-name of the endpoint type.
+- * @ep_type: The endpoint type to return human-readable name for.  If it's not
+- *   any of the types: USB_ENDPOINT_XFER_{CONTROL, ISOC, BULK, INT},
+- *   usually got by usb_endpoint_type(), the string 'unknown' will be returned.
+- */
+ extern const char *usb_ep_type_string(int ep_type);
+-
+-/**
+- * usb_speed_string() - Returns human readable-name of the speed.
+- * @speed: The speed to return human-readable name for.  If it's not
+- *   any of the speeds defined in usb_device_speed enum, string for
+- *   USB_SPEED_UNKNOWN will be returned.
+- */
+ extern const char *usb_speed_string(enum usb_device_speed speed);
+-
+-/**
+- * usb_get_maximum_speed - Get maximum requested speed for a given USB
+- * controller.
+- * @dev: Pointer to the given USB controller device
+- *
+- * The function gets the maximum speed string from property "maximum-speed",
+- * and returns the corresponding enum usb_device_speed.
+- */
+ extern enum usb_device_speed usb_get_maximum_speed(struct device *dev);
+-
+-/**
+- * usb_get_maximum_ssp_rate - Get the signaling rate generation and lane count
+- *	of a SuperSpeed Plus capable device.
+- * @dev: Pointer to the given USB controller device
+- *
+- * If the string from "maximum-speed" property is super-speed-plus-genXxY where
+- * 'X' is the generation number and 'Y' is the number of lanes, then this
+- * function returns the corresponding enum usb_ssp_rate.
+- */
+ extern enum usb_ssp_rate usb_get_maximum_ssp_rate(struct device *dev);
+-
+-/**
+- * usb_state_string - Returns human readable name for the state.
+- * @state: The state to return a human-readable name for. If it's not
+- *	any of the states devices in usb_device_state_string enum,
+- *	the string UNKNOWN will be returned.
+- */
+ extern const char *usb_state_string(enum usb_device_state state);
+-
+ unsigned int usb_decode_interval(const struct usb_endpoint_descriptor *epd,
+ 				 enum usb_device_speed speed);
+ 
  #ifdef CONFIG_TRACING
- /**
-  * usb_decode_ctrl - Returns human readable representation of control request.
+-/**
+- * usb_decode_ctrl - Returns human readable representation of control request.
+- * @str: buffer to return a human-readable representation of control request.
+- *       This buffer should have about 200 bytes.
+- * @size: size of str buffer.
+- * @bRequestType: matches the USB bmRequestType field
+- * @bRequest: matches the USB bRequest field
+- * @wValue: matches the USB wValue field (CPU byte order)
+- * @wIndex: matches the USB wIndex field (CPU byte order)
+- * @wLength: matches the USB wLength field (CPU byte order)
+- *
+- * Function returns decoded, formatted and human-readable description of
+- * control request packet.
+- *
+- * The usage scenario for this is for tracepoints, so function as a return
+- * use the same value as in parameters. This approach allows to use this
+- * function in TP_printk
+- *
+- * Important: wValue, wIndex, wLength parameters before invoking this function
+- * should be processed by le16_to_cpu macro.
+- */
+ extern const char *usb_decode_ctrl(char *str, size_t size, __u8 bRequestType,
+ 				   __u8 bRequest, __u16 wValue, __u16 wIndex,
+ 				   __u16 wLength);
 -- 
 2.18.0
 
