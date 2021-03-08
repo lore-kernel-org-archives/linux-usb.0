@@ -5,65 +5,63 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D4E3C4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EC65C43333
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F37665172
+	by mail.kernel.org (Postfix) with ESMTP id 6D31265159
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234026AbhCHDx7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 7 Mar 2021 22:53:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
+        id S234043AbhCHDyA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 7 Mar 2021 22:54:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234020AbhCHDxi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:38 -0500
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45055C0613D8
-        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:38 -0800 (PST)
-Received: by mail-io1-xd2b.google.com with SMTP id i8so8507958iog.7
-        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:38 -0800 (PST)
+        with ESMTP id S234027AbhCHDxq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:46 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83ACBC06175F
+        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:35 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id u20so8500127iot.9
+        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1Yz6kpCfZnD1C4GegUTdokHbPqK7j0RwCOVETYPwpHA=;
-        b=XLm+NYdzS/kL+Jrto4VdbEhzzx4U6J01oArZPg4P8I1h9LfVhRioAxoL7+jcoSevrj
-         RDHs2OxyCuwau8OYFxz3VcSL0wnjZ4ImyQYB84RMQGRtCPHhGHbzEVvAOsYHkzlE6PaU
-         tQuMWOTY96mI+3j9Cp95lDmVkEO3yMVeQJQac=
+        bh=pjP5jnpjOCAAGVvM2wgeXDUNlH+i430AZmhAaZRiAsc=;
+        b=P4mqjVrcRIoZvnHBTs8vz2AUyZS7YuVUCwejYaWNBf4NufH7g4nOfO+8f3VQfc/YZm
+         /NlPoAUgCXi/BAClLpBTF4RLHxJ2QfM0Zmvl7aWFuEANkE36YyI0GzWgX2Tio0kMbtQL
+         3TKnbCnjucceTqy/R2jBSMlh519RWcZ5aE88s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1Yz6kpCfZnD1C4GegUTdokHbPqK7j0RwCOVETYPwpHA=;
-        b=RgLW8AURvi995gCkVaSAWgLbQsI0zye8lzKtrF1foJm1l5C3o3fcOeHFihb6s/a6Ax
-         fQQgiSzj+Bot6lucvwbX7XqPt/Nij0OPbpLuz+e8yQqAm5LD94sgnkstcDMSGTcMLBxz
-         zI0pnj9NRMu8SwhDmGvAiMnHxqLLaLN7OU3EfxutmGpZ8Oy5kinJfxDvWrsi31ffv+os
-         3JJgEBBXWggUNF9u8P7I1yiuEpYLG7pvC/Qb/TPhZjfRVMme7dKmpgOpJe1pmcgpXJQO
-         nuwRT7WegdomwNfFb3klE078C6TTz3TVtE3PrT7yT0wwWex6DZwiIb26ZmqIF40mlBTK
-         uv0g==
-X-Gm-Message-State: AOAM531+iEMb+vhKhbek7cTTfHh+yJzrkRj4pP62idrlfbz0cGk+EHe9
-        p/zaizM4X+SMEePIQhEYdc2giw==
-X-Google-Smtp-Source: ABdhPJwrraUVRWqDEE3wi8nY43hAijv+snYj4bMlMqJSiSqaIbqDi/spYiRIJOm9snDh/B7Vvb28nw==
-X-Received: by 2002:a02:8545:: with SMTP id g63mr21457064jai.79.1615175617756;
-        Sun, 07 Mar 2021 19:53:37 -0800 (PST)
+        bh=pjP5jnpjOCAAGVvM2wgeXDUNlH+i430AZmhAaZRiAsc=;
+        b=M4Jdv4VqpPxgO1XvNoAOnc9zHU1Ak8cmHyJ+jAfE3lpnWG7ZvZ4wwwXw/+iQ3w9yoX
+         3ev9P05ETeAO+XeK5jugvlCO5FKXsL3rLt1y4bSDOpAO16N399KIva4si0VMDFC9qxHK
+         fuNezP8qF4YJhkaZL9d3Z58CshpylOWqHqKX5jOlfn5IT0KB8BbfMzba5MXzO46CejTt
+         rcbMD/DrFUBwXHXnQJWBH5JW8L7DcVTTbg0ZhtX7QXJdm15gajT14TiLejWMRLKeM0E5
+         xI43j8NpqaQ7BFzPv/c3aqJPpQAS9mnD4iw6ZjD8q6Dolf1Dsi5hKtoD74mmbJQGxeEB
+         qZIg==
+X-Gm-Message-State: AOAM533/JnnZyKMG3rLU5hZY0CAj4Qx84cZ3edwlKc1HRvrPRyZzt3ha
+        mjsxkh7P+N8f5a+XMfAMAL9pHA==
+X-Google-Smtp-Source: ABdhPJzDImSLEVxZQblxYwCjtei3KT0UduOf/H0kLlvtdtz8OHNNv1wqu3/i06fuhwpTUDy0ndyp8A==
+X-Received: by 2002:a02:9986:: with SMTP id a6mr21528852jal.46.1615175614977;
+        Sun, 07 Mar 2021 19:53:34 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.37
+        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Mar 2021 19:53:37 -0800 (PST)
+        Sun, 07 Mar 2021 19:53:34 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     shuah@kernel.org, valentina.manea.m@gmail.com,
         gregkh@linuxfoundation.org
 Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
-        syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>,
-        syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>,
-        syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>,
         stable@vger.kernel.org
-Subject: [PATCH 5/6] usbip: fix vhci_hcd attach_store() races leading to gpf
-Date:   Sun,  7 Mar 2021 20:53:30 -0700
-Message-Id: <bb434bd5d7a64fbec38b5ecfb838a6baef6eb12b.1615171203.git.skhan@linuxfoundation.org>
+Subject: [PATCH 1/6] usbip: fix stub_dev to check for stream socket
+Date:   Sun,  7 Mar 2021 20:53:26 -0700
+Message-Id: <e942d2bd03afb8e8552bd2a5d84e18d17670d521.1615171203.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1615171203.git.skhan@linuxfoundation.org>
 References: <cover.1615171203.git.skhan@linuxfoundation.org>
@@ -73,140 +71,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-attach_store() is invoked when user requests import (attach) a device
-from usbip host.
+Fix usbip_sockfd_store() to validate the passed in file descriptor is
+a stream socket. If the file descriptor passed was a SOCK_DGRAM socket,
+sock_recvmsg() can't detect end of stream.
 
-Attach and detach are governed by local state and shared state
-- Shared state (usbip device status) - Device status is used to manage
-  the attach and detach operations on import-able devices.
-- Local state (tcp_socket, rx and tx thread task_struct ptrs)
-  A valid tcp_socket controls rx and tx thread operations while the
-  device is in exported state.
-- Device has to be in the right state to be attached and detached.
-
-Attach sequence includes validating the socket and creating receive (rx)
-and transmit (tx) threads to talk to the host to get access to the
-imported device. rx and tx threads depends on local and shared state to
-be correct and in sync.
-
-Detach sequence shuts the socket down and stops the rx and tx threads.
-Detach sequence relies on local and shared states to be in sync.
-
-There are races in updating the local and shared status in the current
-attach sequence resulting in crashes. These stem from starting rx and
-tx threads before local and global state is updated correctly to be in
-sync.
-
-1. Doesn't handle kthread_create() error and saves invalid ptr in local
-   state that drives rx and tx threads.
-2. Updates tcp_socket and sockfd,  starts stub_rx and stub_tx threads
-   before updating usbip_device status to VDEV_ST_NOTASSIGNED. This opens
-   up a race condition between the threads, port connect, and detach
-   handling.
-
-Fix the above problems:
-- Stop using kthread_get_run() macro to create/start threads.
-- Create threads and get task struct reference.
-- Add kthread_create() failure handling and bail out.
-- Hold vhci and usbip_device locks to update local and shared states after
-  creating rx and tx threads.
-- Update usbip_device status to VDEV_ST_NOTASSIGNED.
-- Update usbip_device tcp_socket, sockfd, tcp_rx, and tcp_tx
-- Start threads after usbip_device (tcp_socket, sockfd, tcp_rx, tcp_tx,
-  and status) is complete.
-
-Credit goes to syzbot and Tetsuo Handa for finding and root-causing the
-kthread_get_run() improper error handling problem and others. This is
-hard problem to find and debug since the races aren't seen in a normal
-case. Fuzzing forces the race window to be small enough for the
-kthread_get_run() error path bug and starting threads before updating the
-local and shared state bug in the attach sequence.
-- Update usbip_device tcp_rx and tcp_tx pointers holding vhci and
-  usbip_device locks.
-
-Tested with syzbot reproducer:
-- https://syzkaller.appspot.com/text?tag=ReproC&x=14801034d00000
-
-Reported-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
-Reported-by: syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>
-Reported-by: syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>
-Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Fixes: 9720b4bc76a83807 ("staging/usbip: convert to kthread")
 Cc: stable@vger.kernel.org
+Suggested-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/usb/usbip/vhci_sysfs.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+ drivers/usb/usbip/stub_dev.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_sysfs.c
-index 1e1ae9bd06ab..c4b4256e5dad 100644
---- a/drivers/usb/usbip/vhci_sysfs.c
-+++ b/drivers/usb/usbip/vhci_sysfs.c
-@@ -312,6 +312,8 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
- 	struct vhci *vhci;
- 	int err;
- 	unsigned long flags;
-+	struct task_struct *tcp_rx = NULL;
-+	struct task_struct *tcp_tx = NULL;
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index 2305d425e6c9..90c105469a07 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -69,8 +69,16 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
+ 		}
  
- 	/*
- 	 * @rhport: port number of vhci_hcd
-@@ -360,9 +362,24 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
- 		return -EINVAL;
- 	}
- 
--	/* now need lock until setting vdev status as used */
-+	/* create threads before locking */
-+	tcp_rx = kthread_create(vhci_rx_loop, &vdev->ud, "vhci_rx");
-+	if (IS_ERR(tcp_rx)) {
-+		sockfd_put(socket);
-+		return -EINVAL;
-+	}
-+	tcp_tx = kthread_create(vhci_tx_loop, &vdev->ud, "vhci_tx");
-+	if (IS_ERR(tcp_tx)) {
-+		kthread_stop(tcp_rx);
-+		sockfd_put(socket);
-+		return -EINVAL;
-+	}
+ 		socket = sockfd_lookup(sockfd, &err);
+-		if (!socket)
++		if (!socket) {
++			dev_err(dev, "failed to lookup sock");
+ 			goto err;
++		}
 +
-+	/* get task structs now */
-+	get_task_struct(tcp_rx);
-+	get_task_struct(tcp_tx);
++		if (socket->type != SOCK_STREAM) {
++			dev_err(dev, "Expecting SOCK_STREAM - found %d",
++				socket->type);
++			goto sock_err;
++		}
  
--	/* begin a lock */
-+	/* now begin lock until setting vdev status set */
- 	spin_lock_irqsave(&vhci->lock, flags);
- 	spin_lock(&vdev->ud.lock);
+ 		sdev->ud.tcp_socket = socket;
+ 		sdev->ud.sockfd = sockfd;
+@@ -100,6 +108,8 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
  
-@@ -372,6 +389,8 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
- 		spin_unlock_irqrestore(&vhci->lock, flags);
+ 	return count;
  
- 		sockfd_put(socket);
-+		kthread_stop_put(tcp_rx);
-+		kthread_stop_put(tcp_tx);
- 
- 		dev_err(dev, "port %d already used\n", rhport);
- 		/*
-@@ -390,6 +409,8 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
- 	vdev->speed         = speed;
- 	vdev->ud.sockfd     = sockfd;
- 	vdev->ud.tcp_socket = socket;
-+	vdev->ud.tcp_rx     = tcp_rx;
-+	vdev->ud.tcp_tx     = tcp_tx;
- 	vdev->ud.status     = VDEV_ST_NOTASSIGNED;
- 	usbip_kcov_handle_init(&vdev->ud);
- 
-@@ -397,8 +418,8 @@ static ssize_t attach_store(struct device *dev, struct device_attribute *attr,
- 	spin_unlock_irqrestore(&vhci->lock, flags);
- 	/* end the lock */
- 
--	vdev->ud.tcp_rx = kthread_get_run(vhci_rx_loop, &vdev->ud, "vhci_rx");
--	vdev->ud.tcp_tx = kthread_get_run(vhci_tx_loop, &vdev->ud, "vhci_tx");
-+	wake_up_process(vdev->ud.tcp_rx);
-+	wake_up_process(vdev->ud.tcp_tx);
- 
- 	rh_port_connect(vdev, speed);
- 
++sock_err:
++	sockfd_put(socket);
+ err:
+ 	spin_unlock_irq(&sdev->ud.lock);
+ 	return -EINVAL;
 -- 
 2.27.0
 
