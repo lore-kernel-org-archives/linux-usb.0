@@ -8,51 +8,51 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FFEC4321A
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12DE9C43619
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC7F66515E
+	by mail.kernel.org (Postfix) with ESMTP id F00A565147
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbhCHDyA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 7 Mar 2021 22:54:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32994 "EHLO
+        id S234049AbhCHDyB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 7 Mar 2021 22:54:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234032AbhCHDxs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:48 -0500
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1C9C061764
-        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:37 -0800 (PST)
-Received: by mail-io1-xd32.google.com with SMTP id k2so8524187ioh.5
-        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:37 -0800 (PST)
+        with ESMTP id S234036AbhCHDxu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:50 -0500
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD7DC0613D9
+        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:39 -0800 (PST)
+Received: by mail-io1-xd2e.google.com with SMTP id o11so8547665iob.1
+        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9Mtf+/GMHQQaVl5Wo2noId5jc+1UjqdNt79wf1IcZT4=;
-        b=L6nbQIbf2Dxc8FQu0/EAxtQ4yCqggl7xgYvWHss3oW40kV6hIv41eQrrZxFVTS74fV
-         5t9w17VGluac/kPCURGyDirUVyMgQSCInvyj+bxt6FhJoL3SePELqlgg+E3bdx95qycC
-         3sj1u5QdnE4XreGwL1k/K49oKZlEHjvgxyz14=
+        bh=pukYZLwoXGqLribsQogZdYuZMyAvfUYrvYpBXPMT+4g=;
+        b=HxRygK8UCvQNhxcEYqI3LFBIOVf1u+01NFypnz4JKL0/k3mnwUQomEH+tLBxOaAenC
+         T6Z9wVy4rfXljd5AO2bLCaIdszR/EhCU6LNUb0FKiLDmPKfr7so9G77b6fdicpUQE1rw
+         XCYtEHgHfXfhIMn+58RkjWaQEVrgS2nybqMqY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9Mtf+/GMHQQaVl5Wo2noId5jc+1UjqdNt79wf1IcZT4=;
-        b=JOIMfbjoxFL8gr0hjdYof4pIXOTGuip+BRmXUhTvY/6e90a/MbSWiKIcjtB76uLQYs
-         0XYRVE/9dLiQHp0lB5+16d3F8o3jkkxf07nB+GwZlUqkaxrlAT9rNGD8Gt3FsCsrBiIn
-         Ol7Rf6DAOzTSCTC14mRAQipJ2IIlD1qDLmS9lsPZN3FR0pg1TpMeitcxRHNgWZjqFnGW
-         gVV7MxV9ndUGiRLzRHPpR6QWxgsnIN6/TmbRM0JkuHUWBOgkBh6rFTzdjUFjsoZjreEA
-         CPJ3iChjYAIBYXq60FIcNVFOqzP2FP/X+AOWnVdo4lmeU5p0KGEcznUTbUIWDnx+Ii/H
-         /qDQ==
-X-Gm-Message-State: AOAM530ePhwZ7knqDos/GzAIypvCWF8mXvq2tPsIV2ocjpQUk4qZdv3F
-        9G1MAzXpM/uI1WfkmRgoYv3bSQ==
-X-Google-Smtp-Source: ABdhPJyD8eSfduXsrnjkASYs7XzbCFP4vzrCgT6uFawrG2mg1kn2S5KhvL6xmDzb5VHRQ+TRizKzMA==
-X-Received: by 2002:a05:6638:1390:: with SMTP id w16mr21494082jad.83.1615175617045;
-        Sun, 07 Mar 2021 19:53:37 -0800 (PST)
+        bh=pukYZLwoXGqLribsQogZdYuZMyAvfUYrvYpBXPMT+4g=;
+        b=iu/K7mUDeiZ3UfDJqJx2m3R/kgmnTg/vIh86xlxSxxZNPk4hplxAnzMHOc8ki08Blp
+         C5b4FJrTWa+jAoh+wVipaRAYZmsA/jStly0k8YtgNRkir6nJPisMTRZ6AtyA3/7EBxmk
+         SVLOXhTKTaJPdH/azfHlYMgVP4c8laBEAaXUDivaV3HdhJscrZP/bR74lyWGKsZ7YTed
+         LjKqSTzNZWnQWI1KbpCJ7z0LbPkqxlPwo3Gi7t5dItB2pafiY91sQ3umJy1BRNKSFYss
+         v+613TC4bVzvs6NM6PEPSGm2jXDkaNVSBPgVXOAszgFFQ5DPhByhHKohRiPrHqhhJMZ1
+         Cw8w==
+X-Gm-Message-State: AOAM531AIrOMHzSvGdH9G+LHiH1QBuW5l/Df31JVE+DPrhJwFNUNR2Ul
+        rg6ycsX/4icSh8J36KfS8iIWJw==
+X-Google-Smtp-Source: ABdhPJxy2bn4HGRdqvo37tpwCwzJovq0oWJEZwrxPps4BQtLGoDenW/MccJSwXpmU3Wa1QAlyvfb7Q==
+X-Received: by 2002:a05:6602:2819:: with SMTP id d25mr17489763ioe.125.1615175618575;
+        Sun, 07 Mar 2021 19:53:38 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.36
+        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Mar 2021 19:53:36 -0800 (PST)
+        Sun, 07 Mar 2021 19:53:38 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     shuah@kernel.org, valentina.manea.m@gmail.com,
         gregkh@linuxfoundation.org
@@ -62,9 +62,9 @@ Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-usb@vger.kernel.org,
         syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>,
         syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>,
         stable@vger.kernel.org
-Subject: [PATCH 4/6] usbip: fix stub_dev usbip_sockfd_store() races leading to gpf
-Date:   Sun,  7 Mar 2021 20:53:29 -0700
-Message-Id: <268a0668144d5ff36ec7d87fdfa90faf583b7ccc.1615171203.git.skhan@linuxfoundation.org>
+Subject: [PATCH 6/6] usbip: fix vudc usbip_sockfd_store races leading to gpf
+Date:   Sun,  7 Mar 2021 20:53:31 -0700
+Message-Id: <b1c08b983ffa185449c9f0f7d1021dc8c8454b60.1615171203.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1615171203.git.skhan@linuxfoundation.org>
 References: <cover.1615171203.git.skhan@linuxfoundation.org>
@@ -75,14 +75,14 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 usbip_sockfd_store() is invoked when user requests attach (import)
-detach (unimport) usb device from usbip host. vhci_hcd sends import
-request and usbip_sockfd_store() exports the device if it is free
-for export.
+detach (unimport) usb gadget device from usbip host. vhci_hcd sends
+import request and usbip_sockfd_store() exports the device if it is
+free for export.
 
 Export and unexport are governed by local state and shared state
 - Shared state (usbip device status, sockfd) - sockfd and Device
   status are used to determine if stub should be brought up or shut
-  down.
+  down. Device status is shared between host and client.
 - Local state (tcp_socket, rx and tx thread task_struct ptrs)
   A valid tcp_socket controls rx and tx thread operations while the
   device is in exported state.
@@ -128,9 +128,6 @@ case. Fuzzing forces the race window to be small enough for the
 kthread_get_run() error path bug and starting threads before updating the
 local and shared state bug in the stub-up sequence.
 
-Tested with syzbot reproducer:
-- https://syzkaller.appspot.com/text?tag=ReproC&x=14801034d00000
-
 Reported-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
 Reported-by: syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>
 Reported-by: syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>
@@ -139,66 +136,88 @@ Fixes: 9720b4bc76a83807 ("staging/usbip: convert to kthread")
 Cc: stable@vger.kernel.org
 Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/usb/usbip/stub_dev.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+ drivers/usb/usbip/vudc_sysfs.c | 42 +++++++++++++++++++++++++++-------
+ 1 file changed, 34 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
-index 90c105469a07..8f1de1fbbeed 100644
---- a/drivers/usb/usbip/stub_dev.c
-+++ b/drivers/usb/usbip/stub_dev.c
-@@ -46,6 +46,8 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
- 	int sockfd = 0;
- 	struct socket *socket;
+diff --git a/drivers/usb/usbip/vudc_sysfs.c b/drivers/usb/usbip/vudc_sysfs.c
+index 83a0c59a3de8..a3ec39fc6177 100644
+--- a/drivers/usb/usbip/vudc_sysfs.c
++++ b/drivers/usb/usbip/vudc_sysfs.c
+@@ -90,8 +90,9 @@ static ssize_t dev_desc_read(struct file *file, struct kobject *kobj,
+ }
+ static BIN_ATTR_RO(dev_desc, sizeof(struct usb_device_descriptor));
+ 
+-static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *attr,
+-		     const char *in, size_t count)
++static ssize_t usbip_sockfd_store(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *in, size_t count)
+ {
+ 	struct vudc *udc = (struct vudc *) dev_get_drvdata(dev);
  	int rv;
+@@ -100,6 +101,8 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
+ 	struct socket *socket;
+ 	unsigned long flags;
+ 	int ret;
 +	struct task_struct *tcp_rx = NULL;
 +	struct task_struct *tcp_tx = NULL;
  
- 	if (!sdev) {
- 		dev_err(dev, "sdev is null\n");
-@@ -80,20 +82,36 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
+ 	rv = kstrtoint(in, 0, &sockfd);
+ 	if (rv != 0)
+@@ -145,24 +148,47 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
  			goto sock_err;
  		}
  
--		sdev->ud.tcp_socket = socket;
--		sdev->ud.sockfd = sockfd;
+-		udc->ud.tcp_socket = socket;
 -
 +		/* unlock and create threads and get tasks */
- 		spin_unlock_irq(&sdev->ud.lock);
-+		tcp_rx = kthread_create(stub_rx_loop, &sdev->ud, "stub_rx");
+ 		spin_unlock_irq(&udc->ud.lock);
+ 		spin_unlock_irqrestore(&udc->lock, flags);
+ 
+-		udc->ud.tcp_rx = kthread_get_run(&v_rx_loop,
+-						    &udc->ud, "vudc_rx");
+-		udc->ud.tcp_tx = kthread_get_run(&v_tx_loop,
+-						    &udc->ud, "vudc_tx");
++		tcp_rx = kthread_create(&v_rx_loop, &udc->ud, "vudc_rx");
 +		if (IS_ERR(tcp_rx)) {
 +			sockfd_put(socket);
 +			return -EINVAL;
 +		}
-+		tcp_tx = kthread_create(stub_tx_loop, &sdev->ud, "stub_tx");
++		tcp_tx = kthread_create(&v_tx_loop, &udc->ud, "vudc_tx");
 +		if (IS_ERR(tcp_tx)) {
 +			kthread_stop(tcp_rx);
 +			sockfd_put(socket);
 +			return -EINVAL;
 +		}
- 
--		sdev->ud.tcp_rx = kthread_get_run(stub_rx_loop, &sdev->ud,
--						  "stub_rx");
--		sdev->ud.tcp_tx = kthread_get_run(stub_tx_loop, &sdev->ud,
--						  "stub_tx");
++
 +		/* get task structs now */
 +		get_task_struct(tcp_rx);
 +		get_task_struct(tcp_tx);
  
-+		/* lock and update sdev->ud state */
- 		spin_lock_irq(&sdev->ud.lock);
-+		sdev->ud.tcp_socket = socket;
-+		sdev->ud.sockfd = sockfd;
-+		sdev->ud.tcp_rx = tcp_rx;
-+		sdev->ud.tcp_tx = tcp_tx;
- 		sdev->ud.status = SDEV_ST_USED;
- 		spin_unlock_irq(&sdev->ud.lock);
++		/* lock and update udc->ud state */
+ 		spin_lock_irqsave(&udc->lock, flags);
+ 		spin_lock_irq(&udc->ud.lock);
++
++		udc->ud.tcp_socket = socket;
++		udc->ud.tcp_rx = tcp_rx;
++		udc->ud.tcp_rx = tcp_tx;
+ 		udc->ud.status = SDEV_ST_USED;
++
+ 		spin_unlock_irq(&udc->ud.lock);
  
-+		wake_up_process(sdev->ud.tcp_rx);
-+		wake_up_process(sdev->ud.tcp_tx);
+ 		ktime_get_ts64(&udc->start_time);
+ 		v_start_timer(udc);
+ 		udc->connected = 1;
++
++		spin_unlock_irqrestore(&udc->lock, flags);
++
++		wake_up_process(udc->ud.tcp_rx);
++		wake_up_process(udc->ud.tcp_tx);
++		return count;
 +
  	} else {
- 		dev_info(dev, "stub down\n");
- 
+ 		if (!udc->connected) {
+ 			dev_err(dev, "Device not connected");
 -- 
 2.27.0
 
