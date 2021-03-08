@@ -2,93 +2,124 @@ Return-Path: <SRS0=dNjG=IG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0884C432C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9FFEC4321A
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9722865147
+	by mail.kernel.org (Postfix) with ESMTP id AC7F66515E
 	for <linux-usb@archiver.kernel.org>; Mon,  8 Mar 2021 03:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234030AbhCHDx7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 7 Mar 2021 22:53:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32972 "EHLO
+        id S234047AbhCHDyA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 7 Mar 2021 22:54:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234025AbhCHDxp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:45 -0500
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD60CC06174A
-        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:34 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id h18so7650037ils.2
-        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:34 -0800 (PST)
+        with ESMTP id S234032AbhCHDxs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 7 Mar 2021 22:53:48 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D1C9C061764
+        for <linux-usb@vger.kernel.org>; Sun,  7 Mar 2021 19:53:37 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id k2so8524187ioh.5
+        for <linux-usb@vger.kernel.org>; Sun, 07 Mar 2021 19:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q8TGG0UKWkmYFGc7Y9qbb22HolcuSRxUaKR8Lr9SYoU=;
-        b=XrlwGLOTGlOrwE/OianPDHrFLL7/Cb32+e6rmT/iNTgYljC02P2XJwdVnleaPhM5px
-         w60mJWPg66F9rZvs34l+toJQqhkt06PtqaIzikzPCfB5Xip7RX8l5hkXG/rfJAHTYr9o
-         srbyuAsYMupT8MhS5PzbUUuHbwOu2oFkvywN4=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9Mtf+/GMHQQaVl5Wo2noId5jc+1UjqdNt79wf1IcZT4=;
+        b=L6nbQIbf2Dxc8FQu0/EAxtQ4yCqggl7xgYvWHss3oW40kV6hIv41eQrrZxFVTS74fV
+         5t9w17VGluac/kPCURGyDirUVyMgQSCInvyj+bxt6FhJoL3SePELqlgg+E3bdx95qycC
+         3sj1u5QdnE4XreGwL1k/K49oKZlEHjvgxyz14=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=q8TGG0UKWkmYFGc7Y9qbb22HolcuSRxUaKR8Lr9SYoU=;
-        b=FappkiswU9EQDcJf25SIY+LgaRot+6OFM6L10Moh/hdYejw8h1H18qyzUqjvXJ02pG
-         JtlDTM6KIFcXsd1+jcU3oPmoGvnqB1BGrdKcstAhwGNmna21pqxWR6kwNBczP2lF1b1n
-         1v2oh2lgtJ0MfObnOZQSzi9lk1DMWCUkepJ1XOZTsHuCQvEz046y9FZEtuQW3ktGWp+n
-         wgOpH5PfeoCdl688wrWE1lZuzo1vdJXrA0tNtAvYuiK2a6LZ8qzNYIEJ7oL1d7Keqadi
-         1ptXZb8MUNKUk6cJXRzQhOryuy3Ev6NOHOny+kaQB5AvUX6lziLfPfjJocB+GUVquM1t
-         tTGA==
-X-Gm-Message-State: AOAM5313FsNis+FXSF5Gm4KibgtNMDH6YxJ9YPIHk6zBTC9j6s4Gdqje
-        JAGxDJJRC1mdl6nLJbz0laiAhw==
-X-Google-Smtp-Source: ABdhPJwYlHGYO4AuJPejd8Arn60zVOYCjtVbUL6XST51uH/KjScwnd/9G11bnY3q39IAZlZ71sVb/A==
-X-Received: by 2002:a92:c248:: with SMTP id k8mr18868269ilo.141.1615175614166;
-        Sun, 07 Mar 2021 19:53:34 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9Mtf+/GMHQQaVl5Wo2noId5jc+1UjqdNt79wf1IcZT4=;
+        b=JOIMfbjoxFL8gr0hjdYof4pIXOTGuip+BRmXUhTvY/6e90a/MbSWiKIcjtB76uLQYs
+         0XYRVE/9dLiQHp0lB5+16d3F8o3jkkxf07nB+GwZlUqkaxrlAT9rNGD8Gt3FsCsrBiIn
+         Ol7Rf6DAOzTSCTC14mRAQipJ2IIlD1qDLmS9lsPZN3FR0pg1TpMeitcxRHNgWZjqFnGW
+         gVV7MxV9ndUGiRLzRHPpR6QWxgsnIN6/TmbRM0JkuHUWBOgkBh6rFTzdjUFjsoZjreEA
+         CPJ3iChjYAIBYXq60FIcNVFOqzP2FP/X+AOWnVdo4lmeU5p0KGEcznUTbUIWDnx+Ii/H
+         /qDQ==
+X-Gm-Message-State: AOAM530ePhwZ7knqDos/GzAIypvCWF8mXvq2tPsIV2ocjpQUk4qZdv3F
+        9G1MAzXpM/uI1WfkmRgoYv3bSQ==
+X-Google-Smtp-Source: ABdhPJyD8eSfduXsrnjkASYs7XzbCFP4vzrCgT6uFawrG2mg1kn2S5KhvL6xmDzb5VHRQ+TRizKzMA==
+X-Received: by 2002:a05:6638:1390:: with SMTP id w16mr21494082jad.83.1615175617045;
+        Sun, 07 Mar 2021 19:53:37 -0800 (PST)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.33
+        by smtp.gmail.com with ESMTPSA id g6sm5605242ilj.28.2021.03.07.19.53.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Mar 2021 19:53:33 -0800 (PST)
+        Sun, 07 Mar 2021 19:53:36 -0800 (PST)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     shuah@kernel.org, valentina.manea.m@gmail.com,
         gregkh@linuxfoundation.org
 Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, penguin-kernel@I-love.SAKURA.ne.jp
-Subject: [PATCH 0/6] usbip fixes to crashes found by syzbot
-Date:   Sun,  7 Mar 2021 20:53:25 -0700
-Message-Id: <cover.1615171203.git.skhan@linuxfoundation.org>
+        linux-kernel@vger.kernel.org, penguin-kernel@I-love.SAKURA.ne.jp,
+        syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>,
+        syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>,
+        syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>,
+        stable@vger.kernel.org
+Subject: [PATCH 4/6] usbip: fix stub_dev usbip_sockfd_store() races leading to gpf
+Date:   Sun,  7 Mar 2021 20:53:29 -0700
+Message-Id: <268a0668144d5ff36ec7d87fdfa90faf583b7ccc.1615171203.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <cover.1615171203.git.skhan@linuxfoundation.org>
+References: <cover.1615171203.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series fixes the following problems founds in syzbot
-fuzzing.
+usbip_sockfd_store() is invoked when user requests attach (import)
+detach (unimport) usb device from usbip host. vhci_hcd sends import
+request and usbip_sockfd_store() exports the device if it is free
+for export.
 
-1. The first 3 patches fix usbip-host, vhci_hcd, vudc sub-drivers to
-   validate the passed in file descriptor is a stream socket. If the
-   file descriptor passed was a SOCK_DGRAM socket, sock_recvmsg()
-   can't detect end of stream. Reported and fix suggested by Tetsuo Handa
-2. All 3 sub-drivers use a common kthread_get_run() to create and 
-   start threads. There are races in updating the local and shared status
-   in the current stub-up (usbip-host, vudc) and attach (vhci) sequences
-   resulting in crashes. These stem from starting rx and tx threads before
-   local and shared state is updated correctly to be in sync.
-    
-    1. Doesn't handle kthread_create() error and saves invalid ptr in local
-       state that drives rx and tx threads. Reported and fix suggested by
-       Tetsuo Handa.
-    2. Updates tcp_socket and sockfd,  starts stub_rx and stub_tx threads
-       before updating usbip_device status to correct state. This opens up
-       a race condition between the threads and tear down sequences.
+Export and unexport are governed by local state and shared state
+- Shared state (usbip device status, sockfd) - sockfd and Device
+  status are used to determine if stub should be brought up or shut
+  down.
+- Local state (tcp_socket, rx and tx thread task_struct ptrs)
+  A valid tcp_socket controls rx and tx thread operations while the
+  device is in exported state.
+- While the device is exported, device status is marked used and socket,
+  sockfd, and thread pointers are valid.
 
-TODO: Once these fixes are in, kthread_get_run() macro can be removed
-      in a cleanup patch.
+Export sequence (stub-up) includes validating the socket and creating
+receive (rx) and transmit (tx) threads to talk to the client to provide
+access to the exported device. rx and tx threads depends on local and
+shared state to be correct and in sync.
+
+Unexport (stub-down) sequence shuts the socket down and stops the rx and
+tx threads. Stub-down sequence relies on local and shared states to be
+in sync.
+
+There are races in updating the local and shared status in the current
+stub-up sequence resulting in crashes. These stem from starting rx and
+tx threads before local and global state is updated correctly to be in
+sync.
+
+1. Doesn't handle kthread_create() error and saves invalid ptr in local
+   state that drives rx and tx threads.
+2. Updates tcp_socket and sockfd,  starts stub_rx and stub_tx threads
+   before updating usbip_device status to SDEV_ST_USED. This opens up a
+   race condition between the threads and usbip_sockfd_store() stub up
+   and down handling.
+
+Fix the above problems:
+- Stop using kthread_get_run() macro to create/start threads.
+- Create threads and get task struct reference.
+- Add kthread_create() failure handling and bail out.
+- Hold usbip_device lock to update local and shared states after
+  creating rx and tx threads.
+- Update usbip_device status to SDEV_ST_USED.
+- Update usbip_device tcp_socket, sockfd, tcp_rx, and tcp_tx
+- Start threads after usbip_device (tcp_socket, sockfd, tcp_rx, tcp_tx,
+  and status) is complete.
 
 Credit goes to syzbot and Tetsuo Handa for finding and root-causing the
 kthread_get_run() improper error handling problem and others. This is a
@@ -97,19 +128,77 @@ case. Fuzzing forces the race window to be small enough for the
 kthread_get_run() error path bug and starting threads before updating the
 local and shared state bug in the stub-up sequence.
 
-Shuah Khan (6):
-  usbip: fix stub_dev to check for stream socket
-  usbip: fix vhci_hcd to check for stream socket
-  usbip: fix vudc to check for stream socket
-  usbip: fix stub_dev usbip_sockfd_store() races leading to gpf
-  usbip: fix vhci_hcd attach_store() races leading to gpf
-  usbip: fix vudc usbip_sockfd_store races leading to gpf
+Tested with syzbot reproducer:
+- https://syzkaller.appspot.com/text?tag=ReproC&x=14801034d00000
 
- drivers/usb/usbip/stub_dev.c   | 42 ++++++++++++++++++++++++-----
- drivers/usb/usbip/vhci_sysfs.c | 39 +++++++++++++++++++++++----
- drivers/usb/usbip/vudc_sysfs.c | 49 +++++++++++++++++++++++++++++-----
- 3 files changed, 111 insertions(+), 19 deletions(-)
+Reported-by: syzbot <syzbot+a93fba6d384346a761e3@syzkaller.appspotmail.com>
+Reported-by: syzbot <syzbot+bf1a360e305ee719e364@syzkaller.appspotmail.com>
+Reported-by: syzbot <syzbot+95ce4b142579611ef0a9@syzkaller.appspotmail.com>
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Fixes: 9720b4bc76a83807 ("staging/usbip: convert to kthread")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ drivers/usb/usbip/stub_dev.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index 90c105469a07..8f1de1fbbeed 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -46,6 +46,8 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
+ 	int sockfd = 0;
+ 	struct socket *socket;
+ 	int rv;
++	struct task_struct *tcp_rx = NULL;
++	struct task_struct *tcp_tx = NULL;
+ 
+ 	if (!sdev) {
+ 		dev_err(dev, "sdev is null\n");
+@@ -80,20 +82,36 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
+ 			goto sock_err;
+ 		}
+ 
+-		sdev->ud.tcp_socket = socket;
+-		sdev->ud.sockfd = sockfd;
+-
++		/* unlock and create threads and get tasks */
+ 		spin_unlock_irq(&sdev->ud.lock);
++		tcp_rx = kthread_create(stub_rx_loop, &sdev->ud, "stub_rx");
++		if (IS_ERR(tcp_rx)) {
++			sockfd_put(socket);
++			return -EINVAL;
++		}
++		tcp_tx = kthread_create(stub_tx_loop, &sdev->ud, "stub_tx");
++		if (IS_ERR(tcp_tx)) {
++			kthread_stop(tcp_rx);
++			sockfd_put(socket);
++			return -EINVAL;
++		}
+ 
+-		sdev->ud.tcp_rx = kthread_get_run(stub_rx_loop, &sdev->ud,
+-						  "stub_rx");
+-		sdev->ud.tcp_tx = kthread_get_run(stub_tx_loop, &sdev->ud,
+-						  "stub_tx");
++		/* get task structs now */
++		get_task_struct(tcp_rx);
++		get_task_struct(tcp_tx);
+ 
++		/* lock and update sdev->ud state */
+ 		spin_lock_irq(&sdev->ud.lock);
++		sdev->ud.tcp_socket = socket;
++		sdev->ud.sockfd = sockfd;
++		sdev->ud.tcp_rx = tcp_rx;
++		sdev->ud.tcp_tx = tcp_tx;
+ 		sdev->ud.status = SDEV_ST_USED;
+ 		spin_unlock_irq(&sdev->ud.lock);
+ 
++		wake_up_process(sdev->ud.tcp_rx);
++		wake_up_process(sdev->ud.tcp_tx);
++
+ 	} else {
+ 		dev_info(dev, "stub down\n");
+ 
 -- 
 2.27.0
 
