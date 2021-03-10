@@ -2,86 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84810C433E6
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Mar 2021 10:14:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF78CC433E0
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Mar 2021 10:39:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BE3B64FE7
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Mar 2021 10:14:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8086B64F51
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Mar 2021 10:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231899AbhCJKNz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Mar 2021 05:13:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229657AbhCJKNq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 10 Mar 2021 05:13:46 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 493C564FE4
-        for <linux-usb@vger.kernel.org>; Wed, 10 Mar 2021 10:13:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615371226;
-        bh=3MkERiO8jtnZmb65WoyVtYGOVCg/VUnz5HCc7XFB63M=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Gpl+333CHPmH5pc5u1kvLfMi2q4RNTFPQNefvB4LNkFQ8wuc3sX2dQV/tUqNu96NG
-         qx+2hyH4ZdApEgGUv+9ByrqNtd36Vw954R9bCYYelSk0JLlaTptrOunmn+b8eqRNNx
-         kr5HsgUtAo8mCTNQFpzP/LV4kV0jLuNlAzW9++yZxJdi9m40TdAL7eO1WnjkrWShva
-         4abgOW5p7OUVZ3AlMliYLTtATYNJ7r5+ttmJ9OrKDINJHB4mqx6lUoKD4WjPNxl9Tn
-         6haCQEnXsyfoNKslyfwgax2TUddyocUWkBuSn3VKBp9r5CZB6zSLpRX9b4suXk9pvD
-         2LhEx9vfQW/9A==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 212045] dwc2 gadget mode read call blocks
-Date:   Wed, 10 Mar 2021 10:13:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: tomasz@grobelny.net
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212045-208809-x3O4RcHOM2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212045-208809@https.bugzilla.kernel.org/>
-References: <bug-212045-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S232073AbhCJKie (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Mar 2021 05:38:34 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:13878 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232041AbhCJKiQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Mar 2021 05:38:16 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DwT5Q5h61z8vx5;
+        Wed, 10 Mar 2021 18:36:26 +0800 (CST)
+Received: from localhost.localdomain (10.175.102.38) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 10 Mar 2021 18:38:07 +0800
+From:   'Wei Yongjun <weiyongjun1@huawei.com>
+To:     <weiyongjun1@huawei.com>, Peter Chen <peter.chen@kernel.org>,
+        "Pawel Laszczak" <pawell@cadence.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Frank Li <frank.li@nxp.com>
+CC:     <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kernel-janitors@vger.kernel.org>, Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH -next v2] usb: cdns3: imx: mark cdns_imx_system_resume as __maybe_unused
+Date:   Wed, 10 Mar 2021 10:46:54 +0000
+Message-ID: <20210310104654.3200529-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.102.38]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212045
+From: Wei Yongjun <weiyongjun1@huawei.com>
 
---- Comment #7 from Tomasz Grobelny (tomasz@grobelny.net) ---
-What do you mean by "function driver"? The userspace code that actually ope=
-ns
-the ep0/ep1/ep2 files exposed by functionfs? It works correctly for other
-hosts.
+The function cdns_imx_system_resume() may have no callers depending
+on configuration, so it must be marked __maybe_unused to avoid
+harmless warning:
 
-I don't have any more data to argue it is dwc2, but still seems like an iss=
-ue
-in kernel USB subsystem.
+drivers/usb/cdns3/cdns3-imx.c:378:12: warning:
+ 'cdns_imx_system_resume' defined but not used [-Wunused-function]
+  378 | static int cdns_imx_system_resume(struct device *dev)
+      |            ^~~~~~~~~~~~~~~~~~~~~~
 
-Another question that might help debugging it: is it the host that should o=
-pen
-the ep2 endpoint? In other words: is it the host that is directly responsib=
-le
-for lack of any mention of ep2 in dmesg output after the device was
-reinitialized?
+Fixes: 67982dfa59de ("usb: cdns3: imx: add power lost support for system resume")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+---
+ drivers/usb/cdns3/cdns3-imx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/usb/cdns3/cdns3-imx.c b/drivers/usb/cdns3/cdns3-imx.c
+index 708b51cc5844..74e758dc0895 100644
+--- a/drivers/usb/cdns3/cdns3-imx.c
++++ b/drivers/usb/cdns3/cdns3-imx.c
+@@ -375,7 +375,7 @@ static inline bool cdns_imx_is_power_lost(struct cdns_imx *data)
+ 		return false;
+ }
+ 
+-static int cdns_imx_system_resume(struct device *dev)
++static int __maybe_unused cdns_imx_system_resume(struct device *dev)
+ {
+ 	struct cdns_imx *data = dev_get_drvdata(dev);
+ 	int ret;
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
