@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D0C6C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFB18C433E6
 	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B79DA64F8E
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7175B64F90
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234507AbhCKQPI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Mar 2021 11:15:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51314 "EHLO mail.kernel.org"
+        id S234388AbhCKQPK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Mar 2021 11:15:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51312 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234523AbhCKQPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S234522AbhCKQPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 11 Mar 2021 11:15:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8174364FEB;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7EE1664FE2;
         Thu, 11 Mar 2021 16:15:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1615479300;
-        bh=+CpZJ+g402OOdXJ2CV7TsiSzCSM/A8MZ4PDGoxW/HOA=;
+        bh=1bzKS5UL0IvP/DsU+LZMEocUUgh5Q3Hsa9nuZCARpTk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uwUx5hMSeYN2Rau3kokwyTUw/k0+3s/vxHardNuCBTwQ4rN0LUyFU1pGpFag3EqRO
-         lzZo3aWDgOTQRpO5UARKHSN4NW1370SW5ycRqHtysch4usDTKtoqAPE5WFrpUQAIhl
-         pr5tjkruVnaPjJOnxr55FGpNHM4iXd3yB8zS7OxJg2htROeJtqQanPTi5fVVY+ut1X
-         XxpU2bwHa9+J/8Y6AuHipnjrDTx3+KEbGRPA1PtyEO53OmWG95a4Q/VgBI240Qp+4i
-         8tbb1WwlPauJ/uxY1SQETXMZceYdfYH+SSSQLvHPg0cEMsgYb8Mrj8oIKv1WkQqSim
-         k132lb4CfZ8ig==
+        b=a8dyS3b37jkB6GKkoaX+OjQa6FuQkwZIU2zmElemzR4W9VF0ILboD1Wd2/NWZgz6K
+         racoO/kA+774W+sZj/FigU5D3dMWePDSK9Dp61UKPkkK+pHNR1GDTZ9H5nOWTZOx0l
+         XWBVplGa59sX5rHV0KjHdsekNuDm7EreHylcZENTZesji9W/Ve9wu49wO2YQE9acnj
+         NOlO6ZaPUS7FpPJYVgEMarLbo2xUsihEQdmyMhg3hwpISp8TuPHa0bLmQtDX8Qw/i6
+         qmiV8Ziv68JRDPOviJtKXsRvRawFYWyZK9XHnYKxiyhO72duMRnFL+gGKjEo8l0zuE
+         P1JJmTtBDR5Lg==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lKNxw-0000Pb-8N; Thu, 11 Mar 2021 17:15:12 +0100
+        id 1lKNxw-0000PU-1h; Thu, 11 Mar 2021 17:15:12 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     "Michael G. Katzmann" <michaelk@IEEE.org>,
         Charles Yeh <charlesyeh522@gmail.com>,
         =?UTF-8?q?Yeh=2ECharles=20=5B=E8=91=89=E6=A6=AE=E9=91=AB=5D?= 
         <charles-yeh@prolific.com.tw>, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/5] USB: serial: pl2303: add device-type names
-Date:   Thu, 11 Mar 2021 17:14:51 +0100
-Message-Id: <20210311161451.1496-6-johan@kernel.org>
+Subject: [PATCH 3/5] USB: serial: pl2303: rename legacy PL2303H type
+Date:   Thu, 11 Mar 2021 17:14:49 +0100
+Message-Id: <20210311161451.1496-4-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210311161451.1496-1-johan@kernel.org>
 References: <20210311161451.1496-1-johan@kernel.org>
@@ -52,68 +52,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add names for the device types to be printed at probe when debugging is
-enabled.
-
-Note that the HXN type is referred to as G for now as that is the name
-the vendor uses.
+Rename the legacy type which is supposedly a PL2303H which came in two
+variants (and which we handle the same way).
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/pl2303.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/usb/serial/pl2303.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
-index e742187c8a7f..7208966891d0 100644
+index 42dcc3cfb449..cd2acd8c5246 100644
 --- a/drivers/usb/serial/pl2303.c
 +++ b/drivers/usb/serial/pl2303.c
-@@ -183,6 +183,7 @@ enum pl2303_type {
+@@ -173,7 +173,7 @@ MODULE_DEVICE_TABLE(usb, id_table);
+ static void pl2303_set_break(struct usb_serial_port *port, bool enable);
+ 
+ enum pl2303_type {
+-	TYPE_01,	/* Type 0 and 1 (difference unknown) */
++	TYPE_H,
+ 	TYPE_HX,
+ 	TYPE_TA,
+ 	TYPE_TB,
+@@ -203,7 +203,7 @@ struct pl2303_private {
  };
  
- struct pl2303_type_data {
-+	const char *name;
- 	speed_t max_baud_rate;
- 	unsigned long quirks;
- 	unsigned int no_autoxonxoff:1;
-@@ -204,23 +205,29 @@ struct pl2303_private {
- 
  static const struct pl2303_type_data pl2303_type_data[TYPE_COUNT] = {
- 	[TYPE_H] = {
-+		.name			= "H",
+-	[TYPE_01] = {
++	[TYPE_H] = {
  		.max_baud_rate		= 1228800,
  		.quirks			= PL2303_QUIRK_LEGACY,
  		.no_autoxonxoff		= true,
- 	},
- 	[TYPE_HX] = {
-+		.name			= "HX",
- 		.max_baud_rate		= 6000000,
- 	},
- 	[TYPE_TA] = {
-+		.name			= "TA",
- 		.max_baud_rate		= 6000000,
- 	},
- 	[TYPE_TB] = {
-+		.name			= "TB",
- 		.max_baud_rate		= 12000000,
- 	},
- 	[TYPE_HXD] = {
-+		.name			= "HXD",
- 		.max_baud_rate		= 12000000,
- 	},
- 	[TYPE_HXN] = {
-+		.name			= "G",
- 		.max_baud_rate		= 12000000,
- 		.no_divisors		= true,
- 	},
-@@ -444,7 +451,7 @@ static int pl2303_startup(struct usb_serial *serial)
- 		return ret;
+@@ -382,16 +382,16 @@ static int pl2303_detect_type(struct usb_serial *serial)
+ 	u8 buf;
  
- 	type = ret;
--	dev_dbg(&serial->interface->dev, "device type: %d\n", type);
-+	dev_dbg(&serial->interface->dev, "device type: %s\n", pl2303_type_data[type].name);
+ 	/*
+-	 * Legacy types 0 and 1, difference unknown.
++	 * Legacy PL2303H, variants 0 and 1 (difference unknown).
+ 	 */
+ 	if (desc->bDeviceClass == 0x02)
+-		return TYPE_01;		/* type 0 */
++		return TYPE_H;		/* variant 0 */
  
- 	spriv = kzalloc(sizeof(*spriv), GFP_KERNEL);
- 	if (!spriv)
+ 	if (desc->bMaxPacketSize0 != 0x40) {
+ 		if (desc->bDeviceClass == 0x00 || desc->bDeviceClass == 0xff)
+-			return TYPE_01;	/* type 1 */
++			return TYPE_H;	/* variant 1 */
+ 
+-		return TYPE_01;		/* type 0 */
++		return TYPE_H;		/* variant 0 */
+ 	}
+ 
+ 	/*
 -- 
 2.26.2
 
