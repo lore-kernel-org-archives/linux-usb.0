@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13298C4332E
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 11:53:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB59DC43331
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 11:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE34364FEC
+	by mail.kernel.org (Postfix) with ESMTP id 9CC0364F82
 	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 11:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232832AbhCKLwk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S232896AbhCKLwk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 11 Mar 2021 06:52:40 -0500
-Received: from mga07.intel.com ([134.134.136.100]:40662 "EHLO mga07.intel.com"
+Received: from mga04.intel.com ([192.55.52.120]:42441 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232757AbhCKLwc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232766AbhCKLwc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 11 Mar 2021 06:52:32 -0500
-IronPort-SDR: 61Fc9PY9XRkLIXt1hyTaxUUQXzDSQ37Dv4jU8WlEmcd4sxJ1mqwdEjXGGEnB7XbAUHL4UV0U/O
- b4/NkVBgPXVA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="252671306"
+IronPort-SDR: izGyOYbaGaJmyst+MyAuxCIHnBjmHlxjGaC9WazGI7Dqhc3mCzmGeNCNExXcxjFCQ+B2WuX942
+ 2Q9+Icbx+PRA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186276002"
 X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="252671306"
+   d="scan'208";a="186276002"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 03:52:32 -0800
-IronPort-SDR: o8CuZydO7nUOvBMvpunsnP/773LOaBtTdTDS5MlVoylsr7EaQ5W+/EFhggOMkHl5WQfXMp1GgT
- SdALbNtB5ylQ==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 03:52:31 -0800
+IronPort-SDR: Wb8S3uHLQf8aoG2JUMRvkhL4Um0hhlxTNFc+y5gnnYk6tABGED6OgVuDlgQtOndHXw2dEGIaSa
+ h5AYJEgRbtAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="409463986"
+   d="scan'208";a="409463978"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 03:52:30 -0800
+  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 03:52:25 -0800
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>, Forest Crossman <cyrozap@gmail.com>,
-        stable@vger.kernel.org,
+Cc:     <linux-usb@vger.kernel.org>, Stanislaw Gruszka <stf_xl@wp.pl>,
+        stable@vger.kernel.org, Bernhard <bernhard.gebetsberger@gmx.at>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 3/4] usb: xhci: Fix ASMedia ASM1042A and ASM3242 DMA addressing
-Date:   Thu, 11 Mar 2021 13:53:52 +0200
-Message-Id: <20210311115353.2137560-4-mathias.nyman@linux.intel.com>
+Subject: [PATCH 1/4] usb: xhci: do not perform Soft Retry for some xHCI hosts
+Date:   Thu, 11 Mar 2021 13:53:50 +0200
+Message-Id: <20210311115353.2137560-2-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210311115353.2137560-1-mathias.nyman@linux.intel.com>
 References: <20210311115353.2137560-1-mathias.nyman@linux.intel.com>
@@ -50,50 +50,77 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Forest Crossman <cyrozap@gmail.com>
+From: Stanislaw Gruszka <stf_xl@wp.pl>
 
-I've confirmed that both the ASMedia ASM1042A and ASM3242 have the same
-problem as the ASM1142 and ASM2142/ASM3142, where they lose some of the
-upper bits of 64-bit DMA addresses. As with the other chips, this can
-cause problems on systems where the upper bits matter, and adding the
-XHCI_NO_64BIT_SUPPORT quirk completely fixes the issue.
+On some systems rt2800usb and mt7601u devices are unable to operate since
+commit f8f80be501aa ("xhci: Use soft retry to recover faster from
+transaction errors")
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Forest Crossman <cyrozap@gmail.com>
+Seems that some xHCI controllers can not perform Soft Retry correctly,
+affecting those devices.
+
+To avoid the problem add xhci->quirks flag that restore pre soft retry
+xhci behaviour for affected xHCI controllers. Currently those are
+AMD_PROMONTORYA_4 and AMD_PROMONTORYA_2, since it was confirmed
+by the users: on those xHCI hosts issue happen and is gone after
+disabling Soft Retry.
+
+[minor commit message rewording for checkpatch -Mathias]
+Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=202541
+Fixes: f8f80be501aa ("xhci: Use soft retry to recover faster from transaction errors")
+Cc: <stable@vger.kernel.org> # 4.20+
+Reported-by: Bernhard <bernhard.gebetsberger@gmx.at>
+Tested-by: Bernhard <bernhard.gebetsberger@gmx.at>
+Signed-off-by: Stanislaw Gruszka <stf_xl@wp.pl>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-pci.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/usb/host/xhci-pci.c  | 5 +++++
+ drivers/usb/host/xhci-ring.c | 3 ++-
+ drivers/usb/host/xhci.h      | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 1f989a49c8c6..5bbccc9a0179 100644
+index 84da8406d5b4..1f989a49c8c6 100644
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -66,6 +66,7 @@
- #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI		0x1142
- #define PCI_DEVICE_ID_ASMEDIA_1142_XHCI			0x1242
- #define PCI_DEVICE_ID_ASMEDIA_2142_XHCI			0x2142
-+#define PCI_DEVICE_ID_ASMEDIA_3242_XHCI			0x3242
+@@ -295,6 +295,11 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	     pdev->device == 0x9026)
+ 		xhci->quirks |= XHCI_RESET_PLL_ON_DISCONNECT;
  
- static const char hcd_name[] = "xhci_hcd";
++	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
++	    (pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_2 ||
++	     pdev->device == PCI_DEVICE_ID_AMD_PROMONTORYA_4))
++		xhci->quirks |= XHCI_NO_SOFT_RETRY;
++
+ 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
+ 		xhci_dbg_trace(xhci, trace_xhci_dbg_quirks,
+ 				"QUIRK: Resetting on resume");
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 5e548a1c93ab..ce38076901e2 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2484,7 +2484,8 @@ static int process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_td *td,
+ 		remaining	= 0;
+ 		break;
+ 	case COMP_USB_TRANSACTION_ERROR:
+-		if ((ep_ring->err_count++ > MAX_SOFT_RETRY) ||
++		if (xhci->quirks & XHCI_NO_SOFT_RETRY ||
++		    (ep_ring->err_count++ > MAX_SOFT_RETRY) ||
+ 		    le32_to_cpu(slot_ctx->tt_info) & TT_SLOT)
+ 			break;
  
-@@ -276,11 +277,14 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 		pdev->device == PCI_DEVICE_ID_ASMEDIA_1042_XHCI)
- 		xhci->quirks |= XHCI_BROKEN_STREAMS;
- 	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
--		pdev->device == PCI_DEVICE_ID_ASMEDIA_1042A_XHCI)
-+		pdev->device == PCI_DEVICE_ID_ASMEDIA_1042A_XHCI) {
- 		xhci->quirks |= XHCI_TRUST_TX_LENGTH;
-+		xhci->quirks |= XHCI_NO_64BIT_SUPPORT;
-+	}
- 	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
- 	    (pdev->device == PCI_DEVICE_ID_ASMEDIA_1142_XHCI ||
--	     pdev->device == PCI_DEVICE_ID_ASMEDIA_2142_XHCI))
-+	     pdev->device == PCI_DEVICE_ID_ASMEDIA_2142_XHCI ||
-+	     pdev->device == PCI_DEVICE_ID_ASMEDIA_3242_XHCI))
- 		xhci->quirks |= XHCI_NO_64BIT_SUPPORT;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index d41de5dc0452..ca822ad3b65b 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1891,6 +1891,7 @@ struct xhci_hcd {
+ #define XHCI_SKIP_PHY_INIT	BIT_ULL(37)
+ #define XHCI_DISABLE_SPARSE	BIT_ULL(38)
+ #define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
++#define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
  
- 	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
 -- 
 2.25.1
 
