@@ -2,74 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D10C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD1CC433E6
 	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 11:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE6AE64FF1
+	by mail.kernel.org (Postfix) with ESMTP id A189864FEB
 	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 11:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232732AbhCKLwj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Mar 2021 06:52:39 -0500
-Received: from mga04.intel.com ([192.55.52.120]:42436 "EHLO mga04.intel.com"
+        id S232855AbhCKLwk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Mar 2021 06:52:40 -0500
+Received: from mga09.intel.com ([134.134.136.24]:16412 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232678AbhCKLwW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Mar 2021 06:52:22 -0500
-IronPort-SDR: 0rNxn5IxyDWbYIb0YO8reoEN5Xxqwbn5e2dYKPESdxkHl2/ntIyj5aH/YnyOMJvyyPu1GCw5YE
- h3MRuB9qSbog==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186275998"
+        id S232719AbhCKLwb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Mar 2021 06:52:31 -0500
+IronPort-SDR: jaEJcGmPl9AjfOrpmpDpxz14GMxpPhsr14L8m7ceg05cUX2nSP5z0bwFIoIi8+Xa1Q6wwv6Koo
+ 2+J0e4j4VCRg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="188752215"
 X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="186275998"
+   d="scan'208";a="188752215"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 03:52:22 -0800
-IronPort-SDR: swHLZfWlNGRcY9ihEY7NK06DULq0djQGUc53cQnLucGSfyucfQXpXFRBqFe4wu3KspmcuIQVz2
- hzRvIb/ze91A==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 03:52:30 -0800
+IronPort-SDR: gJNkl1qlRYM1s8FhUNLJxSnLS7jxe4YsxLGDzdVGj9jhNLAz4WTYFHVttPC6iUO3P3LE+RjdJc
+ hhGkrVrgv+Vw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="409463966"
+   d="scan'208";a="409463981"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 03:52:20 -0800
+  by orsmga007.jf.intel.com with ESMTP; 11 Mar 2021 03:52:27 -0800
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 0/4] xhci fixes for usb-linus
-Date:   Thu, 11 Mar 2021 13:53:49 +0200
-Message-Id: <20210311115353.2137560-1-mathias.nyman@linux.intel.com>
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        stable@vger.kernel.org
+Subject: [PATCH 2/4] xhci: Improve detection of device initiated wake signal.
+Date:   Thu, 11 Mar 2021 13:53:51 +0200
+Message-Id: <20210311115353.2137560-3-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210311115353.2137560-1-mathias.nyman@linux.intel.com>
+References: <20210311115353.2137560-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+A xHC USB 3 port might miss the first wake signal from a USB 3 device
+if the port LFPS reveiver isn't enabled fast enough after xHC resume.
 
-Fix a couple power management related xHCI issues, and a couple
-vendor specific workarounds.
+xHC host will anyway be resumed by a PME# signal, but will go back to
+suspend if no port activity is seen.
+The device resends the U3 LFPS wake signal after a 100ms delay, but
+by then host is already suspended, starting all over from the
+beginning of this issue.
 
--Mathias
+USB 3 specs say U3 wake LFPS signal is sent for max 10ms, then device
+needs to delay 100ms before resending the wake.
 
-Forest Crossman (1):
-  usb: xhci: Fix ASMedia ASM1042A and ASM3242 DMA addressing
+Don't suspend immediately if port activity isn't detected in resume.
+Instead add a retry. If there is no port activity then delay for 120ms,
+and re-check for port activity.
 
-Mathias Nyman (2):
-  xhci: Improve detection of device initiated wake signal.
-  xhci: Fix repeated xhci wake after suspend due to uncleared internal
-    wake state
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+ drivers/usb/host/xhci.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Stanislaw Gruszka (1):
-  usb: xhci: do not perform Soft Retry for some xHCI hosts
-
- drivers/usb/host/xhci-pci.c  | 13 +++++-
- drivers/usb/host/xhci-ring.c |  3 +-
- drivers/usb/host/xhci.c      | 78 ++++++++++++++++++++----------------
- drivers/usb/host/xhci.h      |  1 +
- 4 files changed, 57 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index bd27bd670104..48a68fcf2b36 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1088,6 +1088,7 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
+ 	struct usb_hcd		*secondary_hcd;
+ 	int			retval = 0;
+ 	bool			comp_timer_running = false;
++	bool			pending_portevent = false;
+ 
+ 	if (!hcd->state)
+ 		return 0;
+@@ -1226,13 +1227,22 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
+ 
+  done:
+ 	if (retval == 0) {
+-		/* Resume root hubs only when have pending events. */
+-		if (xhci_pending_portevent(xhci)) {
++		/*
++		 * Resume roothubs only if there are pending events.
++		 * USB 3 devices resend U3 LFPS wake after a 100ms delay if
++		 * the first wake signalling failed, give it that chance.
++		 */
++		pending_portevent = xhci_pending_portevent(xhci);
++		if (!pending_portevent) {
++			msleep(120);
++			pending_portevent = xhci_pending_portevent(xhci);
++		}
++
++		if (pending_portevent) {
+ 			usb_hcd_resume_root_hub(xhci->shared_hcd);
+ 			usb_hcd_resume_root_hub(hcd);
+ 		}
+ 	}
+-
+ 	/*
+ 	 * If system is subject to the Quirk, Compliance Mode Timer needs to
+ 	 * be re-initialized Always after a system resume. Ports are subject
 -- 
 2.25.1
 
