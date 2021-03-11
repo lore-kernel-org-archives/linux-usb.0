@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D22C433E9
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDBFC4332B
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99E1B65000
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2808064FE2
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Mar 2021 16:15:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234512AbhCKQPJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Mar 2021 11:15:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51300 "EHLO mail.kernel.org"
+        id S234513AbhCKQPK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Mar 2021 11:15:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234521AbhCKQPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S234520AbhCKQPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 11 Mar 2021 11:15:01 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 79B9E64F93;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C3D764F97;
         Thu, 11 Mar 2021 16:15:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1615479300;
-        bh=wyAVSGXLnNZc1TUTBV+2d6Z38Ptcx8rldBEVslR4Mqs=;
+        bh=hFcDse+HNyVQ6fnuGbcZvi9Bv47uK4v68afgAutxoyI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BRkx/gdBAV3lzDYpCo8bpcPMy4WlIQRiGWBmy086zOYStjpWiFdHOP9NxhdCE1zpH
-         FG6JS4I5RA0oXvvSKCF7364cOAN7gkgMy2QVBygcSWJrLGkJB2DhGaupa09XGFoO+R
-         SvDmQ6F+38GasId7RytJmJZUgQtYx+jpwW6riUfVDwbt2f6hvpH9NtuHAZQuE3LM78
-         L2wGdchU5r2Ivi/1L8mXueQP2rvVv8A+7Aja1cKucncV8nBLSeoZ8sJS/OzfcjCWij
-         Em1YVt61zNUkWOOz9bnzNvhjTmvUHZEFWTbbAqmr1yjORiMnHYLCOQuSGQG47hBMR4
-         8MOhBMI0lUjKA==
+        b=KrTaFXOgxKnPrx1/r/uiHICCjWWveyHRwfAgN9DyL0S8hoxZs3WOfIm++nknXGQmW
+         iCoQUxVrpOuFYdfuBv0gpwfKEVu2swu6gCKmbRKw13CuQ69GID/XZI4HIblnLY4a9n
+         mwtkcJyEhGwRjeeF26TOTU3liPG8YHKPiBngj21sJfyZgNrpWpHRXPAJR3+tGdE5aK
+         IOVij7sribp0Mh3v3SoJRmOWamB8HymJ2Fo4oXzkpfQn/vRl+BO3Ks4QaN2JlLIz8+
+         B0r8zY2UbwuVOiMzcffkJO1UGUteHdGq1ANiA5F+G8efBwKcaAbAISrW0/DtXgnvgw
+         ebatyNG48zQVg==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lKNxv-0000PQ-Uw; Thu, 11 Mar 2021 17:15:11 +0100
+        id 1lKNxw-0000PX-4t; Thu, 11 Mar 2021 17:15:12 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     "Michael G. Katzmann" <michaelk@IEEE.org>,
         Charles Yeh <charlesyeh522@gmail.com>,
         =?UTF-8?q?Yeh=2ECharles=20=5B=E8=91=89=E6=A6=AE=E9=91=AB=5D?= 
         <charles-yeh@prolific.com.tw>, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/5] USB: serial: pl2303: amend and tighten type detection
-Date:   Thu, 11 Mar 2021 17:14:48 +0100
-Message-Id: <20210311161451.1496-3-johan@kernel.org>
+Subject: [PATCH 4/5] USB: serial: pl2303: tighten type HXN (G) detection
+Date:   Thu, 11 Mar 2021 17:14:50 +0100
+Message-Id: <20210311161451.1496-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210311161451.1496-1-johan@kernel.org>
 References: <20210311161451.1496-1-johan@kernel.org>
@@ -52,113 +52,72 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for detecting the HX, TA, TB and HXD device types and refuse
-to bind to any unknown types.
-
-Note that the HX type includes the XA variant, while the HXD type
-includes the EA, RA and SA variants.
+Tighten the detection of the new HXN (G) type instead of assuming that
+every device which doesn't support the old read request is an HXN.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/pl2303.c | 50 +++++++++++++++++++++++++++++++------
- 1 file changed, 42 insertions(+), 8 deletions(-)
+ drivers/usb/serial/pl2303.c | 32 ++++++++++++++++++++------------
+ 1 file changed, 20 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
-index db840b471adb..42dcc3cfb449 100644
+index cd2acd8c5246..e742187c8a7f 100644
 --- a/drivers/usb/serial/pl2303.c
 +++ b/drivers/usb/serial/pl2303.c
-@@ -174,8 +174,11 @@ static void pl2303_set_break(struct usb_serial_port *port, bool enable);
- 
- enum pl2303_type {
- 	TYPE_01,	/* Type 0 and 1 (difference unknown) */
--	TYPE_HX,	/* HX version of the pl2303 chip */
--	TYPE_HXN,	/* HXN version of the pl2303 chip */
-+	TYPE_HX,
-+	TYPE_TA,
-+	TYPE_TB,
-+	TYPE_HXD,
-+	TYPE_HXN,
- 	TYPE_COUNT
- };
- 
-@@ -206,6 +209,15 @@ static const struct pl2303_type_data pl2303_type_data[TYPE_COUNT] = {
- 		.no_autoxonxoff		= true,
- 	},
- 	[TYPE_HX] = {
-+		.max_baud_rate		= 6000000,
-+	},
-+	[TYPE_TA] = {
-+		.max_baud_rate		= 6000000,
-+	},
-+	[TYPE_TB] = {
-+		.max_baud_rate		= 12000000,
-+	},
-+	[TYPE_HXD] = {
- 		.max_baud_rate		= 12000000,
- 	},
- 	[TYPE_HXN] = {
-@@ -362,9 +374,10 @@ static int pl2303_calc_num_ports(struct usb_serial *serial,
+@@ -374,12 +374,22 @@ static int pl2303_calc_num_ports(struct usb_serial *serial,
  	return 1;
  }
  
--static enum pl2303_type pl2303_detect_type(struct usb_serial *serial)
-+static int pl2303_detect_type(struct usb_serial *serial)
++static bool pl2303_supports_hx_status(struct usb_serial *serial)
++{
++	int ret;
++	u8 buf;
++
++	ret = usb_control_msg_recv(serial->dev, 0, VENDOR_READ_REQUEST,
++			VENDOR_READ_REQUEST_TYPE, PL2303_READ_TYPE_HX_STATUS,
++			0, &buf, 1, 100, GFP_KERNEL);
++
++	return ret == 0;
++}
++
+ static int pl2303_detect_type(struct usb_serial *serial)
  {
  	struct usb_device_descriptor *desc = &serial->dev->descriptor;
-+	u16 bcdDevice, bcdUSB;
- 	int ret;
- 	u8 buf;
+ 	u16 bcdDevice, bcdUSB;
+-	int ret;
+-	u8 buf;
  
-@@ -391,7 +404,24 @@ static enum pl2303_type pl2303_detect_type(struct usb_serial *serial)
- 	if (ret)
- 		return TYPE_HXN;
+ 	/*
+ 	 * Legacy PL2303H, variants 0 and 1 (difference unknown).
+@@ -394,20 +404,18 @@ static int pl2303_detect_type(struct usb_serial *serial)
+ 		return TYPE_H;		/* variant 0 */
+ 	}
  
--	return TYPE_HX;
-+	bcdDevice = le16_to_cpu(desc->bcdDevice);
-+	bcdUSB = le16_to_cpu(desc->bcdUSB);
-+
-+	switch (bcdDevice) {
-+	case 0x300:
-+		if (bcdUSB == 0x200)
-+			return TYPE_TA;
-+
-+		return TYPE_HX;
-+	case 0x400:
-+		return TYPE_HXD;
-+	case 0x500:
-+		return TYPE_TB;
-+	}
-+
-+	dev_err(&serial->interface->dev,
-+			"unknown device type, please report to linux-usb@vger.kernel.org\n");
-+	return -ENODEV;
- }
- 
- static int pl2303_startup(struct usb_serial *serial)
-@@ -399,15 +429,19 @@ static int pl2303_startup(struct usb_serial *serial)
- 	struct pl2303_serial_private *spriv;
- 	enum pl2303_type type;
- 	unsigned char *buf;
-+	int ret;
-+
-+	ret = pl2303_detect_type(serial);
-+	if (ret < 0)
-+		return ret;
-+
-+	type = ret;
-+	dev_dbg(&serial->interface->dev, "device type: %d\n", type);
- 
- 	spriv = kzalloc(sizeof(*spriv), GFP_KERNEL);
- 	if (!spriv)
- 		return -ENOMEM;
- 
--	type = pl2303_detect_type(serial);
+-	/*
+-	 * Assume it's an HXN-type if the device doesn't support the old read
+-	 * request value.
+-	 */
+-	ret = usb_control_msg_recv(serial->dev, 0, VENDOR_READ_REQUEST,
+-			VENDOR_READ_REQUEST_TYPE, PL2303_READ_TYPE_HX_STATUS,
+-			0, &buf, 1, 100, GFP_KERNEL);
+-	if (ret)
+-		return TYPE_HXN;
 -
--	dev_dbg(&serial->interface->dev, "device type: %d\n", type);
--
- 	spriv->type = &pl2303_type_data[type];
- 	spriv->quirks = (unsigned long)usb_get_serial_data(serial);
- 	spriv->quirks |= spriv->type->quirks;
+ 	bcdDevice = le16_to_cpu(desc->bcdDevice);
+ 	bcdUSB = le16_to_cpu(desc->bcdUSB);
+ 
+ 	switch (bcdDevice) {
++	case 0x100:
++		/*
++		 * Assume it's an HXN-type if the device doesn't support the old read
++		 * request value.
++		 */
++		if (bcdUSB == 0x200 && !pl2303_supports_hx_status(serial))
++			return TYPE_HXN;
++		break;
+ 	case 0x300:
+ 		if (bcdUSB == 0x200)
+ 			return TYPE_TA;
 -- 
 2.26.2
 
