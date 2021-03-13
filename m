@@ -2,160 +2,121 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B840C433E6
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Mar 2021 15:03:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FAABC433DB
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Mar 2021 19:22:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6679064F19
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Mar 2021 15:03:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59FAD64ED1
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Mar 2021 19:22:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233635AbhCMPCq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 13 Mar 2021 10:02:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59522 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230441AbhCMPCF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 13 Mar 2021 10:02:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E227264F18;
-        Sat, 13 Mar 2021 15:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1615647725;
-        bh=eW7CiY2DtD1D1I3DtX1NBMSSBxgl/ITXMqCDwH72UHM=;
-        h=Date:From:To:Cc:Subject:From;
-        b=H+J8WLmQfGXi2/qRsuXt4akLLAr7OPAk7PBmqZhA1GfDqJHbwT+si6zC291qRrgye
-         UHY7lz2V7qDcY6wlDhoFTQvCeyKQT+qxRCs4fzpzrF2V+A8oxOdAtei8YN822eQVvZ
-         8CxJhTnIXUf90cw5KQMPx92O71yNYSFgT0UltGKA=
-Date:   Sat, 13 Mar 2021 16:02:02 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB driver fixes for 5.12-rc3
-Message-ID: <YEzT6kyiwo9T12Er@kroah.com>
+        id S234182AbhCMTV0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:21:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231329AbhCMTVC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Mar 2021 14:21:02 -0500
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7EF5C061574;
+        Sat, 13 Mar 2021 11:21:01 -0800 (PST)
+Received: by mail-qt1-x835.google.com with SMTP id a11so6466086qto.2;
+        Sat, 13 Mar 2021 11:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8WCY5ATMrHpqIBkJNP0CYNTT4f6cz/YmUdoof+B7AT0=;
+        b=JKtcFnhHA85knc+Z5ZBbaLBPpQB1O0Elh3/N/T3GlqjMRbKcv/B7ZoUUSKRequTW67
+         9USD1rtUhsdj2YQomvozTHj5MAIpArG3x2RmBHIoynG0th9deF9BcrG8gXseyG1215JI
+         fx+GWZKczVhM1CzIdTuXVDAa9wMID/iElQnFNQ1gltPc15Q/2ytUFUmosDR262ednQfX
+         UH3Vas9zZ4xODWbrgkd/jGC0rt+q5FA/Pcj1btY4yI9EmMAlSPiM12XFzfo1lG3PWq0w
+         Wal7bKC97cYQv0cGdeBseDWT0WDw7B4jXABYxikojyPMLSSnRQiV9y3XrTo6p3ha4/Ia
+         ALNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8WCY5ATMrHpqIBkJNP0CYNTT4f6cz/YmUdoof+B7AT0=;
+        b=ddnElc2+buFiAKKQWd5zF4QSw2c+gXyMzvCf/5ljbuLycfhgwGKHm/3/cPrKqygz/J
+         w4kQ9ZpOlq98DooQKvi2eU+oqttxT9OVLn0drz01Wu1C2MaK/62G49OC2/nY+SmdCXTY
+         W7w67vAM29ca4/XqhG2P8FM98gOQ+mDJQzmuv9DPo9ZREQHieXMOUJzVJrbsca+SaIjz
+         /mNhEER2nWRfjs9VmgEt6zM+DZlfu0mLtJ/88RtzSrBBmCyhvXWZhlA2zczP6XniyiLY
+         m/KHMOsCAZPs+xiun1ttD8C/dfz7GS1WL+1nSaLqnsmeqpE0DAnrFn9GcICZKw8MhAHb
+         R9oA==
+X-Gm-Message-State: AOAM532JRvVrOgdt9Ukp9q8SliFSPAH8/hSZ9Zpru8VmFD8qKXNlTZdg
+        AR2t0uy65jHX0sTyOkRoOSk=
+X-Google-Smtp-Source: ABdhPJx+3XXL6PcJTLYoyK/iidanDFWK4jMRp/G+jTHfdvkJH8jEtBjFkkc7MYkjFDiDSj1NSGOUXA==
+X-Received: by 2002:aed:29e5:: with SMTP id o92mr16673263qtd.29.1615663260736;
+        Sat, 13 Mar 2021 11:21:00 -0800 (PST)
+Received: from tong-desktop.local ([2601:5c0:c200:27c6:459d:aa36:3ddc:2a41])
+        by smtp.googlemail.com with ESMTPSA id j12sm6474607qtn.36.2021.03.13.11.20.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Mar 2021 11:21:00 -0800 (PST)
+From:   Tong Zhang <ztong0001@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Tong Zhang <ztong0001@gmail.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: udc: amd5536udc_pci fix crash if dma is used
+Date:   Sat, 13 Mar 2021 14:20:32 -0500
+Message-Id: <20210313192033.2611349-1-ztong0001@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+init_dma_pools() calls dma_pool_create(...dev->dev) to create dma pool.
+however, dev->dev is actually set after calling init_dma_pools(), which
+effectively makes dma_pool_create(..NULL) and cause crash.
+To fix this issue, init dma only after dev->dev is set.
 
-  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
+[    1.317993] RIP: 0010:dma_pool_create+0x83/0x290
+[    1.323257] Call Trace:
+[    1.323390]  ? pci_write_config_word+0x27/0x30
+[    1.323626]  init_dma_pools+0x41/0x1a0 [snps_udc_core]
+[    1.323899]  udc_pci_probe+0x202/0x2b1 [amd5536udc_pci]
 
-are available in the Git repository at:
+Signed-off-by: Tong Zhang <ztong0001@gmail.com>
+---
+ drivers/usb/gadget/udc/amd5536udc_pci.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.12-rc3
+diff --git a/drivers/usb/gadget/udc/amd5536udc_pci.c b/drivers/usb/gadget/udc/amd5536udc_pci.c
+index 8d387e0e4d91..c80f9bd51b75 100644
+--- a/drivers/usb/gadget/udc/amd5536udc_pci.c
++++ b/drivers/usb/gadget/udc/amd5536udc_pci.c
+@@ -153,6 +153,11 @@ static int udc_pci_probe(
+ 	pci_set_master(pdev);
+ 	pci_try_set_mwi(pdev);
+ 
++	dev->phys_addr = resource;
++	dev->irq = pdev->irq;
++	dev->pdev = pdev;
++	dev->dev = &pdev->dev;
++
+ 	/* init dma pools */
+ 	if (use_dma) {
+ 		retval = init_dma_pools(dev);
+@@ -160,11 +165,6 @@ static int udc_pci_probe(
+ 			goto err_dma;
+ 	}
+ 
+-	dev->phys_addr = resource;
+-	dev->irq = pdev->irq;
+-	dev->pdev = pdev;
+-	dev->dev = &pdev->dev;
+-
+ 	/* general probing */
+ 	if (udc_probe(dev)) {
+ 		retval = -ENODEV;
+-- 
+2.25.1
 
-for you to fetch changes up to d26c00e7276fc92b18c253d69e872f6b03832bad:
-
-  xhci: Fix repeated xhci wake after suspend due to uncleared internal wake state (2021-03-11 13:03:06 +0100)
-
-----------------------------------------------------------------
-USB fixes for 5.12-rc3
-
-Here are a small number of USB fixes for 5.12-rc3 to resolve a bunch of
-reported issues:
-	- usbip fixups for issues found by syzbot
-	- xhci driver fixes and quirk additions
-	- gadget driver fixes
-	- dwc3 QCOM driver fix
-	- usb-serial new ids and fixes
-	- usblp fix for a long-time issue
-	- cdc-acm quirk addition
-	- other tiny fixes for reported problems
-
-All of these have been in linux-next for a while with no reported
-issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      USB: gadget: u_ether: Fix a configfs return code
-
-Forest Crossman (1):
-      usb: xhci: Fix ASMedia ASM1042A and ASM3242 DMA addressing
-
-Greg Kroah-Hartman (1):
-      Merge tag 'usb-serial-5.12-rc3' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
-
-Johan Hovold (1):
-      USB: serial: xr: fix NULL-deref on disconnect
-
-Karan Singhal (1):
-      USB: serial: cp210x: add ID for Acuity Brands nLight Air Adapter
-
-Mathias Nyman (2):
-      xhci: Improve detection of device initiated wake signal.
-      xhci: Fix repeated xhci wake after suspend due to uncleared internal wake state
-
-Matthias Kaehlcke (1):
-      usb: dwc3: qcom: Honor wakeup enabled/disabled state
-
-Niv Sardi (1):
-      USB: serial: ch341: add new Product ID
-
-Pavel Skripkin (1):
-      USB: serial: io_edgeport: fix memory leak in edge_startup
-
-Pete Zaitcev (1):
-      USB: usblp: fix a hang in poll() if disconnected
-
-Ruslan Bilovol (2):
-      usb: gadget: f_uac2: always increase endpoint max_packet_size by one audio slot
-      usb: gadget: f_uac1: stop playback on function disable
-
-Sebastian Reichel (1):
-      USB: serial: cp210x: add some more GE USB IDs
-
-Serge Semin (1):
-      usb: dwc3: qcom: Add missing DWC3 OF node refcount decrement
-
-Shawn Guo (1):
-      usb: dwc3: qcom: add ACPI device id for sc8180x
-
-Shuah Khan (6):
-      usbip: fix stub_dev to check for stream socket
-      usbip: fix vhci_hcd to check for stream socket
-      usbip: fix vudc to check for stream socket
-      usbip: fix stub_dev usbip_sockfd_store() races leading to gpf
-      usbip: fix vhci_hcd attach_store() races leading to gpf
-      usbip: fix vudc usbip_sockfd_store races leading to gpf
-
-Stanislaw Gruszka (1):
-      usb: xhci: do not perform Soft Retry for some xHCI hosts
-
-Wei Yongjun (1):
-      USB: gadget: udc: s3c2410_udc: fix return value check in s3c2410_udc_probe()
-
-Yorick de Wid (1):
-      Goodix Fingerprint device is not a modem
-
-Yoshihiro Shimoda (1):
-      usb: renesas_usbhs: Clear PIPECFG for re-enabling pipe with other EPNUM
-
- drivers/usb/class/cdc-acm.c                    |  5 ++
- drivers/usb/class/usblp.c                      | 16 ++++--
- drivers/usb/dwc3/dwc3-qcom.c                   | 18 ++++--
- drivers/usb/gadget/function/f_uac1.c           |  1 +
- drivers/usb/gadget/function/f_uac2.c           |  2 +-
- drivers/usb/gadget/function/u_ether_configfs.h |  5 +-
- drivers/usb/gadget/udc/s3c2410_udc.c           |  4 +-
- drivers/usb/host/xhci-pci.c                    | 13 ++++-
- drivers/usb/host/xhci-ring.c                   |  3 +-
- drivers/usb/host/xhci.c                        | 78 ++++++++++++++------------
- drivers/usb/host/xhci.h                        |  1 +
- drivers/usb/renesas_usbhs/pipe.c               |  2 +
- drivers/usb/serial/ch341.c                     |  1 +
- drivers/usb/serial/cp210x.c                    |  3 +
- drivers/usb/serial/io_edgeport.c               | 26 +++++----
- drivers/usb/serial/xr_serial.c                 | 25 ---------
- drivers/usb/usbip/stub_dev.c                   | 42 +++++++++++---
- drivers/usb/usbip/vhci_sysfs.c                 | 39 +++++++++++--
- drivers/usb/usbip/vudc_sysfs.c                 | 49 +++++++++++++---
- 19 files changed, 226 insertions(+), 107 deletions(-)
