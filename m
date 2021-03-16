@@ -2,104 +2,169 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E13C433E9
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83F9C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 12:07:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 303D765012
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8C1186504E
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 12:07:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236101AbhCPJXK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Mar 2021 05:23:10 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:57033 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236043AbhCPJWp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:45 -0400
-X-UUID: c8b7194b03cc4be1a4c0d07972439996-20210316
-X-UUID: c8b7194b03cc4be1a4c0d07972439996-20210316
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1873294912; Tue, 16 Mar 2021 17:22:42 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 16 Mar 2021 17:22:33 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Mar 2021 17:22:33 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jie Qiu <jie.qiu@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
-        Cawa Cheng <cawa.cheng@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-Subject: [PATCH v5 03/13] dt-bindings: phy: mediatek: hdmi-phy: modify compatible items
-Date:   Tue, 16 Mar 2021 17:22:22 +0800
-Message-ID: <20210316092232.9806-3-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
-References: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
+        id S237599AbhCPMHG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Mar 2021 08:07:06 -0400
+Received: from beige.elm.relay.mailchannels.net ([23.83.212.16]:62544 "EHLO
+        beige.elm.relay.mailchannels.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237610AbhCPMG5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 08:06:57 -0400
+X-Sender-Id: dreamhost|x-authsender|smtp@contentfirst.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+        by relay.mailchannels.net (Postfix) with ESMTP id BCF9F1E269C;
+        Tue, 16 Mar 2021 12:06:51 +0000 (UTC)
+Received: from pdx1-sub0-mail-a96.g.dreamhost.com (100-96-27-131.trex.outbound.svc.cluster.local [100.96.27.131])
+        (Authenticated sender: dreamhost)
+        by relay.mailchannels.net (Postfix) with ESMTPA id E5EFF1E23FD;
+        Tue, 16 Mar 2021 12:06:50 +0000 (UTC)
+X-Sender-Id: dreamhost|x-authsender|smtp@contentfirst.com
+Received: from pdx1-sub0-mail-a96.g.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+        by 100.96.27.131 (trex/6.1.1);
+        Tue, 16 Mar 2021 12:06:51 +0000
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|smtp@contentfirst.com
+X-MailChannels-Auth-Id: dreamhost
+X-Lyrical-Cold: 354702871536d84c_1615896411214_3961716016
+X-MC-Loop-Signature: 1615896411214:855673715
+X-MC-Ingress-Time: 1615896411213
+Received: from pdx1-sub0-mail-a96.g.dreamhost.com (localhost [127.0.0.1])
+        by pdx1-sub0-mail-a96.g.dreamhost.com (Postfix) with ESMTP id 9A19E86C49;
+        Tue, 16 Mar 2021 05:06:50 -0700 (PDT)
+Received: from industrynumbers.com (pool-100-15-209-187.washdc.fios.verizon.net [100.15.209.187])
+        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: smtp@contentfirst.com)
+        by pdx1-sub0-mail-a96.g.dreamhost.com (Postfix) with ESMTPSA id 58D107E391;
+        Tue, 16 Mar 2021 05:06:49 -0700 (PDT)
+Received: by industrynumbers.com (Postfix, from userid 1000)
+        id 8AA56282ABB; Tue, 16 Mar 2021 08:06:48 -0400 (EDT)
+X-DH-BACKEND: pdx1-sub0-mail-a96
+From:   michaelk@IEEE.org
+To:     michaelk@IEEE.org
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH 1/1] USB: serial: pl2303: TA & TB alternate divider
+Date:   Tue, 16 Mar 2021 08:06:20 -0400
+Message-Id: <20210316120620.888110-1-michaelk@IEEE.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: B1DB98F599D3391E5106A83C33468E2EFBDD55903811206C443AC97CAFC143372000:8
-X-MTK:  N
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-mt7623-hdmi-tx is compatible to mt2701-hdmi-tx, and the compatible
-"mediatek,mt7623-hdmi-tx" is not supported in driver, in fact uses
-"mediatek,mt2701-hdmi-tx" instead on MT7623, so changes the
-compatible items to make dependence clear.
+From: Michael Katzmann <michaelk@IEEE.org>
 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v5: no changes
-v4: add acked-by CK and Reviewed-by Rob
-v3: modify commit message
-v2: no changes
----
- .../devicetree/bindings/phy/mediatek,hdmi-phy.yaml    | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Use an alternate clock divider algorithm and bit ordering for the TA and
+TB versions of the pl2303. It was discovered that these variants do not
+produce the correct baud rates with the existing scheme.
 
-diff --git a/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
-index 4752517a1446..0d94950b84ca 100644
---- a/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml
-@@ -21,10 +21,13 @@ properties:
-     pattern: "^hdmi-phy@[0-9a-f]+$"
- 
-   compatible:
--    enum:
--      - mediatek,mt2701-hdmi-phy
--      - mediatek,mt7623-hdmi-phy
--      - mediatek,mt8173-hdmi-phy
-+    oneOf:
-+      - items:
-+          - enum:
-+              - mediatek,mt7623-hdmi-phy
-+          - const: mediatek,mt2701-hdmi-phy
-+      - const: mediatek,mt2701-hdmi-phy
-+      - const: mediatek,mt8173-hdmi-phy
- 
-   reg:
-     maxItems: 1
--- 
-2.18.0
+see https://lore.kernel.org/r/3aee5708-7961-f464-8c5f-6685d96920d6@IEEE.o=
+rg
+
+Signed-off-by: Michael G. Katzmann <michaelk@IEEE.org>
+---
+ drivers/usb/serial/pl2303.c | 45 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
+index 7208966891d0..bf5828579918 100644
+--- a/drivers/usb/serial/pl2303.c
++++ b/drivers/usb/serial/pl2303.c
+@@ -188,6 +188,7 @@ struct pl2303_type_data {
+ 	unsigned long quirks;
+ 	unsigned int no_autoxonxoff:1;
+ 	unsigned int no_divisors:1;
++	unsigned int alt_divisors:1;
+ };
+=20
+ struct pl2303_serial_private {
+@@ -217,10 +218,12 @@ static const struct pl2303_type_data pl2303_type_da=
+ta[TYPE_COUNT] =3D {
+ 	[TYPE_TA] =3D {
+ 		.name			=3D "TA",
+ 		.max_baud_rate		=3D 6000000,
++		.alt_divisors		=3D true,
+ 	},
+ 	[TYPE_TB] =3D {
+ 		.name			=3D "TB",
+ 		.max_baud_rate		=3D 12000000,
++		.alt_divisors		=3D true,
+ 	},
+ 	[TYPE_HXD] =3D {
+ 		.name			=3D "HXD",
+@@ -618,6 +621,46 @@ static speed_t pl2303_encode_baud_rate_divisor(unsig=
+ned char buf[4],
+ 	return baud;
+ }
+=20
++static speed_t pl2303_encode_baud_rate_divisor_alt(unsigned char buf[4],
++                                                                speed_t =
+baud)
++{
++        unsigned int baseline, mantissa, exponent;
++
++        /*
++         * Apparently, for the TA version the formula is:
++         *   baudrate =3D 12M * 32 / (mantissa * 2^exponent)
++         * where
++         *   mantissa =3D buf[10:0]
++         *   exponent =3D buf[15:13 16]
++         */
++        baseline =3D 12000000 * 32;
++        mantissa =3D baseline / baud;
++        if (mantissa =3D=3D 0)
++                mantissa =3D 1;   /* Avoid dividing by zero if baud > 32=
+*12M. */
++        exponent =3D 0;
++        while (mantissa >=3D 2048) {
++                if (exponent < 15) {
++                        mantissa >>=3D 1; /* divide by 2 */
++                        exponent++;
++                } else {
++                        /* Exponent is maxed. Trim mantissa and leave. *=
+/
++                        mantissa =3D 2047;
++                        break;
++                }
++        }
++
++        buf[3] =3D 0x80;
++        buf[2] =3D exponent & 0x01;
++        buf[1] =3D (exponent & ~0x01) << 4 | mantissa >> 8;
++        buf[0] =3D mantissa & 0xff;
++
++        /* Calculate and return the exact baud rate. */
++        baud =3D (baseline / mantissa) >> exponent;
++
++        return baud;
++}
++
++
+ static void pl2303_encode_baud_rate(struct tty_struct *tty,
+ 					struct usb_serial_port *port,
+ 					u8 buf[4])
+@@ -645,6 +688,8 @@ static void pl2303_encode_baud_rate(struct tty_struct=
+ *tty,
+=20
+ 	if (baud =3D=3D baud_sup)
+ 		baud =3D pl2303_encode_baud_rate_direct(buf, baud);
++	else if (spriv->type->alt_divisors)=20
++                baud =3D pl2303_encode_baud_rate_divisor_alt(buf, baud);
+ 	else
+ 		baud =3D pl2303_encode_baud_rate_divisor(buf, baud);
+=20
+--=20
+2.30.2
 
