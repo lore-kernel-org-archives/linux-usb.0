@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1660FC4161F
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BBCBC41620
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7B496500E
+	by mail.kernel.org (Postfix) with ESMTP id 7BA7365012
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236095AbhCPJXK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Mar 2021 05:23:10 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:57021 "EHLO
+        id S236080AbhCPJXJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Mar 2021 05:23:09 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:56908 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236042AbhCPJWo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:44 -0400
-X-UUID: 657773ff8ead4cadaff38a7a48b42c65-20210316
-X-UUID: 657773ff8ead4cadaff38a7a48b42c65-20210316
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
+        with ESMTP id S236021AbhCPJWk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:40 -0400
+X-UUID: 94af934e8aa64eefad752738ba325592-20210316
+X-UUID: 94af934e8aa64eefad752738ba325592-20210316
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1846902796; Tue, 16 Mar 2021 17:22:41 +0800
+        with ESMTP id 1344638571; Tue, 16 Mar 2021 17:22:36 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 16 Mar 2021 17:22:34 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 16 Mar 2021 17:22:35 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Mar 2021 17:22:34 +0800
+ Transport; Tue, 16 Mar 2021 17:22:35 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>
@@ -44,10 +44,10 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, stable <stable@vger.kernel.org>
-Subject: [PATCH v5 05/13] arm64: dts: mt8173: fix property typo of 'phys' in dsi node
-Date:   Tue, 16 Mar 2021 17:22:24 +0800
-Message-ID: <20210316092232.9806-5-chunfeng.yun@mediatek.com>
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH v5 13/13] arm: dts: mt2701: harmonize node names and compatibles
+Date:   Tue, 16 Mar 2021 17:22:32 +0800
+Message-ID: <20210316092232.9806-13-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
 References: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
@@ -58,31 +58,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use 'phys' instead of 'phy'.
+This is used to fix dtbs_check warning
 
-Fixes: 81ad4dbaf7af ("arm64: dts: mt8173: Add display subsystem related nodes")
-Cc: stable <stable@vger.kernel.org>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v5: merged into this series, add Reviewed-by CK
+v2~v5: no changes
 ---
- arch/arm64/boot/dts/mediatek/mt8173.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/mt2701.dtsi | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8173.dtsi b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-index 7fa870e4386a..ecb37a7e6870 100644
---- a/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8173.dtsi
-@@ -1235,7 +1235,7 @@
- 				 <&mmsys CLK_MM_DSI1_DIGITAL>,
- 				 <&mipi_tx1>;
- 			clock-names = "engine", "digital", "hs";
--			phy = <&mipi_tx1>;
-+			phys = <&mipi_tx1>;
- 			phy-names = "dphy";
- 			status = "disabled";
- 		};
+diff --git a/arch/arm/boot/dts/mt2701.dtsi b/arch/arm/boot/dts/mt2701.dtsi
+index fade14284017..4776f85d6d5b 100644
+--- a/arch/arm/boot/dts/mt2701.dtsi
++++ b/arch/arm/boot/dts/mt2701.dtsi
+@@ -607,7 +607,7 @@
+ 	};
+ 
+ 	usb0: usb@1a1c0000 {
+-		compatible = "mediatek,mt8173-xhci";
++		compatible = "mediatek,mt2701-xhci", "mediatek,mtk-xhci";
+ 		reg = <0 0x1a1c0000 0 0x1000>,
+ 		      <0 0x1a1c4700 0 0x0100>;
+ 		reg-names = "mac", "ippc";
+@@ -620,8 +620,9 @@
+ 		status = "disabled";
+ 	};
+ 
+-	u3phy0: usb-phy@1a1c4000 {
+-		compatible = "mediatek,mt2701-u3phy";
++	u3phy0: t-phy@1a1c4000 {
++		compatible = "mediatek,mt2701-tphy",
++			     "mediatek,generic-tphy-v1";
+ 		reg = <0 0x1a1c4000 0 0x0700>;
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+@@ -646,7 +647,7 @@
+ 	};
+ 
+ 	usb1: usb@1a240000 {
+-		compatible = "mediatek,mt8173-xhci";
++		compatible = "mediatek,mt2701-xhci", "mediatek,mtk-xhci";
+ 		reg = <0 0x1a240000 0 0x1000>,
+ 		      <0 0x1a244700 0 0x0100>;
+ 		reg-names = "mac", "ippc";
+@@ -659,8 +660,9 @@
+ 		status = "disabled";
+ 	};
+ 
+-	u3phy1: usb-phy@1a244000 {
+-		compatible = "mediatek,mt2701-u3phy";
++	u3phy1: t-phy@1a244000 {
++		compatible = "mediatek,mt2701-tphy",
++			     "mediatek,generic-tphy-v1";
+ 		reg = <0 0x1a244000 0 0x0700>;
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+@@ -700,8 +702,9 @@
+ 		status = "disabled";
+ 	};
+ 
+-	u2phy0: usb-phy@11210000 {
+-		compatible = "mediatek,generic-tphy-v1";
++	u2phy0: t-phy@11210000 {
++		compatible = "mediatek,mt2701-tphy",
++			     "mediatek,generic-tphy-v1";
+ 		reg = <0 0x11210000 0 0x0800>;
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
 -- 
 2.18.0
 
