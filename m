@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E23CAC2BA1A
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71BB0C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5C9065028
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 519436500F
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236107AbhCPJXL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S236109AbhCPJXL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 16 Mar 2021 05:23:11 -0400
 Received: from mailgw01.mediatek.com ([210.61.82.183]:57021 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236044AbhCPJWp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:45 -0400
-X-UUID: 02d04726da214e63a628ffd855575ca0-20210316
-X-UUID: 02d04726da214e63a628ffd855575ca0-20210316
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        with ESMTP id S236047AbhCPJWq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:46 -0400
+X-UUID: cc794f5e977a4f49b8f40110ddcff1a8-20210316
+X-UUID: cc794f5e977a4f49b8f40110ddcff1a8-20210316
+Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1874887238; Tue, 16 Mar 2021 17:22:42 +0800
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 80195745; Tue, 16 Mar 2021 17:22:41 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Tue, 16 Mar 2021 17:22:34 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Mar 2021 17:22:35 +0800
+ Transport; Tue, 16 Mar 2021 17:22:34 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>
+        Matthias Brugger <matthias.bgg@gmail.com>
 CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Chun-Kuang Hu" <chunkuang.hu@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Jie Qiu <jie.qiu@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
         Cawa Cheng <cawa.cheng@mediatek.com>,
@@ -45,15 +45,14 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>
-Subject: [PATCH v5 11/13] arm: dts: mt7629: harmonize node names and compatibles
-Date:   Tue, 16 Mar 2021 17:22:30 +0800
-Message-ID: <20210316092232.9806-11-chunfeng.yun@mediatek.com>
+Subject: [PATCH v5 09/13] arm64: dts: mediatek: mt7622: harmonize node names and compatibles
+Date:   Tue, 16 Mar 2021 17:22:28 +0800
+Message-ID: <20210316092232.9806-9-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
 References: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 61F338BCA16A9E0EA2E83DB3185949E357E7C3EF4CF8C6F8F6381591DDE2A0802000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -65,44 +64,36 @@ Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2~v5: no changes
 ---
- arch/arm/boot/dts/mt7629.dtsi | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/mediatek/mt7622.dtsi | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/mt7629.dtsi b/arch/arm/boot/dts/mt7629.dtsi
-index 5cbb3d244c75..874043f0490d 100644
---- a/arch/arm/boot/dts/mt7629.dtsi
-+++ b/arch/arm/boot/dts/mt7629.dtsi
-@@ -329,8 +329,9 @@
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/mediatek/mt7622.dtsi b/arch/arm64/boot/dts/mediatek/mt7622.dtsi
+index 7c6d871538a6..890a942ec608 100644
+--- a/arch/arm64/boot/dts/mediatek/mt7622.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt7622.dtsi
+@@ -742,8 +742,8 @@
+ 		status = "disabled";
+ 	};
  
--		u3phy0: usb-phy@1a0c4000 {
--			compatible = "mediatek,generic-tphy-v2";
-+		u3phy0: t-phy@1a0c4000 {
-+			compatible = "mediatek,mt7629-tphy",
-+				     "mediatek,generic-tphy-v2";
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 			ranges = <0 0x1a0c4000 0xe00>;
-@@ -413,14 +414,15 @@
- 			};
- 		};
+-	u3phy: usb-phy@1a0c4000 {
+-		compatible = "mediatek,mt7622-u3phy",
++	u3phy: t-phy@1a0c4000 {
++		compatible = "mediatek,mt7622-tphy",
+ 			     "mediatek,generic-tphy-v1";
+ 		reg = <0 0x1a0c4000 0 0x700>;
+ 		#address-cells = <2>;
+@@ -877,8 +877,9 @@
+ 		status = "disabled";
+ 	};
  
--		pciephy1: pcie-phy@1a14a000 {
--			compatible = "mediatek,generic-tphy-v2";
-+		pciephy1: t-phy@1a14a000 {
-+			compatible = "mediatek,mt7629-tphy",
-+				     "mediatek,generic-tphy-v2";
- 			#address-cells = <1>;
- 			#size-cells = <1>;
- 			ranges = <0 0x1a14a000 0x1000>;
- 			status = "disabled";
- 
--			pcieport1: port1phy@0 {
-+			pcieport1: pcie-phy@0 {
- 				reg = <0 0x1000>;
- 				clocks = <&clk20m>;
- 				clock-names = "ref";
+-	sata_phy: sata-phy@1a243000 {
+-		compatible = "mediatek,generic-tphy-v1";
++	sata_phy: t-phy@1a243000 {
++		compatible = "mediatek,mt7622-tphy",
++			     "mediatek,generic-tphy-v1";
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 		ranges;
 -- 
 2.18.0
 
