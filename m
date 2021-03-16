@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EF4C4321A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0086C43619
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82E506500E
+	by mail.kernel.org (Postfix) with ESMTP id A3C7465028
 	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 09:23:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236065AbhCPJXD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Mar 2021 05:23:03 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:56921 "EHLO
+        id S236075AbhCPJXG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Mar 2021 05:23:06 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:56908 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236019AbhCPJWj (ORCPT
+        with ESMTP id S231919AbhCPJWj (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 05:22:39 -0400
-X-UUID: f04ba709de0a433fbbf447543b7d0bee-20210316
-X-UUID: f04ba709de0a433fbbf447543b7d0bee-20210316
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+X-UUID: a7510e3f4e3e45f1b3c582d99761aae4-20210316
+X-UUID: a7510e3f4e3e45f1b3c582d99761aae4-20210316
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1302354739; Tue, 16 Mar 2021 17:22:36 +0800
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 102479812; Tue, 16 Mar 2021 17:22:34 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 16 Mar 2021 17:22:35 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 16 Mar 2021 17:22:33 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Mar 2021 17:22:35 +0800
+ Transport; Tue, 16 Mar 2021 17:22:33 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Matthias Brugger <matthias.bgg@gmail.com>
@@ -45,12 +45,10 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>
-Subject: [PATCH v5 10/13] arm64: dts: mediatek: mt8183: fix dtbs_check warning
-Date:   Tue, 16 Mar 2021 17:22:29 +0800
-Message-ID: <20210316092232.9806-10-chunfeng.yun@mediatek.com>
+Subject: [PATCH v5 01/13] dt-bindings: usb: fix yamllint check warning
+Date:   Tue, 16 Mar 2021 17:22:20 +0800
+Message-ID: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
-References: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -58,56 +56,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Harmonize node names, compatibles and properties.
+Fix warning: "missing starting space in comment"
 
+Fixes: 23bf6fc7046c ("dt-bindings: usb: convert usb-device.txt to YAML schema")
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v4~v5: no changes
-v3: remove property clock-names suggested by CK
-v2: no changes
+v5: add Fixes tag suggested by Greg
+v2~v4: no changes
 ---
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ Documentation/devicetree/bindings/usb/usb-device.yaml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index 80519a145f13..8882d35ac6ab 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -880,7 +880,7 @@
- 			ranges;
- 			status = "disabled";
+diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
+index d4c99809ee9a..b77960a7a37b 100644
+--- a/Documentation/devicetree/bindings/usb/usb-device.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
+@@ -82,9 +82,9 @@ required:
+ additionalProperties: true
  
--			usb_host: xhci@11200000 {
-+			usb_host: usb@11200000 {
- 				compatible = "mediatek,mt8183-xhci",
- 					     "mediatek,mtk-xhci";
- 				reg = <0 0x11200000 0 0x1000>;
-@@ -923,11 +923,10 @@
- 			status = "disabled";
- 		};
- 
--		mipi_tx0: mipi-dphy@11e50000 {
-+		mipi_tx0: dsi-phy@11e50000 {
- 			compatible = "mediatek,mt8183-mipi-tx";
- 			reg = <0 0x11e50000 0 0x1000>;
- 			clocks = <&apmixedsys CLK_APMIXED_MIPID0_26M>;
--			clock-names = "ref_clk";
- 			#clock-cells = <0>;
- 			#phy-cells = <0>;
- 			clock-output-names = "mipi_tx0_pll";
-@@ -946,11 +945,10 @@
- 			};
- 		};
- 
--		u3phy: usb-phy@11f40000 {
-+		u3phy: t-phy@11f40000 {
- 			compatible = "mediatek,mt8183-tphy",
- 				     "mediatek,generic-tphy-v2";
- 			#address-cells = <1>;
--			#phy-cells = <1>;
- 			#size-cells = <1>;
- 			ranges = <0 0 0x11f40000 0x1000>;
- 			status = "okay";
+ examples:
+-  #hub connected to port 1
+-  #device connected to port 2
+-  #device connected to port 3
++  # hub connected to port 1
++  # device connected to port 2
++  # device connected to port 3
+   #    interface 0 of configuration 1
+   #    interface 0 of configuration 2
+   - |
 -- 
 2.18.0
 
