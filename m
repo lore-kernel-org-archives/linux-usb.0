@@ -2,68 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C635C433E6
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 03:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A7D2C433E0
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 04:54:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02EAA6503B
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 03:40:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17FEC65014
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Mar 2021 04:54:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234823AbhCPDje (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Mar 2021 23:39:34 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:13541 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbhCPDjG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Mar 2021 23:39:06 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DzzVJ5ZSczPjqN;
-        Tue, 16 Mar 2021 11:36:40 +0800 (CST)
-Received: from k03.huawei.com (10.67.174.111) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 16 Mar 2021 11:38:53 +0800
-From:   He Fengqing <hefengqing@huawei.com>
-To:     <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-        <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <hefengqing@huawei.com>
-Subject: [PATCH] drivers: usb: Fix a typo in dwc3-qcom.c
-Date:   Tue, 16 Mar 2021 04:14:30 +0000
-Message-ID: <20210316041430.2203546-1-hefengqing@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S231855AbhCPExl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Mar 2021 00:53:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229687AbhCPExP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Mar 2021 00:53:15 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93105C06174A;
+        Mon, 15 Mar 2021 21:53:15 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id x9so10836749qto.8;
+        Mon, 15 Mar 2021 21:53:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tWCz78Br3XjDvSQE5SGwwRcGJZtd27Y7fPdYPkBcYmI=;
+        b=VJqhEBEm56scaLGC4aTRSGHZAQBrgYgfMwjkf52R6GnLyFfW6IbWKP6SGldIIY6bLM
+         tqlNYgDq/DcrD/5Hom3nZW+09i1Cxle6/za3JAExDKuQSW6SNvHRhOZD0dSn5SphVkWo
+         gpyPr+MrcDhNChSVa42Y2mz8VwckxmUhG2O+j9WVT5zLZqBMMisafynu3mDPW4v0yuxH
+         iw5Z6f6bdGw51D9KdvdSQmkUL9eOd3zYwsbsjNFCsfyEIxcIthcrJBxuchp597gCKS/D
+         iseHetTikGu19vLPn1nVNoLllAuhiyxMtSvzAteQseQndcT+2Fj21RT5S76AsMw7RuP6
+         iz2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tWCz78Br3XjDvSQE5SGwwRcGJZtd27Y7fPdYPkBcYmI=;
+        b=eOFqBPzpY5t6QJsnRGUlqItBkt7jlG7iEbWSXlPOokb1ZmdySeWA8gY/CSITS2YgDL
+         O+VNRXh/M4v66KxHk1X0nTpAREnUocEtC/cQHjXNdoC6t7q+SnTyoen8KAUTt7/njd/N
+         EDGw2ODqf/2Ou8peklt3KglzBhBleKjuh7ZL2jZY5uWk9GR1nWoaooQzXAnNBasQwtKJ
+         LebDRCcpydAgwvs7XkC60+3ufTurWZ3q8Nk+ssL/zbWci0bFYruMKJvFbSm1NQkRpYoe
+         mFxe99tuHIn8h+BoEmITGi9IZc6UMRqGlsEYNkLcJxwNyrZlLBz3UPkKwYc6i0i89jLo
+         86Qg==
+X-Gm-Message-State: AOAM533PpTej9IkrKU1DgvXXBvOvK2gZQ83E0RCZJFsdRa3pMAg0Injx
+        wnqtVZ6pPr4He2QrgK5ES18=
+X-Google-Smtp-Source: ABdhPJzOYIrw83wgON+3omliAZuPsyFLHJMtuRc2OQs2dO7K06VVYKk5Viv0/OvH2q9cPNBDLCSSxg==
+X-Received: by 2002:ac8:4412:: with SMTP id j18mr24255871qtn.387.1615870394914;
+        Mon, 15 Mar 2021 21:53:14 -0700 (PDT)
+Received: from localhost.localdomain ([156.146.58.45])
+        by smtp.gmail.com with ESMTPSA id t5sm10762104qkt.66.2021.03.15.21.53.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Mar 2021 21:53:14 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     gregkh@linuxfoundation.org, unixbhaskar@gmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org
+Subject: [PATCH] usb: host: Mundane spello fix in the file sl811_cs.c
+Date:   Tue, 16 Mar 2021 10:22:43 +0530
+Message-Id: <20210316045243.3500228-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.111]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch fix a spelling typo in dwc3-qcom.c
 
-Signed-off-by: He Fengqing <hefengqing@huawei.com>
+s/seting/setting/
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 2 +-
+ drivers/usb/host/sl811_cs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index fcaf04483ad0..5149dea68a5c 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -235,7 +235,7 @@ static int dwc3_qcom_interconnect_disable(struct dwc3_qcom *qcom)
- 
- /**
-  * dwc3_qcom_interconnect_init() - Get interconnect path handles
-- * and set bandwidhth.
-+ * and set bandwidth.
-  * @qcom:			Pointer to the concerned usb core.
-  *
-  */
--- 
-2.25.1
+diff --git a/drivers/usb/host/sl811_cs.c b/drivers/usb/host/sl811_cs.c
+index 72136373ffab..16d157013018 100644
+--- a/drivers/usb/host/sl811_cs.c
++++ b/drivers/usb/host/sl811_cs.c
+@@ -94,7 +94,7 @@ static int sl811_hc_init(struct device *parent, resource_size_t base_addr,
+ 		return -EBUSY;
+ 	platform_dev.dev.parent = parent;
+
+-	/* finish seting up the platform device */
++	/* finish setting up the platform device */
+ 	resources[0].start = irq;
+
+ 	resources[1].start = base_addr;
+--
+2.30.2
 
