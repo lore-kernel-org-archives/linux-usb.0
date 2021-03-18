@@ -7,41 +7,42 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB854C432C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E72ACC4321A
 	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A36AC64F4D
+	by mail.kernel.org (Postfix) with ESMTP id C141D64EF6
 	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231908AbhCRPwW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S231903AbhCRPwW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 18 Mar 2021 11:52:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54666 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:54668 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231648AbhCRPwA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231640AbhCRPwA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 18 Mar 2021 11:52:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 35DC564F40;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2A0B364F2B;
         Thu, 18 Mar 2021 15:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616082720;
-        bh=M4E3BvFfJP/+cfDrdryeJREcm4+lpbukXe5ZikaLhv4=;
+        bh=e/lpZ0wThnKoFB2K3ago5r1z4Pnc0Pi1QIWPHg8ZIis=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MfXzBnl9oEGLOV/1dzcu+MGzrB9X/2r3O509gkDf+QRs7uxLmY+iA7EAKpj/SCzy8
-         C5CEodM/Wo0LNkRthAMqTd0UbFLFq+1aE/F2Yhw4Vua4qLt/hpxsBXiHGhBFBa2Oqa
-         62tNuUSk1mEamqVZSUZwdiKdc1Bf7bOlZhX0mBQ25u9GRv1iLyaVptdfwxq7ZBvmXR
-         xGnpiISq4+/fjdgaPOaQwtT2Ey8j59hvWJnIB4XJ4zzcPnyiu6fxH6e8CxKK3huja2
-         clA1PDlioMmEz8dBpBKfeibUe6hGbx4QosVb0BmZvqx5FizY8uZ9hFDRoRI11ELjsr
-         vqltxk/tbaSkQ==
+        b=i2f991Fp9+EGj3b9w0kw5Uab5TCCeytBeL+jShcRQeU/yB3qKGmG2NStUqWsJrRX5
+         L33LvCWnzfWzNSW4Ao1A8O02hQJB9LJpwqrFa1Y+Ko2KcJmif/AeEqtUC4zh6kRWN8
+         18y5FkcNKSnqFhD0BcTfEF7Peu+mdNzXrhsBTL0NUZ/IgwtnXocd+uOJf8XW+BA5Ln
+         YdRGRcFL1opuzkotir6nQKKsaGdZkGlsOvGBpYCI6kA11ON+0DBeZtMGG2ScibNnpD
+         sr0eOdyTxy9kq+54ndShc73TQnAaDbXxerTD6JoiF4grFhC/3Z3oqQ0Eu9Z2XB7Aph
+         eEgNXRsXzQ0ug==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lMuwc-0005ni-ID; Thu, 18 Mar 2021 16:52:18 +0100
+        id 1lMuwb-0005nQ-Vb; Thu, 18 Mar 2021 16:52:18 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 7/7] USB: cdc-acm: always claim data interface
-Date:   Thu, 18 Mar 2021 16:52:02 +0100
-Message-Id: <20210318155202.22230-8-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
+        Jaejoong Kim <climbbb.kim@gmail.com>
+Subject: [PATCH 1/7] USB: cdc-acm: fix double free on probe failure
+Date:   Thu, 18 Mar 2021 16:51:56 +0100
+Message-Id: <20210318155202.22230-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210318155202.22230-1-johan@kernel.org>
 References: <20210318155202.22230-1-johan@kernel.org>
@@ -51,39 +52,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure to always claim the data interface and bail out if it's
-already bound to another driver or isn't authorised.
+If tty-device registration fails the driver copy of any Country
+Selection functional descriptor would end up being freed twice; first
+explicitly in the error path and then again in the tty-port destructor.
 
+Drop the first erroneous free that was left when fixing a tty-port
+resource leak.
+
+Fixes: cae2bc768d17 ("usb: cdc-acm: Decrement tty port's refcount if probe() fail")
+Cc: stable@vger.kernel.org      # 4.19
+Cc: Jaejoong Kim <climbbb.kim@gmail.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/class/cdc-acm.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/usb/class/cdc-acm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 6991ffd66c5d..58c444f9db5e 100644
+index 39ddb5585ded..d75a78ad464d 100644
 --- a/drivers/usb/class/cdc-acm.c
 +++ b/drivers/usb/class/cdc-acm.c
-@@ -1486,7 +1486,11 @@ static int acm_probe(struct usb_interface *intf,
- 	acm->line.bDataBits = 8;
- 	acm_set_line(acm, &acm->line);
- 
--	usb_driver_claim_interface(&acm_driver, data_interface, acm);
-+	if (!acm->combined_interfaces) {
-+		rv = usb_driver_claim_interface(&acm_driver, data_interface, acm);
-+		if (rv)
-+			goto err_remove_files;
-+	}
- 
- 	tty_dev = tty_port_register_device(&acm->port, acm_tty_driver, minor,
- 			&control_interface->dev);
-@@ -1508,6 +1512,7 @@ static int acm_probe(struct usb_interface *intf,
- 		usb_set_intfdata(data_interface, NULL);
- 		usb_driver_release_interface(&acm_driver, data_interface);
- 	}
-+err_remove_files:
- 	if (acm->country_codes) {
- 		device_remove_file(&acm->control->dev,
+@@ -1508,7 +1508,6 @@ static int acm_probe(struct usb_interface *intf,
  				&dev_attr_wCountryCodes);
+ 		device_remove_file(&acm->control->dev,
+ 				&dev_attr_iCountryCodeRelDate);
+-		kfree(acm->country_codes);
+ 	}
+ 	device_remove_file(&acm->control->dev, &dev_attr_bmCapabilities);
+ alloc_fail5:
 -- 
 2.26.2
 
