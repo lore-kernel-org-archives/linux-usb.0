@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19492C4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 726A4C43331
 	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D382E64F38
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30D8964F68
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231841AbhCRPwU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Mar 2021 11:52:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54648 "EHLO mail.kernel.org"
+        id S231857AbhCRPwV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Mar 2021 11:52:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54656 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231162AbhCRPwA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231225AbhCRPwA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 18 Mar 2021 11:52:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2743364F2A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F9E264F38;
         Thu, 18 Mar 2021 15:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616082720;
-        bh=XCpyHJcikJIMvXUV+Xi8p6BJrS4vSE8cEJvypsVosz8=;
+        bh=invk8uhjFwTQ4535wzfeJv1w5fOcdHfeU/XjQ+K0Ngc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RAnAbtHQjlgQ/a8838gvKTg9IMOJzO7m/Ls2MCQ22pBQHGktHwsUShiUVKpRhqY1w
-         R3jxIybkImNdII/IN+YHN7Q5NiZGXK+P8loxcLHmhziHF78wPu7yD7YK+2TsZJHMUg
-         XNwQ8vio2CU+nmPfSCXBxd/xAx2kvv51+nWpSRT0I3Jvs20p51eZ7j3EdBKCqagS0d
-         Ly99jD7en6PWFpWXa34Zlw9K+lAPFKVgGwotpwcFXFTtWHy2iWkkqW02JPfHeyu7WM
-         XCu+nCwoecZR5M9WnmK5mCOakIT/Pb3VbNIV8sNwu1NIB7Rom91GwVJ15Knox1glHE
-         JXGRsT9IRI4Yg==
+        b=Pv/ODodkYSZgjSCx+NfSNT6vVUQhqyCjq50BqY5PlrrILQpB1l7NTl0a9AYfF/vIV
+         eDf2Su3fEQTv8R2Vr7P9tDjbgtVdtu12Nxail2GhgjPyuf/wN41jCt/kJUNo51RVFv
+         kAdMIitXQm7y6cHGYPzuLAAfzJ0Lgx8tLKW2dFSK4XHNBFMnzfTmebKSu+yXKH+o/M
+         056khjKa9oz+pQw9r7qeWOm2V/jBmLm78g71dtsv8mAG157Pe2UcSh614y/uK5iYFx
+         6zBFHzghlQUk2rZs89xs7ktwDAK52eyseD/4g+n/K6sINfslP6ggGvcSz3egHO+r7x
+         4GWYDziV8T9hQ==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lMuwc-0005nY-8S; Thu, 18 Mar 2021 16:52:18 +0100
+        id 1lMuwc-0005nf-FN; Thu, 18 Mar 2021 16:52:18 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 4/7] USB: cdc-acm: drop redundant driver-data reset
-Date:   Thu, 18 Mar 2021 16:51:59 +0100
-Message-Id: <20210318155202.22230-5-johan@kernel.org>
+Subject: [PATCH 6/7] USB: cdc-acm: use negation for NULL checks
+Date:   Thu, 18 Mar 2021 16:52:01 +0100
+Message-Id: <20210318155202.22230-7-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210318155202.22230-1-johan@kernel.org>
 References: <20210318155202.22230-1-johan@kernel.org>
@@ -51,26 +51,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's no need to clear the interface driver data on failed probe (and
-driver core will clear it anyway).
+Use negation consistently throughout the driver for NULL checks.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/class/cdc-acm.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/class/cdc-acm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 36dd1e05e455..682772b8a4f7 100644
+index e3c45f5880fc..6991ffd66c5d 100644
 --- a/drivers/usb/class/cdc-acm.c
 +++ b/drivers/usb/class/cdc-acm.c
-@@ -1515,7 +1515,6 @@ static int acm_probe(struct usb_interface *intf,
- 	}
- 	device_remove_file(&acm->control->dev, &dev_attr_bmCapabilities);
- alloc_fail5:
--	usb_set_intfdata(intf, NULL);
- 	for (i = 0; i < ACM_NW; i++)
- 		usb_free_urb(acm->wb[i].urb);
- alloc_fail4:
+@@ -1323,7 +1323,7 @@ static int acm_probe(struct usb_interface *intf,
+ 	dev_dbg(&intf->dev, "interfaces are valid\n");
+ 
+ 	acm = kzalloc(sizeof(struct acm), GFP_KERNEL);
+-	if (acm == NULL)
++	if (!acm)
+ 		return -ENOMEM;
+ 
+ 	tty_port_init(&acm->port);
+@@ -1416,7 +1416,7 @@ static int acm_probe(struct usb_interface *intf,
+ 		struct acm_wb *snd = &(acm->wb[i]);
+ 
+ 		snd->urb = usb_alloc_urb(0, GFP_KERNEL);
+-		if (snd->urb == NULL)
++		if (!snd->urb)
+ 			goto err_free_write_urbs;
+ 
+ 		if (usb_endpoint_xfer_int(epwrite))
 -- 
 2.26.2
 
