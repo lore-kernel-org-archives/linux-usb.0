@@ -2,106 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6F9C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 06:56:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00032C433E0
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 07:05:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F009E64F2A
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 06:56:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B20BC64F10
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 07:05:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbhCRG4T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Mar 2021 02:56:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41634 "EHLO
+        id S229775AbhCRHFV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Mar 2021 03:05:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbhCRG4J (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Mar 2021 02:56:09 -0400
-Received: from mail-qt1-x849.google.com (mail-qt1-x849.google.com [IPv6:2607:f8b0:4864:20::849])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF5CC06175F
-        for <linux-usb@vger.kernel.org>; Wed, 17 Mar 2021 23:56:08 -0700 (PDT)
-Received: by mail-qt1-x849.google.com with SMTP id w2so20932591qts.18
-        for <linux-usb@vger.kernel.org>; Wed, 17 Mar 2021 23:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=8f2GKIzq0FyXnU+AW5A6Hbsc9cchKFSkjsCGCUulBbg=;
-        b=ZRkpKE8YKlxqollKBzPwMKOT/KrbDPDRJmSo0mf4L+3SY19Q2tUxE2fuYYSkQ1Tom+
-         A9LdKsBLmnyq3t2SuWaz3P6t1g40m5SqcAfNuisDOREHLY3IJ0whhNYyIPS6G+qszLFs
-         OX0uJbD4k5QzTube3BYADfDrWFq8h6LgdTiz+rTKI0sRZfXHP1GbBHu4p8y+OPqMVRPv
-         txzKOGz8BszMhbD99/V90BOlRmeYH2hLUH1+ZhlwzlpWdcnLiidWrSqPKF2xF78eMj61
-         3JAs04Z2DCjv1lbhddcFVpR80yQgcidQFw3COpH69HwuVXZIV9E+N8qKabalRgfe9ErG
-         XtlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=8f2GKIzq0FyXnU+AW5A6Hbsc9cchKFSkjsCGCUulBbg=;
-        b=NRFBRm8ALMSxX7jXzofO7cYlBAwPePwaJloF5hmkD04Mm9DG0TuFIOUU0yP3oYpcPo
-         hty/mDrNkS08UBbATVJfLxO0Hgjf33zCk5vQr9vPVFkvN3VuY7/Gj5zJjh4wwHPEb1pn
-         FLNYbAitFLgo+sRD+u8hXtCyLtpECB6xrL+VDL/ww+w3hgSuuoIvNTq2Yw3SwIu1nKvh
-         nROEIC/35LiO2NUylFAk6aCU1odwGGMrRG+iK7cJfsrimpcap0/3eQJxW4izjbSzAl/2
-         WnCeu+V/5pahudZ/J2mRMzc6icOtJ4OiD7U/2jEUx59CN2TFrWeMzicwIrWJmxlVJ5UE
-         YL0A==
-X-Gm-Message-State: AOAM533g6ROG7l/sPZ/VKq+F5P4r4nwPRDYGrXU65mdzMtcIDmHnYr27
-        5lpXKSvin5/NxtRe2gTXnC3r3vJ4wQc=
-X-Google-Smtp-Source: ABdhPJwID5JSZRpH++dmHrQCCtYndEsNQ3noTjTwvmWJjtYt9E0zIU7GHrT3N24cevBCgwwXtw/U+8xg0yA=
-X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:dc6b:2250:2aa4:b316])
- (user=badhri job=sendgmr) by 2002:a05:6214:20a1:: with SMTP id
- 1mr2870609qvd.30.1616050567713; Wed, 17 Mar 2021 23:56:07 -0700 (PDT)
-Date:   Wed, 17 Mar 2021 23:56:04 -0700
-Message-Id: <20210318065604.3757307-1-badhri@google.com>
+        with ESMTP id S229743AbhCRHEu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Mar 2021 03:04:50 -0400
+X-Greylist: delayed 91 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 18 Mar 2021 00:04:49 PDT
+Received: from mx2.uni-regensburg.de (mx2.uni-regensburg.de [IPv6:2001:638:a05:137:165:0:3:bdf8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A28AC06174A
+        for <linux-usb@vger.kernel.org>; Thu, 18 Mar 2021 00:04:49 -0700 (PDT)
+Received: from mx2.uni-regensburg.de (localhost [127.0.0.1])
+        by localhost (Postfix) with SMTP id BABF16000057
+        for <linux-usb@vger.kernel.org>; Thu, 18 Mar 2021 08:04:47 +0100 (CET)
+Received: from gwsmtp.uni-regensburg.de (gwsmtp1.uni-regensburg.de [132.199.5.51])
+        by mx2.uni-regensburg.de (Postfix) with ESMTP id 33E6E6000058
+        for <linux-usb@vger.kernel.org>; Thu, 18 Mar 2021 08:04:45 +0100 (CET)
+Received: from uni-regensburg-smtp1-MTA by gwsmtp.uni-regensburg.de
+        with Novell_GroupWise; Thu, 18 Mar 2021 08:04:44 +0100
+Message-Id: <6052FB8B020000A10003FE28@gwsmtp.uni-regensburg.de>
+X-Mailer: Novell GroupWise Internet Agent 18.3.1 
+Date:   Thu, 18 Mar 2021 08:04:43 +0100
+From:   "Ulrich Windl" <Ulrich.Windl@rz.uni-regensburg.de>
+To:     <zzam@gentoo.org>, <hdegoede@redhat.com>,
+        <stern@rowland.harvard.edu>
+Cc:     "systemd-devel@lists.freedesktop.org" 
+        <systemd-devel@lists.freedesktop.org>,
+        <usb-storage@lists.one-eyed-alien.net>,
+        <hirofumi@mail.parknet.co.jp>, <linux-usb@vger.kernel.org>
+Subject: Antw: [EXT] Re: [systemd-devel] [usb-storage] Re: Amazon
+ Kindle disconnect after Synchronize Cache
+References: <20210309155046.GA176674@rowland.harvard.edu>
+ <dfd2b281-3beb-9869-37b6-8bd48a6cf40f@gentoo.org>
+ <20210310214648.GA236329@rowland.harvard.edu>
+ <841a9a54-78ee-ffaa-fc3c-12defcf43b36@gentoo.org>
+ <20210311143912.GA257360@rowland.harvard.edu>
+ <f2acfeef-a81a-d7c0-90a8-b290a18cb742@gentoo.org>
+ <20210316162650.GB448722@rowland.harvard.edu>
+ <031a20c5-27c3-cc13-6e0b-a308644abce4@redhat.com>
+ <20210316170433.GD448722@rowland.harvard.edu>
+ <1d9f059e-8b21-0895-9a50-39b6b1a5cc5c@redhat.com>
+ <20210317151746.GB488655@rowland.harvard.edu>
+ <5f8c0755-0884-f505-c4e8-3a5e89001d58@gentoo.org>
+ <C63C44570200006665972EEF@gwsmtp.uni-regensburg.de>
+ <B960C12A020000A667ECE9F9@gwsmtp.uni-regensburg.de>
+ <B72C58530200001565972EEF@gwsmtp.uni-regensburg.de>
+ <0F2319EB020000F567ECE9F9@gwsmtp.uni-regensburg.de>
+ <DE3F57520200009E65972EEF@gwsmtp.uni-regensburg.de>
+ <474C42CD02000091AE14D9EC@gwsmtp.uni-regensburg.de>
+In-Reply-To: <474C42CD02000091AE14D9EC@gwsmtp.uni-regensburg.de>
 Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
-Subject: [PATCH v1] usb: typec: tcpm: PD3.0 sinks can send Discover Identity
- even in device mode
-From:   Badhri Jagan Sridharan <badhri@google.com>
-To:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Badhri Jagan Sridharan <badhri@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From 6.4.4.2 Structured VDM:
-=E2=80=A2 Either Port May be an Initiator of Structured VDMs except for the=
- Enter
-Mode and Exit Mode Commands which Shall only be initiated by the DFP."
+>>> Matthias Schwarzott <zzam@gentoo.org> schrieb am 17.03.2021 um 18:56 in
+Nachricht <5f8c0755-0884-f505-c4e8-3a5e89001d58@gentoo.org>:
+> Am 17.03.21 um 16:17 schrieb Alan Stern:
+>> On Wed, Mar 17, 2021 at 01:21:50PM +0100, Hans de Goede wrote:
+>>> Hi,
+>>>
+>>> On 3/16/21 6:04 PM, Alan Stern wrote:
+>>>> I think it would be mildly better, but not a whole lot.  Since the
+>>>> Kindle describes itself as having removable media, the kernel normally
+>>>> probes it periodically to make sure the media remains present.  The
+>>>> default probing interval is 2 seconds.  Reducing it to 0.9 seconds
+>>>> doesn't represent an exorbitant additional load IMO ‑‑ especially since
+>>>> Kindles don't tend to spend huge amounts of time connected to computers.
+>>>
+>>> Ah, I did not know that the default polling interval was that low(ish),
+>>> given that the default indeed is already that low, then changing it to
+>>> 0.8 seconds would not be a big change.  And we probably have a lot of
+>>> lower hanging fruit for unnecessary wakeups then that.
+>> 
+>> So we need to make a decision: Should the patch be merged, or should we
+>> punt the issue to userspace tools?
+>> 
+>> On the plus side, the patch is rather small and non‑invasive (although
+>> it does allocate the last remaining bit in the 32‑bit fflags field).
+>> There's also the advantage of sending the extra command only when it is
+>> needed, as opposed to increasing the overall frequency of TUR polling.
+>> 
+>> Any opinions?
+> 
+> I would vote to do in kernel as that is a cleaner solution:
+> 
+> 1. It will work out of the box.
 
-The above implies that when PD3.0 link is established PD3.0 sinks
-can send out discover identity command/AMS once PD negotiation is done.
-This allows discovering identity for PD3.0 UFP ports as well.
+...once you have the right kernel
 
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> 2. It only sends one extra command when needed.
+> 3. It makes the block‑device not break if user‑space adjusts the poll 
+> interval to higher values.
+> 
+> Matthias
+> _______________________________________________
+> systemd‑devel mailing list
+> systemd‑devel@lists.freedesktop.org 
+> https://lists.freedesktop.org/mailman/listinfo/systemd‑devel 
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 11d0c40bc47d..410856ec1702 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -3653,8 +3653,8 @@ static inline enum tcpm_state unattached_state(struct=
- tcpm_port *port)
-=20
- static void tcpm_check_send_discover(struct tcpm_port *port)
- {
--	if (port->data_role =3D=3D TYPEC_HOST && port->send_discover &&
--	    port->pd_capable)
-+	if ((port->data_role =3D=3D TYPEC_HOST || port->negotiated_rev > PD_REV20=
-) &&
-+	    port->send_discover && port->pd_capable)
- 		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
- 	port->send_discover =3D false;
- }
---=20
-2.31.0.rc2.261.g7f71774620-goog
+
 
