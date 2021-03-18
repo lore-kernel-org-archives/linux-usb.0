@@ -2,141 +2,201 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCB2FC4332D
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 09:16:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30AECC433E6
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 11:40:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A77764F41
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 09:16:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E720164F2B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 11:39:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbhCRJQR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Mar 2021 05:16:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50548 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229813AbhCRJQP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Mar 2021 05:16:15 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id F0AC2AC1E;
-        Thu, 18 Mar 2021 09:16:12 +0000 (UTC)
-Message-ID: <13fafc4dbbb8b4e9c68c71aabcff08751123b0b2.camel@suse.de>
-Subject: Re: [PATCH] dt-bindings: Drop type references on common properties
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Mark Brown <broonie@kernel.org>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stefan Wahren <wahrenst@gmx.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Odelu Kukatla <okukatla@codeaurora.org>,
-        Alex Elder <elder@kernel.org>, Suman Anna <s-anna@ti.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-usb@vger.kernel.org
-Date:   Thu, 18 Mar 2021 10:16:10 +0100
-In-Reply-To: <20210316194858.3527845-1-robh@kernel.org>
-References: <20210316194858.3527845-1-robh@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-09POy/eeqAoG7Dif8JG1"
-User-Agent: Evolution 3.38.4 
+        id S230082AbhCRLjX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Mar 2021 07:39:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48520 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229908AbhCRLjQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Mar 2021 07:39:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616067555;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2YmpqDQt5KeCE/abss4w9k89C4ih1OjQ6xthHLSq/P4=;
+        b=C6GAgBuOT1rgwXIyY+e7DN5SkTY49PED87Xxl5ZICNkjl6+xRjP9E4SW2ZDdhCi2ZBujF1
+        kwiBwWGdo167rm1kWrjq63C8lqwGHCiULxRtEtaOlvySbSwb7tjXLGpdASsyZBoVLniowe
+        C3HvPJvZDeMhuM3ASYQjQeyAhlACyKA=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-Co2_FAYOOg6jqCt7MkVOMQ-1; Thu, 18 Mar 2021 07:39:14 -0400
+X-MC-Unique: Co2_FAYOOg6jqCt7MkVOMQ-1
+Received: by mail-ej1-f69.google.com with SMTP id en21so16527152ejc.2
+        for <linux-usb@vger.kernel.org>; Thu, 18 Mar 2021 04:39:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2YmpqDQt5KeCE/abss4w9k89C4ih1OjQ6xthHLSq/P4=;
+        b=eDjUWInMI6RB/3gHkjBfiEpvQVxoU7WWqAMumgSz5JuBP0bvvIg+unkRpIb1pmrVqw
+         wPtT/Hdv6aWfwn2QzlTFa6/aJLwvbzSfHz90JV3VICmK07cAajfHtNxGoPxlP/MfOPin
+         9R11PaODZG7RqAKDVcCTYHA+gSj8YBhrtllesD17/zRD+Zpu8tDErL1Ysgilsg3LmhXu
+         EMOp0cd73mS3hqvsf+MBj+oyORPVer3tc5tHj5YETUPTeTYO0lr9dVnRfJdlqp1qn3H6
+         YJA0VlvL2r6DCLg8oP2CwwYsinA4WIXKDvj+TSuDBhcE3bIXGcaLKquIZDZPn5biZu8t
+         H+iQ==
+X-Gm-Message-State: AOAM533dVNKiEZ8B52fxZv5ohdw4YTrlOm1k/xyaiPPMX0/gfVqB7noE
+        ykAPWTvE95RD6C+7Jvd4uF2X8yDMjO4lIPrLTekWsWdM5EUyZq8QLDFNvxgn68UPQTgjOBZaGSa
+        EXA0X714+pVeHbeG+EE4r
+X-Received: by 2002:a05:6402:304b:: with SMTP id bu11mr2960182edb.157.1616067552811;
+        Thu, 18 Mar 2021 04:39:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybMKF4rbf/+X7/pWroCKL+gFtxbHe6/AFe7+dyxh1OhuMTQk+jaN/YTSMlPj1Fg3SJ/588OQ==
+X-Received: by 2002:a05:6402:304b:: with SMTP id bu11mr2960171edb.157.1616067552670;
+        Thu, 18 Mar 2021 04:39:12 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id g25sm1800026edp.95.2021.03.18.04.39.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Mar 2021 04:39:12 -0700 (PDT)
+Subject: Re: [PATCH] usb-storage: Add quirk to defeat Kindle's automatic
+ unload
+To:     Alan Stern <stern@rowland.harvard.edu>, Greg KH <greg@kroah.com>
+Cc:     Matthias Schwarzott <zzam@gentoo.org>,
+        usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
+        systemd-devel@lists.freedesktop.org, hirofumi@mail.parknet.co.jp
+References: <20210310214648.GA236329@rowland.harvard.edu>
+ <841a9a54-78ee-ffaa-fc3c-12defcf43b36@gentoo.org>
+ <20210311143912.GA257360@rowland.harvard.edu>
+ <f2acfeef-a81a-d7c0-90a8-b290a18cb742@gentoo.org>
+ <20210316162650.GB448722@rowland.harvard.edu>
+ <031a20c5-27c3-cc13-6e0b-a308644abce4@redhat.com>
+ <20210316170433.GD448722@rowland.harvard.edu>
+ <1d9f059e-8b21-0895-9a50-39b6b1a5cc5c@redhat.com>
+ <20210317151746.GB488655@rowland.harvard.edu>
+ <5f8c0755-0884-f505-c4e8-3a5e89001d58@gentoo.org>
+ <20210317190654.GA497856@rowland.harvard.edu>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <7ca46439-6b7c-ecf1-3e4f-a3a7da868a64@redhat.com>
+Date:   Thu, 18 Mar 2021 12:39:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210317190654.GA497856@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi,
 
---=-09POy/eeqAoG7Dif8JG1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 3/17/21 8:06 PM, Alan Stern wrote:
+> Matthias reports that the Amazon Kindle automatically removes its
+> emulated media if it doesn't receive another SCSI command within about
+> one second after a SYNCHRONIZE CACHE.  It does so even when the host
+> has sent a PREVENT MEDIUM REMOVAL command.  The reason for this
+> behavior isn't clear, although it's not hard to make some guesses.
+> 
+> At any rate, the results can be unexpected for anyone who tries to
+> access the Kindle in an unusual fashion, and in theory they can lead
+> to data loss (for example, if one file is closed and synchronized
+> while other files are still in the middle of being written).
+> 
+> To avoid such problems, this patch creates a new usb-storage quirks
+> flag telling the driver always to issue a REQUEST SENSE following a
+> SYNCHRONIZE CACHE command, and adds an unusual_devs entry for the
+> Kindle with the flag set.  This is sufficient to prevent the Kindle
+> from doing its automatic unload, without interfering with proper
+> operation.
+> 
+> Another possible way to deal with this would be to increase the
+> frequency of TEST UNIT READY polling that the kernel normally carries
+> out for removable-media storage devices.  However that would increase
+> the overall load on the system and it is not as reliable, because the
+> user can override the polling interval.  Changing the driver's
+> behavior is safer and has minimal overhead.
+> 
+> Reported-and-tested-by: Matthias Schwarzott <zzam@gentoo.org>
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> CC: <stable@vger.kernel.org>
 
-On Tue, 2021-03-16 at 13:48 -0600, Rob Herring wrote:
-> Users of common properties shouldn't have a type definition as the
-> common schemas already have one. Drop all the unnecessary type
-> references in the tree.
->=20
-> A meta-schema update to catch these is pending.
->=20
-> Cc: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Ohad Ben-Cohen <ohad@wizery.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Cheng-Yi Chiang <cychiang@chromium.org>
-> Cc: Benson Leung <bleung@chromium.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Stefan Wahren <wahrenst@gmx.net>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Odelu Kukatla <okukatla@codeaurora.org>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: Suman Anna <s-anna@ti.com>
-> Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: linux-gpio@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: linux-can@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-remoteproc@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> =C2=A0.../bindings/arm/bcm/raspberrypi,bcm2835-firmware.yaml       | 5 +-=
----
+Thanks, patch looks good to me:
 
-				^
-				|
-
-Reviewed-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
 Regards,
-Nicolas
+
+Hans
 
 
---=-09POy/eeqAoG7Dif8JG1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmBTGloACgkQlfZmHno8
-x/7QBgf/X2Of8KHkQ7koHtulAqLWqHAwLmJ4UDf2ZhAm+Zpb3naXS4ZTQoQtZBv1
-7M+tRcB2B9eLSvYEYeWk9b3ainWXmwZA6NoAdda2c+KtEhEBlD1o2ZwHJ6Tt2RRW
-QbunvwfPBhoO3zNadU6v3x6sm5rw+lt/H1nSl8VnuujI1xI2+g0gjZPoeDbhQpVm
-FJLknBJjqlla9y1V90oh+tQ3b4R5HaHrxNEjEG/8OYFEL7GFFk282vTcrHhbGayu
-GN4wW0M04rFTlJ/GdO36Vr7zUUfU+/YqbbkglcoUh2UE2LButL3/31k/x6NetOws
-Ac1+8c7ZkXpssyBFvebQ4A/csN88Dw==
-=87aF
------END PGP SIGNATURE-----
-
---=-09POy/eeqAoG7Dif8JG1--
+> 
+> ---
+> 
+> 
+> [as1953]
+> 
+> 
+>  drivers/usb/storage/transport.c    |    7 +++++++
+>  drivers/usb/storage/unusual_devs.h |   12 ++++++++++++
+>  include/linux/usb_usual.h          |    2 ++
+>  3 files changed, 21 insertions(+)
+> 
+> Index: usb-devel/drivers/usb/storage/transport.c
+> ===================================================================
+> --- usb-devel.orig/drivers/usb/storage/transport.c
+> +++ usb-devel/drivers/usb/storage/transport.c
+> @@ -656,6 +656,13 @@ void usb_stor_invoke_transport(struct sc
+>  		need_auto_sense = 1;
+>  	}
+>  
+> +	/* Some devices (Kindle) require another command after SYNC CACHE */
+> +	if ((us->fflags & US_FL_SENSE_AFTER_SYNC) &&
+> +			srb->cmnd[0] == SYNCHRONIZE_CACHE) {
+> +		usb_stor_dbg(us, "-- sense after SYNC CACHE\n");
+> +		need_auto_sense = 1;
+> +	}
+> +
+>  	/*
+>  	 * If we have a failure, we're going to do a REQUEST_SENSE 
+>  	 * automatically.  Note that we differentiate between a command
+> Index: usb-devel/drivers/usb/storage/unusual_devs.h
+> ===================================================================
+> --- usb-devel.orig/drivers/usb/storage/unusual_devs.h
+> +++ usb-devel/drivers/usb/storage/unusual_devs.h
+> @@ -2212,6 +2212,18 @@ UNUSUAL_DEV( 0x1908, 0x3335, 0x0200, 0x0
+>  		US_FL_NO_READ_DISC_INFO ),
+>  
+>  /*
+> + * Reported by Matthias Schwarzott <zzam@gentoo.org>
+> + * The Amazon Kindle treats SYNCHRONIZE CACHE as an indication that
+> + * the host may be finished with it, and automatically ejects its
+> + * emulated media unless it receives another command within one second.
+> + */
+> +UNUSUAL_DEV( 0x1949, 0x0004, 0x0000, 0x9999,
+> +		"Amazon",
+> +		"Kindle",
+> +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+> +		US_FL_SENSE_AFTER_SYNC ),
+> +
+> +/*
+>   * Reported by Oliver Neukum <oneukum@suse.com>
+>   * This device morphes spontaneously into another device if the access
+>   * pattern of Windows isn't followed. Thus writable media would be dirty
+> Index: usb-devel/include/linux/usb_usual.h
+> ===================================================================
+> --- usb-devel.orig/include/linux/usb_usual.h
+> +++ usb-devel/include/linux/usb_usual.h
+> @@ -86,6 +86,8 @@
+>  		/* lies about caching, so always sync */	\
+>  	US_FLAG(NO_SAME, 0x40000000)				\
+>  		/* Cannot handle WRITE_SAME */			\
+> +	US_FLAG(SENSE_AFTER_SYNC, 0x80000000)			\
+> +		/* Do REQUEST_SENSE after SYNCHRONIZE_CACHE */	\
+>  
+>  #define US_FLAG(name, value)	US_FL_##name = value ,
+>  enum { US_DO_ALL_FLAGS };
+> 
 
