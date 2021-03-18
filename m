@@ -2,46 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CD4C43619
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45090C433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:55:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A68C64F78
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:52:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 175B964F18
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Mar 2021 15:55:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231756AbhCRPwT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Mar 2021 11:52:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54660 "EHLO mail.kernel.org"
+        id S232017AbhCRPy2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Mar 2021 11:54:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231245AbhCRPwA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Mar 2021 11:52:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D48264F30;
-        Thu, 18 Mar 2021 15:52:00 +0000 (UTC)
+        id S232006AbhCRPx7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Mar 2021 11:53:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 39B3E64F18;
+        Thu, 18 Mar 2021 15:53:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616082720;
-        bh=76/koNfEwuDQOP5Aa62tcz9o3VOiUvAeCO3j2tg7o2c=;
+        s=k20201202; t=1616082838;
+        bh=BBrcHhfGE3iBCVKNTfQNX2XldJgZEPsT9zYlvgZfU00=;
         h=From:To:Cc:Subject:Date:From;
-        b=W1uPGaPB4Ty/24a2fNQ+hXKidNuD9NsLncu33KnO+vPgE2Jsv0/CyE2vdQloDloIL
-         mSD6m0xyVG2dC7Zc0Fk44rOXJ+xX0aPJJP9QXQ130HH8IzStr4iLjHDJ321k8Geai/
-         q9NX1ZzjqwDmG2hGkuaCLbXeYoR2OZnEJeusSSgKvuCdhKPdhbUMT9ta1cqC5u2eQF
-         PKiuM3ZJdTANUXDk+Z5XYCBWoPFfyv7KwGaRL5g6a4/xjv49pS6qNA//4/viADcKX/
-         Eq5JUdrAx4kzlCywINN+h/t2GnxxuJXJM6b2EIamm1YikgC6zsvis8F9PgLljIMBkn
-         UVtWAOMnhdwOg==
+        b=iP/UVGFC73InLFx4efZkmlo12J8RlaVD48Fx5M8+2D46+2C2yNZBymLdMF7IwhbPN
+         bwZaSqbrY3NMVuZ7OSaQyPeyGMa3rVc74uLWpzmCyDfoxCFv4g5ax6Ps7xOpRFEJz3
+         H5j1zOJuwX0aYwRorauR6MNRM/O7yqw5nkOqA88biKUCYWHGTiI/ogws0WrTeh7GyF
+         oZEJS710wXtiPH696fkqmJD9uUC9LBoGBHygMdygMYI6kX1rEuAWUk5Zk8nAAiTCsy
+         1DQ3Sf32HH/LNVzxv9YV3pIgcH1MGXra6zU5dkXArnuWx4nAxH2RwBJsas6WrkCQbO
+         5ulGOj4X2cDMw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lMuwb-0005nO-RW; Thu, 18 Mar 2021 16:52:17 +0100
+        id 1lMuyW-0005q3-Nw; Thu, 18 Mar 2021 16:54:16 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/7] USB: cdc-acm: probe fixes
-Date:   Thu, 18 Mar 2021 16:51:55 +0100
-Message-Id: <20210318155202.22230-1-johan@kernel.org>
+Subject: [PATCH 1/2] USB: core: drop outdated interface-binding comment
+Date:   Thu, 18 Mar 2021 16:54:05 +0100
+Message-Id: <20210318155406.22399-1-johan@kernel.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,28 +48,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series fixes a couple of bugs in the probe errors paths and does
-some clean up in preparation for adding the missing error handling when
-claiming the data interface.
+It's been almost twenty years since USB drivers returned a data pointer
+from their probe routines in order to bind to an interface.
 
-The first two should probably go into 5.12-rc, while the rest could be
-held off for 5.13 if preferred.
+Time to update the documentation for usb_driver_claim_interface().
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/core/driver.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-
-Johan Hovold (7):
-  USB: cdc-acm: fix double free on probe failure
-  USB: cdc-acm: fix use-after-free after probe failure
-  USB: cdc-acm: drop redundant driver-data assignment
-  USB: cdc-acm: drop redundant driver-data reset
-  USB: cdc-acm: clean up probe error labels
-  USB: cdc-acm: use negation for NULL checks
-  USB: cdc-acm: always claim data interface
-
- drivers/usb/class/cdc-acm.c | 54 +++++++++++++++++++++----------------
- 1 file changed, 31 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 4dfa44d6cc3c..a1013d9da08d 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -526,10 +526,6 @@ static int usb_unbind_interface(struct device *dev)
+  * No device driver should directly modify internal usb_interface or
+  * usb_device structure members.
+  *
+- * Few drivers should need to use this routine, since the most natural
+- * way to bind to an interface is to return the private data from
+- * the driver's probe() method.
+- *
+  * Callers must own the device lock, so driver probe() entries don't need
+  * extra locking, but other call contexts may need to explicitly claim that
+  * lock.
 -- 
 2.26.2
 
