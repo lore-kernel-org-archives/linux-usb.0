@@ -2,161 +2,225 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D37FDC433C1
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 16:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA621C433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 22:41:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1FB66192D
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 16:33:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF3226197B
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 22:41:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbhCSQdK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Mar 2021 12:33:10 -0400
-Received: from mail-db8eur05on2088.outbound.protection.outlook.com ([40.107.20.88]:65280
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229936AbhCSQcs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 19 Mar 2021 12:32:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F0Rq3i9snEaNsWW+y6X1Mgrcr8i10NS5kKjjZWGg/IG2Jdn32li7jQTSzmrv1RjRbPn3zliPUQY3Yxn/ahxJ/VH+u/mV3UGUk6Jzr6EMMK/9E6PMqTXa0yxh//bMmNGK8evdC3Qh9Ea7fKFk9w2Kzgd7vpe7xDMyA66+fOLsa5vWTW7Lrd6xNvDRHm5DbvXC1T7YLBru4/bBfNzypsBS3G9C5vKjXXfY01C9izIOTP/yklAZAZE5Bold+RCosyarYWgCbDGVGMHYv34Zada1L/zRlpiMsRAgQAFvsbAkcMHNFs4EAJbaH/0g+mtxX3gyLiML4bn22Rg3vv7aW45uwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xUxkN2foFoJ3jPRYqb3AiD7siQPl+POhG1XR7MPxQA=;
- b=RtFRm6tJGDaC+qbE5J44DWU1wsuAYnOLVIA8/f3eyBJVkhY2dP7aE7pV5wOvqxlcuNCR25W0TKUnskW9auSikI+eVSXqGtoxjuI226zVLQ698AOH6bhV/iYp1fprwPeIxJZ1D1a60m0HOhufhacbziDlfWKb/w+FWw9/61GvQKRBhLkUUJj8owejld4D5B4i4GB2WKIqAgBUPIHW7LBJuXRrZ1F93AudbfTe3FqdRo2+M7Xva0uNPVbleP68l5Odp4Tn3Y8u/juuRP8pex43rg2L75O22RTTDYEEis9Tur16A8LWa0rYRcQ+HfM5x3d6ShoNa30OdE9c+WHqm2UIPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9xUxkN2foFoJ3jPRYqb3AiD7siQPl+POhG1XR7MPxQA=;
- b=x73bZd9Gto4PrVKI6+1V6Z+qvdC39CrixjVzAqRqZw2NRLL2FljTUyXh38KKyFv0HxqKlG6EvikSqz7ttwFOEApR+Pe1B1zgDFQonPv5Eb+r/T5+IZWNZsdY7UedohI1GcTSomQzm78iirCd09oRKUNJ1s9LvyEuOVXcinQuwtQ=
-Received: from PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:ac::5)
- by PA4PR10MB4527.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:10f::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Fri, 19 Mar
- 2021 16:32:45 +0000
-Received: from PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7040:2788:a951:5f6]) by PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7040:2788:a951:5f6%6]) with mapi id 15.20.3955.023; Fri, 19 Mar 2021
- 16:32:44 +0000
-From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-CC:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        id S230341AbhCSWl1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Mar 2021 18:41:27 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:52609 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230186AbhCSWkv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Mar 2021 18:40:51 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1616193650; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: References: Cc: To: From:
+ Subject: Sender; bh=L5CPkJaG6/npQPNqIZgrNJVRmGGHrEMi/ktpQVv42O8=; b=gwN7D6/Xk59fpwKMtVSisCMQ3CQ1V4hAcjsfYqTu+hy3VHgWAUu41WDdxOQi2YeZespW02LR
+ H1dCmc6MICbLcMjPifoQKWnk8R5mm3AIIXcO+4bdc89GexeWZSFwty7wyHxbLDb9zWu/HbgZ
+ qXHR5g4msOttUNu5DcS+DpUM1O8=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60552872e3fca7d0a6090a0c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Mar 2021 22:40:49
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 22D05C433CA; Fri, 19 Mar 2021 22:40:49 +0000 (UTC)
+Received: from [10.110.100.126] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id AC068C433C6;
+        Fri, 19 Mar 2021 22:40:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC068C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [PATCH v3 1/2] usb: dwc3: Trigger a GCTL soft reset when
+ switching modes in DRD
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>, Yu Chen <chenyu56@huawei.com>,
+        Tejas Joglekar <Tejas.Joglekar@synopsys.com>,
+        Yang Fei <fei.yang@intel.com>,
+        YongQin Liu <yongqin.liu@linaro.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Jun Li <lijun.kernel@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH v2] usb: typec: tcpm: Invoke power_supply_changed for
- tcpm-source-psy-
-Thread-Topic: [PATCH v2] usb: typec: tcpm: Invoke power_supply_changed for
- tcpm-source-psy-
-Thread-Index: AQHXG1kn097VtujeWkiKnVEPJK+rvKqJ3XWAgABZmYCAAU0PEA==
-Date:   Fri, 19 Mar 2021 16:32:44 +0000
-Message-ID: <PR3PR10MB4142450638A8E07A33E475B080689@PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM>
-References: <20210317181249.1062995-1-badhri@google.com>
- <PR3PR10MB41420951E2867C2E0E5272B980699@PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM>
- <CAPTae5J_GdHsGQvNxgpffk5otyGhY8D48vddvin3A4fkz3KWUA@mail.gmail.com>
-In-Reply-To: <CAPTae5J_GdHsGQvNxgpffk5otyGhY8D48vddvin3A4fkz3KWUA@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [147.161.166.124]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cf14345c-eacb-4251-201a-08d8eaf49ff8
-x-ms-traffictypediagnostic: PA4PR10MB4527:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <PA4PR10MB4527CF901FB63A042041C847A7689@PA4PR10MB4527.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hdnbUmccDZ2QZ4t7sQFtYU5cZo6F9VrRcaBUcA77ivjxVTgPusxhsqtOaaQx2JAi9bWwRp61u7Mpzn1mGv0/+EVxm61tW0vQr9ncmDbdoKKKq19LtI1KsJ4XfBRreNz6EIcrw0+vKMdAqVeY8KN1BnwdX8XFh55/k3gx2inTERHK/IbQEmNYJt4hF/6LVf/iJMzk+gP8IPH2hnHhvMlNydJIqW6jUN6GemcPbhiiKv/5ROX1ZL75WLpeFNrxeB9mNafUd/s6F8vMGok7/RL0fXLw1J/UHxU6GLt1l59qLRdORz/NJX6Q0/fBz+xCWCmLYP8yH/nduqpT7G1JyNQxAaZRobXY8+dFCl/N737Xg++nx94X3K5065eOtPdGCXewwjdSgIHq0zW5i3gm2ZUc21iB7cQUYttUfg7eOWe3ySUZpUWy29FEwQigo0KMyKxnLW3frIcxbLu/+m00IOKNSbYSit6GutdMOMu/xpZiY+ds8BLcrzAPPvtTGD1UfaAdgVRSOWgWyiZKqKpOuRSfMBK4mP0x1teD03RZix4BWLp0d92OQFYzPpZjtf+/6TqiP1iGMMex2F34c+HRzt9qdhkQa27SYx28oWUJowaVg63weIMsag2PvV0p4eoGz/uubkc47AwylgPiBTPmM6ustoGJDTKLsm4eZTvkc131HW8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(39850400004)(136003)(376002)(8676002)(316002)(110136005)(4326008)(8936002)(33656002)(2906002)(83380400001)(52536014)(76116006)(54906003)(64756008)(66446008)(5660300002)(26005)(86362001)(7696005)(71200400001)(66556008)(66946007)(6506007)(53546011)(478600001)(66476007)(9686003)(186003)(38100700001)(55016002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?KzhIQ1RuSlMvckl6SnRhSGRZMjZBS0VET1RyWHNNbm5oYmZ6d3BXeGg1Y0JT?=
- =?utf-8?B?MmU4NnZGaUVudnlwME1TaWVJNFFzdUt6NWRyZkl3UHVIc3FobFVxMi9XcVRI?=
- =?utf-8?B?cFJTRDdvVFVKYjhJbGlqQmRUVEJUeTlCUFd0Zi9sa2R0bVVFYjZQMVdSY0R6?=
- =?utf-8?B?cjFXd1UxdSswanpwR1BiMFdMNEVhTnRUMWZiMGlnSzEvSGlXRUlOOFBack15?=
- =?utf-8?B?Y3hGUXJpM3RsUWRlU2tBTnQyNlg2ZE1iUTFleDBzOFBFbktEYzNic0RJQ1RI?=
- =?utf-8?B?bFBnMVVaWTAxU1RiZVZBUUNzNjM5TVVHR0prQ3B6WkxIN0RqZjNJeU5NdVB4?=
- =?utf-8?B?NTFLL1VSb2VkYnNTUWh1SlVZOVhEUExqUWJvbDNrUll5aHlmZXZnRGFwMzhW?=
- =?utf-8?B?Y0J5MnQ1aVdBY3E3eW04NnZKVkFFZEtnY3dnYlV6ODNpbzVTVFJ1WWJqQmQ2?=
- =?utf-8?B?UUdWZi92dVZmMHJiYWxneG5aZDhLK2pYcUNQNTBMY09xZWluU0ZJV0plSCty?=
- =?utf-8?B?VEQ4c3kxVDVYcE5iMDNjbTZqbXVtLzRnTVo5eGRCdlZjbkk5bWU4THZYZFF5?=
- =?utf-8?B?c0h1aUhEakx5NUVSaDFHQXB1SmFyTEJvTHhsOVNac25VYVpFcmFlN1lWR1Z3?=
- =?utf-8?B?N0EvUFREV1BmemNnNSt0TExHMFg2WngyVVc3TjFsUUhqdnh5NFZxcWtYNTVk?=
- =?utf-8?B?MUY0RHdiSUpveEp1ZFN0dzdid3VsOExub2pYeGZyQ09zT0Q3bnVDRlZHS0dw?=
- =?utf-8?B?VzVGN3JzUTg5WCt0T1ZJYWhuTXRsaXo5bC9uWng0dTFIN3h0eFlTQ3Y0MlJL?=
- =?utf-8?B?UmFzN0Y2TXA0U08vOEJ5QUlpRHFLK1dEVitQMGcvLzJ0c1piRkE0ZWIvRlJq?=
- =?utf-8?B?VDVkQkxCendqRCtoRXpwQTlIbDErT1RxSU9jS0IwTmY1UG1nVFArbDlCUHBU?=
- =?utf-8?B?ZDBUL1NGWkhDQk50bXJIOTM0elNVY1hKaTdNMDVSSG9HUjVmNkFubVJOQmp2?=
- =?utf-8?B?amR4RDZmRVBxcmtkQTc0RWZyclFqcXJ3aWZxNEJqc1J5QW9ScmpQWDd2cDJE?=
- =?utf-8?B?blRxWHhNa1NpbmJZeS9jWnFEOURwbnB0WDJRNk1ha2ZDWEpUYkpmTG51bGRy?=
- =?utf-8?B?WGJIVEI3clJFY09GSWpGUkNhczR3RUltRGF2NGlIYWtxZGY3ZGFtYklhdklD?=
- =?utf-8?B?THVaUkZXSU1DTTJkRjVIMkNkZnZIUFM4bXNlZEdpZEVhZExYeitPTDBhNnkz?=
- =?utf-8?B?bGg2TE00N3FjckttZ1ozYWZyeXVLRmZTMHVJSkJQazU4di9vcWF0bHpFYml3?=
- =?utf-8?B?VmpIVUxuaGlhWG43aEJQNmI5czBpQlc4dEF0TzNYMnlrVTk1MlJRSWtMcGdT?=
- =?utf-8?B?QjNqTFc3ZVJGL05WcjFhUHJraThGMWEvd2RoZ1I4Y2ovWmNVZkJ5aUJrc0dh?=
- =?utf-8?B?b0pGMmFXZjRVdlhQem5YWHdTMTNrTnJSL0Z6T3R6c3ZKSndLV0N5UDRQbVRo?=
- =?utf-8?B?am0yYVFkV1daUCtMb1lGcmtKUU5MTlVrelNoNFpTQkpJR2drRXV3N3RaZjND?=
- =?utf-8?B?ZU1rSEttOEF3YVMxQ1BIV05ZMXBpS1Z1Ti9HVXdVaWU1bmZ1Qkd2SWNTMG0v?=
- =?utf-8?B?di9hK21iMXZERFF1MkpWdTJ5em9VSFZqVnRpU2hRczRzQlUzWHFzTGxJSVRQ?=
- =?utf-8?B?bEpFK0dua1dTeWxPUzRZSTdjbjg4dHBaQXBsRG1qRno0TUhzOE56QmhKNDVa?=
- =?utf-8?Q?4+wSx5mPzvwEqFMiF7jhb8tzpM3OCgRUFWmJXD8?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Roger Quadros <rogerq@ti.com>
+References: <20210108015115.27920-1-john.stultz@linaro.org>
+ <87bldzwr6x.fsf@kernel.org>
+ <CALAqxLWdWj9=a-7NGDzJyrfyRABwKnJM7EQo3Zm+k9JqAhPz+g@mail.gmail.com>
+ <d95d0971-624e-a0e6-ac72-6ee3b1fb1106@synopsys.com>
+ <06a44245-4f2f-69ba-fe46-b88a19f585c2@codeaurora.org>
+ <a33f7c33-f95d-60c3-70f2-4b37fcf8bac5@synopsys.com>
+ <fa5cc67e-3873-e6d9-8727-d160740b027e@codeaurora.org>
+ <3db531c4-7058-68ec-8d4b-ff122c307697@synopsys.com>
+ <8b5f7348-66d7-4902-eac8-593ab503db96@codeaurora.org>
+Message-ID: <ee47c2c6-f931-6229-13cd-d41a28b3b9c7@codeaurora.org>
+Date:   Fri, 19 Mar 2021 15:40:44 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PR3PR10MB4142.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf14345c-eacb-4251-201a-08d8eaf49ff8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2021 16:32:44.9036
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WXG3hsMx1Kt3IoB8wKT/NxOGwtm3VLX2gJpHZeiF9wwTqm9KmMjf7nAMkIsmxmv3hN2MUX3T5E3lara43z7TQROjiIbR3E9sHJ5+NONB6cU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR10MB4527
+In-Reply-To: <8b5f7348-66d7-4902-eac8-593ab503db96@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gMTggTWFyY2ggMjAyMSAyMDo0MCwgQmFkaHJpIEphZ2FuIFNyaWRoYXJhbiB3cm90ZToNCg0K
-PiA+IFJlZ2FyZGluZyBzZWxlY3RpbmcgUERPcyBvciBQUFMgQVBET3MsIHN1cmVseSB3ZSBzaG91
-bGQgb25seSBub3RpZnkgb2YgYQ0KPiBjaGFuZ2UNCj4gPiB3aGVuIHdlIHJlYWNoIFNOS19SRUFE
-WSB3aGljaCBtZWFucyBhIG5ldyBjb250cmFjdCBoYXMgYmVlbiBlc3RhYmxpc2hlZD8NCj4gVW50
-aWwNCj4gPiB0aGF0IHBvaW50IGl0J3MgcG9zc2libGUgYW55IHJlcXVlc3RlZCBjaGFuZ2UgY291
-bGQgYmUgcmVqZWN0ZWQgc28gd2h5IGluZm9ybQ0KPiA+IGNsaWVudHMgYmVmb3JlIHdlIGtub3cg
-dGhlIHNldHRpbmdzIGhhdmUgdGFrZW4gZWZmZWN0PyBJIGNvdWxkIGJlIG1pc3NpbmcNCj4gPiBz
-b21ldGhpbmcgaGVyZSBhcyBpdCdzIGJlZW4gYSBsaXR0bGUgd2hpbGUgc2luY2UgSSBkZWx2ZWQg
-aW50byB0aGlzLCBidXQgdGhpcw0KPiA+IGRvZXNuJ3Qgc2VlbSB0byBtYWtlIHNlbnNlIHRvIG1l
-Lg0KPiANCj4gSSB3YXMgdHJ5aW5nIHRvIGtlZXAgdGhlIHBvd2VyX3N1cHBseV9jaGFuZ2VkIGNh
-bGwgY2xvc2UgdG8gdGhlDQo+IHZhcmlhYmxlcyB3aGljaCBhcmUgdXNlZCB0byBpbmZlciB0aGUg
-cG93ZXIgc3VwcGx5IHByb3BlcnR5IHZhbHVlcy4NCj4gU2luY2UgcG9ydC0+cHBzX2RhdGEubWF4
-X2N1cnIgaXMgYWxyZWFkeSB1cGRhdGVkIGhlcmUgYW5kIHRoYXQncyB1c2VkDQo+IHRvIGluZmVy
-IHRoZSBDVVJSRU5UX01BWCBhIGNsaWVudCBjb3VsZCBzdGlsbCByZWFkIHRoaXMgYmVmb3JlIHRo
-ZQ0KPiByZXF1ZXN0IGdvZXMgdGhyb3VnaCByaWdodCA/DQoNCkFjdHVhbGx5IHRoYXQncyBmYWly
-IGJ1dCBJIHRoaW5rIHRoZSBwcm9ibGVtIGhlcmUgcmVsYXRlcyB0byAnbWF4X2N1cnInIG5vdA0K
-YmVpbmcgcmVzZXQgaWYgdGhlIFNSQyByZWplY3RzIG91ciByZXF1ZXN0IHdoZW4gd2UncmUgc3dh
-cHBpbmcgYmV0d2VlbiBvbmUgUFBTDQpBUERPIGFuZCBhbm90aGVyIFBQUyBBUERPLiBJIHRoaW5r
-IHRoZSAnbWF4X2N1cnInIHZhbHVlIHNob3VsZCBiZSByZXZlcnRlZCBiYWNrDQp0byB0aGUgdmFs
-dWUgZm9yIHRoZSBleGlzdGluZyBQUFMgQVBETyB3ZSB3ZXJlIGFscmVhZHkgdXNpbmcuIEkgc3Vz
-cGVjdCB0aGUgc2FtZQ0KbWlnaHQgYmUgdHJ1ZSBvZiAnbWluX3ZvbHQnIGFuZCAnbWF4X3ZvbHQn
-IGFzIHdlbGwsIG5vdyBJIGxvb2sgYXQgaXQuIEl0IG1pZ2h0DQphY3R1YWxseSBiZSBwcnVkZW50
-IHRvIGhhdmUgcGVuZGluZyBQUFMgZGF0YSBiYXNlZCBvbiBhIHJlcXVlc3QsIHdoaWNoIGlzIG9u
-bHkNCmNvbW1pdHRlZCBhcyBhY3RpdmUgb25jZSBBQ0NFUFQgaGFzIGJlZW4gcmVjZWl2ZWQuDQoN
-ClJlZ2FyZGluZyBwb3dlcl9zdXBwbHlfY2hhbmdlZCgpIHRob3VnaCwgSSBzdGlsbCB0aGluayB3
-ZSBzaG91bGQgb25seSBub3RpZnkgb2YNCmEgY2hhbmdlIHdoZW4gdGhlIHJlcXVlc3RlZCBjaGFu
-Z2UgaGFzIGJlZW4gYWNjZXB0ZWQgYnkgdGhlIHNvdXJjZSwgaW4gcmVsYXRpb24NCnRvIHRoZXNl
-IHZhbHVlcyBhcyB0aGV5IHNob3VsZCByZWZsZWN0IHRoZSByZWFsLCBpbi11c2Ugdm9sdGFnZSBh
-bmQgY3VycmVudA0KdmFsdWVzLg0KDQo=
+
+
+On 3/8/2021 10:33 PM, Wesley Cheng wrote:
+> 
+> 
+> On 3/8/2021 7:05 PM, Thinh Nguyen wrote:
+>> Wesley Cheng wrote:
+>>>
+>>> On 3/6/2021 3:41 PM, Thinh Nguyen wrote:
+>>>> Wesley Cheng wrote:
+>>>>> On 1/8/2021 4:44 PM, Thinh Nguyen wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> John Stultz wrote:
+>>>>>>> On Fri, Jan 8, 2021 at 4:26 AM Felipe Balbi <balbi@kernel.org> wrote:
+>>>>>>>> Hi,
+>>>>>>>>
+>>>>>>>> John Stultz <john.stultz@linaro.org> writes:
+>>>>>>>>> From: Yu Chen <chenyu56@huawei.com>
+>>>>>>>>>
+>>>>>>>>> Just resending this, as discussion died out a bit and I'm not
+>>>>>>>>> sure how to make further progress. See here for debug data that
+>>>>>>>>> was requested last time around:
+>>>>>>>>>   https://urldefense.com/v3/__https://lore.kernel.org/lkml/CALAqxLXdnaUfJKx0aN9xWwtfWVjMWigPpy2aqsNj56yvnbU80g@mail.gmail.com/__;!!A4F2R9G_pg!LNzuprAeg-O80SgolYkIkW4-ne-M-yLWCDUY9MygAIrQC398Z6gRJ9wnsnlqd3w$ 
+>>>>>>>>>
+>>>>>>>>> With the current dwc3 code on the HiKey960 we often see the
+>>>>>>>>> COREIDLE flag get stuck off in __dwc3_gadget_start(), which
+>>>>>>>>> seems to prevent the reset irq and causes the USB gadget to
+>>>>>>>>> fail to initialize.
+>>>>>>>>>
+>>>>>>>>> We had seen occasional initialization failures with older
+>>>>>>>>> kernels but with recent 5.x era kernels it seemed to be becoming
+>>>>>>>>> much more common, so I dug back through some older trees and
+>>>>>>>>> realized I dropped this quirk from Yu Chen during upstreaming
+>>>>>>>>> as I couldn't provide a proper rational for it and it didn't
+>>>>>>>>> seem to be necessary. I now realize I was wrong.
+>>>>>>>>>
+>>>>>>>>> After resubmitting the quirk, Thinh Nguyen pointed out that it
+>>>>>>>>> shouldn't be a quirk at all and it is actually mentioned in the
+>>>>>>>>> programming guide that it should be done when switching modes
+>>>>>>>>> in DRD.
+>>>>>>>>>
+>>>>>>>>> So, to avoid these !COREIDLE lockups seen on HiKey960, this
+>>>>>>>>> patch issues GCTL soft reset when switching modes if the
+>>>>>>>>> controller is in DRD mode.
+>>>>>>>>>
+>>>>>>>>> Cc: Felipe Balbi <balbi@kernel.org>
+>>>>>>>>> Cc: Tejas Joglekar <tejas.joglekar@synopsys.com>
+>>>>>>>>> Cc: Yang Fei <fei.yang@intel.com>
+>>>>>>>>> Cc: YongQin Liu <yongqin.liu@linaro.org>
+>>>>>>>>> Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>>>>>>>> Cc: Thinh Nguyen <thinhn@synopsys.com>
+>>>>>>>>> Cc: Jun Li <lijun.kernel@gmail.com>
+>>>>>>>>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>>>>>>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>>>>>>>>> Cc: linux-usb@vger.kernel.org
+>>>>>>>>> Signed-off-by: Yu Chen <chenyu56@huawei.com>
+>>>>>>>>> Signed-off-by: John Stultz <john.stultz@linaro.org>
+>>>>>>>>> ---
+>>>>>>>>> v2:
+>>>>>>>>> * Rework to always call the GCTL soft reset in DRD mode,
+>>>>>>>>>   rather then using a quirk as suggested by Thinh Nguyen
+>>>>>>>>>
+>>>>>>>>> v3:
+>>>>>>>>> * Move GCTL soft reset under the spinlock as suggested by
+>>>>>>>>>   Thinh Nguyen
+>>>>>>>> Because this is such an invasive change, I would prefer that we get
+>>>>>>>> Tested-By tags from a good fraction of the users before applying these
+>>>>>>>> two changes.
+>>>>>>> I'm happy to reach out to folks to try to get that. Though I'm
+>>>>>>> wondering if it would be better to put it behind a dts quirk flag, as
+>>>>>>> originally proposed?
+>>>>>>>    https://urldefense.com/v3/__https://lore.kernel.org/lkml/20201021181803.79650-1-john.stultz@linaro.org/__;!!A4F2R9G_pg!LNzuprAeg-O80SgolYkIkW4-ne-M-yLWCDUY9MygAIrQC398Z6gRJ9wnRWITZfc$ 
+>>>>>>>
+>>>>>>> That way folks can enable it for devices as they need?
+>>>>>>>
+>>>>>>> Again, I'm not trying to force this in as-is, just mostly sending it
+>>>>>>> out again for discussion to understand what other approach might work.
+>>>>>>>
+>>>>>>> thanks
+>>>>>>> -john
+>>>>>> A quirk would imply something is broken/diverged from the design right?
+>>>>>> But it's not the case here, and at least this is needed for HiKey960.
+>>>>>> Also, I think Rob will be ok with not adding 1 more quirk to the dwc3
+>>>>>> devicetree. :)
+>>>>>>
+>>>>>> BR,
+>>>>>> Thinh
+>>>>>>
+>>>>> Hi All,
+>>>>>
+>>>>> Sorry for jumping in, but I checked the SNPS v1.90a databook, and that
+>>>>> seemed to remove the requirement for the GCTL.softreset before writing
+>>>>> to PRTCAPDIR.  Should we consider adding a controller version/IP check?
+>>>>>
+>>>> Hi Wesley,
+>>>>
+>>>> From what I see in the v1.90a databook and others, the flow remains the
+>>>> same. I need to check internally, but I'm not aware of the change.
+>>>>
+>>> Hi Thinh,
+>>>
+>>> Hmmm, can you help check the register description for the PRTCAPDIR on
+>>> your v1.90a databook?  (Table 1-19 Fields for Register: GCTL (Continued)
+>>> Pg73)  When we compared the sequence in the description there to the
+>>> previous versions it removed the GCTL.softreset.  If it still shows up
+>>> on yours, then maybe my v1.90a isn't the final version?
+>>>
+>>> Thanks
+>>> Wesley Cheng
+>>>
+>>
+>> Hi Wesley,
+>>
+>> Actually your IP version type may use the newer flow. Can you print your
+>> DWC3_VER_TYPE? I still need to verify internally to know which versions
+>> need the update if any.
+>>
+>> Thanks,
+>> Thinh
+>>
+> Hi Thinh,
+> 
+> Sure, my DWC3_VER_TYPE output = 0x67612A2A
+> 
+> Thanks
+> Wesley Cheng
+> 
+Hi Thinh,
+
+Would you happen to have an update on the required sequence on the
+version shared?  Sorry for pushing, but we just wanted to finalize on
+it, since it does cause some functional issues w/o the soft reset in
+place, and causes a crash if we have the GCTL.softreset.
+
+Thanks
+Wesley Cheng
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
