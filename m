@@ -2,92 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91928C4332B
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 09:32:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C84C433E0
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 12:42:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6576B64F7B
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 09:32:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FA9364F65
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Mar 2021 12:42:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230022AbhCSJcF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Mar 2021 05:32:05 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:19278 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229973AbhCSJbw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Mar 2021 05:31:52 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1616146312; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=ICCo1NwFAZQWpVxqKXI+Vi5m//alNYpfO/J2NdJBdv8=; b=rKouhtcpNhBlsCe/myWYw2HtocQjMxmd3f0pv8tDKCk4AfrMUbN6y2jm11yESybxDia2kb8Y
- zydk1RaRwdcSlNzir67OPmbnxTEZ4//evIi02RBH8oHWVqFxMg+KXb9D6o09wDwspBN5U8LI
- jUKt59/kd6qW6++IX2L7zQVgAmQ=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60546f754db3bb6801025bb0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 19 Mar 2021 09:31:33
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id AAD94C4346B; Fri, 19 Mar 2021 09:31:32 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 71FCEC43464;
-        Fri, 19 Mar 2021 09:31:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 71FCEC43464
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH 0/2] Fix allowing of ep queuing while stopping transfers
-Date:   Fri, 19 Mar 2021 02:31:23 -0700
-Message-Id: <1616146285-19149-1-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        id S230094AbhCSMmO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Mar 2021 08:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60192 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229866AbhCSMlq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Mar 2021 08:41:46 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B88C06175F
+        for <linux-usb@vger.kernel.org>; Fri, 19 Mar 2021 05:41:46 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id r15-20020a05600c35cfb029010e639ca09eso7243535wmq.1
+        for <linux-usb@vger.kernel.org>; Fri, 19 Mar 2021 05:41:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=52uJTPLMjBsJcmCf/oAVxpcTU08/bsdOPAh5yKHJI4A=;
+        b=mu+0N+aKZTMn+unJ9qDzPaBHWKcm3WW0XczXCvyDE/d8aCGdNo2FXqhw4jT9iKHxr/
+         vEWUxHPA0bE2AfsbRoIyRNSk8DWvuMoA/oUS2TNFzCOanWcVbVVnDwZWklI+66FCEt1L
+         9x7jcrZdju27W57gPxPucsABaPYvGS+KIdrpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=52uJTPLMjBsJcmCf/oAVxpcTU08/bsdOPAh5yKHJI4A=;
+        b=lWVvSd0G/xTd4CC/k+x6jncD+nzLsGciAJuIOnqvDGDTL3xD/EZHiZh+IR9EBD3TOs
+         iBEgYS4vrY5rMzXuNobGSuc90OjVVivuELNEMmn7C8lb2Lrf7n9MiN3af16xPEvED3rb
+         b/zzEeTOGwZh8zT5IEKckXNHMrqgM8sxNpq094Q5MsjeEnwHpunp6LfUPBbjVk11+HK/
+         +q5zG7QgpoYKYlqlkZJSTk8Qy8Kxe1OD5O+fgg+lB1GLrhE5KGdHGzZPCTbGwKRBU7R3
+         JEgeJkjpR2Ywy5vHxvQximvLq7Pn8mzcb/nh7pW4chm827vDwRVPG7RLtbl9ec/W8Kvf
+         IJog==
+X-Gm-Message-State: AOAM5304ZYtCBDxM30FuupLR5bPgdjIQlR4x+Vj7NnGiboYjSPB37M72
+        WJ3BzqztWrrb6yC1Z/qXvjVKgJh5nfAq+g==
+X-Google-Smtp-Source: ABdhPJwtwM/8T22qPuDdf26ciPvJCUGe3kLTILOjvd11vNWZSSGB+eUzVafZoFHlyH48Xv2cfDkt/Q==
+X-Received: by 2002:a05:600c:19ce:: with SMTP id u14mr3519212wmq.109.1616157704981;
+        Fri, 19 Mar 2021 05:41:44 -0700 (PDT)
+Received: from vpa2.c.googlers.com.com (230.69.233.35.bc.googleusercontent.com. [35.233.69.230])
+        by smtp.gmail.com with ESMTPSA id p10sm8223278wrw.33.2021.03.19.05.41.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Mar 2021 05:41:44 -0700 (PDT)
+From:   Vincent Palatin <vpalatin@chromium.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Vincent Palatin <vpalatin@chromium.org>
+Subject: [PATCH] USB: quirks: ignore remote wake-up on Fibocom L850-GL LTE modem
+Date:   Fri, 19 Mar 2021 13:41:40 +0100
+Message-Id: <20210319124140.2314640-1-vpalatin@chromium.org>
+X-Mailer: git-send-email 2.31.0.rc2.261.g7f71774620-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-commit f09ddcfcb8c5 ("usb: dwc3: gadget: Prevent EP queuing while stopping
-transfers") addressed an issue where the DWC3 gadget was still allowing EP
-queuing to occur while the pullup disable routine was executing.  This led to
-a situation where the controller prepares a TRB, which will be unmapped by the
-stop active transfer call.
+This LTE modem (M.2 card) has a bug in its power managment:
+there is some kind of race condition for U3 wake-up between the host and
+the device. The modem firmware sometimes crashes/locks when both events
+happen at the same time and the modem fully drops off the USB bus (and
+sometimes re-enumerates, sometimes just gets stuck until the next
+reboot).
 
-In addition to the above, there are a few other places in the DWC3 gadget where
-we need to block preparing of TRBs:
+Tested with the modem wired to the XHCI controller on an AMD 3015Ce
+platform. Without the patch, the modem dropped of the USB bus 5 times in
+3 days. With the quirk, it stayed connected for a week while the
+'runtime_suspended_time' counter incremented as excepted.
+---
+ drivers/usb/core/quirks.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- 1. While the DWC3 gadget cleans up completed TRBs (during
-    dwc3_gadget_endpoint_trbs_complete()), DWC3 gadget giveback is utilized and
-    will release the dwc->lock.  If a pullup disable call occurs while the
-    cleanup is happening, then there is a chance dwc3_gadget_ep_should_continue
-    will prepare a TRB, which will later on be unmapped by the stop active
-    transfer in the pullup disable path.
-
- 2. If we are in the CONFIGURED state and the host issues a bus RESET.  In this
-    situation, the connected flag is still set to true while we stop active
-    transfers, which can lead to the same initial problem.  Ideally, function
-    drivers would stop any pending usb requests through dwc3_reset_gadget()
-    using the EP disable call, but for some function drivers, this does not
-    occur synchronously in their disable() callback.  These functions would rely
-    on the stop active transfers in the reset handler to issue the endxfer cmd.
-
-Wesley Cheng (2):
-  usb: dwc3: gadget: Avoid continuing preparing TRBs during teardown
-  usb: dwc3: gadget: Ignore EP queue requests during bus reset
-
- drivers/usb/dwc3/gadget.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 6ade3daf7858..76ac5d6555ae 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -498,6 +498,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* DJI CineSSD */
+ 	{ USB_DEVICE(0x2ca3, 0x0031), .driver_info = USB_QUIRK_NO_LPM },
+ 
++	/* Fibocom L850-GL LTE Modem */
++	{ USB_DEVICE(0x2cb7, 0x0007), .driver_info =
++			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
++
+ 	/* INTEL VALUE SSD */
+ 	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.31.0.rc2.261.g7f71774620-goog
 
