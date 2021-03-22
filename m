@@ -2,59 +2,73 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,
+	CHARSET_FARAWAY_HEADER,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4EA2C433C1
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D607FC433C1
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:45:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56FB161864
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:42:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89B9261879
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:45:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhCVJlz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 05:41:55 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42084 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230137AbhCVJlX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Mar 2021 05:41:23 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1616406082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/0o7kBCMkU5y+xIR5RoOnpWNd7+Am5+l0wjAnUoNjTQ=;
-        b=ZTMs1hN7vlfzkhJM6HwH5r9KXxBhrhNdqBjYOzGX28ZJJ+etzyjbE3toO9iQ2Ifj1mrGVh
-        mhbosBaLAHHmPHSzDju35EtDZ+8byM24JBC0J17r05X8/yosZ+i8+ZDFlDCxA0O+r369rE
-        SoruA5kKBTPRPQ+rOHTipO97ZYdp9+A=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 11E8CAD6D;
-        Mon, 22 Mar 2021 09:41:22 +0000 (UTC)
-Message-ID: <4e433b4166dca8dfe9011addcfc5ae0cbc38f90a.camel@suse.com>
-Subject: Re: [PATCH 5/7] USB: cdc-acm: clean up probe error labels
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 22 Mar 2021 10:41:18 +0100
-In-Reply-To: <20210318155202.22230-6-johan@kernel.org>
-References: <20210318155202.22230-1-johan@kernel.org>
-         <20210318155202.22230-6-johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S230078AbhCVJpL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 05:45:11 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3915 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229883AbhCVJo6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 05:44:58 -0400
+Received: from DGGEML401-HUB.china.huawei.com (unknown [172.30.72.57])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4F3qL55Mwvz5gmZ;
+        Mon, 22 Mar 2021 17:42:53 +0800 (CST)
+Received: from dggpemm000004.china.huawei.com (7.185.36.154) by
+ DGGEML401-HUB.china.huawei.com (10.3.17.32) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 22 Mar 2021 17:44:51 +0800
+Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
+ dggpemm000004.china.huawei.com (7.185.36.154) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Mon, 22 Mar 2021 17:44:51 +0800
+Received: from dggpemm000003.china.huawei.com ([7.185.36.128]) by
+ dggpemm000003.china.huawei.com ([7.185.36.128]) with mapi id 15.01.2106.013;
+ Mon, 22 Mar 2021 17:44:51 +0800
+From:   "Zengtao (B)" <prime.zeng@hisilicon.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "hminas@synopsys.com" <hminas@synopsys.com>
+CC:     Linuxarm <linuxarm@huawei.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIXSB1c2I6IGR3YzI6IFVzaW5nIHRhYiBpbnN0ZWFkIG9m?=
+ =?gb2312?Q?_blank?=
+Thread-Topic: [PATCH] usb: dwc2: Using tab instead of blank
+Thread-Index: AQHXHJ7CYXITNeMCTUWEhMMQIr9bg6qKhfYAgAUlsRA=
+Date:   Mon, 22 Mar 2021 09:44:50 +0000
+Message-ID: <ee6595c7ee57447992a2858feb0da144@hisilicon.com>
+References: <1616144456-15381-1-git-send-email-prime.zeng@hisilicon.com>
+ <YFRveKbKUxbf/I0y@kroah.com>
+In-Reply-To: <YFRveKbKUxbf/I0y@kroah.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.69.38.183]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 18.03.2021, 16:52 +0100 schrieb Johan Hovold:
-> Name the probe error labels after what they do rather than using
-> sequence numbers which is harder to review and maintain (e.g. may
-> require renaming unrelated labels when a label is added or removed).
-> 
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-Acked-by: Oliver Neukum <oneukum@suse.com>
-
+SGkgTWluYXMsIGdyZWcgay1oDQoNClBsZWFzZSBpZ25vcmUgdGhpcyBwYXRjaCwgaXQncyBhbiBp
+bmNvbXBsZXRlIHZlcnNpb24gc2VudCBieSBtaXN0YWtlLA0KIFNvcnJ5IGZvciB0aGUgbm9pc2Uu
+DQoNCj4gLS0tLS3Tyrz+1K28/i0tLS0tDQo+ILeivP7IyzogR3JlZyBLcm9haC1IYXJ0bWFuIFtt
+YWlsdG86Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+ILeiy83KsbzkOiAyMDIxxOoz1MIx
+OcjVIDE3OjMyDQo+IMrVvP7IyzogWmVuZ3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNv
+bT4NCj4gs63LzTogaG1pbmFzQHN5bm9wc3lzLmNvbTsgTGludXhhcm0gPGxpbnV4YXJtQGh1YXdl
+aS5jb20+Ow0KPiBsaW51eC11c2JAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5r
+ZXJuZWwub3JnDQo+INb3zOI6IFJlOiBbUEFUQ0hdIHVzYjogZHdjMjogVXNpbmcgdGFiIGluc3Rl
+YWQgb2YgYmxhbmsNCj4gDQo+IE9uIEZyaSwgTWFyIDE5LCAyMDIxIGF0IDA1OjAwOjU1UE0gKzA4
+MDAsIFplbmcgVGFvIHdyb3RlOg0KPiA+IFNpZ25lZC1vZmYtYnk6IFplbmcgVGFvIDxwcmltZS56
+ZW5nQGhpc2lsaWNvbi5jb20+DQo+IA0KPiBJIGNhbiBub3QgdGFrZSBwYXRjaGVzIHdpdGhvdXQg
+YW55IGNoYW5nZWxvZyB0ZXh0LCBzb3JyeS4NCj4gDQo+IGdyZWcgay1oDQo=
