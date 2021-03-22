@@ -2,83 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEB5C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF079C433E9
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 15:53:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A3BF3619B0
+	by mail.kernel.org (Postfix) with ESMTP id C367961924
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 15:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbhCVPxV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 11:53:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49018 "EHLO mail.kernel.org"
+        id S231312AbhCVPxW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 11:53:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49036 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230353AbhCVPxP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S230445AbhCVPxP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 22 Mar 2021 11:53:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B0FE0619A4;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCFDD619AC;
         Mon, 22 Mar 2021 15:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616428394;
-        bh=OrZ34x4VzWgzB6mFcm36gexXK3VuPXtVUhy3Q4haMT8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Wl13jYQ2Jka88RvyNqGRf4mNvnWa8h/lGw6j17jeS7KnMDq0h4J5CrJe++Y1Gcuyf
-         8TnH9vOvNyQqt64DB71NaKjb83x2VbGpEMXDTril4ofi5K4VL6iRVvjjhdRO7Xlq6O
-         FoUYKhSceikhAi3Av4w28o7vwTm5gs3y9Ti07TvKr9k6TrpalXHd/K+x+JizTxV3X5
-         YZoPe3pdDrIlKgjX+EQt4+idvKZw2vb734hY1K43AYoyLgq/2sUBGHqvsiUTj6YGh+
-         Ua6elAaKsLZeM1JNqmmWSHcG9iqybnQX1fZa03l3InWOm93l+S5aIRJ9KMOEyPUirT
-         C9X9Qh3bVorXw==
+        bh=p9/L/RnAIz9Ft9DWD/UAt/UImgrzNAZ5kXDabwhbbog=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=AmDLfz0sAimC9K9jL5nqrYcoHNwbihdyfFW5tatowRlsZqw4ISqRLX4RLbM87dnE5
+         BMRNGtMVfbtSC+ffOx432iXgPLhE06CdnDYzmWpsFbd3wVNV3gbu7C8zPv95XOzow9
+         KPsWNd097AC84UN1mXT+JbiLw75g6TFneGIEtOnrD2XSfFCMzAfimd/QskQeHxDpa5
+         Bc8ZmNuxKKy1yNxHhoMGsl3xQOONcMHLCh++Fx88oz+4/PEks1czur6o89S52w0q81
+         ePNuIsPOZ3IsY9yhl6ymGwoaKmRXAu9Z/4QLwwlLnqJY/zTFtY++e1ZdccKMeqUUpc
+         PePccX4LNpoNQ==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lOMrz-0002ZW-Ou; Mon, 22 Mar 2021 16:53:32 +0100
+        id 1lOMs0-0002Zd-PN; Mon, 22 Mar 2021 16:53:32 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 0/8] USB: cdc-acm: probe fixes
-Date:   Mon, 22 Mar 2021 16:53:10 +0100
-Message-Id: <20210322155318.9837-1-johan@kernel.org>
+Subject: [PATCH v2 3/8] USB: cdc-acm: drop redundant driver-data assignment
+Date:   Mon, 22 Mar 2021 16:53:13 +0100
+Message-Id: <20210322155318.9837-4-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210322155318.9837-1-johan@kernel.org>
+References: <20210322155318.9837-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series fixes a couple of bugs in the probe errors paths and does
-some clean up in preparation for adding the missing error handling when
-claiming the data interface.
+The interface driver data has already been set by
+usb_driver_claim_interface() so drop the redundant subsequent
+assignment.
 
-The first two should probably go into 5.12-rc, while the rest could be
-held off for 5.13 if preferred.
+Acked-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/class/cdc-acm.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Johan
-
-
-Changes in v2
- - clarify that the driver already had a check for a bound data
-   interface and remove the now redundant check (Oliver) (7/8)
- - add Oliver's ack to patches 1 through 6
- - add new to avoid logging a successful probe message on late errors
-   (8/8)
-
-Johan Hovold (8):
-  USB: cdc-acm: fix double free on probe failure
-  USB: cdc-acm: fix use-after-free after probe failure
-  USB: cdc-acm: drop redundant driver-data assignment
-  USB: cdc-acm: drop redundant driver-data reset
-  USB: cdc-acm: clean up probe error labels
-  USB: cdc-acm: use negation for NULL checks
-  USB: cdc-acm: always claim data interface
-  USB: cdc-acm: do not log successful probe on later errors
-
- drivers/usb/class/cdc-acm.c | 65 +++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 32 deletions(-)
-
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index dfc2480add91..36dd1e05e455 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1487,7 +1487,6 @@ static int acm_probe(struct usb_interface *intf,
+ 	acm_set_line(acm, &acm->line);
+ 
+ 	usb_driver_claim_interface(&acm_driver, data_interface, acm);
+-	usb_set_intfdata(data_interface, acm);
+ 
+ 	tty_dev = tty_port_register_device(&acm->port, acm_tty_driver, minor,
+ 			&control_interface->dev);
 -- 
 2.26.3
 
