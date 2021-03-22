@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2B3C433C1
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:41:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC1D3C433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:42:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E82E61864
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:41:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 892C961970
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 09:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230177AbhCVJkv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 05:40:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:41576 "EHLO mx2.suse.de"
+        id S229990AbhCVJlz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 05:41:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:42358 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230174AbhCVJk3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Mar 2021 05:40:29 -0400
+        id S229760AbhCVJlu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Mar 2021 05:41:50 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1616406028; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1616406108; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=A5mWBaykHdw6i41UTwYkjgwF5f9OZTuA0Eg2QiNmO3I=;
-        b=Qsp4ycLoc+ldur8rIm8gP2ylp8JJpv3ryP/vFoTrRl1G1dyB5cW6BC0t0UcXGAOnBHnRcx
-        20INH82p3vuqKSTSb3RSzN4AeA475WgEgA7uDPhBs7Y1clNErOajzlOe5yTWnL9mwQRPoa
-        7Ft+Qbm/B5mBy7Pu9tGvxhBanY2DIoI=
+        bh=ET9tVnh7U7AfNWjmR9qfyQd1mYs0mmzEoyVOIiFE5FI=;
+        b=unHr1He0BPFNL+FpcGjhTz2ADOSJvebz/np30Jrm8MHzvwsaZ6AFi0xDG6BShaHi8Z2o4h
+        /hrTTMTKWpJ+vEwv1o2p2IGE+zk/zhlCD3WyyB8XeBOZtN/JnfEJgfK2+xSDYcZJ4qrTO2
+        o8OYpJieBr2MjOLXdn2eU6tVgQZ4sSg=
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 60ABDAD38;
-        Mon, 22 Mar 2021 09:40:28 +0000 (UTC)
-Message-ID: <ab10ad58a1ceec678de2d685e1936f1570114427.camel@suse.com>
-Subject: Re: [PATCH 4/7] USB: cdc-acm: drop redundant driver-data reset
+        by mx2.suse.de (Postfix) with ESMTP id D4728AD79;
+        Mon, 22 Mar 2021 09:41:48 +0000 (UTC)
+Message-ID: <00dec0f52239f6c98a405474648e6cdcd41d48e5.camel@suse.com>
+Subject: Re: [PATCH 6/7] USB: cdc-acm: use negation for NULL checks
 From:   Oliver Neukum <oneukum@suse.com>
 To:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 22 Mar 2021 10:40:24 +0100
-In-Reply-To: <20210318155202.22230-5-johan@kernel.org>
+Date:   Mon, 22 Mar 2021 10:41:45 +0100
+In-Reply-To: <20210318155202.22230-7-johan@kernel.org>
 References: <20210318155202.22230-1-johan@kernel.org>
-         <20210318155202.22230-5-johan@kernel.org>
+         <20210318155202.22230-7-johan@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
@@ -50,9 +50,8 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 18.03.2021, 16:51 +0100 schrieb Johan Hovold:
-> There's no need to clear the interface driver data on failed probe (and
-> driver core will clear it anyway).
+Am Donnerstag, den 18.03.2021, 16:52 +0100 schrieb Johan Hovold:
+> Use negation consistently throughout the driver for NULL checks.
 > 
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 Acked-by: Oliver Neukum <oneukum@suse.com>
