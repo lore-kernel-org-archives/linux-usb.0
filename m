@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC013C433E9
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E8EC433ED
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B86D26196E
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC3A261944
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230032AbhCVDOg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Mar 2021 23:14:36 -0400
+        id S230046AbhCVDOh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Mar 2021 23:14:37 -0400
 Received: from mailgw02.mediatek.com ([210.61.82.184]:45001 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229913AbhCVDOD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Mar 2021 23:14:03 -0400
-X-UUID: 2b3d2160428f49918e588b65ff497329-20210322
-X-UUID: 2b3d2160428f49918e588b65ff497329-20210322
+        with ESMTP id S229951AbhCVDOE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Mar 2021 23:14:04 -0400
+X-UUID: 92c9d97ebef14be39bc9f0f2a8fd76bc-20210322
+X-UUID: 92c9d97ebef14be39bc9f0f2a8fd76bc-20210322
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 2147084606; Mon, 22 Mar 2021 11:13:58 +0800
+        with ESMTP id 28274236; Mon, 22 Mar 2021 11:14:01 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 22 Mar 2021 11:13:55 +0800
+ 15.0.1497.2; Mon, 22 Mar 2021 11:14:00 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 22 Mar 2021 11:13:53 +0800
+ Transport; Mon, 22 Mar 2021 11:14:00 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,62 +43,40 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH 02/13] dt-bindings: usb: mtk-xhci: add support wakeup for mt8183 and mt8192
-Date:   Mon, 22 Mar 2021 11:13:41 +0800
-Message-ID: <1616382832-28450-2-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 09/13] usb: xhci-mtk: remove MODULE_ALIAS
+Date:   Mon, 22 Mar 2021 11:13:48 +0800
+Message-ID: <1616382832-28450-9-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1616382832-28450-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1616382832-28450-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 34153F5F572804E4BA4416630BBBB5E2DDE0C15BC5A42487ABD1F0C1697A794D2000:8
+X-TM-SNTS-SMTP: FBDD45BD684D0AD303D08FD2D7CCEFD1FA90C62CA3708B8FB832BD559D3858F02000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-These two HW of wakeup don't follow MediaTek internal IPM rule,
-both use a specific way, like as early revision of mt8173.
-
-Due to the index 2 already used by many DTS, it's better to keep
-it unchanged for backward compatible, treat specific ones without
-following IPM rule as revision 1.x, meanwhile reserve 3~10 for
-later revisions with following the IPM rule.
+Since the driver only supports the devices created by the OF
+core, seems no need MODULE_ALIAS() anymore.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml     | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-mtk.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 2246d29a5e4e..f5dff7fb5755 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -30,6 +30,7 @@ properties:
-           - mediatek,mt7629-xhci
-           - mediatek,mt8173-xhci
-           - mediatek,mt8183-xhci
-+          - mediatek,mt8192-xhci
-       - const: mediatek,mtk-xhci
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 7b49064ae5d4..888666c9d7bc 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -705,7 +705,6 @@ static struct platform_driver mtk_xhci_driver = {
+ 		.of_match_table = mtk_xhci_of_match,
+ 	},
+ };
+-MODULE_ALIAS("platform:xhci-mtk");
  
-   reg:
-@@ -131,10 +132,13 @@ properties:
-         - description:
-             The second cell represents the register base address of the glue
-             layer in syscon
--        - description:
-+        - description: |
-             The third cell represents the hardware version of the glue layer,
--            1 is used by mt8173 etc, 2 is used by mt2712 etc
--          enum: [1, 2]
-+            1 - used by mt8173 etc, revision 1 without following IPM rule;
-+            2 - used by mt2712 etc, revision 2 following IPM rule;
-+            11 - used by mt8183, specific 1.1;
-+            12 - used by mt8192, specific 1.2;
-+          enum: [1, 2, 11, 12]
- 
-   mediatek,u3p-dis-msk:
-     $ref: /schemas/types.yaml#/definitions/uint32
+ static int __init xhci_mtk_init(void)
+ {
 -- 
 2.18.0
 
