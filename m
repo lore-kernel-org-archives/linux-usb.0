@@ -7,77 +7,82 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9967C433E3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D10B6C433E2
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 21:12:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CBCF619A4
+	by mail.kernel.org (Postfix) with ESMTP id 7166F61924
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 21:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231748AbhCVVMT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 17:12:19 -0400
-Received: from mga01.intel.com ([192.55.52.88]:5132 "EHLO mga01.intel.com"
+        id S231390AbhCVVMS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 17:12:18 -0400
+Received: from mga06.intel.com ([134.134.136.31]:11980 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230196AbhCVVLr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Mar 2021 17:11:47 -0400
-IronPort-SDR: lq+mZuGXpe7I/XgDGC0jUFWJKimD1xjTfv5kWHbsA+YxsAXD0jQ34sZQlykEuJBjG2MGHV1fOS
- nsCXyYgejRGg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="210424058"
+        id S229871AbhCVVLo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Mar 2021 17:11:44 -0400
+IronPort-SDR: Vnj1v1MEDgER03XVQQooig2GRuefWXUc8kN4NOzfexyyb/RjHhSh7W7bdN22mggnf3Nb8wwU7+
+ hF4Ny3nimjaQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="251703778"
 X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="210424058"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 14:11:47 -0700
-IronPort-SDR: 2Oa3bjkD7NcBddGdIwiMO200ixVuKTIHtCHhg0Y6oOIIfX6Z0gKKTlFeL0A3ovt/fAiDpmZPoF
- AcH8gVpRLg3g==
+   d="scan'208";a="251703778"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 14:11:43 -0700
+IronPort-SDR: cu7FV9JPSSrvfnA7KF4jd9cbxwa9O9bJ14iJNB8GBbvWPDwyISdb+o+VuwNf9hHcHdAdl/FAtD
+ FN61i+TTX2tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="451871773"
+   d="scan'208";a="390624893"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 22 Mar 2021 14:11:41 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Mar 2021 14:11:41 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 2C1CC11F; Mon, 22 Mar 2021 23:11:54 +0200 (EET)
+        id 46E3747A; Mon, 22 Mar 2021 23:11:55 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v1 1/6] usb: gadget: pch_udc: Drop unneeded cpu_to_le32() call
-Date:   Mon, 22 Mar 2021 23:11:44 +0200
-Message-Id: <20210322211149.6658-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 4/6] usb: gadget: pch_udc: Move pch_udc_init() to satisfy kernel doc
+Date:   Mon, 22 Mar 2021 23:11:47 +0200
+Message-Id: <20210322211149.6658-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210322211149.6658-1-andriy.shevchenko@linux.intel.com>
+References: <20210322211149.6658-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Either way ~0 will be in the correct byte order,
-hence drop unneeded cpu_to_le32() call. Moreover,
-it makes sparse happy, otherwise it complains:
+Kernel doc and the content described by it shouldn't be teared apart.
+Otherwise validator is not happy:
 
-pch_udc.c:1813:27: warning: incorrect type in assignment (different base types)
-pch_udc.c:1813:27:    expected unsigned int [usertype] dataptr
-pch_udc.c:1813:27:    got restricted __le32 [usertype]
+.../pch_udc.c:573: warning: expecting prototype for pch_udc_reconnect(). Prototype was for pch_udc_init() instead
 
-Fixes: f646cf94520e ("USB device driver of Topcliff PCH")
+Fixes: 1c575d2d2e3f ("usb: gadget: pch_udc: Fix usb/gadget/pch_udc: Fix ether gadget connect/disconnect issue")
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/usb/gadget/udc/pch_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/pch_udc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index a3c1fc924268..2e2dca391007 100644
+index 5421075df01c..984c9299d2c6 100644
 --- a/drivers/usb/gadget/udc/pch_udc.c
 +++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -1756,7 +1756,7 @@ static struct usb_request *pch_udc_alloc_request(struct usb_ep *usbep,
- 	}
- 	/* prevent from using desc. - set HOST BUSY */
- 	dma_desc->status |= PCH_UDC_BS_HST_BSY;
--	dma_desc->dataptr = cpu_to_le32(DMA_ADDR_INVALID);
-+	dma_desc->dataptr = DMA_ADDR_INVALID;
- 	req->td_data = dma_desc;
- 	req->td_data_last = dma_desc;
- 	req->chain_len = 1;
+@@ -563,12 +563,13 @@ static void pch_udc_clear_disconnect(struct pch_udc_dev *dev)
+ 	pch_udc_bit_clr(dev, UDC_DEVCTL_ADDR, UDC_DEVCTL_RES);
+ }
+ 
++static void pch_udc_init(struct pch_udc_dev *dev);
++
+ /**
+  * pch_udc_reconnect() - This API initializes usb device controller,
+  *						and clear the disconnect status.
+  * @dev:		Reference to pch_udc_regs structure
+  */
+-static void pch_udc_init(struct pch_udc_dev *dev);
+ static void pch_udc_reconnect(struct pch_udc_dev *dev)
+ {
+ 	pch_udc_init(dev);
 -- 
 2.30.2
 
