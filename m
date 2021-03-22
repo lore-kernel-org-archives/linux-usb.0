@@ -2,103 +2,138 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE70AC43459
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF01C433C1
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 05:00:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7E6361943
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 03:15:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 465D161494
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 05:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230012AbhCVDOg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Mar 2021 23:14:36 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:52557 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229930AbhCVDOD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Mar 2021 23:14:03 -0400
-X-UUID: 32d04ee76df8426ca0ba594f4ae96a39-20210322
-X-UUID: 32d04ee76df8426ca0ba594f4ae96a39-20210322
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 102971089; Mon, 22 Mar 2021 11:14:00 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 22 Mar 2021 11:13:59 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 22 Mar 2021 11:13:58 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH 07/13] usb: xhci-mtk: add support ip-sleep wakeup for mT8192
-Date:   Mon, 22 Mar 2021 11:13:46 +0800
-Message-ID: <1616382832-28450-7-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1616382832-28450-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1616382832-28450-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S229696AbhCVE75 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 00:59:57 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:59488 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229728AbhCVE7e (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 00:59:34 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12M4wgXw167323;
+        Mon, 22 Mar 2021 04:59:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=e0QZbi+ogjNgTtT03Dw2WM7UkOLEmg601/DpbmBxh1A=;
+ b=lwO0sRnzxrUFoVeaIna0oVDOGh+jiSKnlusCsL6NZe/RLXkTGGYWwjEu07UBbiMo3t91
+ uNsUYyQiEo4lmlCZMneWICbk3HXJqyqNn3JBi+mdTS5dOAzvQ2YM7XkW4BVHqlkbTOhd
+ WEDpSRGQ6kwvewKfewVPBJMN/6CO3a/YAj3iKuhnP2G36YQPUBDz/mamVvnQLmYFaXdd
+ qhklqcSIYYgWlHNq46WGbBWorkK6ERoLi03u/BNVLNhOMZz4TyzC8COa1UpTC0cFX/a2
+ EQfoTqJi7URLZrV5BIdrOsIvsEh9hki1AXMHtT1ohnEi5E4qpa62H8cy7CpxHetAzIoU Gg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 37d8fr2ad0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Mar 2021 04:59:06 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12M4uXpA003663;
+        Mon, 22 Mar 2021 04:59:05 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 37dtyvmhbt-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Mar 2021 04:59:05 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12M4wwwI006894;
+        Mon, 22 Mar 2021 04:59:00 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 22 Mar 2021 04:58:58 +0000
+Date:   Mon, 22 Mar 2021 07:58:50 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Jay Fang <f.fangjian@huawei.com>, linux-usb@vger.kernel.org,
+        tangzihao1@hisilicon.com, huangdaode@huawei.com
+Subject: Re: [PATCH] usb: ohci: remove unreachable
+ platform_driver_unregister() call
+Message-ID: <20210322045850.GA1667@kadam>
+References: <1616203911-4207-1-git-send-email-f.fangjian@huawei.com>
+ <20210320022443.GA591964@rowland.harvard.edu>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210320022443.GA591964@rowland.harvard.edu>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9930 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 phishscore=0
+ mlxlogscore=999 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103220037
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9930 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 adultscore=0 malwarescore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103220038
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support ip-sleep wakeup for mT8192, it's a specific revision,
-and not follow IPM rule.
+On Fri, Mar 19, 2021 at 10:24:43PM -0400, Alan Stern wrote:
+> On Sat, Mar 20, 2021 at 09:31:51AM +0800, Jay Fang wrote:
+> > From: Zihao Tang <tangzihao1@hisilicon.com>
+> > 
+> > Fix the following smatch warnings:
+> > 
+> > drivers/usb/host/ohci-hcd.c:1318 ohci_hcd_mod_init() warn:
+> > ignoring unreachable code.
+> > 
+> > platform_driver_register(&TMIO_OHCI_DRIVER) is the last
+> > platform_driver_register() call in ohci_hcd_mod_init(), so if it
+> > failed, there's no need to unregister it, but just goto error_tmio.
+> > 
+> > So remove the unreachable platform_driver_unregister(&TMIO_OHCI_DRIVER).
+> > No functionality change.
+> 
+> Doesn't the compiler realize that the call is unreachable, and 
+> therefore avoid generating any object for it?
+>
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/host/xhci-mtk.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+This is a static checker warning.  For example, Heart Bleed bug was an
+ignored unreachable code static checker warning.
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 8ba1f914cb75..1bfa28c9b5a2 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -70,6 +70,10 @@
- #define WC0_IS_P	BIT(12)	/* polarity */
- #define WC0_IS_EN	BIT(6)
- 
-+/* mt8192 */
-+#define WC0_SSUSB0_CDEN		BIT(6)
-+#define WC0_IS_SPM_EN		BIT(1)
-+
- /* mt2712 etc */
- #define PERI_SSUSB_SPM_CTRL	0x0
- #define SSC_IP_SLEEP_EN	BIT(4)
-@@ -79,6 +83,7 @@ enum ssusb_uwk_vers {
- 	SSUSB_UWK_V1 = 1,
- 	SSUSB_UWK_V2,
- 	SSUSB_UWK_V11 = 11,	/* specific revision 1.1 */
-+	SSUSB_UWK_V12,		/* specific revision 1.2 */
- };
- 
- static int xhci_mtk_host_enable(struct xhci_hcd_mtk *mtk)
-@@ -313,6 +318,11 @@ static void usb_wakeup_ip_sleep_set(struct xhci_hcd_mtk *mtk, bool enable)
- 		msk = WC0_IS_EN | WC0_IS_C(0xf) | WC0_IS_P;
- 		val = enable ? (WC0_IS_EN | WC0_IS_C(0x8)) : 0;
- 		break;
-+	case SSUSB_UWK_V12:
-+		reg = mtk->uwk_reg_base + PERI_WK_CTRL0;
-+		msk = WC0_SSUSB0_CDEN | WC0_IS_SPM_EN;
-+		val = enable ? msk : 0;
-+		break;
- 	case SSUSB_UWK_V2:
- 		reg = mtk->uwk_reg_base + PERI_SSUSB_SPM_CTRL;
- 		msk = SSC_IP_SLEEP_EN | SSC_SPM_INT_EN;
--- 
-2.18.0
+> It's true that the function call is, strictly speaking, unnecessary.  
+> However, it provides a pleasing symmetry and it acts as a guide in the 
+> unlikely event that anyone wants to add another platform-specific 
+> driver in the future.
+
+Hopefully future programmers can figure out basic stuff like that.
+
+This code doesn't trigger a Smatch warning on my .config because the
+Smatch check doesn't warn if the previous line was an #endif.  On the
+other hand, the ifdefs are also why I forwarded the email when I saw the
+warning from kbuild.  Normally kbuild is better at picking the person
+to blame but because this is a .config thing that confused it.  Anyway,
+I glanced at the warning and thought it looked suspicious enough to
+warrant a further look.
+
+When I first wrote the Smatch unreachable code warning there were a
+handful of places which used that style of code:
+
+	return 0;
+
+	unreachable_release();
+err_release:
+	release_something();
+
+I just left those as-is because it was obvious to me that it was done
+intentionally.  However, it seems that other people have removed all of
+those behind my back so I can't find an example of this now except for
+in ohci_hcd_mod_init().
+
+Anyway, I would have put a special case to silence these false positives
+but it wasn't common practice in 2014 and no one does it these days.
+
+regards,
+dan carpenter
 
