@@ -2,92 +2,165 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11A9FC433C1
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7EDCC433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:33:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB8A061879
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:00:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A50DB619A6
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:33:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbhCVQ7j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 12:59:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229746AbhCVQ7V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 12:59:21 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39AA6C061574;
-        Mon, 22 Mar 2021 09:59:21 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 17:59:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1616432359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DQVfYmOjNdPPfTYQ9DYdWbQlRVy8ECEn1P6lOCZxTYo=;
-        b=3BQH2Xlnq6MG2qFplKHQxUvgK39aFDz3Hru0oq8bZZ3qQQwM/72ZjC0mDS50mAIPXGPW1x
-        ws7MC5j73QM5N84MYgHcL/A3qcnzs2HKxP0dmFO0jzo01OhK6mvq9YKtSBixbIiK0OX667
-        IWhu2bF/FNwxiBC0TjoewSLDtUhMe+eMv57ikRal1yT9oNVZECCqjLI9zq9bx+42TLbesK
-        1Y5OyrsbRf0qezLg6BKmQZPJF853TaluEWHQxGnuOxZXm0ufQ+ngsSZDDrN8ooaYkIR62o
-        OfaZricXCezyJ/g9/Fw3j/SngzPiqdwFr8gg0xmFgWsMf1+sY110cipGDgbvig==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1616432359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DQVfYmOjNdPPfTYQ9DYdWbQlRVy8ECEn1P6lOCZxTYo=;
-        b=NoqlvPKS1+sioBwkL1BS9TP7pzlYMyQa2gzuj8HSqqkOYRTMbwOkeF6IAZLaXyaf//qV1N
-        aXz1cVr1vseCvPBg==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Johan Hovold <johan@kernel.org>,
+        id S231434AbhCVRcg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 13:32:36 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:21246 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229904AbhCVRcJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 13:32:09 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 22 Mar 2021 10:32:09 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 22 Mar 2021 10:32:06 -0700
+X-QCInternal: smtphost
+Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 22 Mar 2021 23:01:35 +0530
+Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
+        id D20943807; Mon, 22 Mar 2021 23:01:34 +0530 (IST)
+From:   Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stanislaw Gruszka <sgruszka@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH] USB: ehci: drop workaround for forced irq threading
-Message-ID: <20210322165917.it5d5f5kuvs7jah5@linutronix.de>
-References: <20210322111249.32141-1-johan@kernel.org>
- <20210322164200.GB667925@rowland.harvard.edu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210322164200.GB667925@rowland.harvard.edu>
+        Rob Herring <robh+dt@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Subject: [PATCH v5 2/4] usb: dwc3: host: Add suspend_quirk for dwc3 host
+Date:   Mon, 22 Mar 2021 23:01:18 +0530
+Message-Id: <1616434280-32635-3-git-send-email-sanm@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1616434280-32635-1-git-send-email-sanm@codeaurora.org>
+References: <1616434280-32635-1-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021-03-22 12:42:00 [-0400], Alan Stern wrote:
-> What happens on RT systems?  Are they smart enough to avoid the whole=20
-> problem by enabling interrupts during _all_ callbacks?
+Adding suspend quirk function for dwc3 host which will be called
+during xhci suspend.
+Setting hs_phy_mode, ss_phy_mode , phy_power_off flags and phy mode
+during host suspend.
 
-tl;dr: Yes.=20
+Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+---
+ drivers/usb/dwc3/core.h |  3 +++
+ drivers/usb/dwc3/host.c | 58 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
-The referenced commit (id 81e2073c175b) disables interrupts only on !RT
-configs so for RT everything remains unchanged (the backports are
-already adjusted for the old stable trees to use the proper CONFIG_* for
-enabled RT).
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index ce6bd84..f05546c 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1113,6 +1113,9 @@ struct dwc3 {
+ 
+ 	bool			phys_ready;
+ 
++	unsigned int            hs_phy_mode;
++	bool			phy_power_off;
++
+ 	struct ulpi		*ulpi;
+ 	bool			ulpi_ready;
+ 
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index f29a264..3db042c 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -11,6 +11,13 @@
+ #include <linux/platform_device.h>
+ 
+ #include "core.h"
++#include "../host/xhci.h"
++#include "../host/xhci-plat.h"
++int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
++
++static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
++	.suspend_quirk = xhci_dwc3_suspend_quirk,
++};
+ 
+ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ {
+@@ -115,6 +122,13 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 		}
+ 	}
+ 
++	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
++			sizeof(struct xhci_plat_priv));
++	if (ret) {
++		dev_err(dwc->dev, "failed to add data to xHCI\n");
++		goto err;
++	}
++
+ 	ret = platform_device_add(xhci);
+ 	if (ret) {
+ 		dev_err(dwc->dev, "failed to register xHCI device\n");
+@@ -127,6 +141,50 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	return ret;
+ }
+ 
++static void dwc3_set_phy_mode(struct usb_hcd *hcd)
++{
++
++	int i, num_ports;
++	u32 reg;
++	unsigned int ss_phy_mode = 0;
++	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
++	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
++
++	dwc->hs_phy_mode = 0;
++
++	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
++
++	num_ports = HCS_MAX_PORTS(reg);
++	for (i = 0; i < num_ports; i++) {
++		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
++		if (reg & PORT_PE) {
++			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
++			else if (DEV_LOWSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
++
++			if (DEV_SUPERSPEED(reg))
++				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
++		}
++	}
++	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
++	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
++}
++
++int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
++{
++	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
++
++	dwc3_set_phy_mode(hcd);
++
++	dwc->phy_power_off = true;
++
++	if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
++		dwc->phy_power_off = false;
++
++	return 0;
++}
++
+ void dwc3_host_exit(struct dwc3 *dwc)
+ {
+ 	platform_device_unregister(dwc->xhci);
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
-All hrtimer callbacks run as HRTIMER_MODE_SOFT by default. The
-HRTIMER_MODE_HARD ones (which expire in HARDIRQ context) were audited /
-explicitly enabled.
-The same goes irq_work.
-The printk code is different compared to mainline. A printk() on RT in
-HARDIRQ context is printed once the HARDIRQ context is left. So the
-serial/console/=E2=80=A6 driver never gets a chance to acquire its lock in
-hardirq context.
-
-An interrupt handler which is not forced-threaded must be marked as such
-and must not use any spinlock_t based locking. lockdep/might_sleep
-complain here already.
-
-> Alan Stern
-
-Sebastian
