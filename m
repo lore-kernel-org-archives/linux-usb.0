@@ -2,33 +2,32 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0291C433F1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5E2C433EC
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:33:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD75C61994
+	by mail.kernel.org (Postfix) with ESMTP id 9BC3D619AA
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 17:33:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231614AbhCVRcp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 13:32:45 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:62352 "EHLO
+        id S230497AbhCVRco (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 13:32:44 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:21246 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231253AbhCVRcO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 13:32:14 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 22 Mar 2021 10:32:14 -0700
+        with ESMTP id S230499AbhCVRcM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Mar 2021 13:32:12 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 22 Mar 2021 10:32:12 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 22 Mar 2021 10:32:12 -0700
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 22 Mar 2021 10:32:10 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
   by ironmsg02-blr.qualcomm.com with ESMTP; 22 Mar 2021 23:01:35 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 1F5E43811; Mon, 22 Mar 2021 23:01:35 +0530 (IST)
+        id BB67B2F8E; Mon, 22 Mar 2021 23:01:34 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -42,51 +41,59 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v5 4/4] arm64: dts: qcom: sc7180: Add wakeup-source property for USB node in IDP and trogdor
-Date:   Mon, 22 Mar 2021 23:01:20 +0530
-Message-Id: <1616434280-32635-5-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v5 0/4] USB DWC3 host wake up support from system suspend
+Date:   Mon, 22 Mar 2021 23:01:16 +0530
+Message-Id: <1616434280-32635-1-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1616434280-32635-1-git-send-email-sanm@codeaurora.org>
-References: <1616434280-32635-1-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding wakeup-source property for USB controller in
-SC7180 IDP and trogdor boards.
+Avoiding phy powerdown in host mode when wakeup capable devices are 
+connected, so that it can be wake up by devices.
+Set GENPD_FLAG_ACTIVE_WAKEUP flag to keep usb30_prim gdsc active
+when wakeup capable devices are connected to the host.
 
-Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
- arch/arm64/boot/dts/qcom/sc7180-idp.dts      | 1 +
- arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 1 +
- 2 files changed, 2 insertions(+)
+Changes in v5:
+Added phy_power_off flag to check presence of wakeup capable devices.
+Dropped patch[v4,4/5] as it is present linux-next.
+Addressed comments in host.c and dwc3-qcom.c.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-idp.dts b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-index e77a792..fe1366a 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7180-idp.dts
-@@ -369,6 +369,7 @@
- 
- &usb_1 {
- 	status = "okay";
-+	wakeup-source;
- };
- 
- &usb_1_dwc3 {
-diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-index 192e2e4..78e44c8 100644
---- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-@@ -844,6 +844,7 @@ ap_spi_fp: &spi10 {
- 
- &usb_1 {
- 	status = "okay";
-+	wakeup-source;
- };
- 
- &usb_1_dwc3 {
+Changes in v4:
+Addressed Matthias comments raised in v3.
+
+Changes in v3:
+Removed need_phy_for_wakeup flag and by default avoiding phy powerdown.
+Addressed Matthias comments and added entry for DEV_SUPERSPEED.
+Added suspend_quirk in dwc3 host and moved the dwc3_set_phy_speed_flags.
+Added wakeup-source dt entry and reading in dwc-qcom.c glue driver.
+
+Changes in v2:
+Dropped the patch in clock to set GENPD_FLAG_ACTIVE_WAKEUP flag and 
+setting in usb dwc3 driver.
+Separated the core patch and glue driver patch.
+Made need_phy_for_wakeup flag part of dwc structure and 
+hs_phy_flags as unsgined int.
+Adrressed the comment on device_init_wakeup call.
+Corrected offset for reading portsc register.
+Added pacth to support wakeup in xo shutdown case.
+
+Sandeep Maheswaram (4):
+  usb: dwc3: core: Host wake up support from system suspend
+  usb: dwc3: host: Add suspend_quirk for dwc3 host
+  usb: dwc3: qcom: Configure wakeup interrupts and set genpd active
+    wakeup flag
+  arm64: dts: qcom: sc7180: Add wakeup-source property for USB node in
+    IDP and trogdor
+
+ arch/arm64/boot/dts/qcom/sc7180-idp.dts      |  1 +
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi |  1 +
+ drivers/usb/dwc3/core.c                      |  8 ++-
+ drivers/usb/dwc3/core.h                      |  3 +
+ drivers/usb/dwc3/dwc3-qcom.c                 | 87 ++++++++++++++++++----------
+ drivers/usb/dwc3/host.c                      | 58 +++++++++++++++++++
+ 6 files changed, 124 insertions(+), 34 deletions(-)
+
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
