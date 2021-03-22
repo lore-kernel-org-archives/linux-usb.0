@@ -2,86 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A80C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEB5C433E6
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 15:53:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CB2D6187E
+	by mail.kernel.org (Postfix) with ESMTP id A3BF3619B0
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Mar 2021 15:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231175AbhCVPxU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Mar 2021 11:53:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49030 "EHLO mail.kernel.org"
+        id S231293AbhCVPxV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Mar 2021 11:53:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230385AbhCVPxP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S230353AbhCVPxP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 22 Mar 2021 11:53:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B48DB6199F;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B0FE0619A4;
         Mon, 22 Mar 2021 15:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616428394;
-        bh=+Zhc0a9ydorofyGsDShMu+wWptgazNqMAEcHASrxkjc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AIFuHItZDUfQfbKDQN0PRbJrOiU/izGVQyMW3LpNgkvvtshaovfwv33tg3BwpfuTY
-         OEpk/hDoS/JJh0jOMRzOANFWMyREMG2UqJHlsO2pRphqog5C6SqObl9YQPJz5tNwxp
-         SikATzOhA+kTjvX2HS2yyoKXk6uQH1OHEq2IwRb6TG1PvbbO5eXEnGMe+j+TtTuSHA
-         j7E77jKrSm4oYG232aP0p+XwnXhwvNKgThNICffP/lpxv//wvHJENs6cK2oABfTFSf
-         CJWlNkE/wxa1TCCr0G0mfnx8KmlvmDuzwEbZmFp40Dm/fkqEa3t7UfpavJzknnjd7D
-         X41gUPuFyA7PQ==
+        bh=OrZ34x4VzWgzB6mFcm36gexXK3VuPXtVUhy3Q4haMT8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Wl13jYQ2Jka88RvyNqGRf4mNvnWa8h/lGw6j17jeS7KnMDq0h4J5CrJe++Y1Gcuyf
+         8TnH9vOvNyQqt64DB71NaKjb83x2VbGpEMXDTril4ofi5K4VL6iRVvjjhdRO7Xlq6O
+         FoUYKhSceikhAi3Av4w28o7vwTm5gs3y9Ti07TvKr9k6TrpalXHd/K+x+JizTxV3X5
+         YZoPe3pdDrIlKgjX+EQt4+idvKZw2vb734hY1K43AYoyLgq/2sUBGHqvsiUTj6YGh+
+         Ua6elAaKsLZeM1JNqmmWSHcG9iqybnQX1fZa03l3InWOm93l+S5aIRJ9KMOEyPUirT
+         C9X9Qh3bVorXw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lOMs0-0002Za-Lk; Mon, 22 Mar 2021 16:53:32 +0100
+        id 1lOMrz-0002ZW-Ou; Mon, 22 Mar 2021 16:53:32 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
-        Alexey Khoroshilov <khoroshilov@ispras.ru>
-Subject: [PATCH v2 2/8] USB: cdc-acm: fix use-after-free after probe failure
-Date:   Mon, 22 Mar 2021 16:53:12 +0100
-Message-Id: <20210322155318.9837-3-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 0/8] USB: cdc-acm: probe fixes
+Date:   Mon, 22 Mar 2021 16:53:10 +0100
+Message-Id: <20210322155318.9837-1-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210322155318.9837-1-johan@kernel.org>
-References: <20210322155318.9837-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If tty-device registration fails the driver would fail to release the
-data interface. When the device is later disconnected, the disconnect
-callback would still be called for the data interface and would go about
-releasing already freed resources.
+This series fixes a couple of bugs in the probe errors paths and does
+some clean up in preparation for adding the missing error handling when
+claiming the data interface.
 
-Fixes: c93d81955005 ("usb: cdc-acm: fix error handling in acm_probe()")
-Cc: stable@vger.kernel.org      # 3.9
-Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>
-Acked-by: Oliver Neukum <oneukum@suse.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/class/cdc-acm.c | 5 +++++
- 1 file changed, 5 insertions(+)
+The first two should probably go into 5.12-rc, while the rest could be
+held off for 5.13 if preferred.
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index d75a78ad464d..dfc2480add91 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1503,6 +1503,11 @@ static int acm_probe(struct usb_interface *intf,
- 
- 	return 0;
- alloc_fail6:
-+	if (!acm->combined_interfaces) {
-+		/* Clear driver data so that disconnect() returns early. */
-+		usb_set_intfdata(data_interface, NULL);
-+		usb_driver_release_interface(&acm_driver, data_interface);
-+	}
- 	if (acm->country_codes) {
- 		device_remove_file(&acm->control->dev,
- 				&dev_attr_wCountryCodes);
+Johan
+
+
+Changes in v2
+ - clarify that the driver already had a check for a bound data
+   interface and remove the now redundant check (Oliver) (7/8)
+ - add Oliver's ack to patches 1 through 6
+ - add new to avoid logging a successful probe message on late errors
+   (8/8)
+
+Johan Hovold (8):
+  USB: cdc-acm: fix double free on probe failure
+  USB: cdc-acm: fix use-after-free after probe failure
+  USB: cdc-acm: drop redundant driver-data assignment
+  USB: cdc-acm: drop redundant driver-data reset
+  USB: cdc-acm: clean up probe error labels
+  USB: cdc-acm: use negation for NULL checks
+  USB: cdc-acm: always claim data interface
+  USB: cdc-acm: do not log successful probe on later errors
+
+ drivers/usb/class/cdc-acm.c | 65 +++++++++++++++++++------------------
+ 1 file changed, 33 insertions(+), 32 deletions(-)
+
 -- 
 2.26.3
 
