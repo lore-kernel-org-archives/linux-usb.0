@@ -7,78 +7,83 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE7DC433DB
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB310C433C1
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A6C6619AB
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE3B2619B2
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232890AbhCWPga (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S232898AbhCWPga (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 23 Mar 2021 11:36:30 -0400
-Received: from mga09.intel.com ([134.134.136.24]:22811 "EHLO mga09.intel.com"
+Received: from mga12.intel.com ([192.55.52.136]:63207 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232750AbhCWPgW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Mar 2021 11:36:22 -0400
-IronPort-SDR: ImP3kJgc77lQgQNQtJr4njwLeNidHxUxS+3VJ5tmJUBVMJg85WTk1ZEB8H8MT0zKxbnGNEFIyg
- cKRR5HHXgTJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190600286"
+        id S232902AbhCWPgY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Mar 2021 11:36:24 -0400
+IronPort-SDR: cFQzTPOs/cHx7jF7/h1vY/fOiYKl0Sp1Elwnp5omC7QA0NDTMfhHNdvAjREVJcA56bmSnIKb2X
+ S+qgEu96rAtw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="169834699"
 X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="190600286"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 08:36:20 -0700
-IronPort-SDR: x8UiYs+BIN4IfLspyaq2Nw+3pI/f2U0E+AmqX+9S2d531wu7mffqzbzL7Fy6oAP497pm/W6jpH
- swm1vhBcDtXQ==
+   d="scan'208";a="169834699"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 08:36:24 -0700
+IronPort-SDR: gACjoh6jfW1if95pq2MRKmQtj1aMuxNU3bsFtknl1l0glw0vZ/+jFS6YoiaTBhuUlc+gsuPTSy
+ Z+jFCxjkF26g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="593023168"
+   d="scan'208";a="513788553"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 23 Mar 2021 08:36:17 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2021 08:36:22 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 532D649E; Tue, 23 Mar 2021 17:36:31 +0200 (EET)
+        id 4E54153E; Tue, 23 Mar 2021 17:36:36 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 1/7] usb: gadget: pch_udc: Replace cpu_to_le32() by lower_32_bits()
-Date:   Tue, 23 Mar 2021 17:36:20 +0200
-Message-Id: <20210323153626.54908-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 4/7] usb: gadget: pch_udc: Move pch_udc_init() to satisfy kernel doc
+Date:   Tue, 23 Mar 2021 17:36:23 +0200
+Message-Id: <20210323153626.54908-4-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210323153626.54908-1-andriy.shevchenko@linux.intel.com>
+References: <20210323153626.54908-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Either way ~0 will be in the correct byte order, hence
-replace cpu_to_le32() by lower_32_bits(). Moreover,
-it makes sparse happy, otherwise it complains:
+Kernel doc and the content described by it shouldn't be torn apart.
+Otherwise validator is not happy:
 
-.../pch_udc.c:1813:27: warning: incorrect type in assignment (different base types)
-.../pch_udc.c:1813:27:    expected unsigned int [usertype] dataptr
-.../pch_udc.c:1813:27:    got restricted __le32 [usertype]
+.../pch_udc.c:573: warning: expecting prototype for pch_udc_reconnect(). Prototype was for pch_udc_init() instead
 
-Fixes: f646cf94520e ("USB device driver of Topcliff PCH")
+Fixes: 1c575d2d2e3f ("usb: gadget: pch_udc: Fix usb/gadget/pch_udc: Fix ether gadget connect/disconnect issue")
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v2: fixed 64-bit build (Greg)
- drivers/usb/gadget/udc/pch_udc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: Fixed typo in the commit message (Sergei)
+ drivers/usb/gadget/udc/pch_udc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index a3c1fc924268..c517186384bc 100644
+index 455fd9cde0e6..a5365b524617 100644
 --- a/drivers/usb/gadget/udc/pch_udc.c
 +++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -1756,7 +1756,7 @@ static struct usb_request *pch_udc_alloc_request(struct usb_ep *usbep,
- 	}
- 	/* prevent from using desc. - set HOST BUSY */
- 	dma_desc->status |= PCH_UDC_BS_HST_BSY;
--	dma_desc->dataptr = cpu_to_le32(DMA_ADDR_INVALID);
-+	dma_desc->dataptr = lower_32_bits(DMA_ADDR_INVALID);
- 	req->td_data = dma_desc;
- 	req->td_data_last = dma_desc;
- 	req->chain_len = 1;
+@@ -563,12 +563,13 @@ static void pch_udc_clear_disconnect(struct pch_udc_dev *dev)
+ 	pch_udc_bit_clr(dev, UDC_DEVCTL_ADDR, UDC_DEVCTL_RES);
+ }
+ 
++static void pch_udc_init(struct pch_udc_dev *dev);
++
+ /**
+  * pch_udc_reconnect() - This API initializes usb device controller,
+  *						and clear the disconnect status.
+  * @dev:		Reference to pch_udc_regs structure
+  */
+-static void pch_udc_init(struct pch_udc_dev *dev);
+ static void pch_udc_reconnect(struct pch_udc_dev *dev)
+ {
+ 	pch_udc_init(dev);
 -- 
 2.30.2
 
