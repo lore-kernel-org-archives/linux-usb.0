@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FC81C433FC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22997C433F2
 	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2861C619E2
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0078D619BC
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230027AbhCWHDw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S230188AbhCWHDw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 23 Mar 2021 03:03:52 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:52761 "EHLO
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52778 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230062AbhCWHDi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:38 -0400
-X-UUID: 3273c2e502344ae8a90d2c9c366cdc60-20210323
-X-UUID: 3273c2e502344ae8a90d2c9c366cdc60-20210323
+        with ESMTP id S230064AbhCWHDj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:39 -0400
+X-UUID: 09d42faf1db241b686c8540dab7dfcbe-20210323
+X-UUID: 09d42faf1db241b686c8540dab7dfcbe-20210323
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1262951997; Tue, 23 Mar 2021 15:03:35 +0800
+        with ESMTP id 469191672; Tue, 23 Mar 2021 15:03:35 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 23 Mar 2021 15:03:18 +0800
+ 15.0.1497.2; Tue, 23 Mar 2021 15:03:14 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Mar 2021 15:03:17 +0800
+ Transport; Tue, 23 Mar 2021 15:03:13 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -44,22 +44,22 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Eddie Hung <eddie.hung@mediatek.com>,
         "Nicolas Boichat" <drinkcat@chromium.org>
-Subject: [PATCH v2 11/13] usb: mtu3: add support ip-sleep wakeup for MT8192
-Date:   Tue, 23 Mar 2021 15:02:53 +0800
-Message-ID: <1616482975-17841-11-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 07/13] usb: xhci-mtk: add support ip-sleep wakeup for mT8192
+Date:   Tue, 23 Mar 2021 15:02:49 +0800
+Message-ID: <1616482975-17841-7-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 02F9C87FB8E8A7A7065AB363ECCD9788151B206C18A17FA37E66208E14F3C6CD2000:8
+X-TM-SNTS-SMTP: 0719A614F42A6407DAA9B5E20DBA10294037CD074A79FCFD7CACEBCBC814EF982000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add add support ip-sleep wakeup for MT8192, it's a specific
-revision, not following IPM rule.
+Add support ip-sleep wakeup for mT8192, it's a specific revision,
+and not following IPM rule.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
@@ -67,14 +67,14 @@ v2:
    1. fix typo suggested by Sergei
    2. modify revision format
 ---
- drivers/usb/mtu3/mtu3_host.c | 10 ++++++++++
+ drivers/usb/host/xhci-mtk.c | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/mtu3/mtu3_host.c b/drivers/usb/mtu3/mtu3_host.c
-index 398ce0014606..e3c923e6529f 100644
---- a/drivers/usb/mtu3/mtu3_host.c
-+++ b/drivers/usb/mtu3/mtu3_host.c
-@@ -30,6 +30,10 @@
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index ef2c74281ab4..24342112cd1d 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -70,6 +70,10 @@
  #define WC0_IS_P	BIT(12)	/* polarity */
  #define WC0_IS_EN	BIT(6)
  
@@ -85,25 +85,25 @@ index 398ce0014606..e3c923e6529f 100644
  /* mt2712 etc */
  #define PERI_SSUSB_SPM_CTRL	0x0
  #define SSC_IP_SLEEP_EN	BIT(4)
-@@ -39,6 +43,7 @@ enum ssusb_uwk_vers {
+@@ -79,6 +83,7 @@ enum ssusb_uwk_vers {
  	SSUSB_UWK_V1 = 1,
  	SSUSB_UWK_V2,
  	SSUSB_UWK_V1_1 = 101,	/* specific revision 1.01 */
-+	SSUSB_UWK_V1_2,		/* specific revision 1.02 */
++	SSUSB_UWK_V1_2,		/* specific revision 1.2 */
  };
  
- /*
-@@ -60,6 +65,11 @@ static void ssusb_wakeup_ip_sleep_set(struct ssusb_mtk *ssusb, bool enable)
+ static int xhci_mtk_host_enable(struct xhci_hcd_mtk *mtk)
+@@ -313,6 +318,11 @@ static void usb_wakeup_ip_sleep_set(struct xhci_hcd_mtk *mtk, bool enable)
  		msk = WC0_IS_EN | WC0_IS_C(0xf) | WC0_IS_P;
  		val = enable ? (WC0_IS_EN | WC0_IS_C(0x8)) : 0;
  		break;
 +	case SSUSB_UWK_V1_2:
-+		reg = ssusb->uwk_reg_base + PERI_WK_CTRL0;
++		reg = mtk->uwk_reg_base + PERI_WK_CTRL0;
 +		msk = WC0_SSUSB0_CDEN | WC0_IS_SPM_EN;
 +		val = enable ? msk : 0;
 +		break;
  	case SSUSB_UWK_V2:
- 		reg = ssusb->uwk_reg_base + PERI_SSUSB_SPM_CTRL;
+ 		reg = mtk->uwk_reg_base + PERI_SSUSB_SPM_CTRL;
  		msk = SSC_IP_SLEEP_EN | SSC_SPM_INT_EN;
 -- 
 2.18.0
