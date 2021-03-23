@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB310C433C1
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA06C433E1
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE3B2619B2
+	by mail.kernel.org (Postfix) with ESMTP id D374E619A9
 	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 15:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232898AbhCWPga (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Mar 2021 11:36:30 -0400
-Received: from mga12.intel.com ([192.55.52.136]:63207 "EHLO mga12.intel.com"
+        id S232904AbhCWPgb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Mar 2021 11:36:31 -0400
+Received: from mga03.intel.com ([134.134.136.65]:13473 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232902AbhCWPgY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232855AbhCWPgY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 23 Mar 2021 11:36:24 -0400
-IronPort-SDR: cFQzTPOs/cHx7jF7/h1vY/fOiYKl0Sp1Elwnp5omC7QA0NDTMfhHNdvAjREVJcA56bmSnIKb2X
- S+qgEu96rAtw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="169834699"
+IronPort-SDR: 3qUiHcaZ5CYu//YJsf1hd/BgztOyohH/Ta4/MTohUUPlAFccAP5utwX498mktvoKMWdDqWv4ng
+ 5tLlcIxpVgWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190532519"
 X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="169834699"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 08:36:24 -0700
-IronPort-SDR: gACjoh6jfW1if95pq2MRKmQtj1aMuxNU3bsFtknl1l0glw0vZ/+jFS6YoiaTBhuUlc+gsuPTSy
- Z+jFCxjkF26g==
+   d="scan'208";a="190532519"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 08:36:22 -0700
+IronPort-SDR: hIENFlx5lkKVCZfZSMha1fZv/UONj/ZMBbkg8p/aSmHXQOhkHFxDEDIgr3sur+PgRXqNyzamyt
+ EgkGivARci+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="513788553"
+   d="scan'208";a="415039755"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Mar 2021 08:36:22 -0700
+  by orsmga008.jf.intel.com with ESMTP; 23 Mar 2021 08:36:20 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 4E54153E; Tue, 23 Mar 2021 17:36:36 +0200 (EET)
+        id 2363D49E; Tue, 23 Mar 2021 17:36:33 +0200 (EET)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v2 4/7] usb: gadget: pch_udc: Move pch_udc_init() to satisfy kernel doc
-Date:   Tue, 23 Mar 2021 17:36:23 +0200
-Message-Id: <20210323153626.54908-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 2/7] usb: gadget: pch_udc: Check if driver is present before calling ->setup()
+Date:   Tue, 23 Mar 2021 17:36:21 +0200
+Message-Id: <20210323153626.54908-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210323153626.54908-1-andriy.shevchenko@linux.intel.com>
 References: <20210323153626.54908-1-andriy.shevchenko@linux.intel.com>
@@ -53,37 +53,90 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Kernel doc and the content described by it shouldn't be torn apart.
-Otherwise validator is not happy:
+Since we have a separate routine for VBUS sense, the interrupt may occur
+before gadget driver is present. Hence, ->setup() call may oops the kernel:
 
-.../pch_udc.c:573: warning: expecting prototype for pch_udc_reconnect(). Prototype was for pch_udc_init() instead
+[   55.245843] BUG: kernel NULL pointer dereference, address: 00000010
+...
+[   55.245843] EIP: pch_udc_isr.cold+0x162/0x33f
+...
+[   55.245843]  <IRQ>
+[   55.245843]  ? pch_udc_svc_data_out+0x160/0x160
 
-Fixes: 1c575d2d2e3f ("usb: gadget: pch_udc: Fix usb/gadget/pch_udc: Fix ether gadget connect/disconnect issue")
+Check if driver is present before calling ->setup().
+
+Fixes: f646cf94520e ("USB device driver of Topcliff PCH")
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
-v2: Fixed typo in the commit message (Sergei)
- drivers/usb/gadget/udc/pch_udc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+v2: fixed typo in the Subject
+ drivers/usb/gadget/udc/pch_udc.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index 455fd9cde0e6..a5365b524617 100644
+index c517186384bc..2e3510dd026c 100644
 --- a/drivers/usb/gadget/udc/pch_udc.c
 +++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -563,12 +563,13 @@ static void pch_udc_clear_disconnect(struct pch_udc_dev *dev)
- 	pch_udc_bit_clr(dev, UDC_DEVCTL_ADDR, UDC_DEVCTL_RES);
+@@ -2298,6 +2298,21 @@ static void pch_udc_svc_data_out(struct pch_udc_dev *dev, int ep_num)
+ 		pch_udc_set_dma(dev, DMA_DIR_RX);
  }
  
-+static void pch_udc_init(struct pch_udc_dev *dev);
++static int pch_udc_gadget_setup(struct pch_udc_dev *dev)
++	__must_hold(&dev->lock)
++{
++	int rc;
++
++	/* In some cases we can get an interrupt before driver gets setup */
++	if (!dev->driver)
++		return -ESHUTDOWN;
++
++	spin_unlock(&dev->lock);
++	rc = dev->driver->setup(&dev->gadget, &dev->setup_data);
++	spin_lock(&dev->lock);
++	return rc;
++}
 +
  /**
-  * pch_udc_reconnect() - This API initializes usb device controller,
-  *						and clear the disconnect status.
-  * @dev:		Reference to pch_udc_regs structure
-  */
--static void pch_udc_init(struct pch_udc_dev *dev);
- static void pch_udc_reconnect(struct pch_udc_dev *dev)
- {
- 	pch_udc_init(dev);
+  * pch_udc_svc_control_in() - Handle Control IN endpoint interrupts
+  * @dev:	Reference to the device structure
+@@ -2369,15 +2384,12 @@ static void pch_udc_svc_control_out(struct pch_udc_dev *dev)
+ 			dev->gadget.ep0 = &dev->ep[UDC_EP0IN_IDX].ep;
+ 		else /* OUT */
+ 			dev->gadget.ep0 = &ep->ep;
+-		spin_lock(&dev->lock);
+ 		/* If Mass storage Reset */
+ 		if ((dev->setup_data.bRequestType == 0x21) &&
+ 		    (dev->setup_data.bRequest == 0xFF))
+ 			dev->prot_stall = 0;
+ 		/* call gadget with setup data received */
+-		setup_supported = dev->driver->setup(&dev->gadget,
+-						     &dev->setup_data);
+-		spin_unlock(&dev->lock);
++		setup_supported = pch_udc_gadget_setup(dev);
+ 
+ 		if (dev->setup_data.bRequestType & USB_DIR_IN) {
+ 			ep->td_data->status = (ep->td_data->status &
+@@ -2625,9 +2637,7 @@ static void pch_udc_svc_intf_interrupt(struct pch_udc_dev *dev)
+ 		dev->ep[i].halted = 0;
+ 	}
+ 	dev->stall = 0;
+-	spin_unlock(&dev->lock);
+-	dev->driver->setup(&dev->gadget, &dev->setup_data);
+-	spin_lock(&dev->lock);
++	pch_udc_gadget_setup(dev);
+ }
+ 
+ /**
+@@ -2662,9 +2672,7 @@ static void pch_udc_svc_cfg_interrupt(struct pch_udc_dev *dev)
+ 	dev->stall = 0;
+ 
+ 	/* call gadget zero with setup data received */
+-	spin_unlock(&dev->lock);
+-	dev->driver->setup(&dev->gadget, &dev->setup_data);
+-	spin_lock(&dev->lock);
++	pch_udc_gadget_setup(dev);
+ }
+ 
+ /**
 -- 
 2.30.2
 
