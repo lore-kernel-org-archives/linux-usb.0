@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16747C4345E
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EF5C4345A
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0180E619BC
+	by mail.kernel.org (Postfix) with ESMTP id 9F044619C2
 	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230158AbhCWHDu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Mar 2021 03:03:50 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:52761 "EHLO
+        id S230203AbhCWHDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Mar 2021 03:03:54 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52807 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229464AbhCWHDh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:37 -0400
-X-UUID: 188d5105d8ea482ab2f18aa0ecdb5ec3-20210323
-X-UUID: 188d5105d8ea482ab2f18aa0ecdb5ec3-20210323
+        with ESMTP id S230076AbhCWHDk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:40 -0400
+X-UUID: 9e10be57bd57471ea97c09abcb264c25-20210323
+X-UUID: 9e10be57bd57471ea97c09abcb264c25-20210323
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1216543948; Tue, 23 Mar 2021 15:03:35 +0800
+        with ESMTP id 1381701376; Tue, 23 Mar 2021 15:03:36 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 23 Mar 2021 15:03:13 +0800
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 23 Mar 2021 15:03:19 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Mar 2021 15:03:12 +0800
+ Transport; Tue, 23 Mar 2021 15:03:18 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,66 +43,61 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Eddie Hung <eddie.hung@mediatek.com>,
-        "Nicolas Boichat" <drinkcat@chromium.org>
-Subject: [PATCH v2 05/13] usb: xhci-mtk: support quirk to disable usb2 lpm
-Date:   Tue, 23 Mar 2021 15:02:47 +0800
-Message-ID: <1616482975-17841-5-git-send-email-chunfeng.yun@mediatek.com>
+        Nicolas Boichat <drinkcat@chromium.org>
+Subject: [PATCH v2 12/13] usb: mtu3: drop CONFIG_OF
+Date:   Tue, 23 Mar 2021 15:02:54 +0800
+Message-ID: <1616482975-17841-12-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: DD9F8651991F2219FCB74CE67B4205BC3BD452D60A0A435A8210568683BACF6F2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The xHCI driver support usb2 HW LPM by default, here add support
-XHCI_HW_LPM_DISABLE quirk, then we can disable usb2 lpm when
-need it.
+The driver can match only the devices created by the OF core
+via the DT table, so the table should be always used.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2: no changes
 ---
- drivers/usb/host/xhci-mtk.c | 3 +++
- drivers/usb/host/xhci-mtk.h | 1 +
- 2 files changed, 4 insertions(+)
+ drivers/usb/mtu3/mtu3_plat.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 1b9f10048fe0..09f2ddbfe8b9 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -388,6 +388,8 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
- 	if (mtk->lpm_support)
- 		xhci->quirks |= XHCI_LPM_SUPPORT;
-+	if (mtk->u2_lpm_disable)
-+		xhci->quirks |= XHCI_HW_LPM_DISABLE;
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index d44d5417438d..7786a95a874e 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -502,25 +502,20 @@ static const struct dev_pm_ops mtu3_pm_ops = {
  
- 	/*
- 	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
-@@ -470,6 +472,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 		return ret;
+ #define DEV_PM_OPS (IS_ENABLED(CONFIG_PM) ? &mtu3_pm_ops : NULL)
  
- 	mtk->lpm_support = of_property_read_bool(node, "usb3-lpm-capable");
-+	mtk->u2_lpm_disable = of_property_read_bool(node, "usb2-lpm-disable");
- 	/* optional property, ignore the error if it does not exist */
- 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
- 			     &mtk->u3p_dis_msk);
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index 621ec1a85009..4ccd08e20a15 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -149,6 +149,7 @@ struct xhci_hcd_mtk {
- 	struct phy **phys;
- 	int num_phys;
- 	bool lpm_support;
-+	bool u2_lpm_disable;
- 	/* usb remote wakeup */
- 	bool uwk_en;
- 	struct regmap *uwk;
+-#ifdef CONFIG_OF
+-
+ static const struct of_device_id mtu3_of_match[] = {
+ 	{.compatible = "mediatek,mt8173-mtu3",},
+ 	{.compatible = "mediatek,mtu3",},
+ 	{},
+ };
+-
+ MODULE_DEVICE_TABLE(of, mtu3_of_match);
+ 
+-#endif
+-
+ static struct platform_driver mtu3_driver = {
+ 	.probe = mtu3_probe,
+ 	.remove = mtu3_remove,
+ 	.driver = {
+ 		.name = MTU3_DRIVER_NAME,
+ 		.pm = DEV_PM_OPS,
+-		.of_match_table = of_match_ptr(mtu3_of_match),
++		.of_match_table = mtu3_of_match,
+ 	},
+ };
+ module_platform_driver(mtu3_driver);
 -- 
 2.18.0
 
