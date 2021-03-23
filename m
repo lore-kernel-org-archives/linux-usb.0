@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58967C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E547EC433F7
 	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18F80619BB
+	by mail.kernel.org (Postfix) with ESMTP id D3716619CE
 	for <linux-usb@archiver.kernel.org>; Tue, 23 Mar 2021 07:04:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbhCWHDt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Mar 2021 03:03:49 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:40147 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230057AbhCWHDR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:17 -0400
-X-UUID: a9aab06c83aa4df482b0fef13ac9fd41-20210323
-X-UUID: a9aab06c83aa4df482b0fef13ac9fd41-20210323
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        id S230167AbhCWHDv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Mar 2021 03:03:51 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:52778 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230063AbhCWHDi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Mar 2021 03:03:38 -0400
+X-UUID: 6e913c2358154070aa2ab0c6e8b90fa2-20210323
+X-UUID: 6e913c2358154070aa2ab0c6e8b90fa2-20210323
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2101752130; Tue, 23 Mar 2021 15:03:13 +0800
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 997892896; Tue, 23 Mar 2021 15:03:35 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 23 Mar 2021 15:03:12 +0800
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 23 Mar 2021 15:03:16 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 23 Mar 2021 15:03:11 +0800
+ Transport; Tue, 23 Mar 2021 15:03:15 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,61 +43,43 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>,
         Eddie Hung <eddie.hung@mediatek.com>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH v2 04/13] usb: xhci-mtk: fix broken streams issue on 0.96 xHCI
-Date:   Tue, 23 Mar 2021 15:02:46 +0800
-Message-ID: <1616482975-17841-4-git-send-email-chunfeng.yun@mediatek.com>
+        "Nicolas Boichat" <drinkcat@chromium.org>
+Subject: [PATCH v2 09/13] usb: xhci-mtk: remove MODULE_ALIAS
+Date:   Tue, 23 Mar 2021 15:02:51 +0800
+Message-ID: <1616482975-17841-9-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-SNTS-SMTP: 701F5C4125BAB12E49D6CB8846A456FAF38247F3F7498D25B01B980684E2A9CD2000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The MediaTek 0.96 xHCI controller on some platforms does not
-support bulk stream even HCCPARAMS says supporting, due to MaxPSASize
-is set a default value 1 by mistake, here use XHCI_BROKEN_STREAMS
-quirk to fix it.
+Since the driver only supports the devices created by the OF
+core, seems no need MODULE_ALIAS() anymore.
 
-Fixes: 94a631d91ad3 ("usb: xhci-mtk: check hcc_params after adding primary hcd")
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2: no changes
 ---
- drivers/usb/host/xhci-mtk.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci-mtk.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 57bcfdfa0465..1b9f10048fe0 100644
+index 832c5b8bb8a8..744639d23fa8 100644
 --- a/drivers/usb/host/xhci-mtk.c
 +++ b/drivers/usb/host/xhci-mtk.c
-@@ -388,6 +388,13 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
- 	if (mtk->lpm_support)
- 		xhci->quirks |= XHCI_LPM_SUPPORT;
-+
-+	/*
-+	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
-+	 * and it's 3 when support it.
-+	 */
-+	if (xhci->hci_version < 0x100 && HCC_MAX_PSA(xhci->hcc_params) == 4)
-+		xhci->quirks |= XHCI_BROKEN_STREAMS;
- }
+@@ -705,7 +705,6 @@ static struct platform_driver mtk_xhci_driver = {
+ 		.of_match_table = mtk_xhci_of_match,
+ 	},
+ };
+-MODULE_ALIAS("platform:xhci-mtk");
  
- /* called during probe() after chip reset completes */
-@@ -549,7 +556,8 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto put_usb3_hcd;
- 
--	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
-+	if (HCC_MAX_PSA(xhci->hcc_params) >= 4 &&
-+	    !(xhci->quirks & XHCI_BROKEN_STREAMS))
- 		xhci->shared_hcd->can_do_streams = 1;
- 
- 	ret = usb_add_hcd(xhci->shared_hcd, irq, IRQF_SHARED);
+ static int __init xhci_mtk_init(void)
+ {
 -- 
 2.18.0
 
