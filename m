@@ -2,75 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E64C433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:37:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B10BAC433C1
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:41:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DBD68619F9
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:37:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FB0461477
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233612AbhCXHhY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 03:37:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57486 "EHLO mail.kernel.org"
+        id S235688AbhCXHlV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 03:41:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235597AbhCXHhQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 24 Mar 2021 03:37:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 280E7619FD;
-        Wed, 24 Mar 2021 07:37:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616571435;
-        bh=+QcyXUUw3ewbAm4VgTuP5nM5CtDca5a/kAdAaPSavyQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S1UNJzFaoitef7YqDdJPlHo8pSQSnPhKeqkZRCMjP3JoTtnn7dCm9xiPHW4lJ4hjZ
-         kgtejDBHlyzbqBc85eBlAiFXRhBOiix3Lv/q4GrXdGWXCOO/co1TsJUlfVeN2wVO+T
-         omkbPkxaoyUKxlx0eT4T6rabZ5oAARI2fjOl8MNY=
-Date:   Wed, 24 Mar 2021 08:37:13 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>
-Cc:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Antonio Borneo <borneo.antonio@gmail.com>,
-        matt mooney <mfm@muteddisk.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] usbip: tools: add options and examples in man
- page related to device mode
-Message-ID: <YFrsKfRV5441TsSl@kroah.com>
-References: <YFrBz6dvTip9+wm7@Sun>
- <YFrdyKKx1nx8bktm@Sun>
+        id S235621AbhCXHlS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 24 Mar 2021 03:41:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4DA4361A05;
+        Wed, 24 Mar 2021 07:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616571678;
+        bh=9LzGbS75k390RLeX5KjGDyZ6m4h91qVwN6Sq85lg1rM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bY0Rw4mpjpCGkQB5g7UGEzwGofhodqg19o4U58vVjg52i/KdF+/eQApPpmcyrRNS/
+         czcf2bX8vh2B0LvfulIBMFqvFbvofNo95FS45yQjAwkplPOh5uuobYTAwaUM3sJa9B
+         uT9yXJI3NDtM7+bCBfKorNXWAjHjls8ibmrm0gQVMBJwLQ0PnRl+mV5/A7ZswwU6/S
+         IFFWdHHY3oc+FMecP3HQsH1k7pFFLZAYB55alxh1dP4tkVRurelqFanl/Z+uwJDNNh
+         5IdM4dUoOmPFaPoqXAeFEXEBrkjvPASiQDNCS7rYL0bZsonI2VTtfTC9lPZp5H+nG6
+         y2a4Tq8ajRttw==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lOy8h-000umf-Um; Wed, 24 Mar 2021 08:41:15 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v2 5/7] USB: serial: xr: add support for XR21B1411
+Date:   Wed, 24 Mar 2021 08:41:09 +0100
+Message-Id: <b53d8889ed0f47c8ae12a8c65df7a970819e72fd.1616571453.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1616571453.git.mchehab+huawei@kernel.org>
+References: <cover.1616571453.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFrdyKKx1nx8bktm@Sun>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 02:35:52PM +0800, Hongren Zheng (Zenithal) wrote:
-> The commit e0546fd8b748 ("usbip: tools: Start using VUDC backend in
-> usbip tools") implemented device mode for user space tools, however the
-> corresponding options are not documented in man page.
-> 
-> This commit documents the options and provides examples on device mode.
-> Also the command `usbip port` is documented.
-> 
-> Signed-off-by: Hongren Zheng <i@zenithal.me>
-> ---
->  tools/usb/usbip/doc/usbip.8  | 42 +++++++++++++++++++++++++++++++++++-
->  tools/usb/usbip/doc/usbipd.8 | 26 ++++++++++++++++++++++
->  2 files changed, 67 insertions(+), 1 deletion(-)
-> 
+There's nothing special on this device: it has just one port.
 
-Always resend the whole series, not just individual patches of the
-series.  When you send individual updates, it's almost impossible to
-figure out what patch is what to review and apply properly.
+The only difference is that it uses a different register set.
 
-There's no "waste" by resending the whole series, it makes it obvious
-what is going on and what needs to be reviewed.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/usb/serial/xr_serial.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-thanks,
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index 058624d15505..b1044dd3e994 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -99,6 +99,7 @@ struct xr_txrx_clk_mask {
+ #define VIA_CDC_REGISTER		-1
+ 
+ enum xr_model {
++	XR21B1411,
+ 	XR21V141X,
+ 	XR21B142X,
+ 	MAX_XR_MODELS
+@@ -132,6 +133,30 @@ enum xr_hal_type {
+ };
+ 
+ static const int xr_hal_table[MAX_XR_MODELS][MAX_XR_HAL_TYPE] = {
++	[XR21B1411] = {
++		[REG_ENABLE] =				0xc00,
++		[REG_FORMAT] =				VIA_CDC_REGISTER,
++		[REG_FLOW_CTRL] =			0xc06,
++		[REG_XON_CHAR] =			0xc07,
++		[REG_XOFF_CHAR] =			0xc08,
++		[REG_TX_BREAK] =			0xc0a,
++		[REG_RS485_DELAY] =			0xc0b,
++		[REG_GPIO_MODE] =			0xc0c,
++		[REG_GPIO_DIR] =			0xc0d,
++		[REG_GPIO_SET] =			0xc0e,
++		[REG_GPIO_CLR] =			0xc0f,
++		[REG_GPIO_STATUS] =			0xc10,
++		[REG_GPIO_INT_MASK] =			0xc11,
++		[REG_CUSTOMIZED_INT] =			0xc12,
++		[REG_GPIO_PULL_UP_ENABLE] =		0xc14,
++		[REG_GPIO_PULL_DOWN_ENABLE] =		0xc15,
++		[REG_LOOPBACK] =			0xc16,
++		[REG_LOW_LATENCY] =			0xcc2,
++		[REG_CUSTOM_DRIVER] =			0x20d,
++
++		[REQ_SET] =				0,
++		[REQ_GET] =				1,
++	},
+ 	[XR21V141X] = {
+ 		[REG_ENABLE] =				0x03,
+ 		[REG_FORMAT] =				0x0b,
+@@ -190,6 +215,8 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
+ 	int ret;
+ 
+ 	switch (port_priv->model) {
++	case XR21B1411:
++		break;
+ 	case XR21V141X:
+ 		if (port_priv->channel)
+ 			reg |= (port_priv->channel - 1) << 8;
+@@ -226,6 +253,8 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
+ 		return -ENOMEM;
+ 
+ 	switch (port_priv->model) {
++	case XR21B1411:
++		break;
+ 	case XR21V141X:
+ 		if (port_priv->channel)
+ 			reg |= (port_priv->channel - 1) << 8;
+@@ -874,6 +903,7 @@ static void xr_disconnect(struct usb_serial *serial)
+ 
+ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(0x04e2, 0x1410), .driver_info = XR21V141X},
++	{ USB_DEVICE(0x04e2, 0x1411), .driver_info = XR21B1411},
+ 	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = XR21V141X},
+ 	{ USB_DEVICE(0x04e2, 0x1414), .driver_info = XR21V141X},
+ 
+-- 
+2.30.2
 
-greg k-h
