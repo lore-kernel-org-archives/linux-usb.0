@@ -2,104 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3AD0C433E8
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D911C433DB
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8506A61A22
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C346619EC
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237199AbhCXRej (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 13:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237233AbhCXReP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:34:15 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93747C0613E0
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:15 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id b16so28606357eds.7
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YVoLbq8RBXUfihLEoAO2RhgjiaRVSJgl/YQpPYdz058=;
-        b=F+iJ9M+WInt+IZa6vVqUUZZZXKjhcQ0sePVfsAX4epZi6SWJVwwuoO49lpEpWsG1B4
-         lKTGk75uroceeGyvtgjjYpPiujSmq/LW9HLYXMjM0earEN+yrwXDAj9NnLOb+WVywr0E
-         OihBB1Ah5Y+zYcknMsE9vNN7NU+z3C60+eoaaYCl/YU9INj8EwOoX8ifSB03NMHEefq3
-         /1U3MTbAvW7ffjBahhaiMpWExcRT0HxVlOb4shQrt6UVPCrPlcrAF3Dfoa6Vx6HmEYjV
-         3nQXYNopEpnO8Qzbnfdkla5KC38yLS6Y+r2C9Ghawi14bY0tK9CVh7OD8mP5/Y1usLIK
-         4D/A==
+        id S237075AbhCXRgp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 13:36:45 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:46659 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237184AbhCXRgP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:36:15 -0400
+Received: by mail-io1-f72.google.com with SMTP id w8so1928116iox.13
+        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:36:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YVoLbq8RBXUfihLEoAO2RhgjiaRVSJgl/YQpPYdz058=;
-        b=reBlnvil+bic68sMvrn+3HgJDk5HtR1wPcl6zDAG1slB42ISzERr1rsFGECiyacWle
-         98Jwc8bA3hOo84agcztC80SrCZixq9eNOQxEdu/cvbIz1unoQktSo9MJkYigkbvZVcuB
-         t5DOoJ0YaItIRXJdF4hElfi112626hTFtm4dtc0k98gq4Q5wweJ1L6Q+K+mz7AnNSaSS
-         87YGOM23VSs8gJINmZJupyVANiwfZ/F+sZE4ay9kPeKBmzV2rMkByFB0pIRiYKpikyxt
-         N+RoUk2pRpOB+/k+DTUmIBnv8Lgbrfk5RGlc86JzsJXw4wH/oatNsv6j/q4HzNmIq1qW
-         oTyw==
-X-Gm-Message-State: AOAM530FVlSgDlmaWuQ21k49nf2Ubvgz0wnifvTYopGB0X3VuPTTUidL
-        UIrASXrW1+rWLY1X7BLA8h/gFg==
-X-Google-Smtp-Source: ABdhPJxRZif/QlzU41cuhZx3aHLwJ3xCFIf1WIBnnn5M/mUI6grvUz+kGd+AImbr0OB4afgXt35r3g==
-X-Received: by 2002:a05:6402:3587:: with SMTP id y7mr4901632edc.54.1616607254314;
-        Wed, 24 Mar 2021 10:34:14 -0700 (PDT)
-Received: from dell.default ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 10:34:13 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        message to <vojtech@ucw.cz>, linux-usb@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: [PATCH 06/25] HID: usbhid: Repair a formatting issue in a struct description
-Date:   Wed, 24 Mar 2021 17:33:45 +0000
-Message-Id: <20210324173404.66340-7-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
-References: <20210324173404.66340-1-lee.jones@linaro.org>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=d3+3d6jtDAfbf+GrVq1Qg39NvVvFXf+9538V36yRUSU=;
+        b=nl1zW2HFg59ttS1t09C942T8svnqsDByTw70Hy9nK49tjPiqrr529qK5su9S9yHIkD
+         w505AJ9LvAIow/9zjyUCLkfktBsk2TlyHCOQSWvb2UpMQUGawAkv/zsVv+eEd0I0w40P
+         Hz9Y7IkfujQSvgWbv+E4p/efc7o36Han6L97pfscscYv2ApHQR90yyyQWnbZpNzRiUAZ
+         pzspLPHbcCWyA9Eq8XMzMasJoBYcnjAXrKsSq0DMZ75Wy+V8sIhNMcaLj54RCuHQzsd+
+         bu7DipPZvBpnQFpdrMQWv6hdbVk28zc+OuaZoN5u6Rkne8p9OMBljAMs5gFIQm+rCcoi
+         oH/g==
+X-Gm-Message-State: AOAM530xRoPKWqmvELfDz0G3wP4cyc0pcJoyDeCDjBuEHYlVpiMrKH0a
+        86OXSBNlS+xKdq2BrLwEcAxhF6P+yldRe7gT14fQUkmakbRv
+X-Google-Smtp-Source: ABdhPJxsi/nKXBOjK9tKvCSkjNR1gE52sVVkbu7LTJLTQBAOqNn/1bIURKBzhOmyPltX4xwB0IKh/VWOKGvqjov4yWz8/ppbJf8I
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a5e:dd0c:: with SMTP id t12mr3281038iop.50.1616607374591;
+ Wed, 24 Mar 2021 10:36:14 -0700 (PDT)
+Date:   Wed, 24 Mar 2021 10:36:14 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004dcb8c05be4bbcf8@google.com>
+Subject: [syzbot] UBSAN: shift-out-of-bounds in vhci_hub_control (2)
+From:   syzbot <syzbot+3dea30b047f41084de66@syzkaller.appspotmail.com>
+To:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, shuah@kernel.org,
+        syzkaller-bugs@googlegroups.com, valentina.manea.m@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+Hello,
 
- drivers/hid/usbhid/usbkbd.c:66: warning: bad line:                 should be on
+syzbot found the following issue on:
 
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: message to <vojtech@ucw.cz>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+HEAD commit:    84196390 Merge tag 'selinux-pr-20210322' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12ea778ad00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5adab0bdee099d7a
+dashboard link: https://syzkaller.appspot.com/bug?extid=3dea30b047f41084de66
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15449662d00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f81026d00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3dea30b047f41084de66@syzkaller.appspotmail.com
+
+================================================================================
+UBSAN: shift-out-of-bounds in drivers/usb/usbip/vhci_hcd.c:605:42
+shift exponent 768 is too large for 32-bit type 'int'
+CPU: 0 PID: 8421 Comm: syz-executor852 Not tainted 5.12.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:79 [inline]
+ dump_stack+0x141/0x1d7 lib/dump_stack.c:120
+ ubsan_epilogue+0xb/0x5a lib/ubsan.c:148
+ __ubsan_handle_shift_out_of_bounds.cold+0xb1/0x181 lib/ubsan.c:327
+ vhci_hub_control.cold+0x20b/0x5f0 drivers/usb/usbip/vhci_hcd.c:605
+ rh_call_control drivers/usb/core/hcd.c:683 [inline]
+ rh_urb_enqueue drivers/usb/core/hcd.c:841 [inline]
+ usb_hcd_submit_urb+0xcaf/0x22d0 drivers/usb/core/hcd.c:1544
+ usb_submit_urb+0x6e4/0x1540 drivers/usb/core/urb.c:585
+ usb_start_wait_urb+0x101/0x4c0 drivers/usb/core/message.c:58
+ usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
+ usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
+ do_proc_control+0x4af/0x980 drivers/usb/core/devio.c:1165
+ proc_control drivers/usb/core/devio.c:1191 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2535 [inline]
+ usbdev_ioctl+0x10e2/0x36c0 drivers/usb/core/devio.c:2708
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x443499
+Code: 28 c3 e8 2a 14 00 00 66 2e 0f 1f 84 00 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd96535f58 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004004a0 RCX: 0000000000443499
+RDX: 0000000020000000 RSI: 00000000c0185500 RDI: 0000000000000003
+RBP: 0000000000403040 R08: 0000000000000000 R09: 00000000004004a0
+R10: 000000000000000f R11: 0000000000000246 R12: 00000000004030d0
+R13: 0000000000000000 R14: 00000000004b1018 R15: 00000000004004a0
+================================================================================
+
+
 ---
- drivers/hid/usbhid/usbkbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
-index d5b7a696a68c5..d0c640be8a885 100644
---- a/drivers/hid/usbhid/usbkbd.c
-+++ b/drivers/hid/usbhid/usbkbd.c
-@@ -63,7 +63,7 @@ static const unsigned char usb_kbd_keycode[256] = {
-  *		new key is pressed or a key that was pressed is released.
-  * @led:	URB for sending LEDs (e.g. numlock, ...)
-  * @newleds:	data that will be sent with the @led URB representing which LEDs
-- 		should be on
-+ *  		should be on
-  * @name:	Name of the keyboard. @dev's name field points to this buffer
-  * @phys:	Physical path of the keyboard. @dev's phys field points to this
-  *		buffer
--- 
-2.27.0
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
