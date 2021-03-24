@@ -4,44 +4,44 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC000C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:42:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60968C433E1
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:42:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B950D61477
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:42:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2476E61477
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 07:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235754AbhCXHly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 03:41:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58214 "EHLO mail.kernel.org"
+        id S235856AbhCXHl7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 03:41:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58222 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235632AbhCXHlT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S235650AbhCXHlT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 24 Mar 2021 03:41:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 415F0619FD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 48C1561A03;
         Wed, 24 Mar 2021 07:41:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616571678;
-        bh=sbFt3AN2Cc9PLevym87kI+ODFUSQQQwmk1j9uuP5/Sk=;
+        bh=cYWYNcrB9C3keLoXcCiYON6nVkKe49hcwrxBhuh3z8s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JjGuXqhRRBjvGBAFitKF9IoizGUL+qWVtl3qqblfgmMNoNkBlWHxJuwF1d6HpAi4Y
-         48uDDQgs9OnFPfcQOVoO0ZZBP/J8b0pXB8enIU6LO1hUq5BYwPmCtlbvuPbS8Qkc0Z
-         PRFIsaU9xqXLScVVtf8pEirR7AILHlbTJxMsUMzap2ejOEngANmsotR1u9zPt7urFI
-         betIdE0dwSlyAB+pm4oXUVVw0t9y/TGUpkRbkdgukroE4oe65OegO8HYbjXukmTaoQ
-         GCToL81IDV6JF0avwKokNozWJNSXhO65x5koYKdi4EDak0EQQvJEwOApNBwHXN++H8
-         UnTfnEazafTxg==
+        b=Wyy1EyH+i7awz9gLrH7+Bh+vQ2cY0bEAMSm/E1LEWBtKLC7Gp9OsC0UA8H3B4jUqr
+         SoMmKzaXmrOHKfybTtYzaVuApfFk3JjIum5fyxLVpv5AVlWgn9lUmwKcBF6R4fJisS
+         R5dGUfSP68Nrtisb1TcQjHNGS0ZLY33i55UMt6kY3fhJh/jipjk6/qnQrU3AwfJnsV
+         fobYbPVw/VFaA90jQ1M1G0lh2Hqh/H2WGerh4yOmpVYw24O3UFhGZXVYiY+IAbcyGm
+         sm/ErPi2R6sXW70jAZjHFjLcM3biraS24jB06WyEHjX8EgP4dBRKul+ws1B5KpHm6e
+         wZF9p6gsPBMQw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lOy8h-000umi-Vc; Wed, 24 Mar 2021 08:41:15 +0100
+        id 1lOy8h-000umZ-Ru; Wed, 24 Mar 2021 08:41:15 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH v2 6/7] USB: serial: xr: add support for XR2280X devices
-Date:   Wed, 24 Mar 2021 08:41:10 +0100
-Message-Id: <385b5ba7739fd1d67b9b2b8fd70187ab19e8d00e.1616571453.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 3/7] USB: serial: xr: add support for multi-port XR21V141X variants
+Date:   Wed, 24 Mar 2021 08:41:07 +0100
+Message-Id: <6ad220aa5ed6062005d44aeb3c02b5d576e12250.1616571453.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616571453.git.mchehab+huawei@kernel.org>
 References: <cover.1616571453.git.mchehab+huawei@kernel.org>
@@ -52,85 +52,120 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's nothing special on those devices either. They just
-use a different set of registers.
+XR21V1412 and XR21V1414 have exactly the same interface, but
+they support multiple 2 and 4 ports, respectively.
+
+On such devices, the "CDC Union" field shows how they're
+grouped, as can be seen on those lsusb -v outputs:
+
+	https://linux-usb.vger.kernel.narkive.com/YaTYwHkM/usb-uart-device-from-exar-co-not-working-with-cdc-acm-but-usbserial
+	https://jquery.developreference.com/article/22043997/udev+rule+with+bInterfaceNumber+doesn't+work+%5bclosed%5d
+
+So, for instance, on XR21V1414, (0x04e2:0x1414), the 3rd
+port is:
+
+	CDC Union:
+		bMasterInterface 4
+		bSlaveInterface 5
+
+	CDC Call Management:
+		bmCapabilities 0x01
+			call management
+				bDataInterface 5
+
+In other words, the control interface is an even number,
+and the data interface is the next odd number.
+
+The logic to get the proper register for an specific channel
+came from this patch:
+
+	https://lore.kernel.org/linux-usb/20180404070634.nhspvmxcjwfgjkcv@advantechmxl-desktop
+
+Add support for them.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ drivers/usb/serial/xr_serial.c | 30 ++++++++++++++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index b1044dd3e994..72365ffbc1b8 100644
+index 518c4725431a..f161394d9b2d 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -99,6 +99,7 @@ struct xr_txrx_clk_mask {
- #define VIA_CDC_REGISTER		-1
+@@ -145,6 +145,7 @@ static const int xr_hal_table[MAX_XR_MODELS][MAX_XR_HAL_TYPE] = {
  
- enum xr_model {
-+	XR2280X,
- 	XR21B1411,
- 	XR21V141X,
- 	XR21B142X,
-@@ -133,6 +134,30 @@ enum xr_hal_type {
+ struct xr_port_private {
+ 	enum xr_model model;
++	unsigned int channel;
  };
  
- static const int xr_hal_table[MAX_XR_MODELS][MAX_XR_HAL_TYPE] = {
-+	[XR2280X] = {
-+		[REG_ENABLE] =				0x40,
-+		[REG_FORMAT] =				0x45,
-+		[REG_FLOW_CTRL] =			0x46,
-+		[REG_XON_CHAR] =			0x47,
-+		[REG_XOFF_CHAR] =			0x48,
-+		[REG_TX_BREAK] =			0x4a,
-+		[REG_RS485_DELAY] =			0x4b,
-+		[REG_GPIO_MODE] =			0x4c,
-+		[REG_GPIO_DIR] =			0x4d,
-+		[REG_GPIO_SET] =			0x4e,
-+		[REG_GPIO_CLR] =			0x4f,
-+		[REG_GPIO_STATUS] =			0x50,
-+		[REG_GPIO_INT_MASK] =			0x51,
-+		[REG_CUSTOMIZED_INT] =			0x52,
-+		[REG_GPIO_PULL_UP_ENABLE] =		0x54,
-+		[REG_GPIO_PULL_DOWN_ENABLE] =		0x55,
-+		[REG_LOOPBACK] =			0x56,
-+		[REG_LOW_LATENCY] =			0x66,
-+		[REG_CUSTOM_DRIVER] =			0x81,
-+
-+		[REQ_SET] =				5,
-+		[REQ_GET] =				5,
-+	},
- 	[XR21B1411] = {
- 		[REG_ENABLE] =				0xc00,
- 		[REG_FORMAT] =				VIA_CDC_REGISTER,
-@@ -215,6 +240,7 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
+ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
+@@ -153,6 +154,14 @@ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
+ 	struct usb_serial *serial = port->serial;
  	int ret;
  
- 	switch (port_priv->model) {
-+	case XR2280X:
- 	case XR21B1411:
- 		break;
- 	case XR21V141X:
-@@ -253,6 +279,7 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
++	switch (port_priv->model) {
++	case XR21V141X:
++		if (port_priv->channel)
++			reg |= (port_priv->channel - 1) << 8;
++		break;
++	default:
++		return -EINVAL;
++	};
+ 	ret = usb_control_msg(serial->dev,
+ 			      usb_sndctrlpipe(serial->dev, 0),
+ 			      xr_hal_table[port_priv->model][REQ_SET],
+@@ -178,6 +187,14 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
+ 	if (!dmabuf)
  		return -ENOMEM;
  
- 	switch (port_priv->model) {
-+	case XR2280X:
- 	case XR21B1411:
- 		break;
- 	case XR21V141X:
-@@ -902,6 +929,11 @@ static void xr_disconnect(struct usb_serial *serial)
- }
++	switch (port_priv->model) {
++	case XR21V141X:
++		if (port_priv->channel)
++			reg |= (port_priv->channel - 1) << 8;
++		break;
++	default:
++		return -EINVAL;
++	};
+ 	ret = usb_control_msg(serial->dev,
+ 			      usb_rcvctrlpipe(serial->dev, 0),
+ 			      xr_hal_table[port_priv->model][REQ_GET],
+@@ -601,17 +618,24 @@ static void xr_close(struct usb_serial_port *port)
+ 
+ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ {
++	struct usb_interface *intf = serial->interface;
++	struct usb_endpoint_descriptor *data_ep;
+ 	struct xr_port_private *port_priv;
++	int ifnum;
+ 
+-	/* Don't bind to control interface */
+-	if (serial->interface->cur_altsetting->desc.bInterfaceNumber == 0)
++	/* Attach only data interfaces */
++	ifnum = intf->cur_altsetting->desc.bInterfaceNumber;
++	if (!(ifnum % 2))
+ 		return -ENODEV;
+ 
+ 	port_priv = kzalloc(sizeof(*port_priv), GFP_KERNEL);
+ 	if (!port_priv)
+ 		return -ENOMEM;
+ 
++	data_ep = &intf->cur_altsetting->endpoint[0].desc;
++
+ 	port_priv->model = id->driver_info;
++	port_priv->channel = data_ep->bEndpointAddress;
+ 
+ 	usb_set_serial_data(serial, port_priv);
+ 
+@@ -628,6 +652,8 @@ static void xr_disconnect(struct usb_serial *serial)
  
  static const struct usb_device_id id_table[] = {
-+	{ USB_DEVICE(0x04e2, 0x1400), .driver_info = XR2280X},
-+	{ USB_DEVICE(0x04e2, 0x1401), .driver_info = XR2280X},
-+	{ USB_DEVICE(0x04e2, 0x1402), .driver_info = XR2280X},
-+	{ USB_DEVICE(0x04e2, 0x1403), .driver_info = XR2280X},
-+
  	{ USB_DEVICE(0x04e2, 0x1410), .driver_info = XR21V141X},
- 	{ USB_DEVICE(0x04e2, 0x1411), .driver_info = XR21B1411},
- 	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = XR21V141X},
++	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = XR21V141X},
++	{ USB_DEVICE(0x04e2, 0x1414), .driver_info = XR21V141X},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, id_table);
 -- 
 2.30.2
 
