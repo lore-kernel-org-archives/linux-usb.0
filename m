@@ -2,119 +2,198 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A072C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D1EDC433E0
 	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5FA7C61A1F
+	by mail.kernel.org (Postfix) with ESMTP id 12C1E619DC
 	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237233AbhCXRej (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 13:34:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
+        id S237178AbhCXRei (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 13:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237245AbhCXReS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:34:18 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87930C0613E2
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:17 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id bx7so28565049edb.12
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:17 -0700 (PDT)
+        with ESMTP id S237199AbhCXReK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:34:10 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1042C0613DE
+        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:09 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id u9so34235247ejj.7
+        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
-        b=VxIkrCxesyL14UeRs78vWlRa0oQXxXoxEI3HDGKMmeRkyUyy62wrRUC0w+4rynV6NY
-         Ll5Rif5st8hCJyM8cC5Uk2fs4HmA72rZFok6HzR70YSH2FDLHt+9VQ2xQh/Nys9MlSxC
-         P+PkpKSImwmZzOg3gBSgTPm8tYQidd6bJoT35BpgZHxu1t89/h/jNmRuH8LGfqALRXNj
-         GuXNxRk90IrloCGke9ercsKjjKupoV7R3RawwgaIqClYUTfdx3wdABc4Zi84J1zQ6ErP
-         QsDWP1QchO8lm4ioxgoQdnPwCcYH+TXz+vrXYv8VDQtcFiTAUShLkUZ8cg1+EXS+5uj2
-         Lhbg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
+        b=p5GUKS/uwIXlF0KDHuVWCTKOILfvq6pgQeedSTtsSMFwzeuZp8AKlKbhStPy4SRDFk
+         HRqJKvh8toc4XC2CDpMwgejowYDSgwwsD1NNm/IZLadO+9aHWEJEa7SnZn+Fzie+/tpY
+         cHhRabnd8kARi5Sxtf813O8WVqAJ4I6376ff+ZdtFwIXyxn2TFZwAcHQP8iPkpz2DhES
+         sPWg2kI28DA6L8flcNKaK7fCrqsKbgjkmeINLGfWN8W8iv4Lz10+IASi3UZhscm0Vp5a
+         4LfKAQOpAmDlZWEXD41zDbsvBBjj9lvzYhyZx+Ckfdf3hiQ9fnRbMmWjK4JD9JZdNjZV
+         soZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
-        b=DYsu9mbBzNMtbv+8rkgotwIL8S/csFf9sfl95Tt2YG7iEModu0mZRIgXasvYYixZZs
-         MSUVIio+vEeREwsaa6mVbxP2zhXTjxNsg8Orx4/NaOb1+Horcj3SCwAb2/lLEp8rLG/j
-         oUDL7rpN7bBvFihpRSstB9OLqiSgpMsI7oIqw8goOu5I6v1qGGeuWsfatzjwVFSWKGg7
-         Vwl6MaaKoIZt1rb8k2R3x82GX3zVvRA+PxxvXpeJRpRYbr63zZ9CcIu9yXbBx4+/CcRM
-         0i3pwD+h9qQmHDb5vktMs+sohYP3AI/0zcw6n6Xyaw0FlesfSh/Vl9qaTZM2W8SkbJfa
-         Dpow==
-X-Gm-Message-State: AOAM532HzSwGHofUfcDqSg19vcjog4OQSvnl4H9TatFPEfb7X8GWo0TY
-        eJ0O7ZdccDBRWENvafvfZ+n2Ag==
-X-Google-Smtp-Source: ABdhPJylv30JqRZMzBDUUnpDl1vh1UfuC6zxexY7SFcPJS3j7MrLyWiG3W7ZVfKXIThRWIH3JDu2mA==
-X-Received: by 2002:a50:fc94:: with SMTP id f20mr4711938edq.370.1616607256236;
-        Wed, 24 Mar 2021 10:34:16 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
+        b=VH2GLyn3kxcl1ASmjWRgOYVSihgIb9EY0QK9F0CvSeBtzzdIgkS4F6YFJwo9TNmjcL
+         OW1atlJ6fNlDbIpxc38fUvJ+ZpiSWQ+0mxoOQmrcPaqOV5EBzryYoYaQZFspdgC+qVx5
+         f9LKaITkgjLmjn6LBCWlF+ln123kgCJdImBLAa1UYwh5FzRLWUp+phsrpNb2uzdJ8eVG
+         81nM15bGjhEwGOSwiuQ2xLxL7LcjAjQxN3eyoq06qrKtPj3XJW0VQlXz+hrcIYX0vDSR
+         YhgcbqzV9IF4z8hvNgFn0Lnnkr+qglwTxdfSz9WuamneyoY3RMnw6zQRo+1bZH+oQIox
+         zftQ==
+X-Gm-Message-State: AOAM533zA9Vg8xt8PHk7RtYlwGzCkybZOH4YIw7MnnOq5W0FvNEro3FJ
+        BUy490Ze/Yj17alozTWTMHwxhw==
+X-Google-Smtp-Source: ABdhPJzwCa1MrVqILnw5ineqDKoBXsRVPYAznXPlfLrlyyVo9HL2XAvV+eancRBLlKNZ4hQlmcJ62g==
+X-Received: by 2002:a17:906:7946:: with SMTP id l6mr4857686ejo.500.1616607247797;
+        Wed, 24 Mar 2021 10:34:07 -0700 (PDT)
 Received: from dell.default ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.15
+        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 10:34:15 -0700 (PDT)
+        Wed, 24 Mar 2021 10:34:07 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
         Anssi Hannula <anssi.hannula@gmail.com>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH 08/25] HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
-Date:   Wed, 24 Mar 2021 17:33:47 +0000
-Message-Id: <20210324173404.66340-9-lee.jones@linaro.org>
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        =?UTF-8?q?Bruno=20Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Subject: [PATCH 00/25] Rid W=1 warnings from HID
+Date:   Wed, 24 Mar 2021 17:33:39 +0000
+Message-Id: <20210324173404.66340-1-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
-References: <20210324173404.66340-1-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'dev' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'effect_id' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'value' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: expecting prototype for value times(). Prototype was for pidff_playback() instead
- drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'pidff' not described in 'pidff_find_effects'
- drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'dev' not described in 'pidff_find_effects'
- drivers/hid/usbhid/hid-pidff.c:1005: warning: expecting prototype for Find the implemented effect types(). Prototype was for pidff_find_effects() instead
+Lee Jones (25):
+  HID: intel-ish-hid: Remove unused variable 'err'
+  HID: ishtp-hid-client: Move variable to where it's actually used
+  HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
+  HID: intel-ish: Supply some missing param descriptions
+  HID: intel-ish: Fix a naming disparity and a formatting error
+  HID: usbhid: Repair a formatting issue in a struct description
+  HID: intel-ish-hid: Fix a little doc-rot
+  HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+  HID: hid-alps: Correct struct misnaming
+  HID: intel-ish-hid: Fix potential copy/paste error
+  HID: hid-core: Fix incorrect function name in header
+  HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
+    header
+  HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
+  HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+  HID: hid-picolcd_core: Remove unused variable 'ret'
+  HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
+    abuses
+  HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
+  HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
+  HID: hid-uclogic-params: Ensure function names are present and correct
+    in kernel-doc headers
+  HID: hid-sensor-custom: Remove unused variable 'ret'
+  HID: wacom_sys: Demote kernel-doc abuse
+  HID: hid-sensor-hub: Remove unused struct member 'quirks'
+  HID: hid-sensor-hub: Move 'hsdev' description to correct struct
+    definition
+  HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
+  HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
 
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+ drivers/hid/hid-alps.c                       |  2 +-
+ drivers/hid/hid-core.c                       |  2 +-
+ drivers/hid/hid-kye.c                        |  2 +-
+ drivers/hid/hid-logitech-hidpp.c             |  7 +--
+ drivers/hid/hid-picolcd_core.c               |  5 +--
+ drivers/hid/hid-sensor-custom.c              |  5 +--
+ drivers/hid/hid-sensor-hub.c                 |  4 +-
+ drivers/hid/hid-thrustmaster.c               | 24 +++++------
+ drivers/hid/hid-uclogic-params.c             |  8 ++--
+ drivers/hid/hid-uclogic-rdesc.c              |  2 +-
+ drivers/hid/intel-ish-hid/ipc/ipc.c          |  2 +-
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  3 +-
+ drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 45 ++++++++++----------
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++--
+ drivers/hid/intel-ish-hid/ishtp-hid.c        |  2 +-
+ drivers/hid/intel-ish-hid/ishtp-hid.h        |  9 +---
+ drivers/hid/intel-ish-hid/ishtp/bus.c        |  9 +++-
+ drivers/hid/intel-ish-hid/ishtp/client.c     |  5 +--
+ drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 +-
+ drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  4 +-
+ drivers/hid/usbhid/hid-pidff.c               |  4 +-
+ drivers/hid/usbhid/usbkbd.c                  |  2 +-
+ drivers/hid/wacom_sys.c                      |  2 +-
+ include/linux/intel-ish-client-if.h          |  8 +++-
+ 24 files changed, 90 insertions(+), 81 deletions(-)
+
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
 Cc: Anssi Hannula <anssi.hannula@gmail.com>
-Cc: linux-usb@vger.kernel.org
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Daniel Drubin <daniel.drubin@intel.com>
+Cc: Dario Pagani <dario.pagani.146+linuxk@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
+Cc: "Krzysztof Wilczyński" <kw@linux.com>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-iio@vger.kernel.org
 Cc: linux-input@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/hid/usbhid/hid-pidff.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index fddac7c72f645..ea126c50acc3b 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -505,7 +505,7 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
- 			HID_REQ_SET_REPORT);
- }
- 
--/**
-+/*
-  * Play the effect with effect id @effect_id for @value times
-  */
- static int pidff_playback(struct input_dev *dev, int effect_id, int value)
-@@ -997,7 +997,7 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
- 	return 0;
- }
- 
--/**
-+/*
-  * Find the implemented effect types
-  */
- static int pidff_find_effects(struct pidff_device *pidff,
+Cc: linux-media@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-usb@vger.kernel.org
+Cc: Lopez Casado <nlopezcasad@logitech.com>
+Cc: "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>
+Cc: Masaki Ota <masaki.ota@jp.alps.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: message to <vojtech@ucw.cz>
+Cc: Michael Haboustak <mike-@cinci.rr.com>
+Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Uwe Kleine-König" <uwe@kleine-koenig.org>
+Cc: Vojtech Pavlik <vojtech@suse.cz>
+Cc: Zhang Lixu <lixu.zhang@intel.com>
 -- 
 2.27.0
 
