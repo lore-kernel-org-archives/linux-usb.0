@@ -7,76 +7,72 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 740A8C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7025C433C1
 	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 370A161A0C
+	by mail.kernel.org (Postfix) with ESMTP id 8D13E619D5
 	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236090AbhCXOLv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 10:11:51 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:42163 "EHLO
+        id S236092AbhCXOLw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 10:11:52 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:41901 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236071AbhCXOLg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 10:11:36 -0400
+        with ESMTP id S236037AbhCXOLf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 10:11:35 -0400
 Received: from rpi3.fritz.box ([46.90.46.54]) by mrelayeu.kundenserver.de
  (mreue109 [213.165.67.113]) with ESMTPA (Nemesis) id
- 1M7auJ-1lJJ4G1LFl-00859F; Wed, 24 Mar 2021 15:11:29 +0100
+ 1MAORp-1lUs4B2Pmt-00Budj; Wed, 24 Mar 2021 15:11:28 +0100
 From:   Fabian Vogt <fabian@ritter-vogt.de>
 To:     Felipe Balbi <balbi@kernel.org>
 Cc:     Fabian Vogt <fabian@ritter-vogt.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yuan-Hsin Chen <yhchen@faraday-tech.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 4/7] fotg210-udc: Mask GRP2 interrupts we don't handle
-Date:   Wed, 24 Mar 2021 15:11:12 +0100
-Message-Id: <20210324141115.9384-5-fabian@ritter-vogt.de>
+Subject: [PATCH 2/7] fotg210-udc: Fix EP0 IN requests bigger than two packets
+Date:   Wed, 24 Mar 2021 15:11:10 +0100
+Message-Id: <20210324141115.9384-3-fabian@ritter-vogt.de>
 X-Mailer: git-send-email 2.10.0
 In-Reply-To: <20210324141115.9384-1-fabian@ritter-vogt.de>
 References: <20210324141115.9384-1-fabian@ritter-vogt.de>
-X-Provags-ID: V03:K1:At2rKk6Qhs3J9dB/i0kLA9Eh+Ogt4LQPaIQHzrLM1U02LgENaf1
- c75ikwG+p+6E4D+h9trPHgJpG1dR+9R0UqV6tV8E4CIzaw4GcgGE3bQ3m/fUiW4QbYQ9D1w
- /JFZZI5ekRg/dBYHWqbQH9oGA2+MRr21ULgzOM0hYcYCRoAuFKLFJn+FbcJUaWcrREMDBSr
- I5G6IDk4R+epJqfjuoK+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rsCL3QtHaWA=:r9CvhJJy+2xMWYS4G7o/yc
- OUhaEent2Fu6K/SuUAvY6WOAHgrsr5k+iKuB4W8G80WsL866pS8CrA7c9I7uvLhrt5zbBNsLY
- N0HOUSlZZBhgbfjpJW2pKk6rdCvqhm8DtPKbYNc5mv+O3+qNeRO+/6q9xZIdW0CrtPX7fBb4s
- kta96nD8siofeBRh0ZQoJ3H1w0cPN+sZ67YQX+D6kAemxrBv2OlVNzuTW0H8tkI4G45cDrSqj
- hKGxFvUIQrHzNvmHhWK1sjUkHta5ww/9RcoAY7ktInko0SUAPbxHXoB3mlfx6jD5MyT4LuXtO
- wHEzuBCciFHyw5Qc75V6XcnLOBmdlsOI0mKMRXAgX3vZlMwCFjYIYgNWgro6+oBehAAgLOy+l
- tRWp2AERaJZNY2PWnZi/pUgBS9uVtsKw7CClZYhUW2Ai1sC7sm+s+rj2xg1B+nzdB9Pp1ceZR
- o48JebJhSQ==
+X-Provags-ID: V03:K1:K93fe7jTGG7rbqYX10sDM6RHCFhmFa1GvxCcO6+n1J6/hs4B90z
+ mkQhQDFWBOUHOtlmVcnQHvRM+BGKngCNup6zBvtOvIVX5NKzhwHpOCpFHnq0Ak3yIuWosP6
+ nbjAiaQSUYzUHtWcgj/XGRF+r1NhofuqGThO8/re8dGbao+DXbjxtgI2dfdJ71dONbRqyuZ
+ k+Orl3zLrshz1aRYFKqIg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:60utlDjooeM=:f2HufU/O5XvHtjYMS4JSte
+ eK5I1lsKMXTvloUpB8Dp7ddtWe7+A+J9BF5wvJnFgSXTVwA+1BktKaiPrBWqZZnz4vYEvRog8
+ U2PiQSCGBukooTYPV0V/ucvs94RfEA9ODgZLucAHZsI28l+h5f53CR+sN6QoMRrEag38+iHj9
+ QUcuB8RC97Q8FF272cX/W33kujhN+cnXEMUpPEXpJPOwekbYujsDIet6CiN9IWZ1DBlIx4zxU
+ st6EkTZBg9lyEuWHnXcIHR8/46f863La/5Rq89G4Ea+EcafEIFiH4fodwZNgfdFRHmxqQmw7P
+ IUzqX/EBsMQKCDPzGqWE3Tt4gYXkS+xKu9+WHZoEnIgD+4b7vMYhwL2VoJ4jkVDwFZxlH3PPF
+ yOkVQeDNjdErsb016cNb/lzeTrzQP5P6WWVc/KcUrrUuY5/s+6qxBE3ZsIXjlcOzdHcVmvEb1
+ 50+13CVgPA==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently it leaves unhandled interrupts unmasked, but those are never
-acked. In the case of a "device idle" interrupt, this leads to an
-effectively frozen system until plugging it in.
+For a 134 Byte packet, it sends the first two 64 Byte packets just fine,
+but then notice that less than a packet is remaining and call fotg210_done
+without actually sending the rest.
 
 Fixes: b84a8dee23fd ("usb: gadget: add Faraday fotg210_udc driver")
 Signed-off-by: Fabian Vogt <fabian@ritter-vogt.de>
 ---
- drivers/usb/gadget/udc/fotg210-udc.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/gadget/udc/fotg210-udc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/gadget/udc/fotg210-udc.c b/drivers/usb/gadget/udc/fotg210-udc.c
-index 911f1a5cd1f4..d7693b8d7c54 100644
+index 482d867ac96f..539808f62e2e 100644
 --- a/drivers/usb/gadget/udc/fotg210-udc.c
 +++ b/drivers/usb/gadget/udc/fotg210-udc.c
-@@ -1040,6 +1040,12 @@ static void fotg210_init(struct fotg210_udc *fotg210)
- 	value &= ~DMCR_GLINT_EN;
- 	iowrite32(value, fotg210->reg + FOTG210_DMCR);
+@@ -834,7 +834,7 @@ static void fotg210_ep0in(struct fotg210_udc *fotg210)
+ 		if (req->req.length)
+ 			fotg210_start_dma(ep, req);
  
-+	/* enable only grp2 irqs we handle */
-+	iowrite32(~(DISGR2_DMA_ERROR | DISGR2_RX0BYTE_INT | DISGR2_TX0BYTE_INT
-+		    | DISGR2_ISO_SEQ_ABORT_INT | DISGR2_ISO_SEQ_ERR_INT
-+		    | DISGR2_RESM_INT | DISGR2_SUSP_INT | DISGR2_USBRST_INT),
-+		  fotg210->reg + FOTG210_DMISGR2);
-+
- 	/* disable all fifo interrupt */
- 	iowrite32(~(u32)0, fotg210->reg + FOTG210_DMISGR1);
- 
+-		if ((req->req.length - req->req.actual) < ep->ep.maxpacket)
++		if (req->req.actual == req->req.length)
+ 			fotg210_done(ep, req, 0);
+ 	} else {
+ 		fotg210_set_cxdone(fotg210);
 -- 
 2.25.1
 
