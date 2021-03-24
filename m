@@ -2,87 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA039C433E0
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70DFBC433E5
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5F8C61A16
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 543C961A19
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 14:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236088AbhCXOLv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 10:11:51 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:48161 "EHLO
+        id S236101AbhCXOLx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 10:11:53 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:40929 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236050AbhCXOLf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 10:11:35 -0400
+        with ESMTP id S236087AbhCXOLi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 10:11:38 -0400
 Received: from rpi3.fritz.box ([46.90.46.54]) by mrelayeu.kundenserver.de
  (mreue109 [213.165.67.113]) with ESMTPA (Nemesis) id
- 1MJEAX-1l4Myq3ie3-00Kg59; Wed, 24 Mar 2021 15:11:28 +0100
+ 1MsI0K-1ldyih2sKg-00tjmg; Wed, 24 Mar 2021 15:11:29 +0100
 From:   Fabian Vogt <fabian@ritter-vogt.de>
 To:     Felipe Balbi <balbi@kernel.org>
 Cc:     Fabian Vogt <fabian@ritter-vogt.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yuan-Hsin Chen <yhchen@faraday-tech.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 0/7] Fix the fotg210-udc driver
-Date:   Wed, 24 Mar 2021 15:11:08 +0100
-Message-Id: <20210324141115.9384-1-fabian@ritter-vogt.de>
+Subject: [PATCH 5/7] fotg210-udc: Call usb_gadget_udc_reset
+Date:   Wed, 24 Mar 2021 15:11:13 +0100
+Message-Id: <20210324141115.9384-6-fabian@ritter-vogt.de>
 X-Mailer: git-send-email 2.10.0
-X-Provags-ID: V03:K1:vFNDpT6rli+pZ15ITdwil8UyfZDm+LS6CoHxwlEOQeTITofHV52
- a+itJcdKXK8rb704NLWvl/yln6Qho+z0wuj18yZ9V+QoAHuc/E/y7QUbiqwiWFBw6zIDSnH
- xTK/YxgygTtprL2lCJ10F0T9xbnV67BBimixjv89F4DGwagCOvmqp0U5FlnM5eVUg6lcWKr
- Xs7najAUF+5I49M5ZCdrA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cuqD7D73L1Y=:JtISCRQi+E4M5hijNXZ0YO
- aXihzxq/FYbZr6ZuNNwLcjUwE9dvuZ/L1SfYmA1DLI3fL7/TL4sOGfgCnPlQ8HfPJwz+5cAlY
- +xi47C79NAR1IbDAEWu4k/QGOuV6nunaTd0di8hpfXYnLqVslijarCz0ajGa4a8OTD16BBc+Q
- epBz0iPZFz5FaEC1KXmlvIPoi9xARbRDKPXsaSopg+lx66QQTzFOVO5/fmitoBBsRVxLMgS0z
- PfqA81TX84rtu/DCZRgWU+sdBnPHK53YLDQ/PQqbA6EKlDqWgFq/nSWlqf3lekcK+b0BwAmW4
- VuJzSkFLNQJO5VjMx0YQga7AdEBB+kkxnIL/jN/Kqq8mKwdivFzdoOZ8iAfev5m1p64Aul7oA
- Rl8PCi/0QIX5W1oMSjgO66Mb/Xgo38An1FG7Li1rg3JLQ5ahfyHoP1UXez7ruL4ie6tyh2dKQ
- BxjHSKWyyw==
+In-Reply-To: <20210324141115.9384-1-fabian@ritter-vogt.de>
+References: <20210324141115.9384-1-fabian@ritter-vogt.de>
+X-Provags-ID: V03:K1:Q1NeB63uYjp4uOtAeL2ipXlaxqnhkCOKcyq6n9e+/HVsn7d7mm+
+ Q4oA8YPwwsAga+Iig56lJ0kYVtJwJggLaN2OVqxtbcWo0jcdqo2R2uSPgnLmToNmHC2JN+4
+ KXYboZOCeEf5ske1extqO5cAUpIREUyFddAtq0Fc3khJx2IzZiH1p++sLzjqqessAt6hX8V
+ yxDsmR7mxLHUkjxrlolEg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QJwvIADzL5U=:fFgGURQsoLlf44OOAFgsSj
+ WIlO4uEn5SGGA4cw7ry6mcSaMuxb0H18e5nsPVsju1h6FH9RlwviaaBfpemRFjJSUnFsepLAu
+ DrcRt7/iW0fCvs5QEmeK0pZSkTY6hQclMhkbZ92nsomB7ROlXWfmmLLdjaDVrbqOmcFHcbO+T
+ WTrDSRaxuNODjD7cpOob8c6+qUA6ij0K9NvcOKROGzfXApvXFOAbylqOMtvHnCDVr6zDMB7Vp
+ Ujl42sPVAxDm7jYk+EEG9Kheo+++xJCgIvi/DXd3a+H2qnZ06UyxX7XwEa5ohc1AZtcFZ4EUU
+ 1okx8wCNcbNKx2lNmXy0XOHqE/oloWvgT+rS975zgWiITmzt6NtGJu3xIpkvR3LZQwgiEWYPn
+ SrxtmpDX0YBvOJZK+9347TxyoEdJ+Wtpw5N7fF1RlRpveftECoL3xmy1lky18H0QCqQ54rClL
+ GW+nidqPkA==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Moin!
+Notify the UDC core that a bus reset occurred.
 
-USB is the main way of communicating with the TI Nspire CX II calculators,
-so supporting the controller in Linux is necessary to make the port
-somewhat useful. While implementing support for the specific controller
-model inside, I found and fixed various bugs in this driver. Most of them
-are part of the original driver code already and are so severe, that I
-seriously wonder whether anyone actually used this driver ever.
+Signed-off-by: Fabian Vogt <fabian@ritter-vogt.de>
+---
+ drivers/usb/gadget/udc/fotg210-udc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-With this series applied and some CX II specific commits on top, the
-driver works fine for both USB serial and ethernet here.
-
-The CX II support patches build upon this series, to avoid bigger
-reiterations I'll submit them once this series got some positive feedback.
-
-Cheers,
-Fabian
-
-To: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Yuan-Hsin Chen <yhchen@faraday-tech.com>
-CC: linux-usb@vger.kernel.org
-
-Fabian Vogt (7):
-  fotg210-udc: Fix DMA on EP0 for length > max packet size
-  fotg210-udc: Fix EP0 IN requests bigger than two packets
-  fotg210-udc: Remove a dubious condition leading to fotg210_done
-  fotg210-udc: Mask GRP2 interrupts we don't handle
-  fotg210-udc: Call usb_gadget_udc_reset
-  fotg210-udc: Don't DMA more than the buffer can take
-  fotg210-udc: Complete OUT requests on short packets
-
- drivers/usb/gadget/udc/fotg210-udc.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/usb/gadget/udc/fotg210-udc.c b/drivers/usb/gadget/udc/fotg210-udc.c
+index d7693b8d7c54..6a4c60d5b2c2 100644
+--- a/drivers/usb/gadget/udc/fotg210-udc.c
++++ b/drivers/usb/gadget/udc/fotg210-udc.c
+@@ -890,6 +890,8 @@ static irqreturn_t fotg210_irq(int irq, void *_fotg210)
+ 		int_grp2 &= ~int_msk2;
+ 
+ 		if (int_grp2 & DISGR2_USBRST_INT) {
++			usb_gadget_udc_reset(&fotg210->gadget,
++					     fotg210->driver);
+ 			value = ioread32(reg);
+ 			value &= ~DISGR2_USBRST_INT;
+ 			iowrite32(value, reg);
 -- 
 2.25.1
 
