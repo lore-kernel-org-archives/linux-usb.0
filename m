@@ -2,154 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CA52C433DB
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A072C433E2
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 544A0619FC
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:22:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5FA7C61A1F
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 17:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237098AbhCXRVb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 13:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59296 "EHLO
+        id S237233AbhCXRej (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 13:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237073AbhCXRV0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:21:26 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2100EC061763;
-        Wed, 24 Mar 2021 10:21:26 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id kt15so24715242ejb.12;
-        Wed, 24 Mar 2021 10:21:26 -0700 (PDT)
+        with ESMTP id S237245AbhCXReS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 13:34:18 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87930C0613E2
+        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:17 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id bx7so28565049edb.12
+        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 10:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ROVD6p8uWXCEzUfy6fJv/Vx954JFE0p8W73iVJQaYSI=;
-        b=ccRE/yRezGAfcVnuNAQV8LBeXvGefdRC+zrTt4K87lxDa3E/cMLXKP38ThihsYN3+u
-         1O+pWkGWKMokC+ym3AdANZrogKxGBXQLxxFqxJ5xac5R5KmNAKwUIjHZwuv9pHgCQMr7
-         6eyHO6/6HQYossBzEEtfGg1KnLBMEQDUK8lO9AQeV3x1nCqPDv/X80ACGW2LX5NjcLqU
-         1rys515irZv5F+38Sl/3T7s/ETabI2lD79sc78+zRMAiEZatopH2G+ouKDqcDjPJoSlX
-         xbcAheWhx6kv9ZygaCwdgQ7pIkh1k92vCQjkMKn8dGPkoHuTKHHRZniEzTonhx4paYc/
-         tG3g==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
+        b=VxIkrCxesyL14UeRs78vWlRa0oQXxXoxEI3HDGKMmeRkyUyy62wrRUC0w+4rynV6NY
+         Ll5Rif5st8hCJyM8cC5Uk2fs4HmA72rZFok6HzR70YSH2FDLHt+9VQ2xQh/Nys9MlSxC
+         P+PkpKSImwmZzOg3gBSgTPm8tYQidd6bJoT35BpgZHxu1t89/h/jNmRuH8LGfqALRXNj
+         GuXNxRk90IrloCGke9ercsKjjKupoV7R3RawwgaIqClYUTfdx3wdABc4Zi84J1zQ6ErP
+         QsDWP1QchO8lm4ioxgoQdnPwCcYH+TXz+vrXYv8VDQtcFiTAUShLkUZ8cg1+EXS+5uj2
+         Lhbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ROVD6p8uWXCEzUfy6fJv/Vx954JFE0p8W73iVJQaYSI=;
-        b=Aaq+Wr2RlBLU7ELuVbE07gMUczCDVZiGHNQ30urxLw8Cu22+bcApmdYkZ18+kxnmx7
-         E5o/I4QdMsZZ7nIBB17QyU++dy/OV53U3GjsOLVMVFJB2+LHkjaoGr2VgooX8yOAu+IK
-         lI81qMB8j+C4nrxaIMNntqFz6x4GeGkb3OFokM8iijv6Ft2bdza2CcycS9qU60BvJU+q
-         0u0wMxQs6MsN/dARAUXKg6XWRaSFRijyxoEWhgB7EtLo9phszRVyjSyru1Y4rXpIt2MP
-         WEYEM+YleI/vZDxOgBHXQdWDitk1F6dLh+duUAlF/uAYlZdyKYksRdtwO8WuTIx/dCML
-         HnSQ==
-X-Gm-Message-State: AOAM5314uareFNzG893qcwN/eZ9LGGLMvSTQ5XF4crKUCSNsAPrOb+zv
-        1I8D4us467Rl8eef6eT7xguToqxIt4zU1w==
-X-Google-Smtp-Source: ABdhPJxXPXyXb5CpO8/df0wLucEXxyD42Eyw+KiYYQEpFqg0f1nkj759Nev3X7z9xcQeMhl8TZohCQ==
-X-Received: by 2002:a17:906:c9c2:: with SMTP id hk2mr4928118ejb.244.1616606484688;
-        Wed, 24 Mar 2021 10:21:24 -0700 (PDT)
-Received: from [192.168.2.2] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id w6sm1205140eje.107.2021.03.24.10.21.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 10:21:24 -0700 (PDT)
-Subject: Re: [PATCH v5 2/8] usb: dwc3: of-simple: bail probe if no dwc3 child
- node
-To:     =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
-        gregkh@linuxfoundation.org, balbi@kernel.org
-Cc:     robh+dt@kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20210209192350.7130-1-jbx6244@gmail.com>
- <20210209192350.7130-2-jbx6244@gmail.com> <1861638.PYKUYFuaPT@diego>
-From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <919d24be-69e5-72be-8627-8ebabd1d693d@gmail.com>
-Date:   Wed, 24 Mar 2021 18:21:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
+        b=DYsu9mbBzNMtbv+8rkgotwIL8S/csFf9sfl95Tt2YG7iEModu0mZRIgXasvYYixZZs
+         MSUVIio+vEeREwsaa6mVbxP2zhXTjxNsg8Orx4/NaOb1+Horcj3SCwAb2/lLEp8rLG/j
+         oUDL7rpN7bBvFihpRSstB9OLqiSgpMsI7oIqw8goOu5I6v1qGGeuWsfatzjwVFSWKGg7
+         Vwl6MaaKoIZt1rb8k2R3x82GX3zVvRA+PxxvXpeJRpRYbr63zZ9CcIu9yXbBx4+/CcRM
+         0i3pwD+h9qQmHDb5vktMs+sohYP3AI/0zcw6n6Xyaw0FlesfSh/Vl9qaTZM2W8SkbJfa
+         Dpow==
+X-Gm-Message-State: AOAM532HzSwGHofUfcDqSg19vcjog4OQSvnl4H9TatFPEfb7X8GWo0TY
+        eJ0O7ZdccDBRWENvafvfZ+n2Ag==
+X-Google-Smtp-Source: ABdhPJylv30JqRZMzBDUUnpDl1vh1UfuC6zxexY7SFcPJS3j7MrLyWiG3W7ZVfKXIThRWIH3JDu2mA==
+X-Received: by 2002:a50:fc94:: with SMTP id f20mr4711938edq.370.1616607256236;
+        Wed, 24 Mar 2021 10:34:16 -0700 (PDT)
+Received: from dell.default ([91.110.221.180])
+        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Mar 2021 10:34:15 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH 08/25] HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+Date:   Wed, 24 Mar 2021 17:33:47 +0000
+Message-Id: <20210324173404.66340-9-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
+References: <20210324173404.66340-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1861638.PYKUYFuaPT@diego>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 3/24/21 5:41 PM, Heiko Stübner wrote:
-> Hi Greg, Felipe,
-> 
-> Am Dienstag, 9. Februar 2021, 20:23:44 CET schrieb Johan Jonker:
->> For some of the dwc3-of-simple compatible SoCs we
->> don't want to bind this driver to a dwc3 node,
->> but bind that node to the 'snps,dwc3' driver instead.
->> The kernel has no logic to decide which driver to bind
->> to if there are 2 matching drivers, so bail probe if no
->> dwc3 child node.
->>
->> Signed-off-by: Johan Jonker <jbx6244@gmail.com>
-> 
-> It looks like this patch fell through the cracks?
-> 
-> I.e. I can see patches 1+6 adding the devicetree bindings
-> in 5.12-rc but haven't found this patch there.
-> 
-> And looking at
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/drivers/usb/dwc3/dwc3-of-simple.c?h=usb-next
-> I also didn't find it.
-> 
-> From what I gathered that was somehow mandated from the Devicetree side
-> as the dwc3-subnode system merely is some Linux-specific thingy
-> and should not be enforced if not explicitly needed.
-> 
+Fixes the following W=1 kernel build warning(s):
 
-> I guess Johan can provide pointers to the previous discussion.
+ drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'dev' not described in 'pidff_playback'
+ drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'effect_id' not described in 'pidff_playback'
+ drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'value' not described in 'pidff_playback'
+ drivers/hid/usbhid/hid-pidff.c:512: warning: expecting prototype for value times(). Prototype was for pidff_playback() instead
+ drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'pidff' not described in 'pidff_find_effects'
+ drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'dev' not described in 'pidff_find_effects'
+ drivers/hid/usbhid/hid-pidff.c:1005: warning: expecting prototype for Find the implemented effect types(). Prototype was for pidff_find_effects() instead
 
-Comment by Rob in version 3:
-Presumably you are getting lucky here (with link order). The kernel
-has no logic to decide which driver to bind to if there are 2 matching
-drivers. If we did, it would probably be the opposite of what you want
-here as we'd pick the most specific match. This driver should probably
-bail probe if no dwc3 child node.
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Anssi Hannula <anssi.hannula@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/hid/usbhid/hid-pidff.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-https://lore.kernel.org/linux-rockchip/20210205114011.10381-6-jbx6244@gmail.com/
-
-https://lore.kernel.org/linux-rockchip/CAL_JsqJwNdUfoYM8SZmOgMG9iAyZkJ4-kzjjiDDm_mdmghTEOA@mail.gmail.com/
-
-> 
-> So could you look at applying this patch to some usb-tree?
-> 
-> 
-> Thanks
-> Heiko
-> 
-> 
->> ---
->>  drivers/usb/dwc3/dwc3-of-simple.c | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
->> index e62ecd22b..347b4d384 100644
->> --- a/drivers/usb/dwc3/dwc3-of-simple.c
->> +++ b/drivers/usb/dwc3/dwc3-of-simple.c
->> @@ -38,6 +38,10 @@ static int dwc3_of_simple_probe(struct platform_device *pdev)
->>  
->>  	int			ret;
->>  
->> +	/* Bail probe if no dwc3 child node. */
->> +	if (!of_get_compatible_child(dev->of_node, "snps,dwc3"))
->> +		return -ENODEV;
->> +
->>  	simple = devm_kzalloc(dev, sizeof(*simple), GFP_KERNEL);
->>  	if (!simple)
->>  		return -ENOMEM;
->>
-> 
-> 
-> 
-> 
+diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+index fddac7c72f645..ea126c50acc3b 100644
+--- a/drivers/hid/usbhid/hid-pidff.c
++++ b/drivers/hid/usbhid/hid-pidff.c
+@@ -505,7 +505,7 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
+ 			HID_REQ_SET_REPORT);
+ }
+ 
+-/**
++/*
+  * Play the effect with effect id @effect_id for @value times
+  */
+ static int pidff_playback(struct input_dev *dev, int effect_id, int value)
+@@ -997,7 +997,7 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * Find the implemented effect types
+  */
+ static int pidff_find_effects(struct pidff_device *pidff,
+-- 
+2.27.0
 
