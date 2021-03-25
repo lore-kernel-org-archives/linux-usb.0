@@ -2,48 +2,34 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C653FC433C1
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 15:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71A8C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 15:32:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B7F261A27
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 15:24:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8613A61A34
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 15:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhCYPX5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Mar 2021 11:23:57 -0400
-Received: from mga03.intel.com ([134.134.136.65]:14725 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231441AbhCYPXe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Mar 2021 11:23:34 -0400
-IronPort-SDR: nLuTA4Q48M5v4Wrw+diwdw0P0j5K9vjQSp7O0HBSThBl7AN53mMviyjEt9ja9zSk+qUXsppVn4
- 8tcuWuDR5z1g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9934"; a="190982625"
-X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
-   d="scan'208";a="190982625"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 08:23:32 -0700
-IronPort-SDR: 1KKFaS7stE79Gw49FzsF2skSROJMQmjDMd8dYTej+kYEI4s9FEVrMQS58C+B7pgJffiv3ZrGo/
- EOCVjJwVT8yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
-   d="scan'208";a="514678197"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 25 Mar 2021 08:23:29 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 25 Mar 2021 17:23:28 +0200
-Date:   Thu, 25 Mar 2021 17:23:28 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
+        id S231420AbhCYPcJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Mar 2021 11:32:09 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:60153 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S231211AbhCYPbl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Mar 2021 11:31:41 -0400
+Received: (qmail 792712 invoked by uid 1000); 25 Mar 2021 11:31:39 -0400
+Date:   Thu, 25 Mar 2021 11:31:39 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benson Leung <bleung@google.com>,
         Prashant Malani <pmalani@chromium.org>,
         Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/6] usb: Iterator for ports
-Message-ID: <YFyq8KK1J3IudCGv@kuha.fi.intel.com>
+Message-ID: <20210325153139.GA792030@rowland.harvard.edu>
 References: <20210325122926.58392-1-heikki.krogerus@linux.intel.com>
  <20210325122926.58392-2-heikki.krogerus@linux.intel.com>
  <20210325144109.GB785961@rowland.harvard.edu>
@@ -52,11 +38,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <YFyo4vM91xdtzacE@kuha.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 05:14:45PM +0200, Heikki Krogerus wrote:
+On Thu, Mar 25, 2021 at 05:14:42PM +0200, Heikki Krogerus wrote:
 > On Thu, Mar 25, 2021 at 10:41:09AM -0400, Alan Stern wrote:
 > > On Thu, Mar 25, 2021 at 03:29:21PM +0300, Heikki Krogerus wrote:
 > > > Introducing usb_for_each_port(). It works the same way as
@@ -104,12 +91,35 @@ On Thu, Mar 25, 2021 at 05:14:45PM +0200, Heikki Krogerus wrote:
 > struct usb_device while I need to deal with struct device in the
 > callback.
 
-Ah, I can use it instead of bus_for_each_dev() in usb_for_each_port().
-I'll fix these in v2.
+I see; the prototypes of arg->fn are different.  Oh well, it's a shame 
+the code can't be reused.  In any case, you should copy what 
+usb.c:__each_dev() does.
 
-For the lock I guess I can just use the peer lock (usb_port_peer_mutex)?
+Alan Stern
 
-thanks,
-
--- 
-heikki
+> > > +	struct usb_hub *hub;
+> > > +	int ret;
+> > > +	int i;
+> > > +
+> > > +	hub = usb_hub_to_struct_hub(hdev);
+> > > +	if (!hub)
+> > > +		return 0;
+> > > +
+> > > +	for (i = 0; i < hdev->maxchild; i++) {
+> > > +		ret = arg->fn(&hub->ports[i]->dev, arg->data);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > Don't you need some sort of locking or refcounting here?  What would 
+> > happen if this hub got removed while the routine was running?
+> 
+> I'll use a lock then.
+> 
+> thanks,
+> 
+> -- 
+> heikki
