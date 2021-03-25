@@ -3,242 +3,212 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC27C433C1
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 16:34:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE40BC433DB
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 16:41:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DAE761A2B
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 16:34:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9764C61A26
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 16:41:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbhCYQdt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Mar 2021 12:33:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40726 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229898AbhCYQd2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Mar 2021 12:33:28 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1616690007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=rrKHGIIynw+Ro+fy+dbqqKPbs5DzrfmydDFNJ4T12k8=;
-        b=clf+0vBcM8VBiDPyfSGaHIM6F/7431kCXpnuFjm2UklxwIVrVO0ouaxIwiDRHPoe5ED1Gr
-        9SNVpMne9FcGVK5dX2d5QsrN/1Y/Fb9p+1BTK3kYrHWtrtEqiUm8VG2I0y+Oi4OZnAiOu+
-        STtiC97pPwktP0lrvjhArsBQUGgj/wc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 465DCAA55;
-        Thu, 25 Mar 2021 16:33:27 +0000 (UTC)
-Message-ID: <5d3852dca69ff194017c806078e996c50ee621be.camel@suse.com>
-Subject: Re: [RFC]extension of the anchor API
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-usb@vger.kernel.org
-Date:   Thu, 25 Mar 2021 17:04:25 +0100
-In-Reply-To: <20210325150657.GC785961@rowland.harvard.edu>
-References: <5b3c30d268ea2d13d303759ef3dfee8d72830084.camel@suse.com>
-         <20210325150657.GC785961@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S229642AbhCYQku (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Mar 2021 12:40:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229617AbhCYQkt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Mar 2021 12:40:49 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 020ECC06174A;
+        Thu, 25 Mar 2021 09:40:49 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id c8so2928590wrq.11;
+        Thu, 25 Mar 2021 09:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=BIOzYjpuWV2ikVARWL5rnMXlYplC4fVIyiluPMIE1oE=;
+        b=T+5lmaYU0760xN0cgcjj5c8+SDzlH7A/atUQUf4fLVOx2WE54T7z8ZItEJZl86LVVR
+         o0FPEerykYnJ0HBljGhYcwKI4YJepfTiet/oep+mOhuOJOvgJyonZP+cHnoTSfmLfYWV
+         lRPTLweJBT7lz99SB3JACg4kCo0ZbWBiI2jLX8C6u9fzHoCJy4GGRANnNF+O3SvYEXDB
+         UYAzmpR8wcGZc4F+05TL3vSTLf+98outM3Z9NS+G69NKHOAEx158eCryef57QwYZiKpz
+         5/PU5edUocmXm1scX0khV7VMSg2OVn7VZPp69hyzYYEEZAF5mdyx36Lx04en2FUyCY5r
+         U6YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=BIOzYjpuWV2ikVARWL5rnMXlYplC4fVIyiluPMIE1oE=;
+        b=K+Z/31YAA5ls/sasobFPBq7Hh4F3hbhTlBTIDovMt54ebsMPjBePti1xycS9GjrKYW
+         BXnE1S6iuh5uOMyNoV254EpSbWdjjjl8BcoQD1KWt8JEcWgqxpNmjZnknJQXTtOIH0Dz
+         slh066BwveNLJykjyRWaqnmpnG9A1GM1AdSuJNHFc8u3Jxw7fg36IIr1qWccRnw/Nc8s
+         1zWGmBegzRSAmHnazHbxJv3eLu3rjd2PeIO3RsTvxEUjzIL2UZ6g238WOkcsk+Zn/cF8
+         o8R6Ql83JbP4+vHfl76R9QC4wngz3B/HCQWVQPoHPS17EMTibdPD/fVSevHgzgZEfu2V
+         SKug==
+X-Gm-Message-State: AOAM533gTf/iP0YI+6gWXTGu6HvL/UjO0J1twSGCjmNKjCFkyfNuxXRu
+        +R8atmB2EJrgrP8gZG0T61g=
+X-Google-Smtp-Source: ABdhPJyZAKo+sD+iopvWd3BFRQ8xlnIOc5+qTBvaeiQHoQwgOF2llYd0lTLSDaZWT58a8VW8MaFZOw==
+X-Received: by 2002:adf:9261:: with SMTP id 88mr9676623wrj.270.1616690447651;
+        Thu, 25 Mar 2021 09:40:47 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id j16sm11847179wmi.2.2021.03.25.09.40.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 09:40:45 -0700 (PDT)
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Vinod Koul <vkoul@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        JC Kuo <jckuo@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-usb@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>
+Subject: [PATCH v8 01/13] clk: tegra: Add PLLE HW power sequencer control
+Date:   Thu, 25 Mar 2021 17:40:45 +0100
+Message-Id: <20210325164057.793954-2-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210325164057.793954-1-thierry.reding@gmail.com>
+References: <20210325164057.793954-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 25.03.2021, 11:06 -0400 schrieb Alan Stern:
-> On Thu, Mar 25, 2021 at 12:03:33PM +0100, Oliver Neukum wrote:
-> > Hi,
-> > 
-> > looking at the anchor API it seems to me that it is
-> > weak due to removing an URB from its anchor upon completion.
-> > That is not always what drivers want. If you throw away
-> > the URB after usage, then this is good, as you typically do on a write
-> > path. If, however, you are recieving, you typically reuse the URB
-> > and you reanchor it right in the completion handler.
-> > 
-> > To make this easier I am proposing a feature called a "mooring"
-> > which makes the association between anchor and URB permanent
-> > and a few helper functions.
-> > 
-> > What do you think?
-> 
-> Have you considered just changing the anchor API instead?  It would 
-> require auditing all uses of anchors (get rid of manual re-anchorings 
-> and add manual un-anchorings), but it might end up being simpler.
+From: JC Kuo <jckuo@nvidia.com>
 
-Probably not. I looked at drivers and fire and forget is done a lot.
-Transmitting and recieving have different needs. I tried to unify
-code paths as much as possible.
-> 
-> > 	Regards
-> > 		Oliver
-> > 
-> > From 577795900c90d7a40b082935747086be94d7f8be Mon Sep 17 00:00:00 2001
-> > From: Oliver Neukum <oneukum@suse.com>
-> > Date: Tue, 28 Jul 2020 11:38:23 +0200
-> > Subject: [PATCH 1/2] USB: add mooring API
-> > 
-> > This is a simplified and thereby better version of the anchor API.
-> > Anchors have the problem that they unanchor an URB upon giveback,
-> > which creates a window during which an URB is unanchored but not
-> > yet returned, leading to operations on anchors not having the
-> > semantics many driver errornously assume them to have.
-> > The new API keeps an URB on an anchor until it is explicitly
-> > unmoored.
-> > 
-> > Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> > ---
-> >  Documentation/driver-api/usb/anchors.rst | 39 +++++++++-
-> >  drivers/usb/core/hcd.c                   | 15 +++-
-> >  drivers/usb/core/urb.c                   | 97 +++++++++++++++++++++++-
-> >  include/linux/usb.h                      | 10 +++
-> >  4 files changed, 157 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/usb/anchors.rst b/Documentation/driver-api/usb/anchors.rst
-> > index 4b248e691bd6..501f46aea75f 100644
-> > --- a/Documentation/driver-api/usb/anchors.rst
-> > +++ b/Documentation/driver-api/usb/anchors.rst
-> > @@ -1,8 +1,8 @@
-> >  USB Anchors
-> >  ~~~~~~~~~~~
-> >  
-> > -What is anchor?
-> > -===============
-> > +What is an anchor?
-> > +==================
-> >  
-> >  A USB driver needs to support some callbacks requiring
-> >  a driver to cease all IO to an interface. To do so, a
-> > @@ -12,6 +12,19 @@ for them. The anchor is a data structure takes care of
-> >  keeping track of URBs and provides methods to deal with
-> >  multiple URBs.
-> >  
-> > +What is a mooring?
-> > +==================
-> > +
-> > +A mooring is a permanent anchoring that persist across
-> > +the completion of an URB.
-> > +The drawback of anchors is that there is an unavoidable
-> > +window between taking an URB off an anchor for completion
-> > +and the completion itself.
-> > +A mooring acts as a permanent anchor to which you can add
-> 
-> This says that the anchor is permanent, but what you really mean is
-> that the URB is permanently added to the anchor.
+PLLE has a hardware power sequencer logic which is a state machine
+that can power on/off PLLE without any software intervention. The
+sequencer has two inputs, one from XUSB UPHY PLL and the other from
+SATA UPHY PLL. PLLE provides reference clock to XUSB and SATA UPHY
+PLLs. When both of the downstream PLLs are powered-off, PLLE hardware
+power sequencer will automatically power off PLLE for power saving.
 
-Noted
+XUSB and SATA UPHY PLLs also have their own hardware power sequencer
+logic. XUSB UPHY PLL is shared between XUSB SuperSpeed ports and PCIE
+controllers. The XUSB UPHY PLL hardware power sequencer has inputs
+from XUSB and PCIE. When all of the XUSB SuperSpeed ports and PCIE
+controllers are in low power state, XUSB UPHY PLL hardware power
+sequencer automatically power off PLL and flags idle to PLLE hardware
+power sequencer. Similar applies to SATA UPHY PLL.
 
-> 
-> > +URBs. The order of URBs will be maintained in such a way
-> > +that completing URBs go to the back of the chain.
-> 
-> Is that really helpful to anybody?  Why does the order of URBs on the
-> anchor (or mooring) matter?  Rather than assuming the URBs are in some
-> particular order, drivers could iterate over the URBs attached to an
-> anchor, given the appropriate API.
-> 
-> > +The whole anchor can then be manipulated as a whole.
-> 
-> Too many "whole"s.
+PLLE hardware power sequencer has to be enabled after both downstream
+sequencers are enabled.
 
-Noted
+This commit adds two helper functions:
+1. tegra210_plle_hw_sequence_start() for XUSB PADCTL driver to enable
+   PLLE hardware sequencer at proper time.
 
-> > +
-> >  Allocation and Initialisation
-> >  =============================
-> >  
-> > @@ -35,6 +48,13 @@ is automatic. A function is provided to forcibly finish (kill)
-> >  all URBs associated with an anchor.
-> >  Furthermore, disassociation can be made with :c:func:`usb_unanchor_urb`
-> >  
-> > +Association and disassociation of URBs with moorings
-> > +====================================================
-> > +
-> > +An association of URBs to an anchor is made by an explicit
-> 
-> This should be clearer.  "An URB can be moored to an anchor by 
-> calling..."
+2. tegra210_plle_hw_sequence_is_enabled() for XUSB PADCTL driver to
+   check whether PLLE hardware sequencer has been enabled or not.
 
-Noted
+Signed-off-by: JC Kuo <jckuo@nvidia.com>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+---
+ drivers/clk/tegra/clk-tegra210.c | 53 +++++++++++++++++++++++++++++++-
+ include/linux/clk/tegra.h        |  4 ++-
+ 2 files changed, 55 insertions(+), 2 deletions(-)
 
-> > +call to :c:func:`usb_moor_urb`. A moored URB can be turned
-> > +into an anchored URB by :c:func:`usb_unmoor_urb`
-> > +
-> >  Operations on multitudes of URBs
-> >  ================================
-> >  
-> > @@ -81,3 +101,18 @@ Returns the oldest anchored URB of an anchor. The URB is unanchored
-> >  and returned with a reference. As you may mix URBs to several
-> >  destinations in one anchor you have no guarantee the chronologically
-> >  first submitted URB is returned.
-> > +
-> > +:c:func:`usb_submit_anchored_urbs`
-> > +---------------------------------
-> > +
-> > +The URBs contained in anchor are chronologically submitted until
-> 
-> "chronologically" is the wrong word.  They are submitted in the order
-> of the anchor's list, which is the same as the order that an iterator
-> would use.
-
-OK. "In the same sequence as they were anchored" ?
-> 
-> > +they are all submitted or an error happens during submission.
-> > +
-> > +:c:func:`usb_transfer_anchors`
-> > +------------------------------
-> > +
-> > +Transfers URBs from an anchor to another anchor by means of a
-> > +transform function you pass to the method. It proceeds until
-> > +all URBs are transfered or an error is encountered during transfer.
-> > +
-> > +
-> > +int usb_submit_anchored_urbs(struct usb_anchor *anchor, int *error, gfp_t gfp)
-> > +{
-> > +	int rv = 0;
-> > +	int count = 0;
-> > +	unsigned long flags;
-> > +	struct urb *cur;
-> > +
-> > +	spin_lock_irqsave(&anchor->lock, flags);
-> > +	list_for_each_entry(cur, &anchor->urb_list, urb_list) {
-> > +		usb_get_urb(cur);
-> > +		spin_unlock_irqrestore(&anchor->lock, flags);
-> > +		rv = usb_submit_urb(cur, gfp);
-> > +		if (!rv) {
-> > +			count++;
-> > +		} else {
-> > +			usb_put_urb(cur);
-> > +			goto bail_out;
-> > +		}
-> > +		spin_lock_irqsave(&anchor->lock, flags);
-> > +		usb_put_urb(cur);
-> 
-> When an URB is successfully submitted, the core takes a reference to
-> it.  So you can do the usb_put_urb immediately after usb_submit_urb.
-
-OK.
-
-
-> > +	}
-> > +	spin_unlock_irqrestore(&anchor->lock, flags);
-> > +
-> > +bail_out:
-> > +	if (error)
-> > +		*error = rv;
-> > +	return count;
-> > +}
-> > +EXPORT_SYMBOL_GPL(usb_submit_anchored_urbs);
-> 
-> I didn't carefully review the rest, but it seems okay.
-
-Very good. I am preparing a V2 and then look for additional testers.
-
-	Regards
-		Oliver
-
+diff --git a/drivers/clk/tegra/clk-tegra210.c b/drivers/clk/tegra/clk-tegra210.c
+index 68cbb98af567..b9099012dc7b 100644
+--- a/drivers/clk/tegra/clk-tegra210.c
++++ b/drivers/clk/tegra/clk-tegra210.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2012-2014 NVIDIA CORPORATION.  All rights reserved.
++ * Copyright (c) 2012-2020 NVIDIA CORPORATION.  All rights reserved.
+  */
+ 
+ #include <linux/io.h>
+@@ -403,6 +403,14 @@ static unsigned long tegra210_input_freq[] = {
+ #define PLLRE_BASE_DEFAULT_MASK		0x1c000000
+ #define PLLRE_MISC0_WRITE_MASK		0x67ffffff
+ 
++/* PLLE */
++#define PLLE_MISC_IDDQ_SW_CTRL		(1 << 14)
++#define PLLE_AUX_USE_LOCKDET		(1 << 3)
++#define PLLE_AUX_SS_SEQ_INCLUDE		(1 << 31)
++#define PLLE_AUX_ENABLE_SWCTL		(1 << 4)
++#define PLLE_AUX_SS_SWCTL		(1 << 6)
++#define PLLE_AUX_SEQ_ENABLE		(1 << 24)
++
+ /* PLLX */
+ #define PLLX_USE_DYN_RAMP		1
+ #define PLLX_BASE_LOCK			(1 << 27)
+@@ -489,6 +497,49 @@ static unsigned long tegra210_input_freq[] = {
+ #define PLLU_MISC0_WRITE_MASK		0xbfffffff
+ #define PLLU_MISC1_WRITE_MASK		0x00000007
+ 
++bool tegra210_plle_hw_sequence_is_enabled(void)
++{
++	u32 value;
++
++	value = readl_relaxed(clk_base + PLLE_AUX);
++	if (value & PLLE_AUX_SEQ_ENABLE)
++		return true;
++
++	return false;
++}
++EXPORT_SYMBOL_GPL(tegra210_plle_hw_sequence_is_enabled);
++
++int tegra210_plle_hw_sequence_start(void)
++{
++	u32 value;
++
++	if (tegra210_plle_hw_sequence_is_enabled())
++		return 0;
++
++	/* skip if PLLE is not enabled yet */
++	value = readl_relaxed(clk_base + PLLE_MISC0);
++	if (!(value & PLLE_MISC_LOCK))
++		return -EIO;
++
++	value &= ~PLLE_MISC_IDDQ_SW_CTRL;
++	writel_relaxed(value, clk_base + PLLE_MISC0);
++
++	value = readl_relaxed(clk_base + PLLE_AUX);
++	value |= (PLLE_AUX_USE_LOCKDET | PLLE_AUX_SS_SEQ_INCLUDE);
++	value &= ~(PLLE_AUX_ENABLE_SWCTL | PLLE_AUX_SS_SWCTL);
++	writel_relaxed(value, clk_base + PLLE_AUX);
++
++	fence_udelay(1, clk_base);
++
++	value |= PLLE_AUX_SEQ_ENABLE;
++	writel_relaxed(value, clk_base + PLLE_AUX);
++
++	fence_udelay(1, clk_base);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(tegra210_plle_hw_sequence_start);
++
+ void tegra210_xusb_pll_hw_control_enable(void)
+ {
+ 	u32 val;
+diff --git a/include/linux/clk/tegra.h b/include/linux/clk/tegra.h
+index eb016fc9cc0b..f7ff722a03dd 100644
+--- a/include/linux/clk/tegra.h
++++ b/include/linux/clk/tegra.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- * Copyright (c) 2012, NVIDIA CORPORATION.  All rights reserved.
++ * Copyright (c) 2012-2020, NVIDIA CORPORATION.  All rights reserved.
+  */
+ 
+ #ifndef __LINUX_CLK_TEGRA_H_
+@@ -123,6 +123,8 @@ static inline void tegra_cpu_clock_resume(void)
+ }
+ #endif
+ 
++extern int tegra210_plle_hw_sequence_start(void);
++extern bool tegra210_plle_hw_sequence_is_enabled(void);
+ extern void tegra210_xusb_pll_hw_control_enable(void);
+ extern void tegra210_xusb_pll_hw_sequence_start(void);
+ extern void tegra210_sata_pll_hw_control_enable(void);
+-- 
+2.30.2
 
