@@ -2,97 +2,132 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54592C433DB
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 12:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B50BC433E1
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 12:30:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1716061A1A
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 12:26:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2373A61A25
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 12:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbhCYM0W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Mar 2021 08:26:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38566 "EHLO mail.kernel.org"
+        id S230281AbhCYM3e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Mar 2021 08:29:34 -0400
+Received: from mga17.intel.com ([192.55.52.151]:31183 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229617AbhCYMZw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Mar 2021 08:25:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C4B461A02;
-        Thu, 25 Mar 2021 12:25:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616675152;
-        bh=+s4xM0Lyz3jyD1nMjPUWpzDFZqWRYVY9+ICqQhQ1i/g=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XDYkAB6hdGdlqyl1jGYORZsDc8NO6yWXuKM8ENB31agKA4iivkfDkcfsKgFq+55Gw
-         AFPlCreyFLWB4WUqVIbNyVGJBQWjAis4Q1lMIga7acjFvv6gtyYZwm3znr1F603pW4
-         pjpRGvBRtXJmtOrHC+MxW5JZtU0lBuUjCuiPFsbED2KEVt6q+0JYCHZVTqsrbzP6rB
-         g8BiU0hS0XEFzarEs7ti5gef9mHbfnbySBvfyNif/5eKya3XzN06zcr6xdstcix5Yv
-         lOocgfGrg0rQP79JwJJR7n3SV4e5c7hCNhytiNQqJ5B3c5D0rMtG/hqgD3qt6YfBoO
-         +GFNN08Dok6Ag==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Ray Chi <raychi@google.com>, gregkh@linuxfoundation.org,
-        Thinh.Nguyen@synopsys.com
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        albertccwang@google.com, Ray Chi <raychi@google.com>
-Subject: Re: [PATCH] usb: dwc3: add cancelled reason for dwc3 requests
-In-Reply-To: <20210325115436.861299-1-raychi@google.com>
-References: <20210325115436.861299-1-raychi@google.com>
-Date:   Thu, 25 Mar 2021 14:25:44 +0200
-Message-ID: <87y2ebju7r.fsf@kernel.org>
+        id S230005AbhCYM3R (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 25 Mar 2021 08:29:17 -0400
+IronPort-SDR: Dh9KTA/JiU/1Ho2Hab2jMFY0wK2bM3QA9NkgXEYo+jnbmYVe5rAU2LLzrnM2F5rYkdGdAkOQky
+ AMprIb1hJqCg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="170895469"
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
+   d="scan'208";a="170895469"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 05:29:16 -0700
+IronPort-SDR: 6OI+OvfHk7PfST6ox6yNcRi865BX+HB5Thipi3E44tfKTp9tM0W+KRHZWBjHkkEQ757jz11d3/
+ mKqQywrrW1Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,277,1610438400"; 
+   d="scan'208";a="514623128"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2021 05:29:14 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Benson Leung <bleung@google.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/6] usb: Iterator for ports
+Date:   Thu, 25 Mar 2021 15:29:21 +0300
+Message-Id: <20210325122926.58392-2-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210325122926.58392-1-heikki.krogerus@linux.intel.com>
+References: <20210325122926.58392-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Introducing usb_for_each_port(). It works the same way as
+usb_for_each_dev(), but instead of going through every USB
+device in the system, it walks through the USB ports in the
+system.
 
-Hi,
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/core/usb.c | 43 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/usb.h    |  1 +
+ 2 files changed, 44 insertions(+)
 
-Ray Chi <raychi@google.com> writes:
-> diff --git a/drivers/usb/dwc3/gadget.h b/drivers/usb/dwc3/gadget.h
-> index 0cd281949970..a23e85bd3933 100644
-> --- a/drivers/usb/dwc3/gadget.h
-> +++ b/drivers/usb/dwc3/gadget.h
-> @@ -56,6 +56,12 @@ struct dwc3;
->=20=20
->  /* Frame/Microframe Number Mask */
->  #define DWC3_FRNUMBER_MASK		0x3fff
-> +
-> +/* Cancel reason for dwc3 request */
-> +#define DWC3_REQUEST_DEQUEUED		-ECONNRESET  /* Request get dequeued */
-> +#define DWC3_REQUEST_DISCONNECTED	-ESHUTDOWN   /* Device is disconnected=
-/disabled */
-> +#define DWC3_REQUEST_STALL		-EPIPE       /* Bus or protocol error */
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 2ce3667ec6fae..6d49db9a1b208 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -398,6 +398,49 @@ int usb_for_each_dev(void *data, int (*fn)(struct usb_device *, void *))
+ }
+ EXPORT_SYMBOL_GPL(usb_for_each_dev);
+ 
++struct each_hub_arg {
++	void *data;
++	int (*fn)(struct device *, void *);
++};
++
++static int __each_hub(struct device *dev, void *data)
++{
++	struct each_hub_arg *arg = (struct each_hub_arg *)data;
++	struct usb_device *hdev = to_usb_device(dev);
++	struct usb_hub *hub;
++	int ret;
++	int i;
++
++	hub = usb_hub_to_struct_hub(hdev);
++	if (!hub)
++		return 0;
++
++	for (i = 0; i < hdev->maxchild; i++) {
++		ret = arg->fn(&hub->ports[i]->dev, arg->data);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++/**
++ * usb_for_each_port - interate over all USB ports in the system
++ * @data: data pointer that will be handed to the callback function
++ * @fn: callback function to be called for each USB port
++ *
++ * Iterate over all USB ports and call @fn for each, passing it @data. If it
++ * returns anything other than 0, we break the iteration prematurely and return
++ * that value.
++ */
++int usb_for_each_port(void *data, int (*fn)(struct device *, void *))
++{
++	struct each_hub_arg arg = {data, fn};
++
++	return bus_for_each_dev(&usb_bus_type, NULL, &arg, __each_hub);
++}
++EXPORT_SYMBOL_GPL(usb_for_each_port);
++
+ /**
+  * usb_release_dev - free a usb device structure when all users of it are finished.
+  * @dev: device that's been disconnected
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 57c1e0ce5eba4..06ed5779fb4d8 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -869,6 +869,7 @@ extern int usb_match_one_id(struct usb_interface *interface,
+ 			    const struct usb_device_id *id);
+ 
+ extern int usb_for_each_dev(void *data, int (*fn)(struct usb_device *, void *));
++int usb_for_each_port(void *data, int (*fn)(struct device *, void *));
+ extern struct usb_interface *usb_find_interface(struct usb_driver *drv,
+ 		int minor);
+ extern struct usb_interface *usb_ifnum_to_if(const struct usb_device *dev,
+-- 
+2.30.2
 
-this is just obfuscation, pass the errors directly. Also, make sure
-these are documented in the API.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmBcgUgRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQbkIBAAo0rcWRTbI1kOE56uyHRCFxKcIhRb6hr1
-WG2Md+N3TXpnwEEAVp04kp+MSBFBBzLKZHGaR4vhxM3wWVoG/QLzCz8VI6Q7/IMT
-Jrh3rm7mCO0Jsd4JGn5R4dXDzFgOdP8F3+T6izh/XiJt5maOsaOOjLy3S2PbQnCh
-KvsvyZJ8Apcw7fquObgURibkwP5W/AZl1hTT9LNxsg+umXgNu2jNg7PHqK9+Wtq9
-oz8PkumUqhZ4yDkYSUmKYwdoCQYgQIdmq2OMA/sKjD6L5ogGXZJ7qLqcGLgKJFC3
-X1X3HF2gjzScmKttP4XIPn35xtY3HSPyGs5/e88ohqrMBFAzf9nNasJpy6oSV6/Z
-0baVSjcLjAPTWjse5UgTOIZdeQ1DaJRuBUTyRR3mTqCv60vQmYWd2WfJA34jMqo7
-0xqfyr/Xyr0UcSbZBxPa0VaIz6FVqhrg8ZAr3gviD7ARdoKl0eGOlEzLtTpKhLAj
-NfU1n0gP/Id6tF11oxxnydqrBn50St7fEuHtxFiZCB+EhExrUJH0GLlguD8W5GaO
-JtrXSoYC5GwO21yBvVztmfbrwHX3n/+NLsudyUXEVqzfv0PtAqYEtX9jnMcSA+w1
-CG3DvbDDKe1Pb+UZBWBF6rpebdJ6DtaE1O2PTo/LLaLNBgm5b++pd7LHnvkDWSZl
-336XHQjpjnc=
-=FB4s
------END PGP SIGNATURE-----
---=-=-=--
