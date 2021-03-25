@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 655A7C433C1
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 01:49:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAC0C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 01:53:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 361AC61A12
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 01:49:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33726619C9
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 01:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235874AbhCYBtY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 21:49:24 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:42496 "EHLO
+        id S236106AbhCYBx2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 21:53:28 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:42658 "EHLO
         smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235750AbhCYBs6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 21:48:58 -0400
-Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        by vger.kernel.org with ESMTP id S239827AbhCYBxW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 21:53:22 -0400
+Received: from mailhost.synopsys.com (sv2-mailhost1.synopsys.com [10.205.2.133])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 11073C00CA;
-        Thu, 25 Mar 2021 01:48:58 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id E8678C00CA;
+        Thu, 25 Mar 2021 01:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1616636938; bh=KQeDhrHUhAFtHI2576ffKDubs0BKqK8t2eAtZWr5hXI=;
+        t=1616637201; bh=KQeDhrHUhAFtHI2576ffKDubs0BKqK8t2eAtZWr5hXI=;
         h=Date:From:Subject:To:Cc:From;
-        b=QTDo4plk8JHsFudg4hez4V8/ubrSkMnXnZJCAadPaG/7mdUqcKU8LzHF9WDomgJlI
-         aIe8aPDniH0MaodKgLW/ZxZ5ZBfkJIDA3ox77NQJeyBC34M+knRY+Xk/1vbDrO2w35
-         o5fOC5Z91RmUU3IjfPvmikyNWDNHS8bScOi7LfpQKZWTChwWFie8Gi0TGUXyBoWgXC
-         fXLXdsbOHEKc0heh52tcg6Hkudjfeybmj/NdHZli0Mv9tU0hWHxFwbYvxDWRTbRSmq
-         hI276CwduFC0H9/qcAO9l2ye91tY3Lu+AB8SNU6ry4k5taP6VTif4BvRmFVcNjewrp
-         +Aeoxy4CzbXyA==
+        b=DOYfV1mu/oNxz2zHc10f0Jn6cytUmT2ocScaZok2H4s2q7nkW9R71ShgsWODpE+RG
+         bPFg014iZxVG/1dKSo7dpF9FdhXKCJEl0w91uq4FIJTfOmNkFcPzINiNJ2hE4Is6nS
+         Ivu+A9ho+zqxWGsSox3bHO+0YLT3tg6swIAsr4VGrMWgloMtxjPffjao7/LVRhmrDq
+         wfTFv7d7R65Fb8KuRzzI8u8Wcch6svWx9IqPnSZunVSuTlaOLcquOvoCeXaGl+/eEY
+         i0C5t82PuZaUOP7Q1+PZBZBW/jSpPYdI3epzjvuv1C168SVp61RJDC1y2mrZgZzdET
+         reewnCx3SEVrw==
 Received: from lab-vbox (unknown [10.205.139.29])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id BAE64A005E;
-        Thu, 25 Mar 2021 01:48:56 +0000 (UTC)
-Received: by lab-vbox (sSMTP sendmail emulation); Wed, 24 Mar 2021 18:47:50 -0700
-Date:   Wed, 24 Mar 2021 18:47:50 -0700
-Message-Id: <f6c3bf1ec9d6e36a36ed84534988014f2dd70035.1616636455.git.Thinh.Nguyen@synopsys.com>
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 5899EA0096;
+        Thu, 25 Mar 2021 01:53:20 +0000 (UTC)
+Received: by lab-vbox (sSMTP sendmail emulation); Wed, 24 Mar 2021 18:53:19 -0700
+Date:   Wed, 24 Mar 2021 18:53:19 -0700
+Message-ID: <f6c3bf1ec9d6e36a36ed84534988014f2dd70035.1616636455.git.Thinh.Nguyen@synopsys.com>
 X-SNPS-Relay: synopsys.com
 From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Subject: [PATCH] usb: dwc3: Create helper function getting MDWIDTH
@@ -51,6 +51,7 @@ Cc:     John Youn <John.Youn@synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20210325015319.28dEcEg3Tn19vr_FrcCSr4TpU7-NiUYzIpVERqJSHHA@z>
 
 Different controller IPs check different HW parameters for MDWIDTH.
 To help with maintainability, create a helper function to consolidate
