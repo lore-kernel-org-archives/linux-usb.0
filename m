@@ -2,128 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87CDC433C1
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 23:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94B67C433E2
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 00:51:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF991619FE
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Mar 2021 23:52:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4310A61A13
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Mar 2021 00:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232745AbhCXXvr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Mar 2021 19:51:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239110AbhCXXvO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Mar 2021 19:51:14 -0400
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCAC1C06174A
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 16:51:13 -0700 (PDT)
-Received: by mail-il1-x133.google.com with SMTP id l5so605146ilv.9
-        for <linux-usb@vger.kernel.org>; Wed, 24 Mar 2021 16:51:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=7XTK4pfMTsotcaP5+2Vj8/Qac6gMAPIaZt5ETGgCIFo=;
-        b=b7XZC/L+OqytHSKu0P7/BLgH65SL/j3EHuHAKaM8Q2xIXApeIK/eISqSYhC7OYPLfW
-         w9ZP4ora+/dt4DL0LXf6Q9B8+edU3OLylOuomnC6a0RJY6z72ODQRqxe/BPg+D1gw3AW
-         LCxMUvvfd6nKfkVyxzHRTHFiddUpWiWys8kpg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=7XTK4pfMTsotcaP5+2Vj8/Qac6gMAPIaZt5ETGgCIFo=;
-        b=HrP99jDDBSkVHOK1VPXCh43zHb+VJyU57R0tuPe5bSyCW9ZZwa14GoMCt0tUpNX1/k
-         eMkHaSdUkmsTtnGEoMJg+Y5Jasx9L/4uTQcLzcG6sRuyGU9rH1egHBn/JmTGNMncwo1L
-         7AruFaIIXiJ4fGvsWYOxC8LblHb2jWccrguyzACtgJz7lViWbPFGtHrertZQWd6nkvCw
-         +8Hcvmv7nW8HSIeedkOk49I2vzo3mzG/oNj7/35lAM4Fd6+urWTSZhxu14v45l0x2m/D
-         q8Lncsudnz+hH2Vsl0MeWPQ1uRqyPrDkAwb1WUXtwrZI5tvygH8B7A66lbk0Kd3/grND
-         eGhQ==
-X-Gm-Message-State: AOAM5323DBQcozw8sT2fQbXVdmScmjAuc/kMraQkp+qps3HjckfQtG7U
-        2a9qAhMOYSYaFADe5HyRlS271w==
-X-Google-Smtp-Source: ABdhPJxmECCjjcag7/SmTMG9j5dECGFCG2N3hQHz+4de8wrTVbLP3j3X8C7g8snHvDhdX3s4l1W8Cw==
-X-Received: by 2002:a05:6e02:128e:: with SMTP id y14mr4494924ilq.239.1616629873367;
-        Wed, 24 Mar 2021 16:51:13 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id s9sm1676981iob.33.2021.03.24.16.50.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Mar 2021 16:50:37 -0700 (PDT)
-Subject: Re: [PATCH v5 2/2] usbip: tools: add usage of device mode in
- usbip_list.c
-To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Antonio Borneo <borneo.antonio@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        matt mooney <mfm@muteddisk.com>, linux-usb@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org
-References: <YFrwq75Uyef3c9gz@Sun>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <719c16e1-c220-3ff4-9389-bf2ae098e5dc@linuxfoundation.org>
-Date:   Wed, 24 Mar 2021 17:50:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S239379AbhCYAvE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Mar 2021 20:51:04 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:37614 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232429AbhCYAu7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 24 Mar 2021 20:50:59 -0400
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1lPEDC-0003K7-5V; Thu, 25 Mar 2021 01:50:58 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     Johan Jonker <jbx6244@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, gregkh@linuxfoundation.org,
+        balbi@kernel.org, robh+dt@kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: (subset) [PATCH v5 1/8] dt-bindings: usb: convert rockchip,dwc3.txt to yaml
+Date:   Thu, 25 Mar 2021 01:50:55 +0100
+Message-Id: <161663335606.1190848.13995758068048147033.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210209192350.7130-1-jbx6244@gmail.com>
+References: <20210209192350.7130-1-jbx6244@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YFrwq75Uyef3c9gz@Sun>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 3/24/21 1:56 AM, Hongren Zheng (Zenithal) wrote:
-> The option '-d/--device' was implemented in 'usbip list' but not
-> shown in usage. Hence this commit adds this option to usage.
+On Tue, 9 Feb 2021 20:23:43 +0100, Johan Jonker wrote:
+> In the past Rockchip dwc3 usb nodes were manually checked.
+> With the conversion of snps,dwc3.yaml as common document
+> we now can convert rockchip,dwc3.txt to yaml as well.
+> Remove node wrapper.
 > 
-> Signed-off-by: Hongren Zheng <i@zenithal.me>
-> ---
->   tools/usb/usbip/src/usbip_list.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> PATCH v2:
->       Add signed-off-by line
-> 
-> PATCH v3:
->       Move patch changelog after the marker line
->       Remove nickname in signed-off-by line
-> 
-> PATCH v4:
->       Use commit short hash and message instead of long hash only when
->         referring to commit in the kernel
-> 
-> PATCH v5:
->      Add documentation of `usbip port` and its usage in examples
->      Add flow of detaching in examples
->      Rephrase some description and add punctuations
->      Fix typo of `usbip attach --ev-id` to `--dev-id`
-> 
-> diff --git a/tools/usb/usbip/src/usbip_list.c b/tools/usb/usbip/src/usbip_list.c
-> index 8625b0f514ee..3d810bcca02f 100644
-> --- a/tools/usb/usbip/src/usbip_list.c
-> +++ b/tools/usb/usbip/src/usbip_list.c
-> @@ -33,7 +33,8 @@ static const char usbip_list_usage_string[] =
->   	"usbip list [-p|--parsable] <args>\n"
->   	"    -p, --parsable         Parsable list format\n"
->   	"    -r, --remote=<host>    List the exportable USB devices on <host>\n"
-> -	"    -l, --local            List the local USB devices\n";
-> +	"    -l, --local            List the local USB devices\n"
-> +	"    -d, --device           List the local USB gadgets bound to usbip-vudc\n";
->   
->   void usbip_list_usage(void)
->   {
-> 
+> Added properties for rk3399 are:
+>   power-domains
+>   resets
+>   reset-names
 
-Thank you. Looks good.
+Applied, thanks!
 
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+[7/8] arm64: dts: rockchip: add rk3328 dwc3 usb controller node
+      commit: 44dd5e2106dc2fd01697b539085818d1d1c58df0
+[8/8] dts64: rockchip: enable dwc3 usb for A95X Z2
+      commit: f227197bdf91a58903753ff18f5d0ad8f170e4b5
 
-thanks,
--- Shuah
+Changed the title of the last patch to the more appropriate
+      arm64: dts: rockchip: enable dwc3 usb for A95X Z2
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
