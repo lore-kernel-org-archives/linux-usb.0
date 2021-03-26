@@ -2,67 +2,55 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.0 required=3.0 tests=BAYES_50,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0FACC433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:05:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF424C433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:09:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7974B61A1E
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:05:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6433E61A1E
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:09:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbhCZHEw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Mar 2021 03:04:52 -0400
-Received: from mordac.selfhost.de ([82.98.82.6]:51066 "EHLO
-        outgoing.selfhost.de" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229812AbhCZHEo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Mar 2021 03:04:44 -0400
-X-Greylist: delayed 395 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 03:04:43 EDT
-Received: (qmail 30878 invoked from network); 26 Mar 2021 06:57:52 -0000
-Received: from unknown (HELO mailhost.afaics.de) (postmaster@xqrsonfo.mail.selfhost.de@87.160.241.83)
-  by mailout.selfhost.de with ESMTPA; 26 Mar 2021 06:57:52 -0000
-Received: from sylvester.afaics.de (sylvester.afaics.de [10.42.100.9])
-        by mailhost.afaics.de (OpenSMTPD) with ESMTP id 2c37a5c5;
-        Fri, 26 Mar 2021 06:57:52 +0000 (UTC)
+        id S230156AbhCZHJM convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Mar 2021 03:09:12 -0400
+Received: from [103.51.153.218] ([103.51.153.218]:15669 "EHLO sac.com.tw"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230098AbhCZHIl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Mar 2021 03:08:41 -0400
+X-Greylist: delayed 61778 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 03:08:40 EDT
+From:   "Nick" <didio@sac.com.tw>
 To:     linux-usb@vger.kernel.org
-From:   Harald Dunkel <harri@afaics.de>
-Subject: 5.11.10: sync gets stuck after writing ubuntu live iso to usb stick
-Message-ID: <1fd4daa4-ad11-51b2-6fc5-22d6213d551b@afaics.de>
-Date:   Fri, 26 Mar 2021 07:57:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Subject: High-quality Original IELTS certificate
+Date:   26 Mar 2021 12:38:29 +0530
+Message-ID: <20210326123828.80F65B159EB88F99@sac.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi folks,
+Greetings,
+ 
+We are the leading provider of IELTS CERTIFICATE ONLINE. You
+don’t have to worry if you can’t pass in the IELTS exam, for we
+are here to issue you this certificate without constrain. We make
+it possible for you to get the IELTS certificate even without
+appearing for the exam or even if you have failed to pass in the
+exam with us you can obtain a genuine IELTS certificate. All our
+IELTS certificate for sale are verified. Don’t believe us?
+Contact us and see for yourself. You will receive a test report
+card once we issue your certificate, in which there will be all
+your candidate details.
 
-using
+If you want to buy registered IELTS certificate online, we are
+the first name that comes to mind. We let you buy real British
+Council certificates. All our certificates are registered at the
+British Council database system and we make sure that you can
+verify your IELTS certificate online on the official website of
+the British Council or IDP. Isn’t it what you were looking for?
 
-	dd if=ubuntu-20.10-desktop-amd64.iso bs=64k of=/dev/sdx
-
-on 5.11.10 to write a live iso to USB stick dd never returns.
-
-lsof shows that the file handles for source and destination
-have been closed, but dd doesn't exit. It cannot be interrupted
-or killed, either. If I run "sync" in another terminal, then this
-gets stuck as well.
-
-I could reproduce this problem using Debian's 5.10.13-1 and
-5.11.{9,10} built from the sources in git, on Debian 10 and
-Unstable. I tried to copy the ubuntu live iso and the RHEL 8.3
-installer iso. 3 different USB sticks.
-
-There is no such problem using Debian's 4.19.0-16-amd64 kernel
-on Debian 10.
-
-Can anybody reproduce this as well?
-
-
-Regards
-Harri
+Contact us: ujam1955@gmail.com
