@@ -2,96 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,
-	CHARSET_FARAWAY_HEADER,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06311C433DB
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 06:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6F7C433DB
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:03:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5797619BF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 06:44:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9763A61A48
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Mar 2021 07:03:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229969AbhCZGnd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Mar 2021 02:43:33 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:5114 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbhCZGnO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Mar 2021 02:43:14 -0400
-Received: from dggeme760-chm.china.huawei.com (unknown [172.30.72.53])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4F6C6j58QQzYPK2;
-        Fri, 26 Mar 2021 14:41:17 +0800 (CST)
-Received: from dggeme760-chm.china.huawei.com (10.3.19.106) by
- dggeme760-chm.china.huawei.com (10.3.19.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Fri, 26 Mar 2021 14:43:08 +0800
-Received: from dggeme760-chm.china.huawei.com ([10.6.80.70]) by
- dggeme760-chm.china.huawei.com ([10.6.80.70]) with mapi id 15.01.2106.013;
- Fri, 26 Mar 2021 14:43:08 +0800
-From:   zhengyongjun <zhengyongjun3@huawei.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Andrey Konovalov <andreyknvl@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        id S229889AbhCZHCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Mar 2021 03:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229782AbhCZHCZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Mar 2021 03:02:25 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C7CCC0613AA;
+        Fri, 26 Mar 2021 00:02:24 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id x126so4218227pfc.13;
+        Fri, 26 Mar 2021 00:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=fYmuhM1IRdVizXhzKiPSv+Ub0QxzG3Tko+5Eq9MvW/Y=;
+        b=heyhvJU3/gnGrud3yBbvIMaXolUTjLPjrYkFKp6B+qMUBMZTyxLexr3TIysq05T7qY
+         z2T9axaa32d04Osw8uFzvGzDUonOoqJ/bR4bav7eZkvokFQkf2tLBat8/6lI1HJOMVxe
+         PZoCfl0RboIDWZunfsbHt/9J12HKfjdo8V6xBagYemS32K1S//zKRB/K6J41+DwGXOUq
+         s77rumz5RicGCo9nqaW+WK5lnTsDJ5FIQtPXxyyl9m5VcWRdIArfJhTn7kjtkjpXTScQ
+         IzUrsv/4AnLYvD/1zvEGmhBd0e/lqhm9SJIq0SoGQudeGNHemfPS77Smni59pQ6VTWzl
+         rSig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fYmuhM1IRdVizXhzKiPSv+Ub0QxzG3Tko+5Eq9MvW/Y=;
+        b=Im0MAzfaExNvsEcYbvUG5ALvE0Ly5WAvIyjzd0+Ch7xMtWKTKWzEIONJNRbYKqQsX/
+         rlJSjnFFR2WcZhx5lsFVN+ByZLtOHmfiFWmEOWX/r26/JDNkxnDkUTJd/5kDIp6L2WaE
+         GFRKelGMCnBIRiv9E1CbbYmTzarVCEH9gkjrHeVcumca1iuAnwRMXxUI+RgVjmBJgYaG
+         PND/7/VhKKtIpu2Yx8vdTXcaIHrHfiaJzl3KklZFeF9+zO0R22kh80IpKIK3du7d2mhA
+         i+bpOdAw2cR6XXIhAbS2TCuNaNcxri8thcynfN8YO5emLnNmbtRSw47034JRoXe33GjV
+         5VUg==
+X-Gm-Message-State: AOAM533L85MbB+6UZwD5KJX+t6sHfeAP6mPbu3k9DyO7yzVRytzqECAZ
+        HWOedW4122sdz8i9vSSLZd0=
+X-Google-Smtp-Source: ABdhPJyn9RFt10iRoIkTqW8m0bKtd4afC3cJ85B/IDkwTe37xBUR7RWH1VR4Hm3SQMbY8NcPWjBVjw==
+X-Received: by 2002:a63:545e:: with SMTP id e30mr11128704pgm.13.1616742144402;
+        Fri, 26 Mar 2021 00:02:24 -0700 (PDT)
+Received: from taoren-ubuntu-R90MNF91.thefacebook.com (c-73-252-146-110.hsd1.ca.comcast.net. [73.252.146.110])
+        by smtp.gmail.com with ESMTPSA id y193sm8105133pfc.72.2021.03.26.00.02.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 00:02:23 -0700 (PDT)
+From:   rentao.bupt@gmail.com
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        kernel test robot <lkp@intel.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
-        "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         Sasha Levin <sashal@kernel.org>,
-        Allen Pais <allen.lkml@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        pmail_hulkci <hulkci@huawei.com>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIC1uZXh0XSB1c2I6IHJlbW92ZSB1bnVzZWQgaW5jbHVk?=
- =?gb2312?Q?ing_<linux/version.h>?=
-Thread-Topic: [PATCH -next] usb: remove unused including <linux/version.h>
-Thread-Index: AQHXIgU2sYEdRQeVBkqcMFC7ZCHYeaqVSxWAgACGsnA=
-Date:   Fri, 26 Mar 2021 06:43:08 +0000
-Message-ID: <14b5f1093ccb42798653360d10757e93@huawei.com>
-References: <20210326061326.3234377-1-zhengyongjun3@huawei.com>
- <YF2BX7Ps9DcQe5tu@kroah.com>
-In-Reply-To: <YF2BX7Ps9DcQe5tu@kroah.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.178.249]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        openbmc@lists.ozlabs.org, Tao Ren <taoren@fb.com>
+Cc:     Tao Ren <rentao.bupt@gmail.com>
+Subject: [PATCH] usb: gadget: aspeed: set port_dev dma mask
+Date:   Fri, 26 Mar 2021 00:02:14 -0700
+Message-Id: <20210326070214.6719-1-rentao.bupt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-U29ycnksIEkgd2lsbCBjaGVjayBhbGwgbXkgcGF0Y2ggbGF0ZXIgYmVmb3JlIEkgc2VuZCB0byBt
-YWludGFpbmVyIGFuZCBJIHdpbGwgc3RvcCB0aGlzIHBhdGNoIHNlcmllcy4NCg0KLS0tLS3Tyrz+
-1K28/i0tLS0tDQq3orz+yMs6IEdyZWcgS3JvYWgtSGFydG1hbiBbbWFpbHRvOmdyZWdraEBsaW51
-eGZvdW5kYXRpb24ub3JnXSANCreiy83KsbzkOiAyMDIxxOoz1MIyNsjVIDE0OjM4DQrK1bz+yMs6
-IHpoZW5neW9uZ2p1biA8emhlbmd5b25nanVuM0BodWF3ZWkuY29tPg0Ks63LzTogQW5kcmV5IEtv
-bm92YWxvdiA8YW5kcmV5a252bEBnb29nbGUuY29tPjsgRG1pdHJ5IFZ5dWtvdiA8ZHZ5dWtvdkBn
-b29nbGUuY29tPjsgTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz47IFNlYmFz
-dGlhbiBBbmRyemVqIFNpZXdpb3IgPGJpZ2Vhc3lAbGludXRyb25peC5kZT47IEFobWVkIFMuIERh
-cndpc2ggPGEuZGFyd2lzaEBsaW51dHJvbml4LmRlPjsgR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3Vz
-dGF2b2Fyc0BrZXJuZWwub3JnPjsgU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPjsgQWxs
-ZW4gUGFpcyA8YWxsZW4ubGttbEBnbWFpbC5jb20+OyBsaW51eC11c2JAdmdlci5rZXJuZWwub3Jn
-OyBrZXJuZWwtamFuaXRvcnNAdmdlci5rZXJuZWwub3JnOyBwbWFpbF9odWxrY2kgPGh1bGtjaUBo
-dWF3ZWkuY29tPg0K1vfM4jogUmU6IFtQQVRDSCAtbmV4dF0gdXNiOiByZW1vdmUgdW51c2VkIGlu
-Y2x1ZGluZyA8bGludXgvdmVyc2lvbi5oPg0KDQpPbiBGcmksIE1hciAyNiwgMjAyMSBhdCAwMjox
-MzoyNlBNICswODAwLCBaaGVuZyBZb25nanVuIHdyb3RlOg0KPiBSZW1vdmUgaW5jbHVkaW5nIDxs
-aW51eC92ZXJzaW9uLmg+IHRoYXQgZG9uJ3QgbmVlZCBpdC4NCj4gDQo+IFJlcG9ydGVkLWJ5OiBI
-dWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogWmhlbmcgWW9u
-Z2p1biA8emhlbmd5b25nanVuM0BodWF3ZWkuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvdXNiL2Nv
-cmUvaGNkLmMgfCAxIC0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pDQo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9jb3JlL2hjZC5jIGIvZHJpdmVycy91c2IvY29yZS9oY2QuYyBp
-bmRleCANCj4gM2YwMzgxMzQ0MjIxLi41M2JjOTNkNmViMGMgMTAwNjQ0DQo+IC0tLSBhL2RyaXZl
-cnMvdXNiL2NvcmUvaGNkLmMNCj4gKysrIGIvZHJpdmVycy91c2IvY29yZS9oY2QuYw0KPiBAQCAt
-MTEsNyArMTEsNiBAQA0KPiAgI2luY2x1ZGUgPGxpbnV4L2JjZC5oPg0KPiAgI2luY2x1ZGUgPGxp
-bnV4L21vZHVsZS5oPg0KPiAtI2luY2x1ZGUgPGxpbnV4L3ZlcnNpb24uaD4NCj4gICNpbmNsdWRl
-IDxsaW51eC9rZXJuZWwuaD4NCj4gICNpbmNsdWRlIDxsaW51eC9zY2hlZC90YXNrX3N0YWNrLmg+
-DQo+ICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPg0KPiANCg0KWW91ciB0b29sIGlzIFZFUlkgYnJv
-a2VuLiAgUGxlYXNlIHN0b3Agc2VuZGluZyBwYXRjaGVzIHRoYXQgeW91IG9idmlvdXNseSBkbyBu
-b3QgZXZlbiB0ZXN0IGJlZm9yZSBzdWJtaXR0aW5nOg0KCWh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
-L3IvMTYxNDczMzc1Mi01NjU0MS0xLWdpdC1zZW5kLWVtYWlsLXRpYW50YW82QGhpc2lsaWNvbi5j
-b20NCg0KSXQncyBhIHN1cmUgd2F5IHRvIG1ha2UgbWFpbnRhaW5lcnMgdmVyeSBncnVtcHkuDQoN
-CmdyZWcgay1oDQo=
+From: Tao Ren <rentao.bupt@gmail.com>
+
+Set aspeed-usb vhub port_dev's dma mask to pass the dma_mask test in
+"dma_map_page_attrs" function, and the dma_mask test was added in
+'commit f959dcd6ddfd ("dma-direct: Fix potential NULL pointer
+dereference")'.
+
+Below is the backtrace without the patch:
+[<80106550>] show_stack+0x20/0x24
+[<80106868>] dump_stack+0x28/0x30
+[<80823540>] __warn+0xfc/0x110
+[<8011ac30>] warn_slowpath_fmt+0xb0/0xc0
+[<8011ad44>] dma_map_page_attrs+0x24c/0x314
+[<8016a27c>] usb_gadget_map_request_by_dev+0x100/0x1e4
+[<805cedd8>] usb_gadget_map_request+0x1c/0x20
+[<805cefbc>] ast_vhub_epn_queue+0xa0/0x1d8
+[<7f02f710>] usb_ep_queue+0x48/0xc4
+[<805cd3e8>] ecm_do_notify+0xf8/0x248
+[<7f145920>] ecm_set_alt+0xc8/0x1d0
+[<7f145c34>] composite_setup+0x680/0x1d30
+[<7f00deb8>] ast_vhub_ep0_handle_setup+0xa4/0x1bc
+[<7f02ee94>] ast_vhub_dev_irq+0x58/0x84
+[<7f0309e0>] ast_vhub_irq+0xb0/0x1c8
+[<7f02e118>] __handle_irq_event_percpu+0x50/0x19c
+[<8015e5bc>] handle_irq_event_percpu+0x38/0x8c
+[<8015e758>] handle_irq_event+0x38/0x4c
+
+Signed-off-by: Tao Ren <rentao.bupt@gmail.com>
+---
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index d268306a7bfe..9eb3904a6ff9 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -569,6 +569,7 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
+ 	device_initialize(d->port_dev);
+ 	d->port_dev->release = ast_vhub_dev_release;
+ 	d->port_dev->parent = parent;
++	d->port_dev->dma_mask = parent->dma_mask;
+ 	dev_set_name(d->port_dev, "%s:p%d", dev_name(parent), idx + 1);
+ 	rc = device_add(d->port_dev);
+ 	if (rc)
+-- 
+2.17.1
+
