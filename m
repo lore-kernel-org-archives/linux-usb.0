@@ -2,104 +2,99 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63620C433C1
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Mar 2021 16:15:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4314BC433DB
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Mar 2021 17:25:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A257619D3
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Mar 2021 16:15:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D899619A0
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Mar 2021 17:25:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230086AbhC0QOf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Mar 2021 12:14:35 -0400
-Received: from vps-vb.mhejs.net ([37.28.154.113]:37562 "EHLO vps-vb.mhejs.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229582AbhC0QO2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 27 Mar 2021 12:14:28 -0400
-X-Greylist: delayed 1135 seconds by postgrey-1.27 at vger.kernel.org; Sat, 27 Mar 2021 12:14:27 EDT
-Received: from MUA
-        by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.93.0.4)
-        (envelope-from <mail@maciej.szmigiero.name>)
-        id 1lQBHa-0006Gy-JO; Sat, 27 Mar 2021 16:55:26 +0100
-From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: >20 KB URBs + EHCI = bad performance due to stalls
-Message-ID: <6f5be7a5-bf82-e857-5c81-322f2886099a@maciej.szmigiero.name>
-Date:   Sat, 27 Mar 2021 16:55:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S230329AbhC0RYs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Mar 2021 13:24:48 -0400
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:35330 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230347AbhC0RYn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Mar 2021 13:24:43 -0400
+Received: by mail-ot1-f41.google.com with SMTP id v24-20020a9d69d80000b02901b9aec33371so8283176oto.2;
+        Sat, 27 Mar 2021 10:24:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9KcE+QgrUuQXuE2OHRMrLAz8ThBgbzr+7gew1p6Sfs8=;
+        b=nFRA/0tYeOsTg7ikogILh4dsb18RZUUmAREEP+THkN80cjLiXeqDRi3q/YWamJOM7f
+         Mzzx15kizGIob0Iqn69ejIZYYu63YgZxfnRRr6jAeL/njBZfYgGo1Uz9ab+5UH0pgfK5
+         r16y8Rrt2vNoom5JfAUbeFrflEjBhYE5vL1v3csYni9ZCMsmguzfiUMqENW15/RTGhCx
+         95gDGI/u6SRnX5ZzS2FR0ZPqtZIRr6WRropALb0dbCzMG8Vw+ZZ+wRBdzagHPMYUi9M1
+         kVjXHoppcYEoafFURfQ6o8tO39JKJS2A8Ul6MZ7YQurY16O8isltynjPsTIX13bQrVxd
+         T+0A==
+X-Gm-Message-State: AOAM532DQGP5xukxG/GdPd6utm0kNmAJIWpv1j3DhlhwgwKUADPZ989H
+        Xbepr8L5uEW8D4960xTcFA==
+X-Google-Smtp-Source: ABdhPJxmOLqcGKblP3FioISsj/PKoEKfEHBIhelUfWzhfJ4Qr92xjql0UTWYq8up9UX9BBsep6mh5g==
+X-Received: by 2002:a9d:2628:: with SMTP id a37mr16901446otb.366.1616865882565;
+        Sat, 27 Mar 2021 10:24:42 -0700 (PDT)
+Received: from robh.at.kernel.org ([172.58.107.88])
+        by smtp.gmail.com with ESMTPSA id r10sm2997394ots.33.2021.03.27.10.24.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Mar 2021 10:24:41 -0700 (PDT)
+Received: (nullmailer pid 275943 invoked by uid 1000);
+        Sat, 27 Mar 2021 17:24:38 -0000
+Date:   Sat, 27 Mar 2021 11:24:38 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Nicolas Boichat <drinkcat@chromium.org>
+Subject: Re: [PATCH v2 01/13] dt-bindings: usb: mtk-xhci: support property
+ usb2-lpm-disable
+Message-ID: <20210327172438.GA268453@robh.at.kernel.org>
+References: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1616482975-17841-1-git-send-email-chunfeng.yun@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On Tue, Mar 23, 2021 at 03:02:43PM +0800, Chunfeng Yun wrote:
+> Add support common property usb2-lpm-disable
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v2: no changes
+> ---
+>  Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> index 14f40efb3b22..2246d29a5e4e 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> @@ -103,6 +103,10 @@ properties:
+>      description: supports USB3.0 LPM
+>      type: boolean
+>  
+> +  usb2-lpm-disable:
+> +    description: disable USB2 HW LPM
+> +    type: boolean
 
-Is there any specific reason that URBs without URB_SHORT_NOT_OK flag that
-span multiple EHCI qTDs have Alternate Next qTD pointer set to the dummy
-qTD in their every qTD besides the last one (instead of to the first qTD
-of the next URB to that endpoint)?
+Already has a type. Don't redefine here. Just 'usb2-lpm-disable: true' 
+and make sure usb-xhci.yaml is referenced.
 
-This causes that endpoint queue to stall in case of a short read that
-does not reach the last qTD (I guess this condition persists until an
-URB is (re)submitted to that endpoint, but I am not sure here).
-
-One of affected drivers here is drivers/net/usb/r8152.c.
-
-If I simply reduce its per-URB transfer buffer to 20 KB (the maximum
-that fits in a well-aligned qTD) the RX rate increases from around
-100 Mbps to 200+ Mbps (on an ICH8M controller):
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -6554,6 +6556,9 @@
-                 break;
-         }
-  
-+       if (tp->udev->speed == USB_SPEED_HIGH)
-+               tp->rx_buf_sz = min(tp->rx_buf_sz, (u32)20 * 1024);
-+
-         return ret;
-  }
-
-The driver default is to use 32 KB buffers (which span two qTDs),
-but the device rarely fully fills the first qTD resulting in
-repetitive stalls and more than halving the performance.
-
-As far as I can see, the relevant code in
-drivers/usb/host/ehci-q.c::qh_urb_transaction() predates the git era.
-The comment in that function before setting the Alternate Next qTD
-pointer:
-> /*
->  * short reads advance to a "magic" dummy instead of the next
->  * qtd ... that forces the queue to stop, for manual cleanup.
->  * (this will usually be overridden later.)
->  */
-
-...suggests the idea was to override that pointer when
-URB_SHORT_NOT_OK is not set, but this is actually done only for
-the last qTD from the URB (also, that's the only one that ends
-with interrupt flag set).
-
-Looking at OHCI and UHCI host controller drivers the equivalent
-limits seem to be different there (8 KB and 2 KB), while I don't
-see any specific limit in the XHCI case.
-
-Because of that variance in the URB buffer limit it seems strange
-to me that this should be managed by a particular USB device driver
-rather than by the host controller driver, because this would mean
-every such driver would need to either use the lowest common
-denominator for the URB buffer size (which is very small) or
-hardcode the limit for every host controller that the device can
-be connected to, which seems a bit inefficient.
-
-Thanks,
-Maciej
+> +
+>    imod-interval-ns:
+>      description:
+>        Interrupt moderation interval value, it is 8 times as much as that
+> -- 
+> 2.18.0
+> 
