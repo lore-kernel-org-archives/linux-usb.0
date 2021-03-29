@@ -6,59 +6,59 @@ X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D604BC433E4
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 13:47:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D96BDC433E0
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 13:48:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F3F161960
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 13:47:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E3BB61959
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 13:48:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhC2NrK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 09:47:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36266 "EHLO
+        id S231940AbhC2Nrl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 09:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36324 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231679AbhC2NrB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 09:47:01 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E34C061574;
-        Mon, 29 Mar 2021 06:47:00 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id v11so12910121wro.7;
-        Mon, 29 Mar 2021 06:47:00 -0700 (PDT)
+        with ESMTP id S231748AbhC2NrO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 09:47:14 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E63C061574;
+        Mon, 29 Mar 2021 06:47:13 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id j20-20020a05600c1914b029010f31e15a7fso8571981wmq.1;
+        Mon, 29 Mar 2021 06:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LQo2IHbDrnsvLwx9E49b4vmdluvz5ztdZ0USfGdznpw=;
-        b=hUH2tcrxar9RPvmx9tqIwFhRkLd9FYx4Q2uANYKC+xvb26EemiLSzxn08kH+GUKWcW
-         9vyl3yVm8rAF2icwMClFF7/tHncCDp/MuSNXAdM0kHJYtO+AhrSSNJpmVYM6RlRuJr2a
-         O7N4EqXkwFkLn8taYWfkLSRKBy/vS/v1DnlqULZJxrPr+8kKRQV6QeO4pf5Dm6DgEYuQ
-         PZiTIX8+DB9xHxPFiUoTRmmcIWNIFqMiehQhVIyteOOUJs9/Xp2eKMiiEZP5D3b4DS/b
-         JBEjIgzi0SXwDYua7diw0IGCh2zJ51u5gfb50O3+AcH49U2qgO1Lk5zpgp8yRsINOQBV
-         L7ow==
+        bh=ZvzgiV2nSwBn6Q8dJPr/Ctf77sdhvnpJP3sNw2DTkQM=;
+        b=i8QSVI0D3LEga2X5WIQ3W3/mZv3QboeegLFcBkjwjtp7EYuoVIWme1JwudklBmykEE
+         nlJQxBXLOdXKNkZeztN2c+Xipn7JupOACYUvhfuLFRhHepeYT9Blt/KxmZSgfjrkr8G4
+         Nu+cbfnjTqO6z9tc1lveJaU9tp24dTS62j+JSdMtvdjKcf3qPlc1dW/Gi0RIng2cLUmn
+         ZqwlYXBDhEvsq2nEjg+YwhjgoyxYxVQswSAkETdh1Rc38zFtZ/s59gzS9gCsBOC5HxUx
+         tjXTk8118zWLy9cMgbi50XAX/oiyEiyjgvH4YH0Oo2H1CqzMh3wUZH+PdS1CKX9Od2OI
+         83vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=LQo2IHbDrnsvLwx9E49b4vmdluvz5ztdZ0USfGdznpw=;
-        b=ak0TF18aL0N4us59/xm3i2VchaBk5K3fYhkRYx3ahrHMp85gikK8mt1RjlXBqzu3cd
-         tiWBK3hN9YSVx7J5fg1FMTOwlkqzHOS13b7dGyVev3ZtPtOZeJJdr8A4E3ZYdf1Qv6oG
-         FkfQRkNWfNyPKTo40dOG1uljQIrTnJlWtM6PxLRvZyr9P+gLW7zZK12BWEkFUfUbDCPN
-         wyybR1jtnGXZKfrazQCPYzgk01hH+k+lQesw5CcK7vy9ei7khs5wdMa8evLQJWlDamfk
-         HGFB8nN7hCzS5YWxHwedKGeGPexwpnYhnKkA8Tp42GNrqCYd34fcouM5hEHgFzgCw4B1
-         qWDw==
-X-Gm-Message-State: AOAM5331rifq+T9DNKD8sWB//ftIM/ENxe/WKdFFXsaOy4FCkQufDfvX
-        XJEn/9C07OPHat+Zn6einm8EYJ0TaYoSJg==
-X-Google-Smtp-Source: ABdhPJysDSrMY/1qPw5vBQij0RgaU13OWCnbwhhrcG2Ij3e9ZtM+LI2TTKmj3RKJAuKWx8X8klEhaA==
-X-Received: by 2002:a5d:6542:: with SMTP id z2mr17102271wrv.205.1617025619676;
-        Mon, 29 Mar 2021 06:46:59 -0700 (PDT)
+        bh=ZvzgiV2nSwBn6Q8dJPr/Ctf77sdhvnpJP3sNw2DTkQM=;
+        b=ilbVZ5Ue4UPpmqZtUax18C1galkvx5Gde4ptdIRApBzSyV1cLS/HpXZVP7suMd5mFH
+         vxLiCUC8Uw8yQttSenxC+UMzzvhPU7684q3BoRSjsuoCsmkhk5f+PD1wKrWvqIEXA+U+
+         DEf3SEr3CkMwTg6YR0z8gIj1VCN0qxt0ruBSGoghI+Gncaxeza0s1tQmgXU8bWHMQKAL
+         tcGWgS73/Gnibj2XOaqjdLqcVfARSLe1gTKNnNTGfuZfpPCHEwyHJ0Hspauqxvb03tKJ
+         qW4x7zE66glI7Z0IKWekDefytYyG/y57v9kFBxlUdS0NTHOF97vCOimo7/pJjoPHn9RF
+         7QpQ==
+X-Gm-Message-State: AOAM5334LCR6aBtQ2qedi+Gm+fppq8kqEtaZToNkytsyB9CcmQz9nXjZ
+        Eaw2+jRkgfa9N5dMD8xDPAB6s0vCm8wePQ==
+X-Google-Smtp-Source: ABdhPJyGvufcTPc2hzUFUUCpwwx6QBJ/M0LmHOUV1Yhmv35Zc+bNMvcSZk8TgVOu9KQY9NndjIFCGw==
+X-Received: by 2002:a7b:c186:: with SMTP id y6mr25371592wmi.84.1617025632328;
+        Mon, 29 Mar 2021 06:47:12 -0700 (PDT)
 Received: from ziggy.stardust (80.174.240.175.dyn.user.ono.com. [80.174.240.175])
-        by smtp.gmail.com with ESMTPSA id b12sm31428854wrf.39.2021.03.29.06.46.58
+        by smtp.gmail.com with ESMTPSA id z1sm29922043wru.95.2021.03.29.06.47.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Mar 2021 06:46:59 -0700 (PDT)
-Subject: Re: [PATCH v5 08/13] arm64: dts: mediatek: mt8516: harmonize node
- names and compatibles
+        Mon, 29 Mar 2021 06:47:11 -0700 (PDT)
+Subject: Re: [PATCH v5 10/13] arm64: dts: mediatek: mt8183: fix dtbs_check
+ warning
 To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>
 Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
@@ -71,14 +71,14 @@ Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, linux-usb@vger.kernel.org
 References: <20210316092232.9806-1-chunfeng.yun@mediatek.com>
- <20210316092232.9806-8-chunfeng.yun@mediatek.com>
+ <20210316092232.9806-10-chunfeng.yun@mediatek.com>
 From:   Matthias Brugger <matthias.bgg@gmail.com>
-Message-ID: <ff4ab27b-5a76-0597-780c-7b101e1b0963@gmail.com>
-Date:   Mon, 29 Mar 2021 15:46:55 +0200
+Message-ID: <a744a9ae-2687-39ec-332e-09ec5fdf6fb0@gmail.com>
+Date:   Mon, 29 Mar 2021 15:47:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210316092232.9806-8-chunfeng.yun@mediatek.com>
+In-Reply-To: <20210316092232.9806-10-chunfeng.yun@mediatek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -89,65 +89,57 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 
 On 16/03/2021 10:22, Chunfeng Yun wrote:
-> This is used to fix dtbs_check warning:
->   harmonize node names and compatibles;
->   add property "usb-role-switch" for connector dependence.
+> Harmonize node names, compatibles and properties.
 > 
 > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
 Applied now to v5.12-next/dts64
 
 > ---
-> v2~v5: no changes
+> v4~v5: no changes
+> v3: remove property clock-names suggested by CK
+> v2: no changes
 > ---
->  arch/arm64/boot/dts/mediatek/mt8516.dtsi         | 9 +++++----
->  arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi | 1 +
->  2 files changed, 6 insertions(+), 4 deletions(-)
+>  arch/arm64/boot/dts/mediatek/mt8183.dtsi | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8516.dtsi b/arch/arm64/boot/dts/mediatek/mt8516.dtsi
-> index b80e95574bef..bbe5a1419eff 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8516.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8516.dtsi
-> @@ -480,7 +480,7 @@
->  		};
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> index 80519a145f13..8882d35ac6ab 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+> @@ -880,7 +880,7 @@
+>  			ranges;
+>  			status = "disabled";
 >  
->  		usb0: usb@11100000 {
-> -			compatible = "mediatek,mtk-musb";
-> +			compatible = "mediatek,mt8516-musb", "mediatek,mtk-musb";
->  			reg = <0 0x11100000 0 0x1000>;
->  			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_LOW>;
->  			interrupt-names = "mc";
-> @@ -493,7 +493,7 @@
->  		};
->  
->  		usb1: usb@11190000 {
-> -			compatible = "mediatek,mtk-musb";
-> +			compatible = "mediatek,mt8516-musb", "mediatek,mtk-musb";
->  			reg = <0 0x11190000 0 0x1000>;
->  			interrupts = <GIC_SPI 210 IRQ_TYPE_LEVEL_LOW>;
->  			interrupt-names = "mc";
-> @@ -506,8 +506,9 @@
+> -			usb_host: xhci@11200000 {
+> +			usb_host: usb@11200000 {
+>  				compatible = "mediatek,mt8183-xhci",
+>  					     "mediatek,mtk-xhci";
+>  				reg = <0 0x11200000 0 0x1000>;
+> @@ -923,11 +923,10 @@
 >  			status = "disabled";
 >  		};
 >  
-> -		usb_phy: usb@11110000 {
-> -			compatible = "mediatek,generic-tphy-v1";
-> +		usb_phy: t-phy@11110000 {
-> +			compatible = "mediatek,mt8516-tphy",
-> +				     "mediatek,generic-tphy-v1";
->  			reg = <0 0x11110000 0 0x800>;
->  			#address-cells = <2>;
->  			#size-cells = <2>;
-> diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> index 63fd70086bb8..7d738f01cf8d 100644
-> --- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> @@ -188,6 +188,7 @@
->  &usb0 {
->  	status = "okay";
->  	dr_mode = "peripheral";
-> +	usb-role-switch;
+> -		mipi_tx0: mipi-dphy@11e50000 {
+> +		mipi_tx0: dsi-phy@11e50000 {
+>  			compatible = "mediatek,mt8183-mipi-tx";
+>  			reg = <0 0x11e50000 0 0x1000>;
+>  			clocks = <&apmixedsys CLK_APMIXED_MIPID0_26M>;
+> -			clock-names = "ref_clk";
+>  			#clock-cells = <0>;
+>  			#phy-cells = <0>;
+>  			clock-output-names = "mipi_tx0_pll";
+> @@ -946,11 +945,10 @@
+>  			};
+>  		};
 >  
->  	usb_con: connector {
->  		compatible = "usb-c-connector";
+> -		u3phy: usb-phy@11f40000 {
+> +		u3phy: t-phy@11f40000 {
+>  			compatible = "mediatek,mt8183-tphy",
+>  				     "mediatek,generic-tphy-v2";
+>  			#address-cells = <1>;
+> -			#phy-cells = <1>;
+>  			#size-cells = <1>;
+>  			ranges = <0 0 0x11f40000 0x1000>;
+>  			status = "okay";
 > 
