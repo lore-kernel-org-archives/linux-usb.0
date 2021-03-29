@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3740CC433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6924DC433E5
 	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:21:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 173C76193A
+	by mail.kernel.org (Postfix) with ESMTP id 4832261945
 	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230322AbhC2HUh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 03:20:37 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:49990 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231128AbhC2HUT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 03:20:19 -0400
-X-UUID: 32e6386c9cb048b4ab2143106ede251a-20210329
-X-UUID: 32e6386c9cb048b4ab2143106ede251a-20210329
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        id S231208AbhC2HUi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 03:20:38 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:37003 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231137AbhC2HUU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 03:20:20 -0400
+X-UUID: 646bee40caa3404a8a2f9a4d14452a53-20210329
+X-UUID: 646bee40caa3404a8a2f9a4d14452a53-20210329
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 789031233; Mon, 29 Mar 2021 15:20:15 +0800
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 846236393; Mon, 29 Mar 2021 15:20:15 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 29 Mar 2021 15:20:13 +0800
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 29 Mar 2021 15:20:15 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 29 Mar 2021 15:20:12 +0800
+ Transport; Mon, 29 Mar 2021 15:20:14 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>
@@ -43,41 +43,60 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH v3 1/4] dt-bindings: usb: mtk-xhci: support property usb2-lpm-disable
-Date:   Mon, 29 Mar 2021 15:20:08 +0800
-Message-ID: <1617002411-9015-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 3/4] usb: xhci-mtk: fix broken streams issue on 0.96 xHCI
+Date:   Mon, 29 Mar 2021 15:20:10 +0800
+Message-ID: <1617002411-9015-3-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1617002411-9015-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1617002411-9015-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: B68635581A6FC360257EB3101D6F1B094EA132FCEB67D2702559F81B7BD827522000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support common property usb2-lpm-disable
+The MediaTek 0.96 xHCI controller on some platforms does not
+support bulk stream even HCCPARAMS says supporting, due to MaxPSASize
+is set a default value 1 by mistake, here use XHCI_BROKEN_STREAMS
+quirk to fix it.
 
+Fixes: 94a631d91ad3 ("usb: xhci-mtk: check hcc_params after adding primary hcd")
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v3: remove redefinition of type and description suggested by Rob
-v2: no changes
+v2~3: no changes
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/host/xhci-mtk.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 45bf4ea00c9e..291749f49f35 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -104,6 +104,8 @@ properties:
-     description: supports USB3.0 LPM
-     type: boolean
- 
-+  usb2-lpm-disable: true
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index c1bc40289833..4e3d53cc24f4 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -411,6 +411,13 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
+ 	if (mtk->lpm_support)
+ 		xhci->quirks |= XHCI_LPM_SUPPORT;
 +
-   imod-interval-ns:
-     description:
-       Interrupt moderation interval value, it is 8 times as much as that
++	/*
++	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
++	 * and it's 3 when support it.
++	 */
++	if (xhci->hci_version < 0x100 && HCC_MAX_PSA(xhci->hcc_params) == 4)
++		xhci->quirks |= XHCI_BROKEN_STREAMS;
+ }
+ 
+ /* called during probe() after chip reset completes */
+@@ -572,7 +579,8 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto put_usb3_hcd;
+ 
+-	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
++	if (HCC_MAX_PSA(xhci->hcc_params) >= 4 &&
++	    !(xhci->quirks & XHCI_BROKEN_STREAMS))
+ 		xhci->shared_hcd->can_do_streams = 1;
+ 
+ 	ret = usb_add_hcd(xhci->shared_hcd, irq, IRQF_SHARED);
 -- 
 2.18.0
 
