@@ -7,32 +7,32 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6944EC433E1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E084C433E4
 	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 08:46:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30E37619B6
+	by mail.kernel.org (Postfix) with ESMTP id 4509A60C3D
 	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 08:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234541AbhC2Ipl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 04:45:41 -0400
-Received: from mga06.intel.com ([134.134.136.31]:14119 "EHLO mga06.intel.com"
+        id S234937AbhC2Ipm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 04:45:42 -0400
+Received: from mga06.intel.com ([134.134.136.31]:14117 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234803AbhC2IoV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Mar 2021 04:44:21 -0400
-IronPort-SDR: 6Db6hxGbK4MJKtUwiwocjaE1AnRCMTJXodM+KoGB/U3Fz/pSMVPqvcIzO6g9uZa446HNUeKuBI
- zqlRGOBejyYA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="252854817"
+        id S233922AbhC2Iov (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Mar 2021 04:44:51 -0400
+IronPort-SDR: R6lUzy1SApveW6vPv/j+AxlPCNiwQYR8QlhSv4OjwToKseusNjewPhKY2+6iEwiEZwDcYP4vAz
+ pB3DqU0ROBSQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="252854838"
 X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="252854817"
+   d="scan'208";a="252854838"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 01:44:17 -0700
-IronPort-SDR: mrMYbK2u8Nsc2n1kpcpoJjlML/rc8G64ZWebg5eBJF7sxiaZSmxSc5AwhUnGp00+q/C9IWzzHV
- +9l/OBCiGosQ==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 01:44:22 -0700
+IronPort-SDR: +ny+7ePNg9+muWO7INMAOxEohKubx7qSWAnpSp5M76y/pTkNlGQZn8cwm/Zl2WuL4/ZTDxpbBq
+ wSxXpwXVYPLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="515918683"
+   d="scan'208";a="515918700"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2021 01:44:15 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2021 01:44:20 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Alan Stern <stern@rowland.harvard.edu>,
@@ -40,9 +40,9 @@ Cc:     Alan Stern <stern@rowland.harvard.edu>,
         Prashant Malani <pmalani@chromium.org>,
         Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/6] usb: typec: Organize the private headers properly
-Date:   Mon, 29 Mar 2021 11:44:21 +0300
-Message-Id: <20210329084426.78138-2-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2 3/6] usb: typec: Port mapping utility
+Date:   Mon, 29 Mar 2021 11:44:23 +0300
+Message-Id: <20210329084426.78138-4-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210329084426.78138-1-heikki.krogerus@linux.intel.com>
 References: <20210329084426.78138-1-heikki.krogerus@linux.intel.com>
@@ -52,307 +52,351 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding a header file for each subsystem - the connector
-class, alt mode bus and the class for the muxes.
+Adding functions that can be used to link/unlink ports -
+USB ports, TBT3/USB4 ports, DisplayPorts and so on - to
+the USB Type-C connectors they are attached to inside a
+system. The symlink that is created for the port device is
+named "connector".
+
+Initially only ACPI is supported. ACPI port object shares
+the _PLD (Physical Location of Device) with the USB Type-C
+connector that it's attached to.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/bus.c   |  2 ++
- drivers/usb/typec/bus.h   | 19 +---------
- drivers/usb/typec/class.c | 69 +++--------------------------------
- drivers/usb/typec/class.h | 76 +++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/mux.c   |  4 +--
- drivers/usb/typec/mux.h   | 21 +++++++++++
- 6 files changed, 107 insertions(+), 84 deletions(-)
- create mode 100644 drivers/usb/typec/class.h
- create mode 100644 drivers/usb/typec/mux.h
+ drivers/usb/typec/Makefile      |   2 +-
+ drivers/usb/typec/class.c       |   7 +-
+ drivers/usb/typec/class.h       |   9 ++
+ drivers/usb/typec/port-mapper.c | 219 ++++++++++++++++++++++++++++++++
+ include/linux/usb/typec.h       |  13 ++
+ 5 files changed, 248 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/usb/typec/port-mapper.c
 
-diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-index e8ddb81cb6df4..7f3c9a8e2bf08 100644
---- a/drivers/usb/typec/bus.c
-+++ b/drivers/usb/typec/bus.c
-@@ -9,6 +9,8 @@
- #include <linux/usb/pd_vdo.h>
+diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+index a820e6e8c1ffc..1e1868832b8d8 100644
+--- a/drivers/usb/typec/Makefile
++++ b/drivers/usb/typec/Makefile
+@@ -3,7 +3,7 @@
+ CFLAGS_tps6598x.o		:= -I$(src)
  
- #include "bus.h"
-+#include "class.h"
-+#include "mux.h"
- 
- static inline int
- typec_altmode_set_mux(struct altmode *alt, unsigned long conf, void *data)
-diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-index 8ba8112d2740d..56dec268d4dd9 100644
---- a/drivers/usb/typec/bus.h
-+++ b/drivers/usb/typec/bus.h
-@@ -4,9 +4,9 @@
- #define __USB_TYPEC_ALTMODE_H__
- 
- #include <linux/usb/typec_altmode.h>
--#include <linux/usb/typec_mux.h>
- 
- struct bus_type;
-+struct typec_mux;
- 
- struct altmode {
- 	unsigned int			id;
-@@ -28,24 +28,7 @@ struct altmode {
- 
- extern struct bus_type typec_bus;
- extern const struct device_type typec_altmode_dev_type;
--extern const struct device_type typec_port_dev_type;
- 
- #define is_typec_altmode(_dev_) (_dev_->type == &typec_altmode_dev_type)
--#define is_typec_port(_dev_) (_dev_->type == &typec_port_dev_type)
--
--extern struct class typec_mux_class;
--
--struct typec_switch {
--	struct device dev;
--	typec_switch_set_fn_t set;
--};
--
--struct typec_mux {
--	struct device dev;
--	typec_mux_set_fn_t set;
--};
--
--#define to_typec_switch(_dev_) container_of(_dev_, struct typec_switch, dev)
--#define to_typec_mux(_dev_) container_of(_dev_, struct typec_mux, dev)
- 
- #endif /* __USB_TYPEC_ALTMODE_H__ */
+ obj-$(CONFIG_TYPEC)		+= typec.o
+-typec-y				:= class.o mux.o bus.o
++typec-y				:= class.o mux.o bus.o port-mapper.o
+ obj-$(CONFIG_TYPEC)		+= altmodes/
+ obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+ obj-$(CONFIG_TYPEC_UCSI)	+= ucsi/
 diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 45f0bf65e9aba..5fa279a96b6ef 100644
+index d3e1002386357..ff199e2d26c7b 100644
 --- a/drivers/usb/typec/class.c
 +++ b/drivers/usb/typec/class.c
-@@ -6,74 +6,15 @@
-  * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-  */
- 
--#include <linux/device.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/property.h>
- #include <linux/slab.h>
- #include <linux/usb/pd_vdo.h>
-+#include <linux/usb/typec_mux.h>
- 
- #include "bus.h"
--
--struct typec_plug {
--	struct device			dev;
--	enum typec_plug_index		index;
--	struct ida			mode_ids;
--	int				num_altmodes;
--};
--
--struct typec_cable {
--	struct device			dev;
--	enum typec_plug_type		type;
--	struct usb_pd_identity		*identity;
--	unsigned int			active:1;
--	u16				pd_revision; /* 0300H = "3.0" */
--};
--
--struct typec_partner {
--	struct device			dev;
--	unsigned int			usb_pd:1;
--	struct usb_pd_identity		*identity;
--	enum typec_accessory		accessory;
--	struct ida			mode_ids;
--	int				num_altmodes;
--	u16				pd_revision; /* 0300H = "3.0" */
--	enum usb_pd_svdm_ver		svdm_version;
--};
--
--struct typec_port {
--	unsigned int			id;
--	struct device			dev;
--	struct ida			mode_ids;
--
--	int				prefer_role;
--	enum typec_data_role		data_role;
--	enum typec_role			pwr_role;
--	enum typec_role			vconn_role;
--	enum typec_pwr_opmode		pwr_opmode;
--	enum typec_port_type		port_type;
--	struct mutex			port_type_lock;
--
--	enum typec_orientation		orientation;
--	struct typec_switch		*sw;
--	struct typec_mux		*mux;
--
--	const struct typec_capability	*cap;
--	const struct typec_operations   *ops;
--};
--
--#define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
--#define to_typec_plug(_dev_) container_of(_dev_, struct typec_plug, dev)
--#define to_typec_cable(_dev_) container_of(_dev_, struct typec_cable, dev)
--#define to_typec_partner(_dev_) container_of(_dev_, struct typec_partner, dev)
--
--static const struct device_type typec_partner_dev_type;
--static const struct device_type typec_cable_dev_type;
--static const struct device_type typec_plug_dev_type;
--
--#define is_typec_partner(_dev_) (_dev_->type == &typec_partner_dev_type)
--#define is_typec_cable(_dev_) (_dev_->type == &typec_cable_dev_type)
--#define is_typec_plug(_dev_) (_dev_->type == &typec_plug_dev_type)
-+#include "class.h"
+@@ -18,7 +18,7 @@
  
  static DEFINE_IDA(typec_index_ida);
- static struct class *typec_class;
-@@ -726,7 +667,7 @@ static void typec_partner_release(struct device *dev)
- 	kfree(partner);
- }
  
--static const struct device_type typec_partner_dev_type = {
-+const struct device_type typec_partner_dev_type = {
- 	.name = "typec_partner",
- 	.groups = typec_partner_groups,
- 	.release = typec_partner_release,
-@@ -941,7 +882,7 @@ static const struct attribute_group *typec_plug_groups[] = {
- 	NULL
+-static struct class typec_class = {
++struct class typec_class = {
+ 	.name = "typec",
+ 	.owner = THIS_MODULE,
+ };
+@@ -1601,6 +1601,7 @@ static void typec_release(struct device *dev)
+ 	ida_destroy(&port->mode_ids);
+ 	typec_switch_put(port->sw);
+ 	typec_mux_put(port->mux);
++	free_pld(port->pld);
+ 	kfree(port->cap);
+ 	kfree(port);
+ }
+@@ -1983,6 +1984,8 @@ struct typec_port *typec_register_port(struct device *parent,
+ 
+ 	ida_init(&port->mode_ids);
+ 	mutex_init(&port->port_type_lock);
++	mutex_init(&port->port_list_lock);
++	INIT_LIST_HEAD(&port->port_list);
+ 
+ 	port->id = id;
+ 	port->ops = cap->ops;
+@@ -2024,6 +2027,8 @@ struct typec_port *typec_register_port(struct device *parent,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	port->pld = get_pld(&port->dev);
++
+ 	return port;
+ }
+ EXPORT_SYMBOL_GPL(typec_register_port);
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index d414be58d122e..52294f7020a8b 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -54,6 +54,11 @@ struct typec_port {
+ 
+ 	const struct typec_capability	*cap;
+ 	const struct typec_operations   *ops;
++
++	struct list_head		port_list;
++	struct mutex			port_list_lock; /* Port list lock */
++
++	void				*pld;
  };
  
--static const struct device_type typec_plug_dev_type = {
-+const struct device_type typec_plug_dev_type = {
- 	.name = "typec_plug",
- 	.groups = typec_plug_groups,
- 	.release = typec_plug_release,
-@@ -1089,7 +1030,7 @@ static void typec_cable_release(struct device *dev)
- 	kfree(cable);
- }
+ #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
+@@ -72,5 +77,9 @@ extern const struct device_type typec_port_dev_type;
+ #define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
  
--static const struct device_type typec_cable_dev_type = {
-+const struct device_type typec_cable_dev_type = {
- 	.name = "typec_cable",
- 	.groups = typec_cable_groups,
- 	.release = typec_cable_release,
-diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+ extern struct class typec_mux_class;
++extern struct class typec_class;
++
++void *get_pld(struct device *dev);
++void free_pld(void *pld);
+ 
+ #endif /* __USB_TYPEC_CLASS__ */
+diff --git a/drivers/usb/typec/port-mapper.c b/drivers/usb/typec/port-mapper.c
 new file mode 100644
-index 0000000000000..d414be58d122e
+index 0000000000000..5bee7a97242fe
 --- /dev/null
-+++ b/drivers/usb/typec/class.h
-@@ -0,0 +1,76 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++++ b/drivers/usb/typec/port-mapper.c
+@@ -0,0 +1,219 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * USB Type-C Connector Class Port Mapping Utility
++ *
++ * Copyright (C) 2021, Intel Corporation
++ * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
++ */
 +
-+#ifndef __USB_TYPEC_CLASS__
-+#define __USB_TYPEC_CLASS__
-+
-+#include <linux/device.h>
++#include <linux/acpi.h>
++#include <linux/usb.h>
 +#include <linux/usb/typec.h>
 +
-+struct typec_mux;
-+struct typec_switch;
-+
-+struct typec_plug {
-+	struct device			dev;
-+	enum typec_plug_index		index;
-+	struct ida			mode_ids;
-+	int				num_altmodes;
-+};
-+
-+struct typec_cable {
-+	struct device			dev;
-+	enum typec_plug_type		type;
-+	struct usb_pd_identity		*identity;
-+	unsigned int			active:1;
-+	u16				pd_revision; /* 0300H = "3.0" */
-+};
-+
-+struct typec_partner {
-+	struct device			dev;
-+	unsigned int			usb_pd:1;
-+	struct usb_pd_identity		*identity;
-+	enum typec_accessory		accessory;
-+	struct ida			mode_ids;
-+	int				num_altmodes;
-+	u16				pd_revision; /* 0300H = "3.0" */
-+	enum usb_pd_svdm_ver		svdm_version;
-+};
-+
-+struct typec_port {
-+	unsigned int			id;
-+	struct device			dev;
-+	struct ida			mode_ids;
-+
-+	int				prefer_role;
-+	enum typec_data_role		data_role;
-+	enum typec_role			pwr_role;
-+	enum typec_role			vconn_role;
-+	enum typec_pwr_opmode		pwr_opmode;
-+	enum typec_port_type		port_type;
-+	struct mutex			port_type_lock;
-+
-+	enum typec_orientation		orientation;
-+	struct typec_switch		*sw;
-+	struct typec_mux		*mux;
-+
-+	const struct typec_capability	*cap;
-+	const struct typec_operations   *ops;
-+};
-+
-+#define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
-+#define to_typec_plug(_dev_) container_of(_dev_, struct typec_plug, dev)
-+#define to_typec_cable(_dev_) container_of(_dev_, struct typec_cable, dev)
-+#define to_typec_partner(_dev_) container_of(_dev_, struct typec_partner, dev)
-+
-+extern const struct device_type typec_partner_dev_type;
-+extern const struct device_type typec_cable_dev_type;
-+extern const struct device_type typec_plug_dev_type;
-+extern const struct device_type typec_port_dev_type;
-+
-+#define is_typec_partner(dev) ((dev)->type == &typec_partner_dev_type)
-+#define is_typec_cable(dev) ((dev)->type == &typec_cable_dev_type)
-+#define is_typec_plug(dev) ((dev)->type == &typec_plug_dev_type)
-+#define is_typec_port(dev) ((dev)->type == &typec_port_dev_type)
-+
-+extern struct class typec_mux_class;
-+
-+#endif /* __USB_TYPEC_CLASS__ */
-diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index cf720e944aaaa..9da22ae3006c9 100644
---- a/drivers/usb/typec/mux.c
-+++ b/drivers/usb/typec/mux.c
-@@ -13,9 +13,9 @@
- #include <linux/mutex.h>
- #include <linux/property.h>
- #include <linux/slab.h>
--#include <linux/usb/typec_mux.h>
- 
--#include "bus.h"
 +#include "class.h"
-+#include "mux.h"
- 
- static bool dev_name_ends_with(struct device *dev, const char *suffix)
- {
-diff --git a/drivers/usb/typec/mux.h b/drivers/usb/typec/mux.h
-new file mode 100644
-index 0000000000000..4fd9426ee44f6
---- /dev/null
-+++ b/drivers/usb/typec/mux.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
 +
-+#ifndef __USB_TYPEC_MUX__
-+#define __USB_TYPEC_MUX__
-+
-+#include <linux/usb/typec_mux.h>
-+
-+struct typec_switch {
-+	struct device dev;
-+	typec_switch_set_fn_t set;
++struct port_node {
++	struct list_head list;
++	struct device *dev;
++	void *pld;
 +};
 +
-+struct typec_mux {
-+	struct device dev;
-+	typec_mux_set_fn_t set;
-+};
++static int acpi_pld_match(const struct acpi_pld_info *pld1,
++			  const struct acpi_pld_info *pld2)
++{
++	if (!pld1 || !pld2)
++		return 0;
 +
-+#define to_typec_switch(_dev_) container_of(_dev_, struct typec_switch, dev)
-+#define to_typec_mux(_dev_) container_of(_dev_, struct typec_mux, dev)
++	/*
++	 * To speed things up, first checking only the group_position. It seems
++	 * to often have the first unique value in the _PLD.
++	 */
++	if (pld1->group_position == pld2->group_position)
++		return !memcmp(pld1, pld2, sizeof(struct acpi_pld_info));
 +
-+#endif /* __USB_TYPEC_MUX__ */
++	return 0;
++}
++
++void *get_pld(struct device *dev)
++{
++#ifdef CONFIG_ACPI
++	struct acpi_pld_info *pld;
++	acpi_status status;
++
++	if (!has_acpi_companion(dev))
++		return NULL;
++
++	status = acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld);
++	if (ACPI_FAILURE(status))
++		return NULL;
++
++	return pld;
++#else
++	return NULL;
++#endif
++}
++
++void free_pld(void *pld)
++{
++#ifdef CONFIG_ACPI
++	ACPI_FREE(pld);
++#endif
++}
++
++static int __link_port(struct typec_port *con, struct port_node *node)
++{
++	int ret;
++
++	ret = sysfs_create_link(&node->dev->kobj, &con->dev.kobj, "connector");
++	if (ret)
++		return ret;
++
++	ret = sysfs_create_link(&con->dev.kobj, &node->dev->kobj,
++				dev_name(node->dev));
++	if (ret) {
++		sysfs_remove_link(&node->dev->kobj, "connector");
++		return ret;
++	}
++
++	list_add_tail(&node->list, &con->port_list);
++
++	return 0;
++}
++
++static int link_port(struct typec_port *con, struct port_node *node)
++{
++	int ret;
++
++	mutex_lock(&con->port_list_lock);
++	ret = __link_port(con, node);
++	mutex_unlock(&con->port_list_lock);
++
++	return ret;
++}
++
++static void __unlink_port(struct typec_port *con, struct port_node *node)
++{
++	sysfs_remove_link(&con->dev.kobj, dev_name(node->dev));
++	sysfs_remove_link(&node->dev->kobj, "connector");
++	list_del(&node->list);
++}
++
++static void unlink_port(struct typec_port *con, struct port_node *node)
++{
++	mutex_lock(&con->port_list_lock);
++	__unlink_port(con, node);
++	mutex_unlock(&con->port_list_lock);
++}
++
++static struct port_node *create_port_node(struct device *port)
++{
++	struct port_node *node;
++
++	node = kzalloc(sizeof(*node), GFP_KERNEL);
++	if (!node)
++		return ERR_PTR(-ENOMEM);
++
++	node->dev = get_device(port);
++	node->pld = get_pld(port);
++
++	return node;
++}
++
++static void remove_port_node(struct port_node *node)
++{
++	put_device(node->dev);
++	free_pld(node->pld);
++	kfree(node);
++}
++
++static int connector_match(struct device *dev, const void *data)
++{
++	const struct port_node *node = data;
++
++	if (!is_typec_port(dev))
++		return 0;
++
++	return acpi_pld_match(to_typec_port(dev)->pld, node->pld);
++}
++
++static struct device *find_connector(struct port_node *node)
++{
++	if (!node->pld)
++		return NULL;
++
++	return class_find_device(&typec_class, NULL, node, connector_match);
++}
++
++/**
++ * typec_link_port - Link a port to its connector
++ * @port: The port device
++ *
++ * Find the connector of @port and create symlink named "connector" for it.
++ * Returns 0 on success, or errno in case of a failure.
++ *
++ * NOTE. The function increments the reference count of @port on success.
++ */
++int typec_link_port(struct device *port)
++{
++	struct device *connector;
++	struct port_node *node;
++	int ret = 0;
++
++	node = create_port_node(port);
++	if (IS_ERR(node))
++		return PTR_ERR(node);
++
++	connector = find_connector(node);
++	if (!connector)
++		goto remove_node;
++
++	ret = link_port(to_typec_port(connector), node);
++	if (ret)
++		goto put_connector;
++
++	return 0;
++
++put_connector:
++	put_device(connector);
++remove_node:
++	remove_port_node(node);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(typec_link_port);
++
++static int port_match_and_unlink(struct device *connector, void *port)
++{
++	struct port_node *node;
++	struct port_node *tmp;
++	int ret = 0;
++
++	if (!is_typec_port(connector))
++		return 0;
++
++	mutex_lock(&to_typec_port(connector)->port_list_lock);
++	list_for_each_entry_safe(node, tmp, &to_typec_port(connector)->port_list, list) {
++		ret = node->dev == port;
++		if (ret) {
++			unlink_port(to_typec_port(connector), node);
++			remove_port_node(node);
++			put_device(connector);
++			break;
++		}
++	}
++	mutex_unlock(&to_typec_port(connector)->port_list_lock);
++
++	return ret;
++}
++
++/**
++ * typec_unlink_port - Unlink port from its connector
++ * @port: The port device
++ *
++ * Removes the symlink "connector" and decrements the reference count of @port.
++ */
++void typec_unlink_port(struct device *port)
++{
++	class_for_each_device(&typec_class, NULL, port, port_match_and_unlink);
++}
++EXPORT_SYMBOL_GPL(typec_unlink_port);
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 91b4303ca305c..604cd2da15e83 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -298,4 +298,17 @@ int typec_find_port_data_role(const char *name);
+ void typec_partner_set_svdm_version(struct typec_partner *partner,
+ 				    enum usb_pd_svdm_ver svdm_version);
+ int typec_get_negotiated_svdm_version(struct typec_port *port);
++
++#if IS_ENABLED(CONFIG_ACPI) && IS_REACHABLE(CONFIG_TYPEC)
++int typec_link_port(struct device *port);
++void typec_unlink_port(struct device *port);
++#else
++static inline int typec_link_port(struct device *port)
++{
++	return 0;
++}
++
++static inline void typec_unlink_port(struct device *port) { }
++#endif
++
+ #endif /* __LINUX_USB_TYPEC_H */
 -- 
 2.30.2
 
