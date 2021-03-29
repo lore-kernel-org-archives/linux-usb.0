@@ -4,86 +4,106 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC6FC433C1
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:29:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87420C433DB
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:42:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D51E61936
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:29:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C06961936
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231218AbhC2H2p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 03:28:45 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:15379 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhC2H2c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 03:28:32 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4F83zs1ByVzkgXK;
-        Mon, 29 Mar 2021 15:26:49 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.179.202) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 29 Mar 2021 15:28:21 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 2/2] arm64: dts: imx8mp: Use the correct name for child node "snps,dwc3"
-Date:   Mon, 29 Mar 2021 15:27:14 +0800
-Message-ID: <20210329072714.2135-3-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210329072714.2135-1-thunder.leizhen@huawei.com>
-References: <20210329072714.2135-1-thunder.leizhen@huawei.com>
+        id S231159AbhC2Hlp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 03:41:45 -0400
+Received: from mga11.intel.com ([192.55.52.93]:58297 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230432AbhC2Hlk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Mar 2021 03:41:40 -0400
+IronPort-SDR: YqdWr6MaHc7b/qU8GAXVC6sobbbssgqsSJkeXxOzlN174XMjVVGg5woUAdu+daFjAS+R0rCDzJ
+ Y2Mp61yOIGFA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="188231494"
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="188231494"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 00:41:40 -0700
+IronPort-SDR: xs7jpJmXUvJsU1sI+7X93dta2i99jAjzIhXI6u3rjiMmH4lIj1DNwEN1OzfUdKbXO0yyxd73CP
+ WoEsYtEXS3Yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
+   d="scan'208";a="383471236"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Mar 2021 00:41:36 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 9F70AFC; Mon, 29 Mar 2021 10:41:50 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Christian Kellner <christian@kellner.me>,
+        Benson Leung <bleung@google.com>,
+        Prashant Malani <pmalani@google.com>,
+        Diego Rivas <diegorivas@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH v3 2/3] thunderbolt: Hide authorized attribute if router does not support PCIe tunnels
+Date:   Mon, 29 Mar 2021 10:41:49 +0300
+Message-Id: <20210329074150.62622-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210329074150.62622-1-mika.westerberg@linux.intel.com>
+References: <20210329074150.62622-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.179.202]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-After the node name of "snps,dwc3" has been corrected to start with "usb"
-in fsl,imx8mp-dwc3.yaml. Its name in dts should be modified accordingly.
+With USB4 devices PCIe tunneling is optional so for device routers
+without PCIe upstream adapter it does not make much sense to expose the
+authorized attribute. For this reason hide it if PCIe tunneling is not
+supported by the device router.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/switch.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index c7523fd4eae9b53..4967d72f41f613f 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -828,7 +828,7 @@
- 			ranges;
- 			status = "disabled";
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index a1b4a695080e..fbcc920e327c 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -1746,6 +1746,18 @@ static struct attribute *switch_attrs[] = {
+ 	NULL,
+ };
  
--			usb_dwc3_0: dwc3@38100000 {
-+			usb_dwc3_0: usb@38100000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x38100000 0x10000>;
- 				clocks = <&clk IMX8MP_CLK_HSIO_AXI>,
-@@ -869,7 +869,7 @@
- 			ranges;
- 			status = "disabled";
++static bool has_port(const struct tb_switch *sw, enum tb_port_type type)
++{
++	const struct tb_port *port;
++
++	tb_switch_for_each_port(sw, port) {
++		if (!port->disabled && port->config.type == type)
++			return true;
++	}
++
++	return false;
++}
++
+ static umode_t switch_attr_is_visible(struct kobject *kobj,
+ 				      struct attribute *attr, int n)
+ {
+@@ -1754,7 +1766,8 @@ static umode_t switch_attr_is_visible(struct kobject *kobj,
  
--			usb_dwc3_1: dwc3@38200000 {
-+			usb_dwc3_1: usb@38200000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x38200000 0x10000>;
- 				clocks = <&clk IMX8MP_CLK_HSIO_AXI>,
+ 	if (attr == &dev_attr_authorized.attr) {
+ 		if (sw->tb->security_level == TB_SECURITY_NOPCIE ||
+-		    sw->tb->security_level == TB_SECURITY_DPONLY)
++		    sw->tb->security_level == TB_SECURITY_DPONLY ||
++		    !has_port(sw, TB_TYPE_PCIE_UP))
+ 			return 0;
+ 	} else if (attr == &dev_attr_device.attr) {
+ 		if (!sw->device)
 -- 
-1.8.3
-
+2.30.2
 
