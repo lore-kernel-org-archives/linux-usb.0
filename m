@@ -4,104 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9574DC433E8
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D51DC433E2
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:29:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74C0161945
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:21:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D936F6196F
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 07:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231221AbhC2HUi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 03:20:38 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:37003 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231142AbhC2HUV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 03:20:21 -0400
-X-UUID: db29ed0ef2334fc8812d84dc5d20f8e9-20210329
-X-UUID: db29ed0ef2334fc8812d84dc5d20f8e9-20210329
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1533744401; Mon, 29 Mar 2021 15:20:18 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 29 Mar 2021 15:20:16 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 29 Mar 2021 15:20:15 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH v3 4/4] usb: xhci-mtk: support quirk to disable usb2 lpm
-Date:   Mon, 29 Mar 2021 15:20:11 +0800
-Message-ID: <1617002411-9015-4-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1617002411-9015-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1617002411-9015-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S231142AbhC2H2o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 03:28:44 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:15083 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230432AbhC2H2c (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Mar 2021 03:28:32 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4F83zQ4LVzz19Jm0;
+        Mon, 29 Mar 2021 15:26:26 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.179.202) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 29 Mar 2021 15:28:21 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/2] dt-bindings: usb: dwc3-imx8mp: Use the correct name for child node "snps,dwc3"
+Date:   Mon, 29 Mar 2021 15:27:13 +0800
+Message-ID: <20210329072714.2135-2-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20210329072714.2135-1-thunder.leizhen@huawei.com>
+References: <20210329072714.2135-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: A3F7A49B2B14F74C12217DF87C870F5EFEA5331BC13B9959719042251A923F3A2000:8
-X-MTK:  N
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.179.202]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The xHCI driver support usb2 HW LPM by default, here add support
-XHCI_HW_LPM_DISABLE quirk, then we can disable usb2 lpm when
-need it.
+File snps,dwc3.yaml describes the schema of Synopsys DesignWare USB3
+Controller, it directly or indirectly contains "$ref: usb.yaml". So the
+node name of "snps,dwc3" must start with "usb". Otherwise, the following
+warning will be displayed:
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2~3: no changes
----
- drivers/usb/host/xhci-mtk.c | 3 +++
- drivers/usb/host/xhci-mtk.h | 1 +
- 2 files changed, 4 insertions(+)
+Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.example.dt.yaml: \
+dwc3@38100000: $nodename:0: 'dwc3@38100000' does not match '^usb(@.*)?'
+        From schema: Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 4e3d53cc24f4..744639d23fa8 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -411,6 +411,8 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
- 	if (mtk->lpm_support)
- 		xhci->quirks |= XHCI_LPM_SUPPORT;
-+	if (mtk->u2_lpm_disable)
-+		xhci->quirks |= XHCI_HW_LPM_DISABLE;
+In addition, replace "type: object" with "$ref: snps,dwc3.yaml#". Ensure
+that all properties of the child node comply with snps,dwc3.yaml.
+
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml b/Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml
+index cb4c6f6d3a33a3f..974032b1fda04fb 100644
+--- a/Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/fsl,imx8mp-dwc3.yaml
+@@ -52,11 +52,8 @@ properties:
+ # Required child node:
  
- 	/*
- 	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
-@@ -493,6 +495,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 		return ret;
+ patternProperties:
+-  "^dwc3@[0-9a-f]+$":
+-    type: object
+-    description:
+-      A child node must exist to represent the core DWC3 IP block
+-      The content of the node is defined in dwc3.txt.
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
  
- 	mtk->lpm_support = of_property_read_bool(node, "usb3-lpm-capable");
-+	mtk->u2_lpm_disable = of_property_read_bool(node, "usb2-lpm-disable");
- 	/* optional property, ignore the error if it does not exist */
- 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
- 			     &mtk->u3p_dis_msk);
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index 621ec1a85009..4ccd08e20a15 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -149,6 +149,7 @@ struct xhci_hcd_mtk {
- 	struct phy **phys;
- 	int num_phys;
- 	bool lpm_support;
-+	bool u2_lpm_disable;
- 	/* usb remote wakeup */
- 	bool uwk_en;
- 	struct regmap *uwk;
+ required:
+   - compatible
+@@ -87,7 +84,7 @@ examples:
+       dma-ranges = <0x40000000 0x40000000 0xc0000000>;
+       ranges;
+ 
+-      dwc3@38100000 {
++      usb@38100000 {
+         compatible = "snps,dwc3";
+         reg = <0x38100000 0x10000>;
+         clocks = <&clk IMX8MP_CLK_HSIO_AXI>,
 -- 
-2.18.0
+1.8.3
+
 
