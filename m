@@ -2,36 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B90C433DB
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 08:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DB3CC433C1
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 08:46:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75ACD60C41
+	by mail.kernel.org (Postfix) with ESMTP id E423661581
 	for <linux-usb@archiver.kernel.org>; Mon, 29 Mar 2021 08:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234878AbhC2Ipe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Mar 2021 04:45:34 -0400
-Received: from mga06.intel.com ([134.134.136.31]:14117 "EHLO mga06.intel.com"
+        id S234841AbhC2Ipk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Mar 2021 04:45:40 -0400
+Received: from mga06.intel.com ([134.134.136.31]:14122 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235223AbhC2IoT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Mar 2021 04:44:19 -0400
-IronPort-SDR: A01djvKZGoG5mTpB1rHUh3IQVFfSB1JZ4ciXBbacrcSDsAeAyjpwkObdbjGqM3bTF+4Z//VbFN
- JZSJcNOkqmPg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="252854816"
+        id S234874AbhC2IoY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Mar 2021 04:44:24 -0400
+IronPort-SDR: B/UvlM9Spu1CUCRr3GjofPm8nPPz8FqthccTrQxWcfAYt/2POmRtiQ0MMhPz1DghZOYcDJnZeP
+ t0hEuBt8Ae3A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9937"; a="252854828"
 X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="252854816"
+   d="scan'208";a="252854828"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 01:44:15 -0700
-IronPort-SDR: 9EtB6AHAXNFroLhREiM3x+bOlL+UhscSTSUkSM6yvDAtVkKuwf//ytCKOEWdq2kYPHI/1tYgER
- +r0dMA99DcJA==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2021 01:44:20 -0700
+IronPort-SDR: OwdVY7bEpo4j2ZTORj3PppNEXnvgXRQUDgJWFC/4Nj6sEliOnUuBP+iqQv9/gP4MWdoZzQ0IF4
+ fWkuEbuSKKrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,287,1610438400"; 
-   d="scan'208";a="515918659"
+   d="scan'208";a="515918690"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2021 01:44:12 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 29 Mar 2021 01:44:17 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Alan Stern <stern@rowland.harvard.edu>,
@@ -39,69 +40,112 @@ Cc:     Alan Stern <stern@rowland.harvard.edu>,
         Prashant Malani <pmalani@chromium.org>,
         Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] usb: Linking ports to their Type-C connectors
-Date:   Mon, 29 Mar 2021 11:44:20 +0300
-Message-Id: <20210329084426.78138-1-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v2 2/6] usb: typec: Declare the typec_class static
+Date:   Mon, 29 Mar 2021 11:44:22 +0300
+Message-Id: <20210329084426.78138-3-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210329084426.78138-1-heikki.krogerus@linux.intel.com>
+References: <20210329084426.78138-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+This is only to make the handling of the class consistent
+with the two other susbsystems - the alt mode bus and the
+mux class.
 
-This is the second version of this series. The "Iterator for ports"
-patch is now moved to the end of the series (5/6).
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/typec/class.c | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-I'm now using usb_for_each_dev() in usb_for_each_port like Alan
-suggested, and I'm now using usb_port_peer_mutex to lock the ports
-while we're dealing with them in __each_hub().
-
-
-The original cover letter:
-
-Adding a simple function typec_link_port() that can be used to create
-a symlink "connector" that points to the USB Type-C connector of a
-port. It is used with USB ports initially, but hopefully later also
-with other things like DisplayPorts.
-
-Being able to see which connector is connected to a port is important
-in general, but it is really important when for example the data or
-power role of a device needs to swapped. The user probable wants to
-know which USB device is disconnected if role swap on a USB Type-C
-connector is executed.
-
-Hope these are OK.
-
-thanks,
-
-Heikki Krogerus (6):
-  usb: typec: Organize the private headers properly
-  usb: typec: Declare the typec_class static
-  usb: typec: Port mapping utility
-  usb: Link the ports to the connectors they are attached to
-  usb: Iterator for ports
-  usb: typec: Link all ports during connector registration
-
- Documentation/ABI/testing/sysfs-bus-usb |   9 +
- drivers/usb/core/port.c                 |   3 +
- drivers/usb/core/usb.c                  |  46 ++++
- drivers/usb/typec/Makefile              |   2 +-
- drivers/usb/typec/bus.c                 |   2 +
- drivers/usb/typec/bus.h                 |  19 +-
- drivers/usb/typec/class.c               | 101 +++------
- drivers/usb/typec/class.h               |  85 +++++++
- drivers/usb/typec/mux.c                 |   4 +-
- drivers/usb/typec/mux.h                 |  21 ++
- drivers/usb/typec/port-mapper.c         | 280 ++++++++++++++++++++++++
- include/linux/usb.h                     |   1 +
- include/linux/usb/typec.h               |  13 ++
- 13 files changed, 490 insertions(+), 96 deletions(-)
- create mode 100644 drivers/usb/typec/class.h
- create mode 100644 drivers/usb/typec/mux.h
- create mode 100644 drivers/usb/typec/port-mapper.c
-
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 5fa279a96b6ef..d3e1002386357 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -17,7 +17,11 @@
+ #include "class.h"
+ 
+ static DEFINE_IDA(typec_index_ida);
+-static struct class *typec_class;
++
++static struct class typec_class = {
++	.name = "typec",
++	.owner = THIS_MODULE,
++};
+ 
+ /* ------------------------------------------------------------------------- */
+ /* Common attributes */
+@@ -551,7 +555,7 @@ typec_register_altmode(struct device *parent,
+ 
+ 	/* Plug alt modes need a class to generate udev events. */
+ 	if (is_typec_plug(parent))
+-		alt->adev.dev.class = typec_class;
++		alt->adev.dev.class = &typec_class;
+ 
+ 	ret = device_register(&alt->adev.dev);
+ 	if (ret) {
+@@ -815,7 +819,7 @@ struct typec_partner *typec_register_partner(struct typec_port *port,
+ 		partner->identity = desc->identity;
+ 	}
+ 
+-	partner->dev.class = typec_class;
++	partner->dev.class = &typec_class;
+ 	partner->dev.parent = &port->dev;
+ 	partner->dev.type = &typec_partner_dev_type;
+ 	dev_set_name(&partner->dev, "%s-partner", dev_name(&port->dev));
+@@ -967,7 +971,7 @@ struct typec_plug *typec_register_plug(struct typec_cable *cable,
+ 	ida_init(&plug->mode_ids);
+ 	plug->num_altmodes = -1;
+ 	plug->index = desc->index;
+-	plug->dev.class = typec_class;
++	plug->dev.class = &typec_class;
+ 	plug->dev.parent = &cable->dev;
+ 	plug->dev.type = &typec_plug_dev_type;
+ 	dev_set_name(&plug->dev, "%s-%s", dev_name(cable->dev.parent), name);
+@@ -1132,7 +1136,7 @@ struct typec_cable *typec_register_cable(struct typec_port *port,
+ 		cable->identity = desc->identity;
+ 	}
+ 
+-	cable->dev.class = typec_class;
++	cable->dev.class = &typec_class;
+ 	cable->dev.parent = &port->dev;
+ 	cable->dev.type = &typec_cable_dev_type;
+ 	dev_set_name(&cable->dev, "%s-cable", dev_name(&port->dev));
+@@ -1986,7 +1990,7 @@ struct typec_port *typec_register_port(struct device *parent,
+ 	port->prefer_role = cap->prefer_role;
+ 
+ 	device_initialize(&port->dev);
+-	port->dev.class = typec_class;
++	port->dev.class = &typec_class;
+ 	port->dev.parent = parent;
+ 	port->dev.fwnode = cap->fwnode;
+ 	port->dev.type = &typec_port_dev_type;
+@@ -2049,11 +2053,9 @@ static int __init typec_init(void)
+ 	if (ret)
+ 		goto err_unregister_bus;
+ 
+-	typec_class = class_create(THIS_MODULE, "typec");
+-	if (IS_ERR(typec_class)) {
+-		ret = PTR_ERR(typec_class);
++	ret = class_register(&typec_class);
++	if (ret)
+ 		goto err_unregister_mux_class;
+-	}
+ 
+ 	return 0;
+ 
+@@ -2069,7 +2071,7 @@ subsys_initcall(typec_init);
+ 
+ static void __exit typec_exit(void)
+ {
+-	class_destroy(typec_class);
++	class_unregister(&typec_class);
+ 	ida_destroy(&typec_index_ida);
+ 	bus_unregister(&typec_bus);
+ 	class_unregister(&typec_mux_class);
 -- 
 2.30.2
 
