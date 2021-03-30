@@ -2,77 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C80C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10BBCC433E0
 	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:38:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2ABF619D7
+	by mail.kernel.org (Postfix) with ESMTP id C8E9C61878
 	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbhC3OiS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:38:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50514 "EHLO mail.kernel.org"
+        id S232141AbhC3OiR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:38:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50508 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231982AbhC3OiF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231951AbhC3OiF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 30 Mar 2021 10:38:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 79774619CD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 74436619BD;
         Tue, 30 Mar 2021 14:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617115085;
-        bh=g73wNQL4k2lRInaQ6dxIl0zoTR2Hfi58MBlUV2HHCkc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=md9IPXStO783PgnO1IrO+hK6MdBy1oTGbtqgwYY5Q3FwdGSkLOt11S7DP94G9SiUs
-         vJ2x6LgsYhDBzSdcKXMflQ4NSrcPDg98mq5KBiXxS8U6cFGeGn5Ze02izDv9UpRcbF
-         cwOtCsM0GU6o2N2Mxy7kj63adb8GhFejM915GG2BXakf+whcA41tAi+pQK8v/g2kbY
-         jE7Q+BcGxkMaamYLarzvo3/3EOnte7zaTKo9TdO45Arrfmpv32OiyWD31gqL4h36Ns
-         TwrsnDmsfZv7qlfS+v/y8mNfniawIh2W2g/j4rNCXNQhPunPalz3Akpcp8KRbem/OV
-         sqpghxoYqkjzA==
+        bh=wAtTiuqbcs4zl44Wh5dNxP5kXHHuGZ0n/flc0iW7p0Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Tg/MvTdkZjHr3BdHDmUlwbmD0th8nUhgXR8SUnotfcTWkLgeiOMDJgVxDVKIRahQw
+         EUO0z6p8RD4wTpJ5mrDpw9eCu7VjOlaLZhFcp4OTJNmOMMJkHrNn1TxO/oUgs4J1d6
+         uS06uQkOcpCIQjkNoJLlgNoGcgFMhHn0s01rHm6iblqnDBmni6OqW29muZw0QWCJfB
+         95ptrrgpFbm5deCOAnid7qIbMoVXZuKfIawRQPIMDrYDfZ3ZmVQSV2WYDUUY6vwyMp
+         6hPZYU0a1K71eIdKssmvcp/owTLGX975HLNhdgv8q0bUfHWimSDdqn0nSNRu85WuAS
+         gK3oUlvqRPxYw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lRFVj-0002Ni-89; Tue, 30 Mar 2021 16:38:27 +0200
+        id 1lRFVj-0002Nm-F2; Tue, 30 Mar 2021 16:38:27 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] USB: serial: add support for multi-interface functions
-Date:   Tue, 30 Mar 2021 16:38:16 +0200
-Message-Id: <20210330143820.9103-1-johan@kernel.org>
+Subject: [PATCH 2/4] USB: serial: refactor endpoint classification
+Date:   Tue, 30 Mar 2021 16:38:18 +0200
+Message-Id: <20210330143820.9103-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210330143820.9103-1-johan@kernel.org>
+References: <20210330143820.9103-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A single USB function can be implemented using a group of interfaces and
-this is for example commonly used for Communication Class devices.
-    
-This series adds support for multi-interface functions to USB serial
-core and exports an interface that allows drivers to claim a second
-sibling interface. The interface could easily be extended to allow
-claiming further interfaces if ever needed.
+Refactor endpoint classification and replace the build-time
+endpoint-array sanity checks with runtime checks in preparation for
+handling endpoints from a sibling interface.
 
-The final patch uses the new interface to properly claim both the
-control and data interface of Maxlinear/Exar devices.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/usb-serial.c | 51 ++++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
 
-Johan
-
-
-Johan Hovold (4):
-  USB: serial: drop unused suspending flag
-  USB: serial: refactor endpoint classification
-  USB: serial: add support for multi-interface functions
-  USB: serial: xr: claim both interfaces
-
- drivers/usb/serial/usb-serial.c | 135 ++++++++++++++++++++++++--------
- drivers/usb/serial/xr_serial.c  |  26 +++++-
- include/linux/usb/serial.h      |   8 +-
- 3 files changed, 131 insertions(+), 38 deletions(-)
-
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index 2a38810a3979..d981809c4ed3 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -711,36 +711,47 @@ static const struct tty_port_operations serial_port_ops = {
+ 	.shutdown		= serial_port_shutdown,
+ };
+ 
++static void store_endpoint(struct usb_serial *serial,
++					struct usb_serial_endpoints *epds,
++					struct usb_endpoint_descriptor *epd)
++{
++	struct device *dev = &serial->interface->dev;
++	u8 addr = epd->bEndpointAddress;
++
++	if (usb_endpoint_is_bulk_in(epd)) {
++		if (epds->num_bulk_in == ARRAY_SIZE(epds->bulk_in))
++			return;
++		dev_dbg(dev, "found bulk in endpoint %02x\n", addr);
++		epds->bulk_in[epds->num_bulk_in++] = epd;
++	} else if (usb_endpoint_is_bulk_out(epd)) {
++		if (epds->num_bulk_out == ARRAY_SIZE(epds->bulk_out))
++			return;
++		dev_dbg(dev, "found bulk out endpoint %02x\n", addr);
++		epds->bulk_out[epds->num_bulk_out++] = epd;
++	} else if (usb_endpoint_is_int_in(epd)) {
++		if (epds->num_interrupt_in == ARRAY_SIZE(epds->interrupt_in))
++			return;
++		dev_dbg(dev, "found interrupt in endpoint %02x\n", addr);
++		epds->interrupt_in[epds->num_interrupt_in++] = epd;
++	} else if (usb_endpoint_is_int_out(epd)) {
++		if (epds->num_interrupt_out == ARRAY_SIZE(epds->interrupt_out))
++			return;
++		dev_dbg(dev, "found interrupt out endpoint %02x\n", addr);
++		epds->interrupt_out[epds->num_interrupt_out++] = epd;
++	}
++}
++
+ static void find_endpoints(struct usb_serial *serial,
+ 					struct usb_serial_endpoints *epds)
+ {
+-	struct device *dev = &serial->interface->dev;
+ 	struct usb_host_interface *iface_desc;
+ 	struct usb_endpoint_descriptor *epd;
+ 	unsigned int i;
+ 
+-	BUILD_BUG_ON(ARRAY_SIZE(epds->bulk_in) < USB_MAXENDPOINTS / 2);
+-	BUILD_BUG_ON(ARRAY_SIZE(epds->bulk_out) < USB_MAXENDPOINTS / 2);
+-	BUILD_BUG_ON(ARRAY_SIZE(epds->interrupt_in) < USB_MAXENDPOINTS / 2);
+-	BUILD_BUG_ON(ARRAY_SIZE(epds->interrupt_out) < USB_MAXENDPOINTS / 2);
+-
+ 	iface_desc = serial->interface->cur_altsetting;
+ 	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
+ 		epd = &iface_desc->endpoint[i].desc;
+-
+-		if (usb_endpoint_is_bulk_in(epd)) {
+-			dev_dbg(dev, "found bulk in on endpoint %u\n", i);
+-			epds->bulk_in[epds->num_bulk_in++] = epd;
+-		} else if (usb_endpoint_is_bulk_out(epd)) {
+-			dev_dbg(dev, "found bulk out on endpoint %u\n", i);
+-			epds->bulk_out[epds->num_bulk_out++] = epd;
+-		} else if (usb_endpoint_is_int_in(epd)) {
+-			dev_dbg(dev, "found interrupt in on endpoint %u\n", i);
+-			epds->interrupt_in[epds->num_interrupt_in++] = epd;
+-		} else if (usb_endpoint_is_int_out(epd)) {
+-			dev_dbg(dev, "found interrupt out on endpoint %u\n", i);
+-			epds->interrupt_out[epds->num_interrupt_out++] = epd;
+-		}
++		store_endpoint(serial, epds, epd);
+ 	}
+ }
+ 
 -- 
 2.26.3
 
