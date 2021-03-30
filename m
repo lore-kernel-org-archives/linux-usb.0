@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5C9DC433E2
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FD0C433E5
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DE30619CF
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57C73619D9
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232183AbhC3Oj4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:39:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51070 "EHLO mail.kernel.org"
+        id S232274AbhC3OkB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:40:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51160 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231922AbhC3Oji (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 30 Mar 2021 10:39:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 20335619CD;
+        id S232010AbhC3Ojj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 30 Mar 2021 10:39:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C6889619DF;
         Tue, 30 Mar 2021 14:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617115178;
-        bh=iPfrSBItyWuMu42ZaE4BnzALTKfr/Gm8n1bEr5jU74I=;
+        bh=Qx3uIICjxsR/7ZgFZaHsruYnYuOO5JAwUyW0HFtbjGk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=f4klqeClONjxOdZOxP6lE37mfgBEZ5jd/oi00/C+X9CCiirZ8jXSBajP4i0ioC+hc
-         pqGLlHNovWAnQukKdM/smcmHJUbfOJKHk6V55Xg0H1srxBjfw/QeeFYGXu9gZAh3zm
-         1GvaGkcCtgy6W49aZ47jonDjfxamnakhnbRkKvcm2qi9qJ1mlZ9usZ+BXJuscUze0w
-         9AA1B1wduSFX0j6VnfJiljReqqeU9yRLvMqROjbCzIcbaVSUbFfoTBP8JF3HnTtiDE
-         pgIHbiDfcI4yK2JZVR4j/FgNZQlusEVUez9auz4rffJIhcx5Xk8mgaP8qnJcMlbjyC
-         pPBu2uL0XDuuw==
+        b=mvqYXfHmL+cnqwh+yG9rxRCMDOPIETf3ns6+DnVEswld/YK5FKQt5bmweltNgyTRN
+         Lo2xj9hYLud6pGZ0N/P+m7SvJ6r7KlYISVnbCFkkx2q49lDVgIrsK4POBuiZt25Bq0
+         6Q3jZYNl33+9jLvB/OMyexqBYaJuRuU0VFz1hnszHYAt2TNDHE7NJco49gGFf47Bup
+         sJoKLW3QvqOYbtg3HriJS7iHztN33+x01Mu6IosuOsFoHNMNP9L3hKT13iazi2BfxI
+         gk+cDqIGIF7z6u+uEBDXRD8RtgVKVMoXHi8+0XzLMIL0JLlZDDsGbmCqnnTL0qp4/W
+         s1QoE/Jv93zqg==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lRFXE-0002PL-2y; Tue, 30 Mar 2021 16:40:00 +0200
+        id 1lRFXE-0002Pd-PN; Tue, 30 Mar 2021 16:40:00 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 03/12] USB: serial: xr: rename GPIO-pin defines
-Date:   Tue, 30 Mar 2021 16:39:28 +0200
-Message-Id: <20210330143934.9197-4-johan@kernel.org>
+Subject: [PATCH 09/12] USB: serial: xr: add support for XR22801, XR22802, XR22804
+Date:   Tue, 30 Mar 2021 16:39:34 +0200
+Message-Id: <20210330143934.9197-10-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210330143934.9197-1-johan@kernel.org>
 References: <20210330143934.9197-1-johan@kernel.org>
@@ -50,82 +50,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rename the GPIO-pin defines so that they reflect how they are used.
+The XR22801, XR22802 and XR22804 are compound devices with an embedded
+hub and up to seven downstream USB devices including one, two or four
+UARTs respectively.
+
+The UART function is similar to XR21B142X but most registers are offset
+by 0x40, the register requests are different and are directed at the
+device rather than interface, and 5 and 6-bit words are not supported.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ drivers/usb/serial/xr_serial.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index a600448c6016..f5087a8b6c86 100644
+index 46e5e1b2f3c0..14dbda13ab4d 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -57,12 +57,12 @@ struct xr_txrx_clk_mask {
- #define XR21V141X_UART_ENABLE_TX	0x1
- #define XR21V141X_UART_ENABLE_RX	0x2
+@@ -134,6 +134,7 @@ enum xr_type_id {
+ 	XR21V141X,
+ 	XR21B142X,
+ 	XR21B1411,
++	XR2280X,
+ 	XR_TYPE_COUNT,
+ };
  
--#define XR21V141X_UART_MODE_RI		BIT(0)
--#define XR21V141X_UART_MODE_CD		BIT(1)
--#define XR21V141X_UART_MODE_DSR		BIT(2)
--#define XR21V141X_UART_MODE_DTR		BIT(3)
--#define XR21V141X_UART_MODE_CTS		BIT(4)
--#define XR21V141X_UART_MODE_RTS		BIT(5)
-+#define XR21V141X_GPIO_RI		BIT(0)
-+#define XR21V141X_GPIO_CD		BIT(1)
-+#define XR21V141X_GPIO_DSR		BIT(2)
-+#define XR21V141X_GPIO_DTR		BIT(3)
-+#define XR21V141X_GPIO_CTS		BIT(4)
-+#define XR21V141X_GPIO_RTS		BIT(5)
+@@ -198,6 +199,24 @@ static const struct xr_type xr_types[] = {
+ 		.gpio_status	= 0xc10,
+ 		.custom_driver	= 0x20d,
+ 	},
++	[XR2280X] = {
++		.reg_width	= 16,
++		.reg_recipient	= USB_RECIP_DEVICE,
++		.set_reg	= 0x05,
++		.get_reg	= 0x05,
++
++		.uart_enable	= 0x40,
++		.flow_control	= 0x46,
++		.xon_char	= 0x47,
++		.xoff_char	= 0x48,
++		.tx_break	= 0x4a,
++		.gpio_mode	= 0x4c,
++		.gpio_direction	= 0x4d,
++		.gpio_set	= 0x4e,
++		.gpio_clear	= 0x4f,
++		.gpio_status	= 0x50,
++		.custom_driver	= 0x81,
++	},
+ };
  
- #define XR21V141X_UART_BREAK_ON		0xff
- #define XR21V141X_UART_BREAK_OFF	0
-@@ -250,12 +250,12 @@ static int xr_tiocmget(struct tty_struct *tty)
- 	 * Modem control pins are active low, so reading '0' means it is active
- 	 * and '1' means not active.
- 	 */
--	ret = ((status & XR21V141X_UART_MODE_DTR) ? 0 : TIOCM_DTR) |
--	      ((status & XR21V141X_UART_MODE_RTS) ? 0 : TIOCM_RTS) |
--	      ((status & XR21V141X_UART_MODE_CTS) ? 0 : TIOCM_CTS) |
--	      ((status & XR21V141X_UART_MODE_DSR) ? 0 : TIOCM_DSR) |
--	      ((status & XR21V141X_UART_MODE_RI) ? 0 : TIOCM_RI) |
--	      ((status & XR21V141X_UART_MODE_CD) ? 0 : TIOCM_CD);
-+	ret = ((status & XR21V141X_GPIO_DTR) ? 0 : TIOCM_DTR) |
-+	      ((status & XR21V141X_GPIO_RTS) ? 0 : TIOCM_RTS) |
-+	      ((status & XR21V141X_GPIO_CTS) ? 0 : TIOCM_CTS) |
-+	      ((status & XR21V141X_GPIO_DSR) ? 0 : TIOCM_DSR) |
-+	      ((status & XR21V141X_GPIO_RI) ? 0 : TIOCM_RI) |
-+	      ((status & XR21V141X_GPIO_CD) ? 0 : TIOCM_CD);
+ struct xr_data {
+@@ -906,6 +925,10 @@ static void xr_port_remove(struct usb_serial_port *port)
+ 	.driver_info = (type)
  
- 	return ret;
- }
-@@ -269,13 +269,13 @@ static int xr_tiocmset_port(struct usb_serial_port *port,
- 
- 	/* Modem control pins are active low, so set & clr are swapped */
- 	if (set & TIOCM_RTS)
--		gpio_clr |= XR21V141X_UART_MODE_RTS;
-+		gpio_clr |= XR21V141X_GPIO_RTS;
- 	if (set & TIOCM_DTR)
--		gpio_clr |= XR21V141X_UART_MODE_DTR;
-+		gpio_clr |= XR21V141X_GPIO_DTR;
- 	if (clear & TIOCM_RTS)
--		gpio_set |= XR21V141X_UART_MODE_RTS;
-+		gpio_set |= XR21V141X_GPIO_RTS;
- 	if (clear & TIOCM_DTR)
--		gpio_set |= XR21V141X_UART_MODE_DTR;
-+		gpio_set |= XR21V141X_GPIO_DTR;
- 
- 	/* Writing '0' to gpio_{set/clr} bits has no effect, so no need to do */
- 	if (gpio_clr)
-@@ -545,7 +545,7 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
- 	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
- 	 * inputs.
- 	 */
--	gpio_dir = XR21V141X_UART_MODE_DTR | XR21V141X_UART_MODE_RTS;
-+	gpio_dir = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
- 	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
- 
- 	/* Setup termios */
+ static const struct usb_device_id id_table[] = {
++	{ XR_DEVICE(0x04e2, 0x1400, XR2280X) },
++	{ XR_DEVICE(0x04e2, 0x1401, XR2280X) },
++	{ XR_DEVICE(0x04e2, 0x1402, XR2280X) },
++	{ XR_DEVICE(0x04e2, 0x1403, XR2280X) },
+ 	{ XR_DEVICE(0x04e2, 0x1410, XR21V141X) },
+ 	{ XR_DEVICE(0x04e2, 0x1411, XR21B1411) },
+ 	{ XR_DEVICE(0x04e2, 0x1412, XR21V141X) },
 -- 
 2.26.3
 
