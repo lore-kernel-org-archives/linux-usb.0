@@ -2,97 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2963C433E1
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEBBC433C1
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 15:15:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45803619D9
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 15:12:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A423661987
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 15:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232207AbhC3PLv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:11:51 -0400
-Received: from mail-oi1-f177.google.com ([209.85.167.177]:40534 "EHLO
-        mail-oi1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232076AbhC3PLd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Mar 2021 11:11:33 -0400
-Received: by mail-oi1-f177.google.com with SMTP id i3so16790925oik.7;
-        Tue, 30 Mar 2021 08:11:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hxiRgGrHFPg7KAvZ4t1c11BIVLtDAzthILe1SRoyjHA=;
-        b=kCIB4brpWMq9wT5v/1UGF3uuQu47jLJiBIgAQbuXJCJzE9pANxOhFAWn53Ir8h7Xnt
-         zV+tZCYcxpzZhoublL+IcjScGSoTBID8bNgEebVsHJZmunm7e99Ug5EjYHcki1vWue6b
-         5zzR6lS9L12YSC/TYus7Z6nVcYbttHLlDV5UDR6ELz8HNdccMMFNDSeYfRkkAdnpcrhh
-         qd+huGfJOKe7O4aZqHqkn93lZ+CkOBrBkkxNlvr5uLF8KB36x2h2YrIjGozVbzvQSG5W
-         RmIDTkZfZ6W2fBP9ygH99KMpg6l89cpP+UdwEVZyjlJBr0r3ySHphEr7hpxnuLmPj2/C
-         y6cA==
-X-Gm-Message-State: AOAM533qDCYOKFNpq18EDclPuReAwX5PVMrt6brg2lUrDxJfhNu61zOo
-        oU6dLKGqyXd7W6nckuYLZA==
-X-Google-Smtp-Source: ABdhPJw0XrDRTHQBPa6izTxumFKlle3x3qjyVFuTlT6uHcmzIoAeL/EtCJftHsR6dr6qDDl/OS2byg==
-X-Received: by 2002:a54:488a:: with SMTP id r10mr3636242oic.23.1617117093265;
-        Tue, 30 Mar 2021 08:11:33 -0700 (PDT)
-Received: from robh.at.kernel.org ([172.58.99.136])
-        by smtp.gmail.com with ESMTPSA id e12sm4500621oou.33.2021.03.30.08.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 08:11:32 -0700 (PDT)
-Received: (nullmailer pid 317113 invoked by uid 1000);
-        Tue, 30 Mar 2021 15:11:29 -0000
-Date:   Tue, 30 Mar 2021 10:11:29 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Ray Chi <raychi@google.com>
-Cc:     gregkh@linuxfoundation.org, balbi@kernel.org,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kyletso@google.com, badhri@google.com
-Subject: Re: [PATCH] dt-bindings: usb: dwc3: Add usb-psy-name string
-Message-ID: <20210330151129.GA314367@robh.at.kernel.org>
-References: <20210327191520.1824466-1-raychi@google.com>
+        id S232203AbhC3PPE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:15:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231794AbhC3POi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 30 Mar 2021 11:14:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2CF0861957;
+        Tue, 30 Mar 2021 15:14:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617117278;
+        bh=SBGYztar3ZQgp7YKPFAjZyq0aWSb5ADN6p6bSuCJ6Zw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Txr05xLZeb+g5xt2SkyIvuWpiQ7FXVXwg6Yfg9/gPegfu9SoOmlqroesrn0WdOfhm
+         xrPUmxtqzr4gN9cS7coRScOUhVxySxa9FCwfvvSPfLFCOXdjNm3KeMpF6yog5VZdPd
+         BWeNYwd+Efgutx2XvYhclG9zq3doqzXr1rHeJqUahDkKv8caavBqGEUjvkn4B2K1v8
+         e+Z3s6liKrgsaxh0knlvjz4C+yQiz7wVRMfI4d0Avv5AuUl/j95CvROGC/+rcD5VI7
+         hEwcpJUfFG71aeqqWSQHRaxfsw/Xthj0ZdnsLWeCMK3fDzXfxDF18oEW6Iu7uApQWs
+         YEk3VoqNmDc2Q==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lRG55-0002Wn-32; Tue, 30 Mar 2021 17:14:59 +0200
+Date:   Tue, 30 Mar 2021 17:14:59 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 7/7] USB: cdc-acm: add other non-standard xr_serial
+ models to ignore list
+Message-ID: <YGNAc/FhUefX7yTZ@hovoldconsulting.com>
+References: <cover.1616571453.git.mchehab+huawei@kernel.org>
+ <5155887a764cbc11f8da0217fe08a24a77d120b4.1616571453.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210327191520.1824466-1-raychi@google.com>
+In-Reply-To: <5155887a764cbc11f8da0217fe08a24a77d120b4.1616571453.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Mar 28, 2021 at 03:15:20AM +0800, Ray Chi wrote:
-> This commit adds documentation for usb-psy-name string.
-> The string will use to find the power supply interface.
-> And then, DWC3 can use the interface to control charing
-> current with USB state and USB speed.
+On Wed, Mar 24, 2021 at 08:41:11AM +0100, Mauro Carvalho Chehab wrote:
+> Now that the xr_serial got support for other models, add their
+> USB IDs as well, as those devices won't work with the standard
+> CDC driver.
 
-Why is this DWC3 specific?
+As far as I understand these devices should work also with the standard
+class driver, but the problem is that your development board is broken
+in that CTS isn't wired up properly so that TX is stalled (I even
+verified that in the schematics).
 
-Where does it find the power supply interface?
+Sure, there are other features available in custom-driver mode, but
+still funny (sad?) if all that would really have been needed was a tiny
+bit of led. :)
 
-> 
-> Signed-off-by: Ray Chi <raychi@google.com>
+I kept this commit but updated the commit message and cleaned up the
+entries below somewhat.
+
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/usb/class/cdc-acm.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> index 2247da77eac1..ad62f4552fad 100644
-> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-> @@ -301,6 +301,13 @@ properties:
->      items:
->        enum: [1, 4, 8, 16, 32, 64, 128, 256]
+> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+> index 39ddb5585ded..839b80093478 100644
+> --- a/drivers/usb/class/cdc-acm.c
+> +++ b/drivers/usb/class/cdc-acm.c
+> @@ -1902,9 +1902,20 @@ static const struct usb_device_id acm_ids[] = {
+>  #endif
 >  
-> +  usb-psy-name:
-> +    description:
-> +      Contains the name for power supply interface. To follow
-> +      BC1.2 specification, DWC3 could use power supply interface
-> +      to control current with corresponding USB state and USB speed.
-> +    minItems: 1
+>  #if IS_ENABLED(CONFIG_USB_SERIAL_XR)
+> -	{ USB_DEVICE(0x04e2, 0x1410),   /* Ignore XR21V141X USB to Serial converter */
+> -	.driver_info = IGNORE_DEVICE,
+> -	},
+> +	/* Ignore MaxLinear/Exar USB UARTs and USB UART bridges */
+> +	{ USB_DEVICE(0x04e2, 0x1400), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1401), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1402), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1403), .driver_info = IGNORE_DEVICE,},
 > +
->  unevaluatedProperties: false
+> +	{ USB_DEVICE(0x04e2, 0x1410), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1411), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1412), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1414), .driver_info = IGNORE_DEVICE,},
+> +
+> +	{ USB_DEVICE(0x04e2, 0x1420), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1422), .driver_info = IGNORE_DEVICE,},
+> +	{ USB_DEVICE(0x04e2, 0x1424), .driver_info = IGNORE_DEVICE,},
+>  #endif
 >  
->  required:
-> -- 
-> 2.31.0.291.g576ba9dcdaf-goog
-> 
+>  	/*Samsung phone in firmware update mode */
+
+Johan
