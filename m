@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FCFC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFBF9C433E1
 	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:38:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA39461878
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:38:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 947AF619C2
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:38:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232082AbhC3OiP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:38:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50562 "EHLO mail.kernel.org"
+        id S232126AbhC3OiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:38:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232046AbhC3OiG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232048AbhC3OiG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 30 Mar 2021 10:38:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E1431619C8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E30FF619D2;
         Tue, 30 Mar 2021 14:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617115086;
-        bh=+6W/Yl//h0yVqmxmy3+UJygrHKmPkBC8VX4z4yi1Wl0=;
+        bh=GN8fY8Jum7Dt0SbQa2ViCGAY7wabDr5buqA9U8aqLNE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bRfESmEcCc7LtpOzIpOWSNP/JolMBZ/QgPUeZnKc7FLJYJ+qQUzEplQjYc89FNDaw
-         rQyJsAB+3SlhiXawCdvwgKbheu0ac/hj95UCnKEEd2ndjfLKY0OnQsdiaSGeeWpnhZ
-         mkL4kZ4rOT7A3pzl3ksKwCcRvw9+fo9hYKoL4QrLEshZn+dwmazz23Z7TvGeCoLSxD
-         OhFqLwHxOxFQ8TRW5jdhXyKWH/FExBSofJTTMC+VFhCdZtuMkCXbVUxElqYpnPbrua
-         VioJwEhNBRmMTdsawUurWRmR/DaV7jPfohl1iA5ADFEFNpwDo7SwlgYMoQFC5Du7Ap
-         91Z3aD9AGn2vQ==
+        b=BWLhWEv7xjQpeJn+cGpEFUYGvZ1q3efXCaafTZoDjT7fu87JxTpncXY22W9xGdY1t
+         f+j+FjFcq3t4AdM9Kh1eXm5udAKfZ2Rmx8wOQ9eKfaYJmAj7mTKfT1ILLVHeOafyDK
+         lLLTXjEnKy5a7Eah0PZJndYVJEXORdmjDpV57m17KFjEBWo+SE4spySElt6WwHhp5s
+         TUYTfJOFozrVjd+Gdg7c2+qtJG03S47Av2VZHTl9SzLQiZpZLeEp6yR8wLgwFvcgAU
+         I/2RTZHl76qeZ5bdvsC+953XqeWzCLMVY9ijAuSX8ZvXktxuoM4DuLFo/Qkyy8MSD7
+         jWRns1EdP3a4g==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lRFVj-0002Nt-LB; Tue, 30 Mar 2021 16:38:27 +0200
+        id 1lRFVj-0002Nk-Bm; Tue, 30 Mar 2021 16:38:27 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] USB: serial: xr: claim both interfaces
-Date:   Tue, 30 Mar 2021 16:38:20 +0200
-Message-Id: <20210330143820.9103-5-johan@kernel.org>
+Subject: [PATCH 1/4] USB: serial: drop unused suspending flag
+Date:   Tue, 30 Mar 2021 16:38:17 +0200
+Message-Id: <20210330143820.9103-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210330143820.9103-1-johan@kernel.org>
 References: <20210330143820.9103-1-johan@kernel.org>
@@ -50,69 +50,68 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new multi-interface support in USB serial core to properly claim
-also the control interface during probe. This prevents having another
-driver claim the control interface and makes core allocate resources
-also for the interrupt endpoint (currently unused).
-
-Switch to probing only Communication Class interfaces and use the Union
-functional descriptor to determine the corresponding data interface.
+The suspending flag was added back in 2009 but no users ever followed.
+Remove it.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+ drivers/usb/serial/usb-serial.c | 8 +-------
+ include/linux/usb/serial.h      | 1 -
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index c59c8b47a120..88c73f88cb26 100644
---- a/drivers/usb/serial/xr_serial.c
-+++ b/drivers/usb/serial/xr_serial.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/tty.h>
- #include <linux/usb.h>
-+#include <linux/usb/cdc.h>
- #include <linux/usb/serial.h>
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index 27e3bb58c872..2a38810a3979 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -1114,8 +1114,6 @@ int usb_serial_suspend(struct usb_interface *intf, pm_message_t message)
+ 	struct usb_serial *serial = usb_get_intfdata(intf);
+ 	int i, r = 0;
  
- struct xr_txrx_clk_mask {
-@@ -550,15 +551,34 @@ static void xr_close(struct usb_serial_port *port)
+-	serial->suspending = 1;
+-
+ 	/*
+ 	 * serial->type->suspend() MUST return 0 in system sleep context,
+ 	 * otherwise, the resume callback has to recover device from
+@@ -1123,10 +1121,8 @@ int usb_serial_suspend(struct usb_interface *intf, pm_message_t message)
+ 	 */
+ 	if (serial->type->suspend) {
+ 		r = serial->type->suspend(serial, message);
+-		if (r < 0) {
+-			serial->suspending = 0;
++		if (r < 0)
+ 			goto err_out;
+-		}
+ 	}
  
- static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
- {
--	/* Don't bind to control interface */
--	if (serial->interface->cur_altsetting->desc.bInterfaceNumber == 0)
-+	struct usb_interface *control = serial->interface;
-+	struct usb_host_interface *alt = control->cur_altsetting;
-+	struct usb_cdc_parsed_header hdrs;
-+	struct usb_cdc_union_desc *desc;
-+	struct usb_interface *data;
-+	int ret;
-+
-+	ret = cdc_parse_cdc_header(&hdrs, control, alt->extra, alt->extralen);
-+	if (ret < 0)
- 		return -ENODEV;
+ 	for (i = 0; i < serial->num_ports; ++i)
+@@ -1151,7 +1147,6 @@ int usb_serial_resume(struct usb_interface *intf)
  
-+	desc = hdrs.usb_cdc_union_desc;
-+	if (!desc)
-+		return -ENODEV;
-+
-+	data = usb_ifnum_to_if(serial->dev, desc->bSlaveInterface0);
-+	if (!data)
-+		return -ENODEV;
-+
-+	ret = usb_serial_claim_interface(serial, data);
-+	if (ret)
-+		return ret;
-+
- 	return 0;
- }
+ 	usb_serial_unpoison_port_urbs(serial);
  
- static const struct usb_device_id id_table[] = {
--	{ USB_DEVICE(0x04e2, 0x1410) }, /* XR21V141X */
-+	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1410, USB_CLASS_COMM) }, /* XR21V141X */
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, id_table);
+-	serial->suspending = 0;
+ 	if (serial->type->resume)
+ 		rv = serial->type->resume(serial);
+ 	else
+@@ -1168,7 +1163,6 @@ static int usb_serial_reset_resume(struct usb_interface *intf)
+ 
+ 	usb_serial_unpoison_port_urbs(serial);
+ 
+-	serial->suspending = 0;
+ 	if (serial->type->reset_resume) {
+ 		rv = serial->type->reset_resume(serial);
+ 	} else {
+diff --git a/include/linux/usb/serial.h b/include/linux/usb/serial.h
+index 952272002e48..7efba6caaadc 100644
+--- a/include/linux/usb/serial.h
++++ b/include/linux/usb/serial.h
+@@ -146,7 +146,6 @@ struct usb_serial {
+ 	struct usb_serial_driver	*type;
+ 	struct usb_interface		*interface;
+ 	unsigned char			disconnected:1;
+-	unsigned char			suspending:1;
+ 	unsigned char			attached:1;
+ 	unsigned char			minors_reserved:1;
+ 	unsigned char			num_ports;
 -- 
 2.26.3
 
