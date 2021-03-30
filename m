@@ -2,45 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55EECC433C1
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80FBCC433DB
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04FC1619CB
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F084619C8
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Mar 2021 14:40:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbhC3Ojw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:39:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51084 "EHLO mail.kernel.org"
+        id S232163AbhC3Ojy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:39:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51068 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231933AbhC3Oji (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231812AbhC3Oji (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 30 Mar 2021 10:39:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3A3DF619CF;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1FA3B619CB;
         Tue, 30 Mar 2021 14:39:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617115178;
-        bh=V9Az9SK1kudygBq678HHRwZCwk6BHQ3LDSAfFXCYOfY=;
+        bh=+oc+QhwqClQRkWYDStH1OAyI8HSWT4OpOm5EMXb7MqQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mp2ZKwGm+p6EJ6q91kRXjvDhM2qjHmH7rQRV731knt6RLy9QHAt0DI7K9BqHhJ3Hl
-         ToRHtaiTKQe8ihzx/t+3g8y8LSH+v/z2xufDWpgqLLLCt74KG5gLjs50pPrE3dHR/8
-         Kc4cTO2rbJHAbCAgUnq8nX5BuZAg4OGoNpJjCWs4VuL50wsC4xPsbAQG7m7SX5IXjm
-         EioMHqxo0rdl2m2bdViHaOl7M2H7CO8UaNCn/YwBCL/1BKTtpC9LYe0Ymcvk3JV8k0
-         hgBZylRxP6tyNR98/2aMLEjaXXNkliPn+T7uyIo17UiuKmZODs9RW3ep5t2iHwcz/C
-         oXla4LD33AFQw==
+        b=KVlwMF1c2S35S0k+mV2j12kSiWSvJbmkGWprjViboyTHtWvMlq66ojXh6MkStU8R2
+         46PVWafyfv6GccRWfg+Fs0Vu9M/W8fdKDKa2+UWhp/Hj/XMM9NufM6cXPbFIyzU2zM
+         e7ZmCIVZmDmR7dGAZa2oLaVKkYUFezOXZxjwXWrZC2XAoggoN5Hs18W8jZEMXMIzIC
+         C4CsqCzXRCKsLJkfj0thy2/WAB/Rfyvx5KwtFVS6N45VGg4xNcqUYky3zK0fFMD3EV
+         WlJ8upqk975yQI8t3hiEFYmb+3aRvDianeAyP7bv5ZbxOUOzRrmDuwiynp2qUR+/pu
+         vGMnj+kMK45hw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lRFXE-0002PO-6Z; Tue, 30 Mar 2021 16:40:00 +0200
+        id 1lRFXD-0002PF-S2; Tue, 30 Mar 2021 16:39:59 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/12] USB: serial: xr: move pin configuration to probe
-Date:   Tue, 30 Mar 2021 16:39:29 +0200
-Message-Id: <20210330143934.9197-5-johan@kernel.org>
+Subject: [PATCH 01/12] USB: serial: xr: add support for XR21V1412 and XR21V1414
+Date:   Tue, 30 Mar 2021 16:39:26 +0200
+Message-Id: <20210330143934.9197-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210330143934.9197-1-johan@kernel.org>
 References: <20210330143934.9197-1-johan@kernel.org>
@@ -50,99 +50,119 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's no need to configure the pins on every open and judging from the
-vendor driver and datasheet it can be done before enabling the UART.
+Add support for the two- and four-port variants of XR21V1410.
 
-Move pin configuration from open() to port probe and make sure to
-deassert DTR and RTS after configuring all pins as GPIO.
+Use the interface number of each control interface (e.g. 0, 2, 4, 6) to
+derive the zero-based channel index:
+
+	XR21V1410	0
+	XR21V1412	0, 1
+	XR21V1414	0, 1, 2, 3
+
+Note that the UART registers reside in separate blocks per channel,
+while the UART Manager functionality is implemented using per-channel
+registers.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 45 ++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 8 deletions(-)
+ drivers/usb/serial/xr_serial.c | 55 +++++++++++++++++++++++++++++++---
+ 1 file changed, 51 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index f5087a8b6c86..542c1dc060cc 100644
+index 88c73f88cb26..64bc9d7b948b 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -532,7 +532,6 @@ static void xr_set_termios(struct tty_struct *tty,
+@@ -109,6 +109,10 @@ struct xr_txrx_clk_mask {
+ #define XR21V141X_REG_GPIO_CLR		0x1e
+ #define XR21V141X_REG_GPIO_STATUS	0x1f
  
- static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
++struct xr_data {
++	u8 channel;		/* zero-based index */
++};
++
+ static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
  {
--	u8 gpio_dir;
- 	int ret;
+ 	struct usb_serial *serial = port->serial;
+@@ -160,16 +164,31 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
  
- 	ret = xr_uart_enable(port);
-@@ -541,13 +540,6 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		return ret;
- 	}
+ static int xr_set_reg_uart(struct usb_serial_port *port, u8 reg, u8 val)
+ {
+-	return xr_set_reg(port, XR21V141X_UART_REG_BLOCK, reg, val);
++	struct xr_data *data = usb_get_serial_port_data(port);
++	u8 block;
++
++	block = XR21V141X_UART_REG_BLOCK + data->channel;
++
++	return xr_set_reg(port, block, reg, val);
+ }
  
--	/*
--	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
--	 * inputs.
--	 */
--	gpio_dir = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
--	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
--
- 	/* Setup termios */
- 	if (tty)
- 		xr_set_termios(tty, port, NULL);
-@@ -596,10 +588,38 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ static int xr_get_reg_uart(struct usb_serial_port *port, u8 reg, u8 *val)
+ {
+-	return xr_get_reg(port, XR21V141X_UART_REG_BLOCK, reg, val);
++	struct xr_data *data = usb_get_serial_port_data(port);
++	u8 block;
++
++	block = XR21V141X_UART_REG_BLOCK + data->channel;
++
++	return xr_get_reg(port, block, reg, val);
+ }
+ 
+-static int xr_set_reg_um(struct usb_serial_port *port, u8 reg, u8 val)
++static int xr_set_reg_um(struct usb_serial_port *port, u8 reg_base, u8 val)
+ {
++	struct xr_data *data = usb_get_serial_port_data(port);
++	u8 reg;
++
++	reg = reg_base + data->channel;
++
+ 	return xr_set_reg(port, XR21V141X_UM_REG_BLOCK, reg, val);
+ }
+ 
+@@ -577,8 +596,34 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
  	return 0;
  }
  
-+static int xr_gpio_init(struct usb_serial_port *port)
++static int xr_port_probe(struct usb_serial_port *port)
 +{
-+	u8 mask, mode;
-+	int ret;
++	struct usb_interface_descriptor *desc;
++	struct xr_data *data;
 +
-+	/* Configure all pins as GPIO. */
-+	mode = 0;
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_MODE, mode);
-+	if (ret)
-+		return ret;
++	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
 +
-+	/*
-+	 * Configure DTR and RTS as outputs and make sure they are deasserted
-+	 * (active low), and configure RI, CD, DSR and CTS as inputs.
-+	 */
-+	mask = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, mask);
-+	if (ret)
-+		return ret;
++	desc = &port->serial->interface->cur_altsetting->desc;
++	data->channel = desc->bInterfaceNumber / 2;
 +
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_SET, mask);
-+	if (ret)
-+		return ret;
++	usb_set_serial_port_data(port, data);
 +
 +	return 0;
 +}
 +
- static int xr_port_probe(struct usb_serial_port *port)
- {
- 	struct usb_interface_descriptor *desc;
- 	struct xr_data *data;
-+	int ret;
- 
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
-@@ -610,7 +630,16 @@ static int xr_port_probe(struct usb_serial_port *port)
- 
- 	usb_set_serial_port_data(port, data);
- 
-+	ret = xr_gpio_init(port);
-+	if (ret)
-+		goto err_free;
++static void xr_port_remove(struct usb_serial_port *port)
++{
++	struct xr_data *data = usb_get_serial_port_data(port);
 +
- 	return 0;
-+
-+err_free:
 +	kfree(data);
++}
 +
-+	return ret;
- }
- 
- static void xr_port_remove(struct usb_serial_port *port)
+ static const struct usb_device_id id_table[] = {
+-	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1410, USB_CLASS_COMM) }, /* XR21V141X */
++	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1410, USB_CLASS_COMM) }, /* XR21V1410 */
++	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1412, USB_CLASS_COMM) }, /* XR21V1412 */
++	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1414, USB_CLASS_COMM) }, /* XR21V1414 */
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, id_table);
+@@ -591,6 +636,8 @@ static struct usb_serial_driver xr_device = {
+ 	.id_table		= id_table,
+ 	.num_ports		= 1,
+ 	.probe			= xr_probe,
++	.port_probe		= xr_port_probe,
++	.port_remove		= xr_port_remove,
+ 	.open			= xr_open,
+ 	.close			= xr_close,
+ 	.break_ctl		= xr_break_ctl,
 -- 
 2.26.3
 
