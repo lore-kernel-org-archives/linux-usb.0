@@ -2,222 +2,273 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ED12C43462
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA305C433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 18:18:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3D64561261
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A3AB6023C
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 18:18:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236517AbhDASLK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:11:10 -0400
-Received: from comms.puri.sm ([159.203.221.185]:57404 "EHLO comms.puri.sm"
+        id S237176AbhDASSv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:18:51 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:10118 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237529AbhDASD5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:03:57 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id 81B5BE0439;
-        Thu,  1 Apr 2021 04:56:31 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id rgilXF5N7Npr; Thu,  1 Apr 2021 04:56:30 -0700 (PDT)
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-To:     gregkh@linuxfoundation.org, balbi@kernel.org
+        id S238686AbhDASJy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:09:54 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1617300595; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=hR9ogHnCd5qp12/F2KywGdEQuoeR/c0x+sNDRQgqoC8=; b=lhGQzJIrZ/f640KCNrZ6P9uyzTBOiHWCVa0MCIlPTw12x75/YUMJWrEHFd00NRgu18tVS7nV
+ rs/PfgEPKn5YVuLzww1s+jmF3L1Iojjz8VcO9mg4X7d7TigL3Xclt1mIrEFHvTvtEU8yqWyA
+ U45C6YYMM7jqZ+VtSNXtCGNCmIM=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60660c6ff34440a9d444b3e2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 01 Apr 2021 18:09:51
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 62DE5C43461; Thu,  1 Apr 2021 18:09:51 +0000 (UTC)
+Received: from [10.110.73.67] (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E2EE2C433ED;
+        Thu,  1 Apr 2021 18:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E2EE2C433ED
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [PATCH] Revert "usb: dwc3: gadget: Prevent EP queuing while
+ stopping transfers"
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>,
+        gregkh@linuxfoundation.org, balbi@kernel.org
 Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        linux-usb@vger.kernel.org, wcheng@codeaurora.org,
-        Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: [PATCH] Revert "usb: dwc3: gadget: Prevent EP queuing while stopping transfers"
-Date:   Thu,  1 Apr 2021 13:55:58 +0200
-Message-Id: <20210401115558.2041768-1-martin.kepplinger@puri.sm>
-In-Reply-To: <20210322121932.478878424@linuxfoundation.org>
+        linux-usb@vger.kernel.org
 References: <20210322121932.478878424@linuxfoundation.org>
-Content-Transfer-Encoding: 8bit
+ <20210401115558.2041768-1-martin.kepplinger@puri.sm>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <57733e4d-7aad-4564-9ebf-8293a9a4d4e4@codeaurora.org>
+Date:   Thu, 1 Apr 2021 11:09:49 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+MIME-Version: 1.0
+In-Reply-To: <20210401115558.2041768-1-martin.kepplinger@puri.sm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit 9de499997c3737e0c0207beb03615b320cabe495.
-
-Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
----
-
-I more or less blindly report:
-commit 9de499997c ("usb: dwc3: gadget: Prevent EP queuing while stopping
-transfers") results in the below error every time I connect the type-c
-connector to the dwc3, configured with serial and ethernet gadgets.
-
-fyi, I apply the following to dwc3 on this port:
-dr_mode = "otg";                                                        
-snps,dis_u3_susphy_quirk;                                               
-hnp-disable;                                                            
-srp-disable;                                                            
-adp-disable;                                                            
-usb-role-switch;
-
-v5.12-rc5 does not have this error so I'm not sure whether it's
-more appropriate to add something to dwc3 than reverting. I hope usb
-people to know better and maybe even see the problem.
-
-thanks,
-                               martin
-
-
-
-
-[   51.148220] ------------[ cut here ]------------
-[   51.148241] dwc3 38100000.usb: No resource for ep2in
-[   51.148376] WARNING: CPU: 0 PID: 299 at drivers/usb/dwc3/gadget.c:360 dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.148431] Modules linked in: aes_ce_ccm rfcomm algif_hash algif_skcipher af_alg bnep qmi_wwan cdc_wdm usbnet mii option usb_wwan usbserial caam_jr caamhash_desc caamalg_desc crypto_engine mousedev redpine_sdio redpine_91x bluetooth uas usb_storage mac80211 st_lsm6dsx_spi aes_ce_blk crypto_simd crct10dif_ce cfg80211 ghash_ce sha2_ce sha1_ce bq25890_charger s5k3l6xx snd_soc_wm8962 hi846 vcnl4000 leds_lm3560 edt_ft5x06 ofpart industrialio_triggered_buffer tps6598x st_lsm6dsx_i2c st_lsm6dsx kfifo_buf gnss_mtk typec mxc_mipi_csi2_yav gnss_serial mx6s_capture gnss videobuf2_dma_contig videobuf2_memops spi_nor v4l2_fwnode videobuf2_v4l2 videobuf2_common snd_soc_gtm601 snd_soc_simple_card videodev mtd snd_soc_simple_card_utils mc snd_soc_fsl_sai imx_pcm_dma caam error snvs_pwrkey imx_sdma virt_dma snd_soc_core imx2_wdt snd_pcm_dmaengine snd_pcm watchdog snd_timer snd soundcore pwm_vibra rfkill_hks rfkill ledtrig_timer usb_f_acm u_serial usb_f_rndis g_multi usb_f_mass_storage u_ether
-[   51.148759]  libcomposite ledtrig_pattern fuse ip_tables x_tables ipv6 xhci_plat_hcd xhci_hcd usbcore dwc3 cdns_mhdp_imx ulpi cdns_mhdp_drmcore udc_core imx_dcss roles usb_common phy_fsl_imx8mq_usb clk_bd718x7
-[   51.148837] CPU: 0 PID: 299 Comm: irq/64-dwc3 Not tainted 5.11.11-librem5-00334-ge4c4ff3624e9 #218
-[   51.148848] Hardware name: Purism Librem 5r4 (DT)
-[   51.148854] pstate: 60000085 (nZCv daIf -PAN -UAO -TCO BTYPE=--)
-[   51.148863] pc : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.148894] lr : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.148924] sp : ffff800011cb3ac0
-[   51.148929] x29: ffff800011cb3ac0 x28: ffff0000032a7b00 
-[   51.148942] x27: ffff00000327da00 x26: 0000000000000000 
-[   51.148954] x25: 00000000ffffffea x24: 0000000000000006 
-[   51.148967] x23: ffff0000bee1c080 x22: ffff800011cb3b7c 
-[   51.148979] x21: 0000000000000406 x20: ffff0000bf170000 
-[   51.148992] x19: 0000000000000001 x18: 0000000000000000 
-[   51.149004] x17: 0000000000000000 x16: 0000000000000000 
-[   51.149016] x15: 0000000000000000 x14: ffff8000114512c0 
-[   51.149028] x13: 0000000000001698 x12: 0000000000000040 
-[   51.149040] x11: ffff80001151a6f8 x10: 00000000ffffe000 
-[   51.149052] x9 : ffff8000100b2b7c x8 : ffff80001146a6f8 
-[   51.149065] x7 : ffff80001151a6f8 x6 : 0000000000000000 
-[   51.149077] x5 : ffff0000bf939948 x4 : 0000000000000000 
-[   51.149089] x3 : 0000000000000027 x2 : 0000000000000000 
-[   51.149101] x1 : 0000000000000000 x0 : ffff0000049ae040 
-[   51.149114] Call trace:
-[   51.149120]  dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.149150]  __dwc3_gadget_ep_enable+0x288/0x4fc [dwc3]
-[   51.149179]  dwc3_gadget_ep_enable+0x6c/0x15c [dwc3]
-[   51.149209]  usb_ep_enable+0x48/0x110 [udc_core]
-[   51.149251]  rndis_set_alt+0x138/0x1c0 [usb_f_rndis]
-[   51.149276]  composite_setup+0x674/0x194c [libcomposite]
-[   51.149314]  dwc3_ep0_interrupt+0x9c4/0xb9c [dwc3]
-[   51.149344]  dwc3_thread_interrupt+0x8bc/0xe74 [dwc3]
-[   51.149374]  irq_thread_fn+0x38/0xb0
-[   51.149388]  irq_thread+0x170/0x294
-[   51.149397]  kthread+0x164/0x16c
-[   51.149407]  ret_from_fork+0x10/0x34
-[   51.149419] ---[ end trace 62c6cc2ebfb18047 ]---
-[   51.149436] ------------[ cut here ]------------
-[   51.149440] dwc3 38100000.usb: No resource for ep1in
-[   51.149507] WARNING: CPU: 0 PID: 299 at drivers/usb/dwc3/gadget.c:360 dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.149543] Modules linked in: aes_ce_ccm rfcomm algif_hash algif_skcipher af_alg bnep qmi_wwan cdc_wdm usbnet mii option usb_wwan usbserial caam_jr caamhash_desc caamalg_desc crypto_engine mousedev redpine_sdio redpine_91x bluetooth uas usb_storage mac80211 st_lsm6dsx_spi aes_ce_blk crypto_simd crct10dif_ce cfg80211 ghash_ce sha2_ce sha1_ce bq25890_charger s5k3l6xx snd_soc_wm8962 hi846 vcnl4000 leds_lm3560 edt_ft5x06 ofpart industrialio_triggered_buffer tps6598x st_lsm6dsx_i2c st_lsm6dsx kfifo_buf gnss_mtk typec mxc_mipi_csi2_yav gnss_serial mx6s_capture gnss videobuf2_dma_contig videobuf2_memops spi_nor v4l2_fwnode videobuf2_v4l2 videobuf2_common snd_soc_gtm601 snd_soc_simple_card videodev mtd snd_soc_simple_card_utils mc snd_soc_fsl_sai imx_pcm_dma caam error snvs_pwrkey imx_sdma virt_dma snd_soc_core imx2_wdt snd_pcm_dmaengine snd_pcm watchdog snd_timer snd soundcore pwm_vibra rfkill_hks rfkill ledtrig_timer usb_f_acm u_serial usb_f_rndis g_multi usb_f_mass_storage u_ether
-[   51.149852]  libcomposite ledtrig_pattern fuse ip_tables x_tables ipv6 xhci_plat_hcd xhci_hcd usbcore dwc3 cdns_mhdp_imx ulpi cdns_mhdp_drmcore udc_core imx_dcss roles usb_common phy_fsl_imx8mq_usb clk_bd718x7
-[   51.149923] CPU: 0 PID: 299 Comm: irq/64-dwc3 Tainted: G        W         5.11.11-librem5-00334-ge4c4ff3624e9 #218
-[   51.149933] Hardware name: Purism Librem 5r4 (DT)
-[   51.149937] pstate: 60000085 (nZCv daIf -PAN -UAO -TCO BTYPE=--)
-[   51.149946] pc : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.149977] lr : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.150007] sp : ffff800011cb3a80
-[   51.150011] x29: ffff800011cb3a80 x28: ffff0000032a7b00 
-[   51.150024] x27: ffff00000327da00 x26: 0000000000000000 
-[   51.150037] x25: 00000000ffffffea x24: 0000000000000006 
-[   51.150049] x23: ffff0000bee1c080 x22: ffff800011cb3b3c 
-[   51.150062] x21: 0000000000000406 x20: ffff0000bf033f00 
-[   51.150074] x19: 0000000000000001 x18: 0000000000000000 
-[   51.150086] x17: 0000000000000000 x16: 0000000000000000 
-[   51.150098] x15: 0000000000000000 x14: ffff8000114512c0 
-[   51.150111] x13: 0000000000001698 x12: 0000000000000040 
-[   51.150123] x11: ffff80001151a6f8 x10: 00000000ffffe000 
-[   51.150135] x9 : ffff8000100b2b7c x8 : ffff80001146a6f8 
-[   51.150147] x7 : ffff80001151a6f8 x6 : 0000000000000000 
-[   51.150159] x5 : ffff0000bf939948 x4 : 0000000000000000 
-[   51.150172] x3 : 0000000000000027 x2 : 0000000000000000 
-[   51.150183] x1 : 0000000000000000 x0 : ffff0000049ae040 
-[   51.150196] Call trace:
-[   51.150200]  dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
-[   51.150231]  __dwc3_gadget_ep_enable+0x288/0x4fc [dwc3]
-[   51.150260]  dwc3_gadget_ep_enable+0x6c/0x15c [dwc3]
-[   51.150289]  usb_ep_enable+0x48/0x110 [udc_core]
-[   51.150322]  gether_connect+0x3c/0x1f4 [u_ether]
-[   51.150340]  rndis_set_alt+0x74/0x1c0 [usb_f_rndis]
-[   51.150361]  composite_setup+0x674/0x194c [libcomposite]
-[   51.150392]  dwc3_ep0_interrupt+0x9c4/0xb9c [dwc3]
-[   51.150423]  dwc3_thread_interrupt+0x8bc/0xe74 [dwc3]
-[   51.150452]  irq_thread_fn+0x38/0xb0
-[   51.150461]  irq_thread+0x170/0x294
-[   51.150469]  kthread+0x164/0x16c
-[   51.150478]  ret_from_fork+0x10/0x34
-[   51.150487] ---[ end trace 62c6cc2ebfb18048 ]---
-
-
- drivers/usb/dwc3/gadget.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 2a86ad4b12b3..ef8ecaf8655a 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -783,6 +783,8 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
- 
- 	trace_dwc3_gadget_ep_disable(dep);
- 
-+	dwc3_remove_requests(dwc, dep);
-+
- 	/* make sure HW endpoint isn't stalled */
- 	if (dep->flags & DWC3_EP_STALL)
- 		__dwc3_gadget_ep_set_halt(dep, 0, false);
-@@ -801,8 +803,6 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
- 		dep->endpoint.desc = NULL;
- 	}
- 
--	dwc3_remove_requests(dwc, dep);
--
- 	return 0;
- }
- 
-@@ -1617,7 +1617,7 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
- {
- 	struct dwc3		*dwc = dep->dwc;
- 
--	if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->connected) {
-+	if (!dep->endpoint.desc || !dwc->pullups_connected) {
- 		dev_err(dwc->dev, "%s: can't queue to disabled endpoint\n",
- 				dep->name);
- 		return -ESHUTDOWN;
-@@ -2150,7 +2150,6 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 	if (!is_on) {
- 		u32 count;
- 
--		dwc->connected = false;
- 		/*
- 		 * In the Synopsis DesignWare Cores USB3 Databook Rev. 3.30a
- 		 * Section 4.1.8 Table 4-7, it states that for a device-initiated
-@@ -2175,6 +2174,7 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 			dwc->ev_buf->lpos = (dwc->ev_buf->lpos + count) %
- 						dwc->ev_buf->length;
- 		}
-+		dwc->connected = false;
- 	} else {
- 		__dwc3_gadget_start(dwc);
- 	}
-@@ -3267,6 +3267,8 @@ static void dwc3_gadget_reset_interrupt(struct dwc3 *dwc)
- {
- 	u32			reg;
- 
-+	dwc->connected = true;
-+
- 	/*
- 	 * WORKAROUND: DWC3 revisions <1.88a have an issue which
- 	 * would cause a missing Disconnect Event if there's a
-@@ -3306,7 +3308,6 @@ static void dwc3_gadget_reset_interrupt(struct dwc3 *dwc)
- 	 * transfers."
- 	 */
- 	dwc3_stop_active_transfers(dwc);
--	dwc->connected = true;
- 
- 	reg = dwc3_readl(dwc->regs, DWC3_DCTL);
- 	reg &= ~DWC3_DCTL_TSTCTRL_MASK;
--- 
-2.30.2
-
+DQoNCk9uIDQvMS8yMDIxIDQ6NTUgQU0sIE1hcnRpbiBLZXBwbGluZ2VyIHdyb3RlOg0KPiBU
+aGlzIHJldmVydHMgY29tbWl0IDlkZTQ5OTk5N2MzNzM3ZTBjMDIwN2JlYjAzNjE1YjMyMGNh
+YmU0OTUuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXJ0aW4gS2VwcGxpbmdlciA8bWFydGlu
+LmtlcHBsaW5nZXJAcHVyaS5zbT4NCj4gLS0tDQo+IA0KPiBJIG1vcmUgb3IgbGVzcyBibGlu
+ZGx5IHJlcG9ydDoNCj4gY29tbWl0IDlkZTQ5OTk5N2MgKCJ1c2I6IGR3YzM6IGdhZGdldDog
+UHJldmVudCBFUCBxdWV1aW5nIHdoaWxlIHN0b3BwaW5nDQo+IHRyYW5zZmVycyIpIHJlc3Vs
+dHMgaW4gdGhlIGJlbG93IGVycm9yIGV2ZXJ5IHRpbWUgSSBjb25uZWN0IHRoZSB0eXBlLWMN
+Cj4gY29ubmVjdG9yIHRvIHRoZSBkd2MzLCBjb25maWd1cmVkIHdpdGggc2VyaWFsIGFuZCBl
+dGhlcm5ldCBnYWRnZXRzLg0KPiANCj4gZnlpLCBJIGFwcGx5IHRoZSBmb2xsb3dpbmcgdG8g
+ZHdjMyBvbiB0aGlzIHBvcnQ6DQo+IGRyX21vZGUgPSAib3RnIjsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0KPiBzbnBzLGRpc191
+M19zdXNwaHlfcXVpcms7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICANCj4gaG5wLWRpc2FibGU7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+IHNycC1kaXNhYmxlOyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIA0K
+PiBhZHAtZGlzYWJsZTsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICANCj4gdXNiLXJvbGUtc3dpdGNoOw0KPiANCj4gdjUuMTIt
+cmM1IGRvZXMgbm90IGhhdmUgdGhpcyBlcnJvciBzbyBJJ20gbm90IHN1cmUgd2hldGhlciBp
+dCdzDQo+IG1vcmUgYXBwcm9wcmlhdGUgdG8gYWRkIHNvbWV0aGluZyB0byBkd2MzIHRoYW4g
+cmV2ZXJ0aW5nLiBJIGhvcGUgdXNiDQo+IHBlb3BsZSB0byBrbm93IGJldHRlciBhbmQgbWF5
+YmUgZXZlbiBzZWUgdGhlIHByb2JsZW0uDQo+IA0KPiB0aGFua3MsDQo+ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBtYXJ0aW4NCj4gDQpIaSBNYXJ0aW4sDQoNClRoaXMgaGFz
+IGJlZW4gZml4ZWQgd2l0aCB0aGUgYmVsb3c6DQpodHRwczovL2dpdC5rZXJuZWwub3JnL3B1
+Yi9zY20vbGludXgva2VybmVsL2dpdC9ncmVna2gvdXNiLmdpdC9jb21taXQvP2g9dXNiLWxp
+bnVzJmlkPTVhZWY2Mjk3MDRhZDRkOTgzZWNmNWM4YTI1ODQwZjE2ZTQ1YjZkNTkNCg0KQ2Fu
+IHlvdSBwdWxsIHRoYXQgaW4gYW5kIGdpdmUgaXQgYSB0cnk/DQoNClRoYW5rcw0KV2VzbGV5
+IENoZW5nDQoNCj4gDQo+IA0KPiANCj4gWyAgIDUxLjE0ODIyMF0gLS0tLS0tLS0tLS0tWyBj
+dXQgaGVyZSBdLS0tLS0tLS0tLS0tDQo+IFsgICA1MS4xNDgyNDFdIGR3YzMgMzgxMDAwMDAu
+dXNiOiBObyByZXNvdXJjZSBmb3IgZXAyaW4NCj4gWyAgIDUxLjE0ODM3Nl0gV0FSTklORzog
+Q1BVOiAwIFBJRDogMjk5IGF0IGRyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmM6MzYwIGR3YzNf
+c2VuZF9nYWRnZXRfZXBfY21kKzB4NTcwLzB4NzQwIFtkd2MzXQ0KPiBbICAgNTEuMTQ4NDMx
+XSBNb2R1bGVzIGxpbmtlZCBpbjogYWVzX2NlX2NjbSByZmNvbW0gYWxnaWZfaGFzaCBhbGdp
+Zl9za2NpcGhlciBhZl9hbGcgYm5lcCBxbWlfd3dhbiBjZGNfd2RtIHVzYm5ldCBtaWkgb3B0
+aW9uIHVzYl93d2FuIHVzYnNlcmlhbCBjYWFtX2pyIGNhYW1oYXNoX2Rlc2MgY2FhbWFsZ19k
+ZXNjIGNyeXB0b19lbmdpbmUgbW91c2VkZXYgcmVkcGluZV9zZGlvIHJlZHBpbmVfOTF4IGJs
+dWV0b290aCB1YXMgdXNiX3N0b3JhZ2UgbWFjODAyMTEgc3RfbHNtNmRzeF9zcGkgYWVzX2Nl
+X2JsayBjcnlwdG9fc2ltZCBjcmN0MTBkaWZfY2UgY2ZnODAyMTEgZ2hhc2hfY2Ugc2hhMl9j
+ZSBzaGExX2NlIGJxMjU4OTBfY2hhcmdlciBzNWszbDZ4eCBzbmRfc29jX3dtODk2MiBoaTg0
+NiB2Y25sNDAwMCBsZWRzX2xtMzU2MCBlZHRfZnQ1eDA2IG9mcGFydCBpbmR1c3RyaWFsaW9f
+dHJpZ2dlcmVkX2J1ZmZlciB0cHM2NTk4eCBzdF9sc202ZHN4X2kyYyBzdF9sc202ZHN4IGtm
+aWZvX2J1ZiBnbnNzX210ayB0eXBlYyBteGNfbWlwaV9jc2kyX3lhdiBnbnNzX3NlcmlhbCBt
+eDZzX2NhcHR1cmUgZ25zcyB2aWRlb2J1ZjJfZG1hX2NvbnRpZyB2aWRlb2J1ZjJfbWVtb3Bz
+IHNwaV9ub3IgdjRsMl9md25vZGUgdmlkZW9idWYyX3Y0bDIgdmlkZW9idWYyX2NvbW1vbiBz
+bmRfc29jX2d0bTYwMSBzbmRfc29jX3NpbXBsZV9jYXJkIHZpZGVvZGV2IG10ZCBzbmRfc29j
+X3NpbXBsZV9jYXJkX3V0aWxzIG1jIHNuZF9zb2NfZnNsX3NhaSBpbXhfcGNtX2RtYSBjYWFt
+IGVycm9yIHNudnNfcHdya2V5IGlteF9zZG1hIHZpcnRfZG1hIHNuZF9zb2NfY29yZSBpbXgy
+X3dkdCBzbmRfcGNtX2RtYWVuZ2luZSBzbmRfcGNtIHdhdGNoZG9nIHNuZF90aW1lciBzbmQg
+c291bmRjb3JlIHB3bV92aWJyYSByZmtpbGxfaGtzIHJma2lsbCBsZWR0cmlnX3RpbWVyIHVz
+Yl9mX2FjbSB1X3NlcmlhbCB1c2JfZl9ybmRpcyBnX211bHRpIHVzYl9mX21hc3Nfc3RvcmFn
+ZSB1X2V0aGVyDQo+IFsgICA1MS4xNDg3NTldICBsaWJjb21wb3NpdGUgbGVkdHJpZ19wYXR0
+ZXJuIGZ1c2UgaXBfdGFibGVzIHhfdGFibGVzIGlwdjYgeGhjaV9wbGF0X2hjZCB4aGNpX2hj
+ZCB1c2Jjb3JlIGR3YzMgY2Ruc19taGRwX2lteCB1bHBpIGNkbnNfbWhkcF9kcm1jb3JlIHVk
+Y19jb3JlIGlteF9kY3NzIHJvbGVzIHVzYl9jb21tb24gcGh5X2ZzbF9pbXg4bXFfdXNiIGNs
+a19iZDcxOHg3DQo+IFsgICA1MS4xNDg4MzddIENQVTogMCBQSUQ6IDI5OSBDb21tOiBpcnEv
+NjQtZHdjMyBOb3QgdGFpbnRlZCA1LjExLjExLWxpYnJlbTUtMDAzMzQtZ2U0YzRmZjM2MjRl
+OSAjMjE4DQo+IFsgICA1MS4xNDg4NDhdIEhhcmR3YXJlIG5hbWU6IFB1cmlzbSBMaWJyZW0g
+NXI0IChEVCkNCj4gWyAgIDUxLjE0ODg1NF0gcHN0YXRlOiA2MDAwMDA4NSAoblpDdiBkYUlm
+IC1QQU4gLVVBTyAtVENPIEJUWVBFPS0tKQ0KPiBbICAgNTEuMTQ4ODYzXSBwYyA6IGR3YzNf
+c2VuZF9nYWRnZXRfZXBfY21kKzB4NTcwLzB4NzQwIFtkd2MzXQ0KPiBbICAgNTEuMTQ4ODk0
+XSBsciA6IGR3YzNfc2VuZF9nYWRnZXRfZXBfY21kKzB4NTcwLzB4NzQwIFtkd2MzXQ0KPiBb
+ICAgNTEuMTQ4OTI0XSBzcCA6IGZmZmY4MDAwMTFjYjNhYzANCj4gWyAgIDUxLjE0ODkyOV0g
+eDI5OiBmZmZmODAwMDExY2IzYWMwIHgyODogZmZmZjAwMDAwMzJhN2IwMCANCj4gWyAgIDUx
+LjE0ODk0Ml0geDI3OiBmZmZmMDAwMDAzMjdkYTAwIHgyNjogMDAwMDAwMDAwMDAwMDAwMCAN
+Cj4gWyAgIDUxLjE0ODk1NF0geDI1OiAwMDAwMDAwMGZmZmZmZmVhIHgyNDogMDAwMDAwMDAw
+MDAwMDAwNiANCj4gWyAgIDUxLjE0ODk2N10geDIzOiBmZmZmMDAwMGJlZTFjMDgwIHgyMjog
+ZmZmZjgwMDAxMWNiM2I3YyANCj4gWyAgIDUxLjE0ODk3OV0geDIxOiAwMDAwMDAwMDAwMDAw
+NDA2IHgyMDogZmZmZjAwMDBiZjE3MDAwMCANCj4gWyAgIDUxLjE0ODk5Ml0geDE5OiAwMDAw
+MDAwMDAwMDAwMDAxIHgxODogMDAwMDAwMDAwMDAwMDAwMCANCj4gWyAgIDUxLjE0OTAwNF0g
+eDE3OiAwMDAwMDAwMDAwMDAwMDAwIHgxNjogMDAwMDAwMDAwMDAwMDAwMCANCj4gWyAgIDUx
+LjE0OTAxNl0geDE1OiAwMDAwMDAwMDAwMDAwMDAwIHgxNDogZmZmZjgwMDAxMTQ1MTJjMCAN
+Cj4gWyAgIDUxLjE0OTAyOF0geDEzOiAwMDAwMDAwMDAwMDAxNjk4IHgxMjogMDAwMDAwMDAw
+MDAwMDA0MCANCj4gWyAgIDUxLjE0OTA0MF0geDExOiBmZmZmODAwMDExNTFhNmY4IHgxMDog
+MDAwMDAwMDBmZmZmZTAwMCANCj4gWyAgIDUxLjE0OTA1Ml0geDkgOiBmZmZmODAwMDEwMGIy
+YjdjIHg4IDogZmZmZjgwMDAxMTQ2YTZmOCANCj4gWyAgIDUxLjE0OTA2NV0geDcgOiBmZmZm
+ODAwMDExNTFhNmY4IHg2IDogMDAwMDAwMDAwMDAwMDAwMCANCj4gWyAgIDUxLjE0OTA3N10g
+eDUgOiBmZmZmMDAwMGJmOTM5OTQ4IHg0IDogMDAwMDAwMDAwMDAwMDAwMCANCj4gWyAgIDUx
+LjE0OTA4OV0geDMgOiAwMDAwMDAwMDAwMDAwMDI3IHgyIDogMDAwMDAwMDAwMDAwMDAwMCAN
+Cj4gWyAgIDUxLjE0OTEwMV0geDEgOiAwMDAwMDAwMDAwMDAwMDAwIHgwIDogZmZmZjAwMDAw
+NDlhZTA0MCANCj4gWyAgIDUxLjE0OTExNF0gQ2FsbCB0cmFjZToNCj4gWyAgIDUxLjE0OTEy
+MF0gIGR3YzNfc2VuZF9nYWRnZXRfZXBfY21kKzB4NTcwLzB4NzQwIFtkd2MzXQ0KPiBbICAg
+NTEuMTQ5MTUwXSAgX19kd2MzX2dhZGdldF9lcF9lbmFibGUrMHgyODgvMHg0ZmMgW2R3YzNd
+DQo+IFsgICA1MS4xNDkxNzldICBkd2MzX2dhZGdldF9lcF9lbmFibGUrMHg2Yy8weDE1YyBb
+ZHdjM10NCj4gWyAgIDUxLjE0OTIwOV0gIHVzYl9lcF9lbmFibGUrMHg0OC8weDExMCBbdWRj
+X2NvcmVdDQo+IFsgICA1MS4xNDkyNTFdICBybmRpc19zZXRfYWx0KzB4MTM4LzB4MWMwIFt1
+c2JfZl9ybmRpc10NCj4gWyAgIDUxLjE0OTI3Nl0gIGNvbXBvc2l0ZV9zZXR1cCsweDY3NC8w
+eDE5NGMgW2xpYmNvbXBvc2l0ZV0NCj4gWyAgIDUxLjE0OTMxNF0gIGR3YzNfZXAwX2ludGVy
+cnVwdCsweDljNC8weGI5YyBbZHdjM10NCj4gWyAgIDUxLjE0OTM0NF0gIGR3YzNfdGhyZWFk
+X2ludGVycnVwdCsweDhiYy8weGU3NCBbZHdjM10NCj4gWyAgIDUxLjE0OTM3NF0gIGlycV90
+aHJlYWRfZm4rMHgzOC8weGIwDQo+IFsgICA1MS4xNDkzODhdICBpcnFfdGhyZWFkKzB4MTcw
+LzB4Mjk0DQo+IFsgICA1MS4xNDkzOTddICBrdGhyZWFkKzB4MTY0LzB4MTZjDQo+IFsgICA1
+MS4xNDk0MDddICByZXRfZnJvbV9mb3JrKzB4MTAvMHgzNA0KPiBbICAgNTEuMTQ5NDE5XSAt
+LS1bIGVuZCB0cmFjZSA2MmM2Y2MyZWJmYjE4MDQ3IF0tLS0NCj4gWyAgIDUxLjE0OTQzNl0g
+LS0tLS0tLS0tLS0tWyBjdXQgaGVyZSBdLS0tLS0tLS0tLS0tDQo+IFsgICA1MS4xNDk0NDBd
+IGR3YzMgMzgxMDAwMDAudXNiOiBObyByZXNvdXJjZSBmb3IgZXAxaW4NCj4gWyAgIDUxLjE0
+OTUwN10gV0FSTklORzogQ1BVOiAwIFBJRDogMjk5IGF0IGRyaXZlcnMvdXNiL2R3YzMvZ2Fk
+Z2V0LmM6MzYwIGR3YzNfc2VuZF9nYWRnZXRfZXBfY21kKzB4NTcwLzB4NzQwIFtkd2MzXQ0K
+PiBbICAgNTEuMTQ5NTQzXSBNb2R1bGVzIGxpbmtlZCBpbjogYWVzX2NlX2NjbSByZmNvbW0g
+YWxnaWZfaGFzaCBhbGdpZl9za2NpcGhlciBhZl9hbGcgYm5lcCBxbWlfd3dhbiBjZGNfd2Rt
+IHVzYm5ldCBtaWkgb3B0aW9uIHVzYl93d2FuIHVzYnNlcmlhbCBjYWFtX2pyIGNhYW1oYXNo
+X2Rlc2MgY2FhbWFsZ19kZXNjIGNyeXB0b19lbmdpbmUgbW91c2VkZXYgcmVkcGluZV9zZGlv
+IHJlZHBpbmVfOTF4IGJsdWV0b290aCB1YXMgdXNiX3N0b3JhZ2UgbWFjODAyMTEgc3RfbHNt
+NmRzeF9zcGkgYWVzX2NlX2JsayBjcnlwdG9fc2ltZCBjcmN0MTBkaWZfY2UgY2ZnODAyMTEg
+Z2hhc2hfY2Ugc2hhMl9jZSBzaGExX2NlIGJxMjU4OTBfY2hhcmdlciBzNWszbDZ4eCBzbmRf
+c29jX3dtODk2MiBoaTg0NiB2Y25sNDAwMCBsZWRzX2xtMzU2MCBlZHRfZnQ1eDA2IG9mcGFy
+dCBpbmR1c3RyaWFsaW9fdHJpZ2dlcmVkX2J1ZmZlciB0cHM2NTk4eCBzdF9sc202ZHN4X2ky
+YyBzdF9sc202ZHN4IGtmaWZvX2J1ZiBnbnNzX210ayB0eXBlYyBteGNfbWlwaV9jc2kyX3lh
+diBnbnNzX3NlcmlhbCBteDZzX2NhcHR1cmUgZ25zcyB2aWRlb2J1ZjJfZG1hX2NvbnRpZyB2
+aWRlb2J1ZjJfbWVtb3BzIHNwaV9ub3IgdjRsMl9md25vZGUgdmlkZW9idWYyX3Y0bDIgdmlk
+ZW9idWYyX2NvbW1vbiBzbmRfc29jX2d0bTYwMSBzbmRfc29jX3NpbXBsZV9jYXJkIHZpZGVv
+ZGV2IG10ZCBzbmRfc29jX3NpbXBsZV9jYXJkX3V0aWxzIG1jIHNuZF9zb2NfZnNsX3NhaSBp
+bXhfcGNtX2RtYSBjYWFtIGVycm9yIHNudnNfcHdya2V5IGlteF9zZG1hIHZpcnRfZG1hIHNu
+ZF9zb2NfY29yZSBpbXgyX3dkdCBzbmRfcGNtX2RtYWVuZ2luZSBzbmRfcGNtIHdhdGNoZG9n
+IHNuZF90aW1lciBzbmQgc291bmRjb3JlIHB3bV92aWJyYSByZmtpbGxfaGtzIHJma2lsbCBs
+ZWR0cmlnX3RpbWVyIHVzYl9mX2FjbSB1X3NlcmlhbCB1c2JfZl9ybmRpcyBnX211bHRpIHVz
+Yl9mX21hc3Nfc3RvcmFnZSB1X2V0aGVyDQo+IFsgICA1MS4xNDk4NTJdICBsaWJjb21wb3Np
+dGUgbGVkdHJpZ19wYXR0ZXJuIGZ1c2UgaXBfdGFibGVzIHhfdGFibGVzIGlwdjYgeGhjaV9w
+bGF0X2hjZCB4aGNpX2hjZCB1c2Jjb3JlIGR3YzMgY2Ruc19taGRwX2lteCB1bHBpIGNkbnNf
+bWhkcF9kcm1jb3JlIHVkY19jb3JlIGlteF9kY3NzIHJvbGVzIHVzYl9jb21tb24gcGh5X2Zz
+bF9pbXg4bXFfdXNiIGNsa19iZDcxOHg3DQo+IFsgICA1MS4xNDk5MjNdIENQVTogMCBQSUQ6
+IDI5OSBDb21tOiBpcnEvNjQtZHdjMyBUYWludGVkOiBHICAgICAgICBXICAgICAgICAgNS4x
+MS4xMS1saWJyZW01LTAwMzM0LWdlNGM0ZmYzNjI0ZTkgIzIxOA0KPiBbICAgNTEuMTQ5OTMz
+XSBIYXJkd2FyZSBuYW1lOiBQdXJpc20gTGlicmVtIDVyNCAoRFQpDQo+IFsgICA1MS4xNDk5
+MzddIHBzdGF0ZTogNjAwMDAwODUgKG5aQ3YgZGFJZiAtUEFOIC1VQU8gLVRDTyBCVFlQRT0t
+LSkNCj4gWyAgIDUxLjE0OTk0Nl0gcGMgOiBkd2MzX3NlbmRfZ2FkZ2V0X2VwX2NtZCsweDU3
+MC8weDc0MCBbZHdjM10NCj4gWyAgIDUxLjE0OTk3N10gbHIgOiBkd2MzX3NlbmRfZ2FkZ2V0
+X2VwX2NtZCsweDU3MC8weDc0MCBbZHdjM10NCj4gWyAgIDUxLjE1MDAwN10gc3AgOiBmZmZm
+ODAwMDExY2IzYTgwDQo+IFsgICA1MS4xNTAwMTFdIHgyOTogZmZmZjgwMDAxMWNiM2E4MCB4
+Mjg6IGZmZmYwMDAwMDMyYTdiMDAgDQo+IFsgICA1MS4xNTAwMjRdIHgyNzogZmZmZjAwMDAw
+MzI3ZGEwMCB4MjY6IDAwMDAwMDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAwMzddIHgyNTog
+MDAwMDAwMDBmZmZmZmZlYSB4MjQ6IDAwMDAwMDAwMDAwMDAwMDYgDQo+IFsgICA1MS4xNTAw
+NDldIHgyMzogZmZmZjAwMDBiZWUxYzA4MCB4MjI6IGZmZmY4MDAwMTFjYjNiM2MgDQo+IFsg
+ICA1MS4xNTAwNjJdIHgyMTogMDAwMDAwMDAwMDAwMDQwNiB4MjA6IGZmZmYwMDAwYmYwMzNm
+MDAgDQo+IFsgICA1MS4xNTAwNzRdIHgxOTogMDAwMDAwMDAwMDAwMDAwMSB4MTg6IDAwMDAw
+MDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAwODZdIHgxNzogMDAwMDAwMDAwMDAwMDAwMCB4
+MTY6IDAwMDAwMDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAwOThdIHgxNTogMDAwMDAwMDAw
+MDAwMDAwMCB4MTQ6IGZmZmY4MDAwMTE0NTEyYzAgDQo+IFsgICA1MS4xNTAxMTFdIHgxMzog
+MDAwMDAwMDAwMDAwMTY5OCB4MTI6IDAwMDAwMDAwMDAwMDAwNDAgDQo+IFsgICA1MS4xNTAx
+MjNdIHgxMTogZmZmZjgwMDAxMTUxYTZmOCB4MTA6IDAwMDAwMDAwZmZmZmUwMDAgDQo+IFsg
+ICA1MS4xNTAxMzVdIHg5IDogZmZmZjgwMDAxMDBiMmI3YyB4OCA6IGZmZmY4MDAwMTE0NmE2
+ZjggDQo+IFsgICA1MS4xNTAxNDddIHg3IDogZmZmZjgwMDAxMTUxYTZmOCB4NiA6IDAwMDAw
+MDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAxNTldIHg1IDogZmZmZjAwMDBiZjkzOTk0OCB4
+NCA6IDAwMDAwMDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAxNzJdIHgzIDogMDAwMDAwMDAw
+MDAwMDAyNyB4MiA6IDAwMDAwMDAwMDAwMDAwMDAgDQo+IFsgICA1MS4xNTAxODNdIHgxIDog
+MDAwMDAwMDAwMDAwMDAwMCB4MCA6IGZmZmYwMDAwMDQ5YWUwNDAgDQo+IFsgICA1MS4xNTAx
+OTZdIENhbGwgdHJhY2U6DQo+IFsgICA1MS4xNTAyMDBdICBkd2MzX3NlbmRfZ2FkZ2V0X2Vw
+X2NtZCsweDU3MC8weDc0MCBbZHdjM10NCj4gWyAgIDUxLjE1MDIzMV0gIF9fZHdjM19nYWRn
+ZXRfZXBfZW5hYmxlKzB4Mjg4LzB4NGZjIFtkd2MzXQ0KPiBbICAgNTEuMTUwMjYwXSAgZHdj
+M19nYWRnZXRfZXBfZW5hYmxlKzB4NmMvMHgxNWMgW2R3YzNdDQo+IFsgICA1MS4xNTAyODld
+ICB1c2JfZXBfZW5hYmxlKzB4NDgvMHgxMTAgW3VkY19jb3JlXQ0KPiBbICAgNTEuMTUwMzIy
+XSAgZ2V0aGVyX2Nvbm5lY3QrMHgzYy8weDFmNCBbdV9ldGhlcl0NCj4gWyAgIDUxLjE1MDM0
+MF0gIHJuZGlzX3NldF9hbHQrMHg3NC8weDFjMCBbdXNiX2Zfcm5kaXNdDQo+IFsgICA1MS4x
+NTAzNjFdICBjb21wb3NpdGVfc2V0dXArMHg2NzQvMHgxOTRjIFtsaWJjb21wb3NpdGVdDQo+
+IFsgICA1MS4xNTAzOTJdICBkd2MzX2VwMF9pbnRlcnJ1cHQrMHg5YzQvMHhiOWMgW2R3YzNd
+DQo+IFsgICA1MS4xNTA0MjNdICBkd2MzX3RocmVhZF9pbnRlcnJ1cHQrMHg4YmMvMHhlNzQg
+W2R3YzNdDQo+IFsgICA1MS4xNTA0NTJdICBpcnFfdGhyZWFkX2ZuKzB4MzgvMHhiMA0KPiBb
+ICAgNTEuMTUwNDYxXSAgaXJxX3RocmVhZCsweDE3MC8weDI5NA0KPiBbICAgNTEuMTUwNDY5
+XSAga3RocmVhZCsweDE2NC8weDE2Yw0KPiBbICAgNTEuMTUwNDc4XSAgcmV0X2Zyb21fZm9y
+aysweDEwLzB4MzQNCj4gWyAgIDUxLjE1MDQ4N10gLS0tWyBlbmQgdHJhY2UgNjJjNmNjMmVi
+ZmIxODA0OCBdLS0tDQo+IA0KPiANCj4gIGRyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgfCAx
+MSArKysrKystLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNSBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdl
+dC5jIGIvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYw0KPiBpbmRleCAyYTg2YWQ0YjEyYjMu
+LmVmOGVjYWY4NjU1YSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQu
+Yw0KPiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jDQo+IEBAIC03ODMsNiArNzgz
+LDggQEAgc3RhdGljIGludCBfX2R3YzNfZ2FkZ2V0X2VwX2Rpc2FibGUoc3RydWN0IGR3YzNf
+ZXAgKmRlcCkNCj4gIA0KPiAgCXRyYWNlX2R3YzNfZ2FkZ2V0X2VwX2Rpc2FibGUoZGVwKTsN
+Cj4gIA0KPiArCWR3YzNfcmVtb3ZlX3JlcXVlc3RzKGR3YywgZGVwKTsNCj4gKw0KPiAgCS8q
+IG1ha2Ugc3VyZSBIVyBlbmRwb2ludCBpc24ndCBzdGFsbGVkICovDQo+ICAJaWYgKGRlcC0+
+ZmxhZ3MgJiBEV0MzX0VQX1NUQUxMKQ0KPiAgCQlfX2R3YzNfZ2FkZ2V0X2VwX3NldF9oYWx0
+KGRlcCwgMCwgZmFsc2UpOw0KPiBAQCAtODAxLDggKzgwMyw2IEBAIHN0YXRpYyBpbnQgX19k
+d2MzX2dhZGdldF9lcF9kaXNhYmxlKHN0cnVjdCBkd2MzX2VwICpkZXApDQo+ICAJCWRlcC0+
+ZW5kcG9pbnQuZGVzYyA9IE5VTEw7DQo+ICAJfQ0KPiAgDQo+IC0JZHdjM19yZW1vdmVfcmVx
+dWVzdHMoZHdjLCBkZXApOw0KPiAtDQo+ICAJcmV0dXJuIDA7DQo+ICB9DQo+ICANCj4gQEAg
+LTE2MTcsNyArMTYxNyw3IEBAIHN0YXRpYyBpbnQgX19kd2MzX2dhZGdldF9lcF9xdWV1ZShz
+dHJ1Y3QgZHdjM19lcCAqZGVwLCBzdHJ1Y3QgZHdjM19yZXF1ZXN0ICpyZXEpDQo+ICB7DQo+
+ICAJc3RydWN0IGR3YzMJCSpkd2MgPSBkZXAtPmR3YzsNCj4gIA0KPiAtCWlmICghZGVwLT5l
+bmRwb2ludC5kZXNjIHx8ICFkd2MtPnB1bGx1cHNfY29ubmVjdGVkIHx8ICFkd2MtPmNvbm5l
+Y3RlZCkgew0KPiArCWlmICghZGVwLT5lbmRwb2ludC5kZXNjIHx8ICFkd2MtPnB1bGx1cHNf
+Y29ubmVjdGVkKSB7DQo+ICAJCWRldl9lcnIoZHdjLT5kZXYsICIlczogY2FuJ3QgcXVldWUg
+dG8gZGlzYWJsZWQgZW5kcG9pbnRcbiIsDQo+ICAJCQkJZGVwLT5uYW1lKTsNCj4gIAkJcmV0
+dXJuIC1FU0hVVERPV047DQo+IEBAIC0yMTUwLDcgKzIxNTAsNiBAQCBzdGF0aWMgaW50IGR3
+YzNfZ2FkZ2V0X3B1bGx1cChzdHJ1Y3QgdXNiX2dhZGdldCAqZywgaW50IGlzX29uKQ0KPiAg
+CWlmICghaXNfb24pIHsNCj4gIAkJdTMyIGNvdW50Ow0KPiAgDQo+IC0JCWR3Yy0+Y29ubmVj
+dGVkID0gZmFsc2U7DQo+ICAJCS8qDQo+ICAJCSAqIEluIHRoZSBTeW5vcHNpcyBEZXNpZ25X
+YXJlIENvcmVzIFVTQjMgRGF0YWJvb2sgUmV2LiAzLjMwYQ0KPiAgCQkgKiBTZWN0aW9uIDQu
+MS44IFRhYmxlIDQtNywgaXQgc3RhdGVzIHRoYXQgZm9yIGEgZGV2aWNlLWluaXRpYXRlZA0K
+PiBAQCAtMjE3NSw2ICsyMTc0LDcgQEAgc3RhdGljIGludCBkd2MzX2dhZGdldF9wdWxsdXAo
+c3RydWN0IHVzYl9nYWRnZXQgKmcsIGludCBpc19vbikNCj4gIAkJCWR3Yy0+ZXZfYnVmLT5s
+cG9zID0gKGR3Yy0+ZXZfYnVmLT5scG9zICsgY291bnQpICUNCj4gIAkJCQkJCWR3Yy0+ZXZf
+YnVmLT5sZW5ndGg7DQo+ICAJCX0NCj4gKwkJZHdjLT5jb25uZWN0ZWQgPSBmYWxzZTsNCj4g
+IAl9IGVsc2Ugew0KPiAgCQlfX2R3YzNfZ2FkZ2V0X3N0YXJ0KGR3Yyk7DQo+ICAJfQ0KPiBA
+QCAtMzI2Nyw2ICszMjY3LDggQEAgc3RhdGljIHZvaWQgZHdjM19nYWRnZXRfcmVzZXRfaW50
+ZXJydXB0KHN0cnVjdCBkd2MzICpkd2MpDQo+ICB7DQo+ICAJdTMyCQkJcmVnOw0KPiAgDQo+
+ICsJZHdjLT5jb25uZWN0ZWQgPSB0cnVlOw0KPiArDQo+ICAJLyoNCj4gIAkgKiBXT1JLQVJP
+VU5EOiBEV0MzIHJldmlzaW9ucyA8MS44OGEgaGF2ZSBhbiBpc3N1ZSB3aGljaA0KPiAgCSAq
+IHdvdWxkIGNhdXNlIGEgbWlzc2luZyBEaXNjb25uZWN0IEV2ZW50IGlmIHRoZXJlJ3MgYQ0K
+PiBAQCAtMzMwNiw3ICszMzA4LDYgQEAgc3RhdGljIHZvaWQgZHdjM19nYWRnZXRfcmVzZXRf
+aW50ZXJydXB0KHN0cnVjdCBkd2MzICpkd2MpDQo+ICAJICogdHJhbnNmZXJzLiINCj4gIAkg
+Ki8NCj4gIAlkd2MzX3N0b3BfYWN0aXZlX3RyYW5zZmVycyhkd2MpOw0KPiAtCWR3Yy0+Y29u
+bmVjdGVkID0gdHJ1ZTsNCj4gIA0KPiAgCXJlZyA9IGR3YzNfcmVhZGwoZHdjLT5yZWdzLCBE
+V0MzX0RDVEwpOw0KPiAgCXJlZyAmPSB+RFdDM19EQ1RMX1RTVENUUkxfTUFTSzsNCj4gDQoN
+Ci0tIA0KVGhlIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIGlzIGEgbWVtYmVy
+IG9mIHRoZSBDb2RlIEF1cm9yYSBGb3J1bSwNCmEgTGludXggRm91bmRhdGlvbiBDb2xsYWJv
+cmF0aXZlIFByb2plY3QNCg==
