@@ -2,189 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92EE2C43461
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 17:48:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 692FBC43460
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 17:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E027610A0
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 17:48:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45C8C60BD3
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 17:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235760AbhDARsK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:48:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58342 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236316AbhDARoU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Apr 2021 13:44:20 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A61C0319C1;
-        Thu,  1 Apr 2021 10:16:09 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id m21-20020a9d7ad50000b02901b83efc84a0so2726723otn.10;
-        Thu, 01 Apr 2021 10:16:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pBHNevxyUCCPbFPV2Zb7KUDNOhpcn/AKmNJD00Mb8Us=;
-        b=pHRqoUUn2yHtI6TXAo3BT4Zo/1ZUyAFKfF9fQpbiQVgJQmy2YCfAnNKnS8MsfYNFWi
-         K09YlE2Y7XjxodJ6jYsduUXP9vMT+dK8AyTMovvnE9ftsfxQzStCM+kdLUb+sw1rngJx
-         pqKswVRKG/nRxzTrEUqPEybeyb9U7FtDJsBbM6ziiiqbHmMmltIzr0Xi/RaaokdNsS3i
-         4px6N/0JF3p44YnIEt08VCn1oSBtNmfDN43kZdJ0mRCiM35xhV7sdfQwteZzEFhECwIc
-         WWwpR4JHIcX5MUPdJV93EDZJf7gh22ixAq7ryc3rgPCzRG6xOh+niFy+Ec/EPp3zzMCy
-         AKdQ==
-X-Gm-Message-State: AOAM530i9e4nr28vXY1VyljhhyMPWvdy1swaUd1gIuP+sdpRNUkzNEqo
-        H7p4i05chikB64tveTQI0oIWDQr76g==
-X-Google-Smtp-Source: ABdhPJybojyAep+/VfygtSasYn99v6AUw/im0YiAc5/r+Eqp0JZa+gc5R2fnimEZw/nSblOKAzbZow==
-X-Received: by 2002:a9d:7481:: with SMTP id t1mr7796126otk.208.1617297366044;
-        Thu, 01 Apr 2021 10:16:06 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id f8sm1241470otp.71.2021.04.01.10.16.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:16:04 -0700 (PDT)
-Received: (nullmailer pid 633945 invoked by uid 1000);
-        Thu, 01 Apr 2021 17:16:03 -0000
-Date:   Thu, 1 Apr 2021 12:16:03 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     cristian.birsan@microchip.com
-Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH v2 1/2] dt-bindings: usb: Add DT bindings for
- Microchip sama7g5 tcpc
-Message-ID: <20210401171603.GA624021@robh.at.kernel.org>
-References: <20210330205442.981649-1-cristian.birsan@microchip.com>
- <20210330205442.981649-2-cristian.birsan@microchip.com>
+        id S234869AbhDAR5F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:57:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235366AbhDARxB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 1 Apr 2021 13:53:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5C3F161354;
+        Thu,  1 Apr 2021 14:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617286453;
+        bh=xuTCkOPvf9aiKJguttK3hihOeX+O3bzSR6YnnMU9Itg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XU+GGkElgULOox0k5B8IMHv1KsALo4FbRTP0Y4ehjFyam8qEHbiXvTzcalDQq8f0D
+         QArRoE1+xfP/PbS5ElkJ4PB+1+iCV984/b6tuwq4uyrAE1gH/nyeSKQYl3RpBZU3Jd
+         87jkabWYmj5vqQW7d2KqdiEmC+T64vF7s6rtoJEE=
+Date:   Thu, 1 Apr 2021 16:14:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     balbi@kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, linux-usb@vger.kernel.org,
+        wcheng@codeaurora.org
+Subject: Re: [PATCH v2] Revert "usb: dwc3: gadget: Prevent EP queuing while
+ stopping transfers"
+Message-ID: <YGXVMzwXXXFKfbuI@kroah.com>
+References: <YGXE0gQoj8HOzpuw@kroah.com>
+ <20210401131108.2149766-1-martin.kepplinger@puri.sm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210330205442.981649-2-cristian.birsan@microchip.com>
+In-Reply-To: <20210401131108.2149766-1-martin.kepplinger@puri.sm>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 11:54:41PM +0300, cristian.birsan@microchip.com wrote:
-> From: Cristian Birsan <cristian.birsan@microchip.com>
+On Thu, Apr 01, 2021 at 03:11:08PM +0200, Martin Kepplinger wrote:
+> commit 9de499997c ("usb: dwc3: gadget: Prevent EP queuing while stopping
+> transfers") results in the below error every time I connect the type-c
+> connector to the dwc3, configured with serial and ethernet gadgets.
+> I also apply the following to dwc3 on this port:
 > 
-> This patch adds DT bindings for the new Microchip USB Type-C Port
-> Controller (TCPC) embedded in sama7g5 SoC.
+> dr_mode = "otg";                                                        
+> snps,dis_u3_susphy_quirk;                                               
+> hnp-disable;                                                            
+> srp-disable;                                                            
+> adp-disable;                                                            
+
+Why all the trailing whitespace?
+
+> usb-role-switch;
 > 
-> Signed-off-by: Cristian Birsan <cristian.birsan@microchip.com>
+> [   51.148220] ------------[ cut here ]------------
+> [   51.148241] dwc3 38100000.usb: No resource for ep2in
+> [   51.148376] WARNING: CPU: 0 PID: 299 at drivers/usb/dwc3/gadget.c:360 dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
+> [   51.148837] CPU: 0 PID: 299 Comm: irq/64-dwc3 Not tainted 5.11.11-librem5-00334-ge4c4ff3624e9 #218
+> [   51.148848] Hardware name: Purism Librem 5r4 (DT)
+> [   51.148854] pstate: 60000085 (nZCv daIf -PAN -UAO -TCO BTYPE=--)
+> [   51.148863] pc : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
+> [   51.148894] lr : dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
+> [   51.148924] sp : ffff800011cb3ac0
+> [   51.148929] x29: ffff800011cb3ac0 x28: ffff0000032a7b00 
+> [   51.148942] x27: ffff00000327da00 x26: 0000000000000000 
+> [   51.148954] x25: 00000000ffffffea x24: 0000000000000006 
+> [   51.148967] x23: ffff0000bee1c080 x22: ffff800011cb3b7c 
+> [   51.148979] x21: 0000000000000406 x20: ffff0000bf170000 
+> [   51.148992] x19: 0000000000000001 x18: 0000000000000000 
+> [   51.149004] x17: 0000000000000000 x16: 0000000000000000 
+> [   51.149016] x15: 0000000000000000 x14: ffff8000114512c0 
+> [   51.149028] x13: 0000000000001698 x12: 0000000000000040 
+> [   51.149040] x11: ffff80001151a6f8 x10: 00000000ffffe000 
+> [   51.149052] x9 : ffff8000100b2b7c x8 : ffff80001146a6f8 
+> [   51.149065] x7 : ffff80001151a6f8 x6 : 0000000000000000 
+> [   51.149077] x5 : ffff0000bf939948 x4 : 0000000000000000 
+> [   51.149089] x3 : 0000000000000027 x2 : 0000000000000000 
+> [   51.149101] x1 : 0000000000000000 x0 : ffff0000049ae040 
+> [   51.149114] Call trace:
+> [   51.149120]  dwc3_send_gadget_ep_cmd+0x570/0x740 [dwc3]
+> [   51.149150]  __dwc3_gadget_ep_enable+0x288/0x4fc [dwc3]
+> [   51.149179]  dwc3_gadget_ep_enable+0x6c/0x15c [dwc3]
+> [   51.149209]  usb_ep_enable+0x48/0x110 [udc_core]
+> [   51.149251]  rndis_set_alt+0x138/0x1c0 [usb_f_rndis]
+> [   51.149276]  composite_setup+0x674/0x194c [libcomposite]
+> [   51.149314]  dwc3_ep0_interrupt+0x9c4/0xb9c [dwc3]
+> [   51.149344]  dwc3_thread_interrupt+0x8bc/0xe74 [dwc3]
+> [   51.149374]  irq_thread_fn+0x38/0xb0
+> [   51.149388]  irq_thread+0x170/0x294
+> [   51.149397]  kthread+0x164/0x16c
+> [   51.149407]  ret_from_fork+0x10/0x34
+> [   51.149419] ---[ end trace 62c6cc2ebfb18047 ]---
+> 
+> Linus' tree isn't affected. Revert the change.
+
+What does this mean?
+
+> 
+> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+> 
 > ---
->  .../bindings/usb/microchip,sama7g5-tcpc.yaml  | 90 +++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/microchip,sama7g5-tcpc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/microchip,sama7g5-tcpc.yaml b/Documentation/devicetree/bindings/usb/microchip,sama7g5-tcpc.yaml
-> new file mode 100644
-> index 000000000000..2d3289dd9ac9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/microchip,sama7g5-tcpc.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/usb/microchip,sama7g5-tcpc.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Microchip SAMA7G5 Type-C port controller bindings
-> +
-> +maintainers:
-> +  - Cristian Birsan <cristian.birsan@microchip.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - microchip,sama7g5-tcpc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Peripheral Bus Clock
-> +      - description: Generic Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pclk
-> +      - const: gclk
-> +
-> +  vbus-supply:
-> +    description: vbus power supply (5V) phandle
 
-This belongs in the connector node unless this chip uses Vbus as a 
-supply.
+What changed from v1?  Always put that below the --- line.
 
-> +
-> +  microchip,vbus-gpio:
-> +    description: vbus detect gpio
+And as this is a revert, is a "Fixes:" line also relevant?
 
-We have standard property for this in the connector node.
+thanks,
 
-> +
-> +  connector:
-> +    type: object
-> +
-> +    allOf:
-> +      - $ref: ../connector/usb-connector.yaml
-
-You can drop 'allOf'. And add:
-
-       unevaluatedProperties: false
-
-> +
-> +    properties:
-> +      compatible:
-> +        const: usb-c-connector
-> +
-> +      power-role: true
-> +
-> +    required:
-> +      - compatible
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - connector
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/at91.h>
-> +    #include <dt-bindings/usb/pd.h>
-> +    tcpcb: tcpcb@e0844000 {
-> +      compatible = "microchip,sama7g5-tcpc";
-> +      reg = <0xe0844000 0x3fff>;
-> +      clocks = <&pmc PMC_TYPE_PERIPHERAL 95>, <&pmc PMC_TYPE_GCK 95>;
-> +      clock-names = "pclk", "gclk";
-> +
-> +      usb_con: connector {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        compatible = "usb-c-connector";
-> +        label = "USB-C";
-> +        data-role = "device";
-> +        power-role = "sink";
-> +        try-power-role = "sink";
-> +        source-pdos = <PDO_FIXED(5000, 500,
-> +            PDO_FIXED_USB_COMM)>;
-> +        sink-pdos = <PDO_FIXED(5000, 500,
-> +            PDO_FIXED_USB_COMM)>;
-> +        op-sink-microwatt = <2500000>;
-> +
-> +        port@1 {
-> +          reg = <1>;
-> +          usb_con_hs: endpoint {
-> +            remote-endpoint = <&usb_phy1>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +...
-> -- 
-> 2.25.1
-> 
+greg k-h
