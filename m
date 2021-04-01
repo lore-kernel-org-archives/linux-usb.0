@@ -2,93 +2,129 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B75C43461
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 10:45:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A604DC433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 10:59:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84F63610CC
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 10:45:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D8646108F
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Apr 2021 10:59:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234000AbhDAKob (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Apr 2021 06:44:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48396 "EHLO mail.kernel.org"
+        id S233496AbhDAK6r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Apr 2021 06:58:47 -0400
+Received: from mga12.intel.com ([192.55.52.136]:51275 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233780AbhDAKoH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 1 Apr 2021 06:44:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 87FD560FED;
-        Thu,  1 Apr 2021 10:44:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617273847;
-        bh=7grKtL4HFoTKoGxPCq5J7Opvb2ADbNce8guDq6kam5g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=zP20778W8eSy6iD1mXRZknns9TyE5nt4vh1CuZG+rBs6EljQ6IM/pEhEjF7rQ2+kU
-         63yafNk8Tg4Skv32PJSLSanlUJP9mB/5jTah31go2F9oGX5wiAvlXurE66l48M/aH7
-         EDftMAOtfAPGjRTyDpcjdcWJhy/o/eA2v1r01/Zg=
-Date:   Thu, 1 Apr 2021 12:44:04 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+        id S233665AbhDAK6f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 1 Apr 2021 06:58:35 -0400
+IronPort-SDR: nWdfVZ1dwpEcXs4MPcdIRQoKc3xxpisTd0jbj7bJ+aJkPFLGEHEkE5hGV27roUT4ZP9ZW0PvJc
+ T4pNltCqM9zg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="171637240"
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
+   d="scan'208";a="171637240"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2021 03:58:34 -0700
+IronPort-SDR: KhfHZulw7zaFspF6z4VjJqREmGGfAFj/am1itRIhg8Ysw71s59yypLygw1Ozm2vq7ZtoMuo9Ez
+ krHhM7oRhObw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
+   d="scan'208";a="517295758"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 01 Apr 2021 03:58:32 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] xhci: remove unused variable
-Message-ID: <YGWj9KKtEd+sAdtH@kroah.com>
-References: <1617272235-62515-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH v5 0/6] usb: Linking ports to their Type-C connectors
+Date:   Thu,  1 Apr 2021 13:58:41 +0300
+Message-Id: <20210401105847.13026-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1617272235-62515-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 06:17:15PM +0800, Jiapeng Chong wrote:
-> Fix the following clang warning:
-> 
-> drivers/usb/host/xhci.c:1346:15: warning: variable ‘len’ set but not
-> used [-Wunused-but-set-variable].
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/usb/host/xhci.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 1975016..0ead09c 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -1343,7 +1343,6 @@ static bool xhci_urb_temp_buffer_required(struct usb_hcd *hcd,
->  
->  static void xhci_unmap_temp_buf(struct usb_hcd *hcd, struct urb *urb)
->  {
-> -	unsigned int len;
->  	unsigned int buf_len;
->  	enum dma_data_direction dir;
->  
-> @@ -1359,10 +1358,9 @@ static void xhci_unmap_temp_buf(struct usb_hcd *hcd, struct urb *urb)
->  				 dir);
->  
->  	if (usb_urb_dir_in(urb))
-> -		len = sg_pcopy_from_buffer(urb->sg, urb->num_sgs,
-> -					   urb->transfer_buffer,
-> -					   buf_len,
-> -					   0);
-> +		sg_pcopy_from_buffer(urb->sg, urb->num_sgs,
-> +				     urb->transfer_buffer,
-> +				     buf_len, 0);
->  
->  	urb->transfer_flags &= ~URB_DMA_MAP_SINGLE;
->  	kfree(urb->transfer_buffer);
-> -- 
-> 1.8.3.1
-> 
+Hi,
 
-Why resubmit this same change when I rejected it in the past?
+I have to use IS_REACHABLE() instead of IS_ENABLED() also in
+include/linux/usb.h. Otherwise compilation will fail if the Type-C
+class is build-in while USB is a module.
 
-{sigh}
+I'm sorry for re-sending these so fast, immediately after v4. Normally
+I would wait, but I'll be taking a short vacation starting from right
+now, and I'm still hoping to get these into v5.13.
 
-greg k-h
+
+v4 cover letter:
+
+One more version. I used #ifdef when I should have used #if
+IS_DEFINED(). Thanks Guenter for pointing that out.
+
+I'm sending this version right away because of the holidays. I'm not
+changing anything else except that one fix.
+
+
+v3: cover letter:
+
+Third version: ifdefs now in the header files as they should be.
+
+
+v2 cover letter:
+
+This is the second version of this series. The "Iterator for ports"
+patch is now moved to the end of the series (5/6).
+
+I'm now using usb_for_each_dev() in usb_for_each_port like Alan
+suggested, and I'm now using usb_port_peer_mutex to lock the ports
+while we're dealing with them in __each_hub().
+
+
+The original cover letter:
+
+Adding a simple function typec_link_port() that can be used to create
+a symlink "connector" that points to the USB Type-C connector of a
+port. It is used with USB ports initially, but hopefully later also
+with other things like DisplayPorts.
+
+Being able to see which connector is connected to a port is important
+in general, but it is really important when for example the data or
+power role of a device needs to swapped. The user probable wants to
+know which USB device is disconnected if role swap on a USB Type-C
+connector is executed.
+
+Hope these are OK.
+
+thanks,
+
+Heikki Krogerus (6):
+  usb: typec: Organize the private headers properly
+  usb: typec: Declare the typec_class static
+  usb: typec: Port mapping utility
+  usb: Link the ports to the connectors they are attached to
+  usb: Iterator for ports
+  usb: typec: Link all ports during connector registration
+
+ Documentation/ABI/testing/sysfs-bus-usb |   9 +
+ drivers/usb/core/port.c                 |   3 +
+ drivers/usb/core/usb.c                  |  46 ++++
+ drivers/usb/typec/Makefile              |   2 +-
+ drivers/usb/typec/bus.c                 |   2 +
+ drivers/usb/typec/bus.h                 |  19 +-
+ drivers/usb/typec/class.c               | 101 +++------
+ drivers/usb/typec/class.h               |  85 ++++++++
+ drivers/usb/typec/mux.c                 |   4 +-
+ drivers/usb/typec/mux.h                 |  21 ++
+ drivers/usb/typec/port-mapper.c         | 277 ++++++++++++++++++++++++
+ include/linux/usb.h                     |   9 +
+ include/linux/usb/typec.h               |  13 ++
+ 13 files changed, 495 insertions(+), 96 deletions(-)
+ create mode 100644 drivers/usb/typec/class.h
+ create mode 100644 drivers/usb/typec/mux.h
+ create mode 100644 drivers/usb/typec/port-mapper.c
+
+-- 
+2.30.2
+
