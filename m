@@ -2,244 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-25.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF95EC433B4
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Apr 2021 02:47:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2053C433ED
+	for <linux-usb@archiver.kernel.org>; Sat,  3 Apr 2021 10:51:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 825F260190
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Apr 2021 02:47:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E86661163
+	for <linux-usb@archiver.kernel.org>; Sat,  3 Apr 2021 10:51:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbhDCCr6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Apr 2021 22:47:58 -0400
-Received: from mga07.intel.com ([134.134.136.100]:11945 "EHLO mga07.intel.com"
+        id S236035AbhDCKvm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 3 Apr 2021 06:51:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51428 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231256AbhDCCr6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 2 Apr 2021 22:47:58 -0400
-IronPort-SDR: 9+JHlvHVMpWMRf7pMQZbDyRsBW/utAPVDOp11aUhdpk2AXjr7grrNRL2sUZHwcQK0CA3UWETHH
- UEPX07yyrERw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9942"; a="256545446"
-X-IronPort-AV: E=Sophos;i="5.81,301,1610438400"; 
-   d="scan'208";a="256545446"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2021 19:47:56 -0700
-IronPort-SDR: qTCG9A6wiLbyHomv3opHFPnV5R3soA/WN7wSB6FfsQxSW0N/pqLyCcV4JcBSU2K9PWjDrXO7ML
- gijEgG7Iqdjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,301,1610438400"; 
-   d="scan'208";a="439840752"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Apr 2021 19:47:54 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lSWKH-0007Tu-P2; Sat, 03 Apr 2021 02:47:53 +0000
-Date:   Sat, 03 Apr 2021 10:47:31 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- bee1f89aad2a51cd3339571bc8eadbb0dc88a683
-Message-ID: <6067d743.uNpsvMkNG3kUXHjK%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S236572AbhDCKud (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 3 Apr 2021 06:50:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E983A61006;
+        Sat,  3 Apr 2021 10:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617447031;
+        bh=ftYKzwzl0etbwfwVgR8wQejv9PrD7e36U+Wq1528puU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=cNlg7N8TrZtMHNvv+YaZPepgikAdNETO0OD0l9mVY/LzoJTA4nFlfSDGEXf8+pp+B
+         RtKGANllcA393QLXcwdx6wAmN2IMf6xZTUDqObzx3hJKOKh4L4vQ5UAhNcTbXkgslY
+         ccBLIbtUXDWqsQT6BTXCuc7cEoaFor/1YydJmd1M=
+Date:   Sat, 3 Apr 2021 12:50:29 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB driver fixes for 5.12-rc6
+Message-ID: <YGhIdRHZmIIavNM3@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: bee1f89aad2a51cd3339571bc8eadbb0dc88a683  usb: xhci-mtk: support quirk to disable usb2 lpm
+The following changes since commit 0d02ec6b3136c73c09e7859f0d0e4e2c4c07b49b:
 
-elapsed time: 721m
+  Linux 5.12-rc4 (2021-03-21 14:56:43 -0700)
 
-configs tested: 174
-configs skipped: 2
+are available in the Git repository at:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.12-rc6
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-powerpc                     powernv_defconfig
-mips                      malta_kvm_defconfig
-m68k                        mvme16x_defconfig
-powerpc                      ppc40x_defconfig
-mips                         tb0226_defconfig
-arm                       aspeed_g4_defconfig
-riscv                    nommu_k210_defconfig
-m68k                          amiga_defconfig
-sh                            titan_defconfig
-arm                        trizeps4_defconfig
-alpha                            alldefconfig
-arm                           sama5_defconfig
-sh                         apsh4a3a_defconfig
-arm                           omap1_defconfig
-arm                           h5000_defconfig
-mips                          rm200_defconfig
-parisc                generic-64bit_defconfig
-powerpc                     mpc83xx_defconfig
-ia64                      gensparse_defconfig
-powerpc                      tqm8xx_defconfig
-arm                         hackkit_defconfig
-arm                        mvebu_v5_defconfig
-mips                          rb532_defconfig
-m68k                            mac_defconfig
-m68k                         amcore_defconfig
-m68k                       bvme6000_defconfig
-arm                       spear13xx_defconfig
-powerpc                     ppa8548_defconfig
-ia64                             allmodconfig
-arm                     eseries_pxa_defconfig
-m68k                            q40_defconfig
-um                           x86_64_defconfig
-arm                        mini2440_defconfig
-powerpc                      acadia_defconfig
-arm                             pxa_defconfig
-mips                        workpad_defconfig
-nios2                         10m50_defconfig
-arm                          iop32x_defconfig
-ia64                             alldefconfig
-powerpc                      ep88xc_defconfig
-arm                        neponset_defconfig
-arm                          pxa168_defconfig
-mips                 decstation_r4k_defconfig
-sh                          lboxre2_defconfig
-parisc                              defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                malta_qemu_32r6_defconfig
-arm                           stm32_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                     ksi8560_defconfig
-arm                        shmobile_defconfig
-m68k                         apollo_defconfig
-xtensa                          iss_defconfig
-sh                          rsk7201_defconfig
-powerpc                    amigaone_defconfig
-sh                           se7724_defconfig
-powerpc                         wii_defconfig
-arm                       multi_v4t_defconfig
-sh                        sh7785lcr_defconfig
-mips                  cavium_octeon_defconfig
-mips                     loongson1c_defconfig
-arm                         palmz72_defconfig
-sh                     sh7710voipgw_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                             rpc_defconfig
-sparc64                             defconfig
-powerpc                 mpc834x_mds_defconfig
-mips                           gcw0_defconfig
-mips                        omega2p_defconfig
-sh                           se7780_defconfig
-m68k                             alldefconfig
-sh                          r7780mp_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                           allnoconfig
-mips                         tb0219_defconfig
-xtensa                       common_defconfig
-powerpc                 mpc836x_mds_defconfig
-arm                    vt8500_v6_v7_defconfig
-xtensa                         virt_defconfig
-arc                        nsim_700_defconfig
-arm                          ixp4xx_defconfig
-xtensa                              defconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-i386                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-x86_64               randconfig-a004-20210402
-x86_64               randconfig-a005-20210402
-x86_64               randconfig-a003-20210402
-x86_64               randconfig-a001-20210402
-x86_64               randconfig-a002-20210402
-x86_64               randconfig-a006-20210402
-i386                 randconfig-a006-20210402
-i386                 randconfig-a003-20210402
-i386                 randconfig-a001-20210402
-i386                 randconfig-a004-20210402
-i386                 randconfig-a005-20210402
-i386                 randconfig-a002-20210402
-i386                 randconfig-a006-20210401
-i386                 randconfig-a003-20210401
-i386                 randconfig-a001-20210401
-i386                 randconfig-a004-20210401
-i386                 randconfig-a002-20210401
-i386                 randconfig-a005-20210401
-i386                 randconfig-a014-20210401
-i386                 randconfig-a011-20210401
-i386                 randconfig-a016-20210401
-i386                 randconfig-a012-20210401
-i386                 randconfig-a013-20210401
-i386                 randconfig-a015-20210401
-i386                 randconfig-a014-20210402
-i386                 randconfig-a016-20210402
-i386                 randconfig-a011-20210402
-i386                 randconfig-a012-20210402
-i386                 randconfig-a013-20210402
-i386                 randconfig-a015-20210402
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+for you to fetch changes up to 93f672804bf2d7a49ef3fd96827ea6290ca1841e:
 
-clang tested configs:
-x86_64               randconfig-a004-20210401
-x86_64               randconfig-a005-20210401
-x86_64               randconfig-a003-20210401
-x86_64               randconfig-a001-20210401
-x86_64               randconfig-a002-20210401
-x86_64               randconfig-a006-20210401
-x86_64               randconfig-a014-20210402
-x86_64               randconfig-a015-20210402
-x86_64               randconfig-a011-20210402
-x86_64               randconfig-a013-20210402
-x86_64               randconfig-a012-20210402
-x86_64               randconfig-a016-20210402
+  usb: dwc2: Prevent core suspend when port connection flag is 0 (2021-03-26 14:51:34 +0100)
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+----------------------------------------------------------------
+USB fixes for 5.12-rc6
+
+Here are a few small USB driver fixes for 5.12-rc6 to resolve reported
+problems.
+
+They include:
+	- a number of cdc-acm fixes for reported problems.  It seems
+	  more people are using this driver lately...
+	- dwc3 driver fixes for reported problems, and fixes for the
+	  fixes :)
+	- dwc2 driver fixes for reported issues.
+	- musb driver fix.
+	- new USB quirk additions.
+
+All of these have been in linux-next for a while with no reported
+issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      usb: dwc3: pci: Enable dis_uX_susphy_quirk for Intel Merrifield
+
+Artur Petrosyan (2):
+      usb: dwc2: Fix HPRT0.PrtSusp bit setting for HiKey 960 board.
+      usb: dwc2: Prevent core suspend when port connection flag is 0
+
+Chunfeng Yun (1):
+      usb: xhci-mtk: fix broken streams issue on 0.96 xHCI
+
+Johan Hovold (8):
+      USB: cdc-acm: fix double free on probe failure
+      USB: cdc-acm: fix use-after-free after probe failure
+      USB: cdc-acm: drop redundant driver-data assignment
+      USB: cdc-acm: drop redundant driver-data reset
+      USB: cdc-acm: clean up probe error labels
+      USB: cdc-acm: use negation for NULL checks
+      USB: cdc-acm: always claim data interface
+      USB: cdc-acm: do not log successful probe on later errors
+
+Oliver Neukum (3):
+      cdc-acm: fix BREAK rx code path adding necessary calls
+      USB: cdc-acm: untangle a circular dependency between callback and softint
+      USB: cdc-acm: downgrade message to debug
+
+Shawn Guo (1):
+      usb: dwc3: qcom: skip interconnect init for ACPI probe
+
+Shuah Khan (1):
+      usbip: vhci_hcd fix shift out-of-bounds in vhci_hub_control()
+
+Thinh Nguyen (2):
+      usb: dwc3: gadget: Set gadget_max_speed when set ssp_rate
+      usb: dwc3: gadget: Use max speed if unspecified
+
+Tong Zhang (1):
+      usb: gadget: udc: amd5536udc_pci fix null-ptr-dereference
+
+Tony Lindgren (1):
+      usb: musb: Fix suspend with devices connected for a64
+
+Vincent Palatin (1):
+      USB: quirks: ignore remote wake-up on Fibocom L850-GL LTE modem
+
+Wesley Cheng (1):
+      usb: dwc3: gadget: Clear DEP flags after stop transfers in ep disable
+
+ drivers/usb/class/cdc-acm.c             | 120 +++++++++++++++++++-------------
+ drivers/usb/core/quirks.c               |   4 ++
+ drivers/usb/dwc2/hcd.c                  |   5 +-
+ drivers/usb/dwc3/dwc3-pci.c             |   2 +
+ drivers/usb/dwc3/dwc3-qcom.c            |   3 +
+ drivers/usb/dwc3/gadget.c               |  11 +--
+ drivers/usb/gadget/udc/amd5536udc_pci.c |  10 +--
+ drivers/usb/host/xhci-mtk.c             |  10 ++-
+ drivers/usb/musb/musb_core.c            |  12 ++--
+ drivers/usb/usbip/vhci_hcd.c            |   2 +
+ 10 files changed, 112 insertions(+), 67 deletions(-)
