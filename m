@@ -2,176 +2,155 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF21C433B4
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Apr 2021 19:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B99BAC43460
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Apr 2021 20:18:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 03080613B3
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Apr 2021 19:25:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78FD2613C3
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Apr 2021 20:18:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240037AbhDETZq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Apr 2021 15:25:46 -0400
-Received: from mga09.intel.com ([134.134.136.24]:50129 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236263AbhDETZn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 5 Apr 2021 15:25:43 -0400
-IronPort-SDR: Hr8w9ff7N89sDwbiTRWRybWqhTjUvECcjBdzESSFTW8oaEV4+99hsrHFuWmPGPUgg6L4JkDH6P
- ANuZi/xzz7UQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="193022978"
-X-IronPort-AV: E=Sophos;i="5.81,307,1610438400"; 
-   d="scan'208";a="193022978"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2021 12:25:36 -0700
-IronPort-SDR: +inHjQjvd/ozzcAwuVgrAk+ywFRTd+5YWKslIfBi5t2JUyCN3musC5BSeMpRGHgxazoU6DXZOp
- KlU8CW73zbqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,307,1610438400"; 
-   d="scan'208";a="518720555"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2021 12:25:34 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lTUqr-000Aaf-Pr; Mon, 05 Apr 2021 19:25:33 +0000
-Date:   Tue, 06 Apr 2021 03:25:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 363eaa3a450abb4e63bd6e3ad79d1f7a0f717814
-Message-ID: <606b640f.pW9yH9gvC4FCFpZN%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S240689AbhDEUS3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Apr 2021 16:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239104AbhDEUS3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Apr 2021 16:18:29 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 858F9C061793
+        for <linux-usb@vger.kernel.org>; Mon,  5 Apr 2021 13:18:22 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id k8so8827321pgf.4
+        for <linux-usb@vger.kernel.org>; Mon, 05 Apr 2021 13:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SzrATsd1l9iJ+1jsAg78YWOp1Uycls09AoxwwnTVB0A=;
+        b=cStO9sTfmivqiIsV8Qp4UfOSoFmcFgIkbfywRSltUsIJ4YxU8IySZexr/4fUvjfTol
+         YZ3nkdl9vO4T18y1DMIyR0rIUn2ZerL7H8kht1d7ljOJDhS9UbqqVz4tv9iycp+sP4Rx
+         15MC+yEIeazbFqlrW1o88SgNWPXwsL/3VXfnw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=SzrATsd1l9iJ+1jsAg78YWOp1Uycls09AoxwwnTVB0A=;
+        b=nOMRMMRqA6N1mZ55HMw7s+UBuzDkJF29HoX7rdO/FgqmrJ8IVQY2Xgn2WcshmIudwE
+         JyeVh4byFyXew+gaCKa8d2N8nwwMKmN6fA0MKW6y+zdmzMkXFsTlDwjaTXeXB84us/2L
+         csB6Ha+O8VBadq2+eMKly+kBBrj1DbOfMER2XDjV7kPsgZloesO9mRW8RfLK6tY+3IIP
+         6/P1zMoW4NyrKRN2tc+1kSjBX1LUCycjC2JBNWFoyVZH2woUuiQS8m8At5b5kFJaEUS5
+         SJQ0X2Fi7EHhiug4ci4OlRehdU587aa1vIGm4DivLbak+S7bZ77t/M0eB8lNipB7u1GG
+         076Q==
+X-Gm-Message-State: AOAM532e5zeUAI7rgGrUcmyHYm/RxitHEu1y8PJG8dOWKTd4uRwwWn8M
+        dS1I5GlUqJAoMZNxbpJSh+t88g==
+X-Google-Smtp-Source: ABdhPJzIGqAKrxzPOvps82jXYzrKweSAvuxLkVluJX5klP+J3JDb3KVgihZcPP9Xit3jNjHcaDBMCw==
+X-Received: by 2002:aa7:8a19:0:b029:1f6:6839:7211 with SMTP id m25-20020aa78a190000b02901f668397211mr24475341pfa.40.1617653901576;
+        Mon, 05 Apr 2021 13:18:21 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:455e:b8cf:5939:67da])
+        by smtp.gmail.com with UTF8SMTPSA id x125sm16240244pfd.124.2021.04.05.13.18.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Apr 2021 13:18:21 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Peter Chen <peter.chen@nxp.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-usb@vger.kernel.org,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Bastien Nocera <hadess@hadess.net>, devicetree@vger.kernel.org,
+        Stephen Boyd <swboyd@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Al Cooper <alcooperx@gmail.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH v6 0/5] USB: misc: Add onboard_usb_hub driver
+Date:   Mon,  5 Apr 2021 13:18:12 -0700
+Message-Id: <20210405201817.3977893-1-mka@chromium.org>
+X-Mailer: git-send-email 2.31.0.208.g409f899ff0-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: 363eaa3a450abb4e63bd6e3ad79d1f7a0f717814  usbip: synchronize event handler with sysfs code paths
+This series adds:
+- the onboard_usb_hub_driver
+- glue in the xhci-plat driver to create the onboard_usb_hub
+  platform device if needed
+- a device tree binding for the Realtek RTS5411 USB hub controller
+- device tree changes that add RTS5411 entries for the QCA SC7180
+  based boards trogdor and lazor
+- a couple of stubs for platform device functions to avoid
+  unresolved symbols with certain kernel configs
 
-elapsed time: 727m
+The main issue the driver addresses is that a USB hub needs to be
+powered before it can be discovered. For discrete onboard hubs (an
+example for such a hub is the Realtek RTS5411) this is often solved
+by supplying the hub with an 'always-on' regulator, which is kind
+of a hack. Some onboard hubs may require further initialization
+steps, like changing the state of a GPIO or enabling a clock, which
+requires even more hacks. This driver creates a platform device
+representing the hub which performs the necessary initialization.
+Currently it only supports switching on a single regulator, support
+for multiple regulators or other actions can be added as needed.
+Different initialization sequences can be supported based on the
+compatible string.
 
-configs tested: 106
-configs skipped: 2
+Besides performing the initialization the driver can be configured
+to power the hub off during system suspend. This can help to extend
+battery life on battery powered devices which have no requirements
+to keep the hub powered during suspend. The driver can also be
+configured to leave the hub powered when a wakeup capable USB device
+is connected when suspending, and power it off otherwise.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Changes in v7:
+- series rebased on qcom/arm64-for-5.13
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-powerpc                   motionpro_defconfig
-arm                         hackkit_defconfig
-mips                      pic32mzda_defconfig
-arm                     am200epdkit_defconfig
-microblaze                      mmu_defconfig
-nios2                         3c120_defconfig
-powerpc                     rainier_defconfig
-um                               allyesconfig
-powerpc                       eiger_defconfig
-powerpc                     kilauea_defconfig
-openrisc                  or1klitex_defconfig
-arm                       aspeed_g5_defconfig
-arm                           spitz_defconfig
-x86_64                              defconfig
-mips                       lemote2f_defconfig
-sh                           se7780_defconfig
-m68k                          hp300_defconfig
-arm                       cns3420vb_defconfig
-um                             i386_defconfig
-arm                            hisi_defconfig
-sh                   sh7724_generic_defconfig
-m68k                          sun3x_defconfig
-mips                      pistachio_defconfig
-mips                          ath25_defconfig
-sh                          lboxre2_defconfig
-sh                          rsk7203_defconfig
-sh                          landisk_defconfig
-i386                                defconfig
-mips                       rbtx49xx_defconfig
-mips                      maltasmvp_defconfig
-xtensa                  nommu_kc705_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a006-20210405
-i386                 randconfig-a003-20210405
-i386                 randconfig-a001-20210405
-i386                 randconfig-a004-20210405
-i386                 randconfig-a002-20210405
-i386                 randconfig-a005-20210405
-x86_64               randconfig-a014-20210405
-x86_64               randconfig-a015-20210405
-x86_64               randconfig-a013-20210405
-x86_64               randconfig-a011-20210405
-x86_64               randconfig-a012-20210405
-x86_64               randconfig-a016-20210405
-i386                 randconfig-a014-20210405
-i386                 randconfig-a011-20210405
-i386                 randconfig-a016-20210405
-i386                 randconfig-a012-20210405
-i386                 randconfig-a015-20210405
-i386                 randconfig-a013-20210405
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+Changes in v6:
+- updated summary
 
-clang tested configs:
-x86_64               randconfig-a004-20210405
-x86_64               randconfig-a003-20210405
-x86_64               randconfig-a005-20210405
-x86_64               randconfig-a001-20210405
-x86_64               randconfig-a002-20210405
-x86_64               randconfig-a006-20210405
+Changes in v5:
+- cover letter added
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Matthias Kaehlcke (5):
+  dt-bindings: usb: Add binding for Realtek RTS5411 hub controller
+  USB: misc: Add onboard_usb_hub driver
+  of/platform: Add stubs for of_platform_device_create/destroy()
+  usb: host: xhci-plat: Create platform device for onboard hubs in
+    probe()
+  arm64: dts: qcom: sc7180-trogdor: Add nodes for onboard USB hub
+
+ .../sysfs-bus-platform-onboard-usb-hub        |   8 +
+ .../bindings/usb/realtek,rts5411.yaml         |  59 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r0.dts |  19 +-
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r1.dts |  11 +-
+ .../arm64/boot/dts/qcom/sc7180-trogdor-r1.dts |  19 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  21 +-
+ drivers/usb/host/xhci-plat.c                  |  16 +
+ drivers/usb/misc/Kconfig                      |  17 +
+ drivers/usb/misc/Makefile                     |   1 +
+ drivers/usb/misc/onboard_usb_hub.c            | 415 ++++++++++++++++++
+ include/linux/of_platform.h                   |  22 +-
+ include/linux/usb/hcd.h                       |   2 +
+ include/linux/usb/onboard_hub.h               |  15 +
+ 14 files changed, 596 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-platform-onboard-usb-hub
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+ create mode 100644 drivers/usb/misc/onboard_usb_hub.c
+ create mode 100644 include/linux/usb/onboard_hub.h
+
+-- 
+2.31.0.208.g409f899ff0-goog
+
