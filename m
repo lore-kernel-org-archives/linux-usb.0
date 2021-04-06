@@ -2,75 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D744C433B4
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Apr 2021 07:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3EC3C433ED
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Apr 2021 07:00:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B939613BC
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Apr 2021 07:00:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C644D613B8
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Apr 2021 07:00:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244109AbhDFHA1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Apr 2021 03:00:27 -0400
+        id S244108AbhDFHA0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Apr 2021 03:00:26 -0400
 Received: from mga04.intel.com ([192.55.52.120]:9889 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244102AbhDFHA0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 6 Apr 2021 03:00:26 -0400
-IronPort-SDR: Zotpupym478akpPklsYBUZ0VX9Iz9nPhArXgD7i84gPV8M3Hmvrpoh1fntPQ0Mu34ts1OEWOmS
- Ofd2GC1VLZlA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="190835024"
+        id S233485AbhDFHAZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 6 Apr 2021 03:00:25 -0400
+IronPort-SDR: GDY4gPVyjZB8i5f0BJLRrONoV16lbwLiDZS/C/WcRKQC1lt1G9lGoG9TZS75vDre6OeNd552Jm
+ vZixnrHtNmLQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="190835019"
 X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; 
-   d="scan'208";a="190835024"
+   d="scan'208";a="190835019"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 00:00:19 -0700
-IronPort-SDR: drD7iEZMuFUX9Fv6PnWedrLru3iIddp8UeuyR/OlSR+mffcIJ+dU0FSlBbBrdTw945yRHndGpM
- YQda7RlWeuGA==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 00:00:17 -0700
+IronPort-SDR: BotyRmi2d9SaushdnyOCQZp4Hc1Or2pLp97ofq4hnD82hQO+xa/6MmJH7IceG5inGZKJU5F+Io
+ jXpTCpFtKV9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.81,308,1610438400"; 
-   d="scan'208";a="448443168"
+   d="scan'208";a="448443156"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Apr 2021 00:00:18 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 06 Apr 2021 00:00:16 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
 Cc:     <linux-usb@vger.kernel.org>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/4] xhci: check port array allocation was successful before dereferencing it
-Date:   Tue,  6 Apr 2021 10:02:05 +0300
-Message-Id: <20210406070208.3406266-2-mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/4] xhci features for usb-next
+Date:   Tue,  6 Apr 2021 10:02:04 +0300
+Message-Id: <20210406070208.3406266-1-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210406070208.3406266-1-mathias.nyman@linux.intel.com>
-References: <20210406070208.3406266-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-return if rhub->ports is null after rhub->ports = kcalloc_node()
-Klockwork reported issue
+Hi Greg
 
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-mem.c | 3 +++
- 1 file changed, 3 insertions(+)
+I saw you already picked the Mediatek xhci patches.
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 34d95c006751..f66815fe8482 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2249,6 +2249,9 @@ static void xhci_create_rhub_port_array(struct xhci_hcd *xhci,
- 		return;
- 	rhub->ports = kcalloc_node(rhub->num_ports, sizeof(*rhub->ports),
- 			flags, dev_to_node(dev));
-+	if (!rhub->ports)
-+		return;
-+
- 	for (i = 0; i < HCS_MAX_PORTS(xhci->hcs_params1); i++) {
- 		if (xhci->hw_ports[i].rhub != rhub ||
- 		    xhci->hw_ports[i].hcd_portnum == DUPLICATE_ENTRY)
+Here are a few additional patches I had pending for usb-next
+but didn't get around to submit before easter.
+
+Mostly fixing potential issues found by fuzzer and other tools.
+
+Thanks
+-Mathias
+
+Mathias Nyman (4):
+  xhci: check port array allocation was successful before dereferencing
+    it
+  xhci: check control context is valid before dereferencing it.
+  xhci: fix potential array out of bounds with several interrupters
+  xhci: prevent double-fetch of transfer and transfer event TRBs
+
+ drivers/usb/host/xhci-mem.c  |  3 +++
+ drivers/usb/host/xhci-ring.c | 42 ++++++++++++++++--------------------
+ drivers/usb/host/xhci.c      | 14 +++++++++++-
+ 3 files changed, 35 insertions(+), 24 deletions(-)
+
 -- 
 2.25.1
 
