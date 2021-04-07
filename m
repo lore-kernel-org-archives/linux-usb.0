@@ -2,167 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C98A9C43461
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D60C433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:57:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91B8960232
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:09:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DE1261363
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:57:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234929AbhDGQJy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 12:09:54 -0400
-Received: from mail-eopbgr20047.outbound.protection.outlook.com ([40.107.2.47]:51486
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236439AbhDGQI4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Apr 2021 12:08:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n5UkW2DrdyQMfuEpP+DOlth31juhqdqM31cFXsHWJQpbzS3ch+E+RUBk5rOEVSuSRe0EdVxhxYGGYsD3E3DJYLcgRoKF2L9YmoyEcPB1E1uR0b/nxCTEp9Zaeu8alS12SSd1Ct7+bwm2lyM47f5Oh4fnaP0bdhf+PW7u0nVHneety4JD853+/KnJwCYtD5qlq1C78BbFTe/BgWuVtjLvHlSl4CojZ97mmAZUVvrUpyaTKQ9Ld/O2MAEyQU6ukqql8o/gg0RR2R0qgCqulBchdGHqNF3ZB8lbjX/MJUCz2n8mxxRbOeMQDZ1n9Gvq3sxwGJqGNc5XwsUJBoVhdhbcPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3bXXnAXOGfYO8jHtVzAsYOOifV5I7cV+pKXVb1ROw5s=;
- b=n6PEnd9BQgW37swWkK1xzsezCKKSnmg972szlwqtbPU+tsHsrPUt4BRgNu9ezHF4RRLT2SQBPuWzAvCMJ+L7SPTYIN6v6oXed+c4SMmpp4tTQpPgf03t9Th7Wz9inv7uX3NFkL+K4aZ9nqNdVMqZjN6BIqzMTxAoO+A28+qBRgYHT7oZeZVFgJuIoVAf1HqT9RT72eaZd6bNitPxli0OioYIcKoK9awSIGi2m3ht8kD3u2cZDmkD5OlLM7W21f5Ll//IzazdjpoRP9IJoYiJuGzPSy/YkkjOOflkPiG623DLRXmGfKU10kAqbYjqIEkKG0Y3xoaHZedp3PV9aDkfMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3bXXnAXOGfYO8jHtVzAsYOOifV5I7cV+pKXVb1ROw5s=;
- b=UEqYDZInEjSey7vYzE7e2K9z+4McGQ/acV9Yx0wgQRB7GsD64Goz4FcwD0UWtWbmU9Pk8Pcb77524Na42OTUE3rN2XtmYsTt9f4oSpsWFDaS7hjRPAcn/3vWbAk0ZG2nXXKDCEZksnFBtdmejXKcUouUgXDQFt6p+RKcOJgu0Dw=
-Received: from AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fe::17)
- by AM0PR10MB3028.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15b::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26; Wed, 7 Apr
- 2021 16:08:44 +0000
-Received: from AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a0bc:c738:6a49:c60]) by AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a0bc:c738:6a49:c60%4]) with mapi id 15.20.3999.032; Wed, 7 Apr 2021
- 16:08:43 +0000
-From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Kyle Tso <kyletso@google.com>
-Subject: RE: [PATCH v1 3/6] usb: typec: tcpm: update power supply once partner
- accepts
-Thread-Topic: [PATCH v1 3/6] usb: typec: tcpm: update power supply once
- partner accepts
-Thread-Index: AQHXKoVUQFsHLYQoSUClgf4trRM3oaqpOx+A
-Date:   Wed, 7 Apr 2021 16:08:43 +0000
-Message-ID: <AM9PR10MB4134EC102F0017423E6822B480759@AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM>
-References: <20210406013643.3280369-1-badhri@google.com>
- <20210406013643.3280369-4-badhri@google.com>
-In-Reply-To: <20210406013643.3280369-4-badhri@google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: google.com; dkim=none (message not signed)
- header.d=none;google.com; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [147.161.166.124]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a8dfcb39-0e8b-4d0d-4c07-08d8f9df6aee
-x-ms-traffictypediagnostic: AM0PR10MB3028:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM0PR10MB30287B897680179BC6D6590CA7759@AM0PR10MB3028.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:551;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Tx/69RQ/m3LJ6+y9K6RbXRmuaADBHDglcCaxGV6QpQMXJzJIDkcF/9Y/AU8wWE1wWFZ1NxJL0kaBbw3BPxCUlOohGtMLKo+2hlfyc7wSNi6y/y94yvyYnOXo4zfI73SlHlu3RrBtwKos6NYygJ6vWoHkEU9PvpzM/4BQHFOE0HXj5eFGOzM4XJy2AyyYBqwbrm1xwkrkc4KrhTz82YSJBVfp7ROKj3BU1ENwFbVFuAamddu57ESnb3fVxLby9T7RYcENjId+k3F6Ov0MM6radH6a3w40hyYKBKbqopfajg9EBCputGSG4A8j+M/B/VPyHsn/K17zDLVkAXTJ88LPsCXDuJL7UolPOj/pQTrf6Ly/9ujpTOETUjptFzf9BHbsuw8LOjPqwE+oNieyTh0Srn4HnVMZjH0QW2hfsZMsd0833In+d/1y6n1thTAAocWFghECQEDVKNOtLsnlNYfriav8chjvrtL3fVPPor1k5Z1xAC3SfpGAVBkP9ia2MAE36ApR9sfbdJuGRQkddoS+1VG00ZhpQJAkyVhY/AiqcQG4T41nkONVtvhnQdNUcy70UAF2TAyrTQFN9Uw0V7TGJZjUOeL6RATCKuNOR6ivM5O6ykbetsNfNIV+rb0wpvGM3E8IL4aeINU2OQr+z2SqhXb7X5SgsBv8bZi7c7aLbd8=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(136003)(366004)(39850400004)(396003)(8936002)(83380400001)(33656002)(26005)(9686003)(478600001)(110136005)(4326008)(7696005)(66476007)(66556008)(52536014)(54906003)(76116006)(2906002)(66946007)(66446008)(64756008)(55016002)(186003)(38100700001)(6506007)(5660300002)(316002)(71200400001)(8676002)(53546011)(86362001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?SVZENFdTY1hUT2FwdGhJVXJaNzY3RWQxeERob3V2NE9Bdkx0dnJET0dDN3Bz?=
- =?utf-8?B?elZBL1MvYWdRdHRFZ1FPK05OTlRadUxlRUJTNUlsZHllUnhYbkRHK243azJE?=
- =?utf-8?B?ZkhTcWMzTjZUMkJOelk0S1V4ZitxTjVnUytTWUxjRFozSFA5eUZkdmVCWDV4?=
- =?utf-8?B?MWRKQVZoTldIbE0zb2hQdGNaRXdKRnRhM0hRcVcvcTVPV0xGaFFIS0xUQ0hO?=
- =?utf-8?B?MjNjY2VqK3NEbE0zdElNbGZ3Ujh4OC8rMnQ5RXh0S3hHTUpWSC8ybVFKTEZm?=
- =?utf-8?B?bzNZTHAzeW1nOTAvbjJ6NjRnRHkwajRsVDlSekJBQkFOYkd2NXJWZkRjRjlF?=
- =?utf-8?B?Znpjczk5NGc1U0hwZ1VweVN3RnBRR3R0UHkwK2hDdE9GTlRYMGpRcU9aK1px?=
- =?utf-8?B?ZjdtbVUzUHM2c2x0R1k4c3plTmtkcGs1WjFubFEwWE5UcnpLYlNBOXNva2xz?=
- =?utf-8?B?WjBEQStTU0V3ME4vUWdkcSs2bW1Eb2tUZjRqbUJiSzFzN2ZzN2lWQTdYS0lW?=
- =?utf-8?B?ZDBraFBtSjZ1OFRiOThmdGN3SjVoTVNEcWUydEpZUUkyb1I0Y1NZVjAwOFY1?=
- =?utf-8?B?Y2hqUmVkQWxya3NGdWRJTk10T2dFWmdyRnQwbW0rN2hmRE1ZR2pPQzlKT01U?=
- =?utf-8?B?UU51R1dKaHE0cFlZWHphU0xUYUkwR1ZySW1vVTlYaHpmNGZKZXlISWxYSXlJ?=
- =?utf-8?B?UkxUYmQ3dlkveTZ6SndQSzMvdDR1d1FLaHhRZCtYVzNBN1FIRDlTVUZGMXVE?=
- =?utf-8?B?RWlTTU5keVJJbHp2bVNUNGFjWlhuVnQreGJBdnNpWDdMZVlON0Q5SUk3aDVk?=
- =?utf-8?B?Um1VYkdMOWJMdEp4LytnUzBYNXl5TjFzUG5ocG1vWmJneEFqeXVHZGNnbEYy?=
- =?utf-8?B?V05jQ3RhRWVWNlVveTVBU09ETWJEVEF1anhUNGFXNE9ETVRXbG9DaDB1NTFn?=
- =?utf-8?B?Y2VaNFZ1OFBRNlUxOVpTM3hFdW1sTXlFcUhFYUtyUHhlQnJkM0lUOWlkczdY?=
- =?utf-8?B?c0Y4QVRpUnNMTFMyRzI3QnlPaERKSzBBcUFOWkhQeFZlUm1SQlZrV25vWjFN?=
- =?utf-8?B?Z1dIdTFKSUp2T3I0anVtSTdQZ1BNRHFaMWVxdlllbXh5WXRJNGVmSldFRWd5?=
- =?utf-8?B?dlc4RDZHbTNnREYvSVZtdERrUzRmMnhxV0pYcEJ5OVpLN0JXT0V0MVVZZndM?=
- =?utf-8?B?RzFrNFBhMDc5RkJwQUJmczRCUVVxSS9NNkhkUW95TUs1a3F4Zk41L05rT1Jy?=
- =?utf-8?B?Snk1Y2hmWlVpdSsvNUxXTEZmSXEwVTk1clZqdzdIaFVWWkxpNmVtc0RYQ2dF?=
- =?utf-8?B?eXV6R2dSdTJtUG8ydjFvRml3eHVHbHVpQURXVkZyV295RlIvbkVldWtKYXlw?=
- =?utf-8?B?d0E4ek4rQ2ZyZ2xETTF1d2loaklGV2F6aE1pZGdrclJsdUtnK2NRdTg5OEhR?=
- =?utf-8?B?dTRTYzRkUUpUa0xnLzl2ZHMvVW9qdDNOTzNZaW5BLy94SmFjaHlEUzllL2Zk?=
- =?utf-8?B?aHFnQzJ3TnZEQyszMWJ3dnRLRVlMY1dWd3Q3K2kxaE9GSEJERVE3TzM1UGFS?=
- =?utf-8?B?eCt4OHVmbEp5dXRRTEhaaFUrSFo3cDZlclU3dTFoUWx4S0dYb3ZTS2dBVVBF?=
- =?utf-8?B?dzUwQkFVUi9SRzY5Ukt5b1VjT3FVSEVjUmhkNnZOSkVRelJiM2VLUnZTcmpG?=
- =?utf-8?B?TGl4dWN4L0lrZWhpOGIyRXRvMHJuSXVXbDZYeHM3OUJoMExhY2wweFczUDZX?=
- =?utf-8?Q?NkH92cwPX9Xjfl48mcICHU/4QwmJOM11uUQQUt9?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1354418AbhDGQ5L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 12:57:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23097 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1354421AbhDGQ5J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Apr 2021 12:57:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617814619;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=84pa1HvUTGdh6/hpUONI0z4OQ3atAIhX+iUH4vkqrWs=;
+        b=cozJH0u15AKsV7M/zmAC9ZPOM5vNa4JgYD1NDmIXtMIZR1iwQcVqO0jwbY7dBIGV4Fqaha
+        RI7koIow5yTjgwXrGtzGIlXDscvB1mo0vqC+Lg3LEXp18IdZRmPnf2q1b+aFTOLrQUPwWi
+        5exaeZRCYeSK1I0Cd3TGQL3L6G54K3A=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-biQin64KPUeZSFR0tkq76Q-1; Wed, 07 Apr 2021 12:56:54 -0400
+X-MC-Unique: biQin64KPUeZSFR0tkq76Q-1
+Received: by mail-pf1-f200.google.com with SMTP id j18so3161781pfn.18
+        for <linux-usb@vger.kernel.org>; Wed, 07 Apr 2021 09:56:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=84pa1HvUTGdh6/hpUONI0z4OQ3atAIhX+iUH4vkqrWs=;
+        b=Bf/Wgq+DWAPVGzV9rhqPKHeSjrNz9QoqHHQpnc3pptOvp6m4AxtOazROcc9CX55S2M
+         Exg8B+9TzUec3LFgm4avzoNsSHscaaqWHjPb0XW3DWpeRbe/56W9+2SisTAw/fNdQ/zY
+         ip4G0O+/ff+elHHQO4Hg75WFLU0pidyQtBHpgLj2+RGYu8IeLLPvmgy/bb9TwdEBHacK
+         zQXN8Pe9zlDcmD/7dTqmchfNMTVHWAoT2K693EabDn5mZuN8/AMv818qFm6BZLOGl+SY
+         1xMSOCVlnC7IeYff0dwkK/SrRpkvSxuAUFtkGMl4sCP30UIIY7qk5vEFn/hn4zli9juY
+         FlEw==
+X-Gm-Message-State: AOAM532oo0WMU8CMdTbXnz5+x941K3+Bk66pvzfvDe+m2XmslvuaBC1o
+        iU1/bs5tzmXju041wMP4BNarBZG4KPa2/8AsmPhp1eTnLHKaBODv+84OLOg2+fKn/fPfaCu96A7
+        rSTBJdCCZHBLEdD+yl0MPn4Zra20EnPIT0RWq
+X-Received: by 2002:a65:6881:: with SMTP id e1mr4248954pgt.147.1617814613434;
+        Wed, 07 Apr 2021 09:56:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyx98k9H/YT9dpeZJC8wWkahRBQ2regNea2V8x7a8NKVUZWNGQLYWWHNVbHaypJVRA8LM26YNJhsCcE7MVs8wM=
+X-Received: by 2002:a65:6881:: with SMTP id e1mr4248931pgt.147.1617814613117;
+ Wed, 07 Apr 2021 09:56:53 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4134.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8dfcb39-0e8b-4d0d-4c07-08d8f9df6aee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2021 16:08:43.9273
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Z8O2Vs4fLwSLh/L9jDYQ1QPEVx/CXKHuHpShZwECKjHDWfg7R9jZL17/OgpOBvehJowV4aBcha63RYYcoFDYgi15FCD0fsNMM+n2C84cne4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3028
+References: <20210326143458.508959-1-lee.jones@linaro.org> <20210326143458.508959-8-lee.jones@linaro.org>
+In-Reply-To: <20210326143458.508959-8-lee.jones@linaro.org>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 7 Apr 2021 18:56:42 +0200
+Message-ID: <CAO-hwJLD9bUJAx6E4HF9VGu20Ddyo=ZyZ=DdSWj__Gp9rG486w@mail.gmail.com>
+Subject: Re: [PATCH 06/25] HID: usbhid: Repair a formatting issue in a struct description
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>, message to <vojtech@ucw.cz>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gMDYgQXByaWwgMjAyMSAwMjozNywgQmFkaHJpIEphZ2FuIFNyaWRoYXJhbiB3cm90ZToNCg0K
-PiBwb3dlcl9zdXBwbHlfY2hhbmdlZCBuZWVkcyB0byBiZSBjYWxsZWQgdG8gbm90aWZ5IGNsaWVu
-dHMNCj4gYWZ0ZXIgdGhlIHBhcnRuZXIgYWNjZXB0cyB0aGUgcmVxdWVzdGVkIHZhbHVlcyBmb3Ig
-dGhlIHBwcw0KPiBjYXNlLg0KPiANCj4gRml4ZXM6IGYyYThhYTA1M2MxNzYgKCJ0eXBlYzogdGNw
-bTogUmVwcmVzZW50IHNvdXJjZSBzdXBwbHkgdGhyb3VnaA0KPiBwb3dlcl9zdXBwbHkiKQ0KPiBT
-aWduZWQtb2ZmLWJ5OiBCYWRocmkgSmFnYW4gU3JpZGhhcmFuIDxiYWRocmlAZ29vZ2xlLmNvbT4N
-Cj4gLS0tDQoNCk1pc3NpbmcgY29tbWl0IGluZm9ybWF0aW9uIGFzaWRlOg0KDQpSZXZpZXdlZC1i
-eTogQWRhbSBUaG9tc29uIDxBZGFtLlRob21zb24uT3BlbnNvdXJjZUBkaWFzZW1pLmNvbT4NCg0K
-PiAgZHJpdmVycy91c2IvdHlwZWMvdGNwbS90Y3BtLmMgfCA0ICstLS0NCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYyBiL2RyaXZlcnMvdXNiL3R5cGVjL3RjcG0vdGNw
-bS5jDQo+IGluZGV4IGQ0Mzc3NGNjMmNjZi4uNzcwOGIwMTAwOWNiIDEwMDY0NA0KPiAtLS0gYS9k
-cml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYw0KPiArKysgYi9kcml2ZXJzL3VzYi90eXBlYy90
-Y3BtL3RjcG0uYw0KPiBAQCAtMjU2NCw2ICsyNTY0LDcgQEAgc3RhdGljIHZvaWQgdGNwbV9wZF9j
-dHJsX3JlcXVlc3Qoc3RydWN0IHRjcG1fcG9ydA0KPiAqcG9ydCwNCj4gIAkJCXBvcnQtPnBwc19k
-YXRhLm1heF9jdXJyID0gcG9ydC0NCj4gPnBwc19kYXRhLnJlcV9tYXhfY3VycjsNCj4gIAkJCXBv
-cnQtPnJlcV9zdXBwbHlfdm9sdGFnZSA9IHBvcnQtDQo+ID5wcHNfZGF0YS5yZXFfb3V0X3ZvbHQ7
-DQo+ICAJCQlwb3J0LT5yZXFfY3VycmVudF9saW1pdCA9IHBvcnQtPnBwc19kYXRhLnJlcV9vcF9j
-dXJyOw0KPiArCQkJcG93ZXJfc3VwcGx5X2NoYW5nZWQocG9ydC0+cHN5KTsNCj4gIAkJCXRjcG1f
-c2V0X3N0YXRlKHBvcnQsIFNOS19UUkFOU0lUSU9OX1NJTkssIDApOw0KPiAgCQkJYnJlYWs7DQo+
-ICAJCWNhc2UgU09GVF9SRVNFVF9TRU5EOg0KPiBAQCAtMzEzMiw3ICszMTMzLDYgQEAgc3RhdGlj
-IHVuc2lnbmVkIGludCB0Y3BtX3BkX3NlbGVjdF9wcHNfYXBkbyhzdHJ1Y3QNCj4gdGNwbV9wb3J0
-ICpwb3J0KQ0KPiAgCQkJCQkJICAgICAgcG9ydC0NCj4gPnBwc19kYXRhLnJlcV9vdXRfdm9sdCkp
-Ow0KPiAgCQlwb3J0LT5wcHNfZGF0YS5yZXFfb3BfY3VyciA9IG1pbihwb3J0LT5wcHNfZGF0YS5t
-YXhfY3VyciwNCj4gIAkJCQkJCSBwb3J0LT5wcHNfZGF0YS5yZXFfb3BfY3Vycik7DQo+IC0JCXBv
-d2VyX3N1cHBseV9jaGFuZ2VkKHBvcnQtPnBzeSk7DQo+ICAJfQ0KPiANCj4gIAlyZXR1cm4gc3Jj
-X3BkbzsNCj4gQEAgLTM1NTcsOCArMzU1Nyw2IEBAIHN0YXRpYyB2b2lkIHRjcG1fcmVzZXRfcG9y
-dChzdHJ1Y3QgdGNwbV9wb3J0ICpwb3J0KQ0KPiAgCXBvcnQtPnNpbmtfY2FwX2RvbmUgPSBmYWxz
-ZTsNCj4gIAlpZiAocG9ydC0+dGNwYy0+ZW5hYmxlX2ZycykNCj4gIAkJcG9ydC0+dGNwYy0+ZW5h
-YmxlX2Zycyhwb3J0LT50Y3BjLCBmYWxzZSk7DQo+IC0NCj4gLQlwb3dlcl9zdXBwbHlfY2hhbmdl
-ZChwb3J0LT5wc3kpOw0KPiAgfQ0KPiANCj4gIHN0YXRpYyB2b2lkIHRjcG1fZGV0YWNoKHN0cnVj
-dCB0Y3BtX3BvcnQgKnBvcnQpDQo+IC0tDQo+IDIuMzEuMC4yMDguZzQwOWY4OTlmZjAtZ29vZw0K
-DQo=
+On Fri, Mar 26, 2021 at 3:35 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=1 kernel build warning(s):
+>
+>  drivers/hid/usbhid/usbkbd.c:66: warning: bad line:                 should be on
+>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: message to <vojtech@ucw.cz>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/hid/usbhid/usbkbd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/usbhid/usbkbd.c b/drivers/hid/usbhid/usbkbd.c
+> index d5b7a696a68c5..d0c640be8a885 100644
+> --- a/drivers/hid/usbhid/usbkbd.c
+> +++ b/drivers/hid/usbhid/usbkbd.c
+> @@ -63,7 +63,7 @@ static const unsigned char usb_kbd_keycode[256] = {
+>   *             new key is pressed or a key that was pressed is released.
+>   * @led:       URB for sending LEDs (e.g. numlock, ...)
+>   * @newleds:   data that will be sent with the @led URB representing which LEDs
+> -               should be on
+> + *             should be on
+
+nitpick: checkpatch complains about spaces before tabs here.
+
+I amended locally and will push the fixed version.
+
+Cheers,
+Benjamin
+
+>   * @name:      Name of the keyboard. @dev's name field points to this buffer
+>   * @phys:      Physical path of the keyboard. @dev's phys field points to this
+>   *             buffer
+> --
+> 2.27.0
+>
+
