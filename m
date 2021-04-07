@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB22C433B4
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFD6C433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4353161359
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDFD261242
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351227AbhDGKkN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49064 "EHLO mail.kernel.org"
+        id S1351207AbhDGKkP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:40:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49076 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234796AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S234888AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0CE17613A7;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2785F613C6;
         Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617791990;
-        bh=qRySowkWF1fElisa29iZUwlmVS6RoK37fkbnaScIWAE=;
+        bh=LIcRc7NYbE0x58pDWh179Yiiu/bA6nM3mAum4rSZ6K8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A48JKwTOiGeqSEIrCHamPBiNqNByhN4MfidV4sHB0ShbdXIvUihX9AM7alUujPz3r
-         93BQZtNJLobHGWm8GEj4gAO5AoUwrKJ5fkrisxO9i99MLI25id8zjkZorVzRRU7C/r
-         6bnfm8dAFOVNYEp9lYFKrQoISmMFjHOEODgmywrHlmPyR8S7S1LlDbM2QLkQvamV+F
-         fR8L5ZsmX9MS9H/MfUAhX/xv4UvqPoGoYQ5ZmT4l4oqEpal1OPET0fmLRWfI2GLLjP
-         twe+enoRkFOcPvlzL7ZsX1m8g8uFJtuuz8qC+5QtgWjzZe6dUtPSF8EiyEG95fiwNA
-         bi9DKRIJyDAZg==
+        b=NScENpAnjzvxauWoRJWyrjJrKvw+wYzXWqDX3f5vtQq7qd65bLoRtY27PEmgyAX1+
+         kJWSr0WKJzMc8Hpe7zqRxdsKiekwqQIYihWSuIeUm3LiXABFjFcEMHufg3ANwuxqc+
+         fTJhCAZJ4Y28D9Zm45aaTnm82/7zcnK0WQYOBa6hhboVXUWCfjmKVm2EAyrE+4kqGO
+         gz3HYdzOCuiel2LUGdefsYX4tQTTV66Qzs+y3BFHOnx4MYQFGBN4hFd1WzlKeKsV0R
+         5EPMQJTZV4HtVWoiYAkY+wrxaeo/tR9A5YWmjmNA3Qgo/rI8OKeY5avFEfqJoNw8NB
+         MPe2wjoMTKHhw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b4-0000Eh-Ij; Wed, 07 Apr 2021 12:39:42 +0200
+        id 1lU5b5-0000Ex-0b; Wed, 07 Apr 2021 12:39:43 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/24] USB: serial: ftdi_sio: fix TIOCGSERIAL implementation
-Date:   Wed,  7 Apr 2021 12:39:05 +0200
-Message-Id: <20210407103925.829-5-johan@kernel.org>
+Subject: [PATCH 09/24] USB: serial: opticon: fix TIOCGSERIAL implementation
+Date:   Wed,  7 Apr 2021 12:39:10 +0200
+Message-Id: <20210407103925.829-10-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -53,34 +53,42 @@ TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
 serial devices is only useful for setting the close_delay and
 closing_wait parameters.
 
-The FTDI driver is the only USB serial driver supporting the deprecated
-ASYNC_SPD flags, which are reported back as they should by TIOCGSERIAL,
-but the returned parameters did not include the line number.
+The xmit_fifo_size parameter could be used to set the hardware transmit
+fifo size of a legacy UART when it could not be detected, but the
+interface is limited to eight bits and should be left unset when not
+used.
+
+Similarly, baud_base could be used to set the UART base clock when it
+could not be detected but might as well be left unset when it is not
+known.
 
 The close_delay and closing_wait parameters returned by TIOCGSERIAL are
-specified in centiseconds. The driver does not yet support changing
-these, but let's report back the default values actually used (0.5 and
-30 seconds, respectively).
+specified in centiseconds (not jiffies). The driver does not yet support
+changing these, but let's report back the default values actually used
+(0.5 and 30 seconds, respectively).
 
+Fixes: faac64ad9c7b ("USB: serial: opticon: add serial line ioctls")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ftdi_sio.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/serial/opticon.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index c867592477c9..f8a0911f90ea 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -1483,9 +1483,13 @@ static int get_serial_info(struct tty_struct *tty,
- 	struct usb_serial_port *port = tty->driver_data;
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
- 
-+	ss->line = port->minor;
- 	ss->flags = priv->flags;
- 	ss->baud_base = priv->baud_base;
- 	ss->custom_divisor = priv->custom_divisor;
-+	ss->close_delay = 50;
-+	ss->closing_wait = 3000;
+diff --git a/drivers/usb/serial/opticon.c b/drivers/usb/serial/opticon.c
+index eecb72aef83e..1c7e5dc2c272 100644
+--- a/drivers/usb/serial/opticon.c
++++ b/drivers/usb/serial/opticon.c
+@@ -360,12 +360,9 @@ static int get_serial_info(struct tty_struct *tty,
+ 	/* fake emulate a 16550 uart to make userspace code happy */
+ 	ss->type		= PORT_16550A;
+ 	ss->line		= port->minor;
+-	ss->port		= 0;
+-	ss->irq			= 0;
+-	ss->xmit_fifo_size	= 1024;
+-	ss->baud_base		= 9600;
+-	ss->close_delay		= 5*HZ;
+-	ss->closing_wait	= 30*HZ;
++	ss->close_delay		= 50;
++	ss->closing_wait	= 3000;
 +
  	return 0;
  }
