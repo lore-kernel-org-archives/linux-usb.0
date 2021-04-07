@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2984DC433B4
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAD4C433B4
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D335F6105A
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27C75613A0
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351232AbhDGKkQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49066 "EHLO mail.kernel.org"
+        id S1351239AbhDGKkR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:40:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49106 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234868AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1351092AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 19B2C613B8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E5D4613E1;
         Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617791990;
-        bh=nEsXEXQJxRf/84Q7AHuwDjFlmGoeWC6cQeEgYeaswuk=;
+        bh=J7A9LOi+J2merRNWLKmFzr4cbMWHH3iYqNceVJSnJbc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EWyfL2CwR8MCQShWHCS0Ls+RpVAAlwlJyuaU/OHihgmErttfSEZfZ+V3XW+xX2Jyl
-         Cuha0b1oMt4+/UM7Kn0LflyUNrcWjuK9rCoVEJ9xnKSq74glJ7rdSReV51P52gFxfN
-         srlKvvrzi8yanO/uWope0K5YSFLt67FkcBcsfjktXrew2cdtpnLoqGV8Jcmlar8Moq
-         iIDLTxGhJ+DRNDlavUDzpV09bT67P1iwt6Vk2KBi700ILYEZBO4ybE0aKDvS5MlXk9
-         Gm0auu8c+NtoWsn2lsyaK+JapC/pe3n5P51Qf3uk7LwxMX3zp2mCV95ap338ntLwxx
-         gF+xBibWyLmsQ==
+        b=cy3jl1yNwqSfbBcwnF2F6zTzde5lBZ+TFvnHo73GkTrPVwlqvJGVfmNZug0gDqROG
+         cAhkH35c/6AzOMz0i8O4493vCDLrDho0gUS08Su3b2+JKrvaEyBMFKRJvJD5pA6irB
+         AqD3v71C5KPoBmmhALTaFx2nvwssg9uYAlZBVSFul75T1eDwT4LUbtUeW5536e/QYr
+         2QIpurNE6JhyrDkm7axabUx85qlPII99QTrjbnWSXXytJoMYr8+0uKVZzWS/T/5yKs
+         JbgNHc8MNXdbaELGd2hU2zhN+QoOs/SOCxb/oYpFug036KZTtx/Rrni7xRC5VO6Xw2
+         3xUqKFftWnT1A==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b4-0000Eu-Te; Wed, 07 Apr 2021 12:39:42 +0200
+        id 1lU5b5-0000F9-Cr; Wed, 07 Apr 2021 12:39:43 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/24] USB: serial: mos7840: fix TIOCGSERIAL implementation
-Date:   Wed,  7 Apr 2021 12:39:09 +0200
-Message-Id: <20210407103925.829-9-johan@kernel.org>
+Subject: [PATCH 13/24] USB: serial: ti_usb_3410_5052: fix TIOCGSERIAL implementation
+Date:   Wed,  7 Apr 2021 12:39:14 +0200
+Message-Id: <20210407103925.829-14-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -61,42 +61,29 @@ fifo size of a legacy UART when it could not be detected, but the
 interface is limited to eight bits and should be left unset when not
 used.
 
-Similarly, baud_base could be used to set the UART base clock when it
-could not be detected but might as well be left unset when it is not
-known.
-
 The close_delay and closing_wait parameters returned by TIOCGSERIAL are
-specified in centiseconds (not jiffies). The driver does not yet support
-changing these, but let's report back the default values actually used
-(0.5 and 30 seconds, respectively).
+specified in centiseconds. The driver does not yet support changing
+close_delay, but let's report back the default value actually used (0.5
+seconds).
 
-Fixes: 3f5429746d91 ("USB: Moschip 7840 USB-Serial Driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/mos7840.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/usb/serial/ti_usb_3410_5052.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
-index 1bf0d066f55a..77cbe18a1629 100644
---- a/drivers/usb/serial/mos7840.c
-+++ b/drivers/usb/serial/mos7840.c
-@@ -1392,16 +1392,12 @@ static int mos7840_get_serial_info(struct tty_struct *tty,
- 				   struct serial_struct *ss)
- {
- 	struct usb_serial_port *port = tty->driver_data;
--	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+diff --git a/drivers/usb/serial/ti_usb_3410_5052.c b/drivers/usb/serial/ti_usb_3410_5052.c
+index 7252b0ce75a6..4b497c1e850b 100644
+--- a/drivers/usb/serial/ti_usb_3410_5052.c
++++ b/drivers/usb/serial/ti_usb_3410_5052.c
+@@ -1406,10 +1406,10 @@ static int ti_get_serial_info(struct tty_struct *tty,
  
  	ss->type = PORT_16550A;
--	ss->line = mos7840_port->port->minor;
--	ss->port = mos7840_port->port->port_number;
--	ss->irq = 0;
--	ss->xmit_fifo_size = NUM_URBS * URB_TRANSFER_BUFFER_SIZE;
--	ss->baud_base = 9600;
--	ss->close_delay = 5 * HZ;
--	ss->closing_wait = 30 * HZ;
-+	ss->line = port->minor;
+ 	ss->line = port->minor;
+-	ss->port = port->port_number;
+-	ss->xmit_fifo_size = kfifo_size(&port->write_fifo);
+ 	ss->baud_base = tport->tp_tdev->td_is_3410 ? 921600 : 460800;
 +	ss->close_delay = 50;
-+	ss->closing_wait = 3000;
+ 	ss->closing_wait = cwait;
 +
  	return 0;
  }
