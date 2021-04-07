@@ -4,43 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B208C43460
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE0EDC433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31A1A613A3
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F01E6105A
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351241AbhDGKkU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1351243AbhDGKkU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 7 Apr 2021 06:40:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49108 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:49096 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351153AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S244114AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A57D613E2;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B4CF613DF;
         Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617791990;
-        bh=aSQemZUT4zjOWvpySanyr/JtoPh/9pFqMpRYNW1g5ew=;
+        bh=sNeOBPVqsjxF0gDECWn/9gulNwkDtwDce1h8BbPrewQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KrOgWjQyeCtVl7RHFlhbV+iUBd+DaORmBnFQQbyOuxLqcj41aZ0pMz2a66+P3BYNM
-         HATpjH8Gz0B3koUr6QN6Hl1c8co67YQg3IrRw2hX9EvdNILy40U8Xb6etYaiQqQQLG
-         VY8aLFkCCB0v681wV0Z4IRDTC0FvNnJwrHGLZv/9U8LX5Cs4AS749iBtJy7A4KE2BW
-         MpsQ1itSXQruJGnk+i612zRXb8hq+N8bFcGMml98soJ6J7yTYjkEqptT93ZK/JaIed
-         EiAj4pQwD5r8bynaL5qc4zwY+evrr8Hxp6nai07IY8kQc+OkYfyZTKypKl9XxcDuNQ
-         PI07T2VRzy0/g==
+        b=DLjk8w3xPIhjVmdzQnyX6yScGs+rVR1KZLTEHn50yX1kvuz6FaRX+5RnC1LuvOike
+         LSFjowa3IEvzOwlM1nHFIjkd99fqN8cmqBfXlMagHLdnUwBJVDPcSUW2KTkprG6Ydz
+         KnPHOpPgdIZOjYapg1qwVq13nqXoAYCqn/UqR1ND/eCDwk5I1ZNYu2AZ7n9+6pR9V0
+         8Rw/W85lg+BCwVgBhLxy3Uc/m9Y0iLS4O59qe8y4HnzV2GMjBqoHaLQcmvaUUvYzt9
+         rJP++xO8XYYiTDXnQ37K40clFpCYkXuFawEpDOCuO5h7zS3QpZM2hKE7CvS/ERLuim
+         YCECRaosz2WGA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b5-0000FC-Fk; Wed, 07 Apr 2021 12:39:43 +0200
+        id 1lU5b5-0000F6-9z; Wed, 07 Apr 2021 12:39:43 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH 14/24] USB: serial: ti_usb_3410_5052: fix TIOCSSERIAL permission check
-Date:   Wed,  7 Apr 2021 12:39:15 +0200
-Message-Id: <20210407103925.829-15-johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 12/24] USB: serial: ssu100: fix TIOCGSERIAL implementation
+Date:   Wed,  7 Apr 2021 12:39:13 +0200
+Message-Id: <20210407103925.829-13-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -50,41 +49,50 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changing the port closing-wait parameter is a privileged operation so
-make sure to return -EPERM if a regular user tries to change it.
+TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
+serial devices is only useful for setting the close_delay and
+closing_wait parameters.
 
-Cc: stable@vger.kernel.org
+The xmit_fifo_size parameter could be used to set the hardware transmit
+fifo size of a legacy UART when it could not be detected, but the
+interface is limited to eight bits and should be left unset when not
+used.
+
+Similarly, baud_base could be used to set the UART base clock when it
+could not be detected but might as well be left unset when it is not
+known.
+
+The close_delay and closing_wait parameters returned by TIOCGSERIAL are
+specified in centiseconds (not jiffies). The driver does not yet support
+changing these, but let's report back the default values actually used
+(0.5 and 30 seconds, respectively).
+
+Fixes: 52af95459939 ("USB: add USB serial ssu100 driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ti_usb_3410_5052.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/usb/serial/ssu100.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/serial/ti_usb_3410_5052.c b/drivers/usb/serial/ti_usb_3410_5052.c
-index 4b497c1e850b..bb50098a0ce6 100644
---- a/drivers/usb/serial/ti_usb_3410_5052.c
-+++ b/drivers/usb/serial/ti_usb_3410_5052.c
-@@ -1418,14 +1418,19 @@ static int ti_set_serial_info(struct tty_struct *tty,
- 	struct serial_struct *ss)
- {
+diff --git a/drivers/usb/serial/ssu100.c b/drivers/usb/serial/ssu100.c
+index 89fdc5c19285..c4616c37f33f 100644
+--- a/drivers/usb/serial/ssu100.c
++++ b/drivers/usb/serial/ssu100.c
+@@ -337,12 +337,9 @@ static int get_serial_info(struct tty_struct *tty,
  	struct usb_serial_port *port = tty->driver_data;
--	struct ti_port *tport = usb_get_serial_port_data(port);
-+	struct tty_port *tport = &port->port;
- 	unsigned cwait;
  
- 	cwait = ss->closing_wait;
- 	if (cwait != ASYNC_CLOSING_WAIT_NONE)
- 		cwait = msecs_to_jiffies(10 * ss->closing_wait);
- 
--	tport->tp_port->port.closing_wait = cwait;
-+	if (!capable(CAP_SYS_ADMIN)) {
-+		if (cwait != tport->closing_wait)
-+			return -EPERM;
-+	}
+ 	ss->line		= port->minor;
+-	ss->port		= 0;
+-	ss->irq			= 0;
+-	ss->xmit_fifo_size	= port->bulk_out_size;
+-	ss->baud_base		= 9600;
+-	ss->close_delay		= 5*HZ;
+-	ss->closing_wait	= 30*HZ;
++	ss->close_delay		= 50;
++	ss->closing_wait	= 3000;
 +
-+	tport->closing_wait = cwait;
- 
  	return 0;
  }
+ 
 -- 
 2.26.3
 
