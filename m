@@ -2,158 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE6C0C43470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2118AC43617
 	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:09:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F12A610E8
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:09:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED0DB61260
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 16:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236541AbhDGQJ4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 12:09:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50239 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1354329AbhDGQJt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Apr 2021 12:09:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617811776;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GIdD8KXpZXildX/JzoGMDWLdi24taALA9x3SDqt6Iik=;
-        b=ZvWEMeslR1E+khlqfNhBwhO+Zqwx0VCh3Fs1X0HAEz693HMNV8tj7KfGFi8DDunZMlh5Jp
-        DJylOTRh4v+Z0mDUF2sqp93c82nh9snkPY4awEeA48CySxS/aI+Xh8dhDZQyiIfebu0PA5
-        Qdlp/DIjXh8UvgZrw5WfrxuHfi7pFOA=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-I6J1izo3P-qyxmTfWT7F9Q-1; Wed, 07 Apr 2021 12:09:34 -0400
-X-MC-Unique: I6J1izo3P-qyxmTfWT7F9Q-1
-Received: by mail-pj1-f71.google.com with SMTP id hi14so2964030pjb.1
-        for <linux-usb@vger.kernel.org>; Wed, 07 Apr 2021 09:09:34 -0700 (PDT)
+        id S234841AbhDGQJz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 12:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236541AbhDGQJA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Apr 2021 12:09:00 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B4B7C06175F
+        for <linux-usb@vger.kernel.org>; Wed,  7 Apr 2021 09:08:20 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id qo10so18196775ejb.6
+        for <linux-usb@vger.kernel.org>; Wed, 07 Apr 2021 09:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=hrg41gQkrUgfP3PYFdvbHCDr3ftIh62DD1TSpXqszXg=;
+        b=C03pPUaQIHl4xQmQXzQbsln/659VCLrMjQb42DmSu5MqoopADXOIxrycsb2F0ol1eq
+         X5clORo99GUNGwAybryEFN085tlF9XyPLzc/bBBIJmEwNR1kW4L3rV3UzOEM12Zk86RL
+         7mLwPxc/zVQuorWG+SzfdKxGJcQEQwnJbYQCyJz9AxGJE7TQaFcZzF6cj2/iVodPTtXz
+         XdjbdKT92Z9EgyYDDDgCWbHun47Wvhuxgul/OE6m2hayNQrwcIYjvcuES5zRTheNzAi6
+         LuJhbqetXfCCXdFzHvOvbaL3K8+bJ6Avn0w+zy40X08AazOwNqGm+lF8AQg4LJZA2Yf3
+         eUow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GIdD8KXpZXildX/JzoGMDWLdi24taALA9x3SDqt6Iik=;
-        b=m8NEnPHqKBESWIx/8h7kXKH1kGQtzvL79jRcCyE2Mh4bYvQX7Co2NoI47x0bRQVMwH
-         J5R4R8l+SGg3GjQzBo74s1k7mjXn7udziiqz5NshRMo4aARCzOZ9T1XXUlWzH4px2ibs
-         lGkraswVldD8qfNp9M4EvrKdSlFT+O+yxXLnLefdKfN6F+mizlNYJBU/aWoCiYNnmZH4
-         RRVIjYeAbG25rXKCu0yj4JHltnYC26PjlVgzEGrRp8CkWh7hBXEK1uFuHmzogvA26Rxi
-         H3xQR9bc4mf/d7V84pHCD7opPYZEk9MnNzexdgzlMSWaLTKaufN6xHBYsl8CgiIiT37r
-         YCFQ==
-X-Gm-Message-State: AOAM531gVoye9abFgbjvboydCmC3fQpPpkYgjjAAtC+pFvOhcGB8XCzI
-        Wm5XlN7AGP2QHMsu3tF5TkgIGyR5ySEKEu0qr4r0kxLoQ24dH5/OkejSRG8It8OHTf4LRVUy5SM
-        EzjnSlVy27pgn8WOF9gfVaC8WVuW3WYfH3P2u
-X-Received: by 2002:a17:90a:9f0b:: with SMTP id n11mr4041304pjp.56.1617811773506;
-        Wed, 07 Apr 2021 09:09:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQ/h+B/6MXT+kwdnrI/eZUAdaTH42xPX4Fl95aBz/l50kJXCNcNQsRWwTSkwUMdm87PUkq3Q6JFENBMcJAE68=
-X-Received: by 2002:a17:90a:9f0b:: with SMTP id n11mr4041274pjp.56.1617811773205;
- Wed, 07 Apr 2021 09:09:33 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=hrg41gQkrUgfP3PYFdvbHCDr3ftIh62DD1TSpXqszXg=;
+        b=ksD96qwD+QCBvJFv4lPxX2y4zHZSJF0RTZUT1X/ZryhmI34RxrUbJFw7Q+dg1yzBue
+         wu3Mo6lyVJ9VKjOm6jugA7shI4KvMrpBbGqJMOKqbiYbhBDM/hEdmjNUqhdtRTL6qlSF
+         6ear8lseSxXvaN1PUv7xhNAtbbMa6y3rwKvUjCWs0W7II9pQFdGq//h5V/0U4gBVYWGS
+         oI2tlFKYHLPAqUJ61HFHXTyzwHOlGIPBw8QgQQWH5FYAT+i536OoAzwc2flUBDuJd2RC
+         4pJDoZoJMlcs4jHJG5KHhaR6UUK+mqOamBrOFLrBRti7xrfk8w2VVrTcd1YuAAqG3ru5
+         NahQ==
+X-Gm-Message-State: AOAM5307VIeZZ9thao0Sa2xlzM53uempP0rP8/QbNH7VrUT3ge8hgYzp
+        ELgLyL56fRYCy6FAkwrQEYCYw6koBtWcfg==
+X-Google-Smtp-Source: ABdhPJxSYwyGpJ4HMF65aM+IrgLibtT1D1uiYBY9arWEcG+rF7IPsygxbMN5TMAzke7IFHm106WqzA==
+X-Received: by 2002:a17:906:a51:: with SMTP id x17mr4609469ejf.25.1617811698842;
+        Wed, 07 Apr 2021 09:08:18 -0700 (PDT)
+Received: from ?IPv6:2001:981:6fec:1:221b:f673:e91:2500? ([2001:981:6fec:1:221b:f673:e91:2500])
+        by smtp.gmail.com with ESMTPSA id o6sm15500177edw.24.2021.04.07.09.08.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 09:08:18 -0700 (PDT)
+Subject: Re: USB network gadget / DWC3 issue
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        USB <linux-usb@vger.kernel.org>
+References: <CAHp75VeERhaPGAZc0HVs4fcDKXs+THc=_LFq_iEhWAR8vvURjw@mail.gmail.com>
+ <87pmzgk44r.fsf@kernel.org> <b4763ebe-c0ff-2d24-5385-1a1587603280@gmail.com>
+ <1f8ed83c-b2e5-327c-30da-56865e2b956b@gmail.com>
+ <fd8d9a8a-8f57-6559-2053-4607b9da13ab@gmail.com>
+ <797f97b8-6558-35c4-2dc5-9deacdf0ba4d@synopsys.com>
+ <ff57b956-a777-3dd6-80ca-4e9afd33ab96@gmail.com>
+ <6b3a28eb-7809-d319-d58d-520c1c7fa5d2@synopsys.com>
+ <4a0869c9-6b71-5acd-e670-e4c06b44d62d@gmail.com>
+ <5d8459ae-4a4c-7371-6b0a-ed817e898168@gmail.com>
+ <7963d464-44c1-f580-398c-775c694664cb@gmail.com>
+ <f24b6e66-1fdc-06f0-97b4-f2a9be3eef6b@synopsys.com>
+ <e50114a1-f7d3-ad62-fe6d-6b8bb2b1203f@synopsys.com>
+ <CAHp75Vf+3aeq8kb2oOO-qjC5jOE7ZWUgs2=MOa4mseOG08c+vA@mail.gmail.com>
+From:   Ferry Toth <fntoth@gmail.com>
+Message-ID: <8eac7e37-d0ab-010b-7a2f-6c3c67083f79@gmail.com>
+Date:   Wed, 7 Apr 2021 18:08:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210326143458.508959-1-lee.jones@linaro.org> <20210406085605.GS2916463@dell>
-In-Reply-To: <20210406085605.GS2916463@dell>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 7 Apr 2021 18:09:22 +0200
-Message-ID: <CAO-hwJ+5Vd6jC2+0pfHLOw3opdXzKoc9pUWzxmBVhSvQvNWMsQ@mail.gmail.com>
-Subject: Re: [RESEND 00/25] Rid W=1 warnings from HID
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Anssi Hannula <anssi.hannula@gmail.com>,
-        =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Drubin <daniel.drubin@intel.com>,
-        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
-        linaro-mm-sig@lists.linaro.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        Lopez Casado <nlopezcasad@logitech.com>,
-        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
-        Masaki Ota <masaki.ota@jp.alps.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        message to <vojtech@ucw.cz>,
-        Michael Haboustak <mike-@cinci.rr.com>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>,
-        Vojtech Pavlik <vojtech@suse.cz>,
-        Zhang Lixu <lixu.zhang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAHp75Vf+3aeq8kb2oOO-qjC5jOE7ZWUgs2=MOa4mseOG08c+vA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 6, 2021 at 10:56 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> On Fri, 26 Mar 2021, Lee Jones wrote:
->
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
-> >
-> > Lee Jones (25):
-> >   HID: intel-ish-hid: Remove unused variable 'err'
-> >   HID: ishtp-hid-client: Move variable to where it's actually used
-> >   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
-> >   HID: intel-ish: Supply some missing param descriptions
-> >   HID: intel-ish: Fix a naming disparity and a formatting error
-> >   HID: usbhid: Repair a formatting issue in a struct description
-> >   HID: intel-ish-hid: Fix a little doc-rot
-> >   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
-> >   HID: hid-alps: Correct struct misnaming
-> >   HID: intel-ish-hid: Fix potential copy/paste error
-> >   HID: hid-core: Fix incorrect function name in header
-> >   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
-> >     header
-> >   HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
-> >   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
-> >   HID: hid-picolcd_core: Remove unused variable 'ret'
-> >   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
-> >     abuses
-> >   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
-> >   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
-> >   HID: hid-uclogic-params: Ensure function names are present and correct
-> >     in kernel-doc headers
-> >   HID: hid-sensor-custom: Remove unused variable 'ret'
-> >   HID: wacom_sys: Demote kernel-doc abuse
-> >   HID: hid-sensor-hub: Remove unused struct member 'quirks'
-> >   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
-> >     definition
-> >   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
-> >   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
->
-> These have been on the list for a couple of weeks now.
->
-> Is there anything I can do to help expedite their merge?
->
-> I'm concerned since -rc6 has just been released.
+Hi,
 
-Sorry for the delay.
+Op 07-04-2021 om 15:34 schreef Andy Shevchenko:
+> On Wed, Apr 7, 2021 at 3:24 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+>> Thinh Nguyen wrote:
+> ...
+>
+>>> I took a look at the "bad" and "normal" tracepoints. There are a few
+>>> 1-second delays where the host tried to bring the device back and
+>>> resume from low power:
+>>>
+>>>       ksoftirqd/0-10      [000] d.s.   231.501808: dwc3_gadget_ep_cmd: ep3in: cmd 'Update Transfer' [60007] params 00000000 00000000 00000000 --> status: Successful
+>>>       ksoftirqd/0-10      [000] d.s.   231.501809: dwc3_readl: addr 00000000d68ecd36 value 0000a610
+>>>       ksoftirqd/0-10      [000] d.s.   231.501810: dwc3_writel: addr 00000000d68ecd36 value 0000a710
+>>>            <idle>-0       [000] d.h.   232.499418: dwc3_readl: addr 00000000a15e0e35 value 00000034
+>>>            <idle>-0       [000] d.h.   232.499423: dwc3_readl: addr 00000000bb67b585 value 00001000
+>>>            <idle>-0       [000] d.h.   232.499425: dwc3_writel: addr 00000000bb67b585 value 80001000
+>>>            <idle>-0       [000] d.h.   232.499427: dwc3_writel: addr 00000000a15e0e35 value 00000034
+>>>       irq/15-dwc3-476     [000] d...   232.499480: dwc3_event: event (00000401): WakeUp [U0]
+>>>       irq/15-dwc3-476     [000] d...   232.499492: dwc3_event: event (00000401): WakeUp [U0]
+>>>       irq/15-dwc3-476     [000] d...   232.499496: dwc3_event: event (00006088): ep2out: Transfer In Progress [0] (SIm)
+>>>       irq/15-dwc3-476     [000] d...   232.499501: dwc3_complete_trb: ep2out: trb 00000000c7ce524e (E179:D170) buf 0000000008273540 size 1463 ctrl 00000818 (hlcS:sC:normal)
+>>>       irq/15-dwc3-476     [000] d...   232.499518: dwc3_gadget_giveback: ep2out: req 0000000012e296cf length 73/1536 zsI ==> 0
+>>>       irq/15-dwc3-476     [000] d...   232.499562: dwc3_ep_queue: ep2out: req 0000000012e296cf length 0/1536 zsI ==> -115
+>>>       irq/15-dwc3-476     [000] d...   232.499601: dwc3_prepare_trb: ep2out: trb 000000008c083777 (E180:D170) buf 0000000002a7e9c0 size 1536 ctrl 00000819 (HlcS:sC:normal)
+>>>
+>>>
+>>> Your device is operating in highspeed right? Try to turn off LPM from
+>>> host and see if that helps with the speed throttling issue. (If you're
+>>> using xHCI host, then set XHCI_HW_LPM_DISABLE). It may also help with
+>>> the connection issue you saw.
+>>>
+>>> It seems to be an issue from host, but I can't tell for sure unless we
+>>> have some USB traffic analyzer that shows what's going on. Have you
+>>> tried different hosts?
+>>>
+>> You can also disable LPM from the gadget side by setting
+>> dwc->dis_enblslpm_quirk.
+> Ferry, it can be done by adding a corresponding property to the
+> dwc3-pci.c for Intel Merrifield platform. I'll check also for my case
+> and perhaps I can collect some traces in my case later on when I have
+> more time for that.
+>
+Thanks guys. Indeed is xHCI on the host side. I'll try also from another 
+machine later.
 
-I am currently queuing them locally and running a few tests on them. I
-don't expect anything to happen, but better be safe than anything.
-
-FWIW, I am splitting the series in 3:
-- 11 patches for intel ish are going to be queued in for-5.13/intel-ish
-- the thrustmaster one in for-5.13/thrustmaster
-- the rest (13 patches) will be sent in for-5.13/warnings.
-
-Cheers,
-Benjamin
+I'll try adding a property and report back (but not today, is my wedding 
+day :-) )
 
