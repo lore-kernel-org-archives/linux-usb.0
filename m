@@ -7,96 +7,80 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4BD2C43460
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9352FC433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:45:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81AD4613A7
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E97F613B3
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:45:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351228AbhDGKkd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49168 "EHLO mail.kernel.org"
+        id S1351350AbhDGKp7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:45:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351166AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18AEE613AF;
-        Wed,  7 Apr 2021 10:39:51 +0000 (UTC)
+        id S1351331AbhDGKp4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:45:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB8C061242;
+        Wed,  7 Apr 2021 10:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617791991;
-        bh=SnKb6OzBjTC6SRw+aBNHZE6syiOlb1cZ4KvRGmbCCOY=;
+        s=k20201202; t=1617792346;
+        bh=5RpLl+K2zJzuTo57KUNBM+mnePq192jK+8wSyGK2u6A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CgJSDBaPERDS+6yVi2LpqPHuZm9lsQuuVbJ5Ajph0ZaZdsz5SDVuYG6uucJhVxg54
-         OLDdOx0g7zWCGr5IhDwA/Ch+8KEpoGAcgQ7V/PVZ9QfFVDfBB+Udq1KmfU0VRkXzGS
-         Q31O4TXsRLxNKRHp3FE9a93mRSU3GmO7U7/tdux5QYov3z9ULzHxKn7Db5fQQYVpHI
-         irY2rrjIpaGFBFz51twfyBPT+pqGL6d9K6DX2FnzkGNM6NSrNQJkseIvagqL+S440i
-         4sKfUnRvw/nRrQ2zGSw6MOS5GQdcEsPSJhSxHT3PpvIjQJy2SsIVTYqUIecC6zCb8Z
-         Fx3ECc+LxKEpw==
+        b=GZiVEOuxtUBWHEYZckzaCPEPhHFuYWnYOW4TGgT3OKXC/H154AQqy/e9Ib6vAOyTp
+         0qW+SOJIMkjEu5HZE+hZxP2/Z0DiiWxdbBazw9Fjg/jBsyjJ7JHrcIcjMoajW8Y8em
+         +eeZaTtRA+QN65qknjGyK403PYIMKXlboYzhmqRf2wTlXjlTmW50/iXxW+nL0lCPVO
+         9iO/vCW/pw4uZufZeJKNbSUDy3GYKPUcQSgFfnoz3tA8OPj6jlSGJjKraBDO/uKem2
+         ShAtxX3BMFMJxq/ADI9+qMWMH2rPrSgDeicPHiihns1pBkOwDchYed1Z0gh6mQPEG2
+         b9BVF6TKcNmXw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b5-0000FR-UE; Wed, 07 Apr 2021 12:39:43 +0200
+        id 1lU5gp-0000In-FW; Wed, 07 Apr 2021 12:45:39 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 19/24] USB: serial: fix return value for unsupported ioctls
-Date:   Wed,  7 Apr 2021 12:39:20 +0200
-Message-Id: <20210407103925.829-20-johan@kernel.org>
+Subject: [PATCH 2/4] USB: serial: io_ti: switch to 30-second closing wait
+Date:   Wed,  7 Apr 2021 12:45:27 +0200
+Message-Id: <20210407104529.1110-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210407103925.829-1-johan@kernel.org>
-References: <20210407103925.829-1-johan@kernel.org>
+In-Reply-To: <20210407104529.1110-1-johan@kernel.org>
+References: <20210407104529.1110-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drivers should return -ENOTTY ("Inappropriate I/O control operation")
-when an ioctl isn't supported, while -EINVAL is used for invalid
-arguments.
+Switch to using the system-wide default 30-second closing-wait timeout
+instead of the driver specific 40-second timeout.
 
-Fix up the TIOCMGET, TIOCMSET and TIOCGICOUNT helpers which returned
--EINVAL when a USB serial driver did not implement the corresponding
-methods.
+The timeout can be changed per port using TIOCSSERIAL (setserial) if
+needed.
 
-Note that the TIOCMGET and TIOCMSET helpers predate git and do not get a
-corresponding Fixes tag below.
-
-Fixes: d281da7ff6f7 ("tty: Make tiocgicount a handler")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/usb-serial.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/serial/io_ti.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-index 27e3bb58c872..c311cc4fabee 100644
---- a/drivers/usb/serial/usb-serial.c
-+++ b/drivers/usb/serial/usb-serial.c
-@@ -502,7 +502,7 @@ static int serial_tiocmget(struct tty_struct *tty)
+diff --git a/drivers/usb/serial/io_ti.c b/drivers/usb/serial/io_ti.c
+index 6eff0e5a7545..75325c2b295e 100644
+--- a/drivers/usb/serial/io_ti.c
++++ b/drivers/usb/serial/io_ti.c
+@@ -60,8 +60,6 @@
+ #define EDGE_READ_URB_STOPPING	1
+ #define EDGE_READ_URB_STOPPED	2
  
- 	if (port->serial->type->tiocmget)
- 		return port->serial->type->tiocmget(tty);
--	return -EINVAL;
-+	return -ENOTTY;
- }
+-#define EDGE_CLOSING_WAIT	4000	/* in .01 sec */
+-
  
- static int serial_tiocmset(struct tty_struct *tty,
-@@ -514,7 +514,7 @@ static int serial_tiocmset(struct tty_struct *tty,
+ /* Product information read from the Edgeport */
+ struct product_info {
+@@ -2592,7 +2590,6 @@ static int edge_port_probe(struct usb_serial_port *port)
+ 	if (ret)
+ 		goto err;
  
- 	if (port->serial->type->tiocmset)
- 		return port->serial->type->tiocmset(tty, set, clear);
--	return -EINVAL;
-+	return -ENOTTY;
- }
+-	port->port.closing_wait = msecs_to_jiffies(EDGE_CLOSING_WAIT * 10);
+ 	port->port.drain_delay = 1;
  
- static int serial_get_icount(struct tty_struct *tty,
-@@ -526,7 +526,7 @@ static int serial_get_icount(struct tty_struct *tty,
- 
- 	if (port->serial->type->get_icount)
- 		return port->serial->type->get_icount(tty, icount);
--	return -EINVAL;
-+	return -ENOTTY;
- }
- 
- /*
+ 	return 0;
 -- 
 2.26.3
 
