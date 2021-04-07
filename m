@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D302C43460
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374DDC433B4
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D242613B3
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7F39613A7
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351268AbhDGKkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49098 "EHLO mail.kernel.org"
+        id S1346850AbhDGKk1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:40:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49208 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234986AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5ACE46139C;
-        Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
+        id S1351173AbhDGKkB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:40:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F44461359;
+        Wed,  7 Apr 2021 10:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617791990;
-        bh=Ff1Ti9CXje+qOhhjNTI7wIhBjGyNTvDcual0tNsok7Y=;
+        s=k20201202; t=1617791992;
+        bh=LI3EAIik89YYWfrjfBlEy8Rou74U6p2uSQKDwYIr75A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TUFKP2pTnqkHFd2xD78eejka9SkrgatNp0DyJU0JU1elMmJ1HMRbyKr0M9tP67pQO
-         chAKookY7QMtKvIb+66Tk5gTJjR3HFJSiSfC6HYsJoAUl7HGY5IEwgenC8irE2iPRz
-         Nl55Xt3T4QOYvFU6jr+BuAJLHi93K4e9Yn3uASS+z6L1K2JLh+PU3J98UTqN2ICF6S
-         qmEP0cHBrrjSygESnRLIyapo5IzExTFc7AoGBA3eZQ5TIKirK0XuQydN1W0kGLtafq
-         qLxSz6bg6EIkaB7XMCVsP+PtmflmzLlVg9raMm4XNksPiIZPTp2ZZ/zeTPydyLtvvJ
-         jU/JnUfxyKmUQ==
+        b=cx/yiBlKc6DgKFv66iHzwMJzlblD6+OdfoT3qCbxzSFvIwQ/23P+pm6gEsQLViU5l
+         3gPmpMHEYcKNQxFuVyphdR9d0MgLB9bxc76xhV5JMye5ivGet9a8s80Sc5mwOL26hH
+         KntF4OF6jHmbv+u5QNo3ZBMtY9wTq/ZVl26Yc3nC3CMtkX9p6O4t3wgJdfJvU+0UaF
+         fK1bp5xAFrJw39QsnuEHofLg0PfSRvOIhgRIfNEdbAwXayBzhdrHNpQni9hgZit04E
+         hohiMSgRuoJqMtfComTLQMQS8ebOv63SmJgrCSoEHGUdJgCzYU40D8XQHvwJaYeqDA
+         aB5hueNjHAxTw==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b5-0000F3-6N; Wed, 07 Apr 2021 12:39:43 +0200
+        id 1lU5b6-0000Fa-7f; Wed, 07 Apr 2021 12:39:44 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 11/24] USB: serial: quatech2: fix TIOCGSERIAL implementation
-Date:   Wed,  7 Apr 2021 12:39:12 +0200
-Message-Id: <20210407103925.829-12-johan@kernel.org>
+Subject: [PATCH 22/24] USB: serial: ftdi_sio: ignore baud_base changes
+Date:   Wed,  7 Apr 2021 12:39:23 +0200
+Message-Id: <20210407103925.829-23-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -49,49 +49,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
-serial devices is only useful for setting the close_delay and
-closing_wait parameters.
+The TIOCSSERIAL error handling is inconsistent at best, but drivers tend
+to ignore requests to change parameters which cannot be changed rather
+than return an error.
 
-The xmit_fifo_size parameter could be used to set the hardware transmit
-fifo size of a legacy UART when it could not be detected, but the
-interface is limited to eight bits and should be left unset when not
-used.
+The FTDI driver ignores change requests for all immutable parameters but
+baud_base so return success also in this case for consistency.
 
-Similarly, baud_base could be used to set the UART base clock when it
-could not be detected but might as well be left unset when it is not
-known.
-
-The close_delay and closing_wait parameters returned by TIOCGSERIAL are
-specified in centiseconds (not jiffies). The driver does not yet support
-changing these, but let's report back the default values actually used
-(0.5 and 30 seconds, respectively).
-
-Fixes: f7a33e608d9a ("USB: serial: add quatech2 usb to serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/quatech2.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/usb/serial/ftdi_sio.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/usb/serial/quatech2.c b/drivers/usb/serial/quatech2.c
-index 599dcb2e374d..0d23e565e0d2 100644
---- a/drivers/usb/serial/quatech2.c
-+++ b/drivers/usb/serial/quatech2.c
-@@ -459,12 +459,9 @@ static int get_serial_info(struct tty_struct *tty,
- 	struct usb_serial_port *port = tty->driver_data;
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 16d3e50487e6..3fd7875200b9 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -1509,10 +1509,6 @@ static int set_serial_info(struct tty_struct *tty,
+ 		goto check_and_exit;
+ 	}
  
- 	ss->line		= port->minor;
--	ss->port		= 0;
--	ss->irq			= 0;
--	ss->xmit_fifo_size	= port->bulk_out_size;
--	ss->baud_base		= 9600;
--	ss->close_delay		= 5*HZ;
--	ss->closing_wait	= 30*HZ;
-+	ss->close_delay		= 50;
-+	ss->closing_wait	= 3000;
-+
- 	return 0;
- }
+-	if (ss->baud_base != priv->baud_base) {
+-		mutex_unlock(&priv->cfg_lock);
+-		return -EINVAL;
+-	}
+ 
+ 	/* Make the changes - these are privileged changes! */
  
 -- 
 2.26.3
