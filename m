@@ -2,208 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9827C433ED
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5E5CC433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:29:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7C5661382
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:09:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87945613A7
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:29:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234601AbhDGKJG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:09:06 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:39802 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234217AbhDGKJF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 7 Apr 2021 06:09:05 -0400
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 64685404A3;
-        Wed,  7 Apr 2021 10:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1617790136; bh=eu1McAw//AVG679Rm99KEM81EeYNu+rSRmUeWBUkbUU=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=TalrV//l2s8hN09XkplmdN901X7vspjNSQ1t0CzlQLkUtLGUexeUjBz/jsGBP8/+3
-         E7aJD8MTFviEyxBNaU0kujh/+Wx8YOv9eScsD5yOPcNo9P2LdnmVO1Ds8SI4+QrWS9
-         Cxqw1Vyh3x0ejTPFXA6H+SPqp/Wb5JdpQLU7h+XhsWKqdFMc6AELnpcdagbH5ALGmC
-         HVZsq7xClUJhwoRMVF9aTGxlh6iUY6RirNk+KZq96eEmgh6PZNDVp3EcsHVwJc0LKR
-         flt5lYKCWCbI4SM7bKlj75b43FRUgOdcWOBwu45huAf1hKRJf3YXIdF7u91FaiJgWU
-         xCe6qNCMPT1Eg==
-Received: from razpc-HP (razpc-hp.internal.synopsys.com [10.116.126.207])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 4E974A022E;
-        Wed,  7 Apr 2021 10:08:53 +0000 (UTC)
-Received: by razpc-HP (sSMTP sendmail emulation); Wed, 07 Apr 2021 14:08:52 +0400
-Date:   Wed, 07 Apr 2021 14:08:52 +0400
-Message-Id: <bd57036a0724d733b588a1af2aa7b71c3530a6bc.1617782103.git.Arthur.Petrosyan@synopsys.com>
-In-Reply-To: <cover.1617782102.git.Arthur.Petrosyan@synopsys.com>
-References: <cover.1617782102.git.Arthur.Petrosyan@synopsys.com>
-X-SNPS-Relay: synopsys.com
-From:   Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Subject: [PATCH 13/14] usb: dwc2: Fix partial power down exiting by system resume
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>
-Cc:     John Youn <John.Youn@synopsys.com>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        Paul Zimmerman <paulz@synopsys.com>, <stable@vger.kernel.org>,
-        Kever Yang <kever.yang@rock-chips.com>
+        id S237037AbhDGK3S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:29:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46114 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233465AbhDGK3L (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:29:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4119B61284;
+        Wed,  7 Apr 2021 10:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617791342;
+        bh=0f5iqAFTzVz/UUoG84WKx/vqS1eja/sTREPpFmtK6Zw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=uV96icEZvQKAFD6EyJtKG8WL8/YnUIUV6q3ANMtyBgjssMzBQCfdZUebj9mJI/GqU
+         Yo1ylv2aQjwVkKcRQ1p9VlOieD5KH6IPyds0njC/XkE2JA2fNandTDTt47RMCfMis9
+         hiYxAH7eShrnSwAlPTYKHB+okz5gwzvLS3TNdyUe+UY+jLHgeNTcSCvDQqwbedS6Ci
+         kNz5r873zT9rFB0PwpwM3iYOYcb+b+HcTE1VbQ20AdC4fLLFbG506LJy8hXxsIT70G
+         ireKO6D8KBlWRvO8kyDTwOCYhTWxIa2uH8qP4MDkpuMo/32NTASBo8200bbteCEsCr
+         WzjWi2CNDCT0Q==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lU5Qc-00004s-N9; Wed, 07 Apr 2021 12:28:54 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        Anthony Mallet <anthony.mallet@laas.fr>, stable@vger.kernel.org
+Subject: [PATCH 1/3] Revert "USB: cdc-acm: fix rounding error in TIOCSSERIAL"
+Date:   Wed,  7 Apr 2021 12:28:43 +0200
+Message-Id: <20210407102845.32720-2-johan@kernel.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210407102845.32720-1-johan@kernel.org>
+References: <20210407102845.32720-1-johan@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the implementation of exiting from partial power down
-power saving mode when PC is resumed.
+This reverts commit b401f8c4f492cbf74f3f59c9141e5be3071071bb.
 
-Added port connection status checking which prevents exiting from
-Partial Power Down mode from _dwc2_hcd_resume() if not in Partial
-Power Down mode.
+The offending commit claimed that trying to set the values reported back
+by TIOCGSERIAL as a regular user could result in an -EPERM error when HZ
+is 250, but that was never the case.
 
-Rearranged the implementation to get rid of many "if"
-statements.
+With HZ=250, the default 0.5 second value of close_delay is converted to
+125 jiffies when set and is converted back to 50 centiseconds by
+TIOCGSERIAL as expected (not 12 cs as was claimed).
 
-NOTE: Switch case statement is used for hibernation partial
-power down and clock gating mode determination. In this patch
-only Partial Power Down is implemented the Hibernation and
-clock gating implementations are planned to be added.
+Comparing the internal current and new jiffies values is just fine to
+determine if the value is about to change so drop the bogus workaround
+(which was also backported to stable).
 
-Cc: <stable@vger.kernel.org>
-Fixes: 6f6d70597c15 ("usb: dwc2: bus suspend/resume for hosts with DWC2_POWER_DOWN_PARAM_NONE")
-Signed-off-by: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+For completeness: With different default values for these parameters or
+with a HZ value not divisible by two, the lack of rounding when setting
+the default values in tty_port_init() could result in an -EPERM being
+returned, but this is hardly something we need to worry about.
+
+Cc: Anthony Mallet <anthony.mallet@laas.fr>
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/dwc2/hcd.c | 90 +++++++++++++++++++++---------------------
- 1 file changed, 46 insertions(+), 44 deletions(-)
+ drivers/usb/class/cdc-acm.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-index 34030bafdff4..f096006df96f 100644
---- a/drivers/usb/dwc2/hcd.c
-+++ b/drivers/usb/dwc2/hcd.c
-@@ -4427,7 +4427,7 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 3fda1ec961d7..96e221803fa6 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -942,7 +942,6 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
  {
- 	struct dwc2_hsotg *hsotg = dwc2_hcd_to_hsotg(hcd);
- 	unsigned long flags;
--	u32 pcgctl;
-+	u32 hprt0;
- 	int ret = 0;
+ 	struct acm *acm = tty->driver_data;
+ 	unsigned int closing_wait, close_delay;
+-	unsigned int old_closing_wait, old_close_delay;
+ 	int retval = 0;
  
- 	spin_lock_irqsave(&hsotg->lock, flags);
-@@ -4438,11 +4438,40 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
- 	if (hsotg->lx_state != DWC2_L2)
- 		goto unlock;
+ 	close_delay = msecs_to_jiffies(ss->close_delay * 10);
+@@ -950,17 +949,11 @@ static int set_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ 			ASYNC_CLOSING_WAIT_NONE :
+ 			msecs_to_jiffies(ss->closing_wait * 10);
  
--	if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL) {
-+	hprt0 = dwc2_read_hprt0(hsotg);
-+
-+	/*
-+	 * Added port connection status checking which prevents exiting from
-+	 * Partial Power Down mode from _dwc2_hcd_resume() if not in Partial
-+	 * Power Down mode.
-+	 */
-+	if (hprt0 & HPRT0_CONNSTS) {
-+		hsotg->lx_state = DWC2_L0;
-+		goto unlock;
-+	}
-+
-+	switch (hsotg->params.power_down) {
-+	case DWC2_POWER_DOWN_PARAM_PARTIAL:
-+		ret = dwc2_exit_partial_power_down(hsotg, 0, true);
-+		if (ret)
-+			dev_err(hsotg->dev,
-+				"exit partial_power_down failed\n");
-+		/*
-+		 * Set HW accessible bit before powering on the controller
-+		 * since an interrupt may rise.
-+		 */
-+		set_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
-+		break;
-+	case DWC2_POWER_DOWN_PARAM_HIBERNATION:
-+	case DWC2_POWER_DOWN_PARAM_NONE:
-+	default:
- 		hsotg->lx_state = DWC2_L0;
- 		goto unlock;
- 	}
- 
-+	/* Change Root port status, as port status change occurred after resume.*/
-+	hsotg->flags.b.port_suspend_change = 1;
-+
- 	/*
- 	 * Enable power if not already done.
- 	 * This must not be spinlocked since duration
-@@ -4454,52 +4483,25 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
- 		spin_lock_irqsave(&hsotg->lock, flags);
- 	}
- 
--	if (hsotg->params.power_down == DWC2_POWER_DOWN_PARAM_PARTIAL) {
--		/*
--		 * Set HW accessible bit before powering on the controller
--		 * since an interrupt may rise.
--		 */
--		set_bit(HCD_FLAG_HW_ACCESSIBLE, &hcd->flags);
+-	/* we must redo the rounding here, so that the values match */
+-	old_close_delay	= jiffies_to_msecs(acm->port.close_delay) / 10;
+-	old_closing_wait = acm->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+-				ASYNC_CLOSING_WAIT_NONE :
+-				jiffies_to_msecs(acm->port.closing_wait) / 10;
 -
--
--		/* Exit partial_power_down */
--		ret = dwc2_exit_partial_power_down(hsotg, 0, true);
--		if (ret && (ret != -ENOTSUPP))
--			dev_err(hsotg->dev, "exit partial_power_down failed\n");
--	} else {
--		pcgctl = readl(hsotg->regs + PCGCTL);
--		pcgctl &= ~PCGCTL_STOPPCLK;
--		writel(pcgctl, hsotg->regs + PCGCTL);
--	}
--
--	hsotg->lx_state = DWC2_L0;
--
-+	/* Enable external vbus supply after resuming the port. */
- 	spin_unlock_irqrestore(&hsotg->lock, flags);
-+	dwc2_vbus_supply_init(hsotg);
+ 	mutex_lock(&acm->port.mutex);
  
--	if (hsotg->bus_suspended) {
--		spin_lock_irqsave(&hsotg->lock, flags);
--		hsotg->flags.b.port_suspend_change = 1;
--		spin_unlock_irqrestore(&hsotg->lock, flags);
--		dwc2_port_resume(hsotg);
--	} else {
--		if (hsotg->params.power_down == DWC2_POWER_DOWN_PARAM_PARTIAL) {
--			dwc2_vbus_supply_init(hsotg);
--
--			/* Wait for controller to correctly update D+/D- level */
--			usleep_range(3000, 5000);
--		}
-+	/* Wait for controller to correctly update D+/D- level */
-+	usleep_range(3000, 5000);
-+	spin_lock_irqsave(&hsotg->lock, flags);
- 
--		/*
--		 * Clear Port Enable and Port Status changes.
--		 * Enable Port Power.
--		 */
--		dwc2_writel(hsotg, HPRT0_PWR | HPRT0_CONNDET |
--				HPRT0_ENACHG, HPRT0);
--		/* Wait for controller to detect Port Connect */
--		usleep_range(5000, 7000);
--	}
-+	/*
-+	 * Clear Port Enable and Port Status changes.
-+	 * Enable Port Power.
-+	 */
-+	dwc2_writel(hsotg, HPRT0_PWR | HPRT0_CONNDET |
-+			HPRT0_ENACHG, HPRT0);
- 
--	return ret;
-+	/* Wait for controller to detect Port Connect */
-+	spin_unlock_irqrestore(&hsotg->lock, flags);
-+	usleep_range(5000, 7000);
-+	spin_lock_irqsave(&hsotg->lock, flags);
- unlock:
- 	spin_unlock_irqrestore(&hsotg->lock, flags);
- 
+ 	if (!capable(CAP_SYS_ADMIN)) {
+-		if ((ss->close_delay != old_close_delay) ||
+-		    (ss->closing_wait != old_closing_wait))
++		if ((close_delay != acm->port.close_delay) ||
++		    (closing_wait != acm->port.closing_wait))
+ 			retval = -EPERM;
+ 		else
+ 			retval = -EOPNOTSUPP;
 -- 
-2.25.1
+2.26.3
 
