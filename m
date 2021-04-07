@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58386C433B4
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAFAFC43461
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0348B6139C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75A39613A7
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351162AbhDGKkA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48950 "EHLO mail.kernel.org"
+        id S1351179AbhDGKkD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:40:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48962 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229924AbhDGKj7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S234463AbhDGKj7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 7 Apr 2021 06:39:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0462661242;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A72E613A3;
         Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617791990;
-        bh=1MWTcJ7GSrGtFR7oJCzfn88dggfYZcm5Bf6LCNJXE4k=;
+        bh=zecdlwn06S6EnBdUVHmnGszqZfSeUN4/Do04x9qNU+s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oFAeEG2wre1Nolpshbfv0/87oy2+GENBZ+BBXpXS2Ka74WvnnXZ2KQB/6dhPCEfTR
-         KM4NbRPRxSVfGpyWkAvXy2geMWJH7yDlWy1szztpll+TQwZYW7hp6Z3rV7Cm3FvFx+
-         hiRF+s3vspcTvsw86PmAHdulcgY8dQzIkJyqaNCDMiONldo9+W9LPGfeLQ8zeGgM1C
-         /uTUM+wsZvEmXhm3sJRHqUTD49jb8pPX+gZ/x90DBKEW4fiaBApjK07HNWMXpUs8iQ
-         ki2hysvRcbsD2ACDB0ZoUDx23Caruu8LtyZqr5Y2exTDldL0lVwQz8WKopL46UWVlg
-         kt8G/B6zJj/Fg==
+        b=CiIf4b+AgPcExylUWFTxmKsZyg1nnFIAGQmiU8iXM6NMBZZXF48pHaVDCf66N7khE
+         TuVPaK5eoKMhSi1+GKCOPBaCdjgTBUh9SFC7YggDT1PMu2cgRfqYSjmBBkIdTjn/pX
+         A4/kvfxQU8IJkWjxOGwuLZw01Evfau6LdrlHtyceAQmmPnBiOcDQG8ntOHT+KUFj8A
+         uIBs16ykqGxoX8/JJAGmbBEtFbWtfRedgpgrLq5TjJV2jKMg90CEMFfql/4wtTn9Bn
+         qWId9s0OPzfjLAydKQp6LkDcAE6l8Ohc4n00uUWj7ysWstRA/DHy/aBvfv5zqo7UXa
+         yfpfzZKtE3fyA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b4-0000Er-RO; Wed, 07 Apr 2021 12:39:42 +0200
+        id 1lU5b4-0000EZ-9j; Wed, 07 Apr 2021 12:39:42 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/24] USB: serial: mos7720: fix TIOCGSERIAL implementation
-Date:   Wed,  7 Apr 2021 12:39:08 +0200
-Message-Id: <20210407103925.829-8-johan@kernel.org>
+Subject: [PATCH 01/24] USB: serial: ark3116: fix TIOCGSERIAL implementation
+Date:   Wed,  7 Apr 2021 12:39:02 +0200
+Message-Id: <20210407103925.829-2-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -56,47 +56,33 @@ closing_wait parameters.
 The port parameter is used to set the I/O port and does not make any
 sense to use for USB serial devices.
 
-The xmit_fifo_size parameter could be used to set the hardware transmit
-fifo size of a legacy UART when it could not be detected, but the
-interface is limited to eight bits and should be left unset when not
-used.
-
-Similarly, baud_base could be used to set the UART base clock when it
+The baud_base parameter could be used to set the UART base clock when it
 could not be detected but might as well be left unset when it is not
 known.
 
 The close_delay and closing_wait parameters returned by TIOCGSERIAL are
-specified in centiseconds (not jiffies). The driver does not yet support
-changing these, but let's report back the default values actually used
-(0.5 and 30 seconds, respectively).
+specified in centiseconds. The driver does not yet support changing
+these, but let's report back the default values actually used (0.5 and
+30 seconds, respectively).
 
-Fixes: 0f64478cbc7a ("USB: add USB serial mos7720 driver")
+Fixes: 2f430b4bbae7 ("USB: ark3116: Add TIOCGSERIAL and TIOCSSERIAL ioctl calls.")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/mos7720.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/usb/serial/ark3116.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
-index bb3d39307d93..db90ce560d42 100644
---- a/drivers/usb/serial/mos7720.c
-+++ b/drivers/usb/serial/mos7720.c
-@@ -1638,16 +1638,12 @@ static int get_serial_info(struct tty_struct *tty,
- 			   struct serial_struct *ss)
- {
- 	struct usb_serial_port *port = tty->driver_data;
--	struct moschip_port *mos7720_port = usb_get_serial_port_data(port);
+diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
+index b9bedfe9bd09..957cdd694b1f 100644
+--- a/drivers/usb/serial/ark3116.c
++++ b/drivers/usb/serial/ark3116.c
+@@ -392,8 +392,9 @@ static int ark3116_get_serial_info(struct tty_struct *tty,
  
- 	ss->type		= PORT_16550A;
--	ss->line		= mos7720_port->port->minor;
--	ss->port		= mos7720_port->port->port_number;
--	ss->irq			= 0;
--	ss->xmit_fifo_size	= NUM_URBS * URB_TRANSFER_BUFFER_SIZE;
--	ss->baud_base		= 9600;
--	ss->close_delay		= 5*HZ;
--	ss->closing_wait	= 30*HZ;
-+	ss->line		= port->minor;
-+	ss->close_delay		= 50;
-+	ss->closing_wait	= 3000;
+ 	ss->type = PORT_16654;
+ 	ss->line = port->minor;
+-	ss->port = port->port_number;
+-	ss->baud_base = 460800;
++	ss->close_delay = 50;
++	ss->closing_wait = 3000;
 +
  	return 0;
  }
