@@ -7,40 +7,39 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C52C433ED
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30725C433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E2CD6139C
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:29:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0C7A613B3
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239056AbhDGK3V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:29:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46120 "EHLO mail.kernel.org"
+        id S234926AbhDGKkA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:40:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233490AbhDGK3L (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Apr 2021 06:29:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 48CD9613A3;
-        Wed,  7 Apr 2021 10:29:02 +0000 (UTC)
+        id S233718AbhDGKj7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:39:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 06AD3613A0;
+        Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617791342;
-        bh=DogvUKThPi1f04RxrMIdoe+3W13yimB7dOYn9wfbxbg=;
+        s=k20201202; t=1617791990;
+        bh=vXi6EZ5Y2mHzlJnd1Cdr7bE3o2xIcpNUrfb+ef8l96U=;
         h=From:To:Cc:Subject:Date:From;
-        b=dtlEJLNZnVVQBA5UzNGlWFMsTZEe1YVrBzf+LrucKe4ntNrlyFy1JV4yCWO3tcg6u
-         DtGUxTtM42sba+46yR2+uFyMTlz/zcdJkjuNQOEMS2qu/ekmPyfx1Xs6J3R9Vsd1xI
-         W9wLcPkQFLyo0h4XR2Rvj/BxI6fqNesRadX7I37uj12e1QvB2Fa2lqCTpvJcWzEL/P
-         Xm7aw/5R2CSbzYxwB/N3mY6CsFtxO7i9MWS3t4od7cx1KcUIrp2k+Yrgp31R1ZeBYP
-         aV0fAm9RYh5XSd0ggg/hRMfsLkQOksr5Sf45Bu75lK1TP16TKCPhJCDU8I7gEEVGC8
-         YGyeQXKF8gkrw==
+        b=VuxvPQLFGuSeIuofyflrGKfb0z0ZFlLV2PD0hkXEQnaW1yRIr81hnEM/AdQPrRa2v
+         /SHsaxG9qUq8vVAVPPcMi8nAgXcoFlQcPnVPZGIqvmhg4C0Q0nXcXRAAK3GdnyhNZI
+         XWA0G5asiLG7LuydLdw4LixVHijlb6cIPrz3f0LoV5axruDM3sRvpldX0MwRo+LoHa
+         Hzmo+8aaM4jiHdtR7w2ZjHl8nOHBYqfPm5NxkyJFKBCHp8r+f49qxobDW092xYiChX
+         S/dBjHDBbtsG4QCYIZfdXTDZxQPWTPUNVWPKfPEKijZ5gxADxBPv/vEEZ7l/q6oLgv
+         fYud+zzEe+ZqQ==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5Qc-00004q-Jn; Wed, 07 Apr 2021 12:28:54 +0200
+        id 1lU5b4-0000EX-67; Wed, 07 Apr 2021 12:39:42 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/3] USB: cdc-acm: TIOCSSERIAL fixes
-Date:   Wed,  7 Apr 2021 12:28:42 +0200
-Message-Id: <20210407102845.32720-1-johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/24] USB: serial: TIOCSSERIAL fixes and generic support
+Date:   Wed,  7 Apr 2021 12:39:01 +0200
+Message-Id: <20210407103925.829-1-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -48,19 +47,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series fixes up a few issues with cdc-acm TIOCSSERIAL
-implementation.
+TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
+serial devices is only useful for setting the close_delay and
+closing_wait parameters.
+
+This series fixes up the various USB serial driver implementations,
+before adding generic support to core for the benefit of all USB serial
+drivers.
 
 Johan
 
 
-Johan Hovold (3):
-  Revert "USB: cdc-acm: fix rounding error in TIOCSSERIAL"
-  USB: cdc-acm: fix unprivileged TIOCCSERIAL
-  USB: cdc-acm: fix TIOCGSERIAL implementation
+Johan Hovold (24):
+  USB: serial: ark3116: fix TIOCGSERIAL implementation
+  USB: serial: f81232: fix TIOCGSERIAL implementation
+  USB: serial: f81534: fix TIOCGSERIAL implementation
+  USB: serial: ftdi_sio: fix TIOCGSERIAL implementation
+  USB: serial: io_edgeport: fix TIOCGSERIAL implementation
+  USB: serial: io_ti: fix TIOCGSERIAL implementation
+  USB: serial: mos7720: fix TIOCGSERIAL implementation
+  USB: serial: mos7840: fix TIOCGSERIAL implementation
+  USB: serial: opticon: fix TIOCGSERIAL implementation
+  USB: serial: pl2303: fix TIOCGSERIAL implementation
+  USB: serial: quatech2: fix TIOCGSERIAL implementation
+  USB: serial: ssu100: fix TIOCGSERIAL implementation
+  USB: serial: ti_usb_3410_5052: fix TIOCGSERIAL implementation
+  USB: serial: ti_usb_3410_5052: fix TIOCSSERIAL permission check
+  USB: serial: usb_wwan: fix TIOCSSERIAL jiffies conversions
+  USB: serial: usb_wwan: fix unprivileged TIOCCSERIAL
+  USB: serial: usb_wwan: fix TIOCGSERIAL implementation
+  USB: serial: whiteheat: fix TIOCGSERIAL implementation
+  USB: serial: fix return value for unsupported ioctls
+  USB: serial: add generic support for TIOCSSERIAL
+  USB: serial: stop reporting legacy UART types
+  USB: serial: ftdi_sio: ignore baud_base changes
+  USB: serial: ftdi_sio: simplify TIOCGSERIAL permission check
+  USB: serial: ftdi_sio: clean up TIOCSSERIAL
 
- drivers/usb/class/cdc-acm.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+ drivers/usb/serial/ark3116.c          | 13 ------
+ drivers/usb/serial/f81232.c           | 11 ++---
+ drivers/usb/serial/f81534.c           |  7 +---
+ drivers/usb/serial/ftdi_sio.c         | 35 ++++------------
+ drivers/usb/serial/io_edgeport.c      | 22 ----------
+ drivers/usb/serial/io_ti.c            | 24 -----------
+ drivers/usb/serial/mos7720.c          | 18 --------
+ drivers/usb/serial/mos7840.c          | 23 -----------
+ drivers/usb/serial/opticon.c          | 18 --------
+ drivers/usb/serial/option.c           |  2 -
+ drivers/usb/serial/pl2303.c           | 13 ------
+ drivers/usb/serial/quatech2.c         | 16 --------
+ drivers/usb/serial/ssu100.c           | 16 --------
+ drivers/usb/serial/ti_usb_3410_5052.c | 38 +----------------
+ drivers/usb/serial/usb-serial.c       | 59 +++++++++++++++++++++++----
+ drivers/usb/serial/usb-wwan.h         |  4 --
+ drivers/usb/serial/usb_wwan.c         | 45 --------------------
+ drivers/usb/serial/whiteheat.c        | 17 +-------
+ include/linux/usb/serial.h            |  2 +-
+ 19 files changed, 69 insertions(+), 314 deletions(-)
 
 -- 
 2.26.3
