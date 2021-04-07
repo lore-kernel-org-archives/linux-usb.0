@@ -1,85 +1,57 @@
 Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: *
+X-Spam-Status: No, score=1.7 required=3.0 tests=BAYES_50,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLACK autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54C1DC433B4
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 05:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7EF5C433ED
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 06:01:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CA29613C6
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 05:22:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92F31613C0
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 06:01:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345119AbhDGFWv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 7 Apr 2021 01:22:51 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:33194 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229603AbhDGFWv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 7 Apr 2021 01:22:51 -0400
-Received: from localhost.localdomain (unknown [10.192.24.118])
-        by mail-app2 (Coremail) with SMTP id by_KCgB3GcSTQW1g2+nRAA--.27427S4;
-        Wed, 07 Apr 2021 13:22:30 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Peter Chen <peter.chen@kernel.org>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: cdns3: Fix rumtime PM imbalance on error
-Date:   Wed,  7 Apr 2021 13:22:26 +0800
-Message-Id: <20210407052226.1056-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgB3GcSTQW1g2+nRAA--.27427S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7GrWfKF4rury5XrW3XF17Awb_yoWfJFc_Ww
-        s8ur12kF1UWa9rXw17Gw15uryI9ryDXw1kZan7tw13CayjkFykAry8XrWkCF47Zw4xGr1D
-        Aw1vqa1fCFZFkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbcxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
-        JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
-        aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
-        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
-        CI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1a9aPUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoGBlZdtTQGhAARsR
+        id S1345324AbhDGGBU convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 7 Apr 2021 02:01:20 -0400
+Received: from crunchbase.com ([45.12.213.7]:36706 "EHLO crunchbase.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S244525AbhDGGBS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 7 Apr 2021 02:01:18 -0400
+Received: from utilcell.es (localhost [127.0.0.1])
+        by crunchbase.com (Postfix) with ESMTP id C3ACE2339264
+        for <linux-usb@vger.kernel.org>; Wed,  7 Apr 2021 05:48:20 +0000 (UTC)
+From:   Albert Bourla <utilcell@utilcell.es>
+To:     linux-usb@vger.kernel.org
+Subject: Bidding invitation
+Date:   7 Apr 2021 07:46:47 +0200
+Message-ID: <20210407074647.D1B5BE7FF2FAD2C1@utilcell.es>
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When cdns3_gadget_start() fails, a pairing PM usage counter
-decrement is needed to keep the counter balanced.
+Good Day Sir/Ms,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/usb/cdns3/cdns3-gadget.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index 582bfeceedb4..ad891a108aed 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -3255,8 +3255,11 @@ static int __cdns3_gadget_init(struct cdns *cdns)
- 	pm_runtime_get_sync(cdns->dev);
+We are pleased to invite you or your company to quote the 
+following item listed below:
  
- 	ret = cdns3_gadget_start(cdns);
--	if (ret)
-+	if (ret) {
-+		pm_runtime_mark_last_busy(cdns->dev);
-+		pm_runtime_put_autosuspend(cdns->dev);
- 		return ret;
-+	}
- 
- 	/*
- 	 * Because interrupt line can be shared with other components in
--- 
-2.17.1
+Product/Model No: A702TH FYNE PRESSURE REGULATOR
+Model Number: A702TH
+Qty. 30 units
 
+
+Compulsory,Kindly send your quotation to: 
+quote@pfizersuppliers.com 
+for immediate approval.
+
+Kind Regards,
+Albert Bourla
+PFIZER B.V Supply Chain Manager
+Tel: +31(0)208080 880
+ADDRESS: Rivium Westlaan 142, 2909 LD
+Capelle aan den IJssel, Netherlands
