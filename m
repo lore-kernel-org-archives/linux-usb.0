@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C86ABC433ED
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D302C43460
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 975EB613B3
-	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D242613B3
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Apr 2021 10:40:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351262AbhDGKkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1351268AbhDGKkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 7 Apr 2021 06:40:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49064 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:49098 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351165AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S234986AbhDGKkA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 7 Apr 2021 06:40:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EE78D613A9;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5ACE46139C;
         Wed,  7 Apr 2021 10:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617791991;
-        bh=lX3F9lxiWnA0PUBwgaH8gncJVnX0qeQaXfJ4Wsy4tIs=;
+        s=k20201202; t=1617791990;
+        bh=Ff1Ti9CXje+qOhhjNTI7wIhBjGyNTvDcual0tNsok7Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ooIJ4wp+Eg08Jal4oFXiv6Vm8gWIi6pICfx+QOs4Wqci35HW50fIbG+hrfEscLEpt
-         8mTYAK+z3WzqlPVkRvQ3gjthaf/sgeJupSCuQYAIQVNPlUVFRjz9+wxsY5RtvpQ6lF
-         WxyWctykOjqo5CHc4eg68UuCM9X04EoyKLcooXxJnfTcHQw/qoYfvlA1WKtjj6kkop
-         3mZPeA0fRvi/hwtzRMIADAuUumOkYT8iUIE0HivfeWuJ6/ZPIkMWreozzgPB+wUj4L
-         J+S/NsCY1+kVLQkB4+zvflAkVwVXaWKH8J4tVxfuKyiW8BDu/x9aqapKT0doce24lx
-         3Yf4wrrQhD8Mw==
+        b=TUFKP2pTnqkHFd2xD78eejka9SkrgatNp0DyJU0JU1elMmJ1HMRbyKr0M9tP67pQO
+         chAKookY7QMtKvIb+66Tk5gTJjR3HFJSiSfC6HYsJoAUl7HGY5IEwgenC8irE2iPRz
+         Nl55Xt3T4QOYvFU6jr+BuAJLHi93K4e9Yn3uASS+z6L1K2JLh+PU3J98UTqN2ICF6S
+         qmEP0cHBrrjSygESnRLIyapo5IzExTFc7AoGBA3eZQ5TIKirK0XuQydN1W0kGLtafq
+         qLxSz6bg6EIkaB7XMCVsP+PtmflmzLlVg9raMm4XNksPiIZPTp2ZZ/zeTPydyLtvvJ
+         jU/JnUfxyKmUQ==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lU5b5-0000FO-RH; Wed, 07 Apr 2021 12:39:43 +0200
+        id 1lU5b5-0000F3-6N; Wed, 07 Apr 2021 12:39:43 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 18/24] USB: serial: whiteheat: fix TIOCGSERIAL implementation
-Date:   Wed,  7 Apr 2021 12:39:19 +0200
-Message-Id: <20210407103925.829-19-johan@kernel.org>
+Subject: [PATCH 11/24] USB: serial: quatech2: fix TIOCGSERIAL implementation
+Date:   Wed,  7 Apr 2021 12:39:12 +0200
+Message-Id: <20210407103925.829-12-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210407103925.829-1-johan@kernel.org>
 References: <20210407103925.829-1-johan@kernel.org>
@@ -53,51 +53,46 @@ TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
 serial devices is only useful for setting the close_delay and
 closing_wait parameters.
 
-The port parameter is used to set the I/O port and does not make any
-sense to use for USB serial devices.
-
 The xmit_fifo_size parameter could be used to set the hardware transmit
 fifo size of a legacy UART when it could not be detected, but the
 interface is limited to eight bits and should be left unset when not
 used.
+
+Similarly, baud_base could be used to set the UART base clock when it
+could not be detected but might as well be left unset when it is not
+known.
 
 The close_delay and closing_wait parameters returned by TIOCGSERIAL are
 specified in centiseconds (not jiffies). The driver does not yet support
 changing these, but let's report back the default values actually used
 (0.5 and 30 seconds, respectively).
 
+Fixes: f7a33e608d9a ("USB: serial: add quatech2 usb to serial driver")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/whiteheat.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/usb/serial/quatech2.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/serial/whiteheat.c b/drivers/usb/serial/whiteheat.c
-index ccfd5ed652cd..c8b10faa2ff8 100644
---- a/drivers/usb/serial/whiteheat.c
-+++ b/drivers/usb/serial/whiteheat.c
-@@ -170,7 +170,6 @@ static int firm_report_tx_done(struct usb_serial_port *port);
- #define COMMAND_PORT		4
- #define COMMAND_TIMEOUT		(2*HZ)	/* 2 second timeout for a command */
- #define	COMMAND_TIMEOUT_MS	2000
--#define CLOSING_DELAY		(30 * HZ)
+diff --git a/drivers/usb/serial/quatech2.c b/drivers/usb/serial/quatech2.c
+index 599dcb2e374d..0d23e565e0d2 100644
+--- a/drivers/usb/serial/quatech2.c
++++ b/drivers/usb/serial/quatech2.c
+@@ -459,12 +459,9 @@ static int get_serial_info(struct tty_struct *tty,
+ 	struct usb_serial_port *port = tty->driver_data;
  
- 
- /*****************************************************************************
-@@ -447,12 +446,9 @@ static int whiteheat_get_serial(struct tty_struct *tty,
- 
- 	ss->type = PORT_16654;
- 	ss->line = port->minor;
--	ss->port = port->port_number;
--	ss->xmit_fifo_size = kfifo_size(&port->write_fifo);
--	ss->custom_divisor = 0;
- 	ss->baud_base = 460800;
--	ss->close_delay = CLOSING_DELAY;
--	ss->closing_wait = CLOSING_DELAY;
-+	ss->close_delay = 50;
-+	ss->closing_wait = 3000;
- 
+ 	ss->line		= port->minor;
+-	ss->port		= 0;
+-	ss->irq			= 0;
+-	ss->xmit_fifo_size	= port->bulk_out_size;
+-	ss->baud_base		= 9600;
+-	ss->close_delay		= 5*HZ;
+-	ss->closing_wait	= 30*HZ;
++	ss->close_delay		= 50;
++	ss->closing_wait	= 3000;
++
  	return 0;
  }
+ 
 -- 
 2.26.3
 
