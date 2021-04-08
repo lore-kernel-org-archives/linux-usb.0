@@ -2,170 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9806AC433ED
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 07:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE34C433B4
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 07:06:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61A4E61154
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 07:06:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0659561157
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 07:06:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229937AbhDHHGZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 03:06:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229510AbhDHHGY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 03:06:24 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AA64C061760
-        for <linux-usb@vger.kernel.org>; Thu,  8 Apr 2021 00:06:13 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id w18so1150282edc.0
-        for <linux-usb@vger.kernel.org>; Thu, 08 Apr 2021 00:06:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=z4Gitq6pVFDGPa5UrDIJQObnLNdxwY706RuaVL/8cJQ=;
-        b=Rq/AVPm1jCL9qyyHKxT5usmTELeBq1QBK7S0jE9FhIpcOnkmIE1MFYUSaaLB+fbeG4
-         woViT2OkK6JUUf3A2pifrsX5TFDVEZfZya+OSIC/IKAg4osGnjzTTNPpvYzlhqNEJGTc
-         CyQuygiOyddbOLcV9fNt8j8cWcoY5jPX7ERVGHmcm4UIxIqYaDrUz/IJFIT1ktLpb4rd
-         dhA3O4NnNSbVMZrBVtPWqo2gxWeYgW/qSBaWA8dFh8D4M8VVcD4zXhwnNPoFZ1JuOnq0
-         a1nKocWIAJawxgrF7mtFwTlMC+n6jAdNlz5Tl3pqZOd3kKWkQc0WWuZq0v4zfd9PMsx9
-         xj/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=z4Gitq6pVFDGPa5UrDIJQObnLNdxwY706RuaVL/8cJQ=;
-        b=WpgwIkyJUBpPsU27KFGnHU7S6I5EpoBSbshi4MFZkb1LmITluL3yAwkDwYgyzbxZ0B
-         yRsp7vP/2JoRI+YVyvbLTTIOiykXlF+8DnkoI2aORexLr/j8S44YqBtJjQyB61k7DSt+
-         TMhJRcIuaNDRXP/+S5PdxYP2txCW+pkj2gsGtUz30IiKAc0NMJTQU1gLweSwQ7hZpt10
-         kuDEzES43eEIT7p4QSRGQnkxWxmm5vzZIkcx3bPprGmRE+RymdFC4/DgR4ZBrO/wMuLB
-         qPcwYVqNWRmm8QIyommg06YyrozEfrBl0skgc6eLcpjtNs5kuLM4RvcmGez6bFXoyZ7N
-         VaNg==
-X-Gm-Message-State: AOAM532ae/qzsgBUFI1WkX77xhmjkKqeTquIp1eRxgZfZz5dZWIzJfKJ
-        1d3I6qKU7SI1hkeltUa6BPfppQ==
-X-Google-Smtp-Source: ABdhPJxnL59ZtT6Iah9N++cMUYV0rXC755tzrsh7H6THlQikyo2EcZ08HAyhG/iIV512tuxRYVlbrA==
-X-Received: by 2002:a05:6402:4d1:: with SMTP id n17mr9243636edw.118.1617865568643;
-        Thu, 08 Apr 2021 00:06:08 -0700 (PDT)
-Received: from dell ([91.110.221.215])
-        by smtp.gmail.com with ESMTPSA id q16sm13810809ejd.15.2021.04.08.00.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 00:06:08 -0700 (PDT)
-Date:   Thu, 8 Apr 2021 08:06:05 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Anssi Hannula <anssi.hannula@gmail.com>,
-        Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Drubin <daniel.drubin@intel.com>,
-        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        linaro-mm-sig@lists.linaro.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        Lopez Casado <nlopezcasad@logitech.com>,
-        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
-        Masaki Ota <masaki.ota@jp.alps.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        message to <vojtech@ucw.cz>,
-        Michael Haboustak <mike-@cinci.rr.com>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Vojtech Pavlik <vojtech@suse.cz>,
-        Zhang Lixu <lixu.zhang@intel.com>
-Subject: Re: [RESEND 00/25] Rid W=1 warnings from HID
-Message-ID: <20210408070605.GC2961413@dell>
-References: <20210326143458.508959-1-lee.jones@linaro.org>
- <20210406085605.GS2916463@dell>
- <CAO-hwJ+5Vd6jC2+0pfHLOw3opdXzKoc9pUWzxmBVhSvQvNWMsQ@mail.gmail.com>
+        id S229996AbhDHHGj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 03:06:39 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:16824 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229552AbhDHHGi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 03:06:38 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FGC1B3Mvyz93XJ;
+        Thu,  8 Apr 2021 15:04:14 +0800 (CST)
+Received: from huawei.com (10.67.165.24) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
+ 15:06:19 +0800
+From:   Longfang Liu <liulongfang@huawei.com>
+To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
+        <stern@rowland.harvard.edu>, <liudongdong3@huawei.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <liulongfang@huawei.com>, <kong.kongxinwei@hisilicon.com>,
+        <yisen.zhuang@huawei.com>
+Subject: [PATCH] USB:ehci:fix ehci hardware problem
+Date:   Thu, 8 Apr 2021 15:03:45 +0800
+Message-ID: <1617865425-28782-1-git-send-email-liulongfang@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO-hwJ+5Vd6jC2+0pfHLOw3opdXzKoc9pUWzxmBVhSvQvNWMsQ@mail.gmail.com>
+Content-Type: text/plain
+X-Originating-IP: [10.67.165.24]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 07 Apr 2021, Benjamin Tissoires wrote:
+When rebooting the EHCI driver, ehci_shutdown() will be called.
+if the sbrn flag is 0, ehci_shutdown() will return directly.
 
-> On Tue, Apr 6, 2021 at 10:56 AM Lee Jones <lee.jones@linaro.org> wrote:
-> >
-> > On Fri, 26 Mar 2021, Lee Jones wrote:
-> >
-> > > This set is part of a larger effort attempting to clean-up W=1
-> > > kernel builds, which are currently overwhelmingly riddled with
-> > > niggly little warnings.
-> > >
-> > > Lee Jones (25):
-> > >   HID: intel-ish-hid: Remove unused variable 'err'
-> > >   HID: ishtp-hid-client: Move variable to where it's actually used
-> > >   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
-> > >   HID: intel-ish: Supply some missing param descriptions
-> > >   HID: intel-ish: Fix a naming disparity and a formatting error
-> > >   HID: usbhid: Repair a formatting issue in a struct description
-> > >   HID: intel-ish-hid: Fix a little doc-rot
-> > >   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
-> > >   HID: hid-alps: Correct struct misnaming
-> > >   HID: intel-ish-hid: Fix potential copy/paste error
-> > >   HID: hid-core: Fix incorrect function name in header
-> > >   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
-> > >     header
-> > >   HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
-> > >   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
-> > >   HID: hid-picolcd_core: Remove unused variable 'ret'
-> > >   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
-> > >     abuses
-> > >   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
-> > >   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
-> > >   HID: hid-uclogic-params: Ensure function names are present and correct
-> > >     in kernel-doc headers
-> > >   HID: hid-sensor-custom: Remove unused variable 'ret'
-> > >   HID: wacom_sys: Demote kernel-doc abuse
-> > >   HID: hid-sensor-hub: Remove unused struct member 'quirks'
-> > >   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
-> > >     definition
-> > >   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
-> > >   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
-> >
-> > These have been on the list for a couple of weeks now.
-> >
-> > Is there anything I can do to help expedite their merge?
-> >
-> > I'm concerned since -rc6 has just been released.
-> 
-> Sorry for the delay.
-> 
-> I am currently queuing them locally and running a few tests on them. I
-> don't expect anything to happen, but better be safe than anything.
-> 
-> FWIW, I am splitting the series in 3:
-> - 11 patches for intel ish are going to be queued in for-5.13/intel-ish
-> - the thrustmaster one in for-5.13/thrustmaster
-> - the rest (13 patches) will be sent in for-5.13/warnings.
+Our EHCI hardware does not define the SBRN register, which cause
+its value to default to 0. The sbrn flag being 0 will cause the
+EHCI interrupt signal to not be turned off after reboot. An interrupt
+that is not closed will cause an exception to the device sharing
+the interrupt.
 
-Sounds good to me.  Thanks Benjamin.
+Currently, our hardware has this problem. We hope to solve this
+problem by skipping reading the sbrn register value. On the next
+generation of hardware, we will define this SBRN register in accordance
+with the controller standard.
 
+Signed-off-by: Longfang Liu <liulongfang@huawei.com>
+---
+ drivers/usb/host/ehci-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
+index 3c3820a..5dc6821 100644
+--- a/drivers/usb/host/ehci-pci.c
++++ b/drivers/usb/host/ehci-pci.c
+@@ -291,6 +291,8 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
+ 	if (pdev->vendor == PCI_VENDOR_ID_STMICRO
+ 	    && pdev->device == PCI_DEVICE_ID_STMICRO_USB_HOST)
+ 		;	/* ConneXT has no sbrn register */
++	else if (pdev->vendor == PCI_VENDOR_ID_HUAWEI)
++		;	/* sbrn register is undefined */
+ 	else
+ 		pci_read_config_byte(pdev, 0x60, &ehci->sbrn);
+ 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.8.1
+
