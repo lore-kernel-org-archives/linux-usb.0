@@ -2,68 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBD4C433B4
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39DBEC433B4
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:22:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 516336113A
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:19:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D85CB61157
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:22:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbhDHJTh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 05:19:37 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:16405 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbhDHJTg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 05:19:36 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FGFz45L3zzkjWr;
-        Thu,  8 Apr 2021 17:17:36 +0800 (CST)
-Received: from huawei.com (10.174.28.241) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
- 17:19:14 +0800
-From:   Bixuan Cui <cuibixuan@huawei.com>
-To:     <b-liu@ti.com>, <gregkh@linuxfoundation.org>
-CC:     <john.wanghui@huawei.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] usb: musb: fix PM reference leak in musb_irq_work()
-Date:   Thu, 8 Apr 2021 17:18:36 +0800
-Message-ID: <20210408091836.55227-1-cuibixuan@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S229689AbhDHJWR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 05:22:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229600AbhDHJWR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Apr 2021 05:22:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AACB361166;
+        Thu,  8 Apr 2021 09:22:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617873726;
+        bh=Ldyy5p8qNIJW45yhEXFnxF+Ibo1nV8mgcf3vOVeJ8Io=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UZ+wDG5V1dUmoTX/eISyd+EqMNqmrYpq+lxlFTWpFMZYS6s1Zds0c8Oj81iIqC7ML
+         cjF+Ya2xo6Pd0/74cXzJZRgosuB5ToTtGerN9Ik1tvXeH7VFBnYV8OHnnm/cnvCqMJ
+         AzKjVAR8wqd1urDCnR1BB4x+62iIDE84bBVU1tbI=
+Date:   Thu, 8 Apr 2021 11:22:03 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Longfang Liu <liulongfang@huawei.com>
+Cc:     mathias.nyman@intel.com, stern@rowland.harvard.edu,
+        liudongdong3@huawei.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kong.kongxinwei@hisilicon.com,
+        yisen.zhuang@huawei.com
+Subject: Re: [PATCH 1/2] USB:ehci:Add a whitelist for EHCI controllers
+Message-ID: <YG7LO2DJMThbeJ5W@kroah.com>
+References: <1617873073-37371-1-git-send-email-liulongfang@huawei.com>
+ <1617873073-37371-2-git-send-email-liulongfang@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.28.241]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1617873073-37371-2-git-send-email-liulongfang@huawei.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-thus a pairing decrement is needed.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+On Thu, Apr 08, 2021 at 05:11:12PM +0800, Longfang Liu wrote:
+> Some types of EHCI controllers do not have SBRN registers.
+> By comparing the white list, the operation of reading the SBRN
+> registers is skipped.
+> 
+> Subsequent EHCI controller types without SBRN registers can be
+> directly added to the white list.
+> 
+> The current patch does not affect the drive function.
+> 
+> Signed-off-by: Longfang Liu <liulongfang@huawei.com>
+> ---
+>  drivers/usb/host/ehci-pci.c | 27 +++++++++++++++++++++++----
+>  1 file changed, 23 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
+> index 3c3820a..6a30afa 100644
+> --- a/drivers/usb/host/ehci-pci.c
+> +++ b/drivers/usb/host/ehci-pci.c
+> @@ -47,6 +47,28 @@ static inline bool is_bypassed_id(struct pci_dev *pdev)
+>  	return !!pci_match_id(bypass_pci_id_table, pdev);
+>  }
+>  
+> +static const struct usb_nosbrn_whitelist_entry {
+> +	unsigned short vendor;
+> +	unsigned short device;
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
----
- drivers/usb/musb/musb_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+u16 here please.
 
-diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-index fc0457db62e1..8f09a387b773 100644
---- a/drivers/usb/musb/musb_core.c
-+++ b/drivers/usb/musb/musb_core.c
-@@ -2070,7 +2070,7 @@ static void musb_irq_work(struct work_struct *data)
- 	struct musb *musb = container_of(data, struct musb, irq_work.work);
- 	int error;
- 
--	error = pm_runtime_get_sync(musb->controller);
-+	error = pm_runtime_resume_and_get(musb->controller);
- 	if (error < 0) {
- 		dev_err(musb->controller, "Could not enable: %i\n", error);
- 
+> +} usb_nosbrn_whitelist[] = {
+> +	/* STMICRO ConneXT has no sbrn register */
+> +	{PCI_VENDOR_ID_STMICRO, PCI_DEVICE_ID_STMICRO_USB_HOST},
+> +	{}
 
+trailing , please.
+
+> +};
+> +
+> +static bool usb_nosbrn_whitelist_check(struct pci_dev *pdev)
+> +{
+> +	const struct usb_nosbrn_whitelist_entry *entry;
+> +
+> +	for (entry = usb_nosbrn_whitelist; entry->vendor; entry++) {
+> +		if (pdev->vendor == entry->vendor &&
+> +		    pdev->device == entry->device)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  /*
+>   * 0x84 is the offset of in/out threshold register,
+>   * and it is the same offset as the register of 'hostpc'.
+> @@ -288,10 +310,7 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
+>  	}
+>  
+>  	/* Serial Bus Release Number is at PCI 0x60 offset */
+> -	if (pdev->vendor == PCI_VENDOR_ID_STMICRO
+> -	    && pdev->device == PCI_DEVICE_ID_STMICRO_USB_HOST)
+> -		;	/* ConneXT has no sbrn register */
+> -	else
+> +	if (!usb_nosbrn_whitelist_check(pdev))
+
+Doing this as a "negative" is hard to understand.  Should this just be:
+	forbid_sbrn_read()
+or something like that?
+
+The term "whitelist" is not a good thing to use as it does not really
+explain anything here.
+
+thanks,
+
+greg k-h
