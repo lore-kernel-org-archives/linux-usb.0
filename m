@@ -2,71 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006B6C43461
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:09:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE7D3C433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D318261074
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:09:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B60316113A
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231672AbhDHNJh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 09:09:37 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:16845 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbhDHNJg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 09:09:36 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FGM3y23VCz9vww;
-        Thu,  8 Apr 2021 21:07:10 +0800 (CST)
-Received: from huawei.com (10.174.28.241) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
- 21:09:15 +0800
-From:   Bixuan Cui <cuibixuan@huawei.com>
-To:     <linux-kernel@vger.kernel.org>
-CC:     <john.wanghui@huawei.com>, <linux-usb@vger.kernel.org>,
-        <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
-        <gustavoars@kernel.org>, <oneukum@suse.com>,
-        <erosca@de.adit-jv.com>, "Bixuan Cui" <cuibixuan@huawei.com>
-Subject: [PATCH] usb: core: hub: Fix PM reference leak in usb_port_resume()
-Date:   Thu, 8 Apr 2021 21:08:31 +0800
-Message-ID: <20210408130831.56239-1-cuibixuan@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S231620AbhDHNQ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 09:16:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36534 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229741AbhDHNQ1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Apr 2021 09:16:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ABB46610A6;
+        Thu,  8 Apr 2021 13:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617887776;
+        bh=Ke8qJp63FlrDKDKHCYuGMZj07d+yIBbFrD3Dth06hL0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jHwfFrlkbHn+WMgp14S6HZHTsLHGmFqkiPf+9c6SGy+kbBYPRSnuIxOxpntjuYlfU
+         t//gO9AFUei9CCI80rz74Rvek5iBOiIY1FP10SYQ3+vcvX4FQf21KA9f5tK9KlR/2U
+         KWH1eafGWbknFjGabCfz8txGxGIAurd/eessMyzmk8fLo0W0p23EQl9rKP+NX2rr/3
+         ph/ltF07dICiu/4H9dew44o6BgjWbi92z7fYlRNyvCrcm+BshUmGC82P8m1QfGVDp3
+         MMU8P1Zq5dHxcNilwe02d0egrLb0RdO1/1UerEuafB/XkTIbnHECKdZUnUTpG3vdWw
+         SsbVQHGIVaMQg==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lUUW4-0007Hm-KH; Thu, 08 Apr 2021 15:16:12 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 3/3] USB: cdc-acm: fix TIOCGSERIAL implementation
+Date:   Thu,  8 Apr 2021 15:16:02 +0200
+Message-Id: <20210408131602.27956-4-johan@kernel.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210408131602.27956-1-johan@kernel.org>
+References: <20210408131602.27956-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.28.241]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-thus a pairing decrement is needed.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+TIOCSSERIAL is a horrid, underspecified, legacy interface which for most
+serial devices is only useful for setting the close_delay and
+closing_wait parameters.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
+The xmit_fifo_size parameter could be used to set the hardware transmit
+fifo size of a legacy UART when it could not be detected, but the
+interface is limited to eight bits and should be left unset when it is
+not used.
+
+Similarly, baud_base could be used to set the UART base clock when it
+could not be detected, but might as well be left unset when it is not
+known (which is the case for CDC).
+
+Fix the cdc-acm TIOCGSERIAL implementation by dropping its custom
+interpretation of the unused xmit_fifo_size and baud_base fields, which
+overflowed the former with the URB buffer size and set the latter to the
+current line speed. Also return the port line number, which is the only
+other value used besides the close parameters.
+
+Note that the current line speed can still be retrieved through the
+standard termios interfaces.
+
+Fixes: 18c75720e667 ("USB: allow users to run setserial with cdc-acm")
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/core/hub.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/class/cdc-acm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 9a83390072da..b2bc4b7c4289 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -3605,7 +3605,7 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
- 	u16		portchange, portstatus;
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 43e31dad4831..b74713518b3a 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -929,8 +929,7 @@ static int get_serial_info(struct tty_struct *tty, struct serial_struct *ss)
+ {
+ 	struct acm *acm = tty->driver_data;
  
- 	if (!test_and_set_bit(port1, hub->child_usage_bits)) {
--		status = pm_runtime_get_sync(&port_dev->dev);
-+		status = pm_runtime_resume_and_get(&port_dev->dev);
- 		if (status < 0) {
- 			dev_dbg(&udev->dev, "can't resume usb port, status %d\n",
- 					status);
+-	ss->xmit_fifo_size = acm->writesize;
+-	ss->baud_base = le32_to_cpu(acm->line.dwDTERate);
++	ss->line = acm->minor;
+ 	ss->close_delay	= jiffies_to_msecs(acm->port.close_delay) / 10;
+ 	ss->closing_wait = acm->port.closing_wait == ASYNC_CLOSING_WAIT_NONE ?
+ 				ASYNC_CLOSING_WAIT_NONE :
 -- 
-2.17.1
+2.26.3
 
