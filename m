@@ -2,25 +2,25 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A30C43460
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:52:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF32C43461
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:52:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC84F61025
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:52:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2917761151
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 13:52:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231672AbhDHNwP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 09:52:15 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:15631 "EHLO
+        id S231699AbhDHNwQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 09:52:16 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:15630 "EHLO
         szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231557AbhDHNwP (ORCPT
+        with ESMTP id S231617AbhDHNwP (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 09:52:15 -0400
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGN0T5t8qzpWdy;
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGN0T5dhfzpWdv;
         Thu,  8 Apr 2021 21:49:13 +0800 (CST)
 Received: from huawei.com (10.67.165.24) by DGGEMS411-HUB.china.huawei.com
  (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
@@ -31,9 +31,9 @@ To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
 CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <liulongfang@huawei.com>, <kong.kongxinwei@hisilicon.com>,
         <yisen.zhuang@huawei.com>
-Subject: [PATCH v2 1/2] USB:ehci:Add a whitelist for EHCI controllers
-Date:   Thu, 8 Apr 2021 21:49:19 +0800
-Message-ID: <1617889760-17733-2-git-send-email-liulongfang@huawei.com>
+Subject: [PATCH v2 2/2] USB:ehci:fix Kunpeng920 ehci hardware problem
+Date:   Thu, 8 Apr 2021 21:49:20 +0800
+Message-ID: <1617889760-17733-3-git-send-email-liulongfang@huawei.com>
 X-Mailer: git-send-email 2.8.1
 In-Reply-To: <1617889760-17733-1-git-send-email-liulongfang@huawei.com>
 References: <1617889760-17733-1-git-send-email-liulongfang@huawei.com>
@@ -45,66 +45,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some types of EHCI controllers do not have SBRN registers.
-By comparing the white list, the operation of reading the SBRN
-registers is skipped.
+Kunpeng920's EHCI controller does not have SBRN register.
+Reading the SBRN register when the controller driver is
+initialized will get 0.
 
-Subsequent EHCI controller types without SBRN registers can be
-directly added to the white list.
+When rebooting the EHCI driver, ehci_shutdown() will be called.
+if the sbrn flag is 0, ehci_shutdown() will return directly.
+The sbrn flag being 0 will cause the EHCI interrupt signal to
+not be turned off after reboot. this interrupt that is not closed
+will cause an exception to the device sharing the interrupt.
 
-The current patch does not affect the drive function.
+Therefore, the EHCI controller of kunpeng920 needs to be added
+to the whitelist without SBRN register.
 
 Signed-off-by: Longfang Liu <liulongfang@huawei.com>
 ---
- drivers/usb/host/ehci-pci.c | 28 ++++++++++++++++++++++++----
- 1 file changed, 24 insertions(+), 4 deletions(-)
+ drivers/usb/host/ehci-pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
-index 3c3820a..534e906 100644
+index 534e906..7bd075c 100644
 --- a/drivers/usb/host/ehci-pci.c
 +++ b/drivers/usb/host/ehci-pci.c
-@@ -47,6 +47,29 @@ static inline bool is_bypassed_id(struct pci_dev *pdev)
- 	return !!pci_match_id(bypass_pci_id_table, pdev);
- }
- 
-+static const struct usb_nosbrn_whitelist_entry {
-+	u16 vendor;
-+	u16 device;
-+} usb_nosbrn_whitelist[] = {
-+	/* STMICRO ConneXT has no sbrn register */
-+	{PCI_VENDOR_ID_STMICRO, PCI_DEVICE_ID_STMICRO_USB_HOST},
-+	/* End of list */
-+	{NULL, NULL}
-+};
-+
-+static bool usb_forbid_sbrn_read(struct pci_dev *pdev)
-+{
-+	const struct usb_nosbrn_whitelist_entry *entry;
-+
-+	for (entry = usb_nosbrn_whitelist; entry->vendor; entry++) {
-+		if (pdev->vendor == entry->vendor &&
-+		    pdev->device == entry->device)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
- /*
-  * 0x84 is the offset of in/out threshold register,
-  * and it is the same offset as the register of 'hostpc'.
-@@ -288,10 +311,7 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
- 	}
- 
- 	/* Serial Bus Release Number is at PCI 0x60 offset */
--	if (pdev->vendor == PCI_VENDOR_ID_STMICRO
--	    && pdev->device == PCI_DEVICE_ID_STMICRO_USB_HOST)
--		;	/* ConneXT has no sbrn register */
--	else
-+	if (!usb_forbid_sbrn_read(pdev))
- 		pci_read_config_byte(pdev, 0x60, &ehci->sbrn);
- 
- 	/* Keep this around for a while just in case some EHCI
+@@ -53,6 +53,8 @@ static const struct usb_nosbrn_whitelist_entry {
+ } usb_nosbrn_whitelist[] = {
+ 	/* STMICRO ConneXT has no sbrn register */
+ 	{PCI_VENDOR_ID_STMICRO, PCI_DEVICE_ID_STMICRO_USB_HOST},
++	/* HUAWEI Kunpeng920 HiSilicon USB EHCI has no sbrn register */
++	{PCI_VENDOR_ID_HUAWEI, 0xa239},
+ 	/* End of list */
+ 	{NULL, NULL}
+ };
 -- 
 2.8.1
 
