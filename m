@@ -2,76 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE73C433ED
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 08:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 089E7C433B4
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 08:42:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7D69610E8
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 08:38:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD039610FA
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 08:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229831AbhDHIi3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 04:38:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229539AbhDHIi2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Apr 2021 04:38:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2325E61164;
-        Thu,  8 Apr 2021 08:38:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617871097;
-        bh=EKla77SyEE6T1IP9Pxi4AGFbASgxAkPmq1KCXqQuZno=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=goWJm9RhgyKuNh03lo5q4cSfTABSVGna27lFbZWGokfszw7t0e5WeAEFWQK/imU8e
-         v0wxWyEpSXKOlEGZUV1GfkPNkg30uBwtt3UTxEq5WDSsFtUNQcPzC1evE08JVnkI5O
-         /hp0t2+PxYRrDBA8F+sS8crSgm6LQO3/YHELIcQE=
-Date:   Thu, 8 Apr 2021 10:38:15 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH 1/1] usb: typec: tcpm: remove unused static variable
- 'tcpm_altmode_ops'
-Message-ID: <YG7A94eekRgvskUg@kroah.com>
-References: <20210407091540.2815-1-thunder.leizhen@huawei.com>
- <YG6+mfqIc15rc9H1@kuha.fi.intel.com>
+        id S229603AbhDHImg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 04:42:36 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:16403 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229539AbhDHImg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 04:42:36 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FGF8G5Tr8zkjVQ;
+        Thu,  8 Apr 2021 16:40:30 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
+ 16:42:07 +0800
+From:   Ye Bin <yebin10@huawei.com>
+To:     <yebin10@huawei.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        "Shuah Khan" <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        Hulk Robot <hulkci@huawei.com>
+Subject: [PATCH -next] usbip: vudc: fix missing unlock on error in usbip_sockfd_store()
+Date:   Thu, 8 Apr 2021 16:50:33 +0800
+Message-ID: <20210408085033.909377-1-yebin10@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YG6+mfqIc15rc9H1@kuha.fi.intel.com>
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 11:28:09AM +0300, Heikki Krogerus wrote:
-> On Wed, Apr 07, 2021 at 05:15:40PM +0800, Zhen Lei wrote:
-> > Fixes the following W=1 kernel build warning:
-> > 
-> > drivers/usb/typec/tcpm/tcpm.c:2107:39: warning: ‘tcpm_altmode_ops’ defined but not used [-Wunused-const-variable=]
-> > 
-> > The reference to the variable 'tcpm_altmode_ops' is deleted by the
-> > commit a079973f462a ("usb: typec: tcpm: Remove tcpc_config configuration
-> > mechanism").
-> > 
-> > By the way, the static functions referenced only by the variable
-> > 'tcpm_altmode_ops' are deleted accordingly.
-> > 
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> 
-> Oh, I thought this was already fixed. Should this go into the stable
-> trees as well?
+Add the missing unlock before return from function usbip_sockfd_store()
+in the error handling case.
 
-We do not build kernels by default with "W=1" yet, so it's not needed
-in stable kernels.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Ye Bin <yebin10@huawei.com>
+---
+ drivers/usb/usbip/vudc_sysfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks,
+diff --git a/drivers/usb/usbip/vudc_sysfs.c b/drivers/usb/usbip/vudc_sysfs.c
+index f7633ee655a1..d1cf6b51bf85 100644
+--- a/drivers/usb/usbip/vudc_sysfs.c
++++ b/drivers/usb/usbip/vudc_sysfs.c
+@@ -156,12 +156,14 @@ static ssize_t usbip_sockfd_store(struct device *dev,
+ 		tcp_rx = kthread_create(&v_rx_loop, &udc->ud, "vudc_rx");
+ 		if (IS_ERR(tcp_rx)) {
+ 			sockfd_put(socket);
++			mutex_unlock(&udc->ud.sysfs_lock);
+ 			return -EINVAL;
+ 		}
+ 		tcp_tx = kthread_create(&v_tx_loop, &udc->ud, "vudc_tx");
+ 		if (IS_ERR(tcp_tx)) {
+ 			kthread_stop(tcp_rx);
+ 			sockfd_put(socket);
++			mutex_unlock(&udc->ud.sysfs_lock);
+ 			return -EINVAL;
+ 		}
+ 
 
-greg k-h
