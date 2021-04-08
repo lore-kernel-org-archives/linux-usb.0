@@ -2,76 +2,71 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B74AAC433ED
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 11:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB26AC433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 11:34:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 641FF61154
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 11:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C7C36113D
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 11:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbhDHLPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 07:15:01 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:16092 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229721AbhDHLPB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 07:15:01 -0400
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGJWn08Rdz19KrH;
-        Thu,  8 Apr 2021 19:12:37 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS405-HUB.china.huawei.com
- (10.3.19.205) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
- 19:14:40 +0800
-From:   Ye Bin <yebin10@huawei.com>
-To:     <valentina.manea.m@gmail.com>, <shuah@kernel.org>,
-        <gregkh@linuxfoundation.org>, <yebin10@huawei.com>
-CC:     <linux-usb@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        <hulkci@huawei.com>
-Subject: [PATCH -next v2] usbip: vudc: fix missing unlock on error in usbip_sockfd_store()
-Date:   Thu, 8 Apr 2021 19:23:05 +0800
-Message-ID: <20210408112305.1022247-1-yebin10@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        id S230434AbhDHLeh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 07:34:37 -0400
+Received: from mx2.suse.de ([195.135.220.15]:59226 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229803AbhDHLeh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Apr 2021 07:34:37 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1617881664; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tDIOVgigbNQz2wYXvUtfW44dlC0pAdBtG9TE2EYQHS8=;
+        b=Z75+dZcYRxtLlGt8Qfw12bo1a8OYGbZrI8c+G1NJMtOS1MAQYGzDbj2f4Z+d1r8ssOrtQb
+        37oOad0lWvKW7juG7jK7mMyyqNzfZfokKN5KRCZ5y09v1V8Mf5Lgdl+QC13k+tY7pUWzcm
+        emrh/I3NkpxMy6T1k0qGQAhBsrGMFDw=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C4DCCB294;
+        Thu,  8 Apr 2021 11:34:24 +0000 (UTC)
+Message-ID: <0049152ce9da85c50fda91c1b77ca233ba0fef3d.camel@suse.com>
+Subject: Re: [PATCH 3/3] USB: cdc-acm: fix TIOCGSERIAL implementation
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Thu, 08 Apr 2021 13:34:12 +0200
+In-Reply-To: <YG7RiLoscS6VXG7n@hovoldconsulting.com>
+References: <20210407102845.32720-1-johan@kernel.org>
+         <20210407102845.32720-4-johan@kernel.org>
+         <a1a94db2d373c4c7b8841908d8e6133ab022232e.camel@suse.com>
+         <YG7RiLoscS6VXG7n@hovoldconsulting.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the missing unlock before return from function usbip_sockfd_store()
-in the error handling case.
+Am Donnerstag, den 08.04.2021, 11:48 +0200 schrieb Johan Hovold:
+> On Thu, Apr 08, 2021 at 10:36:46AM +0200, Oliver Neukum wrote:
+> > Am Mittwoch, den 07.04.2021, 12:28 +0200 schrieb Johan Hovold:
 
-Fixes: bd8b82042269 ("usbip: vudc synchronize sysfs code paths")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Ye Bin <yebin10@huawei.com>
----
- drivers/usb/usbip/vudc_sysfs.c | 2 ++
- 1 file changed, 2 insertions(+)
+> > Well, the devices report it. It is part of the standard.
+> 
+> No, the standard doesn't include anything about a baud-base clock
+> AFAICT.
 
-diff --git a/drivers/usb/usbip/vudc_sysfs.c b/drivers/usb/usbip/vudc_sysfs.c
-index f7633ee655a1..d1cf6b51bf85 100644
---- a/drivers/usb/usbip/vudc_sysfs.c
-+++ b/drivers/usb/usbip/vudc_sysfs.c
-@@ -156,12 +156,14 @@ static ssize_t usbip_sockfd_store(struct device *dev,
- 		tcp_rx = kthread_create(&v_rx_loop, &udc->ud, "vudc_rx");
- 		if (IS_ERR(tcp_rx)) {
- 			sockfd_put(socket);
-+			mutex_unlock(&udc->ud.sysfs_lock);
- 			return -EINVAL;
- 		}
- 		tcp_tx = kthread_create(&v_tx_loop, &udc->ud, "vudc_tx");
- 		if (IS_ERR(tcp_tx)) {
- 			kthread_stop(tcp_rx);
- 			sockfd_put(socket);
-+			mutex_unlock(&udc->ud.sysfs_lock);
- 			return -EINVAL;
- 		}
- 
--- 
-2.25.4
+Unfortunately it does.
+dwDTERate - chapter 6.3.11 - table 17
+
+If we does this wrongly, we should certainly fix it, but just removing
+the reporting doesn't look right to me.
+
+	Regards
+		Oliver
+
 
