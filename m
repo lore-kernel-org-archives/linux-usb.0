@@ -2,71 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8EEC433B4
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:44:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C4CC433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:45:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D95D561208
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:44:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5356610A6
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:45:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbhDHJpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 05:45:03 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:16044 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231322AbhDHJpC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 05:45:02 -0400
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FGGWH49tdzPnsX;
-        Thu,  8 Apr 2021 17:42:03 +0800 (CST)
-Received: from [10.67.102.118] (10.67.102.118) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 8 Apr 2021 17:44:40 +0800
-Subject: Re: [PATCH 1/2] USB:ehci:Add a whitelist for EHCI controllers
-To:     Oliver Neukum <oneukum@suse.com>, <gregkh@linuxfoundation.org>,
-        <mathias.nyman@intel.com>, <stern@rowland.harvard.edu>,
-        <liudongdong3@huawei.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kong.kongxinwei@hisilicon.com>, <yisen.zhuang@huawei.com>
-References: <1617873073-37371-1-git-send-email-liulongfang@huawei.com>
- <1617873073-37371-2-git-send-email-liulongfang@huawei.com>
- <a14fcaffd6e26081c07bcfa36a81ded38dcf88b2.camel@suse.com>
-From:   liulongfang <liulongfang@huawei.com>
-Message-ID: <0d5963d0-9e25-5411-67df-146bf924fc17@huawei.com>
-Date:   Thu, 8 Apr 2021 17:44:39 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <a14fcaffd6e26081c07bcfa36a81ded38dcf88b2.camel@suse.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.118]
-X-CFilter-Loop: Reflected
+        id S231380AbhDHJpP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 05:45:15 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:37546 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231358AbhDHJpJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 05:45:09 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost2.synopsys.com [10.225.0.210])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 3D02540829;
+        Thu,  8 Apr 2021 09:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1617875097; bh=Gd6RpJYfHcJtTprhTBHDNtSWQfOmDM4ekWqCTpUJyiw=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=MVI+lX+aeluFNiHFgHK+ZIfFPaUReoDY9IO//B7JPIcG4o7awS7DNmWuB4g4rp38a
+         b5t2zjxex9k1fy3GPFGADwZCMB5CBDGBEME8Mh/pFHVh40VUZywCon0xtyiNdAHKMd
+         okYyY6u0u6+lAX8FPzwGAnHQjplYH3oq9/dOEQBWwKBI4p2Nly0W1K0Q32F5Rgedwb
+         XwcZrCTOJSpLuv9noTRkyKF0+yUTzOz+nX2ygoD7gY8c+o8CQ6hph4xYn3teq9EjfD
+         ++q4vssFHh8Lq7MmEGJVPuD4yyMhVOGkMoQ34wWYdli5Z0J1m5IFvfyPlQwCqZ7dr8
+         GE/OocWAvHAeQ==
+Received: from razpc-HP (razpc-hp.internal.synopsys.com [10.116.126.207])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 5BBCBA0094;
+        Thu,  8 Apr 2021 09:44:54 +0000 (UTC)
+Received: by razpc-HP (sSMTP sendmail emulation); Thu, 08 Apr 2021 13:44:53 +0400
+Date:   Thu, 08 Apr 2021 13:44:53 +0400
+In-Reply-To: <cover.1617782102.git.Arthur.Petrosyan@synopsys.com>
+References: <cover.1617782102.git.Arthur.Petrosyan@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Subject: [PATCH v3 04/14] usb: dwc2: Add partial power down exit flow in wakeup intr.
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     John Youn <John.Youn@synopsys.com>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <20210408094454.5BBCBA0094@mailhost.synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021/4/8 17:33, Oliver Neukum wrote:
-> Am Donnerstag, den 08.04.2021, 17:11 +0800 schrieb Longfang Liu:
->> Some types of EHCI controllers do not have SBRN registers.
->> By comparing the white list, the operation of reading the SBRN
->> registers is skipped.
->>
->> Subsequent EHCI controller types without SBRN registers can be
->> directly added to the white list.
-> 
-> Hi,
-> 
-> shouldn't this set a flag for a missing functionality?
-> 
-> 	Regards
-> 		Oliver
-> 
-> 
-> .
-> 
-This flag is ehci->sbrn.
-Thanks,
-Longfang
+According to programming guide added host partial power
+down exit flow in wakeup detected interrupt handler.
+
+Signed-off-by: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Acked-by: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+---
+ drivers/usb/dwc2/core_intr.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
+index 1fb957ce6c25..0a7f9330907f 100644
+--- a/drivers/usb/dwc2/core_intr.c
++++ b/drivers/usb/dwc2/core_intr.c
+@@ -423,15 +423,14 @@ static void dwc2_handle_wakeup_detected_intr(struct dwc2_hsotg *hsotg)
+ 			hsotg->lx_state = DWC2_L0;
+ 		}
+ 	} else {
+-		if (hsotg->params.power_down)
+-			return;
+-
+-		if (hsotg->lx_state != DWC2_L1) {
+-			u32 pcgcctl = dwc2_readl(hsotg, PCGCTL);
+-
+-			/* Restart the Phy Clock */
+-			pcgcctl &= ~PCGCTL_STOPPCLK;
+-			dwc2_writel(hsotg, pcgcctl, PCGCTL);
++		if (hsotg->lx_state == DWC2_L2) {
++			if (hsotg->in_ppd) {
++				ret = dwc2_exit_partial_power_down(hsotg, 1,
++								   true);
++				if (ret)
++					dev_err(hsotg->dev,
++						"exit partial_power_down failed\n");
++			}
+ 
+ 			/*
+ 			 * If we've got this quirk then the PHY is stuck upon
+-- 
+2.25.1
+
