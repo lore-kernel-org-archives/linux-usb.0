@@ -2,281 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9719C43461
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:35:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D39D1C433ED
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:36:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 771FA61157
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:35:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8DCA61154
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Apr 2021 09:36:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbhDHJfr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Apr 2021 05:35:47 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:35204 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230470AbhDHJfk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 05:35:40 -0400
-X-UUID: c31ffdb73cbe4a04a05c6b41db109833-20210408
-X-UUID: c31ffdb73cbe4a04a05c6b41db109833-20210408
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 344547842; Thu, 08 Apr 2021 17:35:25 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 8 Apr 2021 17:35:23 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 8 Apr 2021 17:35:21 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        id S230506AbhDHJgx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Apr 2021 05:36:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44377 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230412AbhDHJgw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Apr 2021 05:36:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617874601;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=wTM1I51JiZsJTUXUcb2nxEiCnAUVBmnDvU5v/ZRgEw4=;
+        b=hbSz3s2jkpmtH5OTjDkvlF1hC4fDqEXE9N0Hj1PgnNAqEpbx/hqCqJCNxPNyXT4eDlTtBz
+        t3fGVDxku82sqoEeUmzpLViESTHBt12CQv/vMrtYQoRCdyXLmDCQqGzncd0DCVIQLXUpCB
+        RWBDlotizck1qrlGEKvZj2e96oH0LHo=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-jyQBF0fAPhOUa3oFf4kqng-1; Thu, 08 Apr 2021 05:36:40 -0400
+X-MC-Unique: jyQBF0fAPhOUa3oFf4kqng-1
+Received: by mail-ed1-f70.google.com with SMTP id h9so739031edb.10
+        for <linux-usb@vger.kernel.org>; Thu, 08 Apr 2021 02:36:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wTM1I51JiZsJTUXUcb2nxEiCnAUVBmnDvU5v/ZRgEw4=;
+        b=s7nXPHDtepb0RohJUsPWqI+qNUruJLv98RJfRCDx1fExqc6FwHDMMesFJm8DgFCxXj
+         S+7m+2N1VT7J156/VudTGsWOALNNvLwT+7JOsw6x8WkQB2s3jMXKxAJl+s2RTrMW+lhd
+         AXafMgEit69ak617pY1Wf0PwwD0QNdSN1bCgd9VmvVwWcg6pabtMFixAy7UtFXoifRdp
+         9tYMHdOL1dqsHE4KRDE1wGDFUVZFyRXiJ4fyk+J95e3DtQmxiGXSOixD5Re4FAFNjZEW
+         VFlluG3bhOWDFoDrBGA//BRMWy9zWIWr0QrSkv+R38HnbMl2I2fLk/SQZWZgb6REtqj4
+         hOIA==
+X-Gm-Message-State: AOAM530eQitXLW0glhCEBveJkN2bUkxkAccUc0z/v6dcFp3nfe5wArhm
+        qTYckJiVvpG4MwoSLrkb2tKPLJo34RyyicHK8xQwpu8xHJl2b76qIGgNtBxhWwtbhSUi4VyjQCn
+        CjM2S6foc6PxmWMkRLmzd
+X-Received: by 2002:a05:6402:440d:: with SMTP id y13mr10173749eda.316.1617874599128;
+        Thu, 08 Apr 2021 02:36:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUBHZrOf3Gnnmrz1bbvSo4L3xkAULh43bt4NcE+gsmzaskCY3bVY8lUC4Ce/gr9PP5rscmSQ==
+X-Received: by 2002:a05:6402:440d:: with SMTP id y13mr10173727eda.316.1617874598948;
+        Thu, 08 Apr 2021 02:36:38 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id zc4sm514279ejb.77.2021.04.08.02.36.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Apr 2021 02:36:38 -0700 (PDT)
+Subject: Re: [PATCH 1/1] usb: typec: tcpm: remove unused static variable
+ 'tcpm_altmode_ops'
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Zhen Lei <thunder.leizhen@huawei.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Ikjoon Jang <ikjn@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH 5/6] usb: xhci-mtk: use clock bulk to get clocks
-Date:   Thu, 8 Apr 2021 17:35:13 +0800
-Message-ID: <1617874514-12282-5-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1617874514-12282-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1617874514-12282-1-git-send-email-chunfeng.yun@mediatek.com>
+        linux-usb <linux-usb@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210407091540.2815-1-thunder.leizhen@huawei.com>
+ <7e2797f7-0ba7-0362-ae34-a1d4fb265cd7@redhat.com>
+ <YG7MG2yZbRlSJg9E@kuha.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a6465113-62b0-171b-9dad-55cbd1464607@redhat.com>
+Date:   Thu, 8 Apr 2021 11:36:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 35884E1CF77416F3359BD1765DBFB508BB3FA0BCEE83CBD35591F1898D4E947D2000:8
-X-MTK:  N
+In-Reply-To: <YG7MG2yZbRlSJg9E@kuha.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use clock bulk helpers to get/enable/disable clocks, meanwhile
-make sys_ck optional, then will be easier to handle clocks.
+Hi,
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/host/xhci-mtk.c | 109 +++++++-----------------------------
- drivers/usb/host/xhci-mtk.h |  10 ++--
- 2 files changed, 24 insertions(+), 95 deletions(-)
+On 4/8/21 11:25 AM, Heikki Krogerus wrote:
+> On Thu, Apr 08, 2021 at 11:10:38AM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 4/7/21 11:15 AM, Zhen Lei wrote:
+>>> Fixes the following W=1 kernel build warning:
+>>>
+>>> drivers/usb/typec/tcpm/tcpm.c:2107:39: warning: ‘tcpm_altmode_ops’ defined but not used [-Wunused-const-variable=]
+>>>
+>>> The reference to the variable 'tcpm_altmode_ops' is deleted by the
+>>> commit a079973f462a ("usb: typec: tcpm: Remove tcpc_config configuration
+>>> mechanism").
+>>>
+>>> By the way, the static functions referenced only by the variable
+>>> 'tcpm_altmode_ops' are deleted accordingly.
+>>>
+>>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>>
+>> I have a patch pending:
+>>
+>> https://www.spinics.net/lists/linux-usb/msg197684.html
+>>
+>> Which actually uses this. I really need to (and plan to) brush the dust of
+>> this one soon and submit a new version.
+>>
+>> As such I would prefer for these ops to not get removed. But I guess I
+>> can always include a patch in my series reverting the removal...
+> 
+> Well, can we then just leave the ops there? If we're going to
+> re-introduce them back soon in any case, then why drop them in the
+> first place.
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 30927f4064d4..d4c455eecb8d 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -7,7 +7,6 @@
-  *  Chunfeng Yun <chunfeng.yun@mediatek.com>
-  */
- 
--#include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/iopoll.h>
- #include <linux/kernel.h>
-@@ -220,89 +219,6 @@ static int xhci_mtk_ssusb_config(struct xhci_hcd_mtk *mtk)
- 	return xhci_mtk_host_enable(mtk);
- }
- 
--static int xhci_mtk_clks_get(struct xhci_hcd_mtk *mtk)
--{
--	struct device *dev = mtk->dev;
--
--	mtk->sys_clk = devm_clk_get(dev, "sys_ck");
--	if (IS_ERR(mtk->sys_clk)) {
--		dev_err(dev, "fail to get sys_ck\n");
--		return PTR_ERR(mtk->sys_clk);
--	}
--
--	mtk->xhci_clk = devm_clk_get_optional(dev, "xhci_ck");
--	if (IS_ERR(mtk->xhci_clk))
--		return PTR_ERR(mtk->xhci_clk);
--
--	mtk->ref_clk = devm_clk_get_optional(dev, "ref_ck");
--	if (IS_ERR(mtk->ref_clk))
--		return PTR_ERR(mtk->ref_clk);
--
--	mtk->mcu_clk = devm_clk_get_optional(dev, "mcu_ck");
--	if (IS_ERR(mtk->mcu_clk))
--		return PTR_ERR(mtk->mcu_clk);
--
--	mtk->dma_clk = devm_clk_get_optional(dev, "dma_ck");
--	return PTR_ERR_OR_ZERO(mtk->dma_clk);
--}
--
--static int xhci_mtk_clks_enable(struct xhci_hcd_mtk *mtk)
--{
--	int ret;
--
--	ret = clk_prepare_enable(mtk->ref_clk);
--	if (ret) {
--		dev_err(mtk->dev, "failed to enable ref_clk\n");
--		goto ref_clk_err;
--	}
--
--	ret = clk_prepare_enable(mtk->sys_clk);
--	if (ret) {
--		dev_err(mtk->dev, "failed to enable sys_clk\n");
--		goto sys_clk_err;
--	}
--
--	ret = clk_prepare_enable(mtk->xhci_clk);
--	if (ret) {
--		dev_err(mtk->dev, "failed to enable xhci_clk\n");
--		goto xhci_clk_err;
--	}
--
--	ret = clk_prepare_enable(mtk->mcu_clk);
--	if (ret) {
--		dev_err(mtk->dev, "failed to enable mcu_clk\n");
--		goto mcu_clk_err;
--	}
--
--	ret = clk_prepare_enable(mtk->dma_clk);
--	if (ret) {
--		dev_err(mtk->dev, "failed to enable dma_clk\n");
--		goto dma_clk_err;
--	}
--
--	return 0;
--
--dma_clk_err:
--	clk_disable_unprepare(mtk->mcu_clk);
--mcu_clk_err:
--	clk_disable_unprepare(mtk->xhci_clk);
--xhci_clk_err:
--	clk_disable_unprepare(mtk->sys_clk);
--sys_clk_err:
--	clk_disable_unprepare(mtk->ref_clk);
--ref_clk_err:
--	return ret;
--}
--
--static void xhci_mtk_clks_disable(struct xhci_hcd_mtk *mtk)
--{
--	clk_disable_unprepare(mtk->dma_clk);
--	clk_disable_unprepare(mtk->mcu_clk);
--	clk_disable_unprepare(mtk->xhci_clk);
--	clk_disable_unprepare(mtk->sys_clk);
--	clk_disable_unprepare(mtk->ref_clk);
--}
--
- /* only clocks can be turn off for ip-sleep wakeup mode */
- static void usb_wakeup_ip_sleep_set(struct xhci_hcd_mtk *mtk, bool enable)
- {
-@@ -367,6 +283,19 @@ static void usb_wakeup_set(struct xhci_hcd_mtk *mtk, bool enable)
- 		usb_wakeup_ip_sleep_set(mtk, enable);
- }
- 
-+static int xhci_mtk_clks_get(struct xhci_hcd_mtk *mtk)
-+{
-+	struct clk_bulk_data *clks = mtk->clks;
-+
-+	clks[0].id = "sys_ck";
-+	clks[1].id = "xhci_ck";
-+	clks[2].id = "ref_ck";
-+	clks[3].id = "mcu_ck";
-+	clks[4].id = "dma_ck";
-+
-+	return devm_clk_bulk_get_optional(mtk->dev, BULK_CLKS_NUM, clks);
-+}
-+
- static int xhci_mtk_ldos_enable(struct xhci_hcd_mtk *mtk)
- {
- 	int ret;
-@@ -522,7 +451,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto disable_pm;
- 
--	ret = xhci_mtk_clks_enable(mtk);
-+	ret = clk_bulk_prepare_enable(BULK_CLKS_NUM, mtk->clks);
- 	if (ret)
- 		goto disable_ldos;
- 
-@@ -625,7 +554,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	usb_put_hcd(hcd);
- 
- disable_clk:
--	xhci_mtk_clks_disable(mtk);
-+	clk_bulk_disable_unprepare(BULK_CLKS_NUM, mtk->clks);
- 
- disable_ldos:
- 	xhci_mtk_ldos_disable(mtk);
-@@ -655,7 +584,7 @@ static int xhci_mtk_remove(struct platform_device *pdev)
- 	usb_put_hcd(shared_hcd);
- 	usb_put_hcd(hcd);
- 	xhci_mtk_sch_exit(mtk);
--	xhci_mtk_clks_disable(mtk);
-+	clk_bulk_disable_unprepare(BULK_CLKS_NUM, mtk->clks);
- 	xhci_mtk_ldos_disable(mtk);
- 
- 	pm_runtime_disable(dev);
-@@ -682,7 +611,7 @@ static int __maybe_unused xhci_mtk_suspend(struct device *dev)
- 	if (ret)
- 		goto restart_poll_rh;
- 
--	xhci_mtk_clks_disable(mtk);
-+	clk_bulk_disable_unprepare(BULK_CLKS_NUM, mtk->clks);
- 	usb_wakeup_set(mtk, true);
- 	return 0;
- 
-@@ -703,7 +632,7 @@ static int __maybe_unused xhci_mtk_resume(struct device *dev)
- 	int ret;
- 
- 	usb_wakeup_set(mtk, false);
--	ret = xhci_mtk_clks_enable(mtk);
-+	ret = clk_bulk_prepare_enable(BULK_CLKS_NUM, mtk->clks);
- 	if (ret)
- 		goto enable_wakeup;
- 
-@@ -719,7 +648,7 @@ static int __maybe_unused xhci_mtk_resume(struct device *dev)
- 	return 0;
- 
- disable_clks:
--	xhci_mtk_clks_disable(mtk);
-+	clk_bulk_disable_unprepare(BULK_CLKS_NUM, mtk->clks);
- enable_wakeup:
- 	usb_wakeup_set(mtk, true);
- 	return ret;
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index 621ec1a85009..11996edc1967 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -9,8 +9,12 @@
- #ifndef _XHCI_MTK_H_
- #define _XHCI_MTK_H_
- 
-+#include <linux/clk.h>
-+
- #include "xhci.h"
- 
-+#define BULK_CLKS_NUM	5
-+
- /**
-  * To simplify scheduler algorithm, set a upper limit for ESIT,
-  * if a synchromous ep's ESIT is larger than @XHCI_MTK_MAX_ESIT,
-@@ -140,11 +144,7 @@ struct xhci_hcd_mtk {
- 	int u3p_dis_msk;
- 	struct regulator *vusb33;
- 	struct regulator *vbus;
--	struct clk *sys_clk;	/* sys and mac clock */
--	struct clk *xhci_clk;
--	struct clk *ref_clk;
--	struct clk *mcu_clk;
--	struct clk *dma_clk;
-+	struct clk_bulk_data clks[BULK_CLKS_NUM];
- 	struct regmap *pericfg;
- 	struct phy **phys;
- 	int num_phys;
--- 
-2.18.0
+Yes I'm in favor of just leaving them in place too, sorry if that was
+not clear.
+
+Regards,
+
+Hans
 
