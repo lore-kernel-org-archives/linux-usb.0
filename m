@@ -2,91 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF43DC433ED
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 16:20:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA88C43460
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 16:22:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A535861104
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 16:20:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B728F6105A
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 16:22:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233978AbhDIQUS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Apr 2021 12:20:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
+        id S234022AbhDIQW7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Apr 2021 12:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233527AbhDIQUR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Apr 2021 12:20:17 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A522C061761;
-        Fri,  9 Apr 2021 09:20:03 -0700 (PDT)
-Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:19b8:b5db:beab:c68c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B13BC1F46987;
-        Fri,  9 Apr 2021 17:19:59 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc:     megous@megous.com, linux-usb@vger.kernel.org, a.hajda@samsung.com,
-        narmstrong@baylibre.com, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@siol.net, airlied@linux.ie,
-        daniel@ffwll.ch, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
-        enric.balletbo@collabora.com, drinkcat@chromium.org,
-        hsinyi@chromium.org, kernel@collabora.com, dafna3@gmail.com,
-        dafna.hirschfeld@collabora.com, robh+dt@kernel.org
-Subject: [PATCH v6 0/2] Add support for ANX7688
-Date:   Fri,  9 Apr 2021 18:19:49 +0200
-Message-Id: <20210409161951.12365-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S234008AbhDIQW5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Apr 2021 12:22:57 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 908EDC061760;
+        Fri,  9 Apr 2021 09:22:43 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so5242471pjh.1;
+        Fri, 09 Apr 2021 09:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Q7xFBcWlzYhkzF0WJIFSviLducCgzZ0CokBZ31tudr8=;
+        b=QBGtFUpxtyST88wpT2VS1e6bxUVNLEU3isT8LbSz2sjUN67usjspo0zLuXLHg5ftPr
+         BxtX+hEvwiHAksy4TUZNqb/fOESLtTU7O3x9lCAQBxsUMepp8icZmyIrQYj7yUGMVRRQ
+         9bi6caEfDqwrp96z94DwqYDPHhfsu41Dv25sa3n8FpWKGaxqIVbHt8NDj64T0b5LAw49
+         GPXGLFw17N5Gu/b9Oh/hz9Dr1VpocZNDK3SScYjFEzqKhdlNrOeXrILfA1ZcgZxt4pHU
+         IFePyE7Wf0wA/SnOn8ngEBVSAeHW0aboJDYud4jOpq0ozjGNp54uJFE3MTvTqrQUbSTC
+         9aFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q7xFBcWlzYhkzF0WJIFSviLducCgzZ0CokBZ31tudr8=;
+        b=ZmcafCvko2hgRqz80myii74H0GZnIT9B9YcmhoNEfUoByQkOrJos5arqh0o6yxpOzW
+         gxBZj+FvTN9f1/UVD7ZGb54Q71tLdlWDkgGTKjRf+nguuAHZxJ7+5spVOAPz+a8hMOPh
+         AFt31QaYwNKBm63+j8/YL3Yi++CW2pJzVPkEjPcf1rdQTqWPdV0ID+Uaf9h9m38hCIZe
+         iBCnK8OPYm1Szsi0trjpo9GwlgEDdU6JYbQpsX8rjQYFsj5FbOxnKySFTnfvu8Bpgr5R
+         QjOy141BeAc/JvRPJjFtRVlHepvXUvZ8oTcXJjW/aezAxUqH0FvU7PurufDoc1G3lWRt
+         hy7A==
+X-Gm-Message-State: AOAM532oyhYm9GBQOKUz/mSVEXj/RJ1q/SotMGPNaiuftRpuXgqd9Icm
+        VevWDuGruUT3MZJDzf7TSrFc0i3qsUnZqTsR8hs=
+X-Google-Smtp-Source: ABdhPJzHulcDtkpv4/jVHu4ZJ3AL1cpR1QPajGhCJtU749k98+sXH4kPAbU0LNRTIISGw79xEitiTU7U/Qor3y/kjxs=
+X-Received: by 2002:a17:90b:1e0a:: with SMTP id pg10mr14589038pjb.129.1617985363066;
+ Fri, 09 Apr 2021 09:22:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210409155216.31867-1-johan@kernel.org> <20210409155216.31867-3-johan@kernel.org>
+In-Reply-To: <20210409155216.31867-3-johan@kernel.org>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 9 Apr 2021 19:22:26 +0300
+Message-ID: <CAHp75VdEgDuwrRPFm1BXQXQFSNZzC2qQnBG-DJt+GqLzJ+HwuA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] USB: serial: cp210x: add gpio-configuration debug printk
+To:     Johan Hovold <johan@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Pho Tran <photranvan0712@gmail.com>, Hung.Nguyen@silabs.com,
+        Tung.Pham@silabs.com, USB <linux-usb@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ANX7688 is a typec port controller that also converts HDMI to DP.
-ANX7688 is found on Acer Chromebook R13 (elm) and on Pine64 PinePhone.
+On Fri, Apr 9, 2021 at 6:52 PM Johan Hovold <johan@kernel.org> wrote:
+>
+> Add a debug printk to dump the GPIO configuration stored in EEPROM
+> during probe.
+>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/usb/serial/cp210x.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+> index ceb3a656a075..ee595d1bea0a 100644
+> --- a/drivers/usb/serial/cp210x.c
+> +++ b/drivers/usb/serial/cp210x.c
+> @@ -1543,10 +1543,16 @@ static int cp210x_gpio_init_valid_mask(struct gpio_chip *gc,
+>  {
+>         struct usb_serial *serial = gpiochip_get_data(gc);
+>         struct cp210x_serial_private *priv = usb_get_serial_data(serial);
+> +       struct device *dev = &serial->interface->dev;
+>         unsigned long altfunc_mask = priv->gpio_altfunc;
+>
+>         bitmap_complement(valid_mask, &altfunc_mask, ngpios);
+>
+> +       if (bitmap_empty(valid_mask, ngpios))
+> +               dev_dbg(dev, "no pin configured for GPIO\n");
 
-On Acer Chromebook R13 (elm), the device is powered-up and controller by the
-Embedded Controller. Therefore its operation is transparent
-to the SoC. It is used in elm only as a display bridge driver.
-The bridge driver only reads some values using i2c and use them to
-implement the mode_fixup cb.
+Shouldn't we drop the GPIO device completely in such a case?
+Bart, wouldn't it be a good idea for GPIO library to do something like
+this on driver's behalf?
 
-On v5 we added the full dt-binding of the generic Analogix anx7688 device.
-The problem is that for elm, most of the fields are not needed since
-the anx7688 sits behind the EC. After a discussion on v5 (see [1])
-we decided to go back to the original approach and send the dt binding
-as specific to the elm. So in this version we rename the device to cros_ec_anx7688
-and use the compatible 'google,cros-ec-anx7688'.
+> +       else
+> +               dev_dbg(dev, "GPIO.%*pbl configured for GPIO\n", ngpios,
+> +                               valid_mask);
 
-[1] https://patchwork.kernel.org/project/dri-devel/patch/20210305124351.15079-3-dafna.hirschfeld@collabora.com/
+A nit-pick:
+I would change GPIO -> pin in the second message in the first occurrence.
 
-Changes since v5:
-* treat the device as a specific combination of an ANX7688 behind the EC and
-call it 'cros-ec-anx7688'
+>         return 0;
+>  }
+>
+> --
+> 2.26.3
+>
 
-Changes since v4:
-In v4 of this set, the device was added as an 'mfd' device
-and an additional 'bridge' device for the HDMI-DP conversion, see [2].
-
-[2] https://lkml.org/lkml/2020/3/18/64
-
-Dafna Hirschfeld (1):
-  dt-bindings: display: add google,cros-ec-anx7688.yaml
-
-Enric Balletbo i Serra (1):
-  drm/bridge: Add ChromeOS EC ANX7688 bridge driver support
-
- .../bridge/google,cros-ec-anx7688.yaml        |  82 ++++++++
- drivers/gpu/drm/bridge/Kconfig                |  12 ++
- drivers/gpu/drm/bridge/Makefile               |   1 +
- drivers/gpu/drm/bridge/cros-ec-anx7688.c      | 191 ++++++++++++++++++
- 4 files changed, 286 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
- create mode 100644 drivers/gpu/drm/bridge/cros-ec-anx7688.c
 
 -- 
-2.17.1
-
+With Best Regards,
+Andy Shevchenko
