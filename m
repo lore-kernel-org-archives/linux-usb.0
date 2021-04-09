@@ -2,111 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B48C3C43460
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 11:14:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC1AC433ED
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 11:30:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8553C610E7
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 11:14:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AE3F61184
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 11:30:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233998AbhDILPG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Apr 2021 07:15:06 -0400
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:39707 "EHLO
-        mail-oi1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233995AbhDILPF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Apr 2021 07:15:05 -0400
-Received: by mail-oi1-f173.google.com with SMTP id i81so5384636oif.6;
-        Fri, 09 Apr 2021 04:14:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rxjs0bOzud5jPgrtCrFonjn8TrOn+6BSTDUNWNa5VkA=;
-        b=XeF9AXNlN/rmxxhZVdABNMCYq13Y2K8LaepjVmT0/dzS+ckWkUZZPeYlO+KpSK87uA
-         yW7uWVnJxOGAaPu4JZpBF7tPYEALKyzLOIVjW7Dtk6aCcy+AqHfTKCriG0wUoteS3OqW
-         ws/yyVXuwrTUsrvTutwu5x9qYxa0UUJP+HdQ7h/VuhRLOxTlKeRsSwq8noF+AysM9jI4
-         csswg75J51YUijgFeZqvCARUHqLP8gXMJgeP76WxbJL43utgxjV0466kxIUZ570aakRi
-         L7FXcJnkbwIrOjToAf39q6Y2rvNMTLdZem2SO+n4vZdVUhFSrtNIgorEmBig1XKDYvFu
-         WZcw==
-X-Gm-Message-State: AOAM531f67wHBDbcDgsGY+sj3/PKGVvFE2+8Ve4q19njXS3MYnJUThV/
-        Z1lQC8kc3smMupehTD/dkTB4Z/Zlemvuy3THo64=
-X-Google-Smtp-Source: ABdhPJzqQwV2RLtxpvy3bdjEZbTiGwM6R2VqAkJLIvDpOTRgfz1/jDCWilo+43fl261e+3ylK2QTCgBnzn1M84H/KAA=
-X-Received: by 2002:aca:5fc3:: with SMTP id t186mr9286785oib.69.1617966892336;
- Fri, 09 Apr 2021 04:14:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <1617874514-12282-1-git-send-email-chunfeng.yun@mediatek.com>
- <CAJZ5v0gGntbfnvAP5A491_hUh-JUuqZjZRdPPLwWJjnZRtemcQ@mail.gmail.com>
- <1617933211.12105.22.camel@mhfsdcap03> <YG/ohhh3Tyet6InQ@atomide.com> <1617957362.12105.27.camel@mhfsdcap03>
-In-Reply-To: <1617957362.12105.27.camel@mhfsdcap03>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 9 Apr 2021 13:14:40 +0200
-Message-ID: <CAJZ5v0ioobLt5aEm8TAcPKgJiL13OJ7KqTeJmcQCuVp8ALxBmw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] PM: runtime: enable wake irq after runtime_suspend
- hook called
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Tony Lindgren <tony@atomide.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+        id S232974AbhDILaw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Apr 2021 07:30:52 -0400
+Received: from mail.baikalelectronics.com ([87.245.175.226]:49510 "EHLO
+        mail.baikalelectronics.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232087AbhDILav (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Apr 2021 07:30:51 -0400
+From:   Serge Semin <Sergey.Semin@baikalelectronics.ru>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        Krzysztof Kozlowski <krzk@kernel.org>,
         <linux-usb@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC..." 
-        <linux-mediatek@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Ikjoon Jang <ikjn@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>
+CC:     Serge Semin <Sergey.Semin@baikalelectronics.ru>,
+        Serge Semin <fancer.lancer@gmail.com>,
+        <devicetree@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH RESEND v8 3/7] powerpc: dts: akebono: Harmonize EHCI/OHCI DT nodes name
+Date:   Fri, 9 Apr 2021 14:30:24 +0300
+Message-ID: <20210409113029.7144-4-Sergey.Semin@baikalelectronics.ru>
+In-Reply-To: <20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru>
+References: <20210409113029.7144-1-Sergey.Semin@baikalelectronics.ru>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MAIL.baikal.int (192.168.51.25) To mail (192.168.51.25)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Apr 9, 2021 at 10:36 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
->
-> On Fri, 2021-04-09 at 08:39 +0300, Tony Lindgren wrote:
-> > * Chunfeng Yun <chunfeng.yun@mediatek.com> [210409 01:54]:
-> > > On Thu, 2021-04-08 at 19:41 +0200, Rafael J. Wysocki wrote:
-> > > > On Thu, Apr 8, 2021 at 11:35 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
-> > > > >
-> > > > > When the dedicated wake irq is level trigger, enable it before
-> > > > > calling runtime_suspend, will trigger an interrupt.
-> > > > >
-> > > > > e.g.
-> > > > > for a low level trigger type, it's low level at running time (0),
-> > > > > and becomes high level when enters suspend (runtime_suspend (1) is
-> > > > > called), a wakeup signal at (2) make it become low level, wake irq
-> > > > > will be triggered.
-> > > > >
-> > > > >                 ------------------
-> > > > >                |           ^     ^|
-> > > > > ----------------           |     | --------------
-> > > > >  |<---(0)--->|<--(1)--|   (3)   (2)    (4)
-> > > > >
-> > > > > if we enable the wake irq before calling runtime_suspend during (0),
-> > > > > an interrupt will arise, it causes resume immediately;
-> > > >
-> > > > But that's necessary to avoid missing a wakeup interrupt, isn't it?
-> > > That's also what I worry about.
-> >
-> > Yeah sounds like this patch will lead into missed wakeirqs.
-> If miss level trigger wakeirqs, that means HW doesn't latch it? is it HW
-> limitation?
+In accordance with the Generic EHCI/OHCI bindings the corresponding node
+name is suppose to comply with the Generic USB HCD DT schema, which
+requires the USB nodes to have the name acceptable by the regexp:
+"^usb(@.*)?" . Make sure the "generic-ehci" and "generic-ohci"-compatible
+nodes are correctly named.
 
-If it's level-triggered, it won't be missed, but then it is just
-pointless to suspend the device when wakeup is being signaled in the
-first place.
+Signed-off-by: Serge Semin <Sergey.Semin@baikalelectronics.ru>
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ arch/powerpc/boot/dts/akebono.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I'm not sure if I understand the underlying problem correctly.  Is it
-about addressing spurious wakeups?
+diff --git a/arch/powerpc/boot/dts/akebono.dts b/arch/powerpc/boot/dts/akebono.dts
+index df18f8dc4642..343326c30380 100644
+--- a/arch/powerpc/boot/dts/akebono.dts
++++ b/arch/powerpc/boot/dts/akebono.dts
+@@ -126,7 +126,7 @@ SATA0: sata@30000010000 {
+ 			interrupts = <93 2>;
+ 		};
+ 
+-		EHCI0: ehci@30010000000 {
++		EHCI0: usb@30010000000 {
+ 			compatible = "ibm,476gtr-ehci", "generic-ehci";
+ 			reg = <0x300 0x10000000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
+@@ -140,14 +140,14 @@ SD0: sd@30000000000 {
+ 			interrupt-parent = <&MPIC>;
+ 		};
+ 
+-		OHCI0: ohci@30010010000 {
++		OHCI0: usb@30010010000 {
+ 			compatible = "ibm,476gtr-ohci", "generic-ohci";
+ 			reg = <0x300 0x10010000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
+ 			interrupts = <89 1>;
+ 			};
+ 
+-		OHCI1: ohci@30010020000 {
++		OHCI1: usb@30010020000 {
+ 			compatible = "ibm,476gtr-ohci", "generic-ohci";
+ 			reg = <0x300 0x10020000 0x0 0x10000>;
+ 			interrupt-parent = <&MPIC>;
+-- 
+2.30.1
+
