@@ -2,71 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B19EEC43460
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 15:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9951C433ED
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 15:52:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81771610E5
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 15:52:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A865461042
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Apr 2021 15:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233713AbhDIPwy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Apr 2021 11:52:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44804 "EHLO mail.kernel.org"
+        id S231402AbhDIPwz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Apr 2021 11:52:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44816 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229665AbhDIPwx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232796AbhDIPwx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Fri, 9 Apr 2021 11:52:53 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CCF8610D0;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 417FC610F9;
         Fri,  9 Apr 2021 15:52:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617983560;
-        bh=1kp3+kVh4wgovHOtbQyFeBMBECiBSIk+VPjiYDcmYDk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WSFCTq9/s5kmYKknzg8BAU1lOKAhg3zmKQ5pT7CLnvOVZhWptIKGc58PvoaAEtwMR
-         FbbpSd+YqmaD4cnuellicpbPM8UL+MCEecKEsgmRlVJJbNWs2/+PVBKBiaGutBA2eS
-         1tg23Bca/JQACmrH75vw57Ta5MzIMxXgJrajAB5ILCpgi7QjSn7yjzRmdUHzmhklQ/
-         NpHZ7jyusR1biEV+55efAEPYdVk9mPyIm1AY4tI0aDsbXEPctwjM5+KYULlJVg0YqO
-         cXC75Wxe5N4ptzsJ8CtlrPO08jTicq4FzUd0SH917JmMD/I363bl7epgIlY3xL71Wu
-         SVopxYfBuJilg==
+        bh=82cgrefX/1Sq3u/fNHOVvK3ccx9ryULBHZgyjXXTGvM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=rXRNWoKlgSnY+YvO3196DBXdlsJkxlJ3y0cq7OQ1vLKtaCFfgselqQXlRk71NCWhx
+         psP6t4NFEReUYAwVrKnzl3Z7Cw/SzwRIj+GGmRTtlXNBSEJJwOjv+enpjeb7pOMVe9
+         uNobdy4oxRc93+r2eJNM7Aub2whSoopuKGqh2UBKukmlMa6UG8b7FnVw67k08Y2fLY
+         3WS9bcjQkgLOkK8Ex1l/BNOglsHwK1zAxNQSjNeyGcBHfyGZ8UuLXT0R02qPtl3NPd
+         glocUU25hFz6ZqdC0YsvL+e+7t95SzR8We1aGZ7NaOkAi9m/Yj/+9QaXBNiE2LERil
+         GkT0K/0J43AYA==
 Received: from johan by xi.lan with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lUtQz-0008Il-Q9; Fri, 09 Apr 2021 17:52:37 +0200
+        id 1lUtQz-0008Ip-W5; Fri, 09 Apr 2021 17:52:38 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Pho Tran <photranvan0712@gmail.com>, Hung.Nguyen@silabs.com,
         Tung.Pham@silabs.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] USB: serial: cp210x: provide gpio valid mask
-Date:   Fri,  9 Apr 2021 17:52:14 +0200
-Message-Id: <20210409155216.31867-1-johan@kernel.org>
+Subject: [PATCH 2/2] USB: serial: cp210x: add gpio-configuration debug printk
+Date:   Fri,  9 Apr 2021 17:52:16 +0200
+Message-Id: <20210409155216.31867-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210409155216.31867-1-johan@kernel.org>
+References: <20210409155216.31867-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new GPIO valid-mask feature to inform gpiolib which pins are
-available for use instead of handling that in a request callback.
-    
-This also allows user space to figure out which pins are available
-through the chardev interface without having to request each pin in
-turn.
+Add a debug printk to dump the GPIO configuration stored in EEPROM
+during probe.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
-Johan Hovold (2):
-  USB: serial: cp210x: provide gpio valid mask
-  USB: serial: cp210x: add gpio-configuration debug printk
-
- drivers/usb/serial/cp210x.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index ceb3a656a075..ee595d1bea0a 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1543,10 +1543,16 @@ static int cp210x_gpio_init_valid_mask(struct gpio_chip *gc,
+ {
+ 	struct usb_serial *serial = gpiochip_get_data(gc);
+ 	struct cp210x_serial_private *priv = usb_get_serial_data(serial);
++	struct device *dev = &serial->interface->dev;
+ 	unsigned long altfunc_mask = priv->gpio_altfunc;
+ 
+ 	bitmap_complement(valid_mask, &altfunc_mask, ngpios);
+ 
++	if (bitmap_empty(valid_mask, ngpios))
++		dev_dbg(dev, "no pin configured for GPIO\n");
++	else
++		dev_dbg(dev, "GPIO.%*pbl configured for GPIO\n", ngpios,
++				valid_mask);
+ 	return 0;
+ }
+ 
 -- 
 2.26.3
 
