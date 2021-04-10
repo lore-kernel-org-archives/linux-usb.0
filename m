@@ -2,319 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3258C43611
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Apr 2021 05:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0B0C433ED
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Apr 2021 05:57:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBCEA611C1
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Apr 2021 05:10:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9481861028
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Apr 2021 05:57:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234238AbhDJFKm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Apr 2021 01:10:42 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:38771 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S229537AbhDJFKk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Apr 2021 01:10:40 -0400
-X-UUID: 6cd571db59c54146979cddbedf08e9f2-20210410
-X-UUID: 6cd571db59c54146979cddbedf08e9f2-20210410
-Received: from mtkmrs01.mediatek.inc [(172.21.131.159)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2010043396; Sat, 10 Apr 2021 13:10:20 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 10 Apr 2021 13:10:19 +0800
-Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 10 Apr 2021 13:10:18 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Tianping Fang <tianping.fang@mediatek.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Ikjoon Jang <ikjn@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>
-Subject: [PATCH v2 3/5] usb: xhci-mtk: add support runtime PM
-Date:   Sat, 10 Apr 2021 13:10:04 +0800
-Message-ID: <1618031406-15347-3-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1618031406-15347-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1618031406-15347-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S230190AbhDJF5d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Apr 2021 01:57:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44224 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229464AbhDJF5c (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 10 Apr 2021 01:57:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 729EB61182;
+        Sat, 10 Apr 2021 05:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1618034238;
+        bh=dcPFxMPX4tfyyZmiflVgnpEGjviTQ9XhYMbVmHnLDeI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Js6X6uMJtdNw+tXyjGsbXy6ZgWxU87cRKvsTvKNYSQh6dqm1NB1Tp5talqzzDm8hX
+         vdPWfHM2jQIDntSbI0yQsbOFaJWwlfBI9OuYTZ+10jXj2jaGa0q+r1BVKTQ+N+x8sK
+         tZjF9cHELKO4jkZ16toJfsXh1wD3HVO1RgDNycUQ=
+Date:   Sat, 10 Apr 2021 07:57:15 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jeremy Linton <jeremy.linton@arm.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hminas@synopsys.com
+Subject: Re: [PATCH v2] usb: dwc2: Enable RPi in ACPI mode
+Message-ID: <YHE+OyonLsCCMh7A@kroah.com>
+References: <20210409203809.21940-1-jeremy.linton@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210409203809.21940-1-jeremy.linton@arm.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A dedicated wakeup irq will be used to handle runtime suspend/resume,
-we use dev_pm_set_dedicated_wake_irq API to take care of requesting
-and attaching wakeup irq, then the suspend/resume framework will help
-to enable/disable wakeup irq.
+On Fri, Apr 09, 2021 at 03:38:09PM -0500, Jeremy Linton wrote:
+> The dwc2 driver has everything we need to run
+> in ACPI mode except for the ACPI module device table
+> boilerplate. With that added and identified as "BCM2848",
+> an id in use by other OSs for this device, the dw2
+> controller on the BCM2711 will work.
+> 
+> Signed-off-by: Jeremy Linton <jeremy.linton@arm.com>
+> ---
+>  drivers/usb/dwc2/core.h     |  2 ++
+>  drivers/usb/dwc2/params.c   | 18 +++++++++++++++++-
+>  drivers/usb/dwc2/platform.c |  1 +
+>  3 files changed, 20 insertions(+), 1 deletion(-)
 
-The runtime PM is default off since some platforms may not support it.
-users can enable it via power/control (set "auto") in sysfs.
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: no changes, but abandon dependent patch [1], use falling edge type
-    interrupt
+Hi,
 
-[1]
-[1/6] PM: runtime: enable wake irq after runtime_suspend hook called
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-https://patchwork.kernel.org/project/linux-mediatek/patch/1617874514-12282-1-git-send-email-chunfeng.yun@mediatek.com/
----
- drivers/usb/host/xhci-mtk.c | 140 +++++++++++++++++++++++++++++++-----
- 1 file changed, 124 insertions(+), 16 deletions(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index a74764ab914a..30927f4064d4 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -16,6 +16,7 @@
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/pm_wakeirq.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -358,7 +359,6 @@ static int usb_wakeup_of_property_parse(struct xhci_hcd_mtk *mtk,
- 			mtk->uwk_reg_base, mtk->uwk_vers);
- 
- 	return PTR_ERR_OR_ZERO(mtk->uwk);
--
- }
- 
- static void usb_wakeup_set(struct xhci_hcd_mtk *mtk, bool enable)
-@@ -458,6 +458,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	struct resource *res;
- 	struct usb_hcd *hcd;
- 	int ret = -ENODEV;
-+	int wakeup_irq;
- 	int irq;
- 
- 	if (usb_disabled())
-@@ -485,6 +486,21 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	irq = platform_get_irq_byname_optional(pdev, "host");
-+	if (irq < 0) {
-+		if (irq == -EPROBE_DEFER)
-+			return irq;
-+
-+		/* for backward compatibility */
-+		irq = platform_get_irq(pdev, 0);
-+		if (irq < 0)
-+			return irq;
-+	}
-+
-+	wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
-+	if (wakeup_irq == -EPROBE_DEFER)
-+		return wakeup_irq;
-+
- 	mtk->lpm_support = of_property_read_bool(node, "usb3-lpm-capable");
- 	/* optional property, ignore the error if it does not exist */
- 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
-@@ -496,9 +512,11 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	pm_runtime_set_active(dev);
-+	pm_runtime_use_autosuspend(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 4000);
- 	pm_runtime_enable(dev);
- 	pm_runtime_get_sync(dev);
--	device_enable_async_suspend(dev);
- 
- 	ret = xhci_mtk_ldos_enable(mtk);
- 	if (ret)
-@@ -508,12 +526,6 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto disable_ldos;
- 
--	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		ret = irq;
--		goto disable_clk;
--	}
--
- 	hcd = usb_create_hcd(driver, dev, dev_name(dev));
- 	if (!hcd) {
- 		ret = -ENOMEM;
-@@ -579,8 +591,26 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto dealloc_usb2_hcd;
- 
-+	if (wakeup_irq > 0) {
-+		ret = dev_pm_set_dedicated_wake_irq(dev, wakeup_irq);
-+		if (ret) {
-+			dev_err(dev, "set wakeup irq %d failed\n", wakeup_irq);
-+			goto dealloc_usb3_hcd;
-+		}
-+		dev_info(dev, "wakeup irq %d\n", wakeup_irq);
-+	}
-+
-+	device_enable_async_suspend(dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+	pm_runtime_forbid(dev);
-+
- 	return 0;
- 
-+dealloc_usb3_hcd:
-+	usb_remove_hcd(xhci->shared_hcd);
-+	xhci->shared_hcd = NULL;
-+
- dealloc_usb2_hcd:
- 	usb_remove_hcd(hcd);
- 
-@@ -601,25 +631,26 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	xhci_mtk_ldos_disable(mtk);
- 
- disable_pm:
--	pm_runtime_put_sync(dev);
-+	pm_runtime_put_sync_autosuspend(dev);
- 	pm_runtime_disable(dev);
- 	return ret;
- }
- 
--static int xhci_mtk_remove(struct platform_device *dev)
-+static int xhci_mtk_remove(struct platform_device *pdev)
- {
--	struct xhci_hcd_mtk *mtk = platform_get_drvdata(dev);
-+	struct xhci_hcd_mtk *mtk = platform_get_drvdata(pdev);
- 	struct usb_hcd	*hcd = mtk->hcd;
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	struct usb_hcd  *shared_hcd = xhci->shared_hcd;
-+	struct device *dev = &pdev->dev;
- 
--	pm_runtime_put_noidle(&dev->dev);
--	pm_runtime_disable(&dev->dev);
-+	pm_runtime_get_sync(dev);
-+	xhci->xhc_state |= XHCI_STATE_REMOVING;
-+	dev_pm_clear_wake_irq(dev);
-+	device_init_wakeup(dev, false);
- 
- 	usb_remove_hcd(shared_hcd);
- 	xhci->shared_hcd = NULL;
--	device_init_wakeup(&dev->dev, false);
--
- 	usb_remove_hcd(hcd);
- 	usb_put_hcd(shared_hcd);
- 	usb_put_hcd(hcd);
-@@ -627,6 +658,10 @@ static int xhci_mtk_remove(struct platform_device *dev)
- 	xhci_mtk_clks_disable(mtk);
- 	xhci_mtk_ldos_disable(mtk);
- 
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_noidle(dev);
-+	pm_runtime_set_suspended(dev);
-+
- 	return 0;
- }
- 
-@@ -690,10 +725,83 @@ static int __maybe_unused xhci_mtk_resume(struct device *dev)
- 	return ret;
- }
- 
-+static int check_rhub_status(struct xhci_hcd *xhci, struct xhci_hub *rhub)
-+{
-+	u32 suspended_ports;
-+	u32 status;
-+	int num_ports;
-+	int i;
-+
-+	num_ports = rhub->num_ports;
-+	suspended_ports = rhub->bus_state.suspended_ports;
-+	for (i = 0; i < num_ports; i++) {
-+		if (!(suspended_ports & BIT(i))) {
-+			status = readl(rhub->ports[i]->addr);
-+			if (status & PORT_CONNECT)
-+				return -EBUSY;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * check the bus whether it could suspend or not
-+ * the bus will suspend if the downstream ports are already suspended,
-+ * or no devices connected.
-+ */
-+static int check_bus_status(struct xhci_hcd *xhci)
-+{
-+	int ret;
-+
-+	ret = check_rhub_status(xhci, &xhci->usb3_rhub);
-+	if (ret)
-+		return ret;
-+
-+	return check_rhub_status(xhci, &xhci->usb2_rhub);
-+}
-+
-+static int __maybe_unused xhci_mtk_runtime_suspend(struct device *dev)
-+{
-+	struct xhci_hcd_mtk  *mtk = dev_get_drvdata(dev);
-+	struct xhci_hcd *xhci = hcd_to_xhci(mtk->hcd);
-+	int ret = 0;
-+
-+	if (xhci->xhc_state)
-+		return -ESHUTDOWN;
-+
-+	if (device_may_wakeup(dev)) {
-+		ret = check_bus_status(xhci);
-+		if (!ret)
-+			ret = xhci_mtk_suspend(dev);
-+	}
-+
-+	/* -EBUSY: let PM automatically reschedule another autosuspend */
-+	return ret ? -EBUSY : 0;
-+}
-+
-+static int __maybe_unused xhci_mtk_runtime_resume(struct device *dev)
-+{
-+	struct xhci_hcd_mtk  *mtk = dev_get_drvdata(dev);
-+	struct xhci_hcd *xhci = hcd_to_xhci(mtk->hcd);
-+	int ret = 0;
-+
-+	if (xhci->xhc_state)
-+		return -ESHUTDOWN;
-+
-+	if (device_may_wakeup(dev))
-+		ret = xhci_mtk_resume(dev);
-+
-+	return ret;
-+}
-+
- static const struct dev_pm_ops xhci_mtk_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(xhci_mtk_suspend, xhci_mtk_resume)
-+	SET_RUNTIME_PM_OPS(xhci_mtk_runtime_suspend,
-+			   xhci_mtk_runtime_resume, NULL)
- };
--#define DEV_PM_OPS IS_ENABLED(CONFIG_PM) ? &xhci_mtk_pm_ops : NULL
-+
-+#define DEV_PM_OPS (IS_ENABLED(CONFIG_PM) ? &xhci_mtk_pm_ops : NULL)
- 
- static const struct of_device_id mtk_xhci_of_match[] = {
- 	{ .compatible = "mediatek,mt8173-xhci"},
--- 
-2.18.0
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
