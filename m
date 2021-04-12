@@ -2,135 +2,131 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FC6C433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9BCDC43462
 	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3064061284
+	by mail.kernel.org (Postfix) with ESMTP id 9D67161249
 	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241489AbhDLJyJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:54:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35914 "EHLO mail.kernel.org"
+        id S239060AbhDLJ4q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 05:56:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38440 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242536AbhDLJu0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:50:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0967F61288;
-        Mon, 12 Apr 2021 09:48:09 +0000 (UTC)
+        id S244728AbhDLJ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Apr 2021 05:56:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7682E6121D;
+        Mon, 12 Apr 2021 09:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618220889;
-        bh=MbuIECVA9D/u19XDPKwheS5aCWi1oiQz/L6V5WcnQ9Q=;
+        s=k20201202; t=1618221378;
+        bh=iPfrSBItyWuMu42ZaE4BnzALTKfr/Gm8n1bEr5jU74I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AFGrA74O5MYe6t79hBSil6E5tuQ69owe07UEkjsl69i7q3XB1nZs6w+TlLjwP8dHk
-         Fm772KsymiKhQ01XyFT0C/sneSZrH0CCo09D1q7iTyN1S3yCxyko8hSWHwPRt9j2G1
-         R1dIxw+ovJZC1qw+rfB18TrwonjAJiuaORMc3oI2fK6mWGbr3AWyI0zG/MEhcmue5+
-         Ju2VrMKnuQdSkgMU2+/fKDiRYxLAkzE8XM+Im5ieri6p/QH0H2pHVEswqm81LB9BYD
-         sxlf18ktgDGgCWKP5n/LmZuh0qr3iV7G2MnMM2MR+im/SNhWb8Z2Ej+pflD36wSpur
-         +3PTfNXqeHSLg==
+        b=BafLs0hZzkqV5ck0p4Hnvf2vlH7YzVr26+TRLhh7jdQ+vBVW5liJOwd1ZJhUfgwSp
+         9Vbgn9UWdSIZ3hm/Xm2cpHxTgnqCUg8U1PzF4kugbUk1yBmpfysEoiGVjUrUYArEv0
+         WyqOeV6aezo+++FTBy8KIK01GLVk70VZDOEAJo5ArcjLhvJRqP3stqJX/vuqFdY9j3
+         TyKc4J6mBbgv2ke/HOGMl4m7c7ID4yf5IoWZMMDRbW7CjHDuyZYRAK8qWA6NOGuktA
+         QLO0AQL9MFucH4BImOat9z1MDr10u2RT8CYmTRdg6auHWV/gQs50DbE/neNE+QZzj1
+         gNQpyYsoaj00A==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lVtAp-0000Gb-KU; Mon, 12 Apr 2021 11:48:03 +0200
+        id 1lVtIi-0000Kd-Mq; Mon, 12 Apr 2021 11:56:12 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 09/10] USB: serial: ti_usb_3410_5052: use kernel types consistently
-Date:   Mon, 12 Apr 2021 11:47:37 +0200
-Message-Id: <20210412094738.944-10-johan@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 03/12] USB: serial: xr: rename GPIO-pin defines
+Date:   Mon, 12 Apr 2021 11:55:48 +0200
+Message-Id: <20210412095557.1213-4-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210412094738.944-1-johan@kernel.org>
-References: <20210412094738.944-1-johan@kernel.org>
+In-Reply-To: <20210412095557.1213-1-johan@kernel.org>
+References: <20210412095557.1213-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Replace the remaining uses of user-space __XX types.
+Rename the GPIO-pin defines so that they reflect how they are used.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ti_usb_3410_5052.c | 34 +++++++++++++--------------
+ drivers/usb/serial/xr_serial.c | 34 +++++++++++++++++-----------------
  1 file changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/usb/serial/ti_usb_3410_5052.c b/drivers/usb/serial/ti_usb_3410_5052.c
-index f63ee11f41e8..aadcb00f1343 100644
---- a/drivers/usb/serial/ti_usb_3410_5052.c
-+++ b/drivers/usb/serial/ti_usb_3410_5052.c
-@@ -224,24 +224,24 @@ struct ti_write_data_bytes {
- } __packed;
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index a600448c6016..f5087a8b6c86 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -57,12 +57,12 @@ struct xr_txrx_clk_mask {
+ #define XR21V141X_UART_ENABLE_TX	0x1
+ #define XR21V141X_UART_ENABLE_RX	0x2
  
- struct ti_read_data_request {
--	__u8	bAddrType;
--	__u8	bDataType;
--	__u8	bDataCounter;
-+	u8	bAddrType;
-+	u8	bDataType;
-+	u8	bDataCounter;
- 	__be16	wBaseAddrHi;
- 	__be16	wBaseAddrLo;
- } __packed;
+-#define XR21V141X_UART_MODE_RI		BIT(0)
+-#define XR21V141X_UART_MODE_CD		BIT(1)
+-#define XR21V141X_UART_MODE_DSR		BIT(2)
+-#define XR21V141X_UART_MODE_DTR		BIT(3)
+-#define XR21V141X_UART_MODE_CTS		BIT(4)
+-#define XR21V141X_UART_MODE_RTS		BIT(5)
++#define XR21V141X_GPIO_RI		BIT(0)
++#define XR21V141X_GPIO_CD		BIT(1)
++#define XR21V141X_GPIO_DSR		BIT(2)
++#define XR21V141X_GPIO_DTR		BIT(3)
++#define XR21V141X_GPIO_CTS		BIT(4)
++#define XR21V141X_GPIO_RTS		BIT(5)
  
- struct ti_read_data_bytes {
--	__u8	bCmdCode;
--	__u8	bModuleId;
--	__u8	bErrorCode;
--	__u8	bData[];
-+	u8	bCmdCode;
-+	u8	bModuleId;
-+	u8	bErrorCode;
-+	u8	bData[];
- };
+ #define XR21V141X_UART_BREAK_ON		0xff
+ #define XR21V141X_UART_BREAK_OFF	0
+@@ -250,12 +250,12 @@ static int xr_tiocmget(struct tty_struct *tty)
+ 	 * Modem control pins are active low, so reading '0' means it is active
+ 	 * and '1' means not active.
+ 	 */
+-	ret = ((status & XR21V141X_UART_MODE_DTR) ? 0 : TIOCM_DTR) |
+-	      ((status & XR21V141X_UART_MODE_RTS) ? 0 : TIOCM_RTS) |
+-	      ((status & XR21V141X_UART_MODE_CTS) ? 0 : TIOCM_CTS) |
+-	      ((status & XR21V141X_UART_MODE_DSR) ? 0 : TIOCM_DSR) |
+-	      ((status & XR21V141X_UART_MODE_RI) ? 0 : TIOCM_RI) |
+-	      ((status & XR21V141X_UART_MODE_CD) ? 0 : TIOCM_CD);
++	ret = ((status & XR21V141X_GPIO_DTR) ? 0 : TIOCM_DTR) |
++	      ((status & XR21V141X_GPIO_RTS) ? 0 : TIOCM_RTS) |
++	      ((status & XR21V141X_GPIO_CTS) ? 0 : TIOCM_CTS) |
++	      ((status & XR21V141X_GPIO_DSR) ? 0 : TIOCM_DSR) |
++	      ((status & XR21V141X_GPIO_RI) ? 0 : TIOCM_RI) |
++	      ((status & XR21V141X_GPIO_CD) ? 0 : TIOCM_CD);
  
- /* Interrupt struct */
- struct ti_interrupt {
--	__u8	bICode;
--	__u8	bIInfo;
-+	u8	bICode;
-+	u8	bIInfo;
- };
- 
- /* Interrupt codes */
-@@ -333,10 +333,10 @@ static void ti_handle_new_msr(struct ti_port *tport, u8 msr);
- static void ti_stop_read(struct ti_port *tport, struct tty_struct *tty);
- static int ti_restart_read(struct ti_port *tport, struct tty_struct *tty);
- 
--static int ti_command_out_sync(struct usb_device *udev, __u8 command,
--		__u16 moduleid, __u16 value, void *data, int size);
--static int ti_command_in_sync(struct usb_device *udev, __u8 command,
--		__u16 moduleid, __u16 value, void *data, int size);
-+static int ti_command_out_sync(struct usb_device *udev, u8 command,
-+		u16 moduleid, u16 value, void *data, int size);
-+static int ti_command_in_sync(struct usb_device *udev, u8 command,
-+		u16 moduleid, u16 value, void *data, int size);
- static int ti_port_cmd_out(struct usb_serial_port *port, u8 command,
- 		u16 value, void *data, int size);
- static int ti_port_cmd_in(struct usb_serial_port *port, u8 command,
-@@ -1459,8 +1459,8 @@ static int ti_restart_read(struct ti_port *tport, struct tty_struct *tty)
- 	return status;
+ 	return ret;
  }
+@@ -269,13 +269,13 @@ static int xr_tiocmset_port(struct usb_serial_port *port,
  
--static int ti_command_out_sync(struct usb_device *udev, __u8 command,
--	__u16 moduleid, __u16 value, void *data, int size)
-+static int ti_command_out_sync(struct usb_device *udev, u8 command,
-+		u16 moduleid, u16 value, void *data, int size)
- {
- 	int status;
+ 	/* Modem control pins are active low, so set & clr are swapped */
+ 	if (set & TIOCM_RTS)
+-		gpio_clr |= XR21V141X_UART_MODE_RTS;
++		gpio_clr |= XR21V141X_GPIO_RTS;
+ 	if (set & TIOCM_DTR)
+-		gpio_clr |= XR21V141X_UART_MODE_DTR;
++		gpio_clr |= XR21V141X_GPIO_DTR;
+ 	if (clear & TIOCM_RTS)
+-		gpio_set |= XR21V141X_UART_MODE_RTS;
++		gpio_set |= XR21V141X_GPIO_RTS;
+ 	if (clear & TIOCM_DTR)
+-		gpio_set |= XR21V141X_UART_MODE_DTR;
++		gpio_set |= XR21V141X_GPIO_DTR;
  
-@@ -1473,8 +1473,8 @@ static int ti_command_out_sync(struct usb_device *udev, __u8 command,
- 	return 0;
- }
+ 	/* Writing '0' to gpio_{set/clr} bits has no effect, so no need to do */
+ 	if (gpio_clr)
+@@ -545,7 +545,7 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
+ 	 * inputs.
+ 	 */
+-	gpio_dir = XR21V141X_UART_MODE_DTR | XR21V141X_UART_MODE_RTS;
++	gpio_dir = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
+ 	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
  
--static int ti_command_in_sync(struct usb_device *udev, __u8 command,
--	__u16 moduleid, __u16 value, void *data, int size)
-+static int ti_command_in_sync(struct usb_device *udev, u8 command,
-+		u16 moduleid, u16 value, void *data, int size)
- {
- 	int status;
- 
+ 	/* Setup termios */
 -- 
 2.26.3
 
