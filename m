@@ -2,123 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 984B7C433ED
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:53:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4492DC433ED
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:53:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76ED7611AD
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:53:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B5D36120B
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:53:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241985AbhDLJxQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:53:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35164 "EHLO mail.kernel.org"
+        id S242112AbhDLJx3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 05:53:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35512 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241228AbhDLJsR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:48:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D9B1D61247;
-        Mon, 12 Apr 2021 09:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1618220879;
-        bh=Sv7T5I8/UX+7jDAth4jLxipY43qcI2skgjAzxs03C2c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vHvRcDr31WTUDSfbaKf3PTKCxyU4ZBeOtakpH06y9ae0vrvGWDEp3kpI/1BIf472k
-         TmJmwTJ8Vj9+hkvoZ6oOWEmd3E/vhnJZXMGiKdr0DNv5amZ0atfXhZzT2omfeH4our
-         BdrMi+gYje3Ad0VAhSqB3PAKtqCws5IfnrjX7JLY=
-Date:   Mon, 12 Apr 2021 11:47:57 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Peter Chen <peter.chen@kernel.org>
+        id S240405AbhDLJs0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Apr 2021 05:48:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BC8AD6124C;
+        Mon, 12 Apr 2021 09:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618220888;
+        bh=1u6+2U/lTbZfvQi4wEkNsfyEubphBVem/KzYxzaR5fk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=PuLFYrM/TE/PzmdjuXS0qCS9K0pxXjU8hB4ToUeJVF+74juHhcuWE3dceBUpG+IIO
+         d3BKS1MxRZOA3c+E9Gi385FcQk7SEvKd2ZS5hIvKrgStOCkFtfjbLJOvwMrPwE2D5Z
+         2YDqxOKRZSN5Jr6GyOfCPUdxGG4Lmg5feYw85Vh9nbqaOYvd50RIOMcYMXzQle8jxI
+         p9X/ca9cKFAVF9mdDeuN7p0p2MP/q6CHUzMFoNLH/DdUcuriiDD11srgp0bhOIkoNo
+         g7vNyHSNLQAE8C895/2SW+q4cxuE0+szfT2ITnPcxUYQxW/Ur7Qp2SyWE0653/LJNv
+         PQi2rrvOnI66w==
+Received: from johan by xi with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lVtAp-0000GJ-2b; Mon, 12 Apr 2021 11:48:03 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: Re: [GIT PULL] usb: changes for v5.13-rc1
-Message-ID: <YHQXTbim32F0etan@kroah.com>
-References: <20210411223542.GA26127@b29397-desktop>
+Subject: [PATCH 03/10] USB: serial: io_ti: add read-port-command helper
+Date:   Mon, 12 Apr 2021 11:47:31 +0200
+Message-Id: <20210412094738.944-4-johan@kernel.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210412094738.944-1-johan@kernel.org>
+References: <20210412094738.944-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210411223542.GA26127@b29397-desktop>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 06:35:43AM +0800, Peter Chen wrote:
-> The following changes since commit 5e17812c22bcd65fa9202595eef4bbf8fa814144:
-> 
->   usb: dwc3: document usb_psy in struct dwc3 (2021-03-03 11:09:29 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git/ tags/usb-v5.13-rc1
-> 
-> for you to fetch changes up to 6ef82c8acf5ca40d8912947696e9d52956a03cec:
-> 
->   usb: cdnsp: Fixes issue with Configure Endpoint command (2021-04-10 09:10:44 +0800)
-> 
-> ----------------------------------------------------------------
-> Several Cadence3 improvements are introduced in v5.13-rc1:
-> - Add recovery during resume if the controller was lost power at system suspend
-> - Reduce DMA memory footprint
-> - Other small improvements
-> 
-> ----------------------------------------------------------------
-> Colin Ian King (1):
->       usb: cdnsp: remove redundant initialization of variable ret
-> 
-> Dmitry Osipenko (1):
->       usb: chipidea: tegra: Silence deferred probe error
-> 
-> Frank Li (3):
->       usb: cdns3: add power lost support for system resume
->       usb: cdns3: imx: add power lost support for system resume
->       usb: cdns3: fix static checker warning.
-> 
-> Pawel Laszczak (1):
->       usb: cdnsp: Fixes issue with Configure Endpoint command
-> 
-> Peter Chen (1):
->       usb: cdns3: trace: delete the trace parameter for request->trb
-> 
-> Sanket Parmar (2):
->       usb: cdns3: Use dma_pool_* api to alloc trb pool
->       usb: cdns3: Optimize DMA request buffer allocation
-> 
-> Wang Qing (1):
->       usb: cdns3: delete repeated clear operations
-> 
-> Wei Yongjun (1):
->       usb: cdns3: imx: mark cdns_imx_system_resume as __maybe_unused
-> 
->  drivers/usb/cdns3/cdns3-gadget.c     | 73 ++++++++++++++++++++++--------------
->  drivers/usb/cdns3/cdns3-gadget.h     |  3 ++
->  drivers/usb/cdns3/cdns3-imx.c        | 34 +++++++++++++++++
->  drivers/usb/cdns3/cdns3-plat.c       | 23 +++++++++++-
->  drivers/usb/cdns3/cdns3-trace.h      |  5 +--
->  drivers/usb/cdns3/cdnsp-gadget.c     | 17 ++++++---
->  drivers/usb/cdns3/cdnsp-gadget.h     |  1 +
->  drivers/usb/cdns3/cdnsp-mem.c        |  3 +-
->  drivers/usb/cdns3/core.c             | 29 +++++++++++++-
->  drivers/usb/cdns3/drd.c              | 15 ++++++++
->  drivers/usb/cdns3/drd.h              |  2 +-
->  drivers/usb/chipidea/ci_hdrc_tegra.c |  8 ++--
->  12 files changed, 165 insertions(+), 48 deletions(-)
+Add a read-port-command helper analogous to the send-port-command
+helper to take care of the UART module id instead of open coding.
 
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/io_ti.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-This merge is odd, why am I getting merge conflicts in:
-	drivers/usb/dwc3/gadget.c
-	drivers/usb/typec/tipd/core.c
+diff --git a/drivers/usb/serial/io_ti.c b/drivers/usb/serial/io_ti.c
+index f65a712078ab..480a73aff78f 100644
+--- a/drivers/usb/serial/io_ti.c
++++ b/drivers/usb/serial/io_ti.c
+@@ -284,6 +284,14 @@ static int ti_vsend_sync(struct usb_device *dev, u8 request, u16 value,
+ 	return 0;
+ }
+ 
++static int read_port_cmd(struct usb_serial_port *port, u8 command, u16 value,
++		void *data, int size)
++{
++	return ti_vread_sync(port->serial->dev, command, value,
++			UMPM_UART1_PORT + port->port_number,
++			data, size);
++}
++
+ static int send_port_cmd(struct usb_serial_port *port, u8 command, u16 value,
+ 		void *data, int size)
+ {
+@@ -1826,7 +1834,6 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 	struct edgeport_serial *edge_serial;
+ 	struct usb_device *dev;
+ 	struct urb *urb;
+-	int port_number;
+ 	int status;
+ 	u16 open_settings;
+ 	u8 transaction_timeout;
+@@ -1834,8 +1841,6 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 	if (edge_port == NULL)
+ 		return -ENODEV;
+ 
+-	port_number = port->port_number;
+-
+ 	dev = port->serial->dev;
+ 
+ 	/* turn off loopback */
+@@ -1892,9 +1897,7 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 	}
+ 
+ 	/* Read Initial MSR */
+-	status = ti_vread_sync(dev, UMPC_READ_MSR, 0,
+-				(__u16)(UMPM_UART1_PORT + port_number),
+-				&edge_port->shadow_msr, 1);
++	status = read_port_cmd(port, UMPC_READ_MSR, 0, &edge_port->shadow_msr, 1);
+ 	if (status) {
+ 		dev_err(&port->dev, "%s - cannot send read MSR command, %d\n",
+ 							__func__, status);
+-- 
+2.26.3
 
-when I pull this?
-
-According to the above there should not be any changes in those files.
-
-When I resolve those conflicts, I get a _lot_ of additional patches in
-this branch than you list here.
-
-How did you create this pull request?  What branch of mine is it
-against?
-
-confused,
-
-greg k-h
