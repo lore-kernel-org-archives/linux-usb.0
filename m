@@ -2,46 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F91EC43462
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6330DC43461
 	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:58:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 517B1611AD
+	by mail.kernel.org (Postfix) with ESMTP id 332C66120B
 	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243359AbhDLJ6G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:58:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38558 "EHLO mail.kernel.org"
+        id S239740AbhDLJ57 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 05:57:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38562 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244807AbhDLJ4n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S244809AbhDLJ4n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 12 Apr 2021 05:56:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FB3161247;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AFBA66127C;
         Mon, 12 Apr 2021 09:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1618221378;
-        bh=+oc+QhwqClQRkWYDStH1OAyI8HSWT4OpOm5EMXb7MqQ=;
+        bh=CO/OsevSE7pyEYTTXHabBKlXv95tMYgBZ8LKZvSgso8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RmWrjlJNdissBWEuH/ckC2rlkk/ldrceOD57ll6sXoNKU14Cqv+ip/7D0fcrmz46Y
-         7+17p40VL8Z7fBnOvjJbbzhL4UCSYSwa5oT/3bq+hqyIMavVAx0GWFEg64L00XGkjW
-         nMZXHNWcTEIK7/09osLk6WGtU7a/tAHSCKcR8NSi+Y6DGC+2gKMsy9x71l7CJIhU1V
-         1NprJ0ZBcHRvNgc00uGD61Gbc1VSP2TZrBqB3qdOV9WuMzB+pJrBxYXDtbBcrjdGFC
-         vPS7k12q84FpWAJHAUpyCJEWkQ9P2OMu8DE0qLaUTnGlSSRGYcxLtlmM3lHzdmn//l
-         btXJVMIzhYeDQ==
+        b=BCkTZ0H5DyNnzVfr3b0BUCYMAh70v7XAi9xMv7zPiFvYeYIn5VmH5bW/wFuJF0460
+         C/qYz7dVTK8XQflPekxdQoEIRCCy8tnp//J711U1bIEivlBLFYEfIlypGIR0AkIc44
+         vju6KPs+usr/1XitcTdrblgAT6ce3S4tqElO6o53j/jiDwTqB4oSWFnKgrxErdiFTC
+         KSZefgrF1AeAJ1haHMk6d9g/VnKkUdoveuIbO/eY5RcWVSxeQqQGM5g1JtvYkI6xLH
+         bgW/5C6zFxJZOwYO0ezKGemXaQoT7k/Ys62o9pqiGUF1A53kXj+AMJlNnugB6DDEeA
+         VS3iJUSEC8O1g==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lVtIi-0000KY-I0; Mon, 12 Apr 2021 11:56:12 +0200
+        id 1lVtIj-0000Kt-5Z; Mon, 12 Apr 2021 11:56:13 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 01/12] USB: serial: xr: add support for XR21V1412 and XR21V1414
-Date:   Mon, 12 Apr 2021 11:55:46 +0200
-Message-Id: <20210412095557.1213-2-johan@kernel.org>
+Subject: [PATCH 08/12] USB: serial: xr: add support for XR21B1411
+Date:   Mon, 12 Apr 2021 11:55:53 +0200
+Message-Id: <20210412095557.1213-9-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210412095557.1213-1-johan@kernel.org>
 References: <20210412095557.1213-1-johan@kernel.org>
@@ -51,119 +51,161 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for the two- and four-port variants of XR21V1410.
+The single-port XR21B1411 is similar to the XR21B142X type but uses
+12-bit registers and 16-bit register addresses, the register requests
+are different and are directed at the device rather than interface, and
+5 and 6-bit words are not supported.
 
-Use the interface number of each control interface (e.g. 0, 2, 4, 6) to
-derive the zero-based channel index:
-
-	XR21V1410	0
-	XR21V1412	0, 1
-	XR21V1414	0, 1, 2, 3
-
-Note that the UART registers reside in separate blocks per channel,
-while the UART Manager functionality is implemented using per-channel
-registers.
+The register layout is very similar to XR21B142X except that most
+registers are offset by 0xc00 (corresponding to a channel index of 12 in
+the MSB of wIndex). As the device is single-port so that the derived
+channel index is 0, the current register accessors can be reused after
+simply changing the address width.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 55 +++++++++++++++++++++++++++++++---
- 1 file changed, 51 insertions(+), 4 deletions(-)
+ drivers/usb/serial/xr_serial.c | 64 +++++++++++++++++++++++++---------
+ 1 file changed, 48 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index 88c73f88cb26..64bc9d7b948b 100644
+index 32055c763147..46e5e1b2f3c0 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -109,6 +109,10 @@ struct xr_txrx_clk_mask {
- #define XR21V141X_REG_GPIO_CLR		0x1e
- #define XR21V141X_REG_GPIO_STATUS	0x1f
+@@ -108,18 +108,19 @@ struct xr_type {
+ 	u8 set_reg;
+ 	u8 get_reg;
  
-+struct xr_data {
-+	u8 channel;		/* zero-based index */
-+};
+-	u8 uart_enable;
+-	u8 flow_control;
+-	u8 xon_char;
+-	u8 xoff_char;
+-	u8 tx_break;
+-	u8 gpio_mode;
+-	u8 gpio_direction;
+-	u8 gpio_set;
+-	u8 gpio_clear;
+-	u8 gpio_status;
+-	u8 custom_driver;
+-
++	u16 uart_enable;
++	u16 flow_control;
++	u16 xon_char;
++	u16 xoff_char;
++	u16 tx_break;
++	u16 gpio_mode;
++	u16 gpio_direction;
++	u16 gpio_set;
++	u16 gpio_clear;
++	u16 gpio_status;
++	u16 custom_driver;
 +
- static int xr_set_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 val)
++	bool have_5_6_bit_mode;
+ 	bool have_xmit_toggle;
+ 
+ 	int (*enable)(struct usb_serial_port *port);
+@@ -132,6 +133,7 @@ struct xr_type {
+ enum xr_type_id {
+ 	XR21V141X,
+ 	XR21B142X,
++	XR21B1411,
+ 	XR_TYPE_COUNT,
+ };
+ 
+@@ -175,8 +177,27 @@ static const struct xr_type xr_types[] = {
+ 		.gpio_status	= 0x10,
+ 		.custom_driver	= 0x60,
+ 
++		.have_5_6_bit_mode	= true,
+ 		.have_xmit_toggle	= true,
+ 	},
++	[XR21B1411] = {
++		.reg_width	= 12,
++		.reg_recipient	= USB_RECIP_DEVICE,
++		.set_reg	= 0x00,
++		.get_reg	= 0x01,
++
++		.uart_enable	= 0xc00,
++		.flow_control	= 0xc06,
++		.xon_char	= 0xc07,
++		.xoff_char	= 0xc08,
++		.tx_break	= 0xc0a,
++		.gpio_mode	= 0xc0c,
++		.gpio_direction	= 0xc0d,
++		.gpio_set	= 0xc0e,
++		.gpio_clear	= 0xc0f,
++		.gpio_status	= 0xc10,
++		.custom_driver	= 0x20d,
++	},
+ };
+ 
+ struct xr_data {
+@@ -184,7 +205,7 @@ struct xr_data {
+ 	u8 channel;			/* zero-based index or interface number */
+ };
+ 
+-static int xr_set_reg(struct usb_serial_port *port, u8 channel, u8 reg, u16 val)
++static int xr_set_reg(struct usb_serial_port *port, u8 channel, u16 reg, u16 val)
  {
- 	struct usb_serial *serial = port->serial;
-@@ -160,16 +164,31 @@ static int xr_get_reg(struct usb_serial_port *port, u8 block, u8 reg, u8 *val)
- 
- static int xr_set_reg_uart(struct usb_serial_port *port, u8 reg, u8 val)
- {
--	return xr_set_reg(port, XR21V141X_UART_REG_BLOCK, reg, val);
-+	struct xr_data *data = usb_get_serial_port_data(port);
-+	u8 block;
-+
-+	block = XR21V141X_UART_REG_BLOCK + data->channel;
-+
-+	return xr_set_reg(port, block, reg, val);
- }
- 
- static int xr_get_reg_uart(struct usb_serial_port *port, u8 reg, u8 *val)
- {
--	return xr_get_reg(port, XR21V141X_UART_REG_BLOCK, reg, val);
-+	struct xr_data *data = usb_get_serial_port_data(port);
-+	u8 block;
-+
-+	block = XR21V141X_UART_REG_BLOCK + data->channel;
-+
-+	return xr_get_reg(port, block, reg, val);
- }
- 
--static int xr_set_reg_um(struct usb_serial_port *port, u8 reg, u8 val)
-+static int xr_set_reg_um(struct usb_serial_port *port, u8 reg_base, u8 val)
- {
-+	struct xr_data *data = usb_get_serial_port_data(port);
-+	u8 reg;
-+
-+	reg = reg_base + data->channel;
-+
- 	return xr_set_reg(port, XR21V141X_UM_REG_BLOCK, reg, val);
- }
- 
-@@ -577,8 +596,34 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ 	struct xr_data *data = usb_get_serial_port_data(port);
+ 	const struct xr_type *type = data->type;
+@@ -204,7 +225,7 @@ static int xr_set_reg(struct usb_serial_port *port, u8 channel, u8 reg, u16 val)
  	return 0;
  }
  
-+static int xr_port_probe(struct usb_serial_port *port)
-+{
-+	struct usb_interface_descriptor *desc;
-+	struct xr_data *data;
-+
-+	data = kzalloc(sizeof(*data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	desc = &port->serial->interface->cur_altsetting->desc;
-+	data->channel = desc->bInterfaceNumber / 2;
-+
-+	usb_set_serial_port_data(port, data);
-+
-+	return 0;
-+}
-+
-+static void xr_port_remove(struct usb_serial_port *port)
-+{
+-static int xr_get_reg(struct usb_serial_port *port, u8 channel, u8 reg, u16 *val)
++static int xr_get_reg(struct usb_serial_port *port, u8 channel, u16 reg, u16 *val)
+ {
+ 	struct xr_data *data = usb_get_serial_port_data(port);
+ 	const struct xr_type *type = data->type;
+@@ -243,14 +264,14 @@ static int xr_get_reg(struct usb_serial_port *port, u8 channel, u8 reg, u16 *val
+ 	return ret;
+ }
+ 
+-static int xr_set_reg_uart(struct usb_serial_port *port, u8 reg, u16 val)
++static int xr_set_reg_uart(struct usb_serial_port *port, u16 reg, u16 val)
+ {
+ 	struct xr_data *data = usb_get_serial_port_data(port);
+ 
+ 	return xr_set_reg(port, data->channel, reg, val);
+ }
+ 
+-static int xr_get_reg_uart(struct usb_serial_port *port, u8 reg, u16 *val)
++static int xr_get_reg_uart(struct usb_serial_port *port, u16 reg, u16 *val)
+ {
+ 	struct xr_data *data = usb_get_serial_port_data(port);
+ 
+@@ -646,6 +667,7 @@ static void xr21v141x_set_line_settings(struct tty_struct *tty,
+ static void xr_cdc_set_line_coding(struct tty_struct *tty,
+ 		struct usb_serial_port *port, struct ktermios *old_termios)
+ {
 +	struct xr_data *data = usb_get_serial_port_data(port);
+ 	struct usb_host_interface *alt = port->serial->interface->cur_altsetting;
+ 	struct usb_device *udev = port->serial->dev;
+ 	struct usb_cdc_line_coding *lc;
+@@ -683,6 +705,15 @@ static void xr_cdc_set_line_coding(struct tty_struct *tty,
+ 		lc->bParityType = USB_CDC_NO_PARITY;
+ 	}
+ 
++	if (!data->type->have_5_6_bit_mode &&
++			(C_CSIZE(tty) == CS5 || C_CSIZE(tty) == CS6)) {
++		tty->termios.c_cflag &= ~CSIZE;
++		if (old_termios)
++			tty->termios.c_cflag |= old_termios->c_cflag & CSIZE;
++		else
++			tty->termios.c_cflag |= CS8;
++	}
 +
-+	kfree(data);
-+}
-+
+ 	switch (C_CSIZE(tty)) {
+ 	case CS5:
+ 		lc->bDataBits = 5;
+@@ -876,6 +907,7 @@ static void xr_port_remove(struct usb_serial_port *port)
+ 
  static const struct usb_device_id id_table[] = {
--	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1410, USB_CLASS_COMM) }, /* XR21V141X */
-+	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1410, USB_CLASS_COMM) }, /* XR21V1410 */
-+	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1412, USB_CLASS_COMM) }, /* XR21V1412 */
-+	{ USB_DEVICE_INTERFACE_CLASS(0x04e2, 0x1414, USB_CLASS_COMM) }, /* XR21V1414 */
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, id_table);
-@@ -591,6 +636,8 @@ static struct usb_serial_driver xr_device = {
- 	.id_table		= id_table,
- 	.num_ports		= 1,
- 	.probe			= xr_probe,
-+	.port_probe		= xr_port_probe,
-+	.port_remove		= xr_port_remove,
- 	.open			= xr_open,
- 	.close			= xr_close,
- 	.break_ctl		= xr_break_ctl,
+ 	{ XR_DEVICE(0x04e2, 0x1410, XR21V141X) },
++	{ XR_DEVICE(0x04e2, 0x1411, XR21B1411) },
+ 	{ XR_DEVICE(0x04e2, 0x1412, XR21V141X) },
+ 	{ XR_DEVICE(0x04e2, 0x1414, XR21V141X) },
+ 	{ XR_DEVICE(0x04e2, 0x1420, XR21B142X) },
 -- 
 2.26.3
 
