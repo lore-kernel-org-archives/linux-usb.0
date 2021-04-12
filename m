@@ -2,110 +2,148 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42AD8C43611
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5BFC433B4
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0728E61249
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26E0A611AD
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239631AbhDLJ4s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:56:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38460 "EHLO mail.kernel.org"
+        id S240210AbhDLJ47 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 05:56:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244733AbhDLJ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S244731AbhDLJ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 12 Apr 2021 05:56:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D4B561245;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B35D61243;
         Mon, 12 Apr 2021 09:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1618221378;
-        bh=cN/MJ8q29CZ/zLz2VNS+LKCD7Thzvdqcxh9F/Zf9a2w=;
-        h=From:To:Cc:Subject:Date:From;
-        b=NFoKBSTBKPAu4RkuyiUKAnAmS1L3RPlOmn8UnpNTrphdf0q97XwGwEJRqjCRfw5gZ
-         Gcn02vKPYeLxnVDHqMXnvR1iPDQnx65ucgVxPyjbuyYzPNKQfC/lbyCnwsPTmgEfzF
-         tvBtc6mTF+g1LxiC4pAzkhfK5GYqM6XsJrUBak9KrsFnV7de3knDvI4+YSojCTKpE/
-         3INQHcPf/HQIJsZmf91iAdH6n2mYTwPOPfbK0hcezgHbtzMYuLQe0IvQWDVuln5I1w
-         5mwlI3y21OOQ++Gno7Fmjhgei+0UTrfkGK8s1z29rSdgC/CPgxra+3UfeoY4xu0bv+
-         8q62roxPmUUkg==
+        bh=V9Az9SK1kudygBq678HHRwZCwk6BHQ3LDSAfFXCYOfY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kOvaZmVbmGtybSGRu01KNviFEb5Ta5dDnwOv4JZ5d/z51c8TSOH7sv4ykblU/EGR2
+         sx2eB/LDXIn0YmHPmEGYGXmaYzFkEoYQEZTFRlVQ4GzlXUe3j3GqXi6ubEfXzQ6mUN
+         37+8+CCOwewOHvpFG5ybNO2BwHeGUeh+M3utKs6yoGOdDXxDGT4m4gu8MLCtlhca9K
+         E3Pz6fw69uFEHGcyEHSh0QNVyEBKFv4ASeRQKZaagatY9m5QyfjmCERbhkeNTcvf8G
+         qW/1edY+OgBZsZ77/U7qFF7sJ6NXcBLtuVFvrGL6QmmAPK8n80v6mMZFebW3kjkENP
+         +uoz/HzdIJDqg==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lVtIi-0000KW-Dp; Mon, 12 Apr 2021 11:56:12 +0200
+        id 1lVtIi-0000Kg-PQ; Mon, 12 Apr 2021 11:56:12 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND 00/12] USB: serial: xr: add support for more device types
-Date:   Mon, 12 Apr 2021 11:55:45 +0200
-Message-Id: <20210412095557.1213-1-johan@kernel.org>
+Subject: [PATCH 04/12] USB: serial: xr: move pin configuration to probe
+Date:   Mon, 12 Apr 2021 11:55:49 +0200
+Message-Id: <20210412095557.1213-5-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210412095557.1213-1-johan@kernel.org>
+References: <20210412095557.1213-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-[ I apparently missed the last three patches of the series when posting
-  on March 30th so resending the whole series. ]
+There's no need to configure the pins on every open and judging from the
+vendor driver and datasheet it can be done before enabling the UART.
 
-This series adds support for another nine models of Maxlinerar/Exar USB
-UARTs to the xr driver. The various models can be divided into four
-types:
-	
-	XR21V141X
-        XR21B142X
-        XR21B1411
-        XR22804
+Move pin configuration from open() to port probe and make sure to
+deassert DTR and RTS after configuring all pins as GPIO.
 
-with different register layouts and features.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/xr_serial.c | 45 ++++++++++++++++++++++++++++------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-All types can be used in CDC-ACM mode but further features such as
-hardware and software flow control and in-band line status are available
-in a second "custom driver" mode.
-
-The fact that hardware flow control is enabled by default in CDC-ACM
-mode also prevents using the standard CDC-ACM driver in cases where the
-hardware engineers have failed to properly connect the CTS input.
-
-The currently supported XR21V141X type stands out from the other three
-by not being able to accept CDC requests without always entering CDC-ACM
-mode, requiring a different enable/disable sequence and by using a
-distinct register layout for certain functionality.
-
-Expect for the above, most differences can be handled by simply using
-different set of register addresses.
-
-Note that this series depends on the recently posted
-multi-interface-function series.
-
-Johan
-
-
-
-Johan Hovold (11):
-  USB: serial: xr: add support for XR21V1412 and XR21V1414
-  USB: serial: xr: rename GPIO-mode defines
-  USB: serial: xr: rename GPIO-pin defines
-  USB: serial: xr: move pin configuration to probe
-  USB: serial: xr: drop type prefix from shared defines
-  USB: serial: xr: add type abstraction
-  USB: serial: xr: add support for XR21B1421, XR21B1422 and XR21B1424
-  USB: serial: xr: add support for XR21B1411
-  USB: serial: xr: add support for XR22801, XR22802, XR22804
-  USB: serial: xr: reset FIFOs on open
-  USB: serial: xr: add copyright notice
-
-Mauro Carvalho Chehab (1):
-  USB: cdc-acm: add more Maxlinear/Exar models to ignore list
-
- drivers/usb/class/cdc-acm.c    |  14 +-
- drivers/usb/serial/xr_serial.c | 727 ++++++++++++++++++++++++++-------
- 2 files changed, 580 insertions(+), 161 deletions(-)
-
+diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
+index f5087a8b6c86..542c1dc060cc 100644
+--- a/drivers/usb/serial/xr_serial.c
++++ b/drivers/usb/serial/xr_serial.c
+@@ -532,7 +532,6 @@ static void xr_set_termios(struct tty_struct *tty,
+ 
+ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+ {
+-	u8 gpio_dir;
+ 	int ret;
+ 
+ 	ret = xr_uart_enable(port);
+@@ -541,13 +540,6 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 		return ret;
+ 	}
+ 
+-	/*
+-	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
+-	 * inputs.
+-	 */
+-	gpio_dir = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
+-	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
+-
+ 	/* Setup termios */
+ 	if (tty)
+ 		xr_set_termios(tty, port, NULL);
+@@ -596,10 +588,38 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
+ 	return 0;
+ }
+ 
++static int xr_gpio_init(struct usb_serial_port *port)
++{
++	u8 mask, mode;
++	int ret;
++
++	/* Configure all pins as GPIO. */
++	mode = 0;
++	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_MODE, mode);
++	if (ret)
++		return ret;
++
++	/*
++	 * Configure DTR and RTS as outputs and make sure they are deasserted
++	 * (active low), and configure RI, CD, DSR and CTS as inputs.
++	 */
++	mask = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
++	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, mask);
++	if (ret)
++		return ret;
++
++	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_SET, mask);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
+ static int xr_port_probe(struct usb_serial_port *port)
+ {
+ 	struct usb_interface_descriptor *desc;
+ 	struct xr_data *data;
++	int ret;
+ 
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data)
+@@ -610,7 +630,16 @@ static int xr_port_probe(struct usb_serial_port *port)
+ 
+ 	usb_set_serial_port_data(port, data);
+ 
++	ret = xr_gpio_init(port);
++	if (ret)
++		goto err_free;
++
+ 	return 0;
++
++err_free:
++	kfree(data);
++
++	return ret;
+ }
+ 
+ static void xr_port_remove(struct usb_serial_port *port)
 -- 
 2.26.3
 
