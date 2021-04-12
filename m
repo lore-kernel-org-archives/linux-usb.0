@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5BFC433B4
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31118C433ED
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26E0A611AD
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F11156121D
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 09:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240210AbhDLJ47 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:56:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38456 "EHLO mail.kernel.org"
+        id S241469AbhDLJ5F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 05:57:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38410 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244731AbhDLJ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S244727AbhDLJ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 12 Apr 2021 05:56:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B35D61243;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 72677611AD;
         Mon, 12 Apr 2021 09:56:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1618221378;
-        bh=V9Az9SK1kudygBq678HHRwZCwk6BHQ3LDSAfFXCYOfY=;
+        bh=w4x4bSIGXiaDntxJP9nzVaq93yE3UA3w4909mBR6VxU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kOvaZmVbmGtybSGRu01KNviFEb5Ta5dDnwOv4JZ5d/z51c8TSOH7sv4ykblU/EGR2
-         sx2eB/LDXIn0YmHPmEGYGXmaYzFkEoYQEZTFRlVQ4GzlXUe3j3GqXi6ubEfXzQ6mUN
-         37+8+CCOwewOHvpFG5ybNO2BwHeGUeh+M3utKs6yoGOdDXxDGT4m4gu8MLCtlhca9K
-         E3Pz6fw69uFEHGcyEHSh0QNVyEBKFv4ASeRQKZaagatY9m5QyfjmCERbhkeNTcvf8G
-         qW/1edY+OgBZsZ77/U7qFF7sJ6NXcBLtuVFvrGL6QmmAPK8n80v6mMZFebW3kjkENP
-         +uoz/HzdIJDqg==
+        b=ERfR33fCd6C6+cAAh8nRwrCXtPFEUhUdTKdr+HVO0DAr7Ktxxsmf0uMNvmGTv+m5E
+         mzr3OXYuevT66+LeqJ4upXs4MOTtayYSMS1pb52TxmGb9JM4cmnuLfkUc4lAVRwreR
+         7nU7jb5kHuvJSRA2RzNyhpYCuTcasXdtfwA2pXSWfea81XUGiApGvlytUbTLW2wnGW
+         C6ZtXBEcveXFre2bA3/LV6e8XH+z710Rg57xPJvMJur/Kp5lhTKAubX9Ut5mS8WhP5
+         6cNaof5JcPUaSk0ZgejO3Unk3ghTB8aF7gkQNavYDy68IBXE2jW/vDJ75RX+SkX6oy
+         hBG/9gP6guOxA==
 Received: from johan by xi with local (Exim 4.93.0.4)
         (envelope-from <johan@kernel.org>)
-        id 1lVtIi-0000Kg-PQ; Mon, 12 Apr 2021 11:56:12 +0200
+        id 1lVtIi-0000Ka-KV; Mon, 12 Apr 2021 11:56:12 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 04/12] USB: serial: xr: move pin configuration to probe
-Date:   Mon, 12 Apr 2021 11:55:49 +0200
-Message-Id: <20210412095557.1213-5-johan@kernel.org>
+Subject: [PATCH 02/12] USB: serial: xr: rename GPIO-mode defines
+Date:   Mon, 12 Apr 2021 11:55:47 +0200
+Message-Id: <20210412095557.1213-3-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210412095557.1213-1-johan@kernel.org>
 References: <20210412095557.1213-1-johan@kernel.org>
@@ -51,99 +51,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There's no need to configure the pins on every open and judging from the
-vendor driver and datasheet it can be done before enabling the UART.
-
-Move pin configuration from open() to port probe and make sure to
-deassert DTR and RTS after configuring all pins as GPIO.
+Rename the GPIO mode defines so that they reflect the datasheet and how
+they are used.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/xr_serial.c | 45 ++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 8 deletions(-)
+ drivers/usb/serial/xr_serial.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/usb/serial/xr_serial.c b/drivers/usb/serial/xr_serial.c
-index f5087a8b6c86..542c1dc060cc 100644
+index 64bc9d7b948b..a600448c6016 100644
 --- a/drivers/usb/serial/xr_serial.c
 +++ b/drivers/usb/serial/xr_serial.c
-@@ -532,7 +532,6 @@ static void xr_set_termios(struct tty_struct *tty,
+@@ -88,11 +88,11 @@ struct xr_txrx_clk_mask {
+ #define XR21V141X_UART_FLOW_MODE_HW	0x1
+ #define XR21V141X_UART_FLOW_MODE_SW	0x2
  
- static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
- {
--	u8 gpio_dir;
- 	int ret;
+-#define XR21V141X_UART_MODE_GPIO_MASK	GENMASK(2, 0)
+-#define XR21V141X_UART_MODE_RTS_CTS	0x1
+-#define XR21V141X_UART_MODE_DTR_DSR	0x2
+-#define XR21V141X_UART_MODE_RS485	0x3
+-#define XR21V141X_UART_MODE_RS485_ADDR	0x4
++#define XR21V141X_GPIO_MODE_MASK	GENMASK(2, 0)
++#define XR21V141X_GPIO_MODE_RTS_CTS	0x1
++#define XR21V141X_GPIO_MODE_DTR_DSR	0x2
++#define XR21V141X_GPIO_MODE_RS485	0x3
++#define XR21V141X_GPIO_MODE_RS485_ADDR	0x4
  
- 	ret = xr_uart_enable(port);
-@@ -541,13 +540,6 @@ static int xr_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		return ret;
- 	}
+ #define XR21V141X_REG_ENABLE		0x03
+ #define XR21V141X_REG_FORMAT		0x0b
+@@ -433,11 +433,11 @@ static void xr_set_flow_mode(struct tty_struct *tty,
+ 		return;
  
--	/*
--	 * Configure DTR and RTS as outputs and RI, CD, DSR and CTS as
--	 * inputs.
--	 */
--	gpio_dir = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
--	xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, gpio_dir);
--
- 	/* Setup termios */
- 	if (tty)
- 		xr_set_termios(tty, port, NULL);
-@@ -596,10 +588,38 @@ static int xr_probe(struct usb_serial *serial, const struct usb_device_id *id)
- 	return 0;
- }
+ 	/* Set GPIO mode for controlling the pins manually by default. */
+-	gpio_mode &= ~XR21V141X_UART_MODE_GPIO_MASK;
++	gpio_mode &= ~XR21V141X_GPIO_MODE_MASK;
  
-+static int xr_gpio_init(struct usb_serial_port *port)
-+{
-+	u8 mask, mode;
-+	int ret;
-+
-+	/* Configure all pins as GPIO. */
-+	mode = 0;
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_MODE, mode);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Configure DTR and RTS as outputs and make sure they are deasserted
-+	 * (active low), and configure RI, CD, DSR and CTS as inputs.
-+	 */
-+	mask = XR21V141X_GPIO_DTR | XR21V141X_GPIO_RTS;
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_DIR, mask);
-+	if (ret)
-+		return ret;
-+
-+	ret = xr_set_reg_uart(port, XR21V141X_REG_GPIO_SET, mask);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
- static int xr_port_probe(struct usb_serial_port *port)
- {
- 	struct usb_interface_descriptor *desc;
- 	struct xr_data *data;
-+	int ret;
- 
- 	data = kzalloc(sizeof(*data), GFP_KERNEL);
- 	if (!data)
-@@ -610,7 +630,16 @@ static int xr_port_probe(struct usb_serial_port *port)
- 
- 	usb_set_serial_port_data(port, data);
- 
-+	ret = xr_gpio_init(port);
-+	if (ret)
-+		goto err_free;
-+
- 	return 0;
-+
-+err_free:
-+	kfree(data);
-+
-+	return ret;
- }
- 
- static void xr_port_remove(struct usb_serial_port *port)
+ 	if (C_CRTSCTS(tty) && C_BAUD(tty) != B0) {
+ 		dev_dbg(&port->dev, "Enabling hardware flow ctrl\n");
+-		gpio_mode |= XR21V141X_UART_MODE_RTS_CTS;
++		gpio_mode |= XR21V141X_GPIO_MODE_RTS_CTS;
+ 		flow = XR21V141X_UART_FLOW_MODE_HW;
+ 	} else if (I_IXON(tty)) {
+ 		u8 start_char = START_CHAR(tty);
 -- 
 2.26.3
 
