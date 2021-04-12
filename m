@@ -2,85 +2,136 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-22.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BB1C433ED
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 10:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0944AC433B4
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 10:44:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D55F06134F
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 10:28:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C48616134F
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Apr 2021 10:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239086AbhDLK2T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Apr 2021 06:28:19 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53344 "EHLO mx2.suse.de"
+        id S239601AbhDLKo6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Apr 2021 06:44:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49320 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239060AbhDLK2S (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 12 Apr 2021 06:28:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1618223280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eKg+1LrX5Aumc0+m5G5bwbHrEC5fce1TswA3SrN/ZeA=;
-        b=RREUAqwPfuniQvCVLmyEjeXZKaUvvShdXR8K1xeJa6Lc5CsII5Hga07HJXcigN25u2IqYf
-        i93xD/UtfypeXSbWLItVoyIMa+1ovBE7yc6rG7t/aGvrWlXa+6NwuODfBoxCJfIetVdZxf
-        sNg0+uX2VVO3SBQt63sS+6ARg9OpJto=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2C93DAF17;
-        Mon, 12 Apr 2021 10:28:00 +0000 (UTC)
-Message-ID: <8c11f03b08a0bdfd2761a74f5a7964067dc4b98b.camel@suse.com>
-Subject: Re: [RFC]extension of the anchor API
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
+        id S237538AbhDLKo5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 12 Apr 2021 06:44:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E480E61352;
+        Mon, 12 Apr 2021 10:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618224279;
+        bh=+YrGKXDPxOP5l2OFGkMMpN35U6A20ljdJWuZhJyoq/4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ol2w3eLAiPi36m7/Y6EDUIxJ91cMB/XkAHVHnldhNf6l0dOuc7NiRgaIJUIRp2akJ
+         rA384hv0b8pgI0mJqY4c+RAQL1JHrmui4ILSMNYrSj9N3GywJ/PmCcHvResKCCfA1e
+         A9AocRFSfj8j0s9PyWdNCxIqm6wtSe1XyG3Ulbc3tK6e/JwVudHxwGCYYIgylqWrF/
+         I++XZyHmOXdBgHxZbO6tOSWzKPSKqHpJtpiUeg+CBE3LGdWG7qr9LotdCHK1r6i4Nf
+         7husikk2MJ8aNscNcrGjvIH+QZRc3C4yVTU8peKX7jzGAlfobBVD3S6o+OuhqrTJ3F
+         cxNQ/tKP/Zh1A==
+Date:   Mon, 12 Apr 2021 18:44:35 +0800
+From:   Peter Chen <peter.chen@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Date:   Mon, 12 Apr 2021 11:58:16 +0200
-In-Reply-To: <20210408150725.GC1296449@rowland.harvard.edu>
-References: <5b3c30d268ea2d13d303759ef3dfee8d72830084.camel@suse.com>
-         <20210325150657.GC785961@rowland.harvard.edu>
-         <5d3852dca69ff194017c806078e996c50ee621be.camel@suse.com>
-         <20210325183856.GA799855@rowland.harvard.edu>
-         <cc44e358406f48175fad9e956369d0f5a07efbe9.camel@suse.com>
-         <20210408150725.GC1296449@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+Subject: Re: [GIT PULL] usb: changes for v5.13-rc1
+Message-ID: <20210412104435.GA19075@nchen>
+References: <20210411223542.GA26127@b29397-desktop>
+ <YHQXTbim32F0etan@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHQXTbim32F0etan@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 08.04.2021, 11:07 -0400 schrieb Alan Stern:
-> On Thu, Apr 08, 2021 at 11:23:05AM +0200, Oliver Neukum wrote:
-> > Am Donnerstag, den 25.03.2021, 14:38 -0400 schrieb Alan Stern:
-
-> > Yes. If the URBs themselves, as opposed to their payloads, are
-> > different, this will happen. Yet I am afraid we are looking at a
-> > necessary race condition here. If you cancel a non-atomic operation,
-> > you will need to deal with all possible intermediate stages of
-> > completion.
+On 21-04-12 11:47:57, Greg KH wrote:
+> On Mon, Apr 12, 2021 at 06:35:43AM +0800, Peter Chen wrote:
+> > The following changes since commit 5e17812c22bcd65fa9202595eef4bbf8fa814144:
+> > 
+> >   usb: dwc3: document usb_psy in struct dwc3 (2021-03-03 11:09:29 +0100)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git/ tags/usb-v5.13-rc1
+> > 
+> > for you to fetch changes up to 6ef82c8acf5ca40d8912947696e9d52956a03cec:
+> > 
+> >   usb: cdnsp: Fixes issue with Configure Endpoint command (2021-04-10 09:10:44 +0800)
+> > 
+> > ----------------------------------------------------------------
+> > Several Cadence3 improvements are introduced in v5.13-rc1:
+> > - Add recovery during resume if the controller was lost power at system suspend
+> > - Reduce DMA memory footprint
+> > - Other small improvements
+> > 
+> > ----------------------------------------------------------------
+> > Colin Ian King (1):
+> >       usb: cdnsp: remove redundant initialization of variable ret
+> > 
+> > Dmitry Osipenko (1):
+> >       usb: chipidea: tegra: Silence deferred probe error
+> > 
+> > Frank Li (3):
+> >       usb: cdns3: add power lost support for system resume
+> >       usb: cdns3: imx: add power lost support for system resume
+> >       usb: cdns3: fix static checker warning.
+> > 
+> > Pawel Laszczak (1):
+> >       usb: cdnsp: Fixes issue with Configure Endpoint command
+> > 
+> > Peter Chen (1):
+> >       usb: cdns3: trace: delete the trace parameter for request->trb
+> > 
+> > Sanket Parmar (2):
+> >       usb: cdns3: Use dma_pool_* api to alloc trb pool
+> >       usb: cdns3: Optimize DMA request buffer allocation
+> > 
+> > Wang Qing (1):
+> >       usb: cdns3: delete repeated clear operations
+> > 
+> > Wei Yongjun (1):
+> >       usb: cdns3: imx: mark cdns_imx_system_resume as __maybe_unused
+> > 
+> >  drivers/usb/cdns3/cdns3-gadget.c     | 73 ++++++++++++++++++++++--------------
+> >  drivers/usb/cdns3/cdns3-gadget.h     |  3 ++
+> >  drivers/usb/cdns3/cdns3-imx.c        | 34 +++++++++++++++++
+> >  drivers/usb/cdns3/cdns3-plat.c       | 23 +++++++++++-
+> >  drivers/usb/cdns3/cdns3-trace.h      |  5 +--
+> >  drivers/usb/cdns3/cdnsp-gadget.c     | 17 ++++++---
+> >  drivers/usb/cdns3/cdnsp-gadget.h     |  1 +
+> >  drivers/usb/cdns3/cdnsp-mem.c        |  3 +-
+> >  drivers/usb/cdns3/core.c             | 29 +++++++++++++-
+> >  drivers/usb/cdns3/drd.c              | 15 ++++++++
+> >  drivers/usb/cdns3/drd.h              |  2 +-
+> >  drivers/usb/chipidea/ci_hdrc_tegra.c |  8 ++--
+> >  12 files changed, 165 insertions(+), 48 deletions(-)
 > 
-> That's not the point.  The point is that the description you wrote is 
-> incorrect.
 > 
-> I can imagine someone who doesn't understand the details of the 
-> anchor/mooring API creating an array of pointers to URBs, then filling 
-> in those URBs in the array's order.  That would mess things up if a 
-> previous kill caused the order of the anchor list to be different from 
-> the array order.
+> This merge is odd, why am I getting merge conflicts in:
+> 	drivers/usb/dwc3/gadget.c
+> 	drivers/usb/typec/tipd/core.c
+> 
+> when I pull this?
+> 
+> According to the above there should not be any changes in those files.
+> 
+> When I resolve those conflicts, I get a _lot_ of additional patches in
+> this branch than you list here.
+> 
+> How did you create this pull request?  What branch of mine is it
+> against?
+> 
 
-OK, I will fix the description.
+Sorry about that, my branch was checkout from your usb-next at early of this
+release cycle, it seems your branch may forced update. I will apply the patches
+on top of v5.12-rc1, and re-send the pull request.
 
-> How about instead of moving URBs to the end of the list when they 
-> complete, you have the anchor maintain a pointer to the most recently 
-> submitted URB?
+-- 
 
-That presumes that the URBs will finish in order. I don't think such
-an assumption can be made.
-
-	Regards
-		Oliver
-
+Thanks,
+Peter Chen
 
