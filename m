@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E895EC433ED
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD2DC433ED
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF4E3610FB
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54D50610E6
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242313AbhDPKDA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 16 Apr 2021 06:03:00 -0400
+        id S242336AbhDPKDC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 16 Apr 2021 06:03:02 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:27882 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234291AbhDPKC7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 16 Apr 2021 06:02:59 -0400
+        with ESMTP id S242316AbhDPKDB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 16 Apr 2021 06:03:01 -0400
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 16 Apr 2021 03:02:35 -0700
+  by alexa-out.qualcomm.com with ESMTP; 16 Apr 2021 03:02:37 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 16 Apr 2021 03:02:33 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 16 Apr 2021 03:02:35 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 16 Apr 2021 15:32:06 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 16 Apr 2021 15:32:05 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 2D33B38A5; Fri, 16 Apr 2021 15:32:05 +0530 (IST)
+        id 4975D3816; Fri, 16 Apr 2021 15:32:04 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -40,9 +40,9 @@ To:     Andy Gross <agross@kernel.org>,
 Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v6 3/5] usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
-Date:   Fri, 16 Apr 2021 15:31:51 +0530
-Message-Id: <1618567313-25373-4-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v6 2/5] usb: dwc3: core: Host wake up support from system suspend
+Date:   Fri, 16 Apr 2021 15:31:50 +0530
+Message-Id: <1618567313-25373-3-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1618567313-25373-1-git-send-email-sanm@codeaurora.org>
 References: <1618567313-25373-1-git-send-email-sanm@codeaurora.org>
@@ -50,95 +50,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding helper functions to enable,disable wake irqs to make
-the code simple and readable.
+Avoiding phy powerdown when wakeup capable devices are connected
+by checking phy_power_off flag.
+Phy should be on to wake up the device from suspend using wakeup capable
+devices such as keyboard and mouse.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 58 ++++++++++++++++++++------------------------
- 1 file changed, 26 insertions(+), 32 deletions(-)
+ drivers/usb/dwc3/core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 49e6ca9..66183c6 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -296,50 +296,44 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
- 	icc_put(qcom->icc_path_apps);
- }
- 
-+static void dwc3_qcom_enable_wakeup_irq(int irq)
-+{
-+	if (!irq)
-+		return;
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 05e2e54c..3b88c62 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1701,7 +1701,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+ 		dwc3_core_exit(dwc);
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
+-		if (!PMSG_IS_AUTO(msg)) {
++		if (!PMSG_IS_AUTO(msg) && dwc->phy_power_off) {
+ 			dwc3_core_exit(dwc);
+ 			break;
+ 		}
+@@ -1762,13 +1762,16 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
+ 		spin_unlock_irqrestore(&dwc->lock, flags);
+ 		break;
+ 	case DWC3_GCTL_PRTCAP_HOST:
+-		if (!PMSG_IS_AUTO(msg)) {
++		if (!PMSG_IS_AUTO(msg) && dwc->phy_power_off) {
+ 			ret = dwc3_core_init_for_resume(dwc);
+ 			if (ret)
+ 				return ret;
+ 			dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_HOST);
+ 			break;
++		} else {
++			dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_HOST);
+ 		}
 +
-+	enable_irq(irq);
-+	enable_irq_wake(irq);
-+}
-+
-+static void dwc3_qcom_disable_wakeup_irq(int irq)
-+{
-+	if (!irq)
-+		return;
-+
-+	disable_irq_wake(irq);
-+	disable_irq_nosync(irq);
-+}
-+
- static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
- {
--	if (qcom->hs_phy_irq) {
--		disable_irq_wake(qcom->hs_phy_irq);
--		disable_irq_nosync(qcom->hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
- 
--	if (qcom->dp_hs_phy_irq) {
--		disable_irq_wake(qcom->dp_hs_phy_irq);
--		disable_irq_nosync(qcom->dp_hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
- 
--	if (qcom->dm_hs_phy_irq) {
--		disable_irq_wake(qcom->dm_hs_phy_irq);
--		disable_irq_nosync(qcom->dm_hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
- 
--	if (qcom->ss_phy_irq) {
--		disable_irq_wake(qcom->ss_phy_irq);
--		disable_irq_nosync(qcom->ss_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
- }
- 
- static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- {
--	if (qcom->hs_phy_irq) {
--		enable_irq(qcom->hs_phy_irq);
--		enable_irq_wake(qcom->hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
- 
--	if (qcom->dp_hs_phy_irq) {
--		enable_irq(qcom->dp_hs_phy_irq);
--		enable_irq_wake(qcom->dp_hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
- 
--	if (qcom->dm_hs_phy_irq) {
--		enable_irq(qcom->dm_hs_phy_irq);
--		enable_irq_wake(qcom->dm_hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
- 
--	if (qcom->ss_phy_irq) {
--		enable_irq(qcom->ss_phy_irq);
--		enable_irq_wake(qcom->ss_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
- }
- 
- static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
+ 		/* Restore GUSB2PHYCFG bits that were modified in suspend */
+ 		reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(0));
+ 		if (dwc->dis_u2_susphy_quirk)
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
