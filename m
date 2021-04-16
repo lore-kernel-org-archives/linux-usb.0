@@ -2,164 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9DDDC43603
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F40BDC43460
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:47:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8D74261166
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:02:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF171611AF
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Apr 2021 10:47:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242409AbhDPKDG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 16 Apr 2021 06:03:06 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:11657 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242365AbhDPKDD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 16 Apr 2021 06:03:03 -0400
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 16 Apr 2021 03:02:39 -0700
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 16 Apr 2021 03:02:37 -0700
-X-QCInternal: smtphost
-Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 16 Apr 2021 15:32:04 +0530
-Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 63E2138A5; Fri, 16 Apr 2021 15:32:03 +0530 (IST)
-From:   Sandeep Maheswaram <sanm@codeaurora.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        id S242144AbhDPKrz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 16 Apr 2021 06:47:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S242101AbhDPKry (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 16 Apr 2021 06:47:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 33DE961103;
+        Fri, 16 Apr 2021 10:47:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618570050;
+        bh=od1tl7oKpVX/MGO4p0AhDkV0ESsHKL9wHzJMSSEZtLk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TItS6HfKYpavIh/cZNuV/Cf9SdibI9PL9tlvdaoCRdMFXMY9n4xZTu57TiOmJr89c
+         FhgQeGvmikXT/ycxdqfPCpNXgPAleEioIS9EdiWEWduMRjnqMaQKevA/oKnacAE3vX
+         3LqqzpFvQr31YeYNFerYEkId3nVMY8XfMng0I0K+blKFjelq1HStEHrBhceE3wWNAK
+         ppD/CuGxwdgsg4k+ltLTyZDpBoEAkvDYBOjk++xKxXJzA8Z2f8bKOIQcoErGNzZn82
+         79JquGXDOgnK0OXdclEmdw9AVUu5MwWv1vtT8gXnYDc89c8aXtZbdem1lhVgbBoYtG
+         Y5lVQEOAsvzwQ==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v6 1/5] usb: dwc3: host: Add suspend_quirk for dwc3 host
-Date:   Fri, 16 Apr 2021 15:31:49 +0530
-Message-Id: <1618567313-25373-2-git-send-email-sanm@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1618567313-25373-1-git-send-email-sanm@codeaurora.org>
-References: <1618567313-25373-1-git-send-email-sanm@codeaurora.org>
+        linux-usb@vger.kernel.org
+Cc:     John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Wesley Cheng <wcheng@codeaurora.org>,
+        Ferry Toth <fntoth@gmail.com>, Yu Chen <chenyu56@huawei.com>
+Subject: Re: [PATCH v3] usb: dwc3: core: Do core softreset when switch mode
+In-Reply-To: <374440f8dcd4f06c02c2caf4b1efde86774e02d9.1618521663.git.Thinh.Nguyen@synopsys.com>
+References: <2cb4e704b059a8cc91f37081c8ceb95c6492e416.1618503587.git.Thinh.Nguyen@synopsys.com>
+ <374440f8dcd4f06c02c2caf4b1efde86774e02d9.1618521663.git.Thinh.Nguyen@synopsys.com>
+Date:   Fri, 16 Apr 2021 13:47:22 +0300
+Message-ID: <87zgxymrph.fsf@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding suspend quirk function for dwc3 host which will be called
-during xhci suspend.
-Setting hs_phy_mode, ss_phy_mode , phy_power_off flags and phy mode
-during host suspend.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
----
- drivers/usb/dwc3/core.h |  3 +++
- drivers/usb/dwc3/host.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 6e9abfb..f409dc1 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1111,6 +1111,9 @@ struct dwc3 {
- 
- 	bool			phys_ready;
- 
-+	unsigned int            hs_phy_mode;
-+	bool			phy_power_off;
-+
- 	struct ulpi		*ulpi;
- 	bool			ulpi_ready;
- 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index f29a264..527f04c 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -11,6 +11,14 @@
- #include <linux/platform_device.h>
- 
- #include "core.h"
-+#include "../host/xhci.h"
-+#include "../host/xhci-plat.h"
-+
-+static int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
-+
-+static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
-+	.suspend_quirk = xhci_dwc3_suspend_quirk,
-+};
- 
- static int dwc3_host_get_irq(struct dwc3 *dwc)
- {
-@@ -115,6 +123,13 @@ int dwc3_host_init(struct dwc3 *dwc)
- 		}
- 	}
- 
-+	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
-+			sizeof(struct xhci_plat_priv));
-+	if (ret) {
-+		dev_err(dwc->dev, "failed to add data to xHCI\n");
-+		goto err;
-+	}
-+
- 	ret = platform_device_add(xhci);
- 	if (ret) {
- 		dev_err(dwc->dev, "failed to register xHCI device\n");
-@@ -127,6 +142,50 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	return ret;
- }
- 
-+static void dwc3_set_phy_mode(struct usb_hcd *hcd)
-+{
-+
-+	int i, num_ports;
-+	u32 reg;
-+	unsigned int ss_phy_mode = 0;
-+	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
-+	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
-+
-+	dwc->hs_phy_mode = 0;
-+
-+	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
-+	num_ports = HCS_MAX_PORTS(reg);
-+
-+	for (i = 0; i < num_ports; i++) {
-+		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
-+		if (reg & PORT_PE) {
-+			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
-+				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
-+			else if (DEV_LOWSPEED(reg))
-+				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
-+
-+			if (DEV_SUPERSPEED(reg))
-+				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
-+		}
-+	}
-+	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
-+	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
-+}
-+
-+int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
-+{
-+	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
-+
-+	dwc3_set_phy_mode(hcd);
-+
-+	if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
-+		dwc->phy_power_off = false;
-+	else
-+		dwc->phy_power_off = true;
-+
-+	return 0;
-+}
-+
- void dwc3_host_exit(struct dwc3 *dwc)
- {
- 	platform_device_unregister(dwc->xhci);
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Hi,
 
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
+
+> From: Yu Chen <chenyu56@huawei.com>
+> From: John Stultz <john.stultz@linaro.org>
+>
+> According to the programming guide, to switch mode for DRD controller,
+> the driver needs to do the following.
+>
+> To switch from device to host:
+> 1. Reset controller with GCTL.CoreSoftReset
+> 2. Set GCTL.PrtCapDir(host mode)
+> 3. Reset the host with USBCMD.HCRESET
+> 4. Then follow up with the initializing host registers sequence
+>
+> To switch from host to device:
+> 1. Reset controller with GCTL.CoreSoftReset
+> 2. Set GCTL.PrtCapDir(device mode)
+> 3. Reset the device with DCTL.CSftRst
+> 4. Then follow up with the initializing registers sequence
+>
+> Currently we're missing step 1) to do GCTL.CoreSoftReset and step 3) of
+> switching from host to device. John Stult reported a lockup issue seen
+> with HiKey960 platform without these steps[1]. Similar issue is observed
+> with Ferry's testing platform[2].
+>
+> So, apply the required steps along with some fixes to Yu Chen's and John
+> Stultz's version. The main fixes to their versions are the missing wait
+> for clocks synchronization before clearing GCTL.CoreSoftReset and only
+> apply DCTL.CSftRst when switching from host to device.
+>
+> [1] https://lore.kernel.org/linux-usb/20210108015115.27920-1-john.stultz@=
+linaro.org/
+> [2] https://lore.kernel.org/linux-usb/0ba7a6ba-e6a7-9cd4-0695-64fc927e01f=
+1@gmail.com/
+>
+> Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Cc: Ferry Toth <fntoth@gmail.com>
+> Cc: Wesley Cheng <wcheng@codeaurora.org>
+> Cc: <stable@vger.kernel.org>
+> Fixes: 41ce1456e1db ("usb: dwc3: core: make dwc3_set_mode() work properly=
+")
+> Signed-off-by: Yu Chen <chenyu56@huawei.com>
+> Signed-off-by: John Stultz <john.stultz@linaro.org>
+> Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+
+I still have concerns about the soft reset, but I won't block you guys
+from fixing Hikey's problem :-)
+
+The only thing I would like to confirm is that this has been verified
+with hundreds of swaps happening as quickly as possible. DWC3 should
+still be functional after several hundred swaps.
+
+Can someone confirm this is the case? (I'm assuming this can be
+scripted)
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmB5azoRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzL64meEamQbTqBAAwJa0+SiYQL4Cbfy6TY99murao5mbPn/A
+bI+Ufn/HmXT/FrpwmVeFGb0xeKg+EjXsdyp1QGKKNMqHQ0vwCDxEDeIAazh/2+3f
+x1XeNTBwSAd6KgdUwqaIDQtUhHoZKP8TSRSL0zokZamYDkpUbv84A2w+fUQuDToP
+tTecb+i9iS0bs5NEgF9e/GvDBWHF2i087tn0BDcm9LCqd34yDGOaLfySBMhBuG3h
+N+q+xVo1zAALHwqGFxYvGqUzybMt2U9YEE3CaN8DHZPOQs/2UFdvlg6Hi/RdrOb+
+4bH1PzcjJIQ9lFF/0i8zJCVBK8LW5wElSN/g05wja2RyioqTnrEwvob/3yesjl5J
+TRR8VZZIPShgRZFtoWSTvLRL86bKJoXCaKVh41sXkbIPhyNzZTf2T06NjvERNwYY
+AK7y9M3cZm44IDytI8WPcWZx5io6aoEw8VqQbYor7GTecdE9vKteBVaxwlBVDIzZ
+K1GoPEJfy8oU8Akr5jS/p8la+di/wjHGplv/hTuOHXwkSz6WJzE5HQw0jzK5PDk6
+kUhfEKo/BokRWIIFbTqjxU5MUla4UcyFo3hfgFYBOGM0QGOlHSJgJW3wcxuXpKwO
++2X1a+0L/wY0pt2d4NbEYaezqGeFyY6nPRZJSDBUWchdxmeFQj1NXe4x5UYrMlb8
+w0/4kYvWosw=
+=33Vg
+-----END PGP SIGNATURE-----
+--=-=-=--
