@@ -2,141 +2,214 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEE00C433B4
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Apr 2021 20:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EC7C433B4
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Apr 2021 20:55:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A696A613AF
-	for <linux-usb@archiver.kernel.org>; Mon, 19 Apr 2021 20:24:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16222613AC
+	for <linux-usb@archiver.kernel.org>; Mon, 19 Apr 2021 20:55:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242091AbhDSUYm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 19 Apr 2021 16:24:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40164 "EHLO
+        id S242557AbhDSU4U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 19 Apr 2021 16:56:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242068AbhDSUYl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Apr 2021 16:24:41 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21CA5C06174A;
-        Mon, 19 Apr 2021 13:24:10 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id u17so54951247ejk.2;
-        Mon, 19 Apr 2021 13:24:10 -0700 (PDT)
+        with ESMTP id S240569AbhDSUz5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 19 Apr 2021 16:55:57 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C118C06134F
+        for <linux-usb@vger.kernel.org>; Mon, 19 Apr 2021 13:53:16 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id y22-20020a17090a8b16b0290150ae1a6d2bso2317149pjn.0
+        for <linux-usb@vger.kernel.org>; Mon, 19 Apr 2021 13:53:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=PhHrHZTnHWl4dYuJ08rovKPiY+jAx1smovfxRkAUCIo=;
-        b=kunzzXFh+tAz4F4bWKTcSqZ4FCfvWllWA/rB2UBSMLgVudZWveUJs3ws6wPtEbXMNl
-         gNT285LySgx6UT2vF7ib2+2Z/bIt6TfR3U3jSmXlm42NH46AoM0j88Ap4+J/LiFn6vsQ
-         33m95JYg3wRTSqe6LOaEe5Nhf7Cv7UZynm2dNMjWisfhaua5zn4EzCP+BuWBP1CdQJQW
-         lStF6+4kAut24DEDGGD3xHtHBeV/3SCD7LI5mKH2Vq+NpJs+k9Yeuksnl2/jIRVh5sra
-         wQZZBVHmllgyweVuel6HHE75lN8KLVtpoyBZ/V4eY1UBSeOsXsyEW8YAsflrO0KlFISf
-         4HjA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oULCgofDCr3IKol4CZm7G0o//okmzQkN3R5Hp16/Ue8=;
+        b=PRfRzGaTIZDsL3wTTlVgGI06CnIMFMTv8pN0WiVKjO1yxjUxfUCOOv8RJT6vZ1ryCV
+         +cDK1gLSgpQBwbnd7pfF/YVkIrm4Qk2YjlM3UCErvIhQ52Je132mA+IK6yX0r6hu6QB6
+         ++3j6S0TdChypVnxHhj/REa9w98cc1mO6g0ss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=PhHrHZTnHWl4dYuJ08rovKPiY+jAx1smovfxRkAUCIo=;
-        b=S8rOHi59tWAL9QgxsJ/tASGrzc6oKFhqbEX4iVbbvgIwSX7VT5RO6zJ9E/kBqFkCpk
-         6L+VFlsDcWFm8pAn45rxJsUooGOyuIhsnUiYDjjS+HrkprZtY5Y7EargI3qrdmlkXNmz
-         8VDb5X25fbFwtQM4BuLbEso3BemOxLKcqP0Ry6WQ4dctYLU1iNzRVNzKteMIuBU3a/4t
-         xsA6Mqeld5BvHSFtWFOEBsQLDE8noQoWgFeGOKO6rX9Pf7TTuzGTiaW8NfQw2hOWXoSe
-         bLhYIEKfzfSjcOdREPfIfNfGq6GBBPe8cjVgVxYpqQNVVmomnOLwI8cxeb6uOAR93zFg
-         W3qA==
-X-Gm-Message-State: AOAM532eiTCkHoqI+/E9Wy3LhT0A1MUv7hqQZGDoRE75YsxgJWfE/8de
-        D8btMYSCHB/O86YbPZSS4HoXTyNR3bH04A==
-X-Google-Smtp-Source: ABdhPJwFBpYurS2+zK/ROGCoBaIC5lcqQqAwDoeMNsd8rTLT7VwkjzUDtkwJNWzbJjEM0ykD+hESWw==
-X-Received: by 2002:a17:906:6b81:: with SMTP id l1mr4635789ejr.494.1618863848847;
-        Mon, 19 Apr 2021 13:24:08 -0700 (PDT)
-Received: from ?IPv6:2001:981:6fec:1:c5ff:9fd6:3e2f:f252? ([2001:981:6fec:1:c5ff:9fd6:3e2f:f252])
-        by smtp.gmail.com with ESMTPSA id x9sm13715366edv.22.2021.04.19.13.24.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oULCgofDCr3IKol4CZm7G0o//okmzQkN3R5Hp16/Ue8=;
+        b=Kh4uiyafX78addJDI1Cud17YFMHSxoRSThu4QSvClxZcQLrlbpN/3lKd1LS/aZ1KGv
+         nIrfNw4Xivhq11zfvLD0ABqBNcYl+A7eP3DM/+uMyQsTELVy2OjyN0Q4+osVyFTPPk/Y
+         BrhwxMFHFvWW21JLca+V+ikxD+fk+cgugtpGU7/t3fhv/I8amz3YQuRbkCno4QGVDKB8
+         oNoydyuKIGWo1TQ9DUTg3z9ejCprsi0s7c0ya7QlIYMhX9Vnm6xJ4dj81HPgnjj4sDCY
+         W8ei7etDvspFIZmlV/KZlB5kC1qzUjocfc4xBdpO2My299Cyo0x354a4d6slVTfi4Bf0
+         DoHg==
+X-Gm-Message-State: AOAM532WbrMkP+7ggJlMyfu2rUxwRGketBzHm+7NAq4RxbBL9O53qae/
+        5osGL4QL1ALEoA5E6kgwVNEUOg==
+X-Google-Smtp-Source: ABdhPJxJrsfjt/GcLeN3qwtoq2slf1gMFTkTmr11hYO0bkxLzfjols+Aib2YcFe7rCTHsHx4JlOADw==
+X-Received: by 2002:a17:90a:7783:: with SMTP id v3mr1022551pjk.177.1618865595769;
+        Mon, 19 Apr 2021 13:53:15 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:7401:678f:e510:6700])
+        by smtp.gmail.com with UTF8SMTPSA id q6sm680577pfs.33.2021.04.19.13.53.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Apr 2021 13:24:08 -0700 (PDT)
-Subject: Re: [PATCH v3] usb: dwc3: core: Do core softreset when switch mode
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        John Youn <John.Youn@synopsys.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Wesley Cheng <wcheng@codeaurora.org>,
-        Yu Chen <chenyu56@huawei.com>, Felipe Balbi <balbi@kernel.org>,
+        Mon, 19 Apr 2021 13:53:15 -0700 (PDT)
+Date:   Mon, 19 Apr 2021 13:53:14 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Sandeep Maheswaram <sanm@codeaurora.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <2cb4e704b059a8cc91f37081c8ceb95c6492e416.1618503587.git.Thinh.Nguyen@synopsys.com>
- <374440f8dcd4f06c02c2caf4b1efde86774e02d9.1618521663.git.Thinh.Nguyen@synopsys.com>
- <d053b843-2308-6b42-e7ff-3dc6e33e5c7d@synopsys.com>
- <0882cfae-4708-a67a-f112-c1eb0c7e6f51@gmail.com>
- <1c1d8e4a-c495-4d51-b125-c3909a3bdb44@synopsys.com>
- <db5849f7-ba31-8b18-ebb5-f27c4e36de28@gmail.com>
- <09755742-c73b-f737-01c1-8ecd309de551@gmail.com>
- <4a1245e3-023c-ec69-2ead-dacf5560ff9f@synopsys.com>
- <CAHp75Vfs559OL1_iwtmdvnLTELUFLHXaJfmW4_oqoC3NpyMhLw@mail.gmail.com>
-From:   Ferry Toth <fntoth@gmail.com>
-Message-ID: <a5d9837c-eb2d-dcd2-8082-952304443795@gmail.com>
-Date:   Mon, 19 Apr 2021 22:24:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>
+Subject: Re: [PATCH v6 1/5] usb: dwc3: host: Add suspend_quirk for dwc3 host
+Message-ID: <YH3tuppS0Xjxobmj@google.com>
+References: <1618567313-25373-1-git-send-email-sanm@codeaurora.org>
+ <1618567313-25373-2-git-send-email-sanm@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vfs559OL1_iwtmdvnLTELUFLHXaJfmW4_oqoC3NpyMhLw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1618567313-25373-2-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Fri, Apr 16, 2021 at 03:31:49PM +0530, Sandeep Maheswaram wrote:
 
-Op 19-04-2021 om 10:43 schreef Andy Shevchenko:
-> On Mon, Apr 19, 2021 at 2:03 AM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
->> Ferry Toth wrote:
->>> Op 17-04-2021 om 16:22 schreef Ferry Toth:
->>>> Op 17-04-2021 om 04:27 schreef Thinh Nguyen:
->>>>> Ferry Toth wrote:
->>>>>> Op 16-04-2021 om 00:23 schreef Thinh Nguyen:
->>>>>>> Thinh Nguyen wrote:
->>> On the PC side this resulted to:
->>>
->>> apr 17 18:17:44 delfion kernel: usb 1-5: new high-speed USB device
->>> number 12 using xhci_hcd
->>> apr 17 18:17:44 delfion kernel: usb 1-5: New USB device found,
->>> idVendor=1d6b, idProduct=0104, bcdDevice= 1.00
->>> apr 17 18:17:44 delfion kernel: usb 1-5: New USB device strings: Mfr=1,
->>> Product=2, SerialNumber=3
->>> apr 17 18:17:44 delfion kernel: usb 1-5: Product: USBArmory Gadget
->>> apr 17 18:17:44 delfion kernel: usb 1-5: Manufacturer: USBArmory
->>> apr 17 18:17:44 delfion kernel: usb 1-5: SerialNumber: 0123456789abcdef
->>> apr 17 18:17:49 delfion kernel: usb 1-5: can't set config #1, error -110
->>>
->>> Thanks for all your help!
->> Looks like it's LPM related again. To confirm, try this:
->> Disable LPM with this property "snps,usb2-gadget-lpm-disable"
->> (Note that it's not the same as "snps,dis_enblslpm_quirk")
->> Make sure that your testing kernel has this patch [1]
->> 475e8be53d04 ("usb: dwc3: gadget: Check for disabled LPM quirk")
-> Thinh, Ferry, I'm a bit lost in this thread. Can you summarize what
-> patches I have to apply on top of v5.12-rc8 to mitigate issues,
-> mentioned in this thread?
+> Subject: usb: dwc3: host: Add suspend_quirk for dwc3 host
 >
-> (Sounds to me there are like ~5 patches floating around)
+> Adding suspend quirk function for dwc3 host which will be called
+> during xhci suspend.
+> Setting hs_phy_mode, ss_phy_mode , phy_power_off flags and phy mode
+> during host suspend.
 
-I have 3 on top usb-next (-rc7)
+This describes in other words what the code already tells us, but
+doesn't really explain why this change is needed.
 
-usb: dwc3: core: Do core softreset when switch mode
+An attempt to be a bit clearer:
 
-usb: dwc3: gadget: START_TRANSFER command needs to be executed while the 
-device is on "ON" state
+  Subject: usb: dwc3: host: Set PHY mode during suspend
 
-usb: gadget: increase BESL baseline to 6
+  During suspend read the status of all port and make sure the PHYs
+  are in the correct mode (mka@: why is it necessary to call
+  phy_set_mode(), shouldn't the PHYs already be in the correct mode
+  if they are operational?). Keep track of the mode of the HS PHY to
+  be able to configure wakeup properly.
 
-See here: https://github.com/htot/linux/commits/eds-acpi-5.12-rc7
+  Also check during suspend if any wakeup capable devices are
+  connected to the controller (directly or through hubs), if there
+  are none set a flag to indicate that the PHY should be powered
+  down during suspend.
 
->
-> I'll try to find time to test on my side.
->
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=475e8be53d0496f9bc6159f4abb3ff5f9b90e8de
->
+Just a starting point, I'm sure it has room for improvement.
+
+> 
+> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+> ---
+>  drivers/usb/dwc3/core.h |  3 +++
+>  drivers/usb/dwc3/host.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 62 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+> index 6e9abfb..f409dc1 100644
+> --- a/drivers/usb/dwc3/core.h
+> +++ b/drivers/usb/dwc3/core.h
+> @@ -1111,6 +1111,9 @@ struct dwc3 {
+>  
+>  	bool			phys_ready;
+>  
+> +	unsigned int            hs_phy_mode;
+> +	bool			phy_power_off;
+> +
+>  	struct ulpi		*ulpi;
+>  	bool			ulpi_ready;
+>  
+> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+> index f29a264..527f04c 100644
+> --- a/drivers/usb/dwc3/host.c
+> +++ b/drivers/usb/dwc3/host.c
+> @@ -11,6 +11,14 @@
+>  #include <linux/platform_device.h>
+>  
+>  #include "core.h"
+> +#include "../host/xhci.h"
+> +#include "../host/xhci-plat.h"
+> +
+> +static int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
+> +
+> +static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
+> +	.suspend_quirk = xhci_dwc3_suspend_quirk,
+> +};
+>  
+>  static int dwc3_host_get_irq(struct dwc3 *dwc)
+>  {
+> @@ -115,6 +123,13 @@ int dwc3_host_init(struct dwc3 *dwc)
+>  		}
+>  	}
+>  
+> +	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
+> +			sizeof(struct xhci_plat_priv));
+> +	if (ret) {
+> +		dev_err(dwc->dev, "failed to add data to xHCI\n");
+> +		goto err;
+> +	}
+> +
+>  	ret = platform_device_add(xhci);
+>  	if (ret) {
+>  		dev_err(dwc->dev, "failed to register xHCI device\n");
+> @@ -127,6 +142,50 @@ int dwc3_host_init(struct dwc3 *dwc)
+>  	return ret;
+>  }
+>  
+> +static void dwc3_set_phy_mode(struct usb_hcd *hcd)
+> +{
+> +
+> +	int i, num_ports;
+> +	u32 reg;
+> +	unsigned int ss_phy_mode = 0;
+> +	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
+> +	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
+> +
+> +	dwc->hs_phy_mode = 0;
+> +
+> +	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
+> +	num_ports = HCS_MAX_PORTS(reg);
+> +
+> +	for (i = 0; i < num_ports; i++) {
+> +		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
+> +		if (reg & PORT_PE) {
+> +			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
+> +				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
+> +			else if (DEV_LOWSPEED(reg))
+> +				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
+> +
+> +			if (DEV_SUPERSPEED(reg))
+> +				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
+> +		}
+> +	}
+> +	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
+> +	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
+> +}
+> +
+> +int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
+> +{
+> +	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
+> +
+> +	dwc3_set_phy_mode(hcd);
+> +
+> +	if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
+> +		dwc->phy_power_off = false;
+> +	else
+> +		dwc->phy_power_off = true;
+> +
+> +	return 0;
+> +}
+> +
+>  void dwc3_host_exit(struct dwc3 *dwc)
+>  {
+>  	platform_device_unregister(dwc->xhci);
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+> 
