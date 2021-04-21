@@ -3,46 +3,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F176C433ED
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 07:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23246C433B4
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 07:45:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E2C9613D7
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 07:26:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E38D861430
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 07:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhDUH1G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Apr 2021 03:27:06 -0400
-Received: from mga18.intel.com ([134.134.136.126]:34265 "EHLO mga18.intel.com"
+        id S237122AbhDUHpc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Apr 2021 03:45:32 -0400
+Received: from mga18.intel.com ([134.134.136.126]:35638 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230098AbhDUH1E (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 21 Apr 2021 03:27:04 -0400
-IronPort-SDR: 8KzUhe53Ofq6mknneK0IH2Kj1DID8Pc5XOA+qGR9VUKlLOeogpzpwpNB1Lm6Pp+dWJerWdes1r
- lIcj2jdniNXA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="183143199"
+        id S235209AbhDUHpb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 21 Apr 2021 03:45:31 -0400
+IronPort-SDR: oQEw/3uJ4MFqYNYHwJfHF/7xo/bAml2UwtF4i63Imjh4BYjsTgAOEf+kmk8Pb95wjPCfy1T1V9
+ Pq3FNpD9gIEw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9960"; a="183145104"
 X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="183143199"
+   d="scan'208";a="183145104"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 00:26:24 -0700
-IronPort-SDR: h0PvQQ+yuCZdr/tVpKsHl/RThViX7D/w9tz4uvwXLDirnNr3aPZyFW1mmvH0v0rnc5vCw4mTlS
- XB3K6f50KrQw==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2021 00:44:58 -0700
+IronPort-SDR: /ZfMj8tehuOV2jaCj9TI57dzsFt0fcxC7/DYzUco5ddScdT7bOEChibRekFkuP5opoRN7g8iL4
+ mGOXkNzA+4Rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,238,1613462400"; 
-   d="scan'208";a="617256828"
+   d="scan'208";a="617260348"
 Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Apr 2021 00:26:19 -0700
-Subject: Re: [PATCH] [RFC] xhci: Add Link TRB sync quirk for ASM3142
-To:     Ole Salscheider <ole@salscheider.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-usb@vger.kernel.org
-References: <20210416093729.41865-1-ole@salscheider.org>
- <9bf0060c-3427-a261-531c-c075054ae094@linux.intel.com>
- <5c92dd8c-c8b0-40b5-addb-2df360673462@salscheider.org>
- <a8b56a79-e092-a344-7508-8c22b6568898@salscheider.org>
- <e68b481e-a9a1-787e-b263-461bc9597b65@intel.com>
- <c9a18ec2-7fb1-f206-1d27-ce3fa52be762@salscheider.org>
+  by fmsmga005.fm.intel.com with ESMTP; 21 Apr 2021 00:44:56 -0700
+Subject: Re: [PATCH resend] xhci: Do not use GFP_KERNEL in (potentially)
+ atomic context
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        mathias.nyman@intel.com, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <f30e8c94707b0e3a257f4c628a1b5d7744898109.1618921790.git.christophe.jaillet@wanadoo.fr>
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
  mQINBFMB0ccBEADd+nZnZrFDsIjQtclVz6OsqFOQ6k0nQdveiDNeBuwyFYykkBpaGekoHZ6f
@@ -86,73 +83,41 @@ Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
  Gjynb3sXforM/GVbr4mnuxTdLXQYlj2EJ4O4f0tkLlADT7podzKSlSuZsLi2D+ohKxtP3U/r
  42i8PBnX2oAV0UIkYk7Oel/3hr0+BP666SnTls9RJuoXc7R5XQVsomqXID6GmjwFQR5Wh/RE
  IJtkiDAsk37cfZ9d1kZ2gCQryTV9lmflSOB6AFZkOLuEVSC5qW8M/s6IGDfYXN12YJaZPptJ fiD/
-Message-ID: <9335fdde-4996-1fe5-42ac-fc70bb98d20c@linux.intel.com>
-Date:   Wed, 21 Apr 2021 10:28:18 +0300
+Message-ID: <5eb0bea7-46b6-7225-7603-cac3195a92e4@linux.intel.com>
+Date:   Wed, 21 Apr 2021 10:46:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <c9a18ec2-7fb1-f206-1d27-ce3fa52be762@salscheider.org>
+In-Reply-To: <f30e8c94707b0e3a257f4c628a1b5d7744898109.1618921790.git.christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 19.4.2021 22.05, Ole Salscheider wrote:
-> Hi Mathias,
-...
+On 20.4.2021 15.32, Christophe JAILLET wrote:
+> 'xhci_urb_enqueue()' is passed a 'mem_flags' argument, because "URBs may be
+> submitted in interrupt context" (see comment related to 'usb_submit_urb()'
+> in 'drivers/usb/core/urb.c')
+> 
+> So this flag should be used in all the calling chain.
+> Up to now, 'xhci_check_maxpacket()' which is only called from
+> 'xhci_urb_enqueue()', uses GFP_KERNEL.
+> 
+> Be safe and pass the mem_flags to this function as well.
+> 
+> Fixes: ddba5cd0aeff ("xhci: Use command structures when queuing commands on the command ring")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> I'm not 100% sure of the Fixes tag. The commit is the only that introduced
+> this GFP_KERNEL, but I've not checked what was the behavior before that.
+> 
+> If the patch is correct, I guess that a cc stable should be welcome.
+> 
+> This patch was proposed on 14/08/20. It has been rebased on latest -next tree.
 
->> tracing shows the content of the TRB while it's written, before writing the cycle bit.
->> Could be worth dumping transfer ring after issue is seen and check TRB still looks valid:
->> cat /sys/kernel/debug/usb/xhci/<your controller>/devices/<xx>/ep<yy>/trbs
->> you need to figure out which controller, device and endpoint number for this.
-> 
-> I think this is the output for the correct device and endpoint:
-> 
-> https://stuff.salscheider.org/trbs
+Added to queue, and added stable tag
 
-Thanks, the TRB was already turned No-op by the cancel code by then, but it doesn't matter,
-your trace below indicates the TRB is fine.
-
-> 
->> How about your delayed link TRB cycle write patch? did it help trigger an event for the last transfer
->> TRB, or did it just help as controller couldn't go past the link TRB and was less out of sync with
->> the driver?
-> 
-> 
-> You can find a trace of recording a few seconds of video with my patch here:
-> 
-> https://stuff.salscheider.org/trace_with_patch
-> 
-> As far as I can tell from it, the patch helps to trigger an event for all transfer TRBs. I also tried to record around 30 min of video with it and it did not encounter a problem while recording.
-> 
-> I however cannot start a new recording after stopping the first. And sometimes I observe hangs of the computer some time after stopping the recording. That might be some unwanted side-effect of my patch...
-> 
-
-Yes, It shows transfer events for the TRBs before the link TRB.
-This workaround is however a can of worms as many TD's consist of several TRBs, and they only trigger events for the last TRB.
-
-How about a different approach?
-If the issue is only with transfers starting on the last TRB before the link TRB, we could turn that TRB to a no-op.
-Does something like the code below help?
-
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 6cdea0d00d19..0ffda8127640 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3181,6 +3181,12 @@ static int prepare_ring(struct xhci_hcd *xhci, struct xhci_ring *ep_ring,
- 		}
- 	}
- 
-+	if (ep_ring != xhci->cmd_ring &&
-+	    !trb_is_link(ep_ring->enqueue) &&
-+	    trb_is_link(ep_ring->enqueue + 1))
-+		queue_trb(xhci, ep_ring, 0, 0, 0, 0,
-+			  TRB_TYPE(TRB_TR_NOOP) | ep_ring->cycle_state);
-+
- 	while (trb_is_link(ep_ring->enqueue)) {
- 		/* If we're not dealing with 0.95 hardware or isoc rings
- 		 * on AMD 0.96 host, clear the chain bit.
- 
+Thanks
 -Mathias
