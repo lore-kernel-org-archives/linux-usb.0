@@ -2,226 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D0BFC43460
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 21:15:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88EE1C433ED
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 22:00:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38B666143B
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 21:15:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5097061426
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 22:00:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243890AbhDUVPv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Apr 2021 17:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35030 "EHLO
+        id S235430AbhDUWBF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Apr 2021 18:01:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236316AbhDUVPu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Apr 2021 17:15:50 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE272C06138B
-        for <linux-usb@vger.kernel.org>; Wed, 21 Apr 2021 14:15:16 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1lZKBn-0007Yl-AS; Wed, 21 Apr 2021 23:15:15 +0200
-Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1lZKBm-0007e4-Pc; Wed, 21 Apr 2021 23:15:14 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        kernel@pengutronix.de
-Subject: [PATCH 1/3] usb: gadget: uvc: make uvc_num_requests depend on gadget speed
-Date:   Wed, 21 Apr 2021 23:15:11 +0200
-Message-Id: <20210421211513.29002-2-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210421211513.29002-1-m.grzeschik@pengutronix.de>
+        with ESMTP id S235659AbhDUWAz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Apr 2021 18:00:55 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDE1DC06174A
+        for <linux-usb@vger.kernel.org>; Wed, 21 Apr 2021 15:00:02 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A39C3EE;
+        Wed, 21 Apr 2021 23:59:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1619042396;
+        bh=RLETp/FcqAqTUDDoMdhfzASV5dvg1S83ibysLRNd524=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=awUh0KPfdRsKO21ZqlYeIQGJ4CT7Dgx7fCWfKFQKaivYP1WIVwH1hr3s5eba8EQXV
+         +9/51/qpbD+hyV8FGqd9nT28QPHr8Rsu4w5xPoGHx3LrczWIFmy2p6/gXOJYmt/vZA
+         y5e78duRLxs+lNJXdCaKyFnckf8FDabqauGLz08A=
+Date:   Thu, 22 Apr 2021 00:59:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org, kernel@pengutronix.de,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Caleb Connolly <caleb.connolly@ideasonboard.com>
+Subject: Re: [PATCH 0/3] usb: gadget: uvc: improve uvc gadget performance
+Message-ID: <YICgV1bnCWWWXa4n@pendragon.ideasonboard.com>
 References: <20210421211513.29002-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210421211513.29002-1-m.grzeschik@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While sending bigger images is possible with USB_SPEED_SUPER it is
-better to use more isochronous requests in flight. This patch makes the
-number uvc_num_requests dynamic by changing it depending on the gadget
-speed.
+CC'ing Paul and Caleb.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
- drivers/usb/gadget/function/uvc.h       | 11 ++++--
- drivers/usb/gadget/function/uvc_queue.c |  7 ++++
- drivers/usb/gadget/function/uvc_video.c | 51 ++++++++++++++-----------
- 3 files changed, 44 insertions(+), 25 deletions(-)
+I'm afraid I have no bandwidth to review UVC gadget patches at the
+moment.
 
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 23ee25383c1f7..83b9e945944e8 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -65,13 +65,17 @@ extern unsigned int uvc_gadget_trace_param;
-  * Driver specific constants
-  */
- 
--#define UVC_NUM_REQUESTS			4
- #define UVC_MAX_REQUEST_SIZE			64
- #define UVC_MAX_EVENTS				4
- 
- /* ------------------------------------------------------------------------
-  * Structures
-  */
-+struct uvc_request {
-+	struct usb_request *req;
-+	__u8 *req_buffer;
-+	struct uvc_video *video;
-+};
- 
- struct uvc_video {
- 	struct uvc_device *uvc;
-@@ -87,10 +91,11 @@ struct uvc_video {
- 	unsigned int imagesize;
- 	struct mutex mutex;	/* protects frame parameters */
- 
-+	int uvc_num_requests;
-+
- 	/* Requests */
- 	unsigned int req_size;
--	struct usb_request *req[UVC_NUM_REQUESTS];
--	__u8 *req_buffer[UVC_NUM_REQUESTS];
-+	struct uvc_request *ureq;
- 	struct list_head req_free;
- 	spinlock_t req_lock;
- 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index 61e2c94cc0b0c..dcd71304d521c 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -43,6 +43,8 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- {
- 	struct uvc_video_queue *queue = vb2_get_drv_priv(vq);
- 	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
-+	struct uvc_device *uvc = video->uvc;
-+	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 
- 	if (*nbuffers > UVC_MAX_VIDEO_BUFFERS)
- 		*nbuffers = UVC_MAX_VIDEO_BUFFERS;
-@@ -51,6 +53,11 @@ static int uvc_queue_setup(struct vb2_queue *vq,
- 
- 	sizes[0] = video->imagesize;
- 
-+	if (cdev->gadget->speed < USB_SPEED_SUPER)
-+		video->uvc_num_requests = 4;
-+	else
-+		video->uvc_num_requests = 64;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 633e23d58d868..e7910615c8faa 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -11,6 +11,7 @@
- #include <linux/errno.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
-+#include <linux/module.h>
- #include <linux/usb/video.h>
- 
- #include <media/v4l2-dev.h>
-@@ -145,7 +146,8 @@ static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
- static void
- uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- {
--	struct uvc_video *video = req->context;
-+	struct uvc_request *ureq = req->context;
-+	struct uvc_video *video = ureq->video;
- 	struct uvc_video_queue *queue = &video->queue;
- 	unsigned long flags;
- 
-@@ -177,17 +179,17 @@ uvc_video_free_requests(struct uvc_video *video)
- {
- 	unsigned int i;
- 
--	for (i = 0; i < UVC_NUM_REQUESTS; ++i) {
--		if (video->req[i]) {
--			usb_ep_free_request(video->ep, video->req[i]);
--			video->req[i] = NULL;
-+	for (i = 0; i < video->uvc_num_requests; ++i) {
-+		if (video->ureq[i].req) {
-+			usb_ep_free_request(video->ep, video->ureq[i].req);
-+			video->ureq[i].req = NULL;
- 		}
--
--		if (video->req_buffer[i]) {
--			kfree(video->req_buffer[i]);
--			video->req_buffer[i] = NULL;
-+		if (video->ureq[i].req_buffer) {
-+			kfree(video->ureq[i].req_buffer);
-+			video->ureq[i].req_buffer = NULL;
- 		}
- 	}
-+	kfree(video->ureq);
- 
- 	INIT_LIST_HEAD(&video->req_free);
- 	video->req_size = 0;
-@@ -207,21 +209,26 @@ uvc_video_alloc_requests(struct uvc_video *video)
- 		 * max_t(unsigned int, video->ep->maxburst, 1)
- 		 * (video->ep->mult);
- 
--	for (i = 0; i < UVC_NUM_REQUESTS; ++i) {
--		video->req_buffer[i] = kmalloc(req_size, GFP_KERNEL);
--		if (video->req_buffer[i] == NULL)
-+	video->ureq = kcalloc(video->uvc_num_requests, sizeof(struct uvc_request), GFP_KERNEL);
-+	if (video->ureq == NULL)
-+		return ret;
-+
-+	for (i = 0; i < video->uvc_num_requests; ++i) {
-+		video->ureq[i].req_buffer = kmalloc(req_size, GFP_KERNEL);
-+		if (video->ureq[i].req_buffer == NULL)
- 			goto error;
- 
--		video->req[i] = usb_ep_alloc_request(video->ep, GFP_KERNEL);
--		if (video->req[i] == NULL)
-+		video->ureq[i].req = usb_ep_alloc_request(video->ep, GFP_KERNEL);
-+		if (video->ureq[i].req == NULL)
- 			goto error;
- 
--		video->req[i]->buf = video->req_buffer[i];
--		video->req[i]->length = 0;
--		video->req[i]->complete = uvc_video_complete;
--		video->req[i]->context = video;
-+		video->ureq[i].req->buf = video->ureq[i].req_buffer;
-+		video->ureq[i].req->length = 0;
-+		video->ureq[i].req->complete = uvc_video_complete;
-+		video->ureq[i].req->context = &video->ureq[i];
-+		video->ureq[i].video = video;
- 
--		list_add_tail(&video->req[i]->list, &video->req_free);
-+		list_add_tail(&video->ureq[i].req->list, &video->req_free);
- 	}
- 
- 	video->req_size = req_size;
-@@ -312,9 +319,9 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
- 		cancel_work_sync(&video->pump);
- 		uvcg_queue_cancel(&video->queue, 0);
- 
--		for (i = 0; i < UVC_NUM_REQUESTS; ++i)
--			if (video->req[i])
--				usb_ep_dequeue(video->ep, video->req[i]);
-+		for (i = 0; i < video->uvc_num_requests; ++i)
-+			if (video->ureq[i].req)
-+				usb_ep_dequeue(video->ep, video->ureq[i].req);
- 
- 		uvc_video_free_requests(video);
- 		uvcg_queue_enable(&video->queue, 0);
+On Wed, Apr 21, 2021 at 11:15:10PM +0200, Michael Grzeschik wrote:
+> This series improves the performance of the uvc video gadget by adding a
+> zero copy routine using the scatter list interface of the gadget. The
+> series also increases the amount of allocated requests depending of the
+> speed and it also reduces the interrupt load by only trigger on every
+> 16th request in case of super-speed.
+> 
+> Michael Grzeschik (3):
+>   usb: gadget: uvc: make uvc_num_requests depend on gadget speed
+>   usb: gadget: uvc: add scatter gather support
+>   usb: gadget: uvc: decrease the interrupt load to a quarter
+> 
+>  drivers/usb/gadget/Kconfig              |   1 +
+>  drivers/usb/gadget/function/f_uvc.c     |   1 +
+>  drivers/usb/gadget/function/uvc.h       |  15 ++-
+>  drivers/usb/gadget/function/uvc_queue.c |  30 ++++-
+>  drivers/usb/gadget/function/uvc_queue.h |   5 +-
+>  drivers/usb/gadget/function/uvc_video.c | 145 +++++++++++++++++++-----
+>  6 files changed, 164 insertions(+), 33 deletions(-)
+
 -- 
-2.29.2
+Regards,
 
+Laurent Pinchart
