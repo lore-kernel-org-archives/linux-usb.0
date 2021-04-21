@@ -7,38 +7,39 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B25F9C43470
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 20:48:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E19CC433B4
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 21:15:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 295E96144D
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 20:48:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0B3A6140F
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Apr 2021 21:15:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245696AbhDUUtV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Apr 2021 16:49:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57492 "EHLO
+        id S243875AbhDUVPv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Apr 2021 17:15:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245692AbhDUUtU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Apr 2021 16:49:20 -0400
+        with ESMTP id S240596AbhDUVPu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Apr 2021 17:15:50 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05141C06138B
-        for <linux-usb@vger.kernel.org>; Wed, 21 Apr 2021 13:48:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23DCC06174A
+        for <linux-usb@vger.kernel.org>; Wed, 21 Apr 2021 14:15:16 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1lZJm8-000541-N4; Wed, 21 Apr 2021 22:48:44 +0200
+        id 1lZKBn-0007Yn-AS; Wed, 21 Apr 2021 23:15:15 +0200
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1lZJm8-00017y-ED; Wed, 21 Apr 2021 22:48:44 +0200
+        id 1lZKBm-0007eC-QW; Wed, 21 Apr 2021 23:15:14 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, Thinh.Nguyen@synopsys.com, kernel@pengutronix.de
-Subject: [PATCH 1/2] dwc3: gadget: fix setting of pending_sgs
-Date:   Wed, 21 Apr 2021 22:48:36 +0200
-Message-Id: <20210421204837.4185-2-m.grzeschik@pengutronix.de>
+Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        kernel@pengutronix.de
+Subject: [PATCH 3/3] usb: gadget: uvc: decrease the interrupt load to a quarter
+Date:   Wed, 21 Apr 2021 23:15:13 +0200
+Message-Id: <20210421211513.29002-4-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210421204837.4185-1-m.grzeschik@pengutronix.de>
-References: <20210421204837.4185-1-m.grzeschik@pengutronix.de>
+In-Reply-To: <20210421211513.29002-1-m.grzeschik@pengutronix.de>
+References: <20210421211513.29002-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
@@ -49,33 +50,66 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the dwc3_prepare_trbs_sg routine, when all data from request was
-handled pending_sgs should be set to the number of mapped sgs that are
-not queued up.
-
-Currently the code will result in pending_sgs == queued_sgs. That
-variables value will likely not be zero and break dwc3_prepare_trbs.
-
-This patch fixes the setting of the variable to its intended purpose.
+With usb3 we handle much more requests. It only enables the interrupt on
+every quarter of the allocated requests. This patch decreases the
+interrupt load.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/usb/dwc3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/function/uvc.h       |  2 ++
+ drivers/usb/gadget/function/uvc_video.c | 12 ++++++++++++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 6227641f2d318..118b5bcc565d6 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1242,7 +1242,7 @@ static int dwc3_prepare_trbs_sg(struct dwc3_ep *dep,
- 		 * don't include unused SG entries.
- 		 */
- 		if (length == 0) {
--			req->num_pending_sgs -= req->request.num_mapped_sgs - req->num_queued_sgs;
-+			req->num_pending_sgs = req->request.num_mapped_sgs - req->num_queued_sgs;
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index c1f06d9df5820..5a76e9351b530 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -101,6 +101,8 @@ struct uvc_video {
+ 	struct list_head req_free;
+ 	spinlock_t req_lock;
+ 
++	int req_int_count;
++
+ 	void (*encode) (struct usb_request *req, struct uvc_video *video,
+ 			struct uvc_buffer *buf);
+ 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 85b6a4c080065..d7b6592343468 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -354,6 +354,16 @@ static void uvcg_video_pump(struct work_struct *work)
+ 
+ 		video->encode(req, video, buf);
+ 
++		if (list_empty(&video->req_free) ||
++		    (buf->state == UVC_BUF_STATE_DONE) ||
++		    (!(video->req_int_count %
++		       DIV_ROUND_UP(video->uvc_num_requests, 4)))) {
++			video->req_int_count = 0;
++			req->no_interrupt = 0;
++		} else {
++			req->no_interrupt = 1;
++		}
++
+ 		/* Queue the USB request */
+ 		ret = uvcg_video_ep_queue(video, req);
+ 		spin_unlock_irqrestore(&queue->irqlock, flags);
+@@ -362,6 +372,7 @@ static void uvcg_video_pump(struct work_struct *work)
+ 			uvcg_queue_cancel(queue, 0);
  			break;
  		}
++		video->req_int_count++;
+ 	}
  
+ 	spin_lock_irqsave(&video->req_lock, flags);
+@@ -434,6 +445,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	video->width = 320;
+ 	video->height = 240;
+ 	video->imagesize = 320 * 240 * 2;
++	video->req_int_count = 0;
+ 
+ 	/* Initialize the video buffers queue. */
+ 	uvcg_queue_init(uvc->v4l2_dev.dev, &video->queue, V4L2_BUF_TYPE_VIDEO_OUTPUT,
 -- 
 2.29.2
 
