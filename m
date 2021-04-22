@@ -2,99 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C76CDC433ED
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 11:42:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DCBC433B4
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 12:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8003A6143B
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 11:42:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98CA561139
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 12:27:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236075AbhDVLmv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Apr 2021 07:42:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236081AbhDVLmu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Apr 2021 07:42:50 -0400
-X-Greylist: delayed 402 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 22 Apr 2021 04:42:16 PDT
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38C5FC06174A
-        for <linux-usb@vger.kernel.org>; Thu, 22 Apr 2021 04:42:16 -0700 (PDT)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id 0D6BC5C0541;
-        Thu, 22 Apr 2021 13:35:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1619091331;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+        id S236078AbhDVM1g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Apr 2021 08:27:36 -0400
+Received: from mx2.suse.de ([195.135.220.15]:46752 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236008AbhDVM1f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 22 Apr 2021 08:27:35 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1619094420; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+         mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Ovme2ct9hvZuCBNPL3Wm+UfuebK/wFsMTOSjdM9dO6I=;
-        b=OP17xoooD27dyxu4FI9Xd8VEv2BWSPbwhv73xVnkO+Fu06IuPH/atU3VBU5Stf1FFzxO97
-        zXN+MB5YERp/ALIRjfb6pp4P1D9F2dx4JaNF9J6Sd87Fd3a75Ry+pEKDYcjfMi7rQplbMm
-        mwwR5MgCQpIv4HN4ezkWm0mMcaa+B24=
+        bh=RECEfsZBNRjYNvlSSaCaXHoBXSmE5X3WtOQeZ0cdsQk=;
+        b=JCJpJNqgbl436K8JGv5cMckSpbcM2e7aw1prytkAxI81R1PpNJRbDJQwVcvVrexN6TJ3Uu
+        VQOsBqdrCmhULF9i5Aoi1gEsDefDb56uRLG4EdlsIyyV2btyHgrjijnX/7+ekCk65Ovt2Y
+        0zhuqYJoMiv0rdbGPHG+OdQazkiuDzk=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 50D60AF1E;
+        Thu, 22 Apr 2021 12:27:00 +0000 (UTC)
+Message-ID: <94aa3e7fcbb225da66961a21c940406ada2bbd0b.camel@suse.com>
+Subject: Re: [syzbot] memory leak in usb_set_configuration (2)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     syzbot <syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com>,
+        gregkh@linuxfoundation.org, johan@kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        mathias.nyman@linux.intel.com, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com
+Date:   Thu, 22 Apr 2021 14:26:42 +0200
+In-Reply-To: <0000000000001ad5d605c07cfd2e@google.com>
+References: <0000000000001ad5d605c07cfd2e@google.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Date:   Thu, 22 Apr 2021 13:35:30 +0200
-From:   Stefan Agner <stefan@agner.ch>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] CDC-ACM: fix poison/unpoison imbalance
-In-Reply-To: <20210421074513.4327-1-oneukum@suse.com>
-References: <20210421074513.4327-1-oneukum@suse.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <ffd33d14769dd51375c87d43fff9cc3d@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021-04-21 09:45, Oliver Neukum wrote:
-> suspend() does its poisoning conditionally, resume() does it
-> unconditionally. On a device with combined interfaces this
-> will balance, on a device with two interfaces the counter will
-> go negative and resubmission will fail.
+Am Mittwoch, den 21.04.2021, 08:12 -0700 schrieb syzbot:
+> Hello,
 > 
-> Both actions need to be done conditionally.
-
-FWIW, this relates to the issue reported on the kernel bugzilla:
-https://bugzilla.kernel.org/show_bug.cgi?id=212725
-
-Thanks for addressing this!
-
+> syzbot found the following issue on:
 > 
-> Fixes: 6069e3e927c8f ("USB: cdc-acm: untangle a circular dependency
-> between callback and softint")
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-
-Tested-by: Stefan Agner <stefan@agner.ch>
-
---
-Stefan
-
-> ---
->  drivers/usb/class/cdc-acm.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> HEAD commit:    9cdbf646 Merge tag 'io_uring-5.12-2021-04-16' of git://git..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=136ce5a6d00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=fd35e661e44323ea
+> dashboard link: https://syzkaller.appspot.com/bug?extid=d1e69c888f0d3866ead4
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ecba29d00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=143cf955d00000
 > 
-> diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-> index 3fda1ec961d7..f5886c512fec 100644
-> --- a/drivers/usb/class/cdc-acm.c
-> +++ b/drivers/usb/class/cdc-acm.c
-> @@ -1634,12 +1634,13 @@ static int acm_resume(struct usb_interface *intf)
->  	struct urb *urb;
->  	int rv = 0;
->  
-> -	acm_unpoison_urbs(acm);
->  	spin_lock_irq(&acm->write_lock);
->  
->  	if (--acm->susp_count)
->  		goto out;
->  
-> +	acm_unpoison_urbs(acm);
-> +
->  	if (tty_port_initialized(&acm->port)) {
->  		rv = usb_submit_urb(acm->ctrlurb, GFP_ATOMIC);
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+d1e69c888f0d3866ead4@syzkaller.appspotmail.com
+
+#syz test: https://github.com/google/kasan.git 9cdbf646
+
+From 1704504f905fe8e3eb83d63cbbbe9af60f002585 Mon Sep 17 00:00:00 2001
+From: Oliver Neukum <oneukum@suse.com>
+Date: Thu, 22 Apr 2021 14:14:21 +0200
+Subject: [PATCH] cpia2: unregister device on probe error
+
+The v4l2 device must be unregistered in case probe() fails,
+lest we get a leak.
+
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/media/usb/cpia2/cpia2_usb.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/media/usb/cpia2/cpia2_usb.c b/drivers/media/usb/cpia2/cpia2_usb.c
+index 3ab80a7b4498..db3b5d6d2d9a 100644
+--- a/drivers/media/usb/cpia2/cpia2_usb.c
++++ b/drivers/media/usb/cpia2/cpia2_usb.c
+@@ -844,15 +844,13 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = set_alternate(cam, USBIF_CMDONLY);
+ 	if (ret < 0) {
+ 		ERR("%s: usb_set_interface error (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 
+ 
+ 	if((ret = cpia2_init_camera(cam)) < 0) {
+ 		ERR("%s: failed to initialize cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 	LOG("  CPiA Version: %d.%02d (%d.%d)\n",
+ 	       cam->params.version.firmware_revision_hi,
+@@ -872,11 +870,14 @@ static int cpia2_usb_probe(struct usb_interface *intf,
+ 	ret = cpia2_register_camera(cam);
+ 	if (ret < 0) {
+ 		ERR("%s: Failed to register cpia2 camera (ret = %d)\n", __func__, ret);
+-		kfree(cam);
+-		return ret;
++		goto error;
+ 	}
+ 
+ 	return 0;
++error:
++	v4l2_device_unregister(&cam->v4l2_dev);
++	kfree(cam);
++	return ret;
+ }
+ 
+ /******************************************************************************
+-- 
+2.26.2
+
+
+
