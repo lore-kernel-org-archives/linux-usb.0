@@ -2,130 +2,194 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7693DC433ED
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 08:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4804FC433B4
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 08:49:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45C796145D
-	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 08:49:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22E9C61458
+	for <linux-usb@archiver.kernel.org>; Thu, 22 Apr 2021 08:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235648AbhDVItu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 22 Apr 2021 04:49:50 -0400
-Received: from rtits2.realtek.com ([211.75.126.72]:49047 "EHLO
-        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235634AbhDVItu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 22 Apr 2021 04:49:50 -0400
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 13M8n4bbD015489, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36502.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 13M8n4bbD015489
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 22 Apr 2021 16:49:04 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36502.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Thu, 22 Apr 2021 16:49:03 +0800
-Received: from fc32.localdomain (172.21.177.102) by RTEXMBS04.realtek.com.tw
- (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 22 Apr
- 2021 16:49:02 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     <kuba@kernel.org>, <davem@davemloft.net>
-CC:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net-next] r8152: replace return with break for ram code speedup mode timeout
-Date:   Thu, 22 Apr 2021 16:48:02 +0800
-Message-ID: <1394712342-15778-358-Taiwan-albertk@realtek.com>
-X-Mailer: Microsoft Office Outlook 11
+        id S235676AbhDVIty (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 22 Apr 2021 04:49:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34812 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235588AbhDVItx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 22 Apr 2021 04:49:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3883761461;
+        Thu, 22 Apr 2021 08:49:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619081359;
+        bh=E+dWfMj/nLpw2VFslOXJHcISeam8xkkzk4UUIUMxH28=;
+        h=Date:From:To:Cc:Subject:From;
+        b=lZKQpE82zoj6126RPErpdEyobxdowFR1VrprFNU9bmqgKTwfsM97zbZN4Y/5+ciTA
+         HPmDMZYDB6nkqz7Kr5Gis2ZSzlNZt53W03vpHkqUiuwbszCGjlndkx/PK6yYFXsqyf
+         P/sTfDzxkDPXzniTy/yxu2YXtmJ+rnHFHSm1Xbqrw34gjBWDHfy2izeQ+ot9frJA5o
+         bwYWZzZBZboDDZrX7K/1+2P61hEFWi6Vhj3oUeTnIwAm4nwm7CJWo6kgwPJxRhckSQ
+         pKkunefbv/ScZpg4HIZTx2jnnuvIL/YMJ2WG+zSZ8mY+pry5Eo/EEfM6MS00ijD5qj
+         Bg25mph6a+nlQ==
+Received: from johan by xi.lan with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1lZV1Y-0007gi-0b; Thu, 22 Apr 2021 10:49:24 +0200
+Date:   Thu, 22 Apr 2021 10:49:24 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] USB-serial updates for 5.13-rc1
+Message-ID: <YIE4lPAcXV1qYT64@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.21.177.102]
-X-ClientProxiedBy: RTEXMBS01.realtek.com.tw (172.21.6.94) To
- RTEXMBS04.realtek.com.tw (172.21.6.97)
-X-KSE-ServerInfo: RTEXMBS04.realtek.com.tw, 9
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: =?big5?B?Q2xlYW4sIGJhc2VzOiAyMDIxLzQvMjIgpFekyCAwNzowNTowMA==?=
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
-X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/22/2021 08:29:57
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 163277 [Apr 22 2021]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: hayeswang@realtek.com
-X-KSE-AntiSpam-Info: LuaCore: 442 442 b985cb57763b61d2a20abb585d5d4cc10c315b09
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {Track_Chinese_Simplified, headers_charset}
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/22/2021 08:33:00
-X-KSE-ServerInfo: RTEXH36502.realtek.com.tw, 9
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
-X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/22/2021 08:35:59
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 163277 [Apr 22 2021]
-X-KSE-AntiSpam-Info: Version: 5.9.20.0
-X-KSE-AntiSpam-Info: Envelope from: hayeswang@realtek.com
-X-KSE-AntiSpam-Info: LuaCore: 442 442 b985cb57763b61d2a20abb585d5d4cc10c315b09
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/22/2021 08:38:00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20210422084802.R8iEpFFliKr5owgSUKlkPIGcBO9MiaOx-Nctzlcxkm4@z>
 
-When the timeout occurs, we still have to run the following process
-for releasing patch request. Otherwise, the PHY would keep no link.
-Therefore, use break to stop the loop of loading firmware and
-release the patch request rather than return the function directly.
+The following changes since commit 1e28eed17697bcf343c6743f0028cc3b5dd88bf0:
 
-Fixes: 4a51b0e8a014 ("r8152: support PHY firmware for RTL8156 series")
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
----
- drivers/net/usb/r8152.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  Linux 5.12-rc3 (2021-03-14 14:41:02 -0700)
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 9119a860e9bd..5b4ed69df64f 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -4803,7 +4803,7 @@ static void rtl_ram_code_speed_up(struct r8152 *tp, struct fw_phy_speed_up *phy,
- 
- 		if (i == 1000) {
- 			dev_err(&tp->intf->dev, "ram code speedup mode timeout\n");
--			return;
-+			break;
- 		}
- 	}
- 
--- 
-2.26.3
+are available in the Git repository at:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-serial-5.13-rc1
+
+for you to fetch changes up to 039b81d50a4822edfc07a7c2e6963823e993b2f0:
+
+  USB: cdc-acm: add more Maxlinear/Exar models to ignore list (2021-04-13 18:37:22 +0200)
+
+----------------------------------------------------------------
+USB-serial updates for 5.13-rc1
+
+Here are the USB-serial updates for 5.13-rc1, including:
+
+ - better type detection for pl2303
+ - support for more line speeds for pl2303 (TA/TB)
+ - fixed CSIZE handling for the new xr driver
+ - core support for multi-interface functions
+ - TIOCGSERIAL and TIOCSSERIAL fixes
+ - generic TIOCSSERIAL support (e.g. for closing_wait)
+ - fixed return value for unsupported ioctls
+ - support for gpio valid masks in cp210x
+ - drain-delay fixes and improvements
+ - support for multi-port devices for xr
+ - generalisation of the xr driver to support three new device classes
+   (XR21B142X, XR21B1411 and XR2280X)
+
+Included are also various clean ups.
+
+All have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Colin Ian King (1):
+      USB: serial: iuu_phoenix: remove redundant variable 'error'
+
+Jiri Slaby (2):
+      USB: serial: keyspan: drop unneeded forward declarations
+      USB: serial: io_edgeport: drop unneeded forward declarations
+
+Johan Hovold (67):
+      USB: serial: pl2303: clean up type detection
+      USB: serial: pl2303: amend and tighten type detection
+      USB: serial: pl2303: rename legacy PL2303H type
+      USB: serial: pl2303: tighten type HXN (G) detection
+      USB: serial: pl2303: add device-type names
+      USB: serial: xr: fix CSIZE handling
+      USB: serial: drop unused suspending flag
+      USB: serial: refactor endpoint classification
+      USB: serial: add support for multi-interface functions
+      USB: serial: xr: claim both interfaces
+      USB: serial: ark3116: fix TIOCGSERIAL implementation
+      USB: serial: f81232: fix TIOCGSERIAL implementation
+      USB: serial: f81534: fix TIOCGSERIAL implementation
+      USB: serial: ftdi_sio: fix TIOCGSERIAL implementation
+      USB: serial: io_edgeport: fix TIOCGSERIAL implementation
+      USB: serial: io_ti: fix TIOCGSERIAL implementation
+      USB: serial: mos7720: fix TIOCGSERIAL implementation
+      USB: serial: mos7840: fix TIOCGSERIAL implementation
+      USB: serial: opticon: fix TIOCGSERIAL implementation
+      USB: serial: pl2303: fix TIOCGSERIAL implementation
+      USB: serial: quatech2: fix TIOCGSERIAL implementation
+      USB: serial: ssu100: fix TIOCGSERIAL implementation
+      USB: serial: ti_usb_3410_5052: fix TIOCGSERIAL implementation
+      USB: serial: ti_usb_3410_5052: fix TIOCSSERIAL permission check
+      USB: serial: usb_wwan: fix TIOCSSERIAL jiffies conversions
+      USB: serial: usb_wwan: fix unprivileged TIOCCSERIAL
+      USB: serial: usb_wwan: fix TIOCGSERIAL implementation
+      USB: serial: whiteheat: fix TIOCGSERIAL implementation
+      USB: serial: fix return value for unsupported ioctls
+      USB: serial: add generic support for TIOCSSERIAL
+      USB: serial: stop reporting legacy UART types
+      USB: serial: ftdi_sio: ignore baud_base changes
+      USB: serial: ftdi_sio: simplify TIOCGSERIAL permission check
+      USB: serial: ftdi_sio: clean up TIOCSSERIAL
+      USB: serial: io_ti: drop closing_wait module parameter
+      USB: serial: io_ti: switch to 30-second closing wait
+      USB: serial: ti_usb_3410_5052: drop closing_wait module parameter
+      USB: serial: ti_usb_3410_5052: switch to 30-second closing wait
+      USB: serial: io_edgeport: drop unused definitions
+      USB: serial: do not use tty class device for debugging
+      USB: serial: cp210x: provide gpio valid mask
+      USB: serial: cp210x: add gpio-configuration debug printk
+      USB: serial: f81232: drop time-based drain delay
+      USB: serial: io_ti: document reason for drain delay
+      USB: serial: ti_usb_3410_5052: reduce drain delay to one char
+      USB: serial: ti_usb_3410_5052: drop drain delay for 3410
+      USB: serial: io_ti: clean up vendor-request helpers
+      USB: serial: io_ti: add send-port-command helper
+      USB: serial: io_ti: add read-port-command helper
+      USB: serial: io_ti: use kernel types consistently
+      USB: serial: io_ti: drop unnecessary packed attributes
+      USB: serial: ti_usb_3410_5052: drop unnecessary packed attributes
+      USB: serial: ti_usb_3410_5052: clean up vendor-request helpers
+      USB: serial: ti_usb_3410_5052: add port-command helpers
+      USB: serial: ti_usb_3410_5052: use kernel types consistently
+      USB: serial: ti_usb_3410_5052: clean up termios CSIZE handling
+      USB: serial: xr: add support for XR21V1412 and XR21V1414
+      USB: serial: xr: rename GPIO-mode defines
+      USB: serial: xr: rename GPIO-pin defines
+      USB: serial: xr: move pin configuration to probe
+      USB: serial: xr: drop type prefix from shared defines
+      USB: serial: xr: add type abstraction
+      USB: serial: xr: add support for XR21B1421, XR21B1422 and XR21B1424
+      USB: serial: xr: add support for XR21B1411
+      USB: serial: xr: add support for XR22801, XR22802, XR22804
+      USB: serial: xr: reset FIFOs on open
+      USB: serial: xr: add copyright notice
+
+Mauro Carvalho Chehab (1):
+      USB: cdc-acm: add more Maxlinear/Exar models to ignore list
+
+Michael G. Katzmann (1):
+      USB: serial: pl2303: TA & TB alternate divider with non-standard baud rates
+
+ drivers/usb/class/cdc-acm.c           |  14 +-
+ drivers/usb/serial/ark3116.c          |  13 -
+ drivers/usb/serial/cp210x.c           |  31 +-
+ drivers/usb/serial/f81232.c           |  12 +-
+ drivers/usb/serial/f81534.c           |   7 +-
+ drivers/usb/serial/ftdi_sio.c         |  35 +-
+ drivers/usb/serial/io_edgeport.c      |  67 +--
+ drivers/usb/serial/io_edgeport.h      |  68 ---
+ drivers/usb/serial/io_ti.c            | 210 ++++------
+ drivers/usb/serial/io_ti.h            |  38 +-
+ drivers/usb/serial/iuu_phoenix.c      |   4 +-
+ drivers/usb/serial/keyspan.c          |  20 -
+ drivers/usb/serial/metro-usb.c        |   4 +-
+ drivers/usb/serial/mos7720.c          |  18 -
+ drivers/usb/serial/mos7840.c          |  23 --
+ drivers/usb/serial/opticon.c          |  18 -
+ drivers/usb/serial/option.c           |   2 -
+ drivers/usb/serial/pl2303.c           | 188 ++++++---
+ drivers/usb/serial/quatech2.c         |  16 -
+ drivers/usb/serial/ssu100.c           |  16 -
+ drivers/usb/serial/ti_usb_3410_5052.c | 213 ++++------
+ drivers/usb/serial/upd78f0730.c       |   7 +-
+ drivers/usb/serial/usb-serial.c       | 226 +++++++---
+ drivers/usb/serial/usb-wwan.h         |   4 -
+ drivers/usb/serial/usb_wwan.c         |  45 --
+ drivers/usb/serial/whiteheat.c        |  17 +-
+ drivers/usb/serial/xr_serial.c        | 754 +++++++++++++++++++++++++++-------
+ include/linux/usb/serial.h            |  10 +-
+ 28 files changed, 1158 insertions(+), 922 deletions(-)
