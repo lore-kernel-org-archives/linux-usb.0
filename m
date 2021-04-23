@@ -2,114 +2,138 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71494C433B4
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 08:31:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB02C433ED
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 09:45:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C0A1613F6
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 08:31:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AC496128A
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 09:45:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241361AbhDWIca (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Apr 2021 04:32:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51430 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241477AbhDWIc3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 23 Apr 2021 04:32:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 36B36613F6
-        for <linux-usb@vger.kernel.org>; Fri, 23 Apr 2021 08:31:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619166713;
-        bh=vgBiOrEmkoB1KClYYO3m0bmjLltc+y5lSexXA41XMhA=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=bSkJEqGKuaCc2lX8R8FscjL9T5FjojMIVrwl2w2vxw8qv4BsYe3glS4UnsT9ge6xL
-         hEe6iomnqyJ4ey9Huq9JcML+IVx7/1y40rZMGFFZokZ1DC4vnkUaOFPOT/XazDV5Yk
-         h7bevKcqpSrAixxsppEePaGeGbr4esVs4cUjPo/Kzop+XQ2fxqjhHfxlHXGMfHUTR0
-         FGnugUliJNiar3HHFX4/YH8KZr+1nosZz2H3medZ68R3wBmzrX2mHoAyp5BwP1UPpE
-         8z4PddAwt9cLzWNmRCwGSrcj8zINroQged/DaRYU4pGFT11iDUqV2DxTuTUm89/v7E
-         ooR6qG02Eg2Tw==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 212751] acm_port_activate - usb_submit_urb(ctrl irq) failed
- after kernel update
-Date:   Fri, 23 Apr 2021 08:31:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: johan@kernel.org
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212751-208809-p76zBXG9im@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212751-208809@https.bugzilla.kernel.org/>
-References: <bug-212751-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S241821AbhDWJqE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Apr 2021 05:46:04 -0400
+Received: from rtits2.realtek.com ([211.75.126.72]:47410 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241782AbhDWJqC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Apr 2021 05:46:02 -0400
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 13N9jHgnD012516, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36502.realtek.com.tw[172.21.6.25])
+        by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 13N9jHgnD012516
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Fri, 23 Apr 2021 17:45:17 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36502.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 23 Apr 2021 17:45:17 +0800
+Received: from fc32.localdomain (172.21.177.102) by RTEXMBS04.realtek.com.tw
+ (172.21.6.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 23 Apr
+ 2021 17:45:16 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     <kuba@kernel.org>, <davem@davemloft.net>
+CC:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Hayes Wang <hayeswang@realtek.com>
+Subject: [PATCH net-next 1/2] r8152: remove NCM mode from REALTEK_USB_DEVICE macro
+Date:   Fri, 23 Apr 2021 17:44:54 +0800
+Message-ID: <1394712342-15778-360-Taiwan-albertk@realtek.com>
+X-Mailer: Microsoft Office Outlook 11
+In-Reply-To: <1394712342-15778-359-Taiwan-albertk@realtek.com>
+References: <1394712342-15778-359-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.21.177.102]
+X-ClientProxiedBy: RTEXMBS01.realtek.com.tw (172.21.6.94) To
+ RTEXMBS04.realtek.com.tw (172.21.6.97)
+X-KSE-ServerInfo: RTEXMBS04.realtek.com.tw, 9
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: =?big5?B?Q2xlYW4sIGJhc2VzOiAyMDIxLzQvMjMgpFekyCAwNjoxOTowMA==?=
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/23/2021 09:33:25
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 163300 [Apr 23 2021]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: hayeswang@realtek.com
+X-KSE-AntiSpam-Info: LuaCore: 443 443 d64ad0ad6f66abd85f8fb55fe5d831fdcc4c44a0
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: realtek.com:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: {Track_Chinese_Simplified, headers_charset}
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/23/2021 09:36:00
+X-KSE-ServerInfo: RTEXH36502.realtek.com.tw, 9
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+X-KSE-AntiSpam-Outbound-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 5.9.20, Database issued on: 04/23/2021 09:29:24
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 163300 [Apr 23 2021]
+X-KSE-AntiSpam-Info: Version: 5.9.20.0
+X-KSE-AntiSpam-Info: Envelope from: hayeswang@realtek.com
+X-KSE-AntiSpam-Info: LuaCore: 443 443 d64ad0ad6f66abd85f8fb55fe5d831fdcc4c44a0
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;realtek.com:7.1.1
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/23/2021 09:31:00
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20210423094454.2ezPw_VysMhtNeQakFlEJuD1GVAc3NIZnmKQBHYOWQM@z>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212751
+The RTL8156 support CDC NCM mode. And users could set the configuration
+of the USB device between vendor and NCM mode dynamically by themselves.
+That is, the driver doesn't need to set vendor mode from NCM mode.
 
---- Comment #1 from Johan Hovold (johan@kernel.org) ---
-On Thu, Apr 22, 2021 at 04:32:51PM +0000, bugzilla-daemon@bugzilla.kernel.o=
-rg
-wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D212751
->=20
->             Bug ID: 212751
->            Summary: acm_port_activate - usb_submit_urb(ctrl irq) failed
->                     after kernel update
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 5.10.30
->           Hardware: All
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: normal
->           Priority: P1
->          Component: USB
->           Assignee: drivers_usb@kernel-bugs.kernel.org
->           Reporter: johann.wilhelm@wilhelm.consulting
->         Regression: No
->=20
-> Something between 5.10.26 and 5.20.30 broke (at least) the USB CDC
-> implementation by ST Microsystems on their STM32 devices.
->=20
-> On opending of the device following error occurs:
-> [ 1333.790160] cdc_acm 1-10:1.0: acm_port_activate - usb_submit_urb(ctrl =
-irq)
-> failed
->=20
->=20
-> 5.10.26 works - 5.10.30 does not.
+Fixes: 195aae321c82 ("r8152: support new chips")
+Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+---
+ drivers/net/usb/r8152.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-This is likely due to commit 6069e3e927c8 ("USB: cdc-acm: untangle a
-circular dependency between callback and softint") which had a bug that
-was just fixed by commit a8b3b519618f ("USB: CDC-ACM: fix
-poison/unpoison imbalance").
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 5b4ed69df64f..47198c125719 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -9593,15 +9593,6 @@ static void rtl8152_disconnect(struct usb_interface *intf)
+ 	.idProduct = (prod), \
+ 	.bInterfaceClass = USB_CLASS_COMM, \
+ 	.bInterfaceSubClass = USB_CDC_SUBCLASS_ETHERNET, \
+-	.bInterfaceProtocol = USB_CDC_PROTO_NONE \
+-}, \
+-{ \
+-	.match_flags = USB_DEVICE_ID_MATCH_INT_INFO | \
+-		       USB_DEVICE_ID_MATCH_DEVICE, \
+-	.idVendor = (vend), \
+-	.idProduct = (prod), \
+-	.bInterfaceClass = USB_CLASS_COMM, \
+-	.bInterfaceSubClass = USB_CDC_SUBCLASS_NCM, \
+ 	.bInterfaceProtocol = USB_CDC_PROTO_NONE
+ 
+ /* table of devices that work with this driver */
+-- 
+2.26.3
 
-You can try applying the latter yourself but it will otherwise show up
-in stable soon.
-
-Johan
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
