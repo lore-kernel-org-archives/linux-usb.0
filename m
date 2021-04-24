@@ -2,229 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57893C433B4
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 23:46:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE9FC43461
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Apr 2021 00:29:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FA35611BF
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Apr 2021 23:46:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AA0A6141C
+	for <linux-usb@archiver.kernel.org>; Sat, 24 Apr 2021 00:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbhDWXqh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Apr 2021 19:46:37 -0400
-Received: from mga07.intel.com ([134.134.136.100]:60730 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231740AbhDWXqg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 23 Apr 2021 19:46:36 -0400
-IronPort-SDR: 9S+GtuSqVd7n5bm3Q0/pFXhpZKu2W6IQ907/QI9tG1tHa9Xb51OiQq1MJDFDDDDrywbJTpqUue
- e7Hkh5Ckc0RA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9963"; a="260100525"
-X-IronPort-AV: E=Sophos;i="5.82,246,1613462400"; 
-   d="scan'208";a="260100525"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2021 16:45:58 -0700
-IronPort-SDR: 2pn3TNEhrIu4F0XWuIS8Y9dJuiJpGwDisDKbFD/+1BljoqAM2aYaEJEWUryrxZfZAuPzWRBxYM
- SALvXLRA9M6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,246,1613462400"; 
-   d="scan'208";a="603671482"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 23 Apr 2021 16:45:57 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1la5Ui-0004tP-OH; Fri, 23 Apr 2021 23:45:56 +0000
-Date:   Sat, 24 Apr 2021 07:45:23 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- ddae7979cdd5ed417f2b3ebdc5742e2a600b5ad5
-Message-ID: <60835c13.CyHCJcoxrJ9wwA3G%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        id S235744AbhDXAaP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Apr 2021 20:30:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232807AbhDXAaF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Apr 2021 20:30:05 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17020C061574
+        for <linux-usb@vger.kernel.org>; Fri, 23 Apr 2021 17:29:27 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id e65-20020a25e7440000b02904ecfeff1ed8so14875675ybh.19
+        for <linux-usb@vger.kernel.org>; Fri, 23 Apr 2021 17:29:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=t9E6AgM/NK1c0PjlCo7SjL7vvuTwSd4YtwEbnSzZpWc=;
+        b=VtdIH68xM1pygyf08EF1RBtP6FuOKh1JQGkVtn4Oc2LNZkHX5CJaAK5cPokvcDPZTh
+         R4LNvRXeyh1pnUzb7H2U44dvCQi2oF00eDmGW3gW6v4m8VrdQuIpzUNgGmJMO3Pzz6zm
+         gpsWXHuZ2WSSPgmM/pcQPRP9L3ncwjkBLwZ/DG6X6EAusrwAWwInS7F9//fEgNK0IF0v
+         BRcAUR2d/oJtodkeA+sg4222nkdiRyFgBJI6vJGSgRM5/saMkhJgZeNZXTOvTW15Kegd
+         7w1v6hkSWmLHsWkJF8Bg6pJAkXw9RheLqpEXnOxGlYwuJYJXBrX6Ll1omJUMLWXmmdZO
+         Ngzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=t9E6AgM/NK1c0PjlCo7SjL7vvuTwSd4YtwEbnSzZpWc=;
+        b=MyrTwx9aXcKqggpDcWculuJ5HGsuVtz6+mY4Qv1jFhYB9g+DHbadH0VRcyixXsxWHv
+         /+BVYssp07W2gnFSLt8krNX0B9EVz8593SgihJ9oxw7x4vQ+a4BgpSLszowSsHk7ZRXa
+         KCeP93z253atAS59iUGzZ1ITm/IC0XhxvX3cOQ8aNEpnFZpuqYOo772cx91GppKlBUHv
+         Qlo3QkCh3NWolaqexR2nRumilMOKwM/AQzi9FEGFcGqN8yoOEUkWMtdxyi5kA4TMwitY
+         YHkXz5dLndLGEFtiEmObj6catgUlnrZxasJcngSpD8rSuHUlGCIAcrAdEQlHcv5vm2dj
+         6d7g==
+X-Gm-Message-State: AOAM532T4MmXTW6KHibvOy7KGztV/oh/O6ZbVrmTzpE5yjx/BpDsWR9p
+        oH0CjQFWH/DBHVABvclEbNmQsjr6g0II
+X-Google-Smtp-Source: ABdhPJxgHuhOM9o/WEZHSxdi1z6h7fPUHRs3VR53ulgXDShVIbg3nh9bpSIHkl+4N1TSDrbAKAy+hNyy+InK
+X-Received: from rajat2.mtv.corp.google.com ([2620:15c:202:201:5cef:2faf:44cf:b69b])
+ (user=rajatja job=sendgmr) by 2002:a25:310b:: with SMTP id
+ x11mr9110518ybx.10.1619224166211; Fri, 23 Apr 2021 17:29:26 -0700 (PDT)
+Date:   Fri, 23 Apr 2021 17:29:18 -0700
+In-Reply-To: <20210424002918.1962649-1-rajatja@google.com>
+Message-Id: <20210424002918.1962649-2-rajatja@google.com>
+Mime-Version: 1.0
+References: <20210424002918.1962649-1-rajatja@google.com>
+X-Mailer: git-send-email 2.31.1.498.g6c1eba8ee3d-goog
+Subject: [PATCH 2/2] pci: Support "removable" attribute for PCI devices
+From:   Rajat Jain <rajatja@google.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rajat Jain <rajatja@google.com>, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-usb@vger.kernel.org,
+        helgaas@kernel.org
+Cc:     rajatxjain@gmail.com, jsbarnes@google.com, dtor@google.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: ddae7979cdd5ed417f2b3ebdc5742e2a600b5ad5  usb: dwc3: gadget: Handle DEV_TXF_FLUSH_BYPASS capability
+Export the already available info, to the userspace via the
+device core, so that userspace can implement whatever policies it
+wants to, for external removable devices.
 
-elapsed time: 724m
-
-configs tested: 159
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                               defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-powerpc                    socrates_defconfig
-m68k                       m5208evb_defconfig
-powerpc                     tqm5200_defconfig
-sh                          sdk7780_defconfig
-s390                             alldefconfig
-sh                   rts7751r2dplus_defconfig
-arc                      axs103_smp_defconfig
-arm                            pleb_defconfig
-um                             i386_defconfig
-arm                        vexpress_defconfig
-mips                        bcm47xx_defconfig
-mips                        nlm_xlp_defconfig
-um                                allnoconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                 mpc8540_ads_defconfig
-mips                  maltasmvp_eva_defconfig
-arm64                            alldefconfig
-arm                            zeus_defconfig
-sh                      rts7751r2d1_defconfig
-xtensa                         virt_defconfig
-riscv                            alldefconfig
-arm                            dove_defconfig
-sh                           sh2007_defconfig
-sh                         ecovec24_defconfig
-arm                          lpd270_defconfig
-arm                         orion5x_defconfig
-powerpc                     tqm8541_defconfig
-um                               allmodconfig
-arc                        vdk_hs38_defconfig
-powerpc                    mvme5100_defconfig
-ia64                            zx1_defconfig
-mips                        maltaup_defconfig
-powerpc                         wii_defconfig
-mips                      loongson3_defconfig
-mips                   sb1250_swarm_defconfig
-mips                      fuloong2e_defconfig
-mips                      pic32mzda_defconfig
-sh                   sh7770_generic_defconfig
-arm                         s3c2410_defconfig
-sh                        sh7757lcr_defconfig
-mips                malta_kvm_guest_defconfig
-arm                       imx_v4_v5_defconfig
-sh                          r7780mp_defconfig
-mips                     decstation_defconfig
-powerpc                    sam440ep_defconfig
-sh                          rsk7203_defconfig
-mips                     loongson1b_defconfig
-m68k                       bvme6000_defconfig
-um                               alldefconfig
-sh                        dreamcast_defconfig
-powerpc                    ge_imp3a_defconfig
-sh                             sh03_defconfig
-ia64                          tiger_defconfig
-mips                         mpc30x_defconfig
-powerpc                     tqm8548_defconfig
-arm                         lpc32xx_defconfig
-xtensa                          iss_defconfig
-arm                       spear13xx_defconfig
-powerpc                     ksi8560_defconfig
-arm                     eseries_pxa_defconfig
-powerpc                     tqm8555_defconfig
-sh                           se7619_defconfig
-mips                 decstation_r4k_defconfig
-h8300                       h8s-sim_defconfig
-arm                          moxart_defconfig
-arm                          exynos_defconfig
-mips                      maltasmvp_defconfig
-arm                  colibri_pxa300_defconfig
-mips                     cu1000-neo_defconfig
-mips                    maltaup_xpa_defconfig
-ia64                      gensparse_defconfig
-arm                            mps2_defconfig
-arm                        trizeps4_defconfig
-mips                           gcw0_defconfig
-sh                          polaris_defconfig
-um                           x86_64_defconfig
-ia64                        generic_defconfig
-csky                                defconfig
-sh                     sh7710voipgw_defconfig
-arm                            lart_defconfig
-powerpc                      cm5200_defconfig
-arm                       cns3420vb_defconfig
-arm                            xcep_defconfig
-h8300                    h8300h-sim_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a002-20210423
-x86_64               randconfig-a004-20210423
-x86_64               randconfig-a001-20210423
-x86_64               randconfig-a005-20210423
-x86_64               randconfig-a006-20210423
-x86_64               randconfig-a003-20210423
-i386                 randconfig-a002-20210423
-i386                 randconfig-a001-20210423
-i386                 randconfig-a003-20210423
-i386                 randconfig-a005-20210423
-i386                 randconfig-a006-20210423
-i386                 randconfig-a004-20210423
-i386                 randconfig-a014-20210423
-i386                 randconfig-a012-20210423
-i386                 randconfig-a011-20210423
-i386                 randconfig-a013-20210423
-i386                 randconfig-a015-20210423
-i386                 randconfig-a016-20210423
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a015-20210423
-x86_64               randconfig-a016-20210423
-x86_64               randconfig-a011-20210423
-x86_64               randconfig-a014-20210423
-x86_64               randconfig-a012-20210423
-x86_64               randconfig-a013-20210423
-
+Signed-off-by: Rajat Jain <rajatja@google.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/pci/pci-sysfs.c |  1 +
+ drivers/pci/probe.c     | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
+
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index f8afd54ca3e1..9302f0076e73 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -1582,4 +1582,5 @@ static const struct attribute_group *pci_dev_attr_groups[] = {
+ 
+ const struct device_type pci_dev_type = {
+ 	.groups = pci_dev_attr_groups,
++	.supports_removable = true,
+ };
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 953f15abc850..d1cceee62e1b 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1575,6 +1575,16 @@ static void set_pcie_untrusted(struct pci_dev *dev)
+ 		dev->untrusted = true;
+ }
+ 
++static void set_pci_dev_removable(struct pci_dev *dev)
++{
++	struct pci_dev *parent = pci_upstream_bridge(dev);
++	if (parent &&
++	    (parent->external_facing || dev_is_removable(&parent->dev)))
++		dev_set_removable(&dev->dev, DEVICE_REMOVABLE);
++	else
++		dev_set_removable(&dev->dev, DEVICE_FIXED);
++}
++
+ /**
+  * pci_ext_cfg_is_aliased - Is ext config space just an alias of std config?
+  * @dev: PCI device
+@@ -1819,6 +1829,8 @@ int pci_setup_device(struct pci_dev *dev)
+ 	/* "Unknown power state" */
+ 	dev->current_state = PCI_UNKNOWN;
+ 
++	set_pci_dev_removable(dev);
++
+ 	/* Early fixups, before probing the BARs */
+ 	pci_fixup_device(pci_fixup_early, dev);
+ 
+-- 
+2.31.1.498.g6c1eba8ee3d-goog
+
