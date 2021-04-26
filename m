@@ -2,90 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E166C433ED
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Apr 2021 20:22:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1033AC433B4
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Apr 2021 20:25:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECB5561059
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Apr 2021 20:22:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5434613AC
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Apr 2021 20:25:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241791AbhDZUWn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Apr 2021 16:22:43 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:16940 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241780AbhDZUWm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Apr 2021 16:22:42 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1619468521; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=3LGFtiTRJjNMYbJ6EUUyU7V1Qj7k6TQXUxK2E6mPlFU=; b=khYho5+dLZTrclHR9cKzGkFt2/vbK60Y+WOiLv0zf/NEwavS6BjUR/7Gw32+n4KDy6sDVe7V
- Mlwpf4iDEsHbuA6d7QiZPZf6ewLT70a+YVsMwPiG1NhxpZftIILHCh2zSbWCiTrzbO/DVo/+
- xKVqZ+aIXwyNla8xq5fFGUs7zW0=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 608720d4f34440a9d4d63ffc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 26 Apr 2021 20:21:40
- GMT
-Sender: subbaram=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E43BAC43217; Mon, 26 Apr 2021 20:21:40 +0000 (UTC)
-Received: from subbaram-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: subbaram)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 06071C433D3;
-        Mon, 26 Apr 2021 20:21:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 06071C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=subbaram@codeaurora.org
-From:   Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-To:     jackp@codeaurora.org
-Cc:     abhilash.k.v@intel.com, gregkh@linuxfoundation.org,
-        heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org, subbaram@codeaurora.org
-Subject: Re: [PATCH] usb: typec: ucsi: Retrieve all the PDOs instead of just the first 4
-Date:   Mon, 26 Apr 2021 13:21:31 -0700
-Message-Id: <1619468491-22053-1-git-send-email-subbaram@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20210426192605.GB20698@jackp-linux.qualcomm.com>
-References: <20210426192605.GB20698@jackp-linux.qualcomm.com>
+        id S239960AbhDZU0J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Apr 2021 16:26:09 -0400
+Received: from mail.linuxsystems.it ([79.7.78.67]:51078 "EHLO
+        mail.linuxsystems.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237180AbhDZU0I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Apr 2021 16:26:08 -0400
+X-Greylist: delayed 479 seconds by postgrey-1.27 at vger.kernel.org; Mon, 26 Apr 2021 16:26:08 EDT
+Received: by mail.linuxsystems.it (Postfix, from userid 33)
+        id BDCE820F85B; Mon, 26 Apr 2021 21:55:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxsystems.it;
+        s=linuxsystems.it; t=1619466906;
+        bh=dnkWv1CS9YiaAKNiNlgG6YG1kqlWBXJOsmhnHYZy0JI=;
+        h=To:Subject:Date:From:From;
+        b=hg4WCvH0IrLoL8uEk/157BL2hLUcnk0BdSMxrheTQn/trzH5EeitEu8K4ebWxbzwM
+         WB+Ym6BWIOZbUGby+HRkpm00oUvDFypgQCskLZLVoeq1wR09yJgtWnAPJcWvEkeiU6
+         p7j94l9C9mcZcckhkwbkrv8r09TqhYNAVpkL4GQY=
+To:     linux-usb@vger.kernel.org
+Subject: cdc_acm 2-2:1.0: acm_port_activate - usb_submit_urb(ctrl irq) failed
+X-PHP-Originating-Script: 0:rcube.php
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 26 Apr 2021 21:55:06 +0200
+From:   =?UTF-8?Q?Niccol=C3=B2_Belli?= <darkbasic@linuxsystems.it>
+Message-ID: <2fd1819252485b07e38f5154592dad43@linuxsystems.it>
+X-Sender: darkbasic@linuxsystems.it
+User-Agent: Roundcube Webmail/1.1.5
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> If such a source is connected it's possible the UCSI FW could have
+My Aeon Labs ZWave USB stick doesn't work anymore since 5.11.12-arch1-1:
+[ 193.677337] usb 2-2: new full-speed USB device number 5 using xhci_hcd
+[ 193.818112] usb 2-2: New USB device found, idVendor=0658, 
+idProduct=0200, bcdDevice= 0.00
+[ 193.818117] usb 2-2: New USB device strings: Mfr=0, Product=0, 
+SerialNumber=0
+[ 194.372999] cdc_acm 2-2:1.0: ttyACM0: USB ACM device
+[ 194.373197] usbcore: registered new interface driver cdc_acm
+[ 194.373199] cdc_acm: USB Abstract Control Model driver for USB modems 
+and ISDN adapters
+[ 200.173616] cdc_acm 2-2:1.0: acm_port_activate - usb_submit_urb(ctrl 
+irq) failed
 
-s/UCSI FW/PPM
+It works fine on 5.11.11-arch1-1 and on a Fedora 34 Live USB with kernel 
+5.11.16.
+Arch's 5.11.16 doesn't work and latest Arch's linux-lts doesn't work 
+either.
+This led me to believe that this could be due to an Arch configuration 
+change happened between 5.11.11 and 5.11.12 (AFAIK they don't carry any 
+additional patch).
+This is the only one I've found: 
+https://github.com/archlinux/svntogit-packages/commit/0b94106e755810659ccd9accfa4821bc3b429d34#diff-3e341d2d9c67be01819b25b25d5e53ea3cdf3a38d28846cda85a195eb9b7203a
 
-> We can resolve this by instead retrieving and storing up to the
-> maximum of 7 PDOs in the con->src_pdos array. This would involve
-> two calls to the GET_PDOS command.
-> 
+Basically they added CONFIG_IDLE_PAGE_TRACKING=y. They backported the 
+same configuration change to linux-lts. I don't know if this makes any 
+sense, I'm running out of ideas.
 
-This issue (see the signature below) is found by enabling UBSAN and
-connecting a charger adapter that can advertise 5 PDOs and RPDO selected
-by PPM is 5.
-
-[  151.545106][   T70] Unexpected kernel BRK exception at EL1
-[  151.545112][   T70] Internal error: BRK handler: f2005512 [#1] PREEMPT SMP
-...
-[  151.545499][   T70] pc : ucsi_psy_get_prop+0x208/0x20c
-[  151.545507][   T70] lr : power_supply_show_property+0xc0/0x328
-...
-[  151.545542][   T70] Call trace:
-[  151.545544][   T70]  ucsi_psy_get_prop+0x208/0x20c
-[  151.545546][   T70]  power_supply_uevent+0x1a4/0x2f0
-[  151.545550][   T70]  dev_uevent+0x200/0x384
-[  151.545555][   T70]  kobject_uevent_env+0x1d4/0x7e8
-[  151.545557][   T70]  power_supply_changed_work+0x174/0x31c
-[  151.545562][   T70]  process_one_work+0x244/0x6f0
-[  151.545564][   T70]  worker_thread+0x3e0/0xa64
-
-> Fixes: 992a60ed0d5e ("usb: typec: ucsi: register with power_supply class")
-> Fixes: 4dbc6a4ef06d ("usb: typec: ucsi: save power data objects in PD mode")
+Niccolo' Belli
