@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3668C433ED
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F7A8C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D27BE61417
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DBDA61417
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233399AbhD1FNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Apr 2021 01:13:14 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:37157 "EHLO
+        id S234486AbhD1FNP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Apr 2021 01:13:15 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:11152 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbhD1FNN (ORCPT
+        with ESMTP id S232242AbhD1FNN (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Apr 2021 01:13:13 -0400
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 27 Apr 2021 22:12:28 -0700
+  by alexa-out.qualcomm.com with ESMTP; 27 Apr 2021 22:12:29 -0700
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Apr 2021 22:12:26 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Apr 2021 22:12:28 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 28 Apr 2021 10:42:02 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 28 Apr 2021 10:42:00 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 4B5C139A6; Wed, 28 Apr 2021 10:42:01 +0530 (IST)
+        id 8622839A6; Wed, 28 Apr 2021 10:41:59 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -40,9 +40,9 @@ To:     Andy Gross <agross@kernel.org>,
 Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v7 3/5] usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
-Date:   Wed, 28 Apr 2021 10:41:54 +0530
-Message-Id: <1619586716-8687-4-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v7 1/5] usb: dwc3: host: Set PHY mode during suspend
+Date:   Wed, 28 Apr 2021 10:41:52 +0530
+Message-Id: <1619586716-8687-2-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1619586716-8687-1-git-send-email-sanm@codeaurora.org>
 References: <1619586716-8687-1-git-send-email-sanm@codeaurora.org>
@@ -50,96 +50,120 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding helper functions to enable,disable wake irqs to make
-the code simple and readable.
+During suspend read the status of all port and make sure the PHYs
+are in the correct mode based on current speed.
+Phy interrupt masks are set based on this mode. Keep track of the mode
+of the HS PHY to be able to configure wakeup properly.
+
+Also check during suspend if any wakeup capable devices are
+connected to the controller (directly or through hubs), if there
+are none set a flag to indicate that the PHY should be powered
+down during suspend.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 58 ++++++++++++++++++++------------------------
- 1 file changed, 26 insertions(+), 32 deletions(-)
+ drivers/usb/dwc3/core.h |  3 +++
+ drivers/usb/dwc3/host.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 49e6ca9..66183c6 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -296,50 +296,44 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
- 	icc_put(qcom->icc_path_apps);
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index b1e875c..cecd278 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1123,6 +1123,9 @@ struct dwc3 {
+ 
+ 	bool			phys_ready;
+ 
++	unsigned int            hs_phy_mode;
++	bool			phy_power_off;
++
+ 	struct ulpi		*ulpi;
+ 	bool			ulpi_ready;
+ 
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index f29a264..527f04c 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -11,6 +11,14 @@
+ #include <linux/platform_device.h>
+ 
+ #include "core.h"
++#include "../host/xhci.h"
++#include "../host/xhci-plat.h"
++
++static int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd);
++
++static const struct xhci_plat_priv xhci_plat_dwc3_xhci = {
++	.suspend_quirk = xhci_dwc3_suspend_quirk,
++};
+ 
+ static int dwc3_host_get_irq(struct dwc3 *dwc)
+ {
+@@ -115,6 +123,13 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 		}
+ 	}
+ 
++	ret = platform_device_add_data(xhci, &xhci_plat_dwc3_xhci,
++			sizeof(struct xhci_plat_priv));
++	if (ret) {
++		dev_err(dwc->dev, "failed to add data to xHCI\n");
++		goto err;
++	}
++
+ 	ret = platform_device_add(xhci);
+ 	if (ret) {
+ 		dev_err(dwc->dev, "failed to register xHCI device\n");
+@@ -127,6 +142,50 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	return ret;
  }
  
-+static void dwc3_qcom_enable_wakeup_irq(int irq)
++static void dwc3_set_phy_mode(struct usb_hcd *hcd)
 +{
-+	if (!irq)
-+		return;
 +
-+	enable_irq(irq);
-+	enable_irq_wake(irq);
++	int i, num_ports;
++	u32 reg;
++	unsigned int ss_phy_mode = 0;
++	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
++	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
++
++	dwc->hs_phy_mode = 0;
++
++	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
++	num_ports = HCS_MAX_PORTS(reg);
++
++	for (i = 0; i < num_ports; i++) {
++		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
++		if (reg & PORT_PE) {
++			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
++			else if (DEV_LOWSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
++
++			if (DEV_SUPERSPEED(reg))
++				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
++		}
++	}
++	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
++	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
 +}
 +
-+static void dwc3_qcom_disable_wakeup_irq(int irq)
++int xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
 +{
-+	if (!irq)
-+		return;
++	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
 +
-+	disable_irq_wake(irq);
-+	disable_irq_nosync(irq);
++	dwc3_set_phy_mode(hcd);
++
++	if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
++		dwc->phy_power_off = false;
++	else
++		dwc->phy_power_off = true;
++
++	return 0;
 +}
 +
- static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+ void dwc3_host_exit(struct dwc3 *dwc)
  {
--	if (qcom->hs_phy_irq) {
--		disable_irq_wake(qcom->hs_phy_irq);
--		disable_irq_nosync(qcom->hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
- 
--	if (qcom->dp_hs_phy_irq) {
--		disable_irq_wake(qcom->dp_hs_phy_irq);
--		disable_irq_nosync(qcom->dp_hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
- 
--	if (qcom->dm_hs_phy_irq) {
--		disable_irq_wake(qcom->dm_hs_phy_irq);
--		disable_irq_nosync(qcom->dm_hs_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
- 
--	if (qcom->ss_phy_irq) {
--		disable_irq_wake(qcom->ss_phy_irq);
--		disable_irq_nosync(qcom->ss_phy_irq);
--	}
-+	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
- }
- 
- static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- {
--	if (qcom->hs_phy_irq) {
--		enable_irq(qcom->hs_phy_irq);
--		enable_irq_wake(qcom->hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
- 
--	if (qcom->dp_hs_phy_irq) {
--		enable_irq(qcom->dp_hs_phy_irq);
--		enable_irq_wake(qcom->dp_hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
- 
--	if (qcom->dm_hs_phy_irq) {
--		enable_irq(qcom->dm_hs_phy_irq);
--		enable_irq_wake(qcom->dm_hs_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
- 
--	if (qcom->ss_phy_irq) {
--		enable_irq(qcom->ss_phy_irq);
--		enable_irq_wake(qcom->ss_phy_irq);
--	}
-+	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
- }
- 
- static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
+ 	platform_device_unregister(dwc->xhci);
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
