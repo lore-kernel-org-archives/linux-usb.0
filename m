@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C58ACC43461
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 21:53:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C75BC43470
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 21:53:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90A136109E
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 21:53:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AFFA6109E
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 21:53:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230305AbhD1Vx7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Apr 2021 17:53:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46954 "EHLO
+        id S230525AbhD1VyI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Apr 2021 17:54:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54101 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229942AbhD1Vx7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Apr 2021 17:53:59 -0400
+        by vger.kernel.org with ESMTP id S229942AbhD1VyI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Apr 2021 17:54:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1619646793;
+        s=mimecast20190719; t=1619646802;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=CHPFfFBaEv5BhiohhcETCsT/UQLEXf89TQ8+clFnID0=;
-        b=MydZZSa/1xbutMQIzvch8SwuKVlsaBQjh0+3zUFWbIsCMz1RcHl+ogjNFxcn+o7msV1afJ
-        +1VPNJR85lrPDjQJqKwUopcDeUqsLEW+CLCYQXPtJ8Hqaj087+NAa8ZEXTL/3w8sYkhFjB
-        4QRRQY/H3bpZLSQT4A3tgrFG7JZ4TqQ=
+        bh=ERBBDzY8cgN0bD72/H5ijzJDtmdBQ5XjP50xYJ8nAQo=;
+        b=BttGzIw7UtiGXiP+YDDl34dozVnA9lBGxjV1JfDtkNl8gqeoQb/3O4xBTU1WG1T5dolifS
+        PbuzAKABfDLbvsRWz1KGG7UQeThNxEaV2FUtbS1FxCUGn7y5M3P6V79iEdzC6/Ayh0iCog
+        LY3fEgZXIvV4pBhBE88zv6wB6mF5X3I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-5jHzSbalNpmuGHHKzLbFxw-1; Wed, 28 Apr 2021 17:53:10 -0400
-X-MC-Unique: 5jHzSbalNpmuGHHKzLbFxw-1
+ us-mta-596-01z3OwsINiWgdNb5_e3jNQ-1; Wed, 28 Apr 2021 17:53:18 -0400
+X-MC-Unique: 01z3OwsINiWgdNb5_e3jNQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C76E803620;
-        Wed, 28 Apr 2021 21:53:08 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D8D1107ACC7;
+        Wed, 28 Apr 2021 21:53:17 +0000 (UTC)
 Received: from x1.localdomain (ovpn-115-166.ams2.redhat.com [10.36.115.166])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 862C161D2D;
-        Wed, 28 Apr 2021 21:53:03 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5A8DB5C1BB;
+        Wed, 28 Apr 2021 21:53:14 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -57,9 +57,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel@lists.freedesktop.org,
         platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev device hold a reference to the connector
-Date:   Wed, 28 Apr 2021 23:52:49 +0200
-Message-Id: <20210428215257.500088-2-hdegoede@redhat.com>
+Subject: [PATCH 3/9] drm/connector: Add drm_connector_find_by_fwnode() function
+Date:   Wed, 28 Apr 2021 23:52:51 +0200
+Message-Id: <20210428215257.500088-4-hdegoede@redhat.com>
 In-Reply-To: <20210428215257.500088-1-hdegoede@redhat.com>
 References: <20210428215257.500088-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -69,118 +69,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Userspace could hold open a reference to the connector->kdev device,
-through e.g. holding a sysfs-atrtribute open after
-drm_sysfs_connector_remove() has been called. In this case the connector
-could be free-ed while the connector->kdev device's drvdata is still
-pointing to it.
+Add a function which allows other subsystems to find a connector
+based on a fwnode.
 
-Give drm_connector devices there own device type, which allows
-us to specify our own release function and make drm_sysfs_connector_add()
-take a reference on the connector object, and have the new release
-function put the reference when the device is released.
+This will be used by the USB-Type-C code to be able to find the DP
+connector to which to send hotplug events received by a Type-C port in
+DP-alternate-mode.
 
-Giving drm_connector devices there own device type, will also allow
-checking if a device is a drm_connector device with a
-"if (device->type == &drm_sysfs_device_connector)" check.
-
-Note that the setting of the name member of the device_type struct will
-cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
-as extra info. So this extends the uevent part of the userspace API.
+Note this function is defined in drivers/gpu/drm/drm_sysfs.c because it
+needs access to the drm_sysfs_device_connector device_type struct.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_sysfs.c | 54 +++++++++++++++++++++++++++++++------
- 1 file changed, 46 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_sysfs.c | 38 +++++++++++++++++++++++++++++++++++++
+ include/drm/drm_connector.h |  1 +
+ 2 files changed, 39 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-index f0336c804639..c344c6d5e738 100644
+index c1d3e2b843b7..ca71c46fad78 100644
 --- a/drivers/gpu/drm/drm_sysfs.c
 +++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -50,6 +50,10 @@ static struct device_type drm_sysfs_device_minor = {
- 	.name = "drm_minor"
- };
- 
-+static struct device_type drm_sysfs_device_connector = {
-+	.name = "drm_connector",
-+};
+@@ -520,3 +520,41 @@ void drm_class_device_unregister(struct device *dev)
+ 	return device_unregister(dev);
+ }
+ EXPORT_SYMBOL_GPL(drm_class_device_unregister);
 +
- struct class *drm_class;
- 
- static char *drm_devnode(struct device *dev, umode_t *mode)
-@@ -271,30 +275,64 @@ static const struct attribute_group *connector_dev_groups[] = {
- 	NULL
- };
- 
-+static void drm_sysfs_connector_release(struct device *dev)
++/**
++ * drm_connector_find_by_fwnode - Find a connector based on the associated fwnode
++ * @fwnode: fwnode for which to find the matching drm_connector
++ *
++ * This functions looks up a drm_connector based on its associated fwnode. When
++ * a connector is found a reference to the connector is returned. The caller must
++ * call drm_connector_put() to release this reference when it is done with the
++ * connector.
++ *
++ * Returns: A reference to the found connector or NULL if no matching connector was found
++ */
++struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
 +{
-+	struct drm_connector *connector = to_drm_connector(dev);
++	struct drm_connector *connector, *found = NULL;
++	struct class_dev_iter iter;
++	struct device *dev;
 +
-+	drm_connector_put(connector);
-+	kfree(dev);
++	if (!fwnode)
++		return NULL;
++
++	class_dev_iter_init(&iter, drm_class, NULL, &drm_sysfs_device_connector);
++	while ((dev = class_dev_iter_next(&iter))) {
++		connector = to_drm_connector(dev);
++
++		if ((connector->fwnode == fwnode) ||
++		    (connector->fwnode && connector->fwnode->secondary == fwnode)) {
++			drm_connector_get(connector);
++			found = connector;
++			break;
++		}
++
++	}
++	class_dev_iter_exit(&iter);
++
++	return found;
 +}
-+
- int drm_sysfs_connector_add(struct drm_connector *connector)
- {
- 	struct drm_device *dev = connector->dev;
-+	struct device *kdev;
-+	int r;
- 
- 	if (connector->kdev)
- 		return 0;
- 
--	connector->kdev =
--		device_create_with_groups(drm_class, dev->primary->kdev, 0,
--					  connector, connector_dev_groups,
--					  "card%d-%s", dev->primary->index,
--					  connector->name);
-+	kdev = kzalloc(sizeof(*kdev), GFP_KERNEL);
-+	if (!kdev)
-+		return -ENOMEM;
-+
-+	device_initialize(kdev);
-+	kdev->class = drm_class;
-+	kdev->type = &drm_sysfs_device_connector;
-+	kdev->parent = dev->primary->kdev;
-+	kdev->groups = connector_dev_groups;
-+	kdev->release = drm_sysfs_connector_release;
-+	dev_set_drvdata(kdev, connector);
-+
-+	r = dev_set_name(kdev, "card%d-%s", dev->primary->index, connector->name);
-+	if (r)
-+		goto err_free;
-+
- 	DRM_DEBUG("adding \"%s\" to sysfs\n",
- 		  connector->name);
- 
--	if (IS_ERR(connector->kdev)) {
--		DRM_ERROR("failed to register connector device: %ld\n", PTR_ERR(connector->kdev));
--		return PTR_ERR(connector->kdev);
-+	r = device_add(kdev);
-+	if (r) {
-+		DRM_ERROR("failed to register connector device: %d\n", r);
-+		goto err_free;
- 	}
- 
-+	/*
-+	 * Ensure the connector object does not get free-ed if userspace still has
-+	 * references open to the device through e.g. the connector sysfs-attributes.
-+	 */
-+	drm_connector_get(connector);
-+
-+	connector->kdev = kdev;
-+
- 	if (connector->ddc)
- 		return sysfs_create_link(&connector->kdev->kobj,
- 				 &connector->ddc->dev.kobj, "ddc");
- 	return 0;
-+
-+err_free:
-+	put_device(kdev);
-+	return r;
++EXPORT_SYMBOL(drm_connector_find_by_fwnode);
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index d20bfd7576ed..1e5d154d1f4a 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1696,6 +1696,7 @@ drm_connector_is_unregistered(struct drm_connector *connector)
+ 		DRM_CONNECTOR_UNREGISTERED;
  }
  
- void drm_sysfs_connector_remove(struct drm_connector *connector)
++struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode);
+ const char *drm_get_connector_type_name(unsigned int connector_type);
+ const char *drm_get_connector_status_name(enum drm_connector_status status);
+ const char *drm_get_subpixel_order_name(enum subpixel_order order);
 -- 
 2.31.1
 
