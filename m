@@ -2,113 +2,145 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 502A5C433B4
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 04:09:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3668C433ED
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2756C613E5
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 04:09:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D27BE61417
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Apr 2021 05:12:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234373AbhD1EKI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Apr 2021 00:10:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbhD1EKI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Apr 2021 00:10:08 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AE5C061574
-        for <linux-usb@vger.kernel.org>; Tue, 27 Apr 2021 21:09:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=6ic0jXt/yX64Xz1GybcdSwI99arhDWBT0mgQB/ERifE=; b=d6yqiXWSbfM3M7UMeci7N41BfJ
-        f/iekbB+bQ466PHTwvOYk3WKZDc6Pfz8vHt4gc3JRtN2JpLpmioi7bTgOKupLC/lO5Gx8X10TqlDu
-        cfMplOvAS6w41Kk+QjHzM9Uy56f/PXDxgcSH+B/wmIE4X/87P5tgwzxuVtiUsNTgUoFE08nunWcmh
-        j/9gR+1RMfBvA4NpCCM6IfCehd5Eo54AoCL1U91XbR39zSwT/syJD3Vl17rilgjR+5TysEzmyAlXI
-        D9xBh22fm+I1cgKwsvSD66Uj5+xGka/nT8ifqjD2X+4XYmDJN4OCd7dtHWjYG6IuuBROqcRNOwARg
-        pyAt4j9w==;
-Received: from [2601:1c0:6280:3f0::df68] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lbbVT-007odu-66; Wed, 28 Apr 2021 04:09:08 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, Li Yang <leoyang.li@nxp.com>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: [RFC PATCH] usb: gadget: fsl_qe_udc: fix implicit-fallthrough warnings
-Date:   Tue, 27 Apr 2021 21:08:55 -0700
-Message-Id: <20210428040855.25907-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S233399AbhD1FNO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Apr 2021 01:13:14 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:37157 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229437AbhD1FNN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Apr 2021 01:13:13 -0400
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 27 Apr 2021 22:12:28 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 27 Apr 2021 22:12:26 -0700
+X-QCInternal: smtphost
+Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 28 Apr 2021 10:42:02 +0530
+Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
+        id 4B5C139A6; Wed, 28 Apr 2021 10:42:01 +0530 (IST)
+From:   Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Manu Gautam <mgautam@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Subject: [PATCH v7 3/5] usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
+Date:   Wed, 28 Apr 2021 10:41:54 +0530
+Message-Id: <1619586716-8687-4-git-send-email-sanm@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1619586716-8687-1-git-send-email-sanm@codeaurora.org>
+References: <1619586716-8687-1-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Quieten implicit-fallthrough warnings in fsl_qe_udc.c:
+Adding helper functions to enable,disable wake irqs to make
+the code simple and readable.
 
-../drivers/usb/gadget/udc/fsl_qe_udc.c: In function 'qe_ep_init':
-../drivers/usb/gadget/udc/fsl_qe_udc.c:542:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  542 |    if ((max == 128) || (max == 256) || (max == 512))
-../drivers/usb/gadget/udc/fsl_qe_udc.c:563:8: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  563 |     if (max <= 1024)
-../drivers/usb/gadget/udc/fsl_qe_udc.c:566:8: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  566 |     if (max <= 64)
-../drivers/usb/gadget/udc/fsl_qe_udc.c:580:8: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  580 |     if (max <= 1024)
-../drivers/usb/gadget/udc/fsl_qe_udc.c:596:5: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  596 |     switch (max) {
-
-This basically just documents what is currently being done.
-If any of them need to do something else, just say so or
-even make the change.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Li Yang <leoyang.li@nxp.com>
-Cc: linuxppc-dev@lists.ozlabs.org
+Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- drivers/usb/gadget/udc/fsl_qe_udc.c |    5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/dwc3/dwc3-qcom.c | 58 ++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 32 deletions(-)
 
---- linux-next-20210427.orig/drivers/usb/gadget/udc/fsl_qe_udc.c
-+++ linux-next-20210427/drivers/usb/gadget/udc/fsl_qe_udc.c
-@@ -541,6 +541,7 @@ static int qe_ep_init(struct qe_udc *udc
- 			case USB_SPEED_HIGH:
- 			if ((max == 128) || (max == 256) || (max == 512))
- 				break;
-+			fallthrough;
- 			default:
- 				switch (max) {
- 				case 4:
-@@ -562,9 +563,11 @@ static int qe_ep_init(struct qe_udc *udc
- 			case USB_SPEED_HIGH:
- 				if (max <= 1024)
- 					break;
-+				fallthrough;
- 			case USB_SPEED_FULL:
- 				if (max <= 64)
- 					break;
-+				fallthrough;
- 			default:
- 				if (max <= 8)
- 					break;
-@@ -579,6 +582,7 @@ static int qe_ep_init(struct qe_udc *udc
- 			case USB_SPEED_HIGH:
- 				if (max <= 1024)
- 					break;
-+				fallthrough;
- 			case USB_SPEED_FULL:
- 				if (max <= 1023)
- 					break;
-@@ -605,6 +609,7 @@ static int qe_ep_init(struct qe_udc *udc
- 				default:
- 					goto en_done;
- 				}
-+				fallthrough;
- 			case USB_SPEED_LOW:
- 				switch (max) {
- 				case 1:
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 49e6ca9..66183c6 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -296,50 +296,44 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
+ 	icc_put(qcom->icc_path_apps);
+ }
+ 
++static void dwc3_qcom_enable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
++
++	enable_irq(irq);
++	enable_irq_wake(irq);
++}
++
++static void dwc3_qcom_disable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
++
++	disable_irq_wake(irq);
++	disable_irq_nosync(irq);
++}
++
+ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		disable_irq_wake(qcom->hs_phy_irq);
+-		disable_irq_nosync(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
+ 
+-	if (qcom->dp_hs_phy_irq) {
+-		disable_irq_wake(qcom->dp_hs_phy_irq);
+-		disable_irq_nosync(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		disable_irq_wake(qcom->dm_hs_phy_irq);
+-		disable_irq_nosync(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		disable_irq_wake(qcom->ss_phy_irq);
+-		disable_irq_nosync(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		enable_irq(qcom->hs_phy_irq);
+-		enable_irq_wake(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
+ 
+-	if (qcom->dp_hs_phy_irq) {
+-		enable_irq(qcom->dp_hs_phy_irq);
+-		enable_irq_wake(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		enable_irq(qcom->dm_hs_phy_irq);
+-		enable_irq_wake(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		enable_irq(qcom->ss_phy_irq);
+-		enable_irq_wake(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
