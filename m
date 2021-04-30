@@ -2,157 +2,180 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E07DFC433B4
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Apr 2021 19:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D014C433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:19:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B17706142A
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Apr 2021 19:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E98706144E
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:19:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231560AbhD2TRL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Apr 2021 15:17:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239436AbhD2TKj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Apr 2021 15:10:39 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B93C06138C
-        for <linux-usb@vger.kernel.org>; Thu, 29 Apr 2021 12:09:52 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id k14so18072097wrv.5
-        for <linux-usb@vger.kernel.org>; Thu, 29 Apr 2021 12:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
-        b=PPtwmHEckRIBUH8hQOzBxajX3TdRoTA+lpU9blquQ+gpggdOqsBiyeO6vAuNR39SWT
-         MUpTHvhvJz3qHnwbNoCSFLBkB6Cn3faK3Ct6UdCPmH4S7Hx5MA2PPBuAU9r3hUY1dEeA
-         lkpoT+R6uCrjzxEM95uLBoygM7AlIq0XZx4oI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1dmo5Wmh/ugIBygOrQPFARR/Rc5riBKotg0rKsNd/fk=;
-        b=YlTyYCnqJtY0csrCj7JwuiM5SVAEQMPF9sXIDFysC8vN+6bfJDBcRIbyaGzGRwc+/u
-         SxxY4stH4AYJ+mgr9XRqix2C0ex/e91Z2Y4vKxf69HabiPqj8ndpkxmh2Oh5RDTr+reC
-         mfDYqTsLxgYGvnWMq2e2gOP/OpmgQZUL+O/fGB3oD+SKjnWi9SEoUIgPaIBw9PDZEf/3
-         tKJ8qO7rCC9q+bgLp56tV0wOkj91qaXqa5echp0mjEaygDlYmy/jduwMOdYg9xd/xVx1
-         6FPn0i5dpEG/Fq1O+SWwFKEAhEcyaqCYVmMl1VMjRCUyjHkou64hDcjJf7usDFsBp1BH
-         zKvw==
-X-Gm-Message-State: AOAM530VKwQhIuHV1KRwb2o9WQAP8qlZkqjU5n/P38YJbeiMNK3MYKpY
-        sv6j7yS5Qbe7oggphSz/dSU0Vw==
-X-Google-Smtp-Source: ABdhPJyY4KyyQAlwKgbmUY3ebe0VTq4Ebh9Ea/4USdywIkju0V7arqiGrMXzluPAlCUiCDuzrhydlQ==
-X-Received: by 2002:adf:f192:: with SMTP id h18mr1447610wro.270.1619723391031;
-        Thu, 29 Apr 2021 12:09:51 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p14sm6320337wrx.88.2021.04.29.12.09.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 12:09:50 -0700 (PDT)
-Date:   Thu, 29 Apr 2021 21:09:48 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        id S229687AbhD3DUI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Apr 2021 23:20:08 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:57607 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229577AbhD3DUD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Apr 2021 23:20:03 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 958CC5809A8;
+        Thu, 29 Apr 2021 23:19:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 29 Apr 2021 23:19:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm2; bh=zsgS/p6h6LoM1
+        J8DV/As4w6mpp5Hjtcaqy0MGncfGb0=; b=IVsYgx6Erbps3DgoGNfDzo/Dnv+W7
+        sX5dHISsksPYcGH8ivoGx0d37/qXrbx4dN2E9pMrSfWk156r1MjXW+PL2AkoYwpL
+        gamy1ihTjJAvFO7V8QHuf1YGlt2vj5va4P6f/hXR+v4sXxi3n0fpXF/0rKIVHFGF
+        Q21OZw4lYHlG7/DMPZHW9XgLSuX2nNIDcuZA4SCd3HtDbochEMAlksxcsRA9lz/q
+        AyyF0QDLkKCBRA42ccZcoCU21kk3TFI4aLRsS0oRW379U2jMEZ7kbL6H0HBwCyJ2
+        Lx4n3Xqssv2f7dzcibMzdD1cdzd+8WuHI1tHWGoyuv+/Tn7UjlaUiBOPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm2; bh=zsgS/p6h6LoM1J8DV/As4w6mpp5Hjtcaqy0MGncfGb0=; b=cNpNOlW3
+        AuctOc5lh4O+sPjFtMK1RMY968PFYAz7eSWZbjlBu6Lau8lCjrZyx37CAwKzeimQ
+        FWcVe4FooA9Bfd6xhZccFK90XH9oKWonQzLqce1ao5iRZ7gPrEgqJg8s7Udc/2PG
+        JJ5iZrROaVgXo9bF6hT9mnmLdsZX9h58wUu4T+i+qd218gvwBOfWJfRFlFKkUjz7
+        AcpAu5yhUvRYvTd073ME2qESj9owFvADP7kvBy8QXnb8tufzZ9EKmhPvbCK9/Os4
+        lkqUrfW+RkPD6ylOAlcxwszxRmyJ7LEdZFNu2oH/pFLVMCUR29KsaC1ZVXs7v+gP
+        c93znQ4HxEO5Ig==
+X-ME-Sender: <xms:M3eLYNjtvhRbxk22WIaCiCeU3NWSqXS-MkxmYqaNXnGM_rUzWxRwUg>
+    <xme:M3eLYCBxETrowlmwqaUuZ3TF2_rhPQb9TIjXbAg9KVbgm8M4nnomJa4DnRBQX2dkk
+    jaAp6BiqOCmZkCUgg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeelueelgeettdfggfeuffevkefhuddtteeigfevhfdtffdtjefgteeg
+    leeggedvudenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeejtd
+    drudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:M3eLYNFC8GXIGtFuqHo6fiMUzeMqh7U3bf1itF7AsFd8vL6vo_mePA>
+    <xmx:M3eLYCSl415GyMNpwJo0Q7eUWFdkqPueByMA0QueLZh03rgR0ioUiA>
+    <xmx:M3eLYKxsv57SBgwKU2whVxQ9R6ua7cFv2litdS8_T4Ft5jMXtexVmw>
+    <xmx:M3eLYOdWfFB-em7dvyZR1KTlNMemnElENRiScqLKaZZdafj46dZG4g>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA;
+        Thu, 29 Apr 2021 23:19:14 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Rob Herring <robh+dt@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        dri-devel@lists.freedesktop.org,
-        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/9] drm/connector: Make the drm_sysfs connector->kdev
- device hold a reference to the connector
-Message-ID: <YIsEfAjFthAyHxUi@phenom.ffwll.local>
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-2-hdegoede@redhat.com>
- <YIqbLDIeGXNSjSTS@phenom.ffwll.local>
- <YIqehmw+kG53LF3t@kroah.com>
- <YIqg59yageIUwiwy@phenom.ffwll.local>
- <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3 glue
+Date:   Thu, 29 Apr 2021 22:19:11 -0500
+Message-Id: <20210430031912.42252-2-samuel@sholland.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210430031912.42252-1-samuel@sholland.org>
+References: <20210430031912.42252-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e78d188-f257-ad33-e703-bcbc54a30c31@redhat.com>
-X-Operating-System: Linux phenom 5.10.32scarlett+ 
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 29, 2021 at 02:33:17PM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 4/29/21 2:04 PM, Daniel Vetter wrote:
-> > On Thu, Apr 29, 2021 at 01:54:46PM +0200, Greg Kroah-Hartman wrote:
-> >> On Thu, Apr 29, 2021 at 01:40:28PM +0200, Daniel Vetter wrote:
-> >>> On Wed, Apr 28, 2021 at 11:52:49PM +0200, Hans de Goede wrote:
-> >>>> Userspace could hold open a reference to the connector->kdev device,
-> >>>> through e.g. holding a sysfs-atrtribute open after
-> >>>> drm_sysfs_connector_remove() has been called. In this case the connector
-> >>>> could be free-ed while the connector->kdev device's drvdata is still
-> >>>> pointing to it.
-> >>>>
-> >>>> Give drm_connector devices there own device type, which allows
-> >>>> us to specify our own release function and make drm_sysfs_connector_add()
-> >>>> take a reference on the connector object, and have the new release
-> >>>> function put the reference when the device is released.
-> >>>>
-> >>>> Giving drm_connector devices there own device type, will also allow
-> >>>> checking if a device is a drm_connector device with a
-> >>>> "if (device->type == &drm_sysfs_device_connector)" check.
-> >>>>
-> >>>> Note that the setting of the name member of the device_type struct will
-> >>>> cause udev events for drm_connector-s to now contain DEVTYPE=drm_connector
-> >>>> as extra info. So this extends the uevent part of the userspace API.
-> >>>>
-> >>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >>>
-> >>> Are you sure? I thought sysfs is supposed to flush out any pending
-> >>> operations (they complete fast) and handle open fd internally?
-> >>
-> >> Yes, it "should" :)
-> > 
-> > Thanks for confirming my vague memories :-)
-> > 
-> > Hans, pls drop this one.
-> 
-> Please see my earlier reply to your review of this patch, it is
-> still needed but for a different reason:
-> 
-> """
-> We still need this change though to make sure that the 
-> "drm/connector: Add drm_connector_find_by_fwnode() function"
-> does not end up following a dangling drvdat pointer from one
-> if the drm_connector kdev-s.
-> 
-> The class_dev_iter_init() in drm_connector_find_by_fwnode() gets
-> a reference on all devices and between getting that reference
-> and it calling drm_connector_get() - drm_connector_unregister()
-> may run and drop the possibly last reference to the
-> drm_connector object, freeing it and leaving the kdev's
-> drvdata as a dangling pointer.
-> """
-> 
-> This is actually why I added it initially, and while adding it
-> I came up with this wrong theory of why it was necessary independently
-> of the drm_connector_find_by_fwnode() addition, sorry about that.
+The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
+USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
+Represent this by attaching the reset line to a glue layer device.
 
-Generally that's handled by a kref_get_unless_zero under the protection of
-the lock which protects the weak reference. Which I think is the right
-model here (at a glance at least) since this is a lookup function.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
 
-Lookup tables holding full references tends to lead to all kinds of bad
-side effects.
--Daniel
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+new file mode 100644
+index 000000000000..936b5c74043f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/allwinner,sun50i-h6-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner H6 DWC3 USB controller
++
++maintainers:
++  - Chen-Yu Tsai <wens@csie.org>
++  - Maxime Ripard <mripard@kernel.org>
++
++properties:
++  compatible:
++    const: allwinner,sun50i-h6-dwc3
++
++  "#address-cells": true
++
++  "#size-cells": true
++
++  ranges: true
++
++  resets:
++    maxItems: 1
++
++# Required child node:
++
++patternProperties:
++  "^phy@[0-9a-f]+$":
++    $ref: ../phy/allwinner,sun50i-h6-usb3-phy.yaml#
++
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
++
++required:
++  - compatible
++  - ranges
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun50i-h6-ccu.h>
++    #include <dt-bindings/reset/sun50i-h6-ccu.h>
++
++    usb3: usb@5200000 {
++        compatible = "allwinner,sun50i-h6-dwc3";
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++        resets = <&ccu RST_BUS_XHCI>;
++
++        dwc3: usb@5200000 {
++            compatible = "snps,dwc3";
++            reg = <0x05200000 0x10000>;
++            interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&ccu CLK_BUS_XHCI>,
++                     <&ccu CLK_BUS_XHCI>,
++                     <&rtc 0>;
++            clock-names = "ref", "bus_early", "suspend";
++            dr_mode = "host";
++            phys = <&usb3phy>;
++            phy-names = "usb3-phy";
++        };
++
++        usb3phy: phy@5210000 {
++            compatible = "allwinner,sun50i-h6-usb3-phy";
++            reg = <0x5210000 0x10000>;
++            clocks = <&ccu CLK_USB_PHY1>;
++            resets = <&ccu RST_USB_PHY1>;
++            #phy-cells = <0>;
++        };
++    };
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.26.3
+
