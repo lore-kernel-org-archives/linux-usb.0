@@ -2,147 +2,71 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25E2C433ED
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 11:51:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F2FC433ED
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 12:54:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C256461419
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 11:51:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCA826147E
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 12:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229981AbhD3Lwl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Apr 2021 07:52:41 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:38296 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229875AbhD3Lwk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 07:52:40 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13UBn1gN153870;
-        Fri, 30 Apr 2021 11:51:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=eI9I6ScSJrGMrRAaM+N/2tGOksCTfQkMwXzNY7uNQhA=;
- b=cjkhO+lQht87lZMdME/mC04TygBG5l/uVJyBTGu6q8FImEXKxMfWu1x8HE8PrBYu2vQn
- 2FCgH7/epNoJyApN6D8v5qKlS/NRRsbRNmjJ7IQoFGEUbXCBcznVXdnaazlRLJoR7U2Z
- CxWNR9e+P/Z7Xlozjc2RaN9L7WfIRn7gEjgeJSUY5l9aL+kCPUDlj5pOQyc0ijjw7R/Z
- f1QtIXQOy7UOOKLSu+h36RDMcSUU/paJRwEOUo6sN6amdLW+Xhc0CRpHreRBs3P6nenm
- Jai6a5t/kCKDyvNMBUsxrmBEXqZ33ncs1ZWw0Ml+2ggQtmNUXVCWuhQxpn3MSnwouuOj tQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 385afq7gcr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Apr 2021 11:51:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13UBonxO034334;
-        Fri, 30 Apr 2021 11:51:47 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 384w3xpuy8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Apr 2021 11:51:47 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13UBpl6S037724;
-        Fri, 30 Apr 2021 11:51:47 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 384w3xpuxy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Apr 2021 11:51:47 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13UBpjk9015654;
-        Fri, 30 Apr 2021 11:51:46 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 30 Apr 2021 11:51:45 +0000
-Date:   Fri, 30 Apr 2021 14:51:39 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Peter Chen <peter.chen@kernel.org>
-Cc:     Pawel Laszczak <pawell@cadence.com>, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, kurahul@cadence.com
-Subject: Re: [PATCH] usb: cdnsp: Useless condition has been removed
-Message-ID: <20210430115139.GH21598@kadam>
-References: <20210429084914.12003-1-pawell@gli-login.cadence.com>
- <20210430034349.GB3842@nchen>
- <20210430045248.GG21598@kadam>
- <20210430071145.GA4449@nchen>
+        id S232392AbhD3My4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Apr 2021 08:54:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231905AbhD3Myz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 30 Apr 2021 08:54:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3EC66613CD;
+        Fri, 30 Apr 2021 12:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1619787245;
+        bh=0iKvadesmEvFfj6X+zy2icbY3wPZ4V1ZhwlLc348ZpQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pqb0DWYa/KfLbhNyPj8vag80x5snUEaWO1N54mAW55iwnccAiseYMoGEeGms5U16O
+         FdRoYqzwemZgqR03dVBW3fSHP/UNHXcZ2ueh7lJrjGyLLK02j/gIt3khCqQ9Zlyvdj
+         6nuGYgvzVNnQeYgvOcN4dPyyM6xjqjLxFLMYwLW0=
+Date:   Fri, 30 Apr 2021 14:54:03 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Frank Wunderlich <linux@fw-web.de>
+Cc:     linux-mediatek@lists.infradead.org,
+        Frank Wunderlich <frank-w@public-files.de>,
+        Bin Liu <b-liu@ti.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        David Miller <davem@davemloft.net>,
+        DENG Qingfang <dqfext@gmail.com>
+Subject: Re: [PATCH] musb: mediatek: rename driver
+Message-ID: <YIv969BCnPgXzrcg@kroah.com>
+References: <20210430124317.97376-1-linux@fw-web.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430071145.GA4449@nchen>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: 8SWhg1jrAi1-qXk7JCuei9w-n4cNtEob
-X-Proofpoint-GUID: 8SWhg1jrAi1-qXk7JCuei9w-n4cNtEob
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 phishscore=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
- adultscore=0 malwarescore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104300087
+In-Reply-To: <20210430124317.97376-1-linux@fw-web.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Apr 30, 2021 at 03:11:45PM +0800, Peter Chen wrote:
-> On 21-04-30 07:52:48, Dan Carpenter wrote:
-> > On Fri, Apr 30, 2021 at 11:43:49AM +0800, Peter Chen wrote:
-> > > On 21-04-29 10:49:14, Pawel Laszczak wrote:
-> > > > From: Pawel Laszczak <pawell@cadence.com>
-> > > > 
-> > > > Patch removes the warning "variable dereferenced before
-> > > > check 'pdev->dcbaa'" from cdnsp_mem_cleanup.
-> > > 
-> > > You may describe the real problem you fix, but not the warning
-> > > message from some auto build system.
-> > > 
-> > 
-> > I really feel people have become too lost in the weeds of what matters
-> > and what does not.  For internships, people want picky feedback in case
-> > they're forced to deal with the ultra drill sargent maintainers.  But
-> > really the important thing in a commit message is if you can understand
-> > the problem and the fix.  In this case everyone who is capable of
-> > understanding the patch can understand the commit message.
-> > 
-> > Also if you're going to criticize someone's commit message then just
-> > write it the way you want so they can copy and paste.  I had someone
-> > yesterday say that my commit message where I deleted a NULL check and
-> > related dead code was not clear enough that the behavior was
-> > "intentional" and I took that to mean that they wanted me to say that
-> > deleting the dead code did not change runtime behavior.  I'm still not
-> > sure that's what they wanted me to add...  The point is no one can read
-> > your mind, if you want a commit message to say something specific then
-> > just say it instead of hinting around the bush and we have to send a v2
-> > and v3 commit message.
-> > 
-> > regards,
-> > dan carpenter
+On Fri, Apr 30, 2021 at 02:43:17PM +0200, Frank Wunderlich wrote:
+> From: Frank Wunderlich <frank-w@public-files.de>
 > 
-> Hi Dan,
-> 
-> Thanks for your comments, it's the good suggestion. But everyone may have
-> slight different criteria that what's really clear.
-> 
-> For this patch, I don't understand the commits, the pdev->dcbaa is set as
-> NULL after dma_free_coherent, why it has this warning.
-> 
+> currently unspecific mediatek.ko is built,
+> change this by adding subsystem
 
-Hm...  I guess it's a fair point that it's not clear to the reviewer
-where the unchecked dereference happens.  Here is how I would write that
-commit.
+I am sorry, I do not understand this changelog text.  What are you doing
+here and why?
 
-    This code generates a Smatch warning:
+> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> ---
+>  drivers/usb/musb/Makefile                   | 2 +-
+>  drivers/usb/musb/{mediatek.c => musb_mtk.c} | 0
 
-    drivers/usb/cdns3/cdnsp-mem.c:1085 cdnsp_mem_cleanup()
-    warn: variable dereferenced before check 'pdev->dcbaa' (see line 1067)
+Why rename this file, will that not break existing setups that expect
+the module to be named this?
 
-    The unchecked dereference happens inside the function when we call:
+thanks,
 
-    	cdnsp_free_priv_device(pdev);
-
-    But fortunately, the "pdev->dcbaa" pointer can never be NULL so it
-    does not lead to a runtime issue.  We can just remove the NULL check
-    which silences the warning and makes the code consistent.
-
-regards,
-dan carpenter
-
+greg k-h
