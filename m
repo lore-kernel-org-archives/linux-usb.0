@@ -2,150 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 695BDC43460
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 07:15:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3546C433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 07:29:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F8666143A
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 07:15:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 733DF61434
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 07:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230476AbhD3HQf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Apr 2021 03:16:35 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:57493 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230055AbhD3HQe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 03:16:34 -0400
-X-UUID: 831dac83845f4748ac1b8dbce85cdc3d-20210430
-X-UUID: 831dac83845f4748ac1b8dbce85cdc3d-20210430
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1118842261; Fri, 30 Apr 2021 15:15:42 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Apr 2021 15:15:40 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Apr 2021 15:15:33 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S229780AbhD3HaH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Apr 2021 03:30:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45488 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229628AbhD3HaG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 30 Apr 2021 03:30:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B005613B3;
+        Fri, 30 Apr 2021 07:29:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1619767757;
+        bh=UOwbjp9n6THAwLNXnYFCjvVARM6laoU+YRJMD42KQK4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gU4BEDg0/+ToTZ2RLKPtxpLCkg1nhxGnQ8RspU3df5YPn62XPsoMgFcKABoGFTnx7
+         YUIfcIP6MgesZP9FsgkR7YT08dqiAwb8Cv2LhNv2B1USKPFknp/7VsE5Sy+yKcDRVx
+         QJFIR5QVt7Lu3Aa5x8NalJDFND8ufOJeLUfFHgdk=
+Date:   Fri, 30 Apr 2021 09:29:15 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Ikjoon Jang <ikjn@chromium.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 2/3] usb: xhci-mtk: remove unnecessary assignments in periodic TT scheduler
-Date:   Fri, 30 Apr 2021 15:15:31 +0800
-Message-ID: <20210430071532.51794-2-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210430071532.51794-1-chunfeng.yun@mediatek.com>
+Subject: Re: [PATCH 1/3] usb: xhci-mtk: use bitfield instead of bool
+Message-ID: <YIuxy9OtlNzq7zwM@kroah.com>
 References: <20210430071532.51794-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: 3B889F7DC6F4CC29E02595BDB4B5B9FBE3C2A6CAC0E4967797B6CB878464D79C2000:8
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210430071532.51794-1-chunfeng.yun@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Ikjoon Jang <ikjn@chromium.org>
+On Fri, Apr 30, 2021 at 03:15:30PM +0800, Chunfeng Yun wrote:
+> Use bitfield instead of bool in struct
 
-Remove unnecessary variables in check_sch_bw().
-No functional changes, just for better readability.
+That says what you did, but not why you did it.
 
-Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/host/xhci-mtk-sch.c | 37 +++++++++++++--------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+Why?
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 8b90da5a6ed1..9fb75085e40f 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -476,6 +476,9 @@ static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- 	u32 start_cs, last_cs;
- 	int i;
- 
-+	if (!sch_ep->sch_tt)
-+		return 0;
-+
- 	start_ss = offset % 8;
- 
- 	if (sch_ep->ep_type == ISOC_OUT_EP) {
-@@ -603,54 +606,42 @@ static u32 get_esit_boundary(struct mu3h_sch_ep_info *sch_ep)
- static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
- 			struct mu3h_sch_ep_info *sch_ep)
- {
-+	const u32 esit_boundary = get_esit_boundary(sch_ep);
-+	const u32 bw_boundary = get_bw_boundary(sch_ep->speed);
- 	u32 offset;
--	u32 min_bw;
--	u32 min_index;
- 	u32 worst_bw;
--	u32 bw_boundary;
--	u32 esit_boundary;
--	u32 min_num_budget;
--	u32 min_cs_count;
-+	u32 min_bw = ~0;
-+	int min_index = -1;
- 	int ret = 0;
- 
- 	/*
- 	 * Search through all possible schedule microframes.
- 	 * and find a microframe where its worst bandwidth is minimum.
- 	 */
--	min_bw = ~0;
--	min_index = 0;
--	min_cs_count = sch_ep->cs_count;
--	min_num_budget = sch_ep->num_budget_microframes;
--	esit_boundary = get_esit_boundary(sch_ep);
- 	for (offset = 0; offset < sch_ep->esit; offset++) {
--		if (sch_ep->sch_tt) {
--			ret = check_sch_tt(sch_ep, offset);
--			if (ret)
--				continue;
--		}
-+		ret = check_sch_tt(sch_ep, offset);
-+		if (ret)
-+			continue;
- 
- 		if ((offset + sch_ep->num_budget_microframes) > esit_boundary)
- 			break;
- 
- 		worst_bw = get_max_bw(sch_bw, sch_ep, offset);
-+		if (worst_bw > bw_boundary)
-+			continue;
-+
- 		if (min_bw > worst_bw) {
- 			min_bw = worst_bw;
- 			min_index = offset;
--			min_cs_count = sch_ep->cs_count;
--			min_num_budget = sch_ep->num_budget_microframes;
- 		}
- 		if (min_bw == 0)
- 			break;
- 	}
- 
--	bw_boundary = get_bw_boundary(sch_ep->speed);
--	/* check bandwidth */
--	if (min_bw > bw_boundary)
-+	if (min_index < 0)
- 		return ret ? ret : -ESCH_BW_OVERFLOW;
- 
- 	sch_ep->offset = min_index;
--	sch_ep->cs_count = min_cs_count;
--	sch_ep->num_budget_microframes = min_num_budget;
- 
- 	return load_ep_bw(sch_bw, sch_ep, true);
- }
--- 
-2.18.0
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  drivers/usb/host/xhci-mtk.c | 2 --
+>  drivers/usb/host/xhci-mtk.h | 8 ++++----
+>  2 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+> index b2058b3bc834..2548976bcf05 100644
+> --- a/drivers/usb/host/xhci-mtk.c
+> +++ b/drivers/usb/host/xhci-mtk.c
+> @@ -495,8 +495,6 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+>  			goto put_usb2_hcd;
+>  		}
+>  		mtk->has_ippc = true;
+> -	} else {
+> -		mtk->has_ippc = false;
 
+Why did you remove this chunk?  That is not described in the changelog
+at all.
+
+thanks,
+
+greg k-h
