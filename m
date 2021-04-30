@@ -2,126 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A082C43470
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:19:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E065BC433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:38:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26B596144E
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:19:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A77A7613AD
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 03:38:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229902AbhD3DUI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Apr 2021 23:20:08 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:45429 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229582AbhD3DUD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Apr 2021 23:20:03 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id DD4CA5809A7;
-        Thu, 29 Apr 2021 23:19:14 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 29 Apr 2021 23:19:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm2; bh=7a3B4rcYlKzes6Q1o/O33ZK9lp
-        KHHVnQxsvgMFUEdxc=; b=B5qp+eO0DskdaIxSYZIKB/GwTM8+gaEYMI2eWpmXFQ
-        XKh623relchjKSnt/H/q5WHOk4YdrumJ/YK4/nwdhFZuh9yCb04gxZynuA95wntG
-        B/kjQwfvIZ1EOmKzSyL7wDaEioelOj5BrX05LQp1t5Pm0phEkvx+TCG2kf0hORcI
-        UmtRxIYgn8MDCFVb+PT9nDVzxGJhrKQZ1q72QsQX63V9eG5Bj/iZ5vwNurRUoiY7
-        YYhM04mVRSA2CNbp59eudQk0rWZeTCBz6xpQQFmKThbHVatvephk+jc5Os091vwg
-        1n74ISYJAU8ylSoZiFaoHEQRJwsV3YjBfFI5tkrLkXsA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7a3B4rcYlKzes6Q1o
-        /O33ZK9lpKHHVnQxsvgMFUEdxc=; b=imaUocYJKYptSmtmViFFsmMU1+4FKRnjB
-        YD0Y1wlVeW77YNI5RKLpJFVVN9DmDzS8rWs7bLzseLqhwgrYVDDTyDR1ypvt5lui
-        n+aNrrhzLkaYastnN2lqFpeH8+mn8HBgPvwJpXAtAECF+UB0CRWBi39qjWuVR8Jh
-        cnTCEiyTVjeSROtFuN6DAhH80u/d0GXD0yZn7R8zR7HH6cINi5sLgrWrbjbshRY7
-        s+1pVvcCxR5nSlurxtSt11Z0YAXrpRmEvt3bIO8shWA3ZTaDXRWlA5DEdC5CXTI9
-        lL25HSxN3bFULeFZjGfKC+D1wEA8+KxghfWDefX7kLmdmdNkDDAAg==
-X-ME-Sender: <xms:MneLYB6hHTawAtddmHnvxlCxcYUpQmVPfXkrfIz9vDlEx1NXueNKNQ>
-    <xme:MneLYO6p_HwnnZGopI4Y9N32wYXAQ4e3otZ8M9vgYtdcowBuaURpiF897x6qXhoC1
-    Rl4Dy0lVTRAk4_lMw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
-    ohhrgh
-X-ME-Proxy: <xmx:MneLYIeGCDtqjOJfRqJKFq0mpnHvcjJVE8nFcZ5OL3wTnJ_xjJmYLw>
-    <xmx:MneLYKL91SYbwWwMEcXDdguCEk0_fqyrz955zQzVIIU2w9qJ0jHG5g>
-    <xmx:MneLYFJOmFTYxRP7cKcQrNoC_Cyzf-K2Pswc6vxiwIzBtUjbv2_eGA>
-    <xmx:MneLYOXKzVJekHmPMeU0ThoQFXVwdhtjRWu_C0SsVJ8RtX4jxujggA>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA;
-        Thu, 29 Apr 2021 23:19:13 -0400 (EDT)
-From:   Samuel Holland <samuel@sholland.org>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 0/2] Allwinner H6 USB3 device tree updates
-Date:   Thu, 29 Apr 2021 22:19:10 -0500
-Message-Id: <20210430031912.42252-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.26.3
+        id S229599AbhD3DjV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Apr 2021 23:39:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51532 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229577AbhD3DjT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Apr 2021 23:39:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A38C6613AD;
+        Fri, 30 Apr 2021 03:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1619753911;
+        bh=62xpBMMoN3AZUrRgY+gs+zkDlkkWnEMVFBR8/hvHmAk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TABji03Yc2Uz5RoeVSnlLiu5JYNByHXM+VxBtmA2AMCMABU2UkZL/cKctsGi2NC9V
+         xibHvTMiOp+FB+uHYjLEt47QgseDRkjrt+Clp+sN/si4Ugp/GCV3B4kEQmoQQ9zN4F
+         E/eQ+Q6BOetOlwciv9gJZLf9TLjCTfpRCyyTMddsL4qo3uB81jFsIXJlO2xGbrah4h
+         KW+OkYFtMfhqH+mXivpPoABPBd+y9+gLYHOo9WpN6LK6xSiZWPo1NwBuPDLhgRuZvt
+         xnpNgzxbt0HPRPCDC+GY73NUujxwwJQPl2vYdyOQNmrU4JiNcoX7vB383ZgxeS5+c5
+         au/jB5TAA9ljQ==
+Date:   Fri, 30 Apr 2021 11:38:26 +0800
+From:   Peter Chen <peter.chen@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Souptick Joarder <jrdr.linux@gmail.com>, pawell@cadence.com,
+        rogerq@kernel.org, a-govindraju@ti.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: cdns3: Corrected comment to align with
+ kernel-doc comment
+Message-ID: <20210430033826.GA3842@nchen>
+References: <1619338565-4574-1-git-send-email-jrdr.linux@gmail.com>
+ <8cbc9ed6-4499-642c-3b49-53e80974f004@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8cbc9ed6-4499-642c-3b49-53e80974f004@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While implementing support for this USB controller in U-Boot, I noticed
-that the reset line alsp affects they PHY. It looks like most platforms
-use a separate glue node to represent this, and in fact there is already
-a compatible for the H6 listed in drivers/usb/dwc3/dwc3-of-simple.c.
+On 21-04-25 08:53:33, Randy Dunlap wrote:
+> On 4/25/21 1:16 AM, Souptick Joarder wrote:
+> > Minor update in comment.
+> > 
+> > Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+> > ---
+> > v2:
+> > 	Updated change logs and address review comment.
+> 
+> LGTM. Thanks.
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Since this layout matches the usual way of modeling this hardware, it
-allows using the existing drivers without adding platform-specific code.
+Applied, thanks.
 
+Peter
 
-I tried to follow the existing DWC3 glue bindings (most of which are
-still .txt). With this version, `make dt_binding_check` still raises a
-couple of issues, which I do not know how best to fix:
-
-  - Warning (unit_address_vs_reg): /example-0/usb@5200000: node has a
-    unit name, but no reg or ranges property
-    => Since there is no MMIO translation, an empty `ranges;` seemed
-       appropriate, but it causes this warning.
-
-  - usb@5200000: usb@5200000:phy-names:0: 'usb2-phy' was expected
-    => This may be an issue with the snps,dwc3 binding, where the
-       `items` list overrides `minItems`. I believe the intention is
-       that both PHY references are optional. This implementation has
-       only one PHY.
-
-Changes from v1 to v2:
-  - Updated the binding to reference the PHY binding by path correctly
-  - Dropped DT updates for Pine H64
-
-Samuel Holland (2):
-  dt-bindings: usb: Document the Allwinner H6 DWC3 glue
-  arm64: dts: allwinner: h6: Wrap DWC3 and PHY in glue layer
-
- .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
- .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  6 +-
- .../dts/allwinner/sun50i-h6-orangepi-3.dts    |  6 +-
- .../dts/allwinner/sun50i-h6-tanix-tx6.dts     |  6 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 60 ++++++++-------
- 5 files changed, 111 insertions(+), 42 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+> 
+> >  drivers/usb/cdns3/cdns3-gadget.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
+> > index 9b1bd41..21f026c 100644
+> > --- a/drivers/usb/cdns3/cdns3-gadget.c
+> > +++ b/drivers/usb/cdns3/cdns3-gadget.c
+> > @@ -484,7 +484,7 @@ static void __cdns3_descmiss_copy_data(struct usb_request *request,
+> >  }
+> >  
+> >  /**
+> > - * cdns3_wa2_descmiss_copy_data copy data from internal requests to
+> > + * cdns3_wa2_descmiss_copy_data - copy data from internal requests to
+> >   * request queued by class driver.
+> >   * @priv_ep: extended endpoint object
+> >   * @request: request object
+> > 
+> 
+> 
+> -- 
+> ~Randy
+> 
 
 -- 
-2.26.3
+
+Thanks,
+Peter Chen
 
