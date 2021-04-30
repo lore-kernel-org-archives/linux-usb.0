@@ -2,104 +2,212 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A97DC433B4
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EAC7C433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:07:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1554161474
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:03:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E5636143D
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:07:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhD3KEn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Apr 2021 06:04:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55362 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229699AbhD3KEn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 30 Apr 2021 06:04:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9BF7E61434;
-        Fri, 30 Apr 2021 10:03:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619777035;
-        bh=EsspZG1wgaNj6zxFbJZ+pC1jl1In7YfEjcxpJcD5C18=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Ks9kPDTlsbf2k8QONXVwjyYdmNM/oLdGwKS0at8YnVdOs3m55uX7awgXTVceT5Ba3
-         tUDkg+IpykT8Hpm6jSGlGpGq1Ir1Dcb+L4NaoyXOwltM0cuFF93SH4FT36Ov1IHcov
-         /Eu02B1s+jE+cYfpttFk1rMrQ2ClrfhrtTTpxhioNcPrZg1FQfNBbn5rr6dLS75QJ3
-         Zx1Z/P7ots5vBYinbNGLKckI3hK3lgxPdGVvd1oVn9O6wYiK50cuYEfH7ntbvvVKg9
-         /eWN9C0ehC9M8nf+ziwpow4q7r9pLxYPpyYEclrRh1YZTG5s4kmBv1kIn5TZugzX1K
-         g2UdsmTs+ozag==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Heiko Schocher <hs@denx.de>, linux-arm-kernel@lists.infradead.org
-Cc:     Heiko Schocher <hs@denx.de>, Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Teresa Remmet <t.remmet@phytec.de>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3: imx8mp: detect dwc3 child nodes with name
- "usb*"
-In-Reply-To: <20210430091512.1026996-1-hs@denx.de>
-References: <20210430091512.1026996-1-hs@denx.de>
-Date:   Fri, 30 Apr 2021 13:03:45 +0300
-Message-ID: <87o8dwhywu.fsf@kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+        id S229927AbhD3KIB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Apr 2021 06:08:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229559AbhD3KIB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 06:08:01 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B4EAC06138B
+        for <linux-usb@vger.kernel.org>; Fri, 30 Apr 2021 03:07:13 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id y124-20020a1c32820000b029010c93864955so1386485wmy.5
+        for <linux-usb@vger.kernel.org>; Fri, 30 Apr 2021 03:07:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=wAAGefM9sm57xiN8JQJSPXwevk+dd6E4rB1SsM48CbU=;
+        b=Llp3Dr743bzV60MTDHCrO3FxpemA4WuzUbDP+bvDBtekrEk5qOnHD2iBnyVRdA1V33
+         ENaPaiDhf63nPz3+zSXhwxXQeJd+tlN1CJ9gg98ucDHuWWoDqc7LhP6+TBg20U2b3pNG
+         25dLavMX1/FeWqvCqol6GS8HH5rqv4qv6H2R3Fjnhg9xo0IIA23pohHF8TyAm97FwED3
+         Gu9/m828PIRwe3jfASUwXayMoTIQ9nNgP813lOFK/Xoo4HSXdIqBzHje4OUvQjo/Ux3t
+         rmQJO42RloFFA/bHJJTlYeT0BDeskx0pC4ksgRF5oR2MHn/m4q+ydpGK8gDnhZhr/J+i
+         NBbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wAAGefM9sm57xiN8JQJSPXwevk+dd6E4rB1SsM48CbU=;
+        b=cCia0WkgKoQNh9HgYaIMcoJgLaEtgoHWmj6JdYsgXz7Rhwyaitun+TYZDarqHBhNL9
+         XMPJRBltkYJZBGMXiV9goTvX/QcAx9lNeemfmZYgrcaDLeAGAWMKVkkYe2FCYouGq+bw
+         ZrxqNsQGA4/ehX6OjpXHtW5BSI8aPh9Fxy8aCOMKkeOg9WyBiYMFWSHVz8lGGDSfNSgy
+         5ded+19lZpti0TZ287xlAxAzZ3ss2LNPsStKFt+5NQH+PrNEOqekokJPx2Q03qIrXXg7
+         Efef9A657KknNfPXaXpXyr4m5E7oPPM25ubtb+vwUwyUUsXsJPthx/dVHezi91Ou1gWj
+         tpxw==
+X-Gm-Message-State: AOAM530P0UfRKnbDH/tSkJTt00GPux3MGBO88VncD83MOl6pr71b3ZfR
+        tPwwSFKMApqC8o1X32Ryb1RcvA==
+X-Google-Smtp-Source: ABdhPJxw86oLMz/XYV0lthPwKxtBCHZ9hTpK4WiXhlfrjF5G+/0OnGaJyDhZgpZS7xqcitNHj/2DVg==
+X-Received: by 2002:a1c:540b:: with SMTP id i11mr15822473wmb.40.1619777231980;
+        Fri, 30 Apr 2021 03:07:11 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:82c:5f0:f8f5:7ac7:d0f:4a85])
+        by smtp.gmail.com with ESMTPSA id a15sm2192069wrx.9.2021.04.30.03.07.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Apr 2021 03:07:11 -0700 (PDT)
+From:   Loic Poulain <loic.poulain@linaro.org>
+To:     oliver@neukum.org
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org, kuba@kernel.org,
+        bjorn@mork.no, Loic Poulain <loic.poulain@linaro.org>
+Subject: [RFC net-next 1/2] usb: class: cdc-wdm: add control type
+Date:   Fri, 30 Apr 2021 12:16:22 +0200
+Message-Id: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Add type parameter to usb_cdc_wdm_register function in order to
+specify which control protocol the cdc-wdm channel is transporting.
+It will be required for exposing the channel(s) through WWAN framework.
 
-Heiko Schocher <hs@denx.de> writes:
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+---
+ drivers/net/usb/cdc_mbim.c       |  1 +
+ drivers/net/usb/huawei_cdc_ncm.c |  1 +
+ drivers/net/usb/qmi_wwan.c       |  3 ++-
+ drivers/usb/class/cdc-wdm.c      | 13 +++++++++----
+ include/linux/usb/cdc-wdm.h      | 16 +++++++++++++++-
+ 5 files changed, 28 insertions(+), 6 deletions(-)
 
-> commit:
-> d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child node "=
-snps, dwc3")
->
-> renamed "dwc3@3*" nodes in imx8mp.dtsi to "usb@3*"
->
-> glue layer dwc3-imx8mp.c searches for "dwc3" and so drop failure
-> on boot:
-> imx8mp-dwc3 32f10100.usb: failed to find dwc3 core child
-> imx8mp-dwc3: probe of 32f10100.usb failed with error 1
-> imx8mp-dwc3 32f10108.usb: failed to find dwc3 core child
-> imx8mp-dwc3: probe of 32f10108.usb failed with error 1
->
-> now. Fix this (and allow old style too)
->
-> Tested on "PHYTEC phyBOARD-Pollux i.MX8MP" board.
->
-> fixes: d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child=
- node "snps, dwc3")
-> Signed-off-by: Heiko Schocher <hs@denx.de>
+diff --git a/drivers/net/usb/cdc_mbim.c b/drivers/net/usb/cdc_mbim.c
+index 5db6627..63b134b 100644
+--- a/drivers/net/usb/cdc_mbim.c
++++ b/drivers/net/usb/cdc_mbim.c
+@@ -168,6 +168,7 @@ static int cdc_mbim_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		subdriver = usb_cdc_wdm_register(ctx->control,
+ 						 &dev->status->desc,
+ 						 le16_to_cpu(ctx->mbim_desc->wMaxControlMessage),
++						 USB_CDC_WDM_MBIM,
+ 						 cdc_mbim_wdm_manage_power);
+ 	if (IS_ERR(subdriver)) {
+ 		ret = PTR_ERR(subdriver);
+diff --git a/drivers/net/usb/huawei_cdc_ncm.c b/drivers/net/usb/huawei_cdc_ncm.c
+index a87f0da..388a46b 100644
+--- a/drivers/net/usb/huawei_cdc_ncm.c
++++ b/drivers/net/usb/huawei_cdc_ncm.c
+@@ -96,6 +96,7 @@ static int huawei_cdc_ncm_bind(struct usbnet *usbnet_dev,
+ 		subdriver = usb_cdc_wdm_register(ctx->control,
+ 						 &usbnet_dev->status->desc,
+ 						 1024, /* wMaxCommand */
++						 USB_CDC_WDM_AT,
+ 						 huawei_cdc_ncm_wdm_manage_power);
+ 	if (IS_ERR(subdriver)) {
+ 		ret = PTR_ERR(subdriver);
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 17a0505..fa38471 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -724,7 +724,8 @@ static int qmi_wwan_register_subdriver(struct usbnet *dev)
+ 
+ 	/* register subdriver */
+ 	subdriver = usb_cdc_wdm_register(info->control, &dev->status->desc,
+-					 4096, &qmi_wwan_cdc_wdm_manage_power);
++					 4096, USB_CDC_WDM_QMI,
++					 &qmi_wwan_cdc_wdm_manage_power);
+ 	if (IS_ERR(subdriver)) {
+ 		dev_err(&info->control->dev, "subdriver registration failed\n");
+ 		rv = PTR_ERR(subdriver);
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index 508b1c3..b59f146 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -106,6 +106,8 @@ struct wdm_device {
+ 
+ 	struct list_head	device_list;
+ 	int			(*manage_power)(struct usb_interface *, int);
++
++	enum usb_cdc_wdm_type	type;
+ };
+ 
+ static struct usb_driver wdm_driver;
+@@ -836,7 +838,8 @@ static void service_interrupt_work(struct work_struct *work)
+ /* --- hotplug --- */
+ 
+ static int wdm_create(struct usb_interface *intf, struct usb_endpoint_descriptor *ep,
+-		u16 bufsize, int (*manage_power)(struct usb_interface *, int))
++		      u16 bufsize, enum usb_cdc_wdm_type type,
++		      int (*manage_power)(struct usb_interface *, int))
+ {
+ 	int rv = -ENOMEM;
+ 	struct wdm_device *desc;
+@@ -853,6 +856,7 @@ static int wdm_create(struct usb_interface *intf, struct usb_endpoint_descriptor
+ 	/* this will be expanded and needed in hardware endianness */
+ 	desc->inum = cpu_to_le16((u16)intf->cur_altsetting->desc.bInterfaceNumber);
+ 	desc->intf = intf;
++	desc->type = type;
+ 	INIT_WORK(&desc->rxwork, wdm_rxwork);
+ 	INIT_WORK(&desc->service_outs_intr, service_interrupt_work);
+ 
+@@ -977,7 +981,7 @@ static int wdm_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		goto err;
+ 	ep = &iface->endpoint[0].desc;
+ 
+-	rv = wdm_create(intf, ep, maxcom, &wdm_manage_power);
++	rv = wdm_create(intf, ep, maxcom, USB_CDC_WDM_UNKNOWN, &wdm_manage_power);
+ 
+ err:
+ 	return rv;
+@@ -988,6 +992,7 @@ static int wdm_probe(struct usb_interface *intf, const struct usb_device_id *id)
+  * @intf: usb interface the subdriver will associate with
+  * @ep: interrupt endpoint to monitor for notifications
+  * @bufsize: maximum message size to support for read/write
++ * @type: Type/protocol of the transported data (MBIM, QMI...)
+  * @manage_power: call-back invoked during open and release to
+  *                manage the device's power
+  * Create WDM usb class character device and associate it with intf
+@@ -1005,12 +1010,12 @@ static int wdm_probe(struct usb_interface *intf, const struct usb_device_id *id)
+  */
+ struct usb_driver *usb_cdc_wdm_register(struct usb_interface *intf,
+ 					struct usb_endpoint_descriptor *ep,
+-					int bufsize,
++					int bufsize, enum usb_cdc_wdm_type type,
+ 					int (*manage_power)(struct usb_interface *, int))
+ {
+ 	int rv;
+ 
+-	rv = wdm_create(intf, ep, bufsize, manage_power);
++	rv = wdm_create(intf, ep, bufsize, type, manage_power);
+ 	if (rv < 0)
+ 		goto err;
+ 
+diff --git a/include/linux/usb/cdc-wdm.h b/include/linux/usb/cdc-wdm.h
+index 9b895f9..ba9702d 100644
+--- a/include/linux/usb/cdc-wdm.h
++++ b/include/linux/usb/cdc-wdm.h
+@@ -14,9 +14,23 @@
+ 
+ #include <uapi/linux/usb/cdc-wdm.h>
+ 
++/**
++ * enum usb_cdc_wdm_type - CDC WDM endpoint type
++ * @USB_CDC_WDM_UNKNOWN: Unknown type
++ * @USB_CDC_WDM_MBIM: Mobile Broadband Interface Model control
++ * @USB_CDC_WDM_QMI: Qualcomm Modem Interface for modem control
++ * @USB_CDC_WDM_AT: AT commands interface
++ */
++enum usb_cdc_wdm_type {
++	USB_CDC_WDM_UNKNOWN,
++	USB_CDC_WDM_MBIM,
++	USB_CDC_WDM_QMI,
++	USB_CDC_WDM_AT
++};
++
+ extern struct usb_driver *usb_cdc_wdm_register(struct usb_interface *intf,
+ 					struct usb_endpoint_descriptor *ep,
+-					int bufsize,
++					int bufsize, enum usb_cdc_wdm_type type,
+ 					int (*manage_power)(struct usb_interface *, int));
+ 
+ #endif /* __LINUX_USB_CDC_WDM_H */
+-- 
+2.7.4
 
-already sent, see https://lore.kernel.org/r/1619765836-20387-1-git-send-ema=
-il-jun.li@nxp.com
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmCL1gERHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzlfNM9wDzUiqMQgAkPTeaoKTrLM3Twvb0gZVanRZuuC5+uCq
-UM9HH/Lj08k9Z9JLyDH3iqiXhFMupGeBlj41yjQrOStg/gFzyzoqlzpxhHgscXix
-kO942is5cV7e71rz09f5NYi2QhL5CZ//KgUptJ6VWZUaV8KC/6cAFTcvsdoKMyj1
-tV7mEY7dBiEttAT8wmUqOqchOBW7zX8OyQhgM1EbVqdgJM/kGUKd/Q+OTPogpnd+
-3kGWQ5U1OgXILnsZH4VV9i8E+EGNwdHF6XE3TjFEkbM4NwLK9Xiv6j16B3IRoJ8h
-vw+EfB60BhPwLGbnw9PTjN7IImVmdkYgfg56bnOFdbEVXpTE3TPsPg==
-=8edI
------END PGP SIGNATURE-----
---=-=-=--
