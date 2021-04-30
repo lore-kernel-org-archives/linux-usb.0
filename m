@@ -2,334 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40420C433B4
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:07:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12396C43460
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 066F36143B
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:07:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D12E56147F
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:15:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231476AbhD3KIF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Apr 2021 06:08:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45304 "EHLO
+        id S229874AbhD3KPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Apr 2021 06:15:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230087AbhD3KIE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 06:08:04 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54BBCC06138B
-        for <linux-usb@vger.kernel.org>; Fri, 30 Apr 2021 03:07:15 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id m9so57171480wrx.3
-        for <linux-usb@vger.kernel.org>; Fri, 30 Apr 2021 03:07:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=PDnfVuA/JjrNJVnGCOpMCSMgyBp4BBB6tbf0UxNJ/kE=;
-        b=LoTVZ8D7BEz3yq3hBHaLdUYIjRe2HkhxmZZQtVf+Ljobzl3EEYoWXht3ninBE0plDI
-         VlYk2FX/dDzdVy7mbHRueAA0xXYIQYHtmdZxe1Ljr7YhZfWJQqAIclUwmMECDN8v0uei
-         iItyCxk5saOW0GvKFl77pYGDEIVtKDCyHVCGHPKR2OrCYfFUz61i0nGJ8MeHI8hVqVO0
-         dNeNVPUODgbXmGVIEWfvLDDSs891AlteEMQpWYSlgE0nZ10kz3yHlhz21EJobpFJGFHh
-         lf3Afffy22hXGxFHxoXpOwCEU/3P/KE7BotnAy14t9w9+vZH0a8Zo5CicY7Cd5c2Dc1e
-         vCuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=PDnfVuA/JjrNJVnGCOpMCSMgyBp4BBB6tbf0UxNJ/kE=;
-        b=SAr3ArX8uGcwZfoKR6ETjc6PjyHF4dOQ1QoS9GpBJlhqimGXdgjB3uCD4Ws/n49dli
-         G1hMTTMzzCgKaoXDnVuRKkDcRk7dvAvurdp1a5lE3cBD6W9piJXhgQBrjEVRtNju5tbX
-         fL7XNcPl2nbC/NG9bw0vDM2yBk4WifQkFHr9F0QlCcfY4oxDuJPKnNsPEyIMnozWPKPO
-         lRg6WTm+rlr2U0U4JzaY69FC2sCpUoPPvLS3TgPx2RAt1PkyOmenehkgh9R4CewrCDeK
-         noJYt3w73LLf+rgCMVOtW1zJvdUWgzwN2HM4dtHT6kSoLyxi38uhWCLbqE3U6ksLm4t8
-         hRNA==
-X-Gm-Message-State: AOAM531l4B6fafG6F3hC7TBYfWYmkcRT1lViBihgEv2V4YElLZj4GlXz
-        cmy/3g7LzjK4bZZg32U8Qz63vQ==
-X-Google-Smtp-Source: ABdhPJxTdVoNcnHiBB1W/YXmHOtVq0J77k7fIQNm7fMRvBR1p4eVCejkZpOK9DNhdNO6ivtt54NIfg==
-X-Received: by 2002:a5d:674c:: with SMTP id l12mr5619361wrw.357.1619777233992;
-        Fri, 30 Apr 2021 03:07:13 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:82c:5f0:f8f5:7ac7:d0f:4a85])
-        by smtp.gmail.com with ESMTPSA id a15sm2192069wrx.9.2021.04.30.03.07.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 30 Apr 2021 03:07:13 -0700 (PDT)
-From:   Loic Poulain <loic.poulain@linaro.org>
-To:     oliver@neukum.org
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org, kuba@kernel.org,
-        bjorn@mork.no, Loic Poulain <loic.poulain@linaro.org>
-Subject: [RFC net-next 2/2] usb: class: cdc-wdm: WWAN framework integration
-Date:   Fri, 30 Apr 2021 12:16:23 +0200
-Message-Id: <1619777783-24116-2-git-send-email-loic.poulain@linaro.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
-References: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
+        with ESMTP id S229543AbhD3KPw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 06:15:52 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6066C06174A;
+        Fri, 30 Apr 2021 03:15:04 -0700 (PDT)
+Received: from [192.168.1.107] (unknown [81.0.122.160])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: hs@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 239B282A8B;
+        Fri, 30 Apr 2021 12:15:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1619777703;
+        bh=GvJpbj/IkUt6NOGcBJRfVARVgloLsNnxV0D+I2RPASU=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=M25zclbgun5gh3CTuDQSW2XO8xr85zjfRUafPBHl+hyi/TdJr4e4thfNQdiqC+GSF
+         zq9xarQ8gRRlU3AmPw3oDGJLEgMQf8NstcElUFTPnDTHkCW1AjHn1cJJXsjvQSbu45
+         ihHJEgw543lBa+zryPdXxtaqA4lXMhs4rwR3ydY566J2J92e8GTSXujlSgwYk7Gkd5
+         xm7lm2yMTuJ53NWUO0P8lwAsYy2faPXmJrLns9gjYYX0OZqUSBVRlxv2mV0+v3j78d
+         VZeP/bKvoqa9vMJefGCjDp+CkDS3WcM+NwxScDG0nelJl4JOyVkyK4/eN9O/AhebsQ
+         xNyaucHYstUsg==
+Reply-To: hs@denx.de
+Subject: Re: [PATCH] usb: dwc3: imx8mp: detect dwc3 child nodes with name
+ "usb*"
+To:     Felipe Balbi <balbi@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Teresa Remmet <t.remmet@phytec.de>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20210430091512.1026996-1-hs@denx.de> <87o8dwhywu.fsf@kernel.org>
+From:   Heiko Schocher <hs@denx.de>
+Message-ID: <94d4d4ca-4910-99fa-18cf-478daeccc3b4@denx.de>
+Date:   Fri, 30 Apr 2021 12:15:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <87o8dwhywu.fsf@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The WWAN framework provides a unified way to handle WWAN/modems and
-control port(s). It has initially been introduced to support MHI/PCI
-modems, offering the same control protocols as the USB variants,
-such as MBIM, QMI, AT... The WWAN framework exposes these control
-protocols as character devices, similarly to cdc-wdm, but in a
-bus agnostic fashion.
+Hi Felipe,
 
-It would then make sense to migrate cdc-wdm to this unified framework
-and register the USB modem control endpoints as standard WWAN control
-ports.
+On 30.04.21 12:03, Felipe Balbi wrote:
+> Heiko Schocher <hs@denx.de> writes:
+> 
+>> commit:
+>> d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child node "snps, dwc3")
+>>
+>> renamed "dwc3@3*" nodes in imx8mp.dtsi to "usb@3*"
+>>
+>> glue layer dwc3-imx8mp.c searches for "dwc3" and so drop failure
+>> on boot:
+>> imx8mp-dwc3 32f10100.usb: failed to find dwc3 core child
+>> imx8mp-dwc3: probe of 32f10100.usb failed with error 1
+>> imx8mp-dwc3 32f10108.usb: failed to find dwc3 core child
+>> imx8mp-dwc3: probe of 32f10108.usb failed with error 1
+>>
+>> now. Fix this (and allow old style too)
+>>
+>> Tested on "PHYTEC phyBOARD-Pollux i.MX8MP" board.
+>>
+>> fixes: d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child node "snps, dwc3")
+>> Signed-off-by: Heiko Schocher <hs@denx.de>
+> 
+> already sent, see https://lore.kernel.org/r/1619765836-20387-1-git-send-email-jun.li@nxp.com
 
-Exposing cdc-wdm through WWAN framework normally maintains backward
-compatibility, e.g:
-    $ qmicli --device-open-qmi -d /dev/wwan0p1QMI --dms-get-ids
-instead of
-    $ qmicli --device-open-qmi -d /dev/cdc-wdm0 --dms-get-ids
+Ah, great. Missed this patch, thanks!
 
-However, some tools may rely on cdc-wdm driver/device name for device
-detection. It is then safer to keep the 'legacy' cdc-wdm character
-device to prevent any breakage. This is handled in this change by
-API mutual exclusion, only one access method can be used at a time,
-either cdc-wdm chardev or WWAN API.
+So, please forget this patch.
 
-Note that unknown channel types (other than MBIM, AT or MBIM) are not
-registered to the WWAN framework.
-
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
----
- drivers/usb/class/cdc-wdm.c | 171 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 170 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index b59f146..7b798b5 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -23,6 +23,7 @@
- #include <linux/poll.h>
- #include <linux/usb.h>
- #include <linux/usb/cdc.h>
-+#include <linux/wwan.h>
- #include <asm/byteorder.h>
- #include <asm/unaligned.h>
- #include <linux/usb/cdc-wdm.h>
-@@ -55,6 +56,7 @@ MODULE_DEVICE_TABLE (usb, wdm_ids);
- #define WDM_SUSPENDING		8
- #define WDM_RESETTING		9
- #define WDM_OVERFLOW		10
-+#define WDM_WWAN_IN_USE		11
- 
- #define WDM_MAX			16
- 
-@@ -108,6 +110,7 @@ struct wdm_device {
- 	int			(*manage_power)(struct usb_interface *, int);
- 
- 	enum usb_cdc_wdm_type	type;
-+	struct wwan_port	*wwanp;
- };
- 
- static struct usb_driver wdm_driver;
-@@ -203,7 +206,23 @@ static void wdm_in_callback(struct urb *urb)
- 	if (desc->rerr == 0 && status != -EPIPE)
- 		desc->rerr = status;
- 
--	if (length + desc->length > desc->wMaxCommand) {
-+	if (test_bit(WDM_WWAN_IN_USE, &desc->flags)) {
-+		struct wwan_port *port = desc->wwanp;
-+		struct sk_buff *skb;
-+
-+		/* Forward data to WWAN port */
-+		skb = alloc_skb(length, GFP_ATOMIC);
-+		if (skb) {
-+			memcpy(skb_put(skb, length), desc->inbuf, length);
-+			wwan_port_rx(port, skb);
-+		} else {
-+			dev_err(&desc->intf->dev,
-+				"Unable to alloc skb, response discarded\n");
-+		}
-+
-+		/* inbuf has been copied, it is safe to check for outstanding data */
-+		schedule_work(&desc->service_outs_intr);
-+	} else if (length + desc->length > desc->wMaxCommand) {
- 		/* The buffer would overflow */
- 		set_bit(WDM_OVERFLOW, &desc->flags);
- 	} else {
-@@ -699,6 +718,11 @@ static int wdm_open(struct inode *inode, struct file *file)
- 		goto out;
- 	file->private_data = desc;
- 
-+	if (test_bit(WDM_WWAN_IN_USE, &desc->flags)) {
-+		rv = -EBUSY;
-+		goto out;
-+	}
-+
- 	rv = usb_autopm_get_interface(desc->intf);
- 	if (rv < 0) {
- 		dev_err(&desc->intf->dev, "Error autopm - %d\n", rv);
-@@ -794,6 +818,146 @@ static struct usb_class_driver wdm_class = {
- 	.minor_base =	WDM_MINOR_BASE,
- };
- 
-+/* --- WWAN framework integration --- */
-+#ifdef CONFIG_WWAN
-+static int wdm_wwan_port_start(struct wwan_port *port)
-+{
-+	struct wdm_device *desc = wwan_port_get_drvdata(port);
-+
-+	/* The interface is both exposed via the WWAN framework and as a
-+	 * legacy usbmisc chardev. If chardev is already open, just fail
-+	 * to prevent concurrent usage. Otherwise, switch to WWAN mode.
-+	 */
-+	mutex_lock(&wdm_mutex);
-+	if (desc->count) {
-+		mutex_unlock(&wdm_mutex);
-+		return -EBUSY;
-+	}
-+	set_bit(WDM_WWAN_IN_USE, &desc->flags);
-+	mutex_unlock(&wdm_mutex);
-+
-+	desc->manage_power(desc->intf, 1);
-+
-+	/* Start getting events */
-+	usb_submit_urb(desc->validity, GFP_KERNEL);
-+
-+	/* tx is allowed */
-+	wwan_port_txon(port);
-+
-+	return 0;
-+}
-+
-+static void wdm_wwan_port_stop(struct wwan_port *port)
-+{
-+	struct wdm_device *desc = wwan_port_get_drvdata(port);
-+
-+	/* Stop all transfers and disable WWAN mode */
-+	kill_urbs(desc);
-+	desc->manage_power(desc->intf, 0);
-+	clear_bit(WDM_READ, &desc->flags);
-+	clear_bit(WDM_WWAN_IN_USE, &desc->flags);
-+}
-+
-+static void wdm_wwan_port_tx_complete(struct urb *urb)
-+{
-+	struct sk_buff *skb = urb->context;
-+	struct wwan_port *port = skb_shinfo(skb)->destructor_arg;
-+
-+	/* Allow new command transfer */
-+	wwan_port_txon(port);
-+	kfree_skb(skb);
-+}
-+
-+static int wdm_wwan_port_tx(struct wwan_port *port, struct sk_buff *skb)
-+{
-+	struct wdm_device *desc = wwan_port_get_drvdata(port);
-+	struct usb_interface *intf = desc->intf;
-+	struct usb_ctrlrequest *req = desc->orq;
-+	int rv;
-+
-+	rv = usb_autopm_get_interface(intf);
-+	if (rv)
-+		return rv;
-+
-+	usb_fill_control_urb(
-+		desc->command,
-+		interface_to_usbdev(intf),
-+		usb_sndctrlpipe(interface_to_usbdev(intf), 0),
-+		(unsigned char *)req,
-+		skb->data,
-+		skb->len,
-+		wdm_wwan_port_tx_complete,
-+		skb
-+	);
-+
-+	req->bRequestType = (USB_DIR_OUT | USB_TYPE_CLASS | USB_RECIP_INTERFACE);
-+	req->bRequest = USB_CDC_SEND_ENCAPSULATED_COMMAND;
-+	req->wValue = 0;
-+	req->wIndex = desc->inum;
-+	req->wLength = cpu_to_le16(skb->len);
-+
-+	skb_shinfo(skb)->destructor_arg = port;
-+
-+	rv = usb_submit_urb(desc->command, GFP_KERNEL);
-+	if (!rv) /* One transfer at a time, stop TX until URB completion */
-+		wwan_port_txoff(port);
-+
-+	usb_autopm_put_interface(intf);
-+
-+	return rv;
-+}
-+
-+static struct wwan_port_ops wdm_wwan_port_ops = {
-+	.start = wdm_wwan_port_start,
-+	.stop = wdm_wwan_port_stop,
-+	.tx = wdm_wwan_port_tx,
-+};
-+
-+static void wdm_wwan_init(struct wdm_device *desc)
-+{
-+	struct usb_interface *intf = desc->intf;
-+	struct wwan_port *port;
-+
-+	switch (desc->type) {
-+	case USB_CDC_WDM_MBIM:
-+		port = wwan_create_port(&intf->dev, WWAN_PORT_MBIM,
-+					&wdm_wwan_port_ops, desc);
-+		break;
-+	case USB_CDC_WDM_QMI:
-+		port = wwan_create_port(&intf->dev, WWAN_PORT_QMI,
-+					&wdm_wwan_port_ops, desc);
-+		break;
-+	case USB_CDC_WDM_AT:
-+		port = wwan_create_port(&intf->dev, WWAN_PORT_AT,
-+					&wdm_wwan_port_ops, desc);
-+		break;
-+	default:
-+		dev_info(&intf->dev, "Unknown control protocol\n");
-+		return;
-+	}
-+
-+	if (IS_ERR(port)) {
-+		dev_err(&intf->dev, "%s: Unable to create WWAN port\n",
-+			dev_name(intf->usb_dev));
-+		return;
-+	}
-+
-+	desc->wwanp = port;
-+}
-+
-+static void wdm_wwan_deinit(struct wdm_device *desc)
-+{
-+	if (!desc->wwanp)
-+		return;
-+
-+	wwan_remove_port(desc->wwanp);
-+	desc->wwanp = NULL;
-+}
-+#else /* CONFIG_WWAN */
-+static void wdm_wwan_init(struct wdm_device *desc) {}
-+static void wdm_wwan_deinit(struct wdm_device *desc) {}
-+#endif /* CONFIG_WWAN */
-+
- /* --- error handling --- */
- static void wdm_rxwork(struct work_struct *work)
- {
-@@ -937,6 +1101,9 @@ static int wdm_create(struct usb_interface *intf, struct usb_endpoint_descriptor
- 		goto err;
- 	else
- 		dev_info(&intf->dev, "%s: USB WDM device\n", dev_name(intf->usb_dev));
-+
-+	wdm_wwan_init(desc);
-+
- out:
- 	return rv;
- err:
-@@ -1034,6 +1201,8 @@ static void wdm_disconnect(struct usb_interface *intf)
- 	desc = wdm_find_device(intf);
- 	mutex_lock(&wdm_mutex);
- 
-+	wdm_wwan_deinit(desc);
-+
- 	/* the spinlock makes sure no new urbs are generated in the callbacks */
- 	spin_lock_irqsave(&desc->iuspin, flags);
- 	set_bit(WDM_DISCONNECTING, &desc->flags);
+bye,
+Heiko
 -- 
-2.7.4
-
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
