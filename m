@@ -2,107 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12396C43460
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90A95C433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:32:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D12E56147F
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:15:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 637E56147E
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Apr 2021 10:32:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229874AbhD3KPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Apr 2021 06:15:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbhD3KPw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Apr 2021 06:15:52 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6066C06174A;
-        Fri, 30 Apr 2021 03:15:04 -0700 (PDT)
-Received: from [192.168.1.107] (unknown [81.0.122.160])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: hs@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 239B282A8B;
-        Fri, 30 Apr 2021 12:15:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1619777703;
-        bh=GvJpbj/IkUt6NOGcBJRfVARVgloLsNnxV0D+I2RPASU=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=M25zclbgun5gh3CTuDQSW2XO8xr85zjfRUafPBHl+hyi/TdJr4e4thfNQdiqC+GSF
-         zq9xarQ8gRRlU3AmPw3oDGJLEgMQf8NstcElUFTPnDTHkCW1AjHn1cJJXsjvQSbu45
-         ihHJEgw543lBa+zryPdXxtaqA4lXMhs4rwR3ydY566J2J92e8GTSXujlSgwYk7Gkd5
-         xm7lm2yMTuJ53NWUO0P8lwAsYy2faPXmJrLns9gjYYX0OZqUSBVRlxv2mV0+v3j78d
-         VZeP/bKvoqa9vMJefGCjDp+CkDS3WcM+NwxScDG0nelJl4JOyVkyK4/eN9O/AhebsQ
-         xNyaucHYstUsg==
-Reply-To: hs@denx.de
-Subject: Re: [PATCH] usb: dwc3: imx8mp: detect dwc3 child nodes with name
- "usb*"
-To:     Felipe Balbi <balbi@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Teresa Remmet <t.remmet@phytec.de>,
-        Zhen Lei <thunder.leizhen@huawei.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20210430091512.1026996-1-hs@denx.de> <87o8dwhywu.fsf@kernel.org>
-From:   Heiko Schocher <hs@denx.de>
-Message-ID: <94d4d4ca-4910-99fa-18cf-478daeccc3b4@denx.de>
-Date:   Fri, 30 Apr 2021 12:15:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229941AbhD3KdA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Apr 2021 06:33:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57594 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229793AbhD3Kc6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 30 Apr 2021 06:32:58 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1619778729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SRDn1eXWi0C3SNbb3dsMrSo7NV9H6pAw/K7T2xmhix0=;
+        b=rpf2Ge3xYNKc96PG5Zt87e3sCJ2rQy01JLvIsM8uXF56dQda6yHxpW4No9dd+ErPYINDhZ
+        ZeArl1fXyQdh/+oCMS59Rc68qoSHItcVxWHonBSrOyn9lmHF90iZ0hqJ+WTq7cT5cRGCIs
+        1e5/mzletz6t2APv3Jg3vuvMnu3MMwc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A0769B28F;
+        Fri, 30 Apr 2021 10:32:09 +0000 (UTC)
+Message-ID: <61b189cfd64e6d2a185ffc0178265caa693fa735.camel@suse.com>
+Subject: Re: [RFC net-next 1/2] usb: class: cdc-wdm: add control type
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Loic Poulain <loic.poulain@linaro.org>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org, kuba@kernel.org,
+        bjorn@mork.no
+Date:   Fri, 30 Apr 2021 12:32:05 +0200
+In-Reply-To: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
+References: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-In-Reply-To: <87o8dwhywu.fsf@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.102.4 at phobos.denx.de
-X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Felipe,
+Am Freitag, den 30.04.2021, 12:16 +0200 schrieb Loic Poulain:
+> Add type parameter to usb_cdc_wdm_register function in order to
+> specify which control protocol the cdc-wdm channel is transporting.
+> It will be required for exposing the channel(s) through WWAN framework.
 
-On 30.04.21 12:03, Felipe Balbi wrote:
-> Heiko Schocher <hs@denx.de> writes:
-> 
->> commit:
->> d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child node "snps, dwc3")
->>
->> renamed "dwc3@3*" nodes in imx8mp.dtsi to "usb@3*"
->>
->> glue layer dwc3-imx8mp.c searches for "dwc3" and so drop failure
->> on boot:
->> imx8mp-dwc3 32f10100.usb: failed to find dwc3 core child
->> imx8mp-dwc3: probe of 32f10100.usb failed with error 1
->> imx8mp-dwc3 32f10108.usb: failed to find dwc3 core child
->> imx8mp-dwc3: probe of 32f10108.usb failed with error 1
->>
->> now. Fix this (and allow old style too)
->>
->> Tested on "PHYTEC phyBOARD-Pollux i.MX8MP" board.
->>
->> fixes: d1689cd3c0f4: ("arm64: dts: imx8mp: Use the correct name for child node "snps, dwc3")
->> Signed-off-by: Heiko Schocher <hs@denx.de>
-> 
-> already sent, see https://lore.kernel.org/r/1619765836-20387-1-git-send-email-jun.li@nxp.com
+Hi,
 
-Ah, great. Missed this patch, thanks!
+that is an interesting framework.
+Some issues though.
 
-So, please forget this patch.
+	Regards
+		Oliver
 
-bye,
-Heiko
--- 
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
+> +/**
+> + * enum usb_cdc_wdm_type - CDC WDM endpoint type
+> + * @USB_CDC_WDM_UNKNOWN: Unknown type
+> + * @USB_CDC_WDM_MBIM: Mobile Broadband Interface Model control
+> + * @USB_CDC_WDM_QMI: Qualcomm Modem Interface for modem control
+> + * @USB_CDC_WDM_AT: AT commands interface
+> + */
+> +enum usb_cdc_wdm_type {
+> +	USB_CDC_WDM_UNKNOWN,
+> +	USB_CDC_WDM_MBIM,
+> +	USB_CDC_WDM_QMI,
+> +	USB_CDC_WDM_AT
+> +};
+
+
+If this is supposed to integrate CDC-WDM into a larger subsystem, what
+use are private types here? If you do this the protocols need to come
+from the common framework.
+
