@@ -7,45 +7,44 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52524C43461
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0A2C43470
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3984F611AE
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1378161208
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233573AbhEBOHc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:07:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51524 "EHLO mail.kernel.org"
+        id S232707AbhEBOHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:07:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232996AbhEBOGu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:06:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A5F55613D8;
-        Sun,  2 May 2021 14:05:48 +0000 (UTC)
+        id S233165AbhEBOG1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:06:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 96323613B0;
+        Sun,  2 May 2021 14:05:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964349;
-        bh=TsBqVVyyjxdC9PHa8Ph95yHSL6/Vd2/seeImbmewB/c=;
+        s=k20201202; t=1619964333;
+        bh=Jfp2iIYgHJRSaV2HyRvRnNTudasMjHvEd9wkE7q3ZyM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=shJhGOSokN10LCVHCg8ygzO+6rhVwlcZ77+qyFZ6hTSflnEYQKKDFr/l0EV/jFc1+
-         DC3g16XS4/Tl/bHw6dExW1pqWblRp+vQnQl7oNd5DbzXPWSiXALZnCrGPPLk8IbsxK
-         pBbO5ziQzqYyDMTUOSfGBOoAX3nDFusxizgEhpj6D/cjCkStIj5lEL+SrMyps9M5mH
-         /rBYc4zwQwVPFuW0niENWY2dMaq5GpvVkTE23HP7Vv/x+uvqBqrj3m7dlPnurHCoZj
-         qbFtug+LyjSAD4jLynXwrZwDQzuEJ+yGxkYsbte2xhJdyFzb1uNxJVFgfVrjLXyh6a
-         PFBo6pm0Ry3ug==
+        b=t7ESafim1Qbqapyl8xqbB+WwJ/0DxvLwicNtN7+KnlIe57VICQi8YWshLcbGVw93B
+         a/IoS08VXLtFrjap5rWWBGpoKKlrKPCuBvStKiUECiua6EEn9ttgMN192ePPuv20oT
+         c9kjxgmN9cWgvAFaNaIsBzPGBMxjey040Di3Bo7V34LXZNEvVTwbCp+vzOvl5CRDKg
+         aNx+HAAGmTJAM7kDp08rcsF/CsueES9oUkxpa+WfJrX9Lr8FuQwZK8Q6GeTE+tAuSf
+         nyrd2WCYCsHuUEXC5nmjZF4o8CMO1RjnRygc9OwVD8x6MAkdTXL6Yv/bBTYhw8Xn3i
+         7+CZgKBDktlWw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pawel Laszczak <pawell@cadence.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 03/16] usb: gadget: uvc: add bInterval checking for HS mode
-Date:   Sun,  2 May 2021 10:05:31 -0400
-Message-Id: <20210502140544.2720138-3-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 4.19 12/21] usb: xhci-mtk: support quirk to disable usb2 lpm
+Date:   Sun,  2 May 2021 10:05:08 -0400
+Message-Id: <20210502140517.2719912-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210502140544.2720138-1-sashal@kernel.org>
-References: <20210502140544.2720138-1-sashal@kernel.org>
+In-Reply-To: <20210502140517.2719912-1-sashal@kernel.org>
+References: <20210502140517.2719912-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -53,47 +52,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Pawel Laszczak <pawell@cadence.com>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-[ Upstream commit 26adde04acdff14a1f28d4a5dce46a8513a3038b ]
+[ Upstream commit bee1f89aad2a51cd3339571bc8eadbb0dc88a683 ]
 
-Patch adds extra checking for bInterval passed by configfs.
-The 5.6.4 chapter of USB Specification (rev. 2.0) say:
-"A high-bandwidth endpoint must specify a period of 1x125 µs
-(i.e., a bInterval value of 1)."
+The xHCI driver support usb2 HW LPM by default, here add support
+XHCI_HW_LPM_DISABLE quirk, then we can disable usb2 lpm when
+need it.
 
-The issue was observed during testing UVC class on CV.
-I treat this change as improvement because we can control
-bInterval by configfs.
-
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-Link: https://lore.kernel.org/r/20210308125338.4824-1-pawell@gli-login.cadence.com
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Link: https://lore.kernel.org/r/1617181553-3503-4-git-send-email-chunfeng.yun@mediatek.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/f_uvc.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci-mtk.c | 3 +++
+ drivers/usb/host/xhci-mtk.h | 1 +
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index f8a1881609a2..89da34ef7b3f 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -625,7 +625,12 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 09d5a789fcd5..f4b2e766f195 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -395,6 +395,8 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
+ 	if (mtk->lpm_support)
+ 		xhci->quirks |= XHCI_LPM_SUPPORT;
++	if (mtk->u2_lpm_disable)
++		xhci->quirks |= XHCI_HW_LPM_DISABLE;
  
- 	uvc_hs_streaming_ep.wMaxPacketSize =
- 		cpu_to_le16(max_packet_size | ((max_packet_mult - 1) << 11));
--	uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
-+
-+	/* A high-bandwidth endpoint must specify a bInterval value of 1 */
-+	if (max_packet_mult > 1)
-+		uvc_hs_streaming_ep.bInterval = 1;
-+	else
-+		uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
+ 	/*
+ 	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
+@@ -467,6 +469,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 		return ret;
  
- 	uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
- 	uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
+ 	mtk->lpm_support = of_property_read_bool(node, "usb3-lpm-capable");
++	mtk->u2_lpm_disable = of_property_read_bool(node, "usb2-lpm-disable");
+ 	/* optional property, ignore the error if it does not exist */
+ 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
+ 			     &mtk->u3p_dis_msk);
+diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
+index cc59d80b663b..1601ca9a388e 100644
+--- a/drivers/usb/host/xhci-mtk.h
++++ b/drivers/usb/host/xhci-mtk.h
+@@ -123,6 +123,7 @@ struct xhci_hcd_mtk {
+ 	struct phy **phys;
+ 	int num_phys;
+ 	bool lpm_support;
++	bool u2_lpm_disable;
+ 	/* usb remote wakeup */
+ 	bool uwk_en;
+ 	struct regmap *uwk;
 -- 
 2.30.2
 
