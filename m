@@ -2,94 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47FA8C433B4
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3108BC433B4
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:56:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C2A861026
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:08:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04539600D1
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233321AbhEBOIu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:08:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52030 "EHLO mail.kernel.org"
+        id S231941AbhEBO5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:57:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46112 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233775AbhEBOHV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:07:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E422F61581;
-        Sun,  2 May 2021 14:06:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964370;
-        bh=oqj5jMs5YhLaha4osWK8+xN6xe3zOcpuQVD8PVpNb/g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cGEB+3cG9rDaLIZfyBj5/d/gLPzoWLF55hHTtnELbvNR+I3Sae44uvJv/RZAhx2ma
-         /q/xH/SxpRD9PzHyeNtygUmzDMbFzyN2WFpqkyt3yGO24RVBJIdSBcwMC84McY/UdY
-         nTVct/sWeX8N5PgOE112c4iWVp6H0OUjVjNhXkxA7AF4wo/tYyqlU/uoQzwwCqSVeX
-         6UukZACeJkCxhSKxIunPcgyiFf0KgL5EupZYkgd81GuXmPIBRM7tt8gHXIW+EmrZhx
-         sU4BrdtmsnjrS8nNg5g1fXi4bqApfDNhY3b+8S6VjSzt1koCL/MXPPUksnB+jAgvTd
-         /TwKEv/uy8v4w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wesley Cheng <wcheng@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 03/12] usb: dwc3: gadget: Ignore EP queue requests during bus reset
-Date:   Sun,  2 May 2021 10:05:57 -0400
-Message-Id: <20210502140606.2720323-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210502140606.2720323-1-sashal@kernel.org>
-References: <20210502140606.2720323-1-sashal@kernel.org>
+        id S230110AbhEBO5G (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:57:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D0EE600D1;
+        Sun,  2 May 2021 14:56:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1619967373;
+        bh=i+GNc/hZ8lPa7KbkQ305SjPnkwd3pho1sduIJrmnOa0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KvWQTvX2wAQGums8bmADZVRytG7IzM5wghvGfObjAlQGHi3MfsVciwpjpF2aLQK8b
+         8UbYxXVoef92KS4f9UuvVxj84esAAKlVm5Y43X+cT2Se9nYnM+b9p1BwykB0AcunJI
+         5ia6wiL24nweUVj0qxm6cLxSFm4QPc1hWtEQZgGk=
+Date:   Sun, 2 May 2021 16:56:11 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.12 16/79] usb: dwc3: gadget: Remove invalid
+ low-speed setting
+Message-ID: <YI69i5JE3NdIx4Sb@kroah.com>
+References: <20210502140316.2718705-1-sashal@kernel.org>
+ <20210502140316.2718705-16-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210502140316.2718705-16-sashal@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wesley Cheng <wcheng@codeaurora.org>
+On Sun, May 02, 2021 at 10:02:13AM -0400, Sasha Levin wrote:
+> From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> 
+> [ Upstream commit 0c59f678fcfc6dd53ba493915794636a230bc4cc ]
+> 
+> None of the DWC_usb3x IPs (and all their versions) supports low-speed
+> setting in device mode. In the early days, our "Early Adopter Edition"
+> DWC_usb3 databook shows that the controller may be configured to operate
+> in low-speed, but it was revised on release. Let's remove this invalid
+> speed setting to avoid any confusion.
+> 
+> Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+> Link: https://lore.kernel.org/r/258b1c7fbb966454f4c4c2c1367508998498fc30.1615509438.git.Thinh.Nguyen@synopsys.com
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/usb/dwc3/core.c   | 1 -
+>  drivers/usb/dwc3/core.h   | 2 --
+>  drivers/usb/dwc3/gadget.c | 8 --------
+>  3 files changed, 11 deletions(-)
 
-[ Upstream commit 71ca43f30df9c642970f9dc9b2d6f463f4967e7b ]
+This is a "cleanup only" and does not fix or solve anything, so it can
+be dropped from all of the kernels it has been "autoselected" for.
 
-The current dwc3_gadget_reset_interrupt() will stop any active
-transfers, but only addresses blocking of EP queuing for while we are
-coming from a disconnected scenario, i.e. after receiving the disconnect
-event.  If the host decides to issue a bus reset on the device, the
-connected parameter will still be set to true, allowing for EP queuing
-to continue while we are disabling the functions.  To avoid this, set the
-connected flag to false until the stop active transfers is complete.
+thanks,
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
-Link: https://lore.kernel.org/r/1616146285-19149-3-git-send-email-wcheng@codeaurora.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/gadget.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index e0fb7b3723c5..cca51553e0fb 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2409,6 +2409,15 @@ static void dwc3_gadget_reset_interrupt(struct dwc3 *dwc)
- 
- 	dwc->connected = true;
- 
-+	/*
-+	 * Ideally, dwc3_reset_gadget() would trigger the function
-+	 * drivers to stop any active transfers through ep disable.
-+	 * However, for functions which defer ep disable, such as mass
-+	 * storage, we will need to rely on the call to stop active
-+	 * transfers here, and avoid allowing of request queuing.
-+	 */
-+	dwc->connected = false;
-+
- 	/*
- 	 * WORKAROUND: DWC3 revisions <1.88a have an issue which
- 	 * would cause a missing Disconnect Event if there's a
--- 
-2.30.2
-
+greg k-h
