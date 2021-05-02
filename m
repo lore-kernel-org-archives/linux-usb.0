@@ -7,38 +7,39 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E0BC43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F8CC433B4
 	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C15E613C1
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04605613AA
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232637AbhEBOFK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:05:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50164 "EHLO mail.kernel.org"
+        id S232678AbhEBOFJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:05:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50118 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232570AbhEBOE5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:04:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0BB1613C5;
-        Sun,  2 May 2021 14:04:04 +0000 (UTC)
+        id S232616AbhEBOFB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:05:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A95DA613AF;
+        Sun,  2 May 2021 14:04:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964245;
-        bh=gHK9z7jQUHKGMyq9Dk1nA6jlE7fCAzl1NO77XE5WdZ0=;
+        s=k20201202; t=1619964249;
+        bh=P9TeRjrI8IGCsBC1Gz7dTdV/iTVBA6MWxnwm2F32KfM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X2VyuwGmKIhMDN20LiuBt7jGA2jzAbEAh60AqzjbsH27SzciEcr0+Tzw6bcKD6+b4
-         DawUv5FPHNGVOhIzBZ/62SZn2wVmV/cj6c7Ivd/MaHpiuST5biVx9yVfOFgom0oSlr
-         miVjU5IdIoPTSEhPbrNqFnZL6XrtYFT8wzivaUXWG9nxH56z6GCNc63ocyAk3ktgTX
-         sbL6mfQDb3hSENtfRe+r8EXU4rHt/4369thlXMcUMMiZf6auKPb+Stf1pSANDVJjpW
-         d26flnwfjPoNXJfULm0JLUwwxEjlNbj1KpuwZ6QeUGn4odnYvGEu+ngmgWMEcBluFT
-         fjw9Tk4+UcLSg==
+        b=S7snqAgrwlZATrg1tHXxm6J44raSvA5qi+pQIrUcCzL+vlULX21Kk1Cst6VHFjRIT
+         N0ulyEZaSUtp5cSOuJmnAEJl3OWIr55AolriyrV8SASDIX8xR/aTF0hs3mR7qCm7KY
+         mDyVyljjqBWN5LWuXO5SlZGXxxY6RXoIBALhKBCaf3bvRyVMYmAbur7BtlManVdvS7
+         57xi/+7Fm+7L3MzrHeaPwP6552NOWmB/b/KaEyfcMp380H91fYuD7nLaLVq8oCyzAb
+         b8X8tpTGE9SAaxnnijlfWT7qI5/3ZRjYtSjNrWihVFusRV8wb2i3g1/UUUNBgtWPpy
+         NhfqW4RXAmLzw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 15/70] usb: gadget: f_uac2: validate input parameters
-Date:   Sun,  2 May 2021 10:02:49 -0400
-Message-Id: <20210502140344.2719040-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.11 18/70] usb: xhci: Fix port minor revision
+Date:   Sun,  2 May 2021 10:02:52 -0400
+Message-Id: <20210502140344.2719040-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210502140344.2719040-1-sashal@kernel.org>
 References: <20210502140344.2719040-1-sashal@kernel.org>
@@ -50,98 +51,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-[ Upstream commit 3713d5ceb04d5ab6a5e2b86dfca49170053f3a5e ]
+[ Upstream commit 64364bc912c01b33bba6c22e3ccb849bfca96398 ]
 
-Currently user can configure UAC2 function with
-parameters that violate UAC2 spec or are not supported
-by UAC2 gadget implementation.
+Some hosts incorrectly use sub-minor version for minor version (i.e.
+0x02 instead of 0x20 for bcdUSB 0x320 and 0x01 for bcdUSB 0x310).
+Currently the xHCI driver works around this by just checking for minor
+revision > 0x01 for USB 3.1 everywhere. With the addition of USB 3.2,
+checking this gets a bit cumbersome. Since there is no USB release with
+bcdUSB 0x301 to 0x309, we can assume that sub-minor version 01 to 09 is
+incorrect. Let's try to fix this and use the minor revision that matches
+with the USB/xHCI spec to help with the version checking within the
+driver.
 
-This can lead to incorrect behavior if such gadget
-is connected to the host - like enumeration failure
-or other issues depending on host's UAC2 driver
-implementation, bringing user to a long hours
-of debugging the issue.
-
-Instead of silently accept these parameters, throw
-an error if they are not valid.
-
-Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Link: https://lore.kernel.org/r/1614599375-8803-4-git-send-email-ruslan.bilovol@gmail.com
+Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Link: https://lore.kernel.org/r/ed330e95a19dc367819c5b4d78bf7a541c35aa0a.1615432770.git.Thinh.Nguyen@synopsys.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/f_uac2.c | 39 ++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
+ drivers/usb/host/xhci-mem.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 6f03e944e0e3..dd960cea642f 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -14,6 +14,9 @@
- #include "u_audio.h"
- #include "u_uac2.h"
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3589b49b6c8b..412a83f8055f 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2142,6 +2142,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
  
-+/* UAC2 spec: 4.1 Audio Channel Cluster Descriptor */
-+#define UAC2_CHANNEL_MASK 0x07FFFFFF
-+
- /*
-  * The driver implements a simple UAC_2 topology.
-  * USB-OUT -> IT_1 -> OT_3 -> ALSA_Capture
-@@ -604,6 +607,36 @@ static void setup_descriptor(struct f_uac2_opts *opts)
- 	hs_audio_desc[i] = NULL;
- }
- 
-+static int afunc_validate_opts(struct g_audio *agdev, struct device *dev)
-+{
-+	struct f_uac2_opts *opts = g_audio_to_uac2_opts(agdev);
-+
-+	if (!opts->p_chmask && !opts->c_chmask) {
-+		dev_err(dev, "Error: no playback and capture channels\n");
-+		return -EINVAL;
-+	} else if (opts->p_chmask & ~UAC2_CHANNEL_MASK) {
-+		dev_err(dev, "Error: unsupported playback channels mask\n");
-+		return -EINVAL;
-+	} else if (opts->c_chmask & ~UAC2_CHANNEL_MASK) {
-+		dev_err(dev, "Error: unsupported capture channels mask\n");
-+		return -EINVAL;
-+	} else if ((opts->p_ssize < 1) || (opts->p_ssize > 4)) {
-+		dev_err(dev, "Error: incorrect playback sample size\n");
-+		return -EINVAL;
-+	} else if ((opts->c_ssize < 1) || (opts->c_ssize > 4)) {
-+		dev_err(dev, "Error: incorrect capture sample size\n");
-+		return -EINVAL;
-+	} else if (!opts->p_srate) {
-+		dev_err(dev, "Error: incorrect playback sampling rate\n");
-+		return -EINVAL;
-+	} else if (!opts->c_srate) {
-+		dev_err(dev, "Error: incorrect capture sampling rate\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int
- afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- {
-@@ -612,11 +645,13 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 	struct usb_composite_dev *cdev = cfg->cdev;
- 	struct usb_gadget *gadget = cdev->gadget;
- 	struct device *dev = &gadget->dev;
--	struct f_uac2_opts *uac2_opts;
-+	struct f_uac2_opts *uac2_opts = g_audio_to_uac2_opts(agdev);
- 	struct usb_string *us;
- 	int ret;
- 
--	uac2_opts = container_of(fn->fi, struct f_uac2_opts, func_inst);
-+	ret = afunc_validate_opts(agdev, dev);
-+	if (ret)
-+		return ret;
- 
- 	us = usb_gstrings_attach(cdev, fn_strings, ARRAY_SIZE(strings_fn));
- 	if (IS_ERR(us))
+ 	if (major_revision == 0x03) {
+ 		rhub = &xhci->usb3_rhub;
++		/*
++		 * Some hosts incorrectly use sub-minor version for minor
++		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
++		 * for bcdUSB 0x310). Since there is no USB release with sub
++		 * minor version 0x301 to 0x309, we can assume that they are
++		 * incorrect and fix it here.
++		 */
++		if (minor_revision > 0x00 && minor_revision < 0x10)
++			minor_revision <<= 4;
+ 	} else if (major_revision <= 0x02) {
+ 		rhub = &xhci->usb2_rhub;
+ 	} else {
 -- 
 2.30.2
 
