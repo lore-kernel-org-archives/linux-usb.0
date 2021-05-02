@@ -7,43 +7,41 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E0A2C43470
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959FFC43462
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1378161208
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A326613BB
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232707AbhEBOHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:07:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51736 "EHLO mail.kernel.org"
+        id S232498AbhEBOHi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:07:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51056 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233165AbhEBOG1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:06:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96323613B0;
-        Sun,  2 May 2021 14:05:32 +0000 (UTC)
+        id S233367AbhEBOGx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:06:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 16983613C7;
+        Sun,  2 May 2021 14:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964333;
-        bh=Jfp2iIYgHJRSaV2HyRvRnNTudasMjHvEd9wkE7q3ZyM=;
+        s=k20201202; t=1619964351;
+        bh=K4VxfRdlHMv/KHvkR1/3xCGjraQQ5uaFcWEMcRL0Jsk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t7ESafim1Qbqapyl8xqbB+WwJ/0DxvLwicNtN7+KnlIe57VICQi8YWshLcbGVw93B
-         a/IoS08VXLtFrjap5rWWBGpoKKlrKPCuBvStKiUECiua6EEn9ttgMN192ePPuv20oT
-         c9kjxgmN9cWgvAFaNaIsBzPGBMxjey040Di3Bo7V34LXZNEvVTwbCp+vzOvl5CRDKg
-         aNx+HAAGmTJAM7kDp08rcsF/CsueES9oUkxpa+WfJrX9Lr8FuQwZK8Q6GeTE+tAuSf
-         nyrd2WCYCsHuUEXC5nmjZF4o8CMO1RjnRygc9OwVD8x6MAkdTXL6Yv/bBTYhw8Xn3i
-         7+CZgKBDktlWw==
+        b=ItR4IWK/X4nNhSR4ypSMqDgKKZfz2KT6UFwvlYOqkHGbvjZ6oJ5sk+L6xbBJj97Zl
+         ePDheaEvdz0UIpZkG1tBqA/p0+OVNDB5m43mPJ2vQ4uAXtJCoIrJ3rBZSZDbljcAwz
+         QTLc0gEo8RukQHwomkGr0U0oUvZtGLfKe5R0Rsn7AXPYeN3DhcCuF/mS44MNy8Eblj
+         bR2e1Ez4y93uAqbrj7/TtrO60/G4G73KzdEboFfoTpjBXBM2xUmX8EYIL2OfevJotC
+         IXsjOXBwOWuyeJDg3e7S+I8AWnrMBK5GnvSm5x359fCEeS2vBB9aGBoLwkrYwMOxFE
+         uZ5cvOPA3IrGA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+Cc:     Wesley Cheng <wcheng@codeaurora.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.19 12/21] usb: xhci-mtk: support quirk to disable usb2 lpm
-Date:   Sun,  2 May 2021 10:05:08 -0400
-Message-Id: <20210502140517.2719912-12-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 05/16] usb: dwc3: gadget: Ignore EP queue requests during bus reset
+Date:   Sun,  2 May 2021 10:05:33 -0400
+Message-Id: <20210502140544.2720138-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210502140517.2719912-1-sashal@kernel.org>
-References: <20210502140517.2719912-1-sashal@kernel.org>
+In-Reply-To: <20210502140544.2720138-1-sashal@kernel.org>
+References: <20210502140544.2720138-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,56 +50,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+From: Wesley Cheng <wcheng@codeaurora.org>
 
-[ Upstream commit bee1f89aad2a51cd3339571bc8eadbb0dc88a683 ]
+[ Upstream commit 71ca43f30df9c642970f9dc9b2d6f463f4967e7b ]
 
-The xHCI driver support usb2 HW LPM by default, here add support
-XHCI_HW_LPM_DISABLE quirk, then we can disable usb2 lpm when
-need it.
+The current dwc3_gadget_reset_interrupt() will stop any active
+transfers, but only addresses blocking of EP queuing for while we are
+coming from a disconnected scenario, i.e. after receiving the disconnect
+event.  If the host decides to issue a bus reset on the device, the
+connected parameter will still be set to true, allowing for EP queuing
+to continue while we are disabling the functions.  To avoid this, set the
+connected flag to false until the stop active transfers is complete.
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Link: https://lore.kernel.org/r/1617181553-3503-4-git-send-email-chunfeng.yun@mediatek.com
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+Link: https://lore.kernel.org/r/1616146285-19149-3-git-send-email-wcheng@codeaurora.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-mtk.c | 3 +++
- drivers/usb/host/xhci-mtk.h | 1 +
- 2 files changed, 4 insertions(+)
+ drivers/usb/dwc3/gadget.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 09d5a789fcd5..f4b2e766f195 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -395,6 +395,8 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	xhci->quirks |= XHCI_SPURIOUS_SUCCESS;
- 	if (mtk->lpm_support)
- 		xhci->quirks |= XHCI_LPM_SUPPORT;
-+	if (mtk->u2_lpm_disable)
-+		xhci->quirks |= XHCI_HW_LPM_DISABLE;
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 510ed406fb0b..909e8aafd580 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2695,6 +2695,15 @@ static void dwc3_gadget_reset_interrupt(struct dwc3 *dwc)
  
+ 	dwc->connected = true;
+ 
++	/*
++	 * Ideally, dwc3_reset_gadget() would trigger the function
++	 * drivers to stop any active transfers through ep disable.
++	 * However, for functions which defer ep disable, such as mass
++	 * storage, we will need to rely on the call to stop active
++	 * transfers here, and avoid allowing of request queuing.
++	 */
++	dwc->connected = false;
++
  	/*
- 	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
-@@ -467,6 +469,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	mtk->lpm_support = of_property_read_bool(node, "usb3-lpm-capable");
-+	mtk->u2_lpm_disable = of_property_read_bool(node, "usb2-lpm-disable");
- 	/* optional property, ignore the error if it does not exist */
- 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
- 			     &mtk->u3p_dis_msk);
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index cc59d80b663b..1601ca9a388e 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -123,6 +123,7 @@ struct xhci_hcd_mtk {
- 	struct phy **phys;
- 	int num_phys;
- 	bool lpm_support;
-+	bool u2_lpm_disable;
- 	/* usb remote wakeup */
- 	bool uwk_en;
- 	struct regmap *uwk;
+ 	 * WORKAROUND: DWC3 revisions <1.88a have an issue which
+ 	 * would cause a missing Disconnect Event if there's a
 -- 
 2.30.2
 
