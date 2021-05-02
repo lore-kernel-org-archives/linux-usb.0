@@ -4,33 +4,33 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E5A0C43600
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA08C43461
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C080613C1
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2C18613EA
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232656AbhEBOFO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:05:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49940 "EHLO mail.kernel.org"
+        id S232893AbhEBOFZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:05:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50624 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232525AbhEBOEw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:04:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94E97613AF;
-        Sun,  2 May 2021 14:03:57 +0000 (UTC)
+        id S231130AbhEBOFO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:05:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 942CA613C7;
+        Sun,  2 May 2021 14:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964238;
+        s=k20201202; t=1619964262;
         bh=yRYcq6j35c8xXbshQieIahs1G4PzznF+jh3voE7fUqo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tkEYPI7v3VhGmQx5jBQjBUdJQiXHN1DApFd8hHciPpY72ZYKPBfNMlGJNAWU0hv36
-         Y8PtMOyEt0PeroRKqtWk08s2kSvrpcSe5X6jcUTyoVc3BZkqJP9O/FzSWU3ES2GRVG
-         HvIVvkB+NGVgZ+xblq/t/zDuEPC+lyGHClzmw/2BGi5yqEwIvVuCXypfVQ5RpJ+h4V
-         gXGbz1+ihjDpaHaJOpxVclaW/wsV2gDjekJ/jGXVWzObSKiiyX2MZrdntfhdzNAO47
-         Kz6asKlk7ZAiw7AmgkN1KfQ4xHmS6m4OSpWnUz+DJ5gWiN/TmJyBaoHNN9eKzf1JQz
-         NJcG/1XWE1jxg==
+        b=pznWXptDsOa8wWRmtL7qqPXkWDutfbtWcwMYM78cO4HvHkseOrav/BJW5em4WXbaC
+         cDh/Ci2W0p9HKA1TPA0iTuxxy6kQ9FvKL3sW3zO6qbnVCvy4DoIa0SJOaAjjRCSm59
+         iew1S5ILjjLZNx4lcvPdnLrsFZPaOoa0vDIOa7sJ6NY3WRkQgQwHUqvlmQDRfSamWO
+         eg8VMFVkXJUyRs1mLUYqG6/mrniHolOV822RjIWCPrmR4K/lqjplQBhbH/tsrYP3N2
+         dFef460f/6Uj548QcedCjkN31J5OLXmEl1WpGEd2fcuPVnc3QjIXG8WkmIogk98Dnm
+         6X5XyYLDyiqtA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Pawel Laszczak <pawell@cadence.com>,
@@ -38,12 +38,12 @@ Cc:     Pawel Laszczak <pawell@cadence.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 09/70] usb: gadget: uvc: add bInterval checking for HS mode
-Date:   Sun,  2 May 2021 10:02:43 -0400
-Message-Id: <20210502140344.2719040-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 08/66] usb: gadget: uvc: add bInterval checking for HS mode
+Date:   Sun,  2 May 2021 10:03:13 -0400
+Message-Id: <20210502140411.2719301-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210502140344.2719040-1-sashal@kernel.org>
-References: <20210502140344.2719040-1-sashal@kernel.org>
+In-Reply-To: <20210502140411.2719301-1-sashal@kernel.org>
+References: <20210502140411.2719301-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
