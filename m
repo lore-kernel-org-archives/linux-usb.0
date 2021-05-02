@@ -4,42 +4,41 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52DA9C43461
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32E23C43470
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38311613B0
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13CBD613CB
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:06:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232911AbhEBOHK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:07:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51596 "EHLO mail.kernel.org"
+        id S233730AbhEBOHN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:07:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51246 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233430AbhEBOGZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:06:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68DEA61476;
-        Sun,  2 May 2021 14:05:26 +0000 (UTC)
+        id S233465AbhEBOG2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:06:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E15FE6147E;
+        Sun,  2 May 2021 14:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964327;
-        bh=rBY/7Bk1Sr8TdKUOYXS2eSOAZqHHk1x1bDMTDS6FW18=;
+        s=k20201202; t=1619964334;
+        bh=N3FxKqWZrTgdcyVZefZWFKOqV2K59cqXtACh8OPqPuQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pjvgmQvQq2YliPXChebgbuPJ3aGs8/HsFfJCLfAgsJnh/Xo0IlfSEZbaHMl2tPMA/
-         tbPSuuLD3KpPAhWjxTXZFCtv9uI0m/YjK5sQuKOgQAXy2pvl5UXgeYupnD35p3WnQn
-         Z+Px1ZUxasAVF09tLdwvIJGV4D7FA9gI8ZdBsIZmTCrnaP4blILRBGuuN9djqyS6Xd
-         VKJgj8cOQVvyrWnnL+hKxvAz8hMX0ObFuhmIqEjMRoWuFxOgn3maIi/wvtJlLdWDXg
-         ren0rDIDisLvDSzxeEDdmB0erYasPVJhYyLELuWnEkCtF+/RvWIwa2qQOE3NHTT4pM
-         wFNUIYCzcthng==
+        b=flHEK1HjtYUvNFGIqZRIcWrGXviburyZt4LNSLvxsodzbWSGJAREzD3Dmc9bDhNS3
+         J9rHXTejyGu1ixhSdzKOEMtXhgXHEhRISTTSS/g4fJRaDIcUGSJrcsnao6z5EnB3yD
+         eDqlEB2PoWsQCs4ErXtV9OYlj3VjDr0TeG8vVKRF3V81gsu1DYuetXiX8lev/B+ORY
+         rLH7h8FW+CrmHQLvIjC3QZO9uL/VOtxKnxvgNzV2ZmX/zozWVf7tZZNMnrESvLpSWe
+         f9q1BHbh3RS5MYtBF16V8oznMFu00IzhFB4ur6mNL9XFjSKooZDfhbKyeKlc5KAYZF
+         H+mDvdjwMA4zg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 07/21] usb: xhci: Fix port minor revision
-Date:   Sun,  2 May 2021 10:05:03 -0400
-Message-Id: <20210502140517.2719912-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 13/21] xhci: check control context is valid before dereferencing it.
+Date:   Sun,  2 May 2021 10:05:09 -0400
+Message-Id: <20210502140517.2719912-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210502140517.2719912-1-sashal@kernel.org>
 References: <20210502140517.2719912-1-sashal@kernel.org>
@@ -51,49 +50,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-[ Upstream commit 64364bc912c01b33bba6c22e3ccb849bfca96398 ]
+[ Upstream commit 597899d2f7c5619c87185ee7953d004bd37fd0eb ]
 
-Some hosts incorrectly use sub-minor version for minor version (i.e.
-0x02 instead of 0x20 for bcdUSB 0x320 and 0x01 for bcdUSB 0x310).
-Currently the xHCI driver works around this by just checking for minor
-revision > 0x01 for USB 3.1 everywhere. With the addition of USB 3.2,
-checking this gets a bit cumbersome. Since there is no USB release with
-bcdUSB 0x301 to 0x309, we can assume that sub-minor version 01 to 09 is
-incorrect. Let's try to fix this and use the minor revision that matches
-with the USB/xHCI spec to help with the version checking within the
-driver.
+Don't dereference ctrl_ctx before checking it's valid.
+Issue reported by Klockwork
 
-Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Link: https://lore.kernel.org/r/ed330e95a19dc367819c5b4d78bf7a541c35aa0a.1615432770.git.Thinh.Nguyen@synopsys.com
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20210406070208.3406266-3-mathias.nyman@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-mem.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/usb/host/xhci.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 9e87c282a743..2461be2a8748 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2134,6 +2134,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 6c508d0313f7..fc07d68fdd15 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -3148,6 +3148,14 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
  
- 	if (major_revision == 0x03) {
- 		rhub = &xhci->usb3_rhub;
-+		/*
-+		 * Some hosts incorrectly use sub-minor version for minor
-+		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
-+		 * for bcdUSB 0x310). Since there is no USB release with sub
-+		 * minor version 0x301 to 0x309, we can assume that they are
-+		 * incorrect and fix it here.
-+		 */
-+		if (minor_revision > 0x00 && minor_revision < 0x10)
-+			minor_revision <<= 4;
- 	} else if (major_revision <= 0x02) {
- 		rhub = &xhci->usb2_rhub;
- 	} else {
+ 	/* config ep command clears toggle if add and drop ep flags are set */
+ 	ctrl_ctx = xhci_get_input_control_ctx(cfg_cmd->in_ctx);
++	if (!ctrl_ctx) {
++		spin_unlock_irqrestore(&xhci->lock, flags);
++		xhci_free_command(xhci, cfg_cmd);
++		xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
++				__func__);
++		goto cleanup;
++	}
++
+ 	xhci_setup_input_ctx_for_config_ep(xhci, cfg_cmd->in_ctx, vdev->out_ctx,
+ 					   ctrl_ctx, ep_flag, ep_flag);
+ 	xhci_endpoint_copy(xhci, cfg_cmd->in_ctx, vdev->out_ctx, ep_index);
 -- 
 2.30.2
 
