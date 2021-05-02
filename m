@@ -7,43 +7,45 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB05AC4363E
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA596C43600
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC7F4613B0
-	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:03:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBC16613C6
+	for <linux-usb@archiver.kernel.org>; Sun,  2 May 2021 14:04:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232411AbhEBOEj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 May 2021 10:04:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49374 "EHLO mail.kernel.org"
+        id S232533AbhEBOE7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 May 2021 10:04:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49384 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232346AbhEBOEe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 2 May 2021 10:04:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 16198613AA;
-        Sun,  2 May 2021 14:03:42 +0000 (UTC)
+        id S232151AbhEBOEa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 2 May 2021 10:04:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C927613C6;
+        Sun,  2 May 2021 14:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619964222;
-        bh=yjv83xeYuwyma2z/uwMdnT0GY8PGJ9xn6q6JHn+3dtk=;
+        s=k20201202; t=1619964210;
+        bh=yRYcq6j35c8xXbshQieIahs1G4PzznF+jh3voE7fUqo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=spSdrOUOV/sdjefbNIRiH39iGNVdgA+yeowdzHKWXvwUxfQ8NvbrttMvrFuVDcogJ
-         nAfl8EdloNdhnnF0U/ypp7ZpDebEGv5PawfMGZCiPv78hHN674bP3PHXS+tcUAbkfC
-         ZGe9upaddj9k4AyaLalCct9VzuE6q6yoFpIHhnyE3/4OoiX+nGtMksvggEWLC3NTNy
-         CvvNnnstl2v3lIyId42BWZWgUZCQTGbcYzHUNZuIhhi411CD6NRMf/KJSddubofCh2
-         Vh9TXGyhqj9hB4H/v6rqAauaTQov5b0ZjhKnGqTn/tKHr0J3R9I7HJjoF+K64Y2vqV
-         9GUGcyDibGCNA==
+        b=tiSXf9v+6tFS/90rcm9X/nnreGQjidkj2GAXvuGPWbZplXzM5ti5lPGwuKf8j1FnP
+         4pyx5Yi7OqdlKMnTm1PGc00Uk1pX3kd6tyERfRzUO4iW11B+SPJomsPIS0s+GOWMHh
+         I4e+jodoXDKSM7t1Tr+VmlYtEtqEx589rbi8JKJNXFPldPLSKH64KDyydD2gOnZWQE
+         donLviA+nB6buSqwGsqXhJwfBZvmLw7KTHcR7P7WWXfbQ5GW+esdHZPcNbjSWU2qJd
+         d5RnPJugexmMGSjX2juKtCwgYXHHO2ORapSHNq+7QLoH5mY68OfBAbxc/MmfWQCeky
+         kmEvCgiNeajsw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 20/79] usb: xhci: Fix port minor revision
-Date:   Sun,  2 May 2021 10:02:17 -0400
-Message-Id: <20210502140316.2718705-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 10/79] usb: gadget: uvc: add bInterval checking for HS mode
+Date:   Sun,  2 May 2021 10:02:07 -0400
+Message-Id: <20210502140316.2718705-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210502140316.2718705-1-sashal@kernel.org>
 References: <20210502140316.2718705-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -51,49 +53,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+From: Pawel Laszczak <pawell@cadence.com>
 
-[ Upstream commit 64364bc912c01b33bba6c22e3ccb849bfca96398 ]
+[ Upstream commit 26adde04acdff14a1f28d4a5dce46a8513a3038b ]
 
-Some hosts incorrectly use sub-minor version for minor version (i.e.
-0x02 instead of 0x20 for bcdUSB 0x320 and 0x01 for bcdUSB 0x310).
-Currently the xHCI driver works around this by just checking for minor
-revision > 0x01 for USB 3.1 everywhere. With the addition of USB 3.2,
-checking this gets a bit cumbersome. Since there is no USB release with
-bcdUSB 0x301 to 0x309, we can assume that sub-minor version 01 to 09 is
-incorrect. Let's try to fix this and use the minor revision that matches
-with the USB/xHCI spec to help with the version checking within the
-driver.
+Patch adds extra checking for bInterval passed by configfs.
+The 5.6.4 chapter of USB Specification (rev. 2.0) say:
+"A high-bandwidth endpoint must specify a period of 1x125 µs
+(i.e., a bInterval value of 1)."
 
-Acked-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Link: https://lore.kernel.org/r/ed330e95a19dc367819c5b4d78bf7a541c35aa0a.1615432770.git.Thinh.Nguyen@synopsys.com
+The issue was observed during testing UVC class on CV.
+I treat this change as improvement because we can control
+bInterval by configfs.
+
+Reviewed-by: Peter Chen <peter.chen@kernel.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+Link: https://lore.kernel.org/r/20210308125338.4824-1-pawell@gli-login.cadence.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-mem.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/usb/gadget/function/f_uvc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index f2c4ee7c4786..3708432f5f69 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2129,6 +2129,15 @@ static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 44b4352a2676..ed77a126a74f 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -633,7 +633,12 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
  
- 	if (major_revision == 0x03) {
- 		rhub = &xhci->usb3_rhub;
-+		/*
-+		 * Some hosts incorrectly use sub-minor version for minor
-+		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
-+		 * for bcdUSB 0x310). Since there is no USB release with sub
-+		 * minor version 0x301 to 0x309, we can assume that they are
-+		 * incorrect and fix it here.
-+		 */
-+		if (minor_revision > 0x00 && minor_revision < 0x10)
-+			minor_revision <<= 4;
- 	} else if (major_revision <= 0x02) {
- 		rhub = &xhci->usb2_rhub;
- 	} else {
+ 	uvc_hs_streaming_ep.wMaxPacketSize =
+ 		cpu_to_le16(max_packet_size | ((max_packet_mult - 1) << 11));
+-	uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
++
++	/* A high-bandwidth endpoint must specify a bInterval value of 1 */
++	if (max_packet_mult > 1)
++		uvc_hs_streaming_ep.bInterval = 1;
++	else
++		uvc_hs_streaming_ep.bInterval = opts->streaming_interval;
+ 
+ 	uvc_ss_streaming_ep.wMaxPacketSize = cpu_to_le16(max_packet_size);
+ 	uvc_ss_streaming_ep.bInterval = opts->streaming_interval;
 -- 
 2.30.2
 
