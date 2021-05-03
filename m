@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74CA3C4360C
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08875C433ED
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4808361244
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB90961165
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230475AbhECPsF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 May 2021 11:48:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20179 "EHLO
+        id S230481AbhECPsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 May 2021 11:48:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39340 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230416AbhECPsE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 11:48:04 -0400
+        by vger.kernel.org with ESMTP id S230476AbhECPsL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 11:48:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620056831;
+        s=mimecast20190719; t=1620056837;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=hb5sRV3iNQMvKZ9GShchiL/+52Gorb6AB63dpZAQ8n8=;
-        b=al2rs0YjoOZCI2YDMZIMHqjIz+lcU3bTdcc0Usc3x1YPMbjf1IUG1fr2PN1gF8vq/66TqS
-        ez96VLl8AiSmaw+xmbRoMskCOX1Fl8ZQW8g8A3OyPtJie2T0mReHS70eIPEhroVaKSoQba
-        ZyWBpdEm3zUNy75ikmHxrOytVFP7/WY=
+        bh=anbAqr+B18UJD0ROosbVNOxc6A3+H/xmJXK4QX2H7os=;
+        b=FET5l0nH/u4b4Uizvvdvrp+5kzRNuCpB3ZPhwlZO+2b4T9hbS8ojgdqMEe0mDf4gThxlQr
+        zixgjkAZTdKgiipS9aMizaghY+Din2gzOcxwg/Lu7xkwWKGqoN+HXoa779TNrR0kPNzsgs
+        Mur/VSEn6EPD7rOqGmIVwa3Hwx2B8UU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-HQCXiiOfM6u4kXj5NFdVqA-1; Mon, 03 May 2021 11:47:07 -0400
-X-MC-Unique: HQCXiiOfM6u4kXj5NFdVqA-1
+ us-mta-584-YATCiBC3Nt2q5tCRyO5Fyg-1; Mon, 03 May 2021 11:47:16 -0400
+X-MC-Unique: YATCiBC3Nt2q5tCRyO5Fyg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C042801F98;
-        Mon,  3 May 2021 15:47:04 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29AE88042AD;
+        Mon,  3 May 2021 15:47:14 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-158.ams2.redhat.com [10.36.112.158])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D9E5E1007610;
-        Mon,  3 May 2021 15:47:01 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 685DE1007610;
+        Mon,  3 May 2021 15:47:11 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -57,9 +57,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel@lists.freedesktop.org,
         platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug notification (v2)
-Date:   Mon,  3 May 2021 17:46:42 +0200
-Message-Id: <20210503154647.142551-5-hdegoede@redhat.com>
+Subject: [PATCH 6/9] drm/i915/dp: Add support for out-of-bound hotplug events
+Date:   Mon,  3 May 2021 17:46:44 +0200
+Message-Id: <20210503154647.142551-7-hdegoede@redhat.com>
 In-Reply-To: <20210503154647.142551-1-hdegoede@redhat.com>
 References: <20210503154647.142551-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -69,135 +69,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a new drm_connector_oob_hotplug_event() function and
-oob_hotplug_event drm_connector_funcs member.
+On some Cherry Trail devices, DisplayPort over Type-C is supported through
+a USB-PD microcontroller (e.g. a fusb302) + a mux to switch the superspeed
+datalines between USB-3 and DP (e.g. a pi3usb30532). The kernel in this
+case does the PD/alt-mode negotiation itself, rather then everything being
+handled in firmware.
 
-On some hardware a hotplug event notification may come from outside the
-display driver / device. An example of this is some USB Type-C setups
-where the hardware muxes the DisplayPort data and aux-lines but does
-not pass the altmode HPD status bit to the GPU's DP HPD pin.
+So the kernel itself picks an alt-mode, tells the Type-C "dongle" to switch
+to DP mode and sets the mux accordingly. In this setup the HPD pin is not
+connected, so the i915 driver needs to respond to a software event and scan
+the DP port for changes manually.
 
-In cases like this the new drm_connector_oob_hotplug_event() function can
-be used to report these out-of-band events.
-
-Changes in v2:
-- Make drm_connector_oob_hotplug_event() take a fwnode as argument and
-  have it call drm_connector_find_by_fwnode() internally. This allows
-  making drm_connector_find_by_fwnode() a drm-internal function and
-  avoids code outside the drm subsystem potentially holding on the
-  a drm_connector reference for a longer period.
+This commit adds support for this. Together with the recent addition of
+DP alt-mode support to the Type-C subsystem this makes DP over Type-C
+work on these devices.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/drm_connector.c | 29 +++++++++++++++++++++++++++++
- include/drm/drm_connector.h     | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
+ drivers/gpu/drm/i915/display/intel_dp.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index ef759d6add81..b5e09d751694 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2726,6 +2726,35 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
- 	return found;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 64a73b3ced94..1029720cc945 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -5846,6 +5846,18 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
+ 	return intel_modeset_synced_crtcs(state, conn);
  }
  
-+/**
-+ * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
-+ * @connector: connector to report the event on
-+ * @data: data related to the event
-+ *
-+ * On some hardware a hotplug event notification may come from outside the display
-+ * driver / device. An example of this is some USB Type-C setups where the hardware
-+ * muxes the DisplayPort data and aux-lines but does not pass the altmode HPD
-+ * status bit to the GPU's DP HPD pin.
-+ *
-+ * This function can be used to report these out-of-band events after obtaining
-+ * a drm_connector reference through calling drm_connector_find_by_fwnode().
-+ */
-+void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-+				     struct drm_connector_oob_hotplug_event_data *data)
++static void intel_dp_oob_hotplug_event(struct drm_connector *connector,
++				       struct drm_connector_oob_hotplug_event_data *data)
 +{
-+	struct drm_connector *connector;
++	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
++	struct drm_i915_private *i915 = to_i915(connector->dev);
 +
-+	connector = drm_connector_find_by_fwnode(connector_fwnode);
-+	if (IS_ERR(connector))
-+		return;
-+
-+	if (connector->funcs->oob_hotplug_event)
-+		connector->funcs->oob_hotplug_event(connector, data);
-+
-+	drm_connector_put(connector);
++	spin_lock_irq(&i915->irq_lock);
++	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
++	spin_unlock_irq(&i915->irq_lock);
++	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
 +}
-+EXPORT_SYMBOL(drm_connector_oob_hotplug_event);
 +
- 
- /**
-  * DOC: Tile group
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index ae377354e48e..bb61aeb9ba2d 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -27,6 +27,7 @@
- #include <linux/llist.h>
- #include <linux/ctype.h>
- #include <linux/hdmi.h>
-+#include <linux/usb/typec.h> /* For enum typec_orientation */
- #include <drm/drm_mode_object.h>
- #include <drm/drm_util.h>
- 
-@@ -649,6 +650,27 @@ struct drm_connector_tv_margins {
- 	unsigned int top;
+ static const struct drm_connector_funcs intel_dp_connector_funcs = {
+ 	.force = intel_dp_force,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+@@ -5856,6 +5868,7 @@ static const struct drm_connector_funcs intel_dp_connector_funcs = {
+ 	.destroy = intel_connector_destroy,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+ 	.atomic_duplicate_state = intel_digital_connector_duplicate_state,
++	.oob_hotplug_event = intel_dp_oob_hotplug_event,
  };
  
-+/**
-+ * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
-+ *
-+ * Contains data about out-of-band hotplug events, signalled through
-+ * drm_connector_oob_hotplug_event().
-+ */
-+struct drm_connector_oob_hotplug_event_data {
-+	/**
-+	 * @connected: New connected status for the connector.
-+	 */
-+	bool connected;
-+	/**
-+	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
-+	 */
-+	int dp_lanes;
-+	/**
-+	 * @orientation: Connector orientation.
-+	 */
-+	enum typec_orientation orientation;
-+};
-+
- /**
-  * struct drm_tv_connector_state - TV connector related states
-  * @subconnector: selected subconnector
-@@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
- 	 */
- 	void (*atomic_print_state)(struct drm_printer *p,
- 				   const struct drm_connector_state *state);
-+
-+	/**
-+	 * @oob_hotplug_event:
-+	 *
-+	 * This will get called when a hotplug-event for a drm-connector
-+	 * has been received from a source outside the display driver / device.
-+	 */
-+	void (*oob_hotplug_event)(struct drm_connector *connector,
-+				  struct drm_connector_oob_hotplug_event_data *data);
- };
- 
- /**
-@@ -1704,6 +1735,8 @@ drm_connector_is_unregistered(struct drm_connector *connector)
- 		DRM_CONNECTOR_UNREGISTERED;
- }
- 
-+void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-+				     struct drm_connector_oob_hotplug_event_data *data);
- const char *drm_get_connector_type_name(unsigned int connector_type);
- const char *drm_get_connector_status_name(enum drm_connector_status status);
- const char *drm_get_subpixel_order_name(enum subpixel_order order);
+ static const struct drm_connector_helper_funcs intel_dp_connector_helper_funcs = {
 -- 
 2.31.1
 
