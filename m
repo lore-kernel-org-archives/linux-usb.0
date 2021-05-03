@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67BABC433B4
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1724C43460
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31F8061244
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1263600CC
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbhECPsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 May 2021 11:48:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41102 "EHLO
+        id S230487AbhECPsQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 May 2021 11:48:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28179 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230477AbhECPsL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 11:48:11 -0400
+        by vger.kernel.org with ESMTP id S230476AbhECPsO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 11:48:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620056837;
+        s=mimecast20190719; t=1620056841;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=BTsoK873a2Dm6X7mRRJSkYwSwPhXxig3g40NQFx14bo=;
-        b=huuf9/yhkao4Znb9D+rt7GG/22S/l/3KgAJLcQiAogcEK83jDnJnqvXZaP2GiJnSwwQgQK
-        t9wcfaEfFE9drd8gBQsjg1Q2vP0Rh6UuBDRcUUsH7pMppZ+KY4mbB35wAlKKff5acqr5Kl
-        z2R8Yex7gbYAtvrXQFmBxkwipZW+d/M=
+        bh=mXQb5SssYm+Qr51jjse1jKyzMXwZ7Gev3EsN+ioOyCk=;
+        b=ZgXmIwvXKiJD8dwcchdGcWBigQF24afkhjmR/V9qmypwI+XfRV0eIadI/pnJARYW+nyDN1
+        IanYzNv+GKczv94j4/wLtuU7xeoVcxGObgoNt67kR/dWaLeC6xat4o/Ri+XD4gXuZ/Wej3
+        hz1DJAu4nOIQ0u7dFZRZXs73pz/u3HQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-WXJxfhLIMTet_af2ZtovHQ-1; Mon, 03 May 2021 11:47:12 -0400
-X-MC-Unique: WXJxfhLIMTet_af2ZtovHQ-1
+ us-mta-152-uk_U4nWXO6Kodr9IuqNxnQ-1; Mon, 03 May 2021 11:47:19 -0400
+X-MC-Unique: uk_U4nWXO6Kodr9IuqNxnQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2309A107ACC7;
-        Mon,  3 May 2021 15:47:11 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C5F818418;
+        Mon,  3 May 2021 15:47:17 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-158.ams2.redhat.com [10.36.112.158])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E0F311007610;
-        Mon,  3 May 2021 15:47:04 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 729C610246F1;
+        Mon,  3 May 2021 15:47:14 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
@@ -57,9 +57,9 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel@lists.freedesktop.org,
         platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 5/9] drm/i915: Associate ACPI connector nodes with connector entries
-Date:   Mon,  3 May 2021 17:46:43 +0200
-Message-Id: <20210503154647.142551-6-hdegoede@redhat.com>
+Subject: [PATCH 7/9] usb: typec: altmodes/displayport: Make dp_altmode_notify() more generic
+Date:   Mon,  3 May 2021 17:46:45 +0200
+Message-Id: <20210503154647.142551-8-hdegoede@redhat.com>
 In-Reply-To: <20210503154647.142551-1-hdegoede@redhat.com>
 References: <20210503154647.142551-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -69,111 +69,79 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Make dp_altmode_notify() handle the dp->data.conf == 0 case too,
+rather then having separate code-paths for this in various places
+which call it.
 
-On Intel platforms we know that the ACPI connector device
-node order will follow the order the driver (i915) decides.
-The decision is made using the custom Intel ACPI OpRegion
-(intel_opregion.c), though the driver does not actually know
-that the values it sends to ACPI there are used for
-associating a device node for the connectors, and assigning
-address for them.
-
-In reality that custom Intel ACPI OpRegion actually violates
-ACPI specification (we supply dynamic information to objects
-that are defined static, for example _ADR), however, it
-makes assigning correct connector node for a connector entry
-straightforward (it's one-on-one mapping).
-
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-[hdegoede@redhat.com: Move intel_acpi_assign_connector_fwnodes() to
- intel_acpi.c]
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/i915/display/intel_acpi.c    | 40 ++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_acpi.h    |  3 ++
- drivers/gpu/drm/i915/display/intel_display.c |  1 +
- 3 files changed, 44 insertions(+)
+ drivers/usb/typec/altmodes/displayport.c | 35 +++++++++---------------
+ 1 file changed, 13 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index 833d0c1be4f1..9f266dfda7dd 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.c
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -263,3 +263,43 @@ void intel_acpi_device_id_update(struct drm_i915_private *dev_priv)
- 	}
- 	drm_connector_list_iter_end(&conn_iter);
- }
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index b7f094435b00..aa669b9cf70e 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -66,10 +66,17 @@ struct dp_altmode {
+ 
+ static int dp_altmode_notify(struct dp_altmode *dp)
+ {
+-	u8 state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
++	unsigned long conf;
++	u8 state;
 +
-+/* NOTE: The connector order must be final before this is called. */
-+void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915)
-+{
-+	struct drm_connector_list_iter conn_iter;
-+	struct drm_device *drm_dev = &i915->drm;
-+	struct device *kdev = &drm_dev->pdev->dev;
-+	struct fwnode_handle *fwnode = NULL;
-+	struct drm_connector *connector;
-+	struct acpi_device *adev;
-+
-+	drm_connector_list_iter_begin(drm_dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		/* Always getting the next, even when the last was not used. */
-+		fwnode = device_get_next_child_node(kdev, fwnode);
-+		if (!fwnode)
-+			break;
-+
-+		switch (connector->connector_type) {
-+		case DRM_MODE_CONNECTOR_LVDS:
-+		case DRM_MODE_CONNECTOR_eDP:
-+		case DRM_MODE_CONNECTOR_DSI:
-+			/*
-+			 * Integrated displays have a specific address 0x1f on
-+			 * most Intel platforms, but not on all of them.
-+			 */
-+			adev = acpi_find_child_device(ACPI_COMPANION(kdev),
-+						      0x1f, 0);
-+			if (adev) {
-+				connector->fwnode = acpi_fwnode_handle(adev);
-+				break;
-+			}
-+			fallthrough;
-+		default:
-+			connector->fwnode = fwnode;
-+			break;
-+		}
++	if (dp->data.conf) {
++		state = get_count_order(DP_CONF_GET_PIN_ASSIGN(dp->data.conf));
++		conf = TYPEC_MODAL_STATE(state);
++	} else {
++		conf = TYPEC_STATE_USB;
 +	}
-+	drm_connector_list_iter_end(&conn_iter);
-+}
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.h b/drivers/gpu/drm/i915/display/intel_acpi.h
-index e8b068661d22..d2435691f4b5 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.h
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.h
-@@ -12,11 +12,14 @@ struct drm_i915_private;
- void intel_register_dsm_handler(void);
- void intel_unregister_dsm_handler(void);
- void intel_acpi_device_id_update(struct drm_i915_private *i915);
-+void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915);
- #else
- static inline void intel_register_dsm_handler(void) { return; }
- static inline void intel_unregister_dsm_handler(void) { return; }
- static inline
- void intel_acpi_device_id_update(struct drm_i915_private *i915) { return; }
-+static inline
-+void intel_acpi_assign_connector_fwnodes(struct drm_i915_private *i915) { return; }
- #endif /* CONFIG_ACPI */
  
- #endif /* __INTEL_ACPI_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 828ef4c5625f..87cad549632c 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -14970,6 +14970,7 @@ int intel_modeset_init_nogem(struct drm_i915_private *i915)
+-	return typec_altmode_notify(dp->alt, TYPEC_MODAL_STATE(state),
+-				   &dp->data);
++	return typec_altmode_notify(dp->alt, conf, &dp->data);
+ }
  
- 	drm_modeset_lock_all(dev);
- 	intel_modeset_setup_hw_state(dev, dev->mode_config.acquire_ctx);
-+	intel_acpi_assign_connector_fwnodes(i915);
- 	drm_modeset_unlock_all(dev);
+ static int dp_altmode_configure(struct dp_altmode *dp, u8 con)
+@@ -137,21 +144,10 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
  
- 	for_each_intel_crtc(dev, crtc) {
+ static int dp_altmode_configured(struct dp_altmode *dp)
+ {
+-	int ret;
+-
+ 	sysfs_notify(&dp->alt->dev.kobj, "displayport", "configuration");
+-
+-	if (!dp->data.conf)
+-		return typec_altmode_notify(dp->alt, TYPEC_STATE_USB,
+-					    &dp->data);
+-
+-	ret = dp_altmode_notify(dp);
+-	if (ret)
+-		return ret;
+-
+ 	sysfs_notify(&dp->alt->dev.kobj, "displayport", "pin_assignment");
+ 
+-	return 0;
++	return dp_altmode_notify(dp);
+ }
+ 
+ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
+@@ -172,13 +168,8 @@ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
+ 	}
+ 
+ 	ret = typec_altmode_vdm(dp->alt, header, &conf, 2);
+-	if (ret) {
+-		if (DP_CONF_GET_PIN_ASSIGN(dp->data.conf))
+-			dp_altmode_notify(dp);
+-		else
+-			typec_altmode_notify(dp->alt, TYPEC_STATE_USB,
+-					     &dp->data);
+-	}
++	if (ret)
++		dp_altmode_notify(dp);
+ 
+ 	return ret;
+ }
 -- 
 2.31.1
 
