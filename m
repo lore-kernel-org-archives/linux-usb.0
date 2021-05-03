@@ -2,227 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 839CCC433ED
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C6C2C43460
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 08:00:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53EDB613AC
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:46:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3403261244
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 08:00:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232880AbhECHrn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 May 2021 03:47:43 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:37638 "EHLO m43-7.mailgun.net"
+        id S232986AbhECIBX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 May 2021 04:01:23 -0400
+Received: from mga02.intel.com ([134.134.136.20]:58342 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230490AbhECHrm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 3 May 2021 03:47:42 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620028009; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=HOpAgOdR3aN3FMd2wiMwOuvUe0horNc4rlmQMq51l10=; b=pXFgc95HEGMArUs0p+PCOobMub9GIjuGvztxyXFbbZvI1nQSDuVcZlBOWLzJMVcC5E7hAd4u
- 2fvv5Nr8Inld/6RwYaqKjyDABlGw79TkmEGBP1OvJ+NX1EVmmzavAttaZXrfIlvgDatj7KSP
- EkDKUBV7ctWt4wiH4fPEZDAV0xE=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 608faa6487ce1fbb564a22ea (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 May 2021 07:46:44
- GMT
-Sender: jackp=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 93EE6C4338A; Mon,  3 May 2021 07:46:43 +0000 (UTC)
-Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E1AC2C433F1;
-        Mon,  3 May 2021 07:46:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E1AC2C433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
-From:   Jack Pham <jackp@codeaurora.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Abhilash K V <abhilash.k.v@intel.com>,
-        Jack Pham <jackp@codeaurora.org>, stable@vger.kernel.org,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Subject: [PATCH v2] usb: typec: ucsi: Retrieve all the PDOs instead of just the first 4
-Date:   Mon,  3 May 2021 00:46:11 -0700
-Message-Id: <20210503074611.30973-1-jackp@codeaurora.org>
-X-Mailer: git-send-email 2.24.0
+        id S229817AbhECIBW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 3 May 2021 04:01:22 -0400
+IronPort-SDR: YZVN5P/b+Wzf/NlMy+kBz1GmpzWpkdew9Lq2TheZ2DEctudbi0QXkk8pNVg6dP1K/mooCGng9k
+ PDBMQGyr/PrQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9972"; a="184826537"
+X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; 
+   d="scan'208";a="184826537"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2021 01:00:28 -0700
+IronPort-SDR: 0BtbVBvW4cKwxyUMXLuMNzqQR8eNMkGREOUVxBr1myj9cvQZmdyv3RaoH6saWoxMkb2gW4mAbU
+ vEVYOaACypdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,268,1613462400"; 
+   d="scan'208";a="530292089"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 03 May 2021 01:00:21 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 03 May 2021 11:00:20 +0300
+Date:   Mon, 3 May 2021 11:00:20 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Imre Deak <imre.deak@intel.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
+ notification
+Message-ID: <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
+References: <20210428215257.500088-1-hdegoede@redhat.com>
+ <20210428215257.500088-5-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428215257.500088-5-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-commit 4dbc6a4ef06d ("usb: typec: ucsi: save power data objects
-in PD mode") introduced retrieval of the PDOs when connected to a
-PD-capable source. But only the first 4 PDOs are received since
-that is the maximum number that can be fetched at a time given the
-MESSAGE_IN length limitation (16 bytes). However, as per the PD spec
-a connected source may advertise up to a maximum of 7 PDOs.
+Hi Hans,
 
-If such a source is connected it's possible the PPM could have
-negotiated a power contract with one of the PDOs at index greater
-than 4, and would be reflected in the request data object's (RDO)
-object position field. This would result in an out-of-bounds access
-when the rdo_index() is used to index into the src_pdos array in
-ucsi_psy_get_voltage_now().
+On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
+> +/**
+> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
+> + *
+> + * Contains data about out-of-band hotplug events, signalled through
+> + * drm_connector_oob_hotplug_event().
+> + */
+> +struct drm_connector_oob_hotplug_event_data {
+> +	/**
+> +	 * @connected: New connected status for the connector.
+> +	 */
+> +	bool connected;
+> +	/**
+> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
+> +	 */
+> +	int dp_lanes;
+> +	/**
+> +	 * @orientation: Connector orientation.
+> +	 */
+> +	enum typec_orientation orientation;
+> +};
 
-With the help of the UBSAN -fsanitize=array-bounds checker enabled
-this exact issue is revealed when connecting to a PD source adapter
-that advertise 5 PDOs and the PPM enters a contract having selected
-the 5th one.
+I don't think the orientation is relevant. It will always be "normal"
+from DP PoW after muxing, no?
 
-[  151.545106][   T70] Unexpected kernel BRK exception at EL1
-[  151.545112][   T70] Internal error: BRK handler: f2005512 [#1] PREEMPT SMP
-...
-[  151.545499][   T70] pc : ucsi_psy_get_prop+0x208/0x20c
-[  151.545507][   T70] lr : power_supply_show_property+0xc0/0x328
-...
-[  151.545542][   T70] Call trace:
-[  151.545544][   T70]  ucsi_psy_get_prop+0x208/0x20c
-[  151.545546][   T70]  power_supply_uevent+0x1a4/0x2f0
-[  151.545550][   T70]  dev_uevent+0x200/0x384
-[  151.545555][   T70]  kobject_uevent_env+0x1d4/0x7e8
-[  151.545557][   T70]  power_supply_changed_work+0x174/0x31c
-[  151.545562][   T70]  process_one_work+0x244/0x6f0
-[  151.545564][   T70]  worker_thread+0x3e0/0xa64
+I'm also not sure those deatils are enough in the long run. Based on
+what I've understood from our graphics team guys, for example knowing
+if multi-function is preferred may be important in some cases.
 
-We can resolve this by instead retrieving and storing up to the
-maximum of 7 PDOs in the con->src_pdos array. This would involve
-two calls to the GET_PDOS command.
++Imre.
 
-Fixes: 992a60ed0d5e ("usb: typec: ucsi: register with power_supply class")
-Fixes: 4dbc6a4ef06d ("usb: typec: ucsi: save power data objects in PD mode")
-Cc: stable@vger.kernel.org
-Reported-and-tested-by: Subbaraman Narayanamurthy <subbaram@codeaurora.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
----
-v2: Updated commit text with UBSAN stack trace; aligned indentation of
-    line-broken function parameter list; added Reported- and Reviewed-by
-    tags.
+All of that, and more, is already available in the Configuration VDO
+Status VDO that the we have negotiated with the DP partner. Both those
+VDOs are part of struct typec_displayport_data. I think we should
+simply supply that structure to the DRM code instead of picking those
+details out of it...
 
- drivers/usb/typec/ucsi/ucsi.c | 41 +++++++++++++++++++++++++++--------
- drivers/usb/typec/ucsi/ucsi.h |  6 +++--
- 2 files changed, 36 insertions(+), 11 deletions(-)
+>  /**
+>   * struct drm_tv_connector_state - TV connector related states
+>   * @subconnector: selected subconnector
+> @@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
+>  	 */
+>  	void (*atomic_print_state)(struct drm_printer *p,
+>  				   const struct drm_connector_state *state);
+> +
+> +	/**
+> +	 * @oob_hotplug_event:
+> +	 *
+> +	 * This will get called when a hotplug-event for a drm-connector
+> +	 * has been received from a source outside the display driver / device.
+> +	 */
+> +	void (*oob_hotplug_event)(struct drm_connector *connector,
+> +				  struct drm_connector_oob_hotplug_event_data *data);
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 282c3c825c13..93b4d9da81b4 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -495,7 +495,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
- 	}
- }
- 
--static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
-+static int ucsi_get_pdos(struct ucsi_connector *con, int is_partner,
-+			 u32 *pdos, int offset, int num_pdos)
- {
- 	struct ucsi *ucsi = con->ucsi;
- 	u64 command;
-@@ -503,17 +504,39 @@ static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
- 
- 	command = UCSI_COMMAND(UCSI_GET_PDOS) | UCSI_CONNECTOR_NUMBER(con->num);
- 	command |= UCSI_GET_PDOS_PARTNER_PDO(is_partner);
--	command |= UCSI_GET_PDOS_NUM_PDOS(UCSI_MAX_PDOS - 1);
-+	command |= UCSI_GET_PDOS_PDO_OFFSET(offset);
-+	command |= UCSI_GET_PDOS_NUM_PDOS(num_pdos - 1);
- 	command |= UCSI_GET_PDOS_SRC_PDOS;
--	ret = ucsi_send_command(ucsi, command, con->src_pdos,
--			       sizeof(con->src_pdos));
--	if (ret < 0) {
-+	ret = ucsi_send_command(ucsi, command, pdos + offset,
-+				num_pdos * sizeof(u32));
-+	if (ret < 0)
- 		dev_err(ucsi->dev, "UCSI_GET_PDOS failed (%d)\n", ret);
-+	if (ret == 0 && offset == 0)
-+		dev_warn(ucsi->dev, "UCSI_GET_PDOS returned 0 bytes\n");
-+
-+	return ret;
-+}
-+
-+static void ucsi_get_src_pdos(struct ucsi_connector *con, int is_partner)
-+{
-+	int ret;
-+
-+	/* UCSI max payload means only getting at most 4 PDOs at a time */
-+	ret = ucsi_get_pdos(con, 1, con->src_pdos, 0, UCSI_MAX_PDOS);
-+	if (ret < 0)
- 		return;
--	}
-+
- 	con->num_pdos = ret / sizeof(u32); /* number of bytes to 32-bit PDOs */
--	if (ret == 0)
--		dev_warn(ucsi->dev, "UCSI_GET_PDOS returned 0 bytes\n");
-+	if (con->num_pdos < UCSI_MAX_PDOS)
-+		return;
-+
-+	/* get the remaining PDOs, if any */
-+	ret = ucsi_get_pdos(con, 1, con->src_pdos, UCSI_MAX_PDOS,
-+			    PDO_MAX_OBJECTS - UCSI_MAX_PDOS);
-+	if (ret < 0)
-+		return;
-+
-+	con->num_pdos += ret / sizeof(u32);
- }
- 
- static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
-@@ -522,7 +545,7 @@ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
- 	case UCSI_CONSTAT_PWR_OPMODE_PD:
- 		con->rdo = con->status.request_data_obj;
- 		typec_set_pwr_opmode(con->port, TYPEC_PWR_MODE_PD);
--		ucsi_get_pdos(con, 1);
-+		ucsi_get_src_pdos(con, 1);
- 		break;
- 	case UCSI_CONSTAT_PWR_OPMODE_TYPEC1_5:
- 		con->rdo = 0;
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 3920e20a9e9e..cee666790907 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -8,6 +8,7 @@
- #include <linux/power_supply.h>
- #include <linux/types.h>
- #include <linux/usb/typec.h>
-+#include <linux/usb/pd.h>
- #include <linux/usb/role.h>
- 
- /* -------------------------------------------------------------------------- */
-@@ -134,7 +135,9 @@ void ucsi_connector_change(struct ucsi *ucsi, u8 num);
- 
- /* GET_PDOS command bits */
- #define UCSI_GET_PDOS_PARTNER_PDO(_r_)		((u64)(_r_) << 23)
-+#define UCSI_GET_PDOS_PDO_OFFSET(_r_)		((u64)(_r_) << 24)
- #define UCSI_GET_PDOS_NUM_PDOS(_r_)		((u64)(_r_) << 32)
-+#define UCSI_MAX_PDOS				(4)
- #define UCSI_GET_PDOS_SRC_PDOS			((u64)1 << 34)
- 
- /* -------------------------------------------------------------------------- */
-@@ -302,7 +305,6 @@ struct ucsi {
- 
- #define UCSI_MAX_SVID		5
- #define UCSI_MAX_ALTMODES	(UCSI_MAX_SVID * 6)
--#define UCSI_MAX_PDOS		(4)
- 
- #define UCSI_TYPEC_VSAFE5V	5000
- #define UCSI_TYPEC_1_5_CURRENT	1500
-@@ -330,7 +332,7 @@ struct ucsi_connector {
- 	struct power_supply *psy;
- 	struct power_supply_desc psy_desc;
- 	u32 rdo;
--	u32 src_pdos[UCSI_MAX_PDOS];
-+	u32 src_pdos[PDO_MAX_OBJECTS];
- 	int num_pdos;
- 
- 	struct usb_role_switch *usb_role_sw;
+So I would not try to generalise this like that. This callback should
+be USB Type-C DP altmode specific:
+
+	void (*oob_hotplug_event)(struct drm_connector *connector,
+                                  struct typec_displayport_data *data);
+
+Or like this if the orientation can really be reversed after muxing:
+
+	void (*oob_hotplug_event)(struct drm_connector *connector,
+				  struct typec_altmode *altmode,
+                                  struct typec_displayport_data *data);
+
+You can now check the orientation separately with
+typec_altmode_get_orientation() if necessary.
+
+
+thanks,
+
 -- 
-2.24.0
-
+heikki
