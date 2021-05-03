@@ -2,68 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDA8C433ED
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 14:35:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F9AC43470
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A66C611C2
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 14:35:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6C8761278
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 15:47:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhECOgd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 May 2021 10:36:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29985 "EHLO
+        id S230443AbhECPry (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 May 2021 11:47:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47956 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229801AbhECOg3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 10:36:29 -0400
+        by vger.kernel.org with ESMTP id S230418AbhECPrw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 11:47:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620052534;
+        s=mimecast20190719; t=1620056819;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=k5l9mji1oYztNVl+ToG36ApOd6oMuk+iglNseyqhqhM=;
-        b=Ce+aS45lJzWrm+EDQV2lz3AqV/WSj7JxpQyRtJa3j6PClukJQ6STPnrX9wkNDiFGO5haxi
-        H6RcK4GVcXvGgPlpNb8PQa6Do/9bxmRIE343FH9JguCPmG7o6QxxExZKbveb8A5so4UJh6
-        /pMSdPUL7UvtCtC2TZjGqduhfsNu2mc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-Gu3UgybmNF-1nIo8oxJrKA-1; Mon, 03 May 2021 10:35:33 -0400
-X-MC-Unique: Gu3UgybmNF-1nIo8oxJrKA-1
-Received: by mail-ed1-f69.google.com with SMTP id v5-20020a0564023485b029037ff13253bcso4659520edc.3
-        for <linux-usb@vger.kernel.org>; Mon, 03 May 2021 07:35:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=k5l9mji1oYztNVl+ToG36ApOd6oMuk+iglNseyqhqhM=;
-        b=QTcxgd4iYIMpNBEqrd8MD64h+ulPYXlhj3evWTbbHPhAfMWlsXso9lBViw1/mNUAuy
-         d44w4nQWGanbCjE8lvYipN7VZOJqt491h9aUbJ2foOb6ELHi6jIHA+kRumux4TUlIygn
-         zxb+PRiLqynTmwCYUBRTv3otquXFb3c29lbEXRO5dnJ+ZSESTM5NEISNgS/Gs9Eu3qZE
-         0exEO1UYKhww+ll6nU8MKdfzhCu33zG54sXn4VfY3J3byjQgYUb8GR497AfXGXO2iXIl
-         7yRXhy+vYgiCCDnjbSN6V/lEKjc+3m36+O2+rquYRMNWHjIdZSreiPANDECvu17HLGCp
-         /ObA==
-X-Gm-Message-State: AOAM531sfhSxWPAQb5/B+DHvEBUCepWx4/XtX7xCTCCV4lonCYmfvFzQ
-        i2v1Wej0FzYxixjZ1p9WLAwsfiEHk1qi7xioHcUtYS2l4gfIPBdq+wx4QyaFKdnUBJ1bwGgeUjj
-        4qnXV8mCT4vzmwJUI7Qt6i+Vol7BVtxrLTPUDFYgsq+sQHYsdpMJlXIgFGgdIG+hflk9fDEfE
-X-Received: by 2002:a17:906:6a93:: with SMTP id p19mr17291203ejr.319.1620052530854;
-        Mon, 03 May 2021 07:35:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUvT+qkq3EqqF/+Zg6Vh+R8TnTUOqUDXXPQpBdiWawf3Ow/BHIM9//4R5/6uwXK5914Y8riw==
-X-Received: by 2002:a17:906:6a93:: with SMTP id p19mr17291172ejr.319.1620052530649;
-        Mon, 03 May 2021 07:35:30 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id q25sm12499548edt.51.2021.05.03.07.35.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 May 2021 07:35:30 -0700 (PDT)
-Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
- notification
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Imre Deak <imre.deak@intel.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        bh=CgHoVj2Do5c60YV9kewvU6IPdrYpqujE4xzib8vNTY4=;
+        b=euEFvok+6jaXZboQEYt6rLoFGV4I2l+AZ7Y5zWf4DnAhxxr46nACEiIkxGZSFt6qocSU8j
+        oZNQBSzWfbZ6sB7hJe2auev5a2qIFyWW8SSIqyiA76gacvjU0x64WbXbucIOWx3xkdk7PE
+        MSgl4p42fS3xSpWanbhCvTrxoJypXYw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-ihzsOlkwMk-N4twsUsf0KQ-1; Mon, 03 May 2021 11:46:57 -0400
+X-MC-Unique: ihzsOlkwMk-N4twsUsf0KQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F3291006C80;
+        Mon,  3 May 2021 15:46:55 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-158.ams2.redhat.com [10.36.112.158])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 91E061048109;
+        Mon,  3 May 2021 15:46:52 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -73,127 +52,130 @@ Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel@lists.freedesktop.org,
         platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20210428215257.500088-1-hdegoede@redhat.com>
- <20210428215257.500088-5-hdegoede@redhat.com>
- <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
-Date:   Mon, 3 May 2021 16:35:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+Subject: [PATCH 1/9] drm/connector: Give connector sysfs devices there own device_type
+Date:   Mon,  3 May 2021 17:46:39 +0200
+Message-Id: <20210503154647.142551-2-hdegoede@redhat.com>
+In-Reply-To: <20210503154647.142551-1-hdegoede@redhat.com>
+References: <20210503154647.142551-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Give connector sysfs devices there own device_type, this allows us to
+check if a device passed to functions dealing with generic devices is
+a drm_connector or not.
 
-On 5/3/21 10:00 AM, Heikki Krogerus wrote:
-> Hi Hans,
-> 
-> On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
->> +/**
->> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
->> + *
->> + * Contains data about out-of-band hotplug events, signalled through
->> + * drm_connector_oob_hotplug_event().
->> + */
->> +struct drm_connector_oob_hotplug_event_data {
->> +	/**
->> +	 * @connected: New connected status for the connector.
->> +	 */
->> +	bool connected;
->> +	/**
->> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
->> +	 */
->> +	int dp_lanes;
->> +	/**
->> +	 * @orientation: Connector orientation.
->> +	 */
->> +	enum typec_orientation orientation;
->> +};
-> 
-> I don't think the orientation is relevant. It will always be "normal"
-> from DP PoW after muxing, no?
+A check like this is necessary in the drm_connector_acpi_bus_match()
+function added in the next patch in this series.
 
-That is what I thought to, but during the discussion of my previous attempt
-at this one of the i915 devs mentioned that in some cases the muxes manage
-to swap the lane order when the connector upside-down and at least the
-Intel GPUs can correct for this on the GPU side, so they asked for this
-info to be included.
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/gpu/drm/drm_sysfs.c | 50 +++++++++++++++++++++++++++----------
+ 1 file changed, 37 insertions(+), 13 deletions(-)
 
-> I'm also not sure those deatils are enough in the long run. Based on
-> what I've understood from our graphics team guys, for example knowing
-> if multi-function is preferred may be important in some cases.
-
-The current data being passed is just intended as a starting point,
-this is purely a kernel internal API so we can easily add more
-data to the struct. As I mentioned in the cover-letter the current
-oob_hotplug handler which the i915 patch adds to the i915 driver does
-not actually do anything with the data.  ATM it is purely there to
-demonstrate that the ability to pass relevant data is there now
-(which was an issue with the previous attempt). I believe the current
-code is fine as a PoC of "pass event data" once GPU drivers actually
-start doing something with the data we can extend or outright replace
-it without issues.
-
-> +Imre.
-> 
-> All of that, and more, is already available in the Configuration VDO
-> Status VDO that the we have negotiated with the DP partner. Both those
-> VDOs are part of struct typec_displayport_data. I think we should
-> simply supply that structure to the DRM code instead of picking those
-> details out of it...
-
-I'm not sure I like the idea of passing the raw VDO, but if the
-DRM folks think that would be useful we can certainly add it.
-
-Regards,
-
-Hans
-
-
-> 
->>  /**
->>   * struct drm_tv_connector_state - TV connector related states
->>   * @subconnector: selected subconnector
->> @@ -1110,6 +1132,15 @@ struct drm_connector_funcs {
->>  	 */
->>  	void (*atomic_print_state)(struct drm_printer *p,
->>  				   const struct drm_connector_state *state);
->> +
->> +	/**
->> +	 * @oob_hotplug_event:
->> +	 *
->> +	 * This will get called when a hotplug-event for a drm-connector
->> +	 * has been received from a source outside the display driver / device.
->> +	 */
->> +	void (*oob_hotplug_event)(struct drm_connector *connector,
->> +				  struct drm_connector_oob_hotplug_event_data *data);
-> 
-> So I would not try to generalise this like that. This callback should
-> be USB Type-C DP altmode specific:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
->                                   struct typec_displayport_data *data);
-> 
-> Or like this if the orientation can really be reversed after muxing:
-> 
-> 	void (*oob_hotplug_event)(struct drm_connector *connector,
-> 				  struct typec_altmode *altmode,
->                                   struct typec_displayport_data *data);
-> 
-> You can now check the orientation separately with
-> typec_altmode_get_orientation() if necessary.
-> 
-> 
-> thanks,
-> 
+diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+index f0336c804639..553024bcda8a 100644
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -50,6 +50,10 @@ static struct device_type drm_sysfs_device_minor = {
+ 	.name = "drm_minor"
+ };
+ 
++static struct device_type drm_sysfs_device_connector = {
++	.name = "drm_connector",
++};
++
+ struct class *drm_class;
+ 
+ static char *drm_devnode(struct device *dev, umode_t *mode)
+@@ -102,6 +106,11 @@ void drm_sysfs_destroy(void)
+ 	drm_class = NULL;
+ }
+ 
++static void drm_sysfs_release(struct device *dev)
++{
++	kfree(dev);
++}
++
+ /*
+  * Connector properties
+  */
+@@ -274,27 +283,47 @@ static const struct attribute_group *connector_dev_groups[] = {
+ int drm_sysfs_connector_add(struct drm_connector *connector)
+ {
+ 	struct drm_device *dev = connector->dev;
++	struct device *kdev;
++	int r;
+ 
+ 	if (connector->kdev)
+ 		return 0;
+ 
+-	connector->kdev =
+-		device_create_with_groups(drm_class, dev->primary->kdev, 0,
+-					  connector, connector_dev_groups,
+-					  "card%d-%s", dev->primary->index,
+-					  connector->name);
++	kdev = kzalloc(sizeof(*kdev), GFP_KERNEL);
++	if (!kdev)
++		return -ENOMEM;
++
++	device_initialize(kdev);
++	kdev->class = drm_class;
++	kdev->type = &drm_sysfs_device_connector;
++	kdev->parent = dev->primary->kdev;
++	kdev->groups = connector_dev_groups;
++	kdev->release = drm_sysfs_release;
++	dev_set_drvdata(kdev, connector);
++
++	r = dev_set_name(kdev, "card%d-%s", dev->primary->index, connector->name);
++	if (r)
++		goto err_free;
++
+ 	DRM_DEBUG("adding \"%s\" to sysfs\n",
+ 		  connector->name);
+ 
+-	if (IS_ERR(connector->kdev)) {
+-		DRM_ERROR("failed to register connector device: %ld\n", PTR_ERR(connector->kdev));
+-		return PTR_ERR(connector->kdev);
++	r = device_add(kdev);
++	if (r) {
++		DRM_ERROR("failed to register connector device: %d\n", r);
++		goto err_free;
+ 	}
+ 
++	connector->kdev = kdev;
++
+ 	if (connector->ddc)
+ 		return sysfs_create_link(&connector->kdev->kobj,
+ 				 &connector->ddc->dev.kobj, "ddc");
+ 	return 0;
++
++err_free:
++	put_device(kdev);
++	return r;
+ }
+ 
+ void drm_sysfs_connector_remove(struct drm_connector *connector)
+@@ -375,11 +404,6 @@ void drm_sysfs_connector_status_event(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_sysfs_connector_status_event);
+ 
+-static void drm_sysfs_release(struct device *dev)
+-{
+-	kfree(dev);
+-}
+-
+ struct device *drm_sysfs_minor_alloc(struct drm_minor *minor)
+ {
+ 	const char *minor_str;
+-- 
+2.31.1
 
