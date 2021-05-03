@@ -2,236 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BB4C433ED
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:30:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AD3EC433ED
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:38:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83D6D6120D
-	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:30:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE5FE6121D
+	for <linux-usb@archiver.kernel.org>; Mon,  3 May 2021 07:38:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232712AbhECHax (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 May 2021 03:30:53 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:33264 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230186AbhECHav (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 3 May 2021 03:30:51 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620026998; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=RSHjPO3uq2nxd4JnI3yr6LDXekX375bBc6f6qf8lP4M=; b=KPxcrnO2IQ8wVFuwRylNLzw/zlCiEDFuoJCNrcaRskaEujkb1mqtWL8IUYygHz3fRmtD1sOK
- gPFUcL1SuaOUhwnRYodMhg8OOHg62FcPF6P6pHA5z8i7RN7MBT7iuf/ge12Kbh22wbm3fjfv
- VfKlpDyZxeCslX7q5eE7q3rOe9U=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 608fa676853c0a2c4634ae14 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 03 May 2021 07:29:58
- GMT
-Sender: jackp=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 82D23C433D3; Mon,  3 May 2021 07:29:57 +0000 (UTC)
-Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 39B14C433D3;
-        Mon,  3 May 2021 07:29:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 39B14C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
-Date:   Mon, 3 May 2021 00:29:50 -0700
-From:   Jack Pham <jackp@codeaurora.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Subbaraman Narayanamurthy <subbaram@codeaurora.org>,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        Abhilash K V <abhilash.k.v@intel.com>
-Subject: Re: [PATCH] usb: typec: ucsi: Retrieve all the PDOs instead of just
- the first 4
-Message-ID: <20210503072950.GA12569@jackp-linux.qualcomm.com>
-References: <20210426191825.30721-1-jackp@codeaurora.org>
- <20210426192605.GB20698@jackp-linux.qualcomm.com>
- <YI+gOBPTZF+Rafv7@kuha.fi.intel.com>
+        id S233009AbhECHju (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 May 2021 03:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232953AbhECHjo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 May 2021 03:39:44 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789AEC061756
+        for <linux-usb@vger.kernel.org>; Mon,  3 May 2021 00:38:37 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id h20so2355614plr.4
+        for <linux-usb@vger.kernel.org>; Mon, 03 May 2021 00:38:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IYFsPOhEkozhRMhOWjWI11yqPrz5tjAXd8GPZbpcT4M=;
+        b=XqxfYNYp/5H+2wt1W9YwZzLSm1v8EPSM0AF/OLqW8tYNoPa2nC1qTrcdw5io1BkLrP
+         nJ1QcJjJ9Hr1xbg0PLokqNUqbqIw5jUioZMJRH9vzkrp6e8g7BkLpNk0yPAm6lkja999
+         EoG52EM8Mjl1xUrcgAo1lCOWGh1E9IumHHYQPqyPmgKAXJ6NrLeb8XRxmdvtoyl2I2j1
+         QBWNTBpfWP0fuEklUdXJ6j7UqIGhBKkcWx6E9YITZ20/73KAYku7EJ+drOtDV+db2wgq
+         URszJ3yN0Yt3V12XVsGJX2fBkujF6uOhcUT3VmBpHSwKxCiFs2pFpuSZfu0hfygsN0rk
+         RB5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IYFsPOhEkozhRMhOWjWI11yqPrz5tjAXd8GPZbpcT4M=;
+        b=WK2lvgVRjui+az4Ml9Vh71VLj8xzXUJEAKjI+H42wP9KwqQwJVDO5IjV9dX895zFlH
+         iWHPCJrtxMsgWgBSej+yE8dAKLWe6gMkN/DojBq8BN3QYe5+FScyKlX6644AtYvQiPCT
+         wL5mLc0Q1oHc13qDxmuUJ5Z+RoZsDMyBLdjPscWfsESBa0FY5mZ0KyqspXnJCJXQ9VT4
+         5OCS50Ujc/DOiH5s3KgbtOOqg7+3YRO/i/vD12lG9ZL01ezEkIaVr/3K+y95dISc3BV7
+         RuDcEeSpTlxz6o0Ai7uTAq7OplcAQpmzo0/ATRHBcySvnXvsbHSREPwZptnLfkTFwsPf
+         k4vg==
+X-Gm-Message-State: AOAM531K4A6ZdYRSFAjxkOor5zJ3NFRIC8eOEJcnUDEvl1CmU/8wLojx
+        6+y2DmpXbGyT9ZcBwVdExFLvwa6efx1d3fXhXJwSPA==
+X-Google-Smtp-Source: ABdhPJyFYRXBJAZ5sIncasHAQHWFRQjul8zYGS09rVBKOVpFVSk8arNYcmBT7NZ+2TrxLzf2ZHb9Kls4ePKD0u2UMco=
+X-Received: by 2002:a17:90a:19d2:: with SMTP id 18mr3681020pjj.205.1620027516686;
+ Mon, 03 May 2021 00:38:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YI+gOBPTZF+Rafv7@kuha.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1619777783-24116-1-git-send-email-loic.poulain@linaro.org>
+ <1619777783-24116-2-git-send-email-loic.poulain@linaro.org>
+ <bf02f5ecf84b7eaaa05768edd933a321f701e79f.camel@suse.com> <87a6pek9tn.fsf@miraculix.mork.no>
+In-Reply-To: <87a6pek9tn.fsf@miraculix.mork.no>
+From:   Loic Poulain <loic.poulain@linaro.org>
+Date:   Mon, 3 May 2021 09:47:12 +0200
+Message-ID: <CAMZdPi89yOStvH8Z9ZwMkLzUB9QgBBzL1xxkUkSz3mwZ8+1nZA@mail.gmail.com>
+Subject: Re: [RFC net-next 2/2] usb: class: cdc-wdm: WWAN framework integration
+To:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>,
+        Oliver Neukum <oneukum@suse.com>
+Cc:     Network Development <netdev@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, May 03, 2021 at 10:03:20AM +0300, Heikki Krogerus wrote:
-> On Mon, Apr 26, 2021 at 12:26:05PM -0700, Jack Pham wrote:
-> > Forgot to Cc: Abhilash who introduced the PDO code
-> > 
-> > On Mon, Apr 26, 2021 at 12:18:25PM -0700, Jack Pham wrote:
-> > > commit 4dbc6a4ef06d ("usb: typec: ucsi: save power data objects
-> > > in PD mode") introduced retrieval of the PDOs when connected to a
-> > > PD-capable source. But only the first 4 PDOs are received since
-> > > that is the maximum number that can be fetched at a time given the
-> > > MESSAGE_IN length limitation (16 bytes). However, as per the PD spec
-> > > a connected source may advertise up to a maximum of 7 PDOs.
-> > > 
-> > > If such a source is connected it's possible the UCSI FW could have
-> > > negotiated a power contract with one of the PDOs at index greater
-> > > than 4, and would be reflected in the request data object's (RDO)
-> > > object position field. This would result in an out-of-bounds access
-> > > when the rdo_index() is used to index into the src_pdos array in
-> > > ucsi_psy_get_voltage_now().
-> > > 
-> > > We can resolve this by instead retrieving and storing up to the
-> > > maximum of 7 PDOs in the con->src_pdos array. This would involve
-> > > two calls to the GET_PDOS command.
-> 
-> This makes sense to me. A few nitpicks below. Besides those:
-> 
-> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+On Sat, 1 May 2021 at 12:49, Bj=C3=B8rn Mork <bjorn@mork.no> wrote:
+>
+> Oliver Neukum <oneukum@suse.com> writes:
+>
+> > This absolutely makes sense,
+>
+> +1
 
-Thanks Heikki! I'll send a V2 along with the commit text improvements
-Subbaraman had suggested.
-
-> > > Fixes: 992a60ed0d5e ("usb: typec: ucsi: register with power_supply class")
-> > > Fixes: 4dbc6a4ef06d ("usb: typec: ucsi: save power data objects in PD mode")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Jack Pham <jackp@codeaurora.org>
-> > > ---
-> > >  drivers/usb/typec/ucsi/ucsi.c | 41 +++++++++++++++++++++++++++--------
-> > >  drivers/usb/typec/ucsi/ucsi.h |  6 +++--
-> > >  2 files changed, 36 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> > > index 244270755ae6..ac214b855986 100644
-> > > --- a/drivers/usb/typec/ucsi/ucsi.c
-> > > +++ b/drivers/usb/typec/ucsi/ucsi.c
-> > > @@ -495,7 +495,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
-> > >  	}
-> > >  }
-> > >  
-> > > -static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
-> > > +static int ucsi_get_pdos(struct ucsi_connector *con, int is_partner,
-> > > +		u32 *pdos, int offset, int num_pdos)
-> 
-> That should be aligned properly.
-
-Will do.
-
-> > >  {
-> > >  	struct ucsi *ucsi = con->ucsi;
-> > >  	u64 command;
-> > > @@ -503,17 +504,39 @@ static void ucsi_get_pdos(struct ucsi_connector *con, int is_partner)
-> > >  
-> > >  	command = UCSI_COMMAND(UCSI_GET_PDOS) | UCSI_CONNECTOR_NUMBER(con->num);
-> > >  	command |= UCSI_GET_PDOS_PARTNER_PDO(is_partner);
-> > > -	command |= UCSI_GET_PDOS_NUM_PDOS(UCSI_MAX_PDOS - 1);
-> > > +	command |= UCSI_GET_PDOS_PDO_OFFSET(offset);
-> > > +	command |= UCSI_GET_PDOS_NUM_PDOS(num_pdos - 1);
-> > >  	command |= UCSI_GET_PDOS_SRC_PDOS;
-> > > -	ret = ucsi_send_command(ucsi, command, con->src_pdos,
-> > > -			       sizeof(con->src_pdos));
-> > > -	if (ret < 0) {
-> > > +	ret = ucsi_send_command(ucsi, command, pdos + offset,
-> > > +			num_pdos * sizeof(u32));
-> 
-> That too. I think if you run scripts/checkpatch.pl it will complain
-> about those.
-
-Got it.
-
-Actually checkpatch didn't warn about this. But I'll align to follow the
-style in the rest of this file.
-
-> > > +	if (ret < 0)
-> > >  		dev_err(ucsi->dev, "UCSI_GET_PDOS failed (%d)\n", ret);
-> > > +	if (ret == 0 && offset == 0)
-> > > +		dev_warn(ucsi->dev, "UCSI_GET_PDOS returned 0 bytes\n");
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static void ucsi_get_src_pdos(struct ucsi_connector *con, int is_partner)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	/* UCSI max payload means only getting at most 4 PDOs at a time */
-> > > +	ret = ucsi_get_pdos(con, 1, con->src_pdos, 0, UCSI_MAX_PDOS);
-> > > +	if (ret < 0)
-> > >  		return;
-> > > -	}
-> > > +
-> > >  	con->num_pdos = ret / sizeof(u32); /* number of bytes to 32-bit PDOs */
-> > > -	if (ret == 0)
-> > > -		dev_warn(ucsi->dev, "UCSI_GET_PDOS returned 0 bytes\n");
-> > > +	if (con->num_pdos < UCSI_MAX_PDOS)
-> > > +		return;
-> > > +
-> > > +	/* get the remaining PDOs, if any */
-> > > +	ret = ucsi_get_pdos(con, 1, con->src_pdos, UCSI_MAX_PDOS,
-> > > +			PDO_MAX_OBJECTS - UCSI_MAX_PDOS);
-> > > +	if (ret < 0)
-> > > +		return;
-> > > +
-> > > +	con->num_pdos += ret / sizeof(u32);
-> > >  }
-> > >  
-> > >  static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
-> > > @@ -522,7 +545,7 @@ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
-> > >  	case UCSI_CONSTAT_PWR_OPMODE_PD:
-> > >  		con->rdo = con->status.request_data_obj;
-> > >  		typec_set_pwr_opmode(con->port, TYPEC_PWR_MODE_PD);
-> > > -		ucsi_get_pdos(con, 1);
-> > > +		ucsi_get_src_pdos(con, 1);
-> > >  		break;
-> > >  	case UCSI_CONSTAT_PWR_OPMODE_TYPEC1_5:
-> > >  		con->rdo = 0;
-> > > diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-> > > index 3920e20a9e9e..cee666790907 100644
-> > > --- a/drivers/usb/typec/ucsi/ucsi.h
-> > > +++ b/drivers/usb/typec/ucsi/ucsi.h
-> > > @@ -8,6 +8,7 @@
-> > >  #include <linux/power_supply.h>
-> > >  #include <linux/types.h>
-> > >  #include <linux/usb/typec.h>
-> > > +#include <linux/usb/pd.h>
-> > >  #include <linux/usb/role.h>
-> > >  
-> > >  /* -------------------------------------------------------------------------- */
-> > > @@ -134,7 +135,9 @@ void ucsi_connector_change(struct ucsi *ucsi, u8 num);
-> > >  
-> > >  /* GET_PDOS command bits */
-> > >  #define UCSI_GET_PDOS_PARTNER_PDO(_r_)		((u64)(_r_) << 23)
-> > > +#define UCSI_GET_PDOS_PDO_OFFSET(_r_)		((u64)(_r_) << 24)
-> > >  #define UCSI_GET_PDOS_NUM_PDOS(_r_)		((u64)(_r_) << 32)
-> > > +#define UCSI_MAX_PDOS				(4)
-> > >  #define UCSI_GET_PDOS_SRC_PDOS			((u64)1 << 34)
-> > >  
-> > >  /* -------------------------------------------------------------------------- */
-> > > @@ -302,7 +305,6 @@ struct ucsi {
-> > >  
-> > >  #define UCSI_MAX_SVID		5
-> > >  #define UCSI_MAX_ALTMODES	(UCSI_MAX_SVID * 6)
-> > > -#define UCSI_MAX_PDOS		(4)
-> > >  
-> > >  #define UCSI_TYPEC_VSAFE5V	5000
-> > >  #define UCSI_TYPEC_1_5_CURRENT	1500
-> > > @@ -330,7 +332,7 @@ struct ucsi_connector {
-> > >  	struct power_supply *psy;
-> > >  	struct power_supply_desc psy_desc;
-> > >  	u32 rdo;
-> > > -	u32 src_pdos[UCSI_MAX_PDOS];
-> > > +	u32 src_pdos[PDO_MAX_OBJECTS];
-> > >  	int num_pdos;
-> > >  
-> > >  	struct usb_role_switch *usb_role_sw;
+Ok, thanks, then I'll resubmit a proper patch set with comments
+addressed once the merge window is closed and net-next open.
 
 Thanks,
-Jack
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Loic
