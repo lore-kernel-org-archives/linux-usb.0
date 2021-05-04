@@ -2,254 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A630CC433B4
-	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 13:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F6ADC433B4
+	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 14:52:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 775F7610FB
-	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 13:56:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 207A761186
+	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 14:52:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231402AbhEDN5d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 May 2021 09:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50628 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231393AbhEDN53 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 May 2021 09:57:29 -0400
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6C7C061574
-        for <linux-usb@vger.kernel.org>; Tue,  4 May 2021 06:56:33 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id o5-20020ac872c50000b02901c32e7e3c21so3564328qtp.8
-        for <linux-usb@vger.kernel.org>; Tue, 04 May 2021 06:56:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=XpDsGwYbXCDPEvPC1DLc7K0ub+hrsLcBuEbpE3/p4xM=;
-        b=LohDfGpyXimS+FVZ7XFwAu6bwfS6iZldfH5QoIYWd2vXyAZogOLOf0CBkwgGyjZtEV
-         t3WynjcvBfR34aRDFlJNNI26ZOrDstNUknQH+PjkBmzCluA0rAYy3Kej4A7GVknXy8q+
-         V2kNjbgUhSkAeww/5cA++Y4UCbC1C1JHulaguQV6mfKlWgU33Iq4/l9zh7lZhBBEtghH
-         CmWjtjyPx58jsQrfsbqaJ6o/1+VkZrNfM5WZP7dFmv2tFcimQLephmp53ivGjMV/caPU
-         FFbWJVidSCgta3BacqdH1rwaJ2JbpnYitpnNaMTxI3O3Jw6Va3xeNAMezYGPpUyReq7o
-         oedA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=XpDsGwYbXCDPEvPC1DLc7K0ub+hrsLcBuEbpE3/p4xM=;
-        b=nstl9OV0KVD50+cyPWMQ+B2GQTVOmIuiRXAXKtj618SjGaCtSanYoNE6/SgNtNXJfv
-         C0HL8xWC+6z+fk1xD5VnBNhZtwR849QMiPOSkeEbq5Le3l8YWIF1iU8n1r9WikI5qLeQ
-         QrXRnwGRZ0XYplOImvGEWKGLfqsq7Y2C5oZqW0XPkugzZW9ssqBalIWnD6UBUY7BgBhe
-         8JPnrWxdHfeUlW4F1iGrevDpGGP05zMGjtln3rTspbRcWE4gsQvIKHc/QCndQFez9eIm
-         KErlfKY2/bTU92+UJVI32QeKgg/nSSArDorIdiqPgY3kL78ADhs3WHYoM96rUqYvxUi3
-         Dbkw==
-X-Gm-Message-State: AOAM532zuIXr2DJgRO4x1HRQZhAIO2uJilWQHCV7ZC7MvJEKBvYTnOiC
-        huPzu5zj7VJ93Tb9VFAvKnXYwr5NU2aF
-X-Google-Smtp-Source: ABdhPJxvYiR9IH2e2GsqC4eEOpgZ3ou4ibVom+UHI8NsSnJLsX5ZcrZl13HaG32Id/it23bjllLvtgGZNAJc
-X-Received: from kyletso.ntc.corp.google.com ([2401:fa00:fc:202:7bdb:2b58:f6b1:a854])
- (user=kyletso job=sendgmr) by 2002:a05:6214:2b0:: with SMTP id
- m16mr26208478qvv.4.1620136592386; Tue, 04 May 2021 06:56:32 -0700 (PDT)
-Date:   Tue,  4 May 2021 21:56:22 +0800
-Message-Id: <20210504135622.3965148-1-kyletso@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
-Subject: [PATCH] usb: typec: tcpm: Send DISCOVER_IDENTITY from dedicated work
-From:   Kyle Tso <kyletso@google.com>
-To:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        gregkh@linuxfoundation.org
-Cc:     badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Tso <kyletso@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S231376AbhEDOxm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 May 2021 10:53:42 -0400
+Received: from mga09.intel.com ([134.134.136.24]:11720 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231326AbhEDOxl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 May 2021 10:53:41 -0400
+IronPort-SDR: ga4yvMvjaUYwnYHVVrDYNeld+pAndwlAIKHBpLHC6wCZ48TOMT5DC06g3d6Ks5QrT6cCBJmF3/
+ BBeWZ2hH77fg==
+X-IronPort-AV: E=McAfee;i="6200,9189,9974"; a="198083717"
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="198083717"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2021 07:52:45 -0700
+IronPort-SDR: vU+uxj5bo8hDLN6NcpjGw6Pky+yuJ7aER+QDsY62qHxO4ixpBbwju6LlsRENQoKe/I1++IH5Mj
+ l8zTA6jmHa8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,272,1613462400"; 
+   d="scan'208";a="531087248"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 04 May 2021 07:52:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 04 May 2021 17:52:40 +0300
+Date:   Tue, 4 May 2021 17:52:40 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Imre Deak <imre.deak@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        dri-devel@lists.freedesktop.org,
+        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 4/9] drm/connector: Add support for out-of-band hotplug
+ notification
+Message-ID: <YJFfuF3UGP0TZrVw@kuha.fi.intel.com>
+References: <20210428215257.500088-1-hdegoede@redhat.com>
+ <20210428215257.500088-5-hdegoede@redhat.com>
+ <YI+tlE35i+6F/WUO@kuha.fi.intel.com>
+ <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00e380b2-0376-0ddb-9b0e-342779b7fc06@redhat.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In current design, DISCOVER_IDENTITY is queued to VDM state machine
-immediately in Ready states and never retries if it fails in the AMS.
-Move the process to a delayed work so that when it fails for some
-reasons (e.g. Sink Tx No Go), it can be retried by queueing the work
-again. Also fix a problem that the vdm_state is not set to a proper
-state if it is blocked by Collision Avoidance mechanism.
+On Mon, May 03, 2021 at 04:35:29PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 5/3/21 10:00 AM, Heikki Krogerus wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Apr 28, 2021 at 11:52:52PM +0200, Hans de Goede wrote:
+> >> +/**
+> >> + * struct drm_connector_oob_hotplug_event_data: OOB hotplug event data
+> >> + *
+> >> + * Contains data about out-of-band hotplug events, signalled through
+> >> + * drm_connector_oob_hotplug_event().
+> >> + */
+> >> +struct drm_connector_oob_hotplug_event_data {
+> >> +	/**
+> >> +	 * @connected: New connected status for the connector.
+> >> +	 */
+> >> +	bool connected;
+> >> +	/**
+> >> +	 * @dp_lanes: Number of available displayport lanes, 0 if unknown.
+> >> +	 */
+> >> +	int dp_lanes;
+> >> +	/**
+> >> +	 * @orientation: Connector orientation.
+> >> +	 */
+> >> +	enum typec_orientation orientation;
+> >> +};
+> > 
+> > I don't think the orientation is relevant. It will always be "normal"
+> > from DP PoW after muxing, no?
+> 
+> That is what I thought to, but during the discussion of my previous attempt
+> at this one of the i915 devs mentioned that in some cases the muxes manage
+> to swap the lane order when the connector upside-down and at least the
+> Intel GPUs can correct for this on the GPU side, so they asked for this
+> info to be included.
+> 
+> > I'm also not sure those deatils are enough in the long run. Based on
+> > what I've understood from our graphics team guys, for example knowing
+> > if multi-function is preferred may be important in some cases.
+> 
+> The current data being passed is just intended as a starting point,
+> this is purely a kernel internal API so we can easily add more
+> data to the struct. As I mentioned in the cover-letter the current
+> oob_hotplug handler which the i915 patch adds to the i915 driver does
+> not actually do anything with the data.  ATM it is purely there to
+> demonstrate that the ability to pass relevant data is there now
+> (which was an issue with the previous attempt). I believe the current
+> code is fine as a PoC of "pass event data" once GPU drivers actually
+> start doing something with the data we can extend or outright replace
+> it without issues.
 
-Signed-off-by: Kyle Tso <kyletso@google.com>
----
- drivers/usb/typec/tcpm/tcpm.c | 85 ++++++++++++++++++++++++++++++-----
- 1 file changed, 75 insertions(+), 10 deletions(-)
+Ah, if there is nothing using that information yet, then just don't
+pass it at all for now. As you said, it's kernel internal API, we can
+change it later if needed.
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index c4fdc00a3bc8..07a449f0e8fa 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -259,6 +259,7 @@ enum frs_typec_current {
- #define ALTMODE_DISCOVERY_MAX	(SVID_DISCOVERY_MAX * MODE_DISCOVERY_MAX)
- 
- #define GET_SINK_CAP_RETRY_MS	100
-+#define SEND_DISCOVER_RETRY_MS	100
- 
- struct pd_mode_data {
- 	int svid_index;		/* current SVID index		*/
-@@ -366,6 +367,8 @@ struct tcpm_port {
- 	struct kthread_work vdm_state_machine;
- 	struct hrtimer enable_frs_timer;
- 	struct kthread_work enable_frs;
-+	struct hrtimer send_discover_timer;
-+	struct kthread_work send_discover_work;
- 	bool state_machine_running;
- 	bool vdm_sm_running;
- 
-@@ -1178,6 +1181,16 @@ static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int del
- 	}
- }
- 
-+static void mod_send_discover_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
-+{
-+	if (delay_ms) {
-+		hrtimer_start(&port->send_discover_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
-+	} else {
-+		hrtimer_cancel(&port->send_discover_timer);
-+		kthread_queue_work(port->wq, &port->send_discover_work);
-+	}
-+}
-+
- static void tcpm_set_state(struct tcpm_port *port, enum tcpm_state state,
- 			   unsigned int delay_ms)
- {
-@@ -1855,6 +1868,9 @@ static void vdm_run_state_machine(struct tcpm_port *port)
- 				res = tcpm_ams_start(port, DISCOVER_IDENTITY);
- 				if (res == 0)
- 					port->send_discover = false;
-+				else if (res == -EAGAIN)
-+					mod_send_discover_delayed_work(port,
-+								       SEND_DISCOVER_RETRY_MS);
- 				break;
- 			case CMD_DISCOVER_SVID:
- 				res = tcpm_ams_start(port, DISCOVER_SVIDS);
-@@ -1880,6 +1896,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
- 			}
- 
- 			if (res < 0) {
-+				port->vdm_state = VDM_STATE_ERR_BUSY;
- 				port->vdm_sm_running = false;
- 				return;
- 			}
-@@ -3682,14 +3699,6 @@ static inline enum tcpm_state unattached_state(struct tcpm_port *port)
- 	return SNK_UNATTACHED;
- }
- 
--static void tcpm_check_send_discover(struct tcpm_port *port)
--{
--	if ((port->data_role == TYPEC_HOST || port->negotiated_rev > PD_REV20) &&
--	    port->send_discover && port->pd_capable)
--		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
--	port->send_discover = false;
--}
--
- static void tcpm_swap_complete(struct tcpm_port *port, int result)
- {
- 	if (port->swap_pending) {
-@@ -3926,7 +3935,18 @@ static void run_state_machine(struct tcpm_port *port)
- 			break;
- 		}
- 
--		tcpm_check_send_discover(port);
-+		/*
-+		 * 6.4.4.3.1 Discover Identity
-+		 * "The Discover Identity Command Shall only be sent to SOP when there is an
-+		 * Explicit Contract."
-+		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
-+		 * port->explicit_contract to decide whether to send the command.
-+		 */
-+		if (port->explicit_contract)
-+			mod_send_discover_delayed_work(port, 0);
-+		else
-+			port->send_discover = false;
-+
- 		/*
- 		 * 6.3.5
- 		 * Sending ping messages is not necessary if
-@@ -4194,7 +4214,18 @@ static void run_state_machine(struct tcpm_port *port)
- 			break;
- 		}
- 
--		tcpm_check_send_discover(port);
-+		/*
-+		 * 6.4.4.3.1 Discover Identity
-+		 * "The Discover Identity Command Shall only be sent to SOP when there is an
-+		 * Explicit Contract."
-+		 * For now, this driver only supports SOP for DISCOVER_IDENTITY, thus using
-+		 * port->explicit_contract.
-+		 */
-+		if (port->explicit_contract)
-+			mod_send_discover_delayed_work(port, 0);
-+		else
-+			port->send_discover = false;
-+
- 		power_supply_changed(port->psy);
- 		break;
- 
-@@ -5288,6 +5319,29 @@ static void tcpm_enable_frs_work(struct kthread_work *work)
- 	mutex_unlock(&port->lock);
- }
- 
-+static void tcpm_send_discover_work(struct kthread_work *work)
-+{
-+	struct tcpm_port *port = container_of(work, struct tcpm_port, send_discover_work);
-+
-+	mutex_lock(&port->lock);
-+	/* No need to send DISCOVER_IDENTITY anymore */
-+	if (!port->send_discover)
-+		goto unlock;
-+
-+	/* Retry if the port is not idle */
-+	if ((port->state != SRC_READY && port->state != SNK_READY) || port->vdm_sm_running) {
-+		mod_send_discover_delayed_work(port, SEND_DISCOVER_RETRY_MS);
-+		goto unlock;
-+	}
-+
-+	/* Only send the Message if the port is host for PD rev2.0 */
-+	if (port->data_role == TYPEC_HOST || port->negotiated_rev > PD_REV20)
-+		tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0);
-+
-+unlock:
-+	mutex_unlock(&port->lock);
-+}
-+
- static int tcpm_dr_set(struct typec_port *p, enum typec_data_role data)
- {
- 	struct tcpm_port *port = typec_get_drvdata(p);
-@@ -6093,6 +6147,14 @@ static enum hrtimer_restart enable_frs_timer_handler(struct hrtimer *timer)
- 	return HRTIMER_NORESTART;
- }
- 
-+static enum hrtimer_restart send_discover_timer_handler(struct hrtimer *timer)
-+{
-+	struct tcpm_port *port = container_of(timer, struct tcpm_port, send_discover_timer);
-+
-+	kthread_queue_work(port->wq, &port->send_discover_work);
-+	return HRTIMER_NORESTART;
-+}
-+
- struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- {
- 	struct tcpm_port *port;
-@@ -6123,12 +6185,15 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- 	kthread_init_work(&port->vdm_state_machine, vdm_state_machine_work);
- 	kthread_init_work(&port->event_work, tcpm_pd_event_handler);
- 	kthread_init_work(&port->enable_frs, tcpm_enable_frs_work);
-+	kthread_init_work(&port->send_discover_work, tcpm_send_discover_work);
- 	hrtimer_init(&port->state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- 	port->state_machine_timer.function = state_machine_timer_handler;
- 	hrtimer_init(&port->vdm_state_machine_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- 	port->vdm_state_machine_timer.function = vdm_state_machine_timer_handler;
- 	hrtimer_init(&port->enable_frs_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
- 	port->enable_frs_timer.function = enable_frs_timer_handler;
-+	hrtimer_init(&port->send_discover_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	port->send_discover_timer.function = send_discover_timer_handler;
- 
- 	spin_lock_init(&port->pd_event_lock);
- 
+> > All of that, and more, is already available in the Configuration VDO
+> > Status VDO that the we have negotiated with the DP partner. Both those
+> > VDOs are part of struct typec_displayport_data. I think we should
+> > simply supply that structure to the DRM code instead of picking those
+> > details out of it...
+> 
+> I'm not sure I like the idea of passing the raw VDO, but if the
+> DRM folks think that would be useful we can certainly add it.
+
+Why are you against passing all the data that we have? What is the
+benefit in picking only certain details out of an object that has a
+standard format, and constructing a customised object for those
+details instead?
+
+
+thanks,
+
 -- 
-2.31.1.527.g47e6f16901-goog
-
+heikki
