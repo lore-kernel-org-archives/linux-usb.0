@@ -2,59 +2,59 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0382C433B4
-	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 10:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44851C43462
+	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 10:19:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFEB5610A6
-	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 10:19:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27F20611C0
+	for <linux-usb@archiver.kernel.org>; Tue,  4 May 2021 10:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230169AbhEDKUi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 May 2021 06:20:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
+        id S230220AbhEDKUn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 May 2021 06:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230153AbhEDKUi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 May 2021 06:20:38 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B79AAC061574
-        for <linux-usb@vger.kernel.org>; Tue,  4 May 2021 03:19:42 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id h4so8731861wrt.12
-        for <linux-usb@vger.kernel.org>; Tue, 04 May 2021 03:19:42 -0700 (PDT)
+        with ESMTP id S230225AbhEDKUm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 May 2021 06:20:42 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10C48C06174A
+        for <linux-usb@vger.kernel.org>; Tue,  4 May 2021 03:19:48 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id v12so8749063wrq.6
+        for <linux-usb@vger.kernel.org>; Tue, 04 May 2021 03:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XAhUPxTxNcQbbIvKvfzw25Jj6dy++zHmChRguXFSuUE=;
-        b=rK+wjiCAQ8EQXDgXeeWkYRSfftNjM4d2OAXFccuy/5p9LC6MWlxq5Ecq+KCW7dSEdn
-         VOiYK7H+FErl/x/rfdS6gFaISR/gn8U9P6jxBkDHX4cIgCoSGn8rtBNfia9KdX/DAj1M
-         uvHMhRSu5kD7w2OyZ4i+IHs8z7CpGWnkig69Of3+vqVAACtZKty3ScCO8Y7XaFAUtPvl
-         kDrFzdouw3oPfsTD7CMbfNUDuzbUqGDEtB1WDCmgYz+tKfk8OiMi8J1Q0RxgYrWjDL+K
-         kTZLyB2JXw2Qf2hcMxXWlxZGBj3VB36qNo/f1miUcjHkch/cpVSYZ0KoIyN5cGpFyHu4
-         DWKA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=DNxyhq7WYEH0U4TtHXig9vqQWs7OAdf1s4tgVO034Ek=;
+        b=yjup6vOr7ANovXMF+OcFojfm0IMlyo4McjymWvbZA4sptaudPdI1tvwuyARppoEFLY
+         T/fBVmuv+nVQPrslP0dhPF8i9CvU6SlL1487T+9TcGPuGxokcanpJy878Rjuxwh3HtRJ
+         aZC5GWpBYbgynAul17qnUEMNK07Uefk88an4KGH2y60B5GKjYqAps4+dkoGM4WNZHzJ8
+         72WvatqVsk7qsNSKEiDriCeofTTJHUULMgkzbdrEq5+cQtmlNkEyfslc3HGoXkB3b0MI
+         RPXU7JVNm+RA1u/JMFgWLViUN07xipnNBqyvCv5smgJhUeW+EurkCyLeOQoWVXlkJw7J
+         27qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XAhUPxTxNcQbbIvKvfzw25Jj6dy++zHmChRguXFSuUE=;
-        b=imNnx/mApaQf1eUprweLWbGPryixKhjgLZhO+XRzy8MNKw1aH53VbBhoCGlJWIC61p
-         lNRC6RcZN26/3Uv/CLYGJ2ZPyCYWzjUKwT/5e9Azfh6F6Y7Fq9HtBdaZKCgoBFolq4u2
-         b/jeIBZsPeN6e69tHZTKQT5i2Y8m50k7d0dQkdDWkxrr97zX2EiOFhpSI2nlei67u4SO
-         +MyTASO8PHAvDQxHZKpMMpVSx1saBt8fvMwoDjI6tsV9Kbo47UcRVxPrLXcMgtim/cCb
-         3FJ1ozVnXtVgJGUN3WwLc7W4VQPQr5vBdWGd2K3Xz3UlRRq1hwyFcL7qOeCDyKsrnBd/
-         t13Q==
-X-Gm-Message-State: AOAM532juhrW1OFifBv478ZJ5G4WOZYG+vd8xr87MW0JnCFp6Vpx2YZC
-        O01Lfb2iiBf7cO0Od1h8fRs96g==
-X-Google-Smtp-Source: ABdhPJwGNrXvy7AGVBTJ8FBU6cEw0+UnnpWB0jQ3IL1g/6Tg6sUL6IByuYYGmwH2DXJDJVFBfFMGWQ==
-X-Received: by 2002:a05:6000:1b06:: with SMTP id f6mr30280003wrz.339.1620123581323;
-        Tue, 04 May 2021 03:19:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DNxyhq7WYEH0U4TtHXig9vqQWs7OAdf1s4tgVO034Ek=;
+        b=oFCU1bv+Ip/rR3k3Bw5kg9XJy8r/oZJcIXurwvXHuACPOPfrea1qQDhA5xEYzVZBd5
+         BFBA4/kpZf6AUmin1UP96M5f77WH9fCbJivG8AoUKOPO9xPKg9FPI9jKHXFLZKRlRwcX
+         LCpPYdjbZSK3J4CGAqcXZZ8YHyS1k2QdsB4atJbasq2SZDbHITYk9iJT3KiiEJuRc+C9
+         JbuNVeU83AepzHBr9SV845AS4tqyIa/nslKa1PjJ5P+hW51UBL3Wwo9+ak2gIkC2g8fo
+         kN9O/jpDx06JXM06FkX6Cm1Dxh3BzRTt+3jpgOmU9awc7WUbnig7SBt7dEUhvWSXwbz3
+         fyuw==
+X-Gm-Message-State: AOAM532I1PEG76An5bfiJud6lGbSKXJ6ySdRYw2lBM3bnWG643TiOejR
+        PR2x30buOFOgXbTx521HDHvFvg==
+X-Google-Smtp-Source: ABdhPJy02d6PuLqzgAq/C7WYQ4o20b9EkdSeKjOtKyX9RsnbBO2crRtsnX8iROEMiTfrNV01u4ebFg==
+X-Received: by 2002:a5d:63cb:: with SMTP id c11mr30752734wrw.49.1620123586669;
+        Tue, 04 May 2021 03:19:46 -0700 (PDT)
 Received: from arch-thunder.local (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id d5sm16293789wrv.43.2021.05.04.03.19.40
+        by smtp.gmail.com with ESMTPSA id d5sm16293789wrv.43.2021.05.04.03.19.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 May 2021 03:19:40 -0700 (PDT)
+        Tue, 04 May 2021 03:19:46 -0700 (PDT)
 From:   Rui Miguel Silva <rui.silva@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sebastian Siewior <bigeasy@linutronix.de>,
@@ -62,67 +62,94 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
 Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         Rui Miguel Silva <rui.silva@linaro.org>
-Subject: [PATCH 0/7] usb: isp1760: extend support for isp1763
-Date:   Tue,  4 May 2021 11:19:03 +0100
-Message-Id: <20210504101910.18619-1-rui.silva@linaro.org>
+Subject: [PATCH 2/7] usb: isp1760: remove platform data struct and code
+Date:   Tue,  4 May 2021 11:19:05 +0100
+Message-Id: <20210504101910.18619-3-rui.silva@linaro.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210504101910.18619-1-rui.silva@linaro.org>
+References: <20210504101910.18619-1-rui.silva@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Arm MPS3 FPGA prototyping board [0] have an isp1763 [1] as USB controller.
-There is already support for the isp1760 and isp1761 in tree, this series extend
-the support also for the isp1763.
+Since the removal of the Blackfin port with:
+commit 4ba66a976072 ("arch: remove blackfin port")
 
-Move register access using regmap, remove some platform data and code, refactor
-the mempool, use dr_mode to align to existing bindings, then add the support for
-isp1763 host mode, add bindings files that did not existed and at the end
-add also support for peripheral mode for isp1763.
+No one is using or referencing this header and platform data struct.
+Remove them.
 
-@Laurent and @Sebastian, I add both of you in the bindings files as maintainers
-(it is a mandatory field)since you were the ones which contributed with the
-initial code and peripheral code, let me know if you are ok with it.
-If yes I may send a follow up to add also entries in MAINTAINERS file that it is
-also missing.
-
-Cheers,
-   Rui
-
-[0]: https://developer.arm.com/tools-and-software/development-boards/fpga-prototyping-boards/mps3
-[1]: https://media.digikey.com/pdf/Data%20Sheets/ST%20Ericsson%20PDFs/ISP1763A.pdf
-
-Rui Miguel Silva (7):
-  usb: isp1760: move to regmap for register access
-  usb: isp1760: remove platform data struct and code
-  usb: isp1760: hcd: refactor mempool config and setup
-  usb: isp1760: use dr_mode binding
-  usb: isp1760: add support for isp1763
-  dt-bindings: usb: nxp,isp1760: add bindings
-  usb: isp1763: add peripheral mode
-
- .../devicetree/bindings/usb/nxp,isp1760.yaml  |  59 ++
- arch/arm/boot/dts/arm-realview-eb.dtsi        |   2 +-
- arch/arm/boot/dts/arm-realview-pb1176.dts     |   2 +-
- arch/arm/boot/dts/arm-realview-pb11mp.dts     |   2 +-
- arch/arm/boot/dts/arm-realview-pbx.dtsi       |   2 +-
- arch/arm/boot/dts/vexpress-v2m-rs1.dtsi       |   2 +-
- arch/arm/boot/dts/vexpress-v2m.dtsi           |   2 +-
- drivers/usb/isp1760/Kconfig                   |   4 +-
- drivers/usb/isp1760/isp1760-core.c            | 248 ++++-
- drivers/usb/isp1760/isp1760-core.h            |  44 +-
- drivers/usb/isp1760/isp1760-hcd.c             | 898 ++++++++++++------
- drivers/usb/isp1760/isp1760-hcd.h             |  57 +-
- drivers/usb/isp1760/isp1760-if.c              |  41 +-
- drivers/usb/isp1760/isp1760-regs.h            | 698 ++++++++++----
- drivers/usb/isp1760/isp1760-udc.c             | 240 +++--
- drivers/usb/isp1760/isp1760-udc.h             |  12 +-
- include/linux/usb/isp1760.h                   |  19 -
- 17 files changed, 1672 insertions(+), 660 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/nxp,isp1760.yaml
+Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
+---
+ drivers/usb/isp1760/isp1760-if.c | 20 +++-----------------
+ include/linux/usb/isp1760.h      | 19 -------------------
+ 2 files changed, 3 insertions(+), 36 deletions(-)
  delete mode 100644 include/linux/usb/isp1760.h
 
+diff --git a/drivers/usb/isp1760/isp1760-if.c b/drivers/usb/isp1760/isp1760-if.c
+index abfba9f5ec23..fb6701608cd8 100644
+--- a/drivers/usb/isp1760/isp1760-if.c
++++ b/drivers/usb/isp1760/isp1760-if.c
+@@ -16,7 +16,6 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+-#include <linux/usb/isp1760.h>
+ #include <linux/usb/hcd.h>
+ 
+ #include "isp1760-core.h"
+@@ -225,22 +224,9 @@ static int isp1760_plat_probe(struct platform_device *pdev)
+ 
+ 		if (of_property_read_bool(dp, "dreq-polarity"))
+ 			devflags |= ISP1760_FLAG_DREQ_POL_HIGH;
+-	} else if (dev_get_platdata(&pdev->dev)) {
+-		struct isp1760_platform_data *pdata =
+-			dev_get_platdata(&pdev->dev);
+-
+-		if (pdata->is_isp1761)
+-			devflags |= ISP1760_FLAG_ISP1761;
+-		if (pdata->bus_width_16)
+-			devflags |= ISP1760_FLAG_BUS_WIDTH_16;
+-		if (pdata->port1_otg)
+-			devflags |= ISP1760_FLAG_OTG_EN;
+-		if (pdata->analog_oc)
+-			devflags |= ISP1760_FLAG_ANALOG_OC;
+-		if (pdata->dack_polarity_high)
+-			devflags |= ISP1760_FLAG_DACK_POL_HIGH;
+-		if (pdata->dreq_polarity_high)
+-			devflags |= ISP1760_FLAG_DREQ_POL_HIGH;
++	} else {
++		pr_err("isp1760: no platform data\n");
++		return -ENXIO;
+ 	}
+ 
+ 	ret = isp1760_register(mem_res, irq_res->start, irqflags, &pdev->dev,
+diff --git a/include/linux/usb/isp1760.h b/include/linux/usb/isp1760.h
+deleted file mode 100644
+index b75ded28db81..000000000000
+--- a/include/linux/usb/isp1760.h
++++ /dev/null
+@@ -1,19 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * board initialization should put one of these into dev->platform_data
+- * and place the isp1760 onto platform_bus named "isp1760-hcd".
+- */
+-
+-#ifndef __LINUX_USB_ISP1760_H
+-#define __LINUX_USB_ISP1760_H
+-
+-struct isp1760_platform_data {
+-	unsigned is_isp1761:1;			/* Chip is ISP1761 */
+-	unsigned bus_width_16:1;		/* 16/32-bit data bus width */
+-	unsigned port1_otg:1;			/* Port 1 supports OTG */
+-	unsigned analog_oc:1;			/* Analog overcurrent */
+-	unsigned dack_polarity_high:1;		/* DACK active high */
+-	unsigned dreq_polarity_high:1;		/* DREQ active high */
+-};
+-
+-#endif /* __LINUX_USB_ISP1760_H */
 -- 
 2.31.1
 
