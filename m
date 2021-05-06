@@ -2,95 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CC58C433B4
-	for <linux-usb@archiver.kernel.org>; Thu,  6 May 2021 09:07:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D30DC433B4
+	for <linux-usb@archiver.kernel.org>; Thu,  6 May 2021 10:32:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7038561378
-	for <linux-usb@archiver.kernel.org>; Thu,  6 May 2021 09:07:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3D5A611CB
+	for <linux-usb@archiver.kernel.org>; Thu,  6 May 2021 10:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233982AbhEFJId (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 May 2021 05:08:33 -0400
-Received: from gofer.mess.org ([88.97.38.141]:38089 "EHLO gofer.mess.org"
+        id S234416AbhEFKc4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 May 2021 06:32:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47014 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233686AbhEFJIc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 6 May 2021 05:08:32 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 45ECCC63B7; Thu,  6 May 2021 10:07:33 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1620292053; bh=Qb5rONUj5xilaDL0pP/60GU6mHdZes+ifm2stwTpE3Y=;
+        id S231863AbhEFKcz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 May 2021 06:32:55 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B52C261177;
+        Thu,  6 May 2021 10:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1620297117;
+        bh=DGaMudpSfyRVHwDiiNsIt1ng3NHfsNT0O7xi2SKKAJI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t6RAGCbKkeZ7OHrNUIqZR7Bums3PZi1YiZZZheRRBSNRsTrTDtECZ+n/CiRMqtstc
-         Ld8cFTdysFQoUIviltlVQwCmRQk4LmteZyrmDKL7M3xHHdsZ8zI7fUBYyTARsNerDf
-         0yvx7fp7CgOcoMhBRBH6EVdJCSCTUHVtrw0eU0NnOC6JKe35IyedJUjhlOuXVhey+S
-         n39ROk+tF7NCLuGB7z+3qbero2T8u++aO1XbFFPobYO3GWm3G+j4E6jcKNFiTlYwv1
-         PCzopODqMs+J4R8iVQ/3ATlSW6RAAq8JWQAKF5uDbdiKdjVsJveLBSMQ08SHKwoz9g
-         /7mV+Bk+xoiKw==
-Date:   Thu, 6 May 2021 10:07:33 +0100
-From:   Sean Young <sean@mess.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>
-Subject: Re: [PATCH v2 2/3] media: rc: new driver for USB-UIRT device
-Message-ID: <20210506090733.GA1483@gofer.mess.org>
-References: <cover.1620251141.git.sean@mess.org>
- <497d6ecc0f020b35be1f1e06b33a955574f433ed.1620251141.git.sean@mess.org>
- <72f835c84c16b455222fece3bb3527f16ad965be.camel@suse.com>
+        b=I3gHVQ1pBbvAJqF/IyOhA8Zf+pV6Ou39O2UDwMGD5LpskEMQMZV9lNbKLwDZrmYac
+         PNUB9cvFiJ9RYmJDp7/gpj0J4tTQJISFV+ee7VHiI2zDspOVAjyWVG9TRdS+j5q+/E
+         9aDxVmnftcMpuGrZdj6fGAeuC77f13xasVZJum0Q=
+Date:   Thu, 6 May 2021 12:31:54 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Saurav Girepunje <saurav.girepunje@gmail.com>
+Cc:     b-liu@ti.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, saurav.girepunje@hotmail.com
+Subject: Re: [PATCH] usb: musb: remove unused function argument
+Message-ID: <YJPFmjo7DolqPa0q@kroah.com>
+References: <20210505190254.GA10896@user>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <72f835c84c16b455222fece3bb3527f16ad965be.camel@suse.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210505190254.GA10896@user>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Oliver,
+On Thu, May 06, 2021 at 12:32:54AM +0530, Saurav Girepunje wrote:
+> Remove unused function argument from musb_tx_dma_set_mode_cppi_tusb()
+> in musb_host.c
+> 
+> Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+> ---
+>  drivers/usb/musb/musb_host.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 
-On Thu, May 06, 2021 at 10:27:21AM +0200, Oliver Neukum wrote:
-> Am Mittwoch, den 05.05.2021, 22:57 +0100 schrieb Sean Young:
-> > +static void uirt_disconnect(struct usb_interface *intf)
-> > +{
-> > +       struct uirt *ir = usb_get_intfdata(intf);
-> > +
-> > +       rc_unregister_device(ir->rc);
-> > +       usb_set_intfdata(intf, NULL);
-> > +       usb_kill_urb(ir->urb_out);
-> > +       usb_free_urb(ir->urb_out);
-> > +       usb_kill_urb(ir->urb_in);
-> > +       usb_free_urb(ir->urb_in);
-> > +       kfree(ir->in);
-> > +       kfree(ir->out);
-> > +       kfree(ir);
-> > +}
-> 
-> Hi,
-> 
-> almost. Going through this again, it looks like you have a race
-> condition here.
-> 
-> CPU A					CPU B
-> 
-> usb_kill_urb(ir->urb_out);
-> usb_free_urb(ir->urb_out);
-> 
-> 					uirt_in_callback()
-> 					uirt_response(struct uirt *uirt, u32 len)
-> 					err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
-> 
-> 					BANG, you are using freeed memory
+This has the same identical subject line as your previous patch, yet it
+does something different.
 
-Nice catch, I had missed this. I'll send out a v3 with this fixed. 
+Please fix up both of these patches and resubmit them as a patch series,
+with unique subject lines.
 
-This needs fixing, for sure. Having said that, once we are in the disconnect
-handler aren't all urbs/endpoints disabled in usb_disable_interface()? Does
-this mean the usb_kill_urb() are superfluous?
+thanks,
 
-Thanks,
-
-Sean
+greg k-h
