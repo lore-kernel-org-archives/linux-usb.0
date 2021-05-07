@@ -2,37 +2,39 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC55C433ED
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAEBAC43462
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3179A6145E
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 868686145E
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236720AbhEGJep (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 May 2021 05:34:45 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39427 "EHLO
+        id S236735AbhEGJer (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 May 2021 05:34:47 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:39443 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236701AbhEGJel (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 05:34:41 -0400
+        with ESMTP id S236715AbhEGJer (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 05:34:47 -0400
 Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost.localdomain)
         by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.93)
         (envelope-from <chris.chiu@canonical.com>)
-        id 1lewrb-0002Vw-2N; Fri, 07 May 2021 09:33:39 +0000
+        id 1lewrh-0002Vw-2s; Fri, 07 May 2021 09:33:45 +0000
 From:   chris.chiu@canonical.com
 To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
         m.v.b@runbox.com, hadess@hadess.net
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH 0/2] USB: propose a generic fix for PORT_SUSPEND set feature timeout
-Date:   Fri,  7 May 2021 17:33:27 +0800
-Message-Id: <20210507093329.895-1-chris.chiu@canonical.com>
+Subject: [PATCH 2/2] Revert "USB: Add reset-resume quirk for WD19's Realtek Hub"
+Date:   Fri,  7 May 2021 17:33:29 +0800
+Message-Id: <20210507093329.895-3-chris.chiu@canonical.com>
 X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
+In-Reply-To: <20210507093329.895-1-chris.chiu@canonical.com>
+References: <20210507093329.895-1-chris.chiu@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -41,19 +43,27 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Chris Chiu <chris.chiu@canonical.com>
 
-For the Realtek Hub which fails to resume the port which has wakeup
-enable descendants connected, trying to create a more generic and
-better option to have the runtime suspend/resume work instead of
-a reset-resume quirk.
+This reverts commit ca91fd8c7643d93bfc18a6fec1a0d3972a46a18a. The
+problematic hub should be taken care for each setting PORT_SUSPEND
+feature timeout instead of reset-resume all the time.
 
-Chris Chiu (2):
-  USB: reset-resume the device when PORT_SUSPEND is set but timeout
-  Revert "USB: Add reset-resume quirk for WD19's Realtek Hub"
+Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+---
+ drivers/usb/core/quirks.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/usb/core/hub.c    | 15 +++++++++++++++
- drivers/usb/core/quirks.c |  1 -
- 2 files changed, 15 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 21e7522655ac..6114cf83bb44 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -406,7 +406,6 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 
+ 	/* Realtek hub in Dell WD19 (Type-C) */
+ 	{ USB_DEVICE(0x0bda, 0x0487), .driver_info = USB_QUIRK_NO_LPM },
+-	{ USB_DEVICE(0x0bda, 0x5487), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
+ 	/* Generic RTL8153 based ethernet adapters */
+ 	{ USB_DEVICE(0x0bda, 0x8153), .driver_info = USB_QUIRK_NO_LPM },
 -- 
 2.20.1
 
