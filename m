@@ -2,96 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF2EC433ED
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 06:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFABC433B4
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 07:07:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8C5A61154
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 06:34:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 999C5613D6
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 07:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232236AbhEGGfx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 May 2021 02:35:53 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:14810 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231461AbhEGGfv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 May 2021 02:35:51 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620369292; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=r8Izzb0AxTyu35PXx43nBPtJjj5UDakJZVnGgFYktPY=; b=JHBFZjOkdS35xDqj+VpGNL/VtYWyu3yQNekKJFySWi45Vkb+6KAM/3HtVFzKw/eW+qv+7fkZ
- 2RbOirp3VbYdAOtlEpjipx+kpxUYLVfzC4s7xphp8jLGW3fsuNnzaOGwui03X8H2CMdNS1kg
- MMvXW1IoDlLWYcRSDlGqzgfPmFI=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 6094df8b03cfff345240e6bc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 07 May 2021 06:34:51
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C4032C43143; Fri,  7 May 2021 06:34:50 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 03685C4338A;
-        Fri,  7 May 2021 06:34:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 03685C4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thinh.Nguyen@synopsys.com, jackp@codeaurora.org,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH] usb: dwc3: gadget: Return success always for kick transfer in ep queue
-Date:   Thu,  6 May 2021 23:34:47 -0700
-Message-Id: <1620369287-27492-1-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        id S234513AbhEGHID (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 May 2021 03:08:03 -0400
+Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:49402 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229671AbhEGHID (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 03:08:03 -0400
+Received: from [192.168.1.18] ([86.243.172.93])
+        by mwinf5d51 with ME
+        id 1j6x2500721Fzsu03j6xMG; Fri, 07 May 2021 09:07:02 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 07 May 2021 09:07:02 +0200
+X-ME-IP: 86.243.172.93
+Subject: Re: [PATCH] usb: fotg210-hcd: Fix an error message
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     gregkh@linuxfoundation.org, shubhankarvk@gmail.com,
+        lee.jones@linaro.org, gustavoars@kernel.org, vulab@iscas.ac.cn,
+        john453@faraday-tech.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <94531bcff98e46d4f9c20183a90b7f47f699126c.1620333419.git.christophe.jaillet@wanadoo.fr>
+ <1620354030.10796.6.camel@mhfsdcap03>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <75002e1a-bca7-8726-de2e-56905f255693@wanadoo.fr>
+Date:   Fri, 7 May 2021 09:06:57 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <1620354030.10796.6.camel@mhfsdcap03>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If an error is received when issuing a start or update transfer
-command, the error handler will stop all active requests (including
-the current USB request), and call dwc3_gadget_giveback() to notify
-function drivers of the requests which have been stopped.  Avoid
-returning an error for kick transfer during EP queue, to remove
-duplicate cleanup operations on the request being queued.
+Le 07/05/2021 à 04:20, Chunfeng Yun a écrit :
+> On Thu, 2021-05-06 at 22:39 +0200, Christophe JAILLET wrote:
+>> 'retval' is known to be -ENODEV here.
+>> This is a hard-coded default error code which is not useful in the error
+>> message. Moreover, another error message is printed at the end of the
+>> error handling path. The corresponding error code (-ENOMEM) is more
+>> informative.
+>>
+>> So remove simplify the first error message.
+>>
+>> While at it, also remove the useless initialization of 'retval'.
+>>
+>> Fixes: 7d50195f6c50 ("usb: host: Faraday fotg210-hcd driver")
+>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>> ---
+>>   drivers/usb/host/fotg210-hcd.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
+>> index 6cac642520fc..9c2eda0918e1 100644
+>> --- a/drivers/usb/host/fotg210-hcd.c
+>> +++ b/drivers/usb/host/fotg210-hcd.c
+>> @@ -5568,7 +5568,7 @@ static int fotg210_hcd_probe(struct platform_device *pdev)
+>>   	struct usb_hcd *hcd;
+>>   	struct resource *res;
+>>   	int irq;
+>> -	int retval = -ENODEV;
+>> +	int retval;
+>>   	struct fotg210_hcd *fotg210;
+>>   
+>>   	if (usb_disabled())
+>> @@ -5588,7 +5588,7 @@ static int fotg210_hcd_probe(struct platform_device *pdev)
+>>   	hcd = usb_create_hcd(&fotg210_fotg210_hc_driver, dev,
+>>   			dev_name(dev));
+>>   	if (!hcd) {
+>> -		dev_err(dev, "failed to create hcd with err %d\n", retval);
+>> +		dev_err(dev, "failed to create hcd\n");
+>>   		retval = -ENOMEM;
+> How about moving this line before dev_err()? then could keep error log
+> unchanged.
+> 
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
-Changes in v1:
- - Renamed commit title due to new implementation
- - Return success always for kick transfer during ep queue
+Mostly a matter of taste.
+I don't think it add any useful information (this is not something 
+coming from a call chain or that can have different values, it is just a 
+hard-coded constant) and the line after we will already have:
+	dev_err(dev, "init %s fail, %d\n", dev_name(dev), retval);
+where retval = -ENOMEM
 
-Previous patchset:
-https://lore.kernel.org/linux-usb/875yzxibur.fsf@kernel.org/T/#t
+So the -ENOMEM error code is already reported.
 
- drivers/usb/dwc3/gadget.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Moreover, having error code reported or not is already not consistent in 
+the function. For example "failed to enable PCLK\n" where 'retval' could 
+be reported as well.
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index dd80e5c..a5b7fd9 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1684,7 +1684,9 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
- 		}
- 	}
- 
--	return __dwc3_gadget_kick_transfer(dep);
-+	__dwc3_gadget_kick_transfer(dep);
-+
-+	return 0;
- }
- 
- static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+
+
+BTW, is it useful to have 'dev_name(dev)' in a dev_err?
+
+CJ
+
+>>   		goto fail_create_hcd;
+>>   	}
+> 
 
