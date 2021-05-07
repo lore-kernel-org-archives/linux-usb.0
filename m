@@ -2,74 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0F6C433B4
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 01:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1107C433B4
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1607610FA
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 01:28:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A8B360E0B
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233548AbhEGB3L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 May 2021 21:29:11 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:57775 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231461AbhEGB3K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 21:29:10 -0400
-X-UUID: 2813c489632c4127a7d8a8247f3303f4-20210507
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=U2f4lwRTl6Sq8MKJTf5waJFrZocVoKmmodtxVAvrn2Y=;
-        b=kZ18lCiUw3TgV558F55Bb/E45exPUhGhZKqT7iimJlYHpVl754LzBHQR+N1o713NUFzuscZHhEvFqa0hll3bZXBS3sOqW5VGakL9/KzSHYGWpT0oRM7LAHlKky7cV7mGMMQfBLlD/zAul0f/bfxFycPZSPTjVNE8ZmpbJcif7fY=;
-X-UUID: 2813c489632c4127a7d8a8247f3303f4-20210507
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        id S233975AbhEGCMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 May 2021 22:12:34 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:40249 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S232420AbhEGCMd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:33 -0400
+X-UUID: f7668e9828814d8ba170a8f081617c2f-20210507
+X-UUID: f7668e9828814d8ba170a8f081617c2f-20210507
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1728646819; Fri, 07 May 2021 09:28:07 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs06n2.mediatek.inc
- (172.21.101.130) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 7 May
- 2021 09:28:05 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 7 May 2021 09:28:04 +0800
-Message-ID: <1620350884.10796.4.camel@mhfsdcap03>
-Subject: Re: [PATCH v2 1/3] usb: xhci-mtk: use bitfield instead of bool
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1891209485; Fri, 07 May 2021 10:11:31 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 7 May 2021 10:11:30 +0800
+Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 7 May 2021 10:11:29 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Sergei Shtylyov <sergei.shtylyov@gmail.com>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
+To:     Mathias Nyman <mathias.nyman@intel.com>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         <linux-usb@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, "Ikjoon Jang" <ikjn@chromium.org>,
-        Eddie Hung <eddie.hung@mediatek.com>
-Date:   Fri, 7 May 2021 09:28:04 +0800
-In-Reply-To: <a3d1a695-3138-f322-3b4f-5d00e9c85a50@gmail.com>
-References: <20210506063116.41757-1-chunfeng.yun@mediatek.com>
-         <a3d1a695-3138-f322-3b4f-5d00e9c85a50@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Subject: [PATCH v3 4/4] usb: xhci-mtk: use first-fit for LS/FS
+Date:   Fri, 7 May 2021 10:11:27 +0800
+Message-ID: <20210507021127.54717-4-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
+References: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B66C12DD37D5DBACDC72E5D8E7E26DD366849082BA3EF9E5C2458D502063B1992000:8
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 0269824944F8711192F45F979C6A83DEF9026876C84B90A1EAD5F5ECE6A8B7732000:8
 X-MTK:  N
-Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gVGh1LCAyMDIxLTA1LTA2IGF0IDExOjUwICswMzAwLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6
-DQo+IEhlbGxvIQ0KPiANCj4gT24gMDYuMDUuMjAyMSA5OjMxLCBDaHVuZmVuZyBZdW4gd3JvdGU6
-DQo+IA0KPiA+IFVzZSBiaXRmaWVsZCBpbnN0ZWFkIG9mIGJvb2wgaW4gc3RydWN0DQo+ID4gDQo+
-ID4gUmVmZXIgdG8gY29kaW5nLXN0eWxlLnJzdCAxNykgVXNpbmcgYm9vbDoNCj4gPiAiSWYgYSBz
-dHJ1Y3R1cmUgaGFzIG1hbnkgdHJ1ZS9mYWxzZSB2YWx1ZXMsIGNvbnNpZGVyIGNvbnNvbGlkYXRp
-bmcNCj4gPiB0aGVtIGludG8gYSBiaXRmaWVsZCB3aXRoIDEgYml0IG1lbWJlcnMsIG9yIHVzaW5n
-IGFuIGFwcHJvcHJpYXRlDQo+ID4gZml4ZWQgd2lkdGggdHlwZSwgc3VjaCBhcyB1OC4iDQo+ID4g
-DQo+ID4gRHVlIHRvIEBoYXNfaXBwYydzIGRlZmF1bHQgdmF1bGUgaXMgMCwgbm8gbmVlZCBzZXQg
-aXQgYWdhaW4gaWYgZmFpbA0KPiANCj4gICAgIFZhbHVlLiA6LSkNCldpbGwgZml4IGl0LCB0aGFu
-a3MNCj4gDQo+ID4gdG8gZ2V0IGlwcGMgYmFzZSBhZGRyZXNzDQo+ID4gDQo+ID4gU2lnbmVkLW9m
-Zi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPg0KPiBbLi4uXQ0K
-PiANCj4gTUJSLCBTZXJnZWkNCg0K
+Use first-fit instead of best-fit for LS/FS devices under TT,
+we found that best-fit will consume more bandwidth for some
+cases.
+
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: no changes
+---
+ drivers/usb/host/xhci-mtk-sch.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
+index 9fb75085e40f..c07411d9b16f 100644
+--- a/drivers/usb/host/xhci-mtk-sch.c
++++ b/drivers/usb/host/xhci-mtk-sch.c
+@@ -634,6 +634,11 @@ static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
+ 			min_bw = worst_bw;
+ 			min_index = offset;
+ 		}
++
++		/* use first-fit for LS/FS */
++		if (sch_ep->sch_tt && min_index >= 0)
++			break;
++
+ 		if (min_bw == 0)
+ 			break;
+ 	}
+-- 
+2.18.0
 
