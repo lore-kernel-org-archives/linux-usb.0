@@ -2,98 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D817C43462
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E82C1C433ED
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:12:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CA20611ED
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B29206113D
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:12:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233728AbhEGCMh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 May 2021 22:12:37 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:59263 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232420AbhEGCMg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:36 -0400
-X-UUID: 66ec45a462de4c40beea95eed277a073-20210507
-X-UUID: 66ec45a462de4c40beea95eed277a073-20210507
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 425345166; Fri, 07 May 2021 10:11:30 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 7 May 2021 10:11:29 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 7 May 2021 10:11:29 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: [PATCH v3 1/4] usb: xhci-mtk: use bitfield instead of bool
-Date:   Fri, 7 May 2021 10:11:24 +0800
-Message-ID: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        id S233612AbhEGCNR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 May 2021 22:13:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57766 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230019AbhEGCNR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 May 2021 22:13:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 72F116113D
+        for <linux-usb@vger.kernel.org>; Fri,  7 May 2021 02:12:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620353538;
+        bh=UvX9oYftiLDMKjwwuxiAL4meNpes6S0yEi2I0dlxxM4=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=oaMceYq96vjgq9ig018fKILtpMZzvm4Uw1jwWU9WsxV3B4W38yKcHQdM/Gt0pbMmM
+         nh6gD3JVsDxCaP8TnxnlGBDjyWLMTnV5TQSlGXWYbG79dkkTdZXuY7ICHdK/7XZfSX
+         90JXIHGNZ1ZNMbI+ba9Ll2MzkYXDcw4asUoUuXJTLt2oj9umAlF8PZgp0qC/9p0mER
+         LhUfk6Medfc4TImatf7kGHEVuaxJkpBbJNPzLedMLgirzrIjDIMNbGOmegC9gCA3cT
+         EJmo8M1uE/Jd26WgScjolgkGRuA6mKxBU+Pye/MQTnKBI/NiRWL/FCUP6q8G/nSIrv
+         fCoLiTZ7phfqQ==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 212955] Possible kernel regression USB2 (not USB3) port EDIROL
+ UA-101 (in USB 1.1 mode, not USB2) error -110
+Date:   Fri, 07 May 2021 02:12:17 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jaffa225man@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-212955-208809-iO8Pcj7a8E@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212955-208809@https.bugzilla.kernel.org/>
+References: <bug-212955-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use bitfield instead of bool in struct
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212955
 
-Refer to coding-style.rst 17) Using bool:
-"If a structure has many true/false values, consider consolidating
-them into a bitfield with 1 bit members, or using an appropriate
-fixed width type, such as u8."
+--- Comment #7 from Lucas Endres (jaffa225man@gmail.com) ---
+Created attachment 296681
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296681&action=3Dedit
+usbmon USB 2 port working on 5.9.0
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v3: split @has_ippc out into anather patch suggested by Greg
-v2: add more changelog suggested by Greg
----
- drivers/usb/host/xhci-mtk.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Here is the usbmon output from the same USB2 port, but working on the older
+5.9.0 kernel.
 
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index cd3a37bb73e6..94a59b3d178f 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -138,17 +138,17 @@ struct xhci_hcd_mtk {
- 	struct mu3h_sch_bw_info *sch_array;
- 	struct list_head bw_ep_chk_list;
- 	struct mu3c_ippc_regs __iomem *ippc_regs;
--	bool has_ippc;
- 	int num_u2_ports;
- 	int num_u3_ports;
- 	int u3p_dis_msk;
- 	struct regulator *vusb33;
- 	struct regulator *vbus;
- 	struct clk_bulk_data clks[BULK_CLKS_NUM];
--	bool lpm_support;
--	bool u2_lpm_disable;
-+	unsigned int has_ippc:1;
-+	unsigned int lpm_support:1;
-+	unsigned int u2_lpm_disable:1;
- 	/* usb remote wakeup */
--	bool uwk_en;
-+	unsigned int uwk_en:1;
- 	struct regmap *uwk;
- 	u32 uwk_reg_base;
- 	u32 uwk_vers;
--- 
-2.18.0
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
