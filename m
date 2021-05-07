@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1107C433B4
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8564AC43460
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A8B360E0B
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 405D56113D
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233975AbhEGCMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S234154AbhEGCMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 6 May 2021 22:12:34 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:40249 "EHLO
+Received: from mailgw02.mediatek.com ([210.61.82.184]:40264 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232420AbhEGCMd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:33 -0400
-X-UUID: f7668e9828814d8ba170a8f081617c2f-20210507
-X-UUID: f7668e9828814d8ba170a8f081617c2f-20210507
+        with ESMTP id S233728AbhEGCMe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:34 -0400
+X-UUID: 6a980f108d9b4e22b1ca27b4896adfda-20210507
+X-UUID: 6a980f108d9b4e22b1ca27b4896adfda-20210507
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1891209485; Fri, 07 May 2021 10:11:31 +0800
+        with ESMTP id 2097861120; Fri, 07 May 2021 10:11:31 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 7 May 2021 10:11:30 +0800
+ 15.0.1497.2; Fri, 7 May 2021 10:11:29 +0800
 Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
  Transport; Fri, 7 May 2021 10:11:29 +0800
@@ -42,47 +42,44 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: [PATCH v3 4/4] usb: xhci-mtk: use first-fit for LS/FS
-Date:   Fri, 7 May 2021 10:11:27 +0800
-Message-ID: <20210507021127.54717-4-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 2/4] usb: xhci-mtk: remove unnecessary setting of has_ippc
+Date:   Fri, 7 May 2021 10:11:25 +0800
+Message-ID: <20210507021127.54717-2-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
 References: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 0269824944F8711192F45F979C6A83DEF9026876C84B90A1EAD5F5ECE6A8B7732000:8
+X-TM-SNTS-SMTP: EDB69650B5819A47EFB3C763348CDA24389B7BFCA6749B257CB08F83C37B88772000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use first-fit instead of best-fit for LS/FS devices under TT,
-we found that best-fit will consume more bandwidth for some
-cases.
+Due to @has_ippc's default value is 0, no need set it again if fail
+to get ippc base address
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v3: no changes
+v3: new patch suggested by Greg
+    fix typo suggested by Sergei
 ---
- drivers/usb/host/xhci-mtk-sch.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/host/xhci-mtk.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 9fb75085e40f..c07411d9b16f 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -634,6 +634,11 @@ static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
- 			min_bw = worst_bw;
- 			min_index = offset;
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index b2058b3bc834..2548976bcf05 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -495,8 +495,6 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 			goto put_usb2_hcd;
  		}
-+
-+		/* use first-fit for LS/FS */
-+		if (sch_ep->sch_tt && min_index >= 0)
-+			break;
-+
- 		if (min_bw == 0)
- 			break;
+ 		mtk->has_ippc = true;
+-	} else {
+-		mtk->has_ippc = false;
  	}
+ 
+ 	device_init_wakeup(dev, true);
 -- 
 2.18.0
 
