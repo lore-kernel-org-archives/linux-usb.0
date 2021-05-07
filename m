@@ -7,24 +7,24 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB37CC433B4
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D817C43462
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 738C860E0B
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CA20611ED
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 02:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234298AbhEGCMg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 May 2021 22:12:36 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:59279 "EHLO
+        id S233728AbhEGCMh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 May 2021 22:12:37 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:59263 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231461AbhEGCMe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:34 -0400
-X-UUID: bb1fdf7d140549f5981d9cdb6995589f-20210507
-X-UUID: bb1fdf7d140549f5981d9cdb6995589f-20210507
+        with ESMTP id S232420AbhEGCMg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 May 2021 22:12:36 -0400
+X-UUID: 66ec45a462de4c40beea95eed277a073-20210507
+X-UUID: 66ec45a462de4c40beea95eed277a073-20210507
 Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 728459309; Fri, 07 May 2021 10:11:30 +0800
+        with ESMTP id 425345166; Fri, 07 May 2021 10:11:30 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Fri, 7 May 2021 10:11:29 +0800
@@ -42,12 +42,10 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
         Eddie Hung <eddie.hung@mediatek.com>,
         Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: [PATCH v3 3/4] usb: xhci-mtk: remove unnecessary assignments in periodic TT scheduler
-Date:   Fri, 7 May 2021 10:11:26 +0800
-Message-ID: <20210507021127.54717-3-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 1/4] usb: xhci-mtk: use bitfield instead of bool
+Date:   Fri, 7 May 2021 10:11:24 +0800
+Message-ID: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
-References: <20210507021127.54717-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -55,99 +53,47 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Ikjoon Jang <ikjn@chromium.org>
+Use bitfield instead of bool in struct
 
-Remove unnecessary variables in check_sch_bw().
-No functional changes, just for better readability.
+Refer to coding-style.rst 17) Using bool:
+"If a structure has many true/false values, consider consolidating
+them into a bitfield with 1 bit members, or using an appropriate
+fixed width type, such as u8."
 
-Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v2~3: no changes
+v3: split @has_ippc out into anather patch suggested by Greg
+v2: add more changelog suggested by Greg
 ---
- drivers/usb/host/xhci-mtk-sch.c | 37 +++++++++++++--------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ drivers/usb/host/xhci-mtk.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 8b90da5a6ed1..9fb75085e40f 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -476,6 +476,9 @@ static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- 	u32 start_cs, last_cs;
- 	int i;
- 
-+	if (!sch_ep->sch_tt)
-+		return 0;
-+
- 	start_ss = offset % 8;
- 
- 	if (sch_ep->ep_type == ISOC_OUT_EP) {
-@@ -603,54 +606,42 @@ static u32 get_esit_boundary(struct mu3h_sch_ep_info *sch_ep)
- static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
- 			struct mu3h_sch_ep_info *sch_ep)
- {
-+	const u32 esit_boundary = get_esit_boundary(sch_ep);
-+	const u32 bw_boundary = get_bw_boundary(sch_ep->speed);
- 	u32 offset;
--	u32 min_bw;
--	u32 min_index;
- 	u32 worst_bw;
--	u32 bw_boundary;
--	u32 esit_boundary;
--	u32 min_num_budget;
--	u32 min_cs_count;
-+	u32 min_bw = ~0;
-+	int min_index = -1;
- 	int ret = 0;
- 
- 	/*
- 	 * Search through all possible schedule microframes.
- 	 * and find a microframe where its worst bandwidth is minimum.
- 	 */
--	min_bw = ~0;
--	min_index = 0;
--	min_cs_count = sch_ep->cs_count;
--	min_num_budget = sch_ep->num_budget_microframes;
--	esit_boundary = get_esit_boundary(sch_ep);
- 	for (offset = 0; offset < sch_ep->esit; offset++) {
--		if (sch_ep->sch_tt) {
--			ret = check_sch_tt(sch_ep, offset);
--			if (ret)
--				continue;
--		}
-+		ret = check_sch_tt(sch_ep, offset);
-+		if (ret)
-+			continue;
- 
- 		if ((offset + sch_ep->num_budget_microframes) > esit_boundary)
- 			break;
- 
- 		worst_bw = get_max_bw(sch_bw, sch_ep, offset);
-+		if (worst_bw > bw_boundary)
-+			continue;
-+
- 		if (min_bw > worst_bw) {
- 			min_bw = worst_bw;
- 			min_index = offset;
--			min_cs_count = sch_ep->cs_count;
--			min_num_budget = sch_ep->num_budget_microframes;
- 		}
- 		if (min_bw == 0)
- 			break;
- 	}
- 
--	bw_boundary = get_bw_boundary(sch_ep->speed);
--	/* check bandwidth */
--	if (min_bw > bw_boundary)
-+	if (min_index < 0)
- 		return ret ? ret : -ESCH_BW_OVERFLOW;
- 
- 	sch_ep->offset = min_index;
--	sch_ep->cs_count = min_cs_count;
--	sch_ep->num_budget_microframes = min_num_budget;
- 
- 	return load_ep_bw(sch_bw, sch_ep, true);
- }
+diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
+index cd3a37bb73e6..94a59b3d178f 100644
+--- a/drivers/usb/host/xhci-mtk.h
++++ b/drivers/usb/host/xhci-mtk.h
+@@ -138,17 +138,17 @@ struct xhci_hcd_mtk {
+ 	struct mu3h_sch_bw_info *sch_array;
+ 	struct list_head bw_ep_chk_list;
+ 	struct mu3c_ippc_regs __iomem *ippc_regs;
+-	bool has_ippc;
+ 	int num_u2_ports;
+ 	int num_u3_ports;
+ 	int u3p_dis_msk;
+ 	struct regulator *vusb33;
+ 	struct regulator *vbus;
+ 	struct clk_bulk_data clks[BULK_CLKS_NUM];
+-	bool lpm_support;
+-	bool u2_lpm_disable;
++	unsigned int has_ippc:1;
++	unsigned int lpm_support:1;
++	unsigned int u2_lpm_disable:1;
+ 	/* usb remote wakeup */
+-	bool uwk_en;
++	unsigned int uwk_en:1;
+ 	struct regmap *uwk;
+ 	u32 uwk_reg_base;
+ 	u32 uwk_vers;
 -- 
 2.18.0
 
