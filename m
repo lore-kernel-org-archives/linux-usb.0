@@ -2,60 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 013C1C433B4
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 08:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3015C433B4
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C958161042
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 08:33:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9551A61460
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 09:33:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236313AbhEGIee (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 May 2021 04:34:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33458 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234870AbhEGIeb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 May 2021 04:34:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D3816113E;
-        Fri,  7 May 2021 08:33:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620376411;
-        bh=PLCTXmiXTvM3LLyImsS6YcOvyRq3ZlDNL6qwvK21Ar8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TZmEi7eRdmru6CdI4pnvjn5NQmvHYddJmm5yzM7hjEkJWg3ikurDrQiDXhDzhrMFU
-         ZwWGcL4i5iNrfYfzPJGvBCEyoLz9umdX5a/lB9ZwrOW1Yq0nNzZLO1E5H4zEQgi+zV
-         TtZSh3uQzzNo+2ntqMogBOujGnclX6t9eZpbReJ0=
-Date:   Fri, 7 May 2021 10:33:27 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     He Zhe <zhe.he@windriver.com>
-Cc:     corbet@lwn.net, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Concern about Documentation/usb/linux-cdc-acm.inf and
- Documentation/usb/linux.inf
-Message-ID: <YJT7V8DZn94F1vex@kroah.com>
-References: <9d7bb262-1d0d-0961-7211-157c99add96c@windriver.com>
+        id S236722AbhEGJeq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 May 2021 05:34:46 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:39436 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236292AbhEGJeo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 05:34:44 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost.localdomain)
+        by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <chris.chiu@canonical.com>)
+        id 1lewrd-0002Vw-VH; Fri, 07 May 2021 09:33:42 +0000
+From:   chris.chiu@canonical.com
+To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        m.v.b@runbox.com, hadess@hadess.net
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chris Chiu <chris.chiu@canonical.com>
+Subject: [PATCH 1/2] USB: reset-resume the device when PORT_SUSPEND is set but timeout
+Date:   Fri,  7 May 2021 17:33:28 +0800
+Message-Id: <20210507093329.895-2-chris.chiu@canonical.com>
+X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
+In-Reply-To: <20210507093329.895-1-chris.chiu@canonical.com>
+References: <20210507093329.895-1-chris.chiu@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d7bb262-1d0d-0961-7211-157c99add96c@windriver.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 07, 2021 at 04:25:48PM +0800, He Zhe wrote:
-> Hello maintainers,
-> 
-> MLPL is found in Documentation/usb/linux-cdc-acm.inf and Documentation/usb/linux.inf.
-> 
-> Does this conflict with GPLv2? Anything else we need to know when using these as opensource software?
+From: Chris Chiu <chris.chiu@canonical.com>
 
-As these are to be used on WINDOWS operating systems, please consult the
-owner of the copyright on those files (and operating system) (i.e.
-Microsoft), if you have questions/concerns about this.
+On the Realtek hub of Dell Dock WD19, the port which has wakeup
+enabled descendants will sometimes timeout when setting PORT_SUSPEND
+feature. After checking the PORT_SUSPEND bit in wPortStatus, it is
+already set. However, the hub will fail to activate because the
+PORT_SUSPEND feature of that port is not cleared during resume. All
+devices connecting via the port are lost after resume.
 
-Good luck!
+This commit force reset-resume the device connected to the timeout
+but suspended port so that the hub will have chance to clear the
+PORT_SUSPEND feature during resume.
 
-greg k-h
+Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+---
+ drivers/usb/core/hub.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index b2bc4b7c4289..18603949a8de 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -3385,6 +3385,21 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
+ 		status = 0;
+ 	}
+ 	if (status) {
++		if (status == -ETIMEDOUT) {
++			u16 portstatus, portchange;
++
++			status = hub_port_status(hub, port1, &portstatus,
++					&portchange);
++
++			dev_dbg(&port_dev->dev,
++				"suspend timeout, status %04x\n", portstatus);
++
++			if (status == 0 && port_is_suspended(hub, portstatus)) {
++				udev->reset_resume = 1;
++				goto err_wakeup;
++			}
++		}
++
+ 		dev_dbg(&port_dev->dev, "can't suspend, status %d\n", status);
+ 
+ 		/* Try to enable USB3 LTM again */
+-- 
+2.20.1
+
