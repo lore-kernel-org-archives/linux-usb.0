@@ -2,89 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B53C433ED
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 15:07:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0646FC433B4
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 15:42:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E44506145A
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 15:07:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD5CF6101B
+	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 15:42:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233369AbhEGPIk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 May 2021 11:08:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39560 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231815AbhEGPIj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 May 2021 11:08:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id E315E61415
-        for <linux-usb@vger.kernel.org>; Fri,  7 May 2021 15:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620400058;
-        bh=RMrrSVMlxlosEh2CyM0hzbq/0ecyn6OrbB/Swcd4kL4=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=oTL6T3LqP6YGDyeiOSIAUttQ2M4QPSQx1WPsO8wyLGOR2/yIwHsv9C4WU0rKLGtaF
-         6NMYVFLOlGKRNpmFcg0gGZ+7J65JIf8wOfp81PGCYuO5ovCjAjsbqgzyFnsBxi1Xmd
-         P4Cg/joezw5N8ErY3tCk6cgS3GaTOCxqKtNOkuoBTAXi0wdEnOSzYUxzSNIvozQf6H
-         aFJ3d3NCS98IQYSwjMreNDlp/PBuC184JNkWJa1DGvgm5ZhCjFo25D4B8NEisIYN9Y
-         P55ZRmS8/nuO3kbkWEL6zhPJUIVF3VuoS/l1WsH5ghfeGZsEaTRhPWOjluCflM+68p
-         wzfKUTh1gGz8Q==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 212955] Possible kernel regression USB2 (not USB3) port EDIROL
- UA-101 (in USB 1.1 mode, not USB2) error -110
-Date:   Fri, 07 May 2021 15:07:38 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-212955-208809-ak2MUSTCsw@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-212955-208809@https.bugzilla.kernel.org/>
-References: <bug-212955-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S237996AbhEGPnb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 May 2021 11:43:31 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:58031 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S236443AbhEGPnb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 11:43:31 -0400
+Received: (qmail 779980 invoked by uid 1000); 7 May 2021 11:42:29 -0400
+Date:   Fri, 7 May 2021 11:42:29 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Li Jun <jun.li@nxp.com>
+Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
+        peter.chen@kernel.org, jackp@codeaurora.org,
+        linux-usb@vger.kernel.org, linux-imx@nxp.com
+Subject: Re: [PATCH v3 3/3] usb: core: hcd: use map_urb_for_dma for single
+ step set feature urb
+Message-ID: <20210507154229.GA776548@rowland.harvard.edu>
+References: <1620370682-10199-1-git-send-email-jun.li@nxp.com>
+ <1620370682-10199-3-git-send-email-jun.li@nxp.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1620370682-10199-3-git-send-email-jun.li@nxp.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D212955
+On Fri, May 07, 2021 at 02:58:02PM +0800, Li Jun wrote:
+> Use map_urb_for_dma() to improve the dma map code for single step
+> set feature request urb in test mode.
+> 
+> Signed-off-by: Li Jun <jun.li@nxp.com>
+> ---
+> Change for v3:
+> - Correct the error handling if map_urb_for_dma() fails.
+> 
+> change for v2:
+> - Add this new patch to use map_urb_for_dma API to
+>   replace both of dma_map_single() calls, suggested by
+>   Jack Pham.
+> 
+>  drivers/usb/core/hcd.c | 15 +++++----------
+>  1 file changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index d7eb9f179ca6..fa72697f4829 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -2159,16 +2159,11 @@ static struct urb *request_single_step_set_feature_urb(
+>  	usb_get_urb(urb);
+>  	atomic_inc(&urb->use_count);
+>  	atomic_inc(&urb->dev->urbnum);
+> -	urb->setup_dma = dma_map_single(
+> -			hcd->self.sysdev,
+> -			urb->setup_packet,
+> -			sizeof(struct usb_ctrlrequest),
+> -			DMA_TO_DEVICE);
+> -	urb->transfer_dma = dma_map_single(
+> -			hcd->self.sysdev,
+> -			urb->transfer_buffer,
+> -			urb->transfer_buffer_length,
+> -			DMA_FROM_DEVICE);
+> +	if (map_urb_for_dma(hcd, urb, GFP_KERNEL)) {
+> +		usb_put_urb(urb);
 
---- Comment #9 from Alan Stern (stern@rowland.harvard.edu) ---
-Interesting.  I don't see any particular differences as far as the USB core=
- is
-concerned, but there are major differences in the way the device gets used.=
-=20
-You can even see it in the dmesg output:
+You need to call usb_free_urb() here.
 
-[  963.375444] usb 4-1.5: 0:1: add audio endpoint 0x2
-[  963.376273] usb 4-1.5: 1:1: add audio endpoint 0x81
+Alan Stern
 
-Those lines are present in 5.9 but not in 5.12, and they occur before the
-problem happens.  These messages may not be directly relevant to the proble=
-m at
-hand, but they do point to changes in the audio drivers.  Those changes may
-expose a bug somewhere else.
-
-Judging from these results, I will guess that your bisection tests will
-pinpoint a commit that affects the snd-ua101 audio driver.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> +		return NULL;
+> +	}
+> +
+>  	urb->context = done;
+>  	return urb;
+>  }
+> -- 
+> 2.25.1
+> 
