@@ -2,112 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF35C433ED
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 18:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB9AC433B4
+	for <linux-usb@archiver.kernel.org>; Sat,  8 May 2021 01:26:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46BC06140C
-	for <linux-usb@archiver.kernel.org>; Fri,  7 May 2021 18:42:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 69D1C61466
+	for <linux-usb@archiver.kernel.org>; Sat,  8 May 2021 01:26:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbhEGSnU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 May 2021 14:43:20 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:32057 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229470AbhEGSnT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 14:43:19 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620412939; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=HQvRcgen55XyLhCmkgqh4NWsC/x1Aeob2B92iMmCx7M=; b=FA85Hahpdb//w2O/tKE1yOmqw0T6nRj5gVSJt5icBKOe9m9GVOIAvaKaFPlKtslkOJXcLcV3
- fOo/b/Y2z5XPIDBmu26s/Jkhz24EVU8tgfH8YxTaJJJnn16b6IAxr2C05ujNIcyRDhi8+BcQ
- Dwzpke9JrQyLEqAsocvdxkph544=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 60958a018807bcde1dd48ea4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 07 May 2021 18:42:09
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 33C89C43147; Fri,  7 May 2021 18:42:09 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0EE20C4338A;
-        Fri,  7 May 2021 18:42:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0EE20C4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH] usb: dwc3: gadget: Replace list_for_each_entry_safe() if using giveback
-Date:   Fri,  7 May 2021 11:42:03 -0700
-Message-Id: <1620412923-11990-1-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        id S230076AbhEHB1S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 May 2021 21:27:18 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:13906 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229775AbhEHB1S (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 May 2021 21:27:18 -0400
+X-UUID: 49f2a9260c924ab29931aaf303c27f0b-20210508
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=nutVWr3hj7bZu1jyL7Kcy7LCd3FoB69So5Jsa45A8nc=;
+        b=BYF36mNPSelcP304PLje7S0wjlCSl23pAaIDJNWoIRqd8bwWXurX6E21u1xTXDM18X0W+n8zWsjg9OjnqwtNvUqJe2LyA3gbzqU6qt3y8eATN88hZaZcN08WuGXOrqt87GeJ44HyRRu2Gu/91qhf0hNZaa4g3GQwV9tgzVB+jd4=;
+X-UUID: 49f2a9260c924ab29931aaf303c27f0b-20210508
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 837447625; Sat, 08 May 2021 09:26:11 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
+ (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 8 May
+ 2021 09:26:09 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 8 May 2021 09:26:08 +0800
+Message-ID: <1620437169.10796.10.camel@mhfsdcap03>
+Subject: Re: [PATCH] usb: fotg210-hcd: Fix an error message
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC:     <gregkh@linuxfoundation.org>, <shubhankarvk@gmail.com>,
+        <lee.jones@linaro.org>, <gustavoars@kernel.org>,
+        <vulab@iscas.ac.cn>, <john453@faraday-tech.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+Date:   Sat, 8 May 2021 09:26:09 +0800
+In-Reply-To: <75002e1a-bca7-8726-de2e-56905f255693@wanadoo.fr>
+References: <94531bcff98e46d4f9c20183a90b7f47f699126c.1620333419.git.christophe.jaillet@wanadoo.fr>
+         <1620354030.10796.6.camel@mhfsdcap03>
+         <75002e1a-bca7-8726-de2e-56905f255693@wanadoo.fr>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 97B07E1BE83D35AEE515145D4491D420241A3ED52927466B5CF9C472810CFB982000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The list_for_each_entry_safe() macro saves the current item (n) and
-the item after (n+1), so that n can be safely removed without
-corrupting the list.  However, when traversing the list and removing
-items using gadget giveback, the DWC3 lock is briefly released,
-allowing other routines to execute.  There is a situation where while
-items are being removed from the cancelled_list using
-dwc3_gadget_ep_cleanup_cancelled_requests(), the pullup disable
-routine is running in parallel (due to UDC unbind).  As the cleanup
-routine removes n, and the pullup disable removes n+1, once the
-cleanup retakes the DWC3 lock, it references a request who was already
-removed/handled.  With list debug enabled, this leads to a panic.
-Ensure all instances of the macro are replaced where gadget giveback
-is used.
-
-Fixes: d4f1afe5e896 ("usb: dwc3: gadget: move requests to cancelled_list")
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/dwc3/gadget.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index dd80e5c..efa939b 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1737,10 +1737,10 @@ static void dwc3_gadget_ep_skip_trbs(struct dwc3_ep *dep, struct dwc3_request *r
- static void dwc3_gadget_ep_cleanup_cancelled_requests(struct dwc3_ep *dep)
- {
- 	struct dwc3_request		*req;
--	struct dwc3_request		*tmp;
- 	struct dwc3			*dwc = dep->dwc;
- 
--	list_for_each_entry_safe(req, tmp, &dep->cancelled_list, list) {
-+	while (!list_empty(&dep->cancelled_list)) {
-+		req = next_request(&dep->cancelled_list);
- 		dwc3_gadget_ep_skip_trbs(dep, req);
- 		switch (req->status) {
- 		case DWC3_REQUEST_STATUS_DISCONNECTED:
-@@ -2935,11 +2935,11 @@ static void dwc3_gadget_ep_cleanup_completed_requests(struct dwc3_ep *dep,
- 		const struct dwc3_event_depevt *event, int status)
- {
- 	struct dwc3_request	*req;
--	struct dwc3_request	*tmp;
- 
--	list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
-+	while (!list_empty(&dep->started_list)) {
- 		int ret;
- 
-+		req = next_request(&dep->started_list);
- 		ret = dwc3_gadget_ep_cleanup_completed_request(dep, event,
- 				req, status);
- 		if (ret)
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+T24gRnJpLCAyMDIxLTA1LTA3IGF0IDA5OjA2ICswMjAwLCBDaHJpc3RvcGhlIEpBSUxMRVQgd3Jv
+dGU6DQo+IExlIDA3LzA1LzIwMjEgw6AgMDQ6MjAsIENodW5mZW5nIFl1biBhIMOpY3JpdCA6DQo+
+ID4gT24gVGh1LCAyMDIxLTA1LTA2IGF0IDIyOjM5ICswMjAwLCBDaHJpc3RvcGhlIEpBSUxMRVQg
+d3JvdGU6DQo+ID4+ICdyZXR2YWwnIGlzIGtub3duIHRvIGJlIC1FTk9ERVYgaGVyZS4NCj4gPj4g
+VGhpcyBpcyBhIGhhcmQtY29kZWQgZGVmYXVsdCBlcnJvciBjb2RlIHdoaWNoIGlzIG5vdCB1c2Vm
+dWwgaW4gdGhlIGVycm9yDQo+ID4+IG1lc3NhZ2UuIE1vcmVvdmVyLCBhbm90aGVyIGVycm9yIG1l
+c3NhZ2UgaXMgcHJpbnRlZCBhdCB0aGUgZW5kIG9mIHRoZQ0KPiA+PiBlcnJvciBoYW5kbGluZyBw
+YXRoLiBUaGUgY29ycmVzcG9uZGluZyBlcnJvciBjb2RlICgtRU5PTUVNKSBpcyBtb3JlDQo+ID4+
+IGluZm9ybWF0aXZlLg0KPiA+Pg0KPiA+PiBTbyByZW1vdmUgc2ltcGxpZnkgdGhlIGZpcnN0IGVy
+cm9yIG1lc3NhZ2UuDQo+ID4+DQo+ID4+IFdoaWxlIGF0IGl0LCBhbHNvIHJlbW92ZSB0aGUgdXNl
+bGVzcyBpbml0aWFsaXphdGlvbiBvZiAncmV0dmFsJy4NCj4gPj4NCj4gPj4gRml4ZXM6IDdkNTAx
+OTVmNmM1MCAoInVzYjogaG9zdDogRmFyYWRheSBmb3RnMjEwLWhjZCBkcml2ZXIiKQ0KPiA+PiBT
+aWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGhlIEpBSUxMRVQgPGNocmlzdG9waGUuamFpbGxldEB3YW5h
+ZG9vLmZyPg0KPiA+PiAtLS0NCj4gPj4gICBkcml2ZXJzL3VzYi9ob3N0L2ZvdGcyMTAtaGNkLmMg
+fCA0ICsrLS0NCj4gPj4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0
+aW9ucygtKQ0KPiA+Pg0KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC9mb3RnMjEw
+LWhjZC5jIGIvZHJpdmVycy91c2IvaG9zdC9mb3RnMjEwLWhjZC5jDQo+ID4+IGluZGV4IDZjYWM2
+NDI1MjBmYy4uOWMyZWRhMDkxOGUxIDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL3VzYi9ob3N0
+L2ZvdGcyMTAtaGNkLmMNCj4gPj4gKysrIGIvZHJpdmVycy91c2IvaG9zdC9mb3RnMjEwLWhjZC5j
+DQo+ID4+IEBAIC01NTY4LDcgKzU1NjgsNyBAQCBzdGF0aWMgaW50IGZvdGcyMTBfaGNkX3Byb2Jl
+KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4+ICAgCXN0cnVjdCB1c2JfaGNkICpo
+Y2Q7DQo+ID4+ICAgCXN0cnVjdCByZXNvdXJjZSAqcmVzOw0KPiA+PiAgIAlpbnQgaXJxOw0KPiA+
+PiAtCWludCByZXR2YWwgPSAtRU5PREVWOw0KPiA+PiArCWludCByZXR2YWw7DQo+ID4+ICAgCXN0
+cnVjdCBmb3RnMjEwX2hjZCAqZm90ZzIxMDsNCj4gPj4gICANCj4gPj4gICAJaWYgKHVzYl9kaXNh
+YmxlZCgpKQ0KPiA+PiBAQCAtNTU4OCw3ICs1NTg4LDcgQEAgc3RhdGljIGludCBmb3RnMjEwX2hj
+ZF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+PiAgIAloY2QgPSB1c2Jf
+Y3JlYXRlX2hjZCgmZm90ZzIxMF9mb3RnMjEwX2hjX2RyaXZlciwgZGV2LA0KPiA+PiAgIAkJCWRl
+dl9uYW1lKGRldikpOw0KPiA+PiAgIAlpZiAoIWhjZCkgew0KPiA+PiAtCQlkZXZfZXJyKGRldiwg
+ImZhaWxlZCB0byBjcmVhdGUgaGNkIHdpdGggZXJyICVkXG4iLCByZXR2YWwpOw0KPiA+PiArCQlk
+ZXZfZXJyKGRldiwgImZhaWxlZCB0byBjcmVhdGUgaGNkXG4iKTsNCj4gPj4gICAJCXJldHZhbCA9
+IC1FTk9NRU07DQo+ID4gSG93IGFib3V0IG1vdmluZyB0aGlzIGxpbmUgYmVmb3JlIGRldl9lcnIo
+KT8gdGhlbiBjb3VsZCBrZWVwIGVycm9yIGxvZw0KPiA+IHVuY2hhbmdlZC4NCj4gPiANCj4gDQo+
+IE1vc3RseSBhIG1hdHRlciBvZiB0YXN0ZS4NCj4gSSBkb24ndCB0aGluayBpdCBhZGQgYW55IHVz
+ZWZ1bCBpbmZvcm1hdGlvbiAodGhpcyBpcyBub3Qgc29tZXRoaW5nIA0KPiBjb21pbmcgZnJvbSBh
+IGNhbGwgY2hhaW4gb3IgdGhhdCBjYW4gaGF2ZSBkaWZmZXJlbnQgdmFsdWVzLCBpdCBpcyBqdXN0
+IGEgDQo+IGhhcmQtY29kZWQgY29uc3RhbnQpIGFuZCB0aGUgbGluZSBhZnRlciB3ZSB3aWxsIGFs
+cmVhZHkgaGF2ZToNCj4gCWRldl9lcnIoZGV2LCAiaW5pdCAlcyBmYWlsLCAlZFxuIiwgZGV2X25h
+bWUoZGV2KSwgcmV0dmFsKTsNCj4gd2hlcmUgcmV0dmFsID0gLUVOT01FTQ0KPiANCj4gU28gdGhl
+IC1FTk9NRU0gZXJyb3IgY29kZSBpcyBhbHJlYWR5IHJlcG9ydGVkLg0KWWVzDQoNCj4gDQo+IE1v
+cmVvdmVyLCBoYXZpbmcgZXJyb3IgY29kZSByZXBvcnRlZCBvciBub3QgaXMgYWxyZWFkeSBub3Qg
+Y29uc2lzdGVudCBpbiANCj4gdGhlIGZ1bmN0aW9uLiBGb3IgZXhhbXBsZSAiZmFpbGVkIHRvIGVu
+YWJsZSBQQ0xLXG4iIHdoZXJlICdyZXR2YWwnIGNvdWxkIA0KPiBiZSByZXBvcnRlZCBhcyB3ZWxs
+Lg0KPiANCj4gDQo+IA0KPiBCVFcsIGlzIGl0IHVzZWZ1bCB0byBoYXZlICdkZXZfbmFtZShkZXYp
+JyBpbiBhIGRldl9lcnI/DQpkZXZfZXJyKGRldiwgLi4uKSBpdHNlbGYgd2lsbCBwcmludCBpdC4N
+Cg0KPiANCj4gQ0oNCj4gDQo+ID4+ICAgCQlnb3RvIGZhaWxfY3JlYXRlX2hjZDsNCj4gPj4gICAJ
+fQ0KPiA+IA0KPiANCg0K
 
