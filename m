@@ -2,166 +2,125 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D26C43611
-	for <linux-usb@archiver.kernel.org>; Mon, 10 May 2021 15:05:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAC1BC43462
+	for <linux-usb@archiver.kernel.org>; Mon, 10 May 2021 15:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C88BA61421
-	for <linux-usb@archiver.kernel.org>; Mon, 10 May 2021 15:05:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C146D61492
+	for <linux-usb@archiver.kernel.org>; Mon, 10 May 2021 15:15:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241978AbhEJPGw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 May 2021 11:06:52 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19307 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235904AbhEJPFc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 10 May 2021 11:05:32 -0400
-IronPort-SDR: muOn85VgRPyPHUb7+/qNvE635H04T4YfW5X0gUs7bCf5FyiHqjmF3CsrGlaUrpInZdoUxsaKnF
- O+WvJjHLtBGA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9980"; a="199266433"
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="199266433"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2021 08:04:27 -0700
-IronPort-SDR: 5HtizJ1vAOQZfmDWuujDPkjkF4zn0yMx9a+JK8MEiXghp0HskM5L/WkqyoCEer5wcgyVmNat77
- 67u0ynZXBGMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,287,1613462400"; 
-   d="scan'208";a="470818104"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 10 May 2021 08:03:57 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 6A7D812A; Mon, 10 May 2021 18:04:16 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
-        Joe Perches <joe@perches.com>,
-        Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v1 1/4] lib/vsprintf: Allow to override date and time separator
-Date:   Mon, 10 May 2021 18:04:10 +0300
-Message-Id: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        id S241843AbhEJPQp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 May 2021 11:16:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240361AbhEJPOf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 May 2021 11:14:35 -0400
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71FCC056756;
+        Mon, 10 May 2021 07:33:50 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id t18so16891382wry.1;
+        Mon, 10 May 2021 07:33:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iXsxoOt9fS3DXvxCyyFOaJfbPkU6WlTqA1MG4BgEpJA=;
+        b=jIc4OS4UG1e9Htue39hs2SdJXCmPLn+MTostxG/pw06sXYt4cF0beJY8cOPd4XkNvN
+         wMkWqq4rS4nqVWqmlHYwknDCThc4F5oj3a10x6AGXMwZ0Kkxjgx6mU53ky5S6gct5IOF
+         gb8YE/CdqFeQhJSfkuXg75IoXDsEW/QKbfnCDm8DSyF/6zHxA2in236S9Jv233h02Cag
+         nY/zUkluYzDhxrfM75C6Qnf/beBRBG9DBN2uslTW/jB8AmOrnU4strwuRTlIYCmTiED9
+         Adakd2gy/AYmhY6PfiGery2Nb+BVYLJb2xN6RqR96XQSpLkoAkrrTIc1zJH3tzspThUx
+         eDlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iXsxoOt9fS3DXvxCyyFOaJfbPkU6WlTqA1MG4BgEpJA=;
+        b=mtcfeMsx7dMqYNepetHcvVEp2glMa9yIlLyEQ8rzKenwJZWsHQ0xYa4FlfmN2J8LUY
+         bPfOWxNXZyLuUbv6mxcQzDooN2CybZw4KKRpvAa/DrNtG9dFdBPkqfMLVMWB9yeSeuhw
+         KifzQf56nF3lwZi75f/YZ9fJAMLNWYeuMRIm/mSQXcM0o6HLRxrVNe3PcWPOde4Ouehf
+         HQo08nNDf9XEIEtKPrSCYDyPT+1asNxWQJ15AiWCwdz6YBacVGiCzslr6WMf0PAAJhWe
+         NOEZZaMTk+c6yb5EuDFdDdRkIJXz5xQH1O3KiVzaCllG860vf8paCuiuRV8XjsFmGVtg
+         sxhw==
+X-Gm-Message-State: AOAM532ZdhgvQU2/PzbBMlyPonGNmCSVV+wEv5FYNx421ebedZz5AXty
+        8pgEwWSVt3X7TC9UFQeGUWQ=
+X-Google-Smtp-Source: ABdhPJze1q8t3iuv5DjzOv0RveTjqSpEwnprh+IG3St78u9eWCZrU93KSEZYLbobgkyZLBZ/m0bYBQ==
+X-Received: by 2002:adf:e98c:: with SMTP id h12mr30469476wrm.314.1620657229579;
+        Mon, 10 May 2021 07:33:49 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
+        by smtp.gmail.com with ESMTPSA id h9sm20117820wmb.35.2021.05.10.07.33.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 May 2021 07:33:48 -0700 (PDT)
+Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
+        rcu@vger.kernel.org, x86@kernel.org
+References: <cover.1620641727.git.mchehab+huawei@kernel.org>
+ <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
+ <20210510135518.305cc03d@coco.lan>
+ <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
+ <YJk8LMFViV7Z3Uu7@casper.infradead.org>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
+Date:   Mon, 10 May 2021 15:33:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YJk8LMFViV7Z3Uu7@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ISO 8601 defines 'T' as a separator between date and time. Though,
-some ABIs use time and date with ' ' separator instead.
+On 10/05/2021 14:59, Matthew Wilcox wrote:
+> Most of these
+> UTF-8 characters come from latex conversions and really aren't
+> necessary (and are being used incorrectly).
+I fully agree with fixing those.
+The cover-letter, however, gave the impression that that was not the
+ main purpose of this series; just, perhaps, a happy side-effect.
 
-Add a flavour to the %pt specifier to override default separator.
+> You seem quite knowedgeable about the various differences.  Perhaps
+> you'd be willing to write a document for Documentation/doc-guide/
+> that provides guidance for when to use which kinds of horizontal
+> line?I have Opinions about the proper usage of punctuation, but I also know
+ that other people have differing opinions.  For instance, I place
+ spaces around an em dash, which is nonstandard according to most
+ style guides.  Really this is an individual enough thing that I'm not
+ sure we could have a "kernel style guide" that would be more useful
+ than general-purpose guidance like the page you linked.
+Moreover, such a guide could make non-native speakers needlessly self-
+ conscious about their writing and discourage them from contributing
+ documentation at all.  I'm not advocating here for trying to push
+ kernel developers towards an eats-shoots-and-leaves level of
+ linguistic pedantry; rather, I merely think that existing correct
+ usages should be left intact (and therefore, excising incorrect usage
+ should only be attempted by someone with both the expertise and time
+ to check each case).
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/core-api/printk-formats.rst |  6 +++++-
- lib/test_printf.c                         |  5 +++++
- lib/vsprintf.c                            | 19 ++++++++++++++++---
- 3 files changed, 26 insertions(+), 4 deletions(-)
+But if you really want such a doc I wouldn't mind contributing to it.
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index f063a384c7c8..bc85fd4685e7 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -514,9 +514,10 @@ Time and date
- ::
- 
- 	%pt[RT]			YYYY-mm-ddTHH:MM:SS
-+	%pt[RT]s		YYYY-mm-dd HH:MM:SS
- 	%pt[RT]d		YYYY-mm-dd
- 	%pt[RT]t		HH:MM:SS
--	%pt[RT][dt][r]
-+	%pt[RT][dt][rs]
- 
- For printing date and time as represented by::
- 
-@@ -528,6 +529,9 @@ in human readable format.
- By default year will be incremented by 1900 and month by 1.
- Use %pt[RT]r (raw) to suppress this behaviour.
- 
-+The %pt[RT]s (space) will override ISO 8601 by using ' ' instead of 'T'
-+between date and time. It won't have any effect when date or time is omitted.
-+
- Passed by reference.
- 
- struct clk
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index ec0d5976bb69..8ac71aee46af 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -528,6 +528,11 @@ time_and_date(void)
- 	test("0119-00-04T15:32:23", "%ptTr", &t);
- 	test("15:32:23|2019-01-04", "%ptTt|%ptTd", &t, &t);
- 	test("15:32:23|0119-00-04", "%ptTtr|%ptTdr", &t, &t);
-+
-+	test("2019-01-04 15:32:23", "%ptTs", &t);
-+	test("0119-00-04 15:32:23", "%ptTsr", &t);
-+	test("15:32:23|2019-01-04", "%ptTts|%ptTds", &t, &t);
-+	test("15:32:23|0119-00-04", "%ptTtrs|%ptTdrs", &t, &t);
- }
- 
- static void __init
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index f0c35d9b65bf..5f36c7a43cdc 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1834,7 +1834,8 @@ char *rtc_str(char *buf, char *end, const struct rtc_time *tm,
- 	      struct printf_spec spec, const char *fmt)
- {
- 	bool have_t = true, have_d = true;
--	bool raw = false;
-+	bool raw = false, space = false;
-+	bool found = true;
- 	int count = 2;
- 
- 	if (check_pointer(&buf, end, tm, spec))
-@@ -1851,14 +1852,26 @@ char *rtc_str(char *buf, char *end, const struct rtc_time *tm,
- 		break;
- 	}
- 
--	raw = fmt[count] == 'r';
-+	do {
-+		switch (fmt[count++]) {
-+		case 'r':
-+			raw = true;
-+			break;
-+		case 's':
-+			space = true;
-+			break;
-+		default:
-+			found = false;
-+			break;
-+		}
-+	} while (found);
- 
- 	if (have_d)
- 		buf = date_str(buf, end, tm, raw);
- 	if (have_d && have_t) {
- 		/* Respect ISO 8601 */
- 		if (buf < end)
--			*buf = 'T';
-+			*buf = space ? ' ' : 'T';
- 		buf++;
- 	}
- 	if (have_t)
--- 
-2.30.2
-
+-ed
