@@ -2,188 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E57F6C4360C
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CB9FC433B4
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:19:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACE9D61364
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:00:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15AE36161F
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:19:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231228AbhEKJB0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 May 2021 05:01:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57216 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230439AbhEKJBU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 11 May 2021 05:01:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E709E611F1;
-        Tue, 11 May 2021 09:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620723613;
-        bh=ETvFtPpZWz6DN3iWb3G2WAPhojmYo6ps7EuchaChQ+E=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PLGy/1LSbmraLJz9I+ZFpgkDxkCfvpVNiHxpQ06jZIl8i8GhyxDYM7Gy1/DkHiCt5
-         klo7h/HCiZCdE58jLyhFWvaAVP5oc9x+G/BoSRcOX7C3Tl/sTRBZmSPn8j1vcyPJNt
-         mRJS0yxqm/yCxF+CPVj6SxA/ae6jVWIEkJrXhN8oiyzJkjvRZFRVAZch9kSHP1iP93
-         oW7IG29Utyoqz+QwiX4h4Rg5Qegv470eEj7pH0f2MN9paDsUyx4y03dGzSMfb4uf2a
-         FDLqKCDGwM78HAqr/sdfeYExPB7ah8JOeYwd9qD22mRbJt8d7NaYnvORLTCVIJ25K4
-         6sDaroZmf8XGQ==
-Date:   Tue, 11 May 2021 11:00:02 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as
- ASCII
-Message-ID: <20210511110002.2f187f01@coco.lan>
-In-Reply-To: <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-        <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-        <20210510135518.305cc03d@coco.lan>
-        <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
-        <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-        <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230445AbhEKJUk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 May 2021 05:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230427AbhEKJUj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 May 2021 05:20:39 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 417DEC061574
+        for <linux-usb@vger.kernel.org>; Tue, 11 May 2021 02:19:33 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id s82so10691305wmf.3
+        for <linux-usb@vger.kernel.org>; Tue, 11 May 2021 02:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=jyybLxuJ7xZ6d0x/klVfoxVqBUHmxhi7TG3BpYlm8NE=;
+        b=HktvOaMB5x12Ns178Wm/doVxZinZi2WPW+EulQYNbPw4xfEkH6xw1FHl1XnEge4EJq
+         c5VXc6f2N2Rw6Gvv/sGVd1uOBt1fSsNAl5C4CadoLTV7qWeBCpbkILfgPIKC4UOjrCXr
+         aqCvfVoskQnK8LghTC0mdCpHFElv/0E/oxp+6UiCenjYUj+q5iYk0k+SF+4D+jfVAddE
+         aKlx42Y6AnhnXRp5toZoZaCah5hEmwRqWhWQ6HQcT9whYlIUA/TnOedNt8uSj/3c+O69
+         qACgYSXclNr+/hf6g85aYrTvPUH3pbF/rkite1kuBRjNhu7jltx0KDFO5wPg7re0tZc+
+         gsUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jyybLxuJ7xZ6d0x/klVfoxVqBUHmxhi7TG3BpYlm8NE=;
+        b=YuaKxgEldSEE6547sN5U7k1lwDO9EGSZkDM2dl1YbP+eTn0w60G2VpBJeRo7PoapzC
+         n+LDObqni22De4iDUD7pjPGcPRNhtiGTo8iTu2yt0UPpRlm/ARKEC6xe6Z7HKGFx/gzg
+         lQy148CBRRxuJIpsMFq8stsQcBgG2o5SARJjoLt/+fMT+CU52oZNcemMREoRgmdCGjj0
+         SJaM3yENfbPFcmVxHlTff3wu1nPYOBwXaYJqgPDHMftdiEeiN8VQIOPZPtWwSt9GVF2u
+         kWk0LewLlZ26IB5R/+G6GMoQOYc7MlIAmuHcnVEmjzEmFkmvOS4viOJUyUZuyDO+mRiC
+         K+Qg==
+X-Gm-Message-State: AOAM532S/PDcczGeuHi8C5oMOQYxPE55ytEGzBDn6Y70RmKwwi+RYSxo
+        +vXGXtpUivaE1IdahX8oVTn1/11mz6CEgA==
+X-Google-Smtp-Source: ABdhPJwzCoN6T5+yO10Uo2WLjV7FZrVzZpalOmcRgykldTRqlgHXo7uN6I9kVNnG1VuvixbNQeFlPg==
+X-Received: by 2002:a1c:545c:: with SMTP id p28mr4369981wmi.118.1620724771418;
+        Tue, 11 May 2021 02:19:31 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id n5sm27041326wrx.31.2021.05.11.02.19.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 May 2021 02:19:30 -0700 (PDT)
+Subject: Re: [PATCH 1/2] usb: typec: tcpm: Call init callback only when
+ provided
+To:     Guenter Roeck <linux@roeck-us.net>,
+        heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org
+References: <20210511022224.1309077-1-bryan.odonoghue@linaro.org>
+ <20210511022224.1309077-2-bryan.odonoghue@linaro.org>
+ <f112c2b4-343a-f8a0-c00e-f020f34611dc@roeck-us.net>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Message-ID: <d4a2889d-db11-69b3-5a62-13fad2ad6e18@linaro.org>
+Date:   Tue, 11 May 2021 10:21:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f112c2b4-343a-f8a0-c00e-f020f34611dc@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Em Mon, 10 May 2021 15:33:47 +0100
-Edward Cree <ecree.xilinx@gmail.com> escreveu:
+On 11/05/2021 03:44, Guenter Roeck wrote:
+> Are we going to see a driver with no init function ?
+> If not, I would suggest to make the call officially mandatory.
+> 
+> Guenter
 
-> On 10/05/2021 14:59, Matthew Wilcox wrote:
-> > Most of these
-> > UTF-8 characters come from latex conversions and really aren't
-> > necessary (and are being used incorrectly). =20
-> I fully agree with fixing those.
-> The cover-letter, however, gave the impression that that was not the
->  main purpose of this series; just, perhaps, a happy side-effect.
+again in plaintext..
 
-Sorry for the mess. The main reason why I wrote this series is because
-there are lots of UTF-8 left-over chars from the ReST conversion.
-See:
-  - https://lore.kernel.org/linux-doc/20210507100435.3095f924@coco.lan/
+I have some tpcm code that doesn't need to put anything into the init 
+function which is how I found this.
 
-A large set of the UTF-8 letf-over chars were due to my conversion work,
-so I feel personally responsible to fix those ;-)
-
-Yet, this series has two positive side effects:
-
- - it helps people needing to touch the documents using non-utf8 locales[1];
- - it makes easier to grep for a text;
-
-[1] There are still some widely used distros nowadays (LTS ones?) that
-    don't set UTF-8 as default. Last time I installed a Debian machine
-    I had to explicitly set UTF-8 charset after install as the default
-    were using ASCII encoding (can't remember if it was Debian 10 or an
-    older version).
-
-Unintentionally, I ended by giving emphasis to the non-utf8 instead of
-giving emphasis to the conversion left-overs.
-
-FYI, this patch series originated from a discussion at linux-doc,
-reporting that Sphinx breaks when LANG is not set to utf-8[2]. That's
-why I probably ended giving the wrong emphasis at the cover letter.
-
-[2] See https://lore.kernel.org/linux-doc/20210506103913.GE6564@kitsune.sus=
-e.cz/
-    for the original report. I strongly suspect that the VM set by Michal=20
-    to build the docs was using a distro that doesn't set UTF-8 as default.
-
-    PS.:=20
-      I intend to prepare afterwards a separate fix to avoid Sphinx
-      logger to crash during Kernel doc builds when the locale charset
-      is not UTF-8, but I'm not too fluent in python. So, I need some
-      time to check if are there a way to just avoid python log crashes
-      without touching Sphinx code and without needing to trick it to=20
-      think that the machine's locale is UTF-8.
-
-See: while there was just a single document originally stored at the
-Kernel tree as a LaTeX document during the time we did the conversion
-(cdrom-standard.tex), there are several other documents stored as=20
-text that seemed to be generated by some tool like LaTeX, whose the
-original version were not preserved.=20
-
-Also, there were other documents using different markdown dialects=20
-that were converted via pandoc (and/or other similar tools). That's=20
-not to mention the ones that were converted from DocBook. Such
-tools tend to use some logic to use "neat" versions of some ASCII
-characters, like what this tool does:
-
-	https://daringfireball.net/projects/smartypants/
-
-(Sphinx itself seemed to use this tool on its early versions)
-
-All tool-converted documents can carry UTF-8 on unexpected places. See,
-on this series, a large amount of patches deal with U+A0 (NO-BREAK SPACE)
-chars. I can't see why someone writing a plain text document (or a ReST
-one) would type a NO-BREAK SPACE instead of a normal white space.
-
-The same applies, up to some sort, to curly commas: usually people just=20
-write ASCII "commas" on their documents, and use some tool like LaTeX
-or a text editor like libreoffice in order to convert them into
- =E2=80=9Cutf-8 curly commas=E2=80=9D[3].
-
-[3] Sphinx will do such things at the produced output, doing something=20
-    similar to what smartypants does, nowadays using this:
-
-	https://docutils.sourceforge.io/docs/user/smartquotes.html
-
-    E. g.:
-      - Straight quotes (" and ') turned into "curly" quote characters;
-      - dashes (-- and ---) turned into en- and em-dash entities;
-      - three consecutive dots (... or . . .) turned into an ellipsis char.
-
-> > You seem quite knowedgeable about the various differences.  Perhaps
-> > you'd be willing to write a document for Documentation/doc-guide/
-> > that provides guidance for when to use which kinds of horizontal
-> > line?
-> I have Opinions about the proper usage of punctuation, but I also know =20
->  that other people have differing opinions.  For instance, I place
->  spaces around an em dash, which is nonstandard according to most
->  style guides.  Really this is an individual enough thing that I'm not
->  sure we could have a "kernel style guide" that would be more useful
->  than general-purpose guidance like the page you linked.
-
-> Moreover, such a guide could make non-native speakers needlessly self-
->  conscious about their writing and discourage them from contributing
->  documentation at all.
-
-I don't think so. In a matter of fact, as a non-native speaker, I guess
-this can actually help people willing to write documents.
-
->  I'm not advocating here for trying to push
->  kernel developers towards an eats-shoots-and-leaves level of
->  linguistic pedantry; rather, I merely think that existing correct
->  usages should be left intact (and therefore, excising incorrect usage
->  should only be attempted by someone with both the expertise and time
->  to check each case).
->=20
-> But if you really want such a doc I wouldn't mind contributing to it.
-
-IMO, a document like that can be helpful. I can help reviewing it.
-
-Thanks,
-Mauro
+Its very much up to yourself on making init() mandatory though. I'm just 
+as happy to redo the patch and add a check to the add port routine
