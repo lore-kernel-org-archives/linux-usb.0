@@ -2,232 +2,245 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+	PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D92FC433ED
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:20:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8515DC433ED
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:23:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CA6136192B
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:20:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35DFF6161F
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 09:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231358AbhEKJVI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 May 2021 05:21:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230427AbhEKJVF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 May 2021 05:21:05 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDB72C061574;
-        Tue, 11 May 2021 02:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Mime-Version:Content-Type:References:
-        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ACPeVbxMLK/500nyNX+3cNB0vDYCp3xwSEtXta/r6nQ=; b=NHcoPsQ0w6LxwSGDX4vkD8/uH2
-        BCVsY+btpGQEpRU2pkeJvdatTbWL2JBZdS/6eYYr55aUZnHPQiCp75ufbj9ppcYdJPuE3i2U7VWZ9
-        zG31a+HLtyhcbBbak7g0IGwtZL3WndWRDY5ftVPK/Ew6z486lFPq6TKqJB2Kwe6HEbOfszw1/iK15
-        GEbbAqCaMQ0Gdtol1f4uGTL+OL/5HeAxBtfOoAh/qfcZv7XKSbapukqj85NpJayiS/n/AmrD5oz/9
-        KkvoamnHrJmQBHLb76SWFRywxNh2WhOmHnywdrZ2rawGhXo2ctAgb6hPkv/uLE3qCyIBeWemyCgKm
-        gRNFtW/g==;
-Received: from 54-240-197-235.amazon.com ([54.240.197.235] helo=u3832b3a9db3152.ant.amazon.com)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lgOYO-009QMP-9D; Tue, 11 May 2021 09:19:48 +0000
-Message-ID: <899f0da2727a131c3216ad0e03e9380b33b2d4ad.camel@infradead.org>
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-From:   David Woodhouse <dwmw2@infradead.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Date:   Tue, 11 May 2021 10:19:40 +0100
-In-Reply-To: <20210511110002.2f187f01@coco.lan>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
-         <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
-         <20210510135518.305cc03d@coco.lan>
-         <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
-         <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-         <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
-         <20210511110002.2f187f01@coco.lan>
-Content-Type: multipart/signed; micalg="sha-256";
-        protocol="application/x-pkcs7-signature";
-        boundary="=-ksJlzBMaAXAvWpVBCnQ9"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-Mime-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        id S231297AbhEKJYu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 May 2021 05:24:50 -0400
+Received: from mail-eopbgr80042.outbound.protection.outlook.com ([40.107.8.42]:6291
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231364AbhEKJYs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 11 May 2021 05:24:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kWUBlYxFsKhFh3SBET+6JxkWA1qD8E/XX9w0gDRVS550Oarz6Cw8I0yW4dFGQpZmIxXtQpJqxANWpP67n0vfkS4svbs0czm+Bj6EVAGPoCvC1saxJcAoIi7TTV37kqdYHEYjFFsnQAbYZUCvzHcdrv7MgSTODBCw+AcSTyCMhwsTOUTAhNyS3ZNKkythSDmmiNystw/nO/MvsM2dkwJBxo0X/ebMlrUj6G2O1UWOUbar4Qh6ne1Ri5J1wOmNOC75V/aC8vGXWM41yLNuQotjDOIcURW2iP71jgt0YtjoOBRA3/jtdGkao7pIgmuI+6E6cMW1rdkrXh+V2hezZ808Ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ICQAz3E3K6zi7vD2VJDRpMeNpeS0iLWNGxFGsgQhPi4=;
+ b=RKHVjCS9npAUu0MoQvRDFaqwasrOHeDoB7drrI2fJ+lfV4KB7vuP1Crp5ePc5nS2hl8zR/laQSfVOMRMP8F3PN9RKQM5Zvi0DciGXp2Pk/fv9VJnwKX0EhHTzTNCS99RSuP3cOlTFpi/HYKN2AeQAZlZ7MrOcANhTE6lILcYlxy53UCuplbVcxru/KpIrn7/glsTe3EgKAbDPh2rOaQgE/LRfxO3PURlRgzZwCh7xw1OsFi2qXG47XMV21XyAKbACqAehYSv+EQ8hvm3uUXh5L5g2w37+Zd3MYXuNArCnFBZLRQ8UsT2r7zvza4tBbfaxAP5Id4BpEFZmgPWwXdI+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ICQAz3E3K6zi7vD2VJDRpMeNpeS0iLWNGxFGsgQhPi4=;
+ b=NkfM1YnNa94mtjqHiw8rcJhlWPXfQI3BKqg5Wg+lla4BllJWuD1mksXCgvCryO6ceYcb6QHrhwXBOKgowCMFYzWxtNeRhtmN18Wj+qsK5Br1/F2f1c79G6LREGOV7mLubDSCK85fNc/NyJmmS17rfYyIuJP+RvfQ49KzcSE3l8Q=
+Received: from VI1PR04MB5935.eurprd04.prod.outlook.com (2603:10a6:803:e9::17)
+ by VI1PR04MB5790.eurprd04.prod.outlook.com (2603:10a6:803:e7::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.24; Tue, 11 May
+ 2021 09:23:40 +0000
+Received: from VI1PR04MB5935.eurprd04.prod.outlook.com
+ ([fe80::ddf7:8cd0:3132:7dbe]) by VI1PR04MB5935.eurprd04.prod.outlook.com
+ ([fe80::ddf7:8cd0:3132:7dbe%7]) with mapi id 15.20.4129.025; Tue, 11 May 2021
+ 09:23:40 +0000
+From:   Jun Li <jun.li@nxp.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "thunder.leizhen@huawei.com" <thunder.leizhen@huawei.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH] usb: dwc3: imx8mp: detect dwc3 core node via compatible
+ string
+Thread-Topic: [PATCH] usb: dwc3: imx8mp: detect dwc3 core node via compatible
+ string
+Thread-Index: AQHXPZBCXEuCoO+pyECjB5N281Vfw6rMuUwAgAANexCAAA1OAIAJgi+AgAA3u4CAAQ3rcIAGYAEAgAANUVA=
+Date:   Tue, 11 May 2021 09:23:40 +0000
+Message-ID: <VI1PR04MB5935DE5731476311DE94009A89539@VI1PR04MB5935.eurprd04.prod.outlook.com>
+References: <1619765836-20387-1-git-send-email-jun.li@nxp.com>
+ <8735v8ji31.fsf@kernel.org>
+ <VI1PR04MB5935F1D26E1F281B7273993F895E9@VI1PR04MB5935.eurprd04.prod.outlook.com>
+ <87r1ishz2t.fsf@kernel.org>
+ <VI1PR04MB5935825AD977B4180894541589589@VI1PR04MB5935.eurprd04.prod.outlook.com>
+ <87h7jggch0.fsf@kernel.org>
+ <VI1PR04MB59354B7D5843B612D50937B589579@VI1PR04MB5935.eurprd04.prod.outlook.com>
+ <YJo5Tl7SDuv4Yu6D@kuha.fi.intel.com>
+In-Reply-To: <YJo5Tl7SDuv4Yu6D@kuha.fi.intel.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [119.31.174.71]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fc701d9c-c5da-470a-32d2-08d9145e76ec
+x-ms-traffictypediagnostic: VI1PR04MB5790:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR04MB579023A20F602F391BB09A6B89539@VI1PR04MB5790.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mt+qH0AiWpgypNroC9GYjD1mmCHyFw4LzcpdS79e6HFAG3Dxa38un+ajeov4hT3Y9fJ9aPEhCCKm0AbQh9zz3bsGoejQtCRv1hrNSACzP+R4epkqKWmfQ42R+i2hcsfuXWTx8mA2eDcMxoiaXT1AJxRGBzpqBkIbfgXDrA/sj81MBef2RhoFXKDIb5tvTsWff7R8/+K5QQT9K4VP8UqKMpiL3/Tqvb2LJcnaDATk5WPC5GqBU5MNykAnyj4PqqzV2yPmKk2Mshgu8clAOwjTNjvOC1ecdhSLxD8NqriTojJCrQpQNUCKk9vKbKp3aKRVCvEJhg/SQ9iEFkmQO3iroZRwWHFItnt04TAW0uuNUFuM5v3x3Q4j8rL46GSJYx6XQRORV2noniYBW2xxYddIwbzlj6HB9NRLz7IprsjlaCfx+qo3STDy5E0UTYUpQMBq2YnmvJk4G5Dr1FOyEui2D6BiywIOqV/nIXDvmL71gFbm/sgNk7UfTAOqlCdgfiXsBuh/Mjh5WOSyLhhJawCIUCOcjlppD3gnbjELvD//LCQnx29e4/4bKjNvhBNrkGLOpYhjjX/Fxz4PrUAwmszfc/3il5Aj4XYXA+ad5LSZKYlPMVyX3m/9Q1+PIMGk9CX16yM2cEvp4cvOcE/DnozXrxys/X0OlpryXuSp/lr7wOtzjwQiRYBxipK06aFI+NyyEYMNEMcW9OnhRPnz/00Snbew8eijHWeUxM+CiSN3wa0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR04MB5935.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(136003)(39850400004)(346002)(366004)(44832011)(76116006)(186003)(122000001)(53546011)(26005)(33656002)(316002)(86362001)(71200400001)(8936002)(7696005)(6506007)(52536014)(66946007)(9686003)(2906002)(966005)(6916009)(5660300002)(8676002)(4326008)(54906003)(66446008)(45080400002)(55016002)(83380400001)(66556008)(64756008)(478600001)(66476007)(38100700002)(32563001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?G+h8b1+Ja4xVf4FG9p9MPgjeXXoH6xVMUrbkfBYXOIi2vdIoS3LZf1H06CoQ?=
+ =?us-ascii?Q?6YOZyUJS5Syeho8e2wyfX5lNpk0m7+i73UUGFuJmfzAnS56kfpJGFDPqWv5Z?=
+ =?us-ascii?Q?q4hmN755QyOLsQBAbbCW3pWExhTWdrI11bVE/nJ6MTYIuBcKz39Xk1TL+z5V?=
+ =?us-ascii?Q?th14dJnAN1F/GId9O+JXIQ2G33eW0tfvRpx38ProKQu6N1npCWObo5eP24u5?=
+ =?us-ascii?Q?6IPcZQVyR/kyzn9WCaEgAMBrDtWN8GIptQdfvbv23UXHTu/FFv+opUg165wG?=
+ =?us-ascii?Q?zIIXL7LYNcARZb2oXSrcorEnQZadNM/aJnTTXJV9/PGCwX3UKLVuw6/4VHlA?=
+ =?us-ascii?Q?37HcyRh+kug8jwPZcxFcVq0P4ZSrHyRvD1UGrfI2m9xwj2xQWGevgDb8+FPI?=
+ =?us-ascii?Q?Kqh57fK8UKVXAV+HQwD53S48OVgsbl/Nphe5OoP/DWvA9W7EUleGiRu2/4Sl?=
+ =?us-ascii?Q?Llg5i+c3kuc52jiYP+662xJ8j8G4YI+wBAynarXwFny1/X+sTfa6B3tLCZtZ?=
+ =?us-ascii?Q?DrOZ2t8mbGoklSldp0vAEfAIOqRUwwWk6EHUhJJVFZXj5a3QBvH5x4+g1qsB?=
+ =?us-ascii?Q?4hiLll0gwZBvj8oedNUbJepA9h089wFxtv2bq0B8hmwi3FzqDL16Ubr9pXhx?=
+ =?us-ascii?Q?Is6d4hpRkWgpL9FHjJqZbKKNWHG2omaUxkm07a5jSejOVVEa/lOGyywlPH9i?=
+ =?us-ascii?Q?64r8rpBReR/mCf/0cA/hoGkuYCoOh/1K3pKMdqxqfNN6HmGAat0D/RZDA8bU?=
+ =?us-ascii?Q?RrAJ3YVW50ZBofTQOn3zw7XhxhvKTHIUwA7ZXMaWYSR15HDkRo5zSWxfMZxT?=
+ =?us-ascii?Q?zpi6hUbRmvGC94DULkvp9y8h//e0c8AfK6qQE7sBllxryUPeGUhtOYz03QsI?=
+ =?us-ascii?Q?4tnvT8Q9zgMDfqrnd89GSeLrwbu8p0sfD+AdsX7CefYfPqFoma7V/6XPDT78?=
+ =?us-ascii?Q?m9pCU0Ns0ye1Fx3KfhmC8/RPIL2R70eZ1ZpN8nblBHimK0Pvft//mtj6sVYN?=
+ =?us-ascii?Q?id+H1AXTKVNBYoANgSTLzI6KSrq0QKByhCEmtmxvE13b69FJga+pN3wWuG45?=
+ =?us-ascii?Q?gU05mSzhQ9BW19ulkbRRPIzkz6kfp32uZPA8/m8ynwD/aAkKjV6h0+HovK1h?=
+ =?us-ascii?Q?xz+/T3/nWlA/wy8hnB6B+Qr6cCTucIVMcZhgFZjFH8dyAgWXWt22/tQAM6jg?=
+ =?us-ascii?Q?Jck2YUkMFFSOAlmnjz3Ujuvq76PdRBGt/TJkokAz8/C6SHJsfDiaKu7y3N+m?=
+ =?us-ascii?Q?Aq/qUT5rz2WrmJqMIGeq9uRWm7uOauwbVJ7tSGNSkBixcOb922+6aL81yltH?=
+ =?us-ascii?Q?1VJo8E4mF1M/6SDc7UhqMeVD?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB5935.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc701d9c-c5da-470a-32d2-08d9145e76ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2021 09:23:40.3138
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lEqhBeYLdRgV0LR9kV1XAY0I5ramjx/lhfWw445XMKKIdwKdLJZTqfVhmyeITg5Z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5790
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
---=-ksJlzBMaAXAvWpVBCnQ9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2021-05-11 at 11:00 +0200, Mauro Carvalho Chehab wrote:
-> Yet, this series has two positive side effects:
+Hi,
+> -----Original Message-----
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Sent: Tuesday, May 11, 2021 3:59 PM
+> To: Jun Li <jun.li@nxp.com>
+> Cc: Felipe Balbi <balbi@kernel.org>; gregkh@linuxfoundation.org;
+> shawnguo@kernel.org; dl-linux-imx <linux-imx@nxp.com>;
+> thunder.leizhen@huawei.com; linux-usb@vger.kernel.org
+> Subject: Re: [PATCH] usb: dwc3: imx8mp: detect dwc3 core node via compati=
+ble
+> string
 >=20
->  - it helps people needing to touch the documents using non-utf8 locales[=
-1];
->  - it makes easier to grep for a text;
+> Hi guys,
 >=20
-> [1] There are still some widely used distros nowadays (LTS ones?) that
->     don't set UTF-8 as default. Last time I installed a Debian machine
->     I had to explicitly set UTF-8 charset after install as the default
->     were using ASCII encoding (can't remember if it was Debian 10 or an
->     older version).
+> On Fri, May 07, 2021 at 07:31:43AM +0000, Jun Li wrote:
+> > Hi
+> >
+> > > -----Original Message-----
+> > > From: Felipe Balbi <balbi@kernel.org>
+> > > Sent: Thursday, May 6, 2021 10:32 PM
+> > > To: Jun Li <jun.li@nxp.com>; gregkh@linuxfoundation.org
+> > > Cc: shawnguo@kernel.org; dl-linux-imx <linux-imx@nxp.com>;
+> > > thunder.leizhen@huawei.com; linux-usb@vger.kernel.org
+> > > Subject: RE: [PATCH] usb: dwc3: imx8mp: detect dwc3 core node via
+> > > compatible string
+> > >
+> > >
+> > > Hi,
+> > >
+> > > Jun Li <jun.li@nxp.com> writes:
+> > > >> > 	val =3D readl(dwc3_imx->glue_base + USB_WAKEUP_CTRL);
+> > > >> >
+> > > >> > 	if ((dwc3->current_dr_role =3D=3D DWC3_GCTL_PRTCAP_HOST) &&
+> dwc3->xhci)
+> > > >> > 		val |=3D USB_WAKEUP_EN | USB_WAKEUP_SS_CONN |
+> > > >> > 		       USB_WAKEUP_U3_EN | USB_WAKEUP_DPDM_EN;
+> > > >> > 	else if (dwc3->current_dr_role =3D=3D DWC3_GCTL_PRTCAP_DEVICE)
+> > > >> > 		val |=3D USB_WAKEUP_EN | USB_WAKEUP_VBUS_EN |
+> > > >> > 		       USB_WAKEUP_VBUS_SRC_SESS_VAL;
+> > > >>
+> > > >> for this, you could register a listener to the extcon notifier
+> > > >> and update these bits accordingly. With that, you would already
+> > > >> *know* that
+> > > >> dwc3 is probed.
+> > > >
+> > > > With usb role switch class, there no extcon provider, so I think
+> > > > this way can't work for me.
+> > >
+> > > perhaps role switch class could learn about notifiers ;-)
+> > >
+> > > >> > static irqreturn_t dwc3_imx8mp_interrupt(int irq, void *_dwc3_im=
+x)
+> {
+> > > >> > 	struct dwc3_imx8mp	*dwc3_imx =3D _dwc3_imx;
+> > > >> > 	struct dwc3		*dwc =3D platform_get_drvdata(dwc3_imx->dwc3);
+> > > >> >
+> > > >> > 	if (!dwc3_imx->pm_suspended)
+> > > >> > 		return IRQ_HANDLED;
+> > > >> >
+> > > >> > 	disable_irq_nosync(dwc3_imx->irq);
+> > > >> > 	dwc3_imx->wakeup_pending =3D true;
+> > > >> >
+> > > >> > 	if ((dwc->current_dr_role =3D=3D DWC3_GCTL_PRTCAP_HOST) &&
+> dwc->xhci)
+> > > >> > 		pm_runtime_resume(&dwc->xhci->dev);
+> > > >> > 	else if (dwc->current_dr_role =3D=3D DWC3_GCTL_PRTCAP_DEVICE)
+> > > >> > 		pm_runtime_get(dwc->dev);
+> > > >> >
+> > > >> > 	return IRQ_HANDLED;
+> > > >> > }
+> > > >>
+> > > >> for this, maybe you need to teach dwc3 core about wakeup irqs
+> > > >> instead. Have a look dev_pm_set_dedicated_wake_irq().
+> > > >
+> > > > Good suggestion, but if extcon notifier listener can't work for
+> > > > me, my understanding is this *teach* in glue layer driver still
+> > > > need access
+> > > > dwc3 core instance struct, right?
+> > >
+> > > for now, maybe. But it may be better to implement a notifier method
+> > > in role switch class.
+> >
+> > I am not sure if introduce notifier in role switch class is a good
+> > idea, I had the impression extcon is not encouraged to use if possible.
+>=20
+> I'm not against role switch notifiers. They were proposed before already
+> couple of years ago, but at that time there just were no users them notif=
+ier,
+> so the patch was just dropped from the series [1].
+> But I don't think anybody was against the idea. Please feel free to add t=
+hem
+> to the class if you have use for them.
 
-This whole line of thinking is fundamentally wrong.
+So I had the incorrect impression.
 
-A given set of characters in a "text file" are encoded with a specific
-character set / encoding. To interpret that file and convert the bytes
-back to characters, we need to use the *same* charset.
+Yes, that's the Felipe was referring to, I think.
 
-That charset is a property of the text file, and each text file or
-piece of text in a system (like this email, which will contain a
-Content-Type: header indicating the charset) might be encoded with a
-*different* character set.
+I will pick up [1] and improve my driver as Felipe suggested.
 
-In the days before you could connect computers together =E2=80=94 or before=
- you
-could exchange data between computers in different countries, at least
-=E2=80=94 perhaps it made sense to store 'text' files without explicitly no=
-ting
-their encoding. And to interpret them using some kind of "default"
-character set.
+Thanks
+Li Jun
 
-Those days are long gone. You're trying to work around an egregiously
-stupid bug, if you're trying to pander to "default" encodings. There
-*is* no default encoding that even makes sense, except perhaps UTF-8.
-To *speak* of them as you did shows a misunderstanding of how broken
-they are. It's *precisely* that kind of half-baked thinking which
-always used to lead to stupid assumptions and double conversions and
-Mojibake. Before we just standardised on UTF-8 everywhere and it
-stopped mattering so much.
-
-Just don't.
-
-Now, you *can* make this work if you really insist on it, even for
-systems with EBCDIC as their default encoding. Just make git do the
-"convert to local charset" on checkout, precisely the same way as it
-does CRLF for Windows systems. But it's stupid and anachronistic, so I
-don't really see the point.
-
-
---=-ksJlzBMaAXAvWpVBCnQ9
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
-ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
-OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
-AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
-RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
-cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
-uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
-Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
-Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
-xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
-BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
-dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
-LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
-Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
-Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
-KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
-YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
-nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
-PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
-7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
-Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
-MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
-NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
-AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
-/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
-0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
-vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
-ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
-ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
-CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
-BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
-aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
-bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
-bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
-LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
-CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
-W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
-vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
-gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
-RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
-jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
-b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
-AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
-BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
-+bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
-WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
-aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
-CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
-u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
-RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
-QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
-b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
-cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
-SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
-0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
-KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
-E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
-M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
-jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
-yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
-gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
-R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
-BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
-BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
-ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
-ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjEw
-NTExMDkxOTQxWjAvBgkqhkiG9w0BCQQxIgQghRE9rU/D7haPZdW67XviZmUXpg2cnHbJM1xDOVf0
-T/gwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
-TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
-PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
-aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
-A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
-bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
-DQEBAQUABIIBAKFAZigep1KOOol21coPctmm0thUJBQFyCWjBnrOHq+JLmCFjvLUyCVyXWKeA/YF
-FAfunXM8m7R4950qhsuSKswzSpZTlKCffvyA6G2/gN5ZgPI612DqrQhiG5sZ207R2HJ4QbcvK50V
-5zWQJ9CPexCjwmmgnk3WGH5LG47Y4imDN51Sa5tAnY8whHk+VJBmF6Il+9CDSA8WcSn+ln+zBC+p
-J2U3IULf6yTNR+uE3kKzzqnZCz1QmORpiHe6ko71uL7lHLNegcrTPhwPEOgLlOFkizYO4Ftr4XEF
-zLmdhqPqT7L8AiMsF3mP/cj1QIlu7UlZi1HNvKwEb75HbQirD0UAAAAAAAA=
-
-
---=-ksJlzBMaAXAvWpVBCnQ9--
-
+>=20
+> Or, are we talking about some other notifier here?
+>=20
+> [1]
+> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.
+> kernel.org%2Flinux-usb%2F20191002231617.3670-3-john.stultz%40linaro.org
+> %2F&amp;data=3D04%7C01%7Cjun.li%40nxp.com%7C9479f8f61e1a47245c2e08d91452a
+> dd6%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C637563167667138204%7CU
+> nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW
+> wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DEhSPBC1sGeH65EPuFV22pEcVS6nDeRNPdN9Z1
+> 3lPPYg%3D&amp;reserved=3D0
+>=20
+>=20
+> thanks,
+>=20
+> --
+> heikki
