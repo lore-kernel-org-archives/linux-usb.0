@@ -2,114 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1764EC43460
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 00:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAAA3C433B4
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 00:30:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE7986162D
-	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 00:06:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9A3E61448
+	for <linux-usb@archiver.kernel.org>; Tue, 11 May 2021 00:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230005AbhEKAHI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 May 2021 20:07:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52468 "EHLO
+        id S230271AbhEKAbY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 May 2021 20:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhEKAHH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 May 2021 20:07:07 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5824BC061760
-        for <linux-usb@vger.kernel.org>; Mon, 10 May 2021 17:06:01 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id x8so17220229qkl.2
-        for <linux-usb@vger.kernel.org>; Mon, 10 May 2021 17:06:01 -0700 (PDT)
+        with ESMTP id S230256AbhEKAbX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 May 2021 20:31:23 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937AFC061574;
+        Mon, 10 May 2021 17:30:16 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id t11so25977290lfl.11;
+        Mon, 10 May 2021 17:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lUM6GCiWQ87fBmMe4R6b3VuwWCudO1qdVICMp3zaKIc=;
-        b=KFj5l6zhdrS0fLCWMGjmr/xO4BlTFtZoz3C0X6f4yXPAPd4QFYCKQ6VCRUB/RhrcYc
-         /aNljSGJlQqpYw9kb4Ei54tqu7LZbNffzPVR359jRbFKseto3PQlwou2i3Frh18gwxLZ
-         83EJdcrxGqEoNBrlRvGIOn9J8VC7CuWrNZTlo=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iaKpOVYs51TkiQrnYxtfnQwNocRssc+UCyct27FeBk0=;
+        b=sLityj1pAMNBz1mkMvhO8HZMwCcW8/XzOyLOeOQijN5D22no704dCMDvGZOCTvcREH
+         jTF6Al0D37T+t050t6lN29IkE00KhJwlR/C9oDE7IQZEA3WO09AFghWfToM4wN56Fvdf
+         Z/124aBGsofxCWT25jwUYuT3k9b5AtoP0hHSL1tzGpfbSeEIOS6r8Ce66pyB8AmZGrCt
+         6h7ccoLQMrKVWxrFlAKb3z1fyxg9hwBHQ90jponHYGPxXLuiCzzTw/mzCB60sjlaMDTC
+         T+VXGcHocIwa7ThGCoSkD0NmDqDkS1B9nBxSfWz4hYU4P7z4LxCKPodv8wSHfju/j8Fw
+         bdrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lUM6GCiWQ87fBmMe4R6b3VuwWCudO1qdVICMp3zaKIc=;
-        b=ko7O8TaKa3zZzewhyGIRnXjFyawylJU9PqNM1ZELr3MjYT1NuEpDn3ffg+lt4xuVUg
-         6U5YyAoWM3OlRWdXYjKIDnDxNt3IpzD0Zx9snWE7Tfh1ogvvKdKSO91FpMRz2ZBQX4W0
-         EviN4xmseAm4Qp/Qtvzgp7h8QVtDdDm5MHOMSH16+fXUWnh/XWxfPZyn6ehpmaSHMH8t
-         W4JIwMWV41LnGeN955/e0bt4fE8+lDOrpniF03zAensview3iizVYdDSQokAWybGiS/p
-         JUt3DSSXtnygSlmS8pXh89J4L7T3RfMYs21dsYUgfpc3LQoXag7R+qxHLKHnGiAO0daP
-         3Ybg==
-X-Gm-Message-State: AOAM530j6kp8uwf2CwvwKoSC8AWD6PhYdTMr7FXF/trPt0ZKtwE19GwH
-        VjFF8KSA8WP7O8IFQnkiCqBtfol2UVVpgA==
-X-Google-Smtp-Source: ABdhPJyIB+Y8NTTG6w45yvHuEYsXlELGZQc+VYZVVQIts75ivUQGvnvdvezqr5cqUJ7eigtoi6u1bQ==
-X-Received: by 2002:a37:30c:: with SMTP id 12mr25288225qkd.355.1620691560417;
-        Mon, 10 May 2021 17:06:00 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id j9sm14872189qtl.15.2021.05.10.17.05.58
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 May 2021 17:05:59 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id h202so23966130ybg.11
-        for <linux-usb@vger.kernel.org>; Mon, 10 May 2021 17:05:58 -0700 (PDT)
-X-Received: by 2002:a5b:8cc:: with SMTP id w12mr37539122ybq.32.1620691558469;
- Mon, 10 May 2021 17:05:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210510150413.59356-1-andriy.shevchenko@linux.intel.com> <20210510150413.59356-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20210510150413.59356-2-andriy.shevchenko@linux.intel.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Mon, 10 May 2021 17:05:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VpuyYBv2tj5AHLx7U7vfCpH1A6hfG_amscZ6OupRwEHg@mail.gmail.com>
-Message-ID: <CAD=FV=VpuyYBv2tj5AHLx7U7vfCpH1A6hfG_amscZ6OupRwEHg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] kdb: Switch to use %ptTs
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
-        Joe Perches <joe@perches.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathias Nyman <mathias.nyman@intel.com>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iaKpOVYs51TkiQrnYxtfnQwNocRssc+UCyct27FeBk0=;
+        b=M3MnvcPY+zWvfeLLK1h7UrtkBMq84ZkwWJ4Ql8ahUNkS0rnW5aj5uUnxrXC8xs/+Ii
+         0JYsiqYHFzFa5Q3D2QXYG5364Fkc/AiH8q9CGV1SQcLn7+ApjEkhdABSif5A2oc1MmL4
+         Uf5IkZbcE4q3RZEiT5qJIn+SdjHYy77JLxm/3j7lMMZVjssWW1qfsXL6Qp008woHV+AI
+         WvZs0op9ozFIxYIG839O0dKvoQf2QI/YqPtzT8QayCMlNqp97Bp/EYHW/RZ0wwJU42Vs
+         CHdJoOZy8l+JkXOoNpA056Ta6U0E+KEVyDyyV9StcDrpGA7B04lIUGl28lx6IRDfuosk
+         ay3A==
+X-Gm-Message-State: AOAM531JvklP+10gC6tlswVXDI5IeqQE+LSXJnomxi2MBp5qZa1grEbk
+        BiX/a3IxvSGycYP0S3qpW58=
+X-Google-Smtp-Source: ABdhPJyX3/DbnNaFezK5bh0ZTSRWncJd9VxxAaC29kb7R9SQ9T+YyxM91625TDatGXa09hJ4ODhfCQ==
+X-Received: by 2002:ac2:484a:: with SMTP id 10mr18603917lfy.392.1620693015186;
+        Mon, 10 May 2021 17:30:15 -0700 (PDT)
+Received: from xws.localdomain ([37.58.58.229])
+        by smtp.gmail.com with ESMTPSA id x62sm2418025lff.295.2021.05.10.17.30.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 May 2021 17:30:14 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: xhci: Increase timeout for HC halt
+Date:   Tue, 11 May 2021 02:29:33 +0200
+Message-Id: <20210511002933.1612871-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On some devices (specifically the SC8180x based Surface Pro X with
+QCOM04A6) HC halt / xhci_halt() times out during boot. Manually binding
+the xhci-hcd driver at some point later does not exhibit this behavior.
+To work around this, double XHCI_MAX_HALT_USEC, which also resolves this
+issue.
 
-On Mon, May 10, 2021 at 8:04 AM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Use %ptTs instead of open-coded variant to print contents
-> of time64_t type in human readable form.
->
-> Cc: Jason Wessel <jason.wessel@windriver.com>
-> Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> Cc: kgdb-bugreport@lists.sourceforge.net
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  kernel/debug/kdb/kdb_main.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+---
+ drivers/usb/host/xhci-ext-caps.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I kinda doubt anyone would really care if we just switched kdb to just
-the old "%ptT". Probably no machines are parsing this string.
+diff --git a/drivers/usb/host/xhci-ext-caps.h b/drivers/usb/host/xhci-ext-caps.h
+index fa59b242cd51..fb591e41cd50 100644
+--- a/drivers/usb/host/xhci-ext-caps.h
++++ b/drivers/usb/host/xhci-ext-caps.h
+@@ -7,8 +7,8 @@
+  * Author: Sarah Sharp
+  * Some code borrowed from the Linux EHCI driver.
+  */
+-/* Up to 16 ms to halt an HC */
+-#define XHCI_MAX_HALT_USEC	(16*1000)
++/* Up to 32 ms to halt an HC */
++#define XHCI_MAX_HALT_USEC	(32 * 1000)
+ /* HC not running - set to 1 when run/stop bit is cleared. */
+ #define XHCI_STS_HALT		(1<<0)
+ 
+-- 
+2.31.1
 
-...but in any case, now that the nifty new format is there we might as
-well use it. Thus:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
