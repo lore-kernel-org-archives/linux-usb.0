@@ -2,84 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C148BC433B4
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 14:42:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 844BAC43461
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:05:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9014F613CA
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 14:42:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 495DD61979
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:05:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbhELOnL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 May 2021 10:43:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33378 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230481AbhELOnL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 May 2021 10:43:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0361D61370;
-        Wed, 12 May 2021 14:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620830522;
-        bh=zoXrWdrhFqdeF8H24gQ4Bk6xz73k5SBh9T03FYjRc1s=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=p832TjypP1xlNSEVzTk+jNOPrr5s9fJZjiSFLMhrQVuv+WQS9F0Z4xsoi+cX012mI
-         t2oWzEPDL0aQbmaB9ahLaqc7iGD8RG/y5LeshQdsgrQ8ceC+aYbWHrxOf2rlJkSFj1
-         fP/++HqWbd5Dy77R/tkzgN2X8uW0IC8uJnfuaZBowy9sF4sj17/p86hpI+joLumZRO
-         FMYAnuS5HdCwiqakkxEPTfTkEFcf5d3MPgIAgZeGyBpWpoeZdkH1+X0oSKcDcMMeW8
-         6aY+/b3Vwl9W3tf9SdGNI9LxOveJ8X8OKrKOh22uVyzqiB1yW7tKGjYGh1K5xWl42f
-         TQjvcr8UBbTMw==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3: pci: Fix DEFINE for Intel Elkhart Lake
-In-Reply-To: <20210512135901.28495-1-heikki.krogerus@linux.intel.com>
-References: <20210512135901.28495-1-heikki.krogerus@linux.intel.com>
-Date:   Wed, 12 May 2021 17:41:53 +0300
-Message-ID: <87zgx06mku.fsf@kernel.org>
+        id S233008AbhELPHF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 May 2021 11:07:05 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:55211 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S232157AbhELPFf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 May 2021 11:05:35 -0400
+Received: (qmail 935403 invoked by uid 1000); 12 May 2021 11:04:24 -0400
+Date:   Wed, 12 May 2021 11:04:24 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Chris Chiu <chris.chiu@canonical.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>, m.v.b@runbox.com,
+        hadess@hadess.net, linux-usb@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] USB: reset-resume the device when PORT_SUSPEND is
+ set but timeout
+Message-ID: <20210512150424.GA934575@rowland.harvard.edu>
+References: <20210510145030.1495-1-chris.chiu@canonical.com>
+ <20210510145030.1495-2-chris.chiu@canonical.com>
+ <20210510150203.GD863718@rowland.harvard.edu>
+ <CABTNMG24BOS_+uGEYFLJrmEW10eTGjrOowwS7Zb_U+AvkZWTyQ@mail.gmail.com>
+ <20210511163026.GA901897@rowland.harvard.edu>
+ <CABTNMG2OiEFzMwMaUaVL9B6Om87e9qQMFBXRKej7G6zuvBXW=w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABTNMG2OiEFzMwMaUaVL9B6Om87e9qQMFBXRKej7G6zuvBXW=w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 12, 2021 at 12:17:12PM +0800, Chris Chiu wrote:
+> On Wed, May 12, 2021 at 12:30 AM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Tue, May 11, 2021 at 01:04:36PM +0800, Chris Chiu wrote:
+> > > On Mon, May 10, 2021 at 11:02 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > > >
+> > > > On Mon, May 10, 2021 at 10:50:29PM +0800, chris.chiu@canonical.com wrote:
+> > > > > From: Chris Chiu <chris.chiu@canonical.com>
+> > > > >
+> > > > > On the Realtek high-speed Hub(0bda:5487), the port which has wakeup
+> > > > > enabled_descendants will sometimes timeout when setting PORT_SUSPEND
+> > > > > feature. After checking the PORT_SUSPEND bit in wPortStatus, it is
+> > > > > already set. However, the hub will fail to activate because the
+> > > > > PORT_SUSPEND feature of that port is not cleared during resume. All
+> > > > > connected devices are lost after resume.
+> > > > >
+> > > > > This commit force reset-resume the device connected to the timeout
+> > > > > but suspended port so that the hub will have chance to clear the
+> > > > > PORT_SUSPEND feature during resume.
+> > > >
+> > > > Are you certain that the reset-resume is needed?  What happens if you
+> > > > leave out the line that sets udev->reset_resume?  The rest of the patch
+> > > > will cause the kernel to realize that the port really is suspended, so
+> > > > maybe the suspend feature will get cleared properly during resume.
+> > > >
+> > > > It's worthwhile to try the experiement and see what happens.
+> > > >
+> > > > Alan Stern
+> > > >
+> > >
+> > > If I leave out the udev->reset_resume set, the resume will fail. Please refer
+> > > to the following kernel log. The usb 1-1 is the hub which has wakeup enabled
+> > > descendants.
+> > >
+> > > [   57.210472] usb 1-1: kworker/u32:7 timed out on ep0out len=0/0
+> > > [   57.211022] usb 1-1-port3: suspend timeout, status 0507
+> > > [   57.211130] hub 1-1:1.0: hub_suspend
+> > > [   57.230500] usb 1-1: usb suspend, wakeup 0
+> > >
+> > > The timeout happens at 57.210472 and you can see the PORT_SUSPEND
+> > > bit is actually set in the "status 0507". The following shows the resume log.
+> > >
+> > > [   58.046556] usb 1-1: usb resume
+> > > [   58.114515] usb 1-1: Waited 0ms for CONNECT
+> > > [   58.114524] usb 1-1: finish resume
+> > > [   58.114928] hub 1-1:1.0: hub_resume
+> > > [   58.116035] usb 1-1-port3: status 0507 change 0000
+> > > [   58.116720] usb 1-1-port5: status 0503 change 0000
+> > > [   58.116778] hub 1-1.3:1.0: hub_resume
+> > > [   58.116908] hub 1-1.3:1.0: hub_ext_port_status failed (err = -71)
+> > > [   58.116952] usb 1-1.5: Waited 0ms for CONNECT
+> > > [   58.116955] usb 1-1.5: finish resume
+> > > [   58.117157] hub 1-1.3:1.0: hub_ext_port_status failed (err = -71)
+> > > [   58.117397] usb 1-1.3-port5: can't resume, status -71
+> > > [   58.117782] hub 1-1.3:1.0: hub_ext_port_status failed (err = -71)
+> > > [   58.118147] usb 1-1.3-port2: can't resume, status -71
+> > > [   58.118149] usb 1-1.3.2: Waited 0ms for CONNECT
+> > > [   58.118151] usb 1-1.3-port2: status 07eb.906e after resume, -19
+> > > [   58.118153] usb 1-1.3.2: can't resume, status -19
+> > > [   58.118154] usb 1-1.3-port2: logical disconnect
+> > > [   58.118526] usb 1-1.3-port2: cannot disable (err = -71)
+> > >
+> > > As you see in the 58.116035, the hub_resume and activate is OK for the
+> > > usb 1-1. The "usb 1-1.3: finish resume" is not in the log because it's not
+> > > considered suspended and no chance to ClearPortFeature.
+> >
+> > Wait -- why isn't it considered suspended?  We saw at 57.211022 that
+> > 1-1-port3's Suspend feature really was set, and thanks to your patch,
+> > the kernel should now believe that the port is suspended.
+> >
+> But it's still in the `if (status)` branch so it will not get
+> usb_set_device_state
+> to USB_STATE_SUSPENDED, then usb_resume_both will not do the resume
+> process for it.
 
-Heikki Krogerus <heikki.krogerus@linux.intel.com> writes:
+Ah, yes.  I was mis-reading the patch.
 
-> From: Raymond Tan <raymond.tan@intel.com>
->
-> There's no separate low power (LP) version of Elkhart Lake, thus
-> this patch updates the PCI Device ID DEFINE to indicate this.
->
-> Signed-off-by: Raymond Tan <raymond.tan@intel.com>
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> My original thought is, we still take this as an abnormal status
+> because we don't
+> really know the reason for the timeout. Set reset_resume for the udev
+> will make the
+> kernel to reset_resume it. Or  I have to create a new `goto` name in
+> the `else` branch
+> to force it back to the successful suspended process. And should I
+> clean the status to
+> zero for pm_runtime_put_sync()? What's your suggestion?
 
-Acked-by: Felipe Balbi <balbi@kernel.org>
+For testing purposes, set status to 0 and jump to a new goto label in 
+the "else" branch.  In other words, treat it as if the suspend really 
+had worked and go back to the successful pathway.  Try this out and see 
+if it fixes the problem.
 
-No functional changes whatsover, this can probably wait until the next
-merge window.
+If it does then the reset-resume isn't needed.  If it doesn't, post your 
+patch again, and mention in the patch description that testing shows the 
+reset-resume really is necessary.
 
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmCb6TERHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzlfNM9wDzUjBPggAr8BMqgVoFynCvJ85rf9Q3uMP+H/dOvNy
-0Mg7q+5ugJx1drFmeittQ2amp/JdvqtR/wFlMXYfjoYITjIArIee/eIY0H0hLdb6
-qnbkLT7HXCTDgEWYGJ2Xp3EPPmHbXv/gZ4U+715cAOR1YzpswLkvpOUMkV9v8plJ
-xApY/hAtphN2DmhHN7FgNr546ZDxbZl0qnJyg0bZ0oFuUYUQuq1gkKBq37e6zf+4
-t7eepqTL2P7ZlJAoKjalmxrDsqFq3LHo2B1KUA46BW4RP2LgsEaUwRbaPKR6yZJd
-DSuRwaJDz7owfBxJwUvBMP75r4EUMJKOfQiHJiQEiN0clLopeF+SlQ==
-=c5mW
------END PGP SIGNATURE-----
---=-=-=--
+Alan Stern
