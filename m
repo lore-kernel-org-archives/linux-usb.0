@@ -2,106 +2,145 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4818C43460
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05E33C43619
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 17:55:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E1DF61D6B
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:41:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA0E961413
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 17:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234697AbhELPmA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 May 2021 11:42:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49178 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235091AbhELPfS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 May 2021 11:35:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 455F961C3E;
-        Wed, 12 May 2021 15:17:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620832672;
-        bh=zB2G4t5ozyJ72g68BGRplKf2lQRTS6CtRvJ7FVX3NWE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=DBjrvZcbfODq6o/u3ovhcKp34o3mQ/2g2kqOKbw7rqi0UbJcuDmNkgLMMy0M05dFs
-         mwfV7fdqIvkaHvs5FkFIxP3pQ5mW2wuelKsM0Zg1XI928MZ1g6hDtwlC/lZ6mTYtDn
-         L0yXyxJPdKzjgMXD6Vs/vdQOXuvQV+DBBKSwRDhM/LlZ9x9/DV6Qnq7MjBym4Ue3He
-         LklNFflnfSaW1SCikrvqRJriPDliUiNhIaGm2pb/3nXItDzT/4/obeOPpO0NPN/v0m
-         Pwish5sD0axq4vDEIuCSUJZyKrnPcy3P6Nd30IKN+fHXybC5E+QSyK+xdLgaNeWw/l
-         +EUyGcBOd8VUw==
-Date:   Wed, 12 May 2021 17:17:41 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Theodore Ts'o" <tytso@mit.edu>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-Message-ID: <20210512171741.2870bcbc@coco.lan>
-In-Reply-To: <YJvi1L2ss5Tfi+My@mit.edu>
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
-        <YJvi1L2ss5Tfi+My@mit.edu>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S237390AbhELRn3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 May 2021 13:43:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S245512AbhELQwv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 May 2021 12:52:51 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588B3C061262
+        for <linux-usb@vger.kernel.org>; Wed, 12 May 2021 09:37:14 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id c13so5500428pfv.4
+        for <linux-usb@vger.kernel.org>; Wed, 12 May 2021 09:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Ikw1DMHOUmP/SzfSES6R5kSb98F6N2mCjodmrWpWN6g=;
+        b=KkirfHVZjMS1zmEGPy+VBdrsNAY3rYK47T7nfXjC/YUQmC+25+MTJ2logrgzW2xmh3
+         SyuoF/bjsuo3xvgfrwUuh+X/x26hJjWPNvn2AroKt5qEAHT+6d+2ASwA0HqZYOGDZGbS
+         xF+TK4/mW6qpoIPthsAjzv7yWTzaKVjzIyKU0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Ikw1DMHOUmP/SzfSES6R5kSb98F6N2mCjodmrWpWN6g=;
+        b=rgv8QCzUHOtP7D3znycXDCxALkUAgxLPquaedfoNl9n+/o6aSmkwF2l0kGUEcxRJ0B
+         hkdLCVt6GpWKS0RDG0myrqRWDRcSq5PuZ08u7qNYkAmD8MTi7vvSeYOKncqzcd5BX7V8
+         N57puWM2yC/wt1QxZi73iP9B+MPpYhGdE3WYsfWYQ4/X0XpPoddzkFDTegl30HExj6SD
+         XFkXRWlXFzBrJDZsqHUo51sVFORBRzqqqTk0cub/kXTxP72kwWXCknBQ7dwqJKkhPgkj
+         UD1irJgGWUikYrl1r9v+Ot0DDbLfOEXXHYuBWhpcGsVZ+JK/yy3Mwb/Af2GrpQ7w6fjf
+         6nPA==
+X-Gm-Message-State: AOAM533LvPnje0K4CGCfystqWVIp1yMpAJD7Fjftj0n0O2uzxSaYchcF
+        6hd9KTLmvoI4kDIkmt6xLpmfJQ==
+X-Google-Smtp-Source: ABdhPJxuT0+Mg/Bi0bMwJjnB+ZHQoIjaWs7TkrW6+woTv3Rv+Ea+lhcjKrnW/Na/ptsbEe9SkHZ+GA==
+X-Received: by 2002:a62:84d2:0:b029:27c:bbd5:6c0d with SMTP id k201-20020a6284d20000b029027cbbd56c0dmr35865705pfd.32.1620837433857;
+        Wed, 12 May 2021 09:37:13 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:a89e:5bb2:e8e0:4428])
+        by smtp.gmail.com with UTF8SMTPSA id e3sm243298pjd.18.2021.05.12.09.37.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 May 2021 09:37:13 -0700 (PDT)
+Date:   Wed, 12 May 2021 09:37:10 -0700
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        devicetree@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-usb@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
+        linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Al Cooper <alcooperx@gmail.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Vinod Koul <vkoul@kernel.org>, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v10 0/5] USB: misc: Add onboard_usb_hub driver
+Message-ID: <YJwENo/DmcyMR8bw@google.com>
+References: <20210511225223.550762-1-mka@chromium.org>
+ <YJuBmlPSaJlyVuzW@ada-deb-carambola.ifak-system.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YJuBmlPSaJlyVuzW@ada-deb-carambola.ifak-system.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Em Wed, 12 May 2021 10:14:44 -0400
-"Theodore Ts'o" <tytso@mit.edu> escreveu:
+Hi Alexander,
 
-> On Wed, May 12, 2021 at 02:50:04PM +0200, Mauro Carvalho Chehab wrote:
-> > v2:
-> > - removed EM/EN DASH conversion from this patchset; =20
->=20
-> Are you still thinking about doing the
->=20
-> EN DASH --> "--"
-> EM DASH --> "---"
->=20
-> conversion? =20
+On Wed, May 12, 2021 at 09:19:54AM +0200, Alexander Dahl wrote:
+> Hello Matthias,
+> 
+> just a curious informal question, see below.
+> 
+> Am Tue, May 11, 2021 at 03:52:18PM -0700 schrieb Matthias Kaehlcke:
+> > This series adds:
+> > - the onboard_usb_hub_driver
+> > - glue in the xhci-plat driver to create the onboard_usb_hub
+> >   platform device if needed
+> > - a device tree binding for the Realtek RTS5411 USB hub controller
+> > - device tree changes that add RTS5411 entries for the QCA SC7180
+> >   based boards trogdor and lazor
+> > - a couple of stubs for platform device functions to avoid
+> >   unresolved symbols with certain kernel configs
+> > 
+> > The main issue the driver addresses is that a USB hub needs to be
+> > powered before it can be discovered. For discrete onboard hubs (an
+> > example for such a hub is the Realtek RTS5411) this is often solved
+> > by supplying the hub with an 'always-on' regulator, which is kind
+> > of a hack. Some onboard hubs may require further initialization
+> > steps, like changing the state of a GPIO or enabling a clock, which
+> > requires even more hacks. This driver creates a platform device
+> > representing the hub which performs the necessary initialization.
+> > Currently it only supports switching on a single regulator, support
+> > for multiple regulators or other actions can be added as needed.
+> > Different initialization sequences can be supported based on the
+> > compatible string.
+> 
+> This sounds like it would be useful for other hub controllers as well?
+> For example, would the Microchip USB3503 (former SMSC,
+> drivers/usb/misc/usb3503.c, [1]) fall into this category? That chip is
+> used on the "Cubietech Cubietruck Plus" for example.
 
-Yes, but I intend to submit it on a separate patch series, probably after
-having this one merged. Let's first cleanup the large part of the=20
-conversion-generated UTF-8 char noise ;-)
+usb3503.c provides two 'separate' USB3503 drivers (which share some
+code), a i2c client driver and a platform driver. IIUC on a system with
+an USB3503 only one of these drivers is used. Theoretically it should be
+feasible to extend the onboard_usb_hub driver to cover the functionality
+of the platform driver in usb3503.c (essentially to control GPIOs and
+clocks at initialization time and suspend/resume). Another question is
+whether that would be desirable, since the i2c and the platform driver
+share code, which then would be duplicated in the i2c and onboard_usb_hub
+driver, unless a way is found to keep sharing that code.
 
-> That's not going to change what the documentation will
-> look like in the HTML and PDF output forms, and I think it would make
-> life easier for people are reading and editing the Documentation/*
-> files in text form.
+The i2c driver can't be completely replaced by the onboard_usb_hub
+driver, due to the i2c communications. It might be possible to have the
+i2c driver and the onboard_usb_hub collaborate, however I expect it
+would take a certain effort to design and implement a solid solution.
 
-Agreed. I'm also considering to add a couple of cases of this char:
+Thanks
 
-	- U+2026 ('=E2=80=A6'): HORIZONTAL ELLIPSIS
-
-As Sphinx also replaces "..." into HORIZONTAL ELLIPSIS.
-
--
-
-Anyway, I'm opting to submitting those in separate because it seems
-that at least some maintainers added EM/EN DASH intentionally.
-
-So, it may generate case-per-case discussions.
-
-Also, IMO, at least a couple of EN/EM DASH cases would be better served=20
-with a single hyphen.
-
-Thanks,
-Mauro
+Matthias
