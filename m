@@ -2,281 +2,131 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 968B2C43619
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 12:52:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A43A0C433ED
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 13:13:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E68A61175
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 12:52:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66229613EE
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 13:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232240AbhELMxM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 May 2021 08:53:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231388AbhELMw4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 May 2021 08:52:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B11D61175;
-        Wed, 12 May 2021 12:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620823902;
-        bh=L+E/N8mtA2/+iSqhjhIyKk7M7RrC5qMfkQmRh4SXqOM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ucNSAhXYlF3Szz7W2irBTsvcIq33u1CrsW3ughaZJQqP+LrxpB0KjDChNaWylRCiA
-         8uidMvIFPObFZ6akJiKIQ1n/loNfn6hx8yVucw2xWZ73EfgNRibzOSlugYBt51kwpz
-         sdmRPA3LdwD45uYQTpj7XZoENUjgUxwJTlI1qlwGCNWZNWI+BkaJBNQJYsI68pIF0d
-         fXOa2Wzs1nudr171bvqR7b67LC1CF/NPtlR0c90fFeyu9TgllD9P44UMzmzYncl5FJ
-         KVeCETjMQ0hlqHZjf6TbTaK//D282G036gFoleiqqZjAOauHQnBlpoCUvLp2Ls+ug5
-         bNkKFQYHSRskA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lgoKy-0018go-1r; Wed, 12 May 2021 14:51:40 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate symbols
-Date:   Wed, 12 May 2021 14:50:04 +0200
-Message-Id: <cover.1620823573.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        id S231987AbhELNOS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 May 2021 09:14:18 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:55902 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231516AbhELNOR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 May 2021 09:14:17 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14CDCkoN020974;
+        Wed, 12 May 2021 13:12:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=QRs5gdlYriFU1v1EfQ+7iR08huQidQJKaI0/QDa1fOw=;
+ b=yIxXWRH14O29PT8kolnkt2yqtI0NDL5OiiveV45Fo27TGbw5iCNlMkDVVLbkq7F2TQL0
+ 8yAZkG/fH3Ypp+SOBad1YpbLKyvDpPZw4hl9ucjjn5vx7MBSQWLMF7IyrdZd0hwd4iRx
+ 2JPjtqqQWKAWAX3NCrhggcAn4/yvlBlvkk/rlvyaCgNPBLbyJsRqDedh1ZhhVukWIvGk
+ MLj8Q/HJZLdrDnP2XKu++Yku9kLvxC0nT1Ghu2EKqa/eWdvEcf3NKUORZ+nyV54ZL9vw
+ Dl6spRJ20AkbGUQhW2GQtWcqoCD41mjGonhzuta95d2QGypckv8p77Qcny3KkPQ15z0Q dw== 
+Received: from oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by mx0b-00069f02.pphosted.com with ESMTP id 38ex140sjm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 13:12:46 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14CDCjXX031433;
+        Wed, 12 May 2021 13:12:45 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3020.oracle.com with ESMTP id 38djfbjx0p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 13:12:45 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14CDBNgx015043;
+        Wed, 12 May 2021 13:12:44 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 38djfbjwxf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 12 May 2021 13:12:44 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14CDCfWR026621;
+        Wed, 12 May 2021 13:12:41 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 12 May 2021 06:12:40 -0700
+Date:   Wed, 12 May 2021 16:12:32 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Denis Joseph Barrow <D.Barow@option.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Anirudh Rayabharam <mail@anirudhrb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rustam Kovhaev <rkovhaev@gmail.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH net] net: hso: check for allocation failure in
+ hso_create_bulk_serial_device()
+Message-ID: <20210512131232.GX1955@kadam>
+References: <YJupQPb+Y4vw3rDk@mwanda>
+ <YJurlxqQ9L+zzIAS@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YJurlxqQ9L+zzIAS@hovoldconsulting.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: vQDJBerTT7xwK3dR9YNacmK_j22vue2w
+X-Proofpoint-ORIG-GUID: vQDJBerTT7xwK3dR9YNacmK_j22vue2w
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series contain basically a cleanup from all those years of converting
-files to ReST.
+On Wed, May 12, 2021 at 12:19:03PM +0200, Johan Hovold wrote:
+> On Wed, May 12, 2021 at 01:09:04PM +0300, Dan Carpenter wrote:
+> > Add a couple checks for if these allocations fail.
+> > 
+> > Fixes: 542f54823614 ("tty: Modem functions for the HSO driver")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > ---
+> >  drivers/net/usb/hso.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+> > index 3ef4b2841402..3b2a868d7a72 100644
+> > --- a/drivers/net/usb/hso.c
+> > +++ b/drivers/net/usb/hso.c
+> > @@ -2618,9 +2618,13 @@ static struct hso_device *hso_create_bulk_serial_device(
+> >  		num_urbs = 2;
+> >  		serial->tiocmget = kzalloc(sizeof(struct hso_tiocmget),
+> >  					   GFP_KERNEL);
+> > +		if (!serial->tiocmget)
+> > +			goto exit;
+> 
+> Nice catch; the next assignment would go boom if this ever failed.
+> 
+> This appears to have been introduced by 
+> 
+> 	af0de1303c4e ("usb: hso: obey DMA rules in tiocmget")
+> 
+> >  		serial->tiocmget->serial_state_notification
+> >  			= kzalloc(sizeof(struct hso_serial_state_notification),
+> >  					   GFP_KERNEL);
+> > +		if (!serial->tiocmget->serial_state_notification)
+> > +			goto exit;
+> >  		/* it isn't going to break our heart if serial->tiocmget
+> >  		 *  allocation fails don't bother checking this.
+> >  		 */
+> 
+> You should remove this comment and drop the conditional on the following
+> line as well now, though.
 
-During the conversion period, several tools like LaTeX, pandoc, DocBook
-and some specially-written scripts were used in order to convert
-existing documents.
+Ah, good catch.  I'll resend. Thanks!
 
-Such conversion tools - plus some text editor like LibreOffice  or similar  - have
-a set of rules that turns some typed ASCII characters into UTF-8 alternatives,
-for instance converting commas into curly commas and adding non-breakable
-spaces. All of those are meant to produce better results when the text is
-displayed in HTML or PDF formats.
-
-While it is perfectly fine to use UTF-8 characters in Linux, and specially at
-the documentation,  it is better to  stick to the ASCII subset  on such
-particular case,  due to a couple of reasons:
-
-1. it makes life easier for tools like grep;
-2. they easier to edit with the some commonly used text/source
-   code editors.
-    
-Also, Sphinx already do such conversion automatically outside 
-literal blocks, as described at:
-
-       https://docutils.sourceforge.io/docs/user/smartquotes.html
-
-In this series, the following UTF-8 symbols are replaced:
-
-            - U+00a0 (' '): NO-BREAK SPACE
-            - U+00ad ('­'): SOFT HYPHEN
-            - U+00b4 ('´'): ACUTE ACCENT
-            - U+00d7 ('×'): MULTIPLICATION SIGN
-            - U+2010 ('‐'): HYPHEN
-            - U+2018 ('‘'): LEFT SINGLE QUOTATION MARK
-            - U+2019 ('’'): RIGHT SINGLE QUOTATION MARK
-            - U+201c ('“'): LEFT DOUBLE QUOTATION MARK
-            - U+201d ('”'): RIGHT DOUBLE QUOTATION MARK
-            - U+2212 ('−'): MINUS SIGN
-            - U+2217 ('∗'): ASTERISK OPERATOR
-            - U+feff ('﻿'): ZERO WIDTH NO-BREAK SPACE (BOM)
-
----
-
-v2:
-- removed EM/EN DASH conversion from this patchset;
-- removed a few fixes, as those were addressed on a separate series.
- 
-PS.:
-   The first version of this series was posted with a different name:
-
-	https://lore.kernel.org/lkml/cover.1620641727.git.mchehab+huawei@kernel.org/
-
-   I also changed the patch texts, in order to better describe the patches goals.
-
-Mauro Carvalho Chehab (40):
-  docs: hwmon: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: admin-guide: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: admin-guide: media: ipu3.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: admin-guide: perf: imx-ddr.rst: Use ASCII subset instead of
-    UTF-8 alternate symbols
-  docs: admin-guide: pm: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: trace: coresight: coresight-etm4x-reference.rst: Use ASCII
-    subset instead of UTF-8 alternate symbols
-  docs: driver-api: ioctl.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: driver-api: thermal: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: driver-api: media: drivers: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: driver-api: firmware: other_interfaces.rst: Use ASCII subset
-    instead of UTF-8 alternate symbols
-  docs: fault-injection: nvme-fault-injection.rst: Use ASCII subset
-    instead of UTF-8 alternate symbols
-  docs: usb: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: process: code-of-conduct.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: userspace-api: media: fdl-appendix.rst: Use ASCII subset instead
-    of UTF-8 alternate symbols
-  docs: userspace-api: media: v4l: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: userspace-api: media: dvb: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: vm: zswap.rst: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: filesystems: f2fs.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: filesystems: ext4: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: kernel-hacking: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: hid: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: security: tpm: tpm_event_log.rst: Use ASCII subset instead of
-    UTF-8 alternate symbols
-  docs: security: keys: trusted-encrypted.rst: Use ASCII subset instead
-    of UTF-8 alternate symbols
-  docs: networking: scaling.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: networking: devlink: devlink-dpipe.rst: Use ASCII subset instead
-    of UTF-8 alternate symbols
-  docs: networking: device_drivers: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: x86: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: scheduler: sched-deadline.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: power: powercap: powercap.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: ABI: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: PCI: acpi-info.rst: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: gpu: Use ASCII subset instead of UTF-8 alternate symbols
-  docs: sound: kernel-api: writing-an-alsa-driver.rst: Use ASCII subset
-    instead of UTF-8 alternate symbols
-  docs: arm64: arm-acpi.rst: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: infiniband: tag_matching.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: misc-devices: ibmvmc.rst: Use ASCII subset instead of UTF-8
-    alternate symbols
-  docs: firmware-guide: acpi: lpit.rst: Use ASCII subset instead of
-    UTF-8 alternate symbols
-  docs: firmware-guide: acpi: dsd: graph.rst: Use ASCII subset instead
-    of UTF-8 alternate symbols
-  docs: virt: kvm: api.rst: Use ASCII subset instead of UTF-8 alternate
-    symbols
-  docs: RCU: Use ASCII subset instead of UTF-8 alternate symbols
-
- ...sfs-class-chromeos-driver-cros-ec-lightbar |   2 +-
- .../ABI/testing/sysfs-devices-platform-ipmi   |   2 +-
- .../testing/sysfs-devices-platform-trackpoint |   2 +-
- Documentation/ABI/testing/sysfs-devices-soc   |   4 +-
- Documentation/PCI/acpi-info.rst               |  22 +-
- .../Data-Structures/Data-Structures.rst       |  52 ++--
- .../Expedited-Grace-Periods.rst               |  40 +--
- .../Tree-RCU-Memory-Ordering.rst              |  10 +-
- .../RCU/Design/Requirements/Requirements.rst  | 122 ++++-----
- Documentation/admin-guide/media/ipu3.rst      |   2 +-
- Documentation/admin-guide/perf/imx-ddr.rst    |   2 +-
- Documentation/admin-guide/pm/intel_idle.rst   |   4 +-
- Documentation/admin-guide/pm/intel_pstate.rst |   4 +-
- Documentation/admin-guide/ras.rst             |  86 +++---
- .../admin-guide/reporting-issues.rst          |   2 +-
- Documentation/arm64/arm-acpi.rst              |   8 +-
- .../driver-api/firmware/other_interfaces.rst  |   2 +-
- Documentation/driver-api/ioctl.rst            |   8 +-
- .../media/drivers/sh_mobile_ceu_camera.rst    |   8 +-
- .../driver-api/media/drivers/zoran.rst        |   2 +-
- .../driver-api/thermal/cpu-idle-cooling.rst   |  14 +-
- .../driver-api/thermal/intel_powerclamp.rst   |   6 +-
- .../thermal/x86_pkg_temperature_thermal.rst   |   2 +-
- .../fault-injection/nvme-fault-injection.rst  |   2 +-
- Documentation/filesystems/ext4/attributes.rst |  20 +-
- Documentation/filesystems/ext4/bigalloc.rst   |   6 +-
- Documentation/filesystems/ext4/blockgroup.rst |   8 +-
- Documentation/filesystems/ext4/blocks.rst     |   2 +-
- Documentation/filesystems/ext4/directory.rst  |  16 +-
- Documentation/filesystems/ext4/eainode.rst    |   2 +-
- Documentation/filesystems/ext4/inlinedata.rst |   6 +-
- Documentation/filesystems/ext4/inodes.rst     |   6 +-
- Documentation/filesystems/ext4/journal.rst    |   8 +-
- Documentation/filesystems/ext4/mmp.rst        |   2 +-
- .../filesystems/ext4/special_inodes.rst       |   4 +-
- Documentation/filesystems/ext4/super.rst      |  10 +-
- Documentation/filesystems/f2fs.rst            |   4 +-
- .../firmware-guide/acpi/dsd/graph.rst         |   2 +-
- Documentation/firmware-guide/acpi/lpit.rst    |   2 +-
- Documentation/gpu/i915.rst                    |   2 +-
- Documentation/gpu/komeda-kms.rst              |   2 +-
- Documentation/hid/hid-sensor.rst              |  70 ++---
- Documentation/hid/intel-ish-hid.rst           | 246 +++++++++---------
- Documentation/hwmon/ir36021.rst               |   2 +-
- Documentation/hwmon/ltc2992.rst               |   2 +-
- Documentation/hwmon/pm6764tr.rst              |   2 +-
- Documentation/infiniband/tag_matching.rst     |   4 +-
- Documentation/kernel-hacking/hacking.rst      |   2 +-
- Documentation/kernel-hacking/locking.rst      |   2 +-
- Documentation/misc-devices/ibmvmc.rst         |   8 +-
- .../device_drivers/ethernet/intel/i40e.rst    |   8 +-
- .../device_drivers/ethernet/intel/iavf.rst    |   4 +-
- .../device_drivers/ethernet/netronome/nfp.rst |  12 +-
- .../networking/devlink/devlink-dpipe.rst      |   2 +-
- Documentation/networking/scaling.rst          |  18 +-
- Documentation/power/powercap/powercap.rst     | 210 +++++++--------
- Documentation/process/code-of-conduct.rst     |   2 +-
- Documentation/scheduler/sched-deadline.rst    |   2 +-
- .../security/keys/trusted-encrypted.rst       |   4 +-
- Documentation/security/tpm/tpm_event_log.rst  |   2 +-
- .../kernel-api/writing-an-alsa-driver.rst     |  68 ++---
- .../coresight/coresight-etm4x-reference.rst   |  16 +-
- Documentation/usb/ehci.rst                    |   2 +-
- Documentation/usb/gadget_printer.rst          |   2 +-
- Documentation/usb/mass-storage.rst            |  36 +--
- .../media/dvb/audio-set-bypass-mode.rst       |   2 +-
- .../userspace-api/media/dvb/audio.rst         |   2 +-
- .../userspace-api/media/dvb/dmx-fopen.rst     |   2 +-
- .../userspace-api/media/dvb/dmx-fread.rst     |   2 +-
- .../media/dvb/dmx-set-filter.rst              |   2 +-
- .../userspace-api/media/dvb/intro.rst         |   6 +-
- .../userspace-api/media/dvb/video.rst         |   2 +-
- .../userspace-api/media/fdl-appendix.rst      |  64 ++---
- .../userspace-api/media/v4l/crop.rst          |  16 +-
- .../userspace-api/media/v4l/dev-decoder.rst   |   6 +-
- .../userspace-api/media/v4l/diff-v4l.rst      |   2 +-
- .../userspace-api/media/v4l/open.rst          |   2 +-
- .../media/v4l/vidioc-cropcap.rst              |   4 +-
- Documentation/virt/kvm/api.rst                |  28 +-
- Documentation/vm/zswap.rst                    |   4 +-
- Documentation/x86/resctrl.rst                 |   2 +-
- Documentation/x86/sgx.rst                     |   4 +-
- 82 files changed, 693 insertions(+), 693 deletions(-)
-
--- 
-2.30.2
-
+regards,
+dan carpenter
 
