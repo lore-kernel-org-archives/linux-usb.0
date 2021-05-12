@@ -2,133 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC4CC43611
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17787C43461
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:10:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D7F861960
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:09:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D28ED619D4
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 15:10:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233719AbhELPKH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 May 2021 11:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233095AbhELPHR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 May 2021 11:07:17 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CD6EC061760;
-        Wed, 12 May 2021 08:00:02 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id c3so22455383oic.8;
-        Wed, 12 May 2021 08:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wAw2wQB4eQHn6TDwpGJK9D3eOJ6qhU0f1KoS9QvzkWM=;
-        b=loF0pyMBQRqwDEvT7rYJtv4geglNOLVoskIvxa2FNrVpO6yh141PcdytI9szrSfwey
-         NCPI0JXldCm1xdKJkvs+EMOqPOkxAKkkDLid9HXujR3z/uZXl+ytWem68OKayxMK44Wj
-         r49klWLflnYXQbGE9YTknEBgQ8tGmEnmG4nu8p+onCvSzORtAu9xuX0vGBEDR4XV+J6V
-         ycseUzZzYh4E4rFs59HMcd6G0Q4HVWH65WeFT1aN0bG4y1qoEFRwAhAE0H3EWmQxPLp7
-         ANgiAje+NgLqt74hFxWMNSSR2jkx8nmW99vIxAYuPad+vUSTuGfLfNNXC7HWyjj4n/W4
-         FV6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wAw2wQB4eQHn6TDwpGJK9D3eOJ6qhU0f1KoS9QvzkWM=;
-        b=WvSY+ryLGkvvIbK8HOLmyfRN/zxhbPdxrC4jnQrworIo+GBhU9ZTUUA7M5qACanTtR
-         pnXpm7vMNlWs7suRxrZWY9tRBz9/VjKfyGIKHGWd/9pz4u1dYuMg20TYr2Kpe1gtI5yO
-         l+9JGV6RvehksdF34a0wogVdN8x+wqE6sdpdeueHzEZ+2Ot7wai1UofItcA/ESdEG/VS
-         RPtYluI7yy/mMvvPXBTk0TagdpJcgS4MzlxtPKGun4OXr+G4xTPZva0ChzdOMUi+huLc
-         EAQulQG1BhlY7ghwTY0ZfNbrnzUEHk3nQEl7EiGK+9vaL+0JJ+mptfpsF+KegZ+rr6OT
-         KauQ==
-X-Gm-Message-State: AOAM530jGx2Ru09D4/18oNGozW9oPR3JSI4Br7LCo8+R0UrhwIMNHCZc
-        h3E/kGuGdJvIhAFaLq/d95k46Llando=
-X-Google-Smtp-Source: ABdhPJz2ZIDSm8cD7EYMyfJiRk9PCaJLERgRQLj7veh6dDLN/mEn8xKYLB8FEo5gpWsqLM+ZGuN6Mw==
-X-Received: by 2002:aca:db41:: with SMTP id s62mr7719836oig.167.1620831601894;
-        Wed, 12 May 2021 08:00:01 -0700 (PDT)
-Received: from ceres ([2603:300b:7b5:c800:1cf6:4c9f:4e7:d116])
-        by smtp.gmail.com with ESMTPSA id j16sm1975523otn.55.2021.05.12.08.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 May 2021 08:00:01 -0700 (PDT)
-Date:   Wed, 12 May 2021 08:59:59 -0600
-From:   Connor Davis <connojdavis@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        xen-devel@lists.xenproject.org, linux-usb@vger.kernel.org,
+        id S233207AbhELPMB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 May 2021 11:12:01 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:39553 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S233625AbhELPJ4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 May 2021 11:09:56 -0400
+Received: (qmail 935639 invoked by uid 1000); 12 May 2021 11:08:47 -0400
+Date:   Wed, 12 May 2021 11:08:47 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Zou Wei <zou_wei@huawei.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] usb: xhci: Notify xen when DbC is unsafe to use
-Message-ID: <20210512145959.h6boyhrh2bvgx5iz@ceres>
-References: <cover.1620776161.git.connojdavis@gmail.com>
- <2af7e7b8d569e94ab9c48039040ca69a8d52c89d.1620776161.git.connojdavis@gmail.com>
- <YJt9su1k67KEFh6K@kroah.com>
+Subject: Re: [PATCH -next] USB: EHCI: ehci-mv: add missing MODULE_DEVICE_TABLE
+Message-ID: <20210512150847.GB934575@rowland.harvard.edu>
+References: <1620801369-18642-1-git-send-email-zou_wei@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YJt9su1k67KEFh6K@kroah.com>
+In-Reply-To: <1620801369-18642-1-git-send-email-zou_wei@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On May 12, 21, Greg Kroah-Hartman wrote:
-> On Tue, May 11, 2021 at 06:18:21PM -0600, Connor Davis wrote:
-> > When running as a dom0 guest on Xen, check if the USB3 debug
-> > capability is enabled before xHCI reset, suspend, and resume. If it
-> > is, call xen_dbgp_reset_prep() to notify Xen that it is unsafe to touch
-> > MMIO registers until the next xen_dbgp_external_startup().
-> >
-> > This notification allows Xen to avoid undefined behavior resulting
-> > from MMIO access when the host controller's CNR bit is set or when
-> > the device transitions to D3hot.
-> >
-> > Signed-off-by: Connor Davis <connojdavis@gmail.com>
-> > ---
-> >  drivers/usb/host/xhci-dbgcap.h |  6 ++++
-> >  drivers/usb/host/xhci.c        | 57 ++++++++++++++++++++++++++++++++++
-> >  drivers/usb/host/xhci.h        |  1 +
-> >  3 files changed, 64 insertions(+)
-> >
-> > diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-> > index c70b78d504eb..24784b82a840 100644
-> > --- a/drivers/usb/host/xhci-dbgcap.h
-> > +++ b/drivers/usb/host/xhci-dbgcap.h
-> > @@ -227,4 +227,10 @@ static inline int xhci_dbc_resume(struct xhci_hcd *xhci)
-> >  	return 0;
-> >  }
-> >  #endif /* CONFIG_USB_XHCI_DBGCAP */
-> > +
-> > +#ifdef CONFIG_XEN_DOM0
-> > +int xen_dbgp_reset_prep(struct usb_hcd *hcd);
-> > +int xen_dbgp_external_startup(struct usb_hcd *hcd);
-> > +#endif /* CONFIG_XEN_DOM0 */
-> > +
-> >  #endif /* __LINUX_XHCI_DBGCAP_H */
-> > diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> > index ca9385d22f68..afe44169183f 100644
-> > --- a/drivers/usb/host/xhci.c
-> > +++ b/drivers/usb/host/xhci.c
-> > @@ -37,6 +37,57 @@ static unsigned long long quirks;
-> >  module_param(quirks, ullong, S_IRUGO);
-> >  MODULE_PARM_DESC(quirks, "Bit flags for quirks to be enabled as default");
-> >
-> > +#ifdef CONFIG_XEN_DOM0
-> > +#include <xen/xen.h>
->
-> <snip>
->
-> Can't this #ifdef stuff go into a .h file?
->
+On Wed, May 12, 2021 at 02:36:09PM +0800, Zou Wei wrote:
+> This patch adds missing MODULE_DEVICE_TABLE definition which generates
+> correct modalias for automatic loading of this driver when it is built
+> as an external module.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zou Wei <zou_wei@huawei.com>
+> ---
+>  drivers/usb/host/ehci-mv.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+> index cffdc8d..beb478c 100644
+> --- a/drivers/usb/host/ehci-mv.c
+> +++ b/drivers/usb/host/ehci-mv.c
+> @@ -266,6 +266,7 @@ static const struct platform_device_id ehci_id_table[] = {
+>  	{"pxa-sph", 0},
+>  	{},
+>  };
+> +MODULE_DEVICE_TABLE(platform, ehci_id_table);
+>  
+>  static void mv_ehci_shutdown(struct platform_device *pdev)
+>  {
 
-Yep, will clean that up in v2.
+This is a bit odd.  Nothing wrong with it, of course, but it leads one 
+to wonder how the driver ever worked.  Maybe the platforms that can use 
+it never build the driver as a loadable module.
 
-> thanks,
->
-> greg k-h
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Thanks,
-Connor
+Alan Stern
