@@ -7,42 +7,41 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 190BCC433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98BBFC43470
 	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 08:06:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5A89613AF
-	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 08:06:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 668F1613BC
+	for <linux-usb@archiver.kernel.org>; Wed, 12 May 2021 08:06:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230176AbhELIHn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S230211AbhELIHn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 12 May 2021 04:07:43 -0400
 Received: from mga01.intel.com ([192.55.52.88]:32313 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230019AbhELIHm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S230111AbhELIHm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 12 May 2021 04:07:42 -0400
-IronPort-SDR: jAOivGY+TfgqqmTCjCAmM4em6XiZEz9v4WjlipTxcNG63aQzhLj/rWI74jyjDiDYdjveLxHMbq
- cnkvHtGEYIXg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220616880"
+IronPort-SDR: +S/dO0+4T8dcaEpJZ5V2VlrbTzAR+1kCcBj7FqaX6y2uCpcmJgicEqVnYeAmnoTRMuFlYewJWq
+ 83hwVyn+dSuw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9981"; a="220616888"
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="220616880"
+   d="scan'208";a="220616888"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:06:31 -0700
-IronPort-SDR: u88WJVahEWnzu8oTuF41IROw5IBEeszTtK3/QRks4QfuvIJwEAwrxip5yzsIpgmlUCy83W+098
- diA59LXK/pMw==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2021 01:06:35 -0700
+IronPort-SDR: sjPJbt8c0aes2OFQ9NLbngMGd2qiJT9E02XaRN1DeGOVfaDS71FSOaxM6EiPu75V/SM7X//vYW
+ wsJLGo5BJ+EQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,293,1613462400"; 
-   d="scan'208";a="625208240"
+   d="scan'208";a="625208249"
 Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga005.fm.intel.com with ESMTP; 12 May 2021 01:06:29 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 12 May 2021 01:06:33 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
 To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>, Abhijeet Rao <abhijeet.rao@intel.com>,
+Cc:     <linux-usb@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
         stable@vger.kernel.org,
-        "Nikunj A . Dadhania" <nikunj.dadhania@intel.com>,
-        Azhar Shaikh <azhar.shaikh@intel.com>,
         Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/5] xhci-pci: Allow host runtime PM as default for Intel Alder Lake xHCI
-Date:   Wed, 12 May 2021 11:08:12 +0300
-Message-Id: <20210512080816.866037-2-mathias.nyman@linux.intel.com>
+Subject: [PATCH 3/5] xhci: Do not use GFP_KERNEL in (potentially) atomic context
+Date:   Wed, 12 May 2021 11:08:14 +0300
+Message-Id: <20210512080816.866037-4-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512080816.866037-1-mathias.nyman@linux.intel.com>
 References: <20210512080816.866037-1-mathias.nyman@linux.intel.com>
@@ -52,43 +51,57 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Abhijeet Rao <abhijeet.rao@intel.com>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-In the same way as Intel Tiger Lake TCSS (Type-C Subsystem) the Alder Lake
-TCSS xHCI needs to be runtime suspended whenever possible to allow the
-TCSS hardware block to enter D3cold and thus save energy.
+'xhci_urb_enqueue()' is passed a 'mem_flags' argument, because "URBs may be
+submitted in interrupt context" (see comment related to 'usb_submit_urb()'
+in 'drivers/usb/core/urb.c')
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Abhijeet Rao <abhijeet.rao@intel.com>
-Signed-off-by: Nikunj A. Dadhania <nikunj.dadhania@intel.com>
-Signed-off-by: Azhar Shaikh <azhar.shaikh@intel.com>
+So this flag should be used in all the calling chain.
+Up to now, 'xhci_check_maxpacket()' which is only called from
+'xhci_urb_enqueue()', uses GFP_KERNEL.
+
+Be safe and pass the mem_flags to this function as well.
+
+Fixes: ddba5cd0aeff ("xhci: Use command structures when queuing commands on the command ring")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 5bbccc9a0179..a858add8436c 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -57,6 +57,7 @@
- #define PCI_DEVICE_ID_INTEL_CML_XHCI			0xa3af
- #define PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI		0x9a13
- #define PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI		0x1138
-+#define PCI_DEVICE_ID_INTEL_ALDER_LAKE_XHCI		0x461e
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index ca9385d22f68..27283654ca08 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1514,7 +1514,7 @@ static int xhci_configure_endpoint(struct xhci_hcd *xhci,
+  * we need to issue an evaluate context command and wait on it.
+  */
+ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
+-		unsigned int ep_index, struct urb *urb)
++		unsigned int ep_index, struct urb *urb, gfp_t mem_flags)
+ {
+ 	struct xhci_container_ctx *out_ctx;
+ 	struct xhci_input_control_ctx *ctrl_ctx;
+@@ -1545,7 +1545,7 @@ static int xhci_check_maxpacket(struct xhci_hcd *xhci, unsigned int slot_id,
+ 		 * changes max packet sizes.
+ 		 */
  
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_4			0x43b9
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_3			0x43ba
-@@ -243,7 +244,8 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	     pdev->device == PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_XHCI ||
- 	     pdev->device == PCI_DEVICE_ID_INTEL_ICE_LAKE_XHCI ||
- 	     pdev->device == PCI_DEVICE_ID_INTEL_TIGER_LAKE_XHCI ||
--	     pdev->device == PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI))
-+	     pdev->device == PCI_DEVICE_ID_INTEL_MAPLE_RIDGE_XHCI ||
-+	     pdev->device == PCI_DEVICE_ID_INTEL_ALDER_LAKE_XHCI))
- 		xhci->quirks |= XHCI_DEFAULT_PM_RUNTIME_ALLOW;
+-		command = xhci_alloc_command(xhci, true, GFP_KERNEL);
++		command = xhci_alloc_command(xhci, true, mem_flags);
+ 		if (!command)
+ 			return -ENOMEM;
  
- 	if (pdev->vendor == PCI_VENDOR_ID_ETRON &&
+@@ -1639,7 +1639,7 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 		 */
+ 		if (urb->dev->speed == USB_SPEED_FULL) {
+ 			ret = xhci_check_maxpacket(xhci, slot_id,
+-					ep_index, urb);
++					ep_index, urb, mem_flags);
+ 			if (ret < 0) {
+ 				xhci_urb_free_priv(urb_priv);
+ 				urb->hcpriv = NULL;
 -- 
 2.25.1
 
