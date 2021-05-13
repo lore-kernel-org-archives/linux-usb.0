@@ -2,95 +2,160 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BEE0C433B4
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 08:39:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80822C433B4
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 08:47:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1754861263
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 08:39:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43A7A613DE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 08:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232047AbhEMIlB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 May 2021 04:41:01 -0400
-Received: from bgl-iport-4.cisco.com ([72.163.197.28]:40264 "EHLO
-        bgl-iport-4.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231981AbhEMIlA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 May 2021 04:41:00 -0400
-X-Greylist: delayed 443 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 May 2021 04:40:59 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1328; q=dns/txt; s=iport;
-  t=1620895191; x=1622104791;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GILvIbVCmcaVxwex9QMjQ6XJulnDFvDcHk5uBggKEUY=;
-  b=jQGs2IFbSWs07l42/G9Cy0qV7Kp5q8OV2bYcTJLYiyr9PUgQSt+L9U3m
-   zu7W8/gxn+d/y/ZZ13QTY7f4LiXKGMuMoBklSoAeKgSce44pHfWDzXmcc
-   Up0QKEs/MI+FUwXrhQDC63OQNXY9BBKUPT4I5E0o1M5OXNVNsAvWv9xdJ
-   w=;
-X-IronPort-AV: E=Sophos;i="5.82,296,1613433600"; 
-   d="scan'208";a="184709319"
-Received: from vla196-nat.cisco.com (HELO bgl-core-4.cisco.com) ([72.163.197.24])
-  by bgl-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 13 May 2021 08:32:26 +0000
-Received: from bgl-ads-2459.cisco.com (bgl-ads-2459.cisco.com [173.39.54.102])
-        by bgl-core-4.cisco.com (8.15.2/8.15.2) with ESMTP id 14D8WPKr022518;
-        Thu, 13 May 2021 08:32:25 GMT
-From:   Gopalakrishnan Santhanam <gsanthan@cisco.com>
-To:     stern@rowland.harvard.edu
-Cc:     danielwa@cisco.com, hramdasi@cisco.com, gsanthan@cisco.com,
-        christian.engelmayer@frequentis.com, xe-linux-external@cisco.com,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fsl-usb: add need_oc_pp_cycle flag for 85xx also
-Date:   Thu, 13 May 2021 14:02:25 +0530
-Message-Id: <20210513083225.68912-1-gsanthan@cisco.com>
-X-Mailer: git-send-email 2.26.2.Cisco
-In-Reply-To: <20210507172300.3075939-1-danielwa@cisco.com>
-References: <20210507172300.3075939-1-danielwa@cisco.com>
+        id S232137AbhEMIsg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 May 2021 04:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231273AbhEMIsf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 May 2021 04:48:35 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72348C061574
+        for <linux-usb@vger.kernel.org>; Thu, 13 May 2021 01:47:24 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id a4so26166618wrr.2
+        for <linux-usb@vger.kernel.org>; Thu, 13 May 2021 01:47:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NbR6LZpjn0p+CsgB/c8ssaB45onKxOlNS+I/Rj113jM=;
+        b=vuEY2ea7ftsfAAmaB3IqZ6IFzfC+9gw4IP6ojQM/KtwtS5EsmtfDtkBVWfTj/g8rya
+         JnoxiB2yfkb+6LxPjx4iYkEsMRpBvxE2tQxu9iX4ZA95uidzTR1mL+YiwG0I0rFdt3hn
+         BkWCK5ZbX8HEilHk6uWGXQlDkbg2tL2r6tWYcMJdrXKPuj+DU2oBG0r1rKNU6QxeXnXz
+         212LxI7gQmvHAMGjCXL/PYiq5bBY5UHYRBORfej7QtQIPvYzAa4BkCjyLk5FlTtq3elv
+         DjDzx+WyAmqB/+RVCsJo9P3NaEUdgiDN6ZwVqFUofC1jcAt6haCPRRM3joLoLvu8wVkc
+         bZPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NbR6LZpjn0p+CsgB/c8ssaB45onKxOlNS+I/Rj113jM=;
+        b=GNJ6o1KpfoGpvQN8mR0LCo7dwSggT88WEOz0zWxjTNLqZaC1UGTekQ6/hugmvGVmfx
+         lP6B5SV3IIwUG+3nQjL8+aI2YAN3O8bgp+VoHNPrKuy0ujtdtBJxxbQFKhvvi+urhwV3
+         1YAHaoKcV4t8hiQOuM2b82RNpTEXxH6ac5w4zFWkQqKFpMTg+gl+9L3BWhZzHat2wvq/
+         k18P4tvcluGap0dpaQCJE8BomZN+Ve2TdE8c72OZz41BNWDS8wDWIsIVcqbx4s11Af2D
+         lTo31r2JL7XAWIB7L+rfnENERPb5gz+umGyNxpeL88hAgi0B/nFaVMT4meZxfgomtEoO
+         7Cqw==
+X-Gm-Message-State: AOAM533LmhbmqDdDbMf4DcFqLWjhLUOVOhwdck+obmNh35l0+RULAf9g
+        kxJse+FevmPdqozPMkDhOxh4uw==
+X-Google-Smtp-Source: ABdhPJyn6F0ViLV18ovT7JVTe5p6KEB2umn0A4zCB0SV6Wv2ykZee0UMa4CSyK1ybijh6VF9i49Wbw==
+X-Received: by 2002:a5d:6749:: with SMTP id l9mr8385277wrw.208.1620895643250;
+        Thu, 13 May 2021 01:47:23 -0700 (PDT)
+Received: from arch-thunder.local (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id h15sm1730282wmq.4.2021.05.13.01.47.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 May 2021 01:47:22 -0700 (PDT)
+From:   Rui Miguel Silva <rui.silva@linaro.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Siewior <bigeasy@linutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Rui Miguel Silva <rui.silva@linaro.org>
+Subject: [PATCH v4 0/9] usb: isp1760: extend support for isp1763
+Date:   Thu, 13 May 2021 09:47:08 +0100
+Message-Id: <20210513084717.2487366-1-rui.silva@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-SMTP-Client: 173.39.54.102, bgl-ads-2459.cisco.com
-X-Outbound-Node: bgl-core-4.cisco.com
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit e6604a7fd71f9 ("EHCI: Quirk flag for port power handling
-on overcurrent.") activated the quirks handling (flag need_oc_pp_cycle)
-for Freescale 83xx based boards.
-Activate same for 85xx based boards as well.
+The Arm MPS3 FPGA prototyping board [0] have an isp1763 [1] as USB
+controller.  There is already support for the isp1760 and isp1761 in
+tree, this series extend the support also for the isp1763.
 
-Cc: xe-linux-external@cisco.com
-Signed-off-by: Gopalakrishnan Santhanam <gsanthan@cisco.com>
-Signed-off-by: Daniel Walker <danielwa@cisco.com>
----
- drivers/usb/host/ehci-fsl.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Move register access using regmap, remove some platform data and code,
+refactor the mempool, use dr_mode to align to existing bindings, then
+add the support for isp1763 host mode, add bindings files that did not
+existed and at the end add also support for peripheral mode for
+isp1763.
 
-diff --git a/drivers/usb/host/ehci-fsl.c b/drivers/usb/host/ehci-fsl.c
-index 6f7bd6641694..385be30baad3 100644
---- a/drivers/usb/host/ehci-fsl.c
-+++ b/drivers/usb/host/ehci-fsl.c
-@@ -387,11 +387,11 @@ static int ehci_fsl_setup(struct usb_hcd *hcd)
- 	/* EHCI registers start at offset 0x100 */
- 	ehci->caps = hcd->regs + 0x100;
- 
--#ifdef CONFIG_PPC_83xx
-+#if defined(CONFIG_PPC_83xx) || defined(CONFIG_PPC_85xx)
- 	/*
--	 * Deal with MPC834X that need port power to be cycled after the power
--	 * fault condition is removed. Otherwise the state machine does not
--	 * reflect PORTSC[CSC] correctly.
-+	 * Deal with MPC834X/85XX that need port power to be cycled
-+	 * after the power fault condition is removed. Otherwise the
-+	 * state machine does not reflect PORTSC[CSC] correctly.
- 	 */
- 	ehci->need_oc_pp_cycle = 1;
- #endif
+@Laurent and @Sebastian, I add both of you in the bindings files as
+maintainers (it is a mandatory field)since you were the ones which
+contributed with the initial code and peripheral code, let me know if
+you are ok with it.  If yes I may send a follow up to add also entries
+in MAINTAINERS file that it is also missing.
+
+v3 [4] -> v4:
+Rob Herring (bindings):
+- add device controller interrupt
+- correct additionalProperties field
+
+v2 [3] -> v3:
+kernel test bot:
+- add select REGMAP_MMIO
+
+v1 [2] -> v2:
+
+kernel test robot:
+- add two patches (1/9 and 3/9) to fix dozens of pre-existing sparse
+  warnings so that this series does not introduce new ones.
+  No sparse warning left.
+- fix duplication of regmap fields
+
+Laurent:
+- move initializers from .h to .c
+- change interrupt registers setup from field to one shot register
+  setting (did not change hcd hw mode init because I think it did not
+  make the difference and even avoid artifact around setting twice the
+  register)
+
+Rob test bot:
+- fix suffix at compatible string to clean up warning in bindings
+
+Cheers,
+   Rui
+
+[0]: https://developer.arm.com/tools-and-software/development-boards/fpga-prototyping-boards/mps3
+[1]: https://media.digikey.com/pdf/Data%20Sheets/ST%20Ericsson%20PDFs/ISP1763A.pdf
+[2]: https://lore.kernel.org/linux-devicetree/20210504101910.18619-1-rui.silva@linaro.org/
+[3]: https://lore.kernel.org/linux-usb/20210511085101.2081399-1-rui.silva@linaro.org/
+[4]: https://lore.kernel.org/linux-usb/20210512090529.2283637-1-rui.silva@linaro.org/
+
+Rui Miguel Silva (9):
+  usb: isp1760: fix strict typechecking
+  usb: isp1760: move to regmap for register access
+  usb: isp1760: use relaxed primitives
+  usb: isp1760: remove platform data struct and code
+  usb: isp1760: hcd: refactor mempool config and setup
+  usb: isp1760: use dr_mode binding
+  usb: isp1760: add support for isp1763
+  dt-bindings: usb: nxp,isp1760: add bindings
+  usb: isp1763: add peripheral mode
+
+ .../devicetree/bindings/usb/nxp,isp1760.yaml  |   69 ++
+ arch/arm/boot/dts/arm-realview-eb.dtsi        |    2 +-
+ arch/arm/boot/dts/arm-realview-pb1176.dts     |    2 +-
+ arch/arm/boot/dts/arm-realview-pb11mp.dts     |    2 +-
+ arch/arm/boot/dts/arm-realview-pbx.dtsi       |    2 +-
+ arch/arm/boot/dts/vexpress-v2m-rs1.dtsi       |    2 +-
+ arch/arm/boot/dts/vexpress-v2m.dtsi           |    2 +-
+ drivers/usb/isp1760/Kconfig                   |    5 +-
+ drivers/usb/isp1760/isp1760-core.c            |  513 ++++++++-
+ drivers/usb/isp1760/isp1760-core.h            |   44 +-
+ drivers/usb/isp1760/isp1760-hcd.c             | 1021 ++++++++++++-----
+ drivers/usb/isp1760/isp1760-hcd.h             |   57 +-
+ drivers/usb/isp1760/isp1760-if.c              |   41 +-
+ drivers/usb/isp1760/isp1760-regs.h            |  435 ++++---
+ drivers/usb/isp1760/isp1760-udc.c             |  250 ++--
+ drivers/usb/isp1760/isp1760-udc.h             |   13 +-
+ include/linux/usb/isp1760.h                   |   19 -
+ 17 files changed, 1769 insertions(+), 710 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/nxp,isp1760.yaml
+ delete mode 100644 include/linux/usb/isp1760.h
+
 -- 
-2.26.2.Cisco
+2.31.1
 
