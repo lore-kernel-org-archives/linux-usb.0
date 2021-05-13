@@ -2,578 +2,152 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB72C43461
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 19:36:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C483C433ED
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 20:05:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C3DF161404
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 19:36:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E5576143C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 20:05:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231417AbhEMThb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 May 2021 15:37:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231268AbhEMTh1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 May 2021 15:37:27 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD04AC06138A
-        for <linux-usb@vger.kernel.org>; Thu, 13 May 2021 12:36:15 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id d4-20020a25b5c40000b02904f8e3c8c6c9so16782091ybg.14
-        for <linux-usb@vger.kernel.org>; Thu, 13 May 2021 12:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=j4dTw95drqrKGLsIzhqWyfJoN7fFkyBDIWTnc+mWSdg=;
-        b=Ejb4cU4h1LlcI/oT1K/A5w2fgdKUJHpJYumrHixERrRE06tFFtHbY8zPw+al7C3ica
-         jAbc+9YW4ZS1P7Z4PLDwiqcW7m13nT3teIOer9bRXjopVpt7KZ8kNNj14B8L6X7mHbvU
-         QvZG0xYgun1nQ3igBEERk+GbJJdFabQ/dcthTsO5QSOOAZJTKLJL7B5VPjArFF1shOOU
-         SFyxFdyVeyC6Fd2kdzuVGP5v2U3Zx1hLv8JocEZQfyqQna8pDi0Ev1EbmykdzZoZLVzj
-         78eHA/SIEkard36oRBOACYKPCZmyMn8SqpB/OUeAjiqyjZElHFmaVYF2TeY+ZWfK4X4t
-         6doQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=j4dTw95drqrKGLsIzhqWyfJoN7fFkyBDIWTnc+mWSdg=;
-        b=aHq3p5nxvRNpNX0eKUcbirv8ZricrrknWYNbVoPSNC4xKKUJ3/Uz7Tfvonob1LngPh
-         dQ3kK6A19//06z+U/4WhwgieEeKUtRaR7tfdqBPvX+gU01XdSbDV6FiZcUZ0EoyBtmB4
-         egb5qwgld/+IRnDZuOtqun1R4Q3vYJ/P7XYprjAYp93kvV449IQ180/Mxp0Hw23xvUiL
-         xBWVF+sktuKHpS+FpB+o9vxaGcag2X5iqpioch/vFDrfyJnChQLsi3wDFf06ctLMNbOu
-         9G4ofEoU3oFZKOZFqwwps7But4iv7+Mv/yTpDal8Q6+K95M+jKgKP/3VyHyFcbyiA14/
-         JNnw==
-X-Gm-Message-State: AOAM531K4wzwhD3WAFTT7bZTUMMDY6hq7dhOgL6wCFuYuohlYagQVOiA
-        u7nneek1/4PCEfg18IJUAxj4/MRuPYnWaA==
-X-Google-Smtp-Source: ABdhPJwb3SJWr+n53AlRXUSWKNV2MkP1AkHI2ru+bAbYlY+9M+fpeI2waMBEfCqxfZTXZ83g9OKt2+0A2s0g8Q==
-X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:5f61:8ca4:879b:809e])
- (user=davidgow job=sendgmr) by 2002:a25:6188:: with SMTP id
- v130mr16460583ybb.20.1620934575080; Thu, 13 May 2021 12:36:15 -0700 (PDT)
-Date:   Thu, 13 May 2021 12:32:01 -0700
-In-Reply-To: <20210513193204.816681-1-davidgow@google.com>
-Message-Id: <20210513193204.816681-7-davidgow@google.com>
-Mime-Version: 1.0
-References: <20210513193204.816681-1-davidgow@google.com>
-X-Mailer: git-send-email 2.31.1.751.gd2f1c929bd-goog
-Subject: [PATCH v2 07/10] thunderbolt: test: Remove sone casts which are no
- longer required
-From:   David Gow <davidgow@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S232403AbhEMUHD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 May 2021 16:07:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39456 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232389AbhEMUHC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 May 2021 16:07:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B307161421;
+        Thu, 13 May 2021 20:05:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620936352;
+        bh=8T+J3wCXI/e4i0Nq0qkxzfPcgMyR9DsieXzCu8AyHN4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=S8aZH569dpHyPV1WO9KYLvi5aeA4T/Bi2TDTlr76AqbK7Lss5y8R7nzoaJvXSoh8v
+         AlAi/al1uKP6LoN6pTwS+Dbd6rny3YwO5cDVtK1DC74Fqv/ejJqOwgF/af3d4oE08o
+         QT5DjPJ4GXOAagBrMiKykL58ii3A2EuFPFGuP2FPjdcq83lgS/0Km5N2cUzZDp8x4B
+         Wj/GXNjZ41PLmuXelRojpihdaXt+o7+yWC2ioTg6vHAOdFxv15DcQ8SCFDXt4veoBE
+         1EbsXRaHuYonUI6rnefgLjRpu8TUsLMKo32FB/NTxKi1JdqUbijoRwEHgkljkpOZw5
+         5M9uuGP7jhqrg==
+Date:   Thu, 13 May 2021 15:05:50 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Rajat Jain <rajatja@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>, Oliver Neukum <oneukum@suse.com>,
+        David Laight <David.Laight@aculab.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rajat Jain <rajatxjain@gmail.com>,
+        Jesse Barnes <jsbarnes@google.com>,
+        Dmitry Torokhov <dtor@google.com>
+Subject: Re: [PATCH v3 2/2] PCI: Add sysfs "removable" attribute
+Message-ID: <20210513200550.GA2604592@bjorn-Precision-5520>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACK8Z6EPjcRwDB=r6RnsJRjHN4oJXTD0_8zbtUCA+awofY7=5Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With some of the stricter type checking in KUnit's EXPECT macros
-removed, several casts in the thunderbolt KUnit tests are no longer
-required.
+On Thu, May 13, 2021 at 11:02:10AM -0700, Rajat Jain wrote:
+> On Wed, May 12, 2021 at 2:35 PM Rajat Jain <rajatja@google.com> wrote:
+> >
+> > A PCI device is "external_facing" if it's a Root Port with the ACPI
+> > "ExternalFacingPort" property or if it has the DT "external-facing"
+> > property.  We consider everything downstream from such a device to
+> > be removable by user.
+> >
+> > We're mainly concerned with consumer platforms with user accessible
+> > thunderbolt ports that are vulnerable to DMA attacks, and we expect those
+> > ports to be identified as "ExternalFacingPort". Devices in traditional
+> > hotplug slots can technically be removed, but the expectation is that
+> > unless the port is marked with "ExternalFacingPort", such devices are less
+> > accessible to user / may not be removed by end user, and thus not exposed
+> > as "removable" to userspace.
 
-Remove the unnecessary casts, making the conditions clearer.
+s/thunderbolt/Thunderbolt/ since I think it's a trademark
+s/identified as/identified by firmware as/
 
-Signed-off-by: David Gow <davidgow@google.com>
----
-This should be a no-op functionality wise, and while it depends on the
-first couple of patches in this series, it's otherwise independent from
-the others. I think this makes the test more readable, but if you
-particularly dislike it, I'm happy to drop it.
+> > Set pci_dev_type.supports_removable so the device core exposes the
+> > "removable" file in sysfs, and tell the device core about removable
+> > devices.
+> >
+> > This can be used by userspace to implment any policies it wants to,
+> > tailored specifically for user removable devices. Eg usage:
+> > https://chromium-review.googlesource.com/c/chromiumos/platform2/+/2591812
+> > https://chromium-review.googlesource.com/c/chromiumos/platform2/+/2795038
+> > (code uses such an attribute to remove external PCI devicces or disable
+> > features on them as needed by the policy desired)
 
- drivers/thunderbolt/test.c | 152 ++++++++++++++++---------------------
- 1 file changed, 65 insertions(+), 87 deletions(-)
+s/implment/implement/
+s/devicces/devices/
 
-diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
-index 5ff5a03bc9ce..247dc9f4757e 100644
---- a/drivers/thunderbolt/test.c
-+++ b/drivers/thunderbolt/test.c
-@@ -384,20 +384,18 @@ static void tb_test_path_single_hop_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i++;
- 	}
- 
--	KUNIT_EXPECT_EQ(test, i, (int)ARRAY_SIZE(test_data));
-+	KUNIT_EXPECT_EQ(test, i, ARRAY_SIZE(test_data));
- 
- 	i = ARRAY_SIZE(test_data) - 1;
- 	tb_for_each_port_on_path(dst_port, src_port, p) {
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i--;
- 	}
- 
-@@ -443,20 +441,18 @@ static void tb_test_path_daisy_chain_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i++;
- 	}
- 
--	KUNIT_EXPECT_EQ(test, i, (int)ARRAY_SIZE(test_data));
-+	KUNIT_EXPECT_EQ(test, i, ARRAY_SIZE(test_data));
- 
- 	i = ARRAY_SIZE(test_data) - 1;
- 	tb_for_each_port_on_path(dst_port, src_port, p) {
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i--;
- 	}
- 
-@@ -506,20 +502,18 @@ static void tb_test_path_simple_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i++;
- 	}
- 
--	KUNIT_EXPECT_EQ(test, i, (int)ARRAY_SIZE(test_data));
-+	KUNIT_EXPECT_EQ(test, i, ARRAY_SIZE(test_data));
- 
- 	i = ARRAY_SIZE(test_data) - 1;
- 	tb_for_each_port_on_path(dst_port, src_port, p) {
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i--;
- 	}
- 
-@@ -590,20 +584,18 @@ static void tb_test_path_complex_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i++;
- 	}
- 
--	KUNIT_EXPECT_EQ(test, i, (int)ARRAY_SIZE(test_data));
-+	KUNIT_EXPECT_EQ(test, i, ARRAY_SIZE(test_data));
- 
- 	i = ARRAY_SIZE(test_data) - 1;
- 	tb_for_each_port_on_path(dst_port, src_port, p) {
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i--;
- 	}
- 
-@@ -693,20 +685,18 @@ static void tb_test_path_max_length_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i++;
- 	}
- 
--	KUNIT_EXPECT_EQ(test, i, (int)ARRAY_SIZE(test_data));
-+	KUNIT_EXPECT_EQ(test, i, ARRAY_SIZE(test_data));
- 
- 	i = ARRAY_SIZE(test_data) - 1;
- 	tb_for_each_port_on_path(dst_port, src_port, p) {
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
--				test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
- 		i--;
- 	}
- 
-@@ -780,7 +770,7 @@ static void tb_test_path_not_bonded_lane0(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, down, 8, up, 8, 0, "PCIe Down");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -789,12 +779,10 @@ static void tb_test_path_not_bonded_lane0(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -842,7 +830,7 @@ static void tb_test_path_not_bonded_lane1(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, in, 9, out, 9, 1, "Video");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -851,12 +839,10 @@ static void tb_test_path_not_bonded_lane1(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -922,7 +908,7 @@ static void tb_test_path_not_bonded_lane1_chain(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, in, 9, out, 9, 1, "Video");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -931,12 +917,10 @@ static void tb_test_path_not_bonded_lane1_chain(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1002,7 +986,7 @@ static void tb_test_path_not_bonded_lane1_chain_reverse(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, in, 9, out, 9, 1, "Video");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -1011,12 +995,10 @@ static void tb_test_path_not_bonded_lane1_chain_reverse(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1094,7 +1076,7 @@ static void tb_test_path_mixed_chain(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, in, 9, out, 9, 1, "Video");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -1103,12 +1085,10 @@ static void tb_test_path_mixed_chain(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1186,7 +1166,7 @@ static void tb_test_path_mixed_chain_reverse(struct kunit *test)
- 
- 	path = tb_path_alloc(NULL, in, 9, out, 9, 1, "Video");
- 	KUNIT_ASSERT_TRUE(test, path != NULL);
--	KUNIT_ASSERT_EQ(test, path->path_length, (int)ARRAY_SIZE(test_data));
-+	KUNIT_ASSERT_EQ(test, path->path_length, ARRAY_SIZE(test_data));
- 	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
- 		const struct tb_port *in_port, *out_port;
- 
-@@ -1195,12 +1175,10 @@ static void tb_test_path_mixed_chain_reverse(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
--				test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
--				test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1230,10 +1208,10 @@ static void tb_test_tunnel_pcie(struct kunit *test)
- 	up = &dev1->ports[9];
- 	tunnel1 = tb_tunnel_alloc_pci(NULL, up, down);
- 	KUNIT_ASSERT_TRUE(test, tunnel1 != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel1->type, (enum tb_tunnel_type)TB_TUNNEL_PCI);
-+	KUNIT_EXPECT_EQ(test, tunnel1->type, TB_TUNNEL_PCI);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->src_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->dst_port, up);
--	KUNIT_ASSERT_EQ(test, tunnel1->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel1->npaths, 2);
- 	KUNIT_ASSERT_EQ(test, tunnel1->paths[0]->path_length, 2);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->paths[0]->hops[0].in_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->paths[0]->hops[1].out_port, up);
-@@ -1245,10 +1223,10 @@ static void tb_test_tunnel_pcie(struct kunit *test)
- 	up = &dev2->ports[9];
- 	tunnel2 = tb_tunnel_alloc_pci(NULL, up, down);
- 	KUNIT_ASSERT_TRUE(test, tunnel2 != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel2->type, (enum tb_tunnel_type)TB_TUNNEL_PCI);
-+	KUNIT_EXPECT_EQ(test, tunnel2->type, TB_TUNNEL_PCI);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->src_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->dst_port, up);
--	KUNIT_ASSERT_EQ(test, tunnel2->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel2->npaths, 2);
- 	KUNIT_ASSERT_EQ(test, tunnel2->paths[0]->path_length, 2);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->paths[0]->hops[0].in_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->paths[0]->hops[1].out_port, up);
-@@ -1282,10 +1260,10 @@ static void tb_test_tunnel_dp(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DP);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, out);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)3);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 3);
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 2);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[1].out_port, out);
-@@ -1328,10 +1306,10 @@ static void tb_test_tunnel_dp_chain(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DP);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, out);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)3);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 3);
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 3);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[2].out_port, out);
-@@ -1378,10 +1356,10 @@ static void tb_test_tunnel_dp_tree(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DP);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, out);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)3);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 3);
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 4);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[3].out_port, out);
-@@ -1443,10 +1421,10 @@ static void tb_test_tunnel_dp_max_length(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dp(NULL, in, out, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DP);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DP);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, in);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, out);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)3);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 3);
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 13);
- 	/* First hop */
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, in);
-@@ -1499,10 +1477,10 @@ static void tb_test_tunnel_usb3(struct kunit *test)
- 	up = &dev1->ports[16];
- 	tunnel1 = tb_tunnel_alloc_usb3(NULL, up, down, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel1 != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel1->type, (enum tb_tunnel_type)TB_TUNNEL_USB3);
-+	KUNIT_EXPECT_EQ(test, tunnel1->type, TB_TUNNEL_USB3);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->src_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->dst_port, up);
--	KUNIT_ASSERT_EQ(test, tunnel1->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel1->npaths, 2);
- 	KUNIT_ASSERT_EQ(test, tunnel1->paths[0]->path_length, 2);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->paths[0]->hops[0].in_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel1->paths[0]->hops[1].out_port, up);
-@@ -1514,10 +1492,10 @@ static void tb_test_tunnel_usb3(struct kunit *test)
- 	up = &dev2->ports[16];
- 	tunnel2 = tb_tunnel_alloc_usb3(NULL, up, down, 0, 0);
- 	KUNIT_ASSERT_TRUE(test, tunnel2 != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel2->type, (enum tb_tunnel_type)TB_TUNNEL_USB3);
-+	KUNIT_EXPECT_EQ(test, tunnel2->type, TB_TUNNEL_USB3);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->src_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->dst_port, up);
--	KUNIT_ASSERT_EQ(test, tunnel2->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel2->npaths, 2);
- 	KUNIT_ASSERT_EQ(test, tunnel2->paths[0]->path_length, 2);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->paths[0]->hops[0].in_port, down);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel2->paths[0]->hops[1].out_port, up);
-@@ -1618,10 +1596,10 @@ static void tb_test_tunnel_dma(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dma(NULL, nhi, port, 8, 1, 8, 1);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DMA);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DMA);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, nhi);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, port);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 2);
- 	/* RX path */
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, port);
-@@ -1661,10 +1639,10 @@ static void tb_test_tunnel_dma_rx(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dma(NULL, nhi, port, -1, -1, 15, 2);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DMA);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DMA);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, nhi);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, port);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)1);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 1);
- 	/* RX path */
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, port);
-@@ -1698,10 +1676,10 @@ static void tb_test_tunnel_dma_tx(struct kunit *test)
- 
- 	tunnel = tb_tunnel_alloc_dma(NULL, nhi, port, 15, 2, -1, -1);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DMA);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DMA);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, nhi);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, port);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)1);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 1);
- 	/* TX path */
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 1);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, nhi);
-@@ -1744,10 +1722,10 @@ static void tb_test_tunnel_dma_chain(struct kunit *test)
- 	port = &dev2->ports[3];
- 	tunnel = tb_tunnel_alloc_dma(NULL, nhi, port, 8, 1, 8, 1);
- 	KUNIT_ASSERT_TRUE(test, tunnel != NULL);
--	KUNIT_EXPECT_EQ(test, tunnel->type, (enum tb_tunnel_type)TB_TUNNEL_DMA);
-+	KUNIT_EXPECT_EQ(test, tunnel->type, TB_TUNNEL_DMA);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->src_port, nhi);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->dst_port, port);
--	KUNIT_ASSERT_EQ(test, tunnel->npaths, (size_t)2);
-+	KUNIT_ASSERT_EQ(test, tunnel->npaths, 2);
- 	/* RX path */
- 	KUNIT_ASSERT_EQ(test, tunnel->paths[0]->path_length, 3);
- 	KUNIT_EXPECT_PTR_EQ(test, tunnel->paths[0]->hops[0].in_port, port);
-@@ -1906,7 +1884,7 @@ static void tb_test_property_parse(struct kunit *test)
- 
- 	p = tb_property_find(dir, "vendorid", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0xa27);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa27);
- 
- 	p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_TEXT);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
-@@ -1914,7 +1892,7 @@ static void tb_test_property_parse(struct kunit *test)
- 
- 	p = tb_property_find(dir, "deviceid", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0xa);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0xa);
- 
- 	p = tb_property_find(dir, "missing", TB_PROPERTY_TYPE_DIRECTORY);
- 	KUNIT_ASSERT_TRUE(test, !p);
-@@ -1927,19 +1905,19 @@ static void tb_test_property_parse(struct kunit *test)
- 
- 	p = tb_property_find(network_dir, "prtcid", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0x1);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0x1);
- 
- 	p = tb_property_find(network_dir, "prtcvers", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0x1);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0x1);
- 
- 	p = tb_property_find(network_dir, "prtcrevs", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0x1);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0x1);
- 
- 	p = tb_property_find(network_dir, "prtcstns", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_ASSERT_TRUE(test, p != NULL);
--	KUNIT_EXPECT_EQ(test, p->value.immediate, (u32)0x0);
-+	KUNIT_EXPECT_EQ(test, p->value.immediate, 0x0);
- 
- 	p = tb_property_find(network_dir, "deviceid", TB_PROPERTY_TYPE_VALUE);
- 	KUNIT_EXPECT_TRUE(test, !p);
-@@ -1960,7 +1938,7 @@ static void tb_test_property_format(struct kunit *test)
- 	KUNIT_ASSERT_TRUE(test, dir != NULL);
- 
- 	ret = tb_property_format_dir(dir, NULL, 0);
--	KUNIT_ASSERT_EQ(test, ret, (int)ARRAY_SIZE(root_directory));
-+	KUNIT_ASSERT_EQ(test, ret, ARRAY_SIZE(root_directory));
- 
- 	block_len = ret;
- 
-@@ -2063,7 +2041,7 @@ static void tb_test_property_copy(struct kunit *test)
- 
- 	/* Compare the resulting property block */
- 	ret = tb_property_format_dir(dst, NULL, 0);
--	KUNIT_ASSERT_EQ(test, ret, (int)ARRAY_SIZE(root_directory));
-+	KUNIT_ASSERT_EQ(test, ret, ARRAY_SIZE(root_directory));
- 
- 	block = kunit_kzalloc(test, sizeof(root_directory), GFP_KERNEL);
- 	KUNIT_ASSERT_TRUE(test, block != NULL);
--- 
-2.31.1.751.gd2f1c929bd-goog
+Or maybe something like:
 
+  This can be used to implement userspace policies tailored for
+  user-removable devices.
+
+Not sure exactly what "remove external PCI devices" means.  You're
+talking about the *code* doing something, so I don't think it means
+physically unplugging the device from the system.  Maybe preventing a
+driver from binding to it or something similar?
+
+I hesitate slightly to rely on URLs like googlesource.com in commit
+logs because we don't know how long they will remain valid.  But I
+guess there's no real alternative here, since this code probably
+hasn't been posted to any public mailing lists like the ones archived
+at https://lore.kernel.org/lists.html, right?
+
+> > Signed-off-by: Rajat Jain <rajatja@google.com>
+
+> > +static void pci_set_removable(struct pci_dev *dev)
+> > +{
+> > +       struct pci_dev *parent = pci_upstream_bridge(dev);
+> > +       if (parent &&
+> > +           (parent->external_facing || dev_is_removable(&parent->dev)))
+> > +               dev_set_removable(&dev->dev, DEVICE_REMOVABLE);
+> > +       else
+> > +               dev_set_removable(&dev->dev, DEVICE_FIXED);
+> > +}
+> 
+> Copying comments from Krzysztof from another thread:
+> 
+> [Krzysztof] We were also wondering if we should only set DEVICE_REMOVABLE for
+> devices known to be behind an external-facing port, and let everything
+> else be set to "unknown" (or whatever the default would be).
+> 
+> [Rajat]: I think I'm fine with this proposal if Bjorn & PCI community
+> also sees this as a better idea. Essentially the question here is,
+> would it be better for the non-removable PCI devices to be shown as
+> "fixed" or "unknown"?
+
+I think I would rather see this as:
+
+  struct pci_dev *parent = pci_upstream_bridge(dev);
+
+  if (parent &&
+      (parent->external_facing || dev_is_removable(&parent->dev)))
+          dev_set_removable(&dev->dev, DEVICE_REMOVABLE);
+
+In other words, assume only that everything below an "external-facing"
+device is removable.
+
+In the absence of an "external-facing" property, we don't know
+anything about the connection, and I'd rather use the default
+(probably "unknown") instead of assuming "fixed."
+
+I don't think we have anything that depends on "fixed," so I don't
+think there's value in setting it.
+
+(Note the blank line between local variables and the "if"; maybe
+that's what Greg hinted at?)
+
+Bjorn
