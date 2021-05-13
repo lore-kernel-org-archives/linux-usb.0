@@ -2,71 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FACC433B4
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 13:59:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E32BC433B4
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 14:03:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B5109613CB
-	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 13:59:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40FDE613CB
+	for <linux-usb@archiver.kernel.org>; Thu, 13 May 2021 14:03:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234293AbhEMOAX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 May 2021 10:00:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34930 "EHLO mail.kernel.org"
+        id S234347AbhEMOEl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 May 2021 10:04:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38500 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234125AbhEMOAQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 13 May 2021 10:00:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D8093613CB;
-        Thu, 13 May 2021 13:59:04 +0000 (UTC)
+        id S234380AbhEMOER (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 May 2021 10:04:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A79CA6127A;
+        Thu, 13 May 2021 14:03:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620914345;
-        bh=9HPOfeqNsiShUm9j8FOh3mdJ/VHgroUuF5wEuIfb1mU=;
+        s=korg; t=1620914587;
+        bh=nDxUJTP3nD11n530MzLu+yrq9mhuvITYnY7YOEh3cMQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EQifcfF3NHO5xPsMTxCcdylPC9aa8VQ0MRzkik3maWbQ/p/TzHaYRDx5zV2UMU+hB
-         7M/L6D7u0uZ/sob6Ve+gQvKn0g2YgKmt782/5m3Nhx4tDyxRz/337kiI9Wi3ZgXZxJ
-         QAX8Tm87DSMt5pxgT/XTVF+2ewJDLjsnFZp2DXHo=
-Date:   Thu, 13 May 2021 15:59:03 +0200
+        b=kxLwBchVtkWe/bGBZbiryEXDs33/WtIcmlXaZZtLSj5Ue2gEkcSgSd942DRWqXhV1
+         tJ0wM6AoE04H9hHgFRNqw0JWT1rP9mpnbaJRtGzKBtS4y0PT1nNKy0RMk6gZeTtt4X
+         dxOiMo7M/0JWMH3XVXFz7I8F9WvDYCGZOW3e7J3w=
+Date:   Thu, 13 May 2021 16:03:05 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Zou Wei <zou_wei@huawei.com>
-Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] USB: EHCI: ehci-mv: add missing MODULE_DEVICE_TABLE
-Message-ID: <YJ0wp8GSBUFXZbdC@kroah.com>
-References: <1620801369-18642-1-git-send-email-zou_wei@huawei.com>
+To:     Li Jun <jun.li@nxp.com>
+Cc:     stern@rowland.harvard.edu, mathias.nyman@intel.com,
+        peter.chen@kernel.org, jackp@codeaurora.org,
+        linux-usb@vger.kernel.org, linux-imx@nxp.com
+Subject: Re: [PATCH v4 2/3] usb: host: xhci: add EH SINGLE_STEP_SET_FEATURE
+ Test for USB2
+Message-ID: <YJ0xmT8papys4ho+@kroah.com>
+References: <1620452039-11694-1-git-send-email-jun.li@nxp.com>
+ <1620452039-11694-2-git-send-email-jun.li@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1620801369-18642-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <1620452039-11694-2-git-send-email-jun.li@nxp.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 12, 2021 at 02:36:09PM +0800, Zou Wei wrote:
-> This patch adds missing MODULE_DEVICE_TABLE definition which generates
-> correct modalias for automatic loading of this driver when it is built
-> as an external module.
+On Sat, May 08, 2021 at 01:33:58PM +0800, Li Jun wrote:
+> From: Peter Chen <peter.chen@nxp.com>
 > 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
+> This function is similar with EHCI's, but implemented using XHCI.
+> The USB2 host needs to send SETUP packet first, then wait 15
+> seconds before DATA (IN) + STATUS stage.
+> 
+> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+> Signed-off-by: Li Jun <jun.li@nxp.com>
 > ---
->  drivers/usb/host/ehci-mv.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-> index cffdc8d..beb478c 100644
-> --- a/drivers/usb/host/ehci-mv.c
-> +++ b/drivers/usb/host/ehci-mv.c
-> @@ -266,6 +266,7 @@ static const struct platform_device_id ehci_id_table[] = {
->  	{"pxa-sph", 0},
->  	{},
->  };
-> +MODULE_DEVICE_TABLE(platform, ehci_id_table);
+> No change since v1.
 
-As I said elsewhere, I'm not taking these unless you can show a reason
-why they are needed.
+I've applied patches 1 and 3 here, and am waiting for Mathias to review
+this before accepting patch 2.
 
 thanks,
 
