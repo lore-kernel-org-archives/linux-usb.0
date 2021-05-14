@@ -2,145 +2,124 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B3EEC433ED
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A27DFC433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:32:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EB3D613AA
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:17:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79215613F2
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232386AbhENKSe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 May 2021 06:18:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52060 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231245AbhENKSd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 May 2021 06:18:33 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9560C061574;
-        Fri, 14 May 2021 03:17:21 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1620987439;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=aQbFo382l0WrRlPyWw81sTdqka757jvjmjuI2q0Ks0I=;
-        b=LwlwSkqROFUWR2q9nIvclJ+JswaCBlsoPhjpSBEhXDR8vhvwAVhP/x2GhaNbs9eFcII97Y
-        j2rCg+EozxT9pt9ftWm8H6wY/KLP0f+fVS0DvVK9xGx7UaJnO8+suqYi96mLWTdYg1fCf3
-        CiwHQr7x4Bt0eDcFYiCdAXnA/ytRn76L11V+1nvnxqb/D1mN6LiNSXmZYKc/j+8vkUQeZ5
-        5Raz8yL+U2kr6BAfTw9BzvW6K++O3rIlYlD+bZ7RLah4yCxtj8rY4LmwQiGpWAF3G04rTb
-        c/J2iV8kqJZ7iM0C9S8tTO/lzC/FZP/HnzvhHFPcljIlIEPdZl8Jjmm85GLuKw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1620987439;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=aQbFo382l0WrRlPyWw81sTdqka757jvjmjuI2q0Ks0I=;
-        b=kMEsLymXP6YQQvNyPfbQaf+rIIfZiyuHz7JtKOB8AzcMe1fxsvvb8e/QSHv3DsWRRx+0z9
-        NB/ulEp2c7aKIzCA==
-To:     linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc:     Michal Svec <msvec@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Hayes Wang <hayeswang@realtek.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Borislav Petkov <bp@alien8.de>
-Subject: [PATCH RFC] r8152: Ensure that napi_schedule() is handled
-Date:   Fri, 14 May 2021 12:17:19 +0200
-Message-ID: <877dk162mo.ffs@nanos.tec.linutronix.de>
+        id S229973AbhENKdV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 May 2021 06:33:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42908 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230375AbhENKdU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 May 2021 06:33:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C3E3613B5;
+        Fri, 14 May 2021 10:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620988329;
+        bh=lnBPNR8YzGpc23fB/WUkdgFbUwRLsBqZB65u8nAakRg=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=iMlui5xLUSDWhHwFQDOsXBqj5YC73nxOlBGHKTprOgHUbFr/YIy4+SfNysPErW4NK
+         o8yUVkbwZ5oz3FsjQ2b6pd/+h/bPRxonY/Trp7sm9dF/16c7fr8vVAM7Xl57VnZYIP
+         SAf0Mi8vxTMt+/4dIznyA96WMvneGoaa6IIpNk1nWnFmEsNG5OlBFfm4a0rYcKq5eg
+         iQaUbUw+xMMUnWxUOJXzvvcgFIwXcVpV8eTN3Qs9UjY6k1hLsytFbGnG78IQPYDOXC
+         3xJfZk4JtRvSrJtafjRidpNhhYpXzIe7x2meDz7O17Q/yM/Pm23AYlURgh7JkC/0LG
+         Qq2rDmPzKzP1Q==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     "Chow, Watson" <Watson.Chow@Avnet.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [BUG REPORT] usb: dwc3: Bug while setting the USB transfer
+ bandwidth on UVC gadget driver
+In-Reply-To: <4c354460a55e40c9938a1fdedfa62144@Avnet.com>
+References: <6bc8ab9c4e3f4bafae13a7574b1ae0e3@Avnet.com>
+ <87r1i97pkk.fsf@kernel.org> <4c354460a55e40c9938a1fdedfa62144@Avnet.com>
+Date:   Fri, 14 May 2021 13:31:52 +0300
+Message-ID: <878s4h7giv.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
-Date: Fri, 14 May 2021 11:46:08 +0200
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-The driver invokes napi_schedule() in several places from task
-context. napi_schedule() raises the NET_RX softirq bit and relies on the
-calling context to ensure that the softirq is handled. That's usually on
-return from interrupt or on the outermost local_bh_enable().
 
-But that's not the case here which causes the soft interrupt handling to be
-delayed to the next interrupt or local_bh_enable(). If the task in which
-context this is invoked is the last runnable task on a CPU and the CPU goes
-idle before an interrupt arrives or a local_bh_disable/enable() pair
-handles the pending soft interrupt then the NOHZ idle code emits the
-following warning.
+Hi,
 
-  NOHZ tick-stop error: Non-RCU local softirq work is pending, handler #08!!!
+(please don't top-post :-)
 
-Prevent this by wrapping the napi_schedule() invocation from task context
-into a local_bh_disable/enable() pair.
+"Chow, Watson" <Watson.Chow@Avnet.com> writes:
+> Balbi,
+>
+> Thanks for your quick reply.
+>
+> Some questions
+>
+> 1. You mentioned that the max bandwidth in isoc mode (USB3.0) should be=20
+> around 4Gbps.=20=20
+>
+> I have the below calcuation on bandwidth:
+> In USB3.0, 1 micro frame would take 125us and can transfer max 45000 bytes
+> So, in 1 sec, we will have 8000 micro frames
+>
+> Max bandwidth =3D 8000 x 4500 x 8 =3D 2.88Gbps
+>
+> Is my understanding correct?
 
-Reported-by: Michal Svec <msvec@suse.com>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
+probably, It's been a while since I've dug through the spec, to be frank
 
-Note: That's not the first incident of this. Shouldn't napi_schedule()
-      have a debug check (under lockdep) to catch this?
+> 2. To achieve the max throughput, I need to configure the uvc gadget driv=
+er=20
+> with below parameters. Am I right?
+>
+> # modprobe g_webcam streaming_maxpacket=3D3072 streaming_maxburst=3D15=20
+> streaming_interval=3D1
 
----
- drivers/net/usb/r8152.c |   19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+right, but there's an assumption here that the gadget will be able to
+feed data in a timely manner.
 
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -1543,6 +1543,17 @@ void write_mii_word(struct net_device *n
- 	r8152_mdio_write(tp, reg, val);
- }
- 
-+/*
-+ * Wrapper around napi_schedule() to ensure that the raised network softirq
-+ * is actually handled.
-+ */
-+static void r8152_napi_schedule(struct napi_struct *napi)
-+{
-+	local_bh_disable();
-+	napi_schedule(napi);
-+	local_bh_enable();
-+}
-+
- static int
- r8152_submit_rx(struct r8152 *tp, struct rx_agg *agg, gfp_t mem_flags);
- 
-@@ -1753,7 +1764,7 @@ static void read_bulk_callback(struct ur
- 		spin_lock_irqsave(&tp->rx_lock, flags);
- 		list_add_tail(&agg->list, &tp->rx_done);
- 		spin_unlock_irqrestore(&tp->rx_lock, flags);
--		napi_schedule(&tp->napi);
-+		r8152_napi_schedule(&tp->napi);
- 		return;
- 	case -ESHUTDOWN:
- 		rtl_set_unplug(tp);
-@@ -2640,7 +2651,7 @@ int r8152_submit_rx(struct r8152 *tp, st
- 		netif_err(tp, rx_err, tp->netdev,
- 			  "Couldn't submit rx[%p], ret = %d\n", agg, ret);
- 
--		napi_schedule(&tp->napi);
-+		r8152_napi_schedule(&tp->napi);
- 	}
- 
- 	return ret;
-@@ -8202,7 +8213,7 @@ static int rtl8152_post_reset(struct usb
- 	usb_submit_urb(tp->intr_urb, GFP_KERNEL);
- 
- 	if (!list_empty(&tp->rx_done))
--		napi_schedule(&tp->napi);
-+		r8152_napi_schedule(&tp->napi);
- 
- 	return 0;
- }
-@@ -8256,7 +8267,7 @@ static int rtl8152_runtime_resume(struct
- 		smp_mb__after_atomic();
- 
- 		if (!list_empty(&tp->rx_done))
--			napi_schedule(&tp->napi);
-+			r8152_napi_schedule(&tp->napi);
- 
- 		usb_submit_urb(tp->intr_urb, GFP_NOIO);
- 	} else {
+> 3. You suggest me to try on kernel v5.12 or the latest v5.13-rc. It looks=
+ not
+> easy in my side to upgrade the kernel version. It would affect those othe=
+r=20
+> device drivers I'm currently using. So, do you think there's any short cu=
+t=20
+> to fix this problem under my current kernel version - v5.4?
+
+In that case, you need to ask for support from whoever forces you to
+stay with such an old kernel. I believe that would be Xilinx.
+
+> 4. I read through the procedures to capture debug info by debugfs. Howeve=
+r,
+> in my test with "streaming_maxburst" set to 10 or above, my system would=
+=20
+> crash and I can't pick the log from that point. Any suggestion?
+
+have a look at ftrace_dump_on_oops.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmCeUZgRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzlfNM9wDzUi5DAf7BoMm1Jjaboxzn2+IxooqRKUjHV4jCXPn
+MJxqdGYPoBb6K6YQiXdakpknwHxfc8inieVKqo3ttXWPBOvsA5l+h6lgErH07ETs
+rUOCtKOagsg4YF/vu+b8148ZGokl2H3PQxs3Q3zjBGZ2dzTV8Pfdm5Svxbj8IMvw
+CLaTMzmdtWzk1gDdNFinNqaKz/IpeysaVRBe+u2zknH6EyB2Yu2JiSlK+5FCl+14
+nn3NCo3AKciAA/BvRCePsdZrtUMY8Etvsg4xFgKQ0nNAcdPIdK0SuR5IJoPeVDHe
+1T/RRYCxWaDXEA045mq8p4CjvE+ZreFvtmG0/INixTEYGqHblOyJ8A==
+=RkZt
+-----END PGP SIGNATURE-----
+--=-=-=--
