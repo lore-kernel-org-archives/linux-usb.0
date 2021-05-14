@@ -2,237 +2,164 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290BAC433ED
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 15:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C15C433ED
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 15:54:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CA44613C4
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 15:34:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10DD861446
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 15:54:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234881AbhENPfQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 May 2021 11:35:16 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:35324 "EHLO
-        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234874AbhENPfP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 May 2021 11:35:15 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14EFQM4e003094;
-        Fri, 14 May 2021 15:33:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=lXQKrwoTgPb4jcMsO6+QH5R8pHFpAUlcHmVrmYQ365E=;
- b=cHzs7qXucgjJlsqwMwVFVvW0YW4UTO79R6/Uu75FkCQAb2ogavHJk3iJISCjI7cTYazr
- oFjnUjSAqzJHVCc1VkCyCmr+nkD9TBajScOp0UTH4GlPBMpLaAaqWbGUOJErIkjz4FPf
- 4NAnTYRz+H9fF7J55+q14s82DNRm8d6c5ll4/cpzF+qzZjbFyDrZWE+wsVqIpeOQ3GC3
- Hywz7RRldunqKxB+i5OCsyPVPujIbjcF8wgcUrX4R7NGF+/7P3Kr4lJzjw46w6JrzAob
- xq52yz0eALIPWWsXNApH276ioPPgUTgvH/XPk7uv6V2LNt9BOxUNxVKDNI75Cg+GUmq/ /w== 
-Received: from oracle.com (userp3020.oracle.com [156.151.31.79])
-        by mx0b-00069f02.pphosted.com with ESMTP id 38gpphrqxn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 14 May 2021 15:33:55 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14EFSvtL175312;
-        Fri, 14 May 2021 15:33:54 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2046.outbound.protection.outlook.com [104.47.57.46])
-        by userp3020.oracle.com with ESMTP id 38gpphaguh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 14 May 2021 15:33:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RzMjXKEWorApQIg8dQae0d5Ik9/S3aU1L2JW/f+qTWtzIlifUW0nCxYOwYydxfj39Qnfb6r8g+q8r1d04cjOeGrafvtKrhvO+oBcDxrhYxvmx7CLR0kX9xlxcaTOtWOfbSqx1gHWfafnVe8gYDpfxEq0pfiQuxxzLKrqwukHVkDu7m7EJSGwrKykhLmrycpgbBcVI+ixkavrtssvuz43AosjtwrQ4iqFtWMA08YPCVNtVhRMJCcmIbQLDRA9knjd29ZRPjxsFzPfXrVaoUE10gs0VV0+azBaJY6FB9YY5AMgB4QZiRijLPTXlUt1DZt7+HmYmdF+hoNo2bw1L15kKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lXQKrwoTgPb4jcMsO6+QH5R8pHFpAUlcHmVrmYQ365E=;
- b=Rkig+iBVeK1qWgv0LHy9/popSDBgSJEQaJh4vFd0r6CTYVpGP+d90xLwCsbVGAVoFzPZkgjCVBZdXvkVH2whv22wgbuXSSgenZV63zAo/DSRXvJQPVrk/K9ImjmlgvLLVp2N/hl9J5ClDGaPMtrW8xjlz4mzUDFsbfsKQYwkA9OPC89fKdl6OT16QL5ttdi2aEy2ER0RLmKdKw6fWncbuD91aswyvgTe6Jgn6I01Dm81JHByQRSXNvtMSbxFdxV/MRAnMx2ybs48rA9ZZF5II06JspntEuGXHhlYCR+Q8DZ6Bgx9/Vb5oHRHHbdFgZgNM1xQqZqBvdoJeruqvNUAVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S234775AbhENPzK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 May 2021 11:55:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233914AbhENPzJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 May 2021 11:55:09 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8E2C061574;
+        Fri, 14 May 2021 08:53:56 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id di13so35230301edb.2;
+        Fri, 14 May 2021 08:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lXQKrwoTgPb4jcMsO6+QH5R8pHFpAUlcHmVrmYQ365E=;
- b=Qckm+5gpTY8lqBq+YYGvYJL4jM6q98DdIPAf4TkOIF9QDyvqzTytTkQJVL4BvDzxUFT8oiIexBBatLtyQGKF47MJW0mcevERW7CZY2H4wZ/Jk9N+305RVQlLTEEJ+7F278FV0ltcd06r/Szn7Xk+iSydaifXZkNY/w4WqXaFRUE=
-Authentication-Results: lists.xenproject.org; dkim=none (message not signed)
- header.d=none;lists.xenproject.org; dmarc=none action=none
- header.from=oracle.com;
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com (2603:10b6:208:321::10)
- by BL0PR10MB3073.namprd10.prod.outlook.com (2603:10b6:208:32::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.28; Fri, 14 May
- 2021 15:33:52 +0000
-Received: from BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::78a3:67d:a8ca:93cf]) by BLAPR10MB5009.namprd10.prod.outlook.com
- ([fe80::78a3:67d:a8ca:93cf%7]) with mapi id 15.20.4129.028; Fri, 14 May 2021
- 15:33:51 +0000
-Subject: Re: [PATCH v2 3/4] usb: dbgp: Fix return values for reset prep and
- startup
-To:     Connor Davis <connojdavis@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Juergen Gross <jgross@suse.com>,
-        Stefano Stabellini <sstabellini@kernel.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org
-References: <d160cee9b61c0ec41c2cd5ff9b4e107011d39d8c.1620952511.git.connojdavis@gmail.com>
- <0010a6165f3560f16123a142d297276e7d6c2087.1620952511.git.connojdavis@gmail.com>
-From:   Boris Ostrovsky <boris.ostrovsky@oracle.com>
-Message-ID: <f5c8d1a5-84fa-19fc-14da-6bec1705cb5e@oracle.com>
-Date:   Fri, 14 May 2021 11:33:45 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.10.1
-In-Reply-To: <0010a6165f3560f16123a142d297276e7d6c2087.1620952511.git.connojdavis@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [160.34.89.42]
-X-ClientProxiedBy: BY3PR05CA0058.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::33) To BLAPR10MB5009.namprd10.prod.outlook.com
- (2603:10b6:208:321::10)
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nJjqUh+eedhnbrR//6OaBv5/ZsdN4XZOU4mhcsRuoyg=;
+        b=f5pKrku0e6EM6tOZFoRr8i5ryGCMprW/ArJmi1G1tF1P3P7TB/vGZt6eUZBeYX1OGP
+         4onTfNm+56vE+G3yKyyomtIVL/0TNH+IF3DEnOwqDIJ0EUpf+yDjVYVMnXLC0j8N9vlB
+         0LablOmpCVmnbJPG82EWGdqqbeH62hmqq9UT7wSqc5XZut/4D2/BTlqC4eYe0rLabD2v
+         OFQOhntIB1I9aLkzF8xewSXdLpLPngab91x9DAK63/E85M4PiX9uswAdiBkxJTD159me
+         eg2D15l8+0Xts9zanmFZyE/89732PpRS0TuLEsgtcyKUJAca/Yq+j0vuZGPanW1zZSNI
+         9gOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nJjqUh+eedhnbrR//6OaBv5/ZsdN4XZOU4mhcsRuoyg=;
+        b=iBxSHTFSUkdblwtojqoFYQHFQyg29m6VLtqRfilNWXdi11BjuqAqEYhAcBSRT/4WZe
+         K2Z5oqYRzDeOEcW5DT9sYYVZDf+/msQtRijZ3GAcxPcJaMOsJqqIu+tqDKhOEFWS/q54
+         zsA0MOOpNLYLOJYgAsROZsmecTHHPGWv7TVXTvUZWzRfzzc6aypxNcdpv4RTzB2ehVkk
+         /yawg4bkKkvLWxApl5CMp9B5m0Jqd2LF9UHJQqlkBb0aUUjNJJPJ+yrHGIdcJaC0UVwn
+         I/qebaDkvS+YbR7YBtQ3Xn+jE61FQh92hPesU4iLPLCdVdhqFTyVXma+K2IHYIIMgLXY
+         yQ+g==
+X-Gm-Message-State: AOAM533mMctgnnb+S3nr/kskna/Rgmc1stPyZuDpir9g+HMnfE4Po0gg
+        QBYOXu3fgw6b4NF2NN+IwiTGZiqkCFU=
+X-Google-Smtp-Source: ABdhPJxiEhDApEu75kJdXXESrqi6t2oBygLR+znc2KM99z8D4A006a1c0919pGQoeo6o0GXD+663Ew==
+X-Received: by 2002:a05:6402:2753:: with SMTP id z19mr56769103edd.158.1621007635210;
+        Fri, 14 May 2021 08:53:55 -0700 (PDT)
+Received: from [192.168.2.2] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id ks10sm3911610ejb.41.2021.05.14.08.53.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 May 2021 08:53:54 -0700 (PDT)
+Subject: Re: [PATCH v2 4/5] dt-bindings: soc: rockchip: grf: add compatible
+ for RK3308 USB grf
+To:     Tobias Schramm <t.schramm@manjaro.org>, linux-usb@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
+        devicetree@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20210514150044.2099298-1-t.schramm@manjaro.org>
+ <20210514150044.2099298-5-t.schramm@manjaro.org>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <e995a144-1cbb-06c6-074f-2623bf31b003@gmail.com>
+Date:   Fri, 14 May 2021 17:53:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.74.97.42] (160.34.89.42) by BY3PR05CA0058.namprd05.prod.outlook.com (2603:10b6:a03:39b::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.11 via Frontend Transport; Fri, 14 May 2021 15:33:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cfe49b9f-67e9-4f26-556e-08d916edad33
-X-MS-TrafficTypeDiagnostic: BL0PR10MB3073:
-X-Microsoft-Antispam-PRVS: <BL0PR10MB3073BC24CD59A6B90A9093EA8A509@BL0PR10MB3073.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E4RRGvaes3tpCtOpn0cnD8lq/dlZwOCrqdHrDaA3J0GFZXSMMpK6yC0CYmqlOmv8i0KR1qWHQhMo/GsofuuNCSUeWSd7qt8fD5uYTvfqaapIRRD25MXCNtwZq3k34oN20FnHMB0AcBn4pkBFMiDyu8XVkfp1WIeYVskz6jx3LxB4VeFgFsgHZCBuZrShFMSqtVKaURo737Nb+9Uz2T1ltW9MANT8EHWE+EDA7ldX4cSYEiWRUYSbvKj+kZVQGHon5IHE9mPtQHayQiCXzHbHLfjm9Ca/bHQo2tc9XwY3cU8GZI4xLInefGeyRKu1DY/nCCdlUH7LOAeirEQS7NOa87LwmRWEndNkVHfz7dp01WVxh3xqkCLaSRP9Pt1eS88poeSWBzytASJv1+dRuyP6AY+2sHDg/spvq4zPDkzRqjFsgqis7EiFL9xMDtomu3fgzAll2ciICJ5JD1X30fQBNm2a9K8vQRbdE0Q1hHtL8UuOxDI+h9hLbuq5buxBxepT+6l85k6nqY4F0dddfOpjQxbVCWCi+9ZUYOvTpk5hgieZ+zFmFoAr3FuVs0JpRuRVlo2VFrGry8TX/ao/iyuk99BlJbmWUMxyu4d4ai7t+bWCmvKo3LH08Ze5Vks302hpgbCKCMXlpcelm68pwXfMfOA803kTN8004Z4SAFyI8BSwcQnzNZTZzqOq1TgghvBs
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BLAPR10MB5009.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(31686004)(38100700002)(8936002)(7416002)(44832011)(54906003)(5660300002)(6666004)(2616005)(316002)(16576012)(26005)(6486002)(8676002)(16526019)(956004)(31696002)(66946007)(83380400001)(478600001)(186003)(2906002)(53546011)(66556008)(66476007)(4326008)(110136005)(36756003)(86362001)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?U2pIUUZCSXNQeGVrbk1QOFVJRzVEZzlMbG1SV3JZM2lGTzdJTnROM1NQZ0lF?=
- =?utf-8?B?R3RzWS9NUVpIWG1Zd3lodUg4T2t1ZGl5TUUxSHRLanFvMFAzcit4RUpjZUZO?=
- =?utf-8?B?WXFCS1RyU0xtWlhURDdjR0syRXFHVTlNUnNWckdDa3RlaEJ4cXI4cWFucThl?=
- =?utf-8?B?clhpNmROVDVMRm9jZllDUkhydjRxTFBlZitkZERtS3I3V2orNzViTFdZdWJx?=
- =?utf-8?B?SURDdDNVTXdrQW8zaFI4bmQ4V3dMOXlOTUVSN2NWOTVUQXhtK0txalNXOFlv?=
- =?utf-8?B?NXBZVmhRbVVtbU9VUGFadEJ5QXB6UFZaMGtPQWJWa09EVDZIWWFqRUxDeVov?=
- =?utf-8?B?NEoyN2ZGbDNsMmt0Y0VNeG8wcWd6R2dVcUQzelV6WERaaHRWRitIclVZSE0z?=
- =?utf-8?B?Nk1Da1BsS1NkRTA5dTBzM3VaL3BLT1RmTzQrK1Z1TUIyNkIwbERTMkQ4UDdT?=
- =?utf-8?B?eUw2a21WTEpnMVJOMW1Denl6YVRYbS9GdVF2UFVQOExwZ2YwZWxlVkI2a2Jn?=
- =?utf-8?B?blNHUXNhaDZKdFZ1Y0tCK09LUlV6bitqQzJPMktySzlEMUo5MXcvN0N4VUkv?=
- =?utf-8?B?Z0U3VFlxMzk4cXNESDJOZXoyVHQ3YmpCTFBnazByT0dHVzAwWmExbXcvT3p5?=
- =?utf-8?B?a1QvZXhKUnFIeUZ2NlJ0c01IYW1MekpYSFM5M1lCQy9nQWxranZ5WGJaTjZq?=
- =?utf-8?B?ZlFwQWJYb09NQjBKc2tMSGlhUm1nM2RtVXVNTkU2eisvbVZHR2xFU3M1c1FD?=
- =?utf-8?B?dnloclRNb21seFdTSmo5anA4MENVU2t4bGxIUDBqNkd1b2lWb1cxYXdTUWp3?=
- =?utf-8?B?alByZDlhR0xCSU44NVlEcUlSQlJETmxQUFUyUzFmU1ZkNnl0aEhwMm91YUpQ?=
- =?utf-8?B?ZkVuL2JQY0ozYzNNYUkxSmlqK1BpNGJkV0wxYkVwV0VuWjdiWE5vYUtFMXNR?=
- =?utf-8?B?OS9nQzJjclA3d1RRZkgwNG5sbk1XV29ZM29paEwyUWxXU3hrOUZzSzFIdmdW?=
- =?utf-8?B?TExKWUJBTEdSU0VwUHdrNlU2Z08xQ1I5MWxianlDZWdtL0lZblI0dHh4Ym82?=
- =?utf-8?B?em5hUVlwbW9GVHJFVG1qWFdSSEJzMUozRHFzOFZ1RWl2TXcxMGtlbTRyK2Rv?=
- =?utf-8?B?SkU2MFZwMlREUko0dlZ0L1AyNDE4YmJlTTk2MStmdlZYTnoxQ1l5dHE4dTNG?=
- =?utf-8?B?ZGV5STVBOFNza20rZERGZDA0QnZHcHRzWlVHMHQ2SG9RUFZvN2JyK0RSV1Zs?=
- =?utf-8?B?Q1dReE9hV2g2NXYvZytoSlpYakswK0cwUUlDZ2hyZkhOZWd4S1lreDU5T2NE?=
- =?utf-8?B?b3JSRkFlaVh4RnM1eC85TlNqb1hjb1VpeWJIbXJFZzV6akJCbGhlWmc5Z2Jx?=
- =?utf-8?B?Z3pFNDB4WDg4bUFwbDJzaHVKWEcvRlozWis1SldPVWdEQUYwTTM4UmZSU3gr?=
- =?utf-8?B?RDVGdFc1TDNwVnBQMm1PVUJoMkhBcTM4bFl1Wk5pVUJmRGhwZ1NyMXBFMTRw?=
- =?utf-8?B?Q2FuZDJhQ2FaVTNJc0ZjSG8yazE0ZmQvVmxralltejNHaVMwVXdxYkx3MkFI?=
- =?utf-8?B?SGxjWVFsd1lRSzc1cDRkWDdOM296Um5kampmYXJReXVqaTVpVUVibk1kQTJo?=
- =?utf-8?B?b3VLck4zNkh0alYwSUFrV3Y2UVNrU3hHVW1SOXFneWRrUE1IR3FjVzZEakI0?=
- =?utf-8?B?MDA0LzljUUx2RFZib1B2YytDWCs3VHBSeGhoaVhPT2pMS0d0NnVIYWxFMTRX?=
- =?utf-8?Q?A6tQtjKSf7yUwhIaigEiVdbR4Km/GmKIY5RNMua?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfe49b9f-67e9-4f26-556e-08d916edad33
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5009.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2021 15:33:51.9364
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jfy2qshqkwJh2sT6ddAdJhGcEf8rSg5pfYZOy0ULznhsSKTtTs1MO4rWjC0uAK6D6IgeWp7Z9P8LykXKexYTEsuKYivqsKQ41gD8ILICvy8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR10MB3073
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9984 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 mlxscore=0
- suspectscore=0 malwarescore=0 phishscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2105140123
-X-Proofpoint-ORIG-GUID: elp2a4PUiRAdgbmB5hjZO6XK-RRfDT19
-X-Proofpoint-GUID: elp2a4PUiRAdgbmB5hjZO6XK-RRfDT19
+In-Reply-To: <20210514150044.2099298-5-t.schramm@manjaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Tobias,
 
-On 5/13/21 8:56 PM, Connor Davis wrote:
-> Callers of dbgp_reset_prep treat a 0 return value as "stop using
-> the debug port", which means they don't make any subsequent calls to
-> dbgp_reset_prep or dbgp_external_startup.
->
-> To ensure the callers' interpretation is correct, first return -EPERM
-> from xen_dbgp_op if !xen_initial_domain(). This ensures that
-> both xen_dbgp_reset_prep and xen_dbgp_external_startup return 0
-> iff the PHYSDEVOP_DBGP_RESET_{PREPARE,DONE} hypercalls succeed. Also
-> update xen_dbgp_reset_prep and xen_dbgp_external_startup to return
-> -EPERM when !CONFIG_XEN_DOM0 for consistency.
->
-> Next, return nonzero from dbgp_reset_prep if xen_dbgp_reset_prep returns
-> 0. The nonzero value ensures that callers of dbgp_reset_prep will
-> subsequently call dbgp_external_startup when it is safe to do so.
->
-> Also invert the return values from dbgp_external_startup for
-> consistency with dbgp_reset_prep (this inversion has no functional
-> change since no callers actually check the value).
->
-> Signed-off-by: Connor Davis <connojdavis@gmail.com>
+The grf serie is currently still under review. So things can change.
+Must add a change log below a "---" in the commit message for rob+dt.
+Maybe add a patch that fixes the reg size of "rockchip,rk3308-grf" as well?
 
+Johan
 
-For Xen bits:
-
-
-Reviewed-by: Boris Ostrovsky <boris.ostrovsky@oracle.com>
-
-
-For the rest it seems to me that error code passing could be improved: if it's 0 or 1 it should be bool. Or pass actual error code, with zero for no-error case, such as ...
-
-
+On 5/14/21 5:00 PM, Tobias Schramm wrote:
+> The RK3308 has a USB GRF.
+> This patch adds a compatible string for it.
+> 
+> Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 > ---
->  drivers/usb/early/ehci-dbgp.c |  9 ++++++---
->  drivers/xen/dbgp.c            |  2 +-
->  include/linux/usb/ehci-dbgp.h | 14 +++++++++-----
->  3 files changed, 16 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/usb/early/ehci-dbgp.c b/drivers/usb/early/ehci-dbgp.c
-> index 45b42d8f6453..ff993d330c01 100644
-> --- a/drivers/usb/early/ehci-dbgp.c
-> +++ b/drivers/usb/early/ehci-dbgp.c
-> @@ -970,8 +970,8 @@ int dbgp_reset_prep(struct usb_hcd *hcd)
->  	int ret = xen_dbgp_reset_prep(hcd);
->  	u32 ctrl;
->  
-> -	if (ret)
-> -		return ret;
-> +	if (!ret)
-> +		return 1;
+>  Documentation/devicetree/bindings/soc/rockchip/grf.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> index 84bdaf88d5a6..df77bd2e6752 100644
+> --- a/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> +++ b/Documentation/devicetree/bindings/soc/rockchip/grf.yaml
+> @@ -30,6 +30,7 @@ properties:
+>                - rockchip,rk3288-grf
+>                - rockchip,rk3308-core-grf
+>                - rockchip,rk3308-detect-grf
+
+> +              - rockchip,rk3308-usb2phy-grf
+>                - rockchip,rk3308-grf
+
+Sort alphabetically.
+
+>                - rockchip,rk3328-grf
+>                - rockchip,rk3328-usb2phy-grf
+> 
+
+Also allow usb2-phy as sub nodes name.
+
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,px30-usb2phy-grf
++              - rockchip,rk3228-grf
+
+               - rockchip,rk3308-usb2phy-grf
+
++              - rockchip,rk3328-usb2phy-grf
++              - rockchip,rk3399-grf
++              - rockchip,rv1108-grf
++
++    then:
++      required:
++        - "#address-cells"
++        - "#size-cells"
++
++      patternProperties:
++        "usb2-phy@[0-9a-f]+$":
++          type: object
++
++          $ref: "/schemas/phy/phy-rockchip-inno-usb2.yaml#"
++
++          unevaluatedProperties: false
+
+===
+Heiko's sort rules:
+
+compatible
+reg
+interrupts
+[alphabetical]
+status [if needed]
+
+===
+
+Sort #phy-cells below interrupt-names.
 
 
-... here or ...
-
-
->  
->  	dbgp_not_safe = 1;
->  	if (!ehci_debug)
-> @@ -995,7 +995,10 @@ EXPORT_SYMBOL_GPL(dbgp_reset_prep);
->  
->  int dbgp_external_startup(struct usb_hcd *hcd)
->  {
-> -	return xen_dbgp_external_startup(hcd) ?: _dbgp_external_startup();
-> +	if (!xen_dbgp_external_startup(hcd))
-> +		return 1;
-
-
-... here.
-
-
--boris
-
-
++				#phy-cells = <0>;
++				interrupts = <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
++				interrupt-names = "linestate";
