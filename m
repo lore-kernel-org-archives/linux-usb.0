@@ -2,120 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30136C43470
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:45:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E24FC433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 11:03:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10EB161458
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 10:45:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47324611CA
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 11:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231958AbhENKqU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 May 2021 06:46:20 -0400
-Received: from mail.manjaro.org ([176.9.38.148]:38914 "EHLO mail.manjaro.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231810AbhENKqR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 14 May 2021 06:46:17 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.manjaro.org (Postfix) with ESMTP id 25F2422257C;
-        Fri, 14 May 2021 12:26:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at manjaro.org
-Received: from mail.manjaro.org ([127.0.0.1])
-        by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id LK2uS5elxPUI; Fri, 14 May 2021 12:26:38 +0200 (CEST)
-From:   Tobias Schramm <t.schramm@manjaro.org>
-To:     linux-usb@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH 2/4] phy: phy-rockchip-inno-usb2: add support for RK3308 USB phy
-Date:   Fri, 14 May 2021 12:27:32 +0200
-Message-Id: <20210514102734.2091238-3-t.schramm@manjaro.org>
-In-Reply-To: <20210514102734.2091238-1-t.schramm@manjaro.org>
-References: <20210514102734.2091238-1-t.schramm@manjaro.org>
+        id S232354AbhENLEm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 May 2021 07:04:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232283AbhENLEl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 May 2021 07:04:41 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 653F9C06174A;
+        Fri, 14 May 2021 04:03:30 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id b13-20020a17090a8c8db029015cd97baea9so1182724pjo.0;
+        Fri, 14 May 2021 04:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EkzpwjVe0wwLmPgMR98lKn55b9EeNwElH9tA7Rxi05Y=;
+        b=u70A+1kTvyXiODs3/WPwB9FXkQMx0hYRgkC/yJEiwXTclojKioNs2FFBhXTWC0pf/v
+         1rpdhyD48hRsmSqRiXuFD5Z52t2Qj0SHp2QyjfhEjgjRylMbweT9zVnLmcVpN6WnxPo8
+         jIL4bECIQ0btOmDTtj31F6sGT7HkhP+SfkVMCuUXN56euH9+dOmmFZNgCP9sRbilCiur
+         DKrwnSdqgtWu+6CNvKEjw7qu8wesVAmaNHU+eg0CQueFMUif+Mi5e2/kmm8nHxHEZO7h
+         WirDxwjkKZ7Jfu1CrgQ0Q3N8r4sRJwQ9UV3srcDrduSzwcZmjVewLeZtKnIeQc5F8uae
+         WjjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EkzpwjVe0wwLmPgMR98lKn55b9EeNwElH9tA7Rxi05Y=;
+        b=c+XjdV9H8NWkRrnmdlu8phahjQEO0swZnQ/NEY6Va8QJFjRYgojAo5Kc/S/qQrSXv/
+         0zFOKaPFUTGAu3pfjcMJM6vskUm0Y9LDNLsbl+1nXHdvaefIQgAJlxuGa2p1Ea45x+mB
+         aGh7ot0x1CIp12tJ9oQmyP6GxNZUWz5reiiMeNiqyYLfqAgOiI4Ebh430eG3DcRmEXmo
+         BQO3o7baPluA98Qa1qaBeWnf8naeOTG7jjPR1Qn5g2HLvlONUnqhbobR+pQrXVPkxuPg
+         2PmOE1wSi53PcLWRxKfXiutUXIR1rVdYDb1AjufusIhaRmY8hxW9VAUFKR3OrmlMeJgc
+         uY/w==
+X-Gm-Message-State: AOAM5303gPmjGs5LmPAllV7UrcxsBLlO7IbfYhUpXnAMncMozd2nsqIV
+        4wS6nwGCic8ZrL5uPkqiG10=
+X-Google-Smtp-Source: ABdhPJwN6s37m9kUw9Nby6kqqcqfoU5UH6stQNMFu6bHmr9GU2GtlitsMiwYzis0WSf2Oo/wz09OKQ==
+X-Received: by 2002:a17:902:7888:b029:ee:cea7:6ff0 with SMTP id q8-20020a1709027888b02900eecea76ff0mr45757205pll.16.1620990209883;
+        Fri, 14 May 2021 04:03:29 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.114])
+        by smtp.gmail.com with ESMTPSA id ls6sm8686763pjb.57.2021.05.14.04.03.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 04:03:29 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        syzbot+636c58f40a86b4a879e7@syzkaller.appspotmail.com
+Subject: [PATCH] misc/uss720: fix memory leak in uss720_probe
+Date:   Fri, 14 May 2021 19:03:17 +0800
+Message-Id: <20210514110317.2041580-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The RK3308 SoC uses a slightly different USB phy than other Rockchip
-parts.
-This commit adds support for that phy.
+uss720_probe forgets to decrease the refcount of usbdev in uss720_probe.
+Fix this by decreasing the refcount of usbdev by usb_put_dev.
 
-Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
+BUG: memory leak
+unreferenced object 0xffff888101113800 (size 2048):
+  comm "kworker/0:1", pid 7, jiffies 4294956777 (age 28.870s)
+  hex dump (first 32 bytes):
+    ff ff ff ff 31 00 00 00 00 00 00 00 00 00 00 00  ....1...........
+    00 00 00 00 00 00 00 00 00 00 00 00 03 00 00 00  ................
+  backtrace:
+    [<ffffffff82b8e822>] kmalloc include/linux/slab.h:554 [inline]
+    [<ffffffff82b8e822>] kzalloc include/linux/slab.h:684 [inline]
+    [<ffffffff82b8e822>] usb_alloc_dev+0x32/0x450 drivers/usb/core/usb.c:582
+    [<ffffffff82b98441>] hub_port_connect drivers/usb/core/hub.c:5129 [inline]
+    [<ffffffff82b98441>] hub_port_connect_change drivers/usb/core/hub.c:5363 [inline]
+    [<ffffffff82b98441>] port_event drivers/usb/core/hub.c:5509 [inline]
+    [<ffffffff82b98441>] hub_event+0x1171/0x20c0 drivers/usb/core/hub.c:5591
+    [<ffffffff81259229>] process_one_work+0x2c9/0x600 kernel/workqueue.c:2275
+    [<ffffffff81259b19>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2421
+    [<ffffffff81261228>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<ffffffff8100227f>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+Reported-by: syzbot+636c58f40a86b4a879e7@syzkaller.appspotmail.com
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 ---
- drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 44 +++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ drivers/usb/misc/uss720.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-index 46ebdb1460a3..beacac1dd253 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-@@ -1256,6 +1256,49 @@ static const struct rockchip_usb2phy_cfg rk3228_phy_cfgs[] = {
- 	{ /* sentinel */ }
- };
+diff --git a/drivers/usb/misc/uss720.c b/drivers/usb/misc/uss720.c
+index b5d661644263..748139d26263 100644
+--- a/drivers/usb/misc/uss720.c
++++ b/drivers/usb/misc/uss720.c
+@@ -736,6 +736,7 @@ static int uss720_probe(struct usb_interface *intf,
+ 	parport_announce_port(pp);
  
-+static const struct rockchip_usb2phy_cfg rk3308_phy_cfgs[] = {
-+	{
-+		.reg = 0x100,
-+		.num_ports	= 2,
-+		.clkout_ctl	= { 0x108, 4, 4, 1, 0 },
-+		.port_cfgs	= {
-+			[USB2PHY_PORT_OTG] = {
-+				.phy_sus	= { 0x0100, 8, 0, 0, 0x1d1 },
-+				.bvalid_det_en	= { 0x3020, 2, 2, 0, 1 },
-+				.bvalid_det_st	= { 0x3024, 2, 2, 0, 1 },
-+				.bvalid_det_clr = { 0x3028, 2, 2, 0, 1 },
-+				.ls_det_en	= { 0x3020, 0, 0, 0, 1 },
-+				.ls_det_st	= { 0x3024, 0, 0, 0, 1 },
-+				.ls_det_clr	= { 0x3028, 0, 0, 0, 1 },
-+				.utmi_avalid	= { 0x0120, 10, 10, 0, 1 },
-+				.utmi_bvalid	= { 0x0120, 9, 9, 0, 1 },
-+				.utmi_ls	= { 0x0120, 5, 4, 0, 1 },
-+			},
-+			[USB2PHY_PORT_HOST] = {
-+				.phy_sus	= { 0x0104, 8, 0, 0, 0x1d1 },
-+				.ls_det_en	= { 0x3020, 1, 1, 0, 1 },
-+				.ls_det_st	= { 0x3024, 1, 1, 0, 1 },
-+				.ls_det_clr	= { 0x3028, 1, 1, 0, 1 },
-+				.utmi_ls	= { 0x0120, 17, 16, 0, 1 },
-+				.utmi_hstdet	= { 0x0120, 19, 19, 0, 1 }
-+			}
-+		},
-+		.chg_det = {
-+			.opmode		= { 0x0100, 3, 0, 5, 1 },
-+			.cp_det		= { 0x0120, 24, 24, 0, 1 },
-+			.dcp_det	= { 0x0120, 23, 23, 0, 1 },
-+			.dp_det		= { 0x0120, 25, 25, 0, 1 },
-+			.idm_sink_en	= { 0x0108, 8, 8, 0, 1 },
-+			.idp_sink_en	= { 0x0108, 7, 7, 0, 1 },
-+			.idp_src_en	= { 0x0108, 9, 9, 0, 1 },
-+			.rdm_pdwn_en	= { 0x0108, 10, 10, 0, 1 },
-+			.vdm_src_en	= { 0x0108, 12, 12, 0, 1 },
-+			.vdp_src_en	= { 0x0108, 11, 11, 0, 1 },
-+		},
-+	},
-+	{ /* sentinel */ }
-+};
-+
- static const struct rockchip_usb2phy_cfg rk3328_phy_cfgs[] = {
- 	{
- 		.reg = 0x100,
-@@ -1425,6 +1468,7 @@ static const struct rockchip_usb2phy_cfg rv1108_phy_cfgs[] = {
- static const struct of_device_id rockchip_usb2phy_dt_match[] = {
- 	{ .compatible = "rockchip,px30-usb2phy", .data = &rk3328_phy_cfgs },
- 	{ .compatible = "rockchip,rk3228-usb2phy", .data = &rk3228_phy_cfgs },
-+	{ .compatible = "rockchip,rk3308-usb2phy", .data = &rk3308_phy_cfgs },
- 	{ .compatible = "rockchip,rk3328-usb2phy", .data = &rk3328_phy_cfgs },
- 	{ .compatible = "rockchip,rk3366-usb2phy", .data = &rk3366_phy_cfgs },
- 	{ .compatible = "rockchip,rk3399-usb2phy", .data = &rk3399_phy_cfgs },
+ 	usb_set_intfdata(intf, pp);
++	usb_put_dev(usbdev);
+ 	return 0;
+ 
+ probe_abort:
 -- 
-2.31.1
+2.25.1
 
