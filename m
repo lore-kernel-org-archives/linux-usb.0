@@ -2,112 +2,72 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7992C433B4
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 04:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C998C433B4
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 06:08:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 753E8613C5
-	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 04:54:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3660461446
+	for <linux-usb@archiver.kernel.org>; Fri, 14 May 2021 06:08:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232300AbhENEzb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 May 2021 00:55:31 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:55928 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232287AbhENEza (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 May 2021 00:55:30 -0400
-Received: from 111-240-128-202.dynamic-ip.hinet.net ([111.240.128.202] helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <chris.chiu@canonical.com>)
-        id 1lhPq5-00073z-5J; Fri, 14 May 2021 04:54:17 +0000
-From:   chris.chiu@canonical.com
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        m.v.b@runbox.com, hadess@hadess.net
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH v4 1/2] USB: Verify the port status when timeout happens during port suspend
-Date:   Fri, 14 May 2021 12:54:04 +0800
-Message-Id: <20210514045405.5261-2-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.21.1 (Apple Git-122.3)
-In-Reply-To: <20210514045405.5261-1-chris.chiu@canonical.com>
-References: <20210514045405.5261-1-chris.chiu@canonical.com>
+        id S232040AbhENGJo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 May 2021 02:09:44 -0400
+Received: from mga03.intel.com ([134.134.136.65]:26236 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230175AbhENGJn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 May 2021 02:09:43 -0400
+IronPort-SDR: 3Xyli9/7yfOlocWwXKI+TkK4REjlJmT25GsS75wMtNI62bY96ULEh5VLAvEEpCnOe0uBGfermr
+ wjOXuYnfuI6A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9983"; a="200173452"
+X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; 
+   d="scan'208";a="200173452"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 23:08:32 -0700
+IronPort-SDR: OVpRxzo16RRPvJ8fQmnwz3lhFfI4tXFxq7IabNxvPKMhjhL+sHcy58mMQEQRrWEfnCm17VgK6F
+ 88xToPKlXcyg==
+X-IronPort-AV: E=Sophos;i="5.82,299,1613462400"; 
+   d="scan'208";a="624250058"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2021 23:08:29 -0700
+Received: by lahna (sSMTP sendmail emulation); Fri, 14 May 2021 09:06:18 +0300
+Date:   Fri, 14 May 2021 09:06:18 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 07/10] thunderbolt: test: Remove sone casts which are
+ no longer required
+Message-ID: <20210514060618.GA3511397@lahna.fi.intel.com>
+References: <20210513193204.816681-1-davidgow@google.com>
+ <20210513193204.816681-7-davidgow@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210513193204.816681-7-davidgow@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Chris Chiu <chris.chiu@canonical.com>
+Hi,
 
-On the Realtek high-speed Hub(0bda:5487), the port which has wakeup
-enabled_descendants will sometimes timeout when setting PORT_SUSPEND
-feature. After checking the PORT_SUSPEND bit in wPortStatus, it is
-already set which means the port has been suspended. We should treat
-it suspended to make sure it will be resumed correctly.
+On Thu, May 13, 2021 at 12:32:01PM -0700, David Gow wrote:
+> With some of the stricter type checking in KUnit's EXPECT macros
+> removed, several casts in the thunderbolt KUnit tests are no longer
+> required.
+> 
+> Remove the unnecessary casts, making the conditions clearer.
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
+Looks good.
 
-Changelog:
-  v4:
-    - add comment for the timeout handling
-    - intialize the portstatus and portchange
-    - revise the commit message to reflect the change
-  v3:
-    - create a new goto target for the timeout case instead of
-      reset_resume
-    - Revise the commit title/message because reset_resume is not
-      required.
-  v2:
-    - create a new variable to keep the result of hub_port_status
-      when suspend timeout.
+Does this go through KUnit tree or you want me to take it? In case of
+the former feel free to add:
 
- drivers/usb/core/hub.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index b2bc4b7c4289..e739f7b5991a 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -3385,6 +3385,26 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
- 		status = 0;
- 	}
- 	if (status) {
-+		/* Check if the port has been suspended for the timeout case
-+		 * to prevent the suspended port from incorrect handling.
-+		 */
-+		if (status == -ETIMEDOUT) {
-+			int ret;
-+			u16 portstatus, portchange;
-+
-+			portstatus = portchange = 0;
-+			ret = hub_port_status(hub, port1, &portstatus,
-+					&portchange);
-+
-+			dev_dbg(&port_dev->dev,
-+				"suspend timeout, status %04x\n", portstatus);
-+
-+			if (ret == 0 && port_is_suspended(hub, portstatus)) {
-+				status = 0;
-+				goto suspend_done;
-+			}
-+		}
-+
- 		dev_dbg(&port_dev->dev, "can't suspend, status %d\n", status);
- 
- 		/* Try to enable USB3 LTM again */
-@@ -3401,6 +3421,7 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
- 		if (!PMSG_IS_AUTO(msg))
- 			status = 0;
- 	} else {
-+ suspend_done:
- 		dev_dbg(&udev->dev, "usb %ssuspend, wakeup %d\n",
- 				(PMSG_IS_AUTO(msg) ? "auto-" : ""),
- 				udev->do_remote_wakeup);
--- 
-2.20.1
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
