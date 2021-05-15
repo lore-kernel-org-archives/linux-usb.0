@@ -6,35 +6,35 @@ X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55119C433ED
-	for <linux-usb@archiver.kernel.org>; Sat, 15 May 2021 15:36:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A88C433B4
+	for <linux-usb@archiver.kernel.org>; Sat, 15 May 2021 17:44:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 205F061354
-	for <linux-usb@archiver.kernel.org>; Sat, 15 May 2021 15:36:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEB04610A0
+	for <linux-usb@archiver.kernel.org>; Sat, 15 May 2021 17:44:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232764AbhEOPiE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 15 May 2021 11:38:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34924 "EHLO mail.kernel.org"
+        id S233030AbhEORpv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 15 May 2021 13:45:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40430 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232479AbhEOPiD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 15 May 2021 11:38:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5409861377
-        for <linux-usb@vger.kernel.org>; Sat, 15 May 2021 15:36:50 +0000 (UTC)
+        id S231480AbhEORpu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 15 May 2021 13:45:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1A39B610A0
+        for <linux-usb@vger.kernel.org>; Sat, 15 May 2021 17:44:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621093010;
-        bh=X/lrg8LYdtlT/S3UvhtNWthULyOE3VOGQQCfFWCXWBI=;
+        s=k20201202; t=1621100677;
+        bh=E1y9T3bdIO5oXZub1qYMmSFffLwBufGLkVlmntDL/Q4=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=tKke/N9SgElU8fnWZHBh8dEiCD85oUew+mQQa17r0oOeP9JtYS/VefAKwSId7MQFw
-         CoqIUWUro0mAlu78O48qu0LcAJ3w9bTfCSsObDaVibsrDLX2CeKPjAa97p+AY9/bzq
-         QLlFKzLkCZJRVEnsg/ORSR3wrSAXkGKPHuIhPlSiWBufyV4qWUSgyDC3unlr3XJshR
-         +4LdcsUZcpnOTL/c2zWCSvYhOyCspnwWrR2cZmnlahaEXYbHucxl80BnlbIP0+ZlyP
-         P6lOOYv3AHimgxk9Hgm+pTFVTQoMr3HpMVgRdBV7p59Kjh87sId8YFWZl+6BnBgqiw
-         ri3Xc34V/IIhA==
+        b=kCNPJFYcU8PshuIjlwmIwCEiK+sMlzsiEEyar0BG2ha1AN48wOs8bKkuKzPldQuBl
+         Ziu7zXEYBDdJWezrvbShBvrWiauz15Y6hq18Vug9WnkOyQq4suQLT5wAA4BzPUwVyf
+         8NC+GgJFjTVX93F1uFPEm9xcBxpqc/Prttnjjcd56U1f7nLqlsVerICG/Cd8lfwOAd
+         PGS9LH5cfvNnJzJJry9B6wJx8J9hhUdPIRpdigZ0CTJz5jj2x0gVSn1I1iTGxY4CFv
+         UUqr6vShPeHdvvL7o3kEsrvtsnq7xoSxrzs7oVDaQFQR0mHG1ABvFZDeZ0XdTc0dom
+         4kd3Klq7zEsqQ==
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 213081] usb-storage / uas Genesys Logic Card Reader no longer
  working on 5.12
-Date:   Sat, 15 May 2021 15:36:50 +0000
+Date:   Sat, 15 May 2021 17:44:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -43,14 +43,14 @@ X-Bugzilla-Component: USB
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Who: peter.ganzhorn@googlemail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213081-208809-LjNmAGSBl0@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-213081-208809-QSki9nqueU@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-213081-208809@https.bugzilla.kernel.org/>
 References: <bug-213081-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,10 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D213081
 
---- Comment #1 from Alan Stern (stern@rowland.harvard.edu) ---
-Can you collect usbmon traces for bus 6 showing the failure under a 5.12 ke=
-rnel
-and success under a 5.11.21 kernel?
+--- Comment #2 from Peter Ganzhorn (peter.ganzhorn@googlemail.com) ---
+Created attachment 296781
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D296781&action=3Dedit
+usbmon trace 5.12 bus 6
 
 --=20
 You may reply to this email to add a comment.
