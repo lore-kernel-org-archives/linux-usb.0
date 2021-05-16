@@ -2,107 +2,166 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55244C433B4
-	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 04:10:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C87ABC433B4
+	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 09:00:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 195E661006
-	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 04:10:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E1986100C
+	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 09:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230147AbhEPEL0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 May 2021 00:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229643AbhEPEL0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 May 2021 00:11:26 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6166C061573
-        for <linux-usb@vger.kernel.org>; Sat, 15 May 2021 21:10:11 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id i23-20020a9d68d70000b02902dc19ed4c15so2844562oto.0
-        for <linux-usb@vger.kernel.org>; Sat, 15 May 2021 21:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p+n8knY1AhNlxa/4+sSt2iV2/z4kOsoddvvQNZinhOI=;
-        b=dIQD4Jg5OvVLbM85iRn9Wdb6zWoSJHOTRqfAMo16awQaPc84wIm5fJKmUMkeXyoWPC
-         u1ZSvTuvXkR2KGo7JUt1vlxp4GAI8jhmfhVlzBYKDzujdi8XYqvs7GUPL7rHAWGLboDX
-         WWOSm2IcE3WwKNS9Kg8qBCPxrUqu4uWTFfXApERU8Ba9Z6BN9Q6WsxMTPnxZw4RYq7X2
-         SBju5rpw82tNnKdPGS9EGUmi59yjTTvv+8xxpfHlXYs7uM3bwp148OobiJGIVGSsU2od
-         1uHzsfJRsMU1kUit2KRvozOCC9aq29AeWAbEaB5NLP7/m+jcDWF7JQ1Zch4ora2UHdLk
-         XSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=p+n8knY1AhNlxa/4+sSt2iV2/z4kOsoddvvQNZinhOI=;
-        b=KzHIRToB5pWixFnnjylC4Dx092JmSRci/xMCXEalvWMGMwV2YGhMq6IKvIAylwQNnk
-         9Pks9FE5JPgFK7SxVdYhxaLGJSAqa+wEuqTZzbd7Bv92hf5x0VPgXjHipDGtA//H/QwQ
-         RvVeHzKHKVcWba6kFzzRGDqwheXsoB2FCwPZnqpf2D8KYSSqmyoWsOLx8qEnd86HybaU
-         1gdx0FxZDlbZWwyP/QEnG6ZSf+s6VASrhDmwSmdEAqHf6aMlWgoINPHUKzkv6KqsUNiC
-         TZvXmTkYFVFYhIXVIbAGD/oUNp41PFsD5lkWV5LxmY6kwkzf91CHprqc0+hSla2i7lCE
-         UOFA==
-X-Gm-Message-State: AOAM5337l2as0/BqO3nvYXAcrMnkwlNY4A3vpbVIrJiJDOkrnxbJ9KDA
-        vnewzN5TMfx06R1oHL2IxZ9kgQ==
-X-Google-Smtp-Source: ABdhPJymZi3sghq5YuyzycKcrFI71wfKLE9hWfVerC6WpNoOizAM1mbVDM9d5CoJ63ya1C6+ZQvGPg==
-X-Received: by 2002:a9d:491:: with SMTP id 17mr45588270otm.184.1621138210984;
-        Sat, 15 May 2021 21:10:10 -0700 (PDT)
-Received: from localhost.localdomain (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id r19sm2358369ooj.5.2021.05.15.21.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 May 2021 21:10:10 -0700 (PDT)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benjamin Berg <bberg@redhat.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: Clear pending after acking connector change
-Date:   Sat, 15 May 2021 21:09:53 -0700
-Message-Id: <20210516040953.622409-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.29.2
+        id S234207AbhEPJBU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 May 2021 05:01:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49254 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229445AbhEPJBT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 16 May 2021 05:01:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9F8A6100C;
+        Sun, 16 May 2021 09:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1621155604;
+        bh=KL+76SwYHYbW6KLhpURnfNwEzzg2zJzq1M0TeQLjPZ0=;
+        h=Date:From:To:Cc:Subject:From;
+        b=EtHA/2/e1raREY2lVU7Jz3Xeg6jPDQPKzJk2AWouhXBblowmLJzIQrCvzUg+bCZOg
+         WeOGBLWVr1vFCQiRtdcDP46axt1JauwiJGwnDKx/vKS36tJSj0UL5m8323/VX/fRv9
+         A0M4mgMdq2FVMnUS/wfRP5oZmP84ynPe/dFz8avM=
+Date:   Sun, 16 May 2021 10:59:57 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB driver fixes for 5.13-rc2
+Message-ID: <YKDfDeaFp966UjS1@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It's possible that the interrupt handler for the UCSI driver signals a
-connector changes after the handler clears the PENDING bit, but before
-it has sent the acknowledge request. The result is that the handler is
-invoked yet again, to ack the same connector change.
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
-At least some versions of the Qualcomm UCSI firmware will not handle the
-second - "spurious" - acknowledgment gracefully. So make sure to not
-clear the pending flag until the change is acknowledged.
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
 
-Any connector changes coming in after the acknowledgment, that would
-have the pending flag incorrectly cleared, would afaict be covered by
-the subsequent connector status check.
+are available in the Git repository at:
 
-Fixes: 217504a05532 ("usb: typec: ucsi: Work around PPM losing change information")
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/usb/typec/ucsi/ucsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.13-rc2
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 282c3c825c13..f451ce0132a9 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -694,8 +694,8 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 	ucsi_send_command(con->ucsi, command, NULL, 0);
- 
- 	/* 3. ACK connector change */
--	clear_bit(EVENT_PENDING, &ucsi->flags);
- 	ret = ucsi_acknowledge_connector_change(ucsi);
-+	clear_bit(EVENT_PENDING, &ucsi->flags);
- 	if (ret) {
- 		dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
- 		goto out_unlock;
--- 
-2.29.2
+for you to fetch changes up to 975f94c7d6c306b833628baa9aec3f79db1eb3a1:
 
+  usb: core: hub: fix race condition about TRSMRCY of resume (2021-05-13 16:00:24 +0200)
+
+----------------------------------------------------------------
+USB fixes for 5.13-rc2
+
+Here are some small USB fixes for 5.13-rc2.  They consist of a number of
+resolutions for reported issues:
+	- typec fixes for found problems
+	- xhci fixes and quirk additions
+	- dwc3 driver fixes
+	- minor fixes found by Coverity
+	- cdc-wdm fixes for reported problems
+
+All of these have been in linux-next for a few days with no reported
+issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Abhijeet Rao (1):
+      xhci-pci: Allow host runtime PM as default for Intel Alder Lake xHCI
+
+Andy Shevchenko (1):
+      usb: typec: ucsi: Put fwnode in any case during ->probe()
+
+Badhri Jagan Sridharan (1):
+      usb: typec: tcpm: Fix SINK_DISCOVERY current limit for Rp-default
+
+Christophe JAILLET (3):
+      usb: fotg210-hcd: Fix an error message
+      usb: musb: Fix an error message
+      xhci: Do not use GFP_KERNEL in (potentially) atomic context
+
+Chunfeng Yun (1):
+      usb: core: hub: fix race condition about TRSMRCY of resume
+
+Fabio Estevam (1):
+      usb: Restore the reference to ch9.h
+
+Ferry Toth (1):
+      usb: dwc3: pci: Enable usb2-gadget-lpm-disable for Intel Merrifield
+
+Jack Pham (4):
+      usb: dwc3: gadget: Enable suspend events
+      usb: dwc3: gadget: Rename EOPF event macros to Suspend
+      usb: dwc3: gadget: Free gadget structure only after freeing endpoints
+      usb: typec: ucsi: Retrieve all the PDOs instead of just the first 4
+
+Kyle Tso (3):
+      usb: typec: tcpm: Fix wrong handling in GET_SINK_CAP
+      usb: typec: tcpm: Send DISCOVER_IDENTITY from dedicated work
+      usb: typec: tcpm: Fix wrong handling for Not_Supported in VDM AMS
+
+Li Jun (1):
+      usb: dwc3: imx8mp: detect dwc3 core node via compatible string
+
+Marcel Hamer (1):
+      usb: dwc3: omap: improve extcon initialization
+
+Mathias Nyman (1):
+      xhci: Fix giving back cancelled URBs even if halted endpoint can't reset
+
+Matthijs Kooijman (1):
+      usb: dwc2: Remove obsolete MODULE_ constants from platform.c
+
+Maximilian Luz (1):
+      usb: xhci: Increase timeout for HC halt
+
+Oliver Neukum (1):
+      cdc-wdm: untangle a circular dependency between callback and softint
+
+Phil Elwell (1):
+      usb: dwc2: Fix gadget DMA unmap direction
+
+Sandeep Singh (1):
+      xhci: Add reset resume quirk for AMD xhci controller.
+
+Thinh Nguyen (1):
+      usb: dwc3: core: Add missing GHWPARAMS9 doc
+
+Wei Ming Chen (1):
+      docs: usb: function: Modify path name
+
+Wesley Cheng (1):
+      usb: dwc3: gadget: Return success always for kick transfer in ep queue
+
+Zhen Lei (1):
+      usb: dwc3: imx8mp: fix error return code in dwc3_imx8mp_probe()
+
+ Documentation/driver-api/usb/usb.rst  |  15 +++--
+ Documentation/usb/gadget_configfs.rst |   2 +-
+ drivers/usb/class/cdc-wdm.c           |  30 +++++++---
+ drivers/usb/core/hub.c                |   6 +-
+ drivers/usb/dwc2/core.h               |   2 +
+ drivers/usb/dwc2/gadget.c             |   3 +-
+ drivers/usb/dwc2/platform.c           |   4 --
+ drivers/usb/dwc3/core.h               |   7 ++-
+ drivers/usb/dwc3/debug.h              |   8 +--
+ drivers/usb/dwc3/dwc3-imx8mp.c        |   3 +-
+ drivers/usb/dwc3/dwc3-omap.c          |   5 ++
+ drivers/usb/dwc3/dwc3-pci.c           |   1 +
+ drivers/usb/dwc3/gadget.c             |  13 ++++-
+ drivers/usb/host/fotg210-hcd.c        |   4 +-
+ drivers/usb/host/xhci-ext-caps.h      |   5 +-
+ drivers/usb/host/xhci-pci.c           |   8 ++-
+ drivers/usb/host/xhci-ring.c          |  16 ++++--
+ drivers/usb/host/xhci.c               |   6 +-
+ drivers/usb/musb/mediatek.c           |   2 +-
+ drivers/usb/typec/tcpm/tcpm.c         | 103 +++++++++++++++++++++++++++++-----
+ drivers/usb/typec/ucsi/ucsi.c         |  46 +++++++++++----
+ drivers/usb/typec/ucsi/ucsi.h         |   6 +-
+ 22 files changed, 220 insertions(+), 75 deletions(-)
