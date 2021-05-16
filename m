@@ -2,94 +2,64 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8A1C433B4
-	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 15:01:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09082C433B4
+	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 17:20:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F7A4610A0
-	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 15:01:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4D6A6113C
+	for <linux-usb@archiver.kernel.org>; Sun, 16 May 2021 17:20:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234534AbhEPPCe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 May 2021 11:02:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58378 "EHLO mail.kernel.org"
+        id S230459AbhEPRVT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 May 2021 13:21:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234318AbhEPPCd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 16 May 2021 11:02:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 9435F61164
-        for <linux-usb@vger.kernel.org>; Sun, 16 May 2021 15:01:18 +0000 (UTC)
+        id S229459AbhEPRVS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 16 May 2021 13:21:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id C6A9F6113C;
+        Sun, 16 May 2021 17:20:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621177278;
-        bh=EuMHMZUbKlZHK3EIGEZSOfAn3nKTBpFcNevIg0SlE6s=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=bkCm+T2nrZefEK/quNouUaoovb/1IDMv476XVMgBUcAPC6J8KqcyQcYyViT5o829v
-         nCOg77Xflch6BjH7V7Siwcd+NXgjF4IY0pvCYv20Zuc/wgkt6dY+A7uEi3RPVhPU8/
-         ABhY/KblPm0Quo6qAAQYIkhFchTRJAqjKi213EmHBLLgZzVF1y6iJDXKVultYrxY3A
-         f+sFrBnIWJe7xrU0JlCb+2g13i7zD0YWHbeUz430aV7mEITyvSpdWEkVQ5g1GapiUI
-         sjwPLW45sM6f5aHOk54oU1NnjXpndQuBlb3zup/oNFWV3k2mK3pgwww1RWzVxbHhhM
-         3MAx5Uqjpwylw==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 213081] usb-storage / uas Genesys Logic Card Reader no longer
- working on 5.12
-Date:   Sun, 16 May 2021 15:01:18 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213081-208809-UJxGeum4lM@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213081-208809@https.bugzilla.kernel.org/>
-References: <bug-213081-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        s=k20201202; t=1621185603;
+        bh=qOxjmuON7mO71TPk8uCK8aP+3gPARWi3I9PEOtiPOko=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=RZHF7sSKya3kKuoYRfIwQQfoeZlAyXoPODYy05eunGuCLtL0Bg7t2vHKu3lcg7VDs
+         VYWUrfzpucAayqjA5vKSqLmeOaFkKdmV/EhfZgsG+wMYdgTPl1Dsi2itOs3glF1ZNT
+         i/PbIMjAsNRWhB4kY0hCcqOGwFjlIWwVl54QVcYXH7ffGHP5WL9uT0JhwpOjB8wXtZ
+         0GymTbb2AWxwqQktqy4o0BXfRW+BOg/sxMQ+v71wozxn29pR0XRFPzpvP0b5mE/S+x
+         zb4WEOxNlftXrNUEq9gEelMZUqiqoFo0UI/WL837mr9PeU/3wJjLLp2pXzTkgps4X0
+         bM8zbnKSfribQ==
+Subject: Re: [GIT PULL] USB driver fixes for 5.13-rc2
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <YKDfDeaFp966UjS1@kroah.com>
+References: <YKDfDeaFp966UjS1@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YKDfDeaFp966UjS1@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.13-rc2
+X-PR-Tracked-Commit-Id: 975f94c7d6c306b833628baa9aec3f79db1eb3a1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4a668429e0d32cc91703340849d2332b1882de80
+Message-Id: <162118560365.27926.13877005148669827968.pr-tracker-bot@kernel.org>
+Date:   Sun, 16 May 2021 17:20:03 +0000
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213081
+The pull request you sent on Sun, 16 May 2021 10:59:57 +0200:
 
---- Comment #8 from Alan Stern (stern@rowland.harvard.edu) ---
-The output from "git help bisect" includes this text:
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.13-rc2
 
-  Cutting down bisection by giving more parameters to bisect start
-       You can further cut down the number of trials, if you know what part=
- of
-       the tree is involved in the problem you are tracking down, by
-       specifying path parameters when issuing the bisect start command:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4a668429e0d32cc91703340849d2332b1882de80
 
-           $ git bisect start -- arch/i386 include/asm-i386
+Thank you!
 
-You should read the entire output; it includes a pretty good (though rather
-terse) description of the whole bisection process.
-
-(Beware: Although it's likely that the bug was introduced by a commit affec=
-ting
-the xhci-hcd driver; it isn't certain.  If you can't find the guilty party =
-by a
-restricted search, you may have to try again with a full bisection.)
-
-If you want more information about git bisection, there are plenty of web p=
-ages
-available that explain it in more detail.  Ask Google.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
