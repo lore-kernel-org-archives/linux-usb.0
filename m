@@ -2,83 +2,110 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FBDC433B4
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D499DC433ED
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:32:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B04C66100A
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA3EF6105A
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349651AbhERNcw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 May 2021 09:32:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41838 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349647AbhERNcw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 May 2021 09:32:52 -0400
-X-Greylist: delayed 585 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 18 May 2021 06:31:34 PDT
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B7BC061573;
-        Tue, 18 May 2021 06:31:34 -0700 (PDT)
-Date:   Tue, 18 May 2021 15:21:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1621344101;
-        bh=c73kIoBsDpAy+yCZg+mOnr7VdjTq2wMsaBIYMScY8l4=;
-        h=Date:From:To:Cc:Subject:From;
-        b=RY7sbvsayItCmTcrOiNlGHGPirtg8zTW33X5Y9wQXaiUs5BbrPlC0OgWz9M8DA033
-         VSq/JVpFhGUHh8xLDX0XT9Mp/s67wtCAf9cPgFksTYcdS0eHXRUPJgny3YLOrCCflA
-         L0qWMUXLH2Mp2nXyjYQYhuqN61ZpcC0GIqZRDZ0Y=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-kernel@vger.kernel.org
-Subject: Handling of USB "Programmable button" controls as KEY_MACRO# events
-Message-ID: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
+        id S1349654AbhERNd5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 May 2021 09:33:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41622 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349647AbhERNd4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 May 2021 09:33:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7A13E610E9;
+        Tue, 18 May 2021 13:32:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1621344757;
+        bh=WHo6QBmkSyx8hQ50l30tvg1a5wCD4yRDATz2V4Cn3FY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dF8TbXGB95ifSseYQ5aDTk0edBB0shWvN6ILOIiau6TFcD0k7Xlv+CCAyRYPF6AJ6
+         l3+XnHFQSQ17ZAIu1asOX5bPi6CTRrGP6arjuvBTUQdLsdByaF7vlzS2H++D6fNtHd
+         6rQNFUyNTNLPvEWChV+tEsvJs5tX1Sl2RpVnOCS4=
+Date:   Tue, 18 May 2021 15:32:35 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>
+Subject: Re: [PATCH v1 1/2] usb: typec: tcpm: Expose tcpm logs through a misc
+ device
+Message-ID: <YKPB81XXSVTDqMJy@kroah.com>
+References: <20210517233609.610248-1-badhri@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210517233609.610248-1-badhri@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi everybody,
+On Mon, May 17, 2021 at 04:36:08PM -0700, Badhri Jagan Sridharan wrote:
+> Although TCPM logs were primarily focussed to aid developers
+> during bringup, TCPM logs have proved to be critical even
+> post-bringup as it provides a good starting point to triage
+> interoperability issues with accessories. TCPM logs
+> are exposed through debugfs filesystem. For systems that
+> don't mount debugfs by default, this change introduces a
+> module parameter log_misc_dev which when set exports the
+> tcpm logs through a misc device. This change also leaves
+> the option of exporting tcpm logs through debugfs for
+> backwards compatibility.
+> 
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 98 +++++++++++++++++++++++++----------
+>  1 file changed, 72 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index c4fdc00a3bc8..b79194919b27 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/jiffies.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kthread.h>
+> +#include <linux/miscdevice.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  #include <linux/power_supply.h>
+> @@ -33,6 +34,10 @@
+>  
+>  #include <uapi/linux/sched/types.h>
+>  
+> +static bool modparam_log_misc_dev;
+> +module_param_named(log_misc_dev, modparam_log_misc_dev, bool, 0444);
+> +MODULE_PARM_DESC(log_misc_dev, "Expose tcpm logs through misc device");
+> +
+>  #define FOREACH_STATE(S)			\
+>  	S(INVALID_STATE),			\
+>  	S(TOGGLING),			\
+> @@ -465,13 +470,15 @@ struct tcpm_port {
+>  	 * SNK_READY for non-pd link.
+>  	 */
+>  	bool slow_charger_loop;
+> -#ifdef CONFIG_DEBUG_FS
+> +
+>  	struct dentry *dentry;
+>  	struct mutex logbuffer_lock;	/* log buffer access lock */
+>  	int logbuffer_head;
+>  	int logbuffer_tail;
+>  	u8 *logbuffer[LOG_BUFFER_ENTRIES];
+> -#endif
+> +
+> +	/* TCPM logs are exposed through misc device when modparam_log_misc_dev is set. */
+> +	struct miscdevice misc;
 
-Would it make sense to map the "Programmable Buttons" control from the
-USB HID Consumer page [0] to the linux event codes KEY_MACRO1 ... KEY_MACRO# ?
+From a technical point of view, this is not ok as now you have 2
+different things controlling the lifecycle/lifespan of this structure,
+making it impossible to audit and actually figure out what is happening
+when.  Please do not do that.
 
-Those controls are documented in the USB spec as:
-
-"The user defines the function of these
-buttons to control software applications or GUI objects."
-
-The KEY_MACRO event codes are documented with:
-
-"Some keyboards have keys which do not have a defined meaning, these keys
-are intended to be programmed / bound to macros by the user."
-
-My usecase is the passing of custom keycodes from a programmable keypad
-(via QMK[1]) to Linux.
-(This would also need new functionality in QMK itself)
-
-Alternatives:
-
-* Send Raw HID from QMK
-  * Con: needs a dedicated, nonstandard driver on the host
-* Use F-Keys
-  * Con: only F13-F19 are usable (F1-F12 are used by normal keyboards, F20-F23
-    are repurposed with other keys for X11 compat)
-
-Possible problems:
-
-* There are 65k programmable keys defined by USB but only 30 macro keys are
-  supported by Linux.
-
-Thanks,
-Thomas
-
-[0] https://www.usb.org/sites/default/files/hut1_22.pdf#section.15.14
-[1] https://qmk.fm/
+greg k-h
