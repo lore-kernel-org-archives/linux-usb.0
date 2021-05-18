@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C14CDC433ED
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:09:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5A3C433B4
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:10:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A22B3611BD
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:09:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DD21611BD
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:10:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349817AbhEROLO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 May 2021 10:11:14 -0400
-Received: from mga04.intel.com ([192.55.52.120]:3122 "EHLO mga04.intel.com"
+        id S1349813AbhEROLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 May 2021 10:11:17 -0400
+Received: from mga03.intel.com ([134.134.136.65]:2005 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349818AbhEROLN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1349812AbhEROLN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 18 May 2021 10:11:13 -0400
-IronPort-SDR: H9Ao/FJ8camnERYpBtA67TUnTGL2tfuCLmBKexbzXsVlad6FZ6l7UTh0wdEptctoHPanv0WNn9
- Jtufs/+wZ38g==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="198769251"
+IronPort-SDR: IPmlcFWQxF3cfFbEtYxafgdcxc1as7NsOu3wlZu5pu5fru+rqvwr7YWz5JKC6PfCjxWsbfsmDP
+ tHLj1rBZGCQQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="200775185"
 X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
-   d="scan'208";a="198769251"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 07:09:46 -0700
-IronPort-SDR: i6/PtZcBcSBmBQw35j70UHgioyh1mJJVpzEGYqhDEiALTJQKAjBjT6kpeFLoDSsnywma4ZXZfF
- 14ybn/8mESiQ==
+   d="scan'208";a="200775185"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 07:09:46 -0700
+IronPort-SDR: WEHCQRWc3PSnfl+JSRSeJQGGf/Tjm5IKUnDdSsRNIGLnlLZV2e5eRE2/tYUJQH8AN3EgnQuOik
+ KE5y92uNzO8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
-   d="scan'208";a="404835755"
+   d="scan'208";a="541985210"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 18 May 2021 07:09:44 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 18 May 2021 07:09:44 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id A44C77E6; Tue, 18 May 2021 17:10:02 +0300 (EEST)
+        id BB0058AD; Tue, 18 May 2021 17:10:02 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -44,9 +44,9 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 5/8] thunderbolt: Update port credits after bonding is enabled/disabled
-Date:   Tue, 18 May 2021 17:09:59 +0300
-Message-Id: <20210518141002.63616-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH 7/8] thunderbolt: Add quirk for Intel Goshen Ridge DP credits
+Date:   Tue, 18 May 2021 17:10:01 +0300
+Message-Id: <20210518141002.63616-8-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
 References: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
@@ -56,123 +56,69 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Once lane bonding has been enabled (or disabled) both lane adapters may
-update their total credits accordingly. For this reason re-read the port
-credits after lane bonding has been enabled or disabled.
+Intel Goshen Ridge reports wrong DP main credits in NVM 27 and earlier,
+so add a quirk that fixes it. We also need to expand the quirk table to
+match on hardware vendor/device IDs too.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c  | 48 +++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/tb.h      |  1 +
- drivers/thunderbolt/xdomain.c |  2 ++
- 3 files changed, 51 insertions(+)
+ drivers/thunderbolt/quirks.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index ac6cb304c49f..e015dc93a916 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -1099,6 +1099,49 @@ int tb_port_wait_for_link_width(struct tb_port *port, int width,
- 	return -ETIMEDOUT;
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index 57e2978a3c21..8d73bd7fce15 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -12,7 +12,17 @@ static void quirk_force_power_link(struct tb_switch *sw)
+ 	sw->quirks |= QUIRK_FORCE_POWER_LINK_CONTROLLER;
  }
  
-+static int tb_port_do_update_credits(struct tb_port *port)
++static void quirk_dp_credit_allocation(struct tb_switch *sw)
 +{
-+	u32 nfc_credits;
-+	int ret;
-+
-+	ret = tb_port_read(port, &nfc_credits, TB_CFG_PORT, ADP_CS_4, 1);
-+	if (ret)
-+		return ret;
-+
-+	if (nfc_credits != port->config.nfc_credits) {
-+		u32 total;
-+
-+		total = (nfc_credits & ADP_CS_4_TOTAL_BUFFERS_MASK) >>
-+			ADP_CS_4_TOTAL_BUFFERS_SHIFT;
-+
-+		tb_port_dbg(port, "total credits changed %u -> %u\n",
-+			    port->total_credits, total);
-+
-+		port->config.nfc_credits = nfc_credits;
-+		port->total_credits = total;
++	if (sw->credit_allocation && sw->min_dp_main_credits == 56) {
++		sw->min_dp_main_credits = 18;
++		tb_sw_dbg(sw, "quirked DP main: %u\n", sw->min_dp_main_credits);
 +	}
-+
-+	return 0;
 +}
 +
-+/**
-+ * tb_port_update_credits() - Re-read port total credits
-+ * @port: Port to update
-+ *
-+ * After the link is bonded (or bonding was disabled) the port total
-+ * credits may change, so this function needs to be called to re-read
-+ * the credits. Updates also the second lane adapter.
-+ */
-+int tb_port_update_credits(struct tb_port *port)
-+{
-+	int ret;
+ struct tb_quirk {
++	u16 hw_vendor_id;
++	u16 hw_device_id;
+ 	u16 vendor;
+ 	u16 device;
+ 	void (*hook)(struct tb_switch *sw);
+@@ -20,7 +30,12 @@ struct tb_quirk {
+ 
+ static const struct tb_quirk tb_quirks[] = {
+ 	/* Dell WD19TB supports self-authentication on unplug */
+-	{ 0x00d4, 0xb070, quirk_force_power_link },
++	{ 0x0000, 0x0000, 0x00d4, 0xb070, quirk_force_power_link },
++	/*
++	 * Intel Goshen Ridge NVM 27 and before report wrong number of
++	 * DP buffers.
++	 */
++	{ 0x8087, 0x0b26, 0x0000, 0x0000, quirk_dp_credit_allocation },
+ };
+ 
+ /**
+@@ -36,7 +51,15 @@ void tb_check_quirks(struct tb_switch *sw)
+ 	for (i = 0; i < ARRAY_SIZE(tb_quirks); i++) {
+ 		const struct tb_quirk *q = &tb_quirks[i];
+ 
+-		if (sw->device == q->device && sw->vendor == q->vendor)
+-			q->hook(sw);
++		if (q->hw_vendor_id && q->hw_vendor_id != sw->config.vendor_id)
++			continue;
++		if (q->hw_device_id && q->hw_device_id != sw->config.device_id)
++			continue;
++		if (q->vendor && q->vendor != sw->vendor)
++			continue;
++		if (q->device && q->device != sw->device)
++			continue;
 +
-+	ret = tb_port_do_update_credits(port);
-+	if (ret)
-+		return ret;
-+	return tb_port_do_update_credits(port->dual_link_port);
-+}
-+
- static int tb_port_start_lane_initialization(struct tb_port *port)
- {
- 	int ret;
-@@ -2494,6 +2537,8 @@ int tb_switch_lane_bonding_enable(struct tb_switch *sw)
- 		return ret;
++		q->hook(sw);
  	}
- 
-+	tb_port_update_credits(down);
-+	tb_port_update_credits(up);
- 	tb_switch_update_link_attributes(sw);
- 
- 	tb_sw_dbg(sw, "lane bonding enabled\n");
-@@ -2531,7 +2576,10 @@ void tb_switch_lane_bonding_disable(struct tb_switch *sw)
- 	if (tb_port_wait_for_link_width(down, 1, 100) == -ETIMEDOUT)
- 		tb_sw_warn(sw, "timeout disabling lane bonding\n");
- 
-+	tb_port_update_credits(down);
-+	tb_port_update_credits(up);
- 	tb_switch_update_link_attributes(sw);
-+
- 	tb_sw_dbg(sw, "lane bonding disabled\n");
  }
- 
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index a8190009815c..e2f304d4a65d 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -906,6 +906,7 @@ int tb_port_lane_bonding_enable(struct tb_port *port);
- void tb_port_lane_bonding_disable(struct tb_port *port);
- int tb_port_wait_for_link_width(struct tb_port *port, int width,
- 				int timeout_msec);
-+int tb_port_update_credits(struct tb_port *port);
- 
- int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
- int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 39c2da112238..d66ea4d616fd 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -1533,6 +1533,7 @@ int tb_xdomain_lane_bonding_enable(struct tb_xdomain *xd)
- 		return ret;
- 	}
- 
-+	tb_port_update_credits(port);
- 	tb_xdomain_update_link_attributes(xd);
- 
- 	dev_dbg(&xd->dev, "lane bonding enabled\n");
-@@ -1557,6 +1558,7 @@ void tb_xdomain_lane_bonding_disable(struct tb_xdomain *xd)
- 		if (tb_port_wait_for_link_width(port, 1, 100) == -ETIMEDOUT)
- 			tb_port_warn(port, "timeout disabling lane bonding\n");
- 		tb_port_disable(port->dual_link_port);
-+		tb_port_update_credits(port);
- 		tb_xdomain_update_link_attributes(xd);
- 
- 		dev_dbg(&xd->dev, "lane bonding disabled\n");
 -- 
 2.30.2
 
