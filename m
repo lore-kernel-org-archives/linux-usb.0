@@ -7,102 +7,71 @@ X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC24C433B4
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA47C433ED
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4196861285
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 165A561285
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:31:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349628AbhERNcY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 May 2021 09:32:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41320 "EHLO mail.kernel.org"
+        id S245451AbhERNcs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 May 2021 09:32:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41450 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244870AbhERNcW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 May 2021 09:32:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DB60611CC;
-        Tue, 18 May 2021 13:31:03 +0000 (UTC)
+        id S238635AbhERNcs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 May 2021 09:32:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 94B75610A1;
+        Tue, 18 May 2021 13:31:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621344664;
-        bh=X53wMEAAhoR3qDgv6I72kl2g+HLNTa0WDNa3S6R6O5c=;
+        s=korg; t=1621344690;
+        bh=AQcXbOCQe8U95i8kgKYGNsDmCjZ26eRzhWl2krTizEo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AMaBiMyrN7AbIR6l1QmB9cO8+qQ8w15UNy5GuSflZ2m2ZOLcF05ptFN9XRkrYCY8b
-         AihL0TPjtCDRRR5ujG+5SmJpZlHUUpVSYaHkD+IoI8anHI5a1tscqaO2hfshTPvrUQ
-         wrm24CUkxubvt/iYKGTrXFDJjdYnqFgxjvEALRig=
-Date:   Tue, 18 May 2021 15:31:02 +0200
+        b=r24mnIC/fCRj3RU/MduMgLjB0Yy1ABWNeBIb/VrlLClFsaLRsnICuExoYNB9/mabC
+         rt6gM1h4Ipx6ozOM6DRNvFwyntmU2iOe4NU7eQk862vNnE+frpsTOl+vowMnjDCqt8
+         lU4aKmeYmXQNF4u5Gb9lquLxCW0NgnoDgJTYIwhY=
+Date:   Tue, 18 May 2021 15:31:28 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kyle Tso <kyletso@google.com>
-Subject: Re: [PATCH v1 1/2] usb: typec: tcpm: Expose tcpm logs through a misc
- device
-Message-ID: <YKPBlqRCXBKuXu1l@kroah.com>
+To:     Badhri Jagan Sridharan <badhri@google.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>
+Subject: Re: [PATCH v1 2/2] usb: typec: tcpm: Add module parameter to wrap
+ around logs
+Message-ID: <YKPBsKM70ZLfjx8+@kroah.com>
 References: <20210517233609.610248-1-badhri@google.com>
- <YKO6gANJ0Meaavas@kuha.fi.intel.com>
+ <20210517233609.610248-2-badhri@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YKO6gANJ0Meaavas@kuha.fi.intel.com>
+In-Reply-To: <20210517233609.610248-2-badhri@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 18, 2021 at 04:00:48PM +0300, Heikki Krogerus wrote:
-> On Mon, May 17, 2021 at 04:36:08PM -0700, Badhri Jagan Sridharan wrote:
-> > Although TCPM logs were primarily focussed to aid developers
-> > during bringup, TCPM logs have proved to be critical even
-> > post-bringup as it provides a good starting point to triage
-> > interoperability issues with accessories. TCPM logs
-> > are exposed through debugfs filesystem. For systems that
-> > don't mount debugfs by default, this change introduces a
-> > module parameter log_misc_dev which when set exports the
-> > tcpm logs through a misc device. This change also leaves
-> > the option of exporting tcpm logs through debugfs for
-> > backwards compatibility.
+On Mon, May 17, 2021 at 04:36:09PM -0700, Badhri Jagan Sridharan wrote:
+> When the buffer is full, TCPM stops logging into the buffer.
+> This change adds log_wraparound module parameter which when set
+> flushes out the oldest log entries (FIFO) to make way for the
+> newer ones.
 > 
-> This does not look correct to me. At the very least you need to now
-> document your misc device interface. Why are you removing the choice
-> whether to enable this or not? The module parameter does also not
-> sound like a good idea at all.
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
-> I'm really not sure about this. This is just a poor man's debugfs that
-> removes any choice of enabling it. Since clearly debugging related
-> information is what you are after here, debugfs really should be
-> enough for you.
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index b79194919b27..a369decade60 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -38,6 +38,10 @@ static bool modparam_log_misc_dev;
+>  module_param_named(log_misc_dev, modparam_log_misc_dev, bool, 0444);
+>  MODULE_PARM_DESC(log_misc_dev, "Expose tcpm logs through misc device");
+>  
+> +static bool modparam_log_wraparound;
+> +module_param_named(log_wraparound, modparam_log_wraparound, bool, 0444);
+> +MODULE_PARM_DESC(log_wraparound, "Wrap around logs");
 
-I agree, this is an abuse of a misc device, not ok at all.
-
-Just use debugfs if you really want this type of thing, that is what it
-is there for.
-
-> 
-> > Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpm.c | 98 +++++++++++++++++++++++++----------
-> >  1 file changed, 72 insertions(+), 26 deletions(-)
-> > 
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> > index c4fdc00a3bc8..b79194919b27 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -12,6 +12,7 @@
-> >  #include <linux/jiffies.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/kthread.h>
-> > +#include <linux/miscdevice.h>
-> >  #include <linux/module.h>
-> >  #include <linux/mutex.h>
-> >  #include <linux/power_supply.h>
-> > @@ -33,6 +34,10 @@
-> >  
-> >  #include <uapi/linux/sched/types.h>
-> >  
-> > +static bool modparam_log_misc_dev;
-> > +module_param_named(log_misc_dev, modparam_log_misc_dev, bool, 0444);
-> > +MODULE_PARM_DESC(log_misc_dev, "Expose tcpm logs through misc device");
-
-This is not the 1990's, no new module parameters please.
-
-thanks,
+Again, no, this we know better than to add new module parameters, this
+is not ok.
 
 greg k-h
