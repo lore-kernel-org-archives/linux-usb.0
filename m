@@ -2,147 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A44C433B4
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B205C433B4
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:09:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43D6E61074
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 13:45:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 390B461185
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:09:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234690AbhERNqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 May 2021 09:46:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43736 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233786AbhERNqQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 May 2021 09:46:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621345498;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=keW/z/7Dpy5O9ju83p8wx5U035Fy3tAAVmCh5ZRaXCM=;
-        b=gzcQyj3cqwsInH5TEZAMkZEEaiHzGbTwWj0FpvBw2LQw5tRHmLZEFpjqx6O8X6JwqIstjf
-        q9jk3pUvQIkukcg6iAyp5cNem95UwMO/yLiKxaD93NPf6fmQko8EbpldpX5kVbz3H6b+iU
-        jgX40yR4dXSD05MqaJ3aGZd/u1nPNro=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-C38AE7HlPkqKaQXpFtfxdA-1; Tue, 18 May 2021 09:44:55 -0400
-X-MC-Unique: C38AE7HlPkqKaQXpFtfxdA-1
-Received: by mail-ej1-f72.google.com with SMTP id m18-20020a1709062352b02903d2d831f9baso2385363eja.20
-        for <linux-usb@vger.kernel.org>; Tue, 18 May 2021 06:44:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=keW/z/7Dpy5O9ju83p8wx5U035Fy3tAAVmCh5ZRaXCM=;
-        b=gC5W+V4HEOHWoixYXFvai0A9J+N2593fmR+pxTdZRgfRxJTYCNV9DgTysCe9hgGXlq
-         t7lzsGBlB+CdhMl1n0yTES+q4RqpIrio3QJJJCyqoGJ4hxbTqPxsd8dS3C3vP5eEeH9t
-         ertGJmgfJOrm+g3lznZqJepD/pU56I3CAlmtbhIYOW7fzDolRsuiMXT6cb0aQpv5v1wQ
-         bHA5t5wv1R5o+iSy/reTJAYvVyHoqDgJgrz2UN6HRd9AgaeMql7xGT8YCRRQ3iDH/Y3B
-         dig9icaKxBc6OMrSHWOBvI2INcuI7iOHSC4+5BhfI50vFMudgD2h6K+uK1bSKhD3nVIz
-         b0+w==
-X-Gm-Message-State: AOAM532QUG7hK6NqG++30hfyIPy+14lvP5RtqYywt+vsr3qhOLs/3U+j
-        rE0SsAh8p9ZxHPijQaBvFSOiNxFSSBKWKTYZorhj1BDwHM450PRj0BBU91xy7HFZUyvLcz1YPao
-        exJb8L6MIE+QNTF21KYnc
-X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr7076935edc.263.1621345493881;
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUhlQtuAY0GPaQM/J3vCTCkrcE0giYJERx7T9KrmeM7xcF47HJZ6orjqYyxWic4VUeEX1JUw==
-X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr7076917edc.263.1621345493693;
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id k9sm10862688eje.102.2021.05.18.06.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-Subject: Re: Handling of USB "Programmable button" controls as KEY_MACRO#
- events
-To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-kernel@vger.kernel.org
-References: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <61dcf8c7-2dcb-4173-fbbd-9adf3412edb7@redhat.com>
-Date:   Tue, 18 May 2021 15:44:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S1349804AbhEROLE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 May 2021 10:11:04 -0400
+Received: from mga06.intel.com ([134.134.136.31]:62760 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229542AbhEROLC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 May 2021 10:11:02 -0400
+IronPort-SDR: qVC0NmVGf8kUiGTk/d4hhmiAUcX5XabTK1jjAzDFHHvTDo+NdLLaM1PQSLkQSw0QTNZhgTSNVK
+ 8+D2yHM5qS5A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="261948705"
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="261948705"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 07:09:43 -0700
+IronPort-SDR: fwd329/JDVd818EU6yYP31PjidEPG9rtJX2MTt/g1lUt+5GJlj4wKvH44ECFl7tfLH26MiFY1l
+ ReWQ/6SEEknA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
+   d="scan'208";a="411288251"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 18 May 2021 07:09:41 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 753FF12F; Tue, 18 May 2021 17:10:02 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Gil Fine <gil.fine@intel.com>,
+        Casey G Bowman <casey.g.bowman@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/8] thunderbolt: Make tb_port_type() take const parameter
+Date:   Tue, 18 May 2021 17:09:55 +0300
+Message-Id: <20210518141002.63616-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
+References: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+The function does not modify the object in any way so make the parameter
+const to reflect this.
 
-On 5/18/21 3:21 PM, Thomas Weißschuh wrote:
-> Hi everybody,
-> 
-> Would it make sense to map the "Programmable Buttons" control from the
-> USB HID Consumer page [0] to the linux event codes KEY_MACRO1 ... KEY_MACRO# ?
-> 
-> Those controls are documented in the USB spec as:
-> 
-> "The user defines the function of these
-> buttons to control software applications or GUI objects."
-> 
-> The KEY_MACRO event codes are documented with:
-> 
-> "Some keyboards have keys which do not have a defined meaning, these keys
-> are intended to be programmed / bound to macros by the user."
-> 
-> My usecase is the passing of custom keycodes from a programmable keypad
-> (via QMK[1]) to Linux.
-> (This would also need new functionality in QMK itself)
+No functional changes intended.
 
-I think the idea is good, but AFAICT the HUT does not actually assign
-any usage codes in the consumer-page for this. It simply points to the
-Button usage-page, which means things conflict with e.g. mouse and joystick
-buttons and I do not see any dedicated codes in the table
-"Table 15.1: Consumer Page" so I'm not sure how to interpret the spec. here ...
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/switch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I guess there is something which we can do with the report's application here,
-since the code dealing with HID_UP_BUTTON is already doing a switch-case
-on field->application to differentiate between mouse and gaming buttons.
-
-I guess interpreting an application of HID_CP_CONSUMER_CONTROL in combination
-with using the buttons usage-page as wat the HUT is trying to specify and
-thus map that the first 30 codes in that combination to KEY_MACRO1 - 30
-might make sense.
-
-Regards,
-
-Hans
-
-
-
-
-> 
-> Alternatives:
-> 
-> * Send Raw HID from QMK
->   * Con: needs a dedicated, nonstandard driver on the host
-> * Use F-Keys
->   * Con: only F13-F19 are usable (F1-F12 are used by normal keyboards, F20-F23
->     are repurposed with other keys for X11 compat)
-> 
-> Possible problems:
-> 
-> * There are 65k programmable keys defined by USB but only 30 macro keys are
->   supported by Linux.
-> 
-> Thanks,
-> Thomas
-> 
-> [0] https://www.usb.org/sites/default/files/hut1_22.pdf#section.15.14
-> [1] https://qmk.fm/
-> 
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 4d4bc50a3c44..0edc452c2ac9 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -459,7 +459,7 @@ static void tb_switch_nvm_remove(struct tb_switch *sw)
+ 
+ /* port utility functions */
+ 
+-static const char *tb_port_type(struct tb_regs_port_header *port)
++static const char *tb_port_type(const struct tb_regs_port_header *port)
+ {
+ 	switch (port->type >> 16) {
+ 	case 0:
+-- 
+2.30.2
 
