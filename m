@@ -2,123 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5A3C433B4
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F029FC43460
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DD21611BD
-	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:10:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C421D6135C
+	for <linux-usb@archiver.kernel.org>; Tue, 18 May 2021 14:19:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349813AbhEROLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 May 2021 10:11:17 -0400
-Received: from mga03.intel.com ([134.134.136.65]:2005 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349812AbhEROLN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 May 2021 10:11:13 -0400
-IronPort-SDR: IPmlcFWQxF3cfFbEtYxafgdcxc1as7NsOu3wlZu5pu5fru+rqvwr7YWz5JKC6PfCjxWsbfsmDP
- tHLj1rBZGCQQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9987"; a="200775185"
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
-   d="scan'208";a="200775185"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2021 07:09:46 -0700
-IronPort-SDR: WEHCQRWc3PSnfl+JSRSeJQGGf/Tjm5IKUnDdSsRNIGLnlLZV2e5eRE2/tYUJQH8AN3EgnQuOik
- KE5y92uNzO8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,310,1613462400"; 
-   d="scan'208";a="541985210"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 18 May 2021 07:09:44 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id BB0058AD; Tue, 18 May 2021 17:10:02 +0300 (EEST)
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Gil Fine <gil.fine@intel.com>,
-        Casey G Bowman <casey.g.bowman@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 7/8] thunderbolt: Add quirk for Intel Goshen Ridge DP credits
-Date:   Tue, 18 May 2021 17:10:01 +0300
-Message-Id: <20210518141002.63616-8-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
-References: <20210518141002.63616-1-mika.westerberg@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1349952AbhEROU7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 May 2021 10:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349941AbhEROU7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 May 2021 10:20:59 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92AF9C061573;
+        Tue, 18 May 2021 07:19:41 -0700 (PDT)
+Received: from guri.fritz.box (unknown [IPv6:2a02:810a:880:f54:8085:99d1:d3e8:47cc])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 93F001F42B04;
+        Tue, 18 May 2021 15:19:39 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc:     megous@megous.com, linux-usb@vger.kernel.org, a.hajda@samsung.com,
+        narmstrong@baylibre.com, Laurent.pinchart@ideasonboard.com,
+        jonas@kwiboo.se, jernej.skrabec@siol.net, airlied@linux.ie,
+        daniel@ffwll.ch, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+        enric.balletbo@collabora.com, drinkcat@chromium.org,
+        hsinyi@chromium.org, kernel@collabora.com, dafna3@gmail.com,
+        dafna.hirschfeld@collabora.com, robh+dt@kernel.org
+Subject: [PATCH v6 RESEND 0/2] Add support for ANX7688
+Date:   Tue, 18 May 2021 16:19:25 +0200
+Message-Id: <20210518141927.24795-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Intel Goshen Ridge reports wrong DP main credits in NVM 27 and earlier,
-so add a quirk that fixes it. We also need to expand the quirk table to
-match on hardware vendor/device IDs too.
+(resending patchset with Rb tags)
+ANX7688 is a typec port controller that also converts HDMI to DP.
+It is found on Acer Chromebook R13 (elm) and on Pine64 PinePhone.
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/quirks.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+On Acer Chromebook R13 (elm), the device is powered-up and controller by the
+Embedded Controller. Therefore its operation is transparent
+to the SoC. It is used in elm only as a display bridge driver.
+The bridge driver only reads some values using i2c and use them to
+implement the mode_fixup cb.
 
-diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-index 57e2978a3c21..8d73bd7fce15 100644
---- a/drivers/thunderbolt/quirks.c
-+++ b/drivers/thunderbolt/quirks.c
-@@ -12,7 +12,17 @@ static void quirk_force_power_link(struct tb_switch *sw)
- 	sw->quirks |= QUIRK_FORCE_POWER_LINK_CONTROLLER;
- }
- 
-+static void quirk_dp_credit_allocation(struct tb_switch *sw)
-+{
-+	if (sw->credit_allocation && sw->min_dp_main_credits == 56) {
-+		sw->min_dp_main_credits = 18;
-+		tb_sw_dbg(sw, "quirked DP main: %u\n", sw->min_dp_main_credits);
-+	}
-+}
-+
- struct tb_quirk {
-+	u16 hw_vendor_id;
-+	u16 hw_device_id;
- 	u16 vendor;
- 	u16 device;
- 	void (*hook)(struct tb_switch *sw);
-@@ -20,7 +30,12 @@ struct tb_quirk {
- 
- static const struct tb_quirk tb_quirks[] = {
- 	/* Dell WD19TB supports self-authentication on unplug */
--	{ 0x00d4, 0xb070, quirk_force_power_link },
-+	{ 0x0000, 0x0000, 0x00d4, 0xb070, quirk_force_power_link },
-+	/*
-+	 * Intel Goshen Ridge NVM 27 and before report wrong number of
-+	 * DP buffers.
-+	 */
-+	{ 0x8087, 0x0b26, 0x0000, 0x0000, quirk_dp_credit_allocation },
- };
- 
- /**
-@@ -36,7 +51,15 @@ void tb_check_quirks(struct tb_switch *sw)
- 	for (i = 0; i < ARRAY_SIZE(tb_quirks); i++) {
- 		const struct tb_quirk *q = &tb_quirks[i];
- 
--		if (sw->device == q->device && sw->vendor == q->vendor)
--			q->hook(sw);
-+		if (q->hw_vendor_id && q->hw_vendor_id != sw->config.vendor_id)
-+			continue;
-+		if (q->hw_device_id && q->hw_device_id != sw->config.device_id)
-+			continue;
-+		if (q->vendor && q->vendor != sw->vendor)
-+			continue;
-+		if (q->device && q->device != sw->device)
-+			continue;
-+
-+		q->hook(sw);
- 	}
- }
+On v5 we added the full dt-binding of the generic Analogix anx7688 device.
+The problem is that for elm, most of the fields are not needed since
+the anx7688 sits behind the EC. After a discussion on v5 (see [1])
+we decided to go back to the original approach and send the dt binding
+as specific to the elm. So in this version we rename the device to cros_ec_anx7688
+and use the compatible 'google,cros-ec-anx7688'.
+
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20210305124351.15079-3-dafna.hirschfeld@collabora.com/
+
+Changes since v5:
+* treat the device as a specific combination of an ANX7688 behind the EC and
+call it 'cros-ec-anx7688'
+
+Changes since v4:
+In v4 of this set, the device was added as an 'mfd' device
+and an additional 'bridge' device for the HDMI-DP conversion, see [2].
+
+[2] https://lkml.org/lkml/2020/3/18/64
+
+Dafna Hirschfeld (1):
+  dt-bindings: display: add google,cros-ec-anx7688.yaml
+
+Enric Balletbo i Serra (1):
+  drm/bridge: Add ChromeOS EC ANX7688 bridge driver support
+
+ .../bridge/google,cros-ec-anx7688.yaml        |  82 ++++++++
+ drivers/gpu/drm/bridge/Kconfig                |  12 ++
+ drivers/gpu/drm/bridge/Makefile               |   1 +
+ drivers/gpu/drm/bridge/cros-ec-anx7688.c      | 191 ++++++++++++++++++
+ 4 files changed, 286 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/google,cros-ec-anx7688.yaml
+ create mode 100644 drivers/gpu/drm/bridge/cros-ec-anx7688.c
+
 -- 
-2.30.2
+2.17.1
 
