@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 395C4C433B4
-	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 10:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0A7C433B4
+	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 10:03:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1603B611BF
-	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 10:02:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7539761244
+	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 10:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345760AbhESKDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 May 2021 06:03:54 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20757 "EHLO mga05.intel.com"
+        id S1346064AbhESKFG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 May 2021 06:05:06 -0400
+Received: from mga17.intel.com ([192.55.52.151]:57186 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345656AbhESKDx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 May 2021 06:03:53 -0400
-IronPort-SDR: EcEhhBdAIycZqszdXY11av68P44Nvp+LDdkaBG1UPh5Q4YyvAANnvMQDIbEGhX5NUMWX6lE1tV
- DpiWAoN9zyoA==
-X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="286469051"
+        id S1345316AbhESKFC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 19 May 2021 06:05:02 -0400
+IronPort-SDR: SBB+5Ik55u2tfs1Ugkdte7qJezIKjs4qb/OodgryoTPfom0asPNaq+qr4nESwmJSNPr624sl7V
+ zyVa1NDV/7xQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,9988"; a="181216117"
 X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
-   d="scan'208";a="286469051"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 03:02:05 -0700
-IronPort-SDR: IGMfFdNYII17tU+yMvKunDBi+jWnFs1QssOljd6UdCudBWXlmTvpz/0ImTQDnkMK4sRJjeRM9j
- Ava2F/I3r+jA==
+   d="scan'208";a="181216117"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2021 03:03:41 -0700
+IronPort-SDR: DhOPIM/ZlkzZVDt5F+OwtTcPQAL3DsmsgokwmTihC+HXQEjgwFW5WOM0lHUWTlam2fP9aUMnP/
+ udtSrSKc5owg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.82,312,1613462400"; 
-   d="scan'208";a="466908517"
+   d="scan'208";a="474333312"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 May 2021 03:02:03 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 19 May 2021 03:03:39 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 45CB3BA; Wed, 19 May 2021 13:02:24 +0300 (EEST)
+        id 028FFBA; Wed, 19 May 2021 13:04:00 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -42,9 +42,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc:     Guenter Roeck <linux@roeck-us.net>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Subject: [PATCH v1 1/1] usb: typec: wcove: Use LE to CPU conversion when accessing msg->header
-Date:   Wed, 19 May 2021 13:02:12 +0300
-Message-Id: <20210519100212.54630-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/1] usb: typec: tcpm: Use LE to CPU conversion when accessing msg->header
+Date:   Wed, 19 May 2021 13:03:58 +0300
+Message-Id: <20210519100358.64018-1-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,6 +63,7 @@ Fixes: 64f7c494a3c0 ("typec: tcpm: Add support for sink PPS related messages")
 Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
+v2: fixed subject prefix
  drivers/usb/typec/tcpm/tcpm.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
