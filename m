@@ -2,107 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E78FFC433B4
-	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 05:06:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD4BC433B4
+	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 06:34:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6F256139A
-	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 05:06:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF57D611AE
+	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 06:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239171AbhESFHl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 May 2021 01:07:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55048 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239033AbhESFHf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 May 2021 01:07:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 28B416135B;
-        Wed, 19 May 2021 05:06:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621400775;
-        bh=FeabjgYqNybppZqqnzHbLi82CaLWP46ifWGb6yUuS6Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=owPRJ8NF3nHj+plPrk07gzFM0TqfRSAX/C21sBfQaEsGWKPfAmgq01nAg0+YWc/rZ
-         jTHUKzHktSI8QizOIRUM0SI/0g42/d0kjkZm82PbkIVaRJhTEJdR3rCWMKUpJd6egv
-         Mfkx5JZhGZG+rlzToHPJsE/j+hv1FgEFb44vtdtE=
-Date:   Wed, 19 May 2021 07:06:11 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        devicetree@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-usb@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
-        linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Al Cooper <alcooperx@gmail.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v10 2/5] USB: misc: Add onboard_usb_hub driver
-Message-ID: <YKScw3zcnTV5AAA1@kroah.com>
-References: <20210511225223.550762-1-mka@chromium.org>
- <20210511155152.v10.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
- <YKPz7a68duMyXU5x@google.com>
- <20210518194511.GA1137841@rowland.harvard.edu>
- <YKQ0XxhIWaN37HMr@google.com>
+        id S236873AbhESGfo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 May 2021 02:35:44 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:40315 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230037AbhESGfn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 May 2021 02:35:43 -0400
+X-UUID: d60d9dafcd834beca26c1d9cec5b42b1-20210519
+X-UUID: d60d9dafcd834beca26c1d9cec5b42b1-20210519
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 237062565; Wed, 19 May 2021 14:34:21 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 19 May 2021 14:34:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 19 May 2021 14:34:18 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <treding@nvidia.com>
+CC:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Lee Jones <lee.jones@linaro.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH 2/3] usb: common: usb-conn-gpio: use dev_err_probe() to print log
+Date:   Wed, 19 May 2021 14:34:14 +0800
+Message-ID: <1621406055-18749-2-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1621406055-18749-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1621406055-18749-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YKQ0XxhIWaN37HMr@google.com>
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 834019DAF55A3585D8007107D5C15830EA56476F357C7886A1BAC557F4CD4F1F2000:8
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 18, 2021 at 02:40:47PM -0700, Matthias Kaehlcke wrote:
-> On Tue, May 18, 2021 at 03:45:11PM -0400, Alan Stern wrote:
-> > On Tue, May 18, 2021 at 10:05:49AM -0700, Matthias Kaehlcke wrote:
-> > > Hi Alan,
-> > > 
-> > > You seemed to have a generally favorable view of this driver,
-> > > but I haven't heard from you in a while :)
-> > > 
-> > > On v4 expressed a series of suggestions and concerns, which
-> > > should be addressed in this version:
-> > > 
-> > > https://lore.kernel.org/patchwork/patch/1313000/
-> > > https://lore.kernel.org/patchwork/patch/1313001/
-> > > 
-> > > Rob acked the DT binding and the of_platform change. Please let me
-> > > know if the USB part needs any further changes or if you think this
-> > > series is ready to land.
-> > 
-> > Those were long and complicated threads, and a lot of the material has
-> > gone out of my brain since last October.  :-(
-> > 
-> > Still, at the time when this was first posted I don't remember there
-> > being any big outstanding issues regarding the USB part of the
-> > implementation.  It seemed to be pretty much all in order.
-> > 
-> > You can add:
-> > 
-> > Acked-by: Alan Stern <stern@rowland.harvard.edu>
-> > 
-> > to this patch.  Greg KH may have some thoughts of his own...
-> 
-> Thanks!
-> 
-> Could you also have a look at "[4/5] usb: host: xhci-plat:
-> Create platform device for onboard hubs in probe()"
-> (https://lore.kernel.org/patchwork/patch/1425453/)? It's a
-> relatively short patch that creates the platform device for
-> the driver from xhci-plat as you suggested in the v4
-> discussion.
-> 
-> Greg, are there any more concerns from your side?
+Use dev_err_probe() to print debug or error message depending on
+whether the error value is -DPROBE_DEFER or not.
 
-Yes, I think there are, but like Alan said, it's been a long time since
-I've looked at this.  I'll review it soon when I get a chance...
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+ drivers/usb/common/usb-conn-gpio.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
-greg k-h
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index c9545a4eff66..dfbbc4f51ed6 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -223,18 +223,14 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	if (IS_ERR(info->vbus)) {
+-		if (PTR_ERR(info->vbus) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get vbus: %ld\n", PTR_ERR(info->vbus));
+-		return PTR_ERR(info->vbus);
++		ret = PTR_ERR(info->vbus);
++		return dev_err_probe(dev, ret, "failed to get vbus :%d\n", ret);
+ 	}
+ 
+ 	info->role_sw = usb_role_switch_get(dev);
+-	if (IS_ERR(info->role_sw)) {
+-		if (PTR_ERR(info->role_sw) != -EPROBE_DEFER)
+-			dev_err(dev, "failed to get role switch\n");
+-
+-		return PTR_ERR(info->role_sw);
+-	}
++	if (IS_ERR(info->role_sw))
++		return dev_err_probe(dev, PTR_ERR(info->role_sw),
++				     "failed to get role switch\n");
+ 
+ 	ret = usb_conn_psy_register(info);
+ 	if (ret)
+-- 
+2.18.0
+
