@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62152C43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C7E7C43616
 	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 07:49:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37FE66135C
+	by mail.kernel.org (Postfix) with ESMTP id 6FF736135C
 	for <linux-usb@archiver.kernel.org>; Wed, 19 May 2021 07:49:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242377AbhESHuv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 May 2021 03:50:51 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:26610 "EHLO m43-7.mailgun.net"
+        id S242433AbhESHux (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 May 2021 03:50:53 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:15761 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241622AbhESHuu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S240732AbhESHuu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 19 May 2021 03:50:50 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1621410570; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1621410571; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=nZjdf/YIZuObh/zYQVUmteSyPqAUYoSWQnYeQyM+fME=; b=u+UmGU08l4dV2xl/VxvY0QVy0eRwcFIp7bhbP8y1k405zEfdh83Ix8xVl5wzq2xtupxW751Y
- LvYCUcbxNpIMrv+FihslXBsIuUdEOshvt/Lzxp0OxQnVy80aXlz5ApRKd0ek/8R3gy5pQ0K/
- EWrKs5ThYzQKo4dqD6KKF1d82xE=
+ bh=2LHgsP9c4Sin2+nziX6odnlML8co8g8QWj7JMVhPh6c=; b=i3krEQx9AXOVFquSPDUcvNIHC4FqVgv6X5js+haX2TPpjL8JR+4uKKwp3TA8Khvlf6yBY+dI
+ O8idFQFb1pRgoMqCwV7dXsSX4mqvfj+Ng1ZzD7AoqSrZnVmCNAgitYEpx5I6wwBrv5tZHmxj
+ CIUJExU0qgmJpJ/3qO7pmfTFCgA=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60a4c30a67d156359a9b29b4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 19 May 2021 07:49:30
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 60a4c308b15734c8f98a181e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 19 May 2021 07:49:28
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8D577C43144; Wed, 19 May 2021 07:49:30 +0000 (UTC)
+        id ADA7EC43144; Wed, 19 May 2021 07:49:27 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 25190C43217;
-        Wed, 19 May 2021 07:49:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 25190C43217
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 92AA0C4360C;
+        Wed, 19 May 2021 07:49:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 92AA0C4360C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -52,9 +52,9 @@ Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         jackp@codeaurora.org, Thinh.Nguyen@synopsys.com,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v9 5/5] dt-bindings: usb: dwc3: Update dwc3 TX fifo properties
-Date:   Wed, 19 May 2021 00:49:21 -0700
-Message-Id: <1621410561-32762-6-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v9 2/5] usb: gadget: configfs: Check USB configuration before adding
+Date:   Wed, 19 May 2021 00:49:18 -0700
+Message-Id: <1621410561-32762-3-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1621410561-32762-1-git-send-email-wcheng@codeaurora.org>
 References: <1621410561-32762-1-git-send-email-wcheng@codeaurora.org>
@@ -62,45 +62,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Update the tx-fifo-resize property with a better description, while
-adding the tx-fifo-max-num, which is a new parameter allowing
-adjustments for the maximum number of packets the txfifo resizing logic
-can account for while resizing the endpoints.
+Ensure that the USB gadget is able to support the configuration being
+added based on the number of endpoints required from all interfaces.  This
+is for accounting for any bandwidth or space limitations.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/configfs.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 41416fb..078fb78 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -289,10 +289,21 @@ properties:
-     maximum: 16
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 15a607c..76b9983 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1374,6 +1374,7 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 		struct usb_function *f;
+ 		struct usb_function *tmp;
+ 		struct gadget_config_name *cn;
++		unsigned long ep_map = 0;
  
-   tx-fifo-resize:
--    description: Determines if the FIFO *has* to be reallocated
--    deprecated: true
-+    description: Determines if the TX fifos can be dynamically resized depending
-+      on the number of IN endpoints used and if bursting is supported.  This
-+      may help improve bandwidth on platforms with higher system latencies, as
-+      increased fifo space allows for the controller to prefetch data into its
-+      internal memory.
-     type: boolean
- 
-+  tx-fifo-max-num:
-+    description: Specifies the max number of packets the txfifo resizing logic
-+      can account for when higher endpoint bursting is used. (bMaxBurst > 6) The
-+      higher the number, the more fifo space the txfifo resizing logic will
-+      allocate for that endpoint.
-+    $ref: /schemas/types.yaml#/definitions/uint8
-+    minimum: 3
+ 		if (gadget_is_otg(gadget))
+ 			c->descriptors = otg_desc;
+@@ -1403,7 +1404,28 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 				list_add(&f->list, &cfg->func_list);
+ 				goto err_purge_funcs;
+ 			}
++			if (f->fs_descriptors) {
++				struct usb_descriptor_header **d;
 +
-   snps,incr-burst-type-adjustment:
-     description:
-       Value for INCR burst type of GSBUSCFG0 register, undefined length INCR
++				d = f->fs_descriptors;
++				for (; *d; ++d) {
++					struct usb_endpoint_descriptor *ep;
++					int addr;
++
++					if ((*d)->bDescriptorType != USB_DT_ENDPOINT)
++						continue;
++
++					ep = (struct usb_endpoint_descriptor *)*d;
++					addr = ((ep->bEndpointAddress & 0x80) >> 3) |
++						(ep->bEndpointAddress & 0x0f);
++					set_bit(addr, &ep_map);
++				}
++			}
+ 		}
++		ret = usb_gadget_check_config(cdev->gadget, ep_map);
++		if (ret)
++			goto err_purge_funcs;
++
+ 		usb_ep_autoconfig_reset(cdev->gadget);
+ 	}
+ 	if (cdev->use_os_string) {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
