@@ -2,114 +2,163 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 618E9C433ED
-	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC43C433ED
+	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C04F60240
-	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:42:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C239F611AD
+	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:46:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241548AbhETNng (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 May 2021 09:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240002AbhETNnI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 May 2021 09:43:08 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1130BC06138E
-        for <linux-usb@vger.kernel.org>; Thu, 20 May 2021 06:41:26 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso5287179pjb.5
-        for <linux-usb@vger.kernel.org>; Thu, 20 May 2021 06:41:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lCDY3zqYN0TPm8XTDIr+feSz7CGQpYBusVmFxZWqbvU=;
-        b=aYWpmcG5UzZYC+GcETZKyG/HHk9fPzAE6LU8/INOkQM5UZ1Yhm8j3OhGzZW0NjogHI
-         q6fDF14+qqS3G+/gwiAo1S32FwPnRb/jZ5dOYjR720kR4CywTZk3la+dZv9d+wZcsSTN
-         OBVzV8pjjA1u/jk4Ut+OypKVCJjV7ozSUeMhM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lCDY3zqYN0TPm8XTDIr+feSz7CGQpYBusVmFxZWqbvU=;
-        b=XOyvDCO7WOyHSCsoHfFNEdEh6m+JdNrxRe/tFth9hbdztVScSwpcxWPMfJISDhFbTm
-         KDC2kdgJa/qco8UTPD6Ot22hNDQ/pUw38wIvIGef8Czrw2/THZvP42d8t1BajXeMviL0
-         4Nmqs1b/x8ARhyk1eTN+/4TvIBxUN41incIXWX9yVoUFTu0ts74iRHJd0tGKre0cAO8c
-         ErObcdbsWa1HASJ7LmpzDP+RbjDxLJMmn49Nd5mXnqILtFUOAYlBgG+KbRabr8O77Irb
-         l7tWMkeKs05HccqixDZRm34ArPTFZ3cX1PLMY3oC+I3C9axokY3BJptyeJ4YPMgTD+XA
-         8Fxw==
-X-Gm-Message-State: AOAM530s9dxlgCA1hBmJjH4lmbllgVz0iOwExjap5CZVodSQgD2vupqJ
-        mkUXBlPqRbO9i5mlwjTsOh/3nQ==
-X-Google-Smtp-Source: ABdhPJxIYFp3eVKeAwRaBfZhep5/uA8j/WMPoEzhG5E+LYHkc9EzY3M3ZpacSfZlKO4VgWPceDGyhg==
-X-Received: by 2002:a17:903:189:b029:f1:d67a:5168 with SMTP id z9-20020a1709030189b02900f1d67a5168mr5966517plg.82.1621518085625;
-        Thu, 20 May 2021 06:41:25 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:3d5d:d560:9fb4:d9d1])
-        by smtp.gmail.com with UTF8SMTPSA id k21sm2111284pgb.56.2021.05.20.06.41.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 May 2021 06:41:25 -0700 (PDT)
-Date:   Thu, 20 May 2021 06:41:23 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        devicetree@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-usb@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
-        linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Al Cooper <alcooperx@gmail.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH v10 2/5] USB: misc: Add onboard_usb_hub driver
-Message-ID: <YKZnA2bifn346bPa@google.com>
-References: <20210511225223.550762-1-mka@chromium.org>
- <20210511155152.v10.2.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
- <YKPz7a68duMyXU5x@google.com>
- <20210518194511.GA1137841@rowland.harvard.edu>
- <YKQ0XxhIWaN37HMr@google.com>
- <20210519144356.GB1165692@rowland.harvard.edu>
- <YKWaJdrpj1ixx9+v@google.com>
- <20210520020521.GB1186755@rowland.harvard.edu>
+        id S231733AbhETNsD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 May 2021 09:48:03 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:3448 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237283AbhETNsB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 May 2021 09:48:01 -0400
+Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Fm9tn542KzBttQ;
+        Thu, 20 May 2021 21:43:45 +0800 (CST)
+Received: from dggema769-chm.china.huawei.com (10.1.198.211) by
+ dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Thu, 20 May 2021 21:46:33 +0800
+Received: from localhost (10.174.179.215) by dggema769-chm.china.huawei.com
+ (10.1.198.211) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 20
+ May 2021 21:46:32 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <oliver@neukum.org>, <davem@davemloft.net>, <kuba@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH net-next] net: cdc_ncm: use DEVICE_ATTR_RW macro
+Date:   Thu, 20 May 2021 21:46:19 +0800
+Message-ID: <20210520134619.36356-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210520020521.GB1186755@rowland.harvard.edu>
+Content-Type: text/plain
+X-Originating-IP: [10.174.179.215]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggema769-chm.china.huawei.com (10.1.198.211)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 19, 2021 at 10:05:21PM -0400, Alan Stern wrote:
-> On Wed, May 19, 2021 at 04:07:17PM -0700, Matthias Kaehlcke wrote:
-> > On Wed, May 19, 2021 at 10:43:56AM -0400, Alan Stern wrote:
-> > > On Tue, May 18, 2021 at 02:40:47PM -0700, Matthias Kaehlcke wrote:
-> > > > 
-> > > > Could you also have a look at "[4/5] usb: host: xhci-plat:
-> > > > Create platform device for onboard hubs in probe()"
-> > > > (https://lore.kernel.org/patchwork/patch/1425453/)? It's a
-> > > > relatively short patch that creates the platform device for
-> > > > the driver from xhci-plat as you suggested in the v4
-> > > > discussion.
-> > > 
-> > > I'm not the maintainer for xhci-related drivers.
-> > > 
-> > > However, there is at least one thing about this patch which looks 
-> > > suspicious: Adding the onboard_hub_dev pointer to struct usb_hcd instead 
-> > > of to struct xhci_plat_priv, where it would make a lot more sense.
-> > 
-> > I can move it to struct usb_hcd if that's preferred
-> 
-> Thinko: The patch already has it in struct usb_hcd.  I suggested moving 
-> it to struct xhci_plat_priv.
+Use DEVICE_ATTR_RW helper instead of plain DEVICE_ATTR,
+which makes the code a bit shorter and easier to read.
 
-Ah, didn't actively recall to which struct I added it to, it has been a
-while since I wrote that patch ;-) Agreed that struct xhci_plat_priv is
-a better place.
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/net/usb/cdc_ncm.c | 36 ++++++++++++++++++++++++------------
+ 1 file changed, 24 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index b04055fd1b79..783d6139fdfa 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -192,7 +192,8 @@ static u32 cdc_ncm_check_tx_max(struct usbnet *dev, u32 new_tx)
+ 	return val;
+ }
+ 
+-static ssize_t cdc_ncm_show_min_tx_pkt(struct device *d, struct device_attribute *attr, char *buf)
++static ssize_t min_tx_pkt_show(struct device *d,
++			       struct device_attribute *attr, char *buf)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -200,7 +201,8 @@ static ssize_t cdc_ncm_show_min_tx_pkt(struct device *d, struct device_attribute
+ 	return sprintf(buf, "%u\n", ctx->min_tx_pkt);
+ }
+ 
+-static ssize_t cdc_ncm_show_rx_max(struct device *d, struct device_attribute *attr, char *buf)
++static ssize_t rx_max_show(struct device *d,
++			   struct device_attribute *attr, char *buf)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -208,7 +210,8 @@ static ssize_t cdc_ncm_show_rx_max(struct device *d, struct device_attribute *at
+ 	return sprintf(buf, "%u\n", ctx->rx_max);
+ }
+ 
+-static ssize_t cdc_ncm_show_tx_max(struct device *d, struct device_attribute *attr, char *buf)
++static ssize_t tx_max_show(struct device *d,
++			   struct device_attribute *attr, char *buf)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -216,7 +219,8 @@ static ssize_t cdc_ncm_show_tx_max(struct device *d, struct device_attribute *at
+ 	return sprintf(buf, "%u\n", ctx->tx_max);
+ }
+ 
+-static ssize_t cdc_ncm_show_tx_timer_usecs(struct device *d, struct device_attribute *attr, char *buf)
++static ssize_t tx_timer_usecs_show(struct device *d,
++				   struct device_attribute *attr, char *buf)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -224,7 +228,9 @@ static ssize_t cdc_ncm_show_tx_timer_usecs(struct device *d, struct device_attri
+ 	return sprintf(buf, "%u\n", ctx->timer_interval / (u32)NSEC_PER_USEC);
+ }
+ 
+-static ssize_t cdc_ncm_store_min_tx_pkt(struct device *d,  struct device_attribute *attr, const char *buf, size_t len)
++static ssize_t min_tx_pkt_store(struct device *d,
++				struct device_attribute *attr,
++				const char *buf, size_t len)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -238,7 +244,9 @@ static ssize_t cdc_ncm_store_min_tx_pkt(struct device *d,  struct device_attribu
+ 	return len;
+ }
+ 
+-static ssize_t cdc_ncm_store_rx_max(struct device *d,  struct device_attribute *attr, const char *buf, size_t len)
++static ssize_t rx_max_store(struct device *d,
++			    struct device_attribute *attr,
++			    const char *buf, size_t len)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -251,7 +259,9 @@ static ssize_t cdc_ncm_store_rx_max(struct device *d,  struct device_attribute *
+ 	return len;
+ }
+ 
+-static ssize_t cdc_ncm_store_tx_max(struct device *d,  struct device_attribute *attr, const char *buf, size_t len)
++static ssize_t tx_max_store(struct device *d,
++			    struct device_attribute *attr,
++			    const char *buf, size_t len)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -264,7 +274,9 @@ static ssize_t cdc_ncm_store_tx_max(struct device *d,  struct device_attribute *
+ 	return len;
+ }
+ 
+-static ssize_t cdc_ncm_store_tx_timer_usecs(struct device *d,  struct device_attribute *attr, const char *buf, size_t len)
++static ssize_t tx_timer_usecs_store(struct device *d,
++				    struct device_attribute *attr,
++				    const char *buf, size_t len)
+ {
+ 	struct usbnet *dev = netdev_priv(to_net_dev(d));
+ 	struct cdc_ncm_ctx *ctx = (struct cdc_ncm_ctx *)dev->data[0];
+@@ -285,10 +297,10 @@ static ssize_t cdc_ncm_store_tx_timer_usecs(struct device *d,  struct device_att
+ 	return len;
+ }
+ 
+-static DEVICE_ATTR(min_tx_pkt, 0644, cdc_ncm_show_min_tx_pkt, cdc_ncm_store_min_tx_pkt);
+-static DEVICE_ATTR(rx_max, 0644, cdc_ncm_show_rx_max, cdc_ncm_store_rx_max);
+-static DEVICE_ATTR(tx_max, 0644, cdc_ncm_show_tx_max, cdc_ncm_store_tx_max);
+-static DEVICE_ATTR(tx_timer_usecs, 0644, cdc_ncm_show_tx_timer_usecs, cdc_ncm_store_tx_timer_usecs);
++static DEVICE_ATTR_RW(min_tx_pkt);
++static DEVICE_ATTR_RW(rx_max);
++static DEVICE_ATTR_RW(tx_max);
++static DEVICE_ATTR_RW(tx_timer_usecs);
+ 
+ static ssize_t ndp_to_end_show(struct device *d, struct device_attribute *attr, char *buf)
+ {
+-- 
+2.17.1
+
