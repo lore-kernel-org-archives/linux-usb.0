@@ -2,91 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26144C43462
-	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 360B4C433B4
+	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:40:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0B14560BD3
-	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:33:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0881F611AB
+	for <linux-usb@archiver.kernel.org>; Thu, 20 May 2021 13:40:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239591AbhETNen (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 May 2021 09:34:43 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:4561 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239925AbhETNeT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 May 2021 09:34:19 -0400
-Received: from dggems704-chm.china.huawei.com (unknown [172.30.72.59])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Fm9b62GRQzqThy;
-        Thu, 20 May 2021 21:30:10 +0800 (CST)
-Received: from dggeml759-chm.china.huawei.com (10.1.199.138) by
- dggems704-chm.china.huawei.com (10.3.19.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 20 May 2021 21:32:57 +0800
-Received: from localhost.localdomain (10.175.102.38) by
- dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Thu, 20 May 2021 21:32:56 +0800
-From:   Wei Yongjun <weiyongjun1@huawei.com>
-To:     <weiyongjun1@huawei.com>, Loic Poulain <loic.poulain@linaro.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-CC:     <linux-usb@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH -next] usb: cdc-wdm: fix build error when CONFIG_WWAN_CORE is not set
-Date:   Thu, 20 May 2021 13:42:10 +0000
-Message-ID: <20210520134210.1667580-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S234545AbhETNlo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 May 2021 09:41:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52798 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232329AbhETNln (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 20 May 2021 09:41:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B40F610A2;
+        Thu, 20 May 2021 13:40:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621518022;
+        bh=xmqOMVxzef+0xjadTTR7mxQKx/1uIEM1zXpOv5MSvxI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NuGwzEFkniCG4IVNoyBNhra2sUWKbpvAooZQfBCtusrY6FLDzEfQVpxn+v4AmcYRC
+         Q9e3QtCr3D7Bd6RzguV9yCHIr8iqhUIqZezItM577NJaCiY22XBBGdJ1Hci+9SSgLw
+         djcj1URDgOelZs8JTn8abEASUmaXG4FlaNMvKsHpbIjUtnb8A3DnGwEY2crSkSrdx/
+         U7VnG1G+JSEua5Y6+YoxORuwZfQYMDYV6nYT74/dU1xz0pJxdHXFJ/RcAgxCIzlSky
+         exNg/Ss/cR7XznnF7Zd6lFETo2yc6m8Sc+v8LgbuxdJvEjm1l0eSsUHsg50hZ6VK1k
+         2REdnQdhF2AFQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1ljiuU-00038U-2B; Thu, 20 May 2021 15:40:22 +0200
+Date:   Thu, 20 May 2021 15:40:22 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v3 0/3] IR driver for USB-UIRT device
+Message-ID: <YKZmxkmRXYRnTL/o@hovoldconsulting.com>
+References: <cover.1620304986.git.sean@mess.org>
+ <YJjrkhfN9Sgq6UX8@hovoldconsulting.com>
+ <20210511103219.GA13769@gofer.mess.org>
+ <YJ5cH1Z5MdZHE8HU@hovoldconsulting.com>
+ <20210515092226.GA31801@gofer.mess.org>
+ <YKI3vyOE8XmpNAuC@hovoldconsulting.com>
+ <20210517103522.GA4644@gofer.mess.org>
+ <20210517123509.GA6597@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-X-Originating-IP: [10.175.102.38]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeml759-chm.china.huawei.com (10.1.199.138)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210517123509.GA6597@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix build error when CONFIG_WWAN_CORE is not set:
+On Mon, May 17, 2021 at 01:35:09PM +0100, Sean Young wrote:
+> On Mon, May 17, 2021 at 11:35:22AM +0100, Sean Young wrote:
+> > On Mon, May 17, 2021 at 11:30:39AM +0200, Johan Hovold wrote:
 
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_disconnect':
-cdc-wdm.c:(.text+0xb2a): undefined reference to `wwan_remove_port'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_in_callback':
-cdc-wdm.c:(.text+0xf23): undefined reference to `wwan_port_rx'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_wwan_port_stop':
-cdc-wdm.c:(.text+0x127d): undefined reference to `wwan_port_get_drvdata'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_wwan_port_tx':
-cdc-wdm.c:(.text+0x12d9): undefined reference to `wwan_port_get_drvdata'
-x86_64-linux-gnu-ld: cdc-wdm.c:(.text+0x13c1): undefined reference to `wwan_port_txoff'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_wwan_port_start':
-cdc-wdm.c:(.text+0x13e0): undefined reference to `wwan_port_get_drvdata'
-x86_64-linux-gnu-ld: cdc-wdm.c:(.text+0x1431): undefined reference to `wwan_port_txon'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_wwan_port_tx_complete':
-cdc-wdm.c:(.text+0x14a4): undefined reference to `wwan_port_txon'
-x86_64-linux-gnu-ld: drivers/usb/class/cdc-wdm.o: in function `wdm_create.cold':
-cdc-wdm.c:(.text.unlikely+0x209): undefined reference to `wwan_create_port'
+> > > Ok, but apart from BPF that sound like other stuff and not the three
+> > > items you list above? Is there anything preventing those items from
+> > > being implemented in user space?
+> > 
+> > Well, after IR is decoded, you want to send decoded scancodes/key codes
+> > to any input device, so your remote works just like any input device.
+> 
+> There is another advantage. IR decoding in userspace involves a lot more
+> context switches/scheduling, and it can feel laggy when the cpu is under
+> load (e.g. video decoding on the CPU). When you press pause/play/stop or
+> so you expect the response the instantatiously. A 100ms delay is noticable.
 
-Fixes: cac6fb015f71 ("usb: class: cdc-wdm: WWAN framework integration")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/usb/class/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+RT scheduling? Sounds like you should be able to handle this way faster
+than 100 ms.
 
-diff --git a/drivers/usb/class/Kconfig b/drivers/usb/class/Kconfig
-index d3f5162bd67e..7e502c046031 100644
---- a/drivers/usb/class/Kconfig
-+++ b/drivers/usb/class/Kconfig
-@@ -30,6 +30,7 @@ config USB_PRINTER
- 
- config USB_WDM
- 	tristate "USB Wireless Device Management support"
-+	depends on WWAN_CORE
- 	help
- 	  This driver supports the WMC Device Management functionality
- 	  of cell phones compliant to the CDC WMC specification. You can use
+> Alternatively the key-up events get delayed and you end up with multiple
+> un-intended button repeats. None of this happens with kernel decoding and
+> it feels very snappy.
 
+Yeah, perhaps it's best handled in-kernel, but it seems we should be
+able to handle a simple key press within 20 ms or whatever the critical
+latency is here using either option (kernel or user-space driver).
+
+Johan
