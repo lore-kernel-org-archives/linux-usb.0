@@ -7,44 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EF5C433ED
-	for <linux-usb@archiver.kernel.org>; Fri, 21 May 2021 13:29:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1E67C43460
+	for <linux-usb@archiver.kernel.org>; Fri, 21 May 2021 13:30:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89E3461164
-	for <linux-usb@archiver.kernel.org>; Fri, 21 May 2021 13:29:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0334613DD
+	for <linux-usb@archiver.kernel.org>; Fri, 21 May 2021 13:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235644AbhEUNay (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 May 2021 09:30:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47044 "EHLO mail.kernel.org"
+        id S235340AbhEUNbw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 May 2021 09:31:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47658 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235383AbhEUNat (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 21 May 2021 09:30:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4204F610CB;
-        Fri, 21 May 2021 13:29:26 +0000 (UTC)
+        id S232172AbhEUNbw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 21 May 2021 09:31:52 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 061EF610CB;
+        Fri, 21 May 2021 13:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621603766;
-        bh=nZdXgVKs9PVCx2Vd8YxywHtcjM8I5V3b8sTE2T5rp+c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mrnbynxNKsLWtaywCHBqnEcZ2mYIFdCCz9B1HOxGAL5ccPv8HE7sKhW+zZ5i9WyyN
-         99kqmJpGxFL+Y83jdsYu9NXznJ16eBNH3w1v12Gku1ftW33EQ9S3BRyQ3jZtLVyiJz
-         czqwdlJqjmlYBgSS4k7o1rsHiL+QfUlmEI0a2Q5Ph/s9nXqELrIBgSXFWuniVIZIMr
-         v9YX6uhfJgomjQ1o5PdvAjww4Sk2TXK/ik09MDDii4/3/ujz7gFb8WZx3hMjWKgx/Y
-         XklYRykiqjVPuZHX0HCbzIB5VPJ3gZweexTEonTgW5ABkD9ZYk4P5XfLuiorm573pF
-         PzTWPUiVN5ocQ==
+        s=k20201202; t=1621603829;
+        bh=DgSfnqgX8iAJF8CgJVRj6UxP6HXcUcoeisNmrM46YX8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=g7OtleNjz6iGFBsYuSb4zRjfyQz9uUglSD21ywr0RyMPosjj6n5UlIP54yur6orbo
+         E2lzAOQzz43sex9CLMHDPZnu6Ar9+Jwm6tpNYQInhIxDJyzN34XxSnSIEcNXPE/M2J
+         Atf7YvlkvzPkbvwtlhXNndUeKLlYR+rchs7mb8yN/NnpcyRDTCkJAZ2Fq5+H7Va1M2
+         CpOukwWo3RGWl40nh5f5cLaFLB3vvGeyhrODLrG/UwUtdxwml/JBCEq6UTRbQzWDu5
+         /1CZPykn3tdxUF2qg5j0glxpdr4nVHZE/lQR5K5HwNDBRAvB1sc1gD399MdwmMf0rX
+         x6/X3jI4Dykdw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1lk5DT-0004Tq-Ak; Fri, 21 May 2021 15:29:27 +0200
+        id 1lk5EU-0004Vh-44; Fri, 21 May 2021 15:30:30 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 1/2] media: dtv5100: fix control-request directions
-Date:   Fri, 21 May 2021 15:28:38 +0200
-Message-Id: <20210521132839.17163-2-johan@kernel.org>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     linux-mmc@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable@vger.kernel.org
+Subject: [PATCH] mmc: vub3000: fix control-request direction
+Date:   Fri, 21 May 2021 15:30:26 +0200
+Message-Id: <20210521133026.17296-1-johan@kernel.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210521132839.17163-1-johan@kernel.org>
-References: <20210521132839.17163-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -55,61 +53,29 @@ The direction of the pipe argument must match the request-type direction
 bit or control requests may fail depending on the host-controller-driver
 implementation.
 
-Fix the control requests which erroneously used usb_rcvctrlpipe().
+Fix the SET_ROM_WAIT_STATES request which erroneously used
+usb_rcvctrlpipe().
 
-Fixes: 8466028be792 ("V4L/DVB (8734): Initial support for AME DTV-5100 USB2.0 DVB-T")
-Cc: stable@vger.kernel.org      # 2.6.28
+Fixes: 88095e7b473a ("mmc: Add new VUB300 USB-to-SD/SDIO/MMC driver")
+Cc: stable@vger.kernel.org      # 3.0
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/usb/dvb-usb/dtv5100.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/mmc/host/vub300.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb/dtv5100.c b/drivers/media/usb/dvb-usb/dtv5100.c
-index fba06932a9e0..1c13e493322c 100644
---- a/drivers/media/usb/dvb-usb/dtv5100.c
-+++ b/drivers/media/usb/dvb-usb/dtv5100.c
-@@ -26,6 +26,7 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
- 			   u8 *wbuf, u16 wlen, u8 *rbuf, u16 rlen)
- {
- 	struct dtv5100_state *st = d->priv;
-+	unsigned int pipe;
- 	u8 request;
- 	u8 type;
- 	u16 value;
-@@ -34,6 +35,7 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
- 	switch (wlen) {
- 	case 1:
- 		/* write { reg }, read { value } */
-+		pipe = usb_rcvctrlpipe(d->udev, 0);
- 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_READ :
- 							DTV5100_TUNER_READ);
- 		type = USB_TYPE_VENDOR | USB_DIR_IN;
-@@ -41,6 +43,7 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
- 		break;
- 	case 2:
- 		/* write { reg, value } */
-+		pipe = usb_sndctrlpipe(d->udev, 0);
- 		request = (addr == DTV5100_DEMOD_ADDR ? DTV5100_DEMOD_WRITE :
- 							DTV5100_TUNER_WRITE);
- 		type = USB_TYPE_VENDOR | USB_DIR_OUT;
-@@ -54,7 +57,7 @@ static int dtv5100_i2c_msg(struct dvb_usb_device *d, u8 addr,
- 
- 	memcpy(st->data, rbuf, rlen);
- 	msleep(1); /* avoid I2C errors */
--	return usb_control_msg(d->udev, usb_rcvctrlpipe(d->udev, 0), request,
-+	return usb_control_msg(d->udev, pipe, request,
- 			       type, value, index, st->data, rlen,
- 			       DTV5100_USB_TIMEOUT);
- }
-@@ -141,7 +144,7 @@ static int dtv5100_probe(struct usb_interface *intf,
- 
- 	/* initialize non qt1010/zl10353 part? */
- 	for (i = 0; dtv5100_init[i].request; i++) {
--		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
-+		ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 				      dtv5100_init[i].request,
- 				      USB_TYPE_VENDOR | USB_DIR_OUT,
- 				      dtv5100_init[i].value,
+diff --git a/drivers/mmc/host/vub300.c b/drivers/mmc/host/vub300.c
+index 739cf63ef6e2..4950d10d3a19 100644
+--- a/drivers/mmc/host/vub300.c
++++ b/drivers/mmc/host/vub300.c
+@@ -2279,7 +2279,7 @@ static int vub300_probe(struct usb_interface *interface,
+ 	if (retval < 0)
+ 		goto error5;
+ 	retval =
+-		usb_control_msg(vub300->udev, usb_rcvctrlpipe(vub300->udev, 0),
++		usb_control_msg(vub300->udev, usb_sndctrlpipe(vub300->udev, 0),
+ 				SET_ROM_WAIT_STATES,
+ 				USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+ 				firmware_rom_wait_states, 0x0000, NULL, 0, HZ);
 -- 
 2.26.3
 
