@@ -2,83 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D067C04FF3
-	for <linux-usb@archiver.kernel.org>; Mon, 24 May 2021 13:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB80C04FF3
+	for <linux-usb@archiver.kernel.org>; Mon, 24 May 2021 13:30:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 55801610C8
-	for <linux-usb@archiver.kernel.org>; Mon, 24 May 2021 13:26:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 650AA61376
+	for <linux-usb@archiver.kernel.org>; Mon, 24 May 2021 13:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232869AbhEXN1m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 May 2021 09:27:42 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:3983 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232456AbhEXN1k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 May 2021 09:27:40 -0400
-Received: from dggems701-chm.china.huawei.com (unknown [172.30.72.58])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FpdFz37lFzmZ3L;
-        Mon, 24 May 2021 21:23:51 +0800 (CST)
-Received: from dggeml759-chm.china.huawei.com (10.1.199.138) by
- dggems701-chm.china.huawei.com (10.3.19.178) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Mon, 24 May 2021 21:26:10 +0800
-Received: from localhost.localdomain (10.175.102.38) by
- dggeml759-chm.china.huawei.com (10.1.199.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Mon, 24 May 2021 21:26:10 +0800
-From:   Wei Yongjun <weiyongjun1@huawei.com>
-To:     <weiyongjun1@huawei.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
-        Hulk Robot <hulkci@huawei.com>
-Subject: [PATCH -next] usb: typec: tcpci: Make symbol 'tcpci_apply_rc' static
-Date:   Mon, 24 May 2021 13:37:04 +0000
-Message-ID: <20210524133704.2432555-1-weiyongjun1@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        id S232869AbhEXNbh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 May 2021 09:31:37 -0400
+Received: from mga05.intel.com ([192.55.52.43]:31667 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233009AbhEXNbd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 24 May 2021 09:31:33 -0400
+IronPort-SDR: EI1yhbau+CVku4vscMZuAhdtTAi4znCQEo2vZTPamtCCbUIPHx7S6h7PPQmAWlGQ7O9foeK129
+ bjXis179Ixpw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9993"; a="287501521"
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="287501521"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 06:29:37 -0700
+IronPort-SDR: V14XzI/08TylZL9go/8CMKU++vgfMI9NSXNjQgVZQ4hTnkrYBJmUa0hnoIXetlW+aBL5PXvrfz
+ Af/2q2h7Op/w==
+X-IronPort-AV: E=Sophos;i="5.82,325,1613462400"; 
+   d="scan'208";a="470572708"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2021 06:29:35 -0700
+Received: by lahna (sSMTP sendmail emulation); Mon, 24 May 2021 16:29:32 +0300
+Date:   Mon, 24 May 2021 16:29:32 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [GIT PULL] Thunderbolt/USB4 fixes for v5.13-rc4
+Message-ID: <20210524132932.GF291593@lahna.fi.intel.com>
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-X-Originating-IP: [10.175.102.38]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggeml759-chm.china.huawei.com (10.1.199.138)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The sparse tool complains as follows:
+Hi Greg,
 
-drivers/usb/typec/tcpm/tcpci.c:118:5: warning:
- symbol 'tcpci_apply_rc' was not declared. Should it be static?
+The following changes since commit d07f6ca923ea0927a1024dfccafc5b53b61cfecc:
 
-This symbol is not used outside of tcpci.c, so marks it static.
+  Linux 5.13-rc2 (2021-05-16 15:27:44 -0700)
 
-Fixes: 7257fbc7c598 ("usb: typec: tcpci: Implement callback for apply_rc")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
----
- drivers/usb/typec/tcpm/tcpci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index 34b5095cc84f..22862345d1ab 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -115,7 +115,8 @@ static int tcpci_set_cc(struct tcpc_dev *tcpc, enum typec_cc_status cc)
- 	return 0;
- }
- 
--int tcpci_apply_rc(struct tcpc_dev *tcpc, enum typec_cc_status cc, enum typec_cc_polarity polarity)
-+static int tcpci_apply_rc(struct tcpc_dev *tcpc, enum typec_cc_status cc,
-+			  enum typec_cc_polarity polarity)
- {
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
- 	unsigned int reg;
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.13-rc4
 
+for you to fetch changes up to 22c7a18ed5f007faccb7527bc890463763214081:
+
+  thunderbolt: usb4: Fix NVM read buffer bounds and offset issue (2021-05-20 11:52:58 +0300)
+
+----------------------------------------------------------------
+thunderbolt: Fixes for v5.13-rc4
+
+This includes two fixes from Mathias to handle NVM read side properly in
+certain situations.
+
+Both have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Mathias Nyman (2):
+      thunderbolt: dma_port: Fix NVM read buffer bounds and offset issue
+      thunderbolt: usb4: Fix NVM read buffer bounds and offset issue
+
+ drivers/thunderbolt/dma_port.c | 11 ++++++-----
+ drivers/thunderbolt/usb4.c     |  9 +++++----
+ 2 files changed, 11 insertions(+), 9 deletions(-)
