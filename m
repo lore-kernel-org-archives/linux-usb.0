@@ -7,83 +7,82 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDD2C2B9F8
-	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 08:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B43FC2B9F8
+	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 08:59:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42F8F613F7
-	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 08:53:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C6516141C
+	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 08:59:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232253AbhEYIyu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 May 2021 04:54:50 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:40199 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232226AbhEYIyt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 May 2021 04:54:49 -0400
-X-UUID: d129fe9da30d4b9c9e983349599130a7-20210525
-X-UUID: d129fe9da30d4b9c9e983349599130a7-20210525
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        id S232171AbhEYJBF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 May 2021 05:01:05 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:57123 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231184AbhEYJBE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 May 2021 05:01:04 -0400
+X-UUID: c987d6d8341a412d90fa221540e1cdca-20210525
+X-UUID: c987d6d8341a412d90fa221540e1cdca-20210525
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1911523834; Tue, 25 May 2021 16:53:16 +0800
+        with ESMTP id 1550523048; Tue, 25 May 2021 16:59:32 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 25 May 2021 16:53:10 +0800
+ 15.0.1497.2; Tue, 25 May 2021 16:59:30 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 25 May 2021 16:53:09 +0800
+ Transport; Tue, 25 May 2021 16:59:29 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        Felipe Balbi <balbi@kernel.org>
 CC:     Matthias Brugger <matthias.bgg@gmail.com>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Paul Cercueil <paul@crapouillou.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Hans de Goede <hdegoede@redhat.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 2/2] usb: common: usb-conn-gpio: use usb_role_string() to print role status
-Date:   Tue, 25 May 2021 16:53:06 +0800
-Message-ID: <1621932786-9335-2-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 3/3] usb: dwc3: drd: use helper to get role-switch-default-mode
+Date:   Tue, 25 May 2021 16:59:25 +0800
+Message-ID: <1621933165-9661-3-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1621932786-9335-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1621932786-9335-1-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1621933165-9661-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1621933165-9661-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 775A0B1362276C37A09733E3CEDA3FC8205CFB046EBCE31B5DB8EB0AD349CA1F2000:8
+X-TM-SNTS-SMTP: 77F36147C153D36AB4432C09A60A671036FE641E08A865D0AD794EA99D0C66E72000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use usb_role_string() to print role status, make the log readable.
+Use the new helper usb_get_role_switch_default_mode() to
+get property of "role-switch-default-mode"
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/common/usb-conn-gpio.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/dwc3/drd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index 65d89140cd19..7dbe8baed029 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -83,11 +83,11 @@ static void usb_conn_detect_cable(struct work_struct *work)
- 	else
- 		role = USB_ROLE_NONE;
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index e2b68bb770d1..4e0a26683b06 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -541,14 +541,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
+ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ {
+ 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
+-	const char *str;
+ 	u32 mode;
+-	int ret;
  
--	dev_dbg(info->dev, "role %d/%d, gpios: id %d, vbus %d\n",
--		info->last_role, role, id, vbus);
-+	dev_dbg(info->dev, "role %s -> %s, gpios: id %d, vbus %d\n",
-+		usb_role_string(info->last_role), usb_role_string(role), id, vbus);
- 
- 	if (info->last_role == role) {
--		dev_warn(info->dev, "repeated role: %d\n", role);
-+		dev_warn(info->dev, "repeated role: %s\n", usb_role_string(role));
- 		return;
- 	}
- 
+-	ret = device_property_read_string(dwc->dev, "role-switch-default-mode",
+-					  &str);
+-	if (ret >= 0  && !strncmp(str, "host", strlen("host"))) {
+-		dwc->role_switch_default_mode = USB_DR_MODE_HOST;
++	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
++	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
+ 		mode = DWC3_GCTL_PRTCAP_HOST;
+ 	} else {
+ 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
 -- 
 2.18.0
 
