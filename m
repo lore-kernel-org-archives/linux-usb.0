@@ -7,36 +7,37 @@ X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA5FC2B9F8
-	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 17:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC68C2B9F8
+	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 17:16:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAEB2613F4
-	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 17:15:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E90EC613F5
+	for <linux-usb@archiver.kernel.org>; Tue, 25 May 2021 17:16:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233563AbhEYRQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 May 2021 13:16:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54562 "EHLO mail.kernel.org"
+        id S233068AbhEYRSM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 May 2021 13:18:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54862 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232349AbhEYRQl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 May 2021 13:16:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2B204613F4;
-        Tue, 25 May 2021 17:15:11 +0000 (UTC)
+        id S232036AbhEYRSL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 May 2021 13:18:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 527E8613F4;
+        Tue, 25 May 2021 17:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621962911;
-        bh=fbhRNkEVhF5CHi5oKjA3XQZ+UfaKp1lUOc9fyNrrKWM=;
+        s=korg; t=1621963000;
+        bh=KKPptmEfJXTkDtapeg7+LHm8QSHt2wQ7aYxF79ayvSo=;
         h=From:To:Cc:Subject:Date:From;
-        b=L1NJV5NrvOdWccf9JyYDNgsfZdxWOPvefg2E8cZu/2EVp4B2L4wMI59+biVbA+TaR
-         XSEmYAEJY5IRcHUt4qDntfFNki6ggwKal2AhllC4mgPmVYWSf7lxGRDuT8KZcSofrH
-         /kHHVW4xgTuKXqpZlcJOHCErHChyqWwV9vl8JNfA=
+        b=xRyjlyi3Omcu/+RAq4FSMKGaRCoQC8O1qpW+OEvPDub7yZqFImYjyB8mf6oypq/kU
+         H7Oljfko/H78/rwAVe45vJVxuUI5Sr+xZgdNf4whArK1QfsMP+bOGvAR5kYU7JTfg6
+         NtaKxE1QyKnToPPDeHrsagdDi5Ty7a+FACT+yH8M=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kevin Cernekee <cernekee@gmail.com>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        bcm-kernel-feedback-list@broadcom.com
-Subject: [PATCH] USB: gadget: bcm63xx_udc: remove dentry storage for debugfs file
-Date:   Tue, 25 May 2021 19:15:08 +0200
-Message-Id: <20210525171508.758365-1-gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Felipe Balbi <balbi@kernel.org>
+Subject: [PATCH] USB: gadget: pxa27x_udc: remove dentry storage for debugfs file
+Date:   Tue, 25 May 2021 19:16:36 +0200
+Message-Id: <20210525171636.758758-1-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,53 +50,60 @@ only use to remove it when the device goes away.  debugfs can do the
 lookup for us instead, saving us some trouble, and making things smaller
 overall.
 
-Cc: Kevin Cernekee <cernekee@gmail.com>
+Cc: Daniel Mack <daniel@zonque.org>
+Cc: Haojian Zhuang <haojian.zhuang@gmail.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
 Cc: Felipe Balbi <balbi@kernel.org>
-Cc: bcm-kernel-feedback-list@broadcom.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/udc/bcm63xx_udc.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/usb/gadget/udc/pxa27x_udc.c | 4 +---
+ drivers/usb/gadget/udc/pxa27x_udc.h | 4 ----
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index 9cd4a70ccdd6..a9f07c59fc37 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -288,7 +288,6 @@ struct bcm63xx_req {
-  * @ep0_req_completed: ep0 request has completed; worker has not seen it yet.
-  * @ep0_reply: Pending reply from gadget driver.
-  * @ep0_request: Outstanding ep0 request.
-- * @debugfs_root: debugfs directory: /sys/kernel/debug/<DRV_MODULE_NAME>.
-  */
- struct bcm63xx_udc {
- 	spinlock_t			lock;
-@@ -327,8 +326,6 @@ struct bcm63xx_udc {
- 	unsigned			ep0_req_completed:1;
- 	struct usb_request		*ep0_reply;
- 	struct usb_request		*ep0_request;
--
--	struct dentry			*debugfs_root;
- };
- 
- static const struct usb_ep_ops bcm63xx_udc_ep_ops;
-@@ -2250,8 +2247,6 @@ static void bcm63xx_udc_init_debugfs(struct bcm63xx_udc *udc)
- 		return;
+diff --git a/drivers/usb/gadget/udc/pxa27x_udc.c b/drivers/usb/gadget/udc/pxa27x_udc.c
+index ce57961dfd2d..ebcadbfa50fd 100644
+--- a/drivers/usb/gadget/udc/pxa27x_udc.c
++++ b/drivers/usb/gadget/udc/pxa27x_udc.c
+@@ -208,8 +208,6 @@ static void pxa_init_debugfs(struct pxa_udc *udc)
+ 	struct dentry *root;
  
  	root = debugfs_create_dir(udc->gadget.name, usb_debug_root);
 -	udc->debugfs_root = root;
 -
- 	debugfs_create_file("usbd", 0400, root, udc, &bcm63xx_usbd_dbg_fops);
- 	debugfs_create_file("iudma", 0400, root, udc, &bcm63xx_iudma_dbg_fops);
- }
-@@ -2264,7 +2259,7 @@ static void bcm63xx_udc_init_debugfs(struct bcm63xx_udc *udc)
-  */
- static void bcm63xx_udc_cleanup_debugfs(struct bcm63xx_udc *udc)
+ 	debugfs_create_file("udcstate", 0400, root, udc, &state_dbg_fops);
+ 	debugfs_create_file("queues", 0400, root, udc, &queues_dbg_fops);
+ 	debugfs_create_file("epstate", 0400, root, udc, &eps_dbg_fops);
+@@ -217,7 +215,7 @@ static void pxa_init_debugfs(struct pxa_udc *udc)
+ 
+ static void pxa_cleanup_debugfs(struct pxa_udc *udc)
  {
 -	debugfs_remove_recursive(udc->debugfs_root);
 +	debugfs_remove(debugfs_lookup(udc->gadget.name, usb_debug_root));
  }
  
- /***********************************************************************
+ #else
+diff --git a/drivers/usb/gadget/udc/pxa27x_udc.h b/drivers/usb/gadget/udc/pxa27x_udc.h
+index 13b2977399ab..0a6bc18a1264 100644
+--- a/drivers/usb/gadget/udc/pxa27x_udc.h
++++ b/drivers/usb/gadget/udc/pxa27x_udc.h
+@@ -440,7 +440,6 @@ struct udc_stats {
+  * @last_interface: UDC interface of the last SET_INTERFACE host request
+  * @last_alternate: UDC altsetting of the last SET_INTERFACE host request
+  * @udccsr0: save of udccsr0 in case of suspend
+- * @debugfs_root: root entry of debug filesystem
+  * @debugfs_state: debugfs entry for "udcstate"
+  * @debugfs_queues: debugfs entry for "queues"
+  * @debugfs_eps: debugfs entry for "epstate"
+@@ -474,9 +473,6 @@ struct pxa_udc {
+ #ifdef CONFIG_PM
+ 	unsigned				udccsr0;
+ #endif
+-#ifdef CONFIG_USB_GADGET_DEBUG_FS
+-	struct dentry				*debugfs_root;
+-#endif
+ };
+ #define to_pxa(g)	(container_of((g), struct pxa_udc, gadget))
+ 
 -- 
 2.31.1
 
