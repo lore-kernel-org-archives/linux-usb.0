@@ -7,64 +7,65 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0191C47088
-	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96848C47082
+	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C192A613F1
-	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BFEC613D4
+	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234930AbhEZNCf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 May 2021 09:02:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
+        id S234966AbhEZNCk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 May 2021 09:02:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234823AbhEZNC0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 May 2021 09:02:26 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BACC06138C
-        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:53 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id b191so676572wmd.1
-        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:53 -0700 (PDT)
+        with ESMTP id S234854AbhEZNC3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 May 2021 09:02:29 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE23C061343
+        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:56 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so460467wmk.1
+        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nWQ+dGkib5DQMg+R+hA7frJhGrDbcK33rjn0/4gfMZI=;
-        b=Zk3CukMJf/dJMXBbHW21xznSD8Wt3+CcmCDgEXWwSXPbziin9IQq1qnnJoJLF5445P
-         42g5b78lDteSF+PWLHKzvgkedj6w5zW2U+GUSZvEOUh9U6Uaxj4DejZfD7YLaIxhbLzd
-         F613wQnC3fEeoP5b4a1yWGWlRSP/Gw2YnLg5TjftNs6lSCRuu7OqnNpDIX8w4jleUA+e
-         Ff3T6xiQX8gjdyEdBqq56XLGQR8yn+w0wu3qjj21oSRY2rEAkRNfcA6khy/G1SmRsbdy
-         VRV9vbQ5v1LTK9gCjstDvsQuaXHlFyIC1W0YrmLsC9KEN5DdIFYbvQ40FZEyF8nLZhF/
-         Gh0A==
+        bh=STuRU/wuc0GUpuvMIUPILdBJPB0EkMi/MfUyTQ2qMVk=;
+        b=miWQDZMe+7Q4YePFJAgOOrJb6nHoFfFg+iaqvugtF5BTrv2fZ9Tn3s0JE+X5SJsNjQ
+         naYBKCPuEj+tqxappTCFq1JKLcbIhFEZV2wSbPk8n+23iZM5OqixbWjmhXBkh7Ph+qx2
+         fkrXjGzUPRqzeVHapsb5XM7+1fEGuiLwQT4Fd/a44KzJLS+63zE6L5hrPY2wLOS3b/lh
+         TF5CK18z2Z6HNJOrDENrncqjKsK3JF85in6xKMMdJsD1PAZc/nnQilVzGr3aHjRLsdaS
+         vETo2DPbH+uDx2BYOkwJASUUdNiBJRplY5xf1+PlDDSrozSIEWPJOEf2NOp+4O4hZ7HV
+         sLfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nWQ+dGkib5DQMg+R+hA7frJhGrDbcK33rjn0/4gfMZI=;
-        b=uLKFIF8DbT6th2iyUgVVum6pF/mErL123Gy6yrsqEsThQAuKp5SchNml1eTR3cEiXs
-         UxUsUr401HSpUnoAA55mnynO+qINHdFDLpn0xsQU+Zan3MRlsi9gb85aHkfBe0n2OFhw
-         /p6ZFFJp9594p+F0cBHE+sul7pSRw4Tj2+rg7JEupGJj5yRsN8S2ArNY0wR+/u9yY/Fu
-         qIE1BKfj2Fkm3+lgB2GOwykllv+1W538d1lLPqimlzFOklMs4fb5xkgbFSM8JbrBD0WB
-         /WXdKT09o4a548S5e08NMvk4TotTUl/XUGUlRrwBJ2n5drqZ9iUlr+OPX61qi9wYhiKf
-         u1lA==
-X-Gm-Message-State: AOAM531xYpsVwQhcmtEGJaZuGspGDXfUoKWlMCiVURg9Mmez0lsMPzE0
-        RfdN4IM+mO6wBOavZ8DQHYpWjiwo2ICSmw==
-X-Google-Smtp-Source: ABdhPJwWmb/Kkxx3XwJGZhwQ5XxgRJr6DaOzbZh41z2m8M29MMCXDoZt4sxszuuSYpMZvBgCB9iCdA==
-X-Received: by 2002:a7b:c185:: with SMTP id y5mr28347837wmi.63.1622034052316;
-        Wed, 26 May 2021 06:00:52 -0700 (PDT)
+        bh=STuRU/wuc0GUpuvMIUPILdBJPB0EkMi/MfUyTQ2qMVk=;
+        b=TCVGt6dphKflwsySfubSZlfI+CuzOHnvpttzMxS91JIgaZNT5x3xdjIjg6DsrHMc17
+         mpAjglVSNFj7VmaqdkY+3oHiLlZCbeQzgs3YKYbySGL+vO83z66wDKnJ+SYi5jnTzQoB
+         WwvVWCbwATxgnSKNj2piHSzCVyRV1J6UYCFBrTtiv1zVMidXBjnOkjTzn+H44AU6OoOv
+         try++iiSn2g8zAOxwd+BNACIZc1w7kSw7fB24Y65+VadP37/rBjx4RBc1sA83+EkoshR
+         VYHGTfJmPOJ8YKM/TPdOjqRHo+696xFG8J5HQxswSZxSMGK5HuRd7mhQmH1kWn4c3e6L
+         +gRQ==
+X-Gm-Message-State: AOAM5334m5teNIL2C67fZ98sO4vkEQ+msRNzAS377GCt7vnGzTPt+Af6
+        xuuuVf0bloX4HOpFdT5zBO5Cpg==
+X-Google-Smtp-Source: ABdhPJyD/0d1YxYV6SkKT4N+wRfvSN8hofhog+J5kCAgUXV6p2b8I6Dm5m1/nn+KjgGcQ7hMYUkizQ==
+X-Received: by 2002:a7b:c943:: with SMTP id i3mr28099019wml.182.1622034054497;
+        Wed, 26 May 2021 06:00:54 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id y14sm6430036wmj.37.2021.05.26.06.00.51
+        by smtp.gmail.com with ESMTPSA id y14sm6430036wmj.37.2021.05.26.06.00.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 06:00:51 -0700 (PDT)
+        Wed, 26 May 2021 06:00:54 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
+Cc:     linux-kernel@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rui Miguel Silva <rui.silva@linaro.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 06/24] usb: isp1760: isp1760-udc: Provide missing description for 'udc' param
-Date:   Wed, 26 May 2021 14:00:19 +0100
-Message-Id: <20210526130037.856068-7-lee.jones@linaro.org>
+Subject: [PATCH 08/24] usb: cdns3: cdns3-ti: File headers are not good candidates for kernel-doc
+Date:   Wed, 26 May 2021 14:00:21 +0100
+Message-Id: <20210526130037.856068-9-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526130037.856068-1-lee.jones@linaro.org>
 References: <20210526130037.856068-1-lee.jones@linaro.org>
@@ -76,29 +77,30 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/isp1760/isp1760-udc.c:150: warning: Function parameter or member 'udc' not described in 'isp1760_udc_select_ep'
+ drivers/usb/cdns3/cdns3-ti.c:20: warning: expecting prototype for cdns3(). Prototype was for USBSS_PID() instead
 
+Cc: Peter Chen <peter.chen@kernel.org>
+Cc: Pawel Laszczak <pawell@cadence.com>
+Cc: Roger Quadros <rogerq@kernel.org>
+Cc: Aswath Govindraju <a-govindraju@ti.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rui Miguel Silva <rui.silva@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/isp1760/isp1760-udc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/cdns3/cdns3-ti.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/isp1760/isp1760-udc.c b/drivers/usb/isp1760/isp1760-udc.c
-index 3e05e36054357..a78da59d6417b 100644
---- a/drivers/usb/isp1760/isp1760-udc.c
-+++ b/drivers/usb/isp1760/isp1760-udc.c
-@@ -137,6 +137,7 @@ static void __isp1760_udc_select_ep(struct isp1760_udc *udc,
- /**
-  * isp1760_udc_select_ep - Select an endpoint for register access
-  * @ep: The endpoint
-+ * @udc: Reference to the device controller
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+index eccb1c766bba5..07c3187703623 100644
+--- a/drivers/usb/cdns3/cdns3-ti.c
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * cdns3-ti.c - TI specific Glue layer for Cadence USB Controller
   *
-  * The ISP1761 endpoint registers are banked. This function selects the target
-  * endpoint for banked register access. The selection remains valid until the
+  * Copyright (C) 2019 Texas Instruments Incorporated - https://www.ti.com
 -- 
 2.31.1
 
