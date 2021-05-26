@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8578C4708A
-	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DA2C4708B
+	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD973613D4
+	by mail.kernel.org (Postfix) with ESMTP id F07BB613E6
 	for <linux-usb@archiver.kernel.org>; Wed, 26 May 2021 13:01:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234973AbhEZNCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 May 2021 09:02:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41042 "EHLO
+        id S234760AbhEZNCm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 May 2021 09:02:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234862AbhEZNC3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 May 2021 09:02:29 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA7A7C061342
-        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:54 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id n4so1058841wrw.3
-        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:54 -0700 (PDT)
+        with ESMTP id S234539AbhEZNCa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 May 2021 09:02:30 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D14C061344
+        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:57 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id 16so659952wmj.5
+        for <linux-usb@vger.kernel.org>; Wed, 26 May 2021 06:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bHe9ARlYsCpGyc2PnVMeDtwwbzQY+BuocRosRFIIzzg=;
-        b=JY5aHMXsFxMmF2+Z5KhAAD7HpoFdqX6yaXVl3Zr+ve6G363OfluEzYx4i8yrNwJTmo
-         5czLxix+BV2Kob5FCBhoqAUtAl/g7PpLeK5qh3Q42EY7GdaH2NvEgwYd2jJHJPAjcLW+
-         tlVNfU3CqbsrPWK+MW9acMb/fj/QqFdrrDMNebdC00V8mwro/YH/POT0Hd1VuZrX+e7+
-         VfnwEd/m8BmV97YF8+89RvGjzZGyKXwXNjCCjgEX81tK1Ht8ZKz2Us5kq9gKyZyz+yLi
-         BgIN7ClkhJLKd6gOmJRE8t2SrBTV4Lu/z775re6BcnRwYfvO5LsjmPd1aaoY0/aZbFra
-         OKXQ==
+        bh=8thE6pWPMC1cZ/BkZSyAo0Kom76zxaAdnKK0vRxVopk=;
+        b=l3+9+sArtJ/npKGd6maCVLyj/91WVG4+XgCQZ8lCsVfxqN9PiIf9xxGjew1wVJcAXP
+         hwN2AFlt19+wj5Dmb41WkHz7uADqmujPGU4DpgFyUIVe9DwGKRTlLvHyUmkwKtRS4O08
+         9QM6pD7kpebhn4Cr6ERpZVh3Hwt2ZtnPgMHWRC5db05UNXZMFxN6fCzBN6M0zXtRagpS
+         ihmPe35VaENaN/ZgKdftqp+Sy62B+Tbo/Bx7cVjq96NxJnrhID0Zjp3uqmoyNq4yYyyz
+         pXMF70sWENPREoD3EpPBxrbmHiiRMKq7C3uo9Nmc/OgYsJYmWXI1roKwwOuFvfPTaCnK
+         SyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bHe9ARlYsCpGyc2PnVMeDtwwbzQY+BuocRosRFIIzzg=;
-        b=RrZpuYfPI3FniHhQKCW8CEgE3JBTrDpwF7c9wx6Y/W0xOhu4RE1bQetbfSAPV3sFHO
-         HO6mVIuQ+DRNk6U48svsKbtdo3MizFOc8LkHKnOfiYAPAZGp0Fl2t6mXsuGFzdkDvjLW
-         KEYKc9fWMwwL8VWgupnjCkVSRIxSjBcCBjaAlJfLgB0W7SHbbIf17H8Z9S1lRFtyw4ua
-         A1TvVBlEjJ3NIG3H9wgvDYCxjmut9VUYoujBVmPuLur6GCF73r4f2dX2Ma6WFKFGhjQ2
-         apY32f0zFkJb5ryYKoSTdFRiqB+US1qcTtYDRq8JCUmVIWeNTG0wpkWM1IBEYrMmQyxh
-         wCDg==
-X-Gm-Message-State: AOAM531rZSKnLdZBe1oE0rOa7cMBi8it/GQ3IZRjFdvHyOCAXeuJwGVQ
-        RQOgVw09JEES53YARm+bx+u3MA==
-X-Google-Smtp-Source: ABdhPJw079cciCUte2zRE1wkRyXyx5iEwbJxkkS4ZZ7EEOizm9lZGEr385nUKYpMdnDlxksou+zNnw==
-X-Received: by 2002:a5d:6acd:: with SMTP id u13mr2894464wrw.272.1622034053380;
-        Wed, 26 May 2021 06:00:53 -0700 (PDT)
+        bh=8thE6pWPMC1cZ/BkZSyAo0Kom76zxaAdnKK0vRxVopk=;
+        b=MBmz5MYp85iiQA18RMvv7EwlhLlQ6Khab0+P6mPRtb0k4qIjBPg70gEDthJZosEQkh
+         ITI0KcNxO4Zwm8VYJN418hb+HPVYU3ZyljLHaY0fGb6rS3csjOPbpqBgX7s5T4G9g+f9
+         sqzMdRuOev2jqbWrBGirExTm897ydS7vwa/gL63XhXWD7XOK4oAID5nO2anMJwGt9PKm
+         0Nf8dGbOUgS0xhUv2oLxaOTfjl+QNUO15a4OxDmHHAUsGikwspH+qFQjbKWntgYYtYl5
+         0PZXCeD3iDGNCe6nkuvUB+v1WOq4yjfGqDk3wqwVDnQUhGhvGzZ1uq/riPjptW+NJK7d
+         L5iA==
+X-Gm-Message-State: AOAM531NXwX2JmojTSy6M84jP0FF7aXoo3b9VKWVm/eIXVDaSlmidG8D
+        3A/9ygDd4qL17UpwDfZdp7Qf6A==
+X-Google-Smtp-Source: ABdhPJzDQZva0sgjfdrbMXbrSAL33f5tBEZSMmlg1aDjhxxk7JL2scIVT78zduvBUEtv/4DFX/ZUxQ==
+X-Received: by 2002:a7b:cf09:: with SMTP id l9mr29419759wmg.184.1622034055675;
+        Wed, 26 May 2021 06:00:55 -0700 (PDT)
 Received: from dell.default ([91.110.221.223])
-        by smtp.gmail.com with ESMTPSA id y14sm6430036wmj.37.2021.05.26.06.00.52
+        by smtp.gmail.com with ESMTPSA id y14sm6430036wmj.37.2021.05.26.06.00.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 06:00:52 -0700 (PDT)
+        Wed, 26 May 2021 06:00:55 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
@@ -63,9 +63,9 @@ Cc:     linux-kernel@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
         Aswath Govindraju <a-govindraju@ti.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Pawel Jez <pjez@cadence.com>, linux-usb@vger.kernel.org
-Subject: [PATCH 07/24] usb: cdns3: cdns3-gadget: Fix a bunch of kernel-doc related formatting issues
-Date:   Wed, 26 May 2021 14:00:20 +0100
-Message-Id: <20210526130037.856068-8-lee.jones@linaro.org>
+Subject: [PATCH 09/24] usb: cdns3: cdns3-ep0: Fix a few kernel-doc formatting issues
+Date:   Wed, 26 May 2021 14:00:22 +0100
+Message-Id: <20210526130037.856068-10-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210526130037.856068-1-lee.jones@linaro.org>
 References: <20210526130037.856068-1-lee.jones@linaro.org>
@@ -77,21 +77,9 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/usb/cdns3/cdns3-gadget.c:163: warning: expecting prototype for select_ep(). Prototype was for cdns3_select_ep() instead
- drivers/usb/cdns3/cdns3-gadget.c:2025: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2224: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2247: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2264: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2399: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2489: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2589: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2656: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2677: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2722: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2768: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2877: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2923: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- drivers/usb/cdns3/cdns3-gadget.c:2986: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/usb/cdns3/cdns3-ep0.c:680: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/usb/cdns3/cdns3-ep0.c:775: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ drivers/usb/cdns3/cdns3-ep0.c:868: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
 
 Cc: Peter Chen <peter.chen@kernel.org>
 Cc: Pawel Laszczak <pawell@cadence.com>
@@ -102,166 +90,40 @@ Cc: Pawel Jez <pjez@cadence.com>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/usb/cdns3/cdns3-gadget.c | 34 ++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ drivers/usb/cdns3/cdns3-ep0.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-index f3c027653e0e6..54fa429fae777 100644
---- a/drivers/usb/cdns3/cdns3-gadget.c
-+++ b/drivers/usb/cdns3/cdns3-gadget.c
-@@ -155,7 +155,7 @@ static struct cdns3_request *cdns3_next_priv_request(struct list_head *list)
+diff --git a/drivers/usb/cdns3/cdns3-ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
+index 9a17802275d51..02ec7ab4bb489 100644
+--- a/drivers/usb/cdns3/cdns3-ep0.c
++++ b/drivers/usb/cdns3/cdns3-ep0.c
+@@ -677,7 +677,7 @@ static int cdns3_gadget_ep0_set_halt(struct usb_ep *ep, int value)
  }
  
  /**
-- * select_ep - selects endpoint
-+ * cdns3_select_ep - selects endpoint
-  * @priv_dev:  extended gadget object
-  * @ep: endpoint address
-  */
-@@ -1835,7 +1835,7 @@ __must_hold(&priv_dev->lock)
- }
- 
- /**
-- * cdns3_device_irq_handler- interrupt handler for device part of controller
-+ * cdns3_device_irq_handler - interrupt handler for device part of controller
-  *
-  * @irq: irq number for cdns3 core device
-  * @data: structure of cdns3
-@@ -1879,7 +1879,7 @@ static irqreturn_t cdns3_device_irq_handler(int irq, void *data)
- }
- 
- /**
-- * cdns3_device_thread_irq_handler- interrupt handler for device part
-+ * cdns3_device_thread_irq_handler - interrupt handler for device part
-  * of controller
-  *
-  * @irq: irq number for cdns3 core device
-@@ -2022,7 +2022,7 @@ static void cdns3_configure_dmult(struct cdns3_device *priv_dev,
- }
- 
- /**
-- * cdns3_ep_config Configure hardware endpoint
-+ * cdns3_ep_config - Configure hardware endpoint
-  * @priv_ep: extended endpoint object
-  * @enable: set EP_CFG_ENABLE bit in ep_cfg register.
-  */
-@@ -2221,7 +2221,7 @@ usb_ep *cdns3_gadget_match_ep(struct usb_gadget *gadget,
- }
- 
- /**
-- * cdns3_gadget_ep_alloc_request Allocates request
-+ * cdns3_gadget_ep_alloc_request - Allocates request
-  * @ep: endpoint object associated with request
+- * cdns3_gadget_ep0_queue Transfer data on endpoint zero
++ * cdns3_gadget_ep0_queue - Transfer data on endpoint zero
+  * @ep: pointer to endpoint zero object
+  * @request: pointer to request object
   * @gfp_flags: gfp flags
-  *
-@@ -2244,7 +2244,7 @@ struct usb_request *cdns3_gadget_ep_alloc_request(struct usb_ep *ep,
+@@ -772,7 +772,7 @@ static int cdns3_gadget_ep0_queue(struct usb_ep *ep,
  }
  
  /**
-- * cdns3_gadget_ep_free_request Free memory occupied by request
-+ * cdns3_gadget_ep_free_request - Free memory occupied by request
-  * @ep: endpoint object associated with request
-  * @request: request to free memory
-  */
-@@ -2261,7 +2261,7 @@ void cdns3_gadget_ep_free_request(struct usb_ep *ep,
- }
- 
- /**
-- * cdns3_gadget_ep_enable Enable endpoint
-+ * cdns3_gadget_ep_enable - Enable endpoint
+- * cdns3_gadget_ep_set_wedge Set wedge on selected endpoint
++ * cdns3_gadget_ep_set_wedge - Set wedge on selected endpoint
   * @ep: endpoint object
-  * @desc: endpoint descriptor
-  *
-@@ -2396,7 +2396,7 @@ static int cdns3_gadget_ep_enable(struct usb_ep *ep,
- }
- 
- /**
-- * cdns3_gadget_ep_disable Disable endpoint
-+ * cdns3_gadget_ep_disable - Disable endpoint
-  * @ep: endpoint object
-  *
-  * Returns 0 on success, error code elsewhere
-@@ -2486,7 +2486,7 @@ static int cdns3_gadget_ep_disable(struct usb_ep *ep)
- }
- 
- /**
-- * cdns3_gadget_ep_queue Transfer data on endpoint
-+ * cdns3_gadget_ep_queue - Transfer data on endpoint
-  * @ep: endpoint object
-  * @request: request object
-  * @gfp_flags: gfp flags
-@@ -2586,7 +2586,7 @@ static int cdns3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- }
- 
- /**
-- * cdns3_gadget_ep_dequeue Remove request from transfer queue
-+ * cdns3_gadget_ep_dequeue - Remove request from transfer queue
-  * @ep: endpoint object associated with request
-  * @request: request object
-  *
-@@ -2653,7 +2653,7 @@ int cdns3_gadget_ep_dequeue(struct usb_ep *ep,
- }
- 
- /**
-- * __cdns3_gadget_ep_set_halt Sets stall on selected endpoint
-+ * __cdns3_gadget_ep_set_halt - Sets stall on selected endpoint
-  * Should be called after acquiring spin_lock and selecting ep
-  * @priv_ep: endpoint object to set stall on.
-  */
-@@ -2674,7 +2674,7 @@ void __cdns3_gadget_ep_set_halt(struct cdns3_endpoint *priv_ep)
- }
- 
- /**
-- * __cdns3_gadget_ep_clear_halt Clears stall on selected endpoint
-+ * __cdns3_gadget_ep_clear_halt - Clears stall on selected endpoint
-  * Should be called after acquiring spin_lock and selecting ep
-  * @priv_ep: endpoint object to clear stall on
-  */
-@@ -2719,7 +2719,7 @@ int __cdns3_gadget_ep_clear_halt(struct cdns3_endpoint *priv_ep)
- }
- 
- /**
-- * cdns3_gadget_ep_set_halt Sets/clears stall on selected endpoint
-+ * cdns3_gadget_ep_set_halt - Sets/clears stall on selected endpoint
-  * @ep: endpoint object to set/clear stall on
-  * @value: 1 for set stall, 0 for clear stall
-  *
-@@ -2765,7 +2765,7 @@ static const struct usb_ep_ops cdns3_gadget_ep_ops = {
- };
- 
- /**
-- * cdns3_gadget_get_frame Returns number of actual ITP frame
-+ * cdns3_gadget_get_frame - Returns number of actual ITP frame
-  * @gadget: gadget object
-  *
-  * Returns number of actual ITP frame
-@@ -2874,7 +2874,7 @@ static void cdns3_gadget_config(struct cdns3_device *priv_dev)
- }
- 
- /**
-- * cdns3_gadget_udc_start Gadget start
-+ * cdns3_gadget_udc_start - Gadget start
-  * @gadget: gadget object
-  * @driver: driver which operates on this gadget
-  *
-@@ -2920,7 +2920,7 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
- }
- 
- /**
-- * cdns3_gadget_udc_stop Stops gadget
-+ * cdns3_gadget_udc_stop - Stops gadget
-  * @gadget: gadget object
   *
   * Returns 0
-@@ -2983,7 +2983,7 @@ static void cdns3_free_all_eps(struct cdns3_device *priv_dev)
+@@ -865,7 +865,7 @@ void cdns3_ep0_config(struct cdns3_device *priv_dev)
  }
  
  /**
-- * cdns3_init_eps Initializes software endpoints of gadget
-+ * cdns3_init_eps - Initializes software endpoints of gadget
+- * cdns3_init_ep0 Initializes software endpoint 0 of gadget
++ * cdns3_init_ep0 - Initializes software endpoint 0 of gadget
   * @priv_dev: extended gadget object
+  * @priv_ep: extended endpoint object
   *
-  * Returns 0 on success, error code elsewhere
 -- 
 2.31.1
 
