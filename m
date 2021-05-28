@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96617C47087
-	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 895A5C4708C
+	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D05B613D4
-	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 686336135F
+	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235543AbhE1GMp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 28 May 2021 02:12:45 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:42178 "EHLO
+        id S235580AbhE1GMr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 28 May 2021 02:12:47 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:42192 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234781AbhE1GMn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 May 2021 02:12:43 -0400
-X-UUID: e25df080ec5e4bcb95c9e830c8d2bb52-20210528
-X-UUID: e25df080ec5e4bcb95c9e830c8d2bb52-20210528
+        with ESMTP id S234985AbhE1GMo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 28 May 2021 02:12:44 -0400
+X-UUID: e38e83c380864fcd8482e91697d9d339-20210528
+X-UUID: e38e83c380864fcd8482e91697d9d339-20210528
 Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1281291972; Fri, 28 May 2021 14:11:07 +0800
+        with ESMTP id 130472459; Fri, 28 May 2021 14:11:07 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 28 May 2021 14:11:05 +0800
+ 15.0.1497.2; Fri, 28 May 2021 14:11:06 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 28 May 2021 14:11:04 +0800
+ Transport; Fri, 28 May 2021 14:11:05 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
@@ -40,9 +40,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 3/5] usb: mtu3: dump a status register of IPPC
-Date:   Fri, 28 May 2021 14:10:58 +0800
-Message-ID: <1622182260-23767-3-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 5/5] usb: mtu3: skip getting extcon when use manual drd switch
+Date:   Fri, 28 May 2021 14:11:00 +0800
+Message-ID: <1622182260-23767-5-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1622182260-23767-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1622182260-23767-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -53,25 +53,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a SSUSB_IP_PW_STS1 register to show ip sleep status
+When use manual drd switch, extcon is not used in fact, so no
+need get it even it exists, just skip it like using role switch.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3_debugfs.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/mtu3/mtu3_plat.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_debugfs.c b/drivers/usb/mtu3/mtu3_debugfs.c
-index 7537bfd651af..d27de647c86a 100644
---- a/drivers/usb/mtu3/mtu3_debugfs.c
-+++ b/drivers/usb/mtu3/mtu3_debugfs.c
-@@ -30,6 +30,7 @@ static const struct debugfs_reg32 mtu3_ippc_regs[] = {
- 	dump_register(SSUSB_IP_PW_CTRL1),
- 	dump_register(SSUSB_IP_PW_CTRL2),
- 	dump_register(SSUSB_IP_PW_CTRL3),
-+	dump_register(SSUSB_IP_PW_STS1),
- 	dump_register(SSUSB_OTG_STS),
- 	dump_register(SSUSB_IP_XHCI_CAP),
- 	dump_register(SSUSB_IP_DEV_CAP),
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index eaeda391693a..bbfabdc1e79b 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -299,7 +299,10 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 		of_property_read_bool(node, "enable-manual-drd");
+ 	otg_sx->role_sw_used = of_property_read_bool(node, "usb-role-switch");
+ 
+-	if (!otg_sx->role_sw_used && of_property_read_bool(node, "extcon")) {
++	if (otg_sx->role_sw_used || otg_sx->manual_drd_enabled)
++		goto out;
++
++	if (of_property_read_bool(node, "extcon")) {
+ 		otg_sx->edev = extcon_get_edev_by_phandle(ssusb->dev, 0);
+ 		if (IS_ERR(otg_sx->edev)) {
+ 			return dev_err_probe(dev, PTR_ERR(otg_sx->edev),
 -- 
 2.18.0
 
