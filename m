@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E3D2C4708C
-	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96617C47087
+	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 697846135F
-	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D05B613D4
+	for <linux-usb@archiver.kernel.org>; Fri, 28 May 2021 06:11:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235256AbhE1GMo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 28 May 2021 02:12:44 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:43767 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233893AbhE1GMn (ORCPT
+        id S235543AbhE1GMp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 28 May 2021 02:12:45 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:42178 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S234781AbhE1GMn (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 28 May 2021 02:12:43 -0400
-X-UUID: d37cf73de93f4bcfb5d617056efdabac-20210528
-X-UUID: d37cf73de93f4bcfb5d617056efdabac-20210528
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+X-UUID: e25df080ec5e4bcb95c9e830c8d2bb52-20210528
+X-UUID: e25df080ec5e4bcb95c9e830c8d2bb52-20210528
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 885169257; Fri, 28 May 2021 14:11:05 +0800
+        with ESMTP id 1281291972; Fri, 28 May 2021 14:11:07 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 28 May 2021 14:11:04 +0800
+ 15.0.1497.2; Fri, 28 May 2021 14:11:05 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 28 May 2021 14:11:01 +0800
+ Transport; Fri, 28 May 2021 14:11:04 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
@@ -40,10 +40,12 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 1/5] usb: mtu3: remove mtu3_ep0_setup() declaration in mtu3.h
-Date:   Fri, 28 May 2021 14:10:56 +0800
-Message-ID: <1622182260-23767-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 3/5] usb: mtu3: dump a status register of IPPC
+Date:   Fri, 28 May 2021 14:10:58 +0800
+Message-ID: <1622182260-23767-3-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1622182260-23767-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1622182260-23767-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -51,40 +53,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It's defined and only used in the same file, so remove its declaration
-in mtu3.h, and make it static
+Add a SSUSB_IP_PW_STS1 register to show ip sleep status
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3.h      | 1 -
- drivers/usb/mtu3/mtu3_core.c | 2 +-
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/mtu3/mtu3_debugfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index aef0a0bba25a..a8a7ee11f7b7 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -422,7 +422,6 @@ int mtu3_config_ep(struct mtu3 *mtu, struct mtu3_ep *mep,
- 		int interval, int burst, int mult);
- void mtu3_deconfig_ep(struct mtu3 *mtu, struct mtu3_ep *mep);
- void mtu3_ep_stall_set(struct mtu3_ep *mep, bool set);
--void mtu3_ep0_setup(struct mtu3 *mtu);
- void mtu3_start(struct mtu3 *mtu);
- void mtu3_stop(struct mtu3 *mtu);
- void mtu3_dev_on_off(struct mtu3 *mtu, int is_on);
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index b3b459937566..2ef528f39ba3 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -536,7 +536,7 @@ static void get_ep_fifo_config(struct mtu3 *mtu)
- 		rx_fifo->base, rx_fifo->limit);
- }
- 
--void mtu3_ep0_setup(struct mtu3 *mtu)
-+static void mtu3_ep0_setup(struct mtu3 *mtu)
- {
- 	u32 maxpacket = mtu->g.ep0->maxpacket;
- 	u32 csr;
+diff --git a/drivers/usb/mtu3/mtu3_debugfs.c b/drivers/usb/mtu3/mtu3_debugfs.c
+index 7537bfd651af..d27de647c86a 100644
+--- a/drivers/usb/mtu3/mtu3_debugfs.c
++++ b/drivers/usb/mtu3/mtu3_debugfs.c
+@@ -30,6 +30,7 @@ static const struct debugfs_reg32 mtu3_ippc_regs[] = {
+ 	dump_register(SSUSB_IP_PW_CTRL1),
+ 	dump_register(SSUSB_IP_PW_CTRL2),
+ 	dump_register(SSUSB_IP_PW_CTRL3),
++	dump_register(SSUSB_IP_PW_STS1),
+ 	dump_register(SSUSB_OTG_STS),
+ 	dump_register(SSUSB_IP_XHCI_CAP),
+ 	dump_register(SSUSB_IP_DEV_CAP),
 -- 
 2.18.0
 
