@@ -2,174 +2,501 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 668BDC47092
-	for <linux-usb@archiver.kernel.org>; Sun, 30 May 2021 18:58:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76EE1C47091
+	for <linux-usb@archiver.kernel.org>; Sun, 30 May 2021 22:22:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38AC760BD3
-	for <linux-usb@archiver.kernel.org>; Sun, 30 May 2021 18:58:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43C1A611AC
+	for <linux-usb@archiver.kernel.org>; Sun, 30 May 2021 22:22:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbhE3TAU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 30 May 2021 15:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39680 "EHLO
+        id S229915AbhE3WYb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 30 May 2021 18:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbhE3TAT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 30 May 2021 15:00:19 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9536AC061574
-        for <linux-usb@vger.kernel.org>; Sun, 30 May 2021 11:58:39 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id x38so13398335lfa.10
-        for <linux-usb@vger.kernel.org>; Sun, 30 May 2021 11:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=57M/pteyw4/Q9RkiGzuesiD6ALYPFvYk7HXjb25V0uM=;
-        b=QDx8thuT89GiF/qxX++O6jVRMdc7UYlfFJQ4fE0oSA3vFgU1TWkVC4xd0A3NhMzGhn
-         IKJmwaGf0DN+cbVpXpGNWpVq+sO5ckaJl2fgszgIx1GQmyx9QDQuiywr4Jp0qDEtjp8/
-         tPBNwBF5/5Xa4F2DY6xdZCdDKJUxIoeJZyYi2/vyw5DqnLig2UllE5lGZOJwGkS8RgaZ
-         U3vvzJ3wFFv6b+jwR0J874DP67dQP6fchP6EB+oBQqCaGe/kUBH8PhechBija9Kll5X8
-         mh5o6aS56205luISd4FANqiPK8tw5CL4mKrN3c2tFPkTPAj58oh6Hllbegq5IyKSGAWM
-         5JPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=57M/pteyw4/Q9RkiGzuesiD6ALYPFvYk7HXjb25V0uM=;
-        b=cTJUfjDvhJseqNlselVT46/430/NYVrdgBC2jqsVZpiDKe4tsoQOgJf8T0GG8XsMnJ
-         4Uk2KylGaksA4jdgKnL7AzM+zUaiqlcZpdfjX374rtLXzpmL4/E7xYL5iFuJ54stIE5P
-         Fv2+pyclg3G2bG+VJWsjFqwMldHp+NYOSUuLEl5MooGZCwtlYTpnygoVuP1RxoEA8PSi
-         iJ77Jlwyb79L82Bj9BCYufnfvvIjg7RKDsbN8Y48DuraPybru5OCMaI97xCjBXYpNaW3
-         zoUmlYrF+s3ar7fJMfJOR6AoDiKpINIfX7NF8wlgNkH17AVZ8LjOROkqNstwmvXTcURA
-         yBQQ==
-X-Gm-Message-State: AOAM530vyib1OeeseeiGaFH2Nedus+1drltB98GIxKvwuANtA18qniTV
-        pLaxKbOCstN79AAouSai23xmAUA7aueC8X/N+Pn/N3dpBFY=
-X-Google-Smtp-Source: ABdhPJzkjoyvtSDzWGMNAw3+wip2E6q45i5ntoLWvar2w8HjBhpxtGXL0b6J5wy+rp3iCbng6u+hP0GNloZOvgN0cLs=
-X-Received: by 2002:ac2:5a0d:: with SMTP id q13mr12307856lfn.399.1622401117746;
- Sun, 30 May 2021 11:58:37 -0700 (PDT)
+        with ESMTP id S229897AbhE3WY3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 30 May 2021 18:24:29 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60109C061761
+        for <linux-usb@vger.kernel.org>; Sun, 30 May 2021 15:22:50 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1lnTpW-0000Ev-36; Mon, 31 May 2021 00:22:46 +0200
+Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1lnTpV-0002cm-9K; Mon, 31 May 2021 00:22:45 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        caleb.connolly@ideasonboard.com, paul.elder@ideasonboard.com,
+        balbi@kernel.org, kernel@pengutronix.de
+Subject: [PATCH 3/3] usb: gadget: uvc: add format/frame handling code
+Date:   Mon, 31 May 2021 00:22:39 +0200
+Message-Id: <20210530222239.8793-4-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210530222239.8793-1-m.grzeschik@pengutronix.de>
+References: <20210530222239.8793-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-References: <CAHS3B0EzL7zeKGjm=kvEq7VgDc-7hZNgOm-z5zPgFwVg0uQe-Q@mail.gmail.com>
- <YLOZLvWESErIePs3@hovoldconsulting.com> <CAHS3B0E7tqHvF2-jsJZfPWYc6f9HLDDsvepDbqy1rboXOHFegQ@mail.gmail.com>
- <YLPTJ3HIos630Btb@hovoldconsulting.com>
-In-Reply-To: <YLPTJ3HIos630Btb@hovoldconsulting.com>
-From:   Eero Lehtinen <debiangamer2@gmail.com>
-Date:   Sun, 30 May 2021 21:58:26 +0300
-Message-ID: <CAHS3B0EMkXEnaQv61_-6Gh5zd6e4UT_6yOvwhaB_h=6Ta2OdaQ@mail.gmail.com>
-Subject: Re: [PATCH] media: rtl28xxu: add type-detection instrumentation
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+The hostside format selection is currently only done in userspace, as
+the events for SET_CUR and GET_CUR is allways moved to the application
+layer. Since the v4l2 devices parses the configfs data, the format
+negotiation can be done in the kernel. This patch adds the functions to
+set the curent configuration and still forwards all unknown events to
+the userspace level.
 
-I used dev_dbg instead of dev_info and got:
-drivers/media/usb/dvb-usb-v2/rtl28xxu.c:648
-[dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "failed=%d\012"
-drivers/media/usb/dvb-usb-v2/rtl28xxu.c:640
-[dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "chip_id=%u\012"
-drivers/media/usb/dvb-usb-v2/rtl28xxu.c:630
-[dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "%s - ret2 = %d\012"
-drivers/media/usb/dvb-usb-v2/rtl28xxu.c:627
-[dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "%s - ret1 = %d\012"
-drivers/media/usb/dvb-usb-v2/rtl28xxu.c:620
-[dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "\012"
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+ drivers/usb/gadget/function/f_uvc.c     | 270 ++++++++++++++++++++++--
+ drivers/usb/gadget/function/uvc.h       |  14 ++
+ drivers/usb/gadget/function/uvc_v4l2.c  |  16 +-
+ drivers/usb/gadget/function/uvc_video.c |  15 +-
+ 4 files changed, 297 insertions(+), 18 deletions(-)
 
-dev_info does not show up with dmesg or dynamic debug. Should the
-kernel use the CXD2837ER driver and not the mxl5005s driver like it
-does with this patch.
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 7945ea93a775a..cd40a063751ae 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -201,21 +201,253 @@ static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
+  * Control requests
+  */
+ 
++void uvc_fill_streaming_control(struct uvc_device *uvc,
++			   struct uvc_streaming_control *ctrl,
++			   int iframe, int iformat, unsigned int ival)
++{
++	struct uvcg_format *ufmt;
++	struct uvcg_frame *ufrm;
++	unsigned int i;
++
++	/* Restrict the iformat, iframe and ival to valid values. Negative
++	 * values for ifrmat and iframe will result in the maximum valid value
++	 * being selected
++	 */
++	iformat = clamp((unsigned int)iformat, 1U, (unsigned int)uvc->nformats);
++	ufmt = uvc->fmt[iformat-1];
++
++	iframe = clamp((unsigned int)iframe, 1U, (unsigned int)uvc->nframes);
++	ufrm = find_frame_by_index(uvc, ufmt, iframe);
++	if (!ufrm)
++		return;
++
++	for (i = 0; i < ufrm->frame.b_frame_interval_type; i++) {
++		if (ival <= ufrm->dw_frame_interval[i]) {
++			ival = ufrm->dw_frame_interval[i];
++			break;
++		}
++	}
++
++	if (i == ufrm->frame.b_frame_interval_type)
++		ival = ufrm->dw_frame_interval[ufrm->frame.b_frame_interval_type-1];
++
++	memset(ctrl, 0, sizeof(*ctrl));
++
++	ctrl->bmHint = 1;
++	ctrl->bFormatIndex = iformat;
++	ctrl->bFrameIndex = iframe;
++	ctrl->dwFrameInterval = ival;
++	ctrl->dwMaxVideoFrameSize = ufrm->frame.dw_max_video_frame_buffer_size;
++
++	switch (uvc->func.config->cdev->gadget->speed) {
++	case USB_SPEED_SUPER:
++		ctrl->dwMaxPayloadTransferSize = uvc_ss_streaming_ep.wMaxPacketSize;
++		break;
++	case USB_SPEED_HIGH:
++		ctrl->dwMaxPayloadTransferSize = uvc_hs_streaming_ep.wMaxPacketSize;
++		break;
++	case USB_SPEED_FULL:
++	default:
++		ctrl->dwMaxPayloadTransferSize = uvc_fs_streaming_ep.wMaxPacketSize;
++		break;
++	}
++	ctrl->bmFramingInfo = 3;
++	ctrl->bPreferedVersion = 1;
++	ctrl->bMaxVersion = 1;
++}
++
++static int uvc_events_process_data(struct uvc_device *uvc, struct usb_request *req)
++{
++	struct uvc_video *video = &uvc->video;
++	struct uvc_streaming_control *target;
++	struct uvc_streaming_control *ctrl;
++	struct uvcg_frame *ufrm;
++	struct uvcg_format *ufmt;
++
++	switch (video->control) {
++	case UVC_VS_PROBE_CONTROL:
++		pr_debug("setting probe control, length = %d\n", req->actual);
++		target = &video->probe;
++		break;
++
++	case UVC_VS_COMMIT_CONTROL:
++		pr_debug("setting commit control, length = %d\n", req->actual);
++		target = &video->commit;
++		break;
++
++	default:
++		pr_debug("setting unknown control, length = %d\n", req->actual);
++		return -EOPNOTSUPP;
++	}
++
++	ctrl = (struct uvc_streaming_control *)req->buf;
++
++	if (video->control == UVC_VS_PROBE_CONTROL)
++		uvc_fill_streaming_control(uvc, target, ctrl->bFormatIndex,
++					   ctrl->bFrameIndex, ctrl->dwFrameInterval);
++
++	ufmt = uvc->fmt[target->bFormatIndex-1];
++	if (!ufmt)
++		return -EINVAL;
++
++	ufrm = find_frame_by_index(uvc, ufmt, ctrl->bFrameIndex);
++	if (!ufrm)
++		return -EINVAL;
++
++	if (video->control == UVC_VS_COMMIT_CONTROL) {
++		spin_lock(&video->frame_lock);
++
++		uvc_fill_streaming_control(uvc, target, ctrl->bFormatIndex,
++				   ctrl->bFrameIndex, ctrl->dwFrameInterval);
++
++		video->cur_frame = ufrm;
++		video->cur_format = ufmt;
++
++		spin_unlock(&video->frame_lock);
++	}
++
++	return 0;
++}
++
++static void
++uvc_events_process_streaming(struct uvc_device *uvc, uint8_t req, uint8_t cs,
++			     struct uvc_request_data *resp)
++{
++	struct uvc_streaming_control *ctrl;
++
++	pr_debug("streaming request (req %02x cs %02x)\n", req, cs);
++
++	if (cs != UVC_VS_PROBE_CONTROL && cs != UVC_VS_COMMIT_CONTROL)
++		return;
++
++	ctrl = (struct uvc_streaming_control *)&resp->data;
++	resp->length = sizeof(*ctrl);
++
++	switch (req) {
++	case UVC_SET_CUR:
++		uvc->video.control = cs;
++		resp->length = 34;
++		break;
++
++	case UVC_GET_CUR:
++		if (cs == UVC_VS_PROBE_CONTROL)
++			memcpy(ctrl, &uvc->video.probe, sizeof(*ctrl));
++		else
++			memcpy(ctrl, &uvc->video.commit, sizeof(*ctrl));
++		break;
++
++	case UVC_GET_MIN:
++	case UVC_GET_MAX:
++	case UVC_GET_DEF:
++		if (req == UVC_GET_MAX)
++			uvc_fill_streaming_control(uvc, ctrl, -1, -1, UINT_MAX);
++		else
++			uvc_fill_streaming_control(uvc, ctrl, 1, 1, 0);
++		break;
++
++	case UVC_GET_RES:
++		memset(ctrl, 0, sizeof(*ctrl));
++		break;
++
++	case UVC_GET_LEN:
++		resp->data[0] = 0x00;
++		resp->data[1] = 0x22;
++		resp->length = 2;
++		break;
++
++	case UVC_GET_INFO:
++		resp->data[0] = 0x03;
++		resp->length = 1;
++		break;
++	}
++}
++
++static int
++uvc_events_process_class(struct uvc_device *uvc, const struct usb_ctrlrequest *ctrl,
++			 struct uvc_request_data *resp)
++{
++	if ((ctrl->bRequestType & USB_RECIP_MASK) != USB_RECIP_INTERFACE)
++		return -EINVAL;
++
++	switch (ctrl->wIndex & 0xff) {
++	case UVC_INTF_VIDEO_CONTROL:
++		return -EOPNOTSUPP;
++
++	case UVC_INTF_VIDEO_STREAMING:
++		uvc_events_process_streaming(uvc, ctrl->bRequest, ctrl->wValue >> 8, resp);
++		break;
++
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static int
++uvc_events_process_setup(struct uvc_device *uvc, const struct usb_ctrlrequest *ctrl,
++			 struct uvc_request_data *resp)
++{
++	uvc->video.control = 0;
++
++	pr_debug("bRequestType %02x bRequest %02x wValue %04x wIndex %04x wLength %04x\n",
++		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
++		ctrl->wIndex, ctrl->wLength);
++
++	switch (ctrl->bRequestType & USB_TYPE_MASK) {
++	case USB_TYPE_STANDARD:
++		return -EOPNOTSUPP;
++
++	case USB_TYPE_CLASS:
++		return uvc_events_process_class(uvc, ctrl, resp);
++
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++/* --------------------------------------------------------------------------
++ * Requests handling
++ */
++
++static
++int uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
++{
++	struct usb_composite_dev *cdev = uvc->func.config->cdev;
++	struct usb_request *req = uvc->control_req;
++
++	if (data->length < 0)
++		return usb_ep_set_halt(cdev->gadget->ep0);
++
++	req->length = min_t(unsigned int, uvc->event_length, data->length);
++	req->zero = data->length < uvc->event_length;
++
++	memcpy(req->buf, data->data, req->length);
++
++	return usb_ep_queue(cdev->gadget->ep0, req, GFP_KERNEL);
++}
++
+ static void
+ uvc_function_ep0_complete(struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct uvc_device *uvc = req->context;
+-	struct v4l2_event v4l2_event;
+-	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
++	int ret;
+ 
+ 	if (uvc->event_setup_out) {
+ 		uvc->event_setup_out = 0;
++		ret = uvc_events_process_data(uvc, req);
++		if (ret == -EOPNOTSUPP) {
++			struct v4l2_event v4l2_event;
++			struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
+ 
+-		memset(&v4l2_event, 0, sizeof(v4l2_event));
+-		v4l2_event.type = UVC_EVENT_DATA;
+-		uvc_event->data.length = req->actual;
+-		memcpy(&uvc_event->data.data, req->buf, req->actual);
+-		v4l2_event_queue(&uvc->vdev, &v4l2_event);
++			memset(&v4l2_event, 0, sizeof(v4l2_event));
++			v4l2_event.type = UVC_EVENT_DATA;
++			uvc_event->data.length = req->actual;
++			memcpy(&uvc_event->data.data, req->buf, req->actual);
++			v4l2_event_queue(&uvc->vdev, &v4l2_event);
++		}
+ 	}
+ }
+ 
+@@ -223,8 +455,8 @@ static int
+ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ {
+ 	struct uvc_device *uvc = to_uvc(f);
+-	struct v4l2_event v4l2_event;
+-	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
++	struct uvc_request_data resp;
++	int ret = 0;
+ 
+ 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
+ 		uvcg_info(f, "invalid request type\n");
+@@ -241,12 +473,22 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
+ 	uvc->event_setup_out = !(ctrl->bRequestType & USB_DIR_IN);
+ 	uvc->event_length = le16_to_cpu(ctrl->wLength);
+ 
+-	memset(&v4l2_event, 0, sizeof(v4l2_event));
+-	v4l2_event.type = UVC_EVENT_SETUP;
+-	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
+-	v4l2_event_queue(&uvc->vdev, &v4l2_event);
++	ret = uvc_events_process_setup(uvc, ctrl, &resp);
++	if (ret == -EOPNOTSUPP) {
++		struct v4l2_event v4l2_event;
++		struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
+ 
+-	return 0;
++		memset(&v4l2_event, 0, sizeof(v4l2_event));
++		v4l2_event.type = UVC_EVENT_SETUP;
++		memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
++		v4l2_event_queue(&uvc->vdev, &v4l2_event);
++
++		return 0;
++	} else if (ret) {
++		return ret;
++	}
++
++	return uvc_send_response(uvc, &resp);
+ }
+ 
+ void uvc_function_setup_continue(struct uvc_device *uvc)
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index 62d7420a25666..d06b5282b4058 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -13,6 +13,7 @@
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/usb/composite.h>
++#include <linux/usb/video.h>
+ #include <linux/videodev2.h>
+ 
+ #include <media/v4l2-device.h>
+@@ -85,6 +86,12 @@ struct uvc_video {
+ 	struct uvcg_frame *cur_frame;
+ 
+ 	struct mutex mutex;	/* protects frame parameters */
++	spinlock_t frame_lock;
++
++	struct uvc_streaming_control probe;
++	struct uvc_streaming_control commit;
++
++	int control;
+ 
+ 	/* Requests */
+ 	unsigned int req_size;
+@@ -170,4 +177,11 @@ extern void uvc_function_connect(struct uvc_device *uvc);
+ extern void uvc_function_disconnect(struct uvc_device *uvc);
+ 
+ extern int uvc_frame_default(struct uvcg_format *ufmt);
++extern struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
++					      struct uvcg_format *ufmt,
++					      int index);
++extern void uvc_fill_streaming_control(struct uvc_device *uvc,
++			   struct uvc_streaming_control *ctrl,
++			   int iframe, int iformat, unsigned int ival);
++
+ #endif /* _UVC_GADGET_H_ */
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 83830b8864a6e..a89d3d661d99f 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -205,7 +205,8 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ }
+ 
+ static int _uvc_v4l2_try_fmt(struct uvc_video *video,
+-	struct v4l2_format *fmt, struct uvcg_format **uvc_format, struct uvcg_frame **uvc_frame)
++	struct v4l2_format *fmt, struct uvc_streaming_control *probe,
++	struct uvcg_format **uvc_format, struct uvcg_frame **uvc_frame)
+ {
+ 	struct uvc_device *uvc = video->uvc;
+ 	struct uvcg_format *ufmt;
+@@ -253,6 +254,9 @@ static int _uvc_v4l2_try_fmt(struct uvc_video *video,
+ 		*uvc_format = ufmt;
+ 	if (uvc_frame != NULL)
+ 		*uvc_frame = ufrm;
++	if (probe)
++		uvc_fill_streaming_control(uvc, probe,
++				i + 1, ufrm->frame.b_frame_index, 0);
+ 
+ 	return 0;
+ }
+@@ -264,7 +268,7 @@ uvc_v4l2_try_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct uvc_device *uvc = video_get_drvdata(vdev);
+ 	struct uvc_video *video = &uvc->video;
+ 
+-	return _uvc_v4l2_try_fmt(video, fmt, NULL, NULL);
++	return _uvc_v4l2_try_fmt(video, fmt, NULL, NULL, NULL);
+ }
+ 
+ static int
+@@ -273,17 +277,23 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct video_device *vdev = video_devdata(file);
+ 	struct uvc_device *uvc = video_get_drvdata(vdev);
+ 	struct uvc_video *video = &uvc->video;
++	struct uvc_streaming_control probe;
+ 	struct uvcg_format *ufmt;
+ 	struct uvcg_frame *ufrm;
+ 	int ret;
+ 
+-	ret = _uvc_v4l2_try_fmt(video, fmt, &ufmt, &ufrm);
++	ret = _uvc_v4l2_try_fmt(video, fmt, &probe, &ufmt, &ufrm);
+ 	if (ret)
+ 		return ret;
+ 
++	spin_lock(&video->frame_lock);
++
++	video->commit = probe;
+ 	video->cur_format = ufmt;
+ 	video->cur_frame = ufrm;
+ 
++	spin_unlock(&video->frame_lock);
++
+ 	return ret;
+ }
+ 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index b14780bddd838..8f549fe608362 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -346,13 +346,26 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
+  */
+ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ {
++	int framedef;
++
+ 	INIT_LIST_HEAD(&video->req_free);
+ 	spin_lock_init(&video->req_lock);
++	spin_lock_init(&video->frame_lock);
++
++	/* Allocate a stream specific work queue for asynchronous tasks. */
++	video->async_wq = alloc_workqueue("uvcvideo", WQ_UNBOUND | WQ_HIGHPRI | WQ_CPU_INTENSIVE, 0);
++	if (!video->async_wq)
++		return -EINVAL;
++
+ 	INIT_WORK(&video->pump, uvcg_video_pump);
+ 
+ 	video->uvc = uvc;
+ 	video->def_format = video->cur_format = uvc->fmt[0];
+-	video->cur_frame = uvc->frm[uvc_frame_default(video->def_format) - 1];
++	framedef = uvc_frame_default(video->def_format);
++	video->cur_frame = uvc->frm[framedef - 1];
++
++	uvc_fill_streaming_control(uvc, &video->probe, 1, framedef, 0);
++	uvc_fill_streaming_control(uvc, &video->commit, 1, framedef, 0);
+ 
+ 	/* Initialize the video buffers queue. */
+ 	uvcg_queue_init(&video->queue, V4L2_BUF_TYPE_VIDEO_OUTPUT,
+-- 
+2.29.2
 
-On Sun, May 30, 2021 at 9:02 PM Johan Hovold <johan@kernel.org> wrote:
->
-> [ Please avoid top-posting; instead reply in-line as I do below. ]
->
-> On Sun, May 30, 2021 at 06:57:12PM +0300, Eero Lehtinen wrote:
-> > cat /sys/kernel/debug/dynamic_debug/control | grep rtl28xxu.c
->
-> > drivers/media/usb/dvb-usb-v2/rtl28xxu.c:640
-> > [dvb_usb_rtl28xxu]rtl28xxu_identify_state =_ "chip_id=%u\012"
->
-> The dev_info() added by the instrumentation patch (included again below)
-> should show up in dmesg if you applied it and rebuilt and installed the
-> driver correctly.
->
-> You can enable dynamic debugging as well to determine if the chip type
-> is detected differently (with and without the zero-length control
-> transfer patch), for example:
->
->         echo module dvb_usb_rtl28xxu +p > /sys/kernel/debug/dynamic_debug/control
->
-> but it won't log the return value from the i2c read in question.
->
-> > On Sun, May 30, 2021 at 4:54 PM Johan Hovold <johan@kernel.org> wrote:
-> > >
-> > > On Sun, May 30, 2021 at 03:23:36PM +0300, Eero Lehtinen wrote:
-> > > > Hi,
-> > > >
-> > > > I tested Johans latest patch and my dvb-t stick can find the channel
-> > > > list but not to tune to them. It uses the mxl5005s driver again with
-> > > > repeating mxl5005s I2C write failed messages:
-> > > >
-> > > > [   23.276076] mxl5005s I2C reset failed
->
-> > > It was just an instrumentation patch to gather more information. Can you
-> > > post the logs from when probing/using the device with that patch in
-> > > place?
-> > >
-> > > Specifically, look for the "rtl28xxu_identify_state" entries, but please
-> > > include the full log in case there are more hints in there.
-> > >
-> > > Also, please keep me and Alan on CC (along with the list) so that we get
-> > > your replies directly. The list can be a bit slow at forwarding at
-> > > times.
->
-> Johan
->
->
-> From eda5deca4cbdebe21718bb13f76b8eed0673f9be Mon Sep 17 00:00:00 2001
-> From: Johan Hovold <johan@kernel.org>
-> Date: Mon, 24 May 2021 10:55:19 +0200
-> Subject: [PATCH] media: rtl28xxu: add type-detection instrumentation
->
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/media/usb/dvb-usb-v2/rtl28xxu.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-> index 97ed17a141bb..21e565603108 100644
-> --- a/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-> +++ b/drivers/media/usb/dvb-usb-v2/rtl28xxu.c
-> @@ -612,8 +612,10 @@ static int rtl28xxu_read_config(struct dvb_usb_device *d)
->  static int rtl28xxu_identify_state(struct dvb_usb_device *d, const char **name)
->  {
->         struct rtl28xxu_dev *dev = d_to_priv(d);
-> +       u8 buf[1];
->         int ret;
->         struct rtl28xxu_req req_demod_i2c = {0x0020, CMD_I2C_DA_RD, 0, NULL};
-> +       struct rtl28xxu_req req_demod_i2c2 = {0x0020, CMD_I2C_DA_RD, 1, buf};
->
->         dev_dbg(&d->intf->dev, "\n");
->
-> @@ -622,6 +624,11 @@ static int rtl28xxu_identify_state(struct dvb_usb_device *d, const char **name)
->          * by old RTL2831U.
->          */
->         ret = rtl28xxu_ctrl_msg(d, &req_demod_i2c);
-> +       dev_info(&d->intf->dev, "%s - ret1 = %d\n", __func__, ret);
-> +
-> +       ret = rtl28xxu_ctrl_msg(d, &req_demod_i2c2);
-> +       dev_info(&d->intf->dev, "%s - ret2 = %d\n", __func__, ret);
-> +
->         if (ret == -EPIPE) {
->                 dev->chip_id = CHIP_ID_RTL2831U;
->         } else if (ret == 0) {
-> --
-> 2.31.1
->
