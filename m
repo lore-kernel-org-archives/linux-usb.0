@@ -2,86 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99DD3C47080
-	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 12:34:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B194C47082
+	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 15:01:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75CD561263
-	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 12:34:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A80960FE8
+	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 15:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231463AbhEaMfi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 May 2021 08:35:38 -0400
-Received: from mga18.intel.com ([134.134.136.126]:42225 "EHLO mga18.intel.com"
+        id S234393AbhEaPCk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 May 2021 11:02:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231377AbhEaMfi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 May 2021 08:35:38 -0400
-IronPort-SDR: m5MIFJt4rpb+cdYmkkYmRVvhAPXZIpatJD4bDdpQhI/P+zuzIKrA699Q8pfEO8RgiGHdbugXgo
- e3qISxMpBm0w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10000"; a="190711866"
-X-IronPort-AV: E=Sophos;i="5.83,237,1616482800"; 
-   d="scan'208";a="190711866"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2021 05:33:55 -0700
-IronPort-SDR: CjjbPz5fMAuEqn0ZIyienNP5xgz4ay/aGLJGaCHoHm1ho8HO0ZKuk14puks00OFegbtWm8iAmh
- sajrjvAwN1Xw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,237,1616482800"; 
-   d="scan'208";a="549400165"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 31 May 2021 05:33:52 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 31 May 2021 15:33:52 +0300
-Date:   Mon, 31 May 2021 15:33:52 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Jun Li <jun.li@nxp.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] usb: typec: mux: Remove requirement for the
- "orientation-switch" device property
-Message-ID: <YLTXsKoe9JTKp43f@kuha.fi.intel.com>
-References: <20210526153548.61276-1-heikki.krogerus@linux.intel.com>
- <20210526153548.61276-3-heikki.krogerus@linux.intel.com>
- <VI1PR04MB59350F5BC9129F9E0B21773889229@VI1PR04MB5935.eurprd04.prod.outlook.com>
- <YLSPLxfyavO+AkLY@kuha.fi.intel.com>
- <YLSW0IoHdnzRSzUW@kuha.fi.intel.com>
- <YLSdptmScGo5TJ1D@kuha.fi.intel.com>
- <VI1PR04MB5935F74E297A467D846AADEC893F9@VI1PR04MB5935.eurprd04.prod.outlook.com>
+        id S234149AbhEaPAj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 31 May 2021 11:00:39 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4606160FE8;
+        Mon, 31 May 2021 14:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1622472599;
+        bh=US+o5yakSgDlDIXjsQOdUyCsJpd2NsknS55Beb7nDB0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EBH3SLaGjAsS/uNvM8nMg0GjOqiCbu1e6Tn8nblqn1hd5b15rRvs0c3T++x0572Xl
+         Auj+z9TgIef4SBNH5l5n2UzYLa2umQN92o7lbeLyjWbUlEe8x0G+kYTJaOkmbmbISH
+         sCYngV6C/+WkO2/yyItS85P9miaMSohH32QXlUA8=
+Date:   Mon, 31 May 2021 16:49:56 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        USB <linux-usb@vger.kernel.org>, Ferry Toth <fntoth@gmail.com>,
+        Wesley Cheng <wcheng@codeaurora.org>
+Subject: Re: v5.13-rc3 --> v5.13-rc4 DWC3 breakage
+Message-ID: <YLT3lHWFimB3GiHy@kroah.com>
+References: <CAHp75Vc1BHSOfzUg2a1EEV_hNQK_MNNnVKA4wG_tWAWgTmnE9w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <VI1PR04MB5935F74E297A467D846AADEC893F9@VI1PR04MB5935.eurprd04.prod.outlook.com>
+In-Reply-To: <CAHp75Vc1BHSOfzUg2a1EEV_hNQK_MNNnVKA4wG_tWAWgTmnE9w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> > > Oh no. This patch just landed into Greg's usb-next. I'll prepare the
-> > > revert. I'm sorry about this.
-> > 
-> > Actually, if we always need that extra (boolean) device property to identify
-> > the device class when OF graph is used, 
+On Mon, May 31, 2021 at 05:33:02PM +0300, Andy Shevchenko wrote:
+> Hi!
 > 
-> Looks like yes, as we need a way to know if the current fwnode
-> is for the target device we are looking for, to return probe
-> defer correctly.
+> The only patch that made v5.13-rc4 effectively broke USB on Intel Merrifield.
 > 
-> > shouldn't we just do that always
-> > in fwnode_graph_devcon_match()?
+> My reproducer:
+>  1. Boot with switch in gadget mode
+>  2. Enable USB ethernet
+>  3. Switch to host
+>  4. wait a bit for device enumeration, etc
+>  5. Switch back
+>  6. No gadget mode, kernel RCU stall detected (USB become unusable, so
+> does the system)
 > 
-> This depends on if we want to limit this to be a boolean property
-> (to mark this is the target fwnode), or make it to be more generic
-> so user can define it in its ->match().
+> [  115.792620] rcu: INFO: rcu_sched self-detected stall on CPU
+> [  115.798410] rcu:     0-....: (24089 ticks this GP)
+> idle=886/1/0x4000000000000000 softirq=3796/3797 fqs=5240
+> [  115.808333]  (t=21000 jiffies g=6505 q=12158)
+> [  115.812847] NMI backtrace for cpu 0
+> [  115.816472] CPU: 0 PID: 23 Comm: kworker/0:1 Not tainted 5.13.0-rc4+ #213
+> ...
 > 
-> Now there are only 2 users of it, role switch and typec mux, both work
-> as a boolean property for con_id.
+> [  115.977913]  add_dma_entry+0xd4/0x1d0
+> [  115.981760]  dma_map_page_attrs+0xd8/0x220
+> [  115.986063]  usb_hcd_map_urb_for_dma+0x3b6/0x4f0
+> [  115.990895]  usb_hcd_submit_urb+0x98/0xbf0
+> [  115.995263]  dln2_rx+0x1ae/0x280 [dln2]
+> ...
+> 
+> 100% Reproducibility, revert of the 25dda9fc56bd ("usb: dwc3: gadget:
+> Properly track pending and queued SG") fixes the issue.
+> 
+> Please, fix it properly or revert. Thanks!
 
-
-OK. Let's leave to the users for now.
+Care to send the revert?
 
 thanks,
 
--- 
-heikki
+greg k-h
