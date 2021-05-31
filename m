@@ -2,190 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666B6C47080
-	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 17:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9750C47080
+	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 20:23:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C42161108
-	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 17:47:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7A8F61263
+	for <linux-usb@archiver.kernel.org>; Mon, 31 May 2021 20:23:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232274AbhEaRti (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 May 2021 13:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
+        id S231995AbhEaUYl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 May 2021 16:24:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232412AbhEaRtX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 May 2021 13:49:23 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0740C061257
-        for <linux-usb@vger.kernel.org>; Mon, 31 May 2021 10:28:55 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id m13-20020a17090b068db02901656cc93a75so1219816pjz.3
-        for <linux-usb@vger.kernel.org>; Mon, 31 May 2021 10:28:55 -0700 (PDT)
+        with ESMTP id S232091AbhEaUYZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 May 2021 16:24:25 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBB70C061760
+        for <linux-usb@vger.kernel.org>; Mon, 31 May 2021 13:22:39 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id lx17-20020a17090b4b11b029015f3b32b8dbso202704pjb.0
+        for <linux-usb@vger.kernel.org>; Mon, 31 May 2021 13:22:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=beagleboard-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ultZWLSJXHjD/NDoDi7dRR5xSSmHzfIKA0oXYNi9NUE=;
-        b=zokO7hme+4avv5q6TaA4Luwpm6oKkm7dtD0IdrdHEG+5VOxtO7H4SINbiPiNmfqrn3
-         YVrhPwG4obBtb9OT3JfaA3DyTu93m5UDC3BfzVETWZDH5oK2HmKxtkEoEXbzAQFFsF1x
-         ODEXS5HVGdUVACAeTZ/qmObhT1+fCRnQHwKnHj18Ovb7lvtKYSBVkIhrP1saxOIUlC7J
-         OUBQdpkWAD0ltZa4Er0iTvzs4pTuozbVVHJshVGhxz8BGBOtdAxi3iA5M+Mhihqtb/Fu
-         FVPpIEu2Fu1msS7CBUJfkHO+1HCglRnZI7R0XI2F5w+5fx3Zu+Ez4Pos1f+dtsxEdGfc
-         2UYQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LitQBbJQWqQUrB9JZGLzDtkeFx5Okxog/En0Tti53gE=;
+        b=Hzj2Y7IVZnBJu0eA1i1vDXHtJ0eeNRHS53gKZ0MoVUGWlbXchGp15RYSRH+XGceC/b
+         xozVReTjKTF2fUYdwKQ4TeJwMzgWV4pYQ2LE9H09+sgkhpbGIT/e8RYMJHUbNtkzEyJE
+         b5fQ1pw770fgVJIwLbFLwCoNVyh+YKjlNT64E6RDkFyn3ZwShqVMpvlokOXOP0JqYHyf
+         2DtpX28+HUdYURadwkDLZoMFXuGrBPnN6IyHvAKeBRllz07euSQOEADuKvUUd+K7wopS
+         PQsZ8hZbpRzU3DNEsYiyLBL+m4M1THKJsDM9Ou7iRDi429SBcZpvVXIX1y5eKgS+ZQbx
+         VMrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ultZWLSJXHjD/NDoDi7dRR5xSSmHzfIKA0oXYNi9NUE=;
-        b=kBiYoz03R7GYb0U8pa1sebOFVcopX8Q6J7rqMbRLUnlC+f1RO8/IjfgT1qtWHeI44F
-         d3AYms6cmeeBqiCwhuqc4S7LonbmgqOyPzeiPVcsZ7j52XRJEbu4q1bPQ1ZB4cxdKX+K
-         KV3Ax3w7OrOmDHnPM+XzAqJT8sp8XSCca1Gu6gbvYnZyxyjedRbhHD0Ro2SdqyNBlyQ0
-         TbGFDS0WVmUnhXCObZ4OZ/4lHp0tb0X0Dt6c8q44a48GikhOmI8RB6PAKx/zaeV67fJK
-         T0fnk8jZezneotCvufeJ73isho7kHzL5bmgFw8fhNabTAFYqisiu4EHwq/i5LWuo1ouj
-         IE6w==
-X-Gm-Message-State: AOAM531H1zwJvJjnpuOKakk/lHBRPrJ2wbIIncRc3KDbR12r21sCI/q/
-        9r9fMjnpGDnf8SF8E7UM+hHXAg==
-X-Google-Smtp-Source: ABdhPJx5m1UTqxTXcCJiV4/XDgn7iAKF8n00hou0oP4urgg3LcoNupGXr4tTVIPst6zP3b+rs9k+EA==
-X-Received: by 2002:a17:90a:b28d:: with SMTP id c13mr202477pjr.80.1622482135140;
-        Mon, 31 May 2021 10:28:55 -0700 (PDT)
-Received: from x1 ([2601:1c0:4701:ae70:a449:bb:b7e3:9c7c])
-        by smtp.gmail.com with ESMTPSA id g2sm3896526pfv.106.2021.05.31.10.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 10:28:54 -0700 (PDT)
-Date:   Mon, 31 May 2021 10:28:52 -0700
-From:   Drew Fustini <drew@beagleboard.org>
-To:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Cc:     Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Lindgren <tony@atomide.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, alexandre.belloni@bootlin.com,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] usb: musb: fix MUSB_QUIRK_B_DISCONNECT_99 handling
-Message-ID: <20210531172852.GA706339@x1>
-References: <20210528140446.278076-1-thomas.petazzoni@bootlin.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LitQBbJQWqQUrB9JZGLzDtkeFx5Okxog/En0Tti53gE=;
+        b=Cs5Umcv7P8oP01TDCSSY3bnYALm8XbDI4KgadL5/qxb9d0sR+Q97dWYMJvv6wddAe3
+         hQ9FgwE4QXNhbe9Ah/7M2nQg7OWUd/KiG0RmZNRNsEXgd2EOE2iQRQpIQcoKRElkjy32
+         7nnRjZrVdhj+DmeTwHiGBvl8TRXu3kYk497BQ0a3t3HF3t+3ZqTxBz+p7GEAkJjVxI4l
+         wDCden8NMKmoIEB1ZesVKfCbddDdpsGbDoSjulc8ovQJYegXlVqF41NqzYs3t3YoUnmu
+         5ZBlm6pFtoThI7v9PzQBmPgrsHkxpVJZDMukI8UcAroLaOg9G7YXg8XKF2jL2d2P9lEn
+         wt5A==
+X-Gm-Message-State: AOAM530yqSai1VXL90dSJjbWDlPsL1hYdjthLq6iXoEpt4tgTntg7JCL
+        jgZIYzUNgoD5VI8AcRSnenlIYJ7rppbe28FgDbc=
+X-Google-Smtp-Source: ABdhPJxvCo5LBNs7zG9x74tAF6CtFFBc4y6ZLt40m8GubSM/TIWAElF4lYwwxtK5ZLqihTdF+dW894fBdXymOjRVAi4=
+X-Received: by 2002:a17:90a:af8b:: with SMTP id w11mr21086142pjq.228.1622492559223;
+ Mon, 31 May 2021 13:22:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210528140446.278076-1-thomas.petazzoni@bootlin.com>
+References: <CAHp75Vc1BHSOfzUg2a1EEV_hNQK_MNNnVKA4wG_tWAWgTmnE9w@mail.gmail.com>
+ <YLT3lHWFimB3GiHy@kroah.com> <CAHp75Vdjrj6=8thopwD7OPb-gxyVZx895Vd66mLSA4-BggdcWg@mail.gmail.com>
+In-Reply-To: <CAHp75Vdjrj6=8thopwD7OPb-gxyVZx895Vd66mLSA4-BggdcWg@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 31 May 2021 23:22:23 +0300
+Message-ID: <CAHp75Vc93a67fVqApGZ9qWy9d0yfasrO3S9-Ns7GqdSZSROuEQ@mail.gmail.com>
+Subject: Re: v5.13-rc3 --> v5.13-rc4 DWC3 breakage
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        USB <linux-usb@vger.kernel.org>, Ferry Toth <fntoth@gmail.com>,
+        Wesley Cheng <wcheng@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 28, 2021 at 04:04:46PM +0200, Thomas Petazzoni wrote:
-> In commit 92af4fc6ec33 ("usb: musb: Fix suspend with devices
-> connected for a64"), the logic to support the
-> MUSB_QUIRK_B_DISCONNECT_99 quirk was modified to only conditionally
-> schedule the musb->irq_work delayed work.
-> 
-> This commit badly breaks ECM Gadget on AM335X. Indeed, with this
-> commit, one can observe massive packet loss:
-> 
-> $ ping 192.168.0.100
-> ...
-> 15 packets transmitted, 3 received, 80% packet loss, time 14316ms
-> 
-> Reverting this commit brings back a properly functioning ECM
-> Gadget. An analysis of the commit seems to indicate that a mistake was
-> made: the previous code was not falling through into the
-> MUSB_QUIRK_B_INVALID_VBUS_91, but now it is, unless the condition is
-> taken.
-> 
-> Changing the logic to be as it was before the problematic commit *and*
-> only conditionally scheduling musb->irq_work resolves the regression:
-> 
-> $ ping 192.168.0.100
-> ...
-> 64 packets transmitted, 64 received, 0% packet loss, time 64475ms
-> 
-> Fixes: 92af4fc6ec33 ("usb: musb: Fix suspend with devices connected for a64")
-> Signed-off-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/usb/musb/musb_core.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-> index 8f09a387b773..4c8f0112481f 100644
-> --- a/drivers/usb/musb/musb_core.c
-> +++ b/drivers/usb/musb/musb_core.c
-> @@ -2009,9 +2009,8 @@ static void musb_pm_runtime_check_session(struct musb *musb)
->  			schedule_delayed_work(&musb->irq_work,
->  					      msecs_to_jiffies(1000));
->  			musb->quirk_retries--;
-> -			break;
->  		}
-> -		fallthrough;
-> +		break;
->  	case MUSB_QUIRK_B_INVALID_VBUS_91:
->  		if (musb->quirk_retries && !musb->flush_irq_work) {
->  			musb_dbg(musb,
-> -- 
-> 2.31.1
+On Mon, May 31, 2021 at 6:45 PM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Mon, May 31, 2021 at 5:49 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Mon, May 31, 2021 at 05:33:02PM +0300, Andy Shevchenko wrote:
+> > > Hi!
+> > >
+> > > The only patch that made v5.13-rc4 effectively broke USB on Intel Merrifield.
+> > >
+> > > My reproducer:
+> > >  1. Boot with switch in gadget mode
+> > >  2. Enable USB ethernet
+> > >  3. Switch to host
+> > >  4. wait a bit for device enumeration, etc
+> > >  5. Switch back
+> > >  6. No gadget mode, kernel RCU stall detected (USB become unusable, so
+> > > does the system)
+> > >
+> > > [  115.792620] rcu: INFO: rcu_sched self-detected stall on CPU
+> > > [  115.798410] rcu:     0-....: (24089 ticks this GP)
+> > > idle=886/1/0x4000000000000000 softirq=3796/3797 fqs=5240
+> > > [  115.808333]  (t=21000 jiffies g=6505 q=12158)
+> > > [  115.812847] NMI backtrace for cpu 0
+> > > [  115.816472] CPU: 0 PID: 23 Comm: kworker/0:1 Not tainted 5.13.0-rc4+ #213
+> > > ...
+> > >
+> > > [  115.977913]  add_dma_entry+0xd4/0x1d0
+> > > [  115.981760]  dma_map_page_attrs+0xd8/0x220
+> > > [  115.986063]  usb_hcd_map_urb_for_dma+0x3b6/0x4f0
+> > > [  115.990895]  usb_hcd_submit_urb+0x98/0xbf0
+> > > [  115.995263]  dln2_rx+0x1ae/0x280 [dln2]
+> > > ...
+> > >
+> > > 100% Reproducibility, revert of the 25dda9fc56bd ("usb: dwc3: gadget:
+> > > Properly track pending and queued SG") fixes the issue.
+> > >
+> > > Please, fix it properly or revert. Thanks!
+> >
+> > Care to send the revert?
+>
+> Sure, But I want to give Thinh a chance to react to this, maybe it
+> would be a better idea.
+> Let's say if nothing happens I will send it on Wednesday.
 
-Tested-by: Drew Fustini <drew@beagleboard.org>
+Please, hold on, I have to perform additional testing (something odd
+is going on on my side).
 
-This patches fixes the problem on the BeagleBone Black (AM3358) where
-the USB gadget interfaces would frequently reset. For example:
-
-  configfs-gadget gadget: init rndis
-  configfs-gadget gadget: RNDIS RX/TX early activation ...
-  usb0: qlen 10
-  configfs-gadget gadget: rndis_open
-  rndis_set_param_medium: 0 4259840
-  usb0: eth_start
-  rndis_set_param_dev:
-  configfs-gadget gadget: set_config: interface 2 (Mass Storage Function) requested delayed status
-  configfs-gadget gadget: delayed_status count 1
-  configfs-gadget gadget: reset ncm control 3
-  configfs-gadget gadget: init ncm ctrl 3
-  configfs-gadget gadget: notify speed 425984000
-  configfs-gadget gadget: reset acm ttyGS0
-  configfs-gadget gadget: activate acm ttyGS0
-  configfs-gadget gadget: acm ttyGS0 serial state 0000
-  configfs-gadget gadget: usb_composite_setup_continue
-  configfs-gadget gadget: usb_composite_setup_continue: Completing delayed status
-  configfs-gadget gadget: rndis req21.00 v0000 i0000 l24
-  rndis_msg_parser: RNDIS_MSG_INIT
-  configfs-gadget gadget: rndis reqa1.01 v0000 i0000 l1025
-  configfs-gadget gadget: rndis req21.00 v0000 i0000 l32
-  gen_ndis_query_resp: RNDIS_OID_GEN_PHYSICAL_MEDIUM
-  configfs-gadget gadget: rndis reqa1.01 v0000 i0000 l1025
-  configfs-gadget gadget: rndis req21.00 v0000 i0000 l76
-  gen_ndis_query_resp: RNDIS_OID_802_3_PERMANENT_ADDRESS
-  configfs-gadget gadget: rndis reqa1.01 v0000 i0000 l1025
-  configfs-gadget gadget: rndis req21.00 v0000 i0000 l32
-  gen_ndis_set_resp: RNDIS_OID_GEN_CURRENT_PACKET_FILTER 0000002d
-  configfs-gadget gadget: rndis reqa1.01 v0000 i0000 l1025
-  configfs-gadget gadget: init ncm
-  configfs-gadget gadget: activate ncm
-  usb1: qlen 10
-  configfs-gadget gadget: ncm_open
-  usb1: eth_start
-  configfs-gadget gadget: reset ncm
-  usb1: gether_disconnect
-  configfs-gadget gadget: ncm reqa1.80 v0000 i0003 l28
-  configfs-gadget gadget: non-CRC mode selected
-  configfs-gadget gadget: ncm req21.8a v0000 i0003 l0
-  configfs-gadget gadget: NCM16 selected
-  configfs-gadget gadget: ncm req21.84 v0000 i0003 l0
-  configfs-gadget gadget: init ncm
-  configfs-gadget gadget: activate ncm
-  usb1: qlen 10
-  configfs-gadget gadget: ncm_open
-  usb1: eth_start
-  configfs-gadget gadget: acm ttyGS0 req21.20 v0000 i0005 l7
-  configfs-gadget gadget: notify speed 425984000
-  configfs-gadget gadget: notify connect true
-
-I have posted dmesg log without the patch [1] where this happens often
-and the dmesg log with the patch [2] where it does happen at all.
-
-Thank you for fixing this!
-Drew
-
-[1] https://gist.github.com/pdp7/bd61e5f78545de182605992254d3eeee
-[2] https://gist.github.com/pdp7/95b0f34fa1d423d4764984b400c562cf
-
+-- 
+With Best Regards,
+Andy Shevchenko
