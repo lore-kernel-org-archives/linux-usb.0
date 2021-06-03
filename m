@@ -2,476 +2,339 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5740CC47097
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Jun 2021 21:50:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E37D2C47096
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Jun 2021 22:01:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36B49613F8
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Jun 2021 21:50:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B647D613F9
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Jun 2021 22:01:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbhFCVwH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Jun 2021 17:52:07 -0400
-Received: from mail-pf1-f169.google.com ([209.85.210.169]:43597 "EHLO
-        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbhFCVwH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Jun 2021 17:52:07 -0400
-Received: by mail-pf1-f169.google.com with SMTP id t28so5920270pfg.10
-        for <linux-usb@vger.kernel.org>; Thu, 03 Jun 2021 14:50:07 -0700 (PDT)
+        id S229924AbhFCWDW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Jun 2021 18:03:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229576AbhFCWDV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Jun 2021 18:03:21 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0CF9C06174A
+        for <linux-usb@vger.kernel.org>; Thu,  3 Jun 2021 15:01:22 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id l2so7313447wrw.6
+        for <linux-usb@vger.kernel.org>; Thu, 03 Jun 2021 15:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4jcQZYmyqh/KUO4CjZnogaDVrPTgOgfMeEx3RyMtjEw=;
-        b=WtIcYJJQpvHha5cG3dA5wNdbP0iAkwGb2l+nNKfZYulGaZsU4Nt1lKaF/ZQfKTjg+l
-         uA3JU/X45cEvffF37JH0Vwze1llTXQnIIlM62aiU85VFlze4rzRlVvJ/WFATu9wKL5Yk
-         33CgbcMemn+47tg/yi6xvX/RUkT+4+XKtmS/FxrxGHSIa1z7aljSdHoyaSMBm4yoasV7
-         9S/qiBz46gNXAM53dECAhEohAUdV2DBMybRstLLZ5jS0gPcYV0yVX5zkmkz/FdPbAom8
-         QmvGlx3unGtIUgOhWyDWICxGEwwEfFL/gseSZ74lzuWL0F+Dw1f8ubdFWqTcar1sdsz0
-         qVgQ==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=y7topgvHjcZG4ywvM1BGcOPP7Ws5IjQsYH7VdS8VrVk=;
+        b=YmEcz1Zq2HvEZF3C9roVI6AhWx0jbSL8/7lN5HkFOGMjfet7f1mAXiNn9KnXzfGaWV
+         YqPhVtTx+Ol+R0tg/0SaDpv3nkMJZ0akIsqXbOwDN7Pm69ttPa7E8K/+jEukR0KxVPyf
+         bqH/vUxMwVizdELm4dvlD5T26JKc6pouEIjBtf03c9ClEXHnIyc8daPvLpKLyPLUxMtQ
+         nzNGfqzipvwc5WmfAv1K6ijnfbJ6F2AaCZ3KGQEJrN0SNt04jYQd9Jj0QwJ/+3fNJp/C
+         cZjYYCu7n7QoiJVXNylCb7C8xUHgYJq6FlHE1geTYvMVCcvE95WwS1WWrsItkLpBizpD
+         uinA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4jcQZYmyqh/KUO4CjZnogaDVrPTgOgfMeEx3RyMtjEw=;
-        b=Lh2H6Ewv0CykCvi+5X4xPyV2NuwnVwNZcdkmgQlPM9ErXQfFOfuJE5131RQpfcWCB/
-         KQ4a+q/Un/y6nLp4SJuEmP1g2OmzYHOPUyo51PcqD3ivkgWcHefhsXWqK3hjp63Fvy1i
-         upkxIBHJyFijPY49ojpDj/+f2B+YWUulB86XEHL090OCwqhZKBwk4F7OxC9vtmN4GYpr
-         zhAo3tpy+U2x5EIznyE3Qfq8/thr9X0qBRRAo0ZZJVtCXWaiHH1ZL5f2rRq663rxtigy
-         sCrU+60HMnF3r+sRqp1abgtAeXvJd1i2KKKt8nRjAMBZ3MPtuBCwMMgZB5aL39fetl6R
-         5YcA==
-X-Gm-Message-State: AOAM532GH3x/dKCuLcEy1hcoRwOx/I9aySDUsPNNEXrSUws8xhtCfxIu
-        +LHK25kzED1ZAigJU21348A03u0wtVR1EZJFkk2KAmJJKiM86g==
-X-Google-Smtp-Source: ABdhPJyZ3fTxmjqOrPerhETEmumSzzNhhp0433xyNJhuM8XAC+lOgE08UCX4lfi+EfOVVoW2/iNsc8q2L/mJWtaV/O0=
-X-Received: by 2002:a63:104a:: with SMTP id 10mr1558023pgq.66.1622756947503;
- Thu, 03 Jun 2021 14:49:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=y7topgvHjcZG4ywvM1BGcOPP7Ws5IjQsYH7VdS8VrVk=;
+        b=Mogx4IYVD4/99OHQjQDNV54bePluA4RBgGtQzyV0HHGowdtzX9iUiiHP0GbsNgKmnP
+         divPEbznqpGScdO8SPNz1I1tAN2AyLUpQKFrmSDbKKRGoKpsDf/qMeSOiTgTNrErDNTq
+         PuMKsQOLAOpXKrI4xycensQcHpwUmahO+Atn+9MS0lYaSZo5KnS6DFFMgWUJA4rJkI0M
+         VVJrSeRT96k/BmfjHn2eSJ+fyEHqGe3HzhCVdqz9BGBQJpfPhyealoJ0Pcz+XzOVpAia
+         aV6ZIE4VsfnquVarZs2wFv5fAuLJaJYiIuAwJiIfm40QXV9kuF6bvTSxmsf7COeaKuY9
+         5k2A==
+X-Gm-Message-State: AOAM533sh18CRWow4Eqlf8szjMMO3pKdm1AowknEg0kMVYOqDsXKrclN
+        hE1Xk7lxwuTaM1e7AuetEKaVnQ==
+X-Google-Smtp-Source: ABdhPJyxi3Xt0PpYpwNMqnBTY4lgIqbKUUiEQV032Iy2l/JEMEx3l/b+1nAUbk09g2hSvWwz2udsIg==
+X-Received: by 2002:adf:f68a:: with SMTP id v10mr574369wrp.58.1622757680616;
+        Thu, 03 Jun 2021 15:01:20 -0700 (PDT)
+Received: from localhost.localdomain ([2a04:cec0:11bf:2693:b60f:d58b:e3f4:1a80])
+        by smtp.googlemail.com with ESMTPSA id s128sm4078404wme.6.2021.06.03.15.01.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Jun 2021 15:01:20 -0700 (PDT)
+From:   Jerome Brunet <jbrunet@baylibre.com>
+To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>, balbi@kernel.org
+Cc:     linux-usb@vger.kernel.org, gschmottlach@gmail.com,
+        Pavel Hofman <pavel.hofman@ivitera.com>,
+        Jerome Brunet <jbrunet@baylibre.com>
+Subject: [PATCH v3 2/3] usb: gadget: f_uac2: add adaptive sync support for capture
+Date:   Fri,  4 Jun 2021 00:01:03 +0200
+Message-Id: <20210603220104.1216001-3-jbrunet@baylibre.com>
+X-Mailer: git-send-email 2.32.0.rc0
+In-Reply-To: <20210603220104.1216001-1-jbrunet@baylibre.com>
+References: <20210603220104.1216001-1-jbrunet@baylibre.com>
 MIME-Version: 1.0
-References: <CAAvkfd_vPHcd5CTLrA_BoVhg_aNWNzcp45yO-dCpJZhyabjjsg@mail.gmail.com>
- <YK4T+w+e8TtAUuEo@hovoldconsulting.com>
-In-Reply-To: <YK4T+w+e8TtAUuEo@hovoldconsulting.com>
-From:   David Frey <dpfrey@gmail.com>
-Date:   Thu, 3 Jun 2021 14:48:44 -0700
-Message-ID: <CAAvkfd91qr+aQQxXyQfk1e2Avifcdp6fCwgrk3c7=ex3pcqvPw@mail.gmail.com>
-Subject: Re: CP210X: Failure while programming ESP32 dev board
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Johan,
+From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 
-I have added linux-usb@vger.kernel.org to the CC as requested.
+Current f_uac2 USB OUT (aka 'capture') synchronization
+implements 'ASYNC' scenario which means USB Gadget has
+it's own freerunning clock and can update Host about
+real clock frequency through feedback endpoint so Host
+can align number of samples sent to the USB gadget to
+prevent overruns/underruns
 
-> I just verified with a CP2102N here and everything appears to work as
-> expected as it also does with some of your boards. Could the CP2102N in
-> the board in question be configured differently in EEPROM?
-I would be surprised if the EEPROM of the failing devices were
-customized, but I'm not sure how to prove that there weren't modified.
-The CP2102N seems to identify with the default VID/PID, so that's
-evidence supporting the theory that it's not been modified.
+In case if Gadget can has no it's internal clock and
+can consume audio samples at any rate (for example,
+on the Gadget side someone records audio directly to
+a file, or audio samples are played through an
+external DAC as soon as they arrive), UAC2 spec
+suggests 'ADAPTIVE' synchronization type.
 
-Using kernel 5.11.7 (before the bug) I ran "echo module cp210x +p >
-/sys/kernel/debug/dynamic_debug/control" and then plugged in the
-CP2102N USB device and I see this in dmesg when I plug in the device:
-[100761.713921] usb 1-1: new full-speed USB device number 8 using xhci_hcd
-[100761.855667] usb 1-1: New USB device found, idVendor=3D10c4,
-idProduct=3Dea60, bcdDevice=3D 1.00
-[100761.855678] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2,
-SerialNumber=3D3
-[100761.855684] usb 1-1: Product: CP2102N USB to UART Bridge Controller
-[100761.855688] usb 1-1: Manufacturer: Silicon Labs
-[100761.855692] usb 1-1: SerialNumber: f06e721e74e1ea11bd9ddc2d9a583cc7
-[100761.856771] cp210x 1-1:1.0: cp210x converter detected
-[100761.858469] usb 1-1: cp210x converter now attached to ttyUSB0
+Change UAC2 driver to make it configurable through
+additional 'c_sync' configfs file.
 
-5.11.7: Before trying to flash the ESP32 using the CP2102N:
-$ stty -F /dev/ttyUSB0 -a
-speed 9600 baud; rows 0; columns 0; line =3D 0;
-intr =3D ^C; quit =3D ^\; erase =3D ^?; kill =3D ^U; eof =3D ^D; eol =3D <u=
-ndef>;
-eol2 =3D <undef>; swtch =3D <undef>; start =3D ^Q; stop =3D ^S; susp =3D ^Z=
-;
-rprnt =3D ^R; werase =3D ^W; lnext =3D ^V; discard =3D ^O; min =3D 1; time =
-=3D 0;
--parenb -parodd -cmspar cs8 hupcl -cstopb cread clocal -crtscts
--ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr icrnl
-ixon -ixoff -iuclc -ixany -imaxbel -iutf8
-opost -olcuc -ocrnl onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0 bs0 vt0=
- ff0
-isig icanon iexten echo echoe echok -echonl -noflsh -xcase -tostop
--echoprt echoctl echoke -flusho -extproc
+Default remains 'asynchronous' with possibility to
+switch it to 'adaptive'
 
-5.11.7: Debug logs as a result of above stty command:
-[101518.196637] cp210x ttyUSB0: cp210x_change_speed - setting baud rate to =
-9600
-[101518.197142] cp210x ttyUSB0: cp210x_set_flow_control -
-ulControlHandshake=3D0x00000001, ulFlowReplace=3D0x00000040
-[101518.197294] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0303
-[101518.197981] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0300
+Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ .../ABI/testing/configfs-usb-gadget-uac2      |   1 +
+ Documentation/usb/gadget-testing.rst          |   1 +
+ drivers/usb/gadget/function/f_uac2.c          | 100 ++++++++++++++++--
+ drivers/usb/gadget/function/u_uac2.h          |   2 +
+ 4 files changed, 95 insertions(+), 9 deletions(-)
 
-5.11.7: Debug logs as a result of successful programming of the ESP32:
-[101621.135572] cp210x ttyUSB0: cp210x_change_speed - setting baud rate to =
-9600
-[101621.136277] cp210x ttyUSB0: cp210x_set_flow_control -
-ulControlHandshake=3D0x00000001, ulFlowReplace=3D0x00000040
-[101621.136547] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0303
-[101621.136782] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0101
-[101621.136977] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0202
-[101621.137115] cp210x ttyUSB0: cp210x_change_speed - setting baud
-rate to 115384
-[101621.137435] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0100
-[101621.137504] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0202
-[101621.137572] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0100
-[101621.237841] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0101
-[101621.238058] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0200
-[101621.238253] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0101
-[101621.288566] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0100
-[101622.155907] cp210x ttyUSB0: cp210x_change_speed - setting baud
-rate to 461538
-[101635.468674] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0202
-[101635.468876] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0100
-[101635.569222] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0200
-[101635.569446] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0100
-[101635.569853] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0300
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac2 b/Documentation/ABI/testing/configfs-usb-gadget-uac2
+index d4356c8b8cd6..e7e59d7fb12f 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-uac2
++++ b/Documentation/ABI/testing/configfs-usb-gadget-uac2
+@@ -8,6 +8,7 @@ Description:
+ 		c_chmask   capture channel mask
+ 		c_srate    capture sampling rate
+ 		c_ssize    capture sample size (bytes)
++		c_sync     capture synchronization type (async/adaptive)
+ 		p_chmask   playback channel mask
+ 		p_srate    playback sampling rate
+ 		p_ssize    playback sample size (bytes)
+diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+index 2085e7b24eeb..f5a12667bd41 100644
+--- a/Documentation/usb/gadget-testing.rst
++++ b/Documentation/usb/gadget-testing.rst
+@@ -728,6 +728,7 @@ The uac2 function provides these attributes in its function directory:
+ 	c_chmask	capture channel mask
+ 	c_srate		capture sampling rate
+ 	c_ssize		capture sample size (bytes)
++	c_sync		capture synchronization type (async/adaptive)
+ 	p_chmask	playback channel mask
+ 	p_srate		playback sampling rate
+ 	p_ssize		playback sample size (bytes)
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 5d63244ba319..321e6c05ba93 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -44,6 +44,7 @@
+ 
+ #define EPIN_EN(_opts) ((_opts)->p_chmask != 0)
+ #define EPOUT_EN(_opts) ((_opts)->c_chmask != 0)
++#define EPOUT_FBACK_IN_EN(_opts) ((_opts)->c_sync == USB_ENDPOINT_SYNC_ASYNC)
+ 
+ struct f_uac2 {
+ 	struct g_audio g_audio;
+@@ -240,7 +241,7 @@ static struct usb_interface_descriptor std_as_out_if1_desc = {
+ 	.bDescriptorType = USB_DT_INTERFACE,
+ 
+ 	.bAlternateSetting = 1,
+-	.bNumEndpoints = 2,
++	.bNumEndpoints = 1,
+ 	.bInterfaceClass = USB_CLASS_AUDIO,
+ 	.bInterfaceSubClass = USB_SUBCLASS_AUDIOSTREAMING,
+ 	.bInterfaceProtocol = UAC_VERSION_2,
+@@ -273,7 +274,7 @@ static struct usb_endpoint_descriptor fs_epout_desc = {
+ 	.bDescriptorType = USB_DT_ENDPOINT,
+ 
+ 	.bEndpointAddress = USB_DIR_OUT,
+-	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
++	/* .bmAttributes = DYNAMIC */
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 1,
+ };
+@@ -282,7 +283,7 @@ static struct usb_endpoint_descriptor hs_epout_desc = {
+ 	.bLength = USB_DT_ENDPOINT_SIZE,
+ 	.bDescriptorType = USB_DT_ENDPOINT,
+ 
+-	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
++	/* .bmAttributes = DYNAMIC */
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 4,
+ };
+@@ -292,7 +293,7 @@ static struct usb_endpoint_descriptor ss_epout_desc = {
+ 	.bDescriptorType = USB_DT_ENDPOINT,
+ 
+ 	.bEndpointAddress = USB_DIR_OUT,
+-	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
++	/* .bmAttributes = DYNAMIC */
+ 	/* .wMaxPacketSize = DYNAMIC */
+ 	.bInterval = 4,
+ };
+@@ -649,7 +650,9 @@ static void setup_headers(struct f_uac2_opts *opts,
+ 			headers[i++] = USBDHDR(epout_desc_comp);
+ 
+ 		headers[i++] = USBDHDR(&as_iso_out_desc);
+-		headers[i++] = USBDHDR(epin_fback_desc);
++
++		if (EPOUT_FBACK_IN_EN(opts))
++			headers[i++] = USBDHDR(epin_fback_desc);
+ 	}
+ 	if (EPIN_EN(opts)) {
+ 		headers[i++] = USBDHDR(&std_as_in_if0_desc);
+@@ -820,6 +823,23 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 		std_as_out_if1_desc.bInterfaceNumber = ret;
+ 		uac2->as_out_intf = ret;
+ 		uac2->as_out_alt = 0;
++
++		if (EPOUT_FBACK_IN_EN(uac2_opts)) {
++			fs_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
++			hs_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
++			ss_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC;
++			std_as_out_if1_desc.bNumEndpoints++;
++		} else {
++			fs_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
++			hs_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
++			ss_epout_desc.bmAttributes =
++			  USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ADAPTIVE;
++		}
+ 	}
+ 
+ 	if (EPIN_EN(uac2_opts)) {
+@@ -883,11 +903,14 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 			return -ENODEV;
+ 		}
+-		agdev->in_ep_fback = usb_ep_autoconfig(gadget,
++		if (EPOUT_FBACK_IN_EN(uac2_opts)) {
++			agdev->in_ep_fback = usb_ep_autoconfig(gadget,
+ 						       &fs_epin_fback_desc);
+-		if (!agdev->in_ep_fback) {
+-			dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+-			return -ENODEV;
++			if (!agdev->in_ep_fback) {
++				dev_err(dev, "%s:%d Error!\n",
++					__func__, __LINE__);
++				return -ENODEV;
++			}
+ 		}
+ 	}
+ 
+@@ -1242,11 +1265,68 @@ end:									\
+ 									\
+ CONFIGFS_ATTR(f_uac2_opts_, name)
+ 
++#define UAC2_ATTRIBUTE_SYNC(name)					\
++static ssize_t f_uac2_opts_##name##_show(struct config_item *item,	\
++					 char *page)			\
++{									\
++	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
++	int result;							\
++	char *str;							\
++									\
++	mutex_lock(&opts->lock);					\
++	switch (opts->name) {						\
++	case USB_ENDPOINT_SYNC_ASYNC:					\
++		str = "async";						\
++		break;							\
++	case USB_ENDPOINT_SYNC_ADAPTIVE:				\
++		str = "adaptive";					\
++		break;							\
++	default:							\
++		str = "unknown";					\
++		break;							\
++	}								\
++	result = sprintf(page, "%s\n", str);				\
++	mutex_unlock(&opts->lock);					\
++									\
++	return result;							\
++}									\
++									\
++static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
++					  const char *page, size_t len)	\
++{									\
++	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
++	int ret = 0;							\
++									\
++	mutex_lock(&opts->lock);					\
++	if (opts->refcnt) {						\
++		ret = -EBUSY;						\
++		goto end;						\
++	}								\
++									\
++	if (!strncmp(page, "async", 5))					\
++		opts->name = USB_ENDPOINT_SYNC_ASYNC;			\
++	else if (!strncmp(page, "adaptive", 8))				\
++		opts->name = USB_ENDPOINT_SYNC_ADAPTIVE;		\
++	else {								\
++		ret = -EINVAL;						\
++		goto end;						\
++	}								\
++									\
++	ret = len;							\
++									\
++end:									\
++	mutex_unlock(&opts->lock);					\
++	return ret;							\
++}									\
++									\
++CONFIGFS_ATTR(f_uac2_opts_, name)
++
+ UAC2_ATTRIBUTE(p_chmask);
+ UAC2_ATTRIBUTE(p_srate);
+ UAC2_ATTRIBUTE(p_ssize);
+ UAC2_ATTRIBUTE(c_chmask);
+ UAC2_ATTRIBUTE(c_srate);
++UAC2_ATTRIBUTE_SYNC(c_sync);
+ UAC2_ATTRIBUTE(c_ssize);
+ UAC2_ATTRIBUTE(req_number);
+ 
+@@ -1257,6 +1337,7 @@ static struct configfs_attribute *f_uac2_attrs[] = {
+ 	&f_uac2_opts_attr_c_chmask,
+ 	&f_uac2_opts_attr_c_srate,
+ 	&f_uac2_opts_attr_c_ssize,
++	&f_uac2_opts_attr_c_sync,
+ 	&f_uac2_opts_attr_req_number,
+ 	NULL,
+ };
+@@ -1295,6 +1376,7 @@ static struct usb_function_instance *afunc_alloc_inst(void)
+ 	opts->c_chmask = UAC2_DEF_CCHMASK;
+ 	opts->c_srate = UAC2_DEF_CSRATE;
+ 	opts->c_ssize = UAC2_DEF_CSSIZE;
++	opts->c_sync = UAC2_DEF_CSYNC;
+ 	opts->req_number = UAC2_DEF_REQ_NUM;
+ 	return &opts->func_inst;
+ }
+diff --git a/drivers/usb/gadget/function/u_uac2.h b/drivers/usb/gadget/function/u_uac2.h
+index b5035711172d..13589c3c805c 100644
+--- a/drivers/usb/gadget/function/u_uac2.h
++++ b/drivers/usb/gadget/function/u_uac2.h
+@@ -21,6 +21,7 @@
+ #define UAC2_DEF_CCHMASK 0x3
+ #define UAC2_DEF_CSRATE 64000
+ #define UAC2_DEF_CSSIZE 2
++#define UAC2_DEF_CSYNC		USB_ENDPOINT_SYNC_ASYNC
+ #define UAC2_DEF_REQ_NUM 2
+ 
+ struct f_uac2_opts {
+@@ -31,6 +32,7 @@ struct f_uac2_opts {
+ 	int				c_chmask;
+ 	int				c_srate;
+ 	int				c_ssize;
++	int				c_sync;
+ 	int				req_number;
+ 	bool				bound;
+ 
+-- 
+2.32.0.rc0
 
-5.11.7: After successful programming:
-$ stty -F /dev/ttyUSB0 -a
-speed 460800 baud; rows 0; columns 0; line =3D 0;
-intr =3D ^C; quit =3D ^\; erase =3D ^?; kill =3D ^U; eof =3D ^D; eol =3D <u=
-ndef>;
-eol2 =3D <undef>; swtch =3D <undef>; start =3D ^Q; stop =3D ^S; susp =3D ^Z=
-;
-rprnt =3D ^R; werase =3D ^W; lnext =3D ^V; discard =3D ^O; min =3D 0; time =
-=3D 0;
--parenb -parodd -cmspar cs8 hupcl -cstopb cread clocal -crtscts
--ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr -icrnl
--ixon -ixoff -iuclc -ixany -imaxbel -iutf8
--opost -olcuc -ocrnl -onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0
-bs0 vt0 ff0
--isig -icanon -iexten -echo -echoe -echok -echonl -noflsh -xcase
--tostop -echoprt -echoctl -echoke -flusho -extproc
-
-
-Now I upgraded to kernel 5.12.8 (after the bug) and when I plug in the
-device I get:
-[  417.515228] usb 1-1: new full-speed USB device number 7 using xhci_hcd
-[  417.657098] usb 1-1: New USB device found, idVendor=3D10c4,
-idProduct=3Dea60, bcdDevice=3D 1.00
-[  417.657109] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, Seria=
-lNumber=3D3
-[  417.657115] usb 1-1: Product: CP2102N USB to UART Bridge Controller
-[  417.657119] usb 1-1: Manufacturer: Silicon Labs
-[  417.657122] usb 1-1: SerialNumber: f06e721e74e1ea11bd9ddc2d9a583cc7
-[  417.658159] cp210x 1-1:1.0: cp210x converter detected
-[  417.659943] usb 1-1: cp210x converter now attached to ttyUSB0
-
-5.12.8: Before trying to flash the ESP32 using the CP2102N:
-$ stty -F /dev/ttyUSB0 -a
-speed 9600 baud; rows 0; columns 0; line =3D 0;
-intr =3D ^C; quit =3D ^\; erase =3D ^?; kill =3D ^U; eof =3D ^D; eol =3D <u=
-ndef>;
-eol2 =3D <undef>; swtch =3D <undef>; start =3D ^Q; stop =3D ^S; susp =3D ^Z=
-;
-rprnt =3D ^R; werase =3D ^W; lnext =3D ^V; discard =3D ^O; min =3D 1; time =
-=3D 0;
--parenb -parodd -cmspar cs8 hupcl -cstopb cread clocal -crtscts
--ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr icrnl
-ixon -ixoff -iuclc -ixany -imaxbel -iutf8
-opost -olcuc -ocrnl onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0 bs0 vt0=
- ff0
-isig icanon iexten echo echoe echok -echonl -noflsh -xcase -tostop
--echoprt echoctl echoke -flusho -extproc
-
-5.12.8: Debug logs as a result of above stty command:
-[  507.773433] cp210x ttyUSB0: cp210x_change_speed - setting baud rate to 9=
-600
-[  507.774216] cp210x ttyUSB0: cp210x_set_flow_control - ctrl =3D 0x00,
-flow =3D 0x01
-[  507.774450] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0303
-[  507.774673] cp210x ttyUSB0: failed set request 0x7 status: -32
-[  507.775273] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0300
-[  507.775454] cp210x ttyUSB0: failed set request 0x7 status: -32
-
-5.12.8: Debugs logs as a result of FAILED programming of ESP32:
-[ 1385.733008] cp210x ttyUSB0: cp210x_change_speed - setting baud rate to 9=
-600
-[ 1385.733899] cp210x ttyUSB0: cp210x_set_flow_control - ctrl =3D 0x00,
-flow =3D 0x01
-[ 1385.734165] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0303
-[ 1385.734391] cp210x ttyUSB0: failed set request 0x7 status: -32
-[ 1385.735014] cp210x ttyUSB0: cp210x_set_flow_control - ctrl =3D 0x01,
-flow =3D 0x40
-[ 1385.735187] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0101
-[ 1385.735316] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0202
-[ 1385.735558] cp210x ttyUSB0: failed set request 0x7 status: -32
-[ 1385.735817] cp210x ttyUSB0: cp210x_tiocmset_port - control =3D 0x0300
-[ 1385.736082] cp210x ttyUSB0: failed set request 0x7 status: -32
-
-5.12.8: After failed programming:
-$ stty -F /dev/ttyUSB0 -a
-speed 9600 baud; rows 0; columns 0; line =3D 0;
-intr =3D ^C; quit =3D ^\; erase =3D ^?; kill =3D ^U; eof =3D ^D; eol =3D <u=
-ndef>;
-eol2 =3D <undef>; swtch =3D <undef>; start =3D ^Q; stop =3D ^S; susp =3D ^Z=
-;
-rprnt =3D ^R; werase =3D ^W; lnext =3D ^V; discard =3D ^O; min =3D 0; time =
-=3D 0;
--parenb -parodd -cmspar cs8 hupcl -cstopb cread clocal -crtscts
--ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr -icrnl
--ixon -ixoff -iuclc -ixany -imaxbel -iutf8
--opost -olcuc -ocrnl -onlcr -onocr -onlret -ofill -ofdel nl0 cr0 tab0
-bs0 vt0 ff0
--isig -icanon -iexten -echo -echoe -echok -echonl -noflsh -xcase
--tostop -echoprt -echoctl -echoke -flusho -extproc
-
-
-It appears that in the 5.12.8 kernel, there is a failure every time
-cp210x_tiocmset_port is called resulting from this:
-ret =3D cp210x_write_u16_reg(port, CP210X_SET_MHS, control);
-
-Let me know if any other information is required.
-
-Thanks,
-David
-
-
-On Wed, May 26, 2021 at 2:25 AM Johan Hovold <johan@kernel.org> wrote:
->
-> On Tue, May 25, 2021 at 12:15:54PM -0700, David Frey wrote:
-> > Hi Johan,
-> >
-> > I have encountered a regression in my workflow involving the CP2102N.
-> > I suspect the issue could be related to changes to the cp210x Linux
-> > kernel driver and I noticed that you have made many of the recent
-> > changes to that driver.  If It's not clear to you from the following
-> > output what the problem is, I can try to dig deeper and get some
-> > additional information.
-> >
-> > Background:
-> > I am trying to program an Espressif ESP32 development board. I have an
-> > ESP32 pico kit (https://docs.espressif.com/projects/esp-idf/en/latest/e=
-sp32/hw-reference/esp32/get-started-pico-kit.html)
-> > and two product boards for a product that I'm working on that aren't
-> > publicly available yet.  I'm using Arch Linux and uname -r reports
-> > "5.12.6-arch1-1". I am able to successfully program the pico kit from
-> > Linux, but I am no longer able to program the internal development
-> > boards from Linux, but I can still program them from Windows.  I
-> > downgraded to kernel 5.11.7 and the problem went away.
-> >
-> > When I plug in the ESP32 product board:
-> > [  922.211705] usb 1-1: new full-speed USB device number 7 using xhci_h=
-cd
-> > [  922.353758] usb 1-1: New USB device found, idVendor=3D10c4,
-> > idProduct=3Dea60, bcdDevice=3D 1.00
-> > [  922.353770] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, S=
-erialNumber=3D3
-> > [  922.353775] usb 1-1: Product: CP2102N USB to UART Bridge Controller
-> > [  922.353779] usb 1-1: Manufacturer: Silicon Labs
-> > [  922.353783] usb 1-1: SerialNumber: f06e721e74e1ea11bd9ddc2d9a583cc7
-> > [  922.354750] cp210x 1-1:1.0: cp210x converter detected
-> > [  922.356500] usb 1-1: cp210x converter now attached to ttyUSB0
-> >
-> > While trying to program the ESP32 product board:
-> > [ 1299.951982] cp210x ttyUSB0: failed set request 0x7 status: -32
-> > [ 1299.952917] cp210x ttyUSB0: failed set request 0x7 status: -32
-> > [ 1299.953247] cp210x ttyUSB0: failed set request 0x7 status: -32
-> >
-> > When I plug in the ESP32 pico kit:
-> > [ 1856.768077] usb 1-1: new full-speed USB device number 10 using xhci_=
-hcd
-> > [ 1856.910089] usb 1-1: New USB device found, idVendor=3D10c4,
-> > idProduct=3Dea60, bcdDevice=3D 1.00
-> > [ 1856.910101] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, S=
-erialNumber=3D3
-> > [ 1856.910106] usb 1-1: Product: CP2102N USB to UART Bridge Controller
-> > [ 1856.910110] usb 1-1: Manufacturer: Silicon Labs
-> > [ 1856.910114] usb 1-1: SerialNumber: 1017bfe99d98e8118ea47540c3e5cfbd
-> > [ 1856.911284] cp210x 1-1:1.0: cp210x converter detected
-> > [ 1856.913281] usb 1-1: cp210x converter now attached to ttyUSB0
-> >
-> > When I plug in a second ESP32 product board:
-> > [ 2066.188022] usb 1-1: new full-speed USB device number 11 using xhci_=
-hcd
-> > [ 2066.329913] usb 1-1: New USB device found, idVendor=3D10c4,
-> > idProduct=3Dea60, bcdDevice=3D 1.00
-> > [ 2066.329924] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, S=
-erialNumber=3D3
-> > [ 2066.329930] usb 1-1: Product: CP2102N USB to UART Bridge Controller
-> > [ 2066.329934] usb 1-1: Manufacturer: Silicon Labs
-> > [ 2066.329938] usb 1-1: SerialNumber: 700c6f5cd0e1ea11b13ddc2d9a583cc7
-> > [ 2066.331152] cp210x 1-1:1.0: cp210x converter detected
-> > [ 2066.332981] usb 1-1: cp210x converter now attached to ttyUSB0
-> >
-> > This is the relevant part of the "make install" process that fails:
-> > cd /home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py &&
-> > /usr/bin/cmake -D IDF_PATH=3D"/ho...SensorHubBX3105/build" -P
-> > /home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py/run_espto=
-ol.cmake
-> > esptool.py --chip esp32 -p /dev/ttyUSB0 -b 460800
-> > --before=3Ddefault_reset --after=3Dhard_reset write_flash --flash_mode =
-dio
-> > --flash_freq 40m --flash_size 4MB 0x8000
-> > partition_table/partition-table.bin 0x1000 bootloader/bootloader.bin
-> > 0x10000 SensorHub.bin
-> > esptool.py v3.0
-> > Serial port /dev/ttyUSB0
-> > Traceback (most recent call last):
-> >   File "/home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py/e=
-sptool/esptool.py",
-> > line 3969, in <module>
-> >     _main()
-> >   File "/home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py/e=
-sptool/esptool.py",
-> > line 3962, in _main
-> >     main()
-> >   File "/home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py/e=
-sptool/esptool.py",
-> > line 3551, in main
-> >     esp =3D chip_class(each_port, initial_baud, args.trace)
-> >   File "/home/dfrey/.leaf/esp-idf_4.2-0/esp-idf/components/esptool_py/e=
-sptool/esptool.py",
-> > line 271, in __init__
-> >     self._port =3D serial.serial_for_url(port)
-> >   File "/project/leaf-data/SensorHub-signed-21.01-0.3.1/esp-idf/xtensa-=
-esp32-elf/python_env/idf4.2_py3.8_env/lib/python3.8/site-packages/serial/__=
-init__.py",
-> > line 90, in serial_for_url
-> >     instance.open()
-> >   File "/project/leaf-data/SensorHub-signed-21.01-0.3.1/esp-idf/xtensa-=
-esp32-elf/python_env/idf4.2_py3.8_env/lib/python3.8/site-packages/serial/se=
-rialposix.py",
-> > line 338, in open
-> >     self._update_rts_state()
-> >   File "/project/leaf-data/SensorHub-signed-21.01-0.3.1/esp-idf/xtensa-=
-esp32-elf/python_env/idf4.2_py3.8_env/lib/python3.8/site-packages/serial/se=
-rialposix.py",
-> > line 706, in _update_rts_state
-> >     fcntl.ioctl(self.fd, TIOCMBIS, TIOCM_RTS_str)
-> > BrokenPipeError: [Errno 32] Broken pipe
-> > CMake Error at run_cmd.cmake:14 (message):
-> >   esptool.py failed
-> > Call Stack (most recent call first):
-> >   run_esptool.cmake:21 (include)
-> >
-> > The last line in the traceback that's part of the esptool (rather than
-> > pyserial) is https://github.com/espressif/esptool/blob/4fa0bd7b0d1f69f5=
-ff22b043adc07c5e562a8931/esptool.py#L271
-> > In ESP32 boards, the RTS is typically connected to the reset of the
-> > ESP32 and the DTR is connected to GPIO0 which is used for
-> > pin-strapping when coming out of reset to decide whether to boot
-> > normally or enter a bootloader based programming mode.  The relevant
-> > code for that is here:
-> > https://github.com/espressif/esptool/blob/4fa0bd7b0d1f69f5ff22b043adc07=
-c5e562a8931/esptool.py#L470
-> >
-> >
-> > Since the problem exists in v5.12.6 and not in v5.11.7, I suspect it
-> > was introduced in one of these commits that touched cp210x.c between
-> > those releases:
-> > c5d1448fa3532 2021-02-08 06:31 Uwe Kleine-K=C3=B6nig   USB: serial: mak=
-e
-> > remove callback return void
-> > e2f2dea34cf16 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > clean up auto-RTS handling
-> > cf00ead0bde8e 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > fix RTS handling
-> > 6b667274f41a0 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > clean up printk zero padding
-> > f191c63779a0d 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > clean up flow-control debug message
-> > 568400b15a514 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > drop shift macros
-> > 8cce3bbfb4cff 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > fix modem-control handling
-> > 5951b85088557 2021-01-25 05:48 Johan Hovold       USB: serial: cp210x:
-> > suppress modem-control errors
-> > 90fa41ee4a671 2021-01-18 03:13 Johan Hovold       USB: serial: cp210x:
-> > add copyright notice
-> > 4c0a84cb09045 2021-01-18 03:13 Johan Hovold       USB: serial: cp210x:
-> > drop unused includes
-> > dc5338fc64b23 2021-01-18 03:13 Johan Hovold       USB: serial: cp210x:
-> > drop short control-transfer checks
-> > 03f32d7cb51b6 2021-01-18 03:13 Johan Hovold       USB: serial: cp210x:
-> > update control-characters on every ch..
-> > f61309d9c96a3 2021-01-18 03:13 Johan Hovold       USB: serial: cp210x:
-> > set IXOFF thresholds
-> > 7748feffcd80f 2021-01-18 03:13 Wang Sheng Long    USB: serial: cp210x:
-> > add support for software flow control
-> >
-> >
-> > Within that range of commits, I noticed that there is already a commit
-> > which mentions the same error that I'm seeing in the dmesg output and
-> > I understand that it should be fixing this problem:
-> > $ git log -n 1 5951b8508855799fbb2d6a9553ab3b7af595ea94
-> > commit 5951b8508855799fbb2d6a9553ab3b7af595ea94
-> > Author: Johan Hovold <johan@kernel.org>
-> > Date:   Mon Jan 25 14:48:11 2021 +0100
-> >
-> >     USB: serial: cp210x: suppress modem-control errors
-> >
-> >     The CP210X_SET_MHS request cannot be used to control RTS when hardw=
-are
-> >     flow control (auto-RTS) is enabled and instead returns an error whi=
-ch is
-> >     currently logged as:
-> >
-> >             cp210x ttyUSB0: failed set request 0x7 status: -32
-> >
-> >     when opening and closing a port (and on TIOCMSET requests).
-> >
-> >     Add a crtscts flag to keep track of the hardware flow-control setti=
-ng
-> >     and use it to suppress any request to change RTS when auto-RTS is
-> >     enabled.
-> >
-> >     Note that RTS is still deasserted when disabling the UART as part o=
-f
-> >     close.
-> >
-> >     Reported-by: Pho Tran <pho.tran@silabs.com>
-> >     Signed-off-by: Johan Hovold <johan@kernel.org>
-> >
-> >
-> > Sorry for the long rambling e-mail! I hope this is helpful.  If there
-> > is anything else I can do to assist, please let me know.  Thanks for
-> > all your work on the Linux kernel.
->
-> Thanks for the detailed report.
->
-> Do you mind if we keep linux-usb@vger.kernel.org on CC? I kept your
-> entire mail above, so just add the usb list when responding if that's
-> ok.
->
-> The fact that your device now starts returning this error on
-> modem-control requests is a bit puzzling. It would seem that auto-RTS is
-> still enabled in the device for some reason, perhaps due to some
-> setting not being allowed by the device.
->
-> I just verified with a CP2102N here and everything appears to work as
-> expected as it also does with some of your boards. Could the CP2102N in
-> the board in question be configured differently in EEPROM?
->
-> We should also determine which terminal settings you use.
->
-> Could you enable debugging in the driver through debugfs:
->
->         echo module cp210x +p > /sys/kernel/debug/dynamic_debug/control
->
-> or when loading the module:
->
->         modprobe cp210x dyndbg=3D=3Dp
->
-> Then copy the relevant bits of the logs from when connecting the device
-> and running the script.
->
-> Please also include the output of "stty -F /dev/ttyUSB0 -a" after
-> plugging the device in and before and after running the script.
->
-> Johan
