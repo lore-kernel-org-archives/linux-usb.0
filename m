@@ -2,81 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 877EFC47083
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 11:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7EF5C07E94
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B89961415
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 11:54:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81549613FE
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbhFDL4j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 07:56:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45998 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229682AbhFDL4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Jun 2021 07:56:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3751561418;
-        Fri,  4 Jun 2021 11:54:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1622807690;
-        bh=wZZG/mGZCjQQr4cb050WrblT+FLO7Xb59hw5tKouVLo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=G4CIy+pqEcWSE8N1ou8T1exRmZ2BhmHAs5z1o5iTrbZso2KcXVcJnKtaxrVZeb9Ai
-         AJYgJuj7XI7Zp0rUtT4oxLV3QBHNqimHQYnNeUUHmMRcLkJyo8mJEYodpTFODqI2Wj
-         kiyUQV19SLATSESTWjh+tZIdmFuKfs5DejDBMNnE=
-Date:   Fri, 4 Jun 2021 13:54:48 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Wesley Cheng <wcheng@codeaurora.org>
-Cc:     balbi@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
-        robh+dt@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, jackp@codeaurora.org,
-        Thinh.Nguyen@synopsys.com
-Subject: Re: [PATCH v9 0/5] Re-introduce TX FIFO resize for larger EP bursting
-Message-ID: <YLoUiO8tpRpmvcyU@kroah.com>
-References: <1621410561-32762-1-git-send-email-wcheng@codeaurora.org>
+        id S230386AbhFDNon (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 09:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230340AbhFDNom (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 09:44:42 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA23C0617A8
+        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 06:42:55 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lpA63-00072l-Gv; Fri, 04 Jun 2021 15:42:47 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lpA61-0000fC-H6; Fri, 04 Jun 2021 15:42:45 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH net-next v1 1/7] net: usb: asix: ax88772_bind: use devm_kzalloc() instead of kzalloc()
+Date:   Fri,  4 Jun 2021 15:42:38 +0200
+Message-Id: <20210604134244.2467-2-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210604134244.2467-1-o.rempel@pengutronix.de>
+References: <20210604134244.2467-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1621410561-32762-1-git-send-email-wcheng@codeaurora.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, May 19, 2021 at 12:49:16AM -0700, Wesley Cheng wrote:
-> Changes in V9:
->  - Fixed incorrect patch in series.  Removed changes in DTSI, as dwc3-qcom will
->    add the property by default from the kernel.
+Make resource management easier, use devm_kzalloc().
 
-This patch series has one build failure and one warning added:
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ drivers/net/usb/asix_devices.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-drivers/usb/dwc3/gadget.c: In function ‘dwc3_gadget_calc_tx_fifo_size’:
-drivers/usb/dwc3/gadget.c:653:45: warning: passing argument 1 of ‘dwc3_mdwidth’ makes pointer from integer without a cast [-Wint-conversion]
-  653 |         mdwidth = dwc3_mdwidth(dwc->hwparams.hwparams0);
-      |                                ~~~~~~~~~~~~~^~~~~~~~~~
-      |                                             |
-      |                                             u32 {aka unsigned int}
-In file included from drivers/usb/dwc3/debug.h:14,
-                 from drivers/usb/dwc3/gadget.c:25:
-drivers/usb/dwc3/core.h:1493:45: note: expected ‘struct dwc3 *’ but argument is of type ‘u32’ {aka ‘unsigned int’}
- 1493 | static inline u32 dwc3_mdwidth(struct dwc3 *dwc)
-      |                                ~~~~~~~~~~~~~^~~
+diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
+index 19a8fafb8f04..5f767a33264e 100644
+--- a/drivers/net/usb/asix_devices.c
++++ b/drivers/net/usb/asix_devices.c
+@@ -746,11 +746,11 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		dev->rx_urb_size = 2048;
+ 	}
+ 
+-	dev->driver_priv = kzalloc(sizeof(struct asix_common_private), GFP_KERNEL);
+-	if (!dev->driver_priv)
++	priv = devm_kzalloc(&dev->udev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
+ 		return -ENOMEM;
+ 
+-	priv = dev->driver_priv;
++	dev->driver_priv = priv;
+ 
+ 	priv->presvd_phy_bmcr = 0;
+ 	priv->presvd_phy_advertise = 0;
+@@ -768,7 +768,6 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
+ static void ax88772_unbind(struct usbnet *dev, struct usb_interface *intf)
+ {
+ 	asix_rx_fixup_common_free(dev->driver_priv);
+-	kfree(dev->driver_priv);
+ }
+ 
+ static const struct ethtool_ops ax88178_ethtool_ops = {
+-- 
+2.29.2
 
-
-drivers/usb/dwc3/dwc3-qcom.c: In function ‘dwc3_qcom_of_register_core’:
-drivers/usb/dwc3/dwc3-qcom.c:660:23: error: implicit declaration of function ‘of_add_property’; did you mean ‘of_get_property’? [-Werror=implicit-function-declaration]
-  660 |                 ret = of_add_property(dwc3_np, prop);
-      |                       ^~~~~~~~~~~~~~~
-      |                       of_get_property
-
-
-How did you test these?
-
-thanks,
-
-greg k-h
