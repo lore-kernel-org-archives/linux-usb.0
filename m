@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB3A5C4743E
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F081EC4743D
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4B1D6121D
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D57BD6121D
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229668AbhFDVnC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 17:43:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58300 "EHLO
+        id S231621AbhFDVnJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 17:43:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231582AbhFDVnB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 17:43:01 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00772C06178B
-        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 14:41:14 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id q16so5328818pls.6
-        for <linux-usb@vger.kernel.org>; Fri, 04 Jun 2021 14:41:14 -0700 (PDT)
+        with ESMTP id S231603AbhFDVnD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 17:43:03 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528EDC061768
+        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 14:41:08 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id 22-20020a17090a0c16b0290164a5354ad0so8184733pjs.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Jun 2021 14:41:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PPAA6a3ptCbMGxksbOnwM1hguM0avulCeZvp79MemPI=;
-        b=IYQXFddNB4NcFVCcPZGj8ynAIUTyGXaGPz5yLJOB9RDcW+cGio9yjn0pPVmLCXVthP
-         mBbDwS2lPbhDvNUeW6y0FmLLLQVMzfr/PKNMVBQZYLvGiWa3rLUk4V0BMZOkn5sNB6w7
-         Qvb3CPaJarzzeaFY5SJT9gkMgy/ZCKoLwHmVw=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l4uLiCqQeie+puVICQ+LNUiCvUzNktMjBDpvrpDAQ+o=;
+        b=Y44FhCSnKYKAip1EZZkBY2VVSVXeoQMjf1OtPSeIcTMx6bxzJQ706E9H0/OGNsUGnB
+         InP+kS7RBNrTyjBG15MM2J06qlKl2wTgiG4ySAHzYH3cpiRjEY5IjRyRtk15ozs45RDa
+         AcI29BcwBWH68WZlKvXpPzOD2fNkiooroA9S8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PPAA6a3ptCbMGxksbOnwM1hguM0avulCeZvp79MemPI=;
-        b=lERfVSD6pov7ZSqKcLXTUZDiirI6bjBx6XNS2Rl0y07GLgztSExViqg+igWChfgGfH
-         9BMCTlzDbvIIvHyEWFM34lxINbaZgZorI4pEG9UaYOKihglGHLH4Oa5A/sQTbqB4jUiF
-         jttCAcBTvtHUPnVs2joCWfB/GR6ltYZ9/0IyTIAulMQ95kg7HuNtMOjPbZXSiHPJkTuN
-         tDvdR2liaZvkzoDBUz9OJ5Udkd1833FTR64KvGT0zNZc+V+39m2UuRVWSl88hXp7JT95
-         SqmZvJVFesipu3pGWpaz0rOuvlXQWAt7QW0t0dAllMd9CDueKsceA6m9Y5cDMlC3APhB
-         +pJA==
-X-Gm-Message-State: AOAM5311dwSIzeZRULs4KXXB4klHrEoeWIhpiEQsV0unSb9zQUXdE95n
-        7/10kqnnd4Ze7Dvc7pe68btTVw==
-X-Google-Smtp-Source: ABdhPJxtHthiCPncgppf6buUjF7wTpIjeb/iVM+7rAuR0J25Y7tYpF4IqZR7UO+zjCkB+J8W0ZCS5w==
-X-Received: by 2002:a17:90b:430f:: with SMTP id ih15mr4417320pjb.196.1622842874503;
-        Fri, 04 Jun 2021 14:41:14 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l4uLiCqQeie+puVICQ+LNUiCvUzNktMjBDpvrpDAQ+o=;
+        b=OCMXe+RgvImjsYyqyAwZHaTcdj7kZysC1SGW4mwqoIa49i7RWkiaER9EQeZDZHzO9x
+         X80HpJf2pwzSp7B6/WX33X0KlBlaxwwMNYQFXW3YSMixiHxISKvIFZTYNHK7Ba0jCwup
+         BmMfzDZ/zSHM1Eh2E8xp4CEy76ihjWpGlplmvu21HgAJ2+rRVVe8pt0358NdrD2Seqpl
+         5lkmOcbQIAWsB9CExCzgdQZaJObOG/PP+aTfnbw3MvLV02l3P9BL4xW42R6Bxo7cbopS
+         r8HWUmJ72vOA2fHXvPvxXK6II8ooUaCz3QBCo7goLm1v9aBsk2n3X8p1abgZW3B20uM6
+         BmnA==
+X-Gm-Message-State: AOAM531Zzni7nPcqsLtEc4YHnECs7XEjodouUJUZufGREPtIC5vA4obp
+        PURNtEJDtujcFQ9SO68xNL2qGA==
+X-Google-Smtp-Source: ABdhPJyOXK/ctlvPnx2UNmkOsnU8AXIZFI8KhFytx8kW3nE7dvU2dbxBBlp62wFbJe81CHKNOnh8hw==
+X-Received: by 2002:a17:90a:a502:: with SMTP id a2mr18898468pjq.62.1622842867783;
+        Fri, 04 Jun 2021 14:41:07 -0700 (PDT)
 Received: from localhost ([2620:15c:202:201:1cfa:4a0b:c513:8c09])
-        by smtp.gmail.com with UTF8SMTPSA id t1sm2364985pfe.61.2021.06.04.14.41.13
+        by smtp.gmail.com with UTF8SMTPSA id o7sm2957444pgs.45.2021.06.04.14.41.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jun 2021 14:41:14 -0700 (PDT)
+        Fri, 04 Jun 2021 14:41:07 -0700 (PDT)
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
@@ -67,94 +67,107 @@ Cc:     Michal Simek <michal.simek@xilinx.com>,
         Stephen Boyd <swboyd@chromium.org>,
         Douglas Anderson <dianders@chromium.org>,
         Matthias Kaehlcke <mka@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v11 3/5] of/platform: Add stubs for of_platform_device_create/destroy()
-Date:   Fri,  4 Jun 2021 14:40:59 -0700
-Message-Id: <20210604144027.v11.3.I08fd2e1c775af04f663730e9fb4d00e6bbb38541@changeid>
+        Al Cooper <alcooperx@gmail.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Colin Ian King <colin.king@canonical.com>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH v11 0/5] USB: misc: Add onboard_usb_hub driver
+Date:   Fri,  4 Jun 2021 14:40:56 -0700
+Message-Id: <20210604214101.3363525-1-mka@chromium.org>
 X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
-In-Reply-To: <20210604214101.3363525-1-mka@chromium.org>
-References: <20210604214101.3363525-1-mka@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Code for platform_device_create() and of_platform_device_destroy() is
-only generated if CONFIG_OF_ADDRESS=y. Add stubs to avoid unresolved
-symbols when CONFIG_OF_ADDRESS is not set.
+This series adds:
+- the onboard_usb_hub_driver
+- glue in the xhci-plat driver to create and destroy the
+  onboard_usb_hub platform devices if needed
+- a device tree binding for the Realtek RTS5411 USB hub controller
+- device tree changes that add RTS5411 entries for the QCA SC7180
+  based boards trogdor and lazor
+- a couple of stubs for platform device functions to avoid
+  unresolved symbols with certain kernel configs
 
-Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-Acked-by: Rob Herring <robh@kernel.org>
----
+The main issue the driver addresses is that a USB hub needs to be
+powered before it can be discovered. For discrete onboard hubs (an
+example for such a hub is the Realtek RTS5411) this is often solved
+by supplying the hub with an 'always-on' regulator, which is kind
+of a hack. Some onboard hubs may require further initialization
+steps, like changing the state of a GPIO or enabling a clock, which
+requires even more hacks. This driver creates a platform device
+representing the hub which performs the necessary initialization.
+Currently it only supports switching on a single regulator, support
+for multiple regulators or other actions can be added as needed.
+Different initialization sequences can be supported based on the
+compatible string.
+
+Besides performing the initialization the driver can be configured
+to power the hub off during system suspend. This can help to extend
+battery life on battery powered devices which have no requirements
+to keep the hub powered during suspend. The driver can also be
+configured to leave the hub powered when a wakeup capable USB device
+is connected when suspending, and power it off otherwise.
 
 Changes in v11:
-- none
+- support multiple onboard hubs connected to the same parent
+- don't include ‘onboard_hub.h’ from the onboard hub driver
 
 Changes in v10:
-- none
+- always use of_is_onboard_usb_hub() stub unless ONBOARD_USB_HUB=y/m
+- keep 'regulator-boot-on' property for pp3300_hub
 
 Changes in v9:
-- added Rob's 'Acked-by' tag
-
-Changes in v8:
-- fixed C&P error in commit message
+- added dependency on ONBOARD_USB_HUB (or !!ONBOARD_USB_HUB) to
+  USB_PLATFORM_XHCI
 
 Changes in v7:
-- none
+- updated DT binding
+- series rebased on qcom/arm64-for-5.13
 
 Changes in v6:
-- patch added to the series
+- updated summary
 
- include/linux/of_platform.h | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+Changes in v5:
+- cover letter added
 
-diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
-index 84a966623e78..d15b6cd5e1c3 100644
---- a/include/linux/of_platform.h
-+++ b/include/linux/of_platform.h
-@@ -61,16 +61,18 @@ static inline struct platform_device *of_find_device_by_node(struct device_node
- }
- #endif
- 
-+extern int of_platform_bus_probe(struct device_node *root,
-+				 const struct of_device_id *matches,
-+				 struct device *parent);
-+
-+#ifdef CONFIG_OF_ADDRESS
- /* Platform devices and busses creation */
- extern struct platform_device *of_platform_device_create(struct device_node *np,
- 						   const char *bus_id,
- 						   struct device *parent);
- 
- extern int of_platform_device_destroy(struct device *dev, void *data);
--extern int of_platform_bus_probe(struct device_node *root,
--				 const struct of_device_id *matches,
--				 struct device *parent);
--#ifdef CONFIG_OF_ADDRESS
-+
- extern int of_platform_populate(struct device_node *root,
- 				const struct of_device_id *matches,
- 				const struct of_dev_auxdata *lookup,
-@@ -84,6 +86,18 @@ extern int devm_of_platform_populate(struct device *dev);
- 
- extern void devm_of_platform_depopulate(struct device *dev);
- #else
-+/* Platform devices and busses creation */
-+static inline struct platform_device *of_platform_device_create(struct device_node *np,
-+								const char *bus_id,
-+								struct device *parent)
-+{
-+	return NULL;
-+}
-+static inline int of_platform_device_destroy(struct device *dev, void *data)
-+{
-+	return -ENODEV;
-+}
-+
- static inline int of_platform_populate(struct device_node *root,
- 					const struct of_device_id *matches,
- 					const struct of_dev_auxdata *lookup,
+Matthias Kaehlcke (5):
+  dt-bindings: usb: Add binding for Realtek RTS5411 hub controller
+  USB: misc: Add onboard_usb_hub driver
+  of/platform: Add stubs for of_platform_device_create/destroy()
+  usb: host: xhci-plat: Create platform device for onboard hubs in
+    probe()
+  arm64: dts: qcom: sc7180-trogdor: Add nodes for onboard USB hub
+
+ .../sysfs-bus-platform-onboard-usb-hub        |   8 +
+ .../bindings/usb/realtek,rts5411.yaml         |  62 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r0.dts |  19 +-
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r1.dts |  12 +-
+ .../arm64/boot/dts/qcom/sc7180-trogdor-r1.dts |  19 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  19 +-
+ drivers/usb/host/Kconfig                      |   1 +
+ drivers/usb/host/xhci-plat.c                  |   6 +
+ drivers/usb/host/xhci.h                       |   2 +
+ drivers/usb/misc/Kconfig                      |  17 +
+ drivers/usb/misc/Makefile                     |   1 +
+ drivers/usb/misc/onboard_usb_hub.c            | 496 ++++++++++++++++++
+ include/linux/of_platform.h                   |  22 +-
+ include/linux/usb/onboard_hub.h               |  18 +
+ 15 files changed, 675 insertions(+), 34 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-platform-onboard-usb-hub
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+ create mode 100644 drivers/usb/misc/onboard_usb_hub.c
+ create mode 100644 include/linux/usb/onboard_hub.h
+
 -- 
 2.32.0.rc1.229.g3e70b5a671-goog
 
