@@ -2,165 +2,212 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BAD5C4743C
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:40:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4795C4743E
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EEB4613EC
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:40:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F1E4613EC
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 21:41:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231470AbhFDVma (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 17:42:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
+        id S231577AbhFDVm6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 17:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230270AbhFDVm1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 17:42:27 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A94BC061768
-        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 14:40:32 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so10436663otp.11
-        for <linux-usb@vger.kernel.org>; Fri, 04 Jun 2021 14:40:32 -0700 (PDT)
+        with ESMTP id S230242AbhFDVm5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 17:42:57 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67262C061766
+        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 14:41:10 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id l10-20020a17090a150ab0290162974722f2so6634259pja.2
+        for <linux-usb@vger.kernel.org>; Fri, 04 Jun 2021 14:41:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=BpMcjydtHCRL730GVRWjY//UbSmPvtwxP7/K1Agu+es=;
-        b=UxKRPxOAnoysgy7It+V1V2RJRi777Ms5P8JtBDsykQRSfMlkL94+Am4b2Wi7wnGkbT
-         skxXt4KIsARqkX8dVSp/LrvnbDOfVUrWcbwIR8+yDnC5s0S5qmaJgUNMwegjjXLO1isR
-         XTqTRAsAdZitbd6GkHMBT37ZbIfixWzCHhtqg=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XlaFEkq/wHNy65Jvh9hblHLJ082mrVP3syH45tj6v+4=;
+        b=NDt8RNLIdfawiZEdTDpOeV6A8iiUCNO5h3M1/8rw+ZtfgqVgKe+Gu3WbkfPNS8kn2P
+         X20MVMY4h6OFJsHRKHG4lf7qqZGBkMg8PHitC1RAEh+08dlxQtiaOWx0hU0ovuyJMqL1
+         62kt2LSybipZtS2xd2dz1sPWgK/z3bSloBfqo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=BpMcjydtHCRL730GVRWjY//UbSmPvtwxP7/K1Agu+es=;
-        b=kllXcvYwsHzzosDpuMSMp8xflvYQb1DAWwAHBqRNApZEtyG2yiZPfXzjtsYZfwuFjg
-         Kf29lULdo9O7N6kUEWCRlyxgO2Nxj9x8nFNHfWPBmgWBUxUXwAanPJrrGmMm2+V0gNc+
-         PfPmy89CgBH5slvh+EarkRtTnrehr/SGegW1CKS2v3rek5R4gwwdb7NV5aqxvUAIiUgR
-         63xCffo5zuyMLx6x4wpRxHaJmYExvJScChy/17+fqszFbAg7FWRnwk0yRFSFgiarDyAD
-         EEp1ZH2/27cwe28vp2C4HhK7FDjjcOq/Po9yEm2ojfnwRg2WJLFRxwxuLQx+NduvOChb
-         msSg==
-X-Gm-Message-State: AOAM532qGDG0GiARG7mb0JFJXqD1aKdDWxzU9hGrxXwOlIrujIQ8WvZD
-        qmgjFlh8vw0b59WLs9ApQRVpG5Ug6mJMDzeDFi6Euvrn6+o=
-X-Google-Smtp-Source: ABdhPJxoE4JA5ILCRd7HRVnYqwxGrlvLKLv96Ivb5McvBbqSIznJP5Cl3i+9rnvbOKiRr7OD+jsQ0AhuqFlu/Gzkii0=
-X-Received: by 2002:a05:6830:3154:: with SMTP id c20mr5408138ots.233.1622842831621;
- Fri, 04 Jun 2021 14:40:31 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 4 Jun 2021 21:40:31 +0000
-MIME-Version: 1.0
-In-Reply-To: <1622804618-18480-2-git-send-email-sanm@codeaurora.org>
-References: <1622804618-18480-1-git-send-email-sanm@codeaurora.org> <1622804618-18480-2-git-send-email-sanm@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Fri, 4 Jun 2021 21:40:31 +0000
-Message-ID: <CAE-0n52CK3wk+xtaB8yaVV3kJiL=dgi2z9TsxQ7_2t_tdjuBBA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] arm64: dts: qcom: sc7280: Add USB related nodes
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XlaFEkq/wHNy65Jvh9hblHLJ082mrVP3syH45tj6v+4=;
+        b=WFRjnpJvOg/fiO3rWGl247QW9JShFwNRZMZaovMW5RR9Im7oWgGPQ6ewEbfKShr5yG
+         UNzi1lPYNJCu0RV6xD6lY7Mtim/qvH8UsfpK2Ru7LFnpB1WzliOZSZDhuqa8kABqr5C7
+         4w0/ROEj+GMas/sL7Xr9zmNDpwFQawj6JeSk176Q15DSQ+gukoS+f+nCFxVbipQ4Y7ne
+         fYDyOVK1lO/b7wQs/lqWUrTyrvpNYSKwyHPz7/nsEZZd5Y/TFxq8iAJW4i7MIk5bU66h
+         peE1xlnczrBsHak4ne+0MYOT8zh39bUX23tE9VlgLRcn0un1VPffWJ68UXuS0xLvgyk7
+         +SHw==
+X-Gm-Message-State: AOAM530HoSMvyVRQPQRGXtiBzpkyUbkGbASG5CS9bVvslrm2buwZqsOl
+        UeVkVPTAk9Wcp+Xevfxrk3Jso2/m+tL+6g==
+X-Google-Smtp-Source: ABdhPJzR/L91/+LM5RioB7mN8WPukc+lj8sIGlNoQJmHBEhVm8tzcmoyJTtKfrQberXzIih0/MXqhQ==
+X-Received: by 2002:a17:90a:aa14:: with SMTP id k20mr19227560pjq.88.1622842870006;
+        Fri, 04 Jun 2021 14:41:10 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:1cfa:4a0b:c513:8c09])
+        by smtp.gmail.com with UTF8SMTPSA id q68sm5567348pjq.45.2021.06.04.14.41.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Jun 2021 14:41:09 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Rob Herring <robh+dt@kernel.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manu Gautam <mgautam@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+        Frank Rowand <frowand.list@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Michal Simek <michal.simek@xilinx.com>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        linux-usb@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        devicetree@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v11 1/5] dt-bindings: usb: Add binding for Realtek RTS5411 hub controller
+Date:   Fri,  4 Jun 2021 14:40:57 -0700
+Message-Id: <20210604144027.v11.1.I248292623d3d0f6a4f0c5bc58478ca3c0062b49a@changeid>
+X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
+In-Reply-To: <20210604214101.3363525-1-mka@chromium.org>
+References: <20210604214101.3363525-1-mka@chromium.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Quoting Sandeep Maheswaram (2021-06-04 04:03:37)
-> Add nodes for DWC3 USB controller, QMP and HS USB PHYs in sc7280 SOC.
->
-> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
-> changed usb3-phy to lanes in qmp phy node as it was causing probe failure.
->
->  arch/arm64/boot/dts/qcom/sc7280.dtsi | 149 +++++++++++++++++++++++++++++++++++
->  1 file changed, 149 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> index 0b6f119..d70d5fb 100644
-> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-> @@ -973,6 +973,110 @@
->                         };
->                 };
->
-> +               usb_1_hsphy: phy@88e3000 {
-> +                       compatible = "qcom,sc7280-usb-hs-phy",
-> +                                    "qcom,usb-snps-hs-7nm-phy";
-> +                       reg = <0 0x088e3000 0 0x400>;
-> +                       status = "disabled";
-> +                       #phy-cells = <0>;
-> +
-> +                       clocks = <&rpmhcc RPMH_CXO_CLK>;
-> +                       clock-names = "ref";
-> +
-> +                       resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
-> +               };
-> +
-> +               usb_2_hsphy: phy@88e4000 {
-> +                       compatible = "qcom,sc7280-usb-hs-phy",
-> +                                    "qcom,usb-snps-hs-7nm-phy";
-> +                       reg = <0 0x088e4000 0 0x400>;
-> +                       status = "disabled";
-> +                       #phy-cells = <0>;
-> +
-> +                       clocks = <&rpmhcc RPMH_CXO_CLK>;
-> +                       clock-names = "ref";
-> +
-> +                       resets = <&gcc GCC_QUSB2PHY_SEC_BCR>;
-> +               };
-> +
-> +               usb_1_qmpphy: phy-wrapper@88e9000 {
-> +                       compatible = "qcom,sm8250-qmp-usb3-phy";
+The Realtek RTS5411 is a USB 3.0 hub controller with 4 ports.
 
-Is this another combo usb/dp phy?
+This initial version of the binding only describes USB related
+aspects of the RTS5411, it does not cover the option of
+connecting the controller as an i2c slave.
 
-> +                       reg = <0 0x088e9000 0 0x200>,
-> +                             <0 0x088e8000 0 0x20>;
-> +                       reg-names = "reg-base", "dp_com";
-> +                       status = "disabled";
-> +                       #address-cells = <2>;
-> +                       #size-cells = <2>;
-> +                       ranges;
-> +
-> +                       clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
-> +                                <&rpmhcc RPMH_CXO_CLK>,
-> +                                <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
-> +                       clock-names = "aux", "ref_clk_src", "com_aux";
-> +
-> +                       resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
 
-This makes me think yes. In which case, can we put the final node in
-place instead of having to tack on DP phy at a later time?
+Changes in v11:
+- none
 
-> +                                <&gcc GCC_USB3_PHY_PRIM_BCR>;
-> +                       reset-names = "phy", "common";
-> +
-> +                       usb_1_ssphy: lanes@88e9200 {
+Changes in v10:
+- none
 
-phy@88e9200?
+Changes in v9:
+- added Rob's 'Reviewed-by' tag
 
-> +                               reg = <0 0x088e9200 0 0x200>,
-> +                                     <0 0x088e9400 0 0x200>,
-> +                                     <0 0x088e9c00 0 0x400>,
-> +                                     <0 0x088e9600 0 0x200>,
-> +                                     <0 0x088e9800 0 0x200>,
-> +                                     <0 0x088e9a00 0 0x100>;
-> +                               #phy-cells = <0>;
-> +                               #clock-cells = <1>;
-> +                               clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
-> +                               clock-names = "pipe0";
-> +                               clock-output-names = "usb3_phy_pipe_clk_src";
-> +                       };
-> +               };
-> +
+Changes in v8:
+- added entry for 'reg'
+- marked 'companion-hub' as required
+- changed node name of USB controller to 'usb'
+
+Changes in v7:
+- added type ref for 'companion-hub' property
+
+Changes in v6:
+- Realtek binding instead of generic onboard_usb_hub
+- added 'companion-hub' property
+- added reference to 'usb-device.yaml'
+- 'fixed' indentation of compatible entries to keep yamllint happy
+- added 'additionalProperties' entry
+- updated commit message
+
+Changes in v5:
+- updated 'title'
+- only use standard USB compatible strings
+- deleted 'usb_hub' node
+- renamed 'usb_controller' node to 'usb-controller'
+- removed labels from USB nodes
+- added 'vdd-supply' to USB nodes
+
+Changes in v4:
+- none
+
+Changes in v3:
+- updated commit message
+- removed recursive reference to $self
+- adjusted 'compatible' definition to support multiple entries
+- changed USB controller phandle to be a node
+
+Changes in v2:
+- removed 'wakeup-source' and 'power-off-in-suspend' properties
+- consistently use spaces for indentation in example
+
+ .../bindings/usb/realtek,rts5411.yaml         | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml b/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+new file mode 100644
+index 000000000000..04ee255eb4f0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+@@ -0,0 +1,62 @@
++# SPDX-License-Identifier: GPL-2.0-only or BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/realtek,rts5411.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Binding for the Realtek RTS5411 USB 3.0 hub controller
++
++maintainers:
++  - Matthias Kaehlcke <mka@chromium.org>
++
++allOf:
++  - $ref: usb-device.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - usbbda,5411
++          - usbbda,411
++
++  reg: true
++
++  vdd-supply:
++    description:
++      phandle to the regulator that provides power to the hub.
++
++  companion-hub:
++    $ref: '/schemas/types.yaml#/definitions/phandle'
++    description:
++      phandle to the companion hub on the controller.
++
++required:
++  - companion-hub
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    usb {
++        dr_mode = "host";
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        /* 2.0 hub on port 1 */
++        hub_2_0: hub@1 {
++            compatible = "usbbda,5411";
++            reg = <1>;
++            vdd-supply = <&pp3300_hub>;
++            companion-hub = <&hub_3_0>;
++        };
++
++        /* 3.0 hub on port 2 */
++        hub_3_0: hub@2 {
++            compatible = "usbbda,411";
++            reg = <2>;
++            vdd-supply = <&pp3300_hub>;
++            companion-hub = <&hub_2_0>;
++        };
++    };
+-- 
+2.32.0.rc1.229.g3e70b5a671-goog
+
