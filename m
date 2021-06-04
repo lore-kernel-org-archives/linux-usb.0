@@ -2,81 +2,233 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	URI_HEX,URI_NOVOWEL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35004C4708F
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 10:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5710AC47083
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 11:04:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 153206141B
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 10:58:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E2DC6141E
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 11:04:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbhFDLAF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 07:00:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47068 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229667AbhFDLAF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Jun 2021 07:00:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 67D3D600D3;
-        Fri,  4 Jun 2021 10:58:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1622804299;
-        bh=RpiLOvgSTldH32Z5nI8EixhVdPHH7DAf0w2UqTQw13c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JmXpTS1KqbpT3ioqIXQ7ezFZdB3if8+GfSHEwwv2djRfGtNXI6TCj5GNo6rvQs+73
-         QXIjbVki5qZPzo/stXpFZFn0bNH6syOPnxB3lUJHfTsFjw2DKDjZdXrspv3HKIF+6J
-         tU4WsBlji8q08rd0Qa43NzB3q/fiYrmiwuNtJSDU=
-Date:   Fri, 4 Jun 2021 12:58:16 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3-meson-g12a: fix usb2 PHY glue init when phy0
- is disabled
-Message-ID: <YLoHSJIOSRTyF0r1@kroah.com>
-References: <20210601084830.260196-1-narmstrong@baylibre.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210601084830.260196-1-narmstrong@baylibre.com>
+        id S230203AbhFDLGE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 07:06:04 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:25829 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230108AbhFDLGD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 07:06:03 -0400
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 04 Jun 2021 04:04:17 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 04 Jun 2021 04:04:15 -0700
+X-QCInternal: smtphost
+Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 04 Jun 2021 16:33:43 +0530
+Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
+        id 5982F3947; Fri,  4 Jun 2021 16:33:42 +0530 (IST)
+From:   Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>
+Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Subject: [PATCH v4 1/2] arm64: dts: qcom: sc7280: Add USB related nodes
+Date:   Fri,  4 Jun 2021 16:33:37 +0530
+Message-Id: <1622804618-18480-2-git-send-email-sanm@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1622804618-18480-1-git-send-email-sanm@codeaurora.org>
+References: <1622804618-18480-1-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 01, 2021 at 10:48:30AM +0200, Neil Armstrong wrote:
-> When only PHY1 is used (for example on Odroid-HC4), the regmap init code
-> uses the usb2 ports when doesn't initialize the PHY1 regmap entry.
+Add nodes for DWC3 USB controller, QMP and HS USB PHYs in sc7280 SOC.
 
-<snip>
-
-Meta comment, you signed this, and it worked!
-
-Looking up https://lore.kernel.org/r/20210601084830.260196-1-narmstrong%40baylibre.com
-Grabbing thread from lore.kernel.org/linux-amlogic/20210601084830.260196-1-narmstrong%40baylibre.com/t.mbox.gz
-Analyzing 2 messages in the thread
-Checking attestation on all messages, may take a moment...
+Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
-  ✓ [PATCH] usb: dwc3-meson-g12a: fix usb2 PHY glue init when phy0 is disabled
-    + Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com> (✓ DKIM/lists.infradead.org)
-  ---
-  ✓ Signed: openpgp/narmstrong@baylibre.com
-  ✗ BADSIG: DKIM/baylibre-com.20150623.gappssmtp.com
-  ✓ Signed: DKIM/lists.infradead.org (From: narmstrong@baylibre.com)
----
-Total patches: 1
----
- Link: https://lore.kernel.org/r/20210601084830.260196-1-narmstrong@baylibre.com
- Base: not found
-Applying: usb: dwc3-meson-g12a: fix usb2 PHY glue init when phy0 is disabled
+changed usb3-phy to lanes in qmp phy node as it was causing probe failure.
 
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 149 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 149 insertions(+)
 
-Odd that DKIM didn't work for baylibre-com, but hey, I'll take a real
-signature over DKIM anyday!
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 0b6f119..d70d5fb 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -973,6 +973,110 @@
+ 			};
+ 		};
+ 
++		usb_1_hsphy: phy@88e3000 {
++			compatible = "qcom,sc7280-usb-hs-phy",
++				     "qcom,usb-snps-hs-7nm-phy";
++			reg = <0 0x088e3000 0 0x400>;
++			status = "disabled";
++			#phy-cells = <0>;
++
++			clocks = <&rpmhcc RPMH_CXO_CLK>;
++			clock-names = "ref";
++
++			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
++		};
++
++		usb_2_hsphy: phy@88e4000 {
++			compatible = "qcom,sc7280-usb-hs-phy",
++				     "qcom,usb-snps-hs-7nm-phy";
++			reg = <0 0x088e4000 0 0x400>;
++			status = "disabled";
++			#phy-cells = <0>;
++
++			clocks = <&rpmhcc RPMH_CXO_CLK>;
++			clock-names = "ref";
++
++			resets = <&gcc GCC_QUSB2PHY_SEC_BCR>;
++		};
++
++		usb_1_qmpphy: phy-wrapper@88e9000 {
++			compatible = "qcom,sm8250-qmp-usb3-phy";
++			reg = <0 0x088e9000 0 0x200>,
++			      <0 0x088e8000 0 0x20>;
++			reg-names = "reg-base", "dp_com";
++			status = "disabled";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			clocks = <&gcc GCC_USB3_PRIM_PHY_AUX_CLK>,
++				 <&rpmhcc RPMH_CXO_CLK>,
++				 <&gcc GCC_USB3_PRIM_PHY_COM_AUX_CLK>;
++			clock-names = "aux", "ref_clk_src", "com_aux";
++
++			resets = <&gcc GCC_USB3_DP_PHY_PRIM_BCR>,
++				 <&gcc GCC_USB3_PHY_PRIM_BCR>;
++			reset-names = "phy", "common";
++
++			usb_1_ssphy: lanes@88e9200 {
++				reg = <0 0x088e9200 0 0x200>,
++				      <0 0x088e9400 0 0x200>,
++				      <0 0x088e9c00 0 0x400>,
++				      <0 0x088e9600 0 0x200>,
++				      <0 0x088e9800 0 0x200>,
++				      <0 0x088e9a00 0 0x100>;
++				#phy-cells = <0>;
++				#clock-cells = <1>;
++				clocks = <&gcc GCC_USB3_PRIM_PHY_PIPE_CLK>;
++				clock-names = "pipe0";
++				clock-output-names = "usb3_phy_pipe_clk_src";
++			};
++		};
++
++		usb_2: usb@8cf8800 {
++			compatible = "qcom,sc7280-dwc3", "qcom,dwc3";
++			reg = <0 0x08cf8800 0 0x400>;
++			status = "disabled";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++			dma-ranges;
++
++			clocks = <&gcc GCC_CFG_NOC_USB3_SEC_AXI_CLK>,
++				 <&gcc GCC_USB30_SEC_MASTER_CLK>,
++				 <&gcc GCC_AGGRE_USB3_SEC_AXI_CLK>,
++				 <&gcc GCC_USB30_SEC_MOCK_UTMI_CLK>,
++				 <&gcc GCC_USB30_SEC_SLEEP_CLK>;
++			clock-names = "cfg_noc", "core", "iface","mock_utmi",
++				      "sleep";
++
++			assigned-clocks = <&gcc GCC_USB30_SEC_MOCK_UTMI_CLK>,
++					  <&gcc GCC_USB30_SEC_MASTER_CLK>;
++			assigned-clock-rates = <19200000>, <200000000>;
++
++			interrupts-extended = <&intc GIC_SPI 240 IRQ_TYPE_LEVEL_HIGH>,
++				     <&pdc 13 IRQ_TYPE_EDGE_RISING>,
++				     <&pdc 12 IRQ_TYPE_EDGE_RISING>;
++			interrupt-names = "hs_phy_irq",
++					  "dm_hs_phy_irq", "dp_hs_phy_irq";
++
++			power-domains = <&gcc GCC_USB30_SEC_GDSC>;
++
++			resets = <&gcc GCC_USB30_SEC_BCR>;
++
++			usb_2_dwc3: dwc3@8c00000 {
++				compatible = "snps,dwc3";
++				reg = <0 0x08c00000 0 0xe000>;
++				interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>;
++				iommus = <&apps_smmu 0xa0 0x0>;
++				snps,dis_u2_susphy_quirk;
++				snps,dis_enblslpm_quirk;
++				phys = <&usb_2_hsphy>;
++				phy-names = "usb2-phy";
++				maximum-speed = "high-speed";
++			};
++		};
++
+ 		system-cache-controller@9200000 {
+ 			compatible = "qcom,sc7280-llcc";
+ 			reg = <0 0x09200000 0 0xd0000>, <0 0x09600000 0 0x50000>;
+@@ -980,6 +1084,51 @@
+ 			interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		usb_1: usb@a6f8800 {
++			compatible = "qcom,sc7280-dwc3", "qcom,dwc3";
++			reg = <0 0x0a6f8800 0 0x400>;
++			status = "disabled";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++			dma-ranges;
++
++			clocks = <&gcc GCC_CFG_NOC_USB3_PRIM_AXI_CLK>,
++				 <&gcc GCC_USB30_PRIM_MASTER_CLK>,
++				 <&gcc GCC_AGGRE_USB3_PRIM_AXI_CLK>,
++				 <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
++				 <&gcc GCC_USB30_PRIM_SLEEP_CLK>;
++			clock-names = "cfg_noc", "core", "iface", "mock_utmi",
++				      "sleep";
++
++			assigned-clocks = <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
++					  <&gcc GCC_USB30_PRIM_MASTER_CLK>;
++			assigned-clock-rates = <19200000>, <200000000>;
++
++			interrupts-extended = <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
++					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
++					      <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
++					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hs_phy_irq", "dp_hs_phy_irq",
++					  "dm_hs_phy_irq", "ss_phy_irq";
++
++			power-domains = <&gcc GCC_USB30_PRIM_GDSC>;
++
++			resets = <&gcc GCC_USB30_PRIM_BCR>;
++
++			usb_1_dwc3: dwc3@a600000 {
++				compatible = "snps,dwc3";
++				reg = <0 0x0a600000 0 0xe000>;
++				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
++				iommus = <&apps_smmu 0xe0 0x0>;
++				snps,dis_u2_susphy_quirk;
++				snps,dis_enblslpm_quirk;
++				phys = <&usb_1_hsphy>, <&usb_1_ssphy>;
++				phy-names = "usb2-phy", "usb3-phy";
++				maximum-speed = "super-speed";
++			};
++		};
++
+ 		videocc: clock-controller@aaf0000 {
+ 			compatible = "qcom,sc7280-videocc";
+ 			reg = <0 0xaaf0000 0 0x10000>;
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
-thanks for doing this.
-
-greg k-h
