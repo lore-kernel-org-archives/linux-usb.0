@@ -2,139 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C7DC47098
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:43:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F07B2C07E94
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 14:15:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C7EA613FA
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:43:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D941461406
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 14:15:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231157AbhFDNow (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 09:44:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37480 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230382AbhFDNon (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 09:44:43 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6135C061767
-        for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 06:42:56 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lpA63-00072p-H1; Fri, 04 Jun 2021 15:42:47 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lpA61-0000fm-Kh; Fri, 04 Jun 2021 15:42:45 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH net-next v1 5/7] net: usb: asix: add error handling for asix_mdio_* functions
-Date:   Fri,  4 Jun 2021 15:42:42 +0200
-Message-Id: <20210604134244.2467-6-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210604134244.2467-1-o.rempel@pengutronix.de>
-References: <20210604134244.2467-1-o.rempel@pengutronix.de>
+        id S230382AbhFDORS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 10:17:18 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:44229 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S230234AbhFDORS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 10:17:18 -0400
+Received: (qmail 1678687 invoked by uid 1000); 4 Jun 2021 10:15:31 -0400
+Date:   Fri, 4 Jun 2021 10:15:31 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     USB mailing list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 2/4] USB: UDC: Implement udc_async_callbacks in dummy-hcd
+Message-ID: <20210604141531.GA1676809@rowland.harvard.edu>
+References: <20210520202152.GD1216852@rowland.harvard.edu>
+ <87v96ub3y0.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v96ub3y0.fsf@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This usb devices can be removed at any time, so we need to forward
-correct error value if device was detached.
+On Fri, Jun 04, 2021 at 08:21:11AM +0300, Felipe Balbi wrote:
+> 
+> Hi,
+> 
+> Alan Stern <stern@rowland.harvard.edu> writes:
+> > @@ -990,7 +1000,6 @@ static int dummy_udc_start(struct usb_ga
+> >  	spin_lock_irq(&dum->lock);
+> >  	dum->devstatus = 0;
+> >  	dum->driver = driver;
+> > -	dum->ints_enabled = 1;
+> 
+> should the matching write of 0 be removed from dummy_udc_stop()?
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- drivers/net/usb/asix_common.c | 38 +++++++++++++++++++++++++----------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+No, it's okay to leave that one.  In practice it won't make any 
+difference because now the core will always turn off async callbacks 
+before doing udc_stop.  It's there for the sake of thoroughness, and it 
+lets the reader know that emulated interrupts are supposed to be turned 
+off whenever the UDC stops running (just like a driver for a real UDC).
 
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index 6b94c27576b7..7cce8f7d79b6 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -484,18 +484,23 @@ int asix_mdio_read(struct net_device *netdev, int phy_id, int loc)
- 		return ret;
- 	}
- 
--	asix_read_cmd(dev, AX_CMD_READ_MII_REG, phy_id,
--				(__u16)loc, 2, &res, 0);
--	asix_set_hw_mii(dev, 0);
-+	ret = asix_read_cmd(dev, AX_CMD_READ_MII_REG, phy_id, (__u16)loc, 2,
-+			    &res, 0);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = asix_set_hw_mii(dev, 0);
-+out:
- 	mutex_unlock(&dev->phy_mutex);
- 
- 	netdev_dbg(dev->net, "asix_mdio_read() phy_id=0x%02x, loc=0x%02x, returns=0x%04x\n",
- 			phy_id, loc, le16_to_cpu(res));
- 
--	return le16_to_cpu(res);
-+	return ret < 0 ? ret : le16_to_cpu(res);
- }
- 
--void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
-+static int __asix_mdio_write(struct net_device *netdev, int phy_id, int loc,
-+			     int val)
- {
- 	struct usbnet *dev = netdev_priv(netdev);
- 	__le16 res = cpu_to_le16(val);
-@@ -517,13 +522,24 @@ void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
- 	} while (!(smsr & AX_HOST_EN) && (i++ < 30) && (ret != -ENODEV));
- 	if (ret == -ENODEV) {
- 		mutex_unlock(&dev->phy_mutex);
--		return;
-+		return ret;
- 	}
- 
--	asix_write_cmd(dev, AX_CMD_WRITE_MII_REG, phy_id,
--		       (__u16)loc, 2, &res, 0);
--	asix_set_hw_mii(dev, 0);
-+	ret = asix_write_cmd(dev, AX_CMD_WRITE_MII_REG, phy_id, (__u16)loc, 2,
-+			     &res, 0);
-+	if (ret < 0)
-+		goto out;
-+
-+	ret = asix_set_hw_mii(dev, 0);
-+out:
- 	mutex_unlock(&dev->phy_mutex);
-+
-+	return ret < 0 ? ret : 0;
-+}
-+
-+void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
-+{
-+	__asix_mdio_write(netdev, phy_id, loc, val);
- }
- 
- /* MDIO read and write wrappers for phylib */
-@@ -535,8 +551,8 @@ int asix_mdio_bus_read(struct mii_bus *bus, int phy_id, int regnum)
- 
- int asix_mdio_bus_write(struct mii_bus *bus, int phy_id, int regnum, u16 val)
- {
--	asix_mdio_write(((struct usbnet *)bus->priv)->net, phy_id, regnum, val);
--	return 0;
-+	return __asix_mdio_write(((struct usbnet *)bus->priv)->net, phy_id,
-+				 regnum, val);
- }
- 
- int asix_mdio_read_nopm(struct net_device *netdev, int phy_id, int loc)
--- 
-2.29.2
+Whereas this line here in dummy_udc_start would be actively wrong if it 
+were to remain.
+
+Alan Stern
+
+> Other than that:
+> 
+> Acked-by: Felipe Balbi <balbi@kernel.org>
+> 
+> -- 
+> balbi
+
 
