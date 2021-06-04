@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7EF5C07E94
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D32C4708F
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 81549613FE
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E2E161402
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Jun 2021 13:42:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230386AbhFDNon (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Jun 2021 09:44:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37480 "EHLO
+        id S230412AbhFDNoo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Jun 2021 09:44:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230340AbhFDNom (ORCPT
+        with ESMTP id S230341AbhFDNom (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Jun 2021 09:44:42 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA23C0617A8
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AC9C0613A2
         for <linux-usb@vger.kernel.org>; Fri,  4 Jun 2021 06:42:55 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1lpA63-00072l-Gv; Fri, 04 Jun 2021 15:42:47 +0200
+        id 1lpA63-00072o-H2; Fri, 04 Jun 2021 15:42:47 +0200
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1lpA61-0000fC-H6; Fri, 04 Jun 2021 15:42:45 +0200
+        id 1lpA61-0000fd-Jo; Fri, 04 Jun 2021 15:42:45 +0200
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
@@ -38,9 +38,9 @@ To:     "David S. Miller" <davem@davemloft.net>,
 Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH net-next v1 1/7] net: usb: asix: ax88772_bind: use devm_kzalloc() instead of kzalloc()
-Date:   Fri,  4 Jun 2021 15:42:38 +0200
-Message-Id: <20210604134244.2467-2-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v1 4/7] net: usb: asix: ax88772: add generic selftest support
+Date:   Fri,  4 Jun 2021 15:42:41 +0200
+Message-Id: <20210604134244.2467-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210604134244.2467-1-o.rempel@pengutronix.de>
 References: <20210604134244.2467-1-o.rempel@pengutronix.de>
@@ -54,40 +54,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make resource management easier, use devm_kzalloc().
+With working phylib support we are able now to use generic selftests.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- drivers/net/usb/asix_devices.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/net/usb/Kconfig        |  1 +
+ drivers/net/usb/asix.h         |  1 +
+ drivers/net/usb/asix_devices.c | 23 +++++++++++++++++++++++
+ 3 files changed, 25 insertions(+)
 
+diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
+index 6f7be47974f6..4c5d69732a7e 100644
+--- a/drivers/net/usb/Kconfig
++++ b/drivers/net/usb/Kconfig
+@@ -165,6 +165,7 @@ config USB_NET_AX8817X
+ 	select CRC32
+ 	select PHYLIB
+ 	select AX88796B_PHY
++	imply NET_SELFTESTS
+ 	default y
+ 	help
+ 	  This option adds support for ASIX AX88xxx based USB 2.0
+diff --git a/drivers/net/usb/asix.h b/drivers/net/usb/asix.h
+index 062e8147b1b3..c2897e9850d4 100644
+--- a/drivers/net/usb/asix.h
++++ b/drivers/net/usb/asix.h
+@@ -26,6 +26,7 @@
+ #include <linux/slab.h>
+ #include <linux/if_vlan.h>
+ #include <linux/phy.h>
++#include <net/selftests.h>
+ 
+ #define DRIVER_VERSION "22-Dec-2011"
+ #define DRIVER_NAME "asix"
 diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-index 19a8fafb8f04..5f767a33264e 100644
+index fc41c3e28e80..02cc187632c5 100644
 --- a/drivers/net/usb/asix_devices.c
 +++ b/drivers/net/usb/asix_devices.c
-@@ -746,11 +746,11 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
- 		dev->rx_urb_size = 2048;
- 	}
- 
--	dev->driver_priv = kzalloc(sizeof(struct asix_common_private), GFP_KERNEL);
--	if (!dev->driver_priv)
-+	priv = devm_kzalloc(&dev->udev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
- 		return -ENOMEM;
- 
--	priv = dev->driver_priv;
-+	dev->driver_priv = priv;
- 
- 	priv->presvd_phy_bmcr = 0;
- 	priv->presvd_phy_advertise = 0;
-@@ -768,7 +768,6 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
- static void ax88772_unbind(struct usbnet *dev, struct usb_interface *intf)
- {
- 	asix_rx_fixup_common_free(dev->driver_priv);
--	kfree(dev->driver_priv);
+@@ -280,6 +280,26 @@ static int ax88172_bind(struct usbnet *dev, struct usb_interface *intf)
+ 	return ret;
  }
  
- static const struct ethtool_ops ax88178_ethtool_ops = {
++static void ax88772_ethtool_get_strings(struct net_device *netdev, u32 sset,
++					u8 *data)
++{
++	switch (sset) {
++	case ETH_SS_TEST:
++		net_selftest_get_strings(data);
++		break;
++	}
++}
++
++static int ax88772_ethtool_get_sset_count(struct net_device *ndev, int sset)
++{
++	switch (sset) {
++	case ETH_SS_TEST:
++		return net_selftest_get_count();
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
+ static const struct ethtool_ops ax88772_ethtool_ops = {
+ 	.get_drvinfo		= asix_get_drvinfo,
+ 	.get_link		= usbnet_get_link,
+@@ -293,6 +313,9 @@ static const struct ethtool_ops ax88772_ethtool_ops = {
+ 	.nway_reset		= phy_ethtool_nway_reset,
+ 	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
+ 	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
++	.self_test		= net_selftest,
++	.get_strings		= ax88772_ethtool_get_strings,
++	.get_sset_count		= ax88772_ethtool_get_sset_count,
+ };
+ 
+ static int ax88772_reset(struct usbnet *dev)
 -- 
 2.29.2
 
