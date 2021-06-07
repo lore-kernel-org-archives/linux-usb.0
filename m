@@ -2,173 +2,255 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AD59C47082
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 10:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D43ABC47082
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4CEC1611C0
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 10:46:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B42ED60FDA
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbhFGKsM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Jun 2021 06:48:12 -0400
-Received: from mail-wr1-f49.google.com ([209.85.221.49]:40527 "EHLO
-        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230454AbhFGKsL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Jun 2021 06:48:11 -0400
-Received: by mail-wr1-f49.google.com with SMTP id y7so12398445wrh.7
-        for <linux-usb@vger.kernel.org>; Mon, 07 Jun 2021 03:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=aqlB3nweefXMBd+1n3TfVg5Imk7mqG7GGko5Cn1Ypjk=;
-        b=fokBrG+2G1fkq/XmZlW8Qn8gNsGVee/kxIBq16SYHHcihUEHhxAiLiYioDzjZCKPWV
-         9QEZOxcXx7fkFSqzCPab9ejYwiSWHFrBFKIvS4T83XVPbmSdXZpWw/7QLttpVgGupn7M
-         FoWs2xbakjWUMbWyKY9toPvBiRJY2NSMoomhdLwJgft1TVJGXI1KGV/tNqHpK+0t4K/c
-         ssThtjIQ5Gd6U2Vgt07NOm/v5UajEDZu6QDpCKD4dz0UaryRPm6OwVwk+zBYdDwhZepP
-         9jCgvqxA0rUhD0TtVGl/Sk+NMb0qRwm6JS3LOkQ+swNNoK5wt0XeTzNUgGulkw29L99w
-         ZQaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=aqlB3nweefXMBd+1n3TfVg5Imk7mqG7GGko5Cn1Ypjk=;
-        b=VJA7t82yOIUyFrBrqVxnxM9yt9ukrCXvSxxXmQHryG0qCUFPkU1l/u53cLkotS1T8Z
-         oy8RsUJmd6q5toQvLcMWmKJuDIdHMnu15tk6YeeZDKE8xNOiJ+EY7d59j1fUTo3lVO1f
-         XlNEHJpz1GGoJpVjeAMviXSjFMPhzLC/KUL5DbWlVaAUHuw2TA+MlzyODXzn8UHmwR2c
-         9qJ4JH5AIkiRMjXLDVeoO2bhK+y589vcAekJrygRTkGFLR13JEEyUaquL2xAiQn30+vF
-         gBaRoih13k+W5OcYYP4eKBvqSi2XV1pZo5R8TDMVU2zSl5uE6oOi0D0Kwr7treG6HJN9
-         v2QQ==
-X-Gm-Message-State: AOAM532d9L63LbA+e/ETrduST6yWxyiK6PJQC548uxJMPMHI6gtG7yK6
-        nQlNZxgsBmUIJSzaEYWxuifCYA==
-X-Google-Smtp-Source: ABdhPJwqNBSGH0k0cJir/i3kAe7gRK7bFBO/b5hmcAfd7Z+SvyV8tZwYe+ey/npaVItqY9949tYt3w==
-X-Received: by 2002:a05:6000:1563:: with SMTP id 3mr16068224wrz.59.1623062703694;
-        Mon, 07 Jun 2021 03:45:03 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
-        by smtp.gmail.com with ESMTPSA id p16sm16000678wrs.52.2021.06.07.03.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jun 2021 03:45:03 -0700 (PDT)
-Date:   Mon, 7 Jun 2021 11:45:00 +0100
-From:   Daniel Thompson <daniel.thompson@linaro.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Jens Axboe <axboe@kernel.dk>,
-        Alasdair Kergon <agk@redhat.com>,
-        Mike Snitzer <snitzer@redhat.com>, dm-devel@redhat.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jason Wessel <jason.wessel@windriver.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Will Deacon <will@kernel.org>,
-        Waiman Long <longman@redhat.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>,
-        Davidlohr Bueso <dave@stgolabs.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Lai Jiangshan <jiangshanlai@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, cgroups@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        linux-perf-users@vger.kernel.org, linux-pm@vger.kernel.org,
-        rcu@vger.kernel.org, linux-mm@kvack.org, kvm@vger.kernel.org
-Subject: Re: [PATCH 6/6] sched: Change task_struct::state
-Message-ID: <20210607104500.sopvslejuoxwzhrs@maple.lan>
-References: <20210602131225.336600299@infradead.org>
- <20210602133040.587042016@infradead.org>
+        id S230508AbhFGLCB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Jun 2021 07:02:01 -0400
+Received: from mga14.intel.com ([192.55.52.115]:36794 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230139AbhFGLCA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Jun 2021 07:02:00 -0400
+IronPort-SDR: cSH0MPg7zQIPsH6kHEU7mVIiZ6VhD2YQb9Q4KW5+d/tN6NzKB5a+/3HA8hIVU0mA80CB8y/4eS
+ bJl9XmDQC24Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="204414442"
+X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
+   d="scan'208";a="204414442"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 04:00:09 -0700
+IronPort-SDR: VeMnx+xCN+2KFoEsIr5HGdA4a5sgdqk+c78juRIAwI2Ja7pWL1fKHz+CCi2AVzANDqgopDFurX
+ DtPf8CA7B6mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
+   d="scan'208";a="469046621"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga004.fm.intel.com with ESMTP; 07 Jun 2021 04:00:07 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 628AC147; Mon,  7 Jun 2021 14:00:30 +0300 (EEST)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        kernel test robot <lkp@intel.com>,
+        Gil Fine <gil.fine@intel.com>,
+        Azhar Shaikh <azhar.shaikh@intel.com>
+Subject: [PATCH 2/5] thunderbolt: Add device links only when software connection manager is used
+Date:   Mon,  7 Jun 2021 14:00:27 +0300
+Message-Id: <20210607110030.38664-3-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
+References: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210602133040.587042016@infradead.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 03:12:31PM +0200, Peter Zijlstra wrote:
-> Change the type and name of task_struct::state. Drop the volatile and
-> shrink it to an 'unsigned int'. Rename it in order to find all uses
-> such that we can use READ_ONCE/WRITE_ONCE as appropriate.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  ...
->  kernel/debug/kdb/kdb_support.c |   18 +++++++------
->  ...
-> --- a/kernel/debug/kdb/kdb_support.c
-> +++ b/kernel/debug/kdb/kdb_support.c
-> @@ -609,23 +609,25 @@ unsigned long kdb_task_state_string(cons
->   */
->  char kdb_task_state_char (const struct task_struct *p)
->  {
-> -	int cpu;
-> -	char state;
-> +	unsigned int p_state;
->  	unsigned long tmp;
-> +	char state;
-> +	int cpu;
->  
->  	if (!p ||
->  	    copy_from_kernel_nofault(&tmp, (char *)p, sizeof(unsigned long)))
->  		return 'E';
->  
->  	cpu = kdb_process_cpu(p);
-> -	state = (p->state == 0) ? 'R' :
-> -		(p->state < 0) ? 'U' :
-> -		(p->state & TASK_UNINTERRUPTIBLE) ? 'D' :
-> -		(p->state & TASK_STOPPED) ? 'T' :
-> -		(p->state & TASK_TRACED) ? 'C' :
-> +	p_state = READ_ONCE(p->__state);
-> +	state = (p_state == 0) ? 'R' :
-> +		(p_state < 0) ? 'U' :
+We only need to set up the device links when software connection manager
+path is used. The firmware connection manager does not need them and if
+they are present they may even cause problems.
 
-Looks like the U here stands for Unreachable since this patch makes it
-more obvious that this clause is (and previously was) exactly that!
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/nhi.c | 67 ---------------------------------------
+ drivers/thunderbolt/tb.c  | 67 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+), 67 deletions(-)
 
-Dropping the U state would be good since I guess this will show up as a
-"new" warning in some tools. However it was a preexisting problem so with
-or without this cleaned up:
-Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index a0386d1e3fc9..478bf6701145 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -17,7 +17,6 @@
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/property.h>
+-#include <linux/platform_data/x86/apple.h>
+ 
+ #include "nhi.h"
+ #include "nhi_regs.h"
+@@ -1127,69 +1126,6 @@ static bool nhi_imr_valid(struct pci_dev *pdev)
+ 	return true;
+ }
+ 
+-/*
+- * During suspend the Thunderbolt controller is reset and all PCIe
+- * tunnels are lost. The NHI driver will try to reestablish all tunnels
+- * during resume. This adds device links between the tunneled PCIe
+- * downstream ports and the NHI so that the device core will make sure
+- * NHI is resumed first before the rest.
+- */
+-static void tb_apple_add_links(struct tb_nhi *nhi)
+-{
+-	struct pci_dev *upstream, *pdev;
+-
+-	if (!x86_apple_machine)
+-		return;
+-
+-	switch (nhi->pdev->device) {
+-	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
+-	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
+-	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
+-	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
+-		break;
+-	default:
+-		return;
+-	}
+-
+-	upstream = pci_upstream_bridge(nhi->pdev);
+-	while (upstream) {
+-		if (!pci_is_pcie(upstream))
+-			return;
+-		if (pci_pcie_type(upstream) == PCI_EXP_TYPE_UPSTREAM)
+-			break;
+-		upstream = pci_upstream_bridge(upstream);
+-	}
+-
+-	if (!upstream)
+-		return;
+-
+-	/*
+-	 * For each hotplug downstream port, create add device link
+-	 * back to NHI so that PCIe tunnels can be re-established after
+-	 * sleep.
+-	 */
+-	for_each_pci_bridge(pdev, upstream->subordinate) {
+-		const struct device_link *link;
+-
+-		if (!pci_is_pcie(pdev))
+-			continue;
+-		if (pci_pcie_type(pdev) != PCI_EXP_TYPE_DOWNSTREAM ||
+-		    !pdev->is_hotplug_bridge)
+-			continue;
+-
+-		link = device_link_add(&pdev->dev, &nhi->pdev->dev,
+-				       DL_FLAG_AUTOREMOVE_SUPPLIER |
+-				       DL_FLAG_PM_RUNTIME);
+-		if (link) {
+-			dev_dbg(&nhi->pdev->dev, "created link from %s\n",
+-				dev_name(&pdev->dev));
+-		} else {
+-			dev_warn(&nhi->pdev->dev, "device link creation from %s failed\n",
+-				 dev_name(&pdev->dev));
+-		}
+-	}
+-}
+-
+ static struct tb *nhi_select_cm(struct tb_nhi *nhi)
+ {
+ 	struct tb *tb;
+@@ -1278,9 +1214,6 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 			return res;
+ 	}
+ 
+-	tb_apple_add_links(nhi);
+-	tb_acpi_add_links(nhi);
+-
+ 	tb = nhi_select_cm(nhi);
+ 	if (!tb) {
+ 		dev_err(&nhi->pdev->dev,
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index bc6d568dbb89..2897a77d44c3 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -10,6 +10,7 @@
+ #include <linux/errno.h>
+ #include <linux/delay.h>
+ #include <linux/pm_runtime.h>
++#include <linux/platform_data/x86/apple.h>
+ 
+ #include "tb.h"
+ #include "tb_regs.h"
+@@ -1571,6 +1572,69 @@ static const struct tb_cm_ops tb_cm_ops = {
+ 	.disconnect_xdomain_paths = tb_disconnect_xdomain_paths,
+ };
+ 
++/*
++ * During suspend the Thunderbolt controller is reset and all PCIe
++ * tunnels are lost. The NHI driver will try to reestablish all tunnels
++ * during resume. This adds device links between the tunneled PCIe
++ * downstream ports and the NHI so that the device core will make sure
++ * NHI is resumed first before the rest.
++ */
++static void tb_apple_add_links(struct tb_nhi *nhi)
++{
++	struct pci_dev *upstream, *pdev;
++
++	if (!x86_apple_machine)
++		return;
++
++	switch (nhi->pdev->device) {
++	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
++	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
++	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
++	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
++		break;
++	default:
++		return;
++	}
++
++	upstream = pci_upstream_bridge(nhi->pdev);
++	while (upstream) {
++		if (!pci_is_pcie(upstream))
++			return;
++		if (pci_pcie_type(upstream) == PCI_EXP_TYPE_UPSTREAM)
++			break;
++		upstream = pci_upstream_bridge(upstream);
++	}
++
++	if (!upstream)
++		return;
++
++	/*
++	 * For each hotplug downstream port, create add device link
++	 * back to NHI so that PCIe tunnels can be re-established after
++	 * sleep.
++	 */
++	for_each_pci_bridge(pdev, upstream->subordinate) {
++		const struct device_link *link;
++
++		if (!pci_is_pcie(pdev))
++			continue;
++		if (pci_pcie_type(pdev) != PCI_EXP_TYPE_DOWNSTREAM ||
++		    !pdev->is_hotplug_bridge)
++			continue;
++
++		link = device_link_add(&pdev->dev, &nhi->pdev->dev,
++				       DL_FLAG_AUTOREMOVE_SUPPLIER |
++				       DL_FLAG_PM_RUNTIME);
++		if (link) {
++			dev_dbg(&nhi->pdev->dev, "created link from %s\n",
++				dev_name(&pdev->dev));
++		} else {
++			dev_warn(&nhi->pdev->dev, "device link creation from %s failed\n",
++				 dev_name(&pdev->dev));
++		}
++	}
++}
++
+ struct tb *tb_probe(struct tb_nhi *nhi)
+ {
+ 	struct tb_cm *tcm;
+@@ -1594,5 +1658,8 @@ struct tb *tb_probe(struct tb_nhi *nhi)
+ 
+ 	tb_dbg(tb, "using software connection manager\n");
+ 
++	tb_apple_add_links(nhi);
++	tb_acpi_add_links(nhi);
++
+ 	return tb;
+ }
+-- 
+2.30.2
 
-
-Daniel.
-
-> +		(p_state & TASK_UNINTERRUPTIBLE) ? 'D' :
-> +		(p_state & TASK_STOPPED) ? 'T' :
-> +		(p_state & TASK_TRACED) ? 'C' :
->  		(p->exit_state & EXIT_ZOMBIE) ? 'Z' :
->  		(p->exit_state & EXIT_DEAD) ? 'E' :
-> -		(p->state & TASK_INTERRUPTIBLE) ? 'S' : '?';
-> +		(p_state & TASK_INTERRUPTIBLE) ? 'S' : '?';
->  	if (is_idle_task(p)) {
->  		/* Idle task.  Is it really idle, apart from the kdb
->  		 * interrupt? */
