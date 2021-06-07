@@ -2,38 +2,39 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B409C4743F
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353DBC48BCD
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 725C160FDA
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B2B5610A2
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbhFGLCD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Jun 2021 07:02:03 -0400
-Received: from mga18.intel.com ([134.134.136.126]:16555 "EHLO mga18.intel.com"
+        id S231246AbhFGLCE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Jun 2021 07:02:04 -0400
+Received: from mga09.intel.com ([134.134.136.24]:4781 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230520AbhFGLCC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231160AbhFGLCC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 7 Jun 2021 07:02:02 -0400
-IronPort-SDR: kh3f7hgiN8mjr/RNQZmpQPiDSFSiD+m6iKXx73UxKBV0IFVRmW+jVeL93YR2XHYyGJAD8LRZBd
- lTUQiGMFYEDQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="191928010"
+IronPort-SDR: Uax36emI5H7iQxk6BMrXt4UVjE4NrhbNaJ4AFPCiLVA8p5pMmrNOM96aso6i0NMqXOSRQqOU+w
+ JI4/AXotdIqg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="204569302"
 X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="191928010"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 04:00:10 -0700
-IronPort-SDR: cjfplx66BQeUvC6f8Mx8MJGpfv6XteQjG1oLIrmLg+K52Suy8YCI/5MGaJNYPnkFTMuVLyrd3d
- QO6jkFi81www==
+   d="scan'208";a="204569302"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 04:00:09 -0700
+IronPort-SDR: RkCfR0ShIOg9HMOcOemnZg6tWIiWEVkiNYOYOwj+/EkoptkmZvbsD7h5Uqy3mgX4LIU2rafqQW
+ Gx8PsoZwZWTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="634671784"
+   d="scan'208";a="481479072"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2021 04:00:06 -0700
+  by orsmga001.jf.intel.com with ESMTP; 07 Jun 2021 04:00:06 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 518D7142; Mon,  7 Jun 2021 14:00:30 +0300 (EEST)
+        id 6ECEB184; Mon,  7 Jun 2021 14:00:30 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -45,46 +46,60 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         kernel test robot <lkp@intel.com>,
         Gil Fine <gil.fine@intel.com>,
         Azhar Shaikh <azhar.shaikh@intel.com>
-Subject: [PATCH 0/5] thunderbolt: Support for Intel Alder Lake and improvements
-Date:   Mon,  7 Jun 2021 14:00:25 +0300
-Message-Id: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
+Subject: [PATCH 3/5] thunderbolt: Poll 10ms for REG_FW_STS_NVM_AUTH_DONE to be set
+Date:   Mon,  7 Jun 2021 14:00:28 +0300
+Message-Id: <20210607110030.38664-4-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
+References: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+From: Gil Fine <gil.fine@intel.com>
 
-This series adds support for Intel Alder Lake which is the successor of
-Tiger Lake. The integrated Thunderbolt/USB4 controller is pretty close to
-the one found in Tiger Lake too.
+In Intel Tiger Lake and beyond it takes some time after the force power
+is set until the firmware connection manager is ready. So instead of
+reading it once we poll it for 10ms before giving up.
 
-In addition there are few improvements for issues reported by Dan Carpenter
-and kernel test robot.
+Signed-off-by: Gil Fine <gil.fine@intel.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/icm.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-The series applies on top of thunderbolt.git/next.
-
-Azhar Shaikh (1):
-  thunderbolt: Add support for Intel Alder Lake
-
-Gil Fine (1):
-  thunderbolt: Poll 10ms for REG_FW_STS_NVM_AUTH_DONE to be set
-
-Mika Westerberg (3):
-  thunderbolt: Bond lanes only when dual_link_port != NULL in alloc_dev_default()
-  thunderbolt: Add device links only when software connection manager is used
-  thunderbolt: No need to include <linux/acpi.h> in usb4_port.c
-
- drivers/thunderbolt/icm.c       | 20 ++++++----
- drivers/thunderbolt/nhi.c       | 71 ++-------------------------------
- drivers/thunderbolt/nhi.h       |  2 +
- drivers/thunderbolt/tb.c        | 67 +++++++++++++++++++++++++++++++
- drivers/thunderbolt/test.c      | 22 +++++-----
- drivers/thunderbolt/usb4_port.c |  1 -
- 6 files changed, 97 insertions(+), 86 deletions(-)
-
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 2f30b816705a..0f25cf9fe519 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -1677,14 +1677,18 @@ static void icm_icl_rtd3_veto(struct tb *tb, const struct icm_pkg_header *hdr)
+ 
+ static bool icm_tgl_is_supported(struct tb *tb)
+ {
+-	u32 val;
++	unsigned long end = jiffies + msecs_to_jiffies(10);
+ 
+-	/*
+-	 * If the firmware is not running use software CM. This platform
+-	 * should fully support both.
+-	 */
+-	val = ioread32(tb->nhi->iobase + REG_FW_STS);
+-	return !!(val & REG_FW_STS_NVM_AUTH_DONE);
++	do {
++		u32 val;
++
++		val = ioread32(tb->nhi->iobase + REG_FW_STS);
++		if (val & REG_FW_STS_NVM_AUTH_DONE)
++			return true;
++		usleep_range(100, 500);
++	} while (time_before(jiffies, end));
++
++	return false;
+ }
+ 
+ static void icm_handle_notification(struct work_struct *work)
 -- 
 2.30.2
 
