@@ -2,113 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6CA6C47082
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 16:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBDAC49EA5
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 16:12:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 799BB61107
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 16:05:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 602FD613CC
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 16:12:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbhFGQHB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Jun 2021 12:07:01 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:41898 "EHLO m43-7.mailgun.net"
+        id S231560AbhFGQO0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Jun 2021 12:14:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47632 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230311AbhFGQHA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:07:00 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1623081909; h=In-Reply-To: Content-Transfer-Encoding:
- Content-Type: MIME-Version: References: Message-ID: Subject: Cc: To:
- From: Date: Sender; bh=Hu7hZRn9/CiOlHP4zv466pCsqGDUOMHQFg60eY5w1oY=; b=LxuCGtkbfVNWbrjzt51qnOIkjRbMZGC+xkJntsspT2OHhErNiPRgNaIyWtJa6WCr70LR7ZzZ
- VwsltPiBeoPf2DMTYMtLo+fckQ/xCQx/D6wUdpVR46IFNbqOzR/QIoXkWJ5mGI+i7aVI81Ob
- LeAehlOvxrZ2zdGhPdWPIs9G+VU=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 60be439c265e7370f70a8782 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 07 Jun 2021 16:04:44
- GMT
-Sender: jackp=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 05A7BC43460; Mon,  7 Jun 2021 16:04:44 +0000 (UTC)
-Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BEB5AC433D3;
-        Mon,  7 Jun 2021 16:04:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BEB5AC433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
-Date:   Mon, 7 Jun 2021 09:04:38 -0700
-From:   Jack Pham <jackp@codeaurora.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Wesley Cheng <wcheng@codeaurora.org>, balbi@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        Thinh.Nguyen@synopsys.com
-Subject: Re: [PATCH v9 0/5] Re-introduce TX FIFO resize for larger EP bursting
-Message-ID: <20210607160438.GA2975@jackp-linux.qualcomm.com>
-References: <1621410561-32762-1-git-send-email-wcheng@codeaurora.org>
- <YLoUiO8tpRpmvcyU@kroah.com>
+        id S231538AbhFGQOW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:14:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A1E3613BC;
+        Mon,  7 Jun 2021 16:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623082351;
+        bh=cF5V4SDiCYcWy6ZhQI1V4h8C12A6fAAAmTs7Yoba0eA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=KsXm0kiCTbl1S0xgeV7Ot4CmKOR1+Olqj/+XCqsi5pxI96e3+kMw16cdX+XnbDmnw
+         aKvC7Mv2d1QExKeY5JSJ34KeOfnXRBmgUeZwe2P21recOWh9mXrILNzsXpLOIU3Otf
+         jS3HVjbOyThRfsWOxtcE6recXzPWow5dtb3YZqgSClkfoOdBEXbFNE+qHw2NHmhDyD
+         W2871TjQ93AARbg4DFkmaLWTrXR+2UG+23vC9dlJbcQPETnEeDJQ0msRTbmTM2SMjM
+         2ubjQqpJxh/775quiafD7JKQJqv54QxaSjBVUPQO9svqCS4jdknO7sol74nP/YNRci
+         IxxPKviVzCoUg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
+        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 12/49] HID: usbhid: fix info leak in hid_submit_ctrl
+Date:   Mon,  7 Jun 2021 12:11:38 -0400
+Message-Id: <20210607161215.3583176-12-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607161215.3583176-1-sashal@kernel.org>
+References: <20210607161215.3583176-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YLoUiO8tpRpmvcyU@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hey Wesley,
+From: Anirudh Rayabharam <mail@anirudhrb.com>
 
-On Fri, Jun 04, 2021 at 01:54:48PM +0200, Greg KH wrote:
-> On Wed, May 19, 2021 at 12:49:16AM -0700, Wesley Cheng wrote:
-> > Changes in V9:
-> >  - Fixed incorrect patch in series.  Removed changes in DTSI, as dwc3-qcom will
-> >    add the property by default from the kernel.
-> 
-> This patch series has one build failure and one warning added:
-> 
-> drivers/usb/dwc3/gadget.c: In function ‘dwc3_gadget_calc_tx_fifo_size’:
-> drivers/usb/dwc3/gadget.c:653:45: warning: passing argument 1 of ‘dwc3_mdwidth’ makes pointer from integer without a cast [-Wint-conversion]
->   653 |         mdwidth = dwc3_mdwidth(dwc->hwparams.hwparams0);
->       |                                ~~~~~~~~~~~~~^~~~~~~~~~
->       |                                             |
->       |                                             u32 {aka unsigned int}
-> In file included from drivers/usb/dwc3/debug.h:14,
->                  from drivers/usb/dwc3/gadget.c:25:
-> drivers/usb/dwc3/core.h:1493:45: note: expected ‘struct dwc3 *’ but argument is of type ‘u32’ {aka ‘unsigned int’}
->  1493 | static inline u32 dwc3_mdwidth(struct dwc3 *dwc)
->       |                                ~~~~~~~~~~~~~^~~
+[ Upstream commit 6be388f4a35d2ce5ef7dbf635a8964a5da7f799f ]
 
-I'm guessing you were previously using the DWC3_MDWIDTH macro which
-operated on the 'hwparams0' reg value directly, but probably had to
-switch it to the dwc3_mdwidth() inline function that Thinh had replaced
-it with recently. Forgot to compile-test I bet? :)
+In hid_submit_ctrl(), the way of calculating the report length doesn't
+take into account that report->size can be zero. When running the
+syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
+calculate transfer_buffer_length as 16384. When this urb is passed to
+the usb core layer, KMSAN reports an info leak of 16384 bytes.
 
-> drivers/usb/dwc3/dwc3-qcom.c: In function ‘dwc3_qcom_of_register_core’:
-> drivers/usb/dwc3/dwc3-qcom.c:660:23: error: implicit declaration of function ‘of_add_property’; did you mean ‘of_get_property’? [-Werror=implicit-function-declaration]
->   660 |                 ret = of_add_property(dwc3_np, prop);
->       |                       ^~~~~~~~~~~~~~~
->       |                       of_get_property
+To fix this, first modify hid_report_len() to account for the zero
+report size case by using DIV_ROUND_UP for the division. Then, call it
+from hid_submit_ctrl().
 
-Scratched my head on this one a bit, since 'of_add_property' is clearly
-declared in <linux/of.h> which dwc3-qcom.c directly includes. Then I
-looked closer and saw the declaration only in case of #ifdef CONFIG_OF
-and noticed it doesn't have a corresponding no-op static inline
-definition in the case of !CONFIG_OF. Again I'm guessing here that Greg
-must have built on a non-OF config.  We should probably include a patch
-that adds the stub.
+Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/usbhid/hid-core.c | 2 +-
+ include/linux/hid.h           | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Thanks,
-Jack
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 86257ce6d619..4e9077363c96 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -374,7 +374,7 @@ static int hid_submit_ctrl(struct hid_device *hid)
+ 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
+ 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
+ 
+-	len = ((report->size - 1) >> 3) + 1 + (report->id > 0);
++	len = hid_report_len(report);
+ 	if (dir == USB_DIR_OUT) {
+ 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
+ 		usbhid->urbctrl->transfer_buffer_length = len;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 3e33eb14118c..5e79a21c696f 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1164,8 +1164,7 @@ static inline void hid_hw_wait(struct hid_device *hdev)
+  */
+ static inline u32 hid_report_len(struct hid_report *report)
+ {
+-	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
+-	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
++	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
+ }
+ 
+ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.30.2
+
