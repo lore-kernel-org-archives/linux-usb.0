@@ -2,39 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7845C47094
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B409C4743F
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A149560FDA
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 725C160FDA
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Jun 2021 11:00:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhFGLCC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Jun 2021 07:02:02 -0400
-Received: from mga09.intel.com ([134.134.136.24]:4781 "EHLO mga09.intel.com"
+        id S230507AbhFGLCD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Jun 2021 07:02:03 -0400
+Received: from mga18.intel.com ([134.134.136.126]:16555 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230507AbhFGLCA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 7 Jun 2021 07:02:00 -0400
-IronPort-SDR: vfuot7jVB7SAr2+DJbSSwfV/Zp/HdpvbMViLyW0rUh0bxnHn2CX9mTkycKdtoeM8MJkYLEwedp
- oaTUFUW2jd+A==
-X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="204569300"
+        id S230520AbhFGLCC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Jun 2021 07:02:02 -0400
+IronPort-SDR: kh3f7hgiN8mjr/RNQZmpQPiDSFSiD+m6iKXx73UxKBV0IFVRmW+jVeL93YR2XHYyGJAD8LRZBd
+ lTUQiGMFYEDQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10007"; a="191928010"
 X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="204569300"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 04:00:09 -0700
-IronPort-SDR: MpE/U940CBhjR4xeXMPmE2XHOv6YCGTbbvwFpc9zY//kmHpkj1AXnBWek2hoKnQBhl59Fv5t32
- NhlXTvIuH2vA==
+   d="scan'208";a="191928010"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2021 04:00:10 -0700
+IronPort-SDR: cjfplx66BQeUvC6f8Mx8MJGpfv6XteQjG1oLIrmLg+K52Suy8YCI/5MGaJNYPnkFTMuVLyrd3d
+ QO6jkFi81www==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,254,1616482800"; 
-   d="scan'208";a="413000837"
+   d="scan'208";a="634671784"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2021 04:00:06 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 07 Jun 2021 04:00:06 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 5AF4B67; Mon,  7 Jun 2021 14:00:30 +0300 (EEST)
+        id 518D7142; Mon,  7 Jun 2021 14:00:30 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -46,64 +45,46 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         kernel test robot <lkp@intel.com>,
         Gil Fine <gil.fine@intel.com>,
         Azhar Shaikh <azhar.shaikh@intel.com>
-Subject: [PATCH 1/5] thunderbolt: Bond lanes only when dual_link_port != NULL in alloc_dev_default()
-Date:   Mon,  7 Jun 2021 14:00:26 +0300
-Message-Id: <20210607110030.38664-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH 0/5] thunderbolt: Support for Intel Alder Lake and improvements
+Date:   Mon,  7 Jun 2021 14:00:25 +0300
+Message-Id: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
-References: <20210607110030.38664-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We should not dereference ->dual_link_port if it is NULL and lane bonding
-is requested. For this reason move lane bonding configuration happen
-inside the block where ->dual_link_port != NULL.
+Hi all,
 
-Fixes: 54509f5005ca ("thunderbolt: Add KUnit tests for path walking")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/test.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+This series adds support for Intel Alder Lake which is the successor of
+Tiger Lake. The integrated Thunderbolt/USB4 controller is pretty close to
+the one found in Tiger Lake too.
 
-diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
-index cf34c1ecf5d5..ba5afd471766 100644
---- a/drivers/thunderbolt/test.c
-+++ b/drivers/thunderbolt/test.c
-@@ -303,18 +303,18 @@ static struct tb_switch *alloc_dev_default(struct kunit *test,
- 	if (port->dual_link_port && upstream_port->dual_link_port) {
- 		port->dual_link_port->remote = upstream_port->dual_link_port;
- 		upstream_port->dual_link_port->remote = port->dual_link_port;
--	}
- 
--	if (bonded) {
--		/* Bonding is used */
--		port->bonded = true;
--		port->total_credits *= 2;
--		port->dual_link_port->bonded = true;
--		port->dual_link_port->total_credits = 0;
--		upstream_port->bonded = true;
--		upstream_port->total_credits *= 2;
--		upstream_port->dual_link_port->bonded = true;
--		upstream_port->dual_link_port->total_credits = 0;
-+		if (bonded) {
-+			/* Bonding is used */
-+			port->bonded = true;
-+			port->total_credits *= 2;
-+			port->dual_link_port->bonded = true;
-+			port->dual_link_port->total_credits = 0;
-+			upstream_port->bonded = true;
-+			upstream_port->total_credits *= 2;
-+			upstream_port->dual_link_port->bonded = true;
-+			upstream_port->dual_link_port->total_credits = 0;
-+		}
- 	}
- 
- 	return sw;
+In addition there are few improvements for issues reported by Dan Carpenter
+and kernel test robot.
+
+The series applies on top of thunderbolt.git/next.
+
+Azhar Shaikh (1):
+  thunderbolt: Add support for Intel Alder Lake
+
+Gil Fine (1):
+  thunderbolt: Poll 10ms for REG_FW_STS_NVM_AUTH_DONE to be set
+
+Mika Westerberg (3):
+  thunderbolt: Bond lanes only when dual_link_port != NULL in alloc_dev_default()
+  thunderbolt: Add device links only when software connection manager is used
+  thunderbolt: No need to include <linux/acpi.h> in usb4_port.c
+
+ drivers/thunderbolt/icm.c       | 20 ++++++----
+ drivers/thunderbolt/nhi.c       | 71 ++-------------------------------
+ drivers/thunderbolt/nhi.h       |  2 +
+ drivers/thunderbolt/tb.c        | 67 +++++++++++++++++++++++++++++++
+ drivers/thunderbolt/test.c      | 22 +++++-----
+ drivers/thunderbolt/usb4_port.c |  1 -
+ 6 files changed, 97 insertions(+), 86 deletions(-)
+
 -- 
 2.30.2
 
