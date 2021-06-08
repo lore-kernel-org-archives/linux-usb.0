@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4391C49EBF
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9865C4743D
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D1CA261289
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C002161208
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbhFHIAM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Jun 2021 04:00:12 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:49450 "EHLO
+        id S231284AbhFHIAN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Jun 2021 04:00:13 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:49464 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231179AbhFHIAH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Jun 2021 04:00:07 -0400
-X-UUID: b4cbf075f954461db5382267c351760c-20210608
-X-UUID: b4cbf075f954461db5382267c351760c-20210608
+        with ESMTP id S231192AbhFHIAJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Jun 2021 04:00:09 -0400
+X-UUID: 78c3b632e6c1433dbe7995e899ac5cc6-20210608
+X-UUID: 78c3b632e6c1433dbe7995e899ac5cc6-20210608
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 959427143; Tue, 08 Jun 2021 15:58:11 +0800
+        with ESMTP id 501344108; Tue, 08 Jun 2021 15:58:12 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Jun 2021 15:58:10 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 8 Jun 2021 15:58:12 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Jun 2021 15:58:09 +0800
+ Transport; Tue, 8 Jun 2021 15:58:11 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,9 +43,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Yuwen Ng <yuwen.ng@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 15/23] usb: dwc3: drd: use helper to get role-switch-default-mode
-Date:   Tue, 8 Jun 2021 15:57:41 +0800
-Message-ID: <1623139069-8173-16-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 17/23] usb: mtu3: support option to disable usb2 ports
+Date:   Tue, 8 Jun 2021 15:57:43 +0800
+Message-ID: <1623139069-8173-18-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -56,35 +56,103 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new helper usb_get_role_switch_default_mode() to
-get property of "role-switch-default-mode"
+Add support to disable specific usb2 host ports, it's useful when
+a usb2 port is disabled on some platforms, but enabled on others
+for the same SoC.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/dwc3/drd.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/usb/mtu3/mtu3.h      |  4 ++++
+ drivers/usb/mtu3/mtu3_host.c |  8 +++++++-
+ drivers/usb/mtu3/mtu3_plat.c | 11 +++++++++--
+ 3 files changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index e2b68bb770d1..4e0a26683b06 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -541,14 +541,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
- static int dwc3_setup_role_switch(struct dwc3 *dwc)
- {
- 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
--	const char *str;
- 	u32 mode;
--	int ret;
+diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+index b56284d28c71..710abe83ba1a 100644
+--- a/drivers/usb/mtu3/mtu3.h
++++ b/drivers/usb/mtu3/mtu3.h
+@@ -229,6 +229,9 @@ struct otg_switch_mtk {
+  *		host only, device only or dual-role mode
+  * @u2_ports: number of usb2.0 host ports
+  * @u3_ports: number of usb3.0 host ports
++ * @u2p_dis_msk: mask of disabling usb2 ports, e.g. bit0==1 to
++ *		disable u2port0, bit1==1 to disable u2port1,... etc,
++ *		but when use dual-role mode, can't disable u2port0
+  * @u3p_dis_msk: mask of disabling usb3 ports, for example, bit0==1 to
+  *		disable u3port0, bit1==1 to disable u3port1,... etc
+  * @dbgfs_root: only used when supports manual dual-role switch via debugfs
+@@ -256,6 +259,7 @@ struct ssusb_mtk {
+ 	bool is_host;
+ 	int u2_ports;
+ 	int u3_ports;
++	int u2p_dis_msk;
+ 	int u3p_dis_msk;
+ 	struct dentry *dbgfs_root;
+ 	/* usb wakeup for host mode */
+diff --git a/drivers/usb/mtu3/mtu3_host.c b/drivers/usb/mtu3/mtu3_host.c
+index 93a1a4c11e1e..6185bac5fecf 100644
+--- a/drivers/usb/mtu3/mtu3_host.c
++++ b/drivers/usb/mtu3/mtu3_host.c
+@@ -155,6 +155,9 @@ int ssusb_host_enable(struct ssusb_mtk *ssusb)
  
--	ret = device_property_read_string(dwc->dev, "role-switch-default-mode",
--					  &str);
--	if (ret >= 0  && !strncmp(str, "host", strlen("host"))) {
--		dwc->role_switch_default_mode = USB_DR_MODE_HOST;
-+	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
-+	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
- 		mode = DWC3_GCTL_PRTCAP_HOST;
- 	} else {
- 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
+ 	/* power on and enable all u2 ports */
+ 	for (i = 0; i < num_u2p; i++) {
++		if ((0x1 << i) & ssusb->u2p_dis_msk)
++			continue;
++
+ 		value = mtu3_readl(ibase, SSUSB_U2_CTRL(i));
+ 		value &= ~(SSUSB_U2_PORT_PDN | SSUSB_U2_PORT_DIS);
+ 		value |= SSUSB_U2_PORT_HOST_SEL;
+@@ -188,8 +191,11 @@ int ssusb_host_disable(struct ssusb_mtk *ssusb, bool suspend)
+ 		mtu3_writel(ibase, SSUSB_U3_CTRL(i), value);
+ 	}
+ 
+-	/* power down and disable all u2 ports */
++	/* power down and disable u2 ports except skipped ones */
+ 	for (i = 0; i < num_u2p; i++) {
++		if ((0x1 << i) & ssusb->u2p_dis_msk)
++			continue;
++
+ 		value = mtu3_readl(ibase, SSUSB_U2_CTRL(i));
+ 		value |= SSUSB_U2_PORT_PDN;
+ 		value |= suspend ? 0 : SSUSB_U2_PORT_DIS;
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index bbfabdc1e79b..93e52e6b6811 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -283,6 +283,8 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 	/* optional property, ignore the error if it does not exist */
+ 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
+ 			     &ssusb->u3p_dis_msk);
++	of_property_read_u32(node, "mediatek,u2p-dis-msk",
++			     &ssusb->u2p_dis_msk);
+ 
+ 	otg_sx->vbus = devm_regulator_get(dev, "vbus");
+ 	if (IS_ERR(otg_sx->vbus)) {
+@@ -299,6 +301,9 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 		of_property_read_bool(node, "enable-manual-drd");
+ 	otg_sx->role_sw_used = of_property_read_bool(node, "usb-role-switch");
+ 
++	/* can't disable port0 when use dual-role mode */
++	ssusb->u2p_dis_msk &= ~0x1;
++
+ 	if (otg_sx->role_sw_used || otg_sx->manual_drd_enabled)
+ 		goto out;
+ 
+@@ -311,9 +316,11 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 	}
+ 
+ out:
+-	dev_info(dev, "dr_mode: %d, is_u3_dr: %d, u3p_dis_msk: %x, drd: %s\n",
+-		ssusb->dr_mode, otg_sx->is_u3_drd, ssusb->u3p_dis_msk,
++	dev_info(dev, "dr_mode: %d, is_u3_dr: %d, drd: %s\n",
++		 ssusb->dr_mode, otg_sx->is_u3_drd,
+ 		otg_sx->manual_drd_enabled ? "manual" : "auto");
++	dev_info(dev, "u2p_dis_msk: %x, u3p_dis_msk: %x\n",
++		 ssusb->u2p_dis_msk, ssusb->u3p_dis_msk);
+ 
+ 	return 0;
+ }
 -- 
 2.18.0
 
