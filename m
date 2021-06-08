@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9865C4743D
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C7EC4BA06
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C002161208
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EB4F61289
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231284AbhFHIAN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Jun 2021 04:00:13 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:49464 "EHLO
+        id S231244AbhFHIAV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Jun 2021 04:00:21 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:49528 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231192AbhFHIAJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Jun 2021 04:00:09 -0400
-X-UUID: 78c3b632e6c1433dbe7995e899ac5cc6-20210608
-X-UUID: 78c3b632e6c1433dbe7995e899ac5cc6-20210608
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        with ESMTP id S231286AbhFHIAO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Jun 2021 04:00:14 -0400
+X-UUID: 0ed1e004e9ca4d0e9f524ae7a8f9b04f-20210608
+X-UUID: 0ed1e004e9ca4d0e9f524ae7a8f9b04f-20210608
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 501344108; Tue, 08 Jun 2021 15:58:12 +0800
+        with ESMTP id 404231016; Tue, 08 Jun 2021 15:58:18 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Jun 2021 15:58:12 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 8 Jun 2021 15:58:17 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Jun 2021 15:58:11 +0800
+ Transport; Tue, 8 Jun 2021 15:58:16 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,9 +43,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Yuwen Ng <yuwen.ng@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 17/23] usb: mtu3: support option to disable usb2 ports
-Date:   Tue, 8 Jun 2021 15:57:43 +0800
-Message-ID: <1623139069-8173-18-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 23/23] usb: mtu3: use clock bulk to get clocks
+Date:   Tue, 8 Jun 2021 15:57:49 +0800
+Message-ID: <1623139069-8173-24-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -56,102 +56,218 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support to disable specific usb2 host ports, it's useful when
-a usb2 port is disabled on some platforms, but enabled on others
-for the same SoC.
+Use clock bulk helpers to get/enable/disable clocks, meanwhile
+make sys_ck optional, then will be easier to handle clocks.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3.h      |  4 ++++
- drivers/usb/mtu3/mtu3_host.c |  8 +++++++-
- drivers/usb/mtu3/mtu3_plat.c | 11 +++++++++--
- 3 files changed, 20 insertions(+), 3 deletions(-)
+ drivers/usb/mtu3/mtu3.h      | 12 ++---
+ drivers/usb/mtu3/mtu3_plat.c | 86 ++++++------------------------------
+ 2 files changed, 18 insertions(+), 80 deletions(-)
 
 diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index b56284d28c71..710abe83ba1a 100644
+index ad063fec7f17..022bbdc54e68 100644
 --- a/drivers/usb/mtu3/mtu3.h
 +++ b/drivers/usb/mtu3/mtu3.h
-@@ -229,6 +229,9 @@ struct otg_switch_mtk {
+@@ -10,6 +10,7 @@
+ #ifndef __MTU3_H__
+ #define __MTU3_H__
+ 
++#include <linux/clk.h>
+ #include <linux/device.h>
+ #include <linux/dmapool.h>
+ #include <linux/extcon.h>
+@@ -89,6 +90,8 @@ struct mtu3_request;
+  */
+ #define EP0_RESPONSE_BUF  6
+ 
++#define BULK_CLKS_CNT	4
++
+ /* device operated link and speed got from DEVICE_CONF register */
+ enum mtu3_speed {
+ 	MTU3_SPEED_INACTIVE = 0,
+@@ -221,10 +224,6 @@ struct otg_switch_mtk {
+  * @mac_base: register base address of device MAC, exclude xHCI's
+  * @ippc_base: register base address of IP Power and Clock interface (IPPC)
+  * @vusb33: usb3.3V shared by device/host IP
+- * @sys_clk: system clock of mtu3, shared by device/host IP
+- * @ref_clk: reference clock
+- * @mcu_clk: mcu_bus_ck clock for AHB bus etc
+- * @dma_clk: dma_bus_ck clock for AXI bus etc
+  * @dr_mode: works in which mode:
   *		host only, device only or dual-role mode
   * @u2_ports: number of usb2.0 host ports
-  * @u3_ports: number of usb3.0 host ports
-+ * @u2p_dis_msk: mask of disabling usb2 ports, e.g. bit0==1 to
-+ *		disable u2port0, bit1==1 to disable u2port1,... etc,
-+ *		but when use dual-role mode, can't disable u2port0
-  * @u3p_dis_msk: mask of disabling usb3 ports, for example, bit0==1 to
-  *		disable u3port0, bit1==1 to disable u3port1,... etc
-  * @dbgfs_root: only used when supports manual dual-role switch via debugfs
-@@ -256,6 +259,7 @@ struct ssusb_mtk {
- 	bool is_host;
- 	int u2_ports;
- 	int u3_ports;
-+	int u2p_dis_msk;
- 	int u3p_dis_msk;
- 	struct dentry *dbgfs_root;
- 	/* usb wakeup for host mode */
-diff --git a/drivers/usb/mtu3/mtu3_host.c b/drivers/usb/mtu3/mtu3_host.c
-index 93a1a4c11e1e..6185bac5fecf 100644
---- a/drivers/usb/mtu3/mtu3_host.c
-+++ b/drivers/usb/mtu3/mtu3_host.c
-@@ -155,6 +155,9 @@ int ssusb_host_enable(struct ssusb_mtk *ssusb)
- 
- 	/* power on and enable all u2 ports */
- 	for (i = 0; i < num_u2p; i++) {
-+		if ((0x1 << i) & ssusb->u2p_dis_msk)
-+			continue;
-+
- 		value = mtu3_readl(ibase, SSUSB_U2_CTRL(i));
- 		value &= ~(SSUSB_U2_PORT_PDN | SSUSB_U2_PORT_DIS);
- 		value |= SSUSB_U2_PORT_HOST_SEL;
-@@ -188,8 +191,11 @@ int ssusb_host_disable(struct ssusb_mtk *ssusb, bool suspend)
- 		mtu3_writel(ibase, SSUSB_U3_CTRL(i), value);
- 	}
- 
--	/* power down and disable all u2 ports */
-+	/* power down and disable u2 ports except skipped ones */
- 	for (i = 0; i < num_u2p; i++) {
-+		if ((0x1 << i) & ssusb->u2p_dis_msk)
-+			continue;
-+
- 		value = mtu3_readl(ibase, SSUSB_U2_CTRL(i));
- 		value |= SSUSB_U2_PORT_PDN;
- 		value |= suspend ? 0 : SSUSB_U2_PORT_DIS;
+@@ -250,10 +249,7 @@ struct ssusb_mtk {
+ 	int wakeup_irq;
+ 	/* common power & clock */
+ 	struct regulator *vusb33;
+-	struct clk *sys_clk;
+-	struct clk *ref_clk;
+-	struct clk *mcu_clk;
+-	struct clk *dma_clk;
++	struct clk_bulk_data clks[BULK_CLKS_CNT];
+ 	/* otg */
+ 	struct otg_switch_mtk otg_switch;
+ 	enum usb_dr_mode dr_mode;
 diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
-index bbfabdc1e79b..93e52e6b6811 100644
+index 0beae0c8e2d6..57a71af8e151 100644
 --- a/drivers/usb/mtu3/mtu3_plat.c
 +++ b/drivers/usb/mtu3/mtu3_plat.c
-@@ -283,6 +283,8 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
- 	/* optional property, ignore the error if it does not exist */
- 	of_property_read_u32(node, "mediatek,u3p-dis-msk",
- 			     &ssusb->u3p_dis_msk);
-+	of_property_read_u32(node, "mediatek,u2p-dis-msk",
-+			     &ssusb->u2p_dis_msk);
+@@ -5,7 +5,6 @@
+  * Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
+  */
  
- 	otg_sx->vbus = devm_regulator_get(dev, "vbus");
- 	if (IS_ERR(otg_sx->vbus)) {
-@@ -299,6 +301,9 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
- 		of_property_read_bool(node, "enable-manual-drd");
- 	otg_sx->role_sw_used = of_property_read_bool(node, "usb-role-switch");
+-#include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+@@ -125,54 +124,6 @@ static void ssusb_phy_power_off(struct ssusb_mtk *ssusb)
+ 		phy_power_off(ssusb->phys[i]);
+ }
  
-+	/* can't disable port0 when use dual-role mode */
-+	ssusb->u2p_dis_msk &= ~0x1;
-+
- 	if (otg_sx->role_sw_used || otg_sx->manual_drd_enabled)
- 		goto out;
- 
-@@ -311,9 +316,11 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+-static int ssusb_clks_enable(struct ssusb_mtk *ssusb)
+-{
+-	int ret;
+-
+-	ret = clk_prepare_enable(ssusb->sys_clk);
+-	if (ret) {
+-		dev_err(ssusb->dev, "failed to enable sys_clk\n");
+-		goto sys_clk_err;
+-	}
+-
+-	ret = clk_prepare_enable(ssusb->ref_clk);
+-	if (ret) {
+-		dev_err(ssusb->dev, "failed to enable ref_clk\n");
+-		goto ref_clk_err;
+-	}
+-
+-	ret = clk_prepare_enable(ssusb->mcu_clk);
+-	if (ret) {
+-		dev_err(ssusb->dev, "failed to enable mcu_clk\n");
+-		goto mcu_clk_err;
+-	}
+-
+-	ret = clk_prepare_enable(ssusb->dma_clk);
+-	if (ret) {
+-		dev_err(ssusb->dev, "failed to enable dma_clk\n");
+-		goto dma_clk_err;
+-	}
+-
+-	return 0;
+-
+-dma_clk_err:
+-	clk_disable_unprepare(ssusb->mcu_clk);
+-mcu_clk_err:
+-	clk_disable_unprepare(ssusb->ref_clk);
+-ref_clk_err:
+-	clk_disable_unprepare(ssusb->sys_clk);
+-sys_clk_err:
+-	return ret;
+-}
+-
+-static void ssusb_clks_disable(struct ssusb_mtk *ssusb)
+-{
+-	clk_disable_unprepare(ssusb->dma_clk);
+-	clk_disable_unprepare(ssusb->mcu_clk);
+-	clk_disable_unprepare(ssusb->ref_clk);
+-	clk_disable_unprepare(ssusb->sys_clk);
+-}
+-
+ static int ssusb_rscs_init(struct ssusb_mtk *ssusb)
+ {
+ 	int ret = 0;
+@@ -183,7 +134,7 @@ static int ssusb_rscs_init(struct ssusb_mtk *ssusb)
+ 		goto vusb33_err;
  	}
  
- out:
--	dev_info(dev, "dr_mode: %d, is_u3_dr: %d, u3p_dis_msk: %x, drd: %s\n",
--		ssusb->dr_mode, otg_sx->is_u3_drd, ssusb->u3p_dis_msk,
-+	dev_info(dev, "dr_mode: %d, is_u3_dr: %d, drd: %s\n",
-+		 ssusb->dr_mode, otg_sx->is_u3_drd,
- 		otg_sx->manual_drd_enabled ? "manual" : "auto");
-+	dev_info(dev, "u2p_dis_msk: %x, u3p_dis_msk: %x\n",
-+		 ssusb->u2p_dis_msk, ssusb->u3p_dis_msk);
+-	ret = ssusb_clks_enable(ssusb);
++	ret = clk_bulk_prepare_enable(BULK_CLKS_CNT, ssusb->clks);
+ 	if (ret)
+ 		goto clks_err;
  
- 	return 0;
+@@ -204,7 +155,7 @@ static int ssusb_rscs_init(struct ssusb_mtk *ssusb)
+ phy_err:
+ 	ssusb_phy_exit(ssusb);
+ phy_init_err:
+-	ssusb_clks_disable(ssusb);
++	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
+ clks_err:
+ 	regulator_disable(ssusb->vusb33);
+ vusb33_err:
+@@ -213,7 +164,7 @@ static int ssusb_rscs_init(struct ssusb_mtk *ssusb)
+ 
+ static void ssusb_rscs_exit(struct ssusb_mtk *ssusb)
+ {
+-	ssusb_clks_disable(ssusb);
++	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
+ 	regulator_disable(ssusb->vusb33);
+ 	ssusb_phy_power_off(ssusb);
+ 	ssusb_phy_exit(ssusb);
+@@ -239,6 +190,7 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ {
+ 	struct device_node *node = pdev->dev.of_node;
+ 	struct otg_switch_mtk *otg_sx = &ssusb->otg_switch;
++	struct clk_bulk_data *clks = ssusb->clks;
+ 	struct device *dev = &pdev->dev;
+ 	int i;
+ 	int ret;
+@@ -249,23 +201,13 @@ static int get_ssusb_rscs(struct platform_device *pdev, struct ssusb_mtk *ssusb)
+ 		return PTR_ERR(ssusb->vusb33);
+ 	}
+ 
+-	ssusb->sys_clk = devm_clk_get(dev, "sys_ck");
+-	if (IS_ERR(ssusb->sys_clk)) {
+-		dev_err(dev, "failed to get sys clock\n");
+-		return PTR_ERR(ssusb->sys_clk);
+-	}
+-
+-	ssusb->ref_clk = devm_clk_get_optional(dev, "ref_ck");
+-	if (IS_ERR(ssusb->ref_clk))
+-		return PTR_ERR(ssusb->ref_clk);
+-
+-	ssusb->mcu_clk = devm_clk_get_optional(dev, "mcu_ck");
+-	if (IS_ERR(ssusb->mcu_clk))
+-		return PTR_ERR(ssusb->mcu_clk);
+-
+-	ssusb->dma_clk = devm_clk_get_optional(dev, "dma_ck");
+-	if (IS_ERR(ssusb->dma_clk))
+-		return PTR_ERR(ssusb->dma_clk);
++	clks[0].id = "sys_ck";
++	clks[1].id = "ref_ck";
++	clks[2].id = "mcu_ck";
++	clks[3].id = "dma_ck";
++	ret = devm_clk_bulk_get_optional(dev, BULK_CLKS_CNT, clks);
++	if (ret)
++		return ret;
+ 
+ 	ssusb->num_phys = of_count_phandle_with_args(node,
+ 			"phys", "#phy-cells");
+@@ -558,7 +500,7 @@ static int mtu3_suspend_common(struct device *dev, pm_message_t msg)
+ 		goto sleep_err;
+ 
+ 	ssusb_phy_power_off(ssusb);
+-	ssusb_clks_disable(ssusb);
++	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
+ 	ssusb_wakeup_set(ssusb, true);
+ 
+ sleep_err:
+@@ -575,7 +517,7 @@ static int mtu3_resume_common(struct device *dev, pm_message_t msg)
+ 	dev_dbg(dev, "%s\n", __func__);
+ 
+ 	ssusb_wakeup_set(ssusb, false);
+-	ret = ssusb_clks_enable(ssusb);
++	ret = clk_bulk_prepare_enable(BULK_CLKS_CNT, ssusb->clks);
+ 	if (ret)
+ 		goto clks_err;
+ 
+@@ -586,7 +528,7 @@ static int mtu3_resume_common(struct device *dev, pm_message_t msg)
+ 	return resume_ip_and_ports(ssusb, msg);
+ 
+ phy_err:
+-	ssusb_clks_disable(ssusb);
++	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
+ clks_err:
+ 	return ret;
  }
 -- 
 2.18.0
