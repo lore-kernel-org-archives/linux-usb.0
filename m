@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F4F1C48BCD
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD6D5C48BDF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A62E61208
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A77B961287
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Jun 2021 07:58:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230487AbhFHIAD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Jun 2021 04:00:03 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:53395 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230468AbhFHIAB (ORCPT
+        id S231132AbhFHIAE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Jun 2021 04:00:04 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:49337 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230475AbhFHIAB (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Jun 2021 04:00:01 -0400
-X-UUID: 1a6c6aec8d56468b925f5e9622be2249-20210608
-X-UUID: 1a6c6aec8d56468b925f5e9622be2249-20210608
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by mailgw02.mediatek.com
+X-UUID: 46e9a1638e11407b8b74b780c374e03a-20210608
+X-UUID: 46e9a1638e11407b8b74b780c374e03a-20210608
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 933752272; Tue, 08 Jun 2021 15:58:04 +0800
+        with ESMTP id 1208718175; Tue, 08 Jun 2021 15:58:06 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 8 Jun 2021 15:58:02 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 8 Jun 2021 15:58:05 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Jun 2021 15:58:01 +0800
+ Transport; Tue, 8 Jun 2021 15:58:04 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,9 +43,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Yuwen Ng <yuwen.ng@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 06/23] usb: mtu3: power down port when power down device IP
-Date:   Tue, 8 Jun 2021 15:57:32 +0800
-Message-ID: <1623139069-8173-7-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 09/23] usb: mtu3: use enum usb_role instead of private defined ones
+Date:   Tue, 8 Jun 2021 15:57:35 +0800
+Message-ID: <1623139069-8173-10-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1623139069-8173-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -56,40 +56,127 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When power down device IP, we can also power down device port,
-then power on the port again when power on device ip, it's helpful
-to make device ip enter ip sleep mode.
+Now we mainly use usb-role-switch to set dual role mode, and all
+three ways supported use the same function to switch mode, use
+usb_role enum will make code clear
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/mtu3/mtu3_core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/usb/mtu3/mtu3_dr.c | 52 +++++++++++---------------------------
+ 1 file changed, 15 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index e306b93c007d..562f4357831e 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -334,6 +334,10 @@ void mtu3_start(struct mtu3 *mtu)
- 		mtu3_readl(mbase, U3D_DEVICE_CONTROL));
+diff --git a/drivers/usb/mtu3/mtu3_dr.c b/drivers/usb/mtu3/mtu3_dr.c
+index 89ad448f2b2d..7eabce9d5f3b 100644
+--- a/drivers/usb/mtu3/mtu3_dr.c
++++ b/drivers/usb/mtu3/mtu3_dr.c
+@@ -16,29 +16,6 @@
+ #define USB2_PORT 2
+ #define USB3_PORT 3
  
- 	mtu3_clrbits(mtu->ippc_base, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
-+	if (mtu->is_u3_ip)
-+		mtu3_clrbits(mtu->ippc_base, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
-+
-+	mtu3_clrbits(mtu->ippc_base, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
+-enum mtu3_vbus_id_state {
+-	MTU3_ID_FLOAT = 1,
+-	MTU3_ID_GROUND,
+-	MTU3_VBUS_OFF,
+-	MTU3_VBUS_VALID,
+-};
+-
+-static char *mailbox_state_string(enum mtu3_vbus_id_state state)
+-{
+-	switch (state) {
+-	case MTU3_ID_FLOAT:
+-		return "ID_FLOAT";
+-	case MTU3_ID_GROUND:
+-		return "ID_GROUND";
+-	case MTU3_VBUS_OFF:
+-		return "VBUS_OFF";
+-	case MTU3_VBUS_VALID:
+-		return "VBUS_VALID";
+-	default:
+-		return "UNKNOWN";
+-	}
+-}
+-
+ static void toggle_opstate(struct ssusb_mtk *ssusb)
+ {
+ 	if (!ssusb->otg_switch.is_u3_drd) {
+@@ -147,31 +124,32 @@ int ssusb_set_vbus(struct otg_switch_mtk *otg_sx, int is_on)
+ 	return 0;
+ }
  
- 	mtu3_csr_init(mtu);
- 	mtu3_set_speed(mtu, mtu->speed);
-@@ -356,6 +360,11 @@ void mtu3_stop(struct mtu3 *mtu)
- 		mtu3_dev_on_off(mtu, 0);
+-static void ssusb_set_mailbox(struct otg_switch_mtk *otg_sx,
+-	enum mtu3_vbus_id_state status)
++static void ssusb_set_role(struct otg_switch_mtk *otg_sx, enum usb_role role)
+ {
+ 	struct ssusb_mtk *ssusb =
+ 		container_of(otg_sx, struct ssusb_mtk, otg_switch);
+ 	struct mtu3 *mtu = ssusb->u3d;
  
- 	mtu->is_active = 0;
-+
-+	if (mtu->is_u3_ip)
-+		mtu3_setbits(mtu->ippc_base, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
-+
-+	mtu3_setbits(mtu->ippc_base, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
- 	mtu3_setbits(mtu->ippc_base, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+-	dev_dbg(ssusb->dev, "mailbox %s\n", mailbox_state_string(status));
+-	mtu3_dbg_trace(ssusb->dev, "mailbox %s", mailbox_state_string(status));
++	dev_dbg(ssusb->dev, "set role : %d\n", role);
++	mtu3_dbg_trace(ssusb->dev, "set role : %d", role);
+ 
+-	switch (status) {
+-	case MTU3_ID_GROUND:
++	switch (role) {
++	case USB_ROLE_HOST:
+ 		mtu3_stop(mtu);
+ 		switch_port_to_host(ssusb);
+ 		ssusb_set_vbus(otg_sx, 1);
+ 		ssusb->is_host = true;
+ 		break;
+-	case MTU3_ID_FLOAT:
++	case USB_ROLE_DEVICE:
+ 		ssusb->is_host = false;
+ 		ssusb_set_vbus(otg_sx, 0);
+ 		switch_port_to_device(ssusb);
+ 		mtu3_start(mtu);
+ 		break;
++	case USB_ROLE_NONE:
++		break;
+ 	default:
+-		dev_err(ssusb->dev, "invalid state\n");
++		dev_err(ssusb->dev, "invalid role\n");
+ 	}
+ }
+ 
+@@ -181,13 +159,13 @@ static void ssusb_id_work(struct work_struct *work)
+ 		container_of(work, struct otg_switch_mtk, id_work);
+ 
+ 	if (otg_sx->id_event)
+-		ssusb_set_mailbox(otg_sx, MTU3_ID_GROUND);
++		ssusb_set_role(otg_sx, USB_ROLE_HOST);
+ 	else
+-		ssusb_set_mailbox(otg_sx, MTU3_ID_FLOAT);
++		ssusb_set_role(otg_sx, USB_ROLE_DEVICE);
+ }
+ 
+ /*
+- * @ssusb_id_notifier is called in atomic context, but @ssusb_set_mailbox
++ * @ssusb_id_notifier is called in atomic context, but ssusb_set_role()
+  * may sleep, so use work queue here
+  */
+ static int ssusb_id_notifier(struct notifier_block *nb,
+@@ -226,7 +204,7 @@ static int ssusb_extcon_register(struct otg_switch_mtk *otg_sx)
+ 
+ 	/* default as host, switch to device mode if needed */
+ 	if (extcon_get_state(edev, EXTCON_USB_HOST) == false)
+-		ssusb_set_mailbox(otg_sx, MTU3_ID_FLOAT);
++		ssusb_set_role(otg_sx, USB_ROLE_DEVICE);
+ 
+ 	return 0;
+ }
+@@ -243,10 +221,10 @@ void ssusb_mode_switch(struct ssusb_mtk *ssusb, int to_host)
+ 
+ 	if (to_host) {
+ 		ssusb_set_force_mode(ssusb, MTU3_DR_FORCE_HOST);
+-		ssusb_set_mailbox(otg_sx, MTU3_ID_GROUND);
++		ssusb_set_role(otg_sx, USB_ROLE_HOST);
+ 	} else {
+ 		ssusb_set_force_mode(ssusb, MTU3_DR_FORCE_DEVICE);
+-		ssusb_set_mailbox(otg_sx, MTU3_ID_FLOAT);
++		ssusb_set_role(otg_sx, USB_ROLE_DEVICE);
+ 	}
  }
  
 -- 
