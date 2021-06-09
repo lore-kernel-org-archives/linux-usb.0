@@ -2,75 +2,67 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 854E7C48BDF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC63C47095
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 683F761108
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34E8A61029
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238586AbhFIKKE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Jun 2021 06:10:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234812AbhFIKKD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 06:10:03 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BF9EC06175F
-        for <linux-usb@vger.kernel.org>; Wed,  9 Jun 2021 03:07:54 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id x18so24750943ila.10
-        for <linux-usb@vger.kernel.org>; Wed, 09 Jun 2021 03:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+fwi5iNQrwpu0AXhB4qjB8fMWEX2xn00/1BEJAzcUAc=;
-        b=YUAA7Knce645yrcJQ6rJ8ALhROvtJBnHpkeGwlrgJXcmVEpd3RnNtyWOrvDAXejpck
-         xJYM9eSqatkhpI0qQHZmntyXh4ICSOTjNOzdi2R7CfGTfwcp/F9pzXR1wgnenXnd7HZb
-         +nzJQwj2SEAcyTNPQ8tgVuq3V4xbNQb2ygzvVs3LFH4LRf6iFRluCovLyqcELA89j7sc
-         oFxvlwxRIhVRoAjPw0AJIN5S73bN0+oYGofxKgBrB/AjwD5Y1yPMEf2hyN1ZV48cQqup
-         rNVvuImA6++qpK8m8CMOUZZ4rz1ISBaVAbN87FTL2awMU/Z/1bme6uQo4IcWAqFfBL3X
-         2tdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+fwi5iNQrwpu0AXhB4qjB8fMWEX2xn00/1BEJAzcUAc=;
-        b=TR1FB47RnhfDdihypndOqioAfrrUT9mL7mGfiZHKUvaF0sg049k7WQjyz16ITI3z4B
-         mJt8731XTmjewrqRFzLjCubT8/oGfpjMEUyp3sMvr7mve7oXYwkPUWmBgZk+2WLI9Jhe
-         fJjbqMD7tFnPwWYzAwb53ufoMrhB7yQnFTTY5VzccmrTQgbte3rtslTdzHkg0BCI3vgG
-         Am1Q8HMgPoyEV2rg7qjZDO0dNNRdoPhcx4tLaqfvnt4hdaFowY1vzlJbO+64rmkbT+r6
-         fp6+695d8pAdo2AgKl9cat5aMoPo3O1Xd80ryOGDXeg0FFBv+cwaOBwflngiBD0F/WL1
-         lQLg==
-X-Gm-Message-State: AOAM532UROLTjQNgyxGFfHHwweLI64H8j6ofmW1BHzCo/5hbbokk6GfN
-        eWpCnAaHEMtToLD+CTXe3qdM85Qd39Wyt9HRjqhj7YNuEObsAFgcsiM=
-X-Google-Smtp-Source: ABdhPJwyrCKw6/S3tf+2gQ7u635lbRlt7ScaAd6XW5yDzKh6xc8sUXMyoqzXKgsXQObSmcOSlL/nx8luAMW/UyVmMEE=
-X-Received: by 2002:a6b:c386:: with SMTP id t128mr22260211iof.65.1623233273682;
- Wed, 09 Jun 2021 03:07:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210608162650.58426-1-marian.c.rotariu@gmail.com> <YMCDyCgwOaTBKg9f@kroah.com>
-In-Reply-To: <YMCDyCgwOaTBKg9f@kroah.com>
-From:   Marian-Cristian Rotariu <marian.c.rotariu@gmail.com>
-Date:   Wed, 9 Jun 2021 13:07:42 +0300
-Message-ID: <CA+i-z3XHqsSBb6KC-Y0hvQqk-u2O07B-jrp836FL2Z=woHe_uQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: dwc3: ep0: fix NULL pointer exception
-To:     Greg KH <greg@kroah.com>
-Cc:     linux-usb@vger.kernel.org, mircescu@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        id S238641AbhFIKKw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Jun 2021 06:10:52 -0400
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:30412 "EHLO
+        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238612AbhFIKKw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 06:10:52 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R301e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UbqxsMV_1623232322;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UbqxsMV_1623232322)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 09 Jun 2021 17:52:08 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     valentina.manea.m@gmail.com
+Cc:     shuah@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] usbip: tools: usbipd: use ARRAY_SIZE for sockfdlist
+Date:   Wed,  9 Jun 2021 17:51:56 +0800
+Message-Id: <1623232316-89719-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> How did you create this?  It's one level too "deep" for git.
-I forgot to rebase it on the adequate kernel repo. Sorry for that.
-We use an in-house repo where the 4.19 kernel is inside a directory
-as you could see.
+Use ARRAY_SIZE instead of dividing sizeof array with sizeof an
+element.
 
-> I'll go edit it by hand, but next time be more careful.
-Thank you!
+Clean up the following coccicheck warning:
 
-Marian
+./tools/usb/usbip/src/usbipd.c:536:19-20: WARNING: Use ARRAY_SIZE.
+
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ tools/usb/usbip/src/usbipd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+index 48398a7..4826d13 100644
+--- a/tools/usb/usbip/src/usbipd.c
++++ b/tools/usb/usbip/src/usbipd.c
+@@ -532,8 +532,7 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
+ 		usbip_driver_close(driver);
+ 		return -1;
+ 	}
+-	nsockfd = listen_all_addrinfo(ai_head, sockfdlist,
+-		sizeof(sockfdlist) / sizeof(*sockfdlist));
++	nsockfd = listen_all_addrinfo(ai_head, sockfdlist, ARRAY_SIZE(sockfdlist));
+ 	freeaddrinfo(ai_head);
+ 	if (nsockfd <= 0) {
+ 		err("failed to open a listening socket");
+-- 
+1.8.3.1
+
