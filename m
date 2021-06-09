@@ -2,120 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A37FEC48BCD
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 09:28:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63706C47095
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 09:39:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91AF161285
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 09:28:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F6666124C
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 09:39:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238023AbhFIJaP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Jun 2021 05:30:15 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:50370 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237993AbhFIJaP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 05:30:15 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1599F4M9170872;
-        Wed, 9 Jun 2021 09:28:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=sFRB38PhM3Ekerd+v4R3UAA8bG0qfH1+I7ZpFgJhBJw=;
- b=COylQu9qMY6lp5Y7V+RoGiQH6T+Q1Zwx32s0RqipC41mcKiGvA0EyVuFoXEGjncXuPtd
- sKGT1iJ46xpi1QW/D58jnsiQfsdDGRAqdXicF8Ee0gocqtQY+toEx88hMG733mps7m+8
- F3JRqre9T4JZVMqNzgug7D4XdSvQHEFQ3qV/mSkEGxgjvEvg1VpO18MHYx1XvZxT1oQa
- +/qTkkS2PDnCFylblJR0uUvrFwZoMFhk2iG1NkS+rajooFNK0+OaGC9owkUuBEy88ZBE
- hIeSfO1J64sLnNti3DznK7veke7qqLPAym0kkTwIEVvEo0aqWLzOAoGVWruaZxQucntz +g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 3914quq3kf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 09 Jun 2021 09:28:11 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 1599P4D5128183;
-        Wed, 9 Jun 2021 09:28:11 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3020.oracle.com with ESMTP id 390k1rs898-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 09 Jun 2021 09:28:11 +0000
-Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 1599SB0I138997;
-        Wed, 9 Jun 2021 09:28:11 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 390k1rs892-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 09 Jun 2021 09:28:10 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 1599S5E5031717;
-        Wed, 9 Jun 2021 09:28:05 GMT
-Received: from kadam (/41.212.42.34)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 09 Jun 2021 02:28:04 -0700
-Date:   Wed, 9 Jun 2021 12:27:57 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2][next] net: usb: asix: Fix less than zero comparison
- of a u16
-Message-ID: <20210609092757.GF1955@kadam>
-References: <20210608152249.160333-1-colin.king@canonical.com>
+        id S238052AbhFIJl1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Jun 2021 05:41:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35268 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234765AbhFIJl0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 9 Jun 2021 05:41:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EC1176136D;
+        Wed,  9 Jun 2021 09:39:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623231571;
+        bh=GOxQsUC1Dil+3x01AfSZKqssQgoqsSv5PAcRzUjJH7s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fRGVqAFB/oqVCqdGlNxRGNSvce8MS6IkKZc0CkubQb9a8bnsmnCZ7wY/sEUAcEI8s
+         MBoolk0gmlT04jXjzos5mYKc1yWmz1ygfUzyZRJPjs4kHu7QFH+dtNAFfHV0aHBus3
+         LyiANIuWHPs9mF/5klSYF2iZrZbDdsszSvFYPr5Y=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jack Pham <jackp@codeaurora.org>,
+        Peter Chen <peter.chen@kernel.org>
+Subject: [PATCH] USB: dwc3: remove debugfs root dentry storage
+Date:   Wed,  9 Jun 2021 11:39:24 +0200
+Message-Id: <20210609093924.3293230-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608152249.160333-1-colin.king@canonical.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-ORIG-GUID: QVXrQoM-CFcb2Tyn9bZFrzTPnJArQoeC
-X-Proofpoint-GUID: QVXrQoM-CFcb2Tyn9bZFrzTPnJArQoeC
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10009 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 phishscore=0
- spamscore=0 malwarescore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 adultscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106090042
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3130; h=from:subject; bh=GOxQsUC1Dil+3x01AfSZKqssQgoqsSv5PAcRzUjJH7s=; b=owGbwMvMwCRo6H6F97bub03G02pJDAkHerxEmf7s6fhqupljTfQT1rQ/yVOc1jt0BV+35U1tkqy9 H7SkI4aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZiFsMwT7O4SeBJ4cqJauceJbp3Ka 2+8zJejGESs/C85395/EPn+t1bmrP/jtfZtjIA
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 08, 2021 at 04:22:48PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> The comparison of the u16 priv->phy_addr < 0 is always false because
-> phy_addr is unsigned. Fix this by assigning the return from the call
-> to function asix_read_phy_addr to int ret and using this for the
-> less than zero error check comparison.
-> 
-> Addresses-Coverity: ("Unsigned compared against 0")
-> Fixes: e532a096be0e ("net: usb: asix: ax88772: add phylib support")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/net/usb/asix_devices.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-> index 57dafb3262d9..211c5a87eb15 100644
-> --- a/drivers/net/usb/asix_devices.c
-> +++ b/drivers/net/usb/asix_devices.c
-> @@ -704,9 +704,10 @@ static int ax88772_init_phy(struct usbnet *dev)
->  	struct asix_common_private *priv = dev->driver_priv;
->  	int ret;
->  
-> -	priv->phy_addr = asix_read_phy_addr(dev, true);
-> -	if (priv->phy_addr < 0)
-> +	ret = asix_read_phy_addr(dev, true);
-> +	if (ret < 0)
->  		return priv->phy_addr;
+There is no need to keep around the debugfs "root" directory for the
+dwc3 device.  Instead, look it up anytime we need to find it.  This will
+help when callers get out-of-order and we had the potential to have a
+"stale" pointer around for the root dentry, as has happened in the past.
 
-		return ret;
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Jack Pham <jackp@codeaurora.org>
+Cc: Peter Chen <peter.chen@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/usb/dwc3/core.h    | 2 --
+ drivers/usb/dwc3/debugfs.c | 8 ++++----
+ drivers/usb/dwc3/gadget.c  | 4 +++-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index c5d5760cdf53..dccdf13b5f9e 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1013,7 +1013,6 @@ struct dwc3_scratchpad_array {
+  * @link_state: link state
+  * @speed: device speed (super, high, full, low)
+  * @hwparams: copy of hwparams registers
+- * @root: debugfs root folder pointer
+  * @regset: debugfs pointer to regdump file
+  * @dbg_lsp_select: current debug lsp mux register selection
+  * @test_mode: true when we're entering a USB test mode
+@@ -1222,7 +1221,6 @@ struct dwc3 {
+ 	u8			num_eps;
+ 
+ 	struct dwc3_hwparams	hwparams;
+-	struct dentry		*root;
+ 	struct debugfs_regset32	*regset;
+ 
+ 	u32			dbg_lsp_select;
+diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
+index 5dbbe53269d3..f2b7675c7f62 100644
+--- a/drivers/usb/dwc3/debugfs.c
++++ b/drivers/usb/dwc3/debugfs.c
+@@ -889,8 +889,10 @@ static void dwc3_debugfs_create_endpoint_files(struct dwc3_ep *dep,
+ void dwc3_debugfs_create_endpoint_dir(struct dwc3_ep *dep)
+ {
+ 	struct dentry		*dir;
++	struct dentry		*root;
+ 
+-	dir = debugfs_create_dir(dep->name, dep->dwc->root);
++	root = debugfs_lookup(dev_name(dep->dwc->dev), usb_debug_root);
++	dir = debugfs_create_dir(dep->name, root);
+ 	dwc3_debugfs_create_endpoint_files(dep, dir);
+ }
+ 
+@@ -909,8 +911,6 @@ void dwc3_debugfs_init(struct dwc3 *dwc)
+ 	dwc->regset->base = dwc->regs - DWC3_GLOBALS_REGS_START;
+ 
+ 	root = debugfs_create_dir(dev_name(dwc->dev), usb_debug_root);
+-	dwc->root = root;
+-
+ 	debugfs_create_regset32("regdump", 0444, root, dwc->regset);
+ 	debugfs_create_file("lsp_dump", 0644, root, dwc, &dwc3_lsp_fops);
+ 
+@@ -929,6 +929,6 @@ void dwc3_debugfs_init(struct dwc3 *dwc)
+ 
+ void dwc3_debugfs_exit(struct dwc3 *dwc)
+ {
+-	debugfs_remove_recursive(dwc->root);
++	debugfs_remove(debugfs_lookup(dev_name(dwc->dev), usb_debug_root));
+ 	kfree(dwc->regset);
+ }
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 7cc99b6d0bfe..026a2ad0fc80 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2799,7 +2799,9 @@ static void dwc3_gadget_free_endpoints(struct dwc3 *dwc)
+ 			list_del(&dep->endpoint.ep_list);
+ 		}
+ 
+-		debugfs_remove_recursive(debugfs_lookup(dep->name, dwc->root));
++		debugfs_remove_recursive(debugfs_lookup(dep->name,
++				debugfs_lookup(dev_name(dep->dwc->dev),
++					       usb_debug_root)));
+ 		kfree(dep);
+ 	}
+ }
+-- 
+2.32.0
 
