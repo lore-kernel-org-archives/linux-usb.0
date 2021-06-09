@@ -4,65 +4,83 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC63C47095
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DED4C48BDF
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:24:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34E8A61029
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:08:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63281611BD
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 10:24:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238641AbhFIKKw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Jun 2021 06:10:52 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:30412 "EHLO
-        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238612AbhFIKKw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 06:10:52 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R301e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UbqxsMV_1623232322;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UbqxsMV_1623232322)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 09 Jun 2021 17:52:08 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     valentina.manea.m@gmail.com
-Cc:     shuah@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] usbip: tools: usbipd: use ARRAY_SIZE for sockfdlist
-Date:   Wed,  9 Jun 2021 17:51:56 +0800
-Message-Id: <1623232316-89719-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S238791AbhFIK0t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Jun 2021 06:26:49 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:38483 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238766AbhFIK0r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 06:26:47 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <colin.king@canonical.com>)
+        id 1lqvOD-0007LP-4r; Wed, 09 Jun 2021 10:24:49 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2][next][V2] net: usb: asix: ax88772: Fix less than zero comparison of a u16
+Date:   Wed,  9 Jun 2021 11:24:48 +0100
+Message-Id: <20210609102448.182798-2-colin.king@canonical.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210609102448.182798-1-colin.king@canonical.com>
+References: <20210609102448.182798-1-colin.king@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use ARRAY_SIZE instead of dividing sizeof array with sizeof an
-element.
+From: Colin Ian King <colin.king@canonical.com>
 
-Clean up the following coccicheck warning:
+The comparison of the u16 priv->phy_addr < 0 is always false because
+phy_addr is unsigned. Fix this by assigning the return from the call
+to function asix_read_phy_addr to int ret and using this for the
+less than zero error check comparison.
 
-./tools/usb/usbip/src/usbipd.c:536:19-20: WARNING: Use ARRAY_SIZE.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Fixes: 7e88b11a862a ("net: usb: asix: refactor asix_read_phy_addr() and handle errors on return")
+Addresses-Coverity: ("Unsigned compared against 0")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- tools/usb/usbip/src/usbipd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
-index 48398a7..4826d13 100644
---- a/tools/usb/usbip/src/usbipd.c
-+++ b/tools/usb/usbip/src/usbipd.c
-@@ -532,8 +532,7 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
- 		usbip_driver_close(driver);
- 		return -1;
+V2: fix up return check.
+
+---
+ drivers/net/usb/ax88172a.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/net/usb/ax88172a.c b/drivers/net/usb/ax88172a.c
+index 2e2081346740..530947d7477b 100644
+--- a/drivers/net/usb/ax88172a.c
++++ b/drivers/net/usb/ax88172a.c
+@@ -205,11 +205,11 @@ static int ax88172a_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		goto free;
  	}
--	nsockfd = listen_all_addrinfo(ai_head, sockfdlist,
--		sizeof(sockfdlist) / sizeof(*sockfdlist));
-+	nsockfd = listen_all_addrinfo(ai_head, sockfdlist, ARRAY_SIZE(sockfdlist));
- 	freeaddrinfo(ai_head);
- 	if (nsockfd <= 0) {
- 		err("failed to open a listening socket");
+ 
+-	priv->phy_addr = asix_read_phy_addr(dev, priv->use_embdphy);
+-	if (priv->phy_addr < 0) {
+-		ret = priv->phy_addr;
++	ret = asix_read_phy_addr(dev, priv->use_embdphy);
++	if (ret < 0)
+ 		goto free;
+-	}
++
++	priv->phy_addr = ret;
+ 
+ 	ax88172a_reset_phy(dev, priv->use_embdphy);
+ 
 -- 
-1.8.3.1
+2.31.1
 
