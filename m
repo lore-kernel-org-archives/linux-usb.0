@@ -2,277 +2,163 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51707C48BCD
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 21:39:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A571EC48BCF
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 22:03:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3392961009
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 21:39:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 871D7613E7
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Jun 2021 22:03:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229781AbhFIVln (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Jun 2021 17:41:43 -0400
-Received: from mga14.intel.com ([192.55.52.115]:46835 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229517AbhFIVln (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 9 Jun 2021 17:41:43 -0400
-IronPort-SDR: whgjsM9fZbL8EXj8IoFQ2O3Pn2SIJWBvVhQCvWlSr73muA2co+Ubcq1ftTV5clJt1DOpNRhszn
- d+hMoevCo/9g==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="204987391"
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="204987391"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 14:39:45 -0700
-IronPort-SDR: f00xVnk0rMZbytoQTyZRDNhLxIiFG+wQ2Hm1bgdMiTQVHhz+woHfnvl1XCBekVSq7pb22qPGNi
- 5z11BM6vGL1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,261,1616482800"; 
-   d="scan'208";a="419425677"
-Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 09 Jun 2021 14:39:42 -0700
-Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lr5vK-0009iQ-Ao; Wed, 09 Jun 2021 21:39:42 +0000
-Date:   Thu, 10 Jun 2021 05:39:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- e89bb4288378b85c82212b60dc98ecda6b3d3a70
-Message-ID: <60c1351b.VWchToIjJmJ7l2Cf%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229981AbhFIWFG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Jun 2021 18:05:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229972AbhFIWFG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Jun 2021 18:05:06 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0EBEC06175F
+        for <linux-usb@vger.kernel.org>; Wed,  9 Jun 2021 15:02:57 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id n12so20841294pgs.13
+        for <linux-usb@vger.kernel.org>; Wed, 09 Jun 2021 15:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5jdb1/nf8Xf9cHJr9ZwJVMdonN98y7jZdc9Uui2zD+k=;
+        b=R5+Kw9O6I/1IU7kGnU0zCC2WYUDL/FKN3hR9p1DTSWqqrBG27MXbHsMkqbygwGuPW3
+         bO/Wq4Z1GIilKr2Jrs4OMtzYEqOk28JSyj8hyIRqE7GDNDifwwKWwvegTd3JVRdOPtP0
+         F4K1d8+MiIR5RmqrKs6w6YNeURP3rNVdGDt2s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5jdb1/nf8Xf9cHJr9ZwJVMdonN98y7jZdc9Uui2zD+k=;
+        b=SbGZW8mIcOXKNN+4TqHFHlkdSmshRFTMFO5xT9tGc5P/Ja0swwJjTb6TLWa+K/bRbp
+         GgL2tbNFOVB4GX14E3hIA7GAatOK/ENI7IHEVzhjKYLGQ1aMo47neBoytoc1+ijp4Aep
+         G8D96ZwtM/trVNF6aIEGU77TTJdCxSH6CQ64Fxt/2r+9+NxoYsHJ6kT3dYirysarnw7+
+         mogWNqdacmqaaNBMdaNkNLfiI7LGShKhxrcC07cPsztu01nH1QAnAsXuDYMi7vQFPJJa
+         gOweL/4z2S/TqnQjUDtnerKfy3vCBFk6CcQku8CJTtuKizWIHVOcfSMZs9h1e5ugBZ5c
+         bWKA==
+X-Gm-Message-State: AOAM530PGmUrSAZTm0/Mx27WstJbQw1BzRzGjBFtwtwNUodxHxLBYu1y
+        m+DBgl0MGaunvdCMSCUtnk1YgA==
+X-Google-Smtp-Source: ABdhPJzI+fIpPynsyQz/5H0at0akyidamyrNszW2JK2IwL29M8TGVkWfOER20Wk69wGis6Op8lNzig==
+X-Received: by 2002:a65:64c8:: with SMTP id t8mr1789309pgv.96.1623276177491;
+        Wed, 09 Jun 2021 15:02:57 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:cedb:c2b5:f22c:760])
+        by smtp.gmail.com with UTF8SMTPSA id v15sm430659pfm.216.2021.06.09.15.02.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Jun 2021 15:02:57 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Peter Chen <peter.chen@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v12 3/5] of/platform: Add stubs for of_platform_device_create/destroy()
+Date:   Wed,  9 Jun 2021 15:02:47 -0700
+Message-Id: <20210609150159.v12.3.I08fd2e1c775af04f663730e9fb4d00e6bbb38541@changeid>
+X-Mailer: git-send-email 2.32.0.rc1.229.g3e70b5a671-goog
+In-Reply-To: <20210609220249.86061-1-mka@chromium.org>
+References: <20210609220249.86061-1-mka@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: e89bb4288378b85c82212b60dc98ecda6b3d3a70  usb: gadget: u_audio: add real feedback implementation
+Code for platform_device_create() and of_platform_device_destroy() is
+only generated if CONFIG_OF_ADDRESS=y. Add stubs to avoid unresolved
+symbols when CONFIG_OF_ADDRESS is not set.
 
-elapsed time: 721m
-
-configs tested: 208
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                         rt305x_defconfig
-mips                      malta_kvm_defconfig
-powerpc                     asp8347_defconfig
-arm                           spitz_defconfig
-sparc                       sparc32_defconfig
-nios2                            allyesconfig
-sh                          rsk7203_defconfig
-mips                    maltaup_xpa_defconfig
-openrisc                 simple_smp_defconfig
-mips                      maltasmvp_defconfig
-arm                         orion5x_defconfig
-sh                   sh7724_generic_defconfig
-sh                          kfr2r09_defconfig
-sparc                            alldefconfig
-arm                             rpc_defconfig
-arm                             ezx_defconfig
-sh                           se7724_defconfig
-sh                          sdk7786_defconfig
-arc                          axs103_defconfig
-xtensa                           allyesconfig
-sh                           se7722_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                     loongson2k_defconfig
-powerpc                     taishan_defconfig
-xtensa                          iss_defconfig
-powerpc                     pseries_defconfig
-parisc                generic-32bit_defconfig
-h8300                    h8300h-sim_defconfig
-mips                      loongson3_defconfig
-ia64                      gensparse_defconfig
-m68k                            q40_defconfig
-openrisc                            defconfig
-mips                     cu1000-neo_defconfig
-arc                        nsim_700_defconfig
-arm                       versatile_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                      pasemi_defconfig
-sh                          r7785rp_defconfig
-s390                                defconfig
-arm                              alldefconfig
-h8300                            allyesconfig
-sh                         microdev_defconfig
-sh                             espt_defconfig
-powerpc                 mpc837x_rdb_defconfig
-mips                      fuloong2e_defconfig
-xtensa                  audio_kc705_defconfig
-arm                         lpc32xx_defconfig
-sh                           se7343_defconfig
-mips                         tb0226_defconfig
-arm                      integrator_defconfig
-arm                         cm_x300_defconfig
-arm                         bcm2835_defconfig
-mips                            ar7_defconfig
-arm64                            alldefconfig
-arm                           tegra_defconfig
-s390                       zfcpdump_defconfig
-powerpc                    socrates_defconfig
-ia64                        generic_defconfig
-arm                          badge4_defconfig
-arm                  colibri_pxa270_defconfig
-xtensa                       common_defconfig
-sh                             sh03_defconfig
-sh                        sh7763rdp_defconfig
-sh                        dreamcast_defconfig
-m68k                             allyesconfig
-mips                  cavium_octeon_defconfig
-sh                          sdk7780_defconfig
-arm                             mxs_defconfig
-mips                             allmodconfig
-mips                       rbtx49xx_defconfig
-arm                       aspeed_g4_defconfig
-sh                           se7206_defconfig
-mips                           ip27_defconfig
-powerpc                      ppc6xx_defconfig
-arm                         s5pv210_defconfig
-xtensa                  nommu_kc705_defconfig
-arm                         shannon_defconfig
-m68k                          amiga_defconfig
-s390                             allyesconfig
-powerpc                     tqm8555_defconfig
-mips                         tb0287_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                 mpc8560_ads_defconfig
-arm                       cns3420vb_defconfig
-sh                           se7721_defconfig
-um                           x86_64_defconfig
-arc                         haps_hs_defconfig
-ia64                         bigsur_defconfig
-sh                     sh7710voipgw_defconfig
-powerpc                    gamecube_defconfig
-powerpc                 mpc8540_ads_defconfig
-arm                         s3c6400_defconfig
-mips                      bmips_stb_defconfig
-mips                      pistachio_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                         mv78xx0_defconfig
-sh                           se7619_defconfig
-m68k                          sun3x_defconfig
-mips                   sb1250_swarm_defconfig
-xtensa                         virt_defconfig
-powerpc                 mpc832x_rdb_defconfig
-arm                       imx_v6_v7_defconfig
-arm                       netwinder_defconfig
-um                             i386_defconfig
-powerpc                     mpc5200_defconfig
-parisc                           alldefconfig
-arm                         assabet_defconfig
-mips                           ip32_defconfig
-sh                   rts7751r2dplus_defconfig
-mips                           ci20_defconfig
-mips                     loongson1c_defconfig
-microblaze                          defconfig
-m68k                          multi_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                        workpad_defconfig
-nds32                             allnoconfig
-powerpc                     mpc83xx_defconfig
-arm                      jornada720_defconfig
-sh                 kfr2r09-romimage_defconfig
-sparc64                             defconfig
-arc                                 defconfig
-powerpc                          allyesconfig
-riscv                               defconfig
-arc                           tb10x_defconfig
-powerpc                     kilauea_defconfig
-m68k                        m5307c3_defconfig
-nios2                         10m50_defconfig
-powerpc                     sbc8548_defconfig
-arm                          pxa168_defconfig
-um                               alldefconfig
-m68k                             alldefconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20210608
-x86_64               randconfig-a002-20210608
-x86_64               randconfig-a003-20210608
-x86_64               randconfig-a006-20210608
-x86_64               randconfig-a005-20210608
-x86_64               randconfig-a001-20210608
-i386                 randconfig-a003-20210608
-i386                 randconfig-a006-20210608
-i386                 randconfig-a004-20210608
-i386                 randconfig-a001-20210608
-i386                 randconfig-a005-20210608
-i386                 randconfig-a002-20210608
-i386                 randconfig-a003-20210609
-i386                 randconfig-a006-20210609
-i386                 randconfig-a004-20210609
-i386                 randconfig-a001-20210609
-i386                 randconfig-a002-20210609
-i386                 randconfig-a005-20210609
-i386                 randconfig-a015-20210608
-i386                 randconfig-a013-20210608
-i386                 randconfig-a016-20210608
-i386                 randconfig-a011-20210608
-i386                 randconfig-a012-20210608
-i386                 randconfig-a014-20210608
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                            kunit_defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a002-20210607
-x86_64               randconfig-a004-20210607
-x86_64               randconfig-a003-20210607
-x86_64               randconfig-a006-20210607
-x86_64               randconfig-a005-20210607
-x86_64               randconfig-a001-20210607
-x86_64               randconfig-a015-20210608
-x86_64               randconfig-a012-20210608
-x86_64               randconfig-a014-20210608
-x86_64               randconfig-a011-20210608
-x86_64               randconfig-a016-20210608
-x86_64               randconfig-a013-20210608
-
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+Changes in v12:
+- none
+
+Changes in v11:
+- none
+
+Changes in v10:
+- none
+
+Changes in v9:
+- added Rob's 'Acked-by' tag
+
+Changes in v8:
+- fixed C&P error in commit message
+
+Changes in v7:
+- none
+
+Changes in v6:
+- patch added to the series
+
+ include/linux/of_platform.h | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
+index 84a966623e78..d15b6cd5e1c3 100644
+--- a/include/linux/of_platform.h
++++ b/include/linux/of_platform.h
+@@ -61,16 +61,18 @@ static inline struct platform_device *of_find_device_by_node(struct device_node
+ }
+ #endif
+ 
++extern int of_platform_bus_probe(struct device_node *root,
++				 const struct of_device_id *matches,
++				 struct device *parent);
++
++#ifdef CONFIG_OF_ADDRESS
+ /* Platform devices and busses creation */
+ extern struct platform_device *of_platform_device_create(struct device_node *np,
+ 						   const char *bus_id,
+ 						   struct device *parent);
+ 
+ extern int of_platform_device_destroy(struct device *dev, void *data);
+-extern int of_platform_bus_probe(struct device_node *root,
+-				 const struct of_device_id *matches,
+-				 struct device *parent);
+-#ifdef CONFIG_OF_ADDRESS
++
+ extern int of_platform_populate(struct device_node *root,
+ 				const struct of_device_id *matches,
+ 				const struct of_dev_auxdata *lookup,
+@@ -84,6 +86,18 @@ extern int devm_of_platform_populate(struct device *dev);
+ 
+ extern void devm_of_platform_depopulate(struct device *dev);
+ #else
++/* Platform devices and busses creation */
++static inline struct platform_device *of_platform_device_create(struct device_node *np,
++								const char *bus_id,
++								struct device *parent)
++{
++	return NULL;
++}
++static inline int of_platform_device_destroy(struct device *dev, void *data)
++{
++	return -ENODEV;
++}
++
+ static inline int of_platform_populate(struct device_node *root,
+ 					const struct of_device_id *matches,
+ 					const struct of_dev_auxdata *lookup,
+-- 
+2.32.0.rc1.229.g3e70b5a671-goog
+
