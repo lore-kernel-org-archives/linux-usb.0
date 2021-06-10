@@ -2,155 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70B5AC47094
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 10:11:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C42C48BD1
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 10:16:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59AD9613BD
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 10:11:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6062613FF
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 10:16:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhFJKNs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Jun 2021 06:13:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49768 "EHLO mail.kernel.org"
+        id S230120AbhFJKS3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Jun 2021 06:18:29 -0400
+Received: from gofer.mess.org ([88.97.38.141]:51461 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230084AbhFJKNr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Jun 2021 06:13:47 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CC7EE61184;
-        Thu, 10 Jun 2021 10:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623319911;
-        bh=Li5h7gAN6SkiNXdFPfRuFav/iBGrnBV+vWpPj8iqHjw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VtYEHv4uHH9pqFlj/1pMAVoF2+01G3tSwYM6JWXMMwHJyxzBZmnGy6K/2xTP4ijlG
-         FHcxE114Zyad4EDxVneVSUXi6/uh3n0+stKWPsplHbffMxIb+qeF/Ez9H9dGx3Ubhv
-         jbjDDy018iSOYgquDg7te8npJ6ATZWLOqMYNdWPbktJ60/hMC2dqkxluSM+KK6tZ/E
-         lRcwRfJSLsEvtc2M7hflKh+qLHinaSDfiInA+PuxV9Hi9wgzNMGdHA9ieVp6CzlCwn
-         1/fePN9W3wbFeyjFbcFR5g+0ChOB5Pk6vmPSLoLk+ZxEo1hUIOkIOqbhanoNVLfk0D
-         b20ahfroBwpUg==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Jack Pham <jackp@codeaurora.org>
-Cc:     Alexandru Elisei <alexandru.elisei@arm.com>,
+        id S230154AbhFJKSZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 10 Jun 2021 06:18:25 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 05805C64DA; Thu, 10 Jun 2021 11:16:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1623320186; bh=z88cyJ/6ZTdtJYa3/06hDs2DGIOLoJGSCQAvrSG9Fiw=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=EXiRLDGko3jrCOywmZjUQ7lM0i1ZkH+twseyG+THO+oJbAuGw+KJqYAFgfSmvp/nM
+         bjRj1D5SOiDFa8es+UgLv26e2j8DimqpOE9h6URHDwUmqZbeDgPiOc5xaIPNHIGQnG
+         kFSTWLi1bWrcxlR+/uDqyiXlVXtBvsUoFmVcqyBRKv9eei1eNU1zYbPN4Ztnu7b7pX
+         +svbVwP6PRnZ7gPGKScy7Q7XdodINa8OUQfJh0YFjfZIM4PcwzrSCN2JeUmDJlCAtc
+         SXkUh8rUnnYmWEOtahp8aslh3xOAmYSpcKjp5ggYTQGwLIXovtk8u7KpRtkCcEr4C+
+         nQe+OgJGUcsig==
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        p.zabel@pengutronix.de, linux-usb@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        arm-mail-list <linux-arm-kernel@lists.infradead.org>,
-        sanm@codeaurora.org
-Subject: Re: [BUG] usb: dwc3: Kernel NULL pointer dereference in dwc3_remove()
-In-Reply-To: <20210607180023.GA23045@jackp-linux.qualcomm.com>
-References: <c3c75895-313a-5be7-6421-b32bac741a88@arm.com>
- <87r1hjcvf6.fsf@kernel.org> <70be179c-d36b-de6f-6efc-2888055b1312@arm.com>
- <YLi/u9J5f+nQO4Cm@kroah.com>
- <8272121c-ac8a-1565-a047-e3a16dcf13b0@arm.com> <877djbc8xq.fsf@kernel.org>
- <20210603173632.GA25299@jackp-linux.qualcomm.com>
- <87mts6avnn.fsf@kernel.org>
- <20210607180023.GA23045@jackp-linux.qualcomm.com>
-Date:   Thu, 10 Jun 2021 13:11:42 +0300
-Message-ID: <87sg1q1129.fsf@kernel.org>
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH v4 2/2] USB: serial: blacklist USB-UIRT when driver is selected
+Date:   Thu, 10 Jun 2021 11:16:25 +0100
+Message-Id: <900ce7cbcae2597767e59a335848e089ac82c73a.1623318855.git.sean@mess.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1623318855.git.sean@mess.org>
+References: <cover.1623318855.git.sean@mess.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+The USB-UIRT device has its own driver, so blacklist the fdti driver
+from using it if the driver has been enabled.
 
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/usb/serial/ftdi_sio.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Hi,
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 369ef140df78..2e9a9076a38d 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -106,7 +106,7 @@ static const struct ftdi_sio_quirk ftdi_NDI_device_quirk = {
+ 	.probe	= ftdi_NDI_device_setup,
+ };
+ 
+-static const struct ftdi_sio_quirk ftdi_USB_UIRT_quirk = {
++static __maybe_unused const struct ftdi_sio_quirk ftdi_USB_UIRT_quirk = {
+ 	.port_probe = ftdi_USB_UIRT_setup,
+ };
+ 
+@@ -568,8 +568,10 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE(OCT_VID, OCT_DK201_PID) },
+ 	{ USB_DEVICE(FTDI_VID, FTDI_HE_TIRA1_PID),
+ 		.driver_info = (kernel_ulong_t)&ftdi_HE_TIRA1_quirk },
++#if !IS_ENABLED(CONFIG_IR_UIRT)
+ 	{ USB_DEVICE(FTDI_VID, FTDI_USB_UIRT_PID),
+ 		.driver_info = (kernel_ulong_t)&ftdi_USB_UIRT_quirk },
++#endif
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_1) },
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_R2X0) },
+ 	{ USB_DEVICE(FTDI_VID, PROTEGO_SPECIAL_3) },
+@@ -2281,7 +2283,7 @@ static int ftdi_sio_port_probe(struct usb_serial_port *port)
+ /* Setup for the USB-UIRT device, which requires hardwired
+  * baudrate (38400 gets mapped to 312500) */
+ /* Called from usbserial:serial_probe */
+-static void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
++static __maybe_unused void ftdi_USB_UIRT_setup(struct ftdi_private *priv)
+ {
+ 	priv->flags |= ASYNC_SPD_CUST;
+ 	priv->custom_divisor = 77;
+-- 
+2.31.1
 
-Jack Pham <jackp@codeaurora.org> writes:
-> On Fri, Jun 04, 2021 at 11:20:12AM +0300, Felipe Balbi wrote:
->> Jack Pham <jackp@codeaurora.org> writes:
->> >> >>>> Alexandru Elisei <alexandru.elisei@arm.com> writes:
->> >> >>>>> I've been able to bisect the panic and the offending commit is =
-568262bf5492 ("usb:
->> >> >>>>> dwc3: core: Add shutdown callback for dwc3"). I can provide mor=
-e diagnostic
->> >> >>>>> information if needed and I can help test the fix.
->> >> >>>> if you simply revert that commit in HEAD, does the problem reall=
-y go
->> >> >>>> away?
->> >> >>> Kernel built from commit 324c92e5e0ee, which is the kernel tip to=
-day, the panic is
->> >> >>> there. Reverting the offending commit, 568262bf5492, makes the pa=
-nic disappear.
->> >> >> Want to send a revert so I can take it now?
->> >> >
->> >> > I can send a revert, but Felipe was asking Sandeep (the commit auth=
-or) for a fix,
->> >> > so I'll leave it up to Felipe to decide how to proceed.
->> >>=20
->> >> I'm okay with a revert. Feel free to add my Acked-by: Felipe Balbi
->> >> <balbi@kernel.org> or it.
->> >>=20
->> >> Sandeep, please send a new version that doesn't encounter the same
->> >> issue. Make sure to test by reloading the driver in a tight loop for
->> >> several iterations.
->> >
->> > This would probably be tricky to test on other "glue" drivers as the
->> > problem appears to be specific only to dwc3_of_simple.  It looks like
->> > both dwc3_of_simple and the dwc3 core now (due to 568262bf5492) each
->> > implement respective .shutdown callbacks. The latter is simply a wrapp=
-er
->> > around dwc3_remove(). And from the panic call stack above we see that
->> > dwc3_of_simple_shutdown() calls of_platform_depopulate() which will=20
->> > again call dwc3_remove() resulting in the double remove.
->> >
->> > So would an alternative approach be to protect against dwc3_remove()
->> > getting called multiple times? IMO it'd be a bit messy to have to add
->>=20
->> no, I  don't think so. That sounds like a workaround. We should be able
->> to guarantee that ->remove() doesn't get called twice using the driver
->> model properly.
->
-> Completely fair.  So then having a .shutdown callback that directly calls
-> dwc3_remove() is probably not the right thing to do as it completely
-> bypasses the driver model so if and when the driver core does later
-> release the device from the driver that's how we end up with the double
-> remove.
-
-yeah, I would agree with that.
-
->> > additional checks there to know if it had already been called. So maybe
->> > avoid it altogether--should dwc3_of_simple_shutdown() just skip calling
->> > of_platform_depopulate()?
->>=20
->> I don't know what the idiomatic is nowadays, but at least early on, we
->> had to call depopulate.
->
-> So any suggestions on how to fix the original issue Sandeep was trying
-> to fix with 568262bf5492? Maybe implement .shutdown in dwc3_qcom and have
-> it follow what dwc3_of_simple does with of_platform_depopulate()? But
-> then wouldn't other "glues" want/need to follow suit?
-
-I think we can implement shutdown in core, but we need to careful with
-it. Instead of just blindly calling remove, let's extract the common
-parts to another internal function that both remove and shutdown
-call. debugfs removal should not be part of that generic method :-)
-
-Anything in that generic method should, probably, be idempotent.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmDB5V4RHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzlfNM9wDzUg9Ewf+NproMS9BtlaBnZq0EMVqyl8gHjrytzkc
-nnc//13H/V63dPFSZUjvUx35eVZj227lpFaX8+kjBO45BrhnzrBwIvE3xryPYS5S
-pvE9PZHMwCr+Ic4lt0g+hx8+bp4pePULCLzZnCnfL3BH4KWg9NOg2k4/DgHfmPC3
-GRu/MqivsR30ErtiM91ILkS144AIYVlxtQEIz9ghbHM4srMaMgW5MPegMO1BFZwz
-PVOKcSZ30FJkK733eX1Kxz55gv50wBsCgeZorsaoFP/ruMeCWBe5thkyBJfYi34Y
-MKkzst3/zGDomIkN6ReZbfJFXMw3xB3Wkzx9231riSWS4sonSN0L3g==
-=/AIV
------END PGP SIGNATURE-----
---=-=-=--
