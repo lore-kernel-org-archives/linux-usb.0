@@ -2,114 +2,123 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4BADC47094
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DEAC47094
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91461613F5
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6A98613F5
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230175AbhFJLtG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Jun 2021 07:49:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55302 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230084AbhFJLtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 10 Jun 2021 07:49:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 69A35613CA;
-        Thu, 10 Jun 2021 11:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623325630;
-        bh=yvtVNRtmizxW7ILkuH2Yc35qjJxkXeFJIEZT3zghOuU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=bwHQYcR1GoCtXD3liJ8BWl03lHRt/dh1nZ94for6c9nnhQTaPE004mol+jQrzt95A
-         QFOupBbyID8J2hmTTcAVFUbkFaag8qQ0PC42U8aGDYleVScQM3YrXRnoE60OyHdrVw
-         BC83PbKmc3qmZ/VbjRi0UlqSH8MnIc8aIBB3T1HVSzY9R/1KWDm55gh59+cFwDF7gJ
-         hv7P7SnBvcYvZGRLXYiRyzdZdczvB6yLxKISj0cWrBBHZYzAXTiZqJoHaS9EnTpjDM
-         VvJ4N9ANqQI06cayUy0Ud74LA6AsGRrGhr+An9WcPndKTTZBvZ9BfwpN71qeQIQBTz
-         MnzYxonLVJ1VA==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Yuan Fang <fangyuanseu@gmail.com>, linux-usb@vger.kernel.org
-Cc:     Yuan Fang <yuan.fang@verisilicon.com>
-Subject: Re: [PATCH] driver/usb/dwc3: Add error handle for dwc3 get usb phy
-In-Reply-To: <20210610113745.7710-1-yuan.fang@verisilicon.com>
-References: <20210610113745.7710-1-yuan.fang@verisilicon.com>
-Date:   Thu, 10 Jun 2021 14:47:03 +0300
-Message-ID: <87bl8e0wnc.fsf@kernel.org>
+        id S230244AbhFJLtO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Jun 2021 07:49:14 -0400
+Received: from mail-yb1-f195.google.com ([209.85.219.195]:34766 "EHLO
+        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230117AbhFJLtO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Jun 2021 07:49:14 -0400
+Received: by mail-yb1-f195.google.com with SMTP id i6so25697001ybm.1
+        for <linux-usb@vger.kernel.org>; Thu, 10 Jun 2021 04:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gUtd6SVsmYzpQLQs6XRvTEBT66wFFZJt8Fvp/lcU4FA=;
+        b=FCuyy2ZnYWSMDS2+ZyBnccdwqAW28g1jSZDJnjT2xHE7PTgIlyW0oB38JoOKt5DdZ+
+         EZr61m3rV8VrFZl+m1p8JCN+phgJ6+AJ6I2kTAGZLJlZH9pn8xV4dE3+IJZdPYb2YQoF
+         eJkYUszjf6iII0Cq6LBE5hlpmHQI1O/NfK7F4fr5furZL34Okiz8PbEAkeLADnSawcKO
+         5d1tNwX5KbqliX9yT/SYd0XyxS0Qu5je95kRWJ/hTqQozYx8mXjKtm7EMarImPZs6AnS
+         5xBeQen6eZyY++Kqs6Nbk3qqi361+qjp7qTlB9almSK6j8gLh1Ov4uZo0GjUkB9wWjxj
+         vQyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gUtd6SVsmYzpQLQs6XRvTEBT66wFFZJt8Fvp/lcU4FA=;
+        b=AvDCpru6KVVrg5A5B0hpDHn4qoq53mD7STGJ+yNdbn69lNMxa5KxfoMswClHL9OKU1
+         cDmhx6VPXq6bydfHlHMY+3AWjkoLGjTdqq0frvAKEnxADl+UHKWEd/Ix1cFnT0oB6phF
+         dABk9jfLRwZ9A0HJQru5Tud/Zy12cHER++ORFu0RfOFZTycb0/1vbJkc9dqWVY+ZUd3Y
+         MNIer5VQsSipfvVDOPsrwCJ+kiRVs+eaOygbhW5w3auk/vjeQIrpG7P6AQ981OEr73ty
+         EqpAZ5ZiA0u4sfxNaCwPx2Rg0RXfz+uRg47Le0zw8QrsHx/uT2d70TQgWvbVFU7ADuOw
+         8qrQ==
+X-Gm-Message-State: AOAM533CDkHzeZLp/vrZUp+zc6dPg+ks17PJgepvTMk3bNW7ZGiCdxQw
+        3NVQAM5HS8eGxxU68FI8iFJFnZFnGAuhAR2lJmY=
+X-Google-Smtp-Source: ABdhPJy1LMBG+VHoFRW103TtGfBdfqYVtImve5NLwVPx3hu7tXGtCTPr5yhyEf2dpXolWSr8l5kk0ss7oEmUiXKdzpg=
+X-Received: by 2002:a25:aa48:: with SMTP id s66mr6629607ybi.341.1623325564891;
+ Thu, 10 Jun 2021 04:46:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <CAJa5FiHh3oWGt3qMRWTBRorENhsKNODTRd+0meK2qpYnMk6U8g@mail.gmail.com>
+ <87v96m119n.fsf@kernel.org> <CAJa5FiGTsM3+QS-+9P=8EZbNxZm+MqpPM3P4KU+=nD4KeA-qew@mail.gmail.com>
+ <87eeda0x28.fsf@kernel.org>
+In-Reply-To: <87eeda0x28.fsf@kernel.org>
+From:   kun peng <kunpeng0891@gmail.com>
+Date:   Thu, 10 Jun 2021 19:45:54 +0800
+Message-ID: <CAJa5FiEcMws3BWB3ZbMaqJFbW9YX1zaVjOwy-gReGqOZUV_0mQ@mail.gmail.com>
+Subject: Re: usb3.0: dwc3: isoc: missisoc while setting the USB transfer UVC data
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-
-
-Hi,
-
-Yuan Fang <fangyuanseu@gmail.com> writes:
-
-> Add error handle for dwc3 core get usb phy, because
-> without error handle will lead to bug.
+On Thu, Jun 10, 2021 at 7:38 PM Felipe Balbi <balbi@kernel.org> wrote:
 >
-> consider case like this, when both dwc->usb2_phy/usb3_phy
-> and dwc->usb2_generic_phy/usb3_generic_phy do not exist
-> current driver code set them all to NULL and return 0
-> to caller which means usb phy is ready.
-
-it's unclear what the problem is. Care to describe what's happening?
-
-> Signed-off-by: Yuan Fang <yuan.fang@verisilicon.com>
-> ---
-> Hi maintainer,
 >
->    I find this issue when i try to add a new usb phy driver for
->    dwc3 usb core, this issue looks like a bug, please kindly have
->    a review, many thanks.
+> Hi,
 >
-> Best regards,
-> Yuan Fang
+> kun peng <kunpeng0891@gmail.com> writes:
+> > On Thu, Jun 10, 2021 at 6:07 PM Felipe Balbi <balbi@kernel.org> wrote:
+> >>
+> >> Hi,
+> >>
+> >> kun peng <kunpeng0891@gmail.com> writes:
+> >> > Hi =EF=BC=8C I'm using the 4*A53 with DWC3 USB controller, my hardwa=
+re to work
+> >> > like a USB camera and so make use of the USB 3.0 UVC gadget driver=
+=E3=80=82
+> >> > usb3.0 isoc transfer with  missisoc -18=EF=BC=8Clarger maxburst is s=
+et, the
+> >> > more -18 appears=E3=80=82
+> >> > but from trace info, the trb has been put in advance=E3=80=82
+> >> >
+> >> > test setting:
+> >> > dwc3 driver version=EF=BC=9A5.12
+> >> > PC=EF=BC=9A potplayer
+> >> >
+> >> > maxpacket : 3072
+> >> > maxburst : 15
+> >> > interval : 1
+> >> > UVC_NUM_REQUESTS: 8
+> >>
+> >> sorry, you're running 4.14.74 kernel. That's far too old for this foru=
+m
+> >> to help you. Try reproducing with the latest v5.13-rc kernel.
+> >>
+> >> --
+> >> balbi
+> >
+> > thanks for your reply.
+> >
+> > my kernel is 4.14, but usb and uvc related driver has been update to
+> > 5.12.0 linux main line.
+> > The problem mentioned above is after the update.
 >
->  drivers/usb/dwc3/core.c | 1 +
->  1 file changed, 1 insertion(+)
+> right, many other things happen in the framework. You could bisect and
+> try to find the offending commit, but this forum can't do much to help,
+> sorry.
 >
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index b6e53d8212cd..4d527d313a4c 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -1184,6 +1184,7 @@ static int dwc3_core_get_phy(struct dwc3 *dwc)
->  		ret =3D PTR_ERR(dwc->usb3_generic_phy);
->  		if (ret =3D=3D -ENOSYS || ret =3D=3D -ENODEV) {
->  			dwc->usb3_generic_phy =3D NULL;
-> +			return dev_err_probe(dev, ret, "no usb phy device\n");
+> --
+> balbi
 
-no, this is incorrect. Some platforms don't require a PHY driver at
-all because there's no SW control for the PHY.
+previous 4.14 was problematic, so we updated it to 5.12.
+after the update:
+usb2.0 isoc\bulk\ all is well.
+usb3.0 isoc with many -18 error...  bulk is normal
 
-Moreover, generic PHY framework protects against NULL phy. I don't see
-what the problem you're referring to is here.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmDB+7cRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzlfNM9wDzUhqRAgAqNX+NNo0TwF+0t39IgUC6D9VyH3LF6H2
-gBs+xCyMCw0Q77JkCjO6hGrctgcZIuBVjMq4RF5GmvS0+P+KZKpBdNOEGy1OhdON
-ZRfDC2SvWhw7HaaMQst5a27XoOMHZCycia/uF7ovPuZePMQ/aFNuc26sBPkmAN9J
-Xrr0uPuGuwB+bFW1Acr1uraniQdi/AWd0sH8KBw2uyuLE2/GODpKlKz2dLixoWOp
-aNGCl+o6+Ll9Wz52j+Zv7avRIkmSMUT2XOMPA5J0h6konyLchHJqyzzg9DCz3gEV
-3Wk9+xOJOt8glbvSw6YIW91RNymQFMXiqtFGkkHHaKsxgSSpDNTSEg==
-=oioT
------END PGP SIGNATURE-----
---=-=-=--
+thanks
+--
+kun
