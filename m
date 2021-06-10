@@ -2,123 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	CHARSET_FARAWAY_HEADER,DKIM_INVALID,DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3DEAC47094
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EB5C47094
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6A98613F5
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E933E613E7
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Jun 2021 11:58:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230244AbhFJLtO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Jun 2021 07:49:14 -0400
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:34766 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230117AbhFJLtO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Jun 2021 07:49:14 -0400
-Received: by mail-yb1-f195.google.com with SMTP id i6so25697001ybm.1
-        for <linux-usb@vger.kernel.org>; Thu, 10 Jun 2021 04:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gUtd6SVsmYzpQLQs6XRvTEBT66wFFZJt8Fvp/lcU4FA=;
-        b=FCuyy2ZnYWSMDS2+ZyBnccdwqAW28g1jSZDJnjT2xHE7PTgIlyW0oB38JoOKt5DdZ+
-         EZr61m3rV8VrFZl+m1p8JCN+phgJ6+AJ6I2kTAGZLJlZH9pn8xV4dE3+IJZdPYb2YQoF
-         eJkYUszjf6iII0Cq6LBE5hlpmHQI1O/NfK7F4fr5furZL34Okiz8PbEAkeLADnSawcKO
-         5d1tNwX5KbqliX9yT/SYd0XyxS0Qu5je95kRWJ/hTqQozYx8mXjKtm7EMarImPZs6AnS
-         5xBeQen6eZyY++Kqs6Nbk3qqi361+qjp7qTlB9almSK6j8gLh1Ov4uZo0GjUkB9wWjxj
-         vQyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gUtd6SVsmYzpQLQs6XRvTEBT66wFFZJt8Fvp/lcU4FA=;
-        b=AvDCpru6KVVrg5A5B0hpDHn4qoq53mD7STGJ+yNdbn69lNMxa5KxfoMswClHL9OKU1
-         cDmhx6VPXq6bydfHlHMY+3AWjkoLGjTdqq0frvAKEnxADl+UHKWEd/Ix1cFnT0oB6phF
-         dABk9jfLRwZ9A0HJQru5Tud/Zy12cHER++ORFu0RfOFZTycb0/1vbJkc9dqWVY+ZUd3Y
-         MNIer5VQsSipfvVDOPsrwCJ+kiRVs+eaOygbhW5w3auk/vjeQIrpG7P6AQ981OEr73ty
-         EqpAZ5ZiA0u4sfxNaCwPx2Rg0RXfz+uRg47Le0zw8QrsHx/uT2d70TQgWvbVFU7ADuOw
-         8qrQ==
-X-Gm-Message-State: AOAM533CDkHzeZLp/vrZUp+zc6dPg+ks17PJgepvTMk3bNW7ZGiCdxQw
-        3NVQAM5HS8eGxxU68FI8iFJFnZFnGAuhAR2lJmY=
-X-Google-Smtp-Source: ABdhPJy1LMBG+VHoFRW103TtGfBdfqYVtImve5NLwVPx3hu7tXGtCTPr5yhyEf2dpXolWSr8l5kk0ss7oEmUiXKdzpg=
-X-Received: by 2002:a25:aa48:: with SMTP id s66mr6629607ybi.341.1623325564891;
- Thu, 10 Jun 2021 04:46:04 -0700 (PDT)
+        id S230146AbhFJMAs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Jun 2021 08:00:48 -0400
+Received: from shasxm03.verisilicon.com ([101.89.135.44]:28011 "EHLO
+        shasxm03.verisilicon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230113AbhFJMAr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Jun 2021 08:00:47 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+        c=simple/simple; t=1623326331; h=from:subject:to:date:message-id;
+        bh=1M8L9cIbRy+rPZePI7jfHttXaHOADYFK+hNX/FaOgQY=;
+        b=bFA7TpzTtq8s1ZPbjQLlGexqMOBJtqzS85sr+UCJeHEIZ1h/eQTfGxBlYMbvi5SsRFeKngPje7B
+        VsPJeES0xzAYV3zeYmpoPLvV7V6mpPbJ9IQpK8Bjd/4ac1at7eDvSR7ht6X5nIIMSPoirDRNGMTh5
+        uB3G/gspCwPhxGjByFs=
+Received: from SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda]) by
+ SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa%14]) with mapi id
+ 14.03.0408.000; Thu, 10 Jun 2021 19:58:50 +0800
+From:   "Fang, Yuan" <Yuan.Fang@verisilicon.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBkcml2ZXIvdXNiL2R3YzM6IEFkZCBlcnJvciBoYW5k?=
+ =?gb2312?Q?le_for_dwc3_get_usb_phy?=
+Thread-Topic: [PATCH] driver/usb/dwc3: Add error handle for dwc3 get usb phy
+Thread-Index: AQHXXe0SWPqqqpQ5Lkm/Jco7AP/84KsMmrKAgACHLqA=
+Date:   Thu, 10 Jun 2021 11:58:50 +0000
+Message-ID: <678AD2A4F5F78445B722FED0965FE327776E4011@SHASXM06.verisilicon.com>
+References: <20210610113745.7710-1-yuan.fang@verisilicon.com>
+ <87bl8e0wnc.fsf@kernel.org>
+In-Reply-To: <87bl8e0wnc.fsf@kernel.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.13.120]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--9.958700-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-References: <CAJa5FiHh3oWGt3qMRWTBRorENhsKNODTRd+0meK2qpYnMk6U8g@mail.gmail.com>
- <87v96m119n.fsf@kernel.org> <CAJa5FiGTsM3+QS-+9P=8EZbNxZm+MqpPM3P4KU+=nD4KeA-qew@mail.gmail.com>
- <87eeda0x28.fsf@kernel.org>
-In-Reply-To: <87eeda0x28.fsf@kernel.org>
-From:   kun peng <kunpeng0891@gmail.com>
-Date:   Thu, 10 Jun 2021 19:45:54 +0800
-Message-ID: <CAJa5FiEcMws3BWB3ZbMaqJFbW9YX1zaVjOwy-gReGqOZUV_0mQ@mail.gmail.com>
-Subject: Re: usb3.0: dwc3: isoc: missisoc while setting the USB transfer UVC data
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jun 10, 2021 at 7:38 PM Felipe Balbi <balbi@kernel.org> wrote:
->
->
-> Hi,
->
-> kun peng <kunpeng0891@gmail.com> writes:
-> > On Thu, Jun 10, 2021 at 6:07 PM Felipe Balbi <balbi@kernel.org> wrote:
-> >>
-> >> Hi,
-> >>
-> >> kun peng <kunpeng0891@gmail.com> writes:
-> >> > Hi =EF=BC=8C I'm using the 4*A53 with DWC3 USB controller, my hardwa=
-re to work
-> >> > like a USB camera and so make use of the USB 3.0 UVC gadget driver=
-=E3=80=82
-> >> > usb3.0 isoc transfer with  missisoc -18=EF=BC=8Clarger maxburst is s=
-et, the
-> >> > more -18 appears=E3=80=82
-> >> > but from trace info, the trb has been put in advance=E3=80=82
-> >> >
-> >> > test setting:
-> >> > dwc3 driver version=EF=BC=9A5.12
-> >> > PC=EF=BC=9A potplayer
-> >> >
-> >> > maxpacket : 3072
-> >> > maxburst : 15
-> >> > interval : 1
-> >> > UVC_NUM_REQUESTS: 8
-> >>
-> >> sorry, you're running 4.14.74 kernel. That's far too old for this foru=
-m
-> >> to help you. Try reproducing with the latest v5.13-rc kernel.
-> >>
-> >> --
-> >> balbi
-> >
-> > thanks for your reply.
-> >
-> > my kernel is 4.14, but usb and uvc related driver has been update to
-> > 5.12.0 linux main line.
-> > The problem mentioned above is after the update.
->
-> right, many other things happen in the framework. You could bisect and
-> try to find the offending commit, but this forum can't do much to help,
-> sorry.
->
-> --
-> balbi
-
-previous 4.14 was problematic, so we updated it to 5.12.
-after the update:
-usb2.0 isoc\bulk\ all is well.
-usb3.0 isoc with many -18 error...  bulk is normal
-
-thanks
---
-kun
+SGksDQoNCiBJIGFncmVlIHdpdGggeW91IHRoYXQgc29tZSBwbGF0Zm9ybXMgZG9uJ3QgcmVxdWly
+ZSBhIFBIWSBkcml2ZXIuDQogQnV0IGluIHRoZSBjYXNlIEkgbWVudGlvbmVkLCBpbiB0aGUgcGxh
+dGZvcm1zIHRoYXQgZG8gbmVlZCBhIFBIWSBkcml2ZXIgYW5kIFBIWSBkcml2ZXIgaXMgbm90IGJy
+aW5nIHVwIHN1Y2Nlc3NmdWxseSwgdGhlIGRyaXZlciBjb2RlIHJpZ2h0IG5vdyB3aWxsIHJldHVy
+biAwIA0KYW5kIGdvIG9uIHNldCB0aGUgZHdjLT5waHlzX3JlYWR5PXR1cmUsIHdoaWNoIGxvb2tz
+IG9kZCBpbiB0aGlzIGNhc2UsIHJpZ2h0Pw0KDQpCLlINCll1YW4gRmFuZw0KDQotLS0tLdPKvP7U
+rbz+LS0tLS0NCreivP7IyzogRmVsaXBlIEJhbGJpIFttYWlsdG86YmFsYmlAa2VybmVsLm9yZ10g
+DQq3osvNyrG85DogMjAyMcTqNtTCMTDI1SAxOTo0Nw0KytW8/sjLOiBZdWFuIEZhbmc7IGxpbnV4
+LXVzYkB2Z2VyLmtlcm5lbC5vcmcNCrOty806IEZhbmcsIFl1YW4NCtb3zOI6IFJlOiBbUEFUQ0hd
+IGRyaXZlci91c2IvZHdjMzogQWRkIGVycm9yIGhhbmRsZSBmb3IgZHdjMyBnZXQgdXNiIHBoeQ0K
+DQoNCkhpLA0KDQpZdWFuIEZhbmcgPGZhbmd5dWFuc2V1QGdtYWlsLmNvbT4gd3JpdGVzOg0KDQo+
+IEFkZCBlcnJvciBoYW5kbGUgZm9yIGR3YzMgY29yZSBnZXQgdXNiIHBoeSwgYmVjYXVzZSB3aXRo
+b3V0IGVycm9yIA0KPiBoYW5kbGUgd2lsbCBsZWFkIHRvIGJ1Zy4NCj4NCj4gY29uc2lkZXIgY2Fz
+ZSBsaWtlIHRoaXMsIHdoZW4gYm90aCBkd2MtPnVzYjJfcGh5L3VzYjNfcGh5IGFuZCANCj4gZHdj
+LT51c2IyX2dlbmVyaWNfcGh5L3VzYjNfZ2VuZXJpY19waHkgZG8gbm90IGV4aXN0IGN1cnJlbnQg
+ZHJpdmVyIA0KPiBjb2RlIHNldCB0aGVtIGFsbCB0byBOVUxMIGFuZCByZXR1cm4gMCB0byBjYWxs
+ZXIgd2hpY2ggbWVhbnMgdXNiIHBoeSANCj4gaXMgcmVhZHkuDQoNCml0J3MgdW5jbGVhciB3aGF0
+IHRoZSBwcm9ibGVtIGlzLiBDYXJlIHRvIGRlc2NyaWJlIHdoYXQncyBoYXBwZW5pbmc/DQoNCj4g
+U2lnbmVkLW9mZi1ieTogWXVhbiBGYW5nIDx5dWFuLmZhbmdAdmVyaXNpbGljb24uY29tPg0KPiAt
+LS0NCj4gSGkgbWFpbnRhaW5lciwNCj4NCj4gICAgSSBmaW5kIHRoaXMgaXNzdWUgd2hlbiBpIHRy
+eSB0byBhZGQgYSBuZXcgdXNiIHBoeSBkcml2ZXIgZm9yDQo+ICAgIGR3YzMgdXNiIGNvcmUsIHRo
+aXMgaXNzdWUgbG9va3MgbGlrZSBhIGJ1ZywgcGxlYXNlIGtpbmRseSBoYXZlDQo+ICAgIGEgcmV2
+aWV3LCBtYW55IHRoYW5rcy4NCj4NCj4gQmVzdCByZWdhcmRzLA0KPiBZdWFuIEZhbmcNCj4NCj4g
+IGRyaXZlcnMvdXNiL2R3YzMvY29yZS5jIHwgMSArDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKykNCj4NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5jIGIvZHJp
+dmVycy91c2IvZHdjMy9jb3JlLmMgaW5kZXggDQo+IGI2ZTUzZDgyMTJjZC4uNGQ1MjdkMzEzYTRj
+IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYw0KPiArKysgYi9kcml2ZXJz
+L3VzYi9kd2MzL2NvcmUuYw0KPiBAQCAtMTE4NCw2ICsxMTg0LDcgQEAgc3RhdGljIGludCBkd2Mz
+X2NvcmVfZ2V0X3BoeShzdHJ1Y3QgZHdjMyAqZHdjKQ0KPiAgCQlyZXQgPSBQVFJfRVJSKGR3Yy0+
+dXNiM19nZW5lcmljX3BoeSk7DQo+ICAJCWlmIChyZXQgPT0gLUVOT1NZUyB8fCByZXQgPT0gLUVO
+T0RFVikgew0KPiAgCQkJZHdjLT51c2IzX2dlbmVyaWNfcGh5ID0gTlVMTDsNCj4gKwkJCXJldHVy
+biBkZXZfZXJyX3Byb2JlKGRldiwgcmV0LCAibm8gdXNiIHBoeSBkZXZpY2VcbiIpOw0KDQpubywg
+dGhpcyBpcyBpbmNvcnJlY3QuIFNvbWUgcGxhdGZvcm1zIGRvbid0IHJlcXVpcmUgYSBQSFkgZHJp
+dmVyIGF0IGFsbCBiZWNhdXNlIHRoZXJlJ3Mgbm8gU1cgY29udHJvbCBmb3IgdGhlIFBIWS4NCg0K
+TW9yZW92ZXIsIGdlbmVyaWMgUEhZIGZyYW1ld29yayBwcm90ZWN0cyBhZ2FpbnN0IE5VTEwgcGh5
+LiBJIGRvbid0IHNlZSB3aGF0IHRoZSBwcm9ibGVtIHlvdSdyZSByZWZlcnJpbmcgdG8gaXMgaGVy
+ZS4NCg0KLS0NCmJhbGJpDQo=
