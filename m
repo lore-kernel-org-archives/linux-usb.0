@@ -2,155 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80025C2B9F4
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 13:40:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0306FC2B9F4
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 13:49:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 67E496109E
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 13:40:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D02096102A
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 13:49:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234222AbhFNNmX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 09:42:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234057AbhFNNmS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 09:42:18 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E3FFC061574
-        for <linux-usb@vger.kernel.org>; Mon, 14 Jun 2021 06:40:06 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id ho18so16757166ejc.8
-        for <linux-usb@vger.kernel.org>; Mon, 14 Jun 2021 06:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=web591Pt5+AQQiKHLxdfvUXAI+r6XXpcpBp1AONGuYI=;
-        b=nHXvVeV+RWdRQ8gPuuchzQGLIUzG40Tx94jZVClbV/vg74FWlli0P5wF5ZDGRkpLG0
-         KMwsXiXQgq660HJENaaoHpe7Sb+I0PFzGLbho/dIqw8FUQKN4DOEHXPqEnP148qnRwlj
-         P/FHPUzH/TcO9QYNYU5N5LQUAQcFGEqoYokCXXW4ngxnSa6zZqfR1GkJqIa0Igxbl7Pw
-         o2Bkh4Y4fbTqhCVNJa7QX+cVm3MSPhK4I8RQDbagN8HkWG77jR6wprZDlFZNF9O+FQzq
-         015VId31RjCvTOpXJ0DIcKalf+WRniFzL39wJlL5BC7QnF8ehiYi1X3AhERzKCUbGny+
-         dGGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=web591Pt5+AQQiKHLxdfvUXAI+r6XXpcpBp1AONGuYI=;
-        b=Pc2gc2S65aMMzkfDNrKRTHooefqMMb6getGABn7OMFYS76r+hQjQ7octYmSqk6GycB
-         yKUFPmzh/HbKIzVTi9XYVWFcf80KthUS8705i82o2bzBHDlCs8UdcyiZmkqWOOA6l8V+
-         X0tTZ4+vhga2AG65joJ0g2ubfrtUQBiYLtrUINW2evoP0YNnJttjzoU6QfgqXwdlTwYN
-         buSZP2Ul5SFBd+nT9O6MthHCumsmb4ZLtUELfRKDDqPf9ildKLrBbo+1ADcxLpgI/oww
-         wUdd1J1S0Hy+ChVIfft6Nf90j7lMNyXaiP8/YMdq3Rd37tntxMuEmlAmrCQzkVluTp57
-         Tmug==
-X-Gm-Message-State: AOAM533rwfK3WxBtGJY2iOSdw1UVL3kN5YymfKkfuxIO/tQ6LgWOICWp
-        Xo6rEpyL8tUxF/EdXgTpjAsqORFHWXrHboyUh5JKxQ==
-X-Google-Smtp-Source: ABdhPJzSBdx7sGxpqiRcmQ0LmzbbXwVt/v35DOQ9xEKx+nNZRHKXL3MZq2bjf4K462vUGfFm6HYfaX19XreYeacWFck=
-X-Received: by 2002:a17:906:25db:: with SMTP id n27mr15005693ejb.170.1623678004491;
- Mon, 14 Jun 2021 06:40:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210614102652.964395392@linuxfoundation.org>
-In-Reply-To: <20210614102652.964395392@linuxfoundation.org>
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Mon, 14 Jun 2021 19:09:53 +0530
-Message-ID: <CA+G9fYuQy0c6_POrWNs51rKyuQ2O-PnY5edCDMDgyGTA-txA_A@mail.gmail.com>
-Subject: Re: [PATCH 5.10 000/131] 5.10.44-rc1 review
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     open list <linux-kernel@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, Jon Hunter <jonathanh@nvidia.com>,
-        linux-stable <stable@vger.kernel.org>,
-        Pavel Machek <pavel@denx.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-        Peter Chen <peter.chen@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>,
-        Felipe Balbi <balbi@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S233668AbhFNNv6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 09:51:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:49039 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233434AbhFNNv5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 14 Jun 2021 09:51:57 -0400
+IronPort-SDR: cH3pgZBBVB3/g0YkPh/TKtxIJoLTyJLp+jIH8X3MMhbUbWt2XPA/rVxpJ6v4ZKnwf7OGshcCte
+ IMEVynQzoJdg==
+X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="205631114"
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="205631114"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 06:49:54 -0700
+IronPort-SDR: KhrLnVeM+ZRfyw83WFQG15hm+t+jrEYphqDJkh2t+wkDpg/Ron847hJfAyOYLAHYupWVXrNTBw
+ Yly1UghhSV+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
+   d="scan'208";a="403661401"
+Received: from ccdjpclinux26.jer.intel.com ([10.12.48.253])
+  by orsmga006.jf.intel.com with ESMTP; 14 Jun 2021 06:49:52 -0700
+From:   Gil Fine <gil.fine@intel.com>
+To:     andreas.noever@gmail.com, michael.jamet@intel.com,
+        mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
+Cc:     gil.fine@intel.com, linux-usb@vger.kernel.org, lukas@wunner.de
+Subject: [PATCH] thunderbolt: Fix DROM handling for USB4 DROM
+Date:   Mon, 14 Jun 2021 16:52:10 +0300
+Message-Id: <20210614135210.29787-1-gil.fine@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 14 Jun 2021 at 16:11, Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> This is the start of the stable review cycle for the 5.10.44 release.
-> There are 131 patches in this series, all will be posted as a response
-> to this one.  If anyone has any issues with these being applied, please
-> let me know.
->
-> Responses should be made by Wed, 16 Jun 2021 10:26:30 +0000.
-> Anything received after that time might be too late.
->
-> The whole patch series can be found in one patch at:
->         https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/patch-5.10.44-rc1.gz
-> or in the git tree and branch at:
->         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git linux-5.10.y
-> and the diffstat can be found below.
->
-> thanks,
->
-> greg k-h
+DROM for USB4 host/device has a shorter header than Thunderbolt DROM
+header. This patch addresses host/device with USB4 DROM (According to spec:
+Universal Serial Bus 4 (USB4) Device ROM Specification, Rev 1.0, Feb-2021).
 
+Signed-off-by: Gil Fine <gil.fine@intel.com>
+---
+ drivers/thunderbolt/eeprom.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-The following kernel crash reported on stable rc 5.10 arm64 db845c board.
-I have not bisected this problem yet.
+diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
+index 46d0906a3070..f9d26bd4f486 100644
+--- a/drivers/thunderbolt/eeprom.c
++++ b/drivers/thunderbolt/eeprom.c
+@@ -214,7 +214,10 @@ static u32 tb_crc32(void *data, size_t len)
+ 	return ~__crc32c_le(~0, data, len);
+ }
+ 
+-#define TB_DROM_DATA_START 13
++#define TB_DROM_DATA_START		13
++#define TB_DROM_HEADER_LENGTH		22
++/* BYTES 16-21 - nonexistent in USB4 DROM */
++#define TB_DROM_USB4_HEADER_LENGTH	16
+ struct tb_drom_header {
+ 	/* BYTE 0 */
+ 	u8 uid_crc8; /* checksum for uid */
+@@ -224,9 +227,9 @@ struct tb_drom_header {
+ 	u32 data_crc32; /* checksum for data_len bytes starting at byte 13 */
+ 	/* BYTE 13 */
+ 	u8 device_rom_revision; /* should be <= 1 */
+-	u16 data_len:10;
+-	u8 __unknown1:6;
+-	/* BYTES 16-21 */
++	u16 data_len:12;
++	u8 reserved:4;
++	/* BYTES 16-21 - Only for TBT DROM, nonexistent in USB4 DROM */
+ 	u16 vendor_id;
+ 	u16 model_id;
+ 	u8 model_rev;
+@@ -401,10 +404,10 @@ static int tb_drom_parse_entry_port(struct tb_switch *sw,
+  *
+  * Drom must have been copied to sw->drom.
+  */
+-static int tb_drom_parse_entries(struct tb_switch *sw)
++static int tb_drom_parse_entries(struct tb_switch *sw, size_t header_length)
+ {
+ 	struct tb_drom_header *header = (void *) sw->drom;
+-	u16 pos = sizeof(*header);
++	u16 pos = header_length;
+ 	u16 drom_size = header->data_len + TB_DROM_DATA_START;
+ 	int res;
+ 
+@@ -566,7 +569,7 @@ static int tb_drom_parse(struct tb_switch *sw)
+ 			header->data_crc32, crc);
+ 	}
+ 
+-	return tb_drom_parse_entries(sw);
++	return tb_drom_parse_entries(sw, TB_DROM_HEADER_LENGTH);
+ }
+ 
+ static int usb4_drom_parse(struct tb_switch *sw)
+@@ -583,7 +586,7 @@ static int usb4_drom_parse(struct tb_switch *sw)
+ 		return -EINVAL;
+ 	}
+ 
+-	return tb_drom_parse_entries(sw);
++	return tb_drom_parse_entries(sw, TB_DROM_USB4_HEADER_LENGTH);
+ }
+ 
+ /**
+-- 
+2.17.1
 
-But there is a crash like this reported and discussed on a mailing thread.
-https://lore.kernel.org/linux-usb/20210608105656.10795-1-peter.chen@kernel.org/
+---------------------------------------------------------------------
+Intel Israel (74) Limited
 
-Crash log on dragonboard 845c:
-[ 0.000000] Linux version 5.10.44-rc1 (tuxmake@7e2c3dff6c75)
-(aarch64-linux-gnu-gcc (Debian 9.3.0-22) 9.3.0, GNU ld (GNU Binutils
-for Debian) 2.35.2) #1 SMP PREEMPT Mon Jun 14 11:22:34 UTC 2021
-[ 0.000000] Machine model: Thundercomm Dragonboard 845c
-<>
-[    5.095538] dwc3-qcom a6f8800.usb: failed to get usb-ddr path: -517
-[    5.113805] Unable to handle kernel NULL pointer dereference at
-virtual address 0000000000000002
-[    5.122686] Mem abort info:
-[    5.125531]   ESR = 0x96000004
-[    5.128635]   EC = 0x25: DABT (current EL), IL = 32 bits
-[    5.134005]   SET = 0, FnV = 0
-[    5.137106]   EA = 0, S1PTW = 0
-[    5.140297] Data abort info:
-[    5.143212]   ISV = 0, ISS = 0x00000004
-[    5.147092]   CM = 0, WnR = 0
-[    5.150103] [0000000000000002] user address but active_mm is swapper
-[    5.156530] Internal error: Oops: 96000004 [#1] PREEMPT SMP
-[    5.162151] Modules linked in:
-[    5.165254] CPU: 7 PID: 251 Comm: kworker/7:3 Not tainted 5.10.44-rc1 #1
-[    5.172011] Hardware name: Thundercomm Dragonboard 845c (DT)
-[    5.175959] ufshcd-qcom 1d84000.ufshc: ufshcd_print_pwr_info:[RX,
-TX]: gear=[3, 3], lane[2, 2], pwr[FAST MODE, FAST MODE], rate = 2
-[    5.177738] Workqueue: events deferred_probe_work_func
-[    5.190098] ufshcd-qcom 1d84000.ufshc:
-ufshcd_find_max_sup_active_icc_level: Regulator capability was not
-set, actvIccLevel=0
-[    5.194832] pstate: 60c00005 (nZCv daif +PAN +UAO -TCO BTYPE=--)
-[    5.194843] pc : inode_permission+0x2c/0x178
-[    5.194851] lr : lookup_one_len_common+0xac/0x100
-[    5.207380] scsi 1:0:0:49488: Well-known LUN    SKhynix
-H28S7Q302BMR     A001 PQ: 0 ANSI: 6
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
-ref:
-https://lkft.validation.linaro.org/scheduler/job/2896831#L2835
-
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-
-metadata:
-  git branch: linux-5.10.y
-  git repo: https://gitlab.com/Linaro/lkft/mirrors/stable/linux-stable-rc
-  git commit: 406cd5feace812b3715b6fc8114472b6e3bd6d1f
-  git describe: v5.10.43-132-g406cd5feace8
-  make_kernelversion: 5.10.44-rc1
-  kernel-config: https://builds.tuxbuild.com/1twAFGbHcDipBArvNuGfeOtyY9H/config
-
---
-Linaro LKFT
-https://lkft.linaro.org
