@@ -2,171 +2,161 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0440C48BDF
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 00:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57423C48BE6
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 07:37:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9B27D61370
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 00:21:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 30C36608FE
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 07:37:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232224AbhFNAXE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 13 Jun 2021 20:23:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:51570 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232208AbhFNAXD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 13 Jun 2021 20:23:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18D0D6D;
-        Sun, 13 Jun 2021 17:21:01 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBCBA3F70D;
-        Sun, 13 Jun 2021 17:20:58 -0700 (PDT)
-Date:   Mon, 14 Jun 2021 01:20:47 +0100
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Chen-Yu Tsai <wens@csie.org>
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-        Samuel Holland <samuel@sholland.org>,
-        Ondrej Jirman <megous@megous.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        linux-sunxi@lists.linux.dev,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org,
-        linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: [linux-sunxi] Re: [PATCH v6 12/17] phy: sun4i-usb: Introduce
- port2 SIDDQ quirk
-Message-ID: <20210614012047.37774ca8@slackpad.fritz.box>
-In-Reply-To: <CAGb2v66mFAWzM_mqT8GiP5NmPNXjEsKq8C6cn8EHSjK82etjyg@mail.gmail.com>
-References: <20210519104152.21119-1-andre.przywara@arm.com>
-        <20210519104152.21119-13-andre.przywara@arm.com>
-        <20210524115946.jwsasjbr3biyixhz@gilmour>
-        <20210525122901.778bfccd@slackpad.fritz.box>
-        <20210607132255.7fa75a7k7ud2g7ux@gilmour>
-        <20210607151742.2f05ff95@slackpad.fritz.box>
-        <CAGb2v66mFAWzM_mqT8GiP5NmPNXjEsKq8C6cn8EHSjK82etjyg@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+        id S232541AbhFNHjY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 03:39:24 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:64221 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232494AbhFNHjX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 03:39:23 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1623656240; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=qpgcKRTavkio4Ka0FRWV7DpBkMfRvza49DuvO6fLFdo=; b=vgChnwY8DBClsl5I9TCpx7uHD3QUniWz2JY4TfKHHKCDfymn9MWlBmD6v+y4AMcAib3UWeyg
+ 7FsJ82oDj1swTTKaIuqW8H3nfkKEtpYxR6ymMkmEnZARMHMrwQIyfEB+jvXxgBaYqrqGJZJl
+ w63kC8OW+qdhCRsa+W9zcfDCC7U=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 60c7072fe27c0cc77fb4339a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 14 Jun 2021 07:37:19
+ GMT
+Sender: sanm=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 00702C433F1; Mon, 14 Jun 2021 07:37:18 +0000 (UTC)
+Received: from [192.168.0.108] (unknown [124.123.160.213])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: sanm)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7FBB4C43460;
+        Mon, 14 Jun 2021 07:37:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7FBB4C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=sanm@codeaurora.org
+Subject: Re: [BUG] usb: dwc3: Kernel NULL pointer dereference in dwc3_remove()
+To:     Jack Pham <jackp@codeaurora.org>, Felipe Balbi <balbi@kernel.org>
+Cc:     Alexandru Elisei <alexandru.elisei@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        p.zabel@pengutronix.de, linux-usb@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm@vger.kernel.org
+References: <c3c75895-313a-5be7-6421-b32bac741a88@arm.com>
+ <87r1hjcvf6.fsf@kernel.org> <70be179c-d36b-de6f-6efc-2888055b1312@arm.com>
+ <YLi/u9J5f+nQO4Cm@kroah.com> <8272121c-ac8a-1565-a047-e3a16dcf13b0@arm.com>
+ <877djbc8xq.fsf@kernel.org> <20210603173632.GA25299@jackp-linux.qualcomm.com>
+ <87mts6avnn.fsf@kernel.org> <20210607180023.GA23045@jackp-linux.qualcomm.com>
+ <87sg1q1129.fsf@kernel.org> <20210610153346.GA26872@jackp-linux.qualcomm.com>
+From:   Sandeep Maheswaram <sanm@codeaurora.org>
+Message-ID: <d9ab95a1-f901-6bfe-899b-e4577d14cb52@codeaurora.org>
+Date:   Mon, 14 Jun 2021 13:07:11 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210610153346.GA26872@jackp-linux.qualcomm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 7 Jun 2021 22:26:02 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
 
-Hi Chen-Yu,
+On 6/10/2021 9:03 PM, Jack Pham wrote:
+> On Thu, Jun 10, 2021 at 01:11:42PM +0300, Felipe Balbi wrote:
+>> Jack Pham <jackp@codeaurora.org> writes:
+>>> On Fri, Jun 04, 2021 at 11:20:12AM +0300, Felipe Balbi wrote:
+>>>> Jack Pham <jackp@codeaurora.org> writes:
+>>>>>>>>>> Alexandru Elisei <alexandru.elisei@arm.com> writes:
+>>>>>>>>>>> I've been able to bisect the panic and the offending commit is 568262bf5492 ("usb:
+>>>>>>>>>>> dwc3: core: Add shutdown callback for dwc3"). I can provide more diagnostic
+>>>>>>>>>>> information if needed and I can help test the fix.
+>>>>>>>>>> if you simply revert that commit in HEAD, does the problem really go
+>>>>>>>>>> away?
+>>>>>>>>> Kernel built from commit 324c92e5e0ee, which is the kernel tip today, the panic is
+>>>>>>>>> there. Reverting the offending commit, 568262bf5492, makes the panic disappear.
+>>>>>>>> Want to send a revert so I can take it now?
+>>>>>>> I can send a revert, but Felipe was asking Sandeep (the commit author) for a fix,
+>>>>>>> so I'll leave it up to Felipe to decide how to proceed.
+>>>>>> I'm okay with a revert. Feel free to add my Acked-by: Felipe Balbi
+>>>>>> <balbi@kernel.org> or it.
+>>>>>>
+>>>>>> Sandeep, please send a new version that doesn't encounter the same
+>>>>>> issue. Make sure to test by reloading the driver in a tight loop for
+>>>>>> several iterations.
+>>>>> This would probably be tricky to test on other "glue" drivers as the
+>>>>> problem appears to be specific only to dwc3_of_simple.  It looks like
+>>>>> both dwc3_of_simple and the dwc3 core now (due to 568262bf5492) each
+>>>>> implement respective .shutdown callbacks. The latter is simply a wrapper
+>>>>> around dwc3_remove(). And from the panic call stack above we see that
+>>>>> dwc3_of_simple_shutdown() calls of_platform_depopulate() which will
+>>>>> again call dwc3_remove() resulting in the double remove.
+>>>>>
+>>>>> So would an alternative approach be to protect against dwc3_remove()
+>>>>> getting called multiple times? IMO it'd be a bit messy to have to add
+>>>> no, I  don't think so. That sounds like a workaround. We should be able
+>>>> to guarantee that ->remove() doesn't get called twice using the driver
+>>>> model properly.
+>>> Completely fair.  So then having a .shutdown callback that directly calls
+>>> dwc3_remove() is probably not the right thing to do as it completely
+>>> bypasses the driver model so if and when the driver core does later
+>>> release the device from the driver that's how we end up with the double
+>>> remove.
+>> yeah, I would agree with that.
+>>
+>>>>> additional checks there to know if it had already been called. So maybe
+>>>>> avoid it altogether--should dwc3_of_simple_shutdown() just skip calling
+>>>>> of_platform_depopulate()?
+>>>> I don't know what the idiomatic is nowadays, but at least early on, we
+>>>> had to call depopulate.
+>>> So any suggestions on how to fix the original issue Sandeep was trying
+>>> to fix with 568262bf5492? Maybe implement .shutdown in dwc3_qcom and have
+>>> it follow what dwc3_of_simple does with of_platform_depopulate()? But
+>>> then wouldn't other "glues" want/need to follow suit?
+>> I think we can implement shutdown in core, but we need to careful with
+>> it. Instead of just blindly calling remove, let's extract the common
+>> parts to another internal function that both remove and shutdown
+>> call. debugfs removal should not be part of that generic method :-)
+> Hi Sandeep,
+>
+> Upon re-reading your description in 568262bf5492 it sounds like the
+> original intention of your patch is basically to quiesce the HW so that
+> it doesn't continue to run after SMMU/IOMMU is disabled right?
+>
+> If that is the case, couldn't we simply call only dwc3_core_exit_mode()
+> assuming there is no other requirement to do any other cleanup/teardown
+> (PHYs, clocks, resets, runtime PM, et al)? This function should do the
+> bare minimum of stopping the controller in whatever mode (host or
+> peripheral) it is currently operating in.
 
-> On Mon, Jun 7, 2021 at 10:17 PM Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > On Mon, 7 Jun 2021 15:22:55 +0200
-> > Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi Maxime,
-> >  
-> > > On Tue, May 25, 2021 at 12:29:01PM +0100, Andre Przywara wrote:  
-> > > > On Mon, 24 May 2021 13:59:46 +0200
-> > > > Maxime Ripard <maxime@cerno.tech> wrote:
-> > > >
-> > > > Hi Maxime,
-> > > >  
-> > > > > On Wed, May 19, 2021 at 11:41:47AM +0100, Andre Przywara wrote:  
-> > > > > > At least the Allwinner H616 SoC requires a weird quirk to make most
-> > > > > > USB PHYs work: Only port2 works out of the box, but all other ports
-> > > > > > need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
-> > > > > > RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
-> > > > > > the PMU PHY control register needs to be cleared. For this register to
-> > > > > > be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
-> > > > > >
-> > > > > > Instead of disguising this as some generic feature, do exactly that
-> > > > > > in our PHY init:
-> > > > > > If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
-> > > > > > this one special clock, and clear the SIDDQ bit. We can pull in the
-> > > > > > other required clocks via the DT.
-> > > > > >
-> > > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
-> > > > >
-> > > > > What is this SIDDQ bit doing exactly?  
-> > > >
-> > > > I probably know as much as you do, but as Jernej pointed out, in some
-> > > > Rockchip code it's indeed documented as some analogue PHY supply switch:
-> > > > ($ git grep -i siddq drivers/phy/rockchip)
-> > > >
-> > > > In fact we had this pin/bit for ages, it was just hidden as BIT(1) in
-> > > > our infamous PMU_UNK1 register. Patch 10/17 drags that into the light.  
-> > >
-> > > Ok
-> > >  
-> > > > > I guess we could also expose this using a power-domain if it's relevant?  
-> > > >
-> > > > Mmmh, interesting idea. So are you thinking about registering a genpd
-> > > > provider in sun4i_usb_phy_probe(), then having a power-domains property
-> > > > in the ehci/ohci nodes, pointing to the PHY node? And if yes, should
-> > > > the provider be a subnode of the USB PHY node, with a separate
-> > > > compatible? That sounds a bit more involved, but would have the
-> > > > advantage of allowing us to specify the resets and clocks from PHY2
-> > > > there, and would look a bit cleaner than hacking them into the
-> > > > other EHCI/OHCI nodes.  
-> > >
-> > > I'm not sure we need a separate device node, we could just register the
-> > > phy driver as a genpd provider, and then with an arg (so with
-> > > of_genpd_add_provider_onecell?) the index of the USB controller we want
-> > > to power up.  
-> >
-> > Yeah, I figured that myself meanwhile ;-) I now have a fairly nice
-> > implementation, which does away with the extra clocks and resets from
-> > the EHCI/OHCI nodes, and just adds one extra clock to the PHY node. The
-> > rest is power domains properties.  
-> 
-> I'm wondering, since SIDDQ refers to the analog power for USB, it shouldn't
-> really affect the HCIs, only the PHYs. Is there any way to model it like
-> this and test it?
+Yes that was the intention. I will call only dwc3_core_exit_mode()
 
-That is actually a good point: it is indeed solely a PHY property. The
-HCIs already connect to their PHYs, among other reasons to power them
-on, so it should really be an internal PHY affair.
-Which is actually what this patch here does.
-So I can combine the best of both approaches: we already have the
-PHY2 clock and reset references in the PHY node, so can just reach out
-and enable them as well, alongside the actually associated PHY clock.
-This allows us to get rid of the bogus PHY2 clock references from all
-HCIs.
-So all of this H616 quirk can be fully contained within the PHY driver,
-with no impact on the HCI parts and no extra DT properties
-(power-domains, clocks) needed there.
+and check. Is there any way we can do from dwc3 qcom glue driver to
 
-Seems to work on a quick test. I will send a version ASAP.
+avoid problems for other glue drivers?
 
-Thanks!
-Andre
 
-> 
-> ChenYu
-> 
-> > > > I would not touch the existing SoCs (even though it seems to apply to
-> > > > them as well, just not in the exact same way), but I can give it a
-> > > > try for the H616. It seems like the other SIDDQ bits (in the other
-> > > > PHYs) are still needed for operation, but the PD provide could actually
-> > > > take care of this as well.
-> > > >
-> > > > Does that make sense or is this a bit over the top for just clearing an
-> > > > extra bit?  
-> > >
-> > > Using what I described above should be fairly simple, so if we can fit
-> > > in an available and relevant abstraction, yeah, I guess :)  
-> >
-> > Thanks!
-> > I will post what I have, just need to find some solution for the RTC
-> > clock bits.
-> >
-> > Cheers,
-> > Andre
-> >
+>> Anything in that generic method should, probably, be idempotent.
+> Yes we'll need to ensure that dwc3_core_exit_mode() can be called
+> multiple times without additional side effects. At first glance this
+> probably means setting dwc->xhci and dwc->gadget to NULL from
+> dwc3_host_exit() and dwc3_gadget_exit(), respectively.
+
+Ok. Is there any way to test this ?
+
+
+>
+> Thanks,
+> Jack
