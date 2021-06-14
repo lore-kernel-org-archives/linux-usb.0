@@ -2,90 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB5BC48BE6
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 11:16:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D52DEC2B9F4
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 12:24:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 34272610A2
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 11:16:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFBCE61206
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 12:24:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235655AbhFNLSk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 07:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48534 "EHLO mail.kernel.org"
+        id S233562AbhFNM0G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 08:26:06 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:35470 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235091AbhFNLQl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 14 Jun 2021 07:16:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 740DF61963;
-        Mon, 14 Jun 2021 10:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623667815;
-        bh=2SgvNj6ou6VNa7dm/tdITAyo9EzdsLrOwNOltAcAyho=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j/dMJtlkqOmkWSqFa/pZPgJj8PtRJ9KyrZfHNwKEUaEx9sLSzHXdpdSliCSRo5Nbv
-         Nev4ckp+L+gkLWTjOkT6ipyZ9eK5xIFyVURiUkSCy7jusEsKOisXcuKkYnF77WBbcS
-         TTNlkrUpInNWie+LZ1/LxoVMjX8hnaZ1na9xj1AE=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Brooke Basile <brookebasile@gmail.com>,
-        Bryan ODonoghue <bryan.odonoghue@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Lorenzo Colitti <lorenzo@google.com>,
-        Yauheni Kaliuta <yauheni.kaliuta@nokia.com>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>
-Subject: [PATCH 5.12 085/173] USB: f_ncm: ncm_bitrate (speed) is unsigned
-Date:   Mon, 14 Jun 2021 12:26:57 +0200
-Message-Id: <20210614102700.996006998@linuxfoundation.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210614102658.137943264@linuxfoundation.org>
-References: <20210614102658.137943264@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S233071AbhFNM0F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 14 Jun 2021 08:26:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=oiBH2JKjoAAJbc4R4FuVxQ59nQgyPuSoFXb64F6CMmU=; b=slkrvpp+tamTu2ZaMxFaIDixL+
+        oRV4DLfpYHor4zMd8HmORon+sEyP1ls3SpDmlnryret0sFXgIl9coS0dPWcz1G3peItdGfT1zXsnN
+        KykDF2++tlhKywwJkY07Aq+yKSK8hMPX+nfPt3jU2eLC+rCRErQAzTKFwfBdxBIrqlnY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1lsldB-009JmZ-8C; Mon, 14 Jun 2021 14:23:53 +0200
+Date:   Mon, 14 Jun 2021 14:23:53 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Jonathan Davies <jonathan.davies@nutanix.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usbnet: allow overriding of default USB interface
+ naming
+Message-ID: <YMdKWSjiXeiDESKR@lunn.ch>
+References: <20210611152339.182710-1-jonathan.davies@nutanix.com>
+ <YMRbt+or+QTlqqP9@kroah.com>
+ <469dd530-ebd2-37a4-9c6a-9de86e7a38dc@nutanix.com>
+ <YMckz2Yu8L3IQNX9@kroah.com>
+ <a620bc87-5ee7-6132-6aa0-6b99e1052960@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a620bc87-5ee7-6132-6aa0-6b99e1052960@nutanix.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Maciej Żenczykowski <maze@google.com>
+> > > Userspace solutions include:
+> > >   1. udev backing off and retrying in the event of a collision; or
+> > >   2. avoiding ever renaming a device to a name in the "eth%d" namespace.
+> > 
+> > Picking a different namespace does not cause a lack of collisions to
+> > happen, you could have multiple usb network devices being found at the
+> > same time, right?
+> > 
+> > So no matter what, 1) has to happen.
+> 
+> Within a namespace, the "%d" in "eth%d" means __dev_alloc_name finds a name
+> that's not taken. I didn't check the locking but assume that can only happen
+> serially, in which case two devices probed in parallel would not mutually
+> collide.
+> 
+> So I don't think it's necessarily true that 1) has to happen.
 
-commit 3370139745853f7826895293e8ac3aec1430508e upstream.
+Say you changed the namespace to usb%d. And you want the device in USB
+port 1.4 to be usb1 and the device in USB port 1.3 to be usb0. They
+probe the other way around. You have the same problem, you need to
+handle the race condition in udev, back off an try again.
 
-[  190.544755] configfs-gadget gadget: notify speed -44967296
+As GregKH said, 1) has to happen.
 
-This is because 4250000000 - 2**32 is -44967296.
-
-Fixes: 9f6ce4240a2b ("usb: gadget: f_ncm.c added")
-Cc: Brooke Basile <brookebasile@gmail.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Lorenzo Colitti <lorenzo@google.com>
-Cc: Yauheni Kaliuta <yauheni.kaliuta@nokia.com>
-Cc: Linux USB Mailing List <linux-usb@vger.kernel.org>
-Acked-By: Lorenzo Colitti <lorenzo@google.com>
-Signed-off-by: Maciej Żenczykowski <maze@google.com>
-Cc: stable <stable@vger.kernel.org>
-Link: https://lore.kernel.org/r/20210608005344.3762668-1-zenczykowski@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/gadget/function/f_ncm.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -583,7 +583,7 @@ static void ncm_do_notify(struct f_ncm *
- 		data[0] = cpu_to_le32(ncm_bitrate(cdev->gadget));
- 		data[1] = data[0];
- 
--		DBG(cdev, "notify speed %d\n", ncm_bitrate(cdev->gadget));
-+		DBG(cdev, "notify speed %u\n", ncm_bitrate(cdev->gadget));
- 		ncm->notify_state = NCM_NOTIFY_CONNECT;
- 		break;
- 	}
-
-
+   Andrew
