@@ -5,29 +5,30 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 826C2C2B9F4
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 10:29:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75D5CC48BE6
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 10:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D00361242
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 10:29:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B1926128C
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Jun 2021 10:31:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232905AbhFNKbW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 06:31:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37750 "EHLO mail.kernel.org"
+        id S233160AbhFNKdw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 06:33:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38772 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232895AbhFNKbT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 14 Jun 2021 06:31:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61CDC61206;
-        Mon, 14 Jun 2021 10:29:16 +0000 (UTC)
+        id S233159AbhFNKdD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 14 Jun 2021 06:33:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B3FE1611C0;
+        Mon, 14 Jun 2021 10:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623666557;
-        bh=ag1M0GXjUVLTggW46q05qWF+rFb9QSsEjAlByPFP+S8=;
+        s=korg; t=1623666661;
+        bh=QicEfaGcnhgcw1s1f4/5sec06a1yZXj2Cgd+966taq8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Av+HnvZNo2/wHPNedyif6bAoBsbLLK3s1gWTc69G5mJjVw20ZD1vPvThJi6Cx0tzJ
-         VVcI6MdV/V6n757UNrORPOdYwVQBeklRMoT7UaaEAZfeMqRCpyjZTPtAtE03Pkkf9Q
-         q4s+5FU4D6H/ZavmzRDssW7QPwRXtU/8s0yiZDfk=
+        b=Srgxjierj8KLMKZKbZ0oXwdAzneZnMSgbZg0/JXxnutQXoCpdUp+9hxnVSAjXQYBt
+         7LDi9ufM17O9H7RyQ4S0up+uyMYE83G5PkGUVqmtFUCU1bYqXLNu+J/pRFpqC8d0f4
+         SJcWclcAZyn4EhbeD1FXmViv+peUzmkR/oRQ1DOo=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -38,12 +39,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yauheni Kaliuta <yauheni.kaliuta@nokia.com>,
         Linux USB Mailing List <linux-usb@vger.kernel.org>,
         =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>
-Subject: [PATCH 4.4 22/34] USB: f_ncm: ncm_bitrate (speed) is unsigned
-Date:   Mon, 14 Jun 2021 12:27:13 +0200
-Message-Id: <20210614102642.295099129@linuxfoundation.org>
+Subject: [PATCH 4.9 25/42] USB: f_ncm: ncm_bitrate (speed) is unsigned
+Date:   Mon, 14 Jun 2021 12:27:16 +0200
+Message-Id: <20210614102643.510117396@linuxfoundation.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210614102641.582612289@linuxfoundation.org>
-References: <20210614102641.582612289@linuxfoundation.org>
+In-Reply-To: <20210614102642.700712386@linuxfoundation.org>
+References: <20210614102642.700712386@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -78,7 +79,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/usb/gadget/function/f_ncm.c
 +++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -514,7 +514,7 @@ static void ncm_do_notify(struct f_ncm *
+@@ -588,7 +588,7 @@ static void ncm_do_notify(struct f_ncm *
  		data[0] = cpu_to_le32(ncm_bitrate(cdev->gadget));
  		data[1] = data[0];
  
