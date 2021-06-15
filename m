@@ -2,85 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F14C48BE6
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59C4FC2B9F4
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AA3C61425
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BC8961404
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232002AbhFOC1h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 22:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbhFOC1f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:27:35 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651B2C061574;
-        Mon, 14 Jun 2021 19:25:30 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id u30so40528739qke.7;
-        Mon, 14 Jun 2021 19:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oWnRdMbzlZ6uCg7kHZeS+mvPo3u6fozJ1gqjgHsyntI=;
-        b=Euy4kMNQAlanaDv3HRhIEsHzxm91ku2c5m4d+B6e+Fn3yuOlPYPBOy/4jYmPapq+FH
-         sEySXpcOGBuK2bxv79MRMRn2RXEGF7t5Ia2zw4PbIefMgbfsbYH6kRu+xDujLPlxr/n3
-         Hl6P5pFW4mSXu6mEk2MZXkI+jDwsFtYwF2Zgg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oWnRdMbzlZ6uCg7kHZeS+mvPo3u6fozJ1gqjgHsyntI=;
-        b=ZzkIG4oxhz0Pc43y4zA20IPEh+Az2lSFTf90AdVOEbKQ/aXvSQO87EiFLekSzLjuVA
-         TkCZWBDM1OVbmnF59ACsBaKn2j0csO1Ce6+diQHvSN3GUtSS9SToeRp0CxJqqBUNrBB1
-         lUShCu81mPMDdPsOno/oUC2EJvuvhSiHFQK90wXsdrFi75SHVcsr+2y6xkCi2IW3Xl4L
-         m2S/XD6w0qTdMLF5AnWPdSXrP3NDXaGg2UavabAhHGhs0EPZnG7Wrt/9mOWvWCvp9SC0
-         dMi/VtdzI+wd3lfi73GWnsc5EIxld/hFEGF1o+lhJVBXcWFj30pPMOYIu3nn5stRioDz
-         W2cg==
-X-Gm-Message-State: AOAM530bceICy6vfKk5FteYqOWjJ6kIf0JQQX/gxT/PEde45Jw6H558x
-        n6Sn24ZUiF1k6/8d0AsaiN8LVIAcJU2qUsI0eViEvkP5
-X-Google-Smtp-Source: ABdhPJylWwTMT1km2sa1BNaT0ATeITR5ItXM/dCgRFMmqLyJFBk85MzUpVFQfZT5ilFgEOotQH+KnaCtXRPVb0QGNFY=
-X-Received: by 2002:a37:9b03:: with SMTP id d3mr18571270qke.273.1623721926602;
- Mon, 14 Jun 2021 18:52:06 -0700 (PDT)
+        id S230508AbhFOCiF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 22:38:05 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49014 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230058AbhFOCiE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:38:04 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E9B78B7;
+        Tue, 15 Jun 2021 03:19:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1623719959;
+        bh=htLtHR8v8VzRLHV5IJA6tmQXI5BoGv3VFtYHukkDPAg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bxsqYzxJALhM30NSO0XkmI+Fho2EriFzvamIJncxSYfU8FUE3qhdu74LS08EIGrWE
+         MLImfoW+LZafx5tLqM7hSyRzTlXE9agv7qbhe4LQR5U/zIC4LwyRYCxEImnxgGN2vg
+         lFbmfNv4GcVfKcODwuw1dZFVu4+zlINPHwUTPkpA=
+Date:   Tue, 15 Jun 2021 04:18:59 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org, caleb.connolly@ideasonboard.com,
+        paul.elder@ideasonboard.com, balbi@kernel.org,
+        kernel@pengutronix.de
+Subject: Re: [PATCH 2/3] usb: gadget: uvc: add VIDIOC function
+Message-ID: <YMgAA90NIP7q+GMr@pendragon.ideasonboard.com>
+References: <20210530222239.8793-1-m.grzeschik@pengutronix.de>
+ <20210530222239.8793-3-m.grzeschik@pengutronix.de>
+ <YMB49cIXkRi4rtG9@kroah.com>
 MIME-Version: 1.0
-References: <20210612003128.372238-1-leoyang.li@nxp.com>
-In-Reply-To: <20210612003128.372238-1-leoyang.li@nxp.com>
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Tue, 15 Jun 2021 01:51:54 +0000
-Message-ID: <CACPK8XfUiiBM=KQiqSJ5uSUpOHLTp_wxhNyEw-gYkTBsZjbZVg@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: fsl: properly remove remnant of MXC support
-To:     Li Yang <leoyang.li@nxp.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, ran.wang_1@nxp.com,
-        Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YMB49cIXkRi4rtG9@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 12 Jun 2021 at 00:31, Li Yang <leoyang.li@nxp.com> wrote:
->
-> Commit a390bef7db1f ("usb: gadget: fsl_mxc_udc: Remove the driver")
-> didn't remove all the MXC related stuff which can cause build problem
-> for LS1021 when enabled again in Kconfig.  This patch remove all the
-> remnants.
->
-> Signed-off-by: Li Yang <leoyang.li@nxp.com>
+Hi Greg,
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+On Wed, Jun 09, 2021 at 10:16:53AM +0200, Greg KH wrote:
+> <resending as your email headers were b0rked causing replies to only go
+> to you...>
+> 
+> On Mon, May 31, 2021 at 12:22:38AM +0200, Michael Grzeschik wrote:
+> > This patch adds support to the v4l2 VIDIOC for enum_format,
+> > enum_framesizes, enum_frameintervals and try_fmt. The configfs userspace
+> > setup gets parsed and this configfs data is used in the v4l2 interface
+> > functions.
+> > 
+> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > ---
+> >  drivers/usb/gadget/function/f_uvc.c        |  54 ++++
+> >  drivers/usb/gadget/function/uvc.h          |  18 +-
+> >  drivers/usb/gadget/function/uvc_configfs.c |   5 +
+> >  drivers/usb/gadget/function/uvc_configfs.h |   2 +
+> >  drivers/usb/gadget/function/uvc_queue.c    |   4 +-
+> >  drivers/usb/gadget/function/uvc_v4l2.c     | 325 ++++++++++++++++++---
+> >  drivers/usb/gadget/function/uvc_v4l2.h     |   1 +
+> >  drivers/usb/gadget/function/uvc_video.c    |  10 +-
+> >  8 files changed, 369 insertions(+), 50 deletions(-)
+> 
+> It would be great to have some v4l developers review/ack this so we know
+> if it's ok to take or not.
 
-Will you re-submit the kconfig change once this is merged?
+Done. Sorry for the delay.
 
-Cheers,
+tl;dr: I miss the rationale for this patch series, I don't really see
+the benefit of moving code from the userspace helper application to the
+kernel.
 
-Joel
+-- 
+Regards,
+
+Laurent Pinchart
