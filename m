@@ -2,58 +2,71 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CECABC48BDF
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 10:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D00BC48BE8
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 11:06:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9D6F61455
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 10:55:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CFA56145D
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 11:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231612AbhFOK5H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Jun 2021 06:57:07 -0400
-Received: from mga01.intel.com ([192.55.52.88]:16021 "EHLO mga01.intel.com"
+        id S230060AbhFOLIi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Jun 2021 07:08:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47260 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231651AbhFOK5H (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Jun 2021 06:57:07 -0400
-IronPort-SDR: TOnkqmnp3Ml0fKaUBdU/gF4x6jWPFBP0zsoboVxytJLvyEGPERB3z8cdcPXPeM7L9ZpWK+2eEt
- 8TsRiXuuBWvA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="227432797"
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
-   d="scan'208";a="227432797"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 03:55:02 -0700
-IronPort-SDR: Rm2KjeB6nKNr3Ho9NNRcX7UIuAlshgT7KptFL2w164ULKZv6oeEvl/Kfe83AX6GT0AXOws3Jxf
- DCTKNCTyRD7Q==
-X-IronPort-AV: E=Sophos;i="5.83,275,1616482800"; 
-   d="scan'208";a="553651280"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 03:54:59 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 15 Jun 2021 13:54:57 +0300
-Date:   Tue, 15 Jun 2021 13:54:57 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Gil Fine <gil.fine@intel.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: Re: [PATCH] thunderbolt: Fix DROM handling for USB4 DROM
-Message-ID: <YMiHAaPycVFrb+Kv@lahna>
-References: <20210614135210.29787-1-gil.fine@intel.com>
+        id S229968AbhFOLIh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Jun 2021 07:08:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 97D2F61455;
+        Tue, 15 Jun 2021 11:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623755193;
+        bh=9YpOOfgix+L3k99C9A+Xuvr/JK66X4XZ3z1UIs6bpi0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rXEIIt+8Do1Kt6RpafEWpZOd85TlfHkYr+WIxg1xyAue35kptrUKRgqPk1WJaTFiX
+         cfFUGo9zbw1xxqHipiqT5M1dOelk0P6vqaKlr9O1msgTGU4yzPcVMid3pllP4dIgFW
+         Cpi/1hucbM/s8FusL08wOpM8VEUbBfbf2bk1SRtt1znRTUK6hLee5zNyqiZDIl+NBr
+         rutxDRYzRII38POpEviCA7Q1GJf7Qr3w/FL48a5A1NmUwfv5YAEk8lxNDU2JMcwp8N
+         KfeUhJuC90YHbciWekkuAEss53ewVrpVve5ocpW4+tZp99MwgnpdAnAoEoLdrt6HdJ
+         KeUW/8j41+hTw==
+Date:   Tue, 15 Jun 2021 16:36:29 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Moritz Fischer <mdf@kernel.org>, maz@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
+Subject: Re: [PATCH] usb: renesas-xhci: Fix handling of unknown ROM state
+Message-ID: <YMiJtbesPMxJv7C7@vkoul-mobl>
+References: <20210615022514.245274-1-mdf@kernel.org>
+ <YMhTddYjJwDcNau/@kroah.com>
+ <YMhcV39CtSx0F45o@vkoul-mobl>
+ <YMh2gnQl9c93mlu+@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210614135210.29787-1-gil.fine@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YMh2gnQl9c93mlu+@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 04:52:10PM +0300, Gil Fine wrote:
-> DROM for USB4 host/device has a shorter header than Thunderbolt DROM
-> header. This patch addresses host/device with USB4 DROM (According to spec:
-> Universal Serial Bus 4 (USB4) Device ROM Specification, Rev 1.0, Feb-2021).
+On 15-06-21, 11:44, Greg KH wrote:
+> On Tue, Jun 15, 2021 at 01:22:55PM +0530, Vinod Koul wrote:
+> > On 15-06-21, 09:15, Greg KH wrote:
+> > > On Mon, Jun 14, 2021 at 07:25:14PM -0700, Moritz Fischer wrote:
+> > > > If the ROM status returned is unknown (RENESAS_ROM_STATUS_NO_RESULT)
+> > > > we need to attempt loading the firmware rather than just skipping
+> > > > it all together.
+> > > 
+> > > How can this happen?  Can you provide more information here?
+> > 
+> > Sometimes ROM load seems to return unknown status, this helps in those
+> > cases by doing attempting RAM load. The status should be success of
+> > fail, here it is neither :(
 > 
-> Signed-off-by: Gil Fine <gil.fine@intel.com>
+> Then this needs to be added to the changelog text please.
 
-I did some minor tweaks and applied to thunderbolt.git/next, thanks!
+/me nods
+
+-- 
+~Vinod
