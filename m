@@ -2,129 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DAAEC48BE5
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:48:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6263DC48BDF
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 10:10:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F150661443
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:48:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42B1461443
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 10:10:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbhFOJuh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Jun 2021 05:50:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58936 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231288AbhFOJuh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Jun 2021 05:50:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F04E60FEA;
-        Tue, 15 Jun 2021 09:48:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623750512;
-        bh=BHOqM+Yiul7dkQgHlYqkUtja30szDgou1/4wsvKxQqw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YRZnTxTlaMoEL+P95vx6QPW55SN99t+27Xon72wh+kWEJ6DM2mjDPWGCRmmHy66xJ
-         vvz8yU3Gha+pgE3VLLE6S+XNGeMUpbNuN851wX2/BhEBL0I0wdosCVvymMyNJm0HHR
-         CbZ35O5q29Podq/G65aBcR3jCY0faqAFzG474iIo=
-Date:   Tue, 15 Jun 2021 11:48:30 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Paul Cercueil <paul@opendingux.net>
-Cc:     =?utf-8?B?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>,
-        hminas@synopsys.com, paul@crapouillou.net,
-        linux-mips@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dongsheng.qiu@ingenic.com,
-        aric.pzqi@ingenic.com, sernia.zhou@foxmail.com,
-        Dragan =?utf-8?B?xIxlxI1hdmFj?= <dragancecavac@yahoo.com>
-Subject: Re: [PATCH] USB: DWC2: Add VBUS overcurrent detection control.
-Message-ID: <YMh3bpRjyTZC2Hsd@kroah.com>
-References: <1616513066-62025-1-git-send-email-zhouyanjie@wanyeetech.com>
- <YFoJ0Z6K4B5smbQx@kroah.com>
- <20210615161456.2dd501a1@zhouyanjie-virtual-machine>
- <8BJQUQ.QJOE5WOSWVBU@opendingux.net>
+        id S231566AbhFOKMt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Jun 2021 06:12:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231494AbhFOKMs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Jun 2021 06:12:48 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D404C061574;
+        Tue, 15 Jun 2021 03:10:44 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id u24so50304783edy.11;
+        Tue, 15 Jun 2021 03:10:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oCpcZf2UhB1kUI420Fd2Oz53E4JiY49ICmqCxOkWky8=;
+        b=dJUfgN+8aIX6uooBjZrDuUG21Okd7E9dQDRGfypdUfviFuP/OMdcJ1vDmE84Hoqt+M
+         mwjEs/3Om84dIJp8ClqjoLQUJo40S7iocXGQlxmtx334ZrcWlroUfGO58XmwF8bLTaI/
+         DJsNd6KH8P46m2r+HINUg8CvgMKRFZaDWS/+IjSLCxNNyHOpHFSV+eE0YZdf5JUGO9vK
+         3DlK436iC5HZcJNmhVcFQgkEkM8m+jxjM8DKGSx47tlFc4QV1mVWHltSBJRzIAmI9W4T
+         MtZh+jIOj9xZklgmArRbu0s1dMbV/MygT0QRliJ4BEWtcLYfn1HqJIX/xiGebDfMftsf
+         Ud3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oCpcZf2UhB1kUI420Fd2Oz53E4JiY49ICmqCxOkWky8=;
+        b=IE7m+uuf+V3OD6y3Onokd8uded8+jwlLeqQ52ETwQTb7l8IRgHxp71mUQOu/xUa0je
+         2G8etHry1i8A+L+sXhS1NIi7fPTB1ybhH2JCRXSctT02zMDIxd8RBDKrLzSWoS8LQ9dI
+         EwaGhY7uqRQaRYLVmvKdY1iZh5UtZ+lw9VuSpr6OKHRYcwunaCHFzdeRGDToieFQjTB4
+         A0SM3HwmC0UA48zezGa/gqRfkvKjiuqs641xs16w9eP6bsCq/MoWR+cr9rfBUpcn/++m
+         y28umqJeUoggGJR0rrTGjji4rqse0URNutLLND9BWpjfeKZjJq50oqUEO2giAhsH9KXr
+         MjNg==
+X-Gm-Message-State: AOAM532L1vVkJInlBXTCYQbDpR2yJbnv5FLFuXlXf9+TrUR/+EHILGYx
+        1AJPYJ7oMJxMwF008nHtsIlSmZdP+tXPCxuxM9w=
+X-Google-Smtp-Source: ABdhPJzbrBMJeWPE/dIGJn1IjaQLtUMTyyBT+ZAAB7UoAAAB2vZaDUlUW4xjpic9aPnw+wGMsgsXJ/PmAXy+9dZawsw=
+X-Received: by 2002:a05:6402:54f:: with SMTP id i15mr21915437edx.339.1623751842851;
+ Tue, 15 Jun 2021 03:10:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8BJQUQ.QJOE5WOSWVBU@opendingux.net>
+References: <20210614153712.2172662-1-mudongliangabcd@gmail.com>
+ <YMhY9NHf1itQyup7@kroah.com> <CAD-N9QVfDQQo0rRiaa6Cx-xO80yox9hNzK91_UVj0KNgkhpvnQ@mail.gmail.com>
+ <YMh2b0LvT9H7SuNC@kroah.com>
+In-Reply-To: <YMh2b0LvT9H7SuNC@kroah.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Tue, 15 Jun 2021 18:10:16 +0800
+Message-ID: <CAD-N9QV+GMURatPx4qJT2nMsKHQhj+BXC9C-ZyQed3pN8a9YUA@mail.gmail.com>
+Subject: Re: [PATCH] net: usb: fix possible use-after-free in smsc75xx_bind
+To:     Greg KH <greg@kroah.com>
+Cc:     Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Pavel Skripkin <paskripkin@gmail.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 09:52:20AM +0100, Paul Cercueil wrote:
-> Hi Zhou,
-> 
-> Le mar., juin 15 2021 at 16:16:39 +0800, 周琰杰 <zhouyanjie@wanyeetech.com>
-> a écrit :
-> > Hi Greg,
-> > 
-> > Sorry for taking so long to reply.
-> > 
-> > 于 Tue, 23 Mar 2021 16:31:29 +0100
-> > Greg KH <gregkh@linuxfoundation.org> 写道:
-> > 
-> > >  On Tue, Mar 23, 2021 at 11:24:26PM +0800, 周琰杰 (Zhou Yanjie)
-> > > wrote:
-> > >  > Introduce configurable option for enabling GOTGCTL register
-> > >  > bits VbvalidOvEn and VbvalidOvVal. Once selected it disables
-> > >  > VBUS overcurrent detection.
-> > >  >
-> > >  > This patch is derived from Dragan Čečavac (in the kernel 3.18
-> > >  > tree of CI20). It is very useful for the MIPS Creator CI20(r1).
-> > >  > Without this patch, CI20's OTG port has a great probability to
-> > >  > face overcurrent warning, which breaks the OTG functionality.
-> > >  >
-> > >  > Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
-> > >  > Signed-off-by: Dragan Čečavac <dragancecavac@yahoo.com>
-> > >  > ---
-> > >  >  drivers/usb/dwc2/Kconfig | 6 ++++++
-> > >  >  drivers/usb/dwc2/core.c  | 9 +++++++++
-> > >  >  2 files changed, 15 insertions(+)
-> > >  >
-> > >  > diff --git a/drivers/usb/dwc2/Kconfig b/drivers/usb/dwc2/Kconfig
-> > >  > index c131719..e40d187 100644
-> > >  > --- a/drivers/usb/dwc2/Kconfig
-> > >  > +++ b/drivers/usb/dwc2/Kconfig
-> > >  > @@ -94,4 +94,10 @@ config USB_DWC2_DEBUG_PERIODIC
-> > >  >  	  non-periodic transfers, but of course the debug logs
-> > >  > will be incomplete. Note that this also disables some debug
-> > > messages
-> > >  >  	  for which the transfer type cannot be deduced.
-> > >  > +
-> > >  > +config USB_DWC2_DISABLE_VOD
-> > >  > +	bool "Disable VBUS overcurrent detection"
-> > >  > +	help
-> > >  > +	  Say Y here to switch off VBUS overcurrent detection. It
-> > >  > enables USB
-> > >  > +	  functionality blocked by overcurrent detection.
-> > > 
-> > >  Why would this be a configuration option?  Shouldn't this be dynamic
-> > >  and just work properly automatically?
-> > > 
-> > >  You should not have to do this on a build-time basis, it should be
-> > >  able to be detected and handled properly at run-time for all
-> > > devices.
-> > > 
-> > 
-> > I consulted the original author Dragan Čečavac, he think since this is
-> > a feature which disables overcurrent detection, so we are not sure if
-> > it could be harmful for some devices. Therefore he advise against
-> > enabling it in runtime, and in favor that user explicitely has to
-> > enable it.
-> 
-> This could still be enabled at runtime, though, via a module parameter.
-> Leave it enabled by default, and those who want to disable it can do it.
+On Tue, Jun 15, 2021 at 5:44 PM Greg KH <greg@kroah.com> wrote:
+>
+> On Tue, Jun 15, 2021 at 03:56:32PM +0800, Dongliang Mu wrote:
+> > On Tue, Jun 15, 2021 at 3:38 PM Greg KH <greg@kroah.com> wrote:
+> > >
+> > > On Mon, Jun 14, 2021 at 11:37:12PM +0800, Dongliang Mu wrote:
+> > > > The commit 46a8b29c6306 ("net: usb: fix memory leak in smsc75xx_bind")
+> > > > fails to clean up the work scheduled in smsc75xx_reset->
+> > > > smsc75xx_set_multicast, which leads to use-after-free if the work is
+> > > > scheduled to start after the deallocation. In addition, this patch also
+> > > > removes one dangling pointer - dev->data[0].
+> > > >
+> > > > This patch calls cancel_work_sync to cancel the schedule work and set
+> > > > the dangling pointer to NULL.
+> > > >
+> > > > Fixes: 46a8b29c6306 ("net: usb: fix memory leak in smsc75xx_bind")
+> > > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > > ---
+> > > >  drivers/net/usb/smsc75xx.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/drivers/net/usb/smsc75xx.c b/drivers/net/usb/smsc75xx.c
+> > > > index b286993da67c..f81740fcc8d5 100644
+> > > > --- a/drivers/net/usb/smsc75xx.c
+> > > > +++ b/drivers/net/usb/smsc75xx.c
+> > > > @@ -1504,7 +1504,10 @@ static int smsc75xx_bind(struct usbnet *dev, struct usb_interface *intf)
+> > > >       return 0;
+> > > >
+> > > >  err:
+> > > > +     cancel_work_sync(&pdata->set_multicast);
+> > > >       kfree(pdata);
+> > > > +     pdata = NULL;
+> > >
+> > > Why do you have to set pdata to NULL afterward?
+> > >
+> >
+> > It does not have to. pdata will be useless when the function exits. I
+> > just referred to the implementation of smsc75xx_unbind.
+>
+> It's wrong there too :)
 
-This is not the 1990's, please NEVER add new module parameters,
-especially ones that are somehow supposed to be device-specific.
-
-Remember, module options are code-wide, not device-specific.
-
-Just do this based on the device type, or something else dynamic, do NOT
-make this be forced to be selected by a kernel configuration option or a
-random module option at runtime.
-
-thanks,
-
-greg k-h
+/: I will fix such two sites in the v2 patch.
