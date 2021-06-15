@@ -2,106 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22893C48BE6
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F14C48BE6
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0970C61153
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AA3C61425
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231845AbhFOC1b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 22:27:31 -0400
-Received: from mail-pf1-f169.google.com ([209.85.210.169]:36455 "EHLO
-        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231912AbhFOC12 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:27:28 -0400
-Received: by mail-pf1-f169.google.com with SMTP id c12so12104919pfl.3;
-        Mon, 14 Jun 2021 19:25:23 -0700 (PDT)
+        id S232002AbhFOC1h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 22:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231912AbhFOC1f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:27:35 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 651B2C061574;
+        Mon, 14 Jun 2021 19:25:30 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id u30so40528739qke.7;
+        Mon, 14 Jun 2021 19:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oWnRdMbzlZ6uCg7kHZeS+mvPo3u6fozJ1gqjgHsyntI=;
+        b=Euy4kMNQAlanaDv3HRhIEsHzxm91ku2c5m4d+B6e+Fn3yuOlPYPBOy/4jYmPapq+FH
+         sEySXpcOGBuK2bxv79MRMRn2RXEGF7t5Ia2zw4PbIefMgbfsbYH6kRu+xDujLPlxr/n3
+         Hl6P5pFW4mSXu6mEk2MZXkI+jDwsFtYwF2Zgg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pngq3yYUhQah5dibNE1vG0pyf1KGFWwzUYTCAfaDmB8=;
-        b=FpfHSIMXsqG0z+zrNwcQNJi4UfgzEA1UGcicGfMFYz1gCxdD25M/vazeQkbpltW7vr
-         Dzw+yKk1SqihS0C5Gvb21mqJ/z3SsdJnouODysH0iIr/h1l5gVngHQJgcjSdfU794hWo
-         NLt3z25mXa3/iA5GYgR1TqWcIHlHVWTJXR77ULlJyZywOWmhRRFYwwaqoKd0l3UmeueF
-         gQVp7ODIChhzcP7/PiS2oeavgiFHmSKygC1eZV8pzyuAxNYUd0sWadpIVVWcFt/yblfd
-         Y5/+wTg5vPRZoEUJBj9OzIfrZlJg+8Hxx0BxCLwV67BPheKqsZkD6otzhMa3L3CHZ7xh
-         ZS5w==
-X-Gm-Message-State: AOAM532e8jxfMv/MJWAopjmaB1D14lhkZTHpuxX9dJIhIfU6FuReAJcj
-        nwjI40ppqhZU0H5LdhtIZ5JENczllPKMfA==
-X-Google-Smtp-Source: ABdhPJwIz1w8mWf8/YzTrTj2RoOQqAbDLccFD6VK0ymuBLlR4zNR4V8DteUu5lWSc1jeevfccXkVgA==
-X-Received: by 2002:aa7:8641:0:b029:2f4:7263:5524 with SMTP id a1-20020aa786410000b02902f472635524mr2253289pfo.70.1623723923424;
-        Mon, 14 Jun 2021 19:25:23 -0700 (PDT)
-Received: from localhost ([2601:647:5b00:1161:a4cc:eef9:fbc0:2781])
-        by smtp.gmail.com with ESMTPSA id i8sm14031482pgt.58.2021.06.14.19.25.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 19:25:22 -0700 (PDT)
-From:   Moritz Fischer <mdf@kernel.org>
-To:     gregkh@linuxfoundation.org
-Cc:     maz@kernel.org, vkoul@kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Moritz Fischer <mdf@kernel.org>,
-        stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-Subject: [PATCH] usb: renesas-xhci: Fix handling of unknown ROM state
-Date:   Mon, 14 Jun 2021 19:25:14 -0700
-Message-Id: <20210615022514.245274-1-mdf@kernel.org>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oWnRdMbzlZ6uCg7kHZeS+mvPo3u6fozJ1gqjgHsyntI=;
+        b=ZzkIG4oxhz0Pc43y4zA20IPEh+Az2lSFTf90AdVOEbKQ/aXvSQO87EiFLekSzLjuVA
+         TkCZWBDM1OVbmnF59ACsBaKn2j0csO1Ce6+diQHvSN3GUtSS9SToeRp0CxJqqBUNrBB1
+         lUShCu81mPMDdPsOno/oUC2EJvuvhSiHFQK90wXsdrFi75SHVcsr+2y6xkCi2IW3Xl4L
+         m2S/XD6w0qTdMLF5AnWPdSXrP3NDXaGg2UavabAhHGhs0EPZnG7Wrt/9mOWvWCvp9SC0
+         dMi/VtdzI+wd3lfi73GWnsc5EIxld/hFEGF1o+lhJVBXcWFj30pPMOYIu3nn5stRioDz
+         W2cg==
+X-Gm-Message-State: AOAM530bceICy6vfKk5FteYqOWjJ6kIf0JQQX/gxT/PEde45Jw6H558x
+        n6Sn24ZUiF1k6/8d0AsaiN8LVIAcJU2qUsI0eViEvkP5
+X-Google-Smtp-Source: ABdhPJylWwTMT1km2sa1BNaT0ATeITR5ItXM/dCgRFMmqLyJFBk85MzUpVFQfZT5ilFgEOotQH+KnaCtXRPVb0QGNFY=
+X-Received: by 2002:a37:9b03:: with SMTP id d3mr18571270qke.273.1623721926602;
+ Mon, 14 Jun 2021 18:52:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210612003128.372238-1-leoyang.li@nxp.com>
+In-Reply-To: <20210612003128.372238-1-leoyang.li@nxp.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Tue, 15 Jun 2021 01:51:54 +0000
+Message-ID: <CACPK8XfUiiBM=KQiqSJ5uSUpOHLTp_wxhNyEw-gYkTBsZjbZVg@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: fsl: properly remove remnant of MXC support
+To:     Li Yang <leoyang.li@nxp.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, ran.wang_1@nxp.com,
+        Fabio Estevam <festevam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the ROM status returned is unknown (RENESAS_ROM_STATUS_NO_RESULT)
-we need to attempt loading the firmware rather than just skipping
-it all together.
+On Sat, 12 Jun 2021 at 00:31, Li Yang <leoyang.li@nxp.com> wrote:
+>
+> Commit a390bef7db1f ("usb: gadget: fsl_mxc_udc: Remove the driver")
+> didn't remove all the MXC related stuff which can cause build problem
+> for LS1021 when enabled again in Kconfig.  This patch remove all the
+> remnants.
+>
+> Signed-off-by: Li Yang <leoyang.li@nxp.com>
 
-Cc: stable@vger.kernel.org
-Cc: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Vinod Koul <vkoul@kernel.org>
-Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
-Signed-off-by: Moritz Fischer <mdf@kernel.org>
----
- drivers/usb/host/xhci-pci-renesas.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
-index f97ac9f52bf4..dfe54f0afc4b 100644
---- a/drivers/usb/host/xhci-pci-renesas.c
-+++ b/drivers/usb/host/xhci-pci-renesas.c
-@@ -207,7 +207,8 @@ static int renesas_check_rom_state(struct pci_dev *pdev)
- 			return 0;
- 
- 		case RENESAS_ROM_STATUS_NO_RESULT: /* No result yet */
--			return 0;
-+			dev_dbg(&pdev->dev, "Unknown ROM status ...\n");
-+			break;
- 
- 		case RENESAS_ROM_STATUS_ERROR: /* Error State */
- 		default: /* All other states are marked as "Reserved states" */
-@@ -224,13 +225,11 @@ static int renesas_fw_check_running(struct pci_dev *pdev)
- 	u8 fw_state;
- 	int err;
- 
--	/* Check if device has ROM and loaded, if so skip everything */
--	err = renesas_check_rom(pdev);
--	if (err) { /* we have rom */
--		err = renesas_check_rom_state(pdev);
--		if (!err)
--			return err;
--	}
-+	/* Only if device has ROM and loaded FW we can skip loading and
-+	 * return success. Otherwise (even unknown state), attempt to load FW.
-+	 */
-+	if (renesas_check_rom(pdev) && !renesas_check_rom_state(pdev))
-+		return 0;
- 
- 	/*
- 	 * Test if the device is actually needing the firmware. As most
--- 
-2.31.1
+Will you re-submit the kconfig change once this is merged?
 
+Cheers,
+
+Joel
