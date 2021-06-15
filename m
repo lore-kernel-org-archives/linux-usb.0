@@ -2,419 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A08FBC2B9F4
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 01:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22893C48BE6
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7B7FA61153
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 01:02:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0970C61153
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:25:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230211AbhFOBEw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 21:04:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48524 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbhFOBEv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 21:04:51 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C53E4A3;
-        Tue, 15 Jun 2021 03:02:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623718967;
-        bh=6/LN0Z944bKryrwNUsg2yvioweDgSMUiM5QySL+xCBk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XyEWzkUoasF2V0UEooSkqBzAWpK5VJAqzXY/9hj7Jbqx+iKAja9d4IBdaZG+LdDgq
-         7icAICB8yc8HUlifiwEbolNAGq1nLRTy0JL9I2RtSD7kYftSQxuItuj6EE7dCLgYWT
-         XV/DYAA1FOgEnBgLFBvowlKTuf26WaKSnZVD8G4A=
-Date:   Tue, 15 Jun 2021 04:02:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, caleb.connolly@ideasonboard.com,
-        paul.elder@ideasonboard.com, balbi@kernel.org,
-        kernel@pengutronix.de
-Subject: Re: [PATCH 1/3] usb: gadget: uvc: move structs to common header
-Message-ID: <YMf8I0hNXYbjQJrL@pendragon.ideasonboard.com>
-References: <20210530222239.8793-1-m.grzeschik@pengutronix.de>
- <20210530222239.8793-2-m.grzeschik@pengutronix.de>
+        id S231845AbhFOC1b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 22:27:31 -0400
+Received: from mail-pf1-f169.google.com ([209.85.210.169]:36455 "EHLO
+        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231912AbhFOC12 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:27:28 -0400
+Received: by mail-pf1-f169.google.com with SMTP id c12so12104919pfl.3;
+        Mon, 14 Jun 2021 19:25:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pngq3yYUhQah5dibNE1vG0pyf1KGFWwzUYTCAfaDmB8=;
+        b=FpfHSIMXsqG0z+zrNwcQNJi4UfgzEA1UGcicGfMFYz1gCxdD25M/vazeQkbpltW7vr
+         Dzw+yKk1SqihS0C5Gvb21mqJ/z3SsdJnouODysH0iIr/h1l5gVngHQJgcjSdfU794hWo
+         NLt3z25mXa3/iA5GYgR1TqWcIHlHVWTJXR77ULlJyZywOWmhRRFYwwaqoKd0l3UmeueF
+         gQVp7ODIChhzcP7/PiS2oeavgiFHmSKygC1eZV8pzyuAxNYUd0sWadpIVVWcFt/yblfd
+         Y5/+wTg5vPRZoEUJBj9OzIfrZlJg+8Hxx0BxCLwV67BPheKqsZkD6otzhMa3L3CHZ7xh
+         ZS5w==
+X-Gm-Message-State: AOAM532e8jxfMv/MJWAopjmaB1D14lhkZTHpuxX9dJIhIfU6FuReAJcj
+        nwjI40ppqhZU0H5LdhtIZ5JENczllPKMfA==
+X-Google-Smtp-Source: ABdhPJwIz1w8mWf8/YzTrTj2RoOQqAbDLccFD6VK0ymuBLlR4zNR4V8DteUu5lWSc1jeevfccXkVgA==
+X-Received: by 2002:aa7:8641:0:b029:2f4:7263:5524 with SMTP id a1-20020aa786410000b02902f472635524mr2253289pfo.70.1623723923424;
+        Mon, 14 Jun 2021 19:25:23 -0700 (PDT)
+Received: from localhost ([2601:647:5b00:1161:a4cc:eef9:fbc0:2781])
+        by smtp.gmail.com with ESMTPSA id i8sm14031482pgt.58.2021.06.14.19.25.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 19:25:22 -0700 (PDT)
+From:   Moritz Fischer <mdf@kernel.org>
+To:     gregkh@linuxfoundation.org
+Cc:     maz@kernel.org, vkoul@kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Moritz Fischer <mdf@kernel.org>,
+        stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
+Subject: [PATCH] usb: renesas-xhci: Fix handling of unknown ROM state
+Date:   Mon, 14 Jun 2021 19:25:14 -0700
+Message-Id: <20210615022514.245274-1-mdf@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210530222239.8793-2-m.grzeschik@pengutronix.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Michael,
+If the ROM status returned is unknown (RENESAS_ROM_STATUS_NO_RESULT)
+we need to attempt loading the firmware rather than just skipping
+it all together.
 
-Thank you for the patch.
+Cc: stable@vger.kernel.org
+Cc: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vinod Koul <vkoul@kernel.org>
+Fixes: 2478be82de44 ("usb: renesas-xhci: Add ROM loader for uPD720201")
+Signed-off-by: Moritz Fischer <mdf@kernel.org>
+---
+ drivers/usb/host/xhci-pci-renesas.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-On Mon, May 31, 2021 at 12:22:37AM +0200, Michael Grzeschik wrote:
-> The functions and structs of the configfs interface should also be used
-> by the uvc gadget driver. This patch prepares the stack by moving the
-> common structs and functions to the common header file.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> ---
->  drivers/usb/gadget/function/uvc_configfs.c | 111 -------------------
->  drivers/usb/gadget/function/uvc_configfs.h | 119 +++++++++++++++++++++
->  2 files changed, 119 insertions(+), 111 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-> index 77d64031aa9c2..86463bb2639ed 100644
-> --- a/drivers/usb/gadget/function/uvc_configfs.c
-> +++ b/drivers/usb/gadget/function/uvc_configfs.c
-> @@ -19,8 +19,6 @@
->   * Global Utility Structures and Macros
->   */
->  
-> -#define UVCG_STREAMING_CONTROL_SIZE	1
-> -
->  #define UVC_ATTR(prefix, cname, aname) \
->  static struct configfs_attribute prefix##attr_##cname = { \
->  	.ca_name	= __stringify(aname),				\
-> @@ -49,12 +47,6 @@ static int uvcg_config_compare_u32(const void *l, const void *r)
->  	return li < ri ? -1 : li == ri ? 0 : 1;
->  }
->  
-> -static inline struct f_uvc_opts *to_f_uvc_opts(struct config_item *item)
-> -{
-> -	return container_of(to_config_group(item), struct f_uvc_opts,
-> -			    func_inst.group);
-> -}
-> -
->  struct uvcg_config_group_type {
->  	struct config_item_type type;
->  	const char *name;
-> @@ -125,19 +117,6 @@ static void uvcg_config_remove_children(struct config_group *group)
->   * control/header
->   */
->  
-> -DECLARE_UVC_HEADER_DESCRIPTOR(1);
-> -
-> -struct uvcg_control_header {
-> -	struct config_item		item;
-> -	struct UVC_HEADER_DESCRIPTOR(1)	desc;
-> -	unsigned			linked;
-> -};
-> -
-> -static struct uvcg_control_header *to_uvcg_control_header(struct config_item *item)
-> -{
-> -	return container_of(item, struct uvcg_control_header, item);
-> -}
-> -
->  #define UVCG_CTRL_HDR_ATTR(cname, aname, bits, limit)			\
->  static ssize_t uvcg_control_header_##cname##_show(			\
->  	struct config_item *item, char *page)				\
-> @@ -764,29 +743,6 @@ static const struct uvcg_config_group_type uvcg_control_grp_type = {
->   * streaming/mjpeg
->   */
->  
-> -static const char * const uvcg_format_names[] = {
-> -	"uncompressed",
-> -	"mjpeg",
-> -};
-> -
-> -enum uvcg_format_type {
-> -	UVCG_UNCOMPRESSED = 0,
-> -	UVCG_MJPEG,
-> -};
-> -
-> -struct uvcg_format {
-> -	struct config_group	group;
-> -	enum uvcg_format_type	type;
-> -	unsigned		linked;
-> -	unsigned		num_frames;
-> -	__u8			bmaControls[UVCG_STREAMING_CONTROL_SIZE];
-> -};
-> -
-> -static struct uvcg_format *to_uvcg_format(struct config_item *item)
-> -{
-> -	return container_of(to_config_group(item), struct uvcg_format, group);
-> -}
-> -
->  static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
->  {
->  	struct f_uvc_opts *opts;
-> @@ -845,29 +801,11 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
->  	return ret;
->  }
->  
-> -struct uvcg_format_ptr {
-> -	struct uvcg_format	*fmt;
-> -	struct list_head	entry;
-> -};
-> -
->  /* -----------------------------------------------------------------------------
->   * streaming/header/<NAME>
->   * streaming/header
->   */
->  
-> -struct uvcg_streaming_header {
-> -	struct config_item				item;
-> -	struct uvc_input_header_descriptor		desc;
-> -	unsigned					linked;
-> -	struct list_head				formats;
-> -	unsigned					num_fmt;
-> -};
-> -
-> -static struct uvcg_streaming_header *to_uvcg_streaming_header(struct config_item *item)
-> -{
-> -	return container_of(item, struct uvcg_streaming_header, item);
-> -}
-> -
->  static void uvcg_format_set_indices(struct config_group *fmt);
->  
->  static int uvcg_streaming_header_allow_link(struct config_item *src,
-> @@ -1059,31 +997,6 @@ static const struct uvcg_config_group_type uvcg_streaming_header_grp_type = {
->   * streaming/<mode>/<format>/<NAME>
->   */
->  
-> -struct uvcg_frame {
-> -	struct config_item	item;
-> -	enum uvcg_format_type	fmt_type;
-> -	struct {
-> -		u8	b_length;
-> -		u8	b_descriptor_type;
-> -		u8	b_descriptor_subtype;
-> -		u8	b_frame_index;
-> -		u8	bm_capabilities;
-> -		u16	w_width;
-> -		u16	w_height;
-> -		u32	dw_min_bit_rate;
-> -		u32	dw_max_bit_rate;
-> -		u32	dw_max_video_frame_buffer_size;
-> -		u32	dw_default_frame_interval;
-> -		u8	b_frame_interval_type;
-> -	} __attribute__((packed)) frame;
-> -	u32 *dw_frame_interval;
-> -};
-> -
-> -static struct uvcg_frame *to_uvcg_frame(struct config_item *item)
-> -{
-> -	return container_of(item, struct uvcg_frame, item);
-> -}
-> -
->  #define UVCG_FRAME_ATTR(cname, aname, bits) \
->  static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
->  {									\
-> @@ -1420,18 +1333,6 @@ static void uvcg_format_set_indices(struct config_group *fmt)
->   * streaming/uncompressed/<NAME>
->   */
->  
-> -struct uvcg_uncompressed {
-> -	struct uvcg_format		fmt;
-> -	struct uvc_format_uncompressed	desc;
-> -};
-> -
-> -static struct uvcg_uncompressed *to_uvcg_uncompressed(struct config_item *item)
-> -{
-> -	return container_of(
-> -		container_of(to_config_group(item), struct uvcg_format, group),
-> -		struct uvcg_uncompressed, fmt);
-> -}
-> -
->  static struct configfs_group_operations uvcg_uncompressed_group_ops = {
->  	.make_item		= uvcg_frame_make,
->  	.drop_item		= uvcg_frame_drop,
-> @@ -1669,18 +1570,6 @@ static const struct uvcg_config_group_type uvcg_uncompressed_grp_type = {
->   * streaming/mjpeg/<NAME>
->   */
->  
-> -struct uvcg_mjpeg {
-> -	struct uvcg_format		fmt;
-> -	struct uvc_format_mjpeg		desc;
-> -};
-> -
-> -static struct uvcg_mjpeg *to_uvcg_mjpeg(struct config_item *item)
-> -{
-> -	return container_of(
-> -		container_of(to_config_group(item), struct uvcg_format, group),
-> -		struct uvcg_mjpeg, fmt);
-> -}
-> -
->  static struct configfs_group_operations uvcg_mjpeg_group_ops = {
->  	.make_item		= uvcg_frame_make,
->  	.drop_item		= uvcg_frame_drop,
-> diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
-> index 7e1d7ca29bf21..f905d29570eb4 100644
-> --- a/drivers/usb/gadget/function/uvc_configfs.h
-> +++ b/drivers/usb/gadget/function/uvc_configfs.h
-> @@ -16,4 +16,123 @@ struct f_uvc_opts;
->  
->  int uvcg_attach_configfs(struct f_uvc_opts *opts);
-
-Function declarations are traditionally placed after structure
-definitions, I would thus move this line to the end of the file.
-
->  
-> +static inline struct f_uvc_opts *to_f_uvc_opts(struct config_item *item)
-
-Headers should be self-contained as much as possible. This means that
-you need forward declarations and/or #include statements corresponding
-to the structure and functions used herein. A very simple way to test
-this is to apply the following change:
-
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index cd28dec837dd..5303b790911b 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -10,10 +10,11 @@
-  * Author: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-  */
-
-+#include "uvc_configfs.h"
-+
- #include <linux/sort.h>
-
- #include "u_uvc.h"
--#include "uvc_configfs.h"
-
- /* -----------------------------------------------------------------------------
-  * Global Utility Structures and Macros
-
-Compilation will fail if uvc_configfs.h isn't self-contained. Feel free
-to squash the above diff in this patch.
-
-> +{
-> +	return container_of(to_config_group(item), struct f_uvc_opts,
-> +			    func_inst.group);
-> +}
-> +
-> +#define UVCG_STREAMING_CONTROL_SIZE	1
-> +
-> +DECLARE_UVC_HEADER_DESCRIPTOR(1);
-> +
-> +struct uvcg_control_header {
-> +	struct config_item		item;
-> +	struct UVC_HEADER_DESCRIPTOR(1)	desc;
-> +	unsigned			linked;
-> +};
-> +
-> +static inline struct uvcg_control_header *to_uvcg_control_header(struct config_item *item)
-> +{
-> +	return container_of(item, struct uvcg_control_header, item);
-> +}
-> +
-> +static const char * const uvcg_format_names[] = {
-> +	"uncompressed",
-> +	"mjpeg",
-> +};
-> +
-> +enum uvcg_format_type {
-> +	UVCG_UNCOMPRESSED = 0,
-> +	UVCG_MJPEG,
-> +};
-> +
-> +struct uvcg_format {
-> +	struct config_group	group;
-> +	enum uvcg_format_type	type;
-> +	unsigned		linked;
-> +	unsigned		num_frames;
-> +	__u8			bmaControls[UVCG_STREAMING_CONTROL_SIZE];
-> +};
-> +
-> +struct uvcg_format_ptr {
-> +	struct uvcg_format	*fmt;
-> +	struct list_head	entry;
-> +};
-> +
-> +static inline struct uvcg_format *to_uvcg_format(struct config_item *item)
-> +{
-> +	return container_of(to_config_group(item), struct uvcg_format, group);
-> +}
-> +
-> +struct uvcg_streaming_header {
-> +	struct config_item				item;
-> +	struct uvc_input_header_descriptor		desc;
-> +	unsigned					linked;
-> +	struct list_head				formats;
-> +	unsigned					num_fmt;
-> +};
-> +
-> +static inline struct uvcg_streaming_header *to_uvcg_streaming_header(struct config_item *item)
-> +{
-> +	return container_of(item, struct uvcg_streaming_header, item);
-> +}
-> +
-> +struct uvcg_frame {
-> +	struct config_item	item;
-> +	enum uvcg_format_type	fmt_type;
-> +	struct {
-> +		u8	b_length;
-> +		u8	b_descriptor_type;
-> +		u8	b_descriptor_subtype;
-> +		u8	b_frame_index;
-> +		u8	bm_capabilities;
-> +		u16	w_width;
-> +		u16	w_height;
-> +		u32	dw_min_bit_rate;
-> +		u32	dw_max_bit_rate;
-> +		u32	dw_max_video_frame_buffer_size;
-> +		u32	dw_default_frame_interval;
-> +		u8	b_frame_interval_type;
-> +	} __attribute__((packed)) frame;
-> +	u32 *dw_frame_interval;
-> +};
-> +
-> +static inline struct uvcg_frame *to_uvcg_frame(struct config_item *item)
-> +{
-> +	return container_of(item, struct uvcg_frame, item);
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * streaming/uncompressed/<NAME>
-> + */
-> +
-> +struct uvcg_uncompressed {
-> +	struct uvcg_format		fmt;
-> +	struct uvc_format_uncompressed	desc;
-> +};
-> +
-> +static inline struct uvcg_uncompressed *to_uvcg_uncompressed(struct config_item *item)
-> +{
-> +	return container_of(
-> +		container_of(to_config_group(item), struct uvcg_format, group),
-> +		struct uvcg_uncompressed, fmt);
-
-While at it, how about writing this
-
-	return container_of(to_uvcg_format(item), struct uvcg_uncompressed, fmt);
-
-?
-
-> +}
-> +
-> +/* -----------------------------------------------------------------------------
-> + * streaming/mjpeg/<NAME>
-> + */
-> +
-> +struct uvcg_mjpeg {
-> +	struct uvcg_format		fmt;
-> +	struct uvc_format_mjpeg		desc;
-> +};
-> +
-> +static inline struct uvcg_mjpeg *to_uvcg_mjpeg(struct config_item *item)
-> +{
-> +	return container_of(
-> +		container_of(to_config_group(item), struct uvcg_format, group),
-> +		struct uvcg_mjpeg, fmt);
-
-Same here with
-
-	return container_of(to_uvcg_format(item), struct uvcg_mjpeg, fmt);
-
-With these issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +}
-> +
->  #endif /* UVC_CONFIGFS_H */
-
+diff --git a/drivers/usb/host/xhci-pci-renesas.c b/drivers/usb/host/xhci-pci-renesas.c
+index f97ac9f52bf4..dfe54f0afc4b 100644
+--- a/drivers/usb/host/xhci-pci-renesas.c
++++ b/drivers/usb/host/xhci-pci-renesas.c
+@@ -207,7 +207,8 @@ static int renesas_check_rom_state(struct pci_dev *pdev)
+ 			return 0;
+ 
+ 		case RENESAS_ROM_STATUS_NO_RESULT: /* No result yet */
+-			return 0;
++			dev_dbg(&pdev->dev, "Unknown ROM status ...\n");
++			break;
+ 
+ 		case RENESAS_ROM_STATUS_ERROR: /* Error State */
+ 		default: /* All other states are marked as "Reserved states" */
+@@ -224,13 +225,11 @@ static int renesas_fw_check_running(struct pci_dev *pdev)
+ 	u8 fw_state;
+ 	int err;
+ 
+-	/* Check if device has ROM and loaded, if so skip everything */
+-	err = renesas_check_rom(pdev);
+-	if (err) { /* we have rom */
+-		err = renesas_check_rom_state(pdev);
+-		if (!err)
+-			return err;
+-	}
++	/* Only if device has ROM and loaded FW we can skip loading and
++	 * return success. Otherwise (even unknown state), attempt to load FW.
++	 */
++	if (renesas_check_rom(pdev) && !renesas_check_rom_state(pdev))
++		return 0;
+ 
+ 	/*
+ 	 * Test if the device is actually needing the firmware. As most
 -- 
-Regards,
+2.31.1
 
-Laurent Pinchart
