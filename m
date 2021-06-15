@@ -7,45 +7,46 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CBC7C48BE6
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8780C49361
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7143A61405
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7DC761404
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 02:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhFOCiG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Jun 2021 22:38:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46332 "EHLO
+        id S230519AbhFOCiH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Jun 2021 22:38:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230504AbhFOCiF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:38:05 -0400
+        with ESMTP id S230504AbhFOCiH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Jun 2021 22:38:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C14C061574
-        for <linux-usb@vger.kernel.org>; Mon, 14 Jun 2021 19:36:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B6F8C061574
+        for <linux-usb@vger.kernel.org>; Mon, 14 Jun 2021 19:36:03 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B71CC5D03;
-        Tue, 15 Jun 2021 04:10:47 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1AE54A3;
+        Tue, 15 Jun 2021 03:17:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1623723047;
-        bh=sjEsuQC1cvfP6CBKH8J3mpkS2TQB4sMat4waJfkjGQw=;
+        s=mail; t=1623719876;
+        bh=DLcXZSskHXcggbewqh97N1Ovz77G2ogtwJTK2R4mNJ8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D5TTK94KS9HJBkgFkbRpqiGkIeTW7YpPYHFK01Cdquph5X4Qgsc3qloOvtzV4B7hH
-         tS1EUNVlXfFxOoROGripAJx2Iy8UU3Gm4UARaMrCEuFcA4JunaVSQLY8NK438pKnee
-         G/GXa+3cHPiWLkFCd0sLAj5sM3tWAKNyfZiIN2Bg=
-Date:   Tue, 15 Jun 2021 05:10:27 +0300
+        b=Q8txyilS9cWNcM3WTDu8tHbEO/NrKsApVoJFAmcBYGGKNmCiHgg5HUKigZMSZTD+S
+         AXIbi6j/xksr69CChW6kdMQNl7z2/hQRWK53GbMrxQILIqqaCcNsFq7XdNxypxo+IK
+         xtsfssYkqx1hP11SPivLGGE/e817nMxRrHGbukk4=
+Date:   Tue, 15 Jun 2021 04:17:36 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, caleb.connolly@ideasonboard.com,
-        paul.elder@ideasonboard.com, balbi@kernel.org,
+Cc:     paul.elder@ideasonboard.com, linux-usb@vger.kernel.org,
+        caleb.connolly@ideasonboard.com, balbi@kernel.org,
         kernel@pengutronix.de
-Subject: Re: [PATCH v2 2/3] usb: gadget: uvc: add scatter gather support
-Message-ID: <YMgME17qpq03pirR@pendragon.ideasonboard.com>
-References: <20210530223041.15320-1-m.grzeschik@pengutronix.de>
- <20210530223041.15320-3-m.grzeschik@pengutronix.de>
+Subject: Re: [PATCH 2/3] usb: gadget: uvc: add VIDIOC function
+Message-ID: <YMf/sPkyQGuLd+N/@pendragon.ideasonboard.com>
+References: <20210530222239.8793-1-m.grzeschik@pengutronix.de>
+ <20210530222239.8793-3-m.grzeschik@pengutronix.de>
+ <20210611064015.GA940767@pyrite.rasen.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210530223041.15320-3-m.grzeschik@pengutronix.de>
+In-Reply-To: <20210611064015.GA940767@pyrite.rasen.tech>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -54,327 +55,776 @@ Hi Michael,
 
 Thank you for the patch.
 
-On Mon, May 31, 2021 at 12:30:40AM +0200, Michael Grzeschik wrote:
-> This patch adds support for scatter gather transfers. If the underlying
-> gadgets sg_supported == true, then the videeobuf2-dma-sg is used and the
-> encode routine maps all scatter entries to separate scatterlists for the
-> usb gadget.
+On Fri, Jun 11, 2021 at 03:40:35PM +0900, paul.elder@ideasonboard.com wrote:
+> On Mon, May 31, 2021 at 12:22:38AM +0200, Michael Grzeschik wrote:
+> > This patch adds support to the v4l2 VIDIOC for enum_format,
+> > enum_framesizes, enum_frameintervals and try_fmt. The configfs userspace
+> > setup gets parsed and this configfs data is used in the v4l2 interface
+> > functions.
 
-This is interesting. Could you please share measurements that show how
-much CPU time is saved by this patch in typical use cases ?
+Could you please expand the commit message with an explanation of why
+this is a good idea ?
 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> ---
-> v1 -> v2: -
+> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> > ---
+> >  drivers/usb/gadget/function/f_uvc.c        |  54 ++++
+> >  drivers/usb/gadget/function/uvc.h          |  18 +-
+> >  drivers/usb/gadget/function/uvc_configfs.c |   5 +
+> >  drivers/usb/gadget/function/uvc_configfs.h |   2 +
+> >  drivers/usb/gadget/function/uvc_queue.c    |   4 +-
+> >  drivers/usb/gadget/function/uvc_v4l2.c     | 325 ++++++++++++++++++---
+> >  drivers/usb/gadget/function/uvc_v4l2.h     |   1 +
+> >  drivers/usb/gadget/function/uvc_video.c    |  10 +-
+> >  8 files changed, 369 insertions(+), 50 deletions(-)
+> > 
+> > diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+> > index f48a00e497945..7945ea93a775a 100644
+> > --- a/drivers/usb/gadget/function/f_uvc.c
+> > +++ b/drivers/usb/gadget/function/f_uvc.c
+> > @@ -410,6 +410,44 @@ static ssize_t function_name_show(struct device *dev,
+> >  
+> >  static DEVICE_ATTR_RO(function_name);
+> >  
+> > +static int
+> > +uvc_analyze_configfs(struct uvc_device *uvc)
+> > +{
+> > +	struct uvcg_streaming_header *src_hdr = uvc->h;
+
+Why 'src' ? There's no source here. You can name the variable header.
+
+> > +	struct config_item *item;
+> > +	struct config_group *grp;
+
+And I'd group in full.
+
+> > +	struct uvcg_format_ptr *f;
+
+I'd make all those pointers const if possible.
+
+> > +	int i = 0, j = 0;
+
+i and j are never negative, you can make them unsigned int.
+
+> > +
+> > +	if (!src_hdr->linked)
+> > +		return -EBUSY;
+> > +
+> > +	list_for_each_entry(f, &src_hdr->formats, entry)
+> > +		uvc->nframes += f->fmt->num_frames;
+
+Can this overflow uvc->nframes if userspace creates a malicious config
+with a large number of formats and frames ? Or are there limits set
+elsewhere that would prevent this from happening ?
+
+> > +
+> > +	uvc->nformats = src_hdr->num_fmt;
+> > +
+> > +	uvc->frm = kcalloc(uvc->nframes, sizeof(struct uvcg_frame *), GFP_KERNEL);
+
+sizeof(*uvc->frm)
+
+> > +	if (!uvc->frm)
+> > +		return -ENOMEM;
+> > +
+> > +	uvc->fmt = kcalloc(uvc->nformats, sizeof(struct uvcg_format *), GFP_KERNEL);
+
+sizeof(*uvc->fmt)
+
+> > +	if (!uvc->fmt) {
+> > +		kfree(uvc->frm);
+> > +		return -ENOMEM;
+> > +	}
 > 
->  drivers/usb/gadget/Kconfig              |  1 +
->  drivers/usb/gadget/function/f_uvc.c     |  1 +
->  drivers/usb/gadget/function/uvc.h       |  2 +
->  drivers/usb/gadget/function/uvc_queue.c | 23 ++++++-
->  drivers/usb/gadget/function/uvc_queue.h |  5 +-
->  drivers/usb/gadget/function/uvc_video.c | 80 ++++++++++++++++++++++++-
->  6 files changed, 105 insertions(+), 7 deletions(-)
+> nformats/nframes should be set to zero if the kcalloc(s) fail.
 > 
-> diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
-> index 2d152571a7de8..dd58094f0b85b 100644
-> --- a/drivers/usb/gadget/Kconfig
-> +++ b/drivers/usb/gadget/Kconfig
-> @@ -450,6 +450,7 @@ config USB_CONFIGFS_F_UVC
->  	depends on USB_CONFIGFS
->  	depends on VIDEO_V4L2
->  	depends on VIDEO_DEV
-> +	select VIDEOBUF2_DMA_SG
->  	select VIDEOBUF2_VMALLOC
->  	select USB_F_UVC
->  	help
-> diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-> index f48a00e497945..9d87c0fb8f92e 100644
-> --- a/drivers/usb/gadget/function/f_uvc.c
-> +++ b/drivers/usb/gadget/function/f_uvc.c
-> @@ -418,6 +418,7 @@ uvc_register_video(struct uvc_device *uvc)
->  
->  	/* TODO reference counting. */
->  	uvc->vdev.v4l2_dev = &uvc->v4l2_dev;
-> +	uvc->vdev.v4l2_dev->dev = &cdev->gadget->dev;
+> > +
+> > +	list_for_each_entry(f, &src_hdr->formats, entry) {
+> > +		uvc->fmt[i++] = f->fmt;
+> > +		grp = &f->fmt->group;
+> > +		list_for_each_entry(item, &grp->cg_children, ci_entry) {
+> > +			uvc->frm[j++] = to_uvcg_frame(item);
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int
+> >  uvc_register_video(struct uvc_device *uvc)
+> >  {
+> > @@ -742,6 +780,13 @@ uvc_function_bind(struct usb_configuration *c, struct usb_function *f)
+> >  		goto error;
+> >  	}
+> >  
+> > +	/* Register configfs formats and frames. */
+> > +	ret = uvc_analyze_configfs(uvc);
+> > +	if (ret < 0) {
+> > +		uvcg_err(f, "failed to read configfs\n");
+> > +		goto v4l2_error;
+> 
+> s/v4l2_error/error/ ?
 
-A good change, which could possibly be split to its own patch.
+I think v4l2_error is correct as this code is just after
+v4l2_device_register().
 
->  	uvc->vdev.fops = &uvc_v4l2_fops;
->  	uvc->vdev.ioctl_ops = &uvc_v4l2_ioctl_ops;
->  	uvc->vdev.release = video_device_release_empty;
-> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-> index 83b9e945944e8..c1f06d9df5820 100644
-> --- a/drivers/usb/gadget/function/uvc.h
-> +++ b/drivers/usb/gadget/function/uvc.h
-> @@ -75,6 +75,8 @@ struct uvc_request {
->  	struct usb_request *req;
->  	__u8 *req_buffer;
->  	struct uvc_video *video;
-> +	struct sg_table sgt;
-> +	u8 header[2];
->  };
->  
->  struct uvc_video {
-> diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-> index dcd71304d521c..e36a3506842b7 100644
-> --- a/drivers/usb/gadget/function/uvc_queue.c
-> +++ b/drivers/usb/gadget/function/uvc_queue.c
-> @@ -18,6 +18,7 @@
->  
->  #include <media/v4l2-common.h>
->  #include <media/videobuf2-vmalloc.h>
-> +#include <media/videobuf2-dma-sg.h>
+> > +	}
+> > +
+> >  	/* Initialise video. */
+> >  	ret = uvcg_video_init(&uvc->video, uvc);
+> >  	if (ret < 0)
+> > @@ -905,6 +950,8 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+> >  	struct uvc_device *uvc;
+> >  	struct f_uvc_opts *opts;
+> >  	struct uvc_descriptor_header **strm_cls;
+> > +	struct config_item *item;
+> > +	struct config_group *grp;
 
-Alphabetical order please.
+s/grp/group/
 
->  
->  #include "uvc.h"
->  
-> @@ -52,6 +53,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
->  	*nplanes = 1;
->  
->  	sizes[0] = video->imagesize;
-> +	alloc_devs[0] = video->uvc->v4l2_dev.dev->parent;
+> >  
+> >  	uvc = kzalloc(sizeof(*uvc), GFP_KERNEL);
+> >  	if (uvc == NULL)
+> > @@ -936,6 +983,13 @@ static struct usb_function *uvc_alloc(struct usb_function_instance *fi)
+> >  	uvc->desc.fs_streaming = opts->fs_streaming;
+> >  	uvc->desc.hs_streaming = opts->hs_streaming;
+> >  	uvc->desc.ss_streaming = opts->ss_streaming;
+> > +
+> > +	grp = &opts->func_inst.group;
+> > +	item = config_group_find_item(grp, "streaming");
 
-Is there a guarantee that the gadget's parent is always the UDC ?
+As grp is used once only, you could also write
 
->  
->  	if (cdev->gadget->speed < USB_SPEED_SUPER)
->  		video->uvc_num_requests = 4;
-> @@ -66,6 +68,9 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct uvc_buffer *buf = container_of(vbuf, struct uvc_buffer, buf);
-> +	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
-> +	struct uvc_device *uvc = video->uvc;
-> +	struct usb_composite_dev *cdev = uvc->func.config->cdev;
->  
->  	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT &&
->  	    vb2_get_plane_payload(vb, 0) > vb2_plane_size(vb, 0)) {
-> @@ -77,7 +82,12 @@ static int uvc_buffer_prepare(struct vb2_buffer *vb)
->  		return -ENODEV;
->  
->  	buf->state = UVC_BUF_STATE_QUEUED;
-> -	buf->mem = vb2_plane_vaddr(vb, 0);
-> +	if (cdev->gadget->sg_supported) {
+	item = config_group_find_item(&opts->func_inst.group, "streaming");
 
-How about storing a use_sg flag in uvc_video_queue, to avoid poking
-through layers ? The flag can also be used in uvcg_queue_init().
+> > +	item = config_group_find_item(to_config_group(item), "header");
+> > +	item = config_group_find_item(to_config_group(item), "h");
+> 
+> These return values should be checked. It's conceivable that userspace
+> neglects to create these directories (either by accident or on purpose).
 
-> +		buf->sgt = vb2_dma_sg_plane_desc(vb, 0);
-> +		buf->sg = buf->sgt->sgl;
-> +	} else {
-> +		buf->mem = vb2_plane_vaddr(vb, 0);
-> +	}
->  	buf->length = vb2_plane_size(vb, 0);
->  	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
->  		buf->bytesused = 0;
-> @@ -117,9 +127,11 @@ static const struct vb2_ops uvc_queue_qops = {
->  	.wait_finish = vb2_ops_wait_finish,
->  };
->  
-> -int uvcg_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
-> +int uvcg_queue_init(struct device *dev, struct uvc_video_queue *queue, enum v4l2_buf_type type,
+Furthermore, config_group_find_item() increases the refcout on the
+returned item, which needs to be released.
 
-Please move the dev parameter after queue, to pass as the first
-parameter the object that the function operates on.
+> > +	uvc->h = to_uvcg_streaming_header(item);
 
->  		    struct mutex *lock)
->  {
-> +	struct uvc_video *video = container_of(queue, struct uvc_video, queue);
-> +	struct usb_composite_dev *cdev = video->uvc->func.config->cdev;
->  	int ret;
->  
->  	queue->queue.type = type;
-> @@ -128,9 +140,14 @@ int uvcg_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  	queue->queue.buf_struct_size = sizeof(struct uvc_buffer);
->  	queue->queue.ops = &uvc_queue_qops;
->  	queue->queue.lock = lock;
-> -	queue->queue.mem_ops = &vb2_vmalloc_memops;
-> +	if (cdev->gadget->sg_supported)
-> +		queue->queue.mem_ops = &vb2_dma_sg_memops;
-> +	else
-> +		queue->queue.mem_ops = &vb2_vmalloc_memops;
-> +
->  	queue->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC
->  				     | V4L2_BUF_FLAG_TSTAMP_SRC_EOF;
-> +	queue->queue.dev = dev;
->  	ret = vb2_queue_init(&queue->queue);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/usb/gadget/function/uvc_queue.h b/drivers/usb/gadget/function/uvc_queue.h
-> index 2f0fff7698430..bb8753b26074f 100644
-> --- a/drivers/usb/gadget/function/uvc_queue.h
-> +++ b/drivers/usb/gadget/function/uvc_queue.h
-> @@ -34,6 +34,9 @@ struct uvc_buffer {
->  
->  	enum uvc_buffer_state state;
->  	void *mem;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	unsigned int offset;
->  	unsigned int length;
->  	unsigned int bytesused;
->  };
-> @@ -59,7 +62,7 @@ static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
->  	return vb2_is_streaming(&queue->queue);
->  }
->  
-> -int uvcg_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type,
-> +int uvcg_queue_init(struct device *d, struct uvc_video_queue *queue, enum v4l2_buf_type type,
->  		    struct mutex *lock);
->  
->  void uvcg_free_buffers(struct uvc_video_queue *queue);
-> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-> index 57840083dfdda..240d361a45a44 100644
-> --- a/drivers/usb/gadget/function/uvc_video.c
-> +++ b/drivers/usb/gadget/function/uvc_video.c
-> @@ -95,6 +95,71 @@ uvc_video_encode_bulk(struct usb_request *req, struct uvc_video *video,
->  		video->payload_size = 0;
->  }
->  
-> +static void
-> +uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
-> +		struct uvc_buffer *buf)
-> +{
-> +	int pending = buf->bytesused - video->queue.buf_used;
-> +	struct uvc_request *ureq = req->context;
-> +	struct scatterlist *sg, *iter;
-> +	int len = video->req_size;
-> +	int sg_left, part = 0;
-> +	int ret;
-> +	int i;
+As a pointer to the last item is indirectly stored here, that refcount
+must be released only when uvc->h isn't needed anymore.
 
-unsigned int for pending, len, sg_left, part and i.
+> > +
+> >  	++opts->refcnt;
+> >  	mutex_unlock(&opts->lock);
+> >  
+> > diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> > index 23ee25383c1f7..62d7420a25666 100644
+> > --- a/drivers/usb/gadget/function/uvc.h
+> > +++ b/drivers/usb/gadget/function/uvc.h
+> > @@ -80,11 +80,10 @@ struct uvc_video {
+> >  	struct work_struct pump;
+> >  
+> >  	/* Frame parameters */
+> > -	u8 bpp;
+> > -	u32 fcc;
+> > -	unsigned int width;
+> > -	unsigned int height;
+> > -	unsigned int imagesize;
+> > +	struct uvcg_format *def_format;
+> > +	struct uvcg_format *cur_format;
+> > +	struct uvcg_frame *cur_frame;
+> > +
+> >  	struct mutex mutex;	/* protects frame parameters */
+> >  
+> >  	/* Requests */
+> > @@ -118,6 +117,14 @@ struct uvc_device {
+> >  	struct usb_function func;
+> >  	struct uvc_video video;
+> >  
+> > +	struct uvcg_streaming_header *h;
+> > +
+> > +	struct uvcg_frame **frm;
+> > +	int nframes;
+> > +
+> > +	struct uvcg_format **fmt;
 
-> +
-> +	sg = ureq->sgt.sgl;
-> +	sg_init_table(sg, ureq->sgt.nents);
-> +
-> +	/* Init the header. */
-> +	memset(ureq->header, 0, 2);
+Please spell frames and formats in full.
 
-Can you add
+> > +	int nformats;
 
-#define UVCG_REQUEST_HEADER_LEN		2
+nframes and nformats should be unsigned int.
 
-somewhere, and use it here, in the uvc_request structure definition, and
-in uvc_video_encode_header() ? Otherwise I fear we'll forget to update
-one of the locations when we'll add support for longer headers.
+> > +
+> >  	/* Descriptors */
+> >  	struct {
+> >  		const struct uvc_descriptor_header * const *fs_control;
+> > @@ -162,4 +169,5 @@ extern void uvc_endpoint_stream(struct uvc_device *dev);
+> >  extern void uvc_function_connect(struct uvc_device *uvc);
+> >  extern void uvc_function_disconnect(struct uvc_device *uvc);
+> >  
+> > +extern int uvc_frame_default(struct uvcg_format *ufmt);
+> >  #endif /* _UVC_GADGET_H_ */
+> > diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+> > index 86463bb2639ed..009c80d0e1780 100644
+> > --- a/drivers/usb/gadget/function/uvc_configfs.c
+> > +++ b/drivers/usb/gadget/function/uvc_configfs.c
+> > @@ -11,6 +11,7 @@
+> >   */
+> >  
+> >  #include <linux/sort.h>
+> > +#include <linux/videodev2.h>
+> >  
+> >  #include "u_uvc.h"
+> >  #include "uvc_configfs.h"
+> > @@ -1547,6 +1548,8 @@ static struct config_group *uvcg_uncompressed_make(struct config_group *group,
+> >  	h->desc.bCopyProtect		= 0;
+> >  
+> >  	h->fmt.type = UVCG_UNCOMPRESSED;
+> > +	h->fmt.fcc = V4L2_PIX_FMT_YUYV;
+> > +	h->fmt.name = "YUV 4:2:2 (YUYV)";
 
-Is the memset() needed though ?
+Uncompressed formats are not limited to YUYV, you need to support any
+uncompressed format, or this will be a regression.
 
-> +	ret = uvc_video_encode_header(video, buf, ureq->header,
-> +				      video->req_size);
-> +	sg_set_buf(sg, ureq->header, 2);
-> +	len -= ret;
-> +
-> +	if (pending <= len)
-> +		len = pending;
-> +
-> +	req->length = (len == pending) ? len + 2 : video->req_size;
-> +
-> +	/* Init the pending sgs with payload */
-> +	sg = sg_next(sg);
-> +
-> +	for_each_sg(sg, iter, ureq->sgt.nents - 1, i) {
-> +		if (!len || !buf->sg)
-> +			break;
-> +
-> +		sg_left = sg_dma_len(buf->sg) - buf->offset;
-> +		part = min_t(unsigned int, len, sg_left);
-> +
-> +		sg_set_page(iter, sg_page(buf->sg), part, buf->offset);
-> +
-> +		if (part == sg_left) {
-> +			buf->offset = 0;
-> +			buf->sg = sg_next(buf->sg);
-> +		} else {
-> +			buf->offset += part;
-> +		}
-> +		len -= part;
-> +	}
-> +
-> +	/* Assign the video data with header. */
-> +	req->buf = NULL;
-> +	req->sg	= ureq->sgt.sgl;
-> +	req->num_sgs = i + 1;
+> >  	config_group_init_type_name(&h->fmt.group, name,
+> >  				    &uvcg_uncompressed_type);
+> >  
+> > @@ -1721,6 +1724,8 @@ static struct config_group *uvcg_mjpeg_make(struct config_group *group,
+> >  	h->desc.bCopyProtect		= 0;
+> >  
+> >  	h->fmt.type = UVCG_MJPEG;
+> > +	h->fmt.fcc = V4L2_PIX_FMT_MJPEG;
+> > +	h->fmt.name = "MJPEG";
+> >  	config_group_init_type_name(&h->fmt.group, name,
+> >  				    &uvcg_mjpeg_type);
+> >  
+> > diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
+> > index f905d29570eb4..8ed966275f838 100644
+> > --- a/drivers/usb/gadget/function/uvc_configfs.h
+> > +++ b/drivers/usb/gadget/function/uvc_configfs.h
+> > @@ -52,6 +52,8 @@ struct uvcg_format {
+> >  	enum uvcg_format_type	type;
+> >  	unsigned		linked;
+> >  	unsigned		num_frames;
+> > +	char			*name;
+> > +	u32			fcc;
+> >  	__u8			bmaControls[UVCG_STREAMING_CONTROL_SIZE];
+> >  };
+> >  
+> > diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+> > index 61e2c94cc0b0c..6afc4b79adfe9 100644
+> > --- a/drivers/usb/gadget/function/uvc_queue.c
+> > +++ b/drivers/usb/gadget/function/uvc_queue.c
+> > @@ -20,6 +20,8 @@
+> >  #include <media/videobuf2-vmalloc.h>
+> >  
+> >  #include "uvc.h"
+> > +#include "u_uvc.h"
+> > +#include "uvc_configfs.h"
+> >  
+> >  /* ------------------------------------------------------------------------
+> >   * Video buffers queue management.
+> > @@ -49,7 +51,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+> >  
+> >  	*nplanes = 1;
+> >  
+> > -	sizes[0] = video->imagesize;
+> > +	sizes[0] = video->cur_frame->frame.dw_max_video_frame_buffer_size;
+> >  
+> >  	return 0;
+> >  }
+> > diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> > index 4ca89eab61590..83830b8864a6e 100644
+> > --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> > +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> > @@ -24,6 +24,127 @@
+> >  #include "uvc_queue.h"
+> >  #include "uvc_video.h"
+> >  #include "uvc_v4l2.h"
+> > +#include "u_uvc.h"
+> > +#include "uvc_configfs.h"
+> > +
+> > +u32 uvc_v4l2_get_bytesperline(struct uvcg_format *fmt, struct uvcg_frame *frm)
+> > +{
+> > +	struct uvcg_uncompressed *u;
+> > +
+> > +	switch (fmt->type) {
+> > +	case UVCG_UNCOMPRESSED:
+> > +		u = to_uvcg_uncompressed(&fmt->group.cg_item);
+> > +		if (!u)
+> > +			return 0;
+> > +
+> > +		return u->desc.bBitsPerPixel * frm->frame.w_width / 8;
+> > +	case UVCG_MJPEG:
+> > +		return frm->frame.w_width;
+> 
+> From the struct v4l2_pix_format documentation:
+> "For compressed formats the bytesperline value makes no sense.
+> Applications and drivers must set this to 0 in that case."
+> 
+> Which means that some sizeimage calculations in uvc_v4l2.c would have to
+> be adjusted accordingly.
+> 
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
+> > +					      struct uvcg_format *ufmt,
+> > +					      int index)
+> 
+> Indentation.
+> 
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < uvc->nframes; i++) {
+> > +		if (uvc->frm[i]->fmt_type != ufmt->type)
+> > +			continue;
+> > +
+> > +		if (index == uvc->frm[i]->frame.b_frame_index)
+> > +			break;
+> > +	}
+> > +
+> > +	if (i == uvc->nframes)
+> > +		return NULL;
+> > +
+> > +	return uvc->frm[i];
+> > +}
+> > +
+> > +static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+> > +						    u32 pixelformat)
+> 
+> Indentation.
+> 
+> > +{
+> > +	int i;
+> > +
+> > +	for (i = 0; i < uvc->nformats; i++)
+> > +		if (uvc->fmt[i]->fcc == pixelformat)
+> > +			break;
+> > +
+> > +	if (i == uvc->nformats)
+> > +		return NULL;
+> > +
+> > +	return uvc->fmt[i];
+> > +}
+> > +
+> > +int uvc_frame_default(struct uvcg_format *ufmt)
+> > +{
+> > +	struct uvcg_uncompressed *m;
+> > +	struct uvcg_uncompressed *u;
+> > +	int ret = 1;
+> > +
+> > +	switch (ufmt->type) {
+> > +	case UVCG_UNCOMPRESSED:
+> > +		u = to_uvcg_uncompressed(&ufmt->group.cg_item);
+> > +		if (u)
+> > +			ret = u->desc.bDefaultFrameIndex;
+> > +		break;
+> > +	case UVCG_MJPEG:
+> > +		m = to_uvcg_uncompressed(&ufmt->group.cg_item);
+> > +		if (m)
+> > +			ret = m->desc.bDefaultFrameIndex;
+> > +		break;
+> > +	}
+> > +
+> > +	if (!ret)
+> > +		ret = 1;
+> 
+> Isn't 1 a valid frame index? Should this (and the initialization above)
+> be -1 instead?
+> 
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static struct uvcg_frame *find_frm_by_size(struct uvc_device *uvc,
+> > +					   struct uvcg_format *ufmt,
+> > +					   u16 rw, u16 rh)
+> 
+> Also, since you have find_frame_by_index, maybe this should be
+> find_frame_by_size for consistency. Or maybe find_closest_frame_by_size?
+> Up to you.
+> 
+> > +{
+> > +	struct uvc_video *video = &uvc->video;
+> > +	struct uvcg_frame *ufrm = NULL;
+> > +	unsigned int d, maxd;
+> > +	int i;
+> > +
+> > +	/* Find the closest image size. The distance between image sizes is
+> > +	 * the size in pixels of the non-overlapping regions between the
+> > +	 * requested size and the frame-specified size.
+> > +	 */
+> > +	maxd = (unsigned int)-1;
+> > +
+> > +	for (i = 0; i < uvc->nframes; i++) {
+> > +		u16 w, h;
+> > +
+> > +		if (uvc->frm[i]->fmt_type != ufmt->type)
+> > +			continue;
+> > +
+> > +		w = uvc->frm[i]->frame.w_width;
+> > +		h = uvc->frm[i]->frame.w_height;
+> > +
+> > +		d = min(w, rw) * min(h, rh);
+> > +		d = w*h + rw*rh - 2*d;
+> > +		if (d < maxd) {
+> > +			maxd = d;
+> > +			ufrm = uvc->frm[i];
+> > +		}
+> > +
+> > +		if (maxd == 0)
+> > +			break;
+> > +	}
+> > +
+> > +	if (ufrm == NULL)
+> > +		uvcg_dbg(&video->uvc->func, "Unsupported size %ux%u\n", rw, rh);
+> > +
+> > +	return ufrm;
+> > +}
+> >  
+> >  /* --------------------------------------------------------------------------
+> >   * Requests handling
+> > @@ -50,16 +171,6 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+> >   * V4L2 ioctls
+> >   */
+> >  
+> > -struct uvc_format {
+> > -	u8 bpp;
+> > -	u32 fcc;
+> > -};
+> > -
+> > -static struct uvc_format uvc_formats[] = {
+> > -	{ 16, V4L2_PIX_FMT_YUYV  },
+> > -	{ 0,  V4L2_PIX_FMT_MJPEG },
+> > -};
+> > -
+> >  static int
+> >  uvc_v4l2_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+> >  {
+> > @@ -81,55 +192,187 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
+> >  	struct uvc_device *uvc = video_get_drvdata(vdev);
+> >  	struct uvc_video *video = &uvc->video;
+> >  
+> > -	fmt->fmt.pix.pixelformat = video->fcc;
+> > -	fmt->fmt.pix.width = video->width;
+> > -	fmt->fmt.pix.height = video->height;
+> > +	fmt->fmt.pix.pixelformat = video->cur_format->fcc;
+> > +	fmt->fmt.pix.width = video->cur_frame->frame.w_width;
+> > +	fmt->fmt.pix.height = video->cur_frame->frame.w_height;
+> > +	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+> > +	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(video->cur_format, video->cur_frame);
+> > +	fmt->fmt.pix.sizeimage = video->cur_frame->frame.dw_max_video_frame_buffer_size;
+> > +	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+> > +	fmt->fmt.pix.priv = 0;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int _uvc_v4l2_try_fmt(struct uvc_video *video,
+> > +	struct v4l2_format *fmt, struct uvcg_format **uvc_format, struct uvcg_frame **uvc_frame)
+> 
+> Indentation.
+> 
+> > +{
+> > +	struct uvc_device *uvc = video->uvc;
+> > +	struct uvcg_format *ufmt;
+> > +	struct uvcg_frame *ufrm;
+> > +	u8 *fcc;
+> > +	int i;
+> > +
+> > +	if (fmt->type != video->queue.queue.type)
+> > +		return -EINVAL;
+> > +
+> > +	fcc = (u8 *)&fmt->fmt.pix.pixelformat;
+> > +	uvcg_dbg(&uvc->func, "Trying format 0x%08x (%c%c%c%c): %ux%u\n",
+> > +		fmt->fmt.pix.pixelformat,
+> > +		fcc[0], fcc[1], fcc[2], fcc[3],
+> > +		fmt->fmt.pix.width, fmt->fmt.pix.height);
+> > +
+> > +	for (i = 0; i < uvc->nformats; i++)
+> > +		if (uvc->fmt[i]->fcc == fmt->fmt.pix.pixelformat)
+> > +			break;
+> > +
+> > +	if (i == uvc->nformats)
+> > +		ufmt = video->def_format;
+> 
+> This means we don't support the requested format. Shouldn't we return
+> -EINVAL at this point?
+> 
+> > +
+> > +	ufmt = uvc->fmt[i];
+> > +
+> > +	ufrm = find_frm_by_size(uvc, ufmt,
+> > +				fmt->fmt.pix.width, fmt->fmt.pix.height);
+> > +	if (!ufrm)
+> > +		return -EINVAL;
+> > +
+> > +	fmt->fmt.pix.width = ufrm->frame.w_width;
+> > +	fmt->fmt.pix.height = ufrm->frame.w_height;
+> >  	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+> > -	fmt->fmt.pix.bytesperline = video->bpp * video->width / 8;
+> > -	fmt->fmt.pix.sizeimage = video->imagesize;
+> > +	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(ufmt, ufrm);
+> 
+> As mentioned earlier, this should be 0 for compressed formats.
+> 
+> > +	fmt->fmt.pix.sizeimage = ufrm->frame.dw_max_video_frame_buffer_size;
+> > +	fmt->fmt.pix.pixelformat = ufmt->fcc;
+> >  	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+> >  	fmt->fmt.pix.priv = 0;
+> >  
+> > +	if (!fmt->fmt.pix.sizeimage && fmt->fmt.pix.bytesperline)
+> > +		fmt->fmt.pix.sizeimage = fmt->fmt.pix.bytesperline *
+> > +				fmt->fmt.pix.height;
+> 
+> Since the configfs configuration is required to configure the driver, I
+> think it should be fine to just take the value from there, especially
+> since bytesperline will be zero for compressed formats anyway.
+> 
+> Maybe for uncompressed we could just use what's requested?
+> 
+> > +
+> > +	if (uvc_format != NULL)
+> > +		*uvc_format = ufmt;
+> > +	if (uvc_frame != NULL)
+> > +		*uvc_frame = ufrm;
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > +static int
+> > +uvc_v4l2_try_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
+> > +{
+> > +	struct video_device *vdev = video_devdata(file);
+> > +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> > +	struct uvc_video *video = &uvc->video;
+> > +
+> > +	return _uvc_v4l2_try_fmt(video, fmt, NULL, NULL);
+> > +}
+> > +
+> >  static int
+> >  uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
+> >  {
+> >  	struct video_device *vdev = video_devdata(file);
+> >  	struct uvc_device *uvc = video_get_drvdata(vdev);
+> >  	struct uvc_video *video = &uvc->video;
+> > -	struct uvc_format *format;
+> > -	unsigned int imagesize;
+> > -	unsigned int bpl;
+> > -	unsigned int i;
+> > -
+> > -	for (i = 0; i < ARRAY_SIZE(uvc_formats); ++i) {
+> > -		format = &uvc_formats[i];
+> > -		if (format->fcc == fmt->fmt.pix.pixelformat)
+> > +	struct uvcg_format *ufmt;
+> > +	struct uvcg_frame *ufrm;
+> > +	int ret;
+> > +
+> > +	ret = _uvc_v4l2_try_fmt(video, fmt, &ufmt, &ufrm);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	video->cur_format = ufmt;
+> > +	video->cur_frame = ufrm;
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int
+> > +uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
+> > +		struct v4l2_frmivalenum *fival)
+> > +{
+> > +	struct video_device *vdev = video_devdata(file);
+> > +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> > +	struct uvcg_format *ufmt = NULL;
+> > +	struct uvcg_frame *ufrm = NULL;
+> > +	int i;
+> > +
+> > +	ufmt = find_format_by_pix(uvc, fival->pixel_format);
+> > +	if (!ufmt)
+> > +		return -EINVAL;
+> > +
+> > +	for (i = 0; i < uvc->nframes; ++i) {
+> > +		if (uvc->frm[i]->fmt_type != ufmt->type)
+> > +			continue;
+> > +
+> > +		if (uvc->frm[i]->frame.w_width == fival->width &&
+> > +				uvc->frm[i]->frame.w_height == fival->height) {
+> 
+> Indentation.
+> 
+> > +			ufrm = uvc->frm[i];
+> >  			break;
+> > +		}
+> >  	}
+> > +	if (!ufrm)
+> > +		return -EINVAL;
+> >  
+> > -	if (i == ARRAY_SIZE(uvc_formats)) {
+> > -		uvcg_info(&uvc->func, "Unsupported format 0x%08x.\n",
+> > -			  fmt->fmt.pix.pixelformat);
+> > +	if (fival->index >= ufrm->frame.b_frame_interval_type)
+> >  		return -EINVAL;
+> > -	}
+> >  
+> > -	bpl = format->bpp * fmt->fmt.pix.width / 8;
+> > -	imagesize = bpl ? bpl * fmt->fmt.pix.height : fmt->fmt.pix.sizeimage;
+> > +	/* TODO: handle V4L2_FRMIVAL_TYPE_STEPWISE */
+> > +	fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
+> > +	fival->discrete.numerator = ufrm->dw_frame_interval[fival->index];
+> > +	fival->discrete.denominator = 10000000;
+> > +	v4l2_simplify_fraction(&fival->discrete.numerator,
+> 
+> Where does this function come from?
+> 
+> > +		&fival->discrete.denominator, 8, 333);
+> >  
+> > -	video->fcc = format->fcc;
+> > -	video->bpp = format->bpp;
+> > -	video->width = fmt->fmt.pix.width;
+> > -	video->height = fmt->fmt.pix.height;
+> > -	video->imagesize = imagesize;
+> > +	return 0;
+> > +}
+> >  
+> > -	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+> > -	fmt->fmt.pix.bytesperline = bpl;
+> > -	fmt->fmt.pix.sizeimage = imagesize;
+> > -	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+> > -	fmt->fmt.pix.priv = 0;
+> > +static int
+> > +uvc_v4l2_enum_framesizes(struct file *file, void *fh,
+> > +		struct v4l2_frmsizeenum *fsize)
+> > +{
+> > +	struct video_device *vdev = video_devdata(file);
+> > +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> > +	struct uvcg_format *ufmt = NULL;
+> > +	struct uvcg_frame *ufrm = NULL;
+> > +
+> > +	ufmt = find_format_by_pix(uvc, fsize->pixel_format);
+> > +	if (!ufmt)
+> > +		return -EINVAL;
+> > +
+> > +	if (fsize->index >= ufmt->num_frames)
+> > +		return -EINVAL;
+> > +
+> > +	ufrm = find_frame_by_index(uvc, ufmt, fsize->index + 1);
+> > +	if (!ufrm)
+> > +		return -EINVAL;
+> > +
+> > +	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+> > +	fsize->discrete.width = ufrm->frame.w_width;
+> > +	fsize->discrete.height = ufrm->frame.w_height;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int
+> > +uvc_v4l2_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+> > +{
+> > +	struct video_device *vdev = video_devdata(file);
+> > +	struct uvc_device *uvc = video_get_drvdata(vdev);
+> > +	struct uvcg_format *ufmt;
+> > +
+> > +	if (f->index >= uvc->nformats)
+> > +		return -EINVAL;
+> > +
+> > +	ufmt = uvc->fmt[f->index];
+> > +	if (!ufmt)
+> > +		return -EINVAL;
+> > +
+> > +	f->pixelformat = ufmt->fcc;
+> > +	f->flags |= V4L2_FMT_FLAG_COMPRESSED;
+> 
+> This shouldn't be set if the format isn't compressed.
+> 
+> > +
+> > +	strscpy(f->description, ufmt->name, sizeof(f->description));
+> > +	f->description[sizeof(f->description) - 1] = 0;
+> 
+> If sizeof(ufmt->name) < sizeof(f->description), then the string won't be
+> properly null-terminated.
+> 
+> >  
+> >  	return 0;
+> >  }
+> > @@ -258,8 +501,12 @@ uvc_v4l2_ioctl_default(struct file *file, void *fh, bool valid_prio,
+> >  
+> >  const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops = {
+> >  	.vidioc_querycap = uvc_v4l2_querycap,
+> > +	.vidioc_try_fmt_vid_out = uvc_v4l2_try_fmt,
+> >  	.vidioc_g_fmt_vid_out = uvc_v4l2_get_format,
+> >  	.vidioc_s_fmt_vid_out = uvc_v4l2_set_format,
+> > +	.vidioc_enum_frameintervals = uvc_v4l2_enum_frameintervals,
+> > +	.vidioc_enum_framesizes = uvc_v4l2_enum_framesizes,
+> > +	.vidioc_enum_fmt_vid_out = uvc_v4l2_enum_fmt,
 
-Given that you construct the request scatterlist manually anyway,
-wouldn't it be much simpler to use the vb2 dma contig allocator for the
-V4L2 buffer ? Or do you expect that the device would run out of dma
-contig space (which I expect to be provided by CMA or an IOMMU) ? It
-would also likely help to fill every sg entry as much as possible, while
-the above code potentially creates smaller entries in the request sgt
-when reaching the boundary between two entries in the V4L2 buffer sgt.
+What's the point of implementing these functions, when userspace will
+have created the descriptors in configfs, and thus know what the
+supported formats, sizes and frame intervals are ?
 
-I also wonder if this couldn't be further optimized by creating an sgt
-with two entries, one for the header and one for the data,
-unconditionally. What's the maximum possible request size, could it be
-larger than what an sgt entry can support ?
+To be honest, I'm not thrilled by this series. Unless there's a very
+good reason to handle all this on the kernel side, I think it just
+increases the complexity of the kernel code without much benefit.
 
-> +
-> +	req->length -= len;
-> +	video->queue.buf_used += req->length - 2;
-> +
-> +	if (buf->bytesused == video->queue.buf_used || !buf->sg) {
-> +		video->queue.buf_used = 0;
-> +		buf->state = UVC_BUF_STATE_DONE;
-> +		buf->offset = 0;
-> +		uvcg_queue_next_buffer(&video->queue, buf);
-> +		video->fid ^= UVC_STREAM_FID;
-> +	}
-> +}
-> +
->  static void
->  uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
->  		struct uvc_buffer *buf)
-> @@ -232,6 +297,10 @@ uvc_video_alloc_requests(struct uvc_video *video)
->  		video->ureq[i].video = video;
->  
->  		list_add_tail(&video->ureq[i].req->list, &video->req_free);
-> +		/* req_size/PAGE_SIZE + 1 for overruns and + 1 for header */
-> +		sg_alloc_table(&video->ureq[i].sgt,
-> +			       DIV_ROUND_UP(req_size - 2, PAGE_SIZE) + 2,
-> +			       GFP_KERNEL);
+> >  	.vidioc_reqbufs = uvc_v4l2_reqbufs,
+> >  	.vidioc_querybuf = uvc_v4l2_querybuf,
+> >  	.vidioc_qbuf = uvc_v4l2_qbuf,
+> > diff --git a/drivers/usb/gadget/function/uvc_v4l2.h b/drivers/usb/gadget/function/uvc_v4l2.h
+> > index 1576005b61fd3..6e45103bbf793 100644
+> > --- a/drivers/usb/gadget/function/uvc_v4l2.h
+> > +++ b/drivers/usb/gadget/function/uvc_v4l2.h
+> > @@ -15,5 +15,6 @@
+> >  
+> >  extern const struct v4l2_ioctl_ops uvc_v4l2_ioctl_ops;
+> >  extern const struct v4l2_file_operations uvc_v4l2_fops;
+> > +extern u32 uvc_v4l2_get_bytesperline(struct uvcg_format *fmt, struct uvcg_frame *frm);
+> 
+> Do you need this here? Nobody outside of uvc_v4l2.c uses it.
+> 
+> >  
+> >  #endif /* __UVC_V4L2_H__ */
+> > diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+> > index 633e23d58d868..b14780bddd838 100644
+> > --- a/drivers/usb/gadget/function/uvc_video.c
+> > +++ b/drivers/usb/gadget/function/uvc_video.c
+> > @@ -17,7 +17,10 @@
+> >  
+> >  #include "uvc.h"
+> >  #include "uvc_queue.h"
+> > +#include "uvc_v4l2.h"
+> >  #include "uvc_video.h"
+> > +#include "u_uvc.h"
+> > +#include "uvc_configfs.h"
+> >  
+> >  /* --------------------------------------------------------------------------
+> >   * Video codecs
+> > @@ -348,11 +351,8 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+> >  	INIT_WORK(&video->pump, uvcg_video_pump);
+> >  
+> >  	video->uvc = uvc;
+> > -	video->fcc = V4L2_PIX_FMT_YUYV;
+> > -	video->bpp = 16;
+> > -	video->width = 320;
+> > -	video->height = 240;
+> > -	video->imagesize = 320 * 240 * 2;
+> > +	video->def_format = video->cur_format = uvc->fmt[0];
 
-It looks like this is leaked.
+There's nothing in the UVC specification that requires the first format
+to be the default. It's entirely conceivable that a device could select
+the default dynamically.
 
->  	}
->  
->  	video->req_size = req_size;
-> @@ -309,6 +378,7 @@ static void uvcg_video_pump(struct work_struct *work)
->   */
->  int uvcg_video_enable(struct uvc_video *video, int enable)
->  {
-> +	struct usb_composite_dev *cdev = video->uvc->func.config->cdev;
->  	unsigned int i;
->  	int ret;
->  
-> @@ -340,8 +410,12 @@ int uvcg_video_enable(struct uvc_video *video, int enable)
->  	if (video->max_payload_size) {
->  		video->encode = uvc_video_encode_bulk;
->  		video->payload_size = 0;
-> -	} else
-> -		video->encode = uvc_video_encode_isoc;
-> +	} else {
-> +		if (cdev->gadget->sg_supported)
-> +			video->encode = uvc_video_encode_isoc_sg;
-> +		else
-> +			video->encode = uvc_video_encode_isoc;
-> +	}
->  
->  	schedule_work(&video->pump);
->  
-> @@ -365,7 +439,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
->  	video->imagesize = 320 * 240 * 2;
->  
->  	/* Initialize the video buffers queue. */
-> -	uvcg_queue_init(&video->queue, V4L2_BUF_TYPE_VIDEO_OUTPUT,
-> +	uvcg_queue_init(uvc->v4l2_dev.dev, &video->queue, V4L2_BUF_TYPE_VIDEO_OUTPUT,
->  			&video->mutex);
->  	return 0;
->  }
+> > +	video->cur_frame = uvc->frm[uvc_frame_default(video->def_format) - 1];
+> 
+> I think we'll need something here to validate the configfs, to make sure
+> it's filled corretly. I anticipate that uvc->fmt[0] might cause problems
+> if no format is set in configfs.
+> 
+> Or maybe such protection is already around and I'm not aware of it.
+> 
+> >  	/* Initialize the video buffers queue. */
+> >  	uvcg_queue_init(&video->queue, V4L2_BUF_TYPE_VIDEO_OUTPUT,
 
 -- 
 Regards,
