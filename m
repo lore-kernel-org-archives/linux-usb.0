@@ -2,65 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6435CC48BE5
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:44:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E31CC48BE5
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:47:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52421613B1
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:44:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBCEA60FEA
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Jun 2021 09:47:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231379AbhFOJql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Jun 2021 05:46:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58170 "EHLO mail.kernel.org"
+        id S231437AbhFOJtK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Jun 2021 05:49:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58662 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230519AbhFOJql (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Jun 2021 05:46:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D562613ED;
-        Tue, 15 Jun 2021 09:44:36 +0000 (UTC)
+        id S231494AbhFOJtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 15 Jun 2021 05:49:06 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DFE0C60FEA;
+        Tue, 15 Jun 2021 09:47:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623750276;
-        bh=vx6hr4RNu4Z2Nf2Z3lL6itYQPkp8P7oEiUd8XdLIBBo=;
+        s=korg; t=1623750422;
+        bh=0NgUrEQmnusO9U4XUcIRjeQHHVusUVV7w7uNhE6McsM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2r8nL1/tNgnQUEZ6/vLjLAGZnkMEJHTuF6PgVvJqbG36yINLCS0PBdf1xddCC3Zah
-         tvYvMZ+Fl1338n9QDH22+kIFng7dMyH9veFfBuI6bVYzJH6uPhEyVNNnHEvQb4MLKc
-         EcsM0t20vJ8m+rYMkULSDYZODfENAFPPMssoEJXw=
-Date:   Tue, 15 Jun 2021 11:44:34 +0200
+        b=iC/A7xvdit46bvr/3dyO2a+85Yj4BZ5XmJRPud5aXFD0D5gc7AOAqMmydpCXPyOI0
+         /31zzTRyNq9f0MYmfSsf9LMyFqU5bkZQfPRv3yOJKtiSF9IZQEBAle8Pj8ous7AqzR
+         aOnsGrC/oNyUJjNURCMfpKMtCwn1dxT1mwIBpKbk=
+Date:   Tue, 15 Jun 2021 11:46:59 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Moritz Fischer <mdf@kernel.org>, maz@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH] usb: renesas-xhci: Fix handling of unknown ROM state
-Message-ID: <YMh2gnQl9c93mlu+@kroah.com>
-References: <20210615022514.245274-1-mdf@kernel.org>
- <YMhTddYjJwDcNau/@kroah.com>
- <YMhcV39CtSx0F45o@vkoul-mobl>
+To:     =?utf-8?B?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>
+Cc:     hminas@synopsys.com, paul@crapouillou.net,
+        linux-mips@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dongsheng.qiu@ingenic.com,
+        aric.pzqi@ingenic.com, sernia.zhou@foxmail.com,
+        Dragan =?utf-8?B?xIxlxI1hdmFj?= <dragancecavac@yahoo.com>
+Subject: Re: [PATCH] USB: DWC2: Add VBUS overcurrent detection control.
+Message-ID: <YMh3Ezr86NLPH+Aj@kroah.com>
+References: <1616513066-62025-1-git-send-email-zhouyanjie@wanyeetech.com>
+ <YFoJ0Z6K4B5smbQx@kroah.com>
+ <20210615161456.2dd501a1@zhouyanjie-virtual-machine>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YMhcV39CtSx0F45o@vkoul-mobl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210615161456.2dd501a1@zhouyanjie-virtual-machine>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 01:22:55PM +0530, Vinod Koul wrote:
-> On 15-06-21, 09:15, Greg KH wrote:
-> > On Mon, Jun 14, 2021 at 07:25:14PM -0700, Moritz Fischer wrote:
-> > > If the ROM status returned is unknown (RENESAS_ROM_STATUS_NO_RESULT)
-> > > we need to attempt loading the firmware rather than just skipping
-> > > it all together.
-> > 
-> > How can this happen?  Can you provide more information here?
+On Tue, Jun 15, 2021 at 04:16:39PM +0800, 周琰杰 wrote:
+> Hi Greg,
 > 
-> Sometimes ROM load seems to return unknown status, this helps in those
-> cases by doing attempting RAM load. The status should be success of
-> fail, here it is neither :(
+> Sorry for taking so long to reply.
+> 
+> 于 Tue, 23 Mar 2021 16:31:29 +0100
+> Greg KH <gregkh@linuxfoundation.org> 写道:
+> 
+> > On Tue, Mar 23, 2021 at 11:24:26PM +0800, 周琰杰 (Zhou Yanjie) wrote:
+> > > Introduce configurable option for enabling GOTGCTL register
+> > > bits VbvalidOvEn and VbvalidOvVal. Once selected it disables
+> > > VBUS overcurrent detection.
+> > > 
+> > > This patch is derived from Dragan Čečavac (in the kernel 3.18
+> > > tree of CI20). It is very useful for the MIPS Creator CI20(r1).
+> > > Without this patch, CI20's OTG port has a great probability to
+> > > face overcurrent warning, which breaks the OTG functionality.
+> > > 
+> > > Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+> > > Signed-off-by: Dragan Čečavac <dragancecavac@yahoo.com>
+> > > ---
+> > >  drivers/usb/dwc2/Kconfig | 6 ++++++
+> > >  drivers/usb/dwc2/core.c  | 9 +++++++++
+> > >  2 files changed, 15 insertions(+)
+> > > 
+> > > diff --git a/drivers/usb/dwc2/Kconfig b/drivers/usb/dwc2/Kconfig
+> > > index c131719..e40d187 100644
+> > > --- a/drivers/usb/dwc2/Kconfig
+> > > +++ b/drivers/usb/dwc2/Kconfig
+> > > @@ -94,4 +94,10 @@ config USB_DWC2_DEBUG_PERIODIC
+> > >  	  non-periodic transfers, but of course the debug logs
+> > > will be incomplete. Note that this also disables some debug messages
+> > >  	  for which the transfer type cannot be deduced.
+> > > +
+> > > +config USB_DWC2_DISABLE_VOD
+> > > +	bool "Disable VBUS overcurrent detection"
+> > > +	help
+> > > +	  Say Y here to switch off VBUS overcurrent detection. It
+> > > enables USB
+> > > +	  functionality blocked by overcurrent detection.  
+> > 
+> > Why would this be a configuration option?  Shouldn't this be dynamic
+> > and just work properly automatically?
+> > 
+> > You should not have to do this on a build-time basis, it should be
+> > able to be detected and handled properly at run-time for all devices.
+> > 
+> 
+> I consulted the original author Dragan Čečavac, he think since this is
+> a feature which disables overcurrent detection, so we are not sure if
+> it could be harmful for some devices. Therefore he advise against
+> enabling it in runtime, and in favor that user explicitely has to
+> enable it.
 
-Then this needs to be added to the changelog text please.
+That will not work AT ALL for systems that build a generic kernel for
+multiple devices (i.e. Android kernels), so please make this a runtime
+determination based on the hardware capabilities.
+
+> > If you know this is needed for a specific type of device, detect it
+> > and make the change then, otherwise this could break working systems,
+> > right?
+> 
+> According to the information provided by Dragan Čečavac, this function
+> (select whether to enable over-current detection through the otgctl
+> register) don't seem to be available for all dwc2 controllers, so it
+> might make sense to add MACH_INGENIC dependency to
+> USB_DWC2_DISABLE_VOD, which could provide additional protection from
+> unwanted usage.
+
+Again, make this dynamic and only happen for devices that know it will
+work on, based on some hardware information (device type of DT value).
+Do not make this happen based on a Kconfig option.
 
 thanks,
 
