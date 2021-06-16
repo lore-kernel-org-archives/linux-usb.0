@@ -2,184 +2,193 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39379C48BE5
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Jun 2021 02:11:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD23C48BE8
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Jun 2021 02:17:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1388B61369
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Jun 2021 02:11:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D1B460FF0
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Jun 2021 02:17:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231287AbhFPCNG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Jun 2021 22:13:06 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57583 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231172AbhFPCNF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 15 Jun 2021 22:13:05 -0400
-IronPort-SDR: P/s2KY9UKzbKpuZJGmkDBpwoHVSxzsshpVyYE98SBgfiXWOyunM1o/gXQZx78d/zjPJcFbmmxA
- OFTQcEYROe0w==
-X-IronPort-AV: E=McAfee;i="6200,9189,10016"; a="185793749"
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; 
-   d="scan'208";a="185793749"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2021 19:11:00 -0700
-IronPort-SDR: IYEddz41ZdTT+K6XBVKXnD16RAO5Ky5boG7Sp/GXFmFFYplmLpG3nY4MLONVvywTilug7R5UP8
- q08dFM2Z1cEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,276,1616482800"; 
-   d="scan'208";a="554645227"
-Received: from lkp-server01.sh.intel.com (HELO 4aae0cb4f5b5) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2021 19:10:59 -0700
-Received: from kbuild by 4aae0cb4f5b5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1ltL18-0000kT-Az; Wed, 16 Jun 2021 02:10:58 +0000
-Date:   Wed, 16 Jun 2021 10:09:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 1da8116eb0c5dfc05cfb89896239badb18c4daf3
-Message-ID: <60c95d77.eh34F9xh/rXk5OJX%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S231254AbhFPCTQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Jun 2021 22:19:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229582AbhFPCTQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Jun 2021 22:19:16 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE647C061574;
+        Tue, 15 Jun 2021 19:17:09 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id g8so1089187ejx.1;
+        Tue, 15 Jun 2021 19:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MCDor/w6lKVwI2iurzUF4jk7w2SeMQAsUxGeBVaSZPs=;
+        b=dhHDjaQB0VcAtcFpKYUpQwrCCvyMHaJbQ2NadBKT9slA7jTAgkhmBG1SeiI/uTywu+
+         47/dAM4Zfwbn+dSpnhURz6NB2NKJDmI+PNF1wwtDRqlrT17SGcvPEeiHtGAbGUU7reOS
+         BNqGSIGuJ8olSKQTU4DInBtUocZC+MM0krek/Ys2R0G4jTLUZfy+/O7/ykgXkiQoaGsU
+         R8xOPr7waZ8136DVHcfgetVQ4V1xIP82fe7474YFuBVWG+hjggoMKxRtYvwJ6SJl7aRd
+         zliRXIQFk5t7w8q5j5PQqMAJaxYFPC336gJHXzpuYnA9LnbDdk4qyEg2BpvBcsp9t7n9
+         aVjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MCDor/w6lKVwI2iurzUF4jk7w2SeMQAsUxGeBVaSZPs=;
+        b=GUfUzdo+q22CFzIfbLl/wQBGn33GUFODgMdJfqiOfhkbqB5wEHakyImMfKu2ZcqCuM
+         9jRNZIWRnyjhbjR26o0onEvOUhhOP0UfSXb9j7RuS0Nauk2wURv+y8U9zCY3so+Bge5F
+         7Fu67/B/KfTebCzF929iHFw9ZI0ockIAwFNvI4lKWMhFYdomA+bFPhL13mJOVsYBQ8tz
+         EODGB0ISTxiDrskmzvOOlKU5Cl6Ye9oSxjJ5DjACTu9aYV6T9klyqvZda70OWhtj5kC4
+         YjjlWOcgA5UwsPWdC1gzi1uBcxMWufObnAUffEy0YUSXfNxsMJiA121+w8a2e9nme5jx
+         NVhA==
+X-Gm-Message-State: AOAM531RE/g1X467yke3VkGlNzudyL9MuSqmzB82+m+qAwCHr92vMJPT
+        RYqrfH1NGNv9Uc0kCCO8s5vb6PQWlOJqLyWe0tg=
+X-Google-Smtp-Source: ABdhPJziL9hg6SBudauv+KFlVosSoq2YVCxWUIEj63Q1HfX+0Y8c88/ypFzaOz95yJQ/fY7X5T96f99mGuwnOzyFRIw=
+X-Received: by 2002:a17:906:3c44:: with SMTP id i4mr2595685ejg.135.1623809828364;
+ Tue, 15 Jun 2021 19:17:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20210614153712.2172662-1-mudongliangabcd@gmail.com>
+ <20210614190045.5b4c92e6@gmail.com> <CAD-N9QVG40CqgkHb1w68FL-d1LkTzjcAhF9O8whmzWo67=4KJg@mail.gmail.com>
+ <20210615163108.4e17e119@gmail.com>
+In-Reply-To: <20210615163108.4e17e119@gmail.com>
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+Date:   Wed, 16 Jun 2021 10:16:42 +0800
+Message-ID: <CAD-N9QXTu1P=2EKPVRWKOD1dfdfq-YY=MP5Yhv3Sd75Cff0bKg@mail.gmail.com>
+Subject: Re: [PATCH] net: usb: fix possible use-after-free in smsc75xx_bind
+To:     Pavel Skripkin <paskripkin@gmail.com>
+Cc:     Steve Glendinning <steve.glendinning@shawell.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 1da8116eb0c5dfc05cfb89896239badb18c4daf3  arm64: dts: qcom: sc7180-trogdor: Add nodes for onboard USB hub
+On Tue, Jun 15, 2021 at 9:31 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
+>
+> On Tue, 15 Jun 2021 07:01:13 +0800
+> Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+>
+> > On Tue, Jun 15, 2021 at 12:00 AM Pavel Skripkin
+> > <paskripkin@gmail.com> wrote:
+> > >
+> > > On Mon, 14 Jun 2021 23:37:12 +0800
+> > > Dongliang Mu <mudongliangabcd@gmail.com> wrote:
+> > >
+> > > > The commit 46a8b29c6306 ("net: usb: fix memory leak in
+> > > > smsc75xx_bind") fails to clean up the work scheduled in
+> > > > smsc75xx_reset-> smsc75xx_set_multicast, which leads to
+> > > > use-after-free if the work is scheduled to start after the
+> > > > deallocation. In addition, this patch also removes one dangling
+> > > > pointer - dev->data[0].
+> > > >
+> > > > This patch calls cancel_work_sync to cancel the schedule work and
+> > > > set the dangling pointer to NULL.
+> > > >
+> > > > Fixes: 46a8b29c6306 ("net: usb: fix memory leak in smsc75xx_bind")
+> > > > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > > > ---
+> > > >  drivers/net/usb/smsc75xx.c | 3 +++
+> > > >  1 file changed, 3 insertions(+)
+> > > >
+> > > > diff --git a/drivers/net/usb/smsc75xx.c
+> > > > b/drivers/net/usb/smsc75xx.c index b286993da67c..f81740fcc8d5
+> > > > 100644 --- a/drivers/net/usb/smsc75xx.c
+> > > > +++ b/drivers/net/usb/smsc75xx.c
+> > > > @@ -1504,7 +1504,10 @@ static int smsc75xx_bind(struct usbnet
+> > > > *dev, struct usb_interface *intf) return 0;
+> > > >
+> > > >  err:
+> > > > +     cancel_work_sync(&pdata->set_multicast);
+> > > >       kfree(pdata);
+> > > > +     pdata = NULL;
+> > > > +     dev->data[0] = 0;
+> > > >       return ret;
+> > > >  }
+> > > >
+> > >
+> > > Hi, Dongliang!
+> > >
+> > > Just my thougth about this patch:
+> > >
+> > > INIT_WORK(&pdata->set_multicast, smsc75xx_deferred_multicast_write);
+> > > does not queue anything, it just initalizes list structure and
+> > > assigns callback function. The actual work sheduling happens in
+> > > smsc75xx_set_multicast() which is smsc75xx_netdev_ops member.
+> > >
+> >
+> > Yes, you are right. However, as written in the commit message,
+> > smsc75xx_set_multicast will be called by smsc75xx_reset [1].
+> >
+> > If smsc75xx_set_multicast is called before any check failure occurs,
+> > this work(set_multicast) will be queued into the global list with
+> >
+> > schedule_work(&pdata->set_multicast); [2]
+>
+> Ah, I missed it, sorry :)
+>
+> Maybe, small optimization for error handling path like:
+>
+> cancel_work:
+>         cancel_work_sync(&pdata->set_multicast);
+>         dev->data[0] = 0;
+> free_pdata:
+>         kfree(pdata);
+>         return ret;
+>
+>
+> is suitbale here.
 
-elapsed time: 721m
+I agree with this style of error handling. However, I need to adjust
+the location of dev->data[0] = 0 after kfree(pdata) because if there
+still leaves a dangling pointer it directly goes to free_pdata.
 
-configs tested: 114
-configs skipped: 2
+>
+> >
+> > At last, if the pdata or dev->data[0] is freed before the
+> > set_multicast really executes, it may lead to a UAF. Is this correct?
+> >
+> > BTW, even if the above is true, I don't know if I call the API
+> > ``cancel_work_sync(&pdata->set_multicast)'' properly if the
+> > schedule_work is not called.
+> >
+>
+> Yeah, it will be ok.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thanks for the confirmation. I've tested it under the previous kernel
+crash. It works fine.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                      chrp32_defconfig
-xtensa                generic_kc705_defconfig
-powerpc                 mpc8540_ads_defconfig
-arm                        oxnas_v6_defconfig
-s390                                defconfig
-arm                        multi_v7_defconfig
-arm                            lart_defconfig
-sh                          sdk7786_defconfig
-xtensa                    smp_lx200_defconfig
-arm                          collie_defconfig
-powerpc                 mpc85xx_cds_defconfig
-sparc                       sparc32_defconfig
-powerpc64                        alldefconfig
-mips                 decstation_r4k_defconfig
-openrisc                            defconfig
-sh                        sh7763rdp_defconfig
-mips                      bmips_stb_defconfig
-um                            kunit_defconfig
-arm                            zeus_defconfig
-m68k                          atari_defconfig
-arm                        mvebu_v5_defconfig
-ia64                            zx1_defconfig
-powerpc                     ksi8560_defconfig
-ia64                             alldefconfig
-h8300                       h8s-sim_defconfig
-arm                           u8500_defconfig
-powerpc                       holly_defconfig
-sh                        sh7785lcr_defconfig
-mips                     cu1000-neo_defconfig
-m68k                       m5275evb_defconfig
-arm                        keystone_defconfig
-arm                         palmz72_defconfig
-powerpc                mpc7448_hpc2_defconfig
-m68k                          sun3x_defconfig
-i386                                defconfig
-arm                          exynos_defconfig
-sh                           se7343_defconfig
-arm                              alldefconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20210615
-i386                 randconfig-a006-20210615
-i386                 randconfig-a004-20210615
-i386                 randconfig-a001-20210615
-i386                 randconfig-a005-20210615
-i386                 randconfig-a003-20210615
-i386                 randconfig-a015-20210615
-i386                 randconfig-a013-20210615
-i386                 randconfig-a016-20210615
-i386                 randconfig-a012-20210615
-i386                 randconfig-a014-20210615
-i386                 randconfig-a011-20210615
-x86_64               randconfig-a001-20210615
-x86_64               randconfig-a004-20210615
-x86_64               randconfig-a002-20210615
-x86_64               randconfig-a003-20210615
-x86_64               randconfig-a006-20210615
-x86_64               randconfig-a005-20210615
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+I will send a v2 patch quickly.
 
-clang tested configs:
-x86_64               randconfig-b001-20210615
-x86_64               randconfig-a015-20210615
-x86_64               randconfig-a011-20210615
-x86_64               randconfig-a012-20210615
-x86_64               randconfig-a014-20210615
-x86_64               randconfig-a016-20210615
-x86_64               randconfig-a013-20210615
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>
+> > [1]
+> > https://elixir.bootlin.com/linux/latest/source/drivers/net/usb/smsc75xx.c#L1322
+> >
+> > [2]
+> > https://elixir.bootlin.com/linux/latest/source/drivers/net/usb/smsc75xx.c#L583
+> >
+> > > In case of any error in smsc75xx_bind() the device registration
+> > > fails and smsc75xx_netdev_ops won't be registered, so, i guess,
+> > > there is no chance of UAF.
+> > >
+> > >
+> > > Am I missing something? :)
+> > >
+> > >
+> > >
+> > > With regards,
+> > > Pavel Skripkin
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
