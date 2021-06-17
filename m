@@ -2,191 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AD60C2B9F4
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 07:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4643C2B9F4
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 07:24:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29C686100A
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 07:11:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A938E613B9
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 07:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230047AbhFQHNq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Jun 2021 03:13:46 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:50308 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229599AbhFQHNp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 03:13:45 -0400
-Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com [10.192.0.82])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id F27F5C03C8;
-        Thu, 17 Jun 2021 07:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1623913898; bh=3CAIm2zmyEeZdgZw+xrBXjy+ypuW8+bpqdaWDRGba2Q=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=AqDIUxNDtzC76hk/Y9gim74KSdxWY/kxlR58CRbHzxsG62wdbdL3Nh6X9jFExJnM8
-         /uOj0JR7uF7ad0Fd7SZZ5g0+StMDSiSyjsjKWvvJlYTb5tJycsDxGw1D/ppJ+U8Wa8
-         BxxOl8HmQXtOUak3kvjQpk8ysNx+tS7lySeG3jb8Dla9c4nmV1B4pmu1PBR+p36zNu
-         Bna2mSqPb4IDBO8YQofc2nhgl2un+oii6HhvNVZETee1HAynZTDtNALzspsuVHDxIF
-         1zLnIxeuYD1xrnB/NYZes2u0V/FWAxBLDbZ9QOfKIckh5cL7clrTNeUcOmlbWzuqxA
-         Trmljg2qkMT4w==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 53455A005C;
-        Thu, 17 Jun 2021 07:11:37 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id CD273800C4;
-        Thu, 17 Jun 2021 07:11:35 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=hminas@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="aKIc5LGZ";
-        dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TezxZyGnOa22He7ng3ow65LuMX0kBuOMpTBlo3Gz3WfvvrsPBfyQfDQYcKe2YK6FFBl7nZ2UUtK2fH9BGT7pnv8PyKcdH6U+QSeDU0ANmPgMRBMAU8avNWneI7ZAdJ/oda79EPrcn+YIPclE0fBKuiOQp+w2bEWxV8NMnfTWqUPuuHTVW0SzKTw7DRE+7fEf/Kw8J3grtM3+D76ZKqWbNIozBKIW2qD9UUFThTqH/nX7ndMxPAEYJcrO4pZUmgwkg8zXdBBSqlIPyfs/QcE9W8jniMTZkdjdzI7kf59crvpH9nW5lp1gjXh2IQRT4sn0qiWEdpDfHIWrujyo5E05aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3CAIm2zmyEeZdgZw+xrBXjy+ypuW8+bpqdaWDRGba2Q=;
- b=j4+kbSsFRB4WCqW/yUABD2vqFKk0CPCAC+B0WKHNtI9+eTQtreuNiTQzyltPlMSIJaLQcMPtHc871WSGFLEqac0aFzeX62ALW8FeDY2FJM67wiB29oIrKHZnRDxnv0scw3/+f6QYqIfEtlKvCSznFhUk4tWoxk8xA4mOusu8L/wYawa1TkwQzx9XqOJ0MGkKGeY3/Cwsy8j43ZxoFZsqK8Fenf4aKBFQugg1KpakOHBwZMf8c67TNa3DXt829BGy7fxqTMJxr7dEVwd4INcFLVssjvDpTiDiITJEQXkujKG7/BAKGAgxW3M6fImiGZAXinA7g63DyQo8w95Y5o/baw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3CAIm2zmyEeZdgZw+xrBXjy+ypuW8+bpqdaWDRGba2Q=;
- b=aKIc5LGZEN6P2Vdh6AB4x21Fa5YwlbhZ+DYJMGxAFDTXaogfuRvKoyobMae0/UdfTjVvnJFygvIDyVaH984+S40XKWD7Q74ng+TyOvMXWodojJGiR4ijQu0pev2AHVK0B0VaM0fl3ZpjZAJtjHWUqGG0xUbeWz9LclaBFE7AhsU=
-Received: from DM4PR12MB5390.namprd12.prod.outlook.com (2603:10b6:5:39a::12)
- by DM4PR12MB5087.namprd12.prod.outlook.com (2603:10b6:5:38a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.18; Thu, 17 Jun
- 2021 07:11:33 +0000
-Received: from DM4PR12MB5390.namprd12.prod.outlook.com
- ([fe80::b119:cac8:fb05:e0e4]) by DM4PR12MB5390.namprd12.prod.outlook.com
- ([fe80::b119:cac8:fb05:e0e4%8]) with mapi id 15.20.4219.025; Thu, 17 Jun 2021
- 07:11:33 +0000
-X-SNPS-Relay: synopsys.com
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Jack Pham <jackp@codeaurora.org>,
-        Peter Chen <peter.chen@kernel.org>
-Subject: Re: [PATCH] usb: dwc3: Fix debugfs creation flow
-Thread-Topic: [PATCH] usb: dwc3: Fix debugfs creation flow
-Thread-Index: AQHXYz17L6V8B4/QQE2zZ/GAn5jucqsXuI6AgAAQ9wA=
-Date:   Thu, 17 Jun 2021 07:11:33 +0000
-Message-ID: <e68070dd-84b0-efdc-78dd-9035b7e911c8@synopsys.com>
-References: <7f5167c67cd95102b2acab967d19af7962415a66.1623906350.git.Minas.Harutyunyan@synopsys.com>
- <YMrnaS0EcVQpNpXH@kroah.com>
-In-Reply-To: <YMrnaS0EcVQpNpXH@kroah.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=synopsys.com;
-x-originating-ip: [37.252.93.215]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b1dc15cf-4421-47ae-73c9-08d9315f2399
-x-ms-traffictypediagnostic: DM4PR12MB5087:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR12MB50879EC6FDE659B8D6D4D841A70E9@DM4PR12MB5087.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:240;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: lj8rLH7n9a68BssoS0qqf3XMHwylaGIDvdm1mYT8v3SG7zfSfwTxPLz4U4EhFy9n0By/KERhRfm7RNzYEqhTAfrn9l1csXIF6v+2wTi2bxr81Qvyxqx0Zfz1jdcmxRZEEA0H0AW9ayQGc5zxU7NQSG8PsCptRGMWaVUDpYfmPp0DuAG85jxbS3mdLUjZooezPgd4nPzxztvMJYC6nnMk1IhzFfK4TsqqTjM6aD/zpef5qVDr4DZda+hjaIMfkNGWr2dXte8/OBobC+1J33AbCwuI8STlMV8py8cF+97qzGiVUoPTs6t/UACRBZ5wRykIXXK1IeZrMsiVlYcwOAjIgvSmTH+IWqcp+v9mhC8EiF76CTBhYhZz/CrjbaY4xV76JjCRZZ449U6ZXs9Mrn31AzpxFQpGwgABrhPKF2m6JBzMS5SDXF/5P7JuGCDzCHmWNdwOQOzBP//cxQI8RV/9yaL1YxnvSkZn/46vuZoJSrwE1cQVjSvJutV1fjVQxW+FBRgxRIvNCljNSbKAYOvnUlrwvu2CBZIej9zTTsUXWNf1tAgEeseo7Z5dO64msSgck5NFPGTbtw7RvSAbNaTQ9tER7WglVOQHmkk4wjU6/Un1Yj9Meoa098dFwy+yYeD0uqpIoD6LGEqL+RIUYIMnpdcg+MYDtBXZJw99J0B9ii/HrX1485n/Q58XglKvy/V7
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5390.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(366004)(136003)(39860400002)(346002)(122000001)(71200400001)(110136005)(26005)(2616005)(54906003)(38100700002)(8936002)(316002)(478600001)(86362001)(5660300002)(2906002)(4326008)(186003)(91956017)(66946007)(83380400001)(31686004)(36756003)(6506007)(53546011)(8676002)(66556008)(31696002)(6512007)(66446008)(64756008)(76116006)(6486002)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZkltVE9vb0RuUDVua2d6Y1lVejNsVml1eGFCeWJOelA0Zm5OdkRlbXRPaVFQ?=
- =?utf-8?B?V1VtVnkzY3U3YklEWEZkekpabXVWdktlQmI3QWY4b3hudDZ5dWwxRDlNdVhQ?=
- =?utf-8?B?amR2aGRmY0QyaHFrd3V0NHBUU2N6UGFaREVxYjdpbDhBLzJhYXpabmN4VW1M?=
- =?utf-8?B?ZzFTM250Q0NLcFplVXcxS2J0Nng4SC95dzlpZUlrTnNveGtUbEsvakhjaDc2?=
- =?utf-8?B?WFg3Z3F0V0I2VzhSL2NMRzIvMDlPT2Vud0l3dVROdkFGNmVobGE0M1duMnZj?=
- =?utf-8?B?aFZKNEhhcmI4S1N1b1dCbW9jR3NFTjgrNTNHTXhnTmZSNXk0bXB4dXBoM1ZZ?=
- =?utf-8?B?amVMc0x3NHNETTYvZ2hta3NBOHdzTE9lc2ZOMjNwVUIzd1ZDeG5zR2dLQkly?=
- =?utf-8?B?eXk5aUJGQVFMZjl6ZnhWanFHYWVCU3Y3NGZpNlpwMENaZzBQamJzbGZTSzFw?=
- =?utf-8?B?UFVLald1a0pNWUk4MmQvbXFWT3diaEFSRnQ0Y255SkFRRDk3eWU0TWRzRzBV?=
- =?utf-8?B?NHg3dDdEczEzSCtxREdVTUtVYm5oWUwrd0tzOTRiZEtmWkx6U2k1eTFyaHpJ?=
- =?utf-8?B?V2tsUmFzV2Y4T0V3MUdvZmVyVi9wdVJsSktodDU0a05GanROZm16TGtmS3hH?=
- =?utf-8?B?QjA5cjZVeHVIVmRHUXFSNnNCZUVJOG13UzRPdkVuK2wwc04zanFKZ3JKaThv?=
- =?utf-8?B?RVFnUjFsZE42VUtEbXE2YmZNalQ3clY2NEJlNHdSVWF1WEpaNFZERUttNFAz?=
- =?utf-8?B?UkJpT3Z4Z2FBdk91RjNiZ1VKaTBhQ3dabWorZExkdTc0MndqNWV2ZlFUdUpG?=
- =?utf-8?B?a3RCQVZjeStiQUJwVTZZNWVKTjd4U3YzclZDemM5d1pHSTZSQzg0MTlVd1Js?=
- =?utf-8?B?UEUyOGFvazh4Qkx4aTNXbU5yQ2hZQmplN0gzV3BlUTlRRUsvVlA3LzRQUkFN?=
- =?utf-8?B?RllJN3E4VjloZ3drRFE4blRsWjc1VU80enQ1VzNGa204ejBKUTBtMHRCYmZJ?=
- =?utf-8?B?cm1Pc3ZyUkNoWGk3cWtXSjdlZGRLb3RJSURTYXhQL0Q3eTlnQ2xRSGxxMzRB?=
- =?utf-8?B?REtidWFWZ0U0UXN3eFd5VitUWlNEZ2YvOHl1QmpETGxvcFdNNUJXQ0VJREdO?=
- =?utf-8?B?bmJMSGZDcjhFQzRSaTk1VTE3QTNabi9nelBQVk1JQXI0Y0tFdFZnVVlIVWFB?=
- =?utf-8?B?cE5valBBQ01INDNpU0NoOFE3dGdncUg3VXhGKzgxdUZuRTNZVVRCSjlEdXl1?=
- =?utf-8?B?NWI5eFRpMFZzdU9jb1c4YjlITkxVUjRNK01ZMzAxMUs5UFYrKzhUWEdMS3Jj?=
- =?utf-8?B?WkFFTEZ2NWJ5a2Z4WkF5STByb2RxZExTbnZKRm9oQVI1c3FGTmJRbTM1SXZs?=
- =?utf-8?B?NGxiaFg3c2FzYnZYS09UWFk4NFd0dk1hMG1nbFlVSDlYV3BNWHlQVUtzNGJh?=
- =?utf-8?B?SDA2eXptT3pUOXpyQTY5RG1uTHdyOWFNOTZYZVlNU0piWHFjdG9tNE5nckQw?=
- =?utf-8?B?dHNlM1doakdSNFdoWTJCL2V0QjJ6Yi9pdGVlNVJQdzlnRFN2TzBRN2JMRFo4?=
- =?utf-8?B?K0FJbXlVejJsQ1VQZjgvYktDUFZxejYzNHVOVFUvMjZvTkhSU1hIM1VyOThs?=
- =?utf-8?B?ZWtRbGdNUmpCc21rN25qVjFuczc3L0FrOEp0UnhBMmptVHQzdnZ2QUdON3Nn?=
- =?utf-8?B?Mkg4aUZxdExlWnB1VmdNUnI2bHpiZTFlcDRMcUJMQUVaTk82TXZrWldqRlBV?=
- =?utf-8?Q?Fk0bHE9zBWss3QK4y0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <307EED20123C8B47A29BB780F08E4828@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S229887AbhFQH0S (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Jun 2021 03:26:18 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:7317 "EHLO
+        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229580AbhFQH0S (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 03:26:18 -0400
+Received: from dggeme764-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4G5D2301Ptz1BNF1;
+        Thu, 17 Jun 2021 15:19:07 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ dggeme764-chm.china.huawei.com (10.3.19.110) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2176.2; Thu, 17 Jun 2021 15:24:08 +0800
+From:   Jing Xiangfeng <jingxiangfeng@huawei.com>
+To:     <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <jingxiangfeng@huawei.com>
+Subject: [PATCH] usb: typec: Add the missed altmode_id_remove() in typec_register_altmode()
+Date:   Thu, 17 Jun 2021 15:32:26 +0800
+Message-ID: <20210617073226.47599-1-jingxiangfeng@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5390.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1dc15cf-4421-47ae-73c9-08d9315f2399
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2021 07:11:33.7792
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FVQ/ITuDTlNWHy9BBn/+JZZpaBCIblFA2QseZ8iljxE+4RfD+cVuhRygeYcWywaCmkgE6f7p55avPHuopxgBVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5087
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggeme764-chm.china.huawei.com (10.3.19.110)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgR3JlZywNCg0KT24gNi8xNy8yMDIxIDEwOjEwIEFNLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3Jv
-dGU6DQo+IE9uIFdlZCwgSnVuIDE2LCAyMDIxIGF0IDEwOjU2OjAyUE0gLTA3MDAsIE1pbmFzIEhh
-cnV0eXVueWFuIHdyb3RlOg0KPj4gQ3JlYXRpb24gRVAncyBkZWJ1Z2ZzIGNhbGxlZCBlYXJsaWVy
-IHRoYW4gZGVidWdmcyBmb2xkZXIgZm9yIGR3YzMNCj4+IGRldmljZSBjcmVhdGVkLiBBcyByZXN1
-bHQgRVAncyBkZWJ1Z2ZzIGFyZSBjcmVhdGVkIGluICcvc3lzL2tlcm5lbC9kZWJ1ZycNCj4+IGlu
-c3RlYWQgb2YgJy9zeXMva2VybmVsL2RlYnVnL3VzYi9kd2MzLjEuYXV0bycuDQo+Pg0KPj4gTW92
-ZWQgZHdjM19kZWJ1Z2ZzX2luaXQoKSBmdW5jdGlvbiBjYWxsIGJlZm9yZSBjYWxsaW5nDQo+PiBk
-d2MzX2NvcmVfaW5pdF9tb2RlKCkgdG8gYWxsb3cgY3JlYXRlIGR3YzMgZGVidWdmcyBwYXJlbnQg
-YmVmb3JlDQo+PiBjcmVhdGluZyBFUCdzIGRlYnVnZnMncy4NCj4+DQo+PiBGaXhlczogODU2MmQ1
-YmZjMGZjICgiVVNCOiBkd2MzOiByZW1vdmUgZGVidWdmcyByb290IGRlbnRyeSBzdG9yYWdlIikN
-Cj4+IFNpZ25lZC1vZmYtYnk6IE1pbmFzIEhhcnV0eXVueWFuIDxobWluYXNAc3lub3BzeXMuY29t
-Pg0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvdXNiL2R3YzMvY29yZS5jIHwgMyArKy0NCj4+ICAgMSBm
-aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2R3YzMvY29yZS5j
-DQo+PiBpbmRleCBlMGE4ZTc5NmMxNTguLmJhNzRhZDdmNjk5NSAxMDA2NDQNCj4+IC0tLSBhL2Ry
-aXZlcnMvdXNiL2R3YzMvY29yZS5jDQo+PiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYw0K
-Pj4gQEAgLTE2MjAsMTcgKzE2MjAsMTggQEAgc3RhdGljIGludCBkd2MzX3Byb2JlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+PiAgIAl9DQo+PiAgIA0KPj4gICAJZHdjM19jaGVja19w
-YXJhbXMoZHdjKTsNCj4+ICsJZHdjM19kZWJ1Z2ZzX2luaXQoZHdjKTsNCj4+ICAgDQo+PiAgIAly
-ZXQgPSBkd2MzX2NvcmVfaW5pdF9tb2RlKGR3Yyk7DQo+PiAgIAlpZiAocmV0KQ0KPj4gICAJCWdv
-dG8gZXJyNTsNCj4+ICAgDQo+PiAtCWR3YzNfZGVidWdmc19pbml0KGR3Yyk7DQo+PiAgIAlwbV9y
-dW50aW1lX3B1dChkZXYpOw0KPj4gICANCj4+ICAgCXJldHVybiAwOw0KPj4gICANCj4+ICAgZXJy
-NToNCj4+ICsJZHdjM19kZWJ1Z2ZzX2V4aXQoZHdjKTsNCj4+ICAgCWR3YzNfZXZlbnRfYnVmZmVy
-c19jbGVhbnVwKGR3Yyk7DQo+PiAgIA0KPj4gICAJdXNiX3BoeV9zaHV0ZG93bihkd2MtPnVzYjJf
-cGh5KTsNCj4+DQo+PiBiYXNlLWNvbW1pdDogMWRhODExNmViMGM1ZGZjMDVjZmI4OTg5NjIzOWJh
-ZGIxOGM0ZGFmMw0KPiANCj4gSSB0aG91Z2h0IHdlIGZpeGVkIHRoaXMgYWxyZWFkeSBpbiB1c2It
-bmV4dCBhbmQgdXNiLWxpbnVzLCByaWdodD8gIFdoZXJlDQo+IGFyZSB5b3Ugc2VlaW5nIHRoaXMg
-cHJvYmxlbSBoYXBwZW5pbmc/DQoNCkkgZmFjZWQgdGhpcyBpc3N1ZSBvbiA1LjEzLjAtcmM2LiBQ
-YXRjaCAiVVNCOiBkd2MzOiByZW1vdmUgZGVidWdmcyByb290IA0KZGVudHJ5IHN0b3JhZ2UiIGlu
-dHJvZHVjZWQgdGhpcyBpc3N1ZSwgYmVjYXVzZSBvZiBkZWJ1Z2ZzX2xvb2t1cCgpIA0KZnVuY3Rp
-b24uIEkgZG9uJ3Qgc2VlIGFueSBmaXggaW4gdXNiLW5leHQuDQoNClRoYW5rcywNCk1pbmFzDQoN
-Cj4gDQo+IHRoYW5rcywNCj4gDQo+IGdyZWcgay1oDQo+IA0KDQo=
+typec_register_altmode() misses to call altmode_id_remove() in an error
+path. Add the missed function call to fix it.
+
+Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
+Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
+---
+ drivers/usb/typec/class.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index b9429c9f65f6..aeef453aa658 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -517,8 +517,10 @@ typec_register_altmode(struct device *parent,
+ 	int ret;
+ 
+ 	alt = kzalloc(sizeof(*alt), GFP_KERNEL);
+-	if (!alt)
++	if (!alt) {
++		altmode_id_remove(parent, id);
+ 		return ERR_PTR(-ENOMEM);
++	}
+ 
+ 	alt->adev.svid = desc->svid;
+ 	alt->adev.mode = desc->mode;
+-- 
+2.26.0.106.g9fadedd
+
