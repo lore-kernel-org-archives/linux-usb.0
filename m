@@ -2,191 +2,199 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49EB2C49EA4
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1774FC2B9F4
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:58:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 364C1613C1
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:15:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03EC7611CE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:58:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231532AbhFQJR1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Jun 2021 05:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231553AbhFQJRU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 05:17:20 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7322C061767
-        for <linux-usb@vger.kernel.org>; Thu, 17 Jun 2021 02:15:12 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id z26so4502160pfj.5
-        for <linux-usb@vger.kernel.org>; Thu, 17 Jun 2021 02:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NiiU6fiVLbE4syulfvGQUEnbQNZvmtFPXY1KRGZ4VKs=;
-        b=tspUddDmWP1nXGb8dYzDapkXukDhtaQZ8yVoZQOykE4MszNmnQ2Jc7pAu3v7qBcemT
-         UyLs98rU9nEy8e3wRIJkxsl8g3L8Eb/AvQODxlfCIA8Y+SqSVtbG2msAYvDIZFEizfbY
-         20UD8As6h7+oRqO/LBfp1JKzos5qS4bIZn22juJCAEEZOMhbhqM1f/S6KCbcFkkK35Tr
-         P7laFgsJQmqhNYip+ALRHKPPvbOtIHBYtRpZR/hgm9hpO06Ne5Y1MzvmGVRytTLSpocX
-         +CLKqhQk6OUYMP0R+b/JJQ4/QkH+6e5JGgp8Hm8OfSHuZ6CIo4hVwTpj+jWWd51a3cq+
-         7N8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NiiU6fiVLbE4syulfvGQUEnbQNZvmtFPXY1KRGZ4VKs=;
-        b=iWnKqpfb0hcFjTMdTYHiIzqrE2QxOUWJGzDsfjR+iUJ5gfXq2GFJE04TX5z8nDYUmP
-         FB/80uNNsVHRBC256jFFYNgXembAvHV08kUwwTwUFVDWmYLeTqIR6jj8Ow6jTTYmSQ34
-         9bAiXDd/dZ/Rh3akkvQ0jIksMo2cXCofsEuNyFS9hoTtIl5wcDmupzgNb9MbrIlAQ763
-         u0LSu3Av59S4vE4DcZuNm4X5n44YJ3zLiYXhIh6LkStcm0UhaIzmRswjmW2Xc7jSxqW+
-         ELKU2VJbEdPTZxau9NXFUY2vB4L4UyI/miPcreAKM+P7PvV0K7fVCWWllRzBHgn18vye
-         xqnQ==
-X-Gm-Message-State: AOAM532WE7bhScqccE9bg+ZvpZ5cLR56kpB0m4jrvQzByDYVb/3XO0qJ
-        DwkAzKL5B2HHWo0ls+RIMEdFM/dj1OhlYpCJUbfFCW98TuarFny4
-X-Google-Smtp-Source: ABdhPJyDDRUn2syWiuy8XigFtL3iDYKz59Ub/6ekAvgFfmAY9tRuxX/nulbHrrDC8J99+RHvCUQeMQ9XnjKDaURJSR4=
-X-Received: by 2002:a05:6102:2159:: with SMTP id h25mr3349328vsg.19.1623921301368;
- Thu, 17 Jun 2021 02:15:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210615191543.1043414-1-robh@kernel.org>
-In-Reply-To: <20210615191543.1043414-1-robh@kernel.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 17 Jun 2021 11:14:25 +0200
-Message-ID: <CAPDyKFrY4UOO5CbZ8Bj7AH2+3Wo1PRpUv+Zs96tub=MzGuGrrQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Drop redundant minItems/maxItems
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-ide@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-crypto@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        dmaengine@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-iio@vger.kernel.org, alsa-devel@alsa-project.org,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>, linux-can@vger.kernel.org,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-phy@lists.infradead.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Vinod Koul <vkoul@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Kamal Dasu <kdasu.kdev@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S231339AbhFQKAh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Jun 2021 06:00:37 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:42587 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230473AbhFQKAg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 06:00:36 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1623923908; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=WWGll7HmhmEFlNTG8J2i0OkkvjNU8iEWPNPSVycSiDY=; b=AaawYjibMGnbZUZqj1SBbwUeTljaxtiOnvVyQMBHJWv1HG+sVr00A0+UNcxXTtWCrsy2eABk
+ Tw3ZQljexWOHMUDiu8n4U6cSGXMpNVkZOSPAhLrLSIPCATx/64tD9hVNe9bXoZxKiKo9dAS5
+ 4A7SUVEdDqjr1n93MrVYEEDCJ3o=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
+ 60cb1cc351f29e6bae548dd1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Jun 2021 09:58:27
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id C97B4C43146; Thu, 17 Jun 2021 09:58:25 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B7A06C433D3;
+        Thu, 17 Jun 2021 09:58:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B7A06C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     balbi@kernel.org, gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        agross@kernel.org, bjorn.andersson@linaro.org,
+        frowand.list@gmail.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        jackp@codeaurora.org, fntoth@gmail.com,
+        heikki.krogerus@linux.intel.com, andy.shevchenko@gmail.com,
+        Wesley Cheng <wcheng@codeaurora.org>
+Subject: [PATCH v10 0/6] Re-introduce TX FIFO resize for larger EP bursting
+Date:   Thu, 17 Jun 2021 02:58:13 -0700
+Message-Id: <1623923899-16759-1-git-send-email-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 15 Jun 2021 at 21:15, Rob Herring <robh@kernel.org> wrote:
->
-> If a property has an 'items' list, then a 'minItems' or 'maxItems' with t=
-he
-> same size as the list is redundant and can be dropped. Note that is DT
-> schema specific behavior and not standard json-schema behavior. The tooli=
-ng
-> will fixup the final schema adding any unspecified minItems/maxItems.
->
-> This condition is partially checked with the meta-schema already, but
-> only if both 'minItems' and 'maxItems' are equal to the 'items' length.
-> An improved meta-schema is pending.
->
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Cc: Kamal Dasu <kdasu.kdev@gmail.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Joerg Roedel <joro@8bytes.org>
-> Cc: Jassi Brar <jassisinghbrar@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Wolfgang Grandegger <wg@grandegger.com>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: Andrew Lunn <andrew@lunn.ch>
-> Cc: Vivien Didelot <vivien.didelot@gmail.com>
-> Cc: Vladimir Oltean <olteanv@gmail.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Kishon Vijay Abraham I <kishon@ti.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Ohad Ben-Cohen <ohad@wizery.com>
-> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Albert Ou <aou@eecs.berkeley.edu>
-> Cc: Alessandro Zummo <a.zummo@towertech.it>
-> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Changes in V10:
+ - Fixed compilation errors in config where OF is not used (error due to
+   unknown symbol for of_add_property()).  Add of_add_property() stub.
+ - Fixed compilation warning for incorrect argument being passed to dwc3_mdwidth
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org> # for MMC
+Changes in V9:
+ - Fixed incorrect patch in series.  Removed changes in DTSI, as dwc3-qcom will
+   add the property by default from the kernel.
 
-[...]
+Changes in V8:
+ - Rebased to usb-testing
+ - Using devm_kzalloc for adding txfifo property in dwc3-qcom
+ - Removed DWC3 QCOM ACPI property for enabling the txfifo resize
 
-Kind regards
-Uffe
+Changes in V7:
+ - Added a new property tx-fifo-max-num for limiting how much fifo space the
+   resizing logic can allocate for endpoints with large burst values.  This
+   can differ across platforms, and tie in closely with overall system latency.
+ - Added recommended checks for DWC32.
+ - Added changes to set the tx-fifo-resize property from dwc3-qcom by default
+   instead of modifying the current DTSI files.
+ - Added comments on all APIs/variables introduced.
+ - Updated the DWC3 YAML to include a better description of the tx-fifo-resize
+   property and added an entry for tx-fifo-max-num.
+
+Changes in V6:
+ - Rebased patches to usb-testing.
+ - Renamed to PATCH series instead of RFC.
+ - Checking for fs_descriptors instead of ss_descriptors for determining the
+   endpoint count for a particular configuration.
+ - Re-ordered patch series to fix patch dependencies.
+
+Changes in V5:
+ - Added check_config() logic, which is used to communicate the number of EPs
+   used in a particular configuration.  Based on this, the DWC3 gadget driver
+   has the ability to know the maximum number of eps utilized in all configs.
+   This helps reduce unnecessary allocation to unused eps, and will catch fifo
+   allocation issues at bind() time.
+ - Fixed variable declaration to single line per variable, and reverse xmas.
+ - Created a helper for fifo clearing, which is used by ep0.c
+
+Changes in V4:
+ - Removed struct dwc3* as an argument for dwc3_gadget_resize_tx_fifos()
+ - Removed WARN_ON(1) in case we run out of fifo space
+ 
+Changes in V3:
+ - Removed "Reviewed-by" tags
+ - Renamed series back to RFC
+ - Modified logic to ensure that fifo_size is reset if we pass the minimum
+   threshold.  Tested with binding multiple FDs requesting 6 FIFOs.
+
+Changes in V2:
+ - Modified TXFIFO resizing logic to ensure that each EP is reserved a
+   FIFO.
+ - Removed dev_dbg() prints and fixed typos from patches
+ - Added some more description on the dt-bindings commit message
+
+Currently, there is no functionality to allow for resizing the TXFIFOs, and
+relying on the HW default setting for the TXFIFO depth.  In most cases, the
+HW default is probably sufficient, but for USB compositions that contain
+multiple functions that require EP bursting, the default settings
+might not be enough.  Also to note, the current SW will assign an EP to a
+function driver w/o checking to see if the TXFIFO size for that particular
+EP is large enough. (this is a problem if there are multiple HW defined
+values for the TXFIFO size)
+
+It is mentioned in the SNPS databook that a minimum of TX FIFO depth = 3
+is required for an EP that supports bursting.  Otherwise, there may be
+frequent occurences of bursts ending.  For high bandwidth functions,
+such as data tethering (protocols that support data aggregation), mass
+storage, and media transfer protocol (over FFS), the bMaxBurst value can be
+large, and a bigger TXFIFO depth may prove to be beneficial in terms of USB
+throughput. (which can be associated to system access latency, etc...)  It
+allows for a more consistent burst of traffic, w/o any interruptions, as
+data is readily available in the FIFO.
+
+With testing done using the mass storage function driver, the results show
+that with a larger TXFIFO depth, the bandwidth increased significantly.
+
+Test Parameters:
+ - Platform: Qualcomm SM8150
+ - bMaxBurst = 6
+ - USB req size = 256kB
+ - Num of USB reqs = 16
+ - USB Speed = Super-Speed
+ - Function Driver: Mass Storage (w/ ramdisk)
+ - Test Application: CrystalDiskMark
+
+Results:
+
+TXFIFO Depth = 3 max packets
+
+Test Case | Data Size | AVG tput (in MB/s)
+-------------------------------------------
+Sequential|1 GB x     | 
+Read      |9 loops    | 193.60
+	  |           | 195.86
+          |           | 184.77
+          |           | 193.60
+-------------------------------------------
+
+TXFIFO Depth = 6 max packets
+
+Test Case | Data Size | AVG tput (in MB/s)
+-------------------------------------------
+Sequential|1 GB x     | 
+Read      |9 loops    | 287.35
+	  |           | 304.94
+          |           | 289.64
+          |           | 293.61
+-------------------------------------------
+
+Wesley Cheng (6):
+  usb: gadget: udc: core: Introduce check_config to verify USB
+    configuration
+  usb: gadget: configfs: Check USB configuration before adding
+  usb: dwc3: Resize TX FIFOs to meet EP bursting requirements
+  of: Add stub for of_add_property()
+  usb: dwc3: dwc3-qcom: Enable tx-fifo-resize property by default
+  dt-bindings: usb: dwc3: Update dwc3 TX fifo properties
+
+ .../devicetree/bindings/usb/snps,dwc3.yaml         |  15 +-
+ drivers/usb/dwc3/core.c                            |   9 +
+ drivers/usb/dwc3/core.h                            |  15 ++
+ drivers/usb/dwc3/dwc3-qcom.c                       |   9 +
+ drivers/usb/dwc3/ep0.c                             |   2 +
+ drivers/usb/dwc3/gadget.c                          | 212 +++++++++++++++++++++
+ drivers/usb/gadget/configfs.c                      |  22 +++
+ drivers/usb/gadget/udc/core.c                      |  25 +++
+ include/linux/of.h                                 |   5 +
+ include/linux/usb/gadget.h                         |   5 +
+ 10 files changed, 317 insertions(+), 2 deletions(-)
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
