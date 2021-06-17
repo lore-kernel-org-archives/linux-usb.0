@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A128C2B9F4
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:58:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C91E5C49361
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:59:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 74A4C6140F
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:58:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFEDD613F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 09:59:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232186AbhFQKBA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Jun 2021 06:01:00 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:38426 "EHLO
+        id S232170AbhFQKBG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Jun 2021 06:01:06 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:31323 "EHLO
         so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232137AbhFQKAr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 06:00:47 -0400
+        with ESMTP id S232089AbhFQKA7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 06:00:59 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1623923920; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1623923932; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=zoPvpNKKvCWJMyO+xPVnOtlCzZjE3qdxV7UQ46n46gY=; b=lXV2XKUXJIshedL/s4tnpwIezfveXkAGmu29jGuNnZdS7EnmaM7Vqri/HwE2GLiCdBuHVbz4
- Bv/5RIoxGmjOv0iPA4lujqo99im213cUrzpcu6YVMACRVxnG4vetvKvMYPC3l8AyJ1QFEGjq
- pi0ddpHMVUvG/3t/j7k/1nho3xI=
+ bh=2LHgsP9c4Sin2+nziX6odnlML8co8g8QWj7JMVhPh6c=; b=xeRUg/lZvh1+KQmE8at1ypGuajZc/yUGQa3gIIj9/UAELUdG7BTY1nw0r8lUnaaSWldoDjrC
+ N03+zP2fxEC2a1y4L+7dyfmwoVUbrPp1xGT/6ZOPFupsMPfV2AK1GeV0rLfGSaclqhUrlzpa
+ UyHvo+V5I3JQavQ3ALUQ85Okrug=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60cb1cc5b6ccaab753d3bb4d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Jun 2021 09:58:29
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 60cb1cc4e570c05619045f03 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 17 Jun 2021 09:58:28
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8E9DBC433F1; Thu, 17 Jun 2021 09:58:29 +0000 (UTC)
+        id 134A4C43217; Thu, 17 Jun 2021 09:58:28 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B7309C433F1;
-        Thu, 17 Jun 2021 09:58:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B7309C433F1
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id BA3F1C43143;
+        Thu, 17 Jun 2021 09:58:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BA3F1C43143
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -54,9 +54,9 @@ Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         jackp@codeaurora.org, fntoth@gmail.com,
         heikki.krogerus@linux.intel.com, andy.shevchenko@gmail.com,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v10 4/6] of: Add stub for of_add_property()
-Date:   Thu, 17 Jun 2021 02:58:17 -0700
-Message-Id: <1623923899-16759-5-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v10 2/6] usb: gadget: configfs: Check USB configuration before adding
+Date:   Thu, 17 Jun 2021 02:58:15 -0700
+Message-Id: <1623923899-16759-3-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1623923899-16759-1-git-send-email-wcheng@codeaurora.org>
 References: <1623923899-16759-1-git-send-email-wcheng@codeaurora.org>
@@ -64,32 +64,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If building with OF Kconfig disabled, this can lead to errors for
-drivers utilizing of_add_property().  Add a stub for the add API, as
-it exists for the remove variant as well, and to avoid compliation
-issues.
+Ensure that the USB gadget is able to support the configuration being
+added based on the number of endpoints required from all interfaces.  This
+is for accounting for any bandwidth or space limitations.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- include/linux/of.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/gadget/configfs.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/include/linux/of.h b/include/linux/of.h
-index d8db8d3..abd39a4 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -946,6 +946,11 @@ static inline int of_machine_is_compatible(const char *compat)
- 	return 0;
- }
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 15a607c..76b9983 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1374,6 +1374,7 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 		struct usb_function *f;
+ 		struct usb_function *tmp;
+ 		struct gadget_config_name *cn;
++		unsigned long ep_map = 0;
  
-+static inline int of_add_property(struct device_node *np, struct property *prop)
-+{
-+	return 0;
-+}
+ 		if (gadget_is_otg(gadget))
+ 			c->descriptors = otg_desc;
+@@ -1403,7 +1404,28 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 				list_add(&f->list, &cfg->func_list);
+ 				goto err_purge_funcs;
+ 			}
++			if (f->fs_descriptors) {
++				struct usb_descriptor_header **d;
 +
- static inline int of_remove_property(struct device_node *np, struct property *prop)
- {
- 	return 0;
++				d = f->fs_descriptors;
++				for (; *d; ++d) {
++					struct usb_endpoint_descriptor *ep;
++					int addr;
++
++					if ((*d)->bDescriptorType != USB_DT_ENDPOINT)
++						continue;
++
++					ep = (struct usb_endpoint_descriptor *)*d;
++					addr = ((ep->bEndpointAddress & 0x80) >> 3) |
++						(ep->bEndpointAddress & 0x0f);
++					set_bit(addr, &ep_map);
++				}
++			}
+ 		}
++		ret = usb_gadget_check_config(cdev->gadget, ep_map);
++		if (ret)
++			goto err_purge_funcs;
++
+ 		usb_ep_autoconfig_reset(cdev->gadget);
+ 	}
+ 	if (cdev->use_os_string) {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
