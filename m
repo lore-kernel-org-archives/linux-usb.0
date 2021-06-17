@@ -7,72 +7,73 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE2ADC48BE5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 14:27:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9C9DC49361
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:01:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7F66610A1
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 14:27:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 950A061406
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:01:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232370AbhFQO3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Jun 2021 10:29:35 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:8263 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231656AbhFQO3f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Jun 2021 10:29:35 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4G5PQQ1hjlz1BNTN;
-        Thu, 17 Jun 2021 22:22:22 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 17 Jun 2021 22:27:15 +0800
-Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
- (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 17 Jun
- 2021 22:27:15 +0800
-From:   Yang Yingliang <yangyingliang@huawei.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-CC:     <pawell@cadence.com>, <gregkh@linuxfoundation.org>
-Subject: [PATCH -next] usb: cdnsp: fix error return code in cdnsp_alloc_priv_device()
-Date:   Thu, 17 Jun 2021 22:31:03 +0800
-Message-ID: <20210617143103.2175477-1-yangyingliang@huawei.com>
+        id S232943AbhFQPDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Jun 2021 11:03:54 -0400
+Received: from mga04.intel.com ([192.55.52.120]:23962 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231992AbhFQPDw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Jun 2021 11:03:52 -0400
+IronPort-SDR: QKK6XiYqb9ld0s8PFgaeWZQwfmcSRKc58CydSxzsJa18hQQuZx9O8zfa+GqO915w3xGa2Zg3ZA
+ LXNXi+0V/u7w==
+X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="204557457"
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="204557457"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 08:01:45 -0700
+IronPort-SDR: LeRBiTPhp/BGkQMS3hJYo33k8SZhEgYQ9j4nkPr5dfstEao5G64u+9DraOiJRk8g6n5i+AN80P
+ xr50+w6411hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
+   d="scan'208";a="479490839"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2021 08:01:42 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 1/4] xhci: Remove unused defines for ERST_SIZE and ERST_ENTRIES
+Date:   Thu, 17 Jun 2021 18:03:51 +0300
+Message-Id: <20210617150354.1512157-2-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210617150354.1512157-1-mathias.nyman@linux.intel.com>
+References: <20210617150354.1512157-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If cdnsp_ring_alloc() fails, cdnsp_alloc_priv_device() need return
-error code.
+We don't want those around confusing people.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+ERST_NUM_SEGS is used both when allocating event ring segments, and when
+allocating entries in the event ring segment table (erst).
+
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/cdns3/cdnsp-mem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/usb/cdns3/cdnsp-mem.c b/drivers/usb/cdns3/cdnsp-mem.c
-index a47948a1623f..c87bf3513844 100644
---- a/drivers/usb/cdns3/cdnsp-mem.c
-+++ b/drivers/usb/cdns3/cdnsp-mem.c
-@@ -694,8 +694,10 @@ static int cdnsp_alloc_priv_device(struct cdnsp_device *pdev)
- 
- 	/* Allocate endpoint 0 ring. */
- 	pdev->eps[0].ring = cdnsp_ring_alloc(pdev, 2, TYPE_CTRL, 0, GFP_ATOMIC);
--	if (!pdev->eps[0].ring)
-+	if (!pdev->eps[0].ring) {
-+		ret = -ENOMEM;
- 		goto fail;
-+	}
- 
- 	/* Point to output device context in dcbaa. */
- 	pdev->dcbaa->dev_context_ptrs[1] = cpu_to_le64(pdev->out_ctx.dma);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index a1d5ffb7474d..85ba326806ab 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1663,10 +1663,6 @@ struct urb_priv {
+  * meaning 64 ring segments.
+  * Initial allocated size of the ERST, in number of entries */
+ #define	ERST_NUM_SEGS	1
+-/* Initial allocated size of the ERST, in number of entries */
+-#define	ERST_SIZE	64
+-/* Initial number of event segment rings allocated */
+-#define	ERST_ENTRIES	1
+ /* Poll every 60 seconds */
+ #define	POLL_TIMEOUT	60
+ /* Stop endpoint command timeout (secs) for URB cancellation watchdog timer */
 -- 
 2.25.1
 
