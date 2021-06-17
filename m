@@ -2,79 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 096D6C48BE5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:01:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD99C2B9F4
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:35:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E69F460C3E
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:01:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9548613E3
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Jun 2021 15:35:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232975AbhFQPED (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Jun 2021 11:04:03 -0400
-Received: from mga03.intel.com ([134.134.136.65]:36075 "EHLO mga03.intel.com"
+        id S232495AbhFQPhI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Jun 2021 11:37:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51622 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233040AbhFQPD6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 17 Jun 2021 11:03:58 -0400
-IronPort-SDR: CTedH32pcK4qdzdHeMDG3TQjlCfcQ2Cm236LyQDdv8BN3hKX522fZmcqelCNvj+IZFACHkt8mD
- 6vxfUGrRoDww==
-X-IronPort-AV: E=McAfee;i="6200,9189,10017"; a="206422598"
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="206422598"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2021 08:01:46 -0700
-IronPort-SDR: MkRAO5dYLQSMfnR58YD5BGXRpwm5VEH0Az8jelrrQzeeRkGxNCz4yA+xpRNqQ5MyCm09ogMghI
- Dz47tm2Gq8oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,280,1616482800"; 
-   d="scan'208";a="479490823"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2021 08:01:41 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 0/4] xhci features for usb-next
-Date:   Thu, 17 Jun 2021 18:03:50 +0300
-Message-Id: <20210617150354.1512157-1-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S231661AbhFQPhH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 17 Jun 2021 11:37:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CCB76613E3;
+        Thu, 17 Jun 2021 15:34:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1623944099;
+        bh=t4cqAotYFIZ9hB+jZeUS/qHr4r4rUoGAB2wzu7Ziro0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TetBQJVuGcDP9+fEtcAQJFS5Qde+zVWUIvaLKcZIJSnwXed2m44u0uw3edbN0cu2G
+         x5qYd/0uq9xEjG/t9o/SPD5BE5/wI7js3rGK4IMK3EJamvSZ4pUj4PS56oX0+hvKPk
+         M5z85bIZFPfnAY6ykchz+1CT6WKmk1zZ22O/iCcU=
+Date:   Thu, 17 Jun 2021 17:34:57 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/4] xhci features for usb-next
+Message-ID: <YMtroYzBimzT8tCz@kroah.com>
+References: <20210617150354.1512157-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210617150354.1512157-1-mathias.nyman@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+On Thu, Jun 17, 2021 at 06:03:50PM +0300, Mathias Nyman wrote:
+> Hi Greg
+> 
+> A few small patches for usb-next.
+> 
+> There's one double free fix here as well that I normally would send to
+> usb-linus, but we're late in the cycle and this issue should be rare.
+> It has been there since 5.6 and requires system to be out of memory, so
+> I thought it can be added this way.
 
-A few small patches for usb-next.
+Yes, that's fine, all now applied, thanks.
 
-There's one double free fix here as well that I normally would send to
-usb-linus, but we're late in the cycle and this issue should be rare.
-It has been there since 5.6 and requires system to be out of memory, so
-I thought it can be added this way.
-
-Thanks
--Mathias
-
-Mathias Nyman (3):
-  xhci: Remove unused defines for ERST_SIZE and ERST_ENTRIES
-  xhci: Add adaptive interrupt rate for isoch TRBs with XHCI_AVOID_BEI
-    quirk
-  xhci: handle failed buffer copy to URB sg list and fix a W=1 copiler
-    warning
-
-Zhangjiantao (Kirin, nanjing) (1):
-  xhci: solve a double free problem while doing s4
-
- drivers/usb/host/xhci-mem.c  |  3 +++
- drivers/usb/host/xhci-ring.c |  7 ++++++-
- drivers/usb/host/xhci.c      |  9 +++++++--
- drivers/usb/host/xhci.h      | 11 +++++++----
- 4 files changed, 23 insertions(+), 7 deletions(-)
-
--- 
-2.25.1
-
+greg k-h
