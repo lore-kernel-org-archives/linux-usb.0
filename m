@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA36C49EA4
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF03C48BE8
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AAA22613E1
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 62E2D613D6
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233664AbhFRJcm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Jun 2021 05:32:42 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:11507 "EHLO
+        id S233467AbhFRJcw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Jun 2021 05:32:52 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:10138 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231889AbhFRJcR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:17 -0400
-X-UUID: 813f0951ef584fc7babf48fcbc595ccf-20210618
-X-UUID: 813f0951ef584fc7babf48fcbc595ccf-20210618
+        with ESMTP id S233277AbhFRJcW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:22 -0400
+X-UUID: 4d4ce3623c5946a3b2d4d8a0b1bf9c16-20210618
+X-UUID: 4d4ce3623c5946a3b2d4d8a0b1bf9c16-20210618
 Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 303529478; Fri, 18 Jun 2021 17:29:34 +0800
+        with ESMTP id 27514378; Fri, 18 Jun 2021 17:30:03 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 18 Jun 2021 17:29:28 +0800
+ 15.0.1497.2; Fri, 18 Jun 2021 17:29:55 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Jun 2021 17:29:27 +0800
+ Transport; Fri, 18 Jun 2021 17:29:54 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -42,49 +42,91 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 02/13] dt-bindings: usb: mtu3: add optional property to disable usb2 ports
-Date:   Fri, 18 Jun 2021 17:29:07 +0800
-Message-ID: <1624008558-16949-3-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 11/13] usb: mtu3: add helper to power on/down device
+Date:   Fri, 18 Jun 2021 17:29:16 +0800
+Message-ID: <1624008558-16949-12-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 5AEDD7370945D48D47C1A2B0A6D43D16778BAA0684B631B9D08DECBF7DF2D10F2000:8
+X-TM-SNTS-SMTP: 972B8BE8ECA8DE72942E0558BB0F703C69AF39A3F1661AC3B5451BE01C2F0A332000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support to disable specific usb2 host ports, it's useful when
-a usb2 port is disabled on some platforms, but enabled on others for
-the same SoC, another case is that the different package may support
-different number of ports.
+Add helper to power on/down device ports and ip, it will be
+used when support device suspend/resume
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2: no changes
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/mtu3/mtu3_core.c | 36 ++++++++++++++++++++++++------------
+ 1 file changed, 24 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index 2cac7a87ce36..3e6f2750f48d 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -166,6 +166,12 @@ properties:
-     description: The mask to disable u3ports, bit0 for u3port0,
-       bit1 for u3port1, ... etc
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index 6d23acb4fffc..648e970d77ba 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -141,6 +141,28 @@ static void mtu3_device_disable(struct mtu3 *mtu)
+ 	mtu3_setbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+ }
  
-+  mediatek,u2p-dis-msk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The mask to disable u2ports, bit0 for u2port0,
-+      bit1 for u2port1, ... etc; but can't disable u2port0 if dual role mode
-+      is enabled, so will be skipped in this case.
++static void mtu3_dev_power_on(struct mtu3 *mtu)
++{
++	void __iomem *ibase = mtu->ippc_base;
 +
- # Required child node when support dual-role
- patternProperties:
-   "^usb@[0-9a-f]+$":
++	mtu3_clrbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
++	if (mtu->is_u3_ip)
++		mtu3_clrbits(ibase, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
++
++	mtu3_clrbits(ibase, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
++}
++
++static void mtu3_dev_power_down(struct mtu3 *mtu)
++{
++	void __iomem *ibase = mtu->ippc_base;
++
++	if (mtu->is_u3_ip)
++		mtu3_setbits(ibase, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
++
++	mtu3_setbits(ibase, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
++	mtu3_setbits(ibase, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
++}
++
+ /* reset U3D's device module. */
+ static void mtu3_device_reset(struct mtu3 *mtu)
+ {
+@@ -333,12 +355,7 @@ void mtu3_start(struct mtu3 *mtu)
+ 	dev_dbg(mtu->dev, "%s devctl 0x%x\n", __func__,
+ 		mtu3_readl(mbase, U3D_DEVICE_CONTROL));
+ 
+-	mtu3_clrbits(mtu->ippc_base, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
+-	if (mtu->is_u3_ip)
+-		mtu3_clrbits(mtu->ippc_base, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
+-
+-	mtu3_clrbits(mtu->ippc_base, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
+-
++	mtu3_dev_power_on(mtu);
+ 	mtu3_csr_init(mtu);
+ 	mtu3_set_speed(mtu, mtu->speed);
+ 
+@@ -360,12 +377,7 @@ void mtu3_stop(struct mtu3 *mtu)
+ 		mtu3_dev_on_off(mtu, 0);
+ 
+ 	mtu->is_active = 0;
+-
+-	if (mtu->is_u3_ip)
+-		mtu3_setbits(mtu->ippc_base, SSUSB_U3_CTRL(0), SSUSB_U3_PORT_PDN);
+-
+-	mtu3_setbits(mtu->ippc_base, SSUSB_U2_CTRL(0), SSUSB_U2_PORT_PDN);
+-	mtu3_setbits(mtu->ippc_base, U3D_SSUSB_IP_PW_CTRL2, SSUSB_IP_DEV_PDN);
++	mtu3_dev_power_down(mtu);
+ }
+ 
+ /* for non-ep0 */
 -- 
 2.18.0
 
