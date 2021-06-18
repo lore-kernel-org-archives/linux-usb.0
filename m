@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9656C48BDF
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C753FC49361
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5C38613F5
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B563A613DB
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232835AbhFRJb4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Jun 2021 05:31:56 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:41139 "EHLO
+        id S233127AbhFRJcF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Jun 2021 05:32:05 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:21411 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232640AbhFRJbz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:31:55 -0400
-X-UUID: c39ff8a565b447fb8dcf05c9e8d20529-20210618
-X-UUID: c39ff8a565b447fb8dcf05c9e8d20529-20210618
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        with ESMTP id S232740AbhFRJcB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:01 -0400
+X-UUID: ae8dd144f4784cad8f3734b181c808ef-20210618
+X-UUID: ae8dd144f4784cad8f3734b181c808ef-20210618
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1906582260; Fri, 18 Jun 2021 17:29:34 +0800
+        with ESMTP id 429738987; Fri, 18 Jun 2021 17:29:48 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 18 Jun 2021 17:29:25 +0800
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 18 Jun 2021 17:29:40 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Jun 2021 17:29:24 +0800
+ Transport; Fri, 18 Jun 2021 17:29:39 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -42,89 +42,51 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 01/13] dt-bindings: usb: mtu3: remove support VBUS detection of extcon
-Date:   Fri, 18 Jun 2021 17:29:06 +0800
-Message-ID: <1624008558-16949-2-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 06/13] usb: dwc3: drd: use helper to get role-switch-default-mode
+Date:   Fri, 18 Jun 2021 17:29:11 +0800
+Message-ID: <1624008558-16949-7-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 683F4A938518A05BE0FAEA58AB85DE011FA94647943A74AC8979B9B37CEBA1692000:8
+X-TM-SNTS-SMTP: 1E56113725D6B3BFBA25D2E5550735A37D2C1DEBD103090814956C3D4D2A49542000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Due to no platforms use a multi-funtion pin to detect VBUS
-status until now when support dual role mode, prefer not to
-support it anymore;
-Another reason is that the controller doesn't support idle status,
-the dual role port works as device or as host, using an IDDIG pin
-is good enough, this will help to save another multi-function pin;
-And fix a typo of 'neede';
-Last modify example using VBUS to turn on/off device, for device
-only mode, the driver doesn't get extcon.
+Use the new helper usb_get_role_switch_default_mode() to
+get property of "role-switch-default-mode"
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2: no changes
 ---
- .../bindings/usb/mediatek,mtu3.yaml           | 22 +++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/usb/dwc3/drd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index dbc7876e0a0b..2cac7a87ce36 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -106,7 +106,7 @@ properties:
-   extcon:
-     deprecated: true
-     description: |
--      Phandle to the extcon device detecting the IDDIG/VBUS state, neede
-+      Phandle to the extcon device detecting the IDDIG state, needed
-       when supports dual-role mode.
-       It's considered valid for compatibility reasons, not allowed for
-       new bindings, and use "usb-role-switch" property instead.
-@@ -230,7 +230,7 @@ examples:
-         };
-     };
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index e2b68bb770d1..4e0a26683b06 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -541,14 +541,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
+ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ {
+ 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
+-	const char *str;
+ 	u32 mode;
+-	int ret;
  
--  # Enable/disable device by an input gpio for VBUS pin
-+  # Dual role switch by gpio-usb-b-connector
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/power/mt2712-power.h>
-@@ -244,13 +244,27 @@ examples:
-         power-domains = <&scpsys MT2712_POWER_DOMAIN_USB2>;
-         clocks = <&topckgen CLK_TOP_USB30_SEL>;
-         clock-names = "sys_ck";
--        dr_mode = "peripheral";
-+        dr_mode = "otg";
-         usb-role-switch;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges;
-+
-+        host0: usb@11270000 {
-+            compatible = "mediatek,mt2712-xhci", "mediatek,mtk-xhci";
-+            reg = <0x11270000 0x1000>;
-+            reg-names = "mac";
-+            interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_LOW>;
-+            power-domains = <&scpsys MT2712_POWER_DOMAIN_USB>;
-+            clocks = <&topckgen CLK_TOP_USB30_SEL>, <&clk26m>;
-+            clock-names = "sys_ck", "ref_ck";
-+        };
- 
-         connector {
-             compatible = "gpio-usb-b-connector", "usb-b-connector";
-             type = "micro";
--            vbus-gpios = <&pio 13 GPIO_ACTIVE_HIGH>;
-+            id-gpios = <&pio 12 GPIO_ACTIVE_HIGH>;
-+            vbus-supply = <&usb_p0_vbus>;
-         };
-     };
- 
+-	ret = device_property_read_string(dwc->dev, "role-switch-default-mode",
+-					  &str);
+-	if (ret >= 0  && !strncmp(str, "host", strlen("host"))) {
+-		dwc->role_switch_default_mode = USB_DR_MODE_HOST;
++	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
++	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
+ 		mode = DWC3_GCTL_PRTCAP_HOST;
+ 	} else {
+ 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
 -- 
 2.18.0
 
