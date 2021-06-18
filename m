@@ -2,174 +2,148 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAB89C49361
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A215C48BDF
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 13:00:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B46E461260
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 11:39:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF356613B4
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 13:00:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234152AbhFRLl5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Jun 2021 07:41:57 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:16587 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234162AbhFRLlz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 07:41:55 -0400
+        id S231503AbhFRNCX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Jun 2021 09:02:23 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:22913 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230315AbhFRNCX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 18 Jun 2021 09:02:23 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1624016386; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=rKbEo3Fwd8hGghkNeRNuKYoC2oT/tI9J3N51Kz13360=; b=ALfWYQmIN9s/cUWfXoC+BHvCJ7Y8k3D6U/pNmpG453+AAYAakIBcofw2GgjJCAu7kiIDCzD+
- KcMVWsi19KdMCJiLQOU4z+IPFKqtQmt+9NQNCRX2dvOIv9eE2BjvGSF6MyAVvdMetf4gUp3t
- i00HTRUnacMcdLK49jhblylm4FQ=
-X-Mailgun-Sending-Ip: 198.61.254.9
+ s=smtp; t=1624021214; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=tD4U/RzNqFGWpjdS5wnIrcWZDQlWRWp1xuR2I5dn0+o=;
+ b=Latgy3Tx6uIyiXZV15D42mjrgPAmx6Mdl+NRnrbr5alyjy1CKOqcn0BqnVVaWpd2RrWZr9hv
+ Ji1ag55paeZygN4oCg5H2I6lenJgnq3ZlK6QO3TDVCaaYYUZF2TjO6d4rk8w9Ffk1nOZxmrr
+ CuIgoOVbFtohtsyr21p9bJAv0dg=
+X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 60cc85d4e27c0cc77fe98684 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Jun 2021 11:39:00
+ 60cc98d3e27c0cc77f72ae5a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 18 Jun 2021 13:00:03
  GMT
-Sender: linyyuan=codeaurora.org@mg.codeaurora.org
+Sender: pmaliset=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 21496C433D3; Fri, 18 Jun 2021 11:39:00 +0000 (UTC)
-Received: from localhost.localdomain (unknown [101.87.142.17])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id A2BF0C43217; Fri, 18 Jun 2021 13:00:02 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: linyyuan)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id DC586C433D3;
-        Fri, 18 Jun 2021 11:38:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DC586C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=linyyuan@codeaurora.org
-From:   Linyu Yuan <linyyuan@codeaurora.org>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linyu Yuan <linyyuan@codeaurora.com>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH v4] usb: gadget: eem: fix echo command packet response issue
-Date:   Fri, 18 Jun 2021 19:38:35 +0800
-Message-Id: <20210618113835.6611-1-linyyuan@codeaurora.org>
-X-Mailer: git-send-email 2.25.1
+        (Authenticated sender: pmaliset)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id F3DDDC4338A;
+        Fri, 18 Jun 2021 13:00:01 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date:   Fri, 18 Jun 2021 18:30:01 +0530
+From:   Prasad Malisetty <pmaliset@codeaurora.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     agross@kernel.org, bhelgaas@google.com, bjorn.andersson@linaro.org,
+        lorenzo.pieralisi@arm.com, robh+dt@kernel.org,
+        svarbanov@mm-sol.com, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mgautam@codeaurora.org,
+        dianders@chromium.org, mka@chromium.org, sanm@codeaurora.org
+Subject: Re: [PATCH v2 3/4] PCIe: qcom: Add support to control pipe clk mux
+In-Reply-To: <CAE-0n50WxF_S7Zo4MhFqppjSELTFo7nOEtmCXJ4DoqvhF7kMQw@mail.gmail.com>
+References: <1622904059-21244-1-git-send-email-pmaliset@codeaurora.org>
+ <1622904059-21244-4-git-send-email-pmaliset@codeaurora.org>
+ <CAE-0n50WxF_S7Zo4MhFqppjSELTFo7nOEtmCXJ4DoqvhF7kMQw@mail.gmail.com>
+Message-ID: <915d51888c2577cc3266370bfda603e8@codeaurora.org>
+X-Sender: pmaliset@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Linyu Yuan <linyyuan@codeaurora.com>
+On 2021-06-06 02:56, Stephen Boyd wrote:
+> Quoting Prasad Malisetty (2021-06-05 07:40:58)
+>> In PCIe driver pipe-clk mux needs to switch between pipe_clk
+>> and XO for GDSC enable. This is done by setting pipe_clk mux
+>> as parent of pipe_clk after phy init.
+> 
+> Just to confirm, we can't set this parent via assigned-clock-parents
+> property in DT?
+> 
+>> 
+This clock setting need be done after phy init.
 
-when receive eem echo command, it will send a response,
-but queue this response to the usb request which allocate
-from gadget device endpoint zero,
-and transmit the request to IN endpoint of eem interface.
+>> Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
+>> ---
+>>  drivers/pci/controller/dwc/pcie-qcom.c | 22 ++++++++++++++++++++++
+>>  1 file changed, 22 insertions(+)
+>> 
+>> diff --git a/drivers/pci/controller/dwc/pcie-qcom.c 
+>> b/drivers/pci/controller/dwc/pcie-qcom.c
+>> index 8a7a300..5cbbea4 100644
+>> --- a/drivers/pci/controller/dwc/pcie-qcom.c
+>> +++ b/drivers/pci/controller/dwc/pcie-qcom.c
+>> @@ -166,6 +166,9 @@ struct qcom_pcie_resources_2_7_0 {
+>>         struct regulator_bulk_data supplies[2];
+>>         struct reset_control *pci_reset;
+>>         struct clk *pipe_clk;
+>> +       struct clk *pipe_clk_mux;
+>> +       struct clk *pipe_ext_src;
+>> +       struct clk *ref_clk_src;
+>>  };
+>> 
+>>  union qcom_pcie_resources {
+>> @@ -1167,6 +1170,20 @@ static int qcom_pcie_get_resources_2_7_0(struct 
+>> qcom_pcie *pcie)
+>>         if (ret < 0)
+>>                 return ret;
+>> 
+>> +       if (of_device_is_compatible(dev->of_node, "qcom,pcie-sc7280")) 
+>> {
+>> +               res->pipe_clk_mux = devm_clk_get(dev, "pipe_src");
+>> +               if (IS_ERR(res->pipe_clk_mux))
+>> +                       return PTR_ERR(res->pipe_clk_mux);
+>> +
+>> +               res->pipe_ext_src = devm_clk_get(dev, "pipe_ext");
+>> +               if (IS_ERR(res->pipe_ext_src))
+>> +                       return PTR_ERR(res->pipe_ext_src);
+>> +
+>> +               res->ref_clk_src = devm_clk_get(dev, "ref");
+> 
+> Is this going to be used by any code?
+> 
+Yes, ref clock will be used in system suspend case. currently system 
+suspend changes are in under validation.
 
-on dwc3 gadget, it will trigger following warning in function
-__dwc3_gadget_ep_queue(),
-
-	if (WARN(req->dep != dep, "request %pK belongs to '%s'\n",
-				&req->request, req->dep->name))
-		return -EINVAL;
-
-fix it by allocating a usb request from IN endpoint of eem interface,
-and transmit the usb request to same IN endpoint of eem interface.
-
-Fixes: 9b39e9ddedee ("USB: gadget: Add EEM gadget driver")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Linyu Yuan <linyyuan@codeaurora.com>
----
-
-v4: add Fixes tags and cc stable
-v3: use exist goto label 'next'
-v2: fix mail format and expand commit message
-
- drivers/usb/gadget/function/f_eem.c | 43 ++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_eem.c b/drivers/usb/gadget/function/f_eem.c
-index 2cd9942707b4..5d38f29bda72 100644
---- a/drivers/usb/gadget/function/f_eem.c
-+++ b/drivers/usb/gadget/function/f_eem.c
-@@ -30,6 +30,11 @@ struct f_eem {
- 	u8				ctrl_id;
- };
- 
-+struct in_context {
-+	struct sk_buff	*skb;
-+	struct usb_ep	*ep;
-+};
-+
- static inline struct f_eem *func_to_eem(struct usb_function *f)
- {
- 	return container_of(f, struct f_eem, port.func);
-@@ -320,9 +325,12 @@ static int eem_bind(struct usb_configuration *c, struct usb_function *f)
- 
- static void eem_cmd_complete(struct usb_ep *ep, struct usb_request *req)
- {
--	struct sk_buff *skb = (struct sk_buff *)req->context;
-+	struct in_context *ctx = req->context;
- 
--	dev_kfree_skb_any(skb);
-+	dev_kfree_skb_any(ctx->skb);
-+	kfree(req->buf);
-+	usb_ep_free_request(ctx->ep, req);
-+	kfree(ctx);
- }
- 
- /*
-@@ -410,7 +418,9 @@ static int eem_unwrap(struct gether *port,
- 		 * b15:		bmType (0 == data, 1 == command)
- 		 */
- 		if (header & BIT(15)) {
--			struct usb_request	*req = cdev->req;
-+			struct usb_request	*req;
-+			struct in_context	*ctx;
-+			struct usb_ep		*ep;
- 			u16			bmEEMCmd;
- 
- 			/* EEM command packet format:
-@@ -439,11 +449,36 @@ static int eem_unwrap(struct gether *port,
- 				skb_trim(skb2, len);
- 				put_unaligned_le16(BIT(15) | BIT(11) | len,
- 							skb_push(skb2, 2));
-+
-+				ep = port->in_ep;
-+				req = usb_ep_alloc_request(ep, GFP_ATOMIC);
-+				if (!req) {
-+					dev_kfree_skb_any(skb2);
-+					goto next;
-+				}
-+
-+				req->buf = kmalloc(skb2->len, GFP_KERNEL);
-+				if (!req->buf) {
-+					usb_ep_free_request(ep, req);
-+					dev_kfree_skb_any(skb2);
-+					goto next;
-+				}
-+
-+				ctx = kmalloc(sizeof(*ctx), GFP_KERNEL);
-+				if (!ctx) {
-+					kfree(req->buf);
-+					usb_ep_free_request(ep, req);
-+					dev_kfree_skb_any(skb2);
-+					goto next;
-+				}
-+				ctx->skb = skb2;
-+				ctx->ep = ep;
-+
- 				skb_copy_bits(skb2, 0, req->buf, skb2->len);
- 				req->length = skb2->len;
- 				req->complete = eem_cmd_complete;
- 				req->zero = 1;
--				req->context = skb2;
-+				req->context = ctx;
- 				if (usb_ep_queue(port->in_ep, req, GFP_ATOMIC))
- 					DBG(cdev, "echo response queue fail\n");
- 				break;
--- 
-2.25.1
-
+>> +               if (IS_ERR(res->ref_clk_src))
+>> +                       return PTR_ERR(res->ref_clk_src);
+>> +       }
+>> +
+>>         res->pipe_clk = devm_clk_get(dev, "pipe");
+>>         return PTR_ERR_OR_ZERO(res->pipe_clk);
+>>  }
+>> @@ -1255,6 +1272,11 @@ static void qcom_pcie_deinit_2_7_0(struct 
+>> qcom_pcie *pcie)
+>>  static int qcom_pcie_post_init_2_7_0(struct qcom_pcie *pcie)
+>>  {
+>>         struct qcom_pcie_resources_2_7_0 *res = &pcie->res.v2_7_0;
+>> +       struct dw_pcie *pci = pcie->pci;
+>> +       struct device *dev = pci->dev;
+>> +
+>> +       if (of_device_is_compatible(dev->of_node, "qcom,pcie-sc7280"))
+>> +               clk_set_parent(res->pipe_clk_mux, res->pipe_ext_src);
+>> 
+>>         return clk_prepare_enable(res->pipe_clk);
+>>  }
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+>> Forum,
+>> a Linux Foundation Collaborative Project
+>> 
