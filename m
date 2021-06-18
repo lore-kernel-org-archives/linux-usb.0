@@ -2,334 +2,180 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CF29C49EA7
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF0BC49361
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:55:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09F8E613E2
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE178613D5
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:55:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233815AbhFRJcz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Jun 2021 05:32:55 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:20899 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233325AbhFRJcX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:23 -0400
-X-UUID: 12bee5ff291b425ea999c3b65a35a91d-20210618
-X-UUID: 12bee5ff291b425ea999c3b65a35a91d-20210618
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1331180108; Fri, 18 Jun 2021 17:30:03 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 18 Jun 2021 17:29:56 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Jun 2021 17:29:55 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 12/13] usb: mtu3: support suspend/resume for device mode
-Date:   Fri, 18 Jun 2021 17:29:17 +0800
-Message-ID: <1624008558-16949-13-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S232912AbhFRJ5N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Jun 2021 05:57:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230399AbhFRJ5N (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:57:13 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D0FC061574;
+        Fri, 18 Jun 2021 02:55:03 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id gt18so14912555ejc.11;
+        Fri, 18 Jun 2021 02:55:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w6OHpzFqMhfGysmy1AjapbSWOUF8PkX0rUS/FwR+ecA=;
+        b=qaGlPMxABKfJyXTb0/wTCoPW8b97JlTZ0vf0gVMPkt/LRRigN3XmsHfRkDH34vMx4F
+         AGicn5KaCu4h2i/4Zqf99m9qL0/5lZMu9kbouE3ItC+sCCztNaH5FoI5Js4evjaD5ex7
+         VcbTr9paOIua3fsblA5xFO9erK5kRnLXGHuFFW3x3ndVNN3NJZACi/9Mp+TRwZQoMywn
+         0+q1JLhhMAUUS7aE8iosmainGCTJ2WXcj0khqBOs7lJ+4M/7tBuh/bmh01n7oxRnnxkA
+         3d5ycOADzsI8J7VLxMbLVlKO1wEiP3VTf9eKkF0RgvTvEX+NCsKujQgeEHWc42vv/kJJ
+         cZ8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=w6OHpzFqMhfGysmy1AjapbSWOUF8PkX0rUS/FwR+ecA=;
+        b=RUUsrHcWMMy4IPHJ+749uSMM1ti935MklfKNDv8TGzFU1GYQE1r3QqW5MkOGs4RNpu
+         r5Eufv7IV1M3BQBKaGxfnpfFEYrgF5JIkVQEEkIgX+1zeKlys5BMmzrpYzYki8/SjRb9
+         /yPa+dBSpYXP0qKq2ImIa8dmKMleSmQK1KlcowT4a6hzEozpbbJSMleg81zXF9Mk72kL
+         pHZP4TAv0HXHWvrSuky/W1Ur+X+GOnw2+JsdVimMPZVrjvYL7xu8ldRgqbkDPXOVBMW3
+         C+wP4LKmhk4ImU5VuIEEM78i1+osHQAsiJyhJK38njp2xE6BV4f8k17383HkDwQ0iXJs
+         pnvg==
+X-Gm-Message-State: AOAM5302ZAT4XBlD6ihHOZWOQhzOwtHHUcRvqLFPEghVRckUPCW+LHkQ
+        1S9YWxQsVxqHdWlWZGKWXb8=
+X-Google-Smtp-Source: ABdhPJykYF/zptHx7zpqrTLT8w4dZMVzpPcKGfLn8gJgk3Tcqhei8wEXFKxedWCrPXnMb0HoLCs3Dg==
+X-Received: by 2002:a17:907:1b20:: with SMTP id mp32mr10188290ejc.495.1624010101951;
+        Fri, 18 Jun 2021 02:55:01 -0700 (PDT)
+Received: from [192.168.2.2] (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id n18sm818960ejx.41.2021.06.18.02.55.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jun 2021 02:55:01 -0700 (PDT)
+Subject: Re: [PATCH 1/3] arm64: dts: rockchip: add ES8316 codec for Rock Pi4
+To:     Alex Bee <knaerzche@gmail.com>, Heiko Stuebner <heiko@sntech.de>
+Cc:     devicetree@vger.kernel.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20210617044955.598994-1-knaerzche@gmail.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <d562b025-23cc-f26d-b118-e269501f459b@gmail.com>
+Date:   Fri, 18 Jun 2021 11:54:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-SNTS-SMTP: E08332CA2A73E82CBD1E543FCE256CEBCD6C97F77B65BB4E320FEF1696D3CCBC2000:8
-X-MTK:  N
+In-Reply-To: <20210617044955.598994-1-knaerzche@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Support suspend/resume for device mode if the device is not
-connected with a host, otherwise reject to suspend.
+Hi Alex,
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: no changes
----
- drivers/usb/mtu3/mtu3.h        |  1 +
- drivers/usb/mtu3/mtu3_core.c   | 68 +++++++++++++++++++++++++++++++++-
- drivers/usb/mtu3/mtu3_dr.h     | 14 +++++++
- drivers/usb/mtu3/mtu3_gadget.c |  5 +++
- drivers/usb/mtu3/mtu3_plat.c   | 47 +++++++++++++++++------
- 5 files changed, 121 insertions(+), 14 deletions(-)
+On 6/17/21 6:49 AM, Alex Bee wrote:
+> Rock Pi4 boards have the codec connected to i2s0 and it is accessible
+> via i2c1 address 0x11.
+> Add an audio-graph-card it.
+> 
+> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> ---
+>  .../boot/dts/rockchip/rk3399-rock-pi-4.dtsi   | 28 +++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
+> index 7d0a7c697703..e5c1083174ff 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
+> @@ -36,6 +36,12 @@ sdio_pwrseq: sdio-pwrseq {
+>  		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
+>  	};
+>  
+> +	sound {
+> +		compatible = "audio-graph-card";
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index 171e5b383063..022bbdc54e68 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -356,6 +356,7 @@ struct mtu3 {
- 	unsigned is_u3_ip:1;
- 	unsigned delayed_status:1;
- 	unsigned gen2cp:1;
-+	unsigned connected:1;
- 
- 	u8 address;
- 	u8 test_mode_nr;
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index 648e970d77ba..a800920d38b9 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/dma-mapping.h>
-+#include <linux/iopoll.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of_address.h>
-@@ -380,6 +381,24 @@ void mtu3_stop(struct mtu3 *mtu)
- 	mtu3_dev_power_down(mtu);
- }
- 
-+static void mtu3_dev_suspend(struct mtu3 *mtu)
-+{
-+	if (!mtu->is_active)
-+		return;
-+
-+	mtu3_intr_disable(mtu);
-+	mtu3_dev_power_down(mtu);
-+}
-+
-+static void mtu3_dev_resume(struct mtu3 *mtu)
-+{
-+	if (!mtu->is_active)
-+		return;
-+
-+	mtu3_dev_power_on(mtu);
-+	mtu3_intr_enable(mtu);
-+}
-+
- /* for non-ep0 */
- int mtu3_config_ep(struct mtu3 *mtu, struct mtu3_ep *mep,
- 			int interval, int burst, int mult)
-@@ -700,11 +719,15 @@ static irqreturn_t mtu3_link_isr(struct mtu3 *mtu)
- 	mtu->g.speed = udev_speed;
- 	mtu->g.ep0->maxpacket = maxpkt;
- 	mtu->ep0_state = MU3D_EP0_STATE_SETUP;
-+	mtu->connected = !!(udev_speed != USB_SPEED_UNKNOWN);
- 
--	if (udev_speed == USB_SPEED_UNKNOWN)
-+	if (udev_speed == USB_SPEED_UNKNOWN) {
- 		mtu3_gadget_disconnect(mtu);
--	else
-+		pm_runtime_put(mtu->dev);
-+	} else {
-+		pm_runtime_get(mtu->dev);
- 		mtu3_ep0_setup(mtu);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -984,3 +1007,44 @@ void ssusb_gadget_exit(struct ssusb_mtk *ssusb)
- 	device_init_wakeup(ssusb->dev, false);
- 	mtu3_hw_exit(mtu);
- }
-+
-+int ssusb_gadget_suspend(struct ssusb_mtk *ssusb, pm_message_t msg)
-+{
-+	struct mtu3 *mtu = ssusb->u3d;
-+	void __iomem *ibase = mtu->ippc_base;
-+	u32 value;
-+	int ret = 0;
-+
-+	if (!mtu->gadget_driver)
-+		return 0;
-+
-+	if (mtu->connected)
-+		return -EBUSY;
-+
-+	mtu3_dev_suspend(mtu);
-+	synchronize_irq(mtu->irq);
-+
-+	/* wait for ip to sleep */
-+	if (mtu->is_active && mtu->softconnect) {
-+		ret = readl_poll_timeout(ibase + U3D_SSUSB_IP_PW_STS1,
-+				value, (value & SSUSB_IP_SLEEP_STS), 100, 100000);
-+		if (ret) {
-+			dev_err(mtu->dev, "ip sleep failed!!!\n");
-+			ret = -EBUSY;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+int ssusb_gadget_resume(struct ssusb_mtk *ssusb, pm_message_t msg)
-+{
-+	struct mtu3 *mtu = ssusb->u3d;
-+
-+	if (!mtu->gadget_driver)
-+		return 0;
-+
-+	mtu3_dev_resume(mtu);
-+
-+	return 0;
-+}
-diff --git a/drivers/usb/mtu3/mtu3_dr.h b/drivers/usb/mtu3/mtu3_dr.h
-index 70dbf4706138..5286f9f5ee18 100644
---- a/drivers/usb/mtu3/mtu3_dr.h
-+++ b/drivers/usb/mtu3/mtu3_dr.h
-@@ -57,6 +57,8 @@ static inline void ssusb_wakeup_set(struct ssusb_mtk *ssusb, bool enable)
- #if IS_ENABLED(CONFIG_USB_MTU3_GADGET) || IS_ENABLED(CONFIG_USB_MTU3_DUAL_ROLE)
- int ssusb_gadget_init(struct ssusb_mtk *ssusb);
- void ssusb_gadget_exit(struct ssusb_mtk *ssusb);
-+int ssusb_gadget_suspend(struct ssusb_mtk *ssusb, pm_message_t msg);
-+int ssusb_gadget_resume(struct ssusb_mtk *ssusb, pm_message_t msg);
- #else
- static inline int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- {
-@@ -65,6 +67,18 @@ static inline int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- 
- static inline void ssusb_gadget_exit(struct ssusb_mtk *ssusb)
- {}
-+
-+static inline int
-+ssusb_gadget_suspend(struct ssusb_mtk *ssusb, pm_message_t msg)
-+{
-+	return 0;
-+}
-+
-+static inline int
-+ssusb_gadget_resume(struct ssusb_mtk *ssusb, pm_message_t msg)
-+{
-+	return 0;
-+}
- #endif
- 
- 
-diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
-index 5e21ba05ebf0..7b54631ca335 100644
---- a/drivers/usb/mtu3/mtu3_gadget.c
-+++ b/drivers/usb/mtu3/mtu3_gadget.c
-@@ -469,6 +469,8 @@ static int mtu3_gadget_pullup(struct usb_gadget *gadget, int is_on)
- 	dev_dbg(mtu->dev, "%s (%s) for %sactive device\n", __func__,
- 		is_on ? "on" : "off", mtu->is_active ? "" : "in");
- 
-+	pm_runtime_get_sync(mtu->dev);
-+
- 	/* we'd rather not pullup unless the device is active. */
- 	spin_lock_irqsave(&mtu->lock, flags);
- 
-@@ -482,6 +484,7 @@ static int mtu3_gadget_pullup(struct usb_gadget *gadget, int is_on)
- 	}
- 
- 	spin_unlock_irqrestore(&mtu->lock, flags);
-+	pm_runtime_put(mtu->dev);
- 
- 	return 0;
- }
-@@ -499,6 +502,7 @@ static int mtu3_gadget_start(struct usb_gadget *gadget,
- 	}
- 
- 	dev_dbg(mtu->dev, "bind driver %s\n", driver->function);
-+	pm_runtime_get_sync(mtu->dev);
- 
- 	spin_lock_irqsave(&mtu->lock, flags);
- 
-@@ -509,6 +513,7 @@ static int mtu3_gadget_start(struct usb_gadget *gadget,
- 		mtu3_start(mtu);
- 
- 	spin_unlock_irqrestore(&mtu->lock, flags);
-+	pm_runtime_put(mtu->dev);
- 
- 	return 0;
- }
-diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
-index 61d5c7cfd4db..2bb6f58cbcc4 100644
---- a/drivers/usb/mtu3/mtu3_plat.c
-+++ b/drivers/usb/mtu3/mtu3_plat.c
-@@ -421,21 +421,32 @@ static int mtu3_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--/*
-- * when support dual-role mode, we reject suspend when
-- * it works as device mode;
-- */
- static int mtu3_suspend_common(struct device *dev, pm_message_t msg)
- {
- 	struct ssusb_mtk *ssusb = dev_get_drvdata(dev);
-+	int ret = 0;
- 
- 	dev_dbg(dev, "%s\n", __func__);
- 
--	/* REVISIT: disconnect it for only device mode? */
--	if (!ssusb->is_host)
--		return 0;
-+	switch (ssusb->dr_mode) {
-+	case USB_DR_MODE_PERIPHERAL:
-+		ret = ssusb_gadget_suspend(ssusb, msg);
-+		if (ret)
-+			return ret;
- 
--	ssusb_host_suspend(ssusb);
-+		break;
-+	case USB_DR_MODE_HOST:
-+		ssusb_host_suspend(ssusb);
-+		break;
-+	case USB_DR_MODE_OTG:
-+		if (!ssusb->is_host)
-+			return 0;
-+
-+		ssusb_host_suspend(ssusb);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
- 	ssusb_phy_power_off(ssusb);
- 	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
- 	ssusb_wakeup_set(ssusb, true);
-@@ -450,9 +461,6 @@ static int mtu3_resume_common(struct device *dev, pm_message_t msg)
- 
- 	dev_dbg(dev, "%s\n", __func__);
- 
--	if (!ssusb->is_host)
--		return 0;
--
- 	ssusb_wakeup_set(ssusb, false);
- 	ret = clk_bulk_prepare_enable(BULK_CLKS_CNT, ssusb->clks);
- 	if (ret)
-@@ -462,7 +470,22 @@ static int mtu3_resume_common(struct device *dev, pm_message_t msg)
- 	if (ret)
- 		goto phy_err;
- 
--	ssusb_host_resume(ssusb, false);
-+	switch (ssusb->dr_mode) {
-+	case USB_DR_MODE_PERIPHERAL:
-+		ssusb_gadget_resume(ssusb, msg);
-+		break;
-+	case USB_DR_MODE_HOST:
-+		ssusb_host_resume(ssusb, false);
-+		break;
-+	case USB_DR_MODE_OTG:
-+		if (!ssusb->is_host)
-+			return 0;
-+
-+		ssusb_host_resume(ssusb, true);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
- 
- 	return 0;
- 
--- 
-2.18.0
+> +		label = "rockchip,rk3399";
 
+See previous discussion:
+
+https://lore.kernel.org/linux-rockchip/e5ab2c62-ad00-4cdf-8b0a-24fda59c980b@gmail.com/
+
+It seems that aplay/linux? adds "-1" to it and removes the comma and
+"-", so we get:
+
+hdmisound
+rockchiprk3399
+rockchiprk339_1
+
+Shouldn't we label it with something that reflect the function/output.
+Shouldn't we standardize to SPDIF, HDMI and Analog similar to rk3318/rk3328?
+Make a shorter label without spaces or special chars, so that chars
+don't get removed?
+
+Proposal:
+
+Analog
+HDMI
+ES8316 <---
+SPDIF
+
+
+Possible example solutions:
+
+[PATCH] arm64: dts: rockchip: more user friendly name of sound nodes
+https://lore.kernel.org/lkml/20210110151913.3615326-1-katsuhiro@katsuster.net/
+
+===
+
+Johan
+
+> +		dais = <&i2s0_p0>;
+> +	};
+> +
+>  	vcc12v_dcin: dc-12v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "vcc12v_dcin";
+> @@ -422,6 +428,20 @@ &i2c1 {
+>  	i2c-scl-rising-time-ns = <300>;
+>  	i2c-scl-falling-time-ns = <15>;
+>  	status = "okay";
+> +
+> +	es8316: codec@11 {
+> +		compatible = "everest,es8316";
+> +		reg = <0x11>;
+> +		clocks = <&cru SCLK_I2S_8CH_OUT>;
+> +		clock-names = "mclk";
+> +		#sound-dai-cells = <0>;
+> +
+> +		port {
+> +			es8316_p0_0: endpoint {
+> +				remote-endpoint = <&i2s0_p0_0>;
+> +			};
+> +		};
+> +	};
+>  };
+>  
+>  &i2c3 {
+> @@ -441,6 +461,14 @@ &i2s0 {
+>  	rockchip,capture-channels = <2>;
+>  	rockchip,playback-channels = <2>;
+>  	status = "okay";
+> +
+> +	i2s0_p0: port {
+> +		i2s0_p0_0: endpoint {
+> +			dai-format = "i2s";
+> +			mclk-fs = <256>;
+> +			remote-endpoint = <&es8316_p0_0>;
+> +		};
+> +	};
+>  };
+>  
+>  &i2s1 {
+> 
