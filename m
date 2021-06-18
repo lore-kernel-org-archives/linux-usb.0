@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C753FC49361
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE56C48BE8
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B563A613DB
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:29:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B3A6613E2
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Jun 2021 09:30:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233127AbhFRJcF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Jun 2021 05:32:05 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:21411 "EHLO
+        id S233278AbhFRJcR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Jun 2021 05:32:17 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:57542 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S232740AbhFRJcB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:01 -0400
-X-UUID: ae8dd144f4784cad8f3734b181c808ef-20210618
-X-UUID: ae8dd144f4784cad8f3734b181c808ef-20210618
+        with ESMTP id S233098AbhFRJcC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Jun 2021 05:32:02 -0400
+X-UUID: 8ecd6afc4e0146fe8d374666bc46f9f2-20210618
+X-UUID: 8ecd6afc4e0146fe8d374666bc46f9f2-20210618
 Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 429738987; Fri, 18 Jun 2021 17:29:48 +0800
+        with ESMTP id 442661741; Fri, 18 Jun 2021 17:29:48 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 18 Jun 2021 17:29:40 +0800
+ 15.0.1497.2; Fri, 18 Jun 2021 17:29:35 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 18 Jun 2021 17:29:39 +0800
+ Transport; Fri, 18 Jun 2021 17:29:34 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -42,51 +42,73 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 06/13] usb: dwc3: drd: use helper to get role-switch-default-mode
-Date:   Fri, 18 Jun 2021 17:29:11 +0800
-Message-ID: <1624008558-16949-7-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 05/13] usb: common: add helper to get role-switch-default-mode
+Date:   Fri, 18 Jun 2021 17:29:10 +0800
+Message-ID: <1624008558-16949-6-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1624008558-16949-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: 1E56113725D6B3BFBA25D2E5550735A37D2C1DEBD103090814956C3D4D2A49542000:8
+X-TM-SNTS-SMTP: 7104CA8EF1F65A09B487D3784F8FBDBE70A6DEBC0820A162D1D28B3092C38A772000:8
 X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use the new helper usb_get_role_switch_default_mode() to
-get property of "role-switch-default-mode"
+Add helper to get "role-switch-default-mode", and convert it
+to the corresponding enum usb_dr_mode
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
 v2: no changes
 ---
- drivers/usb/dwc3/drd.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/usb/common/common.c | 20 ++++++++++++++++++++
+ include/linux/usb/otg.h     |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index e2b68bb770d1..4e0a26683b06 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -541,14 +541,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
- static int dwc3_setup_role_switch(struct dwc3 *dwc)
- {
- 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
--	const char *str;
- 	u32 mode;
--	int ret;
+diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
+index 347fb3d3894a..c9bdeb4ddcb5 100644
+--- a/drivers/usb/common/common.c
++++ b/drivers/usb/common/common.c
+@@ -200,6 +200,26 @@ enum usb_dr_mode usb_get_dr_mode(struct device *dev)
+ }
+ EXPORT_SYMBOL_GPL(usb_get_dr_mode);
  
--	ret = device_property_read_string(dwc->dev, "role-switch-default-mode",
--					  &str);
--	if (ret >= 0  && !strncmp(str, "host", strlen("host"))) {
--		dwc->role_switch_default_mode = USB_DR_MODE_HOST;
-+	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
-+	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
- 		mode = DWC3_GCTL_PRTCAP_HOST;
- 	} else {
- 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
++/**
++ * usb_get_role_switch_default_mode - Get default mode for given device
++ * @dev: Pointer to the given device
++ *
++ * The function gets string from property 'role-switch-default-mode',
++ * and returns the corresponding enum usb_dr_mode.
++ */
++enum usb_dr_mode usb_get_role_switch_default_mode(struct device *dev)
++{
++	const char *str;
++	int ret;
++
++	ret = device_property_read_string(dev, "role-switch-default-mode", &str);
++	if (ret < 0)
++		return USB_DR_MODE_UNKNOWN;
++
++	return usb_get_dr_mode_from_string(str);
++}
++EXPORT_SYMBOL_GPL(usb_get_role_switch_default_mode);
++
+ /**
+  * usb_decode_interval - Decode bInterval into the time expressed in 1us unit
+  * @epd: The descriptor of the endpoint
+diff --git a/include/linux/usb/otg.h b/include/linux/usb/otg.h
+index 69f1b6328532..1550b8e5f039 100644
+--- a/include/linux/usb/otg.h
++++ b/include/linux/usb/otg.h
+@@ -128,5 +128,6 @@ enum usb_dr_mode {
+  * and returns the correspondig enum usb_dr_mode
+  */
+ extern enum usb_dr_mode usb_get_dr_mode(struct device *dev);
++extern enum usb_dr_mode usb_get_role_switch_default_mode(struct device *dev);
+ 
+ #endif /* __LINUX_USB_OTG_H */
 -- 
 2.18.0
 
