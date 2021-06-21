@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3228C49EA4
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Jun 2021 18:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9881C49EA2
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Jun 2021 18:03:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6C6A61040
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Jun 2021 18:03:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 928636120D
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Jun 2021 18:03:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232646AbhFUSEH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Jun 2021 14:04:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45242 "EHLO mail.kernel.org"
+        id S233152AbhFUSFa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Jun 2021 14:05:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233533AbhFUSCA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 21 Jun 2021 14:02:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 91794613FA;
-        Mon, 21 Jun 2021 17:55:06 +0000 (UTC)
+        id S233978AbhFUSEX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 21 Jun 2021 14:04:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2EF56613B0;
+        Mon, 21 Jun 2021 17:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624298107;
-        bh=V8wVtzYXxX7ZY1kfeeRnGHt+Q4QO/IFJYN+Y6g7FpIY=;
+        s=k20201202; t=1624298159;
+        bh=2c4SdLcWZ1rC+EZJHcOg/uwJ+04fRZSNs78cXqgTGHs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OTJIKIYbyK/dkLwuIzr9F4B6W8eggVBmGcO9y1l3knURkSrGMFxnsuV3wSbKWyv5u
-         xKflnmLilpxmUMkE3/fKxHh5aDFLJi8gxM2MNabgg3EmHe4ceMlYu7wDAI7o2Qiu0O
-         KwX8h9L2Wcrr0AU5uWdrIYGkXAiyULVB/ag4m7oZ8+g+lOLGCHpdd0k9W8tHDYuHng
-         fBXUKGl/xPoeg2hcFQIGksVSKMFFXmqAgQKqVcPTLzh5zLuG/hayBuV2qLvr9Xw4Km
-         OkGD3FGkd6GtK8qYddd9p2nHqu0KjJTp4K75EYm93ApHTKRuNMrHsGp3AAtDs5MICZ
-         aH5m9mNf1Phgw==
+        b=ITaX+DYRl3Jw8ZYEm6JuPF2RKhI5Vjb6Eu6szGn2JWNsJLdHQ1vyNLFuouTADnSdT
+         tR1t3Gil2Fpgon4aA8qVsSue08Vwj0IqPLuCJIDsu0oegNUPj4/3o1UtFfYNQLNQpQ
+         NfomQ9Ox5d6JCyE/iusN3uwJmsD1eqmL3ZKZLr8aktHvIQAU7eqFUMXv240ny7zgxk
+         dgvT1sfIJw17iSvTo/84lw+ab0WTOrW7SBKS0iX9sIAfueyhvSLp/PDALH3KHEEBsy
+         xepZHQ+jiBDLxNRxFxpp6LGrxmCBhDC+yfyNB4oMsTzJk/3omCAzIWGg0ZnDIRGIZ8
+         GNDlxULXDUdlg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kees Cook <keescook@chromium.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/16] r8152: Avoid memcpy() over-reading of ETH_SS_STATS
-Date:   Mon, 21 Jun 2021 13:54:44 -0400
-Message-Id: <20210621175450.736067-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 09/13] r8152: Avoid memcpy() over-reading of ETH_SS_STATS
+Date:   Mon, 21 Jun 2021 13:55:39 -0400
+Message-Id: <20210621175544.736421-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210621175450.736067-1-sashal@kernel.org>
-References: <20210621175450.736067-1-sashal@kernel.org>
+In-Reply-To: <20210621175544.736421-1-sashal@kernel.org>
+References: <20210621175544.736421-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index a27ea04cfa6c..726fb5561a0f 100644
+index 6e74965d26a0..64fdea332886 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -4649,7 +4649,7 @@ static void rtl8152_get_strings(struct net_device *dev, u32 stringset, u8 *data)
+@@ -3938,7 +3938,7 @@ static void rtl8152_get_strings(struct net_device *dev, u32 stringset, u8 *data)
  {
  	switch (stringset) {
  	case ETH_SS_STATS:
