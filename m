@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84DD0C49EA6
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 05:27:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC265C2B9F4
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 05:27:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D7806128C
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 05:27:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D23F66128A
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 05:27:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbhFVF3v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Jun 2021 01:29:51 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:21470 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230044AbhFVF3u (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Jun 2021 01:29:50 -0400
+        id S230015AbhFVF3z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Jun 2021 01:29:55 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:18289 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230114AbhFVF3x (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Jun 2021 01:29:53 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1624339650; h=Content-Transfer-Encoding: Content-Type:
+ s=smtp; t=1624339658; h=Content-Transfer-Encoding: Content-Type:
  In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=kX/KWqvomt6ymo0vZ4ejVIxk4DjhHljAq6y2gDsHnm0=; b=wtVpdPIkQ55ii8usEdCkuhvO2UPqmD1iKVIaeo/Oqgm9gGMTX05LSSw4tDRFyxCtoDIUYI9A
- +Jkt5NUUCTcyI9JOph2pTGxhvTIf25rFZ2gtZ8KqxFaIKxsR+lUaLXeBcbmiNoXwKQT12GWR
- t/lhUmMc7HmrU4aJ9k/LY7d2Eh8=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ Subject: Sender; bh=d4DXAvBzd+NblqWuAC/vQM0I4ES2Q8ZE7I6FHwueUdY=; b=cJ1EXlU6ppHRFo3XTCq2liQMicgAbMLka9Ui2eLguHR5uFWMbM66+H0MQw6wTY+9rWZ0pohE
+ HUaCJ2MQkNdM3tyMecvMY1zygbb+ijXPNBUabbt15So4BmZFfK7RO/GjCpBWQnYP5zsHUWZp
+ 0MMIKOZ3g00hlpo6EPoswGYRhiE=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60d174ad2eaeb98b5ee58190 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Jun 2021 05:27:09
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 60d174b6e570c05619c1bb20 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Jun 2021 05:27:18
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 65C7AC4360C; Tue, 22 Jun 2021 05:27:09 +0000 (UTC)
+        id CE58AC4338A; Tue, 22 Jun 2021 05:27:18 +0000 (UTC)
 Received: from [10.110.90.136] (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3255DC433F1;
-        Tue, 22 Jun 2021 05:27:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3255DC433F1
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 487C2C433D3;
+        Tue, 22 Jun 2021 05:27:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 487C2C433D3
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-Subject: Re: [PATCH v10 1/6] usb: gadget: udc: core: Introduce check_config to
- verify USB configuration
+Subject: Re: [PATCH v10 3/6] usb: dwc3: Resize TX FIFOs to meet EP bursting
+ requirements
 To:     Greg KH <gregkh@linuxfoundation.org>
 Cc:     balbi@kernel.org, robh+dt@kernel.org, agross@kernel.org,
         bjorn.andersson@linaro.org, frowand.list@gmail.com,
@@ -55,15 +55,15 @@ Cc:     balbi@kernel.org, robh+dt@kernel.org, agross@kernel.org,
         jackp@codeaurora.org, fntoth@gmail.com,
         heikki.krogerus@linux.intel.com, andy.shevchenko@gmail.com
 References: <1623923899-16759-1-git-send-email-wcheng@codeaurora.org>
- <1623923899-16759-2-git-send-email-wcheng@codeaurora.org>
- <YMstVXuwAQm5Cea/@kroah.com>
+ <1623923899-16759-4-git-send-email-wcheng@codeaurora.org>
+ <YMstrL1aQYGe7NB0@kroah.com>
 From:   Wesley Cheng <wcheng@codeaurora.org>
-Message-ID: <241aeca7-3c24-29be-c9db-7e8da0b65baa@codeaurora.org>
-Date:   Mon, 21 Jun 2021 22:27:06 -0700
+Message-ID: <1a979c61-e996-b94a-c986-a9721d3b3297@codeaurora.org>
+Date:   Mon, 21 Jun 2021 22:27:13 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YMstVXuwAQm5Cea/@kroah.com>
+In-Reply-To: <YMstrL1aQYGe7NB0@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -73,69 +73,53 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 
 
-On 6/17/2021 4:09 AM, Greg KH wrote:
-> On Thu, Jun 17, 2021 at 02:58:14AM -0700, Wesley Cheng wrote:
->> Some UDCs may have constraints on how many high bandwidth endpoints it can
->> support in a certain configuration.  This API allows for the composite
->> driver to pass down the total number of endpoints to the UDC so it can verify
->> it has the required resources to support the configuration.
->>
->> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
->> ---
->>  drivers/usb/gadget/udc/core.c | 25 +++++++++++++++++++++++++
->>  include/linux/usb/gadget.h    |  5 +++++
->>  2 files changed, 30 insertions(+)
->>
->> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
->> index b7f0b1e..e33ae2d 100644
->> --- a/drivers/usb/gadget/udc/core.c
->> +++ b/drivers/usb/gadget/udc/core.c
->> @@ -1003,6 +1003,31 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
->>  }
->>  EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
->>  
->> +/**
->> + * usb_gadget_check_config - checks if the UDC can support the number of eps
->> + * @gadget: controller to check the USB configuration
->> + * @ep_map: bitmap of endpoints being requested by a USB configuration
+On 6/17/2021 4:10 AM, Greg KH wrote:
+> On Thu, Jun 17, 2021 at 02:58:16AM -0700, Wesley Cheng wrote:
+>> +static int dwc3_gadget_check_config(struct usb_gadget *g, unsigned long ep_map)
+>> +{
+>> +	struct dwc3 *dwc = gadget_to_dwc(g);
+>> +	unsigned long in_ep_map;
+>> +	int fifo_size = 0;
+>> +	int ram1_depth;
+>> +	int ep_num;
+>> +
+>> +	if (!dwc->do_fifo_resize)
+>> +		return 0;
+>> +
+>> +	/* Only interested in the IN endpoints */
+>> +	in_ep_map = ep_map >> 16;
 
 Hi Greg,
 
 > 
-> Will a u64 really hold all of the possible endpoints?
+> Wait, this "map" is split up into 16/16 somehow?  So it's only 32bits
+> big?
+>
+
+Yes, correct. Upper 16 carries IN eps, lower 16 carries OUT eps.  Will
+fix that based off your other comment.
+
+> Where did you document this map structure?  Why is it needed at all, you
+> have the gadget, don't you have access to the full list of endpoints
+> here as well?
+> 
+> confused,
 > 
 
-Ah, should be a u32 bitmap, and that is enough as USB spec only allows
-32 EPs (IN+OUT eps) total.  That hasn't changed since USB2, so I assume
-that will stay the same moving forward.  I can fix that.
+Unfortunately, we do not have the entire list of endpoints for each
+function until the composite driver receives the SET_CONFIG packet from
+the host.  By this time, if we incorrectly allowed the configuration to
+start enumeration w/ the host, and there were some EPs which have no
+FIFO memory allocated, that would lead to those interfaces/functions
+being broken.
 
-> Why make it odd like this, why not just provide a list like we do in the
-> USB core with the structure that USB drivers use?  What can a driver do
-> with a bitmap only?
-> 
-
-I didn't want the ep bookeeping here to be too complicated.  For
-example, in the TXFIFO resize situation, just knowing the number of
-endpoints used can help determine if we have enough internal controller
-memory to allocate per endpoint. (at minimum 1 FIFO per EP)  If the USB
-configuration is going to be requesting more endpoints than FIFO memory
-it has (unlikely), then it will fail the config bind.  Otherwise, we'd
-end up enumerating w/ the host w/ the interfaces that were starved of
-FIFO memory to be broken/non-functional.  This was one of the concerns
-that Felipe had in our initial discussions.
-
-In addition, at the time of function driver binding, the amount of
-information we have is minimal per endpoint, as most of it is populated
-once the host places the device into the CONFIGURED state. (ie when the
-device knows which configuration is being enabled, hence which EPs are
-being used)
+The USB UDC driver does have the in_epnum and out_epnum, but those are
+currently only being incremented in case we don't match EPs by string.
+(in usb_ep_autoconfig_ss())
 
 Thanks
 Wesley Cheng
 
-> 
-> thanks,
-> 
 > greg k-h
 > 
 
