@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C635C49EA4
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 16:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B1BBC49EA4
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 16:02:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 673AC61361
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 16:01:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16BA561164
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Jun 2021 16:02:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbhFVQEO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Jun 2021 12:04:14 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:22525 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231860AbhFVQEJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Jun 2021 12:04:09 -0400
+        id S230241AbhFVQEY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Jun 2021 12:04:24 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:38906 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232057AbhFVQET (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Jun 2021 12:04:19 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1624377713; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: References: In-Reply-To: Message-Id: Date: Subject: Cc:
- To: From: Sender; bh=reQr2XyCqEbk5X3j7DCj8b8wggWMKu29nhQviARLoiI=; b=gxEzeKVPvMsxFvk8mAEPgcMCgE3y9wbwW9rONWTIbSvE1qFPDfh+vgfbc3Ly/FBc9hf7DjQa
- hBSEfEAYZKSwOlk01leMyFAAjHIJg10diJ13J+rwygRcMNgedAytPaGkpiE4Iefwix4P24/4
- uiGYQIwo5PWtl3oNS3JcChpWMTM=
-X-Mailgun-Sending-Ip: 198.61.254.9
+ s=smtp; t=1624377723; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=4RZUF7fDVeAH/yl3SJxKQLIGHPOPIpeaam+CznPn9jM=; b=f7me+ie/HQelfVbpmsABLg6YNwD6JaeGaxoC/Pf0qOtwFSnPwyLCaHkpYOU+hdTRqYtwCG2C
+ L6dACmEosHEjsqBDTz1ruVv2WudYqHOyfiVkGp4C0qLwB/L6c7GN2e7+BCT95cI5HV1B2EIv
+ JW2W8OoNyei/ws/wCveFk6qJboI=
+X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 60d209564c54fe7431cf5c22 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Jun 2021 16:01:26
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 60d2094d4cfb55feee93b068 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 22 Jun 2021 16:01:17
  GMT
 Sender: pmaliset=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E1209C4338A; Tue, 22 Jun 2021 16:01:26 +0000 (UTC)
+        id 23BCFC43145; Tue, 22 Jun 2021 16:01:17 +0000 (UTC)
 Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E3FD3C4323A;
-        Tue, 22 Jun 2021 16:01:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E3FD3C4323A
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 6D7F8C43460;
+        Tue, 22 Jun 2021 16:01:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 6D7F8C43460
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=pmaliset@codeaurora.org
 From:   Prasad Malisetty <pmaliset@codeaurora.org>
@@ -53,79 +53,173 @@ Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         mgautam@codeaurora.org, dianders@chromium.org, mka@chromium.org,
         sanm@codeaurora.org, Prasad Malisetty <pmaliset@codeaurora.org>
-Subject: [PATCH v3 4/4] PCIe: qcom: Add support to control pipe clk mux
-Date:   Tue, 22 Jun 2021 21:30:51 +0530
-Message-Id: <1624377651-30604-5-git-send-email-pmaliset@codeaurora.org>
+Subject: [PATCH v3 2/4] arm64: dts: qcom: sc7280: Add PCIe and PHY related nodes
+Date:   Tue, 22 Jun 2021 21:30:49 +0530
+Message-Id: <1624377651-30604-3-git-send-email-pmaliset@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1624377651-30604-1-git-send-email-pmaliset@codeaurora.org>
 References: <1624377651-30604-1-git-send-email-pmaliset@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-pipe-clk mux needs to switch between pipe_clk
-and XO as part of LPM squence. This is done by setting
-pipe_clk mux as parent of pipe_clk after phy init.
-This is a new requirement for sc7280.
-For accessing to DBI registers during L23,
-need to switch the pipe clock with free-running
-clock (TCXO) using GCC’s registers
+Add PCIe controller and PHY nodes for sc7280 SOC.
 
 Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
 ---
- drivers/pci/controller/dwc/pcie-qcom.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 125 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 125 insertions(+)
 
-diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-index 8a7a300..80e9ee4 100644
---- a/drivers/pci/controller/dwc/pcie-qcom.c
-+++ b/drivers/pci/controller/dwc/pcie-qcom.c
-@@ -166,6 +166,9 @@ struct qcom_pcie_resources_2_7_0 {
- 	struct regulator_bulk_data supplies[2];
- 	struct reset_control *pci_reset;
- 	struct clk *pipe_clk;
-+	struct clk *pipe_clk_mux;
-+	struct clk *pipe_ext_src;
-+	struct clk *ref_clk_src;
- };
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index a8c274a..06baf88 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -15,6 +15,7 @@
+ #include <dt-bindings/reset/qcom,sdm845-pdc.h>
+ #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+ #include <dt-bindings/thermal/thermal.h>
++#include <dt-bindings/gpio/gpio.h>
  
- union qcom_pcie_resources {
-@@ -1167,6 +1170,20 @@ static int qcom_pcie_get_resources_2_7_0(struct qcom_pcie *pcie)
- 	if (ret < 0)
- 		return ret;
+ / {
+ 	interrupt-parent = <&intc>;
+@@ -546,6 +547,118 @@
+ 			#power-domain-cells = <1>;
+ 		};
  
-+	if (of_device_is_compatible(dev->of_node, "qcom,pcie-sc7280")) {
-+		res->pipe_clk_mux = devm_clk_get(dev, "pipe_mux");
-+		if (IS_ERR(res->pipe_clk_mux))
-+			return PTR_ERR(res->pipe_clk_mux);
++		pcie1: pci@1c08000 {
++			compatible = "qcom,pcie-sc7280", "qcom,pcie-sm8250", "snps,dw-pcie";
++			reg = <0 0x01c08000 0 0x3000>,
++			      <0 0x40000000 0 0xf1d>,
++			      <0 0x40000f20 0 0xa8>,
++			      <0 0x40001000 0 0x1000>,
++			      <0 0x40100000 0 0x100000>;
 +
-+		res->pipe_ext_src = devm_clk_get(dev, "phy_pipe");
-+		if (IS_ERR(res->pipe_ext_src))
-+			return PTR_ERR(res->pipe_ext_src);
++			reg-names = "parf", "dbi", "elbi", "atu", "config";
++			device_type = "pci";
++			linux,pci-domain = <1>;
++			bus-range = <0x00 0xff>;
++			num-lanes = <2>;
 +
-+		res->ref_clk_src = devm_clk_get(dev, "ref");
-+		if (IS_ERR(res->ref_clk_src))
-+			return PTR_ERR(res->ref_clk_src);
-+	}
++			#address-cells = <3>;
++			#size-cells = <2>;
 +
- 	res->pipe_clk = devm_clk_get(dev, "pipe");
- 	return PTR_ERR_OR_ZERO(res->pipe_clk);
- }
-@@ -1255,6 +1272,11 @@ static void qcom_pcie_deinit_2_7_0(struct qcom_pcie *pcie)
- static int qcom_pcie_post_init_2_7_0(struct qcom_pcie *pcie)
- {
- 	struct qcom_pcie_resources_2_7_0 *res = &pcie->res.v2_7_0;
-+	struct dw_pcie *pci = pcie->pci;
-+	struct device *dev = pci->dev;
++			ranges = <0x01000000 0x0 0x40200000 0x0 0x40200000 0x0 0x100000>,
++				 <0x02000000 0x0 0x40300000 0x0 0x40300000 0x0 0x1fd00000>;
 +
-+	if (of_device_is_compatible(dev->of_node, "qcom,pcie-sc7280"))
-+		clk_set_parent(res->pipe_clk_mux, res->pipe_ext_src);
++			interrupts = <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "msi";
++			#interrupt-cells = <1>;
++			interrupt-map-mask = <0 0 0 0x7>;
++			interrupt-map = <0 0 0 1 &intc 0 434 IRQ_TYPE_LEVEL_HIGH>,
++					<0 0 0 2 &intc 0 435 IRQ_TYPE_LEVEL_HIGH>,
++					<0 0 0 3 &intc 0 438 IRQ_TYPE_LEVEL_HIGH>,
++					<0 0 0 4 &intc 0 439 IRQ_TYPE_LEVEL_HIGH>;
++
++			clocks = <&gcc GCC_PCIE_1_PIPE_CLK>,
++				 <&gcc GCC_PCIE_1_PIPE_CLK_SRC>,
++				 <&pcie1_lane 0>,
++				 <&rpmhcc RPMH_CXO_CLK>,
++				 <&gcc GCC_PCIE_1_AUX_CLK>,
++				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
++				 <&gcc GCC_PCIE_1_MSTR_AXI_CLK>,
++				 <&gcc GCC_PCIE_1_SLV_AXI_CLK>,
++				 <&gcc GCC_PCIE_1_SLV_Q2A_AXI_CLK>,
++				 <&gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
++				 <&gcc GCC_DDRSS_PCIE_SF_CLK>;
++
++			clock-names = "pipe",
++				      "pipe_mux",
++				      "phy_pipe",
++				      "ref",
++				      "aux",
++				      "cfg",
++				      "bus_master",
++				      "bus_slave",
++				      "slave_q2a",
++				      "tbu",
++				      "ddrss_sf_tbu";
++
++			assigned-clocks = <&gcc GCC_PCIE_1_AUX_CLK>;
++			assigned-clock-rates = <19200000>;
++
++			resets = <&gcc GCC_PCIE_1_BCR>;
++			reset-names = "pci";
++
++			power-domains = <&gcc GCC_PCIE_1_GDSC>;
++
++			phys = <&pcie1_lane>;
++			phy-names = "pciephy";
++
++			perst-gpio = <&tlmm 2 GPIO_ACTIVE_LOW>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&pcie1_default_state>;
++
++			iommus = <&apps_smmu 0x1c80 0x1>;
++
++			iommu-map = <0x0 &apps_smmu 0x1c80 0x1>,
++				    <0x100 &apps_smmu 0x1c81 0x1>;
++
++			status = "disabled";
++		};
++
++		pcie1_phy: phy@1c0e000 {
++			compatible = "qcom,sm8250-qmp-gen3x2-pcie-phy";
++			reg = <0 0x01c0e000 0 0x1c0>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++			clocks = <&gcc GCC_PCIE_1_AUX_CLK>,
++				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
++				 <&gcc GCC_PCIE_CLKREF_EN>,
++				 <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
++			clock-names = "aux", "cfg_ahb", "ref", "refgen";
++
++			resets = <&gcc GCC_PCIE_1_PHY_BCR>;
++			reset-names = "phy";
++
++			assigned-clocks = <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
++			assigned-clock-rates = <100000000>;
++
++			status = "disabled";
++
++			pcie1_lane: lanes@1c0e200 {
++				reg = <0 0x01c0e200 0 0x170>,
++				      <0 0x01c0e400 0 0x200>,
++				      <0 0x01c0ea00 0 0x1f0>,
++				      <0 0x01c0e600 0 0x170>,
++				      <0 0x01c0e800 0 0x200>,
++				      <0 0x01c0ee00 0 0xf4>;
++				clocks = <&rpmhcc RPMH_CXO_CLK>;
++				clock-names = "pipe0";
++
++				#phy-cells = <0>;
++				#clock-cells = <1>;
++				clock-output-names = "pcie_1_pipe_clk";
++			};
++		};
++
+ 		stm@6002000 {
+ 			compatible = "arm,coresight-stm", "arm,primecell";
+ 			reg = <0 0x06002000 0 0x1000>,
+@@ -1185,6 +1298,18 @@
+ 				pins = "gpio46", "gpio47";
+ 				function = "qup13";
+ 			};
++
++			pcie1_default_state: pcie1-default-state {
++				clkreq {
++					pins = "gpio79";
++					function = "pcie1_clkreqn";
++				};
++
++				wake-n {
++					pins = "gpio3";
++					function = "gpio";
++				};
++			};
+ 		};
  
- 	return clk_prepare_enable(res->pipe_clk);
- }
+ 		apps_smmu: iommu@15000000 {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
