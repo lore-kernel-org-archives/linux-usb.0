@@ -2,167 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D7EC49EA4
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F05B2C49EA5
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA6E561185
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D724A61361
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhFWSn6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Jun 2021 14:43:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhFWSnz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Jun 2021 14:43:55 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6116C06175F
-        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:36 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id a2so2513500pgi.6
-        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rn+jkfBaHm09mGok+nONlCf30mFoynV+UZRNUFIhdDU=;
-        b=EWbeAUecEk+oAWVdmnDXSx6cxVTC7chbrqCDPHXIqIhqFaWpmeNgdS2LWt+EowzFgU
-         Cd9HLSv0TK9hCOEt6vc8cqr02Ae5off+o+jwUt2Q+4J2Sf7nkXiOlWuyhLJHw+Ne2W9J
-         3sPjZjZxrYjC+SB2wUIVG1hUKRtWr/iG74jzo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rn+jkfBaHm09mGok+nONlCf30mFoynV+UZRNUFIhdDU=;
-        b=LXLx1eoTTpQH+nZZwfL8bd11w8hp3tdya9AdUD40sreR/ewv4OVuBfQ0QKs/xzw2Lc
-         NFIjqF20RGr31dWIxrbqCRIBztFaDxuVZb7H581KMRiASCsF9huOhxQaqjw0ic7asiJ+
-         DJAPGgKBkfEFyvbqNOwrncQ7PGD8gFrsYx6CYaBJm6CfPZ8GuQhANrZc9JOQroUIzy4q
-         UTL7+dVB53SqGAkmcQAQ1dKqBNShs4fDULk2j2fbG2ZrcNmUgxPmCGsusVkp3FINbKyD
-         8MaYccNxYwU901CapickkRyQP0ITgfhEaRmmxjhSgnS6A62+/TO1YbC0DkbZMCHwjGoY
-         KT3A==
-X-Gm-Message-State: AOAM533QoLfBzKeTmzc70gzR8muDfIXDut1D2N9IZTSxVv78zu4rad++
-        QVijy692dWNe+vFHcq66/nwcIQ==
-X-Google-Smtp-Source: ABdhPJxluqoKhGoaQ5Nzb/twHA1HowJf4YE6OPec4fU9XXSsaEQSW23fWGK3GkBG7MCd/T6c5phf8Q==
-X-Received: by 2002:a63:e343:: with SMTP id o3mr798626pgj.416.1624473696437;
-        Wed, 23 Jun 2021 11:41:36 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:d440:232:5e25:41f4])
-        by smtp.gmail.com with UTF8SMTPSA id m2sm528262pgv.40.2021.06.23.11.41.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Jun 2021 11:41:36 -0700 (PDT)
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Michal Simek <michal.simek@xilinx.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v13 3/7] of/platform: Add stubs for of_platform_device_create/destroy()
-Date:   Wed, 23 Jun 2021 11:41:19 -0700
-Message-Id: <20210623114025.v13.3.I08fd2e1c775af04f663730e9fb4d00e6bbb38541@changeid>
-X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-In-Reply-To: <20210623184124.3504047-1-mka@chromium.org>
-References: <20210623184124.3504047-1-mka@chromium.org>
+        id S230046AbhFWSoA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Jun 2021 14:44:00 -0400
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21315 "EHLO
+        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229987AbhFWSn5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Jun 2021 14:43:57 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1624473690; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=mkehzUmVHoCUncWZ8ZTHJtkryvxbRyxDfv7xb1SX6kBFEvjt+kcisbodGyBWGgBiXTT2p1yadTn43AbfBhRCiCe/20XW9FzHLKs46Miv9IKmmK2boGZ7u4GYWz8gvlM/3Sn+5rmSK0uMJf2Xq42F/wAgLa4Ys7oHowFyplkVams=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1624473690; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+        bh=a0aZd2nt4DPjia7/Fj05AyVF/MJKOxRj/yaO2GlO0CE=; 
+        b=S+A37kz/R8FmreeiZW4aCbFmJVyiPsFwJJqsjiV/17P7IjhvVP+o7m7E7NgcCFuolpe47Ss26mg73cG6ZQfpiSnfA3yFeXaEUS8jrp/jMj7cHThFzkgO/41DEvPmYuqdXpXFPs5oHlW5mZ+h9E/gHjT9ofCyLI6Q/zzFI9kMpww=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=anirudhrb.com;
+        spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+        dmarc=pass header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1624473690;
+        s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+        bh=a0aZd2nt4DPjia7/Fj05AyVF/MJKOxRj/yaO2GlO0CE=;
+        b=SUrC6OwZq/rCbtQxyCZGU5fOXjNZ6Dpaxjr5sztKxrRr+2ScJhFVw/+SoqCapbMW
+        l9J2Ub5ooDfDRGZt1bN3V2UDK9uaY24SPBvX4unNvo1j9YbaBCjzmvRvlnZQtkypcA1
+        rha3UOic3yUyVKsthvds/y5QjTaNoVVaDvNjvS18=
+Received: from localhost.localdomain (106.51.111.168 [106.51.111.168]) by mx.zohomail.com
+        with SMTPS id 1624473685552656.6071262710982; Wed, 23 Jun 2021 11:41:25 -0700 (PDT)
+From:   Anirudh Rayabharam <mail@anirudhrb.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Anirudh Rayabharam <mail@anirudhrb.com>,
+        syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usbhid: free raw_report buffers in usbhid_stop
+Date:   Thu, 24 Jun 2021 00:10:29 +0530
+Message-Id: <20210623184030.17281-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Code for platform_device_create() and of_platform_device_destroy() is
-only generated if CONFIG_OF_ADDRESS=y. Add stubs to avoid unresolved
-symbols when CONFIG_OF_ADDRESS is not set.
+Free the unsent raw_report buffers when the device is removed.
 
-Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-Acked-by: Rob Herring <robh@kernel.org>
+Fixes a memory leak reported by syzbot at:
+https://syzkaller.appspot.com/bug?id=7b4fa7cb1a7c2d3342a2a8a6c53371c8c418ab47
+
+Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+Tested-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
 ---
+ drivers/hid/usbhid/hid-core.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Changes in v13:
-- none
-
-Changes in v12:
-- none
-
-Changes in v11:
-- none
-
-Changes in v10:
-- none
-
-Changes in v9:
-- added Rob's 'Acked-by' tag
-
-Changes in v8:
-- fixed C&P error in commit message
-
-Changes in v7:
-- none
-
-Changes in v6:
-- patch added to the series
-
- include/linux/of_platform.h | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
-
-diff --git a/include/linux/of_platform.h b/include/linux/of_platform.h
-index 84a966623e78..d15b6cd5e1c3 100644
---- a/include/linux/of_platform.h
-+++ b/include/linux/of_platform.h
-@@ -61,16 +61,18 @@ static inline struct platform_device *of_find_device_by_node(struct device_node
- }
- #endif
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 4e9077363c96..9c970e63670e 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -505,7 +505,7 @@ static void hid_ctrl(struct urb *urb)
  
-+extern int of_platform_bus_probe(struct device_node *root,
-+				 const struct of_device_id *matches,
-+				 struct device *parent);
-+
-+#ifdef CONFIG_OF_ADDRESS
- /* Platform devices and busses creation */
- extern struct platform_device *of_platform_device_create(struct device_node *np,
- 						   const char *bus_id,
- 						   struct device *parent);
+ 	if (unplug) {
+ 		usbhid->ctrltail = usbhid->ctrlhead;
+-	} else {
++	} else if (usbhid->ctrlhead != usbhid->ctrltail) {
+ 		usbhid->ctrltail = (usbhid->ctrltail + 1) & (HID_CONTROL_FIFO_SIZE - 1);
  
- extern int of_platform_device_destroy(struct device *dev, void *data);
--extern int of_platform_bus_probe(struct device_node *root,
--				 const struct of_device_id *matches,
--				 struct device *parent);
--#ifdef CONFIG_OF_ADDRESS
-+
- extern int of_platform_populate(struct device_node *root,
- 				const struct of_device_id *matches,
- 				const struct of_dev_auxdata *lookup,
-@@ -84,6 +86,18 @@ extern int devm_of_platform_populate(struct device *dev);
+ 		if (usbhid->ctrlhead != usbhid->ctrltail &&
+@@ -1223,9 +1223,20 @@ static void usbhid_stop(struct hid_device *hid)
+ 	mutex_lock(&usbhid->mutex);
  
- extern void devm_of_platform_depopulate(struct device *dev);
- #else
-+/* Platform devices and busses creation */
-+static inline struct platform_device *of_platform_device_create(struct device_node *np,
-+								const char *bus_id,
-+								struct device *parent)
-+{
-+	return NULL;
-+}
-+static inline int of_platform_device_destroy(struct device *dev, void *data)
-+{
-+	return -ENODEV;
-+}
+ 	clear_bit(HID_STARTED, &usbhid->iofl);
 +
- static inline int of_platform_populate(struct device_node *root,
- 					const struct of_device_id *matches,
- 					const struct of_dev_auxdata *lookup,
+ 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
+ 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
++	while (usbhid->ctrltail != usbhid->ctrlhead) {
++		if (usbhid->ctrl[usbhid->ctrltail].dir == USB_DIR_OUT) {
++			kfree(usbhid->ctrl[usbhid->ctrltail].raw_report);
++			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
++		}
++
++		usbhid->ctrltail = (usbhid->ctrltail + 1) &
++			(HID_CONTROL_FIFO_SIZE - 1);
++	}
+ 	spin_unlock_irq(&usbhid->lock);
++
+ 	usb_kill_urb(usbhid->urbin);
+ 	usb_kill_urb(usbhid->urbout);
+ 	usb_kill_urb(usbhid->urbctrl);
 -- 
-2.32.0.288.g62a8d224e6-goog
+2.26.2
 
