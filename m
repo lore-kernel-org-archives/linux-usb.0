@@ -2,109 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F05B2C49EA5
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C187FC49EB7
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D724A61361
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7D09611CB
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbhFWSoA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Jun 2021 14:44:00 -0400
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21315 "EHLO
-        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbhFWSn5 (ORCPT
+        id S230062AbhFWSoB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Jun 2021 14:44:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229996AbhFWSn5 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Jun 2021 14:43:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1624473690; cv=none; 
-        d=zohomail.com; s=zohoarc; 
-        b=mkehzUmVHoCUncWZ8ZTHJtkryvxbRyxDfv7xb1SX6kBFEvjt+kcisbodGyBWGgBiXTT2p1yadTn43AbfBhRCiCe/20XW9FzHLKs46Miv9IKmmK2boGZ7u4GYWz8gvlM/3Sn+5rmSK0uMJf2Xq42F/wAgLa4Ys7oHowFyplkVams=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-        t=1624473690; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-        bh=a0aZd2nt4DPjia7/Fj05AyVF/MJKOxRj/yaO2GlO0CE=; 
-        b=S+A37kz/R8FmreeiZW4aCbFmJVyiPsFwJJqsjiV/17P7IjhvVP+o7m7E7NgcCFuolpe47Ss26mg73cG6ZQfpiSnfA3yFeXaEUS8jrp/jMj7cHThFzkgO/41DEvPmYuqdXpXFPs5oHlW5mZ+h9E/gHjT9ofCyLI6Q/zzFI9kMpww=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-        dkim=pass  header.i=anirudhrb.com;
-        spf=pass  smtp.mailfrom=mail@anirudhrb.com;
-        dmarc=pass header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1624473690;
-        s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
-        bh=a0aZd2nt4DPjia7/Fj05AyVF/MJKOxRj/yaO2GlO0CE=;
-        b=SUrC6OwZq/rCbtQxyCZGU5fOXjNZ6Dpaxjr5sztKxrRr+2ScJhFVw/+SoqCapbMW
-        l9J2Ub5ooDfDRGZt1bN3V2UDK9uaY24SPBvX4unNvo1j9YbaBCjzmvRvlnZQtkypcA1
-        rha3UOic3yUyVKsthvds/y5QjTaNoVVaDvNjvS18=
-Received: from localhost.localdomain (106.51.111.168 [106.51.111.168]) by mx.zohomail.com
-        with SMTPS id 1624473685552656.6071262710982; Wed, 23 Jun 2021 11:41:25 -0700 (PDT)
-From:   Anirudh Rayabharam <mail@anirudhrb.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usbhid: free raw_report buffers in usbhid_stop
-Date:   Thu, 24 Jun 2021 00:10:29 +0530
-Message-Id: <20210623184030.17281-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F98C061756
+        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:39 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id v13so1627962ple.9
+        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6I46EDeVvue/JEcRkc+UqOHLZNFVFF0xm4B6v9zE/2M=;
+        b=Akrau+NHCquNoq1Vp2lXasY9+NQSczk0x8X/rw5MYm2rt5jOCCj5P88AnCuM+jVld/
+         zGmlL+SnO4cLkP/M4lM/0zAHOQIZ9+ug1X8PDIfL1j8GFOhREfV5tJ2nT3qpcfOmza80
+         zQWV9eEEmO8aQGy8WpOfsJDrWoj/mvk8Fa9SY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6I46EDeVvue/JEcRkc+UqOHLZNFVFF0xm4B6v9zE/2M=;
+        b=Vd1vhiFUvzXvLxsRbbzGyAifOLqqNAPBNUIvhGxhZG4mJbABcNw7k54XKo1T90jMUJ
+         frx1tOOmcCwNZM9tj9IJcq/HemdbOrw6VtFxL9ZY6ENumGo8gkUkM7Nolu9bRQ1R+Q7B
+         zBbtUkU0xB+DsBAlA2VtLJZ060KHutuFsJOKWm5gvm3AHcYmAvCTNdScQc+SEtwV2gbB
+         MIoTM+Qu1XtWODNvaKTTtQDC7a7Ts68rHLb6YWJeWuU8a3rCBXfxjGrGG+ZrWFALvrZH
+         WR28HfN/ljcdv6swtJPDwk6s/1PZYe7iiL5+Vilkymlx1/quAsEXZztgkYU8Di/6Wdym
+         OGTw==
+X-Gm-Message-State: AOAM5301pUVFFGeBmgLxGON0m21KeAEWJJVRz0Kgqk9KJIED7W+My5JO
+        Q0zZH+2RI/bVo6isevGXWR1yq9vLQj/t1Q==
+X-Google-Smtp-Source: ABdhPJyqb+UXhYwjp56/GfRbVv/GGu7TeKF0/RSUSFPyiyQZFi19dmK+OYEMksymMens0VE/+BnJ8w==
+X-Received: by 2002:a17:90a:ba91:: with SMTP id t17mr11340609pjr.89.1624473699308;
+        Wed, 23 Jun 2021 11:41:39 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:d440:232:5e25:41f4])
+        by smtp.gmail.com with UTF8SMTPSA id p4sm552290pff.148.2021.06.23.11.41.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 11:41:39 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Walle <michael@walle.cc>, Nishanth Menon <nm@ti.com>,
+        Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v13 4/7] arm64: defconfig: Explicitly enable USB_XHCI_PLATFORM
+Date:   Wed, 23 Jun 2021 11:41:20 -0700
+Message-Id: <20210623114025.v13.4.Id45138610b749ff775186ac10b3d01c504ddf4f3@changeid>
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
+In-Reply-To: <20210623184124.3504047-1-mka@chromium.org>
+References: <20210623184124.3504047-1-mka@chromium.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Free the unsent raw_report buffers when the device is removed.
+The dependency of USB_DWC3 on USB_XHCI_PLATFORM is being changed
+from 'select' to 'depends on' by another patch. The defconfig selects
+USB_DWC3 and implicitly USB_DWC3_DUAL_ROLE, to keep this unchanged
+USB_XHCI_PLATFORM now needs to be selected explicitly.
 
-Fixes a memory leak reported by syzbot at:
-https://syzkaller.appspot.com/bug?id=7b4fa7cb1a7c2d3342a2a8a6c53371c8c418ab47
-
-Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
-Tested-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- drivers/hid/usbhid/hid-core.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 4e9077363c96..9c970e63670e 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -505,7 +505,7 @@ static void hid_ctrl(struct urb *urb)
- 
- 	if (unplug) {
- 		usbhid->ctrltail = usbhid->ctrlhead;
--	} else {
-+	} else if (usbhid->ctrlhead != usbhid->ctrltail) {
- 		usbhid->ctrltail = (usbhid->ctrltail + 1) & (HID_CONTROL_FIFO_SIZE - 1);
- 
- 		if (usbhid->ctrlhead != usbhid->ctrltail &&
-@@ -1223,9 +1223,20 @@ static void usbhid_stop(struct hid_device *hid)
- 	mutex_lock(&usbhid->mutex);
- 
- 	clear_bit(HID_STARTED, &usbhid->iofl);
-+
- 	spin_lock_irq(&usbhid->lock);	/* Sync with error and led handlers */
- 	set_bit(HID_DISCONNECTED, &usbhid->iofl);
-+	while (usbhid->ctrltail != usbhid->ctrlhead) {
-+		if (usbhid->ctrl[usbhid->ctrltail].dir == USB_DIR_OUT) {
-+			kfree(usbhid->ctrl[usbhid->ctrltail].raw_report);
-+			usbhid->ctrl[usbhid->ctrltail].raw_report = NULL;
-+		}
-+
-+		usbhid->ctrltail = (usbhid->ctrltail + 1) &
-+			(HID_CONTROL_FIFO_SIZE - 1);
-+	}
- 	spin_unlock_irq(&usbhid->lock);
-+
- 	usb_kill_urb(usbhid->urbin);
- 	usb_kill_urb(usbhid->urbout);
- 	usb_kill_urb(usbhid->urbctrl);
+Changes in v13:
+- patch added to the series
+
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 08c6f769df9a..d7f22b18e37a 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -795,6 +795,7 @@ CONFIG_USB_CONN_GPIO=m
+ CONFIG_USB=y
+ CONFIG_USB_OTG=y
+ CONFIG_USB_XHCI_HCD=y
++CONFIG_USB_XHCI_PLATFORM=y
+ CONFIG_USB_XHCI_TEGRA=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_EHCI_EXYNOS=y
 -- 
-2.26.2
+2.32.0.288.g62a8d224e6-goog
 
