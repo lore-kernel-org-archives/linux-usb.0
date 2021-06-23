@@ -2,74 +2,201 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CEB2C4743C
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 16:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09ACDC48BC2
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6500A61075
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 16:41:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0E1B611C1
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 18:41:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229924AbhFWQoH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Jun 2021 12:44:07 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:41521 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S229929AbhFWQoH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Jun 2021 12:44:07 -0400
-Received: (qmail 500580 invoked by uid 1000); 23 Jun 2021 12:41:48 -0400
-Date:   Wed, 23 Jun 2021 12:41:48 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Claudiu.Beznea@microchip.com
-Cc:     gregkh@linuxfoundation.org, Nicolas.Ferre@microchip.com,
-        alexandre.belloni@bootlin.com, Ludovic.Desroches@microchip.com,
-        Cristian.Birsan@microchip.com, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: host: ohci-at91: suspend/resume ports after/before
- OHCI accesses
-Message-ID: <20210623164148.GC499969@rowland.harvard.edu>
-References: <20210609121027.70951-1-claudiu.beznea@microchip.com>
- <20210609230735.GA1861855@rowland.harvard.edu>
- <0621eaba-db4d-a174-1b15-535e804b52ac@microchip.com>
- <20210623135915.GB491169@rowland.harvard.edu>
- <a5c68849-a48c-5224-7ba3-1ad44e0d9874@microchip.com>
- <20210623141907.GC491169@rowland.harvard.edu>
- <8bff20a7-8eb8-276a-086e-f1729fbbdbe4@microchip.com>
+        id S229774AbhFWSns (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Jun 2021 14:43:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229660AbhFWSnr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Jun 2021 14:43:47 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086D1C061760
+        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:30 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id t9so2522111pgn.4
+        for <linux-usb@vger.kernel.org>; Wed, 23 Jun 2021 11:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CmSxjVifvEvCqk0+9pO7z5s7Ge6oi3hKkOZK5hFSWaY=;
+        b=LluFmH6faSDsy5zNPOC5XgyCUGC49cppIjUOhBK4h233TCJkZWz8/u5xK1rXIwOYCo
+         yVLlUiH5GK0vEd/wmbZNVQMgsmh2HhDr8g9afDiLFHfbW9tVgc12KVqsowWpu7GKLodA
+         bWvCkzmbQyGs8TGr/1M28YzaLi4LdwQFGH24A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CmSxjVifvEvCqk0+9pO7z5s7Ge6oi3hKkOZK5hFSWaY=;
+        b=Swybjkd0zsGvf7kJsYrhssTEoirpeoE+4eYAiEjdMcfApVvh3VEPiNhip6wG6GlSTU
+         zxjehq3Oi+po+wwYnCkc4s+70OO6dYvb4hpjK3HOdynHEf1Rd67tYOStzT9rDpGhcKM9
+         Aw6X7IuVMjeslap2gXO5Nahi0fpBiK6SfICLhfkXYPkx0DkuBoDRJ34jsrTB7Ws4Ldu8
+         0vuoX2FROKLWhJJQnXogJTQxr+MPDhVeLDKrdaWRC+brczg+Yfzd8XjbPSeSO/rv8mPf
+         J5JHj1RG1HMYzXMzmfpXI4blh/UXbD8Frbcr9SGx/0lPF10fLRkCOzsNEazL9UmUkunj
+         xM1A==
+X-Gm-Message-State: AOAM530n1WWb3odc5WETx4jVNc8GDmTg+9yaRtiMgQsVYPZKkwK3l0C+
+        K4RVK2XRvHT+iQoRukqa9NOp0g==
+X-Google-Smtp-Source: ABdhPJwoZ9MJ9mzv9yFsoY9HMcrNs70l8450M7S+Sm3N1iyk6cCgVPMpRYCShxwgBwdfEoJcwVikWQ==
+X-Received: by 2002:a63:31cc:: with SMTP id x195mr792039pgx.99.1624473689165;
+        Wed, 23 Jun 2021 11:41:29 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:d440:232:5e25:41f4])
+        by smtp.gmail.com with UTF8SMTPSA id v13sm978597pja.44.2021.06.23.11.41.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Jun 2021 11:41:28 -0700 (PDT)
+From:   Matthias Kaehlcke <mka@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Michal Simek <michal.simek@xilinx.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Al Cooper <alcooperx@gmail.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Andy Gross <agross@kernel.org>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Michael Walle <michael@walle.cc>, Nishanth Menon <nm@ti.com>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org
+Subject: [PATCH v13 0/7] usb: misc: Add onboard_usb_hub driver
+Date:   Wed, 23 Jun 2021 11:41:16 -0700
+Message-Id: <20210623184124.3504047-1-mka@chromium.org>
+X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8bff20a7-8eb8-276a-086e-f1729fbbdbe4@microchip.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 02:33:14PM +0000, Claudiu.Beznea@microchip.com wrote:
-> On 23.06.2021 17:19, Alan Stern wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> > On Wed, Jun 23, 2021 at 02:09:16PM +0000, Claudiu.Beznea@microchip.com wrote:
-> >> On 23.06.2021 16:59, Alan Stern wrote:
-> >>> One thing you might consider changing: The name of the
-> >>> ohci_at91_port_suspend routine is misleading.  It doesn't really
-> >>> handle suspending the port; instead it handles the clocks that drive
-> >>> the entire OHCI controller.  Right?
-> >>
-> >> It does both as far as I can tell at the moment.
-> > 
-> > But the name suggests that it only handles suspending a port.  That's
-> > misleading.
-> > 
-> > And the way it is used in the SetPortFeature(USB_PORT_FEAT_SUSPEND)
-> > case in ohci_at91_hub_control is just plain wrong.  It won't merely
-> > suspend a single port; it will disable the entire OHCI controller.
-> 
-> Agree with all the above!
+This series adds:
+- the onboard_usb_hub_driver
+- glue in the xhci-plat driver to create and destroy the
+  onboard_usb_hub platform devices if needed
+- a device tree binding for the Realtek RTS5411 USB hub controller
+- device tree changes that add RTS5411 entries for the QCA SC7180
+  based boards trogdor and lazor
+- a couple of stubs for platform device functions to avoid
+  unresolved symbols with certain kernel configs
 
-Are there any systems beside the SAMA7G5 and others you tested which 
-might be affected by this patch?  Do they all work pretty much the 
-same way?  (I want to make sure no others will be adversely affected 
-by this change.)
+The main issue the driver addresses is that a USB hub needs to be
+powered before it can be discovered. For discrete onboard hubs (an
+example for such a hub is the Realtek RTS5411) this is often solved
+by supplying the hub with an 'always-on' regulator, which is kind
+of a hack. Some onboard hubs may require further initialization
+steps, like changing the state of a GPIO or enabling a clock, which
+requires even more hacks. This driver creates a platform device
+representing the hub which performs the necessary initialization.
+Currently it only supports switching on a single regulator, support
+for multiple regulators or other actions can be added as needed.
+Different initialization sequences can be supported based on the
+compatible string.
 
-Alan Stern
+Besides performing the initialization the driver can be configured
+to power the hub off during system suspend. This can help to extend
+battery life on battery powered devices which have no requirements
+to keep the hub powered during suspend. The driver can also be
+configured to leave the hub powered when a wakeup capable USB device
+is connected when suspending, and power it off otherwise.
+
+Changes in v13:
+- added patch "usb: Specify dependency on USB_XHCI_PLATFORM with
+  'depends on'" to the series to avoid Kconfig conflicts
+- added patch "arm64: defconfig: Explicitly enable USB_XHCI_PLATFORM"
+  to the series to keep effective defconfig unchanged
+
+Changes in v12:
+- onboard_hub driver: use IS_ENABLED(CONFIG_USB_ONBOARD_HUB_MODULE)
+  in onboard_hub.h to also check for the driver built as module
+- onboard_hub_driver: include onboard_hub.h again to make sure there
+  are prototype declarations for the public functions
+
+Changes in v11:
+- support multiple onboard hubs connected to the same parent
+- don't include ‘onboard_hub.h’ from the onboard hub driver
+
+Changes in v10:
+- always use of_is_onboard_usb_hub() stub unless ONBOARD_USB_HUB=y/m
+- keep 'regulator-boot-on' property for pp3300_hub
+
+Changes in v9:
+- added dependency on ONBOARD_USB_HUB (or !!ONBOARD_USB_HUB) to
+  USB_PLATFORM_XHCI
+
+Changes in v7:
+- updated DT binding
+- series rebased on qcom/arm64-for-5.13
+
+Changes in v6:
+- updated summary
+
+Changes in v5:
+- cover letter added
+
+Matthias Kaehlcke (7):
+  dt-bindings: usb: Add binding for Realtek RTS5411 hub controller
+  usb: misc: Add onboard_usb_hub driver
+  of/platform: Add stubs for of_platform_device_create/destroy()
+  arm64: defconfig: Explicitly enable USB_XHCI_PLATFORM
+  usb: Specify dependencies on USB_XHCI_PLATFORM with 'depends on'
+  usb: host: xhci-plat: Create platform device for onboard hubs in
+    probe()
+  arm64: dts: qcom: sc7180-trogdor: Add nodes for onboard USB hub
+
+ .../sysfs-bus-platform-onboard-usb-hub        |   8 +
+ .../bindings/usb/realtek,rts5411.yaml         |  62 +++
+ MAINTAINERS                                   |   7 +
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r0.dts |  19 +-
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r1.dts |  12 +-
+ .../arm64/boot/dts/qcom/sc7180-trogdor-r1.dts |  19 +-
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  |  19 +-
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/usb/cdns3/Kconfig                     |   2 +-
+ drivers/usb/dwc3/Kconfig                      |   3 +-
+ drivers/usb/host/Kconfig                      |   5 +-
+ drivers/usb/host/xhci-plat.c                  |   6 +
+ drivers/usb/host/xhci.h                       |   2 +
+ drivers/usb/misc/Kconfig                      |  17 +
+ drivers/usb/misc/Makefile                     |   1 +
+ drivers/usb/misc/onboard_usb_hub.c            | 497 ++++++++++++++++++
+ include/linux/of_platform.h                   |  22 +-
+ include/linux/usb/onboard_hub.h               |  18 +
+ 18 files changed, 682 insertions(+), 38 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-platform-onboard-usb-hub
+ create mode 100644 Documentation/devicetree/bindings/usb/realtek,rts5411.yaml
+ create mode 100644 drivers/usb/misc/onboard_usb_hub.c
+ create mode 100644 include/linux/usb/onboard_hub.h
+
+-- 
+2.32.0.288.g62a8d224e6-goog
+
