@@ -2,292 +2,137 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.4 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B136C49EA5
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 08:48:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF35C48BDF
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:01:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6FA47613CE
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 08:48:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B204F613E8
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbhFXIuu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Jun 2021 04:50:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50978 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229907AbhFXIut (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Jun 2021 04:50:49 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2145FC061574
-        for <linux-usb@vger.kernel.org>; Thu, 24 Jun 2021 01:48:30 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id i3-20020a05620a1503b02903b2ffa0a87fso4490951qkk.18
-        for <linux-usb@vger.kernel.org>; Thu, 24 Jun 2021 01:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=lv2M20z/E4ZxJIA5BSrsj1Pd/uieTDDMaCAFj2QM1E8=;
-        b=IeSP/P+6W72fNG1FYxWpwjwWHSvA4GP51ldPbpR8fGH8ihBxnYZRyLqIvkWwEohXQ0
-         w2lEcMUn26vViVoVh35zcG9nnPfIXrPt4UXymf8gXIqhjcKIJBmCybVwAqDEGCp6i8dM
-         1jvDvQSulXTiNegPxp6P2VTY2yGZn6VrI935s/OR9ejkzTPtCpI78FYfk8oAVPHcZuhu
-         Wl4MlcV96PtLq9Ku2OzSkaqzqYpDGbzEqCmvh7K7Wr3i5id+P72AGNMJZnkNJaf6AgNA
-         kV+kQlahP9hRjQ3Q3W4u+DZGbxEvKY6TOGAr7azm7jNyStvKz/ugRVczpalIMxIlHbRt
-         GCfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=lv2M20z/E4ZxJIA5BSrsj1Pd/uieTDDMaCAFj2QM1E8=;
-        b=YL2C7j5E/pwVYbOqAByliAQ79mDHozbgHB8Fq/D+3+nmwnQrXc2O4UmeIALXVdwMwg
-         WF2UPPWRgQSLZhAukQk61PKEJ1Yg2aAvz6sDDaR3BNMmu8apWnE8JxQlVrvt3CDE1qyo
-         ztCS2xvjqfh5xogTlxHsdRb5HqZ56nobTncsh4TSCl1luIvk1j5Ts+wCV6NKqoLO9uUj
-         BisZTh7Jq4XSRAbC7r7yRtTSo3MknnzIC5dCpa9IxhmcNheEmounGUYTStcEMy3W0jlI
-         j6yRzakGBK5jcv3yAvY53v9i4X64hgURgv4X98WBc+vbpoRRgxkJU3EtbMF5DqERlYci
-         l27Q==
-X-Gm-Message-State: AOAM533PTu61+vH6vhEpLw8aWGSJUl/oqc9d7YfZAVsmcP+RAJtzDxjM
-        BsnhV0sNnJ7yc6zwnO//MOrjklDtnzNu5g==
-X-Google-Smtp-Source: ABdhPJwz1UOj+BLfRPLtOTXYIGACJG+pK0CeffrKCgJOCpSZdJGztv47Cvb+WbdaCzYGKtiNvpeWn//XiWqIdw==
-X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:a802:69a8:1b1e:dc34])
- (user=davidgow job=sendgmr) by 2002:ad4:58f2:: with SMTP id
- di18mr4493438qvb.4.1624524509302; Thu, 24 Jun 2021 01:48:29 -0700 (PDT)
-Date:   Thu, 24 Jun 2021 01:48:23 -0700
-Message-Id: <20210624084823.15031-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.32.0.288.g62a8d224e6-goog
-Subject: [PATCH kunit-next] thunderbolt: test: Reinstate a few casts of bitfields
-From:   David Gow <davidgow@google.com>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     David Gow <davidgow@google.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-usb@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S229956AbhFXJDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Jun 2021 05:03:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229889AbhFXJDv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 24 Jun 2021 05:03:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9283C613BE;
+        Thu, 24 Jun 2021 09:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1624525292;
+        bh=YnyWkWEizzBW+4L6vyTdV/hlaYvEAtpeYkBydMQ2mow=;
+        h=Date:From:To:Cc:Subject:From;
+        b=aQwL/UrAMMlnmYoIM+R5MOrDefVKmYZm/yxt9D8zGy5sUDzyDVtb3TdNzXSjgvRMj
+         djKQmw5pwgYL9fZi0I266mgA/Jhm3s8qsb5+/cvflZx3N4hZP9j7y84v0vXE/HYorV
+         heTSRcxGg9xCZdI2HO7qWQlxVNnCvuFOCMoJcYgwQrsotfywVvH9fF1ZdAVjFb8dPq
+         PMKdp1NerfmZ91nbQC38JPNV0MJKUgU30x90awHGZkS5DtLgm9DF5RmCFqcoszyRr+
+         zaAsUbaaDLM+m5jmaMxhfOvjWvDMs6G9tRseAJXOj23d7HB8Js0mf/W4uSUU+HBzQa
+         D38fo3WJG/urQ==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lwLEq-0006iJ-OO; Thu, 24 Jun 2021 11:01:32 +0200
+Date:   Thu, 24 Jun 2021 11:01:32 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] USB-serial updates for 5.14-rc1
+Message-ID: <YNRJ7D7kVwaLWXe5@hovoldconsulting.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Partially revert "thunderbolt: test: Remove some casts which are no
-longer required". It turns out that typeof() doesn't support bitfields,
-so these still need to be cast to the appropriate enum.
+Hi Greg,
 
-The only mention of typeof() and bitfields I can find is in the proposal
-to standardise them:
-http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2619.htm
+Here are the USB serial updates for 5.14-rc1.
 
-This was caught by the kernel test robot:
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org/thread/FDKBHAV7QNLNFU5NBI2RKV56DWDSOLGM/
+Note that you'll get a merge conflict in cp210x between 
 
-Fixes: 	8f0877c26e ("thunderbolt: test: Remove some casts which are no longer required")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: David Gow <davidgow@google.com>
----
+	6f7ec77cc8b6 ("USB: serial: cp210x: fix alternate function for CP2102N QFN20")
 
-Whoops: I didn't notice this was broken earlier. If it's easier to just
-revert the broken patch, that's fine, too.
+which is already in your tree and
 
-Cheers,
--- David
+	8051334e901f ("USB: serial: cp210x: add support for GPIOs on CP2108")
 
- drivers/thunderbolt/test.c | 66 +++++++++++++++++++++++++-------------
- 1 file changed, 44 insertions(+), 22 deletions(-)
+This was also reported by Stephen here
 
-diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
-index 247dc9f4757e..3cc36ef639f3 100644
---- a/drivers/thunderbolt/test.c
-+++ b/drivers/thunderbolt/test.c
-@@ -384,7 +384,8 @@ static void tb_test_path_single_hop_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i++;
- 	}
- 
-@@ -395,7 +396,8 @@ static void tb_test_path_single_hop_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i--;
- 	}
- 
-@@ -441,7 +443,8 @@ static void tb_test_path_daisy_chain_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i++;
- 	}
- 
-@@ -452,7 +455,8 @@ static void tb_test_path_daisy_chain_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i--;
- 	}
- 
-@@ -502,7 +506,8 @@ static void tb_test_path_simple_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i++;
- 	}
- 
-@@ -513,7 +518,8 @@ static void tb_test_path_simple_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i--;
- 	}
- 
-@@ -584,7 +590,8 @@ static void tb_test_path_complex_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i++;
- 	}
- 
-@@ -595,7 +602,8 @@ static void tb_test_path_complex_tree_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i--;
- 	}
- 
-@@ -685,7 +693,8 @@ static void tb_test_path_max_length_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i++;
- 	}
- 
-@@ -696,7 +705,8 @@ static void tb_test_path_max_length_walk(struct kunit *test)
- 		KUNIT_EXPECT_TRUE(test, i < ARRAY_SIZE(test_data));
- 		KUNIT_EXPECT_EQ(test, tb_route(p->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, p->port, test_data[i].port);
--		KUNIT_EXPECT_EQ(test, p->config.type, test_data[i].type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)p->config.type,
-+				test_data[i].type);
- 		i--;
- 	}
- 
-@@ -779,10 +789,12 @@ static void tb_test_path_not_bonded_lane0(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -839,10 +851,12 @@ static void tb_test_path_not_bonded_lane1(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -917,10 +931,12 @@ static void tb_test_path_not_bonded_lane1_chain(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -995,10 +1011,12 @@ static void tb_test_path_not_bonded_lane1_chain_reverse(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1085,10 +1103,12 @@ static void tb_test_path_mixed_chain(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
-@@ -1175,10 +1195,12 @@ static void tb_test_path_mixed_chain_reverse(struct kunit *test)
- 
- 		KUNIT_EXPECT_EQ(test, tb_route(in_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, in_port->port, test_data[i].in_port);
--		KUNIT_EXPECT_EQ(test, in_port->config.type, test_data[i].in_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)in_port->config.type,
-+				test_data[i].in_type);
- 		KUNIT_EXPECT_EQ(test, tb_route(out_port->sw), test_data[i].route);
- 		KUNIT_EXPECT_EQ(test, out_port->port, test_data[i].out_port);
--		KUNIT_EXPECT_EQ(test, out_port->config.type, test_data[i].out_type);
-+		KUNIT_EXPECT_EQ(test, (enum tb_port_type)out_port->config.type,
-+				test_data[i].out_type);
- 	}
- 	tb_path_free(path);
- }
--- 
-2.32.0.288.g62a8d224e6-goog
+	https://lore.kernel.org/r/20210617150224.19213166@canb.auug.org.au
 
+and the resolution should be straight forward.
+
+Let me know if you prefer I pull in Linus's rc:s like you do to resolve any
+issues like this in the future.
+
+Johan
+
+
+
+The following changes since commit d07f6ca923ea0927a1024dfccafc5b53b61cfecc:
+
+  Linux 5.13-rc2 (2021-05-16 15:27:44 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.14-rc1
+
+for you to fetch changes up to 8051334e901f2f7ab9fa30a15b74cdc8e58dfde2:
+
+  USB: serial: cp210x: add support for GPIOs on CP2108 (2021-06-16 17:40:01 +0200)
+
+----------------------------------------------------------------
+USB-serial updates for 5.14-rc1
+
+Here are the USB-serial updates for 5.14-rc1, including:
+
+ - gpio support for CP2108
+ - chars_in_buffer and write_room return-value updates
+ - chars_in_buffer and write_room clean ups
+
+Included are also various clean ups.
+
+All have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Jiri Slaby (2):
+      USB: serial: make usb_serial_driver::write_room return uint
+      USB: serial: make usb_serial_driver::chars_in_buffer return uint
+
+Johan Hovold (6):
+      USB: serial: digi_acceleport: reduce chars_in_buffer over-reporting
+      USB: serial: digi_acceleport: add chars_in_buffer locking
+      USB: serial: io_edgeport: drop buffer-callback sanity checks
+      USB: serial: mos7720: drop buffer-callback sanity checks
+      USB: serial: mos7840: drop buffer-callback return-value comments
+      USB: serial: drop irq-flags initialisations
+
+Pho Tran (1):
+      USB: serial: cp210x: add support for GPIOs on CP2108
+
+ drivers/usb/serial/cp210x.c           | 189 ++++++++++++++++++++++++++++++----
+ drivers/usb/serial/cyberjack.c        |   4 +-
+ drivers/usb/serial/cypress_m8.c       |  16 +--
+ drivers/usb/serial/digi_acceleport.c  |  46 ++++-----
+ drivers/usb/serial/garmin_gps.c       |   2 +-
+ drivers/usb/serial/generic.c          |  12 +--
+ drivers/usb/serial/io_edgeport.c      |  39 ++-----
+ drivers/usb/serial/io_ti.c            |  12 +--
+ drivers/usb/serial/ir-usb.c           |   6 +-
+ drivers/usb/serial/keyspan.c          |   4 +-
+ drivers/usb/serial/kobil_sct.c        |   4 +-
+ drivers/usb/serial/metro-usb.c        |  12 +--
+ drivers/usb/serial/mos7720.c          |  29 ++----
+ drivers/usb/serial/mos7840.c          |  17 ++-
+ drivers/usb/serial/opticon.c          |   6 +-
+ drivers/usb/serial/oti6858.c          |  12 +--
+ drivers/usb/serial/quatech2.c         |   6 +-
+ drivers/usb/serial/sierra.c           |   8 +-
+ drivers/usb/serial/ti_usb_3410_5052.c |  16 +--
+ drivers/usb/serial/usb-wwan.h         |   4 +-
+ drivers/usb/serial/usb_wwan.c         |  12 +--
+ include/linux/usb/serial.h            |   8 +-
+ 22 files changed, 286 insertions(+), 178 deletions(-)
