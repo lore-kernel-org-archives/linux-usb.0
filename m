@@ -2,223 +2,183 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CDAC49EA7
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 21:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2357DC49EA6
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 01:27:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A80A6128C
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Jun 2021 21:44:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFC3E61380
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 01:27:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhFWVrQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Jun 2021 17:47:16 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:17133 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229958AbhFWVrO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 23 Jun 2021 17:47:14 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1624484696; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=5BGEMURobcJs1YRJdsd1p1jqwtDiwEb1TOrMlLDJyMw=; b=vZJFBEi9XxE5UIOMKxJB3sGWZwERdMIx81m/njjcz7jLAlcNDzsJTzsgZh+1/2zvC07QerUp
- vtRohTLFZkR55sfztRfm82Mqimj8Y22VKlF+Mh2mIYpHx8XYoP/876JL6x/G7LTHytskz/5l
- PrItJh2/G+cidfINSu12cV8k73Y=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 60d3ab43d2559fe392a771c5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 23 Jun 2021 21:44:35
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id DB0BFC4338A; Wed, 23 Jun 2021 21:44:34 +0000 (UTC)
-Received: from [10.110.66.189] (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 3535DC433F1;
-        Wed, 23 Jun 2021 21:44:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3535DC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-Subject: Re: [PATCH v10 2/6] usb: gadget: configfs: Check USB configuration
- before adding
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     balbi@kernel.org, robh+dt@kernel.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, frowand.list@gmail.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        jackp@codeaurora.org, fntoth@gmail.com,
-        heikki.krogerus@linux.intel.com, andy.shevchenko@gmail.com
-References: <1623923899-16759-1-git-send-email-wcheng@codeaurora.org>
- <1623923899-16759-3-git-send-email-wcheng@codeaurora.org>
- <YMss5tFFBjokk1k6@kroah.com>
- <012b0264-107a-5596-d73f-3a2fd20470cf@codeaurora.org>
- <YNF9kv0kWAz6Pp00@kroah.com>
- <afe0c718-1c16-1b20-4b0c-d8592a13af42@codeaurora.org>
- <YNMcnISDv2e7bze1@kroah.com>
-From:   Wesley Cheng <wcheng@codeaurora.org>
-Message-ID: <e7d70e8c-4574-808c-80f6-ae469937f35d@codeaurora.org>
-Date:   Wed, 23 Jun 2021 14:44:31 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229818AbhFXB3c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Jun 2021 21:29:32 -0400
+Received: from mail-eopbgr1410132.outbound.protection.outlook.com ([40.107.141.132]:10847
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229758AbhFXB3a (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Jun 2021 21:29:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=az9jhkVgoSOgqcBKnRS1lo+PVXRHCTGiF42lgglmzA7zmJ7cA+1OkgwL/ybLzVqCnyC6pEHKaJPlzYf5cZzYQ3WaqbTEqWZNNSjJf8UGvqcVuGtHi03IZWAjg6CYi/R4VOfA60RUbZh1/Gh8RnpF6myQsieHVnOQalk5QyKbICMrzrbq7QUy1Liwehdw8dqle/jI/D37hQ+2sPpZhvp1Q2BUy8P3YEQhJxy7wiXqmqd2uSnrXkfvX3ghzaq+l58UoH3gQAV+0zblC117RKw8SM2CJT+7RySqZMNMTaG/8xQoEyAKA9l/7Cd9qmbxG9QlTjT64usCz7SP+pjMnY+5cQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AM58HfhNogHR6OGeNM5FNj3m7zBq8/IVixOGGWSvZZ8=;
+ b=L1ka9CrDFmYm/GWFPEQq5u6pUUB+A+pkRUvMeQ1Gl8tj6F2dCI9kk2x0zNiQIzcbGHJZa9HWsPiaDk7AckJ7gs8xmiVOqUI02PfrHmV0xX7l62aw1tahq8qnoXOI9MZ/FnNMGMGE6n7DFL31WuHvvGJ5K5a6r4DP6daz7XA9k6dwOxBm8C/Woi1L0xpTmkXtnQrIKo1n0Dysab2fJ/Xei1KTJQPUUxFTBMxYSSsJ5c8ynZZlWmjLcgbwAf8IgJvltkNYxaivyJyqBvI63lXGlSCTnEnG3aaG//GW3TP6Xi7jkGxFtTMJ4U9waWc3GP+fKbtLnWRgl0LyS5SeCxiAeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AM58HfhNogHR6OGeNM5FNj3m7zBq8/IVixOGGWSvZZ8=;
+ b=K4TbuMkSFCbsL0GtWeC7b2DeWVDq59yMFFvfEiVIejfcIOvoPlgrD8A7fmXI/bfnumoJWlJjujJOjOoagHr577wnIaisGRxSUqG5wFZ6JfUJTD0Dy95Q0YigGMnAaMAedBvbX18lgDW5JH40HDBGfTYhKOFTF+MHoO6iamhFUpA=
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com (2603:1096:404:d5::22)
+ by TYCPR01MB5918.jpnprd01.prod.outlook.com (2603:1096:400:40::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18; Thu, 24 Jun
+ 2021 01:27:09 +0000
+Received: from TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::4c5d:66ee:883a:72a5]) by TY2PR01MB3692.jpnprd01.prod.outlook.com
+ ([fe80::4c5d:66ee:883a:72a5%6]) with mapi id 15.20.4242.024; Thu, 24 Jun 2021
+ 01:27:09 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH RFC] usb: renesas_usbhs: fifo: : use proper DMAENGINE API
+ for termination
+Thread-Topic: [PATCH RFC] usb: renesas_usbhs: fifo: : use proper DMAENGINE API
+ for termination
+Thread-Index: AQHXaBb4DCoFDFqLl0Gk0IEvbdRVSKsiXRSg
+Date:   Thu, 24 Jun 2021 01:27:09 +0000
+Message-ID: <TY2PR01MB3692C7B6E0FD027B5C3E05B5D8079@TY2PR01MB3692.jpnprd01.prod.outlook.com>
+References: <20210623100304.3697-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20210623100304.3697-1-wsa+renesas@sang-engineering.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: sang-engineering.com; dkim=none (message not signed)
+ header.d=none;sang-engineering.com; dmarc=none action=none
+ header.from=renesas.com;
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0f1280ac-d5ef-4260-02ba-08d936af2fd0
+x-ms-traffictypediagnostic: TYCPR01MB5918:
+x-microsoft-antispam-prvs: <TYCPR01MB5918ACAFBEBF5E8A580E6999D8079@TYCPR01MB5918.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gwXGMp2ph3ZCIKHKPPti1m1hmvatlb/LIvcNZULS3vY/Tzo+1RFEBmxnZZEMZaSJ+wPb27zvY1PUdVfMKUsyS58H04m6Jdok5CPCudi8X9ykI0TrobGKhI09UUZg45CvWR3aB6KmhiS04CZkImL22UrHHnWGV1EeNHV8DKMUrPTkX7ot6nWX1tRcJxFDWUBJdOhrNVizB9hMlBAm4l9KS9WVHo+/eVX4eCmuV6XCElkFGmw4lRl7Z77IiMrvBuTB/DeuxD0Q2NBoAEUMQ4nztQOTjpfUrLVCOT6G9V4kQfTw6Nl+WFLPlhur0Ee7KoFBsKzzpK7gkwP1P6yTDRYSbCSOVhe/cSHwhh7PQ7a6hR2QhZbXkralcMJRfL9Aet6EkYd7NtjDFhsYkKDtmbYIfIJZo5XpE4s8+VpMCa0zgtKg5GasqGRsulagjmAfhLe+2Ck22WGBBMMjMj1FRi4iD+0NhNtM7ZY8ty4By7GR1087ob3IbjD0hGuW+9BBixJtmnU15yIcQpdAoMkycZFSR60zpj9+OSsQcAtxoKnoBet3OgUqVUFO6tpuokrKYgc5oCUIx+m9a1Ns0lVKI1i8288j8QYlynryI8/XZkm5R6XwXpCS3UXdoBjH8O/jcq+xBt7uSkkgq6n60jfTNgmnUA7853ne/NYSnpV+c8FBHrrIC/oFfNqm6fe+/i/plJ/EG9FSI/4dlj8bl7MXj/TLzc2HhLfsQfDQ2/gL5mAfK4vBYfSvGYOcEjPiyrOrxys21KKHU7MQ9W+EWPvbCyUtmPTNtdMLuRkWTq+g3Ak+YxmFpQpFhpJLHYFdc+d+81qq
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY2PR01MB3692.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(376002)(366004)(39860400002)(26005)(4326008)(186003)(55016002)(33656002)(9686003)(8936002)(55236004)(5660300002)(54906003)(8676002)(71200400001)(38100700002)(122000001)(316002)(6506007)(86362001)(83380400001)(66476007)(76116006)(66556008)(66946007)(7696005)(64756008)(478600001)(52536014)(966005)(45080400002)(2906002)(66446008);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?r8TxsTdiiUNvrVWqK96u1IT8M2fjhRkVA4Pz4HD5naQ2mUYxdCzA4v57kLnr?=
+ =?us-ascii?Q?bm8RakLA6iU4lnpJylugOUse2EybY2I2ZKRarUhR/SM0PHkIf0wCRYz9OdVY?=
+ =?us-ascii?Q?+DcQeFEYJz3qyvEVMvidYA+D7gBjaCe3hncnteyDfE0TpOCTTD1WqOFsIQI3?=
+ =?us-ascii?Q?eRS5KBlw7rQZjTxfxSynvNLcs48rNuVlJdralTp0LQHoPj/pyIE9mZgRV5no?=
+ =?us-ascii?Q?2MUlw955sj2gdo9GtAggdFvlZbZik5xy10/hUPeqWQmxg2s3591MM73dY58r?=
+ =?us-ascii?Q?EbhsRgv9vh2P1rIDcbea78LJGjmbDnWH3JlqEP+BTs4t2YF9i5uszUTfK+vj?=
+ =?us-ascii?Q?KTuVXdiCIG5PRGaYKdyc6pDBM1kvYV3amNIYTA8B3y7XJbcCIeIFhLFx0nOe?=
+ =?us-ascii?Q?qlrU7lNe7uTEYoacWzXUx3WLEua1vSNL+rx09ZiYW/WvwG7hRvnMKp3YSZKD?=
+ =?us-ascii?Q?ZDdURC9rM/BUTbUzbCo/HhxdBIJ9/wgKGEFyY8ITQArX6hyuSRPfhjTnn0CZ?=
+ =?us-ascii?Q?W7StuNNIRcMB+MQ2oDn0tegpDAtQWSc0rZd2F/9RNtw4aPu9ohuRoil7FSsW?=
+ =?us-ascii?Q?qtnEda3q5YkEgbHxb9meDnATx2b81mDsZdv+1Mdis1UcmJv6prTG5ikbhhBl?=
+ =?us-ascii?Q?h3JCBRqAvCHxNQKGcvgkqwsB1LPFXUrp2/kPr9bJQrO0Ia1jdkcrnmvcM4L/?=
+ =?us-ascii?Q?OLNSAKYeodqrgbzVe4LIbfpH165TINlfF4YBJimRKOmSpVQnbD61LdzXngA3?=
+ =?us-ascii?Q?V4drJ4fCTYjWYnTkh5iEbGjMwMi3THzzQaw1hlMfAIUWIEZZIsuKsxeEjyS2?=
+ =?us-ascii?Q?VHLR+bwCYjq6ZF2f0Mv9Nv5wi0WNyxqiqgCE9s7ZPhReb+lECnpxDJ5xOY+N?=
+ =?us-ascii?Q?+RHHy9gZTXi8LlgUxhcUDOVmGmBYEPomtO8Gj85OLiXAOdvBDssuwqkT6Pj3?=
+ =?us-ascii?Q?bZVWcHfuq7vEiadTDRV3OEoCgYWuVFcOb3DnAauSZheEX9QYbKDnvMATG4ih?=
+ =?us-ascii?Q?BlYqu5s4R+TyvX9SjRp2XizYJwNYIRK4t41b5sfP4XtJbqWNVeeSgGQD3jjv?=
+ =?us-ascii?Q?G/JJCPdpkPuxyaKPH5kFrPpALJPkWq5KvQyWAamqTKxYOuwZuz3VDITUtFpj?=
+ =?us-ascii?Q?Arfm+7FzZR+i3eBOjeUX9Pj0evNj3/daHLG9uJTpo/T3rE90WEd9nEaTExUh?=
+ =?us-ascii?Q?nhsqSm50lH1D8LOrfGvjWW+lhkyrfKqSiS7P4aznNiBtwKYTKc/u7apcct9M?=
+ =?us-ascii?Q?NRnKJ028U883RIwtoqsxI6lXyW+Bh+fmpPWs6yJIBLtFH/D3paDR5u0vgq9Q?=
+ =?us-ascii?Q?qWWcUCBn88+6PsKLTf/iQ2tw?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <YNMcnISDv2e7bze1@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY2PR01MB3692.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f1280ac-d5ef-4260-02ba-08d936af2fd0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2021 01:27:09.8194
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oBQCb/RoqUF/N5Mp6ymnTGEQ5CCDvxxvGAwgcwva01+pZu8TKsf6JWuP4n7hn1oMaWh20pQmL7Z4UdAit3sW0B+y/akSG0DhJ1qlqXGi6ZXAev7DgFOMx9R8qaMCEztS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB5918
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Wolfram-san,
 
+> From: Wolfram Sang, Sent: Wednesday, June 23, 2021 7:03 PM
+>=20
+> dmaengine_terminate_all() is deprecated in favor of explicitly saying if
+> it should be sync or async. Here, we want dmaengine_terminate_sync()
+> because there is no other synchronization code in the driver to handle
+> an async case.
+>=20
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>=20
+> Shimoda-san, can you please double check if this works with the
+> additional locking in this function? Thank you!
 
-On 6/23/2021 4:35 AM, Greg KH wrote:
-> On Wed, Jun 23, 2021 at 02:38:55AM -0700, Wesley Cheng wrote:
->>
->>
->> On 6/21/2021 11:05 PM, Greg KH wrote:
->>> On Mon, Jun 21, 2021 at 10:27:09PM -0700, Wesley Cheng wrote:
->>>>
->>>>
->>>> On 6/17/2021 4:07 AM, Greg KH wrote:
->>>>> On Thu, Jun 17, 2021 at 02:58:15AM -0700, Wesley Cheng wrote:
->>>>>> Ensure that the USB gadget is able to support the configuration being
->>>>>> added based on the number of endpoints required from all interfaces.  This
->>>>>> is for accounting for any bandwidth or space limitations.
->>>>>>
->>>>>> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
->>>>>> ---
->>>>>>  drivers/usb/gadget/configfs.c | 22 ++++++++++++++++++++++
->>>>>>  1 file changed, 22 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
->>>>>> index 15a607c..76b9983 100644
->>>>>> --- a/drivers/usb/gadget/configfs.c
->>>>>> +++ b/drivers/usb/gadget/configfs.c
->>>>>> @@ -1374,6 +1374,7 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
->>>>>>  		struct usb_function *f;
->>>>>>  		struct usb_function *tmp;
->>>>>>  		struct gadget_config_name *cn;
->>>>>> +		unsigned long ep_map = 0;
->>>>>>  
->>>>>>  		if (gadget_is_otg(gadget))
->>>>>>  			c->descriptors = otg_desc;
->>>>>> @@ -1403,7 +1404,28 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
->>>>>>  				list_add(&f->list, &cfg->func_list);
->>>>>>  				goto err_purge_funcs;
->>>>>>  			}
->>>>>> +			if (f->fs_descriptors) {
->>>>>> +				struct usb_descriptor_header **d;
->>>>>> +
->>>>>> +				d = f->fs_descriptors;
->>>>>> +				for (; *d; ++d) {
->>>>
->>>> Hi Greg,
->>>>
->>>> Thanks for the review and feedback.
->>>>
->>>>>
->>>>> With this check, there really is not a need to check for
->>>>> f->fs_descriptors above in the if statement, right?
->>>>>
->>>>
->>>> f->fs_descriptor will carry the table of descriptors that a particular
->>>> function driver has assigned to it.  The for loop here, will dereference
->>>> the individual descriptors within that descriptor array, so we need to
->>>> first ensure the descriptor array is present before traversing through
->>>> the individual entries/elements.
->>>
->>> Ah, it's a dereference of an array element.  Subtle.  Tricky.  Messy :(
->>>
->>>>>> +					struct usb_endpoint_descriptor *ep;
->>>>>> +					int addr;
->>>>>> +
->>>>>> +					if ((*d)->bDescriptorType != USB_DT_ENDPOINT)
->>>>>> +						continue;
->>>>>> +
->>>>>> +					ep = (struct usb_endpoint_descriptor *)*d;
->>>>>> +					addr = ((ep->bEndpointAddress & 0x80) >> 3) |
->>>>>> +						(ep->bEndpointAddress & 0x0f);
->>>>>
->>>>> Don't we have direction macros for this type of check?
->>>>>
->>>>
->>>> I don't believe we have a macro which would be able to convert the
->>>> bEndpointAddress field into the bit which needs to be set, assuming that
->>>> the 32bit ep_map has the lower 16bits carrying OUT EPs, and the upper
->>>> 16bits carrying the IN EPs.
->>
->> Hi Greg,
->>
->>>
->>> We have macros to tell if an endpoint is IN or OUT, please use those.
->>>
->>> And this "cram the whole thing into 64 bits" is not obvious at all.
->>> Just pass around the original pointer to the descriptors if someone
->>> wants to use it or not, don't make up yet-another-data-structure here
->>> for no good reason.  We aren't so memory constrained we need to pack
->>> stuff into bits here.
->>>
->>
->> Hmm ok, what I can do is to move this logic into the check_config()
->> callback itself, which is implemented by the UDC driver.  So now, the
->> DWC3 will have to do something similar to what is done here, ie loop the
->> EP descriptors for each function to determine the number of IN endpoints
->> being used.
+Thank you for the patch! I checked and tested this patch and worked
+correctly on my environment.
+# To be honest, both shdma and usb-dmac driver doesn't support .device_sync=
+hronize
+# so that _async() is enough for now.
 
-Hi Greg,
+However, I have a concern which this patch will conflict my fixed patch [1]=
+.
 
-> 
-> We have common USB core functions for this, why can't you just use them?
-> 
+[1]
+https://lore.kernel.org/linux-renesas-soc/20210611105411.543008-2-yoshihiro=
+.shimoda.uh@renesas.com/
 
-So, I've tried to use pre-existing mechanisms there in the USB core, but
-they are not populated correctly at the time of function binding.  I
-will highlight some of the things I've tried, and why they do not work.
- If possible, if you could point which core functions can achieve what
-we are trying to do here, that would help as well.
+Since I caused a trouble [2], the patch [1] was not merged yet.
+So, I intended to resend the patch in near the future.
 
-  - f->endpoints - This is a bitmap which carries the endpoints used by
-a particular function driver.  This does not work, as this is set during
-receiving the SET_CONFIG packet.  (we need this during the function
-driver binding stage)
+[2]
+https://lore.kernel.org/linux-renesas-soc/TY2PR01MB3692555C6EAC8F02BC8B3D63=
+D8329@TY2PR01MB3692.jpnprd01.prod.outlook.com/
 
-  - gadget->in_epnum/gadget->out_epnum - This carries the count of
-endpoints used per configuration.  This would be perfect, but this count
-is only incremented when we are not matching EPs using the EP name.  So
-in designs where the EP name is used to match, it can not be used.
+In backporting point of view, I guess it's better to apply my fixed patch a=
+t first,
+and then apply this DMAENGINE patch. But, what do you think?
 
- - gadget->ep_list - I can use this now in the check_config() to iterate
-through the list of eps to see which ones have been claimed for a
-particular configuration.
+Best regards,
+Yoshihiro Shimoda
 
-So just to re-iterate, the TXFIFO resize logic kicks in when the host
-sends the SET_CONFIG packet, which is the "end" of USB enumeration.  We
-had discussed a concern previously where, what if we run the resize
-logic, and there is not enough internal memory.  We'd end up with an
-enumerated device w/ certain functions broken.
+>  drivers/usb/renesas_usbhs/fifo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/renesas_usbhs/fifo.c b/drivers/usb/renesas_usbhs=
+/fifo.c
+> index b5e7991dc7d9..6176f2325f03 100644
+> --- a/drivers/usb/renesas_usbhs/fifo.c
+> +++ b/drivers/usb/renesas_usbhs/fifo.c
+> @@ -121,7 +121,7 @@ struct usbhs_pkt *usbhs_pkt_pop(struct usbhs_pipe *pi=
+pe, struct usbhs_pkt *pkt)
+>  		if (fifo)
+>  			chan =3D usbhsf_dma_chan_get(fifo, pkt);
+>  		if (chan) {
+> -			dmaengine_terminate_all(chan);
+> +			dmaengine_terminate_sync(chan);
+>  			usbhsf_dma_unmap(pkt);
+>  		}
+> --
+> 2.30.2
 
-This is where the check_config() comes into the picture.  It uses the
-number of endpoints collected during the bind() stage, and checks to
-make sure the resize logic can at least allocate 1 TXFIFO per endpoint.
- If it can not, then it will fail the bind sequence.
-
-Thanks
-Wesley Cheng
-> Please do not take data that we already have in one format, and convert
-> it to another one just for a single driver to consume.  That's
-> pointless.
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
