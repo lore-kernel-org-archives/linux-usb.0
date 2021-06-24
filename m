@@ -2,137 +2,143 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF35C48BDF
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28E2AC49EA6
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:02:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B204F613E8
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:01:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DC8C613F4
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Jun 2021 09:02:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhFXJDy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Jun 2021 05:03:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
+        id S230403AbhFXJFN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Jun 2021 05:05:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59714 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229889AbhFXJDv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 24 Jun 2021 05:03:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9283C613BE;
-        Thu, 24 Jun 2021 09:01:32 +0000 (UTC)
+        id S229958AbhFXJFM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 24 Jun 2021 05:05:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6ABAB613E7;
+        Thu, 24 Jun 2021 09:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624525292;
-        bh=YnyWkWEizzBW+4L6vyTdV/hlaYvEAtpeYkBydMQ2mow=;
-        h=Date:From:To:Cc:Subject:From;
-        b=aQwL/UrAMMlnmYoIM+R5MOrDefVKmYZm/yxt9D8zGy5sUDzyDVtb3TdNzXSjgvRMj
-         djKQmw5pwgYL9fZi0I266mgA/Jhm3s8qsb5+/cvflZx3N4hZP9j7y84v0vXE/HYorV
-         heTSRcxGg9xCZdI2HO7qWQlxVNnCvuFOCMoJcYgwQrsotfywVvH9fF1ZdAVjFb8dPq
-         PMKdp1NerfmZ91nbQC38JPNV0MJKUgU30x90awHGZkS5DtLgm9DF5RmCFqcoszyRr+
-         zaAsUbaaDLM+m5jmaMxhfOvjWvDMs6G9tRseAJXOj23d7HB8Js0mf/W4uSUU+HBzQa
-         D38fo3WJG/urQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1lwLEq-0006iJ-OO; Thu, 24 Jun 2021 11:01:32 +0200
-Date:   Thu, 24 Jun 2021 11:01:32 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] USB-serial updates for 5.14-rc1
-Message-ID: <YNRJ7D7kVwaLWXe5@hovoldconsulting.com>
+        s=k20201202; t=1624525373;
+        bh=RipF1Knz8sFbeKctWLgXvVEeh2TWOKZIJX2SkI+qPeU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q6hNVazeCbQy28r3AP/zzpTWruHs/ILDY2lgizCZQeP/E4++FWZbBqXPDEILM3zS4
+         yt0vsfRBLEl+o4VyPwZOnFcVmKjmyEixhOmsh48da1SCfA3dSx9WjaAjOjYQO+GRS2
+         Smtt60K/Ag7/fc1TLCuyv/olY2CuezkfhrcBe9302LT14ABA0IW29FxXxWi73ciLui
+         Go9DkUHH8m+bHJeIceRtpEu5ehmlzWsDLyNk+hMnEHP+1CTighcE6Ui12ymfYynAbB
+         q41eqFLHBBAdEyydOajM98AV6a3An+wTxR42m4HblTLXq8ukQFDY8wfC0ceZwYe7LX
+         HsxS5EWgGQjuQ==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lwLG6-003jrn-LG; Thu, 24 Jun 2021 11:02:50 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org
+Subject: [PATCH RESEND v6 0/8] Move Hisilicon 6421v600 SPMI and USB drivers out of staging
+Date:   Thu, 24 Jun 2021 11:01:04 +0200
+Message-Id: <cover.1624525118.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Notes:
+   1. Patch resent with --no-renames, in order to show the full code when
+      moving the code out of staging (on this RESEND);
+
+   2. the previous series is at:
+      https://lore.kernel.org/lkml/cover.1616695231.git.mchehab+huawei@kernel.org/
+
 Hi Greg,
 
-Here are the USB serial updates for 5.14-rc1.
+Those are the remaining patches that are needed for the USB to work
+with Hikey970.
 
-Note that you'll get a merge conflict in cp210x between 
+This series address the comments made on v5. Sorry for taking so long to
+return back on this. Got sidetracked by other unrelated stuff.
 
-	6f7ec77cc8b6 ("USB: serial: cp210x: fix alternate function for CP2102N QFN20")
+Changes from v5:
 
-which is already in your tree and
+- Some changes at DT to comply with Rob Herring's feedback;
+- a couple of cleanups at the phy-hi3670-usb3;
+- Vinod's ack added to patch 4;
+- Several cleanups at hi6421-spmi-pmic.c, in order to address
+  Lee Jones feedbacks.
 
-	8051334e901f ("USB: serial: cp210x: add support for GPIOs on CP2108")
-
-This was also reported by Stephen here
-
-	https://lore.kernel.org/r/20210617150224.19213166@canb.auug.org.au
-
-and the resolution should be straight forward.
-
-Let me know if you prefer I pull in Linus's rc:s like you do to resolve any
-issues like this in the future.
-
-Johan
-
+On this series, I opted to keep using "gpios" for the DT IRQ gpios needed
+by the PMIC driver, as this is the string expected by of_get_gpio(), and
+it is the most common pattern for IRQ gpios. If required, I'll send a
+followup patch changing it to use, instead, the of_get_named_gpio_flags()
+variant.
 
 
-The following changes since commit d07f6ca923ea0927a1024dfccafc5b53b61cfecc:
+Mauro Carvalho Chehab (8):
+  staging: phy-hi3670-usb3: do a some minor cleanups
+  staging: hisi-spmi-controller: rename spmi-channel property
+  staging: phy-hi3670-usb3: do some additional cleanups
+  phy: phy-hi3670-usb3: move driver from staging into phy
+  spmi: hisi-spmi-controller: move driver from staging
+  mfd: hi6421-spmi-pmic: move driver from staging
+  dts: hisilicon: add support for the PMIC found on Hikey 970
+  dts: hisilicon: add support for USB3 on Hikey 970
 
-  Linux 5.13-rc2 (2021-05-16 15:27:44 -0700)
+ .../mfd/hisilicon,hi6421-spmi-pmic.yaml       | 134 ++++
+ .../bindings/phy/hisilicon,hi3670-usb3.yaml   |  73 ++
+ .../spmi/hisilicon,hisi-spmi-controller.yaml  |  73 ++
+ MAINTAINERS                                   |  23 +-
+ .../boot/dts/hisilicon/hi3670-hikey970.dts    | 129 +++-
+ arch/arm64/boot/dts/hisilicon/hi3670.dtsi     |  56 ++
+ .../boot/dts/hisilicon/hikey970-pmic.dtsi     |  87 +++
+ drivers/mfd/Kconfig                           |  16 +
+ drivers/mfd/Makefile                          |   1 +
+ drivers/mfd/hi6421-spmi-pmic.c                | 316 +++++++++
+ drivers/phy/hisilicon/Kconfig                 |  10 +
+ drivers/phy/hisilicon/Makefile                |   1 +
+ drivers/phy/hisilicon/phy-hi3670-usb3.c       | 661 +++++++++++++++++
+ drivers/spmi/Kconfig                          |   9 +
+ drivers/spmi/Makefile                         |   1 +
+ drivers/spmi/hisi-spmi-controller.c           | 367 ++++++++++
+ drivers/staging/Kconfig                       |   2 -
+ drivers/staging/Makefile                      |   1 -
+ drivers/staging/hikey9xx/Kconfig              |  41 --
+ drivers/staging/hikey9xx/Makefile             |   6 -
+ drivers/staging/hikey9xx/TODO                 |   5 -
+ drivers/staging/hikey9xx/hi6421-spmi-pmic.c   | 297 --------
+ .../staging/hikey9xx/hisi-spmi-controller.c   | 367 ----------
+ .../hikey9xx/hisilicon,hi6421-spmi-pmic.yaml  | 135 ----
+ .../hisilicon,hisi-spmi-controller.yaml       |  71 --
+ drivers/staging/hikey9xx/phy-hi3670-usb3.c    | 668 ------------------
+ drivers/staging/hikey9xx/phy-hi3670-usb3.yaml |  73 --
+ 27 files changed, 1937 insertions(+), 1686 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/hisilicon,hi6421-spmi-pmic.yaml
+ create mode 100644 Documentation/devicetree/bindings/phy/hisilicon,hi3670-usb3.yaml
+ create mode 100644 Documentation/devicetree/bindings/spmi/hisilicon,hisi-spmi-controller.yaml
+ create mode 100644 arch/arm64/boot/dts/hisilicon/hikey970-pmic.dtsi
+ create mode 100644 drivers/mfd/hi6421-spmi-pmic.c
+ create mode 100644 drivers/phy/hisilicon/phy-hi3670-usb3.c
+ create mode 100644 drivers/spmi/hisi-spmi-controller.c
+ delete mode 100644 drivers/staging/hikey9xx/Kconfig
+ delete mode 100644 drivers/staging/hikey9xx/Makefile
+ delete mode 100644 drivers/staging/hikey9xx/TODO
+ delete mode 100644 drivers/staging/hikey9xx/hi6421-spmi-pmic.c
+ delete mode 100644 drivers/staging/hikey9xx/hisi-spmi-controller.c
+ delete mode 100644 drivers/staging/hikey9xx/hisilicon,hi6421-spmi-pmic.yaml
+ delete mode 100644 drivers/staging/hikey9xx/hisilicon,hisi-spmi-controller.yaml
+ delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.c
+ delete mode 100644 drivers/staging/hikey9xx/phy-hi3670-usb3.yaml
 
-are available in the Git repository at:
+-- 
+2.31.1
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.14-rc1
 
-for you to fetch changes up to 8051334e901f2f7ab9fa30a15b74cdc8e58dfde2:
-
-  USB: serial: cp210x: add support for GPIOs on CP2108 (2021-06-16 17:40:01 +0200)
-
-----------------------------------------------------------------
-USB-serial updates for 5.14-rc1
-
-Here are the USB-serial updates for 5.14-rc1, including:
-
- - gpio support for CP2108
- - chars_in_buffer and write_room return-value updates
- - chars_in_buffer and write_room clean ups
-
-Included are also various clean ups.
-
-All have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Jiri Slaby (2):
-      USB: serial: make usb_serial_driver::write_room return uint
-      USB: serial: make usb_serial_driver::chars_in_buffer return uint
-
-Johan Hovold (6):
-      USB: serial: digi_acceleport: reduce chars_in_buffer over-reporting
-      USB: serial: digi_acceleport: add chars_in_buffer locking
-      USB: serial: io_edgeport: drop buffer-callback sanity checks
-      USB: serial: mos7720: drop buffer-callback sanity checks
-      USB: serial: mos7840: drop buffer-callback return-value comments
-      USB: serial: drop irq-flags initialisations
-
-Pho Tran (1):
-      USB: serial: cp210x: add support for GPIOs on CP2108
-
- drivers/usb/serial/cp210x.c           | 189 ++++++++++++++++++++++++++++++----
- drivers/usb/serial/cyberjack.c        |   4 +-
- drivers/usb/serial/cypress_m8.c       |  16 +--
- drivers/usb/serial/digi_acceleport.c  |  46 ++++-----
- drivers/usb/serial/garmin_gps.c       |   2 +-
- drivers/usb/serial/generic.c          |  12 +--
- drivers/usb/serial/io_edgeport.c      |  39 ++-----
- drivers/usb/serial/io_ti.c            |  12 +--
- drivers/usb/serial/ir-usb.c           |   6 +-
- drivers/usb/serial/keyspan.c          |   4 +-
- drivers/usb/serial/kobil_sct.c        |   4 +-
- drivers/usb/serial/metro-usb.c        |  12 +--
- drivers/usb/serial/mos7720.c          |  29 ++----
- drivers/usb/serial/mos7840.c          |  17 ++-
- drivers/usb/serial/opticon.c          |   6 +-
- drivers/usb/serial/oti6858.c          |  12 +--
- drivers/usb/serial/quatech2.c         |   6 +-
- drivers/usb/serial/sierra.c           |   8 +-
- drivers/usb/serial/ti_usb_3410_5052.c |  16 +--
- drivers/usb/serial/usb-wwan.h         |   4 +-
- drivers/usb/serial/usb_wwan.c         |  12 +--
- include/linux/usb/serial.h            |   8 +-
- 22 files changed, 286 insertions(+), 178 deletions(-)
