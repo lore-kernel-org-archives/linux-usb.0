@@ -7,57 +7,60 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15091C49EAB
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Jun 2021 21:18:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4BAC49EA5
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Jun 2021 21:19:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EAD5261C4E
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Jun 2021 21:18:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E40AF61C4A
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Jun 2021 21:19:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230406AbhFZVVP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Jun 2021 17:21:15 -0400
-Received: from mta-02.yadro.com ([89.207.88.252]:47306 "EHLO mta-01.yadro.com"
+        id S231127AbhFZVVX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Jun 2021 17:21:23 -0400
+Received: from mta-02.yadro.com ([89.207.88.252]:47328 "EHLO mta-01.yadro.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230333AbhFZVVM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 26 Jun 2021 17:21:12 -0400
+        id S230439AbhFZVVS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 26 Jun 2021 17:21:18 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mta-01.yadro.com (Postfix) with ESMTP id 5C72B41381;
-        Sat, 26 Jun 2021 21:18:48 +0000 (UTC)
+        by mta-01.yadro.com (Postfix) with ESMTP id 01602413B4;
+        Sat, 26 Jun 2021 21:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
-        content-type:content-type:content-transfer-encoding:mime-version
+        content-transfer-encoding:content-type:content-type:mime-version
         :references:in-reply-to:x-mailer:message-id:date:date:subject
         :subject:from:from:received:received:received; s=mta-01; t=
-        1624742326; x=1626556727; bh=kdbxWlSKUUSow8yjY7LkXm57fuM6N+KEQiA
-        qv1pNhrw=; b=I8YRZDtrxFxWeVkFqpyBAO+AZgxhTE+eFMu8VdOZ8WTs4bBf7ZS
-        AF7O5BuC8Xn1eBuI2sxjum7pf6fAfCTrLtOd+gzWuTQpgWhnnzgO5xOLqEp3QfAe
-        DsBkewNdQrqfxHnh4hRcVPD6ILyD/JOiJtxD8h+Y5Ivs3VTaWqyrpx+I=
+        1624742332; x=1626556733; bh=s6lDsQktPgY555UnSshQR3ZqaHQ3iDSnDQU
+        7QjnimJ8=; b=YczVUdW6xwJHXUlazEu1WEjVLfjAj2M65UCr58fUSyYZDZutL04
+        YyhobO5ORQ6KKFvwk+9Bo4Zp1OhIL6DmxrdXFo4jclQLyI6x4VSTYNlU5d9l1e/K
+        tAE9jPVJXfw/iSNbRf7gLzNgoa0oNvg9Ou/RIP7fIlxfZk2AZkrklhfE=
 X-Virus-Scanned: amavisd-new at yadro.com
 Received: from mta-01.yadro.com ([127.0.0.1])
         by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id DfmF3XcAiWiF; Sun, 27 Jun 2021 00:18:46 +0300 (MSK)
+        with ESMTP id dM5H7JoxMI11; Sun, 27 Jun 2021 00:18:52 +0300 (MSK)
 Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com [172.17.100.103])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mta-01.yadro.com (Postfix) with ESMTPS id 7D0D741374;
-        Sun, 27 Jun 2021 00:18:46 +0300 (MSK)
+        by mta-01.yadro.com (Postfix) with ESMTPS id 45ED941374;
+        Sun, 27 Jun 2021 00:18:52 +0300 (MSK)
 Received: from localhost.localdomain (10.199.0.6) by T-EXCH-03.corp.yadro.com
  (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sun, 27
- Jun 2021 00:18:46 +0300
+ Jun 2021 00:18:51 +0300
 From:   Igor Kononenko <i.kononenko@yadro.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
         Jens Axboe <axboe@kernel.dk>
 CC:     <openbmc@lists.ozlabs.org>, Igor Kononenko <i.kononenko@yadro.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 3/6] fms: Add TOC/PMA/ATIP DVD-ROM capabilities
-Date:   Sun, 27 Jun 2021 00:18:16 +0300
-Message-ID: <20210626211820.107310-4-i.kononenko@yadro.com>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-scsi@vger.kernel.org>
+Subject: [PATCH 6/6] FMS: Add SCSI Read Disc Information command.
+Date:   Sun, 27 Jun 2021 00:18:19 +0300
+Message-ID: <20210626211820.107310-7-i.kononenko@yadro.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210626211820.107310-1-i.kononenko@yadro.com>
 References: <20210626211820.107310-1-i.kononenko@yadro.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-Originating-IP: [10.199.0.6]
 X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
  T-EXCH-03.corp.yadro.com (172.17.100.103)
@@ -65,357 +68,328 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The DVD-ROM required the SCSI 6.25 READ TOC/PMA/ATIP Command formats:
- * Response Format 0000b: Formatted TOC
- * Response Format 0001b: Multi-session Information
-(MMC-6 Specification).
+Adds the SCSI Read Disc Information command, which should be given for
+multimedia device consumers to retrieve the DVD/BD disk information
+about:
+* Total tracks contained at the disc Total and active sessions Border
+* status(incomplete, damaged, etc.)
+This information is wanted for supporting the DVD-ROM and BD-ROM
+devices.
 
-This patch adds an implementation of that described above formats.
+End-user-impact: Now, multimedia device consumers have a way to retrieve
+                 the multimedia disk information.
 
 Signed-off-by: Igor Kononenko <i.kononenko@yadro.com>
 ---
- drivers/usb/gadget/function/f_mass_storage.c |  99 +++++++++--
- drivers/usb/gadget/function/storage_common.c |  10 +-
- include/uapi/linux/cdrom.h                   | 177 +++++++++++++++++++
- 3 files changed, 261 insertions(+), 25 deletions(-)
+ drivers/usb/gadget/function/f_mass_storage.c |  37 ++++
+ include/scsi/scsi_proto.h                    |   1 +
+ include/uapi/linux/cdrom.h                   | 195 +++++++++++++++++--
+ 3 files changed, 212 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-index c3fddee21b53..4865937799aa 100644
+index 7e736e5594f9..d3d8a806b5e6 100644
 --- a/drivers/usb/gadget/function/f_mass_storage.c
 +++ b/drivers/usb/gadget/function/f_mass_storage.c
-@@ -223,6 +223,7 @@
- #include <linux/usb/composite.h>
- 
- #include <linux/nospec.h>
-+#include <linux/cdrom.h>
- 
- #include "configfs.h"
- 
-@@ -1319,29 +1320,93 @@ static int do_read_header(struct fsg_common *common, struct fsg_buffhd *bh)
- 
- static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
- {
--	struct fsg_lun	*curlun = common->curlun;
--	int		msf = common->cmnd[1] & 0x02;
--	int		start_track = common->cmnd[6];
--	u8		*buf = (u8 *)bh->buf;
-+	struct fsg_lun *curlun = common->curlun;
-+	struct cdb_read_toc_pma_atip *cdb =
-+		(struct cdb_read_toc_pma_atip *)common->cmnd;
-+	struct read_tpa_header *header = (struct read_tpa_header *)bh->buf;
-+	struct read_tpa_toc_formatted *data =
-+		(struct read_tpa_toc_formatted *)((u8 *)bh->buf +
-+						  sizeof(*header));
-+	size_t data_size = sizeof(*header);
- 
--	if ((common->cmnd[1] & ~0x02) != 0 ||	/* Mask away MSF */
--			start_track > 1) {
-+	if (cdb->format == 0) {
-+		if (cdb->control == READ_TPA_CTRL_MAGIC_SESS) {
-+			LDBG(curlun,
-+			    "The MMC-3 specifies format a control byte. Using Multi-Session info\n");
-+			cdb->format = CDB_TPA_MULTI_SESS_INFO;
-+		}
-+		if (cdb->control == READ_TPA_CTRL_MAGIC_RAW) {
-+			LDBG(curlun,
-+			    "The MMC-3 specifies format a control byte. Using RAW TOC\n");
-+			cdb->format = CDB_TPA_RAW_TOC;
-+		}
-+	}
-+
-+	/* Currently support response format 0000b: Formatted TOC only */
-+	if (cdb->format > CDB_TPA_MULTI_SESS_INFO) {
-+		LDBG(curlun, "Unsupported TOC/PMA/ATIP format: %02Xh\n",
-+		    cdb->format);
- 		curlun->sense_data = SS_INVALID_FIELD_IN_CDB;
- 		return -EINVAL;
- 	}
- 
--	memset(buf, 0, 20);
--	buf[1] = (20-2);		/* TOC data length */
--	buf[2] = 1;			/* First track number */
--	buf[3] = 1;			/* Last track number */
--	buf[5] = 0x16;			/* Data track, copying allowed */
--	buf[6] = 0x01;			/* Only track is number 1 */
--	store_cdrom_address(&buf[8], msf, 0);
-+	/*
-+	 * We only support one track per disk.
-+	 * We also needs to indicate the number of the last track
-+	 */
-+	if (cdb->number > 1 && cdb->number != READ_TPA_LEADOUT_TRACK) {
-+		curlun->sense_data = SS_INVALID_FIELD_IN_CDB;
-+		return -EINVAL;
-+	}
- 
--	buf[13] = 0x16;			/* Lead-out track is data */
--	buf[14] = 0xAA;			/* Lead-out track number */
--	store_cdrom_address(&buf[16], msf, curlun->num_sectors);
--	common->data_size_to_handle = 20;
-+	/*
-+	 * MULTI-SESSIOIN information must be reported only for first track.
-+	 */
-+	if (cdb->format == CDB_TPA_MULTI_SESS_INFO && cdb->number > 1) {
-+		curlun->sense_data = SS_INVALID_FIELD_IN_CDB;
-+		return -EINVAL;
-+	}
-+
-+	memset(header, 0, sizeof(*header));
-+	header->n_first_stf = 1;
-+	header->n_last_stf = 1;
-+
-+	memset(data, 0, sizeof(*data));
-+	data->addr = 1;
-+	data->control = TPA_SECTOR_MODE2_MIXED;
-+	data->track_number = cdb->number;
-+	data_size += sizeof(*data);
-+
-+	/*
-+	 * We have too case:
-+	 *	1)	The request Track Number == 1.
-+	 *		We shall set 2 descriptors: First Track, Lead-Out Track
-+	 *	2)	The requested Track Number == 0xAA
-+	 *		Only Lead-Out descriptor shall be set
-+	 */
-+	if (cdb->number == 1) {
-+		DBG(common, "Fill first track addr\n");
-+		store_cdrom_address((u8 *)&data->start_addr_track, cdb->msf, 0);
-+
-+		data += 1; /* Add one more descriptor */
-+		data_size += sizeof(*data);
-+		memset(data, 0, sizeof(*data));
-+		/* setting the lead-out track info. First part of data*/
-+		data->addr = 1;
-+		data->control = TPA_SECTOR_MODE2_MIXED;
-+		data->track_number = READ_TPA_LEADOUT_TRACK;
-+	}
-+
-+	/*
-+	 * Lead-out track must be set anyway.
-+	 * If 0xAA Track is requested - the first part of data is already set.
-+	 */
-+	DBG(common, "Fill last track addr\n");
-+	store_cdrom_address((u8 *)&data->start_addr_track,
-+				cdb->msf, curlun->num_sectors);
-+
-+	header->length = cpu_to_be16(data_size - sizeof(header->length));
-+	common->data_size_to_handle = data_size;
- 	return 0;
+@@ -1932,6 +1932,40 @@ static void send_status(struct fsg_common *common)
+ 	return;
  }
  
-diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
-index b859a158a414..b883b8b7b05b 100644
---- a/drivers/usb/gadget/function/storage_common.c
-+++ b/drivers/usb/gadget/function/storage_common.c
-@@ -24,6 +24,7 @@
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/usb/composite.h>
-+#include <linux/cdrom.h>
++static int do_read_disc_info(struct fsg_common *common, struct fsg_buffhd *bh)
++{
++	struct fsg_lun *curlun = common->curlun;
++	struct cdb_disc_info *cdb = (struct cdb_disc_info *)common->cmnd;
++	disc_information *info = (disc_information *)bh->buf;
++
++	if (cdb->type != DISC_TYPE_STANDARD) {
++		LERROR(curlun,
++		       "Unsupported disc information type(%02Xh) requested\n",
++		       cdb->type);
++		return -EINVAL;
++	}
++	memset(info, 0, sizeof(disc_information));
++	info->disc_information_length = cpu_to_be16(
++		sizeof(*info) - sizeof(info->disc_information_length));
++
++	info->border_status = DISC_LAST_SESS_COMPLETE;
++	info->disc_status = DISC_STATUS_FINALIZED;
++
++	/* We only support one session per disk */
++	info->n_first_track = 1;
++	info->n_sessions_lsb = 1;
++	info->first_track_lsb = 1;
++	info->last_track_lsb = 1;
++
++	/* Setting the unrestricted use because we only support (CD/DVD/BD)-ROM */
++	info->uru = 1;
++
++	info->disc_type = DISC_FIELD_DA_ROM;
++
++	common->data_size_to_handle = sizeof(*info);
++	return 0;
++}
++
+ /**
+  * Attempts to guess medium type by looking at the length of the disc layout.
+  */
+@@ -2253,6 +2287,8 @@ static struct cdb_command_check cdb_checker_table[] = {
+ 	{ CDB_REG_CHECKER(TEST_UNIT_READY, 6, CDB_NO_SIZE_FIELD, DATA_DIR_NONE,
+ 			  0x0000, MEDIUM_REQUIRED) },
  
- #include "storage_common.h"
++	{ CDB_REG_NO_CHECKER(READ_DISC_INFORMATION, CDB_SIZE_FIELD_7,
++			     DATA_DIR_TO_HOST, MEDIUM_REQUIRED) },
+ 	{ CDB_REG_NO_CHECKER(GET_CONFIGURATION, CDB_SIZE_FIELD_7,
+ 			     DATA_DIR_TO_HOST, MEDIUM_REQUIRED) },
  
-@@ -295,14 +296,7 @@ void store_cdrom_address(u8 *dest, int msf, u32 addr)
- {
- 	if (msf) {
- 		/* Convert to Minutes-Seconds-Frames */
--		addr >>= 2;		/* Convert to 2048-byte frames */
--		addr += 2*75;		/* Lead-in occupies 2 seconds */
--		dest[3] = addr % 75;	/* Frames */
--		addr /= 75;
--		dest[2] = addr % 60;	/* Seconds */
--		addr /= 60;
--		dest[1] = addr;		/* Minutes */
--		dest[0] = 0;		/* Reserved */
-+		lba_to_msf(addr, &dest[1], &dest[2], &dest[3]);
- 	} else {
- 		/* Absolute sector */
- 		put_unaligned_be32(addr, dest);
+@@ -2286,6 +2322,7 @@ static struct cdb_handler cdb_handlers_table[] = {
+ 	{ CDB_REG_HANDLER(SYNCHRONIZE_CACHE, &do_synchronize_cache) },
+ 	{ CDB_REG_HANDLER(TEST_UNIT_READY, NULL) },
+ 
++	{ CDB_REG_HANDLER_BUFFHD(READ_DISC_INFORMATION, &do_read_disc_info) },
+ 	{ CDB_REG_HANDLER_BUFFHD(GET_CONFIGURATION, &do_get_configuration) },
+ 	/*
+ 	 * Although optional, this command is used by MS-Windows.  We
+diff --git a/include/scsi/scsi_proto.h b/include/scsi/scsi_proto.h
+index 6b2a8ee1f0a3..6728fcbd73e4 100644
+--- a/include/scsi/scsi_proto.h
++++ b/include/scsi/scsi_proto.h
+@@ -77,6 +77,7 @@
+ #define GET_EVENT_STATUS_NOTIFICATION 0x4a
+ #define LOG_SELECT            0x4c
+ #define LOG_SENSE             0x4d
++#define READ_DISC_INFORMATION 0x51
+ #define XDWRITEREAD_10        0x53
+ #define MODE_SELECT_10        0x55
+ #define RESERVE_10            0x56
 diff --git a/include/uapi/linux/cdrom.h b/include/uapi/linux/cdrom.h
-index 6c34f6e2f1f7..1d7b4333c3aa 100644
+index 442693fdc059..460377e1a532 100644
 --- a/include/uapi/linux/cdrom.h
 +++ b/include/uapi/linux/cdrom.h
-@@ -947,4 +947,181 @@ struct rm_feature_desc {
- 	__u8 reserved4;
+@@ -816,51 +816,204 @@ struct rwrt_feature_desc {
+ 	__u8 reserved3;
  };
  
-+/**
-+ * The READ TOC/PMA/ATIP format field values
-+ */
-+enum cdb_read_tpa_format {
-+	/**
-+	 * The Track/Session Number field specifies starting track number
-+	 * for which the data is returned. For multi-session discs, TOC
-+	 * data is returned for all sessions. Track number AAh is reported
-+	 * only for the Lead-out area of the last complete session.
-+	 */
-+	CDB_TPA_FORMATTED_TOC,
-+	/**
-+	 * This format returns the first complete session number, last
-+	 * complete session number and last complete session starting address.
-+	 * In this format, the Track/Session Number field is reserved and
-+	 * should be set to 00h.
-+	 * NOTE: This format provides the Host access to the last closed
-+	 * session starting address quickly.
-+	 */
-+	CDB_TPA_MULTI_SESS_INFO,
-+	/**
-+	 * This format returns all Q sub-code data in the Lead-In (TOC) areas
-+	 * starting from a session number as specified in the Number
-+	 * Track/Session Number field.
-+	 * In this mode, the Drive shall support Q Sub-channel POINT field
-+	 * value of A0h, A1h, A2h, Track numbers, B0h, B1h, B2h, B3h, B4h, C0h,
-+	 * and C1h.
-+	 * There is no defined LBA addressing and MSF bit shall be set to one.
-+	 */
-+	CDB_TPA_RAW_TOC,
-+	/**
-+	 * This format returns Q sub-channel data in the PMA area. In this
-+	 * format, the Track/Session Number field is reserved and shall be
-+	 * set to 00h. There is no defined LBA addressing and MSF bit
-+	 * shall be set to one.
-+	 */
-+	CDB_TPA_PMA,
-+	/**
-+	 * This format returns ATIP data. In this format, the Track/Session
-+	 * Number field is reserved and shall be set to 00h. There is no
-+	 * defined LBA addressing and MSF bit shall be set to one.
-+	 */
-+	CDB_TPA_ATIP,
-+	/**
-+	 * This format returns CD-TEXT information that is recorded in the
-+	 * Lead-in area as R-W Sub-channel Data.
-+	 */
-+	CDB_TPA_CD_TEXT,
-+};
++/* Disc Information Data Types */
++#define DISC_TYPE_STANDARD			(0x00U)
++#define DISC_TYPE_TRACK				(0x01U)
++#define DISC_TYPE_POW				(0x02U)
 +
-+#define TPA_SECTOR_MODE0		(0x00)
-+#define TPA_SECTOR_AUDIO		(0x01)
-+#define TPA_SECTOR_MODE1		(0x02)
-+#define TPA_SECTOR_MODE2		(0x03)
-+#define TPA_SECTOR_MODE2_FORM1		(0x04)
-+#define TPA_SECTOR_MODE2_FORM2		(0x05)
-+#define TPA_SECTOR_MODE2_MIXED		(TPA_SECTOR_MODE1 | TPA_SECTOR_MODE2_FORM1)
-+#define TPA_SECTOR_RAW				(0x07)
-+#define TPA_SECTOR_RAW_SCRAMBLED	(0x08)
++/* Disc Status */
++#define DISC_STATUS_EMPTY			(0x00U)
++#define DISC_STATUS_INCOMPLETE		(0x01U)
++#define DISC_STATUS_FINALIZED		(0x02U)
++#define DISC_STATUS_OTHER			(0x03U)
++
++/* State of Last Session */
++#define DISC_LAST_SESS_EMPTY		(0x00U)
++#define DISC_LAST_SESS_INCOMPLETE	(0x01U)
++#define DISC_LAST_SESS_DAMAGED		(0x02U)
++#define DISC_LAST_SESS_COMPLETE		(0x03U)
++
++/* Background Format Status Codes */
++#define DISC_BACK_FMT_NEITHER		(0x00U)
++#define DISC_BACK_FMT_STARTED		(0x01U)
++#define DISC_BACK_FMT_PROGRESS		(0x02U)
++#define DISC_BACK_FMT_COMPLETED		(0x03U)
++
++/* Disc Type Field */
++#define DISC_FIELD_DA_ROM			(0x00U)
++#define DISC_FIELD_I				(0x10U)
++#define DISC_FIELD_ROM_XA			(0x20U)
++#define DISC_FIELD_UNDEF			(0xFFU)
 +
 +/**
-+ * @brief The READ TOC/PMA/ATIP CDB (43h)
-+ * The READ TOC/PMA/ATIP command requests that the Drive read data from a
-+ * Table of Contents, the Program Memory Area (PMA), or the Absolute Time
-+ * in Pre-Grove (ATIP) from CD media, format according to CDB parameters
-+ * and transfer the result to the Host.
++ * @brief The READ DISC INFORMATION CDB(0051h)
++ * The READ DISC INFORMATION command allows the Host to request information about
++ * the currently mounted MM disc.
 + */
-+struct cdb_read_toc_pma_atip {
++struct cdb_disc_info {
 +	__u8 code;
 +
 +#if defined(__BIG_ENDIAN_BITFIELD)
-+	__u8 reserved1 : 6;
++	__u8 reserved1 : 5;
 +	/**
-+	 * When MSF is set to zero, the address fields in some returned data
-+	 * formats shall be in LBA form. When MSF is set to one, the address
-+	 * fields in some returned data formats shall be in MSF form
++	 * When a disc is present, Data Type defines the specific information requested
 +	 */
-+	__u8 msf : 1;
-+	__u8 reserved2 : 1;
++	__u8 type : 3;
 +#elif defined(__LITTLE_ENDIAN_BITFIELD)
-+	__u8 reserved2 : 1;
-+	__u8 msf : 1;
-+	__u8 reserved1 : 6;
++	__u8 type : 3;
++	__u8 reserved1 : 5;
 +#endif
 +
-+#if defined(__BIG_ENDIAN_BITFIELD)
-+	__u8 reserved3 : 4;
-+	/**
-+	 * The Format field is used to select specific returned data format
-+	 * according to @enum cdb_read_tpa_format
-+	 */
-+	__u8 format : 4;
-+#elif defined(__LITTLE_ENDIAN_BITFIELD)
-+	__u8 format : 4;
-+	__u8 reserved3 : 4;
-+#endif
++	__u8 reserved2[5];
 +
-+	__u8 reserved4[3];
-+	/**
-+	 * The Track/Session Number field provides a method to restrict the
-+	 * returned of some data formats to a specific session or a track range
-+	 */
-+	__u8 number;
-+
-+	/**
-+	 * The Allocation Length field specifies the maximum number of bytes that
-+	 * may be returned by the Drive.
-+	 * An Allocation Length field of zero shall not be considered an error
-+	 */
 +	__be16 length;
 +
 +	__u8 control;
-+} __packed;
++}  __packed;
 +
-+#define READ_TPA_LEADOUT_TRACK	(0xAAU)
-+/*
-+ * Control magic byte
-+ * Some legacy media recorder implementations set the control byte,
-+ * helping determine the relevant TOC/PMA/ATIP formats.
-+ * We should support this as well.
-+ */
-+#define READ_TPA_CTRL_MAGIC_SESS	(0x40U)
-+#define READ_TPA_CTRL_MAGIC_RAW		(0x80U)
-+
-+/**
-+ * @brief READ TOC/PMA/ATIP Data list header
-+ * The response data list shows the general description of the response data
-+ * to the Read TOC/PMA/ATIP command.
-+ */
-+struct read_tpa_header {
-+	__be16 length;
-+	/* First Track/Session/Reserved Field */
-+	__u8 n_first_stf;
-+	/* Last Track/Session/Reserved Field */
-+	__u8 n_last_stf;
-+} __packed;
-+
-+/**
-+ * @brief Response Format 0000b: Formatted TOC
-+ * The response data consist of four header bytes and zero or more track
-+ * descriptors.
-+ */
-+struct read_tpa_toc_formatted {
-+	__u8 reserved1;
-+#if defined(__BIG_ENDIAN_BITFIELD)
+ typedef struct {
+ 	__be16 disc_information_length;
+ #if defined(__BIG_ENDIAN_BITFIELD)
+-	__u8 reserved1			: 3;
+-        __u8 erasable			: 1;
+-        __u8 border_status		: 2;
+-        __u8 disc_status		: 2;
 +	/**
-+	 * The ADR field gives the type of information encoded in the Q Sub-channel
-+	 * of the block where this TOC entry was found.
++	 * The Disc Information Data Type field shall be set to the reported
++	 * Disc Information Type
 +	 */
-+	__u8 addr : 4;
++	__u8 info_data_type : 3;
 +	/**
-+	 * The CONTROL Field indicates the attributes of the track.
++	 * The Erasable bit, when set to one, indicates that CD-RW, DVD-RAM, DVD-RW, DVD+RW,
++	 * HD DVD-RAM, or BD-RE media is present and the Drive is capable of writing the media.
++	 * If the Erasable bit is set to zero, then either the medium is not erasable or the
++	 * Drive is unable to write the media.
 +	 */
-+	__u8 control : 4;
-+#elif defined(__LITTLE_ENDIAN_BITFIELD)
-+	__u8 control : 4;
-+	__u8 addr : 4;
-+#endif
++	__u8 erasable : 1;
 +	/**
-+	 * The Track Start Address contains the address of the first block with user
-+	 * information for that track number as read from the Table of Contents.
-+	 * A MSF bit of zero indicates that the Track Start Address field shall contain
-+	 * a logical block address.
-+	 * A MSF bit of one indicates the Logical Block Address field shall contain a
-+	 * MSF address
++	 * The State of Last Session field specifies the recorded state of the last
++	 * session, regardless of the number of sessions on the disc.
 +	 */
-+	__u8 track_number;
-+	__u8 reserved2;
++	__u8 border_status : 2;
++	/* The Disc Status field indicates the recorded status of the disc */
++	__u8 disc_status : 2;
+ #elif defined(__LITTLE_ENDIAN_BITFIELD)
+-        __u8 disc_status		: 2;
+-        __u8 border_status		: 2;
+-        __u8 erasable			: 1;
+-	__u8 reserved1			: 3;
++	__u8 disc_status : 2;
++	__u8 border_status : 2;
++	__u8 erasable : 1;
++	__u8 info_data_type : 3;
+ #else
+ #error "Please fix <asm/byteorder.h>"
+ #endif
 +	/**
-+	 * The Track Number field indicates the track number for that the data in the
-+	 * TOC track descriptor is valid. A track number of READ_TPA_LEADOUT_TRACK
-+	 * indicates that the track descriptor is for the start of the Lead-out area.
++	 * The Number of First Track on Disc is the track number of the Logical Track that
++	 * contains LBA 0
 +	 */
-+	__be32 start_addr_track;
-+} __packed;
+ 	__u8 n_first_track;
+ 	__u8 n_sessions_lsb;
++	/**
++	 * First Track Number in Last Session (bytes 5 & 10) is the track number of the
++	 * first Logical Track in the last session.
++	 * This includes the incomplete logical track.
++	 */
+ 	__u8 first_track_lsb;
++	/**
++	 * Last Track Number in Last Session (bytes 6 & 11) is the track number of the last
++	 * Logical Track in the last session.
++	 * This includes the incomplete logical track.
++	 */
+ 	__u8 last_track_lsb;
+ #if defined(__BIG_ENDIAN_BITFIELD)
+-	__u8 did_v			: 1;
+-        __u8 dbc_v			: 1;
+-        __u8 uru			: 1;
+-        __u8 reserved2			: 2;
+-	__u8 dbit			: 1;
+-	__u8 mrw_status			: 2;
++	/**
++	 * The DID_V (Disc ID Valid) bit, when set to one, indicates that the Disc
++	 * Identification field is valid
++	 */
++	__u8 did_v : 1;
++	/**
++	 * The DBC_V (Disc Bar Code Valid bit, when set to one, indicates that the Disc Bar
++	 * Code field (bytes 24 through 31) is valid
++	 */
++	__u8 dbc_v : 1;
++	/**
++	 * The URU (Unrestricted Use Disc) bit may be zero for special use CD-R, CD-RW,
++	 * or DVD-R, medium.
++	 * For all other media types, URU shall be set to one. When URU is zero, the mounted
++	 * disc is defined for restricted use.
++	 */
++	__u8 uru : 1;
++	/**
++	 * DAC_V indicates the validity of the Disc Application Code in byte 32. If DAC_V is
++	 * set to zero, then the Disc Application Code is not valid. If DAC_V is set to one,
++	 * the Disc Application Code is valid.
++	 */
++	__u8 dac_v: 1;
++	__u8 reserved2 : 1;
++	/**
++	 * If the disc is MRW formatted or MRW formatting (state = 01b, 10b, or 11b),
++	 * then bit 2 of byte 7 (Dbit) is a copy of the “dirty bit” from the defect table.
++	 * If Dbit is set to zero, then the MRW structures are current.
++	 * If Dbit is set to one, then the MRW structures may not be current.
++	 * When BG format status = 00b, Dbit shall be set to zero.
++	 */
++	__u8 dbit : 1;
++	/**
++	 * The BG format status is the background format status of the mounted disc.
++	 * Drives that report the Formattable Feature and either the MRW Feature or the DVD+RW
++	 * Feature, or both are required to implement Background format.
++	 * For all other Drives, this field shall be @param DISC_BACK_FMT_NEITHER.
++	 */
++	__u8 mrw_status : 2;
+ #elif defined(__LITTLE_ENDIAN_BITFIELD)
+-	__u8 mrw_status			: 2;
+-	__u8 dbit			: 1;
+-        __u8 reserved2			: 2;
+-        __u8 uru			: 1;
+-        __u8 dbc_v			: 1;
+-	__u8 did_v			: 1;
++	__u8 mrw_status : 2;
++	__u8 dbit : 1;
++	__u8 reserved2 : 1;
++	__u8 dac_v: 1;
++	__u8 uru : 1;
++	__u8 dbc_v : 1;
++	__u8 did_v : 1;
+ #endif
++	/**
++	 * The Disc Type field is associated only with CD media type
++	 */
+ 	__u8 disc_type;
+ 	__u8 n_sessions_msb;
+ 	__u8 first_track_msb;
+ 	__u8 last_track_msb;
 +
-+
- #endif /* _UAPI_LINUX_CDROM_H */
++	/**
++	 * For CD-R/RW, the Disc Identification number recorded in the PMA is returned.
++	 * The Disc Identification Number is recorded in the PMA as a six-digit BCD number.
++	 * It is returned in the Disc Information Block as a 32 bit binary integer.
++	 * This value should be zero filled for all other media types.
++	 */
+ 	__u32 disc_id;
++	/**
++	 * The Last Session Lead-in Start Address field is dependent on medium and
++	 * recorded status.
++	 */
+ 	__u32 lead_in;
++	/**
++	 * The Last Possible Lead-out Start Address field is dependent on medium and
++	 * recorded status.
++	 */
+ 	__u32 lead_out;
++	/**
++	 * For CD, the Disc Bar Code field contains the hexadecimal value of the bar code
++	 * if the Drive has the ability to read Disc Bar Code and a bar code is present.
++	 * For all other media this field should be set to zeros.
++	 */
+ 	__u8 disc_bar_code[8];
++	/**
++	 *
++	 */
+ 	__u8 reserved3;
++	/**
++	 * The Number of OPC Tables field is the number of OPC tables that follow this field.
++	 * If OPC has not been determined for the currently mounted medium, the Number of
++	 * OPC Tables field is set to zero.
++	 * The Number of OPC Tables represents the number of disc speeds for which the OPC
++	 * values are known.
++	 * Since each OPC Table is 8 bytes in length, then the number of bytes that follow
++	 * the Number of OPC Tables field is 8 x Number of OPC Tables.
++	 */
+ 	__u8 n_opc;
+-} disc_information;
++} __packed disc_information;
+ 
+ typedef struct {
+ 	__be16 track_information_length;
 -- 
 2.32.0
 
