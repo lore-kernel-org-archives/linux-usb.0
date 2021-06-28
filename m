@@ -2,90 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42D7CC49EA3
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 14:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AB43C2B9F4
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 15:55:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28A3361CC9
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 14:38:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E435A619F1
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 15:55:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234114AbhF1Okx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Jun 2021 10:40:53 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:38817 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234567AbhF1OiZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Jun 2021 10:38:25 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 1712324002A
-        for <linux-usb@vger.kernel.org>; Mon, 28 Jun 2021 16:35:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1624890958; bh=ALDlTvxIe3ykDRTBGondySmeGFvUACUQLrZIeO34JYs=;
-        h=From:To:Subject:Date:From;
-        b=Z82Qj8XVIYx9pVADLNH6dDGRL9o9jQ4VD89CQUqEHpkG04pf/6X6ErssxBzWIz8hs
-         38cZ5tF1D8lae2+GhWQIuaQwGZOEfT5hfO4PDKL0/FI5PYA3xQG+7YFs8xtmTECPU8
-         l1+bhlP0c5sxFjM9y3UMo44j9Wgtqz2FXbzzOaBST18IYkoQLfKvzq0clOi1RXdVXn
-         IOzN9rGDsVowzBMMiqpfXCrPh0ss7aXnMynBJtkwcNq+qTeZgrVM6XSgbfgT0F+RQX
-         l96aBG3UbGwWDUtTsZwjquIqv7/SdpQzZug39YLIR+oAoe41YcwQVCojwX8rmt5pUX
-         2zIoVl9IogaNA==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4GD9C115qsz9rxM;
-        Mon, 28 Jun 2021 16:35:57 +0200 (CEST)
-From:   Marco De Marco <marco.demarco@posteo.net>
-To:     johan@kernel.org, linux-usb@vger.kernel.org, bjorn@mork.no,
-        netdev@vger.kernel.org
-Subject: [PATCH] usb: net: Add support for u-blox LARA-R6 modules family
-Date:   Mon, 28 Jun 2021 14:35:56 +0000
-Message-ID: <4911218.dTlGXAFRqV@mars>
+        id S233646AbhF1P6E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Jun 2021 11:58:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235742AbhF1P56 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 11:57:58 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DA8C06114A
+        for <linux-usb@vger.kernel.org>; Mon, 28 Jun 2021 08:53:14 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1lxtZQ-0002x5-KI; Mon, 28 Jun 2021 17:53:12 +0200
+Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1lxtZQ-0004Q9-8z; Mon, 28 Jun 2021 17:53:12 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, caleb.connolly@ideasonboard.com,
+        paul.elder@ideasonboard.com, balbi@kernel.org,
+        kernel@pengutronix.de
+Subject: [PATCH v3 1/5] usb: dwc3: gadget: set gadgets parent to the right controller
+Date:   Mon, 28 Jun 2021 17:53:07 +0200
+Message-Id: <20210628155311.16762-2-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210628155311.16762-1-m.grzeschik@pengutronix.de>
+References: <20210628155311.16762-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Support for u-blox LARA-R6 modules family.
+In case of dwc3 it is possible that the sysdev is the parent of the
+controller. To ensure the right dev is set to the gadget's dev parent we
+will hand over sysdev instead of dev, which will always point to the
+controller.
 
-Signed-off-by: Marco De Marco <marco.demarco@posteo.net>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
+   -> v2: first version of patch
+   -> v3: -
+---
+ drivers/usb/dwc3/gadget.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index d08e1de26..cb92c7c1e 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1115,6 +1115,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x05c6, 0x9083, 3)},
- 	{QMI_FIXED_INTF(0x05c6, 0x9084, 4)},
- 	{QMI_FIXED_INTF(0x05c6, 0x90b2, 3)},    /* ublox R410M */
-+	{QMI_QUIRK_SET_DTR(0x05c6, 0x90fA, 3)}, /* ublox R6XX  */
- 	{QMI_FIXED_INTF(0x05c6, 0x920d, 0)},
- 	{QMI_FIXED_INTF(0x05c6, 0x920d, 5)},
- 	{QMI_QUIRK_SET_DTR(0x05c6, 0x9625, 4)},	/* YUGA CLM920-NC5 */
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index aeaa3756f..05d0379c9 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -238,6 +238,7 @@ static void option_instat_callback(struct urb *urb);
- #define QUECTEL_PRODUCT_UC15			0x9090
- /* These u-blox products use Qualcomm's vendor ID */
- #define UBLOX_PRODUCT_R410M			0x90b2
-+#define UBLOX_PRODUCT_R6XX          0x90FA
- /* These Yuga products use Qualcomm's vendor ID */
- #define YUGA_PRODUCT_CLM920_NC5			0x9625
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index af6d7f157989d..8a1b1daff2e97 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -3990,7 +3990,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+ 	}
  
-@@ -1101,6 +1102,8 @@ static const struct usb_device_id option_ids[] = {
- 	/* u-blox products using Qualcomm vendor ID */
- 	{ USB_DEVICE(QUALCOMM_VENDOR_ID, UBLOX_PRODUCT_R410M),
- 	  .driver_info = RSVD(1) | RSVD(3) },
-+	{ USB_DEVICE(QUALCOMM_VENDOR_ID, UBLOX_PRODUCT_R6XX),
-+	  .driver_info = RSVD(3) },
- 	/* Quectel products using Quectel vendor ID */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EC21, 0xff, 0xff, 0xff),
- 	  .driver_info = NUMEP2 },
-
-
+ 
+-	usb_initialize_gadget(dwc->dev, dwc->gadget, dwc_gadget_release);
++	usb_initialize_gadget(dwc->sysdev, dwc->gadget, dwc_gadget_release);
+ 	dev				= &dwc->gadget->dev;
+ 	dev->platform_data		= dwc;
+ 	dwc->gadget->ops		= &dwc3_gadget_ops;
+-- 
+2.30.2
 
