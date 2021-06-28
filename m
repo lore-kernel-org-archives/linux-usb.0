@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC9CC49361
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4184C49EB9
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6AEE761477
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A027161C69
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232967AbhF1ML2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Jun 2021 08:11:28 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:6161 "EHLO
+        id S232986AbhF1MLa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Jun 2021 08:11:30 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:1218 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232946AbhF1ML0 (ORCPT
+        with ESMTP id S232957AbhF1ML0 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 08:11:26 -0400
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
   by alexa-out.qualcomm.com with ESMTP; 28 Jun 2021 05:09:01 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Jun 2021 05:08:59 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Jun 2021 05:08:59 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Jun 2021 17:38:32 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Jun 2021 17:38:27 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 7B60F3A48; Mon, 28 Jun 2021 17:38:31 +0530 (IST)
+        id 503273A48; Mon, 28 Jun 2021 17:38:26 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -42,9 +42,9 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Pratham Pratap <prathampratap@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v8 6/6] usb: dwc3: qcom: Keep power domain on to support wakeup
-Date:   Mon, 28 Jun 2021 17:38:17 +0530
-Message-Id: <1624882097-23265-7-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v8 2/6] usb: host: xhci: plat: Add suspend quirk for dwc3 controller
+Date:   Mon, 28 Jun 2021 17:38:13 +0530
+Message-Id: <1624882097-23265-3-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
 References: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
@@ -52,62 +52,84 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If wakeup capable devices are connected to the controller (directly
-or through hubs) at suspend time keep the power domain on in order
-to support wakeup from these devices.
+During suspend read the status of all port and make sure the PHYs
+are in the correct mode based on current speed.
+Phy interrupt masks are set based on this mode. Keep track of the mode
+of the HS PHY to be able to configure wakeup properly.
+
+Also check during suspend if any wakeup capable devices are
+connected to the controller (directly or through hubs), if there
+are none set a flag to indicate that the PHY should be powered
+down during suspend.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
 ---
-Checking phy_power_off flag instead of usb_wakeup_enabled_descendants 
-to keep gdsc active.
+ drivers/usb/host/xhci-plat.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
- drivers/usb/dwc3/dwc3-qcom.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 82125bc..ba31aa3 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -17,6 +17,7 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-+#include <linux/pm_domain.h>
- #include <linux/usb/of.h>
- #include <linux/reset.h>
- #include <linux/iopoll.h>
-@@ -355,9 +356,15 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
- 	u32 val;
- 	int i, ret;
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index c1edcc9..ee87923 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -24,6 +24,7 @@
+ #include "xhci-plat.h"
+ #include "xhci-mvebu.h"
+ #include "xhci-rcar.h"
++#include "../dwc3/core.h"
  
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
+ static struct hc_driver __read_mostly xhci_plat_hc_driver;
+ 
+@@ -430,6 +431,39 @@ static int xhci_plat_remove(struct platform_device *dev)
+ 
+ 	return 0;
+ }
++static void xhci_dwc3_suspend_quirk(struct usb_hcd *hcd)
++{
++	int i, num_ports;
++	u32 reg;
++	unsigned int ss_phy_mode = 0;
++	struct dwc3 *dwc = dev_get_drvdata(hcd->self.controller->parent);
++	struct xhci_hcd	*xhci_hcd = hcd_to_xhci(hcd);
 +
- 	if (qcom->is_suspended)
- 		return 0;
- 
-+	if (!dwc->phy_power_off && dwc->xhci)
-+		genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
++	dwc->hs_phy_mode = 0;
 +
- 	val = readl(qcom->qscratch_base + PWR_EVNT_IRQ_STAT_REG);
- 	if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
- 		dev_err(qcom->dev, "HS-PHY not in L2\n");
-@@ -382,9 +389,15 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom)
- 	int ret;
- 	int i;
- 
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-+	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
++	reg = readl(&xhci_hcd->cap_regs->hcs_params1);
++	num_ports = HCS_MAX_PORTS(reg);
 +
- 	if (!qcom->is_suspended)
- 		return 0;
- 
-+	if (dwc->xhci)
-+		genpd->flags &= ~GENPD_FLAG_ACTIVE_WAKEUP;
++	for (i = 0; i < num_ports; i++) {
++		reg = readl(&xhci_hcd->op_regs->port_status_base + i * 0x04);
++		if (reg & PORT_PE) {
++			if (DEV_HIGHSPEED(reg) || DEV_FULLSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_HS;
++			else if (DEV_LOWSPEED(reg))
++				dwc->hs_phy_mode |= PHY_MODE_USB_HOST_LS;
 +
- 	if (device_may_wakeup(qcom->dev))
- 		dwc3_qcom_disable_interrupts(qcom);
++			if (DEV_SUPERSPEED(reg))
++				ss_phy_mode |= PHY_MODE_USB_HOST_SS;
++		}
++	}
++	phy_set_mode(dwc->usb2_generic_phy, dwc->hs_phy_mode);
++	phy_set_mode(dwc->usb3_generic_phy, ss_phy_mode);
++
++	if (usb_wakeup_enabled_descendants(hcd->self.root_hub))
++		dwc->phy_power_off = false;
++	else
++		dwc->phy_power_off = true;
++}
  
+ static int __maybe_unused xhci_plat_suspend(struct device *dev)
+ {
+@@ -440,6 +474,10 @@ static int __maybe_unused xhci_plat_suspend(struct device *dev)
+ 	ret = xhci_priv_suspend_quirk(hcd);
+ 	if (ret)
+ 		return ret;
++
++	if (of_device_is_compatible(dev->parent->of_node, "snps,dwc3"))
++		xhci_dwc3_suspend_quirk(hcd);
++
+ 	/*
+ 	 * xhci_suspend() needs `do_wakeup` to know whether host is allowed
+ 	 * to do wakeup during suspend.
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
