@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 086B2C49EAB
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 08:16:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3174BC49EB7
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 08:16:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2C79619F1
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 08:16:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EFBE61AC0
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 08:16:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232334AbhF1ISo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Jun 2021 04:18:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37454 "EHLO
+        id S232341AbhF1ISp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Jun 2021 04:18:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232282AbhF1ISk (ORCPT
+        with ESMTP id S232317AbhF1ISk (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 04:18:40 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 498EAC061767
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62260C061787
         for <linux-usb@vger.kernel.org>; Mon, 28 Jun 2021 01:16:15 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1lxmRB-0006TG-G2; Mon, 28 Jun 2021 10:16:13 +0200
+        id 1lxmRB-0006TI-I0; Mon, 28 Jun 2021 10:16:13 +0200
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1lxmRB-0004DU-2K; Mon, 28 Jun 2021 10:16:13 +0200
+        id 1lxmRB-0004Dc-3K; Mon, 28 Jun 2021 10:16:13 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, caleb.connolly@ideasonboard.com,
         paul.elder@ideasonboard.com, balbi@kernel.org,
         kernel@pengutronix.de
-Subject: [PATCH v2 1/5] usb: dwc3: gadget: set gadgets parent to the right controller
-Date:   Mon, 28 Jun 2021 10:15:56 +0200
-Message-Id: <20210628081600.14525-2-m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 3/5] usb: gadget: uvc: set v4l2_dev->dev in f_uvc
+Date:   Mon, 28 Jun 2021 10:15:58 +0200
+Message-Id: <20210628081600.14525-4-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210628081600.14525-1-m.grzeschik@pengutronix.de>
 References: <20210628081600.14525-1-m.grzeschik@pengutronix.de>
@@ -51,33 +51,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In case of dwc3 it is possible that the sysdev is the parent of the
-controller. To ensure the right dev is set to the gadget's dev parent we
-will hand over sysdev instead of dev, which will always point to the
-controller.
+The v4l2_dev has no corresponding device to it. We will
+point it to the gadget's dev.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
-v2: first version of patch
+v1 -> v2: Extracted from previous bigger patch
 
 ---
- drivers/usb/dwc3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_uvc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index af6d7f157989d..8a1b1daff2e97 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3990,7 +3990,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
- 	}
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index f48a00e497945..9d87c0fb8f92e 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -418,6 +418,7 @@ uvc_register_video(struct uvc_device *uvc)
  
- 
--	usb_initialize_gadget(dwc->dev, dwc->gadget, dwc_gadget_release);
-+	usb_initialize_gadget(dwc->sysdev, dwc->gadget, dwc_gadget_release);
- 	dev				= &dwc->gadget->dev;
- 	dev->platform_data		= dwc;
- 	dwc->gadget->ops		= &dwc3_gadget_ops;
+ 	/* TODO reference counting. */
+ 	uvc->vdev.v4l2_dev = &uvc->v4l2_dev;
++	uvc->vdev.v4l2_dev->dev = &cdev->gadget->dev;
+ 	uvc->vdev.fops = &uvc_v4l2_fops;
+ 	uvc->vdev.ioctl_ops = &uvc_v4l2_ioctl_ops;
+ 	uvc->vdev.release = video_device_release_empty;
 -- 
 2.30.2
 
