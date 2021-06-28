@@ -2,32 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CE4DC49EB7
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40A52C49EA3
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3203E61C76
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BF0E61477
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232929AbhF1MLX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Jun 2021 08:11:23 -0400
+        id S232949AbhF1ML0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Jun 2021 08:11:26 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:8336 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232831AbhF1MLW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 08:11:22 -0400
+        with ESMTP id S232933AbhF1MLY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 08:11:24 -0400
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 28 Jun 2021 05:08:57 -0700
+  by alexa-out.qualcomm.com with ESMTP; 28 Jun 2021 05:08:59 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Jun 2021 05:08:55 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Jun 2021 05:08:57 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Jun 2021 17:38:24 +0530
+  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Jun 2021 17:38:30 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 2BBB63A48; Mon, 28 Jun 2021 17:38:23 +0530 (IST)
+        id C871C3A48; Mon, 28 Jun 2021 17:38:28 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -41,72 +42,106 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Pratham Pratap <prathampratap@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v8 0/6] USB DWC3 host wake up support from system suspend
-Date:   Mon, 28 Jun 2021 17:38:11 +0530
-Message-Id: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH v8 4/6] usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
+Date:   Mon, 28 Jun 2021 17:38:15 +0530
+Message-Id: <1624882097-23265-5-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
+References: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Avoiding phy powerdown in host mode when wakeup capable devices are 
-connected, so that it can be wake up by devices.
-Set GENPD_FLAG_ACTIVE_WAKEUP flag to keep usb30_prim gdsc active
-when wakeup capable devices are connected to the host.
+Adding helper functions to enable,disable wake irqs to make
+the code simple and readable.
 
-Changes in v8:
-Moved the dwc3 suspend quirk code in dwc3/host.c to xhci-plat.c
-Checking phy_power_off flag instead of usb_wakeup_enabled_descendants 
-to keep gdsc active.
+Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 58 ++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 32 deletions(-)
 
-Changes in v7:
-Change in commit text and message in PATCH 1/5 and PATCH 5/5
-as per Matthias suggestion.
-Added curly braces for if and else if sections in PATCH 4/5.
-
-Changes in v6:
-Addressed comments in host.c and core.c
-Separated the patches in dwc3-qcom.c to make it simple.
-Dropped wakeup-source change as it is not related to this series.
-
-Changes in v5:
-Added phy_power_off flag to check presence of wakeup capable devices.
-Dropped patch[v4,4/5] as it is present linux-next.
-Addressed comments in host.c and dwc3-qcom.c.
-
-Changes in v4:
-Addressed Matthias comments raised in v3.
-
-Changes in v3:
-Removed need_phy_for_wakeup flag and by default avoiding phy powerdown.
-Addressed Matthias comments and added entry for DEV_SUPERSPEED.
-Added suspend_quirk in dwc3 host and moved the dwc3_set_phy_speed_flags.
-Added wakeup-source dt entry and reading in dwc-qcom.c glue driver.
-
-Changes in v2:
-Dropped the patch in clock to set GENPD_FLAG_ACTIVE_WAKEUP flag and 
-setting in usb dwc3 driver.
-Separated the core patch and glue driver patch.
-Made need_phy_for_wakeup flag part of dwc structure and 
-hs_phy_flags as unsgined int.
-Adrressed the comment on device_init_wakeup call.
-Corrected offset for reading portsc register.
-Added pacth to support wakeup in xo shutdown case.
-
-Sandeep Maheswaram (6):
-  usb: dwc3: core: Add HS phy mode variable and phy poweroff flag
-  usb: host: xhci: plat: Add suspend quirk for dwc3 controller
-  usb: dwc3: core: Host wake up support from system suspend
-  usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
-  usb: dwc3: qcom: Configure wakeup interrupts during suspend
-  usb: dwc3: qcom: Keep power domain on to support wakeup
-
- drivers/usb/dwc3/core.c      |  7 ++--
- drivers/usb/dwc3/core.h      |  3 ++
- drivers/usb/dwc3/dwc3-qcom.c | 81 ++++++++++++++++++++++++++++----------------
- drivers/usb/host/xhci-plat.c | 38 +++++++++++++++++++++
- 4 files changed, 97 insertions(+), 32 deletions(-)
-
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 49e6ca9..66183c6 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -296,50 +296,44 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
+ 	icc_put(qcom->icc_path_apps);
+ }
+ 
++static void dwc3_qcom_enable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
++
++	enable_irq(irq);
++	enable_irq_wake(irq);
++}
++
++static void dwc3_qcom_disable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
++
++	disable_irq_wake(irq);
++	disable_irq_nosync(irq);
++}
++
+ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		disable_irq_wake(qcom->hs_phy_irq);
+-		disable_irq_nosync(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
+ 
+-	if (qcom->dp_hs_phy_irq) {
+-		disable_irq_wake(qcom->dp_hs_phy_irq);
+-		disable_irq_nosync(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		disable_irq_wake(qcom->dm_hs_phy_irq);
+-		disable_irq_nosync(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		disable_irq_wake(qcom->ss_phy_irq);
+-		disable_irq_nosync(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		enable_irq(qcom->hs_phy_irq);
+-		enable_irq_wake(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
+ 
+-	if (qcom->dp_hs_phy_irq) {
+-		enable_irq(qcom->dp_hs_phy_irq);
+-		enable_irq_wake(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		enable_irq(qcom->dm_hs_phy_irq);
+-		enable_irq_wake(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		enable_irq(qcom->ss_phy_irq);
+-		enable_irq_wake(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
