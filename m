@@ -2,80 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9630FC2B9F4
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7963CC2B9F4
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 14:10:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8234161C74
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 12:09:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5AE5D61C77
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Jun 2021 14:10:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233001AbhF1MLb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Jun 2021 08:11:31 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:8336 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232950AbhF1ML0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 08:11:26 -0400
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 28 Jun 2021 05:09:01 -0700
-X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Jun 2021 05:08:59 -0700
-X-QCInternal: smtphost
-Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Jun 2021 17:38:26 +0530
-Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id C00313A48; Mon, 28 Jun 2021 17:38:24 +0530 (IST)
-From:   Sandeep Maheswaram <sanm@codeaurora.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        id S232361AbhF1OMy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Jun 2021 10:12:54 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:52257 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S230256AbhF1OMy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Jun 2021 10:12:54 -0400
+Received: (qmail 657388 invoked by uid 1000); 28 Jun 2021 10:10:27 -0400
+Date:   Mon, 28 Jun 2021 10:10:27 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     linyyuan@codeaurora.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pratham Pratap <prathampratap@codeaurora.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v8 1/6] usb: dwc3: core: Add HS phy mode variable and phy poweroff flag
-Date:   Mon, 28 Jun 2021 17:38:12 +0530
-Message-Id: <1624882097-23265-2-git-send-email-sanm@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
-References: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jack Pham <jackp@codeaurora.org>
+Subject: Re: [PATCH] usb: dwc3: fix race of usb_gadget_driver operation
+Message-ID: <20210628141027.GA656159@rowland.harvard.edu>
+References: <20210625104415.8072-1-linyyuan@codeaurora.org>
+ <20210625163707.GC574023@rowland.harvard.edu>
+ <b24825113327c72c742d55e89ec2726e@codeaurora.org>
+ <20210626150304.GA601624@rowland.harvard.edu>
+ <1d1f06763c7cdeb67264128537c6a8f4@codeaurora.org>
+ <20210627140903.GB624763@rowland.harvard.edu>
+ <ca669cb24f424e1c28adfa3a84d7bad2@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ca669cb24f424e1c28adfa3a84d7bad2@codeaurora.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add variables in dwc3 structure to check HS phy mode which is
-used to configure interrupts and phy poweroff flag to check if
-we can powerdown the phy during system suspend.
+On Mon, Jun 28, 2021 at 05:36:22PM +0800, linyyuan@codeaurora.org wrote:
+> On 2021-06-27 22:09, Alan Stern wrote:
+> > 
+> > 	CPU0				CPU1
+> > 	----				----
+> > 					usb_gadget_remove_driver runs
+> > 					  Calls synchronize_irq
+> > 					    synchronize_irq returns
+> > 					  Calls udc_driver_unbind
+> > 	IRQ happens for disconnect
+> > 	  Handler unlocks dwc->lock
+> > 	  Calls dwc->gadget_driver->disconnect
+> > 	    Gadget driver has already been unbound
+> > 	      and is not prepared to handle a
+> > 	      callback, so it crashes
+> > 					  Calls usb_gadget_udc_stop
+> > 					    dwc->gadget_driver is
+> > 					      set to NULL
+> > 
+> > Without the async_callbacks mechanism, the gadget driver can get a
+> > callback at the wrong time (after it has been unbound), which might
+> > cause it to crash.
+> 1. do you think we need to back to my original patch,
+> https://lore.kernel.org/linux-usb/20210619154309.52127-1-linyyuan@codeaurora.org/T/#t
 
-Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
----
- drivers/usb/dwc3/core.h | 3 +++
- 1 file changed, 3 insertions(+)
+No, I think the async_callbacks approach is slightly better.
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index dccdf13..ce274d8 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1123,6 +1123,9 @@ struct dwc3 {
- 
- 	bool			phys_ready;
- 
-+	unsigned int            hs_phy_mode;
-+	bool			phy_power_off;
-+
- 	struct ulpi		*ulpi;
- 	bool			ulpi_ready;
- 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+> i think we can add the spin lock or mutex lock to protect this kind of race
+> from UDC layer, it will be easy understanding.
 
+We don't actually need a lock or mutex to fix this problem.  We just 
+need to make the remove_driver sequence issue two calls to the UDC 
+driver rather than just one: async_callbacks and udc_stop.
+
+> 2. if you insist this kind of change, how to change following code in dwc3 ?
+> if (dwc->gadget_driver && dwc->gadget_driver->disconnect) {
+> 
+> 2.1 if (dwc->async_callbacks && dwc->gadget_driver->disconnect) {
+> or
+> 2.2 if (dwc->async_callbacks && vdwc->gadget_driver &&
+> dwc->gadget_driver->disconnect) {
+
+Either one would be okay.  If async_callbacks is enabled then 
+dwc->gadget_driver should never be NULL, but it won't hurt to check.  
+After all, disconnect does not occur often and it doesn't need to run 
+extremely quickly.
+
+Alan Stern
