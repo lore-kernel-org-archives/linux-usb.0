@@ -5,44 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FFEFC11F6D
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Jun 2021 09:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7CF0C11F65
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Jun 2021 09:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17D0B61CF6
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Jun 2021 09:01:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6F5461CEF
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Jun 2021 09:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233717AbhF3JDa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Jun 2021 05:03:30 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:18905 "EHLO m43-7.mailgun.net"
+        id S233749AbhF3JDc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Jun 2021 05:03:32 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:48671 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232984AbhF3JD3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Jun 2021 05:03:29 -0400
+        id S233577AbhF3JDb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 30 Jun 2021 05:03:31 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1625043661; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1625043662; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=Ve+uKGjTCSCCyNXP5mLtAuTigxD9Ez8D5pzBXJ9KmyQ=; b=Bt0LATiTj7dJhGhzxp1FJ71QTzVibOkYKFQSFSclfCIAPMnXMHUgRW0ezOspT7m1rxvp9d/S
- 7ILElRt6lANPqH9Zwwa/mhuDHKn7tvCuqwsuRLiwX2EPyFcJZrhqypoU9iorEByuW1xDomk9
- DpRa5wNu6PkQuQWg5vrxF1Hg3CQ=
+ bh=p6iIPSEmp9wvFXtay3Ujw6sPjCKrzRy7wWodzBTyDKM=; b=wO3dEecrNQ4aKqdN7+LJTOq96EU4iZjPfH/oAAEOXTUzmJo4rmbWFx5aipiCAc0L5TH85dNS
+ NRw/jtliEPMbSzQKfwG4RHtUQR9Y7vXJeGqhMDRM8VqYvURNFlVHdBe4T1W7OhTQqqbcRGiE
+ eAloUnbWXZI7MTB/n2ttASvu6Xc=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 60dc32c05d0d101e38f26a26 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Jun 2021 09:00:48
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 60dc32c1ec0b18a7455e4bc3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Jun 2021 09:00:49
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EB06BC43217; Wed, 30 Jun 2021 09:00:47 +0000 (UTC)
+        id C8989C43146; Wed, 30 Jun 2021 09:00:48 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B25DDC433D3;
-        Wed, 30 Jun 2021 09:00:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B25DDC433D3
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 917C0C4360C;
+        Wed, 30 Jun 2021 09:00:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 917C0C4360C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -52,9 +52,9 @@ Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         jackp@codeaurora.org, fntoth@gmail.com,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v11 1/5] usb: gadget: udc: core: Introduce check_config to verify USB configuration
-Date:   Wed, 30 Jun 2021 02:00:38 -0700
-Message-Id: <1625043642-29822-2-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v11 2/5] usb: gadget: configfs: Check USB configuration before adding
+Date:   Wed, 30 Jun 2021 02:00:39 -0700
+Message-Id: <1625043642-29822-3-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1625043642-29822-1-git-send-email-wcheng@codeaurora.org>
 References: <1625043642-29822-1-git-send-email-wcheng@codeaurora.org>
@@ -62,82 +62,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDCs may have constraints on how many high bandwidth endpoints it can
-support in a certain configuration.  This API allows for the composite
-driver to pass down the total number of endpoints to the UDC so it can verify
-it has the required resources to support the configuration.
+Ensure that the USB gadget is able to support the configuration being
+added based on the number of endpoints required from all interfaces.  This
+is for accounting for any bandwidth or space limitations.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/usb/gadget/udc/core.c | 25 +++++++++++++++++++++++++
- include/linux/usb/gadget.h    |  4 ++++
- 2 files changed, 29 insertions(+)
+ drivers/usb/gadget/configfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index b7f0b1e..f1f44a6 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -1003,6 +1003,31 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
- }
- EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
- 
-+/**
-+ * usb_gadget_check_config - checks if the UDC can support the number of eps
-+ * @gadget: controller to check the USB configuration
-+ * @ep_map: bitmap of endpoints being requested by a USB configuration
-+ *
-+ * Ensure that a UDC is able to support the number of endpoints within a USB
-+ * configuration, and that there are no resource limitations to support all
-+ * requested eps.
-+ *
-+ * Returns zero on success, else a negative errno.
-+ */
-+int usb_gadget_check_config(struct usb_gadget *gadget)
-+{
-+	int ret = 0;
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 15a607c..f4c7c82 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1404,6 +1404,10 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 				goto err_purge_funcs;
+ 			}
+ 		}
++		ret = usb_gadget_check_config(cdev->gadget);
++		if (ret)
++			goto err_purge_funcs;
 +
-+	if (!gadget->ops->check_config)
-+		goto out;
-+
-+	ret = gadget->ops->check_config(gadget);
-+
-+out:
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(usb_gadget_check_config);
-+
- /* ------------------------------------------------------------------------- */
- 
- static void usb_gadget_state_work(struct work_struct *work)
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75c7538..776851e 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -329,6 +329,7 @@ struct usb_gadget_ops {
- 	struct usb_ep *(*match_ep)(struct usb_gadget *,
- 			struct usb_endpoint_descriptor *,
- 			struct usb_ss_ep_comp_descriptor *);
-+	int	(*check_config)(struct usb_gadget *gadget);
- };
- 
- /**
-@@ -608,6 +609,7 @@ int usb_gadget_connect(struct usb_gadget *gadget);
- int usb_gadget_disconnect(struct usb_gadget *gadget);
- int usb_gadget_deactivate(struct usb_gadget *gadget);
- int usb_gadget_activate(struct usb_gadget *gadget);
-+int usb_gadget_check_config(struct usb_gadget *gadget);
- #else
- static inline int usb_gadget_frame_number(struct usb_gadget *gadget)
- { return 0; }
-@@ -631,6 +633,8 @@ static inline int usb_gadget_deactivate(struct usb_gadget *gadget)
- { return 0; }
- static inline int usb_gadget_activate(struct usb_gadget *gadget)
- { return 0; }
-+static inline int usb_gadget_check_config(struct usb_gadget *gadget)
-+{ return 0; }
- #endif /* CONFIG_USB_GADGET */
- 
- /*-------------------------------------------------------------------------*/
+ 		usb_ep_autoconfig_reset(cdev->gadget);
+ 	}
+ 	if (cdev->use_os_string) {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
