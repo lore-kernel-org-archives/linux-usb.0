@@ -2,458 +2,185 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1580C11F77
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 02:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9499C11F64
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 04:58:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 842036147E
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 02:25:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE9FE6146B
+	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 04:58:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238639AbhGAC1i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Jun 2021 22:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238667AbhGAC1W (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Jun 2021 22:27:22 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2FB9C061756;
-        Wed, 30 Jun 2021 19:24:52 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id k10so8813543lfv.13;
-        Wed, 30 Jun 2021 19:24:52 -0700 (PDT)
+        id S231982AbhGAFAk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jul 2021 01:00:40 -0400
+Received: from mail-mw2nam10on2084.outbound.protection.outlook.com ([40.107.94.84]:5600
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230293AbhGAFAk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 1 Jul 2021 01:00:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gu3+P3xgGnA4rBxC/SfAEnJ/fcZsNJFyCllpo69ejoczgRIh/j3HRRjwkRKqN/uAR3vcITqpoYEipOMWzUz5E1ZAcfyKGhJxbLk25txyOZkXA8meUK11BfP3RqpkTtdFCuMYFtRjYkA24GjaQdYmsPKpHpLGrCIA/UjD5nOrLgeFxMl1S9z11OMQyysGumConoaLQlC5l4TXe+ybXlRR4amEbvsG/8ftKTE/k9knO1WmXZU8StwBjfjIFR42aE5Aksc2nIdGVS7Iba6cunR/uxB8p5wwwxj1jwnrQdCdktqv6xx3NvEOCnyKuHYDLhEQfkfdkWbhy928uEiF1YRmhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kx7jgrIDc9XJ1L9fTLWnI5c2VaPcBhaDCO3WBJJNrZ0=;
+ b=k71HkWlj5ZC1ZggiLeBpKS2nGtW8Bw5ThWpRe1iweZeoxaDsfPofWpJQyyVQLSIhY3wRQ496ws+pBJgRMv0rwlqOSuI/Uqn46JJLC2F7pnsnWLdSeApEFOLz05SNaw7CQGLOcIJ0Z1xGHzlAUNiWZWkHe/FsnQrcg4DbKqwEy2SJeAv1ISI+K1/ntCNngLilt1hzcJwuhbwfgOwp/m54VMsjv6tlRwFemOW9snJasvkCvEzTtjfFWQH1evaM7INlwNzHj/1UHW+QFKdQQ11WxXxAaJ3zH4Hvr1TMp/t61dltNSQt54pPzulOAoolQL4B6/7SaQN+fUBBMZbQjVK3vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=silabs.com; dmarc=pass action=none header.from=silabs.com;
+ dkim=pass header.d=silabs.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HzuKCRqNO0IImBaPn7HGCe0cRJrtqW+j2JuwM2fyqNs=;
-        b=g6ijPdl8/dgvPWFiEgaz6rYBTXtPtSig57Zs6lMdMQ20N23dhlbtEeEbWh66SmB4dr
-         iLhlm8ka5+dB69j5ofqigv6fcq6f4V2Q8SKlGxYWENmwrVW7BilzhgjN4KDvv0Y43tIY
-         mP2z7I+iwwmbkJV08FEW+X4yj9OWCCEnfxZ8cvM1aHc9R7S+A9QW6A4nEGq7JIq1x+xv
-         lTCf+Xt2qp5qe02MJDSHJih+p3EqexLUKOA2NA/rjS/dSd+o0rtooC430uIACrEKdNZM
-         atDLBkslwDM8B7P3n9tzyirUyQ1MhBVGjidRnJNvk6Usvggy4QuFEEhdvwfnJqOV/mQH
-         rqPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HzuKCRqNO0IImBaPn7HGCe0cRJrtqW+j2JuwM2fyqNs=;
-        b=i70SP14QaRQrBqEDsxmCmc4KamEo3NZ+INtwTMxELtpNxZqhdNCp4Fc/vLdmUKbTzG
-         ZhOzXdd6GlUJoqUoXOc/TXCOkqBv0hB1rn8gu+fSORHVTwtviOjOr7MfUoqAEhAlwiTa
-         aQemN+052ln9epNtx8UQFIEBFqDpCI7Wta9aLh1GltUeRkSkvbCX+/odY9rRHNqtmVC7
-         MHdRTEF0DhngpBRz4Vc6T4NlMhQtzPpUuGJi/36M0EhtUgDDu/7Mb1apU7NrbrsOTumk
-         +HLajPmS+FKZ/5CHkEcr5B0aMO61JdDlSdRK4XnKHO1JwAlHDzh6fkyLZYFsVQs7VWiz
-         fXvA==
-X-Gm-Message-State: AOAM531TYpdnvHjnu38SdrjkDhOhqvJfz/Jn8c4o4xKpRWBc33g4M9WN
-        0/R5VVn02YRQbcEuACVUR0U=
-X-Google-Smtp-Source: ABdhPJxBTT9EFrrspxEbeYweZ7ELB4NZ5TkQVNrNDuJXFkXL7mdACkW8eNFeP+5KRQIMGVzDMagfjQ==
-X-Received: by 2002:ac2:5f59:: with SMTP id 25mr31040335lfz.454.1625106291000;
-        Wed, 30 Jun 2021 19:24:51 -0700 (PDT)
-Received: from localhost.localdomain (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.gmail.com with ESMTPSA id v7sm2407262ljn.14.2021.06.30.19.24.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jun 2021 19:24:50 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v1 09/12] power: supply: smb347-charger: Implement USB VBUS regulator
-Date:   Thu,  1 Jul 2021 05:24:02 +0300
-Message-Id: <20210701022405.10817-10-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210701022405.10817-1-digetx@gmail.com>
-References: <20210701022405.10817-1-digetx@gmail.com>
+ d=silabs.onmicrosoft.com; s=selector2-silabs-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kx7jgrIDc9XJ1L9fTLWnI5c2VaPcBhaDCO3WBJJNrZ0=;
+ b=m26hcTJkDWCwbLaSO5lOKqsSMFBJ5YxsDVg3j24mgdLRhjpuq1d8j+N4FADPcjX1BSciKJx5K7Di4KanjkhQAt41v6jkwmSgy2ENyu5qqzulKtFt4dbFiVPJWepQb8TCWsf13/JUVUgC8KuHpL9tN0jTieC7h4dZb2lBrcTzXwU=
+Received: from CO1PR11MB4882.namprd11.prod.outlook.com (2603:10b6:303:97::8)
+ by MWHPR11MB0077.namprd11.prod.outlook.com (2603:10b6:301:61::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.24; Thu, 1 Jul
+ 2021 04:58:09 +0000
+Received: from CO1PR11MB4882.namprd11.prod.outlook.com
+ ([fe80::905b:f608:d0e6:6cf4]) by CO1PR11MB4882.namprd11.prod.outlook.com
+ ([fe80::905b:f608:d0e6:6cf4%7]) with mapi id 15.20.4287.023; Thu, 1 Jul 2021
+ 04:58:09 +0000
+From:   Tung Pham <Tung.Pham@silabs.com>
+To:     Johan Hovold <johan@kernel.org>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Pho Tran <Pho.Tran@silabs.com>,
+        Hung Nguyen <Hung.Nguyen@silabs.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: patch "USB: serial: cp210x: add support for GPIOs on CP2108"
+ added to usb-next
+Thread-Topic: patch "USB: serial: cp210x: add support for GPIOs on CP2108"
+ added to usb-next
+Thread-Index: AQHXaOeVhA2iY4NHiEazqc2bjICcJ6ssRT8wgAAX/QCAARa3EA==
+Date:   Thu, 1 Jul 2021 04:58:09 +0000
+Message-ID: <CO1PR11MB4882C876E69D61C52C42DAB981009@CO1PR11MB4882.namprd11.prod.outlook.com>
+References: <1624532158188214@kroah.com>
+ <PH0PR11MB4888B9D24A5F90E8AA02B28B81019@PH0PR11MB4888.namprd11.prod.outlook.com>
+ <YNxCBreFm7uisstJ@hovoldconsulting.com>
+In-Reply-To: <YNxCBreFm7uisstJ@hovoldconsulting.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=silabs.com;
+x-originating-ip: [1.55.242.165]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3bb887bb-55e2-40c2-7efe-08d93c4cd2a7
+x-ms-traffictypediagnostic: MWHPR11MB0077:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB0077DCD716B12BA7C2E3FD4481009@MWHPR11MB0077.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DYHS5WAuOWJC5TzfiGKY+nj3tqLKkByI2NIDOyaSVWsjycFSxwbbrwQjIx2nFi9faSxTxHbJf1lFtxDqTd6kkFUnnKcowJ0vqv087P0uc78v8R1I/XqQWGzy3E9zqCHgJv30iBQl+MrmCDHryrTGfu0xL6YL329RD5Ihrw57m99jPoUPYChsMGG8aDi96bf10s1N9N/e0Iw7EcKgXoSC/NSNW+k0FJUcsEuoACQ1BivBd/YHH/cPp7WwehhfObuG/JjG0+Xn6IzDpV9pRltKVvTPPYsOVJyHkuxrXZHNCWGAyT9uWEPVsXQXknFJykKGnmD4Q1CqxWKd76VDYTCAHv2PJtLWUo0qxVgj66Jj0tFanIVIEqIa3DPo8OWntLILtzDVTI/n2HzV54tdycULZhBWk2Euodsgi+3cVMBTfHQ0dVwIVx8msU8G/JnGQ3m361Ccc/kY5fZLU5tNESA9KnqTJ215NdJ8U1mfCfsYP+mosW8oqa85y6uX54xE1zJFSGQjrzw8pU693/kmRhA8+FZLdOSyvDnh2eZ/vNNFn+UENrWW6Yf7HIDZpY6EB5erR5UM8bK1Vj4XOljsU8/qiwZA3hBbsTditE8aXEFXJX4R8B1yw2Lve5fg43K8X1nY6y1eCvcDonrEEiAFxDzHTjprIBRIucyzSElkMS8lvIAC3eSYk9z4qMj7GCjJxbfwJc5EKqzfdoR9BOpida06ygcbG39dYiGgvhL2WAQc+OvU4ZcpGfcm9m38kVZgZI2zoqMIZ9OwGiGgAsF1GQyf4g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4882.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(346002)(39850400004)(366004)(136003)(966005)(7696005)(6506007)(316002)(55016002)(186003)(54906003)(8936002)(26005)(9686003)(2906002)(5660300002)(8676002)(6916009)(122000001)(38100700002)(478600001)(4326008)(33656002)(86362001)(52536014)(83380400001)(71200400001)(66946007)(64756008)(66476007)(76116006)(66446008)(66556008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?d8u3lwbJsBztdvqa9SBcZUPKwFbuEnynkgv3CYG7kNB5lmJ4TFu2xfkshTLO?=
+ =?us-ascii?Q?v+jQACJVmMvmU7VsM8dxAhM4ULCbmAWN40b1U9hiv80UPiiKWFQoldU3nfYQ?=
+ =?us-ascii?Q?37/zkYaHafkS4PiJrzBGG312brKlgQgAtPrm85BM7HKj/s/sSKagXj1rTP0h?=
+ =?us-ascii?Q?uKqHTZC4uWDgR7GM7NQwQEdHcxhivIg1w9FHPi56Od8EEw3cQIup+cSNhNlp?=
+ =?us-ascii?Q?B1qARZTSnc8H88+ULHeUdH2bNqHGfT6TYoSq3Rtz2Tc5A8d92fsSYtCOVNgH?=
+ =?us-ascii?Q?hUa+Uo6/2cx2d57xlg7NBquLFcHguIRKxH16+TzSPtOy2GI6JJI+LZNPtx+9?=
+ =?us-ascii?Q?jlFT2G3bCw3Co3WNpjqTMBF575EoPEpWT8t+xmutXBPDcqHZJtykj65PXevJ?=
+ =?us-ascii?Q?w26INLdgQY/6n60paJXjcoJkGI94Y9JcYSNUYbDgCgztJiZEMfukmFNFm+FE?=
+ =?us-ascii?Q?2IShjCIGezN7/U2tlEw3253NCPDNER+qaKypzJOcUuhrbyqdGgPF5xXKodk+?=
+ =?us-ascii?Q?G2lE3SwfgG8tArzJu9cS1FH8TjqVU0XkGG1uoCMGPee/x0DmHw4/sg58T9I5?=
+ =?us-ascii?Q?ANOkNqpidg6YRaU9zTqTFW3t5xhRK0AbMyj9iedNGeuboqpVMm6f2u6t09+w?=
+ =?us-ascii?Q?CHIqb2D7OLeTBhKr9NJufynKXTMzLzA6ao+L1yTv0IT6e32alvuC7zAbxhDg?=
+ =?us-ascii?Q?g+GSj4gCSZ63ZiyrDu2yFGtG5AljK9oOkcb0XnjJrxKx1/9AdZe3RM0cgnNb?=
+ =?us-ascii?Q?/ZTuAGI1rwWWcjGEnDfdCjWIv09PgS0kmA/3RRN9yzpFi/abSGl/0v6jQ6De?=
+ =?us-ascii?Q?R9xyXmHV9kOV9LjkcoEEruyUCVzflKgXGW0WOkuhCYQV8Ng3sEGM6fx3DsWW?=
+ =?us-ascii?Q?tt5jXLk/DNOevAvoeHSvgDCWGNCJSjvLr3HVuKNP1IDaSwa6VDplUs6rO0DQ?=
+ =?us-ascii?Q?I1lYMcvF9mFP6f3LUbQyntcvC7o5XUVPTsZCIhDktf+BsVp1PlsdfmesaomY?=
+ =?us-ascii?Q?ZO85L1ZMdsSDLH6eE0Q5nlROEeHbyLgyrz+WLGYg8ttPhHWYawVXjWaghzxW?=
+ =?us-ascii?Q?5/Fr9hwd3a9hLR3lg1lfX8+HUZb2EihL9YKEoSoTaO8RaEAzn1zCPNgGM6dV?=
+ =?us-ascii?Q?ucazQEcEqExYhb7vEzUag3fG18UM0c/xKtJtJLJpzCN/3tgUTQ9oC71nxr9Y?=
+ =?us-ascii?Q?niJkCUf1HoxYylNpmF2xHCT9gR5rdxg0f+aNBb4VhpmFjLEIlAkrf9CT4LJX?=
+ =?us-ascii?Q?DBm96CyR4FtRvejb38j8DWK+ilqsbDAZvpHlSS/cO4BEHgtK2gwIHG8knnjf?=
+ =?us-ascii?Q?lIg=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: silabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4882.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3bb887bb-55e2-40c2-7efe-08d93c4cd2a7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2021 04:58:09.7645
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 54dbd822-5231-4b20-944d-6f4abcd541fb
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SQ+gkMmIO7iFUmtF6FAHk3M5eg1VoshSsY0L94chxuCCdUR6ZJY6nBH+xphtJfN0Ne/h7Mn1hgqOoNHJFR1pqQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB0077
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SMB347 can supply power to USB VBUS, implement the USB VBUS regulator.
-USB VBUS needs to be powered for switching OTG-cable USB port into host
-mode.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/power/supply/Kconfig          |   1 +
- drivers/power/supply/smb347-charger.c | 219 ++++++++++++++++++++++++++
- 2 files changed, 220 insertions(+)
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 832190743e00..5a4f82ba9375 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -688,6 +688,7 @@ config CHARGER_BQ256XX
- config CHARGER_SMB347
- 	tristate "Summit Microelectronics SMB3XX Battery Charger"
- 	depends on I2C
-+	depends on REGULATOR
- 	select REGMAP_I2C
- 	help
- 	  Say Y to include support for Summit Microelectronics SMB345,
-diff --git a/drivers/power/supply/smb347-charger.c b/drivers/power/supply/smb347-charger.c
-index f81c60c679a0..330f1cd40e5e 100644
---- a/drivers/power/supply/smb347-charger.c
-+++ b/drivers/power/supply/smb347-charger.c
-@@ -18,6 +18,7 @@
- #include <linux/power_supply.h>
- #include <linux/property.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/driver.h>
- 
- #include <dt-bindings/power/summit,smb347-charger.h>
- 
-@@ -62,12 +63,15 @@
- #define CFG_THERM_SOFT_COLD_COMPENSATION_SHIFT	2
- #define CFG_THERM_MONITOR_DISABLED		BIT(4)
- #define CFG_SYSOK				0x08
-+#define CFG_SYSOK_INOK_ACTIVE_HIGH		BIT(0)
- #define CFG_SYSOK_SUSPEND_HARD_LIMIT_DISABLED	BIT(2)
- #define CFG_OTHER				0x09
- #define CFG_OTHER_RID_MASK			0xc0
- #define CFG_OTHER_RID_ENABLED_AUTO_OTG		0xc0
- #define CFG_OTG					0x0a
- #define CFG_OTG_TEMP_THRESHOLD_MASK		0x30
-+#define CFG_OTG_CURRENT_LIMIT_250mA		BIT(2)
-+#define CFG_OTG_CURRENT_LIMIT_750mA		BIT(3)
- #define CFG_OTG_TEMP_THRESHOLD_SHIFT		4
- #define CFG_OTG_CC_COMPENSATION_MASK		0xc0
- #define CFG_OTG_CC_COMPENSATION_SHIFT		6
-@@ -91,6 +95,7 @@
- #define CMD_A					0x30
- #define CMD_A_CHG_ENABLED			BIT(1)
- #define CMD_A_SUSPEND_ENABLED			BIT(2)
-+#define CMD_A_OTG_ENABLED			BIT(4)
- #define CMD_A_ALLOW_WRITE			BIT(7)
- #define CMD_B					0x31
- #define CMD_C					0x33
-@@ -132,10 +137,12 @@
-  * @regmap: pointer to driver regmap
-  * @mains: power_supply instance for AC/DC power
-  * @usb: power_supply instance for USB power
-+ * @usb_rdev: USB VBUS regulator device
-  * @id: SMB charger ID
-  * @mains_online: is AC/DC input connected
-  * @usb_online: is USB input connected
-  * @irq_unsupported: is interrupt unsupported by SMB hardware
-+ * @usb_vbus_enabled: is USB VBUS powered by SMB charger
-  * @max_charge_current: maximum current (in uA) the battery can be charged
-  * @max_charge_voltage: maximum voltage (in uV) the battery can be charged
-  * @pre_charge_current: current (in uA) to use in pre-charging phase
-@@ -166,6 +173,8 @@
-  * @use_usb_otg: USB OTG output can be used (not implemented yet)
-  * @enable_control: how charging enable/disable is controlled
-  *		    (driver/pin controls)
-+ * @inok_polarity: polarity of INOK signal which denotes presence of external
-+ *		   power supply
-  *
-  * @use_main, @use_usb, and @use_usb_otg are means to enable/disable
-  * hardware support for these. This is useful when we want to have for
-@@ -188,10 +197,12 @@ struct smb347_charger {
- 	struct regmap		*regmap;
- 	struct power_supply	*mains;
- 	struct power_supply	*usb;
-+	struct regulator_dev	*usb_rdev;
- 	unsigned int		id;
- 	bool			mains_online;
- 	bool			usb_online;
- 	bool			irq_unsupported;
-+	bool			usb_vbus_enabled;
- 
- 	unsigned int		max_charge_current;
- 	unsigned int		max_charge_voltage;
-@@ -212,6 +223,7 @@ struct smb347_charger {
- 	bool			use_usb;
- 	bool			use_usb_otg;
- 	unsigned int		enable_control;
-+	unsigned int		inok_polarity;
- };
- 
- enum smb_charger_chipid {
-@@ -361,6 +373,11 @@ static int smb347_charging_set(struct smb347_charger *smb, bool enable)
- 		return 0;
- 	}
- 
-+	if (enable && smb->usb_vbus_enabled) {
-+		dev_dbg(smb->dev, "charging not enabled because USB is in host mode\n");
-+		return 0;
-+	}
-+
- 	return regmap_update_bits(smb->regmap, CMD_A, CMD_A_CHG_ENABLED,
- 				  enable ? CMD_A_CHG_ENABLED : 0);
- }
-@@ -1243,6 +1260,13 @@ static void smb347_dt_parse_dev_info(struct smb347_charger *smb)
- 	/* Select charging control */
- 	device_property_read_u32(dev, "summit,enable-charge-control",
- 				 &smb->enable_control);
-+
-+	/*
-+	 * Polarity of INOK signal indicating presence of external power
-+	 * supply connected to the charger.
-+	 */
-+	device_property_read_u32(dev, "summit,inok-polarity",
-+				 &smb->inok_polarity);
- }
- 
- static int smb347_get_battery_info(struct smb347_charger *smb)
-@@ -1294,6 +1318,160 @@ static int smb347_get_battery_info(struct smb347_charger *smb)
- 	return 0;
- }
- 
-+static int smb347_usb_vbus_get_current_limit(struct regulator_dev *rdev)
-+{
-+	struct smb347_charger *smb = rdev_get_drvdata(rdev);
-+	unsigned int val;
-+	int ret;
-+
-+	ret = regmap_read(smb->regmap, CFG_OTG, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * It's unknown what happens if this bit is unset due to lack of
-+	 * access to the datasheet, assume it's limit-enable.
-+	 */
-+	if (!(val & CFG_OTG_CURRENT_LIMIT_250mA))
-+		return 0;
-+
-+	return val & CFG_OTG_CURRENT_LIMIT_750mA ? 750000 : 250000;
-+}
-+
-+static int smb347_usb_vbus_set_new_current_limit(struct smb347_charger *smb,
-+						 int max_uA)
-+{
-+	const unsigned int mask = CFG_OTG_CURRENT_LIMIT_750mA |
-+				  CFG_OTG_CURRENT_LIMIT_250mA;
-+	unsigned int val = CFG_OTG_CURRENT_LIMIT_250mA;
-+	int ret;
-+
-+	if (max_uA >= 750000)
-+		val |= CFG_OTG_CURRENT_LIMIT_750mA;
-+
-+	ret = regmap_update_bits(smb->regmap, CFG_OTG, mask, val);
-+	if (ret < 0)
-+		dev_err(smb->dev, "failed to change USB current limit\n");
-+
-+	return ret;
-+}
-+
-+static int smb347_usb_vbus_set_current_limit(struct regulator_dev *rdev,
-+					     int min_uA, int max_uA)
-+{
-+	struct smb347_charger *smb = rdev_get_drvdata(rdev);
-+	int ret;
-+
-+	ret = smb347_set_writable(smb, true, true);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = smb347_usb_vbus_set_new_current_limit(smb, max_uA);
-+	smb347_set_writable(smb, false, true);
-+
-+	return ret;
-+}
-+
-+static int smb347_usb_vbus_regulator_enable(struct regulator_dev *rdev)
-+{
-+	struct smb347_charger *smb = rdev_get_drvdata(rdev);
-+	int ret, max_uA;
-+
-+	ret = smb347_set_writable(smb, true, true);
-+	if (ret < 0)
-+		return ret;
-+
-+	smb347_charging_disable(smb);
-+
-+	if (device_property_read_bool(&rdev->dev, "summit,needs-inok-toggle")) {
-+		unsigned int sysok = 0;
-+
-+		if (smb->inok_polarity == SMB3XX_SYSOK_INOK_ACTIVE_LOW)
-+			sysok = CFG_SYSOK_INOK_ACTIVE_HIGH;
-+
-+		/*
-+		 * VBUS won't be powered if INOK is active, so we need to
-+		 * manually disable INOK on some platforms.
-+		 */
-+		ret = regmap_update_bits(smb->regmap, CFG_SYSOK,
-+					 CFG_SYSOK_INOK_ACTIVE_HIGH, sysok);
-+		if (ret < 0) {
-+			dev_err(smb->dev, "failed to disable INOK\n");
-+			goto done;
-+		}
-+	}
-+
-+	ret = smb347_usb_vbus_get_current_limit(rdev);
-+	if (ret < 0) {
-+		dev_err(smb->dev, "failed to get USB VBUS current limit\n");
-+		goto done;
-+	}
-+
-+	max_uA = ret;
-+
-+	ret = smb347_usb_vbus_set_new_current_limit(smb, 250000);
-+	if (ret < 0) {
-+		dev_err(smb->dev, "failed to preset USB VBUS current limit\n");
-+		goto done;
-+	}
-+
-+	ret = regmap_set_bits(smb->regmap, CMD_A, CMD_A_OTG_ENABLED);
-+	if (ret < 0) {
-+		dev_err(smb->dev, "failed to enable USB VBUS\n");
-+		goto done;
-+	}
-+
-+	smb->usb_vbus_enabled = true;
-+
-+	ret = smb347_usb_vbus_set_new_current_limit(smb, max_uA);
-+	if (ret < 0) {
-+		dev_err(smb->dev, "failed to restore USB VBUS current limit\n");
-+		goto done;
-+	}
-+done:
-+	smb347_set_writable(smb, false, true);
-+
-+	return ret;
-+}
-+
-+static int smb347_usb_vbus_regulator_disable(struct regulator_dev *rdev)
-+{
-+	struct smb347_charger *smb = rdev_get_drvdata(rdev);
-+	int ret;
-+
-+	ret = smb347_set_writable(smb, true, true);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_clear_bits(smb->regmap, CMD_A, CMD_A_OTG_ENABLED);
-+	if (ret < 0) {
-+		dev_err(smb->dev, "failed to disable USB VBUS\n");
-+		goto done;
-+	}
-+
-+	smb->usb_vbus_enabled = false;
-+
-+	if (device_property_read_bool(&rdev->dev, "summit,needs-inok-toggle")) {
-+		unsigned int sysok = 0;
-+
-+		if (smb->inok_polarity == SMB3XX_SYSOK_INOK_ACTIVE_HIGH)
-+			sysok = CFG_SYSOK_INOK_ACTIVE_HIGH;
-+
-+		ret = regmap_update_bits(smb->regmap, CFG_SYSOK,
-+					 CFG_SYSOK_INOK_ACTIVE_HIGH, sysok);
-+		if (ret < 0) {
-+			dev_err(smb->dev, "failed to enable INOK\n");
-+			goto done;
-+		}
-+	}
-+
-+	smb347_start_stop_charging(smb);
-+done:
-+	smb347_set_writable(smb, false, true);
-+
-+	return ret;
-+}
-+
- static const struct regmap_config smb347_regmap = {
- 	.reg_bits	= 8,
- 	.val_bits	= 8,
-@@ -1302,6 +1480,14 @@ static const struct regmap_config smb347_regmap = {
- 	.readable_reg	= smb347_readable_reg,
- };
- 
-+static const struct regulator_ops smb347_usb_vbus_regulator_ops = {
-+	.is_enabled	= regulator_is_enabled_regmap,
-+	.enable		= smb347_usb_vbus_regulator_enable,
-+	.disable	= smb347_usb_vbus_regulator_disable,
-+	.get_current_limit = smb347_usb_vbus_get_current_limit,
-+	.set_current_limit = smb347_usb_vbus_set_current_limit,
-+};
-+
- static const struct power_supply_desc smb347_mains_desc = {
- 	.name		= "smb347-mains",
- 	.type		= POWER_SUPPLY_TYPE_MAINS,
-@@ -1318,10 +1504,24 @@ static const struct power_supply_desc smb347_usb_desc = {
- 	.num_properties	= ARRAY_SIZE(smb347_properties),
- };
- 
-+static const struct regulator_desc smb347_usb_vbus_regulator_desc = {
-+	.name		= "smb347-usb-vbus",
-+	.of_match	= of_match_ptr("usb-vbus"),
-+	.ops		= &smb347_usb_vbus_regulator_ops,
-+	.type		= REGULATOR_VOLTAGE,
-+	.owner		= THIS_MODULE,
-+	.enable_reg	= CMD_A,
-+	.enable_mask	= CMD_A_OTG_ENABLED,
-+	.enable_val	= CMD_A_OTG_ENABLED,
-+	.fixed_uV	= 5000000,
-+	.n_voltages	= 1,
-+};
-+
- static int smb347_probe(struct i2c_client *client,
- 			const struct i2c_device_id *id)
- {
- 	struct power_supply_config mains_usb_cfg = {};
-+	struct regulator_config usb_rdev_cfg = {};
- 	struct device *dev = &client->dev;
- 	struct smb347_charger *smb;
- 	int ret;
-@@ -1369,6 +1569,18 @@ static int smb347_probe(struct i2c_client *client,
- 	if (ret)
- 		return ret;
- 
-+	usb_rdev_cfg.dev = dev;
-+	usb_rdev_cfg.driver_data = smb;
-+	usb_rdev_cfg.regmap = smb->regmap;
-+
-+	smb->usb_rdev = devm_regulator_register(dev,
-+						&smb347_usb_vbus_regulator_desc,
-+						&usb_rdev_cfg);
-+	if (IS_ERR(smb->usb_rdev)) {
-+		smb347_irq_disable(smb);
-+		return PTR_ERR(smb->usb_rdev);
-+	}
-+
- 	return 0;
- }
- 
-@@ -1376,11 +1588,17 @@ static int smb347_remove(struct i2c_client *client)
- {
- 	struct smb347_charger *smb = i2c_get_clientdata(client);
- 
-+	smb347_usb_vbus_regulator_disable(smb->usb_rdev);
- 	smb347_irq_disable(smb);
- 
- 	return 0;
- }
- 
-+static void smb347_shutdown(struct i2c_client *client)
-+{
-+	smb347_remove(client);
-+}
-+
- static const struct i2c_device_id smb347_id[] = {
- 	{ "smb345", SMB345 },
- 	{ "smb347", SMB347 },
-@@ -1404,6 +1622,7 @@ static struct i2c_driver smb347_driver = {
- 	},
- 	.probe = smb347_probe,
- 	.remove = smb347_remove,
-+	.shutdown = smb347_shutdown,
- 	.id_table = smb347_id,
- };
- module_i2c_driver(smb347_driver);
--- 
-2.30.2
+Dear Johan.
+
+
+>Please make sure to CC the usb list when reporting problems. I've added it=
+ to CC now.
+
+Yes, I will remember to do this next time.
+
+>Are you sure you're using the latest mainline kernel here, that is,
+>5.13 here?
+>With recent kernel's you would not see -ENODEV ("No such device") but rath=
+er -EINVAL ("Invalid argument").
+>What does "uname -a" say?
+
+I use the kernel 5.8.0-59-generic, I think either result ("No such device")=
+ or  ("Invalid argument") may be accepted in this case.
+
+>And which version of the patch are you applying? Are you sure it's the lat=
+est?
+
+I apply patch V13 from last mail that you send.
+
+>> But when I test the branch of Mr Gregkh.
+>> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/tree/dr
+>> ivers/usb/serial/cp210x.c?h=3Dusb-testing
+>> root@ubuntu:/sys/class/gpio# echo 496 > /sys/class/gpio/export=20
+>> root@ubuntu:/sys/class/gpio# echo 497 > /sys/class/gpio/export That=20
+>> mean it still use GPIO 0 and GPIO 1 as GPIO functions.
+
+>It does seem that way, but to be sure, do the
+
+>       /sys/class/gpio/gpio496
+>      /sys/class/gpio/gpio497
+
+>directories show up as well?
+
+Today I retest it and it seem everything is ok. May be previous test I have=
+ some loading driver problem. The result is as below:
+
+echo 496 > /sys/class/gpio/export
+-bash: echo: write error: Invalid argument
+echo 497 > /sys/class/gpio/export
+-bash: echo: write error: Invalid argument
+tung@ubuntu:~$ /sys/class/gpio/gpio496
+bash: /sys/class/gpio/gpio496: No such file or directory
+
+>I just did a quick test using the code in the usb-next (testing) branch an=
+d it seems to work as expected when hard-coding alternate functions for som=
+e of >the pins in the driver.
+
+>I did not actually reprogram the device so perhaps something is broken wit=
+h regards to reading the port configuration. But then you should see the >p=
+roblem if you apply the patch to an earlier kernel as well.
+
+>Can you apply the below patch on top of Greg's usb-next (or usb-testing) b=
+ranch and send me the logs from when connecting the device?
+
+The log written is:
+[ 3599.781531] cp210x 2-2.1:1.0: cp2108_gpio_init - 03 00 00 00
+Anyway both drivers are now working ok.
+Thank you.
 
