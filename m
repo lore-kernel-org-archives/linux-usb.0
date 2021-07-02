@@ -2,138 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E87C11F6C
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 09:38:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C14C11F68
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 10:02:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B38C613EE
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 09:38:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97AB9613CD
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 10:02:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231536AbhGBJk7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jul 2021 05:40:59 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:40523 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231365AbhGBJkq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 2 Jul 2021 05:40:46 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1625218695; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=yRAN0Itr5X2kNRTVzZrquh9Jp2t19T/UylZmENO8ll4=; b=PnhGU4q6FWMolFMKelJ4oZQdpTI4jLij5SDO6mxrW6+N84077komgSIKScwHQFXn/c+g6Sr5
- 13VkAd8bcr4j5K98sr+P3btCZqOzKz9tbkRjMx5FQLlr5nxkKMQiEsgZzxBy07KZICMdjYes
- Qlnk4Re1mo18H3FU7q32oQsxjZk=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 60dede6eec0b18a745937607 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Jul 2021 09:37:50
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 23672C43143; Fri,  2 Jul 2021 09:37:49 +0000 (UTC)
-Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B7A90C43460;
-        Fri,  2 Jul 2021 09:37:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org B7A90C43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-From:   Wesley Cheng <wcheng@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, balbi@kernel.org,
-        gregkh@linuxfoundation.org, robh+dt@kernel.org,
-        frowand.list@gmail.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        jackp@codeaurora.org, fntoth@gmail.com,
-        Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v12 1/6] usb: gadget: udc: core: Introduce check_config to verify USB configuration
-Date:   Fri,  2 Jul 2021 02:37:30 -0700
-Message-Id: <1625218655-14180-2-git-send-email-wcheng@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1625218655-14180-1-git-send-email-wcheng@codeaurora.org>
-References: <1625218655-14180-1-git-send-email-wcheng@codeaurora.org>
+        id S231320AbhGBKEh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jul 2021 06:04:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38034 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231340AbhGBKEe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 2 Jul 2021 06:04:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C6336613CD;
+        Fri,  2 Jul 2021 10:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625220122;
+        bh=M9shyW+u2hUlibuSUqsrhw0+G4/tOavULWXI/ipsb6g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZZNgNYl75+8YJ9gjg5GGL5Llm+arpc1rjvT+zV2Wo6+/ov2f/5mh7oqcP6Ote1tmU
+         yaOOKTPMJHfZn1cwxlu2vJJoiYarqxek+j8b75UtY6Abmm8EcR6BF1tQrdCWxMo72m
+         +9DjdqKB26bZbOIrqhtTKJvzA8JloqZyIgaRoFLrFhFHv5MngR1HtyUrx/NeT9VqT4
+         hCUAd7onalQN8PcZjNmXjtFj3/1E3rAqTar3DD2kPMmd3gDBhHed1+Vkc/2gUjYYtY
+         2X+aNcB8iW4eqw83yI4kcJfCkpvsWU7YAiQs+EYXASdEbCeeqpm0XL4HrA8B4i8ZX1
+         nwZckTj3F3OZw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lzFzj-00031e-Kk; Fri, 02 Jul 2021 12:02:00 +0200
+Date:   Fri, 2 Jul 2021 12:01:59 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Rhees <support@usbuirt.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: Re: [PATCH v5 0/2] IR driver for USB-UIRT device
+Message-ID: <YN7kF17pfhDr1ccy@hovoldconsulting.com>
+References: <cover.1624006513.git.sean@mess.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1624006513.git.sean@mess.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some UDCs may have constraints on how many high bandwidth endpoints it can
-support in a certain configuration.  This API allows for the composite
-driver to pass down the total number of endpoints to the UDC so it can verify
-it has the required resources to support the configuration.
+On Fri, Jun 18, 2021 at 11:18:45AM +0100, Sean Young wrote:
+> This is a new rc-core driver for the USB-UIRT which you can see here
+> http://www.usbuirt.com/
+> 
+> This device is supported in lirc, via the usb serial kernel driver. This
+> driver is both for rc-core, which means it can use kernel/BPF decoding
+> ec. Also this implement is superior because it can:
+>  - support learning mode
+>  - setting transmit carrier
+>  - larger transmits using streaming tx command
+>  - Much better latency since it is a kernel driver
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/usb/gadget/udc/core.c | 19 +++++++++++++++++++
- include/linux/usb/gadget.h    |  4 ++++
- 2 files changed, 23 insertions(+)
+A ball-park number to back this claim up would be good here. Your driver
+sets the ftdi latency timer to 50 ms which adds quite a bit of latency
+for short packets (e.g. a single key press?) to begin with.
 
-diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-index b7f0b1e..14fdf91 100644
---- a/drivers/usb/gadget/udc/core.c
-+++ b/drivers/usb/gadget/udc/core.c
-@@ -1003,6 +1003,25 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
- }
- EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
- 
-+/**
-+ * usb_gadget_check_config - checks if the UDC can support the binded
-+ *	configuration
-+ * @gadget: controller to check the USB configuration
-+ *
-+ * Ensure that a UDC is able to support the requested resources by a
-+ * configuration, and that there are no resource limitations, such as
-+ * internal memory allocated to all requested endpoints.
-+ *
-+ * Returns zero on success, else a negative errno.
-+ */
-+int usb_gadget_check_config(struct usb_gadget *gadget)
-+{
-+	if (gadget->ops->check_config)
-+		return gadget->ops->check_config(gadget);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(usb_gadget_check_config);
-+
- /* ------------------------------------------------------------------------- */
- 
- static void usb_gadget_state_work(struct work_struct *work)
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 75c7538..776851e 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -329,6 +329,7 @@ struct usb_gadget_ops {
- 	struct usb_ep *(*match_ep)(struct usb_gadget *,
- 			struct usb_endpoint_descriptor *,
- 			struct usb_ss_ep_comp_descriptor *);
-+	int	(*check_config)(struct usb_gadget *gadget);
- };
- 
- /**
-@@ -608,6 +609,7 @@ int usb_gadget_connect(struct usb_gadget *gadget);
- int usb_gadget_disconnect(struct usb_gadget *gadget);
- int usb_gadget_deactivate(struct usb_gadget *gadget);
- int usb_gadget_activate(struct usb_gadget *gadget);
-+int usb_gadget_check_config(struct usb_gadget *gadget);
- #else
- static inline int usb_gadget_frame_number(struct usb_gadget *gadget)
- { return 0; }
-@@ -631,6 +633,8 @@ static inline int usb_gadget_deactivate(struct usb_gadget *gadget)
- { return 0; }
- static inline int usb_gadget_activate(struct usb_gadget *gadget)
- { return 0; }
-+static inline int usb_gadget_check_config(struct usb_gadget *gadget)
-+{ return 0; }
- #endif /* CONFIG_USB_GADGET */
- 
- /*-------------------------------------------------------------------------*/
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+> Changes since v4:
+>  - Fixed clang warning/uninitialized variable usage
+>  - Some cosmetic changes
+> 
+> Changes since v3:
+>  - Review comments from Johan Hovold
 
+In the future, please include some details on what changed also when
+addressing review feedback.
+
+>  - Do not move the ftdi_sio.h file an copy FTDI_* definitions instead
+> 
+> Changes since v2:
+>  - Fixed race condition is disconnect
+>  - Removed superfluous kmalloc in short tx
+> 
+> Changes since v1:
+>  - Review comments from Oliver Neukum
+>  - Simplified wideband read function
+> 
+> Sean Young (2):
+>   media: rc: new driver for USB-UIRT device
+>   USB: serial: blacklist USB-UIRT when driver is selected
+> 
+>  drivers/media/rc/Kconfig      |  11 +
+>  drivers/media/rc/Makefile     |   1 +
+>  drivers/media/rc/uirt.c       | 744 ++++++++++++++++++++++++++++++++++
+>  drivers/usb/serial/ftdi_sio.c |   6 +-
+>  4 files changed, 760 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/media/rc/uirt.c
+
+Johan
