@@ -4,72 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D18C11F73
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7423C11F68
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BD97613CE
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABB8A6142C
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232853AbhGBNqC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jul 2021 09:46:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48824 "EHLO mail.kernel.org"
+        id S232521AbhGBNql (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jul 2021 09:46:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49498 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232718AbhGBNp2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 2 Jul 2021 09:45:28 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E3626142B;
-        Fri,  2 Jul 2021 13:42:56 +0000 (UTC)
+        id S232524AbhGBNqk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 2 Jul 2021 09:46:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7ADFA6142B;
+        Fri,  2 Jul 2021 13:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625233376;
-        bh=YE/LCnkMIv6fwH7bk4ME2EQ7qcy5Vj5/29RRN5K4+ok=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jb1l3cakLEMvw7JpHXk4ANbsjYL2PcNp+wG6HalxrKxauY5FEJh7faOMGSA+UHerK
-         iN2y96J6BxeiuKatGhCcvcq/3MaXALcE/qwRWzpITOMkBWArgFIU+cEmeOmh1v8Qt3
-         aOGItxamv2ZdI6+4OtMHFqwEgOoMT7bXrwsy1pUN+nO3Zj2IBaYc+X9/CFV5ecYvfn
-         dk0BqGXCRBEbaHmhQ1+K/wpz88bJzorMlUDcRV3M0rDpObxSkWEsZ36DcQug09dDtO
-         A/u31QN7mQDjRscgUN9GLRoZgUqncNDnrWVBesLKDah648/mvpMZdXqfV8F3ZDjfzg
-         ZpGydTmHTJi+Q==
+        s=k20201202; t=1625233448;
+        bh=Yly/TIf/MZx8LTAVljg02k9Xq8sLMr72tdy7NFCAbdA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Qh14chdAI4iQ1d6txsYYJ7JprOLHZXwO2F1KfyB8113PBQGZoiyiIJS/gOtUlYg17
+         eY2NbFbblTqAV3R6L19fb1BkzRoeeLhi6JeYfX5kSVDYfM8uvKo7krggjSSLKJrE9t
+         egqOnsErEBWA/Sne7H8FrLT+OL4zgs6GReQRt+x5unxjR+W7JNHrUGctmWFGHHg9wZ
+         GaKN8G4AHdkaZv2C10yxwMYWoFcaP1Lm7lkF8lQDjcBwohhcw/EIHR8xPxK8EyQG76
+         TCDW0MEfL85fjsOOoIaW82BhiV2hZHQ2ZhphTnhGG/3iJ3BQL8YkG7fy2CQJNkh2+T
+         HfgVGXsxz4deQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1lzJRT-0006Q7-5j; Fri, 02 Jul 2021 15:42:51 +0200
+        id 1lzJSf-0006Uw-2c; Fri, 02 Jul 2021 15:44:05 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/6] USB: serial: cp210x: clean up control-request timeout
-Date:   Fri,  2 Jul 2021 15:42:24 +0200
-Message-Id: <20210702134227.24621-4-johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH] USB: serial: io_edgeport: drop unused descriptor helper
+Date:   Fri,  2 Jul 2021 15:43:48 +0200
+Message-Id: <20210702134348.24924-1-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210702134227.24621-1-johan@kernel.org>
-References: <20210702134227.24621-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For consistency use the USB_CTRL_GET_TIMEOUT define for the
-read-register request timeout (same value as USB_CTRL_SET_TIMEOUT).
+Drop the unused (and not even compiled) string descriptor helper.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/cp210x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/serial/io_edgeport.c | 33 --------------------------------
+ 1 file changed, 33 deletions(-)
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index eb3be4f65603..c7cea86c659c 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -637,7 +637,7 @@ static int cp210x_read_reg_block(struct usb_serial_port *port, u8 req,
- 	result = usb_control_msg(serial->dev, usb_rcvctrlpipe(serial->dev, 0),
- 			req, REQTYPE_INTERFACE_TO_HOST, 0,
- 			port_priv->bInterfaceNumber, dmabuf, bufsize,
--			USB_CTRL_SET_TIMEOUT);
-+			USB_CTRL_GET_TIMEOUT);
- 	if (result == bufsize) {
- 		memcpy(buf, dmabuf, bufsize);
- 		result = 0;
+diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
+index ea4edf5eed27..bdee78cc4a07 100644
+--- a/drivers/usb/serial/io_edgeport.c
++++ b/drivers/usb/serial/io_edgeport.c
+@@ -389,39 +389,6 @@ static void update_edgeport_E2PROM(struct edgeport_serial *edge_serial)
+ 	release_firmware(fw);
+ }
+ 
+-#if 0
+-/************************************************************************
+- *
+- *  Get string descriptor from device
+- *
+- ************************************************************************/
+-static int get_string_desc(struct usb_device *dev, int Id,
+-				struct usb_string_descriptor **pRetDesc)
+-{
+-	struct usb_string_descriptor StringDesc;
+-	struct usb_string_descriptor *pStringDesc;
+-
+-	dev_dbg(&dev->dev, "%s - USB String ID = %d\n", __func__, Id);
+-
+-	if (!usb_get_descriptor(dev, USB_DT_STRING, Id, &StringDesc,
+-						sizeof(StringDesc)))
+-		return 0;
+-
+-	pStringDesc = kmalloc(StringDesc.bLength, GFP_KERNEL);
+-	if (!pStringDesc)
+-		return -1;
+-
+-	if (!usb_get_descriptor(dev, USB_DT_STRING, Id, pStringDesc,
+-							StringDesc.bLength)) {
+-		kfree(pStringDesc);
+-		return -1;
+-	}
+-
+-	*pRetDesc = pStringDesc;
+-	return 0;
+-}
+-#endif
+-
+ static void dump_product_info(struct edgeport_serial *edge_serial,
+ 			      struct edgeport_product_info *product_info)
+ {
 -- 
 2.31.1
 
