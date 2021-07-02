@@ -2,179 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFCCC11F75
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 23:44:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A6FC11F68
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 03:54:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 806E161409
-	for <linux-usb@archiver.kernel.org>; Thu,  1 Jul 2021 23:44:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A52776140A
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 03:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234840AbhGAXqu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jul 2021 19:46:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43904 "EHLO
+        id S234891AbhGBD4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 1 Jul 2021 23:56:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234063AbhGAXqa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jul 2021 19:46:30 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18582C0613DF;
-        Thu,  1 Jul 2021 16:43:57 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id k21so10861682ljh.2;
-        Thu, 01 Jul 2021 16:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=esff+ZXqqz83swKvK/vBkagYD4H4gF2qZzwq0FaHQEk=;
-        b=EO2W7fDBIINLnKEOgT4Zxsjtzj6uP3DID/qd/uIKUNCzbUIIh9rT32VX9jJz/skEHG
-         Q8+tnkjxBDIaWiSJiXRMW374yuW/4FT68KnyLSHh5FeO2kKrrubq+tyWnHpXIpSyZW2e
-         FI6CepenJLfFH8myj9g1gmMCC1fFE6CLzJY5ITd8SneEjJUTaM5nFYXSoRwqVgv9kBiu
-         JvPu79SnTMuW6zfUxnUCAoOlgqRP+hfmyJcUNhKRVa7fY5wMRy/F7Oz/NtVhqiOn4Nh1
-         n6Iaz7/VXC7sHycL8JXF+uxGn39Q2DCa6rR3hki4S1LEC09MMJBYB4U5BCxhMiQzYfYr
-         qFLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=esff+ZXqqz83swKvK/vBkagYD4H4gF2qZzwq0FaHQEk=;
-        b=rR7bS1ep4bfTR2KlIjUo5Eel/Wdo2ZtwrDwy4XNjQV4sw3QjCfLsPxtYfdOlwacA//
-         StEDSSNUT4XRDmpwvMKxWvYcNUDLCTjJstJWTe2XIlIdx0x+cLZA3LQ0FjSspX/Pjpx2
-         W/kFtsc3I3DezzjAa0CDdxXqtBljwWBr5t7Ginl7m0huLeqgRBESU9GkWlh2YVn+bI3s
-         bwYRpusoHl/FyAEaad9/M0n4hvQO0u4PaVlpnDsHSvLY4HjNy7DslCq8vw5Awnu7S7X8
-         haWYxZxJ4LpRWuFBl1pqNUxMQJSyuZCt5ARexK5yVHoM7wyPbH1JyFvn6+r0H8X7QWXE
-         Zh6Q==
-X-Gm-Message-State: AOAM531mXp2+xnugywRe4qZGbfN/Z6UT07AimvPS1ujXTot7FSQroBv+
-        MriicW1j34zat0ClD7adkdctywotNPY=
-X-Google-Smtp-Source: ABdhPJxTcBMbSWeM4AiTR84W4ntVS4lau8EpT07hyBVHhi57xF4eudmvTaf5P79yOL9QgBUkElm9Sg==
-X-Received: by 2002:a2e:8e26:: with SMTP id r6mr1528050ljk.313.1625183035470;
-        Thu, 01 Jul 2021 16:43:55 -0700 (PDT)
-Received: from localhost.localdomain (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.gmail.com with ESMTPSA id e23sm60743lfq.221.2021.07.01.16.43.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jul 2021 16:43:55 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v2 07/12] power: supply: smb347-charger: Make smb347_set_writable() IRQ-safe
-Date:   Fri,  2 Jul 2021 02:43:12 +0300
-Message-Id: <20210701234317.26393-8-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210701234317.26393-1-digetx@gmail.com>
-References: <20210701234317.26393-1-digetx@gmail.com>
+        with ESMTP id S234839AbhGBD4c (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jul 2021 23:56:32 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F335CC061762
+        for <linux-usb@vger.kernel.org>; Thu,  1 Jul 2021 20:54:00 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lzAFL-00021A-VA; Fri, 02 Jul 2021 05:53:43 +0200
+Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lzAFI-0002yt-Au; Fri, 02 Jul 2021 05:53:40 +0200
+Date:   Fri, 2 Jul 2021 05:53:40 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v1 1/1] net: usb: asix: ax88772: suspend PHY on
+ driver probe
+Message-ID: <20210702035340.sdoc5dqpuo4cgsqe@pengutronix.de>
+References: <20210629044305.32322-1-o.rempel@pengutronix.de>
+ <931f10ca-2d81-8264-950c-8d29c18a7b35@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <931f10ca-2d81-8264-950c-8d29c18a7b35@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 05:41:20 up 211 days, 17:47, 35 users,  load average: 0.00, 0.04,
+ 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The smb347_set_writable() is used by interrupt handler and outside of it.
-The interrupt should be disabled when the function is used outside of
-interrupt handler in order to prevent racing with the interrupt context.
-Add new parameter to smb347_set_writable() that allows to disable IRQ.
+On Thu, Jul 01, 2021 at 12:01:04PM -0700, Florian Fainelli wrote:
+> On 6/28/21 9:43 PM, Oleksij Rempel wrote:
+> > After probe/bind sequence is the PHY in active state, even if interface
+> > is stopped. As result, on some systems like Samsung Exynos5250 SoC based Arndale
+> > board, the ASIX PHY will be able to negotiate the link but fail to
+> > transmit the data.
+> > 
+> > To handle it, suspend the PHY on probe.
+> 
+> Very unusual, could not the PHY be attached/connected to a ndo_open()
+> time like what most drivers do?
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/power/supply/smb347-charger.c | 30 +++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+May be this can be done to.
+But, should not the PHY be in the same state after phy_connect() and after
+phy_stop()?
 
-diff --git a/drivers/power/supply/smb347-charger.c b/drivers/power/supply/smb347-charger.c
-index df240420f2de..db1378b41f80 100644
---- a/drivers/power/supply/smb347-charger.c
-+++ b/drivers/power/supply/smb347-charger.c
-@@ -671,10 +671,22 @@ static int smb347_set_temp_limits(struct smb347_charger *smb)
-  *
-  * Returns %0 on success and negative errno in case of failure.
-  */
--static int smb347_set_writable(struct smb347_charger *smb, bool writable)
-+static int smb347_set_writable(struct smb347_charger *smb, bool writable,
-+			       bool irq_toggle)
- {
--	return regmap_update_bits(smb->regmap, CMD_A, CMD_A_ALLOW_WRITE,
--				  writable ? CMD_A_ALLOW_WRITE : 0);
-+	struct i2c_client *client = to_i2c_client(smb->dev);
-+	int ret;
-+
-+	if (writable && irq_toggle && !smb->irq_unsupported)
-+		disable_irq(client->irq);
-+
-+	ret = regmap_update_bits(smb->regmap, CMD_A, CMD_A_ALLOW_WRITE,
-+				 writable ? CMD_A_ALLOW_WRITE : 0);
-+
-+	if ((!writable || ret) && irq_toggle && !smb->irq_unsupported)
-+		enable_irq(client->irq);
-+
-+	return ret;
- }
- 
- static int smb347_hw_init(struct smb347_charger *smb)
-@@ -682,7 +694,7 @@ static int smb347_hw_init(struct smb347_charger *smb)
- 	unsigned int val;
- 	int ret;
- 
--	ret = smb347_set_writable(smb, true);
-+	ret = smb347_set_writable(smb, true, false);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -758,7 +770,7 @@ static int smb347_hw_init(struct smb347_charger *smb)
- 	ret = smb347_start_stop_charging(smb);
- 
- fail:
--	smb347_set_writable(smb, false);
-+	smb347_set_writable(smb, false, false);
- 	return ret;
- }
- 
-@@ -866,7 +878,7 @@ static int smb347_irq_set(struct smb347_charger *smb, bool enable)
- 	if (smb->irq_unsupported)
- 		return 0;
- 
--	ret = smb347_set_writable(smb, true);
-+	ret = smb347_set_writable(smb, true, true);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -891,7 +903,7 @@ static int smb347_irq_set(struct smb347_charger *smb, bool enable)
- 	ret = regmap_update_bits(smb->regmap, CFG_PIN, CFG_PIN_EN_CHARGER_ERROR,
- 				 enable ? CFG_PIN_EN_CHARGER_ERROR : 0);
- fail:
--	smb347_set_writable(smb, false);
-+	smb347_set_writable(smb, false, true);
- 	return ret;
- }
- 
-@@ -919,7 +931,7 @@ static int smb347_irq_init(struct smb347_charger *smb,
- 	if (!client->irq)
- 		return 0;
- 
--	ret = smb347_set_writable(smb, true);
-+	ret = smb347_set_writable(smb, true, false);
- 	if (ret < 0)
- 		return ret;
- 
-@@ -931,7 +943,7 @@ static int smb347_irq_init(struct smb347_charger *smb,
- 				 CFG_STAT_ACTIVE_HIGH | CFG_STAT_DISABLED,
- 				 CFG_STAT_DISABLED);
- 
--	smb347_set_writable(smb, false);
-+	smb347_set_writable(smb, false, false);
- 
- 	if (ret < 0) {
- 		dev_warn(smb->dev, "failed to initialize IRQ: %d\n", ret);
+Currently, phy_connect() and phy_start() resume the PHY. The phy_stop()
+is suspending it. Since the driver calls phy_connect(), phy_start() and
+phy_stop(), the resume/suspend state is out of balance.
+In case some one will add for example something like regulator_enable/disable
+callbacks in to phydev->syspend/resume callbacks, this would never work.
+
+So, the question is, should phy_connect() put the PHY back in to suspend
+mode? Or should the MAC driver take care of this?
+
+> > 
+> > Fixes: e532a096be0e ("net: usb: asix: ax88772: add phylib support")
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > ---
+> >  drivers/net/usb/asix_devices.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
+> > index aec97b021a73..2c115216420a 100644
+> > --- a/drivers/net/usb/asix_devices.c
+> > +++ b/drivers/net/usb/asix_devices.c
+> > @@ -701,6 +701,7 @@ static int ax88772_init_phy(struct usbnet *dev)
+> >  		return ret;
+> >  	}
+> >  
+> > +	phy_suspend(priv->phydev);
+> >  	priv->phydev->mac_managed_pm = 1;
+> >  
+> >  	phy_attached_info(priv->phydev);
+> > 
+> 
+> 
+> -- 
+> Florian
+> 
+
+Regards,
+Oleksij
 -- 
-2.30.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
