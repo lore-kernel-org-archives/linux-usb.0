@@ -2,140 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75656C11F69
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:20:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 505F6C11F6C
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:42:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5941E6142F
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:20:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3856961432
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 13:42:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231987AbhGBNW4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 2 Jul 2021 09:22:56 -0400
-Received: from gofer.mess.org ([88.97.38.141]:34857 "EHLO gofer.mess.org"
+        id S232710AbhGBNp2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jul 2021 09:45:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48676 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231846AbhGBNW4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 2 Jul 2021 09:22:56 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 86588C6364; Fri,  2 Jul 2021 14:20:22 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1625232022; bh=g95uEA1yaeSESqHl1FTiYIxm3UxO84eqQh0OOlpnmu0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eI/H6w6ZsTFOUn4cgP+tdI7RDXaMrqgXWIZ6ZVOYswpmhqlXbHkVpGRBhY/7oMbZn
-         VFN7Z06/4DDqqkhdxwfnlWESUmfc61KCDmkOYFKv+BJQ5gpB0bzFpSzHTa2B5+yllv
-         l3fBSeZjb20+/ItwwurZhs6FGFbUjHrM+XApLDr35tby1ASqyDGfffrN7QBmrkO0On
-         I47IQDmvY9Lz66PKEd4bV1zpF3ALUlu3gDNwPAroBWH2tKtTwwwj5KyGo/AmjKvZpT
-         c0HR7qmbZG5l2JvcEoe+ujOXxqRKEI8Ip4YiHO+7b06+OD3s3O/B870Eww74JgOXWi
-         y6gBf7gv7+fhA==
-Date:   Fri, 2 Jul 2021 14:20:22 +0100
-From:   Sean Young <sean@mess.org>
+        id S232696AbhGBNp0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 2 Jul 2021 09:45:26 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 876596142D;
+        Fri,  2 Jul 2021 13:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1625233374;
+        bh=AYm6WKJ+TZhob2+LiBgKZ9p9qBKekXiMOR4Tkn4xqR0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=hfRcUan9HIWQnCRbQW6o7dChLwSYizd5MAAq9MGrpU1eDowsrTJI7zopZaWb5y44T
+         LA98G8R0M/ypkvnNQHu/ek8g16hH+C+OPE9jowF/S19LN05YMEwbCvfJuElOlswRnO
+         5aW0TaQLJyrgzzsYDP/ppsFwu+Qe88ZD6/jCobauRM70uM+3WYrtNlyHaJl0oo5QfF
+         1/1MszHxz0UWkos5UUl6DYJWVh2g34w7oOzZG1wjouxvmpvRRXLCGmRlCIB9VbTKyq
+         QtPJSB+5w7cm92DJAfPQTakg0Pv6w+2NLeuoxZonO2AYD1pm3+2FheQvGsbIe12XWO
+         t2HtYAtacVdFw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lzJRS-0006Q2-WD; Fri, 02 Jul 2021 15:42:51 +0200
+From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Rhees <support@usbuirt.com>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH v5 1/2] media: rc: new driver for USB-UIRT device
-Message-ID: <20210702132022.GC29760@gofer.mess.org>
-References: <cover.1624006513.git.sean@mess.org>
- <710e8007bc7365be8f999bae3aafaa22c3b2f7d1.1624006513.git.sean@mess.org>
- <YN7tihZHJERJAWzL@hovoldconsulting.com>
- <YN8FVEIcxnznaz1F@hovoldconsulting.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 1/6] USB: serial: cp210x: fix control-characters error handling
+Date:   Fri,  2 Jul 2021 15:42:22 +0200
+Message-Id: <20210702134227.24621-2-johan@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210702134227.24621-1-johan@kernel.org>
+References: <20210702134227.24621-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YN8FVEIcxnznaz1F@hovoldconsulting.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jul 02, 2021 at 02:23:48PM +0200, Johan Hovold wrote:
-> On Fri, Jul 02, 2021 at 12:42:18PM +0200, Johan Hovold wrote:
-> > On Fri, Jun 18, 2021 at 11:18:46AM +0100, Sean Young wrote:
-> > > This device uses an ftdi usb serial port, so this driver has a tiny
-> > > amount of usb ftdi code. It would be preferable to connect this driver via
-> > > serdev or line-discipline, but unfortunately neither support
-> > > hotplugging yet.
-> > > 
-> > > See http://www.usbuirt.com/
-> > > 
-> > > Signed-off-by: Sean Young <sean@mess.org>
-> > > ---
-> 
-> > > +struct uirt {
-> > > +	struct device *dev;
-> > > +	struct usb_device *usbdev;
-> > > +
-> > > +	struct rc_dev *rc;
-> > > +	struct urb *urb_in, *urb_out;
-> > > +
-> > > +	u8 *in;
-> > > +	u8 *out;
-> > > +	struct completion cmd_done;
-> > > +	u8 freq;
-> > > +	u8 high;
-> > > +	bool wideband;
-> > > +	u32 last_duration;
-> > > +
-> > > +	enum cmd_state cmd_state;
-> > > +	enum rx_state rx_state;
-> > > +
-> > > +	void *tx_buf;
-> > > +	u32 tx_len;
-> > > +
-> > > +	char phys[64];
-> > > +};
-> 
-> > > +static void uirt_response(struct uirt *uirt, u32 len)
-> > > +{
-> > > +	int offset = 2;
-> > > +	int i;
-> > > +
-> > > +	dev_dbg(uirt->dev, "state:%d data: %*phN\n", uirt->cmd_state, len, uirt->in);
-> > > +
-> > > +	// Do we have more IR to transmit and is Clear-To-Send set
-> > > +	if (uirt->cmd_state == CMD_STATE_STREAMING_TX && len >= 2 &&
-> > > +	    uirt->tx_len && uirt->in[0] & FTDI_RS0_CTS) {
-> > 
-> > Do you really need to handle this manually when you have hardware
-> > assisted flow control enabled?
-> > 
-> > > +		u32 len;
-> > > +		int err;
-> > > +
-> > > +		len = min_t(u32, uirt->tx_len, MAX_PACKET);
-> > > +
-> > > +		memcpy(uirt->out, uirt->tx_buf, len);
-> > > +		uirt->urb_out->transfer_buffer_length = len;
-> > > +
-> > > +		uirt->tx_len -= len;
-> > > +		uirt->tx_buf += len;
-> > > +
-> > > +		err = usb_submit_urb(uirt->urb_out, GFP_ATOMIC);
-> > > +		if (err != 0)
-> > > +			dev_warn(uirt->dev,
-> > > +				 "failed to submit out urb: %d\n", err);
-> 
-> Also, this looks entirely broken since you don't have any
-> synchronisation with uirt_command() below which may try to submit the
-> same URB in parallel.
+In the unlikely event that setting the software flow-control characters
+fails the other flow-control settings should still be updated.
 
-uirt_command() only gets called via lirc chardev ioctl/write ops; the lirc
-chardev code does locking for the drivers already. So, if someone does a
-write to /dev/lirc0 (which means transmit) the mutex is taken, no other
-writes/ioctls are allowed on /dev/lirc0; the uirt_tx() calls uirt_command()
-which waits for completion. During this period the code above can be
-executed, but not after the transmit succeeds or fails (when the lircdev
-chardev mutex is released, see:
+Fixes: 7748feffcd80 ("USB: serial: cp210x: add support for software flow control")
+Cc: stable@vger.kernel.org	# 5.11
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/rc/lirc_dev.c#n337
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index 09b845d0da41..b41e2c7649fb 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1217,9 +1217,7 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 		chars.bXonChar = START_CHAR(tty);
+ 		chars.bXoffChar = STOP_CHAR(tty);
+ 
+-		ret = cp210x_set_chars(port, &chars);
+-		if (ret)
+-			return;
++		cp210x_set_chars(port, &chars);
+ 	}
+ 
+ 	mutex_lock(&port_priv->mutex);
+-- 
+2.31.1
 
-Having said all that this is not evident from code at all. A comment could
-really help.
-
-Thanks,
-
-Sean
