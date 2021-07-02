@@ -2,126 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A6FC11F68
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 03:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A3CC11F6A
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 05:00:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A52776140A
-	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 03:54:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9D98613EC
+	for <linux-usb@archiver.kernel.org>; Fri,  2 Jul 2021 05:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234891AbhGBD4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 1 Jul 2021 23:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234839AbhGBD4c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 1 Jul 2021 23:56:32 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F335CC061762
-        for <linux-usb@vger.kernel.org>; Thu,  1 Jul 2021 20:54:00 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lzAFL-00021A-VA; Fri, 02 Jul 2021 05:53:43 +0200
-Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lzAFI-0002yt-Au; Fri, 02 Jul 2021 05:53:40 +0200
-Date:   Fri, 2 Jul 2021 05:53:40 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/1] net: usb: asix: ax88772: suspend PHY on
- driver probe
-Message-ID: <20210702035340.sdoc5dqpuo4cgsqe@pengutronix.de>
-References: <20210629044305.32322-1-o.rempel@pengutronix.de>
- <931f10ca-2d81-8264-950c-8d29c18a7b35@gmail.com>
+        id S232852AbhGBFCx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 2 Jul 2021 01:02:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34454 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229527AbhGBFCx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 2 Jul 2021 01:02:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6FDE761413;
+        Fri,  2 Jul 2021 05:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1625202021;
+        bh=t2qyD3sHMTfsanlf2Ca59gxsFV/p6nqhM45H10N8ELk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b3QQh4ifIgFmVEXnr7OSqfOiwNHzkC/Xi88eZ/6PTSL2q772nrfTuoTDMBm05+V0S
+         vjCD6yzn+HkvR52h4crxuS4xguYAC3JlA8Ul1srpDZbWFBXiwkRNOi6stY0E/Onlww
+         fZCfr1vMcOqq1iu7Jb6XuqBjelUVRKDQ7vo5NiVA=
+Date:   Fri, 2 Jul 2021 07:00:19 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     robh+dt@kernel.org, agross@kernel.org, bjorn.andersson@linaro.org,
+        balbi@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, jackp@codeaurora.org,
+        fntoth@gmail.com
+Subject: Re: [PATCH v11 1/5] usb: gadget: udc: core: Introduce check_config
+ to verify USB configuration
+Message-ID: <YN6dY8RBXRN4BW3n@kroah.com>
+References: <1625043642-29822-1-git-send-email-wcheng@codeaurora.org>
+ <1625043642-29822-2-git-send-email-wcheng@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <931f10ca-2d81-8264-950c-8d29c18a7b35@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 05:41:20 up 211 days, 17:47, 35 users,  load average: 0.00, 0.04,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+In-Reply-To: <1625043642-29822-2-git-send-email-wcheng@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jul 01, 2021 at 12:01:04PM -0700, Florian Fainelli wrote:
-> On 6/28/21 9:43 PM, Oleksij Rempel wrote:
-> > After probe/bind sequence is the PHY in active state, even if interface
-> > is stopped. As result, on some systems like Samsung Exynos5250 SoC based Arndale
-> > board, the ASIX PHY will be able to negotiate the link but fail to
-> > transmit the data.
-> > 
-> > To handle it, suspend the PHY on probe.
+On Wed, Jun 30, 2021 at 02:00:38AM -0700, Wesley Cheng wrote:
+> Some UDCs may have constraints on how many high bandwidth endpoints it can
+> support in a certain configuration.  This API allows for the composite
+> driver to pass down the total number of endpoints to the UDC so it can verify
+> it has the required resources to support the configuration.
 > 
-> Very unusual, could not the PHY be attached/connected to a ndo_open()
-> time like what most drivers do?
-
-May be this can be done to.
-But, should not the PHY be in the same state after phy_connect() and after
-phy_stop()?
-
-Currently, phy_connect() and phy_start() resume the PHY. The phy_stop()
-is suspending it. Since the driver calls phy_connect(), phy_start() and
-phy_stop(), the resume/suspend state is out of balance.
-In case some one will add for example something like regulator_enable/disable
-callbacks in to phydev->syspend/resume callbacks, this would never work.
-
-So, the question is, should phy_connect() put the PHY back in to suspend
-mode? Or should the MAC driver take care of this?
-
-> > 
-> > Fixes: e532a096be0e ("net: usb: asix: ax88772: add phylib support")
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> > ---
-> >  drivers/net/usb/asix_devices.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-> > index aec97b021a73..2c115216420a 100644
-> > --- a/drivers/net/usb/asix_devices.c
-> > +++ b/drivers/net/usb/asix_devices.c
-> > @@ -701,6 +701,7 @@ static int ax88772_init_phy(struct usbnet *dev)
-> >  		return ret;
-> >  	}
-> >  
-> > +	phy_suspend(priv->phydev);
-> >  	priv->phydev->mac_managed_pm = 1;
-> >  
-> >  	phy_attached_info(priv->phydev);
-> > 
+> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+> ---
+>  drivers/usb/gadget/udc/core.c | 25 +++++++++++++++++++++++++
+>  include/linux/usb/gadget.h    |  4 ++++
+>  2 files changed, 29 insertions(+)
 > 
-> 
-> -- 
-> Florian
-> 
+> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+> index b7f0b1e..f1f44a6 100644
+> --- a/drivers/usb/gadget/udc/core.c
+> +++ b/drivers/usb/gadget/udc/core.c
+> @@ -1003,6 +1003,31 @@ int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
+>  }
+>  EXPORT_SYMBOL_GPL(usb_gadget_ep_match_desc);
+>  
+> +/**
+> + * usb_gadget_check_config - checks if the UDC can support the number of eps
 
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+"eps"?  What is that?
+
+> + * @gadget: controller to check the USB configuration
+> + * @ep_map: bitmap of endpoints being requested by a USB configuration
+
+There is no such option in this function, did you run 'make htmldocs'
+and see that this adds a warning?
+
+> + *
+> + * Ensure that a UDC is able to support the number of endpoints within a USB
+> + * configuration, and that there are no resource limitations to support all
+> + * requested eps.
+> + *
+> + * Returns zero on success, else a negative errno.
+> + */
+> +int usb_gadget_check_config(struct usb_gadget *gadget)
+> +{
+> +	int ret = 0;
+> +
+> +	if (!gadget->ops->check_config)
+> +		goto out;
+> +
+> +	ret = gadget->ops->check_config(gadget);
+> +
+> +out:
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(usb_gadget_check_config);
+
+This can be written in the much simpler form:
+{
+	if (gadget->ops->check_config)
+		return gadget->ops->check_config(gadget);
+	return 0;
+}
+
+But where are the endpoints that need to be checked???
+
+How is this working?
+
+thanks,
+
+greg k-h
