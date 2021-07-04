@@ -2,99 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C193BC07E98
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Jul 2021 17:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E0FDC07E98
+	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 01:31:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E86A6193F
-	for <linux-usb@archiver.kernel.org>; Sat,  3 Jul 2021 17:22:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E42316144E
+	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 01:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhGCRZR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 3 Jul 2021 13:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54380 "EHLO
+        id S229893AbhGDBeE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 3 Jul 2021 21:34:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbhGCRZR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Jul 2021 13:25:17 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D77C061762;
-        Sat,  3 Jul 2021 10:22:42 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id r16so18120421ljk.9;
-        Sat, 03 Jul 2021 10:22:41 -0700 (PDT)
+        with ESMTP id S229829AbhGDBeB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 3 Jul 2021 21:34:01 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48541C061765
+        for <linux-usb@vger.kernel.org>; Sat,  3 Jul 2021 18:31:27 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id t6so7527067wrm.9
+        for <linux-usb@vger.kernel.org>; Sat, 03 Jul 2021 18:31:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GkqlghX39ZQMv0VL5XMqearbdcMjcK0zkdFdKOtJnZE=;
-        b=JPznIM0Ow6NR7CkKU2r2nhwUcgQydZM7A1VNBFp+isDWXxuevJXSfv8RQkurrGQL2k
-         WPQI59y6D3Tsnx8EwwRGVJArttxiRuNmrmX1DG58hyG/SDRlYihmk353i+llBl2zLCjg
-         fSfnVH9lD/Rjs5dJf9p75JWWl84pxuczO6ZuoD1hB9/JVLPHUnTQgeKPUkfLS/dmG/qs
-         mu7ImVMZ3anXjv9croyzuBMSReWpgtRDi5WnHEFhqT59Iw0O6HEU7d/z8JGkWoGPo/Fb
-         73S7EShfF1P5P9sxmGyFsvelgFUCsky2sQDBx8HSB7pWnbs6tI/NdFzBJAIfzggsLDFP
-         PnUQ==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1aCHfqIx1OU8E5Hf81YXPP9hGTpgNLpK3KsMYAAxRMM=;
+        b=O9EZzPB6M2qU0A9VAU4mG3WBkYELV4uRugSz5aFORo7amV1CoOytGeg4iLwXvnhKKC
+         GfIBPOxnBSpeDx8xzu/7N+3fVoZ7keEP63qzIEW13elB7VrFI6ObmkAFsYgrpl5lYG6D
+         P5/SbjZuUtcJirDMb3jIZQ0+cLlQk3FOXU19EnAxf1uHhULn+NTtZoSlw7Xt+2Kl8jUM
+         zU8hE/Nf51H6A9IqreUfGtf1wZjs9Tdpgj1y20A8ZNkxoeTcLxgcxleBYf7tD5bqDsaK
+         vud8DiFCqxhMZNeUvSBmlQlIldwsE/JoS5zgQguP7v9/X6mdyNAAtBYKoXJKfZ1P4XiC
+         +VnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GkqlghX39ZQMv0VL5XMqearbdcMjcK0zkdFdKOtJnZE=;
-        b=GeCZbNj+hh0yyo7eYN02DKa4NLy1JaEjUhANj7AAm63LXNTdpYng27AjUrraamfinE
-         RpsHUKymFlmZtoPrQ7/iwnDOLFt+yoFTK1lOgKxsGMMtxcRjqhSdS1WDy3ybieZJgXDV
-         tj8eX8c3Do5ZLor2biOE5D012gN3nQCovPtQLkgJKqaZtAuRKnxA75EcevcNWpLJeuc0
-         uGyO4Oq/L+ZGRo+GW6hTdWCrDcSUt7jEBMIXcQgrvMmcskmq67P9eEEThEnSW/Lnt01v
-         H3fxRZT3EsVD04DlGUFBcWhLwmodp4L3NidcF1FfKQpFQ8V9s1uY6L3P3x5GJE5RgUWm
-         a2uQ==
-X-Gm-Message-State: AOAM532P/42N91FIo73btN+xMXlfihmTk/OKv73jlcFeWzleWR3ziOgm
-        4hofPYh2lBOlWCclEBA9PqPYrFhtjsQ=
-X-Google-Smtp-Source: ABdhPJz99JpS1s9M1J2vPLOFyo50q0z+BC5l0L+5Y8kLjHwHDWH3mZKaBsEFzY7LPxfB6iP5MWp3FQ==
-X-Received: by 2002:a05:651c:504:: with SMTP id o4mr4090359ljp.357.1625332960228;
-        Sat, 03 Jul 2021 10:22:40 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.googlemail.com with ESMTPSA id x3sm749371ljm.43.2021.07.03.10.22.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Jul 2021 10:22:39 -0700 (PDT)
-Subject: Re: [PATCH v2 05/12] usb: otg-fsm: Fix hrtimer list corruption
-To:     Peter Chen <peter.chen@kernel.org>
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20210701234317.26393-1-digetx@gmail.com>
- <20210701234317.26393-6-digetx@gmail.com> <20210703110809.GA4289@Peter>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <29476aa3-c34e-8bf0-5eab-f7def493f329@gmail.com>
-Date:   Sat, 3 Jul 2021 20:22:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1aCHfqIx1OU8E5Hf81YXPP9hGTpgNLpK3KsMYAAxRMM=;
+        b=Mje04rsDv8KvA1cRjPaX5+LfMb8Qm9qrGIBO9T/s5mfRGHKD1FMCX2plyyMqAsEjQv
+         Bdw8qDny/v8jrDhcyhQfKv+Gp+GEv1fpn17lpzf+bYXmiMgoDXwHSUD7PqcYB3Y+xIrN
+         03rP3G0Z/Lhe0H0389kcQlNW25lopzOFAzQYlpN5lAX+s7DnPIGks863eMloI9VPjfmg
+         4FPQZZR31l5OTcSy8soHYs1ZFRFNqwIpOF8UAalYC0+p3C/AyvtOYzh4WUo++/hy36sw
+         IrR8Z5uHsbwmQtwuTtjmVnOlm+SdM5CfKcAlG3mPihZlEuE/523Yeo4MJLRcCQtHtrYf
+         JILA==
+X-Gm-Message-State: AOAM5332bcJTWuu4x2qCGkxS4vNQ4+ZEiW7J1XpIQtxI1iIqPxc/MwQI
+        Ezagyk7Zb7FnRX4/AGswDOSSdQ==
+X-Google-Smtp-Source: ABdhPJxzKsQOtx1/yTn2mfkNxLDh9GzsX2YrWszklikh6Uqm7cMcelYyJtpQyunkTFqtIJudWF/Rfw==
+X-Received: by 2002:adf:ec44:: with SMTP id w4mr7843022wrn.200.1625362285794;
+        Sat, 03 Jul 2021 18:31:25 -0700 (PDT)
+Received: from sagittarius-a.chello.ie (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id l16sm18026717wmj.47.2021.07.03.18.31.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jul 2021 18:31:25 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     balbi@kernel.org, bjorn.andersson@linaro.org, agross@kernel.org,
+        gregkh@linuxfoundation.org, jackp@codeaurora.org,
+        wcheng@codeaurora.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     bryan.odonoghue@linaro.org
+Subject: [PATCH 1/3] usb: dwc3: dwc3-qcom: Fix typo in the dwc3 vbus override API
+Date:   Sun,  4 Jul 2021 02:33:12 +0100
+Message-Id: <20210704013314.200951-2-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210704013314.200951-1-bryan.odonoghue@linaro.org>
+References: <20210704013314.200951-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210703110809.GA4289@Peter>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-03.07.2021 14:08, Peter Chen пишет:
-> On 21-07-02 02:43:10, Dmitry Osipenko wrote:
->> The HNP work can be re-scheduled while it's still in-fly. This results in
->> re-initialization of the busy work, resetting the hrtimer's list node of
->> the work and crashing kernel with null dereference within kernel/timer
->> once work's timer is expired. It's very easy to trigger this problem by
->> re-plugging USB cable quickly. Initialize HNP work only once to fix this
->> trouble.
-> 
-> Fully OTG compliance support has not maintained for years, what's the use case you
-> still want to use?
+From: Wesley Cheng <wcheng@codeaurora.org>
 
-I don't have any use case for it, but I had CONFIG_USB_OTG_FSM=y and it
-was crashing kernel badly. The OTG works perfectly fine without the FSM.
+There was an extra character in the dwc3_qcom_vbus_override_enable()
+function.  Removed the extra character.
+
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 49e6ca94486d..2e61302e3e91 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -115,7 +115,7 @@ static inline void dwc3_qcom_clrbits(void __iomem *base, u32 offset, u32 val)
+ 	readl(base + offset);
+ }
+ 
+-static void dwc3_qcom_vbus_overrride_enable(struct dwc3_qcom *qcom, bool enable)
++static void dwc3_qcom_vbus_override_enable(struct dwc3_qcom *qcom, bool enable)
+ {
+ 	if (enable) {
+ 		dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_SS_PHY_CTRL,
+@@ -136,7 +136,7 @@ static int dwc3_qcom_vbus_notifier(struct notifier_block *nb,
+ 	struct dwc3_qcom *qcom = container_of(nb, struct dwc3_qcom, vbus_nb);
+ 
+ 	/* enable vbus override for device mode */
+-	dwc3_qcom_vbus_overrride_enable(qcom, event);
++	dwc3_qcom_vbus_override_enable(qcom, event);
+ 	qcom->mode = event ? USB_DR_MODE_PERIPHERAL : USB_DR_MODE_HOST;
+ 
+ 	return NOTIFY_DONE;
+@@ -148,7 +148,7 @@ static int dwc3_qcom_host_notifier(struct notifier_block *nb,
+ 	struct dwc3_qcom *qcom = container_of(nb, struct dwc3_qcom, host_nb);
+ 
+ 	/* disable vbus override in host mode */
+-	dwc3_qcom_vbus_overrride_enable(qcom, !event);
++	dwc3_qcom_vbus_override_enable(qcom, !event);
+ 	qcom->mode = event ? USB_DR_MODE_HOST : USB_DR_MODE_PERIPHERAL;
+ 
+ 	return NOTIFY_DONE;
+@@ -811,7 +811,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 
+ 	/* enable vbus override for device mode */
+ 	if (qcom->mode == USB_DR_MODE_PERIPHERAL)
+-		dwc3_qcom_vbus_overrride_enable(qcom, true);
++		dwc3_qcom_vbus_override_enable(qcom, true);
+ 
+ 	/* register extcon to override sw_vbus on Vbus change later */
+ 	ret = dwc3_qcom_register_extcon(qcom);
+-- 
+2.30.1
+
