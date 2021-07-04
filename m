@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA25C11F6B
-	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 22:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF4DC07E96
+	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 22:56:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C54566195A
-	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 22:56:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D8E361405
+	for <linux-usb@archiver.kernel.org>; Sun,  4 Jul 2021 22:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229991AbhGDW6q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 4 Jul 2021 18:58:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42282 "EHLO
+        id S230048AbhGDW7C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 4 Jul 2021 18:59:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229881AbhGDW6l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 4 Jul 2021 18:58:41 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC805C061574;
-        Sun,  4 Jul 2021 15:56:03 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id f30so29071359lfj.1;
-        Sun, 04 Jul 2021 15:56:03 -0700 (PDT)
+        with ESMTP id S229996AbhGDW6r (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 4 Jul 2021 18:58:47 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51CFBC061762;
+        Sun,  4 Jul 2021 15:56:10 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id a6so22066116ljq.3;
+        Sun, 04 Jul 2021 15:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=drgCVcT3wmtQ8t1tY3NB542KKKZdZqJ23O6KgQby8Tg=;
-        b=W/qdVSVGCftMXXcNojYGZegQmHBu5jdT6wPs0NfWKUSNtCs5+Y48mHjJXD98YTW2K9
-         0ZHD30Zk/iWyOAo/bx1bmq5HYjM8xlJLNwEsWq6NSPXytAVquYfui3GngWipmSwHOR2r
-         JWq5h1A7kkvT1VF81PhS9zjPbYmPel5LhOAQSjRaQoc4hNIncDAc2whT2i0EEAWXX29d
-         XeCLI3p9fFTMrQ974VYf4STekZKPgvw5ndBep478Nml8O4umsmsIFAn0KDYtSQpSYYiC
-         bIwAzOyr9sep9xLZIRoCrfKcLlL0ELkKZWRI4/d9bX/YS2vuSFjnwwLd6DS5nGrjnDyW
-         fo/A==
+        bh=4vQ4cs3VgWLJga415tPCIQjUw6gZRpH8cjCgquGMc+E=;
+        b=WXGLiDrr4sJOqapU3wEnrGALhG8MVKjhg71T3yAYjOEsQrkyQdztB7G4Oe8ZIHWB13
+         B19wLoX2zLN+y6a3/itgszTsRSZJZicMLA2uRI6Yhpo28juz9qTxfkqEQPcKwRBu4Hnt
+         rmL6vvpQS9epXd9xf1SknhuIZzwq2StLCud5OPxDyzisuVGE633hz3G5HkXkI0XMkQhT
+         XIS7yOCH97KTJ6wnX/PPDf+Qqt1mYWB3sNyURQryiz/VSrx5Yil9ypa9pmEILsWN/2eA
+         vGG+JJewJkc4CHCYRW8KfcbkkCO7FISK8Plsh8VEVOz1ZEEPnKh1G+7KOFbJ/S/nNBUc
+         X/fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=drgCVcT3wmtQ8t1tY3NB542KKKZdZqJ23O6KgQby8Tg=;
-        b=Al+P9Oq7ZI0qFcdnuMPl1n+L7XMYrWw62f3a4BxqjzDIAkaTQeYhn77grUYqop1EOC
-         BQ/agoNV6BwFg2TUzz/un39y54Mil/VBMk3p/q+lU4PYii0nIOC/Z/UBW2tLMgmaPUDi
-         I8EyUlRNeVw9pc3vKlL13TeUDiGT4T7/5PRCpp4TOqy3WHQTeOTRXxPrcU2tbT/Jrag1
-         nyE+59sXgXqgumq6IyfR1x7bnHLu1G06ZhrnqG4a2HpW7GBwwTxzYML3YuNbTpBT3Xkr
-         p2qCmbi9fG5ghkr0J6h8UhbqiIqsK3LqvPvWrZxoXPRiPd1Gm9RzeACd9WcGKI3H1sKs
-         /9ng==
-X-Gm-Message-State: AOAM5314ytO5IeQJ8ZOKMYONEDs+CXfcddqjBYT2qQnzIPNO64o+oK0l
-        0c+/2BZdOyKLIAf+geRhqLM=
-X-Google-Smtp-Source: ABdhPJwPMx1QllFTrGzHiFWZp5qgQ7R15sSWceRBBPHLYWKbnZ5ml42sZo6hX/4EBlm+EckwhOEvDg==
-X-Received: by 2002:a05:6512:2314:: with SMTP id o20mr7971164lfu.531.1625439362147;
-        Sun, 04 Jul 2021 15:56:02 -0700 (PDT)
+        bh=4vQ4cs3VgWLJga415tPCIQjUw6gZRpH8cjCgquGMc+E=;
+        b=ZWppEQYE+viwvFX4ZZxGIcH40Xev5IoX4gIIawvqSVSX569SZOvYfYjnCs7lDU4B4c
+         zImZxDZG0dIJm5AU+n9FhP0ky3iShMASQuK7aATTMGzAykiV9YA4qwQr4eBxNpm3rSgc
+         MWm2aA/gseMtyq91xS1xLj8L1lAH2PC2UN+VHrJQKOuYOqpv8PXNZyeP55nSDgGWMf6t
+         +IeCrvmLXZw8aDaIVPmo+ihV70QHQ52pW+iIVdxDvTXrrd1/C/tvvYEnM24U/vqTADUT
+         jbmgsJD9SRW+zwhk0+NXWXSbOd/mA7hb1OQ7/PaE59vcnnEhIoKpfJVttKyYmvr0tmHq
+         IHBw==
+X-Gm-Message-State: AOAM533rbhSFp5UiDpWr6SeQLfgbZqst7lhDmRtZm/uQIuc3jYIKrlR1
+        qioPrDmkw88pJYKVi5Glvyo=
+X-Google-Smtp-Source: ABdhPJyZOce6aAlIj+jfnWSBP2TDS7LDzvVA4QRvDqQidi0R5ZPHESWzLzR96eJdYN0nVg1SwxvGCQ==
+X-Received: by 2002:a2e:9544:: with SMTP id t4mr9042352ljh.474.1625439368744;
+        Sun, 04 Jul 2021 15:56:08 -0700 (PDT)
 Received: from localhost.localdomain (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.gmail.com with ESMTPSA id i13sm497921lfc.111.2021.07.04.15.56.01
+        by smtp.gmail.com with ESMTPSA id i13sm497921lfc.111.2021.07.04.15.56.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jul 2021 15:56:01 -0700 (PDT)
+        Sun, 04 Jul 2021 15:56:08 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ To:     Thierry Reding <treding@nvidia.com>,
 Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v3 03/12] soc/tegra: pmc: Expose USB regmap to all SoCs
-Date:   Mon,  5 Jul 2021 01:54:24 +0300
-Message-Id: <20210704225433.32029-4-digetx@gmail.com>
+Subject: [PATCH v3 12/12] ARM: tegra: nexus7: Enable USB OTG mode
+Date:   Mon,  5 Jul 2021 01:54:33 +0300
+Message-Id: <20210704225433.32029-13-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210704225433.32029-1-digetx@gmail.com>
 References: <20210704225433.32029-1-digetx@gmail.com>
@@ -81,46 +81,65 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-All Tegra SoCs prior to Tegra186 have USB power controls within the Power
-Management controller. These controls need to be configured by USB driver.
-Expose the regmap to these SoCs.
+Nexus 7 has OTG-cable microUSB port, enable OTG mode. USB peripheral
+devices now can be connected to Nexus 7 using OTG adapter, switching
+USB port into host mode.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 1f6872f7b211..73ba4982ba6d 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -3202,7 +3202,7 @@ static const struct tegra_pmc_soc tegra20_pmc_soc = {
- 	.pmc_clks_data = NULL,
- 	.num_pmc_clks = 0,
- 	.has_blink_output = true,
--	.has_usb_sleepwalk = false,
-+	.has_usb_sleepwalk = true,
- };
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+index 8bc552b09672..c341e8971b2f 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -941,9 +941,29 @@ power_supply: charger@6a {
+ 			interrupts = <TEGRA_GPIO(V, 1) IRQ_TYPE_EDGE_BOTH>;
  
- static const char * const tegra30_powergates[] = {
-@@ -3263,7 +3263,7 @@ static const struct tegra_pmc_soc tegra30_pmc_soc = {
- 	.pmc_clks_data = tegra_pmc_clks_data,
- 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
- 	.has_blink_output = true,
--	.has_usb_sleepwalk = false,
-+	.has_usb_sleepwalk = true,
- };
+ 			summit,enable-charge-control = <SMB3XX_CHG_ENABLE_PIN_ACTIVE_LOW>;
++			summit,inok-polarity = <SMB3XX_SYSOK_INOK_ACTIVE_LOW>;
+ 			summit,enable-usb-charging;
  
- static const char * const tegra114_powergates[] = {
-@@ -3320,7 +3320,7 @@ static const struct tegra_pmc_soc tegra114_pmc_soc = {
- 	.pmc_clks_data = tegra_pmc_clks_data,
- 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
- 	.has_blink_output = true,
--	.has_usb_sleepwalk = false,
-+	.has_usb_sleepwalk = true,
- };
+ 			monitored-battery = <&battery_cell>;
++
++			usb_vbus: usb-vbus {
++				regulator-name = "usb_vbus";
++				regulator-min-microvolt = <5000000>;
++				regulator-max-microvolt = <5000000>;
++				regulator-min-microamp = <750000>;
++				regulator-max-microamp = <750000>;
++
++				/*
++				 * SMB347 INOK input pin is connected to PMIC's
++				 * ACOK output, which is fixed to ACTIVE_LOW as
++				 * long as battery voltage is in a good range.
++				 *
++				 * Active INOK disables SMB347 output, so polarity
++				 * needs to be toggled when we want to get the
++				 * output.
++				 */
++				summit,needs-inok-toggle;
++			};
+ 		};
+ 	};
  
- static const char * const tegra124_powergates[] = {
+@@ -1017,12 +1037,13 @@ sdmmc4: mmc@78000600 {
+ 	usb@7d000000 {
+ 		compatible = "nvidia,tegra30-udc";
+ 		status = "okay";
+-		dr_mode = "peripheral";
++		dr_mode = "otg";
++		vbus-supply = <&usb_vbus>;
+ 	};
+ 
+ 	usb-phy@7d000000 {
+ 		status = "okay";
+-		dr_mode = "peripheral";
++		dr_mode = "otg";
+ 		nvidia,hssync-start-delay = <0>;
+ 		nvidia,xcvr-lsfslew = <2>;
+ 		nvidia,xcvr-lsrslew = <2>;
 -- 
 2.32.0
 
