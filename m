@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E1CC07E9D
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AB04C07E9A
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CC6D613F7
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E2F4613D1
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230370AbhGEIXW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jul 2021 04:23:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40910 "EHLO mail.kernel.org"
+        id S230379AbhGEIX0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jul 2021 04:23:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40940 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230326AbhGEIXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 5 Jul 2021 04:23:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DDB1E61415;
+        id S230333AbhGEIXU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Jul 2021 04:23:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E009B6141C;
         Mon,  5 Jul 2021 08:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1625473240;
-        bh=SYTTcfYK+j/Pfq7K8TLV5XJAAQ7TNgyPYPL1DmPYZgE=;
+        bh=s65G1mh9EOwBbfyl45BNCxFhJTfkQYqTSqxwr7Uqpio=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XzYLpu895mILIUYywEBwmybrW6CpN3rxcCI5ij4RLom+rSkB2Q2DJCJx4Gy9zEq7h
-         L3V+QgzuQMInQumSDAfCQsGT4uAaNHATlfcNLfaoQx3CSGJzNamYL/7PbChrq5Ho0D
-         pwBTyeK7JAxKO+Rju/SdF0fVyXFwIUWBKaeydOmPKbcA2j8gOyAN7B3WE4J3NCDbny
-         C4zyA+S6ZyKTgqI/FeuXj7hUULEEPtHFF1aLP+RNm9LpFJvoPiscuwFj03BkDE9cZO
-         y0Fkc/1nB/Ff8H/sU0EdJhT0NS+KtSwUKnkaSpNCyBQyLNeIgqEbUSzLOBrpD3awk2
-         q1KxGefktUAog==
+        b=NTlgWc39cXODirNmd2mHbb849K4kdnGt/MQwDXdQnqpbWhBnQMU+9YrN7r+FMfoX0
+         /luC4Nivp/vuALhOVKLFsykd49TzeoCGRLIsgX48ZSSy9/kSd/iO7qTRpuMQCF3Qqu
+         4FWXhdU3H5ZJaKtc7krezSJTV1x+o3fieyGNdDlLs5zuzNKHfhr9hRCX/x2061WLpV
+         QIigUbTXEtuyupx17OECDVmljEUlCsRq2wn5TZJhYY8C0UiqWeOjsSCm92qVFL2JNe
+         VpOq7cXkJ2BHFU5QGn0N06FkBO8d6PoedvFhg45R5q5Qm+GmQAuVOcNKdkFvP2q185
+         2/ngEGROpL9Lw==
 Received: from johan by xi with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1m0JqF-0004m3-IX; Mon, 05 Jul 2021 10:20:35 +0200
+        id 1m0JqF-0004lu-9r; Mon, 05 Jul 2021 10:20:35 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] USB: serial: cp210x: determine fw version for CP2105 and CP2108
-Date:   Mon,  5 Jul 2021 10:20:15 +0200
-Message-Id: <20210705082015.18286-7-johan@kernel.org>
+Subject: [PATCH v2 3/6] USB: serial: cp210x: clean up control-request timeout
+Date:   Mon,  5 Jul 2021 10:20:12 +0200
+Message-Id: <20210705082015.18286-4-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210705082015.18286-1-johan@kernel.org>
 References: <20210705082015.18286-1-johan@kernel.org>
@@ -50,42 +50,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-CP2105, CP2108 and CP2102N have vendor requests that can be used to
-retrieve the firmware version. Having this information available is
-essential when trying to work around buggy firmware as a recent CP2102N
-regression showed.
-
-Determine and log the firmware version also for CP2105 and CP2108
-during type detection at probe.
+For consistency use the USB_CTRL_GET_TIMEOUT define for the
+read-register request timeout (same value as USB_CTRL_SET_TIMEOUT).
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/cp210x.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/serial/cp210x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 6aaf54f16f8c..51670c80bf67 100644
+index fd6bd574e2a5..e560608afb1e 100644
 --- a/drivers/usb/serial/cp210x.c
 +++ b/drivers/usb/serial/cp210x.c
-@@ -399,6 +399,7 @@ struct cp210x_special_chars {
- };
- 
- /* CP210X_VENDOR_SPECIFIC values */
-+#define CP210X_GET_FW_VER	0x000E
- #define CP210X_READ_2NCONFIG	0x000E
- #define CP210X_GET_FW_VER_2N	0x0010
- #define CP210X_READ_LATCH	0x00C2
-@@ -2107,6 +2108,10 @@ static void cp210x_determine_type(struct usb_serial *serial)
- 	}
- 
- 	switch (priv->partnum) {
-+	case CP210X_PARTNUM_CP2105:
-+	case CP210X_PARTNUM_CP2108:
-+		cp210x_get_fw_version(serial, CP210X_GET_FW_VER);
-+		break;
- 	case CP210X_PARTNUM_CP2102N_QFN28:
- 	case CP210X_PARTNUM_CP2102N_QFN24:
- 	case CP210X_PARTNUM_CP2102N_QFN20:
+@@ -637,7 +637,7 @@ static int cp210x_read_reg_block(struct usb_serial_port *port, u8 req,
+ 	result = usb_control_msg(serial->dev, usb_rcvctrlpipe(serial->dev, 0),
+ 			req, REQTYPE_INTERFACE_TO_HOST, 0,
+ 			port_priv->bInterfaceNumber, dmabuf, bufsize,
+-			USB_CTRL_SET_TIMEOUT);
++			USB_CTRL_GET_TIMEOUT);
+ 	if (result == bufsize) {
+ 		memcpy(buf, dmabuf, bufsize);
+ 		result = 0;
 -- 
 2.31.1
 
