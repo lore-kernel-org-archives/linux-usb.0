@@ -2,78 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5542C07E9E
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3482C07E9B
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A694C613F3
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A97086141C
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbhGEIXX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jul 2021 04:23:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40942 "EHLO mail.kernel.org"
+        id S230358AbhGEIXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jul 2021 04:23:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40884 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230330AbhGEIXU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 5 Jul 2021 04:23:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D1CE761447;
+        id S230293AbhGEIXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Jul 2021 04:23:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D36AA6128B;
         Mon,  5 Jul 2021 08:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625473241;
-        bh=LFyp+REsgurXPkNsy24a7z98TwA4hJdMX8wTWIyMHYI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jHnVtFcWj6+aYiacfOiLgjmuzr/pP+FzjjT2ElJMLh5NgqsMZODGWQ9uv2VEkWTdN
-         QiW8bd3Nz/3fOMW21eS22ZpnYPm/H0yrNAXNQSS+TSH0pwCbsQ1ysalm1IUj4yOJQ/
-         znaxZnbTFtnj2qJXh/K1RU+/F6AdkW2CLibxHPZc7JnearEqTqzLEPkP12n2pcMCpP
-         +C/rIklajMRqwkYE324NpBG1XPFWnZiIEmScqC8baKVipRfUxH1Vg94agoykBaCHKt
-         7sL8TN/InJiyJs6peCEigv0KaFReUvqNyAeCY1pKzt0h+jbunMf/D0Vkaw8Dg/EwQY
-         EIgNR6hJrp5IQ==
+        s=k20201202; t=1625473240;
+        bh=mCeASRcy2as2LCxAx/EwFqOXzJ0xOLOo4eReNRoA3fs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cIXLCtVohk9YXxTcnQ9aS6Rlc0uu/6rejc9Qlyz8UHxM+eHqBuoZwP0KdiIRPTtv9
+         ocz3Z9ckd16zl2ReRRkH5PZhgB1ZX3i5q8kc4dqAxddY9qdygMAUJW25A3PU+Q7QTa
+         A6WHNBc8DzXBeEZL3MZq88MBfQQs7fRsh/3RJkN1o3sAxMX6TQzcbJxPnejohhjydr
+         NcOYxIQUmz9YGSMIfzKKUymxfWFuEOqW4oAwc7W/WZaaSwgHXuwRyFEYh6vegRQFJZ
+         Odp5DA7bExOOBUrscN4VLu48XmzynfP9SRRLeLDV8qpDjqfMDdkxp8HZ8IFqKAiTAZ
+         0PrVvJRPVsD+g==
 Received: from johan by xi with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1m0JqE-0004ln-9v; Mon, 05 Jul 2021 10:20:35 +0200
+        id 1m0JqF-0004lr-6z; Mon, 05 Jul 2021 10:20:35 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] USB: serial: cp210x: fixes and CP2105/CP2108 fw version
-Date:   Mon,  5 Jul 2021 10:20:09 +0200
-Message-Id: <20210705082015.18286-1-johan@kernel.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH v2 2/6] USB: serial: cp210x: fix flow-control error handling
+Date:   Mon,  5 Jul 2021 10:20:11 +0200
+Message-Id: <20210705082015.18286-3-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210705082015.18286-1-johan@kernel.org>
+References: <20210705082015.18286-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Here are couple of minor fixes and some cleanups related to the recent
-regression which broke RTS control on some CP2102N devices with buggy
-firmware.
+Make sure that the driver crtscts state is not updated in the unlikely
+event that the flow-control request fails. Not doing so could break RTS
+control.
 
-In case we run into another one of these, let's log the firmware
-version also for CP2105 and CP2108 for which it can be retrieved.
+Fixes: 5951b8508855 ("USB: serial: cp210x: suppress modem-control errors")
+Cc: stable@vger.kernel.org	# 5.11
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Johan
-
-
-Changes in v2
- - keep the special-chars error message to make it more obvious that
-   continuing on errors is intentional (1/6) (Greg)
-
-
-Johan Hovold (6):
-  USB: serial: cp210x: fix control-characters error handling
-  USB: serial: cp210x: fix flow-control error handling
-  USB: serial: cp210x: clean up control-request timeout
-  USB: serial: cp210x: clean up set-chars request
-  USB: serial: cp210x: clean up type detection
-  USB: serial: cp210x: determine fw version for CP2105 and CP2108
-
- drivers/usb/serial/cp210x.c | 77 +++++++++++++++----------------------
- 1 file changed, 32 insertions(+), 45 deletions(-)
-
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index fd198031de71..fd6bd574e2a5 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -1189,6 +1189,7 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 	struct cp210x_flow_ctl flow_ctl;
+ 	u32 flow_repl;
+ 	u32 ctl_hs;
++	bool crtscts;
+ 	int ret;
+ 
+ 	/*
+@@ -1248,14 +1249,14 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 			flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
+ 		else
+ 			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
+-		port_priv->crtscts = true;
++		crtscts = true;
+ 	} else {
+ 		ctl_hs &= ~CP210X_SERIAL_CTS_HANDSHAKE;
+ 		if (port_priv->rts)
+ 			flow_repl |= CP210X_SERIAL_RTS_ACTIVE;
+ 		else
+ 			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
+-		port_priv->crtscts = false;
++		crtscts = false;
+ 	}
+ 
+ 	if (I_IXOFF(tty)) {
+@@ -1278,8 +1279,12 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
+ 	flow_ctl.ulControlHandshake = cpu_to_le32(ctl_hs);
+ 	flow_ctl.ulFlowReplace = cpu_to_le32(flow_repl);
+ 
+-	cp210x_write_reg_block(port, CP210X_SET_FLOW, &flow_ctl,
++	ret = cp210x_write_reg_block(port, CP210X_SET_FLOW, &flow_ctl,
+ 			sizeof(flow_ctl));
++	if (ret)
++		goto out_unlock;
++
++	port_priv->crtscts = crtscts;
+ out_unlock:
+ 	mutex_unlock(&port_priv->mutex);
+ }
 -- 
 2.31.1
 
