@@ -4,44 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3482C07E9B
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E1CC07E9D
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A97086141C
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CC6D613F7
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230358AbhGEIXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jul 2021 04:23:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40884 "EHLO mail.kernel.org"
+        id S230370AbhGEIXW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jul 2021 04:23:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230293AbhGEIXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S230326AbhGEIXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 5 Jul 2021 04:23:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D36AA6128B;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DDB1E61415;
         Mon,  5 Jul 2021 08:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1625473240;
-        bh=mCeASRcy2as2LCxAx/EwFqOXzJ0xOLOo4eReNRoA3fs=;
+        bh=SYTTcfYK+j/Pfq7K8TLV5XJAAQ7TNgyPYPL1DmPYZgE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cIXLCtVohk9YXxTcnQ9aS6Rlc0uu/6rejc9Qlyz8UHxM+eHqBuoZwP0KdiIRPTtv9
-         ocz3Z9ckd16zl2ReRRkH5PZhgB1ZX3i5q8kc4dqAxddY9qdygMAUJW25A3PU+Q7QTa
-         A6WHNBc8DzXBeEZL3MZq88MBfQQs7fRsh/3RJkN1o3sAxMX6TQzcbJxPnejohhjydr
-         NcOYxIQUmz9YGSMIfzKKUymxfWFuEOqW4oAwc7W/WZaaSwgHXuwRyFEYh6vegRQFJZ
-         Odp5DA7bExOOBUrscN4VLu48XmzynfP9SRRLeLDV8qpDjqfMDdkxp8HZ8IFqKAiTAZ
-         0PrVvJRPVsD+g==
+        b=XzYLpu895mILIUYywEBwmybrW6CpN3rxcCI5ij4RLom+rSkB2Q2DJCJx4Gy9zEq7h
+         L3V+QgzuQMInQumSDAfCQsGT4uAaNHATlfcNLfaoQx3CSGJzNamYL/7PbChrq5Ho0D
+         pwBTyeK7JAxKO+Rju/SdF0fVyXFwIUWBKaeydOmPKbcA2j8gOyAN7B3WE4J3NCDbny
+         C4zyA+S6ZyKTgqI/FeuXj7hUULEEPtHFF1aLP+RNm9LpFJvoPiscuwFj03BkDE9cZO
+         y0Fkc/1nB/Ff8H/sU0EdJhT0NS+KtSwUKnkaSpNCyBQyLNeIgqEbUSzLOBrpD3awk2
+         q1KxGefktUAog==
 Received: from johan by xi with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1m0JqF-0004lr-6z; Mon, 05 Jul 2021 10:20:35 +0200
+        id 1m0JqF-0004m3-IX; Mon, 05 Jul 2021 10:20:35 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH v2 2/6] USB: serial: cp210x: fix flow-control error handling
-Date:   Mon,  5 Jul 2021 10:20:11 +0200
-Message-Id: <20210705082015.18286-3-johan@kernel.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 6/6] USB: serial: cp210x: determine fw version for CP2105 and CP2108
+Date:   Mon,  5 Jul 2021 10:20:15 +0200
+Message-Id: <20210705082015.18286-7-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210705082015.18286-1-johan@kernel.org>
 References: <20210705082015.18286-1-johan@kernel.org>
@@ -51,60 +50,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure that the driver crtscts state is not updated in the unlikely
-event that the flow-control request fails. Not doing so could break RTS
-control.
+CP2105, CP2108 and CP2102N have vendor requests that can be used to
+retrieve the firmware version. Having this information available is
+essential when trying to work around buggy firmware as a recent CP2102N
+regression showed.
 
-Fixes: 5951b8508855 ("USB: serial: cp210x: suppress modem-control errors")
-Cc: stable@vger.kernel.org	# 5.11
+Determine and log the firmware version also for CP2105 and CP2108
+during type detection at probe.
+
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/cp210x.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/usb/serial/cp210x.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index fd198031de71..fd6bd574e2a5 100644
+index 6aaf54f16f8c..51670c80bf67 100644
 --- a/drivers/usb/serial/cp210x.c
 +++ b/drivers/usb/serial/cp210x.c
-@@ -1189,6 +1189,7 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 	struct cp210x_flow_ctl flow_ctl;
- 	u32 flow_repl;
- 	u32 ctl_hs;
-+	bool crtscts;
- 	int ret;
+@@ -399,6 +399,7 @@ struct cp210x_special_chars {
+ };
  
- 	/*
-@@ -1248,14 +1249,14 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 			flow_repl |= CP210X_SERIAL_RTS_FLOW_CTL;
- 		else
- 			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
--		port_priv->crtscts = true;
-+		crtscts = true;
- 	} else {
- 		ctl_hs &= ~CP210X_SERIAL_CTS_HANDSHAKE;
- 		if (port_priv->rts)
- 			flow_repl |= CP210X_SERIAL_RTS_ACTIVE;
- 		else
- 			flow_repl |= CP210X_SERIAL_RTS_INACTIVE;
--		port_priv->crtscts = false;
-+		crtscts = false;
+ /* CP210X_VENDOR_SPECIFIC values */
++#define CP210X_GET_FW_VER	0x000E
+ #define CP210X_READ_2NCONFIG	0x000E
+ #define CP210X_GET_FW_VER_2N	0x0010
+ #define CP210X_READ_LATCH	0x00C2
+@@ -2107,6 +2108,10 @@ static void cp210x_determine_type(struct usb_serial *serial)
  	}
  
- 	if (I_IXOFF(tty)) {
-@@ -1278,8 +1279,12 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 	flow_ctl.ulControlHandshake = cpu_to_le32(ctl_hs);
- 	flow_ctl.ulFlowReplace = cpu_to_le32(flow_repl);
- 
--	cp210x_write_reg_block(port, CP210X_SET_FLOW, &flow_ctl,
-+	ret = cp210x_write_reg_block(port, CP210X_SET_FLOW, &flow_ctl,
- 			sizeof(flow_ctl));
-+	if (ret)
-+		goto out_unlock;
-+
-+	port_priv->crtscts = crtscts;
- out_unlock:
- 	mutex_unlock(&port_priv->mutex);
- }
+ 	switch (priv->partnum) {
++	case CP210X_PARTNUM_CP2105:
++	case CP210X_PARTNUM_CP2108:
++		cp210x_get_fw_version(serial, CP210X_GET_FW_VER);
++		break;
+ 	case CP210X_PARTNUM_CP2102N_QFN28:
+ 	case CP210X_PARTNUM_CP2102N_QFN24:
+ 	case CP210X_PARTNUM_CP2102N_QFN20:
 -- 
 2.31.1
 
