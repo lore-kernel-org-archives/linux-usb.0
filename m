@@ -2,98 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FD8C07E98
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5542C07E9E
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30698613F7
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A694C613F3
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Jul 2021 08:20:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbhGEIXV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Jul 2021 04:23:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40890 "EHLO mail.kernel.org"
+        id S230309AbhGEIXX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Jul 2021 04:23:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230323AbhGEIXR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 5 Jul 2021 04:23:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D6E14613D1;
+        id S230330AbhGEIXU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Jul 2021 04:23:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1CE761447;
         Mon,  5 Jul 2021 08:20:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625473240;
-        bh=2qGaB+9dBhwuQSeXnep3Txw8p7mnzuwuscJcjkt04Xs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C5gahN3fE88vqceXluYGEonIG66aX9sCDRemX9rLieY8wkPbyNuflgwi2HJRHOHQ8
-         h6nDxpj5AYLsvTII33x+1z5QmPf2f1MxSpFYbJzhykDZJ9VmSfGJ2g5a72u8REUwo8
-         UqeB/B7XUUJP8mvSqgtquwhzv9uUtu0kVfPx5xgcHEjE/MRH1Siv1bjohlU3gti+bv
-         gxbwFkvwn/XBreVEq9SLE2QHf2GrA8F9mCnsmHy4UmKkRnD5elk7kLIPpGDvEfdtaq
-         rPyWOI2gb+5Y5x7uTfEVVLtkDz31fFlrFQj1YZfIYkvVdidgP8BB6LPKKE9jwadHlJ
-         IKw9LqrPx7Wqg==
+        s=k20201202; t=1625473241;
+        bh=LFyp+REsgurXPkNsy24a7z98TwA4hJdMX8wTWIyMHYI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jHnVtFcWj6+aYiacfOiLgjmuzr/pP+FzjjT2ElJMLh5NgqsMZODGWQ9uv2VEkWTdN
+         QiW8bd3Nz/3fOMW21eS22ZpnYPm/H0yrNAXNQSS+TSH0pwCbsQ1ysalm1IUj4yOJQ/
+         znaxZnbTFtnj2qJXh/K1RU+/F6AdkW2CLibxHPZc7JnearEqTqzLEPkP12n2pcMCpP
+         +C/rIklajMRqwkYE324NpBG1XPFWnZiIEmScqC8baKVipRfUxH1Vg94agoykBaCHKt
+         7sL8TN/InJiyJs6peCEigv0KaFReUvqNyAeCY1pKzt0h+jbunMf/D0Vkaw8Dg/EwQY
+         EIgNR6hJrp5IQ==
 Received: from johan by xi with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1m0JqF-0004lp-46; Mon, 05 Jul 2021 10:20:35 +0200
+        id 1m0JqE-0004ln-9v; Mon, 05 Jul 2021 10:20:35 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH v2 1/6] USB: serial: cp210x: fix control-characters error handling
-Date:   Mon,  5 Jul 2021 10:20:10 +0200
-Message-Id: <20210705082015.18286-2-johan@kernel.org>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/6] USB: serial: cp210x: fixes and CP2105/CP2108 fw version
+Date:   Mon,  5 Jul 2021 10:20:09 +0200
+Message-Id: <20210705082015.18286-1-johan@kernel.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210705082015.18286-1-johan@kernel.org>
-References: <20210705082015.18286-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the unlikely event that setting the software flow-control characters
-fails the other flow-control settings should still be updated (just like
-all other terminal settings).
+Here are couple of minor fixes and some cleanups related to the recent
+regression which broke RTS control on some CP2102N devices with buggy
+firmware.
 
-Move out the error message printed by the set_chars() helper to make it
-more obvious that this is intentional.
+In case we run into another one of these, let's log the firmware
+version also for CP2105 and CP2108 for which it can be retrieved.
 
-Fixes: 7748feffcd80 ("USB: serial: cp210x: add support for software flow control")
-Cc: stable@vger.kernel.org	# 5.11
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/cp210x.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Johan
 
-diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
-index 09b845d0da41..fd198031de71 100644
---- a/drivers/usb/serial/cp210x.c
-+++ b/drivers/usb/serial/cp210x.c
-@@ -1163,10 +1163,8 @@ static int cp210x_set_chars(struct usb_serial_port *port,
- 
- 	kfree(dmabuf);
- 
--	if (result < 0) {
--		dev_err(&port->dev, "failed to set special chars: %d\n", result);
-+	if (result < 0)
- 		return result;
--	}
- 
- 	return 0;
- }
-@@ -1218,8 +1216,10 @@ static void cp210x_set_flow_control(struct tty_struct *tty,
- 		chars.bXoffChar = STOP_CHAR(tty);
- 
- 		ret = cp210x_set_chars(port, &chars);
--		if (ret)
--			return;
-+		if (ret) {
-+			dev_err(&port->dev, "failed to set special chars: %d\n",
-+					ret);
-+		}
- 	}
- 
- 	mutex_lock(&port_priv->mutex);
+
+Changes in v2
+ - keep the special-chars error message to make it more obvious that
+   continuing on errors is intentional (1/6) (Greg)
+
+
+Johan Hovold (6):
+  USB: serial: cp210x: fix control-characters error handling
+  USB: serial: cp210x: fix flow-control error handling
+  USB: serial: cp210x: clean up control-request timeout
+  USB: serial: cp210x: clean up set-chars request
+  USB: serial: cp210x: clean up type detection
+  USB: serial: cp210x: determine fw version for CP2105 and CP2108
+
+ drivers/usb/serial/cp210x.c | 77 +++++++++++++++----------------------
+ 1 file changed, 32 insertions(+), 45 deletions(-)
+
 -- 
 2.31.1
 
