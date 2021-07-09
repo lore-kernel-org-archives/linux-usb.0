@@ -2,47 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF656C07E9E
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DFB3C07E96
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D47606143F
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B1216143F
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230340AbhGIAbN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Jul 2021 20:31:13 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:60088 "EHLO
+        id S230314AbhGIAbQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Jul 2021 20:31:16 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:47192 "EHLO
         so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230080AbhGIAbB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Jul 2021 20:31:01 -0400
+        with ESMTP id S230079AbhGIAbC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Jul 2021 20:31:02 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1625790498; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=SeIt2AyhrOJ6+9mj44/1M2oP6BRIxZyjZit7wZgwJMc=; b=k/VVlu/Yw/lbZOWVbFQHHf4YCEfeyIJEkz/bGIVhYtZ4Of0TTxgrYdkBt9xRoDWvgy0vUokw
- Btv/TiqMO0jM81utZAGsjJj1VjkjpMCCFpKIobDr0P/TPv5n7DBsv2LKBPCHJ0UWj+MxYpoz
- vyXtksUuoht07xO0OGbPPwvPrgI=
+ s=smtp; t=1625790500; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=73qhLMYfStfitZMYQfQ4WAChnbeDfdyLLFyJJqnhwwc=; b=dyRtt+pGU7BpR/1E3cy/KshmxCg0RqGyNsnljfUHS+0xzWVesy21WcX3dz11pMWfcvNBWNrC
+ RZ3XMfqjgVrAB656zz09AvppNMIJDVRmSEyWUCYTQ11FFg8C2uOjPQItUCzyDa4c/Xuwcqp1
+ LuHunBZiuNQah1vWQ6YZlAOUjJA=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 60e798123a8b6d0a459416ed (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 00:28:02
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 60e7980ff30429861472b7bc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 00:27:59
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 82880C43143; Fri,  9 Jul 2021 00:28:02 +0000 (UTC)
+        id 19DF0C433D3; Fri,  9 Jul 2021 00:27:59 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 03814C4338A;
-        Fri,  9 Jul 2021 00:28:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 03814C4338A
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 73D54C433D3;
+        Fri,  9 Jul 2021 00:27:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 73D54C433D3
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -53,55 +52,168 @@ Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         jackp@codeaurora.org, fntoth@gmail.com,
         Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v13 4/6] of: Add stub for of_add_property()
-Date:   Thu,  8 Jul 2021 17:27:52 -0700
-Message-Id: <1625790474-8376-5-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v13 0/6] Re-introduce TX FIFO resize for larger EP bursting
+Date:   Thu,  8 Jul 2021 17:27:48 -0700
+Message-Id: <1625790474-8376-1-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1625790474-8376-1-git-send-email-wcheng@codeaurora.org>
-References: <1625790474-8376-1-git-send-email-wcheng@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If building with OF Kconfig disabled, this can lead to errors for
-drivers utilizing of_add_property().  Add a stub for the add API, as
-it exists for the remove variant as well, and to avoid compliation
-issues.  Also, export this API so that it can be used by modules.
+Changes in V13:
+ - Added some more comments on the background of the APIs and how they work.
+ - Check for the do_fifo_resize flag before reading out the max number of fifos
+   DT property.
 
-Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
----
- drivers/of/base.c  | 1 +
- include/linux/of.h | 5 +++++
- 2 files changed, 6 insertions(+)
+Changes in V12:
+ - Re-added change to add a stub for of_add_property(), and exporting it as well
+   so that it can be used by modules.
+ - Minor updates to some of the APIs, including updating comments, adding error
+   handling, etc...
 
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 48e941f..5883d63 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -1821,6 +1821,7 @@ int of_add_property(struct device_node *np, struct property *prop)
+Changes in V11:
+ - Added a DWC3 controller revision check to use a different calculation, based
+   on Ferry's testing.
+ - Removed descriptor loop in configfs, and utilize the fact that the ep->claimed
+   parameter is still valid as ep_autoconf_reset() isn't called at the time of
+   check_config()
+ - Fix compilation errors if CONFIG_OF is not defined
+ - Removed patch to add stubs for of_add_property()
+
+Changes in V10:
+ - Fixed compilation errors in config where OF is not used (error due to
+   unknown symbol for of_add_property()).  Add of_add_property() stub.
+ - Fixed compilation warning for incorrect argument being passed to dwc3_mdwidth
+
+Changes in V9:
+ - Fixed incorrect patch in series.  Removed changes in DTSI, as dwc3-qcom will
+   add the property by default from the kernel.
+
+Changes in V8:
+ - Rebased to usb-testing
+ - Using devm_kzalloc for adding txfifo property in dwc3-qcom
+ - Removed DWC3 QCOM ACPI property for enabling the txfifo resize
+
+Changes in V7:
+ - Added a new property tx-fifo-max-num for limiting how much fifo space the
+   resizing logic can allocate for endpoints with large burst values.  This
+   can differ across platforms, and tie in closely with overall system latency.
+ - Added recommended checks for DWC32.
+ - Added changes to set the tx-fifo-resize property from dwc3-qcom by default
+   instead of modifying the current DTSI files.
+ - Added comments on all APIs/variables introduced.
+ - Updated the DWC3 YAML to include a better description of the tx-fifo-resize
+   property and added an entry for tx-fifo-max-num.
+
+Changes in V6:
+ - Rebased patches to usb-testing.
+ - Renamed to PATCH series instead of RFC.
+ - Checking for fs_descriptors instead of ss_descriptors for determining the
+   endpoint count for a particular configuration.
+ - Re-ordered patch series to fix patch dependencies.
+
+Changes in V5:
+ - Added check_config() logic, which is used to communicate the number of EPs
+   used in a particular configuration.  Based on this, the DWC3 gadget driver
+   has the ability to know the maximum number of eps utilized in all configs.
+   This helps reduce unnecessary allocation to unused eps, and will catch fifo
+   allocation issues at bind() time.
+ - Fixed variable declaration to single line per variable, and reverse xmas.
+ - Created a helper for fifo clearing, which is used by ep0.c
+
+Changes in V4:
+ - Removed struct dwc3* as an argument for dwc3_gadget_resize_tx_fifos()
+ - Removed WARN_ON(1) in case we run out of fifo space
  
- 	return rc;
- }
-+EXPORT_SYMBOL_GPL(of_add_property);
- 
- int __of_remove_property(struct device_node *np, struct property *prop)
- {
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 9c2e71e..0e786b60 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -946,6 +946,11 @@ static inline int of_machine_is_compatible(const char *compat)
- 	return 0;
- }
- 
-+static inline int of_add_property(struct device_node *np, struct property *prop)
-+{
-+	return 0;
-+}
-+
- static inline int of_remove_property(struct device_node *np, struct property *prop)
- {
- 	return 0;
+Changes in V3:
+ - Removed "Reviewed-by" tags
+ - Renamed series back to RFC
+ - Modified logic to ensure that fifo_size is reset if we pass the minimum
+   threshold.  Tested with binding multiple FDs requesting 6 FIFOs.
+
+Changes in V2:
+ - Modified TXFIFO resizing logic to ensure that each EP is reserved a
+   FIFO.
+ - Removed dev_dbg() prints and fixed typos from patches
+ - Added some more description on the dt-bindings commit message
+
+Currently, there is no functionality to allow for resizing the TXFIFOs, and
+relying on the HW default setting for the TXFIFO depth.  In most cases, the
+HW default is probably sufficient, but for USB compositions that contain
+multiple functions that require EP bursting, the default settings
+might not be enough.  Also to note, the current SW will assign an EP to a
+function driver w/o checking to see if the TXFIFO size for that particular
+EP is large enough. (this is a problem if there are multiple HW defined
+values for the TXFIFO size)
+
+It is mentioned in the SNPS databook that a minimum of TX FIFO depth = 3
+is required for an EP that supports bursting.  Otherwise, there may be
+frequent occurences of bursts ending.  For high bandwidth functions,
+such as data tethering (protocols that support data aggregation), mass
+storage, and media transfer protocol (over FFS), the bMaxBurst value can be
+large, and a bigger TXFIFO depth may prove to be beneficial in terms of USB
+throughput. (which can be associated to system access latency, etc...)  It
+allows for a more consistent burst of traffic, w/o any interruptions, as
+data is readily available in the FIFO.
+
+With testing done using the mass storage function driver, the results show
+that with a larger TXFIFO depth, the bandwidth increased significantly.
+
+Test Parameters:
+ - Platform: Qualcomm SM8150
+ - bMaxBurst = 6
+ - USB req size = 256kB
+ - Num of USB reqs = 16
+ - USB Speed = Super-Speed
+ - Function Driver: Mass Storage (w/ ramdisk)
+ - Test Application: CrystalDiskMark
+
+Results:
+
+TXFIFO Depth = 3 max packets
+
+Test Case | Data Size | AVG tput (in MB/s)
+-------------------------------------------
+Sequential|1 GB x     | 
+Read      |9 loops    | 193.60
+	  |           | 195.86
+          |           | 184.77
+          |           | 193.60
+-------------------------------------------
+
+TXFIFO Depth = 6 max packets
+
+Test Case | Data Size | AVG tput (in MB/s)
+-------------------------------------------
+Sequential|1 GB x     | 
+Read      |9 loops    | 287.35
+	  |           | 304.94
+          |           | 289.64
+          |           | 293.61
+-------------------------------------------
+
+Wesley Cheng (6):
+  usb: gadget: udc: core: Introduce check_config to verify USB
+    configuration
+  usb: gadget: configfs: Check USB configuration before adding
+  usb: dwc3: Resize TX FIFOs to meet EP bursting requirements
+  of: Add stub for of_add_property()
+  usb: dwc3: dwc3-qcom: Enable tx-fifo-resize property by default
+  dt-bindings: usb: dwc3: Update dwc3 TX fifo properties
+
+ .../devicetree/bindings/usb/snps,dwc3.yaml         |  15 +-
+ drivers/of/base.c                                  |   1 +
+ drivers/usb/dwc3/core.c                            |  15 ++
+ drivers/usb/dwc3/core.h                            |  15 ++
+ drivers/usb/dwc3/dwc3-qcom.c                       |  15 ++
+ drivers/usb/dwc3/ep0.c                             |   2 +
+ drivers/usb/dwc3/gadget.c                          | 232 +++++++++++++++++++++
+ drivers/usb/gadget/configfs.c                      |   4 +
+ drivers/usb/gadget/udc/core.c                      |  19 ++
+ include/linux/of.h                                 |   5 +
+ include/linux/usb/gadget.h                         |   4 +
+ 11 files changed, 325 insertions(+), 2 deletions(-)
+
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
