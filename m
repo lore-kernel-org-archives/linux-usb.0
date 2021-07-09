@@ -2,81 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD9DC07E96
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Jul 2021 22:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F27A8C07E96
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28A7D617ED
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Jul 2021 22:42:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBF5361476
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Jul 2021 00:28:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230401AbhGHWpG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Jul 2021 18:45:06 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:18907 "EHLO rere.qmqm.pl"
+        id S230086AbhGIAav (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Jul 2021 20:30:51 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:50262 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229497AbhGHWpE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Jul 2021 18:45:04 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4GLWWZ4xMKzMT;
-        Fri,  9 Jul 2021 00:42:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1625784138; bh=PSGUwpFBwl/ZrrEQdoJ/3g3P6zMIBB0aEwyRK24KGdU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UpJrlN9fSLcRGXrVBz/u4Ox6E8T6/+j0WX2vMpzJfMtVILDgGtfIm2/grSi/bu88e
-         cV+g0IvmKehJVnwbfRui4NttIqfc6IpFkXLDJnncIT6nQZsLCN5AHU9xBVfN9pcjan
-         XQPQChuYtn5qO5pyzEpyyG3eLeymXhyrzXTXaSf0P1v5R2K1WMTBaqtLsaC63MZj/S
-         hjr3s5+e91yZ6vlVBEXx29kYxGB8CWbUWBjU6VvPVldVfxgQmZWI5BORiE+6x2ErnH
-         k9c0MVXdUuXq3WMHc62okDU/wyrSXqo9b+AEydZ0XFmAc/o/GKOUBqCPp4IbgIg9q9
-         pWKOtrKjSpngQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.2 at mail
-Date:   Fri, 9 Jul 2021 00:42:17 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 05/12] usb: otg-fsm: Fix hrtimer list corruption
-Message-ID: <YOd/SfxC26esmVXU@qmqm.qmqm.pl>
-References: <20210701022405.10817-1-digetx@gmail.com>
- <20210701022405.10817-6-digetx@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210701022405.10817-6-digetx@gmail.com>
+        id S229832AbhGIAav (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Jul 2021 20:30:51 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1625790489; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=cL0fsBn16jUGkDynYaIfSKIWtfsZoMTEAtBNwhlYM80=; b=ou3fpduN8JNokOR7wKAduil7ZQ4hpVyxfj6fDp+biNtodWC9t9r6R5ScaC2s2Fn5aPnhTedy
+ EsJAi+pchML987FTmQKzqqzEGVBoBF67YIWjQEvYZu7TTXY710XkXzbS76Bx7PSGuJRhGB8X
+ UAeVmzFt9ICBndLYuXHg4xh6XS8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 60e7981301dd9a943112aec4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Jul 2021 00:28:03
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 269FBC43144; Fri,  9 Jul 2021 00:28:03 +0000 (UTC)
+Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DBF13C433D3;
+        Fri,  9 Jul 2021 00:28:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DBF13C433D3
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+From:   Wesley Cheng <wcheng@codeaurora.org>
+To:     robh+dt@kernel.org, frowand.list@gmail.com, balbi@kernel.org,
+        gregkh@linuxfoundation.org, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        jackp@codeaurora.org, fntoth@gmail.com,
+        Wesley Cheng <wcheng@codeaurora.org>
+Subject: [PATCH v13 5/6] usb: dwc3: dwc3-qcom: Enable tx-fifo-resize property by default
+Date:   Thu,  8 Jul 2021 17:27:53 -0700
+Message-Id: <1625790474-8376-6-git-send-email-wcheng@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1625790474-8376-1-git-send-email-wcheng@codeaurora.org>
+References: <1625790474-8376-1-git-send-email-wcheng@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jul 01, 2021 at 05:23:58AM +0300, Dmitry Osipenko wrote:
-> The HNP work can be re-scheduled while it's still in-fly. This results in
-> re-initialization of the busy work, resetting the hrtimer's list node of
-> the work and crashing kernel with null dereference within kernel/timer
-> once work's timer is expired. It's very easy to trigger this problem by
-> re-plugging USB cable quickly. Initialize HNP work only once to fix this
-> trouble.
-[...]
-> -	INIT_DELAYED_WORK(&fsm->hnp_polling_work, otg_hnp_polling_work);
-> +	if (!fsm->hnp_work_inited) {
-> +		INIT_DELAYED_WORK(&fsm->hnp_polling_work, otg_hnp_polling_work);
-> +		fsm->hnp_work_inited = true;
-> +	}
-> +
+In order to take advantage of the TX fifo resizing logic, manually add
+these properties to the DWC3 child node by default.  This will allow
+the DWC3 gadget to resize the TX fifos for the IN endpoints, which
+help with performance.
 
-Maybe you could just add an initialization function to be called by
-users of otg_fsm? It seems that only chipidea driver uses this
-struct currently.
+Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+---
+ drivers/usb/dwc3/dwc3-qcom.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Best Regards
-Micha³ Miros³aw
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 49e6ca9..2223b59 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -645,6 +645,7 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
+ 	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
+ 	struct device		*dev = &pdev->dev;
++	struct property		*prop;
+ 	int			ret;
+ 
+ 	dwc3_np = of_get_compatible_child(np, "snps,dwc3");
+@@ -653,6 +654,20 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
++	prop = devm_kzalloc(dev, sizeof(*prop), GFP_KERNEL);
++	if (!prop) {
++		ret = -ENOMEM;
++		dev_err(dev, "unable to allocate memory for property\n");
++		goto node_put;
++	}
++
++	prop->name = "tx-fifo-resize";
++	ret = of_add_property(dwc3_np, prop);
++	if (ret) {
++		dev_err(dev, "unable to add property\n");
++		goto node_put;
++	}
++
+ 	ret = of_platform_populate(np, NULL, NULL, dev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to register dwc3 core - %d\n", ret);
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
