@@ -4,41 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF71C07E99
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82B51C11F66
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B120F613F3
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F78C61417
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233546AbhGJC06 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Jul 2021 22:26:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43192 "EHLO mail.kernel.org"
+        id S233650AbhGJC1f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Jul 2021 22:27:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42484 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233266AbhGJC0b (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:26:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 622D8613EE;
-        Sat, 10 Jul 2021 02:23:43 +0000 (UTC)
+        id S233156AbhGJC04 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:26:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8612D6140A;
+        Sat, 10 Jul 2021 02:24:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625883824;
-        bh=wVFWZjD32RCEOXrQYqbhnw7dQOnDS4glSrjrbV4SPHo=;
+        s=k20201202; t=1625883844;
+        bh=+cUaXs9SZyH/ZrXGu4wPjqlTNqEvKvvC7K1OSUMyATE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XF/Xz+Dmweuf/emnq/LdQPZPYr5GdWtW1v/wywEIAioznrBBgg1Rg6Ks1wFyL2tJM
-         nW5bRopze2jTPa6d87Dx02T9HpHE3tTpqyMWti0TpimqsjylnAbjDz29FyO0+3I4O2
-         00R3+O00W9xOxMBkbgu5GPN6QvBtFckCafewxyXig1yw6Hi16TT+kzoR83GkemrnZj
-         9fFXSgL4tTGa5eGuvJtncJHCbVP0W+Oj+ebbzW2FG33CbT5HgqUfQjbcTL8lcboldn
-         aKDbIbfkdkiTxF/8MY11sQBGv9WTdFQNWDfBOUZepUoc6cAbZbMf0eh3STvwv7tJfu
-         AjRZ9GrtEST/w==
+        b=Quaq7QrB80TJlFKvLbYlr7aGZ+FEOoEH9YI41CtqgKf9UR15xyx1Cyq0deYeqBT3c
+         MsGuOgHvVOUIfu9o/jdfBHJQo3wQiq0ZOs9Y3JMixoeUCO7RJKs4pURBGT06lBMuPc
+         LTHAVbgF9Z1r5KvcfP7Bk/yNWuuz9mjWAn7UkxMhruTex8B+j+GNWZYwnFMmlTj89R
+         Ex68Y7IKZFAUkJQ4PzdfsdOsANsDxzik6gJitWW4rLOtxbXTLta9yeC6huZYkkd2Jd
+         hcwoFSISTL9BMw3WvyMsaA6gKxXaroETZpT8uAYm4m7vpYu3ZD53auKQrSaiDfArAl
+         W/aEZjQiAHg9Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 072/104] xhci: handle failed buffer copy to URB sg list and fix a W=1 copiler warning
-Date:   Fri,  9 Jul 2021 22:21:24 -0400
-Message-Id: <20210710022156.3168825-72-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 089/104] usb: gadget: hid: fix error return code in hid_bind()
+Date:   Fri,  9 Jul 2021 22:21:41 -0400
+Message-Id: <20210710022156.3168825-89-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210710022156.3168825-1-sashal@kernel.org>
 References: <20210710022156.3168825-1-sashal@kernel.org>
@@ -50,46 +51,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 271a21d8b280b186f8cc9ca6f7151902efde9512 ]
+[ Upstream commit 88693f770bb09c196b1eb5f06a484a254ecb9924 ]
 
-Set the urb->actual_length to bytes successfully copied in case all bytes
-weren't copied from a temporary buffer to the URB sg list.
-Also print a debug message
+Fix to return a negative error code from the error handling
+case instead of 0.
 
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Link: https://lore.kernel.org/r/20210617150354.1512157-4-mathias.nyman@linux.intel.com
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Link: https://lore.kernel.org/r/20210618043835.2641360-1-yangyingliang@huawei.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/legacy/hid.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 0d2f1c37ab74..73cdaa3f3067 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1362,12 +1362,17 @@ static void xhci_unmap_temp_buf(struct usb_hcd *hcd, struct urb *urb)
- 				 urb->transfer_buffer_length,
- 				 dir);
+diff --git a/drivers/usb/gadget/legacy/hid.c b/drivers/usb/gadget/legacy/hid.c
+index c4eda7fe7ab4..5b27d289443f 100644
+--- a/drivers/usb/gadget/legacy/hid.c
++++ b/drivers/usb/gadget/legacy/hid.c
+@@ -171,8 +171,10 @@ static int hid_bind(struct usb_composite_dev *cdev)
+ 		struct usb_descriptor_header *usb_desc;
  
--	if (usb_urb_dir_in(urb))
-+	if (usb_urb_dir_in(urb)) {
- 		len = sg_pcopy_from_buffer(urb->sg, urb->num_sgs,
- 					   urb->transfer_buffer,
- 					   buf_len,
- 					   0);
--
-+		if (len != buf_len) {
-+			xhci_dbg(hcd_to_xhci(hcd),
-+				 "Copy from tmp buf to urb sg list failed\n");
-+			urb->actual_length = len;
+ 		usb_desc = usb_otg_descriptor_alloc(gadget);
+-		if (!usb_desc)
++		if (!usb_desc) {
++			status = -ENOMEM;
+ 			goto put;
 +		}
-+	}
- 	urb->transfer_flags &= ~URB_DMA_MAP_SINGLE;
- 	kfree(urb->transfer_buffer);
- 	urb->transfer_buffer = NULL;
+ 		usb_otg_descriptor_init(gadget, usb_desc);
+ 		otg_desc[0] = usb_desc;
+ 		otg_desc[1] = NULL;
 -- 
 2.30.2
 
