@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D4F3C11F68
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85EE9C11F6D
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 656EB613DA
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D71F613DA
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbhGJJQd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S232544AbhGJJQe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Jul 2021 05:16:34 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:42434 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232448AbhGJJQd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Sat, 10 Jul 2021 05:16:33 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:61441 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232452AbhGJJQa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Jul 2021 05:16:30 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1625908426; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1625908428; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=SeIt2AyhrOJ6+9mj44/1M2oP6BRIxZyjZit7wZgwJMc=; b=f4Xpo5AlIhPnEx30JwoucnrEMIBcsI545Ywnnni68BO7he0pvc+/fz4J/yfNhkN6RpT16Dad
- xEPuCF13FU+LroRDa1u4LkCtGWWZuG61X4SYOGrTUkxKEN2t7td0YKV0dCv0UMCU5reJmdbk
- 3/DEuz3Fabrp0xscP7U6Saotbxw=
-X-Mailgun-Sending-Ip: 198.61.254.9
+ bh=nZjdf/YIZuObh/zYQVUmteSyPqAUYoSWQnYeQyM+fME=; b=hAULIOcyJ2LyHJtJlcowBhAEHOqkzkW4SUJqQbUWw7Tbv1tdZgwFthYel/h6z+sXqgQPd8p0
+ ilhEFnIo0DizPvQYeNm0iZqpkx+HbKrvIPK9+y9EHBXmtyeHnmw/6i3Jj+EmufTjZFWRjg7q
+ CTI/7qzTDBHPuSk74h4Dr7Pcqvk=
+X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 60e964b35d0d101e38942e49 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Jul 2021 09:13:23
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 60e964b57b2963a282fff862 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Jul 2021 09:13:25
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id A8A0EC43144; Sat, 10 Jul 2021 09:13:23 +0000 (UTC)
+        id 798F7C4338A; Sat, 10 Jul 2021 09:13:24 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id AEFE7C4338A;
-        Sat, 10 Jul 2021 09:13:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AEFE7C4338A
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 49133C4360C;
+        Sat, 10 Jul 2021 09:13:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 49133C4360C
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -52,9 +52,9 @@ To:     balbi@kernel.org, gregkh@linuxfoundation.org, agross@kernel.org,
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v14 4/6] of: Add stub for of_add_property()
-Date:   Sat, 10 Jul 2021 02:13:13 -0700
-Message-Id: <1625908395-5498-5-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v14 6/6] dt-bindings: usb: dwc3: Update dwc3 TX fifo properties
+Date:   Sat, 10 Jul 2021 02:13:15 -0700
+Message-Id: <1625908395-5498-7-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1625908395-5498-1-git-send-email-wcheng@codeaurora.org>
 References: <1625908395-5498-1-git-send-email-wcheng@codeaurora.org>
@@ -62,45 +62,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If building with OF Kconfig disabled, this can lead to errors for
-drivers utilizing of_add_property().  Add a stub for the add API, as
-it exists for the remove variant as well, and to avoid compliation
-issues.  Also, export this API so that it can be used by modules.
+Update the tx-fifo-resize property with a better description, while
+adding the tx-fifo-max-num, which is a new parameter allowing
+adjustments for the maximum number of packets the txfifo resizing logic
+can account for while resizing the endpoints.
 
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/of/base.c  | 1 +
- include/linux/of.h | 5 +++++
- 2 files changed, 6 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 48e941f..5883d63 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -1821,6 +1821,7 @@ int of_add_property(struct device_node *np, struct property *prop)
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 41416fb..078fb78 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -289,10 +289,21 @@ properties:
+     maximum: 16
  
- 	return rc;
- }
-+EXPORT_SYMBOL_GPL(of_add_property);
+   tx-fifo-resize:
+-    description: Determines if the FIFO *has* to be reallocated
+-    deprecated: true
++    description: Determines if the TX fifos can be dynamically resized depending
++      on the number of IN endpoints used and if bursting is supported.  This
++      may help improve bandwidth on platforms with higher system latencies, as
++      increased fifo space allows for the controller to prefetch data into its
++      internal memory.
+     type: boolean
  
- int __of_remove_property(struct device_node *np, struct property *prop)
- {
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 9c2e71e..0e786b60 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -946,6 +946,11 @@ static inline int of_machine_is_compatible(const char *compat)
- 	return 0;
- }
- 
-+static inline int of_add_property(struct device_node *np, struct property *prop)
-+{
-+	return 0;
-+}
++  tx-fifo-max-num:
++    description: Specifies the max number of packets the txfifo resizing logic
++      can account for when higher endpoint bursting is used. (bMaxBurst > 6) The
++      higher the number, the more fifo space the txfifo resizing logic will
++      allocate for that endpoint.
++    $ref: /schemas/types.yaml#/definitions/uint8
++    minimum: 3
 +
- static inline int of_remove_property(struct device_node *np, struct property *prop)
- {
- 	return 0;
+   snps,incr-burst-type-adjustment:
+     description:
+       Value for INCR burst type of GSBUSCFG0 register, undefined length INCR
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
