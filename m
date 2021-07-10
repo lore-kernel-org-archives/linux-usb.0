@@ -4,46 +4,46 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 332C4C11F66
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C36C11F77
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:28:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C604613F8
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:24:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC590613AF
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:28:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233656AbhGJC1i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Jul 2021 22:27:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43064 "EHLO mail.kernel.org"
+        id S234212AbhGJCbG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Jul 2021 22:31:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42924 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233104AbhGJC0z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:26:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 46887613ED;
-        Sat, 10 Jul 2021 02:24:02 +0000 (UTC)
+        id S233960AbhGJC2F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:28:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36DE461412;
+        Sat, 10 Jul 2021 02:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625883843;
-        bh=dHZi18C9lJeUvnD0sWQG3L29nXUo5nkGqGTKq+/lsCs=;
+        s=k20201202; t=1625883896;
+        bh=N9tg4uOowuFl6i9wi0x5B9WKbHwNGTjWXkUqtqYIuno=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bwhjOEaeUuYDT6i8wQK+gfBESQo3c8eKC2loSVV+tehFh/XCwDGR1agelJzIeBLbP
-         zKFDKcGpLdn98xDNS5uaWadg5fMxQp9EBDfkmuz2mVTmqyYM4W3uH7SKnR1gzBPbYd
-         DxIUoLGnSHeY+CTavSCKTfG1/vHqDWA+hPntTHQaSBQzbfPVNFrRYyrda/pr8Ydq9P
-         oONJAkY/Oa5pzSzFEJIvdvZoOiGUT+Tt5JjQpZqik4OBh0JDkJAgvBAHZrdgqYG8v1
-         GvtS6614QzLv8KuLMTvMlWohss98VKUxe8NnXz2yFAc+OtnXcjDIXxRLmY9lNdH3pC
-         xj0IMUdC8Pv0A==
+        b=MbnlAEFrcOnNz+eoZYWQ6qSGcATngeQSXHn88v2ZmXoYB87ZTDdNzecleod16PvlR
+         angAofPTSIUcXxeiSeNyMrxcIjZiEDyAjT4fzOvqdNyTLGq5FuUvRZdDhqLf1aLmoG
+         K8yDtHNwbE169kkhbKRgst7h7Fkn1cjTnMquJQaJ2m34I5A45o8iKxHmTomlJKJvJP
+         MLb6NGbyg2PtxX2GFqxjh7tW6r61bMmjYNIK2uT1ft4WgTvWEoHUipDMYH2TIGXWMa
+         ZaUjpQ1G0oCa0IL+i3ArlPHT1zzDpz6TjdbR2qDYyANEtM5mGOrqtHhc7lA+iDR3Un
+         tR7qum+PXqvAQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Fabien Chouteau <fabien.chouteau@barco.com>,
-        Segiy Stetsyuk <serg_stetsuk@ukr.net>,
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 088/104] usb: gadget: f_hid: fix endianness issue with descriptors
-Date:   Fri,  9 Jul 2021 22:21:40 -0400
-Message-Id: <20210710022156.3168825-88-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.10 20/93] usb: common: usb-conn-gpio: fix NULL pointer dereference of charger
+Date:   Fri,  9 Jul 2021 22:23:14 -0400
+Message-Id: <20210710022428.3169839-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022156.3168825-1-sashal@kernel.org>
-References: <20210710022156.3168825-1-sashal@kernel.org>
+In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
+References: <20210710022428.3169839-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,43 +52,96 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-[ Upstream commit 33cb46c4676d01956811b68a29157ea969a5df70 ]
+[ Upstream commit 880287910b1892ed2cb38977893b947382a09d21 ]
 
-Running sparse checker it shows warning message about
-incorrect endianness used for descriptor initialization:
+When power on system with OTG cable, IDDIG's interrupt arises before
+the charger registration, it will cause a NULL pointer dereference,
+fix the issue by registering the power supply before requesting
+IDDIG/VBUS irq.
 
-| f_hid.c:91:43: warning: incorrect type in initializer (different base types)
-| f_hid.c:91:43:    expected restricted __le16 [usertype] bcdHID
-| f_hid.c:91:43:    got int
-
-Fixing issue with cpu_to_le16() macro, however this is not a real issue
-as the value is the same both endians.
-
-Cc: Fabien Chouteau <fabien.chouteau@barco.com>
-Cc: Segiy Stetsyuk <serg_stetsuk@ukr.net>
-Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Link: https://lore.kernel.org/r/20210617162755.29676-1-ruslan.bilovol@gmail.com
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Link: https://lore.kernel.org/r/1621406386-18838-1-git-send-email-chunfeng.yun@mediatek.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/f_hid.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/common/usb-conn-gpio.c | 44 ++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index e55699308117..a82b3de1a54b 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -88,7 +88,7 @@ static struct usb_interface_descriptor hidg_interface_desc = {
- static struct hid_descriptor hidg_desc = {
- 	.bLength			= sizeof hidg_desc,
- 	.bDescriptorType		= HID_DT_HID,
--	.bcdHID				= 0x0101,
-+	.bcdHID				= cpu_to_le16(0x0101),
- 	.bCountryCode			= 0x00,
- 	.bNumDescriptors		= 0x1,
- 	/*.desc[0].bDescriptorType	= DYNAMIC */
+diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
+index 6c4e3a19f42c..c9545a4eff66 100644
+--- a/drivers/usb/common/usb-conn-gpio.c
++++ b/drivers/usb/common/usb-conn-gpio.c
+@@ -149,14 +149,32 @@ static int usb_charger_get_property(struct power_supply *psy,
+ 	return 0;
+ }
+ 
+-static int usb_conn_probe(struct platform_device *pdev)
++static int usb_conn_psy_register(struct usb_conn_info *info)
+ {
+-	struct device *dev = &pdev->dev;
+-	struct power_supply_desc *desc;
+-	struct usb_conn_info *info;
++	struct device *dev = info->dev;
++	struct power_supply_desc *desc = &info->desc;
+ 	struct power_supply_config cfg = {
+ 		.of_node = dev->of_node,
+ 	};
++
++	desc->name = "usb-charger";
++	desc->properties = usb_charger_properties;
++	desc->num_properties = ARRAY_SIZE(usb_charger_properties);
++	desc->get_property = usb_charger_get_property;
++	desc->type = POWER_SUPPLY_TYPE_USB;
++	cfg.drv_data = info;
++
++	info->charger = devm_power_supply_register(dev, desc, &cfg);
++	if (IS_ERR(info->charger))
++		dev_err(dev, "Unable to register charger\n");
++
++	return PTR_ERR_OR_ZERO(info->charger);
++}
++
++static int usb_conn_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct usb_conn_info *info;
+ 	bool need_vbus = true;
+ 	int ret = 0;
+ 
+@@ -218,6 +236,10 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 		return PTR_ERR(info->role_sw);
+ 	}
+ 
++	ret = usb_conn_psy_register(info);
++	if (ret)
++		goto put_role_sw;
++
+ 	if (info->id_gpiod) {
+ 		info->id_irq = gpiod_to_irq(info->id_gpiod);
+ 		if (info->id_irq < 0) {
+@@ -252,20 +274,6 @@ static int usb_conn_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
+-	desc = &info->desc;
+-	desc->name = "usb-charger";
+-	desc->properties = usb_charger_properties;
+-	desc->num_properties = ARRAY_SIZE(usb_charger_properties);
+-	desc->get_property = usb_charger_get_property;
+-	desc->type = POWER_SUPPLY_TYPE_USB;
+-	cfg.drv_data = info;
+-
+-	info->charger = devm_power_supply_register(dev, desc, &cfg);
+-	if (IS_ERR(info->charger)) {
+-		dev_err(dev, "Unable to register charger\n");
+-		return PTR_ERR(info->charger);
+-	}
+-
+ 	platform_set_drvdata(pdev, info);
+ 
+ 	/* Perform initial detection */
 -- 
 2.30.2
 
