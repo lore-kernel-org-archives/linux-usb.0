@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07555C07E9C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 880FBC07E9E
 	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6295613E5
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70FF7613E3
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 09:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232585AbhGJJQj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Jul 2021 05:16:39 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:48574 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232495AbhGJJQg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 10 Jul 2021 05:16:36 -0400
+        id S232523AbhGJJQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Jul 2021 05:16:41 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:53206 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232422AbhGJJQg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Jul 2021 05:16:36 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
  s=smtp; t=1625908431; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=cL0fsBn16jUGkDynYaIfSKIWtfsZoMTEAtBNwhlYM80=; b=vk9kegsyEM4UKHCGFpf7LqSWHd/BMYOAjSlLvcFxm3GEpPQXG/tCIlTFvdYnrDNCjATF87Hq
- neeajCRwE6Akyp31PNdMgSRW+OWOjMh9Ok6qzBpB/XAlZvZeLVWqknHb5hkMu7fQw4sAZePf
- J/w9xl4BM4UgBLFJ8ADRDHyiR9M=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ bh=p6iIPSEmp9wvFXtay3Ujw6sPjCKrzRy7wWodzBTyDKM=; b=OJgrEhpZnS7HI0FbvfClJpZaHwWpPx0KE+pH3ZmwluyjjHIbGavy/o8b/qRXkWbbbfpQbIlk
+ DmDH7fa54UwOKznfHmolXmfVw3hKC0S1NYLJhdsfBwJ6r0D+cURh4zhnR5LHiOho9LTbfPBt
+ otG+dVrCj/Q6yhwmpttXotECMLI=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 60e964b419389419555973a1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Jul 2021 09:13:24
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 60e964b15e3e57240bc31638 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 10 Jul 2021 09:13:21
  GMT
 Sender: wcheng=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id DC5A8C433F1; Sat, 10 Jul 2021 09:13:23 +0000 (UTC)
+        id 131ACC43217; Sat, 10 Jul 2021 09:13:21 +0000 (UTC)
 Received: from wcheng-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7E96DC4323A;
-        Sat, 10 Jul 2021 09:13:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7E96DC4323A
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0AE5AC43460;
+        Sat, 10 Jul 2021 09:13:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0AE5AC43460
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
 From:   Wesley Cheng <wcheng@codeaurora.org>
@@ -52,9 +52,9 @@ To:     balbi@kernel.org, gregkh@linuxfoundation.org, agross@kernel.org,
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         jackp@codeaurora.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: [PATCH v14 5/6] usb: dwc3: dwc3-qcom: Enable tx-fifo-resize property by default
-Date:   Sat, 10 Jul 2021 02:13:14 -0700
-Message-Id: <1625908395-5498-6-git-send-email-wcheng@codeaurora.org>
+Subject: [PATCH v14 2/6] usb: gadget: configfs: Check USB configuration before adding
+Date:   Sat, 10 Jul 2021 02:13:11 -0700
+Message-Id: <1625908395-5498-3-git-send-email-wcheng@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1625908395-5498-1-git-send-email-wcheng@codeaurora.org>
 References: <1625908395-5498-1-git-send-email-wcheng@codeaurora.org>
@@ -62,49 +62,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In order to take advantage of the TX fifo resizing logic, manually add
-these properties to the DWC3 child node by default.  This will allow
-the DWC3 gadget to resize the TX fifos for the IN endpoints, which
-help with performance.
+Ensure that the USB gadget is able to support the configuration being
+added based on the number of endpoints required from all interfaces.  This
+is for accounting for any bandwidth or space limitations.
 
 Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/usb/gadget/configfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 49e6ca9..2223b59 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -645,6 +645,7 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
- 	struct dwc3_qcom	*qcom = platform_get_drvdata(pdev);
- 	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
- 	struct device		*dev = &pdev->dev;
-+	struct property		*prop;
- 	int			ret;
- 
- 	dwc3_np = of_get_compatible_child(np, "snps,dwc3");
-@@ -653,6 +654,20 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
- 		return -ENODEV;
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 15a607c..f4c7c82 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -1404,6 +1404,10 @@ static int configfs_composite_bind(struct usb_gadget *gadget,
+ 				goto err_purge_funcs;
+ 			}
+ 		}
++		ret = usb_gadget_check_config(cdev->gadget);
++		if (ret)
++			goto err_purge_funcs;
++
+ 		usb_ep_autoconfig_reset(cdev->gadget);
  	}
- 
-+	prop = devm_kzalloc(dev, sizeof(*prop), GFP_KERNEL);
-+	if (!prop) {
-+		ret = -ENOMEM;
-+		dev_err(dev, "unable to allocate memory for property\n");
-+		goto node_put;
-+	}
-+
-+	prop->name = "tx-fifo-resize";
-+	ret = of_add_property(dwc3_np, prop);
-+	if (ret) {
-+		dev_err(dev, "unable to add property\n");
-+		goto node_put;
-+	}
-+
- 	ret = of_platform_populate(np, NULL, NULL, dev);
- 	if (ret) {
- 		dev_err(dev, "failed to register dwc3 core - %d\n", ret);
+ 	if (cdev->use_os_string) {
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
