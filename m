@@ -5,45 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA3B1C07E9E
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:37:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48D06C07E9B
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:38:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96916613BE
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:37:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 338EC613D9
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Jul 2021 02:38:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234854AbhGJCkE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Jul 2021 22:40:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58368 "EHLO mail.kernel.org"
+        id S234568AbhGJClK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Jul 2021 22:41:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58364 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235893AbhGJCju (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:39:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E1176144C;
-        Sat, 10 Jul 2021 02:36:18 +0000 (UTC)
+        id S234878AbhGJCjR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:39:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0545D613D3;
+        Sat, 10 Jul 2021 02:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625884579;
-        bh=kUuZPfMVGV4XhquWVVjB2MEku53VjT/5FansboFNLog=;
+        s=k20201202; t=1625884503;
+        bh=+cUaXs9SZyH/ZrXGu4wPjqlTNqEvKvvC7K1OSUMyATE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rSKFVaA9mEPi9i63WP/KNKg7vZks70zkGrUO5pDpaUuUUmELU8lDEpbJG3KiPleGz
-         WxX4eYea12WecHgrplj8GlZm6aadKfkPdHh6qC6yPULn6uynd8UvKYq346KhW3rhQi
-         Gy/l1+7CCwqAAIqNjmEgThIMUlFM44ZJNAHQ2dkTa7G2ufPnGJ1i9kx8Kz24J7FAWU
-         K+mbb2azp+yBsOnXRzPBl2GgAXZVYH78YZ4ZbaItcLILndrw2CQ8liask9PgCWjtmf
-         DQAZ1fx9HS8DQewMweEjj5sYuIPdCLDD42aag9P6+YFYH8mqObTsNn2uMyGcWm3OlP
-         VFh8cb3IErgzQ==
+        b=e3CXkl/a+AaLsc1+z0Vn2XTsuLYsdlYuOt8eXaREThBYLsnmTyeuazvsLTO/jXkKA
+         IFQfaT9ux1dA7qqZEr+SUssmjN7A5063VjlioVDGfnHikPkjMqfmcF4ecySsIDcAZm
+         CGKde1vCrqkZhzolfrGayiygeI2rxpxn6tZUAAm/ecW7L1LdQI+Ky5JfSEmtdH/deY
+         j3su/UMeaogN8d+XpOpugl/H67hX223LCZR7B3cjICQRv2xjePR+e4dKK6Idoa3z7m
+         MgxffyiWvWPAR74Do84z5xaCKUeIb98auaGWpC/rpVatciI9o9AeyuBfimCyDheLvb
+         ogjunP6NE3ezQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Johan Hovold <johan@kernel.org>,
-        syzbot+7dbcd9ff34dc4ed45240@syzkaller.appspotmail.com,
+Cc:     Yang Yingliang <yangyingliang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 11/26] USB: core: Avoid WARNings for 0-length descriptor requests
-Date:   Fri,  9 Jul 2021 22:35:49 -0400
-Message-Id: <20210710023604.3172486-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 31/39] usb: gadget: hid: fix error return code in hid_bind()
+Date:   Fri,  9 Jul 2021 22:31:56 -0400
+Message-Id: <20210710023204.3171428-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710023604.3172486-1-sashal@kernel.org>
-References: <20210710023604.3172486-1-sashal@kernel.org>
+In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
+References: <20210710023204.3171428-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,50 +51,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alan Stern <stern@rowland.harvard.edu>
+From: Yang Yingliang <yangyingliang@huawei.com>
 
-[ Upstream commit 60dfe484cef45293e631b3a6e8995f1689818172 ]
+[ Upstream commit 88693f770bb09c196b1eb5f06a484a254ecb9924 ]
 
-The USB core has utility routines to retrieve various types of
-descriptors.  These routines will now provoke a WARN if they are asked
-to retrieve 0 bytes (USB "receive" requests must not have zero
-length), so avert this by checking the size argument at the start.
+Fix to return a negative error code from the error handling
+case instead of 0.
 
-CC: Johan Hovold <johan@kernel.org>
-Reported-and-tested-by: syzbot+7dbcd9ff34dc4ed45240@syzkaller.appspotmail.com
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Link: https://lore.kernel.org/r/20210607152307.GD1768031@rowland.harvard.edu
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+Link: https://lore.kernel.org/r/20210618043835.2641360-1-yangyingliang@huawei.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/core/message.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/gadget/legacy/hid.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 7c4937013429..39e528b0b59d 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -644,6 +644,9 @@ int usb_get_descriptor(struct usb_device *dev, unsigned char type,
- 	int i;
- 	int result;
+diff --git a/drivers/usb/gadget/legacy/hid.c b/drivers/usb/gadget/legacy/hid.c
+index c4eda7fe7ab4..5b27d289443f 100644
+--- a/drivers/usb/gadget/legacy/hid.c
++++ b/drivers/usb/gadget/legacy/hid.c
+@@ -171,8 +171,10 @@ static int hid_bind(struct usb_composite_dev *cdev)
+ 		struct usb_descriptor_header *usb_desc;
  
-+	if (size <= 0)		/* No point in asking for no data */
-+		return -EINVAL;
-+
- 	memset(buf, 0, size);	/* Make sure we parse really received data */
- 
- 	for (i = 0; i < 3; ++i) {
-@@ -692,6 +695,9 @@ static int usb_get_string(struct usb_device *dev, unsigned short langid,
- 	int i;
- 	int result;
- 
-+	if (size <= 0)		/* No point in asking for no data */
-+		return -EINVAL;
-+
- 	for (i = 0; i < 3; ++i) {
- 		/* retry on length 0 or stall; some devices are flakey */
- 		result = usb_control_msg(dev, usb_rcvctrlpipe(dev, 0),
+ 		usb_desc = usb_otg_descriptor_alloc(gadget);
+-		if (!usb_desc)
++		if (!usb_desc) {
++			status = -ENOMEM;
+ 			goto put;
++		}
+ 		usb_otg_descriptor_init(gadget, usb_desc);
+ 		otg_desc[0] = usb_desc;
+ 		otg_desc[1] = NULL;
 -- 
 2.30.2
 
