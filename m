@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 090DBC47E4B
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D75C47E4D
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCBE661377
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10E4561362
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240804AbhGOJLJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Jul 2021 05:11:09 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:44298 "EHLO
+        id S240831AbhGOJLN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Jul 2021 05:11:13 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:44364 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S234002AbhGOJLI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 05:11:08 -0400
-X-UUID: 74007920824a4c989aa500bc29d99f6a-20210715
-X-UUID: 74007920824a4c989aa500bc29d99f6a-20210715
+        with ESMTP id S240810AbhGOJLL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 05:11:11 -0400
+X-UUID: 64458e8ace49461eab24f717575ee1fc-20210715
+X-UUID: 64458e8ace49461eab24f717575ee1fc-20210715
 Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 80373001; Thu, 15 Jul 2021 17:08:12 +0800
+        with ESMTP id 1973841917; Thu, 15 Jul 2021 17:08:16 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 15 Jul 2021 17:08:10 +0800
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 15 Jul 2021 17:08:15 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 15 Jul 2021 17:08:10 +0800
+ Transport; Thu, 15 Jul 2021 17:08:14 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,10 +43,12 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Yuwen Ng <yuwen.ng@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH v3 00/13] Add support mtu3 gadget (runtime) PM
-Date:   Thu, 15 Jul 2021 17:07:45 +0800
-Message-ID: <1626340078-29111-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 04/13] dt-bindings: usb: mtu3: add wakeup interrupt
+Date:   Thu, 15 Jul 2021 17:07:49 +0800
+Message-ID: <1626340078-29111-5-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1626340078-29111-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1626340078-29111-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -54,48 +56,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series mainly adds support for mtu3 gadget suspend/resume when
-the controller works at device only mode or dual role mode, and also
-adds support runtime PM.
+Add an dedicated interrupt which is usually EINT to support runtime PM,
+meanwhile add "interrupt-names" property, for backward compatibility,
+it's optional and used when wakeup interrupt exists
 
-v3:
-  add Acked-by Rob
-  fix use-after-free issue when probe failed
-v2:
-  Change the comment of cover letter and its title.
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: add Acked-by Rob
+v2: no changes
+---
+ .../devicetree/bindings/usb/mediatek,mtu3.yaml      | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-  In order to help review, v2 drops the patches about role-switch
-  rebuilding which are applied, and the left ones are identical.
-
-
-Chunfeng Yun (13):
-  dt-bindings: usb: mtu3: remove support VBUS detection of extcon
-  dt-bindings: usb: mtu3: add optional property to disable usb2 ports
-  dt-bindings: usb: mtu3: add support property role-switch-default-mode
-  dt-bindings: usb: mtu3: add wakeup interrupt
-  usb: common: add helper to get role-switch-default-mode
-  usb: dwc3: drd: use helper to get role-switch-default-mode
-  usb: mtu3: support property role-switch-default-mode
-  usb: mtu3: support option to disable usb2 ports
-  usb: mtu3: add new helpers for host suspend/resume
-  usb: mtu3: support runtime PM for host mode
-  usb: mtu3: add helper to power on/down device
-  usb: mtu3: support suspend/resume for device mode
-  usb: mtu3: support suspend/resume for dual-role mode
-
- .../bindings/usb/mediatek,mtu3.yaml           |  47 ++++-
- drivers/usb/common/common.c                   |  20 +++
- drivers/usb/dwc3/drd.c                        |   8 +-
- drivers/usb/mtu3/mtu3.h                       |   8 +
- drivers/usb/mtu3/mtu3_core.c                  | 115 ++++++++++--
- drivers/usb/mtu3/mtu3_dr.c                    |  26 ++-
- drivers/usb/mtu3/mtu3_dr.h                    |  30 +++-
- drivers/usb/mtu3/mtu3_gadget.c                |   5 +
- drivers/usb/mtu3/mtu3_host.c                  | 106 +++++++++--
- drivers/usb/mtu3/mtu3_plat.c                  | 166 +++++++++++++++---
- include/linux/usb/otg.h                       |   1 +
- 11 files changed, 457 insertions(+), 75 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+index 104f1f7edaf0..77db1233516e 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+@@ -38,7 +38,18 @@ properties:
+       - const: ippc
+ 
+   interrupts:
+-    maxItems: 1
++    description:
++      use "interrupts-extended" when the interrupts are connected to the
++      separate interrupt controllers
++    minItems: 1
++    items:
++      - description: SSUSB device controller interrupt
++      - description: optional, wakeup interrupt used to support runtime PM
++
++  interrupt-names:
++    items:
++      - const: device
++      - const: wakeup
+ 
+   power-domains:
+     description: A phandle to USB power domain node to control USB's MTCMOS
 -- 
 2.18.0
 
