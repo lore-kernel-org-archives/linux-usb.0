@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,UNPARSEABLE_RELAY,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81652C47E48
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F8AC47E52
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6946C61396
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A7A86128D
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 09:08:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240871AbhGOJLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Jul 2021 05:11:17 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:39846 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S240811AbhGOJLM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 05:11:12 -0400
-X-UUID: 02198b48fa0e46dfaad654d02069c5e3-20210715
-X-UUID: 02198b48fa0e46dfaad654d02069c5e3-20210715
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        id S237394AbhGOJLT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Jul 2021 05:11:19 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:44508 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S240835AbhGOJLP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 05:11:15 -0400
+X-UUID: 1fa331634b01473d84d6d318a71f6037-20210715
+X-UUID: 1fa331634b01473d84d6d318a71f6037-20210715
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 2082326475; Thu, 15 Jul 2021 17:08:14 +0800
+        with ESMTP id 1062284867; Thu, 15 Jul 2021 17:08:18 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 15 Jul 2021 17:08:13 +0800
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 15 Jul 2021 17:08:17 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 15 Jul 2021 17:08:12 +0800
+ Transport; Thu, 15 Jul 2021 17:08:16 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -43,9 +43,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Yuwen Ng <yuwen.ng@mediatek.com>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH v3 02/13] dt-bindings: usb: mtu3: add optional property to disable usb2 ports
-Date:   Thu, 15 Jul 2021 17:07:47 +0800
-Message-ID: <1626340078-29111-3-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 06/13] usb: dwc3: drd: use helper to get role-switch-default-mode
+Date:   Thu, 15 Jul 2021 17:07:51 +0800
+Message-ID: <1626340078-29111-7-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1626340078-29111-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1626340078-29111-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -56,39 +56,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support to disable specific usb2 host ports, it's useful when
-a usb2 port is disabled on some platforms, but enabled on others for
-the same SoC, another case is that the different package may support
-different number of ports.
+Use the new helper usb_get_role_switch_default_mode() to
+get property of "role-switch-default-mode"
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-Due to there is property 'mediatek,u3p-dis-msk', prefer to use
-a similar name for the similar opertions, not spell out 'mask'
-as suggested by Rob.
-
 v2~3: no changes
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/dwc3/drd.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index 2cac7a87ce36..3e6f2750f48d 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -166,6 +166,12 @@ properties:
-     description: The mask to disable u3ports, bit0 for u3port0,
-       bit1 for u3port1, ... etc
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 8fcbac10510c..d7f76835137f 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -541,14 +541,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
+ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ {
+ 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
+-	const char *str;
+ 	u32 mode;
+-	int ret;
  
-+  mediatek,u2p-dis-msk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The mask to disable u2ports, bit0 for u2port0,
-+      bit1 for u2port1, ... etc; but can't disable u2port0 if dual role mode
-+      is enabled, so will be skipped in this case.
-+
- # Required child node when support dual-role
- patternProperties:
-   "^usb@[0-9a-f]+$":
+-	ret = device_property_read_string(dwc->dev, "role-switch-default-mode",
+-					  &str);
+-	if (ret >= 0  && !strncmp(str, "host", strlen("host"))) {
+-		dwc->role_switch_default_mode = USB_DR_MODE_HOST;
++	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
++	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
+ 		mode = DWC3_GCTL_PRTCAP_HOST;
+ 	} else {
+ 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
 -- 
 2.18.0
 
