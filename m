@@ -2,120 +2,157 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6268AC47E4D
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F5F0C636C8
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 17:52:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4233561289
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AC1961285
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 17:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239033AbhGOPjb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Jul 2021 11:39:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40070 "EHLO
+        id S235967AbhGORzf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Jul 2021 13:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238977AbhGOPja (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 11:39:30 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B47FCC061760;
-        Thu, 15 Jul 2021 08:36:35 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id q4so9415453ljp.13;
-        Thu, 15 Jul 2021 08:36:35 -0700 (PDT)
+        with ESMTP id S230082AbhGORzf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 13:55:35 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA3AFC06175F
+        for <linux-usb@vger.kernel.org>; Thu, 15 Jul 2021 10:52:41 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id b6so5751145iln.12
+        for <linux-usb@vger.kernel.org>; Thu, 15 Jul 2021 10:52:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DYS+BayRuU8Fs2QSDK+ROjJHNwqWsJ/l7sPEVXB3gQ0=;
-        b=WGB8jy40SjrJgQrhjnlB8ggM/f/tXPGR6wnZpNIMnt7ZNrYz8VraZOvUBxba4UWVot
-         0xbxMdnq33m0fhY+TJ3c3rNlvuLLk9b5h8k3mGDzXkj4s23PKtn98KixUnR3JZydkfdl
-         t6rMasxdeDjztQGP3E2kujCmNsa6dcv5vKHv8rNYx17GLhFh5p9m3pb5JxrK4EYLDR87
-         dGcUD4NPiZCqZf8WfIKyNAlMB72r5LHFI2t3wm8rGhUTWx7TUbNoWDqaqD1JkYXMU7+n
-         8KDWqGjSkHBMxq+/mMi9kzRRDQvYE2ga4AkEb05590J88zESz+eDuwQoiXCeBW+UCH48
-         LZmw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a6fYXbbWKeX0QAb3ojd8lFrdeu8DVSJRvxuAR3rEdtU=;
+        b=Wk6zQeSOwtQf/p71CKni2nV6ENwiCzPwhvN8ETfzWLSyC1W/c1Zy78HFssjTG10Yww
+         UIDfhPaDyTGVr25fLP431wNFQ6E+cKMSbDF7kQGYHvYlH0E3lBXhlCeLymQwcH+O9JnL
+         7++AGrBQv3u2kS50ZMkLrqQQ3TD/vWTw4oqn7iEvOjKyHg0nW+gtmmGugLm4uAA3XnfT
+         9r+TP+YHYX1U/dTjjfKHpYxYVIQrcMikfZ2beE49tIR4t3Xmg7ZkqIByIVe0iqCR0r23
+         +bCj4sbqFREjAH+PqVhqGX9MlpUUH9l31UB/bHZFnDl3HUdeD8UhAPwYmQs7GxOzeNt2
+         P/7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DYS+BayRuU8Fs2QSDK+ROjJHNwqWsJ/l7sPEVXB3gQ0=;
-        b=my7b8oAKaDalEbtF/w1JSSV4EofPItVwAdjpMtMn8YR1Xi+TN0xhBFhDbNmcKYSx0T
-         0RnAuNeqpUw0nThJgsbHZV9cxHai5FR9M70AhIr/vdo2JTzf+dXcHqhSnRaRwAywxWAH
-         U98GqzC54qOJCZR9W958mpMkgVCMdTxFzqDh+Vz/xrVRXIPG28QIzX7InlyoMiO2zCpT
-         kcvf8yerJtzcPwmV99ykZ6jHYtLDRKELQfRvX/YoKrZkIOsKXHXAIJEOnrweOT+hIFzI
-         ilvF0l1IWFNUFN2iOqPFXeM3vSnAeqS6t6qhfr2l9qJXo4T2ppAG+RhEYiond9pW/drq
-         Zufw==
-X-Gm-Message-State: AOAM530LAKPOmVLoc1jWZJ7NnFUxSP0xLo6528KNPgdvhk8bDgc2sS/4
-        t7LzQb2E0r0EVAqYqHvCVk1AalF1FHA=
-X-Google-Smtp-Source: ABdhPJwSQ7bGsFCDaY2a9vzgN6jb+tOqQ+1Omrqc/hNFv6/2KiyvvsPzv8rt7TaCnq8+0Hpb9Me15w==
-X-Received: by 2002:a2e:9d7:: with SMTP id 206mr4624308ljj.499.1626363393765;
-        Thu, 15 Jul 2021 08:36:33 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
-        by smtp.googlemail.com with ESMTPSA id s5sm689535ljg.63.2021.07.15.08.36.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jul 2021 08:36:32 -0700 (PDT)
-Subject: Re: [PATCH v3 02/12] dt-bindings: phy: tegra20-usb-phy: Document
- properties needed for OTG mode
-To:     Rob Herring <robh@kernel.org>
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20210704225433.32029-1-digetx@gmail.com>
- <20210704225433.32029-3-digetx@gmail.com>
- <20210712154139.GB1980362@robh.at.kernel.org>
- <8fe56e89-9e1e-f5e2-5a47-242b5b3d085a@gmail.com>
- <20210714231000.GB3697673@robh.at.kernel.org>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <73e1e3a2-c2dd-364b-7829-84e66b114909@gmail.com>
-Date:   Thu, 15 Jul 2021 18:36:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a6fYXbbWKeX0QAb3ojd8lFrdeu8DVSJRvxuAR3rEdtU=;
+        b=pkB1QPP/pXoj7sA4+Gl7oZ7OFYTctR4IpbI6ULCVTAwF1hlA/gPc+p5XeUfivYB5Zo
+         PzQGPEBoq66WklW3jwT95t6/P+pKw43Lse2mW7LRHkxACsZJybnU0KgQlZdZLfoaVzJO
+         InDUOWgeuwXrUOc3G7Vh9XM24Gma04u8mv3ZVqR/e12hrLGri2/zUhXgJqMDHLMocyAZ
+         NW9DAudN+r2Zt6hCq1W5Ul+3Bw68k5vC9U0lwSI3wns3yP5b38BqFY9pwdAhXfRCIDaH
+         W0rhq37TgQV4hQBvuFLv2X401LmUKoMmPJF1uN8qkRwfnF/ly1d6Zs0p2cJ3f42xawAG
+         vKKg==
+X-Gm-Message-State: AOAM532zPQFN2ZGt7y/CwEa+mfxbAvULisOQJwP5qSfEPevtSVj0Nlmh
+        4OkTotpVpDt8uP9zy9DUgymsbc+JIjw/tN+YKMg=
+X-Google-Smtp-Source: ABdhPJxGXxWbt1tuZQiFCcQXlBrm6rd//eNV3vsBM09ZQczcSnuipKxpCrAZPi52++oi2sXNcO2sxofLptFRn6pnHw0=
+X-Received: by 2002:a92:7312:: with SMTP id o18mr3251499ilc.289.1626371560951;
+ Thu, 15 Jul 2021 10:52:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210714231000.GB3697673@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <f861e345-3642-5bfa-0ce7-a5cd34204613@ivitera.com>
+ <1j8s2aa071.fsf@starbuckisacylon.baylibre.com> <25120679-fe61-fb6a-d671-393e15428da0@ivitera.com>
+ <1jeebzq5k6.fsf@starbuckisacylon.baylibre.com> <94718a5e-ea36-4a86-da4d-a30179c1c2c7@ivitera.com>
+ <1jbl73ptt9.fsf@starbuckisacylon.baylibre.com>
+In-Reply-To: <1jbl73ptt9.fsf@starbuckisacylon.baylibre.com>
+From:   Jassi Brar <jassisinghbrar@gmail.com>
+Date:   Thu, 15 Jul 2021 12:52:30 -0500
+Message-ID: <CABb+yY00Ewky7X7PGSLqSmjr7L-08AGCFCnXpF=FSFc2_98UhQ@mail.gmail.com>
+Subject: Re: usb:gadget:u_audio: Regression in [v3,3/3] usb: gadget: u_audio:
+ add real feedback implementation - wMaxPacketSize calculation
+To:     Jerome Brunet <jbrunet@baylibre.com>
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-15.07.2021 02:10, Rob Herring пишет:
-> On Tue, Jul 13, 2021 at 02:33:11AM +0300, Dmitry Osipenko wrote:
->> 12.07.2021 18:41, Rob Herring пишет:
->>>> +  nvidia,pmc:
->>>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>>> +    description:
->>>> +      Phandle to Power Management controller.
->>>> +
->>> Add a cell to this for the PHY reg offset and then get rid of the index:
->>>
->>>> +  nvidia,phy-instance:
->>>> +    $ref: /schemas/types.yaml#/definitions/uint32
->>>> +    minimum: 0
->>>> +    maximum: 2
->>>> +    description: Unique hardware ID.
->>
->> The instance ID belongs to the USB h/w and not to PMC. It may look like
->> I added the ID just to get offsets within PMC, but it's not like that.
->> The Tegra documentation explicitly assigns unique IDs to the USB
->> controllers and PHYs. Hence this ID should be the property of the PHY
->> hardware, IMO.
-> 
-> It looks like the use is calculating register offsets in a PMC register. 
-> That's quite common and including that with the phandle is the preferred 
-> way to describe it.
-> 
-> Lots of docs have UART1, UART2, UART3, etc. module numbering. We don't 
-> copy that into DT.
+On Thu, Jul 15, 2021 at 12:40 PM Jerome Brunet <jbrunet@baylibre.com> wrote:
+>
+>
+> On Thu 15 Jul 2021 at 14:36, Pavel Hofman <pavel.hofman@ivitera.com> wrote:
+>
+> > Dne 15. 07. 21 v 11:39 Jerome Brunet napsal(a):
+> >> On Tue 13 Jul 2021 at 15:16, Pavel Hofman <pavel.hofman@ivitera.com>
+> >> wrote:
+> >>
+>
+> >> So 48kHz / 2ch / 16bits. Let's assume USB_SPEED_FULL for example (result
+> >> is the same for the other speeds).
+> >> In such condition, the nominal packet size is 192B but to accomodate an
+> >> extra sample, the maximum should indeed be 196B.
+> >>      if (!is_playback && (uac2_opts->c_sync == USB_ENDPOINT_SYNC_ASYNC))
+> >>              srate = srate * (1000 + uac2_opts->fb_max) / 1000;
+> >> with fb_max being 5 by default, srate should be 48240 after this.
+> >>
+> >>      max_size_bw = num_channels(chmask) * ssize *
+> >>              DIV_ROUND_UP(srate, factor / (1 << (bInterval - 1)));
+> >> With USB_SPEED_FULL, bInterval is 1 and factor is 1000 so:
+> >> => DIV_ROUND_UP(48240, 1000 / 1) should give 49;
+> >> Then
+> >> => max_size_bw = 2 * 2 * 49 = 196
+> >> So the end result should be 196 with current code. I tried on an ARM64
+> >> platform. Here is what I get:
+> >> [   26.241946] set_ep_max_packet_size: speed is USB_SPEED_FULL
+> >> [   26.243208] set_ep_max_packet_size: intermediate Playback srate 48000
+> >> [   26.249758] set_ep_max_packet_size: max_size_bw 192
+> >> [   26.254559] set_ep_max_packet_size: speed is USB_SPEED_FULL
+> >> [   26.260130] set_ep_max_packet_size: intermediate Capture srate 48240
+> >> [   26.266401] set_ep_max_packet_size: max_size_bw 196
+> >> [   26.271209] set_ep_max_packet_size: speed is USB_SPEED_HIGH
+> >> [   26.276873] set_ep_max_packet_size: intermediate Playback srate 48000
+> >> [   26.283165] set_ep_max_packet_size: max_size_bw 192
+> >> [   26.288015] set_ep_max_packet_size: speed is USB_SPEED_HIGH
+> >> [   26.293691] set_ep_max_packet_size: intermediate Capture srate 48240
+> >> [   26.299965] set_ep_max_packet_size: max_size_bw 196
+> >> [   26.304753] set_ep_max_packet_size: speed is USB_SPEED_SUPER
+> >> [   26.310426] set_ep_max_packet_size: intermediate Playback srate 48000
+> >> [   26.316805] set_ep_max_packet_size: max_size_bw 192
+> >> [   26.321625] set_ep_max_packet_size: speed is USB_SPEED_SUPER
+> >> [   26.327309] set_ep_max_packet_size: intermediate Capture srate 48240
+> >> [   26.333613] set_ep_max_packet_size: max_size_bw 196
+> >> All seems OK and as expected with what's in mainline ATM.
+> >> So I'm not quite sure why you would get a different result. It would be
+> >> great if you could check further.
+> >>
+> >
+> > The problem is max_size_bw=192 for the Playback (i.e. is_playback =
+> > true). If only capture direction is activated (p_chmask=0), only EP-OUT
+> > with max_size_bw=196 is generated and Win10 enumerates the playback-only
+> > audio device.
+>
+> Ok, that was not clear before.
+>
+> > Once the other direction with max_size_bw=192 is activated
+> > (either duplex or capture-only), Win10 refuses to enumerate.
+>
+> Looking further at the format specification [0] (and crawling the web to
+> decipher it), it seems that
+>
+> * For isochronous links: packet size must match the nominal rate.
+> * For async and adaptative: it must match the nominal rate +/- 1
+>   packet. That is whether we intend on varying the packet size or not.
+>
+> This has several implication
+> * In async mode, the device is running of its own clock. It has no
+>   reason to vary the playback packet size but it should still reserve
+>   bandwidth for an extra packet to satisfy the spec. This seems to be
+>   your problem and what Win10 insist on.
+>
+>   When I tested, I had linux on both sides and apparently it is not too
+>   picky about that.
+>
+> * If we apply the spec strictly, like Win10 seems to insist on,
+>   calculating the maximum packet size based on explicit feedback limits
+>   is wrong too. Whatever happens, it should be +/- 1 around nominal.
+>
+IIRC, a couple of years ago, Alan proposed a smart scheme to keep the
+UAC2 byterate in exact sync with what's expected over time. You may
+have to dig into the alsa archives though.
 
-Alright. Judging by downstream code, we will need to use that ID only
-for PMC offsets.
+cheers.
