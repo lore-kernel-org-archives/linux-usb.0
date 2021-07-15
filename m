@@ -2,62 +2,123 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3BA7C1B08C
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC184C47E4E
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:30:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C6F26128B
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:04:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAADF613E4
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Jul 2021 15:30:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236739AbhGOPH3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Jul 2021 11:07:29 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57122 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235419AbhGOPH2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 15 Jul 2021 11:07:28 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="210551975"
-X-IronPort-AV: E=Sophos;i="5.84,242,1620716400"; 
-   d="scan'208";a="210551975"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2021 08:04:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,242,1620716400"; 
-   d="scan'208";a="466708923"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.170])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jul 2021 08:04:32 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 0/1] xhci fix for usb-linus
-Date:   Thu, 15 Jul 2021 18:06:50 +0300
-Message-Id: <20210715150651.1996099-1-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        id S238932AbhGOPcx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Jul 2021 11:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238918AbhGOPcw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Jul 2021 11:32:52 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E2AAC06175F;
+        Thu, 15 Jul 2021 08:29:58 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id u14so9514169ljh.0;
+        Thu, 15 Jul 2021 08:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=CdIcOYksg8pHKzRiudEnxrqrqTv11M4NJ2rvZF2H7WA=;
+        b=nme9HccGkB0Rg4iueecc8lJqpYtdkf+1N2oSO2tdCeT0oDINOZ0vs7G8YphTgtbCzE
+         vA/C8owaAns9B9CsksDXeWbn4+wBz9AcrKXlE4Zw/e9zXECh8DEqEyev5HCwCbTbWD4E
+         wGEAOKCmrKAubTQU+ugkBvy8Z+7P/iGVxcZhykLQkQ2NdBeOcj8z/VV1bggKUnQGfw7f
+         73T8RwpLPUHC21MYNHzjwdqLcCUBaoZ7MQJtgAeCEFSXISmSnE8V5ynckOwr2+kxKsrV
+         xgapFn6rlPS7cIr9g/PekIlptQIVRUkDm+inTxprmBOMTjrkYL+8TzSHSBZ41xdTuCWT
+         z/9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CdIcOYksg8pHKzRiudEnxrqrqTv11M4NJ2rvZF2H7WA=;
+        b=W+UkKzt39fAaMEvHeCKdgitWwuXFr7eJbDhIw+NZOLdgUGREslPXWw3h+COmbP9R0k
+         Kqgee5hOB4oDx4AMtYKfVzQSXzLRV/SI/OtD0m14h6sa55agwaZWysSeoaWp+lc+v2CB
+         fxUivzcIydF6iCb14dJEkoINRZnZXPNjbtrzS8IB/r9Nfrvwjsu332VQp5lO913UJZUy
+         SomaC0iq6Dj+jL859XFEyaOJYLcFKn5vaAx9eP2ebx9dROU7zs33+gTZeTg2z0LtJjHn
+         VjILdzKUkm9BXrh9rzFKvSGLV00MAU5x8CyORyGitezfNWUJcZ5JNGlN0THBf7rZqaLg
+         lFFg==
+X-Gm-Message-State: AOAM530ZHdmoo3z0f6IhQwvVGBOlsuztJLv2HsFTIxXkAu3aaUWjfOF2
+        4muqzvwuf0++a96QJ8HzdTHZwcHDNxE=
+X-Google-Smtp-Source: ABdhPJwhU1r2gnUTo6zmqgpT1R3dIr2OZf855m5yYz9IRQk6uAwjoF6BPFdbhFj4DO84ZiS0mlcukg==
+X-Received: by 2002:a2e:bc0a:: with SMTP id b10mr2439427ljf.271.1626362996402;
+        Thu, 15 Jul 2021 08:29:56 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-37-113.dynamic.spd-mgts.ru. [94.29.37.113])
+        by smtp.googlemail.com with ESMTPSA id j18sm176347ljq.19.2021.07.15.08.29.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jul 2021 08:29:56 -0700 (PDT)
+Subject: Re: [PATCH v3 06/12] dt-bindings: power: supply: smb347-charger:
+ Document USB VBUS regulator
+To:     Rob Herring <robh@kernel.org>
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mark Brown <broonie@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        David Heidelberg <david@ixit.cz>, devicetree@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20210704225433.32029-1-digetx@gmail.com>
+ <20210704225433.32029-7-digetx@gmail.com>
+ <20210712153905.GA1980362@robh.at.kernel.org>
+ <9032e807-b4d3-bacf-6c39-d3a2c7c57f3e@gmail.com>
+ <20210714230140.GA3697673@robh.at.kernel.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <bffaea79-92a2-0355-d213-31dbe3d2b0b1@gmail.com>
+Date:   Thu, 15 Jul 2021 18:29:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210714230140.GA3697673@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+15.07.2021 02:01, Rob Herring пишет:
+> On Tue, Jul 13, 2021 at 03:22:40AM +0300, Dmitry Osipenko wrote:
+>> 12.07.2021 18:39, Rob Herring пишет:
+>>>> +  summit,inok-polarity:
+>>>> +    description: |
+>>>> +      Polarity of INOK signal indicating presence of external power supply.
+>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>> +    enum:
+>>>> +      - 0 # SMB3XX_SYSOK_INOK_ACTIVE_LOW
+>>>> +      - 1 # SMB3XX_SYSOK_INOK_ACTIVE_HIGH
+>>>> +
+>>>> +  usb-vbus:
+>>>> +    $ref: "../../regulator/regulator.yaml#"
+>>>> +    type: object
+>>>        unevaluatedProperties: false
+>>>
+>>> With that,
+>>>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>>
+>>
+>> I tried to add the unevaluatedProperties + a random unrelated property
+>> to the example usb-vbus node and dt_binding_check is happy with that. So
+>> the unevaluatedProperties has no effect, is it supposed to be so?
+> 
+> Yes, until support lands upstream[1].
+> 
+> Rob
+> 
+> [1] https://github.com/Julian/jsonschema/pull/817
+> 
 
-One small xhci fix resolving a missed usb 2 device-intiated wake.
-
-I'll be out on vacation for two weeks, starting monday, so any response
-will be delayed.
-
-Thanks
--Mathias
-
-Mathias Nyman (1):
-  xhci: Fix lost USB 2 remote wake
-
- drivers/usb/host/xhci-hub.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
--- 
-2.25.1
-
+Thank you for the clarification.
