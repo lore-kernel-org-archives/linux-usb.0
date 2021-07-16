@@ -2,92 +2,139 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EC27C12002
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71624C12002
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:54:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA1D16102A
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:08:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5903C613F5
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:54:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232739AbhGPMK5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 16 Jul 2021 08:10:57 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:8610 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232647AbhGPMKl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 16 Jul 2021 08:10:41 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16GBwFLa010195;
-        Fri, 16 Jul 2021 14:07:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=selector1;
- bh=/19kFGOX0gCiMy+N9zU3xMPZEdJW0d18XcCxTFhSctU=;
- b=4bMwuuyuRChSFcKXgeqESyDi44cTrPmfz/0/CEIzQE6E8rrqS7XYFHpSSbfSfWvoxoX3
- sZV9255LHyygmmioKTRjMiWUELti6L0OlTmglGeYuUVC1C9yJ2kNTNVv/kC16OEswadD
- Xo7ZEZqVTX4s3E2SFEKlcbXZN2eevJHin0MQN8nXRcy/MHhCO9oz4uq1RCLJQ5WfayDu
- lpmP00+y5eh/e07fi55KNDUd6qDv1zufYTItjuSa9WtFjrmWBVWTVDosb+804TEmISWS
- egr8nSqRBJlDpB6WQ4u710x/iIekNt/ioFQMt1IXNPkj/Mezc2jQkbKBBxgRkgGzIlCF bA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 39tw1kc06m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 16 Jul 2021 14:07:33 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4899010002A;
-        Fri, 16 Jul 2021 14:07:32 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3423F226FCD;
-        Fri, 16 Jul 2021 14:07:32 +0200 (CEST)
-Received: from localhost (10.75.127.47) by SFHDAG2NODE3.st.com (10.75.127.6)
- with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Jul 2021 14:07:31
- +0200
-From:   Amelie Delaunay <amelie.delaunay@foss.st.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Saravana Kannan <saravanak@google.com>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Amelie Delaunay <amelie.delaunay@foss.st.com>,
-        Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Subject: [PATCH 0/2] usb: typec: couple of fixes for stusb160x
-Date:   Fri, 16 Jul 2021 14:07:16 +0200
-Message-ID: <20210716120718.20398-1-amelie.delaunay@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+        id S239577AbhGPM5N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 16 Jul 2021 08:57:13 -0400
+Received: from mga06.intel.com ([134.134.136.31]:61138 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239459AbhGPM5N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 16 Jul 2021 08:57:13 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="271839828"
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="scan'208";a="271839828"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2021 05:54:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
+   d="scan'208";a="460741936"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga008.jf.intel.com with ESMTP; 16 Jul 2021 05:54:14 -0700
+Subject: Re: [PATCH] xhci: fix unmatched num_trbs_free
+To:     Ikjoon Jang <ikjn@chromium.org>, linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-kernel@vger.kernel.org
+References: <20210708164256.1.Ib344a977b52486ec81b60f9820338f1b43655f8d@changeid>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Autocrypt: addr=mathias.nyman@linux.intel.com; prefer-encrypt=mutual; keydata=
+ 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 fiD/
+Message-ID: <e13a1d38-cc0a-51b4-fe19-7a9145e75b1d@linux.intel.com>
+Date:   Fri, 16 Jul 2021 15:56:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210708164256.1.Ib344a977b52486ec81b60f9820338f1b43655f8d@changeid>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE3.st.com
- (10.75.127.6)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
- definitions=2021-07-16_04:2021-07-16,2021-07-16 signatures=0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-First patch fixes role switch when attached before probe.
-Second patch follows Martin's patch [1] as it is also applicable for
-stusb160x typec driver, in order to avoid the WARNING seen on
-stm32mp15xx-dkx boot:
-[    8.598414] typec port0: Fixing up cyclic dependency with 49000000.usb-otg
-[    8.604493] dwc2 49000000.usb-otg: supply vusb_d not found, using dummy regulator
-[    8.630642] ------------[ cut here ]------------
-[    8.649193] WARNING: CPU: 0 PID: 157 at drivers/base/core.c:1532 device_del+0x328/0x3ec
+On 8.7.2021 11.43, Ikjoon Jang wrote:
+> When unlinked urbs are queued to the cancelled td list, many tds
+> might be located after hw dequeue pointer and just marked as no-op
+> but not reclaimed to num_trbs_free. This bias can leads to unnecessary
+> ring expansions and leaks in atomic pool.
 
-[1] https://lkml.org/lkml/2021/7/14/47
+Good point, in that case trbs turned no-op never get added to free trb count.
 
-Amelie Delaunay (2):
-  usb: typec: stusb160x: register role switch before interrupt
-    registration
-  usb: typec: stusb160x: Don't block probing of consumer of "connector"
-    nodes
+> 
+> To prevent this bias, this patch counts free TRBs every time xhci moves
+> dequeue pointer. This patch utilizes existing
+> update_ring_for_set_deq_completion() function, renamed it to move_deq().
+> 
+> When it walks through to the new dequeue pointer, it also counts
+> free TRBs manually. This patch adds a fast path for the most cases
+> where the new dequeue pointer is still in the current segment.
+> 
 
- drivers/usb/typec/stusb160x.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+This looks like an option.
 
--- 
-2.25.1
+Another approach would be to keep the normal case fast, and the special case code simple.
+Something like:
 
+finish_td()
+...
+	/* Update ring dequeue pointer */
+	if (ep_ring->dequeue == td->first_trb) {
+		ep_ring->dequeue = td->last_trb;
+        	ep_ring->deq_seg = td->last_trb_seg;
+        	ep_ring->num_trbs_free += td->num_trbs - 1;
+        	inc_deq(xhci, ep_ring);
+	} else {
+		move_deq(...);
+	}
+
+move_deq(...)
+{
+	while(ring->dequeue != new_dequeue)
+		inc_deq(ring);
+	inc_deq(ring);
+}
+
+inc_deq() increases the num_trbs_free count.
+
+I haven't looked at the details of this yet, but I'm away for the next two weeks so
+I wanted to share this first anyway.
+
+-Mathias
