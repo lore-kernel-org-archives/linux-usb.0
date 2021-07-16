@@ -2,101 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05977C12002
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 09:56:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C227CC07E95
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:07:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D8ECB613E3
-	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 09:56:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 985E16102A
+	for <linux-usb@archiver.kernel.org>; Fri, 16 Jul 2021 12:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234603AbhGPJ7a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 16 Jul 2021 05:59:30 -0400
-Received: from mga14.intel.com ([192.55.52.115]:16010 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234095AbhGPJ7a (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 16 Jul 2021 05:59:30 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10046"; a="210519879"
-X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="210519879"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2021 02:56:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,244,1620716400"; 
-   d="scan'208";a="573620581"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 16 Jul 2021 02:56:32 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 16 Jul 2021 12:56:31 +0300
-Date:   Fri, 16 Jul 2021 12:56:31 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     saravanak@google.com, grandmaster@al2klimov.de,
-        gregkh@linuxfoundation.org, rjw@rjwysocki.net, kernel@puri.sm,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: tipd: Don't block probing of consumer of
- "connector" nodes
-Message-ID: <YPFXz2yqDsGA1xK5@kuha.fi.intel.com>
-References: <20210714061807.5737-1-martin.kepplinger@puri.sm>
+        id S232231AbhGPMKh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 16 Jul 2021 08:10:37 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:38087 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232024AbhGPMKh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 16 Jul 2021 08:10:37 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 16GBunYK013521;
+        Fri, 16 Jul 2021 14:07:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=lzRYPr1+vdXF7JK12aAka1IrqHrsAt6uJeFasViIaO0=;
+ b=fHvgmXEalhhGnJdzHWPl9ouTGzXmENkj3TGscD0/74AE6sjD7C4jBL1r+GQ4Vw1sgW/C
+ LuyYHrrwW6uhDHOKLIY8d2+qNdaE3gKgJ+s6CWn/qwV7v74/LQxF5urx/pSVFK09033r
+ KDvVrmO+H0WO2G1WRNLqOF70yWI7BSMhKgmofI8tG8Sz9eEp8IM3FtwEnmsYy+a/1Zme
+ OxrmR3LqnQmjclfjBMriJ+tDQd1N0/uEVlSTPb+UBfWBkccXcFJsh9wMw4SyNO4GMpih
+ IsVUq8VKSYvKSv0TIM0r1ZcrEg1RowXdmc2S6mz4QG9twF/7v0wkaOMk0avkM1tWP3ro zw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 39tw1ubpc9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 16 Jul 2021 14:07:34 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7A3A910002A;
+        Fri, 16 Jul 2021 14:07:34 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6A6FD226FCD;
+        Fri, 16 Jul 2021 14:07:34 +0200 (CEST)
+Received: from localhost (10.75.127.45) by SFHDAG2NODE3.st.com (10.75.127.6)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 16 Jul 2021 14:07:33
+ +0200
+From:   Amelie Delaunay <amelie.delaunay@foss.st.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Saravana Kannan <saravanak@google.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Subject: [PATCH 2/2] usb: typec: stusb160x: Don't block probing of consumer of "connector" nodes
+Date:   Fri, 16 Jul 2021 14:07:18 +0200
+Message-ID: <20210716120718.20398-3-amelie.delaunay@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210716120718.20398-1-amelie.delaunay@foss.st.com>
+References: <20210716120718.20398-1-amelie.delaunay@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210714061807.5737-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-07-16_04:2021-07-16,2021-07-16 signatures=0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Wed, Jul 14, 2021 at 08:18:07AM +0200, Martin Kepplinger kirjoitti:
-> Similar as with tcpm this patch lets fw_devlink know not to wait on the
-> fwnode to be populated as a struct device.
-> 
-> Without this patch, USB functionality can be broken on some previously
-> supported boards.
-> 
-> Fixes: 28ec344bb891 ("usb: typec: tcpm: Don't block probing of consumers of "connector" nodes")
-> Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+Similar as with tcpm this patch lets fw_devlink know not to wait on the
+fwnode to be populated as a struct device.
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Without this patch, USB functionality can be broken on some previously
+supported boards.
 
-> ---
-> 
-> revision history
-> ----------------
-> v2: (thank you Saravana)
-> * add a code-comment why the call is needed.
-> 
-> v1:
-> https://lore.kernel.org/linux-usb/20210713073946.102501-1-martin.kepplinger@puri.sm/
-> 
-> 
-> 
->  drivers/usb/typec/tipd/core.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 938219bc1b4b..21b3ae25c76d 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -629,6 +629,15 @@ static int tps6598x_probe(struct i2c_client *client)
->  	if (!fwnode)
->  		return -ENODEV;
->  
-> +	/*
-> +	 * This fwnode has a "compatible" property, but is never populated as a
-> +	 * struct device. Instead we simply parse it to read the properties.
-> +	 * This breaks fw_devlink=on. To maintain backward compatibility
-> +	 * with existing DT files, we work around this by deleting any
-> +	 * fwnode_links to/from this fwnode.
-> +	 */
-> +	fw_devlink_purge_absent_suppliers(fwnode);
-> +
->  	tps->role_sw = fwnode_usb_role_switch_get(fwnode);
->  	if (IS_ERR(tps->role_sw)) {
->  		ret = PTR_ERR(tps->role_sw);
-> -- 
-> 2.30.2
+Fixes: 28ec344bb891 ("usb: typec: tcpm: Don't block probing of consumers of "connector" nodes")
+Signed-off-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+---
+ drivers/usb/typec/stusb160x.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/drivers/usb/typec/stusb160x.c b/drivers/usb/typec/stusb160x.c
+index 3d3848e7c2c2..e7745d1c2a5c 100644
+--- a/drivers/usb/typec/stusb160x.c
++++ b/drivers/usb/typec/stusb160x.c
+@@ -685,6 +685,15 @@ static int stusb160x_probe(struct i2c_client *client)
+ 	if (!fwnode)
+ 		return -ENODEV;
+ 
++	/*
++	 * This fwnode has a "compatible" property, but is never populated as a
++	 * struct device. Instead we simply parse it to read the properties.
++	 * This it breaks fw_devlink=on. To maintain backward compatibility
++	 * with existing DT files, we work around this by deleting any
++	 * fwnode_links to/from this fwnode.
++	 */
++	fw_devlink_purge_absent_suppliers(fwnode);
++
+ 	/*
+ 	 * When both VDD and VSYS power supplies are present, the low power
+ 	 * supply VSYS is selected when VSYS voltage is above 3.1 V.
 -- 
-heikki
+2.25.1
+
