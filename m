@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A28FC6377E
-	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1487FC63793
+	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 055D0613DF
-	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EEB47613C0
+	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234518AbhGQMOk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 17 Jul 2021 08:14:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47308 "EHLO
+        id S234684AbhGQMOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 17 Jul 2021 08:14:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233837AbhGQMOb (ORCPT
+        with ESMTP id S233850AbhGQMOb (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sat, 17 Jul 2021 08:14:31 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106C5C061762;
-        Sat, 17 Jul 2021 05:11:34 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id a6so17919965ljq.3;
-        Sat, 17 Jul 2021 05:11:33 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F401C061767;
+        Sat, 17 Jul 2021 05:11:32 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id i5so20629662lfe.2;
+        Sat, 17 Jul 2021 05:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=l8EOJok7gQ/2QjTWWQG3gL5Nl9QBC5D9nB2n0/NrCfQ=;
-        b=krFYklNnqTr+ydt5j0gBvY6WSdtsOKSAnDgz5XPRH25oKBkb6laFdA5dpiu3rr/bEn
-         L9dQZ1Ik4xiZCvprzuDFyNcsnYA/1ypXity5JdNK74VmTyT4nULcSsEb5LYlONpRrrHb
-         dACDN2ZLnscnurDYF7hXmUJf9n2dIxfrl+1gdzXxyj0NqYHBBEyu9rj/prgYKAzcL8Sk
-         iVRsEBvebMk/xyyZGfF5Ug260gBrz800zRqrVuBc4yH9EheWewLudRjAjd8tbq51miTw
-         LnaYIFFZngNBwxJ0QWJyfNawmIxPezLdHnuKx6scbsd5MaxREa2R+IvKC7hKHcj1og0u
-         R+lg==
+        bh=5Vgfkn6aojezGyNshrp4rdUuCsXyIjMI3yAFc0juggw=;
+        b=UHvrWhhwpcUuQOIPpK22jHEi7JX3plC7DsT9NNkpvpszcO4q4AYRGk77Y943U+ra2u
+         nXyG0zzmOLYkxYMSYcuQhMJQ5ZtjNuc2b1DACwbJyZHqIf5532jCD2N2UMNDmgPCndgO
+         xPXN0bC8uqJ31A7Kvbh8YyESVQ7aH2IBOZLtD/FHWMmHrg7EtSno864xiU1eSukh5BJk
+         EmUAHhTQn6DTW+kynY7nXz0YXDCrmUf7xDazYfDeOFzqHKKvfz83e8obyRWNmwQxzh9n
+         pvd5Oo1pksbXBOGGq3eDeZgVaMYdz5bNd2E5HGqlmDLTFxQRed9F+EWG0mhoUWLTruxb
+         ZlOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=l8EOJok7gQ/2QjTWWQG3gL5Nl9QBC5D9nB2n0/NrCfQ=;
-        b=pQDjUxWfBgMTDgwp6kwwyooaDvuKsfbpHTEKe1jmmuDKMICeES++KRMsopgFGUs4ZA
-         AuL3VsrHq077gPZh9PoYcpXPnu7HjRQDbG8ThaRCieyR3y/t3FQFBge6DKSMjEdAcLNW
-         cvdiHeYICUl+vc6DtwVloTo2Xsa/cdI532YLpO/kWw3mMPWb7pVZtG5Z8RXOMBqtV6ga
-         EN3lmLGWQdLGrSsvnnAIF43s33bdkA5gfbRO3jb1rVkf/+fnVUZ0U/1czslUVbr2bXIt
-         Uc4+lQ/LzfOX4wdbIaZNyLSrUaTyY2lz6KpavJsLeSYRDERWxNuKMekfdpaEHeNoLrT8
-         /Wqg==
-X-Gm-Message-State: AOAM531ZTKKJM4JOU++9y7QSMGT+exrflUFwBKnLmegjBUDWY9NbX3qS
-        d/wDM/jO0nuIv/ghkEjxWcU=
-X-Google-Smtp-Source: ABdhPJxv5JurXs40vsTu/yjO/+QF1gU58GIUbQflwcKDd/6fVyrYkpga5dNk6RGW3Ud1hLK9xWZlAw==
-X-Received: by 2002:a2e:9009:: with SMTP id h9mr13502791ljg.213.1626523892478;
-        Sat, 17 Jul 2021 05:11:32 -0700 (PDT)
+        bh=5Vgfkn6aojezGyNshrp4rdUuCsXyIjMI3yAFc0juggw=;
+        b=bF2yEVFe6oGAPJMO0jHsKqYXEVjzf5XDR3P6rO5mOLr6ccV1I3x5GXyX3V0yEGIZQ2
+         Teucu3edhR/7OJljjEAL+3XIUfgagiYh3avc2Aqn2AhsFdtAdMWV81PwrIWbaUMkL8lq
+         jvyrizqXWsn0RWdhuPzimwjReVGvV9CoYKth4mtzr9gM7LHee5BqnV5zs0JY+TXkrPUV
+         DPWRkQCUvgvycxc5U5lukJRLpHP5y5DSAN02teCYW4PPYMuyjSozutcEZvbHnM0i62WQ
+         S314sIxGnJ1QbnfxFHsiPbzbagVLKu5vFFn9TIAGY+iqNLtLVPNWUs9j0SsvBAaijM9m
+         793Q==
+X-Gm-Message-State: AOAM532N/NEzQZeGfRFvsY41/lRw4U0VWkKnbK7y3vBCS/pk6JYMYgA8
+        /y/1X0obuxNeSz9uz8PgBpE=
+X-Google-Smtp-Source: ABdhPJyO8g0219TmdUe8/OktK+NJx29ZTQWj7jvkILuLCrT8d3J2SKnl+79bNkLx+V8PXGMZhphuvg==
+X-Received: by 2002:a19:8588:: with SMTP id h130mr11315847lfd.501.1626523890842;
+        Sat, 17 Jul 2021 05:11:30 -0700 (PDT)
 Received: from localhost.localdomain (46-138-17-250.dynamic.spd-mgts.ru. [46.138.17.250])
-        by smtp.gmail.com with ESMTPSA id m16sm852597lfq.23.2021.07.17.05.11.31
+        by smtp.gmail.com with ESMTPSA id m16sm852597lfq.23.2021.07.17.05.11.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jul 2021 05:11:32 -0700 (PDT)
+        Sat, 17 Jul 2021 05:11:30 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ To:     Thierry Reding <treding@nvidia.com>,
 Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v4 08/12] power: supply: smb347-charger: Remove caching of charger state
-Date:   Sat, 17 Jul 2021 15:11:08 +0300
-Message-Id: <20210717121112.3248-9-digetx@gmail.com>
+Subject: [PATCH v4 06/12] dt-bindings: power: supply: smb347-charger: Document USB VBUS regulator
+Date:   Sat, 17 Jul 2021 15:11:06 +0300
+Message-Id: <20210717121112.3248-7-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210717121112.3248-1-digetx@gmail.com>
 References: <20210717121112.3248-1-digetx@gmail.com>
@@ -81,58 +81,85 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Regmap already provides us with the caching, so remove caching of charger
-state to make code cleaner.
+SMB347 can supply power to USB VBUS, which is required by OTG-cable
+devices that want to switch USB port into the host mode. Add USB VBUS
+regulator properties.
 
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/power/supply/smb347-charger.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ .../power/supply/summit,smb347-charger.yaml   | 30 +++++++++++++++++++
+ .../dt-bindings/power/summit,smb347-charger.h |  4 +++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/drivers/power/supply/smb347-charger.c b/drivers/power/supply/smb347-charger.c
-index db1378b41f80..f81c60c679a0 100644
---- a/drivers/power/supply/smb347-charger.c
-+++ b/drivers/power/supply/smb347-charger.c
-@@ -135,7 +135,6 @@
-  * @id: SMB charger ID
-  * @mains_online: is AC/DC input connected
-  * @usb_online: is USB input connected
-- * @charging_enabled: is charging enabled
-  * @irq_unsupported: is interrupt unsupported by SMB hardware
-  * @max_charge_current: maximum current (in uA) the battery can be charged
-  * @max_charge_voltage: maximum voltage (in uV) the battery can be charged
-@@ -192,7 +191,6 @@ struct smb347_charger {
- 	unsigned int		id;
- 	bool			mains_online;
- 	bool			usb_online;
--	bool			charging_enabled;
- 	bool			irq_unsupported;
+diff --git a/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml b/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
+index 983fc215c1e5..20862cdfc116 100644
+--- a/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
++++ b/Documentation/devicetree/bindings/power/supply/summit,smb347-charger.yaml
+@@ -73,6 +73,26 @@ properties:
+       - 1 # SMB3XX_SOFT_TEMP_COMPENSATE_CURRENT Current compensation
+       - 2 # SMB3XX_SOFT_TEMP_COMPENSATE_VOLTAGE Voltage compensation
  
- 	unsigned int		max_charge_current;
-@@ -358,21 +356,13 @@ static int smb347_charging_status(struct smb347_charger *smb)
++  summit,inok-polarity:
++    description: |
++      Polarity of INOK signal indicating presence of external power supply.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # SMB3XX_SYSOK_INOK_ACTIVE_LOW
++      - 1 # SMB3XX_SYSOK_INOK_ACTIVE_HIGH
++
++  usb-vbus:
++    $ref: "../../regulator/regulator.yaml#"
++    type: object
++
++    properties:
++      summit,needs-inok-toggle:
++        type: boolean
++        description: INOK signal is fixed and polarity needs to be toggled
++                     in order to enable/disable output mode.
++
++    unevaluatedProperties: false
++
+ allOf:
+   - if:
+       properties:
+@@ -134,6 +154,7 @@ examples:
+             reg = <0x7f>;
  
- static int smb347_charging_set(struct smb347_charger *smb, bool enable)
- {
--	int ret = 0;
--
- 	if (smb->enable_control != SMB3XX_CHG_ENABLE_SW) {
- 		dev_dbg(smb->dev, "charging enable/disable in SW disabled\n");
- 		return 0;
- 	}
+             summit,enable-charge-control = <SMB3XX_CHG_ENABLE_PIN_ACTIVE_HIGH>;
++            summit,inok-polarity = <SMB3XX_SYSOK_INOK_ACTIVE_LOW>;
+             summit,chip-temperature-threshold-celsius = <110>;
+             summit,mains-current-limit-microamp = <2000000>;
+             summit,usb-current-limit-microamp = <500000>;
+@@ -141,6 +162,15 @@ examples:
+             summit,enable-mains-charging;
  
--	if (smb->charging_enabled != enable) {
--		ret = regmap_update_bits(smb->regmap, CMD_A, CMD_A_CHG_ENABLED,
--					 enable ? CMD_A_CHG_ENABLED : 0);
--		if (!ret)
--			smb->charging_enabled = enable;
--	}
--
--	return ret;
-+	return regmap_update_bits(smb->regmap, CMD_A, CMD_A_CHG_ENABLED,
-+				  enable ? CMD_A_CHG_ENABLED : 0);
- }
+             monitored-battery = <&battery>;
++
++            usb-vbus {
++                regulator-name = "usb_vbus";
++                regulator-min-microvolt = <5000000>;
++                regulator-max-microvolt = <5000000>;
++                regulator-min-microamp = <750000>;
++                regulator-max-microamp = <750000>;
++                summit,needs-inok-toggle;
++            };
+         };
+     };
  
- static inline int smb347_charging_enable(struct smb347_charger *smb)
+diff --git a/include/dt-bindings/power/summit,smb347-charger.h b/include/dt-bindings/power/summit,smb347-charger.h
+index d918bf321a71..3205699b5e41 100644
+--- a/include/dt-bindings/power/summit,smb347-charger.h
++++ b/include/dt-bindings/power/summit,smb347-charger.h
+@@ -16,4 +16,8 @@
+ #define SMB3XX_CHG_ENABLE_PIN_ACTIVE_LOW	1
+ #define SMB3XX_CHG_ENABLE_PIN_ACTIVE_HIGH	2
+ 
++/* Polarity of INOK signal */
++#define SMB3XX_SYSOK_INOK_ACTIVE_LOW		0
++#define SMB3XX_SYSOK_INOK_ACTIVE_HIGH		1
++
+ #endif
 -- 
 2.32.0
 
