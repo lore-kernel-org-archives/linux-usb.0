@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 988F2C636CA
-	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBB67C636CB
+	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:12:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A702613BB
-	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:11:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9878613C0
+	for <linux-usb@archiver.kernel.org>; Sat, 17 Jul 2021 12:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233700AbhGQMOw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 17 Jul 2021 08:14:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47302 "EHLO
+        id S234318AbhGQMOf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 17 Jul 2021 08:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234330AbhGQMOf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 17 Jul 2021 08:14:35 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F32C061765;
-        Sat, 17 Jul 2021 05:11:37 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id s17so7215800ljo.12;
-        Sat, 17 Jul 2021 05:11:37 -0700 (PDT)
+        with ESMTP id S233744AbhGQMOa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 17 Jul 2021 08:14:30 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B03C061764;
+        Sat, 17 Jul 2021 05:11:29 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id u13so20575113lfs.11;
+        Sat, 17 Jul 2021 05:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y7SaHURNXyUBjsQfPYlKAP5ckfuIlCfIy3J3ukz+tBo=;
-        b=MPGGjtky5B1QjVnHzZk2Y9tZ5eRCeZDogYDcIrAFBSqneLBpI8uAdKFMV7hnIhZto3
-         E4qBBrXTSPk5xSpwWbVo6MiNItgc2UZYRxIWFqDsSLemUgVAMoGxrYHDk3VDQ3EscKRH
-         FgyOnn6ktqiSkzDNpfiMVPl3keAxC0MZmXj6hdMaEwwI6TolCQjn0r7xl6MkcdDLN4Hg
-         WBgP6pnhnxt3Z4Jpbpn0z04p0FD+WSaWs3dx1MXMCOVAoJ8H5+Bb1shLSjIKv3Q5I7Kt
-         QkepzB5OD1Or6iTNdaqwFPiqa4i1t45nXCV75WlaPX1xQPY7Qn0Eff9sqstZlvQhxbhB
-         TS8A==
+        bh=1oahTHnDPuRKVMxkoilhRCRaRgS46Q75QLsZx7nz1p8=;
+        b=i56GSVrF89RYmGEsJilxe/dVYSAaz4A0JcfJRwto7Oe1SpzQg1BH/IAChgLxIXF9Pp
+         xEbI8V+n4ucm4LEM27l2DeW1SGb7XNudkeVryR12xuUwBqSUwBoQWzp9HqAbQk7Y0aSI
+         0AKfebmc8tHWgUCsc2Q4JyzUe9CgJSPHeFaBZWBvKp7ZGgk8qKCWN97w2KJHR0NgzJcI
+         /cMzNaYbrQoU5jfOnZ5rNYt8vIPbFQS7idQr+Jb73/8XKP4+B27bVG1RGkALNfWx/wdv
+         kalINKmVyzpQJEFI4ozdQ01nMl/GR7Me9agkLKwpHMIBzL5FenvZapOVrE0DGYnB+uRA
+         6BLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y7SaHURNXyUBjsQfPYlKAP5ckfuIlCfIy3J3ukz+tBo=;
-        b=kVnphTkLoXxK1KO2fuQDadONZW48G1ZNpWgSAdfj+b9C796+U9AbQXJgt344bPpLfW
-         3ghr8JMVNluB+SwbW8FskgeUTTIpZA2b6sViGtsWzOlOz8FgkkrNdp/iC1i7GdfGqQt8
-         /VsM6GG3vnMHNT1R04vlk2+m4Y/KUetEpfD8LgHdX8mDEswpUAMbOvERFqI+AnnEvIoV
-         D3n30+JB/9bcs3kiaClhFOZiO/4mjlDN/alohOmOjdljZ9ySrvwdwcupFCOG8yMHrb1D
-         UlaUNQU7Civ2n/JsfHA2IugF+FELwZHThy6aL6WGDeozduLonBnPa2c3C/tJfpx5d5R7
-         bx2g==
-X-Gm-Message-State: AOAM53369tH3XJ0x0alDWFGYqDqsGREkNZ+9zWEzVrmZAjAq+y9kWThM
-        hubgE5eN5Dr4XuBVPj8ybwM=
-X-Google-Smtp-Source: ABdhPJwLtaMqw1TRvMbCm3ekqLeX8D0ZjgQWdCO0U6IJvKNwbj5hgc5XsS0cTxgG7iyGadGOL43arw==
-X-Received: by 2002:a05:651c:896:: with SMTP id d22mr13758314ljq.242.1626523895793;
-        Sat, 17 Jul 2021 05:11:35 -0700 (PDT)
+        bh=1oahTHnDPuRKVMxkoilhRCRaRgS46Q75QLsZx7nz1p8=;
+        b=FsBKcEdjxTO7MmzUXnDMP1VH+QAFzRC8n2D6nRBMoSWtexSySmjgaZWmC20qsFKHct
+         JzfcWHLMW9LsDjYkQjMbjpKS2nWhf8iDpAwLP+GaDadURR+lnHXu4d0r7griIfWGAUuO
+         QgfDJWE9Rl7usJYv+Tqo+pq5oeRWJay2RN1dt2jQ/ZURJ8WaY62H81Uea4YqSxYeIpp0
+         aSCKHz0yGtI0WfSb/6uSqkAh9HX4gqdir7cR3JDutaiWths4+kr49NqhkqJrqT8ZAsaS
+         XbWA5MvEMNz9BB7htfot5owALHlya4bePcGoGZMIBsglaeuTPWJw4kr5Dd4S08NNNJG1
+         DZEA==
+X-Gm-Message-State: AOAM530FwUczG03hNFpLwNr9mKW9XWx+5fuV+27gyLyCajS7QbvQT/ax
+        trNPVii5IEDR1F1bFVjp64g=
+X-Google-Smtp-Source: ABdhPJwAK5xNNtrxXRoJqZOS4MtCh0tY+oH2ubNZb7Qr/bM7mjbU7v3nQRhixgC5o1cmI7cUK8Kbag==
+X-Received: by 2002:a05:6512:2314:: with SMTP id o20mr10987922lfu.531.1626523887960;
+        Sat, 17 Jul 2021 05:11:27 -0700 (PDT)
 Received: from localhost.localdomain (46-138-17-250.dynamic.spd-mgts.ru. [46.138.17.250])
-        by smtp.gmail.com with ESMTPSA id m16sm852597lfq.23.2021.07.17.05.11.35
+        by smtp.gmail.com with ESMTPSA id m16sm852597lfq.23.2021.07.17.05.11.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Jul 2021 05:11:35 -0700 (PDT)
+        Sat, 17 Jul 2021 05:11:27 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <treding@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,9 +69,9 @@ To:     Thierry Reding <treding@nvidia.com>,
 Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v4 12/12] arm64: tegra132: Add new properties to USB PHY device-tree node
-Date:   Sat, 17 Jul 2021 15:11:12 +0300
-Message-Id: <20210717121112.3248-13-digetx@gmail.com>
+Subject: [PATCH v4 03/12] soc/tegra: pmc: Expose USB regmap to all SoCs
+Date:   Sat, 17 Jul 2021 15:11:03 +0300
+Message-Id: <20210717121112.3248-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210717121112.3248-1-digetx@gmail.com>
 References: <20210717121112.3248-1-digetx@gmail.com>
@@ -81,65 +81,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add new properties to USB PHYs needed for enabling USB OTG mode.
+All Tegra SoCs prior to Tegra186 have USB power controls within the Power
+Management controller. These controls need to be configured by USB driver.
+Expose the regmap to these SoCs.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra132.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/soc/tegra/pmc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra132.dtsi b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-index 9928a87f593a..f79a66226457 100644
---- a/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra132.dtsi
-@@ -1123,6 +1123,7 @@ phy1: usb-phy@7d000000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d000000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USBD>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1142,6 +1143,7 @@ phy1: usb-phy@7d000000 {
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
- 		nvidia,has-utmi-pad-registers;
-+		nvidia,pmc = <&tegra_pmc 0>;
- 		status = "disabled";
- 	};
+diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
+index 3d31abb0ed71..5085106c4f53 100644
+--- a/drivers/soc/tegra/pmc.c
++++ b/drivers/soc/tegra/pmc.c
+@@ -3202,7 +3202,7 @@ static const struct tegra_pmc_soc tegra20_pmc_soc = {
+ 	.pmc_clks_data = NULL,
+ 	.num_pmc_clks = 0,
+ 	.has_blink_output = true,
+-	.has_usb_sleepwalk = false,
++	.has_usb_sleepwalk = true,
+ };
  
-@@ -1162,6 +1164,7 @@ phy2: usb-phy@7d004000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d004000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB2>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1180,6 +1183,7 @@ phy2: usb-phy@7d004000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 1>;
- 		status = "disabled";
- 	};
+ static const char * const tegra30_powergates[] = {
+@@ -3263,7 +3263,7 @@ static const struct tegra_pmc_soc tegra30_pmc_soc = {
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
+ 	.has_blink_output = true,
+-	.has_usb_sleepwalk = false,
++	.has_usb_sleepwalk = true,
+ };
  
-@@ -1200,6 +1204,7 @@ phy3: usb-phy@7d008000 {
- 		compatible = "nvidia,tegra124-usb-phy", "nvidia,tegra30-usb-phy";
- 		reg = <0x0 0x7d008000 0x0 0x4000>,
- 		      <0x0 0x7d000000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
- 		phy_type = "utmi";
- 		clocks = <&tegra_car TEGRA124_CLK_USB3>,
- 			 <&tegra_car TEGRA124_CLK_PLL_U>,
-@@ -1218,6 +1223,7 @@ phy3: usb-phy@7d008000 {
- 		nvidia,hssquelch-level = <2>;
- 		nvidia,hsdiscon-level = <5>;
- 		nvidia,xcvr-hsslew = <12>;
-+		nvidia,pmc = <&tegra_pmc 2>;
- 		status = "disabled";
- 	};
+ static const char * const tegra114_powergates[] = {
+@@ -3320,7 +3320,7 @@ static const struct tegra_pmc_soc tegra114_pmc_soc = {
+ 	.pmc_clks_data = tegra_pmc_clks_data,
+ 	.num_pmc_clks = ARRAY_SIZE(tegra_pmc_clks_data),
+ 	.has_blink_output = true,
+-	.has_usb_sleepwalk = false,
++	.has_usb_sleepwalk = true,
+ };
  
+ static const char * const tegra124_powergates[] = {
 -- 
 2.32.0
 
