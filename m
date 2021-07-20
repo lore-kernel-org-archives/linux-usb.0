@@ -2,117 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37914C07E9B
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Jul 2021 08:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4FCC07E95
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Jul 2021 09:32:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16371611F2
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Jul 2021 08:12:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3C3361209
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Jul 2021 09:32:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233028AbhGTHbO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Jul 2021 03:31:14 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:10666 "EHLO m43-7.mailgun.net"
+        id S234987AbhGTIvk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Jul 2021 04:51:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233955AbhGTHaJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 20 Jul 2021 03:30:09 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1626768647; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=GDDAIIRW8L9Y1qw9IzLhoYgOdUsjfao0Yv3U2Ll8bkE=; b=uRTxxP2GRtlaveIeIOKnvR/D94162UgspItByNenV6hYdzfXR1vJamS9cu0UJgNRh9Nnh22m
- lRDIC7xfG2/6twv/IP49qxN7v3N0pf/j9/ovXf8jjXskYPsrz5rZuyCH2SW3CloAkR1D4CpL
- Q/W4C+AFWKJWeeywk5f47Yf6AXQ=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 60f684f7c923fb7e0959c0ea (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Jul 2021 08:10:31
- GMT
-Sender: jackp=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 15000C4360C; Tue, 20 Jul 2021 08:10:31 +0000 (UTC)
-Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id C0F8AC4338A;
-        Tue, 20 Jul 2021 08:10:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C0F8AC4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=jackp@codeaurora.org
-From:   Jack Pham <jackp@codeaurora.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
+        id S235221AbhGTIvb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 20 Jul 2021 04:51:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 32E4A6120E;
+        Tue, 20 Jul 2021 09:32:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1626773524;
+        bh=NulRQ3zUKR8aAwexOGlaRx3orh8S6asBHeLvBNkiWbw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=LMFEAJVRLgSZNOLKuQnrP85tu50JQrbhxl+2kWrVFPgyZhnOIak35QlEoDcc8fWhR
+         0j3s7bkg1+ReYHysTiyY9LfL9f9J6UtF96KcsIdegX1+w4/iseNnXYLvQwyGXaKlsm
+         y3/kKWQUO/z4iGEEALu1LEQgKDWRi7XCp2H3b326Ps53fyfNAaTtZ16eaBfkrFXfrv
+         so146hoNoOCAVyQJ8RoOnEmdGBMQOxqOfntEFq/FgnxaXXFWqPHDsw7U181XrcC0Vy
+         HLqVbjUtO4rvF4N+fS6IV5526gauoMbOfEfLjmjy/VVZsyAL730pb5KrGk1cwtPSq1
+         ceLiJHiPR3geQ==
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Jack Pham <jackp@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Jack Pham <jackp@codeaurora.org>,
         Ronak Vijay Raheja <rraheja@codeaurora.org>
-Subject: [PATCH] usb: gadget: composite: Allow bMaxPower=0 if self-powered
-Date:   Tue, 20 Jul 2021 01:09:07 -0700
-Message-Id: <20210720080907.30292-1-jackp@codeaurora.org>
-X-Mailer: git-send-email 2.24.0
+Subject: Re: [PATCH] usb: gadget: composite: Allow bMaxPower=0 if self-powered
+In-Reply-To: <20210720080907.30292-1-jackp@codeaurora.org>
+References: <20210720080907.30292-1-jackp@codeaurora.org>
+Date:   Tue, 20 Jul 2021 12:31:56 +0300
+Message-ID: <87y2a1xreb.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently the composite driver encodes the MaxPower field of
-the configuration descriptor by reading the c->MaxPower of the
-usb_configuration only if it is non-zero, otherwise it falls back
-to using the value hard-coded in CONFIG_USB_GADGET_VBUS_DRAW.
-However, there are cases when a configuration must explicitly set
-bMaxPower to 0, particularly if its bmAttributes also has the
-Self-Powered bit set, which is a valid combination.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-This is specifically called out in the USB PD specification section
-9.1, in which a PDUSB device "shall report zero in the bMaxPower
-field after negotiating a mutually agreeable Contract", and also
-verified by the USB Type-C Functional Test TD.4.10.2 Sink Power
-Precedence Test.
+Jack Pham <jackp@codeaurora.org> writes:
 
-The fix allows the c->MaxPower to be used for encoding the bMaxPower
-even if it is 0, if the self-powered bit is also set.  An example
-usage of this would be for a ConfigFS gadget to be dynamically
-updated by userspace when the Type-C connection is determined to be
-operating in Power Delivery mode.
+> Currently the composite driver encodes the MaxPower field of
+> the configuration descriptor by reading the c->MaxPower of the
+> usb_configuration only if it is non-zero, otherwise it falls back
+> to using the value hard-coded in CONFIG_USB_GADGET_VBUS_DRAW.
+> However, there are cases when a configuration must explicitly set
+> bMaxPower to 0, particularly if its bmAttributes also has the
+> Self-Powered bit set, which is a valid combination.
+>
+> This is specifically called out in the USB PD specification section
+> 9.1, in which a PDUSB device "shall report zero in the bMaxPower
+> field after negotiating a mutually agreeable Contract", and also
+> verified by the USB Type-C Functional Test TD.4.10.2 Sink Power
+> Precedence Test.
+>
+> The fix allows the c->MaxPower to be used for encoding the bMaxPower
+> even if it is 0, if the self-powered bit is also set.  An example
+> usage of this would be for a ConfigFS gadget to be dynamically
+> updated by userspace when the Type-C connection is determined to be
+> operating in Power Delivery mode.
+>
+> Co-developed-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
+> Signed-off-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
+> Signed-off-by: Jack Pham <jackp@codeaurora.org>
 
-Co-developed-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Signed-off-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
----
- drivers/usb/gadget/composite.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Nice catch!
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 72a9797dbbae..504c1cbc255d 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -482,7 +482,7 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
- {
- 	unsigned val;
- 
--	if (c->MaxPower)
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
- 		val = c->MaxPower;
- 	else
- 		val = CONFIG_USB_GADGET_VBUS_DRAW;
-@@ -936,7 +936,11 @@ static int set_config(struct usb_composite_dev *cdev,
- 	}
- 
- 	/* when we return, be sure our power usage is valid */
--	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
-+		power = c->MaxPower;
-+	else
-+		power = CONFIG_USB_GADGET_VBUS_DRAW;
-+
- 	if (gadget->speed < USB_SPEED_SUPER)
- 		power = min(power, 500U);
- 	else
--- 
-2.24.0
+Acked-by: Felipe Balbi <balbi@kernel.org>
 
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFFBAEBCAAvFiEE9DumQ60WEZ09LIErzlfNM9wDzUgFAmD2mAwRHGJhbGJpQGtl
+cm5lbC5vcmcACgkQzlfNM9wDzUiokwgAnHj872h/9d9BMtX+CfnZXnsqlqG4S68c
+qml8WdroPJaLGBMUQtIZi6SGOkfM5rKxZr7wZIqEk4QcmT/r3QZID/SiBET6kqWa
+Z6ZzUX3xX+U5LHaRerYP69Rq3sUXpfHDHaYLV/qP/GC1pNT/Z9MPiAnYMV/OvQYS
+CO1xVeq0wC2crXCfO+Lm63dHiXRj1IZtRDTPfQnD1PuWJgOgfGzpx31/y2rDzZz8
+q3b+YBHpqlDeLaXPo8tVYezPGbTOYKsUp6vBeCThSHh8gUfFTa3zMJcYME5G+yTY
+UzLjDlNH+L9DFNJvow6fAiVNsO2ZvbIFq7jd0c2whCeBIM4NIlJmlA==
+=eDWD
+-----END PGP SIGNATURE-----
+--=-=-=--
