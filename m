@@ -2,128 +2,131 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E8FC07E9B
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 11:41:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B01B1C12002
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 13:31:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17A746109F
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 11:41:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DC76601FF
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 13:31:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238477AbhGULBI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 07:01:08 -0400
-Received: from mail02.rohde-schwarz.com ([80.246.32.97]:57277 "EHLO
-        mail02.rohde-schwarz.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238914AbhGUKto (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 06:49:44 -0400
-X-Greylist: delayed 903 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Jul 2021 06:49:44 EDT
-Received: from amu316.rsint.net (10.0.26.65) by mail-emea.rohde-schwarz.com
- (172.21.64.152) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.858.12; Wed, 21 Jul
- 2021 13:15:06 +0200
-Received: from GMU419.rsint.net ([10.0.230.184])
-          by amu316.rsint.net (Totemo SMTP Server) with SMTP ID 184;
-          Wed, 21 Jul 2021 13:15:06 +0200 (CEST)
-Received: from GMU002.rsint.net (10.0.2.26) by GMU419.rsint.net (10.0.230.184)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2242.10; Wed, 21 Jul
- 2021 13:15:05 +0200
-Received: from GMU006.rsint.net (10.0.2.28) by GMU002.rsint.net (10.0.2.26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2242.10; Wed, 21
- Jul 2021 13:15:04 +0200
-Received: from GMU006.rsint.net ([fe80::81e7:6ea1:2437:698b]) by
- GMU006.rsint.net ([fe80::81e7:6ea1:2437:698b%12]) with mapi id
- 15.01.2242.010; Wed, 21 Jul 2021 13:15:04 +0200
-From:   Guido Kiener <Guido.Kiener@rohde-schwarz.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        "Zhang, Qiang" <Qiang.Zhang@windriver.com>
-CC:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "dvyukov@google.com" <dvyukov@google.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "dpenkler@gmail.com" <dpenkler@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] USB: usbtmc: Fix RCU stall warning
-Thread-Topic: [PATCH] USB: usbtmc: Fix RCU stall warning /ur/
-Thread-Index: Add+IWUwK7pDw0yGQ/uBCkz/1sU4ww==
-Date:   Wed, 21 Jul 2021 11:15:04 +0000
-Message-ID: <9cde635b5b5244d5971673612cc10acc@rohde-schwarz.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-rus_sensitivity: 10
-hvs-classificationid: 8485d17c-1b45-47c0-b496-903334a11e28
-hvs-prefix: R_S
-x-originating-ip: [10.0.9.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S238031AbhGUMuk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 08:50:40 -0400
+Received: from esa.microchip.iphmx.com ([68.232.154.123]:42792 "EHLO
+        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237252AbhGUMuk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 08:50:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1626874276; x=1658410276;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=I7WNKuI7+/pCzxmkLSNPPRi3rAKXl6Cc8hkgas1mvPw=;
+  b=vqUkM+KHylyWtfaxGXwuC/eBXD24k3NZzhwHpkoasmXQZFnGogd0kqfX
+   I3tafE/KOsm63YttpYIb+YyVy4wL7fkITEdclGD4qcZXVOYvPb+e+6q9v
+   xGJWOafRMjmrz5gOu1ENc4OLijx3/yLFltvmV7EOfv74gNmwMuHV9aWH/
+   LSZGGFVV0oEb6b4jawyZUGJVMXx03PtebnbKf1a4kc7zc7Kal881wIgiE
+   hLB6EblBjGlrdGToIH7zI3GBh5MUwWztRSDYSx0IdMS7ldZxu7Gq2yV9b
+   tt5Y7EdMqbpAqVgJie5i5hJsfdHW+aPWyylLb1/S6t6F4lU4ot0WdEUWD
+   w==;
+IronPort-SDR: TB1f9NIV08DZNaBwaSYx0KT7fE2RjAj4o1xmO1rb/uIqteCgZuXpCb3ciqzIVcFSGpjmcNym7B
+ TUjxXRU9v7s5+Do9hjAIWwJ/tUWTF+isqlvkw0bqLNXslQcwrXGvHlAyY/fU03cyMgFm/Qr6/S
+ I/kK/oWmzGwHbKikYlhSzHPLP69NZbpfGQJh9JsAi7Y10CuyqyKm9v2CGFRD96XPqBkSstRTva
+ mINJqJ1r3t9le8gfd+xXTZIFezdi5aitZZbyQfWPawXSWLv3KNdqRrp5z790I0d+HZBFgSif5N
+ LHwMqRsu8gK7vknZNp/RCYO0
+X-IronPort-AV: E=Sophos;i="5.84,258,1620716400"; 
+   d="scan'208";a="122877766"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 21 Jul 2021 06:31:15 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 21 Jul 2021 06:31:15 -0700
+Received: from m18063-ThinkPad-T460p.mchp-main.com (10.10.115.15) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Wed, 21 Jul 2021 06:31:09 -0700
+From:   Claudiu Beznea <claudiu.beznea@microchip.com>
+To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <ludovic.desroches@microchip.com>
+CC:     <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: [PATCH v2] usb: host: ohci-at91: suspend/resume ports after/before OHCI accesses
+Date:   Wed, 21 Jul 2021 16:29:05 +0300
+Message-ID: <20210721132905.1970713-1-claudiu.beznea@microchip.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-IQAV: YES
-X-GBS-PROC: JG0h9sNiYjtEkfUAPnTkopXQkQfW/csVP+tVrDaKnu3C7zo8V6tQgsNcYQD3Sa8N0ccgriXY6xraxEczdMkyJhH+RUijWxwR7XUctTgt/7TOeJXy9nPWfMhC3KIVc4uN
-X-GBS-PROCJOB: 9uuSGy08FkdNzxsn2WYrzI9dPQ+iMJUalTQ7Zgz9bazY/qEhc5fZTdXuB55ZTt/O
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBHcmVnIEtIIDxncmVna2hAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogV2VkbmVzZGF5LCBKdWx5IDIxLCAyMDIxIDk6NTMg
-QU0NCj4gVG86IFpoYW5nLCBRaWFuZyA8UWlhbmcuWmhhbmdAd2luZHJpdmVyLmNvbT4NCj4gQ2M6
-IHN0ZXJuQHJvd2xhbmQuaGFydmFyZC5lZHU7IGR2eXVrb3ZAZ29vZ2xlLmNvbTsgcGF1bG1ja0Br
-ZXJuZWwub3JnOw0KPiBkcGVua2xlckBnbWFpbC5jb207IEtpZW5lciBHdWlkbyAxNERTMSA8R3Vp
-ZG8uS2llbmVyQHJvaGRlLXNjaHdhcnouY29tPjsNCj4gbGludXgtdXNiQHZnZXIua2VybmVsLm9y
-Zw0KPiBTdWJqZWN0OiAqRVhUKiBSZTogW1BBVENIXSBVU0I6IHVzYnRtYzogRml4IFJDVSBzdGFs
-bCB3YXJuaW5nDQo+IA0KPiBPbiBXZWQsIEp1bCAyMSwgMjAyMSBhdCAwNzozMDozOUFNICswMDAw
-LCBaaGFuZywgUWlhbmcgd3JvdGU6DQo+ID4NCj4gPg0KPiA+IF9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18NCj4gPiBGcm9tOiBHcmVnIEtIIDxncmVna2hAbGludXhmb3Vu
-ZGF0aW9uLm9yZz4NCj4gPiBTZW50OiBXZWRuZXNkYXksIDIxIEp1bHkgMjAyMSAxNTowOA0KPiA+
-IFRvOiBaaGFuZywgUWlhbmcNCj4gPiBDYzogc3Rlcm5Acm93bGFuZC5oYXJ2YXJkLmVkdTsgZHZ5
-dWtvdkBnb29nbGUuY29tOyBwYXVsbWNrQGtlcm5lbC5vcmc7DQo+ID4gZHBlbmtsZXJAZ21haWwu
-Y29tOyBndWlkby5raWVuZXJAcm9oZGUtc2Nod2Fyei5jb207DQo+ID4gbGludXgtdXNiQHZnZXIu
-a2VybmVsLm9yZw0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0hdIFVTQjogdXNidG1jOiBGaXggUkNV
-IHN0YWxsIHdhcm5pbmcNCj4gPg0KPiA+IFtQbGVhc2Ugbm90ZTogVGhpcyBlLW1haWwgaXMgZnJv
-bSBhbiBFWFRFUk5BTCBlLW1haWwgYWRkcmVzc10NCj4gPg0KPiA+IE9uIFR1ZSwgSnVuIDI5LCAy
-MDIxIGF0IDExOjMyOjM2QU0gKzA4MDAsIHFpYW5nLnpoYW5nQHdpbmRyaXZlci5jb20gd3JvdGU6
-DQo+ID4gPiBGcm9tOiBacWlhbmcgPHFpYW5nLnpoYW5nQHdpbmRyaXZlci5jb20+DQo+ID4NCj4g
-PiA+SSBuZWVkIGEgImZ1bGwiIG5hbWUgaGVyZSwgYW5kIGluIHRoZSBzaWduZWQtb2ZmLWJ5IGxp
-bmUgcGxlYXNlLg0KPiA+DQo+ID4gPg0KPiA+ID4gcmN1OiBJTkZPOiByY3VfcHJlZW1wdCBzZWxm
-LWRldGVjdGVkIHN0YWxsIG9uIENQVQ0KPiA+ID4gcmN1OiAgICAxLS4uLiE6ICgyIHRpY2tzIHRo
-aXMgR1ApIGlkbGU9ZDkyLzEvMHg0MDAwMDAwMDAwMDAwMDAwDQo+ID4gPiAgICAgICAgIHNvZnRp
-cnE9MjUzOTAvMjUzOTIgZnFzPTMNCj4gPiA+ICAgICAgICAgKHQ9MTIxNjQgamlmZmllcyBnPTMx
-NjQ1IHE9NDMyMjYpDQo+ID4gPiByY3U6IHJjdV9wcmVlbXB0IGt0aHJlYWQgc3RhcnZlZCBmb3Ig
-MTIxNjIgamlmZmllcyEgZzMxNjQ1IGYweDANCj4gPiA+ICAgICAgUkNVX0dQX1dBSVRfRlFTKDUp
-IC0+c3RhdGU9MHgwIC0+Y3B1PTANCj4gPiA+IHJjdTogICAgVW5sZXNzIHJjdV9wcmVlbXB0IGt0
-aHJlYWQgZ2V0cyBzdWZmaWNpZW50IENQVSB0aW1lLA0KPiA+ID4gICAgICAgICBPT00gaXMgbm93
-IGV4cGVjdGVkIGJlaGF2aW9yLg0KPiA+ID4gcmN1OiBSQ1UgZ3JhY2UtcGVyaW9kIGt0aHJlYWQg
-c3RhY2sgZHVtcDoNCj4gPiA+IHRhc2s6cmN1X3ByZWVtcHQgICAgIHN0YXRlOlIgIHJ1bm5pbmcg
-dGFzaw0KPiA+ID4NCj4gPiA+IEluIHRoZSBjYXNlIG9mIHN5c3RlbSB1c2UgZHVtbXlfaGNkIGFz
-IHVzYiBjb250cm9sbGVyLCB3aGVuIHRoZQ0KPiA+ID4gdXNidG1jIGRldmljZXMgaXMgZGlzY29u
-bmVjdGVkLCBpbiB1c2J0bWNfaW50ZXJydXB0KCksIGlmIHRoZSB1cmINCj4gPiA+IHN0YXR1cyBp
-cyB1bmtub3duLCB0aGUgdXJiIHdpbGwgYmUgcmVzdWJtaXQsIHRoZSB1cmIgbWF5IGJlIGluc2Vy
-dA0KPiA+ID4gdG8gZHVtX2hjZC0+dXJicF9saXN0IGFnYWluLCB0aGlzIHdpbGwgY2F1c2UgdGhl
-IGR1bW15X3RpbWVyKCkgbm90DQo+ID4gPiB0byBleGl0IGZvciBhIGxvbmcgdGltZSwgYmVhY2F1
-c2UgdGhlIGR1bW15X3RpbWVyKCkgYmUgY2FsbGVkIGluDQo+ID4gPiBzb2Z0aXJxIGFuZCBsb2Nh
-bF9iaCBpcyBkaXNhYmxlLCB0aGlzIG5vdCBvbmx5IGNhdXNlcyB0aGUgUkNVDQo+ID4gPiByZWFk
-aW5nIGNyaXRpY2FsIGFyZWEgdG8gY29uc3VtZSB0b28gbXVjaCB0aW1lIGJ1dCBhbHNvIG1ha2Vz
-IHRoZQ0KPiA+ID4gdGFza3MgaW4gdGhlIGN1cnJlbnQgQ1BVIHJ1bnEgbm90IHJ1biBpbiB0aW1l
-LCBhbmQgdGhhdCB0cmlnZ2VyZWQgUkNVIHN0YWxsLg0KPiA+ID4NCj4gPiA+IHJldHVybiBkaXJl
-Y3RseSB3aGVuIGZpbmQgdGhlIHVyYiBzdGF0dXMgaXMgbm90IHplcm8gdG8gZml4IGl0Lg0KPiA+
-ID4NCj4gPiA+IFJlcG9ydGVkLWJ5OiBzeXpib3QrZTJlYWU1NjM5ZTcyMDMzNjAwMThAc3l6a2Fs
-bGVyLmFwcHNwb3RtYWlsLmNvbQ0KPiA+ID4gU2lnbmVkLW9mZi1ieTogWnFpYW5nIDxxaWFuZy56
-aGFuZ0B3aW5kcml2ZXIuY29tPg0KPiA+DQo+ID4gPldoYXQgY29tbWl0IGRvZXMgdGhpcyBmaXg/
-ICBEb2VzIGl0IG5lZWQgdG8gZ28gdG8gc3RhYmxlIGtlcm5lbHM/DQo+ID4NCj4gPiAgSSB3aWxs
-IGFkZCBmaXggdGFncyByZXNlbmQsICAgbmVlZCB0byBnbyB0byBzdGFibGUga2VybmVsDQo+ID4N
-Cj4gPiA+DQo+ID4gPldoYXQgYWJvdXQgdGhlIHVzYnRtYyBtYWludGFpbmVycywgd2hhdCBkbyB0
-aGV5IHRoaW5rIGFib3V0IHRoaXM/DQoNCkknbSBvayB3aXRoIHRoZSBmaXguIEl0IHdpbGwgbWFr
-ZSB0aGUgc3l6Ym90IGFuZCBkdW1teV9oY2QgY29udHJvbGxlciBoYXBweSB3aGVuIHVzaW5nDQp0
-aGUgdXNidG1jIGRyaXZlci4gTmV2ZXJ0aGVsZXNzIHRoZXJlIGFyZSBtYW55IG90aGVyIHVzYiBr
-ZXJuZWwgZHJpdmVyIHRoYXQgcmVzdWJtaXQNCnRoZSB1cmIgd2hlbiB0aGUgY2FsbGJhY2sgaGFu
-ZGxlciBkZXRlY3RzIHRoZSB1cmIgc3RhdHVzID0gLUVQUk9UTy4NClNvIEkgZXhwZWN0IHRoZSBp
-c3N1ZSB3aWxsIHJlaGFwcGVuIHdpdGggb3RoZXIgdXNiIGRyaXZlcnMgYWdhaW4uDQpJbiAibm9y
-bWFsIiBlbnZpcm9ubWVudHMgdGhlIHVyYiBzdGF0dXMgPSAtRVBST1RPIHdpbGwgbW9zdGx5IGhh
-cHBlbiB3aGVuIHRoZSBjYWJsZSBpcw0KZGlzY29ubmVjdGVkLCBidXQgaXQgZG9lcyBub3QgZnJl
-ZXplIHRoZSBrZXJuZWwgYW5kIHNodXRzIGRvd24gdGhlIGNvbm5lY3Rpb24gYXMgdXN1YWwuDQpV
-cCB0byBub3cgd2UgaGF2ZSBubyBjdXN0b21lciBmZWVkYmFjayB3aGljaCBpcyBibGFtaW5nIHRo
-aXMgaXNzdWUuIEkgaG9wZSB0aGlzIGhlbHBzLg0KDQotR3VpZG8NCg==
+On SAMA7G5 suspending ports will cut the access to OHCI registers and
+any subsequent access to them will lead to CPU being blocked trying to
+access that memory. Same thing happens on resume: if OHCI memory is
+accessed before resuming ports the CPU will block on that access. The
+OCHI memory is accessed on suspend/resume though
+ohci_suspend()/ohci_resume().
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+---
+
+Changes in v2:
+- rebase on top of v5.14-rc2
+- collected tag
+
+ drivers/usb/host/ohci-at91.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index 9bbd7ddd0003..a24aea3d2759 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -611,8 +611,6 @@ ohci_hcd_at91_drv_suspend(struct device *dev)
+ 	if (ohci_at91->wakeup)
+ 		enable_irq_wake(hcd->irq);
+ 
+-	ohci_at91_port_suspend(ohci_at91->sfr_regmap, 1);
+-
+ 	ret = ohci_suspend(hcd, ohci_at91->wakeup);
+ 	if (ret) {
+ 		if (ohci_at91->wakeup)
+@@ -632,7 +630,10 @@ ohci_hcd_at91_drv_suspend(struct device *dev)
+ 		/* flush the writes */
+ 		(void) ohci_readl (ohci, &ohci->regs->control);
+ 		msleep(1);
++		ohci_at91_port_suspend(ohci_at91->sfr_regmap, 1);
+ 		at91_stop_clock(ohci_at91);
++	} else {
++		ohci_at91_port_suspend(ohci_at91->sfr_regmap, 1);
+ 	}
+ 
+ 	return ret;
+@@ -644,6 +645,8 @@ ohci_hcd_at91_drv_resume(struct device *dev)
+ 	struct usb_hcd	*hcd = dev_get_drvdata(dev);
+ 	struct ohci_at91_priv *ohci_at91 = hcd_to_ohci_at91_priv(hcd);
+ 
++	ohci_at91_port_suspend(ohci_at91->sfr_regmap, 0);
++
+ 	if (ohci_at91->wakeup)
+ 		disable_irq_wake(hcd->irq);
+ 	else
+@@ -651,8 +654,6 @@ ohci_hcd_at91_drv_resume(struct device *dev)
+ 
+ 	ohci_resume(hcd, false);
+ 
+-	ohci_at91_port_suspend(ohci_at91->sfr_regmap, 0);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.25.1
+
