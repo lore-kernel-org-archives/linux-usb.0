@@ -2,84 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69022C12002
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAE2BC07E9B
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:01:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4468861019
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC52A61019
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:01:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234994AbhGUHTw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:19:52 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:10437 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234560AbhGUHT0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:19:26 -0400
-X-Greylist: delayed 458 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Jul 2021 03:19:26 EDT
-IronPort-SDR: 3u7T6wbw4yXrPUI2AFDbjJtlhycYDZ0BQJTJS+v1D2GhlA7rHzTOaFq/M/QnPGiAoFYi83HQ45
- 2GAN/Hk0FGMdB6ASzgYJxx+9xkIqO7gAguAGck+A3mBH4SL3G8saK3Bo6NL2k5RKOvhWN/wyPo
- WAy1/NTq02+DNxW0bPbh7niKUBc2sUZ3nyg/FA1pgsGISqcs96Ws4rMXIei/ns3MXlvZuh9+zV
- f1CMa6lWWxpk3nun/x1kV/VC6aDeLYhd/aWDg7rMSkwICKvpbdtg9zABc+upkeZ+49yijYi7Tr
- MVkw5t4DSE++sYJLaMS67exO
-X-IronPort-AV: E=Sophos;i="5.84,257,1620720000"; 
-   d="scan'208";a="63756835"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa3.mentor.iphmx.com with ESMTP; 20 Jul 2021 23:52:17 -0800
-IronPort-SDR: njA9xbxgoA5PBzbqDVCbjIDQjsyWKoW4sAcbR50gEUUb0MeYi9os5NnsY2of7ILW+ypb9r/+B1
- JLaF07mbO9PcPnZ1/bQdOR9T5xW7TbpadQI7efFj+A6mjV1wIKXnZzYskg3BzeV5VrNETB4/rK
- zHuKvIZIYBwX2gYbpXQ/Yc09DZsvlt0un7qwkYi42vo2Ygqvkjrv8Bkl1s1Jak7MkrRtZO0T+L
- 6QgjaiC/hR7hAcLVIqBJni7/hua2rSZwKxS17vptBN3V9rlUv2QW+yy7Vp7EzWcvf6Z8C+khys
- kKA=
-From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: RE: Possible race in 4.14 xhci stack
-Thread-Topic: Possible race in 4.14 xhci stack
-Thread-Index: Add9dgXtLD9V5HWrQGOujH0Vt+GASgAA3LAAACKjYhA=
-Date:   Wed, 21 Jul 2021 07:51:58 +0000
-Message-ID: <2c52cd176b134e6ab7806aeda8fcca1d@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <513f81d8c17b4bcb97a60fd1d5b0738f@SVR-IES-MBX-03.mgc.mentorg.com>
- <YPb1ngCpsEizHtUi@kroah.com>
-In-Reply-To: <YPb1ngCpsEizHtUi@kroah.com>
-Accept-Language: de-DE, en-IE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S235400AbhGUHVC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:21:02 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:37255 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234859AbhGUHUz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:20:55 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 9EEFC5816BD;
+        Wed, 21 Jul 2021 04:01:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 21 Jul 2021 04:01:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=t/iRrQczCNXUrTQ/j8FZjeqa8BE
+        VK33aJLsccDr4NTM=; b=cxMnA1EIqfXTHhv+5C4H4uAia2YRug82j/R2D/QeC5H
+        9iUK8LMixRPvMy3puG3fmJmNHa4SfvnU5kN05hrIgs6FDeDmsnsIIKmW9WAPx6kS
+        QbJDN3ggQ3TZpqbENzIZgkLY/09k5U5t8bwfSYrLTmpkGSwwfhEsAQHQeIx7sMx+
+        pYLaOHFCndJCgTnQ4BbiCiwjGHwSBYiIttClIPabD5ws/z10Gepj+SGp67y39mVM
+        +E6+g1UYqjP13cDe06x6z2ZT3F4WXpBQ4IE8alRjFXl1vF/zayEMhEqz4+Z9AQcN
+        PI2df7/g258qZo3snhNpVkILipyDZANlnEcXRt4Wl4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=t/iRrQ
+        czCNXUrTQ/j8FZjeqa8BEVK33aJLsccDr4NTM=; b=Qb8+YO/GrqzlJI+yalgu7s
+        lTBGTPjXrBO8tnUtII/ULj4NDVAPMk+DIhIjDgsjpAcbRDJTUIm+keJX0D9EM9Pr
+        ARxu8wP3QffCRab7R5JEs1NlIB4hLBzGRdJWnTs/WU7U/WhNWpkCBcJBIkyNC0Tr
+        fX9sO66WUOgZXLu6mc/aRoHsgisu/mQByS5VrB5G/6WBRBmPMH4+86xwIfecUoqy
+        Jyo1itoVO3fEEY6kQev4ULLsAVoTsqIdXenpCUR8rvQHpT0QFsZcy/WZ305zT5ae
+        01/5VklNMUCnhtp+/XSnsZt05sJv9n64QumQgWpK0rUfeRaoh3IW6IS7kypbVPHA
+        ==
+X-ME-Sender: <xms:UNT3YBsR5Km809Xz0861r6gsz72nzoG-dZbTg6V3f06CGQV9yboD7g>
+    <xme:UNT3YKemU7TX8JkTWcep3k-9eMFPGfp5lOHCDNVMEAEbmUtD1todDDEihOYTrhrtH
+    R-YnNBrYDqNug>
+X-ME-Received: <xmr:UNT3YExXrFpff64yGN8tKpbScZWL9IUiG37Cf6TMHLvqihN8ZG2bsYbXEQmg9n4X1rY3m0MM6D_9KcTRNntuvQQupJB4QyJS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeefgdduudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdortddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevhefgje
+    eitdfffefhvdegleeigeejgeeiffekieffjeeflefhieegtefhudejueenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomh
+X-ME-Proxy: <xmx:UNT3YIPfwhjI9MfCROjJ16nvbr4H6U6Cm1cfMU-IsRQ0pBKlkF2WfA>
+    <xmx:UNT3YB-h0ILo4BdMO0am5ydkEABv4c8Mf2mJYaYF6KfpiL11QE1xbA>
+    <xmx:UNT3YIUQEQ_UU-5ih19GfatQzkgd50ZgeXrD-qN3fT83J1rsEXNLfQ>
+    <xmx:UNT3YEVwIzrqQCi7Adqf7jdNkX4gqBwP7IyHlO5uvrMtBwhQGaW0IQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 21 Jul 2021 04:01:19 -0400 (EDT)
+Date:   Wed, 21 Jul 2021 10:01:17 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        caleb.connolly@ideasonboard.com, paul.elder@ideasonboard.com,
+        balbi@kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v3 1/5] usb: dwc3: gadget: set gadgets parent to the
+ right controller
+Message-ID: <YPfUTSOpXCSDnmyW@kroah.com>
+References: <20210628155311.16762-1-m.grzeschik@pengutronix.de>
+ <20210628155311.16762-2-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210628155311.16762-2-m.grzeschik@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgR3JlZywNCg0KPj4gSGkgTWF0aGlhcywNCj4+DQo+PiBpIGdvdCBhIE5VTEwgcG9pbnRlciBk
-ZXJlZiBpbiB0aGUgdXNiZnMgYW5kIGFuYWx5emVkIGl0Lg0KPj4gVGhlIGNvbm5lY3RlZCBkZXZp
-Y2Ugc2VlbWVkIHRvIGhhdmUgdHJvdWJsZSBvbiBVU0IgdHJhbnNtaXNzaW9ucy4NCj4+IEhvd2V2
-ZXIsIEkgaGF2ZSB0aGUgaW1wcmVzc2lvbiB0aGF0IHRoZXJlIGlzIGEgcmFjZSBiZXR3ZWVuIGZp
-bmlzaGluZyBVUkIgaGFuZGxpbmcgYW5kIGRpc2Nvbm5lY3Rpb24gb2YgZGV2aWNlcy4NCj4+IElu
-IGRldGFpbDoNCj4+IFsgNDk3OS4wMjk2NjZdIHhoY2lfaGNkIDAwMDA6MDA6MTUuMDogVVNCIHRy
-YW5zZmVyIGVycm9yLiBNYXliZSB0aGUgVVNCIGNhYmxlIGlzIGJhZD8NCj4NCj4gRGlkIHlvdXIg
-Y2FibGUgZGllPw0KPg0KPiBBbmQgNC4xNCBpcyBxdWl0ZSBvbGQsIHdoYXQgYWJvdXQgNS4xMz8N
-Cj4NCj4gdGhhbmtzLA0KPg0KPiBncmVnIGstaA0KDQpUaGF0IHdhcyByZXBvcnRlZCBmcm9tIGEg
-ZGV2aWNlIGluIHRoZSBmaWVsZC4NClllcywgYSBkZWZlY3RpdmUgY2FibGUgaXMgYmFkLCBidXQg
-c2hvdWxkbid0IHRoZSBrZXJuZWwncyBoZWFsdGggYXZvaWQgYSBOVUxMIHBvaW50ZXIgZGVyZWY/
-DQoNCjQuMTQgaXMgdXNlZCBkdWUgdG8gYmVpbmcgTFRTIGFuZCB0aGUgZGV2aWNlIGZpcm13YXJl
-IGhhcyBiZWVuIHN0YWJpbGl6ZWQgb24gdGhhdC4NCldlIGZyZXF1ZW50bHkgdXBkYXRlIG9uIHRo
-ZSA0LjE0IGFuZCBtb25pdG9yIHBhdGNoZXMsIGJ1dCB0aGVyZSdzIG5vdGhpbmcgcmVnYXJkaW5n
-DQphbiB4aGNpIHJhY2UgdXAgdG8gbm93IGluIDQuMTQgc2VlbiwgSSBjaGVja2VkIHRoYXQuDQoN
-Ck5vdCBzdXJlIGlmIHRoaXMgd291bGQgaGFwcGVuIG9uIGEgbmV3ZXIga2VybmVsIGFsc28sIGJ1
-dCB3ZSBjYW4ndCB0ZXN0IHRoYXQgb24gdGhlIGRldmljZSBpbiB0aGUgZmllbGQuDQpJdCB3YXMg
-c2VlbiBvbmNlIHNvIGZhciwgYnV0IHRoZSBpbmRpY2F0aW9uIG9mIGEgcmFjZSBpcyByZWFsbHkg
-aGlnaCBoZXJlLg0KDQpJZiBub2JvZHkgb2YgdGhlIFVTQiBtYWludGFpbmVycyBoYXMgYW4gaWRl
-YSwgSSdsbCBmaXggdGhhdCB3aXRoIG15IHByb3Bvc2FsLg0KDQpCZXN0IHJlZ2FyZHMNCkNhcnN0
-ZW4NCi0tLS0tLS0tLS0tLS0tLS0tDQpTaWVtZW5zIEVsZWN0cm9uaWMgRGVzaWduIEF1dG9tYXRp
-b24gR21iSDsgQW5zY2hyaWZ0OiBBcm51bGZzdHJhw59lIDIwMSwgODA2MzQgTcO8bmNoZW47IEdl
-c2VsbHNjaGFmdCBtaXQgYmVzY2hyw6Rua3RlciBIYWZ0dW5nOyBHZXNjaMOkZnRzZsO8aHJlcjog
-VGhvbWFzIEhldXJ1bmcsIEZyYW5rIFRow7xyYXVmOyBTaXR6IGRlciBHZXNlbGxzY2hhZnQ6IE3D
-vG5jaGVuOyBSZWdpc3RlcmdlcmljaHQgTcO8bmNoZW4sIEhSQiAxMDY5NTUNCg==
+On Mon, Jun 28, 2021 at 05:53:07PM +0200, Michael Grzeschik wrote:
+> In case of dwc3 it is possible that the sysdev is the parent of the
+> controller. To ensure the right dev is set to the gadget's dev parent we
+> will hand over sysdev instead of dev, which will always point to the
+> controller.
+> 
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> 
+> ---
+>    -> v2: first version of patch
+>    -> v3: -
+> ---
+>  drivers/usb/dwc3/gadget.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index af6d7f157989d..8a1b1daff2e97 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -3990,7 +3990,7 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+>  	}
+>  
+>  
+> -	usb_initialize_gadget(dwc->dev, dwc->gadget, dwc_gadget_release);
+> +	usb_initialize_gadget(dwc->sysdev, dwc->gadget, dwc_gadget_release);
+
+Does this change how the device shows up in sysfs?  Why does the parent
+not always work properly here?
+
+thanks,
+
+greg k-h
