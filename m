@@ -2,188 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05471C636CA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D1AFC636CE
 	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:26:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF4E760725
+	by mail.kernel.org (Postfix) with ESMTP id EF0796120D
 	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:26:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235277AbhGUHle (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:41:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55926 "EHLO
+        id S236191AbhGUHl5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236340AbhGUHfH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:35:07 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7952C061768;
-        Wed, 21 Jul 2021 01:15:26 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id bt15so1225336pjb.2;
-        Wed, 21 Jul 2021 01:15:26 -0700 (PDT)
+        with ESMTP id S236620AbhGUHg7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:36:59 -0400
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7EBC061574;
+        Wed, 21 Jul 2021 01:17:29 -0700 (PDT)
+Received: by mail-ed1-x52e.google.com with SMTP id t2so1281242edd.13;
+        Wed, 21 Jul 2021 01:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MgjA2vJFskd6x2wpgCUFeYbkoYVrc9BhPET/CTsdEz4=;
-        b=G87wvhCz3ULoGIXC9Dkx65FFoV4E0OsDqQUJuQrxOCl0j4LciOHTO5lLPQuJZZBFrG
-         toPK9TBhH7mt3TR6uk+ZQi74kWJULeHOlJ93jSSBWgClYh7xVmSIIriS3TbdcBb6+ILS
-         gguZFSre6pNvWlO+MelGWikWsEuxUCr/KXMgf7pSLut00S7SGnMXkz36aMCLDKROTzlV
-         04OHE5KEV5i9QpYOgCifln7dP1XaHkFMzUsCi1cRYyOgCpGxAIeNDwD+UxRs2kABev5h
-         xJ5cmJU17dbM5RxMGZYpn8l6C/J9B/8aTRfHQsZAtbZsjMOWixt3wFDDJjoyJBX6WMHn
-         WIpQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sZgcPfQLiN9iP9K4OpawNyYKs238DZ60Ej7j3i33PTA=;
+        b=OWIZZmB+kIm0L5SFnNjmFXOtx+bO53YvZhJcG7R70xFGex0eMBAMLdTJXlS+t0r/nh
+         Q+g3yCP4m7Y2dULwwJGcmVHLmR/7LlaPJeBkAlSa86z+O7dVdcoi4qDbDucCvrpXvJHZ
+         wFD2jjuMGM7Aozet9MGX01lm6zre/oAwv7EUzSKbT6MFqzJuOpJN/1pZehO2PZ0Jh8CP
+         39SHRKcjd72t4ErLKDTz8JEhfdEQoqpZLFYQV9jJJHmRfG6e/KOyHnc0lEUqi1Bab/eY
+         3lFD5vEu2EgZzeEWUuscyE7cKWrmCAXIGkwXlSiKL+O47B2g3e7KjacfZ51kPe9Dhojc
+         0fTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MgjA2vJFskd6x2wpgCUFeYbkoYVrc9BhPET/CTsdEz4=;
-        b=GZdWRwHQkTTNY6uEaa1f/NS9HLk5WVb5RH3mzMhg6aw4t9JurKu9VCjhOoRjR0qcQB
-         4m0zcmP9/LZ3NxiLpEntLQHaSca/OdVnm8I0T2ykwQ1Wf1K736l+hjQLhHlIpWc1eEiB
-         72x5rv8Zwcl0chTiq7M6jIhRu0rOshRawuLoQd/s4lH8jZFuT0JTdJqgQ/xznYeUC1XN
-         L2YvLSj7ES73DcaV3EYC2Yrnu9og/CYQKalIe5McPVeKKvDU3FJpNBrz67Xh2B0umZwx
-         d+iAABGg70i11xZrUAyqGW+mAJcjjsDlakEKdfrLct/xWQdVFwIvSCd3cxPrf2XsP/LR
-         Fzsw==
-X-Gm-Message-State: AOAM5303B6dDmWmryJxAT8R+L8jFjmrFf05J8r8lYDbFoAT3FeoUebGa
-        5Am2aiJurce1M81ZQthLjJM=
-X-Google-Smtp-Source: ABdhPJyv7JbkERnfVNQ461Jz9CqrooFOBTKhncq6VlJ+g77pUdG+qBiJ7XBE4KXoxQefD5a24dNqsg==
-X-Received: by 2002:a17:90a:7546:: with SMTP id q64mr2744117pjk.174.1626855326235;
-        Wed, 21 Jul 2021 01:15:26 -0700 (PDT)
-Received: from localhost.localdomain ([154.16.166.166])
-        by smtp.gmail.com with ESMTPSA id g1sm28391398pgs.23.2021.07.21.01.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Jul 2021 01:15:25 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sZgcPfQLiN9iP9K4OpawNyYKs238DZ60Ej7j3i33PTA=;
+        b=QsUzu2FiRT4ODH+TkO4Ac/pnW6EfOHAa+1kAueTLOIAONo55ObMSF32YMtXHABaopD
+         GumP2ReL2ZZ2I55BKLc3Ejj6ngLrfXEit/5hS4Tdb2VEuj38tQz0FAoCRVnD/h1ztRLy
+         HMWe85njxWBhn6HjBURjiJhvHOJVJ2e0jhHK3NfXIVzgbRbQTmArRSWC8g3vB+tM1GbH
+         svoSwo7NhgJ+OfaUk5fpABpLmjFNuRzeM+fCki/p6M3yj9KpSZBYK9BisqPp/kq/4ZDv
+         LSc8HHRWBjs5BQgpeQ4B35NB9SSAyU7Yv13Y15xDpmYjQCir/WLpPoOmlmmTjnIlevYi
+         3Jew==
+X-Gm-Message-State: AOAM531Ehn8f0xtF6hXcCOwpBrVD6WzWpMO24SlnQDP8dwVAE4ktSmZc
+        HjcdwukX5gTj/y64TyIsPu3Ho1OFQkoyfbG77Fc=
+X-Google-Smtp-Source: ABdhPJxpJM6V8VTne3Bjivlmwlbhl1eoSQv2ktowYhYbL60h/j9SjuBb6rO4vAECr8gosa4TYfYCq7cynOjY+rhJCRA=
+X-Received: by 2002:a05:6402:270d:: with SMTP id y13mr46970258edd.66.1626855448078;
+ Wed, 21 Jul 2021 01:17:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210714091327.677458-1-mudongliangabcd@gmail.com> <YPfOZp7YoagbE+Mh@kroah.com>
+In-Reply-To: <YPfOZp7YoagbE+Mh@kroah.com>
 From:   Dongliang Mu <mudongliangabcd@gmail.com>
-To:     "David S. Miller" <davem@davemloft.net>,
+Date:   Wed, 21 Jul 2021 16:17:01 +0800
+Message-ID: <CAD-N9QVi=TvS6sM+jcOf=Y5esECtRgTMgdFW+dqB-R_BuNv6AQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] usb: hso: fix error handling code of hso_create_net_device
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>,
         Oliver Neukum <oneukum@suse.com>,
-        Dongliang Mu <mudongliangabcd@gmail.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
+        Anirudh Rayabharam <mail@anirudhrb.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
-        Anirudh Rayabharam <mail@anirudhrb.com>
-Cc:     syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com,
-        Rustam Kovhaev <rkovhaev@gmail.com>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH V3 1/2] usb: hso: fix error handling code of hso_create_net_device
-Date:   Wed, 21 Jul 2021 16:14:56 +0800
-Message-Id: <20210721081510.1516058-1-mudongliangabcd@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Rustam Kovhaev <rkovhaev@gmail.com>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com,
+        YueHaibing <yuehaibing@huawei.com>, linux-usb@vger.kernel.org,
+        "open list:NETWORKING [GENERAL]" <netdev@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The current error handling code of hso_create_net_device is
-hso_free_net_device, no matter which errors lead to. For example,
-WARNING in hso_free_net_device [1].
+On Wed, Jul 21, 2021 at 3:36 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jul 14, 2021 at 05:13:22PM +0800, Dongliang Mu wrote:
+> > The current error handling code of hso_create_net_device is
+> > hso_free_net_device, no matter which errors lead to. For example,
+> > WARNING in hso_free_net_device [1].
+> >
+> > Fix this by refactoring the error handling code of
+> > hso_create_net_device by handling different errors by different code.
+> >
+> > [1] https://syzkaller.appspot.com/bug?id=66eff8d49af1b28370ad342787413e35bbe76efe
+> >
+> > Reported-by: syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com
+> > Fixes: 5fcfb6d0bfcd ("hso: fix bailout in error case of probe")
+> > Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+> > ---
+> > v1->v2: change labels according to the comment of Dan Carpenter
+> > v2->v3: change the style of error handling labels
+> >  drivers/net/usb/hso.c | 33 +++++++++++++++++++++++----------
+> >  1 file changed, 23 insertions(+), 10 deletions(-)
+>
+> Please resend the whole series, not just one patch of the series.
+> Otherwise it makes it impossible to determine what patch from what
+> series should be applied in what order.
+>
 
-Fix this by refactoring the error handling code of
-hso_create_net_device by handling different errors by different code.
+Done. Please review the resend v3 patches.
 
-[1] https://syzkaller.appspot.com/bug?id=66eff8d49af1b28370ad342787413e35bbe76efe
-
-Reported-by: syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com
-Fixes: 5fcfb6d0bfcd ("hso: fix bailout in error case of probe")
-Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
----
-v1->v2: change labels according to the comment of Dan Carpenter
-v2->v3: change the style of error handling labels
-
- drivers/net/usb/hso.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index 63006838bdcc..dec96e8ab567 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -2495,7 +2495,7 @@ static struct hso_device *hso_create_net_device(struct usb_interface *interface,
- 			   hso_net_init);
- 	if (!net) {
- 		dev_err(&interface->dev, "Unable to create ethernet device\n");
--		goto exit;
-+		goto err_hso_dev;
- 	}
- 
- 	hso_net = netdev_priv(net);
-@@ -2508,13 +2508,13 @@ static struct hso_device *hso_create_net_device(struct usb_interface *interface,
- 				      USB_DIR_IN);
- 	if (!hso_net->in_endp) {
- 		dev_err(&interface->dev, "Can't find BULK IN endpoint\n");
--		goto exit;
-+		goto err_net;
- 	}
- 	hso_net->out_endp = hso_get_ep(interface, USB_ENDPOINT_XFER_BULK,
- 				       USB_DIR_OUT);
- 	if (!hso_net->out_endp) {
- 		dev_err(&interface->dev, "Can't find BULK OUT endpoint\n");
--		goto exit;
-+		goto err_net;
- 	}
- 	SET_NETDEV_DEV(net, &interface->dev);
- 	SET_NETDEV_DEVTYPE(net, &hso_type);
-@@ -2523,18 +2523,18 @@ static struct hso_device *hso_create_net_device(struct usb_interface *interface,
- 	for (i = 0; i < MUX_BULK_RX_BUF_COUNT; i++) {
- 		hso_net->mux_bulk_rx_urb_pool[i] = usb_alloc_urb(0, GFP_KERNEL);
- 		if (!hso_net->mux_bulk_rx_urb_pool[i])
--			goto exit;
-+			goto err_mux_bulk_rx;
- 		hso_net->mux_bulk_rx_buf_pool[i] = kzalloc(MUX_BULK_RX_BUF_SIZE,
- 							   GFP_KERNEL);
- 		if (!hso_net->mux_bulk_rx_buf_pool[i])
--			goto exit;
-+			goto err_mux_bulk_rx;
- 	}
- 	hso_net->mux_bulk_tx_urb = usb_alloc_urb(0, GFP_KERNEL);
- 	if (!hso_net->mux_bulk_tx_urb)
--		goto exit;
-+		goto err_mux_bulk_rx;
- 	hso_net->mux_bulk_tx_buf = kzalloc(MUX_BULK_TX_BUF_SIZE, GFP_KERNEL);
- 	if (!hso_net->mux_bulk_tx_buf)
--		goto exit;
-+		goto err_free_tx_urb;
- 
- 	add_net_device(hso_dev);
- 
-@@ -2542,7 +2542,7 @@ static struct hso_device *hso_create_net_device(struct usb_interface *interface,
- 	result = register_netdev(net);
- 	if (result) {
- 		dev_err(&interface->dev, "Failed to register device\n");
--		goto exit;
-+		goto err_free_tx_buf;
- 	}
- 
- 	hso_log_port(hso_dev);
-@@ -2550,8 +2550,21 @@ static struct hso_device *hso_create_net_device(struct usb_interface *interface,
- 	hso_create_rfkill(hso_dev, interface);
- 
- 	return hso_dev;
--exit:
--	hso_free_net_device(hso_dev, true);
-+
-+err_free_tx_buf:
-+	remove_net_device(hso_dev);
-+	kfree(hso_net->mux_bulk_tx_buf);
-+err_free_tx_urb:
-+	usb_free_urb(hso_net->mux_bulk_tx_urb);
-+err_mux_bulk_rx:
-+	for (i = 0; i < MUX_BULK_RX_BUF_COUNT; i++) {
-+		usb_free_urb(hso_net->mux_bulk_rx_urb_pool[i]);
-+		kfree(hso_net->mux_bulk_rx_buf_pool[i]);
-+	}
-+err_net:
-+	free_netdev(net);
-+err_hso_dev:
-+	kfree(hso_dev);
- 	return NULL;
- }
- 
--- 
-2.25.1
-
+> All of these are now dropped from my queue, please fix up and resend.
+>
+> thanks,
+>
+> greg k-h
