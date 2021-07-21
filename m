@@ -2,79 +2,71 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5045C07E9B
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:41:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB080C07E9B
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:53:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEB6A611CE
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:41:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A005C60FE9
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235415AbhGUHA7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:00:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235406AbhGUHAv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:00:51 -0400
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDBEC0613DF
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jul 2021 00:41:28 -0700 (PDT)
-Received: by mail-ot1-x330.google.com with SMTP id b18-20020a0568303112b02904cf73f54f4bso1291931ots.2
-        for <linux-usb@vger.kernel.org>; Wed, 21 Jul 2021 00:41:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XM9JhpPzHY4G1LVkcjjOt54QDaAwPA2h36eynvr9r1c=;
-        b=J3bm53d2PyHeN4CBTT8NkmaPtpNnHhwFWk91bwzFcMK2vFm9nkJzfHpZLs+pNgH/Aj
-         KSvC94OTbfT7JNFr59ZBgJAltA4QbcNfnU3/APbr1+d8HI0UISL29d/li6womRrD41Y5
-         DlClXYftGe2StaBgOcgZk4kAQBGJtwKAy4YF68ZEEkIEoyffm6Q0lXtr9JWDGvN0LISF
-         POk9WEs6YKkv76wE4+uvUjcGuYGdQJ+phO2prZ9VMqfDqhEJYmlOWoyCFL0pzcdtAMmp
-         AQUczOIg1e4VYeetqzBUx01XCZJiGUysQExTDdiNqZ7g2bHPUZPEKJXWPNoZG2jFL5fI
-         rxmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XM9JhpPzHY4G1LVkcjjOt54QDaAwPA2h36eynvr9r1c=;
-        b=S65sqqOD+6C7IOtmQBvUebHoHyybmGrSbioWXtZ0H+j5neVldi2evtX0tovuilK/kj
-         BbuE7dFq8o1JxqvYq3EjFX1ZLhYyCZkq5q6b3DPTm2yVk9ON5KIaalOUdmaWHl9aCjFZ
-         qDa/iwQehxV7n/84FvHhXOVTN7DdTanX7DImzGjj9AeyfbD0qtqV4tIr7Ea/w20qqpmI
-         0tlTUuPN4bh5yJi2ddeNpteUsYnqakxriSXCbPF3L4vXQp2XWtOjdvAQRwH6jWGfxqoN
-         88wYEYhKuAKu/aSWxiqo+LUobT9FSadYR/DzJLsJO7feh6tk0KzAuoySew5j163U71Pb
-         Mkig==
-X-Gm-Message-State: AOAM5336khNDdKRI/c7YbnFy9/19sq53IS4vUf//XlYLn+aEoO+bTcVE
-        d6YufwxR06c50IDtipLvpipvPYk/oWcTWeiOFME=
-X-Google-Smtp-Source: ABdhPJzKScYJrcgilYd7bhJpDxCvS23OudipBUna1ZBSd199UNnvlbhzVslfiv2YE5cAWK4S7DGWK8FOFKWUiVXokzc=
-X-Received: by 2002:a9d:7dcf:: with SMTP id k15mr19091044otn.201.1626853287915;
- Wed, 21 Jul 2021 00:41:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210629033236.7107-1-qiang.zhang@windriver.com> <YPfIAolSC8mJoQUr@kroah.com>
-In-Reply-To: <YPfIAolSC8mJoQUr@kroah.com>
-From:   dave penkler <dpenkler@gmail.com>
-Date:   Wed, 21 Jul 2021 09:41:15 +0200
-Message-ID: <CAL=kjP0YnzF8sALwH5T5+NpWn3wsuqR+K3GLHDJXLkdO4usyWw@mail.gmail.com>
+        id S235526AbhGUHMv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:12:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40322 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235431AbhGUHMS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 21 Jul 2021 03:12:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A837B61019;
+        Wed, 21 Jul 2021 07:52:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1626853972;
+        bh=Ue3b4xnL+169az7HN4vnVoZSnhVoFeTnD5d9pBjfx1s=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AUFSslH4wIL/FaKk9yaE7hx7uEyl89KE6iWSqEuyQkSIMEx11vTkegQNrm7//NWDm
+         oBQp8soWb80ZWKNO85KhulgUP/z400die+9JtlX6b15y5JpKQh2tlxS1UIbmFrZ2GN
+         xbuWwrrrtbmpxLs4R9oN/rJYSmuuuAbdePZZNH1U=
+Date:   Wed, 21 Jul 2021 09:52:49 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Zhang, Qiang" <Qiang.Zhang@windriver.com>
+Cc:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "dvyukov@google.com" <dvyukov@google.com>,
+        "paulmck@kernel.org" <paulmck@kernel.org>,
+        "dpenkler@gmail.com" <dpenkler@gmail.com>,
+        "guido.kiener@rohde-schwarz.com" <guido.kiener@rohde-schwarz.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Subject: Re: [PATCH] USB: usbtmc: Fix RCU stall warning
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     qiang.zhang@windriver.com, Alan Stern <stern@rowland.harvard.edu>,
-        Dmitry Vyukov <dvyukov@google.com>, paulmck@kernel.org,
-        Guido <guido.kiener@rohde-schwarz.com>,
-        USB <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <YPfSURndBJSjEAJL@kroah.com>
+References: <20210629033236.7107-1-qiang.zhang@windriver.com>
+ <YPfIAolSC8mJoQUr@kroah.com>
+ <BL1PR11MB54783C940009B4DE9CC61DD2FFE39@BL1PR11MB5478.namprd11.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BL1PR11MB54783C940009B4DE9CC61DD2FFE39@BL1PR11MB5478.namprd11.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 21 Jul 2021 at 09:08, Greg KH <gregkh@linuxfoundation.org> wrote:
->
+On Wed, Jul 21, 2021 at 07:30:39AM +0000, Zhang, Qiang wrote:
+> 
+> 
+> ________________________________________
+> From: Greg KH <gregkh@linuxfoundation.org>
+> Sent: Wednesday, 21 July 2021 15:08
+> To: Zhang, Qiang
+> Cc: stern@rowland.harvard.edu; dvyukov@google.com; paulmck@kernel.org; dpenkler@gmail.com; guido.kiener@rohde-schwarz.com; linux-usb@vger.kernel.org
+> Subject: Re: [PATCH] USB: usbtmc: Fix RCU stall warning
+> 
+> [Please note: This e-mail is from an EXTERNAL e-mail address]
+> 
 > On Tue, Jun 29, 2021 at 11:32:36AM +0800, qiang.zhang@windriver.com wrote:
 > > From: Zqiang <qiang.zhang@windriver.com>
->
-> I need a "full" name here, and in the signed-off-by line please.
->
+> 
+> >I need a "full" name here, and in the signed-off-by line please.
+> 
 > >
 > > rcu: INFO: rcu_preempt self-detected stall on CPU
 > > rcu:    1-...!: (2 ticks this GP) idle=d92/1/0x4000000000000000
@@ -100,16 +92,14 @@ On Wed, 21 Jul 2021 at 09:08, Greg KH <gregkh@linuxfoundation.org> wrote:
 > >
 > > Reported-by: syzbot+e2eae5639e7203360018@syzkaller.appspotmail.com
 > > Signed-off-by: Zqiang <qiang.zhang@windriver.com>
->
-> What commit does this fix?  Does it need to go to stable kernels?
->
-> What about the usbtmc maintainers, what do they think about this?
+> 
+> >What commit does this fix?  Does it need to go to stable kernels?
+> 
+>  I will add fix tags resend,   need to go to stable kernel
+> 
+> >
+> >What about the usbtmc maintainers, what do they think about this?
+> 
+>  Alan Stern reviewed this change before.
 
-This patch makes the babbling endpoint retry/recovery code in the real
-world usb host controller drivers redundant and would prevent usbtmc
-applications from benefiting from it.
-
->
-> thanks,
->
-> greg k-h
+I do not see that on this commit :(
