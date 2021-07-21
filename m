@@ -2,74 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E20FC636C9
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:22:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B25C07E9B
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:24:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2801A6120E
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:22:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D0F6120D
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:24:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236081AbhGUHlV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:41:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45004 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236203AbhGUHdy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 21 Jul 2021 03:33:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F24B86120A;
-        Wed, 21 Jul 2021 08:14:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1626855270;
-        bh=Sqk0aw/9yPQ0gihqpyggkslRRYeNGEMCjglx1qWoSF0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iFlSEa3TK6B9ICib5Q8n9V4mClnxKaRh11sQ11B8PM9JgaPBM28fPT3q4OzOutuR8
-         NlgBDbBtcVsw646A/RDFh4gBlsvJQzTzw1EgXIitLC17DSUjGt03gogawNaD5UQNr5
-         87lkY95wZ7MabY9pzALyH2nwfWJiXYFvuhF8h+s0=
-Date:   Wed, 21 Jul 2021 10:14:28 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Schmid, Carsten" <Carsten_Schmid@mentor.com>
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: Possible race in 4.14 xhci stack
-Message-ID: <YPfXZBtd48oL7DaQ@kroah.com>
-References: <513f81d8c17b4bcb97a60fd1d5b0738f@SVR-IES-MBX-03.mgc.mentorg.com>
- <YPb1ngCpsEizHtUi@kroah.com>
- <2c52cd176b134e6ab7806aeda8fcca1d@SVR-IES-MBX-03.mgc.mentorg.com>
+        id S235847AbhGUHll (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236349AbhGUHfH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:35:07 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F073DC0613DB;
+        Wed, 21 Jul 2021 01:15:38 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id v14so578270plg.9;
+        Wed, 21 Jul 2021 01:15:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Wxcy7B70uHdtCZtzYHY9+tkRqLtyDIYNmVQhqkQuKMQ=;
+        b=b7snUcK34wADOU+Vlxm8K2nbAVUjfcaAl9DEWsm8rB2SheW7gWN4xag9ASUuZea1bP
+         AGlvO3cr8OkBYiW+7y2URPAsCqeDfJzEFc3DE9FA/rj/2szlNCpsB8MCbGILBAsVjMpb
+         vdspvmYzPg2AEYC4UzWJkajJBlX1XYSk29MIDi6DOb9nhyJWH0407cA7kO8NWkeO33li
+         gC8qWjtcwfDqN1GshUPixMbwFGVsrpu2187uAV/YvuKslsgZ3rEmpDOgtLY1MqQgA7wi
+         Tx825rpS8IbwGJR0nM3CRZYiL9uRQReQQvl/cb/K/Qr6QXaEFWataTxGlLZ3dsAef0id
+         RGGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Wxcy7B70uHdtCZtzYHY9+tkRqLtyDIYNmVQhqkQuKMQ=;
+        b=QVoQq0jjbIWPDVT71PAXQHbuy1qZl6h5UnqrMQJ668d+bHzGDNwPjoMoJmTF19W6Jf
+         g8It4drDoW0QeaZkIqKlMNLkb5nMa2Pv8+BucgLDifwGAZenC0EvmHWC5eWkuAh9xj8t
+         Hdpm3ixuB0SEfDM2ar6J3JTS9ZBqf8BKmEtfwk41hm9eA/xT3eSB/G+IofqG2C68Yz8o
+         tYiW/7hrj7XHau01XVx3uw9dP9bMpvw/3pkndnYGAP91r/ewYMkDdJeuTBEb0ZXUCkVL
+         iTiKAG2tVGVOiSl7wYEIvC1QNs/i57qUU9xzi6XOAhpQBNkfLgd4PUi5uUHxouWlxLXM
+         ++WQ==
+X-Gm-Message-State: AOAM5305dnrVocGKKiMErl6P5JHpm5RnggY92RXDNGALOyRAFvLVjsf/
+        RK6/345Uvs/ayrg/gKZ0z8U=
+X-Google-Smtp-Source: ABdhPJzq7o1yw/VLBQioWQfOJEjRLY8VoXnIzSelcqkVgT5OS8VTM2PyWoMOcDTZPcSwIRa3dUs3ng==
+X-Received: by 2002:a17:90a:86:: with SMTP id a6mr2583154pja.133.1626855338469;
+        Wed, 21 Jul 2021 01:15:38 -0700 (PDT)
+Received: from localhost.localdomain ([154.16.166.166])
+        by smtp.gmail.com with ESMTPSA id g1sm28391398pgs.23.2021.07.21.01.15.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jul 2021 01:15:38 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        David Sterba <dsterba@suse.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Dongliang Mu <mudongliangabcd@gmail.com>,
+        Rustam Kovhaev <rkovhaev@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Anirudh Rayabharam <mail@anirudhrb.com>
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH V3 2/2] usb: hso: remove the bailout parameter
+Date:   Wed, 21 Jul 2021 16:14:57 +0800
+Message-Id: <20210721081510.1516058-2-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210721081510.1516058-1-mudongliangabcd@gmail.com>
+References: <20210721081510.1516058-1-mudongliangabcd@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2c52cd176b134e6ab7806aeda8fcca1d@SVR-IES-MBX-03.mgc.mentorg.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 07:51:58AM +0000, Schmid, Carsten wrote:
-> Hi Greg,
-> 
-> >> Hi Mathias,
-> >>
-> >> i got a NULL pointer deref in the usbfs and analyzed it.
-> >> The connected device seemed to have trouble on USB transmissions.
-> >> However, I have the impression that there is a race between finishing URB handling and disconnection of devices.
-> >> In detail:
-> >> [ 4979.029666] xhci_hcd 0000:00:15.0: USB transfer error. Maybe the USB cable is bad?
-> >
-> > Did your cable die?
-> >
-> > And 4.14 is quite old, what about 5.13?
-> >
-> > thanks,
-> >
-> > greg k-h
-> 
-> That was reported from a device in the field.
-> Yes, a defective cable is bad, but shouldn't the kernel's health avoid a NULL pointer deref?
+There are two invocation sites of hso_free_net_device. After
+refactoring hso_create_net_device, this parameter is useless.
+Remove the bailout in the hso_free_net_device and change the invocation
+sites of this function.
 
-Yes, I am not disagreeing about that, patches always welcome :)
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ drivers/net/usb/hso.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-thanks,
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index dec96e8ab567..827d574f764a 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -2353,7 +2353,7 @@ static int remove_net_device(struct hso_device *hso_dev)
+ }
+ 
+ /* Frees our network device */
+-static void hso_free_net_device(struct hso_device *hso_dev, bool bailout)
++static void hso_free_net_device(struct hso_device *hso_dev)
+ {
+ 	int i;
+ 	struct hso_net *hso_net = dev2net(hso_dev);
+@@ -2376,7 +2376,7 @@ static void hso_free_net_device(struct hso_device *hso_dev, bool bailout)
+ 	kfree(hso_net->mux_bulk_tx_buf);
+ 	hso_net->mux_bulk_tx_buf = NULL;
+ 
+-	if (hso_net->net && !bailout)
++	if (hso_net->net)
+ 		free_netdev(hso_net->net);
+ 
+ 	kfree(hso_dev);
+@@ -3133,7 +3133,7 @@ static void hso_free_interface(struct usb_interface *interface)
+ 				rfkill_unregister(rfk);
+ 				rfkill_destroy(rfk);
+ 			}
+-			hso_free_net_device(network_table[i], false);
++			hso_free_net_device(network_table[i]);
+ 		}
+ 	}
+ }
+-- 
+2.25.1
 
-greg k-h
