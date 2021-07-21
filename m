@@ -2,82 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1BDC07E9B
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69022C12002
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:00:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E47E861009
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 07:55:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4468861019
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Jul 2021 08:00:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235622AbhGUHO4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Jul 2021 03:14:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40752 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235427AbhGUHNz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 21 Jul 2021 03:13:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C54260FE9;
-        Wed, 21 Jul 2021 07:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1626854069;
-        bh=r7maj2kuI2vO86xAHo4bhkYzsnBLjpZXw4i7HuI1fKo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S4+8tGxIJIsGfGI7MxKLPA5/acCyol3lQYiJMFk24n8hWJNiyOHP6JueaT8XE3kah
-         y+ZR98MwkHWJJHvsLOPvdQEkloisxIv76OMm5TSaTLsXcbCNnN7t/TzsVGn0/J84oa
-         uH9LRFB/t49zGMhWxfSH6TXADEMLXoj5QuekfqPA=
-Date:   Wed, 21 Jul 2021 09:54:27 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Moritz Fischer <moritz.fischer.private@gmail.com>,
-        Moritz Fischer <mdf@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: REGRESSION: Renesas USB host broken after commit d143825baf15
-Message-ID: <YPfSsx8p32w72OCB@kroah.com>
-References: <s5h7dhkoaa2.wl-tiwai@suse.de>
- <YPdcUrR5J6vA2Glr@epycbox.lan>
- <s5h1r7snneh.wl-tiwai@suse.de>
+        id S234994AbhGUHTw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Jul 2021 03:19:52 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:10437 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234560AbhGUHT0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Jul 2021 03:19:26 -0400
+X-Greylist: delayed 458 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Jul 2021 03:19:26 EDT
+IronPort-SDR: 3u7T6wbw4yXrPUI2AFDbjJtlhycYDZ0BQJTJS+v1D2GhlA7rHzTOaFq/M/QnPGiAoFYi83HQ45
+ 2GAN/Hk0FGMdB6ASzgYJxx+9xkIqO7gAguAGck+A3mBH4SL3G8saK3Bo6NL2k5RKOvhWN/wyPo
+ WAy1/NTq02+DNxW0bPbh7niKUBc2sUZ3nyg/FA1pgsGISqcs96Ws4rMXIei/ns3MXlvZuh9+zV
+ f1CMa6lWWxpk3nun/x1kV/VC6aDeLYhd/aWDg7rMSkwICKvpbdtg9zABc+upkeZ+49yijYi7Tr
+ MVkw5t4DSE++sYJLaMS67exO
+X-IronPort-AV: E=Sophos;i="5.84,257,1620720000"; 
+   d="scan'208";a="63756835"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 20 Jul 2021 23:52:17 -0800
+IronPort-SDR: njA9xbxgoA5PBzbqDVCbjIDQjsyWKoW4sAcbR50gEUUb0MeYi9os5NnsY2of7ILW+ypb9r/+B1
+ JLaF07mbO9PcPnZ1/bQdOR9T5xW7TbpadQI7efFj+A6mjV1wIKXnZzYskg3BzeV5VrNETB4/rK
+ zHuKvIZIYBwX2gYbpXQ/Yc09DZsvlt0un7qwkYi42vo2Ygqvkjrv8Bkl1s1Jak7MkrRtZO0T+L
+ 6QgjaiC/hR7hAcLVIqBJni7/hua2rSZwKxS17vptBN3V9rlUv2QW+yy7Vp7EzWcvf6Z8C+khys
+ kKA=
+From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: RE: Possible race in 4.14 xhci stack
+Thread-Topic: Possible race in 4.14 xhci stack
+Thread-Index: Add9dgXtLD9V5HWrQGOujH0Vt+GASgAA3LAAACKjYhA=
+Date:   Wed, 21 Jul 2021 07:51:58 +0000
+Message-ID: <2c52cd176b134e6ab7806aeda8fcca1d@SVR-IES-MBX-03.mgc.mentorg.com>
+References: <513f81d8c17b4bcb97a60fd1d5b0738f@SVR-IES-MBX-03.mgc.mentorg.com>
+ <YPb1ngCpsEizHtUi@kroah.com>
+In-Reply-To: <YPb1ngCpsEizHtUi@kroah.com>
+Accept-Language: de-DE, en-IE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <s5h1r7snneh.wl-tiwai@suse.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 21, 2021 at 09:20:38AM +0200, Takashi Iwai wrote:
-> On Wed, 21 Jul 2021 01:29:22 +0200,
-> Moritz Fischer wrote:
-> > 
-> > Hi Takashi,
-> > 
-> > On Wed, Jul 21, 2021 at 01:06:29AM +0200, Takashi Iwai wrote:
-> > > Hi,
-> > > 
-> > > the recent patch landed in 5.13.2 stable tree from the upstream commit
-> > > d143825baf15 ("usb: renesas-xhci: Fix handling of unknown ROM state")
-> > > seems causing a regression on a few machines, as reported on openSUSE
-> > > Bugzilla:
-> > >   https://bugzilla.opensuse.org/show_bug.cgi?id=1188485
-> > >   https://bugzilla.opensuse.org/show_bug.cgi?id=1188515
-> > > 
-> > > Reverting it on top of 5.13.3 fixed the problem, so it's likely the
-> > > cause.  Could you guys take a look?
-> > 
-> > I've sent out a revert patch.
-> > 
-> > https://lore.kernel.org/linux-usb/20210719070519.41114-1-mdf@kernel.org/T/#u
-> > 
-> > I think the driver has more problems but I'll tackle that in a follow up
-> > patch, lets get this unbricked, first.
-> 
-> OK, thank you for the information!
-
-I've reverted this now, will get it to Linus for 5.14-rc3, sorry about
-that.
-
-thanks,
-
-greg k-h
+SGkgR3JlZywNCg0KPj4gSGkgTWF0aGlhcywNCj4+DQo+PiBpIGdvdCBhIE5VTEwgcG9pbnRlciBk
+ZXJlZiBpbiB0aGUgdXNiZnMgYW5kIGFuYWx5emVkIGl0Lg0KPj4gVGhlIGNvbm5lY3RlZCBkZXZp
+Y2Ugc2VlbWVkIHRvIGhhdmUgdHJvdWJsZSBvbiBVU0IgdHJhbnNtaXNzaW9ucy4NCj4+IEhvd2V2
+ZXIsIEkgaGF2ZSB0aGUgaW1wcmVzc2lvbiB0aGF0IHRoZXJlIGlzIGEgcmFjZSBiZXR3ZWVuIGZp
+bmlzaGluZyBVUkIgaGFuZGxpbmcgYW5kIGRpc2Nvbm5lY3Rpb24gb2YgZGV2aWNlcy4NCj4+IElu
+IGRldGFpbDoNCj4+IFsgNDk3OS4wMjk2NjZdIHhoY2lfaGNkIDAwMDA6MDA6MTUuMDogVVNCIHRy
+YW5zZmVyIGVycm9yLiBNYXliZSB0aGUgVVNCIGNhYmxlIGlzIGJhZD8NCj4NCj4gRGlkIHlvdXIg
+Y2FibGUgZGllPw0KPg0KPiBBbmQgNC4xNCBpcyBxdWl0ZSBvbGQsIHdoYXQgYWJvdXQgNS4xMz8N
+Cj4NCj4gdGhhbmtzLA0KPg0KPiBncmVnIGstaA0KDQpUaGF0IHdhcyByZXBvcnRlZCBmcm9tIGEg
+ZGV2aWNlIGluIHRoZSBmaWVsZC4NClllcywgYSBkZWZlY3RpdmUgY2FibGUgaXMgYmFkLCBidXQg
+c2hvdWxkbid0IHRoZSBrZXJuZWwncyBoZWFsdGggYXZvaWQgYSBOVUxMIHBvaW50ZXIgZGVyZWY/
+DQoNCjQuMTQgaXMgdXNlZCBkdWUgdG8gYmVpbmcgTFRTIGFuZCB0aGUgZGV2aWNlIGZpcm13YXJl
+IGhhcyBiZWVuIHN0YWJpbGl6ZWQgb24gdGhhdC4NCldlIGZyZXF1ZW50bHkgdXBkYXRlIG9uIHRo
+ZSA0LjE0IGFuZCBtb25pdG9yIHBhdGNoZXMsIGJ1dCB0aGVyZSdzIG5vdGhpbmcgcmVnYXJkaW5n
+DQphbiB4aGNpIHJhY2UgdXAgdG8gbm93IGluIDQuMTQgc2VlbiwgSSBjaGVja2VkIHRoYXQuDQoN
+Ck5vdCBzdXJlIGlmIHRoaXMgd291bGQgaGFwcGVuIG9uIGEgbmV3ZXIga2VybmVsIGFsc28sIGJ1
+dCB3ZSBjYW4ndCB0ZXN0IHRoYXQgb24gdGhlIGRldmljZSBpbiB0aGUgZmllbGQuDQpJdCB3YXMg
+c2VlbiBvbmNlIHNvIGZhciwgYnV0IHRoZSBpbmRpY2F0aW9uIG9mIGEgcmFjZSBpcyByZWFsbHkg
+aGlnaCBoZXJlLg0KDQpJZiBub2JvZHkgb2YgdGhlIFVTQiBtYWludGFpbmVycyBoYXMgYW4gaWRl
+YSwgSSdsbCBmaXggdGhhdCB3aXRoIG15IHByb3Bvc2FsLg0KDQpCZXN0IHJlZ2FyZHMNCkNhcnN0
+ZW4NCi0tLS0tLS0tLS0tLS0tLS0tDQpTaWVtZW5zIEVsZWN0cm9uaWMgRGVzaWduIEF1dG9tYXRp
+b24gR21iSDsgQW5zY2hyaWZ0OiBBcm51bGZzdHJhw59lIDIwMSwgODA2MzQgTcO8bmNoZW47IEdl
+c2VsbHNjaGFmdCBtaXQgYmVzY2hyw6Rua3RlciBIYWZ0dW5nOyBHZXNjaMOkZnRzZsO8aHJlcjog
+VGhvbWFzIEhldXJ1bmcsIEZyYW5rIFRow7xyYXVmOyBTaXR6IGRlciBHZXNlbGxzY2hhZnQ6IE3D
+vG5jaGVuOyBSZWdpc3RlcmdlcmljaHQgTcO8bmNoZW4sIEhSQiAxMDY5NTUNCg==
