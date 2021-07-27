@@ -8,51 +8,51 @@ X-Spam-Status: No, score=-19.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4C3C432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 00:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C3FC4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 00:41:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEFC160E78
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 00:41:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3310C60F02
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 00:41:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234673AbhG0ABT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Jul 2021 20:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        id S234479AbhG0ABU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Jul 2021 20:01:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234628AbhG0ABH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Jul 2021 20:01:07 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53F67C06179A
-        for <linux-usb@vger.kernel.org>; Mon, 26 Jul 2021 17:41:32 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id d1so6500017pll.1
-        for <linux-usb@vger.kernel.org>; Mon, 26 Jul 2021 17:41:32 -0700 (PDT)
+        with ESMTP id S234708AbhG0ABO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Jul 2021 20:01:14 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC3CCC0617A3
+        for <linux-usb@vger.kernel.org>; Mon, 26 Jul 2021 17:41:36 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id a20so13997211plm.0
+        for <linux-usb@vger.kernel.org>; Mon, 26 Jul 2021 17:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Bg3T3fp6ClOTSMmD1DDjhfIf3JwA594nQfOaMYR27yE=;
-        b=NczGudCY9nMSUhnMs7zIh82RpkRgKfixp/X4RyFsvp4gBKec78U4LI4IkEFA4UmNM4
-         dvKBV7jlYRCn9IdF2/F63Ym4VK5j4TgTe91ot2Y+sNfm7fpJOEFMxsJrCZCKeK5atiDu
-         EsDnKU/Raj6yrA+U9PbHpNeHe9kjWt4YgIWtQ=
+        bh=9Al1ux7YuqXRPafsBFOWjLmHby1bBOemA8+XtBPAfVc=;
+        b=hNKvrYYDXbs0bQ/S4N2V7WxsT8DFKL/XiPBXvURIvYuprNCF+bpk+zVLQUlaTLLHz2
+         xGpOtbJJpuXeh7Y6nLpslcr3tUYnb8Q7L2+JHjhXHf8eSzXuGJp5o/T+sCSsD3JWsCsd
+         XJ1CPuvNBBhmg9B2GbMP5baI42bjxOQNGOHw8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bg3T3fp6ClOTSMmD1DDjhfIf3JwA594nQfOaMYR27yE=;
-        b=cQGN+o3BKa40gt2gGVRAurubI91vspB6acQzheqfrPUqi3fkc9pQanRl8POBzo8MoH
-         t4GaOdRE2hZ95k71hvQHHsvBeVGZr6+DbZG+0M4YDTIktr7Q83zIlY+L18eeWRKhTiSU
-         zoMAZUOnBsZM3gNK1C2XHADIS0lVUGKNUcyqdT9K7+sHRL+sCa4RA4oXInZa6UkgSUAL
-         YGPTCyTdNamamRcO2LoKKv6uJJJZJS/YBgrEo8C3tRQO7a+NZ5IL4kwrraYTvCB9DXyp
-         xptO41/KuhxVbPbSfvLueEraBecYXY8AxqR0Wzuzqo7uN8qvaWJIgJF6vpzO8NeLsZVS
-         OW2w==
-X-Gm-Message-State: AOAM5326xpCv16lWLKBqPtp9GIq1Ebyyldh0c416zjBMBFD0jlAjz78L
-        LaSJrq0FL6R/BfF6l/HLClWHhg==
-X-Google-Smtp-Source: ABdhPJxrYiV4vpovVhpRKUT3DhTBE5GbBkusAPwrc6zhQkc6fxI+no5VtFCBHD5sFk3N9BFyo83Jjw==
-X-Received: by 2002:a63:789:: with SMTP id 131mr20994864pgh.45.1627346491923;
-        Mon, 26 Jul 2021 17:41:31 -0700 (PDT)
+        bh=9Al1ux7YuqXRPafsBFOWjLmHby1bBOemA8+XtBPAfVc=;
+        b=IjJsTGAqNv9ry7DFbcmkn01OB2lo6hAaxZnNartYQsx/jo7kR0IvxANwxYyeVKAepC
+         FNhRndo4lmrwIU4KwmCoVDqMZ4WRs5yHtpKxAdaWefA2ptvIiDZnnPnE2HQaFBF47c9v
+         MggfMrsHz2d4ZyP3+poBY4qw5P5WTF5rkbZAyj0Dg20gq2ojHE18V0hyH0pQOK9XX6Xj
+         mj2Vg45sUymdWTiN1Z1E/rPITb5+RpuSfS3dsVOUZJUZTvnqy2fdl4YwrmjjbbC34N6Y
+         2Wb+xWFNPsG8R5V3ad4Kpa0jXMF2XwyBbLYE/VK7GnxjJjJTegRe3TPBruK1SGIPECB5
+         A8Ng==
+X-Gm-Message-State: AOAM530/3g6vmMDlICbM4fyAS/CxuvP8Feu+P6Fef8zEM17FOOEI6ffr
+        NXs4DGN+bVJpNE6GU+7Ib1zVwA==
+X-Google-Smtp-Source: ABdhPJyGONapH77bjs5SRQ7UbOsyRnk4wBaK0crK59wBBjvjQUWzlKsewl5Cjn4Tc6RFXeDw3BtDcQ==
+X-Received: by 2002:a17:90a:3d0d:: with SMTP id h13mr20116865pjc.20.1627346496428;
+        Mon, 26 Jul 2021 17:41:36 -0700 (PDT)
 Received: from localhost ([2620:15c:202:201:9c3d:270c:6be9:9c33])
-        by smtp.gmail.com with UTF8SMTPSA id n134sm1275801pfd.89.2021.07.26.17.41.30
+        by smtp.gmail.com with UTF8SMTPSA id q21sm1040348pgk.71.2021.07.26.17.41.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Jul 2021 17:41:31 -0700 (PDT)
+        Mon, 26 Jul 2021 17:41:36 -0700 (PDT)
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
@@ -70,14 +70,12 @@ Cc:     Bastien Nocera <hadess@hadess.net>,
         Ravi Chandra Sadineni <ravisadineni@chromium.org>,
         Stephen Boyd <swboyd@chromium.org>,
         Matthias Kaehlcke <mka@chromium.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Roger Quadros <rogerq@kernel.org>
-Subject: [PATCH v15 4/6] usb: Specify dependencies on USB_XHCI_PLATFORM with 'depends on'
-Date:   Mon, 26 Jul 2021 17:41:16 -0700
-Message-Id: <20210726174048.v15.4.If248f05613bbb06a44eb0b0909be5d97218f417b@changeid>
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm@vger.kernel.org
+Subject: [PATCH v15 6/6] arm64: dts: qcom: sc7180-trogdor: Add nodes for onboard USB hub
+Date:   Mon, 26 Jul 2021 17:41:18 -0700
+Message-Id: <20210726174048.v15.6.Ie0d2c1214b767bb5551dd4cad38398bd40e4466f@changeid>
 X-Mailer: git-send-email 2.32.0.432.gabb21c7263-goog
 In-Reply-To: <20210727004118.2583774-1-mka@chromium.org>
 References: <20210727004118.2583774-1-mka@chromium.org>
@@ -87,105 +85,185 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some USB controller drivers that depend on the xhci-plat driver
-specify this dependency using 'select' in Kconfig. This is not
-recommended for symbols that have other dependencies as it may
-lead to invalid configurations. Use 'depends on' to specify the
-dependency instead of 'select'.
-
-For dwc3 specify the dependency on USB_XHCI_PLATFORM in
-USB_DWC3_HOST and USB_DWC3_DUAL_ROLE. Also adjust the
-dependencies of USB_DWC3_CORE to make sure that at least one
-of USB_DWC3_HOST, USB_DWC3_GADGET or USB_DWC3_DUAL_ROLE can be
-selected.
+Add nodes for the onboard USB hub on trogdor devices. Remove the
+'always-on' property from the hub regulator, since the regulator
+is now managed by the onboard_usb_hub driver.
 
 Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
 ---
 
 Changes in v15:
-- adjusted dependencies of USB_DWC3_CORE to make sure it can only
-  be enabled when at least one of USB_DWC3_HOST, USB_DWC3_GADGET
-  or USB_DWC3_DUAL_ROLE is selectable
-- updated commit message
+- none
 
 Changes in v14:
 - none
 
 Changes in v13:
+- none
+
+Changes in v12:
+- none
+
+Changes in v11:
+- rebased on qcom/arm64-for-5.14 (with the rest of the series)
+
+Changes in v10:
+- keep 'regulator-boot-on' property
+- updated commit message
+
+Changes in v9:
+- none
+
+Changes in v8:
+- none
+
+Changes in v7:
+- rebased on qcom/arm64-for-5.13 (with the rest of the series)
+
+Changes in v6:
+- added 'companion-hub' entry to both USB devices
+- added 'vdd-supply' also to hub@2
+
+Changes in v5:
 - patch added to the series
 
- drivers/usb/cdns3/Kconfig | 2 +-
- drivers/usb/dwc3/Kconfig  | 5 +++--
- drivers/usb/host/Kconfig  | 4 ++--
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r0.dts | 19 ++++++++-----------
+ .../boot/dts/qcom/sc7180-trogdor-lazor-r1.dts | 12 +++++-------
+ .../arm64/boot/dts/qcom/sc7180-trogdor-r1.dts | 19 ++++++++-----------
+ arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi  | 19 ++++++++++++++++++-
+ 4 files changed, 39 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/usb/cdns3/Kconfig b/drivers/usb/cdns3/Kconfig
-index b98ca0a1352a..07e12f786d48 100644
---- a/drivers/usb/cdns3/Kconfig
-+++ b/drivers/usb/cdns3/Kconfig
-@@ -1,7 +1,7 @@
- config USB_CDNS_SUPPORT
- 	tristate "Cadence USB Support"
- 	depends on USB_SUPPORT && (USB || USB_GADGET) && HAS_DMA
--	select USB_XHCI_PLATFORM if USB_XHCI_HCD
-+	depends on !USB_XHCI_HCD || USB_XHCI_PLATFORM
- 	select USB_ROLE_SWITCH
- 	help
- 	  Say Y here if your system has a Cadence USBSS or USBSSP
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 66b1454c4db2..870f2251350a 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -2,8 +2,7 @@
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r0.dts b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r0.dts
+index 30e3e769d2b4..5fb8e12af1a0 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r0.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r0.dts
+@@ -14,17 +14,6 @@ / {
+ 	compatible = "google,lazor-rev0", "qcom,sc7180";
+ };
  
- config USB_DWC3
- 	tristate "DesignWare USB3 DRD Core Support"
--	depends on (USB || USB_GADGET) && HAS_DMA
--	select USB_XHCI_PLATFORM if USB_XHCI_HCD
-+	depends on ((USB && USB_XHCI_PLATFORM) || USB_GADGET) && HAS_DMA
- 	select USB_ROLE_SWITCH if USB_DWC3_DUAL_ROLE
- 	help
- 	  Say Y or M here if your system has a Dual Role SuperSpeed
-@@ -30,6 +29,7 @@ choice
- config USB_DWC3_HOST
- 	bool "Host only mode"
- 	depends on USB=y || USB=USB_DWC3
-+	depends on USB_XHCI_PLATFORM
- 	help
- 	  Select this when you want to use DWC3 in host mode only,
- 	  thereby the gadget feature will be regressed.
-@@ -44,6 +44,7 @@ config USB_DWC3_GADGET
- config USB_DWC3_DUAL_ROLE
- 	bool "Dual Role mode"
- 	depends on ((USB=y || USB=USB_DWC3) && (USB_GADGET=y || USB_GADGET=USB_DWC3))
-+	depends on USB_XHCI_PLATFORM
- 	depends on (EXTCON=y || EXTCON=USB_DWC3)
- 	help
- 	  This is the default mode of working of DWC3 controller where
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index df9428f1dc5e..518c2312ef0c 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -80,7 +80,7 @@ config USB_XHCI_MTK
+-&pp3300_hub {
+-	/* pp3300_l7c is used to power the USB hub */
+-	/delete-property/regulator-always-on;
+-	/delete-property/regulator-boot-on;
+-};
+-
+-&pp3300_l7c {
+-	regulator-always-on;
+-	regulator-boot-on;
+-};
+-
+ &sn65dsi86_out {
+ 	/*
+ 	 * Lane 0 was incorrectly mapped on the cable, but we've now decided
+@@ -33,3 +22,11 @@ &sn65dsi86_out {
+ 	 */
+ 	lane-polarities = <1 0>;
+ };
++
++&usb_hub_2_0 {
++	 vdd-supply = <&pp3300_l7c>;
++};
++
++&usb_hub_3_0 {
++	 vdd-supply = <&pp3300_l7c>;
++};
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r1.dts b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r1.dts
+index c2ef06367baf..1dae714250f5 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r1.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-lazor-r1.dts
+@@ -14,13 +14,11 @@ / {
+ 	compatible = "google,lazor-rev1", "google,lazor-rev2", "qcom,sc7180";
+ };
  
- config USB_XHCI_MVEBU
- 	tristate "xHCI support for Marvell Armada 375/38x/37xx"
--	select USB_XHCI_PLATFORM
-+	depends on USB_XHCI_PLATFORM
- 	depends on HAS_IOMEM
- 	depends on ARCH_MVEBU || COMPILE_TEST
- 	help
-@@ -112,9 +112,9 @@ config USB_EHCI_BRCMSTB
- config USB_BRCMSTB
- 	tristate "Broadcom STB USB support"
- 	depends on (ARCH_BRCMSTB && PHY_BRCM_USB) || COMPILE_TEST
-+	depends on !USB_XHCI_HCD || USB_XHCI_PLATFORM
- 	select USB_OHCI_HCD_PLATFORM if USB_OHCI_HCD
- 	select USB_EHCI_BRCMSTB if USB_EHCI_HCD
--	select USB_XHCI_PLATFORM if USB_XHCI_HCD
- 	help
- 	  Enables support for XHCI, EHCI and OHCI host controllers
- 	  found in Broadcom STB SoC's.
+-&pp3300_hub {
+-	/* pp3300_l7c is used to power the USB hub */
+-	/delete-property/regulator-always-on;
+-	/delete-property/regulator-boot-on;
++
++&usb_hub_2_0 {
++	 vdd-supply = <&pp3300_l7c>;
+ };
+ 
+-&pp3300_l7c {
+-	regulator-always-on;
+-	regulator-boot-on;
++&usb_hub_3_0 {
++	 vdd-supply = <&pp3300_l7c>;
+ };
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor-r1.dts b/arch/arm64/boot/dts/qcom/sc7180-trogdor-r1.dts
+index 2b522f9e0d8f..2f5263e3d1b9 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor-r1.dts
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor-r1.dts
+@@ -42,17 +42,6 @@ &panel {
+ 	compatible = "auo,b116xa01";
+ };
+ 
+-&pp3300_hub {
+-	/* pp3300_l7c is used to power the USB hub */
+-	/delete-property/regulator-always-on;
+-	/delete-property/regulator-boot-on;
+-};
+-
+-&pp3300_l7c {
+-	regulator-always-on;
+-	regulator-boot-on;
+-};
+-
+ &sdhc_2 {
+ 	status = "okay";
+ };
+@@ -61,6 +50,14 @@ &trackpad {
+ 	interrupts = <58 IRQ_TYPE_EDGE_FALLING>;
+ };
+ 
++&usb_hub_2_0 {
++	 vdd-supply = <&pp3300_l7c>;
++};
++
++&usb_hub_3_0 {
++	 vdd-supply = <&pp3300_l7c>;
++};
++
+ /* PINCTRL - modifications to sc7180-trogdor.dtsi */
+ 
+ &trackpad_int_1v8_odl {
+diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+index 77ae7561d436..f89c6a7045e5 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+@@ -202,7 +202,6 @@ pp3300_hub: pp3300-hub {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&en_pp3300_hub>;
+ 
+-		regulator-always-on;
+ 		regulator-boot-on;
+ 
+ 		vin-supply = <&pp3300_a>;
+@@ -898,6 +897,24 @@ &usb_1 {
+ 
+ &usb_1_dwc3 {
+ 	dr_mode = "host";
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	/* 2.0 hub on port 1 */
++	usb_hub_2_0: hub@1 {
++		compatible = "usbbda,5411";
++		reg = <1>;
++		vdd-supply = <&pp3300_hub>;
++		companion-hub = <&usb_hub_3_0>;
++	};
++
++	/* 3.0 hub on port 2 */
++	usb_hub_3_0: hub@2 {
++		compatible = "usbbda,411";
++		reg = <2>;
++		vdd-supply = <&pp3300_hub>;
++		companion-hub = <&usb_hub_2_0>;
++	};
+ };
+ 
+ &usb_1_hsphy {
 -- 
 2.32.0.432.gabb21c7263-goog
 
