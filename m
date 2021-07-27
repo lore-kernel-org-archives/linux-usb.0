@@ -2,40 +2,40 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F051C4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 07:17:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4863C4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 07:20:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 02CFF611C7
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 07:17:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DCF1611C4
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 07:20:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235745AbhG0HR4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 03:17:56 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:12267 "EHLO
-        szxga08-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235609AbhG0HRz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jul 2021 03:17:55 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GYnzM0qzQz1CPKn;
-        Tue, 27 Jul 2021 15:11:59 +0800 (CST)
+        id S235656AbhG0HT7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jul 2021 03:19:59 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:12411 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235558AbhG0HT6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jul 2021 03:19:58 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GYp4Y1vbNzchH1;
+        Tue, 27 Jul 2021 15:16:29 +0800 (CST)
 Received: from dggema755-chm.china.huawei.com (10.1.198.197) by
  dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 27 Jul 2021 15:17:51 +0800
+ 15.1.2176.2; Tue, 27 Jul 2021 15:19:56 +0800
 Received: from huawei.com (10.90.53.225) by dggema755-chm.china.huawei.com
  (10.1.198.197) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 27
- Jul 2021 15:17:50 +0800
+ Jul 2021 15:19:55 +0800
 From:   Zhang Qilong <zhangqilong3@huawei.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>
-Subject: [PATCH -next v2] usb: gadget: remove leaked entry from udc driver list
-Date:   Tue, 27 Jul 2021 15:31:42 +0800
-Message-ID: <20210727073142.84666-1-zhangqilong3@huawei.com>
+Subject: [PATCH -next] usb: gadget: remove leaked entry from udc driver list
+Date:   Tue, 27 Jul 2021 15:33:47 +0800
+Message-ID: <20210727073348.87069-1-zhangqilong3@huawei.com>
 X-Mailer: git-send-email 2.26.0.106.g9fadedd
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
