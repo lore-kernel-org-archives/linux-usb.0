@@ -5,44 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DFEC432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:28:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01ACC4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E5F261A60
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:28:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D78461A87
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236699AbhG0N2C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 09:28:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57260 "EHLO mail.kernel.org"
+        id S236981AbhG0N3F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jul 2021 09:29:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56496 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236967AbhG0NUd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:20:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0875661A3B;
-        Tue, 27 Jul 2021 13:20:18 +0000 (UTC)
+        id S236946AbhG0NU3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Jul 2021 09:20:29 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D20061AFA;
+        Tue, 27 Jul 2021 13:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627392019;
-        bh=oVrKdfA6ZQxpCEUMlh/V5PyuyRGyRC/s/8TGW3qsUYI=;
+        s=k20201202; t=1627392008;
+        bh=IOb5L09PKj7J3uOQVbZ+w3JTUbB0AwULpZmvMN+jWv4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n9TVHvX5foMAnuruxjCVwQSaZyW3mPNkxS4GcRhjdGkbhpJHX0dBTH3kN4AY2Vw7z
-         qRr/qG881V+KWL7/jUEFvR8A1AwiLduenoWBn5ppLn4zgIY8poYP7u0n4fCAAy339T
-         2O/nRxioMdPcoqzOmJyIFyJZ/tCMeV2ekPLWz2VaBc+LS1jepPIkDwCHLH40pXQ1Hx
-         ltshDod/kmVrx9LDW5pzmq0FWn+0KfHUBBwba+RfHmV0/f0g9E5NyiVcYxHhl4bpHb
-         GH+Dg5/8ajFq+WwZkjkgl/zWr4DiipZFz6NSVD1yW9Bunr2x2HNiqPyUMb76TkVzB+
-         ar0ljBRY0DXhg==
+        b=Z75lfNDD9fvjUp1ukypVGbV1txqgtOqXA73oon1muDN2tvSoVH5iZEOLHppQ0C0FU
+         Dds4v0iMJyJajACmOWsns5AyYhZL0evbQYiORFJcE8/cdiw9sD8KEDsmg1qgfdNMIT
+         uI+8zXeKop2jF6NNQPy71BasW+CHoW3MhgH3OPFPU1BZcUepU/sQPaddxDCiAreNBG
+         nM0hmYtP2+8mtO8dYDTYj7RYwMvp8zZQxeUgwifa3blxrPDn9Lt75KCBuCivItjyrC
+         BtJYnnWd8hsy2f0ExOYV8DBUPvPL4Txw8t4SPVZOS+XdKdDkV2IKIxiQHx2EUX8FSe
+         Oo9Caa9YOya1w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takashi Iwai <tiwai@suse.de>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 3/6] r8152: Fix potential PM refcount imbalance
-Date:   Tue, 27 Jul 2021 09:20:12 -0400
-Message-Id: <20210727132015.835651-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/9] r8152: Fix potential PM refcount imbalance
+Date:   Tue, 27 Jul 2021 09:19:56 -0400
+Message-Id: <20210727132002.835130-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210727132015.835651-1-sashal@kernel.org>
-References: <20210727132015.835651-1-sashal@kernel.org>
+In-Reply-To: <20210727132002.835130-1-sashal@kernel.org>
+References: <20210727132002.835130-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 726fb5561a0f..4764e4f54cef 100644
+index 24d124633037..873f288e7cec 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -3960,9 +3960,10 @@ static int rtl8152_close(struct net_device *netdev)
+@@ -4317,9 +4317,10 @@ static int rtl8152_close(struct net_device *netdev)
  		tp->rtl_ops.down(tp);
  
  		mutex_unlock(&tp->control);
