@@ -2,87 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E01ACC4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7125EC4320E
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7D78461A87
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B40161A7F
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236981AbhG0N3F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 09:29:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56496 "EHLO mail.kernel.org"
+        id S237040AbhG0N3M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jul 2021 09:29:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35008 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236946AbhG0NU3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:20:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D20061AFA;
-        Tue, 27 Jul 2021 13:20:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627392008;
-        bh=IOb5L09PKj7J3uOQVbZ+w3JTUbB0AwULpZmvMN+jWv4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z75lfNDD9fvjUp1ukypVGbV1txqgtOqXA73oon1muDN2tvSoVH5iZEOLHppQ0C0FU
-         Dds4v0iMJyJajACmOWsns5AyYhZL0evbQYiORFJcE8/cdiw9sD8KEDsmg1qgfdNMIT
-         uI+8zXeKop2jF6NNQPy71BasW+CHoW3MhgH3OPFPU1BZcUepU/sQPaddxDCiAreNBG
-         nM0hmYtP2+8mtO8dYDTYj7RYwMvp8zZQxeUgwifa3blxrPDn9Lt75KCBuCivItjyrC
-         BtJYnnWd8hsy2f0ExOYV8DBUPvPL4Txw8t4SPVZOS+XdKdDkV2IKIxiQHx2EUX8FSe
-         Oo9Caa9YOya1w==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 4/9] r8152: Fix potential PM refcount imbalance
-Date:   Tue, 27 Jul 2021 09:19:56 -0400
-Message-Id: <20210727132002.835130-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210727132002.835130-1-sashal@kernel.org>
-References: <20210727132002.835130-1-sashal@kernel.org>
+        id S232268AbhG0N2V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Jul 2021 09:28:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 884A361A60;
+        Tue, 27 Jul 2021 13:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1627392502;
+        bh=INvQri55joG33IWmMLux0huoNxZaF8kK3K11aKpnvPA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZVhx53+sl8wU1q7ufcmKEDrQcp4iUdQJhYtBZDvrfkAHU5wBE7RyQ2gns+7kpSV62
+         sO+bfd/z3hcY7TdX7ndQpbsSV8/ohlHxdHpKOf6Mc85UbTimr0NJxOMpWXYbCG4Dr9
+         ra+mNuvPz56KgDDl6jKb89HejxXG5MCm+ErgSOpQ=
+Date:   Tue, 27 Jul 2021 15:28:20 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        syzbot+72af3105289dcb4c055b@syzkaller.appspotmail.com,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.13 06/21] USB: core: Fix incorrect pipe
+ calculation in do_proc_control()
+Message-ID: <YQAJ9LzK8S7tJqwR@kroah.com>
+References: <20210727131908.834086-1-sashal@kernel.org>
+ <20210727131908.834086-6-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210727131908.834086-6-sashal@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Takashi Iwai <tiwai@suse.de>
+On Tue, Jul 27, 2021 at 09:18:53AM -0400, Sasha Levin wrote:
+> From: Alan Stern <stern@rowland.harvard.edu>
+> 
+> [ Upstream commit b0863f1927323110e3d0d69f6adb6a91018a9a3c ]
+> 
+> When the user submits a control URB via usbfs, the user supplies the
+> bRequestType value and the kernel uses it to compute the pipe value.
+> However, do_proc_control() performs this computation incorrectly in
+> the case where the bRequestType direction bit is set to USB_DIR_IN and
+> the URB's transfer length is 0: The pipe's direction is also set to IN
+> but it should be OUT, which is the direction the actual transfer will
+> use regardless of bRequestType.
+> 
+> Commit 5cc59c418fde ("USB: core: WARN if pipe direction != setup
+> packet direction") added a check to compare the direction bit in the
+> pipe value to a control URB's actual direction and to WARN if they are
+> different.  This can be triggered by the incorrect computation
+> mentioned above, as found by syzbot.
+> 
+> This patch fixes the computation, thus avoiding the WARNing.
+> 
+> Reported-and-tested-by: syzbot+72af3105289dcb4c055b@syzkaller.appspotmail.com
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Link: https://lore.kernel.org/r/20210712185436.GB326369@rowland.harvard.edu
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/usb/core/devio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> index 2218941d35a3..73b60f013b20 100644
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -1133,7 +1133,7 @@ static int do_proc_control(struct usb_dev_state *ps,
+>  		"wIndex=%04x wLength=%04x\n",
+>  		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
+>  		ctrl->wIndex, ctrl->wLength);
+> -	if (ctrl->bRequestType & 0x80) {
+> +	if ((ctrl->bRequestType & USB_DIR_IN) && ctrl->wLength) {
+>  		pipe = usb_rcvctrlpipe(dev, 0);
+>  		snoop_urb(dev, NULL, pipe, ctrl->wLength, tmo, SUBMIT, NULL, 0);
+>  
+> -- 
+> 2.30.2
+> 
 
-[ Upstream commit 9c23aa51477a37f8b56c3c40192248db0663c196 ]
+This is not needed in any kernel that does not also have 5cc59c418fde
+("USB: core: WARN if pipe direction != setup packet direction"), which
+showed up in 5.14-rc1, so please drop this from all of the AUTOSEL
+trees.
 
-rtl8152_close() takes the refcount via usb_autopm_get_interface() but
-it doesn't release when RTL8152_UNPLUG test hits.  This may lead to
-the imbalance of PM refcount.  This patch addresses it.
+thanks,
 
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1186194
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/r8152.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 24d124633037..873f288e7cec 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -4317,9 +4317,10 @@ static int rtl8152_close(struct net_device *netdev)
- 		tp->rtl_ops.down(tp);
- 
- 		mutex_unlock(&tp->control);
-+	}
- 
-+	if (!res)
- 		usb_autopm_put_interface(tp->intf);
--	}
- 
- 	free_all_mem(tp);
- 
--- 
-2.30.2
-
+greg k-h
