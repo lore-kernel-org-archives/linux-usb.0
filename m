@@ -2,120 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE74DC4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:03:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6BD7C4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:20:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B991761357
-	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:03:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9242F61A3B
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:20:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236517AbhG0NDS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 09:03:18 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:49355 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232067AbhG0NDS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jul 2021 09:03:18 -0400
-IronPort-SDR: kg/m50MYQjWj9ED0iNKahYjzyfYSluZxNYrvqLM6FR2QqcgvF6D/Bud9velCizRtx3dck1zEjA
- awSBR+mhcmhCcgheeYr0jio7536HVC+nygxR4yQCW7YYGiQ4qFM/qOz9Bay9gw/Anp7uDPekWy
- el8Zvr+EECyt5ukr9WFL1v96FsSe91bsKz/BarJEIkmA7kIA0DoPrfpnuRjUOoyJaE12HqRL6P
- shDa39IEXvHsjovWVei92VtMcQfPiutwAPoFaTBEm8/+9iF7nedLVqdJ4tI5Cc85cpfIocbqav
- +EO0gzvnf2Owh4kmSsE8ZJuV
-X-IronPort-AV: E=Sophos;i="5.84,273,1620720000"; 
-   d="scan'208";a="64139301"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 27 Jul 2021 05:03:18 -0800
-IronPort-SDR: TlCf17dvliU+83uqfaiFG6fVvp+nXckyDok76aSMMq60WINFGVAoAeyOF5EgQKTgNnyCN1mAB8
- hDPYipJMKBOpPNRJHuJ2HHmGIvmYYPw/D/sCpYaWj7vEz7/PTVTUfDJxkRiYhYdNSMnmpVtd3v
- qUFiD0xbUj2VDilKepMqnKTbvnJoJskL/Qmz4MSmA4Bug3wLeCKrFHf3zQD3xN5D1wMHYLcL43
- U0wb36XZk+pjR7YZp87btsbHFvWw48t65STYb8lsa3NFvxOUPmNX+/qIMdeTf1KGEdw+FCg0q1
- O94=
-From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
-To:     AMoonRabbit <razgriz.wilson6@gmail.com>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: Fwd: Linux Kernel 5.12.10 Walkman USB DAC support issues
-Thread-Topic: Fwd: Linux Kernel 5.12.10 Walkman USB DAC support issues
-Thread-Index: AQHXgnc1OBuFQo+G60aTmW/ZGwqjqqtWSBcAgAAnYmCAACiMgIAALrSg
-Date:   Tue, 27 Jul 2021 13:02:51 +0000
-Message-ID: <2c9ddbc65d1e4ce3a368c1d894281178@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <QUKVWQ.1T8HV94AM5X6@gmail.com>
-        <CAJpVOidqd+tpNNkHGvC6fUQ7g3Z+FLpiDJrmPWtQmiL-AsYsLw@mail.gmail.com>
-        <YP+kqqimY1BYZAwL@kroah.com>
-        <a59c1173b77b4ace8db7181b1b0fc446@SVR-IES-MBX-03.mgc.mentorg.com>
- <RBHWWQ.R54EUTRRR5DN@gmail.com>
-In-Reply-To: <RBHWWQ.R54EUTRRR5DN@gmail.com>
-Accept-Language: de-DE, en-IE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S236852AbhG0NUQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jul 2021 09:20:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56476 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236740AbhG0NTv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Jul 2021 09:19:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E32B261A6E;
+        Tue, 27 Jul 2021 13:19:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627391958;
+        bh=SGAxoX3bhykzeVNJBCU4wVtmlae3jXe/7YOcP5gwH3M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NxZHyz92LcgC3pdv07zsGZ90iPmpYGLmqIOHTPMgl/TG0JfvJyPlI27hTnNEXMqUh
+         90gPTMAy+byERrGeNSY8XvWy9Az42q72Ndj7oUYQW0c7SCB1oXw7cK/l26Lz/sAkRw
+         ZU5kq0vJ5vuQxYsx1Qo0w+1CV85MW6HFwyWy3qiHFxEXti2Vx9wfQZIMLr4Ir24gFw
+         UkbmxGESDnxhjeXNDKkVsBeIkC9LqW16f/UUGEiiam/2q4XkGfjchT46yF6+a9YkVe
+         IYK477garbu+w1OFvI/pmtdSBLbf+nfDE9vHw1xD4KTfoZm0id1+orMxH9dp7vut7c
+         /4UcN3DQgq/+g==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 07/21] r8152: Fix potential PM refcount imbalance
+Date:   Tue, 27 Jul 2021 09:18:54 -0400
+Message-Id: <20210727131908.834086-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210727131908.834086-1-sashal@kernel.org>
+References: <20210727131908.834086-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgTmVpbCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBTW9vblJh
-YmJpdCA8cmF6Z3Jpei53aWxzb242QGdtYWlsLmNvbT4NCg0KTm8gdG9wIHBvc3RzIHBsZWFzZS4N
-Cg0KT24gVHVlLCAyNyBKdWwsIDIwMjEgYXQgNzo0MyBhbSwgIlNjaG1pZCwgQ2Fyc3RlbiINCjxD
-YXJzdGVuX1NjaG1pZEBtZW50b3IuY29tPiB3cm90ZToNCj4gSGkgR3JlZywNCj4NCj4gT24gVHVl
-LCBKdWwgMjcsIDIwMjEgYXQgMTI6Mzc6MjhBTSArMDEwMCwgUmF6Z3JpejM3NSAoTmVpbCkgd3Jv
-dGU6DQo+DQo+Pj4gIFsgIDEwOS42Njg0NjVdIHVzYiAxLTE6IFVTQiBkaXNjb25uZWN0LCBkZXZp
-Y2UgbnVtYmVyIDINCj4+PiAgWyAgMTEwLjA4NDQyOV0gdXNiIDEtMTogbmV3IGhpZ2gtc3BlZWQg
-VVNCIGRldmljZSBudW1iZXIgNSB1c2luZw0KPj4+IHhoY2lfaGNkDQo+Pj4gIFsgIDExMC4yMzc5
-NjNdIHVzYiAxLTE6IE5ldyBVU0IgZGV2aWNlIGZvdW5kLCBpZFZlbmRvcj0wNTRjLA0KPj4+IGlk
-UHJvZHVjdD0wYjhjLCBiY2REZXZpY2U9IDEuMDANCj4+PiAgWyAgMTEwLjIzNzk4OV0gdXNiIDEt
-MTogTmV3IFVTQiBkZXZpY2Ugc3RyaW5nczogTWZyPTIsIFByb2R1Y3Q9MywNCj4+PiBTZXJpYWxO
-dW1iZXI9NA0KPj4+ICBbICAxMTAuMjM4MDAyXSB1c2IgMS0xOiBQcm9kdWN0OiBXQUxLTUFODQo+
-Pj4gIFsgIDExMC4yMzgwMTFdIHVzYiAxLTE6IE1hbnVmYWN0dXJlcjogU29ueQ0KPj4+ICBbICAx
-MTAuMjM4MDE5XSB1c2IgMS0xOiBTZXJpYWxOdW1iZXI6IDEwNDU4QjU1NDc3OTE2DQo+Pj4gIFsg
-IDExMC4zNDIxMDRdIHVzYiAxLTE6IDE6NyA6IHVuc3VwcG9ydGVkIGZvcm1hdCBiaXRzIDB4MTAw
-MDAwMDAwDQo+Pj4gIFsgIDExMC4zNDM5NTNdIHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVy
-ZmFjZSBkcml2ZXINCj4+PiBzbmQtdXNiLWF1ZGlvDQo+Pj4NCj4+DQo+Pg0KPj4gIExvb2tzIGxp
-a2UgeW91IHJlbW92ZWQgdGhlIGRldmljZSBhbmQgdGhlbiBhZGRlZCBpdCBiYWNrPyAgQW5kIGl0
-DQo+PiBzYXlzDQo+PiAgdGhlIGRldmljZSBpcyBzdXBwb3J0ZWQgYnkgdGhlIGtlcm5lbCBub3cs
-IHdoYXQgZG9lcyBub3Qgd29yaw0KPj4gcHJvcGVybHk/DQo+DQo+IEJ1dCBlYXJsaWVyIGluIGJv
-b3QgdGhlc2UgbWVzc2FnZXMgYXJlIHNlZW46DQo+IFsgICAgMS45MDg0ODldIHVzYiAxLTE6IE5l
-dyBVU0IgZGV2aWNlIGZvdW5kLCBpZFZlbmRvcj0wNTRjLA0KPiBpZFByb2R1Y3Q9MGNhMSwgYmNk
-RGV2aWNlPSAxLjAwDQo+IFsgICAgMS45MDg1MDNdIHVzYiAxLTE6IE5ldyBVU0IgZGV2aWNlIHN0
-cmluZ3M6IE1mcj0yLCBQcm9kdWN0PTMsDQo+IFNlcmlhbE51bWJlcj00DQo+IFsgICAgMS45MDg1
-MDhdIHVzYiAxLTE6IFByb2R1Y3Q6IFdBTEtNQU4NCj4gWyAgICAxLjkwODUxM10gdXNiIDEtMTog
-TWFudWZhY3R1cmVyOiBTb255DQo+IFsgICAgMS45MDg1MTZdIHVzYiAxLTE6IFNlcmlhbE51bWJl
-cjogMTA0NThCNTU0Nzc5MTYNCj4gWyAgICAyLjE5NTgyMV0gdXNiLXN0b3JhZ2UgMS0xOjEuMDog
-VVNCIE1hc3MgU3RvcmFnZSBkZXZpY2UgZGV0ZWN0ZWQNCj4gWyAgICAyLjE5NTk4OF0gc2NzaSBo
-b3N0MDogdXNiLXN0b3JhZ2UgMS0xOjEuMA0KPg0KPiBQcm9kdWN0SWQgaXMgZGlmZmVyZW50LCB0
-aGF0J3Mgc3RyYW5nZS4NCj4NCj4gTmVpbCwgY291bGQgeW91IGNvbGxlY3QgdGhlIGRtZXNnIGZy
-b20gdGhlIHdvcmtpbmcga2VybmVsIDUuMTAgcGxlYXNlPw0KPiBBbmQ6IGlzIHRoZSBkZXZpY2Ug
-ZXhwZWN0ZWQgdG8gYmUgYSBtYXNzIHN0b3JhZ2UgKGFrYSBVU0IgZGlzaykgYW5kDQo+IHNvdW5k
-IGNhcmQgaW4gb25lPw0KPg0KDQo+IFNvIHRoaXMgaXMgdGhlIERtZXNnIG91dHB1dCBmcm9tIDUu
-MTAuMTcgd2l0aCB3b3JraW5nIG91dHB1dCB0byBVU0IgREFDDQo+IChXYWxrbWFuIHZpc3VhbGx5
-IGdldHMgYXVkaW8gYXMgdGhlIGFtcCBtZXRlciB2aXN1YWxpc2VyIHdvcmtzIHdoZXJlIGFzDQo+
-IG9uIG5ld2VyIGtlcm5lbHMsIHdoaWxzdCB0aGUgc3lzdGVtIGxvb2tzIHRvIGJlIG91dHB1dHRp
-bmcgc291bmQsIHRoZQ0KPiBXYWxrbWFuIHNob3dzIGl0J3MgcmVjZWl2aW5nIG5vdGhpbmcpLg0K
-Li4uDQo+IFsgICAxMi4yMDIzMTJddXNiIDEtMTogbmV3IGhpZ2gtc3BlZWQgVVNCIGRldmljZSBu
-dW1iZXIgMyB1c2luZyB4aGNpX2hjZA0KPiBbICAgMTIuMzUxODM4XXVzYiAxLTE6IE5ldyBVU0Ig
-ZGV2aWNlIGZvdW5kLCBpZFZlbmRvcj0wNTRjLA0KPiBpZFByb2R1Y3Q9MGI4YywgYmNkRGV2aWNl
-PSAxLjAwDQo+IFsgICAxMi4zNTE4NDRddXNiIDEtMTogTmV3IFVTQiBkZXZpY2Ugc3RyaW5nczog
-TWZyPTIsIFByb2R1Y3Q9MywNCj4gU2VyaWFsTnVtYmVyPTQNCj4gWyAgIDEyLjM1MTg0N111c2Ig
-MS0xOiBQcm9kdWN0OiBXQUxLTUFODQo+IFsgICAxMi4zNTE4NTBddXNiIDEtMTogTWFudWZhY3R1
-cmVyOiBTb255DQo+IFsgICAxMi4zNTE4NTJddXNiIDEtMTogU2VyaWFsTnVtYmVyOiAxMDQ1OEI1
-NTQ3NzkxNg0KPiBbICAgMzguNTYwMTcyXXVzYiAxLTE6IDE6NyA6IHVuc3VwcG9ydGVkIGZvcm1h
-dCBiaXRzIDB4MTAwMDAwMDAwDQo+IFsgICAzOC41NjI3NTBddXNiY29yZTogcmVnaXN0ZXJlZCBu
-ZXcgaW50ZXJmYWNlIGRyaXZlciBzbmQtdXNiLWF1ZGlvDQo+IFsgICAzOC42MzA5OTVdc25kX2hk
-YV9pbnRlbCAwMDAwOjAwOjFmLjM6IERTUCBkZXRlY3RlZCB3aXRoIFBDSQ0KPiBjbGFzcy9zdWJj
-bGFzcy9wcm9nLWlmIGluZm8gMHgwNDAzODANCg0KTG9va3MgbGlrZSBvbiB0aGUgb2xkIGtlcm5l
-bCB0aGUgV2Fsa21hbiBpcyBzZWVuIGFzIHRoZSBmaXJzdCBzb3VuZCBjYXJkLg0KT24gdGhlIG5l
-dyBrZXJuZWwsIGl0IHdhcyBzZWVuIGFzIGEgbWFzcyBzdG9yYWdlIGZpcnN0IGFuZCBsYXRlciBz
-d2l0Y2hlZCB0byBzbmQtdXNiLg0KUGxlYXNlIGNoZWNrIGlmIHlvdXIgV2Fsa21hbiBhcHBlYXJz
-IGFzIGEgc291bmQgY2FyZCBpbiB0aGUgbmV3IGtlcm5lbA0KYW5kIGlmIGl0IGlzIG11dGVkIGR1
-ZSB0byBub3QgYmVpbmcgdGhlIGRlZmF1bHQgb3V0cHV0Lg0KDQpUaGFua3MsDQpDYXJzdGVuDQot
-LS0tLS0tLS0tLS0tLS0tLQ0KU2llbWVucyBFbGVjdHJvbmljIERlc2lnbiBBdXRvbWF0aW9uIEdt
-Ykg7IEFuc2NocmlmdDogQXJudWxmc3RyYcOfZSAyMDEsIDgwNjM0IE3DvG5jaGVuOyBHZXNlbGxz
-Y2hhZnQgbWl0IGJlc2NocsOkbmt0ZXIgSGFmdHVuZzsgR2VzY2jDpGZ0c2bDvGhyZXI6IFRob21h
-cyBIZXVydW5nLCBGcmFuayBUaMO8cmF1ZjsgU2l0eiBkZXIgR2VzZWxsc2NoYWZ0OiBNw7xuY2hl
-bjsgUmVnaXN0ZXJnZXJpY2h0IE3DvG5jaGVuLCBIUkIgMTA2OTU1DQo=
+From: Takashi Iwai <tiwai@suse.de>
+
+[ Upstream commit 9c23aa51477a37f8b56c3c40192248db0663c196 ]
+
+rtl8152_close() takes the refcount via usb_autopm_get_interface() but
+it doesn't release when RTL8152_UNPLUG test hits.  This may lead to
+the imbalance of PM refcount.  This patch addresses it.
+
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1186194
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/r8152.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index e25bfb7021ed..8dcc55e4a5bc 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -6761,9 +6761,10 @@ static int rtl8152_close(struct net_device *netdev)
+ 		tp->rtl_ops.down(tp);
+ 
+ 		mutex_unlock(&tp->control);
++	}
+ 
++	if (!res)
+ 		usb_autopm_put_interface(tp->intf);
+-	}
+ 
+ 	free_all_mem(tp);
+ 
+-- 
+2.30.2
+
