@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 304FBC4338F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76500C41537
 	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1233761A88
+	by mail.kernel.org (Postfix) with ESMTP id 6537661A60
 	for <linux-usb@archiver.kernel.org>; Tue, 27 Jul 2021 13:24:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237177AbhG0NXt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 09:23:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56494 "EHLO mail.kernel.org"
+        id S237252AbhG0NYp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Jul 2021 09:24:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236861AbhG0NUR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:20:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 99F0C61AD2;
-        Tue, 27 Jul 2021 13:19:44 +0000 (UTC)
+        id S237019AbhG0NWe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 27 Jul 2021 09:22:34 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 935CD61AA3;
+        Tue, 27 Jul 2021 13:20:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627391985;
-        bh=udT0J8LbuFSyRMXl5YH7r4HlqXhQ2HNqHnm2/jMlvEw=;
+        s=k20201202; t=1627392027;
+        bh=nkadAqFC6N6e3FztxYq8/NmSdB2on2QZ953tiE7PvUM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jvPK4ushF6pesV/Dbu8J2/5f6wau2pDQnxMIa7M1usMHxujLIkv9fm5hSfZM+BJTW
-         AnnFQtdG6exaGRLXUAy/yEn7N+XztkngSRhi1ElEhLk9zJX3Qcp3DWrcxLFtIEYVCo
-         IPjdFvIQjdpts7RB853kRZEfpxhBhjwRieT2l/6uEf9KZfwUSib+BgTN+UzHLNWEvW
-         PxPqDEUWVDLHovo+p2CcdkQkJQDXZHRqLHCmy+zU0Lc4bIxc5wA2awEEfyfET+ZwS0
-         gA4W8VJisyods/RLw0SnMUjWlUYg04WhvQte4fFyjJGaHR5CwS9MD92DJpkBsa0lVd
-         InWchdv79blwg==
+        b=peYFhBA4YR0bjbrVNx+DJAm/wiS0rsGmeGxU5nND4X9EGLgyfr+1R4M6pytg58hZR
+         WgZAKsmVtH9J6nKmorZP6nq5HKKc+8JWxoqickYn7HmRGcBOcN/+JPtmgx4FizRVAP
+         LGZKFfx48Vvqzo/B7oBK+6YHna7A6HS4Wbka9/pcSBNP7R2+3pIzt/iv06lninF328
+         mWvv6sLcN9um1atld2DVDdHTP8Zt/HbclNo2iCmrwxaDgtftnPwbuFM8saEdoFvpnG
+         kE+o6bBcaCLTGVxiRjCTilqOcSR31OLsHN9+0h+XUyX014FcbNzel4eBlA/sC7CSKo
+         V+mtR7paYjpOg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        syzbot+72af3105289dcb4c055b@syzkaller.appspotmail.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 05/17] USB: core: Fix incorrect pipe calculation in do_proc_control()
-Date:   Tue, 27 Jul 2021 09:19:26 -0400
-Message-Id: <20210727131938.834920-5-sashal@kernel.org>
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 2/5] r8152: Fix potential PM refcount imbalance
+Date:   Tue, 27 Jul 2021 09:20:21 -0400
+Message-Id: <20210727132024.835810-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210727131938.834920-1-sashal@kernel.org>
-References: <20210727131938.834920-1-sashal@kernel.org>
+In-Reply-To: <20210727132024.835810-1-sashal@kernel.org>
+References: <20210727132024.835810-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -51,47 +51,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alan Stern <stern@rowland.harvard.edu>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit b0863f1927323110e3d0d69f6adb6a91018a9a3c ]
+[ Upstream commit 9c23aa51477a37f8b56c3c40192248db0663c196 ]
 
-When the user submits a control URB via usbfs, the user supplies the
-bRequestType value and the kernel uses it to compute the pipe value.
-However, do_proc_control() performs this computation incorrectly in
-the case where the bRequestType direction bit is set to USB_DIR_IN and
-the URB's transfer length is 0: The pipe's direction is also set to IN
-but it should be OUT, which is the direction the actual transfer will
-use regardless of bRequestType.
+rtl8152_close() takes the refcount via usb_autopm_get_interface() but
+it doesn't release when RTL8152_UNPLUG test hits.  This may lead to
+the imbalance of PM refcount.  This patch addresses it.
 
-Commit 5cc59c418fde ("USB: core: WARN if pipe direction != setup
-packet direction") added a check to compare the direction bit in the
-pipe value to a control URB's actual direction and to WARN if they are
-different.  This can be triggered by the incorrect computation
-mentioned above, as found by syzbot.
-
-This patch fixes the computation, thus avoiding the WARNing.
-
-Reported-and-tested-by: syzbot+72af3105289dcb4c055b@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Link: https://lore.kernel.org/r/20210712185436.GB326369@rowland.harvard.edu
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1186194
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/core/devio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/usb/r8152.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 2218941d35a3..73b60f013b20 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -1133,7 +1133,7 @@ static int do_proc_control(struct usb_dev_state *ps,
- 		"wIndex=%04x wLength=%04x\n",
- 		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
- 		ctrl->wIndex, ctrl->wLength);
--	if (ctrl->bRequestType & 0x80) {
-+	if ((ctrl->bRequestType & USB_DIR_IN) && ctrl->wLength) {
- 		pipe = usb_rcvctrlpipe(dev, 0);
- 		snoop_urb(dev, NULL, pipe, ctrl->wLength, tmo, SUBMIT, NULL, 0);
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 8da3c891c9e8..a5a4fef09b93 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -3953,9 +3953,10 @@ static int rtl8152_close(struct net_device *netdev)
+ 		tp->rtl_ops.down(tp);
+ 
+ 		mutex_unlock(&tp->control);
++	}
+ 
++	if (!res)
+ 		usb_autopm_put_interface(tp->intf);
+-	}
+ 
+ 	free_all_mem(tp);
  
 -- 
 2.30.2
