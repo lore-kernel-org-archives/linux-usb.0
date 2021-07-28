@@ -2,146 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D17EC4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 13:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DC2C4320A
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 14:04:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 498E061019
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 13:29:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5011D60F45
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 14:04:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236345AbhG1N3Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Jul 2021 09:29:24 -0400
-Received: from lan.nucleusys.com ([92.247.61.126]:46916 "EHLO
-        zzt.nucleusys.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S236285AbhG1N3Y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Jul 2021 09:29:24 -0400
-X-Greylist: delayed 1606 seconds by postgrey-1.27 at vger.kernel.org; Wed, 28 Jul 2021 09:29:23 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=nucleusys.com; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
-        Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=GGQUJX01/qHxOH0HY6+f9UrSmlNedb2EpkrQPamkdW4=; b=mHclIhp8yG+1uvz3pLOXQoGITn
-        OlyEbwAS2VQ5Nkw6nCnshS1sbQTcScn5e8ed4Hic33pwEwrUImkE6co3SdMyZi87hpFZn0SZTkt9R
-        g7isgBlPwmEaRSnezGlh0qydPH0eY2cUAYxqqrAKICQYTuYChSqp/OsVhuWhuKrJ3BcE=;
-Received: from 212-39-89-108.ip.btc-net.bg ([212.39.89.108] helo=carbon)
-        by zzt.nucleusys.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <petkan@nucleusys.com>)
-        id 1m8jCe-0007Ds-3w; Wed, 28 Jul 2021 16:02:29 +0300
-Date:   Wed, 28 Jul 2021 16:02:24 +0300
-From:   Petko Manolov <petkan@nucleusys.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH net-next v3 14/31] net: usb: use ndo_siocdevprivate
-Message-ID: <YQFVYN1yv8oJotEl@carbon>
-Mail-Followup-To: Arnd Bergmann <arnd@kernel.org>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org
-References: <20210727134517.1384504-1-arnd@kernel.org>
- <20210727134517.1384504-15-arnd@kernel.org>
+        id S235389AbhG1OEg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Jul 2021 10:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235317AbhG1OEg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Jul 2021 10:04:36 -0400
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com [IPv6:2607:f8b0:4864:20::f29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED09C061757;
+        Wed, 28 Jul 2021 07:04:33 -0700 (PDT)
+Received: by mail-qv1-xf29.google.com with SMTP id g6so1549924qvj.8;
+        Wed, 28 Jul 2021 07:04:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=RJ6yiUmiMn9KXKa+d1/GNMShbg379rzibdu6zfOJPe4=;
+        b=iAsLbeOiL/fKTFCVi1vRjJPRalwM8QeZESMxa70PdYSCzUNpPXxDFFC+53mgSq6Nel
+         gNxLh67UXeEauvl2EiPWUIDlRr/HueXRyA483cWJVvlccGeKC3RRkzarjvxuEo5XY3xn
+         pzppBYBjfwYs/KRVsyqTJ81NLlZEA50UiAKnEf58zZcLllCcRC/hZ9iUulbt2cOfFW2V
+         46/c3Ty1FdNmfUerQzPtQ9vBv8zSUQm6NFHAYH92JNnJYiWk49dzwRj9U9DaHbDIenSw
+         sp12Tl+mAz/dnTQtbeUWhdMG/T+QM9+p4exsu/1pQvKH7u0tk/EmXjpjV1W7NCGbcrwM
+         eYlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RJ6yiUmiMn9KXKa+d1/GNMShbg379rzibdu6zfOJPe4=;
+        b=gnAAHC+zQ/Xr2EoDHanVHu/ntppGiSlltUzAKw+GMH7Kq+YsUVcIeCmEwidWGUEgmq
+         rm26KSeff4sfaZ82GwR3Rda0DKUs626zspT9XGyFvPeuuHGtsyJ+hyOM6DTdWMVBK/gf
+         SUDcuY1dlRzP3AEBSxqGopPpfwv11K4EV1Wb9ohRuQ8xZH7LyE5XKE3n8fjuaQ2g29WJ
+         bMAU2/a6nBwqNHXRX5dQipElR5Ne6VUUa9XptMLj+1hSRMXf2K82fzuTAhn0jGNQhT9b
+         e8wlJPxi4CvSmKcMT4A1z4JUoYTDxwNBSwrLfmYvhESJMxHQSHxql0VT+RwsWHJT3AfI
+         M/QA==
+X-Gm-Message-State: AOAM5332MdBtzYG6DXeH9G53NR7lezmqxpbbaOrzWaSgnrkGMTyeZgRS
+        NZyKomtP0gFvLRpebGbnsfOEIaRJa4w=
+X-Google-Smtp-Source: ABdhPJwyqdQ6iec8LEqxM4w3Rg/eJ2SUVEkoi2nQ6W5EMq43YfiWmvtO7v6IwoqNob0iUX2DWrqzgQ==
+X-Received: by 2002:a05:6214:501d:: with SMTP id jo29mr141852qvb.43.1627481072852;
+        Wed, 28 Jul 2021 07:04:32 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j198sm30674qke.120.2021.07.28.07.04.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jul 2021 07:04:32 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: connector: Add pd-supported property
+To:     Kyle Tso <kyletso@google.com>, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org
+Cc:     badhri@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20210728092930.2552619-1-kyletso@google.com>
+ <20210728092930.2552619-2-kyletso@google.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <825a816f-4049-ddc4-e42d-ffc0d68306f8@roeck-us.net>
+Date:   Wed, 28 Jul 2021 07:04:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210727134517.1384504-15-arnd@kernel.org>
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: Spam detection software, running on the system "zzt.nucleusys.com",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- @@CONTACT_ADDRESS@@ for details.
- Content preview:  On 21-07-27 15:45:00, Arnd Bergmann wrote: > From: Arnd Bergmann
-    <arnd@arndb.de> > > The pegasus and rtl8150 drivers use SIOCDEVPRIVATE ioctls
-    > to access their MII registers, in place of the normal > [...] 
- Content analysis details:   (-1.0 points, 5.0 required)
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-  0.0 TVD_RCVD_IP            Message was received from an IP address
+In-Reply-To: <20210728092930.2552619-2-kyletso@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21-07-27 15:45:00, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On 7/28/21 2:29 AM, Kyle Tso wrote:
+> Set "pd-unsupported" property if the Type-C connector has no power
+> delivery support.
 > 
-> The pegasus and rtl8150 drivers use SIOCDEVPRIVATE ioctls
-> to access their MII registers, in place of the normal
-> commands. This is broken for all compat ioctls today.
-> 
-> Change to ndo_siocdevprivate to fix it.
 
-Well, ACK i guess... :)
+$subject still says "pd-supported"
 
-
-		Petko
-
-
-> Cc: Petko Manolov <petkan@nucleusys.com>
-> Cc: linux-usb@vger.kernel.org
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Kyle Tso <kyletso@google.com>
 > ---
->  drivers/net/usb/pegasus.c | 5 +++--
->  drivers/net/usb/rtl8150.c | 5 +++--
->  2 files changed, 6 insertions(+), 4 deletions(-)
+> changes since v2:
+> - Negated the meaning and the name of the dt property. Now the name is
+>    "pd-unsupported".
 > 
-> diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-> index 9a907182569c..0475ef0efdca 100644
-> --- a/drivers/net/usb/pegasus.c
-> +++ b/drivers/net/usb/pegasus.c
-> @@ -987,7 +987,8 @@ static const struct ethtool_ops ops = {
->  	.set_link_ksettings = pegasus_set_link_ksettings,
->  };
->  
-> -static int pegasus_ioctl(struct net_device *net, struct ifreq *rq, int cmd)
-> +static int pegasus_siocdevprivate(struct net_device *net, struct ifreq *rq,
-> +				  void __user *udata, int cmd)
->  {
->  	__u16 *data = (__u16 *) &rq->ifr_ifru;
->  	pegasus_t *pegasus = netdev_priv(net);
-> @@ -1245,7 +1246,7 @@ static int pegasus_resume(struct usb_interface *intf)
->  static const struct net_device_ops pegasus_netdev_ops = {
->  	.ndo_open =			pegasus_open,
->  	.ndo_stop =			pegasus_close,
-> -	.ndo_do_ioctl =			pegasus_ioctl,
-> +	.ndo_siocdevprivate =		pegasus_siocdevprivate,
->  	.ndo_start_xmit =		pegasus_start_xmit,
->  	.ndo_set_rx_mode =		pegasus_set_multicast,
->  	.ndo_tx_timeout =		pegasus_tx_timeout,
-> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-> index 7656f2a3afd9..4a1b0e0fc3a3 100644
-> --- a/drivers/net/usb/rtl8150.c
-> +++ b/drivers/net/usb/rtl8150.c
-> @@ -822,7 +822,8 @@ static const struct ethtool_ops ops = {
->  	.get_link_ksettings = rtl8150_get_link_ksettings,
->  };
->  
-> -static int rtl8150_ioctl(struct net_device *netdev, struct ifreq *rq, int cmd)
-> +static int rtl8150_siocdevprivate(struct net_device *netdev, struct ifreq *rq,
-> +				  void __user *udata, int cmd)
->  {
->  	rtl8150_t *dev = netdev_priv(netdev);
->  	u16 *data = (u16 *) & rq->ifr_ifru;
-> @@ -850,7 +851,7 @@ static int rtl8150_ioctl(struct net_device *netdev, struct ifreq *rq, int cmd)
->  static const struct net_device_ops rtl8150_netdev_ops = {
->  	.ndo_open		= rtl8150_open,
->  	.ndo_stop		= rtl8150_close,
-> -	.ndo_do_ioctl		= rtl8150_ioctl,
-> +	.ndo_siocdevprivate	= rtl8150_siocdevprivate,
->  	.ndo_start_xmit		= rtl8150_start_xmit,
->  	.ndo_tx_timeout		= rtl8150_tx_timeout,
->  	.ndo_set_rx_mode	= rtl8150_set_multicast,
-> -- 
-> 2.29.2
+>   .../devicetree/bindings/connector/usb-connector.yaml          | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> index 92b49bc37939..21ec470117a6 100644
+> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> @@ -111,6 +111,10 @@ properties:
+>         - 1.5A
+>         - 3.0A
+>   
+> +  pd-unsupported:
+> +    description: Set this property if the Type-C connector has no power delivery support.
+> +    type: boolean
+> +
+>     # The following are optional properties for "usb-c-connector" with power
+>     # delivery support.
+>     source-pdos:
 > 
+
