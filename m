@@ -2,335 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C67E9C4320A
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 02:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FBC0C4338F
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 05:53:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD26160FDA
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 02:11:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EAE8D60F01
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Jul 2021 05:53:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbhG1CLp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Jul 2021 22:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233352AbhG1CLp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Jul 2021 22:11:45 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519F8C061764
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jul 2021 19:11:44 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id w6so1833591oiv.11
-        for <linux-usb@vger.kernel.org>; Tue, 27 Jul 2021 19:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AfBXNgrMpBvktP8L3i6TARNdAjtCH+8h0QG9uYxjHTE=;
-        b=RVYpT0Zow2LjpWSbzV6llKwgsgjvpyMyZsHMedbzFOMjEJ5cDRXWlLpMDTI/gAIBNa
-         5aTzKV0hWOsvVEXlOMlf+eD1dAS1Js2f5f2yxwGU8LViv6/f3SOhpm8zuQpIQQjUPd9H
-         /jSXuRSKLAMevP4ROPTFmQWOw3/Uz274UTp+QYOtxW8TrbQIvZNwhXrlhEm8+IHxoYoN
-         nPs0xbLyrZW3cfsmBrBKp/8CxL9bZm3S9aBLSOLjhpcxCW2fegWSL3nARHl27rqAOr/J
-         oomHeWsSesVJhBlkz46pDiPWofa/Y7z7p3mPAZwlTp/cPuQseWOuY73XcXl6jlM/F7HL
-         bk8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AfBXNgrMpBvktP8L3i6TARNdAjtCH+8h0QG9uYxjHTE=;
-        b=t1oy/kzGYD38lRxD7j6XoxDtRDF5DjhpNlJIwa/pG7ELplaTWbX1RBpgGaTaq2AhDN
-         DlC4dil4rH4tUrhCKZRG123uCk21cuFLWYkIT6ww5hRhsScVFylML72MlSdcCoF/0nAL
-         iX00BXqEyU+06rs1w0Y5S2LLfQaRAWqU3TI150NUF3qx3lDe92HXMgn6Ved7vSyw4Uvc
-         OXHIfomcvBczAfekOfsHu7ipIR60bwVmrNuygPJZK02BRvHkO7SUBqYjFNIys8Mtxpc6
-         TkbMaVpgrEH3nuFtVvG8q8GLYJyAM3J3LIMNDuaMWfWnyYwz1VWL+ffkCpC6Nr6QQYoD
-         GbFw==
-X-Gm-Message-State: AOAM532QbqBywX95ACvZgaDwVry5d8MnmWNvnoXVZ5C3+FABRB/e7zmG
-        Kd/8XdgYqdnbKAQ0NyvxQ2o2a5Etl2FdbJR1nYItuw==
-X-Google-Smtp-Source: ABdhPJzFOZ78iIWSjSy7azGbbd9ETwT86fADXm1p0ytfl0juEToTmZBLjdB0d4o/VmDZTzKGIf7gZXtHzW2sQemXJyk=
-X-Received: by 2002:aca:ad10:: with SMTP id w16mr4782521oie.26.1627438303156;
- Tue, 27 Jul 2021 19:11:43 -0700 (PDT)
+        id S233519AbhG1Fxz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Jul 2021 01:53:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51728 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229814AbhG1Fxy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Jul 2021 01:53:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 28F2960F91;
+        Wed, 28 Jul 2021 05:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1627451633;
+        bh=OLVO5xJIhwHiX7AgTyp2l1mNWBfyWHe5OjPiCsJ891k=;
+        h=References:From:To:Cc:Subject:In-reply-to:Date:From;
+        b=sSZ3Q+zosGSU3L8V950HNs4eIgUXdoiCEfbxfpuvRyspPyZ1jCdh/sljW36z3tT0m
+         pTNMGkpLOuT79IrXDEvQy6/dPShiNsJiIgKbUrvURm8YoQP7+ldi9xlNTXZn0XE35m
+         Ak/PFwJMn8GZVOiXyJmpwfVc8+aaV/tfg+wNyPv3kTBTdQBDe6bLqgvXLuD1CFmh7m
+         GV4+qFcs3uHdaBlq6HDIatibTa++J0A7CHDaqR7AXPYD+mwC9eyt6BCnZGTR9tBX5K
+         S/jgHFwDP10Jb6Mu/YLfT7qStpTO2Byaejv/51GD8L1IneifQjW8Esg7wBhZnATYlB
+         G0HUf0LUwRWMA==
+References: <1620716636-12422-1-git-send-email-wcheng@codeaurora.org>
+ <87tun9g01v.fsf@kernel.org>
+ <2675db9e-0cab-06b5-2986-0b4456a1f040@codeaurora.org>
+ <5156238d-c1d8-a0d3-47af-8b52467fd071@codeaurora.org>
+ <fc346f3c-6e3d-b96c-d64a-2ae4cf4218d4@codeaurora.org>
+ <87v954xjoz.fsf@kernel.org>
+ <3c55dd4f-5ebd-3730-7428-cb15235465a7@codeaurora.org>
+User-agent: mu4e 1.4.15; emacs 27.2
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Wesley Cheng <wcheng@codeaurora.org>
+Cc:     gregkh@linuxfoundation.org, peter.chen@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        jackp@codeaurora.org
+Subject: Re: [PATCH v2] usb: dwc3: gadget: Replace
+ list_for_each_entry_safe() if using giveback
+In-reply-to: <3c55dd4f-5ebd-3730-7428-cb15235465a7@codeaurora.org>
+Date:   Wed, 28 Jul 2021 08:53:49 +0300
+Message-ID: <87pmv3t24y.fsf@kernel.org>
 MIME-Version: 1.0
-References: <20210727151307.2178352-1-kyletso@google.com> <20210727151307.2178352-3-kyletso@google.com>
- <cbc4bdd6-de34-08a8-7968-9d3b0276e347@roeck-us.net>
-In-Reply-To: <cbc4bdd6-de34-08a8-7968-9d3b0276e347@roeck-us.net>
-From:   Kyle Tso <kyletso@google.com>
-Date:   Wed, 28 Jul 2021 10:11:26 +0800
-Message-ID: <CAGZ6i=0CQy7sMvwT3e47w-3SFWgTXr-5kA2pOn1oLhH=GJJE0A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] usb: typec: tcpm: Support non-PD mode
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, badhri@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 6:46 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 7/27/21 8:13 AM, Kyle Tso wrote:
-> > Even if the Type-C controller supports PD, it is doable to disable PD
-> > capabilities with the current state machine in TCPM. Without enabling RX
-> > in low-level drivers and with skipping the power negotiation, the port
-> > is eligible to be a non-PD Type-C port. Use new flags whose values are
-> > populated from the device tree to decide the port PD capability. Adding
-> > "pd-supported" property in device tree indicates that the port supports
-> > PD. If "pd-supported" is not found, "typec-power-opmode" shall be added
-> > to specify the advertised Rp value if the port supports SRC role.
-> >
-> > Signed-off-by: Kyle Tso <kyletso@google.com>
-> > ---
-> > changes since v1:
-> > - Revised the patch to use dt properties
-> > - Added back the checks of callbacks set_pd_rx and pd_transmit
-> > - Added src_rp to indicate which Rp value should be used in SRC. This
-> >    variable is derived from dt property "typec-power-opmode"
-> >
-> >   drivers/usb/typec/tcpm/tcpm.c | 108 +++++++++++++++++++++++++---------
-> >   1 file changed, 79 insertions(+), 29 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> > index 5b22a1c931a9..4cf77c787f54 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -316,6 +316,7 @@ struct tcpm_port {
-> >       struct typec_partner *partner;
-> >
-> >       enum typec_cc_status cc_req;
-> > +     enum typec_cc_status src_rp;    /* work only if pd_supported == false */
-> >
-> >       enum typec_cc_status cc1;
-> >       enum typec_cc_status cc2;
-> > @@ -323,6 +324,7 @@ struct tcpm_port {
-> >
-> >       bool attached;
-> >       bool connected;
-> > +     bool pd_supported;
-> >       enum typec_port_type port_type;
-> >
-> >       /*
-> > @@ -804,6 +806,7 @@ static void tcpm_apply_rc(struct tcpm_port *port)
-> >       }
-> >   }
-> >
-> > +
-> >   /*
-> >    * Determine RP value to set based on maximum current supported
-> >    * by a port if configured as source.
-> > @@ -815,6 +818,9 @@ static enum typec_cc_status tcpm_rp_cc(struct tcpm_port *port)
-> >       int nr_pdo = port->nr_src_pdo;
-> >       int i;
-> >
-> > +     if (!port->pd_supported)
-> > +             return port->src_rp;
-> > +
-> >       /*
-> >        * Search for first entry with matching voltage.
-> >        * It should report the maximum supported current.
-> > @@ -3568,9 +3574,11 @@ static int tcpm_src_attach(struct tcpm_port *port)
-> >       if (ret < 0)
-> >               return ret;
-> >
-> > -     ret = port->tcpc->set_pd_rx(port->tcpc, true);
-> > -     if (ret < 0)
-> > -             goto out_disable_mux;
-> > +     if (port->pd_supported) {
-> > +             ret = port->tcpc->set_pd_rx(port->tcpc, true);
-> > +             if (ret < 0)
-> > +                     goto out_disable_mux;
-> > +     }
-> >
-> >       /*
-> >        * USB Type-C specification, version 1.2,
-> > @@ -3600,7 +3608,8 @@ static int tcpm_src_attach(struct tcpm_port *port)
-> >   out_disable_vconn:
-> >       tcpm_set_vconn(port, false);
-> >   out_disable_pd:
-> > -     port->tcpc->set_pd_rx(port->tcpc, false);
-> > +     if (port->pd_supported)
-> > +             port->tcpc->set_pd_rx(port->tcpc, false);
-> >   out_disable_mux:
-> >       tcpm_mux_set(port, TYPEC_STATE_SAFE, USB_ROLE_NONE,
-> >                    TYPEC_ORIENTATION_NONE);
-> > @@ -3804,6 +3813,20 @@ static enum typec_pwr_opmode tcpm_get_pwr_opmode(enum typec_cc_status cc)
-> >       }
-> >   }
-> >
-> > +static enum typec_cc_status tcpm_pwr_opmode_to_rp(enum typec_pwr_opmode opmode)
-> > +{
-> > +     switch (opmode) {
-> > +     case TYPEC_PWR_MODE_USB:
-> > +             return TYPEC_CC_RP_DEF;
-> > +     case TYPEC_PWR_MODE_1_5A:
-> > +             return TYPEC_CC_RP_1_5;
-> > +     case TYPEC_PWR_MODE_3_0A:
-> > +     case TYPEC_PWR_MODE_PD:
-> > +     default:
-> > +             return TYPEC_CC_RP_3_0;
-> > +     }
-> > +}
-> > +
-> >   static void run_state_machine(struct tcpm_port *port)
-> >   {
-> >       int ret;
-> > @@ -3914,6 +3937,10 @@ static void run_state_machine(struct tcpm_port *port)
-> >               if (port->ams == POWER_ROLE_SWAP ||
-> >                   port->ams == FAST_ROLE_SWAP)
-> >                       tcpm_ams_finish(port);
-> > +             if (!port->pd_supported) {
-> > +                     tcpm_set_state(port, SRC_READY, 0);
-> > +                     break;
-> > +             }
-> >               port->upcoming_state = SRC_SEND_CAPABILITIES;
-> >               tcpm_ams_start(port, POWER_NEGOTIATION);
-> >               break;
-> > @@ -4161,7 +4188,10 @@ static void run_state_machine(struct tcpm_port *port)
-> >                               current_lim = PD_P_SNK_STDBY_MW / 5;
-> >                       tcpm_set_current_limit(port, current_lim, 5000);
-> >                       tcpm_set_charge(port, true);
-> > -                     tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
-> > +                     if (!port->pd_supported)
-> > +                             tcpm_set_state(port, SNK_READY, 0);
-> > +                     else
-> > +                             tcpm_set_state(port, SNK_WAIT_CAPABILITIES, 0);
-> >                       break;
-> >               }
-> >               /*
-> > @@ -4389,7 +4419,8 @@ static void run_state_machine(struct tcpm_port *port)
-> >               tcpm_set_vbus(port, true);
-> >               if (port->ams == HARD_RESET)
-> >                       tcpm_ams_finish(port);
-> > -             port->tcpc->set_pd_rx(port->tcpc, true);
-> > +             if (port->pd_supported)
-> > +                     port->tcpc->set_pd_rx(port->tcpc, true);
-> >               tcpm_set_attached_state(port, true);
-> >               tcpm_set_state(port, SRC_UNATTACHED, PD_T_PS_SOURCE_ON);
-> >               break;
-> > @@ -5898,6 +5929,7 @@ EXPORT_SYMBOL_GPL(tcpm_tcpc_reset);
-> >   static int tcpm_fw_get_caps(struct tcpm_port *port,
-> >                           struct fwnode_handle *fwnode)
-> >   {
-> > +     const char *opmode_str;
-> >       const char *cap_str;
-> >       int ret;
-> >       u32 mw, frs_current;
-> > @@ -5932,22 +5964,36 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
-> >               return ret;
-> >       port->typec_caps.type = ret;
-> >       port->port_type = port->typec_caps.type;
-> > +     port->pd_supported = fwnode_property_read_bool(fwnode, "pd-supported");
-> >
->
-> As mentioned in the other patch, I think this needs to be negated.
-> Not the variable itself, but the meaning of the property.
->
 
-Makes sense. I will send another patch.
+Hi Wesley,
 
-> >       port->slow_charger_loop = fwnode_property_read_bool(fwnode, "slow-charger-loop");
+Wesley Cheng <wcheng@codeaurora.org> writes:
+>>>>> Sorry for the late response.  So I tried with a list_replace_init() to
+>>>>> within the list_for_each_entry_safe() loop to update tmp w/ the
+>>>>> cancelled_list list head, but the issue was still observed.  This is
+>>>>> because we can't replace the reference the loop already has stored in
+>>>>> tmp, which is simply updated as the current item on the next iteration.
+>>>>>
+>>>>> I believe this is what you were trying to achieve?
+>>>>>
+>>>> Was wondering if you had any further inputs on this change?  As
+>>>> mentioned, I tried a few things with list_replace_init(), which did not
+>>>> work.
+>>>>
+>>>
+>>> Sorry for the ping.  Is this change OK to add as is?  We've been running
+>>> into this instance pretty frequently during our testing, so just wanted
+>>> to close on the proper changes being merged upstream.
+>> 
+>> The idea is this:
+>> 
+>> 	struct list_head	local;
+>> 
+>>         spin_lock_irq(&lock);
+>>         list_replace_init(&dwc->cancelled_list, &local);
+>>         spin_unlock_irq(&lock);
+>> 
+>> 	list_for_each_entry_safe(req, tmp, &local, list) {
+>>         	/* ... */
+>> 	}
+>> 
+>> It looks to me this should work fine, no? You can also follow what
+>> drivers/usb/core/hcd.c is doing in usb_giveback_urb_bh() and restarting
+>> if dwc->cancelled_list is not empty after list_for_each_entry_safe().
+>> 
+>> Can you give that one a shot?
+>> 
 >
-> It might make sense to move the properties needed with !pd_supported to here
-> and return immediately after they are read. This would reduce the number of
-> required changes and avoid trying to read irrelevant properties.
-> Something like
->
->         if (port->port_type != TYPEC_PORT_SRC)
->                 port->self_powered = fwnode_property_read_bool(fwnode, "self-powered");
->
->         if (!port->pd_supported)
->                 return 0;
->
+> Great, thanks for this suggestion!  Now I understand what you were
+> referring to.  I gave this a try and it works well.  Will prepare a
+> change to replace both places with list_replace_init()
 
-I will try to modify the flow control as well.
+this is great news :-) Thanks for trying it out
 
-thanks,
-Kyle
-
-> >       if (port->port_type == TYPEC_PORT_SNK)
-> >               goto sink;
-> >
-> >       /* Get source pdos */
-> > -     ret = fwnode_property_count_u32(fwnode, "source-pdos");
-> > -     if (ret <= 0)
-> > -             return -EINVAL;
-> > +     if (port->pd_supported) {
-> > +             ret = fwnode_property_count_u32(fwnode, "source-pdos");
-> > +             if (ret <= 0)
-> > +                     return -EINVAL;
-> >
-> > -     port->nr_src_pdo = min(ret, PDO_MAX_OBJECTS);
-> > -     ret = fwnode_property_read_u32_array(fwnode, "source-pdos",
-> > -                                          port->src_pdo, port->nr_src_pdo);
-> > -     if ((ret < 0) || tcpm_validate_caps(port, port->src_pdo,
-> > -                                         port->nr_src_pdo))
-> > -             return -EINVAL;
-> > +             port->nr_src_pdo = min(ret, PDO_MAX_OBJECTS);
-> > +             ret = fwnode_property_read_u32_array(fwnode, "source-pdos",
-> > +                                                  port->src_pdo, port->nr_src_pdo);
-> > +             if ((ret < 0) || tcpm_validate_caps(port, port->src_pdo,
-> > +                                                 port->nr_src_pdo))
-> > +                     return -EINVAL;
-> > +     } else {
-> > +             port->nr_src_pdo = 0;
-> > +             ret = fwnode_property_read_string(fwnode, "typec-power-opmode", &opmode_str);
-> > +             if (ret == 0) {
-> > +                     ret = typec_find_pwr_opmode(opmode_str);
-> > +                     if (ret < 0)
-> > +                             return ret;
-> > +                     port->src_rp = tcpm_pwr_opmode_to_rp(ret);
-> > +             } else {
-> > +                     return ret;
-> > +             }
-> > +     }
-> >
-> >       if (port->port_type == TYPEC_PORT_SRC)
-> >               return 0;
-> > @@ -5962,25 +6008,29 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
-> >               return -EINVAL;
-> >   sink:
-> >       /* Get sink pdos */
-> > -     ret = fwnode_property_count_u32(fwnode, "sink-pdos");
-> > -     if (ret <= 0)
-> > -             return -EINVAL;
-> > +     if (port->pd_supported) {
-> > +             ret = fwnode_property_count_u32(fwnode, "sink-pdos");
-> > +             if (ret <= 0)
-> > +                     return -EINVAL;
-> >
-> > -     port->nr_snk_pdo = min(ret, PDO_MAX_OBJECTS);
-> > -     ret = fwnode_property_read_u32_array(fwnode, "sink-pdos",
-> > -                                          port->snk_pdo, port->nr_snk_pdo);
-> > -     if ((ret < 0) || tcpm_validate_caps(port, port->snk_pdo,
-> > -                                         port->nr_snk_pdo))
-> > -             return -EINVAL;
-> > +             port->nr_snk_pdo = min(ret, PDO_MAX_OBJECTS);
-> > +             ret = fwnode_property_read_u32_array(fwnode, "sink-pdos",
-> > +                                                  port->snk_pdo, port->nr_snk_pdo);
-> > +             if ((ret < 0) || tcpm_validate_caps(port, port->snk_pdo,
-> > +                                                 port->nr_snk_pdo))
-> > +                     return -EINVAL;
-> >
-> > -     if (fwnode_property_read_u32(fwnode, "op-sink-microwatt", &mw) < 0)
-> > -             return -EINVAL;
-> > -     port->operating_snk_mw = mw / 1000;
-> > +             if (fwnode_property_read_u32(fwnode, "op-sink-microwatt", &mw) < 0)
-> > +                     return -EINVAL;
-> > +             port->operating_snk_mw = mw / 1000;
-> > +     } else {
-> > +             port->nr_snk_pdo = 0;
-> > +     }
-> >
-> >       port->self_powered = fwnode_property_read_bool(fwnode, "self-powered");
-> >
-> > -     /* FRS can only be supported byb DRP ports */
-> > -     if (port->port_type == TYPEC_PORT_DRP) {
-> > +     /* FRS can only be supported by DRP ports */
-> > +     if (port->port_type == TYPEC_PORT_DRP && port->pd_supported) {
-> >               ret = fwnode_property_read_u32(fwnode, "new-source-frs-typec-current",
-> >                                              &frs_current);
-> >               if (ret >= 0 && frs_current <= FRS_5V_3A)
-> >
->
+-- 
+balbi
