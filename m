@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 021CBC4320A
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FD0C4338F
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D9A4060F6B
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 580C960F5E
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230436AbhG3Iun (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Jul 2021 04:50:43 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35840 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S230335AbhG3Iun (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 04:50:43 -0400
-X-UUID: c81884d5debb4e61a9ddb47bb53eb296-20210730
-X-UUID: c81884d5debb4e61a9ddb47bb53eb296-20210730
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        id S238047AbhG3Iuq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Jul 2021 04:50:46 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:41356 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230335AbhG3Iup (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 04:50:45 -0400
+X-UUID: f90a8406a6de4ed9a75b9328355a312f-20210730
+X-UUID: f90a8406a6de4ed9a75b9328355a312f-20210730
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1535559925; Fri, 30 Jul 2021 16:50:35 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 528263771; Fri, 30 Jul 2021 16:50:38 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 16:50:34 +0800
+ 15.0.1497.2; Fri, 30 Jul 2021 16:50:37 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 16:50:33 +0800
+ Transport; Fri, 30 Jul 2021 16:50:36 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>
@@ -42,10 +42,12 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 01/11] dt-bindings: usb: mtk-xhci: add support property 'tpl-support'
-Date:   Fri, 30 Jul 2021 16:49:52 +0800
-Message-ID: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 03/11] dt-bindings: usb: mtk-xhci: add compatible for mt8195
+Date:   Fri, 30 Jul 2021 16:49:54 +0800
+Message-ID: <1627635002-24521-3-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -53,27 +55,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add property 'tpl-support' to support targeted peripheral list
-for USB-IF Embedded Host Compliance Test
+There are 4 USB controllers on MT8195, the controllers (IP1~IP3,
+exclude IP0) have a wrong default SOF/ITP interval which is
+calculated from the frame counter clock 24Mhz by default, but
+in fact, the frame counter clock is 48Mhz, so we should set
+the accurate interval according to 48Mhz. Here add a new compatible
+for MT8195, it's also supported in driver. But the first controller
+(IP0) has no such issue, we prefer to use generic compatible,
+e.g. mt8192's compatible.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 240882b12565..49729aab6d1a 100644
+index 61a0e550b5d6..753e043e5327 100644
 --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
 +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -115,6 +115,8 @@ properties:
+@@ -31,6 +31,7 @@ properties:
+           - mediatek,mt8173-xhci
+           - mediatek,mt8183-xhci
+           - mediatek,mt8192-xhci
++          - mediatek,mt8195-xhci
+       - const: mediatek,mtk-xhci
  
-   usb2-lpm-disable: true
- 
-+  tpl-support: true
-+
-   imod-interval-ns:
-     description:
-       Interrupt moderation interval value, it is 8 times as much as that
+   reg:
 -- 
 2.18.0
 
