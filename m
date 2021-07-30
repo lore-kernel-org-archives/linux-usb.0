@@ -2,110 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.4 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6282C43216
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:51:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8F49C432BE
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 09:33:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE01B60E97
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:51:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2B8E61008
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 09:33:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238235AbhG3IvL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Jul 2021 04:51:11 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35966 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238017AbhG3Iut (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 04:50:49 -0400
-X-UUID: 8b07a5fd1a9347cf8ca4fe39069f2f59-20210730
-X-UUID: 8b07a5fd1a9347cf8ca4fe39069f2f59-20210730
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1188815040; Fri, 30 Jul 2021 16:50:44 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 16:50:43 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 16:50:42 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 08/11] usb: xhci-mtk: update fs bus bandwidth by bw_budget_table
-Date:   Fri, 30 Jul 2021 16:49:59 +0800
-Message-ID: <1627635002-24521-8-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S238304AbhG3Jdc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Jul 2021 05:33:32 -0400
+Received: from out28-51.mail.aliyun.com ([115.124.28.51]:60641 "EHLO
+        out28-51.mail.aliyun.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238156AbhG3Jdc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 05:33:32 -0400
+X-Alimail-AntiSpam: AC=CONTINUE;BC=0.07529395|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.126289-0.000848962-0.872862;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047188;MF=zhouyanjie@wanyeetech.com;NM=1;PH=DS;RN=14;RT=14;SR=0;TI=SMTPD_---.Kt0Ea8-_1627637603;
+Received: from 192.168.88.131(mailfrom:zhouyanjie@wanyeetech.com fp:SMTPD_---.Kt0Ea8-_1627637603)
+          by smtp.aliyun-inc.com(10.147.41.120);
+          Fri, 30 Jul 2021 17:33:25 +0800
+Subject: Re: [PATCH 1/2] dt-bindings: dwc2: Add bindings for new Ingenic SoCs.
+To:     Paul Cercueil <paul@crapouillou.net>
+Cc:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        hminas@synopsys.com, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dongsheng.qiu@ingenic.com,
+        aric.pzqi@ingenic.com, rick.tyliu@ingenic.com,
+        sihui.liu@ingenic.com, jun.jiang@ingenic.com,
+        sernia.zhou@foxmail.com
+References: <1627116521-124612-1-git-send-email-zhouyanjie@wanyeetech.com>
+ <1627116521-124612-2-git-send-email-zhouyanjie@wanyeetech.com>
+ <CLWQWQ.DBCX3I00Y95T2@crapouillou.net>
+ <ad64396d-d7ab-b8dd-4086-f565e91edb00@wanyeetech.com>
+ <TKQSWQ.K11YHBO0B4FM2@crapouillou.net>
+From:   Zhou Yanjie <zhouyanjie@wanyeetech.com>
+Message-ID: <0bffb545-212c-2711-43ac-39efc1074c8b@wanyeetech.com>
+Date:   Fri, 30 Jul 2021 17:33:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+In-Reply-To: <TKQSWQ.K11YHBO0B4FM2@crapouillou.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use @bw_budget_table[] to update fs bus bandwidth due to
-not all microframes consume @bw_cost_per_microframe, see
-setup_sch_info().
+Hi Paul,
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/host/xhci-mtk-sch.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+On 2021/7/25 下午6:31, Paul Cercueil wrote:
+> Hi Zhou,
+>
+> Le sam., juil. 24 2021 at 20:52:30 +0800, Zhou Yanjie 
+> <zhouyanjie@wanyeetech.com> a écrit :
+>> Hi Paul,
+>>
+>> On 2021/7/24 下午6:46, Paul Cercueil wrote:
+>>> Hi Zhou,
+>>>
+>>> Le sam., juil. 24 2021 at 16:48:40 +0800, 周琰杰 (Zhou Yanjie) 
+>>> <zhouyanjie@wanyeetech.com> a écrit :
+>>>> Add the dwc2 bindings for the JZ4775 SoC, the JZ4780 SoC, the X1000 
+>>>> SoC,
+>>>> the X1600 SoC, the X1830 SoC, and the X2000 SoC from Ingenic.
+>>>>
+>>>> Signed-off-by: 周琰杰 (Zhou Yanjie) <zhouyanjie@wanyeetech.com>
+>>>> ---
+>>>>  Documentation/devicetree/bindings/usb/dwc2.yaml | 6 ++++++
+>>>>  1 file changed, 6 insertions(+)
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml 
+>>>> b/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>>> index 10c7d9b..e779d33 100644
+>>>> --- a/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>>> +++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+>>>> @@ -14,6 +14,12 @@ properties:
+>>>>      oneOf:
+>>>>        - const: brcm,bcm2835-usb
+>>>>        - const: hisilicon,hi6220-usb
+>>>> +      - const: ingenic,jz4775-otg
+>>>> +      - const: ingenic,jz4780-otg
+>>>> +      - const: ingenic,x1000-otg
+>>>> +      - const: ingenic,x1600-otg
+>>>> +      - const: ingenic,x1830-otg
+>>>> +      - const: ingenic,x2000-otg
+>>>
+>>> I don't know if all these IPs are the exact same, but if they are, 
+>>> they all should have "ingenic,jz4775-otg" as the fallback.
+>>
+>>
+>> I'm not too sure whether they are exactly the same, but comparing the 
+>> code in Ingenics SDK,
+>>
+>> the code of the USB part of jz4775, jz4780, and x1000 are the same, 
+>> the code of the USB part
+>>
+>> of x1600 and x1830 are the same, and the USB part code of X2000 are 
+>> different from all of them.
+>
+> In doubt - it's better to keep separate compatible strings, so this is 
+> OK.
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 0bb1a6295d64..10c0f0f6461f 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -458,8 +458,8 @@ static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
- 		 * Compared with hs bus, no matter what ep type,
- 		 * the hub will always delay one uframe to send data
- 		 */
--		for (j = 0; j < sch_ep->cs_count; j++) {
--			tmp = tt->fs_bus_bw[base + j] + sch_ep->bw_cost_per_microframe;
-+		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-+			tmp = tt->fs_bus_bw[base + j] + sch_ep->bw_budget_table[j];
- 			if (tmp > FS_PAYLOAD_MAX)
- 				return -ESCH_BW_OVERFLOW;
- 		}
-@@ -534,21 +534,18 @@ static void update_sch_tt(struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
- 	u32 base, num_esit;
--	int bw_updated;
- 	int i, j;
- 
- 	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
- 
--	if (used)
--		bw_updated = sch_ep->bw_cost_per_microframe;
--	else
--		bw_updated = -sch_ep->bw_cost_per_microframe;
--
- 	for (i = 0; i < num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 
--		for (j = 0; j < sch_ep->cs_count; j++)
--			tt->fs_bus_bw[base + j] += bw_updated;
-+		for (j = 0; j < sch_ep->num_budget_microframes; j++)
-+			if (used)
-+				tt->fs_bus_bw[base + j] += sch_ep->bw_budget_table[j];
-+			else
-+				tt->fs_bus_bw[base + j] -= sch_ep->bw_budget_table[j];
- 	}
- 
- 	if (used)
--- 
-2.18.0
 
+Sure.
+
+
+Thanks and best regards!
+
+
+>
+> Cheers,
+> -Paul
+>
