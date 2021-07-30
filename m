@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1AAC4320E
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8662DC4338F
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68C4361019
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71CD960FED
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Jul 2021 08:50:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238103AbhG3Iur (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Jul 2021 04:50:47 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:41374 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231166AbhG3Iup (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 04:50:45 -0400
-X-UUID: f7fd992bdbf14775b7a5a934edc31ef2-20210730
-X-UUID: f7fd992bdbf14775b7a5a934edc31ef2-20210730
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        id S238125AbhG3Iuu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Jul 2021 04:50:50 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:35966 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238083AbhG3Iur (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Jul 2021 04:50:47 -0400
+X-UUID: 355e910871a046b899a2033b198a77bd-20210730
+X-UUID: 355e910871a046b899a2033b198a77bd-20210730
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 973705885; Fri, 30 Jul 2021 16:50:37 +0800
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 2090878343; Fri, 30 Jul 2021 16:50:40 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 30 Jul 2021 16:50:35 +0800
+ mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 30 Jul 2021 16:50:39 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 30 Jul 2021 16:50:34 +0800
+ Transport; Fri, 30 Jul 2021 16:50:38 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>
@@ -42,9 +42,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH 02/11] dt-bindings: usb: mtk-xhci: add optional property to disable usb2 ports
-Date:   Fri, 30 Jul 2021 16:49:53 +0800
-Message-ID: <1627635002-24521-2-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH 05/11] usb: xhci-mtk: add support 'tpl-support'
+Date:   Fri, 30 Jul 2021 16:49:56 +0800
+Message-ID: <1627635002-24521-5-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -55,32 +55,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support to disable specific usb2 host ports, it's useful when
-a usb2 port is disabled on some platforms, but enabled on others for
-the same SoC, another case is that the different package may support
-different number of ports.
+Add support property 'tpl-support' for targeted peripheral list
+(USB-IF Embedded Host Compliance Plan)
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/host/xhci-mtk.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 49729aab6d1a..61a0e550b5d6 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -154,6 +154,11 @@ properties:
-     description: The mask to disable u3ports, bit0 for u3port0,
-       bit1 for u3port1, ... etc
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index cb27569186a0..f6d161670c4e 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -18,6 +18,7 @@
+ #include <linux/pm_wakeirq.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/usb/of.h>
  
-+  mediatek,u2p-dis-msk:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The mask to disable u2ports, bit0 for u2port0,
-+      bit1 for u2port1, ... etc
+ #include "xhci.h"
+ #include "xhci-mtk.h"
+@@ -517,6 +518,9 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 		goto disable_device_wakeup;
+ 	}
+ 
++	hcd->tpl_support = of_usb_host_tpl_support(node);
++	xhci->shared_hcd->tpl_support = hcd->tpl_support;
 +
-   "#address-cells":
-     const: 1
- 
+ 	ret = usb_add_hcd(hcd, irq, IRQF_SHARED);
+ 	if (ret)
+ 		goto put_usb3_hcd;
 -- 
 2.18.0
 
