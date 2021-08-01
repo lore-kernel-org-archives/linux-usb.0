@@ -4,123 +4,148 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	FROM_LOCAL_DIGITS,FROM_LOCAL_HEX,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62A6AC4320E
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Jul 2021 17:39:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EE77C4338F
+	for <linux-usb@archiver.kernel.org>; Sun,  1 Aug 2021 05:55:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B55F60EE6
-	for <linux-usb@archiver.kernel.org>; Sat, 31 Jul 2021 17:39:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1253360F5A
+	for <linux-usb@archiver.kernel.org>; Sun,  1 Aug 2021 05:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231951AbhGaRjv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 31 Jul 2021 13:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52124 "EHLO
+        id S229804AbhHAFz2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 1 Aug 2021 01:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60452 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232033AbhGaRjP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 31 Jul 2021 13:39:15 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED12DC0617A0;
-        Sat, 31 Jul 2021 10:39:04 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id u20so17684323ljo.0;
-        Sat, 31 Jul 2021 10:39:04 -0700 (PDT)
+        with ESMTP id S229505AbhHAFz2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 1 Aug 2021 01:55:28 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32283C06175F;
+        Sat, 31 Jul 2021 22:55:20 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id t21so15944399plr.13;
+        Sat, 31 Jul 2021 22:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Tx4QIDj2b8nSMmqdedBogqNF+XkSAZXWaRA6r8AMMQ0=;
-        b=UGDdC313UxBt0B1prkmf7X5eJ8sDH+Qf1joGI/pLnZPxr537SsvU0eHsCzmw2acVut
-         +PNDZjla+YWmIc1iPBuB9vLBCqJDjleXlYHcxn8Ub3UopjbZcuJANTeyrRKZTXuSMDP5
-         EA95OOTl0/Icb+9ItyCZIIPlEBeF3lubHrSXdlAV2vrLrS+kZ1y7Ju7/pq6alHjwpKBN
-         bthvRG2C+Hf/5IoNpCuHxbBM15/jqNJ8WQLczjQ2xMj3i4gHv9XH7HbRaufoHrHZ/jZY
-         7s5Y+MjnisEp2h2HGKkqUk/4Ns08wPr0L1UV0MUcnZVoLg49qXwnk6RVFsk78xLrQEJo
-         BI7g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7wqEtz/LmEA1yRT6bi97fna/gQALJQeGpTT3SSPXa1M=;
+        b=JH6zYfR7GRp07+WRmIEfOWH/4hV1FvxK3iuYH+o016oLkAmY9OgeiuNt4ycC+vi6Ei
+         SRhqB5xuB4tBvm3Auh/W4kLaZvIQkUg5kEckBnnpFDs0TdAx+XxDbkz1SXD4RigPE3/b
+         3E6YvEO9JntmR5LBQJO+ydKvKrJhHfrOAdASQKmyg3unfwu9CtDSGerSHV7zJTxWbWHm
+         dr+S0rtZTBGenRAQSd3DGi3X6xj0TANWgCK0xhNd5UQlg7sOETrORrULXV/QpVug//iJ
+         yd7ffnGLz3vJttdZ9Q9O3IPgnvNmxKZDopzCQ3DaCcfS0PkRV2FgS6PshCVP6/HhxBLi
+         M5xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Tx4QIDj2b8nSMmqdedBogqNF+XkSAZXWaRA6r8AMMQ0=;
-        b=lrw1dUEJnaswBCsTFf5fEzqxkx/U/7+S5qeVCpJfTqvYIPRBsWLll3gOsSm96RHv2E
-         gXYZi+1uGoGo1lAydMFg/P0/zIJTMSJEPxMfzp0vcuIl/Cggli282a3qxygPY6iVjJdE
-         JWSM+PDRpBTmW+iP/AR4lkOYT6X9gPd9dyQmAPbrp6sWWFzf41L0eyGVnrcx8TmV7u5q
-         WRfbYaVEo1xH2LEUXj8UwotqDeWfn7wX+30ZHWNeINMSRe8mZYbnhQSgcw/px6Hyptei
-         clzA1+J1XeMi5KrX/dpdYM71GBWp0J+39PY8w8olfFY5Fz3afIr+f1rpiSvdFcKnsl2m
-         lrhA==
-X-Gm-Message-State: AOAM5339czSeIzDYgkBMI5xjEcur8XwxmcJ9BF+r5J+3sEWIy5dFjiwf
-        XLB7Pgwa4xZ4/876qFS7zyc=
-X-Google-Smtp-Source: ABdhPJyIYw26kkZ3eGiyn+Uw4xed+Gtn+TnJjeTsJME6QRUueoW3oHLYA+H+45AHKtQ4CHEl7y5V9w==
-X-Received: by 2002:a2e:a4aa:: with SMTP id g10mr5545170ljm.348.1627753143367;
-        Sat, 31 Jul 2021 10:39:03 -0700 (PDT)
-Received: from localhost.localdomain (94-29-22-96.dynamic.spd-mgts.ru. [94.29.22.96])
-        by smtp.gmail.com with ESMTPSA id s15sm445272lfp.216.2021.07.31.10.39.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7wqEtz/LmEA1yRT6bi97fna/gQALJQeGpTT3SSPXa1M=;
+        b=TPx67Uvre57dBRBmhRxhwhsLygXLxHo61NhyWgMZ0SyuwQIq7b3oX/32swGBRk1m+J
+         CaMPCM9vNZkzms+Caoq8YV9R3QQs8R/pZqIX2ZInC/X4i0Zl02gdBsFfGjMDKz7F2g0R
+         JOsMSHCJ9Z+RzvVJFN+upsQL2TNob1Nnz/7oh8JxSYHpxdbCo6X6V5zAY1TE98SSyAmE
+         3yZhAh7uTqkJZ19Wwq61AlXtfI2blx7eX2pbynF1Yyow2m41mVKBALeDcViPgPYgIspL
+         w7FML4NOIoDvBE7rslfHg4rWVtn0n2EiEgiqIVKIA/0Uss+jxg7bxPvRFIYNCEeArFXW
+         PLOA==
+X-Gm-Message-State: AOAM5335qD39VKstrNrboLlFhEwuJRqkE8Ettk66tt2o/y0zkUGYOT7u
+        6avxfvLlqlBb1/ZJY3NE4lsPQBe57Gvc+x0m
+X-Google-Smtp-Source: ABdhPJzABkD1Z6L8QcW4cGGc+a113vnAcmGKoCtyHI8vYQTDpEToPr79fjPq0++ocJ6nGBDQiGOunw==
+X-Received: by 2002:a17:90b:4d0b:: with SMTP id mw11mr11670552pjb.122.1627797319382;
+        Sat, 31 Jul 2021 22:55:19 -0700 (PDT)
+Received: from localhost.localdomain (host-219-71-67-82.dynamic.kbtelecom.net. [219.71.67.82])
+        by smtp.gmail.com with ESMTPSA id s22sm7098746pfu.52.2021.07.31.22.55.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jul 2021 10:39:03 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mark Brown <broonie@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Cc:     devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH v6 08/12] power: supply: smb347-charger: Add missing pin control activation
-Date:   Sat, 31 Jul 2021 20:38:38 +0300
-Message-Id: <20210731173842.19643-9-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210731173842.19643-1-digetx@gmail.com>
-References: <20210731173842.19643-1-digetx@gmail.com>
+        Sat, 31 Jul 2021 22:55:19 -0700 (PDT)
+From:   Wei Ming Chen <jj251510319013@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, balbi@kernel.org,
+        gregkh@linuxfoundation.org,
+        Wei Ming Chen <jj251510319013@gmail.com>
+Subject: [PATCH] usb: gadget: Fix inconsistent indent
+Date:   Sun,  1 Aug 2021 13:54:54 +0800
+Message-Id: <20210801055454.53015-1-jj251510319013@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Pin control needs to be activated by setting the enable bit, otherwise
-hardware rejects all pin changes. Previously this stayed unnoticed on
-Nexus 7 because pin control was enabled by default after rebooting from
-downstream kernel, which uses driver that enables the bit and charger
-registers are non-volatile until power supply (battery) is disconnected.
-Configure the pin control enable bit. This fixes the potentially
-never-enabled charging on devices that use pin control.
+Remove whitespace and use tab as indent
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Wei Ming Chen <jj251510319013@gmail.com>
 ---
- drivers/power/supply/smb347-charger.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/usb/gadget/configfs.c      | 8 ++++----
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ drivers/usb/gadget/legacy/inode.c  | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/power/supply/smb347-charger.c b/drivers/power/supply/smb347-charger.c
-index 27254e6efdde..1c9205ca0993 100644
---- a/drivers/power/supply/smb347-charger.c
-+++ b/drivers/power/supply/smb347-charger.c
-@@ -55,6 +55,7 @@
- #define CFG_PIN_EN_CTRL_ACTIVE_LOW		0x60
- #define CFG_PIN_EN_APSD_IRQ			BIT(1)
- #define CFG_PIN_EN_CHARGER_ERROR		BIT(2)
-+#define CFG_PIN_EN_CTRL				BIT(4)
- #define CFG_THERM				0x07
- #define CFG_THERM_SOFT_HOT_COMPENSATION_MASK	0x03
- #define CFG_THERM_SOFT_HOT_COMPENSATION_SHIFT	0
-@@ -726,6 +727,15 @@ static int smb347_hw_init(struct smb347_charger *smb)
- 	if (ret < 0)
- 		goto fail;
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 15a607ccef8a..8b73ee30745d 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -55,7 +55,7 @@ struct gadget_info {
  
-+	/* Activate pin control, making it writable. */
-+	switch (smb->enable_control) {
-+	case SMB3XX_CHG_ENABLE_PIN_ACTIVE_LOW:
-+	case SMB3XX_CHG_ENABLE_PIN_ACTIVE_HIGH:
-+		ret = regmap_set_bits(smb->regmap, CFG_PIN, CFG_PIN_EN_CTRL);
-+		if (ret < 0)
-+			goto fail;
-+	}
-+
- 	/*
- 	 * Make the charging functionality controllable by a write to the
- 	 * command register unless pin control is specified in the platform
+ static inline struct gadget_info *to_gadget_info(struct config_item *item)
+ {
+-	 return container_of(to_config_group(item), struct gadget_info, group);
++	return container_of(to_config_group(item), struct gadget_info, group);
+ }
+ 
+ struct config_usb_cfg {
+@@ -365,21 +365,21 @@ static struct configfs_attribute *gadget_root_attrs[] = {
+ 
+ static inline struct gadget_strings *to_gadget_strings(struct config_item *item)
+ {
+-	 return container_of(to_config_group(item), struct gadget_strings,
++	return container_of(to_config_group(item), struct gadget_strings,
+ 			 group);
+ }
+ 
+ static inline struct gadget_config_name *to_gadget_config_name(
+ 		struct config_item *item)
+ {
+-	 return container_of(to_config_group(item), struct gadget_config_name,
++	return container_of(to_config_group(item), struct gadget_config_name,
+ 			 group);
+ }
+ 
+ static inline struct usb_function_instance *to_usb_function_instance(
+ 		struct config_item *item)
+ {
+-	 return container_of(to_config_group(item),
++	return container_of(to_config_group(item),
+ 			 struct usb_function_instance, group);
+ }
+ 
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 9c0c393abb39..cc9a11b7fec9 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -2081,7 +2081,7 @@ static int __must_check ffs_do_single_desc(char *data, unsigned len,
+ 		break;
+ 
+ 	case USB_TYPE_CLASS | 0x01:
+-                if (*current_class == USB_INTERFACE_CLASS_HID) {
++		if (*current_class == USB_INTERFACE_CLASS_HID) {
+ 			pr_vdebug("hid descriptor\n");
+ 			if (length != sizeof(struct hid_descriptor))
+ 				goto inv_length;
+diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+index cd8e2737947b..539220d7f5b6 100644
+--- a/drivers/usb/gadget/legacy/inode.c
++++ b/drivers/usb/gadget/legacy/inode.c
+@@ -1214,8 +1214,8 @@ dev_release (struct inode *inode, struct file *fd)
+ static __poll_t
+ ep0_poll (struct file *fd, poll_table *wait)
+ {
+-       struct dev_data         *dev = fd->private_data;
+-       __poll_t                mask = 0;
++	struct dev_data         *dev = fd->private_data;
++	__poll_t                mask = 0;
+ 
+ 	if (dev->state <= STATE_DEV_OPENED)
+ 		return DEFAULT_POLLMASK;
 -- 
-2.32.0
+2.25.1
 
