@@ -2,47 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CDD4C432BE
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Aug 2021 15:14:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36729C432BE
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Aug 2021 15:14:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0FBE260F93
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Aug 2021 15:14:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E7FF603E7
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Aug 2021 15:14:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236204AbhHCPOb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Aug 2021 11:14:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41592 "EHLO
+        id S236678AbhHCPOp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Aug 2021 11:14:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235607AbhHCPOa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Aug 2021 11:14:30 -0400
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF9DC061757;
-        Tue,  3 Aug 2021 08:14:19 -0700 (PDT)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:105:465:1:1:0])
+        with ESMTP id S236665AbhHCPOo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Aug 2021 11:14:44 -0400
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5EA6C061757;
+        Tue,  3 Aug 2021 08:14:33 -0700 (PDT)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4GfJLb6TSyzQk1r;
-        Tue,  3 Aug 2021 17:14:15 +0200 (CEST)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4GfJLw1BNRzQk8f;
+        Tue,  3 Aug 2021 17:14:32 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gorani.run; s=MBO0001;
-        t=1628003653;
+        t=1628003670;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Jpnrv079HohfYHZxHFOih7cazCqNwznCHGvgjVDV5OI=;
-        b=cPSRzG5fVE5ANJTePkpxHl2VaB6rm+S7H32l68zL0PeiJ3pUG7IcAkHjCICir+jPJ+D8yp
-        BwVW8r15/M6T0RJnyHVDEMIQvtVmUvPMyikjhFbxNsb1puF5Yi3zEHQJzRRsplkAvDDZC6
-        MM5U41bztqUj6wFJ3P35dP/T2CWTBmwes7oZZYvFGxg76IKkrgRXqfUg8oO3OMgKdqR0kk
-        P+/+EXvUPz3BmGQ0E4ogzwoyD/R9hMsrHFOoQX36+4RCUjJOPsyKYLyMGmz9S5kIOCJ/8u
-        PKW/bbrPWTNrpiaa8nDBVEmlgiZ5oFyw2Oiru+sZT27nMrKZTJmeGEEKu9XCpA==
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jaY5xQwQPN4FkdmzkED2VE4/tPDCWvCJPyi34G3W5ag=;
+        b=oF31Z4Mr2fOWKi4op48MQlJmPoIDoo9cKjd9qkpA7BpzQdGmNbBJVNZoMiqEwjFpvfC3ca
+        qTyR7vCmQfTfz60K6uE/z6zMMdoZQg2hL40ZFiLGSwXV0s/PPUSaKfj/AOjajNYhIbQTJf
+        +QIvos7q7gc/MMwrrOT3TKpQj8jhNhP/tNjXnwuGMXJQyUhCdI+Y3oJ0qKTq9r5WpD0Yb0
+        9DIqswDoeEqdgXguxV90DgYwVKieI0gYx2W/BBK1MovXoVoJrIfulJA8WrOEy/LAqbIkE4
+        1T0GdhDw1lNoBy7wk/D2JykJ9zn70IzgYVrY/GWLxp5vPQvjdyr+iaoF01NK8Q==
 Received: from smtp1.mailbox.org ([80.241.60.240])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id eYw7Q2qDqF7P; Tue,  3 Aug 2021 17:14:12 +0200 (CEST)
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id ts-v0sY3q_Pm; Tue,  3 Aug 2021 17:14:28 +0200 (CEST)
 From:   Sungbo Eo <mans0n@gorani.run>
 To:     linux-mediatek@lists.infradead.org
 Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
@@ -54,35 +55,84 @@ Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Sungbo Eo <mans0n@gorani.run>
-Subject: [PATCH 0/2] Add MUSB for MT7623
-Date:   Wed,  4 Aug 2021 00:13:18 +0900
-Message-Id: <20210803151320.71531-1-mans0n@gorani.run>
+Subject: [PATCH 2/2] arm: dts: mt7623: add musb device nodes
+Date:   Wed,  4 Aug 2021 00:13:20 +0900
+Message-Id: <20210803151320.71531-3-mans0n@gorani.run>
+In-Reply-To: <20210803151320.71531-1-mans0n@gorani.run>
+References: <20210803151320.71531-1-mans0n@gorani.run>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 887F618BC
-X-Rspamd-UID: ef8fb2
+X-Rspamd-Queue-Id: 3E44F18B5
+X-Rspamd-UID: 30f0b3
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-These patches add support for the MUSB controller on Mediatek MT7623.
-Tested on Mercury RUSH-318AC Wi-Fi router.
+MT7623 has an musb controller that is compatible with the one from MT2701.
 
-I got to know this from a BPI-R2 forum post [1], and managed to make it work on OpenWrt snapshot.
-I'd like to know if this also works on BPI-R2, I can happily share the details if needed.
-And I've just copy & pasted nodes from mt2701, please let me know if I missed some big differences between SoCs...
+Signed-off-by: Sungbo Eo <mans0n@gorani.run>
+---
+ arch/arm/boot/dts/mt7623.dtsi  | 34 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/mt7623a.dtsi |  4 ++++
+ 2 files changed, 38 insertions(+)
 
-[1] http://forum.banana-pi.org/t/bpi-r2-otg-port/10551
-
-Sungbo Eo (2):
-  dt-bindings: usb: mtk-musb: add MT7623 compatible
-  arm: dts: mt7623: add musb device nodes
-
- .../bindings/usb/mediatek,musb.yaml           |  1 +
- arch/arm/boot/dts/mt7623.dtsi                 | 34 +++++++++++++++++++
- arch/arm/boot/dts/mt7623a.dtsi                |  4 +++
- 3 files changed, 39 insertions(+)
-
+diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
+index 3c11f7cfcc40..806dc067ec8f 100644
+--- a/arch/arm/boot/dts/mt7623.dtsi
++++ b/arch/arm/boot/dts/mt7623.dtsi
+@@ -905,6 +905,40 @@ u3port1: usb-phy@1a244900 {
+ 		};
+ 	};
+ 
++	usb3: usb@11200000 {
++		compatible = "mediatek,mt7623-musb",
++			     "mediatek,mtk-musb";
++		reg = <0 0x11200000 0 0x1000>;
++		interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-names = "mc";
++		phys = <&u2port2 PHY_TYPE_USB2>;
++		dr_mode = "otg";
++		clocks = <&pericfg CLK_PERI_USB0>,
++			 <&pericfg CLK_PERI_USB0_MCU>,
++			 <&pericfg CLK_PERI_USB_SLV>;
++		clock-names = "main","mcu","univpll";
++		power-domains = <&scpsys MT2701_POWER_DOMAIN_IFR_MSC>;
++		status = "disabled";
++	};
++
++	u2phy1: t-phy@11210000 {
++		compatible = "mediatek,mt7623-tphy",
++			     "mediatek,generic-tphy-v1";
++		reg = <0 0x11210000 0 0x0800>;
++		#address-cells = <2>;
++		#size-cells = <2>;
++		ranges;
++		status = "okay";
++
++		u2port2: usb-phy@1a1c4800 {
++			reg = <0 0x11210800 0 0x0100>;
++			clocks = <&topckgen CLK_TOP_USB_PHY48M>;
++			clock-names = "ref";
++			#phy-cells = <1>;
++			status = "okay";
++		};
++	};
++
+ 	ethsys: syscon@1b000000 {
+ 		compatible = "mediatek,mt7623-ethsys",
+ 			     "mediatek,mt2701-ethsys",
+diff --git a/arch/arm/boot/dts/mt7623a.dtsi b/arch/arm/boot/dts/mt7623a.dtsi
+index 0735a1fb8ad9..c10ce6f4ab27 100644
+--- a/arch/arm/boot/dts/mt7623a.dtsi
++++ b/arch/arm/boot/dts/mt7623a.dtsi
+@@ -42,3 +42,7 @@ &usb1 {
+ &usb2 {
+ 	power-domains = <&scpsys MT7623A_POWER_DOMAIN_HIF>;
+ };
++
++&usb3 {
++	power-domains = <&scpsys MT7623A_POWER_DOMAIN_IFR_MSC>;
++};
 -- 
 2.32.0
 
