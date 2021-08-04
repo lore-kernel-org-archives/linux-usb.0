@@ -2,37 +2,36 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BF93C43214
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Aug 2021 14:12:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C40A2C4320A
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Aug 2021 14:12:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 328B460E09
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Aug 2021 14:12:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB23860FC4
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Aug 2021 14:12:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238649AbhHDOMb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S238647AbhHDOMb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 4 Aug 2021 10:12:31 -0400
-Received: from guitar.tcltek.co.il ([192.115.133.116]:32778 "EHLO
+Received: from guitar.tcltek.co.il ([192.115.133.116]:32791 "EHLO
         mx.tkos.co.il" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238611AbhHDOMa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S238640AbhHDOMa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 4 Aug 2021 10:12:30 -0400
 Received: from tarshish.tkos.co.il (unknown [10.0.8.3])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mx.tkos.co.il (Postfix) with ESMTPS id 2005C440EBC;
-        Wed,  4 Aug 2021 17:06:07 +0300 (IDT)
+        by mx.tkos.co.il (Postfix) with ESMTPS id E4DB3440EB0;
+        Wed,  4 Aug 2021 17:06:04 +0300 (IDT)
 From:   Baruch Siach <baruch@tkos.co.il>
 To:     Kishon Vijay Abraham I <kishon@ti.com>,
         Vinod Koul <vkoul@kernel.org>, Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Felipe Balbi <balbi@kernel.org>,
         Rob Herring <robh+dt@kernel.org>
-Cc:     Kathiravan T <kathirav@codeaurora.org>,
-        Baruch Siach <baruch@tkos.co.il>,
+Cc:     Baruch Siach <baruch@tkos.co.il>,
+        Kathiravan T <kathirav@codeaurora.org>,
         Balaji Prakash J <bjagadee@codeaurora.org>,
         Jack Pham <jackp@codeaurora.org>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
@@ -40,9 +39,9 @@ Cc:     Kathiravan T <kathirav@codeaurora.org>,
         linux-arm-kernel@lists.infradead.org,
         linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH v2 6/6] arm64: qcom: ipq6018: add usb3 DT description
-Date:   Wed,  4 Aug 2021 17:05:10 +0300
-Message-Id: <436c458546b2a783af36a190ed72ebc5c74de44e.1628085910.git.baruch@tkos.co.il>
+Subject: [PATCH v2 3/6] dt-bindings: usb: dwc3: add reference clock period
+Date:   Wed,  4 Aug 2021 17:05:07 +0300
+Message-Id: <22f62c59471e128b681a731997a9416ab2e91acf.1628085910.git.baruch@tkos.co.il>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <3d86f45004fe2fcbae0a2cd197df81a1fd076a1e.1628085910.git.baruch@tkos.co.il>
 References: <3d86f45004fe2fcbae0a2cd197df81a1fd076a1e.1628085910.git.baruch@tkos.co.il>
@@ -52,112 +51,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kathiravan T <kathirav@codeaurora.org>
+Document the snps,ref-clock-period property that describes reference
+clock period when it deviates from the default set value.
 
-Based on downstream codeaurora code.
-
-Tested (USB2 only) on IPQ6010 based hardware.
-
-Signed-off-by: Kathiravan T <kathirav@codeaurora.org>
 Signed-off-by: Baruch Siach <baruch@tkos.co.il>
 ---
- arch/arm64/boot/dts/qcom/ipq6018.dtsi | 83 +++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/ipq6018.dtsi b/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-index 9fa5b028e4f3..ab701da582e5 100644
---- a/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-+++ b/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-@@ -524,6 +524,89 @@ qrtr_requests {
- 			};
- 		};
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 41416fbd92aa..c8027d2852cd 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -252,6 +252,15 @@ properties:
+     minimum: 0
+     maximum: 0x3f
  
-+		ssphy_0: ssphy@78000 {
-+			compatible = "qcom,ipq6018-qmp-usb3-phy";
-+			reg = <0x0 0x78000 0x0 0x1C4>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			#clock-cells = <1>;
-+			ranges;
++  snps,ref-clock-period:
++    description:
++      Value for REFCLKPER field of GUCTL register for post-silicon reference
++      clock period in nanoseconds, when the hardware set default does not match
++      the actual clock.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 0x3ff
 +
-+			clocks = <&gcc GCC_USB0_AUX_CLK>,
-+				 <&gcc GCC_USB0_PHY_CFG_AHB_CLK>, <&xo>;
-+			clock-names = "aux", "cfg_ahb", "ref";
-+
-+			resets = <&gcc GCC_USB0_PHY_BCR>,
-+				 <&gcc GCC_USB3PHY_0_PHY_BCR>;
-+			reset-names = "phy","common";
-+			status = "disabled";
-+
-+			usb0_ssphy: lane@78200 {
-+				reg = <0x0 0x00078200 0x0 0x130>, /* Tx */
-+				      <0x0 0x00078400 0x0 0x200>, /* Rx */
-+				      <0x0 0x00078800 0x0 0x1F8>, /* PCS */
-+				      <0x0 0x00078600 0x0 0x044>; /* PCS misc */
-+				#phy-cells = <0>;
-+				clocks = <&gcc GCC_USB0_PIPE_CLK>;
-+				clock-names = "pipe0";
-+				clock-output-names = "gcc_usb0_pipe_clk_src";
-+			};
-+		};
-+
-+		qusb_phy_0: qusb@79000 {
-+			compatible = "qcom,ipq6018-qusb2-phy";
-+			reg = <0x0 0x079000 0x0 0x180>;
-+			#phy-cells = <0>;
-+
-+			clocks = <&gcc GCC_USB0_PHY_CFG_AHB_CLK>,
-+				<&xo>;
-+			clock-names = "cfg_ahb", "ref";
-+
-+			resets = <&gcc GCC_QUSB2_0_PHY_BCR>;
-+			status = "disabled";
-+		};
-+
-+		usb3: usb3@8A00000 {
-+			compatible = "qcom,ipq6018-dwc3", "qcom,dwc3";
-+			reg = <0x0 0x8AF8800 0x0 0x400>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+
-+			clocks = <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
-+				<&gcc GCC_USB0_MASTER_CLK>,
-+				<&gcc GCC_USB0_SLEEP_CLK>,
-+				<&gcc GCC_USB0_MOCK_UTMI_CLK>;
-+			clock-names = "sys_noc_axi",
-+				"master",
-+				"sleep",
-+				"mock_utmi";
-+
-+			assigned-clocks = <&gcc GCC_SYS_NOC_USB0_AXI_CLK>,
-+					  <&gcc GCC_USB0_MASTER_CLK>,
-+					  <&gcc GCC_USB0_MOCK_UTMI_CLK>;
-+			assigned-clock-rates = <133330000>,
-+					       <133330000>,
-+					       <20000000>;
-+
-+			resets = <&gcc GCC_USB0_BCR>;
-+			status = "disabled";
-+
-+			dwc_0: dwc3@8A00000 {
-+				compatible = "snps,dwc3";
-+				reg = <0x0 0x8A00000 0x0 0xcd00>;
-+				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-+				phys = <&qusb_phy_0>, <&usb0_ssphy>;
-+				phy-names = "usb2-phy", "usb3-phy";
-+				tx-fifo-resize;
-+				snps,is-utmi-l1-suspend;
-+				snps,hird-threshold = /bits/ 8 <0x0>;
-+				snps,dis_u2_susphy_quirk;
-+				snps,dis_u3_susphy_quirk;
-+				snps,ref-clock-period = <0x32>;
-+				dr_mode = "host";
-+			};
-+		};
- 	};
- 
- 	wcss: wcss-smp2p {
+   snps,rx-thr-num-pkt-prd:
+     description:
+       Periodic ESS RX packet threshold count (host mode only). Set this and
 -- 
 2.30.2
 
