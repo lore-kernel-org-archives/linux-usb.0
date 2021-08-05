@@ -2,78 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6527EC4338F
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:59:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E945C432BE
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 11:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AD4D61040
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:59:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 409B661102
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 11:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239998AbhHEJ7R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Aug 2021 05:59:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239975AbhHEJ7P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 5 Aug 2021 05:59:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 56F6461029;
-        Thu,  5 Aug 2021 09:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628157541;
-        bh=mIwr1eFWPTkp245SNkVdapNZY/QB0VOmh/SYQdVdwwA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uWfDxwhUD43Y8IPdmoA6SEiAECFa7QkULcg4vBZMm4XIAZ1IG89IdfPdckFrJjqjM
-         otVyN8cU17kIInxHjmHeq8svtCe2BomJAzd8RB+2s+KhiKdP5dKI0QD+FPiTXzdu4X
-         NKxhD/htFEeCthv1WcigGQcy2XHmi1AujVfpszwg=
-Date:   Thu, 5 Aug 2021 11:58:59 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Peter Chen <peter.chen@kernel.org>
-Cc:     Salah Triki <salah.triki@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: chipidea: get lock before calling
- usb_[disable|enable]_autosuspend()
-Message-ID: <YQu2Yys43Egstxmn@kroah.com>
-References: <20210802215212.GA1350820@pc>
- <20210804013809.GA16676@nchen>
+        id S241150AbhHELwd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Aug 2021 07:52:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241152AbhHELwc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Aug 2021 07:52:32 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CA9C061765
+        for <linux-usb@vger.kernel.org>; Thu,  5 Aug 2021 04:52:17 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id m18so6716568ljo.1
+        for <linux-usb@vger.kernel.org>; Thu, 05 Aug 2021 04:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ty2sfnca5csj7MLb69ebHCpfLFQtiZw2YYHon5aW5h4=;
+        b=f9PVoG8ecjdMLO0srP+lH0VVBVGY3+bmR04Bf5obAoAYDArYgEvoh84P6SXxwqRd9t
+         jB3D+lxWDdhi2ph8WNTCtgQsIWY04J9vwGl8IUaOFTf+p3GkLrbWqJYcsApA7ttm4pfx
+         ob/2SbfPYrdHh+wdJbxMNfR0QQsu+1tXz3mx7oV2K5WRa2zODMdAC6S0HLKL0NmzPOw/
+         EIX14m4VpZSoIpHU8KGEBikzTs/zkHPFOycgehsp89v/9K7IdrLWCCuuo6T6hWWYN7uv
+         fs3YmwpkylaDFMmQcD8PRlRiM5KX4iqNB/6hsy98weqm3YI/7Y+9GaxYkxe3hxE2QKgh
+         VpcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Ty2sfnca5csj7MLb69ebHCpfLFQtiZw2YYHon5aW5h4=;
+        b=Kaz30hgrPOUP1rSRMNtXUmc8gekcx30Mfeg16eb0KciZyM/3T8NHVgwVzYIkNBVU2y
+         c7pl18tkhnOO9JP23Fy8JBKX8Mg1fMqOiGMWlq0Jvxzwr1ILnLK/BD1UUOVShDcGoQAM
+         vjmWLjYbP4LgnRuJpxvM9j1VobNbrDWbSkqf4yJNFw3d1orPMo6Pk1VQpay95MEs0OAC
+         WJVeOdjhdlp10L9tfGSxFijZ2pmyFydVoPMleINSIPTo3yyk/ixb4eNtAfG2E2FVrgCo
+         PReYhPEsCQQwWSUnzW1t2GWL3gDTs4RZV7DTyZKGpMx71WYILURSvQVLjuV1sTAq9vdk
+         EUaQ==
+X-Gm-Message-State: AOAM530CBkqQGS+qxp7cMVJ/hZG4Eifj8rZK5dPHp56g4YVlEU82QX7E
+        EZZzOpSno0aR8SM+GMYgAhVToQq88xc=
+X-Google-Smtp-Source: ABdhPJwUKoVHySz3WsQXAXIUck1iBKmiHMJVqH0J3vmsaU54TK9k0Ze61oF625YQZdmDinMS2g5Rhw==
+X-Received: by 2002:a2e:a164:: with SMTP id u4mr2809005ljl.121.1628164335468;
+        Thu, 05 Aug 2021 04:52:15 -0700 (PDT)
+Received: from [192.168.1.100] ([31.173.81.246])
+        by smtp.gmail.com with ESMTPSA id br4sm491415lfb.33.2021.08.05.04.52.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Aug 2021 04:52:15 -0700 (PDT)
+Subject: Re: [PATCH] USB: serial: ftdi_sio: add device ID for Auto-M3 OP-COM
+ v2
+To:     David Bauer <mail@david-bauer.net>, johan@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+References: <20210804232522.43330-1-mail@david-bauer.net>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <f96cd59f-f391-71d9-07a4-f5ee9d9d9afa@gmail.com>
+Date:   Thu, 5 Aug 2021 14:52:02 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210804013809.GA16676@nchen>
+In-Reply-To: <20210804232522.43330-1-mail@david-bauer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 09:38:09AM +0800, Peter Chen wrote:
-> On 21-08-02 22:52:12, Salah Triki wrote:
-> > Based on the documentation of usb_[disable|enable]_autosuspend(), the
-> > caller must hold udev's device lock.
-> > 
-> > Signed-off-by: Salah Triki <salah.triki@gmail.com>
-> > ---
-> >  drivers/usb/chipidea/otg_fsm.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/usb/chipidea/otg_fsm.c b/drivers/usb/chipidea/otg_fsm.c
-> > index 6ed4b00dba96..2d4174250432 100644
-> > --- a/drivers/usb/chipidea/otg_fsm.c
-> > +++ b/drivers/usb/chipidea/otg_fsm.c
-> > @@ -518,12 +518,14 @@ static void ci_otg_loc_sof(struct otg_fsm *fsm, int on)
-> >  	if (!udev)
-> >  		return;
-> >  
-> > +	usb_lock_device(udev);
-> >  	if (on) {
-> >  		usb_disable_autosuspend(udev);
-> >  	} else {
-> >  		pm_runtime_set_autosuspend_delay(&udev->dev, 0);
-> >  		usb_enable_autosuspend(udev);
-> >  	}
-> > +	usb_unlock_device(udev);
-> >  }
-> >  
-> 
-> Acked-by: Peter Chen <peter.chen@kernel.org>
+On 05.08.2021 2:25, David Bauer wrote:
 
-I think this is not ok, see the other threads...
+> The Auto-M§ OP-COM v2 is a OBD diagnostic device using a FTD232 for the
+
+    M3?
+
+> USB connection.
+> 
+> Signed-off-by: David Bauer <mail@david-bauer.net>
+[...]
+> diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+> index add602bebd82..755858ca20ba 100644
+> --- a/drivers/usb/serial/ftdi_sio_ids.h
+> +++ b/drivers/usb/serial/ftdi_sio_ids.h
+> @@ -159,6 +159,9 @@
+>   /* Vardaan Enterprises Serial Interface VEUSB422R3 */
+>   #define FTDI_VARDAAN_PID	0xF070
+>   
+> +/* Auto-M3 Ltd. - OP-COM USB V2 - OBD interface Adapter */
+> +#define FTDI_AUTO_M3_OP_COM_V2_PID	0x4f50
+> +
+[...]
+
+MBR, Sergei
