@@ -2,67 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7E0DC4338F
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:53:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6527EC4338F
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:59:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 947E060F58
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:53:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AD4D61040
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Aug 2021 09:59:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239754AbhHEJx3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Aug 2021 05:53:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54578 "EHLO mail.kernel.org"
+        id S239998AbhHEJ7R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Aug 2021 05:59:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232930AbhHEJx3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 5 Aug 2021 05:53:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A31566104F;
-        Thu,  5 Aug 2021 09:53:13 +0000 (UTC)
+        id S239975AbhHEJ7P (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 5 Aug 2021 05:59:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 56F6461029;
+        Thu,  5 Aug 2021 09:59:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1628157194;
-        bh=V1aHmeLRX6++4XDyNMvcfjO6Y76SBpqT5PWm6Es+pSQ=;
+        s=korg; t=1628157541;
+        bh=mIwr1eFWPTkp245SNkVdapNZY/QB0VOmh/SYQdVdwwA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kRsUOYeD0MNRodBiiDiul52bTxM6iT43h7w/2/cXIl69MAMyDHCGLQ7LbTAFZG7lh
-         B7cl2DfTWwD+3OZm8WskYoZelkC7ZgnehZQruQ+jBIdmyXXBvbmiPwRl/Lal0GXTGz
-         N2pGvcfz1ZlIg09jeQvAsA7//TFLgBIWLg8clFPI=
-Date:   Thu, 5 Aug 2021 11:53:06 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: USB xhci crash under load on 5.14-rc3
-Message-ID: <YQu1AgtuCWaW32U9@kroah.com>
-References: <YQpJLk42b+0g7WFB@kroah.com>
+        b=uWfDxwhUD43Y8IPdmoA6SEiAECFa7QkULcg4vBZMm4XIAZ1IG89IdfPdckFrJjqjM
+         otVyN8cU17kIInxHjmHeq8svtCe2BomJAzd8RB+2s+KhiKdP5dKI0QD+FPiTXzdu4X
+         NKxhD/htFEeCthv1WcigGQcy2XHmi1AujVfpszwg=
+Date:   Thu, 5 Aug 2021 11:58:59 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Peter Chen <peter.chen@kernel.org>
+Cc:     Salah Triki <salah.triki@gmail.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: chipidea: get lock before calling
+ usb_[disable|enable]_autosuspend()
+Message-ID: <YQu2Yys43Egstxmn@kroah.com>
+References: <20210802215212.GA1350820@pc>
+ <20210804013809.GA16676@nchen>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YQpJLk42b+0g7WFB@kroah.com>
+In-Reply-To: <20210804013809.GA16676@nchen>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 04, 2021 at 10:00:46AM +0200, Greg KH wrote:
-> Hi,
+On Wed, Aug 04, 2021 at 09:38:09AM +0800, Peter Chen wrote:
+> On 21-08-02 22:52:12, Salah Triki wrote:
+> > Based on the documentation of usb_[disable|enable]_autosuspend(), the
+> > caller must hold udev's device lock.
+> > 
+> > Signed-off-by: Salah Triki <salah.triki@gmail.com>
+> > ---
+> >  drivers/usb/chipidea/otg_fsm.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/usb/chipidea/otg_fsm.c b/drivers/usb/chipidea/otg_fsm.c
+> > index 6ed4b00dba96..2d4174250432 100644
+> > --- a/drivers/usb/chipidea/otg_fsm.c
+> > +++ b/drivers/usb/chipidea/otg_fsm.c
+> > @@ -518,12 +518,14 @@ static void ci_otg_loc_sof(struct otg_fsm *fsm, int on)
+> >  	if (!udev)
+> >  		return;
+> >  
+> > +	usb_lock_device(udev);
+> >  	if (on) {
+> >  		usb_disable_autosuspend(udev);
+> >  	} else {
+> >  		pm_runtime_set_autosuspend_delay(&udev->dev, 0);
+> >  		usb_enable_autosuspend(udev);
+> >  	}
+> > +	usb_unlock_device(udev);
+> >  }
+> >  
 > 
-> I was doing some filesystem backups from one USB device to another one
-> this weekend and kept running into the problem of the xhci controller
-> shutting down after an hour or so of high volume traffic.
-> 
-> I finally captured the problem in the kernel log as this would also take
-> out my keyboard, making it hard to recover from :)
-> 
-> The log is below for when the problem happens, and then the devices are
-> disconnected from the bus (ignore the filesystem errors, those are
-> expected when i/o is in flight and we disconnect a device.
-> 
-> Any hint as to what the IO_PAGE_FAULT error messages are?
-> 
-> I'll go back to 5.13.y now and see if I can reproduce it there or not,
-> as my backups are not yet done...
+> Acked-by: Peter Chen <peter.chen@kernel.org>
 
-5.13.7 seemed to work, but locked up overnight when running this same
-workload, so it is a bit worse.  Let me split the USB devices across PCI
-devices and see if that helps...
-
+I think this is not ok, see the other threads...
