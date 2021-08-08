@@ -2,91 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-8.9 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86CDBC4338F
-	for <linux-usb@archiver.kernel.org>; Sun,  8 Aug 2021 18:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DBD2C4320A
+	for <linux-usb@archiver.kernel.org>; Sun,  8 Aug 2021 18:35:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6689C60EE9
-	for <linux-usb@archiver.kernel.org>; Sun,  8 Aug 2021 18:01:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 104E960F0F
+	for <linux-usb@archiver.kernel.org>; Sun,  8 Aug 2021 18:35:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232210AbhHHSBn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 8 Aug 2021 14:01:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33768 "EHLO mail.kernel.org"
+        id S232322AbhHHSgO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 8 Aug 2021 14:36:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232209AbhHHSBg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 8 Aug 2021 14:01:36 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id C4C8B60E97
-        for <linux-usb@vger.kernel.org>; Sun,  8 Aug 2021 18:01:17 +0000 (UTC)
+        id S229977AbhHHSgN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 8 Aug 2021 14:36:13 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6446160F0F;
+        Sun,  8 Aug 2021 18:35:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628445677;
-        bh=2eE0ATOoIaRTiEvX9TOa4w0dJWT2qrGT7TC9rxKgQKY=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=ueHVLjnb5MqSVAS+Jwr2uYWB2FZ8fjM1jMSe73anjDFV9uIkII2jK98Fq9abouNKT
-         wBdhcAWO1/Dub0BIcVV5u+XGRJMGzy4NB/5uy8vFnQPN1jxT9o8Lhisugxqfqk1MXa
-         UlwjldJpXKAobJpNB7i3npDwzcHbNyU2zaT9GwJd/g//Z+lhxaXoFIPVdXLE9TjfTn
-         Xc7wvhH9V75IP5J79HhZthxkSZjaVMgdaJ0PtlhuIJwCoW/GtSfc99GrptVnvYT3+v
-         AoYBQksf7wBCcewKur4IISH4+sfyhJCIV/PvQfHEgHR/5yIbdLds2BcjA0xgmPWUC+
-         b7JrXHvUzGOyg==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 213967] Thinkpad T14 Chicony Webcam not recognized by kernel
-Date:   Sun, 08 Aug 2021 18:01:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dev@horatiuion.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-213967-208809-vg7ycQEtWm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213967-208809@https.bugzilla.kernel.org/>
-References: <bug-213967-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
+        s=k20201202; t=1628447754;
+        bh=/dUfQyxSdmLdlSmiFxIXIEbToyA6Ix+fzkeoK+j/pro=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=ZriQHa5mnkhRvOzio23ucGT6AbnwTzDmLbOLAfK8pT7a4vulLNH1YUrulM9HXLHAy
+         +rguUvG7voZupOtgwutA+5A+w9KmUjZ7hmOz3ewAzDnQXMzr1chXAo84fF8vy7YtAE
+         ZsLydphVlEddTsrQvklVpBWpL4pIrO/rBZ/WLPj16sMQdsizj5yjrXJ6D1+433Qhca
+         LIP8zthutiIhlSuz9wp4HDrlSH+ZP9UHvoG2pjboQqPBink5HEzisWHW2ZOrPJ6sNK
+         msvr/rakUPrOss+usEQyBGF4v36Z7goVbTm/TaK4MPt5P5FzB1kS2p1dkqArvRGznJ
+         JL8E9o7M4eL0w==
+Subject: Re: [GIT PULL] USB fixes for 5.14-rc5
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <YQ/AYY7G/5Dq8wRh@kroah.com>
+References: <YQ/AYY7G/5Dq8wRh@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YQ/AYY7G/5Dq8wRh@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.14-rc5
+X-PR-Tracked-Commit-Id: 43ad944cd73f2360ec8ff31d29ea44830b3119af
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6a65554767546881e3e50f3734364021d11b703d
+Message-Id: <162844775431.32600.4552226427350312956.pr-tracker-bot@kernel.org>
+Date:   Sun, 08 Aug 2021 18:35:54 +0000
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213967
+The pull request you sent on Sun, 8 Aug 2021 13:30:41 +0200:
 
---- Comment #1 from Horatiu Ion (dev@horatiuion.com) ---
-I've managed to get some more info:
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.14-rc5
 
-On the non-working kernel versions, I get these messages during boot
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6a65554767546881e3e50f3734364021d11b703d
 
-```
-[    7.292465] xhci_hcd 0000:06:00.0: xHCI Host Controller
-[    7.292476] xhci_hcd 0000:06:00.0: new USB bus registered, assigned bus
-number 2
-[    7.292499] xhci_hcd 0000:06:00.0: Zeroing 64bit base registers, expecti=
-ng
-fault
-[   17.324564] xhci_hcd 0000:06:00.0: can't setup: -110
-[   17.324573] xhci_hcd 0000:06:00.0: USB bus 2 deregistered
-[   17.324679] xhci_hcd 0000:06:00.0: init 0000:06:00.0 fail, -110
-[   17.324697] xhci_hcd: probe of 0000:06:00.0 failed with error -110
-```
+Thank you!
 
-From what I could gather, it is timing out while trying to communicate with=
- the
-USB device
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
