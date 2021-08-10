@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD28C4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:09:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92295C4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:09:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6BEE460E9B
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:09:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 783E560F8F
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:09:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236828AbhHJEJl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Aug 2021 00:09:41 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:51104 "EHLO
+        id S236965AbhHJEJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Aug 2021 00:09:46 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:43905 "EHLO
         so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234670AbhHJEJh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 00:09:37 -0400
+        with ESMTP id S236890AbhHJEJp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 00:09:45 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1628568556; h=References: In-Reply-To: Message-Id: Date:
+ s=smtp; t=1628568563; h=References: In-Reply-To: Message-Id: Date:
  Subject: Cc: To: From: Sender;
- bh=Off76Tl7aKwB/cmh9OMhTRK+calKzf38CGm5XFwFN6Q=; b=ttUzJbiFh2qlD8mFOUB5NGDBGf9qZntqDysakhBn3cnpt969jiTpEzbnuSWaIX/j/tQL//w4
- 121UAf8Gid3rZOZVTnsESrtkoyp2KMWl5MlhkZiUoc/sTMXS67VenWqVDc/7KttVAZtmaS4J
- HzX/J+3m4U235MLB6gdDShi+a9w=
+ bh=HUW/JNdUEE56j2psKfuUb4mbnCbI1976BCbNkONPbjI=; b=CDVFUGBxlKKZJ6vf9z8F+x1A2mMaNuO2qzYTEm6fYOxVqGgIVRlRQjdJvnzzy6GqKFkCkF3W
+ mtJIFoAX/30Ck+JXts6ZPWEbdwYhBuCyUvgVf6C5UEFzRU6jkceIedoigIGmNH2d7Xguvqvj
+ xQ1b1aDCVuNDm0a+VPncXjXJS6c=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 6111fbe3454b7a558fe7da58 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 04:09:07
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 6111fbeeb14e7e2ecbbacd4b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 04:09:18
  GMT
 Sender: pmaliset=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 7EEB0C4323A; Tue, 10 Aug 2021 04:09:07 +0000 (UTC)
+        id 528A9C43460; Tue, 10 Aug 2021 04:09:18 +0000 (UTC)
 Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id ECC4EC43217;
-        Tue, 10 Aug 2021 04:08:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ECC4EC43217
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 07A2AC433F1;
+        Tue, 10 Aug 2021 04:09:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 07A2AC433F1
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=pmaliset@codeaurora.org
 From:   Prasad Malisetty <pmaliset@codeaurora.org>
@@ -54,9 +54,9 @@ Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
         sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
         Prasad Malisetty <pmaliset@codeaurora.org>
-Subject: [PATCH v5 1/4] dt-bindings: pci: qcom: Document PCIe bindings for SC7280
-Date:   Tue, 10 Aug 2021 09:38:33 +0530
-Message-Id: <1628568516-24155-2-git-send-email-pmaliset@codeaurora.org>
+Subject: [PATCH v5 3/4] arm64: dts: qcom: sc7280: Add PCIe nodes for IDP board
+Date:   Tue, 10 Aug 2021 09:38:35 +0530
+Message-Id: <1628568516-24155-4-git-send-email-pmaliset@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1628568516-24155-1-git-send-email-pmaliset@codeaurora.org>
 References: <1628568516-24155-1-git-send-email-pmaliset@codeaurora.org>
@@ -64,51 +64,62 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the PCIe DT bindings for SC7280 SoC.The PCIe IP is similar
-to the one used on SM8250. Add the compatible for SC7280.
+Add PCIe nodes for sc7280 IDP board.
 
 Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- Documentation/devicetree/bindings/pci/qcom,pcie.txt | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280-idp.dts | 38 +++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie.txt b/Documentation/devicetree/bindings/pci/qcom,pcie.txt
-index 3f64687..ff423cd 100644
---- a/Documentation/devicetree/bindings/pci/qcom,pcie.txt
-+++ b/Documentation/devicetree/bindings/pci/qcom,pcie.txt
-@@ -12,6 +12,7 @@
- 			- "qcom,pcie-ipq4019" for ipq4019
- 			- "qcom,pcie-ipq8074" for ipq8074
- 			- "qcom,pcie-qcs404" for qcs404
-+			- "qcom,pcie-sc7280" for sc7280
- 			- "qcom,pcie-sdm845" for sdm845
- 			- "qcom,pcie-sm8250" for sm8250
- 			- "qcom,pcie-ipq6018" for ipq6018
-@@ -144,6 +145,22 @@
- 			- "slave_bus"	AXI Slave clock
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dts b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
+index 64fc22a..bb6d3d5 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-idp.dts
++++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
+@@ -61,6 +61,44 @@
+ 	modem-init;
+ };
  
- - clock-names:
-+	Usage: required for sc7280
-+	Value type: <stringlist>
-+	Definition: Should contain the following entries
-+			- "aux"         Auxiliary clock
-+			- "cfg"         Configuration clock
-+			- "bus_master"  Master AXI clock
-+			- "bus_slave"   Slave AXI clock
-+			- "slave_q2a"   Slave Q2A clock
-+			- "tbu"         PCIe TBU clock
-+			- "ddrss_sf_tbu" PCIe SF TBU clock
-+			- "pipe"        PIPE clock
-+			- "pipe_mux"    PIPE MUX
-+			- "phy_pipe"    PIPE output clock
-+			- "ref"         REFERENCE clock
++&pcie1 {
++	status = "okay";
 +
-+- clock-names:
- 	Usage: required for sdm845
- 	Value type: <stringlist>
- 	Definition: Should contain the following entries
++	vdda-supply = <&vreg_l10c_0p8>;
++};
++
++&pcie1_phy {
++	status = "okay";
++
++	vdda-phy-supply = <&vreg_l10c_0p8>;
++	vdda-pll-supply = <&vreg_l6b_1p2>;
++};
++
++&pcie1_default_state {
++	clkreq {
++		bias-pull-up;
++	};
++
++	reset-n {
++		pins = "gpio2";
++		function = "gpio";
++
++		drive-strength = <16>;
++		output-low;
++		bias-disable;
++	};
++
++	wake-n {
++		drive-strength = <2>;
++		bias-pull-up;
++	};
++
++	nvme-n {
++		pins = "gpio19";
++		bias-pull-up;
++	};
++};
++
+ &pmk8350_vadc {
+ 	pmr735a_die_temp {
+ 		reg = <PMR735A_ADC7_DIE_TEMP>;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
