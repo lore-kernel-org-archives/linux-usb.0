@@ -2,179 +2,120 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B54DC432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 17:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70929C4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 18:17:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6C03600EF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 17:12:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A9B56056C
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 18:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231678AbhHJRMf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Aug 2021 13:12:35 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:11828 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229663AbhHJRMe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Aug 2021 13:12:34 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1628615532; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=plpxrD4kIxF9fIBxxFmf2PnbVDKTvqRX6FCReVS+x4o=; b=UcJhHod6sQNRpIknYR6Slupg1tlWA39EmShCxOK3678SLdIKTc+Pa/PBTEjbYH2wMB97uGhK
- EujLyAOI7vOC6UToHDBbC1t0LFjH5favxpgiC4kZLyduVTzDj4zmZOLQrV1GeHIvCMTOxf8Y
- MeLXtUwOes5gVXKbaF2RDZfx5kU=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 6112b35991487ad520aa04e2 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 17:11:53
- GMT
-Sender: wcheng=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 268D4C43217; Tue, 10 Aug 2021 17:11:53 +0000 (UTC)
-Received: from [192.168.1.9] (cpe-75-80-185-151.san.res.rr.com [75.80.185.151])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: wcheng)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2514BC433F1;
-        Tue, 10 Aug 2021 17:11:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2514BC433F1
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
-Subject: Re: [RFC][PATCH] dwc3: gadget: Fix losing list items in
- dwc3_gadget_ep_cleanup_completed_requests()
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        John Stultz <john.stultz@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jack Pham <jackp@codeaurora.org>, Todd Kjos <tkjos@google.com>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        YongQin Liu <yongqin.liu@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Petri Gynther <pgynther@google.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <CANcMJZCEVxVLyFgLwK98hqBEdc0_n4P0x_K6Gih8zNH3ouzbJQ@mail.gmail.com>
- <20210809223159.2342385-1-john.stultz@linaro.org>
- <4e1bef57-8520-36b9-f5cb-bbc925626a19@synopsys.com>
- <CALAqxLXPGt69ceiXkGT-nDjeP72mmCUgEzDdMpXr=rSNwpespw@mail.gmail.com>
- <0dfa8cd6-99b6-55c7-8099-0f6f1187b7fd@synopsys.com>
-From:   Wesley Cheng <wcheng@codeaurora.org>
-Message-ID: <b025412f-c27a-a59b-cd8f-aec0faa98928@codeaurora.org>
-Date:   Tue, 10 Aug 2021 10:11:51 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S236737AbhHJSRa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Aug 2021 14:17:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238814AbhHJSPA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 14:15:00 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D9CC03E586
+        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 10:46:58 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id d10-20020a9d4f0a0000b02904f51c5004e3so9946otl.9
+        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 10:46:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=JNGqukZNLlv0aFWFy8HqZUMwbBzjAv62MTk5xyepWJw=;
+        b=JfO53THyZ/pY2Xgb1vnPJRiXpCwHfgtTuAcYvNL5SGoveEsmVu2JWOCg2g3iO1AZtX
+         YKuH+MlMF8XZayefBH1H5H4Eu2wbfzZhlXPFXA2PIRR4YWugzdysKg4p0EW5t6L8VENH
+         Qci8mcQbZLW9n3WVkF8zuYA02j6t97zQqxmdI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JNGqukZNLlv0aFWFy8HqZUMwbBzjAv62MTk5xyepWJw=;
+        b=Ogst/LImsJtScX2pVqJGwPYi+ZI1/445izRM9fqPQBbToveeMtIu3F9yGsbjg0ylI4
+         Gqa6G8OTvPBtbbCBMu+HW5pp8a3RdjENAW6j3r4z5zH1gnPwmk1e0lFlOIa1XqwC9ip4
+         DVEE87746XZ1YG65ogzQh6cx5b4ZW4cG0Pk0dE0RQOOheQN8o+7PyyavZIB9l07v7yl1
+         uh4kPMXo1SAL23LXzADaDAWVH242AaNvIpyYSTNIybrJ9d9ywOoGkgrQCHchx1pjo5aN
+         B/bgrBiiIcSUcis8Vm202DbErA+Or+pI+TK4m2WAme0o5c0oJRcSo+Ofo9WEdX0lJww1
+         6V4w==
+X-Gm-Message-State: AOAM530MHa0IzHNhTydg+/qFZrelNXGectIQqaFhIl4XXEJSsAK66JL4
+        aaH64YAJZY1Epm5na2Vn4hXHuw==
+X-Google-Smtp-Source: ABdhPJy4obKBBysTjZZbvUO3M5drqw9Q+yzknQFK4vObi5m9f4ZVdhjK1X/c/sZE3MwQ+PxfPSrLCw==
+X-Received: by 2002:a05:6830:16cb:: with SMTP id l11mr21199314otr.209.1628617617843;
+        Tue, 10 Aug 2021 10:46:57 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id y5sm2778886ots.56.2021.08.10.10.46.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Aug 2021 10:46:57 -0700 (PDT)
+Subject: Re: [PATCH v2] vhci_hcd: USB port can get stuck in the disabled state
+To:     Michael <msbroadf@gmail.com>
+Cc:     valentina.manea.m@gmail.com, shuah@kernel.org,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20210721235526.10588-1-msbroadf@gmail.com>
+ <7b02cb66-d672-ae95-01ea-c6015725e1ac@linuxfoundation.org>
+ <CALdjXpA4_eXen6RjhsEBYt8CQs-2gzwYs9h9q0Z2LKZ=rXVp+Q@mail.gmail.com>
+ <ad07410b-05d6-6a12-13df-14e31cbf50ff@linuxfoundation.org>
+ <CALdjXpBPRraC8xxORgE3SXw4xFnTW-Y6rLbcS+Cx0xYq3+aBeQ@mail.gmail.com>
+ <976d34c0-d603-1f16-edbd-ad6c8881ad4e@linuxfoundation.org>
+ <CALdjXpAzE3o7Bwdvj1TvsBRpDWDe1FZ8LsmL5q0suxYnRJCOaA@mail.gmail.com>
+ <5165bd84-11af-35dd-8a9b-11c7f219fb88@linuxfoundation.org>
+ <CALdjXpCmx_nfYEguv9UvOrBMYFxB4sqwmNiV99ggHRZnZjiM-A@mail.gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <4f345afe-61d5-66b3-3252-562988c8926f@linuxfoundation.org>
+Date:   Tue, 10 Aug 2021 11:46:56 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <0dfa8cd6-99b6-55c7-8099-0f6f1187b7fd@synopsys.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CALdjXpCmx_nfYEguv9UvOrBMYFxB4sqwmNiV99ggHRZnZjiM-A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Thinh,
-
-On 8/9/2021 3:57 PM, Thinh Nguyen wrote:
-> John Stultz wrote:
->> On Mon, Aug 9, 2021 at 3:44 PM Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+On 8/2/21 7:00 PM, Michael wrote:
+> On Tue, 3 Aug 2021 at 09:14, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 7/30/21 5:52 PM, Michael wrote:
+>>> Yes i think just adding the VDEV_ST_USED check in addition to the
+>>> VDEV_ST_NOT_ASSIGNED state is fine and would fix the issue.
 >>>
->>> John Stultz wrote:
->>>> In commit d25d85061bd8 ("usb: dwc3: gadget: Use
->>>> list_replace_init() before traversing lists"), a local list_head
->>>> was introduced to process the started_list items to avoid races.
->>>>
->>>> However, in dwc3_gadget_ep_cleanup_completed_requests() if
->>>> dwc3_gadget_ep_cleanup_completed_request() fails, we break early,
->>>> causing the items on the local list_head to be lost.
->>>>
->>>> This issue showed up as problems on the db845c/RB3 board, where
->>>> adb connetions would fail, showing the device as "offline".
->>>>
->>>> This patch tries to fix the issue by if we are returning early
->>>> we splice in the local list head back into the started_list
->>>> and return (avoiding an infinite loop, as the started_list is
->>>> now non-null).
->>>>
->>>> Not sure if this is fully correct, but seems to work for me so I
->>>> wanted to share for feedback.
->>>>
->>>> Cc: Wesley Cheng <wcheng@codeaurora.org>
->>>> Cc: Felipe Balbi <balbi@kernel.org>
->>>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>>> Cc: Alan Stern <stern@rowland.harvard.edu>
->>>> Cc: Jack Pham <jackp@codeaurora.org>
->>>> Cc: Thinh Nguyen <thinh.nguyen@synopsys.com>
->>>> Cc: Todd Kjos <tkjos@google.com>
->>>> Cc: Amit Pundir <amit.pundir@linaro.org>
->>>> Cc: YongQin Liu <yongqin.liu@linaro.org>
->>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>> Cc: Petri Gynther <pgynther@google.com>
->>>> Cc: linux-usb@vger.kernel.org
->>>> Fixes: d25d85061bd8 ("usb: dwc3: gadget: Use list_replace_init() before traversing lists")
->>>> Signed-off-by: John Stultz <john.stultz@linaro.org>
->>>> ---
->>>>  drivers/usb/dwc3/gadget.c | 6 ++++++
->>>>  1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->>>> index b8d4b2d327b23..a73ebe8e75024 100644
->>>> --- a/drivers/usb/dwc3/gadget.c
->>>> +++ b/drivers/usb/dwc3/gadget.c
->>>> @@ -2990,6 +2990,12 @@ static void dwc3_gadget_ep_cleanup_completed_requests(struct dwc3_ep *dep,
->>>>                       break;
->>>>       }
->>>>
->>>> +     if (!list_empty(&local)) {
->>>> +             list_splice_tail(&local, &dep->started_list);
->>>> +             /* Return so we don't hit the restart case and loop forever */
->>>> +             return;
->>>> +     }
->>>> +
->>>>       if (!list_empty(&dep->started_list))
->>>>               goto restart;
->>>>  }
->>>>
+>>
+>> Can you please confirm if this works?
+>>
+>>> After many years of writing virtualhere (a similar system to usb/ip
+>>> but cross-platform and different non-kernel way of doing it server
+>>> side) I've seen many drivers that issue reset at any time. Loading
+>>> firmware is usually the reason.  Also sometimes switching
+>>> configurations requires a reset also, for example some gaming wheels
+>>> do this. I don't think you should make this VDEV_ST_USED check
+>>> specific to Wifi devices, as a lot of devices don't follow too closely
+>>> to the USB protocol to begin with from my experience. They primarily
+>>> base their USB interactions assuming the windows platform and its
+>>> quirks.
 >>>
->>> No, we should revert the change for
->>> dwc3_gadget_ep_cleaup_completed_requests(). As I mentioned previously,
->>> we don't cleanup the entire started_list. If the original problem is due
->>> to disconnection in the middle of request completion, then we can just
->>> check for pullup_connected and exit the loop and let the
->>> dwc3_remove_requests() do the cleanup.
 >>
->> Ok, sorry, I didn't read your mail in depth until I had this patch
->> sent out. If a revert of d25d85061bd8 is the better fix, I'm fine with
->> that too.
+>> When sending responses to Linux kernel mailing lists, please use bottom post.
+>> This check will be used for all drivers. We don't add checks for specific cases
+>> in the code.
 >>
->> thanks
->> -john
+>> thanks,
+>> -- Shuah
 >>
 > 
-> IMO, we should revert this patch for now since it will cause regression.
-> We can review and test a proper fix at a later time.
-> 
-> Thanks,
-> Thinh
+> Yes it works with that change.
 > 
 
-Another suggestion would just be to replace the loop with a while() loop
-and using list_entry() instead.  That was what was discussed in the
-earlier patch series which also addresses the problem as well.  Issue
-here is the tmp variable still carries a stale request after the dwc3
-giveback is called.  We can avoid that by always fetching the
-list_entry() instead of relying on list_for_each_safe()
+Would you like to send me a patch for this?
 
-https://lore.kernel.org/linux-usb/1620716636-12422-1-git-send-email-wcheng@codeaurora.org/
-
-Thanks
-Wesley Cheng
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+thanks,
+-- Shuah
