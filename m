@@ -2,120 +2,120 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70929C4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 18:17:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CCF9C4320E
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 19:25:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A9B56056C
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 18:17:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3904A61078
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 19:25:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236737AbhHJSRa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Aug 2021 14:17:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59302 "EHLO
+        id S232473AbhHJT0B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Aug 2021 15:26:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238814AbhHJSPA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 14:15:00 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D9CC03E586
-        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 10:46:58 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id d10-20020a9d4f0a0000b02904f51c5004e3so9946otl.9
-        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 10:46:58 -0700 (PDT)
+        with ESMTP id S231152AbhHJT0A (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 15:26:00 -0400
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8BF0C0613C1
+        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 12:25:37 -0700 (PDT)
+Received: by mail-oi1-x231.google.com with SMTP id y18so690778oiv.3
+        for <linux-usb@vger.kernel.org>; Tue, 10 Aug 2021 12:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JNGqukZNLlv0aFWFy8HqZUMwbBzjAv62MTk5xyepWJw=;
-        b=JfO53THyZ/pY2Xgb1vnPJRiXpCwHfgtTuAcYvNL5SGoveEsmVu2JWOCg2g3iO1AZtX
-         YKuH+MlMF8XZayefBH1H5H4Eu2wbfzZhlXPFXA2PIRR4YWugzdysKg4p0EW5t6L8VENH
-         Qci8mcQbZLW9n3WVkF8zuYA02j6t97zQqxmdI=
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=Qaz4xCN739RXFhIv84poX0ScDJwNuifosj/wmNYeKrI=;
+        b=Gd5MAtaiKtZayubjDqRGAyI3XDiBp5Oem/dVLOHadExJW1CH458Ic5Ck696RNY4z7R
+         Kcgb6rKMWcXpAHbi1BvRUx0qgqKUMotleU2XSfSD0qy8k+cAqzi8Q0uNyhxZ3P2Y56pM
+         NFrITyTsXdq3Zo+x+4YrcOELrdbAWfqTIp/7E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JNGqukZNLlv0aFWFy8HqZUMwbBzjAv62MTk5xyepWJw=;
-        b=Ogst/LImsJtScX2pVqJGwPYi+ZI1/445izRM9fqPQBbToveeMtIu3F9yGsbjg0ylI4
-         Gqa6G8OTvPBtbbCBMu+HW5pp8a3RdjENAW6j3r4z5zH1gnPwmk1e0lFlOIa1XqwC9ip4
-         DVEE87746XZ1YG65ogzQh6cx5b4ZW4cG0Pk0dE0RQOOheQN8o+7PyyavZIB9l07v7yl1
-         uh4kPMXo1SAL23LXzADaDAWVH242AaNvIpyYSTNIybrJ9d9ywOoGkgrQCHchx1pjo5aN
-         B/bgrBiiIcSUcis8Vm202DbErA+Or+pI+TK4m2WAme0o5c0oJRcSo+Ofo9WEdX0lJww1
-         6V4w==
-X-Gm-Message-State: AOAM530MHa0IzHNhTydg+/qFZrelNXGectIQqaFhIl4XXEJSsAK66JL4
-        aaH64YAJZY1Epm5na2Vn4hXHuw==
-X-Google-Smtp-Source: ABdhPJy4obKBBysTjZZbvUO3M5drqw9Q+yzknQFK4vObi5m9f4ZVdhjK1X/c/sZE3MwQ+PxfPSrLCw==
-X-Received: by 2002:a05:6830:16cb:: with SMTP id l11mr21199314otr.209.1628617617843;
-        Tue, 10 Aug 2021 10:46:57 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id y5sm2778886ots.56.2021.08.10.10.46.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Aug 2021 10:46:57 -0700 (PDT)
-Subject: Re: [PATCH v2] vhci_hcd: USB port can get stuck in the disabled state
-To:     Michael <msbroadf@gmail.com>
-Cc:     valentina.manea.m@gmail.com, shuah@kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20210721235526.10588-1-msbroadf@gmail.com>
- <7b02cb66-d672-ae95-01ea-c6015725e1ac@linuxfoundation.org>
- <CALdjXpA4_eXen6RjhsEBYt8CQs-2gzwYs9h9q0Z2LKZ=rXVp+Q@mail.gmail.com>
- <ad07410b-05d6-6a12-13df-14e31cbf50ff@linuxfoundation.org>
- <CALdjXpBPRraC8xxORgE3SXw4xFnTW-Y6rLbcS+Cx0xYq3+aBeQ@mail.gmail.com>
- <976d34c0-d603-1f16-edbd-ad6c8881ad4e@linuxfoundation.org>
- <CALdjXpAzE3o7Bwdvj1TvsBRpDWDe1FZ8LsmL5q0suxYnRJCOaA@mail.gmail.com>
- <5165bd84-11af-35dd-8a9b-11c7f219fb88@linuxfoundation.org>
- <CALdjXpCmx_nfYEguv9UvOrBMYFxB4sqwmNiV99ggHRZnZjiM-A@mail.gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <4f345afe-61d5-66b3-3252-562988c8926f@linuxfoundation.org>
-Date:   Tue, 10 Aug 2021 11:46:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=Qaz4xCN739RXFhIv84poX0ScDJwNuifosj/wmNYeKrI=;
+        b=HMxjJCNfUg0bxuSfJGPV+yFhn28i6CIAzPraarv1XhR93ykg/KB41Ax/agWw83cUP1
+         GFRQYm6SWB70v9b5r4uW6BvRqF0niIYKpTkybclNfH82Jl2yH+oMsllCa/Nsq40/yC80
+         ZZ4gfYdZriIvDDitJPzCcn7W5MToo8164B51D3ScyPLIfivahOVtstl3T3aIpZqOJss5
+         VhBI0BkFhAunZxq3vSQhtNYLJzg/ZYEqgk+ohuTkB7jYnYcyyIoc6VuDUfWKp9MmDE/I
+         WkSgek28tA2yy8Z5TklbAKH0rLcY9P7Yjk1Rh6jL8NrpRX+1JQE9tdXFx0+JVeJ/rJTU
+         ebHg==
+X-Gm-Message-State: AOAM533e8bn6VovWK9la93VezC8uTPNwYBh2aLQI/HgJekjNWNaLYUH5
+        nNLQADJq8WqgGvLoA1i6o6bHa7rEKuQPtANNO2gCpA==
+X-Google-Smtp-Source: ABdhPJzqQGzY1mBI3xr7FZKkIXaGjwxBnCoAClVfvG9imfTSZkgRoR57g4wmu62dncETwlAoAKYBAKxJ0ASAVABb++A=
+X-Received: by 2002:a05:6808:984:: with SMTP id a4mr4944772oic.166.1628623537400;
+ Tue, 10 Aug 2021 12:25:37 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Aug 2021 12:25:36 -0700
 MIME-Version: 1.0
-In-Reply-To: <CALdjXpCmx_nfYEguv9UvOrBMYFxB4sqwmNiV99ggHRZnZjiM-A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1628568516-24155-3-git-send-email-pmaliset@codeaurora.org>
+References: <1628568516-24155-1-git-send-email-pmaliset@codeaurora.org> <1628568516-24155-3-git-send-email-pmaliset@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Tue, 10 Aug 2021 12:25:36 -0700
+Message-ID: <CAE-0n532Mwe2OzhM-_UT62FpxqmpecBda7q0ciW1WzaOPm_Q5Q@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] arm64: dts: qcom: sc7280: Add PCIe and PHY related nodes
+To:     Prasad Malisetty <pmaliset@codeaurora.org>, agross@kernel.org,
+        bhelgaas@google.com, bjorn.andersson@linaro.org,
+        lorenzo.pieralisi@arm.com, robh+dt@kernel.org, svarbanov@mm-sol.com
+Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
+        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/2/21 7:00 PM, Michael wrote:
-> On Tue, 3 Aug 2021 at 09:14, Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->> On 7/30/21 5:52 PM, Michael wrote:
->>> Yes i think just adding the VDEV_ST_USED check in addition to the
->>> VDEV_ST_NOT_ASSIGNED state is fine and would fix the issue.
->>>
->>
->> Can you please confirm if this works?
->>
->>> After many years of writing virtualhere (a similar system to usb/ip
->>> but cross-platform and different non-kernel way of doing it server
->>> side) I've seen many drivers that issue reset at any time. Loading
->>> firmware is usually the reason.  Also sometimes switching
->>> configurations requires a reset also, for example some gaming wheels
->>> do this. I don't think you should make this VDEV_ST_USED check
->>> specific to Wifi devices, as a lot of devices don't follow too closely
->>> to the USB protocol to begin with from my experience. They primarily
->>> base their USB interactions assuming the windows platform and its
->>> quirks.
->>>
->>
->> When sending responses to Linux kernel mailing lists, please use bottom post.
->> This check will be used for all drivers. We don't add checks for specific cases
->> in the code.
->>
->> thanks,
->> -- Shuah
->>
-> 
-> Yes it works with that change.
-> 
+Quoting Prasad Malisetty (2021-08-09 21:08:34)
+> Add PCIe controller and PHY nodes for sc7280 SOC.
+>
+> Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sc7280.dtsi | 126 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> index 53a21d0..4500d88 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> @@ -16,6 +16,7 @@
+>  #include <dt-bindings/reset/qcom,sdm845-pdc.h>
+>  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
+>  #include <dt-bindings/thermal/thermal.h>
+> +#include <dt-bindings/gpio/gpio.h>
 
-Would you like to send me a patch for this?
+Please sort this alphabetically, gpio comes before reset at the least.
 
-thanks,
--- Shuah
+>
+>  / {
+>         interrupt-parent = <&intc>;
+> @@ -586,6 +587,119 @@
+>                         qcom,bcm-voters = <&apps_bcm_voter>;
+>                 };
+>
+> +               pcie1: pci@1c08000 {
+> +                       compatible = "qcom,pcie-sc7280", "qcom,pcie-sm8250", "snps,dw-pcie";
+> +                       reg = <0 0x01c08000 0 0x3000>,
+> +                             <0 0x40000000 0 0xf1d>,
+> +                             <0 0x40000f20 0 0xa8>,
+> +                             <0 0x40001000 0 0x1000>,
+> +                             <0 0x40100000 0 0x100000>;
+> +
+> +                       reg-names = "parf", "dbi", "elbi", "atu", "config";
+> +                       device_type = "pci";
+> +                       linux,pci-domain = <1>;
+> +                       bus-range = <0x00 0xff>;
+> +                       num-lanes = <2>;
+> +                       pipe-clk-source-switch;
+
+I'd rather not have this DT property, but key it off the compatible
+string.
+
+> +
+> +                       #address-cells = <3>;
+> +                       #size-cells = <2>;
