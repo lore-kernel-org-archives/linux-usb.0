@@ -2,228 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D58CC432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:20:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E515CC4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 06:03:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 602066054E
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 04:20:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B825F61051
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Aug 2021 06:03:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233194AbhHJEUr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Aug 2021 00:20:47 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:63275 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231705AbhHJEUp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 00:20:45 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1628569224; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=p76svAMi+rsCeQc1qFo0XYXnIUjbOJs5GTdwGm91lDI=; b=ZlC6QimX8y1lweIqJUz3H9C4ggm07sAphiweZNgCgO9dkZ9jBLo/a5mEm3I1SxDhQZOjo+5g
- stx83wqBVaH9WAAF0IPpqBIiDqh7I3e198F55kP7Shz2vWmJkHJCHJTJuDGT8KS1wAZTB6Fp
- qb5NmetgRcfqesw5Z7ZI1ol3+6M=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 6111fbe8b3873958f576ba3f (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 10 Aug 2021 04:09:12
- GMT
-Sender: pmaliset=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 4F443C43217; Tue, 10 Aug 2021 04:09:11 +0000 (UTC)
-Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7C59DC4338A;
-        Tue, 10 Aug 2021 04:09:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7C59DC4338A
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=pmaliset@codeaurora.org
-From:   Prasad Malisetty <pmaliset@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, bhelgaas@google.com,
-        robh+dt@kernel.org, swboyd@chromium.org, lorenzo.pieralisi@arm.com,
-        svarbanov@mm-sol.com
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
-        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
-        Prasad Malisetty <pmaliset@codeaurora.org>
-Subject: [PATCH v5 2/4] arm64: dts: qcom: sc7280: Add PCIe and PHY related nodes
-Date:   Tue, 10 Aug 2021 09:38:34 +0530
-Message-Id: <1628568516-24155-3-git-send-email-pmaliset@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1628568516-24155-1-git-send-email-pmaliset@codeaurora.org>
-References: <1628568516-24155-1-git-send-email-pmaliset@codeaurora.org>
+        id S234302AbhHJGEF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Aug 2021 02:04:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232947AbhHJGEF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Aug 2021 02:04:05 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243BEC0613D3
+        for <linux-usb@vger.kernel.org>; Mon,  9 Aug 2021 23:03:43 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id j1so31563968pjv.3
+        for <linux-usb@vger.kernel.org>; Mon, 09 Aug 2021 23:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rtst-co-kr.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=gNSA/QqvaxKCqHSWnVz2swgpIR5+WkaDSkJI1ULT9rA=;
+        b=LgY/E8dsE++Nv72Q1nlDTOYah9pp2hBgV4azqDWovVC7KEw80sgREuXKkU0Ll4K2AR
+         iKBiu/UcLOK2AOtWWNQcd20P/OwJ77xjnhKT39aZIlYI5M9B18DcUNOnFAKOgX94wBpj
+         JsDmBoXsVg9B5cGemetypTwapHG3EvoEc9551wZp5ZgFoPhqXARg9sDxNpEWya2wmuZV
+         +2qSl1tTq40KrJwQc//JJLUmaZRhAVHLLQ/UXjwld7rxPdenXYK+3fxHlF94/YgNXmZ3
+         7z5wW72+oP4IOM95ayZ1sFtgxLzB8K9EMRSum7wZmnnqsfHyKZ9MsTR29W/J5bEwtdAc
+         UuYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=gNSA/QqvaxKCqHSWnVz2swgpIR5+WkaDSkJI1ULT9rA=;
+        b=olRbb6gAXAgFNKVQnX+jS6BjqBnoWkLUP4Z4AsBcECXnsP7JkhZWiErupPFUwT6l/h
+         BIB2hQ58DprdvQ39zieirO7yXSq+XgkBFGNQ7kf+XeHLFt9kgEVGnceSsCNAJ0OBNVo4
+         2ZusFrvfn7MKwXcNgw4UCYHoCrfZgZ4NTkUTbljYeIyenChsnTSHxXfp9xc3IQG6C3MX
+         K/KEcoUQEuhmhZ+XVZY5wtHPTie+lfgI5ymWfFmD3Pk6V9JSZzc71AGa/a2l1j3Cnabf
+         XovmvYs5m1A7nCsqmFRvFnm5lGP+s0jxtXjuSO41jEfC1elHXS9GYaz3JZwtu5nn1XjA
+         rk9A==
+X-Gm-Message-State: AOAM5306b5BruCMxm/lZ6PHPDOx/1hh+ihbzpkbl9MhTmrdTVwHpM35i
+        HVw6UHpUmHw/PFVlSfL+xfJE66gZ/yezog==
+X-Google-Smtp-Source: ABdhPJxKliws3410q1HD7YF34N5EEBwQenuTxL1SGbdk2QoxAWDCsw1kWTRpj513cJUJy9qSGyOfyw==
+X-Received: by 2002:a17:90a:8809:: with SMTP id s9mr3152778pjn.44.1628575415238;
+        Mon, 09 Aug 2021 23:03:35 -0700 (PDT)
+Received: from ubuntu ([106.245.77.4])
+        by smtp.gmail.com with ESMTPSA id u3sm18983464pfn.76.2021.08.09.23.03.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Aug 2021 23:03:34 -0700 (PDT)
+Date:   Tue, 10 Aug 2021 15:02:28 +0900
+From:   Jeaho Hwang <jhhwang@rtst.co.kr>
+To:     Peter Chen <peter.chen@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] usb: chipidea: fix RT issue for udc
+Message-ID: <20210810060228.GA3326442@ubuntu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add PCIe controller and PHY nodes for sc7280 SOC.
+hw_ep_prime sometimes fails if irq occurs while it rus on RT kernel.
+to prevent local_irq_save should keep the function from irqs.
 
-Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
+I am not sure where is the best to submit this patch, between RT and USB
+community so sending to both. thanks.
+
+Signed-off-by: Jeaho Hwang <jhhwang@rtst.co.kr>
 ---
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 126 +++++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ drivers/usb/chipidea/udc.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 53a21d0..4500d88 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -16,6 +16,7 @@
- #include <dt-bindings/reset/qcom,sdm845-pdc.h>
- #include <dt-bindings/soc/qcom,rpmh-rsc.h>
- #include <dt-bindings/thermal/thermal.h>
-+#include <dt-bindings/gpio/gpio.h>
+diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
+index 5f35cdd2cf1d..a90498f17cc4 100644
+--- a/drivers/usb/chipidea/udc.c
++++ b/drivers/usb/chipidea/udc.c
+@@ -102,6 +102,9 @@ static int hw_ep_flush(struct ci_hdrc *ci, int num, int dir)
+ {
+ 	int n = hw_ep_bit(num, dir);
  
- / {
- 	interrupt-parent = <&intc>;
-@@ -586,6 +587,119 @@
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
++    /* From zynq-7000 TRM, It can take a long time
++     * so irq disable is not a good option for RT
++     */
+ 	do {
+ 		/* flush any pending transfer */
+ 		hw_write(ci, OP_ENDPTFLUSH, ~0, BIT(n));
+@@ -190,22 +193,32 @@ static int hw_ep_get_halt(struct ci_hdrc *ci, int num, int dir)
+ static int hw_ep_prime(struct ci_hdrc *ci, int num, int dir, int is_ctrl)
+ {
+ 	int n = hw_ep_bit(num, dir);
++	unsigned long flags;
++	int ret = 0;
  
-+		pcie1: pci@1c08000 {
-+			compatible = "qcom,pcie-sc7280", "qcom,pcie-sm8250", "snps,dw-pcie";
-+			reg = <0 0x01c08000 0 0x3000>,
-+			      <0 0x40000000 0 0xf1d>,
-+			      <0 0x40000f20 0 0xa8>,
-+			      <0 0x40001000 0 0x1000>,
-+			      <0 0x40100000 0 0x100000>;
-+
-+			reg-names = "parf", "dbi", "elbi", "atu", "config";
-+			device_type = "pci";
-+			linux,pci-domain = <1>;
-+			bus-range = <0x00 0xff>;
-+			num-lanes = <2>;
-+			pipe-clk-source-switch;
-+
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+
-+			ranges = <0x01000000 0x0 0x40200000 0x0 0x40200000 0x0 0x100000>,
-+				 <0x02000000 0x0 0x40300000 0x0 0x40300000 0x0 0x1fd00000>;
-+
-+			interrupts = <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "msi";
-+			#interrupt-cells = <1>;
-+			interrupt-map-mask = <0 0 0 0x7>;
-+			interrupt-map = <0 0 0 1 &intc 0 434 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 2 &intc 0 435 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 3 &intc 0 438 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 4 &intc 0 439 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			clocks = <&gcc GCC_PCIE_1_PIPE_CLK>,
-+				 <&gcc GCC_PCIE_1_PIPE_CLK_SRC>,
-+				 <&pcie1_lane 0>,
-+				 <&rpmhcc RPMH_CXO_CLK>,
-+				 <&gcc GCC_PCIE_1_AUX_CLK>,
-+				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
-+				 <&gcc GCC_PCIE_1_MSTR_AXI_CLK>,
-+				 <&gcc GCC_PCIE_1_SLV_AXI_CLK>,
-+				 <&gcc GCC_PCIE_1_SLV_Q2A_AXI_CLK>,
-+				 <&gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
-+				 <&gcc GCC_DDRSS_PCIE_SF_CLK>;
-+
-+			clock-names = "pipe",
-+				      "pipe_mux",
-+				      "phy_pipe",
-+				      "ref",
-+				      "aux",
-+				      "cfg",
-+				      "bus_master",
-+				      "bus_slave",
-+				      "slave_q2a",
-+				      "tbu",
-+				      "ddrss_sf_tbu";
-+
-+			assigned-clocks = <&gcc GCC_PCIE_1_AUX_CLK>;
-+			assigned-clock-rates = <19200000>;
-+
-+			resets = <&gcc GCC_PCIE_1_BCR>;
-+			reset-names = "pci";
-+
-+			power-domains = <&gcc GCC_PCIE_1_GDSC>;
-+
-+			phys = <&pcie1_lane>;
-+			phy-names = "pciephy";
-+
-+			perst-gpio = <&tlmm 2 GPIO_ACTIVE_LOW>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pcie1_default_state>;
-+
-+			iommus = <&apps_smmu 0x1c80 0x1>;
-+
-+			iommu-map = <0x0 &apps_smmu 0x1c80 0x1>,
-+				    <0x100 &apps_smmu 0x1c81 0x1>;
-+
-+			status = "disabled";
-+		};
-+
-+		pcie1_phy: phy@1c0e000 {
-+			compatible = "qcom,sm8250-qmp-gen3x2-pcie-phy";
-+			reg = <0 0x01c0e000 0 0x1c0>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+			clocks = <&gcc GCC_PCIE_1_AUX_CLK>,
-+				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
-+				 <&gcc GCC_PCIE_CLKREF_EN>,
-+				 <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
-+			clock-names = "aux", "cfg_ahb", "ref", "refgen";
-+
-+			resets = <&gcc GCC_PCIE_1_PHY_BCR>;
-+			reset-names = "phy";
-+
-+			assigned-clocks = <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
-+			assigned-clock-rates = <100000000>;
-+
-+			status = "disabled";
-+
-+			pcie1_lane: lanes@1c0e200 {
-+				reg = <0 0x01c0e200 0 0x170>,
-+				      <0 0x01c0e400 0 0x200>,
-+				      <0 0x01c0ea00 0 0x1f0>,
-+				      <0 0x01c0e600 0 0x170>,
-+				      <0 0x01c0e800 0 0x200>,
-+				      <0 0x01c0ee00 0 0xf4>;
-+				clocks = <&rpmhcc RPMH_CXO_CLK>;
-+				clock-names = "pipe0";
-+
-+				#phy-cells = <0>;
-+				#clock-cells = <1>;
-+				clock-output-names = "pcie_1_pipe_clk";
-+			};
-+		};
-+
- 		ipa: ipa@1e40000 {
- 			compatible = "qcom,sc7280-ipa";
+ 	/* Synchronize before ep prime */
+ 	wmb();
  
-@@ -1598,6 +1712,18 @@
- 					bias-bus-hold;
- 				};
- 			};
-+
-+			pcie1_default_state: pcie1-default-state {
-+				clkreq {
-+					pins = "gpio79";
-+					function = "pcie1_clkreqn";
-+				};
-+
-+				wake-n {
-+					pins = "gpio3";
-+					function = "gpio";
-+				};
-+			};
- 		};
+-	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num)))
+-		return -EAGAIN;
++	/* irq affects this routine so irq should be disabled on RT.
++	 * on standard kernel, irq is already disabled by callers.
++	 */
++	local_irq_save(flags);
++	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num))) {
++		ret = -EAGAIN;
++	goto out;
++	}
  
- 		apps_smmu: iommu@15000000 {
+ 	hw_write(ci, OP_ENDPTPRIME, ~0, BIT(n));
+ 
+ 	while (hw_read(ci, OP_ENDPTPRIME, BIT(n)))
+ 		cpu_relax();
+ 	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num)))
+-		return -EAGAIN;
++		ret = -EAGAIN;
+ 
++out:
++	local_irq_restore(flags);
+ 	/* status shoult be tested according with manual but it doesn't work */
+-	return 0;
++	return ret;
+ }
+ 
+ /**
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.25.1
 
