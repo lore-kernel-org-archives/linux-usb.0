@@ -2,73 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 487CEC4320A
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Aug 2021 13:23:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3EFBC4338F
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Aug 2021 13:53:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C3A060FC0
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Aug 2021 13:23:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B908F60231
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Aug 2021 13:53:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231249AbhHKNYM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Aug 2021 09:24:12 -0400
-Received: from mga17.intel.com ([192.55.52.151]:1792 "EHLO mga17.intel.com"
+        id S231872AbhHKNyD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Aug 2021 09:54:03 -0400
+Received: from mail.ispras.ru ([83.149.199.84]:41814 "EHLO mail.ispras.ru"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230425AbhHKNYA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 11 Aug 2021 09:24:00 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10072"; a="195388089"
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; 
-   d="scan'208";a="195388089"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2021 06:23:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,313,1620716400"; 
-   d="scan'208";a="590091824"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 11 Aug 2021 06:23:27 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 11 Aug 2021 16:23:26 +0300
-Date:   Wed, 11 Aug 2021 16:23:26 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: UCSI failing due to probe() getting version 0
-Message-ID: <YRPPTjaFLy5t5HsP@kuha.fi.intel.com>
-References: <db9e63df-80cc-6dae-89ae-23cb1cd09425@suse.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <db9e63df-80cc-6dae-89ae-23cb1cd09425@suse.com>
+        id S231769AbhHKNyC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 11 Aug 2021 09:54:02 -0400
+Received: from kleverstation.intra.ispras.ru (unknown [10.10.2.220])
+        by mail.ispras.ru (Postfix) with ESMTPS id 0096940755FE;
+        Wed, 11 Aug 2021 13:53:37 +0000 (UTC)
+From:   Nadezda Lutovinova <lutovinova@ispras.ru>
+To:     Bin Liu <b-liu@ti.com>
+Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ldv-project@linuxtesting.org
+Subject: [PATCH v2] usb: musb: musb_dsps: Change function call order in dsps_probe()
+Date:   Wed, 11 Aug 2021 16:53:31 +0300
+Message-Id: <20210811135331.11808-1-lutovinova@ispras.ru>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210811132927.10194-1-lutovinova@ispras.ru>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 05, 2021 at 04:04:03PM +0200, Oliver Neukum wrote:
-> Hi,
-> 
-> I am trying this on a new laptop, but I am getting a result I do not
-> understand.
-> ucsi_acpi_probe() is called, but ucsi_register() fails with -ENODEV,
-> because ucsi->version is 0.
-> 
-> If I dump the ucsi_acpi buffer I get:
-> 
-> 00 00 00 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 
-> And, frankly I do not understand that. Why have the ACPI device
-> but show version number 0?
+If IRQ occurs between calling  dsps_setup_optional_vbus_irq()
+and  dsps_create_musb_pdev(), then null pointer dereference occurs
+since glue->musb wasn't initialized yet.
 
-Because of BIOS bugs.
+The patch puts initializing of neccesery data before registration
+of the interrupt handler.
 
-Ideally we should be able to rely on the _STA method of the ACPI
-device, but unfortunately with UCSI we can't rely on that alone. On
-some systems the BIOS claims that the device is enabled (based on
-_STA) even when the platform doesn't actually support UCSI at all.
+Found by Linux Driver Verification project (linuxtesting.org).
 
-If you remove the check, does the driver work?
+Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
+---
+v2: fix subject
+---
+ drivers/usb/musb/musb_dsps.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-Br,
-
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index 5892f3ce0cdc..ce9fc46c9266 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -890,23 +890,22 @@ static int dsps_probe(struct platform_device *pdev)
+ 	if (!glue->usbss_base)
+ 		return -ENXIO;
+ 
+-	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
+-		ret = dsps_setup_optional_vbus_irq(pdev, glue);
+-		if (ret)
+-			goto err_iounmap;
+-	}
+-
+ 	platform_set_drvdata(pdev, glue);
+ 	pm_runtime_enable(&pdev->dev);
+ 	ret = dsps_create_musb_pdev(glue, pdev);
+ 	if (ret)
+ 		goto err;
+ 
++	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
++		ret = dsps_setup_optional_vbus_irq(pdev, glue);
++		if (ret)
++			goto err;
++	}
++
+ 	return 0;
+ 
+ err:
+ 	pm_runtime_disable(&pdev->dev);
+-err_iounmap:
+ 	iounmap(glue->usbss_base);
+ 	return ret;
+ }
 -- 
-heikki
+2.17.1
+
