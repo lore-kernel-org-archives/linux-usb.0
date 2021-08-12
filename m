@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EBB5C19F3D
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 13:22:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4052C19F39
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 13:22:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 04D5461059
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 13:22:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E757604D7
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 13:22:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237787AbhHLNWo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Aug 2021 09:22:44 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:41712 "EHLO
+        id S237613AbhHLNWn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Aug 2021 09:22:43 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:41762 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S237471AbhHLNTM (ORCPT
+        with ESMTP id S237524AbhHLNTM (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Aug 2021 09:19:12 -0400
-X-UUID: dc0aa88cf276494a86dfc6e401f87968-20210812
-X-UUID: dc0aa88cf276494a86dfc6e401f87968-20210812
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+X-UUID: 0b173581f66d46b9b09453b488510056-20210812
+X-UUID: 0b173581f66d46b9b09453b488510056-20210812
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1136894012; Thu, 12 Aug 2021 21:18:45 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 12 Aug
- 2021 21:18:38 +0800
+        with ESMTP id 2032732695; Thu, 12 Aug 2021 21:18:43 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 Aug 2021 21:18:42 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 12 Aug 2021 21:18:36 +0800
+ Transport; Thu, 12 Aug 2021 21:18:41 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
@@ -48,11 +48,10 @@ CC:     Pawel Laszczak <pawell@cadence.com>,
         <linux-tegra@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH v2 2/7] usb: mtu3: use @mult for HS isoc or intr
-Date:   Thu, 12 Aug 2021 21:17:58 +0800
-Message-ID: <1628774283-475-2-git-send-email-chunfeng.yun@mediatek.com>
+        Eddie Hung <eddie.hung@mediatek.com>
+Subject: [PATCH v2 6/7] usb: gadget: bdc: remove unnecessary AND operation when get ep maxp
+Date:   Thu, 12 Aug 2021 21:18:02 +0800
+Message-ID: <1628774283-475-6-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1628774283-475-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1628774283-475-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -63,31 +62,29 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For HS isoc or intr, should use @mult but not @burst
-to save mult value.
+usb_endpoint_maxp() already returns actual max packet size, no need
+AND 0x7ff.
 
-Fixes: 4d79e042ed8b ("usb: mtu3: add support for usb3.1 IP")
-Cc: stable <stable@vger.kernel.org>
+Acked-by: Felipe Balbi <balbi@kernel.org>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
-v2: new patch, split from [2/6] suggested by Felipe
+v2: add acked-by felipe
 ---
- drivers/usb/mtu3/mtu3_gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/bdc/bdc_cmd.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
-index 5e21ba05ebf0..635ad277cb13 100644
---- a/drivers/usb/mtu3/mtu3_gadget.c
-+++ b/drivers/usb/mtu3/mtu3_gadget.c
-@@ -92,7 +92,7 @@ static int mtu3_ep_enable(struct mtu3_ep *mep)
- 				usb_endpoint_xfer_int(desc)) {
- 			interval = desc->bInterval;
- 			interval = clamp_val(interval, 1, 16) - 1;
--			burst = (max_packet & GENMASK(12, 11)) >> 11;
-+			mult = (max_packet & GENMASK(12, 11)) >> 11;
- 		}
- 		break;
- 	default:
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_cmd.c b/drivers/usb/gadget/udc/bdc/bdc_cmd.c
+index 995f79c79f96..67887316a1a6 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_cmd.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_cmd.c
+@@ -153,7 +153,6 @@ int bdc_config_ep(struct bdc *bdc, struct bdc_ep *ep)
+ 	si = clamp_val(si, 1, 16) - 1;
+ 
+ 	mps = usb_endpoint_maxp(desc);
+-	mps &= 0x7ff;
+ 	param2 |= mps << MP_SHIFT;
+ 	param2 |= usb_endpoint_type(desc) << EPT_SHIFT;
+ 
 -- 
 2.18.0
 
