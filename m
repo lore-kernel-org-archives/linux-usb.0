@@ -2,77 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E510CC4338F
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 02:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8801AC432BE
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 03:33:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BFFD160FC3
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 02:31:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E5E060EE2
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 03:33:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233575AbhHLCbv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Aug 2021 22:31:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54198 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229729AbhHLCbu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 11 Aug 2021 22:31:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 5FC0260FC3
-        for <linux-usb@vger.kernel.org>; Thu, 12 Aug 2021 02:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628735486;
-        bh=WxleVNopPae64aEZXW+MqiRbODlH4BawTdPe45Ov8No=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=HWPM4bqlwO8oT6L265BPMDvD48nicitE7hJ+PD0nso/D4E8LwUOshEkb4rcB9ZfGL
-         0IlKrhEgiuBBQd4m+5MZ9nkBNbrupO/S/uDzzE1c3zyOR6bz/0t3DaKTI94uwq5apR
-         F/tRfZqzbhzjHpGWIMjjQbm5cjCtOhuSPmvYmFaPiZV+Kr+X1CVJncWKT29Q1w3uix
-         AUntj7y3jVvpBoMbWfUcLmkM/rWeYzrTiSo5F1Cy79dXX2FaKAuXUU8hMYFBs7shhA
-         chWw4xJjHo39xp6EWc/eKCDHqvqyPUR0SKSYr35p6bTn5NzjrSe76ALrsWKdjmHhNT
-         yjZFXSrRvsIkQ==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 214021] The USB devices fail to be detected during boot
-Date:   Thu, 12 Aug 2021 02:31:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: chris.chiu@canonical.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214021-208809-f1LPOHBL5I@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214021-208809@https.bugzilla.kernel.org/>
-References: <bug-214021-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S233757AbhHLDeN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Aug 2021 23:34:13 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:36016 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S230373AbhHLDeM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Aug 2021 23:34:12 -0400
+X-UUID: c62a52dab10e4453a81c2bbbc96b1a8c-20210812
+X-UUID: c62a52dab10e4453a81c2bbbc96b1a8c-20210812
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 767130957; Thu, 12 Aug 2021 11:33:45 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 12 Aug 2021 11:33:43 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 12 Aug 2021 11:33:42 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+CC:     Pawel Laszczak <pawell@cadence.com>,
+        Al Cooper <alcooperx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        <linux-tegra@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 2/6] usb: mtu3: fix the wrong HS mult value
+Date:   Thu, 12 Aug 2021 11:32:58 +0800
+Message-ID: <1628739182-30089-2-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1628739182-30089-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1628739182-30089-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214021
+Use usb_endpoint_maxp() and usb_endpoint_maxp_mult() seperately
+to get maxpacket and mult.
+Meanwhile fix the bug that should use @mult but not @burst
+to save mult value.
 
---- Comment #4 from Chris Chiu (chris.chiu@canonical.com) ---
-The patch author Chunfeng Yun also suggest to change the bPwrOn2PwrGood. It
-still fails even I set the value to 20 and 40. Then I set to a 100 to see i=
-f it
-makes difference. The value 100 works.
+Fixes: 4d79e042ed8b ("usb: mtu3: add support for usb3.1 IP")
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+ drivers/usb/mtu3/mtu3_gadget.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-I'll add some printk to get more information. Thanks
+diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
+index 5e21ba05ebf0..a399fd84c71f 100644
+--- a/drivers/usb/mtu3/mtu3_gadget.c
++++ b/drivers/usb/mtu3/mtu3_gadget.c
+@@ -64,14 +64,12 @@ static int mtu3_ep_enable(struct mtu3_ep *mep)
+ 	u32 interval = 0;
+ 	u32 mult = 0;
+ 	u32 burst = 0;
+-	int max_packet;
+ 	int ret;
+ 
+ 	desc = mep->desc;
+ 	comp_desc = mep->comp_desc;
+ 	mep->type = usb_endpoint_type(desc);
+-	max_packet = usb_endpoint_maxp(desc);
+-	mep->maxp = max_packet & GENMASK(10, 0);
++	mep->maxp = usb_endpoint_maxp(desc);
+ 
+ 	switch (mtu->g.speed) {
+ 	case USB_SPEED_SUPER:
+@@ -92,7 +90,7 @@ static int mtu3_ep_enable(struct mtu3_ep *mep)
+ 				usb_endpoint_xfer_int(desc)) {
+ 			interval = desc->bInterval;
+ 			interval = clamp_val(interval, 1, 16) - 1;
+-			burst = (max_packet & GENMASK(12, 11)) >> 11;
++			mult = usb_endpoint_maxp_mult(desc) - 1;
+ 		}
+ 		break;
+ 	default:
+-- 
+2.25.1
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
