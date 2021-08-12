@@ -2,100 +2,203 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E49C4338F
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Aug 2021 21:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CA68C4338F
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 23:19:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CA3960187
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Aug 2021 21:52:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33FCF60E93
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Aug 2021 23:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231609AbhHBVw1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Aug 2021 17:52:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbhHBVw1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Aug 2021 17:52:27 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 731B2C06175F;
-        Mon,  2 Aug 2021 14:52:17 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id l18so23067763wrv.5;
-        Mon, 02 Aug 2021 14:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=eDoAPGDEbsFfyX+R0VBDU7kfFHDQdI+lx7QTEMxsDzY=;
-        b=iFFs17ngxRsfMIIwqEUA6YubX14D+6duum7bYyFftYJah2vgCAcsy/5D4lJO5H5J9s
-         O8by1TvlQXhrIwqZKIWSQf6x4gWaHnYz/ZyIRai+isdNWbbD8vqH7fF0sVlzQmR2FJit
-         TdZph/ugaXsABN9x0YujsKc1NKyRywP2IrvoIKBXcMoJFPgzYHml8hsTKcJYXM75mjrp
-         Wh6AczDbUR2Wrk+Y+OsCrmoi9OKiWkhUk/aaq3XzIvOM6Z8qFKSEyfx2UAeGkycxHdVN
-         MuDX+HCYFhXDpux6d34MPUY3QHcQgGtOWxDtj00RigWyziIwVvM4n37zaRemCUwMGQhN
-         gdow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=eDoAPGDEbsFfyX+R0VBDU7kfFHDQdI+lx7QTEMxsDzY=;
-        b=d7JJBitaTBKHB3xUCyCk3zccXLdHh7G7eoJe2AFB5XGLtqNU+IjSUJPVFqsx+6ihi2
-         96GJhuJuVZv7wWtNOOQbYo3VTfRmBPu7WrjuvRhSve34iid2E41t2JnnI1FzVLBEnwe/
-         6HfdzxcWst2M91xsADxmJ3O5WemGuADfsymJhcSPSvBQChiM1s7RPN2t4j6mAZiF0Uok
-         T9/WUrLd5KB7x9FwOK+YzQYWtWZc6uwEEgoyvd0NPgJvSvc6aeiABNn+Mu9dOiIvxVj0
-         CJXEVyIIv3o8qNYO4NoOEFW4v+5RH3pq9iwOUbZlYBzQqw+qGncMNOBQYYSEY28yvTlH
-         uBMQ==
-X-Gm-Message-State: AOAM530Uowpm5Z62v7p/zTXOhDCynylNJMmzMnKXG38lNh2/n1xqF4O0
-        AywIrazbdZIN39KhU6yQiBk=
-X-Google-Smtp-Source: ABdhPJwvCQbRvDlr3KqFjqnkW0VabiAQTrHqlLAmLkWgkolMAnb/PcC2PPlNynsV0baQG5qmd/sq+Q==
-X-Received: by 2002:adf:e90e:: with SMTP id f14mr19461799wrm.191.1627941136030;
-        Mon, 02 Aug 2021 14:52:16 -0700 (PDT)
-Received: from pc ([196.235.140.151])
-        by smtp.gmail.com with ESMTPSA id l5sm14186292wrc.90.2021.08.02.14.52.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Aug 2021 14:52:15 -0700 (PDT)
-Date:   Mon, 2 Aug 2021 22:52:12 +0100
-From:   Salah Triki <salah.triki@gmail.com>
-To:     Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] usb: chipidea: get lock before calling
- usb_[disable|enable]_autosuspend()
-Message-ID: <20210802215212.GA1350820@pc>
+        id S236647AbhHLXUR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Aug 2021 19:20:17 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:24685 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234875AbhHLXUQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 12 Aug 2021 19:20:16 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1628810391; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=HKumf2afBu1a1S9pqj0Ftin/QsVFKauainQ39Momt1c=; b=mqDFPx/e7e1NKznV/as24NbzwE117bDqhuLLLt0NBZ7v88zqNMZrUUK+e8idi1212xFiojbN
+ /AYinZH9RFLV2pM2sjagEjwdhFVxhcO+cylTSYJygAMsUv8j4RdfWGreGyBzseFQLyHBEDPT
+ 2mhFJJUfggmZ/VDCdHgt95w09Cg=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 6115ac76b14e7e2ecbc7c6aa (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 12 Aug 2021 23:19:18
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 8BB40C4338A; Thu, 12 Aug 2021 23:19:18 +0000 (UTC)
+Received: from [192.168.1.26] (075-140-094-099.biz.spectrum.com [75.140.94.99])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 574F8C433F1;
+        Thu, 12 Aug 2021 23:19:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 574F8C433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=wcheng@codeaurora.org
+Subject: Re: [RFC][PATCH] usb: dwc3: usb: dwc3: Force stop EP0 transfers
+ during pullup disable
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jackp@codeauora.org" <jackp@codeauora.org>
+References: <1628648608-15239-1-git-send-email-wcheng@codeaurora.org>
+ <bcc8ff30-5c49-bddd-2f61-05da859b2647@synopsys.com>
+ <3edf74ba-d167-0589-a7ab-827b57aa5d9c@codeaurora.org>
+ <e07b7061-e9cf-3146-d115-56967298051e@synopsys.com>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <c82ee8f3-a364-f96f-76ac-2b78c1dc0517@codeaurora.org>
+Date:   Thu, 12 Aug 2021 16:19:12 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <e07b7061-e9cf-3146-d115-56967298051e@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Based on the documentation of usb_[disable|enable]_autosuspend(), the
-caller must hold udev's device lock.
+Hi Thinh,
 
-Signed-off-by: Salah Triki <salah.triki@gmail.com>
----
- drivers/usb/chipidea/otg_fsm.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 8/12/2021 2:31 PM, Thinh Nguyen wrote:
+> Wesley Cheng wrote:
+>> Hi Thinh,
+>>
+>> On 8/11/2021 5:47 PM, Thinh Nguyen wrote:
+>>> Wesley Cheng wrote:
+>>>> During a USB cable disconnect, or soft disconnect scenario, a pending
+>>>> SETUP transaction may not be completed, leading to the following
+>>>> error:
+>>>>
+>>>>     dwc3 a600000.dwc3: timed out waiting for SETUP phase
+>>>
+>>> How could it be a case of cable disconnect? The pullup(0) only applies
+>>> for soft-disconnect scenario. If the device initiated a disconnect, then
+>>
+>> Thanks for the response.  I guess this is specific for some use cases,
+>> but some applications such as ADB will close the FFS EP files after it
+>> gets the disconnection event, leading to this pullup disable as well.
+>> So its specific to that particular use case.
+> 
+> Does that mean that the ADB application won't expect a connection until
+> user intervention or some other notification to do pullup(1)?
+> 
 
-diff --git a/drivers/usb/chipidea/otg_fsm.c b/drivers/usb/chipidea/otg_fsm.c
-index 6ed4b00dba96..2d4174250432 100644
---- a/drivers/usb/chipidea/otg_fsm.c
-+++ b/drivers/usb/chipidea/otg_fsm.c
-@@ -518,12 +518,14 @@ static void ci_otg_loc_sof(struct otg_fsm *fsm, int on)
- 	if (!udev)
- 		return;
- 
-+	usb_lock_device(udev);
- 	if (on) {
- 		usb_disable_autosuspend(udev);
- 	} else {
- 		pm_runtime_set_autosuspend_delay(&udev->dev, 0);
- 		usb_enable_autosuspend(udev);
- 	}
-+	usb_unlock_device(udev);
- }
- 
- /*
+Yes, correct.  The Android USB framework will trigger the pullup(1) again.
+
+>>
+>>> the driver should wait for the control request to complete. If it times
+>>> out, something is already wrong here. The programming guide only
+>>> mentions that we should wait for completion, but it doesn't say about
+>>> recovery in a case of hung transfer. I need to check internally but it
+>>> should be safe to issue End Transfer.
+>>>
+>>
+>> Yes, what I did was modify a device running the Linux XHCI stack w/o
+>> reading/sending out the SETUP DATA phase, so that on the device end we'd
+>> always run into that situation where there's still a pending EP0 TRB queued.
+> 
+> Is this only for validation purpose?
+> 
+
+Yes, just to help verify the fix by injecting the error condition.
+
+>>
+>> We're running multiple devices with this fix as well, and doing device
+>> initiated disconnect.
+>>
+>>>>
+>>>> If this occurs, then the entire pullup disable routine is skipped and
+>>>> proper cleanup and halting of the controller does not complete.
+>>>> Instead of returning an error (which is ignored from the UDC
+>>>> perspective), do what is mentioned in the comments and force the
+>>>> transaction to complete and put the ep0state back to the SETUP phase.
+>>>>
+>>>> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
+>>>> ---
+>>>>  drivers/usb/dwc3/ep0.c    | 4 ++--
+>>>>  drivers/usb/dwc3/gadget.c | 6 +++++-
+>>>>  drivers/usb/dwc3/gadget.h | 3 +++
+>>>>  3 files changed, 10 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+>>>> index 6587394..abfc42b 100644
+>>>> --- a/drivers/usb/dwc3/ep0.c
+>>>> +++ b/drivers/usb/dwc3/ep0.c
+>>>> @@ -218,7 +218,7 @@ int dwc3_gadget_ep0_queue(struct usb_ep *ep, struct usb_request *request,
+>>>>  	return ret;
+>>>>  }
+>>>>  
+>>>> -static void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
+>>>> +void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
+>>>>  {
+>>>>  	struct dwc3_ep		*dep;
+>>>>  
+>>>> @@ -1073,7 +1073,7 @@ void dwc3_ep0_send_delayed_status(struct dwc3 *dwc)
+>>>>  	__dwc3_ep0_do_control_status(dwc, dwc->eps[direction]);
+>>>>  }
+>>>>  
+>>>> -static void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep)
+>>>> +void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep)
+>>>>  {
+>>>>  	struct dwc3_gadget_ep_cmd_params params;
+>>>>  	u32			cmd;
+>>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+>>>> index 54c5a08..a0e2e4d 100644
+>>>> --- a/drivers/usb/dwc3/gadget.c
+>>>> +++ b/drivers/usb/dwc3/gadget.c
+>>>> @@ -2437,7 +2437,11 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
+>>>>  				msecs_to_jiffies(DWC3_PULL_UP_TIMEOUT));
+>>>>  		if (ret == 0) {
+>>>>  			dev_err(dwc->dev, "timed out waiting for SETUP phase\n");
+>>>> -			return -ETIMEDOUT;
+>>>> +			spin_lock_irqsave(&dwc->lock, flags);
+>>>> +			dwc3_ep0_end_control_data(dwc, dwc->eps[0]);
+>>>> +			dwc3_ep0_end_control_data(dwc, dwc->eps[1]);
+>>>
+>>> End transfer command takes time, need to wait for it to complete before
+>>> issuing Start transfer again. Also, why restart again when it's about to
+>>> be disconnected.
+>>
+>> I can try without restarting it again, and see if that works.  Instead
+>> of waiting for the command complete event, can we set the ForceRM bit,
+>> similar to what we do for dwc3_remove_requests()?
+>>
+> 
+> ForceRM=1 means that the controller will ignore updating the TRBs
+> (including not clearing the HWO and remain transfer size). The driver
+> still needs to wait for the command to complete before issuing Start
+> Transfer command. Otherwise Start Transfer won't go through. If we know
+> that we're not going to issue Start Transfer any time soon, then we may
+> be able to get away with ignoring End Transfer command completion.
+> 
+
+I see.  Currently, in the place that we do use
+dwc3_ep0_end_control_data(), its followed by
+dwc3_ep0_stall_and_restart() which would execute start transfer.  For
+the most part, we were trying to follow the flow diagram in:
+
+	4.4 Control Transfer Programming Model
+
+We'd technically be in the "wait for host" stage at this point, so hence
+why we issued the end transfer, then followed with the stall and restart.
+
+Thanks
+Wesley Cheng
+
 -- 
-2.25.1
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
