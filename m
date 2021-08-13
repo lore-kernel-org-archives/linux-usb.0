@@ -5,54 +5,53 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F80C4320E
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Aug 2021 19:52:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B23C4338F
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Aug 2021 19:53:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2830B610CF
-	for <linux-usb@archiver.kernel.org>; Fri, 13 Aug 2021 19:52:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D35B610CF
+	for <linux-usb@archiver.kernel.org>; Fri, 13 Aug 2021 19:53:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234207AbhHMTxW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 13 Aug 2021 15:53:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
+        id S234336AbhHMTxZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 13 Aug 2021 15:53:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234209AbhHMTxS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 13 Aug 2021 15:53:18 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21806C0612A8
-        for <linux-usb@vger.kernel.org>; Fri, 13 Aug 2021 12:52:47 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso17517989pjb.1
-        for <linux-usb@vger.kernel.org>; Fri, 13 Aug 2021 12:52:47 -0700 (PDT)
+        with ESMTP id S233752AbhHMTxT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 13 Aug 2021 15:53:19 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 372DCC0612E7
+        for <linux-usb@vger.kernel.org>; Fri, 13 Aug 2021 12:52:52 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id k2so13364301plk.13
+        for <linux-usb@vger.kernel.org>; Fri, 13 Aug 2021 12:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p7nbDLVfQ70VzAap47W+E/velrGufmq2Nrz0ruFPQRA=;
-        b=bf/UkzAwyO9u8j3Qj4YzHAdfek0+BFIdzVeUPZRNY2/VQxBbTGD4reSnz3RVnwzGVq
-         1GLu1adNaQxByDBJvEFVaRyi/puOHKmTBGFAu5j/s4UR2XJXF2/xaBQLrf/STOO67UXo
-         e5/1IDTNMn3VHkyhxKV9spwx7Tv+KWwR4r1jI=
+        bh=k9Rmu3khB0kAKTqvY5KWNzvfUL1dPXP+fLP9201xmak=;
+        b=av8ZrIBvUM9hRpZVFwbUKZwLn2rXRoaHSb4/HOsVGKL7qYduvlwoxVy31eMFlY2nci
+         lG7Q8S9SSkYUFT4SnL56w4Dm69qWmAD0UAJ9ge/PeiX2Ie9l8KQA305+tM9dz2l3HTGO
+         whRsW1NtjHNHSDHSt2CxTPksVISyHaWynR1GQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p7nbDLVfQ70VzAap47W+E/velrGufmq2Nrz0ruFPQRA=;
-        b=oz9rkcpIUffi2F0M6aamwvMFQQYzzmH5aPXQPc45CErJBIFBxwxRksfRLtv3nblvNg
-         1QXU3OXGPIVTshMYC+yTBYH9G9mUqoUIy73EUc8mDhRtuUFAktsrALlf7KxIHR6Akx6e
-         cdaM/d15Tlyj7P+PwfANqpo3wJIgrY2WGJ1F0FAhTGmbPI1wSSF+qjKLyNXB5qKdPCI6
-         gO5fneE0zftRNG9Sk4JRMpy0I8ymcv08pApJeLVGDM0t+K0ulrxitWD2DAxx/Kf14sES
-         xJ5Hawf8Gv/bMNBec6gseL+Jk3uiSj1Qp8ARx40uBPZ/BzRorhJciAOU1RII0HlxN3+E
-         Yr6A==
-X-Gm-Message-State: AOAM531kXJgmCNuz6B2kGuSTOTyssfEiY0WiVPlwzWMqJ5qawPqGf2jC
-        mEavAGVEk7OkXd1+QzEiLAFM0A==
-X-Google-Smtp-Source: ABdhPJy6BBJUXlsE6Y5wt5qaIYD4FIi0ZQdDXV9XbRXGZDlatMa5OD0adSJ0EPqCYPkA28YpbkeMQg==
-X-Received: by 2002:a63:a54f:: with SMTP id r15mr3746124pgu.212.1628884366441;
-        Fri, 13 Aug 2021 12:52:46 -0700 (PDT)
+        bh=k9Rmu3khB0kAKTqvY5KWNzvfUL1dPXP+fLP9201xmak=;
+        b=QRggIXwZHZx8YFmj8ZXaGiLC9e2qNytW1vyHkScqkjotXwyQ8//MbVGqioNNtpZad6
+         Yrt77wgc8iZMwQAJVkLKymxe+7OxaZ569vwhq/7OLST3M57RJum6YeRLvxCrSAFANCvy
+         qzWwt5QrqqIDdBbUqKCE4TbWVUNvAAuyjSsn88bmkAlBUk1NUdG8/SpMOVhcdc8gVn9Y
+         i2QNaELpOOfc4Ypyhfyxo4jZfZ1Z/zFLzVDIgGNoPoF6wIJWbpR93dcYOj+FGEK49uKj
+         GkRodMDx15vrUBiBU1F4zAZ8euv4u2QKgnlajZ7zTEWnlLOhpO9KT4sUJhWzcUOx0Iy5
+         OG0g==
+X-Gm-Message-State: AOAM532Mk9XEh+NJZcXacAXXOuiMI5Z+L1ckqb/MQ7YmXUON3/O+gJX/
+        bam3i8tZFS+R7DnT/hn7OugEvA==
+X-Google-Smtp-Source: ABdhPJzMsWHluNheUBxKxn/mMpe02w5C5YzOslH3Qs1NIX7pgA6rpbeKz4VALiqEC017+IZBEQEDGg==
+X-Received: by 2002:a17:90b:4c8e:: with SMTP id my14mr3242709pjb.234.1628884371370;
+        Fri, 13 Aug 2021 12:52:51 -0700 (PDT)
 Received: from localhost ([2620:15c:202:201:450d:9788:a70e:42d6])
-        by smtp.gmail.com with UTF8SMTPSA id n22sm3158768pff.57.2021.08.13.12.52.44
+        by smtp.gmail.com with UTF8SMTPSA id x189sm3625510pfx.99.2021.08.13.12.52.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Aug 2021 12:52:46 -0700 (PDT)
+        Fri, 13 Aug 2021 12:52:51 -0700 (PDT)
 From:   Matthias Kaehlcke <mka@chromium.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
@@ -70,20 +69,11 @@ Cc:     devicetree@vger.kernel.org, Peter Chen <peter.chen@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
         Stephen Boyd <swboyd@chromium.org>,
         Matthias Kaehlcke <mka@chromium.org>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Nishanth Menon <nm@ti.com>, Shawn Guo <shawnguo@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v16 4/7] arm64: defconfig: Explicitly enable USB_XHCI_PLATFORM
-Date:   Fri, 13 Aug 2021 12:52:25 -0700
-Message-Id: <20210813125146.v16.4.Id45138610b749ff775186ac10b3d01c504ddf4f3@changeid>
+        Dmitry Osipenko <digetx@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v16 6/7] usb: host: xhci-plat: Create platform device for onboard hubs in probe()
+Date:   Fri, 13 Aug 2021 12:52:27 -0700
+Message-Id: <20210813125146.v16.6.I7a3a7d9d2126c34079b1cab87aa0b2ec3030f9b7@changeid>
 X-Mailer: git-send-email 2.33.0.rc1.237.g0d66db33f3-goog
 In-Reply-To: <20210813195228.2003500-1-mka@chromium.org>
 References: <20210813195228.2003500-1-mka@chromium.org>
@@ -93,13 +83,15 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The dependency of USB_DWC3 on USB_XHCI_PLATFORM is being changed
-from 'select' to 'depends on' by another patch. The defconfig selects
-USB_DWC3 and implicitly USB_DWC3_DUAL_ROLE, to keep this unchanged
-USB_XHCI_PLATFORM now needs to be selected explicitly.
+Call onboard_hub_create/destroy_pdevs() from  _probe()/_remove()
+to create/destroy platform devices for onboard USB hubs that may
+be connected to the root hub of the controller. These functions
+are a NOP unless CONFIG_USB_ONBOARD_HUB=y/m.
+
+Also add a field to struct xhci_hcd to keep track of the onboard hub
+platform devices that are owned by the xHCI.
 
 Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 ---
 
 Changes in v16:
@@ -109,27 +101,102 @@ Changes in v15:
 - none
 
 Changes in v14:
-- rebased on v5.14-rc1 (with the rest of the series)
-- added 'Reviewed-by' tag from Doug
+- none
 
 Changes in v13:
+- added comment for 'depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB'
+  construct
+
+Changes in v12:
+- none
+
+Changes in v11:
+- use onboard_hub_create/destroy_pdevs() to support multiple onboard
+  hubs that are connected to the same root hub
+- moved field/list to keep track of platform devices from struct
+  usb_hcd to struct xhci_hcd
+- updated commit message
+
+Changes in v10:
+- none
+
+Changes in v9:
+- added dependency on USB_ONBOARD_HUB (or !!USB_ONBOARD_HUB) to
+  USB_XHCI_PLATFORM
+
+Changes in v8:
+- none
+
+Changes in v7:
+- none
+
+Changes in v6:
+- none
+
+Changes in v5:
 - patch added to the series
 
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/host/Kconfig     | 1 +
+ drivers/usb/host/xhci-plat.c | 6 ++++++
+ drivers/usb/host/xhci.h      | 2 ++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index f423d08b9a71..b243bd11a4ed 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -802,6 +802,7 @@ CONFIG_USB_OTG=y
- CONFIG_USB_XHCI_HCD=y
- CONFIG_USB_XHCI_PCI=m
- CONFIG_USB_XHCI_PCI_RENESAS=m
-+CONFIG_USB_XHCI_PLATFORM=y
- CONFIG_USB_XHCI_TEGRA=y
- CONFIG_USB_EHCI_HCD=y
- CONFIG_USB_EHCI_EXYNOS=y
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index 518c2312ef0c..099e9615919c 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -54,6 +54,7 @@ config USB_XHCI_PCI_RENESAS
+ config USB_XHCI_PLATFORM
+ 	tristate "Generic xHCI driver for a platform device"
+ 	select USB_XHCI_RCAR if ARCH_RENESAS
++	depends on USB_ONBOARD_HUB || !USB_ONBOARD_HUB # if USB_ONBOARD_HUB=m, this can't be 'y'
+ 	help
+ 	  Adds an xHCI host driver for a generic platform device, which
+ 	  provides a memory space and an irq.
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index c1edcc9b13ce..ee98a3671619 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -15,6 +15,7 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
++#include <linux/usb/onboard_hub.h>
+ #include <linux/usb/phy.h>
+ #include <linux/slab.h>
+ #include <linux/acpi.h>
+@@ -374,6 +375,9 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 	 */
+ 	pm_runtime_forbid(&pdev->dev);
+ 
++	INIT_LIST_HEAD(&xhci->onboard_hub_devs);
++	onboard_hub_create_pdevs(hcd->self.root_hub, &xhci->onboard_hub_devs);
++
+ 	return 0;
+ 
+ 
+@@ -420,6 +424,8 @@ static int xhci_plat_remove(struct platform_device *dev)
+ 	usb_remove_hcd(hcd);
+ 	usb_put_hcd(shared_hcd);
+ 
++	onboard_hub_destroy_pdevs(&xhci->onboard_hub_devs);
++
+ 	clk_disable_unprepare(clk);
+ 	clk_disable_unprepare(reg_clk);
+ 	usb_put_hcd(hcd);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 3c7d281672ae..5ba01d5ccab8 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1923,6 +1923,8 @@ struct xhci_hcd {
+ 	struct dentry		*debugfs_slots;
+ 	struct list_head	regset_list;
+ 
++	struct list_head	onboard_hub_devs;
++
+ 	void			*dbc;
+ 	/* platform-specific data -- must come last */
+ 	unsigned long		priv[] __aligned(sizeof(s64));
 -- 
 2.33.0.rc1.237.g0d66db33f3-goog
 
