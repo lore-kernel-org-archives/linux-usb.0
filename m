@@ -3,86 +3,153 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 728D8C4338F
-	for <linux-usb@archiver.kernel.org>; Sat, 14 Aug 2021 18:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0772C4338F
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Aug 2021 23:41:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4EFF260FF2
-	for <linux-usb@archiver.kernel.org>; Sat, 14 Aug 2021 18:17:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D28A60F48
+	for <linux-usb@archiver.kernel.org>; Sat, 14 Aug 2021 23:41:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238931AbhHNSRk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 14 Aug 2021 14:17:40 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:51434 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238937AbhHNSRj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 14 Aug 2021 14:17:39 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru CBC942061858
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH v3 0/2] Stop calling request_irq(), etc. with invalid IRQs
- in the USB drivers`
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>
-CC:     <linux-usb@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>
-References: <fb92857f-3120-9a20-65ba-f21aeb4b9020@omp.ru>
- <YRdlGFh71JmKrJIm@kroah.com> <e17abfd6-09ab-d701-49c2-e2a1891c72ba@omp.ru>
- <YRfGTlkvpSccyM2g@kroah.com>
-Organization: Open Mobile Platform
-Message-ID: <fd165652-d7fd-9518-5598-87f08f6a6352@omp.ru>
-Date:   Sat, 14 Aug 2021 21:16:59 +0300
+        id S233644AbhHNXmX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 14 Aug 2021 19:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233549AbhHNXmX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 14 Aug 2021 19:42:23 -0400
+X-Greylist: delayed 575 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 14 Aug 2021 16:41:53 PDT
+Received: from pasta.tip.net.au (pasta.pcug.org.au [IPv6:2401:fc00:0:129::4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B9CC061764
+        for <linux-usb@vger.kernel.org>; Sat, 14 Aug 2021 16:41:53 -0700 (PDT)
+Received: from pasta.tip.net.au (pasta.pcug.org.au [IPv6:2401:fc00:0:129::4])
+        by mailhost.tip.net.au (Postfix) with ESMTP id 4GnGt43RPdz9PYm
+        for <linux-usb@vger.kernel.org>; Sun, 15 Aug 2021 09:32:12 +1000 (AEST)
+Received: from e4.eyal.emu.id.au (unknown [121.45.32.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by pasta.tip.net.au (Postfix) with ESMTPSA id 4GnGt42ljsz8tSW
+        for <linux-usb@vger.kernel.org>; Sun, 15 Aug 2021 09:32:12 +1000 (AEST)
+To:     linux-usb@vger.kernel.org
+From:   Eyal Lebedinsky <eyal@eyal.emu.id.au>
+Subject: USB hub problem
+Message-ID: <3481f401-1d52-d5a1-d983-4b5f7046704b@eyal.emu.id.au>
+Date:   Sun, 15 Aug 2021 09:32:06 +1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YRfGTlkvpSccyM2g@kroah.com>
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/14/21 4:34 PM, Greg Kroah-Hartman wrote:
+I have an external 4-way USB3.0 hub (I actually have two of them) That do not behave as expected.
+It is an XCD XCDESSUSBH4BK. It is unpowered. I am on fedora 34, kernel 5.13.8-200.fc34.x86_64
 
->>>> Here are 2 patches against the 'usb-linus' branch of GregKH's 'usb.git' repo.
->>>
->>> Wait, why that branch?
->>
->>    What branch I'd use for the fixes then?
-> 
-> Ah, you really want this in for 5.14-final?
+For starters, I found that attaching a USB SSD does not allow booting from it.
+I then found that when attaching my phone it is not recognized.
 
-   Not necessarily, it's your call. But all the patches are fixes.
+I searched the hub model and IDs but did not find relevant information.
+Is there an official list of supported hubs (or devices)?
 
-> People are hitting this issue now?
+Here is what it looks like.
 
-   No, the patches ware all the result of the code reviews...
+When the hub is attached (no phone) I see
+         Bus 001 Device 048: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+and
+         /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/16p, 480M
+             |__ Port 5: Dev 5, If 0, Class=Hub, Driver=hub/4p, 480M
+                 |__ Port 2: Dev 48, If 0, Class=Hub, Driver=hub/4p, 480M
+Attaching the phone does not add a device.
 
->>>  Please make them against the branch you want
->>> them applied to.  Hopefully they will apply to the usb-next branch...
->>
->>    I didn't intend them for usb-next but looks like they apply there too.
-> 
-> I think it belongs there as a "nice cleanup to have", right?
+Detaching/attaching the hub (with the phone already plugged in) I get
+         Bus 001 Device 052: ID 04e8:6860 Samsung Electronics Co., Ltd Galaxy A5 (MTP)
+         Bus 001 Device 051: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+and
+         /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/16p, 480M
+             |__ Port 5: Dev 5, If 0, Class=Hub, Driver=hub/4p, 480M
+                 |__ Port 2: Dev 51, If 0, Class=Hub, Driver=hub/4p, 480M
+                     |__ Port 1: Dev 52, If 1, Class=Communications, Driver=cdc_acm, 480M
+                     |__ Port 1: Dev 52, If 2, Class=CDC Data, Driver=cdc_acm, 480M
+                     |__ Port 1: Dev 52, If 0, Class=Imaging, Driver=, 480M
+                     |__ Port 1: Dev 52, If 3, Class=Vendor Specific Class, Driver=, 480M
+and the phone is recognized and accessible as MTP device.
 
-   No, they're definitely not cleanups and all have the "Fixes:" tags, so going
-to end up in the stable trees (some already have).
-   There's going to be 10-patch series soon, all fixing the deferred probing due
-to platfrorm_get_irq()...
-   Luckily, the USB tree doesn't shave the 3rd kind of platfrorm_get_irq() bugs:
-treating 0 as error and returning it immediately along with the negative values,
-without doing the remaining part of probe...
+Here are the logged messages for the two situations.
 
-> thanks,
-> 
-> greg k-h
+## attach hub (no phone):
+Aug 15 09:05:31 e7 pipewire[97866]: 8 events suppressed
+Aug 15 09:05:31 e7 kernel: usb 2-5.2: new SuperSpeed USB device number 12 using xhci_hcd
+Aug 15 09:05:31 e7 kernel: usb 2-5.2: New USB device found, idVendor=0bda, idProduct=0411, bcdDevice= 1.04
+Aug 15 09:05:31 e7 kernel: usb 2-5.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Aug 15 09:05:31 e7 kernel: usb 2-5.2: Product: 4-Port USB 3.0 Hub
+Aug 15 09:05:31 e7 kernel: usb 2-5.2: Manufacturer: Generic
+Aug 15 09:05:31 e7 kernel: hub 2-5.2:1.0: USB hub found
+Aug 15 09:05:31 e7 kernel: hub 2-5.2:1.0: 4 ports detected
+Aug 15 09:05:31 e7 kernel: usb 1-5.2: new high-speed USB device number 55 using xhci_hcd
+Aug 15 09:05:31 e7 kernel: usb 1-5.2: New USB device found, idVendor=0bda, idProduct=5411, bcdDevice= 1.04
+Aug 15 09:05:31 e7 kernel: usb 1-5.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Aug 15 09:05:31 e7 kernel: usb 1-5.2: Product: 4-Port USB 2.0 Hub
+Aug 15 09:05:31 e7 kernel: usb 1-5.2: Manufacturer: Generic
+Aug 15 09:05:31 e7 kernel: hub 1-5.2:1.0: USB hub found
+Aug 15 09:05:31 e7 kernel: hub 1-5.2:1.0: 4 ports detected
+Aug 15 09:05:31 e7 systemd-udevd[279738]: 2-5.2: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:05:31 e7 journal[3313]: treating change event as add on /sys/devices/pci0000:00/0000:00:14.0/usb2/2-5/2-5.2
+Aug 15 09:05:31 e7 systemd-udevd[279738]: 2-5.2:1.0: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:05:31 e7 systemd-udevd[279741]: 1-5.2: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:05:31 e7 journal[3313]: treating change event as add on /sys/devices/pci0000:00/0000:00:14.0/usb1/1-5/1-5.2
+Aug 15 09:05:31 e7 systemd-udevd[279738]: 1-5.2:1.0: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:05:31 e7 Thunar[279748]: thunar-volman: Unsupported USB device type "usb".
+Aug 15 09:05:31 e7 Thunar[279764]: thunar-volman: Unsupported USB device type "hub".
+Aug 15 09:05:31 e7 Thunar[279768]: thunar-volman: Unsupported USB device type "usb".
+Aug 15 09:05:31 e7 Thunar[279772]: thunar-volman: Unsupported USB device type "hub".
 
-MBR, Sergey
+## plug phone:
+         (no new messages)
+
+## attach hub with phone already plugged in:
+Aug 15 09:07:06 e7 kernel: usb 2-5.2: new SuperSpeed USB device number 13 using xhci_hcd
+Aug 15 09:07:06 e7 kernel: usb 2-5.2: New USB device found, idVendor=0bda, idProduct=0411, bcdDevice= 1.04
+Aug 15 09:07:06 e7 kernel: usb 2-5.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Aug 15 09:07:06 e7 kernel: usb 2-5.2: Product: 4-Port USB 3.0 Hub
+Aug 15 09:07:06 e7 kernel: usb 2-5.2: Manufacturer: Generic
+Aug 15 09:07:06 e7 kernel: hub 2-5.2:1.0: USB hub found
+Aug 15 09:07:06 e7 kernel: hub 2-5.2:1.0: 4 ports detected
+Aug 15 09:07:07 e7 kernel: usb 1-5.2: new high-speed USB device number 56 using xhci_hcd
+Aug 15 09:07:07 e7 kernel: usb 1-5.2: New USB device found, idVendor=0bda, idProduct=5411, bcdDevice= 1.04
+Aug 15 09:07:07 e7 kernel: usb 1-5.2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Aug 15 09:07:07 e7 kernel: usb 1-5.2: Product: 4-Port USB 2.0 Hub
+Aug 15 09:07:07 e7 kernel: usb 1-5.2: Manufacturer: Generic
+Aug 15 09:07:07 e7 kernel: hub 1-5.2:1.0: USB hub found
+Aug 15 09:07:07 e7 kernel: hub 1-5.2:1.0: 4 ports detected
+Aug 15 09:07:07 e7 systemd-udevd[279927]: 2-5.2: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 journal[3313]: treating change event as add on /sys/devices/pci0000:00/0000:00:14.0/usb2/2-5/2-5.2
+Aug 15 09:07:07 e7 systemd-udevd[279927]: 2-5.2:1.0: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 systemd-udevd[279930]: 1-5.2: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 journal[3313]: treating change event as add on /sys/devices/pci0000:00/0000:00:14.0/usb1/1-5/1-5.2
+Aug 15 09:07:07 e7 systemd-udevd[279927]: 1-5.2:1.0: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 Thunar[279937]: thunar-volman: Unsupported USB device type "usb".
+Aug 15 09:07:07 e7 Thunar[279952]: thunar-volman: Unsupported USB device type "hub".
+Aug 15 09:07:07 e7 Thunar[279956]: thunar-volman: Unsupported USB device type "usb".
+Aug 15 09:07:07 e7 Thunar[279960]: thunar-volman: Unsupported USB device type "hub".
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: new high-speed USB device number 57 using xhci_hcd
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: New USB device found, idVendor=04e8, idProduct=6860, bcdDevice= 4.00
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: New USB device strings: Mfr=2, Product=3, SerialNumber=4
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: Product: SAMSUNG_Android
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: Manufacturer: SAMSUNG
+Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: SerialNumber: 0019ae8070ad3f
+Aug 15 09:07:07 e7 kernel: cdc_acm 1-5.2.1:1.1: ttyACM0: USB ACM device
+Aug 15 09:07:07 e7 systemd-udevd[279927]: 1-5.2.1: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 systemd-udevd[279927]: 1-5.2.1:1.0: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 systemd-udevd[279930]: 1-5.2.1:1.1: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 systemd-udevd[279970]: 1-5.2.1:1.2: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 systemd-udevd[279971]: 1-5.2.1:1.3: Process '/bin/sh -c 'test -f /sys/module/usbcore/parameters/usbfs_memory_mb && test $(cat /sys/module/usbcore/parameters/usbfs_memory_mb) -lt 256 && echo 256 > /sys/module/usbcore/parameters/usbfs_memory_mb'' failed with exit code 1.
+Aug 15 09:07:07 e7 journal[1648]: CdMain: failed to emit DeviceAdded: failed to register object: An object is already exported for the interface org.freedesktop.ColorManager.Device at /org/freedesktop/ColorManager/devices/sysfs__null_
+Aug 15 09:07:07 e7 journal[1648]: CdMain: failed to emit DeviceAdded: failed to register object: An object is already exported for the interface org.freedesktop.ColorManager.Device at /org/freedesktop/ColorManager/devices/sysfs__null_
+Aug 15 09:07:07 e7 journal[1648]: CdMain: failed to emit DeviceAdded: failed to register object: An object is already exported for the interface org.freedesktop.ColorManager.Device at /org/freedesktop/ColorManager/devices/sysfs__null_
+
+-- 
+Eyal Lebedinsky (eyal@eyal.emu.id.au)
