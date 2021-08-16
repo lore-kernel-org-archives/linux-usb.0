@@ -2,74 +2,171 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3301C4338F
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 11:17:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2800EC4338F
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 12:31:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 804AE61CF3
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 11:17:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F202763263
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 12:31:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235917AbhHPLRq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Aug 2021 07:17:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60766 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231143AbhHPLRp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 16 Aug 2021 07:17:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0896C61B5D;
-        Mon, 16 Aug 2021 11:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1629112633;
-        bh=VQHVWgx/Vnp6vrq90JYPhAK5Lk/clExK25/y4fl3xCk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RqHWfe7autrBSS9uvYSMOkt15g1cptInQs5EnCeKzesa5Ef8x4GsQT5ZijTDStdUF
-         s1t79tgDSoQfdpeb432fHgYHOmlcqddFDfVQ2D7P4CvIj8JpWN2X1X+MpY1ePuMHCC
-         7SJYggdjMyyGN9/yvE95njTDecBjbEa4Hh62BkTg=
-Date:   Mon, 16 Aug 2021 13:17:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Slark Xiao <slark_xiao@163.com>
-Cc:     Reinhard Speyerer <rspmn@arcor.de>, johan@kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: Re: [PATCH] [V2,1/1]USB: serial: option: add Foxconn T77W175
- composition 0x901d
-Message-ID: <YRpJN414JQyfyEGo@kroah.com>
-References: <20210816035404.4210-1-slark_xiao@163.com>
- <YRoqAJmGBpV/OuZL@arcor.de>
- <d1d16fd.6f62.17b4e3ffa26.Coremail.slark_xiao@163.com>
- <YRot+wBa6v529Z7q@kroah.com>
- <278bcd0d.7189.17b4e479a3a.Coremail.slark_xiao@163.com>
+        id S229737AbhHPMc2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Aug 2021 08:32:28 -0400
+Received: from pcug.org.au ([203.10.76.4]:50549 "EHLO pasta.tip.net.au"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229600AbhHPMc2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Aug 2021 08:32:28 -0400
+X-Greylist: delayed 403 seconds by postgrey-1.27 at vger.kernel.org; Mon, 16 Aug 2021 08:32:27 EDT
+Received: from pasta.tip.net.au (pcug.org.au [203.10.76.4])
+        by mailhost.tip.net.au (Postfix) with ESMTP id 4GpCzR0tmxz9Q0Q
+        for <linux-usb@vger.kernel.org>; Mon, 16 Aug 2021 22:25:07 +1000 (AEST)
+Received: from e4.eyal.emu.id.au (unknown [121.45.32.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by pasta.tip.net.au (Postfix) with ESMTPSA id 4GpCzQ6Ct7z9Pd5
+        for <linux-usb@vger.kernel.org>; Mon, 16 Aug 2021 22:25:06 +1000 (AEST)
+Subject: Re: USB hub problem
+To:     linux-usb@vger.kernel.org
+References: <3481f401-1d52-d5a1-d983-4b5f7046704b@eyal.emu.id.au>
+ <00311c3e-9b32-792d-8320-d6080bc9585c@suse.com>
+From:   Eyal Lebedinsky <eyal@eyal.emu.id.au>
+Message-ID: <426a1ad4-b0a5-3e26-b871-f5d987401f6f@eyal.emu.id.au>
+Date:   Mon, 16 Aug 2021 22:25:01 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <278bcd0d.7189.17b4e479a3a.Coremail.slark_xiao@163.com>
+In-Reply-To: <00311c3e-9b32-792d-8320-d6080bc9585c@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 05:25:20PM +0800, Slark Xiao wrote:
-> At 2021-08-16 17:20:59, "Greg KH" <gregkh@linuxfoundation.org> wrote:
-> >On Mon, Aug 16, 2021 at 05:17:00PM +0800, Slark Xiao wrote:
-> >>   So should I use USB_DEVICE_INTERFACE_NUMBER(QUALCOMM_VENDOR_ID, 0x901d, 0x00) to bind Diag port only?
-> >
-> >Why is this device using the QUALCOMM vendor id anyway?  Is this allowed
-> >by Qualcomm?
-> >
-> >thanks,
-> >
-> >greg k-h
+
+
+On 16/08/2021 20.30, Oliver Neukum wrote:
 > 
-> Hi Greg,
->   Our product are designed based on Qualcomm SDX55 platform. So it still support Qualcomm vendor ID.
->   I think there is no infringement about this ID combo.
+> On 15.08.21 01:32, Eyal Lebedinsky wrote:
+>> I searched the hub model and IDs but did not find relevant information.
+>> Is there an official list of supported hubs (or devices)?
+> 
+> No, any hub by implementing the hub specification is supported.
+> 
+>> Attaching the phone does not add a device.
+> 
+> Just for the sake of completeness, could you post 'lsusb -v'
+> for that hub?
 
-Do you have permission from Qualcomm to use their vendor id?  I know
-some vendors get very upset about this...
+Bus 001 Device 095: ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
+Device Descriptor:
+   bLength                18
+   bDescriptorType         1
+   bcdUSB               2.10
+   bDeviceClass            9 Hub
+   bDeviceSubClass         0
+   bDeviceProtocol         2 TT per port
+   bMaxPacketSize0        64
+   idVendor           0x0bda Realtek Semiconductor Corp.
+   idProduct          0x5411 RTS5411 Hub
+   bcdDevice            1.04
+   iManufacturer           1 Generic
+   iProduct                2 4-Port USB 2.0 Hub
+   iSerial                 0
+   bNumConfigurations      1
+   Configuration Descriptor:
+     bLength                 9
+     bDescriptorType         2
+     wTotalLength       0x0029
+     bNumInterfaces          1
+     bConfigurationValue     1
+     iConfiguration          0
+     bmAttributes         0xe0
+       Self Powered
+       Remote Wakeup
+     MaxPower                0mA
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       0
+       bNumEndpoints           1
+       bInterfaceClass         9 Hub
+       bInterfaceSubClass      0
+       bInterfaceProtocol      1 Single TT
+       iInterface              0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x81  EP 1 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0001  1x 1 bytes
+         bInterval              12
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       1
+       bNumEndpoints           1
+       bInterfaceClass         9 Hub
+       bInterfaceSubClass      0
+       bInterfaceProtocol      2 TT per port
+       iInterface              0
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x81  EP 1 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0001  1x 1 bytes
+         bInterval              12
 
-Why not use your own vendor id?
+>> ## plug phone:
+>>          (no new messages)
+> That suggests a bug in the hub firmware. specifically that
+> under unknown circumstances it fails to generate events
+> for connection changes.
 
-thanks,
+I do not know it it is of value, but when the phone is not detected, it also does not
+indicate that it is connected using MTP. It thinks it is only being charged only.
 
-greg k-h
+>> Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: new high-speed USB device
+>> number 57 using xhci_hcd
+>> Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: New USB device found,
+>> idVendor=04e8, idProduct=6860, bcdDevice= 4.00
+>> Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: New USB device strings: Mfr=2,
+>> Product=3, SerialNumber=4
+>> Aug 15 09:07:07 e7 kernel: usb 1-5.2.1: Product: SAMSUNG_Android
+> 
+> In other respects it does work.
+> 
+> Based on a hunch, could you test whether the circumstances
+> this device fails under is related to runtime PM?
+> 
+> In order to do so you boot with
+> 
+> usbcore.autosuspend=-1
+ >
+> 
+> on the kernel command line.
+
+Well I can do better. I use USB TV tuners and in /etc/modprobe.d/dvb.conf I see
+	options usbcore autosuspend=-1
+It is a leftover from using an old tuner.
+
+>      Regards
+>          Oliver
+
+Thanks
+
+-- 
+Eyal Lebedinsky (eyal@eyal.emu.id.au)
