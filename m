@@ -2,127 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24282C4338F
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 00:52:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 125FBC4338F
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 01:04:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F04C36139E
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 00:52:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D6BE561181
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 01:04:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbhHPAwl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 15 Aug 2021 20:52:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39322 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230124AbhHPAwk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 15 Aug 2021 20:52:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 279A96139E;
-        Mon, 16 Aug 2021 00:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629075130;
-        bh=4DcMgK4QtX6xHGQbPUKyem0LDSENx5OBLXXgWyoCoZs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MDiD10PPdtrYWyBRG7wjMGhtXZx0mwC2P6KAK32vLfazzawk6sPHLISlTAuMKq+vD
-         Xr+RdfX4O4SvLT3PaA8m9fe66e/F7QacyaaNi9JHpbe1jzg0VszKe5IMG/dar89NN1
-         FNmXwpS6erlUAXm1nmvSt6KSri1VBp6k9NelnJPhU1QAeiwQkEEL8pFPf2ZD8iR3mC
-         SrDn/wP9K3bB0WHjg4EGYIy3Nh+z8jBNzcvc5DLsDSSe29JuNylrGgpdcbAG20XWRw
-         zJz10uS7R5ev+u39pAFphAHnskxlL148LYctk2IfuFFiv9zyt1QaG4GsOU6FTpLJGW
-         +sQnasWypP73Q==
-Date:   Mon, 16 Aug 2021 08:52:06 +0800
-From:   Peter Chen <peter.chen@kernel.org>
-To:     Jeaho Hwang <jhhwang@rtst.co.kr>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
+        id S231969AbhHPBD7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 15 Aug 2021 21:03:59 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:59911 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S230124AbhHPBD7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Aug 2021 21:03:59 -0400
+Received: (qmail 107272 invoked by uid 1000); 15 Aug 2021 21:03:27 -0400
+Date:   Sun, 15 Aug 2021 21:03:27 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Peter Chen <peter.chen@kernel.org>
+Cc:     Jeaho Hwang <jhhwang@rtst.co.kr>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
 Subject: Re: [PATCH] usb: chipidea: fix RT issue for udc
-Message-ID: <20210816005205.GA3907@nchen>
+Message-ID: <20210816010327.GA106658@rowland.harvard.edu>
 References: <20210810060228.GA3326442@ubuntu>
+ <20210816005205.GA3907@nchen>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210810060228.GA3326442@ubuntu>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210816005205.GA3907@nchen>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21-08-10 15:02:28, Jeaho Hwang wrote:
-> hw_ep_prime sometimes fails if irq occurs while it rus on RT kernel.
-> to prevent local_irq_save should keep the function from irqs.
+On Mon, Aug 16, 2021 at 08:52:06AM +0800, Peter Chen wrote:
+> On 21-08-10 15:02:28, Jeaho Hwang wrote:
+> > hw_ep_prime sometimes fails if irq occurs while it rus on RT kernel.
+> > to prevent local_irq_save should keep the function from irqs.
+> > 
+> > I am not sure where is the best to submit this patch, between RT and USB
+> > community so sending to both. thanks.
 > 
-> I am not sure where is the best to submit this patch, between RT and USB
-> community so sending to both. thanks.
+> Greg, do you have any suggestions about it, the RT kernel schedules the interrupt
+> handler (top-half) out which causes the USB hardware atomic sequences are broken,
+> these hardware operations needs to be executed within limited time.
 
-Greg, do you have any suggestions about it, the RT kernel schedules the interrupt
-handler (top-half) out which causes the USB hardware atomic sequences are broken,
-these hardware operations needs to be executed within limited time.
+The RT kernel does its scheduling based on priorities.  If the 
+interrupt handler is scheduled out, it's because some other process 
+with a higher priority needs to run.  The answer should be to increase 
+the handler's priority.
 
-Peter
-> 
-> Signed-off-by: Jeaho Hwang <jhhwang@rtst.co.kr>
-> ---
->  drivers/usb/chipidea/udc.c | 31 +++++++++++++++++++++++++------
->  1 file changed, 25 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
-> index 5f35cdd2cf1d..a90498f17cc4 100644
-> --- a/drivers/usb/chipidea/udc.c
-> +++ b/drivers/usb/chipidea/udc.c
-> @@ -102,6 +102,9 @@ static int hw_ep_flush(struct ci_hdrc *ci, int num, int dir)
->  {
->  	int n = hw_ep_bit(num, dir);
->  
-> +    /* From zynq-7000 TRM, It can take a long time
-> +     * so irq disable is not a good option for RT
-> +     */
->  	do {
->  		/* flush any pending transfer */
->  		hw_write(ci, OP_ENDPTFLUSH, ~0, BIT(n));
-> @@ -190,22 +193,32 @@ static int hw_ep_get_halt(struct ci_hdrc *ci, int num, int dir)
->  static int hw_ep_prime(struct ci_hdrc *ci, int num, int dir, int is_ctrl)
->  {
->  	int n = hw_ep_bit(num, dir);
-> +	unsigned long flags;
-> +	int ret = 0;
->  
->  	/* Synchronize before ep prime */
->  	wmb();
->  
-> -	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num)))
-> -		return -EAGAIN;
-> +	/* irq affects this routine so irq should be disabled on RT.
-> +	 * on standard kernel, irq is already disabled by callers.
-> +	 */
-> +	local_irq_save(flags);
-> +	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num))) {
-> +		ret = -EAGAIN;
-> +	goto out;
-> +	}
->  
->  	hw_write(ci, OP_ENDPTPRIME, ~0, BIT(n));
->  
->  	while (hw_read(ci, OP_ENDPTPRIME, BIT(n)))
->  		cpu_relax();
->  	if (is_ctrl && dir == RX && hw_read(ci, OP_ENDPTSETUPSTAT, BIT(num)))
-> -		return -EAGAIN;
-> +		ret = -EAGAIN;
->  
-> +out:
-> +	local_irq_restore(flags);
->  	/* status shoult be tested according with manual but it doesn't work */
-> -	return 0;
-> +	return ret;
->  }
->  
->  /**
-> -- 
-> 2.25.1
-> 
-
--- 
-
-Thanks,
-Peter Chen
-
+Alan Stern
