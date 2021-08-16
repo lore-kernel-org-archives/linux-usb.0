@@ -2,57 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 125FBC4338F
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 01:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69D96C4338F
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 03:48:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D6BE561181
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 01:04:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B3EE61881
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Aug 2021 03:48:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231969AbhHPBD7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 15 Aug 2021 21:03:59 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:59911 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S230124AbhHPBD7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 15 Aug 2021 21:03:59 -0400
-Received: (qmail 107272 invoked by uid 1000); 15 Aug 2021 21:03:27 -0400
-Date:   Sun, 15 Aug 2021 21:03:27 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Peter Chen <peter.chen@kernel.org>
-Cc:     Jeaho Hwang <jhhwang@rtst.co.kr>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: chipidea: fix RT issue for udc
-Message-ID: <20210816010327.GA106658@rowland.harvard.edu>
-References: <20210810060228.GA3326442@ubuntu>
- <20210816005205.GA3907@nchen>
+        id S231390AbhHPDso (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 15 Aug 2021 23:48:44 -0400
+Received: from m12-17.163.com ([220.181.12.17]:33847 "EHLO m12-17.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229816AbhHPDsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 15 Aug 2021 23:48:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=COETZ
+        u7ZPx6rWcNf4HNHWwUgw9Da5vyXCDI7uglVMrw=; b=DxxQ0YWbLXkW1CuuU4aDo
+        ynq38Ox5VAF0EEr+zLD8esJunQJ1lPwN+ttaF7A4bOw6IkQIdLvAAZnA23rBDZg3
+        +v4HdZiBcfYopYOJgO9xbq7TQkhB6tYHyFq/eRrmV3AkEP/SxXZ7T/EQm+0ZW4Xt
+        y7RSI+c6fAZMDAT2vaTH/E=
+Received: from localhost.localdomain (unknown [223.104.68.20])
+        by smtp13 (Coremail) with SMTP id EcCowACnlX3u3xlhY3XaGQ--.33083S2;
+        Mon, 16 Aug 2021 11:48:01 +0800 (CST)
+From:   Slark Xiao <slark_xiao@163.com>
+To:     johan@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] USB: serial: option: add Foxconn T77W175 composition 0x901d
+Date:   Mon, 16 Aug 2021 11:47:46 +0800
+Message-Id: <20210816034746.3536-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210816005205.GA3907@nchen>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EcCowACnlX3u3xlhY3XaGQ--.33083S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KF4UCF1fGF13KF18JF43Jrb_yoW8GryfpF
+        4jqFW5ZFyvq3yfXry0yrs7ZFyrua13t34Sg343Aw43XF13JaykK34xtFy5t343GFs5Jr90
+        vF1DAr4UGF4UtrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b5sqAUUUUU=
+X-Originating-IP: [223.104.68.20]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiMBLwZFWByp+1nQAAsf
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 16, 2021 at 08:52:06AM +0800, Peter Chen wrote:
-> On 21-08-10 15:02:28, Jeaho Hwang wrote:
-> > hw_ep_prime sometimes fails if irq occurs while it rus on RT kernel.
-> > to prevent local_irq_save should keep the function from irqs.
-> > 
-> > I am not sure where is the best to submit this patch, between RT and USB
-> > community so sending to both. thanks.
-> 
-> Greg, do you have any suggestions about it, the RT kernel schedules the interrupt
-> handler (top-half) out which causes the USB hardware atomic sequences are broken,
-> these hardware operations needs to be executed within limited time.
+Foxconn SDX55 T77W175 device is working in PCIe mode normally.
+You can find the PCIe support in drivers/bus/mhi/pci_geneirc.c file.
+But in some scenario, we need to capture the memory dump once it crashed.
+So a diag port under USB driver is needed.
 
-The RT kernel does its scheduling based on priorities.  If the 
-interrupt handler is scheduled out, it's because some other process 
-with a higher priority needs to run.  The answer should be to increase 
-the handler's priority.
+Only interface 0 is used:
+jbd@jbd-ThinkPad-P1-Gen-4:~$ lsusb | grep 05c6
+Bus 003 Device 010: ID 05c6:901d Qualcomm, Inc. Generic Mobile Broadband Adapter
+jbd@jbd-ThinkPad-P1-Gen-4:~$ lsusb -t | grep "Dev 10"
+    |__ Port 7: Dev 10, If 0, Class=Vendor Specific Class, Driver=option, 480M
 
-Alan Stern
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/usb/serial/option.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 039450069ca4..c275f489c1cc 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2068,6 +2068,7 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
+ 	{ USB_DEVICE(0x0489, 0xe0b5),						/* Foxconn T77W968 ESIM */
+ 	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
++	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x901d) },				/* Foxconn T77W175 PCIE+USB mode*/
+ 	{ USB_DEVICE(0x1508, 0x1001),						/* Fibocom NL668 (IOT version) */
+ 	  .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
+ 	{ USB_DEVICE(0x2cb7, 0x0104),						/* Fibocom NL678 series */
+-- 
+2.25.1
+
+
