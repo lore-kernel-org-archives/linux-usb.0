@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEADEC19F39
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C53C4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D70A660FD8
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A74160FD7
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239337AbhHQIhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Aug 2021 04:37:39 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:53390 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S235110AbhHQIhb (ORCPT
+        id S239173AbhHQIhd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Aug 2021 04:37:33 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:54262 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238797AbhHQIhb (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Aug 2021 04:37:31 -0400
-X-UUID: 1cda624192a4420aa48fa818006e613b-20210817
-X-UUID: 1cda624192a4420aa48fa818006e613b-20210817
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+X-UUID: 8975cf8402e34ad2b2c2bcc74fd50663-20210817
+X-UUID: 8975cf8402e34ad2b2c2bcc74fd50663-20210817
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1809678107; Tue, 17 Aug 2021 16:36:52 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 17 Aug 2021 16:36:50 +0800
+        with ESMTP id 1827499843; Tue, 17 Aug 2021 16:36:47 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 17 Aug 2021 16:36:45 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 17 Aug 2021 16:36:50 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Tue, 17 Aug 2021 16:36:45 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 17 Aug 2021 16:36:49 +0800
+ Transport; Tue, 17 Aug 2021 16:36:44 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>
@@ -46,9 +46,9 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH RESEND 8/9] usb: xhci-mtk: add a member of num_esit
-Date:   Tue, 17 Aug 2021 16:36:28 +0800
-Message-ID: <1629189389-18779-8-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH RESEND 2/9] dt-bindings: usb: mtk-xhci: add compatible for mt8195
+Date:   Tue, 17 Aug 2021 16:36:22 +0800
+Message-ID: <1629189389-18779-2-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1629189389-18779-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1629189389-18779-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -59,108 +59,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a member num_esit to save the number of esit, then no need
-caculate it in some functions.
+There are 4 USB controllers on MT8195, the controllers (IP1~IP3,
+exclude IP0) have a wrong default SOF/ITP interval which is
+calculated from the frame counter clock 24Mhz by default, but
+in fact, the frame counter clock is 48Mhz, so we should set
+the accurate interval according to 48Mhz. Here add a new compatible
+for MT8195, it's also supported in driver. But the first controller
+(IP0) has no such issue, we prefer to use generic compatible,
+e.g. mt8192's compatible.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/host/xhci-mtk-sch.c | 20 +++++++-------------
- drivers/usb/host/xhci-mtk.h     |  2 ++
- 2 files changed, 9 insertions(+), 13 deletions(-)
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index c2f13d69c607..a9fcf7e30c41 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -297,6 +297,7 @@ static void setup_sch_info(struct xhci_ep_ctx *ep_ctx,
- 		 CTX_TO_MAX_ESIT_PAYLOAD(le32_to_cpu(ep_ctx->tx_info));
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+index 61a0e550b5d6..753e043e5327 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+@@ -31,6 +31,7 @@ properties:
+           - mediatek,mt8173-xhci
+           - mediatek,mt8183-xhci
+           - mediatek,mt8192-xhci
++          - mediatek,mt8195-xhci
+       - const: mediatek,mtk-xhci
  
- 	sch_ep->esit = get_esit(ep_ctx);
-+	sch_ep->num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
- 	sch_ep->ep_type = ep_type;
- 	sch_ep->maxpkt = maxpkt;
- 	sch_ep->offset = 0;
-@@ -401,14 +402,12 @@ static void setup_sch_info(struct xhci_ep_ctx *ep_ctx,
- static u32 get_max_bw(struct mu3h_sch_bw_info *sch_bw,
- 	struct mu3h_sch_ep_info *sch_ep, u32 offset)
- {
--	u32 num_esit;
- 	u32 max_bw = 0;
- 	u32 bw;
- 	int i;
- 	int j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		u32 base = offset + i * sch_ep->esit;
- 
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-@@ -424,13 +423,11 @@ static u32 get_max_bw(struct mu3h_sch_bw_info *sch_bw,
- static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
- 	struct mu3h_sch_ep_info *sch_ep, bool used)
- {
--	u32 num_esit;
- 	u32 base;
- 	int i;
- 	int j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
- 			if (used)
-@@ -446,12 +443,11 @@ static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
- static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
--	u32 num_esit, tmp;
-+	u32 tmp;
- 	int base;
- 	int i, j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = offset + i * sch_ep->esit;
- 
- 		/*
-@@ -533,12 +529,10 @@ static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- static void update_sch_tt(struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
--	u32 base, num_esit;
-+	u32 base;
- 	int i, j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++)
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index 0466bc8f7500..56dc348349af 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -50,6 +50,7 @@ struct mu3h_sch_bw_info {
-  * struct mu3h_sch_ep_info: schedule information for endpoint
-  *
-  * @esit: unit is 125us, equal to 2 << Interval field in ep-context
-+ * @num_esit: number of @esit in a period
-  * @num_budget_microframes: number of continuous uframes
-  *		(@repeat==1) scheduled within the interval
-  * @bw_cost_per_microframe: bandwidth cost per microframe
-@@ -79,6 +80,7 @@ struct mu3h_sch_bw_info {
-  */
- struct mu3h_sch_ep_info {
- 	u32 esit;
-+	u32 num_esit;
- 	u32 num_budget_microframes;
- 	u32 bw_cost_per_microframe;
- 	struct list_head endpoint;
+   reg:
 -- 
 2.18.0
 
