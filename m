@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E570CC41537
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9AEC19F37
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA56860F5C
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD2C660241
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236050AbhHQBak (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Aug 2021 21:30:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47906 "EHLO
+        id S237105AbhHQBeK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Aug 2021 21:34:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235884AbhHQBah (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 21:30:37 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A337C061764;
-        Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id n7so30325981ljq.0;
-        Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
+        with ESMTP id S236003AbhHQBak (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 21:30:40 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B47C061764;
+        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id c12so17168142ljr.5;
+        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rIIbTdgH+pfcdvXJM3PhuR8TNGLF8k42ZN+r4fmcuaM=;
-        b=TEvCrByVx93JYtGn78GAWLt1bT9YxkCjzq93w+IwY4bwmNpr8DkqPH5ayGAOGtfdBV
-         fa+PhOX8+Qv36UXTnCsov+5UtufMjjh1IQTsr3L1FNx5Z/9b8e5LHDnkh8zZiizJ1WxP
-         72DYqArQVIy6I7VydaLBJNQPAL6zLFmYydaw4GQya90iFoiojJno0XaF7wd33gN6EgjY
-         ToIrEapwVxW6bFJckYH1XQchGwszb7+T5HWZyUwfD27L/z4VoG6qChBzAuhbyJOqWUVj
-         x5NU/f826zMfHMQZEfhLHMO5sTHgiqC+FBkhDgX0rwRgKwkKkbgbO3jXereixuNrMAkT
-         Mieg==
+        bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
+        b=Xq17kIc6GM80MD2xhnYjU7c3bLn4H5tuMTvcdBwNy9/g5psmoz3S1gVRRgj0w10xku
+         S/OHY+MF1OPdTYbYPPJFPFeY4WU63WLX4lpEqf+XHRBxzSyKtJkRoLEZsNrLQUD3aJsJ
+         hyYwTr0Z48Wws5sZA3cunYGug92vOCdPP0286zyvF+xLx0QRLRMNonrX8WWxK9M03w18
+         x2KNq+2YuwXI/DgRg4TCi8S5zBrr/YRsvFRqgRHtf1EkBhMZn+P2C2QCgMgcjYbkv0RV
+         MYPdW+7zuuviGgSMO06r+pSAqvsVA5K8VmFJ2RBZodvpwXKzfElGK+ZIvdNgJ/4RFBSg
+         0SYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rIIbTdgH+pfcdvXJM3PhuR8TNGLF8k42ZN+r4fmcuaM=;
-        b=O/lGxw0NytYKB9bacwn6L2Vgd8dhvRhZm0g1sq9HrfRuaEO5umXPOMkslj3AGxX2kv
-         v/6ANOznx+sfr+ILCwvp/YJxQgfZy+0Tn41ZQ9z7H3Wsmno01iwrWoEQj9SfWK0Fj2hN
-         4Ydj98vadd85JP++HwRAJ/MsF0en/UzWQ+VyInxLwSoYFOtgseJHx5EL35YPR5+58fzM
-         lzn4BX81Mj7bRTvwgTBtEYZXzEvEvAiqPT9+QcsWxQvqCTMs0g0UTGvCnDFORLurFABY
-         /3J2o21tOQk5cfEThyV1xnsGZSvTUWdBMksMDcvF+oEaxFHcvzjnbC+iWg9o5E02u/Dm
-         ePnA==
-X-Gm-Message-State: AOAM532C9ZYeiuBxmMW5rAMgheZqoxbh7jgCB1Q87XhWj7fcLoDziX4J
-        4/huWAyp5kr5mqhi+6dhst8=
-X-Google-Smtp-Source: ABdhPJzx2Bm7jx/Cai6FZzL4KCpIVLSHzlBwFdZrnxkJdr2Ws/VmVzSpQZLFmKjJZCDYkbxY7twb+w==
-X-Received: by 2002:a2e:9c16:: with SMTP id s22mr863254lji.255.1629163803825;
-        Mon, 16 Aug 2021 18:30:03 -0700 (PDT)
+        bh=wojn7XneOlcjLQTZlMLpcmbGjIOEPaqexo+f2WGyphI=;
+        b=VmyO4krAgCDSvSss0kV8BlzGVBUGsIfwb0KjaPsHm535Eq2JsVV2m1lTtBalw9qXyt
+         TIOfRLHeEMWB4J/rlGvE+ywLThYfHYTKNNVZ8Et0ZwGFdts+YN/crv0ABgb7EJfJWtf4
+         ZI9xPfoCJc2JN61bXmkb0ulBOAMU+uP0KTjqyMrbo03m/0JslQrzuB8pi9g7oFNUuxF5
+         IWAlgNuZgcXsfkOPVQOvontNfPj1fyL8b2+8E8HMh697RvvnNdzI4b5+a9kyvRVoQ8Dh
+         8TzxHqvsqqb03nf0FKQV29TYNK7pQOco4ZW2y37TMHQaJQO5DGivNoHGOXSUHPyxol2L
+         /Keg==
+X-Gm-Message-State: AOAM532/wTsW1PMVgkJn5fEU8LA8x9srgnXwmyUf3mSz7TsUsVUZ5nhr
+        X9mphIcKD9NJIktFVJovj70=
+X-Google-Smtp-Source: ABdhPJzrAiKknpayvUXn0AhIlpxoa1tdB8UGRkYEeNvPAIQMKmclxsnV8VxQdGuN29ZUiGnqlWbG1A==
+X-Received: by 2002:a2e:b0e2:: with SMTP id h2mr848215ljl.23.1629163806184;
+        Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.02
+        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 18:30:03 -0700 (PDT)
+        Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -84,9 +84,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v8 02/34] soc/tegra: pmc: Disable PMC state syncing
-Date:   Tue, 17 Aug 2021 04:27:22 +0300
-Message-Id: <20210817012754.8710-3-digetx@gmail.com>
+Subject: [PATCH v8 04/34] soc/tegra: Add devm_tegra_core_dev_init_opp_table_simple()
+Date:   Tue, 17 Aug 2021 04:27:24 +0300
+Message-Id: <20210817012754.8710-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -96,110 +96,37 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Disable PMC state syncing in order to ensure that we won't break older
-kernels once device-trees will be updated with the addition of the power
-domains. Previously this was unnecessary because the plan was to make clk
-device that will attach to the domain for each clock, but the plan changed
-and now we're going make a better GENPD implementation that will require
-to update each device driver with the runtime PM and OPP support before
-we could safely enable the state syncing.
+Only couple drivers need to get the -ENODEV error code and explicitly
+initialize the performance state. Add new helper that allows to avoid
+the extra boilerplate code in majority of drivers.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/soc/tegra/pmc.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ include/soc/tegra/common.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 50091c4ec948..fb8faf7b226a 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -360,6 +360,7 @@ struct tegra_pmc_soc {
- 	unsigned int num_pmc_clks;
- 	bool has_blink_output;
- 	bool has_usb_sleepwalk;
-+	bool supports_core_domain;
- };
- 
- /**
-@@ -3041,6 +3042,7 @@ static void tegra20_pmc_setup_irq_polarity(struct tegra_pmc *pmc,
+diff --git a/include/soc/tegra/common.h b/include/soc/tegra/common.h
+index af41ad80ec21..265ad90e45a2 100644
+--- a/include/soc/tegra/common.h
++++ b/include/soc/tegra/common.h
+@@ -39,4 +39,17 @@ devm_tegra_core_dev_init_opp_table(struct device *dev,
  }
+ #endif
  
- static const struct tegra_pmc_soc tegra20_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = ARRAY_SIZE(tegra20_powergates),
- 	.powergates = tegra20_powergates,
- 	.num_cpu_powergates = 0,
-@@ -3101,6 +3103,7 @@ static const char * const tegra30_reset_sources[] = {
- };
- 
- static const struct tegra_pmc_soc tegra30_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = ARRAY_SIZE(tegra30_powergates),
- 	.powergates = tegra30_powergates,
- 	.num_cpu_powergates = ARRAY_SIZE(tegra30_cpu_powergates),
-@@ -3157,6 +3160,7 @@ static const u8 tegra114_cpu_powergates[] = {
- };
- 
- static const struct tegra_pmc_soc tegra114_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = ARRAY_SIZE(tegra114_powergates),
- 	.powergates = tegra114_powergates,
- 	.num_cpu_powergates = ARRAY_SIZE(tegra114_cpu_powergates),
-@@ -3273,6 +3277,7 @@ static const struct pinctrl_pin_desc tegra124_pin_descs[] = {
- };
- 
- static const struct tegra_pmc_soc tegra124_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = ARRAY_SIZE(tegra124_powergates),
- 	.powergates = tegra124_powergates,
- 	.num_cpu_powergates = ARRAY_SIZE(tegra124_cpu_powergates),
-@@ -3398,6 +3403,7 @@ static const struct tegra_wake_event tegra210_wake_events[] = {
- };
- 
- static const struct tegra_pmc_soc tegra210_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = ARRAY_SIZE(tegra210_powergates),
- 	.powergates = tegra210_powergates,
- 	.num_cpu_powergates = ARRAY_SIZE(tegra210_cpu_powergates),
-@@ -3555,6 +3561,7 @@ static const struct tegra_wake_event tegra186_wake_events[] = {
- };
- 
- static const struct tegra_pmc_soc tegra186_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = 0,
- 	.powergates = NULL,
- 	.num_cpu_powergates = 0,
-@@ -3689,6 +3696,7 @@ static const struct tegra_wake_event tegra194_wake_events[] = {
- };
- 
- static const struct tegra_pmc_soc tegra194_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = 0,
- 	.powergates = NULL,
- 	.num_cpu_powergates = 0,
-@@ -3757,6 +3765,7 @@ static const char * const tegra234_reset_sources[] = {
- };
- 
- static const struct tegra_pmc_soc tegra234_pmc_soc = {
-+	.supports_core_domain = false,
- 	.num_powergates = 0,
- 	.powergates = NULL,
- 	.num_cpu_powergates = 0,
-@@ -3803,6 +3812,14 @@ static void tegra_pmc_sync_state(struct device *dev)
- {
- 	int err;
- 
-+	/*
-+	 * Newer device-trees have power domains, but we need to prepare all
-+	 * device drivers with runtime PM and OPP support first, otherwise
-+	 * state syncing is unsafe.
-+	 */
-+	if (!pmc->soc->supports_core_domain)
-+		return;
++static inline int
++devm_tegra_core_dev_init_opp_table_simple(struct device *dev)
++{
++	struct tegra_core_opp_params params = {};
++	int err;
 +
- 	/*
- 	 * Older device-trees don't have core PD, and thus, there are
- 	 * no dependencies that will block the state syncing. We shouldn't
++	err = devm_tegra_core_dev_init_opp_table(dev, &params);
++	if (err != -ENODEV)
++		return err;
++
++	return 0;
++}
++
+ #endif /* __SOC_TEGRA_COMMON_H__ */
 -- 
 2.32.0
 
