@@ -2,156 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 581A8C4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C46D9C4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 02:42:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4250460241
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:33:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C9FD60ED5
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 02:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236221AbhHQBeL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Aug 2021 21:34:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236079AbhHQBal (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 21:30:41 -0400
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3464C061764;
-        Mon, 16 Aug 2021 18:30:08 -0700 (PDT)
-Received: by mail-lj1-x22a.google.com with SMTP id d16so12086631ljq.4;
-        Mon, 16 Aug 2021 18:30:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
-        b=qVuy6Otl0UWSQ+/nZMjDzykD2sSUZDst3NL/JVapiLI3z3yUfsGAUcncelhMR38Lym
-         1xjVPKDNQoeHSdojhaD4CNMJ2Dgxsx7ya2LEvfAdSM6jyMIhg0fAggQvAzFKMqqVOL9O
-         IPbH29DcWGT56C4Udgprd2zRCBzNWyrc1+xqzNB9hh3j27fQeaGpUX2Jl9g2CjR6dsJE
-         H3f4BOVlgw85yDYhZPvxDoAPPZKXld5HwD4iSdkylVBs+x8a7x/zUr2T15/KjxPp7TBo
-         OcMaTgNBzyb8Gi7/p8ZpOcNZ09XNRqw/14qoRIg6z6RvIG29dGNOEq13dllv4PGdI+NN
-         gRvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=whXbmpiV9uZrIWQEZSp5RRTDQ3TFfbRun1N2tfG7MWk=;
-        b=tKRONxf/lPDCkWXjIh/cnuGK5Z8tVtnWfeSatE6d060W0vqWsicKIh4CaETF32u1Xj
-         HZzdVHfbOOYQV98BAlqvsjax5e9pi6iZQ0YC9rh3kEYgoZTTKQfgocLcojp5O3cEc29h
-         pccH5oxsS1+M3nL5P6ytI4duBbHtaADX0WHsupeMiS45XsdP7ybto7i4m9Nck03yDU9z
-         zfdCF6+GVCdWgk91QH59NItfZeUlqfFj5QjbOc4xviHw9BPfa/CsxssFja+t6YWBV7KQ
-         vJRGFFGb9xEuD08UJJ3OBWSZqx7zQlNkxstEwOEDtTAypcey4vCQ5MYwpLGSA0rn/nBk
-         pykw==
-X-Gm-Message-State: AOAM531jZCQ3LsBYhtYCovILQcxa5Jk1OLcznavUFSjp6JjSyu8sa7uA
-        +Do/8VPSTXjl8sRT6u/YMKI=
-X-Google-Smtp-Source: ABdhPJx0BGOHbSZlE+uingQVCD7QPlpfvESjI/6O9+jCEZkAPokxg6m3XSjkH1CoIjJ45grVv1YxFQ==
-X-Received: by 2002:a2e:5758:: with SMTP id r24mr870243ljd.432.1629163807370;
-        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
-Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 18:30:07 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-Subject: [PATCH v8 05/34] soc/tegra: Use dev_pm_opp_sync()
-Date:   Tue, 17 Aug 2021 04:27:25 +0300
-Message-Id: <20210817012754.8710-6-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
-References: <20210817012754.8710-1-digetx@gmail.com>
+        id S233663AbhHQCnD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Aug 2021 22:43:03 -0400
+Received: from m1397.mail.163.com ([220.181.13.97]:6521 "EHLO
+        m1397.mail.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233528AbhHQCnD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 22:43:03 -0400
+X-Greylist: delayed 906 seconds by postgrey-1.27 at vger.kernel.org; Mon, 16 Aug 2021 22:43:00 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=2l0RO
+        Ftycxsn8LbV9SdJRrGWPtNvqewxqPbIBIKUQFw=; b=es1H6Gzf4tvzQKv/UGeM+
+        5JVl3UOmPd8Yxoc/vRW2Gyq2bvGZZdqHbZ38ZktWQpLeI5f1Pk59NU1TAFO4KM8v
+        ufugOF0/TmsT1Q+UTUxLylbgcEmSBxWKVEKU3ww7NH/uu4aQH8QZzb8XZ/2Xsn6G
+        znwDVC0QMw1lAOe6F0iZUA=
+Received: from slark_xiao$163.com ( [223.104.68.60] ) by
+ ajax-webmail-wmsvr97 (Coremail) ; Tue, 17 Aug 2021 10:27:05 +0800 (CST)
+X-Originating-IP: [223.104.68.60]
+Date:   Tue, 17 Aug 2021 10:27:05 +0800 (CST)
+From:   "Slark Xiao" <slark_xiao@163.com>
+To:     "Greg KH" <gregkh@linuxfoundation.org>
+Cc:     "Reinhard Speyerer" <rspmn@arcor.de>, johan@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: Re: Re: [PATCH] [V2,1/1]USB: serial: option: add Foxconn
+ T77W175 composition 0x901d
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210622(1d4788a8)
+ Copyright (c) 2002-2021 www.mailtech.cn 163com
+In-Reply-To: <YRpJN414JQyfyEGo@kroah.com>
+References: <20210816035404.4210-1-slark_xiao@163.com>
+ <YRoqAJmGBpV/OuZL@arcor.de>
+ <d1d16fd.6f62.17b4e3ffa26.Coremail.slark_xiao@163.com>
+ <YRot+wBa6v529Z7q@kroah.com>
+ <278bcd0d.7189.17b4e479a3a.Coremail.slark_xiao@163.com>
+ <YRpJN414JQyfyEGo@kroah.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <ba9a424.f5f.17b51ef0b9d.Coremail.slark_xiao@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: YcGowAD3_+t5HhthHDrCAA--.29429W
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiMAfxZFWByq46TwABsm
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use new generic dev_pm_opp_sync() helper which initializes voltage vote
-based on clock rate.
-
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/soc/tegra/common.c | 30 +-----------------------------
- 1 file changed, 1 insertion(+), 29 deletions(-)
-
-diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
-index a42d4f98c078..dab1bacb41ab 100644
---- a/drivers/soc/tegra/common.c
-+++ b/drivers/soc/tegra/common.c
-@@ -39,34 +39,6 @@ bool soc_is_tegra(void)
- 	return match != NULL;
- }
- 
--static int tegra_core_dev_init_opp_state(struct device *dev)
--{
--	unsigned long rate;
--	struct clk *clk;
--	int err;
--
--	clk = devm_clk_get(dev, NULL);
--	if (IS_ERR(clk)) {
--		dev_err(dev, "failed to get clk: %pe\n", clk);
--		return PTR_ERR(clk);
--	}
--
--	rate = clk_get_rate(clk);
--	if (!rate) {
--		dev_err(dev, "failed to get clk rate\n");
--		return -EINVAL;
--	}
--
--	/* first dummy rate-setting initializes voltage vote */
--	err = dev_pm_opp_set_rate(dev, rate);
--	if (err) {
--		dev_err(dev, "failed to initialize OPP clock: %d\n", err);
--		return err;
--	}
--
--	return 0;
--}
--
- /**
-  * devm_tegra_core_dev_init_opp_table() - initialize OPP table
-  * @dev: device for which OPP table is initialized
-@@ -118,7 +90,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
- 	}
- 
- 	if (params->init_state) {
--		err = tegra_core_dev_init_opp_state(dev);
-+		err = dev_pm_opp_sync(dev);
- 		if (err)
- 			return err;
- 	}
--- 
-2.32.0
-
+CgoKCgoKCgoKCgoKCgoKCkF0IDIwMjEtMDgtMTYgMTk6MTc6MTEsICJHcmVnIEtIIiA8Z3JlZ2to
+QGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+T24gTW9uLCBBdWcgMTYsIDIwMjEgYXQgMDU6
+MjU6MjBQTSArMDgwMCwgU2xhcmsgWGlhbyB3cm90ZToKPj4gQXQgMjAyMS0wOC0xNiAxNzoyMDo1
+OSwgIkdyZWcgS0giIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4+ID5PbiBN
+b24sIEF1ZyAxNiwgMjAyMSBhdCAwNToxNzowMFBNICswODAwLCBTbGFyayBYaWFvIHdyb3RlOgo+
+PiA+PiAgIFNvIHNob3VsZCBJIHVzZSBVU0JfREVWSUNFX0lOVEVSRkFDRV9OVU1CRVIoUVVBTENP
+TU1fVkVORE9SX0lELCAweDkwMWQsIDB4MDApIHRvIGJpbmQgRGlhZyBwb3J0IG9ubHk/Cj4+ID4K
+Pj4gPldoeSBpcyB0aGlzIGRldmljZSB1c2luZyB0aGUgUVVBTENPTU0gdmVuZG9yIGlkIGFueXdh
+eT8gIElzIHRoaXMgYWxsb3dlZAo+PiA+YnkgUXVhbGNvbW0/Cj4+ID4KPj4gPnRoYW5rcywKPj4g
+Pgo+PiA+Z3JlZyBrLWgKPj4gCj4+IEhpIEdyZWcsCj4+ICAgT3VyIHByb2R1Y3QgYXJlIGRlc2ln
+bmVkIGJhc2VkIG9uIFF1YWxjb21tIFNEWDU1IHBsYXRmb3JtLiBTbyBpdCBzdGlsbCBzdXBwb3J0
+IFF1YWxjb21tIHZlbmRvciBJRC4KPj4gICBJIHRoaW5rIHRoZXJlIGlzIG5vIGluZnJpbmdlbWVu
+dCBhYm91dCB0aGlzIElEIGNvbWJvLgo+Cj5EbyB5b3UgaGF2ZSBwZXJtaXNzaW9uIGZyb20gUXVh
+bGNvbW0gdG8gdXNlIHRoZWlyIHZlbmRvciBpZD8gIEkga25vdwo+c29tZSB2ZW5kb3JzIGdldCB2
+ZXJ5IHVwc2V0IGFib3V0IHRoaXMuLi4KPgo+V2h5IG5vdCB1c2UgeW91ciBvd24gdmVuZG9yIGlk
+Pwo+Cj50aGFua3MsCj4KPmdyZWcgay1oCgpIaSBHcmVnLAogICBBcyBRdWFsY29tbSBtYWlubHkg
+cHJvdmlkZSBzZXJ2aWNlIHRvIHRoZWlyIGN1c3RvbWVyLCBsaWtlIFNhbXN1bmcsIEFwcGxlLCBI
+dWF3ZWksIFF1ZWN0ZWwsIEZveGNvbm4sIFNpZXJyYSBhbmQgc28gb24sIHNvIEkgYmVsaWV2ZSBh
+bGwgYXZhaWxhYmxlIFZJRC9QSURzIGFyZSBhbGxvd2VkIHRvIHVzZS4gCiAgIEkgYWxzbyBjaGVj
+a2VkIHdobyBpcyB1c2luZyBRdWFsY29tbSdzIFZJRCBpbiB0aGUgd2hvbGUga2VybmVsLCBhbmQg
+SSBmb3VuZCBvbmx5IHNvbWUgb2xkIHBsYXRmb3JtIChHb2JpIDFLLDJLLDNLIHdoaWNoIGRvbid0
+IGRvIGFueSB1cGRhdGUgZm9yIGFsbW9zdCBtb3JlIHRoYW4gMTAgeWVhcnMpIGluIHFjc2VyaWFs
+LmMgYW5kIFpURSwgU0lNY29tLCBRdWVjdGVsIGluIG9wdGlvbi5jIGFyZSB1c2luZyB0aGlzIFZJ
+RC4gU2VlbXMgUXVhbGNvbW0gd29uJ3QgZG8gdGhpcyB1cGRhdGUgaW4gdGhlIGtlcm5lbCBzaWRl
+IGJ5IHRoZW1zZWx2ZXMobGV0J3Mgc2F5IHNvbWUgbmV3IFBJRCwgOTAxeCw5MDJ4LDkwM3gsOTA0
+eCw5MDV4Li4uOTBGeCwgYW5kIDkxeHgpLiAKICAgQWJvdXQgdGhlIHF1ZXN0aW9uIHdoeSBub3Qg
+dXNlIG91ciBvd24gVklELCBiZWNhdXNlIHRoaXMgUENJRStVU0IgbW9kZSBpcyBmb3IgZGVidWcg
+cHVycG9zZS4gV2UgbmVlZCB0byBrZWVwIGEgY29tbW9uIGRlYnVnIHNldHRpbmdzIGZvciBib3Ro
+IExpbnV4IGFuZCBXaW5kb3dzIHBsYXRmb3JtLCBhbHNvIGZvciBhbGwgb3VyIGN1c3RvbWVycyBs
+aWtlIExlbm92bywgRGVsbCwgSFAsIFRlbGl0LiAKICAgSG9wZSB5b3UgY2FuIHVuZGVyc3RhbmQg
+dGhhdC4KClRoYW5rcwpTbGFyawo=
