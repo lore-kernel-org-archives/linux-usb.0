@@ -5,32 +5,32 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 378D3C00143
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8195BC4320A
 	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1669260FBF
+	by mail.kernel.org (Postfix) with ESMTP id 5C15A60FC3
 	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 08:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239241AbhHQIhe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Aug 2021 04:37:34 -0400
-Received: from mailgw01.mediatek.com ([60.244.123.138]:53262 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S239087AbhHQIhb (ORCPT
+        id S239270AbhHQIhf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Aug 2021 04:37:35 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:54330 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S239009AbhHQIhb (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Aug 2021 04:37:31 -0400
-X-UUID: 906d536dbdfd41dab732019c70efa8a7-20210817
-X-UUID: 906d536dbdfd41dab732019c70efa8a7-20210817
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+X-UUID: ae5e295f632b4060afbddfdf94fd6cb9-20210817
+X-UUID: ae5e295f632b4060afbddfdf94fd6cb9-20210817
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 793689389; Tue, 17 Aug 2021 16:36:50 +0800
+        with ESMTP id 1841774111; Tue, 17 Aug 2021 16:36:46 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 17 Aug 2021 16:36:49 +0800
+ 15.0.1497.2; Tue, 17 Aug 2021 16:36:44 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 17 Aug 2021 16:36:49 +0800
+ Transport; Tue, 17 Aug 2021 16:36:43 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mathias Nyman <mathias.nyman@intel.com>
@@ -42,12 +42,10 @@ CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>,
         Eddie Hung <eddie.hung@mediatek.com>
-Subject: [PATCH RESEND 7/9] usb: xhci-mtk: check boundary before check tt
-Date:   Tue, 17 Aug 2021 16:36:27 +0800
-Message-ID: <1629189389-18779-7-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH RESEND 1/9] dt-bindings: usb: mtk-xhci: add optional property to disable usb2 ports
+Date:   Tue, 17 Aug 2021 16:36:21 +0800
+Message-ID: <1629189389-18779-1-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1629189389-18779-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1629189389-18779-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -55,36 +53,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-check_sch_tt() will access fs_bus_bw[] array, check boundary
-firstly to avoid out-of-bounds issue.
+Add support to disable specific usb2 host ports, it's useful when
+a usb2 port is disabled on some platforms, but enabled on others for
+the same SoC, another case is that the different package may support
+different number of ports.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/host/xhci-mtk-sch.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 10c0f0f6461f..c2f13d69c607 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -600,13 +600,14 @@ static int check_sch_bw(struct mu3h_sch_bw_info *sch_bw,
- 	 * and find a microframe where its worst bandwidth is minimum.
- 	 */
- 	for (offset = 0; offset < sch_ep->esit; offset++) {
--		ret = check_sch_tt(sch_ep, offset);
--		if (ret)
--			continue;
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+index 49729aab6d1a..61a0e550b5d6 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+@@ -154,6 +154,11 @@ properties:
+     description: The mask to disable u3ports, bit0 for u3port0,
+       bit1 for u3port1, ... etc
  
- 		if ((offset + sch_ep->num_budget_microframes) > esit_boundary)
- 			break;
- 
-+		ret = check_sch_tt(sch_ep, offset);
-+		if (ret)
-+			continue;
++  mediatek,u2p-dis-msk:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: The mask to disable u2ports, bit0 for u2port0,
++      bit1 for u2port1, ... etc
 +
- 		worst_bw = get_max_bw(sch_bw, sch_ep, offset);
- 		if (worst_bw > bw_boundary)
- 			continue;
+   "#address-cells":
+     const: 1
+ 
 -- 
 2.18.0
 
