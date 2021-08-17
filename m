@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 457DFC3F6A3
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:30:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA297C4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:30:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B4A460F55
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1EB560FD7
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Aug 2021 01:30:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235974AbhHQBaj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Aug 2021 21:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47902 "EHLO
+        id S236138AbhHQBam (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Aug 2021 21:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235706AbhHQBag (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 21:30:36 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4955CC061764;
-        Mon, 16 Aug 2021 18:30:04 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id k5so10338575lfu.4;
-        Mon, 16 Aug 2021 18:30:04 -0700 (PDT)
+        with ESMTP id S235967AbhHQBaj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Aug 2021 21:30:39 -0400
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95FDEC061764;
+        Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
+Received: by mail-lj1-x229.google.com with SMTP id q21so8672394ljj.6;
+        Mon, 16 Aug 2021 18:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+pDcrHtMJ3BfM+Az9yuVk7KyrEv5IezDZ4vndEOIZrQ=;
-        b=c9mljDf/eNFjDgKd6lAZRYU+Sl1mj936K1QRTM3iyE/zX+e1BIkLLGB1mhFhPd7+Hk
-         8PBHlZQE8QArWVeAYo7CCeEbj4E66qlF+JBkg67KAn3/wsCvbkgsJaw8cnHWtq39A7eV
-         HmXwu53voVpa0MDeaC/fb+egJU5IhrqsVyTyb8G6ozaHw1HwnJsnoFGc+uQWUEAwQLoZ
-         YIBRd6jE7RyINAErjUcu6PUE/1TbZf7eyhrk2BonebVjXj1+vdhtVN/V+UGaLX20DoOX
-         k8OjjSU0YfqFyxkx8+FXwuY/clS/n4p8C1hTF6UEWhznMJm5iDlV+IXuGsE6dZZWvRV4
-         d/jA==
+        bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
+        b=hNWZ3lDQBB9G0NfTmCUH5K27tkGRQQ+XAmdCjgXsoLk44TVXnSV0rZZArfsM7BjMNQ
+         NzXAqYUV8bprqa1tDC9g84EyQd3o8jniWwkMjyQMMuqUkUkg6juIVGYjyUCbChTFmc7C
+         Y9kAvvDPB9tH2tyarHnY6QH7UIi/z4zffPnrrS03ZW5T6FXyCYoeQLuQKPtpL84Si2yR
+         MkQ+LN020YkVrk5A8hxNQQXfqHQiqTAV1n8zak/R17pXJIG49Dyerbvv/lIRePo4u9Cy
+         r4NoX8Q2wawaT0cFfMSzhTg/VWuRq5m8tSgtaZnX2c9Uv2OXGulLsD2BxcAnqIFKNTgY
+         /46w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+pDcrHtMJ3BfM+Az9yuVk7KyrEv5IezDZ4vndEOIZrQ=;
-        b=Znw8UwyhY/RCtBLy7h7T2r9FJFleaw1HMog1OD/C9DVGjfWqXreffqcUs8Iu/N92J0
-         8/wFifVQNB/a/YADuBfTFPZZ5eHdc8lNcQIteb83D7XbRw988RSXggJLdhmEwlp37bbH
-         OOq5OtlCKKoCWwSbZLX9NTXi4AKwJDsIqqmBZTK68AwL1CwCbszclxloKnAwd1n3QZjb
-         LOMBcDDv3RKat6S6eQOmcq4bhjhLuGq/fETpSeC0oDrhyCoNCIxiU/96TqLJdTE7Kdsw
-         ijPbNfgr1rVULBwH3A7l3wwp/ftCOEM4S1jS3xI6qJo0ft4C9U1KBmhCytSC2ywNz+59
-         L/bQ==
-X-Gm-Message-State: AOAM533c5XOdsxjnCM4b9YEZKY/BLwHVCpIR69COqwOf8kmXfpdxi9k7
-        ZhojIOZ9OD4pKfFA81TZ98Q=
-X-Google-Smtp-Source: ABdhPJwz8UxSZOvdKUaNwcA+R7lsn7NPPjiIZX4N0ocLITK1s9++oNokkLZ+Jivbj0hSPfrQgeVN+Q==
-X-Received: by 2002:ac2:428a:: with SMTP id m10mr514380lfh.636.1629163802638;
-        Mon, 16 Aug 2021 18:30:02 -0700 (PDT)
+        bh=azJO16PBS0aaEX5vOfJpmf9jn1x1mJqiJpQpMZ0azY4=;
+        b=B2diAksiJhiTOsmJYI7qRxTlYl0N9S6K9v0YwNtXxdqi9LJXegRVp0GZpYBd95UUWC
+         fwqbs5UWQ/ZtG44PpNse7e6br/mG6w2o4gQkS8ICns67BV9s5u3iFt2KsVzpY5pD7BVJ
+         GX1XqUWNOmjjiStmMFwgFaBrZJx/RwVT2WIPgpdGSkpy1JCMCBT13JElOQdgOI8QWOS6
+         W3QIrkCp41Tn8mZOKT6BmBq2UqyGDv0/zWm3Rf+mOGMdk3E+rIaE6oU7FUjV/Jdt/7O4
+         VBXZRdYv2FwQfqDFi5VFXceQnQZLFRbvMfuQGbyAa6M5skCH7j0tkKsRJmdZtCgTsp4/
+         qFUA==
+X-Gm-Message-State: AOAM530fFLVrBvaI8sxvBwGT/ccfaCbEHtS7ot+68bn+znDMYkPBxYwR
+        QmJJQ94nnonMVDPqKQvQcvo=
+X-Google-Smtp-Source: ABdhPJw/eckx03zVOJf2hmuiHkhQYzKLMML9PEB8kcVT0ZNZolUJSB9HB3aBM4EeNCzEcW2W6988dw==
+X-Received: by 2002:a2e:9e04:: with SMTP id e4mr832311ljk.431.1629163805018;
+        Mon, 16 Aug 2021 18:30:05 -0700 (PDT)
 Received: from localhost.localdomain (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.01
+        by smtp.gmail.com with ESMTPSA id g30sm46607lfj.298.2021.08.16.18.30.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Aug 2021 18:30:02 -0700 (PDT)
+        Mon, 16 Aug 2021 18:30:04 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -84,9 +84,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-clk@vger.kernel.org
-Subject: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-Date:   Tue, 17 Aug 2021 04:27:21 +0300
-Message-Id: <20210817012754.8710-2-digetx@gmail.com>
+Subject: [PATCH v8 03/34] soc/tegra: Don't print error message when OPPs not available
+Date:   Tue, 17 Aug 2021 04:27:23 +0300
+Message-Id: <20210817012754.8710-4-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210817012754.8710-1-digetx@gmail.com>
 References: <20210817012754.8710-1-digetx@gmail.com>
@@ -96,110 +96,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add dev_pm_opp_sync() helper which syncs OPP table with hardware state
-and vice versa.
+Previously we assumed that devm_tegra_core_dev_init_opp_table() will
+be used only by drivers that will always have device with OPP table,
+but this is not true anymore. For example now Tegra30 will have OPP table
+for PWM, but Tegra20 not and both use the same driver. Hence let's not
+print the error message about missing OPP table in the common helper,
+we can print it elsewhere.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 42 +++++++++++++++++++++++++++++++++++++++---
- include/linux/pm_opp.h |  6 ++++++
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ drivers/soc/tegra/common.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 5543c54dacc5..18016e49605f 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -939,7 +939,8 @@ static int _set_required_opps(struct device *dev,
- 	return ret;
- }
+diff --git a/drivers/soc/tegra/common.c b/drivers/soc/tegra/common.c
+index cd33e99249c3..a42d4f98c078 100644
+--- a/drivers/soc/tegra/common.c
++++ b/drivers/soc/tegra/common.c
+@@ -111,9 +111,7 @@ int devm_tegra_core_dev_init_opp_table(struct device *dev,
+ 	 */
+ 	err = devm_pm_opp_of_add_table(dev);
+ 	if (err) {
+-		if (err == -ENODEV)
+-			dev_err_once(dev, "OPP table not found, please update device-tree\n");
+-		else
++		if (err != -ENODEV)
+ 			dev_err(dev, "failed to add OPP table: %d\n", err);
  
--static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
-+static struct dev_pm_opp *
-+_find_current_opp(struct device *dev, struct opp_table *opp_table)
- {
- 	struct dev_pm_opp *opp = ERR_PTR(-ENODEV);
- 	unsigned long freq;
-@@ -961,7 +962,7 @@ static void _find_current_opp(struct device *dev, struct opp_table *opp_table)
- 		mutex_unlock(&opp_table->lock);
- 	}
- 
--	opp_table->current_opp = opp;
-+	return opp;
- }
- 
- static int _disable_opp_table(struct device *dev, struct opp_table *opp_table)
-@@ -1003,7 +1004,7 @@ static int _set_opp(struct device *dev, struct opp_table *opp_table,
- 
- 	/* Find the currently set OPP if we don't know already */
- 	if (unlikely(!opp_table->current_opp))
--		_find_current_opp(dev, opp_table);
-+		opp_table->current_opp = _find_current_opp(dev, opp_table);
- 
- 	old_opp = opp_table->current_opp;
- 
-@@ -2931,3 +2932,38 @@ int dev_pm_opp_sync_regulators(struct device *dev)
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(dev_pm_opp_sync_regulators);
-+
-+/**
-+ * dev_pm_opp_sync() - Sync OPP state
-+ * @dev:	device for which we do this operation
-+ *
-+ * Initialize OPP table accordingly to current clock rate or
-+ * first available OPP if clock not available for this device.
-+ *
-+ * Return: 0 on success or a negative error value.
-+ */
-+int dev_pm_opp_sync(struct device *dev)
-+{
-+	struct opp_table *opp_table;
-+	struct dev_pm_opp *opp;
-+	int ret = 0;
-+
-+	/* Device may not have OPP table */
-+	opp_table = _find_opp_table(dev);
-+	if (IS_ERR(opp_table))
-+		return 0;
-+
-+	if (!_get_opp_count(opp_table))
-+		goto put_table;
-+
-+	opp = _find_current_opp(dev, opp_table);
-+	ret = _set_opp(dev, opp_table, opp, opp->rate);
-+	dev_pm_opp_put(opp);
-+
-+put_table:
-+	/* Drop reference taken by _find_opp_table() */
-+	dev_pm_opp_put_opp_table(opp_table);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(dev_pm_opp_sync);
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index 84150a22fd7c..686122b59935 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -168,6 +168,7 @@ int dev_pm_opp_get_sharing_cpus(struct device *cpu_dev, struct cpumask *cpumask)
- void dev_pm_opp_remove_table(struct device *dev);
- void dev_pm_opp_cpumask_remove_table(const struct cpumask *cpumask);
- int dev_pm_opp_sync_regulators(struct device *dev);
-+int dev_pm_opp_sync(struct device *dev);
- #else
- static inline struct opp_table *dev_pm_opp_get_opp_table(struct device *dev)
- {
-@@ -434,6 +435,11 @@ static inline int dev_pm_opp_sync_regulators(struct device *dev)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline int dev_pm_opp_sync(struct device *dev)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
- #endif		/* CONFIG_PM_OPP */
- 
- #if defined(CONFIG_PM_OPP) && defined(CONFIG_OF)
+ 		return err;
 -- 
 2.32.0
 
