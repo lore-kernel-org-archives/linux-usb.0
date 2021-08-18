@@ -2,174 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CEEC4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:09:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE18C4320A
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D63760FDA
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:09:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95AA760FDA
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230428AbhHRJK1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 05:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59908 "EHLO
+        id S231539AbhHRJO4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 05:14:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbhHRJKX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 05:10:23 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F757C061764
-        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 02:09:48 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id b7so1822364iob.4
-        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 02:09:48 -0700 (PDT)
+        with ESMTP id S229780AbhHRJOy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 05:14:54 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FDAAC0613CF
+        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 02:14:20 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id l11so1411207plk.6
+        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 02:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9iBoqm9fBh4AJfs3dtcx4dh6uIthdPLBk+9KXpRrXs4=;
-        b=RcwCHI+b2em2ix/eN5zrKixd7er39kiR2useUYrMNYxkI83ZobAuX4Bg8A4NoKWYHC
-         GFns1VrvRBB0UXKx0h37YTXeDc9p54IalL8s0rGjd0mr+1E/Pd4ZHAySjkH5djbTdSFR
-         CMrV4gohyJqs140WDjMXRQ6jmQSRQLcyY8FRDsjtPfIq6PSeap0bVrVsldekOGWOofWa
-         wFvFPorNQ/eicTcL2OwwMCzD30i////6NJXK3uFi23TZxNn3T55hqCf0xdBQ1Dqprayj
-         cdKpiTfJlAEvZYs/ZprEk6pJ3cHR8ANmqv+EQDBd0odGBs+adpZZaa9Rjn32B2ZHGXSU
-         sP/w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tDuCq4cpa/FhfVLg3d4eOXI0t92SH+lRUdr1ZBj+304=;
+        b=quAhTr+R/08xh/ignvyvF/El1dD/NQftWfiNTcAu87cJhuBhgI+As0zoEiydqeW6PP
+         Ex/zHp4EDoA27CiqypV1XRJjyjppnIr9cuHPeEqT4Jz0u4Gd7rGoODV0vOYF2r+fXVrC
+         O9YNeAY5lMNde/fcVIInzFs4EQNgUzhxxcNX6YMHjHSIPhU1rXEQOl9Aq3E25JLQ/9fv
+         VxP/TlWw72/n6skEH8miH2qbrmh27V7jR6dmqc1oF+jbwQP/bhXkGIrzGuJgVHwfQUpg
+         jLxJj1fuqBdXtzbuG0/ZFv6pjltmBS+1GsQZASCe+7q/ocD5Ye+29smqIZ7DN+BRR4O7
+         VT3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9iBoqm9fBh4AJfs3dtcx4dh6uIthdPLBk+9KXpRrXs4=;
-        b=lHVaNXzyGEYw/lI5Z3tl1zDNTLEiaAALbfdEdtNdOPDjD9HNlmx7KZ8vGx1DZ1D2jJ
-         LaOKY4fx77WF1+nA8aMwS+qf3MlWR+sn7AtPEAcUlfJY/02EptE/vQKfULda4LGTkdyi
-         SU5u05zNo+887i93i1ICJ4Ebvja06muzWa+2Rq0a3s5dNdOVPIBL2uDpJ/rTwCgHX4QX
-         DxDyb/bU3P0y3NA0r3ds6q87VMlTbZ0tmsjrtmSYTMVKMDL6XNhcwnv8tUQz7Uma/3YT
-         RdcNxht5vX821kaIojYFZlzmyD3wcQ1Gxu0bvkFzTC+dgTgX6GQutT8/LNzAelI/diGG
-         d/ew==
-X-Gm-Message-State: AOAM531KYVFjeYkOI10JZiyzhZKuwRZzlLaQW1u0PniuT/0H9dJstTCs
-        ELwn7RGX72RhHIbUaEMv7/s+Rl1TM0ee3Ysigaf/Qg==
-X-Google-Smtp-Source: ABdhPJzK3A6B9uJ+CwTiMZiJbCUxRz4+h73wx6aI8l0b1E7Sow7OqsoI5pI/DOymhnQb23JuQCPI70UD/b9Yz9yCxAw=
-X-Received: by 2002:a02:b697:: with SMTP id i23mr7111999jam.78.1629277787881;
- Wed, 18 Aug 2021 02:09:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tDuCq4cpa/FhfVLg3d4eOXI0t92SH+lRUdr1ZBj+304=;
+        b=L9qS7x84YVfdETHrT7csFPlmRz+muZtmVw5qudN/K7wC3TB6KH6KYPkdv+XNqGvg98
+         LNZZGs5UthoEGi5BwIZw/yjkghvCiuTH1Wjw+WUFN+JKBLoKEZupcOi8Qf3FSHp9rTzR
+         y0rPPkbL5QdK4OWcUCSpL+dFsYadg/jDBXDhJyGHyBKM8mnb3lFevq/Bh/+hlW80qlE6
+         vO4XsKoSSJUEZsfEy7eUXzyMEUJOTHp6gcVPYfEfDhMcsn152oT4I+mP2zPquvFVoZje
+         fj9aDQbMS3fidGLT+kGFWtNDqnl/FheQzW7vwv4vOXxHR7enZ5Dcd7g3yXAN/FGT/1ul
+         DBPQ==
+X-Gm-Message-State: AOAM531va/WgPPRZqWA7cGapwuT/KubsNguQ9QlvdYepsZTQVHpeMN1L
+        TpRrUeD7fo5u1oSDb7NyjWmJSw==
+X-Google-Smtp-Source: ABdhPJz4yEie/eMLpBAmymSzx5jt3Od7muuoKSX0aK0QfqCy9SYA7S2Wvgljmd2wM1mkIsijUEW0lQ==
+X-Received: by 2002:a17:90a:d791:: with SMTP id z17mr8231461pju.203.1629278059957;
+        Wed, 18 Aug 2021 02:14:19 -0700 (PDT)
+Received: from localhost ([122.172.201.85])
+        by smtp.gmail.com with ESMTPSA id a8sm1540816pfo.79.2021.08.18.02.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 02:14:19 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 14:44:17 +0530
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        DTML <devicetree@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+Message-ID: <20210818091417.dvlnsxlgybdsn76x@vireshk-i7>
+References: <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <20210818043131.7klajx6drvvkftoc@vireshk-i7>
+ <a2a3c41f-c5e4-ee7e-7d48-03af8bac8863@gmail.com>
+ <20210818045307.4brb6cafkh3adjth@vireshk-i7>
+ <080469b3-612b-3a34-86e5-7037a64de2fe@gmail.com>
+ <20210818055849.ybfajzu75ecpdrbn@vireshk-i7>
+ <f1c76f23-086d-ef36-54ea-0511b0ebe0e1@gmail.com>
+ <20210818062723.dqamssfkf7lf7cf7@vireshk-i7>
+ <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210812082635.12924-1-jackp@codeaurora.org> <20210818012859.GB30805@jackp-linux.qualcomm.com>
-In-Reply-To: <20210818012859.GB30805@jackp-linux.qualcomm.com>
-From:   Amit Pundir <amit.pundir@linaro.org>
-Date:   Wed, 18 Aug 2021 14:39:11 +0530
-Message-ID: <CAMi1Hd2PwtLmxXS8_bRjtq1QsEoN_PZzFC8E-R+LRV7=tv2U-w@mail.gmail.com>
-Subject: Re: [RFT][PATCH] usb: dwc3: Decouple USB 2.0 L1 & L2 events
-To:     Jack Pham <jackp@codeaurora.org>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Ray Chi <raychi@google.com>, Ferry Toth <ftoth@exalondelft.nl>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Li Jun <jun.li@nxp.com>, Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Wesley Cheng <wcheng@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFrZqWtZOp4MwDN6fShoLLbw5NM039bpE3-shB+fCEZOog@mail.gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 18 Aug 2021 at 06:59, Jack Pham <jackp@codeaurora.org> wrote:
->
-> On Thu, Aug 12, 2021 at 01:26:35AM -0700, Jack Pham wrote:
-> > On DWC_usb3 revisions 3.00a and newer (including DWC_usb31 and
-> > DWC_usb32) the GUCTL1 register gained the DEV_DECOUPLE_L1L2_EVT
-> > field (bit 31) which when enabled allows the controller in device
-> > mode to treat USB 2.0 L1 LPM & L2 events separately.
-> >
-> > After commit d1d90dd27254 ("usb: dwc3: gadget: Enable suspend
-> > events") the controller will now receive events (and therefore
-> > interrupts) for every state change when entering/exiting either
-> > L1 or L2 states.  Since L1 is handled entirely by the hardware
-> > and requires no software intervention, there is no need to even
-> > enable these events and unnecessarily notify the gadget driver.
-> > Enable the aforementioned bit to help reduce the overall interrupt
-> > count for these L1 events that don't need to be handled while
-> > retaining the events for full L2 suspend/wakeup.
->
-> Hi folks in To:
->
-> I'd like to request if any of you could help test this patch on your
-> boards to help make sure it doesn't cause any regressions since I know
-> some of the recent dwc3 patches from Qualcomm have been found to break
-> other devices :(. So I'm hoping to avoid that even for a patch as
-> small as this.
->
-> Hoping this could be tried out on boards/SoCs such as db845c, hikey960,
-> Exynos, the Intel "lakes", etc.  Ideally this needs validation with a
-> high-speed connection to a USB 3.x host, which increases the chances
-> that USB 2.0 Link Power Management is supported.
->
-> The overall goal of this patch is to eliminate events generated for
-> L1 entry/exit, so we should see a slight reduction in interrupt counts
-> when checking `grep dwc3 /proc/interrupts` for comparable traffic.
->
-> Appreciate any feedback and help in testing!
+On 18-08-21, 10:29, Ulf Hansson wrote:
+> Me and Dmitry discussed adding a new genpd callback for this. I agreed
+> that it seems like a reasonable thing to add, if he insists.
+> 
+> The intent was to invoke the new callback from __genpd_dev_pm_attach()
+> when the device has been attached to its genpd. This allows the
+> callback, to invoke clk_get_rate() and then dev_pm_opp_set_rate(), to
+> update the vote according to the current state of the HW.
 
-Smoke tested this patch on RB5, running android-mainline (v5.14-rc6)
-kernel, with a USB 3.x host.
-Pushed/Pulled couple of large files over ADB, hotplugged the cable a
-few times and found no obvious regressions.
+I wouldn't call dev_pm_opp_set_rate() from there, since it means
+configure and enable (both) for different resources, clk, regulator,
+genpd, etc..
 
-Tested-by: Amit Pundir <amit.pundir@linaro.org> # for RB5 (sm8250)
+What we need here is just configure. So something like this then:
 
-Regards,
-Amit Pundir
+- genpd->get_performance_state()
+  -> dev_pm_opp_get_current_opp() //New API
+  -> dev_pm_genpd_set_performance_state(dev, current_opp->pstate);
 
-> Thanks,
-> Jack
->
-> > Signed-off-by: Jack Pham <jackp@codeaurora.org>
-> > ---
-> >  drivers/usb/dwc3/core.c | 9 +++++++++
-> >  drivers/usb/dwc3/core.h | 5 +++--
-> >  2 files changed, 12 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> > index ba74ad7f6995..719dac228703 100644
-> > --- a/drivers/usb/dwc3/core.c
-> > +++ b/drivers/usb/dwc3/core.c
-> > @@ -1050,6 +1050,15 @@ static int dwc3_core_init(struct dwc3 *dwc)
-> >               if (!DWC3_VER_IS_PRIOR(DWC3, 290A))
-> >                       reg |= DWC3_GUCTL1_DEV_L1_EXIT_BY_HW;
-> >
-> > +             /*
-> > +              * Decouple USB 2.0 L1 & L2 events which will allow for
-> > +              * gadget driver to only receive U3/L2 suspend & wakeup
-> > +              * events and prevent the more frequent L1 LPM transitions
-> > +              * from interrupting the driver.
-> > +              */
-> > +             if (!DWC3_VER_IS_PRIOR(DWC3, 300A))
-> > +                     reg |= DWC3_GUCTL1_DEV_DECOUPLE_L1L2_EVT;
-> > +
-> >               if (dwc->dis_tx_ipgap_linecheck_quirk)
-> >                       reg |= DWC3_GUCTL1_TX_IPGAP_LINECHECK_DIS;
-> >
-> > diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-> > index 5991766239ba..356b94a7ec70 100644
-> > --- a/drivers/usb/dwc3/core.h
-> > +++ b/drivers/usb/dwc3/core.h
-> > @@ -256,9 +256,10 @@
-> >  #define DWC3_GUCTL_HSTINAUTORETRY    BIT(14)
-> >
-> >  /* Global User Control 1 Register */
-> > -#define DWC3_GUCTL1_PARKMODE_DISABLE_SS      BIT(17)
-> > +#define DWC3_GUCTL1_DEV_DECOUPLE_L1L2_EVT    BIT(31)
-> >  #define DWC3_GUCTL1_TX_IPGAP_LINECHECK_DIS   BIT(28)
-> > -#define DWC3_GUCTL1_DEV_L1_EXIT_BY_HW        BIT(24)
-> > +#define DWC3_GUCTL1_DEV_L1_EXIT_BY_HW                BIT(24)
-> > +#define DWC3_GUCTL1_PARKMODE_DISABLE_SS              BIT(17)
-> >
-> >  /* Global Status Register */
-> >  #define DWC3_GSTS_OTG_IP     BIT(10)
-> > --
-> > 2.24.0
-> >
->
-> --
-> The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-> a Linux Foundation Collaborative Project
+This can be done just once from probe() then.
+
+> I am not sure if/why that approach seemed insufficient?
+> 
+> Another option to solve the problem, I think, is simply to patch
+> drivers to let them call dev_pm_opp_set_rate() during ->probe(), this
+> should synchronize the HW state too.
+
+Dmitry already mentioned that this will make the device start
+consuming power, and he doesn't want that, else we need an explicit
+disble call as well.
+
+-- 
+viresh
