@@ -2,149 +2,178 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A97C19F34
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:29:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2B11C4320A
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:30:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0CAD61058
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:29:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAB2260524
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237407AbhHREaU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 00:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
+        id S237437AbhHREbN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 00:31:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236690AbhHREaP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 00:30:15 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4307BC061764;
-        Tue, 17 Aug 2021 21:29:41 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id n7so2722165ljq.0;
-        Tue, 17 Aug 2021 21:29:41 -0700 (PDT)
+        with ESMTP id S236664AbhHREbN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 00:31:13 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C3BC0613C1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Aug 2021 21:30:39 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id g14so872830pfm.1
+        for <linux-usb@vger.kernel.org>; Tue, 17 Aug 2021 21:30:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1oGPCZKuN7//6YRIhZx0/l4kulZ4IgOOJnUbYEMOH6I=;
-        b=V5kVQiJtWOCCp57EmiLvG7lU7Eb4Pzk32zmECjGfUZe6WpjBhCOxyJxa3BJEPwWMQL
-         YODIIG0AfBa0AUaKsgX9TTGS98k2By1GeZoFn38hvGsENacTswgcd9UWoRbXdcopoBne
-         sb3uVBZSitgvH5I2PuygucyxoSig5hBa9YfcBzRQREAP0Q0aEozhok3Fzl9Jnhf7BYKe
-         8Szm/avAy2CyuGWJgmVVdv21+M3huLPr7UTBxs1Esv1JV71R127gQOsjyI3lC+8wggh2
-         1bdKBcLFz2RhSs2A6jFav8nPUJAxIitDUeBO7TFOJsdfbDPbbNOZfFUBrMVBZLlNqfnp
-         ov8Q==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=V2X/mxX2JsXaFx3uHx7XfXuFDu4h8hiqjhXj9NlMMhk=;
+        b=ibL5UnsQt1SYxsp2yAMnW/YdrE++qVDdbpFlPIR6K3BB3E/EL9QLtKLHVpv/sb+A2I
+         QqVNtNDjg0FxDzj3EGuspL3soU04SueY6DrCrix/Qoqq8dTCQLyXVmYf6RNjWzO42bit
+         gKD2wuDNIoCJ39WY5UdovaLbVACpnXVsYjpOI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1oGPCZKuN7//6YRIhZx0/l4kulZ4IgOOJnUbYEMOH6I=;
-        b=p4aOWwZfHB4Uk7m+lyCSixwFETeYOUTYsWYjPsVaR4C5E7bg+VwYQaVQuM6bFjC6Nd
-         HWe+TAzjgnORUSOf+fN4RI/cjNMNajCc80fkUlSFbQFRSQqDFSt+O6X7/xzyuLATqL2u
-         FBbvLVZwoTugFs4dHj/XmklQPD1XwcmtsKcanDv/6Kjuo6/WG8uciZE1i7QtwLDBA8ui
-         A+XbNDiUCY9C6hL4y0nEvfkehXqZ2wkQdP8w5bxanPvefcsUVfMFQTe+TxdELENC6Nmk
-         8Nce62ZZhjU7szxUuVPX5gKLuY4SBKIXFWrmhxnmgq102neSuygnPdur4lwx/PXJyVAr
-         TzNg==
-X-Gm-Message-State: AOAM532MexhPucXexJcw1yEp9Dt/xHCTlKcWfloiHKFIhRpalVHrWHLM
-        0+PGFZ/jlJitLViJIi6L0Y9Nr8R/sjI=
-X-Google-Smtp-Source: ABdhPJxjWHu+1mhjN7xsUMJQm6f2OEtCQsnZGvTaLckFV9kcxoy2/qKkU641V0QwrRxZ9lvcjAC7rA==
-X-Received: by 2002:a05:651c:390:: with SMTP id e16mr6391418ljp.344.1629260979533;
-        Tue, 17 Aug 2021 21:29:39 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
-        by smtp.googlemail.com with ESMTPSA id f1sm381628lfs.44.2021.08.17.21.29.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Aug 2021 21:29:39 -0700 (PDT)
-Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org
-References: <20210817012754.8710-1-digetx@gmail.com>
- <20210817012754.8710-2-digetx@gmail.com>
- <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
- <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
- <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
- <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
-Message-ID: <6df0ed60-e497-0af2-09b6-a9d82f502f17@gmail.com>
-Date:   Wed, 18 Aug 2021 07:29:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=V2X/mxX2JsXaFx3uHx7XfXuFDu4h8hiqjhXj9NlMMhk=;
+        b=JQLzTfQlggsMHSLB4wk5wRRotPd67FML5zL12icQn0eDwvAtVPv6EY+h7xGP0pei4D
+         uCP3RyKfAQTeWDkIMqVgbOCXcuqqEFRkjJ0P77Ua5BfithR+vVQqnR9KeW2Xh1QB0GzW
+         G62TuTMDlOQZ3i3MHh56o1Z5h39FbNBDGPZ/YRNZzpQZt+hQSPnb/3nXRWrwBEhfV74b
+         GT1Si3mbAY6yR45OK3HeFS1TOnoKTf9MYDakUQ8089EnJo87MzzMkzoaQYV9XnEBakTy
+         m9MImu37+YdojZm3cxVpF6jc6X3P4D7JF+OH18Ze0eHMB99jHUITx1+oFuNqzh7xFkCx
+         bGng==
+X-Gm-Message-State: AOAM530n/SBEMuqSmkQ0oZWiLdyUM7CneSFTkaacIy2UaEDNdLmV7cOc
+        n7q3etmVje85nGVcaEDisijofw==
+X-Google-Smtp-Source: ABdhPJw1ksquoom3IZ39xMEuJgVWQ1Q6NY25QexNmmpWeR1q+Q+a1R2JE3N7ucasubJfjonP0rUhJw==
+X-Received: by 2002:a65:6454:: with SMTP id s20mr6888248pgv.18.1629261038655;
+        Tue, 17 Aug 2021 21:30:38 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d15sm4164692pfd.115.2021.08.17.21.30.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 21:30:38 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Kees Cook <keescook@chromium.org>, Al Cooper <alcooperx@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        Arnd Bergmann <arnd@arndb.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: [PATCH 2/2] USB: EHCI: Add alias for Broadcom INSNREG
+Date:   Tue, 17 Aug 2021 21:30:34 -0700
+Message-Id: <20210818043035.1308062-3-keescook@chromium.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210818043035.1308062-1-keescook@chromium.org>
+References: <20210818043035.1308062-1-keescook@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4103; h=from:subject; bh=dbE9XtQqA1foyjO9XHfNdBcom5iwk3VUrY6aFfs8pzE=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHIzqWW4Dnh2cHuYYKw2gyNoMoIme6IWK0iCv0MPN OeoYX/qJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyM6gAKCRCJcvTf3G3AJrzhD/ wNbeAOjAr4lW8fDMrecWwpHX2eXvTr+XMm96DimUg6tIH97iX+zEiP/9LjKFgvWIhwHvSugqbqLoHa eUmVDy+RkwFaLrCMkHxelC1gbzIvhbXP7he27rf8K9ui3oZPgesGPUMlJ8UnD7BiZ0DADVCLb8fJU9 jCvr35gJxbNf181nJ/gfvBF/u7C7ttBEUwRmaRqwa9kkfLjtYUchTJnbG7Su+UEZGfBBBWUPu98t5I n2oswPAhqcZaz+x/+iCXv47PJLxV2dcnGjgo3s5tdvFnd3YXUcK/5HKvCJDHXF/3E601O2H4Rq6Ra4 7ey2FrXPEzrIlWqn+NoxdDzd2dy2+kgiQmMzmyvVA4VWcjctVybZ7TXnpIHztvAz8sqxG2OQkXdrpJ s23ivnmbQwqHZfH1B8KnDVmxbyA5nGGTSZeHENa9SeEMYUwTufITBXjLsczZN7cvQMNH5EbE8zzFgx 12JdzIB8Du2HLuMKXNGmdTQI/yRCqOYwrdIfmG1U20A4X300ZqJ59DBzopOAwdVGwska3cInzLVvSA 5eNRr0ne5IpWzUISrAp/BiD/vZ/Rszu2ihREt62Kqx2PsCS/wSQy7XR9v7AkgF1uDbKEVAVxsn9ZD1 yHngqYzMN0HRFHb+yHnU5mVeMfHrIlOZ+T6Zrd2lAnucoWpkmIMH6sttrNcw==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-18.08.2021 07:12, Dmitry Osipenko пишет:
-> 18.08.2021 06:55, Viresh Kumar пишет:
->> On 17-08-21, 18:49, Dmitry Osipenko wrote:
->>> 17.08.2021 10:55, Viresh Kumar пишет:
->>> ...
->>>>> +int dev_pm_opp_sync(struct device *dev)
->>>>> +{
->>>>> +	struct opp_table *opp_table;
->>>>> +	struct dev_pm_opp *opp;
->>>>> +	int ret = 0;
->>>>> +
->>>>> +	/* Device may not have OPP table */
->>>>> +	opp_table = _find_opp_table(dev);
->>>>> +	if (IS_ERR(opp_table))
->>>>> +		return 0;
->>>>> +
->>>>> +	if (!_get_opp_count(opp_table))
->>>>> +		goto put_table;
->>>>> +
->>>>> +	opp = _find_current_opp(dev, opp_table);
->>>>> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
->>>>
->>>> And I am not sure how this will end up working, since new OPP will be
->>>> equal to old one. Since I see you call this from resume() at many
->>>> places.
->>>
->>> Initially OPP table is "uninitialized" and opp_table->enabled=false,
->>> hence the first sync always works even if OPP is equal to old one. Once
->>> OPP has been synced, all further syncs are NO-OPs, hence it doesn't
->>> matter how many times syncing is called.
->>>
->>> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/opp/core.c#L1012
->>
->> Right, but how will this work from Resume ? Won't that be a no-op ?
-> 
-> The first resume initializes the OPP state on sync, all further syncs on
-> resume are no-ops.
-> 
+Refactor struct ehci_regs to avoid accessing beyond the end of
+port_status. This change results in no difference in the resulting
+object code.
 
-Notice that we use GENPD here. GENPD core takes care of storing PD's
-performance state (voltage in case of Tegra) and dropping it to 0 after
-rpm-suspend, GENPD core also restores the state before rpm-resume.
+Avoids several warnings when building with -Warray-bounds:
+
+drivers/usb/host/ehci-brcm.c: In function 'ehci_brcm_reset':
+drivers/usb/host/ehci-brcm.c:113:32: warning: array subscript 16 is above array bounds of 'u32[15]' {aka 'unsigned int[15]'} [-Warray-bounds]
+  113 |  ehci_writel(ehci, 0x00800040, &ehci->regs->port_status[0x10]);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from drivers/usb/host/ehci.h:274,
+                 from drivers/usb/host/ehci-brcm.c:15:
+./include/linux/usb/ehci_def.h:132:7: note: while referencing 'port_status'
+  132 |   u32 port_status[HCS_N_PORTS_MAX];
+      |       ^~~~~~~~~~~
+
+Note that the documentation around this proprietary register is
+confusing. If "USB_EHCI_INSNREG00" is at port_status[0x0f], its offset
+would be 0x80 (not 0x90). The code uses port_status[0x10], so is that
+not using "USB_EHCI_INSNREG00"?
+
+Perhaps port_status[0x10] is USB_EHCI_INSNREG01 and port_status[0x12]
+is USB_EHCI_INSNREG03? If so, the union could be adjusted to better
+represent the layout.
+
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Al Cooper <alcooperx@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Cc: bcm-kernel-feedback-list@broadcom.com
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: 9df231511bd6 ("usb: ehci: Add new EHCI driver for Broadcom STB SoC's")
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/usb/host/ehci-brcm.c | 11 +++++------
+ include/linux/usb/ehci_def.h | 16 ++++++++++++++--
+ 2 files changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+index 3e0ebe8cc649..5d232d3701f9 100644
+--- a/drivers/usb/host/ehci-brcm.c
++++ b/drivers/usb/host/ehci-brcm.c
+@@ -110,8 +110,8 @@ static int ehci_brcm_reset(struct usb_hcd *hcd)
+ 	 *   bus usage
+ 	 * port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00 @ 0x90
+ 	 */
+-	ehci_writel(ehci, 0x00800040, &ehci->regs->port_status[0x10]);
+-	ehci_writel(ehci, 0x00000001, &ehci->regs->port_status[0x12]);
++	ehci_writel(ehci, 0x00800040, &ehci->regs->brcm_insnreg[0]);
++	ehci_writel(ehci, 0x00000001, &ehci->regs->brcm_insnreg[2]);
+ 
+ 	return ehci_setup(hcd);
+ }
+@@ -223,11 +223,10 @@ static int __maybe_unused ehci_brcm_resume(struct device *dev)
+ 	/*
+ 	 * SWLINUX-1705: Avoid OUT packet underflows during high memory
+ 	 *   bus usage
+-	 * port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00
+-	 * @ 0x90
++	 * port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00 @ 0x90
+ 	 */
+-	ehci_writel(ehci, 0x00800040, &ehci->regs->port_status[0x10]);
+-	ehci_writel(ehci, 0x00000001, &ehci->regs->port_status[0x12]);
++	ehci_writel(ehci, 0x00800040, &ehci->regs->brcm_insnreg[0]);
++	ehci_writel(ehci, 0x00000001, &ehci->regs->brcm_insnreg[2]);
+ 
+ 	ehci_resume(hcd, false);
+ 
+diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.h
+index 5398f571113b..86f0909cab99 100644
+--- a/include/linux/usb/ehci_def.h
++++ b/include/linux/usb/ehci_def.h
+@@ -182,11 +182,23 @@ struct ehci_regs {
+  * its EHCI controller has both TT and LPM support. HOSTPCx are extensions to
+  * PORTSCx
+  */
+-	/* HOSTPC: offset 0x84 */
+-	u32		hostpc[HCS_N_PORTS_MAX];
++	union {
++		/* HOSTPC: offset 0x84 */
++		u32	hostpc[HCS_N_PORTS_MAX];
+ #define HOSTPC_PHCD	(1<<22)		/* Phy clock disable */
+ #define HOSTPC_PSPD	(3<<25)		/* Port speed detection */
+ 
++		/*
++		 * This was originally documented as:
++		 * "port_status[0x0f] = Broadcom-proprietary USB_EHCI_INSNREG00 @ 0x90"
++		 * but this doesn't make sense: the code was using
++		 * port_status[0x10]. port_status[0x0f] would be reserved4.
++		 * Also, none of these are near 0x90. port_status[0x10] is
++		 * offset 0x84, and port_status[0x0f] would be 0x80.
++		 */
++		u32	brcm_insnreg[3];
++	};
++
+ 	u32		reserved5[2];
+ 
+ 	/* USBMODE_EX: offset 0xc8 */
+-- 
+2.30.2
+
