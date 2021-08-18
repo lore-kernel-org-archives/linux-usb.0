@@ -2,241 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 449E3C4320A
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:30:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B2DC4338F
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:31:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26EE360524
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:30:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4DDE360EFF
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 04:31:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237521AbhHREbQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 00:31:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
+        id S237679AbhHREbj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 00:31:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237435AbhHREbN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 00:31:13 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CE0C0613CF
-        for <linux-usb@vger.kernel.org>; Tue, 17 Aug 2021 21:30:39 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id i133so872897pfe.12
-        for <linux-usb@vger.kernel.org>; Tue, 17 Aug 2021 21:30:39 -0700 (PDT)
+        with ESMTP id S237565AbhHREbh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 00:31:37 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC22EC0613C1;
+        Tue, 17 Aug 2021 21:31:02 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id z2so1854290lft.1;
+        Tue, 17 Aug 2021 21:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=97Q2qblnPf+diifOtJqZrKrymA63HJNNPgH0AIN9kWw=;
-        b=EJmRir8kX/xdWreBuW48PasqoLhhUpCqQaxJ9X+gi8GMI6jTy20Jjjp9aBQMkDVL9A
-         hhVV8L1DUal19StjfVjaqERnGxePdPStYSNe8BSNbYxMQnD6PzNdtLyrDXEQZGnd8cDV
-         BKViY4SEFU0sx4bciJF31uLF9E+mzWSXHXj6g=
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=bJVDC5sFMx5wdJrVE/CISF2TdQfB6rbYeeYCC0J1Ol8=;
+        b=LiU1hgzrqwTnfH2RGkGOLvOMBIR+Dpr0pPox0drlJMVWW7rU2xXSm44gIeI0Xb4pT5
+         1DCudjHNE+om3k16PzKa7gXd9w5/yPDgTlxoJPZ6PZkJ88qhuNXBI7j6uRQBnXkra+p1
+         G8mYKN4huRcHr6lMOkR2iHFaktWcjtOCFhruBBUBGyInSaHjeOQ/MGLSXZnOOvUbWg5q
+         hnuex/UPnBX0ZqA0EXW+bqgAYzqDV3YPuArMnDsPfTHvfMg8hkCHc8k3OocdmNqKVCgO
+         0tnl22ivLpiKmcMsdUXvXY9Ki5SXuLaOXETJ3hpKkonGX9ienLPJKjeI8uFpB7i3Qjn+
+         d3WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=97Q2qblnPf+diifOtJqZrKrymA63HJNNPgH0AIN9kWw=;
-        b=f8TB6S6eOr5GXO332IoukRz9JJZ2GWZ0VY/yq64S6adM5holt72UW+C2CpcaE6hfpA
-         //8wvI3lBZVj6Dxxkr8vzmG6ccJrL5nTYfT3BSYF1DDM+8wBumfS5SNqkUpHwhDYLrcl
-         YC7yueNFQyh4178AVaVWlN++6wXV9MIjWanSLk7IUNbyxMEnYbOsXY22peDlYrMbXfHQ
-         iGfQV6HppOlbkzNzxgUMqvJt3H9mQyoRJHKqmjItxguOnu/F2WKEhem5LepFZ1d7WfUM
-         m/s8S4WXogZQOQQSLd4elvmIccu5dhG8uye8MGoKBvMikRh4QNH6qrBu34dTTltLvBYL
-         CZRA==
-X-Gm-Message-State: AOAM533tI0rNfHFDUe16qGKavOnyg+b0JYV7N2nfUb481lX2tI+KT+hA
-        3AmJ81k96NgvWRsiTOd3YRs95g==
-X-Google-Smtp-Source: ABdhPJz8UBWhQMexRqkMGyz82mBnyqjyomkDr/D1Lw7KhqFqVybpc2YOjEQVJ0KbZBxHHkfoqKI1VA==
-X-Received: by 2002:a65:6111:: with SMTP id z17mr6950148pgu.335.1629261039205;
-        Tue, 17 Aug 2021 21:30:39 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id mg11sm3521501pjb.28.2021.08.17.21.30.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 21:30:38 -0700 (PDT)
-From:   Kees Cook <keescook@chromium.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Kees Cook <keescook@chromium.org>, Arnd Bergmann <arnd@arndb.de>,
-        Al Cooper <alcooperx@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-usb@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH 1/2] USB: EHCI: Add register array bounds to HCS ports
-Date:   Tue, 17 Aug 2021 21:30:33 -0700
-Message-Id: <20210818043035.1308062-2-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210818043035.1308062-1-keescook@chromium.org>
-References: <20210818043035.1308062-1-keescook@chromium.org>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bJVDC5sFMx5wdJrVE/CISF2TdQfB6rbYeeYCC0J1Ol8=;
+        b=KCLT+MC7Kuz6ueM7DbbNxo9HSXX2ABgwUdCMMID5Y9RZLEU4tL809a3oa+A3X26+mX
+         XhFEqaVVVJ3DGnI+mYf6uWSyz+ZszN6CZNR8sUp2jg+ur8rzo2MhtE34ameYnbIwTUsP
+         wpwEvsQ4PRJOyg6S8LDnWMdT+i2Aiil+Zr4Dbz95xSdg5DegjpVuUdux9vB8LWUsUe6G
+         Qpv6OVIkVL/829NrcgvfqnsTJgNIkIgBe5HOO5I+I6H7LVxADexOyApSeHKvJFAFZ8gd
+         bsnsrptlPNe54Mfd3hDKV8NN0soLCQcxoUyG7RAixTDIvEFvxMOu64Yk4P7mVGPnYGs+
+         zkyQ==
+X-Gm-Message-State: AOAM532hxGjcVDRKvNl7iz0TLVj8vmK8RfIAz77mIgsOHC1hSBU8eWB0
+        ep1mNypirROPevoQ1gXCquWDS3q8C3U=
+X-Google-Smtp-Source: ABdhPJx+RUklo1VZR89XCu0X3oAVXKEHQLdw/QolyoJg/PV7VvbR0COzQj6CtKZ4QI3fzPlA0p3mQg==
+X-Received: by 2002:ac2:5b9d:: with SMTP id o29mr5044866lfn.26.1629261061194;
+        Tue, 17 Aug 2021 21:31:01 -0700 (PDT)
+Received: from [192.168.2.145] (46-138-85-91.dynamic.spd-mgts.ru. [46.138.85.91])
+        by smtp.googlemail.com with ESMTPSA id q5sm377111lfc.283.2021.08.17.21.30.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Aug 2021 21:31:00 -0700 (PDT)
+Subject: Re: [PATCH v8 01/34] opp: Add dev_pm_opp_sync() helper
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-2-digetx@gmail.com>
+ <20210817075515.vyyv7z37e6jcrhsl@vireshk-i7>
+ <710261d9-7ae3-5155-c0a2-f8aed2408d0b@gmail.com>
+ <20210818035533.ieqkexltfvvf2p4n@vireshk-i7>
+ <5b2a80c1-9743-e633-6257-ede94c8a274c@gmail.com>
+ <6df0ed60-e497-0af2-09b6-a9d82f502f17@gmail.com>
+Message-ID: <6438bdfb-3e9e-40dd-fa7c-c79f0892e12a@gmail.com>
+Date:   Wed, 18 Aug 2021 07:30:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7281; h=from:subject; bh=0RbT8T92X/JDlh0LDF75MOJUruyjSULSZmO5BN9GRWI=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhHIzqjGvGYOda4gj0Hehm39EaWDMnKJOYgbdbr1FW sk8lDOuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYRyM6gAKCRCJcvTf3G3AJvRfD/ 9cEjCeEIunrMbMlQEO4nrF2VxsJgf2f7i55anT3F4lPvvpkDiKk00ooKxVOg3W7R8+UBwo2kO3CWZS T4RQVZH8YFYwGM7qbZa7hVyZ0ADS8tjKcDVQUJCnc66XHI0S2xpkkAi/tpvwGxRCSQ57vnjqNKMGYZ MbFaz+q0toul9KUqINxQxC5pImrJkxFXLken+oyZYb0J329aVk39BFGoHkVefSsS9tLUKY6wCsxF+9 PvmJZBm/K4ks+Vebs/mRLvMsNjmn8EqPI6I/63qyVhDfyo00tWc+ald28T+6ezD2aBtbyM0+DAtiVW r0T6LOYdTZDZR8YVaX2kWXfUDAp50VBbrJmYq6CCLX2sMCu3rv1eJvZiOlAEttJcYrpaxtWR5DWr3A Qn0weeFnGOmbkeeBY5emaHD3zy+zYtx+LztOxQXSNl0n9ivST6bBaiuDcH3BAUWDA7TMNcKLqE2gnA ctk9S9VqvlaAt37pEMSERJaQviOUFXFZ1FiqiAQkSeb6vt1FUmybvaqsrPIjHHNEl1KGvV8yNB4OLf 44LGhTeVDTK1TCUXlsRhk9eTbpPQO7WOVNVUcDSZuI0e4PE/qWC4EqV6/g1cjNOBpOBBAOcQlNJz0E D7rEtcqAe9h7n5cyDFJgoxi9hJlVkrhgnALlCxUF4V3pLqjlD2yJszWzYrZA==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+In-Reply-To: <6df0ed60-e497-0af2-09b6-a9d82f502f17@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The original EHCI register struct used a trailing 0-element array for
-addressing the N_PORTS-many available registers. However, after
-commit a46af4ebf9ff ("USB: EHCI: define extension registers like normal ones")
-the 0-element array started to overlap the USBMODE extension register.
+18.08.2021 07:29, Dmitry Osipenko пишет:
+> 18.08.2021 07:12, Dmitry Osipenko пишет:
+>> 18.08.2021 06:55, Viresh Kumar пишет:
+>>> On 17-08-21, 18:49, Dmitry Osipenko wrote:
+>>>> 17.08.2021 10:55, Viresh Kumar пишет:
+>>>> ...
+>>>>>> +int dev_pm_opp_sync(struct device *dev)
+>>>>>> +{
+>>>>>> +	struct opp_table *opp_table;
+>>>>>> +	struct dev_pm_opp *opp;
+>>>>>> +	int ret = 0;
+>>>>>> +
+>>>>>> +	/* Device may not have OPP table */
+>>>>>> +	opp_table = _find_opp_table(dev);
+>>>>>> +	if (IS_ERR(opp_table))
+>>>>>> +		return 0;
+>>>>>> +
+>>>>>> +	if (!_get_opp_count(opp_table))
+>>>>>> +		goto put_table;
+>>>>>> +
+>>>>>> +	opp = _find_current_opp(dev, opp_table);
+>>>>>> +	ret = _set_opp(dev, opp_table, opp, opp->rate);
+>>>>>
+>>>>> And I am not sure how this will end up working, since new OPP will be
+>>>>> equal to old one. Since I see you call this from resume() at many
+>>>>> places.
+>>>>
+>>>> Initially OPP table is "uninitialized" and opp_table->enabled=false,
+>>>> hence the first sync always works even if OPP is equal to old one. Once
+>>>> OPP has been synced, all further syncs are NO-OPs, hence it doesn't
+>>>> matter how many times syncing is called.
+>>>>
+>>>> https://elixir.bootlin.com/linux/v5.14-rc6/source/drivers/opp/core.c#L1012
+>>>
+>>> Right, but how will this work from Resume ? Won't that be a no-op ?
+>>
+>> The first resume initializes the OPP state on sync, all further syncs on
+>> resume are no-ops.
+>>
+> 
+> Notice that we use GENPD here. GENPD core takes care of storing PD's
+> performance state (voltage in case of Tegra) and dropping it to 0 after
+> rpm-suspend, GENPD core also restores the state before rpm-resume.
 
-To avoid future compile-time warnings about accessing indexes within a
-0-element array, rearrange the struct to actually describe the expected
-layout (max 15 registers) with a union. All offsets remain the same, and
-bounds checking becomes possible on accesses to port_status and hostpc.
-
-There are no binary differences, and struct offsets continue to match.
-"pahole --hex -C ehci_regs" before:
-
-struct ehci_regs {
-	u32                        command;              /*     0   0x4 */
-	u32                        status;               /*   0x4   0x4 */
-	u32                        intr_enable;          /*   0x8   0x4 */
-	u32                        frame_index;          /*   0xc   0x4 */
-	u32                        segment;              /*  0x10   0x4 */
-	u32                        frame_list;           /*  0x14   0x4 */
-	u32                        async_next;           /*  0x18   0x4 */
-	u32                        reserved1[2];         /*  0x1c   0x8 */
-	u32                        txfill_tuning;        /*  0x24   0x4 */
-	u32                        reserved2[6];         /*  0x28  0x18 */
-	/* --- cacheline 1 boundary (64 bytes) --- */
-	u32                        configured_flag;      /*  0x40   0x4 */
-	u32                        port_status[0];       /*  0x44     0 */
-	u32                        reserved3[9];         /*  0x44  0x24 */
-	u32                        usbmode;              /*  0x68   0x4 */
-	u32                        reserved4[6];         /*  0x6c  0x18 */
-	/* --- cacheline 2 boundary (128 bytes) was 4 bytes ago --- */
-	u32                        hostpc[0];            /*  0x84     0 */
-	u32                        reserved5[17];        /*  0x84  0x44 */
-	/* --- cacheline 3 boundary (192 bytes) was 8 bytes ago --- */
-	u32                        usbmode_ex;           /*  0xc8   0x4 */
-
-	/* size: 204, cachelines: 4, members: 18 */
-	/* last cacheline: 12 bytes */
-};
-
-after:
-
-struct ehci_regs {
-	u32                        command;              /*     0   0x4 */
-	u32                        status;               /*   0x4   0x4 */
-	u32                        intr_enable;          /*   0x8   0x4 */
-	u32                        frame_index;          /*   0xc   0x4 */
-	u32                        segment;              /*  0x10   0x4 */
-	u32                        frame_list;           /*  0x14   0x4 */
-	u32                        async_next;           /*  0x18   0x4 */
-	u32                        reserved1[2];         /*  0x1c   0x8 */
-	u32                        txfill_tuning;        /*  0x24   0x4 */
-	u32                        reserved2[6];         /*  0x28  0x18 */
-	/* --- cacheline 1 boundary (64 bytes) --- */
-	u32                        configured_flag;      /*  0x40   0x4 */
-	union {
-		u32                port_status[15];      /*  0x44  0x3c */
-		struct {
-			u32        reserved3[9];         /*  0x44  0x24 */
-			u32        usbmode;              /*  0x68   0x4 */
-		};                                       /*  0x44  0x28 */
-	};                                               /*  0x44  0x3c */
-	/* --- cacheline 2 boundary (128 bytes) --- */
-	u32                        reserved4;            /*  0x80   0x4 */
-	u32                        hostpc[15];           /*  0x84  0x3c */
-	/* --- cacheline 3 boundary (192 bytes) --- */
-	u32                        reserved5[2];         /*  0xc0   0x8 */
-	u32                        usbmode_ex;           /*  0xc8   0x4 */
-
-	/* size: 204, cachelines: 4, members: 16 */
-	/* last cacheline: 12 bytes */
-};
-
-With this fixed, adding -Wzero-length-bounds to the build no longer
-produces several warnings like this:
-
-In file included from drivers/usb/host/ehci-hcd.c:306:
-drivers/usb/host/ehci-hub.c: In function 'ehci_port_handed_over':
-drivers/usb/host/ehci-hub.c:1194:8: warning: array subscript '<unknown>' is outside the bounds of an interior zero-length array 'u32[0]' {aka 'unsigned int[]'} [-Wzero-length-bounds]
- 1194 |  reg = &ehci->regs->port_status[portnum - 1];
-      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from drivers/usb/host/ehci.h:274,
-                 from drivers/usb/host/ehci-hcd.c:97:
-./include/linux/usb/ehci_def.h:130:7: note: while referencing 'port_status'
-  130 |  u32  port_status[0]; /* up to N_PORTS */
-      |       ^~~~~~~~~~~
-
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Al Cooper <alcooperx@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org
-Fixes: a46af4ebf9ff ("USB: EHCI: define extension registers like normal ones")
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- include/linux/usb/ehci_def.h | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.h
-index 78e006355557..5398f571113b 100644
---- a/include/linux/usb/ehci_def.h
-+++ b/include/linux/usb/ehci_def.h
-@@ -45,6 +45,7 @@ struct ehci_caps {
- #define HCS_PORTROUTED(p)	((p)&(1 << 7))	/* true: port routing */
- #define HCS_PPC(p)		((p)&(1 << 4))	/* true: port power control */
- #define HCS_N_PORTS(p)		(((p)>>0)&0xf)	/* bits 3:0, ports on HC */
-+#define HCS_N_PORTS_MAX		0xf		/* N_PORTS valid 0x1-0xF */
- 
- 	u32		hcc_params;      /* HCCPARAMS - offset 0x8 */
- /* EHCI 1.1 addendum */
-@@ -126,8 +127,9 @@ struct ehci_regs {
- 	u32		configured_flag;
- #define FLAG_CF		(1<<0)		/* true: we'll support "high speed" */
- 
--	/* PORTSC: offset 0x44 */
--	u32		port_status[0];	/* up to N_PORTS */
-+	union {
-+		/* PORTSC: offset 0x44 */
-+		u32	port_status[HCS_N_PORTS_MAX];
- /* EHCI 1.1 addendum */
- #define PORTSC_SUSPEND_STS_ACK 0
- #define PORTSC_SUSPEND_STS_NYET 1
-@@ -164,28 +166,28 @@ struct ehci_regs {
- #define PORT_CSC	(1<<1)		/* connect status change */
- #define PORT_CONNECT	(1<<0)		/* device connected */
- #define PORT_RWC_BITS   (PORT_CSC | PORT_PEC | PORT_OCC)
--
--	u32		reserved3[9];
--
--	/* USBMODE: offset 0x68 */
--	u32		usbmode;	/* USB Device mode */
-+		struct {
-+			u32	reserved3[9];
-+			/* USBMODE: offset 0x68 */
-+			u32	usbmode;	/* USB Device mode */
-+		};
- #define USBMODE_SDIS	(1<<3)		/* Stream disable */
- #define USBMODE_BE	(1<<2)		/* BE/LE endianness select */
- #define USBMODE_CM_HC	(3<<0)		/* host controller mode */
- #define USBMODE_CM_IDLE	(0<<0)		/* idle state */
--
--	u32		reserved4[6];
-+	};
-+	u32		reserved4;
- 
- /* Moorestown has some non-standard registers, partially due to the fact that
-  * its EHCI controller has both TT and LPM support. HOSTPCx are extensions to
-  * PORTSCx
-  */
- 	/* HOSTPC: offset 0x84 */
--	u32		hostpc[0];	/* HOSTPC extension */
-+	u32		hostpc[HCS_N_PORTS_MAX];
- #define HOSTPC_PHCD	(1<<22)		/* Phy clock disable */
- #define HOSTPC_PSPD	(3<<25)		/* Port speed detection */
- 
--	u32		reserved5[17];
-+	u32		reserved5[2];
- 
- 	/* USBMODE_EX: offset 0xc8 */
- 	u32		usbmode_ex;	/* USB Device mode extension */
--- 
-2.30.2
-
+By 'here' I mean in this series.
