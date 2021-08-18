@@ -2,230 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8710C4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D880C4320A
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CE31F60ED5
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 651A26103A
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 09:14:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231759AbhHRJO7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 05:14:59 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:21432 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231342AbhHRJO4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 05:14:56 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1629278062; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=tl/IdrL1MX3Cp8bKiIsLn/8t7yxW9DakiGF9QhbN0oU=; b=IHiO05Ont7QvCpcanCwtPAi4nDG1DZghxd7yhnhALoLMU072C+TmKfJe9eqFG6L6WYCVg5yr
- wLjsmR4bRsyQOdL3t1fbVpktKV501MWayfTvhDVVTjRpUwc6ceFZTY/4ijQ2VM106uxpOGLp
- 8QhURYArlcdXZLa4wPCLfj47SHQ=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 611ccf6d66ff1079041e29f0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Aug 2021 09:14:21
- GMT
-Sender: sanm=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 3949EC43460; Wed, 18 Aug 2021 09:14:21 +0000 (UTC)
-Received: from [192.168.0.104] (unknown [49.206.46.153])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: sanm)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 799BCC4338F;
-        Wed, 18 Aug 2021 09:14:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 799BCC4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-Subject: Re: [PATCH v8 6/6] usb: dwc3: qcom: Keep power domain on to support
- wakeup
-To:     Felipe Balbi <balbi@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Pratham Pratap <prathampratap@codeaurora.org>
-References: <1624882097-23265-1-git-send-email-sanm@codeaurora.org>
- <1624882097-23265-7-git-send-email-sanm@codeaurora.org>
- <YNo97HQXmYjUNz/C@google.com> <87fswjzx52.fsf@kernel.org>
-From:   Sandeep Maheswaram <sanm@codeaurora.org>
-Message-ID: <5ecee092-dba9-071c-940b-55e16f4d7a90@codeaurora.org>
-Date:   Wed, 18 Aug 2021 14:44:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S230428AbhHRJPA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 05:15:00 -0400
+Received: from mail-il1-f200.google.com ([209.85.166.200]:36499 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229864AbhHRJO6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 05:14:58 -0400
+Received: by mail-il1-f200.google.com with SMTP id c20-20020a9294140000b02902141528bc7cso879972ili.3
+        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 02:14:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=nVWhK4cQDXyby++FlrRCSICOsNIa8m6BHgR2s+fOqjk=;
+        b=RuYT+KdcwC2QhZnQJPMydbfGJzW/CmEk56BFmzm/tb0z6z3BvcdbbWRM6GsH7P1T9q
+         Z6Iws5/mv9QYZ+ln/0k2Yvft31FBiLoOeT2iLtxjDf4973X3GKvZ6h6ZUvT/kGB5MTIV
+         ujJaenuY0XaDAvXv6k1xMhs/oWErGHbvW1j+o8AvBuiAfuwqMUmKOVoiYEIIUkCISL2M
+         Ed/bKZ6ngHdO9YuaooKE11RMD3wIuEpThulLugS0LslnRphPIb1eG/Xtj7mw/sQkxP1H
+         hbESERCksplXXxV+uqecxLxKOEBqSzUrg1xmlyubl8fVFq9LMl1uvmj+GTaCMoyqtqoZ
+         Kf+w==
+X-Gm-Message-State: AOAM531SJ3m0OqOq8fKbLcH9H5Ay/XxJ0WFzvnTS+9eb9pIYWQjo4bIU
+        zYmzSa0pQCU2H+vpQpN6sW7fFyKAh5Xw48I+j18mHk3LlNao
+X-Google-Smtp-Source: ABdhPJwETxoSv9A/LHlkyJimAET8MJOM+95bPE4OlxYrGxsjgWP2LcMj/M+jNwC1+6HCFL1vN4vC+VQpv59Ch3E1bPGZFZw7T9m2
 MIME-Version: 1.0
-In-Reply-To: <87fswjzx52.fsf@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-Received: by 2002:a05:6e02:1294:: with SMTP id y20mr5242782ilq.42.1629278063605;
+ Wed, 18 Aug 2021 02:14:23 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 02:14:23 -0700
+In-Reply-To: <000000000000d77b6505c767b8f8@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000038c55d05c9d1dc3b@google.com>
+Subject: Re: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
+From:   syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Felipe,
+syzbot has found a reproducer for the following issue on:
 
-On 7/12/2021 3:12 PM, Felipe Balbi wrote:
-> Hi,
->
-> Matthias Kaehlcke <mka@chromium.org> writes:
->> On Mon, Jun 28, 2021 at 05:38:17PM +0530, Sandeep Maheswaram wrote:
->>> If wakeup capable devices are connected to the controller (directly
->>> or through hubs) at suspend time keep the power domain on in order
->>> to support wakeup from these devices.
->>>
->>> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
->>> ---
->>> Checking phy_power_off flag instead of usb_wakeup_enabled_descendants
->>> to keep gdsc active.
->>>
->>>   drivers/usb/dwc3/dwc3-qcom.c | 13 +++++++++++++
->>>   1 file changed, 13 insertions(+)
->>>
->>> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
->>> index 82125bc..ba31aa3 100644
->>> --- a/drivers/usb/dwc3/dwc3-qcom.c
->>> +++ b/drivers/usb/dwc3/dwc3-qcom.c
->>> @@ -17,6 +17,7 @@
->>>   #include <linux/of_platform.h>
->>>   #include <linux/platform_device.h>
->>>   #include <linux/phy/phy.h>
->>> +#include <linux/pm_domain.h>
->>>   #include <linux/usb/of.h>
->>>   #include <linux/reset.h>
->>>   #include <linux/iopoll.h>
->>> @@ -355,9 +356,15 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
->>>   	u32 val;
->>>   	int i, ret;
->>>   
->>> +	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
->>> +	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
->>> +
->>>   	if (qcom->is_suspended)
->>>   		return 0;
->>>   
->>> +	if (!dwc->phy_power_off && dwc->xhci)
->>> +		genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
->>> +
->>>   	val = readl(qcom->qscratch_base + PWR_EVNT_IRQ_STAT_REG);
->>>   	if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
->>>   		dev_err(qcom->dev, "HS-PHY not in L2\n");
->>> @@ -382,9 +389,15 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom)
->>>   	int ret;
->>>   	int i;
->>>   
->>> +	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
->>> +	struct generic_pm_domain *genpd = pd_to_genpd(qcom->dev->pm_domain);
->>> +
->>>   	if (!qcom->is_suspended)
->>>   		return 0;
->>>   
->>> +	if (dwc->xhci)
->>> +		genpd->flags &= ~GENPD_FLAG_ACTIVE_WAKEUP;
->>> +
->>>   	if (device_may_wakeup(qcom->dev))
->>>   		dwc3_qcom_disable_interrupts(qcom);
->>>   
->> This is essentially the same as v7, which Felipe NAKed
->> (https://patchwork.kernel.org/project/linux-arm-msm/patch/1619586716-8687-6-git-send-email-sanm@codeaurora.org/)
->>
->> I think Felipe wants to see the handling of the power domain in the
->> xhci-plat driver. One problem here is that the power domain is owned
-> this is not exactly what I meant to say, though. I want drivers to be
-> self-contained. I.e. dwc3 doesn't modify xhci data and vice-versa. There
-> are a few assummpmtions that we can make, though. The structure is
-> usually like this:
->
-> glue {
->    dwc3 {
->      xhci
->    };
-> };
->
-> This means that in order for glue_suspend() to run, dwc3 has to suspend
-> first and xhci has to suspend before dwc3.
->
-> For example, in the suspend call above, qcom (the glue) is directly
-> accessing dwc3 core data, which is incorrect. It looks like we want to
-> know if the PHY is not powered off and if it isn't, then we want to
-> change the power domain ACTIVE_WAKEUP flag. Now, phy_power_off is false
-> whenever any of xHCI's children enable USB wakeup.
->
-> It seems like we need to way to generically propagate that knowledge up
-> the parent tree. I.e., a parent needs to know if its child is wakeup
-> capable, then dwc3 could, in its suspend routine:
->
-> static int dwc3_suspend(struct device *dev)
-> {
-> 	/* ... */
->
-> 	if (device_children_wakeup_capable(dev))
->          	device_enable_wakeup(dev);
->
-> 	/* ... */
-> }
+HEAD commit:    794c7931a242 Merge branch 'linus' of git://git.kernel.org/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13af2205300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=96f0602203250753
+dashboard link: https://syzkaller.appspot.com/bug?extid=9b57a46bf1801ce2a2ca
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ae58ce300000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11d71731300000
 
-Can we use like  this device_may_wakeup(&dwc->xhci->dev) to check if 
-children is wakeup capable like below ?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com
 
-static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
-{
-	
-/* ... */
-	if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(&dwc->xhci->dev)) {
-			dwc3_core_exit(dwc);
-			break;
-	}
-
-/* ... */
-
-  }
-
-> and similarly for qcom glue:
->
-> static int dwc3_qcom_suspend(struct device *dev)
-> {
-> 	/* ... */
->
->
-> 	if (device_children_wakeup_capable(dev)) {
->          	device_enable_wakeup(dev);
-> 		genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
->          }
->
-> 	/* ... */
-> }
->
-> It also seems plausible that this could be done at driver core and
-> completely hidden away from drivers.
-
-And in qcom glue like this
-
-static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
-{
-
-/* ... */
-
-     struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
-
-
-     if (device_may_wakeup(&dwc->xhci->dev) && dwc->xhci)
-         genpd->flags |= GENPD_FLAG_ACTIVE_WAKEUP;
-
-/* ... */
-
-}
-
+------------[ cut here ]------------
+usb 1-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType a1
+WARNING: CPU: 0 PID: 8434 at drivers/usb/core/urb.c:410 usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+Modules linked in:
+CPU: 0 PID: 8434 Comm: syz-executor752 Not tainted 5.14.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+Code: 7c 24 40 e8 45 64 1f fc 48 8b 7c 24 40 e8 4b fc 0b ff 45 89 e8 44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 e0 b2 27 8a e8 01 fc 91 03 <0f> 0b e9 a5 ee ff ff e8 17 64 1f fc 0f b6 1d 19 ca 01 08 31 ff 41
+RSP: 0018:ffffc90000effbd0 EFLAGS: 00010082
+RAX: 0000000000000000 RBX: ffff888027944058 RCX: 0000000000000000
+RDX: ffff8880235db880 RSI: ffffffff815d85c5 RDI: fffff520001dff6c
+RBP: ffff888021618140 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff815d23fe R11: 0000000000000000 R12: ffff888018aff118
+R13: 00000000000000a1 R14: 0000000080000280 R15: ffff888021900400
+FS:  000000000223d300(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005614a6c2a160 CR3: 00000000222ca000 CR4: 0000000000350ef0
+Call Trace:
+ hid_submit_ctrl+0x6ec/0xd80 drivers/hid/usbhid/hid-core.c:416
+ usbhid_restart_ctrl_queue.isra.0+0x244/0x3a0 drivers/hid/usbhid/hid-core.c:258
+ __usbhid_submit_report+0x6f0/0xd50 drivers/hid/usbhid/hid-core.c:603
+ usbhid_submit_report drivers/hid/usbhid/hid-core.c:640 [inline]
+ usbhid_init_reports+0xd7/0x3b0 drivers/hid/usbhid/hid-core.c:780
+ hiddev_ioctl+0xb27/0x1630 drivers/hid/usbhid/hiddev.c:689
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:1069 [inline]
+ __se_sys_ioctl fs/ioctl.c:1055 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:1055
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x444619
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 21 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe70eb96d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004004a0 RCX: 0000000000444619
+RDX: 0000000000000000 RSI: 0000000000004805 RDI: 0000000000000004
+RBP: 0000000000403ea0 R08: 0000000000000001 R09: 00000000004004a0
+R10: 000000000000001f R11: 0000000000000246 R12: 0000000000403f30
+R13: 0000000000000000 R14: 00000000004b2018 R15: 00000000004004a0
+----------------
+Code disassembly (best guess):
+   0:	7c 24                	jl     0x26
+   2:	40 e8 45 64 1f fc    	rex callq 0xfc1f644d
+   8:	48 8b 7c 24 40       	mov    0x40(%rsp),%rdi
+   d:	e8 4b fc 0b ff       	callq  0xff0bfc5d
+  12:	45 89 e8             	mov    %r13d,%r8d
+  15:	44 89 f1             	mov    %r14d,%ecx
+  18:	4c 89 e2             	mov    %r12,%rdx
+  1b:	48 89 c6             	mov    %rax,%rsi
+  1e:	48 c7 c7 e0 b2 27 8a 	mov    $0xffffffff8a27b2e0,%rdi
+  25:	e8 01 fc 91 03       	callq  0x391fc2b
+  2a:	0f 0b                	ud2     <-- trapping instruction
+  2c:	e9 a5 ee ff ff       	jmpq   0xffffeed6
+  31:	e8 17 64 1f fc       	callq  0xfc1f644d
+  36:	0f b6 1d 19 ca 01 08 	movzbl 0x801ca19(%rip),%ebx        # 0x801ca56
+  3d:	31 ff                	xor    %edi,%edi
+  3f:	41                   	rex.B
 
