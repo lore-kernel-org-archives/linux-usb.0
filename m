@@ -2,138 +2,164 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1640C4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:06:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A43C19F34
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:07:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D0AA861076
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:06:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99DF7610FA
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238209AbhHROHO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 10:07:14 -0400
-Received: from relay-us1.mymailcheap.com ([51.81.35.219]:54306 "EHLO
-        relay-us1.mymailcheap.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235121AbhHROHN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 10:07:13 -0400
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-        by relay-us1.mymailcheap.com (Postfix) with ESMTPS id B299A20F4F;
-        Wed, 18 Aug 2021 14:06:37 +0000 (UTC)
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.66.161])
-        by relay5.mymailcheap.com (Postfix) with ESMTPS id 6D0A1200FD;
-        Wed, 18 Aug 2021 14:06:34 +0000 (UTC)
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com [91.134.140.82])
-        by relay3.mymailcheap.com (Postfix) with ESMTPS id 6AE413F15F;
-        Wed, 18 Aug 2021 16:06:31 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by filter2.mymailcheap.com (Postfix) with ESMTP id 4C6F42A915;
-        Wed, 18 Aug 2021 16:06:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
-        s=default; t=1629295591;
-        bh=uq0Qy9clsCfmvFSP9mENOFYxEY3dDC0jH48pNRC/CqM=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=tWxmAURRG4KjTPTg+Dmp+1Twu3e5Tbt9Nlrw9A1qbO2H5xfA2vR8OE9BZP0Ma3hXX
-         nkgClaiUuDpWp/AqhKNonq4BHYbfvE8lyiyuYejDJY9JnfwMjiczldD9cLtx/V+fqG
-         cB9ZMysRoklX7QLgtqzS92adEdXjgUuuKLG3EmpE=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
-        by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 8eT0KW-N8YDI; Wed, 18 Aug 2021 16:06:27 +0200 (CEST)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-        (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by filter2.mymailcheap.com (Postfix) with ESMTPS;
-        Wed, 18 Aug 2021 16:06:13 +0200 (CEST)
-Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
-        by mail20.mymailcheap.com (Postfix) with ESMTP id 0CCDA412DF;
-        Wed, 18 Aug 2021 14:06:13 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com;
-        dkim=pass (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="qP0/Druw";
-        dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from [127.0.0.1] (unknown [59.41.161.108])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail20.mymailcheap.com (Postfix) with ESMTPSA id BA15A40097;
-        Wed, 18 Aug 2021 14:04:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-        t=1629295463; bh=uq0Qy9clsCfmvFSP9mENOFYxEY3dDC0jH48pNRC/CqM=;
-        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-        b=qP0/DruwHg+J7YseMCMbbn04gRfcBLe+esmnrnFu/5WETuzFjZrQg22BhvzmT0tTR
-         yo5GoS/z76wJnUWnUcZnDd1fe6Ma/Jf6f/dTnxWoKpukAJdIY19qQKJ0WwaxzwtUir
-         L5sZ5prpKtI8z/c2Jc4soFOSZXiz1qoID6ABl5Lc=
-Date:   Wed, 18 Aug 2021 22:02:24 +0800
-From:   Icenowy Zheng <icenowy@aosc.io>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: always rediscover when swapping DR
-User-Agent: K-9 Mail for Android
-In-Reply-To: <YR0Rlj+jk9dnoG6N@kroah.com>
-References: <20210813043131.833006-1-icenowy@aosc.io> <YRuDG78N2mB5w37p@kuha.fi.intel.com> <E91C97D0-7DB9-4455-AED2-4C25B7D2D22D@aosc.io> <YRuW0fENBEcIVkZb@kuha.fi.intel.com> <YR0Rlj+jk9dnoG6N@kroah.com>
-Message-ID: <E1804EE0-CBA1-4BE8-875B-57E82EDECDBE@aosc.io>
+        id S238761AbhHROHp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 10:07:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235121AbhHROHl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 10:07:41 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23442C061764;
+        Wed, 18 Aug 2021 07:07:06 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id x12so3693126wrr.11;
+        Wed, 18 Aug 2021 07:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
+        b=ZJdtuwUuQvNaAbdr9Fz2fAvktw5J/+5+vjt8im/pkRZqyKjHlmqluk+dpJgPv/GFEk
+         rs7jlCk5NOlSnehipLU0nyzn/A/7FZS7QQCaIl7MSF6vAha+BX6LZBrQQREaflmjEitO
+         dlEahiAy8zC6MjFccmUrLBYvfs88a8jl/uHALh0tSc5Nn+N5OqlxOYEPLAvMwQAyowns
+         Ndkxrox4afb9mQcpEWWL0GiCRmTwzTOHCYxL6M4H8oWTYs7RmlUoqU0WistPX7vqT8pO
+         6Su4Nkctsrk6dlh0F8i2tqudBygnvEpqj+ChJ3xGjixCFrJ6bgmI3P/HGSPs7QQyovGr
+         4V5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=i6nHV4Vzm5Umu6SJhmhoU8e3Ow8sOCfq6m4vf5vpOCg=;
+        b=ppTKTa/703CeAEI59hNnPTP/m+Te09QvsyLaeQh0wbfGD3ANAmhKMOlfhQXmALYSWs
+         DlxWkHbk1MN+JvtWh6lDqeUG7D+zicVKtvEX1pCIwk1UPaSTijlDGylYiZs+97zGeaHP
+         GCjLexRwAm6GmTygFxVYwAA11t6uWcWH2IJIhfgF1P6z35GqpeVkbJbJBtQPb8V8hsjl
+         eY7uj0ZgwV6BTFl3ObiJ+uUIQHDaGIICQBqNhZ1fPmAvqeR8gD3ar5rM4WdhRARzjA+u
+         HLroI4XkcBeKM3auSgk/dAaQlHG78hntBNSiuk+w+p+AWXJ1Ktcq0UKeoHR77GZdYob3
+         zv5Q==
+X-Gm-Message-State: AOAM531/qHmw0w9EyI5oh5UVYX8+7+9wnrwn4tterqWOKh2FChP7EGci
+        ixA7Jxc1TL0TXzc4XHUZtZQ=
+X-Google-Smtp-Source: ABdhPJyXq9/0R+WfXjdNLNbDmiuZklvSlQEBjFaDDAdAwgPSc6Y2VNRCrYkje8+AywzsdZxW8DAWow==
+X-Received: by 2002:a5d:500a:: with SMTP id e10mr11157882wrt.332.1629295624742;
+        Wed, 18 Aug 2021 07:07:04 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id e2sm6158851wrq.56.2021.08.18.07.07.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Aug 2021 07:07:03 -0700 (PDT)
+Date:   Wed, 18 Aug 2021 16:07:02 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Peter De Schrijver <pdeschrijver@nvidia.com>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Richard Weinberger <richard@nod.at>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-spi@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-clk@vger.kernel.org
+Subject: Re: [PATCH v8 07/34] clk: tegra: Support runtime PM and power domain
+Message-ID: <YR0UBi/ejy+oF4Hm@orome.fritz.box>
+References: <20210817012754.8710-1-digetx@gmail.com>
+ <20210817012754.8710-8-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 0CCDA412DF
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00];
-         RCVD_VIA_SMTP_AUTH(0.00)[];
-         ARC_NA(0.00)[];
-         R_DKIM_ALLOW(0.00)[aosc.io:s=default];
-         RECEIVED_SPAMHAUS_PBL(0.00)[59.41.161.108:received];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         DMARC_NA(0.00)[aosc.io];
-         R_SPF_SOFTFAIL(0.00)[~all];
-         RCPT_COUNT_FIVE(0.00)[5];
-         ML_SERVERS(-3.10)[213.133.102.83];
-         DKIM_TRACE(0.00)[aosc.io:+];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1]
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="GjgnhAguwPYREA1d"
+Content-Disposition: inline
+In-Reply-To: <20210817012754.8710-8-digetx@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
+--GjgnhAguwPYREA1d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-=E4=BA=8E 2021=E5=B9=B48=E6=9C=8818=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=889=
-:56:38, Greg Kroah-Hartman <gregkh@linuxfoundation=2Eorg> =E5=86=99=E5=88=
-=B0:
->On Tue, Aug 17, 2021 at 02:00:33PM +0300, Heikki Krogerus wrote:
->> > >Why is it necessary to do discovery with data role swap in general?
->> >=20
->> > I think it could be possible for devices to expose different altmode
->> > with different role=2E
->>=20
->> OK=2E FWIW:
->>=20
->> Acked-by: Heikki Krogerus <heikki=2Ekrogerus@linux=2Eintel=2Ecom>
->
->Is this conflicting with https://lore=2Ekernel=2Eorg/r/20210816075449=2E2=
-236547-1-kyletso@google=2Ecom ?
->
->Which of these two should I take, both?  Neither?
+On Tue, Aug 17, 2021 at 04:27:27AM +0300, Dmitry Osipenko wrote:
+[...]
+> +struct clk *tegra_clk_register(struct clk_hw *hw)
+> +{
+> +	struct platform_device *pdev;
+> +	struct device *dev = NULL;
+> +	struct device_node *np;
+> +	const char *dev_name;
+> +
+> +	np = tegra_clk_get_of_node(hw);
+> +
+> +	if (!of_device_is_available(np))
+> +		goto put_node;
+> +
+> +	dev_name = kasprintf(GFP_KERNEL, "tegra_clk_%s", hw->init->name);
+> +	if (!dev_name)
+> +		goto put_node;
+> +
+> +	pdev = of_platform_device_create(np, dev_name, NULL);
+> +	if (!pdev) {
+> +		pr_err("%s: failed to create device for %pOF\n", __func__, np);
+> +		kfree(dev_name);
+> +		goto put_node;
+> +	}
+> +
+> +	dev = &pdev->dev;
+> +	pm_runtime_enable(dev);
+> +put_node:
+> +	of_node_put(np);
+> +
+> +	return clk_register(dev, hw);
+> +}
 
-Don't take this, it's against spec=2E
+This looks wrong. Why do we need struct platform_device objects for each
+of these clocks? That's going to be a massive amount of platform devices
+and they will completely mess up sysfs.
 
-Thanks,
-Icenowy
+Thierry
 
->
->confused,
->
->greg k-h
+--GjgnhAguwPYREA1d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEdFAYACgkQ3SOs138+
+s6HeRQ/+On1vzXNiDk0hs4KISsGV+2p4XxyJVq/mvJWq4nwbzB0fnbltpnQGekNK
+rv9LKvLwpMpikV4RHOysHn4hnusz+I3P/SOJVq8nB5ctz7QEcklxJNgaKIyY3Nri
+JD8EiV936HB8R2Ecg5fEynk0MHmJ4+Pe1pFjfK/3i6l1Xx5Xy+jt/AwHXkTAJG6B
+LilpaYxjeYK0xLVY0uy/3TWmSNj7zmA9NLYadLedHWKAIrmfdhL4qEn0keHZPjeN
+wTRUkexp/mHpfwaNRpUvHM2sF6WuetFM6FrIIAEyVB4SSq3usTLtWtFWl3qca2Vi
+f/LKNT+GlKsS7vs6/bokHE5CtOc1bbILItuJCunjCSnOgElWzJ+WV2oAdBodcDr9
+AaDHCtN1kTr/1f0KYw3zKQHErq1Z9sRrTeETjAkYSE6agOOHm+eBIkPF38mdl7ZN
+eI5syiX8NwgIHv4jp1YR6lbvplx9XhD9Se4EcrgNSytiYYWfZMDEyH3dFTzCjzyT
+E5pNO8BuA8JHJWCUYtqjl+OccK0XhnR99XyHvsb1HM+jT0EqRjLc59PJlOwQeX2f
+KwOX9DhOQf+ZyRegAHSh4uNpR2fySasbnBT7RwyG17MKbeoTEqTOTJ5QZmMXSqDa
+kNchGN8JwMPpyDcw6adERGyrLYh0tFLdrM+1JjImnnDrLx9SuRo=
+=yj83
+-----END PGP SIGNATURE-----
+
+--GjgnhAguwPYREA1d--
