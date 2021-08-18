@@ -2,102 +2,157 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1632FC4320A
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:22:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40E34C43214
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:22:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF69D6102A
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:22:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D68F60560
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Aug 2021 14:22:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239424AbhHROWi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 10:22:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33416 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239573AbhHROV0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 18 Aug 2021 10:21:26 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 59003610C7;
-        Wed, 18 Aug 2021 14:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629296451;
-        bh=3VS49PGFx4ovf7scM6iEYT6DejL6yh/QZoZo2qPj/q8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QJ73Eui4czENjaz6g7tVNraMOzz+ewMq2xoRXjlcV5PicbPKNO3nq3+g2ebGjcm/O
-         yMQAylbBGQG8TS7yePMvPNWtqZI4IH9OYEccnPDIjejhobznoEVLtOpw1FZIOebruh
-         ZAe7Cxrzy3h/VuTil2W8I9NXUcQrczN6zhlg52/SUx0reJO4bRxuU56Xj+W0ECPNhb
-         An/horOkpo2q9zpfUjt4VWb6QfHqjjIyAHI3VRTAMPdZW1p4ShdKT1fukO3LtTVxwm
-         fmmhdGTm3dPCHYg6/5+HRWdSRBeDLyAuGDrnzSZ5SZJiFKCvtLDGZfJXrdpmd6+b+X
-         ja4ItdpTNzQpQ==
-Received: by mail-ej1-f48.google.com with SMTP id z20so5404816ejf.5;
-        Wed, 18 Aug 2021 07:20:51 -0700 (PDT)
-X-Gm-Message-State: AOAM530lK8VMSK60nl2zDZzYW4gSnoS5ftP6sppTz9bancQl43eO3OWJ
-        qpGi/KWkgkNZBb66PMyJJ38c0/Yu5rzRcb/kiA==
-X-Google-Smtp-Source: ABdhPJxNH/3NPVuu5JiFruQ2uSA2icEz290Z3VRMLhmiLOVcWxKi46n4hLgcFPmUOoiY1+Arx9MBFmAPSQHUvawgGpU=
-X-Received: by 2002:a17:906:fa92:: with SMTP id lt18mr10107051ejb.359.1629296448282;
- Wed, 18 Aug 2021 07:20:48 -0700 (PDT)
+        id S239680AbhHROWu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 10:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48428 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239399AbhHROWh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 10:22:37 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C969CC0610FF
+        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 07:16:29 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id f16-20020a056830205000b00519b99d3dcbso3877847otp.2
+        for <linux-usb@vger.kernel.org>; Wed, 18 Aug 2021 07:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=k5X2BLLvDlk4I/DbntcSXNJlBSW6m1ojzl0hla09RFw=;
+        b=M+ITxJk0OHX9Z11PcU4SD/hoYQmhoorOhh9ud1up5IfXlZsYrOTCnYTwHc/dRS6A7u
+         9yXn/rXdvnYZDMnBg04ZdR8vo0gXMJNoCttbzQXZ6WGuxX4x8M8IUJci8IFnA3jUrL1Z
+         9+PoIPVxPkFurL7StnSeOGJPH0I4H2GrenT8KFn6IpCUt+a/UoxeyUshjtxRBM2MpV4m
+         VCExhydDw1zO2OwicTzMVsXLrSmBygQbPF/bLOP/0ROnYUyRjk0XXlV/8Gao+SN1LdgN
+         v8ZMzBK095EMIW86nQ/ykfkG68RGAuFsngxaCCHAMDyyN7lmPtR7DX7d5Dh2aD+TNyBm
+         JM5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=k5X2BLLvDlk4I/DbntcSXNJlBSW6m1ojzl0hla09RFw=;
+        b=ElXOSyayC8VqVlSPBRrGMtGu9aPExty//e/YpPsQX31jtYvBj9Vo8PgLlYweErEQor
+         SXKyGRljgSCGAWOxFS1WcskRwaQ+fQ24S3YNZKILqJwxi22uHRIOkdlXztzLx/Wy/VxM
+         hdILwCgMZAkw0XgX8PQLDgQoWon87UhPrBlyGv52DY1+BL+Ut3o+sgG38+Yaf9pdzPXR
+         Mvo7k86Bd97qI781b3lBqwawxnENFlMlklYf91XRi9n5sQqE0vzcIKf6AhORuNCqLR2Z
+         2Yjl5vysR9ZsuTyTrFfmrfCG3NDEFrmYvt6iOzBrsScRtdn1hNFLlTvKLefUeaRrkr0e
+         +EHw==
+X-Gm-Message-State: AOAM530u4/EQSwuJekEvVNSWFsV1vp/H0lFy8ZR3hbyJYXaJ3B+tKmEn
+        GKzoug+qcsqOgecLPvL6V2Y=
+X-Google-Smtp-Source: ABdhPJwfvb+SZXfdH9PHMEwca3pN9/VjhGXb6GZpDbVd3DDVTGzCXodydd5AuPD31/mvxvDQpkNILw==
+X-Received: by 2002:a05:6830:1507:: with SMTP id k7mr6857055otp.317.1629296189261;
+        Wed, 18 Aug 2021 07:16:29 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id q13sm1066360oov.6.2021.08.18.07.16.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Aug 2021 07:16:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Subject: Re: [PATCH regression fix] usb: typec: tcpm: Fix VDMs sometimes not
+ being forwarded to alt-mode drivers
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, Kyle Tso <kyletso@google.com>
+References: <20210816154632.381968-1-hdegoede@redhat.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <6c82475c-7aee-17bb-f09b-a4389f8a3a45@roeck-us.net>
+Date:   Wed, 18 Aug 2021 07:16:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <1627635002-24521-1-git-send-email-chunfeng.yun@mediatek.com>
- <1627635002-24521-3-git-send-email-chunfeng.yun@mediatek.com>
- <YQ2e6AGFi7beqp6Q@robh.at.kernel.org> <cd1662f5f47fe7539d2c01bd280ad8b9d9d25b3e.camel@mediatek.com>
-In-Reply-To: <cd1662f5f47fe7539d2c01bd280ad8b9d9d25b3e.camel@mediatek.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 18 Aug 2021 09:20:37 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKjjPqArmhoXuYrk+1C-vXFSKNA_gxtOfLFsGTGBq20aQ@mail.gmail.com>
-Message-ID: <CAL_JsqKjjPqArmhoXuYrk+1C-vXFSKNA_gxtOfLFsGTGBq20aQ@mail.gmail.com>
-Subject: Re: [PATCH 03/11] dt-bindings: usb: mtk-xhci: add compatible for mt8195
-To:     =?UTF-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= 
-        <Chunfeng.Yun@mediatek.com>
-Cc:     "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        =?UTF-8?B?RWRkaWUgSHVuZyAo5rSq5q2j6ZGrKQ==?= 
-        <Eddie.Hung@mediatek.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210816154632.381968-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 11, 2021 at 3:02 AM Chunfeng Yun (=E4=BA=91=E6=98=A5=E5=B3=B0)
-<Chunfeng.Yun@mediatek.com> wrote:
->
-> On Fri, 2021-08-06 at 14:43 -0600, Rob Herring wrote:
-> > On Fri, Jul 30, 2021 at 04:49:54PM +0800, Chunfeng Yun wrote:
-> > > There are 4 USB controllers on MT8195, the controllers (IP1~IP3,
-> > > exclude IP0) have a wrong default SOF/ITP interval which is
-> > > calculated from the frame counter clock 24Mhz by default, but
-> > > in fact, the frame counter clock is 48Mhz, so we should set
-> > > the accurate interval according to 48Mhz. Here add a new compatible
-> > > for MT8195, it's also supported in driver. But the first controller
-> > > (IP0) has no such issue, we prefer to use generic compatible,
-> > > e.g. mt8192's compatible.
-> >
-> > That only works until you find some 8195 bug common to all
-> > instances.
-> It's also OK for IP0 to use mt8195's compatible, these setting value is
-> the same as IP0's default value, use mt8192's may avoid these dummy
-> setting.
+On 8/16/21 8:46 AM, Hans de Goede wrote:
+> Commit a20dcf53ea98 ("usb: typec: tcpm: Respond Not_Supported if no
+> snk_vdo"), stops tcpm_pd_data_request() calling tcpm_handle_vdm_request()
+> when port->nr_snk_vdo is not set. But the VDM might be intended for an
+> altmode-driver, in which case nr_snk_vdo does not matter.
+> 
+> This change breaks the forwarding of connector hotplug (HPD) events
+> for displayport altmode on devices which don't set nr_snk_vdo.
+> 
+> tcpm_pd_data_request() is the only caller of tcpm_handle_vdm_request(),
+> so we can move the nr_snk_vdo check to inside it, at which point we
+> have already looked up the altmode device so we can check for this too.
+> 
+> Doing this check here also ensures that vdm_state gets set to
+> VDM_STATE_DONE if it was VDM_STATE_BUSY, even if we end up with
+> responding with PD_MSG_CTRL_NOT_SUPP later.
+> 
+> Note that tcpm_handle_vdm_request() was already sending
+> PD_MSG_CTRL_NOT_SUPP in some circumstances, after moving the nr_snk_vdo
+> check the same error-path is now taken when that check fails. So that
+> we have only one error-path for this and not two. Replace the
+> tcpm_queue_message(PD_MSG_CTRL_NOT_SUPP) used by the existing error-path
+> with the more robust tcpm_pd_handle_msg() from the (now removed) second
+> error-path.
+> 
+> Cc: Kyle Tso <kyletso@google.com>
+> Fixes: a20dcf53ea98 ("usb: typec: tcpm: Respond Not_Supported if no snk_vdo")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-I still don't understand. By use mt8192's compatible, that means you
-have for IP0:
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-compatible =3D "mediatek,mt8192-xhci", "mediatek,mtk-xhci";
+> ---
+>   drivers/usb/typec/tcpm/tcpm.c | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index b9bb63d749ec..f4079b5cb26d 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -1737,6 +1737,10 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>   	return rlen;
+>   }
+>   
+> +static void tcpm_pd_handle_msg(struct tcpm_port *port,
+> +			       enum pd_msg_request message,
+> +			       enum tcpm_ams ams);
+> +
+>   static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>   				    const __le32 *payload, int cnt)
+>   {
+> @@ -1764,11 +1768,11 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>   		port->vdm_state = VDM_STATE_DONE;
+>   	}
+>   
+> -	if (PD_VDO_SVDM(p[0])) {
+> +	if (PD_VDO_SVDM(p[0]) && (adev || tcpm_vdm_ams(port) || port->nr_snk_vdo)) {
+>   		rlen = tcpm_pd_svdm(port, adev, p, cnt, response, &adev_action);
+>   	} else {
+>   		if (port->negotiated_rev >= PD_REV30)
+> -			tcpm_queue_message(port, PD_MSG_CTRL_NOT_SUPP);
+> +			tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
+>   	}
+>   
+>   	/*
+> @@ -2471,10 +2475,7 @@ static void tcpm_pd_data_request(struct tcpm_port *port,
+>   					   NONE_AMS);
+>   		break;
+>   	case PD_DATA_VENDOR_DEF:
+> -		if (tcpm_vdm_ams(port) || port->nr_snk_vdo)
+> -			tcpm_handle_vdm_request(port, msg->payload, cnt);
+> -		else if (port->negotiated_rev > PD_REV20)
+> -			tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
+> +		tcpm_handle_vdm_request(port, msg->payload, cnt);
+>   		break;
+>   	case PD_DATA_BIST:
+>   		port->bist_request = le32_to_cpu(msg->payload[0]);
+> 
 
-And for the rest:
-compatible =3D "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
-
-If there's a 8195 quirk you need to work around, then you can't on
-IP0. You need to be able to address quirks in the future without
-changing the DTB. That is why we require SoC specific compatibles even
-when IP blocks are 'the same'.
-
-Rob
