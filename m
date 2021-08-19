@@ -2,28 +2,29 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD345C4338F
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Aug 2021 03:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2DC9C432BE
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Aug 2021 03:06:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88CE560560
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Aug 2021 03:06:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A0B9E600CC
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Aug 2021 03:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236149AbhHSDGt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Aug 2021 23:06:49 -0400
-Received: from rtits2.realtek.com ([211.75.126.72]:45053 "EHLO
+        id S236247AbhHSDGu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Aug 2021 23:06:50 -0400
+Received: from rtits2.realtek.com ([211.75.126.72]:45052 "EHLO
         rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236077AbhHSDGs (ORCPT
+        with ESMTP id S236085AbhHSDGs (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Aug 2021 23:06:48 -0400
 Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 17J361gmC007584, This message is accepted by code: ctloc85258
+X-SpamFilter-By: ArmorX SpamTrap 5.73 with qID 17J3624t8007588, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (rtexh36502.realtek.com.tw[172.21.6.25])
-        by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 17J361gmC007584
+        by rtits2.realtek.com.tw (8.15.2/2.71/5.88) with ESMTPS id 17J3624t8007588
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 19 Aug 2021 11:06:01 +0800
+        Thu, 19 Aug 2021 11:06:02 +0800
 Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
  RTEXH36502.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -37,10 +38,12 @@ To:     <kuba@kernel.org>, <davem@davemloft.net>
 CC:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
         <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net 0/2] r8152: fix bp settings
-Date:   Thu, 19 Aug 2021 11:05:35 +0800
-Message-ID: <20210819030537.3730-377-nic_swsd@realtek.com>
+Subject: [PATCH net 2/2] r8152: fix the maximum number of PLA bp for RTL8153C
+Date:   Thu, 19 Aug 2021 11:05:37 +0800
+Message-ID: <20210819030537.3730-379-nic_swsd@realtek.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210819030537.3730-377-nic_swsd@realtek.com>
+References: <20210819030537.3730-377-nic_swsd@realtek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -85,15 +88,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix the wrong bp settings of the firmware.
+The maximum PLA bp number of RTL8153C is 16, not 8. That is, the
+bp 0 ~ 15 are at 0xfc28 ~ 0xfc46, and the bp_en is at 0xfc48.
 
-Hayes Wang (2):
-  r8152: fix writing USB_BP2_EN
-  r8152: fix the maximum number of PLA bp for RTL8153C
+Fixes: 195aae321c82 ("r8152: support new chips")
+Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+---
+ drivers/net/usb/r8152.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
- drivers/net/usb/r8152.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 3fd17b6dc61d..79832374f78d 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -3955,13 +3955,24 @@ static void rtl_clear_bp(struct r8152 *tp, u16 type)
+ 	case RTL_VER_06:
+ 		ocp_write_byte(tp, type, PLA_BP_EN, 0);
+ 		break;
++	case RTL_VER_14:
++		ocp_write_word(tp, type, USB_BP2_EN, 0);
++
++		ocp_write_word(tp, type, USB_BP_8, 0);
++		ocp_write_word(tp, type, USB_BP_9, 0);
++		ocp_write_word(tp, type, USB_BP_10, 0);
++		ocp_write_word(tp, type, USB_BP_11, 0);
++		ocp_write_word(tp, type, USB_BP_12, 0);
++		ocp_write_word(tp, type, USB_BP_13, 0);
++		ocp_write_word(tp, type, USB_BP_14, 0);
++		ocp_write_word(tp, type, USB_BP_15, 0);
++		break;
+ 	case RTL_VER_08:
+ 	case RTL_VER_09:
+ 	case RTL_VER_10:
+ 	case RTL_VER_11:
+ 	case RTL_VER_12:
+ 	case RTL_VER_13:
+-	case RTL_VER_14:
+ 	case RTL_VER_15:
+ 	default:
+ 		if (type == MCU_TYPE_USB) {
+@@ -4331,7 +4342,6 @@ static bool rtl8152_is_fw_mac_ok(struct r8152 *tp, struct fw_mac *mac)
+ 		case RTL_VER_11:
+ 		case RTL_VER_12:
+ 		case RTL_VER_13:
+-		case RTL_VER_14:
+ 		case RTL_VER_15:
+ 			fw_reg = 0xf800;
+ 			bp_ba_addr = PLA_BP_BA;
+@@ -4339,6 +4349,13 @@ static bool rtl8152_is_fw_mac_ok(struct r8152 *tp, struct fw_mac *mac)
+ 			bp_start = PLA_BP_0;
+ 			max_bp = 8;
+ 			break;
++		case RTL_VER_14:
++			fw_reg = 0xf800;
++			bp_ba_addr = PLA_BP_BA;
++			bp_en_addr = USB_BP2_EN;
++			bp_start = PLA_BP_0;
++			max_bp = 16;
++			break;
+ 		default:
+ 			goto out;
+ 		}
 -- 
 2.31.1
 
