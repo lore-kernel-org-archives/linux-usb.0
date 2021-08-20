@@ -2,112 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BC77C4320A
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Aug 2021 19:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF39DC4320A
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Aug 2021 20:01:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59B7C61101
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Aug 2021 19:03:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FAD061040
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Aug 2021 20:01:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236054AbhHTTEG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Aug 2021 15:04:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42906 "EHLO
+        id S238278AbhHTUBq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Aug 2021 16:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235726AbhHTTD7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Aug 2021 15:03:59 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98D76C061575;
-        Fri, 20 Aug 2021 12:03:17 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id mq2-20020a17090b3802b0290178911d298bso7948327pjb.1;
-        Fri, 20 Aug 2021 12:03:17 -0700 (PDT)
+        with ESMTP id S236881AbhHTUBq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Aug 2021 16:01:46 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21F91C061575;
+        Fri, 20 Aug 2021 13:01:08 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id o2so10269102pgr.9;
+        Fri, 20 Aug 2021 13:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=r1Ub2zCNnF2jD+YCi379UyQNacsyCmoabwxSuvI+j+U=;
-        b=c5KqXjWfCyTrry1wW4RpaJG2UsqChpZxWbCw9ounHx++H9ebycNR+XxD3BAzfkpn/X
-         GS/LJxyJu71ZL4GFKFLdsSIex26vUGaxbOcSfBAEAE4yUTWP/9t14MXASfzWhLTXD/D2
-         75ZS6a+qlkQcMkPTbZENVQmLZkKg3Z1mYvTqaqpxp5BiuR4FRsO8X+D7MO1aAsY7/XX8
-         UFzWTtGzG912FABhZPqqPDWIb8XjFa009DK8FiCb9iJ97328iv1WIGRIOtlbr0XuJDLF
-         Lo07CIx4Zz6/fAEG5VxZ159+D8QU/aWQ8rwsBkPUaKv6AVxG9k85xN2qf45qvEPA2OBV
-         tPow==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VAPLeL95cvR7Whf9ALnhPYk6NtL3h94n5y8Oq/nUt84=;
+        b=fjBCTLrjs8RvT3Hqx+Q7mrfyF2+LuDwZwZ8mAn2Oto1KTAFE/bmwGBp6YoVFRcnUbX
+         0m0KhtYZxZzUd7ERjKdXQbeXrKCmMmFbfLu9AhyNnlZkWvW2VMGENNjEv+fuVN4z7xW0
+         z49Pl3P0BTMAe/IMAyPu6m/0rGHJPMNMMwVUmxTxz13w2r7XlmuvN0m4xG0ZHmNDvvEe
+         AZ9zqSgSSN4h5ajdDvYGjWDP0mkO8YL4r1V8CRQN9A79q5rxc9h9q9qKkCAVsznL3aRk
+         2WNcfunPpHVobcxwhOgAFaG03hamqB7lXJcwdxDjJ+JoEhDCjqjYVFVnaxKyzN4OOmnu
+         sYTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=r1Ub2zCNnF2jD+YCi379UyQNacsyCmoabwxSuvI+j+U=;
-        b=F9p2py7xNaaBDT5vC5KT9QRhQ6XEu36Q5T7PfN2O3ON1BFFRtPmjU91ov0K1CiN2f4
-         Z8bq8JxM9976Xc41+yxFFPZHGEPIH4WqrRXzU3PER452CqJ+4CdlxtwRrNd7mXFayjAT
-         poYv1yfuaKkazco1mZ+SUENwNhEHeqQB1hlPT1l/arjHia4jd9j+UVDJCfJ/z1LZN0Hk
-         IOe5NpGtzdkrqxCwSJgs6X1h77/W2JMCt4MCssF9+b+kIaWV3SxTA2u9JZMlMgvX/F7b
-         hWJSoC5Mqn98c4kGbyu0ioZh1MvFYuAxdY2oA39ySMu1VDHQE0tzE/fJCSoqgwsCWnjO
-         +n6Q==
-X-Gm-Message-State: AOAM5308jvX7IRr1kB6UAd81jj7z79Yd9RdUvS5lngYgzcwrYpIeDYdQ
-        y2f1R8WgDu+yA049jpE2yrXMHuO+Ihq0fQ==
-X-Google-Smtp-Source: ABdhPJye4QT9f6BVWVxgul8ktnATf9jvXt9k6tJbT2208r9l9Dcc6CWAHfh26RLKEppdROuyOErIbw==
-X-Received: by 2002:a17:90b:f17:: with SMTP id br23mr5844696pjb.60.1629486196916;
-        Fri, 20 Aug 2021 12:03:16 -0700 (PDT)
-Received: from localhost.localdomain ([49.36.209.159])
-        by smtp.googlemail.com with ESMTPSA id b10sm7821899pfi.122.2021.08.20.12.03.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Aug 2021 12:03:16 -0700 (PDT)
-From:   Utkarsh Verma <utkarshverma294@gmail.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Utkarsh Verma <utkarshverma294@gmail.com>
-Subject: [PATCH] USB: serial: iuu_phoenix: Replace symbolic permissions by octal permissions
-Date:   Sat, 21 Aug 2021 00:33:06 +0530
-Message-Id: <20210820190306.18149-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=VAPLeL95cvR7Whf9ALnhPYk6NtL3h94n5y8Oq/nUt84=;
+        b=n9rgECl3iFZE9wOiGli9ixwq7WkypDgqa3DG4XNHHFrRxzfYM14yFM0avRDYetx03t
+         oH2j+E7Xb7AP7LWhYYFEpuipIEfA5ssTtuA6oKIh9Gj4GSa0tutu37RHfdFsBcdT4XO0
+         V5QZnXb0WY0wHiftNyFGbaMHqUS4O9GXno3Tbxh/sjYCJZCIK4uvt54AIAT34apqNAar
+         5l0kvZ+cxVmLcHcrOheRdaRbdy9e8zxH/gcYLZwZpvxH2w2tTIVe7rAyRXYlgpATUFWa
+         o69znoqOIixisE1TSNVoWTJS1VCYGe9fhsRSHMIxVM8mgdLg4e6UcNr15FCZMiX4YRzO
+         TUnw==
+X-Gm-Message-State: AOAM5315tRoYqEuMmhSpFQCD1+MVm9gx7Wdn6KHmXsktvPQXNPxYszNI
+        rUWqYyLIkhzfdA4gQTMKOsymt+M1JpvIrQ==
+X-Google-Smtp-Source: ABdhPJxf3HNffkzj9n+lMr2VW/k/K+E9J1Sz3H5Qcr9U8xc5g40sIlLTxi6UuwtVD/VmxrkjG4G9CA==
+X-Received: by 2002:a63:e756:: with SMTP id j22mr19824123pgk.362.1629489667264;
+        Fri, 20 Aug 2021 13:01:07 -0700 (PDT)
+Received: from [10.230.32.55] ([192.19.148.250])
+        by smtp.gmail.com with ESMTPSA id t15sm9163102pgi.80.2021.08.20.13.01.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Aug 2021 13:01:06 -0700 (PDT)
+Subject: Re: [PATCH 1/2] usb: bdc: Fix an error handling path in 'bdc_probe()'
+ when no suitable DMA config is available
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        alcooperx@gmail.com, balbi@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <0c5910979f39225d5d8fe68c9ab1c147c68ddee1.1629314734.git.christophe.jaillet@wanadoo.fr>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <813a98b6-6e8e-87ad-c908-062d2801c386@gmail.com>
+Date:   Fri, 20 Aug 2021 22:01:01 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <0c5910979f39225d5d8fe68c9ab1c147c68ddee1.1629314734.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This fixed the below checkpatch issue:
-WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred.
-Consider using octal permissions '0644'.
 
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/usb/serial/iuu_phoenix.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
-index 19753611e7b0..0be3b5e1eaf3 100644
---- a/drivers/usb/serial/iuu_phoenix.c
-+++ b/drivers/usb/serial/iuu_phoenix.c
-@@ -1188,20 +1188,20 @@ MODULE_AUTHOR("Alain Degreffe eczema@ecze.com");
- MODULE_DESCRIPTION(DRIVER_DESC);
- MODULE_LICENSE("GPL");
- 
--module_param(xmas, bool, S_IRUGO | S_IWUSR);
-+module_param(xmas, bool, 0644);
- MODULE_PARM_DESC(xmas, "Xmas colors enabled or not");
- 
--module_param(boost, int, S_IRUGO | S_IWUSR);
-+module_param(boost, int, 0644);
- MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
- 
--module_param(clockmode, int, S_IRUGO | S_IWUSR);
-+module_param(clockmode, int, 0644);
- MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
- 		"3=6 Mhz)");
- 
--module_param(cdmode, int, S_IRUGO | S_IWUSR);
-+module_param(cdmode, int, 0644);
- MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
- 		 "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
- 
--module_param(vcc_default, int, S_IRUGO | S_IWUSR);
-+module_param(vcc_default, int, 0644);
- MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
- 		"for 5V). Default to 5.");
+On 8/18/2021 9:32 PM, Christophe JAILLET wrote:
+> If no suitable DMA configuration is available, a previous 'bdc_phy_init()'
+> call must be undone by a corresponding 'bdc_phy_exit()' call.
+> 
+> Branch to the existing error handling path instead of returning
+> directly.
+> 
+> Fixes: cc29d4f67757 ("usb: bdc: Add support for USB phy")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+
+Acked-by: Florian Fainelli <f.fainelli@gmail.com>
 -- 
-2.17.1
-
+Florian
