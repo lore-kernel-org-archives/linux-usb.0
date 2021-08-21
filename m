@@ -2,64 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EED9C4320E
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Aug 2021 18:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69EB7C4338F
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Aug 2021 20:48:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 223D661242
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Aug 2021 18:31:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4406661037
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Aug 2021 20:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231564AbhHUSb4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Aug 2021 14:31:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33756 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230402AbhHUSby (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 21 Aug 2021 14:31:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3D3C461245;
-        Sat, 21 Aug 2021 18:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629570674;
-        bh=CysLeMVOuEHNavno2qCLrulUMc6pyYQGXOjkDL2VIAQ=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=oxNB93FDPvRYLvaXg05wyIJXHm/GGICTyY8F3nbKz4+lW3LIQS0We2nB++COSVNGM
-         Djjjrtwv3rCiFPbBmXO4TuDmpKf8+LKZwh+WjYqq0WUwTJg7tslZOvL6W8EnYBGwE0
-         6uwAts8yqw/lBhWJYyx/U3TzxhWBaXZ0P/kswELzZgz8Vs7FLJs6z28rl4i+L2xGhw
-         pm3kOhLVzW1U3nTd8w4vrHz/jKS8XUPMf4f5eg3Zh8Gx90R0J47Dl1t6ND+9GnLW98
-         e3+pkp/mlHdtFmWvVpm99mHUWBRfzhqZyvRV/zgYBsWPrNrTBuEnVi0UgY2O5JSyEk
-         4boTHAqMypMkg==
-Subject: Re: [GIT PULL] USB fix for 5.14-rc7
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <YSEjOWqWv/mo6eOQ@kroah.com>
-References: <YSEjOWqWv/mo6eOQ@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YSEjOWqWv/mo6eOQ@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.14-rc7
-X-PR-Tracked-Commit-Id: 5571ea3117ca22849072adb58074fb5a2fd12c00
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: f4ff9e6b0126706078a5241561546743b7d92628
-Message-Id: <162957067422.18934.10699452253170377117.pr-tracker-bot@kernel.org>
-Date:   Sat, 21 Aug 2021 18:31:14 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        id S230102AbhHUUtY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Aug 2021 16:49:24 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:50228 "EHLO
+        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229833AbhHUUtX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 21 Aug 2021 16:49:23 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 049DB22F1230
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] usb: core: hcd: merge repetitive strings in
+ usb_hcd_request_irqs()
+Organization: Open Mobile Platform
+Message-ID: <f6ee0fdf-097b-797f-3f8c-beea7c73496e@omp.ru>
+Date:   Sat, 21 Aug 2021 23:48:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sat, 21 Aug 2021 18:00:57 +0200:
+Two dev_info() calls in usb_hcd_request_irqs() have the same "io " strings
+needlessly repeated. Merge these strings into the format strings of those
+dev_info() calls...
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.14-rc7
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/f4ff9e6b0126706078a5241561546743b7d92628
+---
+The patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo...
 
-Thank you!
+ drivers/usb/core/hcd.c |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Index: usb/drivers/usb/core/hcd.c
+===================================================================
+--- usb.orig/drivers/usb/core/hcd.c
++++ usb/drivers/usb/core/hcd.c
+@@ -2730,16 +2730,16 @@ static int usb_hcd_request_irqs(struct u
+ 			return retval;
+ 		}
+ 		hcd->irq = irqnum;
+-		dev_info(hcd->self.controller, "irq %d, %s 0x%08llx\n", irqnum,
+-				(hcd->driver->flags & HCD_MEMORY) ?
+-					"io mem" : "io base",
+-					(unsigned long long)hcd->rsrc_start);
++		dev_info(hcd->self.controller, "irq %d, io %s 0x%08llx\n",
++				irqnum, (hcd->driver->flags & HCD_MEMORY) ?
++					"mem" : "base",
++				(unsigned long long)hcd->rsrc_start);
+ 	} else {
+ 		hcd->irq = 0;
+ 		if (hcd->rsrc_start)
+-			dev_info(hcd->self.controller, "%s 0x%08llx\n",
++			dev_info(hcd->self.controller, "io %s 0x%08llx\n",
+ 					(hcd->driver->flags & HCD_MEMORY) ?
+-					"io mem" : "io base",
++						"mem" : "base",
+ 					(unsigned long long)hcd->rsrc_start);
+ 	}
+ 	return 0;
