@@ -2,59 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D63F0C4338F
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D060CC4338F
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:06:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC05760E78
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:01:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE2C4613BD
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:06:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbhHWOCO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 Aug 2021 10:02:14 -0400
-Received: from mga02.intel.com ([134.134.136.20]:48843 "EHLO mga02.intel.com"
+        id S229667AbhHWOHM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Aug 2021 10:07:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33702 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229947AbhHWOAb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 23 Aug 2021 10:00:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="204304221"
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="204304221"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 06:59:48 -0700
-X-IronPort-AV: E=Sophos;i="5.84,344,1620716400"; 
-   d="scan'208";a="526072616"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Aug 2021 06:59:46 -0700
-Received: by lahna (sSMTP sendmail emulation); Mon, 23 Aug 2021 16:59:43 +0300
-Date:   Mon, 23 Aug 2021 16:59:43 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Andrea Stedile <andrea.stedile@studenti.unitn.it>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org
-Subject: Re: Authorization for Thunderbolt device is forgotten after each
- reboot
-Message-ID: <YSOpz1Y87k5VcndO@lahna>
-References: <CAAs7NQRRJ4U0RQP1Y5VM4qrz7WX_ocuwouzen6pk2Q7HcAa76Q@mail.gmail.com>
- <YQq03Yidm8Q52xXV@lahna>
- <CAAs7NQS85sbOumOziuiqs-VYgEs8Lyd4Kk2oqrOaVjTJCdQo+g@mail.gmail.com>
- <YRD4wkLhVPqgDPoj@lahna>
- <CAAs7NQSRW5wE667iHTvUy38gBRwjh8kh3Zs_i=o3cj-Jqp=wvw@mail.gmail.com>
+        id S229518AbhHWOHM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 23 Aug 2021 10:07:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9DBF161206
+        for <linux-usb@vger.kernel.org>; Mon, 23 Aug 2021 14:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629727589;
+        bh=sJrlZ1rF+sPCVLShFOccSEq4HTmZlJqZ+aYO05cGrp0=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Ke1DMn1cilhkkLNV1sOmFSWmzBAetawDzO4DYMajS7EWdlDXAFkA02l4le4Um1Uyr
+         PpuRr+HWZWdF1uBIQIEagvSELwLNpDRlPC1PnJ5iH0r0SJi7iHzfVkwCkIK8Vy78NR
+         3zlULC+Io5wtqwNt3yUQonIjfzjbo7RxP+I4nWANLIv7Y/nz/7o21UDaPUYgoGd7/I
+         hsLkrKN9sV8W2RL/wCQR9f68Z8esAcVd5bTWWCc0TQuAclAy7VgAXXHiQHXPcTvMnl
+         r84T0xCN7GeQbqO9IjUC6HIXwKn2BHwotiG/UTI8Tv71kH8UTlyTaTzFiSYLeSTWRr
+         0o/PrkS9JCNyw==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 214021] The USB devices fail to be detected during boot
+Date:   Mon, 23 Aug 2021 14:06:29 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214021-208809-BiH9q9F8Ae@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214021-208809@https.bugzilla.kernel.org/>
+References: <bug-214021-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAs7NQSRW5wE667iHTvUy38gBRwjh8kh3Zs_i=o3cj-Jqp=wvw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 03:07:58PM +0200, Andrea Stedile wrote:
->    Hi,
->    I just wanted to let you know that 5.13.12 fixed the issue already for
->    me and others.
->    Thank you, and have a great day.
->    Andrea
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214021
 
-Great! Thanks for the update and sorry about the breakage.
+--- Comment #12 from Alan Stern (stern@rowland.harvard.edu) ---
+I may have gotten the primary and secondary mixed up.  Anyway, the general =
+idea
+is simple: Don't register the first root hub along with the first hcd; inst=
+ead
+register both root hubs along with the second hcd.
+
+The only problem is how to tell usb_hcd_add that the first hcd is going to =
+be
+shared.  You'll probably need to modify xhci-hcd slightly to make this
+possible.  Maybe add a new flag.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
