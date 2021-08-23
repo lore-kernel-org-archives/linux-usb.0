@@ -2,244 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D1FC4338F
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 13:17:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCE14C4338F
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:00:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4890C613A7
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 13:17:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2028613A8
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Aug 2021 14:00:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236554AbhHWNSJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 Aug 2021 09:18:09 -0400
-Received: from cable.insite.cz ([84.242.75.189]:39663 "EHLO cable.insite.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236499AbhHWNSI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 23 Aug 2021 09:18:08 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id 4D8AFA1A3D401;
-        Mon, 23 Aug 2021 15:17:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1629724645; bh=RhC0mxgfunhwb/OmfQfKQXQwRlStapNX4rrh29x54MI=;
-        h=Subject:To:References:From:Cc:Date:In-Reply-To:From;
-        b=BTF2WDZPJMv30isCUmhRIERZ7+jX7NzqYmiD0XAMOG16U7uje1/X8VFDbB74YF19c
-         ugUgM0fQHPAQ5BQPFO8/lhU9ZsG9Ew6C5WbwbGmCksAxIv6ATdzC7MFZfGVdSvSnnW
-         0cEH5G1ThhshfTie6NppXg+YPcfpdiZsVLTKqNMc=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id N2rxysxYXL6X; Mon, 23 Aug 2021 15:17:19 +0200 (CEST)
-Received: from [192.168.105.22] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 6BAD3A1A3D400;
-        Mon, 23 Aug 2021 15:17:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1629724639; bh=RhC0mxgfunhwb/OmfQfKQXQwRlStapNX4rrh29x54MI=;
-        h=Subject:To:References:From:Cc:Date:In-Reply-To:From;
-        b=gfQYsdQoOtISIKwY9zZEhhwIC73zvDVbM0mIZCobz2F0zNu9Xv3csGYgUjWNGdcbk
-         plEsferv9VvyninzFz5s6vum6+NPaxj9/ZfuvjyvK01evwmZf5Lhfb3l1YS3hbkOeX
-         Zz051cr2ksL4DLcWBRMiKqF3XUqVsucn3tzPznqg=
-Subject: Re: uac2/hid gadget issues on Win10 hosts
-To:     "N. Chen" <takhv1@gmail.com>, linux-usb@vger.kernel.org
-References: <CADA1JhOe89Q7iQtb7vwK6utigpKfo+UfuW6o2GdMBMo5rAz7=A@mail.gmail.com>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>
-Message-ID: <9f719bb8-2a9a-4a97-f25a-660d38a29555@ivitera.com>
-Date:   Mon, 23 Aug 2021 15:17:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S229854AbhHWOBg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Aug 2021 10:01:36 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:56893 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S229802AbhHWOBg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Aug 2021 10:01:36 -0400
+Received: (qmail 121444 invoked by uid 1000); 23 Aug 2021 10:00:52 -0400
+Date:   Mon, 23 Aug 2021 10:00:52 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, rca@thorsis.com
+Subject: Re: Enable HSIC Host Port on Atmel/Microchip SAMA5D2
+Message-ID: <20210823140052.GA120849@rowland.harvard.edu>
+References: <2869763.XZdSvA6Ref@ada>
 MIME-Version: 1.0
-In-Reply-To: <CADA1JhOe89Q7iQtb7vwK6utigpKfo+UfuW6o2GdMBMo5rAz7=A@mail.gmail.com>
-Content-Type: multipart/mixed;
- boundary="------------A2CA95071ADC4A4D0E349F0D"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2869763.XZdSvA6Ref@ada>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------A2CA95071ADC4A4D0E349F0D
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hi Tak,
-
-Dne 23. 08. 21 v 13:45 N. Chen napsal(a):
-> I'm attempting to create a composite gadget device that uses uac2 and
-> hid functions (speakerphone), using the latest kernel branch
-> (rpi-5.14.y) on a rpi4 device.
-> Windows10 host does not recognize the device as an audio usb device.
-> In order to get it recognized, I had to use c_sync in adaptive mode,
-> as well as make the following adjustments:
+On Mon, Aug 23, 2021 at 11:24:35AM +0200, Alexander Dahl wrote:
+> Hello,
 > 
-> diff --git a/drivers/usb/gadget/function/f_uac2.c
-> b/drivers/usb/gadget/function/f_uac2.c
-> index ae29ff2b2b68..74a221939ca0 100644
-> --- a/drivers/usb/gadget/function/f_uac2.c
-> +++ b/drivers/usb/gadget/function/f_uac2.c
-> @@ -177,7 +177,7 @@ static struct uac2_input_terminal_descriptor
-> io_in_it_desc = {
+> for a new embedded board featuring a Microchip SAMA5D2 SoC (64 MiB SiP variant 
+> SAMA5D27C-D5M) we connected the third USB host port (HSIC only) with an 
+> USB3503 hub chip. This doesn't work out of the box with the Linux kernel 
+> currently, because neither the SoC nor the kernel does enable the HSIC 
+> interface by default.
 > 
->          .bDescriptorSubtype = UAC_INPUT_TERMINAL,
->          /* .bTerminalID = DYNAMIC */
-> -       .wTerminalType = cpu_to_le16(UAC_INPUT_TERMINAL_UNDEFINED),
-> +       .wTerminalType = cpu_to_le16(UAC_INPUT_TERMINAL_MICROPHONE),
->          .bAssocTerminal = 0,
->          /* .bCSourceID = DYNAMIC */
->          .iChannelNames = 0,
-> @@ -205,7 +205,7 @@ static struct uac2_output_terminal_descriptor
-> io_out_ot_desc = {
+> That SoC has three USB host ports, from the SAMA5D2 Series Datasheet [1] I 
+> learned there's a flag in an EHCI register, which has to be set to enable the 
+> HSIC interface on port C, the third port. (Section "41.7.14 EHCI: REG08 - HSIC 
+> Enable/Disable" of the datasheet.) I suppose that register is vendor specific. 
+> The register definitions in '/include/linux/usb/ehci_def.h' do not contain 
+> that register.
 > 
->          .bDescriptorSubtype = UAC_OUTPUT_TERMINAL,
->          /* .bTerminalID = DYNAMIC */
-> -       .wTerminalType = cpu_to_le16(UAC_OUTPUT_TERMINAL_UNDEFINED),
-> +       .wTerminalType = cpu_to_le16(UAC_OUTPUT_TERMINAL_SPEAKER),
->          .bAssocTerminal = 0,
->          /* .bSourceID = DYNAMIC */
->          /* .bCSourceID = DYNAMIC */
-> @@ -216,7 +216,7 @@ static struct uac2_ac_header_descriptor ac_hdr_desc = {
->          .bLength = sizeof ac_hdr_desc,
->          .bDescriptorType = USB_DT_CS_INTERFACE,
+> Where would I add that register definition and set that flag in the kernel 
+> then?  I suppose in the vendor specific ehci driver?  
+> That would be 'drivers/usb/host/ehci-atmel.c' right?
+
+That is where you would set the flag.  You might want to put the 
+register definition in ehci_def.h, with the other definitions.
+
+> Since that feature is optional (other boards don't need to turn on hsic on 
+> that port), some driver specific new device tree binding would be necessary, 
+> right?  I suppose that would have to be documented in 'Documentation/
+> devicetree/bindings/usb/atmel-usb.txt' right? (Or that would have to be 
+> converted to yaml first?)
+
+Yes, it would have to go into the device tree data somehow.  I don't 
+know the best way to do this; people who know more about DT may be able 
+to tell you.
+
+> Is this the right track?  If yes, I'm going to develop patches for this. 
+> Otherwise any hint into the right direction are highly appreciated.
+
+Yes, this is the right approach.
+
+Alan Stern
+
+> FWIW, I'm not the first one struggling [2] with this problem. ;-)
 > 
-> -       .bDescriptorSubtype = UAC_MS_HEADER,
-> +       .bDescriptorSubtype = UAC_HEADER,
->          .bcdADC = cpu_to_le16(0x200),
->          .bCategory = UAC2_FUNCTION_IO_BOX,
->          /* .wTotalLength = DYNAMIC */
-> @@ -400,7 +400,7 @@ static struct usb_endpoint_descriptor fs_epin_desc = {
->          .bDescriptorType = USB_DT_ENDPOINT,
+> Greets
+> Alex
 > 
->          .bEndpointAddress = USB_DIR_IN,
-> -       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
-> +       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_SYNC,
->          /* .wMaxPacketSize = DYNAMIC */
->          .bInterval = 1,
->   };
-> @@ -409,7 +409,7 @@ static struct usb_endpoint_descriptor hs_epin_desc = {
->          .bLength = USB_DT_ENDPOINT_SIZE,
->          .bDescriptorType = USB_DT_ENDPOINT,
-> 
-> -       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
-> +       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_SYNC,
->          /* .wMaxPacketSize = DYNAMIC */
->          .bInterval = 4,
->   };
-> @@ -419,7 +419,7 @@ static struct usb_endpoint_descriptor ss_epin_desc = {
->          .bDescriptorType = USB_DT_ENDPOINT,
-> 
->          .bEndpointAddress = USB_DIR_IN,
-> -       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
-> +       .bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_SYNC,
->          /* .wMaxPacketSize = DYNAMIC */
->          .bInterval = 4,
->   };
-> --
-
-There is a problem with max packet size calculation for EP-IN. It has 
-been discussed here recently
-https://www.spinics.net/lists/linux-usb/msg214615.html
-
-The simple change in the post above fixed Win10 enumeration for me and 
-another tester.
-
-Also, there is a problem with feedback value calculation which Win10 
-ignores and keeps sending the same amount of samples. The fix is to send 
-number of samples per the actual packet, not per microframe for USB2. I 
-have not posted the attached patch as the whole patchset will most 
-likely be reverted for 5.15 
-https://www.spinics.net/lists/linux-usb/msg216042.html and I wanted to 
-wait till the situation works out to avoid confusion. In the attached 
-patch just change the ->c_srate_active to ->c_srate (the patch is on top 
-of more changes for switching between multiple samplerates).
-
-Best regards,
-
-Pavel.
-
---------------A2CA95071ADC4A4D0E349F0D
-Content-Type: text/x-patch; charset=UTF-8;
- name="0009-usb-gadget-u_audio-EP-OUT-bInterval-in-fback-frequen.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0009-usb-gadget-u_audio-EP-OUT-bInterval-in-fback-frequen.pa";
- filename*1="tch"
-
-From 91dda032dd0958006a4e0a6f1f51526cefd95a1e Mon Sep 17 00:00:00 2001
-From: Pavel Hofman <pavel.hofman@ivitera.com>
-Date: Thu, 12 Aug 2021 18:03:36 +0200
-Subject: [PATCH 9/9] usb: gadget: u_audio: EP-OUT bInterval in fback frequency
-
-Tests have revealed that Win10 and OSX UAC2 drivers require
-the feedback frequency to be based on the actual packet
-interval instead of on the USB2 microframe. Otherwise they
-ignore the feedback value. Linux snd-usb-audio driver
-detects the applied bitshift automatically.
-
-The patch increases the bitshift in feedback frequency
-calculation with EP-OUT bInterval value.
-
-Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
-Tested-by: Henrik Enquist <henrik.enquist@gmail.com>
----
- drivers/usb/gadget/function/u_audio.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index a7896fbbab36..c70bdb565153 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -98,11 +98,13 @@ static const struct snd_pcm_hardware uac_pcm_hardware = {
- };
- 
- static void u_audio_set_fback_frequency(enum usb_device_speed speed,
-+          struct usb_ep *out_ep,
- 					unsigned long long freq,
- 					unsigned int pitch,
- 					void *buf)
- {
- 	u32 ff = 0;
-+	const struct usb_endpoint_descriptor *ep_desc;
- 
- 	/*
- 	 * Because the pitch base is 1000000, the final divider here
-@@ -130,8 +132,13 @@ static void u_audio_set_fback_frequency(enum usb_device_speed speed,
- 		 * byte fromat (that is Q16.16)
- 		 *
- 		 * ff = (freq << 16) / 8000
-+		 *
-+		 * Win10 and OSX UAC2 drivers require number of samples per packet
-+		 * in order to honor the feedback value.
-+		 * Linux snd-usb-audio detects the used bit shift automatically.
- 		 */
--		freq <<= 4;
-+		ep_desc = out_ep->desc;
-+		freq <<= 4 + (ep_desc->bInterval - 1);
- 	}
- 
- 	ff = DIV_ROUND_CLOSEST_ULL((freq * pitch), 1953125);
-@@ -263,7 +270,7 @@ static void u_audio_iso_fback_complete(struct usb_ep *ep,
- 		pr_debug("%s: iso_complete status(%d) %d/%d\n",
- 			__func__, status, req->actual, req->length);
- 
--	u_audio_set_fback_frequency(audio_dev->gadget->speed,
-+	u_audio_set_fback_frequency(audio_dev->gadget->speed, audio_dev->out_ep,
- 				    params->c_srate_active, prm->pitch,
- 				    req->buf);
- 
-@@ -578,7 +585,7 @@ int u_audio_start_capture(struct g_audio *audio_dev)
- 	 * be meauserd at start of playback
- 	 */
- 	prm->pitch = 1000000;
--	u_audio_set_fback_frequency(audio_dev->gadget->speed,
-+	u_audio_set_fback_frequency(audio_dev->gadget->speed, ep,
- 				    params->c_srate_active, prm->pitch,
- 				    req_fback->buf);
- 
--- 
-2.25.1
-
-
---------------A2CA95071ADC4A4D0E349F0D--
+> [1] https://www.microchip.com/en-us/product/ATSAMA5D27C-D5M#document-table
+> [2] https://community.atmel.com/forum/sama5d2-using-hsic-under-linux
