@@ -2,86 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-19.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC1C7C432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 11:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B78C4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 12:20:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B44C161246
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 11:54:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8733461371
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 12:20:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236708AbhHXLyo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Aug 2021 07:54:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57004 "EHLO mail.kernel.org"
+        id S237182AbhHXMUz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Aug 2021 08:20:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55152 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236622AbhHXLyn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 24 Aug 2021 07:54:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 482C6611F0;
-        Tue, 24 Aug 2021 11:53:58 +0000 (UTC)
+        id S236676AbhHXMUx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 24 Aug 2021 08:20:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B40361265;
+        Tue, 24 Aug 2021 12:20:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629806039;
-        bh=dyA/gddwc1ZbdgERfmKbuXd8glHESw+7KVjh327CGjo=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=sZqqpm3wrSD1UIIBn3Yo5NbgiVUG9PGFihC3TBgi2NESPCdyObiFroQHPr/Kr2WYj
-         CS1JZeQtPbTu45BKGZEjjl1DeG5nN0T5CIbEh1OrFiky14COihqdFLx7idwJYecgei
-         K81wrRJi984GNt5l4S48N9SaU1iER/Lkm/0JtME88TSVXsdh3o3nlJldm34WewqBO+
-         qCZW/dyZmj5a8QNmB2dSicJCR8aCsVFkgtjgA98VRJXi5dX8/Qvu6oIif2vstz6zkd
-         KL+oeSv3ZAWiMYx0yimZwa6APsTqmePalelPGFh1MelMLKUzM3uEZSBwhBCIQAXyvg
-         hXySCPMbL8R2Q==
-Date:   Tue, 24 Aug 2021 13:53:56 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-cc:     syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        mkubecek@suse.cz, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
-In-Reply-To: <20210820140620.GA35867@rowland.harvard.edu>
-Message-ID: <nycvar.YFH.7.76.2108241351490.15313@cbobk.fhfr.pm>
-References: <20210819195300.GA8613@rowland.harvard.edu> <000000000000c322ab05c9f2e880@google.com> <20210820140620.GA35867@rowland.harvard.edu>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        s=k20201202; t=1629807609;
+        bh=8oQhuq/DGjyESiByy7PbgYQ4KR5PoguBI5CPoD3IxB0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QQlKZSpGKshJiJAAPzp3Puebaq5BpAp4b7N57nJKY0RuiaOKb6I8p25CUH5dsmDsf
+         wdDgQySDQzQa3g8jGBf8o11CZoXdZkl3sRHrsvQ00Bs8YPczh++aD9hlO6mtuPdmqM
+         3mFIk/ipQVke/GjmIA0sqvbv9LP65svCAn9X0S1ez2X7HEv1ikLOi5NRGeS69vUcB8
+         Fgllq3G0leQ52guX1/LHZR8NxGPGp3rzz7N6jhuCs3oYgb72p9Yz265EAg/zpu8VGL
+         5BedoxckC0uOxn1Z5pU7MTWpXytQdzDQWnBtzf62wZ3zP8nUcUopudZu0ZgDp6DVFh
+         flvltNaJr0lsw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mIVPQ-00052G-Dp; Tue, 24 Aug 2021 14:20:05 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Paul=20Gr=C3=B6=C3=9Fel?= <pb.g@gmx.de>,
+        stable@vger.kernel.org, Willy Tarreau <w@1wt.eu>
+Subject: [PATCH] Revert "USB: serial: ch341: fix character loss at high transfer rates"
+Date:   Tue, 24 Aug 2021 14:19:26 +0200
+Message-Id: <20210824121926.19311-1-johan@kernel.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 20 Aug 2021, Alan Stern wrote:
+This reverts commit 3c18e9baee0ef97510dcda78c82285f52626764b.
 
-> > syzbot has tested the proposed patch and the reproducer did not trigger any issue:
-> 
-> That's good to know.  Still, I suspect there's a better way of handling 
-> this condition.
-> 
-> In particular, does it make sense to accept descriptors for input or 
-> feature reports with length zero?  I can't imagine what good such 
-> reports would do.
+These devices do not appear to send a zero-length packet when the
+transfer size is a multiple of the bulk-endpoint max-packet size. This
+means that incoming data may not be processed by the driver until a
+short packet is received or the receive buffer is full.
 
-I quickly went through drivers + some hidraw users, and can't spot any use 
-case for it.
+Revert back to using endpoint-sized receive buffers to avoid stalled
+reads.
 
-> On the other hand, I'm not familiar enough with the code to know the 
-> right way to reject these descriptors and reports.  It looks like the 
-> HID subsystem was not designed with this sort of check in mind.
-> 
-> Benjamin and Jiri, what do you think?  Is it okay to allow descriptors 
-> for zero-length reports and just pretend they have length 1 (as the 
-> patch tested by syzbot did), or should we instead reject them during 
-> probing?
+Reported-by: Paul Größel <pb.g@gmx.de>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=214131
+Fixes: 3c18e9baee0e ("USB: serial: ch341: fix character loss at high transfer rates")
+Cc: stable@vger.kernel.org
+Cc: Willy Tarreau <w@1wt.eu>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ch341.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-I think it's a good band-aid for 5.14 (or 5.14-stable if we don't make 
-it), and if it turns out to break something (which I don't expect), than 
-we can look into rejecting already during probe.
-
-Benjamin, is there a way to run this quickly through your HID regression 
-testing machinery?
-
-Thanks,
-
+diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
+index 8a521b5ea769..2db917eab799 100644
+--- a/drivers/usb/serial/ch341.c
++++ b/drivers/usb/serial/ch341.c
+@@ -851,7 +851,6 @@ static struct usb_serial_driver ch341_device = {
+ 		.owner	= THIS_MODULE,
+ 		.name	= "ch341-uart",
+ 	},
+-	.bulk_in_size      = 512,
+ 	.id_table          = id_table,
+ 	.num_ports         = 1,
+ 	.open              = ch341_open,
 -- 
-Jiri Kosina
-SUSE Labs
+2.31.1
 
