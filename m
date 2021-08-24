@@ -2,80 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFE07C4338F
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 10:24:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0163C4338F
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 10:53:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C448461357
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 10:24:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6BE261371
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 10:53:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236150AbhHXKZd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Aug 2021 06:25:33 -0400
-Received: from mga12.intel.com ([192.55.52.136]:3606 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236287AbhHXKZc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 24 Aug 2021 06:25:32 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10085"; a="196857349"
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="196857349"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 03:24:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,346,1620716400"; 
-   d="scan'208";a="597538138"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 24 Aug 2021 03:24:40 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 24 Aug 2021 13:24:39 +0300
-Date:   Tue, 24 Aug 2021 13:24:39 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: How to proceed: usci_acpi: PPM init failed (-110)
-Message-ID: <YSTI51ilGLJLYlQz@kuha.fi.intel.com>
-References: <20210823180626.tb6m7h5tp6adhvt2@fastboi.localdomain>
+        id S236416AbhHXKx7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Aug 2021 06:53:59 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:59742 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236305AbhHXKx6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Aug 2021 06:53:58 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17OAr6gj066435;
+        Tue, 24 Aug 2021 05:53:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1629802386;
+        bh=S0OVBAatI84KIbShrBm5yBL8uU+nTOrTxMrx2mLEoHY=;
+        h=From:To:CC:Subject:Date;
+        b=aX/HRPTvjAxb+FkNeA4Vjx/p0oBkN4Tyr3fXoQ1OFGIatvCQQc770HGRmHBje3SJf
+         S1v3FDud76qNGqh4TjyEM7RBuCp95Z6AB5w8CDFqeXpF5+E5G57l6R5dsXkh0VjYj7
+         kCawd93aKUpwPxb8gYEWsS4ZImcqizr5G1rDRe0I=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17OAr6rf072332
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 24 Aug 2021 05:53:06 -0500
+Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Tue, 24
+ Aug 2021 05:53:06 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Tue, 24 Aug 2021 05:53:06 -0500
+Received: from a0393678-lt.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17OAr3Dc129176;
+        Tue, 24 Aug 2021 05:53:04 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <chris.chiu@canonical.com>
+Subject: [RFC PATCH 0/5] Fix cold plugged USB device on certain PCIe USB cards
+Date:   Tue, 24 Aug 2021 16:22:57 +0530
+Message-ID: <20210824105302.25382-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210823180626.tb6m7h5tp6adhvt2@fastboi.localdomain>
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 23, 2021 at 08:06:26PM +0200, Samuel Čavoj wrote:
-> Hello,
-> 
-> The driver times out talking to the PPM (the message pops up 60 seconds
-> after loading the module, the timeout in ucsi_acpi_sync_write).
-> The command which times out is the first one after resetting the PPM in
-> ucsi_init, enabling basic notifications.
-> 
-> The laptop in question is an ASUS UM325U, with the AMD Ryzen 5700U SoC.
-> 
-> The ACPI description of the USBC000 device looks reasonable to my eyes,
-> but I am not an expert. The _DSM Method copies the UCSI OpRegion to (or
-> from) EC memory. I can provide a dump if needed.
-> 
-> I am looking for guidance on how to proceed, I am not too familiar with
-> the UCSI other than peeking at the spec for a short while.
-> 
-> Looking the error up online leads to various discussions usually ending
-> with installing an nvidia driver, however mine does not have any
-> dedicated GPU.
+Cold plugged USB device was not detected on certain PCIe USB cards
+(like Inateck card connected to AM64 EVM or connected to J7200 EVM).
 
-Can you send full dmesg output, and acpidump:
+Re-plugging the USB device always gets it enumerated.
 
-        % dmesg > dmesg.dump
-        % acpidump -o acpi.dump
+This issue was discussed in
+https://lore.kernel.org/r/772e4001-178e-4918-032c-6e625bdded24@ti.com
+and
+https://bugzilla.kernel.org/show_bug.cgi?id=214021
 
-If enabling the notifications fails, then I'm not sure the EC firmware
-on this board actually supports UCSI. That would not be unheard-of
-situation.
+So the suggested solution is to register both root hubs along with the
+second hcd for xhci. This series performs some cleanups and implements
+the suggested solution.
 
-thanks,
+Kishon Vijay Abraham I (5):
+  usb: core: hcd: Modularize HCD stop configuration in usb_stop_hcd()
+  usb: core: hcd: Let usb_add_hcd() indicate if roothub has to be
+    registered
+  usb: core: hcd: Add support for registering secondary RH along with
+    primary HCD
+  usb: core: hcd-pci: Let usb_hcd_pci_probe() indicate if RH has to be
+    registered
+  xhci-pci: Use flag to not register roothub while adding primary HCD
+
+ drivers/usb/core/hcd-pci.c  | 11 +++---
+ drivers/usb/core/hcd.c      | 72 ++++++++++++++++++++++++-------------
+ drivers/usb/host/xhci-pci.c |  2 +-
+ include/linux/usb/hcd.h     | 16 ++++++---
+ 4 files changed, 65 insertions(+), 36 deletions(-)
 
 -- 
-heikki
+2.17.1
+
