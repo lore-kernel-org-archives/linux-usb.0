@@ -7,62 +7,61 @@ X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7481CC432BE
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 18:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A05EC43216
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 18:57:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61E79613A7
-	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 18:57:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7522C610FD
+	for <linux-usb@archiver.kernel.org>; Tue, 24 Aug 2021 18:57:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234259AbhHXS6O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 24 Aug 2021 14:58:14 -0400
-Received: from crane.ash.relay.mailchannels.net ([23.83.222.43]:59254 "EHLO
+        id S234234AbhHXS6P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 24 Aug 2021 14:58:15 -0400
+Received: from crane.ash.relay.mailchannels.net ([23.83.222.43]:59343 "EHLO
         crane.ash.relay.mailchannels.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233940AbhHXS6N (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Aug 2021 14:58:13 -0400
-X-Greylist: delayed 15822 seconds by postgrey-1.27 at vger.kernel.org; Tue, 24 Aug 2021 14:58:11 EDT
+        by vger.kernel.org with ESMTP id S234038AbhHXS6O (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 24 Aug 2021 14:58:14 -0400
 X-Sender-Id: 9wt3zsp42r|x-authuser|john.efstathiades@pebblebay.com
 Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id CCBB0321CFC;
-        Tue, 24 Aug 2021 18:57:22 +0000 (UTC)
-Received: from ares.krystal.co.uk (100-101-162-88.trex-nlb.outbound.svc.cluster.local [100.101.162.88])
+        by relay.mailchannels.net (Postfix) with ESMTP id 68FCB920BB6;
+        Tue, 24 Aug 2021 18:57:23 +0000 (UTC)
+Received: from ares.krystal.co.uk (unknown [127.0.0.6])
         (Authenticated sender: 9wt3zsp42r)
-        by relay.mailchannels.net (Postfix) with ESMTPA id 20D50322351;
-        Tue, 24 Aug 2021 18:57:20 +0000 (UTC)
+        by relay.mailchannels.net (Postfix) with ESMTPA id EE054920B5F;
+        Tue, 24 Aug 2021 18:57:21 +0000 (UTC)
 X-Sender-Id: 9wt3zsp42r|x-authuser|john.efstathiades@pebblebay.com
 Received: from ares.krystal.co.uk (ares.krystal.co.uk [77.72.0.130])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
-        by 100.101.162.88 (trex/6.4.3);
-        Tue, 24 Aug 2021 18:57:22 +0000
+        by 100.100.96.74 (trex/6.4.3);
+        Tue, 24 Aug 2021 18:57:23 +0000
 X-MC-Relay: Neutral
 X-MailChannels-SenderId: 9wt3zsp42r|x-authuser|john.efstathiades@pebblebay.com
 X-MailChannels-Auth-Id: 9wt3zsp42r
-X-Attack-Thoughtful: 1b673c3f296beca9_1629831442540_804651709
-X-MC-Loop-Signature: 1629831442540:3574260364
-X-MC-Ingress-Time: 1629831442539
+X-Drop-Supply: 25f3c7452642be8a_1629831443240_2950002745
+X-MC-Loop-Signature: 1629831443240:305183511
+X-MC-Ingress-Time: 1629831443240
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=pebblebay.com; s=default; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=kbSFeOsjvVC/aVHn3HnLP3khE+0Ljbf1Xt1deuUC75I=; b=cUPOvrIgSUHbnLGldttZAOfDux
-        KcpfFfQQJ80Z2ZsM/QY7N9T24wiczaZtOLZ53uQcpEiAwPUM7Sv+MR6t6ac3ag7wGjOfpsuZhdKw0
-        5rZAziRxKiVBObCOtZTepQE322LssXf1D62JvXJQCTjR5AtiEflAthbPEbUlxqsgQSmaviMYA5k9q
-        QyhuZhZyUF1cWTGdkHwquDmyWGLsDY8R8djiQ5hIJwNGhC9dwznb+2IW+GK8jyukR0WiesPdBodJV
-        BdzL/83BIvBF3nEnN7qAd6tMFQmCW9nIB+5/zoyI0Y5k2ZkWVxikfh3LS4KtxtCsqC13WCQkqHtYn
-        JmuroJ8w==;
+        bh=k1Dk9r/jJV5c6GXDrbYpTJHLaskj6jut04Qz53Q8ES4=; b=PITo9w6Vxf68vOdHta2ZAXNFCC
+        p0IpMD99m0c8jtYwHWprj8Pye7dnbc39qe/sO8hVyJfzoCK6cPPsBWWkbx700whRsERmoQnAkT210
+        kiWfNKIY+PBUL6024Fg/a0Rpmjur1g9y9bQbtzvqywb+zxneuP0ofIfK5x2C00VcWw5OfJfZNifSI
+        MxFiMXhcdOiAamuhvVp35ci86BOtXIeEj1bhmKVx5gKtjd9UcKvA0K71dY3dXI0+yXsg3Ne3xGiQo
+        Vxe6uG5So9gjo2tiMjotnVT2IliaNCCD10n/s1HAHXvp7yANrFD2C7hdv7AYcsokNqwdGIuYTjzm/
+        ZTJ88CiA==;
 Received: from cpc160185-warw19-2-0-cust743.3-2.cable.virginm.net ([82.21.62.232]:51816 helo=pbcl-dsk9.pebblebay.com)
         by ares.krystal.co.uk with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.94.2)
         (envelope-from <john.efstathiades@pebblebay.com>)
-        id 1mIbbs-00BQSi-5i; Tue, 24 Aug 2021 19:57:19 +0100
+        id 1mIbbs-00BQSi-T7; Tue, 24 Aug 2021 19:57:19 +0100
 From:   John Efstathiades <john.efstathiades@pebblebay.com>
 Cc:     UNGLinuxDriver@microchip.com, woojung.huh@microchip.com,
         davem@davemloft.net, netdev@vger.kernel.org, kuba@kernel.org,
         linux-usb@vger.kernel.org, john.efstathiades@pebblebay.com
-Subject: [PATCH net-next v2 06/10] lan78xx: Fix exception on link speed change
-Date:   Tue, 24 Aug 2021 19:56:09 +0100
-Message-Id: <20210824185613.49545-7-john.efstathiades@pebblebay.com>
+Subject: [PATCH net-next v2 09/10] lan78xx: Fix race condition in disconnect handling
+Date:   Tue, 24 Aug 2021 19:56:12 +0100
+Message-Id: <20210824185613.49545-10-john.efstathiades@pebblebay.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210824185613.49545-1-john.efstathiades@pebblebay.com>
 References: <20210824185613.49545-1-john.efstathiades@pebblebay.com>
@@ -74,93 +73,197 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-An exception is sometimes seen when the link speed is changed
-from auto-negotiation to a fixed speed, or vice versa. The
-exception occurs when the MAC is reset (due to the link speed
-change) at the same time as the PHY state machine is accessing
-a PHY register. The following changes fix this problem.
+If there is a device disconnect at roughly the same time as a
+deferred PHY link reset there is a race condition that can result
+in a kernel lock up due to a null pointer dereference in the
+driver's deferred work handling routine lan78xx_delayedwork().
+The following changes fix this problem.
 
-Rework the MAC reset to ensure there is no outstanding MDIO
-register transaction before the reset and then wait until the
-reset is complete before allowing any further MAC register access.
+Add new status flag EVENT_DEV_DISCONNECT to indicate when the
+device has been removed and use it to prevent operations, such as
+register access, that will fail once the device is removed.
+
+Stop processing of deferred work items when the driver's USB
+disconnect handler is invoked.
+
+Disconnect the PHY only after the network device has been
+unregistered and all delayed work has been cancelled.
 
 Signed-off-by: John Efstathiades <john.efstathiades@pebblebay.com>
 ---
- drivers/net/usb/lan78xx.c | 54 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 48 insertions(+), 6 deletions(-)
+ drivers/net/usb/lan78xx.c | 66 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 57 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 1909d6003453..2eb853b13c2a 100644
+index 9f395504f77e..4ec752d9751a 100644
 --- a/drivers/net/usb/lan78xx.c
 +++ b/drivers/net/usb/lan78xx.c
-@@ -1163,6 +1163,52 @@ static int lan78xx_update_flowcontrol(struct lan78xx_net *dev, u8 duplex,
- 	return 0;
+@@ -360,6 +360,7 @@ struct usb_context {
+ #define EVENT_DEV_ASLEEP		7
+ #define EVENT_DEV_OPEN			8
+ #define EVENT_STAT_UPDATE		9
++#define EVENT_DEV_DISCONNECT		10
+ 
+ struct statstage {
+ 	struct mutex			access_lock;	/* for stats access */
+@@ -444,9 +445,13 @@ MODULE_PARM_DESC(msg_level, "Override default message level");
+ 
+ static int lan78xx_read_reg(struct lan78xx_net *dev, u32 index, u32 *data)
+ {
+-	u32 *buf = kmalloc(sizeof(u32), GFP_KERNEL);
++	u32 *buf;
+ 	int ret;
+ 
++	if (test_bit(EVENT_DEV_DISCONNECT, &dev->flags))
++		return -ENODEV;
++
++	buf = kmalloc(sizeof(u32), GFP_KERNEL);
+ 	if (!buf)
+ 		return -ENOMEM;
+ 
+@@ -470,9 +475,13 @@ static int lan78xx_read_reg(struct lan78xx_net *dev, u32 index, u32 *data)
+ 
+ static int lan78xx_write_reg(struct lan78xx_net *dev, u32 index, u32 data)
+ {
+-	u32 *buf = kmalloc(sizeof(u32), GFP_KERNEL);
++	u32 *buf;
+ 	int ret;
+ 
++	if (test_bit(EVENT_DEV_DISCONNECT, &dev->flags))
++		return -ENODEV;
++
++	buf = kmalloc(sizeof(u32), GFP_KERNEL);
+ 	if (!buf)
+ 		return -ENOMEM;
+ 
+@@ -3146,16 +3155,23 @@ static void tx_complete(struct urb *urb)
+ 		/* software-driven interface shutdown */
+ 		case -ECONNRESET:
+ 		case -ESHUTDOWN:
++			netif_dbg(dev, tx_err, dev->net,
++				  "tx err interface gone %d\n",
++				  entry->urb->status);
+ 			break;
+ 
+ 		case -EPROTO:
+ 		case -ETIME:
+ 		case -EILSEQ:
+ 			netif_stop_queue(dev->net);
++			netif_dbg(dev, tx_err, dev->net,
++				  "tx err queue stopped %d\n",
++				  entry->urb->status);
+ 			break;
+ 		default:
+ 			netif_dbg(dev, tx_err, dev->net,
+-				  "tx err %d\n", entry->urb->status);
++				  "unknown tx err %d\n",
++				  entry->urb->status);
+ 			break;
+ 		}
+ 	}
+@@ -3489,6 +3505,7 @@ static int rx_submit(struct lan78xx_net *dev, struct urb *urb, gfp_t flags)
+ 			lan78xx_defer_kevent(dev, EVENT_RX_HALT);
+ 			break;
+ 		case -ENODEV:
++		case -ENOENT:
+ 			netif_dbg(dev, ifdown, dev->net, "device gone\n");
+ 			netif_device_detach(dev->net);
+ 			break;
+@@ -3689,6 +3706,12 @@ static void lan78xx_tx_bh(struct lan78xx_net *dev)
+ 		lan78xx_defer_kevent(dev, EVENT_TX_HALT);
+ 		usb_autopm_put_interface_async(dev->intf);
+ 		break;
++	case -ENODEV:
++	case -ENOENT:
++		netif_dbg(dev, tx_err, dev->net,
++			  "tx: submit urb err %d (disconnected?)", ret);
++		netif_device_detach(dev->net);
++		break;
+ 	default:
+ 		usb_autopm_put_interface_async(dev->intf);
+ 		netif_dbg(dev, tx_err, dev->net,
+@@ -3783,6 +3806,9 @@ static void lan78xx_delayedwork(struct work_struct *work)
+ 
+ 	dev = container_of(work, struct lan78xx_net, wq.work);
+ 
++	if (test_bit(EVENT_DEV_DISCONNECT, &dev->flags))
++		return;
++
+ 	if (usb_autopm_get_interface(dev->intf) < 0)
+ 		return;
+ 
+@@ -3857,6 +3883,7 @@ static void intr_complete(struct urb *urb)
+ 
+ 	/* software-driven interface shutdown */
+ 	case -ENOENT:			/* urb killed */
++	case -ENODEV:			/* hardware gone */
+ 	case -ESHUTDOWN:		/* hardware gone */
+ 		netif_dbg(dev, ifdown, dev->net,
+ 			  "intr shutdown, code %d\n", status);
+@@ -3870,14 +3897,29 @@ static void intr_complete(struct urb *urb)
+ 		break;
+ 	}
+ 
+-	if (!netif_running(dev->net))
++	if (!netif_device_present(dev->net) ||
++	    !netif_running(dev->net)) {
++		netdev_warn(dev->net, "not submitting new status URB");
+ 		return;
++	}
+ 
+ 	memset(urb->transfer_buffer, 0, urb->transfer_buffer_length);
+ 	status = usb_submit_urb(urb, GFP_ATOMIC);
+-	if (status != 0)
++
++	switch (status) {
++	case  0:
++		break;
++	case -ENODEV:
++	case -ENOENT:
++		netif_dbg(dev, timer, dev->net,
++			  "intr resubmit %d (disconnect?)", status);
++		netif_device_detach(dev->net);
++		break;
++	default:
+ 		netif_err(dev, timer, dev->net,
+ 			  "intr resubmit --> %d\n", status);
++		break;
++	}
  }
  
-+static int lan78xx_mac_reset(struct lan78xx_net *dev)
-+{
-+	unsigned long start_time = jiffies;
-+	u32 val;
-+	int ret;
-+
-+	mutex_lock(&dev->phy_mutex);
-+
-+	/* Resetting the device while there is activity on the MDIO
-+	 * bus can result in the MAC interface locking up and not
-+	 * completing register access transactions.
-+	 */
-+	ret = lan78xx_phy_wait_not_busy(dev);
-+	if (ret < 0)
-+		goto done;
-+
-+	ret = lan78xx_read_reg(dev, MAC_CR, &val);
-+	if (ret < 0)
-+		goto done;
-+
-+	val |= MAC_CR_RST_;
-+	ret = lan78xx_write_reg(dev, MAC_CR, val);
-+	if (ret < 0)
-+		goto done;
-+
-+	/* Wait for the reset to complete before allowing any further
-+	 * MAC register accesses otherwise the MAC may lock up.
-+	 */
-+	do {
-+		ret = lan78xx_read_reg(dev, MAC_CR, &val);
-+		if (ret < 0)
-+			goto done;
-+
-+		if (!(val & MAC_CR_RST_)) {
-+			ret = 0;
-+			goto done;
-+		}
-+	} while (!time_after(jiffies, start_time + HZ));
-+
-+	ret = -ETIMEDOUT;
-+done:
-+	mutex_unlock(&dev->phy_mutex);
-+
-+	return ret;
-+}
-+
- static int lan78xx_link_reset(struct lan78xx_net *dev)
- {
- 	struct phy_device *phydev = dev->net->phydev;
-@@ -1184,12 +1230,8 @@ static int lan78xx_link_reset(struct lan78xx_net *dev)
- 		dev->link_on = false;
+ static void lan78xx_disconnect(struct usb_interface *intf)
+@@ -3892,8 +3934,15 @@ static void lan78xx_disconnect(struct usb_interface *intf)
+ 	if (!dev)
+ 		return;
  
- 		/* reset MAC */
--		ret = lan78xx_read_reg(dev, MAC_CR, &buf);
--		if (unlikely(ret < 0))
--			return ret;
--		buf |= MAC_CR_RST_;
--		ret = lan78xx_write_reg(dev, MAC_CR, buf);
--		if (unlikely(ret < 0))
-+		ret = lan78xx_mac_reset(dev);
-+		if (ret < 0)
- 			return ret;
++	set_bit(EVENT_DEV_DISCONNECT, &dev->flags);
++
+ 	udev = interface_to_usbdev(intf);
+ 	net = dev->net;
++
++	unregister_netdev(net);
++
++	cancel_delayed_work_sync(&dev->wq);
++
+ 	phydev = net->phydev;
  
- 		del_timer(&dev->stat_monitor);
+ 	phy_unregister_fixup_for_uid(PHY_KSZ9031RNX, 0xfffffff0);
+@@ -3904,12 +3953,11 @@ static void lan78xx_disconnect(struct usb_interface *intf)
+ 	if (phy_is_pseudo_fixed_link(phydev))
+ 		fixed_phy_unregister(phydev);
+ 
+-	unregister_netdev(net);
+-
+-	cancel_delayed_work_sync(&dev->wq);
+-
+ 	usb_scuttle_anchored_urbs(&dev->deferred);
+ 
++	if (timer_pending(&dev->stat_monitor))
++		del_timer_sync(&dev->stat_monitor);
++
+ 	lan78xx_unbind(dev, intf);
+ 
+ 	usb_kill_urb(dev->urb_intr);
 -- 
 2.25.1
 
