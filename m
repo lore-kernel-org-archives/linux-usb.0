@@ -2,107 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C42C432BE
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94CC8C432BE
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 18:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1143D60F35
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BC1F60F14
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 18:36:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235251AbhHYSAU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 14:00:20 -0400
-Received: from cable.insite.cz ([84.242.75.189]:57476 "EHLO cable.insite.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230112AbhHYSAT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Aug 2021 14:00:19 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id 535FFA1A3D402;
-        Wed, 25 Aug 2021 19:59:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1629914372; bh=rGekSBK7yYQxzecHRgjmhJ56mq7nCvKb0BNG8yl8Jm4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=MqSji/7kSYJGv7ijv09+YSGyHvWhl4zkC102Hr5cs46X4j9ifUuVQ/MRnxQL2kdq3
-         D4dao2RDjM+9ZfrulCxStYFjANquKSjgKJBYjmo1JYZAM8sK+Stu6EQ7qXQHr1YJ/9
-         3bbPCTKXssMQ8lQVFllDIkfFw6Gyb+/UTN1W/UPk=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RNUWcbbxMJBk; Wed, 25 Aug 2021 19:59:26 +0200 (CEST)
-Received: from [192.168.105.119] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 85BEAA1A3D400;
-        Wed, 25 Aug 2021 19:59:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1629914366; bh=rGekSBK7yYQxzecHRgjmhJ56mq7nCvKb0BNG8yl8Jm4=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=LLUa7EHRV+gVsbg07ekSh2ewVTm/d4vZKBcw/nzLslir/dh+YccoAcnP22xPDMyHA
-         LKKJ1tYWrXoi605eLosDU90FPnBuXfb2YD+gz6JrA9Z8bbnlZCmkuYGumRpbufGlT8
-         /vIctjlfAWQ+CQTLdWnAu//1NHNfUra5n0UMQTZw=
-Subject: Re: [PATCH v3 2/4] usb: gadget: u_audio: add bi-directional volume
- and mute support
-To:     Jerome Brunet <jbrunet@baylibre.com>, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>
-References: <20210712125529.76070-1-pavel.hofman@ivitera.com>
- <20210712125529.76070-3-pavel.hofman@ivitera.com>
- <1jr1ehy79v.fsf@starbuckisacylon.baylibre.com>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Message-ID: <d03d8d29-f3f2-028f-efb1-a194955599d7@ivitera.com>
-Date:   Wed, 25 Aug 2021 19:59:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.2.1
+        id S237730AbhHYSgo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 14:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235677AbhHYSgn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Aug 2021 14:36:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E416FC061757
+        for <linux-usb@vger.kernel.org>; Wed, 25 Aug 2021 11:35:55 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mIxkU-0005eY-Nq; Wed, 25 Aug 2021 20:35:42 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1mIxkS-0003S3-Oq; Wed, 25 Aug 2021 20:35:40 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     kernel test robot <lkp@intel.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH net v1 1/1] net: usb: asix: ax88772: fix boolconv.cocci warnings
+Date:   Wed, 25 Aug 2021 20:35:38 +0200
+Message-Id: <20210825183538.13070-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <1jr1ehy79v.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: kernel test robot <lkp@intel.com>
 
+drivers/net/usb/asix_devices.c:757:60-65: WARNING: conversion to bool not needed here
 
-Dne 25. 08. 21 v 15:25 Jerome Brunet napsal(a):
-> 
-> On Mon 12 Jul 2021 at 14:55, Pavel Hofman <pavel.hofman@ivitera.com> wrote:
-> 
->> From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
->>
->> USB Audio Class 1/2 have ability to change device's
->> volume and mute by USB Host through class-specific control
->> requests. Device also can notify Host about volume/mute
->> change on its side through optional interrupt endpoint.
->>
->> This patch adds Volume and Mute ALSA controls which can be
->> used by user to send and receive notifications to/from
->> the USB Host about Volume and Mute change.
->>
->> These params come from f_uac* so volume and mute controls
->> will be created only if the function support and enable
->> each explicitly
->>
->> Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
->> Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
-> 
-> Hi Greg,
-> 
-> This change made it to usb-testing and usb-next but there are several
-> indentation errors in it. By itself, without the rest of the series, it
-> does not make much sense. It adds a couple of alsa controls but those
-> actually do nothing without the uac1 and uac2 part of the series.
-> 
-> Maybe it would be better to drop this change until the rest of series is
-> ready (if this is still possible) ?
-> 
+ Remove unneeded conversion to bool
 
-The indentation errors were fixed by commit 
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-next&id=1bc220835526ae076eecfb7ed513f80f22cf840d 
-which is in usb-next now too. If possible this commit should be dropped too.
+Semantic patch information:
+ Relational and logical operators evaluate to bool,
+ explicit conversion is overly verbose and unneeded.
 
-Thanks,
+Generated by: scripts/coccinelle/misc/boolconv.cocci
 
-Pavel.
+Fixes: 7a141e64cf14 ("net: usb: asix: ax88772: move embedded PHY detection as early as possible")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ drivers/net/usb/asix_devices.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
+index f6f3955a3a0f..dc87e8caf954 100644
+--- a/drivers/net/usb/asix_devices.c
++++ b/drivers/net/usb/asix_devices.c
+@@ -754,7 +754,7 @@ static int ax88772_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		return ret;
+ 
+ 	priv->phy_addr = ret;
+-	priv->embd_phy = ((priv->phy_addr & 0x1f) == 0x10 ? true : false);
++	priv->embd_phy = ((priv->phy_addr & 0x1f) == 0x10);
+ 
+ 	asix_read_cmd(dev, AX_CMD_STATMNGSTS_REG, 0, 0, 1, &chipcode, 0);
+ 	chipcode &= AX_CHIPCODE_MASK;
+-- 
+2.30.2
+
