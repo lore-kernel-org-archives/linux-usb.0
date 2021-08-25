@@ -6,38 +6,38 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D49C4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2818FC432BE
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A711461100
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A75F6128A
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbhHYFaO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 01:30:14 -0400
-Received: from mga14.intel.com ([192.55.52.115]:54048 "EHLO mga14.intel.com"
+        id S232313AbhHYFaP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 01:30:15 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30898 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231735AbhHYFaN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Aug 2021 01:30:13 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="217173379"
+        id S232303AbhHYFaP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 25 Aug 2021 01:30:15 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="303033542"
 X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="217173379"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 22:29:27 -0700
+   d="scan'208";a="303033542"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 22:29:27 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="643421830"
+   d="scan'208";a="515986139"
 Received: from lkp-server02.sh.intel.com (HELO 181e7be6f509) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 24 Aug 2021 22:29:26 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2021 22:29:26 -0700
 Received: from kbuild by 181e7be6f509 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1mIlTZ-0001D6-DQ; Wed, 25 Aug 2021 05:29:25 +0000
-Date:   Wed, 25 Aug 2021 13:28:36 +0800
+        id 1mIlTZ-0001D4-Cv; Wed, 25 Aug 2021 05:29:25 +0000
+Date:   Wed, 25 Aug 2021 13:28:30 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-next] BUILD SUCCESS
- 85fb1a27b128f6404cb9a08f3a4a094e92a78ac0
-Message-ID: <6125d504.qKitX1YnmqG9QMaV%lkp@intel.com>
+Subject: [usb:usb-testing] BUILD SUCCESS
+ d7428bc26fc767942c38d74b80299bcd4f01e7cb
+Message-ID: <6125d4fe.K6wZNwG3+GUFEU84%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -46,12 +46,12 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-branch HEAD: 85fb1a27b128f6404cb9a08f3a4a094e92a78ac0  Merge 5.14-rc7 into usb-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: d7428bc26fc767942c38d74b80299bcd4f01e7cb  usb: gadget: f_hid: optional SETUP/SET_REPORT mode
 
 elapsed time: 925m
 
-configs tested: 126
+configs tested: 137
 configs skipped: 3
 
 The following configs have been built successfully.
@@ -88,6 +88,11 @@ ia64                                defconfig
 arm                             ezx_defconfig
 powerpc                      ppc40x_defconfig
 mips                       lemote2f_defconfig
+powerpc                  mpc866_ads_defconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                     pq2fads_defconfig
+powerpc                      arches_defconfig
+arm                             rpc_defconfig
 arm                         cm_x300_defconfig
 powerpc                       maple_defconfig
 sh                               j2_defconfig
@@ -150,6 +155,12 @@ i386                 randconfig-a002-20210824
 i386                 randconfig-a005-20210824
 i386                 randconfig-a003-20210824
 i386                 randconfig-a004-20210824
+x86_64               randconfig-a014-20210825
+x86_64               randconfig-a015-20210825
+x86_64               randconfig-a016-20210825
+x86_64               randconfig-a013-20210825
+x86_64               randconfig-a012-20210825
+x86_64               randconfig-a011-20210825
 riscv                            allyesconfig
 riscv                    nommu_virt_defconfig
 riscv                             allnoconfig
