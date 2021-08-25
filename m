@@ -2,203 +2,282 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2818FC432BE
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3292C4320A
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:48:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A75F6128A
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:29:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AE736120A
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 05:48:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232313AbhHYFaP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 01:30:15 -0400
-Received: from mga05.intel.com ([192.55.52.43]:30898 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232303AbhHYFaP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Aug 2021 01:30:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10086"; a="303033542"
-X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="303033542"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2021 22:29:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,349,1620716400"; 
-   d="scan'208";a="515986139"
-Received: from lkp-server02.sh.intel.com (HELO 181e7be6f509) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 24 Aug 2021 22:29:26 -0700
-Received: from kbuild by 181e7be6f509 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1mIlTZ-0001D4-Cv; Wed, 25 Aug 2021 05:29:25 +0000
-Date:   Wed, 25 Aug 2021 13:28:30 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- d7428bc26fc767942c38d74b80299bcd4f01e7cb
-Message-ID: <6125d4fe.K6wZNwG3+GUFEU84%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232699AbhHYFtA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 01:49:00 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:59330 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231754AbhHYFsw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Aug 2021 01:48:52 -0400
+X-UUID: 4229238561b54d798107e7163b9e7bd5-20210825
+X-UUID: 4229238561b54d798107e7163b9e7bd5-20210825
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 571421875; Wed, 25 Aug 2021 13:48:04 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 25 Aug 2021 13:48:03 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by mtkcas07.mediatek.inc
+ (172.21.101.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 25 Aug
+ 2021 13:48:03 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 25 Aug 2021 13:48:02 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC:     Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH RESEND v3 1/2] PM / wakeirq: support enabling wake-up irq after runtime_suspend called
+Date:   Wed, 25 Aug 2021 13:47:57 +0800
+Message-ID: <1629870478-11813-1-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: d7428bc26fc767942c38d74b80299bcd4f01e7cb  usb: gadget: f_hid: optional SETUP/SET_REPORT mode
+When the dedicated wake-irq is level trigger, and it uses the
+consumer's sleep status as the wakeup source, that means if the
+consumer is not in sleep state, the wake-irq will be triggered
+when enable it; For this case, need enable the wake-irq after
+invoking the consumer's runtime_suspend() which make the consumer
+enter sleep state.
 
-elapsed time: 925m
+e.g.
+Assume the wake-irq is a low level trigger type, and the wakeup
+signal comes from the sleep status of consumer.
+The wakeup signal is low level at running time (0), and becomes
+high level when the consumer enters sleep state (runtime_suspend
+(1) is called), a wakeup event at (2) make the consumer exit sleep
+state, then the wakeup signal also becomes low level.
 
-configs tested: 137
-configs skipped: 3
+                ------------------
+               |           ^     ^|
+----------------           |     | --------------
+ |<---(0)--->|<--(1)--|   (3)   (2)    (4)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+if enable the wake-irq before calling runtime_suspend during (0),
+an interrupt will arise, it causes resume immediately;
+it works if enable wake-irq ( e.g. at (3) or (4)) after calling
+runtime_suspend.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20210824
-arm                          pxa3xx_defconfig
-powerpc                        fsp2_defconfig
-powerpc                      bamboo_defconfig
-xtensa                       common_defconfig
-mips                        vocore2_defconfig
-sh                           se7722_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                     ep8248e_defconfig
-sh                          sdk7786_defconfig
-arm                           viper_defconfig
-xtensa                  nommu_kc705_defconfig
-powerpc                    adder875_defconfig
-powerpc                       ebony_defconfig
-arm                            xcep_defconfig
-riscv                          rv32_defconfig
-sh                          rsk7201_defconfig
-riscv                            alldefconfig
-sparc64                             defconfig
-arc                           tb10x_defconfig
-arm                          pxa910_defconfig
-ia64                                defconfig
-arm                             ezx_defconfig
-powerpc                      ppc40x_defconfig
-mips                       lemote2f_defconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                     pq2fads_defconfig
-powerpc                      arches_defconfig
-arm                             rpc_defconfig
-arm                         cm_x300_defconfig
-powerpc                       maple_defconfig
-sh                               j2_defconfig
-sh                        sh7763rdp_defconfig
-arm                          ixp4xx_defconfig
-i386                                defconfig
-arc                     haps_hs_smp_defconfig
-powerpc                 linkstation_defconfig
-powerpc64                           defconfig
-mips                          ath79_defconfig
-arm                          lpd270_defconfig
-arm                         hackkit_defconfig
-sh                           se7206_defconfig
-arm                      tct_hammer_defconfig
-sh                            titan_defconfig
-xtensa                  audio_kc705_defconfig
-arc                              allyesconfig
-riscv                    nommu_k210_defconfig
-m68k                         apollo_defconfig
-sh                           se7721_defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-x86_64                            allnoconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a005-20210824
-x86_64               randconfig-a006-20210824
-x86_64               randconfig-a001-20210824
-x86_64               randconfig-a003-20210824
-x86_64               randconfig-a004-20210824
-x86_64               randconfig-a002-20210824
-i386                 randconfig-a006-20210824
-i386                 randconfig-a001-20210824
-i386                 randconfig-a002-20210824
-i386                 randconfig-a005-20210824
-i386                 randconfig-a003-20210824
-i386                 randconfig-a004-20210824
-x86_64               randconfig-a014-20210825
-x86_64               randconfig-a015-20210825
-x86_64               randconfig-a016-20210825
-x86_64               randconfig-a013-20210825
-x86_64               randconfig-a012-20210825
-x86_64               randconfig-a011-20210825
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+This patch introduces a new status WAKE_IRQ_DEDICATED_LATE_ENABLED
+to optionally support enabling wake-irq after calling runtime_suspend().
 
-clang tested configs:
-i386                 randconfig-c001-20210824
-s390                 randconfig-c005-20210824
-arm                  randconfig-c002-20210824
-riscv                randconfig-c006-20210824
-powerpc              randconfig-c003-20210824
-x86_64               randconfig-c007-20210824
-mips                 randconfig-c004-20210824
-x86_64               randconfig-a014-20210824
-x86_64               randconfig-a015-20210824
-x86_64               randconfig-a016-20210824
-x86_64               randconfig-a013-20210824
-x86_64               randconfig-a012-20210824
-x86_64               randconfig-a011-20210824
-i386                 randconfig-a011-20210824
-i386                 randconfig-a016-20210824
-i386                 randconfig-a012-20210824
-i386                 randconfig-a014-20210824
-i386                 randconfig-a013-20210824
-i386                 randconfig-a015-20210824
-hexagon              randconfig-r041-20210824
-hexagon              randconfig-r045-20210824
-riscv                randconfig-r042-20210824
-s390                 randconfig-r044-20210824
+Suggested-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: add new status suggested by Rafael
+
+v2: add more commit message
+
+  Use the falling edge trigger interrupt suggested by Ikjoon [1], it
+works well at firstly when only use this related wakeup source, but
+encounter issues if use other wakeup sources to wakeup platform as
+below steps:
+1. use another wakeup source to wake up the suspended system;
+2. the consumer's resume() will be called, and exits sleep state;
+3. the consumer's wakeup signal will fall into low level, due to
+   currently the wakeup irq is disabled, the wake-irq is pending;
+4. the consumer tries to enter runtime suspend, but there is a
+   pending wakeup irq, so will resume again, this will repeat
+   endlessly.
+
+  Send out the patch again for further discussion.
+
+[1]: https://patchwork.kernel.org/patch/12190407
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/base/power/power.h   |  7 ++++--
+ drivers/base/power/runtime.c |  6 +++--
+ drivers/base/power/wakeirq.c | 49 +++++++++++++++++++++++++++++++++---
+ include/linux/pm_wakeirq.h   |  5 ++++
+ 4 files changed, 60 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/base/power/power.h b/drivers/base/power/power.h
+index 54292cdd7808..2d5dfc886f0b 100644
+--- a/drivers/base/power/power.h
++++ b/drivers/base/power/power.h
+@@ -25,8 +25,10 @@ extern u64 pm_runtime_active_time(struct device *dev);
+ 
+ #define WAKE_IRQ_DEDICATED_ALLOCATED	BIT(0)
+ #define WAKE_IRQ_DEDICATED_MANAGED	BIT(1)
++#define WAKE_IRQ_DEDICATED_LATE_ENABLED	BIT(2)
+ #define WAKE_IRQ_DEDICATED_MASK		(WAKE_IRQ_DEDICATED_ALLOCATED | \
+-					 WAKE_IRQ_DEDICATED_MANAGED)
++					 WAKE_IRQ_DEDICATED_MANAGED | \
++					 WAKE_IRQ_DEDICATED_LATE_ENABLED)
+ 
+ struct wake_irq {
+ 	struct device *dev;
+@@ -39,7 +41,8 @@ extern void dev_pm_arm_wake_irq(struct wake_irq *wirq);
+ extern void dev_pm_disarm_wake_irq(struct wake_irq *wirq);
+ extern void dev_pm_enable_wake_irq_check(struct device *dev,
+ 					 bool can_change_status);
+-extern void dev_pm_disable_wake_irq_check(struct device *dev);
++extern void dev_pm_disable_wake_irq_check(struct device *dev, bool skip_enable_late);
++extern void dev_pm_enable_wake_irq_complete(struct device *dev);
+ 
+ #ifdef CONFIG_PM_SLEEP
+ 
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index 8a66eaf731e4..97646aa11376 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -645,6 +645,8 @@ static int rpm_suspend(struct device *dev, int rpmflags)
+ 	if (retval)
+ 		goto fail;
+ 
++	dev_pm_enable_wake_irq_complete(dev);
++
+  no_callback:
+ 	__update_runtime_status(dev, RPM_SUSPENDED);
+ 	pm_runtime_deactivate_timer(dev);
+@@ -690,7 +692,7 @@ static int rpm_suspend(struct device *dev, int rpmflags)
+ 	return retval;
+ 
+  fail:
+-	dev_pm_disable_wake_irq_check(dev);
++	dev_pm_disable_wake_irq_check(dev, false);
+ 	__update_runtime_status(dev, RPM_ACTIVE);
+ 	dev->power.deferred_resume = false;
+ 	wake_up_all(&dev->power.wait_queue);
+@@ -873,7 +875,7 @@ static int rpm_resume(struct device *dev, int rpmflags)
+ 
+ 	callback = RPM_GET_CALLBACK(dev, runtime_resume);
+ 
+-	dev_pm_disable_wake_irq_check(dev);
++	dev_pm_disable_wake_irq_check(dev, true);
+ 	retval = rpm_callback(callback, dev);
+ 	if (retval) {
+ 		__update_runtime_status(dev, RPM_SUSPENDED);
+diff --git a/drivers/base/power/wakeirq.c b/drivers/base/power/wakeirq.c
+index 3bad3266a2ad..a612f5c26c6c 100644
+--- a/drivers/base/power/wakeirq.c
++++ b/drivers/base/power/wakeirq.c
+@@ -215,6 +215,24 @@ int dev_pm_set_dedicated_wake_irq(struct device *dev, int irq)
+ }
+ EXPORT_SYMBOL_GPL(dev_pm_set_dedicated_wake_irq);
+ 
++/**
++ * dev_pm_wake_irq_set_late_enabled_status - set status WAKE_IRQ_DEDICATED_LATE_ENABLED
++ * @dev: Device
++ *
++ * Set the status of WAKE_IRQ_DEDICATED_LATE_ENABLED to tell rpm_suspend()
++ * to enable dedicated wake-up interrupt after invoking the runtime_suspend(),
++ *
++ * Should be called after setting dedicated wake-up interrupt.
++ */
++void dev_pm_wake_irq_set_late_enabled_status(struct device *dev)
++{
++	struct wake_irq *wirq = dev->power.wakeirq;
++
++	if (wirq && (wirq->status & WAKE_IRQ_DEDICATED_ALLOCATED))
++		wirq->status |= WAKE_IRQ_DEDICATED_LATE_ENABLED;
++}
++EXPORT_SYMBOL_GPL(dev_pm_wake_irq_set_late_enabled_status);
++
+ /**
+  * dev_pm_enable_wake_irq - Enable device wake-up interrupt
+  * @dev: Device
+@@ -285,27 +303,52 @@ void dev_pm_enable_wake_irq_check(struct device *dev,
+ 	return;
+ 
+ enable:
+-	enable_irq(wirq->irq);
++	if (!can_change_status || !(wirq->status & WAKE_IRQ_DEDICATED_LATE_ENABLED))
++		enable_irq(wirq->irq);
+ }
+ 
+ /**
+  * dev_pm_disable_wake_irq_check - Checks and disables wake-up interrupt
+  * @dev: Device
++ * @skip_late_enabled_status: skip checking WAKE_IRQ_DEDICATED_LATE_ENABLED
+  *
+  * Disables wake-up interrupt conditionally based on status.
+  * Should be only called from rpm_suspend() and rpm_resume() path.
+  */
+-void dev_pm_disable_wake_irq_check(struct device *dev)
++void dev_pm_disable_wake_irq_check(struct device *dev, bool skip_late_enabled_status)
+ {
+ 	struct wake_irq *wirq = dev->power.wakeirq;
+ 
+ 	if (!wirq || !(wirq->status & WAKE_IRQ_DEDICATED_MASK))
+ 		return;
+ 
+-	if (wirq->status & WAKE_IRQ_DEDICATED_MANAGED)
++	if (wirq->status & WAKE_IRQ_DEDICATED_MANAGED &&
++	    (skip_late_enabled_status ||
++	     !(wirq->status & WAKE_IRQ_DEDICATED_LATE_ENABLED)))
+ 		disable_irq_nosync(wirq->irq);
+ }
+ 
++/**
++ * dev_pm_enable_wake_irq_complete - enable wake irq based on status
++ * @dev: Device
++ *
++ * Enable wake-up interrupt conditionally based on status, mainly for
++ * enabling wake-up interrupt after runtime_suspend() is called.
++ *
++ * Should be only called from rpm_suspend() path.
++ */
++void dev_pm_enable_wake_irq_complete(struct device *dev)
++{
++	struct wake_irq *wirq = dev->power.wakeirq;
++
++	if (!wirq || !(wirq->status & WAKE_IRQ_DEDICATED_MASK))
++		return;
++
++	if (wirq->status & WAKE_IRQ_DEDICATED_MANAGED &&
++	    wirq->status & WAKE_IRQ_DEDICATED_LATE_ENABLED)
++		enable_irq(wirq->irq);
++}
++
+ /**
+  * dev_pm_arm_wake_irq - Arm device wake-up
+  * @wirq: Device wake-up interrupt
+diff --git a/include/linux/pm_wakeirq.h b/include/linux/pm_wakeirq.h
+index cd5b62db9084..92f814d583f8 100644
+--- a/include/linux/pm_wakeirq.h
++++ b/include/linux/pm_wakeirq.h
+@@ -22,6 +22,7 @@ extern int dev_pm_set_dedicated_wake_irq(struct device *dev,
+ extern void dev_pm_clear_wake_irq(struct device *dev);
+ extern void dev_pm_enable_wake_irq(struct device *dev);
+ extern void dev_pm_disable_wake_irq(struct device *dev);
++extern void dev_pm_wake_irq_set_late_enabled_status(struct device *dev);
+ 
+ #else	/* !CONFIG_PM */
+ 
+@@ -47,5 +48,9 @@ static inline void dev_pm_disable_wake_irq(struct device *dev)
+ {
+ }
+ 
++static inline void dev_pm_wake_irq_set_late_enabled_status(struct device *dev)
++{
++}
++
+ #endif	/* CONFIG_PM */
+ #endif	/* _LINUX_PM_WAKEIRQ_H */
+-- 
+2.25.1
+
