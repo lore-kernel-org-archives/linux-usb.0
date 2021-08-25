@@ -2,90 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-14.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D81AC432BE
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 10:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01E35C4338F
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 10:51:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED9CA611EF
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 10:00:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D798B610E5
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 10:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239735AbhHYKBA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 06:01:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58924 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239611AbhHYKA7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Aug 2021 06:00:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 80EA661178;
-        Wed, 25 Aug 2021 10:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629885613;
-        bh=yp3IRO9FCB9oK1+XLLX639+q9a7keOG91VnqqQQXNBk=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=mvvAXOOjCMbGE2rLJUvufqrW2+2SsAkPzoZ8FoMc4HtXrui78wEou98+it7HIQQt1
-         Y0A0yzImCMv9iTDiaPqu3buf6mc5mBXD01635oEoFeOdDYwb52aVOG2bXsOnbpS5ET
-         gqkFZ3FcFWBHfVJYTrPqJe45XZ6c4Ov8ocaCjCDiydr1VnqeTNDLX+I+/j/vj+blI7
-         f0ePQ/pE24G1MQDIKDYnA9ScB/kQ8+IkRAJuLc43zNz34K1z60H+2r6GGGvgBd9zNQ
-         vLh+lYsI1HlHHjLwSJSTXE/TeX91lrPPWEhlO83CnRi7GrNV8Q4uh0wAmVagJPifj4
-         wr9CzYKzBS0aw==
-Content-Type: text/plain; charset="utf-8"
+        id S238500AbhHYKw3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 06:52:29 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45278 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231697AbhHYKw2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Aug 2021 06:52:28 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 17PApb3L003133;
+        Wed, 25 Aug 2021 05:51:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1629888697;
+        bh=ohwW3unW5jCvC6uKqinVsEJ5ctT/OYLeiTK7Sp7kdy0=;
+        h=From:To:CC:Subject:Date;
+        b=GWmhQqVYMOAU6Iml4yM86rwfdtPVaStREPzPK7Ez7DANMvk8ydXW3ZcEqEc8RmzPx
+         5/NfRVTHKGMGk1NjrTilX4HUFJDYql2zL3ooiNWUh0CRvD95yYmh9HmEEXUrms8hQI
+         fxwk9xDfwT3G5o/1aC4luFh4YG52b9x82lhjoRTo=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 17PApbpC070866
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 25 Aug 2021 05:51:37 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Wed, 25
+ Aug 2021 05:51:36 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
+ Frontend Transport; Wed, 25 Aug 2021 05:51:36 -0500
+Received: from a0393678-lt.ent.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 17PApW85129194;
+        Wed, 25 Aug 2021 05:51:33 -0500
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <chris.chiu@canonical.com>, Kishon Vijay Abraham I <kishon@ti.com>,
+        <lokeshvutla@ti.com>
+Subject: [PATCH 0/3] Fix cold plugged USB device on certain PCIe USB cards
+Date:   Wed, 25 Aug 2021 16:21:29 +0530
+Message-ID: <20210825105132.10420-1-kishon@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 00/10] LAN7800 driver improvements
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162988561347.31154.16868294892793404021.git-patchwork-notify@kernel.org>
-Date:   Wed, 25 Aug 2021 10:00:13 +0000
-References: <20210824185613.49545-1-john.efstathiades@pebblebay.com>
-In-Reply-To: <20210824185613.49545-1-john.efstathiades@pebblebay.com>
-To:     John Efstathiades <john.efstathiades@pebblebay.com>
-Cc:     UNGLinuxDriver@microchip.com, woojung.huh@microchip.com,
-        davem@davemloft.net, netdev@vger.kernel.org, kuba@kernel.org,
-        linux-usb@vger.kernel.org
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
+Cold plugged USB device was not detected on certain PCIe USB cards
+(like Inateck card connected to AM64 EVM or connected to J7200 EVM).
 
-This series was applied to netdev/net-next.git (refs/heads/master):
+Re-plugging the USB device always gets it enumerated.
 
-On Tue, 24 Aug 2021 19:56:03 +0100 you wrote:
-> This patch set introduces a number of improvements and fixes for
-> problems found during testing of a modification to add a NAPI-style
-> approach to packet handling to improve performance.
-> 
-> NOTE: the NAPI changes are not part of this patch set and the issues
->       fixed by this patch set are not coupled to the NAPI changes.
-> 
-> [...]
+This issue was discussed in
+https://lore.kernel.org/r/772e4001-178e-4918-032c-6e625bdded24@ti.com
+and
+https://bugzilla.kernel.org/show_bug.cgi?id=214021
 
-Here is the summary with links:
-  - [net-next,v2,01/10] lan78xx: Fix white space and style issues
-    https://git.kernel.org/netdev/net-next/c/9ceec7d33adf
-  - [net-next,v2,02/10] lan78xx: Remove unused timer
-    https://git.kernel.org/netdev/net-next/c/3bef6b9e9888
-  - [net-next,v2,03/10] lan78xx: Set flow control threshold to prevent packet loss
-    https://git.kernel.org/netdev/net-next/c/dc35f8548e00
-  - [net-next,v2,04/10] lan78xx: Remove unused pause frame queue
-    https://git.kernel.org/netdev/net-next/c/40b8452fa8b4
-  - [net-next,v2,05/10] lan78xx: Add missing return code checks
-    https://git.kernel.org/netdev/net-next/c/3415f6baaddb
-  - [net-next,v2,06/10] lan78xx: Fix exception on link speed change
-    https://git.kernel.org/netdev/net-next/c/b1f6696daafe
-  - [net-next,v2,07/10] lan78xx: Fix partial packet errors on suspend/resume
-    https://git.kernel.org/netdev/net-next/c/e1210fe63bf8
-  - [net-next,v2,08/10] lan78xx: Fix race conditions in suspend/resume handling
-    https://git.kernel.org/netdev/net-next/c/5f4cc6e25148
-  - [net-next,v2,09/10] lan78xx: Fix race condition in disconnect handling
-    https://git.kernel.org/netdev/net-next/c/77dfff5bb7e2
-  - [net-next,v2,10/10] lan78xx: Limit number of driver warning messages
-    https://git.kernel.org/netdev/net-next/c/df0d6f7a342c
+So the suggested solution is to register both root hubs along with the
+second hcd for xhci.
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+RFC Patch series can be found at [1]
 
+Changes from RFC:
+1) Mathias identified potential issues with the RFC patch [2] and suggested
+   the solution to use HCD flags. This series implements it.
+
+[1] -> https://lore.kernel.org/linux-usb/20210824105302.25382-1-kishon@ti.com/ 
+[2] -> https://lore.kernel.org/linux-usb/06693934-28f2-d59e-b004-62cabd3f9e8e@linux.intel.com
+
+Kishon Vijay Abraham I (3):
+  usb: core: hcd: Modularize HCD stop configuration in usb_stop_hcd()
+  usb: core: hcd: Add support for deferring roothub registration
+  xhci: Set HCD flag to defer primary roothub registration
+
+ drivers/usb/core/hcd.c  | 67 +++++++++++++++++++++++++++--------------
+ drivers/usb/host/xhci.c |  2 +-
+ include/linux/usb/hcd.h |  2 ++
+ 3 files changed, 48 insertions(+), 23 deletions(-)
+
+-- 
+2.17.1
 
