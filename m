@@ -2,68 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.5 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CCA1C4338F
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:33:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97E0C4320E
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:57:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BE49610CB
-	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:33:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87DBB610FC
+	for <linux-usb@archiver.kernel.org>; Wed, 25 Aug 2021 17:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234684AbhHYReM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 13:34:12 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:41766 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232053AbhHYReL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 25 Aug 2021 13:34:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=6Xzd/AZhGEUTldtwR/3mpDMdo0JtSuZfq2s/7VUNu5g=; b=Tp6vm8DQ3pXH/aMvAg7kgi7Qmb
-        up/tvBoKJB85IMwCXdOBveejocdSSuHagFm4n3pupB/D0l7sOl3BuMzVZ1FgZoYS/M93FP9fV2Cbw
-        5rfbZt/oNwZFzYpOAmFRQb1mFjrRppJXhU2KcoxD/kpdbxDXV1ytCN44dK62NVzN18Rk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1mIwlx-003pjW-O3; Wed, 25 Aug 2021 19:33:09 +0200
-Date:   Wed, 25 Aug 2021 19:33:09 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Evgeny Novikov <novikov@ispras.ru>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mike Turquette <mturquette@linaro.org>,
-        Kirill Shilimanov <kirill.shilimanov@huawei.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ldv-project@linuxtesting.org
-Subject: Re: [PATCH] usb: ehci-orion: Handle errors of clk_prepare_enable()
- in probe
-Message-ID: <YSZ+1bFUEMsJlrcu@lunn.ch>
-References: <20210825170902.11234-1-novikov@ispras.ru>
+        id S234784AbhHYR6h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 13:58:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229535AbhHYR6h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Aug 2021 13:58:37 -0400
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 391DAC061757
+        for <linux-usb@vger.kernel.org>; Wed, 25 Aug 2021 10:57:51 -0700 (PDT)
+Received: by mail-wr1-x431.google.com with SMTP id b6so495180wrh.10
+        for <linux-usb@vger.kernel.org>; Wed, 25 Aug 2021 10:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7HJBCsy/2e+8vsjPLqtpvDX5toDV2JyAqCmGyQypeaw=;
+        b=hvkNt8z3rBE522DXHa6d0kkR9rTK4r5uIwm/1xFzfXbuLbMLm8RIZ0g/qupOb1movf
+         O1ZG7sXtWsWiWVNiYzTMfd5hQjo5UVFaMXc0NsQMLxffZuTE5sx78I7a3Fi7lzjdvgMV
+         hoAZtplGtpJkyYTAtYcVilbzS+/yL+Zwv7jzdlOWIpXRbosmI+w0XT3CtbtU8zgKEH8r
+         FNS50TiyZUlk/OK7KKKug1wbdK7V7RY4y/bw7Lprj0VSjs1rKP3xz0+ezLV1SSTPyLRi
+         n9g8a3T6fg8Htag1ifOFD3y0sJ8c9rjChqtP3rtY9ZgGB1qfMuu8NJZlP+BURIjEoU5w
+         PHEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7HJBCsy/2e+8vsjPLqtpvDX5toDV2JyAqCmGyQypeaw=;
+        b=CibnOqSuUG1vRyUm2JZUoxypAEMn8rX4bfUH1HweWMO0TLHciL6o0KmBFqL6KuTvnF
+         cmWprEyZyBG9qmIPmtEBj3zhgyDIlQ4/RHqmfDGVBlfFydn4R+gzGvWjFfqLxUVqC2/a
+         rqqS0ZVC7d8U2CWVQAdzLDb9vTFjz1DV1zcgQ7kePZYTj7RN6Rou+tlJZcGOmEpgcpme
+         XRdhyqJO7SVdM4+C0BzhgaavUi+mylpvCUgUvzalBJz27VREN2rahpEk6x/4tZh+liOz
+         cY1QV868ZX6W5Z0zGgNfWlRZz0nQfuIXSyTkSjHhi5RPfxziJaawXpKpgTa8H70T1ki6
+         iCOw==
+X-Gm-Message-State: AOAM5315mJeYCkWKYHoZ3P6gp4m3Lp1p4vxEl2oPHQOGPB9iayvIy/Au
+        IFUsvSjkTTcRl20s0lu91tBKDg==
+X-Google-Smtp-Source: ABdhPJyKPhVnc2tnXS2eXCHWuVHjv+XELlwxThJ5sphgUEk8gd+6S/1OZhItx3GZU1jUeKngA2jnlA==
+X-Received: by 2002:adf:eb89:: with SMTP id t9mr27932649wrn.66.1629914269753;
+        Wed, 25 Aug 2021 10:57:49 -0700 (PDT)
+Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
+        by smtp.gmail.com with ESMTPSA id o34sm6172398wms.10.2021.08.25.10.57.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Aug 2021 10:57:49 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Implement role-switch notifications from dwc3-drd to
+ dwc3-qcom
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, agross@kernel.org,
+        gregkh@linuxfoundation.org, jackp@codeaurora.org,
+        wcheng@codeaurora.org, linux-usb@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20210704013314.200951-1-bryan.odonoghue@linaro.org>
+ <20210707015704.GA28125@nchen> <YOX6d+sBEJMP4V3q@yoga>
+ <20210708030631.GA22420@nchen> <YSWCnsZDdp57KBqB@ripper>
+ <87zgt65avm.fsf@kernel.org> <ce5f12dd-ddc1-6a9c-3dfb-aa44ea166828@linaro.org>
+ <YSZned9v1+ajzVx0@ripper>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Message-ID: <90d17c95-1cf3-89aa-94ad-920e4781f866@linaro.org>
+Date:   Wed, 25 Aug 2021 18:59:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210825170902.11234-1-novikov@ispras.ru>
+In-Reply-To: <YSZned9v1+ajzVx0@ripper>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 08:09:02PM +0300, Evgeny Novikov wrote:
-> ehci_orion_drv_probe() did not account for possible errors of
-> clk_prepare_enable()
+On 25/08/2021 16:53, Bjorn Andersson wrote:
+> But in the case of Type-C altmode several of our boards have either an
+> external gpio-based SBU-pin-swapper or some redriver on I2C with this
+> functionality, so we need a way to tell both the PHY and this external
+> contraption about the orientation.
 
-Hi Evgeny
+Its a very similar problem to orientation switch
 
-Your patch looks good.
+As an example
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+- redriver may need to fix up signal integrity for
+   lane switching
 
-At the time this was added, clk_prepare_enable() could not actually
-fail, the clocks are built in, there was no error path that could
-trigger. I've no idea if this is still true, so please do have this
-patch merged.
+- PHY needs to toggle lanes from one IP block to another
 
-      Andrew
+I don't think off the top of my head a USB controller or DPU cares much 
+about the orientation switch but for argument sake you could add one to 
+that list.
+
+I _think_ the type-c mux layer handles this though, as in what we did on 
+RB5 has PHY and redriver receiving and reacting to a type-c orientation 
+switch both with the existing type-c port driver and the new tcpm.
+
++ Dmitry - he did the mux work on the PHY and the redriver
+
+Seems to me that the type-c mux way of diseminating to more than one 
+place might fight role-switching well too.
+
+
+
+
