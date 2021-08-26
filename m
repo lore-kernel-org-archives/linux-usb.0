@@ -2,148 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 233B1C43214
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:38:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C524CC4320A
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:40:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0DDE86109E
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:38:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8479610C7
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:40:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242191AbhHZMiv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Aug 2021 08:38:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56544 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241261AbhHZMiu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 26 Aug 2021 08:38:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 45AB7610C8;
-        Thu, 26 Aug 2021 12:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629981483;
-        bh=oYW580H2r0Vk0cbC8cBai0zFZz3y1uoZPGESg1qexXU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=f0HZaSS4gtmS+SL34ztpsapPiRtEUGKYJWcRETMfuNr3cIG1p7DW3QaXCLGId7yHd
-         VCko2KGBxLk35kGtU4GYr76WUOBaH9xAF13YuP0YP/07m2YdiPncHssgftkP8jZVWX
-         aQF637zpXaqpRuqfM3+RR6hfDlAX2Ykqy+6kK4clPbOIiwxXKM0LDHj6LoDlDjqPAH
-         TjeTHVnwhhMYjkB5lNWiHnbaJRSb+ljSAhQlLKsnxwmMwUX9YmZwrtkWUEY1gctJEv
-         QLbEx8Sp+qk/SCNRdoPkZKILlg4XNC7H6tdp0pzfLdCmQExm6NWRzYLk7utjzAaFg+
-         CoSIWmfhVSC4g==
-Received: by mail-ej1-f44.google.com with SMTP id ia27so5919378ejc.10;
-        Thu, 26 Aug 2021 05:38:03 -0700 (PDT)
-X-Gm-Message-State: AOAM532WtF1M7Kj4MkwX6t+QaoGKTUjQLolB6Q2k/rtQYV33BW+ds1Hl
-        jbicPnpbymbCZ2BQDaDIHvc5g/rUQhfrRKa3/A==
-X-Google-Smtp-Source: ABdhPJzPmphkjNnES72zf5E0Tys8QPVr6+4jD+sFXoKYqUfYojDMBajfSo+1uGlz0Bet8TS24XzxfR5NSH1HPcQKtQI=
-X-Received: by 2002:a17:906:25db:: with SMTP id n27mr3993295ejb.108.1629981481805;
- Thu, 26 Aug 2021 05:38:01 -0700 (PDT)
+        id S242068AbhHZMkt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Aug 2021 08:40:49 -0400
+Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:56268
+        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240770AbhHZMks (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Aug 2021 08:40:48 -0400
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id A83393F245;
+        Thu, 26 Aug 2021 12:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1629981599;
+        bh=TKF+42ZxrWYsLD4ysTzhSy+xn6UWr/AHBlUXLt4dSZk=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+        b=rxUlkGiLXpfYa8vyM8fgzMeu6qaskz6I1UBFgrx0ayQmf0kAg40uEeQsusT3MY/8/
+         K+CEQDTLoV2oN14f0Z6ccV5wn1eQT4hOg8jsEr2/TwkpRKAia8+arSEl/jVHG1EArf
+         VaeWLtdT12C6m2mXgcZwzPN3zLp/CD0sNoXH7tYlGWWmZkH01ceadfHsvsq+e5Fd2B
+         24AN6b/D3jPfqQtr0uT1aKWD9X7JqnoCehsavXdpIWsNJGqTRKtbnGms5zv7fZ2+Na
+         Q8Y2CJyMMucfeRfEkDwRvYjnyQi9C0ynL6uXXBXC1frKhUHFZqUJD8ZLUPJYNil4Jt
+         lF+VvjxOJlTJA==
+From:   Colin King <colin.king@canonical.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: tcpm: Fix spelling mistake "atleast" -> "at least"
+Date:   Thu, 26 Aug 2021 13:39:59 +0100
+Message-Id: <20210826123959.14838-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210825212549.GA3609092@bjorn-Precision-5520> <1795efc94a7b87fb4d9f769e03ce21c6@codeaurora.org>
-In-Reply-To: <1795efc94a7b87fb4d9f769e03ce21c6@codeaurora.org>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 26 Aug 2021 07:37:48 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+4RZejPcgX3J5JDGnHB6Lgx54BVgwfaZrNuY759wm9ig@mail.gmail.com>
-Message-ID: <CAL_Jsq+4RZejPcgX3J5JDGnHB6Lgx54BVgwfaZrNuY759wm9ig@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] PCI: qcom: Switch pcie_1_pipe_clk_src after PHY
- init in SC7280
-To:     Prasad Malisetty <pmaliset@codeaurora.org>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>, agross@kernel.org,
-        bhelgaas@google.com, bjorn.andersson@linaro.org,
-        lorenzo.pieralisi@arm.com, svarbanov@mm-sol.com,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
-        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
-        linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 26, 2021 at 2:22 AM Prasad Malisetty
-<pmaliset@codeaurora.org> wrote:
->
-> On 2021-08-26 02:55, Bjorn Helgaas wrote:
-> > [+cc linux-pci; patches to drivers/pci/ should always be cc'd there]
-> >
-> > On Wed, Aug 25, 2021 at 07:30:09PM +0000, Stephen Boyd wrote:
-> >> Quoting Prasad Malisetty (2021-08-24 01:10:48)
-> >> > On 2021-08-17 22:56, Prasad Malisetty wrote:
-> >> > > On 2021-08-10 09:38, Prasad Malisetty wrote:
-> >> > >> On the SC7280, By default the clock source for pcie_1_pipe is
-> >> > >> TCXO for gdsc enable. But after the PHY is initialized, the clock
-> >> > >> source must be switched to gcc_pcie_1_pipe_clk from TCXO.
-> >> > >>
-> >> > >> Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
-> >> > >> ---
-> >> > >>  drivers/pci/controller/dwc/pcie-qcom.c | 18 ++++++++++++++++++
-> >> > >>  1 file changed, 18 insertions(+)
-> >> > >>
-> >> > >> diff --git a/drivers/pci/controller/dwc/pcie-qcom.c
-> >> > >> b/drivers/pci/controller/dwc/pcie-qcom.c
-> >> > >> index 8a7a300..39e3b21 100644
-> >> > >> --- a/drivers/pci/controller/dwc/pcie-qcom.c
-> >> > >> +++ b/drivers/pci/controller/dwc/pcie-qcom.c
-> >> > >> @@ -166,6 +166,8 @@ struct qcom_pcie_resources_2_7_0 {
-> >> > >>      struct regulator_bulk_data supplies[2];
-> >> > >>      struct reset_control *pci_reset;
-> >> > >>      struct clk *pipe_clk;
-> >> > >> +    struct clk *gcc_pcie_1_pipe_clk_src;
-> >> > >> +    struct clk *phy_pipe_clk;
-> >> > >>  };
-> >> > >>
-> >> > >>  union qcom_pcie_resources {
-> >> > >> @@ -1167,6 +1169,16 @@ static int qcom_pcie_get_resources_2_7_0(struct
-> >> > >> qcom_pcie *pcie)
-> >> > >>      if (ret < 0)
-> >> > >>              return ret;
-> >> > >>
-> >> > >> +    if (of_device_is_compatible(dev->of_node, "qcom,pcie-sc7280")) {
-> >> > >> +            res->gcc_pcie_1_pipe_clk_src = devm_clk_get(dev, "pipe_mux");
-> >> > >> +            if (IS_ERR(res->gcc_pcie_1_pipe_clk_src))
-> >> > >> +                    return PTR_ERR(res->gcc_pcie_1_pipe_clk_src);
-> >> > >> +
-> >> > >> +            res->phy_pipe_clk = devm_clk_get(dev, "phy_pipe");
-> >> > >> +            if (IS_ERR(res->phy_pipe_clk))
-> >> > >> +                    return PTR_ERR(res->phy_pipe_clk);
-> >> > >> +    }
-> >> > >
-> >> > > I would like to check is there any other better approach instead of
-> >> > > compatible method here as well or is it fine to use compatible method.
-> >>
-> >> I'd prefer the compatible method. If nobody is responding then it's
-> >> best
-> >> to just resend the patches with the approach you prefer instead of
-> >> waiting for someone to respond to a review comment.
-> >
-> > I'm missing some context here, so I'm not exactly sure what your
-> > question is, Prasad, but IMO drivers generally should not need to use
-> > of_device_is_compatible() if they've already called
-> > of_device_get_match_data() (as qcom_pcie_probe() has).
-> >
-> > of_device_is_compatible() does basically the same work of looking for
-> > a match in qcom_pcie_match[] that of_device_get_match_data() does, so
-> > it seems pointless to repeat it.
+From: Colin Ian King <colin.king@canonical.com>
 
-+1
+There are spelling mistakes in a comment and a literal string.
+Fix them.
 
-> > I am a little confused because while [1] adds "qcom,pcie-sc7280" to
-> > qcom,pcie.txt, I don't see a patch that adds it to qcom_pcie_match[].
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Either that's missing or there's a fallback to 8250 that's not documented.
-> >
-> > Bjorn
-> >
-> Hi Bjorn,
->
-> I agree on your point, but the main reason is to use compatible in
-> get_resources_2_7_0 is same hardware version. For SM8250 & SC7280
-> platforms, the hw version is same. Since we can't have a separate ops
-> for SC7280, we are using compatible method in get_resources_2_7_0 to
-> differentiate SM8250 and SC7280.
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 049f4c61ee82..b981fc39fa3c 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -278,7 +278,7 @@ struct pd_mode_data {
+  * @req_max_curr: Requested max current of the port partner
+  * @req_out_volt: Requested output voltage to the port partner
+  * @req_op_curr: Requested operating current to the port partner
+- * @supported: Parter has atleast one APDO hence supports PPS
++ * @supported: Parter has at least one APDO hence supports PPS
+  * @active: PPS mode is active
+  */
+ struct pd_pps_data {
+@@ -2050,7 +2050,7 @@ enum pdo_err {
+ 
+ static const char * const pdo_err_msg[] = {
+ 	[PDO_ERR_NO_VSAFE5V] =
+-	" err: source/sink caps should atleast have vSafe5V",
++	" err: source/sink caps should at least have vSafe5V",
+ 	[PDO_ERR_VSAFE5V_NOT_FIRST] =
+ 	" err: vSafe5V Fixed Supply Object Shall always be the first object",
+ 	[PDO_ERR_PDO_TYPE_NOT_IN_ORDER] =
+-- 
+2.32.0
 
-Then fix the match data to be not just ops, but ops and the flag you need here.
-
-Rob
