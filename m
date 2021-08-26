@@ -2,76 +2,72 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 966FCC432BE
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 14:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D621DC432BE
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 14:31:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7765060F58
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 14:25:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFC4E60EE9
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 14:31:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242815AbhHZO0B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Aug 2021 10:26:01 -0400
-Received: from mga02.intel.com ([134.134.136.20]:52528 "EHLO mga02.intel.com"
+        id S232876AbhHZOcg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Aug 2021 10:32:36 -0400
+Received: from mga03.intel.com ([134.134.136.65]:40917 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242820AbhHZO0A (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 26 Aug 2021 10:26:00 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="204953720"
+        id S231458AbhHZOcf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 26 Aug 2021 10:32:35 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10088"; a="217789869"
 X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; 
-   d="scan'208";a="204953720"
+   d="scan'208";a="217789869"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2021 07:25:06 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2021 07:31:47 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.84,353,1620716400"; 
-   d="scan'208";a="598499071"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 26 Aug 2021 07:25:04 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 26 Aug 2021 17:25:03 +0300
-Date:   Thu, 26 Aug 2021 17:25:03 +0300
+   d="scan'208";a="598500943"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2021 07:31:46 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Ulrich Huber <ulrich@huberulrich.de>
 Cc:     linux-usb@vger.kernel.org
-Subject: Re: ucsi_acpi GET_CONNECTOR_STATUS failed (-5)
-Message-ID: <YSekP0+tq6ISq6my@kuha.fi.intel.com>
-References: <b36249c5-776a-9338-bb9f-ae6a5c446860@huberulrich.de>
- <YSX7hZnCoFSXTFJe@kuha.fi.intel.com>
- <0e77017d-9358-a691-6293-234fcbab6a31@huberulrich.de>
- <a7f971ef-c3aa-aadc-e453-4c667a414131@huberulrich.de>
+Subject: [RFC PATCH 1/7] usb: typec: ucsi: Always cancel the command if PPM reports BUSY condition
+Date:   Thu, 26 Aug 2021 17:31:40 +0300
+Message-Id: <20210826143146.25799-2-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210826143146.25799-1-heikki.krogerus@linux.intel.com>
+References: <20210826143146.25799-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7f971ef-c3aa-aadc-e453-4c667a414131@huberulrich.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 25, 2021 at 08:37:14PM +0200, Ulrich Huber wrote:
-> Hi,
-> 
-> I just managed to get some more details. The bug definitely originates from
-> `ucsi_handle_connector_change`. Within this function it is the second call
-> to ucsi_send_command with UCSI_GET_CONNECTOR_STATUS that fails (Step 4).
-> 
-> `ucsi_send_command` calls `ucsi_exec_command` internally, which does the
-> synchronous write and following read. Within `ucsi_exec_command` the check
-> on line 134 fails:
-> 
-> if (cci & UCSI_CCI_COMMAND_COMPLETE)
-> 
-> Hope this is of some help.
+This makes it possible to execute next command immediately
+after the busy condition.
 
-Thanks for debugging this.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Yeah, I think that the second GET_CONNECTOR_STATUS immediately after
-the first one is confusing the firmware on some boards.
-
-I'll send you a patch series I've been working on that tries to
-improve the situation. I better include the list as well (sending it
-as RFC).
-
-thanks,
-
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 5ef5bd0e87cf2..ffb5be51daf85 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -128,8 +128,10 @@ static int ucsi_exec_command(struct ucsi *ucsi, u64 cmd)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (cci & UCSI_CCI_BUSY)
++	if (cci & UCSI_CCI_BUSY) {
++		ucsi->ops->async_write(ucsi, UCSI_CANCEL, NULL, 0);
+ 		return -EBUSY;
++	}
+ 
+ 	if (!(cci & UCSI_CCI_COMMAND_COMPLETE))
+ 		return -EIO;
 -- 
-heikki
+2.32.0
+
