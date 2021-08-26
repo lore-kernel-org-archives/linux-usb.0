@@ -2,77 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A6DDC4320E
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE3CFC4320E
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:37:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 796C5610A3
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:27:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFE0A610A4
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 12:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241521AbhHZM1r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Aug 2021 08:27:47 -0400
-Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:40008
-        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234321AbhHZM1r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Aug 2021 08:27:47 -0400
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 010C03F051;
-        Thu, 26 Aug 2021 12:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1629980819;
-        bh=qTmiDvDlAU0GlgPB8TPRAtXI2em1asDn/cxSyM9O4IU=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-        b=A1MP1K/EdSgaASXjb148/FmL/TS/0CQpFlx6DOWQzvQCdMI7omSXfToziyl7vffsH
-         8qY4FLDuoQUZFT6ve4Q7Bz19wjMu/rhcdLsGYX91CvVJGRgsqzChfCD3NZ8+NNIvAw
-         CJd+eJ/NvZs1bcFt+Lsggb5s2y5d7sY2gunYYG+c9xa0qYD8VTWTK76kFFqBQP4c5V
-         StIqLhbkiEZEcZM6x2Nx+b1nYwvxNbHZrtDC/F8JkfjwAlFfb9nTmur9K/ThoAXx8Y
-         PWrhvPOQHZ64k85kv8802E/Jkgbijsz/+WteizQbOPIIl6ar6F1k66cK+P+bqLdVLi
-         dP3cJfOmQoTKw==
-From:   Colin King <colin.king@canonical.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: renesas_usbhs: Fix spelling mistake "faile" -> "failed"
-Date:   Thu, 26 Aug 2021 13:26:58 +0100
-Message-Id: <20210826122658.13914-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        id S242037AbhHZMij (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Aug 2021 08:38:39 -0400
+Received: from smtp-out1.suse.de ([195.135.220.28]:56544 "EHLO
+        smtp-out1.suse.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241261AbhHZMij (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Aug 2021 08:38:39 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id 4B4F5222ED;
+        Thu, 26 Aug 2021 12:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1629981471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kr+MnY6WWZjhMXduEXDacA8DlN3E7yY7WMNS2gQoetY=;
+        b=l4gVQquU5+i/UjLtkIyNIZAw39izi2/yrPABFAwF+mLCXaUbB4Z07H3T9bvVviTvOkPHMo
+        Cl18jOzAOGTwR/70FA57MV0DX9ZXbzTc5DgGjvD5GC8YmoQ0eELY2an8dfzzkpVlmUpdwz
+        q0gXo+eJTCBmG2dkcrO2qAWS+LAXczE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1629981471;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=kr+MnY6WWZjhMXduEXDacA8DlN3E7yY7WMNS2gQoetY=;
+        b=9MxZjeFeLMC7lYUS6tiiiY2C/CrpMeYfyuygZeJqNeOJABhUUhnwcwa7OUy6ZBs6+alSIi
+        VsVdyPv6LYxHwIBg==
+Received: from alsa1.suse.de (alsa1.suse.de [10.160.4.42])
+        by relay2.suse.de (Postfix) with ESMTP id 3D48AA3B8D;
+        Thu, 26 Aug 2021 12:37:51 +0000 (UTC)
+Date:   Thu, 26 Aug 2021 14:37:51 +0200
+Message-ID: <s5h35qwwfds.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Moritz Fischer <mdf@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: renesas-xhci: Prefer firmware loading on unknown ROM state
+In-Reply-To: <YSeHWusVwn9XMHMg@kroah.com>
+References: <20210819113427.1166-1-tiwai@suse.de>
+        <YSd/9clcNN547vre@kroah.com>
+        <s5h8s0owhbp.wl-tiwai@suse.de>
+        <YSeHWusVwn9XMHMg@kroah.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On Thu, 26 Aug 2021 14:21:46 +0200,
+Greg Kroah-Hartman wrote:
+> 
+> On Thu, Aug 26, 2021 at 01:55:54PM +0200, Takashi Iwai wrote:
+> > On Thu, 26 Aug 2021 13:50:13 +0200,
+> > Greg Kroah-Hartman wrote:
+> > > 
+> > > On Thu, Aug 19, 2021 at 01:34:27PM +0200, Takashi Iwai wrote:
+> > > > The recent attempt to handle an unknown ROM state in the commit
+> > > > d143825baf15 ("usb: renesas-xhci: Fix handling of unknown ROM state")
+> > > > resulted in a regression and reverted later by the commit 44cf53602f5a
+> > > > ("Revert "usb: renesas-xhci: Fix handling of unknown ROM state"").
+> > > > The problem of the former fix was that it treated the failure of
+> > > > firmware loading as a fatal error.  Since the firmware files aren't
+> > > > included in the standard linux-firmware tree, most users don't have
+> > > > them, hence they got the non-working system after that.  The revert
+> > > > fixed the regression, but also it didn't make the firmware loading
+> > > > triggered even on the devices that do need it.  So we need still a fix
+> > > > for them.
+> > > > 
+> > > > This is another attempt to handle the unknown ROM state.  Like the
+> > > > previous fix, this also tries to load the firmware when ROM shows
+> > > > unknown state.  In this patch, however, the failure of a firmware
+> > > > loading (such as a missing firmware file) isn't handled as a fatal
+> > > > error any longer when ROM has been already detected, but it falls back
+> > > > to the ROM mode like before.  The error is returned only when no ROM
+> > > > is detected and the firmware loading failed.
+> > > > 
+> > > > Along with it, for simplifying the code flow, the detection and the
+> > > > check of ROM is factored out from renesas_fw_check_running() and done
+> > > > in the caller side, renesas_xhci_check_request_fw().  It avoids the
+> > > > redundant ROM checks.
+> > > > 
+> > > > The patch was tested on Lenovo Thinkpad T14 gen (BIOS 1.34).  Also it
+> > > > was confirmed that no regression is seen on another Thinkpad T14
+> > > > machine that has worked without the patch, too.
+> > > > 
+> > > > Fixes: 44cf53602f5a ("Revert "usb: renesas-xhci: Fix handling of unknown ROM state"")
+> > > > BugLink: https://bugzilla.opensuse.org/show_bug.cgi?id=1189207
+> > > > Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> > > > ---
+> > > >  drivers/usb/host/xhci-pci-renesas.c | 35 +++++++++++++++++++----------
+> > > >  1 file changed, 23 insertions(+), 12 deletions(-)
+> > > 
+> > > This does not apply to my usb-linus branch, are you sure it is still
+> > > needed in Linus's tree right now?
+> > 
+> > I guess we can postpone for 5.15.  The patch was written for the code
+> > on linux-next, and I see there have been a few code clean up there.
+> > 
+> > But the patch itself could be applied to Linus tree with a slight
+> > fuzz, so the stable backport should be fine.
+> > 
+> > If it's still not cleanly applicable, let me know.  I'll refresh the
+> > patch for whatever preferred branch.
+> 
+> It was not cleanly applicable, 'git am' did not like it against my
+> usb-linus branch (which is 5.14-rc7 + a few other USB patches not in
+> this driver).
+> 
+> So if you want to rebase it against that, I will be glad to take it for
+> 5.14-final to resolve this issue.
 
-There is a spelling mistake in a dev_err error message. Fix it.
+OK, then let me resubmit.  Wait for a minute...
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/usb/renesas_usbhs/fifo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/renesas_usbhs/fifo.c b/drivers/usb/renesas_usbhs/fifo.c
-index a3c2b01ccf7b..10607e273879 100644
---- a/drivers/usb/renesas_usbhs/fifo.c
-+++ b/drivers/usb/renesas_usbhs/fifo.c
-@@ -366,7 +366,7 @@ static int usbhs_dcp_dir_switch_to_write(struct usbhs_pkt *pkt, int *is_done)
- 
- 	ret = usbhsf_fifo_select(pipe, fifo, 1);
- 	if (ret < 0) {
--		dev_err(dev, "%s() faile\n", __func__);
-+		dev_err(dev, "%s() failed\n", __func__);
- 		return ret;
- 	}
- 
--- 
-2.32.0
+thanks,
 
+Takashi
