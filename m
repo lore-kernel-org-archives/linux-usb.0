@@ -2,163 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DB5C432BE
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 02:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8C92C432BE
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 02:52:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3090760FE6
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 02:52:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96A5D60FE6
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Aug 2021 02:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238428AbhHZCxS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 25 Aug 2021 22:53:18 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:33614 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238044AbhHZCxQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 25 Aug 2021 22:53:16 -0400
-X-UUID: 71d7077333214b0397bed79c36547107-20210826
-X-UUID: 71d7077333214b0397bed79c36547107-20210826
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1557332125; Thu, 26 Aug 2021 10:52:21 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 26 Aug 2021 10:52:00 +0800
-Received: from mtkslt301.mediatek.inc (10.21.14.114) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 26 Aug 2021 10:52:00 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Ikjoon Jang <ikjn@chromium.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Yaqii wu <yaqii.wu@mediatek.com>
-Subject: [PATCH next v2 4/6] usb: xhci-mtk: add a member of num_esit
-Date:   Thu, 26 Aug 2021 10:51:42 +0800
-Message-ID: <20210826025144.51992-4-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210826025144.51992-1-chunfeng.yun@mediatek.com>
-References: <20210826025144.51992-1-chunfeng.yun@mediatek.com>
+        id S238262AbhHZCxV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 25 Aug 2021 22:53:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36596 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237460AbhHZCxU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 25 Aug 2021 22:53:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 41498610CB
+        for <linux-usb@vger.kernel.org>; Thu, 26 Aug 2021 02:52:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1629946354;
+        bh=dlaajyHuNAyEGXINn7RqEv1qb9Wa72+CE/RU/5xqHzo=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=p4sv2fS9fj+vcblDsZITcHdfpR80TfuJGlSy0e50pdDnNSXiBfPXX3U/Qjqoayg7B
+         P8XK42lSMRo35KgtoBIV8jiyxyoM03CqGWug17H7lOds5UCgDAv/sXJJgH4CrZnUja
+         63Fig9XE5a0nXGQ3+WHmd2fW57XODSMSN8N7pDM+Pi+me2bybCue/dE7SODO9iySkp
+         GLThpNMV7g2Iafaznp1LcU6axVI81tOVR7ajHRrVeBSjUhOjceqTzWxajUMNx25dsp
+         bPJxke6NDt0cFL+47EYT2VL21I8mvkIxEHP6WHrzVKfaPWgHCSsVxuIsxxsYjUUKYC
+         Jgk2/5dgrC9AA==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 207887] USB keyboard (and other devices) connected to Thinkpad
+ Dock hangs after a while
+Date:   Thu, 26 Aug 2021 02:52:33 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: stern@rowland.harvard.edu
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-207887-208809-i2FXfHfwdC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-207887-208809@https.bugzilla.kernel.org/>
+References: <bug-207887-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a member num_esit to save the number of esit, then no need
-caculate it in some functions.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D207887
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v2: new patch, move from another series
----
- drivers/usb/host/xhci-mtk-sch.c | 20 +++++++-------------
- drivers/usb/host/xhci-mtk.h     |  2 ++
- 2 files changed, 9 insertions(+), 13 deletions(-)
+--- Comment #14 from Alan Stern (stern@rowland.harvard.edu) ---
+Johannes, can you attach the complete dmesg log?  If it's anything like Mar=
+co's
+log, the mass-storage device never worked (constant resets, at least once p=
+er
+second).
 
-diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
-index 83abd28269ca..54c521524bfc 100644
---- a/drivers/usb/host/xhci-mtk-sch.c
-+++ b/drivers/usb/host/xhci-mtk-sch.c
-@@ -297,6 +297,7 @@ static void setup_sch_info(struct xhci_ep_ctx *ep_ctx,
- 		 CTX_TO_MAX_ESIT_PAYLOAD(le32_to_cpu(ep_ctx->tx_info));
- 
- 	sch_ep->esit = get_esit(ep_ctx);
-+	sch_ep->num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
- 	sch_ep->ep_type = ep_type;
- 	sch_ep->maxpkt = maxpkt;
- 	sch_ep->offset = 0;
-@@ -401,14 +402,12 @@ static void setup_sch_info(struct xhci_ep_ctx *ep_ctx,
- static u32 get_max_bw(struct mu3h_sch_bw_info *sch_bw,
- 	struct mu3h_sch_ep_info *sch_ep, u32 offset)
- {
--	u32 num_esit;
- 	u32 max_bw = 0;
- 	u32 bw;
- 	int i;
- 	int j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		u32 base = offset + i * sch_ep->esit;
- 
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
-@@ -424,13 +423,11 @@ static u32 get_max_bw(struct mu3h_sch_bw_info *sch_bw,
- static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
- 	struct mu3h_sch_ep_info *sch_ep, bool used)
- {
--	u32 num_esit;
- 	u32 base;
- 	int i;
- 	int j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++) {
- 			if (used)
-@@ -446,12 +443,11 @@ static void update_bus_bw(struct mu3h_sch_bw_info *sch_bw,
- static int check_fs_bus_bw(struct mu3h_sch_ep_info *sch_ep, int offset)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
--	u32 num_esit, tmp;
-+	u32 tmp;
- 	int base;
- 	int i, j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = offset + i * sch_ep->esit;
- 
- 		/*
-@@ -533,12 +529,10 @@ static int check_sch_tt(struct mu3h_sch_ep_info *sch_ep, u32 offset)
- static void update_sch_tt(struct mu3h_sch_ep_info *sch_ep, bool used)
- {
- 	struct mu3h_sch_tt *tt = sch_ep->sch_tt;
--	u32 base, num_esit;
-+	u32 base;
- 	int i, j;
- 
--	num_esit = XHCI_MTK_MAX_ESIT / sch_ep->esit;
--
--	for (i = 0; i < num_esit; i++) {
-+	for (i = 0; i < sch_ep->num_esit; i++) {
- 		base = sch_ep->offset + i * sch_ep->esit;
- 
- 		for (j = 0; j < sch_ep->num_budget_microframes; j++)
-diff --git a/drivers/usb/host/xhci-mtk.h b/drivers/usb/host/xhci-mtk.h
-index ace432356c41..eb05aaf6edbe 100644
---- a/drivers/usb/host/xhci-mtk.h
-+++ b/drivers/usb/host/xhci-mtk.h
-@@ -50,6 +50,7 @@ struct mu3h_sch_bw_info {
-  * struct mu3h_sch_ep_info: schedule information for endpoint
-  *
-  * @esit: unit is 125us, equal to 2 << Interval field in ep-context
-+ * @num_esit: number of @esit in a period
-  * @num_budget_microframes: number of continuous uframes
-  *		(@repeat==1) scheduled within the interval
-  * @bw_cost_per_microframe: bandwidth cost per microframe
-@@ -79,6 +80,7 @@ struct mu3h_sch_bw_info {
-  */
- struct mu3h_sch_ep_info {
- 	u32 esit;
-+	u32 num_esit;
- 	u32 num_budget_microframes;
- 	u32 bw_cost_per_microframe;
- 	struct list_head endpoint;
--- 
-2.18.0
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
