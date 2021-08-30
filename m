@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8087C4320E
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Aug 2021 17:55:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 614AAC43216
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Aug 2021 17:55:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF0A460525
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Aug 2021 17:55:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47E5C60F3A
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Aug 2021 17:55:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238280AbhH3R4H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Aug 2021 13:56:07 -0400
+        id S238320AbhH3R4J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Aug 2021 13:56:09 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:61663 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238250AbhH3R4G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Aug 2021 13:56:06 -0400
+        with ESMTP id S238291AbhH3R4I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Aug 2021 13:56:08 -0400
 Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 30 Aug 2021 10:55:12 -0700
+  by alexa-out.qualcomm.com with ESMTP; 30 Aug 2021 10:55:14 -0700
 X-QCInternal: smtphost
 Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 30 Aug 2021 10:55:10 -0700
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 30 Aug 2021 10:55:12 -0700
 X-QCInternal: smtphost
 Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
   by ironmsg02-blr.qualcomm.com with ESMTP; 30 Aug 2021 23:24:41 +0530
 Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id A2EEF3D10; Mon, 30 Aug 2021 23:24:40 +0530 (IST)
+        id DDD7F3D31; Mon, 30 Aug 2021 23:24:39 +0530 (IST)
 From:   Sandeep Maheswaram <sanm@codeaurora.org>
 To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -41,9 +41,9 @@ Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Pratham Pratap <prathampratap@codeaurora.org>,
         Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH 2/3] usb: dwc3: qcom: Add multi-pd support
-Date:   Mon, 30 Aug 2021 23:24:32 +0530
-Message-Id: <1630346073-7099-3-git-send-email-sanm@codeaurora.org>
+Subject: [PATCH 1/3] dt-bindings: usb: qcom,dwc3: Add multi-pd bindings for dwc3 qcom
+Date:   Mon, 30 Aug 2021 23:24:31 +0530
+Message-Id: <1630346073-7099-2-git-send-email-sanm@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1630346073-7099-1-git-send-email-sanm@codeaurora.org>
 References: <1630346073-7099-1-git-send-email-sanm@codeaurora.org>
@@ -51,95 +51,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add multi pd support to set performance state for cx domain
+Add multi pd bindings to set performance state for cx domain
 to maintain minimum corner voltage for USB clocks.
 
 Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
 ---
- drivers/usb/dwc3/dwc3-qcom.c | 49 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 9abbd01..777a647 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -17,6 +17,7 @@
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/phy/phy.h>
-+#include <linux/pm_domain.h>
- #include <linux/usb/of.h>
- #include <linux/reset.h>
- #include <linux/iopoll.h>
-@@ -89,6 +90,10 @@ struct dwc3_qcom {
- 	bool			pm_suspended;
- 	struct icc_path		*icc_path_ddr;
- 	struct icc_path		*icc_path_apps;
-+	/* power domain for cx */
-+	struct device		*pd_cx;
-+	/* power domain for usb gdsc */
-+	struct device		*pd_usb_gdsc;
- };
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index e70afc4..838d9c4 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -41,7 +41,18 @@ properties:
  
- static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32 val)
-@@ -521,6 +526,46 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 	return 0;
- }
+   power-domains:
+     description: specifies a phandle to PM domain provider node
+-    maxItems: 1
++    minItems: 1
++    items:
++      - description: optional,cx power domain
++      - description: USB gdsc power domain
++
++  power-domain-names:
++     items:
++      - const: cx
++      - const: usb_gdsc
++
++  required-opps:
++    description: specifies the performance state to cx power domain
  
-+static int dwc3_qcom_attach_pd(struct device *dev)
-+{
-+	struct dwc3_qcom *qcom = dev_get_drvdata(dev);
-+	struct device_link *link;
-+
-+	/* Do nothing when in a single power domain */
-+	if (dev->pm_domain)
-+		return 0;
-+
-+	qcom->pd_cx = dev_pm_domain_attach_by_name(dev, "cx");
-+	if (IS_ERR(qcom->pd_cx))
-+		return PTR_ERR(qcom->pd_cx);
-+	/* Do nothing when power domain missing */
-+	if (!qcom->pd_cx)
-+		return 0;
-+	link = device_link_add(dev, qcom->pd_cx,
-+			DL_FLAG_STATELESS |
-+			DL_FLAG_PM_RUNTIME |
-+			DL_FLAG_RPM_ACTIVE);
-+	if (!link) {
-+		dev_err(dev, "Failed to add device_link to cx pd.\n");
-+		return -EINVAL;
-+	}
-+
-+	qcom->pd_usb_gdsc = dev_pm_domain_attach_by_name(dev, "usb_gdsc");
-+	if (IS_ERR(qcom->pd_usb_gdsc))
-+		return PTR_ERR(qcom->pd_usb_gdsc);
-+
-+	link = device_link_add(dev, qcom->pd_usb_gdsc,
-+			DL_FLAG_STATELESS |
-+			DL_FLAG_PM_RUNTIME |
-+			DL_FLAG_RPM_ACTIVE);
-+	if (!link) {
-+		dev_err(dev, "Failed to add device_link to usb gdsc pd.\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
- {
- 	struct device		*dev = qcom->dev;
-@@ -837,6 +882,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto interconnect_exit;
- 
-+	ret = dwc3_qcom_attach_pd(dev);
-+	if (ret)
-+		goto interconnect_exit;
-+
- 	device_init_wakeup(&pdev->dev, 1);
- 	qcom->is_suspended = false;
- 	pm_runtime_set_active(dev);
+   clocks:
+     description:
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
