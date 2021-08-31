@@ -2,62 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FF1C43214
-	for <linux-usb@archiver.kernel.org>; Tue, 31 Aug 2021 11:02:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A74DC4320A
+	for <linux-usb@archiver.kernel.org>; Tue, 31 Aug 2021 11:08:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7571460F6B
-	for <linux-usb@archiver.kernel.org>; Tue, 31 Aug 2021 11:02:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 517C960F6B
+	for <linux-usb@archiver.kernel.org>; Tue, 31 Aug 2021 11:08:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241259AbhHaLDe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 Aug 2021 07:03:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44604 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239606AbhHaLDY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 Aug 2021 07:03:24 -0400
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E055CC061575;
-        Tue, 31 Aug 2021 04:02:28 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [80.241.60.245])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4GzPR42l6zzQk9k;
-        Tue, 31 Aug 2021 13:02:24 +0200 (CEST)
-Received: from hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
-        by smtp202.mailbox.org (Postfix) with ESMTP id 055C3353;
-        Tue, 31 Aug 2021 13:02:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gorani.run; s=MBO0001;
-        t=1630407742;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=AFtP0SZ/TdIJGAu7wx7JpHy0mfa2Py8L4R4PbyzOE9w=;
-        b=0JpVxrWdAY0ClDyJiZBUcRqALDn9x2pxolPxoLNpL4OZTY0q2pMbd58QII7TkZNzNcMsEi
-        6GiP/VtUDGDyL4BEvMF8Bk3FQirhKoGLOVWu2KHSQk47Qis2aYpaYnXNMCgeDwovT7/bN3
-        hZTWR2NGczB1Stxsxq2qfHWklomTzuNmEixLMSy7VoVEzacRerPYL7GaU+uZXciOnFdY9l
-        h8JHgHgFWrWOx7pputohTeLt1GXY0mODTNldGQ3PunQVHbhK66OZM2nr99xwNyxiOY6UMn
-        2/uBjinxXLAJeTNfjlpR4u9UcihELf/DC9jFtl3E7VEfoH6X6SwDGJKIIm+srQ==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp202.mailbox.org ([80.241.60.245])
-        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
-        with ESMTP id 3e6XqoWYfo9i; Tue, 31 Aug 2021 13:02:20 +0200 (CEST)
-Received: from localhost (unknown [211.58.59.88])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp202.mailbox.org (Postfix) with ESMTPSA id 1EC6F267;
-        Tue, 31 Aug 2021 13:02:15 +0200 (CEST)
-Subject: Re: [PATCH v4 1/2] arm: dts: mt7623: add musb device nodes
-To:     frank-w@public-files.de, linux-mediatek@lists.infradead.org,
-        =?UTF-8?B?Q2h1bmZlbmcgWXVuICjkupHmmKXls7Ap?= 
-        <Chunfeng.Yun@mediatek.com>
-Cc:     "b-liu@ti.com" <b-liu@ti.com>,
+        id S241395AbhHaLJc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 Aug 2021 07:09:32 -0400
+Received: from mout.gmx.net ([212.227.17.20]:56247 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241366AbhHaLJb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 31 Aug 2021 07:09:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1630408097;
+        bh=Q3naRGFUOjCanc3SPmyynPd1C68uqCO9v6By/oLNW38=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=kVsBeUZNmAPdaHNjse2sCbByppVde/dWY7PXtV4t/LrCMMOvP60GIoJRGoRa22QZJ
+         cZOB2XUkIXPJbyu28As0fL7Qw9I/tIAgZHxCnZt4KZoRoHTe51QJWjcr1gWgeJINVO
+         Vhisjj03G5J+Q0gprH68HeJVL8hKojfMWengWYZg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [80.245.77.109] ([80.245.77.109]) by web-mail.gmx.net
+ (3c-app-gmx-bap45.server.lan [172.19.172.115]) (via HTTP); Tue, 31 Aug 2021
+ 13:08:17 +0200
+MIME-Version: 1.0
+Message-ID: <trinity-2f57e648-cb42-4116-b3d0-6fcdbaae81b6-1630408097512@3c-app-gmx-bap45>
+From:   Frank Wunderlich <frank-w@public-files.de>
+To:     Sungbo Eo <mans0n@gorani.run>
+Cc:     linux-mediatek@lists.infradead.org,
+        =?UTF-8?Q?Chunfeng_Yun_=28=E4=BA=91=E6=98=A5=E5=B3=B0=29?= 
+        <Chunfeng.Yun@mediatek.com>, "b-liu@ti.com" <b-liu@ti.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "robh+dt@kernel.org" <robh+dt@kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
@@ -66,62 +45,85 @@ Cc:     "b-liu@ti.com" <b-liu@ti.com>,
         <linux-arm-kernel@lists.infradead.org>,
         "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Subject: Aw: Re: [PATCH v4 1/2] arm: dts: mt7623: add musb device nodes
+Content-Type: text/plain; charset=UTF-8
+Date:   Tue, 31 Aug 2021 13:08:17 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <3d57ae38-9d8f-05e3-c5b3-58db73879f16@gorani.run>
 References: <20210822041333.5264-1-mans0n@gorani.run>
  <20210830155903.13907-1-mans0n@gorani.run>
  <20210830155903.13907-2-mans0n@gorani.run>
  <16f980b95e1f32bb8eb32448f1615bafdc51b792.camel@mediatek.com>
  <14C40B35-3607-49C6-970B-441F9093125A@public-files.de>
-From:   Sungbo Eo <mans0n@gorani.run>
-Message-ID: <3d57ae38-9d8f-05e3-c5b3-58db73879f16@gorani.run>
-Date:   Tue, 31 Aug 2021 20:02:10 +0900
-MIME-Version: 1.0
-In-Reply-To: <14C40B35-3607-49C6-970B-441F9093125A@public-files.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 055C3353
-X-Rspamd-UID: 2b5930
+ <3d57ae38-9d8f-05e3-c5b3-58db73879f16@gorani.run>
+Content-Transfer-Encoding: quoted-printable
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:HA2wZfkN2riithVmFwnSZ1/BfJwDAEJS8KaCZjTcOXMuMyr9Gv/w9eOyIEvnZbjTlkOb2
+ vumjUULx8/phJD0+woWFe1xD7+8R+XLKYMF83XtNeqqBI813PI4r6hvfNVW1TDkbUFa2EwbPE9ip
+ GBNsRWIGFnfeTEA8x4VRpZr2BGweCPlo5xVDymNE2/CZmJLnpmZlDJhUhDwC4mo/7h3xHu01P4t1
+ IiBGIlVGyTabd4CwcHfa4FMKX8x/D6esWx4SFYd3NRNG50QU15EEvPhzJ8iHC8hjkhT1O5NgECJC
+ C8=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Poez8dKN2Fw=:TmHdTsCV04OMxVmZdrDObR
+ ljsE7K/UT/WJY4VBRUIYbDjME8YThAhmAavEdnbOV+S2kHr7jpKWPFZ4zVwabv8CsGfJ8Zm6R
+ QR0FgcQVrUocmDWdT9Sbp3AReNMesw0s0uhWfm4R+u8N+R5vYkkk70SSqiSQGo4a6pDvywMTB
+ WPBhhOa9PcUaM2W0iUXviEg+0OyW63WpxeBtYOiMjrHeOEQG46i+lDNZ0W8kGNPZwEUy0Dr7h
+ eky56x0gJxbdswAHByKqPrGKAkmdsAH8F9HIou6Jh9YdiUbLVKhOV7uJ45+nJxuU/vUchmK5j
+ mg11k/W2Y0Jcagxf45gjj6WWMk8tiDWpWrPw9ISn2s51nzRjGt+WmbdH5N+xYWbsZE4Rjbqyw
+ y2OyV3jV8zzM8rq5KyA5XrqeAEcG8MXv/zuXGOq/bnL1rAalmuLEPxC3x+Hu84lY9UwqyHo5t
+ fgyqh20CQG53CgF/BJIVzMi5gJlvnuzv/U3Nc1/Rh084XWC+9q7Mi0aK0/h/f13Zyoll5xc24
+ yZo7oDieGt2NlZ8GnXIUpes/4MnmmxHppiW1Y/+vbK4gZCobuNaKEwYOj1kQ60me4s/xu/2uE
+ /2xHc1sPDZnPIQbbz68YA7Z0TIoQvHrtiF2HW2+IOq/GTwktdExMkOZo/g+aMjeQefH5mWQvm
+ GnqvhV6uVq0stZ+qkP1GuSTtT13FSvwrLIO6S1MZMPyaCngvF8y2TDdAUujtp1L/u7/mGwQTf
+ /dsSYvFhX64gNL6ZL2sTN+BmCMuITrto0dmmPXMr2AapkINAm16IDK+zDByXfjcGnr7jf2FYA
+ Hz+fGpon/jpPamoPSf98b8PABwQzfJyjzLuKO24ZfK3lI3pyzc=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021-08-31 17:59, Frank Wunderlich wrote:
-> Am 31. August 2021 08:27:18 MESZ schrieb "Chunfeng Yun (云春峰)" <Chunfeng.Yun@mediatek.com>:
-> 
->> Is the dt-binding patch applied? 
->> It's better to put it into this series due to the new
->> compatible "mediatek,mt7623-musb" is used for the first time.
->>
->> Reviewed-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> 
-> Hi,
-> 
-> I don't see [1] (ack from rob) in [2]/[3]
+> Gesendet: Dienstag, 31=2E August 2021 um 13:02 Uhr
+> Von: "Sungbo Eo" <mans0n@gorani=2Erun>
+> On 2021-08-31 17:59, Frank Wunderlich wrote:
+> > Am 31=2E August 2021 08:27:18 MESZ schrieb "Chunfeng Yun (=E4=BA=91=E6=
+=98=A5=E5=B3=B0)" <Chunfeng=2EYun@mediatek=2Ecom>:
 
-You can find it here.
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/?h=usb-next
+> > I don't see [1] (ack from rob) in [2]/[3]
+>=20
+> You can find it here=2E
+> https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/gregkh/usb=2Egit/log=
+/?h=3Dusb-next
+>=20
+> >=20
+> > @sungbo: please leave dt-bindings patch in series=2E
+>=20
+> I'll keep it for a while, then=2E
 
-> 
-> @sungbo: please leave dt-bindings patch in series.
+ok, then it is not needed again=2E=2E=2Ehave not searched in usb-tree=2E
 
-I'll keep it for a while, then.
+> > You need no new version only for adding tags (acked,tested or reviewed=
+)=2E
+> > Only for code-changes,but then add tags from previous versions=2E
+>=20
+> Got it=2E Thanks for the tip=2E :)
+>=20
+> > Imho it is better to take my musb patch [4]
+> > into the series as well to make depency cleaner
+>=20
+> Okay, I'll take it in the next version=2E
 
-> You need no new version only for adding tags (acked,tested or reviewed).
-> Only for code-changes,but then add tags from previous versions.
+okay, if dt-bindings is already in usb-tree wait what maintainers (matthia=
+s/rob) says about adding my patch to a new version of your series or if thi=
+s is clear now :)
 
-Got it. Thanks for the tip. :)
-
-> 
-> Imho it is better to take my musb patch [4]
-> into the series as well to make depency cleaner
-
-Okay, I'll take it in the next version.
-
-Thanks.
-
-> 
-> [1] https://patchwork.kernel.org/project/linux-mediatek/patch/20210808123840.176738-2-mans0n@gorani.run/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/log/?h=for-next
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/log/?h=for-next
-> [4] https://patchwork.kernel.org/project/linux-mediatek/patch/20210830145958.108605-1-linux@fw-web.de/
-> regards Frank
-> 
+> > [1] https://patchwork=2Ekernel=2Eorg/project/linux-mediatek/patch/2021=
+0808123840=2E176738-2-mans0n@gorani=2Erun/
+> > [2] https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/robh/linux=2Eg=
+it/log/?h=3Dfor-next
+> > [3] https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/matthias=2Ebgg=
+/linux=2Egit/log/?h=3Dfor-next
+> > [4] https://patchwork=2Ekernel=2Eorg/project/linux-mediatek/patch/2021=
+0830145958=2E108605-1-linux@fw-web=2Ede/
+> > regards Frank
+> >=20
+>
