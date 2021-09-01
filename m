@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46ED4C432BE
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Sep 2021 03:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 776E8C432BE
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Sep 2021 03:49:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26E8E601FF
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Sep 2021 03:44:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F5D761058
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Sep 2021 03:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241811AbhIADpg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 31 Aug 2021 23:45:36 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:23651 "EHLO
+        id S241862AbhIADu0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 31 Aug 2021 23:50:26 -0400
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:1590 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241774AbhIADpf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 Aug 2021 23:45:35 -0400
+        with ESMTP id S241638AbhIADuZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 31 Aug 2021 23:50:25 -0400
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1813P9jp044769;
-        Wed, 1 Sep 2021 11:25:09 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 1813U73P045171;
+        Wed, 1 Sep 2021 11:30:07 +0800 (GMT-8)
         (envelope-from neal_liu@aspeedtech.com)
 Received: from NealLiu-PC01.aspeed.com (192.168.2.78) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 1 Sep
- 2021 11:44:10 +0800
+ 2021 11:49:08 +0800
 From:   neal_liu <neal_liu@aspeedtech.com>
 To:     Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -34,9 +34,9 @@ To:     Alan Stern <stern@rowland.harvard.edu>,
         <linux-arm-kernel@lists.infradead.org>
 CC:     <neal_liu@aspeedtech.com>, Tao Ren <rentao.bupt@gmail.com>,
         <BMC-SW@aspeedtech.com>
-Subject: [PATCH] usb: ehci: handshake CMD_RUN instead of STS_HALT
-Date:   Wed, 1 Sep 2021 11:45:43 +0800
-Message-ID: <20210901034543.10675-1-neal_liu@aspeedtech.com>
+Subject: [PATCH v2] usb: ehci: handshake CMD_RUN instead of STS_HALT
+Date:   Wed, 1 Sep 2021 11:50:41 +0800
+Message-ID: <20210901035041.10810-1-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -44,10 +44,12 @@ X-Originating-IP: [192.168.2.78]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1813P9jp044769
+X-MAIL: twspam01.aspeedtech.com 1813U73P045171
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+
+Retitle.
 
 For Aspeed, HCHalted status depends on not only Run/Stop but also
 ASS/PSS status.
