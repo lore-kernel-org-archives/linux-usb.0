@@ -7,42 +7,47 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8107C433EF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A2DCC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C557F613C8
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8208A613D2
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236807AbhIILqO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 07:46:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45714 "EHLO mail.kernel.org"
+        id S240717AbhIILqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 07:46:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46342 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237644AbhIILnQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:43:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C0C3611C1;
-        Thu,  9 Sep 2021 11:41:56 +0000 (UTC)
+        id S237872AbhIILnV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 07:43:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C071C61207;
+        Thu,  9 Sep 2021 11:41:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187717;
-        bh=/7KPsCX9pQezb/7uiZQSpE7yV0x6xQss320gO62+wss=;
+        s=k20201202; t=1631187719;
+        bh=8SccjHQBBdBLX2oYdc8x9YK5U1X7hTEEkIPQP0ZnWro=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vFVOP45y7OjYP8gEYNwboF4HiJ3yEaWvCTors/nXyTzuZBk8bkVlO7d9naenqHZ2L
-         /ohu2EWtLVGCXMfi18+r7FD6rXqe1reGDiTiBK//78h009XPBMsr3Q5+w4tANjfxOu
-         1VgEH9ne1lu5mEu9xGlNALECp0H1gUuVpUYSyb57hRqgbpXFR0sLtTWb3oXqB58P3T
-         C//bLJPAMZpQsk051ivLpWtVM73A/URkCqZFHa+cE/zhafhus8DKyTg2w9q7efNEva
-         klOivJGq9oct8m/sIT1lJV7t2B2yLaCBShIvIRxyFOu7GwSJt5u3MiBLB4AnHnokuy
-         0lvHi2rGqjFRw==
+        b=XSCmCDzTaXN+WXC4LlVOf4mivD88GK8e5t6uRIH5sEvQmZh4SwwAt1PhGEuPXhJDW
+         7A5KRNyXy0vUIXtHUwSwY4FVVF87W3fk+jVHmvazTQ6JGAlP74Nr7MFAmwkh64mY49
+         Twywp6Vc7W6mRf726wn6xjhlrRpAts8gPVQ5iyHdVKrwNnzcZQQNGQnhfBUO1tnIv1
+         oeIHYiA/9HwpmV4QX6BxMZ+OQOO2zZ7uldBFFF9J0dNyaUrkcbFklrXpKtjtxXaYEo
+         R8mT/xwr703eO1HoCIiLt7620j4vIE0TQq0sT2EYWHbp5ssPEeOhuZGRabKKfDXtE4
+         dafBYK+ly9wQQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kelly Devilliv <kelly.devilliv@gmail.com>,
+Cc:     =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
+        Brooke Basile <brookebasile@gmail.com>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lorenzo Colitti <lorenzo@google.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 039/252] usb: host: fotg210: fix the endpoint's transactional opportunities calculation
-Date:   Thu,  9 Sep 2021 07:37:33 -0400
-Message-Id: <20210909114106.141462-39-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 041/252] usb: gadget: u_ether: fix a potential null pointer dereference
+Date:   Thu,  9 Sep 2021 07:37:35 -0400
+Message-Id: <20210909114106.141462-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -50,139 +55,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kelly Devilliv <kelly.devilliv@gmail.com>
+From: Maciej Żenczykowski <maze@google.com>
 
-[ Upstream commit c2e898764245c852bc8ee4857613ba4f3a6d761d ]
+[ Upstream commit 8ae01239609b29ec2eff55967c8e0fe3650cfa09 ]
 
-Now that usb_endpoint_maxp() only returns the lowest
-11 bits from wMaxPacketSize, we should make use of the
-usb_endpoint_* helpers instead and remove the unnecessary
-max_packet()/hb_mult() macro.
+f_ncm tx timeout can call us with null skb to flush
+a pending frame.  In this case skb is NULL to begin
+with but ceases to be null after dev->wrap() completes.
 
-Signed-off-by: Kelly Devilliv <kelly.devilliv@gmail.com>
-Link: https://lore.kernel.org/r/20210627125747.127646-3-kelly.devilliv@gmail.com
+In such a case in->maxpacket will be read, even though
+we've failed to check that 'in' is not NULL.
+
+Though I've never observed this fail in practice,
+however the 'flush operation' simply does not make sense with
+a null usb IN endpoint - there's nowhere to flush to...
+(note that we're the gadget/device, and IN is from the point
+ of view of the host, so here IN actually means outbound...)
+
+Cc: Brooke Basile <brookebasile@gmail.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lorenzo Colitti <lorenzo@google.com>
+Signed-off-by: Maciej Żenczykowski <maze@google.com>
+Link: https://lore.kernel.org/r/20210701114834.884597-6-zenczykowski@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/fotg210-hcd.c | 36 ++++++++++++++++------------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
+ drivers/usb/gadget/function/u_ether.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
-index 05fb8d97cf02..dd29f7b68d6f 100644
---- a/drivers/usb/host/fotg210-hcd.c
-+++ b/drivers/usb/host/fotg210-hcd.c
-@@ -2510,11 +2510,6 @@ static unsigned qh_completions(struct fotg210_hcd *fotg210,
- 	return count;
- }
- 
--/* high bandwidth multiplier, as encoded in highspeed endpoint descriptors */
--#define hb_mult(wMaxPacketSize) (1 + (((wMaxPacketSize) >> 11) & 0x03))
--/* ... and packet size, for any kind of endpoint descriptor */
--#define max_packet(wMaxPacketSize) ((wMaxPacketSize) & 0x07ff)
--
- /* reverse of qh_urb_transaction:  free a list of TDs.
-  * used for cleanup after errors, before HC sees an URB's TDs.
-  */
-@@ -2600,7 +2595,7 @@ static struct list_head *qh_urb_transaction(struct fotg210_hcd *fotg210,
- 		token |= (1 /* "in" */ << 8);
- 	/* else it's already initted to "out" pid (0 << 8) */
- 
--	maxpacket = max_packet(usb_maxpacket(urb->dev, urb->pipe, !is_input));
-+	maxpacket = usb_maxpacket(urb->dev, urb->pipe, !is_input);
- 
- 	/*
- 	 * buffer gets wrapped in one or more qtds;
-@@ -2714,9 +2709,11 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
- 		gfp_t flags)
- {
- 	struct fotg210_qh *qh = fotg210_qh_alloc(fotg210, flags);
-+	struct usb_host_endpoint *ep;
- 	u32 info1 = 0, info2 = 0;
- 	int is_input, type;
- 	int maxp = 0;
-+	int mult;
- 	struct usb_tt *tt = urb->dev->tt;
- 	struct fotg210_qh_hw *hw;
- 
-@@ -2731,14 +2728,15 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
- 
- 	is_input = usb_pipein(urb->pipe);
- 	type = usb_pipetype(urb->pipe);
--	maxp = usb_maxpacket(urb->dev, urb->pipe, !is_input);
-+	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
-+	maxp = usb_endpoint_maxp(&ep->desc);
-+	mult = usb_endpoint_maxp_mult(&ep->desc);
- 
- 	/* 1024 byte maxpacket is a hardware ceiling.  High bandwidth
- 	 * acts like up to 3KB, but is built from smaller packets.
- 	 */
--	if (max_packet(maxp) > 1024) {
--		fotg210_dbg(fotg210, "bogus qh maxpacket %d\n",
--				max_packet(maxp));
-+	if (maxp > 1024) {
-+		fotg210_dbg(fotg210, "bogus qh maxpacket %d\n", maxp);
- 		goto done;
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index d1d044d9f859..85a3f6d4b5af 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -492,8 +492,9 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
  	}
+ 	spin_unlock_irqrestore(&dev->lock, flags);
  
-@@ -2752,8 +2750,7 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
- 	 */
- 	if (type == PIPE_INTERRUPT) {
- 		qh->usecs = NS_TO_US(usb_calc_bus_time(USB_SPEED_HIGH,
--				is_input, 0,
--				hb_mult(maxp) * max_packet(maxp)));
-+				is_input, 0, mult * maxp));
- 		qh->start = NO_FRAME;
- 
- 		if (urb->dev->speed == USB_SPEED_HIGH) {
-@@ -2790,7 +2787,7 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
- 			think_time = tt ? tt->think_time : 0;
- 			qh->tt_usecs = NS_TO_US(think_time +
- 					usb_calc_bus_time(urb->dev->speed,
--					is_input, 0, max_packet(maxp)));
-+					is_input, 0, maxp));
- 			qh->period = urb->interval;
- 			if (qh->period > fotg210->periodic_size) {
- 				qh->period = fotg210->periodic_size;
-@@ -2853,11 +2850,11 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
- 			 * to help them do so.  So now people expect to use
- 			 * such nonconformant devices with Linux too; sigh.
- 			 */
--			info1 |= max_packet(maxp) << 16;
-+			info1 |= maxp << 16;
- 			info2 |= (FOTG210_TUNE_MULT_HS << 30);
- 		} else {		/* PIPE_INTERRUPT */
--			info1 |= max_packet(maxp) << 16;
--			info2 |= hb_mult(maxp) << 30;
-+			info1 |= maxp << 16;
-+			info2 |= mult << 30;
- 		}
- 		break;
- 	default:
-@@ -3927,6 +3924,7 @@ static void iso_stream_init(struct fotg210_hcd *fotg210,
- 	int is_input;
- 	long bandwidth;
- 	unsigned multi;
-+	struct usb_host_endpoint *ep;
- 
- 	/*
- 	 * this might be a "high bandwidth" highspeed endpoint,
-@@ -3934,14 +3932,14 @@ static void iso_stream_init(struct fotg210_hcd *fotg210,
- 	 */
- 	epnum = usb_pipeendpoint(pipe);
- 	is_input = usb_pipein(pipe) ? USB_DIR_IN : 0;
--	maxp = usb_maxpacket(dev, pipe, !is_input);
-+	ep = usb_pipe_endpoint(dev, pipe);
-+	maxp = usb_endpoint_maxp(&ep->desc);
- 	if (is_input)
- 		buf1 = (1 << 11);
- 	else
- 		buf1 = 0;
- 
--	maxp = max_packet(maxp);
--	multi = hb_mult(maxp);
-+	multi = usb_endpoint_maxp_mult(&ep->desc);
- 	buf1 |= maxp;
- 	maxp *= multi;
+-	if (skb && !in) {
+-		dev_kfree_skb_any(skb);
++	if (!in) {
++		if (skb)
++			dev_kfree_skb_any(skb);
+ 		return NETDEV_TX_OK;
+ 	}
  
 -- 
 2.30.2
