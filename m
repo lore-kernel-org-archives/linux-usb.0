@@ -5,40 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5894FC433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDA7DC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 41F87611AD
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C654B611BF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353849AbhIIM4y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:56:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40990 "EHLO mail.kernel.org"
+        id S1344761AbhIIM44 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:56:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40918 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353476AbhIIMtJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:49:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B0AB461A88;
-        Thu,  9 Sep 2021 11:56:44 +0000 (UTC)
+        id S1354469AbhIIMvK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:51:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 58D9E613A2;
+        Thu,  9 Sep 2021 11:57:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188605;
-        bh=K/PGg6kLoihHZ8O6+cHlmGT+jLvgPdnTCFTMk7Bxex0=;
+        s=k20201202; t=1631188629;
+        bh=Pq+FWwKvLvXcJmC6zHClG84ExKNJqUV4WG9CYNPkQvA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RKEUZbopeVmJuteChhkbYXOX6LLMN4Lw9i4FBXXE5zeYtDNfRSZAR49YGqICCl4wc
-         uFEz1CrJiZFQE+2mfFGfQ13TA44FedrG7UpjhBtZ0mPVngdIEPHrNo4Wa1iP8/fRJp
-         upLPE1jGzLPIpe2lwluWE40RVGU5V/mmJUXA1UinQ2Vk+N12mABYCOxaJnmvzSrvOb
-         iQkJ2OrOZy/9l0doltl4FYviJtHYBu3fk6Zv3obvCwx3ZaKYNSWIthFu6ulV0QRWig
-         NaLoJPMRlnCcDA6X/pmJfAkYLn7CAPAI/p8SyIc8HtTYhrnWJ98t/wDbT4F0e5xdQc
-         7Vl8IaAJjOkiQ==
+        b=JC7roWMK+U8Jd0hQnKsGdhAiHEVoi/7h6aQDzy7hwELSDPXO0k1wRx6CQ508GV6qq
+         GQ8zvLZr57zE0eBMSNN5gZpompfwN0dEPaF5+oyoayJuz0kWo+fCnOJrKnHsukrjXa
+         57E3ISo0ksO+eIVoIYbqaKQLkZcIoA6PsERlLv+6BsxjMytLGdtg0mzzYsuw8HgV8q
+         pKGaO0WtK+qDwGGJeOn/sIRMZlJnwNgeDtI4Z6VbQhIXwXdGRP5sVwJogTNOYrc7/S
+         6SYsVhFp9UjsK73cKRMG4a7kyNHPQ1HeT1yLE9JDmjiiWny4w9vR14m/zrkVyUuVem
+         k9zZr1hDqaPvg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Li Jun <jun.li@nxp.com>, Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-        Peter Chen <peter.chen@kernel.org>,
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Michael <msbroadf@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 077/109] usb: chipidea: host: fix port index underflow and UBSAN complains
-Date:   Thu,  9 Sep 2021 07:54:34 -0400
-Message-Id: <20210909115507.147917-77-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 096/109] usbip:vhci_hcd USB port can get stuck in the disabled state
+Date:   Thu,  9 Sep 2021 07:54:53 -0400
+Message-Id: <20210909115507.147917-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
 References: <20210909115507.147917-1-sashal@kernel.org>
@@ -50,66 +51,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
 
-[ Upstream commit e5d6a7c6cfae9e714a0e8ff64facd1ac68a784c6 ]
+[ Upstream commit 66cce9e73ec61967ed1f97f30cee79bd9a2bb7ee ]
 
-If wIndex is 0 (and it often is), these calculations underflow and
-UBSAN complains, here resolve this by not decrementing the index when
-it is equal to 0, this copies the solution from commit 85e3990bea49
-("USB: EHCI: avoid undefined pointer arithmetic and placate UBSAN")
+When a remote usb device is attached to the local Virtual USB
+Host Controller Root Hub port, the bound device driver may send
+a port reset command.
 
-Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Signed-off-by: Li Jun <jun.li@nxp.com>
-Link: https://lore.kernel.org/r/1624004938-2399-1-git-send-email-jun.li@nxp.com
-Signed-off-by: Peter Chen <peter.chen@kernel.org>
+vhci_hcd accepts port resets only when the device doesn't have
+port address assigned to it. When reset happens device is in
+assigned/used state and vhci_hcd rejects it leaving the port in
+a stuck state.
+
+This problem was found when a blue-tooth or xbox wireless dongle
+was passed through using usbip.
+
+A few drivers reset the port during probe including mt76 driver
+specific to this bug report. Fix the problem with a change to
+honor reset requests when device is in used state (VDEV_ST_USED).
+
+Reported-and-tested-by: Michael <msbroadf@gmail.com>
+Suggested-by: Michael <msbroadf@gmail.com>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Link: https://lore.kernel.org/r/20210819225937.41037-1-skhan@linuxfoundation.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/host.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/usb/usbip/vhci_hcd.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index 48e4a5ca1835..f5f56ee07729 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -233,18 +233,26 @@ static int ci_ehci_hub_control(
- )
- {
- 	struct ehci_hcd	*ehci = hcd_to_ehci(hcd);
-+	unsigned int	ports = HCS_N_PORTS(ehci->hcs_params);
- 	u32 __iomem	*status_reg;
--	u32		temp;
-+	u32		temp, port_index;
- 	unsigned long	flags;
- 	int		retval = 0;
- 	struct device *dev = hcd->self.controller;
- 	struct ci_hdrc *ci = dev_get_drvdata(dev);
+diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+index 46a46cde2070..170abb06a8a4 100644
+--- a/drivers/usb/usbip/vhci_hcd.c
++++ b/drivers/usb/usbip/vhci_hcd.c
+@@ -455,8 +455,14 @@ static int vhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 			vhci_hcd->port_status[rhport] &= ~(1 << USB_PORT_FEAT_RESET);
+ 			vhci_hcd->re_timeout = 0;
  
--	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
-+	port_index = wIndex & 0xff;
-+	port_index -= (port_index > 0);
-+	status_reg = &ehci->regs->port_status[port_index];
- 
- 	spin_lock_irqsave(&ehci->lock, flags);
- 
- 	if (typeReq == SetPortFeature && wValue == USB_PORT_FEAT_SUSPEND) {
-+		if (!wIndex || wIndex > ports) {
-+			retval = -EPIPE;
-+			goto done;
-+		}
-+
- 		temp = ehci_readl(ehci, status_reg);
- 		if ((temp & PORT_PE) == 0 || (temp & PORT_RESET) != 0) {
- 			retval = -EPIPE;
-@@ -273,7 +281,7 @@ static int ci_ehci_hub_control(
- 			ehci_writel(ehci, temp, status_reg);
- 		}
- 
--		set_bit((wIndex & 0xff) - 1, &ehci->suspended_ports);
-+		set_bit(port_index, &ehci->suspended_ports);
- 		goto done;
- 	}
- 
++			/*
++			 * A few drivers do usb reset during probe when
++			 * the device could be in VDEV_ST_USED state
++			 */
+ 			if (vhci_hcd->vdev[rhport].ud.status ==
+-			    VDEV_ST_NOTASSIGNED) {
++				VDEV_ST_NOTASSIGNED ||
++			    vhci_hcd->vdev[rhport].ud.status ==
++				VDEV_ST_USED) {
+ 				usbip_dbg_vhci_rh(
+ 					" enable rhport %d (status %u)\n",
+ 					rhport,
 -- 
 2.30.2
 
