@@ -5,41 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024DFC433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:01:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34889C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB2EA61504
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:01:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B7F561526
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243102AbhIIMDD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:03:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43050 "EHLO mail.kernel.org"
+        id S1346178AbhIIMDJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:03:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40846 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244195AbhIIMBC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:01:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D1F261423;
-        Thu,  9 Sep 2021 11:46:16 +0000 (UTC)
+        id S244557AbhIIMBF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:01:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B89B661440;
+        Thu,  9 Sep 2021 11:46:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187977;
-        bh=8B59y0L/wT2zvmO07cGzKGTGPzz20BmRT7PsdET3T74=;
+        s=k20201202; t=1631187979;
+        bh=TazWVnaXvlgPzxziINEoLaxVj7c0EuAsDDIxn6rASDw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pkpcoWf46bpT/WVywGNrP2/bdGOK07x8GfYLLlrWz89lXU3TFdcy3VF3iSW5f+5WN
-         JH1TngTZHaww1G5z/vJ705a+OttDIJhpwqkWW+D+X5oCBUSJUs+X+uFIHJm7kjTHpO
-         PjKgadMY2GYeyl+opMQAKR3tOcXrxvRkRBlYGt0TxzIWTsE61rQ6bxV9XyrdbS3qjC
-         J89OkN3ZUiMO6+CwWa0C/PWF2x7fYrPoal4T7B0VU0k3ffNkIrLBK+wWkUpA+d5NRR
-         9SjDTycwfqIxpLVwGBTDn+3jUCi05AomxiYr+x3clvY2x6S7nQLrKFzUNpvm1Iv0wA
-         SNgnWsHq07Srg==
+        b=DRJN3K8uYpDqqQBN4FzNeXY23aM/YtAOwnErEF52SGRduDM7ZyqfR/+GDqziAehHD
+         AuAaElbE1Ewmuh7kt42PirIfRa6+1b2GkhkyBneCxDhdLUFlOA2NceHo6Y5EGsqYKt
+         2EG8nTQ4bUBdFx4r1QZhenPWX/IUsSInAtjgfeRUJtdfYuLL1Ne9WoriPNda8Py4oi
+         MCrKp/iCtwwRILEj2P9lhKXExupAEdT+bXv0S0nmDVAqrYl/A52BVDrgz5hvbiaoGk
+         laDyNGCoL6U7gHVdaVNvBrZm22t68O3qDD7MNtp963aM4Hh9liUb8sekdXJSwl16tB
+         uXxEzDTieBGeA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Rui Miguel Silva <rui.silva@linaro.org>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 239/252] usb: isp1760: fix memory pool initialization
-Date:   Thu,  9 Sep 2021 07:40:53 -0400
-Message-Id: <20210909114106.141462-239-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 241/252] usb: isp1760: write to status and address register
+Date:   Thu,  9 Sep 2021 07:40:55 -0400
+Message-Id: <20210909114106.141462-241-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -53,38 +53,92 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Rui Miguel Silva <rui.silva@linaro.org>
 
-[ Upstream commit f757f9291f920e1da4c6cfd4064c6bf59639983e ]
+[ Upstream commit 36815a4a0763bb405ebd776c45553005c1ef7a15 ]
 
-The loops to setup the memory pool were skipping some
-blocks, that was not visible on the ISP1763 because it has
-fewer blocks than the ISP1761. But won testing on that IP
-from the family that would be an issue.
+We were already writing directly the port status register to
+trigger changes in isp1763. The same is needed in other IP
+from the family, including also to setup the read address
+before reading from device.
 
 Reported-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
 Tested-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
 Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
-Link: https://lore.kernel.org/r/20210827131154.4151862-2-rui.silva@linaro.org
+Link: https://lore.kernel.org/r/20210827131154.4151862-4-rui.silva@linaro.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/isp1760/isp1760-hcd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/isp1760/isp1760-hcd.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/isp1760/isp1760-hcd.c b/drivers/usb/isp1760/isp1760-hcd.c
-index 27168b4a4ef2..ffb3a0c8c909 100644
+index d2d19548241e..e517376c3291 100644
 --- a/drivers/usb/isp1760/isp1760-hcd.c
 +++ b/drivers/usb/isp1760/isp1760-hcd.c
-@@ -588,8 +588,8 @@ static void init_memory(struct isp1760_hcd *priv)
+@@ -182,7 +182,7 @@ struct urb_listitem {
+ 	struct urb *urb;
+ };
  
- 	payload_addr = PAYLOAD_OFFSET;
+-static const u32 isp1763_hc_portsc1_fields[] = {
++static const u32 isp176x_hc_portsc1_fields[] = {
+ 	[PORT_OWNER]		= BIT(13),
+ 	[PORT_POWER]		= BIT(12),
+ 	[PORT_LSTATUS]		= BIT(10),
+@@ -205,27 +205,28 @@ static u32 isp1760_hcd_read(struct usb_hcd *hcd, u32 field)
+ }
  
--	for (i = 0, curr = 0; i < ARRAY_SIZE(mem->blocks); i++) {
--		for (j = 0; j < mem->blocks[i]; j++, curr++) {
-+	for (i = 0, curr = 0; i < ARRAY_SIZE(mem->blocks); i++, curr += j) {
-+		for (j = 0; j < mem->blocks[i]; j++) {
- 			priv->memory_pool[curr + j].start = payload_addr;
- 			priv->memory_pool[curr + j].size = mem->blocks_size[i];
- 			priv->memory_pool[curr + j].free = 1;
+ /*
+- * We need, in isp1763, to write directly the values to the portsc1
++ * We need, in isp176x, to write directly the values to the portsc1
+  * register so it will make the other values to trigger.
+  */
+ static void isp1760_hcd_portsc1_set_clear(struct isp1760_hcd *priv, u32 field,
+ 					  u32 val)
+ {
+-	u32 bit = isp1763_hc_portsc1_fields[field];
+-	u32 port_status = readl(priv->base + ISP1763_HC_PORTSC1);
++	u32 bit = isp176x_hc_portsc1_fields[field];
++	u16 portsc1_reg = priv->is_isp1763 ? ISP1763_HC_PORTSC1 :
++		ISP176x_HC_PORTSC1;
++	u32 port_status = readl(priv->base + portsc1_reg);
+ 
+ 	if (val)
+-		writel(port_status | bit, priv->base + ISP1763_HC_PORTSC1);
++		writel(port_status | bit, priv->base + portsc1_reg);
+ 	else
+-		writel(port_status & ~bit, priv->base + ISP1763_HC_PORTSC1);
++		writel(port_status & ~bit, priv->base + portsc1_reg);
+ }
+ 
+ static void isp1760_hcd_write(struct usb_hcd *hcd, u32 field, u32 val)
+ {
+ 	struct isp1760_hcd *priv = hcd_to_priv(hcd);
+ 
+-	if (unlikely(priv->is_isp1763 &&
+-		     (field >= PORT_OWNER && field <= PORT_CONNECT)))
++	if (unlikely((field >= PORT_OWNER && field <= PORT_CONNECT)))
+ 		return isp1760_hcd_portsc1_set_clear(priv, field, val);
+ 
+ 	isp1760_field_write(priv->fields, field, val);
+@@ -367,8 +368,7 @@ static void isp1760_mem_read(struct usb_hcd *hcd, u32 src_offset, void *dst,
+ {
+ 	struct isp1760_hcd *priv = hcd_to_priv(hcd);
+ 
+-	isp1760_hcd_write(hcd, MEM_BANK_SEL, ISP_BANK_0);
+-	isp1760_hcd_write(hcd, MEM_START_ADDR, src_offset);
++	isp1760_reg_write(priv->regs, ISP176x_HC_MEMORY, src_offset);
+ 	ndelay(100);
+ 
+ 	bank_reads8(priv->base, src_offset, ISP_BANK_0, dst, bytes);
+@@ -496,8 +496,7 @@ static void isp1760_ptd_read(struct usb_hcd *hcd, u32 ptd_offset, u32 slot,
+ 	u16 src_offset = ptd_offset + slot * sizeof(*ptd);
+ 	struct isp1760_hcd *priv = hcd_to_priv(hcd);
+ 
+-	isp1760_hcd_write(hcd, MEM_BANK_SEL, ISP_BANK_0);
+-	isp1760_hcd_write(hcd, MEM_START_ADDR, src_offset);
++	isp1760_reg_write(priv->regs, ISP176x_HC_MEMORY, src_offset);
+ 	ndelay(90);
+ 
+ 	bank_reads8(priv->base, src_offset, ISP_BANK_0, (void *)ptd,
 -- 
 2.30.2
 
