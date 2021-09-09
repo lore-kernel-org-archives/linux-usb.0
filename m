@@ -5,45 +5,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C3AFC43219
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65751C433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E46C61101
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B2CF60E94
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356416AbhIINSt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:18:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53476 "EHLO mail.kernel.org"
+        id S1359298AbhIINTA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 09:19:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35410 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1358407AbhIINHT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 09:07:19 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D69A632AB;
-        Thu,  9 Sep 2021 12:00:27 +0000 (UTC)
+        id S1358471AbhIINLR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 09:11:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EB1C5632BE;
+        Thu,  9 Sep 2021 12:01:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188828;
-        bh=vFB/kw2iAgdMqNOOxqUsggJ6Z+ULPjz30COSk+LVgIU=;
+        s=k20201202; t=1631188885;
+        bh=OegV4XZiTSm/ViS5j36yq5Ljf73puaGDEcIdEG3Azbs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nOW2MJHf9E5gesJohonIdr5YiG7HIhv9PiOFu2/kkn+epOgtiTAf53HV75TFAVQBC
-         76xNzrgvJWsUUGvUsU7WIb2bQc+YaSjtIwyHDvVR956dILDdfE0snraBp5qkAvmEpv
-         EKQyMDzCdUO5Y/N25ECaqihrsc2NkJREE8ARc5XAAJevmEber4PMEkYBArv8IL8Awu
-         w1BuxDa6/4S5sgqUzbivufkMlYmqjOHChzb0bl31oGThOJHpy5LvzBq7Su66svkwgA
-         y5jrraLLKtJ2796bHGhvsRrvbpnwRnIK0OZHyPYfuV5U9m1u0fFtZ/+icsbRlx3T0J
-         nCBhiCa/cip8A==
+        b=mMycPdSlIZvxUUrfAcJ+So3QcNlGk/D+IAJAOvHyUVG/RtyLCTwgOx37y/+DRCrOQ
+         qjdzdVwCPfgXP/ChPCjxoIHH2lb/3NDPWj4KDs0lzDXD5GfQhfr0sAHZwNqLHGtvkL
+         Wv4aTPBV3atEz72UWR3TKnNjtTiHRCVAjqt1NfRWIapTtXGlm9HBcGFGQo25Fgpdnq
+         w2Z9V4Oi6URmTQP41fu56y3m3REQwOo4HkNdwPkogEXX6O4kwVTsx5B67jxJVMsTRY
+         6ISlGhhUso18I+lhnGksMXwsh4s93AxtQlfhYy0QB2rSdacRGa6eW8pTqmfpNO36kI
+         3GvNcN3nYBvKA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jack Pham <jackp@codeaurora.org>,
-        Ronak Vijay Raheja <rraheja@codeaurora.org>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Kelly Devilliv <kelly.devilliv@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 10/48] usb: gadget: composite: Allow bMaxPower=0 if self-powered
-Date:   Thu,  9 Sep 2021 07:59:37 -0400
-Message-Id: <20210909120015.150411-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 07/35] usb: host: fotg210: fix the actual_length of an iso packet
+Date:   Thu,  9 Sep 2021 08:00:48 -0400
+Message-Id: <20210909120116.150912-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909120015.150411-1-sashal@kernel.org>
-References: <20210909120015.150411-1-sashal@kernel.org>
+In-Reply-To: <20210909120116.150912-1-sashal@kernel.org>
+References: <20210909120116.150912-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,67 +50,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jack Pham <jackp@codeaurora.org>
+From: Kelly Devilliv <kelly.devilliv@gmail.com>
 
-[ Upstream commit bcacbf06c891374e7fdd7b72d11cda03b0269b43 ]
+[ Upstream commit 091cb2f782f32ab68c6f5f326d7868683d3d4875 ]
 
-Currently the composite driver encodes the MaxPower field of
-the configuration descriptor by reading the c->MaxPower of the
-usb_configuration only if it is non-zero, otherwise it falls back
-to using the value hard-coded in CONFIG_USB_GADGET_VBUS_DRAW.
-However, there are cases when a configuration must explicitly set
-bMaxPower to 0, particularly if its bmAttributes also has the
-Self-Powered bit set, which is a valid combination.
+We should acquire the actual_length of an iso packet
+from the iTD directly using FOTG210_ITD_LENGTH() macro.
 
-This is specifically called out in the USB PD specification section
-9.1, in which a PDUSB device "shall report zero in the bMaxPower
-field after negotiating a mutually agreeable Contract", and also
-verified by the USB Type-C Functional Test TD.4.10.2 Sink Power
-Precedence Test.
-
-The fix allows the c->MaxPower to be used for encoding the bMaxPower
-even if it is 0, if the self-powered bit is also set.  An example
-usage of this would be for a ConfigFS gadget to be dynamically
-updated by userspace when the Type-C connection is determined to be
-operating in Power Delivery mode.
-
-Co-developed-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Acked-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
-Link: https://lore.kernel.org/r/20210720080907.30292-1-jackp@codeaurora.org
+Signed-off-by: Kelly Devilliv <kelly.devilliv@gmail.com>
+Link: https://lore.kernel.org/r/20210627125747.127646-4-kelly.devilliv@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/composite.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/usb/host/fotg210-hcd.c | 5 ++---
+ drivers/usb/host/fotg210.h     | 5 -----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index f33635ab967f..438efa36552c 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -481,7 +481,7 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
- {
- 	unsigned val;
+diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
+index 5dacc3076efd..e081392ec830 100644
+--- a/drivers/usb/host/fotg210-hcd.c
++++ b/drivers/usb/host/fotg210-hcd.c
+@@ -4495,13 +4495,12 @@ static bool itd_complete(struct fotg210_hcd *fotg210, struct fotg210_itd *itd)
  
--	if (c->MaxPower)
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
- 		val = c->MaxPower;
- 	else
- 		val = CONFIG_USB_GADGET_VBUS_DRAW;
-@@ -886,7 +886,11 @@ static int set_config(struct usb_composite_dev *cdev,
- 	}
+ 			/* HC need not update length with this error */
+ 			if (!(t & FOTG210_ISOC_BABBLE)) {
+-				desc->actual_length =
+-					fotg210_itdlen(urb, desc, t);
++				desc->actual_length = FOTG210_ITD_LENGTH(t);
+ 				urb->actual_length += desc->actual_length;
+ 			}
+ 		} else if (likely((t & FOTG210_ISOC_ACTIVE) == 0)) {
+ 			desc->status = 0;
+-			desc->actual_length = fotg210_itdlen(urb, desc, t);
++			desc->actual_length = FOTG210_ITD_LENGTH(t);
+ 			urb->actual_length += desc->actual_length;
+ 		} else {
+ 			/* URB was too late */
+diff --git a/drivers/usb/host/fotg210.h b/drivers/usb/host/fotg210.h
+index b5cfa7aeb277..1a3f94123c88 100644
+--- a/drivers/usb/host/fotg210.h
++++ b/drivers/usb/host/fotg210.h
+@@ -682,11 +682,6 @@ static inline unsigned fotg210_read_frame_index(struct fotg210_hcd *fotg210)
+ 	return fotg210_readl(fotg210, &fotg210->regs->frame_index);
+ }
  
- 	/* when we return, be sure our power usage is valid */
--	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
-+		power = c->MaxPower;
-+	else
-+		power = CONFIG_USB_GADGET_VBUS_DRAW;
-+
- 	if (gadget->speed < USB_SPEED_SUPER)
- 		power = min(power, 500U);
- 	else
+-#define fotg210_itdlen(urb, desc, t) ({			\
+-	usb_pipein((urb)->pipe) ?				\
+-	(desc)->length - FOTG210_ITD_LENGTH(t) :			\
+-	FOTG210_ITD_LENGTH(t);					\
+-})
+ /*-------------------------------------------------------------------------*/
+ 
+ #endif /* __LINUX_FOTG210_H */
 -- 
 2.30.2
 
