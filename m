@@ -5,141 +5,110 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 813DFC433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 08:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 891ABC433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 08:32:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60D3560FC0
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 08:28:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 651A861041
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 08:32:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbhIII3P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 04:29:15 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:39522 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231634AbhIII3M (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 04:29:12 -0400
+        id S231691AbhIIIdL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 04:33:11 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:46069 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231549AbhIIIdB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Sep 2021 04:33:01 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1631176083; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=x6XcbZefvqoWPNVMCwRAIjlGEglkJhb/IwYAsfmaYdc=; b=KyoujdOG9fbE6UYdaPXxy+gi8pqM96va8A+w5Vq2/cnhddvHrLJKoBI7eyhAvZDbQhsFUleI
- WmHDA3cv9brD3DvKUql1iGq0+n5iHRR7PmQnuCzT6P6+FtV2rGUbmB/e+QIP25rfWBaw/8us
- NcZa/lDqeJAjXwnsCMH2nku3Ios=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ s=smtp; t=1631176312; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=WeDU2UfoS/QAembprc7Uuqn09jNOdrtvr6LpshpTedA=; b=KmmauABetR8UZ9odJ6IoOw02IGfmf4o6vnESTu7Ckqs+0Up0kQWqug1daWuzXec8lTmJ5Ycm
+ oAJp5eXtdzb5rCjGHzJFMvwBSLCCVMMCsWynyKaeHjsntcNfhi2SRlORZt8dhSGQJ/FaJ8/9
+ rydNyJeHs4jln3oGu35zIpQR+JQ=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
  smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 6139c587ab61cfa9f4d5dd76 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Sep 2021 08:27:51
+ 6139c664ab61cfa9f4d768bb (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 09 Sep 2021 08:31:32
  GMT
 Sender: jackp=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 557F4C4361A; Thu,  9 Sep 2021 08:27:51 +0000 (UTC)
+        id 90074C43616; Thu,  9 Sep 2021 08:31:32 +0000 (UTC)
 Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E4492C4338F;
-        Thu,  9 Sep 2021 08:27:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org E4492C4338F
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7131EC4338F;
+        Thu,  9 Sep 2021 08:31:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 7131EC4338F
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
 From:   Jack Pham <jackp@codeaurora.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Pavel Hofman <pavel.hofman@ivitera.com>
-Cc:     linux-usb@vger.kernel.org, Ferry Toth <fntoth@gmail.com>,
-        Wesley Cheng <wcheng@codeaurora.org>,
-        Pawel Laszczak <pawell@cadence.com>,
+        Wesley Cheng <wcheng@codeaurora.org>
+Cc:     linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         Jack Pham <jackp@codeaurora.org>
-Subject: [PATCH v2 1/2] usb: gadget: f_uac2: Add missing companion descriptor for feedback EP
-Date:   Thu,  9 Sep 2021 01:26:50 -0700
-Message-Id: <20210909082651.11912-2-jackp@codeaurora.org>
+Subject: [PATCH] usb: dwc3: gadget: Skip resizing EP's TX FIFO if already resized
+Date:   Thu,  9 Sep 2021 01:31:20 -0700
+Message-Id: <20210909083120.15350-1-jackp@codeaurora.org>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20210909082651.11912-1-jackp@codeaurora.org>
-References: <20210909082651.11912-1-jackp@codeaurora.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The f_uac2 function fails to enumerate when connected in SuperSpeed
-due to the feedback endpoint missing the companion descriptor.
-Add a new ss_epin_fback_desc_comp descriptor and append it behind the
-ss_epin_fback_desc both in the static definition of the ss_audio_desc
-structure as well as its dynamic construction in setup_headers().
+Some functions may dynamically enable and disable their endpoints
+regularly throughout their operation, particularly when Set Interface
+is employed to switch between Alternate Settings.  For instance the
+UAC2 function has its respective endpoints for playback & capture
+associated with AltSetting 1, in which case those endpoints would not
+get enabled until the host activates the AltSetting.  And they
+conversely become disabled when the interfaces' AltSetting 0 is
+chosen.
 
-Fixes: 24f779dac8f3 ("usb: gadget: f_uac2/u_audio: add feedback endpoint support")
+With the DWC3 FIFO resizing algorithm recently added, every
+usb_ep_enable() call results in a call to resize that EP's TXFIFO,
+but if the same endpoint is enabled again and again, this incorrectly
+leads to FIFO RAM allocation exhaustion as the mechanism did not
+account for the possibility that endpoints can be re-enabled many
+times.
+
+Example log splat:
+
+	dwc3 a600000.dwc3: Fifosize(3717) > RAM size(3462) ep3in depth:217973127
+	configfs-gadget gadget: u_audio_start_capture:521 Error!
+	dwc3 a600000.dwc3: request 000000000be13e18 was not queued to ep3in
+
+This is easily fixed by bailing out of dwc3_gadget_resize_tx_fifos()
+if an endpoint is already resized, avoiding the calculation error
+resulting from accumulating the EP's FIFO depth repeatedly.
+
+Fixes: 9f607a309fbe9 ("usb: dwc3: Resize TX FIFOs to meet EP bursting requirements")
 Signed-off-by: Jack Pham <jackp@codeaurora.org>
 ---
-v2: Created a separate descriptor just for the feedback endpoint. This is
-    in preparation for patch 2 which populates the wBytesPerInterval
-    which may be different per endpoint.
+ drivers/usb/dwc3/gadget.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- drivers/usb/gadget/function/f_uac2.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 3c34995276e7..d89c1ebb07f4 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -406,6 +406,14 @@ static struct usb_endpoint_descriptor ss_epin_fback_desc = {
- 	.bInterval = 4,
- };
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 804b50548163..c647c76d7361 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -747,6 +747,10 @@ static int dwc3_gadget_resize_tx_fifos(struct dwc3_ep *dep)
+ 	if (!usb_endpoint_dir_in(dep->endpoint.desc) || dep->number <= 1)
+ 		return 0;
  
-+static struct usb_ss_ep_comp_descriptor ss_epin_fback_desc_comp = {
-+	.bLength		= sizeof(ss_epin_fback_desc_comp),
-+	.bDescriptorType	= USB_DT_SS_ENDPOINT_COMP,
-+	.bMaxBurst		= 0,
-+	.bmAttributes		= 0,
-+	.wBytesPerInterval	= cpu_to_le16(4),
-+};
++	/* bail if already resized */
++	if (dwc3_readl(dwc->regs, DWC3_GTXFIFOSIZ(dep->number >> 1)))
++		return 0;
 +
+ 	ram1_depth = DWC3_RAM1_DEPTH(dwc->hwparams.hwparams7);
  
- /* Audio Streaming IN Interface - Alt0 */
- static struct usb_interface_descriptor std_as_in_if0_desc = {
-@@ -597,6 +605,7 @@ static struct usb_descriptor_header *ss_audio_desc[] = {
- 	(struct usb_descriptor_header *)&ss_epout_desc_comp,
- 	(struct usb_descriptor_header *)&as_iso_out_desc,
- 	(struct usb_descriptor_header *)&ss_epin_fback_desc,
-+	(struct usb_descriptor_header *)&ss_epin_fback_desc_comp,
- 
- 	(struct usb_descriptor_header *)&std_as_in_if0_desc,
- 	(struct usb_descriptor_header *)&std_as_in_if1_desc,
-@@ -705,6 +714,7 @@ static void setup_headers(struct f_uac2_opts *opts,
- {
- 	struct usb_ss_ep_comp_descriptor *epout_desc_comp = NULL;
- 	struct usb_ss_ep_comp_descriptor *epin_desc_comp = NULL;
-+	struct usb_ss_ep_comp_descriptor *epin_fback_desc_comp = NULL;
- 	struct usb_endpoint_descriptor *epout_desc;
- 	struct usb_endpoint_descriptor *epin_desc;
- 	struct usb_endpoint_descriptor *epin_fback_desc;
-@@ -730,6 +740,7 @@ static void setup_headers(struct f_uac2_opts *opts,
- 		epout_desc_comp = &ss_epout_desc_comp;
- 		epin_desc_comp = &ss_epin_desc_comp;
- 		epin_fback_desc = &ss_epin_fback_desc;
-+		epin_fback_desc_comp = &ss_epin_fback_desc_comp;
- 		ep_int_desc = &ss_ep_int_desc;
- 	}
- 
-@@ -773,8 +784,11 @@ static void setup_headers(struct f_uac2_opts *opts,
- 
- 		headers[i++] = USBDHDR(&as_iso_out_desc);
- 
--		if (EPOUT_FBACK_IN_EN(opts))
-+		if (EPOUT_FBACK_IN_EN(opts)) {
- 			headers[i++] = USBDHDR(epin_fback_desc);
-+			if (epin_fback_desc_comp)
-+				headers[i++] = USBDHDR(epin_fback_desc_comp);
-+		}
- 	}
- 
- 	if (EPIN_EN(opts)) {
+ 	if ((dep->endpoint.maxburst > 1 &&
 -- 
 2.24.0
 
