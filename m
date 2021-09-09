@@ -7,41 +7,43 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9B8C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C11AC4321E
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76147611C9
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63AA161208
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354186AbhIIM5M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:57:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40986 "EHLO mail.kernel.org"
+        id S236076AbhIIM5P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:57:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354446AbhIIMvK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:51:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA29163231;
-        Thu,  9 Sep 2021 11:57:05 +0000 (UTC)
+        id S1354797AbhIIMxL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:53:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7724F63248;
+        Thu,  9 Sep 2021 11:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188626;
-        bh=PHPVcQ5YHYDkAXSwAUXuZYpebFQsZFiC3EuP0KlIyJs=;
+        s=k20201202; t=1631188663;
+        bh=ptQjnL0kBIp8Ti1DizB+0MUMdyYYKhAhFSwz+ynAHDc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EAqThrW6flNPtoeyxepR1lUjxaryJZuyCgXkwlJNtF1BjVv++uY9fmtzUMhm3v5Pp
-         yygjFaliSBCYFiEXIVquz9iOEaf8P2mNfspoChSZBwbp8baWEmRN6FUcSiGtxIyLVx
-         epNHGQPLFiM9Zc/q7d3OzD4/UPqTNmNEMz5RNzywHwt5VS3JVaXsmk9bjW7zop5knw
-         xgmN9j5epFJDD6d3r0U1ZLd+JE6nIch4OaWhu2KI18WM7Ihngy+J0hhPyT6cPWqkoE
-         vdsZtMRUet18BJY61JRBtha9vOrM7t44MzIFHJMGQ4rQTveQO48DcVs0tQLW176QrU
-         pqYp9kfaXqrKA==
+        b=LMaPK4nMSRwoNd2MC1Z8lyxpmhpz2vD4kw0qmrCs3VyDQnZpCD+w+r+GhgRivhiQO
+         0X008j3jHBI3h+54atYCttmTjoNbNLVwQnSRTn5WqDvNCqpgM2ZNyj6Tj8Z6g5nnO3
+         pvSUPgmhQJqatpKd4uYNe50Ien9YVDr0a9TeZ7JspTpm8MA1zMpbO4qdKGOAJTLQ9f
+         7cF+fEvtXy1A5q5WWb0uXP3Dckd+sVmoKR0MrGfbSvKUuybG7gzvOz8qwPWgisoroh
+         J7Vmw/dh4WfJXbXiWAzIBQh36OefBL9ukKPj93B8jocmlNlhfV3JvqfwpQwW+5L2nD
+         kv40mvz+CtvnA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+Cc:     Jack Pham <jackp@codeaurora.org>,
+        Ronak Vijay Raheja <rraheja@codeaurora.org>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 094/109] usb: musb: musb_dsps: request_irq() after initializing musb
-Date:   Thu,  9 Sep 2021 07:54:51 -0400
-Message-Id: <20210909115507.147917-94-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 13/74] usb: gadget: composite: Allow bMaxPower=0 if self-powered
+Date:   Thu,  9 Sep 2021 07:56:25 -0400
+Message-Id: <20210909115726.149004-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
-References: <20210909115507.147917-1-sashal@kernel.org>
+In-Reply-To: <20210909115726.149004-1-sashal@kernel.org>
+References: <20210909115726.149004-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,61 +52,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nadezda Lutovinova <lutovinova@ispras.ru>
+From: Jack Pham <jackp@codeaurora.org>
 
-[ Upstream commit 7c75bde329d7e2a93cf86a5c15c61f96f1446cdc ]
+[ Upstream commit bcacbf06c891374e7fdd7b72d11cda03b0269b43 ]
 
-If IRQ occurs between calling  dsps_setup_optional_vbus_irq()
-and  dsps_create_musb_pdev(), then null pointer dereference occurs
-since glue->musb wasn't initialized yet.
+Currently the composite driver encodes the MaxPower field of
+the configuration descriptor by reading the c->MaxPower of the
+usb_configuration only if it is non-zero, otherwise it falls back
+to using the value hard-coded in CONFIG_USB_GADGET_VBUS_DRAW.
+However, there are cases when a configuration must explicitly set
+bMaxPower to 0, particularly if its bmAttributes also has the
+Self-Powered bit set, which is a valid combination.
 
-The patch puts initializing of neccesery data before registration
-of the interrupt handler.
+This is specifically called out in the USB PD specification section
+9.1, in which a PDUSB device "shall report zero in the bMaxPower
+field after negotiating a mutually agreeable Contract", and also
+verified by the USB Type-C Functional Test TD.4.10.2 Sink Power
+Precedence Test.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+The fix allows the c->MaxPower to be used for encoding the bMaxPower
+even if it is 0, if the self-powered bit is also set.  An example
+usage of this would be for a ConfigFS gadget to be dynamically
+updated by userspace when the Type-C connection is determined to be
+operating in Power Delivery mode.
 
-Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-Link: https://lore.kernel.org/r/20210819163323.17714-1-lutovinova@ispras.ru
+Co-developed-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
+Acked-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
+Signed-off-by: Jack Pham <jackp@codeaurora.org>
+Link: https://lore.kernel.org/r/20210720080907.30292-1-jackp@codeaurora.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/musb/musb_dsps.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/usb/gadget/composite.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
-index 327d4f7baaf7..89d659cef5c6 100644
---- a/drivers/usb/musb/musb_dsps.c
-+++ b/drivers/usb/musb/musb_dsps.c
-@@ -890,23 +890,22 @@ static int dsps_probe(struct platform_device *pdev)
- 	if (!glue->usbss_base)
- 		return -ENXIO;
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index d85bb3ba8263..a76ed4acb570 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -481,7 +481,7 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
+ {
+ 	unsigned val;
  
--	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
--		ret = dsps_setup_optional_vbus_irq(pdev, glue);
--		if (ret)
--			goto err_iounmap;
--	}
--
- 	platform_set_drvdata(pdev, glue);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = dsps_create_musb_pdev(glue, pdev);
- 	if (ret)
- 		goto err;
+-	if (c->MaxPower)
++	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+ 		val = c->MaxPower;
+ 	else
+ 		val = CONFIG_USB_GADGET_VBUS_DRAW;
+@@ -891,7 +891,11 @@ static int set_config(struct usb_composite_dev *cdev,
+ 	}
  
-+	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
-+		ret = dsps_setup_optional_vbus_irq(pdev, glue);
-+		if (ret)
-+			goto err;
-+	}
+ 	/* when we return, be sure our power usage is valid */
+-	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
++	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
++		power = c->MaxPower;
++	else
++		power = CONFIG_USB_GADGET_VBUS_DRAW;
 +
- 	return 0;
- 
- err:
- 	pm_runtime_disable(&pdev->dev);
--err_iounmap:
- 	iounmap(glue->usbss_base);
- 	return ret;
- }
+ 	if (gadget->speed < USB_SPEED_SUPER)
+ 		power = min(power, 500U);
+ 	else
 -- 
 2.30.2
 
