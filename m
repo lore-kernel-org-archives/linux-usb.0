@@ -2,109 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6380C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:32:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3928BC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 14:06:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C993A60F4A
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:32:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F5CB604E9
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 14:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359386AbhIINd1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:33:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33700 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1356233AbhIIM7A (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:59:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C874C613A5;
-        Thu,  9 Sep 2021 11:58:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188727;
-        bh=Z7wQFrDqbjKAvs/md/gMzQQYhEE3CN2oGgXFYLIvZyY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qNdM/06fm1kJ7jMbZ0swwUTi9dtNWOz+maOrUs41T7Xgvl9SUhKEpcRZj5xC2xDrX
-         B0OAzjA0aqiXggc9eKmSnVS5VmuzmGZ4rA6zX8nePlNrUre/qQgAERpav5NnCbxN4p
-         pZUXuD1A9ulymdRmV0akbR6uIBjZQQciY5jtkEptz0VosECKVy3eqh1lHTeOSGGc2Y
-         10xLj8geoA7pKbo1CDiGtlgn2NQbM1lGLPNXN60J8bx0dEPcG4ol0l3xIbY9UkRLSD
-         WaWcl9/zEYhss86U1c9dyZZ7YgdUPzDMgQU8Q6bxF3fvVgVxqwZT88qV4t1AT+jPtQ
-         VBsOSyjS/2qow==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 65/74] usb: musb: musb_dsps: request_irq() after initializing musb
-Date:   Thu,  9 Sep 2021 07:57:17 -0400
-Message-Id: <20210909115726.149004-65-sashal@kernel.org>
+        id S1348521AbhIIOIC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 10:08:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348329AbhIIOH7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Sep 2021 10:07:59 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44B6C07AF6C
+        for <linux-usb@vger.kernel.org>; Thu,  9 Sep 2021 05:06:47 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id n13-20020a17090a4e0d00b0017946980d8dso1279709pjh.5
+        for <linux-usb@vger.kernel.org>; Thu, 09 Sep 2021 05:06:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rPp12f8Ez8YFS6vZFGosKnk85vMfxCQl6xQNG6ad8+4=;
+        b=AKoLAxOac5Mq3pgWitQMZZHdOv/vD7F1je+fnMrAUlKSLltHXPMDLP4WbzhZYkIWqO
+         OaoiGwrsfHgQflciLZtGzxsvZswYXAJuCDZhdTW85xT88MFqXrd51pENIl/1m45D1F3B
+         cvpM4TLn+yl5w9FPP/Wdxx2oUzSPvr2uOXBdGQ8voTWnHCexi9j9oxk7Voqh6EOCV9K6
+         NXvqVecm4lY27wZvdKti2A9qxbL5sC24fp1eEwxPhMYAvGnCyein20UFAXkMNOa/Zule
+         xepG84ypvOU1CZLtvywBHx7BAp3sY/rOmUi3RxbCGVj7I/ldR6Wzmn1JawRVPoi4+c5r
+         b8Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rPp12f8Ez8YFS6vZFGosKnk85vMfxCQl6xQNG6ad8+4=;
+        b=XuZYO15AdGanwreCrOa2c67EOMcux0TVpxylqY+1wavFftv2vWnT0Hq4zdSc8tyWwJ
+         3zyLJREV8+jlrbHEihZLULIrY7/FS9nIyuxGLdQQ1SR6J8OBRYBTMOU6yNWynfnpmgSN
+         D+HKppM0nEWxbxVNuTSQatqQWTClQFk5clkweNrLQ9YsyMiqsfYVAJOzr+ab4uD46e0u
+         suAaw/YAbCuFn7BECWpFVFdhtOnGnMfqUsBsF9+f9Fm2YTQwnPQpVru7lotr8raYD4c+
+         6JuxqBip99h9ZEbxXVxSCqaq7VnGD1kWRxeTrFHImWD+LJaRqA572t4qKnDsJWAbg9yl
+         97DQ==
+X-Gm-Message-State: AOAM531ab32ucxQiJ5speR39w3CI8vzZdZoIKWaH/Y0epU5s98vqtSWT
+        48T/nyRU9LFyrTDp3dDW+tKg/SOFIKQ0NQ==
+X-Google-Smtp-Source: ABdhPJw7D8GjBRHMwg8xXIz1ZN4XgD67RisZ1RvNPFQMZ//P79dU99SSNCIak8KP/ws8x7lWRmlDIQ==
+X-Received: by 2002:a17:90b:116:: with SMTP id p22mr3107774pjz.67.1631189206971;
+        Thu, 09 Sep 2021 05:06:46 -0700 (PDT)
+Received: from ajay-VirtualBox.. ([122.161.240.129])
+        by smtp.gmail.com with ESMTPSA id o1sm2215127pjk.1.2021.09.09.05.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 05:06:46 -0700 (PDT)
+From:   Ajay Garg <ajaygargnsit@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Ajay Garg <ajaygargnsit@gmail.com>
+Subject: [PATCH] usb: gadget: fix for a typo that conveys logically-inverted information.
+Date:   Thu,  9 Sep 2021 17:36:24 +0530
+Message-Id: <20210909120624.77557-1-ajaygargnsit@gmail.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115726.149004-1-sashal@kernel.org>
-References: <20210909115726.149004-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nadezda Lutovinova <lutovinova@ispras.ru>
+Upon calling usb_ep_autoconfig_release(), the endpoint becomes *not
+valid*.
 
-[ Upstream commit 7c75bde329d7e2a93cf86a5c15c61f96f1446cdc ]
-
-If IRQ occurs between calling  dsps_setup_optional_vbus_irq()
-and  dsps_create_musb_pdev(), then null pointer dereference occurs
-since glue->musb wasn't initialized yet.
-
-The patch puts initializing of neccesery data before registration
-of the interrupt handler.
-
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-Link: https://lore.kernel.org/r/20210819163323.17714-1-lutovinova@ispras.ru
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Ajay Garg <ajaygargnsit@gmail.com>
 ---
- drivers/usb/musb/musb_dsps.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/usb/gadget/epautoconf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
-index 403eb97915f8..2f6708b8b5c2 100644
---- a/drivers/usb/musb/musb_dsps.c
-+++ b/drivers/usb/musb/musb_dsps.c
-@@ -892,23 +892,22 @@ static int dsps_probe(struct platform_device *pdev)
- 	if (!glue->usbss_base)
- 		return -ENXIO;
- 
--	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
--		ret = dsps_setup_optional_vbus_irq(pdev, glue);
--		if (ret)
--			goto err_iounmap;
--	}
--
- 	platform_set_drvdata(pdev, glue);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = dsps_create_musb_pdev(glue, pdev);
- 	if (ret)
- 		goto err;
- 
-+	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
-+		ret = dsps_setup_optional_vbus_irq(pdev, glue);
-+		if (ret)
-+			goto err;
-+	}
-+
- 	return 0;
- 
- err:
- 	pm_runtime_disable(&pdev->dev);
--err_iounmap:
- 	iounmap(glue->usbss_base);
- 	return ret;
- }
+diff --git a/drivers/usb/gadget/epautoconf.c b/drivers/usb/gadget/epautoconf.c
+index 1eb4fa2e623f..ed5a92c474e5 100644
+--- a/drivers/usb/gadget/epautoconf.c
++++ b/drivers/usb/gadget/epautoconf.c
+@@ -181,7 +181,7 @@ EXPORT_SYMBOL_GPL(usb_ep_autoconfig);
+  * This function can be used during function bind for endpoints obtained
+  * from usb_ep_autoconfig(). It unclaims endpoint claimed by
+  * usb_ep_autoconfig() to make it available for other functions. Endpoint
+- * which was released is no longer invalid and shouldn't be used in
++ * which was released is no longer valid and shouldn't be used in
+  * context of function which released it.
+  */
+ void usb_ep_autoconfig_release(struct usb_ep *ep)
 -- 
 2.30.2
 
