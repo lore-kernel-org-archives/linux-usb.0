@@ -7,47 +7,43 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ADFCC433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:11:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B065C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:16:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16DC9610E9
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:11:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 386D660FE3
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:16:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236798AbhIIMM7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:12:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47324 "EHLO mail.kernel.org"
+        id S1349926AbhIIMR7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:17:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52452 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1349736AbhIIMFd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:05:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2006617E5;
-        Thu,  9 Sep 2021 11:47:18 +0000 (UTC)
+        id S1350469AbhIIMNu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:13:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 54DE561A60;
+        Thu,  9 Sep 2021 11:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188040;
-        bh=8SccjHQBBdBLX2oYdc8x9YK5U1X7hTEEkIPQP0ZnWro=;
+        s=k20201202; t=1631188147;
+        bh=daVJ+CeMTgyPCrr9ROUkuCNJMWaaTuNOkAp138SSNf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=REVgcLh2Vyu2Pag7m7EEo2B6jlzwTyfJomXWlpikD9mfIzYs/LxZs+KgpVv4pdTqb
-         iRioiE6YML6SRpCyh9YTC/I0opiqljQnyMPhpmTx+O7GJI/TQLrqiCZO9DhvA03jK+
-         /lYOyCsH33GB+v7j1dSdiw25N6LNENrDUkpL/OOw2X50ktCTMIZilIVs5iqCpA5D4Y
-         lf2o5Js+1GkzkYft+IvTXNosRUg/XGGEvmberv6x9qXnAUDxNjKIsfL0p8AUFqVmMC
-         d6wJV3tyEC5ePY8TK5UO4cCMl4X0X0b4OOwPi+z+0s+qoftBrygQOpV2skbwfSS6c8
-         NQIYxRzOCM0kw==
+        b=p3IjnmHhcXC457bfYF0pG+UjI2QEPwFzwarkeXXE7Y7zuckdwvLIzX/TcQyRyb24q
+         vatcPGxw5weKNMrOgyLzJKMilS9lqnpdBoPU4TwLhY4rwr7W3FyN5G3Yrh/Q79VcZp
+         qe38x889QOYpzCqFP0/+RgpgqysY+yezhfpgLoN0CWa8qm2QieLVDI+rtijRvL88+H
+         HQ8BaIC3GKibJkYwvUf8HT4GdA9dfuZBc7HA5nrxyu++zpTZOW6oAyOJ9r+bdTCi52
+         LgBLcVXFqVl7KaI/nSN61Ti5Y/BqOhdw1AHJ6oA+GNtcFanTJZ0xCnxUhXvf6hBbsl
+         UumR4XI1+hNfA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
-        Brooke Basile <brookebasile@gmail.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lorenzo Colitti <lorenzo@google.com>,
+Cc:     Sanjay R Mehta <sanju.mehta@amd.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 034/219] usb: gadget: u_ether: fix a potential null pointer dereference
-Date:   Thu,  9 Sep 2021 07:43:30 -0400
-Message-Id: <20210909114635.143983-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 117/219] thunderbolt: Fix port linking by checking all adapters
+Date:   Thu,  9 Sep 2021 07:44:53 -0400
+Message-Id: <20210909114635.143983-117-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,51 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Maciej Żenczykowski <maze@google.com>
+From: Sanjay R Mehta <sanju.mehta@amd.com>
 
-[ Upstream commit 8ae01239609b29ec2eff55967c8e0fe3650cfa09 ]
+[ Upstream commit 42716425ad7e1b6529ec61c260c11176841f4b5f ]
 
-f_ncm tx timeout can call us with null skb to flush
-a pending frame.  In this case skb is NULL to begin
-with but ceases to be null after dev->wrap() completes.
+In tb_switch_default_link_ports(), while linking of ports,
+only odd-numbered ports (1,3,5..) are considered and even-numbered
+ports are not considered.
 
-In such a case in->maxpacket will be read, even though
-we've failed to check that 'in' is not NULL.
+AMD host router has lane adapters at 2 and 3 and link ports at adapter 2
+is not considered due to which lane bonding gets disabled.
 
-Though I've never observed this fail in practice,
-however the 'flush operation' simply does not make sense with
-a null usb IN endpoint - there's nowhere to flush to...
-(note that we're the gadget/device, and IN is from the point
- of view of the host, so here IN actually means outbound...)
+Hence added a fix such that all ports are considered during
+linking of ports.
 
-Cc: Brooke Basile <brookebasile@gmail.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lorenzo Colitti <lorenzo@google.com>
-Signed-off-by: Maciej Żenczykowski <maze@google.com>
-Link: https://lore.kernel.org/r/20210701114834.884597-6-zenczykowski@gmail.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Signed-off-by: Sanjay R Mehta <sanju.mehta@amd.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/u_ether.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/switch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index d1d044d9f859..85a3f6d4b5af 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -492,8 +492,9 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
- 	}
- 	spin_unlock_irqrestore(&dev->lock, flags);
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index a82032c081e8..03229350ea73 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2308,7 +2308,7 @@ static void tb_switch_default_link_ports(struct tb_switch *sw)
+ {
+ 	int i;
  
--	if (skb && !in) {
--		dev_kfree_skb_any(skb);
-+	if (!in) {
-+		if (skb)
-+			dev_kfree_skb_any(skb);
- 		return NETDEV_TX_OK;
- 	}
+-	for (i = 1; i <= sw->config.max_port_number; i += 2) {
++	for (i = 1; i <= sw->config.max_port_number; i++) {
+ 		struct tb_port *port = &sw->ports[i];
+ 		struct tb_port *subordinate;
  
 -- 
 2.30.2
