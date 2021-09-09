@@ -5,43 +5,44 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D54C5C4332F
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:22:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43BD2C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:27:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C11866115A
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:22:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24849610FF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:27:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352608AbhIIMXa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:23:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57712 "EHLO mail.kernel.org"
+        id S1352185AbhIIM2z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:28:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34546 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350791AbhIIMSK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:18:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B73C861A85;
-        Thu,  9 Sep 2021 11:50:01 +0000 (UTC)
+        id S1352567AbhIIM0W (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:26:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1FD9361269;
+        Thu,  9 Sep 2021 11:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188202;
-        bh=EFk7taVLDDEyryR2UN+6vNU2VWI9oVuX3ynm0n8vEZM=;
+        s=k20201202; t=1631188311;
+        bh=wb0vY1I/LJsIEVsnaF93j3dbSb5rsRNBhEY+WdFPy2M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TVCM6mWZYYpe3FENrK9aNtTqIUH+OPB3wq1ODpBGaUgl0DufbdDtzCDZPWBt9g+xq
-         mEmSF2OU17ZoCKgceVl6tQqC4JKoA9ZWoQGzIECyE1wVWJo0lxFu5eBlWlRg1KG6gM
-         6XDVmJlf40wwjULnNY6DN4OOv44uQhG4CZoF03HnptKMSQcEl2dHCxsjPhJOLIc2D1
-         IFHaE/o62ascCzV7UAnocyW5X3vIqKfYD3DA+rmn1ftk1zsO1TTPufrowFnO0lhfVF
-         /qELvXpY/dhUykANO9K7xWu0rccddNXtgQdMsumVeYbfz7ZAFuYAYFbZSB8ePYTmng
-         m2yj2ZBED0oyQ==
+        b=thRyvjgwZ8hbe6Hfp0VdT25TIOFWRHskodvp9DZ/BS9R/EWdL7XvQR++vvqEO5MMu
+         /zW0Y+tkUGTMECmwqKg39rY698uh8+U50gA3Mr7KDc2FWWgTFm/wRrFeYsPGTf/3GO
+         fXpXQ9CwA04aF/77iTE+UBbp0ThQnPaCU0x5OFwNZm8Zq9qU4XT51bmln2MF9Wpglp
+         WW3og9mS4c5VNpnly1kb8q4W47vYjrYelMXGOodvdOUqwnc702aWGvXjsVHbs4RuSl
+         /qwDrm1Yjj59MUiEe0f1YutJbWC0TefQ6x/RXvHb2YqCdGJFgdVRcG9BI7KZAHpPFa
+         TPPY4xqmvZ0Vw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Li Jun <jun.li@nxp.com>, Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-        Peter Chen <peter.chen@kernel.org>,
+Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 160/219] usb: chipidea: host: fix port index underflow and UBSAN complains
-Date:   Thu,  9 Sep 2021 07:45:36 -0400
-Message-Id: <20210909114635.143983-160-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 026/176] USB: EHCI: ehci-mv: improve error handling in mv_ehci_enable()
+Date:   Thu,  9 Sep 2021 07:48:48 -0400
+Message-Id: <20210909115118.146181-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
+In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
+References: <20210909115118.146181-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,70 +51,69 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit e5d6a7c6cfae9e714a0e8ff64facd1ac68a784c6 ]
+[ Upstream commit 61136a12cbed234374ec6f588af57c580b20b772 ]
 
-If wIndex is 0 (and it often is), these calculations underflow and
-UBSAN complains, here resolve this by not decrementing the index when
-it is equal to 0, this copies the solution from commit 85e3990bea49
-("USB: EHCI: avoid undefined pointer arithmetic and placate UBSAN")
+mv_ehci_enable() did not disable and unprepare clocks in case of
+failures of phy_init(). Besides, it did not take into account failures
+of ehci_clock_enable() (in effect, failures of clk_prepare_enable()).
+The patch fixes both issues and gets rid of redundant wrappers around
+clk_prepare_enable() and clk_disable_unprepare() to simplify this a bit.
 
-Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Signed-off-by: Li Jun <jun.li@nxp.com>
-Link: https://lore.kernel.org/r/1624004938-2399-1-git-send-email-jun.li@nxp.com
-Signed-off-by: Peter Chen <peter.chen@kernel.org>
+Found by Linux Driver Verification project (linuxtesting.org).
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Link: https://lore.kernel.org/r/20210708083056.21543-1-novikov@ispras.ru
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/host.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/usb/host/ehci-mv.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index e86d13c04bdb..bdc3885c0d49 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -240,15 +240,18 @@ static int ci_ehci_hub_control(
- )
+diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+index cffdc8d01b2a..8fd27249ad25 100644
+--- a/drivers/usb/host/ehci-mv.c
++++ b/drivers/usb/host/ehci-mv.c
+@@ -42,26 +42,25 @@ struct ehci_hcd_mv {
+ 	int (*set_vbus)(unsigned int vbus);
+ };
+ 
+-static void ehci_clock_enable(struct ehci_hcd_mv *ehci_mv)
++static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
  {
- 	struct ehci_hcd	*ehci = hcd_to_ehci(hcd);
-+	unsigned int	ports = HCS_N_PORTS(ehci->hcs_params);
- 	u32 __iomem	*status_reg;
--	u32		temp;
-+	u32		temp, port_index;
- 	unsigned long	flags;
- 	int		retval = 0;
- 	bool		done = false;
- 	struct device *dev = hcd->self.controller;
- 	struct ci_hdrc *ci = dev_get_drvdata(dev);
+-	clk_prepare_enable(ehci_mv->clk);
+-}
++	int retval;
  
--	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
-+	port_index = wIndex & 0xff;
-+	port_index -= (port_index > 0);
-+	status_reg = &ehci->regs->port_status[port_index];
+-static void ehci_clock_disable(struct ehci_hcd_mv *ehci_mv)
+-{
+-	clk_disable_unprepare(ehci_mv->clk);
+-}
++	retval = clk_prepare_enable(ehci_mv->clk);
++	if (retval)
++		return retval;
  
- 	spin_lock_irqsave(&ehci->lock, flags);
- 
-@@ -260,6 +263,11 @@ static int ci_ehci_hub_control(
- 	}
- 
- 	if (typeReq == SetPortFeature && wValue == USB_PORT_FEAT_SUSPEND) {
-+		if (!wIndex || wIndex > ports) {
-+			retval = -EPIPE;
-+			goto done;
-+		}
+-static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
+-{
+-	ehci_clock_enable(ehci_mv);
+-	return phy_init(ehci_mv->phy);
++	retval = phy_init(ehci_mv->phy);
++	if (retval)
++		clk_disable_unprepare(ehci_mv->clk);
 +
- 		temp = ehci_readl(ehci, status_reg);
- 		if ((temp & PORT_PE) == 0 || (temp & PORT_RESET) != 0) {
- 			retval = -EPIPE;
-@@ -288,7 +296,7 @@ static int ci_ehci_hub_control(
- 			ehci_writel(ehci, temp, status_reg);
- 		}
++	return retval;
+ }
  
--		set_bit((wIndex & 0xff) - 1, &ehci->suspended_ports);
-+		set_bit(port_index, &ehci->suspended_ports);
- 		goto done;
- 	}
+ static void mv_ehci_disable(struct ehci_hcd_mv *ehci_mv)
+ {
+ 	phy_exit(ehci_mv->phy);
+-	ehci_clock_disable(ehci_mv);
++	clk_disable_unprepare(ehci_mv->clk);
+ }
  
+ static int mv_ehci_reset(struct usb_hcd *hcd)
 -- 
 2.30.2
 
