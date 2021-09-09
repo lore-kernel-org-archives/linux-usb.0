@@ -7,41 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5049FC433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F5EC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:37:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 37AA3610FF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:30:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0058961167
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:37:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348478AbhIIMbv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:31:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56652 "EHLO mail.kernel.org"
+        id S1352862AbhIIMi2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:38:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353306AbhIIMUm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:20:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5884761A8E;
-        Thu,  9 Sep 2021 11:50:38 +0000 (UTC)
+        id S1352554AbhIIMdC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:33:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6117E61B50;
+        Thu,  9 Sep 2021 11:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188239;
-        bh=AINYEJ06EiJnuvI7TzajUB+T3AS3coul7sks7YFqhpA=;
+        s=k20201202; t=1631188402;
+        bh=wUMljGhgc5yPRcPZeHQ2QtxN4l0omWgDnImvqWZCzSs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L/DLV82TdBY/liLn113luqsheQ3zc0cSDwoP7lcyQfoxGd2MiLWrNebGwPWER2Qys
-         7CCJ869hHm7epkH59P75vW6pmBhtPS6n2Zv71GBAMBcjUgef9xY7m28spw/MXbAAvR
-         veLEDNG0u+WVZbtU6iAjr2w9Wn1tkHS/3/f2SaBRawcx68kSqsT/bQN9JjsxJkGod0
-         guJ4RTEv20GH9NDYmA7HWDAfWS80+f8kSyX+kWtmjqRtusV6OuNmkek9PFHyf9xGQf
-         vrTGPP57tGQexcwGWl+SGNLaSWrseQfZoqgBr2XSWuaf9kaYqWRPBb2XUZZxlbXWVz
-         G7+JYQGktl0Vw==
+        b=HaLUzkwkuGxCo/hO6jxktpcT89pwvYQ6D6g9QR2ofw0OAgT/DgK6c4wL3C4Gketpz
+         IXhWXn8vugwo2JPUR3nIsMoICd3QzZtE4D086MwvJUcS3AJt3aUcT7w8yyb+1niBkj
+         z77QitjDZ03kUGo5WYbhtTOd9zg/ITG66NinJZkG14YvnC9kLLHq1Pp2cVAyZ4b0qu
+         QShscklxhQKwy/guP62rYIYme4xHjE1x7qP7aH4t0K374LOJhgRjTZ0s8muK6bP3mf
+         oWTTpjQne3YUlCEI8Ix9Qy3KGxu41+tufRCMMy9UFiRAaGn1k6uqb2ZNf6c8eUCc4n
+         1gmACGeuT/9yg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Sanjay R Mehta <sanju.mehta@amd.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 189/219] Revert "USB: xhci: fix U1/U2 handling for hardware with XHCI_INTEL_HOST quirk set"
-Date:   Thu,  9 Sep 2021 07:46:05 -0400
-Message-Id: <20210909114635.143983-189-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 096/176] thunderbolt: Fix port linking by checking all adapters
+Date:   Thu,  9 Sep 2021 07:49:58 -0400
+Message-Id: <20210909115118.146181-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
+In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
+References: <20210909115118.146181-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,93 +51,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Sanjay R Mehta <sanju.mehta@amd.com>
 
-[ Upstream commit 2847c46c61486fd8bca9136a6e27177212e78c69 ]
+[ Upstream commit 42716425ad7e1b6529ec61c260c11176841f4b5f ]
 
-This reverts commit 5d5323a6f3625f101dbfa94ba3ef7706cce38760.
+In tb_switch_default_link_ports(), while linking of ports,
+only odd-numbered ports (1,3,5..) are considered and even-numbered
+ports are not considered.
 
-That commit effectively disabled Intel host initiated U1/U2 lpm for devices
-with periodic endpoints.
+AMD host router has lane adapters at 2 and 3 and link ports at adapter 2
+is not considered due to which lane bonding gets disabled.
 
-Before that commit we disabled host initiated U1/U2 lpm if the exit latency
-was larger than any periodic endpoint service interval, this is according
-to xhci spec xhci 1.1 specification section 4.23.5.2
+Hence added a fix such that all ports are considered during
+linking of ports.
 
-After that commit we incorrectly checked that service interval was smaller
-than U1/U2 inactivity timeout. This is not relevant, and can't happen for
-Intel hosts as previously set U1/U2 timeout = 105% * service interval.
-
-Patch claimed it solved cases where devices can't be enumerated because of
-bandwidth issues. This might be true but it's a side effect of accidentally
-turning off lpm.
-
-exit latency calculations have been revised since then
-
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Link: https://lore.kernel.org/r/20210820123503.2605901-5-mathias.nyman@linux.intel.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Signed-off-by: Sanjay R Mehta <sanju.mehta@amd.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/switch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 9248ce8d09a4..cb21add9d7be 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4705,19 +4705,19 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 9a272a516b2d..c4b157c29af7 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2204,7 +2204,7 @@ static void tb_switch_default_link_ports(struct tb_switch *sw)
  {
- 	unsigned long long timeout_ns;
+ 	int i;
  
--	if (xhci->quirks & XHCI_INTEL_HOST)
--		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
--	else
--		timeout_ns = udev->u1_params.sel;
--
- 	/* Prevent U1 if service interval is shorter than U1 exit latency */
- 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
--		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
-+		if (xhci_service_interval_to_ns(desc) <= udev->u1_params.mel) {
- 			dev_dbg(&udev->dev, "Disable U1, ESIT shorter than exit latency\n");
- 			return USB3_LPM_DISABLED;
- 		}
- 	}
+-	for (i = 1; i <= sw->config.max_port_number; i += 2) {
++	for (i = 1; i <= sw->config.max_port_number; i++) {
+ 		struct tb_port *port = &sw->ports[i];
+ 		struct tb_port *subordinate;
  
-+	if (xhci->quirks & XHCI_INTEL_HOST)
-+		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
-+	else
-+		timeout_ns = udev->u1_params.sel;
-+
- 	/* The U1 timeout is encoded in 1us intervals.
- 	 * Don't return a timeout of zero, because that's USB3_LPM_DISABLED.
- 	 */
-@@ -4769,19 +4769,19 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
- {
- 	unsigned long long timeout_ns;
- 
--	if (xhci->quirks & XHCI_INTEL_HOST)
--		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
--	else
--		timeout_ns = udev->u2_params.sel;
--
- 	/* Prevent U2 if service interval is shorter than U2 exit latency */
- 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
--		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
-+		if (xhci_service_interval_to_ns(desc) <= udev->u2_params.mel) {
- 			dev_dbg(&udev->dev, "Disable U2, ESIT shorter than exit latency\n");
- 			return USB3_LPM_DISABLED;
- 		}
- 	}
- 
-+	if (xhci->quirks & XHCI_INTEL_HOST)
-+		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
-+	else
-+		timeout_ns = udev->u2_params.sel;
-+
- 	/* The U2 timeout is encoded in 256us intervals */
- 	timeout_ns = DIV_ROUND_UP_ULL(timeout_ns, 256 * 1000);
- 	/* If the necessary timeout value is bigger than what we can set in the
 -- 
 2.30.2
 
