@@ -5,71 +5,116 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47923C4332F
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 07:38:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5657FC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 07:38:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10F5E611AF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 07:38:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BBB861108
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 07:38:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352660AbhIIHjL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 03:39:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39324 "EHLO mail.kernel.org"
+        id S1352712AbhIIHjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 03:39:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39392 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232549AbhIIHjK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 03:39:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9399660F11;
-        Thu,  9 Sep 2021 07:38:00 +0000 (UTC)
+        id S1352685AbhIIHjR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 03:39:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB45360F11;
+        Thu,  9 Sep 2021 07:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631173081;
-        bh=BLlfDPerQHZHqOIxgrdyUbnhgCPzfv2cz4NmxD+JzOo=;
+        s=korg; t=1631173088;
+        bh=vo4h+QM6tQHpCYEs4sGKe7sRj2Lwu8JlfkoPGTG9aHM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QHmisJ7fUaWxVDE4dS5DkfSuEgfBmbBBJ82yIRyW68s92RMWQ1cM4yhSLvhLq6upp
-         Mk+JjszqrK7ZS2St9jTTqI4vf/NkacU6VyHGugC+0DGhbbqoD/VEWeyQKRWAysupyH
-         LE4RgbLBB09Kz8pMPve9TqjDR7zh38AEnMtH3+co=
-Date:   Thu, 9 Sep 2021 08:18:59 +0200
+        b=ZlJF3N0olCr6Lf1H8a4RC3LzAiEx+lrs8jFgglonpXObd2bRcaynvZ8PzChrp2C05
+         tjhSHS9f8V0kDPGtRVPhnA+CezAEJEZXlY2vlAnhoK5Cx1mMbw2Xer5kuu6/Y1XNaP
+         9mbGwbAIOZ5ujPZKOLTcz5047G15xcWApEXEKKpU=
+Date:   Thu, 9 Sep 2021 08:38:13 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     David Heidelberg <david@ixit.cz>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: usb/qcom,dwc3: add ipq4019 compatible
-Message-ID: <YTmnU7mufgyhPLG8@kroah.com>
-References: <20210908193329.87992-1-david@ixit.cz>
+To:     Neal Liu <neal_liu@aspeedtech.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Tony Prisk <linux@prisktech.co.nz>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Tao Ren <rentao.bupt@gmail.com>, BMC-SW@aspeedtech.com
+Subject: Re: [PATCH v3] usb: ehci: handshake CMD_RUN instead of STS_HALT
+Message-ID: <YTmr1TCOhV39WQXQ@kroah.com>
+References: <20210909063652.17282-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210908193329.87992-1-david@ixit.cz>
+In-Reply-To: <20210909063652.17282-1-neal_liu@aspeedtech.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 08, 2021 at 09:33:28PM +0200, David Heidelberg wrote:
-> Prequisite for getting rid of another warnings when building ipq4019.
+On Thu, Sep 09, 2021 at 02:36:52PM +0800, Neal Liu wrote:
+> For Aspeed, HCHalted status depends on not only Run/Stop but also
+> ASS/PSS status.
+> Handshake CMD_RUN on startup instead.
 > 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
+> Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+> Tested-by: Tao Ren <rentao.bupt@gmail.com>
+> 
 > ---
->  Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/usb/host/ehci-hcd.c      | 11 ++++++++++-
+>  drivers/usb/host/ehci-platform.c |  6 ++++++
+>  drivers/usb/host/ehci.h          |  1 +
+>  3 files changed, 17 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-> index e70afc40edb2..19641380f922 100644
-> --- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
-> @@ -13,6 +13,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> +          - qcom,ipq4019-dwc3
->            - qcom,msm8996-dwc3
->            - qcom,msm8998-dwc3
->            - qcom,sc7180-dwc3
+> diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+> index 10b0365f3439..01c022e46aa2 100644
+> --- a/drivers/usb/host/ehci-hcd.c
+> +++ b/drivers/usb/host/ehci-hcd.c
+> @@ -634,7 +634,16 @@ static int ehci_run (struct usb_hcd *hcd)
+>  	/* Wait until HC become operational */
+>  	ehci_readl(ehci, &ehci->regs->command);	/* unblock posted writes */
+>  	msleep(5);
+> -	rc = ehci_handshake(ehci, &ehci->regs->status, STS_HALT, 0, 100 * 1000);
+> +
+> +	/* For Aspeed, STS_HALT also depends on ASS/PSS status.
+> +	 * Skip this check on startup.
+> +	 */
+> +	if (ehci->is_aspeed)
+> +		rc = ehci_handshake(ehci, &ehci->regs->command, CMD_RUN,
+> +				    1, 100 * 1000);
+> +	else
+> +		rc = ehci_handshake(ehci, &ehci->regs->status, STS_HALT,
+> +				    0, 100 * 1000);
+>  
+>  	up_write(&ehci_cf_port_reset_rwsem);
+>  
+> diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
+> index c70f2d0b4aaf..c3dc906274d9 100644
+> --- a/drivers/usb/host/ehci-platform.c
+> +++ b/drivers/usb/host/ehci-platform.c
+> @@ -297,6 +297,12 @@ static int ehci_platform_probe(struct platform_device *dev)
+>  					  "has-transaction-translator"))
+>  			hcd->has_tt = 1;
+>  
+> +		if (of_device_is_compatible(dev->dev.of_node,
+> +					    "aspeed,ast2500-ehci") ||
+> +		    of_device_is_compatible(dev->dev.of_node,
+> +					    "aspeed,ast2600-ehci"))
+> +			ehci->is_aspeed = 1;
+> +
+>  		if (soc_device_match(quirk_poll_match))
+>  			priv->quirk_poll = true;
+>  
+> diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+> index 80bb823aa9fe..fdd073cc053b 100644
+> --- a/drivers/usb/host/ehci.h
+> +++ b/drivers/usb/host/ehci.h
+> @@ -219,6 +219,7 @@ struct ehci_hcd {			/* one per controller */
+>  	unsigned		need_oc_pp_cycle:1; /* MPC834X port power */
+>  	unsigned		imx28_write_fix:1; /* For Freescale i.MX28 */
+>  	unsigned		spurious_oc:1;
+> +	unsigned		is_aspeed:1;
+>  
+>  	/* required for usb32 quirk */
+>  	#define OHCI_CTRL_HCFS          (3 << 6)
 > -- 
-> 2.33.0
+> 2.17.1
 > 
 
 Hi,
@@ -90,6 +135,12 @@ as indicated below:
   section entitled "The canonical patch format" in the kernel file,
   Documentation/SubmittingPatches for what is needed in order to
   properly describe the change.
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/SubmittingPatches for what needs to be done
+  here to properly describe this.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
