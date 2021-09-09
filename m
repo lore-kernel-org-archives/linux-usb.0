@@ -7,39 +7,38 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3789AC433EF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64ACC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:11:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CC5361132
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A04CC61132
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346415AbhIIMIN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:08:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47406 "EHLO mail.kernel.org"
+        id S1349612AbhIIMMx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:12:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350160AbhIIMFn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:05:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7431E61880;
-        Thu,  9 Sep 2021 11:47:20 +0000 (UTC)
+        id S1348926AbhIIMFI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:05:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 85513617E2;
+        Thu,  9 Sep 2021 11:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188041;
-        bh=wb0vY1I/LJsIEVsnaF93j3dbSb5rsRNBhEY+WdFPy2M=;
+        s=k20201202; t=1631188037;
+        bh=oDJoneOtl1EAMpSRKtctUaXR1DCkt7OaZMAUtHCkT4Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GKhnbhJt8+GnKMHCzwxpYxhmdA44h1shB44wfh9BvVZrqDJYudvxWa9g//J4eNUjL
-         obJjk77bRAWpDKwxZcqqQ4wOqN4At8lPIAEV6vEZo/bWQmxjbHGaskLHM36tTXVFy9
-         6GsHmoCC/PCu/JjXlrm67i6PVaW2nitKMrCSnVW4xeiK0Dk9LaIZKE3Z5YmfptGh+i
-         +GbCdxO7yJFAO7vommeSQm5oWrjdOrLw7NcX8hyQ4noKYVJiVW3XHQejRiP2J2uWzW
-         i/GDDWslUOZrT1wW/5c77sONNkZwKE3Rcp7kSFdI37gG8ksQ83J+s2julesMfuN8oJ
-         QvRt30tgH3Tcw==
+        b=LeLZLWsJm6tcPgf+XWPDJ/0jhg/8HFzrtK0pP7+PPJvSgNPO+7F/ZwKR7RuPClSDo
+         n3PQ0LLQn81smgnRNFhvRqgjkd474dOZy8Z5RHO74fXJnnbeOuSvHMI+vNrxUzwqNc
+         HP42bfKDBtnwz76WiRJ2U1gVT+XDRM9BuSzXxC60fvuy7Ku+47MOZ9aCUgeemiNqoJ
+         DwQ8tStzxOAxOGCO0ApyAm4fTYZGYsdrxOH9rZVBKLBF8L0Aj9ANLgVbpQXr5m0N7A
+         vWGaExvjXlVwipTKLC8pFj90hzkFkkQtEiIu6DsYKtZBGGAkw54adD5Lfolpiez6/l
+         uNaaFCQEkZopQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Alan Stern <stern@rowland.harvard.edu>,
+Cc:     Kelly Devilliv <kelly.devilliv@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 035/219] USB: EHCI: ehci-mv: improve error handling in mv_ehci_enable()
-Date:   Thu,  9 Sep 2021 07:43:31 -0400
-Message-Id: <20210909114635.143983-35-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 032/219] usb: host: fotg210: fix the endpoint's transactional opportunities calculation
+Date:   Thu,  9 Sep 2021 07:43:28 -0400
+Message-Id: <20210909114635.143983-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -51,69 +50,140 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+From: Kelly Devilliv <kelly.devilliv@gmail.com>
 
-[ Upstream commit 61136a12cbed234374ec6f588af57c580b20b772 ]
+[ Upstream commit c2e898764245c852bc8ee4857613ba4f3a6d761d ]
 
-mv_ehci_enable() did not disable and unprepare clocks in case of
-failures of phy_init(). Besides, it did not take into account failures
-of ehci_clock_enable() (in effect, failures of clk_prepare_enable()).
-The patch fixes both issues and gets rid of redundant wrappers around
-clk_prepare_enable() and clk_disable_unprepare() to simplify this a bit.
+Now that usb_endpoint_maxp() only returns the lowest
+11 bits from wMaxPacketSize, we should make use of the
+usb_endpoint_* helpers instead and remove the unnecessary
+max_packet()/hb_mult() macro.
 
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Link: https://lore.kernel.org/r/20210708083056.21543-1-novikov@ispras.ru
+Signed-off-by: Kelly Devilliv <kelly.devilliv@gmail.com>
+Link: https://lore.kernel.org/r/20210627125747.127646-3-kelly.devilliv@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ehci-mv.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/usb/host/fotg210-hcd.c | 36 ++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-index cffdc8d01b2a..8fd27249ad25 100644
---- a/drivers/usb/host/ehci-mv.c
-+++ b/drivers/usb/host/ehci-mv.c
-@@ -42,26 +42,25 @@ struct ehci_hcd_mv {
- 	int (*set_vbus)(unsigned int vbus);
- };
- 
--static void ehci_clock_enable(struct ehci_hcd_mv *ehci_mv)
-+static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
- {
--	clk_prepare_enable(ehci_mv->clk);
--}
-+	int retval;
- 
--static void ehci_clock_disable(struct ehci_hcd_mv *ehci_mv)
--{
--	clk_disable_unprepare(ehci_mv->clk);
--}
-+	retval = clk_prepare_enable(ehci_mv->clk);
-+	if (retval)
-+		return retval;
- 
--static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
--{
--	ehci_clock_enable(ehci_mv);
--	return phy_init(ehci_mv->phy);
-+	retval = phy_init(ehci_mv->phy);
-+	if (retval)
-+		clk_disable_unprepare(ehci_mv->clk);
-+
-+	return retval;
+diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
+index 9c2eda0918e1..3b5d185c108a 100644
+--- a/drivers/usb/host/fotg210-hcd.c
++++ b/drivers/usb/host/fotg210-hcd.c
+@@ -2509,11 +2509,6 @@ static unsigned qh_completions(struct fotg210_hcd *fotg210,
+ 	return count;
  }
  
- static void mv_ehci_disable(struct ehci_hcd_mv *ehci_mv)
- {
- 	phy_exit(ehci_mv->phy);
--	ehci_clock_disable(ehci_mv);
-+	clk_disable_unprepare(ehci_mv->clk);
- }
+-/* high bandwidth multiplier, as encoded in highspeed endpoint descriptors */
+-#define hb_mult(wMaxPacketSize) (1 + (((wMaxPacketSize) >> 11) & 0x03))
+-/* ... and packet size, for any kind of endpoint descriptor */
+-#define max_packet(wMaxPacketSize) ((wMaxPacketSize) & 0x07ff)
+-
+ /* reverse of qh_urb_transaction:  free a list of TDs.
+  * used for cleanup after errors, before HC sees an URB's TDs.
+  */
+@@ -2599,7 +2594,7 @@ static struct list_head *qh_urb_transaction(struct fotg210_hcd *fotg210,
+ 		token |= (1 /* "in" */ << 8);
+ 	/* else it's already initted to "out" pid (0 << 8) */
  
- static int mv_ehci_reset(struct usb_hcd *hcd)
+-	maxpacket = max_packet(usb_maxpacket(urb->dev, urb->pipe, !is_input));
++	maxpacket = usb_maxpacket(urb->dev, urb->pipe, !is_input);
+ 
+ 	/*
+ 	 * buffer gets wrapped in one or more qtds;
+@@ -2713,9 +2708,11 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
+ 		gfp_t flags)
+ {
+ 	struct fotg210_qh *qh = fotg210_qh_alloc(fotg210, flags);
++	struct usb_host_endpoint *ep;
+ 	u32 info1 = 0, info2 = 0;
+ 	int is_input, type;
+ 	int maxp = 0;
++	int mult;
+ 	struct usb_tt *tt = urb->dev->tt;
+ 	struct fotg210_qh_hw *hw;
+ 
+@@ -2730,14 +2727,15 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
+ 
+ 	is_input = usb_pipein(urb->pipe);
+ 	type = usb_pipetype(urb->pipe);
+-	maxp = usb_maxpacket(urb->dev, urb->pipe, !is_input);
++	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
++	maxp = usb_endpoint_maxp(&ep->desc);
++	mult = usb_endpoint_maxp_mult(&ep->desc);
+ 
+ 	/* 1024 byte maxpacket is a hardware ceiling.  High bandwidth
+ 	 * acts like up to 3KB, but is built from smaller packets.
+ 	 */
+-	if (max_packet(maxp) > 1024) {
+-		fotg210_dbg(fotg210, "bogus qh maxpacket %d\n",
+-				max_packet(maxp));
++	if (maxp > 1024) {
++		fotg210_dbg(fotg210, "bogus qh maxpacket %d\n", maxp);
+ 		goto done;
+ 	}
+ 
+@@ -2751,8 +2749,7 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
+ 	 */
+ 	if (type == PIPE_INTERRUPT) {
+ 		qh->usecs = NS_TO_US(usb_calc_bus_time(USB_SPEED_HIGH,
+-				is_input, 0,
+-				hb_mult(maxp) * max_packet(maxp)));
++				is_input, 0, mult * maxp));
+ 		qh->start = NO_FRAME;
+ 
+ 		if (urb->dev->speed == USB_SPEED_HIGH) {
+@@ -2789,7 +2786,7 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
+ 			think_time = tt ? tt->think_time : 0;
+ 			qh->tt_usecs = NS_TO_US(think_time +
+ 					usb_calc_bus_time(urb->dev->speed,
+-					is_input, 0, max_packet(maxp)));
++					is_input, 0, maxp));
+ 			qh->period = urb->interval;
+ 			if (qh->period > fotg210->periodic_size) {
+ 				qh->period = fotg210->periodic_size;
+@@ -2852,11 +2849,11 @@ static struct fotg210_qh *qh_make(struct fotg210_hcd *fotg210, struct urb *urb,
+ 			 * to help them do so.  So now people expect to use
+ 			 * such nonconformant devices with Linux too; sigh.
+ 			 */
+-			info1 |= max_packet(maxp) << 16;
++			info1 |= maxp << 16;
+ 			info2 |= (FOTG210_TUNE_MULT_HS << 30);
+ 		} else {		/* PIPE_INTERRUPT */
+-			info1 |= max_packet(maxp) << 16;
+-			info2 |= hb_mult(maxp) << 30;
++			info1 |= maxp << 16;
++			info2 |= mult << 30;
+ 		}
+ 		break;
+ 	default:
+@@ -3926,6 +3923,7 @@ static void iso_stream_init(struct fotg210_hcd *fotg210,
+ 	int is_input;
+ 	long bandwidth;
+ 	unsigned multi;
++	struct usb_host_endpoint *ep;
+ 
+ 	/*
+ 	 * this might be a "high bandwidth" highspeed endpoint,
+@@ -3933,14 +3931,14 @@ static void iso_stream_init(struct fotg210_hcd *fotg210,
+ 	 */
+ 	epnum = usb_pipeendpoint(pipe);
+ 	is_input = usb_pipein(pipe) ? USB_DIR_IN : 0;
+-	maxp = usb_maxpacket(dev, pipe, !is_input);
++	ep = usb_pipe_endpoint(dev, pipe);
++	maxp = usb_endpoint_maxp(&ep->desc);
+ 	if (is_input)
+ 		buf1 = (1 << 11);
+ 	else
+ 		buf1 = 0;
+ 
+-	maxp = max_packet(maxp);
+-	multi = hb_mult(maxp);
++	multi = usb_endpoint_maxp_mult(&ep->desc);
+ 	buf1 |= maxp;
+ 	maxp *= multi;
+ 
 -- 
 2.30.2
 
