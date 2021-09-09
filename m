@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFEA4C43217
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0BFBC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:52:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D45AA6139D
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:45:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C5F7561B2D
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 11:52:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240828AbhIILqT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 07:46:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45620 "EHLO mail.kernel.org"
+        id S240688AbhIILxP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 07:53:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55120 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237868AbhIILnV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:43:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FCCF611C7;
-        Thu,  9 Sep 2021 11:42:00 +0000 (UTC)
+        id S241447AbhIILu7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 07:50:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5092C6135E;
+        Thu,  9 Sep 2021 11:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187721;
-        bh=wb0vY1I/LJsIEVsnaF93j3dbSb5rsRNBhEY+WdFPy2M=;
+        s=k20201202; t=1631187840;
+        bh=6+FigFe1JfRp3EsUrqy4XkTFd6p4WNxKygRAKeaCjxE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ESQSC5/ATcxr9xKZRgwjqpQ3w/qnKQHEQINr683mjO1sc73jkPL7iTma5LS7g5/2/
-         ZE91hNsgx58ig2kndVZFiFQRnKZWTEM4n7D6pNQvn2wQ2pTo7SCXtZS7UOKCIib3BS
-         RfAQJkSzYy602TeJfxJ2Jm1eYoTwvXO/CRi78k+f38SZ38cJwMchXzs/Utc16yb8lf
-         sVQVht62Ga7u0IWzCtlsMLLAd/ZPUWwg5x0xZLUgtiAWdzjR5LXyw0Z4nfHVjaTVNy
-         9ERWhTH9cp09ikXYnF+rzNs9SokU8T8Z/QlxVjCgMLLttGdSmqe9PoY4/EeuA4Oc3A
-         rUtz2h77/zM4A==
+        b=LiizHbSSrEO9pcSVyKt+0gJj9EBSUIxEt7HKK1VnOA6MYwtTk7/xSE5BdxwnWASDO
+         Nolo1VA7IIJQWmaMADuwX5XmRKl6O06K+VM9MZWDtKIYn1FKnUmFQ7L+LqXDmd5Wj7
+         o5HRftaQnmJpTPKiRYVRaXDR3wSpeCDrtmGQmnqq0+jblmHEUZ4CV1scQd8mvzTNq0
+         P9VdQl/iLEDbW1HygGnuEffPo/c5nfKUB4YhtUdTqfq66PK+TLRjGP9+u34Zg+hy6s
+         oZ7yIg5V1EE2xIxInU2SU4cjhdqrDq7NZFcPOWtnYZWCVkcDstvv7wzTTcybzDINVk
+         XN96yw2sc8iqg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Evgeny Novikov <novikov@ispras.ru>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Sanjay R Mehta <sanju.mehta@amd.com>,
+        Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 042/252] USB: EHCI: ehci-mv: improve error handling in mv_ehci_enable()
-Date:   Thu,  9 Sep 2021 07:37:36 -0400
-Message-Id: <20210909114106.141462-42-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 134/252] thunderbolt: Fix port linking by checking all adapters
+Date:   Thu,  9 Sep 2021 07:39:08 -0400
+Message-Id: <20210909114106.141462-134-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -51,69 +51,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Evgeny Novikov <novikov@ispras.ru>
+From: Sanjay R Mehta <sanju.mehta@amd.com>
 
-[ Upstream commit 61136a12cbed234374ec6f588af57c580b20b772 ]
+[ Upstream commit 42716425ad7e1b6529ec61c260c11176841f4b5f ]
 
-mv_ehci_enable() did not disable and unprepare clocks in case of
-failures of phy_init(). Besides, it did not take into account failures
-of ehci_clock_enable() (in effect, failures of clk_prepare_enable()).
-The patch fixes both issues and gets rid of redundant wrappers around
-clk_prepare_enable() and clk_disable_unprepare() to simplify this a bit.
+In tb_switch_default_link_ports(), while linking of ports,
+only odd-numbered ports (1,3,5..) are considered and even-numbered
+ports are not considered.
 
-Found by Linux Driver Verification project (linuxtesting.org).
+AMD host router has lane adapters at 2 and 3 and link ports at adapter 2
+is not considered due to which lane bonding gets disabled.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
-Link: https://lore.kernel.org/r/20210708083056.21543-1-novikov@ispras.ru
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Hence added a fix such that all ports are considered during
+linking of ports.
+
+Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Signed-off-by: Sanjay R Mehta <sanju.mehta@amd.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/ehci-mv.c | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/switch.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-index cffdc8d01b2a..8fd27249ad25 100644
---- a/drivers/usb/host/ehci-mv.c
-+++ b/drivers/usb/host/ehci-mv.c
-@@ -42,26 +42,25 @@ struct ehci_hcd_mv {
- 	int (*set_vbus)(unsigned int vbus);
- };
- 
--static void ehci_clock_enable(struct ehci_hcd_mv *ehci_mv)
-+static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 10d6b228cc94..eec59030c3a7 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -2443,7 +2443,7 @@ static void tb_switch_default_link_ports(struct tb_switch *sw)
  {
--	clk_prepare_enable(ehci_mv->clk);
--}
-+	int retval;
+ 	int i;
  
--static void ehci_clock_disable(struct ehci_hcd_mv *ehci_mv)
--{
--	clk_disable_unprepare(ehci_mv->clk);
--}
-+	retval = clk_prepare_enable(ehci_mv->clk);
-+	if (retval)
-+		return retval;
+-	for (i = 1; i <= sw->config.max_port_number; i += 2) {
++	for (i = 1; i <= sw->config.max_port_number; i++) {
+ 		struct tb_port *port = &sw->ports[i];
+ 		struct tb_port *subordinate;
  
--static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
--{
--	ehci_clock_enable(ehci_mv);
--	return phy_init(ehci_mv->phy);
-+	retval = phy_init(ehci_mv->phy);
-+	if (retval)
-+		clk_disable_unprepare(ehci_mv->clk);
-+
-+	return retval;
- }
- 
- static void mv_ehci_disable(struct ehci_hcd_mv *ehci_mv)
- {
- 	phy_exit(ehci_mv->phy);
--	ehci_clock_disable(ehci_mv);
-+	clk_disable_unprepare(ehci_mv->clk);
- }
- 
- static int mv_ehci_reset(struct usb_hcd *hcd)
 -- 
 2.30.2
 
