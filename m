@@ -5,40 +5,40 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 534DFC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0DBC4321E
 	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3942F60555
+	by mail.kernel.org (Postfix) with ESMTP id 7B24B611EF
 	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359280AbhIINSr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:18:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54086 "EHLO mail.kernel.org"
+        id S1359103AbhIINS5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 09:18:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54044 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1357975AbhIINFq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 09:05:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 70A6D632A9;
-        Thu,  9 Sep 2021 12:00:25 +0000 (UTC)
+        id S1358769AbhIINJh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 09:09:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8769E632C8;
+        Thu,  9 Sep 2021 12:01:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188826;
-        bh=5DE08k53AFm6jaC5cL0oBCr2ZiaYYOFJ2ifxKjrUXew=;
+        s=k20201202; t=1631188868;
+        bh=Wi2//wz/Iq2qV+FBIs5zZK9xPa4rDxsm7/BNFO7bGzE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=b9YIBeuHq7nTDmVGM9TaqwRm2ri06D90rhkVtsCFebe50Vuh69dI7rrc+wxlz6XRT
-         iASTtUWXmJvYMzJs3X1LxiKETxkPuBVw79wJq/qBTV8fcUEgBjZwkxx9QizlNvi2lS
-         tqbOGoqKH7BsDa0hyCGPvA60xrDGMsk31PPt6193HXmHlwoiis/gyFj5t4Fa1n2Rzz
-         j+EdGuAN0r2PFs8K/N6GK9L7z3w3pv//JOjCkT/6i/OxAhkmq+sBWt0BP86QS27er9
-         NnSndMiNqBwAvbhmohtIUsw8lP00K6OS2gmXdo6rsw3yoYtpmrd/bHROt2Et5F0SGZ
-         zY4hi3QiDFS1Q==
+        b=fN9JQhNhMRugzf1nTWhuJbe/Qz7jqaHvEQn/sHAldiA5PgTBVaxgXcghviAtbZovw
+         DnwYOP/eCYOdWPhPgLgnv6Q7MscCzwCJXRwCx3JV6I9J6ZU/nAmh+Lowj6ib+gsAqc
+         N5F+sqkyoSHe851uZID/iyYYDjMQBOxzDHMAO5U5Mr8WnhDM3kDPT7QjLORu1Xc34Z
+         /lXEJQl1dlUzk/3WlobNO2R+NsobhwV4mHw9rW1qsE2rahJhR3E9o15HDPJMtBmyv6
+         ttOEOi4EtwAz1jWaiMqiqoZTwhyQW+RBmJ7VT1YotcHyTfEKvGkvBIW+VVm7R8EuYe
+         tN40euXNh/gTg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kelly Devilliv <kelly.devilliv@gmail.com>,
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 08/48] usb: host: fotg210: fix the actual_length of an iso packet
-Date:   Thu,  9 Sep 2021 07:59:35 -0400
-Message-Id: <20210909120015.150411-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 42/48] Revert "USB: xhci: fix U1/U2 handling for hardware with XHCI_INTEL_HOST quirk set"
+Date:   Thu,  9 Sep 2021 08:00:09 -0400
+Message-Id: <20210909120015.150411-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909120015.150411-1-sashal@kernel.org>
 References: <20210909120015.150411-1-sashal@kernel.org>
@@ -50,58 +50,93 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kelly Devilliv <kelly.devilliv@gmail.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-[ Upstream commit 091cb2f782f32ab68c6f5f326d7868683d3d4875 ]
+[ Upstream commit 2847c46c61486fd8bca9136a6e27177212e78c69 ]
 
-We should acquire the actual_length of an iso packet
-from the iTD directly using FOTG210_ITD_LENGTH() macro.
+This reverts commit 5d5323a6f3625f101dbfa94ba3ef7706cce38760.
 
-Signed-off-by: Kelly Devilliv <kelly.devilliv@gmail.com>
-Link: https://lore.kernel.org/r/20210627125747.127646-4-kelly.devilliv@gmail.com
+That commit effectively disabled Intel host initiated U1/U2 lpm for devices
+with periodic endpoints.
+
+Before that commit we disabled host initiated U1/U2 lpm if the exit latency
+was larger than any periodic endpoint service interval, this is according
+to xhci spec xhci 1.1 specification section 4.23.5.2
+
+After that commit we incorrectly checked that service interval was smaller
+than U1/U2 inactivity timeout. This is not relevant, and can't happen for
+Intel hosts as previously set U1/U2 timeout = 105% * service interval.
+
+Patch claimed it solved cases where devices can't be enumerated because of
+bandwidth issues. This might be true but it's a side effect of accidentally
+turning off lpm.
+
+exit latency calculations have been revised since then
+
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20210820123503.2605901-5-mathias.nyman@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/fotg210-hcd.c | 5 ++---
- drivers/usb/host/fotg210.h     | 5 -----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ drivers/usb/host/xhci.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
-index 725abc08550e..f0ec538a8813 100644
---- a/drivers/usb/host/fotg210-hcd.c
-+++ b/drivers/usb/host/fotg210-hcd.c
-@@ -4488,13 +4488,12 @@ static bool itd_complete(struct fotg210_hcd *fotg210, struct fotg210_itd *itd)
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index ec00eff01794..2df61fff8ae3 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4419,19 +4419,19 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
+ {
+ 	unsigned long long timeout_ns;
  
- 			/* HC need not update length with this error */
- 			if (!(t & FOTG210_ISOC_BABBLE)) {
--				desc->actual_length =
--					fotg210_itdlen(urb, desc, t);
-+				desc->actual_length = FOTG210_ITD_LENGTH(t);
- 				urb->actual_length += desc->actual_length;
- 			}
- 		} else if (likely((t & FOTG210_ISOC_ACTIVE) == 0)) {
- 			desc->status = 0;
--			desc->actual_length = fotg210_itdlen(urb, desc, t);
-+			desc->actual_length = FOTG210_ITD_LENGTH(t);
- 			urb->actual_length += desc->actual_length;
- 		} else {
- 			/* URB was too late */
-diff --git a/drivers/usb/host/fotg210.h b/drivers/usb/host/fotg210.h
-index b5cfa7aeb277..1a3f94123c88 100644
---- a/drivers/usb/host/fotg210.h
-+++ b/drivers/usb/host/fotg210.h
-@@ -682,11 +682,6 @@ static inline unsigned fotg210_read_frame_index(struct fotg210_hcd *fotg210)
- 	return fotg210_readl(fotg210, &fotg210->regs->frame_index);
- }
+-	if (xhci->quirks & XHCI_INTEL_HOST)
+-		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
+-	else
+-		timeout_ns = udev->u1_params.sel;
+-
+ 	/* Prevent U1 if service interval is shorter than U1 exit latency */
+ 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
+-		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
++		if (xhci_service_interval_to_ns(desc) <= udev->u1_params.mel) {
+ 			dev_dbg(&udev->dev, "Disable U1, ESIT shorter than exit latency\n");
+ 			return USB3_LPM_DISABLED;
+ 		}
+ 	}
  
--#define fotg210_itdlen(urb, desc, t) ({			\
--	usb_pipein((urb)->pipe) ?				\
--	(desc)->length - FOTG210_ITD_LENGTH(t) :			\
--	FOTG210_ITD_LENGTH(t);					\
--})
- /*-------------------------------------------------------------------------*/
++	if (xhci->quirks & XHCI_INTEL_HOST)
++		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
++	else
++		timeout_ns = udev->u1_params.sel;
++
+ 	/* The U1 timeout is encoded in 1us intervals.
+ 	 * Don't return a timeout of zero, because that's USB3_LPM_DISABLED.
+ 	 */
+@@ -4483,19 +4483,19 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
+ {
+ 	unsigned long long timeout_ns;
  
- #endif /* __LINUX_FOTG210_H */
+-	if (xhci->quirks & XHCI_INTEL_HOST)
+-		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
+-	else
+-		timeout_ns = udev->u2_params.sel;
+-
+ 	/* Prevent U2 if service interval is shorter than U2 exit latency */
+ 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
+-		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
++		if (xhci_service_interval_to_ns(desc) <= udev->u2_params.mel) {
+ 			dev_dbg(&udev->dev, "Disable U2, ESIT shorter than exit latency\n");
+ 			return USB3_LPM_DISABLED;
+ 		}
+ 	}
+ 
++	if (xhci->quirks & XHCI_INTEL_HOST)
++		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
++	else
++		timeout_ns = udev->u2_params.sel;
++
+ 	/* The U2 timeout is encoded in 256us intervals */
+ 	timeout_ns = DIV_ROUND_UP_ULL(timeout_ns, 256 * 1000);
+ 	/* If the necessary timeout value is bigger than what we can set in the
 -- 
 2.30.2
 
