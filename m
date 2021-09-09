@@ -5,43 +5,41 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 298A4C433EF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:00:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 024DFC433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:01:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F809632AC
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:00:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DB2EA61504
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244445AbhIIMBE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:01:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34484 "EHLO mail.kernel.org"
+        id S243102AbhIIMDD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:03:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43050 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344163AbhIIL6n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:58:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9DA6B6140D;
-        Thu,  9 Sep 2021 11:45:46 +0000 (UTC)
+        id S244195AbhIIMBC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:01:02 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D1F261423;
+        Thu,  9 Sep 2021 11:46:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187947;
-        bh=vSCHNd0fBThLqXKbCXghXdPcsOfYDxh1LqWH4fhyoko=;
+        s=k20201202; t=1631187977;
+        bh=8B59y0L/wT2zvmO07cGzKGTGPzz20BmRT7PsdET3T74=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=azPGZSOre9fMmUJkmXOTrsGfN59XRXLxDypJRj73EG7PFrG9ey6hjMXepnd5PWfrt
-         L0RrKUOtFLzCXHomdS9Rmg4sGaxyNzLOUXA8DzOx51dgkqkWEhup9UctRp2OIN06gS
-         eFaY5oz90+Wiq//NdxHA44ur+SH8JqiKLHzYuKzKM/sPZnwkVzEC7LUdYwg52gM7LQ
-         XAt6CxV1gcK76I8+x/+qsKczD53zJuUtgzQn8Dzc/C+2iTir3CTzU9bKS+tCtpPokX
-         Z83h+QgFPb8g2psgUWnT+YCNk4aZkJF4oKhrZlwq3RtfkLN6HPETk5+3lRHo5gPEh5
-         DuoDsbeG1vZiA==
+        b=pkpcoWf46bpT/WVywGNrP2/bdGOK07x8GfYLLlrWz89lXU3TFdcy3VF3iSW5f+5WN
+         JH1TngTZHaww1G5z/vJ705a+OttDIJhpwqkWW+D+X5oCBUSJUs+X+uFIHJm7kjTHpO
+         PjKgadMY2GYeyl+opMQAKR3tOcXrxvRkRBlYGt0TxzIWTsE61rQ6bxV9XyrdbS3qjC
+         J89OkN3ZUiMO6+CwWa0C/PWF2x7fYrPoal4T7B0VU0k3ffNkIrLBK+wWkUpA+d5NRR
+         9SjDTycwfqIxpLVwGBTDn+3jUCi05AomxiYr+x3clvY2x6S7nQLrKFzUNpvm1Iv0wA
+         SNgnWsHq07Srg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
-        Fabio Estevam <festevam@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Rui Miguel Silva <rui.silva@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.14 216/252] usb: dwc3: imx8mp: request irq after initializing dwc3
-Date:   Thu,  9 Sep 2021 07:40:30 -0400
-Message-Id: <20210909114106.141462-216-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 239/252] usb: isp1760: fix memory pool initialization
+Date:   Thu,  9 Sep 2021 07:40:53 -0400
+Message-Id: <20210909114106.141462-239-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -53,61 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nadezda Lutovinova <lutovinova@ispras.ru>
+From: Rui Miguel Silva <rui.silva@linaro.org>
 
-[ Upstream commit 6a48d0ae01a6ab05ae5e78328546a2f5f6d3054a ]
+[ Upstream commit f757f9291f920e1da4c6cfd4064c6bf59639983e ]
 
-If IRQ occurs between calling  devm_request_threaded_irq() and
-initializing dwc3_imx->dwc3, then null pointer dereference occurs
-since dwc3_imx->dwc3 is used in dwc3_imx8mp_interrupt().
+The loops to setup the memory pool were skipping some
+blocks, that was not visible on the ISP1763 because it has
+fewer blocks than the ISP1761. But won testing on that IP
+from the family that would be an issue.
 
-The patch puts registration of the interrupt handler after
-initializing of neccesery data.
-
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
-Acked-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-Link: https://lore.kernel.org/r/20210819154818.18334-1-lutovinova@ispras.ru
+Reported-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Tested-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
+Link: https://lore.kernel.org/r/20210827131154.4151862-2-rui.silva@linaro.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-imx8mp.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/usb/isp1760/isp1760-hcd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-index 756faa46d33a..d328d20abfbc 100644
---- a/drivers/usb/dwc3/dwc3-imx8mp.c
-+++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-@@ -152,13 +152,6 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
- 	}
- 	dwc3_imx->irq = irq;
+diff --git a/drivers/usb/isp1760/isp1760-hcd.c b/drivers/usb/isp1760/isp1760-hcd.c
+index 27168b4a4ef2..ffb3a0c8c909 100644
+--- a/drivers/usb/isp1760/isp1760-hcd.c
++++ b/drivers/usb/isp1760/isp1760-hcd.c
+@@ -588,8 +588,8 @@ static void init_memory(struct isp1760_hcd *priv)
  
--	err = devm_request_threaded_irq(dev, irq, NULL, dwc3_imx8mp_interrupt,
--					IRQF_ONESHOT, dev_name(dev), dwc3_imx);
--	if (err) {
--		dev_err(dev, "failed to request IRQ #%d --> %d\n", irq, err);
--		goto disable_clks;
--	}
--
- 	pm_runtime_set_active(dev);
- 	pm_runtime_enable(dev);
- 	err = pm_runtime_get_sync(dev);
-@@ -186,6 +179,13 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
- 	}
- 	of_node_put(dwc3_np);
+ 	payload_addr = PAYLOAD_OFFSET;
  
-+	err = devm_request_threaded_irq(dev, irq, NULL, dwc3_imx8mp_interrupt,
-+					IRQF_ONESHOT, dev_name(dev), dwc3_imx);
-+	if (err) {
-+		dev_err(dev, "failed to request IRQ #%d --> %d\n", irq, err);
-+		goto depopulate;
-+	}
-+
- 	device_set_wakeup_capable(dev, true);
- 	pm_runtime_put(dev);
- 
+-	for (i = 0, curr = 0; i < ARRAY_SIZE(mem->blocks); i++) {
+-		for (j = 0; j < mem->blocks[i]; j++, curr++) {
++	for (i = 0, curr = 0; i < ARRAY_SIZE(mem->blocks); i++, curr += j) {
++		for (j = 0; j < mem->blocks[i]; j++) {
+ 			priv->memory_pool[curr + j].start = payload_addr;
+ 			priv->memory_pool[curr + j].size = mem->blocks_size[i];
+ 			priv->memory_pool[curr + j].free = 1;
 -- 
 2.30.2
 
