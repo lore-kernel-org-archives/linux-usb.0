@@ -7,40 +7,38 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51EF2C43219
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7352AC433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CA64611AD
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:55:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5CF85611C3
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:56:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354297AbhIIM46 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:56:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41082 "EHLO mail.kernel.org"
+        id S1354485AbhIIM5A (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:57:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354445AbhIIMvK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1350895AbhIIMvK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 9 Sep 2021 08:51:10 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B8BD63245;
-        Thu,  9 Sep 2021 11:57:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8403630ED;
+        Thu,  9 Sep 2021 11:57:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188627;
-        bh=wN6vSEPhPLmzIulhSS4Va0sPao8QvE+7Z2WVoHmIeuc=;
+        s=k20201202; t=1631188625;
+        bh=S9K1QYjCZxHE59FZS1YbNPPOaNzHIP6WAu8aihOolSI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jriL5Z8sS67u73PFj9Wk02Myigy28wvudviTSnliTaciYPw46Z1h5uzuO7U2QKvl2
-         IRCA+IexZxZglpSHNanUCOi3eVrT4D3GJoUoAStivLiRs+9hV7U33vbzxfS5TQmnPe
-         gXgrpPcSFv427n0SRcDqQTrypBmj9KQHAn/5XD3UR2m4+oOfsO1mSsLC/ItTNHFgMD
-         mzWoP0GBV7D4kMg3YJSfN7tdM2aZlydFYv6theSpOCoyslFX+QTem1qLYH+FNNd/wm
-         g26VyHRfBINVOJGA4Ro0UJb73D11KpusyF8x8i3yYmape8U3swT3jI1YwEA7oYPliH
-         b6tV+RdNM3GwA==
+        b=FN/7NMr8vgYLdgoaHN/sKolEUEKXYXAb6yE7xri5M0FAvpeBlM1nV8C4fnFMdjxjX
+         mWMFap0YSNzpXsUDKxgLZjJ1ayL13BbMEYLb1bJ313+PVp178CmQmoq+UNa16okveY
+         4JS1kCj/px2aX4rY6knbDBidEjJUSd9b8SoyV7XEN23frPMG8ybAjSoUhDbNngboBD
+         1Ch6TWDpkOWgoWx3wG7w5LFMCAOqRdcxFb/EIAPPjwHl4kSPl6zS3czj5xzZyIfwF1
+         yGPk7s5urFJBYZLaOe4CKdZuRsikZ9TQb7fWDr3MP7tnzdWWQEJmlghpZfJ1DLsCG5
+         2J8CJ0ScgWsdA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com,
-        Shuah Khan <skhan@linuxfoundation.org>,
+Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 095/109] usbip: give back URBs for unsent unlink requests during cleanup
-Date:   Thu,  9 Sep 2021 07:54:52 -0400
-Message-Id: <20210909115507.147917-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 093/109] Revert "USB: xhci: fix U1/U2 handling for hardware with XHCI_INTEL_HOST quirk set"
+Date:   Thu,  9 Sep 2021 07:54:50 -0400
+Message-Id: <20210909115507.147917-93-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
 References: <20210909115507.147917-1-sashal@kernel.org>
@@ -52,69 +50,93 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Anirudh Rayabharam <mail@anirudhrb.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-[ Upstream commit 258c81b341c8025d79073ce2d6ce19dcdc7d10d2 ]
+[ Upstream commit 2847c46c61486fd8bca9136a6e27177212e78c69 ]
 
-In vhci_device_unlink_cleanup(), the URBs for unsent unlink requests are
-not given back. This sometimes causes usb_kill_urb to wait indefinitely
-for that urb to be given back. syzbot has reported a hung task issue [1]
-for this.
+This reverts commit 5d5323a6f3625f101dbfa94ba3ef7706cce38760.
 
-To fix this, give back the urbs corresponding to unsent unlink requests
-(unlink_tx list) similar to how urbs corresponding to unanswered unlink
-requests (unlink_rx list) are given back.
+That commit effectively disabled Intel host initiated U1/U2 lpm for devices
+with periodic endpoints.
 
-[1]: https://syzkaller.appspot.com/bug?id=08f12df95ae7da69814e64eb5515d5a85ed06b76
+Before that commit we disabled host initiated U1/U2 lpm if the exit latency
+was larger than any periodic endpoint service interval, this is according
+to xhci spec xhci 1.1 specification section 4.23.5.2
 
-Reported-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
-Tested-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
-Link: https://lore.kernel.org/r/20210820190122.16379-2-mail@anirudhrb.com
+After that commit we incorrectly checked that service interval was smaller
+than U1/U2 inactivity timeout. This is not relevant, and can't happen for
+Intel hosts as previously set U1/U2 timeout = 105% * service interval.
+
+Patch claimed it solved cases where devices can't be enumerated because of
+bandwidth issues. This might be true but it's a side effect of accidentally
+turning off lpm.
+
+exit latency calculations have been revised since then
+
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://lore.kernel.org/r/20210820123503.2605901-5-mathias.nyman@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/usbip/vhci_hcd.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ drivers/usb/host/xhci.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 98636fbf7188..46a46cde2070 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -952,8 +952,32 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
- 	spin_lock(&vdev->priv_lock);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a3813c75a3de..505da4999e20 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4662,19 +4662,19 @@ static u16 xhci_calculate_u1_timeout(struct xhci_hcd *xhci,
+ {
+ 	unsigned long long timeout_ns;
  
- 	list_for_each_entry_safe(unlink, tmp, &vdev->unlink_tx, list) {
-+		struct urb *urb;
-+
-+		/* give back urb of unsent unlink request */
- 		pr_info("unlink cleanup tx %lu\n", unlink->unlink_seqnum);
-+
-+		urb = pickup_urb_and_free_priv(vdev, unlink->unlink_seqnum);
-+		if (!urb) {
-+			list_del(&unlink->list);
-+			kfree(unlink);
-+			continue;
-+		}
-+
-+		urb->status = -ENODEV;
-+
-+		usb_hcd_unlink_urb_from_ep(hcd, urb);
-+
- 		list_del(&unlink->list);
-+
-+		spin_unlock(&vdev->priv_lock);
-+		spin_unlock_irqrestore(&vhci->lock, flags);
-+
-+		usb_hcd_giveback_urb(hcd, urb, urb->status);
-+
-+		spin_lock_irqsave(&vhci->lock, flags);
-+		spin_lock(&vdev->priv_lock);
-+
- 		kfree(unlink);
+-	if (xhci->quirks & XHCI_INTEL_HOST)
+-		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
+-	else
+-		timeout_ns = udev->u1_params.sel;
+-
+ 	/* Prevent U1 if service interval is shorter than U1 exit latency */
+ 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
+-		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
++		if (xhci_service_interval_to_ns(desc) <= udev->u1_params.mel) {
+ 			dev_dbg(&udev->dev, "Disable U1, ESIT shorter than exit latency\n");
+ 			return USB3_LPM_DISABLED;
+ 		}
  	}
  
++	if (xhci->quirks & XHCI_INTEL_HOST)
++		timeout_ns = xhci_calculate_intel_u1_timeout(udev, desc);
++	else
++		timeout_ns = udev->u1_params.sel;
++
+ 	/* The U1 timeout is encoded in 1us intervals.
+ 	 * Don't return a timeout of zero, because that's USB3_LPM_DISABLED.
+ 	 */
+@@ -4726,19 +4726,19 @@ static u16 xhci_calculate_u2_timeout(struct xhci_hcd *xhci,
+ {
+ 	unsigned long long timeout_ns;
+ 
+-	if (xhci->quirks & XHCI_INTEL_HOST)
+-		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
+-	else
+-		timeout_ns = udev->u2_params.sel;
+-
+ 	/* Prevent U2 if service interval is shorter than U2 exit latency */
+ 	if (usb_endpoint_xfer_int(desc) || usb_endpoint_xfer_isoc(desc)) {
+-		if (xhci_service_interval_to_ns(desc) <= timeout_ns) {
++		if (xhci_service_interval_to_ns(desc) <= udev->u2_params.mel) {
+ 			dev_dbg(&udev->dev, "Disable U2, ESIT shorter than exit latency\n");
+ 			return USB3_LPM_DISABLED;
+ 		}
+ 	}
+ 
++	if (xhci->quirks & XHCI_INTEL_HOST)
++		timeout_ns = xhci_calculate_intel_u2_timeout(udev, desc);
++	else
++		timeout_ns = udev->u2_params.sel;
++
+ 	/* The U2 timeout is encoded in 256us intervals */
+ 	timeout_ns = DIV_ROUND_UP_ULL(timeout_ns, 256 * 1000);
+ 	/* If the necessary timeout value is bigger than what we can set in the
 -- 
 2.30.2
 
