@@ -7,47 +7,43 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 999E6C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:30:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB745C433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:32:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8286B611BF
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:30:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9662560F92
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:32:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357817AbhIINcH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:32:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56224 "EHLO mail.kernel.org"
+        id S1358421AbhIINdT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 09:33:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33696 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1358404AbhIINHS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 09:07:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D7D0632A1;
-        Thu,  9 Sep 2021 12:00:26 +0000 (UTC)
+        id S1356248AbhIIM7A (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:59:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 49D696324F;
+        Thu,  9 Sep 2021 11:58:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188827;
-        bh=w1dLWK+wKJAWn9NNIxn1pmCs0AYI824cEWgBv9Ae0k8=;
+        s=k20201202; t=1631188730;
+        bh=FngqzABBT8TusKp7m4MIHwTsRByJmIkVCnlVsYw/pL4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pU0F+M+Meq0F43uVbvayfVufTp4B8ye0yh3TlAQzAI+v4DPxjmxnfPe2VMLbf2k1x
-         ePNZHBAKOYgZIpP1hLq1mrANZ55bC4XR6QiUibHjPRWwEIaY24lB64pj7umhdcqdUe
-         fVUtxQIDLa6R41/xFPKKdmWeXMe19Hd5EQ1TdRbO0wOrYf8qXqi40COirMCIlWqnkX
-         Hfs6/TCk49nFXWeOafLQ+WoI4qc0iEoEn9uTLxVb+9NZ8ZllWItwRTolQejPi9ZIbO
-         pryD7C9CbAeDmM8mWwYEJ1PBbPSjd6k/3E2W3xMDiy/cdPoEvtM7NDiAHdzYAkG9fb
-         m0ML5JlQAFGiw==
+        b=rqBJW60yxd61+lftv4nlpcTLR83sh3+ozmjqtmHiv7iwgkKN+aPiedZHq/R6h8yQB
+         8F/l+W1TGqdkBc6oD6oLV/n4GNUt1gFWOVJRSm7pbb2IBfq2e+EKIFCXmZ4ym6yJxp
+         tWBe341ixe6L/W5hrVQiF05Y8ukRyxML0fvQUAR0Is9jEjFuv7W10MPod+NpXZRmyV
+         z7QABP1X1kD8mAnACPPGvzYg2b5dO6h8HLRVSnePDyN7+tmm1LEDSoyNkp44Coj872
+         eCGtsi4ZZgmRhjnVuYLquFXtdE2ErLwFgpWb+WSJHvwyDwTJ1ZpjOFd6e21pkSAlCT
+         VeKC7K/i7A2Tg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <maze@google.com>,
-        Brooke Basile <brookebasile@gmail.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Michael <msbroadf@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lorenzo Colitti <lorenzo@google.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 09/48] usb: gadget: u_ether: fix a potential null pointer dereference
-Date:   Thu,  9 Sep 2021 07:59:36 -0400
-Message-Id: <20210909120015.150411-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 67/74] usbip:vhci_hcd USB port can get stuck in the disabled state
+Date:   Thu,  9 Sep 2021 07:57:19 -0400
+Message-Id: <20210909115726.149004-67-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909120015.150411-1-sashal@kernel.org>
-References: <20210909120015.150411-1-sashal@kernel.org>
+In-Reply-To: <20210909115726.149004-1-sashal@kernel.org>
+References: <20210909115726.149004-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,52 +51,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Maciej Żenczykowski <maze@google.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
 
-[ Upstream commit 8ae01239609b29ec2eff55967c8e0fe3650cfa09 ]
+[ Upstream commit 66cce9e73ec61967ed1f97f30cee79bd9a2bb7ee ]
 
-f_ncm tx timeout can call us with null skb to flush
-a pending frame.  In this case skb is NULL to begin
-with but ceases to be null after dev->wrap() completes.
+When a remote usb device is attached to the local Virtual USB
+Host Controller Root Hub port, the bound device driver may send
+a port reset command.
 
-In such a case in->maxpacket will be read, even though
-we've failed to check that 'in' is not NULL.
+vhci_hcd accepts port resets only when the device doesn't have
+port address assigned to it. When reset happens device is in
+assigned/used state and vhci_hcd rejects it leaving the port in
+a stuck state.
 
-Though I've never observed this fail in practice,
-however the 'flush operation' simply does not make sense with
-a null usb IN endpoint - there's nowhere to flush to...
-(note that we're the gadget/device, and IN is from the point
- of view of the host, so here IN actually means outbound...)
+This problem was found when a blue-tooth or xbox wireless dongle
+was passed through using usbip.
 
-Cc: Brooke Basile <brookebasile@gmail.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lorenzo Colitti <lorenzo@google.com>
-Signed-off-by: Maciej Żenczykowski <maze@google.com>
-Link: https://lore.kernel.org/r/20210701114834.884597-6-zenczykowski@gmail.com
+A few drivers reset the port during probe including mt76 driver
+specific to this bug report. Fix the problem with a change to
+honor reset requests when device is in used state (VDEV_ST_USED).
+
+Reported-and-tested-by: Michael <msbroadf@gmail.com>
+Suggested-by: Michael <msbroadf@gmail.com>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+Link: https://lore.kernel.org/r/20210819225937.41037-1-skhan@linuxfoundation.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/u_ether.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/usb/usbip/vhci_hcd.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 589d1f5fb575..5d72872310e7 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -499,8 +499,9 @@ static netdev_tx_t eth_start_xmit(struct sk_buff *skb,
- 	}
- 	spin_unlock_irqrestore(&dev->lock, flags);
+diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+index a4ead4099869..202dc76f7beb 100644
+--- a/drivers/usb/usbip/vhci_hcd.c
++++ b/drivers/usb/usbip/vhci_hcd.c
+@@ -455,8 +455,14 @@ static int vhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 			vhci_hcd->port_status[rhport] &= ~(1 << USB_PORT_FEAT_RESET);
+ 			vhci_hcd->re_timeout = 0;
  
--	if (skb && !in) {
--		dev_kfree_skb_any(skb);
-+	if (!in) {
-+		if (skb)
-+			dev_kfree_skb_any(skb);
- 		return NETDEV_TX_OK;
- 	}
- 
++			/*
++			 * A few drivers do usb reset during probe when
++			 * the device could be in VDEV_ST_USED state
++			 */
+ 			if (vhci_hcd->vdev[rhport].ud.status ==
+-			    VDEV_ST_NOTASSIGNED) {
++				VDEV_ST_NOTASSIGNED ||
++			    vhci_hcd->vdev[rhport].ud.status ==
++				VDEV_ST_USED) {
+ 				usbip_dbg_vhci_rh(
+ 					" enable rhport %d (status %u)\n",
+ 					rhport,
 -- 
 2.30.2
 
