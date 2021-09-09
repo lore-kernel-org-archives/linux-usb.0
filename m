@@ -7,43 +7,44 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A796C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C944C433FE
 	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43A9660FE3
+	by mail.kernel.org (Postfix) with ESMTP id 771586113E
 	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345132AbhIIMII (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:08:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47410 "EHLO mail.kernel.org"
+        id S244510AbhIIMIG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:08:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40846 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350184AbhIIMFn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:05:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C9BBD617E1;
-        Thu,  9 Sep 2021 11:47:21 +0000 (UTC)
+        id S1344324AbhIIL7D (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 07:59:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B770D6140B;
+        Thu,  9 Sep 2021 11:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188042;
-        bh=9dp2HsjXh0v3QGCZzbXCEO3dbuO7d+bUPgzfJXClYpg=;
+        s=k20201202; t=1631187952;
+        bh=6WZrpTMDNvbUVof9OeKTjctXW5wSRixLJU4HNjVieB8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uHbenWK+Ca7oYVjj/evwj9N91hrr3QVBbGsHbmkqnw6I4nZPsFu1H1jWzrN8n4Zlf
-         z1mFD9aR4hJ9vxEXu+2mg3KyrHMuRPwaYTfJYXshUXcaoOi8otPBR/n5wo9Rs5gXxn
-         N1vSEmTXqeS7JuOGd2OH4DAuFAe/p48K9cptYCrI7eDjQvb8B7MFpzdZV1JgnfOrO2
-         JBoqxNm8+SqPm1XPszhCwHh+xqFIKF/zIijzJX0Sh4A/QmyfW9scWKF/qmquaTnvlW
-         3DjclQMAQm0/v4LsMMli6kATzsrG8E80HGcCSOFH8afQeodyHjphOglZIAErO2m1mz
-         4KWneLYoomnLQ==
+        b=i5BPmJTLXXzsEx8vZY0lCr3ZS/Jy/i3FUz30zr0w8d+WwN7LYER87O4hIJEYew3o3
+         Hgtc5mrxD/mBZ1zzuLm4koOqRo0fF0UCfUKDbr0aWU/gv5dTNdExoNL56tkU7G2KRa
+         7cqmjUZ9oH5KDayQwZqTQ3L/kxUmeA3WAsA5AC73Yba/iSJAdKZ/+Fqb00putqFT41
+         jVRGc1pYibGNkj+9va9RPO4IFPV674wYe687xocqQXkpQTUv0cF8tKGG/BlVgoWkGO
+         W0Q0fVK3lsVQh9ezP6vPjS2O9NNjug5YMwHqaotLuaKUGIQnnKuoV2GQHvzq9c2xnu
+         buL1J67jKR6+w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jack Pham <jackp@codeaurora.org>,
-        Ronak Vijay Raheja <rraheja@codeaurora.org>,
-        Felipe Balbi <balbi@kernel.org>,
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Pi Hsun <pihsun@google.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 036/219] usb: gadget: composite: Allow bMaxPower=0 if self-powered
-Date:   Thu,  9 Sep 2021 07:43:32 -0400
-Message-Id: <20210909114635.143983-36-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 5.14 220/252] usb: xhci-mtk: fix use-after-free of mtk->hcd
+Date:   Thu,  9 Sep 2021 07:40:34 -0400
+Message-Id: <20210909114106.141462-220-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
+In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
+References: <20210909114106.141462-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -52,67 +53,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jack Pham <jackp@codeaurora.org>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-[ Upstream commit bcacbf06c891374e7fdd7b72d11cda03b0269b43 ]
+[ Upstream commit 7f85c16f40d8be5656fb3476909db5c3a5a9c6ea ]
 
-Currently the composite driver encodes the MaxPower field of
-the configuration descriptor by reading the c->MaxPower of the
-usb_configuration only if it is non-zero, otherwise it falls back
-to using the value hard-coded in CONFIG_USB_GADGET_VBUS_DRAW.
-However, there are cases when a configuration must explicitly set
-bMaxPower to 0, particularly if its bmAttributes also has the
-Self-Powered bit set, which is a valid combination.
+ BUG: KASAN: use-after-free in usb_hcd_is_primary_hcd+0x38/0x60
+ Call trace:
+  dump_backtrace+0x0/0x3dc
+  show_stack+0x20/0x2c
+  dump_stack+0x15c/0x1d4
+  print_address_description+0x7c/0x510
+  kasan_report+0x164/0x1ac
+  __asan_report_load8_noabort+0x44/0x50
+  usb_hcd_is_primary_hcd+0x38/0x60
+  xhci_mtk_runtime_suspend+0x68/0x148
+  pm_generic_runtime_suspend+0x90/0xac
+  __rpm_callback+0xb8/0x1f4
+  rpm_callback+0x54/0x1d0
+  rpm_suspend+0x4e0/0xc84
+  __pm_runtime_suspend+0xc4/0x114
+  xhci_mtk_probe+0xa58/0xd00
 
-This is specifically called out in the USB PD specification section
-9.1, in which a PDUSB device "shall report zero in the bMaxPower
-field after negotiating a mutually agreeable Contract", and also
-verified by the USB Type-C Functional Test TD.4.10.2 Sink Power
-Precedence Test.
+This may happen when probe fails, needn't suspend it synchronously,
+fix it by using pm_runtime_put_noidle().
 
-The fix allows the c->MaxPower to be used for encoding the bMaxPower
-even if it is 0, if the self-powered bit is also set.  An example
-usage of this would be for a ConfigFS gadget to be dynamically
-updated by userspace when the Type-C connection is determined to be
-operating in Power Delivery mode.
-
-Co-developed-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Acked-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Ronak Vijay Raheja <rraheja@codeaurora.org>
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
-Link: https://lore.kernel.org/r/20210720080907.30292-1-jackp@codeaurora.org
+Reported-by: Pi Hsun <pihsun@google.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Link: https://lore.kernel.org/r/1629189389-18779-3-git-send-email-chunfeng.yun@mediatek.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/composite.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/usb/host/xhci-mtk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 72a9797dbbae..504c1cbc255d 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -482,7 +482,7 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
- {
- 	unsigned val;
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 2548976bcf05..cb27569186a0 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -569,7 +569,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 	xhci_mtk_ldos_disable(mtk);
  
--	if (c->MaxPower)
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
- 		val = c->MaxPower;
- 	else
- 		val = CONFIG_USB_GADGET_VBUS_DRAW;
-@@ -936,7 +936,11 @@ static int set_config(struct usb_composite_dev *cdev,
- 	}
- 
- 	/* when we return, be sure our power usage is valid */
--	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
-+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
-+		power = c->MaxPower;
-+	else
-+		power = CONFIG_USB_GADGET_VBUS_DRAW;
-+
- 	if (gadget->speed < USB_SPEED_SUPER)
- 		power = min(power, 500U);
- 	else
+ disable_pm:
+-	pm_runtime_put_sync_autosuspend(dev);
++	pm_runtime_put_noidle(dev);
+ 	pm_runtime_disable(dev);
+ 	return ret;
+ }
 -- 
 2.30.2
 
