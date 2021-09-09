@@ -5,43 +5,43 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B45C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B6C9C433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:47:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EF7260FC0
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6064F61059
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353161AbhIIMoF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:44:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45826 "EHLO mail.kernel.org"
+        id S1352988AbhIIMtD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:49:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55850 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1352566AbhIIMi7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:38:59 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 99F2D61BB6;
-        Thu,  9 Sep 2021 11:54:35 +0000 (UTC)
+        id S1352085AbhIIMnF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:43:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 15B5261C11;
+        Thu,  9 Sep 2021 11:55:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188476;
-        bh=L+Zrw3R7HuZQRklNozrduxknMAPTxCggBqZfIcjfZ9Q=;
+        s=k20201202; t=1631188528;
+        bh=DdbT0CqVurI8mChm4o/1mn5Oj9+PNdY46IHGPl0eSoM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OvM3cohXPwEzKhGk7zBbhoLhULhGxoaSocpVqvodedVRR7GAmbbo1k4K2tdkbrstm
-         wYX/rOucb1XCUql77lDwiB/VqDQrL1K+b0qrDQFRI2unvUXTK2esePur2eZ75gTj7+
-         6NkEPImyFA98+gdhFvHpYgs/YFZgTVGqeXFazuBJHcx4B6cD8XUDMic764gCmN1nz5
-         IYCxKS7vKDFUg2cJS52auBVyDAzdMwwmQAILhOtX13endibG7zDMJfpsEj8TjZVQCH
-         3tZxzTGCcApSOa1fB0aGBX9oyPFInAaWoQUN28WZ9FbkjBderVQZY+K4Tchj1zj/oF
-         IuwzG6ReAv+aQ==
+        b=TFafBGalZ3jhLe3dgOUAk7Pfiqo3a7yoxD9IUgsVimIoqISjQ5GNVRSDf+GdeCSUB
+         pEQns1eluWg2drag7PB5zsLTza2zOQ//8os+KMaZTI1ZnK/RID3qPxy0AqHgQ/7ncs
+         JZFpEXKkZGByOR54eTyZHdTNAZktSp/kD4iCyxtBkQe8bCeFgGUucPgU+6XOg1nAzA
+         7bNfrSsx8VTU0NfKTcNPVa8dUUCIbBtFg6J/IIFQmPKtAr0gbBpZ0JBXgyaZh7R8LM
+         EfwMcqOxpt0pLXgYDlGrCNTdLAGoMlJm8bggWDb++uoZQgWn9IMWEYKKJE/ivj7TIV
+         xoZLoWS76mv8Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+Cc:     Kelly Devilliv <kelly.devilliv@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 153/176] usb: musb: musb_dsps: request_irq() after initializing musb
-Date:   Thu,  9 Sep 2021 07:50:55 -0400
-Message-Id: <20210909115118.146181-153-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 017/109] usb: host: fotg210: fix the actual_length of an iso packet
+Date:   Thu,  9 Sep 2021 07:53:34 -0400
+Message-Id: <20210909115507.147917-17-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
-References: <20210909115118.146181-1-sashal@kernel.org>
+In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
+References: <20210909115507.147917-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -50,61 +50,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nadezda Lutovinova <lutovinova@ispras.ru>
+From: Kelly Devilliv <kelly.devilliv@gmail.com>
 
-[ Upstream commit 7c75bde329d7e2a93cf86a5c15c61f96f1446cdc ]
+[ Upstream commit 091cb2f782f32ab68c6f5f326d7868683d3d4875 ]
 
-If IRQ occurs between calling  dsps_setup_optional_vbus_irq()
-and  dsps_create_musb_pdev(), then null pointer dereference occurs
-since glue->musb wasn't initialized yet.
+We should acquire the actual_length of an iso packet
+from the iTD directly using FOTG210_ITD_LENGTH() macro.
 
-The patch puts initializing of neccesery data before registration
-of the interrupt handler.
-
-Found by Linux Driver Verification project (linuxtesting.org).
-
-Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
-Link: https://lore.kernel.org/r/20210819163323.17714-1-lutovinova@ispras.ru
+Signed-off-by: Kelly Devilliv <kelly.devilliv@gmail.com>
+Link: https://lore.kernel.org/r/20210627125747.127646-4-kelly.devilliv@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/musb/musb_dsps.c | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ drivers/usb/host/fotg210-hcd.c | 5 ++---
+ drivers/usb/host/fotg210.h     | 5 -----
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
-index 5892f3ce0cdc..ce9fc46c9266 100644
---- a/drivers/usb/musb/musb_dsps.c
-+++ b/drivers/usb/musb/musb_dsps.c
-@@ -890,23 +890,22 @@ static int dsps_probe(struct platform_device *pdev)
- 	if (!glue->usbss_base)
- 		return -ENXIO;
+diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
+index e62c456e78ac..f457e083a6f8 100644
+--- a/drivers/usb/host/fotg210-hcd.c
++++ b/drivers/usb/host/fotg210-hcd.c
+@@ -4461,13 +4461,12 @@ static bool itd_complete(struct fotg210_hcd *fotg210, struct fotg210_itd *itd)
  
--	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
--		ret = dsps_setup_optional_vbus_irq(pdev, glue);
--		if (ret)
--			goto err_iounmap;
--	}
--
- 	platform_set_drvdata(pdev, glue);
- 	pm_runtime_enable(&pdev->dev);
- 	ret = dsps_create_musb_pdev(glue, pdev);
- 	if (ret)
- 		goto err;
- 
-+	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
-+		ret = dsps_setup_optional_vbus_irq(pdev, glue);
-+		if (ret)
-+			goto err;
-+	}
-+
- 	return 0;
- 
- err:
- 	pm_runtime_disable(&pdev->dev);
--err_iounmap:
- 	iounmap(glue->usbss_base);
- 	return ret;
+ 			/* HC need not update length with this error */
+ 			if (!(t & FOTG210_ISOC_BABBLE)) {
+-				desc->actual_length =
+-					fotg210_itdlen(urb, desc, t);
++				desc->actual_length = FOTG210_ITD_LENGTH(t);
+ 				urb->actual_length += desc->actual_length;
+ 			}
+ 		} else if (likely((t & FOTG210_ISOC_ACTIVE) == 0)) {
+ 			desc->status = 0;
+-			desc->actual_length = fotg210_itdlen(urb, desc, t);
++			desc->actual_length = FOTG210_ITD_LENGTH(t);
+ 			urb->actual_length += desc->actual_length;
+ 		} else {
+ 			/* URB was too late */
+diff --git a/drivers/usb/host/fotg210.h b/drivers/usb/host/fotg210.h
+index 1b4db95e5c43..291add93d84e 100644
+--- a/drivers/usb/host/fotg210.h
++++ b/drivers/usb/host/fotg210.h
+@@ -686,11 +686,6 @@ static inline unsigned fotg210_read_frame_index(struct fotg210_hcd *fotg210)
+ 	return fotg210_readl(fotg210, &fotg210->regs->frame_index);
  }
+ 
+-#define fotg210_itdlen(urb, desc, t) ({			\
+-	usb_pipein((urb)->pipe) ?				\
+-	(desc)->length - FOTG210_ITD_LENGTH(t) :			\
+-	FOTG210_ITD_LENGTH(t);					\
+-})
+ /*-------------------------------------------------------------------------*/
+ 
+ #endif /* __LINUX_FOTG210_H */
 -- 
 2.30.2
 
