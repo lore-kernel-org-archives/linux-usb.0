@@ -7,38 +7,40 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D7D7C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9592EC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 476A161059
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 78DC461059
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:42:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347455AbhIIMnz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:43:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45812 "EHLO mail.kernel.org"
+        id S1350631AbhIIMn5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:43:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354116AbhIIMg5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:36:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1CCBC61B7F;
-        Thu,  9 Sep 2021 11:54:03 +0000 (UTC)
+        id S1346383AbhIIMi7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:38:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BDED561BB5;
+        Thu,  9 Sep 2021 11:54:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188443;
-        bh=K/PGg6kLoihHZ8O6+cHlmGT+jLvgPdnTCFTMk7Bxex0=;
+        s=k20201202; t=1631188477;
+        bh=7mmHLthpFheFiPyehS8KBoLv55k9vZhDiW0Qcdq4vcI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=usw1XT50qS8GTYuAWeL0H2QXv3tVIGAOmHGzfEzFKy4F1mnGoh4DkJWAr3Hk/6RqS
-         iP/IDUqyjvtYYNdiP/SACye2SM/ozzQZ4GGdI9RvX3IUKRIdLbKRV4+hznIaVjlifk
-         BmFE1umTiHh8MmgncSdAbazgCV/3wxVQR7TylsfhReSLpMfTQfmQg29iAhGqWGot0/
-         n1RQoCQN2f0/ZkB9uch+SEzonHtBQqQnEcIg0PLCH03LaFCAenFDSIwJ6/qp8ulH0q
-         pp2TvRXOGJp+C44/i1QItqs26r3lzLzaT+ztlMpJ6XMSe6N00pD+0diCEzC/iVVOPc
-         IXtQa9n7d03eQ==
+        b=Rt4aSBXjDPuxmIlnBPwV8THxvmyKYt4bInDUpMsSqAq561Fisik9UikUpBamq2pl0
+         AEQFnZcliDD3DR+Ing8OUiSAOTy+im0v8kDd07D6xPfikeqV4VFnQco6y3wI86UODI
+         6LlSwENFl4RTK3qz4MzMHzmMjRUBzX+6kl989UeVP+nHxLLU+EiV3Hv7tnpM9Mr6+r
+         HO7coWypAjcOMuIQ0QaJBCNjtEsp/ZGKll7RLforhd7TNJZ63d02AvBU6olDR1318z
+         wyFikB+QvwwfUu/HbeMpwHlQqCo9Ch6goLMgBfquFXB2cmqimHpz5SgI3hJI+qhBaq
+         8nyaZ/X6muDfg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Li Jun <jun.li@nxp.com>, Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-        Peter Chen <peter.chen@kernel.org>,
+Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
+        syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 128/176] usb: chipidea: host: fix port index underflow and UBSAN complains
-Date:   Thu,  9 Sep 2021 07:50:30 -0400
-Message-Id: <20210909115118.146181-128-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 154/176] usbip: give back URBs for unsent unlink requests during cleanup
+Date:   Thu,  9 Sep 2021 07:50:56 -0400
+Message-Id: <20210909115118.146181-154-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -50,64 +52,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+From: Anirudh Rayabharam <mail@anirudhrb.com>
 
-[ Upstream commit e5d6a7c6cfae9e714a0e8ff64facd1ac68a784c6 ]
+[ Upstream commit 258c81b341c8025d79073ce2d6ce19dcdc7d10d2 ]
 
-If wIndex is 0 (and it often is), these calculations underflow and
-UBSAN complains, here resolve this by not decrementing the index when
-it is equal to 0, this copies the solution from commit 85e3990bea49
-("USB: EHCI: avoid undefined pointer arithmetic and placate UBSAN")
+In vhci_device_unlink_cleanup(), the URBs for unsent unlink requests are
+not given back. This sometimes causes usb_kill_urb to wait indefinitely
+for that urb to be given back. syzbot has reported a hung task issue [1]
+for this.
 
-Reported-by: Zhipeng Wang <zhipeng.wang_1@nxp.com>
-Signed-off-by: Li Jun <jun.li@nxp.com>
-Link: https://lore.kernel.org/r/1624004938-2399-1-git-send-email-jun.li@nxp.com
-Signed-off-by: Peter Chen <peter.chen@kernel.org>
+To fix this, give back the urbs corresponding to unsent unlink requests
+(unlink_tx list) similar to how urbs corresponding to unanswered unlink
+requests (unlink_rx list) are given back.
+
+[1]: https://syzkaller.appspot.com/bug?id=08f12df95ae7da69814e64eb5515d5a85ed06b76
+
+Reported-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
+Tested-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+Link: https://lore.kernel.org/r/20210820190122.16379-2-mail@anirudhrb.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/host.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ drivers/usb/usbip/vhci_hcd.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index 48e4a5ca1835..f5f56ee07729 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -233,18 +233,26 @@ static int ci_ehci_hub_control(
- )
- {
- 	struct ehci_hcd	*ehci = hcd_to_ehci(hcd);
-+	unsigned int	ports = HCS_N_PORTS(ehci->hcs_params);
- 	u32 __iomem	*status_reg;
--	u32		temp;
-+	u32		temp, port_index;
- 	unsigned long	flags;
- 	int		retval = 0;
- 	struct device *dev = hcd->self.controller;
- 	struct ci_hdrc *ci = dev_get_drvdata(dev);
+diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+index 4ba6bcdaa8e9..190bd3d1c1f0 100644
+--- a/drivers/usb/usbip/vhci_hcd.c
++++ b/drivers/usb/usbip/vhci_hcd.c
+@@ -957,8 +957,32 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
+ 	spin_lock(&vdev->priv_lock);
  
--	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
-+	port_index = wIndex & 0xff;
-+	port_index -= (port_index > 0);
-+	status_reg = &ehci->regs->port_status[port_index];
- 
- 	spin_lock_irqsave(&ehci->lock, flags);
- 
- 	if (typeReq == SetPortFeature && wValue == USB_PORT_FEAT_SUSPEND) {
-+		if (!wIndex || wIndex > ports) {
-+			retval = -EPIPE;
-+			goto done;
+ 	list_for_each_entry_safe(unlink, tmp, &vdev->unlink_tx, list) {
++		struct urb *urb;
++
++		/* give back urb of unsent unlink request */
+ 		pr_info("unlink cleanup tx %lu\n", unlink->unlink_seqnum);
++
++		urb = pickup_urb_and_free_priv(vdev, unlink->unlink_seqnum);
++		if (!urb) {
++			list_del(&unlink->list);
++			kfree(unlink);
++			continue;
 +		}
 +
- 		temp = ehci_readl(ehci, status_reg);
- 		if ((temp & PORT_PE) == 0 || (temp & PORT_RESET) != 0) {
- 			retval = -EPIPE;
-@@ -273,7 +281,7 @@ static int ci_ehci_hub_control(
- 			ehci_writel(ehci, temp, status_reg);
- 		}
- 
--		set_bit((wIndex & 0xff) - 1, &ehci->suspended_ports);
-+		set_bit(port_index, &ehci->suspended_ports);
- 		goto done;
++		urb->status = -ENODEV;
++
++		usb_hcd_unlink_urb_from_ep(hcd, urb);
++
+ 		list_del(&unlink->list);
++
++		spin_unlock(&vdev->priv_lock);
++		spin_unlock_irqrestore(&vhci->lock, flags);
++
++		usb_hcd_giveback_urb(hcd, urb, urb->status);
++
++		spin_lock_irqsave(&vhci->lock, flags);
++		spin_lock(&vdev->priv_lock);
++
+ 		kfree(unlink);
  	}
  
 -- 
