@@ -7,44 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C944C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3789AC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 771586113E
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CC5361132
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:07:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244510AbhIIMIG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:08:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40846 "EHLO mail.kernel.org"
+        id S1346415AbhIIMIN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:08:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47406 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1344324AbhIIL7D (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 07:59:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B770D6140B;
-        Thu,  9 Sep 2021 11:45:51 +0000 (UTC)
+        id S1350160AbhIIMFn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:05:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7431E61880;
+        Thu,  9 Sep 2021 11:47:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187952;
-        bh=6WZrpTMDNvbUVof9OeKTjctXW5wSRixLJU4HNjVieB8=;
+        s=k20201202; t=1631188041;
+        bh=wb0vY1I/LJsIEVsnaF93j3dbSb5rsRNBhEY+WdFPy2M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i5BPmJTLXXzsEx8vZY0lCr3ZS/Jy/i3FUz30zr0w8d+WwN7LYER87O4hIJEYew3o3
-         Hgtc5mrxD/mBZ1zzuLm4koOqRo0fF0UCfUKDbr0aWU/gv5dTNdExoNL56tkU7G2KRa
-         7cqmjUZ9oH5KDayQwZqTQ3L/kxUmeA3WAsA5AC73Yba/iSJAdKZ/+Fqb00putqFT41
-         jVRGc1pYibGNkj+9va9RPO4IFPV674wYe687xocqQXkpQTUv0cF8tKGG/BlVgoWkGO
-         W0Q0fVK3lsVQh9ezP6vPjS2O9NNjug5YMwHqaotLuaKUGIQnnKuoV2GQHvzq9c2xnu
-         buL1J67jKR6+w==
+        b=GKhnbhJt8+GnKMHCzwxpYxhmdA44h1shB44wfh9BvVZrqDJYudvxWa9g//J4eNUjL
+         obJjk77bRAWpDKwxZcqqQ4wOqN4At8lPIAEV6vEZo/bWQmxjbHGaskLHM36tTXVFy9
+         6GsHmoCC/PCu/JjXlrm67i6PVaW2nitKMrCSnVW4xeiK0Dk9LaIZKE3Z5YmfptGh+i
+         +GbCdxO7yJFAO7vommeSQm5oWrjdOrLw7NcX8hyQ4noKYVJiVW3XHQejRiP2J2uWzW
+         i/GDDWslUOZrT1wW/5c77sONNkZwKE3Rcp7kSFdI37gG8ksQ83J+s2julesMfuN8oJ
+         QvRt30tgH3Tcw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Pi Hsun <pihsun@google.com>,
+Cc:     Evgeny Novikov <novikov@ispras.ru>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.14 220/252] usb: xhci-mtk: fix use-after-free of mtk->hcd
-Date:   Thu,  9 Sep 2021 07:40:34 -0400
-Message-Id: <20210909114106.141462-220-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 035/219] USB: EHCI: ehci-mv: improve error handling in mv_ehci_enable()
+Date:   Thu,  9 Sep 2021 07:43:31 -0400
+Message-Id: <20210909114635.143983-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
-References: <20210909114106.141462-1-sashal@kernel.org>
+In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
+References: <20210909114635.143983-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -53,52 +51,69 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+From: Evgeny Novikov <novikov@ispras.ru>
 
-[ Upstream commit 7f85c16f40d8be5656fb3476909db5c3a5a9c6ea ]
+[ Upstream commit 61136a12cbed234374ec6f588af57c580b20b772 ]
 
- BUG: KASAN: use-after-free in usb_hcd_is_primary_hcd+0x38/0x60
- Call trace:
-  dump_backtrace+0x0/0x3dc
-  show_stack+0x20/0x2c
-  dump_stack+0x15c/0x1d4
-  print_address_description+0x7c/0x510
-  kasan_report+0x164/0x1ac
-  __asan_report_load8_noabort+0x44/0x50
-  usb_hcd_is_primary_hcd+0x38/0x60
-  xhci_mtk_runtime_suspend+0x68/0x148
-  pm_generic_runtime_suspend+0x90/0xac
-  __rpm_callback+0xb8/0x1f4
-  rpm_callback+0x54/0x1d0
-  rpm_suspend+0x4e0/0xc84
-  __pm_runtime_suspend+0xc4/0x114
-  xhci_mtk_probe+0xa58/0xd00
+mv_ehci_enable() did not disable and unprepare clocks in case of
+failures of phy_init(). Besides, it did not take into account failures
+of ehci_clock_enable() (in effect, failures of clk_prepare_enable()).
+The patch fixes both issues and gets rid of redundant wrappers around
+clk_prepare_enable() and clk_disable_unprepare() to simplify this a bit.
 
-This may happen when probe fails, needn't suspend it synchronously,
-fix it by using pm_runtime_put_noidle().
+Found by Linux Driver Verification project (linuxtesting.org).
 
-Reported-by: Pi Hsun <pihsun@google.com>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Link: https://lore.kernel.org/r/1629189389-18779-3-git-send-email-chunfeng.yun@mediatek.com
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Evgeny Novikov <novikov@ispras.ru>
+Link: https://lore.kernel.org/r/20210708083056.21543-1-novikov@ispras.ru
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/host/xhci-mtk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ehci-mv.c | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index 2548976bcf05..cb27569186a0 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -569,7 +569,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	xhci_mtk_ldos_disable(mtk);
+diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+index cffdc8d01b2a..8fd27249ad25 100644
+--- a/drivers/usb/host/ehci-mv.c
++++ b/drivers/usb/host/ehci-mv.c
+@@ -42,26 +42,25 @@ struct ehci_hcd_mv {
+ 	int (*set_vbus)(unsigned int vbus);
+ };
  
- disable_pm:
--	pm_runtime_put_sync_autosuspend(dev);
-+	pm_runtime_put_noidle(dev);
- 	pm_runtime_disable(dev);
- 	return ret;
+-static void ehci_clock_enable(struct ehci_hcd_mv *ehci_mv)
++static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
+ {
+-	clk_prepare_enable(ehci_mv->clk);
+-}
++	int retval;
+ 
+-static void ehci_clock_disable(struct ehci_hcd_mv *ehci_mv)
+-{
+-	clk_disable_unprepare(ehci_mv->clk);
+-}
++	retval = clk_prepare_enable(ehci_mv->clk);
++	if (retval)
++		return retval;
+ 
+-static int mv_ehci_enable(struct ehci_hcd_mv *ehci_mv)
+-{
+-	ehci_clock_enable(ehci_mv);
+-	return phy_init(ehci_mv->phy);
++	retval = phy_init(ehci_mv->phy);
++	if (retval)
++		clk_disable_unprepare(ehci_mv->clk);
++
++	return retval;
  }
+ 
+ static void mv_ehci_disable(struct ehci_hcd_mv *ehci_mv)
+ {
+ 	phy_exit(ehci_mv->phy);
+-	ehci_clock_disable(ehci_mv);
++	clk_disable_unprepare(ehci_mv->clk);
+ }
+ 
+ static int mv_ehci_reset(struct usb_hcd *hcd)
 -- 
 2.30.2
 
