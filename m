@@ -7,39 +7,38 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 904C7C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A6A9C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7CA6360555
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06E7260E94
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 13:17:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359400AbhIINS3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 09:18:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53480 "EHLO mail.kernel.org"
+        id S1358709AbhIINSb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 09:18:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46262 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1357895AbhIINFS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1357885AbhIINFS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 9 Sep 2021 09:05:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1DE9C63288;
-        Thu,  9 Sep 2021 12:00:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A371963280;
+        Thu,  9 Sep 2021 12:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631188806;
-        bh=T91Zgokphle+V0vjmg+UqKidMYlUGT5t5wylyld9/q4=;
+        s=k20201202; t=1631188803;
+        bh=cJuvfYSyGsgXQlB4XaacXMJyw9FoYiKpfP6CmbpT0+o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C/LlBrkxGvi4lus4fRXdE7bK4ZksvepoyW9GF1nXlq73xqiF4pFW6kvi9fLIfMOLN
-         pwbQms9Tz34b/0TrbddeNDkkRtBRUFGIXVw7+CgbDXXTFk7JYAdF+lMwR5PczS+Van
-         Sn4Xx/I0jCtps36dOdZgtbVnJa2xPhbfsnFdQEDABaZJB6Q0qwzJn9euECS8CNncw/
-         pIQkAi90dFtRVgqTNau4r/MnNhYFtC8QNmU1NUvMYEPc05kTQkg/nPZcZmvYYQGOu2
-         NqRvhRMrfU5nBhW1CzFDcmXXotNhjmvwk3ch1pFx8H8dAACHL2ji6Z53v6UtDl3O+T
-         TLGCRqj2cKtLw==
+        b=RigmaCbjp0CoM5rYfq0wmrOtH8nI4+7xttdN2eUzhbuYz92fyyXXskESIxcjlRJTw
+         senCtcIMqks+2l8PBYld+F44kounFQ5EqlcnkbS2zhsQxM4YKuYPkfS0BEZrNdhYL5
+         p0bDHW9bFCZSV2T07EZaPBCVX1o9t18UjqnRjtyEbT+EvkAi8sTJcabb38hYjwTD0A
+         l6YtBX3boxnO8jfSimd2Tl8RiKlKscXDjad+3wPRHvLMh9t1PwIFAf1SpAYbRnxMAd
+         zjNmqfTf/imfV7mamRb8VW5vxMC/nRLmjLK0m6oJMqjFlFS/OHkFN4jEMsrmeE/LAJ
+         g2eU41xFUGT1g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Michael <msbroadf@gmail.com>,
+Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 52/59] usbip:vhci_hcd USB port can get stuck in the disabled state
-Date:   Thu,  9 Sep 2021 07:58:53 -0400
-Message-Id: <20210909115900.149795-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 50/59] usb: musb: musb_dsps: request_irq() after initializing musb
+Date:   Thu,  9 Sep 2021 07:58:51 -0400
+Message-Id: <20210909115900.149795-50-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115900.149795-1-sashal@kernel.org>
 References: <20210909115900.149795-1-sashal@kernel.org>
@@ -51,56 +50,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Shuah Khan <skhan@linuxfoundation.org>
+From: Nadezda Lutovinova <lutovinova@ispras.ru>
 
-[ Upstream commit 66cce9e73ec61967ed1f97f30cee79bd9a2bb7ee ]
+[ Upstream commit 7c75bde329d7e2a93cf86a5c15c61f96f1446cdc ]
 
-When a remote usb device is attached to the local Virtual USB
-Host Controller Root Hub port, the bound device driver may send
-a port reset command.
+If IRQ occurs between calling  dsps_setup_optional_vbus_irq()
+and  dsps_create_musb_pdev(), then null pointer dereference occurs
+since glue->musb wasn't initialized yet.
 
-vhci_hcd accepts port resets only when the device doesn't have
-port address assigned to it. When reset happens device is in
-assigned/used state and vhci_hcd rejects it leaving the port in
-a stuck state.
+The patch puts initializing of neccesery data before registration
+of the interrupt handler.
 
-This problem was found when a blue-tooth or xbox wireless dongle
-was passed through using usbip.
+Found by Linux Driver Verification project (linuxtesting.org).
 
-A few drivers reset the port during probe including mt76 driver
-specific to this bug report. Fix the problem with a change to
-honor reset requests when device is in used state (VDEV_ST_USED).
-
-Reported-and-tested-by: Michael <msbroadf@gmail.com>
-Suggested-by: Michael <msbroadf@gmail.com>
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-Link: https://lore.kernel.org/r/20210819225937.41037-1-skhan@linuxfoundation.org
+Signed-off-by: Nadezda Lutovinova <lutovinova@ispras.ru>
+Link: https://lore.kernel.org/r/20210819163323.17714-1-lutovinova@ispras.ru
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/usbip/vhci_hcd.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/usb/musb/musb_dsps.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 709214df2c18..22e8cda7a137 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -469,8 +469,14 @@ static int vhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 			vhci_hcd->port_status[rhport] &= ~(1 << USB_PORT_FEAT_RESET);
- 			vhci_hcd->re_timeout = 0;
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index b7d460adaa61..a582c3847dc2 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -930,23 +930,22 @@ static int dsps_probe(struct platform_device *pdev)
+ 	if (!glue->usbss_base)
+ 		return -ENXIO;
  
-+			/*
-+			 * A few drivers do usb reset during probe when
-+			 * the device could be in VDEV_ST_USED state
-+			 */
- 			if (vhci_hcd->vdev[rhport].ud.status ==
--			    VDEV_ST_NOTASSIGNED) {
-+				VDEV_ST_NOTASSIGNED ||
-+			    vhci_hcd->vdev[rhport].ud.status ==
-+				VDEV_ST_USED) {
- 				usbip_dbg_vhci_rh(
- 					" enable rhport %d (status %u)\n",
- 					rhport,
+-	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
+-		ret = dsps_setup_optional_vbus_irq(pdev, glue);
+-		if (ret)
+-			goto err_iounmap;
+-	}
+-
+ 	platform_set_drvdata(pdev, glue);
+ 	pm_runtime_enable(&pdev->dev);
+ 	ret = dsps_create_musb_pdev(glue, pdev);
+ 	if (ret)
+ 		goto err;
+ 
++	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
++		ret = dsps_setup_optional_vbus_irq(pdev, glue);
++		if (ret)
++			goto err;
++	}
++
+ 	return 0;
+ 
+ err:
+ 	pm_runtime_disable(&pdev->dev);
+-err_iounmap:
+ 	iounmap(glue->usbss_base);
+ 	return ret;
+ }
 -- 
 2.30.2
 
