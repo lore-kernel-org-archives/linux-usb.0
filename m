@@ -7,39 +7,39 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3786EC433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1F13C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2169E632E6
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1098632EE
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Sep 2021 12:02:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346270AbhIIMDM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Sep 2021 08:03:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43172 "EHLO mail.kernel.org"
+        id S1346285AbhIIMDN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Sep 2021 08:03:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43206 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244556AbhIIMBE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Sep 2021 08:01:04 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 85C2C61504;
-        Thu,  9 Sep 2021 11:46:17 +0000 (UTC)
+        id S243185AbhIIMBF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Sep 2021 08:01:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F332C61526;
+        Thu,  9 Sep 2021 11:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631187978;
-        bh=FRlfRcOfgCtOTdfU3QTC244vJyhczVbj6UOvqJ//CIQ=;
+        s=k20201202; t=1631187980;
+        bh=/7AEC3ilG/Z0kZyZJtcKVG5IiNVzFQK63um9OA45wwg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a8R4HU19NYWPD/GaAYT+gqb7yCeu2s7auiTJmliG4BKxOQjrScsmWDjZ2A82RsGCi
-         XaRBbeu/J3QZxcUF8q3xIQ8i438+8xS6IRzn5b2RinDrxy6d2AwpmZi42GN7hq659U
-         qInhGrRlVhJ2UB5CGXiJkhpdUTtv1QTCwAkHfVlVFQRlK8Z/TodPYe8aLKu4QjMCFl
-         IOTtaMkBFNvuhSuYQ+xCjZNziyQnb54Ov2RuNkQ5r1HBVRzXTRiXyPuwq8IvZydTX7
-         Pj/3eih71fpS/T4vCORVwqvbH/Jtl/GcApS6V9MaPytO8ya7dbz1582ICSVVKkqJzR
-         pyMxZQeld/GLA==
+        b=JykPtzfnVOZyRXCwQagIkJmfNThTCZurDJqxDVaPA7SXPUA+NvZdWdqy6fyWuuNBc
+         kuraDyXVs15+Mim8KzkjWj0NCtdKXD1t1X6GLeLjxQTqpdumTENiZ5O+GvBsjsJsCs
+         IwGiMXbhRFdHhcv+AWrbh5oiGtNx5B6rweRONXYLwbp28yFM62VmTnyoYup6GCnUOD
+         O7BmzLNm7/h4kR9gjrQX5hKLzbJKt5DYzmteyoA/7UOqMNPp+n+T56cVpmYK7cghgN
+         uNwcvkiJK2aSRWmdqcUShaggviD8QGX2qfVKyYnyJzQ12Y2y+pDn0QNVuRw6jYt6xF
+         h0VpVTOp0XiRQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Rui Miguel Silva <rui.silva@linaro.org>,
         Dietmar Eggemann <dietmar.eggemann@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 240/252] usb: isp1760: fix qtd fill length
-Date:   Thu,  9 Sep 2021 07:40:54 -0400
-Message-Id: <20210909114106.141462-240-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 242/252] usb: isp1760: use the right irq status bit
+Date:   Thu,  9 Sep 2021 07:40:56 -0400
+Message-Id: <20210909114106.141462-242-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -53,40 +53,74 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Rui Miguel Silva <rui.silva@linaro.org>
 
-[ Upstream commit cbfa3effdf5c2d411c9ce9820f3d33d77bc4697d ]
+[ Upstream commit 955d0fb590f18ec5c3a4085c7d0e39b6abde0dd6 ]
 
-When trying to send bulks bigger than the biggest block size
-we need to split them over several qtd. Fix this limiting the
-maximum qtd size to largest block size.
+Instead of using the fields enum values to check interrupts
+trigged, use the correct bit values.
 
 Reported-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
 Tested-by: Dietmar Eggemann <dietmar.eggemann@arm.com>
 Signed-off-by: Rui Miguel Silva <rui.silva@linaro.org>
-Link: https://lore.kernel.org/r/20210827131154.4151862-3-rui.silva@linaro.org
+Link: https://lore.kernel.org/r/20210827131154.4151862-5-rui.silva@linaro.org
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/isp1760/isp1760-hcd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/usb/isp1760/isp1760-udc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/isp1760/isp1760-hcd.c b/drivers/usb/isp1760/isp1760-hcd.c
-index ffb3a0c8c909..d2d19548241e 100644
---- a/drivers/usb/isp1760/isp1760-hcd.c
-+++ b/drivers/usb/isp1760/isp1760-hcd.c
-@@ -1826,9 +1826,11 @@ static void packetize_urb(struct usb_hcd *hcd,
- 			goto cleanup;
+diff --git a/drivers/usb/isp1760/isp1760-udc.c b/drivers/usb/isp1760/isp1760-udc.c
+index a78da59d6417..5cafd23345ca 100644
+--- a/drivers/usb/isp1760/isp1760-udc.c
++++ b/drivers/usb/isp1760/isp1760-udc.c
+@@ -1363,7 +1363,7 @@ static irqreturn_t isp1760_udc_irq(int irq, void *dev)
  
- 		if (len > mem->blocks_size[ISP176x_BLOCK_NUM - 1])
--			len = mem->blocks_size[ISP176x_BLOCK_NUM - 1];
-+			this_qtd_len = mem->blocks_size[ISP176x_BLOCK_NUM - 1];
-+		else
-+			this_qtd_len = len;
+ 	status = isp1760_udc_irq_get_status(udc);
  
--		this_qtd_len = qtd_fill(qtd, buf, len);
-+		this_qtd_len = qtd_fill(qtd, buf, this_qtd_len);
- 		list_add_tail(&qtd->qtd_list, head);
+-	if (status & DC_IEVBUS) {
++	if (status & ISP176x_DC_IEVBUS) {
+ 		dev_dbg(udc->isp->dev, "%s(VBUS)\n", __func__);
+ 		/* The VBUS interrupt is only triggered when VBUS appears. */
+ 		spin_lock(&udc->lock);
+@@ -1371,7 +1371,7 @@ static irqreturn_t isp1760_udc_irq(int irq, void *dev)
+ 		spin_unlock(&udc->lock);
+ 	}
  
- 		len -= this_qtd_len;
+-	if (status & DC_IEBRST) {
++	if (status & ISP176x_DC_IEBRST) {
+ 		dev_dbg(udc->isp->dev, "%s(BRST)\n", __func__);
+ 
+ 		isp1760_udc_reset(udc);
+@@ -1391,18 +1391,18 @@ static irqreturn_t isp1760_udc_irq(int irq, void *dev)
+ 		}
+ 	}
+ 
+-	if (status & DC_IEP0SETUP) {
++	if (status & ISP176x_DC_IEP0SETUP) {
+ 		dev_dbg(udc->isp->dev, "%s(EP0SETUP)\n", __func__);
+ 
+ 		isp1760_ep0_setup(udc);
+ 	}
+ 
+-	if (status & DC_IERESM) {
++	if (status & ISP176x_DC_IERESM) {
+ 		dev_dbg(udc->isp->dev, "%s(RESM)\n", __func__);
+ 		isp1760_udc_resume(udc);
+ 	}
+ 
+-	if (status & DC_IESUSP) {
++	if (status & ISP176x_DC_IESUSP) {
+ 		dev_dbg(udc->isp->dev, "%s(SUSP)\n", __func__);
+ 
+ 		spin_lock(&udc->lock);
+@@ -1413,7 +1413,7 @@ static irqreturn_t isp1760_udc_irq(int irq, void *dev)
+ 		spin_unlock(&udc->lock);
+ 	}
+ 
+-	if (status & DC_IEHS_STA) {
++	if (status & ISP176x_DC_IEHS_STA) {
+ 		dev_dbg(udc->isp->dev, "%s(HS_STA)\n", __func__);
+ 		udc->gadget.speed = USB_SPEED_HIGH;
+ 	}
 -- 
 2.30.2
 
