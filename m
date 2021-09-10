@@ -2,132 +2,147 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79816C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 07:36:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C610C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:12:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5EEB3610C8
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 07:36:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6EF11611C8
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:12:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231586AbhIJHiH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Sep 2021 03:38:07 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:25319 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231290AbhIJHiH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Sep 2021 03:38:07 -0400
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 18A7GoO4001125;
-        Fri, 10 Sep 2021 15:16:50 +0800 (GMT-8)
-        (envelope-from neal_liu@aspeedtech.com)
-Received: from NealLiu-PC01.aspeedtech.com (192.168.2.78) by
- TWMBX02.aspeed.com (192.168.0.24) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 10 Sep 2021 15:36:23 +0800
-From:   Neal Liu <neal_liu@aspeedtech.com>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>
-CC:     Neal Liu <neal_liu@aspeedtech.com>,
-        Tao Ren <rentao.bupt@gmail.com>, <BMC-SW@aspeedtech.com>
-Subject: [PATCH v4] usb: ehci: handshake CMD_RUN instead of STS_HALT
-Date:   Fri, 10 Sep 2021 15:36:19 +0800
-Message-ID: <20210910073619.26095-1-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+        id S232941AbhIJMN0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Sep 2021 08:13:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41920 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232952AbhIJMNZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Sep 2021 08:13:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D062D611C7;
+        Fri, 10 Sep 2021 12:12:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631275934;
+        bh=OGpeKe8qlKrKG2MWCkAbVaugcCWxiuy7ISiHVSw/oOs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UyAKLVfE0WPaM/hiFJaves446nQfPAhOHKZ16jHFcadokK40JHGWDQMxOm97sSx97
+         R+9yQUDk721dloiz72HxcwPVui90q1xUM/xy2RjumvzeXr7uIU9Pww6wDj+zLQPMGj
+         wedM0eGNh1VhjnCxmBJFscNtSn53joXGgp6r4f/ks4YFUkpa9SloagnVbEvUrIwcEu
+         9iiU6oZhEgOOafGrsgLnKaGAU6hyskjKgBRFCzu2vxoIC4k96nEXUkSehSdr+0Wmw0
+         FXVlDstzABo3OypSM9sdE+ALRDjHMkMvmq11ihLgxrL3Svf53/W7gt2baE8E4ll06p
+         Me+WWWvwYuFWg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mOfO2-0004s1-8h; Fri, 10 Sep 2021 14:12:06 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] USB: serial: allow hung up ports to be suspended
+Date:   Fri, 10 Sep 2021 14:11:28 +0200
+Message-Id: <20210910121128.18664-3-johan@kernel.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210910121128.18664-1-johan@kernel.org>
+References: <20210910121128.18664-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.2.78]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18A7GoO4001125
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For Aspeed, HCHalted status depends on not only Run/Stop but also
-ASS/PSS status.
-Handshake CMD_RUN on startup instead.
+User space can keep a tty open indefinitely and that should not prevent
+a hung up port and its USB device from being runtime suspended.
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
-Tested-by: Tao Ren <rentao.bupt@gmail.com>
+Fix this by incrementing the PM usage counter when the port it activated
+and decrementing the counter when the port is shutdown rather than when
+the tty is installed and the last reference is dropped, respectively.
+
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/host/ehci-hcd.c      | 11 ++++++++++-
- drivers/usb/host/ehci-platform.c |  6 ++++++
- drivers/usb/host/ehci.h          |  1 +
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/usb/serial/usb-serial.c | 31 +++++++++++++++++--------------
+ 1 file changed, 17 insertions(+), 14 deletions(-)
 
----
-Fix STS_HALT handshake failure for Aspeed 2500/2600 platform.
-
-Change since v3:
-- Add more description.
-
-Change since v2:
-- Use my "real" name for both the Signed-off-by: line and the From: line.
-
-Change since v1:
-- Handshake CMD_RUN status on startup instead of easily skip it.
----
-
-diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-index 6bdc6d6bf74d..55f92d25336b 100644
---- a/drivers/usb/host/ehci-hcd.c
-+++ b/drivers/usb/host/ehci-hcd.c
-@@ -634,7 +634,16 @@ static int ehci_run (struct usb_hcd *hcd)
- 	/* Wait until HC become operational */
- 	ehci_readl(ehci, &ehci->regs->command);	/* unblock posted writes */
- 	msleep(5);
--	rc = ehci_handshake(ehci, &ehci->regs->status, STS_HALT, 0, 100 * 1000);
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index abc657fec8c5..b357361d5d1e 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -208,8 +208,8 @@ void usb_serial_put(struct usb_serial *serial)
+  *
+  * This is the first place a new tty gets used.  Hence this is where we
+  * acquire references to the usb_serial structure and the driver module,
+- * where we store a pointer to the port, and where we do an autoresume.
+- * All these actions are reversed in serial_cleanup().
++ * where we store a pointer to the port.  All these actions are reversed
++ * in serial_cleanup().
+  */
+ static int serial_install(struct tty_driver *driver, struct tty_struct *tty)
+ {
+@@ -227,15 +227,11 @@ static int serial_install(struct tty_driver *driver, struct tty_struct *tty)
+ 	if (!try_module_get(serial->type->driver.owner))
+ 		goto err_put_serial;
+ 
+-	retval = usb_autopm_get_interface(serial->interface);
+-	if (retval)
+-		goto err_put_module;
+-
+ 	init_termios = (driver->termios[idx] == NULL);
+ 
+ 	retval = tty_standard_install(driver, tty);
+ 	if (retval)
+-		goto err_put_autopm;
++		goto err_put_module;
+ 
+ 	mutex_unlock(&serial->disc_mutex);
+ 
+@@ -247,8 +243,6 @@ static int serial_install(struct tty_driver *driver, struct tty_struct *tty)
+ 
+ 	return retval;
+ 
+-err_put_autopm:
+-	usb_autopm_put_interface(serial->interface);
+ err_put_module:
+ 	module_put(serial->type->driver.owner);
+ err_put_serial:
+@@ -265,10 +259,19 @@ static int serial_port_activate(struct tty_port *tport, struct tty_struct *tty)
+ 	int retval;
+ 
+ 	mutex_lock(&serial->disc_mutex);
+-	if (serial->disconnected)
++	if (serial->disconnected) {
+ 		retval = -ENODEV;
+-	else
+-		retval = port->serial->type->open(tty, port);
++		goto out_unlock;
++	}
 +
-+	/* For Aspeed, STS_HALT also depends on ASS/PSS status.
-+	 * Check CMD_RUN instead.
-+	 */
-+	if (ehci->is_aspeed)
-+		rc = ehci_handshake(ehci, &ehci->regs->command, CMD_RUN,
-+				    1, 100 * 1000);
-+	else
-+		rc = ehci_handshake(ehci, &ehci->regs->status, STS_HALT,
-+				    0, 100 * 1000);
- 
- 	up_write(&ehci_cf_port_reset_rwsem);
- 
-diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
-index c70f2d0b4aaf..c3dc906274d9 100644
---- a/drivers/usb/host/ehci-platform.c
-+++ b/drivers/usb/host/ehci-platform.c
-@@ -297,6 +297,12 @@ static int ehci_platform_probe(struct platform_device *dev)
- 					  "has-transaction-translator"))
- 			hcd->has_tt = 1;
- 
-+		if (of_device_is_compatible(dev->dev.of_node,
-+					    "aspeed,ast2500-ehci") ||
-+		    of_device_is_compatible(dev->dev.of_node,
-+					    "aspeed,ast2600-ehci"))
-+			ehci->is_aspeed = 1;
++	retval = usb_autopm_get_interface(serial->interface);
++	if (retval)
++		goto out_unlock;
 +
- 		if (soc_device_match(quirk_poll_match))
- 			priv->quirk_poll = true;
++	retval = port->serial->type->open(tty, port);
++	if (retval)
++		usb_autopm_put_interface(serial->interface);
++out_unlock:
+ 	mutex_unlock(&serial->disc_mutex);
  
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index 80bb823aa9fe..fdd073cc053b 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -219,6 +219,7 @@ struct ehci_hcd {			/* one per controller */
- 	unsigned		need_oc_pp_cycle:1; /* MPC834X port power */
- 	unsigned		imx28_write_fix:1; /* For Freescale i.MX28 */
- 	unsigned		spurious_oc:1;
-+	unsigned		is_aspeed:1;
+ 	if (retval < 0)
+@@ -304,6 +307,8 @@ static void serial_port_shutdown(struct tty_port *tport)
  
- 	/* required for usb32 quirk */
- 	#define OHCI_CTRL_HCFS          (3 << 6)
+ 	if (drv->close)
+ 		drv->close(port);
++
++	usb_autopm_put_interface(port->serial->interface);
+ }
+ 
+ static void serial_hangup(struct tty_struct *tty)
+@@ -352,8 +357,6 @@ static void serial_cleanup(struct tty_struct *tty)
+ 	serial = port->serial;
+ 	owner = serial->type->driver.owner;
+ 
+-	usb_autopm_put_interface(serial->interface);
+-
+ 	usb_serial_put(serial);
+ 	module_put(owner);
+ }
 -- 
-2.25.1
+2.32.0
 
