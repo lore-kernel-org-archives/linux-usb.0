@@ -2,65 +2,50 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-6.1 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB69C433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 086C9C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:58:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C6F060E94
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:41:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC47B60041
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Sep 2021 12:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234203AbhIJMmn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Sep 2021 08:42:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36198 "EHLO mail.kernel.org"
+        id S233252AbhIJM7m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Sep 2021 08:59:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46794 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233545AbhIJMmh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 10 Sep 2021 08:42:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7054B60E94;
-        Fri, 10 Sep 2021 12:41:26 +0000 (UTC)
+        id S233155AbhIJM7m (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Sep 2021 08:59:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D01CC61153;
+        Fri, 10 Sep 2021 12:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1631277686;
-        bh=Ny+TBmYm0Glx2ncjaBaqRJOzvS8UE8xM7y5YZjKFfVY=;
+        s=korg; t=1631278711;
+        bh=us/Tc8j70N27SKWwWOi+OQv+Gum4WXSd74uiK9tuqfU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1ZI5+bC6IkGmQaSoxUudj5Ol8ZkgoStlRl7s3g4kiirHqqxwFP+ccQMYgOPzvixbp
-         XOybQxFkh0hzxy9NQzHMI1KONgViQ+wY4Z7pWRZp4cQpALPsNksyFgfLZbU8BkCFHw
-         o0g8Hmh0cz9F2Rnf/t3e2WyAYtsFQ2ef9RwWgQfM=
-Date:   Fri, 10 Sep 2021 14:41:24 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] USB: serial: allow hung up ports to be suspended
-Message-ID: <YTtSdGTYAv53XdoI@kroah.com>
-References: <20210910121128.18664-1-johan@kernel.org>
+        b=VxWQg/xFoF9wZ15qeXl78n+kd/RFslORIMyclgJjAOXsy2ls012ZlwMJOwt1/3qW/
+         J2bEnWLw/ojzQpzdHK+ZLtboNm3iQQH9DDL2uHiWdOt9iY7DMYAQATRHZiMFcz+46o
+         ImUhOFL2vrLH4IWqYVL0n0N6wYAdaXJ7sMQsrV7k=
+Date:   Fri, 10 Sep 2021 14:58:23 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Razvan Heghedus <Razvan.Heghedus@garmin.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, Johan Hovold <johan@kernel.org>,
+        Anant Thazhemadam <anant.thazhemadam@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: misc: ehset: Workaround for "special" hubs
+Message-ID: <YTtWb5oYoQUYArAR@kroah.com>
+References: <20210910124612.33368-1-Razvan.Heghedus@garmin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210910121128.18664-1-johan@kernel.org>
+In-Reply-To: <20210910124612.33368-1-Razvan.Heghedus@garmin.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Sep 10, 2021 at 02:11:26PM +0200, Johan Hovold wrote:
-> User space can keep a tty open indefinitely and that should not prevent
-> a hung up port and its USB device from being runtime suspended.
-> 
-> Also clean up a few related error labels in a preparatory patch.
-> 
-> Johan
-> 
-> 
-> Johan Hovold (2):
->   USB: serial: clean up core error labels
->   USB: serial: allow hung up ports to be suspended
-> 
->  drivers/usb/serial/usb-serial.c | 59 +++++++++++++++++----------------
->  1 file changed, 30 insertions(+), 29 deletions(-)
-> 
-> -- 
-> 2.32.0
-> 
+On Fri, Sep 10, 2021 at 03:46:10PM +0300, Razvan Heghedus wrote:
+> This Email, including any attachment/s, is confidential and intended only for the individuals or company named above. If you are not the intended recipient, please do not read, copy, use or disclose the contents of this communication to others. Please notify the sender that you have received this e-mail in error, by calling the phone number indicated or by Email, and delete the Email, including any attachment, subsequently. The information contained in this Email may be subject to professional secrecy (e. g. of auditor, tax or legal advisor), other privilege or otherwise be protected by work product immunity or other legal rules. Thank you.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Now deleted as this is not ok to have on a kernel patch :(
