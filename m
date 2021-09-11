@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1711C43219
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:21:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE53C433FE
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:21:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDE19611CC
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:21:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1128E611CC
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:21:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237295AbhIKNWj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Sep 2021 09:22:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51390 "EHLO mail.kernel.org"
+        id S236739AbhIKNWv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Sep 2021 09:22:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236927AbhIKNUl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 11 Sep 2021 09:20:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C9736139D;
-        Sat, 11 Sep 2021 13:14:20 +0000 (UTC)
+        id S236968AbhIKNUq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 11 Sep 2021 09:20:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1141861247;
+        Sat, 11 Sep 2021 13:14:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631366060;
-        bh=hy3UwUA+8vvNry4bzehpyJHT56yOSvMuXzICl7nOmF8=;
+        s=k20201202; t=1631366067;
+        bh=+pym0QwsC8Fviq7aC3T+wd9qCQclUcQD/hEuj45WaZ8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DfGtI5kwJqfoM9fDWG6ZMBi0gRou3oUllX3awHqUcp4z1EmfWDyCPSltGfn2BXOwX
-         vEWNJ2+O0VrZcuGH18lfeipdRYWnOGoPPGCSNaBqI0Q4DomP9mSRlxuzjLxBrHrdsQ
-         lGFPHabgVrrzNYXJH/PxAWU2BIFKWHi36ISnpeDoUQqUQVP/aRq6W+xkiJxhfZd2Z1
-         15cZkJT2bF7UkUpeTBjLWaiWDOILrlTLfLX9J7Rej0V3G57BR0w8RfREQyd2iW2CUI
-         WIaSuVFevxqESCaApq9Rkn6OEZBgL97aIHE/TqQBXret3I6c/TG5In32PCfbqX+2J+
-         yQHn67tZWOg9A==
+        b=qzuNiK022Zu0SR9EoDjSSB9L3frJe2dAN9JCDxoT/nv2i5ko/sBck2t98IEmIS1vp
+         8B41iu9sQEi/ygn3vo8dDNB1fvzo8lyUDTkKyErElH4rRV9LvXttMTxOX5QcR5qZ9k
+         t4jnxwvXEkSOnqyBqG1hXgKkMmvJ1RHrXGOhoCmuT5sLzazMuWF9NnkrvbX6OlgG59
+         pi/5yZi4OhIbMfgS0PX8nTg/xkmLsF8sG8Bhv9oAuhHHtoGdn85vz68iIjd5GhYFSc
+         NAjqs9qzEB93fGWUI8jgp+3XHh/k6qTzsKq3emQiBiUaHlRJ9zIi+Jnbu7s5CQBS/E
+         h6mEeE9R8vedQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniele Palmas <dnlplm@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 4/5] net: usb: cdc_mbim: avoid altsetting toggling for Telit LN920
-Date:   Sat, 11 Sep 2021 09:14:13 -0400
-Message-Id: <20210911131415.286125-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 3/4] net: usb: cdc_mbim: avoid altsetting toggling for Telit LN920
+Date:   Sat, 11 Sep 2021 09:14:21 -0400
+Message-Id: <20210911131423.286235-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210911131415.286125-1-sashal@kernel.org>
-References: <20210911131415.286125-1-sashal@kernel.org>
+In-Reply-To: <20210911131423.286235-1-sashal@kernel.org>
+References: <20210911131423.286235-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -66,10 +66,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/net/usb/cdc_mbim.c b/drivers/net/usb/cdc_mbim.c
-index 0362acd5cdca..cdd1b193fd4f 100644
+index 4c8baba72933..d86132d41416 100644
 --- a/drivers/net/usb/cdc_mbim.c
 +++ b/drivers/net/usb/cdc_mbim.c
-@@ -655,6 +655,11 @@ static const struct usb_device_id mbim_devs[] = {
+@@ -647,6 +647,11 @@ static const struct usb_device_id mbim_devs[] = {
  	  .driver_info = (unsigned long)&cdc_mbim_info_avoid_altsetting_toggle,
  	},
  
