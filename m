@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34088C433EF
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:18:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6981DC433F5
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:19:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EF7A61152
-	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:18:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D5A2611C3
+	for <linux-usb@archiver.kernel.org>; Sat, 11 Sep 2021 13:19:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236417AbhIKNTy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 11 Sep 2021 09:19:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39242 "EHLO mail.kernel.org"
+        id S237336AbhIKNU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 11 Sep 2021 09:20:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236954AbhIKNRk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 11 Sep 2021 09:17:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B3B986128A;
-        Sat, 11 Sep 2021 13:13:36 +0000 (UTC)
+        id S236493AbhIKNSq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 11 Sep 2021 09:18:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AEF8961361;
+        Sat, 11 Sep 2021 13:13:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631366017;
+        s=k20201202; t=1631366037;
         bh=ukr0NSEzMx/uOpOw9SiAfR/sjNSlvcmbajk1369DDW4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B+sCI/fPEm89eiBkN5Ex6oFxg/yy6yUk8QF6xa30UmB6iNIuNigk/SOPa8BpRryqW
-         K8fjDcjAUlPbOVLCYwEPrYW0T77etKYp+m781N/PzpSqsI+vnz9gEn9W70iS4/lwO/
-         wFi1AuA71FYyqhYMcAAZSfpcqgYWfgZeTj0eMDxHzu7KNbHU94bTO6qpvDtYBc6S8c
-         LgfYeoZkPRCG+hFHa9BhNVESlMfWx+l/+IiUXquWhn0AdzV5ALBRkrSoNF68vw/VLD
-         tk1x+D659PXi18wC6wr2E7oMmfv6EUKLEU4iJpEZMXtNuSRC31LVa0ENEu9dgKjFgT
-         IxwmjWwtlfO6w==
+        b=tzDWZiyF9vNlSV/X2g35C55Md/P7nsRn0C+eeJ/xHOrCj9BbaZ1xbnGO9BlNqwCIH
+         hVUm40iptkOeMRfqQbc4R0x1WjtYucKPi1vpKgefiwCFFi/ih47DFMTiXRg0ODZqwH
+         EiK6mEtSKjFlgvaSbOfmEyAGXiXn2iUnnJ6VjxY1PuRbB94q0e2XNoJVktHSwE7PMv
+         kchVaa/6iPQNZ9J/RtLTRk5DGFrJkNAo6ljAeiSYgT8hbmkWDKk2zG2cHjbZtP8nmX
+         iA0K2gERO85TsAOAYnlX+MPOleACzO79cGYaV5hz4ov/Z32xm+RticZHfrwieqCxwt
+         eaabNooQamA6g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniele Palmas <dnlplm@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 19/25] net: usb: cdc_mbim: avoid altsetting toggling for Telit LN920
-Date:   Sat, 11 Sep 2021 09:13:06 -0400
-Message-Id: <20210911131312.285225-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 09/14] net: usb: cdc_mbim: avoid altsetting toggling for Telit LN920
+Date:   Sat, 11 Sep 2021 09:13:40 -0400
+Message-Id: <20210911131345.285564-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210911131312.285225-1-sashal@kernel.org>
-References: <20210911131312.285225-1-sashal@kernel.org>
+In-Reply-To: <20210911131345.285564-1-sashal@kernel.org>
+References: <20210911131345.285564-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
