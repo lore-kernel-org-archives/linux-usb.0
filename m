@@ -2,94 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16DF1C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 14:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CA30C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E394860FDA
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 14:22:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38804610CE
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 14:34:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233461AbhINOXn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Sep 2021 10:23:43 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:57127 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S233358AbhINOXn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Sep 2021 10:23:43 -0400
-Received: (qmail 156518 invoked by uid 1000); 14 Sep 2021 10:22:24 -0400
-Date:   Tue, 14 Sep 2021 10:22:24 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Ondrej Zary <linux@zary.sk>
-Cc:     linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb-storage: Add quirk for ScanLogic SL11R-IDE older
- than 2.6c
-Message-ID: <20210914142224.GB155245@rowland.harvard.edu>
-References: <20210913210106.12717-1-linux@zary.sk>
+        id S233584AbhINOgI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Sep 2021 10:36:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57442 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233856AbhINOeJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Sep 2021 10:34:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BD2C96121D;
+        Tue, 14 Sep 2021 14:32:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1631629970;
+        bh=0VhIU7oIW19mqtxZEKsJZTHlixOevr7iBll8y7c2BTg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XbeK0VC+l2SkgW03upKsvRJE39T0pqT2/VBXEJmCHnpC7CHgRNW20n4nK1IZRGPcy
+         iEfrkYaDQlfd5vMjCZZyMa35AWT5FP9SgoE2aHAUL8cgiWacOa2EsBXRBIw0m6NdNB
+         Ln4DK2d5GRa8gZpiGco85+lVmhYE1hThOBmwCaarcNa0vHa8DcyTer/AnOfdvHtutE
+         8y8NrtWmtH0j0pcFv9RcYMNknRBeBxtK71A0Is/z5zvDpUspkbiWDB6SDA745okEGC
+         AFkrFQDiocmrCR+tyW28uXpYMh+QlHmJMmFsESVHPy/l+OiyeOci7zuelsxxXR8c+Y
+         p69wxfmSWmsJw==
+Received: by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1mQ9UN-000Kku-RE; Tue, 14 Sep 2021 16:32:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v2 11/29] ABI: sysfs-class-typec: fix a bad What field
+Date:   Tue, 14 Sep 2021 16:32:26 +0200
+Message-Id: <3284da746c7f2bf7c120913a35db51cc5650e2ea.1631629496.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1631629496.git.mchehab+huawei@kernel.org>
+References: <cover.1631629496.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210913210106.12717-1-linux@zary.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 13, 2021 at 11:01:06PM +0200, Ondrej Zary wrote:
-> ScanLogic SL11R-IDE with firmware older than 2.6c (the latest one) has
-> broken tag handling, preventing the device from working at all:
-> usb 1-1: new full-speed USB device number 2 using uhci_hcd
-> usb 1-1: New USB device found, idVendor=04ce, idProduct=0002, bcdDevice= 2.60
-> usb 1-1: New USB device strings: Mfr=1, Product=1, SerialNumber=0
-> usb 1-1: Product: USB Device
-> usb 1-1: Manufacturer: USB Device
-> usb-storage 1-1:1.0: USB Mass Storage device detected
-> scsi host2: usb-storage 1-1:1.0
-> usbcore: registered new interface driver usb-storage
-> usb 1-1: reset full-speed USB device number 2 using uhci_hcd
-> usb 1-1: reset full-speed USB device number 2 using uhci_hcd
-> usb 1-1: reset full-speed USB device number 2 using uhci_hcd
-> usb 1-1: reset full-speed USB device number 2 using uhci_hcd
-> 
-> Add US_FL_BULK_IGNORE_TAG to fix it. Also update my e-mail address.
-> 
-> 2.6c is the only firmware that claims Linux compatibility.
-> The firmware can be upgraded using ezotgdbg utility:
-> https://github.com/asciilifeform/ezotgdbg
-> 
-> Signed-off-by: Ondrej Zary <linux@zary.sk>
-> ---
+The <partner> wildcard is missing the '<' character. Fix it.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/ABI/testing/sysfs-class-typec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->  drivers/usb/storage/unusual_devs.h | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
-> index efa972be2ee3..c6b3fcf90180 100644
-> --- a/drivers/usb/storage/unusual_devs.h
-> +++ b/drivers/usb/storage/unusual_devs.h
-> @@ -416,9 +416,16 @@ UNUSUAL_DEV(  0x04cb, 0x0100, 0x0000, 0x2210,
->  		USB_SC_UFI, USB_PR_DEVICE, NULL, US_FL_FIX_INQUIRY | US_FL_SINGLE_LUN),
->  
->  /*
-> - * Reported by Ondrej Zary <linux@rainbow-software.org>
-> + * Reported by Ondrej Zary <linux@zary.sk>
->   * The device reports one sector more and breaks when that sector is accessed
-> + * Firmwares older than 2.6c (the latest one and the only that claims Linux
-> + * support) have also broken tag handling
->   */
-> +UNUSUAL_DEV(  0x04ce, 0x0002, 0x0000, 0x026b,
-> +		"ScanLogic",
-> +		"SL11R-IDE",
-> +		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-> +		US_FL_FIX_CAPACITY | US_FL_BULK_IGNORE_TAG),
->  UNUSUAL_DEV(  0x04ce, 0x0002, 0x026c, 0x026c,
->  		"ScanLogic",
->  		"SL11R-IDE",
+diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+index 40122d915ae1..c09add32e596 100644
+--- a/Documentation/ABI/testing/sysfs-class-typec
++++ b/Documentation/ABI/testing/sysfs-class-typec
+@@ -200,7 +200,7 @@ Description:	USB Power Delivery Specification defines a set of product types
+ 		amc			Alternate Mode Controller
+ 		======================  ==========================
+ 
+-What:		/sys/class/typec/<port>-partner>/identity/
++What:		/sys/class/typec/<port>-<partner>/identity/
+ Date:		April 2017
+ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+ Description:
+-- 
+2.31.1
 
-Too bad the manufacturer didn't understand that 0x026c is not a valid 
-bcdDevice value...
