@@ -2,70 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDF8C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 17:42:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9541C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 18:19:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4DC4660F4A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 17:42:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB3CB61209
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Sep 2021 18:19:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbhINRoG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Sep 2021 13:44:06 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:45607 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229795AbhINRoF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Sep 2021 13:44:05 -0400
-Received: (Authenticated sender: peter@casa-korsgaard.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 803B8100006;
-        Tue, 14 Sep 2021 17:42:45 +0000 (UTC)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.92)
-        (envelope-from <peter@korsgaard.com>)
-        id 1mQCSC-00070f-Qn; Tue, 14 Sep 2021 19:42:44 +0200
-X-From-Line: nobody Tue Sep 14 14:03:52 2021
-From:   Peter Korsgaard <peter@korsgaard.com>
-To:     Jiri Slaby <jslaby@suse.cz>
-Cc:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: remove dead e-mails
-References: <20210914092603.18722-1-jslaby@suse.cz>
-Date:   Tue, 14 Sep 2021 14:03:52 +0200
-In-Reply-To: <20210914092603.18722-1-jslaby@suse.cz> (Jiri Slaby's message of
-        "Tue, 14 Sep 2021 11:26:03 +0200")
-Message-ID: <874kan5pp3.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S230221AbhINSVC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Sep 2021 14:21:02 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:37751 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229617AbhINSVB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Sep 2021 14:21:01 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1631643584; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=Off76Tl7aKwB/cmh9OMhTRK+calKzf38CGm5XFwFN6Q=; b=RsJFswJs54HQX6+PymSZzaqlsQy1wd3FheSMGmUKR+tY8Kd804FtIRzYbMlm19UCMwpBFFmr
+ Mk6Qk7xA5PBSKh5t0uA+w2wLrev5HNVHC2XrkF2PTX4zOioJroPggAu+tlPMsF6SsFnfj1M7
+ 7NhW0oj4giw0L9TnDKOyILqahM8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 6140e7bad914b05182d17543 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 14 Sep 2021 18:19:38
+ GMT
+Sender: pmaliset=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9DF9DC4360D; Tue, 14 Sep 2021 18:19:37 +0000 (UTC)
+Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmaliset)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7EF50C4338F;
+        Tue, 14 Sep 2021 18:19:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 7EF50C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From:   Prasad Malisetty <pmaliset@codeaurora.org>
+To:     agross@kernel.org, bjorn.andersson@linaro.org, bhelgaas@google.com,
+        robh+dt@kernel.org, swboyd@chromium.org, lorenzo.pieralisi@arm.com,
+        svarbanov@mm-sol.com
+Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
+        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
+        Prasad Malisetty <pmaliset@codeaurora.org>
+Subject: [PATCH v7 1/4] dt-bindings: pci: qcom: Document PCIe bindings for SC7280
+Date:   Tue, 14 Sep 2021 23:49:07 +0530
+Message-Id: <1631643550-29960-2-git-send-email-pmaliset@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1631643550-29960-1-git-send-email-pmaliset@codeaurora.org>
+References: <1631643550-29960-1-git-send-email-pmaliset@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
->>>>> "Jiri" == Jiri Slaby <jslaby@suse.cz> writes:
+Document the PCIe DT bindings for SC7280 SoC.The PCIe IP is similar
+to the one used on SM8250. Add the compatible for SC7280.
 
- > jacmet@sunsite.dk and linux@prisktech.co.nz are dead:
- > * This is the qmail-send program at a.mx.sunsite.dk.
- >   <jacmet@sunsite.dk>:
- >   Sorry, no mailbox here by that name. (#5.1.1)
- > * 4.1.2 <linux@prisktech.co.nz>: Recipient address rejected: Domain not
- >   found
+Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
+Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ Documentation/devicetree/bindings/pci/qcom,pcie.txt | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
- > Remove them from MAINTAINERS.
-
- > CCing Peter with his (different) e-mail, he likely wants to update?
-
-Ahh yes, it should be changed to peter@korsgaard.com
-
-
- >  USB CYPRESS C67X00 DRIVER
- > -M:	Peter Korsgaard <jacmet@sunsite.dk>
- >  L:	linux-usb@vger.kernel.org
- >  S:	Maintained
- >  F:	drivers/usb/c67x00/
-
-I haven't had access to c67x00 hw for quite some years though, so maybe
-it should be marked Orphan instead?
-
+diff --git a/Documentation/devicetree/bindings/pci/qcom,pcie.txt b/Documentation/devicetree/bindings/pci/qcom,pcie.txt
+index 3f64687..ff423cd 100644
+--- a/Documentation/devicetree/bindings/pci/qcom,pcie.txt
++++ b/Documentation/devicetree/bindings/pci/qcom,pcie.txt
+@@ -12,6 +12,7 @@
+ 			- "qcom,pcie-ipq4019" for ipq4019
+ 			- "qcom,pcie-ipq8074" for ipq8074
+ 			- "qcom,pcie-qcs404" for qcs404
++			- "qcom,pcie-sc7280" for sc7280
+ 			- "qcom,pcie-sdm845" for sdm845
+ 			- "qcom,pcie-sm8250" for sm8250
+ 			- "qcom,pcie-ipq6018" for ipq6018
+@@ -144,6 +145,22 @@
+ 			- "slave_bus"	AXI Slave clock
+ 
+ - clock-names:
++	Usage: required for sc7280
++	Value type: <stringlist>
++	Definition: Should contain the following entries
++			- "aux"         Auxiliary clock
++			- "cfg"         Configuration clock
++			- "bus_master"  Master AXI clock
++			- "bus_slave"   Slave AXI clock
++			- "slave_q2a"   Slave Q2A clock
++			- "tbu"         PCIe TBU clock
++			- "ddrss_sf_tbu" PCIe SF TBU clock
++			- "pipe"        PIPE clock
++			- "pipe_mux"    PIPE MUX
++			- "phy_pipe"    PIPE output clock
++			- "ref"         REFERENCE clock
++
++- clock-names:
+ 	Usage: required for sdm845
+ 	Value type: <stringlist>
+ 	Definition: Should contain the following entries
 -- 
-Bye, Peter Korsgaard
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
