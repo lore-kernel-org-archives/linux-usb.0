@@ -2,289 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E012AC433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:40:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A450C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEA5B60F6F
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:40:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44CF960FBF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231480AbhIOHlo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Sep 2021 03:41:44 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:49481 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231433AbhIOHln (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 15 Sep 2021 03:41:43 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1631691621; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=pV19XQS2nI5AyufucqjBxQA1xtZ1AsoReplDidbo/ks=;
- b=ZP7Cnos0zKLmviJcts6tLQ/DnnwMT0tjgAAz9dNzDs/JMUh0VCAt9F/+a8rLJQQ1eDma9J+/
- w5VXdKPbo3cFvC2o4KzbN2n/3ilwD7rrml9gpuKdgKsHlp/hQmuxvyRBWUWGqVcDpeIfrJEh
- AODz3wfJyqUQi3tgOqqdNhEOSsw=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 6141a365bd6681d8ede49a53 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 15 Sep 2021 07:40:21
- GMT
-Sender: pmaliset=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 61413C4360C; Wed, 15 Sep 2021 07:40:20 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 091FAC4338F;
-        Wed, 15 Sep 2021 07:40:18 +0000 (UTC)
+        id S236584AbhIOH4I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Sep 2021 03:56:08 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:48528 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231480AbhIOH4H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Sep 2021 03:56:07 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18F1m6Eq027485;
+        Wed, 15 Sep 2021 09:54:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=selector1;
+ bh=aiizQVmK3AfqYkMO+fw6KiX7uJzSiVZw3/PoYi07I0U=;
+ b=hLxj1mdY2+ySYIcyWSwU5Vrp56Hraq/0J5vfLuZQMgndGioPdcLJ9Zy6fJ2DWDVNNu+q
+ 4M9O2otwPycwQTCRzYERkN68yBOPSdFYJNofJ+zXDmTuIuJPtowTWkFLTcn6XmIlgJj2
+ XhuxE6Ol1veZxPlF5r9/nlMrmd0OUtWcETirKeatC9uwiqNXbYzkuQvrCOdznuU5cqOe
+ 9eKC4F6SD11uJmbUnurRDDYNR39DRTaAfWMPkY9zDeRCB0zs6+7/QiTz/zWEXuCNUYqd
+ 5xqFpnclcpq1biMW+KfZaGVkKXdfW1VWtfzx9vncmnhBdxrG39h39tZRPdbNaz+9vsvH Gw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3b37g39nq5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 15 Sep 2021 09:54:43 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9F6FE100038;
+        Wed, 15 Sep 2021 09:54:42 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 949F621C7BD;
+        Wed, 15 Sep 2021 09:54:42 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 15 Sep 2021 09:54:42
+ +0200
+From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
+        <robh+dt@kernel.org>, <alexandre.torgue@foss.st.com>
+CC:     <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <devicetree@vger.kernel.org>, <amelie.delaunay@foss.st.com>,
+        <fabrice.gasnier@foss.st.com>
+Subject: [PATCH 3/3] ARM: dts: stm32: set otg-rev on stm32mp151
+Date:   Wed, 15 Sep 2021 09:54:33 +0200
+Message-ID: <1631692473-8732-4-git-send-email-fabrice.gasnier@foss.st.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1631692473-8732-1-git-send-email-fabrice.gasnier@foss.st.com>
+References: <1631692473-8732-1-git-send-email-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 15 Sep 2021 13:10:18 +0530
-From:   Prasad Malisetty <pmaliset@codeaurora.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     agross@kernel.org, bhelgaas@google.com, robh+dt@kernel.org,
-        swboyd@chromium.org, lorenzo.pieralisi@arm.com,
-        svarbanov@mm-sol.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dianders@chromium.org,
-        mka@chromium.org, vbadigan@codeaurora.org, sallenki@codeaurora.org,
-        manivannan.sadhasivam@linaro.org
-Subject: Re: [PATCH v7 4/4] PCI: qcom: Switch pcie_1_pipe_clk_src after PHY
- init in SC7280
-In-Reply-To: <YUFd9aTlTJ45b9Gg@ripper>
-References: <1631643550-29960-1-git-send-email-pmaliset@codeaurora.org>
- <1631643550-29960-5-git-send-email-pmaliset@codeaurora.org>
- <YUFd9aTlTJ45b9Gg@ripper>
-Message-ID: <4b743c011a5b240fbcfe733bd43f18a3@codeaurora.org>
-X-Sender: pmaliset@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-15_01,2021-09-14_01,2020-04-07_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021-09-15 08:14, Bjorn Andersson wrote:
-> On Tue 14 Sep 11:19 PDT 2021, Prasad Malisetty wrote:
-> 
->> On the SC7280, the clock source for gcc_pcie_1_pipe_clk_src
->> must be the TCXO while gdsc is enabled. After PHY init successful
->> clock source should switch to pipe clock for gcc_pcie_1_pipe_clk_src.
->> 
->> Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
->> ---
->>  drivers/pci/controller/dwc/pcie-qcom.c | 90 
->> +++++++++++++++++++++++++++++-----
->>  1 file changed, 79 insertions(+), 11 deletions(-)
->> 
->> diff --git a/drivers/pci/controller/dwc/pcie-qcom.c 
->> b/drivers/pci/controller/dwc/pcie-qcom.c
->> index 8a7a300..380c962 100644
->> --- a/drivers/pci/controller/dwc/pcie-qcom.c
->> +++ b/drivers/pci/controller/dwc/pcie-qcom.c
->> @@ -166,6 +166,9 @@ struct qcom_pcie_resources_2_7_0 {
->>  	struct regulator_bulk_data supplies[2];
->>  	struct reset_control *pci_reset;
->>  	struct clk *pipe_clk;
->> +	struct clk *gcc_pcie_1_pipe_clk_src;
-> 
-> Afaict you have both 2 PCIe controllers on sc7280, so I think it seems
-> more reasonable to shorted this to "pipe_clk_src".
-> 
-Agree. I will make it generic and update in next patch version.
+STM32MP151 complies with the OTG 2.0. Set it with otg-rev dt property.
 
->> +	struct clk *phy_pipe_clk;
->> +	struct clk *ref_clk_src;
->>  };
->> 
->>  union qcom_pcie_resources {
->> @@ -189,6 +192,11 @@ struct qcom_pcie_ops {
->>  	int (*config_sid)(struct qcom_pcie *pcie);
->>  };
->> 
->> +struct qcom_pcie_cfg {
->> +	const struct qcom_pcie_ops *ops;
->> +	bool pcie_1_pipe_clk_src_switch;
-> 
-> Perhaps something little bit more generic, like pipe_clk_need_muxing?
-> 
-Sure, I will change it and update in next patch version.
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+---
+ arch/arm/boot/dts/stm32mp151.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
->> +};
->> +
->>  struct qcom_pcie {
->>  	struct dw_pcie *pci;
->>  	void __iomem *parf;			/* DT parf */
->> @@ -197,6 +205,7 @@ struct qcom_pcie {
->>  	struct phy *phy;
->>  	struct gpio_desc *reset;
->>  	const struct qcom_pcie_ops *ops;
->> +	bool pcie_1_pipe_clk_src_switch;
->>  };
->> 
->>  #define to_qcom_pcie(x)		dev_get_drvdata((x)->dev)
->> @@ -1167,6 +1176,20 @@ static int qcom_pcie_get_resources_2_7_0(struct 
->> qcom_pcie *pcie)
->>  	if (ret < 0)
->>  		return ret;
->> 
->> +	if (pcie->pcie_1_pipe_clk_src_switch) {
-> 
-> This looks much better, now it will easily scale to other platforms 
-> that
-> have inherited this need.
+diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
+index bd289bf..14e3cdf 100644
+--- a/arch/arm/boot/dts/stm32mp151.dtsi
++++ b/arch/arm/boot/dts/stm32mp151.dtsi
+@@ -1085,6 +1085,7 @@
+ 			g-np-tx-fifo-size = <32>;
+ 			g-tx-fifo-size = <256 16 16 16 16 16 16 16>;
+ 			dr_mode = "otg";
++			otg-rev = <0x200>;
+ 			usb33d-supply = <&usb33>;
+ 			status = "disabled";
+ 		};
+-- 
+2.7.4
 
-Thanks Bjorn.
-
-> 
->> +		res->gcc_pcie_1_pipe_clk_src = devm_clk_get(dev, "pipe_mux");
->> +		if (IS_ERR(res->gcc_pcie_1_pipe_clk_src))
->> +			return PTR_ERR(res->gcc_pcie_1_pipe_clk_src);
->> +
->> +		res->phy_pipe_clk = devm_clk_get(dev, "phy_pipe");
->> +		if (IS_ERR(res->phy_pipe_clk))
->> +			return PTR_ERR(res->phy_pipe_clk);
->> +
->> +		res->ref_clk_src = devm_clk_get(dev, "ref");
->> +		if (IS_ERR(res->ref_clk_src))
->> +			return PTR_ERR(res->ref_clk_src);
->> +	}
->> +
->>  	res->pipe_clk = devm_clk_get(dev, "pipe");
->>  	return PTR_ERR_OR_ZERO(res->pipe_clk);
->>  }
->> @@ -1185,6 +1208,10 @@ static int qcom_pcie_init_2_7_0(struct 
->> qcom_pcie *pcie)
->>  		return ret;
->>  	}
->> 
->> +	/* Set TCXO as clock source for gcc_pcie_1_pipe_clk_src */
->> +	if (pcie->pcie_1_pipe_clk_src_switch)
->> +		clk_set_parent(res->gcc_pcie_1_pipe_clk_src, res->ref_clk_src);
->> +
->>  	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
->>  	if (ret < 0)
->>  		goto err_disable_regulators;
->> @@ -1256,6 +1283,10 @@ static int qcom_pcie_post_init_2_7_0(struct 
->> qcom_pcie *pcie)
->>  {
->>  	struct qcom_pcie_resources_2_7_0 *res = &pcie->res.v2_7_0;
->> 
->> +	/* Set pipe clock as clock source for gcc_pcie_1_pipe_clk_src */
->> +	if (pcie->pcie_1_pipe_clk_src_switch)
->> +		clk_set_parent(res->gcc_pcie_1_pipe_clk_src, res->phy_pipe_clk);
->> +
->>  	return clk_prepare_enable(res->pipe_clk);
->>  }
->> 
->> @@ -1456,6 +1487,39 @@ static const struct qcom_pcie_ops ops_1_9_0 = {
->>  	.config_sid = qcom_pcie_config_sid_sm8250,
->>  };
->> 
->> +static const struct qcom_pcie_cfg apq8084_cfg = {
->> +	.ops = &ops_1_0_0,
->> +};
->> +
->> +static const struct qcom_pcie_cfg ipq8064_cfg = {
->> +	.ops = &ops_2_1_0,
->> +};
->> +
->> +static const struct qcom_pcie_cfg msm8996_cfg = {
->> +	.ops = &ops_2_3_2,
->> +};
->> +
->> +static const struct qcom_pcie_cfg ipq8074_cfg = {
->> +	.ops = &ops_2_3_3,
->> +};
->> +
->> +static const struct qcom_pcie_cfg ipq4019_cfg = {
->> +	.ops = &ops_2_4_0,
->> +};
->> +
->> +static const struct qcom_pcie_cfg sdm845_cfg = {
->> +	.ops = &ops_2_7_0,
->> +};
->> +
->> +static const struct qcom_pcie_cfg sm8250_cfg = {
->> +	.ops = &ops_1_9_0,
->> +};
->> +
->> +static const struct qcom_pcie_cfg sc7280_cfg = {
->> +	.ops = &ops_1_9_0,
->> +	.pcie_1_pipe_clk_src_switch = true,
->> +};
->> +
->>  static const struct dw_pcie_ops dw_pcie_ops = {
->>  	.link_up = qcom_pcie_link_up,
->>  	.start_link = qcom_pcie_start_link,
->> @@ -1467,6 +1531,7 @@ static int qcom_pcie_probe(struct 
->> platform_device *pdev)
->>  	struct pcie_port *pp;
->>  	struct dw_pcie *pci;
->>  	struct qcom_pcie *pcie;
->> +	const struct qcom_pcie_cfg *pcie_cfg = NULL;
-> 
-> First use of this variable is an assignment, so I don't see a need for
-> zero initialize it.
-> 
-> Regards,
-> Bjorn
-> 
-Sure, I will incorporate the changes in next patch version.
-
->>  	int ret;
->> 
->>  	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
->> @@ -1488,7 +1553,9 @@ static int qcom_pcie_probe(struct 
->> platform_device *pdev)
->> 
->>  	pcie->pci = pci;
->> 
->> -	pcie->ops = of_device_get_match_data(dev);
->> +	pcie_cfg = of_device_get_match_data(dev);
->> +	pcie->ops = pcie_cfg->ops;
->> +	pcie->pcie_1_pipe_clk_src_switch = 
->> pcie_cfg->pcie_1_pipe_clk_src_switch;
->> 
->>  	pcie->reset = devm_gpiod_get_optional(dev, "perst", GPIOD_OUT_HIGH);
->>  	if (IS_ERR(pcie->reset)) {
->> @@ -1545,16 +1612,17 @@ static int qcom_pcie_probe(struct 
->> platform_device *pdev)
->>  }
->> 
->>  static const struct of_device_id qcom_pcie_match[] = {
->> -	{ .compatible = "qcom,pcie-apq8084", .data = &ops_1_0_0 },
->> -	{ .compatible = "qcom,pcie-ipq8064", .data = &ops_2_1_0 },
->> -	{ .compatible = "qcom,pcie-ipq8064-v2", .data = &ops_2_1_0 },
->> -	{ .compatible = "qcom,pcie-apq8064", .data = &ops_2_1_0 },
->> -	{ .compatible = "qcom,pcie-msm8996", .data = &ops_2_3_2 },
->> -	{ .compatible = "qcom,pcie-ipq8074", .data = &ops_2_3_3 },
->> -	{ .compatible = "qcom,pcie-ipq4019", .data = &ops_2_4_0 },
->> -	{ .compatible = "qcom,pcie-qcs404", .data = &ops_2_4_0 },
->> -	{ .compatible = "qcom,pcie-sdm845", .data = &ops_2_7_0 },
->> -	{ .compatible = "qcom,pcie-sm8250", .data = &ops_1_9_0 },
->> +	{ .compatible = "qcom,pcie-apq8084", .data = &apq8084_cfg },
->> +	{ .compatible = "qcom,pcie-ipq8064", .data = &ipq8064_cfg },
->> +	{ .compatible = "qcom,pcie-ipq8064-v2", .data = &ipq8064_cfg },
->> +	{ .compatible = "qcom,pcie-apq8064", .data = &ipq8064_cfg },
->> +	{ .compatible = "qcom,pcie-msm8996", .data = &msm8996_cfg },
->> +	{ .compatible = "qcom,pcie-ipq8074", .data = &ipq8074_cfg },
->> +	{ .compatible = "qcom,pcie-ipq4019", .data = &ipq4019_cfg },
->> +	{ .compatible = "qcom,pcie-qcs404", .data = &ipq4019_cfg },
->> +	{ .compatible = "qcom,pcie-sdm845", .data = &sdm845_cfg },
->> +	{ .compatible = "qcom,pcie-sm8250", .data = &sm8250_cfg },
->> +	{ .compatible = "qcom,pcie-sc7280", .data = &sc7280_cfg },
->>  	{ }
->>  };
->> 
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
->> Forum,
->> a Linux Foundation Collaborative Project
->> 
