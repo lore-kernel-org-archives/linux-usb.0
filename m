@@ -2,47 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A450C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81399C43219
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44CF960FBF
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EF446121E
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Sep 2021 07:54:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236584AbhIOH4I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Sep 2021 03:56:08 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:48528 "EHLO
+        id S236719AbhIOH4L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Sep 2021 03:56:11 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:58266 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231480AbhIOH4H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Sep 2021 03:56:07 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18F1m6Eq027485;
-        Wed, 15 Sep 2021 09:54:43 +0200
+        by vger.kernel.org with ESMTP id S231591AbhIOH4I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Sep 2021 03:56:08 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18F4Znfl030341;
+        Wed, 15 Sep 2021 09:54:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=selector1;
- bh=aiizQVmK3AfqYkMO+fw6KiX7uJzSiVZw3/PoYi07I0U=;
- b=hLxj1mdY2+ySYIcyWSwU5Vrp56Hraq/0J5vfLuZQMgndGioPdcLJ9Zy6fJ2DWDVNNu+q
- 4M9O2otwPycwQTCRzYERkN68yBOPSdFYJNofJ+zXDmTuIuJPtowTWkFLTcn6XmIlgJj2
- XhuxE6Ol1veZxPlF5r9/nlMrmd0OUtWcETirKeatC9uwiqNXbYzkuQvrCOdznuU5cqOe
- 9eKC4F6SD11uJmbUnurRDDYNR39DRTaAfWMPkY9zDeRCB0zs6+7/QiTz/zWEXuCNUYqd
- 5xqFpnclcpq1biMW+KfZaGVkKXdfW1VWtfzx9vncmnhBdxrG39h39tZRPdbNaz+9vsvH Gw== 
+ subject : date : message-id : mime-version : content-type; s=selector1;
+ bh=sMaBAxlvyiQCJ60a+vAyfTRUZu4RuizXruZcAcstzRo=;
+ b=0YVzvZIlJg1T5x3yZ8uRA1UpZsH+m1UE9ExqueP02XfnBVE+o84aGn7rIvDl1WUBMU20
+ uhajihpJflqIGJjQHtLWbP+1XP4DiprVq4iptM2bVcy6clYlqkMJUuJDxRrX6biMpZ1Y
+ cq7L07NNzNbWv8XEmbuQkdVydMUZUGpuJclqfGhgz+bgr2evzOjkE6RDE2rXsRqdIi7i
+ eUMawKLp0aaH7L5hVRv7aWwF+yOLh975tXkN78GVBSjHiZ9UGYHE86iWHqVOv4WByXGI
+ SKZB3dez08rUHqaPxUyufQSXElg7ItrzPME6Y7SkYH/lmsW5STY0037hiD5KhxrOk2/K ag== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3b37g39nq5-1
+        by mx07-00178001.pphosted.com with ESMTP id 3b39xps1q8-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 Sep 2021 09:54:43 +0200
+        Wed, 15 Sep 2021 09:54:41 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9F6FE100038;
-        Wed, 15 Sep 2021 09:54:42 +0200 (CEST)
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 66CD310002A;
+        Wed, 15 Sep 2021 09:54:40 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 949F621C7BD;
-        Wed, 15 Sep 2021 09:54:42 +0200 (CEST)
-Received: from localhost (10.75.127.44) by SFHDAG2NODE2.st.com (10.75.127.5)
- with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 15 Sep 2021 09:54:42
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5277A21C7BD;
+        Wed, 15 Sep 2021 09:54:40 +0200 (CEST)
+Received: from localhost (10.75.127.46) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.18; Wed, 15 Sep 2021 09:54:40
  +0200
 From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
@@ -52,16 +51,14 @@ CC:     <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
         <devicetree@vger.kernel.org>, <amelie.delaunay@foss.st.com>,
         <fabrice.gasnier@foss.st.com>
-Subject: [PATCH 3/3] ARM: dts: stm32: set otg-rev on stm32mp151
-Date:   Wed, 15 Sep 2021 09:54:33 +0200
-Message-ID: <1631692473-8732-4-git-send-email-fabrice.gasnier@foss.st.com>
+Subject: [PATCH 0/3] usb: dwc2: fill in gadget caps, configure it for stm32mp15
+Date:   Wed, 15 Sep 2021 09:54:30 +0200
+Message-ID: <1631692473-8732-1-git-send-email-fabrice.gasnier@foss.st.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1631692473-8732-1-git-send-email-fabrice.gasnier@foss.st.com>
-References: <1631692473-8732-1-git-send-email-fabrice.gasnier@foss.st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG1NODE3.st.com (10.75.127.3) To SFHDAG2NODE2.st.com
+X-Originating-IP: [10.75.127.46]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
  (10.75.127.5)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
@@ -70,25 +67,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-STM32MP151 complies with the OTG 2.0. Set it with otg-rev dt property.
+This patchset fills in 'otg_caps' of the usb_gadget structure, and configures it
+on stm32mp15.
 
-Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
----
- arch/arm/boot/dts/stm32mp151.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+When dwc2 is configured as dual role (OTG), the USB gadget descriptors (device mode)
+are configured via configfs. This lead in calling usb_otg_descriptor_init().
+In usb_otg_descriptor_init() (drivers/usb/gadget/config.c):
+- If otg caps structure is provided -> use it
+- If otg caps structure isn't provided -> HNP and SRP are enabled by default
 
-diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
-index bd289bf..14e3cdf 100644
---- a/arch/arm/boot/dts/stm32mp151.dtsi
-+++ b/arch/arm/boot/dts/stm32mp151.dtsi
-@@ -1085,6 +1085,7 @@
- 			g-np-tx-fifo-size = <32>;
- 			g-tx-fifo-size = <256 16 16 16 16 16 16 16>;
- 			dr_mode = "otg";
-+			otg-rev = <0x200>;
- 			usb33d-supply = <&usb33>;
- 			status = "disabled";
- 		};
+This could lead to a configuration mismatch beetween:
+- OTG controller: HNP and SRP aren't enabled
+- gadget descriptors: HNP and SRP are advertised
+
+Fabrice Gasnier (3):
+  usb: dwc2: add otg_rev and otg_caps information for gadget driver
+  usb: dwc2: stm32mp15: set otg_rev
+  ARM: dts: stm32: set otg-rev on stm32mp151
+
+ arch/arm/boot/dts/stm32mp151.dtsi |  1 +
+ drivers/usb/dwc2/core.h           |  7 +++++++
+ drivers/usb/dwc2/gadget.c         |  1 +
+ drivers/usb/dwc2/params.c         | 16 ++++++++++++++++
+ 4 files changed, 25 insertions(+)
+
 -- 
 2.7.4
 
