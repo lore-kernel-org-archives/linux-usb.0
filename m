@@ -2,163 +2,179 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81070C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E34C7C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Sep 2021 10:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 70A2E6120C
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Sep 2021 09:00:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB1F56120E
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Sep 2021 10:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235461AbhIPJBX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Sep 2021 05:01:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36104 "EHLO mail.kernel.org"
+        id S236314AbhIPKYz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Sep 2021 06:24:55 -0400
+Received: from mga02.intel.com ([134.134.136.20]:25201 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235298AbhIPJBW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Sep 2021 05:01:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B4A561186;
-        Thu, 16 Sep 2021 09:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1631782802;
-        bh=yv/P65NUKvPLn6I6fZBzrh0PDDXSPJiG66WIrAPEy9s=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LLhS5oBLZruJX3JmpWVk5IJo2JNurjB95S2PHKc/CjWbGOnVz3yL0gyDWBmOqlW5U
-         mUrGY1dBe1BoEgWBrVxkc3HZgpj7iss+nGNQJGM1txpZL8ELg9bGll6NiJKG1u/zFO
-         iYCjhBrW4XyjR4/Z8CDOyxLtzEuGaqzUA2Wuv1+f8fvvFkseQEi+g3WZC5KIRaV/xM
-         8Cbck66UVwFx55O/f7tip/Txp0RtzTMqRjKrQ7pFcY2qI9nvSw0p5Bexf1yTv5f3lE
-         NCPvtJdfgA4M/FC8k95UL3I5p16D9dwqkNhsQwLi/b7s4FiEAMsdTwZXaeuw1KCCot
-         I7xNhLeMbVqjg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mQnFQ-001qjS-5M; Thu, 16 Sep 2021 11:00:00 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Colin Cross <ccross@android.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Johan Hovold <johan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Rosin <peda@axentia.se>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Tony Luck <tony.luck@intel.com>, linux-usb@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org
-Subject: [PATCH v3 00/30]Change wildcards on ABI files
-Date:   Thu, 16 Sep 2021 10:59:27 +0200
-Message-Id: <cover.1631782432.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
+        id S233913AbhIPKYt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Sep 2021 06:24:49 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="209762836"
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
+   d="scan'208";a="209762836"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2021 03:23:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; 
+   d="scan'208";a="610600778"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 16 Sep 2021 03:23:22 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 16 Sep 2021 13:23:22 +0300
+Date:   Thu, 16 Sep 2021 13:23:22 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Benson Leung <bleung@google.com>
+Cc:     Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "bleung@chromium.org" <bleung@chromium.org>,
+        "badhri@google.com" <badhri@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [RFC PATCH 2/3] power: supply: Add support for PDOs props
+Message-ID: <YUMbGp0aemx1HCHv@kuha.fi.intel.com>
+References: <20210902213500.3795948-1-pmalani@chromium.org>
+ <20210902213500.3795948-3-pmalani@chromium.org>
+ <YT9SYMAnOCTWGi5P@kuha.fi.intel.com>
+ <DB9PR10MB4652B4A6A2A2157018307AE380D99@DB9PR10MB4652.EURPRD10.PROD.OUTLOOK.COM>
+ <YUB16up3JDwi3HfI@kuha.fi.intel.com>
+ <YULwz8NsoA3+vrhA@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YULwz8NsoA3+vrhA@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The ABI files are meant to be parsed via a script (scripts/get_abi.pl).
+On Thu, Sep 16, 2021 at 12:22:55AM -0700, Benson Leung wrote:
+> Hi Heikki,
+> 
+> On Tue, Sep 14, 2021 at 01:14:02PM +0300, Heikki Krogerus wrote:
+> > Mon, Sep 13, 2021 at 03:15:46PM +0000, Adam Thomson kirjoitti:
+> > > 
+> > > Hi Heikki,
+> > > 
+> > > Thanks for CCing me. My two pence worth is that I always envisaged the PSY
+> > > representation as being 1 PSY for 1 power source. I consider this in a
+> > > similar manner to the Regulator framework, where 1 regulator can support a range
+> > > of voltages and currents, but this is covered by 1 regulator instance as it's
+> > > just a single output. For USB-PD we have a number of options for voltage/current
+> > > combos, including PPS which is even lower granularity, but it's still only one
+> > > port. I get the feeling that having PSY instances for each and every PDO might
+> > > be a little confusing and these will never be concurrent.
+> > > 
+> > > However, I'd be keen to understand further and see what restrictions/issues are
+> > > currently present as I probably don't have a complete view of this right now. I
+> > > wouldn't want to dismiss something out of turn, especially when you obviously
+> > > have good reason to suggest such an approach.
+> > 
+> > I'm not proposing that we drop the port-psys. I'm sorry if I've been
+> > unclear about that. The port-psy we can not drop because of several
+> > reasons. For starters, we still can not assume that USB PD is always
+> > supported.
+> > 
+> > What I'm trying to propose is that we take advantage of the
+> > power-supply framework by building a "dynamic" hierarchy of power
+> > supplies that supply each other in order to represent the actual
+> > situation as closely as possible. For example, a port-psy that is
+> > supplied by port-Fixed-sink-psy that is supplied by
+> > port-partner-Fixed-source (that is supplied by port-partner-psy).
+> > Something like that. The only "static" part in the hierarchy is the
+> > port-psy, as everything else about it can change, even without
+> > disconnection.
+> > 
+> > So the port-psy always either supplies another psy or is supplied by
+> > another psy in this hierarchy, depending on the role of the port. But
+> > most importantly, the properties of the port-psy itself are _newer_
+> > adjustable - they are read-only. The psy that supplies the port-psy
+> > can be adjustable, if it's for example PPS, but not the port-psy
+> > itself.
+> > 
+> > The problem with having only a single psy per port (and possibly
+> > partners) is that it does not work well enough when the capabilities
+> > change, and the capabilities can really change at any moment, we don't
+> > need to disconnect for that to happen - simply by plugging another
+> > device to another port can change the power budget for your port and
+> > change your capabilities. The biggest problem is when we loose the
+> > ability to adjust the values if we for example loose the PPS that we
+> > were using in the middle of operation. The single psy has to attempt
+> > to handle the situation by adjusting something like the ranges of the
+> > properties, because it can't change the actual property set itself.
+> > That is hacky, and to be honest, a little bit risky, because it leaves
+> > us at the mercy of programmers completely unnecessarily.
+> > 
+> > With my proposal, if the capabilities change, it only means we rebuild
+> > the psy hierarchy, and that's it. Nothing else needs to be done in
+> > kernel, and all changes are super visible and clear in user space.
+> > 
+> 
+> Thanks for providing the clarification. So you're proposing a port-psy and a
+> port-partner-psy that are connected to each other (one supplying the other).
+> If PD is not present, those two will exist per port and partner, and there
+> will be information about Type-C current (and possibly BC 1.2 and other
+> methods?)
 
-A new improvement on it will allow it to help to detect if an ABI description
-is missing, or if the What: field won't match the actual location of the symbol.
+Yes, exactly.
 
-In order for get_abi.pl to convert What: into regex, changes are needed on
-existing ABI files, as the conversion should not be ambiguous.
+> Do you have an example hierarchy you could share that explains what it would
+> look like in /sys/class/power_supply with PD with Source Caps and Sink Caps on
+> both sides?
 
-One alternative would be to convert everything into regexes, but this
-would generate a huge amount of patches/changes. So, instead, let's
-touch only the ABI files that aren't following the de-facto wildcard 
-standards already found on most of the ABI files, e. g.:
+I don't yet, but I'll prepare something. I did notice already that the
+power supply class does not seem to display the suppliers nor
+supplicants in sysfs. But we can always improve the class.
 
-	/.../
-	*
-	<foo>
-	(option1|option2)
-	X
-	Y
-	Z
-	[0-9] (and variants)
+I probable should not talk about "hierarchy". Maybe taking about
+simply "chain" of power supplies is more correct?
 
----
+> I think this all makes sense if the connector class is a read interface
+> for this info. Have you considered how the type-c connector class and this pd
+> psy support will handle dynamic PDO changes for advertisement FROM the ports?
+> 
+> For example, let's say you wanted the kernel and user to manage two USB-C ports
+> with higher power support (meaning, 5V, 9V, 15V, 20V capable), but then your
+> kernel and user needs to edit the Source Caps on the fly based on load
+> balancing.
+> 
+> If caps are represented as a group of psys together, how do you as a kernel
+> and user create an modify the set of Source_Caps you put out on a port?
 
-v3:
-   - Added a new patch for sysfs-class-rapidio;
-   - sysfs-class-typec had a typo, instead of a wildcard;
-   - sysfs-bus-soundwire-* had some additional What to be fixed;
-   - added some reviewed-by/acked-by tags.
+My idea is to utilise the "present" property with the ports. You would
+always display all the possible supplies, but only the ones that you
+expose in your current capabilities will be present.
 
-v2:
-   - Added several patches to address uppercase "N" meaning
-     as a wildcard.
+The idea is also that the ports are always supplied by normal power
+supplies of type "battery", "AC" and what have you. Those you can use
+to see the maximum power your port can get, and to determine the
+currently available power by checking the other ports that consume the
+same supply.
 
-Mauro Carvalho Chehab (30):
-  ABI: sysfs-bus-usb: better document variable argument
-  ABI: sysfs-tty: better document module name parameter
-  ABI: sysfs-kernel-slab: use a wildcard for the cache name
-  ABI: security: fix location for evm and ima_policy
-  ABI: sysfs-class-tpm: use wildcards for pcr-* nodes
-  ABI: sysfs-bus-rapidio: use wildcards on What definitions
-  ABI: sysfs-class-cxl: place "not in a guest" at description
-  ABI: sysfs-class-devfreq-event: use the right wildcards on What
-  ABI: sysfs-class-mic: use the right wildcards on What definitions
-  ABI: pstore: Fix What field
-  ABI:  fix a typo on a What field
-  ABI: sysfs-ata: use a proper wildcard for ata_*
-  ABI: sysfs-class-infiniband: use wildcards on What definitions
-  ABI: sysfs-bus-pci: use wildcards on What definitions
-  ABI: -master: use wildcards on What definitions
-  ABI: sysfs-bus-soundwire-slave: use wildcards on What definitions
-  ABI: sysfs-class-gnss: use wildcards on What definitions
-  ABI: sysfs-class-mei: use wildcards on What definitions
-  ABI: sysfs-class-mux: use wildcards on What definitions
-  ABI: sysfs-class-pwm: use wildcards on What definitions
-  ABI: sysfs-class-rc: use wildcards on What definitions
-  ABI: sysfs-class-rc-nuvoton: use wildcards on What definitions
-  ABI: sysfs-class-uwb_rc: use wildcards on What definitions
-  ABI: sysfs-class-uwb_rc-wusbhc: use wildcards on What definitions
-  ABI: sysfs-devices-platform-dock: use wildcards on What definitions
-  ABI: sysfs-devices-system-cpu: use wildcards on What definitions
-  ABI: sysfs-firmware-efi-esrt: use wildcards on What definitions
-  ABI: sysfs-platform-sst-atom: use wildcards on What definitions
-  ABI: sysfs-ptp: use wildcards on What definitions
-  ABI: sysfs-class-rapidio: use wildcards on What definitions
+So if you need more power for one port, you most likely will need to
+attempt to adjust the power levels of the source PDO power supplies of
+the other ports that share the base supply (like battery), or possibly
+disable them, and that way enable (make present) more source supplies
+for your port. That is the idea, but I admit I have not thought of
+everything, so I'm not completely sure would it work exactly like
+that, but the power balancing should in any case be possible with the
+chain of power supplies one way or the other.
 
- .../ABI/stable/sysfs-class-infiniband         | 64 ++++++-------
- Documentation/ABI/stable/sysfs-class-tpm      |  2 +-
- Documentation/ABI/testing/evm                 |  4 +-
- Documentation/ABI/testing/ima_policy          |  2 +-
- Documentation/ABI/testing/pstore              |  3 +-
- Documentation/ABI/testing/sysfs-ata           |  2 +-
- Documentation/ABI/testing/sysfs-bus-pci       |  2 +-
- Documentation/ABI/testing/sysfs-bus-rapidio   | 32 +++----
- .../ABI/testing/sysfs-bus-soundwire-master    | 20 ++--
- .../ABI/testing/sysfs-bus-soundwire-slave     | 60 ++++++------
- Documentation/ABI/testing/sysfs-bus-usb       | 16 ++--
- Documentation/ABI/testing/sysfs-class-cxl     | 15 ++-
- .../ABI/testing/sysfs-class-devfreq-event     | 12 +--
- Documentation/ABI/testing/sysfs-class-gnss    |  2 +-
- Documentation/ABI/testing/sysfs-class-mei     | 18 ++--
- Documentation/ABI/testing/sysfs-class-mic     | 24 ++---
- Documentation/ABI/testing/sysfs-class-mux     |  2 +-
- Documentation/ABI/testing/sysfs-class-pwm     | 20 ++--
- Documentation/ABI/testing/sysfs-class-rapidio |  4 +-
- Documentation/ABI/testing/sysfs-class-rc      | 14 +--
- .../ABI/testing/sysfs-class-rc-nuvoton        |  2 +-
- Documentation/ABI/testing/sysfs-class-typec   |  2 +-
- Documentation/ABI/testing/sysfs-class-uwb_rc  | 26 ++---
- .../ABI/testing/sysfs-class-uwb_rc-wusbhc     | 10 +-
- .../ABI/testing/sysfs-devices-platform-dock   | 10 +-
- .../ABI/testing/sysfs-devices-system-cpu      | 16 ++--
- .../ABI/testing/sysfs-firmware-efi-esrt       | 16 ++--
- Documentation/ABI/testing/sysfs-kernel-slab   | 94 +++++++++----------
- .../ABI/testing/sysfs-platform-sst-atom       |  2 +-
- Documentation/ABI/testing/sysfs-ptp           | 30 +++---
- Documentation/ABI/testing/sysfs-tty           | 32 +++----
- 31 files changed, 282 insertions(+), 276 deletions(-)
+I hope I understood your question correctly, and I hope I was able to
+give you an answer :-)
+
+
+thanks,
 
 -- 
-2.31.1
-
-
+heikki
