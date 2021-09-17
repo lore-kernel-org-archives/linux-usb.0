@@ -2,108 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CDAC4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EFC2C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:28:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5A3361216
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:12:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F267560F4A
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:28:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245174AbhIQGNY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Sep 2021 02:13:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245100AbhIQGMz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 02:12:55 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5258FC061766
-        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:33 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id h7-20020a37b707000000b003fa4d25d9d0so62494050qkf.17
-        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=09xEzYT+gOEMXKux86y0OboJKHhnFsj7tooXascaZws=;
-        b=idTj1foInP1ZjiSa8tzyXsAbvISX9h8D2okHQm47jLNzxI/gnljnhVQYgRp7gVyxij
-         CsbzwRxgqhnisizhrS+yfMH6UHQ4fCv6XeCSCXXwKBm8fIy/regcyzobSzoURswbI015
-         EhQaKFRWM6aq6l5B15meILrewxbaU6yp3g2Nl/72UnbQCanMYa7JpZscbFct1T1qwgHw
-         WQJVUe+4dvGKD1YQH+pOx77QCpeyZep2k1EX0iFtXgeHezV2k7OgPXfN3EKXyp8yiBcw
-         v4zOLgOsvCuCahcjEDuwXB5WMCghprYxDyANJW8IiN3wz2UXia2L39Jl4z728eSWNBky
-         tuvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=09xEzYT+gOEMXKux86y0OboJKHhnFsj7tooXascaZws=;
-        b=3oDuw3NZe4sQ0l0dBRQCDm8HxJgrCaTujLTiHT2kY+n5TxOlWi5MjYMYYU2DmvEOSn
-         44Jyu8qnhDN5ef3H7E6qNY/QGoiWCyk0/YiUhDLJuMUX2dWp/XgE+qpufPMKQiiXJ6UH
-         EZG7pndtgTrn2AqjN7y353RfefCjU49TULfAHNOxqEL1BpRmAeUTWbkqAHGGsDa6fPWp
-         S34dVWNbNjCQlgPCvFTofz0L0oiYOEBULGfWtY8DPXqk+Zdsc8HopnngpLB00fQjsg2I
-         flV87oxDofhvRQNT4IWq1ljqSN3MvUMYwhF6xTSLtoQ6/pdv0nj4zOTlU13F79TYFJv9
-         Tywg==
-X-Gm-Message-State: AOAM533o0TAMmj15b7gGsOp76Mo6X8+9HkxDKwdKb0ghuoUV/d4mPTIc
-        2rINsvsiV2j5MZsY3wBwrTvmLhQvEYZe4PXvNID4DA==
-X-Google-Smtp-Source: ABdhPJypRsw47dQReFc9GVfIgcLEvPuWKVLfs9Zkoz23e3pfAoJ7NFelyWt9aLLvWQZohalclJUd3bgYSnBd8nu1IvZJKA==
-X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:4845:43ba:3ff5:2de1])
- (user=brendanhiggins job=sendgmr) by 2002:a25:d747:: with SMTP id
- o68mr11675107ybg.488.1631859092480; Thu, 16 Sep 2021 23:11:32 -0700 (PDT)
-Date:   Thu, 16 Sep 2021 23:11:01 -0700
-In-Reply-To: <20210917061104.2680133-1-brendanhiggins@google.com>
-Message-Id: <20210917061104.2680133-4-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20210917061104.2680133-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
-Subject: [PATCH v1 3/6] device property: build kunit tests without structleak plugin
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     shuah@kernel.org, davidgow@google.com, arnd@arndb.de,
-        keescook@chromium.org, rafael@kernel.org, jic23@kernel.org,
-        lars@metafoo.de, ulf.hansson@linaro.org, andreas.noever@gmail.com,
-        michael.jamet@intel.com, mika.westerberg@linux.intel.com,
-        YehezkelShB@gmail.com, masahiroy@kernel.org,
-        michal.lkml@markovi.net, ndesaulniers@google.com
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, torvalds@linux-foundation.org,
-        gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S232172AbhIQG3y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Sep 2021 02:29:54 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:20460 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231793AbhIQG3v (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Sep 2021 02:29:51 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1631860110; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=71x/5CV+GloaODoruzokP4i9Sjebw7Bm1eLwxI/272A=; b=SC63itUGCiN+OY02Lqk9XG0vh9gYb8RIGDn1Y0LzaFro3J5MGE6vt39eD8S4+bh2yOkCY4HT
+ 3llOV6RZaTGPpt/gph2aYV+QKFft2OVCGGKGvlhlLHSuUs7qi9OktA9ZK3cNV5QcCMzk2prR
+ UhChOc5lJzhJGrAENw4vd2XhGGQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 6144357ce0f78151d6a4e6b3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Sep 2021 06:28:12
+ GMT
+Sender: wcheng=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 92C21C43460; Fri, 17 Sep 2021 06:28:12 +0000 (UTC)
+Received: from [192.168.1.26] (075-140-094-099.biz.spectrum.com [75.140.94.99])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: wcheng)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B7A75C4338F;
+        Fri, 17 Sep 2021 06:28:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org B7A75C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+Subject: Re: [PATCH] usb: dwc3: gadget: Avoid starting DWC3 gadget during UDC
+ unbind
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210917021852.2037-1-wcheng@codeaurora.org>
+ <87y27vai3p.fsf@kernel.org>
+From:   Wesley Cheng <wcheng@codeaurora.org>
+Message-ID: <474148e5-37e2-ea0c-7d78-9e71155314d9@codeaurora.org>
+Date:   Thu, 16 Sep 2021 23:28:09 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <87y27vai3p.fsf@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The structleak plugin causes the stack frame size to grow immensely when
-used with KUnit:
+Hi,
 
-../drivers/base/test/property-entry-test.c:492:1: warning: the frame size of 2832 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-../drivers/base/test/property-entry-test.c:322:1: warning: the frame size of 2080 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-../drivers/base/test/property-entry-test.c:250:1: warning: the frame size of 4976 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-../drivers/base/test/property-entry-test.c:115:1: warning: the frame size of 3280 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+On 9/16/2021 10:17 PM, Felipe Balbi wrote:
+> 
+> Hi,
+> 
+> Wesley Cheng <wcheng@codeaurora.org> writes:
+> 
+>> There is a race present where the DWC3 runtime resume runs in parallel
+>> to the UDC unbind sequence.  This will eventually lead to a possible
+>> scenario where we are enabling the run/stop bit, without a valid
+>> composition defined.
+>>
+>> Thread#1 (handling UDC unbind):
+>> usb_gadget_remove_driver()
+>> -->usb_gadget_disconnect()
+>>   -->dwc3_gadget_pullup(0)
+>> --> continue UDC unbind sequence
+>> -->Thread#2 is running in parallel here
+>>
+>> Thread#2 (handing next cable connect)
+>> __dwc3_set_mode()
+>>   -->pm_runtime_get_sync()
+>>     -->dwc3_gadget_resume()
+>>       -->dwc->gadget_driver is NOT NULL yet
+>>       -->dwc3_gadget_run_stop(1)
+>>       --> _dwc3gadget_start()
+>> ...
+>>
+>> Fix this by tracking the pullup disable routine, and avoiding resuming
+>> of the DWC3 gadget.  Once the UDC is re-binded, that will trigger the
+>> pullup enable routine, which would handle enabling the DWC3 gadget.
+>>
+>> Signed-off-by: Wesley Cheng <wcheng@codeaurora.org>
 
-Turn it off in this file.
+Thanks, Felipe!
 
-Co-developed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
----
- drivers/base/test/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> This looks okay to me, but needs to be tested by a few folks ;-)
+> 
+> Acked-by: Felipe Balbi <balbi@kernel.org>
+> 
+Yes, would be good to get some functions using
+usb_gadget_activate/deactivate().  It should be OK for those situations
+as well, but just to make sure :)
 
-diff --git a/drivers/base/test/Makefile b/drivers/base/test/Makefile
-index 64b2f3d744d51..7f76fee6f989d 100644
---- a/drivers/base/test/Makefile
-+++ b/drivers/base/test/Makefile
-@@ -2,4 +2,4 @@
- obj-$(CONFIG_TEST_ASYNC_DRIVER_PROBE)	+= test_async_driver_probe.o
- 
- obj-$(CONFIG_DRIVER_PE_KUNIT_TEST) += property-entry-test.o
--CFLAGS_REMOVE_property-entry-test.o += -fplugin-arg-structleak_plugin-byref -fplugin-arg-structleak_plugin-byref-all
-+CFLAGS_property-entry-test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+Thanks
+Wesley Cheng
 -- 
-2.33.0.464.g1972c5931b-goog
-
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
