@@ -2,102 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EBFC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5672AC433FE
 	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 09:23:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7CBB610A6
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 09:23:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37DB6611C3
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 09:23:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245747AbhIQJXl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Sep 2021 05:23:41 -0400
-Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:53406
+        id S245650AbhIQJYc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Sep 2021 05:24:32 -0400
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:53374
         "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S245625AbhIQJVH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 05:21:07 -0400
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        by vger.kernel.org with ESMTP id S245612AbhIQJVC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 05:21:02 -0400
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 47D5540267
-        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 09:19:34 +0000 (UTC)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 42765402CE
+        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 09:19:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1631870374;
-        bh=p6HUPon1kszCQMILCC0vROc00hQT65Msl8k6wuLckrA=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version;
-        b=lFy0pT74E0l2JGYrZIDY2QmiYQWcu1Hx7F8X1Yr2n5w/80gzniJU5pCsEHss57AH0
-         ojOH1x+f9aFN0gejfhGOZVY/spvTnL+4+y9Z4KwG9JBSWGLnGSiHDYhh3rUs5KFjf/
-         I92kgNjs/aXn0dz4CQUmF09YejGIhQ3xjUSLdBV24C6NPF8ErWcKW8MN7A2Rv0KUVm
-         ASQD9nT7SH6k2iyGNs0+0FGYv8xVN88gRdQVGhLd4yBhkpKFWboTKGQxn0qb7MVHsX
-         hc7jprp1hNCosdGrmNTqezBhG5Y9CIbGh5wbGs7BxPgjECem5OX9i3j+9pGIV1lEx3
-         sLOViSCrVYpUQ==
-Received: by mail-wm1-f70.google.com with SMTP id 201-20020a1c04d2000000b0030b3e4fdcfbso1587415wme.0
-        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 02:19:34 -0700 (PDT)
+        s=20210705; t=1631870368;
+        bh=+1YWJX9RyvLg00KZKztI7RFTQvcCAVEYbN2RHuXyA+I=;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+        b=mWaXOawJRust623MykSvT7WZ+W32fQRODM62gRfJLpa8EcmlFoLYV2dK5aX4p+Z52
+         0BKCC1LjniXPIM5PkR6zRiuF1ztYAcm7Mz+wP/MhJbmIKD3kjEn32XOR+mW3ZuCpvG
+         bk/hM2nvpIvdSvF3tA2BLP24f7/hYBgkFAfTLcuNkoAIbre1338HegEES6HczJfXPf
+         q7rxPrIjdVDLUtGj2vUMjlU/qC9c8ssXDrWAhP6A2Y4RduyMrYVWm71kcsdp1PHzmX
+         DERTH3iuu5GETDVdgLUg3DaIc4pzDBkcx9P7hGHCDXTwQ6qanq4WtluC9JzhbZHwk3
+         8rR2Vn1G8SVdw==
+Received: by mail-wm1-f71.google.com with SMTP id b139-20020a1c8091000000b002fb33c467c8so4357795wmd.5
+        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 02:19:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=p6HUPon1kszCQMILCC0vROc00hQT65Msl8k6wuLckrA=;
-        b=MdXDdrQQKo76WRi4olpI+rx6437v0SpYZU8z1g8EkrA9DjJJ/bk7NejbsM5IOsRF7g
-         QrAiglubJSKCDnAi4afIJVsHfh3p3eL+0T0J0w1/qlhUQCDzekzMJIeNiN/6cRWgMrCg
-         OLWfU5rJt0PrAHFtelq9FGng4yqreprK6FEeX7+4SjiPfB4XDlbrC4e7AuH1a4QTgpgl
-         ZjVUL5uJ2c8fuvIl3ZRFVzyXkWUlMdHr+ZdI4rhDrEIo2N9enb0P2JV9SLz2wKxI6wzq
-         0M5KQ1ZVp3rMdkExpdy3wwPwwVtPKcekqyE18vBxEYQA4wm9mH2Fe1CJr7Xya+B9EWmD
-         ISyQ==
-X-Gm-Message-State: AOAM53333A7VPmCwZkGdKG3+buqOqP8WJyCDDUj5rvIq3EElgzx7XvP/
-        RutkpmHhiCAbAr2KzbxSAKyJiv84pUYCG/KcaBvzajh7aP6tSpc+4673M4mDQ8/BqnJvMW5mUiV
-        oW6JUOhEJ9MNgMdeaW4Q5ZEN2a2ukUi55UjP9aw==
-X-Received: by 2002:adf:fcca:: with SMTP id f10mr10954251wrs.304.1631870373494;
-        Fri, 17 Sep 2021 02:19:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqXxbeZD6oTBDvipoUVLNYKgzKbf56C8E7jiR0bRAuCgNvovbTiVkTx/4l+xFvSd/2Nf6HLg==
-X-Received: by 2002:adf:fcca:: with SMTP id f10mr10954236wrs.304.1631870373381;
-        Fri, 17 Sep 2021 02:19:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+1YWJX9RyvLg00KZKztI7RFTQvcCAVEYbN2RHuXyA+I=;
+        b=4QVyOzPFs3286X5d8x/fRkQFMybYUHZurgFtU1RrJyR6Ymyxvc/V4mFQKVPJvyDsjN
+         IAfMczShhhW5fp3nnuO6Ss7fuLKtzdhIcz+acdGuAG1Lej1BAZql38ji6O+JY5r+yIi/
+         lpP6v6XFJF6W4KD8pxAQcCr71KtOuTX3JDOUytv54ABKa161QA0VcVFxIaOBavZP9yId
+         ldajVkqrctf97wbvgx3r7adeYxM4+glHczTxpNXvcX5gB+C0XXeU7/EhKIYCU2HE2mY+
+         r39fnXGqOixm9IvkLKJSDbgI6sURB+lozZxSETg+yixc+EBBL81EiillOoyBHVRxT0j6
+         ivlA==
+X-Gm-Message-State: AOAM533TFnuF4SIE3Rl68dZBZbn+zKl/brI3gx5MWLLfIKNTUxi9Gcch
+        G27V083hrt67XNBv+CXonfywoL4QkEP0WyYfKlr6q5BMa3JLbDr8eznpNm35sQDhG42TbTL65y8
+        Aj4ZbJYd/QRseqoAdqi8krPYk0mK+KJwYU15lTQ==
+X-Received: by 2002:a5d:4ac4:: with SMTP id y4mr10839421wrs.190.1631870367999;
+        Fri, 17 Sep 2021 02:19:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEhFCOGrU+f8EgvjwZKTV2A5qywjz6/x/wSIIWw4VZcBMKN5Eekcs7zJpZG1uuCAkVmCj+AQ==
+X-Received: by 2002:a5d:4ac4:: with SMTP id y4mr10839408wrs.190.1631870367851;
+        Fri, 17 Sep 2021 02:19:27 -0700 (PDT)
 Received: from localhost.localdomain (lk.84.20.244.219.dc.cable.static.lj-kabel.net. [84.20.244.219])
-        by smtp.gmail.com with ESMTPSA id p1sm5678354wmi.30.2021.09.17.02.19.29
+        by smtp.gmail.com with ESMTPSA id p1sm5678354wmi.30.2021.09.17.02.19.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Sep 2021 02:19:32 -0700 (PDT)
+        Fri, 17 Sep 2021 02:19:27 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To:     Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH 3/3] USB: cdc-acm: remove duplicate USB device ID
-Date:   Fri, 17 Sep 2021 11:18:49 +0200
-Message-Id: <20210917091849.18692-3-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 1/3] USB: serial: mos7840: remove duplicated 0xac24 device ID
+Date:   Fri, 17 Sep 2021 11:18:47 +0200
+Message-Id: <20210917091849.18692-1-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210917091849.18692-1-krzysztof.kozlowski@canonical.com>
-References: <20210917091849.18692-1-krzysztof.kozlowski@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The device 0x00e9 (Nokia 5320 XpressMusic) is already on the list.
+0xac24 device ID is already defined and used via
+BANDB_DEVICE_ID_USO9ML2_4.  Remove the duplicate from the list.
 
+Fixes: 27f1281d5f72 ("USB: serial: Extra device/vendor ID for mos7840 driver")
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/usb/class/cdc-acm.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/serial/mos7840.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 8bbd8e29e60d..d77e30625f4d 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -1848,7 +1848,6 @@ static const struct usb_device_id acm_ids[] = {
- 	{ NOKIA_PCSUITE_ACM_INFO(0x0071), }, /* Nokia N82 */
- 	{ NOKIA_PCSUITE_ACM_INFO(0x04F0), }, /* Nokia N95 & N95-3 NAM */
- 	{ NOKIA_PCSUITE_ACM_INFO(0x0070), }, /* Nokia N95 8GB  */
--	{ NOKIA_PCSUITE_ACM_INFO(0x00e9), }, /* Nokia 5320 XpressMusic */
- 	{ NOKIA_PCSUITE_ACM_INFO(0x0099), }, /* Nokia 6210 Navigator, RM-367 */
- 	{ NOKIA_PCSUITE_ACM_INFO(0x0128), }, /* Nokia 6210 Navigator, RM-419 */
- 	{ NOKIA_PCSUITE_ACM_INFO(0x008f), }, /* Nokia 6220 Classic */
+diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
+index d7fe33ca73e4..925067a7978d 100644
+--- a/drivers/usb/serial/mos7840.c
++++ b/drivers/usb/serial/mos7840.c
+@@ -107,7 +107,6 @@
+ #define BANDB_DEVICE_ID_USOPTL4_2P       0xBC02
+ #define BANDB_DEVICE_ID_USOPTL4_4        0xAC44
+ #define BANDB_DEVICE_ID_USOPTL4_4P       0xBC03
+-#define BANDB_DEVICE_ID_USOPTL2_4        0xAC24
+ 
+ /* Interrupt Routine Defines    */
+ 
+@@ -186,7 +185,6 @@ static const struct usb_device_id id_table[] = {
+ 	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2P) },
+ 	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4) },
+ 	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4P) },
+-	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL2_4) },
+ 	{}			/* terminating entry */
+ };
+ MODULE_DEVICE_TABLE(usb, id_table);
 -- 
 2.30.2
 
