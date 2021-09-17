@@ -5,61 +5,61 @@ X-Spam-Level:
 X-Spam-Status: No, score=-26.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable
+	URIBL_BLOCKED,USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4339CC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1245FC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:11:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D54960FED
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:11:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE0E860F46
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 06:11:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245119AbhIQGM6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Sep 2021 02:12:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35026 "EHLO
+        id S245175AbhIQGND (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Sep 2021 02:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245071AbhIQGMx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 02:12:53 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12976C061768
-        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:31 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id u8-20020a0cee88000000b00363b89e1c50so87161510qvr.16
-        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:31 -0700 (PDT)
+        with ESMTP id S245061AbhIQGM5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 02:12:57 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A05FC0613E2
+        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:35 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id w17-20020ae9e511000000b00431497430b7so49499414qkf.12
+        for <linux-usb@vger.kernel.org>; Thu, 16 Sep 2021 23:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=I4FOT8yOHsLhfAzdZiAF0l/kcO/QKiXi6j8WbW9LXJI=;
-        b=UY3TinilJRju1u6lzAykebCAKMTWaSuBZvn8jYC8UK4+LbXvIlCflfwHlFEphBHs8B
-         1iFMgEZGban4DYDF7Ng4Bxjo8NRN9zOf3LLvDcjhZho+zGb8eIYgXkYwA0Otb0f/FShE
-         yCmK2uqakDDxdXMcri2Lg+CMzpqgtphiucDdAVEWrO4iTlv4H6bq8Gawab6VO22To9bF
-         X7RxLGWNSjvgLN+qQRj6LibXm4BaLGhu5Xy+N2dBaNZPk7IY2MX6VGtuGBV+XMHGYz17
-         gK2smKuDIdXkivtrGOnp7UxDzkVWma4nv+Xs6OV5VYWRjcuzPSQps0HL5bUHRRb0Qx+d
-         Iq5A==
+         :cc;
+        bh=a16EJJC8qIqgq8caJJ9rZnk5BIeQcHgz6nBaZlUahJ4=;
+        b=mRZGnePzs2y6KqAQfe6Ck+DkP+Foa3blX6juarQJ18Sqvw6BFn2gA7pydsaxOjMZqc
+         HRlb/vKtIhygpXSgaHB409dpz9AhJrphfamLZU1gG4ObG+Rmk3RUc5SRgd4y3wPc6+Ov
+         89W5x13jsc5jfnYljnXFxChRd/2j1bM7BfbH66pnCquAayMNq9LOb2+cxkEtbzLxvDTl
+         0bn5yMg6sIYTVEUeGE7mezPVGCVAOAvv4bBjedRlVspT8EhMbB3w9RYNzHV/yRxBbUHi
+         WToToCFsOIDqWxXvvM2ABw/iKXuTenyu46QkdzOXRU+sp4UGv+vROZ3Q5AGnAFYKsd3B
+         kl5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=I4FOT8yOHsLhfAzdZiAF0l/kcO/QKiXi6j8WbW9LXJI=;
-        b=OUGrtXG/iHjG8RO2d0yh8Q6YdN8aZV7Pvdprrkp7oOur66t8gdSQO2UArMXW4spD30
-         gPAeH4zrSIMVMW2wYOJZZmk7cGKHHOt/QMZAxg7jRPZhZC6BSKnzxKJEy3BxeHK8VA0A
-         h9pvFW4atkgVAxtYvtw1nVCeF79J9aZLNwCcUa7gEj+vFLG/qE+17iEPa8y87F652Prs
-         vJW4vPOB6IRvnsG93n0G7CdRAGXL2sq2DWjIezVu3AXrFjlPpvj+3rwom9sCoYYRcXRF
-         3Z+OYNApADxRjrOo9ebLadAOaNlhCNTpLo4/4c9v9qGYnwwT7KsmdEYaQSPCjFn97GdU
-         ggSA==
-X-Gm-Message-State: AOAM533kz4siUTWCtwsN9CZQahFvosVUx+Y+tWzp0qiA4CYNT+4e69S8
-        QoMFGDInPAplZqkVXqkd5PeRmqhjeVanGpeU4cyyiQ==
-X-Google-Smtp-Source: ABdhPJxQU9dA2VoByCENV7Js4YP5bqWeXxiNL61cyojxtkYNrLzgmDJAwC0DC/PduGlki5LgIsdKe1pz5QUxEe86UMUTvA==
+         :references:subject:from:to:cc;
+        bh=a16EJJC8qIqgq8caJJ9rZnk5BIeQcHgz6nBaZlUahJ4=;
+        b=SY1Im8uPPbRh+ZDGUolOMxJ48krEz1yfsRlU1UOqVZALJdBlS2K/vHZcfkKBpjSmIv
+         SLtNBa0k71a0QDtLaV6fIBagsBcGDjCGREQTr413eGiadZWm78xYPm1Yd2BG8hX4yZeG
+         FiE8vw3k0L8pwRUuJU9YnP1DuETFMH1DJmUeOZYdF2FBXK42NRH8i+2NbKJYVnAKfdhb
+         umzotcTCwpdF91oZVHO6mJH327XSv277jNA1QgOqDCtefo05V+ETBBx4EVQ5/JVTtIvR
+         HU0nC0xjRJHNZu58EjmFfJG1pjdq5Jwp40+5KcOVFQPUMWoxycBlUtZwhyrXZvhRt6di
+         am9g==
+X-Gm-Message-State: AOAM533kxO87l95s6PSlqKMsnQS9vy8N1pIjbmLn+m0Rv9uL38sRWilX
+        e8L3YM3YazCQzllOBIgNhzSh/ga3PTg4ADAD5SOx3Q==
+X-Google-Smtp-Source: ABdhPJx2QRnWG7xa+kh2z4MTN26rfm570JnuU75BFe3uCQj9UmSttAn5ZQMcMCpcxKfx8N8gvMCYdb0nOiaf4ooLmBmZeA==
 X-Received: from mactruck.svl.corp.google.com ([2620:15c:2cb:201:4845:43ba:3ff5:2de1])
- (user=brendanhiggins job=sendgmr) by 2002:a25:6d43:: with SMTP id
- i64mr11100758ybc.252.1631859090133; Thu, 16 Sep 2021 23:11:30 -0700 (PDT)
-Date:   Thu, 16 Sep 2021 23:11:00 -0700
+ (user=brendanhiggins job=sendgmr) by 2002:a05:6214:2e4:: with SMTP id
+ h4mr9633253qvu.3.1631859094676; Thu, 16 Sep 2021 23:11:34 -0700 (PDT)
+Date:   Thu, 16 Sep 2021 23:11:02 -0700
 In-Reply-To: <20210917061104.2680133-1-brendanhiggins@google.com>
-Message-Id: <20210917061104.2680133-3-brendanhiggins@google.com>
+Message-Id: <20210917061104.2680133-5-brendanhiggins@google.com>
 Mime-Version: 1.0
 References: <20210917061104.2680133-1-brendanhiggins@google.com>
 X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
-Subject: [PATCH v1 2/6] iio/test-format: build kunit tests without structleak plugin
+Subject: [PATCH v1 4/6] thunderbolt: build kunit tests without structleak plugin
 From:   Brendan Higgins <brendanhiggins@google.com>
 To:     shuah@kernel.org, davidgow@google.com, arnd@arndb.de,
         keescook@chromium.org, rafael@kernel.org, jic23@kernel.org,
@@ -74,7 +74,6 @@ Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
         Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -82,28 +81,32 @@ X-Mailing-List: linux-usb@vger.kernel.org
 The structleak plugin causes the stack frame size to grow immensely when
 used with KUnit:
 
-../drivers/iio/test/iio-test-format.c: In function =E2=80=98iio_test_iio_fo=
-rmat_value_fixedpoint=E2=80=99:
-../drivers/iio/test/iio-test-format.c:98:1: warning: the frame size of 2336=
- bytes is larger than 2048 bytes [-Wframe-larger-than=3D]
+drivers/thunderbolt/test.c:1529:1: error: the frame size of 1176 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
 
 Turn it off in this file.
 
+Linus already split up tests in this file, so this change *should* be
+redundant now.
+
 Co-developed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
 ---
- drivers/iio/test/Makefile | 1 +
+ drivers/thunderbolt/Makefile | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/iio/test/Makefile b/drivers/iio/test/Makefile
-index f1099b4953014..467519a2027e5 100644
---- a/drivers/iio/test/Makefile
-+++ b/drivers/iio/test/Makefile
-@@ -5,3 +5,4 @@
-=20
- # Keep in alphabetical order
- obj-$(CONFIG_IIO_TEST_FORMAT) +=3D iio-test-format.o
-+CFLAGS_iio-test-format.o +=3D $(DISABLE_STRUCTLEAK_PLUGIN)
---=20
+diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+index da19d7987d005..78fd365893c13 100644
+--- a/drivers/thunderbolt/Makefile
++++ b/drivers/thunderbolt/Makefile
+@@ -7,6 +7,7 @@ thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o
+ thunderbolt-${CONFIG_ACPI} += acpi.o
+ thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+ thunderbolt-${CONFIG_USB4_KUNIT_TEST} += test.o
++CFLAGS_test.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+ 
+ thunderbolt_dma_test-${CONFIG_USB4_DMA_TEST} += dma_test.o
+ obj-$(CONFIG_USB4_DMA_TEST) += thunderbolt_dma_test.o
+-- 
 2.33.0.464.g1972c5931b-goog
 
