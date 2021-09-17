@@ -2,222 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38ED9C433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 17:16:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C965EC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 18:41:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 26280610C8
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 17:16:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA5E0611C8
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Sep 2021 18:41:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232742AbhIQRR7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Sep 2021 13:17:59 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:39609 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244982AbhIQRR4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 17 Sep 2021 13:17:56 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1631898993; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=t0ty8I++tXxdvMH/9sshHzqszFSvcO5NbKnGoxJ1ONc=; b=N0fEKGfqdEG59FyILspgfYxUJqWX/JeriE8IpFpDN6m/ufmAqmhidcgFrud2rR7i2YbQbkoa
- dVA6Bob1C2aHuhu3LnwOsUt8xRHp1ZG2Gwm38We1e+rBS1SboT2mG+VZ+CLC5xDJBfKg1e9i
- JgoWPBYNUx9/sf0j+9z+1eN7nZ4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
- 6144cd5ed914b05182a7b041 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Sep 2021 17:16:14
- GMT
-Sender: pmaliset=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id EBC76C4361A; Fri, 17 Sep 2021 17:16:13 +0000 (UTC)
-Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4CFB7C4338F;
-        Fri, 17 Sep 2021 17:16:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 4CFB7C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-From:   Prasad Malisetty <pmaliset@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, bhelgaas@google.com,
-        robh+dt@kernel.org, swboyd@chromium.org, lorenzo.pieralisi@arm.com,
-        svarbanov@mm-sol.com
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
-        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
-        Prasad Malisetty <pmaliset@codeaurora.org>
-Subject: [PATCH v8 2/4] arm64: dts: qcom: sc7280: Add PCIe and PHY related nodes
-Date:   Fri, 17 Sep 2021 22:45:45 +0530
-Message-Id: <1631898947-27433-3-git-send-email-pmaliset@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1631898947-27433-1-git-send-email-pmaliset@codeaurora.org>
-References: <1631898947-27433-1-git-send-email-pmaliset@codeaurora.org>
+        id S240839AbhIQSm0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Sep 2021 14:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240530AbhIQSmZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Sep 2021 14:42:25 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE4C7C061574
+        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 11:41:02 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id d42so14952269lfv.10
+        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 11:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Cpak71tpwGIH8sDgLDrdJbMzVDQHoqt6rJZasCMwdzc=;
+        b=PPZqYKySWRBXLCmQqLignaVRzeemkJWbOSVm4Nk3LB3/dwYqxZT99gFitFC859Cqmo
+         5dHLqIWjBbL09xTf3eNTCSAzEfwW62QnHoObFrYVOWn0PPzzY6lksRvKhahbrO9bPfvT
+         /jfwN2l8iu/pKIRl254LqCHUDuwZMUECiAh00=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Cpak71tpwGIH8sDgLDrdJbMzVDQHoqt6rJZasCMwdzc=;
+        b=tCNZGbgAB9xX46DCXRvTARxM94IQaIKLZxllVb2/MF25FANEgw8ZI7W4sDFnMoV5qn
+         AAwEZ6ANlEoDVTn949xCU1cwBYfCd63eSrheaNkGXoWuRt/KvdE68h095mYbBRKKASmd
+         2OROFUjxmZzFnUNkAbo/ayrrBPgKHKlfuA+/O/+MlupngEohYQYKT/mcpexXt02sJGeP
+         59ZqX+rtIENjvYO/DzNTeDUyqCNOIwM+7AmVfEMCG9xeDizHOvpQQ+Zqu+TtesUdbZlM
+         rt8z/xPTPUUacYZPTSB0sv/IUBjASRu6wy8UQVrqZd8FxcdhltudAD5UhIiTtyhnfo04
+         D2fg==
+X-Gm-Message-State: AOAM532gPR4RNZQd1Sud31rG6ON1OivXpXuWWgreCQcmRSWEnoSLeZ5W
+        1fXRLzCP4bb/wvhUdh7bK49vV6X76t9aFJB2+zY=
+X-Google-Smtp-Source: ABdhPJyPYusvCq6VnyabOfiQ/ByzBNoIN1qMZ8WEDGCU2tM79/l328Ajoo0S8i1veeGDrvPRVFKjRA==
+X-Received: by 2002:a2e:a4ba:: with SMTP id g26mr10889739ljm.254.1631904060904;
+        Fri, 17 Sep 2021 11:41:00 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id w19sm778525ljd.110.2021.09.17.11.41.00
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Sep 2021 11:41:00 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id g41so3472664lfv.1
+        for <linux-usb@vger.kernel.org>; Fri, 17 Sep 2021 11:41:00 -0700 (PDT)
+X-Received: by 2002:a19:ae15:: with SMTP id f21mr9099719lfc.402.1631904049054;
+ Fri, 17 Sep 2021 11:40:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210917061104.2680133-1-brendanhiggins@google.com>
+ <20210917061104.2680133-6-brendanhiggins@google.com> <202109170856.8DDB49112D@keescook>
+In-Reply-To: <202109170856.8DDB49112D@keescook>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 17 Sep 2021 11:40:33 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whck4RtO7yp-jKK8QQc0bCDZBkdHc=3pGiFsFjwnQ+-mw@mail.gmail.com>
+Message-ID: <CAHk-=whck4RtO7yp-jKK8QQc0bCDZBkdHc=3pGiFsFjwnQ+-mw@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] mmc: sdhci-of-aspeed: build kunit tests without
+ structleak plugin
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <shuah@kernel.org>, David Gow <davidgow@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Rafael Wysocki <rafael@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>, andreas.noever@gmail.com,
+        michael.jamet@intel.com,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        YehezkelShB@gmail.com, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-hardening@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add PCIe controller and PHY nodes for sc7280 SOC.
+On Fri, Sep 17, 2021 at 8:57 AM Kees Cook <keescook@chromium.org> wrote:
+>
+> This isn't a stand-alone test object, so I'm less excited about
+> disabling STRUCTLEAK here.
 
-Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
----
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 120 +++++++++++++++++++++++++++++++++++
- 1 file changed, 120 insertions(+)
+Yeah, please don't do this for things that aren't pure tests. You're
+now disabling security measures (even if I hate the gcc plugins and
+hope they will go away).
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index fd78f16..1ce0847 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -7,6 +7,7 @@
- 
- #include <dt-bindings/clock/qcom,gcc-sc7280.h>
- #include <dt-bindings/clock/qcom,rpmh.h>
-+#include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interconnect/qcom,sc7280.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
- #include <dt-bindings/mailbox/qcom-ipcc.h>
-@@ -586,6 +587,117 @@
- 			qcom,bcm-voters = <&apps_bcm_voter>;
- 		};
- 
-+		pcie1: pci@1c08000 {
-+			compatible = "qcom,pcie-sc7280";
-+			reg = <0 0x01c08000 0 0x3000>,
-+			      <0 0x40000000 0 0xf1d>,
-+			      <0 0x40000f20 0 0xa8>,
-+			      <0 0x40001000 0 0x1000>,
-+			      <0 0x40100000 0 0x100000>;
-+
-+			reg-names = "parf", "dbi", "elbi", "atu", "config";
-+			device_type = "pci";
-+			linux,pci-domain = <1>;
-+			bus-range = <0x00 0xff>;
-+			num-lanes = <2>;
-+
-+			#address-cells = <3>;
-+			#size-cells = <2>;
-+
-+			ranges = <0x01000000 0x0 0x40200000 0x0 0x40200000 0x0 0x100000>,
-+				 <0x02000000 0x0 0x40300000 0x0 0x40300000 0x0 0x1fd00000>;
-+
-+			interrupts = <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "msi";
-+			#interrupt-cells = <1>;
-+			interrupt-map-mask = <0 0 0 0x7>;
-+			interrupt-map = <0 0 0 1 &intc 0 434 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 2 &intc 0 435 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 3 &intc 0 438 IRQ_TYPE_LEVEL_HIGH>,
-+					<0 0 0 4 &intc 0 439 IRQ_TYPE_LEVEL_HIGH>;
-+
-+			clocks = <&gcc GCC_PCIE_1_PIPE_CLK>,
-+				 <&gcc GCC_PCIE_1_PIPE_CLK_SRC>,
-+				 <&pcie1_lane 0>,
-+				 <&rpmhcc RPMH_CXO_CLK>,
-+				 <&gcc GCC_PCIE_1_AUX_CLK>,
-+				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
-+				 <&gcc GCC_PCIE_1_MSTR_AXI_CLK>,
-+				 <&gcc GCC_PCIE_1_SLV_AXI_CLK>,
-+				 <&gcc GCC_PCIE_1_SLV_Q2A_AXI_CLK>,
-+				 <&gcc GCC_AGGRE_NOC_PCIE_TBU_CLK>,
-+				 <&gcc GCC_DDRSS_PCIE_SF_CLK>;
-+
-+			clock-names = "pipe",
-+				      "pipe_mux",
-+				      "phy_pipe",
-+				      "ref",
-+				      "aux",
-+				      "cfg",
-+				      "bus_master",
-+				      "bus_slave",
-+				      "slave_q2a",
-+				      "tbu",
-+				      "ddrss_sf_tbu";
-+
-+			assigned-clocks = <&gcc GCC_PCIE_1_AUX_CLK>;
-+			assigned-clock-rates = <19200000>;
-+
-+			resets = <&gcc GCC_PCIE_1_BCR>;
-+			reset-names = "pci";
-+
-+			power-domains = <&gcc GCC_PCIE_1_GDSC>;
-+
-+			phys = <&pcie1_lane>;
-+			phy-names = "pciephy";
-+
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&pcie1_default_state>;
-+
-+			iommus = <&apps_smmu 0x1c80 0x1>;
-+
-+			iommu-map = <0x0 &apps_smmu 0x1c80 0x1>,
-+				    <0x100 &apps_smmu 0x1c81 0x1>;
-+
-+			status = "disabled";
-+		};
-+
-+		pcie1_phy: phy@1c0e000 {
-+			compatible = "qcom,sm8250-qmp-gen3x2-pcie-phy";
-+			reg = <0 0x01c0e000 0 0x1c0>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+			clocks = <&gcc GCC_PCIE_1_AUX_CLK>,
-+				 <&gcc GCC_PCIE_1_CFG_AHB_CLK>,
-+				 <&gcc GCC_PCIE_CLKREF_EN>,
-+				 <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
-+			clock-names = "aux", "cfg_ahb", "ref", "refgen";
-+
-+			resets = <&gcc GCC_PCIE_1_PHY_BCR>;
-+			reset-names = "phy";
-+
-+			assigned-clocks = <&gcc GCC_PCIE1_PHY_RCHNG_CLK>;
-+			assigned-clock-rates = <100000000>;
-+
-+			status = "disabled";
-+
-+			pcie1_lane: lanes@1c0e200 {
-+				reg = <0 0x01c0e200 0 0x170>,
-+				      <0 0x01c0e400 0 0x200>,
-+				      <0 0x01c0ea00 0 0x1f0>,
-+				      <0 0x01c0e600 0 0x170>,
-+				      <0 0x01c0e800 0 0x200>,
-+				      <0 0x01c0ee00 0 0xf4>;
-+				clocks = <&gcc GCC_PCIE_1_PIPE_CLK>;
-+				clock-names = "pipe0";
-+
-+				#phy-cells = <0>;
-+				#clock-cells = <1>;
-+				clock-output-names = "pcie_1_pipe_clk";
-+			};
-+		};
-+
- 		ipa: ipa@1e40000 {
- 			compatible = "qcom,sc7280-ipa";
- 
-@@ -1513,6 +1625,14 @@
- 			gpio-ranges = <&tlmm 0 0 175>;
- 			wakeup-parent = <&pdc>;
- 
-+			pcie1_default_state: pcie1-default-state {
-+				clkreq {
-+					pins = "gpio79";
-+					function = "pcie1_clkreqn";
-+					bias-pull-up;
-+				};
-+			};
-+
- 			qup_uart5_default: qup-uart5-default {
- 				pins = "gpio46", "gpio47";
- 				function = "qup13";
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+             Linus
