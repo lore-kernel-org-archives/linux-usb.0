@@ -2,162 +2,141 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8349AC433F5
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:10:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85C6CC433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:32:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65E4260F51
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 675516127B
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:32:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244286AbhIRMMD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Sep 2021 08:12:03 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:34667 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236620AbhIRMLq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Sep 2021 08:11:46 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id BBCC8580A8B;
-        Sat, 18 Sep 2021 08:10:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 18 Sep 2021 08:10:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=aMQfqmJ3dKPGx
-        spm3ASGg7int5qQFUsrLE46xAC0S2k=; b=L61ikF//r9bmQ0GNivc+4qcq+m6zA
-        HJ7MtvS1ncS5FWMaSPSYHje7Qqy87fMn4uPuv4wgGsnTg9D3SVeFzpYcDva2z8/P
-        xzg6gEBfyYyTOCIuJ2F/brtYAmKwugnQ5S1ihnCzUhieBBJclGfzZVCNfvMfJ3ZJ
-        eJjVZ/219IC+v1oZ24I2OVIMp2OAzz7O87PkmAKe2nK20uP6FsqAeTUGsRTqGs2v
-        OVVrtA9+v+ZM5DMwGcByFv5MgPvszkVWpPRKq/VSHBpInrvOkgHN/XHgZrU4zfXk
-        xIt510mFNCy49inGrlPkcEeiyAe2IOWheoOpjXSwflfkWnTuk9ZX5SmIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=aMQfqmJ3dKPGxspm3ASGg7int5qQFUsrLE46xAC0S2k=; b=lnYzo8od
-        vQRfUpxvNiXFaR5s96VlzC6oHdQTlhAJWLeud0wMp4Ywih4i0l0fw2QEKON1TlVv
-        drqFBRJQewi4BuzcZmS8mfUv91Xx6pza0NarW0KtLeduaGGIMmaU+LTFK2e9oaEd
-        Z6HXmK/xs1DJON5eAVI+2XV1pti2f0mFkIzKWcVlGs2TgnApJF8eT4pyPCBcUSum
-        U5LVBZCcXfPhb7eXX6/FmgfHCVowxL0a+mRNd5YoqRPGrGfkZ4EPqjAw09s9Slqk
-        lq5+QkcHUnxgB0i1Ny8r9glhB+2FjPgXC0f1VQqOsjZZuhAegENyE19o1u7L2Fj3
-        coJv3SO5SwwQFw==
-X-ME-Sender: <xms:GtdFYX9Q6AOhwh80KiDE8eo6EoGc3dr3SoFWEIxmUfbaarV6XwZySA>
-    <xme:GtdFYTt8RgHc1rrZpLwX98JvYlPgQDYwj-71wSD9Ju7MWXsUcK6EroEv2QGkYo9y4
-    f9R81DqT5lPmeYKd1U>
-X-ME-Received: <xmr:GtdFYVA_ZIYeulL3vY-9xjtJPA3-Ro9WpUJMoyIr0eteILywOetiLcHlHtvAKftfhQoqWg42hMjfzqNmpqEoKKu9k7xE2dxHtMmLuJnJVdauHASRwQbCD3ZNrofFcQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedggeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
-    rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
-    hrnheptedvkeetleeuffffhfekteetffeggffgveehieelueefvddtueffveevlefhfeej
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
-    hnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:GtdFYTdBNEwJoiX8KZOuN_wNH0hdwngNYjxXQ84R2RYYwfGkku4tcA>
-    <xmx:GtdFYcPyznFmQV7pRbOW_OJ6NRjwnY4tZb8BQwo5eo82UmxYbO0dtg>
-    <xmx:GtdFYVkr48kC2lPG2lKKR2YX5rAANFdTV9iMkfTTNRYeuluACbViYA>
-    <xmx:GtdFYVnG7ks71s3fh9Uxfw4q1v1hVuO3ko_bfuDS1SL9gERwDWuDrA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 18 Sep 2021 08:10:00 -0400 (EDT)
-From:   Sven Peter <sven@svenpeter.dev>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Sven Peter <sven@svenpeter.dev>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: [RFT PATCH 5/9] usb: typec: tipd: Allow to configure irq bits
-Date:   Sat, 18 Sep 2021 14:09:30 +0200
-Message-Id: <20210918120934.28252-6-sven@svenpeter.dev>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20210918120934.28252-1-sven@svenpeter.dev>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
+        id S235323AbhIRMeO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Sep 2021 08:34:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233144AbhIRMeG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Sep 2021 08:34:06 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F0DC061574
+        for <linux-usb@vger.kernel.org>; Sat, 18 Sep 2021 05:32:42 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id b21-20020a1c8015000000b003049690d882so11951454wmd.5
+        for <linux-usb@vger.kernel.org>; Sat, 18 Sep 2021 05:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=W4RY4WLV6Z4od8cR681FtunV24OGcqWnMGcwRnir/BM=;
+        b=mh2EHdZd8Lgok7eTuNhmO8OFQCe9T0g8f29nd0Eb1l6fR5TfXijDBiZOBXIJUH3lbx
+         GLBptHIMtLFl6ik2FENggkhduHMBtC5goqCdqWZWzdpsYBNb5pnW6tLJrIbUfnHoru2Z
+         rASfHhJCYTNY2iXKAs/dB4ufaILmsDNCXDSHPsX3roPHJakTtC3AmnfukJrlIdu8MV76
+         w+QM5/xN44w8hon8S+UWyzK1FcF3aD0p4A9ZS5P4NdVQuL6aAliZ1vBOZK3359UvAJy+
+         UWdhb6V3oUW9dY1DB9wVhAHu275s+qltvK7ZizxDzZ9Rw2kT7GdbbO+HI41hcB3HXFuj
+         V5Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=W4RY4WLV6Z4od8cR681FtunV24OGcqWnMGcwRnir/BM=;
+        b=amsTECPMi+WhbjJUYI42SquThMimMqjjcNb/pcMdAbx/t92wfX5nP5waXvd3FZ8eB5
+         XpMj7XziZz+6FaPY/amZirwFHM9HjsRYBpL1SmVhc5OwQWCIGdYT18/IsgCLNkVJ2gJH
+         borSqWnRQGzTmb8ignBfdysQH++B9P+Acsq8MtnQCcGac9X7rpF3JSf0nhSiUheu5fQ2
+         RZpoS4oRDrqKv+Z14gt3RswQCfL3ZE0i7nXQE0a6ZfR8R18WWP8ZQIU+TVDVzksxP2sI
+         JaTLTZwh5sQV2rlmtaMLlvOvlvbYEPoi49k2JZYXhWNau1VZ/6wNJmI+DM8T8HK6Rqqk
+         YjmQ==
+X-Gm-Message-State: AOAM531ThRBXgjZ7RjHYCnMVBYnw7FunF3SEWv1m9QwrPB7osH0pQwiA
+        yFdBl05vTOJzVDT+ISZtxh2/WSU+NHS7Lw==
+X-Google-Smtp-Source: ABdhPJxXpeuauUqnw39NsrhZLyduVst31IblqNwZ0zcc5rnnL+7u9tapF0g1h+qucnzuR1mjfda9MQ==
+X-Received: by 2002:a1c:21c3:: with SMTP id h186mr20275341wmh.18.1631968361368;
+        Sat, 18 Sep 2021 05:32:41 -0700 (PDT)
+Received: from eldamar (80-218-24-251.dclient.hispeed.ch. [80.218.24.251])
+        by smtp.gmail.com with ESMTPSA id i9sm14041056wmi.44.2021.09.18.05.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Sep 2021 05:32:40 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Date:   Sat, 18 Sep 2021 14:32:40 +0200
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Ben Hutchings <ben@decadent.org.uk>
+Subject: Re: [PATCH] Partially revert "usb: Kconfig: using select for
+ USB_COMMON dependency"
+Message-ID: <YUXcaBR3Yh4PqMxN@eldamar.lan>
+References: <20170418023639.GE4152decadent!org!uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20170418023639.GE4152decadent!org!uk>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Apple variant of the TI TPS6598x chip uses different interrupt
-numbers. Prepare for that by allowing those to be configured depending
-on the compatible.
+Hi Greg,
 
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
+This is a reply to a very old patch submission:
+
+On Tue, Apr 18, 2017 at 02:36:39AM +0000, Ben Hutchings wrote:
+> 
+> This reverts commit cb9c1cfc86926d0e86d19c8e34f6c23458cd3478 for
+> USB_LED_TRIG.  This config symbol has bool type and enables extra code
+> in usb_common itself, not a separate driver.  Enabling it should not
+> force usb_common to be built-in!
+> 
+> Fixes: cb9c1cfc8692 ("usb: Kconfig: using select for USB_COMMON dependency")
+> Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
+> ---
+>  drivers/usb/Kconfig | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
+> index fbe493d44e81..8270abe6c677 100644
+> --- a/drivers/usb/Kconfig
+> +++ b/drivers/usb/Kconfig
+> @@ -154,8 +154,7 @@ source "drivers/usb/gadget/Kconfig"
+> =20
+>  config USB_LED_TRIG
+>  	bool "USB LED Triggers"
+> -	depends on LEDS_CLASS && LEDS_TRIGGERS
+> -	select USB_COMMON
+> +	depends on LEDS_CLASS && USB_COMMON && LEDS_TRIGGERS
+>  	help
+>  	  This option adds LED triggers for USB host and/or gadget activity.
+
+Was going through the series of patches we had applied in Debian and
+noticed while this was submitted by Ben back in 2017, it looks it was
+never applied or considered. Would that be something you could pick
+up? I'm inlining the original patch from Ben.
+
+Regards,
+Salvatore
+
+From: Ben Hutchings <ben@decadent.org.uk>
+Date: Wed, 11 Jan 2017 04:30:40 +0000
+Subject: Partially revert "usb: Kconfig: using select for USB_COMMON  dependency"
+
+This reverts commit cb9c1cfc86926d0e86d19c8e34f6c23458cd3478 for
+USB_LED_TRIG.  This config symbol has bool type and enables extra code
+in usb_common itself, not a separate driver.  Enabling it should not
+force usb_common to be built-in!
+
+Fixes: cb9c1cfc8692 ("usb: Kconfig: using select for USB_COMMON dependency")
+Signed-off-by: Ben Hutchings <ben@decadent.org.uk>
 ---
- drivers/usb/typec/tipd/core.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/usb/common/Kconfig | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 4a6d66250fef..d191e7435018 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -80,6 +80,10 @@ static const char *const modes[] = {
- struct tps6598x_hw {
- 	bool use_int1;
- 	bool use_int2;
-+	unsigned int irq_power_status_update;
-+	unsigned int irq_data_status_update;
-+	unsigned int irq_plug_event;
-+	void (*irq_trace)(u64 event1, u64 event2);
- };
- static const struct tps6598x_hw ti_tps6598x_data;
+diff --git a/drivers/usb/common/Kconfig b/drivers/usb/common/Kconfig
+index d611477aae41..196f4a397587 100644
+--- a/drivers/usb/common/Kconfig
++++ b/drivers/usb/common/Kconfig
+@@ -6,8 +6,7 @@ config USB_COMMON
  
-@@ -431,7 +435,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 		dev_err(tps->dev, "%s: failed to read events\n", __func__);
- 		goto err_unlock;
- 	}
--	trace_tps6598x_irq(event1, event2);
-+	tps->hw->irq_trace(event1, event2);
+ config USB_LED_TRIG
+ 	bool "USB LED Triggers"
+-	depends on LEDS_CLASS && LEDS_TRIGGERS
+-	select USB_COMMON
++	depends on LEDS_CLASS && USB_COMMON && LEDS_TRIGGERS
+ 	help
+ 	  This option adds LED triggers for USB host and/or gadget activity.
  
- 	event = event1 | event2;
- 	if (!event)
-@@ -444,7 +448,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	}
- 	trace_tps6598x_status(status);
- 
--	if (event & TPS_REG_INT_POWER_STATUS_UPDATE) {
-+	if (event & tps->hw->irq_power_status_update) {
- 		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
- 		if (ret < 0) {
- 			dev_err(tps->dev, "failed to read power status: %d\n", ret);
-@@ -453,7 +457,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 		trace_tps6598x_power_status(pwr_status);
- 	}
- 
--	if (event & TPS_REG_INT_DATA_STATUS_UPDATE) {
-+	if (event & tps->hw->irq_data_status_update) {
- 		ret = tps6598x_read32(tps, TPS_REG_DATA_STATUS, &data_status);
- 		if (ret < 0) {
- 			dev_err(tps->dev, "failed to read data status: %d\n", ret);
-@@ -463,7 +467,7 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
- 	}
- 
- 	/* Handle plug insert or removal */
--	if (event & TPS_REG_INT_PLUG_EVENT) {
-+	if (event & tps->hw->irq_plug_event) {
- 		if (status & TPS_STATUS_PLUG_PRESENT) {
- 			ret = tps6598x_connect(tps, status);
- 			if (ret)
-@@ -760,6 +764,10 @@ static int tps6598x_remove(struct i2c_client *client)
- static const struct tps6598x_hw ti_tps6598x_data = {
- 	.use_int1 = true,
- 	.use_int2 = true,
-+	.irq_power_status_update = TPS_REG_INT_POWER_STATUS_UPDATE,
-+	.irq_data_status_update = TPS_REG_INT_DATA_STATUS_UPDATE,
-+	.irq_plug_event = TPS_REG_INT_PLUG_EVENT,
-+	.irq_trace = trace_tps6598x_irq,
- };
- 
- static const struct of_device_id tps6598x_of_match[] = {
--- 
-2.25.1
-
