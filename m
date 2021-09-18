@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 172BFC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C798DC433EF
 	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:10:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0204D60F51
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:10:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B04E96128C
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Sep 2021 12:10:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239415AbhIRML4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Sep 2021 08:11:56 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:58109 "EHLO
+        id S239540AbhIRMMC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Sep 2021 08:12:02 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:33867 "EHLO
         new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236698AbhIRMLr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Sep 2021 08:11:47 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id D0DDD580AA0;
-        Sat, 18 Sep 2021 08:10:04 -0400 (EDT)
+        by vger.kernel.org with ESMTP id S239483AbhIRMLs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Sep 2021 08:11:48 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id B238D580AAF;
+        Sat, 18 Sep 2021 08:10:11 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 18 Sep 2021 08:10:04 -0400
+  by compute1.internal (MEProxy); Sat, 18 Sep 2021 08:10:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm2; bh=7EC26pNkFUOEe
-        vhoWNPRSgdTWMwHLt1pj4bP1NJMakM=; b=hUUL3t3I/5uBIMQTuE6/4O+iR1Ohh
-        YL5pc0Cd3FuYlOKtOw3lUH74YGsdbVjWGoT2P6fkRMaEktTTAkXPNmrhcj4ougWv
-        +4WLL92wP2CQSWJa7u31TweCGu/oCvfP2xyCa+c+XZRUc/TQNs8m19lIkOyt3rAK
-        0vM+coIA3CWN7lZnNmH+A66tdpxsn5fCFvfX/qd7000aR5h9qitzw9WjeajXfhGC
-        iy+gXXepgirtwN93XJnuxAMTaa+nyWMBspuBGk+GpOT4xMtMt/0b4k0bisItauHZ
-        VAM+cxHza0dC89y4E2762auiUKkueLJqdcckwF9qJtengRfxykn+OCtNw==
+        :mime-version:content-transfer-encoding; s=fm2; bh=2BUNai60PAsqa
+        HL0XWy7FY7EGOOjnzZDxxMpH7rQ3Q4=; b=cVOv97tqGpyIKyv/WBxbBDWMhKaDS
+        IbkB6ysOE+JWR2uz8bpqaINpYd4BoMZSXSmNprFA8wpMclhuDgxHeDRVGLQXrVQH
+        8XvfLhLDH0CooiZ+qOW4xSh64LAYe1U30Gi9kwQ0shgRaDP22EpueKs72Gf25+49
+        2+aNb12N79YhnNFuCtkFpUJ5WyShfRpLF9a+20KRVuIv1kQsG0OFMWpUBBtJPDUa
+        w/zjyco0rWTZaLOoNyYXtHdQ6+0GZIgezabYqpJXyHbbJOECKfVSksM3BCypDRIw
+        wrqdgwWdGeIJ3wEYAFLWIR9LAjmqPc08bgRBucyp1EbCnfMvjxonO238g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=7EC26pNkFUOEevhoWNPRSgdTWMwHLt1pj4bP1NJMakM=; b=t2mzvL8p
-        HAutOtz5LQ9GqO7OEfbhS1XoUeJP0nShmDqTK90lx7nuhSlWCs725rSsRt/1ScZ4
-        pl9vB+Yok1Vn0BJ8WlDkcpI9UT0Y1HWN0dJGs0ucUnXUM0EGXIksX+sTlr42myn3
-        33YiUA8VkShucnBVSV4urieugLdJhNPOJfQI67pBuf9YNq5G+9+PpMdl+ngWtmZg
-        8De3mwo2wYdduHHkZ2Be9iySXnlYCezBHORJaEx0OQ6T1QlLrrLUTtK3ZU3X/Uyn
-        2Fnn9Z5A9q2kspv2aax5FUf1OqeeqG/pSt5Z37i4NaOr6rjJ114tnPLJ4TnqpsZS
-        y1ZPRlT216ngsA==
-X-ME-Sender: <xms:HNdFYd1NAhLGlvSdwETeVOrD0l27KIuIDsnxWqyCoIfKIUsEi8SO_Q>
-    <xme:HNdFYUHRoXIDgVm81Lp-4G8WWfCWcU_T8pTt9gvOA6mZ2iIL5CIwKGu4_PFbkzp40
-    QedEbzVMEsG7i2c-u8>
-X-ME-Received: <xmr:HNdFYd7WMm45G0UDMWzTlzFzrmtrER69g6JTqwhN5LBewFQ2gyq_IY9wAbMWVBpIZVL2E0cz8rq0nIBPGlOAnWcGg3AfTlRlQoAlWyn7pfi7FnZ44geuADyZisS0QQ>
+        fm3; bh=2BUNai60PAsqaHL0XWy7FY7EGOOjnzZDxxMpH7rQ3Q4=; b=rAOhEJaM
+        b+VawphzSWGyilbd5N/OZzKVXbohQubTWXVoLyH7HLZSmY/Tz1Lh94ffobzmJEr8
+        DGui+HCRH185pDcpQL84iYtZK5LIVypfKIZAqP0bFSnKS2B9BW7RLbO9Ua5Mmh8H
+        gtS9YqoeBf4rMpge8Zu/BA9R5naxmGznVTsYu9jZM8jknHD1gX/2dDrS+X5JUC+c
+        cCv+ziWP5CZYvkuqcgqfIBJmLD3c5Hmqd9RhKZOeoPu9Y6IMUABP5H/cInWCMfyg
+        hWZHuwe8B/PZO9sKBkU9DXeSXqFFQ3jfdjnp8Aekg6DDwqbFsdsrE7zy7tFt2JqL
+        /c/D7glsV6jEOQ==
+X-ME-Sender: <xms:I9dFYb8i9xrLgZKHFdbEdxlIIopYm8r8nYDteszZn6kblTuCakSygw>
+    <xme:I9dFYXuBe3ZiklGnt8lWRrVUoInTq-5ak3TMBRkuqnJbNEZPfG6d6nfMm256KzOuh
+    dSU07CBJzagCWRROBM>
+X-ME-Received: <xmr:I9dFYZD7rmf04NG4SVShLbFQ1cBg_MvOfDYbxmuokadjLXJAAEpa5Vvol-IMKlD95SLOkB6HrAerP-2qJXBqad34VFEq-sBPrpxwtBai2nALyUEwqO0sUyEEIS4rHA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedggeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -56,12 +56,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedggeeiucetufdoteggod
     hrnheptedvkeetleeuffffhfekteetffeggffgveehieelueefvddtueffveevlefhfeej
     necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
     hnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:HNdFYa1cPHYnaLKSlMyUDf_MSL6Bid7LYeburZs9orUtJ_qykBtwlA>
-    <xmx:HNdFYQGotkTG41C-Gv6xq7GePQzFtOgVSb_2INW8zOX4X-LCxuJJHw>
-    <xmx:HNdFYb8KiZxxTvLFu1lRjlAXJ-fOz0BfNioqI49_kUXUmFgdPQxqFg>
-    <xmx:HNdFYT9LA45loUY1Za1NvMc2RUre9Xw6Y8IzPPjJZYqLRrcJjBvJpA>
+X-ME-Proxy: <xmx:I9dFYXfoJ2nTU7_lLKFVztw8fid6sYfqfj4bBonKWXcV4kqLyvIBag>
+    <xmx:I9dFYQOp0FwhnU29U6hKJyO4bb5Fwcv1eZlYJxqgmbMnh3xhK8L3IA>
+    <xmx:I9dFYZlEW-YCa0x_RTnxw3Pzr-ysSDNjeFIwCpuIJqOmdXJfrZfJWA>
+    <xmx:I9dFYZmvn-cZGqHzT5RnRP7FhEZS7dNgEzQxTB84kFDKtSJuRNgjLw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 18 Sep 2021 08:10:02 -0400 (EDT)
+ 18 Sep 2021 08:10:09 -0400 (EDT)
 From:   Sven Peter <sven@svenpeter.dev>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc:     Sven Peter <sven@svenpeter.dev>,
@@ -75,9 +75,9 @@ Cc:     Sven Peter <sven@svenpeter.dev>,
         Mark Kettenis <mark.kettenis@xs4all.nl>,
         Alexander Graf <graf@amazon.com>,
         Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: [RFT PATCH 6/9] usb: typec: tipd: Setup IntMask explicitly
-Date:   Sat, 18 Sep 2021 14:09:31 +0200
-Message-Id: <20210918120934.28252-7-sven@svenpeter.dev>
+Subject: [RFT PATCH 9/9] usb: typec: tipd: Remove FIXME about testing with I2C_FUNC_I2C
+Date:   Sat, 18 Sep 2021 14:09:34 +0200
+Message-Id: <20210918120934.28252-10-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 In-Reply-To: <20210918120934.28252-1-sven@svenpeter.dev>
 References: <20210918120934.28252-1-sven@svenpeter.dev>
@@ -87,44 +87,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Right now the code relies on the bootloader to set up the interrupt mask
-correctly. This usually works but let's make sure to do it explicitly to
-guarantee it will always work.
+The Apple i2c bus uses I2C_FUNC_I2C and I've tested this quite
+extensivly in the past days. Remove the FIXME about that testing :-)
 
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
 ---
- drivers/usb/typec/tipd/core.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/usb/typec/tipd/core.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index d191e7435018..2058e8cca631 100644
+index 26807c050662..3b6878e22ce9 100644
 --- a/drivers/usb/typec/tipd/core.c
 +++ b/drivers/usb/typec/tipd/core.c
-@@ -728,6 +728,24 @@ static int tps6598x_probe(struct i2c_client *client)
- 			dev_err(&client->dev, "failed to register partner\n");
- 	}
- 
-+	if (tps->hw->use_int1) {
-+		ret = tps6598x_write64(tps, TPS_REG_INT_MASK1,
-+					tps->hw->irq_power_status_update |
-+					tps->hw->irq_data_status_update |
-+					tps->hw->irq_plug_event);
-+		if (ret)
-+			goto err_role_put;
-+	}
-+
-+	if (tps->hw->use_int2) {
-+		ret = tps6598x_write64(tps, TPS_REG_INT_MASK2,
-+					tps->hw->irq_power_status_update |
-+					tps->hw->irq_data_status_update |
-+					tps->hw->irq_plug_event);
-+		if (ret)
-+			goto err_role_put;
-+	}
-+
- 	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
- 					tps6598x_interrupt,
- 					IRQF_SHARED | IRQF_ONESHOT,
+@@ -673,9 +673,6 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	/*
+ 	 * Checking can the adapter handle SMBus protocol. If it can not, the
+ 	 * driver needs to take care of block reads separately.
+-	 *
+-	 * FIXME: Testing with I2C_FUNC_I2C. regmap-i2c uses I2C protocol
+-	 * unconditionally if the adapter has I2C_FUNC_I2C set.
+ 	 */
+ 	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+ 		tps->i2c_protocol = true;
 -- 
 2.25.1
 
