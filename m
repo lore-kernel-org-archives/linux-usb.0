@@ -2,74 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B4AC433FE
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:12:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4979BC433FE
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 13:08:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E08E461074
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:12:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2E04361205
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 13:08:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231430AbhISMNg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Sep 2021 08:13:36 -0400
-Received: from rosenzweig.io ([138.197.143.207]:46684 "EHLO rosenzweig.io"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229662AbhISMNe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 19 Sep 2021 08:13:34 -0400
-Date:   Sun, 19 Sep 2021 07:33:58 -0400
-From:   Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>
-Subject: Re: [RFT PATCH 9/9] usb: typec: tipd: Remove FIXME about testing
- with I2C_FUNC_I2C
-Message-ID: <YUcgJlaw+9yrB+tZ@sunset>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-10-sven@svenpeter.dev>
+        id S230025AbhISNKC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Sep 2021 09:10:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229576AbhISNKB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Sep 2021 09:10:01 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1981DC061574;
+        Sun, 19 Sep 2021 06:08:36 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id z24so28705723lfu.13;
+        Sun, 19 Sep 2021 06:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xcEPIoY3k9qxwzfdbDZ//w0r6omQmazpmeVbRNF7nXY=;
+        b=JJs/uDbuZx9ziCsrmOLjR1FRXWtqpGf5BPRXv0OR6GFJSBHEW2nz1iHCETGUvOx60N
+         fAlSOyQdA8YDMaDkKbczLwlT5Uw2T9OsyxkkfasL+UBrm2TR3jDBYbndutNUdnxTgNaw
+         aK1WoVCc03/VstHzetMCwjeoew3X6ULBkY9rZBWTEpYXe+0zz4TeDW2tswLdA22+0N61
+         2dfd1AGMYyDJVKbNuZn3AIrzebktRvltL/M7rzYSdO6ukwwM0fYAlqc8c3s/viWCd4DG
+         LUyYo0w9YhWzXi3yIeCMKYoUKxrNhqEXuPj2vIThICS72IUXPlvOTUkynu0mnUefSkh6
+         7iXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xcEPIoY3k9qxwzfdbDZ//w0r6omQmazpmeVbRNF7nXY=;
+        b=PqwfR9dNiDbnduuWh73yHWmdvrHymxVHbc1t4v9bdmJbbhW8WXUu1PW9lYQ2GUnrIi
+         6VUc2hettkuVz+7lCG92RLkFctjXStkzKlDNQgrHbNg6yBY9yfoyErsSCVR0K6ZYrVeJ
+         hQOzFf/NKgAUU2XQhKbtAuxiRUM/qbI5aBeYWdoijDPFBqLrxNEiwo5g/w/5Yt2027WX
+         JztwX/CweC8Qv/2ioa8hX07DutMWxhcNSesfedlsCWotQjvxo41EJsQFb8PL67vnltn5
+         kfeg9VwG6X8Qzet8+FL08Nj1lU2w4GTIz2Zzzg8Qijk9WZAMmCRbNfgEjGlF7i3V9auO
+         OLNQ==
+X-Gm-Message-State: AOAM530i3kuUaKfPCc8iQnh5ldZYjsE5sv0+TJKgfq3NENfC+VcNuW4q
+        Xwf374LMaUcwLjiye8kjLWE02yRnQNnUUEJ2G0c=
+X-Google-Smtp-Source: ABdhPJw0yMEOciph+9m0mW+B1kRsaoDRQrf4o3kqOIn+JngAM+OCnsUKGDQMueSz5SFxdiPXSxSaF/l2frY5Ov4RP2k=
+X-Received: by 2002:a2e:6e06:: with SMTP id j6mr18269887ljc.382.1632056914152;
+ Sun, 19 Sep 2021 06:08:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-10-sven@svenpeter.dev>
+References: <CAEyMn7YqrRttqvJzJLA+yVo6WtBZww6QcXT12MMCi+bhjP4pTg@mail.gmail.com>
+ <CAEyMn7ZhBfG7703YMr=EDQyf5mHDkLyET5iNqdXDOpJy9ti+rQ@mail.gmail.com>
+In-Reply-To: <CAEyMn7ZhBfG7703YMr=EDQyf5mHDkLyET5iNqdXDOpJy9ti+rQ@mail.gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Sun, 19 Sep 2021 10:08:22 -0300
+Message-ID: <CAOMZO5CZKdc=AmG1eds9Oy_uwqXDWLwPXk74phCDWdjrzkRC4A@mail.gmail.com>
+Subject: Re: imx8mm board crash in drivers/usb/chipidea/ci_hdrc_imx.c
+To:     Heiko Thiery <heiko.thiery@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
+        Yu Kuai <yukuai3@huawei.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Mark Brown <broonie@kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Hi Heiko,
 
-On Sat , Sep 18, 2021 at 02:09:34PM +0200, Sven Peter wrote:
-> The Apple i2c bus uses I2C_FUNC_I2C and I've tested this quite
-> extensivly in the past days. Remove the FIXME about that testing :-)
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  drivers/usb/typec/tipd/core.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 26807c050662..3b6878e22ce9 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -673,9 +673,6 @@ static int tps6598x_probe(struct i2c_client *client)
->  	/*
->  	 * Checking can the adapter handle SMBus protocol. If it can not, the
->  	 * driver needs to take care of block reads separately.
-> -	 *
-> -	 * FIXME: Testing with I2C_FUNC_I2C. regmap-i2c uses I2C protocol
-> -	 * unconditionally if the adapter has I2C_FUNC_I2C set.
->  	 */
->  	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
->  		tps->i2c_protocol = true;
-> -- 
-> 2.25.1
-> 
+On Sun, Sep 19, 2021 at 7:10 AM Heiko Thiery <heiko.thiery@gmail.com> wrote:
+
+> Meanwhile I figured out that in ci_hdrc_imx_probe() the "fsl,usbphy"
+> node is not found [1]. But I do not understand why.
+>
+> The following failure leads to the return code of -19 (ENODEV) and
+> sets the pyh to NULL:
+> "failed to get fsl,usbphy phandle in /soc@0/bus@32c00000/usb@32e40000 node"
+
+Since commit:
+commit 78e80c4b4238c1f5642b975859664fced4f9c69e
+Author: Marek Vasut <marex@denx.de>
+Date:   Wed Jul 21 18:39:55 2021 +0200
+
+    arm64: dts: imx8m: Replace deprecated fsl,usbphy DT props with phys
+
+    The fsl,usbphy DT property is deprecated, replace it with phys DT
+    property and specify #phy-cells. No functional change.
+
+    Signed-off-by: Marek Vasut <marex@denx.de>
+    Cc: Fabio Estevam <festevam@gmail.com>
+    Cc: NXP Linux Team <linux-imx@nxp.com>
+    Cc: Shawn Guo <shawnguo@kernel.org>
+    To: linux-arm-kernel@lists.infradead.org
+    Signed-off-by: Shawn Guo <shawnguo@kernel.org>
+
+Don't we need to search for 'phys' too?
+
+Does this patch help?
+https://pastebin.com/raw/yZKz1huL
