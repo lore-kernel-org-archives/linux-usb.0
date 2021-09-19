@@ -2,166 +2,177 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BEF8C433F5
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 10:15:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C55C9C433F5
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:07:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 502F161242
-	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 10:15:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9B1FA60F43
+	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:07:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229911AbhISKL7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Sep 2021 06:11:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbhISKL6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Sep 2021 06:11:58 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60648C061574;
-        Sun, 19 Sep 2021 03:10:33 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id x27so53796904lfu.5;
-        Sun, 19 Sep 2021 03:10:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=E9znJvYkFHspj7voVBnpo6GFe+XXUJrxw6eT1zZq4n4=;
-        b=hymLAQa24/5cCb73yNtsUv05BH6AmH9mkZDgO9DaMKV2yqug2tuDvzRC/5F8lmDCg7
-         ylkuXnBuIj+IkaFteW4+HsOcOFON/W5RGiUD/nyQHUP99iHTiL3LU254g7xoF0kzBnDG
-         Nnu+NQLwJHXSvWCa67p7PTsudX+z3zdPSarmUAy1ZzUKt+ke4AMf3+MRfd6Fwe+nBQsn
-         7AB2AKH5VGyWnFL/LXYG++1t2nVwuS933V0hZkXr21bgtSP7I60CQTtdgWyWAhgsbIAE
-         ZUsbrbF6ckb90MzaAi/rvI/iJez7jkQRtuy/UFMOV+N7a8xxLRhtnje7YGMIqIsgfSjY
-         xAgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=E9znJvYkFHspj7voVBnpo6GFe+XXUJrxw6eT1zZq4n4=;
-        b=IwFDAw+2fqj5y2es0Aqv94yyuXsa238CPR0PuPhg2ozuFf5Yc1/WJU9SN7LCxHSu4v
-         9/fc9XxgWcOA3PjHgbHcNjlGniSxa/IyD22rBS+IT8OkglEQr6OVLVkt2vLaWvVrvyYS
-         AVrcClwLec7W8HeNoTjpfA0w5RdMex682cld3N+vKGsmnwVLtxIjhIzpTfovzvcHy1ru
-         9Sz7aWOTP2KVZh381nptN10hgPTRqJ2cPmwS31G+mpw5SBIFoW1AeAmq6jJiYJ/iZGP+
-         NQ8N4FwRM70C00r6eKpI5RW5svqIuN/Gw6/0Y30SFd+qYofMIysVAs/QyASwRxgCMYCL
-         2tew==
-X-Gm-Message-State: AOAM531ZC7Y9mgxJrt1eCVPBYU5Kh5k9rDwt2YH/xNLgbwquk0c/wZDF
-        Ic2ZNeJOm2LcK2DBzg7zolaoMAQDWD6Wy17QblGHwRkH8i84VQ==
-X-Google-Smtp-Source: ABdhPJz1tfjldI9CNu+EmnxD0cYp7aTN8DhWKKXfL+ob767AB9EQZboc7ir26hXDx9abBr0QzKgJ0VwV8YuR6T2j/34=
-X-Received: by 2002:a05:6512:1326:: with SMTP id x38mr14615689lfu.591.1632046230676;
- Sun, 19 Sep 2021 03:10:30 -0700 (PDT)
+        id S230375AbhISMIf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Sep 2021 08:08:35 -0400
+Received: from rosenzweig.io ([138.197.143.207]:46660 "EHLO rosenzweig.io"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229814AbhISMIe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 19 Sep 2021 08:08:34 -0400
+Date:   Sun, 19 Sep 2021 07:33:46 -0400
+From:   Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To:     Sven Peter <sven@svenpeter.dev>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Alexander Graf <graf@amazon.com>
+Subject: Re: [RFT PATCH 8/9] usb: typec: tipd: Switch power state to S0 for
+ Apple variant
+Message-ID: <YUcgGtoA2P3PV8C0@sunset>
+References: <20210918120934.28252-1-sven@svenpeter.dev>
+ <20210918120934.28252-9-sven@svenpeter.dev>
 MIME-Version: 1.0
-References: <CAEyMn7YqrRttqvJzJLA+yVo6WtBZww6QcXT12MMCi+bhjP4pTg@mail.gmail.com>
-In-Reply-To: <CAEyMn7YqrRttqvJzJLA+yVo6WtBZww6QcXT12MMCi+bhjP4pTg@mail.gmail.com>
-From:   Heiko Thiery <heiko.thiery@gmail.com>
-Date:   Sun, 19 Sep 2021 12:10:19 +0200
-Message-ID: <CAEyMn7ZhBfG7703YMr=EDQyf5mHDkLyET5iNqdXDOpJy9ti+rQ@mail.gmail.com>
-Subject: Re: imx8mm board crash in drivers/usb/chipidea/ci_hdrc_imx.c
-To:     Fabio Estevam <festevam@gmail.com>,
-        Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
-        Yu Kuai <yukuai3@huawei.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Shawn Guo <shawnguo@kernel.org>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210918120934.28252-9-sven@svenpeter.dev>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Am So., 19. Sept. 2021 um 08:58 Uhr schrieb Heiko Thiery
-<heiko.thiery@gmail.com>:
->
-> Hi all,
->
-> I see the following crash on a imx8mm board implementation. I cannot
-> find a reason for this at the moment. This can be reproduced with the
-> imx8mm-kontron-n801x-s dtb.Has anyone seen the same issue?
->
-> The position in the code is here:
-> https://elixir.bootlin.com/linux/latest/source/drivers/usb/chipidea/usbmisc_imx.c#L819
->
-> [    1.489344] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000098
-> [    1.498170] Mem abort info:
-> [    1.500966]   ESR = 0x96000044
-> [    1.504030]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [    1.509356]   SET = 0, FnV = 0
-> [    1.512416]   EA = 0, S1PTW = 0
-> [    1.515569]   FSC = 0x04: level 0 translation fault
-> [    1.520458] Data abort info:
-> [    1.523349]   ISV = 0, ISS = 0x00000044
-> [    1.527196]   CM = 0, WnR = 1
-> [    1.530176] [0000000000000098] user address but active_mm is swapper
-> [    1.536544] Internal error: Oops: 96000044 [#1] PREEMPT SMP
-> [    1.542125] Modules linked in:
-> [    1.545190] CPU: 3 PID: 7 Comm: kworker/u8:0 Not tainted 5.14.0-dirty #3
-> [    1.551901] Hardware name: Kontron i.MX8MM N801X S (DT)
-> [    1.557133] Workqueue: events_unbound deferred_probe_work_func
-> [    1.562984] pstate: 80000005 (Nzcv daif -PAN -UAO -TCO BTYPE=--)
-> [    1.568998] pc : imx7d_charger_detection+0x3f0/0x510
-> [    1.573973] lr : imx7d_charger_detection+0x22c/0x510
-> [    1.578947] sp : ffff800011f1b5d0
-> [    1.582266] x29: ffff800011f1b5d0 x28: 0000000000000000 x27: 0000000000000000
-> [    1.589416] x26: ffff000000294c10 x25: ffff800011a6d678 x24: ffff000002ff3680
-> [    1.596567] x23: ffff000002ff3688 x22: ffff000002ff3680 x21: 0000000000000000
-> [    1.603715] x20: 0000000000000000 x19: ffff000003118a80 x18: 0000000000000001
-> [    1.610867] x17: 000000040044ffff x16: 00400032b5503510 x15: 0000000000000000
-> [    1.618019] x14: ffff0000000d44c0 x13: ffff80002e7ed000 x12: 0000000034d4d91d
-> [    1.625172] x11: 0000000000000000 x10: 0000000000000960 x9 : ffff800011f1b460
-> [    1.632321] x8 : ffff00003fdb1d40 x7 : ffff00003fdb7f00 x6 : 0000000004ce61f4
-> [    1.639475] x5 : 0000000000000000 x4 : 0000000000000000 x3 : 0000000000000000
-> [    1.646625] x2 : 11246917acc78900 x1 : 0000000000000000 x0 : 0000000000000001
-> [    1.653779] Call trace:
-> [    1.656230]  imx7d_charger_detection+0x3f0/0x510
-> [    1.660854]  imx_usbmisc_charger_detection+0x40/0xc8
-> [    1.665825]  ci_hdrc_imx_notify_event+0xec/0x120
-> [    1.670455]  ci_udc_vbus_session+0x70/0xa0
-> [    1.674560]  usb_gadget_vbus_connect+0x20/0x38
-> [    1.679013]  ci_handle_vbus_change+0x64/0x70
-> [    1.683290]  ci_hdrc_probe+0x4e0/0x838
-> [    1.687047]  platform_probe+0x68/0xd8
-> [    1.690717]  really_probe+0xb0/0x318
-> [    1.694300]  __driver_probe_device+0x78/0xe0
-> [    1.698576]  driver_probe_device+0xb0/0x110
-> [    1.702767]  __device_attach_driver+0x90/0xe0
-> [    1.707131]  bus_for_each_drv+0x7c/0xd0
-> [    1.710974]  __device_attach+0xe8/0x148
-> [    1.714816]  device_initial_probe+0x14/0x20
-> [    1.719009]  bus_probe_device+0x9c/0xa8
-> [    1.722852]  device_add+0x3f0/0x840
-> [    1.726349]  platform_device_add+0x110/0x238
-> [    1.730626]  ci_hdrc_add_device+0x538/0x5a8
-> [    1.734818]  ci_hdrc_imx_probe+0x3fc/0x810
-> [    1.738927]  platform_probe+0x68/0xd8
-> [    1.742598]  really_probe+0xb0/0x318
-> [    1.746178]  __driver_probe_device+0x78/0xe0
-> [    1.750458]  driver_probe_device+0xb0/0x110
-> [    1.754651]  __device_attach_driver+0x90/0xe0
-> [    1.759013]  bus_for_each_drv+0x7c/0xd0
-> [    1.762858]  __device_attach+0xe8/0x148
-> [    1.766703]  device_initial_probe+0x14/0x20
-> [    1.770896]  bus_probe_device+0x9c/0xa8
-> [    1.774739]  deferred_probe_work_func+0x88/0xc0
-> [    1.779278]  process_one_work+0x1e8/0x360
-> [    1.783295]  worker_thread+0x210/0x480
-> [    1.787049]  kthread+0x150/0x160
-> [    1.790284]  ret_from_fork+0x10/0x18
-> [    1.793873] Code: a8c47bfd d50323bf d65f03c0 52800020 (b9009aa0)
-> [    1.799975] ---[ end trace d43a19cb0f4746b6 ]---
-
-Meanwhile I figured out that in ci_hdrc_imx_probe() the "fsl,usbphy"
-node is not found [1]. But I do not understand why.
-
-The following failure leads to the return code of -19 (ENODEV) and
-sets the pyh to NULL:
-"failed to get fsl,usbphy phandle in /soc@0/bus@32c00000/usb@32e40000 node"
-
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/usb/chipidea/ci_hdrc_imx.c#L420
-
-
---
-Heiko
+On Sat , Sep 18, 2021 at 02:09:33PM +0200, Sven Peter wrote:
+> The Apple CD321x comes up in a low-power state after boot. Usually, the
+> bootloader will already power it up to S0 but let's do it here as well
+> in case that didn't happen.
+> 
+> Suggested-by: Stan Skowronek <stan@corellium.com>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/usb/typec/tipd/core.c     | 44 +++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tipd/tps6598x.h |  6 +++++
+>  2 files changed, 50 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index e96b17fe6af6..26807c050662 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -30,6 +30,7 @@
+>  #define TPS_REG_INT_MASK2		0x17
+>  #define TPS_REG_INT_CLEAR1		0x18
+>  #define TPS_REG_INT_CLEAR2		0x19
+> +#define TPS_REG_SYSTEM_POWER_STATE	0x20
+>  #define TPS_REG_STATUS			0x1a
+>  #define TPS_REG_SYSTEM_CONF		0x28
+>  #define TPS_REG_CTRL_CONF		0x29
+> @@ -84,6 +85,8 @@ struct tps6598x_hw {
+>  	unsigned int irq_data_status_update;
+>  	unsigned int irq_plug_event;
+>  	void (*irq_trace)(u64 event1, u64 event2);
+> +
+> +	bool supports_spss;
+>  };
+>  static const struct tps6598x_hw ti_tps6598x_data;
+>  
+> @@ -161,6 +164,11 @@ static int tps6598x_block_write(struct tps6598x *tps, u8 reg,
+>  	return regmap_raw_write(tps->regmap, reg, data, sizeof(data));
+>  }
+>  
+> +static inline int tps6598x_read8(struct tps6598x *tps, u8 reg, u8 *val)
+> +{
+> +	return tps6598x_block_read(tps, reg, val, sizeof(u8));
+> +}
+> +
+>  static inline int tps6598x_read16(struct tps6598x *tps, u8 reg, u16 *val)
+>  {
+>  	return tps6598x_block_read(tps, reg, val, sizeof(u16));
+> @@ -572,6 +580,35 @@ static int tps6598x_psy_get_prop(struct power_supply *psy,
+>  	return ret;
+>  }
+>  
+> +static int cd321x_switch_power_state(struct tps6598x *tps, u8 target_state)
+> +{
+> +	u8 state;
+> +	int ret;
+> +
+> +	if (!tps->hw->supports_spss)
+> +		return 0;
+> +
+> +	ret = tps6598x_read8(tps, TPS_REG_SYSTEM_POWER_STATE, &state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (state == target_state)
+> +		return 0;
+> +
+> +	ret = tps6598x_exec_cmd(tps, "SPSS", sizeof(u8), &target_state, 0, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = tps6598x_read8(tps, TPS_REG_SYSTEM_POWER_STATE, &state);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (state != target_state)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+>  static int devm_tps6598_psy_register(struct tps6598x *tps)
+>  {
+>  	struct power_supply_config psy_cfg = {};
+> @@ -648,6 +685,11 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (ret)
+>  		return ret;
+>  
+> +	/* Switch Apple chips to the correct system power state */
+> +	ret = cd321x_switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = tps6598x_read32(tps, TPS_REG_STATUS, &status);
+>  	if (ret < 0)
+>  		return ret;
+> @@ -786,6 +828,7 @@ static const struct tps6598x_hw ti_tps6598x_data = {
+>  	.irq_data_status_update = TPS_REG_INT_DATA_STATUS_UPDATE,
+>  	.irq_plug_event = TPS_REG_INT_PLUG_EVENT,
+>  	.irq_trace = trace_tps6598x_irq,
+> +	.supports_spss = false,
+>  };
+>  
+>  static const struct tps6598x_hw apple_cd321x_data = {
+> @@ -795,6 +838,7 @@ static const struct tps6598x_hw apple_cd321x_data = {
+>  	.irq_data_status_update = APPLE_TPS_REG_INT_DATA_STATUS_UPDATE,
+>  	.irq_plug_event = APPLE_TPS_REG_INT_PLUG_EVENT,
+>  	.irq_trace = trace_cd321x_irq,
+> +	.supports_spss = true,
+>  };
+>  
+>  static const struct of_device_id tps6598x_of_match[] = {
+> diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
+> index 36b482733297..5e6ff51aa657 100644
+> --- a/drivers/usb/typec/tipd/tps6598x.h
+> +++ b/drivers/usb/typec/tipd/tps6598x.h
+> @@ -135,6 +135,12 @@
+>  #define APPLE_TPS_REG_INT_STATUS_UPDATE			BIT(8)
+>  #define APPLE_TPS_REG_INT_PLUG_EVENT			BIT(1)
+>  
+> +/* TPS_REG_SYSTEM_POWER_STATE states */
+> +#define TPS_SYSTEM_POWER_STATE_S0			0x00
+> +#define TPS_SYSTEM_POWER_STATE_S3			0x03
+> +#define TPS_SYSTEM_POWER_STATE_S4			0x04
+> +#define TPS_SYSTEM_POWER_STATE_S5			0x05
+> +
+>  /* TPS_REG_POWER_STATUS bits */
+>  #define TPS_POWER_STATUS_CONNECTION(x)  TPS_FIELD_GET(BIT(0), (x))
+>  #define TPS_POWER_STATUS_SOURCESINK(x)	TPS_FIELD_GET(BIT(1), (x))
+> -- 
+> 2.25.1
+> 
