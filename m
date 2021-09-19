@@ -2,82 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C8CC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFADC4332F
 	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 10C1D60F43
+	by mail.kernel.org (Postfix) with ESMTP id 24DC96127A
 	for <linux-usb@archiver.kernel.org>; Sun, 19 Sep 2021 12:07:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhISMIh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S231542AbhISMIh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Sun, 19 Sep 2021 08:08:37 -0400
-Received: from rosenzweig.io ([138.197.143.207]:46662 "EHLO rosenzweig.io"
+Received: from rosenzweig.io ([138.197.143.207]:46664 "EHLO rosenzweig.io"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229954AbhISMIe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S230333AbhISMIe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Sun, 19 Sep 2021 08:08:34 -0400
-Date:   Sun, 19 Sep 2021 07:25:59 -0400
+Date:   Sun, 19 Sep 2021 07:28:36 -0400
 From:   Alyssa Rosenzweig <alyssa@rosenzweig.io>
 To:     Sven Peter <sven@svenpeter.dev>
 Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Hector Martin <marcan@marcan.st>,
         Mohamed Mediouni <mohamed.mediouni@caramail.com>,
         Stan Skowronek <stan@corellium.com>,
         Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [RFT PATCH 1/9] dt-bindings: usb: tps6598x: Add Apple CD321x
- compatible
-Message-ID: <YUceR+9p8YS1HeCt@sunset>
+        Alexander Graf <graf@amazon.com>
+Subject: Re: [RFT PATCH 3/9] usb: typec: tipd: Allow irq controller selection
+Message-ID: <YUce5EcD7Pys5Z4s@sunset>
 References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-2-sven@svenpeter.dev>
+ <20210918120934.28252-4-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-2-sven@svenpeter.dev>
+In-Reply-To: <20210918120934.28252-4-sven@svenpeter.dev>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+(Asked off list for completeness) use_int2 is always true in this series , so I'm not sure it makes sense to configure it. But for symmetry I think it's good, so
+
 Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-
-On Sat , Sep 18, 2021 at 02:09:26PM +0200, Sven Peter wrote:
-> A variant of the TI TPS 6598x Type-C Port Switch and Power Delivery
-> controller known as Apple CD321x is present on boards with Apple SoCs
-> such as the M1. Add its compatible to the device tree binding.
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-> index f6819bf2a3b5..a4c53b1f1af3 100644
-> --- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-> +++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
-> @@ -12,10 +12,14 @@ maintainers:
->  description: |
->    Texas Instruments 6598x Type-C Port Switch and Power Delivery controller
->  
-> +  A variant of this controller known as Apple CD321x or Apple ACE is also
-> +  present on hardware with Apple SoCs such as the M1.
-> +
->  properties:
->    compatible:
->      enum:
->        - ti,tps6598x
-> +      - apple,cd321x
->    reg:
->      maxItems: 1
->  
-> -- 
-> 2.25.1
-> 
