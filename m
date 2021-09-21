@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC2AC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDD0C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:02:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ECD2B60F9D
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:59:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8F4360F6B
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233398AbhIUOBZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Sep 2021 10:01:25 -0400
-Received: from mga02.intel.com ([134.134.136.20]:57851 "EHLO mga02.intel.com"
+        id S233426AbhIUOET (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Sep 2021 10:04:19 -0400
+Received: from mga18.intel.com ([134.134.136.126]:26012 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233042AbhIUOBY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Sep 2021 10:01:24 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="210599486"
+        id S232981AbhIUOER (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Sep 2021 10:04:17 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="210443857"
 X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="210599486"
+   d="scan'208";a="210443857"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 06:40:26 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 06:41:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="613009248"
+   d="scan'208";a="613009717"
 Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 21 Sep 2021 06:40:21 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Sep 2021 16:40:20 +0300
-Date:   Tue, 21 Sep 2021 16:40:20 +0300
+  by fmsmga001.fm.intel.com with SMTP; 21 Sep 2021 06:41:37 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Sep 2021 16:41:36 +0300
+Date:   Tue, 21 Sep 2021 16:41:36 +0300
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Sven Peter <sven@svenpeter.dev>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -43,56 +43,47 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mark Kettenis <mark.kettenis@xs4all.nl>,
         Alexander Graf <graf@amazon.com>,
         Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [RFT PATCH 6/9] usb: typec: tipd: Setup IntMask explicitly
-Message-ID: <YUngxBX8CSJK4nw8@kuha.fi.intel.com>
+Subject: Re: [RFT PATCH 9/9] usb: typec: tipd: Remove FIXME about testing
+ with I2C_FUNC_I2C
+Message-ID: <YUnhENR+Ud80sjqB@kuha.fi.intel.com>
 References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-7-sven@svenpeter.dev>
+ <20210918120934.28252-10-sven@svenpeter.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-7-sven@svenpeter.dev>
+In-Reply-To: <20210918120934.28252-10-sven@svenpeter.dev>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 02:09:31PM +0200, Sven Peter wrote:
-> Right now the code relies on the bootloader to set up the interrupt mask
-> correctly. This usually works but let's make sure to do it explicitly to
-> guarantee it will always work.
+On Sat, Sep 18, 2021 at 02:09:34PM +0200, Sven Peter wrote:
+> The Apple i2c bus uses I2C_FUNC_I2C and I've tested this quite
+> extensivly in the past days. Remove the FIXME about that testing :-)
 > 
 > Signed-off-by: Sven Peter <sven@svenpeter.dev>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->  drivers/usb/typec/tipd/core.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  drivers/usb/typec/tipd/core.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
 > diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index d191e7435018..2058e8cca631 100644
+> index 26807c050662..3b6878e22ce9 100644
 > --- a/drivers/usb/typec/tipd/core.c
 > +++ b/drivers/usb/typec/tipd/core.c
-> @@ -728,6 +728,24 @@ static int tps6598x_probe(struct i2c_client *client)
->  			dev_err(&client->dev, "failed to register partner\n");
->  	}
->  
-> +	if (tps->hw->use_int1) {
-> +		ret = tps6598x_write64(tps, TPS_REG_INT_MASK1,
-> +					tps->hw->irq_power_status_update |
-> +					tps->hw->irq_data_status_update |
-> +					tps->hw->irq_plug_event);
-> +		if (ret)
-> +			goto err_role_put;
-> +	}
-> +
-> +	if (tps->hw->use_int2) {
-> +		ret = tps6598x_write64(tps, TPS_REG_INT_MASK2,
-> +					tps->hw->irq_power_status_update |
-> +					tps->hw->irq_data_status_update |
-> +					tps->hw->irq_plug_event);
-> +		if (ret)
-> +			goto err_role_put;
-> +	}
-
-You should first only set the mask on your board. We can then see if
-it's something that should be done on other boards as well later.
+> @@ -673,9 +673,6 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	/*
+>  	 * Checking can the adapter handle SMBus protocol. If it can not, the
+>  	 * driver needs to take care of block reads separately.
+> -	 *
+> -	 * FIXME: Testing with I2C_FUNC_I2C. regmap-i2c uses I2C protocol
+> -	 * unconditionally if the adapter has I2C_FUNC_I2C set.
+>  	 */
+>  	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+>  		tps->i2c_protocol = true;
+> -- 
+> 2.25.1
 
 thanks,
 
