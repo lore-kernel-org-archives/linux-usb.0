@@ -2,66 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA590C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C110AC433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A73B66115B
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF92B61184
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233242AbhIUNc6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Sep 2021 09:32:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52468 "EHLO mail.kernel.org"
+        id S233255AbhIUNc7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Sep 2021 09:32:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52450 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233194AbhIUNcy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S233238AbhIUNcy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 21 Sep 2021 09:32:54 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 57D5C61131;
-        Tue, 21 Sep 2021 13:31:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E785561183;
+        Tue, 21 Sep 2021 13:31:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632231086;
-        bh=AQyv/1AdlbzlavJ6+tcE4QNlo2I2ItzP6gTJvvrDye0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=S7NW+cSofPbzSC97YtegSeOlHc8rWYge4hP59UC36YXWpsaEIqxbsEGcvgG7wyry2
-         wuPHqDpDJUHa/8aUaLI+W2EZxuoOzkWoGZN5tLiovMrsIjzZOpAIClMcPJa1WIlEJ8
-         h7iXv/F2QZ5HmAHJGfk1ZCzSzguwz0fWInOF4tjDz3KiEwpQKSENPP8lam2V8xjWJj
-         1Mu89GT0TsCQxuVUQgLVlw3MhKB7CJrkJ9UuAak8iSytx6FIjAEcWxZl0nD26IId2q
-         gUf/vZ0K6TgBhPsjlwmzTkco59J8qaKoPCdwlXiwrYuaNEYx2OibBEizkwGINeyYWS
-         qAGBy79rEwmdQ==
+        s=k20201202; t=1632231085;
+        bh=/FskAHTta8BR+nJOSZGpKWzqRfix/jvxVCeWQyU5duk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ag4OBn2icYdE4foTpjoIfZNzfxZUnjgW5hj2wcsN3WiXN1VoWB99W6rW+8T4r9ujZ
+         BGolsSHWxoDht1EpCRtmPH3iWI6eIGdi/w2cpOOxFP0oSoJgUdNexuIhVCJT61p45y
+         gJLbV+3elgiCDr7CJ5pSLHyMlj5y5hQcJExldapGdUiTVY46M/qWyktKbOKTz1H3fc
+         6bM1ieBi2B92lZ9MjpgK+fhR6NWQBkbFVjNVzzUW07ddYMtB9m0TCSugoiaYOdPoyP
+         txGEVtRvj2NYBTqct4d1mEQ6QvjjWuixp0KeWDf0FiTX1jPHCmZNuVNa4qA4YsKB9A
+         9o5lKfiDoxDpw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1mSfro-0003bL-GG; Tue, 21 Sep 2021 15:31:25 +0200
+        id 1mSfrp-0003bR-FS; Tue, 21 Sep 2021 15:31:25 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     Himadri Pandya <himadrispandya@gmail.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] USB: serial: kl5kusb105: clean up line-status handling
-Date:   Tue, 21 Sep 2021 15:30:06 +0200
-Message-Id: <20210921133009.13739-1-johan@kernel.org>
+Subject: [PATCH 3/3] USB: serial: kl5kusb105: drop line-status helper
+Date:   Tue, 21 Sep 2021 15:30:09 +0200
+Message-Id: <20210921133009.13739-4-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210921133009.13739-1-johan@kernel.org>
+References: <20210921133009.13739-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-As a follow up to the usb_control_msg_recv() conversion, this cleans up
-the line-status handling some more.
+Drop the line-status conversion helper and do the conversion in place
+instead.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/kl5kusb105.c | 19 ++++---------------
+ 1 file changed, 4 insertions(+), 15 deletions(-)
 
-
-Johan Hovold (3):
-  USB: serial: kl5kusb105: clean up line-status handling
-  USB: serial: kl5kusb105: simplify line-status handling
-  USB: serial: kl5kusb105: drop line-status helper
-
- drivers/usb/serial/kl5kusb105.c | 40 ++++++++++-----------------------
- 1 file changed, 12 insertions(+), 28 deletions(-)
-
+diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
+index 99dffbdd3142..edcc57bd9b5e 100644
+--- a/drivers/usb/serial/kl5kusb105.c
++++ b/drivers/usb/serial/kl5kusb105.c
+@@ -147,24 +147,12 @@ static int klsi_105_chg_port_settings(struct usb_serial_port *port,
+ 	return rc;
+ }
+ 
+-/* translate a 16-bit status value from the device to linux's TIO bits */
+-static unsigned long klsi_105_status2linestate(const __u16 status)
+-{
+-	unsigned long res = 0;
+-
+-	res =   ((status & KL5KUSB105A_DSR) ? TIOCM_DSR : 0)
+-	      | ((status & KL5KUSB105A_CTS) ? TIOCM_CTS : 0)
+-	      ;
+-
+-	return res;
+-}
+-
+ /*
+  * Read line control via vendor command and return result through
+- * *line_state_p
++ * the state pointer.
+  */
+ static int klsi_105_get_line_state(struct usb_serial_port *port,
+-				   unsigned long *line_state_p)
++				   unsigned long *state)
+ {
+ 	u16 status;
+ 	int rc;
+@@ -186,7 +174,8 @@ static int klsi_105_get_line_state(struct usb_serial_port *port,
+ 
+ 	dev_dbg(&port->dev, "read status %04x\n", status);
+ 
+-	*line_state_p = klsi_105_status2linestate(status);
++	*state = ((status & KL5KUSB105A_DSR) ? TIOCM_DSR : 0) |
++		 ((status & KL5KUSB105A_CTS) ? TIOCM_CTS : 0);
+ 
+ 	return 0;
+ }
 -- 
 2.32.0
 
