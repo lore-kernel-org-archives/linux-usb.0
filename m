@@ -2,90 +2,106 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75003C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DC4DC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:42:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AB95610E8
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:39:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC29D61131
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:42:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233159AbhIUNlU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Sep 2021 09:41:20 -0400
-Received: from mga05.intel.com ([192.55.52.43]:27587 "EHLO mga05.intel.com"
+        id S233401AbhIUNoC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Sep 2021 09:44:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58750 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233096AbhIUNlT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Sep 2021 09:41:19 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="308909930"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="308909930"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 06:34:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="613006988"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 21 Sep 2021 06:34:23 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Sep 2021 16:34:22 +0300
-Date:   Tue, 21 Sep 2021 16:34:22 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [RFT PATCH 5/9] usb: typec: tipd: Allow to configure irq bits
-Message-ID: <YUnfXkVHbgeqV9V2@kuha.fi.intel.com>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-6-sven@svenpeter.dev>
+        id S233448AbhIUNoB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Sep 2021 09:44:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A4A5061159;
+        Tue, 21 Sep 2021 13:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632231752;
+        bh=+vkRjBOB4stl7U6W0aJJppigkyRk9cK3TtGppMIE0mA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dvzaRC3ayM2AuFzkIjGNuyWKThk7MX+VfQB2hTaFE8jP3GPKobYUyHcZWMVE9PMKN
+         SA46OC2VTF2+394cnDznvnvvluigl0NoowC/4+WumonkBe6F+w+HBRtxpwX7Q6x8zq
+         M+r+mcBL5yOZukgq2zGkL1mobaszK93yVyj+sjf9mFjjHOmSvvsdcpbZCMRxeG5mVn
+         QPlTV1gW+pEo3S5YlqOQrtX6VWAA0wCtE5xPsnTaH/8LzYRVCo0rne3kP/NrKv8zSQ
+         UIDXC1Ndv9Etf5sfomxqT2rXm2LVoHoxxDrzONqAhCA+/WqEEUNFSWJMbNsGwHRbDs
+         gxEOlXuN2UXnA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mSg2Z-0003fQ-At; Tue, 21 Sep 2021 15:42:31 +0200
+Date:   Tue, 21 Sep 2021 15:42:31 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Uwe Brandt <uwe.brandt@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: cp210x: add ID for GW Instek GDM-834x
+ Digital Multimeter
+Message-ID: <YUnhR/L8XOmWLFUQ@hovoldconsulting.com>
+References: <CAPui18kK+MCv1uO8h3es3rpZdzztukJVh+3oub9H+53ncp-Usw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-6-sven@svenpeter.dev>
+In-Reply-To: <CAPui18kK+MCv1uO8h3es3rpZdzztukJVh+3oub9H+53ncp-Usw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 02:09:30PM +0200, Sven Peter wrote:
-> The Apple variant of the TI TPS6598x chip uses different interrupt
-> numbers. Prepare for that by allowing those to be configured depending
-> on the compatible.
-
-OK, so I think this justifies having a completely separate irq
-handler for your board.
-
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  drivers/usb/typec/tipd/core.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+On Tue, Sep 21, 2021 at 01:41:40PM +0200, Uwe Brandt wrote:
+> Hi Johan,
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 4a6d66250fef..d191e7435018 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -80,6 +80,10 @@ static const char *const modes[] = {
->  struct tps6598x_hw {
->  	bool use_int1;
->  	bool use_int2;
-> +	unsigned int irq_power_status_update;
-> +	unsigned int irq_data_status_update;
-> +	unsigned int irq_plug_event;
-> +	void (*irq_trace)(u64 event1, u64 event2);
->  };
+> included is a patch to make the GW Instek GDM-834x Multimeter accessible
+> via ttyUSBx
+> https://www.gwinstek.com/en-global/products/detail/GDM-8342_GDM-8341
+> 
+> lsusb output:
+> Bus 001 Device 002: ID 2184:0030 GW Instek GDM834X VCP PORT
+> 
+> dmesg output:
+> [ 1102.650572] usb 1-2: cp210x converter now attached to ttyUSB0
+> 
+> patch:
+> diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+> index f5143eedbc..38f2b6be24 100644
+> --- a/drivers/usb/serial/cp210x.c
+> +++ b/drivers/usb/serial/cp210x.c
+> @@ -228,6 +228,7 @@ static const struct usb_device_id id_table[] = {
+>        { USB_DEVICE(0x1FB9, 0x0602) }, /* Lake Shore Model 648 Magnet Power
+> Supply */
+>        { USB_DEVICE(0x1FB9, 0x0700) }, /* Lake Shore Model 737 VSM
+> Controller */
+>        { USB_DEVICE(0x1FB9, 0x0701) }, /* Lake Shore Model 776 Hall Matrix
+> */
+> +       { USB_DEVICE(0x2184, 0x0030) }, /* GW Instek GDM-834x Digital
+> Multimeter */
+>        { USB_DEVICE(0x2626, 0xEA60) }, /* Aruba Networks 7xxx USB Serial
+> Console */
+>        { USB_DEVICE(0x3195, 0xF190) }, /* Link Instruments MSO-19 */
+>        { USB_DEVICE(0x3195, 0xF280) }, /* Link Instruments MSO-28 */
 
-Then I believe you don't need any of that.
+Thanks for the patch. Patch Subject and content looks good, but the
+formatting needs a little work.
 
+First, anything you put in the body goes in the commit message so
+greetings, etc. should go below a --- line before the diff.
 
-thanks,
+Second, the diff appears to be whitespace damaged (tabs replaced by
+spaces), possibly by your mail client. Try sending the patch to yourself
+first and make sure you can apply it with git-am. Also have a look at
+git-format-patch and git-send-email.
 
--- 
-heikki
+Third, you need to sign-off on your patches. More details can be found
+here:
+
+	Documentation/process/submitting-patches.rst
+
+Here's an example of what a patch adding a device-id could look like:
+
+	https://lore.kernel.org/all/20210803194711.3036-1-dnlplm@gmail.com/
+
+Care to send a v2?
+
+Johan
