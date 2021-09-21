@@ -2,90 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDD0C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4217EC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:08:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8F4360F6B
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 264D360FE8
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 14:08:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233426AbhIUOET (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Sep 2021 10:04:19 -0400
-Received: from mga18.intel.com ([134.134.136.126]:26012 "EHLO mga18.intel.com"
+        id S233406AbhIUOJm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Sep 2021 10:09:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52758 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232981AbhIUOER (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Sep 2021 10:04:17 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="210443857"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="210443857"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 06:41:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="613009717"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 21 Sep 2021 06:41:37 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Sep 2021 16:41:36 +0300
-Date:   Tue, 21 Sep 2021 16:41:36 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [RFT PATCH 9/9] usb: typec: tipd: Remove FIXME about testing
- with I2C_FUNC_I2C
-Message-ID: <YUnhENR+Ud80sjqB@kuha.fi.intel.com>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-10-sven@svenpeter.dev>
+        id S231781AbhIUOJm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Sep 2021 10:09:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 336C46058D;
+        Tue, 21 Sep 2021 14:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1632233293;
+        bh=hEe2kMl/yUbXvpXHI/QU+YS6PbyWpr75G7FTCeRYzEg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=nVkex8I/UfSLCHj1dj0RDUjh4QjHWxnyqTYMN8NYyyi3oCo2Cb0N1g8Jerw19D81i
+         pyV0AqCFtebdJNeyHFep6GLaAyVgoIA4TKpqsHl2VRig0fxik8/YCOvmqGBSmE+EIX
+         dvSkGSNEZ1CdJudW9skzR4uQCKOX9mwfYSV/Qvjw=
+Date:   Tue, 21 Sep 2021 16:08:08 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Himadri Pandya <himadrispandya@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] USB: serial: kl5kusb105: clean up line-status
+ handling
+Message-ID: <YUnnSO/RAhZ5fRxK@kroah.com>
+References: <20210921133009.13739-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-10-sven@svenpeter.dev>
+In-Reply-To: <20210921133009.13739-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 02:09:34PM +0200, Sven Peter wrote:
-> The Apple i2c bus uses I2C_FUNC_I2C and I've tested this quite
-> extensivly in the past days. Remove the FIXME about that testing :-)
+On Tue, Sep 21, 2021 at 03:30:06PM +0200, Johan Hovold wrote:
+> As a follow up to the usb_control_msg_recv() conversion, this cleans up
+> the line-status handling some more.
 > 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
->  drivers/usb/typec/tipd/core.c | 3 ---
->  1 file changed, 3 deletions(-)
+> Johan
 > 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index 26807c050662..3b6878e22ce9 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -673,9 +673,6 @@ static int tps6598x_probe(struct i2c_client *client)
->  	/*
->  	 * Checking can the adapter handle SMBus protocol. If it can not, the
->  	 * driver needs to take care of block reads separately.
-> -	 *
-> -	 * FIXME: Testing with I2C_FUNC_I2C. regmap-i2c uses I2C protocol
-> -	 * unconditionally if the adapter has I2C_FUNC_I2C set.
->  	 */
->  	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
->  		tps->i2c_protocol = true;
-> -- 
-> 2.25.1
+> 
+> Johan Hovold (3):
+>   USB: serial: kl5kusb105: clean up line-status handling
+>   USB: serial: kl5kusb105: simplify line-status handling
+>   USB: serial: kl5kusb105: drop line-status helper
+> 
+>  drivers/usb/serial/kl5kusb105.c | 40 ++++++++++-----------------------
+>  1 file changed, 12 insertions(+), 28 deletions(-)
 
-thanks,
 
--- 
-heikki
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
