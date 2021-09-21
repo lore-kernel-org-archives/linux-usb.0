@@ -2,101 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-20.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41331C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:23:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 322C9C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 224E760F6E
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:23:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C5BD6109E
+	for <linux-usb@archiver.kernel.org>; Tue, 21 Sep 2021 13:31:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233032AbhIUNYe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Sep 2021 09:24:34 -0400
-Received: from mga11.intel.com ([192.55.52.93]:43128 "EHLO mga11.intel.com"
+        id S233180AbhIUNc5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Sep 2021 09:32:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52446 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231658AbhIUNYe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 Sep 2021 09:24:34 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="220158710"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="220158710"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2021 06:23:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; 
-   d="scan'208";a="613003776"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 21 Sep 2021 06:23:01 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 Sep 2021 16:23:00 +0300
-Date:   Tue, 21 Sep 2021 16:23:00 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hector Martin <marcan@marcan.st>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Alexander Graf <graf@amazon.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [RFT PATCH 4/9] usb: typec: tipd: Add short-circuit for no irqs
-Message-ID: <YUnctHnzHHEJgp2m@kuha.fi.intel.com>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-5-sven@svenpeter.dev>
+        id S233231AbhIUNcy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 Sep 2021 09:32:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DFD6B6109E;
+        Tue, 21 Sep 2021 13:31:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1632231085;
+        bh=TUpkICjorOrJWgOQ0TRLVjF3PxXz2EgDQ3fqCrInApo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=lYchrwkOpmtTYMgFhFj9zfdJBaz1q0Z9oxMPR70PGI+O7oMDJ0zK3Ec0asDKYhqe2
+         C2/3IIik8dlSIPjrwiDyDEhs5K3AsJFlLUX5HGkrUY1GGIYOGKFtGLv4XJ70cqNSYN
+         wjxktqFNc1NM4U/X3AgFXWizrzjQoRcSp0rJhOee4N5p1dKWKvlErr7+XXTv0xXMyC
+         Qgoy/ctWGL0PrIRUstq8IalBxwguI2sXQGnu8w/+ekWuv+NEkv14Z30HQ+ZPJI3o3I
+         2vk0Tshh46AcsPcF1zpNOzVeMdwA1NzgL03uHTbIUQuuSbbvcEnXOKOR7LXc9ttoEk
+         asIaKQXMyUUZA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mSfrp-0003bN-A4; Tue, 21 Sep 2021 15:31:25 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Himadri Pandya <himadrispandya@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] USB: serial: kl5kusb105: clean up line-status handling
+Date:   Tue, 21 Sep 2021 15:30:07 +0200
+Message-Id: <20210921133009.13739-2-johan@kernel.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210921133009.13739-1-johan@kernel.org>
+References: <20210921133009.13739-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-5-sven@svenpeter.dev>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 18, 2021 at 02:09:29PM +0200, Sven Peter wrote:
-> If no interrupts are set in IntEventX directly skip to the end of the
-> interrupt handler and return IRQ_NONE instead of IRQ_HANDLED.
-> This possibly allows to detect spurious interrupts if the i2c bus is fast
-> enough.
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+Clean up the line-status handling by dropping redundant initialisations
+and returning early on errors.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/kl5kusb105.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-> ---
->  drivers/usb/typec/tipd/core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-> index c2c399722c37..4a6d66250fef 100644
-> --- a/drivers/usb/typec/tipd/core.c
-> +++ b/drivers/usb/typec/tipd/core.c
-> @@ -434,6 +434,8 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
->  	trace_tps6598x_irq(event1, event2);
->  
->  	event = event1 | event2;
-> +	if (!event)
-> +		goto err_unlock;
->  
->  	ret = tps6598x_read32(tps, TPS_REG_STATUS, &status);
->  	if (ret) {
-> @@ -481,7 +483,9 @@ static irqreturn_t tps6598x_interrupt(int irq, void *data)
->  err_unlock:
->  	mutex_unlock(&tps->lock);
->  
-> -	return IRQ_HANDLED;
-> +	if (event)
-> +		return IRQ_HANDLED;
-> +	return IRQ_NONE;
->  }
->  
->  static int tps6598x_check_mode(struct tps6598x *tps)
-> -- 
-> 2.25.1
-
-thanks,
-
+diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
+index 72d3920c9c48..7681671ddb79 100644
+--- a/drivers/usb/serial/kl5kusb105.c
++++ b/drivers/usb/serial/kl5kusb105.c
+@@ -172,8 +172,6 @@ static int klsi_105_get_line_state(struct usb_serial_port *port,
+ 	u8 status_buf[KLSI_STATUSBUF_LEN];
+ 	__u16 status;
+ 
+-	status_buf[0] = 0xff;
+-	status_buf[1] = 0xff;
+ 	rc = usb_control_msg_recv(port->serial->dev, 0,
+ 				  KL5KUSB105A_SIO_POLL,
+ 				  USB_TYPE_VENDOR | USB_DIR_IN,
+@@ -184,16 +182,17 @@ static int klsi_105_get_line_state(struct usb_serial_port *port,
+ 				  GFP_KERNEL);
+ 	if (rc) {
+ 		dev_err(&port->dev, "reading line status failed: %d\n", rc);
+-	} else {
+-		status = get_unaligned_le16(status_buf);
++		return rc;
++	}
+ 
+-		dev_dbg(&port->dev, "read status %02x %02x\n",
+-			status_buf[0], status_buf[1]);
++	status = get_unaligned_le16(status_buf);
+ 
+-		*line_state_p = klsi_105_status2linestate(status);
+-	}
++	dev_dbg(&port->dev, "read status %02x %02x\n",
++		status_buf[0], status_buf[1]);
+ 
+-	return rc;
++	*line_state_p = klsi_105_status2linestate(status);
++
++	return 0;
+ }
+ 
+ 
 -- 
-heikki
+2.32.0
+
