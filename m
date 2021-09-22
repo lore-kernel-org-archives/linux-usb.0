@@ -2,84 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F02C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD538C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 21:20:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9AA6560FC1
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:38:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B481E611C6
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 21:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237667AbhIVUkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Sep 2021 16:40:24 -0400
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:39709 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236860AbhIVUkY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Sep 2021 16:40:24 -0400
-Received: by mail-ot1-f41.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so5365758ota.6;
-        Wed, 22 Sep 2021 13:38:53 -0700 (PDT)
+        id S238104AbhIVVWX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Sep 2021 17:22:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238117AbhIVVWR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Sep 2021 17:22:17 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95523C061574;
+        Wed, 22 Sep 2021 14:20:41 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id q11so10871290wrr.9;
+        Wed, 22 Sep 2021 14:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:subject:message-id:mime-version:content-disposition;
+        bh=CsEV1+cmn95PxWDVCkkcklf6Fg+sq2sl8U8wO+GKv78=;
+        b=qN0/EA/eVvLzwaa2M0ReXbQzxdWnMoDiUxF80IfjLD5DrIiK0Tv2STvYwePlMv70Qf
+         xyc1/icFZdmN6uNiK7axTctOlPIDxNURvW/zDihTs4EEf0Zy4VjoWaq/nVTjuOPJtQQd
+         0ZMO2ZYEKP6kMn6yUGWcYggIkygywYNh8lD+ageXkCj8i/5jyhNJ4WyiWx3XW99vqXOv
+         LCUykxhrD4HXJ6+tN/CXuV9xWk5G8p3Ti68L67QPZaWqEMXFFDaXc8+bVuiAibp8Lg1Y
+         uSLAOaPK9X8Irxlwn6RGneeFJLaYDs5jeI5X3l2bw3jI/J/xqbeuEXno8PQtgFgHkfRO
+         oaoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=X82q8E3VgYbOTACwRkDSN4yi4ZRfYfFimN3Vm/VTiiY=;
-        b=OrC8tnZ7JRCA5EaliLZg9g3CWOL/+4Ubxe3rU/zkKE/bvFq97XUmM6AssG/ReoZd2N
-         leD3At/kvaDlJm5F3xD7Fwxu1ZFuC2E3rvFzMPuu/7bJm2qhz+7Ks41uxJxya2+k7xNA
-         aF2jKGxh/C8rpYsRqxZ4cCrb35LqZbh9rpdX3Zv/zolVMcgg5bjBbQt2Exis31X3MTmx
-         Drq9FBJ34g9bUR4cx+yKUSstTmjOV/r2YkuHWuse5H/tDSx4rm7qjYWi+g3c7nj1L1vH
-         qjFNgOJP1zKw8KAgZn9n2AbRr0oV6grZSNdMh6dOUtTq8Vnd/TnXgaihwM7AanOmDo6f
-         sPDQ==
-X-Gm-Message-State: AOAM53348j3AxgeXC1LBd4VAd1LBOc/XPmw1fv3hBkB2+rO/5EAWmLYP
-        CS0tmtcww1Jsr+vo7qslMA==
-X-Google-Smtp-Source: ABdhPJxTRmgokL0wStMwRqV+oX3EonIurKbmn+qsKo6StyhL7ScBG2aXp6OpIyu21+e0lOYyQvHS6A==
-X-Received: by 2002:a9d:7344:: with SMTP id l4mr985741otk.155.1632343133437;
-        Wed, 22 Sep 2021 13:38:53 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id bb44sm741272oib.37.2021.09.22.13.38.52
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition;
+        bh=CsEV1+cmn95PxWDVCkkcklf6Fg+sq2sl8U8wO+GKv78=;
+        b=sYOGrAnqTiftKbxnRtwXK5HQccEx2WSoXyH9mWQSPifsrIOWQDvHSEKdkbYpR6q+No
+         AW+DJhvT/MEiqFdSq4jHgNiiP6RyJ1oHX/3X0b4zXQOHPrf8qGsWEfR8xUaEIf9IAOWe
+         ZZwRD2ivhSfG7sXwQhjT1q+odM0+ld5rPtInfULvNMF3aD3kRyprV9YPJc36nkWYX2M3
+         3h6P1D9LbyGc+Ag/SkvGsi7NgX8GmY1BvtZvFFMl6IKhuga7DEWQz7uK0m/++auKeFTe
+         O7exoKL2Cr81cyOBinnJGure7R40KTDDTRbqFmOTw/3ilLV5dGB339RqVA2yuUHgpT9k
+         vz8Q==
+X-Gm-Message-State: AOAM532Gxe+29zVu9CURYltvpKaeDGsWYhFJvCbrHLUePs3LaB0T2GTl
+        ZnLX707n7HOZJsZ/Kuwm8KCoMcYrZkI=
+X-Google-Smtp-Source: ABdhPJxmHsPEPhjTikq0HLDexoFcCIvBSp1JWPm3GPSh6bFsKcFxAYpuY316gaWZfXQBn3oVib2X4w==
+X-Received: by 2002:a7b:c217:: with SMTP id x23mr1089179wmi.192.1632345640228;
+        Wed, 22 Sep 2021 14:20:40 -0700 (PDT)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e0670a283da159592dc58.dip0.t-ipconnect.de. [2003:c7:8f4e:670:a283:da15:9592:dc58])
+        by smtp.gmail.com with ESMTPSA id t23sm3451263wrb.71.2021.09.22.14.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Sep 2021 13:38:52 -0700 (PDT)
-Received: (nullmailer pid 1252331 invoked by uid 1000);
-        Wed, 22 Sep 2021 20:38:51 -0000
-Date:   Wed, 22 Sep 2021 15:38:51 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Sven Peter <sven@svenpeter.dev>
-Cc:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Alexander Graf <graf@amazon.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Hector Martin <marcan@marcan.st>,
-        Stan Skowronek <stan@corellium.com>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: [RFT PATCH 1/9] dt-bindings: usb: tps6598x: Add Apple CD321x
- compatible
-Message-ID: <YUuUW0qTbFC+1Fo/@robh.at.kernel.org>
-References: <20210918120934.28252-1-sven@svenpeter.dev>
- <20210918120934.28252-2-sven@svenpeter.dev>
+        Wed, 22 Sep 2021 14:20:39 -0700 (PDT)
+Date:   Wed, 22 Sep 2021 23:20:37 +0200
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] usb: usb-skeleton: Update min() to min_t()
+Message-ID: <20210922212037.GA8110@matrix-ESPRIMO-P710>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210918120934.28252-2-sven@svenpeter.dev>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, 18 Sep 2021 14:09:26 +0200, Sven Peter wrote:
-> A variant of the TI TPS 6598x Type-C Port Switch and Power Delivery
-> controller known as Apple CD321x is present on boards with Apple SoCs
-> such as the M1. Add its compatible to the device tree binding.
-> 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
+This patch fixes the checkpatch.pl warning:
+WARNING: min() should probably be min_t(size_t, count, MAX_TRANSFER)
++	size_t writesize = min(count, (size_t)MAX_TRANSFER);
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+V2 -> V3: Added change history missed in V2
+V1 -> V2: Added subsystem and driver to subject line
+
+ drivers/usb/usb-skeleton.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
+index 2dc58766273a..d87deee3e26e 100644
+--- a/drivers/usb/usb-skeleton.c
++++ b/drivers/usb/usb-skeleton.c
+@@ -363,7 +363,7 @@ static ssize_t skel_write(struct file *file, const char *user_buffer,
+ 	int retval = 0;
+ 	struct urb *urb = NULL;
+ 	char *buf = NULL;
+-	size_t writesize = min(count, (size_t)MAX_TRANSFER);
++	size_t writesize = min_t(size_t, count, MAX_TRANSFER);
+ 
+ 	dev = file->private_data;
+ 
+-- 
+2.25.1
+
