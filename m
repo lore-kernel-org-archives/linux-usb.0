@@ -2,75 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97342C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:25:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A189CC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73B9261100
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:25:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 820636109E
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:26:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233460AbhIVU06 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Sep 2021 16:26:58 -0400
-Received: from mail.third-level.de ([85.115.14.135]:43283 "EHLO
-        mail.third-level.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232274AbhIVU05 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Sep 2021 16:26:57 -0400
-Received: from p508e5677.dip0.t-ipconnect.de ([80.142.86.119] helo=[10.242.10.3])
-        by mail.third-level.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.92)
-        (envelope-from <malte@neo-soft.org>)
-        id 1mT8o2-0005rI-6X; Wed, 22 Sep 2021 22:25:26 +0200
-Subject: Re: Possible bug in the cp210x kernel driver?
-To:     Johan Hovold <johan@kernel.org>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <zarafa.614a0e7a.4925.15cc733978d29bb6@neosoft.neo-soft.org>
- <YUsTYFOdMH/kQEyE@hovoldconsulting.com>
-From:   Malte Di Donato <malte@neo-soft.org>
-Message-ID: <ecb45e46-a093-0bc8-7855-0c0714ee447b@neo-soft.org>
-Date:   Wed, 22 Sep 2021 22:25:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-MIME-Version: 1.0
-In-Reply-To: <YUsTYFOdMH/kQEyE@hovoldconsulting.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S237556AbhIVU20 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Sep 2021 16:28:26 -0400
+Received: from mailer.bingner.com ([64.62.210.4]:8645 "EHLO mail.bingner.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237381AbhIVU2Z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 Sep 2021 16:28:25 -0400
+X-Greylist: delayed 902 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Sep 2021 16:28:25 EDT
+Received: from EX01.ds.sbdhi.com (2001:470:3c:1::21) by EX01.ds.sbdhi.com
+ (2001:470:3c:1::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Wed, 22 Sep
+ 2021 10:11:52 -1000
+Received: from EX01.ds.sbdhi.com ([fe80::44d3:ef59:fdca:d83]) by
+ EX01.ds.sbdhi.com ([fe80::44d3:ef59:fdca:d83%3]) with mapi id 15.01.2242.010;
+ Wed, 22 Sep 2021 10:11:52 -1000
+From:   Sam Bingner <sam@bingner.com>
+To:     Oliver Neukum <oneukum@suse.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     "David S. Miller" <davem@davemloft.net>,
+        Martin Habets <mhabets@solarflare.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Shannon Nelson <snelson@pensando.io>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Matti Vuorela <matti.vuorela@bitfactor.fi>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Yves-Alexis Perez" <corsac@corsac.net>
+Subject: RE: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
+Thread-Topic: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
+Thread-Index: AQHXCROd8ZjcASMffkmnvxDkK/JoLKuxyU/A
+Date:   Wed, 22 Sep 2021 20:11:52 +0000
+Message-ID: <79d05aaa5052408897aeb8039c6a1582@bingner.com>
+References: <370902e520c44890a44cb5dd0cb1595f@bingner.com>
+ <d61ad9565e29a07086e52bc984e8e629285ff8cf.camel@suse.com>
+In-Reply-To: <d61ad9565e29a07086e52bc984e8e629285ff8cf.camel@suse.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Message-Linecount: 40
-X-Body-Linecount: 24
-X-Message-Size: 1510
-X-Body-Size: 828
-X-SA-Exim-Connect-IP: 80.142.86.119
-X-SA-Exim-Rcpt-To: linux-usb@vger.kernel.org, johan@kernel.org
-X-SA-Exim-Mail-From: malte@neo-soft.org
-X-SA-Exim-Scanned: No (on mail.third-level.de); SAEximRunCond expanded to false
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [98.150.132.238]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 22.09.21 13:28, Johan Hovold wrote:
-> Heh, good that you noticed in time so I can give you proper credit in
-> the commit message. ;)
-yay \/ ;)
+Sorry I didn't have time to research this further to prove it was a regression - but there is now somebody else who has done so and created a patch.  I thought it might be good to give a link to it to you guys.  It caused problems on all iOS versions AFAIK.  The patch and discussion is available at:
 
-> Unfortunately your mails won't be seen by anyone else one the list
-> unless you can disable that html.
-finally it seems that I've got fixed that by now.
-Not so easy with "limited everything" on vacation :/
+https://github.com/openwrt/openwrt/pull/4084
 
-> I'll reply to this mail with a fix that fixes the dropped character
-> issue by disabling event-insertion mode (and thus parity reporting) for
-> devices such as yours.
+Sam
+
+-----Original Message-----
+From: Oliver Neukum <oneukum@suse.com> 
+Sent: Monday, February 22, 2021 2:10 AM
+To: Sam Bingner <sam@bingner.com>; linux-usb@vger.kernel.org
+Cc: David S. Miller <davem@davemloft.net>; Martin Habets <mhabets@solarflare.com>; Luc Van Oostenryck <luc.vanoostenryck@gmail.com>; Shannon Nelson <snelson@pensando.io>; Michael S. Tsirkin <mst@redhat.com>; netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Matti Vuorela <matti.vuorela@bitfactor.fi>; Jakub Kicinski <kuba@kernel.org>; Yves-Alexis Perez <corsac@corsac.net>
+Subject: Re: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
+
+Am Sonntag, den 21.02.2021, 10:42 +0000 schrieb Sam Bingner:
+> There seems to be a problem with this patch:
 > 
-> I've verified it here as well as I could, but could you give it a spin
-> with your device as well? If you want you can reply to the patch mail
-> with a Tested-by tag and I'll add that to the commit message as well.
+> Whenever the iPhone sends a packet to the tethered device that is 1500 bytes long, it gets the error "ipheth 1-1:4.2: ipheth_rcvbulk_callback: urb status: -79" on the connected device and stops passing traffic.  I am able to bring it back up by shutting and unshutting the interface, but the same thing happens very quickly.   I noticed that this patch dropped the max USB packet size from 1516 to 1514 bytes, so I decided to try lowering the MTU to 1498; this made the connection reliable and no more errors occurred.
 > 
-> Johan
+> It appears to me that the iPhone is still sending out 1516 bytes over USB for a 1500 byte packet and this patch makes USB abort when that happens?  I could duplicate reliably by sending a ping from the iphone (ping -s 1472) to the connected device, or vice versa as the reply would then break it.
+> 
+> I apologize if this reply doesn't end up where it should - I tried to reply to the last message in this thread but I wasn't actually *on* the thread so I had to just build it as much as possible myself.
 
-Successfully tested the patch in debian kernel 5.10.0-8-amd64!
+Is this a regression? Does it work after reverting the patch? Which version of iOS?
+
+	Regards
+		Oliver
 
 
-Malte
