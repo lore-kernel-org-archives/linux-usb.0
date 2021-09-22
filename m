@@ -2,89 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A189CC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:26:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F02C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:38:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 820636109E
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:26:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AA6560FC1
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 20:38:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237556AbhIVU20 convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Sep 2021 16:28:26 -0400
-Received: from mailer.bingner.com ([64.62.210.4]:8645 "EHLO mail.bingner.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237381AbhIVU2Z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 Sep 2021 16:28:25 -0400
-X-Greylist: delayed 902 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Sep 2021 16:28:25 EDT
-Received: from EX01.ds.sbdhi.com (2001:470:3c:1::21) by EX01.ds.sbdhi.com
- (2001:470:3c:1::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.10; Wed, 22 Sep
- 2021 10:11:52 -1000
-Received: from EX01.ds.sbdhi.com ([fe80::44d3:ef59:fdca:d83]) by
- EX01.ds.sbdhi.com ([fe80::44d3:ef59:fdca:d83%3]) with mapi id 15.01.2242.010;
- Wed, 22 Sep 2021 10:11:52 -1000
-From:   Sam Bingner <sam@bingner.com>
-To:     Oliver Neukum <oneukum@suse.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Martin Habets <mhabets@solarflare.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Shannon Nelson <snelson@pensando.io>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Matti Vuorela <matti.vuorela@bitfactor.fi>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Yves-Alexis Perez" <corsac@corsac.net>
-Subject: RE: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
-Thread-Topic: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
-Thread-Index: AQHXCROd8ZjcASMffkmnvxDkK/JoLKuxyU/A
-Date:   Wed, 22 Sep 2021 20:11:52 +0000
-Message-ID: <79d05aaa5052408897aeb8039c6a1582@bingner.com>
-References: <370902e520c44890a44cb5dd0cb1595f@bingner.com>
- <d61ad9565e29a07086e52bc984e8e629285ff8cf.camel@suse.com>
-In-Reply-To: <d61ad9565e29a07086e52bc984e8e629285ff8cf.camel@suse.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [98.150.132.238]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S237667AbhIVUkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Sep 2021 16:40:24 -0400
+Received: from mail-ot1-f41.google.com ([209.85.210.41]:39709 "EHLO
+        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236860AbhIVUkY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Sep 2021 16:40:24 -0400
+Received: by mail-ot1-f41.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so5365758ota.6;
+        Wed, 22 Sep 2021 13:38:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=X82q8E3VgYbOTACwRkDSN4yi4ZRfYfFimN3Vm/VTiiY=;
+        b=OrC8tnZ7JRCA5EaliLZg9g3CWOL/+4Ubxe3rU/zkKE/bvFq97XUmM6AssG/ReoZd2N
+         leD3At/kvaDlJm5F3xD7Fwxu1ZFuC2E3rvFzMPuu/7bJm2qhz+7Ks41uxJxya2+k7xNA
+         aF2jKGxh/C8rpYsRqxZ4cCrb35LqZbh9rpdX3Zv/zolVMcgg5bjBbQt2Exis31X3MTmx
+         Drq9FBJ34g9bUR4cx+yKUSstTmjOV/r2YkuHWuse5H/tDSx4rm7qjYWi+g3c7nj1L1vH
+         qjFNgOJP1zKw8KAgZn9n2AbRr0oV6grZSNdMh6dOUtTq8Vnd/TnXgaihwM7AanOmDo6f
+         sPDQ==
+X-Gm-Message-State: AOAM53348j3AxgeXC1LBd4VAd1LBOc/XPmw1fv3hBkB2+rO/5EAWmLYP
+        CS0tmtcww1Jsr+vo7qslMA==
+X-Google-Smtp-Source: ABdhPJxTRmgokL0wStMwRqV+oX3EonIurKbmn+qsKo6StyhL7ScBG2aXp6OpIyu21+e0lOYyQvHS6A==
+X-Received: by 2002:a9d:7344:: with SMTP id l4mr985741otk.155.1632343133437;
+        Wed, 22 Sep 2021 13:38:53 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id bb44sm741272oib.37.2021.09.22.13.38.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Sep 2021 13:38:52 -0700 (PDT)
+Received: (nullmailer pid 1252331 invoked by uid 1000);
+        Wed, 22 Sep 2021 20:38:51 -0000
+Date:   Wed, 22 Sep 2021 15:38:51 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sven Peter <sven@svenpeter.dev>
+Cc:     Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Alexander Graf <graf@amazon.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Hector Martin <marcan@marcan.st>,
+        Stan Skowronek <stan@corellium.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [RFT PATCH 1/9] dt-bindings: usb: tps6598x: Add Apple CD321x
+ compatible
+Message-ID: <YUuUW0qTbFC+1Fo/@robh.at.kernel.org>
+References: <20210918120934.28252-1-sven@svenpeter.dev>
+ <20210918120934.28252-2-sven@svenpeter.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210918120934.28252-2-sven@svenpeter.dev>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sorry I didn't have time to research this further to prove it was a regression - but there is now somebody else who has done so and created a patch.  I thought it might be good to give a link to it to you guys.  It caused problems on all iOS versions AFAIK.  The patch and discussion is available at:
-
-https://github.com/openwrt/openwrt/pull/4084
-
-Sam
-
------Original Message-----
-From: Oliver Neukum <oneukum@suse.com> 
-Sent: Monday, February 22, 2021 2:10 AM
-To: Sam Bingner <sam@bingner.com>; linux-usb@vger.kernel.org
-Cc: David S. Miller <davem@davemloft.net>; Martin Habets <mhabets@solarflare.com>; Luc Van Oostenryck <luc.vanoostenryck@gmail.com>; Shannon Nelson <snelson@pensando.io>; Michael S. Tsirkin <mst@redhat.com>; netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Matti Vuorela <matti.vuorela@bitfactor.fi>; Jakub Kicinski <kuba@kernel.org>; Yves-Alexis Perez <corsac@corsac.net>
-Subject: Re: [PATCH] usbnet: ipheth: fix connectivity with iOS 14
-
-Am Sonntag, den 21.02.2021, 10:42 +0000 schrieb Sam Bingner:
-> There seems to be a problem with this patch:
+On Sat, 18 Sep 2021 14:09:26 +0200, Sven Peter wrote:
+> A variant of the TI TPS 6598x Type-C Port Switch and Power Delivery
+> controller known as Apple CD321x is present on boards with Apple SoCs
+> such as the M1. Add its compatible to the device tree binding.
 > 
-> Whenever the iPhone sends a packet to the tethered device that is 1500 bytes long, it gets the error "ipheth 1-1:4.2: ipheth_rcvbulk_callback: urb status: -79" on the connected device and stops passing traffic.  I am able to bring it back up by shutting and unshutting the interface, but the same thing happens very quickly.   I noticed that this patch dropped the max USB packet size from 1516 to 1514 bytes, so I decided to try lowering the MTU to 1498; this made the connection reliable and no more errors occurred.
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> It appears to me that the iPhone is still sending out 1516 bytes over USB for a 1500 byte packet and this patch makes USB abort when that happens?  I could duplicate reliably by sending a ping from the iphone (ping -s 1472) to the connected device, or vice versa as the reply would then break it.
-> 
-> I apologize if this reply doesn't end up where it should - I tried to reply to the last message in this thread but I wasn't actually *on* the thread so I had to just build it as much as possible myself.
 
-Is this a regression? Does it work after reverting the patch? Which version of iOS?
-
-	Regards
-		Oliver
-
-
+Acked-by: Rob Herring <robh@kernel.org>
