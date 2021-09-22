@@ -2,30 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EC4C4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 11:12:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED599C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 11:12:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66234611C9
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 11:12:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D87236109E
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Sep 2021 11:12:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235310AbhIVLN2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Sep 2021 07:13:28 -0400
-Received: from mail-dm6nam10on2058.outbound.protection.outlook.com ([40.107.93.58]:57505
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        id S235424AbhIVLNp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Sep 2021 07:13:45 -0400
+Received: from mail-bn7nam10on2048.outbound.protection.outlook.com ([40.107.92.48]:35936
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235429AbhIVLN1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 Sep 2021 07:13:27 -0400
+        id S235486AbhIVLNm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 Sep 2021 07:13:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ac4rFNM786stQm7Om9L3nmZINcbTpfCnkyiaPywsRln+HE2/5602ppcFMEYi7V/MYYeBd0AlwwknEsjomYCoZxgQDCUUKj65ftYhndwx8G89AcVTqkIR4WA0wHzJB21hw84IVJXMXpX8jTqjbjObZUpWpIpVbrNYSL055VpHR6iBByEhzcMz4wPok93vsAkt0pLrgkKnyLbgt9xLexoDSIUWFarM6aqid2X70W6j16cNxo9sE8u+pOEgqvLPr5n6twZMvyef677ySnZCfq5DQ1JDzeZ7pElJU7yXVgR//KkMqQU+CCcJRfxEmwGg9NXsQnnMXoCQMD3Le7/HixlXZQ==
+ b=LeI2i1zyZFOFbAeLzeT7DFavt4wkesFeYd9xuVgP9jI/Omy+US3C2GR5u51lYx6mlDUz1kLwevKbwaRNbmnFVIkb9pWlIW9q96TyNTU1SzqmIbDb9nN58kwQ6MsoNNtCl/Kc/0mUCQ7qOYfSZGF4clxUDvEmTzYPnLZjZWzFqf2pB8BVtmqOBpv8IZnYfsO2jmozqSin5Gos5hIH/dn87+w33CyK88uNqZnvk23FPPXeysZEdIb4LnDqIPNDwgRYFy5u26KXHLyozJoavyrjnGjYTg6NXx0bvQnSl10F785ofcTU4NTNjKhzftN282fWkbzDeZaVO8ijQEJPuqNknw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
- bh=mDNuqEcWclVoT/wvPp9zlw1tVxxGoAWdQiJEVfQ0cxY=;
- b=QpiE2uqlGu3o2fQNJIq5LWYrVcuFqC6erDYY9+XSwah3qjudtLaHQeO+0R/2DwZAtH3SEpWgnvto//cMIaMoAykqgrus1Ayxcd2EwjodL3SVxfNFH1rFkgVDTrnxH++WWwCNOrlscwW3X/D55Tfj5GqxZJ6v1tKGov3XRV1rBmmLoFg60kPP/Vog0TymTowq2JZXfsOw5B8y4fb8/PiTzDI04Jzah9lTDOIzyIDdsmOXTMNradIbF1g7XxEM374dQlv+QrDgTjRXx9nX0YwzyxvVGGsxTUNzxTOrIPh3cxxfTYr2X0M/IAH3DF1Mz3zaqnAw6mNru/xIKX9Ih9sv7w==
+ bh=gzJB1sC21gQdkvyTsr4hr4/Jw8MfNFxqOJOtUIpksNw=;
+ b=LjE8e/gY1gHh7+Hi5n8w5ROTfc8TPWfmfdThi96iDvieN/+qp+WbzbmznMu7RDWtnPu7x2SbkhixFwHw6tEeZdqKH1iTLQmPFkheiXM/ZlcPiwzdacvBXG9/KJfqGqLBhnfSrmB+Vp1oBjJjLm1Pum1KqQMxlFLIIEvwTy/rRJ6/SIbP498Dnc7T4DfQxhxCViCi0Xs6Cj8biDTnKh/heJXle0ZCG+Vve5gwRv0yd+SaF+zPmOd2TIH9M0Z9/gyJ/C8df2Wc4cfzL74aQNcvFvQROnerlKtEC8GNFO98eiQ/Iq40bzWylNyuxUV+2rKqeq4wL3QbfEcz1FxpQwX6DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -33,18 +33,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mDNuqEcWclVoT/wvPp9zlw1tVxxGoAWdQiJEVfQ0cxY=;
- b=Qc4v2LsWUvdqwQ4sITDxhUQ5JftzaA9pkRkT1vwA9yu3LiC9PMBPxtYVygDZCwTbFfLgU/eTCHRUXkpBQXt8SWUcV0mGx+hDWS69e3ngWFY+YXGtxCRbNBr2diBIuRFRV4vMS0RbRQ49TPegnPFKSfMO0LeEwHDxZI2KFLQyb7E=
-Received: from BN9PR03CA0958.namprd03.prod.outlook.com (2603:10b6:408:108::33)
- by PH0PR02MB7464.namprd02.prod.outlook.com (2603:10b6:510:15::18) with
+ bh=gzJB1sC21gQdkvyTsr4hr4/Jw8MfNFxqOJOtUIpksNw=;
+ b=rl4xgp5HCLwR5mmRRZ8yKpF9sEDpQjLnNqaKeAoE1Ir7FugDuAhRMEWr6IRMrxKZJoYTqrbN6YOUvjattYUJsz+MmclFbG7qvtADQ9s4rL2sAjDzVPBLNTJgkyJCQSvoT1bt1V1+CdzshKRDQ6eRnkyQGidGNLGyZ6pzREynsC8=
+Received: from BN0PR07CA0015.namprd07.prod.outlook.com (2603:10b6:408:141::30)
+ by BYAPR02MB4741.namprd02.prod.outlook.com (2603:10b6:a03:52::30) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Wed, 22 Sep
- 2021 11:11:56 +0000
-Received: from BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
- (2603:10b6:408:108:cafe::12) by BN9PR03CA0958.outlook.office365.com
- (2603:10b6:408:108::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16 via Frontend
- Transport; Wed, 22 Sep 2021 11:11:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.17; Wed, 22 Sep
+ 2021 11:12:10 +0000
+Received: from BN1NAM02FT004.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:408:141:cafe::75) by BN0PR07CA0015.outlook.office365.com
+ (2603:10b6:408:141::30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend
+ Transport; Wed, 22 Sep 2021 11:12:10 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=pass action=none header.from=xilinx.com;
@@ -52,16 +52,16 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- BN1NAM02FT028.mail.protection.outlook.com (10.13.2.142) with Microsoft SMTP
+ BN1NAM02FT004.mail.protection.outlook.com (10.13.2.123) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4523.14 via Frontend Transport; Wed, 22 Sep 2021 11:11:55 +0000
+ 15.20.4523.14 via Frontend Transport; Wed, 22 Sep 2021 11:12:10 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 22 Sep 2021 04:11:32 -0700
+ 15.1.2176.14; Wed, 22 Sep 2021 04:11:40 -0700
 Received: from smtp.xilinx.com (172.19.127.96) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 22 Sep 2021 04:11:32 -0700
+ 15.1.2176.14 via Frontend Transport; Wed, 22 Sep 2021 04:11:40 -0700
 Envelope-to: git@xilinx.com,
  linux-usb@vger.kernel.org,
  devicetree@vger.kernel.org,
@@ -70,60 +70,123 @@ Envelope-to: git@xilinx.com,
 Received: from [10.140.6.39] (port=42856 helo=xhdsgoud40.xilinx.com)
         by smtp.xilinx.com with esmtp (Exim 4.90)
         (envelope-from <shubhrajyoti.datta@xilinx.com>)
-        id 1mT09z-0005wf-9r; Wed, 22 Sep 2021 04:11:31 -0700
+        id 1mT0A4-0005wf-LK; Wed, 22 Sep 2021 04:11:37 -0700
 From:   Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
 To:     <linux-usb@vger.kernel.org>
 CC:     <devicetree@vger.kernel.org>, <gregkh@linuxfoundation.org>,
         <shubhrajyoti.datta@gmail.com>, <git@xilinx.com>,
         Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Subject: [PATCH v3 0/2] usb: gadget: Add clock support
-Date:   Wed, 22 Sep 2021 16:41:24 +0530
-Message-ID: <cover.1632307026.git.shubhrajyoti.datta@xilinx.com>
+Subject: [PATCH v3 2/2] usb: gadget: udc-xilinx: Add clock support
+Date:   Wed, 22 Sep 2021 16:41:26 +0530
+Message-ID: <7c3386d2f2b315fa6e248fc664efefb9a2de35e9.1632307026.git.shubhrajyoti.datta@xilinx.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1632307026.git.shubhrajyoti.datta@xilinx.com>
+References: <cover.1632307026.git.shubhrajyoti.datta@xilinx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6579f494-e33e-410a-9d22-08d97db9ca01
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7464:
-X-Microsoft-Antispam-PRVS: <PH0PR02MB746485C3FC57FFD07430E4DFAAA29@PH0PR02MB7464.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 643c7179-0f94-44cf-5ca9-08d97db9d29e
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4741:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB474129819667564EF3519526AAA29@BYAPR02MB4741.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Oob-TLC-OOBClassifiers: OLM:962;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8uX8Ggj4SkmeNDwpUN926Cur44HqTp5NZOBF+k/G17KinLOarKbQTr4UUS216ahleBMn4ROF95bqW7pijiFcgKABfGSBArd+fsFYkcpJRDHzvkD4ipgTcyt8NFRTn+1DtupvjxInItO8HTf4rr8yXXfCfMfvhDVTrh1eZYNvfwDMW4DRy2WwfNkMt0LSiwCm+XP+ved6aWJ/in8Va9J3JH8Srj+NZ7voiktVDDnBmbb+lIDwrHGTkIzQHX04a9RGK315lFhaAddJa5MxuDQrFQ3qHDFVMfIrFesvVsEv2hvBjJ/WBd+eBLNJJRUsHaZmYtSTo1gfvT0qvFEg7tdVyTNeJgJrU2V2+0X0Tb7/LQEcamv2+LXAZxgQKlxVKoOKk3ePyw0bJ8TopWV49s2Idb81zvvUpGFSpT1unTbXgknRH75PfW2YJrM1DkSPg3WNGfM+iGzb+gd07jOaAtJP1tIHPUz1kN0plKLe7dZL06S9ySZrzyPOKvNFS006SLwE9a29e16bvaqGuMnRjk4TJlbR9EreTkgw+mAIogT7gwPXk8/mYjvvDObrqM4j+61ZF7JA2ROiuew4U138eAnrsmFTtyGiwmaXmtLj6ydTWq5mclmtVlj4CsUMbsIw3KFoa8XKjnWyw9DXopANFFUGnBMOFg+sR0gDq/t6BwyPH4HraMZ7i73nsiZQlA89h8Uf5ft6JraWy7zra/Sj7fXXh1g4JklLYGUtsNOLf3CbemE=
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(8936002)(4326008)(186003)(4744005)(107886003)(36756003)(26005)(2906002)(82310400003)(356005)(336012)(83380400001)(508600001)(9786002)(70206006)(7696005)(2616005)(426003)(6916009)(47076005)(44832011)(36860700001)(36906005)(70586007)(5660300002)(8676002)(6666004)(54906003)(7636003)(316002)(102446001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: l4vf+KqQI5fzfzN4DmHzPx+yTRJPqPfLzVNh8ww+v+EtpV8VJddY+h8m4mnAuiCph1BTph3Cvtcy/YGbTLa7ro5yQd97B/TdbBgNjSl+lf4cJlM1Uo8yaTFiBs8i2Zk0JDDdqAkvnpRuftkvMiCli3n0369U3bQrtPcjhMOK6NJFKH4Gi3GIfHCbqhjbCI+ISHDfDJUqstpZ56E3US7anQp2AgUnl3yYnSviuJq5PoQKrSJ3MmgllQHykKqCPinTFaEmFvUpQhDkxuAvtAXrKb/eugSublmmZFuimLh+NalDtW8Celua8Z//u6FllNzFk1RIMBgZVeFYJHp88WKaKHcQbNkDfkId+rnkOF8Ooy3fUU/w06Yi4iKLMjzMNjMb5jcUt9z6te/CYhdDgtqsVb1ZTm4og017V+xLLsRJxD7wgVYuLSFoAQzE6usmcIPYpZKZVWhcpYlx+acmgjRBCnF3jSih0epxUkKKMWxfqQeUyaxipop7rPHYlw6Bay+ZFcjncZkQp/hdJkw8VPGmRYh7oDqJoUlU9tn28Ct2/9BvzUudzBC+lGzCx2uxZ1PGVrmm0+chKJyW3tSD5PwrPYaQGrG25DAKz5tUjrFMilfujLW2V3Vtobo1kIGgtDML2QnXjR+X+yiGPsfyjA+F4OH3Ctb1WLLCdWleGZgcqlou801x6yq8utWtnYEd2atqLbpnjQ/c+efEF5opvQV0gU3ruCsDtZfsyx4NLdPssl0=
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch02.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(44832011)(7696005)(6916009)(7636003)(4326008)(5660300002)(2616005)(356005)(2906002)(70206006)(82310400003)(8676002)(8936002)(36860700001)(316002)(70586007)(54906003)(47076005)(508600001)(107886003)(426003)(186003)(6666004)(36906005)(9786002)(26005)(83380400001)(336012)(36756003)(102446001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 11:11:55.9691
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 11:12:10.4192
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6579f494-e33e-410a-9d22-08d97db9ca01
+X-MS-Exchange-CrossTenant-Network-Message-Id: 643c7179-0f94-44cf-5ca9-08d97db9d29e
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT028.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT004.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7464
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4741
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add clock support to udc xilinx.
+Currently the driver depends on the  bootloader to enable the clocks.
+Add support for clocking. The patch enables the clock at  probe and
+disables them at remove.
 
-v2:
-Add the clock binding
+Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
+---
 v3:
-Add a warn print
+Add dev_warn
 
-Shubhrajyoti Datta (2):
-  dt-binding: usb: xilinx: Add clocking node
-  usb: gadget: udc-xilinx: Add clock support
+ drivers/usb/gadget/udc/udc-xilinx.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
- .../devicetree/bindings/usb/xlnx,usb2.yaml    |  8 ++++++
- drivers/usb/gadget/udc/udc-xilinx.c           | 25 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
-
+diff --git a/drivers/usb/gadget/udc/udc-xilinx.c b/drivers/usb/gadget/udc/udc-xilinx.c
+index fb4ffedd6f0d..f5ca670776a3 100644
+--- a/drivers/usb/gadget/udc/udc-xilinx.c
++++ b/drivers/usb/gadget/udc/udc-xilinx.c
+@@ -11,6 +11,7 @@
+  * USB peripheral controller (at91_udc.c).
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/dma-mapping.h>
+@@ -171,6 +172,7 @@ struct xusb_ep {
+  * @addr: the usb device base address
+  * @lock: instance of spinlock
+  * @dma_enabled: flag indicating whether the dma is included in the system
++ * @clk: pointer to struct clk
+  * @read_fn: function pointer to read device registers
+  * @write_fn: function pointer to write to device registers
+  */
+@@ -188,6 +190,7 @@ struct xusb_udc {
+ 	void __iomem *addr;
+ 	spinlock_t lock;
+ 	bool dma_enabled;
++	struct clk *clk;
+ 
+ 	unsigned int (*read_fn)(void __iomem *);
+ 	void (*write_fn)(void __iomem *, u32, u32);
+@@ -2092,6 +2095,27 @@ static int xudc_probe(struct platform_device *pdev)
+ 	udc->gadget.ep0 = &udc->ep[XUSB_EP_NUMBER_ZERO].ep_usb;
+ 	udc->gadget.name = driver_name;
+ 
++	udc->clk = devm_clk_get(&pdev->dev, "s_axi_aclk");
++	if (IS_ERR(udc->clk)) {
++		if (PTR_ERR(udc->clk) != -ENOENT) {
++			ret = PTR_ERR(udc->clk);
++			goto fail;
++		}
++
++		/*
++		 * Clock framework support is optional, continue on,
++		 * anyways if we don't find a matching clock
++		 */
++		dev_warn(&pdev->dev, "s_axi_aclk clock property is not found\n");
++		udc->clk = NULL;
++	}
++
++	ret = clk_prepare_enable(udc->clk);
++	if (ret) {
++		dev_err(&pdev->dev, "Unable to enable clock.\n");
++		return ret;
++	}
++
+ 	spin_lock_init(&udc->lock);
+ 
+ 	/* Check for IP endianness */
+@@ -2147,6 +2171,7 @@ static int xudc_remove(struct platform_device *pdev)
+ 	struct xusb_udc *udc = platform_get_drvdata(pdev);
+ 
+ 	usb_del_gadget_udc(&udc->gadget);
++	clk_disable_unprepare(udc->clk);
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
