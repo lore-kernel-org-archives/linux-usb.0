@@ -2,136 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8190C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Sep 2021 16:08:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D13C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Sep 2021 18:13:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC1B861152
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Sep 2021 16:08:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7117761211
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Sep 2021 18:13:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242435AbhIWQJn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Sep 2021 12:09:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242372AbhIWQJm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Sep 2021 12:09:42 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 026EBC061574
-        for <linux-usb@vger.kernel.org>; Thu, 23 Sep 2021 09:08:11 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id y28so28235867lfb.0
-        for <linux-usb@vger.kernel.org>; Thu, 23 Sep 2021 09:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DLOxhnwH/JaVIhRbDcxcZPpiYGHLJbtd0CRIGAWnOsw=;
-        b=QMXOiJ6n28J2emY/y7cY9+DD4h8Pn0KRvNWmJxYGi/2iw91Mhhsv5k4E/yi6SvFmH+
-         cwsdxpHCcIaSp+pnaMQx9j8vfDg38b4ujoTb2lzS4jvwjrgaoWuJfcNbrdzMUshkRDfy
-         wyxZpTZP4dsY0GDCSs5bbcT3wFiFu+kSB/Akk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DLOxhnwH/JaVIhRbDcxcZPpiYGHLJbtd0CRIGAWnOsw=;
-        b=xvOBOTt+GSx+LE7EPrMzlXUS7fveSMF+JjwJP9lNfo2XPwwTTlBuMh4Norz/VjIErG
-         TIMekwFnZ6IYCSODJTz13T5V4Zo6Oa29Pz2C33/CJ19D2G76FLd4VrThLwpGtJkQ6Ip4
-         h31WPaGl94jF0KU2+RDeyqvJOvF833t1GTiGLjRPmY/TGhvX0WUO5okRLGLT0kE1At9d
-         Cf3LStadC0AID9K/azpWpoKbvIQnjJRtX7N+E+mSkq5rklwcumBCM2Pm7vI9lSgRe0nQ
-         t559H33PGEyhCTcP8nZ8Bho+Jf165kEFXsZc2KUMBXmFICEQJ8lnR3xYZrVQY1fdGHmf
-         w1Zw==
-X-Gm-Message-State: AOAM532wbvHjasxN+lyyI2+Hp3V+1Q48bme2LjVXjROa3k+AdnebutNJ
-        Y+4LX6Zu0JtJ65MCOffl/wbbq74U6WJMDnlwrv0=
-X-Google-Smtp-Source: ABdhPJxprDVmjF9KRJJPLsPasLGjSQgHX34fG+L+ukguIxG1DgxjEQN9QOaJcr6NAQ+EgsdK2Zfeqg==
-X-Received: by 2002:a19:700b:: with SMTP id h11mr4886839lfc.180.1632413289094;
-        Thu, 23 Sep 2021 09:08:09 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id q11sm493739lfp.134.2021.09.23.09.08.08
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Sep 2021 09:08:08 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id u1so236456lje.12
-        for <linux-usb@vger.kernel.org>; Thu, 23 Sep 2021 09:08:08 -0700 (PDT)
-X-Received: by 2002:a2e:3309:: with SMTP id d9mr5950451ljc.249.1632412922441;
- Thu, 23 Sep 2021 09:02:02 -0700 (PDT)
+        id S242916AbhIWSPU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Sep 2021 14:15:20 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38147 "EHLO
+        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242795AbhIWSPD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Sep 2021 14:15:03 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 1B652580C0B;
+        Thu, 23 Sep 2021 14:13:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 23 Sep 2021 14:13:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm2; bh=17nVF2rSqd6ZekV9XH0hI/1A94
+        LLTlfoYJpIt+y6Cpw=; b=evWJSCa+U2iFGl/OIt0/Warjz9npq5C5hPGgKdyuwY
+        Nz4pKcVU6rnMxMAqyYBICfAmm/rwfTiiua6w2aysaDyhgZIamu88SXKL//K5zEf8
+        yYv+7Xdf3P05G3ZaEbXy/7hC6FspCAHbvQeqHosDAmHMhQ95US0vsn/3657Xv1nA
+        z6HikmA4ErdyxizNX7pCfO4f2YdgOwqMjMprNnLjJU9mQKDyIdAY/xcRYVKijB3g
+        NL7LTW1SogAvomJfmT9SWw7Mg2KydRHqlO7dW6coSC8dXAhHL9Yj6L+VUEpnDFF2
+        zZ8K27ka7k0cJVZ6nEVEKymaUB+o/oGcl46D+N6hp77A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=17nVF2rSqd6ZekV9X
+        H0hI/1A94LLTlfoYJpIt+y6Cpw=; b=ugR7ZLESz8l7GQLGV5bNXeqJuXmkL3FC+
+        mkSi9+8VUizOPucCEACDiNbeFz0+b9g+Yc3quCeZSV8ZQuHEYiZV5f8eLqCOAO2w
+        yzmePAfrXGwCFg4hXLoHvDtqKadIfAfXDhnhlUCJXxpUfKBnx7cca2LMwha4pkw6
+        Hdh1F/xU2+1VdiX8+I+hw2z7mnWcGw3nE1RCejQRQzb1a3zU7plzyvWipHE0tdgw
+        F/zi48WxTC9WIGQprqK3xiVwzSJTwiSadzGnAPO5I8zguruupO0ZR1iLCDL5+hPf
+        Ky0eYnGxeQjBbgJuYH5YnsxgL16JVdNvqd1hAEM0ZuenmzPJ9jwWQ==
+X-ME-Sender: <xms:ysNMYT1BTciIzWosxk_yMw5ysXsGgWxwM-5y200344hKl0BIbY3G_A>
+    <xme:ysNMYSGxswPHdVYP060ZSPSdpgH5QNmDSF75dM8hwwEyLioSWuL_tzW1OZnUROpe2
+    uKfDzUROrY2nEEtX1w>
+X-ME-Received: <xmr:ysNMYT5pcuQfSrkgh51t_sj49zGEhc2H_bEva690ewc7_2hlzueTB2xnQFdWwjI6EuCeW0y8U2WXKc9sWgsfSP8dy2Y1Zn357NN36TggntoF_cQp-cibvL4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeiledguddvudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufhvvghnucfr
+    vghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrh
+    hnpeefhedufedtvdfhhedvudehtdejjeehueduffdtgfdvkedvleelueevlefgfeelgfen
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:ysNMYY3vTx1X0yFI5jq67UvFhL0CRNOG-9zIcKP0q-utFoNOtTPPWQ>
+    <xmx:ysNMYWFxgaTom4NKapNwnBLPq7qB-Rc7W80VueqKMxb1oV9k8IbUww>
+    <xmx:ysNMYZ8ITXsug5JpmtTx0N_LT7wXKO2vsyLIe4gLIV0Eajoe2qCLiw>
+    <xmx:y8NMYR-BQq_e_et4HFYD8F6iPSFDcv31BWCV0LkbS9cih5oLKvHioA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Sep 2021 14:13:28 -0400 (EDT)
+From:   Sven Peter <sven@svenpeter.dev>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Sven Peter <sven@svenpeter.dev>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hector Martin <marcan@marcan.st>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Alexander Graf <graf@amazon.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: [PATCH v2 0/6] usb: typec: tipd: Add Apple M1 support
+Date:   Thu, 23 Sep 2021 20:13:15 +0200
+Message-Id: <20210923181321.3044-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-References: <20210923074335.12583-1-rppt@kernel.org>
-In-Reply-To: <20210923074335.12583-1-rppt@kernel.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Thu, 23 Sep 2021 09:01:46 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
-Message-ID: <CAHk-=wiJB8H5pZz-AKaSJ7ViRtdxQGJT7eOByp8DJx2OwZSYwA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] memblock: cleanup memblock_free interface
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        iommu <iommu@lists.linux-foundation.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        KVM list <kvm@vger.kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        linux-usb@vger.kernel.org,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-sparc <sparclinux@vger.kernel.org>,
-        xen-devel@lists.xenproject.org, Mike Rapoport <rppt@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 23, 2021 at 12:43 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> The core change is in the third patch that makes memblock_free() a
-> counterpart of memblock_alloc() and adds memblock_phys_alloc() to be a
+Hi,
 
-^^^^^^^^^^^^^^^^^^^
-> counterpart of memblock_phys_alloc().
+v1: https://lore.kernel.org/linux-usb/20210918120934.28252-1-sven@svenpeter.dev/
+Thanks again to everyone for your review of the initial version!
 
-That should be 'memblock_phys_free()'
+This series adds initial support for the Apple CD3217/3218 chip which is also
+known as Apple ACE1/2. These chips are used on Apple M1 machines.
+They are based on the TI TPS6598x chips with a few differences:
 
-HOWEVER.
+	- The interrupt numbers have been changed
+	- The secondary i2c bus and its interrupt controller are connected to the
+	  system management controller and must not be disturbed
+	- The chip comes up in a low power state and must be booted using the
+	  "SPSS" (System Power State Switch maybe) command which is not
+	  documented in the TI manual
+	- The interrupt mask must be set up explicitly
 
-The real reason I'm replying is that this patch is horribly buggy, and
-will cause subtle problems that are nasty to debug.
+As suggested bei Heikki, this is now done by creating a separate interrupt handler
+for the Apple chips and adding specific setup code to the probe function.
+There should be no functional changes for existing TPS chips which is which
+I've removed the RFT.
 
-You need to be a LOT more careful.
+Best,
 
-From a trivial check - exactly because I looked at doing it with a
-script, and decided it's not so easy - I found cases like this:
+Sven
 
--               memblock_free(__pa(paca_ptrs) + new_ptrs_size,
-+               memblock_free(paca_ptrs + new_ptrs_size,
+Sven Peter (6):
+  dt-bindings: usb: tps6598x: Add Apple CD321x compatible
+  usb: typec: tipd: Split interrupt handler
+  usb: typec: tipd: Add short-circuit for no irqs
+  usb: typec: tipd: Add support for Apple CD321X
+  usb: typec: tipd: Switch CD321X power state to S0
+  usb: typec: tipd: Remove FIXME about testing with I2C_FUNC_I2C
 
-which is COMPLETELY wrong.
+ .../devicetree/bindings/usb/ti,tps6598x.yaml  |   4 +
+ drivers/usb/typec/tipd/core.c                 | 229 +++++++++++++++---
+ drivers/usb/typec/tipd/tps6598x.h             |  12 +
+ drivers/usb/typec/tipd/trace.h                |  23 ++
+ 4 files changed, 231 insertions(+), 37 deletions(-)
 
-Why? Because now that addition is done as _pointer_ addition, not as
-an integer addition, and the end result is something completely
-different.
+-- 
+2.25.1
 
-pcac_ptrs is of type 'struct paca_struct **', so when you add
-new_ptrs_size to it, it will add it in terms of that many pointers,
-not that many bytes.
-
-You need to use some smarter scripting, or some way to validate it.
-
-And no, making the scripting just replace '__pa(x)' with '(void *)(x)'
-- which _would_ be mindless and get the same result - is not
-acceptable either, because it avoids one of the big improvements from
-using the right interface, namely having compiler type checking (and
-saner code that people understand).
-
-So NAK. No broken automated scripting patches.
-
-               Linus
