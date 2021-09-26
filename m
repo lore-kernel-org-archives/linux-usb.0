@@ -2,54 +2,54 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE4EBC433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CDBC433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:43:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCE756108E
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:43:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8264F60F91
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:43:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232238AbhIZWod (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Sep 2021 18:44:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43328 "EHLO
+        id S232128AbhIZWoz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Sep 2021 18:44:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231328AbhIZWoP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Sep 2021 18:44:15 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D597C061714;
-        Sun, 26 Sep 2021 15:42:38 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id i25so68977046lfg.6;
-        Sun, 26 Sep 2021 15:42:38 -0700 (PDT)
+        with ESMTP id S232135AbhIZWo3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Sep 2021 18:44:29 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48D52C061774;
+        Sun, 26 Sep 2021 15:42:52 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id z24so69312604lfu.13;
+        Sun, 26 Sep 2021 15:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OcjaPyxUOcH+Po9iWB7z9kNYrbD1HMHOoC8A400eowg=;
-        b=B/1SQbkQzQvcGa6GJvUUhrvmdh9l2xcO1q60SJLG2NDbsZn2+7hp/Cpl7Brc/gUHY7
-         tj44ouv242snxyzO7rXwZ6VWYUYmOmSjJc+xhQVni/bhUfFDukT/JILp+Y/LINNsewBS
-         SSjs7XVEAz49Gh8QZtwvIZCgiIJ4yIsdu7WTgXgXZHiIWlBLmDyBgwPT1h1cmiVLrp5g
-         21jahb7McUbBys86dq1WH4onNnDAEzF3qUy3Usw4/z2rzcrY9Ezks9VQjjY0QTL8jy/P
-         hVnqJ3fSsl8MH0N0tcs3tYxn2zFTFiqIjKnYq4pT9eKQIAC4Jf5bMFQTIki3x/RYTNvJ
-         Wm/A==
+        bh=Xyfv+bs1PqRnjMFL4Pq5e7XkvADOaeyFEUXpxII4rIo=;
+        b=izvFqpS38K4FCvT7p/zbvtPiyuSbxhHUIKmFwiK3flubJCAqcxp4mNup9FVUVBz10D
+         BaZc9dN4ud4sqdRa9IoE73Rp8graQE+SahQXeY7IOPhoiS+N7m/KkaLm5SMLR/4w0aPj
+         fg0tSmIcoWmarUWnmFwz5LastPqVxXfW5RPHers47MYDvxqf9Dfl+4Dzr9cGHY8HAHvi
+         m1pK+t0poPBYPw4Zax6XbCAaoqMfiQU1/4WQ2Ay9/Kl6f34wy3fZuLPXoagHgox/5bTL
+         A3v8DwV12vmHFdpkQGfAGPyI+CZr5nITAm+9lMD11iMI6Zznv2S5aOtjHIE18/Dsuru5
+         Ijuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OcjaPyxUOcH+Po9iWB7z9kNYrbD1HMHOoC8A400eowg=;
-        b=Ub5hiE8EUaBym50xf6f897o8jNTWh3+HBSp+6nvKWkxf8mPStdTLZDT9/vnPMvXrTt
-         yjOnS4w0ESrTrDfmvjs+1roMkn0ax8isbBqdhLSlJAW6Y2g7wmdSFzeZvl1k91/BxXUn
-         0Zn7rLkCP83pzf6yKwfxpBsuB+100DbDNzhffK3eZcAvCop5nmPs5+IfFfzpzF2ctAdo
-         O2SDw1BPx+tRzLtcTUNzToAQsTriSYYcizKeN1AgIShjSR6+xpX9AmYV+mtJsJCQm7tn
-         fStBH4oJFaTjXAmQg67/LcISlUi3Gz2JcY4Y7iGgKNEEqe5Bcfb0Su/LBWoaCc42nDOJ
-         8dxw==
-X-Gm-Message-State: AOAM531HqRnaraZPwMRKqws8+c9REWx1K1Jp68axuxhMrieUqShnsgnr
-        HJL15+Urdn2jYIwt+yNaN1M=
-X-Google-Smtp-Source: ABdhPJyv30B7zTUSlLsmVpeuzJtai/wNeA11G01ou381MLjtPMWxO1Kci30gEvYasXgsryMESLsM5g==
-X-Received: by 2002:ac2:561a:: with SMTP id v26mr20856130lfd.500.1632696156656;
-        Sun, 26 Sep 2021 15:42:36 -0700 (PDT)
+        bh=Xyfv+bs1PqRnjMFL4Pq5e7XkvADOaeyFEUXpxII4rIo=;
+        b=JOMPOTioMgHsut/89CCbUfT+T6mCbP43Ha9ccJCJ0jQ6k+VTNpc5DqYQFLAzFqwzTh
+         VuiO4xEgylcENnZPV9tsTCuQPxGjEzbUaHhpC6IGgj/lwYhmhOIcLyQmBqqyWUt8+WnQ
+         a+M4rhnD8Kc6q6H25e6oAGKD3HNvTjFUWvdWL2O0QQAs8WKg87IuXIwonrFdkDCiUOFP
+         ai1Iq+ZMhgjG5M3R7mIQ2w4sraXbw1DhoAX12D2J01n0DsNf5xFhWz3CyONuuLt3sVef
+         a8ePXDI4aUDJq4qYDtnN2weFxyj0eiNau5fijPxMHVDQCeyaFbRZBgCNB2tQubDqDXfd
+         HGIw==
+X-Gm-Message-State: AOAM532ohePFWDE7VwmHRBLATBj4GN/CmQU7BIELen530cqUHSq3VQQe
+        U1ekrcje5wp+bgGYMQgP/74=
+X-Google-Smtp-Source: ABdhPJwFcgY1e/EpRbZGqJyBjJ81B0If7emAzTEomlL5PaZAh/GdNeqs2BhIjIoVoXBk8gQvMR+6HA==
+X-Received: by 2002:a2e:5005:: with SMTP id e5mr24744959ljb.471.1632696170675;
+        Sun, 26 Sep 2021 15:42:50 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.35
+        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:42:36 -0700 (PDT)
+        Sun, 26 Sep 2021 15:42:50 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -76,9 +76,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 09/35] gpu: host1x: Add runtime PM and OPP support
-Date:   Mon, 27 Sep 2021 01:40:32 +0300
-Message-Id: <20210926224058.1252-10-digetx@gmail.com>
+Subject: [PATCH v13 21/35] spi: tegra20-slink: Add OPP support
+Date:   Mon, 27 Sep 2021 01:40:44 +0300
+Message-Id: <20210926224058.1252-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -88,452 +88,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add runtime PM and OPP support to the Host1x driver. For the starter we
-will keep host1x always-on because dynamic power management require a major
-refactoring of the driver code since lot's of code paths are missing the
-RPM handling and we're going to remove some of these paths in the future.
+The SPI on Tegra belongs to the core power domain and we're going to
+enable GENPD support for the core domain. Now SPI driver must use OPP
+API for driving the controller's clock rate because OPP API takes care
+of reconfiguring the domain's performance state in accordance to the
+rate. Add OPP support to the driver.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/host1x/debug.c         |  15 +++
- drivers/gpu/host1x/dev.c           | 151 +++++++++++++++++++++++------
- drivers/gpu/host1x/dev.h           |   3 +-
- drivers/gpu/host1x/hw/channel_hw.c |  44 ++++-----
- drivers/gpu/host1x/intr.c          |   3 -
- drivers/gpu/host1x/syncpt.c        |   5 +-
- 6 files changed, 165 insertions(+), 56 deletions(-)
+ drivers/spi/spi-tegra20-slink.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/host1x/debug.c b/drivers/gpu/host1x/debug.c
-index 8a14880c61bb..18d9c8d206e3 100644
---- a/drivers/gpu/host1x/debug.c
-+++ b/drivers/gpu/host1x/debug.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/debugfs.h>
-+#include <linux/pm_runtime.h>
- #include <linux/seq_file.h>
- #include <linux/uaccess.h>
- 
-@@ -52,6 +53,11 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
- {
- 	struct host1x *m = dev_get_drvdata(ch->dev->parent);
- 	struct output *o = data;
-+	int err;
-+
-+	err = pm_runtime_resume_and_get(m->dev);
-+	if (err < 0)
-+		return err;
- 
- 	mutex_lock(&ch->cdma.lock);
- 	mutex_lock(&debug_lock);
-@@ -64,6 +70,8 @@ static int show_channel(struct host1x_channel *ch, void *data, bool show_fifo)
- 	mutex_unlock(&debug_lock);
- 	mutex_unlock(&ch->cdma.lock);
- 
-+	pm_runtime_put(m->dev);
-+
- 	return 0;
- }
- 
-@@ -71,9 +79,14 @@ static void show_syncpts(struct host1x *m, struct output *o)
- {
- 	struct list_head *pos;
- 	unsigned int i;
-+	int err;
- 
- 	host1x_debug_output(o, "---- syncpts ----\n");
- 
-+	err = pm_runtime_resume_and_get(m->dev);
-+	if (err < 0)
-+		return;
-+
- 	for (i = 0; i < host1x_syncpt_nb_pts(m); i++) {
- 		u32 max = host1x_syncpt_read_max(m->syncpt + i);
- 		u32 min = host1x_syncpt_load(m->syncpt + i);
-@@ -101,6 +114,8 @@ static void show_syncpts(struct host1x *m, struct output *o)
- 					    base_val);
- 	}
- 
-+	pm_runtime_put(m->dev);
-+
- 	host1x_debug_output(o, "\n");
- }
- 
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index fbb6447b8659..595b91099e3e 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -6,14 +6,18 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
- #include <linux/list.h>
+diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
+index 3226c4e1c7c0..eea1853010e8 100644
+--- a/drivers/spi/spi-tegra20-slink.c
++++ b/drivers/spi/spi-tegra20-slink.c
+@@ -18,12 +18,15 @@
+ #include <linux/kthread.h>
  #include <linux/module.h>
- #include <linux/of_device.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
  #include <linux/of.h>
-+#include <linux/pm_runtime.h>
- #include <linux/slab.h>
+ #include <linux/of_device.h>
+ #include <linux/reset.h>
+ #include <linux/spi/spi.h>
  
 +#include <soc/tegra/common.h>
 +
- #define CREATE_TRACE_POINTS
- #include <trace/events/host1x.h>
- #undef CREATE_TRACE_POINTS
-@@ -190,6 +194,9 @@ static void host1x_setup_sid_table(struct host1x *host)
- 	const struct host1x_info *info = host->info;
- 	unsigned int i;
- 
-+	if (!info->has_hypervisor)
-+		return;
-+
- 	for (i = 0; i < info->num_sid_entries; i++) {
- 		const struct host1x_sid_entry *entry = &info->sid_table[i];
- 
-@@ -347,6 +354,27 @@ static void host1x_iommu_exit(struct host1x *host)
- 	}
- }
- 
-+static int host1x_get_resets(struct host1x *host)
-+{
-+	int err;
-+
-+	host->resets[0].id = "mc";
-+	host->resets[1].id = "host1x";
-+	host->nresets = ARRAY_SIZE(host->resets);
-+
-+	err = devm_reset_control_bulk_get_optional_exclusive_released(
-+				host->dev, host->nresets, host->resets);
-+	if (err) {
-+		dev_err(host->dev, "failed to get reset: %d\n", err);
-+		return err;
-+	}
-+
-+	if (WARN_ON(!host->resets[1].rstc))
-+		return -ENOENT;
-+
-+	return 0;
-+}
-+
- static int host1x_probe(struct platform_device *pdev)
- {
- 	struct host1x *host;
-@@ -423,12 +451,9 @@ static int host1x_probe(struct platform_device *pdev)
- 		return err;
+ #define SLINK_COMMAND			0x000
+ #define SLINK_BIT_LENGTH(x)		(((x) & 0x1f) << 0)
+ #define SLINK_WORD_SIZE(x)		(((x) & 0x1f) << 5)
+@@ -680,7 +683,7 @@ static int tegra_slink_start_transfer_one(struct spi_device *spi,
+ 	bits_per_word = t->bits_per_word;
+ 	speed = t->speed_hz;
+ 	if (speed != tspi->cur_speed) {
+-		clk_set_rate(tspi->clk, speed * 4);
++		dev_pm_opp_set_rate(tspi->dev, speed * 4);
+ 		tspi->cur_speed = speed;
  	}
  
--	host->rst = devm_reset_control_get(&pdev->dev, "host1x");
--	if (IS_ERR(host->rst)) {
--		err = PTR_ERR(host->rst);
--		dev_err(&pdev->dev, "failed to get reset: %d\n", err);
-+	err = host1x_get_resets(host);
-+	if (err)
- 		return err;
--	}
+@@ -1082,6 +1085,11 @@ static int tegra_slink_probe(struct platform_device *pdev)
+ 	init_completion(&tspi->xfer_completion);
  
- 	err = host1x_iommu_init(host);
- 	if (err < 0) {
-@@ -443,22 +468,10 @@ static int host1x_probe(struct platform_device *pdev)
- 		goto iommu_exit;
- 	}
- 
--	err = clk_prepare_enable(host->clk);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to enable clock\n");
--		goto free_channels;
--	}
--
--	err = reset_control_deassert(host->rst);
--	if (err < 0) {
--		dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
--		goto unprepare_disable;
--	}
--
- 	err = host1x_syncpt_init(host);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to initialize syncpts\n");
--		goto reset_assert;
-+		goto free_channels;
- 	}
- 
- 	err = host1x_intr_init(host, syncpt_irq);
-@@ -467,10 +480,18 @@ static int host1x_probe(struct platform_device *pdev)
- 		goto deinit_syncpt;
- 	}
- 
--	host1x_debug_init(host);
-+	pm_runtime_enable(&pdev->dev);
+ 	pm_runtime_enable(&pdev->dev);
 +
-+	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-+	if (err)
-+		goto pm_disable;
- 
--	if (host->info->has_hypervisor)
--		host1x_setup_sid_table(host);
-+	/* the driver's code isn't ready yet for the dynamic RPM */
-+	err = pm_runtime_resume_and_get(&pdev->dev);
-+	if (err)
-+		goto pm_disable;
++	ret = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	if (ret)
++		goto exit_pm_disable;
 +
-+	host1x_debug_init(host);
- 
- 	err = host1x_register(host);
- 	if (err < 0)
-@@ -486,13 +507,14 @@ static int host1x_probe(struct platform_device *pdev)
- 	host1x_unregister(host);
- deinit_debugfs:
- 	host1x_debug_deinit(host);
-+
-+	pm_runtime_put(&pdev->dev);
-+pm_disable:
-+	pm_runtime_disable(&pdev->dev);
-+
- 	host1x_intr_deinit(host);
- deinit_syncpt:
- 	host1x_syncpt_deinit(host);
--reset_assert:
--	reset_control_assert(host->rst);
--unprepare_disable:
--	clk_disable_unprepare(host->clk);
- free_channels:
- 	host1x_channel_list_free(&host->channel_list);
- iommu_exit:
-@@ -507,19 +529,94 @@ static int host1x_remove(struct platform_device *pdev)
- 
- 	host1x_unregister(host);
- 	host1x_debug_deinit(host);
-+
-+	pm_runtime_put(&pdev->dev);
-+	pm_runtime_disable(&pdev->dev);
-+
- 	host1x_intr_deinit(host);
- 	host1x_syncpt_deinit(host);
--	reset_control_assert(host->rst);
--	clk_disable_unprepare(host->clk);
- 	host1x_iommu_exit(host);
- 
- 	return 0;
- }
- 
-+static int __maybe_unused host1x_runtime_suspend(struct device *dev)
-+{
-+	struct host1x *host = dev_get_drvdata(dev);
-+	int err;
-+
-+	host1x_intr_stop(host);
-+	host1x_syncpt_save(host);
-+
-+	err = reset_control_bulk_assert(host->nresets, host->resets);
-+	if (err) {
-+		dev_err(dev, "failed to assert reset: %d\n", err);
-+		goto resume_host1x;
-+	}
-+
-+	usleep_range(1000, 2000);
-+
-+	clk_disable_unprepare(host->clk);
-+	reset_control_bulk_release(host->nresets, host->resets);
-+
-+	return 0;
-+
-+resume_host1x:
-+	host1x_setup_sid_table(host);
-+	host1x_syncpt_restore(host);
-+	host1x_intr_start(host);
-+
-+	return err;
-+}
-+
-+static int __maybe_unused host1x_runtime_resume(struct device *dev)
-+{
-+	struct host1x *host = dev_get_drvdata(dev);
-+	int err;
-+
-+	err = reset_control_bulk_acquire(host->nresets, host->resets);
-+	if (err) {
-+		dev_err(dev, "failed to acquire reset: %d\n", err);
-+		return err;
-+	}
-+
-+	err = clk_prepare_enable(host->clk);
-+	if (err) {
-+		dev_err(dev, "failed to enable clock: %d\n", err);
-+		goto release_reset;
-+	}
-+
-+	err = reset_control_bulk_deassert(host->nresets, host->resets);
-+	if (err < 0) {
-+		dev_err(dev, "failed to deassert reset: %d\n", err);
-+		goto disable_clk;
-+	}
-+
-+	host1x_setup_sid_table(host);
-+	host1x_syncpt_restore(host);
-+	host1x_intr_start(host);
-+
-+	return 0;
-+
-+disable_clk:
-+	clk_disable_unprepare(host->clk);
-+release_reset:
-+	reset_control_bulk_release(host->nresets, host->resets);
-+
-+	return err;
-+}
-+
-+static const struct dev_pm_ops host1x_pm = {
-+	SET_RUNTIME_PM_OPS(host1x_runtime_suspend, host1x_runtime_resume,
-+			   NULL)
-+	/* TODO: add system suspend-resume once driver will be ready for that */
-+};
-+
- static struct platform_driver tegra_host1x_driver = {
- 	.driver = {
- 		.name = "tegra-host1x",
- 		.of_match_table = host1x_of_match,
-+		.pm = &host1x_pm,
- 	},
- 	.probe = host1x_probe,
- 	.remove = host1x_remove,
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index fa6d4bc46e98..41a7a63514c4 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -118,7 +118,8 @@ struct host1x {
- 	struct host1x_syncpt_base *bases;
- 	struct device *dev;
- 	struct clk *clk;
--	struct reset_control *rst;
-+	struct reset_control_bulk_data resets[2];
-+	unsigned int nresets;
- 
- 	struct iommu_group *group;
- 	struct iommu_domain *domain;
-diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
-index 1999780a7203..6b40e9af1e88 100644
---- a/drivers/gpu/host1x/hw/channel_hw.c
-+++ b/drivers/gpu/host1x/hw/channel_hw.c
-@@ -159,6 +159,27 @@ static void host1x_channel_set_streamid(struct host1x_channel *channel)
- #endif
- }
- 
-+static void host1x_enable_gather_filter(struct host1x_channel *ch)
-+{
-+#if HOST1X_HW >= 6
-+	struct host1x *host = dev_get_drvdata(ch->dev->parent);
-+	u32 val;
-+
-+	if (!host->hv_regs)
-+		return;
-+
-+	val = host1x_hypervisor_readl(
-+		host, HOST1X_HV_CH_KERNEL_FILTER_GBUFFER(ch->id / 32));
-+	val |= BIT(ch->id % 32);
-+	host1x_hypervisor_writel(
-+		host, val, HOST1X_HV_CH_KERNEL_FILTER_GBUFFER(ch->id / 32));
-+#elif HOST1X_HW >= 4
-+	host1x_ch_writel(ch,
-+			 HOST1X_CHANNEL_CHANNELCTRL_KERNEL_FILTER_GBUFFER(1),
-+			 HOST1X_CHANNEL_CHANNELCTRL);
-+#endif
-+}
-+
- static int channel_submit(struct host1x_job *job)
- {
- 	struct host1x_channel *ch = job->channel;
-@@ -190,6 +211,7 @@ static int channel_submit(struct host1x_job *job)
- 	}
- 
- 	host1x_channel_set_streamid(ch);
-+	host1x_enable_gather_filter(ch);
- 
- 	/* begin a CDMA submit */
- 	err = host1x_cdma_begin(&ch->cdma, job);
-@@ -249,27 +271,6 @@ static int channel_submit(struct host1x_job *job)
- 	return err;
- }
- 
--static void enable_gather_filter(struct host1x *host,
--				 struct host1x_channel *ch)
--{
--#if HOST1X_HW >= 6
--	u32 val;
--
--	if (!host->hv_regs)
--		return;
--
--	val = host1x_hypervisor_readl(
--		host, HOST1X_HV_CH_KERNEL_FILTER_GBUFFER(ch->id / 32));
--	val |= BIT(ch->id % 32);
--	host1x_hypervisor_writel(
--		host, val, HOST1X_HV_CH_KERNEL_FILTER_GBUFFER(ch->id / 32));
--#elif HOST1X_HW >= 4
--	host1x_ch_writel(ch,
--			 HOST1X_CHANNEL_CHANNELCTRL_KERNEL_FILTER_GBUFFER(1),
--			 HOST1X_CHANNEL_CHANNELCTRL);
--#endif
--}
--
- static int host1x_channel_init(struct host1x_channel *ch, struct host1x *dev,
- 			       unsigned int index)
- {
-@@ -278,7 +279,6 @@ static int host1x_channel_init(struct host1x_channel *ch, struct host1x *dev,
- #else
- 	ch->regs = dev->regs + index * 0x100;
- #endif
--	enable_gather_filter(dev, ch);
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/host1x/intr.c b/drivers/gpu/host1x/intr.c
-index 45b6be927ec4..965ba21818b1 100644
---- a/drivers/gpu/host1x/intr.c
-+++ b/drivers/gpu/host1x/intr.c
-@@ -297,14 +297,11 @@ int host1x_intr_init(struct host1x *host, unsigned int irq_sync)
- 			 "host1x_sp_%02u", id);
- 	}
- 
--	host1x_intr_start(host);
--
- 	return 0;
- }
- 
- void host1x_intr_deinit(struct host1x *host)
- {
--	host1x_intr_stop(host);
- }
- 
- void host1x_intr_start(struct host1x *host)
-diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index d198a10848c6..e08e331e46ae 100644
---- a/drivers/gpu/host1x/syncpt.c
-+++ b/drivers/gpu/host1x/syncpt.c
-@@ -143,6 +143,8 @@ void host1x_syncpt_restore(struct host1x *host)
- 	for (i = 0; i < host1x_syncpt_nb_bases(host); i++)
- 		host1x_hw_syncpt_restore_wait_base(host, sp_base + i);
- 
-+	host1x_hw_syncpt_enable_protection(host);
-+
- 	wmb();
- }
- 
-@@ -366,9 +368,6 @@ int host1x_syncpt_init(struct host1x *host)
- 	host->syncpt = syncpt;
- 	host->bases = bases;
- 
--	host1x_syncpt_restore(host);
--	host1x_hw_syncpt_enable_protection(host);
--
- 	/* Allocate sync point to use for clearing waits for expired fences */
- 	host->nop_sp = host1x_syncpt_alloc(host, 0, "reserved-nop");
- 	if (!host->nop_sp)
+ 	ret = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
 -- 
 2.32.0
 
