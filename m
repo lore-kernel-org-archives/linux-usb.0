@@ -2,54 +2,54 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFDCBC4167B
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8C5C433FE
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:44:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA50660E76
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:44:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6927E60E76
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:44:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231433AbhIZWoQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Sep 2021 18:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43256 "EHLO
+        id S232815AbhIZWqY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Sep 2021 18:46:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230343AbhIZWoF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Sep 2021 18:44:05 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382FFC061575;
-        Sun, 26 Sep 2021 15:42:28 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id b15so67581946lfe.7;
-        Sun, 26 Sep 2021 15:42:28 -0700 (PDT)
+        with ESMTP id S231408AbhIZWoQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Sep 2021 18:44:16 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 654EFC061570;
+        Sun, 26 Sep 2021 15:42:39 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id g41so68399497lfv.1;
+        Sun, 26 Sep 2021 15:42:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wufLMjvcV2REchuzKnLPe9Ps3w6SDfXDXOXmKrrN/u8=;
-        b=UxSGFqvq2GARPSvJlQQLgb3dHtJ/1IChvC+P1eyK8nTRw84gJzHu5Gd8e6yTQ7zdvm
-         kepVVcPzpT8otqKxk9Z8Ibv5pT5plZq3ms1DsgLjq4QjnA6sh6NciqSjwqVXj6p40sYz
-         dX/CxeB4yeVTfjCKIqqCSEiXO8qruBoJn45H9HPlzlZzretgmikspfSu8gnINDUfgegG
-         EHnzoR6RPJld864PyqsQAL7bWJSrlB6zsRQkaaZUWlt5cAoP6F3PkIaWsBnOk7Etvm5C
-         X5HOMLaYFnjCDFby3kX5gYrL4s1veo9pfZGmywJtFaGFQicAT5+NUp7KdJ/ggP5XlqjO
-         bV9w==
+        bh=yDP03amDwCEY6IiivIbDG+60+C+xV/Pv6sR1LEywSYo=;
+        b=ByNHptD14yPmBI5qwC9iLjNDIrS32hyv0eOv0r4DI67a82TRGkwAolm0a3jemhZJ1Y
+         ndRBWXsWDlo2ZqXlOsa9s4WcpVXNs7zNzqFB0o2HJEQ2BUJAZuJN/NqsJn/Y9PaDty4P
+         Qh9O3DDW2qCbpxE3fsT1jOVkZ9Q/zP1jt30/CYULft9d3sAFb24IH8CJnqtxgzmOD8Ap
+         CjmvDPKdhiXMLtTMKHQTzOKc7JHVvXxW7MzBKpVRBTdP2+Bc2ohgArtTwM345FHktbyH
+         sJTjvbUXKxsEw4SdFS506k3hjs364Wxxly6t038kdqy0ZrJazBY0OTp2jzkynLCES97Q
+         9CRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wufLMjvcV2REchuzKnLPe9Ps3w6SDfXDXOXmKrrN/u8=;
-        b=FArIzctgZ8zVOEkS7F+qPQ/Z3uZxNZKiGJ0xPE8IpkjT7M0X7ugf22EzO38lu7XXst
-         XPRxhYW2H/Zmsze25QzV9Dym5GGl9Lju+fxzS3Q76FGxCKmrBOSuMltplJUukwWKZGfy
-         /xSLLDFqpddzua0A78fFndA/2jmF885zl1gf+09eE0fkTVOIvvzlTCRLhzy265YgTWQp
-         D6JfXkqC+jTyomD2Z5z+PZDazCeQ5F7WVFP5EUwV0b8vkGLSnff///9SMX9SoOALpLz2
-         qdWiC2vhgTkYzo2hTkXX4mhKfxGvJsJAOiYKT7zecF9tjg51pbAuEa/YBeOhib25NgE8
-         oMTg==
-X-Gm-Message-State: AOAM530FsvB0ggd64Rr44zu/OA5QM/KEydMeXmeLyXa/SjY7fFxkD+dH
-        4nf+4pgvtyp46aTpbRKZ7wY=
-X-Google-Smtp-Source: ABdhPJwh/eBfr1mTmlaNA3G7879tSX+OQ069pXwTTJgivDSCKJQT2+ul7VgBQj/nnVg5Qcc/TUFBSg==
-X-Received: by 2002:a05:651c:203:: with SMTP id y3mr8487429ljn.512.1632696146622;
-        Sun, 26 Sep 2021 15:42:26 -0700 (PDT)
+        bh=yDP03amDwCEY6IiivIbDG+60+C+xV/Pv6sR1LEywSYo=;
+        b=qh5SJGnScyR3dct4XK1u4NKd+4MlTJvsD00J5h17l4yvmg+7b57bgFky/bTdxMPEbI
+         +IfQviS1ANgIGtfQWg9vWeZVXmnDtKR81e5jOG0F/FGu4RqSg+j6vpSpfDgJB08t3bkz
+         8+W280e5htQ8QdoQqVIIjDwLfvsacusfu/xX3yD72XGyLrpfl+0KzGrEE4Nm+VmgMsxa
+         hP1MPwspe0gd6gjmikQxrZjLH64a2L2/1UFhJLeKc3OOjDvTTkpMkkYd8hCzqDx+uUJv
+         mUrSjYGLSvWJvBnB5RQAPNIagYjHooQHvfowEJFF/t+GH7ZL2QkDABu32mhOzpDlfGpf
+         g9og==
+X-Gm-Message-State: AOAM532CUI6LgxZyO5GeAHvksNgXG8b61jfVClNge0vkmj50/ywFDSmF
+        j56lj/JxVuRbVvaYMXRfQi8=
+X-Google-Smtp-Source: ABdhPJw6v9K05vkQynZjDEwTD9e/1b4p9LcUZ8h1o8z6+yyoFWDLAIfYhhkOBzZBHV0QVhZxMh7xjw==
+X-Received: by 2002:a2e:a7c5:: with SMTP id x5mr1671863ljp.89.1632696157847;
+        Sun, 26 Sep 2021 15:42:37 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.25
+        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:42:26 -0700 (PDT)
+        Sun, 26 Sep 2021 15:42:37 -0700 (PDT)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
@@ -76,9 +76,9 @@ Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
         Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 01/35] opp: Change type of dev_pm_opp_attach_genpd(names) argument
-Date:   Mon, 27 Sep 2021 01:40:24 +0300
-Message-Id: <20210926224058.1252-2-digetx@gmail.com>
+Subject: [PATCH v13 10/35] gpu: host1x: Add host1x_channel_stop()
+Date:   Mon, 27 Sep 2021 01:40:33 +0300
+Message-Id: <20210926224058.1252-11-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -88,77 +88,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Elements of the 'names' array are not changed by the code, constify them
-for consistency.
+Add host1x_channel_stop() which waits till channel becomes idle and then
+stops the channel hardware. This is needed for supporting suspend/resume
+by host1x drivers since the hardware state is lost after power-gating,
+thus the channel needs to be stopped before client enters into suspend.
 
+Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/opp/core.c     | 6 +++---
- include/linux/pm_opp.h | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/gpu/host1x/channel.c | 8 ++++++++
+ include/linux/host1x.h       | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 04b4691a8aac..3057beabd370 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -2348,12 +2348,12 @@ static void _opp_detach_genpd(struct opp_table *opp_table)
-  * "required-opps" are added in DT.
-  */
- struct opp_table *dev_pm_opp_attach_genpd(struct device *dev,
--		const char **names, struct device ***virt_devs)
-+		const char * const *names, struct device ***virt_devs)
- {
- 	struct opp_table *opp_table;
- 	struct device *virt_dev;
- 	int index = 0, ret = -EINVAL;
--	const char **name = names;
-+	const char * const *name = names;
- 
- 	opp_table = _add_opp_table(dev, false);
- 	if (IS_ERR(opp_table))
-@@ -2457,7 +2457,7 @@ static void devm_pm_opp_detach_genpd(void *data)
-  *
-  * Return: 0 on success and errorno otherwise.
-  */
--int devm_pm_opp_attach_genpd(struct device *dev, const char **names,
-+int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names,
- 			     struct device ***virt_devs)
- {
- 	struct opp_table *opp_table;
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index a95d6fdd20b6..879c138c7b8e 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -156,9 +156,9 @@ int devm_pm_opp_set_clkname(struct device *dev, const char *name);
- struct opp_table *dev_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
- void dev_pm_opp_unregister_set_opp_helper(struct opp_table *opp_table);
- int devm_pm_opp_register_set_opp_helper(struct device *dev, int (*set_opp)(struct dev_pm_set_opp_data *data));
--struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-+struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
- void dev_pm_opp_detach_genpd(struct opp_table *opp_table);
--int devm_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs);
-+int devm_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs);
- struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
- int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
- int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
-@@ -376,7 +376,7 @@ static inline int devm_pm_opp_set_clkname(struct device *dev, const char *name)
- 	return -EOPNOTSUPP;
+diff --git a/drivers/gpu/host1x/channel.c b/drivers/gpu/host1x/channel.c
+index 4cd212bb570d..2a9a3a8d5931 100644
+--- a/drivers/gpu/host1x/channel.c
++++ b/drivers/gpu/host1x/channel.c
+@@ -75,6 +75,14 @@ struct host1x_channel *host1x_channel_get_index(struct host1x *host,
+ 	return ch;
  }
  
--static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char **names, struct device ***virt_devs)
-+static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, const char * const *names, struct device ***virt_devs)
++void host1x_channel_stop(struct host1x_channel *channel)
++{
++	struct host1x *host = dev_get_drvdata(channel->dev->parent);
++
++	host1x_hw_cdma_stop(host, &channel->cdma);
++}
++EXPORT_SYMBOL(host1x_channel_stop);
++
+ static void release_channel(struct kref *kref)
  {
- 	return ERR_PTR(-EOPNOTSUPP);
- }
-@@ -384,7 +384,7 @@ static inline struct opp_table *dev_pm_opp_attach_genpd(struct device *dev, cons
- static inline void dev_pm_opp_detach_genpd(struct opp_table *opp_table) {}
+ 	struct host1x_channel *channel =
+diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+index 7bccf589aba7..66473b5be0af 100644
+--- a/include/linux/host1x.h
++++ b/include/linux/host1x.h
+@@ -181,6 +181,7 @@ struct host1x_job;
  
- static inline int devm_pm_opp_attach_genpd(struct device *dev,
--					   const char **names,
-+					   const char * const *names,
- 					   struct device ***virt_devs)
- {
- 	return -EOPNOTSUPP;
+ struct host1x_channel *host1x_channel_request(struct host1x_client *client);
+ struct host1x_channel *host1x_channel_get(struct host1x_channel *channel);
++void host1x_channel_stop(struct host1x_channel *channel);
+ void host1x_channel_put(struct host1x_channel *channel);
+ int host1x_job_submit(struct host1x_job *job);
+ 
 -- 
 2.32.0
 
