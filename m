@@ -2,133 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB72C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 14:23:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1854C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 15:04:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99D0160FD7
-	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 14:23:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8A2E6101A
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 15:04:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234789AbhI0OYl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 Sep 2021 10:24:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35286 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234730AbhI0OYl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 27 Sep 2021 10:24:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 24C0E60FD7;
-        Mon, 27 Sep 2021 14:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1632752583;
-        bh=ZQ/mzkuYyFwT1Vg8d4ghbZ2fcO4h2gXnjki81+LWF5Y=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Yv0VMjutnYt7YpQlCSbAgV0KeX2YXrxL/4sUyQ5s199wKNJMtWhhnpyE1whB3y7PE
-         lt3x/Tyo1i1MMEq944grqooDLXMYLtZs5zXKdA/YnngXi1h3ZOr7lOIYEEqUqPBhf+
-         IOTKuqb7pZfVQ6GPDe9KdepjYE4EYLCue0ajI/D8LlErWm+9KKxf32Kc3Q1vm6DHW1
-         PjEm4wwPsbn5/O7YMyx7oqZfv6U4I0H4VCYZFxmwOJ5aboPUr4QuUAVxNGNGN7dPcW
-         0IVdx10f/+mIqcLkvpKfYm+ZCnpkr66Ycvy7noYzKUPUnVf3HqiHHbBw0Q3gFP6Qui
-         Rc1P8QYKjdqrQ==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] [RESEND] usb: xhci: tegra: mark PM functions as __maybe_unused
-Date:   Mon, 27 Sep 2021 16:22:52 +0200
-Message-Id: <20210927142258.1863321-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S235004AbhI0PFl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Sep 2021 11:05:41 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:51685 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S234991AbhI0PFj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Sep 2021 11:05:39 -0400
+Received: (qmail 361986 invoked by uid 1000); 27 Sep 2021 11:04:00 -0400
+Date:   Mon, 27 Sep 2021 11:04:00 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Tobias Jakobi <tjakobi@math.uni-bielefeld.de>
+Cc:     Tobias Jakobi <cubic2k@gmail.com>, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: storage: add quirks for VIA VL817 USB3-SATA bridge
+Message-ID: <20210927150400.GA361082@rowland.harvard.edu>
+References: <20210921101752.4679-1-tjakobi@math.uni-bielefeld.de>
+ <20210921151323.GA170347@rowland.harvard.edu>
+ <cfb2d4e4-0e6a-69d5-01ac-dc1ab4d9d319@math.uni-bielefeld.de>
+ <20210921164221.GA172450@rowland.harvard.edu>
+ <609b10d0-7a20-ffa2-b283-67e0e91c7909@math.uni-bielefeld.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <609b10d0-7a20-ffa2-b283-67e0e91c7909@math.uni-bielefeld.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Sun, Sep 26, 2021 at 08:14:46PM +0200, Tobias Jakobi wrote:
+> Hello Alan,
+> 
+> On 9/21/21 6:42 PM, Alan Stern wrote:
+> > On Tue, Sep 21, 2021 at 06:06:45PM +0200, Tobias Jakobi wrote:
+> > > Hi Alan,
+> > > 
+> > > sorry but your analysis of the log is wrong. Nothing was disconnected or
+> > > unplugged when the device behaves this way. The enclosure is connected to
+> > > the power the entire time, and the same applies to the physical USB
+> > > connection to my system.
+> > That may be so, but if it is then the log extract you included with the
+> > patch is very misleading.  For instance, you didn't include any part of
+> > the log before and leading up to the line saying "usb 2-1.2: USB
+> > disconnect, device number 4".  Thus there is no way for the reader to
+> > tell what caused this event, whether it was a physical unplug or not.
+> 
+> I included the part of the kernel log which shows how the issue manifests
+> itself. Do you think I'm so stupid as to believe I could prevent a physical
+> unplug of the enclosure by blacklisting UAS? Really, this is getting
+> ridiculous...
 
-The added #ifdefs in the PM rework were almost correct, but still
-cause warnings in some randconfig builds:
+No, I don't believe that.  However, I do believe you are so stupid as 
+to post a patch with a description that does not justify it and 
+includes a lot of irrelevant details.  (Hey, you brought up the issue 
+of how stupid you are!  :-)
 
-drivers/usb/host/xhci-tegra.c:2147:12: error: 'tegra_xusb_resume' defined but not used [-Werror=unused-function]
- 2147 | static int tegra_xusb_resume(struct device *dev)
-      |            ^~~~~~~~~~~~~~~~~
-drivers/usb/host/xhci-tegra.c:2105:12: error: 'tegra_xusb_suspend' defined but not used [-Werror=unused-function]
- 2105 | static int tegra_xusb_suspend(struct device *dev)
+> > > To make things very clear: This happens in under five minutes after having
+> > > powered up the enclosure and starting a file transfer to the installed RAID.
+> > > After blacklisting UASP the enclosure works perfectly fine for hours. I hope
+> > > this clears things up.
+> > You didn't answer my question about using NO_ATA_1X instead of
+> > IGNORE_UAS.  This is a perfect example of one of the dangers of
+> > top-posting -- it makes it far too easy for people to miss important
+> > points in the email they are replying to.  (Hint: Don't top-post!)
+> 
+> I did not answer this question, because I didn't have the answer to it yet.
+> I have tested your suggestion today, but sadly I'm running into the same
+> type of problem with NO_ATA_1X. You can find the complete kernel log here:
+> https://www.math.uni-bielefeld.de/~tjakobi/archive/dmesg_VL817.log
 
-Replace the #ifdef checks with simpler __maybe_unused annotations to
-reliably shut up these warnings.
+Good, thank you.  Unfortunately the log doesn't include any smoking 
+guns pointing to an underlying cause.
 
-Fixes: d64d362f1d8b ("usb: xhci: tegra: Enable ELPG for runtime/system PM")
-Reviewed-by: JC Kuo <jckuo@nvidia.com>
-Link: https://lore.kernel.org/all/20210421135613.3560777-2-arnd@kernel.org/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/usb/host/xhci-tegra.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+> The RAID1 is broken after such an event.
+> 
+> With best wishes,
+> Tobias
+> 
+> 
+> > 
+> > Alan Stern
+> > 
+> > > With best wishes,
+> > > Tobias
+> > > 
+> > > On 9/21/21 5:13 PM, Alan Stern wrote:
+> > > > On Tue, Sep 21, 2021 at 12:17:52PM +0200, Tobias Jakobi wrote:
+> > > > > The VL817 is used in the RaidSonic Icy Box IB-3740-C31 enclosure. The enclosure
+> > > > > is advertised as having UASP support, but appears to have problems with 4Kn
+> > > > > drives (test was done with two Seagate Exos X, 12TB).
+> > > > > 
+> > > > > Disable UAS for the VL817 as it behaves highly unstable:
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 575fa89a783f..1bf494b649bd 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1787,7 +1787,6 @@ static int tegra_xusb_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
--#if IS_ENABLED(CONFIG_PM) || IS_ENABLED(CONFIG_PM_SLEEP)
- static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
- {
- 	struct device *dev = hub->hcd->self.controller;
-@@ -2102,7 +2101,7 @@ static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool runtime)
- 	return err;
- }
- 
--static int tegra_xusb_suspend(struct device *dev)
-+static __maybe_unused int tegra_xusb_suspend(struct device *dev)
- {
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	int err;
-@@ -2144,7 +2143,7 @@ static int tegra_xusb_suspend(struct device *dev)
- 	return err;
- }
- 
--static int tegra_xusb_resume(struct device *dev)
-+static __maybe_unused int tegra_xusb_resume(struct device *dev)
- {
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	int err;
-@@ -2174,10 +2173,8 @@ static int tegra_xusb_resume(struct device *dev)
- 
- 	return 0;
- }
--#endif
- 
--#ifdef CONFIG_PM
--static int tegra_xusb_runtime_suspend(struct device *dev)
-+static __maybe_unused int tegra_xusb_runtime_suspend(struct device *dev)
- {
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	int ret;
-@@ -2190,7 +2187,7 @@ static int tegra_xusb_runtime_suspend(struct device *dev)
- 	return ret;
- }
- 
--static int tegra_xusb_runtime_resume(struct device *dev)
-+static __maybe_unused int tegra_xusb_runtime_resume(struct device *dev)
- {
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	int err;
-@@ -2201,7 +2198,6 @@ static int tegra_xusb_runtime_resume(struct device *dev)
- 
- 	return err;
- }
--#endif
- 
- static const struct dev_pm_ops tegra_xusb_pm_ops = {
- 	SET_RUNTIME_PM_OPS(tegra_xusb_runtime_suspend,
--- 
-2.29.2
+I still have to wonder if the enclosure works okay with other types of 
+disk drive.  And if it doesn't, why don't these errors show up on 
+Windows systems?  Or on other VIA enclosures?
 
+That's why I'm cautious about accepting this patch.  I don't want to 
+slow down unnecessarily a bunch of USB disks that could work just fine 
+at the higher UAS transfer rates.
+
+By the way, does the enclosure have its own power source, or does it 
+rely entirely on power provided over the USB cable?  Note that UAS can 
+use more power than the older mass-storage protocols, because it queues 
+more operations in rapid succession (which is also why it runs faster).
+
+Alan Stern
