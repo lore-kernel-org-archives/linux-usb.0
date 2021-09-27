@@ -2,179 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 865A4C433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:45:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BD50C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 07:35:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 707C960F91
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Sep 2021 22:45:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 082EC6023D
+	for <linux-usb@archiver.kernel.org>; Mon, 27 Sep 2021 07:35:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232513AbhIZWrb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Sep 2021 18:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43374 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232791AbhIZWqX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Sep 2021 18:46:23 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363BFC06120A;
-        Sun, 26 Sep 2021 15:43:09 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id u18so67079931lfd.12;
-        Sun, 26 Sep 2021 15:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
-        b=jVXoHlkHdIjsVQbhBj5b7uMh0ngrZd3PCHAddv4luagdEL6TKWeTpMQ+IO9TpBGwmy
-         OqQvnHuhgLV8SPGruk2d2EWD2vLnFE6Msgsn8BnapdN1stWZsEp4K6n+wsNoGJuD0IER
-         eY1LWvYENJqu2w8Z1eaDg5FloKTQR23sqI/yIxiBXAEfWx6ht/gAsrwPGcMdDDIih4IR
-         53Ke9Er+8K9h9BnEbwMKEj5fUz2VmOPrLqNBce5GdSlqhm/mW++3r8QPVHLtgOE4u7BK
-         mJd/qvmMNcdv6sNu8qxdNxkVxRx3ckDmC/TAeTmeShn6ADPvWSzoAPgxv8bX54iOtcSJ
-         NYfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
-        b=EZQTT6XuLc+0BwNaiY6QpCivzcWSsn1YcgyyjjpzhaNCCLcycCwvfHEsbS21MlAw+/
-         n9ygQzKcA349ExRBddmAcJvBV78JR+qs9NHj1grldMXDnCEFHyh0VWvq2abF01tsNzoo
-         iwYAh3oLwbqeCsxcpFqFgJR4uX798r20dzYWOE6Ol97RX68R297q5tnuUNEoUFUNqRV9
-         wB5398yoJaGsWm7SY/FqnayzrJ6330DIDhfX3HMxuyhfAY9f07QVeRJus16wnjp3t+BB
-         bqLGLxAQJXYZs+gmlny3zv0hoJGdsII9CbNiIbB8YRyh95Pxgn0G/UE7gTYkN/9D8hus
-         cCNQ==
-X-Gm-Message-State: AOAM533fUD4iL6mdGTLt2MolEd4i4sGKECgV6Jh9ApC0zQdoIb/AU6oa
-        0KLrnX5Mi19G5+ZHIntESD8=
-X-Google-Smtp-Source: ABdhPJzzD+Lqvq/0PXVYaK4xhRvgqBKhRcQUDKM/Bv8HOzifMLktWJTzFJ714BHPdsdFrCQQ0Hod7g==
-X-Received: by 2002:a05:651c:1549:: with SMTP id y9mr10261640ljp.105.1632696187659;
-        Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
-Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru. [46.138.80.108])
-        by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Nishanth Menon <nm@ti.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Michael Turquette <mturquette@baylibre.com>
-Cc:     linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 35/35] ARM: tegra20/30: Disable unused host1x hardware
-Date:   Mon, 27 Sep 2021 01:40:58 +0300
-Message-Id: <20210926224058.1252-36-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
-References: <20210926224058.1252-1-digetx@gmail.com>
+        id S233272AbhI0HhA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 Sep 2021 03:37:00 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:38245 "EHLO
+        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233242AbhI0Hg7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 Sep 2021 03:36:59 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 53A0A580BDD;
+        Mon, 27 Sep 2021 03:35:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 27 Sep 2021 03:35:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm3; bh=3v8ypuwgp+UVL
+        BlnX3yZhpFVxptbvBS5y5LkJwvOoxg=; b=O+q+GLcBTUeF3L8pCNn39b1vl+A/Q
+        GOZ4Omj4i3+pJlVXROBsuzUjshOxfipchnAVN0M5taFaCRvwpCSokzLiJ2NA2TGv
+        VPiXlH33z9qGjvVqN7KGaoNeO+T+LTqUvYwCxmhr6+OApNi0Lg4gwsE76o9HsVKZ
+        ykfOpqQRAuUWv5mmsD4E9iGtLqg33Ur4imeEZ6YOsmdqjKm4ODFLtRRfDrIZ8noz
+        LXjjvFtpajcc2xc1Eq7ejiN/hLU8tYrJazfN/Xt5Z6/2Z+gMHFODiFbRVXDhJ1Qy
+        z2gMoRkHWHegDgvgyufJ0oaR6avphK6ZFHbscGXMN5qg7nmXiQzCvm/4A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm3; bh=3v8ypuwgp+UVLBlnX3yZhpFVxptbvBS5y5LkJwvOoxg=; b=CVWIV1nM
+        D74h+udd8yC3gMTid6bOmumzDDz6peFapI/d6LsjcwoVn97moMXoFsh1FIb4dpNT
+        CFol8UTLifCz/ydozY/xWbPTxTcOpgouM1oB5saSQDhO7HBKyngvUsIOLCgKyEzu
+        VZi1ckoC9p17KyXbOd8Hgm4pB+HF7rrI8gcWhdWnQRxhb5DU6Q7jH+3Tn0e118yL
+        3gXoxnzQc2Qlc14jBCdMn/5uxrnc/VwRtj3LJXClShgvwxsgV3ebaNH5N+mFDWSq
+        qCLWvoUW2qNBEOlzXRS8Gvgvl4tm5X/QDeaql2DNTzu2ihdxSol/QmBReX8+fHr/
+        3DzngJeOCzw9Mg==
+X-ME-Sender: <xms:OHRRYSSNKGMICn7GCmb5ddMXG6UKpr8_Bv67WZvvfo4jBKbDEAK8iQ>
+    <xme:OHRRYXyMOERw2Wv2OILZiFwTzNnKRrbW3v2LQn4LXeoKByI_NZauGmFVnO6UDMz8p
+    6NRlHo4sa12UGLzdII>
+X-ME-Received: <xmr:OHRRYf2Q-9sk8WrN5_HzyzptJN13ej3uXqQkQ8JEGEhzdXNZkK5BuJkQn0d7OoZ-YDLV_7JUXMxz6AGsUNmwhK_SC8c6qBDj-vwtiBtw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejjedguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveev
+    heehvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:OHRRYeB1fwIG97CbGNqbMTSJ7DzF9yZYwm9Ao4IkCMXuI56ihbRMBQ>
+    <xmx:OHRRYbg08LpeUok0fcszjef5pj607o_lGcrjkomhkumAxlGqP1_8mA>
+    <xmx:OHRRYapeKhKX0TFsUu2v5Y-gF2XjFrTs2VpZDi_-0_vn1Loy2g31Sw>
+    <xmx:OXRRYQZlLcuNrx3Ll98yu1Ga80sOJpab2u4TusAg-DTJtYOxJZQFNg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Sep 2021 03:35:20 -0400 (EDT)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>,
+        =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [RESEND v2 2/2] dt-bindings: usb: dwc3: Fix usb-phy check
+Date:   Mon, 27 Sep 2021 09:35:14 +0200
+Message-Id: <20210927073514.14334-2-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210927073514.14334-1-maxime@cerno.tech>
+References: <20210927073514.14334-1-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-MPE, VI, EPP and ISP were never used and we don't have drivers for them.
-Since these modules are enabled by default in a device-tree, a device is
-created for them, blocking voltage scaling because there is no driver to
-bind, and thus, state of PMC driver is never synced. Disable them.
+The original binding was allowing any combination of usb2-phy and
+usb3-phy in the phys and phy-names properties.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+However, the current binding enforces that those properties must be a
+list of usb2-phy and usb3-phy, with exactly one element, effectively
+making usb2-phy the only value being valid.
+
+Let's rework the properties description to allow either one or two
+element picked with values either usb2-phy or usb3-phy. The rest of the
+tooling makes sure that we don't get any duplicate value, so this should
+be what we want.
+
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- arch/arm/boot/dts/tegra20.dtsi | 4 ++++
- arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
- 2 files changed, 12 insertions(+)
+ Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index eb6e5518fb5f..05788c9cddc1 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -59,6 +59,7 @@ mpe@54040000 {
- 			reset-names = "mpe";
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
- 			power-domains = <&pd_mpe>;
-+			status = "disabled";
- 		};
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 1040d06cc0d7..25ac2c93dc6c 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -73,15 +73,15 @@ properties:
  
- 		vi@54080000 {
-@@ -70,6 +71,7 @@ vi@54080000 {
- 			reset-names = "vi";
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
+   phys:
+     minItems: 1
+-    items:
+-      - description: USB2/HS PHY
+-      - description: USB3/SS PHY
++    maxItems: 2
  
- 		epp@540c0000 {
-@@ -81,6 +83,7 @@ epp@540c0000 {
- 			reset-names = "epp";
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
- 			power-domains = <&pd_core>;
-+			status = "disabled";
- 		};
+   phy-names:
+     minItems: 1
++    maxItems: 2
+     items:
+-      - const: usb2-phy
+-      - const: usb3-phy
++      enum:
++        - usb2-phy
++        - usb3-phy
  
- 		isp@54100000 {
-@@ -91,6 +94,7 @@ isp@54100000 {
- 			resets = <&tegra_car 23>;
- 			reset-names = "isp";
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 09cb1ab75312..f9613384a487 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -145,6 +145,8 @@ mpe@54040000 {
- 			power-domains = <&pd_mpe>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_MPE>;
-+
-+			status = "disabled";
- 		};
- 
- 		vi@54080000 {
-@@ -158,6 +160,8 @@ vi@54080000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
-+
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -171,6 +175,8 @@ epp@540c0000 {
- 			power-domains = <&pd_heg>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_EPP>;
-+
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -183,6 +189,8 @@ isp@54100000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_ISP>;
-+
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
+   resets:
+     minItems: 1
 -- 
-2.32.0
+2.31.1
 
