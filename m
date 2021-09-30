@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C599C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 10:27:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59590C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 10:27:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29B5A61882
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 10:27:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 447E061882
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 10:27:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350005AbhI3K3T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Sep 2021 06:29:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
+        id S1349991AbhI3K3U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Sep 2021 06:29:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349991AbhI3K3J (ORCPT
+        with ESMTP id S1349992AbhI3K3J (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Sep 2021 06:29:09 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A32A3C061770
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FECC061771
         for <linux-usb@vger.kernel.org>; Thu, 30 Sep 2021 03:27:26 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mVtHg-0002sP-PN; Thu, 30 Sep 2021 12:27:24 +0200
+        id 1mVtHg-0002sU-PU; Thu, 30 Sep 2021 12:27:24 +0200
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mVtHd-000865-3V; Thu, 30 Sep 2021 12:27:21 +0200
+        id 1mVtHd-00088P-CL; Thu, 30 Sep 2021 12:27:21 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, kernel@pengutronix.de,
         caleb.connolly@ideasonboard.com
-Subject: [PATCH 1/7] usb: gadget: uvc: consistently use define for headerlen
-Date:   Thu, 30 Sep 2021 12:27:11 +0200
-Message-Id: <20210930102717.15720-2-m.grzeschik@pengutronix.de>
+Subject: [PATCH 6/7] usb: gadget: uvc: ensure the vdev is unset
+Date:   Thu, 30 Sep 2021 12:27:16 +0200
+Message-Id: <20210930102717.15720-7-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210930102717.15720-1-m.grzeschik@pengutronix.de>
 References: <20210930102717.15720-1-m.grzeschik@pengutronix.de>
@@ -46,30 +46,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The uvc request headerlen of 2 was defined as UVCG_REQUEST_HEADER_LEN
-in commit e81e7f9a0eb9 ("usb: gadget: uvc: add scatter gather support").
-We missed to use it consistently. This patch fixes that.
+Since the uvc video device will be created on demand, we have to ensure
+that the struct is always unprepared. Otherwise the previous settings
+will colide with the new perparation.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
- drivers/usb/gadget/function/uvc_video.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_uvc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index b4a763e5f70e1..da93b46df464d 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -302,7 +302,9 @@ uvc_video_alloc_requests(struct uvc_video *video)
- 		list_add_tail(&video->ureq[i].req->list, &video->req_free);
- 		/* req_size/PAGE_SIZE + 1 for overruns and + 1 for header */
- 		sg_alloc_table(&video->ureq[i].sgt,
--			       DIV_ROUND_UP(req_size - 2, PAGE_SIZE) + 2,
-+			       DIV_ROUND_UP(req_size - UVCG_REQUEST_HEADER_LEN,
-+					    PAGE_SIZE) +
-+			       UVCG_REQUEST_HEADER_LEN,
- 			       GFP_KERNEL);
- 	}
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index 1e93ab5c0c88d..b3279ba357331 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -417,6 +417,7 @@ uvc_register_video(struct uvc_device *uvc)
+ 	int ret;
  
+ 	/* TODO reference counting. */
++	memset(&uvc->vdev, 0, sizeof(struct video_device));
+ 	uvc->vdev.v4l2_dev = &uvc->v4l2_dev;
+ 	uvc->vdev.v4l2_dev->dev = &cdev->gadget->dev;
+ 	uvc->vdev.fops = &uvc_v4l2_fops;
 -- 
 2.30.2
 
