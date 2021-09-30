@@ -2,63 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 100CBC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 13:37:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04F52C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 13:49:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEF78619E9
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 13:37:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D73D1619E9
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Sep 2021 13:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351314AbhI3Nir (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Sep 2021 09:38:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351348AbhI3NiM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Sep 2021 09:38:12 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9A3C06176E
-        for <linux-usb@vger.kernel.org>; Thu, 30 Sep 2021 06:36:29 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id c4so4021335pls.6
-        for <linux-usb@vger.kernel.org>; Thu, 30 Sep 2021 06:36:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IhpYyYMkI0XeCNTdHlGSDJ81bcd7IFryeGArrY+szTQ=;
-        b=tzWjBg/nHXskXvXdSbdUAWirx10WGMvuJ25QnMqWGEKVu117WsUQDqo4BXxwBZM4Vy
-         iMml9XLmdFezpL9PbFm884VgwXYcmMmqEdsqZo/9avYsPncDNWceavMqHTp7IFuX5Fiv
-         v1r1F93OnXI9jmqpBVM3KAPk4tWkBhXozrofq6QyHPWA5TQdjsNkKSQVf8j8CwL26cu0
-         X1L7FlxzkkWZnmbRFR9XxQuyeFhA5I/9zP6wcOvF0wUweSJoIYAs5Q4vf/0C2jEdhC6w
-         ywbhSEggIflJxp6X9N1danfTLv6L8n3TWRtAzZkKsVJ10omi+3CgBK5+GJa6KgGcSdJq
-         KKFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IhpYyYMkI0XeCNTdHlGSDJ81bcd7IFryeGArrY+szTQ=;
-        b=rJe4ZzvUsezQPp/qIPHVkymuUB8ZQIoGCgoh1yTZpf1L0YeX0WP6eMarG7UlL/U23b
-         W4tuO3Dds4GtQYgy8XcVIr4FadquAhCrgDxyRHlaGqv+VFwQUt/e8fRXkeSmblclIvK/
-         Ur5GSWqvX9BBB8KDns3mw+PlQE0R6O8VYlnkTpf9st2hAU2UtHgpA+KDTK76HVRLn83G
-         FILR78Qv9kjXuB8kDeLLSJV7ibj1tMR7Ej6crkHPXpRGNrF5tGzc8QUu/Wy6ocJSqwvI
-         cJiZgUMfHIXk7s1JOBnNs8SuBzMIwu5/38KHL2liTnRvGJ4XUkf1M2osuHnILMK3ZoEw
-         RaSQ==
-X-Gm-Message-State: AOAM532zS7e09hoSzYNbOKfBWvJ3jQgILsCMzSMNK/aKkvFQRldky7qs
-        lUc32dSlRoIl2sAsjqRBo9wse3W0K3vTa7Mktu+T3g==
-X-Google-Smtp-Source: ABdhPJx9Xs+gNqlcxbnlbCdHKqDDoKF331LGbfaO4gqbfJsLmZV5ogqMQNLLtD+mtDfBhXnpfvjX8RedejWnYxnG7hg=
-X-Received: by 2002:a17:90b:3ec3:: with SMTP id rm3mr5619607pjb.93.1633008989101;
- Thu, 30 Sep 2021 06:36:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210930010511.3387967-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <20210930010511.3387967-5-sathyanarayanan.kuppuswamy@linux.intel.com> <20210930065953-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210930065953-mutt-send-email-mst@kernel.org>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Thu, 30 Sep 2021 06:36:18 -0700
-Message-ID: <CAPcyv4hP6mtzKS-CVb-aKf-kYuiLM771PMxN2zeBEfoj6NbctA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] virtio: Initialize authorized attribute for
- confidential guest
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Kuppuswamy Sathyanarayanan 
+        id S1351329AbhI3NvV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Sep 2021 09:51:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49708 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350901AbhI3NvU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Sep 2021 09:51:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 603936187A;
+        Thu, 30 Sep 2021 13:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1633009777;
+        bh=U9iiEkqwLSIMx5qFueAE+WdXrbQNjtowDTehHAGMyMw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=arqSlanbgqlgNfeZnJyDO5TTSOWckEPTV6037BqAX1Oo8Dp6/LdUnXNOKFZoLgwX+
+         24sWxMcDrtnlE/p2kjHOyZE4vtzM6WKa4tqjc84ZNdsX5z+/euJ/RscKpMwcFl3Frb
+         A2IBrCokTmoxJCxJjnoYtyjZxHGiv8AMjacbbWl4=
+Date:   Thu, 30 Sep 2021 15:49:35 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Kuppuswamy Sathyanarayanan 
         <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Borislav Petkov <bp@alien8.de>, X86 ML <x86@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -76,42 +46,59 @@ Cc:     Kuppuswamy Sathyanarayanan
         Linux PCI <linux-pci@vger.kernel.org>,
         USB list <linux-usb@vger.kernel.org>,
         virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 4/6] virtio: Initialize authorized attribute for
+ confidential guest
+Message-ID: <YVXAb4C51e/L2sGv@kroah.com>
+References: <20210930010511.3387967-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20210930010511.3387967-5-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20210930065953-mutt-send-email-mst@kernel.org>
+ <CAPcyv4hP6mtzKS-CVb-aKf-kYuiLM771PMxN2zeBEfoj6NbctA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4hP6mtzKS-CVb-aKf-kYuiLM771PMxN2zeBEfoj6NbctA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Sep 30, 2021 at 4:03 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Sep 29, 2021 at 06:05:09PM -0700, Kuppuswamy Sathyanarayanan wrote:
-> > Confidential guest platforms like TDX have a requirement to allow
-> > only trusted devices. By default the confidential-guest core will
-> > arrange for all devices to default to unauthorized (via
-> > dev_default_authorization) in device_initialize(). Since virtio
-> > driver is already hardened against the attack from the un-trusted host,
-> > override the confidential computing default unauthorized state
+On Thu, Sep 30, 2021 at 06:36:18AM -0700, Dan Williams wrote:
+> On Thu, Sep 30, 2021 at 4:03 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 > >
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
->
-> Architecturally this all looks backwards. IIUC nothing about virtio
-> makes it authorized or trusted. The driver is hardened,
-> true, but this should be set at the driver not the device level.
+> > On Wed, Sep 29, 2021 at 06:05:09PM -0700, Kuppuswamy Sathyanarayanan wrote:
+> > > Confidential guest platforms like TDX have a requirement to allow
+> > > only trusted devices. By default the confidential-guest core will
+> > > arrange for all devices to default to unauthorized (via
+> > > dev_default_authorization) in device_initialize(). Since virtio
+> > > driver is already hardened against the attack from the un-trusted host,
+> > > override the confidential computing default unauthorized state
+> > >
+> > > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> > > Signed-off-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+> >
+> > Architecturally this all looks backwards. IIUC nothing about virtio
+> > makes it authorized or trusted. The driver is hardened,
+> > true, but this should be set at the driver not the device level.
+> 
+> That's was my initial reaction to this proposal as well, and I ended
+> up leading Sathya astray from what Greg wanted. Greg rightly points
+> out that the "authorized" attribute from USB and Thunderbolt already
+> exists [1] [2]. So the choice is find an awkward way to mix driver
+> trust with existing bus-local "authorized" mechanisms, or promote the
+> authorized capability to the driver-core. This patch set implements
+> the latter to keep the momentum on the already shipping design scheme
+> to not add to the driver-core maintenance burden.
+> 
+> [1]: https://lore.kernel.org/all/YQuaJ78y8j1UmBoz@kroah.com/
+> [2]: https://lore.kernel.org/all/YQzF%2FutgrJfbZuHh@kroah.com/
+> 
+> > And in particular, not all virtio drivers are hardened -
+> > I think at this point blk and scsi drivers have been hardened - so
+> > treating them all the same looks wrong.
+> 
+> My understanding was that they have been audited, Sathya?
 
-That's was my initial reaction to this proposal as well, and I ended
-up leading Sathya astray from what Greg wanted. Greg rightly points
-out that the "authorized" attribute from USB and Thunderbolt already
-exists [1] [2]. So the choice is find an awkward way to mix driver
-trust with existing bus-local "authorized" mechanisms, or promote the
-authorized capability to the driver-core. This patch set implements
-the latter to keep the momentum on the already shipping design scheme
-to not add to the driver-core maintenance burden.
+Please define "audited" and "trusted" here.
 
-[1]: https://lore.kernel.org/all/YQuaJ78y8j1UmBoz@kroah.com/
-[2]: https://lore.kernel.org/all/YQzF%2FutgrJfbZuHh@kroah.com/
+thanks,
 
-> And in particular, not all virtio drivers are hardened -
-> I think at this point blk and scsi drivers have been hardened - so
-> treating them all the same looks wrong.
-
-My understanding was that they have been audited, Sathya?
+greg k-h
