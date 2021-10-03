@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93431C433EF
-	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93472C43217
+	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7649F6128A
-	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77A8D613CF
+	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231643AbhJCUbe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 3 Oct 2021 16:31:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33778 "EHLO
+        id S230303AbhJCUbg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 3 Oct 2021 16:31:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231579AbhJCUbc (ORCPT
+        with ESMTP id S231597AbhJCUbc (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Oct 2021 16:31:32 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45342C061781
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524DCC061786
         for <linux-usb@vger.kernel.org>; Sun,  3 Oct 2021 13:29:44 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mX87C-0003Ro-A5; Sun, 03 Oct 2021 22:29:42 +0200
+        id 1mX87C-0003Rm-B6; Sun, 03 Oct 2021 22:29:42 +0200
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mX87B-0000Aa-Rs; Sun, 03 Oct 2021 22:29:41 +0200
+        id 1mX87B-0000AU-R1; Sun, 03 Oct 2021 22:29:41 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, kernel@pengutronix.de,
         caleb.connolly@ideasonboard.com
-Subject: [PATCH v2 6/7] usb: gadget: uvc: ensure the vdev is unset
-Date:   Sun,  3 Oct 2021 22:29:38 +0200
-Message-Id: <20211003202939.306-7-m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 4/7] usb: gadget: uvc: only schedule stream in streaming state
+Date:   Sun,  3 Oct 2021 22:29:36 +0200
+Message-Id: <20211003202939.306-5-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211003202939.306-1-m.grzeschik@pengutronix.de>
 References: <20211003202939.306-1-m.grzeschik@pengutronix.de>
@@ -46,31 +46,55 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since the uvc video device is created on demand, we have to ensure
-that the struct is always zeroed. Otherwise the previous settings
-might collide with the new values.
+This patch ensures that the video pump thread will only be scheduled if
+the uvc is really in streaming state. This way the worker will not have
+to run on an empty queue.
 
 Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
 v2: - added reviewed by
-    - fixed patch description
 
- drivers/usb/gadget/function/f_uvc.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/gadget/function/uvc_v4l2.c  | 3 ++-
+ drivers/usb/gadget/function/uvc_video.c | 4 +++-
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 1e93ab5c0c88d..b3279ba357331 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -417,6 +417,7 @@ uvc_register_video(struct uvc_device *uvc)
- 	int ret;
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 4ca89eab61590..67922b1355e69 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -169,7 +169,8 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
+ 	if (ret < 0)
+ 		return ret;
  
- 	/* TODO reference counting. */
-+	memset(&uvc->vdev, 0, sizeof(struct video_device));
- 	uvc->vdev.v4l2_dev = &uvc->v4l2_dev;
- 	uvc->vdev.v4l2_dev->dev = &cdev->gadget->dev;
- 	uvc->vdev.fops = &uvc_v4l2_fops;
+-	schedule_work(&video->pump);
++	if (uvc->state == UVC_STATE_STREAMING)
++		schedule_work(&video->pump);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index cdfd3726a86ae..ccee35177411d 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -215,6 +215,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct uvc_request *ureq = req->context;
+ 	struct uvc_video *video = ureq->video;
+ 	struct uvc_video_queue *queue = &video->queue;
++	struct uvc_device *uvc = video->uvc;
+ 	unsigned long flags;
+ 
+ 	switch (req->status) {
+@@ -237,7 +238,8 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	list_add_tail(&req->list, &video->req_free);
+ 	spin_unlock_irqrestore(&video->req_lock, flags);
+ 
+-	schedule_work(&video->pump);
++	if (uvc->state == UVC_STATE_STREAMING)
++		schedule_work(&video->pump);
+ }
+ 
+ static int
 -- 
 2.30.2
 
