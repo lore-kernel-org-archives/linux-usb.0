@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93472C43217
-	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99547C4332F
+	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77A8D613CF
-	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81B496115C
+	for <linux-usb@archiver.kernel.org>; Sun,  3 Oct 2021 20:29:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230303AbhJCUbg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 3 Oct 2021 16:31:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33786 "EHLO
+        id S231579AbhJCUbf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 3 Oct 2021 16:31:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231597AbhJCUbc (ORCPT
+        with ESMTP id S231587AbhJCUbc (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Oct 2021 16:31:32 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524DCC061786
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5641DC061787
         for <linux-usb@vger.kernel.org>; Sun,  3 Oct 2021 13:29:44 -0700 (PDT)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mX87C-0003Rm-B6; Sun, 03 Oct 2021 22:29:42 +0200
+        id 1mX87C-0003Rp-9u; Sun, 03 Oct 2021 22:29:42 +0200
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mX87B-0000AU-R1; Sun, 03 Oct 2021 22:29:41 +0200
+        id 1mX87B-0000Ad-SJ; Sun, 03 Oct 2021 22:29:41 +0200
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, kernel@pengutronix.de,
         caleb.connolly@ideasonboard.com
-Subject: [PATCH v2 4/7] usb: gadget: uvc: only schedule stream in streaming state
-Date:   Sun,  3 Oct 2021 22:29:36 +0200
-Message-Id: <20211003202939.306-5-m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 7/7] usb: gadget: udc: ensure the gadget is still available
+Date:   Sun,  3 Oct 2021 22:29:39 +0200
+Message-Id: <20211003202939.306-8-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211003202939.306-1-m.grzeschik@pengutronix.de>
 References: <20211003202939.306-1-m.grzeschik@pengutronix.de>
@@ -46,55 +46,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch ensures that the video pump thread will only be scheduled if
-the uvc is really in streaming state. This way the worker will not have
-to run on an empty queue.
+It is possible that the configfs gadget layer will be calling the unbind
+functions of all gadget functions on gadget_dev_desc_UDC_store and
+cleaned up the cdev structures pointer to the gadget. This will not
+prevent the usage of the usb_function_de/activate functions.
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+f_obex and f_uvc are the candidates to still call the functions with no
+valid gadget set. This patch prevents the usage of the gadget if it was
+already unset.
+
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 ---
-v2: - added reviewed by
+v2: - no changes
 
- drivers/usb/gadget/function/uvc_v4l2.c  | 3 ++-
- drivers/usb/gadget/function/uvc_video.c | 4 +++-
+ drivers/usb/gadget/composite.c | 4 ++--
+ drivers/usb/gadget/udc/core.c  | 3 +++
  2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 4ca89eab61590..67922b1355e69 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -169,7 +169,8 @@ uvc_v4l2_qbuf(struct file *file, void *fh, struct v4l2_buffer *b)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index 504c1cbc255d1..1b4cd01e2ae13 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -393,7 +393,7 @@ int usb_function_deactivate(struct usb_function *function)
  
--	schedule_work(&video->pump);
-+	if (uvc->state == UVC_STATE_STREAMING)
-+		schedule_work(&video->pump);
+ 	spin_lock_irqsave(&cdev->lock, flags);
  
- 	return ret;
- }
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index cdfd3726a86ae..ccee35177411d 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -215,6 +215,7 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 	struct uvc_request *ureq = req->context;
- 	struct uvc_video *video = ureq->video;
- 	struct uvc_video_queue *queue = &video->queue;
-+	struct uvc_device *uvc = video->uvc;
- 	unsigned long flags;
+-	if (cdev->deactivations == 0) {
++	if (cdev->deactivations == 0 && cdev->gadget) {
+ 		spin_unlock_irqrestore(&cdev->lock, flags);
+ 		status = usb_gadget_deactivate(cdev->gadget);
+ 		spin_lock_irqsave(&cdev->lock, flags);
+@@ -428,7 +428,7 @@ int usb_function_activate(struct usb_function *function)
+ 		status = -EINVAL;
+ 	else {
+ 		cdev->deactivations--;
+-		if (cdev->deactivations == 0) {
++		if (cdev->deactivations == 0 && cdev->gadget) {
+ 			spin_unlock_irqrestore(&cdev->lock, flags);
+ 			status = usb_gadget_activate(cdev->gadget);
+ 			spin_lock_irqsave(&cdev->lock, flags);
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index 14fdf918ecfeb..52964d0e26fa6 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -756,6 +756,9 @@ int usb_gadget_deactivate(struct usb_gadget *gadget)
+ {
+ 	int ret = 0;
  
- 	switch (req->status) {
-@@ -237,7 +238,8 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 	list_add_tail(&req->list, &video->req_free);
- 	spin_unlock_irqrestore(&video->req_lock, flags);
++	if (!gadget)
++		return ret;
++
+ 	if (gadget->deactivated)
+ 		goto out;
  
--	schedule_work(&video->pump);
-+	if (uvc->state == UVC_STATE_STREAMING)
-+		schedule_work(&video->pump);
- }
- 
- static int
 -- 
 2.30.2
 
