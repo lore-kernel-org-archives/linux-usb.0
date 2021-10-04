@@ -2,136 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B79C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 22:43:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E58C433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 23:21:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 925216140D
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 22:43:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47C3361372
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 23:21:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236633AbhJDWpN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Oct 2021 18:45:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53058 "EHLO
+        id S235227AbhJDXWy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Oct 2021 19:22:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235540AbhJDWpM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 18:45:12 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3283CC061749
-        for <linux-usb@vger.kernel.org>; Mon,  4 Oct 2021 15:43:23 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id m26so2495817pff.3
-        for <linux-usb@vger.kernel.org>; Mon, 04 Oct 2021 15:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bz7HA1WjVk7ZZMMeQxKKx7bsY4ryX5E67hvZXTJeARc=;
-        b=oFCTLuXcFBODepFae4kwJDmSGEmfU+1+ZbELVm55/E9TRc1K/dDV2Aoa96zZN3/UWn
-         VeNKCiJt7dst1ko2pQIhjjsciCeA5GmOkHj25FXOb49Pc0QCLYyPeFa1wdSohP2gY5Nz
-         rVyxUE5fEdWgiKpJz2MT5o+tQnxEBsXrucbLgUCq3jTozc7mraok0zbgrXC19mUN0xRD
-         G5ArNJGv+8UuLv2trOSA/lZbYlxLWRQ7sL9M++DyySvkSbIUO1opsoY6KhKjLYxdMGFQ
-         H/RBIg6LeEGE4ccgEoyLIwIynC/C/4LjQY+e1BF1u4Mj2AUO7WFBGSeSIjusDkE0RpFT
-         K+cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bz7HA1WjVk7ZZMMeQxKKx7bsY4ryX5E67hvZXTJeARc=;
-        b=77EpEi49fCu8Y2gS4pFaOi1Ba2uteru/DOqdzshc4xegt3D21ufLr4XlKHUOrJOdW4
-         /HGYgGnSTr8dEHIjsdLuowMCQlrVPCpFvT++x7F8Z/CTI9uzqsilPj7POCBOyeME1ica
-         rrGATqVpj0SLOuI8ngW+oyE4Ykt0IVsAqvRiPSARivHGvWorxI/BMLF38LngHxH/QWcm
-         SsuIog4ZHeqMga4ACgIfusuylhut1/DqDJsVjAIJMIMx33SA5YHT0CDQlp7PxgRVfHHE
-         dwTC5ZDlpYY8lg1I5jk2mvV3nsNwtsXrlCLmZmUOjs9ctNeEskfSjathsvO0icM8VKYL
-         lieg==
-X-Gm-Message-State: AOAM532R18RNdIUqd3MToZQ7uJ3dJiu44FJ+chzw4y/PI8axCR+8SSYq
-        KOpz9KcoisCciHHIt2P6DWlJUA9PGA31FdLInr9fkQ==
-X-Google-Smtp-Source: ABdhPJw7QmjP9qqzm5o5jsptBeeD/mo72caoQezW/0QcRGr4VyICDDcZSjuhBV1WwcQvXDGeKrMjky6FM7stCthHQvg=
-X-Received: by 2002:a63:4c1f:: with SMTP id z31mr12996592pga.50.1633387402397;
- Mon, 04 Oct 2021 15:43:22 -0700 (PDT)
+        with ESMTP id S233517AbhJDXWy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 19:22:54 -0400
+Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6E7EC061749;
+        Mon,  4 Oct 2021 16:21:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=lB9klwC6rOjyM0N8bWwN1xpjBQyssT4L9VIpQtP7fP8=; b=t8Nl04LLGQN7l/8hLjSQbU9tx5
+        wTCzED2f1xX8RisVP2fIokIbHQaVyBpSU+uB2U+zRgngCoNPg6CWHgnLZpkilY/cxCQxPfwykKWrp
+        2Saypf/97tvJkRSn4jZSmUcFbuezIePgX3C+nF+LCoVGHIZfdT9CtYfQ4vzzCYX2wHIBUpl+6wr8W
+        i260b28NLvdlRmMNaBnmoPn6JRrngwYbi/yqE9N3D1Q2BQX6cPriVTjmJTto3aZNP47dFHPl4KcfY
+        xIet0Abmv8DT4kvS46IxieH0c1nhY02UFoOlFLL8T07x7QNub45XA7ekQEufYcssUm87OYHLhOIDN
+        T86zC31A==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1mXXGa-008O7O-0r; Mon, 04 Oct 2021 23:21:04 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] usb: typec: STUSB160X should select REGMAP_I2C
+Date:   Mon,  4 Oct 2021 16:21:03 -0700
+Message-Id: <20211004232103.23893-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210929224823.556943-1-rajatja@google.com> <20210929224823.556943-2-rajatja@google.com>
- <YVVLxi/on9x6nfCZ@kroah.com>
-In-Reply-To: <YVVLxi/on9x6nfCZ@kroah.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Mon, 4 Oct 2021 15:42:46 -0700
-Message-ID: <CACK8Z6EamamgYExt629gyNrYKpvnu2Gh0eGOOvOa5LH-jnOmaQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] usb: hub: Mark devices downstream a removable hub, as removable
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Torokhov <dtor@google.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Chris Chiu <chris.chiu@canonical.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        levinale@google.com, bleung@google.com, rajatxjain@gmail.com,
-        jsbarnes@google.com, pmalani@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+Dmitry Torokhov
+REGMAP_I2C is not a user visible kconfig symbol so driver configs
+should not "depend on" it. They should depend on I2C and then
+select REGMAP_I2C.
 
-Hi Greg, Oliver,
+If this worked, it was only because some other driver had set/enabled
+REGMAP_I2C.
 
-Thanks for taking a look.
+Fixes: da0cb6310094 ("usb: typec: add support for STUSB160x Type-C controller family")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Amelie Delaunay <amelie.delaunay@st.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+---
+ drivers/usb/typec/Kconfig |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Wed, Sep 29, 2021 at 10:31 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Sep 29, 2021 at 03:48:23PM -0700, Rajat Jain wrote:
-> > If a usb device sits below a removable hub, mark the device also as
-> > removable. This helps with devices inserted on a standard removable hub or
-> > also thunderbold docks, to be shown as removable.
-> >
-> > Signed-off-by: Rajat Jain <rajatja@google.com>
-> > ---
-> >  drivers/usb/core/hub.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
->
-> Combined with the previous patch, you are now marking all devices that
-> happen to be attached to a root hub that is on a thunderbolt controller
-> as removable.  So all USB devices inside of a docking station are now
-> removable?
-
-With this patch, yes that was my intent. I think what we are debating
-here is should the "removable" attribute imply possibility of removal
-from "the system" or just the "local immediate box" (e.g. thunderbolt
-dock). In my mind, the removable property was analogous to imply an
-"external device", i.e a device that may be removed from the system,
-perhaps as a result of its parent devices being removed from the
-system. I guess this definition doesn't match what you believe it
-should be?
-
-[Oliver says]
-> frankly, why? You are needlessly throwing away information about where
-> in the tree
-> removal can happen.
-
-I believe you are referring to multi level USB hubs and feel that
-"removable" should be set only for devices that hang off a port, and
-not for children of such device. I wouldn't necessarily disagree,
-pending the discussion above (although I think it applies to this
-patch only, I think the previous patch still provides value without
-throwing away any info).
-
-As a data point, I notice that with my USB hub, the USB device
-representing the hub is correctly marked as "removable", however a USB
-device I insert into the USB hub, is shown as "unknown". I don't know
-if this is the behavior with all USB hubs or just because my USB hub
-has a bug. But my patch helps solve this issue and makes the device
-show up as "removable".
-
-Thanks
-
-Rajat
-
->
-> What type of devices did you test this series out with?  And again, what
-> problem are you trying to solve?
-
-
-
->
-> thanks,
->
-> greg k-h
+--- lnx-515-rc4.orig/drivers/usb/typec/Kconfig
++++ lnx-515-rc4/drivers/usb/typec/Kconfig
+@@ -65,9 +65,9 @@ config TYPEC_HD3SS3220
+ 
+ config TYPEC_STUSB160X
+ 	tristate "STMicroelectronics STUSB160x Type-C controller driver"
+-	depends on I2C
+-	depends on REGMAP_I2C
+ 	depends on USB_ROLE_SWITCH || !USB_ROLE_SWITCH
++	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  Say Y or M here if your system has STMicroelectronics STUSB160x
+ 	  Type-C port controller.
