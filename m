@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF3D4C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD96FC4332F
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8F7A611F0
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 98D0961994
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232957AbhJDLTI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Oct 2021 07:19:08 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:25348 "EHLO
+        id S232956AbhJDLTO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Oct 2021 07:19:14 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:25512 "EHLO
         so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232913AbhJDLTH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 07:19:07 -0400
+        with ESMTP id S232967AbhJDLTJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 07:19:09 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633346238; h=References: In-Reply-To: References:
+ s=smtp; t=1633346241; h=References: In-Reply-To: References:
  In-Reply-To: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=NZDs4uc6sYd+cdl1AV/f0rDcGHRZlaq5tNvwgSlXtVA=; b=X5xieWXxz8Ck0SqOhw2ElBMLNitR0kozWKCUCRyu5uA0+waZslwzOgZ+I1hqbDVaatFkrRPn
- +yRRpiwF4rVjQGF+kT7/rvAE85hakmM03QpdDfC/Darlu3bPMPLmoEvZY2oS2Zj0BugMgQVQ
- qBUtSJsnadPEuIUQND09IX5ABlo=
+ bh=dskPhtPK7bnkS2Rha5rabhN0KRgimYQknYPUMejdMWM=; b=UTbiZt/OKzNLVAUEFqNjnsqAESTi4y4OJTY02gN3+msJoVDE3IsRvs4zU7ciyPa1F45zh1KT
+ x2MuJ6ToWFWRbElFiG/bk/vw7R2HeLKYD0GSJv1+mvZgTTihJhLTIDDZfj9Gm8pHGBdf4W66
+ p0Fnbcd1m6u5N/ggb0xeboelReg=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 615ae2adfc6e34f8cdbf8972 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 11:17:01
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 615ae2be47d64efb6d60b6fd (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 11:17:18
  GMT
 Sender: schowdhu=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 39911C4361C; Mon,  4 Oct 2021 11:17:01 +0000 (UTC)
+        id 50D65C43637; Mon,  4 Oct 2021 11:17:17 +0000 (UTC)
 Received: from blr-ubuntu-525.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: schowdhu)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id A1327C43616;
-        Mon,  4 Oct 2021 11:16:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org A1327C43616
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id B3C79C4361A;
+        Mon,  4 Oct 2021 11:17:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org B3C79C4361A
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
 From:   Souradeep Chowdhury <schowdhu@codeaurora.org>
@@ -53,9 +53,9 @@ Cc:     linux-kernel@vger.kernel.org, ckadabi@codeaurora.org,
         Sibi Sankar <sibis@codeaurora.org>,
         Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
         Souradeep Chowdhury <schowdhu@codeaurora.org>
-Subject: [PATCH V0 3/7] usb: dwc3: drd: Register the eud connector child node for dwc3
-Date:   Mon,  4 Oct 2021 16:46:21 +0530
-Message-Id: <2006cf6c5662f70ca3348b683551bae4a8e4a0e2.1633343547.git.schowdhu@codeaurora.org>
+Subject: [PATCH V0 6/7] arm64: dts: qcom: sc7280: Set the default dr_mode for usb2
+Date:   Mon,  4 Oct 2021 16:46:24 +0530
+Message-Id: <7e7b72fb0fa02dadfc6a7c51b906590426e8cd04.1633343547.git.schowdhu@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1633343547.git.schowdhu@codeaurora.org>
 References: <cover.1633343547.git.schowdhu@codeaurora.org>
@@ -65,65 +65,29 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Register the child node for dwc3 which is the "eud_usb_connector".
-The eud driver will be able to switch the usb role from device to
-host and vice versa using the role switch property of dwc3 node.
+Set the default dr_mode for usb2 node to "otg" to enable
+role-switch for EUD(Embedded USB Debugger) connector node.
 
 Signed-off-by: Souradeep Chowdhury <schowdhu@codeaurora.org>
 ---
- drivers/usb/dwc3/drd.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280-idp.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index d7f7683..f55e473 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -11,6 +11,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
-+#include <linux/of_platform.h>
+diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dts b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
+index 64fc22a..7c69c78 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280-idp.dts
++++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
+@@ -61,6 +61,10 @@
+ 	modem-init;
+ };
  
- #include "debug.h"
- #include "core.h"
-@@ -164,6 +165,27 @@ static int dwc3_otg_get_irq(struct dwc3 *dwc)
- 	return irq;
- }
- 
-+static int dwc3_register_eud(struct dwc3 *dwc)
-+{
-+	struct device           *dev = dwc->dev;
-+	struct device_node      *np = dev->of_node, *con_np;
-+	int                     ret;
++&usb_2_dwc3 {
++	dr_mode = "otg";
++};
 +
-+	con_np = of_get_child_by_name(np, "eud_usb_connector");
-+	if (!np) {
-+		dev_dbg(dev, "no usb_connector child node specified\n");
-+		return 0;
-+	}
-+
-+	ret = of_platform_populate(np, NULL, NULL, dev);
-+	if (ret) {
-+		dev_err(dev, "failed to register usb_connector - %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- void dwc3_otg_init(struct dwc3 *dwc)
- {
- 	u32 reg;
-@@ -580,6 +602,9 @@ int dwc3_drd_init(struct dwc3 *dwc)
- 		ret = dwc3_setup_role_switch(dwc);
- 		if (ret < 0)
- 			return ret;
-+		ret = dwc3_register_eud(dwc);
-+		if (ret < 0)
-+			return ret;
- 	} else if (dwc->edev) {
- 		dwc->edev_nb.notifier_call = dwc3_drd_notifier;
- 		ret = extcon_register_notifier(dwc->edev, EXTCON_USB_HOST,
+ &pmk8350_vadc {
+ 	pmr735a_die_temp {
+ 		reg = <PMR735A_ADC7_DIE_TEMP>;
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
