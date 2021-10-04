@@ -2,109 +2,132 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5132EC4321E
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 14:52:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA32CC433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 15:48:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C92D61373
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 14:52:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B18046124F
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 15:48:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235311AbhJDOyj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Oct 2021 10:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55232 "EHLO
+        id S235787AbhJDPud (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Oct 2021 11:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234608AbhJDOyi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 10:54:38 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5727C061749;
-        Mon,  4 Oct 2021 07:52:48 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id e15so72801906lfr.10;
-        Mon, 04 Oct 2021 07:52:48 -0700 (PDT)
+        with ESMTP id S235771AbhJDPuc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Oct 2021 11:50:32 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A0AC06174E
+        for <linux-usb@vger.kernel.org>; Mon,  4 Oct 2021 08:48:43 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id d12-20020a05683025cc00b0054d8486c6b8so22126867otu.0
+        for <linux-usb@vger.kernel.org>; Mon, 04 Oct 2021 08:48:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
-        b=j0Ur3IU22Dtc5kFnP/nXkoktbxHcZFHOAKKskIoJgXkwGHYXbbkyALnAz04dfcCoVV
-         0Mi+yf7x6bLdauQEAwTnqbWC6yASn3DvUmQzjLsswUxGTTKJ6s/CRmffsVicfj4H/JdQ
-         c/LIIg0L7rv8lHs1sW2K5rZwgSx57ZXcHyto17YWq5qqGR+KdrUM8a/vBIQevrz7MKqt
-         4+fAAMP0uH9K8IRIrKtcrYu5d1hJt2gQAndx84DW2UalqWNKhO6AnDeKmZJUWZRpcZPy
-         CmjMAchXyeOg4QY//26g7aMb6W3U/7YeGFmXOquN7S/42F7Yuv5Wu7Qw7InfGjWugPr7
-         q3/A==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=3XFgmwQ1hEJzqwqEAg7wvAfnSR1sFfJzAaBRc9FMDKs=;
+        b=o07qS99kYatIMjEySAiYnYcqpDLh5KBSm6q9+gwD1qp7AI1FPnWH29sWhZvpBmTSGh
+         DVDfXw5oA8LL5ogMzCe/Z2fuKZEeDKm6yJEPE0Xdg6Ugjwo4bmQQ4vLacInWDR1W+Kyv
+         JMxm7D4nXz1MhfvT8JNqF6Php2ryKZRUwZR+wQVBoJM9U+nMRRd4YS+R9Uu6AZW4bPJy
+         oO9SepEwSbBJ/ow65/iZR7qDBGW9OCl6RnGIk1t32wxOnItKFzpSoYjkoBkobq4cwZbB
+         dW6FSXPQl2DlmhxYg/tC0pQz6Wv0P+ebuoSJnzCh0VeHcCj+/9Ev1bvwZ8l65h7q2pVo
+         AnzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
-        b=i4FOD3fZwEezdBUfN0ibfgTJ8bBbIkAGRvpk6bnVxVD/jD6xaHkpPLWblD5dUTA+FN
-         xwnrb6cpktDfgsOJD7Z5NERbkC9ww5+MyuGnsg2HQ8KIjLd2G1yRTE2kR4R2aYhBARFP
-         7YJ9e/gjVT07bv7KzONujK/NvIL1OyachS6GD/Y2L5sEUYGzwcZvcwc2GR6dsTQptgRf
-         C//fUStXeY3Ufp/Fr4R7r1feYRNHMpIIlFJAxlPEMs4EegXfmRQHMUTiEVeti98JFixw
-         eMGZiKBw+sR90a7JmXSCm1P/+VIVC7PO7L00zZkOmgBPMJsDygKER/rrAVzJwqHVoKdZ
-         vN3A==
-X-Gm-Message-State: AOAM5326A24VhUpnlyO4l8r+dzkw2KfbwBEIgBbWc9ROTtdICTxxKtu2
-        E3uku8UKjseBYCt/yHAVPrE=
-X-Google-Smtp-Source: ABdhPJwZpF/pb309DarSmG6340t8JrbcT7IOPdU/tSH1oTe/CJm/C7yaYY6kTpK2zLUPD04MKNAKqg==
-X-Received: by 2002:a2e:5450:: with SMTP id y16mr16673360ljd.21.1633359167035;
-        Mon, 04 Oct 2021 07:52:47 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru. [79.139.163.57])
-        by smtp.googlemail.com with ESMTPSA id o19sm1632148lfg.68.2021.10.04.07.52.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Oct 2021 07:52:46 -0700 (PDT)
-Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Peter De Schrijver <pdeschrijver@nvidia.com>,
-        Mikko Perttunen <mperttunen@nvidia.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Nishanth Menon <nm@ti.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Richard Weinberger <richard@nod.at>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <80e0e5a9-7987-a334-7a2b-a7b09b591414@gmail.com>
-Date:   Mon, 4 Oct 2021 17:52:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3XFgmwQ1hEJzqwqEAg7wvAfnSR1sFfJzAaBRc9FMDKs=;
+        b=hgNsB7+kbqo6acjBXTKZboccA8r9lIalt1xtVlInFjRXp7dbYVD0/Df3KIQHXjil4S
+         N2BuyCCDOp5NhMzKnfewGZy+rvD+n1SjXuSbWJF3ins6TUCS9n6+RJ46JyAg0XwY50RY
+         +LyP8ujjKVSy/IJ+1Cj5C5dhdk2HPhenWOFYb/z/XsDGKvLK/XobQiPGFimgAK95UrgQ
+         NxGa1fx9lQfgyJY89VUj13MuwZCogdU6rIh7mbw0+E/LazbnhsxAB1gyQyghFFxFErEI
+         bgj5cVv62qlazr8EdXmI3RosgYANvQv9XWglw0kYCwxopQn+kUUuk4l+GmS/xFq5oNtg
+         dBpQ==
+X-Gm-Message-State: AOAM531WsTz8sTDOLbEZGHQCzl2cW/QwAGit4t6G0b16nbPkCttpWnzR
+        xwYneh5O+hPT+CsNBSgFg4gmFQ==
+X-Google-Smtp-Source: ABdhPJwV90rWzKbQLCaoiR/lcJoWO35cpCznSnAV6td25c5rirNv+mBDtZTpS+7MmtPJcXQaprbK6w==
+X-Received: by 2002:a05:6830:1da6:: with SMTP id z6mr10378498oti.234.1633362523183;
+        Mon, 04 Oct 2021 08:48:43 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id bl23sm1065584oib.40.2021.10.04.08.48.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Oct 2021 08:48:42 -0700 (PDT)
+Date:   Mon, 4 Oct 2021 08:50:26 -0700
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Souradeep Chowdhury <schowdhu@codeaurora.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+        Greg KH <greg@kroah.com>, linux-kernel@vger.kernel.org,
+        ckadabi@codeaurora.org, tsoni@codeaurora.org,
+        bryanh@codeaurora.org, psodagud@codeaurora.org,
+        satyap@codeaurora.org, pheragu@codeaurora.org,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Sibi Sankar <sibis@codeaurora.org>,
+        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Subject: Re: [PATCH V0 2/7] dt-bindings: usb: dwc3: Update dwc3 properties
+ for EUD connector
+Message-ID: <YVsiwsemiCEmRkJ0@ripper>
+References: <cover.1633343547.git.schowdhu@codeaurora.org>
+ <d4c9d60e8960968ad77a4a2c6c119a8e9cebc22d.1633343547.git.schowdhu@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4c9d60e8960968ad77a4a2c6c119a8e9cebc22d.1633343547.git.schowdhu@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-04.10.2021 12:11, Viresh Kumar пишет:
-> On 27-09-21, 01:40, Dmitry Osipenko wrote:
->> This series adds runtime PM support to Tegra drivers and enables core
->> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
->>
->> All patches in this series are interdependent and should go via Tegra tree.
-> 
-> So you don't need any OPP changes anymore ? I just came back from
-> vacation, don't know what you guys discussed in between :)
+On Mon 04 Oct 04:16 PDT 2021, Souradeep Chowdhury wrote:
+
+> Adding the address size,cell size and ranges property for EUD connector.
+> Adding the connector property for EUD which is child of dwc3 node.
 > 
 
-We discussed it and decided that we don't need more OPP/domain core
-changes. It's already good enough for the starter and making it all
-absolutely ideal doesn't worth the effort for now.
+When we have a Type-C controller involved, the connector is described
+using of_graph, so will we not then have two different connectors
+described, in two different ways?
+
+Regards,
+Bjorn
+
+> Signed-off-by: Souradeep Chowdhury <schowdhu@codeaurora.org>
+> ---
+>  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> index 078fb78..3e71205 100644
+> --- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+> @@ -36,6 +36,14 @@ properties:
+>          - const: synopsys,dwc3
+>            deprecated: true
+>  
+> +  "#address-cells":
+> +    enum: [ 1, 2 ]
+> +
+> +  "#size-cells":
+> +    enum: [ 1, 2 ]
+> +
+> +  ranges: true
+> +
+>    interrupts:
+>      description:
+>        It's either a single common DWC3 interrupt (dwc_usb3) or individual
+> @@ -318,6 +326,13 @@ properties:
+>      items:
+>        enum: [1, 4, 8, 16, 32, 64, 128, 256]
+>  
+> +  connector:
+> +    type: object
+> +    $ref: /connector/usb-connector.yaml#
+> +    description:
+> +      Connector for dual role switch, especially for "eud-usb-c-connector"
+> +
+> +
+>  unevaluatedProperties: false
+>  
+>  required:
+> -- 
+> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+> of Code Aurora Forum, hosted by The Linux Foundation
+> 
