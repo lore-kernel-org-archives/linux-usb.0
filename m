@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95063C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59FDEC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7FC7C611F0
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4567860FD8
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Oct 2021 11:17:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233043AbhJDLTS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Oct 2021 07:19:18 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:40578 "EHLO m43-7.mailgun.net"
+        id S233046AbhJDLT2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Oct 2021 07:19:28 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:37007 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232973AbhJDLTM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232992AbhJDLTM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 4 Oct 2021 07:19:12 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
  s=smtp; t=1633346243; h=References: In-Reply-To: References:
  In-Reply-To: Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=mOlEBkWF4Oi0fv7TFeXw5Xz+6AEFIrhhPORZVKcRjgg=; b=D8pI+FUY+4Uwlq5Y4tafACjClehZV8r3vI8KMWC35Ix6apfcvj2oPr56hmvLNsirIpaQL72w
- K5EycN4CNwcUVJChIV/aYvLT7Xmf/Gbf4FiqPN86bD0myv4X5oDrhDnCHeplfZKDFqqTHzPE
- Y4r0EQ8Gjps95B0LeZmT4snwy+U=
+ bh=LS+QY+VKzdgB/AkNp3TgJio4Nz9Z9Q6W/Ch3KFaOk0g=; b=rNhZNOucA6YOxQQVfn1k/MAxjNknQQrvYsoaVrkuGAK/rczAzOo+yVA8aC3FkzRqtu6Je571
+ MK2PMkjTw9RfzPfE+azPSUHFO1VoOxdvdx7+xA/CYa8G2VT0eJ/Pg4yT6Bi455OH5caVlW9I
+ R/PiokaTyPuIk1BTv8TjLMukRUY=
 X-Mailgun-Sending-Ip: 69.72.43.7
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 615ae2b7fc6e34f8cdbfb65a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 11:17:11
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 615ae2c3519bd8dcf00ec2a3 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 11:17:23
  GMT
 Sender: schowdhu=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 8A3DFC4361A; Mon,  4 Oct 2021 11:17:11 +0000 (UTC)
+        id 1E473C43616; Mon,  4 Oct 2021 11:17:23 +0000 (UTC)
 Received: from blr-ubuntu-525.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: schowdhu)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 54945C43616;
-        Mon,  4 Oct 2021 11:17:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 54945C43616
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 385B7C43639;
+        Mon,  4 Oct 2021 11:17:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 385B7C43639
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
 From:   Souradeep Chowdhury <schowdhu@codeaurora.org>
@@ -53,9 +53,9 @@ Cc:     linux-kernel@vger.kernel.org, ckadabi@codeaurora.org,
         Sibi Sankar <sibis@codeaurora.org>,
         Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
         Souradeep Chowdhury <schowdhu@codeaurora.org>
-Subject: [PATCH V0 5/7] arm64: dts: qcom: sc7280: Add EUD connector node
-Date:   Mon,  4 Oct 2021 16:46:23 +0530
-Message-Id: <172cb86e7a05d967ebf061033d47e4c5e95af503.1633343547.git.schowdhu@codeaurora.org>
+Subject: [PATCH V0 7/7] MAINTAINERS: Add maintainer entry for EUD
+Date:   Mon,  4 Oct 2021 16:46:25 +0530
+Message-Id: <aec4d950812c8b6b568d2f8d883fcdb907bf2a1e.1633343547.git.schowdhu@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1633343547.git.schowdhu@codeaurora.org>
 References: <cover.1633343547.git.schowdhu@codeaurora.org>
@@ -65,46 +65,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the Embedded USB Debugger(EUD) connector node
-as the child of dwc3 node under usb2. The node contains
-EUD base register region and EUD mode manager register
-regions along with the interrupt entry.
+Add the entry for maintainer for EUD driver
+and other associated files.
 
 Signed-off-by: Souradeep Chowdhury <schowdhu@codeaurora.org>
 ---
- arch/arm64/boot/dts/qcom/sc7280.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-index 53a21d0..21b16da 100644
---- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
-@@ -1308,6 +1308,9 @@
- 			usb_2_dwc3: usb@8c00000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x08c00000 0 0xe000>;
-+				#address-cells = <2>;
-+				#size-cells = <2>;
-+				ranges;
- 				interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>;
- 				iommus = <&apps_smmu 0xa0 0x0>;
- 				snps,dis_u2_susphy_quirk;
-@@ -1315,6 +1318,15 @@
- 				phys = <&usb_2_hsphy>;
- 				phy-names = "usb2-phy";
- 				maximum-speed = "high-speed";
-+				usb-role-switch;
-+				usb_con: eud_usb_connector {
-+					compatible = "qcom,usb-connector-eud", "usb-c-connector",
-+						     "qcom,sc7280-usb-connector-eud";
-+					reg = <0 0x88e0000 0 0x2000>,
-+					      <0 0x88e2000 0 0x1000>;
-+					interrupt-parent = <&pdc>;
-+					interrupts = <11 IRQ_TYPE_LEVEL_HIGH>;
-+				};
- 			};
- 		};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ca6d6fd..5ef4832 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7019,6 +7019,13 @@ F:	include/trace/events/mdio.h
+ F:	include/uapi/linux/mdio.h
+ F:	include/uapi/linux/mii.h
  
++EUD-QCOM
++M:	Souradeep Chowdhury <schowdhu@codeaurora.org>
++L:	linux-arm-msm@vger.kernel.org
++S:	Maintained
++F:	Documentation/ABI/testing/sysfs-driver-eud
++F:	drivers/usb/common/qcom_eud.c
++
+ EXFAT FILE SYSTEM
+ M:	Namjae Jeon <linkinjeon@kernel.org>
+ M:	Sungjong Seo <sj1557.seo@samsung.com>
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
