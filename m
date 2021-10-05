@@ -2,363 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCDEC433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:07:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CB0C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 22:16:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDB0B61165
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:07:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45E2E61154
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 22:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235962AbhJEOJ2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235841AbhJEOIK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:10 -0400
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D62A7C08E89D;
-        Tue,  5 Oct 2021 07:03:36 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:105:465:1:3:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4HNznz0VLHzQkjm;
-        Tue,  5 Oct 2021 16:03:35 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
-        s=MBO0001; t=1633442613;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
-         cc:in-reply-to:in-reply-to:references:references;
-        bh=ug6rDDzpKnA56k+77e0aEXwzq5oBN6KdvkwcQyZ0wkg=;
-        b=OQEop257I0oKisJVYuxZnizx4T6JSIK/bdk+gxoKzoTC/1r6cp31FqKuSYoR/LX/XysGCv
-        4b1xTlNZ2TtBOQWgxQFyd9SuC5Ashu2bCG5xzp/+8oVO/GZGAsh0tWlCUWP7uPMpngIEsE
-        gKHrXuDf68YRVjQXFpfrsWmUX2G/ookPQleyy7iYbw9Cdzn4pFBKoQoVZ31jK+PWOO6ckO
-        YfKtTVaiFdxqBYx0YGezBSFYYAf0jYb4w2Sx7dT+SxU0lCR+/5IWv4Ug+rMe1LgFjawHJV
-        Kncu+iHWo5J2Ln1x4VTx30/OY8wgTcvnxgJ+NHk6VfsKogRFGIo0pALOe8pd2Q==
-X-Mailbox-Line: From 835bbc4e27ca989674fb916f70b81038deaf47e5 Mon Sep 17 00:00:00 2001
-Message-Id: <835bbc4e27ca989674fb916f70b81038deaf47e5.1633442131.git.rob@robgreener.com>
-In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
-References: <cover.1633442131.git.rob@robgreener.com>
-From:   Robert Greener <rob@robgreener.com>
-Date:   Tue, 5 Oct 2021 14:52:43 +0100
-Subject: [PATCH 13/13] usb: core: config: fix parenthesis alignment
-X-Rspamd-Queue-Id: 4981426E
-To:     unlisted-recipients:; (no To-header on input)
+        id S231648AbhJEWS1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 18:18:27 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:9531 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229831AbhJEWS1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 18:18:27 -0400
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 38488240003;
+        Tue,  5 Oct 2021 22:16:32 +0000 (UTC)
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Nadezda Lutovinova <lutovinova@ispras.ru>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] usb: musb: dsps: Fix the probe error path
+Date:   Wed,  6 Oct 2021 00:16:31 +0200
+Message-Id: <20211005221631.1529448-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fixes the following checkpatch.pl warnings at various locations:
+Commit 7c75bde329d7 ("usb: musb: musb_dsps: request_irq() after
+initializing musb") has inverted the calls to
+dsps_setup_optional_vbus_irq() and dsps_create_musb_pdev() without
+updating correctly the error path. dsps_create_musb_pdev() allocates and
+registers a new platform device which must be unregistered and freed
+with platform_device_unregister(), and this is missing upon
+dsps_setup_optional_vbus_irq() error.
 
-CHECK:PARENTHESIS_ALIGNMENT: Alignment should match open parenthesis
+While on the master branch it seems not to trigger any issue, I observed
+a kernel crash because of a NULL pointer dereference with a v5.10.70
+stable kernel where the patch mentioned above was backported. With this
+kernel version, -EPROBE_DEFER is returned the first time
+dsps_setup_optional_vbus_irq() is called which triggers the probe to
+error out without unregistering the platform device. Unfortunately, on
+the Beagle Bone Black Wireless, the platform device still living in the
+system is being used by the USB Ethernet gadget driver, which during the
+boot phase triggers the crash.
 
-Signed-off-by: Robert Greener <rob@robgreener.com>
+My limited knowledge of the musb world prevents me to revert this commit
+which was sent to silence a robot warning which, as far as I understand,
+does not make sense. The goal of this patch was to prevent an IRQ to
+fire before the platform device being registered. I think this cannot
+ever happen due to the fact that enabling the interrupts is done by the
+->enable() callback of the platform musb device, and this platform
+device must be already registered in order for the core or any other
+user to use this callback.
+
+Hence, I decided to fix the error path, which might prevent future
+errors on mainline kernels while also fixing older ones.
+
+Fixes: 7c75bde329d7 ("usb: musb: musb_dsps: request_irq() after initializing musb")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/usb/core/config.c | 87 +++++++++++++++++++++------------------
- 1 file changed, 47 insertions(+), 40 deletions(-)
+ drivers/usb/musb/musb_dsps.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 1fe995a66182..94de1476e9d0 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -23,7 +23,7 @@ static inline const char *plural(int n)
- }
- 
- static int find_next_descriptor(unsigned char *buffer, int size,
--		int dt1, int dt2, int *num_skipped)
-+				int dt1, int dt2, int *num_skipped)
- {
- 	struct usb_descriptor_header *h;
- 	int n = 0;
-@@ -48,8 +48,11 @@ static int find_next_descriptor(unsigned char *buffer, int size,
- }
- 
- static void usb_parse_ssp_isoc_endpoint_companion(struct device *ddev,
--		int cfgno, int inum, int asnum, struct usb_host_endpoint *ep,
--		unsigned char *buffer, int size)
-+						  int cfgno, int inum,
-+						  int asnum,
-+						  struct usb_host_endpoint *ep,
-+						  unsigned char *buffer,
-+						  int size)
- {
- 	struct usb_ssp_isoc_ep_comp_descriptor *desc;
- 
-@@ -69,8 +72,9 @@ static void usb_parse_ssp_isoc_endpoint_companion(struct device *ddev,
- }
- 
- static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
--		int inum, int asnum, struct usb_host_endpoint *ep,
--		unsigned char *buffer, int size)
-+					    int inum, int asnum,
-+					    struct usb_host_endpoint *ep,
-+					    unsigned char *buffer, int size)
- {
- 	struct usb_ss_ep_comp_descriptor *desc;
- 	int max_tx;
-@@ -81,7 +85,7 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
- 	desc = (struct usb_ss_ep_comp_descriptor *)buffer;
- 
- 	if (desc->bDescriptorType != USB_DT_SS_ENDPOINT_COMP ||
--			size < USB_DT_SS_EP_COMP_SIZE) {
-+	    size < USB_DT_SS_EP_COMP_SIZE) {
- 		dev_warn(ddev,
- 			 "No SuperSpeed endpoint companion for config %d interface %d altsetting %d ep %d: using minimum values\n",
- 			 cfgno, inum, asnum, ep->desc.bEndpointAddress);
-@@ -96,7 +100,7 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
- 		ep->ss_ep_comp.bLength = USB_DT_SS_EP_COMP_SIZE;
- 		ep->ss_ep_comp.bDescriptorType = USB_DT_SS_ENDPOINT_COMP;
- 		if (usb_endpoint_xfer_isoc(&ep->desc) ||
--				usb_endpoint_xfer_int(&ep->desc))
-+		    usb_endpoint_xfer_int(&ep->desc))
- 			ep->ss_ep_comp.wBytesPerInterval =
- 					ep->desc.wMaxPacketSize;
- 		return;
-@@ -121,8 +125,8 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index ce9fc46c9266..b5935834f9d2 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -899,11 +899,13 @@ static int dsps_probe(struct platform_device *pdev)
+ 	if (usb_get_dr_mode(&pdev->dev) == USB_DR_MODE_PERIPHERAL) {
+ 		ret = dsps_setup_optional_vbus_irq(pdev, glue);
+ 		if (ret)
+-			goto err;
++			goto unregister_pdev;
  	}
  
- 	if ((usb_endpoint_xfer_control(&ep->desc) ||
--			usb_endpoint_xfer_int(&ep->desc)) &&
--				desc->bmAttributes != 0) {
-+	     usb_endpoint_xfer_int(&ep->desc)) &&
-+	    desc->bmAttributes != 0) {
- 		dev_warn(ddev,
- 			 "%s endpoint with bmAttributes = %d in config %d interface %d altsetting %d ep %d: setting to zero\n",
- 			 usb_endpoint_xfer_control(&ep->desc) ? "Control" : "Bulk",
-@@ -167,7 +171,7 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
- 	if (usb_endpoint_xfer_isoc(&ep->desc) &&
- 	    USB_SS_SSP_ISOC_COMP(desc->bmAttributes))
- 		usb_parse_ssp_isoc_endpoint_companion(ddev, cfgno, inum, asnum,
--							ep, buffer, size);
-+						      ep, buffer, size);
- }
+ 	return 0;
  
- static const unsigned short low_speed_maxpacket_maxes[4] = {
-@@ -201,7 +205,7 @@ static const unsigned short super_speed_maxpacket_maxes[4] = {
- };
- 
- static bool endpoint_is_duplicate(struct usb_endpoint_descriptor *e1,
--		struct usb_endpoint_descriptor *e2)
-+				  struct usb_endpoint_descriptor *e2)
- {
- 	if (e1->bEndpointAddress == e2->bEndpointAddress)
- 		return true;
-@@ -219,7 +223,8 @@ static bool endpoint_is_duplicate(struct usb_endpoint_descriptor *e1,
-  * altsetting currently being parsed.
-  */
- static bool config_endpoint_is_duplicate(struct usb_host_config *config,
--		int inum, int asnum, struct usb_endpoint_descriptor *d)
-+					 int inum, int asnum,
-+					 struct usb_endpoint_descriptor *d)
- {
- 	struct usb_endpoint_descriptor *epd;
- 	struct usb_interface_cache *intfc;
-@@ -233,7 +238,7 @@ static bool config_endpoint_is_duplicate(struct usb_host_config *config,
- 			alt = &intfc->altsetting[j];
- 
- 			if (alt->desc.bInterfaceNumber == inum &&
--					alt->desc.bAlternateSetting != asnum)
-+			    alt->desc.bAlternateSetting != asnum)
- 				continue;
- 
- 			for (k = 0; k < alt->desc.bNumEndpoints; ++k) {
-@@ -249,9 +254,9 @@ static bool config_endpoint_is_duplicate(struct usb_host_config *config,
- }
- 
- static int usb_parse_endpoint(struct device *ddev, int cfgno,
--		struct usb_host_config *config, int inum, int asnum,
--		struct usb_host_interface *ifp, int num_ep,
--		unsigned char *buffer, int size)
-+			      struct usb_host_config *config, int inum,
-+			      int asnum, struct usb_host_interface *ifp,
-+			      int num_ep, unsigned char *buffer, int size)
- {
- 	struct usb_device *udev = to_usb_device(ddev);
- 	unsigned char *buffer0 = buffer;
-@@ -291,7 +296,7 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 	/* Check for duplicate endpoint addresses */
- 	if (config_endpoint_is_duplicate(config, inum, asnum, d)) {
- 		dev_warn(ddev, "config %d interface %d altsetting %d has a duplicate endpoint with address 0x%X, skipping\n",
--				cfgno, inum, asnum, d->bEndpointAddress);
-+			 cfgno, inum, asnum, d->bEndpointAddress);
- 		goto skip_to_next_endpoint_or_interface_descriptor;
- 	}
- 
-@@ -299,8 +304,7 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 	if (udev->quirks & USB_QUIRK_ENDPOINT_IGNORE) {
- 		if (usb_endpoint_is_ignored(udev, ifp, d)) {
- 			dev_warn(ddev, "config %d interface %d altsetting %d has an ignored endpoint with address 0x%X, skipping\n",
--					cfgno, inum, asnum,
--					d->bEndpointAddress);
-+				 cfgno, inum, asnum, d->bEndpointAddress);
- 			goto skip_to_next_endpoint_or_interface_descriptor;
- 		}
- 	}
-@@ -407,7 +411,7 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 	maxp = usb_endpoint_maxp(&endpoint->desc);
- 	if (maxp == 0 && !(usb_endpoint_xfer_isoc(d) && asnum == 0)) {
- 		dev_warn(ddev, "config %d interface %d altsetting %d endpoint 0x%X has invalid wMaxPacketSize 0\n",
--		    cfgno, inum, asnum, d->bEndpointAddress);
-+			 cfgno, inum, asnum, d->bEndpointAddress);
- 	}
- 
- 	/* Find the highest legal maxpacket size for this endpoint */
-@@ -438,7 +442,7 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 
- 	if (maxp > j) {
- 		dev_warn(ddev, "config %d interface %d altsetting %d endpoint 0x%X has invalid maxpacket %d, setting to %d\n",
--		    cfgno, inum, asnum, d->bEndpointAddress, maxp, j);
-+			 cfgno, inum, asnum, d->bEndpointAddress, maxp, j);
- 		maxp = j;
- 		endpoint->desc.wMaxPacketSize = cpu_to_le16(i | maxp);
- 	}
-@@ -459,24 +463,24 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
- 	/* Parse a possible SuperSpeed endpoint companion descriptor */
- 	if (udev->speed >= USB_SPEED_SUPER)
- 		usb_parse_ss_endpoint_companion(ddev, cfgno,
--				inum, asnum, endpoint, buffer, size);
-+						inum, asnum, endpoint, buffer, size);
- 
- 	/* Skip over any Class Specific or Vendor Specific descriptors;
- 	 * find the next endpoint or interface descriptor
- 	 */
- 	endpoint->extra = buffer;
- 	i = find_next_descriptor(buffer, size, USB_DT_ENDPOINT,
--			USB_DT_INTERFACE, &n);
-+				 USB_DT_INTERFACE, &n);
- 	endpoint->extralen = i;
- 	retval = buffer - buffer0 + i;
- 	if (n > 0)
- 		dev_dbg(ddev, "skipped %d descriptor%s after %s\n",
--		    n, plural(n), "endpoint");
-+			n, plural(n), "endpoint");
- 	return retval;
- 
- skip_to_next_endpoint_or_interface_descriptor:
- 	i = find_next_descriptor(buffer, size, USB_DT_ENDPOINT,
--	    USB_DT_INTERFACE, NULL);
-+				 USB_DT_INTERFACE, NULL);
- 	return buffer - buffer0 + i;
- }
- 
-@@ -495,8 +499,9 @@ void usb_release_interface_cache(struct kref *ref)
- }
- 
- static int usb_parse_interface(struct device *ddev, int cfgno,
--		struct usb_host_config *config, unsigned char *buffer, int size,
--		s[], u8 nalts[])
-+			       struct usb_host_config *config,
-+			       unsigned char *buffer, int size, s[],
-+			       u8 nalts[])
- {
- 	unsigned char *buffer0 = buffer;
- 	struct usb_interface_descriptor	*d;
-@@ -547,11 +552,11 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
- 	 */
- 	alt->extra = buffer;
- 	i = find_next_descriptor(buffer, size, USB_DT_ENDPOINT,
--	    USB_DT_INTERFACE, &n);
-+				 USB_DT_INTERFACE, &n);
- 	alt->extralen = i;
- 	if (n > 0)
- 		dev_dbg(ddev, "skipped %d descriptor%s after %s\n",
--		    n, plural(n), "interface");
-+			n, plural(n), "interface");
- 	buffer += i;
- 	size -= i;
- 
-@@ -581,7 +586,7 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
- 		     == USB_DT_INTERFACE)
- 			break;
- 		retval = usb_parse_endpoint(ddev, cfgno, config, inum, asnum,
--				alt, num_ep, buffer, size);
-+					    alt, num_ep, buffer, size);
- 		if (retval < 0)
- 			return retval;
- 		++n;
-@@ -598,12 +603,13 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
- 
- skip_to_next_interface_descriptor:
- 	i = find_next_descriptor(buffer, size, USB_DT_INTERFACE,
--	    USB_DT_INTERFACE, NULL);
-+				 USB_DT_INTERFACE, NULL);
- 	return buffer - buffer0 + i;
- }
- 
- static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
--		struct usb_host_config *config, unsigned char *buffer, int size)
-+				   struct usb_host_config *config,
-+				   unsigned char *buffer, int size)
- {
- 	struct device *ddev = &dev->dev;
- 	unsigned char *buffer0 = buffer;
-@@ -785,18 +791,18 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
- 	 */
- 	config->extra = buffer;
- 	i = find_next_descriptor(buffer, size, USB_DT_INTERFACE,
--	    USB_DT_INTERFACE, &n);
-+				 USB_DT_INTERFACE, &n);
- 	config->extralen = i;
- 	if (n > 0)
- 		dev_dbg(ddev, "skipped %d descriptor%s after %s\n",
--		    n, plural(n), "configuration");
-+			n, plural(n), "configuration");
- 	buffer += i;
- 	size -= i;
- 
- 	/* Parse all the interface/altsetting descriptors */
- 	while (size > 0) {
- 		retval = usb_parse_interface(ddev, cfgno, config,
--		    buffer, size, inums, nalts);
-+					     buffer, size, inums, nalts);
- 		if (retval < 0)
- 			return retval;
- 
-@@ -847,7 +853,7 @@ void usb_destroy_configuration(struct usb_device *dev)
- 		for (i = 0; i < cf->desc.bNumInterfaces; i++) {
- 			if (cf->intf_cache[i])
- 				kref_put(&cf->intf_cache[i]->ref,
--					  usb_release_interface_cache);
-+					 usb_release_interface_cache);
- 		}
- 	}
- 	kfree(dev->config);
-@@ -901,7 +907,7 @@ int usb_get_configuration(struct usb_device *dev)
- 		 * the whole configuration is
- 		 */
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    desc, USB_DT_CONFIG_SIZE);
-+					    desc, USB_DT_CONFIG_SIZE);
- 		if (result < 0) {
- 			dev_err(ddev,
- 				"unable to read config index %d descriptor/%s: %d\n",
-@@ -919,7 +925,7 @@ int usb_get_configuration(struct usb_device *dev)
- 			goto err;
- 		}
- 		length = max((int)le16_to_cpu(desc->wTotalLength),
--		    USB_DT_CONFIG_SIZE);
-+			     USB_DT_CONFIG_SIZE);
- 
- 		/* Now that we know the length, get the whole thing */
- 		bigbuffer = kmalloc(length, GFP_KERNEL);
-@@ -932,7 +938,7 @@ int usb_get_configuration(struct usb_device *dev)
- 			msleep(200);
- 
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    bigbuffer, length);
-+					    bigbuffer, length);
- 		if (result < 0) {
- 			dev_err(ddev,
- 				"unable to read config index %d descriptor/%s\n",
-@@ -950,7 +956,8 @@ int usb_get_configuration(struct usb_device *dev)
- 		dev->rawdescriptors[cfgno] = bigbuffer;
- 
- 		result = usb_parse_configuration(dev, cfgno,
--		    &dev->config[cfgno], bigbuffer, length);
-+						 &dev->config[cfgno],
-+						 bigbuffer, length);
- 		if (result < 0) {
- 			++cfgno;
- 			goto err;
++unregister_pdev:
++	platform_device_unregister(glue->musb);
+ err:
+ 	pm_runtime_disable(&pdev->dev);
+ 	iounmap(glue->usbss_base);
 -- 
-2.32.0
+2.27.0
 
