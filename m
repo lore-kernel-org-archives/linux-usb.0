@@ -2,94 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3389AC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:00:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7695FC433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:20:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1539F6126A
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:00:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F0876115B
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:20:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236055AbhJEOCB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:02:01 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:24610 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236328AbhJEOAZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 5 Oct 2021 10:00:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633442314; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=XKX6aXfP6Ig98Jdme9GL3cR1S40DlB+q0uUeu4G3KDY=;
- b=Eal8rAHwgv72MGJDgrA1RWmk6Y0nScUM+znhlJIzW1IkX5dS2ciASChfxj1ELZ7PuA5kzByq
- GrUzd85fBvAih7eTSJqeT2x+o8Omg7HBOzSjzFelMM1P/gZYhxRZ7LVJIta4eJ02K6tVvYBy
- zmuVDl4lXY/995sJFJYdSx+iqlo=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 615c5a095f16bce668a116bc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Oct 2021 13:58:33
- GMT
-Sender: schowdhu=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id ED0F5C359D5; Tue,  5 Oct 2021 13:58:31 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: schowdhu)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 44F17C43150;
-        Tue,  5 Oct 2021 13:58:30 +0000 (UTC)
+        id S235358AbhJEOVu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:21:50 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:57057 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S235203AbhJEOVu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:21:50 -0400
+Received: (qmail 622086 invoked by uid 1000); 5 Oct 2021 10:19:58 -0400
+Date:   Tue, 5 Oct 2021 10:19:58 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Petr Nechaev <petr.nechaev@cogentembedded.com>
+Subject: Re: [PATCH v3] usb: gadget: storage: add support for media larger
+ than 2T
+Message-ID: <20211005141958.GA621017@rowland.harvard.edu>
+References: <YUnsSxUERYj/oXTO@kroah.com>
+ <20210921145901.11952-1-nikita.yoush@cogentembedded.com>
+ <YVwyDsuIT9lZWi2v@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 05 Oct 2021 19:28:30 +0530
-From:   schowdhu@codeaurora.org
-To:     Joe Perches <joe@perches.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Bryan O'Donoghue <pure.logic@nexus-software.ie>,
-        Greg KH <greg@kroah.com>, linux-kernel@vger.kernel.org,
-        ckadabi@codeaurora.org, tsoni@codeaurora.org,
-        bryanh@codeaurora.org, psodagud@codeaurora.org,
-        satyap@codeaurora.org, pheragu@codeaurora.org,
-        Rajendra Nayak <rnayak@codeaurora.org>,
-        Sibi Sankar <sibis@codeaurora.org>,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCH V0 4/7] usb: common: eud: Added the driver support for
- Embedded USB Debugger(EUD)
-In-Reply-To: <c56e78bc85cbe6b05dd16c750e596ab331c37dee.camel@perches.com>
-References: <cover.1633343547.git.schowdhu@codeaurora.org>
- <e6df4a21a283e822d15dedb7ffb3ae62c241999c.1633343547.git.schowdhu@codeaurora.org>
- <YVsu602phHbZLMOT@ripper>
- <c56e78bc85cbe6b05dd16c750e596ab331c37dee.camel@perches.com>
-Message-ID: <576a1eac007ac512ba47d5d3f761ec9a@codeaurora.org>
-X-Sender: schowdhu@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YVwyDsuIT9lZWi2v@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2021-10-05 12:44, Joe Perches wrote:
-> On Mon, 2021-10-04 at 09:42 -0700, Bjorn Andersson wrote:
->> On Mon 04 Oct 04:16 PDT 2021, Souradeep Chowdhury wrote:
->> 
->> > Add support for control peripheral of EUD (Embedded USB Debugger) to
->> > listen to events such as USB attach/detach, pet EUD to indicate software
->> > is functional.Reusing the platform device kobj, sysfs entry 'enable' is
->> > created to enable or disable EUD.
-> []
->> > diff --git a/drivers/usb/common/qcom_eud.c b/drivers/usb/common/qcom_eud.c
-> []
->> > +static ssize_t enable_show(struct device *dev,
->> > +		struct device_attribute *attr, char *buf)
->> > +{
->> > +	struct eud_chip *chip = dev_get_drvdata(dev);
->> > +
->> > +	return sprintf(buf, "%d", chip->enable);
+On Tue, Oct 05, 2021 at 01:07:58PM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Sep 21, 2021 at 05:59:02PM +0300, Nikita Yushchenko wrote:
+> > This adds support for READ_CAPACITY(16), READ(16) and WRITE(16)
+> > commands, and fixes READ_CAPACITY command to return 0xffffffff if
+> > media size does not fit in 32 bits.
+> > 
+> > This makes f_mass_storage to export a 16T disk array correctly.
+> > 
+> > Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> > ---
+> > v3:
+> > - added this changelog
+> > 
+> > v2:
+> > - fixed call to check_command() for READ_CAPACITY(16)
+> > - fixed alphabetical order of commands in switch statement
+> > - renamed variable, added comments, and fixed formatting, per advices by
+> >   Alan Stern <stern@rowland.harvard.edu>
 > 
-> trivia:
-> 
-> should probably use sysfs_emit and have a trailing '\n' in the format.
+> Felipe and Alan, any objections to this change?
 
-Ack
+No objections.  In fact, I already sent my Acked-by for v2 of the 
+patch (which is the same as v3):
+
+https://marc.info/?l=linux-usb&m=163165151506682&w=2
+
+Alan Stern
