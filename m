@@ -2,104 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D75C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 19:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4247C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BC2561423
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 19:59:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8FC56115B
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236005AbhJEUBY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 16:01:24 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:40357 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S235949AbhJEUBV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 16:01:21 -0400
-Received: (qmail 635423 invoked by uid 1000); 5 Oct 2021 15:59:29 -0400
-Date:   Tue, 5 Oct 2021 15:59:29 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Dmitry Torokhov <dtor@google.com>
-Cc:     Rajat Jain <rajatja@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Chris Chiu <chris.chiu@canonical.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        levinale@google.com, bleung@google.com, rajatxjain@gmail.com,
-        jsbarnes@google.com, pmalani@google.com
-Subject: Re: [PATCH 2/2] usb: hub: Mark devices downstream a removable hub,
- as removable
-Message-ID: <20211005195929.GA634685@rowland.harvard.edu>
-References: <20210929224823.556943-1-rajatja@google.com>
- <20210929224823.556943-2-rajatja@google.com>
- <YVVLxi/on9x6nfCZ@kroah.com>
- <CACK8Z6EamamgYExt629gyNrYKpvnu2Gh0eGOOvOa5LH-jnOmaQ@mail.gmail.com>
- <20211005145655.GJ621017@rowland.harvard.edu>
- <CAE_wzQ-XG3YBtKTmbn1LSGETCUg5AYjTmcnwOnc1h57OaL9+Cw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE_wzQ-XG3YBtKTmbn1LSGETCUg5AYjTmcnwOnc1h57OaL9+Cw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S235255AbhJEOIg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:08:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38718 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235572AbhJEOIJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:09 -0400
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE8AC08E869;
+        Tue,  5 Oct 2021 07:03:25 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4HNznm3BC4zQkJH;
+        Tue,  5 Oct 2021 16:03:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
+        s=MBO0001; t=1633442602;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
+         cc:in-reply-to:in-reply-to:references:references;
+        bh=W9q0yh9C4+f0hhYGXD2Uh2ACE2H49tKjSCovdaIxFos=;
+        b=QvSNHBRDu9x1PgSNakfLRM/XYuWBKFDmajZEmT1qLscUEcofGk2PRphmBRDhJWAveqpHin
+        4Mo5qnCnePGAmqEv0vprQ42Bfg8Q1Jm+3507Nr80VZ+sl5C+pBSl8CfWcHUljgj5rTqSNE
+        Og+0VDJkBUwIb7EbbXvDyovxhjwAAMTpa6jf50NQxPRT6y/AYMtNqRyDl0YR+LiFRp5kJB
+        dnp+c9lNwm1Q0+muPoHhsMWvbGqI29RF9qN0rwD62482HRoYXGx9L84O/a1PEl5urnlIAm
+        LEmRNj30SNhekn5/wq8h/ctzlIkhDFO923nFyxAyfJOuraRRs9nvFXlTwaXoSQ==
+X-Mailbox-Line: From c818d250f53a97577f01aae2ae051092d098fe74 Mon Sep 17 00:00:00 2001
+Message-Id: <c818d250f53a97577f01aae2ae051092d098fe74.1633442131.git.rob@robgreener.com>
+In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
+References: <cover.1633442131.git.rob@robgreener.com>
+From:   Robert Greener <rob@robgreener.com>
+Date:   Tue, 5 Oct 2021 13:41:27 +0100
+Subject: [PATCH 05/13] usb: core: config: Fix typo in dev_warn
+X-Rspamd-Queue-Id: B64B6274
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 05, 2021 at 09:51:02AM -0700, Dmitry Torokhov wrote:
-> Hi Alan,
-> 
-> On Tue, Oct 5, 2021 at 7:56 AM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > As I understand it, the "removable" property refers specifically to
-> > the device's upstream link, not to whether _any_ of the links leading
-> > from the device to the computer could be removed.
-> 
-> No, that is not what it means. I'll cite our sysfs ABI:
-> 
-> What:           /sys/devices/.../removable
-> Date:           May 2021
-> Contact:        Rajat Jain <rajatxjain@gmail.com>
-> Description:
->                 Information about whether a given device can be removed from the
->                 platform by the user. This is determined by its subsystem in a
->                 bus / platform-specific way. This attribute is only present for
->                 devices that can support determining such information:
-> 
->                 "removable": device can be removed from the platform by the user
->                 "fixed":     device is fixed to the platform / cannot be removed
->                              by the user.
->                 "unknown":   The information is unavailable / cannot be deduced.
-> 
->                 Currently this is only supported by USB (which infers the
->                 information from a combination of hub descriptor bits and
->                 platform-specific data such as ACPI) and PCI (which gets this
->                 from ACPI / device tree).
-> 
-> It specifically talks about _platform_, not about properties of some
-> peripheral attached to a system. Note that the wording is very similar
-> to what we had for USB devices that originally implemented "removable"
-> attribute:
+This fixes the following checkpatch.pl error:
 
-In that case, shouldn't Rajat's patch change go into the driver core 
-rather than the hub driver?  _Every_ device downstream from a 
-removable link should count as removable, yes?  Not just the USB 
-devices.
+core/config.c:66: WARNING:MISSING_SPACE: break quoted strings at a space character
 
-And to say that the attribute is supported only by USB and PCI is 
-misleading, since it applies to every device downstream from a 
-removable link.
+This fix solvers inserts a space between companion and for, where
+there is not one currently.
 
-> > This is probably what Oliver meant when he complained about losing
-> > information.  With the knowledge of whether each individual link is
-> > removable, you can easily tell whether there's some way to remove a
-> > device from the system.  But if you only know whether the device is
-> > removable from the system overall, you generally can't tell whether
-> > the link to the device's parent is removable.
-> 
-> If we need this data then we need to establish some new attribute to
-> convey this info.
+Signed-off-by: Robert Greener <rob@robgreener.com>
+---
+ drivers/usb/core/config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I don't know if we need it, but such an attribute seems like a good 
-idea.
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index f6c90214bba0..c7451081b08b 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -62,7 +62,7 @@ static void usb_parse_ssp_isoc_endpoint_companion(struct device *ddev,
+ 	desc = (struct usb_ssp_isoc_ep_comp_descriptor *) buffer;
+ 	if (desc->bDescriptorType != USB_DT_SSP_ISOC_ENDPOINT_COMP ||
+ 	    size < USB_DT_SSP_ISOC_EP_COMP_SIZE) {
+-		dev_warn(ddev, "Invalid SuperSpeedPlus isoc endpoint companion"
++		dev_warn(ddev, "Invalid SuperSpeedPlus isoc endpoint companion "
+ 			 "for config %d interface %d altsetting %d ep %d.\n",
+ 			 cfgno, inum, asnum, ep->desc.bEndpointAddress);
+ 		return;
+-- 
+2.32.0
 
-Alan Stern
