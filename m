@@ -2,90 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F83C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 10:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F6DC433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 10:59:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4287861528
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 10:55:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 854E761251
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 10:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234017AbhJEK5C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 06:57:02 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:47627 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233449AbhJEK5B (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 06:57:01 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id C0F945C00FB;
-        Tue,  5 Oct 2021 06:55:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 05 Oct 2021 06:55:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=+DMH6zcl7YqIsle+0lDEjFYR/aM
-        r68/alj5rDVmPtQE=; b=LBxFdI8/NEGc9HtLdgQlhQrnXd6VP3GDpNnp9uiJ0jT
-        b/RE3T1X9Co+1Uu6nErwWWYmyhxCCDIJruldQVzha5kkv2WZWOqxuezuB1Q0eozV
-        0C35p3kxjY1SS67LWObD8tjC1gg1oWSV0reKSdoBYqcSwIuQWG8mG1xEyN+xid1x
-        T+dx6W+W4tdlBhnGdiEuHNOZKgYA9DplYMDooYN/bhv+FZzWaLSPNoW4EhN9MEdA
-        e1eAtsL89pg6+FaS7wJSqv1xTMZEvMFrzJyXoERofa6T3lb4zW+reHSM3qqkmyil
-        QzgS4UtRLZr0W6YcwjwMpC07b7jReZowYh+NyQGVFAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+DMH6z
-        cl7YqIsle+0lDEjFYR/aMr68/alj5rDVmPtQE=; b=PQQJf6totbOpbeg5qXVas2
-        FS5QBj0axkhr8pfcEGzBwyCuhS5vY15gV+zzggpHfRtLTiqbsnJDkk0XtHVfbEEF
-        AfqJ3pJyLkdxCeNK4TY3GlXr6KHf1LQOL+c4CaWyYvhhyPrLyigCUPXIgXbDqQMZ
-        8b5YiXvJ/izaFpsJP2q3Jx2zfINvU1HKna5YVxCkaIQdVBCIRkj98dNL2U5gg1k7
-        RHfojzRb8wWGueEuNdW8x7AfJohnKlRS1HBtqQuehxNf05+wo7yiTDUAdc+th8qE
-        o07TQs3nx7PWU3Pupk8s48dQxapDTSIJxuOg02Qm04LUqVV5dJdg9ES9J8MLbFJQ
-        ==
-X-ME-Sender: <xms:DS9cYegV79nRr-CTyNRHv-2Hen8DRVZPFkbnsnqr5sPdF0Jcodq61g>
-    <xme:DS9cYfDfUEIlFDY2mQlRADPn0_vpXCyuUYj87PAvC_YlgUqoRMKRwRK_w1ypoNBPz
-    ADf4jngQ8_oAw>
-X-ME-Received: <xmr:DS9cYWFRQW60l7xnLFPOmPTdYYxj0BvJBdmN1UZSGx5UGaeKnp4gZxoGLKphRD5871Ff45xj6yb1WImzsoyUALCTo8vQD0Oo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelgedgfeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
-    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
-    drtghomh
-X-ME-Proxy: <xmx:DS9cYXQ4PAnOxNgQqpS_GMyibiPXJFEiGv4bEt0NT_3r0IchhMvnKg>
-    <xmx:DS9cYbwFkOgSWgC3RUjH_i8bE256r6DVfZYW5dbVJv5zLB65DjORYQ>
-    <xmx:DS9cYV71rzzwLFi-waS7GnP9598jJ8PyX8gkVaHXjHa_mV9eVy9dxw>
-    <xmx:DS9cYSnFbcyD5rdIl_PerhBC9rYWb050hzJkLopnsq3IuHwrbqnLsA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Oct 2021 06:55:09 -0400 (EDT)
-Date:   Tue, 5 Oct 2021 12:55:06 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        git-dev@xilinx.com
-Subject: Re: [PATCH v4 1/2] dt-binding: usb: xilinx: Add clocking node
-Message-ID: <YVwvClRFIfIREX2n@kroah.com>
-References: <cover.1632805672.git.shubhrajyoti.datta@xilinx.com>
- <30c7d87ab46a0ea2da2dd04d824f162a2e3da4c8.1632805672.git.shubhrajyoti.datta@xilinx.com>
+        id S233865AbhJELBV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 07:01:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41924 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233449AbhJELBV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 5 Oct 2021 07:01:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 44C9B6117A;
+        Tue,  5 Oct 2021 10:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1633431570;
+        bh=4Bw7IC/JQi7WLEgbnB19tLNhnZc+m6/Jf/4hezFbSTI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q4lt0bsytdxpsPQ03CZBugzVdrxit7FK4abolx0+9xKgf+OYRPYOPEqKVS4+7DLVW
+         lkX4+Op0B0Eh8rWrafYkdkt0luBjblg3wLso3UJVE2vhcFn9zKr2guUeqCJzgvLx6F
+         FxTUMidNT9/RG6HKzguqMq81uPWSOn+yeKYk6Q3A=
+Date:   Tue, 5 Oct 2021 12:59:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        linux-usb@vger.kernel.org, balbi@kernel.org, hverkuil@xs4all.nl,
+        m.tretter@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [RESEND PATCH v4] usb: gadget: uvc: fix multiple opens
+Message-ID: <YVwwECkXk+nKn7kE@kroah.com>
+References: <87pn261h4c.fsf@kernel.org>
+ <20211003201355.24081-1-m.grzeschik@pengutronix.de>
+ <YVuUDOf+BDTxe/IR@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <30c7d87ab46a0ea2da2dd04d824f162a2e3da4c8.1632805672.git.shubhrajyoti.datta@xilinx.com>
+In-Reply-To: <YVuUDOf+BDTxe/IR@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Sep 28, 2021 at 10:57:10AM +0530, Shubhrajyoti Datta wrote:
-> Add a clocking node for xilinx udc.
+On Tue, Oct 05, 2021 at 02:53:48AM +0300, Laurent Pinchart wrote:
+> Hi Michael,
 > 
-> Signed-off-by: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-> ---
-> v3:
-> update clock description and names
+> Thank you for resending this.
 > 
->  Documentation/devicetree/bindings/usb/xlnx,usb2.yaml | 6 ++++++
+> On Sun, Oct 03, 2021 at 10:13:55PM +0200, Michael Grzeschik wrote:
+> > From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> > 
+> > Currently, the UVC function is activated when open on the corresponding
+> > v4l2 device is called.
+> > On another open the activation of the function fails since the
+> > deactivation counter in `usb_function_activate` equals 0. However the
+> > error is not returned to userspace since the open of the v4l2 device is
+> > successful.
+> > 
+> > On a close the function is deactivated (since deactivation counter still
+> > equals 0) and the video is disabled in `uvc_v4l2_release`, although the
+> > UVC application potentially is streaming.
+> > 
+> > Move activation of UVC function to subscription on UVC_EVENT_SETUP
+> > because there we can guarantee for a userspace application utilizing
+> > UVC.
+> > Block subscription on UVC_EVENT_SETUP while another application already
+> > is subscribed to it, indicated by `bool func_connected` in
+> > `struct uvc_device`.
+> > Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
+> > to tag it as the handle used by the userspace UVC application.
+> 
+> Reflowing the paragraph would be nice (this could be done when applying
+> the patch, or not at all).
+> 
+> > With this a process is able to check capabilities of the v4l2 device
+> > without deactivating the function for the actual UVC application.
+> > 
+> > Reviewed-By: Michael Tretter <m.tretter@pengutronix.de>
+> > Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Felipe, please let me know if you want me to take this in my tree and
+> issue a pull request, otherwise I'll assume you'll pick it up.
 
-This file is not in my tree, where does it come from?
-
-thanks,
+I'll pick it up now, thanks.
 
 greg k-h
