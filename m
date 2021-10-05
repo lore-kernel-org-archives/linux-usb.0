@@ -2,86 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5761BC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6506C43219
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3EDB36115B
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9441E61131
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235668AbhJEOIo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38508 "EHLO
+        id S235597AbhJEOIq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:08:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235962AbhJEOIL (ORCPT
+        with ESMTP id S235960AbhJEOIL (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:11 -0400
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AABAC08EA40;
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A4CC08E90F;
         Tue,  5 Oct 2021 07:03:43 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:105:465:1:3:0])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4HNznp3chKzQkhP;
-        Tue,  5 Oct 2021 16:03:26 +0200 (CEST)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4HNzns1ZgYzQk3d;
+        Tue,  5 Oct 2021 16:03:29 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
-        s=MBO0001; t=1633442604;
+        s=MBO0001; t=1633442607;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
          cc:in-reply-to:in-reply-to:references:references;
-        bh=FjhFDSUGW84ijFVsp75XszYo7omZ7fAAJfvDmYT0TrY=;
-        b=ZtEC+IyPjitXcMx3oBuEtSjC1lVaSKGkadE+qQFTF8oTuOmJctM+9uOt5DVaMlFfJOVW37
-        uvFAgJ0E0LvwE28pFNdZHAR/2l98BgbqkgksgFi0Cx+49dN5XlXBrI2eszq6WLxcjamlK2
-        oT57zlo2VsT3lcHxZ7JBChSpg9Bo8ssq4rpzBlIsXp2qLQKFBIRY72nTUqGrqy6gcZtEe9
-        xagMeARqE44+5R4id41ONWWGvJqRcmPZNzU9u4wZcuyzP78/mGFYvRGcdFt2E2t6A8kYkc
-        /kg/3tDzYnMPKmKw036tHqWuj+0mrk8IioddTx6m/+qO3QA3Pw8sH6+nSkogsg==
-X-Mailbox-Line: From 3d00fef299d94804b5719e36f398e42deb760bc9 Mon Sep 17 00:00:00 2001
-Message-Id: <3d00fef299d94804b5719e36f398e42deb760bc9.1633442131.git.rob@robgreener.com>
+        bh=UVWMT03HEQyFx2aXE/nLl7IrocPT7phhra9kOwhx2ak=;
+        b=v3eGTvXkTX+iQy7r/mNMr6/kvRq9ASiM1Glmn7VAvDFtZ3oDLjewQA8v8SzCT79Y8dPmEc
+        ZsN9kS0UuP0BlM6BSoSbkmcehGa1dsBRMvQGB1bHCzcw7/epsl3G4RRqdBR3Fi9Qe2P4pE
+        E8CK4HmbqhN1FiF0jKPBVizOnnMvwncDiy8Z9KJ8l1QkJrN8ubDsXESk3TmJO8SuLeUBD0
+        6vbOx7/u18mvc9x2e1aBroMcpdaDo2X107gR+2qq/MoiSJ106rIbTdQNOcNnThyd3IUpPV
+        gTtSc6bEVPebAmsNzw+BPb9JZg+Ygd+4/9DlAsXyibaz8EgCGOW3GeZ9dgO7qw==
+X-Mailbox-Line: From 9fb688c9a39a9114a6137361dc4a143d7a198822 Mon Sep 17 00:00:00 2001
+Message-Id: <9fb688c9a39a9114a6137361dc4a143d7a198822.1633442131.git.rob@robgreener.com>
 In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
 References: <cover.1633442131.git.rob@robgreener.com>
 From:   Robert Greener <rob@robgreener.com>
-Date:   Tue, 5 Oct 2021 14:25:33 +0100
-Subject: [PATCH 07/13] usb: core: config: remove unnecessary blank lines
-X-Rspamd-Queue-Id: A03EF274
+Date:   Tue, 5 Oct 2021 14:34:03 +0100
+Subject: [PATCH 10/13] usb: core: config: fix checkpatch.pl braces warning
+X-Rspamd-Queue-Id: 7D869271
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch fixes the following checkpatch.pl warning at multiple
-locations:
+This fixes the following checkpatch.pl warnings:
 
-CHECK:LINE_SPACING: Please don't use multiple blank lines
+core/config.c:268: CHECK:BRACES: braces {} should be used on all arms of this statement
+core/config.c:272: CHECK:BRACES: Unbalanced braces around else statement
+core/config.c:649: CHECK:BRACES: Blank lines aren't necessary after an open brace '{'
 
 Signed-off-by: Robert Greener <rob@robgreener.com>
 ---
- drivers/usb/core/config.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/usb/core/config.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 51c590da7651..af88cfe52e92 100644
+index 9717f89bcb6f..76038e8c84c5 100644
 --- a/drivers/usb/core/config.c
 +++ b/drivers/usb/core/config.c
-@@ -13,12 +13,10 @@
- #include <asm/byteorder.h>
- #include "usb.h"
+@@ -265,11 +265,12 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
+ 	buffer += d->bLength;
+ 	size -= d->bLength;
  
+-	if (d->bLength >= USB_DT_ENDPOINT_AUDIO_SIZE)
++	if (d->bLength >= USB_DT_ENDPOINT_AUDIO_SIZE) {
+ 		n = USB_DT_ENDPOINT_AUDIO_SIZE;
+-	else if (d->bLength >= USB_DT_ENDPOINT_SIZE)
++	}
++	else if (d->bLength >= USB_DT_ENDPOINT_SIZE) {
+ 		n = USB_DT_ENDPOINT_SIZE;
+-	else {
++	} else {
+ 		dev_warn(ddev,
+ 			 "config %d interface %d altsetting %d has an invalid endpoint descriptor of length %d, skipping\n",
+ 			 cfgno, inum, asnum, d->bLength);
+@@ -646,7 +647,6 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
+ 	for ((buffer2 = buffer, size2 = size);
+ 	      size2 > 0;
+ 	     (buffer2 += header->bLength, size2 -= header->bLength)) {
 -
- #define USB_MAXALTSETTING		128	/* Hard limit */
- 
- #define USB_MAXCONFIG			8	/* Arbitrary limit */
- 
--
- static inline const char *plural(int n)
- {
- 	return (n == 1 ? "" : "s");
-@@ -848,7 +846,6 @@ void usb_destroy_configuration(struct usb_device *dev)
- 	dev->config = NULL;
- }
- 
--
- /*
-  * Get the USB config descriptors, cache and parse'em
-  *
+ 		if (size2 < sizeof(struct usb_descriptor_header)) {
+ 			dev_warn(ddev,
+ 				 "config %d descriptor has %d excess byte%s, ignoring\n",
 -- 
 2.32.0
 
