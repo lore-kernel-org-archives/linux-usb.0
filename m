@@ -2,74 +2,135 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E906C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2C0C433EF
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2028561131
+	by mail.kernel.org (Postfix) with ESMTP id 35C6861881
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235448AbhJEOIh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:08:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38486 "EHLO
+        id S235347AbhJEOIk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235553AbhJEOIJ (ORCPT
+        with ESMTP id S235597AbhJEOIJ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:09 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9CCC08E868;
-        Tue,  5 Oct 2021 07:03:25 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A26C08E86A;
+        Tue,  5 Oct 2021 07:03:27 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:105:465:1:3:0])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4HNznl3pTBzQkHt;
-        Tue,  5 Oct 2021 16:03:23 +0200 (CEST)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4HNznn5CW0zQkSX;
+        Tue,  5 Oct 2021 16:03:25 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
-        s=MBO0001; t=1633442601;
+        s=MBO0001; t=1633442604;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
          cc:in-reply-to:in-reply-to:references:references;
-        bh=sSUSvUhYetKqhetcftUrbC/bhAw4qXKyzeHFsBWvZ/M=;
-        b=pAbuOv3cT8fcMIdvXGN+/n7/1iIJcjN/BIYv1mQ81+qdwdV24Qu+4xx9ZWdMMLP6/rUrYI
-        0AyGBKXaSCuKS/naXhVoTCX+lYmQCDaXWAvWkj7j4oABGdneijm1F+m/Z8iJTNS+uupeVT
-        yuO4QAWtGXwcN+uAZeeyZeF+lxS/2PpSfTq5N+JDp//5C5zbsNwwKGEwPkNdx8u+jP41BJ
-        37wGOzfnO64T1xJ7qoLkHDNhRtXYFpsex0X7hfR/Y9jo40vN8W1LBuuFWxzybkeUj2+3EL
-        9AMZsKN//HW3GY3iysYkbJRXLMuN0NkGQPdwHblj6Bl3+MZLfni5To2AUBn4Qg==
-X-Mailbox-Line: From d28be71c181a0626326d558a6dd3a59a5ad5aeb6 Mon Sep 17 00:00:00 2001
-Message-Id: <d28be71c181a0626326d558a6dd3a59a5ad5aeb6.1633442131.git.rob@robgreener.com>
+        bh=OzhPqsCgRjc99rDYjM4KQ72SeZ8m/fONRusVoznTr3E=;
+        b=mLw3rSpnxqDegAEeopmzRydAaz745dZIBimiFiMYECI6RnBaavL+//VR7j+V8xNo+nPEhs
+        kOHvKyArjQteeomczbBM/o+vWYHwgH5QUoTXmvXsvrHTa5KnzJw42MYVXkOjn/rM+gsymr
+        /UUn+jw5YdmHfuaQ+1yw1J9MrXnqSzl1CFs4eFjKJnPD4BBsNQfejq2yBeVdw6OwJBjGOr
+        wYJREiFPXyteDdi4LQxywLVMnQqNlzjMB20cPRo827wghDDO+yfHT/wtRjA7tgIS6uFUCg
+        g5TN4O+6RUaMProe8tyJD7nFxyFv85NY8advb23a0ali7AjGEOBNYEnjY4xz2w==
+X-Mailbox-Line: From da05f4a46e5183a0aa067673159fb70ae6621403 Mon Sep 17 00:00:00 2001
+Message-Id: <da05f4a46e5183a0aa067673159fb70ae6621403.1633442131.git.rob@robgreener.com>
 In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
 References: <cover.1633442131.git.rob@robgreener.com>
 From:   Robert Greener <rob@robgreener.com>
-Date:   Tue, 5 Oct 2021 13:37:30 +0100
-Subject: [PATCH 04/13] usb: core: config: Avoid multiple line derefrence
-X-Rspamd-Queue-Id: BFFFD2A7
+Date:   Tue, 5 Oct 2021 13:31:37 +0100
+Subject: [PATCH 02/13] usb: core: config: fix block comment styles
+X-Rspamd-Queue-Id: 020CC268
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix the following checkpatch warning:
+Fix the following checkpatch warning at lines 45, 467, 547, 646, 696,
+782, 897:
 
-core/config.c:816: WARNING:MULTILINE_DEREFERENCE: Avoid multiple line dereference - prefer 'intfc->altsetting[n].desc.bAlternateSetting'
+WARNING:BLOCK_COMMENT_STYLE: Block comments use a trailing */ on a separate line
 
 Signed-off-by: Robert Greener <rob@robgreener.com>
 ---
- drivers/usb/core/config.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/core/config.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 5de26d64a00b..f6c90214bba0 100644
+index 52b0edee5b55..52aab1462787 100644
 --- a/drivers/usb/core/config.c
 +++ b/drivers/usb/core/config.c
-@@ -812,8 +812,7 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
- 		intfc = config->intf_cache[i];
- 		for (j = 0; j < intfc->num_altsetting; ++j) {
- 			for (n = 0; n < intfc->num_altsetting; ++n) {
--				if (intfc->altsetting[n].desc.
--				    bAlternateSetting == j)
-+				if (intfc->altsetting[n].desc.bAlternateSetting == j)
+@@ -42,7 +42,8 @@ static int find_next_descriptor(unsigned char *buffer, int size,
+ 	}
+ 
+ 	/* Store the number of descriptors skipped and return the
+-	 * number of bytes skipped */
++	 * number of bytes skipped
++	 */
+ 	if (num_skipped)
+ 		*num_skipped = n;
+ 	return buffer - buffer0;
+@@ -464,7 +465,8 @@ static int usb_parse_endpoint(struct device *ddev, int cfgno,
+ 				inum, asnum, endpoint, buffer, size);
+ 
+ 	/* Skip over any Class Specific or Vendor Specific descriptors;
+-	 * find the next endpoint or interface descriptor */
++	 * find the next endpoint or interface descriptor
++	 */
+ 	endpoint->extra = buffer;
+ 	i = find_next_descriptor(buffer, size, USB_DT_ENDPOINT,
+ 			USB_DT_INTERFACE, &n);
+@@ -544,7 +546,8 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
+ 	memcpy(&alt->desc, d, USB_DT_INTERFACE_SIZE);
+ 
+ 	/* Skip over any Class Specific or Vendor Specific descriptors;
+-	 * find the first endpoint or interface descriptor */
++	 * find the first endpoint or interface descriptor
++	 */
+ 	alt->extra = buffer;
+ 	i = find_next_descriptor(buffer, size, USB_DT_ENDPOINT,
+ 	    USB_DT_INTERFACE, &n);
+@@ -643,7 +646,8 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
+ 	}
+ 
+ 	/* Go through the descriptors, checking their length and counting the
+-	 * number of altsettings for each interface */
++	 * number of altsettings for each interface
++	 */
+ 	n = 0;
+ 	for ((buffer2 = buffer, size2 = size);
+ 	      size2 > 0;
+@@ -693,7 +697,8 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
+ 				    cfgno, inum, nintf_orig - 1);
+ 
+ 			/* Have we already encountered this interface?
+-			 * Count its altsettings */
++			 * Count its altsettings
++			 */
+ 			for (i = 0; i < n; ++i) {
+ 				if (inums[i] == inum)
  					break;
- 			}
- 			if (n >= intfc->num_altsetting)
+@@ -779,7 +784,8 @@ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
+ 	/* FIXME: parse the BOS descriptor */
+ 
+ 	/* Skip over any Class Specific or Vendor Specific descriptors;
+-	 * find the first interface descriptor */
++	 * find the first interface descriptor
++	 */
+ 	config->extra = buffer;
+ 	i = find_next_descriptor(buffer, size, USB_DT_INTERFACE,
+ 	    USB_DT_INTERFACE, &n);
+@@ -894,7 +900,8 @@ int usb_get_configuration(struct usb_device *dev)
+ 
+ 	for (cfgno = 0; cfgno < ncfg; cfgno++) {
+ 		/* We grab just the first descriptor so we know how long
+-		 * the whole configuration is */
++		 * the whole configuration is
++		 */
+ 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+ 		    desc, USB_DT_CONFIG_SIZE);
+ 		if (result < 0) {
 -- 
 2.32.0
 
