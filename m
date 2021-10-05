@@ -2,87 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F41C433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6D8C43217
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BF6A6115B
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B875761131
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235748AbhJEOIr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:08:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38502 "EHLO
+        id S235888AbhJEOIs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:08:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235940AbhJEOIL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:11 -0400
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E9F7C08E90E;
-        Tue,  5 Oct 2021 07:03:40 -0700 (PDT)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
+        with ESMTP id S235995AbhJEOIM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:12 -0400
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [IPv6:2001:67c:2050::465:103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A629C08EAC7;
+        Tue,  5 Oct 2021 07:03:43 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:105:465:1:3:0])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4HNznr4bgtzQkhq;
-        Tue,  5 Oct 2021 16:03:28 +0200 (CEST)
+        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4HNznl6jjDzQjb8;
+        Tue,  5 Oct 2021 16:03:23 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
-        s=MBO0001; t=1633442606;
+        s=MBO0001; t=1633442602;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
          cc:in-reply-to:in-reply-to:references:references;
-        bh=WPntSniBfBJXxI5Bu1inF6s7l6kqvEphqLuLAFznXlk=;
-        b=uf5vFbgRylcbHETK1Ct1/UqU5KjigATy5lkAj9HLTB54vt1mx6S8m8Z7kJCDnqG/k/K+QZ
-        y69Sf3xyWhoTKgBcvPnw8pySdzoUo4Kgi2hkwVIuTfH2Xb9oMQPnbEyod5F6gFBNdqwUl+
-        Rr61nJhbbqixjVE6bRn6EnCOgYqN0z8CJd39dHine5x98Nm5N5sCCD8MQxGzSVsFWgMTnV
-        QUQyU+dMeyQeKeqIX7LXacCTfvfv7PSah8JcOjIdAtpganEgT2Dm9qDeaeYAhK/RiH28OP
-        g9woj8KRU0Xu537VQ7lnG3BlCh3qwbp4wtBngK/Q3hwpJ8TnQElvkce5Pd//Zg==
-X-Mailbox-Line: From 7ccbda3348ab1806edf5c0d91e655b1bcec7f2c1 Mon Sep 17 00:00:00 2001
-Message-Id: <7ccbda3348ab1806edf5c0d91e655b1bcec7f2c1.1633442131.git.rob@robgreener.com>
+        bh=WXuKKp05FgBaGzLWzaMwG93oVFh4NeKDYaS1W7hf3+E=;
+        b=wZT8+cKRlm4pTDS0WGBbniGcmXdO5KH5T7XxgPxUceWTe0aeTPmuoUo0Xg8lnSwbuSrkUB
+        K1BTHJQAzrdgvYaeLHf10pn2IZXqoF49doP4XxY/jwLVMya1u3B/bsnsMKQw2ylnfGKTQD
+        Uqz60T7BzGRaHgUtA4z7ihRwdTFOWgVk4W4SI70NBWZp5U0qBBkIy83P9KmEager3KlkhU
+        KwiA3sqfAJ66QgfEttmIzFbPZLOmqb/vjEeeGIDEcasVGGgzfEyM8/vkOgcHudDeRGtnfw
+        LlTYNxm833cCsPP1wMMvhhEAdn5tmav6ewqQFY8DqA3823xtu3xlUe5Kpgb2ew==
+X-Mailbox-Line: From 3e27773cc94bfc740374d0432e70e4b215c08c9a Mon Sep 17 00:00:00 2001
+Message-Id: <3e27773cc94bfc740374d0432e70e4b215c08c9a.1633442131.git.rob@robgreener.com>
 In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
 References: <cover.1633442131.git.rob@robgreener.com>
 From:   Robert Greener <rob@robgreener.com>
-Date:   Tue, 5 Oct 2021 14:26:43 +0100
-Subject: [PATCH 08/13] usb: core: config: add blank lines after struct def
-X-Rspamd-Queue-Id: E7D7426C
+Date:   Tue, 5 Oct 2021 13:22:11 +0100
+Subject: [PATCH 01/13] usb: core: config: Use tabs rather than spaces for new
+ lines of args
+X-Rspamd-Queue-Id: 2D114268
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This fixes the following checkpatch.pl warning at multiple locations:
+This fixes the following checkpatch.pl warning at lines 28, 499, 500, 606:
 
-CHECK:LINE_SPACING: Please use a blank line after function/struct/union/enum declarations
+WARNING:LEADING_SPACE: please, no spaces at the start of a line
 
 Signed-off-by: Robert Greener <rob@robgreener.com>
 ---
- drivers/usb/core/config.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/core/config.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index af88cfe52e92..3bf04fdf850a 100644
+index b199eb65f378..52b0edee5b55 100644
 --- a/drivers/usb/core/config.c
 +++ b/drivers/usb/core/config.c
-@@ -176,12 +176,14 @@ static const unsigned short low_speed_maxpacket_maxes[4] = {
- 	[USB_ENDPOINT_XFER_BULK] = 0,
- 	[USB_ENDPOINT_XFER_INT] = 8,
- };
-+
- static const unsigned short full_speed_maxpacket_maxes[4] = {
- 	[USB_ENDPOINT_XFER_CONTROL] = 64,
- 	[USB_ENDPOINT_XFER_ISOC] = 1023,
- 	[USB_ENDPOINT_XFER_BULK] = 64,
- 	[USB_ENDPOINT_XFER_INT] = 64,
- };
-+
- static const unsigned short high_speed_maxpacket_maxes[4] = {
- 	[USB_ENDPOINT_XFER_CONTROL] = 64,
- 	[USB_ENDPOINT_XFER_ISOC] = 1024,
-@@ -190,6 +192,7 @@ static const unsigned short high_speed_maxpacket_maxes[4] = {
- 	[USB_ENDPOINT_XFER_BULK] = 1024,
- 	[USB_ENDPOINT_XFER_INT] = 1024,
- };
-+
- static const unsigned short super_speed_maxpacket_maxes[4] = {
- 	[USB_ENDPOINT_XFER_CONTROL] = 512,
- 	[USB_ENDPOINT_XFER_ISOC] = 1024,
+@@ -25,7 +25,7 @@ static inline const char *plural(int n)
+ }
+ 
+ static int find_next_descriptor(unsigned char *buffer, int size,
+-    int dt1, int dt2, int *num_skipped)
++		int dt1, int dt2, int *num_skipped)
+ {
+ 	struct usb_descriptor_header *h;
+ 	int n = 0;
+@@ -496,8 +496,8 @@ void usb_release_interface_cache(struct kref *ref)
+ }
+ 
+ static int usb_parse_interface(struct device *ddev, int cfgno,
+-    struct usb_host_config *config, unsigned char *buffer, int size,
+-    u8 inums[], u8 nalts[])
++		struct usb_host_config *config, unsigned char *buffer, int size,
++		s[], u8 nalts[])
+ {
+ 	unsigned char *buffer0 = buffer;
+ 	struct usb_interface_descriptor	*d;
+@@ -603,7 +603,7 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
+ }
+ 
+ static int usb_parse_configuration(struct usb_device *dev, int cfgidx,
+-    struct usb_host_config *config, unsigned char *buffer, int size)
++		struct usb_host_config *config, unsigned char *buffer, int size)
+ {
+ 	struct device *ddev = &dev->dev;
+ 	unsigned char *buffer0 = buffer;
 -- 
 2.32.0
 
