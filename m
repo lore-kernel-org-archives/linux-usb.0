@@ -2,71 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0505C43219
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5761BC433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B14A96115B
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EDB36115B
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Oct 2021 14:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235619AbhJEOIn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Oct 2021 10:08:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38498 "EHLO
+        id S235668AbhJEOIo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Oct 2021 10:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235889AbhJEOIK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:10 -0400
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [IPv6:2001:67c:2050::465:101])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E438CC08E8A9;
-        Tue,  5 Oct 2021 07:03:38 -0700 (PDT)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:105:465:1:4:0])
+        with ESMTP id S235962AbhJEOIL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Oct 2021 10:08:11 -0400
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [IPv6:2001:67c:2050::465:202])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AABAC08EA40;
+        Tue,  5 Oct 2021 07:03:43 -0700 (PDT)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [80.241.60.233])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4HNznh1VL3zQjbb;
-        Tue,  5 Oct 2021 16:03:20 +0200 (CEST)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4HNznp3chKzQkhP;
+        Tue,  5 Oct 2021 16:03:26 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=robgreener.com;
-        s=MBO0001; t=1633442598;
+        s=MBO0001; t=1633442604;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:to:
-         cc; bh=hx95swwG+ltUhhHv7A0H8iGt2RP/xSHvTG4WjbflYLk=;
-        b=GHR642JpSFmpKr84x2HVhyzDkIGvROhAtoQSHgdCVSTzTsH4NsHRL/kwkv8r9MU9qwAINX
-        j83UDjkolWW91oGvw3RSlMmvFR1moStVkHJNeziOA+I/5D98Qf5fnDaaSidJxcIP+MO23+
-        mcsTFNPS762r7FwyduKhjSxBPEWa/+FdOZAZhAnG/3RbHfvDV8clzxCGBehr8S83P0/4yM
-        k9KyXLmF1+vSvFnGNgYcZqC3RQTA4iG6m3tQVbHrq3mb9QpVCQ1aOfgmsYwaqgYF9sIEBn
-        qwat36I5l+wb8fPJlTbFza4WTcJqnszIf1fRhW2OMUKKrWCawV6ajsOV6q0jEQ==
-X-Mailbox-Line: From 835bbc4e27ca989674fb916f70b81038deaf47e5 Mon Sep 17 00:00:00 2001
-Message-Id: <cover.1633442131.git.rob@robgreener.com>
+         cc:in-reply-to:in-reply-to:references:references;
+        bh=FjhFDSUGW84ijFVsp75XszYo7omZ7fAAJfvDmYT0TrY=;
+        b=ZtEC+IyPjitXcMx3oBuEtSjC1lVaSKGkadE+qQFTF8oTuOmJctM+9uOt5DVaMlFfJOVW37
+        uvFAgJ0E0LvwE28pFNdZHAR/2l98BgbqkgksgFi0Cx+49dN5XlXBrI2eszq6WLxcjamlK2
+        oT57zlo2VsT3lcHxZ7JBChSpg9Bo8ssq4rpzBlIsXp2qLQKFBIRY72nTUqGrqy6gcZtEe9
+        xagMeARqE44+5R4id41ONWWGvJqRcmPZNzU9u4wZcuyzP78/mGFYvRGcdFt2E2t6A8kYkc
+        /kg/3tDzYnMPKmKw036tHqWuj+0mrk8IioddTx6m/+qO3QA3Pw8sH6+nSkogsg==
+X-Mailbox-Line: From 3d00fef299d94804b5719e36f398e42deb760bc9 Mon Sep 17 00:00:00 2001
+Message-Id: <3d00fef299d94804b5719e36f398e42deb760bc9.1633442131.git.rob@robgreener.com>
+In-Reply-To: <cover.1633442131.git.rob@robgreener.com>
+References: <cover.1633442131.git.rob@robgreener.com>
 From:   Robert Greener <rob@robgreener.com>
-Date:   Tue, 5 Oct 2021 14:55:31 +0100
-Subject: [PATCH 00/13] usb: core: config: fix all checkpatch.pl warnings
-X-Rspamd-Queue-Id: 2608B272
+Date:   Tue, 5 Oct 2021 14:25:33 +0100
+Subject: [PATCH 07/13] usb: core: config: remove unnecessary blank lines
+X-Rspamd-Queue-Id: A03EF274
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset fixes all checkpatch warnings in drivers/usb/core/config.c
+This patch fixes the following checkpatch.pl warning at multiple
+locations:
 
-(when combined with my earlier patch
-Link: https://lore.kernel.org/r/20211001151350.ijiexr3ebwvypmdd@shortbread)
+CHECK:LINE_SPACING: Please don't use multiple blank lines
 
-Robert Greener (13):
-  usb: core: config: Use tabs rather than spaces for new lines of args
-  usb: core: config: fix block comment styles
-  usb: core: config: Change `unsigned` to `unsigned int`
-  usb: core: config: Avoid multiple line derefrence
-  usb: core: config: Fix typo in dev_warn
-  usb: core: config: unsplit strings which are split across lines
-  usb: core: config: remove unnecessary blank lines
-  usb: core: config: add blank lines after struct def
-  usb: core: config: fix inline spacign
-  usb: core: config: fix checkpatch.pl braces warning
-  usb: core: config: remove unnecessary parentheses
-  usb: core: config: remove multiple assignments
-  usb: core: config: fix parenthesis alignment
+Signed-off-by: Robert Greener <rob@robgreener.com>
+---
+ drivers/usb/core/config.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
- drivers/usb/core/config.c | 393 ++++++++++++++++++++------------------
- 1 file changed, 204 insertions(+), 189 deletions(-)
-
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index 51c590da7651..af88cfe52e92 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -13,12 +13,10 @@
+ #include <asm/byteorder.h>
+ #include "usb.h"
+ 
+-
+ #define USB_MAXALTSETTING		128	/* Hard limit */
+ 
+ #define USB_MAXCONFIG			8	/* Arbitrary limit */
+ 
+-
+ static inline const char *plural(int n)
+ {
+ 	return (n == 1 ? "" : "s");
+@@ -848,7 +846,6 @@ void usb_destroy_configuration(struct usb_device *dev)
+ 	dev->config = NULL;
+ }
+ 
+-
+ /*
+  * Get the USB config descriptors, cache and parse'em
+  *
 -- 
 2.32.0
 
