@@ -2,104 +2,136 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D915C433F5
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Oct 2021 13:26:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B13C9C433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Oct 2021 16:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBAC561075
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Oct 2021 13:26:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A6BD60F4C
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Oct 2021 16:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238614AbhJFN1y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Oct 2021 09:27:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238111AbhJFN1r (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Oct 2021 09:27:47 -0400
-X-Greylist: delayed 1542 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 06 Oct 2021 06:25:37 PDT
-Received: from chandra.tablix.org (chandra.tablix.org [IPv6:2a00:ee2:100:3a01::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 605F6C061768
-        for <linux-usb@vger.kernel.org>; Wed,  6 Oct 2021 06:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tablix.org;
-         s=alpha; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc
-        :To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=vmUDZt4N9AsgqijLndpTMEj2xSGE119w8ekjdw8D3nQ=; b=coCLNJEaf9mE8wLLI64Iydw+5B
-        OUn/pPuCVUFrt8kKVb6h1gH5TEjWXKES/TpMuxhDsQwxbAReW75teYwQWJSOOTbIZvyvXmfFPCNfs
-        XRWUazp5PpN5gKU22imYwuYnladszbgTNK6gsTbJcg/Jlv1d5kX/j6tBiijjM637yPaY3CSPt6qXi
-        oSLN/yUgDm1GppLIn0Z/06WPasdB/Dh1okbtbWCfcXX5jZjECv81rffimVIvIPVRCWW/gRhrPywt6
-        voGmQlmL5TDuC7fYjA+qhgL9BjeMkNMfmJTsxeKrmw4Pznvo/aJM7QLrUT3gxMQ3rEsPIyaQ35haq
-        KaFE9iNA==;
-Received: from [2a01:261:355:1d00:4d4c:70c:e514:4e27] (helo=muffin.lan)
-        by chandra.tablix.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <tomaz.solc@tablix.org>)
-        id 1mY6WX-0001PB-HI; Wed, 06 Oct 2021 14:59:53 +0200
-From:   Tomaz Solc <tomaz.solc@tablix.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Tomaz Solc <tomaz.solc@tablix.org>
-Subject: [PATCH] usb: serial: option: add prod. id for Quectel EG91
-Date:   Wed,  6 Oct 2021 14:57:50 +0200
-Message-Id: <20211006125749.4075-1-tomaz.solc@tablix.org>
-X-Mailer: git-send-email 2.20.1
+        id S239317AbhJFQKN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Oct 2021 12:10:13 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:55813 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S239313AbhJFQKN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Oct 2021 12:10:13 -0400
+Received: (qmail 660907 invoked by uid 1000); 6 Oct 2021 12:08:19 -0400
+Date:   Wed, 6 Oct 2021 12:08:19 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Rajat Jain <rajatxjain@gmail.com>
+Cc:     Dmitry Torokhov <dtor@google.com>, Rajat Jain <rajatja@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Chris Chiu <chris.chiu@canonical.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        levinale@google.com, bleung@google.com, jsbarnes@google.com,
+        pmalani@google.com
+Subject: Re: [PATCH 2/2] usb: hub: Mark devices downstream a removable hub,
+ as removable
+Message-ID: <20211006160819.GA659483@rowland.harvard.edu>
+References: <20210929224823.556943-1-rajatja@google.com>
+ <20210929224823.556943-2-rajatja@google.com>
+ <YVVLxi/on9x6nfCZ@kroah.com>
+ <CACK8Z6EamamgYExt629gyNrYKpvnu2Gh0eGOOvOa5LH-jnOmaQ@mail.gmail.com>
+ <20211005145655.GJ621017@rowland.harvard.edu>
+ <CAE_wzQ-XG3YBtKTmbn1LSGETCUg5AYjTmcnwOnc1h57OaL9+Cw@mail.gmail.com>
+ <20211005195929.GA634685@rowland.harvard.edu>
+ <CAA93t1qzJuN8M2zbs+Kt9JXWP1H2kjKSxBp8-TXEfaMeZ1iggQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA93t1qzJuN8M2zbs+Kt9JXWP1H2kjKSxBp8-TXEfaMeZ1iggQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adding support for Quectel EG91 LTE module.
+On Tue, Oct 05, 2021 at 04:43:33PM -0700, Rajat Jain wrote:
+> Hello,
+> 
+> On Tue, Oct 5, 2021 at 12:59 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Tue, Oct 05, 2021 at 09:51:02AM -0700, Dmitry Torokhov wrote:
+> > > Hi Alan,
+> > >
+> > > On Tue, Oct 5, 2021 at 7:56 AM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > > >
+> > > > As I understand it, the "removable" property refers specifically to
+> > > > the device's upstream link, not to whether _any_ of the links leading
+> > > > from the device to the computer could be removed.
+> > >
+> > > No, that is not what it means. I'll cite our sysfs ABI:
+> > >
+> > > What:           /sys/devices/.../removable
+> > > Date:           May 2021
+> > > Contact:        Rajat Jain <rajatxjain@gmail.com>
+> > > Description:
+> > >                 Information about whether a given device can be removed from the
+> > >                 platform by the user. This is determined by its subsystem in a
+> > >                 bus / platform-specific way. This attribute is only present for
+> > >                 devices that can support determining such information:
+> > >
+> > >                 "removable": device can be removed from the platform by the user
+> > >                 "fixed":     device is fixed to the platform / cannot be removed
+> > >                              by the user.
+> > >                 "unknown":   The information is unavailable / cannot be deduced.
+> > >
+> > >                 Currently this is only supported by USB (which infers the
+> > >                 information from a combination of hub descriptor bits and
+> > >                 platform-specific data such as ACPI) and PCI (which gets this
+> > >                 from ACPI / device tree).
+> > >
+> > > It specifically talks about _platform_, not about properties of some
+> > > peripheral attached to a system. Note that the wording is very similar
+> > > to what we had for USB devices that originally implemented "removable"
+> > > attribute:
+> >
+> > In that case, shouldn't Rajat's patch change go into the driver core
+> > rather than the hub driver?  _Every_ device downstream from a
+> > removable link should count as removable, yes?  Not just the USB
+> > devices.
+> 
+> I have no preference either way, and can do that if that is more acceptable.
+> 
+> >
+> > And to say that the attribute is supported only by USB and PCI is
+> > misleading, since it applies to every device downstream from a
+> > removable link.
+> 
+> However I do think it makes sense to have the bus control whether this
+> attribute applies to it or not.
 
-The interface layout is same as for EG95.
+The sysfs ABI quoted by Dmitry above is a little vague.  It seems to 
+say that only certain buses can determine whether a device is 
+removable, but this simply isn't true, because any device downstream 
+from something removable will itself be removable, no matter what kind 
+of bus it's on.
 
-usb-devices output:
-T:  Bus=01 Lev=02 Prnt=02 Port=00 Cnt=01 Dev#=  3 Spd=480 MxCh= 0
-D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=2c7c ProdID=0191 Rev=03.18
-S:  Manufacturer=Android
-S:  Product=Android
-C:  #Ifs= 5 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-I:  If#=0x1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=(none)
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+>  Determining the first point in a
+> hierarchy of devices, where a device can be removed is highly bus
+> specific (set_usb_port_removable()).
 
-Interfaces:
+Yes, the bus must be at least partially responsible for _determining_ 
+the value of the removable attribute.  But the attribute should _apply_ 
+to all devices, regardless of what bus they are on.
 
-0: Diag
-1: GNSS
-2: AT-command interface/modem
-3: Modem
-4: QMI
+To be more precise, the bus can determine whether a device's upstream 
+link (the first link in the chain leading from the device back to the 
+CPU) can be hot-unplugged.  The device is removable if any of the links 
+in that chain are hot-unpluggable.
 
-Signed-off-by: Tomaz Solc <tomaz.solc@tablix.org>
----
- drivers/usb/serial/option.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> AFAIK, the primary reason / use of this attribute was to distinguish
+> devices that can be removed by the user, and really all such devices
+> (at least the ones that matter to user) today sit either on PCI or USB
+> bus. We intend to use this attribute to segregate internal devices
+> from external devices, and collect some statistics about usb device
+> usage this way. There is also a VM case that I think Dmitry or Benson
+> on this thread can elaborate more about. There seem to be hundreds of
+> other bus types and I'm not sure if we want to unnecessarily flood the
+> sysfs with a removable attribute under each device.
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 6cfb5d33609f..f54abcb408b6 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -246,6 +246,7 @@ static void option_instat_callback(struct urb *urb);
- /* These Quectel products use Quectel's vendor ID */
- #define QUECTEL_PRODUCT_EC21			0x0121
- #define QUECTEL_PRODUCT_EC25			0x0125
-+#define QUECTEL_PRODUCT_EG91			0x0191
- #define QUECTEL_PRODUCT_EG95			0x0195
- #define QUECTEL_PRODUCT_BG96			0x0296
- #define QUECTEL_PRODUCT_EP06			0x0306
-@@ -1111,6 +1112,9 @@ static const struct usb_device_id option_ids[] = {
- 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EC25, 0xff, 0xff, 0xff),
- 	  .driver_info = NUMEP2 },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EC25, 0xff, 0, 0) },
-+	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EG91, 0xff, 0xff, 0xff),
-+	  .driver_info = NUMEP2 },
-+	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EG91, 0xff, 0, 0) },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EG95, 0xff, 0xff, 0xff),
- 	  .driver_info = NUMEP2 },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EG95, 0xff, 0, 0) },
--- 
-2.20.1
+sysfs already contains a lot of mostly unused information.  I don't 
+think adding one or two more will hurt much.
 
+Alan Stern
