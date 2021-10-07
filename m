@@ -2,185 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2A98C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 17:49:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FE9C433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 17:55:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFF2261278
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 17:49:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B4DF6128C
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 17:55:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243396AbhJGRvt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Oct 2021 13:51:49 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:64730 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243344AbhJGRvm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Oct 2021 13:51:42 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1633628988; h=References: In-Reply-To: Message-Id: Date:
- Subject: Cc: To: From: Sender;
- bh=tHA60v4N0YKViJuV9g9KY1VqT8BUuS4s4huUyY5Pxgk=; b=E5Y2wgGAaROC6SQqIp/vZFQla8/5qwHMzT0HQ+8c5xDaUd211VjwLhtHRxAj5w3c3PiLxySH
- Q3QNo3C4AnGd7j6ELeEjPyQWtG0UyWWBtFMG6ZmDb1Xdj0EVpz1OU3iaORNhnzKKzgea97OS
- WYZk56KfPnOomhxVUvKhpkfvE+I=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 615f332003355859c8d8837d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Oct 2021 17:49:20
- GMT
-Sender: pmaliset=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C3A96C4361B; Thu,  7 Oct 2021 17:49:20 +0000 (UTC)
-Received: from pmaliset-linux.qualcomm.com (unknown [202.46.22.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: pmaliset)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BC9D9C4338F;
-        Thu,  7 Oct 2021 17:49:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org BC9D9C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-From:   Prasad Malisetty <pmaliset@codeaurora.org>
-To:     agross@kernel.org, bjorn.andersson@linaro.org, bhelgaas@google.com,
-        robh+dt@kernel.org, swboyd@chromium.org, lorenzo.pieralisi@arm.com,
-        svarbanov@mm-sol.com
-Cc:     devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dianders@chromium.org, mka@chromium.org, vbadigan@codeaurora.org,
-        sallenki@codeaurora.org, manivannan.sadhasivam@linaro.org,
-        linux-pci@vger.kernel.org,
-        Prasad Malisetty <pmaliset@codeaurora.org>
-Subject: [PATCH v12 3/5] arm64: dts: qcom: sc7280: Add PCIe nodes for IDP board
-Date:   Thu,  7 Oct 2021 23:18:41 +0530
-Message-Id: <1633628923-25047-4-git-send-email-pmaliset@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1633628923-25047-1-git-send-email-pmaliset@codeaurora.org>
-References: <1633628923-25047-1-git-send-email-pmaliset@codeaurora.org>
+        id S243312AbhJGR5Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Oct 2021 13:57:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233768AbhJGR5P (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Oct 2021 13:57:15 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E180C061570;
+        Thu,  7 Oct 2021 10:55:21 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id r7so21558673wrc.10;
+        Thu, 07 Oct 2021 10:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GN5gadcVxRW0/dWf5obdZrMuIIY/mSpFCL/VLq2PcMI=;
+        b=ATkzJ5suTLby93G+Jf5ECZ4Kse4d6Tt+RI50oiT7elfe8GtVDdJzUT6PKp/2Xjw9LK
+         D+B8bLKl1SVZTcFbkLuBi8HkA6t9vKK1h7OBpt+KNzNb36ONYynwJ6HsUb2xbDvw9QfP
+         us8kcQRqmYK6SqLgs6J3BZ5Amq6inlB6SYe3KbnkjawFjrKH/jmDtgUQ9gAMFA0IgyKJ
+         UBTG1ZDGmjXfO76njwBzoK7/QWAFr3LDdpK1optVB0+4Hz4AMVsn96IY4yRQFu3M1TdQ
+         BmXnm1Yp1BOnUeoLEdPsSjJTrC9hbY7VkIut1JA1YfLGfYtslkTuzu/KM78STz0a4FOE
+         rF6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GN5gadcVxRW0/dWf5obdZrMuIIY/mSpFCL/VLq2PcMI=;
+        b=4tgT7NIQhiPA2gFkphg8+qomz1Lz0E7hRNy+NH5rrz2ZpEkkdA5J2L2Okxyb9ozmQ5
+         QZ0zYFnLNzw1XZ4+s6EUANGN2AyoGTWr/b/Rk18ImC7kgiQ58HbHTto6beuny4gq3TKr
+         LrfnF3z60N5TNDnt+4bMcss1oYpkhW7LDx+2qN47989XDlDrlRmidBxh4lsPFhcY8KDE
+         4+1qcLpIyzYCc4OaHN5GGKLG03fYUo9KUPIAF10m7b1GdLgsvzHO2isZEUUrdGchiMk9
+         WkNPlQG51uz3LWEFHgjIZiHfmvwUEOg+eDvb+V9ZJYl/nJ+THwlNxto7QCz7dwv90J2c
+         x1hg==
+X-Gm-Message-State: AOAM532LFLy8zp8VOMSKwefqUDmGZ7//mGYAOXaXuoCumTP0OHdg1oyt
+        QOEiKX5cnq0Jr2eDaVIPi2s=
+X-Google-Smtp-Source: ABdhPJzrLInW4LCr55YGxgpVjG1U/ZqbR0mqwqupL9iDTS5inXXiGRBukzjvoIK+upKaPaXvbCJBEw==
+X-Received: by 2002:adf:b302:: with SMTP id j2mr7213302wrd.285.1633629320177;
+        Thu, 07 Oct 2021 10:55:20 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id v10sm46856wri.29.2021.10.07.10.55.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Oct 2021 10:55:19 -0700 (PDT)
+Date:   Thu, 7 Oct 2021 19:55:18 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, JC Kuo <jckuo@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Yang Yingliang <yangyingliang@huawei.com>,
+        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v3] usb: xhci: tegra: mark PM functions as
+ __maybe_unused
+Message-ID: <YV80ht6e7rfK0cfx@orome.fritz.box>
+References: <20211005112057.2700888-1-arnd@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qXkdwZl/QpLWXbMS"
+Content-Disposition: inline
+In-Reply-To: <20211005112057.2700888-1-arnd@kernel.org>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable PCIe controller and PHY for sc7280 IDP board.
-Add specific NVMe GPIO entries for SKU1 and SKU2 support.
 
-Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
----
- arch/arm64/boot/dts/qcom/sc7280-idp.dts  |  8 +++++
- arch/arm64/boot/dts/qcom/sc7280-idp.dtsi | 50 ++++++++++++++++++++++++++++++++
- arch/arm64/boot/dts/qcom/sc7280-idp2.dts |  8 +++++
- 3 files changed, 66 insertions(+)
+--qXkdwZl/QpLWXbMS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dts b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-index 64fc22a..e6b9f57 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-@@ -61,6 +61,14 @@
- 	modem-init;
- };
- 
-+&nvme_pwren {
-+	pins = "gpio19";
-+};
-+
-+&nvme_3v3_regulator {
-+	gpio = <&tlmm 19 GPIO_ACTIVE_HIGH>;
-+};
-+
- &pmk8350_vadc {
- 	pmr735a_die_temp {
- 		reg = <PMR735A_ADC7_DIE_TEMP>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-index 272d5ca..d623d71 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dtsi
-@@ -31,6 +31,18 @@
- 			linux,can-disable;
- 		};
- 	};
-+
-+	nvme_3v3_regulator: nvme-3v3-regulator {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VLDO_3V3";
-+
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		enable-active-high;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&nvme_pwren>;
-+	};
- };
- 
- /*
-@@ -272,6 +284,23 @@
- 	modem-init;
- };
- 
-+&pcie1 {
-+	status = "okay";
-+	perst-gpio = <&tlmm 2 GPIO_ACTIVE_LOW>;
-+
-+	vddpe-3v3-supply = <&nvme_3v3_regulator>;
-+
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pcie1_reset_n>, <&pcie1_wake_n>;
-+};
-+
-+&pcie1_phy {
-+	status = "okay";
-+
-+	vdda-phy-supply = <&vreg_l10c_0p8>;
-+	vdda-pll-supply = <&vreg_l6b_1p2>;
-+};
-+
- &pmk8350_vadc {
- 	pmk8350_die_temp {
- 		reg = <PMK8350_ADC7_DIE_TEMP>;
-@@ -462,6 +491,27 @@
- };
- 
- &tlmm {
-+	nvme_pwren: nvme-pwren {
-+		function = "gpio";
-+	};
-+
-+	pcie1_reset_n: pcie1-reset-n {
-+		pins = "gpio2";
-+		function = "gpio";
-+
-+		drive-strength = <16>;
-+		output-low;
-+		bias-disable;
-+	};
-+
-+	pcie1_wake_n: pcie1-wake-n {
-+		pins = "gpio3";
-+		function = "gpio";
-+
-+		drive-strength = <2>;
-+		bias-pull-up;
-+	};
-+
- 	qup_uart7_sleep_cts: qup-uart7-sleep-cts {
- 		pins = "gpio28";
- 		function = "gpio";
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp2.dts b/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-index 1fc2add..3ae9969 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp2.dts
-@@ -21,3 +21,11 @@
- 		stdout-path = "serial0:115200n8";
- 	};
- };
-+
-+&nvme_pwren {
-+	pins = "gpio51";
-+};
-+
-+&nvme_3v3_regulator {
-+	gpio = <&tlmm 51 GPIO_ACTIVE_HIGH>;
-+};
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+On Tue, Oct 05, 2021 at 01:20:28PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The added #ifdefs in the PM rework were almost correct, but still
+> cause warnings in some randconfig builds:
+>=20
+> drivers/usb/host/xhci-tegra.c:2147:12: error: 'tegra_xusb_resume' defined=
+ but not used [-Werror=3Dunused-function]
+>  2147 | static int tegra_xusb_resume(struct device *dev)
+>       |            ^~~~~~~~~~~~~~~~~
+> drivers/usb/host/xhci-tegra.c:2105:12: error: 'tegra_xusb_suspend' define=
+d but not used [-Werror=3Dunused-function]
+>  2105 | static int tegra_xusb_suspend(struct device *dev)
+>=20
+> Replace the #ifdef checks with simpler __maybe_unused annotations to
+> reliably shut up these warnings.
+>=20
+> Fixes: 971ee247060d ("usb: xhci: tegra: Enable ELPG for runtime/system PM=
+")
+> Reviewed-by: JC Kuo <jckuo@nvidia.com>
+> Link: https://lore.kernel.org/all/20210421135613.3560777-2-arnd@kernel.or=
+g/
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> v3: fix reference to original commit.
+> ---
+>  drivers/usb/host/xhci-tegra.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--qXkdwZl/QpLWXbMS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmFfNIYACgkQ3SOs138+
+s6EOIg/+Nbts8TwWrF20o18n0rSfockwRF9SwRwHLNHe8XPLpW/Dzd3wbgITfpAa
+XI/1pOKTxUyaYgIrPE23HZhlYzKsfrMZf9KRR70Etd7SrcBqONchh3DvhigBVYyg
+HbeNPmIpQgB/Fno2ZJcsuIFWoLBry51InCpsGlz5NgxvOddBreTrQro2RaC92N7Y
+xoW0qZarfCp7iEgJzAc88rR7Ra38HZFHYFjsvd/WqRzhektBi++bqi7QhTxYScEE
+rrYNZQbKE5EFR8K7eYiaHOHcin3TszwxD7nOkdRl4/1O+OV7Wf8tTEz+TB9FOS4j
+dbfGigDC9SPA1QV0uRtUv81m6qVvePX8TDVvZhNNEYY2l3Y1C1huOwAj9UFWOLuV
+Vy/y8XPubaK9r+VuiUjKDOUkGTeyi8p+QEPlAg9ARmLZfBFUpTUgNoOkYVhO9T26
+H46URITsxO4lIkaCP2T/lhrcfktkEkW5z+jPYOsxut5SdbPqWV9pwAqz0OmvhG4b
+uy1tIzA+8rF3SsJ/xxZULd3iYDhmhepsabhw/XX3x0ZmlEC4Ki20mPfLD29x63Gl
+W8WXwpmOF5SSSIEV1BK2SI1rcx0GG4CK8GZUfPK6UwwfHROfeo/O3TNoD67YnNr/
+Kj1/dq7whDUQvrl7KYD6VMIrKvnApeQi9FjFfOmZdUuhllL+Lu4=
+=/who
+-----END PGP SIGNATURE-----
+
+--qXkdwZl/QpLWXbMS--
