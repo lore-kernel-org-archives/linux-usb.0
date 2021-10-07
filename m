@@ -2,155 +2,333 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD71C4332F
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 19:13:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18E10C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 21:04:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E52FA610A1
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 19:13:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F30B961056
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Oct 2021 21:04:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243873AbhJGTPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Oct 2021 15:15:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45834 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233879AbhJGTPB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Oct 2021 15:15:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 433A260F23;
-        Thu,  7 Oct 2021 19:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1633633986;
-        bh=4097i7mkFkqGG7g6bmJrh8yORC7/TSKWh6X6Z6f10a8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=PAW7l7d+uZ/uWAbylFNHh7bfq4jdELPttvGO0mPiMMM7jV3YRMIcNp8m6qVATu0qA
-         e+3Xmr1sEvqzA9ww/tVvPj93ZR6u0X7F3iDfcdcWtGw89juUigk2q9KbvXXCN2HRIJ
-         LD9hahvTR136Q83ZBxxA4b3qoLBgYxrv7236PtPtZCyLAPD6KyFi04VSiG8O0QQSrt
-         ao3Pi07O4Zcjwm/s37c4/NsB9eDUArdO/HPfBIih1LkHKmGMo24lAF57paB1pAP49a
-         UrhLLUzQGVwumGu7L1Pf85Yh4ipTiX3hso7CTmA3JTDovpos7y/7Pvb1N5PGEd4GyC
-         9JOh66/bkHhag==
-Date:   Thu, 7 Oct 2021 14:13:04 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Prasad Malisetty <pmaliset@codeaurora.org>
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org, bhelgaas@google.com,
-        robh+dt@kernel.org, swboyd@chromium.org, lorenzo.pieralisi@arm.com,
-        svarbanov@mm-sol.com, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dianders@chromium.org,
-        mka@chromium.org, vbadigan@codeaurora.org, sallenki@codeaurora.org,
-        manivannan.sadhasivam@linaro.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v12 5/5] PCI: qcom: Switch pcie_1_pipe_clk_src after PHY
- init in SC7280
-Message-ID: <20211007191304.GA1256620@bhelgaas>
+        id S232418AbhJGVGD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Oct 2021 17:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232200AbhJGVGC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Oct 2021 17:06:02 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F4BC061570
+        for <linux-usb@vger.kernel.org>; Thu,  7 Oct 2021 14:04:08 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id y15so30358286lfk.7
+        for <linux-usb@vger.kernel.org>; Thu, 07 Oct 2021 14:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oGYvm3xhNdNortsl5NWQ+JLbnaeeRWwYjjejsg70jt8=;
+        b=Rbtq726D/kV6VqUuwMv49SsdRPV8uqHMP9pDBHU5TO2+Cp+UbkCYRXH+hL+zjIwVqR
+         RNNMkJmGlhWQpWjDKlcbQWUIX2rzETvvkazMjEcqCXmqExzxjU/4IUlDhoS6zMyBAdZo
+         XWtBDd38McvynyGvvJZC7BgSpLs2QFuh5ny0HPu0Dq+dFylXvyAImP+YBJVecdGWrRQU
+         6/FLQwk7/YWqkWx+JwwUg0r62Ywfu6RwyuXHkQNQMWhUvvPRBZT/kiQgoCWNhNlvwLIw
+         r2dmdLD1+08QKTo/pGcMJY++hdjHfl7770Sd+YiQ11OmwpWzSBC4CmPdXxErGdoVIfrH
+         7m5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oGYvm3xhNdNortsl5NWQ+JLbnaeeRWwYjjejsg70jt8=;
+        b=teIwjKwEcs9vfvUWH6vrYPhMokckRICSCfFMXVIJw5Yf4023mK9qqYxpuhHoin8zmU
+         gnaNMSMRzDWpDZ9tsGLZpp0HTyqkGPYQwB9cmHhHrnsSYsntIaMaDD4c2B+1Tn3U+r3K
+         pMO/InsQ8JlB0I+uz/fOAY5XpCYcHT2JB/qtOowjiMa9e/SKv2SG/BUAHFb+KORWKSZz
+         RVH1eOtBQMKBsD5GvvRKg0Xu46c+Pdx/TfK63x+bcmodaP6t2wIdOFO1US3iipdCcSaZ
+         z0CC7/aM4dGIHr2ldbM4zPo4xXbZXjEO96qoZfxQNujrrZaaHEbqHtJSu3SdbyPn5J7y
+         YYXw==
+X-Gm-Message-State: AOAM532AANTJUUWtir9l8L47+sUhg2NkdaWqk+bH9Bnj7643J2ixG/YY
+        fZabl452H04Y8MJUTdNfVD0=
+X-Google-Smtp-Source: ABdhPJzfIIhQtlf/2lbidW/K3MFOKfGbyEoo6VqmPY+5K9RL8rIfjY51txf/v0oo9cKaA6ykf7Xr4w==
+X-Received: by 2002:a05:651c:17a5:: with SMTP id bn37mr6973656ljb.514.1633640646565;
+        Thu, 07 Oct 2021 14:04:06 -0700 (PDT)
+Received: from dell-precision-T3610 (h-155-4-132-193.NA.cust.bahnhof.se. [155.4.132.193])
+        by smtp.gmail.com with ESMTPSA id m23sm43104lji.132.2021.10.07.14.04.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Oct 2021 14:04:06 -0700 (PDT)
+Date:   Thu, 7 Oct 2021 23:04:04 +0200
+From:   Lars Gunnarsson <gunnarsson.lars@gmail.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] tools/usbip: support use case reconnect: prepare
+Message-ID: <20211007210404.GA4607@dell-precision-T3610>
+References: <20211006204817.GA43927@dell-precision-T3610>
+ <74efa67e-2b2e-3a6e-3bc0-dbbb25197eef@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1633628923-25047-6-git-send-email-pmaliset@codeaurora.org>
+In-Reply-To: <74efa67e-2b2e-3a6e-3bc0-dbbb25197eef@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 07, 2021 at 11:18:43PM +0530, Prasad Malisetty wrote:
-> On the SC7280, the clock source for gcc_pcie_1_pipe_clk_src
-> must be the TCXO while gdsc is enabled. After PHY init successful
-> clock source should switch to pipe clock for gcc_pcie_1_pipe_clk_src.
-> 
-> Signed-off-by: Prasad Malisetty <pmaliset@codeaurora.org>
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Hi Shuah,
 
-Thanks a lot for sorting out the patch 4/5 and 5/5 contents!
+Thanks for the comments and for quick response. I'll send a new
+patch set from the comments.
 
-> ---
->  drivers/pci/controller/dwc/pcie-qcom.c | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+Best regards, Lars
+
+On Wed, Oct 06, 2021 at 05:37:15PM -0600, Shuah Khan wrote:
+> On 10/6/21 2:48 PM, Lars Gunnarsson wrote:
+> > This patch implements an usb monitor into libusbip to await usb events,
+> > example connect and disconnect.
+> > 
 > 
-> diff --git a/drivers/pci/controller/dwc/pcie-qcom.c b/drivers/pci/controller/dwc/pcie-qcom.c
-> index 41132dd..ded70e6 100644
-> --- a/drivers/pci/controller/dwc/pcie-qcom.c
-> +++ b/drivers/pci/controller/dwc/pcie-qcom.c
-> @@ -166,6 +166,9 @@ struct qcom_pcie_resources_2_7_0 {
->  	struct regulator_bulk_data supplies[2];
->  	struct reset_control *pci_reset;
->  	struct clk *pipe_clk;
-> +	struct clk *pipe_clk_src;
-> +	struct clk *phy_pipe_clk;
-> +	struct clk *ref_clk_src;
->  };
->  
->  union qcom_pcie_resources {
-> @@ -191,6 +194,7 @@ struct qcom_pcie_ops {
->  
->  struct qcom_pcie_cfg {
->  	const struct qcom_pcie_ops *ops;
-> +	unsigned int pipe_clk_need_muxing:1;
->  };
->  
->  struct qcom_pcie {
-> @@ -201,6 +205,7 @@ struct qcom_pcie {
->  	struct phy *phy;
->  	struct gpio_desc *reset;
->  	const struct qcom_pcie_ops *ops;
-> +	unsigned int pipe_clk_need_muxing:1;
->  };
->  
->  #define to_qcom_pcie(x)		dev_get_drvdata((x)->dev)
-> @@ -1171,6 +1176,20 @@ static int qcom_pcie_get_resources_2_7_0(struct qcom_pcie *pcie)
->  	if (ret < 0)
->  		return ret;
->  
-> +	if (pcie->pipe_clk_need_muxing) {
-> +		res->pipe_clk_src = devm_clk_get(dev, "pipe_mux");
-> +		if (IS_ERR(res->pipe_clk_src))
-> +			return PTR_ERR(res->pipe_clk_src);
-> +
-> +		res->phy_pipe_clk = devm_clk_get(dev, "phy_pipe");
-> +		if (IS_ERR(res->phy_pipe_clk))
-> +			return PTR_ERR(res->phy_pipe_clk);
-> +
-> +		res->ref_clk_src = devm_clk_get(dev, "ref");
-> +		if (IS_ERR(res->ref_clk_src))
-> +			return PTR_ERR(res->ref_clk_src);
-> +	}
-> +
->  	res->pipe_clk = devm_clk_get(dev, "pipe");
->  	return PTR_ERR_OR_ZERO(res->pipe_clk);
->  }
-> @@ -1189,6 +1208,10 @@ static int qcom_pcie_init_2_7_0(struct qcom_pcie *pcie)
->  		return ret;
->  	}
->  
-> +	/* Set TCXO as clock source for pcie_pipe_clk_src */
-> +	if (pcie->pipe_clk_need_muxing)
-> +		clk_set_parent(res->pipe_clk_src, res->ref_clk_src);
-> +
->  	ret = clk_bulk_prepare_enable(res->num_clks, res->clks);
->  	if (ret < 0)
->  		goto err_disable_regulators;
-> @@ -1260,6 +1283,10 @@ static int qcom_pcie_post_init_2_7_0(struct qcom_pcie *pcie)
->  {
->  	struct qcom_pcie_resources_2_7_0 *res = &pcie->res.v2_7_0;
->  
-> +	/* Set pipe clock as clock source for pcie_pipe_clk_src */
-> +	if (pcie->pipe_clk_need_muxing)
-> +		clk_set_parent(res->pipe_clk_src, res->phy_pipe_clk);
-> +
->  	return clk_prepare_enable(res->pipe_clk);
->  }
->  
-> @@ -1490,6 +1517,7 @@ static const struct qcom_pcie_cfg sm8250_cfg = {
->  
->  static const struct qcom_pcie_cfg sc7280_cfg = {
->  	.ops = &ops_1_9_0,
-> +	.pipe_clk_need_muxing = true,
->  };
->  
->  static const struct dw_pcie_ops dw_pcie_ops = {
-> @@ -1532,6 +1560,7 @@ static int qcom_pcie_probe(struct platform_device *pdev)
->  	}
->  
->  	pcie->ops = pcie_cfg->ops;
-> +	pcie->pipe_clk_need_muxing = pcie_cfg->pipe_clk_need_muxing;
->  
->  	pcie->reset = devm_gpiod_get_optional(dev, "perst", GPIOD_OUT_HIGH);
->  	if (IS_ERR(pcie->reset)) {
-> -- 
-> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-> a Linux Foundation Collaborative Project
+> Please describe the use-case adding more details. When and how user
+> would use this?
 > 
+> This will also require doc and man page changes.
+> 
+> > Signed-off-by: Lars Gunnarsson <gunnarsson.lars@gmail.com>
+> > ---
+> >   tools/usb/usbip/.gitignore             |   1 +
+> >   tools/usb/usbip/libsrc/Makefile.am     |   3 +-
+> >   tools/usb/usbip/libsrc/usbip_common.h  |   1 +
+> >   tools/usb/usbip/libsrc/usbip_monitor.c | 147 +++++++++++++++++++++++++
+> >   tools/usb/usbip/libsrc/usbip_monitor.h |  21 ++++
+> >   5 files changed, 172 insertions(+), 1 deletion(-)
+> >   create mode 100644 tools/usb/usbip/libsrc/usbip_monitor.c
+> >   create mode 100644 tools/usb/usbip/libsrc/usbip_monitor.h
+> > 
+> > diff --git a/tools/usb/usbip/.gitignore b/tools/usb/usbip/.gitignore
+> > index 597361a96dbb..6304adefb5e1 100644
+> > --- a/tools/usb/usbip/.gitignore
+> > +++ b/tools/usb/usbip/.gitignore
+> > @@ -28,6 +28,7 @@ libsrc/libusbip_la-usbip_common.lo
+> >   libsrc/libusbip_la-usbip_device_driver.lo
+> >   libsrc/libusbip_la-usbip_host_common.lo
+> >   libsrc/libusbip_la-usbip_host_driver.lo
+> > +libsrc/libusbip_la-usbip_monitor.lo
+> >   libsrc/libusbip_la-vhci_driver.lo
+> >   src/usbip
+> >   src/usbipd
+> > diff --git a/tools/usb/usbip/libsrc/Makefile.am b/tools/usb/usbip/libsrc/Makefile.am
+> > index dabd2c91d311..3e31e33729cf 100644
+> > --- a/tools/usb/usbip/libsrc/Makefile.am
+> > +++ b/tools/usb/usbip/libsrc/Makefile.am
+> > @@ -8,4 +8,5 @@ libusbip_la_SOURCES := names.c names.h usbip_host_driver.c usbip_host_driver.h \
+> >   		       usbip_device_driver.c usbip_device_driver.h \
+> >   		       usbip_common.c usbip_common.h usbip_host_common.h \
+> >   		       usbip_host_common.c vhci_driver.c vhci_driver.h \
+> > -		       sysfs_utils.c sysfs_utils.h
+> > +		       sysfs_utils.c sysfs_utils.h \
+> > +		       usbip_monitor.c
+> > diff --git a/tools/usb/usbip/libsrc/usbip_common.h b/tools/usb/usbip/libsrc/usbip_common.h
+> > index 73a367a7fa10..13f1d4ca47c5 100644
+> > --- a/tools/usb/usbip/libsrc/usbip_common.h
+> > +++ b/tools/usb/usbip/libsrc/usbip_common.hudev_driver
+> > @@ -30,6 +30,7 @@
+> >   /* kernel module names */
+> >   #define USBIP_CORE_MOD_NAME	"usbip-core"
+> > +#define USBIP_USB_DRV_NAME	"usb"
+> >   #define USBIP_HOST_DRV_NAME	"usbip-host"
+> >   #define USBIP_DEVICE_DRV_NAME	"usbip-vudc"
+> >   #define USBIP_VHCI_DRV_NAME	"vhci_hcd"
+> > diff --git a/tools/usb/usbip/libsrc/usbip_monitor.c b/tools/usb/usbip/libsrc/usbip_monitor.c
+> > new file mode 100644
+> > index 000000000000..731d344f2965
+> > --- /dev/null
+> > +++ b/tools/usb/usbip/libsrc/usbip_monitor.c
+> > @@ -0,0 +1,147 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> I am seeing several coding style problems in these patches.
+> inclduing Improper SPDX comment style
+> 
+> > +/**
+> > + * Copyright (C) 2021 Lars Gunnarsson
+> > + */
+> > +#include <libudev.h>
+> > +#include <stdlib.h>
+> > +#include <string.h>
+> > +#include <sys/poll.h>
+> > +
+> > +#include "usbip_monitor.h"
+> > +
+> > +static const size_t MAX_STRLEN = 32;
+> 
+> Let's not add new constants. Take a look at how existing code
+> is checking return values for udev_device_get_action(),
+> udev_device_get_driver() and udev_device_get_sysname() and match
+> it.
+> 
+> > +
+> > +struct usbip_monitor {
+> > +	const char *busid;
+> > +	struct udev *udev;
+> > +	struct udev_monitor *udev_monitor;
+> > +};
+> > +
+> > +usbip_monitor_t *usbip_monitor_new(void)
+> > +{
+> > +	usbip_monitor_t *monitor = NULL;
+> > +	struct udev *udev = udev_new();
+> > +
+> > +	if (udev) {
+> > +		struct udev_monitor *udev_monitor =
+> > +			udev_monitor_new_from_netlink(udev, "udev");
+> > +		udev_monitor_filter_add_match_subsystem_devtype(
+> > +			udev_monitor,
+> > +			/*subsystem=*/"usb",
+> > +			/*devtype=*/"usb_device");
+> > +		udev_monitor_enable_receiving(udev_monitor);
+> > +		monitor = malloc(sizeof(struct usbip_monitor));
+> > +		monitor->busid = NULL;
+> > +		monitor->udev = udev;
+> > +		monitor->udev_monitor = udev_monitor;
+> > +	}
+> > +	return monitor;
+> > +}
+> > +
+> > +void usbip_monitor_delete(usbip_monitor_t *monitor)
+> > +{
+> > +	if (monitor) {
+> > +		udev_monitor_unref(monitor->udev_monitor);
+> > +		udev_unref(monitor->udev);
+> > +		free(monitor);
+> > +	}
+> > +}
+> > +
+> > +void usbip_monitor_set_busid(usbip_monitor_t *monitor, const char *busid)
+> > +{
+> > +	monitor->busid = busid;
+> > +}
+> > +
+> > +static struct udev_device *await_udev_event(const usbip_monitor_t *monitor)
+> > +{
+> > +	struct udev_device *dev = NULL;
+> > +	int fd = udev_monitor_get_fd(monitor->udev_monitor);
+> > +	const int timeout = -1;
+> > +	const int nfds = 1; // number of file descriptors
+> > +	struct pollfd pollfd[] = { { fd, POLLIN, 0 } };
+> > +	int nfd = poll(pollfd, nfds, timeout);
+> > +
+> > +	if (nfd) {
+> > +		dev = udev_monitor_receive_device(monitor->udev_monitor);
+> > +	}
+> > +	return dev;
+> > +}
+> > +
+> > +static int optional_filter_busid(const char *busid, const char *udev_busid)
+> > +{
+> > +	int filter_match = 0;
+> > +
+> > +	if (busid) {
+> > +		if (strncmp(busid, udev_busid, MAX_STRLEN) == 0) {
+> > +			filter_match = 1;
+> > +		}
+> > +	} else {
+> > +		filter_match = 1;
+> > +	}
+> > +	return filter_match;
+> > +}
+> > +
+> > +static void await_usb_with_driver(const usbip_monitor_t *monitor,
+> > +				  const char *driver, const char *action)
+> > +{
+> > +	while (1) {
+> > +		struct udev_device *dev = await_udev_event(monitor);
+> > +
+> > +		if (dev) {
+> > +			const char *udev_action = udev_device_get_action(dev);
+> > +			const char *udev_driver = udev_device_get_driver(dev);
+> > +			const char *udev_busid = udev_device_get_sysname(dev);
+> > +
+> > +			if (strncmp(udev_action, action, MAX_STRLEN) == 0 &&
+> > +			    strncmp(udev_driver, driver, MAX_STRLEN) == 0) {
+> 
+> Braces {} are not necessary for single statement blocks
+> 
+> > +				if (optional_filter_busid(monitor->busid,
+> > +							  udev_busid)) {
+> > +					break;
+> > +				}
+> > +			}
+> > +			udev_device_unref(dev);
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +void usbip_monitor_await_usb_add(const usbip_monitor_t *monitor,
+> > +				 const char *driver)
+> > +{
+> > +	await_usb_with_driver(monitor, driver, "add");
+> > +}
+> > +
+> > +void usbip_monitor_await_usb_bind(const usbip_monitor_t *monitor,
+> > +				  const char *driver)
+> > +{
+> > +	await_usb_with_driver(monitor, driver, "bind");
+> > +}
+> > +
+> > +static void await_usb(const usbip_monitor_t *monitor, const char *action)
+> > +{
+> > +	while (1) {
+> > +		struct udev_device *dev = await_udev_event(monitor);
+> > +
+> > +		if (dev) {
+> > +			const char *udev_action = udev_device_get_action(dev);
+> > +			const char *udev_busid = udev_device_get_sysname(dev);
+> > +
+> > +			if (strncmp(udev_action, action, MAX_STRLEN) == 0) {
+> > +				if (optional_filter_busid(monitor->busid,
+> > +							  udev_busid)) {
+> > +					break;
+> > +				}
+> > +			}
+> > +			udev_device_unref(dev);
+> > +		}
+> > +	}
+> > +}
+> > +
+> > +void usbip_monitor_await_usb_unbind(const usbip_monitor_t *monitor)
+> > +{
+> > +	await_usb(monitor, "unbind");
+> > +}
+> > +
+> > +void usbip_monitor_await_usb_delete(const usbip_monitor_t *monitor)
+> > +{
+> > +	await_usb(monitor, "delete");
+> > +}
+> > diff --git a/tools/usb/usbip/libsrc/usbip_monitor.h b/tools/usb/usbip/libsrc/usbip_monitor.h
+> > new file mode 100644
+> > index 000000000000..474b95c80452
+> > --- /dev/null
+> > +++ b/tools/usb/usbip/libsrc/usbip_monitor.h
+> > @@ -0,0 +1,21 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/**
+> > + * Copyright (C) 2021 Lars Gunnarsson
+> > + */
+> > +#ifndef __USBIP_MONITOR_H
+> > +#define __USBIP_MONITOR_H
+> > +
+> > +typedef struct usbip_monitor usbip_monitor_t;
+> 
+> Let's not add a new typedef
+> > +
+> > +usbip_monitor_t *usbip_monitor_new(void);
+> > +void usbip_monitor_delete(usbip_monitor_t *monitor);
+> > +
+> > +void usbip_monitor_set_busid(usbip_monitor_t *monitor, const char *busid);
+> > +void usbip_monitor_await_usb_add(const usbip_monitor_t *monitor,
+> > +				 const char *driver);
+> > +void usbip_monitor_await_usb_bind(const usbip_monitor_t *monitor,
+> > +				  const char *driver);
+> > +void usbip_monitor_await_usb_unbind(const usbip_monitor_t *monitor);
+> > +void usbip_monitor_await_usb_delete(const usbip_monitor_t *monitor);
+> > +
+> > +#endif /* __USBIP_MONITOR_H */
+> > 
+> 
+> Please run checkpatch on all of these 3 patches and fix the problems.
+> Also add doc and man pages describing the feature you are adding more
+> clearly.
+> 
+> thanks,
+> -- Shuah
