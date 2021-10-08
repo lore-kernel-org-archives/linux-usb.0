@@ -2,111 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 817B5C433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Oct 2021 14:26:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 698DBC433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Oct 2021 16:12:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F32561038
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Oct 2021 14:26:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E47961038
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Oct 2021 16:12:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230488AbhJHO2k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Oct 2021 10:28:40 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:40459 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S230456AbhJHO2g (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Oct 2021 10:28:36 -0400
-Received: (qmail 721833 invoked by uid 1000); 8 Oct 2021 10:26:39 -0400
-Date:   Fri, 8 Oct 2021 10:26:39 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Yinbo Zhu <zhuyinbo@loongson.cn>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <greg@kroah.com>,
-        Patchwork Bot <patchwork-bot@kernel.org>
-Subject: Re: [PATCH v3] usb: ohci: add check for host controller functional
- states
-Message-ID: <20211008142639.GA721194@rowland.harvard.edu>
-References: <1633677970-10619-1-git-send-email-zhuyinbo@loongson.cn>
+        id S229938AbhJHQOZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Oct 2021 12:14:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32810 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229534AbhJHQOY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 8 Oct 2021 12:14:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5842261038;
+        Fri,  8 Oct 2021 16:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1633709548;
+        bh=l9NKonv+O2PXkvQdUpXNKXFolGTbnrr6j94U8d7AgSM=;
+        h=Date:From:To:Cc:Subject:From;
+        b=AEN+wYdH7DUCcS+PkPU3rle/AaRcvd0hw0VSsE/tZXmyPGkGyFjLAFw54AiU4bQ8s
+         /JHO1EyBDoHzNsepgBludb5GbL++SZluKNAI2rNPGt24K9MStvL4m9YS1+lLYszxXX
+         QOHSkmrJuOIlwn82npWG2yCmGGYdd7iQ82a48Syw=
+Date:   Fri, 8 Oct 2021 18:12:26 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.15-rc5
+Message-ID: <YWBt6v3kWkjcJcp0@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1633677970-10619-1-git-send-email-zhuyinbo@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Oct 08, 2021 at 03:26:10PM +0800, Yinbo Zhu wrote:
-> The usb states of ohci controller include UsbOperational, UsbReset,
-> UsbSuspend and UsbResume. Among them, only the UsbOperational state
-> supports launching the start of frame for host controller according
-> the ohci protocol spec, but in S3/S4 press test procedure, it may
+The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
 
-Nobody reading this will know what "S3/S4 press test procedure" means.  
-You have to explain it, or use a different name that people will 
-understand.
+  Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
 
-> happen that the start of frame was launched in other usb states and
-> cause ohci works abnormally then kernel will allways report rcu
-> call trace. This patch was to add check for host controller
-> functional states and if it is not UsbOperational state that need
-> set INTR_SF in intrdisable register to ensure SOF Token generation
-> was been disabled.
+are available in the Git repository at:
 
-This doesn't make sense.  You already mentioned that only the 
-UsbOperational state supports sending start-of-frame packets.  So if the 
-controller is in a different state then it won't send these packets, 
-whether INTR_SF is enabled or not.
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.15-rc5
 
-What problem are you really trying to solve?
+for you to fetch changes up to 58fc1daa4d2e9789b9ffc880907c961ea7c062cc:
 
-> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
-> ---
-> Change in v3:
-> 		Rework the commit information.
-> 		Move the patch code change to lower down position in ohci_irq.
-> 
-> 
->  drivers/usb/host/ohci-hcd.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-> index 1f5e693..87aa9bb 100644
-> --- a/drivers/usb/host/ohci-hcd.c
-> +++ b/drivers/usb/host/ohci-hcd.c
-> @@ -879,7 +879,8 @@ static irqreturn_t ohci_irq (struct usb_hcd *hcd)
->  {
->  	struct ohci_hcd		*ohci = hcd_to_ohci (hcd);
->  	struct ohci_regs __iomem *regs = ohci->regs;
-> -	int			ints;
-> +	int			ints, ctl;
-> +
+  USB: cdc-acm: fix break reporting (2021-10-05 13:50:52 +0200)
 
-Extra blank line not needed.
+----------------------------------------------------------------
+USB fixes for 5.15-rc5
 
->  
->  	/* Read interrupt status (and flush pending writes).  We ignore the
->  	 * optimization of checking the LSB of hcca->done_head; it doesn't
-> @@ -969,9 +970,15 @@ static irqreturn_t ohci_irq (struct usb_hcd *hcd)
->  	 * when there's still unlinking to be done (next frame).
->  	 */
->  	ohci_work(ohci);
-> -	if ((ints & OHCI_INTR_SF) != 0 && !ohci->ed_rm_list
-> -			&& ohci->rh_state == OHCI_RH_RUNNING)
-> +
-> +	ctl = ohci_readl(ohci, &regs->control);
-> +
+Here are some small USB fixes for 5.15-rc5 that resolve a number of
+reported issues:
+	- gadget driver fixes
+	- xhci build warning fixes
+	- build configuration fix
+	- cdc-acm tty handling fixes
+	- cdc-wdm fix
+	- typec fixes
 
-Blank lines not needed.
+All of these have been in linux-next for a while with no reported
+issues.
 
-> +	if (((ints & OHCI_INTR_SF) != 0 && !ohci->ed_rm_list
-> +			&& ohci->rh_state == OHCI_RH_RUNNING) ||
-> +			((ctl & OHCI_CTRL_HCFS) != OHCI_USB_OPER)) {
->  		ohci_writel (ohci, OHCI_INTR_SF, &regs->intrdisable);
-> +		(void)ohci_readl(ohci, &regs->intrdisable);
-> +	}
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-This is definitely wrong.  You must not turn off SF interrupts when 
-ed_rm_list is non-NULL.  If you do, the driver will not be able to 
-finish unlinking URBs.
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      usb: dwc3: gadget: Revert "set gadgets parent to the right controller"
 
-Alan Stern
+Arnd Bergmann (1):
+      usb: xhci: tegra: mark PM functions as __maybe_unused
+
+Ben Hutchings (1):
+      Partially revert "usb: Kconfig: using select for USB_COMMON dependency"
+
+Fabio Estevam (1):
+      usb: chipidea: ci_hdrc_imx: Also search for 'phys' phandle
+
+Heikki Krogerus (1):
+      usb: typec: tipd: Remove dependency on "connector" child fwnode
+
+Johan Hovold (2):
+      USB: cdc-acm: fix racy tty buffer accesses
+      USB: cdc-acm: fix break reporting
+
+Pavel Hofman (1):
+      usb: gadget: f_uac2: fixed EP-IN wMaxPacketSize
+
+Rikard Falkeborn (1):
+      usb: cdc-wdm: Fix check for WWAN
+
+Xu Yang (2):
+      usb: typec: tcpci: don't handle vSafe0V event if it's not enabled
+      usb: typec: tcpm: handle SRC_STARTUP state if cc changes
+
+ drivers/usb/chipidea/ci_hdrc_imx.c   | 15 ++++++++++-----
+ drivers/usb/class/cdc-acm.c          |  8 ++++++++
+ drivers/usb/class/cdc-wdm.c          |  6 +++---
+ drivers/usb/common/Kconfig           |  3 +--
+ drivers/usb/dwc3/gadget.c            |  2 +-
+ drivers/usb/gadget/function/f_uac2.c | 14 ++++++++++----
+ drivers/usb/host/xhci-tegra.c        | 12 ++++--------
+ drivers/usb/typec/tcpm/tcpci.c       |  2 +-
+ drivers/usb/typec/tcpm/tcpm.c        |  1 +
+ drivers/usb/typec/tipd/core.c        |  8 +++-----
+ 10 files changed, 42 insertions(+), 29 deletions(-)
