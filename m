@@ -2,88 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7A38C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Oct 2021 12:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC59AC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Oct 2021 12:10:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D217D60E96
-	for <linux-usb@archiver.kernel.org>; Thu, 14 Oct 2021 12:02:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4043610EA
+	for <linux-usb@archiver.kernel.org>; Thu, 14 Oct 2021 12:10:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230267AbhJNMEl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 14 Oct 2021 08:04:41 -0400
-Received: from mga06.intel.com ([134.134.136.31]:15082 "EHLO mga06.intel.com"
+        id S231453AbhJNMMz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 14 Oct 2021 08:12:55 -0400
+Received: from mga11.intel.com ([192.55.52.93]:24834 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230172AbhJNMEi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 14 Oct 2021 08:04:38 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="288529651"
+        id S231267AbhJNMMy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 14 Oct 2021 08:12:54 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="225120134"
 X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
-   d="scan'208";a="288529651"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:02:05 -0700
+   d="scan'208";a="225120134"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2021 05:10:45 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.85,372,1624345200"; 
-   d="scan'208";a="626775646"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2021 05:02:03 -0700
-Subject: Re: [PATCH 1/1] usb: xhci: Enable runtime-pm by default on AMD Yellow
- Carp platform
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>,
-        Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-References: <20211013151633.67355-1-mathias.nyman@linux.intel.com>
- <20211013151633.67355-2-mathias.nyman@linux.intel.com>
- <YWcMkCR0U/sWGujD@kroah.com>
+   d="scan'208";a="659945529"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by orsmga005.jf.intel.com with ESMTP; 14 Oct 2021 05:10:43 -0700
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <94f2ecef-94a8-6da5-95a6-ed12f6820b54@linux.intel.com>
-Date:   Thu, 14 Oct 2021 15:03:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.8.1
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH v2 0/1] xhci feature for usb next
+Date:   Thu, 14 Oct 2021 15:11:59 +0300
+Message-Id: <20211014121200.75433-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YWcMkCR0U/sWGujD@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 13.10.2021 19.42, Greg KH wrote:
-> On Wed, Oct 13, 2021 at 06:16:33PM +0300, Mathias Nyman wrote:
->> From: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
->>
->> AMD's Yellow Carp platform supports runtime power management for
->> XHCI Controllers, so enable the same by default for all XHCI Controllers.
->>
->> Signed-off-by: Nehal Bakulchandra Shah <Nehal-Bakulchandra.shah@amd.com>
->> Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
->> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
->> Reviewed-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
->> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->> ---
->>  drivers/usb/host/xhci-pci.c | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
->> index 2c9f25ca8edd..0e571d6af2ab 100644
->> --- a/drivers/usb/host/xhci-pci.c
->> +++ b/drivers/usb/host/xhci-pci.c
->> @@ -69,6 +69,12 @@
->>  #define PCI_DEVICE_ID_ASMEDIA_1142_XHCI			0x1242
->>  #define PCI_DEVICE_ID_ASMEDIA_2142_XHCI			0x2142
->>  #define PCI_DEVICE_ID_ASMEDIA_3242_XHCI			0x3242
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_1	0x161a
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_2	0x161b
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_3	0x161d
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_4	0x161e
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_5	0x15d6
->> +#define PCI_DEVICE_ID_AMD_YELLOW_CARP_XHCI_6	0x15d7
-> 
-> Please keep the ids aligned whenever possible.  Why is there not 2 tabs
-> being used here?
+Hi Greg
 
-I'll fix that  and resend 
+Second try, fixed the #define PCI_DEVICE_ID_AMD* aligments.
+Allow runtime suspend for xHCI on AMD Yellow Carp platform
 
+Thanks
 -Mathias
+
+
+Nehal Bakulchandra Shah (1):
+  usb: xhci: Enable runtime-pm by default on AMD Yellow Carp platform
+
+ drivers/usb/host/xhci-pci.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+-- 
+2.25.1
 
