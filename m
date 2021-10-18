@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F94C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A782DC4332F
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1281361212
+	by mail.kernel.org (Postfix) with ESMTP id 93EB561212
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbhJRSmE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:42:04 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:52906 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhJRSlu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:50 -0400
+        id S233471AbhJRSmF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:42:05 -0400
+Received: from mxout03.lancloud.ru ([45.84.86.113]:36198 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233295AbhJRSl4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:56 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2D18D207135B
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 66278206F618
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,12 +23,12 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>
-Subject: [PATCH 10/22] usb: host: ohci-exynos: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:18 +0300
-Message-ID: <20211018183930.8448-11-s.shtylyov@omp.ru>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>
+Subject: [PATCH 22/22] usb: host: xhci-tegra: deny IRQ0
+Date:   Mon, 18 Oct 2021 21:39:30 +0300
+Message-ID: <20211018183930.8448-23-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
 References: <20211018183930.8448-1-s.shtylyov@omp.ru>
@@ -46,27 +46,25 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: 1d4169834628 ("usb: host: ohci-exynos: Fix error handling in exynos_ohci_probe()")
+Fixes: e84fce0f8837 ("usb: xhci: Add NVIDIA Tegra XUSB controller driver")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/host/ohci-exynos.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/host/xhci-tegra.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
-index 5f5e8a64c8e2..f28f28e42f43 100644
---- a/drivers/usb/host/ohci-exynos.c
-+++ b/drivers/usb/host/ohci-exynos.c
-@@ -175,6 +175,10 @@ static int exynos_ohci_probe(struct platform_device *pdev)
- 		err = irq;
- 		goto fail_io;
- 	}
-+	if (!irq) {
-+		err = -EINVAL;
-+		goto fail_io;
-+	}
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index 1bf494b649bd..7151b1d4f876 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -1439,6 +1439,8 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+ 	tegra->xhci_irq = platform_get_irq(pdev, 0);
+ 	if (tegra->xhci_irq < 0)
+ 		return tegra->xhci_irq;
++	if (!tegra->xhci_irq)
++		return -ENIVAL;
  
- 	platform_set_drvdata(pdev, hcd);
- 
+ 	tegra->mbox_irq = platform_get_irq(pdev, 1);
+ 	if (tegra->mbox_irq < 0)
 -- 
 2.26.3
 
