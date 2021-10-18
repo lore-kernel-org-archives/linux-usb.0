@@ -2,69 +2,157 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A782DC4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C045C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:55:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93EB561212
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6548D61263
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233471AbhJRSmF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:42:05 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:36198 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233295AbhJRSl4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:56 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 66278206F618
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-To:     <linux-usb@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        <linux-tegra@vger.kernel.org>
-Subject: [PATCH 22/22] usb: host: xhci-tegra: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:30 +0300
-Message-ID: <20211018183930.8448-23-s.shtylyov@omp.ru>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
-References: <20211018183930.8448-1-s.shtylyov@omp.ru>
+        id S232992AbhJRS5j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:57:39 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:36802 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232301AbhJRS5h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:57:37 -0400
+Received: by mail-io1-f70.google.com with SMTP id x21-20020a0566022c5500b005ddd625f399so11521579iov.3
+        for <linux-usb@vger.kernel.org>; Mon, 18 Oct 2021 11:55:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=d9FglVVwh25AoGE+76STUHBE//5+OPpn8rA7VxNxOTI=;
+        b=RyQDlhAwde4Kpf/OIbWoQJ+vCangoJhEmFR0FVfp+s/Y5Irzhud6VPL2fUYmrwKG++
+         0W3dyKCOFUYAWXmCAELDnXM6dZ7Udyvkh7h9wpHWuJNU5anM9ehB/bTXa8r9rnqfY2u2
+         1GHqRDIqLH5kxwM7O7i9CnFe8ZFuvqGfQUpYz44CDpVtL+7Gy/E3Ttp6PsPt4Etpa+JS
+         a536AFRWrgTN7Kiu72t18IIKL2dpo167aks4bWcvDd6XmnQ3qAAGFox+lOYT+a9/8xBp
+         iLMhBi6dYrTR8gt6Iav29Y6ZtDApJvC20tY1zAlUvstmjDfN9tksPTnyL+bkt/T8ilrj
+         9K2w==
+X-Gm-Message-State: AOAM531A3PtiEELgphu68FT7qCWClWMAoGrKyC/X26BXmJgJNlBo48fT
+        pOydoMWu4pLT9llx9M26fziGL9kuwdb4jUOVZzOdOwTsj2DB
+X-Google-Smtp-Source: ABdhPJwVl4Hluj+sHjdVEOw84B/s8707bcUBy90SmSxoxW/4Op1rbrmHAViUG0tIZjkhBcDE+PUubtQ5nVHtVpU9Zkiep7OB0MuU
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+X-Received: by 2002:a05:6e02:4ca:: with SMTP id f10mr15538757ils.316.1634583326004;
+ Mon, 18 Oct 2021 11:55:26 -0700 (PDT)
+Date:   Mon, 18 Oct 2021 11:55:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000809ecc05cea5165d@google.com>
+Subject: [syzbot] divide error in genelink_tx_fixup
+From:   syzbot <syzbot+a6ec4dd9d38cb9261a77@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, kuba@kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
-the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
-at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
+Hello,
 
-Fixes: e84fce0f8837 ("usb: xhci: Add NVIDIA Tegra XUSB controller driver")
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+syzbot found the following issue on:
+
+HEAD commit:    660a92a59b9e usb: xhci: Enable runtime-pm by default on AM..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1506ccf0b00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5016916cdc0a4a84
+dashboard link: https://syzkaller.appspot.com/bug?extid=a6ec4dd9d38cb9261a77
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11308734b00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12f56f68b00000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a6ec4dd9d38cb9261a77@syzkaller.appspotmail.com
+
+gl620a 2-1:0.0 usb1: register 'gl620a' at usb-dummy_hcd.1-1, Genesys GeneLink, 7a:f2:d1:89:41:da
+divide error: 0000 [#1] SMP KASAN
+CPU: 0 PID: 7 Comm: kworker/0:1 Not tainted 5.15.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: mld mld_ifc_work
+RIP: 0010:genelink_tx_fixup+0x308/0x610 drivers/net/usb/gl620a.c:172
+Code: 8b 44 24 70 48 ba 00 00 00 00 00 fc ff df 48 89 f9 48 c1 e9 03 0f b6 14 11 84 d2 74 09 80 fa 03 0f 8e 50 02 00 00 31 d2 31 ff <f7> b3 28 01 00 00 41 89 d5 89 d6 e8 f8 50 b6 fd 45 85 ed 0f 84 b1
+RSP: 0018:ffffc9000007f5e8 EFLAGS: 00010246
+RAX: 0000000000000062 RBX: ffff8881197c0c00 RCX: 1ffff110232f81a5
+RDX: 0000000000000000 RSI: ffffffff84bd1bb7 RDI: 0000000000000000
+RBP: ffff88811b40b780 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff838b813c R11: 0000000000000000 R12: ffff88811b40b780
+R13: 0000000000000654 R14: 000000000000005a R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f09f3e0aff8 CR3: 000000011c54f000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ usbnet_start_xmit+0x152/0x1f70 drivers/net/usb/usbnet.c:1370
+ __netdev_start_xmit include/linux/netdevice.h:4988 [inline]
+ netdev_start_xmit include/linux/netdevice.h:5002 [inline]
+ xmit_one net/core/dev.c:3576 [inline]
+ dev_hard_start_xmit+0x1df/0x890 net/core/dev.c:3592
+ sch_direct_xmit+0x25b/0x790 net/sched/sch_generic.c:342
+ __dev_xmit_skb net/core/dev.c:3803 [inline]
+ __dev_queue_xmit+0xf25/0x2d40 net/core/dev.c:4170
+ neigh_resolve_output net/core/neighbour.c:1492 [inline]
+ neigh_resolve_output+0x50e/0x820 net/core/neighbour.c:1472
+ neigh_output include/net/neighbour.h:510 [inline]
+ ip6_finish_output2+0xdbe/0x1b20 net/ipv6/ip6_output.c:126
+ __ip6_finish_output.part.0+0x387/0xbb0 net/ipv6/ip6_output.c:191
+ __ip6_finish_output include/linux/skbuff.h:982 [inline]
+ ip6_finish_output net/ipv6/ip6_output.c:201 [inline]
+ NF_HOOK_COND include/linux/netfilter.h:296 [inline]
+ ip6_output+0x3d2/0x810 net/ipv6/ip6_output.c:224
+ dst_output include/net/dst.h:450 [inline]
+ NF_HOOK include/linux/netfilter.h:307 [inline]
+ NF_HOOK include/linux/netfilter.h:301 [inline]
+ mld_sendpack+0x979/0xe10 net/ipv6/mcast.c:1826
+ mld_send_cr net/ipv6/mcast.c:2127 [inline]
+ mld_ifc_work+0x71c/0xdc0 net/ipv6/mcast.c:2659
+ process_one_work+0x9bf/0x1620 kernel/workqueue.c:2297
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2444
+ kthread+0x3c2/0x4a0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+Modules linked in:
+---[ end trace faca6a933050247e ]---
+RIP: 0010:genelink_tx_fixup+0x308/0x610 drivers/net/usb/gl620a.c:172
+Code: 8b 44 24 70 48 ba 00 00 00 00 00 fc ff df 48 89 f9 48 c1 e9 03 0f b6 14 11 84 d2 74 09 80 fa 03 0f 8e 50 02 00 00 31 d2 31 ff <f7> b3 28 01 00 00 41 89 d5 89 d6 e8 f8 50 b6 fd 45 85 ed 0f 84 b1
+RSP: 0018:ffffc9000007f5e8 EFLAGS: 00010246
+RAX: 0000000000000062 RBX: ffff8881197c0c00 RCX: 1ffff110232f81a5
+RDX: 0000000000000000 RSI: ffffffff84bd1bb7 RDI: 0000000000000000
+RBP: ffff88811b40b780 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff838b813c R11: 0000000000000000 R12: ffff88811b40b780
+R13: 0000000000000654 R14: 000000000000005a R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff8881f6800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f09f3e0aff8 CR3: 000000011c54f000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	8b 44 24 70          	mov    0x70(%rsp),%eax
+   4:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
+   b:	fc ff df
+   e:	48 89 f9             	mov    %rdi,%rcx
+  11:	48 c1 e9 03          	shr    $0x3,%rcx
+  15:	0f b6 14 11          	movzbl (%rcx,%rdx,1),%edx
+  19:	84 d2                	test   %dl,%dl
+  1b:	74 09                	je     0x26
+  1d:	80 fa 03             	cmp    $0x3,%dl
+  20:	0f 8e 50 02 00 00    	jle    0x276
+  26:	31 d2                	xor    %edx,%edx
+  28:	31 ff                	xor    %edi,%edi
+* 2a:	f7 b3 28 01 00 00    	divl   0x128(%rbx) <-- trapping instruction
+  30:	41 89 d5             	mov    %edx,%r13d
+  33:	89 d6                	mov    %edx,%esi
+  35:	e8 f8 50 b6 fd       	callq  0xfdb65132
+  3a:	45 85 ed             	test   %r13d,%r13d
+  3d:	0f                   	.byte 0xf
+  3e:	84                   	.byte 0x84
+  3f:	b1                   	.byte 0xb1
+
+
 ---
- drivers/usb/host/xhci-tegra.c | 2 ++
- 1 file changed, 2 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 1bf494b649bd..7151b1d4f876 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1439,6 +1439,8 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 	tegra->xhci_irq = platform_get_irq(pdev, 0);
- 	if (tegra->xhci_irq < 0)
- 		return tegra->xhci_irq;
-+	if (!tegra->xhci_irq)
-+		return -ENIVAL;
- 
- 	tegra->mbox_irq = platform_get_irq(pdev, 1);
- 	if (tegra->mbox_irq < 0)
--- 
-2.26.3
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
