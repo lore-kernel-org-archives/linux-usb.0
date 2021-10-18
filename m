@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386C4C43219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 591B0C4321E
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24B4F61263
+	by mail.kernel.org (Postfix) with ESMTP id 3ED3861263
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233320AbhJRSlv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:41:51 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:54586 "EHLO
+        id S233410AbhJRSlx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:41:53 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:54606 "EHLO
         mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233108AbhJRSlt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:49 -0400
+        with ESMTP id S232909AbhJRSlu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:50 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 5B24E2072122
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 64E892072127
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,9 +23,13 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH 06/22] usb: host: ehci-spear: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:14 +0300
-Message-ID: <20211018183930.8448-7-s.shtylyov@omp.ru>
+CC:     Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 08/22] usb: host: ohci-at91: deny IRQ0
+Date:   Mon, 18 Oct 2021 21:39:16 +0300
+Message-ID: <20211018183930.8448-9-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
 References: <20211018183930.8448-1-s.shtylyov@omp.ru>
@@ -43,27 +47,25 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: c8c38de9d800 ("USB host: Adding USB ehci & ohci support for spear platform")
+Fixes: fb5f1834c322 ("usb: ohci-at91: fix irq and iomem resource retrieval")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/host/ehci-spear.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/host/ohci-at91.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ehci-spear.c b/drivers/usb/host/ehci-spear.c
-index 3694e450a11a..f4a5896900dc 100644
---- a/drivers/usb/host/ehci-spear.c
-+++ b/drivers/usb/host/ehci-spear.c
-@@ -70,6 +70,10 @@ static int spear_ehci_hcd_drv_probe(struct platform_device *pdev)
- 		retval = irq;
- 		goto fail;
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index a24aea3d2759..6a7276a730d1 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -181,6 +181,8 @@ static int usb_hcd_at91_probe(const struct hc_driver *driver,
+ 		dev_dbg(dev, "hcd probe: missing irq resource\n");
+ 		return irq;
  	}
-+	if (!irq) {
-+		retval = -EINVAL;
-+		goto fail;
-+	}
++	if (!irq)
++		return -EINVAL;
  
- 	/*
- 	 * Right now device-tree probed devices don't get dma_mask set.
+ 	hcd = usb_create_hcd(driver, dev, "at91");
+ 	if (!hcd)
 -- 
 2.26.3
 
