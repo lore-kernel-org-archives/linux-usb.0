@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8902C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFC2C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F0C861263
+	by mail.kernel.org (Postfix) with ESMTP id E8F3461212
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233200AbhJRSlt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:41:49 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:54574 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhJRSlr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:47 -0400
+        id S233208AbhJRSlu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:41:50 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:55478 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233095AbhJRSls (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:48 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 280672072135
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru F0EE920A8F93
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,12 +23,10 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>
-Subject: [PATCH 01/22] usb: host: ehci-exynos: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:09 +0300
-Message-ID: <20211018183930.8448-2-s.shtylyov@omp.ru>
+CC:     <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 05/22] usb: host: ehci-platform: deny IRQ0
+Date:   Mon, 18 Oct 2021 21:39:13 +0300
+Message-ID: <20211018183930.8448-6-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
 References: <20211018183930.8448-1-s.shtylyov@omp.ru>
@@ -46,27 +44,25 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: 44ed240d6273 ("usb: host: ehci-exynos: Fix error check in exynos_ehci_probe()")
+Fixes: 7a7a4a592f42 ("USB: EHCI: Add a generic platform device driver")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/host/ehci-exynos.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/host/ehci-platform.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ehci-exynos.c b/drivers/usb/host/ehci-exynos.c
-index 1a9b7572e17f..ff4e1261801a 100644
---- a/drivers/usb/host/ehci-exynos.c
-+++ b/drivers/usb/host/ehci-exynos.c
-@@ -207,6 +207,10 @@ static int exynos_ehci_probe(struct platform_device *pdev)
- 		err = irq;
- 		goto fail_io;
- 	}
-+	if (!irq) {
-+		err = -EINVAL;
-+		goto fail_io;
-+	}
+diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
+index c70f2d0b4aaf..1b20af65d799 100644
+--- a/drivers/usb/host/ehci-platform.c
++++ b/drivers/usb/host/ehci-platform.c
+@@ -265,6 +265,8 @@ static int ehci_platform_probe(struct platform_device *dev)
+ 	irq = platform_get_irq(dev, 0);
+ 	if (irq < 0)
+ 		return irq;
++	if (!irq)
++		return -EINVAL;
  
- 	err = exynos_ehci_phy_enable(&pdev->dev);
- 	if (err) {
+ 	hcd = usb_create_hcd(&ehci_platform_hc_driver, &dev->dev,
+ 			     dev_name(&dev->dev));
 -- 
 2.26.3
 
