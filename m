@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BF4C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C3FC433EF
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A889061212
+	by mail.kernel.org (Postfix) with ESMTP id BDD0F6134F
 	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233495AbhJRSl5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:41:57 -0400
-Received: from mxout04.lancloud.ru ([45.84.86.114]:55496 "EHLO
+        id S233485AbhJRSly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:41:54 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:55488 "EHLO
         mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233383AbhJRSlw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:52 -0400
+        with ESMTP id S233186AbhJRSlu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:50 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru CB22C20A8F97
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru B795D20A8F94
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,9 +23,9 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH 14/22] usb: host: ohci-pxa27x: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:22 +0300
-Message-ID: <20211018183930.8448-15-s.shtylyov@omp.ru>
+Subject: [PATCH 09/22] usb: host: ohci-da8xx: deny IRQ0
+Date:   Mon, 18 Oct 2021 21:39:17 +0300
+Message-ID: <20211018183930.8448-10-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
 References: <20211018183930.8448-1-s.shtylyov@omp.ru>
@@ -43,25 +43,27 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: 84bab7393b0d ("[ARM] ohci-pxa27x: use platform_get_{irq,resource} for the resource")
+Fixes: efe7daf2231a ("USB: OHCI: DA8xx/OMAP-L1x glue layer")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/host/ohci-pxa27x.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/host/ohci-da8xx.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27x.c
-index 54aa5c77e549..336437277fd0 100644
---- a/drivers/usb/host/ohci-pxa27x.c
-+++ b/drivers/usb/host/ohci-pxa27x.c
-@@ -443,6 +443,8 @@ static int ohci_hcd_pxa27x_probe(struct platform_device *pdev)
- 		pr_err("no resource of IORESOURCE_IRQ");
- 		return irq;
+diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
+index 1371b0c249ec..6d08ab2bf163 100644
+--- a/drivers/usb/host/ohci-da8xx.c
++++ b/drivers/usb/host/ohci-da8xx.c
+@@ -449,6 +449,10 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
+ 		error = -ENODEV;
+ 		goto err;
  	}
-+	if (!irq)
-+		return -EINVAL;
++	if (!hcd_irq) {
++		error = -EINVAL;
++		goto err;
++	}
  
- 	usb_clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(usb_clk))
+ 	error = usb_add_hcd(hcd, hcd_irq, 0);
+ 	if (error)
 -- 
 2.26.3
 
