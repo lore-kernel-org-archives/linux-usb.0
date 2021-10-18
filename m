@@ -2,94 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D804CC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 15:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C7ABC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A90AC6103D
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 15:07:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1352861212
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232516AbhJRPJx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 11:09:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49016 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232957AbhJRPJa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 18 Oct 2021 11:09:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3E3F160EE9;
-        Mon, 18 Oct 2021 15:07:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634569638;
-        bh=Md59R3ONCqA6DyDyeTDd7ISrl7eVjopr9ACmL5mS5tk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1ZZaMCSaxdA/CIeNTvKesceOkoRJZ87xNoKPvQoF8AveNgeVspamgtqXWe1yCMreq
-         I3Dq7US8r58YjLqbew9KPUtpligOiMeuMby3n7CY5KW/XzxRMjZBj6q1MjMfn0wwd/
-         uNrQUjj7rpMLfURLpLjV4OiboBqfd3geSPV/i+DU=
-Date:   Mon, 18 Oct 2021 17:07:16 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Yang Yingliang <yangyingliang@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        balbi@kernel.org
-Subject: Re: [PATCH] usb: phy: isp1301: add release func to dev to avoid
- memory leak
-Message-ID: <YW2NpDG6hGJk4UR9@kroah.com>
-References: <20211015051624.1655193-1-yangyingliang@huawei.com>
+        id S232955AbhJRSlr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:41:47 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:55458 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229696AbhJRSlq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:46 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 9B75D20A88BA
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+To:     <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Mathias Nyman" <mathias.nyman@intel.com>
+Subject: [PATCH 00/22] Explicitly deny IRQ0 in the USB host drivers
+Date:   Mon, 18 Oct 2021 21:39:08 +0300
+Message-ID: <20211018183930.8448-1-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211015051624.1655193-1-yangyingliang@huawei.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Oct 15, 2021 at 01:16:24PM +0800, Yang Yingliang wrote:
-> After calling usb_add_phy_dev(), client->dev.type will be changed
-> to 'usb_pyh_dev_type', the release() func is null, it cause the
-> following WARNING:
-> 
-> Device '1-001c' does not have a release() function, it is broken and must be fixed. See Documentation/core-api/kobject.rst.
-> WARNING: CPU: 1 PID: 405 at device_release+0x1b7/0x240
-> Call Trace:
->  kobject_put+0x1e5/0x540
->  device_unregister+0x35/0xc0
->  i2c_unregister_device+0x114/0x1f0
-> 
-> It cause 'client' leaked which is allocated in i2c_new_client_device():
-> 
-> unreferenced object 0xffff88800670b000 (size 2048):
->   comm "xrun", pid 429, jiffies 4294946742 (age 235.248s)
->   hex dump (first 32 bytes):
->     00 00 1c 00 69 73 70 31 33 30 31 00 00 00 00 00  ....isp1301.....
->     00 00 00 00 00 00 00 00 c0 e4 17 c1 ff ff ff ff  ................
->   backtrace:
->     [<00000000a4641100>] kmem_cache_alloc_trace+0x186/0x2b0
->     [<00000000d9d933e7>] i2c_new_client_device+0x56/0xb40
->     [<000000007255bed2>] new_device_store+0x1f4/0x410
-> 
-> So add release func to dev to avoid this memory leak.
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 790d3a5ab6e36 ("usb: phy: isp1301: give it a context structure")
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
->  drivers/usb/phy/phy-isp1301.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/phy/phy-isp1301.c b/drivers/usb/phy/phy-isp1301.c
-> index ad3d57f1c273..04f005572484 100644
-> --- a/drivers/usb/phy/phy-isp1301.c
-> +++ b/drivers/usb/phy/phy-isp1301.c
-> @@ -111,6 +111,7 @@ static int isp1301_probe(struct i2c_client *client,
->  	phy->init = isp1301_phy_init;
->  	phy->set_vbus = isp1301_phy_set_vbus;
->  	phy->type = USB_PHY_TYPE_USB2;
-> +	client->dev.release = client->dev.type->release;
+Here are 22 patches against the 'usb-next' branch of Greg KH's 'usb.git' repo.
+The affected drivers use platform_get_irq() which can return IRQ0 (considered
+invalid, according to Linus) that means broken HCD when passed to usb_add_hcd()
+called at the end of the probe methods. I think that the solution to this issue
+is either explicitly deny or accept IRQ0 in usb_add_hcd()... /but/ here's this
+patch set to get the things going...
 
-messing with a release pointer is almost never a good idea, and a sign
-that something is really wrong.
+Sergey Shtylyov (22):
+  usb: host: ehci-exynos: deny IRQ0
+  usb: host: ehci-mv: deny IRQ0
+  usb: host: ehci-npcm7xx: deny IRQ0
+  usb: host: ehci-omap: deny IRQ0
+  usb: host: ehci-platform: deny IRQ0
+  usb: host: ehci-spear: deny IRQ0
+  usb: host: ehci-st: deny IRQ0
+  usb: host: ohci-at91: deny IRQ0
+  usb: host: ohci-da8xx: deny IRQ0
+  usb: host: ohci-exynos: deny IRQ0
+  usb: host: ohci-at91: deny IRQ0
+  usb: host: ohci-omap: deny IRQ0
+  usb: host: ohci-platform: deny IRQ0
+  usb: host: ohci-pxa27x: deny IRQ0
+  usb: host: ohci-sm501: deny IRQ0
+  usb: host: ohci-spear: deny IRQ0
+  usb: host: ohci-st: deny IRQ0
+  usb: host: ohci-tmio: deny IRQ0
+  usb: host: xhci-histb: deny IRQ0
+  usb: host: xhci-mtk: deny IRQ0
+  usb: host: xhci-plat: deny IRQ0
+  usb: host: xhci-tegra: deny IRQ0
 
-Why is the type not set properly here so as to get the correct release
-callback when the device is created?  Why do you have to manually change
-this now after the fact?
+ drivers/usb/host/ehci-exynos.c   | 4 ++++
+ drivers/usb/host/ehci-mv.c       | 4 ++++
+ drivers/usb/host/ehci-npcm7xx.c  | 4 ++++
+ drivers/usb/host/ehci-omap.c     | 2 ++
+ drivers/usb/host/ehci-platform.c | 2 ++
+ drivers/usb/host/ehci-spear.c    | 4 ++++
+ drivers/usb/host/ehci-st.c       | 2 ++
+ drivers/usb/host/ohci-at91.c     | 2 ++
+ drivers/usb/host/ohci-da8xx.c    | 4 ++++
+ drivers/usb/host/ohci-exynos.c   | 4 ++++
+ drivers/usb/host/ohci-nxp.c      | 4 ++++
+ drivers/usb/host/ohci-omap.c     | 4 ++++
+ drivers/usb/host/ohci-platform.c | 2 ++
+ drivers/usb/host/ohci-pxa27x.c   | 2 ++
+ drivers/usb/host/ohci-sm501.c    | 4 ++++
+ drivers/usb/host/ohci-spear.c    | 4 ++++
+ drivers/usb/host/ohci-st.c       | 2 ++
+ drivers/usb/host/ohci-tmio.c     | 2 ++
+ drivers/usb/host/xhci-histb.c    | 2 ++
+ drivers/usb/host/xhci-mtk.c      | 4 +++-
+ drivers/usb/host/xhci-plat.c     | 2 ++
+ drivers/usb/host/xhci-tegra.c    | 2 ++
+ 22 files changed, 65 insertions(+), 1 deletion(-)
 
-thanks,
-
-greg k-h
+-- 
+2.26.3
