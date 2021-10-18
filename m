@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AEFC4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A04EC43217
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E30AB61263
-	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3422A61263
+	for <linux-usb@archiver.kernel.org>; Mon, 18 Oct 2021 18:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233638AbhJRSl6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 18 Oct 2021 14:41:58 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:54606 "EHLO
+        id S233565AbhJRSmA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 18 Oct 2021 14:42:00 -0400
+Received: from mxout02.lancloud.ru ([45.84.86.82]:54636 "EHLO
         mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233149AbhJRSlw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:52 -0400
+        with ESMTP id S231890AbhJRSly (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 18 Oct 2021 14:41:54 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 5334C207213B
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru A4A0B207213F
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,9 +23,9 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH 15/22] usb: host: ohci-sm501: deny IRQ0
-Date:   Mon, 18 Oct 2021 21:39:23 +0300
-Message-ID: <20211018183930.8448-16-s.shtylyov@omp.ru>
+Subject: [PATCH 18/22] usb: host: ohci-tmio: deny IRQ0
+Date:   Mon, 18 Oct 2021 21:39:26 +0300
+Message-ID: <20211018183930.8448-19-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211018183930.8448-1-s.shtylyov@omp.ru>
 References: <20211018183930.8448-1-s.shtylyov@omp.ru>
@@ -43,27 +43,25 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: f54aab6ebcec ("usb: ohci-sm501 driver")
+Fixes: 78c73414f4f6 ("USB: ohci: add support for tmio-ohci cell")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/host/ohci-sm501.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/host/ohci-tmio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
-index b91d50da6127..ffb7b6645d2c 100644
---- a/drivers/usb/host/ohci-sm501.c
-+++ b/drivers/usb/host/ohci-sm501.c
-@@ -96,6 +96,10 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 	irq = retval = platform_get_irq(pdev, 0);
- 	if (retval < 0)
- 		goto err0;
-+	if (!retval) {
-+		retval = -EINVAL;
-+		goto err0;
-+	}
+diff --git a/drivers/usb/host/ohci-tmio.c b/drivers/usb/host/ohci-tmio.c
+index 08ec2ab0d95a..53932e8a968f 100644
+--- a/drivers/usb/host/ohci-tmio.c
++++ b/drivers/usb/host/ohci-tmio.c
+@@ -204,6 +204,8 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
  
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
- 	if (mem == NULL) {
+ 	if (irq < 0)
+ 		return irq;
++	if (!irq)
++		return -EINVAL;
+ 
+ 	hcd = usb_create_hcd(&ohci_tmio_hc_driver, &dev->dev, dev_name(&dev->dev));
+ 	if (!hcd) {
 -- 
 2.26.3
 
