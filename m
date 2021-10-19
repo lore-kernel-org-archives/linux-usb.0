@@ -2,103 +2,214 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C72D2C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Oct 2021 09:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12006C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Oct 2021 09:39:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6B8561212
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Oct 2021 09:23:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE09D6138F
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Oct 2021 09:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234933AbhJSJ0G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Oct 2021 05:26:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35282 "EHLO mail.kernel.org"
+        id S235045AbhJSJl4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Oct 2021 05:41:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46194 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231652AbhJSJ0F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 19 Oct 2021 05:26:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 33A176113D;
-        Tue, 19 Oct 2021 09:23:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1634635433;
-        bh=ZvHmmk9NzSMdRMcuDJwACGSszzVGMNFFatXRDZYmeyw=;
+        id S234808AbhJSJl4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 19 Oct 2021 05:41:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 20D156137E;
+        Tue, 19 Oct 2021 09:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1634636383;
+        bh=jkGX3Ba0dI/Q+qkOLWKijikhjoMcZNgzHpzCv8SdNw0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=E28/Kz3gflNxyOGdLEfbDweru7NIthIRIAm68B1k5hjLbC3lTDCToUrZs5HFJETUZ
-         kVOMZuSxO3fd8upEjGxfLdr6q6SSeZ8t4VHEVtDdpAfTdtdx82ir/eW/SzhVNoVnwh
-         JO2H2vBcagrbeqbNJhLkRQlxqMTfh4UqIHEXT6GE0BlJc1uhl9XRrUGV4wABFdc8+t
-         DLD3ma7cYt2Qf0P9cUdHVOtMVzyAs0K+jQ9BzvmebRBmeodhGh5t5VsboGuvRjGCJB
-         jTJy5kq1Syv54qrqzc63btGgF1T0tTBSnrZyVkDYsx3GgZlrdLvR3qOfY1eL66R4s7
-         J2MP8hyPyslsA==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1mclLT-0003Ka-J1; Tue, 19 Oct 2021 11:23:44 +0200
-Date:   Tue, 19 Oct 2021 11:23:43 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     syzbot <syzbot+76bb1d34ffa0adc03baa@syzkaller.appspotmail.com>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] divide error in usbnet_start_xmit
-Message-ID: <YW6On2cAm1qLoidn@hovoldconsulting.com>
-References: <000000000000046acd05ceac1a72@google.com>
- <c5a75b9b-bc2b-2bd8-f57c-833e6ca4c192@suse.com>
+        b=zCaDdf4/QaBkb2Nty9jkGINZ+kOMlWcqrj9lsZaNZ2Bo+gh5av/xXWNVOppl8y2Nm
+         cVHFNIFxrjHm8ipaEGV1tOPdnwBmWE6IGN+cdXIQZYo2zgBrjsW2aBICUoi/wGbtj8
+         0m5bKEYHPM9i9WkzO9wccw4Xl4lyOiAGAnW44rfU=
+Date:   Tue, 19 Oct 2021 11:39:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Linyu Yuan <quic_linyyuan@quicinc.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Jack Pham <jackp@quicinc.com>
+Subject: Re: [PATCH v11 3/3] usb: gadget: add configfs trace events
+Message-ID: <YW6SXYrgTpz1OUu0@kroah.com>
+References: <1634629473-15411-1-git-send-email-quic_linyyuan@quicinc.com>
+ <1634629473-15411-4-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c5a75b9b-bc2b-2bd8-f57c-833e6ca4c192@suse.com>
+In-Reply-To: <1634629473-15411-4-git-send-email-quic_linyyuan@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 19, 2021 at 10:14:20AM +0200, Oliver Neukum wrote:
+On Tue, Oct 19, 2021 at 03:44:32PM +0800, Linyu Yuan wrote:
+> in case of USB Gadget functions configure through configfs from
+> a complicated user space program, when switch function from one to another,
+> if it failed, it is better to find out what action was done to configfs
+> from user space program.
 > 
-> On 19.10.21 05:17, syzbot wrote:
-> > Hello,
-> >
-> > syzbot found the following issue on:
-> >
-> > HEAD commit:    c03fb16bafdf Merge 5.15-rc6 into usb-next
-> > git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=12d48f1f300000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c27d285bdb7457e2
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=76bb1d34ffa0adc03baa
-> > compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14fe6decb00000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c7bcaf300000
-> >
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+76bb1d34ffa0adc03baa@syzkaller.appspotmail.com
+> this change add some trace events which enable/disable a function,
+> it including add/remove configuration, bind/unbind UDC,
+> and some attribute files write operation.
 > 
-> #syz test:
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git c03fb16bafdf
-> 
-> From a5270791d4480e9a6bc009c69a4454039aa160e7 Mon Sep 17 00:00:00 2001
-> From: Oliver Neukum <oneukum@suse.com>
-> Date: Tue, 19 Oct 2021 10:02:42 +0200
-> Subject: [PATCH] usbnet: sanity check for maxpacket
-> 
-> We cannot leave maxpacket at 0 because we divide by it.
-> Devices that give us a 0 there are unlikely to work, but let's
-> assume a 1, so we don't oops and a least try to operate.
-> 
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> Reported-by: syzbot+76bb1d34ffa0adc03baa@syzkaller.appspotmail.com
+> Suggested-by: Felipe Balbi <balbi@kernel.org>
+> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 > ---
->  drivers/net/usb/usbnet.c | 3 +++
->  1 file changed, 3 insertions(+)
+> v2: fix two issue Reported-by: kernel test robot <lkp@intel.com>
+> v3: do not move private structure to configfs.h
+> v4: add missing new file configfs_trace.h
+> v5: lost some change of v2, add it again
+> v6: fix comments from Greg Kroah-Hartman
+> v7: three minor changes according to coding rules
+> v8: change two trace location
+> v9: fix when config is empty
+> v10: fix wrong api in v9
+> v11: split to 3 changes, remove read trace, change trace event print format
 > 
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index 840c1c2ab16a..2bdc3e0c1579 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-> @@ -1788,6 +1788,9 @@ usbnet_probe (struct usb_interface *udev, const
-> struct usb_device_id *prod)
->      if (!dev->rx_urb_size)
->          dev->rx_urb_size = dev->hard_mtu;
->      dev->maxpacket = usb_maxpacket (dev->udev, dev->out, 1);
-> +    if (dev->maxpacket == 0)
-> +        /* that is a strange device */
-> +        dev->maxpacket = 1;
+>  drivers/usb/gadget/configfs.c       |  13 +++
+>  drivers/usb/gadget/configfs_trace.h | 166 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 179 insertions(+)
+>  create mode 100644 drivers/usb/gadget/configfs_trace.h
+> 
+> diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+> index 36c611d..9b063bb 100644
+> --- a/drivers/usb/gadget/configfs.c
+> +++ b/drivers/usb/gadget/configfs.c
+> @@ -102,6 +102,10 @@ struct gadget_config_name {
+>  	struct list_head list;
+>  };
+>  
+> +#define CONFIGFS_TRACE_STRING
+> +#define CREATE_TRACE_POINTS
+> +#include "configfs_trace.h"
+> +
+>  #define USB_MAX_STRING_WITH_NULL_LEN	(USB_MAX_STRING_LEN+1)
+>  
+>  static int usb_string_copy(const char *s, char **s_copy)
+> @@ -210,6 +214,7 @@ static ssize_t gadget_dev_desc_bcdDevice_store(struct config_item *item,
+>  		return ret;
+>  
+>  	to_gadget_info(item)->cdev.desc.bcdDevice = cpu_to_le16(bcdDevice);
+> +	trace_gadget_dev_desc_bcdDevice_store(to_gadget_info(item));
+>  	return len;
+>  }
+>  
+> @@ -227,6 +232,7 @@ static ssize_t gadget_dev_desc_bcdUSB_store(struct config_item *item,
+>  		return ret;
+>  
+>  	to_gadget_info(item)->cdev.desc.bcdUSB = cpu_to_le16(bcdUSB);
+> +	trace_gadget_dev_desc_bcdUSB_store(to_gadget_info(item));
+>  	return len;
+>  }
+>  
+> @@ -248,6 +254,7 @@ static int unregister_gadget(struct gadget_info *gi)
+>  {
+>  	int ret;
+>  
+> +	trace_unregister_gadget(gi);
+>  	if (!gi->composite.gadget_driver.udc_name)
+>  		return -ENODEV;
+>  
+> @@ -294,6 +301,7 @@ static ssize_t gadget_dev_desc_UDC_store(struct config_item *item,
+>  			goto err;
+>  		}
+>  	}
+> +	trace_gadget_dev_desc_UDC_store(gi);
+>  	mutex_unlock(&gi->lock);
+>  	return len;
+>  err:
+> @@ -336,6 +344,7 @@ static ssize_t gadget_dev_desc_max_speed_store(struct config_item *item,
+>  
+>  	gi->composite.gadget_driver.max_speed = gi->composite.max_speed;
+>  
+> +	trace_gadget_dev_desc_max_speed_store(gi);
+>  	mutex_unlock(&gi->lock);
+>  	return len;
+>  err:
+> @@ -459,6 +468,7 @@ static int config_usb_cfg_link(
+>  	list_add_tail(&f->list, &cfg->func_list);
+>  	ret = 0;
+>  out:
+> +	trace_config_usb_cfg_link(gi);
+>  	mutex_unlock(&gi->lock);
+>  	return ret;
+>  }
+> @@ -490,6 +500,7 @@ static void config_usb_cfg_unlink(
+>  		if (f->fi == fi) {
+>  			list_del(&f->list);
+>  			usb_put_function(f);
+> +			trace_config_usb_cfg_unlink(gi);
+>  			mutex_unlock(&gi->lock);
+>  			return;
+>  		}
+> @@ -525,6 +536,7 @@ static ssize_t gadget_config_desc_MaxPower_store(struct config_item *item,
+>  	if (DIV_ROUND_UP(val, 8) > 0xff)
+>  		return -ERANGE;
+>  	cfg->c.MaxPower = val;
+> +	trace_gadget_config_desc_MaxPower_store(cfg_to_gadget_info(cfg));
+>  	return len;
+>  }
+>  
+> @@ -551,6 +563,7 @@ static ssize_t gadget_config_desc_bmAttributes_store(struct config_item *item,
+>  				USB_CONFIG_ATT_WAKEUP))
+>  		return -EINVAL;
+>  	cfg->c.bmAttributes = val;
+> +	trace_gadget_config_desc_bmAttributes_store(cfg_to_gadget_info(cfg));
+>  	return len;
+>  }
+>  
+> diff --git a/drivers/usb/gadget/configfs_trace.h b/drivers/usb/gadget/configfs_trace.h
+> new file mode 100644
+> index 0000000..74283f0
+> --- /dev/null
+> +++ b/drivers/usb/gadget/configfs_trace.h
+> @@ -0,0 +1,166 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2021 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +#ifdef CONFIGFS_TRACE_STRING
+> +#undef CONFIGFS_TRACE_STRING
+> +
+> +#define MAX_CONFIGURAITON_STR_LEN	512
+> +static __maybe_unused char *configfs_trace_string(struct gadget_info *gi)
+> +{
+> +	struct usb_configuration *uc;
+> +	struct config_usb_cfg *cfg;
+> +	struct usb_function *f;
+> +	static char trs[MAX_CONFIGURAITON_STR_LEN];
+> +	size_t len = MAX_CONFIGURAITON_STR_LEN - 1;
+> +	int n = 0;
+> +
+> +	if (list_empty(&gi->cdev.configs)) {
+> +		strcat(trs, "empty");
+> +		return trs;
+> +	}
 
-Just bail out; what can you do with a 1-byte packet size? Also compare
-usbnet_get_endpoints() where such endpoints are ignored.
+What protects this list from changing why you are accessing it?  Where
+is the lock here?
 
-Johan
+> +
+> +	list_for_each_entry(uc, &gi->cdev.configs, list) {
+> +		cfg = container_of(uc, struct config_usb_cfg, c);
+> +
+> +		n += scnprintf(trs + n, len - n,
+> +			"{%d %02x %d ",
+> +			uc->bConfigurationValue,
+> +			uc->bmAttributes,
+> +			uc->MaxPower);
+> +
+> +		list_for_each_entry(f, &cfg->func_list, list)
+> +			n += scnprintf(trs + n, len - n, "%s,", f->name);
+> +
+> +		list_for_each_entry(f, &cfg->c.functions, list)
+> +			n += scnprintf(trs + n, len - n, "%s,", f->name);
+
+Same for all of these list entries, what happens if you are tracing and
+remove a device at the same time?  Or add a device?
+
+No locks feels very very wrong to me, I need some "proof" this is safe
+to do.
+
+thanks,
+
+greg k-h
