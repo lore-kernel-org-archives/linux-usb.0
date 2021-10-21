@@ -2,30 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5355C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Oct 2021 19:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8132DC43217
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Oct 2021 19:14:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A82D761183
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Oct 2021 19:14:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 687F0610A1
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Oct 2021 19:14:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbhJUTRA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Oct 2021 15:17:00 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:36212 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231336AbhJUTQ6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Oct 2021 15:16:58 -0400
+        id S231424AbhJUTRB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Oct 2021 15:17:01 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:44138 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231611AbhJUTQ7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Oct 2021 15:16:59 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru 669EF2090F6B
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru BB3072097A0A
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-Subject: [PATCH 02/10] usb: gadget: udc: gr: fix deferred probing
-Date:   Thu, 21 Oct 2021 22:14:29 +0300
-Message-ID: <20211021191437.8737-3-s.shtylyov@omp.ru>
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH 05/10] usb: host: ehci-orion: fix deferred probing
+Date:   Thu, 21 Oct 2021 22:14:32 +0300
+Message-ID: <20211021191437.8737-6-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211021191437.8737-1-s.shtylyov@omp.ru>
 References: <20211021191437.8737-1-s.shtylyov@omp.ru>
@@ -42,39 +42,34 @@ X-Mailing-List: linux-usb@vger.kernel.org
 The driver overrides the error codes (and also IRQ0) returned by
 platform_get_irq() to -ENODEV, so if it returns -EPROBE_DEFER, the driver
 will fail the probe permanently instead of the deferred probing. Switch to
-propagating the error codes upstream, considering IRQ0 valid for simplicity
-devm_request_threaded_irq() can always override that decision...
+propagating the error codes upstream -- that means we have to explicitly
+filter out IRQ0 as bad since usb_add_hcd() doesn't quite like it... :-)
 
-Fixes: 196800da39a1 ("usb: gadget: gr_udc: Use platform_get_irq instead of irq_of_parse_and_map")
+Fixes: e96ffe2f9deb ("USB: add Marvell Orion USB host support")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- drivers/usb/gadget/udc/gr_udc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/host/ehci-orion.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
-index 4b35739d3695..4aa5246a77e5 100644
---- a/drivers/usb/gadget/udc/gr_udc.c
-+++ b/drivers/usb/gadget/udc/gr_udc.c
-@@ -2136,15 +2136,15 @@ static int gr_probe(struct platform_device *pdev)
- 		return PTR_ERR(regs);
+diff --git a/drivers/usb/host/ehci-orion.c b/drivers/usb/host/ehci-orion.c
+index 3626758b3e2a..4fa77883f901 100644
+--- a/drivers/usb/host/ehci-orion.c
++++ b/drivers/usb/host/ehci-orion.c
+@@ -222,8 +222,12 @@ static int ehci_orion_drv_probe(struct platform_device *pdev)
+ 	pr_debug("Initializing Orion-SoC USB Host Controller\n");
  
- 	dev->irq = platform_get_irq(pdev, 0);
--	if (dev->irq <= 0)
--		return -ENODEV;
-+	if (dev->irq < 0)
-+		return dev->irq;
- 
- 	/* Some core configurations has separate irqs for IN and OUT events */
- 	dev->irqi = platform_get_irq(pdev, 1);
- 	if (dev->irqi > 0) {
- 		dev->irqo = platform_get_irq(pdev, 2);
--		if (dev->irqo <= 0)
--			return -ENODEV;
-+		if (dev->irqo < 0)
-+			return dev->irqo;
- 	} else {
- 		dev->irqi = 0;
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq <= 0) {
+-		err = -ENODEV;
++	if (irq < 0) {
++		err = irq;
++		goto err;
++	}
++	if (!irq) {
++		err = -EINVAL;
+ 		goto err;
  	}
+ 
 -- 
 2.26.3
 
