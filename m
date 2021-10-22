@@ -2,98 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 057DDC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:32:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DD3C43217
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:35:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D75E6610CB
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:32:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA23161163
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:35:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232387AbhJVJew (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Oct 2021 05:34:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43968 "EHLO
+        id S232006AbhJVJh5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Oct 2021 05:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232483AbhJVJeo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Oct 2021 05:34:44 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E63C061766
-        for <linux-usb@vger.kernel.org>; Fri, 22 Oct 2021 02:32:27 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1mdquX-0007Jl-OC; Fri, 22 Oct 2021 11:32:25 +0200
-Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1mdquX-0006uR-6S; Fri, 22 Oct 2021 11:32:25 +0200
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH 1/2] usb: gadget: uvc: use on returned header len in video_encode_isoc_sg
-Date:   Fri, 22 Oct 2021 11:32:22 +0200
-Message-Id: <20211022093223.26493-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S229545AbhJVJh5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Oct 2021 05:37:57 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F3BC061764;
+        Fri, 22 Oct 2021 02:35:39 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id t9so1260157lfd.1;
+        Fri, 22 Oct 2021 02:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=0l4MQzSwkdGxy2ppxiCW5Dsfgm74PP5ogUQqLKW3vJg=;
+        b=gNkYbMzFFsjcC6xEuuDMBSwcDE9B5Bj6NOmfd0ZiujPlWZsiwbqLtX6G4l/bOC8uRQ
+         jnjyoMijkDezlz/nnD122dbAvTUiPt9W71vgtZCbosRynih0xU63vkJTI1MhVCMTQWuU
+         pSd42Cil36KvXUCja99g5A50V8LS60TubUo+hapcoUKSmTD9JoqzM83AQQO3JPPKrUXt
+         rGH9xogtEv1hjF1Ya5tr+xNORqHVSpeb8hY0r/j2grG9rh6947jDvK3prfmNmsBrCbZj
+         umzMHLoiwEjB2z3rjLYnCUlx9Slw2x8XQcVD8vdVqA6f6YP6R21qXzSqCy00PXEUX6lE
+         8oww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0l4MQzSwkdGxy2ppxiCW5Dsfgm74PP5ogUQqLKW3vJg=;
+        b=6Q+bbTqBYCdrw8ODeIsxl5idGkI7D5/9N6jLHFxLjDlUGmLaTNXfgxtzRzN8IRcGcL
+         mnF8/7/x8y5uyEiylpnEqTYOlPSjGCu1ClV69lQDnMdH1EcrK/lurCJtOPRq2fnmoLLY
+         1ucYC9Eyzq1ZeoUO4pjQxLA8rqN/gOOxkxZO/nw7rUAq2yRPTN2eHFBFQX5uFMfvygX+
+         +sXRBSMWDXbYj58KpQ6b4EVRF344jwPHkcQAqqKaihsyD/VZg6Af971z5WPOBf0bq/nP
+         NxqykVaSqGzW6jrfA7sRVxdg3YYhQiuffbv+gZ3otDnKtq4lMRfMD8sErfUm3Fa7Pnej
+         imDw==
+X-Gm-Message-State: AOAM532+BusBQwLqtracef7lbd1s6zUGFERyQPyvXS8z2NGIYKT5bndC
+        NOL/XOeqSj4TSjTFZojbWM9en98gqfc=
+X-Google-Smtp-Source: ABdhPJxkPtWyKpFEIkNqU0DOqb3wcrVzrx69BUxDv6IXvsamp9jkOpG6g7KqNsRw6koW80rTQED63g==
+X-Received: by 2002:a05:6512:3da9:: with SMTP id k41mr10668488lfv.359.1634895338103;
+        Fri, 22 Oct 2021 02:35:38 -0700 (PDT)
+Received: from [192.168.2.145] (94-29-61-202.dynamic.spd-mgts.ru. [94.29.61.202])
+        by smtp.googlemail.com with ESMTPSA id l9sm685749lfh.36.2021.10.22.02.35.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Oct 2021 02:35:37 -0700 (PDT)
+Subject: Re: [PATCH v1] usb: xhci: tegra: Check padctrl interrupt presence in
+ device tree
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Thierry Reding <treding@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        JC Kuo <jckuo@nvidia.com>, Nicolas Chauvet <kwizart@gmail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+References: <20211021115501.14932-1-digetx@gmail.com>
+ <YXHdoFAgGlxoI0Jx@qmqm.qmqm.pl>
+ <29b38423-631e-192e-b006-aa0d258c8030@gmail.com>
+ <YXHmOT+inPg7as0x@qmqm.qmqm.pl>
+ <0a48c38e-1841-0dc9-473e-5dbe67ce04d5@gmail.com>
+ <YXKEZyweVxvNyl8K@qmqm.qmqm.pl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2e40f008-7a46-e6ec-a2d5-a5e6501bff78@gmail.com>
+Date:   Fri, 22 Oct 2021 12:35:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YXKEZyweVxvNyl8K@qmqm.qmqm.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The function uvc_video_encode_header function returns the number of
-bytes used for the header. We change the video_encode_isoc_sg function
-to use the returned header_len rather than UVCG_REQUEST_HEADER_LEN and
-make the encode function more flexible.
+22.10.2021 12:29, Michał Mirosław пишет:
+> On Fri, Oct 22, 2021 at 08:58:02AM +0300, Dmitry Osipenko wrote:
+>> 22.10.2021 01:14, Michał Mirosław пишет:
+>>> On Fri, Oct 22, 2021 at 12:46:23AM +0300, Dmitry Osipenko wrote:
+>>>> 22.10.2021 00:37, Michał Mirosław пишет:
+>>>>> On Thu, Oct 21, 2021 at 02:55:01PM +0300, Dmitry Osipenko wrote:
+>>>>>> Older device-trees don't specify padctrl interrupt and xhci-tegra driver
+>>>>>> now fails to probe with -EINVAL using those device-trees. Check interrupt
+>>>>>> presence and disallow runtime PM suspension if it's missing to fix the
+>>>>>> trouble.
+>>>>> [...]
+>>>>>> --- a/drivers/usb/host/xhci-tegra.c
+>>>>>> +++ b/drivers/usb/host/xhci-tegra.c
+>>>>>> @@ -1454,10 +1454,13 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+>>>>>>  		goto put_padctl;
+>>>>>>  	}
+>>>>>>  
+>>>>>> -	tegra->padctl_irq = of_irq_get(np, 0);
+>>>>>> -	if (tegra->padctl_irq <= 0) {
+>>>>>> -		err = (tegra->padctl_irq == 0) ? -ENODEV : tegra->padctl_irq;
+>>>>>> -		goto put_padctl;
+>>>>>> +	/* Older device-trees don't specify padctrl interrupt */
+>>>>>> +	if (of_property_read_bool(np, "interrupts")) {
+>>>>>
+>>>>> Does this catch "interrupts-extended"?
+>>>>
+>>>> No, Tegra doesn't use interrupts-extended.
+>>>
+>>> I believe it is generic and equivalent to "interrupt-parent" +
+>>> "interrupts" properties, so people might as well put this in
+>>> the DT to save (or loose) a few bytes.
+>>>
+>>> You could just check if of_irq_get() returned -EINVAL instead of
+>>> matching "interrupts" property.
+>>
+>> It should be a bad idea to rely on -EINVAL since it's ambiguous error code.
+>>
+>> Perhaps it's fine to assume that today of_irq_get() may only return
+>> -EINVAL in a case of a missing DT property, but then it should be two
+>> patches here:
+>>
+>> 1. Use -EINVAL and backport this fix to stable kernel.
+>> 2. Change of_irq_get() to return -ENOENT for a missing property and
+>> change tegra_xusb_probe() accordingly.
+> 
+> I would love to see the part 2 done, but I'm afraid you will need to
+> change a lot of callsites before that can happen.
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
- drivers/usb/gadget/function/uvc_video.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 7bc865eab27b3..2a9ab54bb3dc3 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -104,22 +104,22 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
- 	unsigned int len = video->req_size;
- 	unsigned int sg_left, part = 0;
- 	unsigned int i;
--	int ret;
-+	int header_len;
- 
- 	sg = ureq->sgt.sgl;
- 	sg_init_table(sg, ureq->sgt.nents);
- 
- 	/* Init the header. */
--	ret = uvc_video_encode_header(video, buf, ureq->header,
-+	header_len = uvc_video_encode_header(video, buf, ureq->header,
- 				      video->req_size);
--	sg_set_buf(sg, ureq->header, UVCG_REQUEST_HEADER_LEN);
--	len -= ret;
-+	sg_set_buf(sg, ureq->header, header_len);
-+	len -= header_len;
- 
- 	if (pending <= len)
- 		len = pending;
- 
- 	req->length = (len == pending) ?
--		len + UVCG_REQUEST_HEADER_LEN : video->req_size;
-+		len + header_len : video->req_size;
- 
- 	/* Init the pending sgs with payload */
- 	sg = sg_next(sg);
-@@ -148,7 +148,7 @@ uvc_video_encode_isoc_sg(struct usb_request *req, struct uvc_video *video,
- 	req->num_sgs = i + 1;
- 
- 	req->length -= len;
--	video->queue.buf_used += req->length - UVCG_REQUEST_HEADER_LEN;
-+	video->queue.buf_used += req->length - header_len;
- 
- 	if (buf->bytesused == video->queue.buf_used || !buf->sg) {
- 		video->queue.buf_used = 0;
--- 
-2.30.2
-
+At a quick glance there are only couple drivers which explicitly check
+for -EINVAL, others only check whether returned value is negative. Seems
+not that bad.
