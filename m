@@ -2,82 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 407AEC433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 11:47:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF395C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 13:58:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22E9360FC4
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 11:47:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3CA360C51
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 13:58:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232793AbhJVLtl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Oct 2021 07:49:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54388 "EHLO mail.kernel.org"
+        id S233226AbhJVOAm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Oct 2021 10:00:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35470 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232670AbhJVLtk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 22 Oct 2021 07:49:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1960560F4B;
-        Fri, 22 Oct 2021 11:47:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1634903243;
-        bh=qw6WeHQjz5BGcN40R316+5AOhKOKwg58R+12KXsfyE8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=esMebFbfxvNI7HVc9VDFBaau3u1+sIJ8qIWyo/ZIowItMmwfRpKgBQFiRRHWBmcGE
-         2zjDXI5EXGBqqRKYbV6YIDQlLjmczank1xyaRVmyyjoSJaOJwa1S5RJoRmclXFWz9b
-         6aBRTTtm1f6AIDruhjYN/1A8+y8iCDDcMiDU/iJk=
-Date:   Fri, 22 Oct 2021 13:47:21 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     dingsenjie@163.com
-Cc:     linux@roeck-us.net, heikki.krogerus@linux.intel.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dingsenjie <dingsenjie@yulong.com>
-Subject: Re: [PATCH] usb: tcpm: Simplify the return expression of
- tcpm_start_toggling
-Message-ID: <YXKkyRGoH+UJzIFw@kroah.com>
-References: <20211022110045.11044-1-dingsenjie@163.com>
+        id S233146AbhJVOA1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 22 Oct 2021 10:00:27 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id C0CEB6120E
+        for <linux-usb@vger.kernel.org>; Fri, 22 Oct 2021 13:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1634911089;
+        bh=kcwq/DsV8WmwFU1QjCeUuKhDNgV60T9M7l0nMD9RfQ4=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=b4a/im57L1GAeURm78va2O/KgjeFydcYG0a53a1zyv/PkSbacOY+w38nO4mbeDkVm
+         zjdx+MScAXLrJUhf9Jzqt6FMR89P72No1hpLKU+52I6c/ckGDkPPxU1K92OsR9ak4j
+         VwHPgkMP0QTgpesC4eROWfPzVQzRDw7Y91BNaH4R9yKNz2cxKe3LjtTVEwsXZ96Xdm
+         XjndHK1kf0TqojP+MfeFTTtUAP/VpIb0E3L8ITbRNQBayQSAitntPglsQLGxxeux8R
+         2R9qFm4g37r8S3U2jY9SlkQPnU2aANRxspa/HlDymkboiSilnFR++4rreaBIu/78ir
+         6ZNL05JXjoZ1Q==
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 214131] ch341 communication problem
+Date:   Fri, 22 Oct 2021 13:58:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: johan@kernel.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: CODE_FIX
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: johan@kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status cc resolution assigned_to
+Message-ID: <bug-214131-208809-2be1J4hBuN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214131-208809@https.bugzilla.kernel.org/>
+References: <bug-214131-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211022110045.11044-1-dingsenjie@163.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 07:00:45PM +0800, dingsenjie@163.com wrote:
-> From: dingsenjie <dingsenjie@yulong.com>
-> 
-> Simplify the return expression in the tcpm.c
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214131
 
-Why?
+Johan Hovold (johan@kernel.org) changed:
 
-> 
-> Signed-off-by: dingsenjie <dingsenjie@yulong.com>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |johan@kernel.org
+         Resolution|---                         |CODE_FIX
+           Assignee|drivers_usb@kernel-bugs.ker |johan@kernel.org
+                   |nel.org                     |
 
-Is this the full name you sign legal documents with?  (I have to ask...)
+--=20
+You may reply to this email to add a comment.
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 22a85b396f69..dabe694a7eb1 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -2766,14 +2766,11 @@ static int tcpm_set_charge(struct tcpm_port *port, bool charge)
->  
->  static bool tcpm_start_toggling(struct tcpm_port *port, enum typec_cc_status cc)
->  {
-> -	int ret;
-> -
->  	if (!port->tcpc->start_toggling)
->  		return false;
->  
->  	tcpm_log_force(port, "Start toggling");
-> -	ret = port->tcpc->start_toggling(port->tcpc, port->port_type, cc);
-> -	return ret == 0;
-> +	return port->tcpc->start_toggling(port->tcpc, port->port_type, cc) == 0;
-
-Why change this from the original code?  The original code is easier to
-read, right?
-
-thanks,
-
-greg k-h
+You are receiving this mail because:
+You are watching the assignee of the bug.=
