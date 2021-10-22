@@ -2,105 +2,149 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16178C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985B7C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:32:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF11C61183
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:29:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7808D610CB
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Oct 2021 09:32:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232395AbhJVJbg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Oct 2021 05:31:36 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:15223 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232180AbhJVJbf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 22 Oct 2021 05:31:35 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4HbJvc0x0Wz6R;
-        Fri, 22 Oct 2021 11:29:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1634894956; bh=pO7i9ULJaHjN7Sqq1IpXShYJlA593nOcfY3JYM6OVAs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DKWyg0Epb+SVdZ7mIDsKvEJcLVkECMqCT27G7la/+wSYZ08jj8CTDC/WXRHhL9RX9
-         pjObxLxUvA5KihuE5ra/2BTIhmGZYxmSP/KK8VlRyZR9Scf9l7Rip4GD55DbvyHefu
-         oi0Ep7s/x/5qvUBKZOIeQaC/kaP2wfVLAPkd/zCAmCUxch4MOcXHfOGcYtuUnpPfiP
-         iJN+uo0r938ib1HCaPuSYPp1xH//J2Bn8M6pD3y32V/kqceLg7eZ0qwRV+uYS5IgFb
-         hZH7LLC436hZP1UZded1eFWuCFKQZLZFOtxQg/IdkV/c/nKpBfH82v4mQWITCj4egq
-         VxNZVq/jm54AQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date:   Fri, 22 Oct 2021 11:29:11 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <treding@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        JC Kuo <jckuo@nvidia.com>, Nicolas Chauvet <kwizart@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1] usb: xhci: tegra: Check padctrl interrupt presence in
- device tree
-Message-ID: <YXKEZyweVxvNyl8K@qmqm.qmqm.pl>
-References: <20211021115501.14932-1-digetx@gmail.com>
- <YXHdoFAgGlxoI0Jx@qmqm.qmqm.pl>
- <29b38423-631e-192e-b006-aa0d258c8030@gmail.com>
- <YXHmOT+inPg7as0x@qmqm.qmqm.pl>
- <0a48c38e-1841-0dc9-473e-5dbe67ce04d5@gmail.com>
+        id S232492AbhJVJeu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Oct 2021 05:34:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43966 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232385AbhJVJeo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Oct 2021 05:34:44 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87A25C061764
+        for <linux-usb@vger.kernel.org>; Fri, 22 Oct 2021 02:32:27 -0700 (PDT)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1mdquX-0007Jm-OD; Fri, 22 Oct 2021 11:32:25 +0200
+Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1mdquX-0006uT-6w; Fri, 22 Oct 2021 11:32:25 +0200
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
+        paul.elder@ideasonboard.com, kernel@pengutronix.de,
+        Michael Olbrich <m.olbrich@pengutronix.de>
+Subject: [PATCH 2/2] usb: gadget: uvc: implement dwPresentationTime and scrSourceClock
+Date:   Fri, 22 Oct 2021 11:32:23 +0200
+Message-Id: <20211022093223.26493-2-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211022093223.26493-1-m.grzeschik@pengutronix.de>
+References: <20211022093223.26493-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0a48c38e-1841-0dc9-473e-5dbe67ce04d5@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Oct 22, 2021 at 08:58:02AM +0300, Dmitry Osipenko wrote:
-> 22.10.2021 01:14, Michał Mirosław пишет:
-> > On Fri, Oct 22, 2021 at 12:46:23AM +0300, Dmitry Osipenko wrote:
-> >> 22.10.2021 00:37, Michał Mirosław пишет:
-> >>> On Thu, Oct 21, 2021 at 02:55:01PM +0300, Dmitry Osipenko wrote:
-> >>>> Older device-trees don't specify padctrl interrupt and xhci-tegra driver
-> >>>> now fails to probe with -EINVAL using those device-trees. Check interrupt
-> >>>> presence and disallow runtime PM suspension if it's missing to fix the
-> >>>> trouble.
-> >>> [...]
-> >>>> --- a/drivers/usb/host/xhci-tegra.c
-> >>>> +++ b/drivers/usb/host/xhci-tegra.c
-> >>>> @@ -1454,10 +1454,13 @@ static int tegra_xusb_probe(struct platform_device *pdev)
-> >>>>  		goto put_padctl;
-> >>>>  	}
-> >>>>  
-> >>>> -	tegra->padctl_irq = of_irq_get(np, 0);
-> >>>> -	if (tegra->padctl_irq <= 0) {
-> >>>> -		err = (tegra->padctl_irq == 0) ? -ENODEV : tegra->padctl_irq;
-> >>>> -		goto put_padctl;
-> >>>> +	/* Older device-trees don't specify padctrl interrupt */
-> >>>> +	if (of_property_read_bool(np, "interrupts")) {
-> >>>
-> >>> Does this catch "interrupts-extended"?
-> >>
-> >> No, Tegra doesn't use interrupts-extended.
-> > 
-> > I believe it is generic and equivalent to "interrupt-parent" +
-> > "interrupts" properties, so people might as well put this in
-> > the DT to save (or loose) a few bytes.
-> > 
-> > You could just check if of_irq_get() returned -EINVAL instead of
-> > matching "interrupts" property.
-> 
-> It should be a bad idea to rely on -EINVAL since it's ambiguous error code.
-> 
-> Perhaps it's fine to assume that today of_irq_get() may only return
-> -EINVAL in a case of a missing DT property, but then it should be two
-> patches here:
-> 
-> 1. Use -EINVAL and backport this fix to stable kernel.
-> 2. Change of_irq_get() to return -ENOENT for a missing property and
-> change tegra_xusb_probe() accordingly.
+From: Michael Olbrich <m.olbrich@pengutronix.de>
 
-I would love to see the part 2 done, but I'm afraid you will need to
-change a lot of callsites before that can happen.
+This patch adds the fields UVC_STREAM_PTS and UVC_STREAM_SCR to the uvc
+header, in case this data is available. It also enables the copy of the
+timestamp to the vb2_v4l2_buffer by setting V4L2_BUF_FLAG_TIMESTAMP_COPY
+in the queue.timestamp_flags.
 
-Best Regards
-Michał Mirosław
+Signed-off-by: Michael Olbrich <m.olbrich@pengutronix.de>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+
+---
+ drivers/usb/gadget/function/uvc.h       |  2 +-
+ drivers/usb/gadget/function/uvc_queue.c |  2 +-
+ drivers/usb/gadget/function/uvc_video.c | 35 ++++++++++++++++++++++---
+ 3 files changed, 34 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+index b05de36e2c605..c3607a32b9862 100644
+--- a/drivers/usb/gadget/function/uvc.h
++++ b/drivers/usb/gadget/function/uvc.h
+@@ -68,7 +68,7 @@ extern unsigned int uvc_gadget_trace_param;
+ #define UVC_MAX_REQUEST_SIZE			64
+ #define UVC_MAX_EVENTS				4
+ 
+-#define UVCG_REQUEST_HEADER_LEN			2
++#define UVCG_REQUEST_HEADER_LEN			12
+ 
+ /* ------------------------------------------------------------------------
+  * Structures
+diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
+index 7d00ad7c154c2..d852ac9e47e72 100644
+--- a/drivers/usb/gadget/function/uvc_queue.c
++++ b/drivers/usb/gadget/function/uvc_queue.c
+@@ -142,7 +142,7 @@ int uvcg_queue_init(struct uvc_video_queue *queue, struct device *dev, enum v4l2
+ 		queue->queue.mem_ops = &vb2_vmalloc_memops;
+ 	}
+ 
+-	queue->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC
++	queue->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY
+ 				     | V4L2_BUF_FLAG_TSTAMP_SRC_EOF;
+ 	queue->queue.dev = dev;
+ 
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 2a9ab54bb3dc3..7f59a0c474020 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -12,6 +12,7 @@
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/video.h>
++#include <asm/unaligned.h>
+ 
+ #include <media/v4l2-dev.h>
+ 
+@@ -27,13 +28,41 @@ static int
+ uvc_video_encode_header(struct uvc_video *video, struct uvc_buffer *buf,
+ 		u8 *data, int len)
+ {
+-	data[0] = UVCG_REQUEST_HEADER_LEN;
++	struct uvc_device *uvc = container_of(video, struct uvc_device, video);
++	struct usb_composite_dev *cdev = uvc->func.config->cdev;
++	struct timespec64 ts = ns_to_timespec64(buf->buf.vb2_buf.timestamp);
++	int pos = 2;
++
+ 	data[1] = UVC_STREAM_EOH | video->fid;
+ 
+-	if (buf->bytesused - video->queue.buf_used <= len - UVCG_REQUEST_HEADER_LEN)
++	if (video->queue.buf_used == 0 && ts.tv_sec) {
++		/* dwClockFrequency is 48 MHz */
++		u32 pts = ((u64)ts.tv_sec * USEC_PER_SEC + ts.tv_nsec / NSEC_PER_USEC) * 48;
++
++		data[1] |= UVC_STREAM_PTS;
++		put_unaligned_le32(pts, &data[pos]);
++		pos += 4;
++	}
++
++	if (cdev->gadget->ops->get_frame) {
++		u32 sof, stc;
++
++		sof = usb_gadget_frame_number(cdev->gadget);
++		ktime_get_ts64(&ts);
++		stc = ((u64)ts.tv_sec * USEC_PER_SEC + ts.tv_nsec / NSEC_PER_USEC) * 48;
++
++		data[1] |= UVC_STREAM_SCR;
++		put_unaligned_le32(stc, &data[pos]);
++		put_unaligned_le16(sof, &data[pos+4]);
++		pos += 6;
++	}
++
++	data[0] = pos;
++
++	if (buf->bytesused - video->queue.buf_used <= len - pos)
+ 		data[1] |= UVC_STREAM_EOF;
+ 
+-	return UVCG_REQUEST_HEADER_LEN;
++	return pos;
+ }
+ 
+ static int
+-- 
+2.30.2
+
