@@ -2,30 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 484BCC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52581C433FE
 	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 17:04:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2FE0E60F70
+	by mail.kernel.org (Postfix) with ESMTP id 3A1F960EE3
 	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 17:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234177AbhJYRGp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 13:06:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56708 "EHLO mail.kernel.org"
+        id S234148AbhJYRGq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 13:06:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55454 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234640AbhJYRDz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Oct 2021 13:03:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AD11560F70;
-        Mon, 25 Oct 2021 17:01:17 +0000 (UTC)
+        id S234855AbhJYREm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Oct 2021 13:04:42 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 221716108C;
+        Mon, 25 Oct 2021 17:01:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635181278;
-        bh=yAUPeMRMR5WBXzQ+VGOAyFWKkfCcGA1CA7S0hx/Gdls=;
+        s=k20201202; t=1635181298;
+        bh=faspEgg5FVt2f9ngascZR3HcPRDTT4d+RY/lzZDFwbA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e9XQsdcYouWZgnR3sbK/V9UGAANy5NGhrImR6biQ4epPal848E6sOTx/ciURvZha/
-         +T1apMmE20OP6BePV/O2Z0RfFfvZkb+pu9UbjZQnskcrb5bQurWISWC04L1TsF1KU9
-         e1zbKJsPg/9IMnblr5AJX5rO2utrroMHC31kkj7mT8BC8Uwg97hETqyIVJ1CArgmqD
-         O2uMc+1AcKgftcqPeZ3n4Xs5t+AxkQSR4KpR9l7GXhr64S93w4FTUxI/5OHqliHGVA
-         J8f/S0mNzMwKfJr8aK2cM1DA3Ak/rYqwpDqzu2s6pNsP8mGXyOQU7hNJkXrDSgnxL+
-         7GGunpZ7tF8Uw==
+        b=hARd2Q7vSZqVF9sDPP7mT8rLXHNwYYjFZz99vMW3bI8vBDsfFuooEs+xzcIUPTRuX
+         9WYqxK5/oLgUJRB4dtlabC1ZnU3v8MKZzil4oOUDlkfNE55duGXqVw5fNHCN0rDzAw
+         3P04qgZFmNcy2cHFAtjWRyw3yG6EQPGpmlPwq6YnMpUstejU9WwrvV2jXD44XeQuAY
+         kS/Z0V0SnavZkWn8Ue5exv3LuifbEwzH4XFg0Z3M6me8cwAaTT9Ggs+UBZ5xTpFuGs
+         r/OhgET59/sSsxucA5xbOXDPwFDrRCoVd8WtWs6MHg+z6cB3QPoILgG8YxTo8VZOo1
+         Ly896ANzMQcmQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
@@ -34,12 +34,12 @@ Cc:     Oliver Neukum <oneukum@suse.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 6/7] usbnet: sanity check for maxpacket
-Date:   Mon, 25 Oct 2021 13:01:01 -0400
-Message-Id: <20211025170103.1394651-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 3/4] usbnet: sanity check for maxpacket
+Date:   Mon, 25 Oct 2021 13:01:31 -0400
+Message-Id: <20211025170132.1394887-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211025170103.1394651-1-sashal@kernel.org>
-References: <20211025170103.1394651-1-sashal@kernel.org>
+In-Reply-To: <20211025170132.1394887-1-sashal@kernel.org>
+References: <20211025170132.1394887-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,10 +68,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 84b354f76dea..0598bc7aff89 100644
+index 0b5fd1499ac0..965e1a7b179f 100644
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -1784,6 +1784,10 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+@@ -1740,6 +1740,10 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
  	if (!dev->rx_urb_size)
  		dev->rx_urb_size = dev->hard_mtu;
  	dev->maxpacket = usb_maxpacket (dev->udev, dev->out, 1);
