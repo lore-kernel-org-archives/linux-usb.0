@@ -2,65 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9162C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB15C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C33766105A
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED5F161027
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232790AbhJYML6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 08:11:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51180 "EHLO mail.kernel.org"
+        id S232847AbhJYMMA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 08:12:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51188 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231355AbhJYML4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S231358AbhJYML4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 25 Oct 2021 08:11:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D2F36105A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4161960EBD;
         Mon, 25 Oct 2021 12:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1635163774;
-        bh=0YIEYuLhVMqGscQwr/BKZcjwZawy0J/ApKLjk7OIjXk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jGRSvlYipbY76uSqkDqLsfQ/Ipoab5C99ks7IMRJULrkxYvTIAv6SIktxhyr0piJt
-         N0ORvseywQmXXp60iuWCVxT3Wy8VYoFJDvD9uQKAjBfsdbU1ImfMFeFpZ62h4mm/4E
-         acRA1pJRxnpmQDfl+a4Ilg17Q2loqGjQ4qY6jULrnQEadYMdniqiiqJM9125KYOJbJ
-         ygL/5oqfyVnE081FIa8ImOPZDGGjUlFVqx2H9UwWSW8kythOqJv7OWTZKg9NdHl1Oz
-         gdkNwxZPs3X7cprkzH03TIHFm3t8DVQIT2ECYrFG70vcI/zBQVBuVbn8GuJ6eVoJr5
-         Dbr25m/ru1NbQ==
+        bh=oA1rXK3mOZ0tq5cb2BaPVapIai6qb8HrBsRqLCGUxlg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NBk+U5/SOIahD3GkaV0dISWBx/2Syk/e09s5gG3p1U9wH+3wW+LWgQVUx/tr4D6RH
+         GRVThmDYtQZVebfeG3ufFVRlTQLDfX5/239ztq8pq3rwZyzCEmJt9Joo1dWtHqqMGg
+         wwpADX7MXIWeMRWAa2BNzfTCw3xBd0tQ87brJxSgCcoTEHYB0lqzpk6mNVjT4nl5qU
+         FQR18xVBmDJEp/c2QFcDUcYPOJVBCyY0pusO5zlVEG12u6D81XgflesTRPr2I9kJLC
+         X1FhKyjHpYq2pc9U0DMvhwEO0tSRT6K4N3DyC9oRgiaMbK7q5HpUqbBeUY0fYi8ull
+         DH1PbqMHRNRCw==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meymy-0001f5-UO; Mon, 25 Oct 2021 14:09:17 +0200
+        id 1meymz-0001f9-5E; Mon, 25 Oct 2021 14:09:17 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Larry Finger <Larry.Finger@lwfinger.net>,
         Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
         linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/2] staging: fix control-message timeouts
-Date:   Mon, 25 Oct 2021 14:09:08 +0200
-Message-Id: <20211025120910.6339-1-johan@kernel.org>
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable@vger.kernel.org
+Subject: [PATCH 2/2] staging: r8712u: fix control-message timeout
+Date:   Mon, 25 Oct 2021 14:09:10 +0200
+Message-Id: <20211025120910.6339-3-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211025120910.6339-1-johan@kernel.org>
+References: <20211025120910.6339-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A number of drivers throughout the tree were incorrectly specifying USB
-message timeout values in jiffies instead of milliseconds.
+USB control-message timeouts are specified in milliseconds and should
+specifically not vary with CONFIG_HZ.
 
-This series fixes the staging drivers that got it wrong.
+Fixes: 2865d42c78a9 ("staging: r8712u: Add the new driver to the mainline kernel")
+Cc: stable@vger.kernel.org      # 2.6.37
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/staging/rtl8712/usb_ops_linux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Johan
-
-
-Johan Hovold (2):
-  staging: rtl8192u: fix control-message timeouts
-  staging: r8712u: fix control-message timeout
-
- drivers/staging/rtl8192u/r8192U_core.c  | 18 +++++++++---------
- drivers/staging/rtl8712/usb_ops_linux.c |  2 +-
- 2 files changed, 10 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/staging/rtl8712/usb_ops_linux.c b/drivers/staging/rtl8712/usb_ops_linux.c
+index 655497cead12..f984a5ab2c6f 100644
+--- a/drivers/staging/rtl8712/usb_ops_linux.c
++++ b/drivers/staging/rtl8712/usb_ops_linux.c
+@@ -494,7 +494,7 @@ int r8712_usbctrl_vendorreq(struct intf_priv *pintfpriv, u8 request, u16 value,
+ 		memcpy(pIo_buf, pdata, len);
+ 	}
+ 	status = usb_control_msg(udev, pipe, request, reqtype, value, index,
+-				 pIo_buf, len, HZ / 2);
++				 pIo_buf, len, 500);
+ 	if (status > 0) {  /* Success this control transfer. */
+ 		if (requesttype == 0x01) {
+ 			/* For Control read transfer, we have to copy the read
 -- 
 2.32.0
 
