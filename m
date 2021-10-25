@@ -2,80 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7D5C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:04:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B91A7C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:18:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5B5D60ED4
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:04:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FD4560F46
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232680AbhJYLHD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 07:07:03 -0400
-Received: from mga18.intel.com ([134.134.136.126]:17048 "EHLO mga18.intel.com"
+        id S231613AbhJYLU7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 07:20:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53896 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232525AbhJYLHD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Oct 2021 07:07:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10147"; a="216533558"
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; 
-   d="scan'208";a="216533558"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 04:04:41 -0700
-X-IronPort-AV: E=Sophos;i="5.87,180,1631602800"; 
-   d="scan'208";a="496751709"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2021 04:04:38 -0700
-Received: by lahna (sSMTP sendmail emulation); Mon, 25 Oct 2021 14:04:36 +0300
-Date:   Mon, 25 Oct 2021 14:04:35 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S230126AbhJYLU7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Oct 2021 07:20:59 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C962B60238;
+        Mon, 25 Oct 2021 11:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1635160717;
+        bh=lM7hS4l9qhcjd6y8dMuikuMZzl0+gJPK82cNHjz4p9g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lNzNr5igoxPsaEvJsaM+Bo52UKRDBAgihEaRuvG5T/lMbNjoQ9Wx+jMvsDs8Y8vDh
+         2Q6y+vbMh563iCZxh3RPCcowocFll/qBcdqUwsfoEIr/R3kE9OUggutDgBdXdM7pnK
+         p1M+D2UnFidiLApkXed1+fAxkRUsGXdXuCGW9Kvw=
+Date:   Mon, 25 Oct 2021 13:18:35 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Michael Jamet <michael.jamet@intel.com>,
         Lukas Wunner <lukas@wunner.de>,
         Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-usb@vger.kernel.org
-Subject: [GIT PULL] Thunderbolt/USB4 changes for v5.16 merge window
-Message-ID: <YXaPQ1p8c6PfTiOh@lahna>
+Subject: Re: [GIT PULL] Thunderbolt/USB4 changes for v5.16 merge window
+Message-ID: <YXaSi6AI33fYWTUW@kroah.com>
+References: <YXaPQ1p8c6PfTiOh@lahna>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YXaPQ1p8c6PfTiOh@lahna>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+On Mon, Oct 25, 2021 at 02:04:35PM +0300, Mika Westerberg wrote:
+> Hi Greg,
+> 
+> The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
+> 
+>   Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.16-rc1
 
-The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
+Pulled in and pushed out, thanks!
 
-  Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v5.16-rc1
-
-for you to fetch changes up to 0a0624a26f9ceb8aae16882d87dc3b12f17f4a49:
-
-  thunderbolt: Fix -Wrestrict warning (2021-09-28 12:28:54 +0300)
-
-----------------------------------------------------------------
-thunderbolt: Changes for v5.16 merge window
-
-This includes following Thunderbolt/USB4 changes for the v5.16 merge
-window:
-
-  * Re-enable retry logic for control packets in domain needed by some
-    controllers when software connection manager is being used
-  * Fix -Wrestrict build warning emitted by gcc-11.
-
-Both have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      thunderbolt: Fix -Wrestrict warning
-
-Sanjay R Mehta (1):
-      thunderbolt: Enable retry logic for intra-domain control packets
-
- drivers/thunderbolt/ctl.c     | 2 +-
- drivers/thunderbolt/xdomain.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+greg k-h
