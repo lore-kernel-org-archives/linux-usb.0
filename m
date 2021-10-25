@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28E1FC43217
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:17:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAD0C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:17:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0A6BD60FDA
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:17:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AE4D60555
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233099AbhJYMTo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 08:19:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56216 "EHLO mail.kernel.org"
+        id S232838AbhJYMTp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 08:19:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56208 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232524AbhJYMTm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S232455AbhJYMTm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 25 Oct 2021 08:19:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B99D360EBD;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B5C0460555;
         Mon, 25 Oct 2021 12:17:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1635164239;
-        bh=jS/E7TE701X7VYlN/n3rI+F5Vhr2sWyu6YfHE1Lk9Hk=;
+        bh=UB12+Dycc6GEIdWE3BW/yQ4o2454bP5RnbmKCx2jaAY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bBlfBKzRnTaPJY7B4Pv1Tt3LSxovYLiad/+hREXqzz0VrnoQ/+AQ1fX6wmmD5JZNp
-         kPyJ5KuzVevXMryOv8qjrq7oOUFOFK6bzQTWphXf8H9KRE/NAYZmDFWUgy3KNip2Qc
-         hVigLSfYKrshER7tnlh5KyL/2ig54m7hhvZcare/WqSkfDjKcXK+qjeJ7GHgjNkiYA
-         o/tkBObAGL6Qc6euAgfSFYrrJ5zFJbsRJ5idfatbNshiS0enwFRAJzGIKOptWidkY4
-         BNCGFY1xX4YkT/MPjYGQ2DD3ZbnVWayZCk3efKHE29b5vssTRd+Xra2f3r9jaEO97x
-         cMS85OMowLZpA==
+        b=o14BBX8D0y4R5IVly34dWIXF7bWeZrdPavDEd/uGhfq/F4QY7aDHf6G4VTgud4/al
+         wE1uOU4B+V5/pdT69qEWbwXQnlhBt4yKO4DI7HZkWLx01Iu3NSMO7hHptq9ol58YkO
+         A9fiByuivwuIZyATw3Fev5vl85uaK6BIVcl4tf17iyam4RV5W1nA+jWIkfR9JwqRAq
+         ml8Ohnm3NCEtKrv360kHOKsJLgNB0SUh/1WvTpuHOWuhO/IqAXcKsE6AusRpqFIajx
+         vUjjd8n4rmVVk3kBxZYzzka6z6hktGZhb47rrZSjH2Ikpjhj2qVDdUFM4vAfWwMEZJ
+         h39WoUhIuqLNQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meyuU-0001mH-HR; Mon, 25 Oct 2021 14:17:02 +0200
+        id 1meyuU-0001mS-R8; Mon, 25 Oct 2021 14:17:02 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -37,9 +37,9 @@ Cc:     Mike Isely <isely@pobox.com>,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
         stable@vger.kernel.org
-Subject: [PATCH 2/8] media: redrat3: fix control-message timeouts
-Date:   Mon, 25 Oct 2021 14:16:35 +0200
-Message-Id: <20211025121641.6759-3-johan@kernel.org>
+Subject: [PATCH 6/8] media: pvrusb2: fix control-message timeouts
+Date:   Mon, 25 Oct 2021 14:16:39 +0200
+Message-Id: <20211025121641.6759-7-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211025121641.6759-1-johan@kernel.org>
 References: <20211025121641.6759-1-johan@kernel.org>
@@ -52,108 +52,53 @@ X-Mailing-List: linux-usb@vger.kernel.org
 USB control-message timeouts are specified in milliseconds and should
 specifically not vary with CONFIG_HZ.
 
-Fixes: 2154be651b90 ("[media] redrat3: new rc-core IR transceiver device driver")
-Cc: stable@vger.kernel.org      # 3.0
+Fixes: d855497edbfb ("V4L/DVB (4228a): pvrusb2 to kernel 2.6.18")
+Cc: stable@vger.kernel.org      # 2.6.18
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/rc/redrat3.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/rc/redrat3.c b/drivers/media/rc/redrat3.c
-index ac85464864b9..cb22316b3f00 100644
---- a/drivers/media/rc/redrat3.c
-+++ b/drivers/media/rc/redrat3.c
-@@ -404,7 +404,7 @@ static int redrat3_send_cmd(int cmd, struct redrat3_dev *rr3)
- 	udev = rr3->udev;
- 	res = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0), cmd,
- 			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			      0x0000, 0x0000, data, sizeof(u8), HZ * 10);
-+			      0x0000, 0x0000, data, sizeof(u8), 10000);
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+index d38dee1792e4..3915d551d59e 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+@@ -1467,7 +1467,7 @@ static int pvr2_upload_firmware1(struct pvr2_hdw *hdw)
+ 	for (address = 0; address < fwsize; address += 0x800) {
+ 		memcpy(fw_ptr, fw_entry->data + address, 0x800);
+ 		ret += usb_control_msg(hdw->usb_dev, pipe, 0xa0, 0x40, address,
+-				       0, fw_ptr, 0x800, HZ);
++				       0, fw_ptr, 0x800, 1000);
+ 	}
  
- 	if (res < 0) {
- 		dev_err(rr3->dev, "%s: Error sending rr3 cmd res %d, data %d",
-@@ -480,7 +480,7 @@ static u32 redrat3_get_timeout(struct redrat3_dev *rr3)
- 	pipe = usb_rcvctrlpipe(rr3->udev, 0);
- 	ret = usb_control_msg(rr3->udev, pipe, RR3_GET_IR_PARAM,
- 			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			      RR3_IR_IO_SIG_TIMEOUT, 0, tmp, len, HZ * 5);
-+			      RR3_IR_IO_SIG_TIMEOUT, 0, tmp, len, 5000);
- 	if (ret != len)
- 		dev_warn(rr3->dev, "Failed to read timeout from hardware\n");
- 	else {
-@@ -510,7 +510,7 @@ static int redrat3_set_timeout(struct rc_dev *rc_dev, unsigned int timeoutus)
- 	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0), RR3_SET_IR_PARAM,
- 		     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
- 		     RR3_IR_IO_SIG_TIMEOUT, 0, timeout, sizeof(*timeout),
--		     HZ * 25);
-+		     25000);
- 	dev_dbg(dev, "set ir parm timeout %d ret 0x%02x\n",
- 						be32_to_cpu(*timeout), ret);
+ 	trace_firmware("Upload done, releasing device's CPU");
+@@ -1605,7 +1605,7 @@ int pvr2_upload_firmware2(struct pvr2_hdw *hdw)
+ 			((u32 *)fw_ptr)[icnt] = swab32(((u32 *)fw_ptr)[icnt]);
  
-@@ -542,32 +542,32 @@ static void redrat3_reset(struct redrat3_dev *rr3)
- 	*val = 0x01;
- 	rc = usb_control_msg(udev, rxpipe, RR3_RESET,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			     RR3_CPUCS_REG_ADDR, 0, val, len, HZ * 25);
-+			     RR3_CPUCS_REG_ADDR, 0, val, len, 25000);
- 	dev_dbg(dev, "reset returned 0x%02x\n", rc);
+ 		ret |= usb_bulk_msg(hdw->usb_dev, pipe, fw_ptr,bcnt,
+-				    &actual_length, HZ);
++				    &actual_length, 1000);
+ 		ret |= (actual_length != bcnt);
+ 		if (ret) break;
+ 		fw_done += bcnt;
+@@ -3438,7 +3438,7 @@ void pvr2_hdw_cpufw_set_enabled(struct pvr2_hdw *hdw,
+ 						      0xa0,0xc0,
+ 						      address,0,
+ 						      hdw->fw_buffer+address,
+-						      0x800,HZ);
++						      0x800,1000);
+ 				if (ret < 0) break;
+ 			}
  
- 	*val = length_fuzz;
- 	rc = usb_control_msg(udev, txpipe, RR3_SET_IR_PARAM,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			     RR3_IR_IO_LENGTH_FUZZ, 0, val, len, HZ * 25);
-+			     RR3_IR_IO_LENGTH_FUZZ, 0, val, len, 25000);
- 	dev_dbg(dev, "set ir parm len fuzz %d rc 0x%02x\n", *val, rc);
- 
- 	*val = (65536 - (minimum_pause * 2000)) / 256;
- 	rc = usb_control_msg(udev, txpipe, RR3_SET_IR_PARAM,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			     RR3_IR_IO_MIN_PAUSE, 0, val, len, HZ * 25);
-+			     RR3_IR_IO_MIN_PAUSE, 0, val, len, 25000);
- 	dev_dbg(dev, "set ir parm min pause %d rc 0x%02x\n", *val, rc);
- 
- 	*val = periods_measure_carrier;
- 	rc = usb_control_msg(udev, txpipe, RR3_SET_IR_PARAM,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			     RR3_IR_IO_PERIODS_MF, 0, val, len, HZ * 25);
-+			     RR3_IR_IO_PERIODS_MF, 0, val, len, 25000);
- 	dev_dbg(dev, "set ir parm periods measure carrier %d rc 0x%02x", *val,
- 									rc);
- 
- 	*val = RR3_DRIVER_MAXLENS;
- 	rc = usb_control_msg(udev, txpipe, RR3_SET_IR_PARAM,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_OUT,
--			     RR3_IR_IO_MAX_LENGTHS, 0, val, len, HZ * 25);
-+			     RR3_IR_IO_MAX_LENGTHS, 0, val, len, 25000);
- 	dev_dbg(dev, "set ir parm max lens %d rc 0x%02x\n", *val, rc);
- 
- 	kfree(val);
-@@ -585,7 +585,7 @@ static void redrat3_get_firmware_rev(struct redrat3_dev *rr3)
- 	rc = usb_control_msg(rr3->udev, usb_rcvctrlpipe(rr3->udev, 0),
- 			     RR3_FW_VERSION,
- 			     USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			     0, 0, buffer, RR3_FW_VERSION_LEN, HZ * 5);
-+			     0, 0, buffer, RR3_FW_VERSION_LEN, 5000);
- 
- 	if (rc >= 0)
- 		dev_info(rr3->dev, "Firmware rev: %s", buffer);
-@@ -825,14 +825,14 @@ static int redrat3_transmit_ir(struct rc_dev *rcdev, unsigned *txbuf,
- 
- 	pipe = usb_sndbulkpipe(rr3->udev, rr3->ep_out->bEndpointAddress);
- 	ret = usb_bulk_msg(rr3->udev, pipe, irdata,
--			    sendbuf_len, &ret_len, 10 * HZ);
-+			    sendbuf_len, &ret_len, 10000);
- 	dev_dbg(dev, "sent %d bytes, (ret %d)\n", ret_len, ret);
- 
- 	/* now tell the hardware to transmit what we sent it */
- 	pipe = usb_rcvctrlpipe(rr3->udev, 0);
- 	ret = usb_control_msg(rr3->udev, pipe, RR3_TX_SEND_SIGNAL,
- 			      USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_DIR_IN,
--			      0, 0, irdata, 2, HZ * 10);
-+			      0, 0, irdata, 2, 10000);
- 
- 	if (ret < 0)
- 		dev_err(dev, "Error: control msg send failed, rc %d\n", ret);
+@@ -3977,7 +3977,7 @@ void pvr2_hdw_cpureset_assert(struct pvr2_hdw *hdw,int val)
+ 	/* Write the CPUCS register on the 8051.  The lsb of the register
+ 	   is the reset bit; a 1 asserts reset while a 0 clears it. */
+ 	pipe = usb_sndctrlpipe(hdw->usb_dev, 0);
+-	ret = usb_control_msg(hdw->usb_dev,pipe,0xa0,0x40,0xe600,0,da,1,HZ);
++	ret = usb_control_msg(hdw->usb_dev,pipe,0xa0,0x40,0xe600,0,da,1,1000);
+ 	if (ret < 0) {
+ 		pvr2_trace(PVR2_TRACE_ERROR_LEGS,
+ 			   "cpureset_assert(%d) error=%d",val,ret);
 -- 
 2.32.0
 
