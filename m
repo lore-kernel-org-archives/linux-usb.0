@@ -2,147 +2,68 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35367C43219
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B634C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:12:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 18D6A60EBD
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2911F61076
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232839AbhJYML7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 08:11:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51168 "EHLO mail.kernel.org"
+        id S232767AbhJYMOi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 08:14:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53120 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231129AbhJYML4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Oct 2021 08:11:56 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 300C261027;
-        Mon, 25 Oct 2021 12:09:34 +0000 (UTC)
+        id S232679AbhJYMOh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Oct 2021 08:14:37 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5F4060FE8;
+        Mon, 25 Oct 2021 12:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635163774;
-        bh=EGjKXJy8loDvFC96rlnDTCB3Gw3397vC7wfYDdq4+DQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=l5+WSdKuJ2Jh84SJBmuDrG5TZLruGTPB8NjY1TlVvU6hc7I6y/YnVR/D9srLMnVgD
-         mAqRHHS6wTA6g6AgkWUbyYZugsVNC0p+uqx/Hjb7d5MJRwSXCliw1cLpsajPsRFpHX
-         KVnnKs/zg6Kvk9jfb6IB2VjQMh0+qLoiZ/YHnRYbHg5rjerxJseDuCeOqyQxRNA0vj
-         GTluVdeK5LYzaUBifbyESt0hmdt7bSNB2CnxpQ5J92OUF2jbBt9eE9cms4kwySRq1i
-         9AbRxFQrcN3mb4mVibAygsVqrR0rU8FmO2CjXFdlZRxYcYLWw7xr3JiM+VR1wYCr60
-         AFdh1uWJvalMA==
+        s=k20201202; t=1635163935;
+        bh=/7AhjSeqSanvWP2tDzbI1wBAh38yZx6pj7kvM8uB4Ws=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Bocb6vQcv1rJ/p1ekv21CSPRT/wmro22cUdAvF04+WClbe/1F+/NapNgrk/xWej1K
+         3Q1QJYr2ajuuX7LycpTaYR/7CZcOWCivc3RlmDq9R8yxdI5TawAEwouwRpz6P6/9Uk
+         GhxReO0lHJb4pwW7PWmyvn9J4N71g82+doz0BTlEx9r52VoI+y0NtHn5tAaiF9gevS
+         f2vWFeKb6jNhsUYdi6Jc4qc1dCMHcs7LEcnjjetZ33AH/G3RFkOVs8fhUVqnkfKUQk
+         o0EkECpYnxKcaGeFgE0DTiqV6hnEPeQIQrFiYnMqsdcwYYWIDZJvOEpFiOi3I3DRyz
+         RJ79gOQDTdnDg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meymz-0001f7-2P; Mon, 25 Oct 2021 14:09:17 +0200
+        id 1meypa-0001iF-8u; Mon, 25 Oct 2021 14:11:58 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Larry Finger <Larry.Finger@lwfinger.net>,
-        Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
-        linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8192u: fix control-message timeouts
-Date:   Mon, 25 Oct 2021 14:09:09 +0200
-Message-Id: <20211025120910.6339-2-johan@kernel.org>
+To:     Takashi Iwai <tiwai@suse.com>
+Cc:     Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/2] sound: fix USB message timeouts
+Date:   Mon, 25 Oct 2021 14:11:40 +0200
+Message-Id: <20211025121142.6531-1-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211025120910.6339-1-johan@kernel.org>
-References: <20211025120910.6339-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB control-message timeouts are specified in milliseconds and should
-specifically not vary with CONFIG_HZ.
+A number of drivers throughout the tree were incorrectly specifying USB
+message timeout values in jiffies instead of milliseconds.
 
-Fixes: 8fc8598e61f6 ("Staging: Added Realtek rtl8192u driver to staging")
-Cc: stable@vger.kernel.org      # 2.6.33
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/staging/rtl8192u/r8192U_core.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+This series fixes the two sound drivers that got it wrong.
 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index b6698656fc01..cf5cfee2936f 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -229,7 +229,7 @@ int write_nic_byte_E(struct net_device *dev, int indx, u8 data)
- 
- 	status = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 				 RTL8187_REQ_SET_REGS, RTL8187_REQT_WRITE,
--				 indx | 0xfe00, 0, usbdata, 1, HZ / 2);
-+				 indx | 0xfe00, 0, usbdata, 1, 500);
- 	kfree(usbdata);
- 
- 	if (status < 0) {
-@@ -251,7 +251,7 @@ int read_nic_byte_E(struct net_device *dev, int indx, u8 *data)
- 
- 	status = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
- 				 RTL8187_REQ_GET_REGS, RTL8187_REQT_READ,
--				 indx | 0xfe00, 0, usbdata, 1, HZ / 2);
-+				 indx | 0xfe00, 0, usbdata, 1, 500);
- 	*data = *usbdata;
- 	kfree(usbdata);
- 
-@@ -279,7 +279,7 @@ int write_nic_byte(struct net_device *dev, int indx, u8 data)
- 	status = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 				 RTL8187_REQ_SET_REGS, RTL8187_REQT_WRITE,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 1, HZ / 2);
-+				 usbdata, 1, 500);
- 	kfree(usbdata);
- 
- 	if (status < 0) {
-@@ -305,7 +305,7 @@ int write_nic_word(struct net_device *dev, int indx, u16 data)
- 	status = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 				 RTL8187_REQ_SET_REGS, RTL8187_REQT_WRITE,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 2, HZ / 2);
-+				 usbdata, 2, 500);
- 	kfree(usbdata);
- 
- 	if (status < 0) {
-@@ -331,7 +331,7 @@ int write_nic_dword(struct net_device *dev, int indx, u32 data)
- 	status = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 				 RTL8187_REQ_SET_REGS, RTL8187_REQT_WRITE,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 4, HZ / 2);
-+				 usbdata, 4, 500);
- 	kfree(usbdata);
- 
- 	if (status < 0) {
-@@ -355,7 +355,7 @@ int read_nic_byte(struct net_device *dev, int indx, u8 *data)
- 	status = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
- 				 RTL8187_REQ_GET_REGS, RTL8187_REQT_READ,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 1, HZ / 2);
-+				 usbdata, 1, 500);
- 	*data = *usbdata;
- 	kfree(usbdata);
- 
-@@ -380,7 +380,7 @@ int read_nic_word(struct net_device *dev, int indx, u16 *data)
- 	status = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
- 				 RTL8187_REQ_GET_REGS, RTL8187_REQT_READ,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 2, HZ / 2);
-+				 usbdata, 2, 500);
- 	*data = *usbdata;
- 	kfree(usbdata);
- 
-@@ -404,7 +404,7 @@ static int read_nic_word_E(struct net_device *dev, int indx, u16 *data)
- 
- 	status = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
- 				 RTL8187_REQ_GET_REGS, RTL8187_REQT_READ,
--				 indx | 0xfe00, 0, usbdata, 2, HZ / 2);
-+				 indx | 0xfe00, 0, usbdata, 2, 500);
- 	*data = *usbdata;
- 	kfree(usbdata);
- 
-@@ -430,7 +430,7 @@ int read_nic_dword(struct net_device *dev, int indx, u32 *data)
- 	status = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
- 				 RTL8187_REQ_GET_REGS, RTL8187_REQT_READ,
- 				 (indx & 0xff) | 0xff00, (indx >> 8) & 0x0f,
--				 usbdata, 4, HZ / 2);
-+				 usbdata, 4, 500);
- 	*data = *usbdata;
- 	kfree(usbdata);
- 
+Johan
+
+
+Johan Hovold (2):
+  sound: 6fire: fix control and bulk message timeouts
+  sound: line6: fix control and interrupt message timeouts
+
+ sound/usb/6fire/comm.c     |  2 +-
+ sound/usb/6fire/firmware.c |  6 +++---
+ sound/usb/line6/driver.c   | 14 +++++++-------
+ sound/usb/line6/driver.h   |  2 +-
+ sound/usb/line6/podhd.c    |  6 +++---
+ sound/usb/line6/toneport.c |  2 +-
+ 6 files changed, 16 insertions(+), 16 deletions(-)
+
 -- 
 2.32.0
 
