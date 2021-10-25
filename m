@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13CB4C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 765B9C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EEFC361040
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F2ED61073
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233250AbhJYLss (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 07:48:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39214 "EHLO mail.kernel.org"
+        id S233274AbhJYLst (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 07:48:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39188 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233251AbhJYLsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S233244AbhJYLsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 25 Oct 2021 07:48:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 821C261076;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7BBB861040;
         Mon, 25 Oct 2021 11:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1635162381;
-        bh=SE2uA80Y728ubzRuP43yoQCcRvgaEZWwlnRAZGAxKo0=;
+        bh=C6b6shzhRQx1x+0AH40ydkjoZdICJyhayKRWOP2YLnA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kgJnPtUo3c9Qvf4tmiS4gKq+xMeJXkbsONjV7gXXsn++KtvVX3XibOGf6J2jMOhHu
-         1nqh3oDIXi4lNuololneAhbCRdaPboGDDxKc1d/zV9o59t8SHiYQbb7XjOGwg1oSLW
-         bizcJtaztiViX4yrTZiv64EdTh9ntM37S5bytdzs59hJEAS3X47xxWQ3fe+9tkgAcO
-         jkE+QWv9G2oEDee4yWcJ49B/Y76UebeBx5q/l/oov+OToPhVp6Niu9r+fM03qod3mB
-         xYeX8nDMshMEpYtWDHS/iadHFAvef4zI/2TSNIMqHM95YUbDCldXdbOC+uXJ9FAWvn
-         ji3bMNjiSRrtQ==
+        b=g/++InfaFv2Agba1fI6fsz7SMriqU/xMfqpXpelu/zgLmNiLQN7vHR8ipHAyikUv8
+         8VEhBiC33AwOlFF1jIirj6Jat/mYbZPIwIIJ0LG2TlnXUJ0uZA48GobAQ1nPeyr8Rj
+         QINwcd3VDgh2Z2FOLcfBRxhwSufCyR9zHl43JqYmQS3LQ6rDE459LXdJ4HvukAABBG
+         WmgJ71jdDASRiA6N+nAR+Hpl2YlbqMo5bqFUBfd4QMSY9S3TiO3ISznvm5uRWcnL5K
+         8Zsoh5QEFkwj2BtodIrJbWBRHJJD9CKTc+ENxBsWD66Ek/x7I2vYQFO9HYILryYjKi
+         MlhVPQE76/pBg==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meyQW-0001DK-Dp; Mon, 25 Oct 2021 13:46:04 +0200
+        id 1meyQW-0001DF-7e; Mon, 25 Oct 2021 13:46:04 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Ian Abbott <abbotti@mev.co.uk>,
         H Hartley Sweeten <hsweeten@visionengravers.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 4/5] comedi: vmk80xx: fix bulk-buffer overflow
-Date:   Mon, 25 Oct 2021 13:45:31 +0200
-Message-Id: <20211025114532.4599-5-johan@kernel.org>
+Subject: [PATCH 2/5] comedi: dt9812: fix DMA buffers on stack
+Date:   Mon, 25 Oct 2021 13:45:29 +0200
+Message-Id: <20211025114532.4599-3-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211025114532.4599-1-johan@kernel.org>
 References: <20211025114532.4599-1-johan@kernel.org>
@@ -47,51 +47,201 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver is using endpoint-sized buffers but must not assume that the
-tx and rx buffers are of equal size or a malicious device could overflow
-the slab-allocated receive buffer when doing bulk transfers.
+USB transfer buffers are typically mapped for DMA and must not be
+allocated on the stack or transfers will fail.
 
-Fixes: 985cafccbf9b ("Staging: Comedi: vmk80xx: Add k8061 support")
-Cc: stable@vger.kernel.org      # 2.6.31
+Allocate proper transfer buffers in the various command helpers and
+return an error on short transfers instead of acting on random stack
+data.
+
+Note that this also fixes a stack info leak on systems where DMA is not
+used as 32 bytes are always sent to the device regardless of how short
+the command is.
+
+Fixes: 63274cd7d38a ("Staging: comedi: add usb dt9812 driver")
+Cc: stable@vger.kernel.org      # 2.6.29
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/comedi/drivers/vmk80xx.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/comedi/drivers/dt9812.c | 109 ++++++++++++++++++++++++--------
+ 1 file changed, 82 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/comedi/drivers/vmk80xx.c b/drivers/comedi/drivers/vmk80xx.c
-index f2c1572d0cd7..9c56918e3b76 100644
---- a/drivers/comedi/drivers/vmk80xx.c
-+++ b/drivers/comedi/drivers/vmk80xx.c
-@@ -159,22 +159,20 @@ static void vmk80xx_do_bulk_msg(struct comedi_device *dev)
- 	__u8 rx_addr;
- 	unsigned int tx_pipe;
- 	unsigned int rx_pipe;
--	size_t size;
-+	size_t tx_size;
-+	size_t rx_size;
+diff --git a/drivers/comedi/drivers/dt9812.c b/drivers/comedi/drivers/dt9812.c
+index 634f57730c1e..f15c306f2d06 100644
+--- a/drivers/comedi/drivers/dt9812.c
++++ b/drivers/comedi/drivers/dt9812.c
+@@ -32,6 +32,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/errno.h>
++#include <linux/slab.h>
+ #include <linux/uaccess.h>
  
- 	tx_addr = devpriv->ep_tx->bEndpointAddress;
- 	rx_addr = devpriv->ep_rx->bEndpointAddress;
- 	tx_pipe = usb_sndbulkpipe(usb, tx_addr);
- 	rx_pipe = usb_rcvbulkpipe(usb, rx_addr);
--
--	/*
--	 * The max packet size attributes of the K8061
--	 * input/output endpoints are identical
--	 */
--	size = usb_endpoint_maxp(devpriv->ep_tx);
-+	tx_size = usb_endpoint_maxp(devpriv->ep_tx);
-+	rx_size = usb_endpoint_maxp(devpriv->ep_rx);
+ #include "../comedi_usb.h"
+@@ -237,22 +238,41 @@ static int dt9812_read_info(struct comedi_device *dev,
+ {
+ 	struct usb_device *usb = comedi_to_usb_dev(dev);
+ 	struct dt9812_private *devpriv = dev->private;
+-	struct dt9812_usb_cmd cmd;
++	struct dt9812_usb_cmd *cmd;
+ 	int count, ret;
++	u8 *tbuf;
  
- 	usb_bulk_msg(usb, tx_pipe, devpriv->usb_tx_buf,
--		     size, NULL, devpriv->ep_tx->bInterval);
--	usb_bulk_msg(usb, rx_pipe, devpriv->usb_rx_buf, size, NULL, HZ * 10);
-+		     tx_size, NULL, devpriv->ep_tx->bInterval);
+-	cmd.cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
+-	cmd.u.flash_data_info.address =
++	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
 +
-+	usb_bulk_msg(usb, rx_pipe, devpriv->usb_rx_buf, rx_size, NULL, HZ * 10);
++	cmd->cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
++	cmd->u.flash_data_info.address =
+ 	    cpu_to_le16(DT9812_DIAGS_BOARD_INFO_ADDR + offset);
+-	cmd.u.flash_data_info.numbytes = cpu_to_le16(buf_size);
++	cmd->u.flash_data_info.numbytes = cpu_to_le16(buf_size);
+ 
+ 	/* DT9812 only responds to 32 byte writes!! */
+ 	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
+-			   &cmd, 32, &count, DT9812_USB_TIMEOUT);
++			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
++	kfree(cmd);
+ 	if (ret)
+ 		return ret;
+ 
+-	return usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
+-			    buf, buf_size, &count, DT9812_USB_TIMEOUT);
++	tbuf = kmalloc(buf_size, GFP_KERNEL);
++	if (!tbuf)
++		return -ENOMEM;
++
++	ret = usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
++			   tbuf, buf_size, &count, DT9812_USB_TIMEOUT);
++	if (!ret) {
++		if (count == buf_size)
++			memcpy(buf, tbuf, buf_size);
++		else
++			ret = -EREMOTEIO;
++	}
++	kfree(tbuf);
++
++	return ret;
  }
  
- static int vmk80xx_read_packet(struct comedi_device *dev)
+ static int dt9812_read_multiple_registers(struct comedi_device *dev,
+@@ -261,22 +281,41 @@ static int dt9812_read_multiple_registers(struct comedi_device *dev,
+ {
+ 	struct usb_device *usb = comedi_to_usb_dev(dev);
+ 	struct dt9812_private *devpriv = dev->private;
+-	struct dt9812_usb_cmd cmd;
++	struct dt9812_usb_cmd *cmd;
+ 	int i, count, ret;
++	u8 *buf;
+ 
+-	cmd.cmd = cpu_to_le32(DT9812_R_MULTI_BYTE_REG);
+-	cmd.u.read_multi_info.count = reg_count;
++	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
++
++	cmd->cmd = cpu_to_le32(DT9812_R_MULTI_BYTE_REG);
++	cmd->u.read_multi_info.count = reg_count;
+ 	for (i = 0; i < reg_count; i++)
+-		cmd.u.read_multi_info.address[i] = address[i];
++		cmd->u.read_multi_info.address[i] = address[i];
+ 
+ 	/* DT9812 only responds to 32 byte writes!! */
+ 	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
+-			   &cmd, 32, &count, DT9812_USB_TIMEOUT);
++			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
++	kfree(cmd);
+ 	if (ret)
+ 		return ret;
+ 
+-	return usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
+-			    value, reg_count, &count, DT9812_USB_TIMEOUT);
++	buf = kmalloc(reg_count, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	ret = usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
++			   buf, reg_count, &count, DT9812_USB_TIMEOUT);
++	if (!ret) {
++		if (count == reg_count)
++			memcpy(value, buf, reg_count);
++		else
++			ret = -EREMOTEIO;
++	}
++	kfree(buf);
++
++	return ret;
+ }
+ 
+ static int dt9812_write_multiple_registers(struct comedi_device *dev,
+@@ -285,19 +324,27 @@ static int dt9812_write_multiple_registers(struct comedi_device *dev,
+ {
+ 	struct usb_device *usb = comedi_to_usb_dev(dev);
+ 	struct dt9812_private *devpriv = dev->private;
+-	struct dt9812_usb_cmd cmd;
++	struct dt9812_usb_cmd *cmd;
+ 	int i, count;
++	int ret;
++
++	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
+ 
+-	cmd.cmd = cpu_to_le32(DT9812_W_MULTI_BYTE_REG);
+-	cmd.u.read_multi_info.count = reg_count;
++	cmd->cmd = cpu_to_le32(DT9812_W_MULTI_BYTE_REG);
++	cmd->u.read_multi_info.count = reg_count;
+ 	for (i = 0; i < reg_count; i++) {
+-		cmd.u.write_multi_info.write[i].address = address[i];
+-		cmd.u.write_multi_info.write[i].value = value[i];
++		cmd->u.write_multi_info.write[i].address = address[i];
++		cmd->u.write_multi_info.write[i].value = value[i];
+ 	}
+ 
+ 	/* DT9812 only responds to 32 byte writes!! */
+-	return usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
+-			    &cmd, 32, &count, DT9812_USB_TIMEOUT);
++	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
++			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
++	kfree(cmd);
++
++	return ret;
+ }
+ 
+ static int dt9812_rmw_multiple_registers(struct comedi_device *dev,
+@@ -306,17 +353,25 @@ static int dt9812_rmw_multiple_registers(struct comedi_device *dev,
+ {
+ 	struct usb_device *usb = comedi_to_usb_dev(dev);
+ 	struct dt9812_private *devpriv = dev->private;
+-	struct dt9812_usb_cmd cmd;
++	struct dt9812_usb_cmd *cmd;
+ 	int i, count;
++	int ret;
++
++	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
++	if (!cmd)
++		return -ENOMEM;
+ 
+-	cmd.cmd = cpu_to_le32(DT9812_RMW_MULTI_BYTE_REG);
+-	cmd.u.rmw_multi_info.count = reg_count;
++	cmd->cmd = cpu_to_le32(DT9812_RMW_MULTI_BYTE_REG);
++	cmd->u.rmw_multi_info.count = reg_count;
+ 	for (i = 0; i < reg_count; i++)
+-		cmd.u.rmw_multi_info.rmw[i] = rmw[i];
++		cmd->u.rmw_multi_info.rmw[i] = rmw[i];
+ 
+ 	/* DT9812 only responds to 32 byte writes!! */
+-	return usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
+-			    &cmd, 32, &count, DT9812_USB_TIMEOUT);
++	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
++			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
++	kfree(cmd);
++
++	return ret;
+ }
+ 
+ static int dt9812_digital_in(struct comedi_device *dev, u8 *bits)
 -- 
 2.32.0
 
