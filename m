@@ -2,132 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD224C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9162C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B695E61002
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:06:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C33766105A
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 12:09:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbhJYMIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 08:08:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48754 "EHLO mail.kernel.org"
+        id S232790AbhJYML6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 08:11:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51180 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231501AbhJYMIL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 25 Oct 2021 08:08:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 49FCA60F9D;
-        Mon, 25 Oct 2021 12:05:49 +0000 (UTC)
+        id S231355AbhJYML4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Oct 2021 08:11:56 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D2F36105A;
+        Mon, 25 Oct 2021 12:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635163549;
-        bh=mi2YBgOVXZK98qc5s25s+ODSzvYGuyAGSaDUbDTLRq4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IVMfPD9LjVVUFVxAnyH6u4a3mIDrvFPSHcQSpl2gKvzLO8VRTJDa8RwOiouGQt5zJ
-         MlqJJE6u3n0HRwxsl8rX/BoLl+KT/qLk5lUqNi8i4yIhBMopZHDruHeTAULOxX1lxI
-         wNemlNYxFM5I0jKcjazScwGgCBmNVUEt+bBOGXF3lootoLGWoyf8kKqMTBSzcI9lU1
-         2zHwiemSjSNVwI8097L4bezkGXxm2x3bQ1fSarJKlpEIULGJpbEerqETb4+PNjdjzv
-         eqksDktL5zlWqr6agwgKKbqPtcFw2EFuP06cayrRXSo2R2Ic9Eq/WXuFyftJmQJ0NC
-         gNqWllaYUGt4g==
+        s=k20201202; t=1635163774;
+        bh=0YIEYuLhVMqGscQwr/BKZcjwZawy0J/ApKLjk7OIjXk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jGRSvlYipbY76uSqkDqLsfQ/Ipoab5C99ks7IMRJULrkxYvTIAv6SIktxhyr0piJt
+         N0ORvseywQmXXp60iuWCVxT3Wy8VYoFJDvD9uQKAjBfsdbU1ImfMFeFpZ62h4mm/4E
+         acRA1pJRxnpmQDfl+a4Ilg17Q2loqGjQ4qY6jULrnQEadYMdniqiiqJM9125KYOJbJ
+         ygL/5oqfyVnE081FIa8ImOPZDGGjUlFVqx2H9UwWSW8kythOqJv7OWTZKg9NdHl1Oz
+         gdkNwxZPs3X7cprkzH03TIHFm3t8DVQIT2ECYrFG70vcI/zBQVBuVbn8GuJ6eVoJr5
+         Dbr25m/ru1NbQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meyjL-0001aV-Vq; Mon, 25 Oct 2021 14:05:32 +0200
+        id 1meymy-0001f5-UO; Mon, 25 Oct 2021 14:09:17 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Kalle Valo <kvalo@codeaurora.org>
-Cc:     Herton Ronaldo Krzesinski <herton@canonical.com>,
-        Hin-Tak Leung <htl10@users.sourceforge.net>,
-        Larry Finger <Larry.Finger@lwfinger.net>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Siva Rebbagondla <siva8118@gmail.com>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 3/4] rtl8187: fix control-message timeouts
-Date:   Mon, 25 Oct 2021 14:05:21 +0200
-Message-Id: <20211025120522.6045-4-johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Larry Finger <Larry.Finger@lwfinger.net>,
+        Florian Schilhabel <florian.c.schilhabel@googlemail.com>,
+        linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/2] staging: fix control-message timeouts
+Date:   Mon, 25 Oct 2021 14:09:08 +0200
+Message-Id: <20211025120910.6339-1-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211025120522.6045-1-johan@kernel.org>
-References: <20211025120522.6045-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB control-message timeouts are specified in milliseconds and should
-specifically not vary with CONFIG_HZ.
+A number of drivers throughout the tree were incorrectly specifying USB
+message timeout values in jiffies instead of milliseconds.
 
-Fixes: 605bebe23bf6 ("[PATCH] Add rtl8187 wireless driver")
-Cc: stable@vger.kernel.org      # 2.6.23
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- .../net/wireless/realtek/rtl818x/rtl8187/rtl8225.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+This series fixes the staging drivers that got it wrong.
 
-diff --git a/drivers/net/wireless/realtek/rtl818x/rtl8187/rtl8225.c b/drivers/net/wireless/realtek/rtl818x/rtl8187/rtl8225.c
-index 585784258c66..4efab907a3ac 100644
---- a/drivers/net/wireless/realtek/rtl818x/rtl8187/rtl8225.c
-+++ b/drivers/net/wireless/realtek/rtl818x/rtl8187/rtl8225.c
-@@ -28,7 +28,7 @@ u8 rtl818x_ioread8_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_rcvctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_GET_REG, RTL8187_REQT_READ,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits8, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits8, sizeof(val), 500);
- 
- 	val = priv->io_dmabuf->bits8;
- 	mutex_unlock(&priv->io_mutex);
-@@ -45,7 +45,7 @@ u16 rtl818x_ioread16_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_rcvctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_GET_REG, RTL8187_REQT_READ,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits16, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits16, sizeof(val), 500);
- 
- 	val = priv->io_dmabuf->bits16;
- 	mutex_unlock(&priv->io_mutex);
-@@ -62,7 +62,7 @@ u32 rtl818x_ioread32_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_rcvctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_GET_REG, RTL8187_REQT_READ,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits32, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits32, sizeof(val), 500);
- 
- 	val = priv->io_dmabuf->bits32;
- 	mutex_unlock(&priv->io_mutex);
-@@ -79,7 +79,7 @@ void rtl818x_iowrite8_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_sndctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_SET_REG, RTL8187_REQT_WRITE,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits8, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits8, sizeof(val), 500);
- 
- 	mutex_unlock(&priv->io_mutex);
- }
-@@ -93,7 +93,7 @@ void rtl818x_iowrite16_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_sndctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_SET_REG, RTL8187_REQT_WRITE,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits16, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits16, sizeof(val), 500);
- 
- 	mutex_unlock(&priv->io_mutex);
- }
-@@ -107,7 +107,7 @@ void rtl818x_iowrite32_idx(struct rtl8187_priv *priv,
- 	usb_control_msg(priv->udev, usb_sndctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_SET_REG, RTL8187_REQT_WRITE,
- 			(unsigned long)addr, idx & 0x03,
--			&priv->io_dmabuf->bits32, sizeof(val), HZ / 2);
-+			&priv->io_dmabuf->bits32, sizeof(val), 500);
- 
- 	mutex_unlock(&priv->io_mutex);
- }
-@@ -183,7 +183,7 @@ static void rtl8225_write_8051(struct ieee80211_hw *dev, u8 addr, __le16 data)
- 	usb_control_msg(priv->udev, usb_sndctrlpipe(priv->udev, 0),
- 			RTL8187_REQ_SET_REG, RTL8187_REQT_WRITE,
- 			addr, 0x8225, &priv->io_dmabuf->bits16, sizeof(data),
--			HZ / 2);
-+			500);
- 
- 	mutex_unlock(&priv->io_mutex);
- 
+Johan
+
+
+Johan Hovold (2):
+  staging: rtl8192u: fix control-message timeouts
+  staging: r8712u: fix control-message timeout
+
+ drivers/staging/rtl8192u/r8192U_core.c  | 18 +++++++++---------
+ drivers/staging/rtl8712/usb_ops_linux.c |  2 +-
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
 -- 
 2.32.0
 
