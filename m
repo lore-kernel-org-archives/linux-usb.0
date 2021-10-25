@@ -2,42 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BCFC433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23EAC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6DD5B61002
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD22E61002
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233255AbhJYLsp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 07:48:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39204 "EHLO mail.kernel.org"
+        id S233265AbhJYLsr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 07:48:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39196 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233250AbhJYLsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S233249AbhJYLsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 25 Oct 2021 07:48:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FF2461073;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7DFA161050;
         Mon, 25 Oct 2021 11:46:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1635162381;
-        bh=VpXDuc5ODD37c89+RKGeszqjBvCk2D5GP/X21UhgFC0=;
+        bh=+mqhTnTRdKxzatm608pkboowK18/NX3Pb/cHz5A3cJ4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=phnnXdVJEPrhUoSVUAdSnVJSm+QykpAXYCVH9cjYbnX0ExfPHMb/gfJNxP9DBXDII
-         CTUAW4lEJY32pZX6ENn3OfAFoxCmP7yHHmwOLGv+5ioF9X2NFpMLJG2n7plpNxTie8
-         25GSduHAEiNqcZ4UJ/aqZ1ZQzRobM04KgvIu4s1FKUj0MxtscgpTLdTP/PEND7KhRM
-         tnqrfswOIHhQZJHLn5yxqSxyEH73pj5DU6a5nZltvWcnA+zjThDjdWm08hadWlKUSh
-         1CuQJQqlW9vcLaUXGfwwpdXc8H2JPvnrDg54SjxAlyjxDw7c+cCR4R/BDuJbO3b1h1
-         pFShIeJdcyCEg==
+        b=ir6eCJ1DUOEYHgiq+ORiqwF3mb+j3YuAI938zPYtAA9dcFBXjBYAzjAgueUmGuZ+x
+         DMsIChP5M9kmsn4GXMxPbWC+YYSTchd5XZi+AUjmgFEebJuQbH7ODbxDuX/zkwcBL3
+         u1Isp7x9L4pir+B3spedmn7LeRNGvXRFhXWUrvqS4mqlttA/R+HYukzdSsaxOIYjYS
+         hSvmEW5WhzKewAmoaHB+R2tJIpAmrPM86ny2qxYgIkfgpWNJ68gkLzfucBrlR5xJBk
+         M+enBOgsTtXzbvJRSFE8I/svxHfYVe42EoskmpTspMRynvSHjY73dWbs7B5Z0V49By
+         U0v7oJ/l9u9gQ==
 Received: from johan by xi.lan with local (Exim 4.94.2)
         (envelope-from <johan@kernel.org>)
-        id 1meyQW-0001DI-Ac; Mon, 25 Oct 2021 13:46:04 +0200
+        id 1meyQW-0001DD-5B; Mon, 25 Oct 2021 13:46:04 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Ian Abbott <abbotti@mev.co.uk>,
         H Hartley Sweeten <hsweeten@visionengravers.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
-Subject: [PATCH 3/5] comedi: vmk80xx: fix transfer-buffer overflows
-Date:   Mon, 25 Oct 2021 13:45:30 +0200
-Message-Id: <20211025114532.4599-4-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
+        Luca Ellero <luca.ellero@brickedbrain.com>
+Subject: [PATCH 1/5] comedi: ni_usb6501: fix NULL-deref in command paths
+Date:   Mon, 25 Oct 2021 13:45:28 +0200
+Message-Id: <20211025114532.4599-2-johan@kernel.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211025114532.4599-1-johan@kernel.org>
 References: <20211025114532.4599-1-johan@kernel.org>
@@ -47,58 +48,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver uses endpoint-sized USB transfer buffers but up until
-recently had no sanity checks on the sizes.
+The driver uses endpoint-sized USB transfer buffers but had no sanity
+checks on the sizes. This can lead to zero-size-pointer dereferences or
+overflowed transfer buffers in ni6501_port_command() and
+ni6501_counter_command() if a (malicious) device has smaller max-packet
+sizes than expected (or when doing descriptor fuzz testing).
 
-Commit e1f13c879a7c ("staging: comedi: check validity of wMaxPacketSize
-of usb endpoints found") inadvertently fixed NULL-pointer dereferences
-when accessing the transfer buffers in case a malicious device has a
-zero wMaxPacketSize.
+Add the missing sanity checks to probe().
 
-Make sure to allocate buffers large enough to handle also the other
-accesses that are done without a size check (e.g. byte 18 in
-vmk80xx_cnt_insn_read() for the VMK8061_MODEL) to avoid writing beyond
-the buffers, for example, when doing descriptor fuzzing.
-
-The original driver was for a low-speed device with 8-byte buffers.
-Support was later added for a device that uses bulk transfers and is
-presumably a full-speed device with a maximum 64-byte wMaxPacketSize.
-
-Fixes: 985cafccbf9b ("Staging: Comedi: vmk80xx: Add k8061 support")
-Cc: stable@vger.kernel.org      # 2.6.31
+Fixes: a03bb00e50ab ("staging: comedi: add NI USB-6501 support")
+Cc: stable@vger.kernel.org      # 3.18
+Cc: Luca Ellero <luca.ellero@brickedbrain.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/comedi/drivers/vmk80xx.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/comedi/drivers/ni_usb6501.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/comedi/drivers/vmk80xx.c b/drivers/comedi/drivers/vmk80xx.c
-index 9f920819cd74..f2c1572d0cd7 100644
---- a/drivers/comedi/drivers/vmk80xx.c
-+++ b/drivers/comedi/drivers/vmk80xx.c
-@@ -90,6 +90,8 @@ enum {
- #define IC3_VERSION		BIT(0)
- #define IC6_VERSION		BIT(1)
+diff --git a/drivers/comedi/drivers/ni_usb6501.c b/drivers/comedi/drivers/ni_usb6501.c
+index 5b6d9d783b2f..eb2e5c23f25d 100644
+--- a/drivers/comedi/drivers/ni_usb6501.c
++++ b/drivers/comedi/drivers/ni_usb6501.c
+@@ -144,6 +144,10 @@ static const u8 READ_COUNTER_RESPONSE[]	= {0x00, 0x01, 0x00, 0x10,
+ 					   0x00, 0x00, 0x00, 0x02,
+ 					   0x00, 0x00, 0x00, 0x00};
  
-+#define MIN_BUF_SIZE		64
++/* Largest supported packets */
++static const size_t TX_MAX_SIZE	= sizeof(SET_PORT_DIR_REQUEST);
++static const size_t RX_MAX_SIZE	= sizeof(READ_PORT_RESPONSE);
 +
- enum vmk80xx_model {
- 	VMK8055_MODEL,
- 	VMK8061_MODEL
-@@ -678,12 +680,12 @@ static int vmk80xx_alloc_usb_buffers(struct comedi_device *dev)
- 	struct vmk80xx_private *devpriv = dev->private;
- 	size_t size;
+ enum commands {
+ 	READ_PORT,
+ 	WRITE_PORT,
+@@ -486,12 +490,16 @@ static int ni6501_find_endpoints(struct comedi_device *dev)
+ 		ep_desc = &iface_desc->endpoint[i].desc;
  
--	size = usb_endpoint_maxp(devpriv->ep_rx);
-+	size = max(usb_endpoint_maxp(devpriv->ep_rx), MIN_BUF_SIZE);
- 	devpriv->usb_rx_buf = kzalloc(size, GFP_KERNEL);
- 	if (!devpriv->usb_rx_buf)
- 		return -ENOMEM;
+ 		if (usb_endpoint_is_bulk_in(ep_desc)) {
++			if (usb_endpoint_maxp(ep_desc) < RX_MAX_SIZE)
++				continue;
+ 			if (!devpriv->ep_rx)
+ 				devpriv->ep_rx = ep_desc;
+ 			continue;
+ 		}
  
--	size = usb_endpoint_maxp(devpriv->ep_tx);
-+	size = max(usb_endpoint_maxp(devpriv->ep_rx), MIN_BUF_SIZE);
- 	devpriv->usb_tx_buf = kzalloc(size, GFP_KERNEL);
- 	if (!devpriv->usb_tx_buf)
- 		return -ENOMEM;
+ 		if (usb_endpoint_is_bulk_out(ep_desc)) {
++			if (usb_endpoint_maxp(ep_desc) < TX_MAX_SIZE)
++				continue;
+ 			if (!devpriv->ep_tx)
+ 				devpriv->ep_tx = ep_desc;
+ 			continue;
 -- 
 2.32.0
 
