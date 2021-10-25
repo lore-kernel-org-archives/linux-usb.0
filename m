@@ -2,73 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 522C5C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:42:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BCFC433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 369B56044F
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:42:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DD5B61002
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Oct 2021 11:46:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233191AbhJYLox (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Oct 2021 07:44:53 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:21537 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233190AbhJYLot (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Oct 2021 07:44:49 -0400
-X-UUID: 4577476c31e343fe8032adcd60fde2fe-20211025
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=5Z+pVIUsnwczbSK4PAQNtN2qL8Rf6p3/4/bd0Nz7Kl8=;
-        b=c+xauU6inVHKw+IUzOmb1CvG8W7jRQBoo8dKA1Cshc7thXUeBD3lOoH4aPKb7G+QMM5s4v2cEXvw3SlTyB3AZbBZ4sQmHpUH5GixA3vS2xPi0pkQ1iwl//yWqkCAxSKLwJ2u32iM+qurMF7Dgh6CjkZ1iRYMWHDuTA+U9zbsrDo=;
-X-UUID: 4577476c31e343fe8032adcd60fde2fe-20211025
-Received: from mtkmbs10n1.mediatek.inc [(172.27.7.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1606625707; Mon, 25 Oct 2021 19:42:19 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Mon, 25 Oct 2021 19:42:20 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 25 Oct 2021 19:42:19 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Yun-Chien Yu <yun-chien.yu@mediatek.com>
-Subject: [RFC PATCH] usb: xhci: skip re-check pending port event if hibernated
-Date:   Mon, 25 Oct 2021 19:42:09 +0800
-Message-ID: <20211025114209.4047-1-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        id S233255AbhJYLsp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Oct 2021 07:48:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39204 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233250AbhJYLsn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 25 Oct 2021 07:48:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7FF2461073;
+        Mon, 25 Oct 2021 11:46:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635162381;
+        bh=VpXDuc5ODD37c89+RKGeszqjBvCk2D5GP/X21UhgFC0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=phnnXdVJEPrhUoSVUAdSnVJSm+QykpAXYCVH9cjYbnX0ExfPHMb/gfJNxP9DBXDII
+         CTUAW4lEJY32pZX6ENn3OfAFoxCmP7yHHmwOLGv+5ioF9X2NFpMLJG2n7plpNxTie8
+         25GSduHAEiNqcZ4UJ/aqZ1ZQzRobM04KgvIu4s1FKUj0MxtscgpTLdTP/PEND7KhRM
+         tnqrfswOIHhQZJHLn5yxqSxyEH73pj5DU6a5nZltvWcnA+zjThDjdWm08hadWlKUSh
+         1CuQJQqlW9vcLaUXGfwwpdXc8H2JPvnrDg54SjxAlyjxDw7c+cCR4R/BDuJbO3b1h1
+         pFShIeJdcyCEg==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1meyQW-0001DI-Ac; Mon, 25 Oct 2021 13:46:04 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Ian Abbott <abbotti@mev.co.uk>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH 3/5] comedi: vmk80xx: fix transfer-buffer overflows
+Date:   Mon, 25 Oct 2021 13:45:30 +0200
+Message-Id: <20211025114532.4599-4-johan@kernel.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211025114532.4599-1-johan@kernel.org>
+References: <20211025114532.4599-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-V2hlbiB4SENJIGNvbnRyb2xsZXIgaGliZXJuYXRlZCwgdGhlIHJvb3QgaHViIGxvc3QgcG93ZXIs
-IGlmIGNvbnRyb2xsZXINCnN1cHBvcnQgUG9ydCBQb3dlciBDb250cm9sIChQUEMpLCBQUCBpcyBu
-b3Qgc2V0IGF0IHhoY2lfcmVzdW1lKCkgYW5kDQpzZXQgYnkgaHViX3Jlc2V0X3Jlc3VtZSgpIGxh
-dGVyLCBzbyBubyBuZWVkIGNoZWNrIHBlbmRpbmcgcG9ydCBldmVudC4NCklmIFBQQyBpcyBub3Qg
-c3VwcG9ydGVkLCBkZXZpY2UgaXMgZGlzY29ubmVjZWQsIHNlZW1zIGRvIG5vdCBzZW5kIG91dA0K
-VTMgTEZQUyB3YWtlIHNpZ25hbCwgbm8gbmVlZCByZS1jaGVjayBhZ2FpbiBhbmQgZHJvcCAxMjBt
-cyBkZWxheSB0bw0Kc2F2ZSByZXN1bWUgdGltZS4NCg0KUmVwb3J0ZWQtYnk6IFl1bi1DaGllbiBZ
-dSA8eXVuLWNoaWVuLnl1QG1lZGlhdGVrLmNvbT4NClNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1
-biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0KIGRyaXZlcnMvdXNiL2hvc3QveGhj
-aS5jIHwgMiArLQ0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQ0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLmMgYi9kcml2ZXJzL3VzYi9o
-b3N0L3hoY2kuYw0KaW5kZXggZjNkYWJkMDIzODJjLi5hN2EyYmY1YmMyMDggMTAwNjQ0DQotLS0g
-YS9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuYw0KKysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmMN
-CkBAIC0xMjM1LDcgKzEyMzUsNyBAQCBpbnQgeGhjaV9yZXN1bWUoc3RydWN0IHhoY2lfaGNkICp4
-aGNpLCBib29sIGhpYmVybmF0ZWQpDQogCQkgKiB0aGUgZmlyc3Qgd2FrZSBzaWduYWxsaW5nIGZh
-aWxlZCwgZ2l2ZSBpdCB0aGF0IGNoYW5jZS4NCiAJCSAqLw0KIAkJcGVuZGluZ19wb3J0ZXZlbnQg
-PSB4aGNpX3BlbmRpbmdfcG9ydGV2ZW50KHhoY2kpOw0KLQkJaWYgKCFwZW5kaW5nX3BvcnRldmVu
-dCkgew0KKwkJaWYgKCFwZW5kaW5nX3BvcnRldmVudCAmJiAhaGliZXJuYXRlZCkgew0KIAkJCW1z
-bGVlcCgxMjApOw0KIAkJCXBlbmRpbmdfcG9ydGV2ZW50ID0geGhjaV9wZW5kaW5nX3BvcnRldmVu
-dCh4aGNpKTsNCiAJCX0NCi0tIA0KMi4xOC4wDQo=
+The driver uses endpoint-sized USB transfer buffers but up until
+recently had no sanity checks on the sizes.
+
+Commit e1f13c879a7c ("staging: comedi: check validity of wMaxPacketSize
+of usb endpoints found") inadvertently fixed NULL-pointer dereferences
+when accessing the transfer buffers in case a malicious device has a
+zero wMaxPacketSize.
+
+Make sure to allocate buffers large enough to handle also the other
+accesses that are done without a size check (e.g. byte 18 in
+vmk80xx_cnt_insn_read() for the VMK8061_MODEL) to avoid writing beyond
+the buffers, for example, when doing descriptor fuzzing.
+
+The original driver was for a low-speed device with 8-byte buffers.
+Support was later added for a device that uses bulk transfers and is
+presumably a full-speed device with a maximum 64-byte wMaxPacketSize.
+
+Fixes: 985cafccbf9b ("Staging: Comedi: vmk80xx: Add k8061 support")
+Cc: stable@vger.kernel.org      # 2.6.31
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/comedi/drivers/vmk80xx.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/comedi/drivers/vmk80xx.c b/drivers/comedi/drivers/vmk80xx.c
+index 9f920819cd74..f2c1572d0cd7 100644
+--- a/drivers/comedi/drivers/vmk80xx.c
++++ b/drivers/comedi/drivers/vmk80xx.c
+@@ -90,6 +90,8 @@ enum {
+ #define IC3_VERSION		BIT(0)
+ #define IC6_VERSION		BIT(1)
+ 
++#define MIN_BUF_SIZE		64
++
+ enum vmk80xx_model {
+ 	VMK8055_MODEL,
+ 	VMK8061_MODEL
+@@ -678,12 +680,12 @@ static int vmk80xx_alloc_usb_buffers(struct comedi_device *dev)
+ 	struct vmk80xx_private *devpriv = dev->private;
+ 	size_t size;
+ 
+-	size = usb_endpoint_maxp(devpriv->ep_rx);
++	size = max(usb_endpoint_maxp(devpriv->ep_rx), MIN_BUF_SIZE);
+ 	devpriv->usb_rx_buf = kzalloc(size, GFP_KERNEL);
+ 	if (!devpriv->usb_rx_buf)
+ 		return -ENOMEM;
+ 
+-	size = usb_endpoint_maxp(devpriv->ep_tx);
++	size = max(usb_endpoint_maxp(devpriv->ep_rx), MIN_BUF_SIZE);
+ 	devpriv->usb_tx_buf = kzalloc(size, GFP_KERNEL);
+ 	if (!devpriv->usb_tx_buf)
+ 		return -ENOMEM;
+-- 
+2.32.0
 
