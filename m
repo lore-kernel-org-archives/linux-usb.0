@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFA11C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6196C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:39:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D75A66103C
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:39:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACA636109E
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237924AbhJZRmU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 13:42:20 -0400
-Received: from mxout01.lancloud.ru ([45.84.86.81]:51758 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237834AbhJZRmP (ORCPT
+        id S237904AbhJZRmV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 13:42:21 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:56824 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237583AbhJZRmP (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 13:42:15 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 8B454209033C
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru E2C4120A74B4
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,13 +23,10 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 08/22] usb: host: ohci-at91: deny IRQ0
-Date:   Tue, 26 Oct 2021 20:39:29 +0300
-Message-ID: <20211026173943.6829-9-s.shtylyov@omp.ru>
+CC:     <linux-omap@vger.kernel.org>
+Subject: [PATCH v2 04/22] usb: host: ehci-omap: deny IRQ0
+Date:   Tue, 26 Oct 2021 20:39:25 +0300
+Message-ID: <20211026173943.6829-5-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211026173943.6829-1-s.shtylyov@omp.ru>
 References: <20211026173943.6829-1-s.shtylyov@omp.ru>
@@ -47,29 +44,29 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: fb5f1834c322 ("usb: ohci-at91: fix irq and iomem resource retrieval")
+Fixes: b33f37064b74 ("USB: host: ehci: introduce omap ehci-hcd driver")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
 Changes in version 2:
 - added Alan's ACK.
 
- drivers/usb/host/ohci-at91.c | 2 ++
+ drivers/usb/host/ehci-omap.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
-index a24aea3d2759..6a7276a730d1 100644
---- a/drivers/usb/host/ohci-at91.c
-+++ b/drivers/usb/host/ohci-at91.c
-@@ -181,6 +181,8 @@ static int usb_hcd_at91_probe(const struct hc_driver *driver,
- 		dev_dbg(dev, "hcd probe: missing irq resource\n");
+diff --git a/drivers/usb/host/ehci-omap.c b/drivers/usb/host/ehci-omap.c
+index 7f4a03e8647a..79cec242c025 100644
+--- a/drivers/usb/host/ehci-omap.c
++++ b/drivers/usb/host/ehci-omap.c
+@@ -117,6 +117,8 @@ static int ehci_hcd_omap_probe(struct platform_device *pdev)
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
  		return irq;
- 	}
 +	if (!irq)
-+		return -EINVAL;
++		return -ENIVAL;
  
- 	hcd = usb_create_hcd(driver, dev, "at91");
- 	if (!hcd)
+ 	res =  platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	regs = devm_ioremap_resource(dev, res);
 -- 
 2.26.3
 
