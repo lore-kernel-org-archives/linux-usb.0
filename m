@@ -2,93 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5774DC433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 10:55:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBF5C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 11:07:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3CA5161040
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 10:55:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0DA5E60F70
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 11:07:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235269AbhJZK5e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 06:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34682 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235264AbhJZK5d (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 06:57:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00E96C061745;
-        Tue, 26 Oct 2021 03:55:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE56CDBF;
-        Tue, 26 Oct 2021 12:55:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1635245707;
-        bh=mGrpDB2zp/69hSCM3gtgWzVuOOkKWTDfKTiVZ0ETSBo=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=P3cJ91+j9kp5DxukjwWVNm07qSndbxmljvN1X6MFoG6binc3EnR4Z81+LvJgXlt3B
-         0wn7SZORUCZg1b6DbvfSssxPaSCdrg9b1YRzJxfHhVxmBHVfE+7TRpksXAMM2C3qdw
-         FD/9CQ1KDFGaMjKf4h95BbIGk1AHVK9S+nLDd33o=
-Content-Type: text/plain; charset="utf-8"
+        id S235369AbhJZLJz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 07:09:55 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:29938 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232091AbhJZLJy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 07:09:54 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Hdpnk2nmFzbnPy;
+        Tue, 26 Oct 2021 19:02:50 +0800 (CST)
+Received: from kwepemm600001.china.huawei.com (7.193.23.3) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.15; Tue, 26 Oct 2021 19:07:27 +0800
+Received: from huawei.com (10.175.104.82) by kwepemm600001.china.huawei.com
+ (7.193.23.3) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.15; Tue, 26 Oct
+ 2021 19:07:27 +0800
+From:   Wang Hai <wanghai38@huawei.com>
+To:     <oneukum@suse.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+        <johan@kernel.org>
+CC:     <netdev@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH net] usbnet: fix error return code in usbnet_probe()
+Date:   Tue, 26 Oct 2021 19:25:26 +0800
+Message-ID: <20211026112526.2878177-1-wanghai38@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211026095511.26673-1-johan@kernel.org>
-References: <20211026095511.26673-1-johan@kernel.org>
-Subject: Re: [PATCH] media: uvcvideo: fix division by zero at stream start
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable@vger.kernel.org
-To:     Johan Hovold <johan@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Tue, 26 Oct 2021 11:55:05 +0100
-Message-ID: <163524570516.1184428.14632987312253060787@Monstersaurus>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.104.82]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemm600001.china.huawei.com (7.193.23.3)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Quoting Johan Hovold (2021-10-26 10:55:11)
-> Add the missing bulk-endpoint max-packet sanity check to probe() to
-> avoid division by zero in uvc_alloc_urb_buffers() in case a malicious
-> device has broken descriptors (or when doing descriptor fuzz testing).
->=20
-> Note that USB core will reject URBs submitted for endpoints with zero
-> wMaxPacketSize but that drivers doing packet-size calculations still
-> need to handle this (cf. commit 2548288b4fb0 ("USB: Fix: Don't skip
-> endpoint descriptors with maxpacket=3D0")).
->=20
-> Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-> Cc: stable@vger.kernel.org      # 2.6.26
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uv=
-c_video.c
-> index e16464606b14..85ac5c1081b6 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -1958,6 +1958,10 @@ static int uvc_video_start_transfer(struct uvc_str=
-eaming *stream,
->                 if (ep =3D=3D NULL)
->                         return -EIO;
-> =20
-> +               /* Reject broken descriptors. */
-> +               if (usb_endpoint_maxp(&ep->desc) =3D=3D 0)
-> +                       return -EIO;
+Return error code if usb_maxpacket() returns 0 in usbnet_probe().
 
-Is there any value in identifying this with a specific return code like
--ENODATA?
+Fixes: 397430b50a36 ("usbnet: sanity check for maxpacket")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wang Hai <wanghai38@huawei.com>
+---
+ drivers/net/usb/usbnet.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-But either way, this seems sane.
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 80432ee0ce69..fb5bf7d36d50 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1790,6 +1790,7 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+ 	dev->maxpacket = usb_maxpacket (dev->udev, dev->out, 1);
+ 	if (dev->maxpacket == 0) {
+ 		/* that is a broken device */
++		status = -EINVAL;
+ 		goto out4;
+ 	}
+ 
+-- 
+2.25.1
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> +
->                 ret =3D uvc_init_video_bulk(stream, ep, gfp_flags);
->         }
-> =20
-> --=20
-> 2.32.0
->
