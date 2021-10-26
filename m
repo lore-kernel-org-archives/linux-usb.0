@@ -2,226 +2,66 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 146ADC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:43:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57B27C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 15:06:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3E5F603E5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:43:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3DD1160EBD
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 15:06:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236932AbhJZOqA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 10:46:00 -0400
-Received: from mga01.intel.com ([192.55.52.88]:13756 "EHLO mga01.intel.com"
+        id S231697AbhJZPI7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 11:08:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236906AbhJZOpz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 26 Oct 2021 10:45:55 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10149"; a="253467467"
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="253467467"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 07:34:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,184,1631602800"; 
-   d="scan'208";a="635200460"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Oct 2021 07:34:14 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Prashant Malani <pmalani@chromium.org>,
-        Benson Leung <bleung@google.com>
-Cc:     Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        id S231184AbhJZPIy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 26 Oct 2021 11:08:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B388B604AC;
+        Tue, 26 Oct 2021 15:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1635260790;
+        bh=+Z01TEK+QyGY0xo8I0ZHZPD2JObUitun2+iJ1F+8ky0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=zeRS4rWXDIOP7OcI42dfE34DbZ/0RnnieZyC47+iNVCm/OFDi4nOkgsyBw7uiyMEI
+         AShlVrx5bJu6uI3UG3krgnJ1uq8IaFcddNSC/xWbhdKGEW/Jvyi4O82Xvx0noVbiZ3
+         PlHeAJ55erDvywmbV2xmIsFf6sh0fyGshBd7DIvI=
+Date:   Tue, 26 Oct 2021 17:06:28 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@google.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Badhri Jagan Sridharan <badhri@google.com>,
         Jack Pham <jackp@codeaurora.org>,
         "Gopal, Saranya" <saranya.gopal@intel.com>,
         "Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 4/4] tools: usb: Hideous test tool for USB PD char device
-Date:   Tue, 26 Oct 2021 17:33:52 +0300
-Message-Id: <20211026143352.78387-5-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211026143352.78387-1-heikki.krogerus@linux.intel.com>
+Subject: Re: [RFC PATCH 0/4] USB Power Delivery character device interface
+Message-ID: <YXgZdFV2yTXAKxE9@kroah.com>
 References: <20211026143352.78387-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211026143352.78387-1-heikki.krogerus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Interim.
+On Tue, Oct 26, 2021 at 05:33:48PM +0300, Heikki Krogerus wrote:
+> Hi,
+> 
+> This is the proposal for USB PD character devices that we could use to
+> communicate USB PD messages directly with the USB PD capable partners,
+> ports and cable plugs from user space. Originally I proposed this idea
+> here as a better way to get the PDOs from the partners (and ports and
+> plugs): https://lkml.org/lkml/2021/10/8/331
 
-The Makefile needs to be tuned so we can include to correct
-files.
+You should put the info there (and please use lore.kernel.org in the
+future, not lkml.org as we have no control over that site), into this
+0/X message as I have no idea _why_ you need a char device and why the
+sysfs interface will not work.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- tools/usb/Build     |   1 +
- tools/usb/Makefile  |   8 ++-
- tools/usb/pd-test.c | 123 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 131 insertions(+), 1 deletion(-)
- create mode 100644 tools/usb/pd-test.c
+So, why not sysfs?  :)
 
-diff --git a/tools/usb/Build b/tools/usb/Build
-index 2ad6f97458168..7116198533a75 100644
---- a/tools/usb/Build
-+++ b/tools/usb/Build
-@@ -1,2 +1,3 @@
- testusb-y += testusb.o
- ffs-test-y += ffs-test.o
-+pd-test-y += pd-test.o
-diff --git a/tools/usb/Makefile b/tools/usb/Makefile
-index 1b128e551b2e4..e3e41a3397f23 100644
---- a/tools/usb/Makefile
-+++ b/tools/usb/Makefile
-@@ -16,7 +16,7 @@ MAKEFLAGS += -r
- override CFLAGS += -O2 -Wall -Wextra -g -D_GNU_SOURCE -I$(OUTPUT)include -I$(srctree)/tools/include
- override LDFLAGS += -lpthread
- 
--ALL_TARGETS := testusb ffs-test
-+ALL_TARGETS := testusb ffs-test pd-test
- ALL_PROGRAMS := $(patsubst %,$(OUTPUT)%,$(ALL_TARGETS))
- 
- all: $(ALL_PROGRAMS)
-@@ -36,6 +36,12 @@ $(FFS_TEST_IN): FORCE
- $(OUTPUT)ffs-test: $(FFS_TEST_IN)
- 	$(QUIET_LINK)$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
- 
-+PD_TEST_IN := $(OUTPUT)pd-test-in.o
-+$(PD_TEST_IN): FORCE
-+	$(Q)$(MAKE) $(build)=pd-test
-+$(OUTPUT)pd-test: $(PD_TEST_IN)
-+	$(QUIET_LINK)$(CC) $(CFLAGS) $< -o $@
-+
- clean:
- 	rm -f $(ALL_PROGRAMS)
- 	find $(if $(OUTPUT),$(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete -o -name '\.*.o.cmd' -delete
-diff --git a/tools/usb/pd-test.c b/tools/usb/pd-test.c
-new file mode 100644
-index 0000000000000..bb38dd4134581
---- /dev/null
-+++ b/tools/usb/pd-test.c
-@@ -0,0 +1,123 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * USB Power Delivery device tester.
-+ *
-+ * Copyright (C) 2021 Intel Corporation
-+ * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-+ */
-+
-+#include <stdio.h>
-+#include <fcntl.h>
-+#include <unistd.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+#include <linux/types.h>
-+
-+struct pd_message {
-+	__le16 header;
-+	__le32 payload[7];
-+} __attribute__((packed));
-+
-+struct pd_info {
-+	__u8 specification_revision;
-+	__u32 ctrl_msgs_supported;
-+	__u32 data_msgs_supported;
-+	__u32 ext_msgs_supported;
-+} __attribute__((packed));
-+
-+#define USBPDDEV_INFO		_IOR('P', 0x70, struct pd_info)
-+#define USBPDDEV_CONFIGURE	_IOW('P', 0x71, __u32)
-+#define USBPDDEV_PWR_ROLE	_IOR('P', 0x72, int)
-+#define USBPDDEV_GET_MESSAGE	_IOWR('P', 0x73, struct pd_message)
-+#define USBPDDEV_SET_MESSAGE	_IOW('P', 0x74, struct pd_message)
-+#define USBPDDEV_SUBMIT_MESSAGE	_IOWR('P', 0x75, struct pd_message)
-+
-+enum pd_data_msg_type {
-+	/* 0 Reserved */
-+	PD_DATA_SOURCE_CAP = 1,
-+	PD_DATA_REQUEST = 2,
-+	PD_DATA_BIST = 3,
-+	PD_DATA_SINK_CAP = 4,
-+	PD_DATA_BATT_STATUS = 5,
-+	PD_DATA_ALERT = 6,
-+	PD_DATA_GET_COUNTRY_INFO = 7,
-+	PD_DATA_ENTER_USB = 8,
-+	/* 9-14 Reserved */
-+	PD_DATA_VENDOR_DEF = 15,
-+	/* 16-31 Reserved */
-+};
-+
-+int dump_source_pdos(int fd)
-+{
-+	struct pd_message msg = {};
-+	int ret;
-+	int i;
-+
-+	msg.header = PD_DATA_SOURCE_CAP;
-+	ret = ioctl(fd, USBPDDEV_GET_MESSAGE, &msg);
-+	if (ret < 0) {
-+		printf("No cached Source Capabilities %d\n", ret);
-+		return ret;
-+	}
-+
-+	printf("Source Capabilities:\n");
-+
-+	for (i = 0; i < (msg.header >> 12 & 7); i++)
-+		printf("  PDO%d: 0x%08x\n", i + 1, msg.payload[i]);
-+
-+	return 0;
-+}
-+
-+int dump_sink_pdos(int fd)
-+{
-+	struct pd_message msg = {};
-+	int ret;
-+	int i;
-+
-+	msg.header = PD_DATA_SINK_CAP;
-+	ret = ioctl(fd, USBPDDEV_GET_MESSAGE, &msg);
-+	if (ret < 0) {
-+		printf("No cached Sink Capabilities %d\n", ret);
-+		return ret;
-+	}
-+
-+	printf("Sink Capabilities:\n");
-+
-+	for (i = 0; i < (msg.header >> 12 & 7); i++)
-+		printf("  PDO%d: 0x%08x\n", i + 1, msg.payload[i]);
-+
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	unsigned int role;
-+	int ret;
-+	int fd;
-+
-+	if (argc != 2) {
-+		fprintf(stderr, "Usage: %s [DEV]\n"
-+				"       %% %s /dev/pd0/port\n\n",
-+				argv[0], argv[0]);
-+		return -1;
-+	}
-+
-+	fd = open(argv[1], O_RDWR);
-+	if (fd < 0)
-+		return fd;
-+
-+	ret = ioctl(fd, USBPDDEV_PWR_ROLE, &role);
-+	if (ret < 0) {
-+		printf("USBPDDEV_PWR_ROLE failed %d\n", ret);
-+		goto err;
-+	}
-+
-+	if (role)
-+		ret = dump_source_pdos(fd);
-+	else
-+		ret = dump_sink_pdos(fd);
-+err:
-+	close(fd);
-+
-+	return ret;
-+}
--- 
-2.33.0
+thanks,
 
+greg k-h
