@@ -2,123 +2,137 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3014FC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 541E2C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:36:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1717B611C8
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:36:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EC6B61213
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 14:36:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236729AbhJZOi3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 10:38:29 -0400
-Received: from smtp121.ord1d.emailsrvr.com ([184.106.54.121]:59414 "EHLO
-        smtp121.ord1d.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236738AbhJZOiK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 10:38:10 -0400
+        id S236491AbhJZOjT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 10:39:19 -0400
+Received: from smtp67.ord1c.emailsrvr.com ([108.166.43.67]:40287 "EHLO
+        smtp67.ord1c.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236824AbhJZOjH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 10:39:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-        s=20190130-41we5z8j; t=1635258945;
-        bh=09DsGG934eAWsrYgTTEyogH6LDSB0Wo6kjXmpIsK7zo=;
+        s=20190130-41we5z8j; t=1635258435;
+        bh=ygMxfHxoiBiJdno19BOD9W/2ZmzB4nrg+CxY+1M83Oc=;
         h=Subject:To:From:Date:From;
-        b=JpjX7COpm49F29ojHTexC79WPHa556bgJ5jztCzQpSSC582AAjYzf2ZmZKKdHBw9Z
-         svRdanUjfO+1Uo7MDJoKJFReOCwIIZdQ6wP4y8qp25/U8LE/G/rdPY2liRUPksdW8U
-         Y5Aih6iGtHIgsYv08SkS+wlrY68w1s7buDSb5bNE=
+        b=b7kc31AKRuIW7MUJFJq1+/EhUiYSHYYAEy2tSs7ePZLT7pWivTeesLhki+rNGoyn1
+         Pt15TlXKXAobqAADdJ+F3wSoXajaN5SEGAKV0+6SVQ28e0OYDDY0xmOsB9x68esY/O
+         ulAT/RgSwAGWi1BIfrXYc24qhUm95wAZs70Hil1Q=
 X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp8.relay.ord1d.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 05104C0184;
-        Tue, 26 Oct 2021 10:35:44 -0400 (EDT)
-Subject: Re: [PATCH 5/5] comedi: vmk80xx: fix bulk and interrupt message
- timeouts
+Received: by smtp9.relay.ord1c.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 6A98C200FB;
+        Tue, 26 Oct 2021 10:27:14 -0400 (EDT)
+Subject: Re: [PATCH 2/5] comedi: dt9812: fix DMA buffers on stack
 To:     Johan Hovold <johan@kernel.org>,
         H Hartley Sweeten <hsweeten@visionengravers.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         stable@vger.kernel.org
 References: <20211025114532.4599-1-johan@kernel.org>
- <20211025114532.4599-6-johan@kernel.org>
+ <20211025114532.4599-3-johan@kernel.org>
 From:   Ian Abbott <abbotti@mev.co.uk>
 Organization: MEV Ltd.
-Message-ID: <fb1c3dcd-39cd-d4e2-e6f5-061dad6b2751@mev.co.uk>
-Date:   Tue, 26 Oct 2021 15:35:44 +0100
+Message-ID: <ecdee752-72c3-c48a-fee2-49dccf115d71@mev.co.uk>
+Date:   Tue, 26 Oct 2021 15:27:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211025114532.4599-6-johan@kernel.org>
+In-Reply-To: <20211025114532.4599-3-johan@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-Classification-ID: 2f3175d9-b0e8-4937-a8e3-a5d800e9b366-1-1
+X-Classification-ID: e21ebda7-67d4-45a0-b931-c527437faa1d-1-1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On 25/10/2021 12:45, Johan Hovold wrote:
-> USB bulk and interrupt message timeouts are specified in milliseconds
-> and should specifically not vary with CONFIG_HZ.
+> USB transfer buffers are typically mapped for DMA and must not be
+> allocated on the stack or transfers will fail.
 > 
-> Note that the bulk-out transfer timeout was set to the endpoint
-> bInterval value, which should be ignored for bulk endpoints and is
-> typically set to zero. This meant that a failing bulk-out transfer
-> would never time out.
+> Allocate proper transfer buffers in the various command helpers and
+> return an error on short transfers instead of acting on random stack
+> data.
 > 
-> Assume that the 10 second timeout used for all other transfers is more
-> than enough also for the bulk-out endpoint.
+> Note that this also fixes a stack info leak on systems where DMA is not
+> used as 32 bytes are always sent to the device regardless of how short
+> the command is.
 > 
-> Fixes: 985cafccbf9b ("Staging: Comedi: vmk80xx: Add k8061 support")
-> Fixes: 951348b37738 ("staging: comedi: vmk80xx: wait for URBs to complete")
-> Cc: stable@vger.kernel.org      # 2.6.31
+> Fixes: 63274cd7d38a ("Staging: comedi: add usb dt9812 driver")
+> Cc: stable@vger.kernel.org      # 2.6.29
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 > ---
->   drivers/comedi/drivers/vmk80xx.c | 12 +++++++-----
->   1 file changed, 7 insertions(+), 5 deletions(-)
+>   drivers/comedi/drivers/dt9812.c | 109 ++++++++++++++++++++++++--------
+>   1 file changed, 82 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/comedi/drivers/vmk80xx.c b/drivers/comedi/drivers/vmk80xx.c
-> index 9c56918e3b76..4b00a9ea611a 100644
-> --- a/drivers/comedi/drivers/vmk80xx.c
-> +++ b/drivers/comedi/drivers/vmk80xx.c
-> @@ -91,6 +91,7 @@ enum {
->   #define IC6_VERSION		BIT(1)
+> diff --git a/drivers/comedi/drivers/dt9812.c b/drivers/comedi/drivers/dt9812.c
+> index 634f57730c1e..f15c306f2d06 100644
+> --- a/drivers/comedi/drivers/dt9812.c
+> +++ b/drivers/comedi/drivers/dt9812.c
+> @@ -32,6 +32,7 @@
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+>   #include <linux/errno.h>
+> +#include <linux/slab.h>
+>   #include <linux/uaccess.h>
 >   
->   #define MIN_BUF_SIZE		64
-> +#define PACKET_TIMEOUT		10000	/* ms */
+>   #include "../comedi_usb.h"
+> @@ -237,22 +238,41 @@ static int dt9812_read_info(struct comedi_device *dev,
+>   {
+>   	struct usb_device *usb = comedi_to_usb_dev(dev);
+>   	struct dt9812_private *devpriv = dev->private;
+> -	struct dt9812_usb_cmd cmd;
+> +	struct dt9812_usb_cmd *cmd;
+>   	int count, ret;
+> +	u8 *tbuf;
 >   
->   enum vmk80xx_model {
->   	VMK8055_MODEL,
-> @@ -169,10 +170,11 @@ static void vmk80xx_do_bulk_msg(struct comedi_device *dev)
->   	tx_size = usb_endpoint_maxp(devpriv->ep_tx);
->   	rx_size = usb_endpoint_maxp(devpriv->ep_rx);
+> -	cmd.cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
+> -	cmd.u.flash_data_info.address =
+> +	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
+> +	if (!cmd)
+> +		return -ENOMEM;
+> +
+> +	cmd->cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
+> +	cmd->u.flash_data_info.address =
+>   	    cpu_to_le16(DT9812_DIAGS_BOARD_INFO_ADDR + offset);
+> -	cmd.u.flash_data_info.numbytes = cpu_to_le16(buf_size);
+> +	cmd->u.flash_data_info.numbytes = cpu_to_le16(buf_size);
 >   
-> -	usb_bulk_msg(usb, tx_pipe, devpriv->usb_tx_buf,
-> -		     tx_size, NULL, devpriv->ep_tx->bInterval);
-> +	usb_bulk_msg(usb, tx_pipe, devpriv->usb_tx_buf, tx_size, NULL,
-> +		     PACKET_TIMEOUT);
+>   	/* DT9812 only responds to 32 byte writes!! */
+>   	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
+> -			   &cmd, 32, &count, DT9812_USB_TIMEOUT);
+> +			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
+> +	kfree(cmd);
+>   	if (ret)
+>   		return ret;
 >   
-> -	usb_bulk_msg(usb, rx_pipe, devpriv->usb_rx_buf, rx_size, NULL, HZ * 10);
-> +	usb_bulk_msg(usb, rx_pipe, devpriv->usb_rx_buf, rx_size, NULL,
-> +		     PACKET_TIMEOUT);
+> -	return usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
+> -			    buf, buf_size, &count, DT9812_USB_TIMEOUT);
+> +	tbuf = kmalloc(buf_size, GFP_KERNEL);
+> +	if (!tbuf)
+> +		return -ENOMEM;
+> +
+> +	ret = usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
+> +			   tbuf, buf_size, &count, DT9812_USB_TIMEOUT);
+> +	if (!ret) {
+> +		if (count == buf_size)
+> +			memcpy(buf, tbuf, buf_size);
+> +		else
+> +			ret = -EREMOTEIO;
+> +	}
+> +	kfree(tbuf);
+> +
+> +	return ret;
 >   }
->   
->   static int vmk80xx_read_packet(struct comedi_device *dev)
-> @@ -191,7 +193,7 @@ static int vmk80xx_read_packet(struct comedi_device *dev)
->   	pipe = usb_rcvintpipe(usb, ep->bEndpointAddress);
->   	return usb_interrupt_msg(usb, pipe, devpriv->usb_rx_buf,
->   				 usb_endpoint_maxp(ep), NULL,
-> -				 HZ * 10);
-> +				 PACKET_TIMEOUT);
->   }
->   
->   static int vmk80xx_write_packet(struct comedi_device *dev, int cmd)
-> @@ -212,7 +214,7 @@ static int vmk80xx_write_packet(struct comedi_device *dev, int cmd)
->   	pipe = usb_sndintpipe(usb, ep->bEndpointAddress);
->   	return usb_interrupt_msg(usb, pipe, devpriv->usb_tx_buf,
->   				 usb_endpoint_maxp(ep), NULL,
-> -				 HZ * 10);
-> +				 PACKET_TIMEOUT);
->   }
->   
->   static int vmk80xx_reset_device(struct comedi_device *dev)
-> 
 
-Looks good, thanks!
+I suggest doing all the allocations up front so it doesn't leave an 
+unread reply message in the unlikely event that the tbuf allocation 
+fails.  (It could even allocate a single buffer for both the command and 
+the reply since they are not needed at the same time.)
 
-Reviewed-by: Ian Abbott <abbotti@mev.co.uk>
+Ditto for the other functions in the patch.
 
 -- 
 -=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
