@@ -2,30 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E41E6C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 930EAC43217
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF21D60F9D
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B11461002
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237940AbhJZRmY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 13:42:24 -0400
-Received: from mxout02.lancloud.ru ([45.84.86.82]:57238 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237885AbhJZRmT (ORCPT
+        id S237943AbhJZRmZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 13:42:25 -0400
+Received: from mxout01.lancloud.ru ([45.84.86.81]:51788 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237894AbhJZRmT (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 13:42:19 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru EB60E20C089E
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 8F9502076EBF
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        Mathias Nyman <mathias.nyman@intel.com>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 15/22] usb: host: ohci-sm501: deny IRQ0
-Date:   Tue, 26 Oct 2021 20:39:36 +0300
-Message-ID: <20211026173943.6829-16-s.shtylyov@omp.ru>
+Subject: [PATCH v2 19/22] usb: host: xhci-histb: deny IRQ0
+Date:   Tue, 26 Oct 2021 20:39:40 +0300
+Message-ID: <20211026173943.6829-20-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211026173943.6829-1-s.shtylyov@omp.ru>
 References: <20211026173943.6829-1-s.shtylyov@omp.ru>
@@ -43,31 +43,25 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: f54aab6ebcec ("usb: ohci-sm501 driver")
+Fixes: c508f41da078 ("xhci: hisilicon: support HiSilicon STB xHCI host controller")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
-Changes in version 2:
-- added Alan's ACK.
+ drivers/usb/host/xhci-histb.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/usb/host/ohci-sm501.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
-index b91d50da6127..ffb7b6645d2c 100644
---- a/drivers/usb/host/ohci-sm501.c
-+++ b/drivers/usb/host/ohci-sm501.c
-@@ -96,6 +96,10 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 	irq = retval = platform_get_irq(pdev, 0);
- 	if (retval < 0)
- 		goto err0;
-+	if (!retval) {
-+		retval = -EINVAL;
-+		goto err0;
-+	}
+diff --git a/drivers/usb/host/xhci-histb.c b/drivers/usb/host/xhci-histb.c
+index 08369857686e..581952dcefe8 100644
+--- a/drivers/usb/host/xhci-histb.c
++++ b/drivers/usb/host/xhci-histb.c
+@@ -218,6 +218,8 @@ static int xhci_histb_probe(struct platform_device *pdev)
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
++	if (!irq)
++		return -EINVAL;
  
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
- 	if (mem == NULL) {
+ 	histb->ctrl = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(histb->ctrl))
 -- 
 2.26.3
 
