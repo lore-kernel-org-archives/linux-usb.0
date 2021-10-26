@@ -2,20 +2,20 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD0D8C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B17E5C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4FA56103C
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94B656103C
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 17:40:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237951AbhJZRmZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 13:42:25 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:35648 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbhJZRmT (ORCPT
+        id S237928AbhJZRm0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 13:42:26 -0400
+Received: from mxout04.lancloud.ru ([45.84.86.114]:56862 "EHLO
+        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237888AbhJZRmT (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 13:42:19 -0400
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 467E620617BC
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 689C220A74B4
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -23,11 +23,9 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC:     Patrice Chotard <patrice.chotard@foss.st.com>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v2 17/22] usb: host: ohci-st: deny IRQ0
-Date:   Tue, 26 Oct 2021 20:39:38 +0300
-Message-ID: <20211026173943.6829-18-s.shtylyov@omp.ru>
+Subject: [PATCH v2 18/22] usb: host: ohci-tmio: deny IRQ0
+Date:   Tue, 26 Oct 2021 20:39:39 +0300
+Message-ID: <20211026173943.6829-19-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211026173943.6829-1-s.shtylyov@omp.ru>
 References: <20211026173943.6829-1-s.shtylyov@omp.ru>
@@ -45,29 +43,29 @@ If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
 the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
 at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
 
-Fixes: d115837259ad ("usb: host: ohci-st: Add OHCI driver support for ST STB devices")
+Fixes: 78c73414f4f6 ("USB: ohci: add support for tmio-ohci cell")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
 Changes in version 2:
 - added Alan's ACK.
 
- drivers/usb/host/ohci-st.c | 2 ++
+ drivers/usb/host/ohci-tmio.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/ohci-st.c b/drivers/usb/host/ohci-st.c
-index ac796ccd93ef..b9200071ce6c 100644
---- a/drivers/usb/host/ohci-st.c
-+++ b/drivers/usb/host/ohci-st.c
-@@ -140,6 +140,8 @@ static int st_ohci_platform_probe(struct platform_device *dev)
- 	irq = platform_get_irq(dev, 0);
+diff --git a/drivers/usb/host/ohci-tmio.c b/drivers/usb/host/ohci-tmio.c
+index 08ec2ab0d95a..53932e8a968f 100644
+--- a/drivers/usb/host/ohci-tmio.c
++++ b/drivers/usb/host/ohci-tmio.c
+@@ -204,6 +204,8 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
+ 
  	if (irq < 0)
  		return irq;
 +	if (!irq)
 +		return -EINVAL;
  
- 	res_mem = platform_get_resource(dev, IORESOURCE_MEM, 0);
- 	if (!res_mem) {
+ 	hcd = usb_create_hcd(&ohci_tmio_hc_driver, &dev->dev, dev_name(&dev->dev));
+ 	if (!hcd) {
 -- 
 2.26.3
 
