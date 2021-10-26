@@ -2,88 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14589C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 18:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F61C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 18:24:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED91A60C4B
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 18:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADA8F60F9D
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Oct 2021 18:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238230AbhJZSWl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Oct 2021 14:22:41 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:4099 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238234AbhJZSWc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 14:22:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635272409; x=1666808409;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=mhhYrAjFPGfm8WNwzjHo/FoEXIypsRhip7lIMeUEaXI=;
-  b=tKG+aKxPJT8Vm8eUTRTq0CVyogQBqbJT8xuPGDAvIeOe1JxcqZ8mE3wA
-   w4Ah/U7Kdzj0Us0sKY6fJe2qSF3ZauyKO7I/t+NCXtUpZlQXLgRQ1T49d
-   N/BW+/ZB85PG4/4JZm0PVjOZfG5nw/PI/XBY9VhsvEmLDUJv7UdFGgpRn
-   0=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 26 Oct 2021 11:20:08 -0700
-X-QCInternal: smtphost
-Received: from nalasex01a.na.qualcomm.com ([10.47.209.196])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 11:20:07 -0700
-Received: from c-sanm-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Tue, 26 Oct 2021 11:20:01 -0700
-From:   Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Subject: [PATCH 3/3] usb: dwc: host: Set the property usb-skip-phy-init
-Date:   Tue, 26 Oct 2021 23:49:32 +0530
-Message-ID: <1635272372-9982-4-git-send-email-quic_c_sanm@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1635272372-9982-1-git-send-email-quic_c_sanm@quicinc.com>
-References: <1635272372-9982-1-git-send-email-quic_c_sanm@quicinc.com>
+        id S238232AbhJZS1I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Oct 2021 14:27:08 -0400
+Received: from mxout01.lancloud.ru ([45.84.86.81]:53538 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231297AbhJZS1I (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 14:27:08 -0400
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2EBF1209B989
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+Subject: Re: [PATCH 22/22] usb: host: xhci-tegra: deny IRQ0
+To:     Dmitry Osipenko <digetx@gmail.com>, <linux-usb@vger.kernel.org>,
+        "Alan Stern" <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        <linux-tegra@vger.kernel.org>
+References: <20211018183930.8448-1-s.shtylyov@omp.ru>
+ <20211018183930.8448-23-s.shtylyov@omp.ru>
+ <415d1410-5b5f-3de4-1973-998528481c0f@gmail.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <bde8811f-806e-1845-9a17-25227ecc02e9@omp.ru>
+Date:   Tue, 26 Oct 2021 21:24:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <415d1410-5b5f-3de4-1973-998528481c0f@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-dwc3 manages PHY by own DRD driver, so skip the management by
-HCD core.
-During runtime suspend phy was not getting suspend because
-runtime_usage value is 2.
+Hello!
 
-Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
----
- drivers/usb/dwc3/host.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 10/21/21 12:09 PM, Dmitry Osipenko wrote:
+[...]
+>> If platform_get_irq() returns IRQ0 (considered invalid according to Linus)
+>> the driver blithely passes it to usb_add_hcd() that treats IRQ0 as no IRQ
+>> at all. Deny IRQ0 right away, returning -EINVAL from the probe() method...
+>>
+>> Fixes: e84fce0f8837 ("usb: xhci: Add NVIDIA Tegra XUSB controller driver")
+>> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>> ---
+>>  drivers/usb/host/xhci-tegra.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+>> index 1bf494b649bd..7151b1d4f876 100644
+>> --- a/drivers/usb/host/xhci-tegra.c
+>> +++ b/drivers/usb/host/xhci-tegra.c
+>> @@ -1439,6 +1439,8 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+>>  	tegra->xhci_irq = platform_get_irq(pdev, 0);
+>>  	if (tegra->xhci_irq < 0)
+>>  		return tegra->xhci_irq;
+>> +	if (!tegra->xhci_irq)
+>> +		return -ENIVAL;
+>>  
+>>  	tegra->mbox_irq = platform_get_irq(pdev, 1);
+>>  	if (tegra->mbox_irq < 0)
+>>
+> 
+> platform_get_irq() never returns zero in accordance to [1], but I see
+> that it can return it [2].
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index f29a264..5144513 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -107,6 +107,8 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	if (DWC3_VER_IS_WITHIN(DWC3, ANY, 300A))
- 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("quirk-broken-port-ped");
- 
-+	props[prop_idx++] = PROPERTY_ENTRY_BOOL("usb-skip-phy-init");
-+
- 	if (prop_idx) {
- 		ret = device_create_managed_software_node(&xhci->dev, props, NULL);
- 		if (ret) {
--- 
-2.7.4
+   Not only that, it also can be returned thru the normal path (from an IRQ descriptor).
+I'm not sure whether 0 means an IRQ0 returned from acpi_dev_gpio_irq_get(), looks like yes...
 
+> Should be better to fix [2] and return -EINVAL.
+
+   No, we have WARN() before returning IRQ0 -- if we're going to finally declare IRQ0 invalid,
+it should be done after this check.
+
+> [1]
+> https://elixir.bootlin.com/linux/v5.15-rc6/source/drivers/base/platform.c#L254
+> 
+> [2]
+> https://elixir.bootlin.com/linux/v5.15-rc6/source/drivers/base/platform.c#L226
+
+MBR, Sergey
