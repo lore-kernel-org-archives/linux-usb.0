@@ -2,97 +2,128 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5E3C433EF
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 04:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B54C433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 07:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6CFC61077
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 04:59:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3ABBA60F36
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 07:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbhKMFCA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 13 Nov 2021 00:02:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbhKMFB7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Nov 2021 00:01:59 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3DFBC061766
-        for <linux-usb@vger.kernel.org>; Fri, 12 Nov 2021 20:59:07 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id p18-20020a17090ad31200b001a78bb52876so8573852pju.3
-        for <linux-usb@vger.kernel.org>; Fri, 12 Nov 2021 20:59:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cWD6ZMN/TLMJ0F8lDVMWbuyLXylJgc5f0OVQLw2Oxq4=;
-        b=XGqzUFB0+TL66FpHkvUWL6TwtBjVyDToPBE4y8x969DGErHi/2N/xtnhysGiARTfE4
-         rYF/OhO0+LCsRZvYCwLLAcy9t5RcDikeC+dzLxvRjjL9QZQ39NB8UihLnveS2oYUtL3l
-         1EcznoDbVuSyMHlLrj1NY3HlIjHPX7HkX03Qubb6MLHIQUqqve87vGXha4pNj1p6nwZk
-         GwL4jA6ni7YpfGKAVcUagQGxtxn/py5ukb5y+pkUUGQ/cR9QPLvJ7Fr6Ey67nDZuLEWx
-         145BiCn2NmOWbmy7ylHIxBNgoqBSQbGYBEWarm+U7ZvMyJ/RYLcq6W6FEHIUreJYytVj
-         95OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cWD6ZMN/TLMJ0F8lDVMWbuyLXylJgc5f0OVQLw2Oxq4=;
-        b=WIoZYmHwAuG2nM360lwgfX0aBDr2am4nv8wRn8OPjTgzJwDWmRHKKV/lFAowk+Yg9S
-         v3yekd8pm8W9zXLI7mOVAdpwzD79YP1Uaoo1sdSrLIE266lv4lLbk+vMDKQEHOiGjEOV
-         BCS+O0owBPLsJlgP5lSa2kthPs/Y3xt3ISh/1NzIiHgoqcEUXBUyfkVoEnbpHdqhgpvZ
-         B6Zj+dB8cOiwYmm/JeFVzNoxKznWZxn2hY1tNTd8Hxlk48NUBwo/DIRPYLqzOmJe1gFe
-         UtLbEjx81ciIXMMFSL5FM69e+2v2abppNBscHnipVd1hdOHh2MHpIKWf3fDwKFEONA19
-         n78g==
-X-Gm-Message-State: AOAM533eZJP5wpdxh60UbRse/Q+11l7qMir8zpfvIaljHgC68En4RScA
-        gbtzup7CW63TJd7X2REHFrs=
-X-Google-Smtp-Source: ABdhPJwMnlxTXidylpfbzDzVr5ku+sBT7r6CfkyxETUkpY2KMyxmPTQ8zsensZwUPT0PmwgnyInzvQ==
-X-Received: by 2002:a17:90a:9dca:: with SMTP id x10mr42729844pjv.170.1636779547310;
-        Fri, 12 Nov 2021 20:59:07 -0800 (PST)
-Received: from ELIJAHBAI-MB0.tencent.com ([203.205.141.113])
-        by smtp.gmail.com with ESMTPSA id 4sm6106243pgj.63.2021.11.12.20.59.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Nov 2021 20:59:06 -0800 (PST)
-From:   Haimin Zhang <tcs.kernel@gmail.com>
-To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     Haimin Zhang <tcs.kernel@gmail.com>,
-        TCS Robot <tcs_robot@tencent.com>
-Subject: [PATCH v4] USB: ehci_brcm_hub_control: improve port index sanitizing
-Date:   Sat, 13 Nov 2021 12:57:14 +0800
-Message-Id: <20211113045714.46373-1-tcs.kernel@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+        id S235676AbhKMHTO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 13 Nov 2021 02:19:14 -0500
+Received: from mailgw01.mediatek.com ([60.244.123.138]:38600 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S235477AbhKMHTO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Nov 2021 02:19:14 -0500
+X-UUID: c9fdb13129f344d0aaf5f2f878a08da0-20211113
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Date:MIME-Version:Content-Type:References:In-Reply-To:CC:To:From:Subject:Message-ID; bh=f5bv2fIAVTo8g215AUeOscF0bRtQ+IqfCg8Dqh6s7F8=;
+        b=kdLZry4v7A8F7v6va2LFOcn8nyFJZyqIyDIPFeKtSNyA9UU0ROB9efM+Mth7E8hzhxMVeszYpSnmozXxL7Kx2qYzbPyr1qU6GAA79O93yZrvz8atfoHB64qyW+qArP1RSuXxQAmhl58l+R1Jirsy4TuM+5WeRzxnQZTjXCQ2yYA=;
+X-UUID: c9fdb13129f344d0aaf5f2f878a08da0-20211113
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1848226455; Sat, 13 Nov 2021 15:16:19 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 13 Nov 2021 15:16:18 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 13 Nov 2021 15:16:17 +0800
+Message-ID: <6465d7110c8d7ecaec5aa48d9f45217f1ea0843b.camel@mediatek.com>
+Subject: Re: [PATCH v4 1/3] PM / wakeirq: support enabling wake-up irq
+ after runtime_suspend called
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+CC:     Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Linux PM" <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
+        <linux-usb@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC..." 
+        <linux-mediatek@lists.infradead.org>,
+        "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>
+In-Reply-To: <CAJZ5v0gb6vN9kHeQbgjRQXvOCNaFK8ur7bLDeAVjDqdT2=a+-g@mail.gmail.com>
+References: <20211025070155.2995-1-chunfeng.yun@mediatek.com>
+         <CAJZ5v0gb6vN9kHeQbgjRQXvOCNaFK8ur7bLDeAVjDqdT2=a+-g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date:   Wed, 27 Oct 2021 17:29:52 +0800
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Due to (wIndex & 0xff) - 1 can get an integer greater than 0xf, this
-can cause array index to be out of bounds since the size of array
-port_status is 0xf. This change prevents a possible out-of-bounds
-pointer computation by forcing the use of a valid port number.
-
-Reported-by: TCS Robot <tcs_robot@tencent.com>
-Signed-off-by: Haimin Zhang <tcs.kernel@gmail.com>
----
- drivers/usb/host/ehci-brcm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
-index d3626bfa966b..2e92918a14dd 100644
---- a/drivers/usb/host/ehci-brcm.c
-+++ b/drivers/usb/host/ehci-brcm.c
-@@ -62,8 +62,12 @@ static int ehci_brcm_hub_control(
- 	u32 __iomem	*status_reg;
- 	unsigned long flags;
- 	int retval, irq_disabled = 0;
-+	u32 temp;
- 
--	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
-+	temp = (wIndex & 0xff) - 1;
-+	if (temp >= HCS_N_PORTS_MAX)
-+		temp = 0;
-+	status_reg = &ehci->regs->port_status[temp];
- 
- 	/*
- 	 * RESUME is cleared when GetPortStatus() is called 20ms after start
--- 
-2.30.1 (Apple Git-130)
+T24gVHVlLCAyMDIxLTEwLTI2IGF0IDE3OjM5ICswMjAwLCBSYWZhZWwgSi4gV3lzb2NraSB3cm90
+ZToNCj4gT24gTW9uLCBPY3QgMjUsIDIwMjEgYXQgOTowMiBBTSBDaHVuZmVuZyBZdW4gPA0KPiBj
+aHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPiB3cm90ZToNCj4gPiANCj4gPiBXaGVuIHRoZSBkZWRp
+Y2F0ZWQgd2FrZSBJUlEgaXMgbGV2ZWwgdHJpZ2dlciwgYW5kIGl0IHVzZXMgdGhlDQo+ID4gZGV2
+aWNlJ3MgbG93LXBvd2VyIHN0YXR1cyBhcyB0aGUgd2FrZXVwIHNvdXJjZSwgdGhhdCBtZWFucyBp
+ZiB0aGUNCj4gPiBkZXZpY2UgaXMgbm90IGluIGxvdy1wb3dlciBzdGF0ZSwgdGhlIHdha2UgSVJR
+IHdpbGwgYmUgdHJpZ2dlcmVkDQo+ID4gaWYgZW5hYmxlZDsgRm9yIHRoaXMgY2FzZSwgbmVlZCBl
+bmFibGUgdGhlIHdha2UgSVJRIGFmdGVyIHJ1bm5pbmcNCj4gPiB0aGUgZGV2aWNlJ3MgLT5ydW50
+aW1lX3N1c3BlbmQoKSB3aGljaCBtYWtlIGl0IGVudGVyIGxvdy1wb3dlcg0KPiA+IHN0YXRlLg0K
+PiA+IA0KPiA+IGUuZy4NCj4gPiBBc3N1bWUgdGhlIHdha2UgSVJRIGlzIGEgbG93IGxldmVsIHRy
+aWdnZXIgdHlwZSwgYW5kIHRoZSB3YWtldXANCj4gPiBzaWduYWwgY29tZXMgZnJvbSB0aGUgbG93
+LXBvd2VyIHN0YXR1cyBvZiB0aGUgZGV2aWNlLg0KPiA+IFRoZSB3YWtldXAgc2lnbmFsIGlzIGxv
+dyBsZXZlbCBhdCBydW5uaW5nIHRpbWUgKDApLCBhbmQgYmVjb21lcw0KPiA+IGhpZ2ggbGV2ZWwg
+d2hlbiB0aGUgZGV2aWNlIGVudGVycyBsb3ctcG93ZXIgc3RhdGUgKHJ1bnRpbWVfc3VzcGVuZA0K
+PiA+ICgxKSBpcyBjYWxsZWQpLCBhIHdha2V1cCBldmVudCBhdCAoMikgbWFrZSB0aGUgZGV2aWNl
+IGV4aXQgbG93LQ0KPiA+IHBvd2VyDQo+ID4gc3RhdGUsIHRoZW4gdGhlIHdha2V1cCBzaWduYWwg
+YWxzbyBiZWNvbWVzIGxvdyBsZXZlbC4NCj4gPiANCj4gPiAgICAgICAgICAgICAgICAgLS0tLS0t
+LS0tLS0tLS0tLS0tDQo+ID4gICAgICAgICAgICAgICAgfCAgICAgICAgICAgXiAgICAgXnwNCj4g
+PiAtLS0tLS0tLS0tLS0tLS0tICAgICAgICAgICB8ICAgICB8IC0tLS0tLS0tLS0tLS0tDQo+ID4g
+IHw8LS0tKDApLS0tPnw8LS0oMSktLXwgICAoMykgICAoMikgICAgKDQpDQo+ID4gDQo+ID4gaWYg
+ZW5hYmxlIHRoZSB3YWtlIElSUSBiZWZvcmUgcnVubmluZyBydW50aW1lX3N1c3BlbmQgZHVyaW5n
+ICgwKSwNCj4gPiBhIHdha2UgSVJRIHdpbGwgYXJpc2UsIGl0IGNhdXNlcyByZXN1bWUgaW1tZWRp
+YXRlbHk7DQo+ID4gaXQgd29ya3MgaWYgZW5hYmxlIHdha2UgSVJRICggZS5nLiBhdCAoMykgb3Ig
+KDQpKSBhZnRlciBydW5uaW5nDQo+ID4gLT5ydW50aW1lX3N1c3BlbmQoKS4NCj4gPiANCj4gPiBU
+aGlzIHBhdGNoIGludHJvZHVjZXMgYSBuZXcgc3RhdHVzIFdBS0VfSVJRX0RFRElDQVRFRF9SRVZF
+UlNFIHRvDQo+ID4gb3B0aW9uYWxseSBzdXBwb3J0IGVuYWJsaW5nIHdha2UgSVJRIGFmdGVyIHJ1
+bm5pbmcNCj4gPiAtPnJ1bnRpbWVfc3VzcGVuZCgpLg0KPiA+IA0KPiA+IFN1Z2dlc3RlZC1ieTog
+UmFmYWVsIEouIFd5c29ja2kgPHJhZmFlbC5qLnd5c29ja2lAaW50ZWwuY29tPg0KPiA+IFNpZ25l
+ZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCj4gDQo+
+IEkgZG9uJ3QgcmVhbGx5IGhhdmUgYW55dGhpbmcgdG8gYWRkIHJlZ2FyZGluZyB0aGUgY29kZS4N
+Cj4gDQo+IFRoZSBrZXJuZWxkb2MgY29tbWVudHMgY291bGQgYmUgaW1wcm92ZWQsIGJ1dCBJIGNh
+biB0YWtlIGNhcmUgb2YgdGhpcw0KPiB3aGVuIGFwcGx5aW5nIHRoZSBwYXRjaC4NCk9rLCB0aGFu
+a3MNCj4gDQo+IFBsZWFzZSBjb2xsZWN0IEFDS3MgZm9yIHRoZSByZW1haW5pbmcgMiBwYXRjaGVz
+IGluIHRoZSBzZXJpZXMgYW5kIEkNCj4gd2lsbCBwaWNrIHVwIGFsbCB0aHJlZS4NClRoZSBmaWxl
+cyAobXR1M19wbGF0LmMsIHhoY2ktbXRrLmMpIG1vZGlmaWVkIGJ5IG90aGVyIDIgcGF0Y2hlcyBh
+cmUNCm1haW50YWluZWQgYnkgbXlzZWxmLCBwbGVhc2UgcGljayB1cCB0aGVtLCB0aGFua3MgYSBs
+b3QuDQoNCj4gDQo+IFRoYW5rcyENCj4gDQo+ID4gLS0tDQo+ID4gdjQ6IGNoYW5nZXMgYWNjb3Jk
+aW5nIHRvIFJhZmFlbCdzIHN1Z2dlc3Rpb25zDQo+ID4gICAgIDEuIHJlbmFtZSBuZXcgZmxhZyBh
+cyBXQUtFX0lSUV9ERURJQ0FURURfUkVWRVJTRTsNCj4gPiAgICAgMi4gYWRkIF9fZGV2X3BtX3Nl
+dF9kZWRpY2F0ZWRfd2FrZV9pcnEoKSB3aXRoIGZsYWcgcGFyYW1ldGVyLA0KPiA+IHRoZW4NCj4g
+PiAgICAgICAgcmVidWlsZCBkZXZfcG1fc2V0X2RlZGljYXRlZF93YWtlX2lycSgpIGFuZCBhZGQg
+bmV3IGFwaQ0KPiA+ICAgICAgICBkZXZfcG1fc2V0X2RlZGljYXRlZF93YWtlX2lycV9yZXZlcnNl
+KCk7DQo+ID4gICAgIDMuIHJlbmFtZSB0aGUgbmV3IGFkZGVkIHBhcmFtZXRlciBhcyBjb25kX2Rp
+c2FibGUgaW4NCj4gPiAgICAgICAgZGV2X3BtX2Rpc2FibGVfd2FrZV9pcnFfY2hlY2soKSwgYW5k
+IGFsc28gc2ltcGxpZnkgaXRzIGZsb3c7DQo+ID4gICAgIDQuIG1vZGlmeSBzb21lIGNvbW1lbnRz
+DQo+ID4gDQo+ID4gdjM6IGFkZCBuZXcgc3RhdHVzIHN1Z2dlc3RlZCBieSBSYWZhZWwNCj4gPiAN
+Cj4gPiB2MjogYWRkIG1vcmUgY29tbWl0IG1lc3NhZ2UNCj4gPiANCj4gPiAgIFVzZSB0aGUgZmFs
+bGluZyBlZGdlIHRyaWdnZXIgaW50ZXJydXB0IHN1Z2dlc3RlZCBieSBJa2pvb24gWzFdLA0KPiA+
+IGl0DQo+ID4gd29ya3Mgd2VsbCBhdCBmaXJzdGx5IHdoZW4gb25seSB1c2UgdGhpcyByZWxhdGVk
+IHdha2V1cCBzb3VyY2UsIGJ1dA0KPiA+IGVuY291bnRlciBpc3N1ZXMgaWYgdXNlIG90aGVyIHdh
+a2V1cCBzb3VyY2VzIHRvIHdha2V1cCBwbGF0Zm9ybSBhcw0KPiA+IGJlbG93IHN0ZXBzOg0KPiA+
+IDEuIHVzZSBhbm90aGVyIHdha2V1cCBzb3VyY2UgdG8gd2FrZSB1cCB0aGUgc3VzcGVuZGVkIHN5
+c3RlbTsNCj4gPiAyLiB0aGUgY29uc3VtZXIncyByZXN1bWUoKSB3aWxsIGJlIGNhbGxlZCwgYW5k
+IGV4aXRzIHNsZWVwIHN0YXRlOw0KPiA+IDMuIHRoZSBjb25zdW1lcidzIHdha2V1cCBzaWduYWwg
+d2lsbCBmYWxsIGludG8gbG93IGxldmVsLCBkdWUgdG8NCj4gPiAgICBjdXJyZW50bHkgdGhlIHdh
+a2V1cCBpcnEgaXMgZGlzYWJsZWQsIHRoZSB3YWtlLWlycSBpcyBwZW5kaW5nOw0KPiA+IDQuIHRo
+ZSBjb25zdW1lciB0cmllcyB0byBlbnRlciBydW50aW1lIHN1c3BlbmQsIGJ1dCB0aGVyZSBpcyBh
+DQo+ID4gICAgcGVuZGluZyB3YWtldXAgaXJxLCBzbyB3aWxsIHJlc3VtZSBhZ2FpbiwgdGhpcyB3
+aWxsIHJlcGVhdA0KPiA+ICAgIGVuZGxlc3NseS4NCj4gPiANCj4gPiAgIFNlbmQgb3V0IHRoZSBw
+YXRjaCBhZ2FpbiBmb3IgZnVydGhlciBkaXNjdXNzaW9uLg0KPiA+IA0KPiA+IFsxXTogaHR0cHM6
+Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMjE5MDQwNw0KPiA+IA0KPiA+IC0tLQ0KPiA+
+ICBkcml2ZXJzL2Jhc2UvcG93ZXIvcG93ZXIuaCAgIHwgICA3ICsrLQ0KPiA+ICBkcml2ZXJzL2Jh
+c2UvcG93ZXIvcnVudGltZS5jIHwgICA2ICsrLQ0KPiA+ICBkcml2ZXJzL2Jhc2UvcG93ZXIvd2Fr
+ZWlycS5jIHwgMTAxICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+ID4gLS0tLS0tDQo+
+ID4gIGluY2x1ZGUvbGludXgvcG1fd2FrZWlycS5oICAgfCAgIDkgKysrLQ0KPiA+ICA0IGZpbGVz
+IGNoYW5nZWQsIDk2IGluc2VydGlvbnMoKyksIDI3IGRlbGV0aW9ucygtKQ0KWy4uLl0NCj4gPiAN
+Cg==
 
