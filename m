@@ -2,32 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64ADBC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 02:50:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF31C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 02:50:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AF50610C7
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 02:50:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76DE7610A5
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 02:50:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238658AbhJ0CxB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S238678AbhJ0CxB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 26 Oct 2021 22:53:01 -0400
 Received: from alexa-out.qualcomm.com ([129.46.98.28]:33520 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238649AbhJ0CxA (ORCPT
+        with ESMTP id S238653AbhJ0CxA (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Oct 2021 22:53:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
   t=1635303036; x=1666839036;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=wiKUdiIYul5fWqpJX+M9AXgQpzBUewouZtkI/Kf7vRc=;
-  b=ivbAMBVSPy23PnNvxOXbXu08DzcAtedVReHBo2D9wsTSGfqj1plp2NOO
-   nNqE5x3ArLeKYTE4pWvmSbV/yT+ZJgZhaMtc/HYKHnm2YwRwCikxLxqbv
-   KtlOdom4N8zqWzsQAIlDOfP3CVM7+zhg3P+AU4GcVPsdEywpgPLEn+V7m
-   4=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 26 Oct 2021 19:50:35 -0700
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=iFW11J24xI33bT3ahEg5qE3QCrU6FNkpE17Pl0nOnuU=;
+  b=Cb7eCKBWSVjRQ/HveKVrT1wXW02dQBwuQWyEonZgEho9G0zUnBcXTRu8
+   bh87jcdbr2FXJ5cBo2i3UAIbppm1/bZAnMU7srjnTLpRotGCGlNhmGt6W
+   igAyehuNSa7Jv9swCUT49djpo9PppS6CrTkJOzV9kFcWJkZhWn6prnOTC
+   c=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 26 Oct 2021 19:50:36 -0700
 X-QCInternal: smtphost
 Received: from nalasex01b.na.qualcomm.com ([10.47.209.197])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 19:50:35 -0700
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2021 19:50:35 -0700
 Received: from wcheng-linux1.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
@@ -36,10 +37,12 @@ From:   Wesley Cheng <quic_wcheng@quicinc.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
 CC:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <jackp@codeaurora.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v2 0/2] Disable mass storage endpoints during disconnect
-Date:   Tue, 26 Oct 2021 19:50:23 -0700
-Message-ID: <1635303025-772-1-git-send-email-quic_wcheng@quicinc.com>
+Subject: [PATCH v2 1/2] usb: gadget: udc: core: Revise comments for usb_ep_disable()
+Date:   Tue, 26 Oct 2021 19:50:24 -0700
+Message-ID: <1635303025-772-2-git-send-email-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1635303025-772-1-git-send-email-quic_wcheng@quicinc.com>
+References: <1635303025-772-1-git-send-email-quic_wcheng@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -49,21 +52,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Changes in v2:
- - Revised comments for usb_ep_disable() as it should be safe to be
-   executed in atomic contexts as well.  Other FDs are currently
-   calling ep disable during the disconnect event as well.
+The usb_ep_disable() routine is being widely used directly in the
+disconnect callback path by function drivers.  Hence, the statement
+about it being able to only run in process context may not be true.
 
-This series calls the usb_ep_disable() API directly from fsg_disable()
-as there is a possibility that UDCs that support runtime PM may
-already be in a suspended state, leading to HW access while resources
-are disabled.
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/gadget/udc/core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Wesley Cheng (2):
-  usb: gadget: udc: core: Revise comments for usb_ep_disable()
-  usb: gadget: f_mass_storage: Disable eps during disconnect
-
- drivers/usb/gadget/function/f_mass_storage.c | 10 ++++++++++
- drivers/usb/gadget/udc/core.c                |  2 --
- 2 files changed, 10 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index d626511..e1f90d8 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -136,8 +136,6 @@ EXPORT_SYMBOL_GPL(usb_ep_enable);
+  * gadget drivers must call usb_ep_enable() again before queueing
+  * requests to the endpoint.
+  *
+- * This routine must be called in process context.
+- *
+  * returns zero, or a negative error code.
+  */
+ int usb_ep_disable(struct usb_ep *ep)
