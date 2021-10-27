@@ -2,90 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01BD7C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 09:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40886C4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 09:37:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DDB2C6103B
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 09:36:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A971610A0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Oct 2021 09:37:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238949AbhJ0Jib (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Oct 2021 05:38:31 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:47588 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238911AbhJ0Jia (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Oct 2021 05:38:30 -0400
-X-UUID: fd310415190743078ae7ed4d5db506ca-20211027
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=MRYbtZzHA6Ab8RM4gbu8m/VI2yKvhjNG510eYE06hMU=;
-        b=HqvBYS3uPi64EHmXz193uUhnyy4JjDzmQ9RTH17SnYGZJIDhG+3DChLkyXHCrGlxXPwyVxF27cubcUYy7Dh+sq42eYXMFKnrEuwh7hbLs0Dljpg5lYncC/3NpW5UO6Dn5wwn7PYRvEtmRSMTpMf+RJuJRtA7a0qTdTM1qN9RKB4=;
-X-UUID: fd310415190743078ae7ed4d5db506ca-20211027
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 801106141; Wed, 27 Oct 2021 17:36:01 +0800
-Received: from MTKMBS34N1.mediatek.inc (172.27.4.172) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
- Wed, 27 Oct 2021 17:36:00 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS34N1.mediatek.inc
- (172.27.4.172) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 27 Oct
- 2021 17:35:59 +0800
-Received: from mhfsdcap04 (10.17.3.154) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 Oct 2021 17:35:58 +0800
-Message-ID: <7811ffc8032eeb3201025085501da999e30a09d2.camel@mediatek.com>
-Subject: Re: [PATCH v2 20/22] usb: host: xhci-mtk: deny IRQ0
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>, <linux-usb@vger.kernel.org>,
-        "Mathias Nyman" <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Date:   Wed, 27 Oct 2021 17:35:58 +0800
-In-Reply-To: <d7a7d79a-a1b9-3c3d-13e1-ab4ab8e9989a@omp.ru>
-References: <20211026173943.6829-1-s.shtylyov@omp.ru>
-         <20211026173943.6829-21-s.shtylyov@omp.ru>
-         <fee8297f6b34e530ef2e3da4e9bc9e324308b439.camel@mediatek.com>
-         <d7a7d79a-a1b9-3c3d-13e1-ab4ab8e9989a@omp.ru>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+        id S238954AbhJ0JjW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Oct 2021 05:39:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42320 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236741AbhJ0JjV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 27 Oct 2021 05:39:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B41AA61056;
+        Wed, 27 Oct 2021 09:36:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635327416;
+        bh=A8O+IbmeT4Ni9leqpFCK7Sh5SliDMz7ykYVWOa64PM8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TNzAfPjxky7ZjycSkbCRlLNsBmsn7qYHuJukCXyaImeI9a4NqXwCP6rxql0Uy2CN6
+         5lb8OpycM0+kA0IXo9iJvc3wvyV/GuWougHpDyJ3LNhmnaEb+TyNuII2TiPJKMJWLr
+         GLRpdsJkbDCbpkB0uArV7KNn9g1/oN6agLJ/TQSDSpN99Vh0qL9lQG7Zt/giWVHeX8
+         9GSkuyv3q//I14VANGpdIbxYmgccXL5i2Cqc9Sv7ghotUvz7YAK0NiLKj9XVqd1r3r
+         j2w27HJNVKpe8n6OERrNZirc2Argo5+kBkFhuTGC+vOhVoJ5QHDJXGKllQJ/prx3+8
+         rVneSCxfF1X7Q==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mffMP-00083a-38; Wed, 27 Oct 2021 11:36:41 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Ian Abbott <abbotti@mev.co.uk>,
+        H Hartley Sweeten <hsweeten@visionengravers.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>, stable@vger.kernel.org,
+        Luca Ellero <luca.ellero@brickedbrain.com>
+Subject: [PATCH v2 1/2] comedi: ni_usb6501: fix NULL-deref in command paths
+Date:   Wed, 27 Oct 2021 11:35:28 +0200
+Message-Id: <20211027093529.30896-2-johan@kernel.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211027093529.30896-1-johan@kernel.org>
+References: <20211027093529.30896-1-johan@kernel.org>
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gV2VkLCAyMDIxLTEwLTI3IGF0IDEyOjI1ICswMzAwLCBTZXJnZXkgU2h0eWx5b3Ygd3JvdGU6
-DQo+IE9uIDI3LjEwLjIwMjEgMTI6MTgsIENodW5mZW5nIFl1biB3cm90ZToNCj4gDQo+ID4gPiBJ
-ZiBwbGF0Zm9ybV9nZXRfaXJxKCkgcmV0dXJucyBJUlEwIChjb25zaWRlcmVkIGludmFsaWQgYWNj
-b3JkaW5nDQo+ID4gPiB0bw0KPiA+ID4gTGludXMpDQo+ID4gPiB0aGUgZHJpdmVyIGJsaXRoZWx5
-IHBhc3NlcyBpdCB0byB1c2JfYWRkX2hjZCgpIHRoYXQgdHJlYXRzIElSUTANCj4gPiA+IGFzIG5v
-DQo+ID4gPiBJUlENCj4gPiA+IGF0IGFsbC4gRGVueSBJUlEwIHJpZ2h0IGF3YXksIHJldHVybmlu
-ZyAtRUlOVkFMIGZyb20gdGhlIHByb2JlKCkNCj4gPiA+IG1ldGhvZC4uLg0KPiA+ID4gDQo+ID4g
-PiBGaXhlczogMGNiZDRiMzRjZGE5ICgieGhjaTogbWVkaWF0ZWs6IHN1cHBvcnQgTVRLIHhIQ0kg
-aG9zdA0KPiA+ID4gY29udHJvbGxlciIpDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBTZXJnZXkgU2h0
-eWx5b3YgPHMuc2h0eWx5b3ZAb21wLnJ1Pg0KPiA+ID4gLS0tDQo+ID4gPiAgIGRyaXZlcnMvdXNi
-L2hvc3QveGhjaS1tdGsuYyB8IDQgKysrLQ0KPiA+ID4gICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
-cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gPiANCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2
-ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktDQo+ID4gPiBt
-dGsuYw0KPiA+ID4gaW5kZXggYzUzZjZmMjc2ZDVjLi5kMmRjOGQ5ODYzZWUgMTAwNjQ0DQo+ID4g
-PiAtLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMNCj4gPiA+ICsrKyBiL2RyaXZlcnMv
-dXNiL2hvc3QveGhjaS1tdGsuYw0KPiA+ID4gQEAgLTQ5NSw3ICs0OTUsNyBAQCBzdGF0aWMgaW50
-IHhoY2lfbXRrX3Byb2JlKHN0cnVjdA0KPiA+ID4gcGxhdGZvcm1fZGV2aWNlDQo+ID4gPiAqcGRl
-dikNCj4gPiA+ICAgCQlyZXR1cm4gcmV0Ow0KPiA+ID4gICANCj4gPiA+ICAgCWlycSA9IHBsYXRm
-b3JtX2dldF9pcnFfYnluYW1lX29wdGlvbmFsKHBkZXYsICJob3N0Iik7DQo+ID4gPiAtCWlmIChp
-cnEgPCAwKSB7DQo+ID4gPiArCWlmIChpcnEgPD0gMCkgew0KPiA+ID4gICAJCWlmIChpcnEgPT0g
-LUVQUk9CRV9ERUZFUikNCj4gPiA+ICAgCQkJcmV0dXJuIGlycTsNCj4gPiA+ICAgDQo+ID4gPiBA
-QCAtNTAzLDYgKzUwMyw4IEBAIHN0YXRpYyBpbnQgeGhjaV9tdGtfcHJvYmUoc3RydWN0DQo+ID4g
-PiBwbGF0Zm9ybV9kZXZpY2UNCj4gPiA+ICpwZGV2KQ0KPiA+ID4gICAJCWlycSA9IHBsYXRmb3Jt
-X2dldF9pcnEocGRldiwgMCk7DQpIZXJlLCBpcnEgaXMgdXBkYXRlZCBhZ2Fpbg0KDQo+ID4gPiAg
-IAkJaWYgKGlycSA8IDApDQo+ID4gPiAgIAkJCXJldHVybiBpcnE7DQo+ID4gPiArCQlpZiAoIWly
-cSkNCj4gPiANCj4gPiBpdCdzICJpZiAoaXJxIDw9IDApIj8NCj4gDQo+ICAgICBObywgaWYgKGly
-cSA9PSAwKS4NCj4gDQo+ID4gPiArCQkJcmV0dXJuIC1FSU5WQUw7DQphZGQgImVsc2UgaWYgKGly
-cSA8IDApLCByZXR1cm4gaXJxOyI/ICBidXQgbm90IC1FSU5WQUwgb25seSwgdGhpcyBtYXkNCmRy
-b3AgRVBST0JFX0RFRkVSDQoNCj4gPiA+ICAgCX0NCj4gPiA+ICAgDQo+ID4gPiAgIAl3YWtldXBf
-aXJxID0gcGxhdGZvcm1fZ2V0X2lycV9ieW5hbWVfb3B0aW9uYWwocGRldiwNCj4gPiA+ICJ3YWtl
-dXAiKTsNCj4gDQo+IE1CUiwgU2VyZ2V5DQo=
+The driver uses endpoint-sized USB transfer buffers but had no sanity
+checks on the sizes. This can lead to zero-size-pointer dereferences or
+overflowed transfer buffers in ni6501_port_command() and
+ni6501_counter_command() if a (malicious) device has smaller max-packet
+sizes than expected (or when doing descriptor fuzz testing).
+
+Add the missing sanity checks to probe().
+
+Fixes: a03bb00e50ab ("staging: comedi: add NI USB-6501 support")
+Cc: stable@vger.kernel.org      # 3.18
+Cc: Luca Ellero <luca.ellero@brickedbrain.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/comedi/drivers/ni_usb6501.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/comedi/drivers/ni_usb6501.c b/drivers/comedi/drivers/ni_usb6501.c
+index 5b6d9d783b2f..c42987b74b1d 100644
+--- a/drivers/comedi/drivers/ni_usb6501.c
++++ b/drivers/comedi/drivers/ni_usb6501.c
+@@ -144,6 +144,10 @@ static const u8 READ_COUNTER_RESPONSE[]	= {0x00, 0x01, 0x00, 0x10,
+ 					   0x00, 0x00, 0x00, 0x02,
+ 					   0x00, 0x00, 0x00, 0x00};
+ 
++/* Largest supported packets */
++static const size_t TX_MAX_SIZE	= sizeof(SET_PORT_DIR_REQUEST);
++static const size_t RX_MAX_SIZE	= sizeof(READ_PORT_RESPONSE);
++
+ enum commands {
+ 	READ_PORT,
+ 	WRITE_PORT,
+@@ -501,6 +505,12 @@ static int ni6501_find_endpoints(struct comedi_device *dev)
+ 	if (!devpriv->ep_rx || !devpriv->ep_tx)
+ 		return -ENODEV;
+ 
++	if (usb_endpoint_maxp(devpriv->ep_rx) < RX_MAX_SIZE)
++		return -ENODEV;
++
++	if (usb_endpoint_maxp(devpriv->ep_tx) < TX_MAX_SIZE)
++		return -ENODEV;
++
+ 	return 0;
+ }
+ 
+-- 
+2.32.0
 
