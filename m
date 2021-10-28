@@ -2,260 +2,332 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54BB4C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 09:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DEBEC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 10:32:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3678A610F8
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 09:52:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EABF60F9D
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 10:32:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230128AbhJ1JyU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Oct 2021 05:54:20 -0400
-Received: from smtp87.iad3a.emailsrvr.com ([173.203.187.87]:43716 "EHLO
-        smtp87.iad3a.emailsrvr.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230126AbhJ1JyR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Oct 2021 05:54:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mev.co.uk;
-        s=20190130-41we5z8j; t=1635414317;
-        bh=CYy7x/FF6kwpFQYSiYAtB0kHpztDGzB1vTD/96AEPg8=;
-        h=Subject:To:From:Date:From;
-        b=FDTxiCaaJnXoxqw9cDWA2M+IDVnckJavRHQyXpNQOwVtHclsjIyctXQv5HE6UJtCG
-         1YFHTJTNlnvatPee2UClM8jJjAxLS3ZyZSfSdmwGohjP2dsX2UIVFQNVHq5PHY3JGF
-         e6Y+kdFFttt/GUBVB9pf2NFq73VWFtErtfmxU+K0=
-X-Auth-ID: abbotti@mev.co.uk
-Received: by smtp19.relay.iad3a.emailsrvr.com (Authenticated sender: abbotti-AT-mev.co.uk) with ESMTPSA id 34BC043C2;
-        Thu, 28 Oct 2021 05:45:16 -0400 (EDT)
-Subject: Re: [PATCH v2 2/2] comedi: dt9812: fix DMA buffers on stack
-To:     Johan Hovold <johan@kernel.org>,
-        H Hartley Sweeten <hsweeten@visionengravers.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20211027093529.30896-1-johan@kernel.org>
- <20211027093529.30896-3-johan@kernel.org>
-From:   Ian Abbott <abbotti@mev.co.uk>
-Organization: MEV Ltd.
-Message-ID: <7b6d9a85-c2a5-2f3d-5385-81df0ef7f195@mev.co.uk>
-Date:   Thu, 28 Oct 2021 10:45:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S230114AbhJ1Kew (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Oct 2021 06:34:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229946AbhJ1Ker (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Oct 2021 06:34:47 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7560EC061570
+        for <linux-usb@vger.kernel.org>; Thu, 28 Oct 2021 03:32:20 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id u21so12519852lff.8
+        for <linux-usb@vger.kernel.org>; Thu, 28 Oct 2021 03:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LDxy8zf16XbblmUbXPDzHFwVyeqRrn2W3qeHn28IFtA=;
+        b=QFzIb5gUTe4RelRe44dkEOHgZU2yh1MtOfT5MUgPyUQuh5lg0977zIgECaPQDdBj94
+         BFkSTYJiWDPxjquU/iRXxSmLnZKzySqv4tRahOT/i3nsIrF/ceZB3jJ/QXzNmerSFdHT
+         j6y7c7+0gwDhuZ6bzFgDB/c7mPjz7k4NTeX9Y1dzMQGAPKIBxQukEzZt80vR0jQYhNts
+         /dYzG66TfgeOSMSGWpzrto+h8hkCtU7cGpd/qGmmXVcNyAKIEJ/Uq9ACZg8z+SDjvb4U
+         B/Cu29e07u78iKlZYDXjsv2EiCilRJvHfgkhYERy5d811QFGeIl8vDSY6m7DQGaIJOSt
+         NzhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LDxy8zf16XbblmUbXPDzHFwVyeqRrn2W3qeHn28IFtA=;
+        b=aWfYH/cio+UeSsm+MNoufBNJs2MywZsqtUdLkg0cQXDUx9Prvdc7Xjgn8kGy7hNKE9
+         8ZKTB7p/eQdOxd8FlWXQn5jzZ80jPuOpj7Qd5OgYMPvY2hMCmeHUiB5g/MMsYMmxVV7x
+         MiyQUzCvWwAICDSdnXCecfNCYPn7lAK3lNdy+7v3DRH9XwysxJrv3C6xSezg9/DkUmHO
+         hfzbX07xi/P1nKF/jWnJWhsulQOnTIP9DCXPkLryqjJqAUClTnWgsxgURMKD/OyzCzOa
+         xMrQHA3FPiD6G+BbSDtvpSU3XfRLyxuDaDHZbfa+QxZKdzybVCBXk41GN67ME0ILlo0o
+         7/4w==
+X-Gm-Message-State: AOAM530AyFnhk0qdXmMt1aaGsKoE0QJk3byXQKnILYiphtoZlX4thf2O
+        MJ2qaQD6hNJ+azqZ1+OgDmx2lC+pdTVy/kp9LMwO2Q==
+X-Google-Smtp-Source: ABdhPJwJk0vTvCHQGwtvtA9aKAQOD7odrTm25viS1f/o7JE473vUBTmJCGpXpvGj6R3j3zwwwNZn9hKBQKXCJHHJvBM=
+X-Received: by 2002:a05:6512:1515:: with SMTP id bq21mr3347083lfb.71.1635417138723;
+ Thu, 28 Oct 2021 03:32:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20211027093529.30896-3-johan@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Classification-ID: 2228fac0-5ceb-4e0c-b35a-279f4d924c94-1-1
+References: <1635152851-23660-1-git-send-email-quic_c_sanm@quicinc.com>
+ <1635152851-23660-2-git-send-email-quic_c_sanm@quicinc.com>
+ <YXcBK7zqny0s4gd4@ripper> <CAE-0n51k8TycXjEkH7rHYo0j7cYbKJOnOn1keVhx2yyTcBNnvg@mail.gmail.com>
+ <YXck+xCJQBRGqTCw@ripper> <CAE-0n530M3eft-o0qB+yEzGjZgCLMgY==ZgdvwiVCwqqCAVxxA@mail.gmail.com>
+ <YXdsYlLWnjopyMn/@ripper> <CAE-0n51C4dm6bhds=ZZyje-Pcejxjm4MMa3m-VHjFgq7GZGrLw@mail.gmail.com>
+ <YXjbs3Bv6Y3d87EC@yoga> <CAPDyKFrWQdvZX4ukHZoGz73JPfQSgqVrG_4ShMp_GrxL0NKLvg@mail.gmail.com>
+ <YXlsEF9XZpthecJC@ripper>
+In-Reply-To: <YXlsEF9XZpthecJC@ripper>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 28 Oct 2021 12:31:41 +0200
+Message-ID: <CAPDyKFpXdUKeuO2z2-2qG6YtiHmbg3=opfVwG007p1N2AOxGDA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: usb: qcom,dwc3: Add multi-pd bindings
+ for dwc3 qcom
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 27/10/2021 10:35, Johan Hovold wrote:
-> USB transfer buffers are typically mapped for DMA and must not be
-> allocated on the stack or transfers will fail.
-> 
-> Allocate proper transfer buffers in the various command helpers and
-> return an error on short transfers instead of acting on random stack
-> data.
-> 
-> Note that this also fixes a stack info leak on systems where DMA is not
-> used as 32 bytes are always sent to the device regardless of how short
-> the command is.
-> 
-> Fixes: 63274cd7d38a ("Staging: comedi: add usb dt9812 driver")
-> Cc: stable@vger.kernel.org      # 2.6.29
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->   drivers/comedi/drivers/dt9812.c | 115 ++++++++++++++++++++++++--------
->   1 file changed, 86 insertions(+), 29 deletions(-)
-> 
-> diff --git a/drivers/comedi/drivers/dt9812.c b/drivers/comedi/drivers/dt9812.c
-> index 634f57730c1e..704b04d2980d 100644
-> --- a/drivers/comedi/drivers/dt9812.c
-> +++ b/drivers/comedi/drivers/dt9812.c
-> @@ -32,6 +32,7 @@
->   #include <linux/kernel.h>
->   #include <linux/module.h>
->   #include <linux/errno.h>
-> +#include <linux/slab.h>
->   #include <linux/uaccess.h>
->   
->   #include "../comedi_usb.h"
-> @@ -237,22 +238,42 @@ static int dt9812_read_info(struct comedi_device *dev,
->   {
->   	struct usb_device *usb = comedi_to_usb_dev(dev);
->   	struct dt9812_private *devpriv = dev->private;
-> -	struct dt9812_usb_cmd cmd;
-> +	struct dt9812_usb_cmd *cmd;
-> +	size_t tbuf_size;
->   	int count, ret;
-> +	void *tbuf;
->   
-> -	cmd.cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
-> -	cmd.u.flash_data_info.address =
-> +	tbuf_size = max(sizeof(*cmd), buf_size);
-> +
-> +	tbuf = kzalloc(tbuf_size, GFP_KERNEL);
-> +	if (!tbuf)
-> +		return -ENOMEM;
-> +
-> +	cmd = tbuf;
-> +
-> +	cmd->cmd = cpu_to_le32(DT9812_R_FLASH_DATA);
-> +	cmd->u.flash_data_info.address =
->   	    cpu_to_le16(DT9812_DIAGS_BOARD_INFO_ADDR + offset);
-> -	cmd.u.flash_data_info.numbytes = cpu_to_le16(buf_size);
-> +	cmd->u.flash_data_info.numbytes = cpu_to_le16(buf_size);
->   
->   	/* DT9812 only responds to 32 byte writes!! */
->   	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> -			   &cmd, 32, &count, DT9812_USB_TIMEOUT);
-> +			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
->   	if (ret)
-> -		return ret;
-> +		goto out;
-> +
-> +	ret = usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
-> +			   tbuf, buf_size, &count, DT9812_USB_TIMEOUT);
-> +	if (!ret) {
-> +		if (count == buf_size)
-> +			memcpy(buf, tbuf, buf_size);
-> +		else
-> +			ret = -EREMOTEIO;
-> +	}
-> +out:
-> +	kfree(tbuf);
->   
-> -	return usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
-> -			    buf, buf_size, &count, DT9812_USB_TIMEOUT);
-> +	return ret;
->   }
->   
->   static int dt9812_read_multiple_registers(struct comedi_device *dev,
-> @@ -261,22 +282,42 @@ static int dt9812_read_multiple_registers(struct comedi_device *dev,
->   {
->   	struct usb_device *usb = comedi_to_usb_dev(dev);
->   	struct dt9812_private *devpriv = dev->private;
-> -	struct dt9812_usb_cmd cmd;
-> +	struct dt9812_usb_cmd *cmd;
->   	int i, count, ret;
-> +	size_t buf_size;
-> +	void *buf;
->   
-> -	cmd.cmd = cpu_to_le32(DT9812_R_MULTI_BYTE_REG);
-> -	cmd.u.read_multi_info.count = reg_count;
-> +	buf_size = max_t(size_t, sizeof(*cmd), reg_count);
-> +
-> +	buf = kzalloc(buf_size, GFP_KERNEL);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	cmd = buf;
-> +
-> +	cmd->cmd = cpu_to_le32(DT9812_R_MULTI_BYTE_REG);
-> +	cmd->u.read_multi_info.count = reg_count;
->   	for (i = 0; i < reg_count; i++)
-> -		cmd.u.read_multi_info.address[i] = address[i];
-> +		cmd->u.read_multi_info.address[i] = address[i];
->   
->   	/* DT9812 only responds to 32 byte writes!! */
->   	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> -			   &cmd, 32, &count, DT9812_USB_TIMEOUT);
-> +			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
->   	if (ret)
-> -		return ret;
-> +		goto out;
-> +
-> +	ret = usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
-> +			   buf, reg_count, &count, DT9812_USB_TIMEOUT);
-> +	if (!ret) {
-> +		if (count == reg_count)
-> +			memcpy(value, buf, reg_count);
-> +		else
-> +			ret = -EREMOTEIO;
-> +	}
-> +out:
-> +	kfree(buf);
->   
-> -	return usb_bulk_msg(usb, usb_rcvbulkpipe(usb, devpriv->cmd_rd.addr),
-> -			    value, reg_count, &count, DT9812_USB_TIMEOUT);
-> +	return ret;
->   }
->   
->   static int dt9812_write_multiple_registers(struct comedi_device *dev,
-> @@ -285,19 +326,27 @@ static int dt9812_write_multiple_registers(struct comedi_device *dev,
->   {
->   	struct usb_device *usb = comedi_to_usb_dev(dev);
->   	struct dt9812_private *devpriv = dev->private;
-> -	struct dt9812_usb_cmd cmd;
-> +	struct dt9812_usb_cmd *cmd;
->   	int i, count;
-> +	int ret;
-> +
-> +	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
-> +	if (!cmd)
-> +		return -ENOMEM;
->   
-> -	cmd.cmd = cpu_to_le32(DT9812_W_MULTI_BYTE_REG);
-> -	cmd.u.read_multi_info.count = reg_count;
-> +	cmd->cmd = cpu_to_le32(DT9812_W_MULTI_BYTE_REG);
-> +	cmd->u.read_multi_info.count = reg_count;
->   	for (i = 0; i < reg_count; i++) {
-> -		cmd.u.write_multi_info.write[i].address = address[i];
-> -		cmd.u.write_multi_info.write[i].value = value[i];
-> +		cmd->u.write_multi_info.write[i].address = address[i];
-> +		cmd->u.write_multi_info.write[i].value = value[i];
->   	}
->   
->   	/* DT9812 only responds to 32 byte writes!! */
-> -	return usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> -			    &cmd, 32, &count, DT9812_USB_TIMEOUT);
-> +	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> +			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
-> +	kfree(cmd);
-> +
-> +	return ret;
->   }
->   
->   static int dt9812_rmw_multiple_registers(struct comedi_device *dev,
-> @@ -306,17 +355,25 @@ static int dt9812_rmw_multiple_registers(struct comedi_device *dev,
->   {
->   	struct usb_device *usb = comedi_to_usb_dev(dev);
->   	struct dt9812_private *devpriv = dev->private;
-> -	struct dt9812_usb_cmd cmd;
-> +	struct dt9812_usb_cmd *cmd;
->   	int i, count;
-> +	int ret;
-> +
-> +	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
-> +	if (!cmd)
-> +		return -ENOMEM;
->   
-> -	cmd.cmd = cpu_to_le32(DT9812_RMW_MULTI_BYTE_REG);
-> -	cmd.u.rmw_multi_info.count = reg_count;
-> +	cmd->cmd = cpu_to_le32(DT9812_RMW_MULTI_BYTE_REG);
-> +	cmd->u.rmw_multi_info.count = reg_count;
->   	for (i = 0; i < reg_count; i++)
-> -		cmd.u.rmw_multi_info.rmw[i] = rmw[i];
-> +		cmd->u.rmw_multi_info.rmw[i] = rmw[i];
->   
->   	/* DT9812 only responds to 32 byte writes!! */
-> -	return usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> -			    &cmd, 32, &count, DT9812_USB_TIMEOUT);
-> +	ret = usb_bulk_msg(usb, usb_sndbulkpipe(usb, devpriv->cmd_wr.addr),
-> +			   cmd, sizeof(*cmd), &count, DT9812_USB_TIMEOUT);
-> +	kfree(cmd);
-> +
-> +	return ret;
->   }
->   
->   static int dt9812_digital_in(struct comedi_device *dev, u8 *bits)
-> 
+On Wed, 27 Oct 2021 at 17:09, Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
+>
+> On Wed 27 Oct 07:24 PDT 2021, Ulf Hansson wrote:
+>
+> > On Wed, 27 Oct 2021 at 06:55, Bjorn Andersson
+> > <bjorn.andersson@linaro.org> wrote:
+> > >
+> > > On Tue 26 Oct 19:48 CDT 2021, Stephen Boyd wrote:
+> > >
+> > > > +Rajendra
+> > > >
+> > > > Quoting Bjorn Andersson (2021-10-25 19:48:02)
+> > > > > On Mon 25 Oct 15:41 PDT 2021, Stephen Boyd wrote:
+> > > > >
+> > > > > >
+> > > > > > When the binding was introduced I recall we punted on the parent child
+> > > > > > conversion stuff. One problem at a time. There's also the possibility
+> > > > > > for a power domain to be parented by multiple power domains so
+> > > > > > translation tables need to account for that.
+> > > > > >
+> > > > >
+> > > > > But for this case - and below display case - the subdomain (the device's
+> > > > > power-domain) is just a dumb gate. So there is no translation, the given
+> > > > > performance_state applies to the parent. Or perhaps such implicitness
+> > > > > will come back and bite us?
+> > > >
+> > > > In the gate case I don't see how the implicitness will ever be a
+> > > > problem.
+> > > >
+> > > > >
+> > > > > I don't think we allow a power-domain to be a subdomain of two
+> > > > > power-domains - and again it's not applicable to USB or display afaict.
+> > > >
+> > > > Ah maybe. I always confuse power domains and genpd.
+> > > >
+> > > > >
+> > > > > > >
+> > > > > > > > Or we may need to make another part of the OPP binding to indicate the
+> > > > > > > > relationship between the power domain and the OPP and the parent of
+> > > > > > > > the power domain.
+> > > > > > >
+> > > > > > > I suspect this would be useful if a power-domain provider needs to
+> > > > > > > translate a performance_state into a different supply-performance_state.
+> > > > > > > Not sure if we have such case currently; these examples are all an
+> > > > > > > adjustable power-domain with "gating" subdomains.
+> > > > > >
+> > > > > > Even for this case, we should be able to have the GDSC map the on state
+> > > > > > to some performance state in the parent domain. Maybe we need to add
+> > > > > > some code to the gdsc.c file to set a performance state on the parent
+> > > > > > domain when it is turned on. I'm not sure where the value for that perf
+> > > > > > state comes from. I guess we can hardcode it in the driver for now and
+> > > > > > if it needs to be multiple values based on the clk frequency we can push
+> > > > > > it out to an OPP table or something like that.
+> > > > > >
+> > > > >
+> > > > > For the GDSC I believe we only have 1:1 mapping, so implementing
+> > > > > set_performance_state to just pass that on to the parent might do the
+> > > > > trick (although I haven't thought this through).
+> > > > >
+> > > > > Conceptually I guess this would be like calling clk_set_rate() on a
+> > > > > clock gate, relying on it being propagated upwards. The problem here is
+> > > > > that the performance_state is just a "random" integer without a well
+> > > > > defined unit.
+> > > > >
+> > > >
+> > > > Right. Ideally it would be in the core code somehow so that if there
+> > > > isn't a set_performance_state function we go to the parent or some
+> > > > special return value from the function says "call it on my parent". The
+> > > > translation scheme could come later so we can translate the "random"
+> > > > integer between parent-child domains.
+> > >
+> > > As a proof of concept it should be sufficient to just add an
+> > > implementation of sc->pd.set_performance_state in gdsc.c. But I agree
+> > > that it would be nice to push this into some framework code, perhaps
+> > > made opt-in by some GENPD_FLAG_xyz.
+> > >
+> > > > At the end of the day the device
+> > > > driver wants to set a frequency or runtime pm get the device and let the
+> > > > OPP table or power domain code figure out what the level is supposed to
+> > > > be.
+> > > >
+> > >
+> > > Yes and this is already working for the non-nested case - where the
+> > > single power-domain jumps between performance states as the opp code
+> > > switches from one opp to another.
+> > >
+> > > So if we can list only the child power-domain (i.e. the GDSC) and have
+> > > the performance_stat requests propagate up to the parent rpmhpd resource
+> > > I think we're good.
+> > >
+> > >
+> > > Let's give this a spin and confirm that this is the case...
+> > >
+> > > > >
+> > > > >
+> > > > > The one case where I believe we talked about having different mapping
+> > > > > between the performance_state levels was in the relationship between CX
+> > > > > and MX. But I don't think we ever did anything about that...
+> > > >
+> > > > Hmm alright. I think there's a constraint but otherwise nobody really
+> > > > wants to change both at the same time.
+> > > >
+> > > > > >
+> > > > > > Yes, a GDSC is really a gate on a parent power domain like CX or MMCX,
+> > > > > > etc. Is the display subsystem an example of different clk frequencies
+> > > > > > wanting to change the perf state of CX? If so it's a good place to work
+> > > > > > out the translation scheme for devices that aren't listing the CX power
+> > > > > > domain in DT.
+> > > > >
+> > > > > Yes, the various display components sits in MDSS_GDSC but the opp-tables
+> > > > > needs to change the performance_state of MDSS_GDSC->parent (i.e. CX or
+> > > > > MMCX, depending on platform).
+> > > > >
+> > > > > As I said, today we hack this by trusting that the base drm/msm driver
+> > > > > will keep MDSS_GDSC on and listing MMCX (or CX) as power-domain for each
+> > > > > of these components.
+> > > > >
+> > > > >
+> > > > > So if we solve this, then that seems to directly map to the static case
+> > > > > for USB as well.
+> > > > >
+> > > >
+> > > > Got it. So in this case we could have the various display components
+> > > > that are in the mdss gdsc domain set their frequency via OPP and then
+> > > > have that translate to a level in CX or MMCX. How do we parent the power
+> > > > domains outside of DT? I'm thinking that we'll need to do that if MMCX
+> > > > is parented by CX or something like that and the drivers for those two
+> > > > power domains are different. Is it basic string matching?
+> > >
+> > > In one way or another we need to invoke pm_genpd_add_subdomain() to link
+> > > the two power-domains (actually genpds) together, like what was done in
+> > > 3652265514f5 ("clk: qcom: gdsc: enable optional power domain support").
+> > >
+> > > In the case of MMCX and CX, my impression of the documentation is that
+> > > they are independent - but if we need to express that CX is parent of
+> > > MMCX, they are both provided by rpmhpd which already supports this by
+> > > just specifying .parent on mmcx to point to cx.
+> >
+> > I was trying to follow the discussion, but it turned out to be a bit
+> > complicated to catch up and answer all things. In any case, let me
+> > just add a few overall comments, perhaps that can help to move things
+> > forward.
+> >
+>
+> Thanks for jumping in Ulf.
+>
+> > First, one domain can have two parent domains. Both from DT and from
+> > genpd point of view, just to make this clear.
+> >
+>
+> I was under the impression that the only such configuration we supported
+> was that we can explicitly attach and control multiple PDs from a
+> driver. I didn't think we could say that a given genpd is a subdomain of
+> multiple other genpds...
+>
+> That said, it's better if we can ignore this, as it doesn't apply to our
+> problem at hand.
+>
+> > Although, it certainly looks questionable to me, to hook up the USB
+> > device to two separate power domains, one to control power and one to
+> > control performance. Especially, if it's really the same piece of HW
+> > that is managing both things. Additionally, if it's correct to model
+> > the USB GDSC power domain as a child to the CX power domain from HW
+> > point of view, we should likely do that.
+> >
+>
+> So to clarify, we have the following situation:
+>
+> +---------------+
+> | CX            |
+> | +-----------+ |
+> | | USB_GDSC  | |
+> | | +-------+ | |
+> | | | dwc3  | | |
+> | | +-------+ | |
+> | +-----------+ |
+> +---------------+
+>
+> CX can operate at different performance_states, USB_GDSC can be toggled
+> on/off and hence dwc3 needs CX to operate at a performance_state meeting
+> its needs.
+>
+> The proposed patch is to list both CX and USB_GDSC as power-domains for
+> dwc3, in order for the required-opp in the dwc3 to affect CX.
 
-Looks great, thanks!
+Okay. Then I need to point out that this looks wrong to me.
 
-Reviewed-by: Ian Abbott <abbotti@mev.co.uk>
+We should be able to support the needs for dwc3, by letting CX to
+become the parent domain for USB_GDSC.
 
--- 
--=( Ian Abbott <abbotti@mev.co.uk> || MEV Ltd. is a company  )=-
--=( registered in England & Wales.  Regd. number: 02862268.  )=-
--=( Regd. addr.: S11 & 12 Building 67, Europa Business Park, )=-
--=( Bird Hall Lane, STOCKPORT, SK3 0XA, UK. || www.mev.co.uk )=-
+If there is something missing from the genpd point of view, for
+example, let's fix that!
+
+>
+> > From the performance states point of view, genpd supports propagating
+> > performance states to parent domains, via a 1:1 mapping of the
+> > performance state. Note that, we have also quite recently made genpd's
+> > ->set_performance_state() callback to be optional. A vote for a
+> > performance state will be propagated to the parent domain, even if the
+> > child domain would lack the ->set_performance_state() callback.  This
+> > should be useful, where a child domain relies on its parent domain for
+> > performance state management, which seems to be the case for the USB
+> > GDSC/CX power domains, right?
+> >
+>
+> I presume you're referring to the first half of
+> _genpd_set_performance_state(). This looks to be exactly what Stephen
+> and I discussed implementing.
+
+Yes.
+
+>
+> I had a rather messy tree when I looked at this last time, presumably
+> missing something else to hide this propagation.
+>
+>
+> For the USB_GDSC we today don't describe that as a subdomain of CX, but
+> per your guidance and the recently introduced 3652265514f5 ("clk: qcom:
+> gdsc: enable optional power domain support") we should be fairly close
+> to the solution.
+
+Great!
+
+>
+>
+> The one "problem" I can see is that I believe that some of the GDSCs in
+> GCC should be subdomains of MX, so the above referenced patch would then
+> need to be extended to allow specifying which of the multiple
+> power-domains each GDSC should be a subdomain of - something Dmitry and
+> I did discuss, but wasn't needed for the display GDSC.
+> Perhaps I'm just misinformed regarding this need though.
+
+I didn't quite follow all of this.
+
+But, perhaps using "#power-domain-cells = <2>" for the power-domain
+provider can help to specify this for the consumer/child-domain?
+
+>
+> > In regards to the parsing of the "required-opps" DT binding for a
+> > device node, I think that should work for cases like these, too. Or is
+> > there something missing around this?
+> >
+>
+> Given that Sandeep's proposed patch solves his problem without touching
+> the framework those patches (required-opps) must already have been
+> picked up.
+
+Right!
+
+Kind regards
+Uffe
