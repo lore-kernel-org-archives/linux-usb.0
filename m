@@ -2,137 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F25FC433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 10:47:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15594C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 11:56:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72B6E60EBD
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 10:47:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF81660F56
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Oct 2021 11:56:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230100AbhJ1KtZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Oct 2021 06:49:25 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:59451 "EHLO m43-7.mailgun.net"
+        id S230115AbhJ1L7G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Oct 2021 07:59:06 -0400
+Received: from mga12.intel.com ([192.55.52.136]:35853 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230049AbhJ1KtZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 28 Oct 2021 06:49:25 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1635418018; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=vaoUxaT5Jgj5fVGRcreSc6OdEp2mBWTsrQrE8jtHySY=; b=YRV6LS2ugEI7xhSvHEJnfOO4c+AMH8zDXFoI3MbtlUKq1+UpiGXCxP7/jlkxjNoySJxp74rM
- BeiuUImdLMyRvI5fQytlGy/y/xiYye6Oo5x/VHoCS0HfMHlXXXUWX+EM96MB4JzqEL5cMc5i
- 6ItkkuEcXsa/iCB8XT5bZSFMBY0=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 617a7f94545d7d365f16e5b1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 28 Oct 2021 10:46:44
- GMT
-Sender: rnayak=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 3BF4CC4360D; Thu, 28 Oct 2021 10:46:44 +0000 (UTC)
-Received: from [192.168.1.100] (unknown [49.207.214.117])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id AEE5AC4338F;
-        Thu, 28 Oct 2021 10:46:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org AEE5AC4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: qcom,dwc3: Add multi-pd bindings
- for dwc3 qcom
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com
-References: <1635152851-23660-1-git-send-email-quic_c_sanm@quicinc.com>
- <1635152851-23660-2-git-send-email-quic_c_sanm@quicinc.com>
- <YXcBK7zqny0s4gd4@ripper>
- <CAE-0n51k8TycXjEkH7rHYo0j7cYbKJOnOn1keVhx2yyTcBNnvg@mail.gmail.com>
- <YXck+xCJQBRGqTCw@ripper>
- <CAE-0n530M3eft-o0qB+yEzGjZgCLMgY==ZgdvwiVCwqqCAVxxA@mail.gmail.com>
- <YXdsYlLWnjopyMn/@ripper>
- <CAE-0n51C4dm6bhds=ZZyje-Pcejxjm4MMa3m-VHjFgq7GZGrLw@mail.gmail.com>
- <YXjbs3Bv6Y3d87EC@yoga>
- <CAPDyKFrWQdvZX4ukHZoGz73JPfQSgqVrG_4ShMp_GrxL0NKLvg@mail.gmail.com>
- <da877712-dac9-e9d0-0bfc-25bef450eb65@codeaurora.org>
- <CAPDyKFoMpmkHgUbRN4pxgW2Gy=aZpS=eVwQrg0ydFbh9_GFG6Q@mail.gmail.com>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <e32a59e2-0d8b-3338-5963-81ea07a709ef@codeaurora.org>
-Date:   Thu, 28 Oct 2021 16:16:36 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S229578AbhJ1L7F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 28 Oct 2021 07:59:05 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10150"; a="210463182"
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; 
+   d="scan'208";a="210463182"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2021 04:55:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,189,1631602800"; 
+   d="scan'208";a="636179120"
+Received: from kuha.fi.intel.com ([10.237.72.166])
+  by fmsmga001.fm.intel.com with SMTP; 28 Oct 2021 04:55:33 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 28 Oct 2021 14:55:32 +0300
+Date:   Thu, 28 Oct 2021 14:55:32 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Jack Pham <quic_jackp@quicinc.com>
+Cc:     linux-usb@vger.kernel.org, Prashant Malani <pmalani@chromium.org>,
+        Benson Leung <bleung@google.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Subbaraman Narayanamurthy <quic_subbaram@quicinc.com>
+Subject: Re: [PATCH] usb: typec: ucsi: Only get source PDOs from the actual
+ source
+Message-ID: <YXqPtNmETT0ZtnKl@kuha.fi.intel.com>
+References: <20211027064842.6901-1-quic_jackp@quicinc.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFoMpmkHgUbRN4pxgW2Gy=aZpS=eVwQrg0ydFbh9_GFG6Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211027064842.6901-1-quic_jackp@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-On 10/28/2021 4:05 PM, Ulf Hansson wrote:
-> [...]
+On Tue, Oct 26, 2021 at 11:48:42PM -0700, Jack Pham wrote:
+> The intent of ucsi_get_src_pdos() is to obtain the source's PDOs
+> in order to provide the power_supply object the required data to
+> report the mininum, maximum and currently operating voltage &
+> current should a PD contract be in place.
 > 
->>>>> Got it. So in this case we could have the various display components
->>>>> that are in the mdss gdsc domain set their frequency via OPP and then
->>>>> have that translate to a level in CX or MMCX. How do we parent the power
->>>>> domains outside of DT? I'm thinking that we'll need to do that if MMCX
->>>>> is parented by CX or something like that and the drivers for those two
->>>>> power domains are different. Is it basic string matching?
->>>>
->>>> In one way or another we need to invoke pm_genpd_add_subdomain() to link
->>>> the two power-domains (actually genpds) together, like what was done in
->>>> 3652265514f5 ("clk: qcom: gdsc: enable optional power domain support").
->>>>
->>>> In the case of MMCX and CX, my impression of the documentation is that
->>>> they are independent - but if we need to express that CX is parent of
->>>> MMCX, they are both provided by rpmhpd which already supports this by
->>>> just specifying .parent on mmcx to point to cx.
->>>
->>> I was trying to follow the discussion, but it turned out to be a bit
->>> complicated to catch up and answer all things. In any case, let me
->>> just add a few overall comments, perhaps that can help to move things
->>> forward.
->>>
->>> First, one domain can have two parent domains. Both from DT and from
->>> genpd point of view, just to make this clear.
->>>
->>> Although, it certainly looks questionable to me, to hook up the USB
->>> device to two separate power domains, one to control power and one to
->>> control performance. Especially, if it's really the same piece of HW
->>> that is managing both things.
->> []..
->>> Additionally, if it's correct to model
->>> the USB GDSC power domain as a child to the CX power domain from HW
->>> point of view, we should likely do that.
->>
->> I think this would still require a few things in genpd, since
->> CX and USB GDSC are power domains from different providers.
->> Perhaps a pm_genpd_add_subdomain_by_name()?
->>
+> If however, the port is operating as a PD source, this call would
+> invoke GET_PDOS on the partner causing the PPM to send a
+> Get_Source_Caps PD message to the port partner which may not make
+> sense especially if the partner is not a dual-power role capable
+> device.  Further, it has been observed that certain DisplayPort
+> adapter cables (which are power sink-only devices) even fail to
+> bring up the display link after receiving a Get_Source_Caps
+> message, suggesting they can't cope well with an unsupported PD
+> message to the point that it renders them functionally inoperable.
 > 
-> I think of_genpd_add_subdomain() should help to address this. No?
+> Fix this by checking the connector status flags for the power
+> direction and use this to decide whether to send the GET_PDOs
+> query to the partner or the port.  This also helps to make the
+> power_supply VOLTAGE_{MIN,MAX,NOW} and CURRENT_{MAX,NOW}
+> properties more consistent when the port is in source mode.
+> 
+> Signed-off-by: Jack Pham <quic_jackp@quicinc.com>
+> ---
+> Hi Heikki,
+> 
+> Was wrestling with how exactly to do this.  The other approach I was
+> thinking was to not even do GET_PDOs at all if operating as a source,
+> but that would also mean we'd need to add similar checking to the
+> VOLTAGE/CURRENT property getters in psy.c so that they would not
+> return incorrect/stale data.  Since the ONLINE property will already
+> be 0 anyway it may make more sense to invalidate the rest of the props?
+> 
+> The patch below is concise though...so that's what I went with ;)
 
-We only describe the provider nodes in DT and not the individual power domains.
-For instance GCC is the power domain provider which is in DT, and USB GDSC is one
-of the many power domains it supports, similarly RPMHPD is the provider node in
-DT and CX is one of the many power domains it supports.
-So we would need some non-DT way of hooking up power domains from two different
-providers as parent/child.
+Would it still make sense / help if we had separate power supplies
+registered for the port-source, port-sink, partner-source and
+partner-sink?
+
+I also think we need to unify these power supplies so that tcpm and
+ucsi (and others) always register the same power supplies.
+
+
+thanks,
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+heikki
