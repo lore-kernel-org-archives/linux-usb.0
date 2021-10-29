@@ -2,75 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE5ECC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Oct 2021 20:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E154C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Oct 2021 23:14:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A67C560D43
-	for <linux-usb@archiver.kernel.org>; Fri, 29 Oct 2021 20:33:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 653C860F38
+	for <linux-usb@archiver.kernel.org>; Fri, 29 Oct 2021 23:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231403AbhJ2Ufv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 29 Oct 2021 16:35:51 -0400
-Received: from mxout03.lancloud.ru ([45.84.86.113]:55882 "EHLO
-        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231463AbhJ2Ufu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Oct 2021 16:35:50 -0400
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru E52BF208D528
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-Subject: Re: [PATCH 1/3] Docs: usb: update err() to pr_err() and replace
- __FILE__
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <linux-usb@vger.kernel.org>
-References: <cover.1635533924.git.philipp.g.hortmann@gmail.com>
- <e2f2c5c6995a011494105484849776a856af5bcc.1635533924.git.philipp.g.hortmann@gmail.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <49a766ec-014e-3667-828c-a4fd19c7c9e3@omp.ru>
-Date:   Fri, 29 Oct 2021 23:33:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S231458AbhJ2XQn convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 29 Oct 2021 19:16:43 -0400
+Received: from mail-qk1-f179.google.com ([209.85.222.179]:38858 "EHLO
+        mail-qk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229441AbhJ2XQn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 29 Oct 2021 19:16:43 -0400
+Received: by mail-qk1-f179.google.com with SMTP id bi29so10915296qkb.5
+        for <linux-usb@vger.kernel.org>; Fri, 29 Oct 2021 16:14:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=BDRvnZUE4sqi81I5tqAPBqMdjUr4Q5ab25TOPbUu00E=;
+        b=MWuPiVYNz6S4q2Axw+/wXzDqFCPkTIKT52AmfS0boc3937cHv1+Wh8oZGtVErlEBe9
+         AGiqcm/6Lsk94kNQArWKwvhxOnAuGJ6uWbPhFznarWhg3LCZgVQiw2kCzn+ACPvLGItY
+         YQFFoTTN3ThNX5OIfuMn4q3D4kaQIqz7HHiMhg0XcBz61upSIjIgRxiYfs8GsR2Azi1V
+         ZLHV2wUFi3pWr/MiMczq+O0mHZcZKuDJFgvRemmx+hPbOrpBhJ21gkB+AHlnBxDu7m4F
+         UsaupTyKcsEDj+swsUJ3Gl3WkCryBkKoMqOqxDB0dZJJDI+CFFVJfJzLL9dzgJ/3fq+o
+         Qkqw==
+X-Gm-Message-State: AOAM532kGzuiBkNP182U7+dxdhBd6J2x/0AGfAIA2PPhUEC4OYUqasbY
+        JkcG+k435fcKBveRAaU4Qw/uPiXh1/A=
+X-Google-Smtp-Source: ABdhPJxl6eTPkWwAf6bd1UVDtJ6S0MxknmtkHKLCj0AUZxeMLoKZiGxrMYznb8iJsZVedWLnH5kT0Q==
+X-Received: by 2002:a37:f90a:: with SMTP id l10mr11185222qkj.402.1635549253283;
+        Fri, 29 Oct 2021 16:14:13 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
+        by smtp.gmail.com with ESMTPSA id t5sm968559qtc.15.2021.10.29.16.14.12
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Oct 2021 16:14:12 -0700 (PDT)
+Received: by mail-qt1-f178.google.com with SMTP id v29so9285257qtc.10
+        for <linux-usb@vger.kernel.org>; Fri, 29 Oct 2021 16:14:12 -0700 (PDT)
+X-Received: by 2002:ac8:5706:: with SMTP id 6mr15076793qtw.95.1635549252466;
+ Fri, 29 Oct 2021 16:14:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e2f2c5c6995a011494105484849776a856af5bcc.1635533924.git.philipp.g.hortmann@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+References: <MWHPR2201MB152074F47BF142189365627B91879@MWHPR2201MB1520.namprd22.prod.outlook.com>
+ <MWHPR2201MB1520D45396628364E91A1FA691879@MWHPR2201MB1520.namprd22.prod.outlook.com>
+In-Reply-To: <MWHPR2201MB1520D45396628364E91A1FA691879@MWHPR2201MB1520.namprd22.prod.outlook.com>
+From:   Li Yang <leoyang.li@nxp.com>
+Date:   Fri, 29 Oct 2021 18:14:01 -0500
+X-Gmail-Original-Message-ID: <CADRPPNSrhiwr8jmBb2h4cFYqHtuDKK8rL0i6Bkg7+xEyXJPATA@mail.gmail.com>
+Message-ID: <CADRPPNSrhiwr8jmBb2h4cFYqHtuDKK8rL0i6Bkg7+xEyXJPATA@mail.gmail.com>
+Subject: Re: bug: usb: gadget: FSL_UDC_CORE Corrupted request list leads to
+ unrecoverable loop.
+To:     Eugene Bordenkircher <Eugene_Bordenkircher@selinc.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/29/21 10:39 PM, Philipp Hortmann wrote:
+On Fri, Oct 29, 2021 at 4:27 PM Eugene Bordenkircher
+<Eugene_Bordenkircher@selinc.com> wrote:
+>
+> Typing Greg's email correct this time.  My apologies.
+>
+> Eugene
+>
+> -----Original Message-----
+> From: Eugene Bordenkircher
+> Sent: Friday, October 29, 2021 10:14 AM
+> To: linux-usb@vger.kernel.org; linuxppc-dev@lists.ozlabs.org
+> Cc: leoyang.li@nxp.com; balbi@kernel.org; gregkh@linuxfoundataion.org
+> Subject: bug: usb: gadget: FSL_UDC_CORE Corrupted request list leads to unrecoverable loop.
+>
+> Hello all,
+>
+> We've discovered a situation where the FSL udc driver (drivers/usb/gadget/udc/fsl_udc_core.c) will enter a loop iterating over the request queue, but the queue has been corrupted at some point so it loops infinitely.  I believe we have narrowed into the offending code, but we are in need of assistance trying to find an appropriate fix for the problem.  The identified code appears to be in all versions of the Linux kernel the driver exists in.
+>
+> The problem appears to be when handling a USB_REQ_GET_STATUS request.  The driver gets this request and then calls the ch9getstatus() function.  In this function, it starts a request by "borrowing" the per device status_req, filling it in, and then queuing it with a call to list_add_tail() to add the request to the endpoint queue.  Right before it exits the function however, it's calling ep0_prime_status(), which is filling out that same status_req structure and then queuing it with another call to list_add_tail() to add the request to the endpoint queue.  This adds two instances of the exact same LIST_HEAD to the endpoint queue, which breaks the list since the prev and next pointers end up pointing to the wrong things.  This ends up causing a hard loop the next time nuke() gets called, which happens on the next setup IRQ.
+>
 
-> update err() to pr_err() and replace __FILE__
-> 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-> ---
->  Documentation/driver-api/usb/writing_usb_driver.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-> index 2176297e5765..5c29e5bdbe88 100644
-> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
-> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-> @@ -91,8 +91,8 @@ usually in the driver's init function, as shown here::
->  	    /* register this driver with the USB subsystem */
->  	    result = usb_register(&skel_driver);
->  	    if (result < 0) {
-> -		    err("usb_register failed for the "__FILE__ "driver."
-> -			"Error number %d", result);
-> +		    pr_err("usb_register failed for the %s driver. "
+I agree with you that this looks problematic.  This is probably
+introduced by f79a60b8785 "usb: fsl_udc_core: prime status stage once
+data stage has primed" that it didn't consider that the status_req has
+been re-used for the DATA phase.
 
-   Don't break up the kernel message like this. The current code is a bad example --
-high time to fix it. :-)
+I think the proper fix should be having a separate request allocated
+for the data phase after the above change.
 
-> +			   "Error number %d", skel_driver.name, result);
->  		    return -1;
->  	    }
->  
-
-MBR, Sergey
+> I'm not sure what the appropriate fix to this problem is, mostly due to my lack of expertise in USB and this driver stack.  The code has been this way in the kernel for a very long time, which suggests that it has been working, unless USB_REQ_GET_STATUS requests are never made.  This further suggests that there is something else going on that I don't understand.  Deleting the call to ep0_prime_status() and the following ep0stall() call appears, on the surface, to get the device working again, but may have side effects that I'm not seeing.
+>
+> I'm hopeful someone in the community can help provide some information on what I may be missing or help come up with a solution to the problem.  A big thank you to anyone who would like to help out.
+>
+> Eugene
