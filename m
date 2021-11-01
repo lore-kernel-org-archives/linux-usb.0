@@ -2,72 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E51C433FE
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 09:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F6CC433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 13:19:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9879160F4F
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 09:17:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2A1A60EE9
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 13:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231707AbhKAJTu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Nov 2021 05:19:50 -0400
-Received: from mga17.intel.com ([192.55.52.151]:27777 "EHLO mga17.intel.com"
+        id S230177AbhKANVi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Nov 2021 09:21:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49596 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231284AbhKAJTt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 1 Nov 2021 05:19:49 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10154"; a="211745161"
-X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; 
-   d="scan'208";a="211745161"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2021 02:17:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,198,1631602800"; 
-   d="scan'208";a="637726765"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Nov 2021 02:17:14 -0700
-To:     Yinbo Zhu <zhuyinbo@loongson.cn>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S230417AbhKANVc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 1 Nov 2021 09:21:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3859F60EE9;
+        Mon,  1 Nov 2021 13:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1635772739;
+        bh=MRJJ65sLMFNXIIujuO4NjvdCus/lqQZG52E50gJmYb0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aV8RQBnIfNfBNgcXm+Px0Zvm5oHOsdzOa/rnXgLGFy+Iu5DJiookNA8ViwikTF6Ob
+         a4x+IsWTrEtGn8JiBuFm6VydrIAuPDA3u88mTK4zGVwIdjKJdAp4ov/I9HgBAuuK6x
+         neNS9EVyUubFDvBV42fOGBoir4XrMMIOs/SZnd3ZTlLV8Z6YjjOGxR2De4s4ZYsGkU
+         /wqlCF/zo7LbPFHkN5qb/lITlk0B0JC5m7mVJIjlEKQlbuxPRol054QCgKrhMGFDVJ
+         gerwtkFGgt+qy05JJM1JMRkLgSjWmgyK/KUYOXl2ugRilhxI0xX1uf+u0GLM2S51pl
+         3eW/eDmN+bhSg==
+Date:   Mon, 1 Nov 2021 21:18:49 +0800
+From:   Peter Chen <peter.chen@kernel.org>
+To:     Qihang Hu <huqihang@oppo.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1635751025-25906-1-git-send-email-zhuyinbo@loongson.cn>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v1] usb: xhci: add LPM quirk for ensuring uPD720201 into
- D3 state after S5
-Message-ID: <f7cfa6bc-a0f6-aaa6-aafa-b4fe2714ca40@linux.intel.com>
-Date:   Mon, 1 Nov 2021 11:18:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.8.1
+Subject: Re: [PATCH] usb: gadget: composite: Fix null pointer exception
+Message-ID: <20211101131849.GA4126@Peter>
+References: <20211101015757.290350-1-huqihang@oppo.com>
 MIME-Version: 1.0
-In-Reply-To: <1635751025-25906-1-git-send-email-zhuyinbo@loongson.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211101015757.290350-1-huqihang@oppo.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+On 21-11-01 09:57:57, Qihang Hu wrote:
+> In the config_ep_by_speed_and_alt function, select the corresponding
+> descriptor through g->speed, but the interface driver
 
-On 1.11.2021 9.17, Yinbo Zhu wrote:
-> After S5, any pci device should into D3 state that if supported, but the
-> uPD720201 was not and it may be the cause of xhci firmware and cause
-> OSPM power consumption is more higher that S5 than S4. I think xhci HCD
-> can add a quirk ensure it into D3 state after S5 that is appropriate
-> and this patch was to add LPM quirk and set PCI_D3hot to uPD720201 pmsc
-> register in xhci_pci_shutdown to fix xhci power consumption issue.
+function driver
+
+> may not
+> support the corresponding speed. So, we need to check whether the
+> interface driver provides the corresponding speed descriptor when
+> selecting the descriptor.
 > 
-> Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+> [  237.708146]  android_work: sent uevent USB_STATE=CONNECTED
+> [  237.712464]  kconfigfs-gadget gadget: super-speed config #1: b
+> [  237.712487]  kUnable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+> [  237.712493]  kMem abort info:
+> [  237.712498]  k  ESR = 0x96000006
+> [  237.712504]  k  EC = 0x25: DABT (current EL), IL = 32 bits
+> [  237.712510]  k  SET = 0, FnV = 0
+> [  237.712515]  k  EA = 0, S1PTW = 0
+> [  237.712520]  kData abort info:
+> [  237.712525]  k  ISV = 0, ISS = 0x00000006
+> [  237.712530]  k  CM = 0, WnR = 0
+> [  237.712536]  kuser pgtable: 4k pages, 39-bit VAs, pgdp=000000020ef29000
+> [  237.712541]  k[0000000000000000] pgd=000000020ef2a003, pud=000000020ef2a003, pmd=0000000000000000
+> [  237.712554]  kInternal error: Oops: 96000006 [#1] PREEMPT SMP
+> [  237.722067]  kSkip md ftrace buffer dump for: 0x1609e0
+> [  237.787037]  kWorkqueue: dwc_wq dwc3_bh_work.cfi_jt
+> [  237.854922]  kpstate: 60c00085 (nZCv daIf +PAN +UAO)
+> [  237.863165]  kpc : config_ep_by_speed_and_alt+0x90/0x308
+> [  237.871766]  klr : audio_set_alt+0x54/0x78
+> [  237.879108]  ksp : ffffffc0104839e0
+> 
+> Signed-off-by: Qihang Hu <huqihang@oppo.com>
+> ---
+>  drivers/usb/gadget/composite.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+> index 72a9797dbbae..443a65af98af 100644
+> --- a/drivers/usb/gadget/composite.c
+> +++ b/drivers/usb/gadget/composite.c
+> @@ -166,21 +166,21 @@ int config_ep_by_speed_and_alt(struct usb_gadget *g,
+>  	/* select desired speed */
+>  	switch (g->speed) {
+>  	case USB_SPEED_SUPER_PLUS:
+> -		if (gadget_is_superspeed_plus(g)) {
+> +		if (gadget_is_superspeed_plus(g) && f->ssp_descriptors) {
+>  			speed_desc = f->ssp_descriptors;
+>  			want_comp_desc = 1;
+>  			break;
+>  		}
+>  		fallthrough;
+>  	case USB_SPEED_SUPER:
+> -		if (gadget_is_superspeed(g)) {
+> +		if (gadget_is_superspeed(g) && f->ss_descriptors) {
+>  			speed_desc = f->ss_descriptors;
+>  			want_comp_desc = 1;
+>  			break;
+>  		}
+>  		fallthrough;
+>  	case USB_SPEED_HIGH:
+> -		if (gadget_is_dualspeed(g)) {
+> +		if (gadget_is_dualspeed(g) && f->hs_descriptors) {
+>  			speed_desc = f->hs_descriptors;
+>  			break;
+>  		}
+> -- 
+> 2.25.1
+> 
 
-I think we need a better understanding of the underlying issue before
-adding a quirk like this.
+Besides your fix, you may show an warning that said "the function
+doesn't hold the descriptors for supported speed, using the default (FS)
+descriptors". See below kernel doc for detail.
 
-Is this a known issue with the uPD720201 controller firmware? or is it
-an issue with ACPI table entries not supporting the proper D state in BIOS
-on the tested platform, or something completely different?
+/**
+ * config_ep_by_speed_and_alt() - configures the given endpoint
+ *
+ * ....
+ * Note: the supplied function should hold all the descriptors
+ * for supported speeds
+ */
 
-Also, LPM usually refers to "Link Power Management" in the xHCI spec.
-This is about the U1 and U2 link states for the connected USB device.
+What's more, you may fix android f_audio_source.c, and let it support
+super speed and super speed plus.
 
-If we end up needing a new xhci quirk it will need a new name.
+-- 
 
-Thanks
--Mathias
+Thanks,
+Peter Chen
+
