@@ -2,111 +2,148 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3062C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 19:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E63C433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 20:23:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82D3D61078
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 19:49:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84AD261077
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 20:23:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbhKATvi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Nov 2021 15:51:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41964 "EHLO mail.kernel.org"
+        id S230393AbhKAU0b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Nov 2021 16:26:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43786 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229931AbhKATve (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 1 Nov 2021 15:51:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id E72166052B
-        for <linux-usb@vger.kernel.org>; Mon,  1 Nov 2021 19:49:00 +0000 (UTC)
+        id S229560AbhKAU0a (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 1 Nov 2021 16:26:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D00E61058;
+        Mon,  1 Nov 2021 20:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1635796140;
-        bh=SXz8fL1Sk41SbW3rLSLzmdLNlbbx/NXNRGROgikN5jE=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Ou/0SNYd6KSPWexBO341WVjQoTaZKWhmHivHzHSR78iCWk4ZAdv1Ktc+FB1JRO4b3
-         sb7nNOOEBLBDdGnQG+gcI529tKBi0oGIql5LnXCHdiRFjSuZge2DBptwqLhhMiFQDm
-         iFj1vA+UDVpkqrNReNlPl81YjZiV0V7Yxk5Pr4wHg9gE7i1irX3q+BBcIHy+WuuZ17
-         yvBsaGftPc41LlKN/O2Gui7n7oevA/TJB2rnIpCzdzbxlMFshIqUWJCH9wjENHP7pK
-         10eAQ8TM+Ytv+WJ/48fh6RrYCFg6xKA1MyqPsc0dwBAQ5sCALTZ46/GStAnhFSaGEc
-         Yaaq6FjYToVdg==
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 214789] ehci-hcd.c ISR
-Date:   Mon, 01 Nov 2021 19:49:00 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: scott.c.arnold@nasa.gov
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214789-208809-2nwXW3u3MJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214789-208809@https.bugzilla.kernel.org/>
-References: <bug-214789-208809@https.bugzilla.kernel.org/>
+        s=k20201202; t=1635798237;
+        bh=feSTcRc2actU+HHo2pcgOZswEK9+Krw1YkXnHhxgUtc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=k6/BV6czCRnhMubWyz+TvKRLAdfLuZ6hVCq4/8MWd4wluVUqTYwxezxQIkHpVGLCi
+         9qekMnUAVBMJ9vDxkS2TRXfI/zIhh1o1L2vKlETOW8wbwXlwNKhND0P3W8rIokSQir
+         MndHf7pqpC8YM377htnlXMhggAH9KgPFAfJouRRXl3nM3w7wOWhKtxX8wb8Vwlfp7w
+         0A2HCfyDkFV/nNR4STfwHOOTFQ3ZKZxvqAiK4PsNvkqWJ1mg2Gzaoq7BQ8MH+9CSgC
+         rl8dYgsQwa3OKzx9P2ojjTcr/aV9svuFi509I/vCr5XiU0Zx1EZkwouGCOcCUlQ0Ad
+         xkLHGtHEuIUgg==
+Received: by mail-ed1-f43.google.com with SMTP id w1so14389714edd.10;
+        Mon, 01 Nov 2021 13:23:56 -0700 (PDT)
+X-Gm-Message-State: AOAM531U4l0NOB7TqC2TawJCuTIDv9zsA0DJmsBwdCNcIf4wH2wthEFV
+        Y7Bm/4KSjrGGAQ+dlQzN33Znu82Hr1hzTYHsqQ==
+X-Google-Smtp-Source: ABdhPJxerSbOAL+RQjUEcSRK11YYr4XJkk1k3y92Df/MixrQUqwOf/jtSj37gCjipDXUeK8l900VtO/oHXaq6BA8PhM=
+X-Received: by 2002:aa7:dc13:: with SMTP id b19mr28817292edu.145.1635798235443;
+ Mon, 01 Nov 2021 13:23:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20211024180628.2992108-1-piyush.mehta@xilinx.com> <20211024180628.2992108-2-piyush.mehta@xilinx.com>
+In-Reply-To: <20211024180628.2992108-2-piyush.mehta@xilinx.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 1 Nov 2021 15:23:44 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKu6vr3iCz1G7MtK6gyqAvn4s4mpuLOwPzJDEmyZeROig@mail.gmail.com>
+Message-ID: <CAL_JsqKu6vr3iCz1G7MtK6gyqAvn4s4mpuLOwPzJDEmyZeROig@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: misc: Add binding for Microchip
+ usb2244 Controller
+To:     Piyush Mehta <piyush.mehta@xilinx.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        --to=robh+dt@kernel.org, Matthias Kaehlcke <mka@chromium.org>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Al Cooper <alcooperx@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        git <git@xilinx.com>, Srinivas Goud <sgoud@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
-MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214789
+On Sun, Oct 24, 2021 at 1:06 PM Piyush Mehta <piyush.mehta@xilinx.com> wrot=
+e:
+>
 
---- Comment #21 from Scott Arnold (scott.c.arnold@nasa.gov) ---
-Hello,
-I noticed there was not much diff in drivers/usb using meld on 5.6.1 and 5.=
-7.1.
-Git not easy due to network restrictions.
-I am going to see if 4.8.5 compiler vs 8.3.1 makes any difference.
-Also going to check and see if any bios settings could re-arrange the IRQ's=
- to
-work around problem.
-Thanks
-Scott
+Your email is somewhat corrupted. Lore has a warning:
 
+[-- Warning: decoded text below may be mangled, UTF-8 assumed --]
+[-- Attachment #1: Type: text/plain; charset=3D"y", Size: 2065 bytes --]
 
------Original Message-----
-From: bugzilla-daemon@bugzilla.kernel.org <bugzilla-daemon@bugzilla.kernel.=
-org>=20
-Sent: Monday, November 1, 2021 2:41 PM
-To: Arnold, Scott C. (JSC-CD13)[SGT, INC] <scott.c.arnold@nasa.gov>
-Subject: [EXTERNAL] [Bug 214789] ehci-hcd.c ISR
+Maybe it's the '--to=3Drobh+dt@kernel.org' email...
 
-https://gcc02.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fbugzill=
-a.kernel.org%2Fshow_bug.cgi%3Fid%3D214789&amp;data=3D04%7C01%7Cscott.c.arno=
-ld%40nasa.gov%7C5df722eafbb3426ea8e708d99d6f8ef1%7C7005d45845be48ae8140d43d=
-a96dd17b%7C0%7C0%7C637713924742064413%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wL=
-jAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3Dhb=
-1Mm3rBbLg%2FUZQIk8WY0Pr%2BSqo9XBRJBLS2vmapYio%3D&amp;reserved=3D0
+> Microchip's USB224x family of Hi-Speed USB 2.0 flash media card controlle=
+rs
+> provides an ultra-fast interface between a USB host controller and flash
+> media cards.
+>
+> Add dt-bindings documentation for Microchip's usb2244 Controller.
+> USB224x is a USB 2.0 compliant ultra fast USB 2.0 multi-format,
+> SD/MMC, and MS Flash Media Controllers.
+>
+> Signed-off-by: Piyush Mehta <piyush.mehta@xilinx.com>
+> ---
+>  .../devicetree/bindings/usb/microchip,usb2244.yaml | 43 ++++++++++++++++=
+++++++
+>  1 file changed, 43 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/microchip,usb22=
+44.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/usb/microchip,usb2244.yaml=
+ b/Documentation/devicetree/bindings/usb/microchip,usb2244.yaml
+> new file mode 100644
+> index 0000000..ecab0cb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/microchip,usb2244.yaml
+> @@ -0,0 +1,43 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/usb/microchip,usb2244.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Bindings for the Microchip USB2244 Ultra Fast USB-SD Controller
+> +
+> +description:
+> +  Microchip=E2=80=99s USB224x is a USB 2.0 compliant, Hi-Speed bulk only=
+ mass
+> +  storage class peripheral controller intended for reading and writing
+> +  to popular flash media from the xDPicture Card=E2=84=A2, Memory Stick=
+=C2=AE (MS),
+> +  Secure Digital (SD), and MultiMediaCard=E2=84=A2 (MMC) families.
+> +
+> +  USB224x is a flash media card reader solution fully compliant with the
+> +  USB 2.0 specification
+> +
+> +maintainers:
+> +  - Piyush Mehta <piyush.mehta@xilinx.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: microchip,usb2244
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      The phandle and specifier for the GPIO that controls the RESET lin=
+e of
+> +      flash media controller.
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    usb {
+> +       compatible =3D "microchip,usb2244";
 
---- Comment #20 from Alan Stern (stern@rowland.harvard.edu) --- There were =
-no
-significant changes at all to the ehci-hcd driver between 5.6.1 and 5.7.1.=
-=20
-Which indicates that the cause of the problem lies somewhere else in the
-kernel.
+This needs to be a USB device under a USB controller node. See usb-device.y=
+aml.
 
-At this point, your best approach would be to carry out a git bisect between
-those two kernel versions.  Or maybe just between 5.6 and 5.7 (I assume that
-5.6 is okay, just like 5.6.1, and 5.7 is bad, just like 5.7.1).  That would=
- let
-you identify the exact commit where the problem started.
-
---
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You reported the bug.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> +       reset-gpios =3D <&gpio 2 GPIO_ACTIVE_HIGH>;
+> +    };
+> --
+> 2.7.4
+>
