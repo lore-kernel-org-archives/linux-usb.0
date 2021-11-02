@@ -2,126 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E385C433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 07:01:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7CFAC4332F
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 07:46:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 080FA60F56
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 07:01:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A57060F58
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 07:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbhKBHEM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Nov 2021 03:04:12 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:28438 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229497AbhKBHEL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Nov 2021 03:04:11 -0400
+        id S230455AbhKBHsd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Nov 2021 03:48:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34694 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229924AbhKBHsc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Nov 2021 03:48:32 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801C8C061714;
+        Tue,  2 Nov 2021 00:45:58 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id g11so7370770pfv.7;
+        Tue, 02 Nov 2021 00:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1635836497; x=1667372497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rmlq2mRo2a6AljwIeeGhxxJDSH75L1XvLG8o/iAtLQY=;
-  b=eB8BlI9aQu0HwW4Is5F9xTFU7L44zBcbeOiNVUvrzLlLeSzRopjEC9fa
-   f7hW7ZGeDjBNcbUqiXl5xnM26fPYTl3peQblwoFWAymtBKA8mtg9dRr4z
-   O2/c9J3lIb8dZf/FpaRg6+BeNuy6N4jzUunp4YWVRbYUHWJk+bEyKmoWp
-   A=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 02 Nov 2021 00:01:37 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2021 00:01:37 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Tue, 2 Nov 2021 00:01:36 -0700
-Received: from jackp-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Tue, 2 Nov 2021 00:01:36 -0700
-Date:   Tue, 2 Nov 2021 00:01:31 -0700
-From:   Jack Pham <quic_jackp@quicinc.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     <linux-usb@vger.kernel.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        Benson Leung <bleung@google.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Subbaraman Narayanamurthy <quic_subbaram@quicinc.com>
-Subject: Re: [PATCH] usb: typec: ucsi: Only get source PDOs from the actual
- source
-Message-ID: <20211102070131.GA31877@jackp-linux.qualcomm.com>
-References: <20211027064842.6901-1-quic_jackp@quicinc.com>
- <YXqPtNmETT0ZtnKl@kuha.fi.intel.com>
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qbB02tYMjQ6ue9qGZBRJ8S9gr/0EkY+iFqk7/OfhdSU=;
+        b=BhFbnPPiVL90b5KhHYM2HP+eTEZRg062PnJWkTw56i6SZ9dZG8pz9cEVMuN1DU0Yw9
+         Kob+UwPBg3n8umm2QjxQI//s2gfLZeiJLR/4IhK7tgK/tXtLj1F6ifRhZh23rUQNOhTB
+         DW8y9ATuZdvOiE1sbhe1hRY15PsVTfCgKwanoNXGlg9QuUBM72QJzsBVZeRn4YuZ1gZ3
+         VgJOod/ukGHDVfmv+V1bb3ttPprBgV9rCZS6SEgagegTjb+webyJUmVR53hbcDAVRWCW
+         akb34oEic5Dwb2a27l0U/FhIGfRzgewCkng96l4Gzd6hfQNqPyKcZ+o5hM8mtBqFgffT
+         mjYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qbB02tYMjQ6ue9qGZBRJ8S9gr/0EkY+iFqk7/OfhdSU=;
+        b=6gIUeWG+sZQwgrHi+cBfMbeGvkzb4cz08+pkAWV3MvjQHL8cfcJZT1nvoXT5ecRgG+
+         EIM9jCJgvH8Mh+T84qSVB7XY7lMB/cJhXegt5rFB5Dvs58yNafuwoBXYUPdmTvVy9sfZ
+         S4DBfk5RSlQpFkyyQWTI0OzxQZu6NBBpy2LT6VJz7jDfn1KgmYBbFuKVxo6U0r2NCj95
+         /nVGkVbyMCzwq2UeaVLOmPp3EFSxuhdNRZWZaCZzlFj01ZRVMKjf92NUg65BioDvyER5
+         EWIrvF6lrKiC7G/Vs7lUrlGUqakdI+OcQirISlTR4g0v2BRXHA7N7oq8FkRHay+s5Fqz
+         gVWQ==
+X-Gm-Message-State: AOAM531m+5iPiWLAo1FYRjrzA5zArMDKqGDCYLoRZyxjAlFTi+W7gvbz
+        JCuPF/WaIvfaAngTDPATsgJmJ22vAzo=
+X-Google-Smtp-Source: ABdhPJwT9OpxlXsOQ18uXTAetKiDu8ic53T4TTtMxfVe5F7MqWrLeowkvJI2AfmFHl923Lstqz3IRQ==
+X-Received: by 2002:a05:6a00:15ca:b0:47f:59c4:dcf6 with SMTP id o10-20020a056a0015ca00b0047f59c4dcf6mr25978760pfu.63.1635839157626;
+        Tue, 02 Nov 2021 00:45:57 -0700 (PDT)
+Received: from ELIJAHBAI-MB0.tencent.com ([103.7.29.31])
+        by smtp.gmail.com with ESMTPSA id u13sm14668281pga.92.2021.11.02.00.45.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Nov 2021 00:45:57 -0700 (PDT)
+From:   Haimin Zhang <tcs.kernel@gmail.com>
+X-Google-Original-From: Haimin Zhang <tcs_kernel@tencent.com>
+To:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Haimin Zhang <tcs_kernel@tencent.com>,
+        TCS Robot <tcs_robot@tencent.com>
+Subject: [PATCH] USB:  array-index-out-of-bounds in ehci_brcm_hub_control
+Date:   Tue,  2 Nov 2021 15:44:46 +0800
+Message-Id: <20211102074446.87107-1-tcs_kernel@tencent.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YXqPtNmETT0ZtnKl@kuha.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki,
+There isn't enough check parameter `wIndex` in the function 
+`ehci_brcm_hub_control`;due to the size of array `port_status`
+is 15, so it may lead to out of bounds.
 
-On Thu, Oct 28, 2021 at 02:55:32PM +0300, Heikki Krogerus wrote:
-> On Tue, Oct 26, 2021 at 11:48:42PM -0700, Jack Pham wrote:
-> > The intent of ucsi_get_src_pdos() is to obtain the source's PDOs
-> > in order to provide the power_supply object the required data to
-> > report the mininum, maximum and currently operating voltage &
-> > current should a PD contract be in place.
-> > 
-> > If however, the port is operating as a PD source, this call would
-> > invoke GET_PDOS on the partner causing the PPM to send a
-> > Get_Source_Caps PD message to the port partner which may not make
-> > sense especially if the partner is not a dual-power role capable
-> > device.  Further, it has been observed that certain DisplayPort
-> > adapter cables (which are power sink-only devices) even fail to
-> > bring up the display link after receiving a Get_Source_Caps
-> > message, suggesting they can't cope well with an unsupported PD
-> > message to the point that it renders them functionally inoperable.
-> > 
-> > Fix this by checking the connector status flags for the power
-> > direction and use this to decide whether to send the GET_PDOs
-> > query to the partner or the port.  This also helps to make the
-> > power_supply VOLTAGE_{MIN,MAX,NOW} and CURRENT_{MAX,NOW}
-> > properties more consistent when the port is in source mode.
-> > 
-> > Signed-off-by: Jack Pham <quic_jackp@quicinc.com>
-> > ---
-> > Hi Heikki,
-> > 
-> > Was wrestling with how exactly to do this.  The other approach I was
-> > thinking was to not even do GET_PDOs at all if operating as a source,
-> > but that would also mean we'd need to add similar checking to the
-> > VOLTAGE/CURRENT property getters in psy.c so that they would not
-> > return incorrect/stale data.  Since the ONLINE property will already
-> > be 0 anyway it may make more sense to invalidate the rest of the props?
-> > 
-> > The patch below is concise though...so that's what I went with ;)
-> 
-> Would it still make sense / help if we had separate power supplies
-> registered for the port-source, port-sink, partner-source and
-> partner-sink?
+Signed-off-by: Haimin Zhang <tcs_kernel@tencent.com>
+Reported-by: TCS Robot <tcs_robot@tencent.com>
+---
+ drivers/usb/host/ehci-brcm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The name "power_supply" of the class to me implies a source :). So I
-can see perhaps having separate port-source and partner-source supplies
-making sense; they would effectively be mutually exclusive as only one
-of the pair would be "online" at a time when a partner is present
-depending on the power direction.
+diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+index d3626bfa966b..4ca3eb9fcda9 100644
+--- a/drivers/usb/host/ehci-brcm.c
++++ b/drivers/usb/host/ehci-brcm.c
+@@ -63,7 +63,8 @@ static int ehci_brcm_hub_control(
+ 	unsigned long flags;
+ 	int retval, irq_disabled = 0;
+ 
+-	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
++	if (wIndex && wIndex <= ports)
++		status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
+ 
+ 	/*
+ 	 * RESUME is cleared when GetPortStatus() is called 20ms after start
+-- 
 
-But I'm not sure I see a use for having port-sink/partner-sink objects
-though.  While the VOLTAGE_NOW / CURRENT_NOW properties might be
-redundantly reporting the same value from corresponding -source objects,
-would there be different MIN/MAX values which are obtained from
-Get_Sink_Caps?
-
-> I also think we need to unify these power supplies so that tcpm and
-> ucsi (and others) always register the same power supplies.
-
-I like that idea too!
-
-Thanks,
-Jack
