@@ -2,83 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B660C433FE
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 21:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B68C433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 02:50:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0217560ED3
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Nov 2021 21:32:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AFC860ED5
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Nov 2021 02:50:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231743AbhKAVe7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Nov 2021 17:34:59 -0400
-Received: from mail-ot1-f51.google.com ([209.85.210.51]:38499 "EHLO
-        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229918AbhKAVe7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Nov 2021 17:34:59 -0400
-Received: by mail-ot1-f51.google.com with SMTP id c2-20020a056830348200b0055a46c889a8so6475974otu.5;
-        Mon, 01 Nov 2021 14:32:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hCy5/rdH3EP/f0UY0j7JtyNiYST+yJ1udugsOF/LEYE=;
-        b=gXoyjFSHXii7YiVRMZj1GG115Y4EFwLMEVRTc8xT4xdSjlMf/95l/J1nAtttKUW4pz
-         56c2m5FL3WsV1O+tQUpti4uLnG3fadxP40tEmHjxcQVXPsbP3vPrCeL6lYwqtrf9Dhxx
-         +MQDoEhPzgppGsDrD0QvgKxdRyOtuxp8ziTPplW6RgQlxiVi2mZjS57vw3feoe/FB4T/
-         F1NpE0WGoLByyBbQeUILByynVRlNAovoah49yCmiYHyK2WoVMRt0gN4GHULOM891Bf9s
-         2X0ZCzEh7UTWSVlzPNLGtkeD13z95phlbhsV141CwLuEHsiih2qCxww7epB8mZdNn8hi
-         Ljgg==
-X-Gm-Message-State: AOAM532EFWsxPJhkDFbxHE+oZ46Bq69RwGMedSBITGkOzRShjqfipTYF
-        TFx01Uos4kHqByNH9jETPzIAt9h8dA==
-X-Google-Smtp-Source: ABdhPJzbfKMCsIhJntczuawzfOIxUC7Vv7zBS5V4IJzEi/WktKP+H/BlI4ncV/CpLisSsb9yeh0KIg==
-X-Received: by 2002:a9d:2ac2:: with SMTP id e60mr18743852otb.369.1635802345210;
-        Mon, 01 Nov 2021 14:32:25 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id 90sm4352796otj.70.2021.11.01.14.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Nov 2021 14:32:24 -0700 (PDT)
-Received: (nullmailer pid 1101334 invoked by uid 1000);
-        Mon, 01 Nov 2021 21:32:23 -0000
-Date:   Mon, 1 Nov 2021 16:32:23 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Cc:     amelie.delaunay@foss.st.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alexandre.torgue@foss.st.com, gregkh@linuxfoundation.org,
-        robh+dt@kernel.org, linux-usb@vger.kernel.org, hminas@synopsys.com
-Subject: Re: [PATCH v2] dt-bindings: usb: dwc2: document the port when
- usb-role-switch is used
-Message-ID: <YYBc59SlC+reg1T9@robh.at.kernel.org>
-References: <1635336752-14796-1-git-send-email-fabrice.gasnier@foss.st.com>
+        id S230487AbhKBCwq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Nov 2021 22:52:46 -0400
+Received: from mailgw01.mediatek.com ([60.244.123.138]:57876 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229526AbhKBCwq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Nov 2021 22:52:46 -0400
+X-UUID: cccddc9b5ee0443caa6187e8b3e11119-20211102
+X-UUID: cccddc9b5ee0443caa6187e8b3e11119-20211102
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1182935511; Tue, 02 Nov 2021 10:50:08 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 2 Nov 2021 10:50:07 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Nov
+ 2021 10:50:06 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 2 Nov 2021 10:50:06 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 2/2] usb: xhci-mtk: fix random remote wakeup
+Date:   Tue, 2 Nov 2021 10:50:04 +0800
+Message-ID: <20211102025004.29156-2-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211102025004.29156-1-chunfeng.yun@mediatek.com>
+References: <20211102025004.29156-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1635336752-14796-1-git-send-email-fabrice.gasnier@foss.st.com>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 27 Oct 2021 14:12:32 +0200, Fabrice Gasnier wrote:
-> Document the "port" property, which is used with "usb-role-switch"
-> to describe the bus connector.
-> Definition is inspired from mediatek,mtu3.yaml.
-> 
-> This fixes some errors seen when running "make dtbs_check":
-> ... 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
->         From schema: ... Documentation/devicetree/bindings/usb/dwc2.yaml
-> 
-> Note: add dependencies so that 'usb-role-switch' without port is valid or
-> both must be present.
-> 
-> Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-> ---
-> Changes in v2:
-> Rob's review comments:
-> - drop reference to graph.txt
-> - drop unneeded quotes
-> ---
->  Documentation/devicetree/bindings/usb/dwc2.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
+Some platforms, e.g. 8183/8192, use low level latch way to keep
+wakeup signal, it may latch a wrong signal if debounce more time,
+and enable wakeup function earlier.
+                   ____________________
+ip_sleep      ____/                    \_____________
+                           ___________________
+wakeup_signal ____________/                   \______
+                      _______________________________
+wakeup_en     _______/
+                      ^     ^
+                      |(1)  |(2)
+latch wakeup_signal mistakenly at (1), should latch it at (2);
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Workaround: delay about 100us to enable wakeup, meanwhile decrease
+debounce time.
+
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+ drivers/usb/host/xhci-mtk.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index adc5debcde88..91a664e8810d 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -245,11 +245,12 @@ static int xhci_mtk_host_disable(struct xhci_hcd_mtk *mtk)
+ 	/* wait for host ip to sleep */
+ 	ret = readl_poll_timeout(&ippc->ip_pw_sts1, value,
+ 			  (value & STS1_IP_SLEEP_STS), 100, 100000);
+-	if (ret) {
++	if (ret)
+ 		dev_err(mtk->dev, "ip sleep failed!!!\n");
+-		return ret;
+-	}
+-	return 0;
++	else /* workaound for platforms using low level latch */
++		usleep_range(100, 200);
++
++	return ret;
+ }
+ 
+ static int xhci_mtk_ssusb_config(struct xhci_hcd_mtk *mtk)
+@@ -300,7 +301,7 @@ static void usb_wakeup_ip_sleep_set(struct xhci_hcd_mtk *mtk, bool enable)
+ 	case SSUSB_UWK_V1_1:
+ 		reg = mtk->uwk_reg_base + PERI_WK_CTRL0;
+ 		msk = WC0_IS_EN | WC0_IS_C(0xf) | WC0_IS_P;
+-		val = enable ? (WC0_IS_EN | WC0_IS_C(0x8)) : 0;
++		val = enable ? (WC0_IS_EN | WC0_IS_C(0x1)) : 0;
+ 		break;
+ 	case SSUSB_UWK_V1_2:
+ 		reg = mtk->uwk_reg_base + PERI_WK_CTRL0;
+-- 
+2.18.0
+
