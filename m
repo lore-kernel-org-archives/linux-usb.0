@@ -2,54 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E0AEC433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00B48C433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:16:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 364866023B
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:13:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D84A2604DA
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:15:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231856AbhKEQQc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Nov 2021 12:16:32 -0400
-Received: from mga05.intel.com ([192.55.52.43]:16435 "EHLO mga05.intel.com"
+        id S233231AbhKEQSi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Nov 2021 12:18:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52372 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231720AbhKEQQb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Nov 2021 12:16:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10159"; a="318131377"
-X-IronPort-AV: E=Sophos;i="5.87,212,1631602800"; 
-   d="scan'208";a="318131377"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2021 09:07:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,212,1631602800"; 
-   d="scan'208";a="639860271"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2021 09:07:37 -0700
-To:     "Walt Jr. Brake" <mr.yming81@gmail.com>
-Cc:     chunfeng.yun@mediatek.com, matthias.bgg@gmail.com,
+        id S234031AbhKEQSZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Nov 2021 12:18:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A7A22604DA;
+        Fri,  5 Nov 2021 16:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1636128945;
+        bh=eSi2TxojiiMOdXbuKV6Ip/WfgZgHSEspnMEj6sfvcw4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bEYW6y5871BDRLKZrKbXuAZvyS7XQlm7dSk/rrkZMQb1+ivyocXHXl9F8pbwbTp3v
+         6Ks3HJEGEH3EZvpHpHe8fwXFDA+CnoBLvNc/hDQ4zvcdSXmaS6l1GeyEqKi0deaYdJ
+         FPiCuH3wi18aQy0pCxBiZQKzmRsYkYea4DKERTpI=
+Date:   Fri, 5 Nov 2021 17:15:42 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     stern@rowland.harvard.edu, mr.yming81@gmail.com,
+        chunfeng.yun@mediatek.com, matthias.bgg@gmail.com,
         nishadkamdar@gmail.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, eddie.hung@mediatek.com,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <20211105133050.GA1590803@rowland.harvard.edu>
- <20211105160036.549516-1-mathias.nyman@linux.intel.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+        linux-mediatek@lists.infradead.org, eddie.hung@mediatek.com
 Subject: Re: [PATCH] xhci: Fix USB 3.1 enumeration issues by increasing
  roothub power-on-good delay
-Message-ID: <96925c96-0f87-f110-e279-5b669337948a@linux.intel.com>
-Date:   Fri, 5 Nov 2021 18:09:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.8.1
+Message-ID: <YYVYrksU5/aCB3Fd@kroah.com>
+References: <20211105133050.GA1590803@rowland.harvard.edu>
+ <20211105160036.549516-1-mathias.nyman@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20211105160036.549516-1-mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 5.11.2021 18.00, Mathias Nyman wrote:
+On Fri, Nov 05, 2021 at 06:00:36PM +0200, Mathias Nyman wrote:
 > Some USB 3.1 enumeration issues were reported after the hub driver removed
 > the minimum 100ms limit for the power-on-good delay.
 > 
@@ -65,12 +60,11 @@ On 5.11.2021 18.00, Mathias Nyman wrote:
 > 
 > Reported-by: Walt Jr. Brake <mr.yming81@gmail.com>
 > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> 
 
-Walt Jr Brake, just to be sure could you test this one as well?
+So this needs:
+	Fixes: 90d28fb53d4a ("usb: core: reduce power-on-good delay time of root hub")
+right?
 
-As Alan suggested this sets 100ms for the USB 3 roothub but
-keeps the 20ms for the USB 2 roothub.
+thanks,
 
-Thanks
--Mathias 
+greg k-h
