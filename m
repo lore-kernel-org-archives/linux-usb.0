@@ -2,102 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1881CC433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 14:56:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B49C433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 15:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF90761245
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 14:56:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FA1D61262
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 15:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233304AbhKEO7F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Nov 2021 10:59:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51650 "EHLO mail.kernel.org"
+        id S233362AbhKEPCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Nov 2021 11:02:41 -0400
+Received: from mga12.intel.com ([192.55.52.136]:59734 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233278AbhKEO7F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Nov 2021 10:59:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F0896120E;
-        Fri,  5 Nov 2021 14:56:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636124185;
-        bh=o/e3Kg4XQetn+fV8ykmX1Wv4U8T/q0l5MdvRDWYx79g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=n0VMZWrHUHHqJINgGjRtwz6b9NlqlkxOTYeTvEXgxgPF50k491UbCwZPePjrehBcY
-         LvB7IQTZefNIDSJhpyXy80uuxPEQft2ho7QazhOOkExulyRntyQN+wMS8ExQPviMwi
-         LLXK4WACNA+nM2IjZk4Xyfl6X6zMMpHGurq6C4pdiCij49ftRC9wi9SA59yAHKAYYi
-         TO03gV5Df4Yso7q2bVju4clQdqP+Glim1OsCF97pv0HOsHcHuZkUkhC92qb24kkbUL
-         ofQ0t20/JYa9BJGkrdRGrQRS00SQHOQQXApjWOmuzDmKl3Rzev7cEYu6kqyXJCTpZN
-         /l1bp9mJl/VhA==
-Date:   Fri, 5 Nov 2021 07:56:17 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     John Keeping <john@metanate.com>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev
-Subject: Re: [PATCH] usb: dwc2: hcd_queue: Fix use of floating point literal
-Message-ID: <YYVGEVass1f5El8C@archlinux-ax161>
-References: <20211104215923.719785-1-nathan@kernel.org>
- <YYUs4PME9QizsPTt@donbot>
+        id S233308AbhKEPCk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Nov 2021 11:02:40 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10158"; a="211961558"
+X-IronPort-AV: E=Sophos;i="5.87,212,1631602800"; 
+   d="scan'208";a="211961558"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2021 07:59:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,212,1631602800"; 
+   d="scan'208";a="639840117"
+Received: from kuha.fi.intel.com ([10.237.72.166])
+  by fmsmga001.fm.intel.com with SMTP; 05 Nov 2021 07:59:49 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 05 Nov 2021 16:59:48 +0200
+Date:   Fri, 5 Nov 2021 16:59:48 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        bjorn.andersson@linaro.org, robh+dt@kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, wcheng@codeaurora.org
+Subject: Re: [PATCH v3 6/7] usb: typec: qcom: Remove standalone qcom pm8150b
+ typec driver
+Message-ID: <YYVG5DZJdNfZyj8x@kuha.fi.intel.com>
+References: <20211105033558.1573552-1-bryan.odonoghue@linaro.org>
+ <20211105033558.1573552-7-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YYUs4PME9QizsPTt@donbot>
+In-Reply-To: <20211105033558.1573552-7-bryan.odonoghue@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 05, 2021 at 01:08:48PM +0000, John Keeping wrote:
-> On Thu, Nov 04, 2021 at 02:59:23PM -0700, Nathan Chancellor wrote:
-> > A new commit in LLVM causes an error on the use of 'long double' when
-> > '-mno-x87' is used, which the kernel does through an alias,
-> > '-mno-80387' (see the LLVM commit below for more details around why it
-> > does this).
-> > 
-> >  drivers/usb/dwc2/hcd_queue.c:1744:25: error: expression requires  'long double' type support, but target 'x86_64-unknown-linux-gnu' does not support it
-> >                          delay = ktime_set(0, DWC2_RETRY_WAIT_DELAY);
-> >                                              ^
-> >  drivers/usb/dwc2/hcd_queue.c:62:34: note: expanded from macro 'DWC2_RETRY_WAIT_DELAY'
-> >  #define DWC2_RETRY_WAIT_DELAY (1 * 1E6L)
-> >                                  ^
-> >  1 error generated.
-> > 
-> > This happens due to the use of a 'long double' literal. The 'E6' part of
-> > '1E6L' causes the literal to be a 'double' then the 'L' suffix promotes
-> > it to 'long double'.
-> > 
-> > There is no visible reason for a floating point value in this driver, as
-> > the value is only used as a parameter to a function that expects an
-> > integer type.  Use USEC_PER_SEC, which is the same integer value as
-> > '1E6L', to avoid changing functionality but fix the error.
-> > 
-> > Fixes: 6ed30a7d8ec2 ("usb: dwc2: host: use hrtimer for NAK retries")
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1497
-> > Link: https://github.com/llvm/llvm-project/commit/a8083d42b1c346e21623a1d36d1f0cadd7801d83
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >  drivers/usb/dwc2/hcd_queue.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/dwc2/hcd_queue.c b/drivers/usb/dwc2/hcd_queue.c
-> > index 89a788326c56..bdf1927e1be1 100644
-> > --- a/drivers/usb/dwc2/hcd_queue.c
-> > +++ b/drivers/usb/dwc2/hcd_queue.c
-> > @@ -59,7 +59,7 @@
-> >  #define DWC2_UNRESERVE_DELAY (msecs_to_jiffies(5))
-> >  
-> >  /* If we get a NAK, wait this long before retrying */
-> > -#define DWC2_RETRY_WAIT_DELAY (1 * 1E6L)
-> > +#define DWC2_RETRY_WAIT_DELAY (1 * USEC_PER_SEC)
+On Fri, Nov 05, 2021 at 03:35:57AM +0000, Bryan O'Donoghue wrote:
+> Remove the standalone PMIC Type-C driver. We have implemented a full TCPM
+> driver which covers and extends the functionality in this driver.
 > 
-> Using USEC_PER_SEC here seems quite weird.  This is used as:
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/usb/typec/Kconfig           |  13 --
+>  drivers/usb/typec/Makefile          |   1 -
+>  drivers/usb/typec/qcom-pmic-typec.c | 262 ----------------------------
+>  3 files changed, 276 deletions(-)
+>  delete mode 100644 drivers/usb/typec/qcom-pmic-typec.c
 > 
-> 	delay = ktime_set(0, DWC2_RETRY_WAIT_DELAY);
-> 
-> so the units are nanoseconds.
-> 
-> Maybe NSEC_PER_MSEC would better indicate the intent here?
+> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+> index ab480f38523aa..61fba7bd1671d 100644
+> --- a/drivers/usb/typec/Kconfig
+> +++ b/drivers/usb/typec/Kconfig
+> @@ -75,19 +75,6 @@ config TYPEC_STUSB160X
+>  	  If you choose to build this driver as a dynamically linked module, the
+>  	  module will be called stusb160x.ko.
+>  
+> -config TYPEC_QCOM_PMIC
+> -	tristate "Qualcomm PMIC USB Type-C driver"
+> -	depends on ARCH_QCOM || COMPILE_TEST
+> -	depends on USB_ROLE_SWITCH || !USB_ROLE_SWITCH
+> -	help
+> -	  Driver for supporting role switch over the Qualcomm PMIC.  This will
+> -	  handle the USB Type-C role and orientation detection reported by the
+> -	  QCOM PMIC if the PMIC has the capability to handle USB Type-C
+> -	  detection.
+> -
+> -	  It will also enable the VBUS output to connected devices when a
+> -	  DFP connection is made.
 
-Yes, that seems reasonable. I will send a v2.
+I don't like that you create point where the support is temporarily
+removed for this hardware. I know Guenter asked that you remove the
+old driver in a separate patch, but I believe at that point you were
+also proposing different config option name for the new driver, so you
+could have removed the old driver only after you added the new one.
 
-Cheers,
-Nathan
+Since you now use the same configuration option name - which makes
+perfect sense to me - I think you need to refactor this series. Maybe
+you could first just move the old driver under drivers/usb/typec/tcpm/
+in one patch, and then modify and slit it in another patch.
+
+thanks,
+
+-- 
+heikki
