@@ -2,99 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 386C8C4332F
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9BAC433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:09:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0F4E16124A
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:03:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46FA46127C
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Nov 2021 16:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231931AbhKEQGS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Nov 2021 12:06:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48878 "EHLO
+        id S233884AbhKEQLv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Nov 2021 12:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbhKEQGS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Nov 2021 12:06:18 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38A9DC061714
-        for <linux-usb@vger.kernel.org>; Fri,  5 Nov 2021 09:03:38 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id v127so7438714wme.5
-        for <linux-usb@vger.kernel.org>; Fri, 05 Nov 2021 09:03:38 -0700 (PDT)
+        with ESMTP id S231793AbhKEQLr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Nov 2021 12:11:47 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53A0FC061714;
+        Fri,  5 Nov 2021 09:09:08 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id t5-20020a17090a4e4500b001a0a284fcc2so3677706pjl.2;
+        Fri, 05 Nov 2021 09:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=s68XxEAQVTsbV0tiQ0iC8ThpTbLQFrCbAZYJOejjuWU=;
-        b=WZNy4+rVsDTNDm9cYERP4vmFEuI5AYOyn6O+Fm8jDDNB4DPKNk3+wNX3QBRg0oiPLV
-         ElOLuPozvQJ2xRfo597DUFJHrpCk0yIxEVCInREkf0a4HFyNnwAuAlGuf7ZHA0mQrT7y
-         qFnlc296uLGzOc4ys0WtehThiUh0gSSVA8NjHkSOwa6wX/GOt+Y2TOkftC9qG3l2wiKC
-         rZ7ckF4ezvs144xYLRost6UaGvjpVqW6FhSJRpAzrv+VVFgHhTSI3w/InkASTuZ5MRJo
-         rA0v7ZT0oHFrkI9E7Rq4mhjD/t99LmFGHpimIsLZQSe3qU/LuCZsBc575c26Lpp8EmtZ
-         6csg==
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nC6lmsSMjNxg4EdgStZMk+UHWhR3qy63zVqcB7nAXNk=;
+        b=le3V2KjNyuVMkv//rlGkhAkSvF4dJAk8TZJ30eV3H1aXfYSCBcdpGBj0y2mDgJhbLT
+         kEZrJ0EDdRljsMgrrxVUqf27QwDLlD7pIXBxlpsiP5hDzH8zNbMsuiNF4oA6I8OnrjBE
+         oZGH4de/4hg1212xSLywWtGeMmjT4rACSBlzyA3hofPy7lwvRd35L2s5IoW1bBmFK9jA
+         2gyrx4sQSZU+loTfrqvRolPbJLePIWCBOQWs0+TotF57ntPLwGgGK9/i6iwpz1hRt4zh
+         hCHQjYM2sCunKU3fLnmmslPCe1mZqJMbKrFN0MRxKNTRESSdn+aOGN4WWjh9ZchLggiQ
+         c75Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=s68XxEAQVTsbV0tiQ0iC8ThpTbLQFrCbAZYJOejjuWU=;
-        b=wu1Ka+U01l2BSi1JrZ1Lv073X4jFc536dLfec3c4lIX5UkQd1K6XrF3LzyEzEOx2KL
-         kifi/SueP5m4pdMsN28DC/yNDwyE2ydmlp6xEbHyTEOg5Q98Ojrf6I+UzDLvTcPsazcq
-         COx6A/aTToKqAXsPs9XIvJuEJjAVCdXte9HnlNdZp5uLf7Iuh+MVQLAQVOHXiiVx5fJv
-         P0uMWtm0pMe1JuVv/ODapW3tyxG0RBktKeQY/6SaxbzLVsgfNlUE1/kcD0w6kHAoB0hv
-         GII82z0QZE6gG3tZspbjodzyZ5NXkb374U7LR4ybZyLr4066SA9MWLn4RO+f9lxZ8Kq+
-         wQYw==
-X-Gm-Message-State: AOAM5326tBzlwvLDd3pCKTIdqZG8n6YF72QaZVomhQkQ0hNf4q7oO+d6
-        pDccxzAbe7PvQXSBsC7VzZUoww==
-X-Google-Smtp-Source: ABdhPJwk5F9B0etWwFBCXvheHF5J5gH7BY6sepmL4k2YFCG8vTHMM7lBF6xaLxyQR3GplJclTlSZvg==
-X-Received: by 2002:a1c:447:: with SMTP id 68mr31515335wme.69.1636128216838;
-        Fri, 05 Nov 2021 09:03:36 -0700 (PDT)
-Received: from [192.168.0.162] (188-141-3-169.dynamic.upc.ie. [188.141.3.169])
-        by smtp.gmail.com with ESMTPSA id h7sm8044083wrt.64.2021.11.05.09.03.35
+        bh=nC6lmsSMjNxg4EdgStZMk+UHWhR3qy63zVqcB7nAXNk=;
+        b=ZJefKnq/jc1d3ByV5z8g7T30yQWzsgNVeUz6aVhoO0xgsAbBCXTXGTR6ULCbAJSBTv
+         4P3u5fPevNwoQzY7skHqTL8/EskqWeQFqEYTzYcl84Ja9Tthct+jOrXfwHVHMz6xpPvC
+         O7mQbxf+6qLXLmPTGHCuvMEYYZXJQdLvYSV9S8wukIu1/2KEPRjrnRqRvcMLcqn20Wza
+         nZ/sbNYxhYeGsVMU+jNO3STO8E4FPP21lApAAfsO3apleTpMO0kRMEPZGo2n/afcEI2I
+         nuB+Wkfjbywo9f6x2LCTwuIQaqKLpDtFkOJtJZJHEAACNSjHVWPCMarxXvUnChtWWGlw
+         3qQQ==
+X-Gm-Message-State: AOAM531q1oyEetjyON56BaUwGGP8Wy1iBSonB4UgLPwKf0pqDy3ZIw4O
+        xIZUNJNgnQ5mQ7uqk308vEEf/2QSaxY=
+X-Google-Smtp-Source: ABdhPJzt5ONUdqCWVcoJC3zmSdcluEmflmg2VR+l/N95YXtU5aw6LUkenS4hYkMsKVCcm0B3WPrjFA==
+X-Received: by 2002:a17:902:740c:b0:141:bf6d:7e16 with SMTP id g12-20020a170902740c00b00141bf6d7e16mr41532112pll.13.1636128547688;
+        Fri, 05 Nov 2021 09:09:07 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id rm1sm8506841pjb.3.2021.11.05.09.09.06
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Nov 2021 09:03:36 -0700 (PDT)
-Message-ID: <749a058d-a16d-3a92-25b6-97afcfaa7787@linaro.org>
-Date:   Fri, 5 Nov 2021 16:05:37 +0000
+        Fri, 05 Nov 2021 09:09:07 -0700 (PDT)
+Subject: Re: [PATCH 2/2] USB: ehci_brcm_hub_control: replace wIndex-1 with
+ temp
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Haimin Zhang <tcs.kernel@gmail.com>,
+        Al Cooper <alcooperx@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Haimin Zhang <tcs_kernel@tencent.com>,
+        TCS Robot <tcs_robot@tencent.com>
+References: <20211105083357.29715-1-tcs_kernel@tencent.com>
+ <YYTwveXGgNKXCfpk@kroah.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <d5b698db-5fc0-2d62-2b6e-4c0d70903fa0@gmail.com>
+Date:   Fri, 5 Nov 2021 09:09:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH v3 6/7] usb: typec: qcom: Remove standalone qcom pm8150b
- typec driver
+In-Reply-To: <YYTwveXGgNKXCfpk@kroah.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
-        bjorn.andersson@linaro.org, robh+dt@kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, wcheng@codeaurora.org
-References: <20211105033558.1573552-1-bryan.odonoghue@linaro.org>
- <20211105033558.1573552-7-bryan.odonoghue@linaro.org>
- <YYVG5DZJdNfZyj8x@kuha.fi.intel.com> <YYVHcHC1Gm92VxEM@kuha.fi.intel.com>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <YYVHcHC1Gm92VxEM@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
+On 11/5/21 1:52 AM, Greg KH wrote:
+> On Fri, Nov 05, 2021 at 04:33:57PM +0800, Haimin Zhang wrote:
+>> In function `ehci_brcm_hub_control`, like following code,  
+>> it filters out the case where the upper byte of wIndex is nonzero, 
+>> so it need be replaced with temp.
+> 
+> I do not understand this text, can you try to reword it?
+> 
+> And you have trailing whitespace.
+> 
+> And why use `?
+> 
+>> ```
+> 
+> What is this for?  Changelog comments are not in markdown format.
+> 
+>> 	if ((typeReq == GetPortStatus) &&
+>> 	    (wIndex && wIndex <= ports) &&       // need to be replaced
+> 
+> What does this comment mean?
+> 
+>> 	    ehci->reset_done[wIndex-1] &&
+>> 	    time_after_eq(jiffies, ehci->reset_done[wIndex-1]) &&
+>> 	    (ehci_readl(ehci, status_reg) & PORT_RESUME)) {
+>> ```
 >>
->> I don't like that you create point where the support is temporarily
->> removed for this hardware. I know Guenter asked that you remove the
->> old driver in a separate patch, but I believe at that point you were
->> also proposing different config option name for the new driver, so you
->> could have removed the old driver only after you added the new one.
->>
->> Since you now use the same configuration option name - which makes
->> perfect sense to me - I think you need to refactor this series. Maybe
->> you could first just move the old driver under drivers/usb/typec/tcpm/
->> in one patch, and then modify and slit it in another patch.
+>> Signed-off-by: Haimin Zhang <tcs_kernel@tencent.com>
+>> Reported-by: TCS Robot <tcs_robot@tencent.com>
+> 
+> Again, lines need to be in different order, and your from: line is not
+> correct.
+> 
+> Also, you need an individual email address, not a group email alias for
+> your contributions.  We work with individuals, not groups.
 
-No problem with this in principle
-
-> Or just merge this patch to the next one.
-
-I think this for preference unless Guenter has an objection .. 
-easier/less work
-
----
-bod
-
+Also, would you mind copying the people who are remotely involved with
+this piece of code, like Al? Thank you
+-- 
+Florian
