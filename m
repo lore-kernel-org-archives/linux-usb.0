@@ -2,105 +2,190 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82943C43219
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 04:06:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8F99C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 04:43:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7169A61207
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 04:06:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD81761177
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 04:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242548AbhKIEJk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Nov 2021 23:09:40 -0500
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:42969 "EHLO
-        mail-ot1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242562AbhKIEJ1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Nov 2021 23:09:27 -0500
-Received: by mail-ot1-f47.google.com with SMTP id g91-20020a9d12e4000000b0055ae68cfc3dso26239904otg.9;
-        Mon, 08 Nov 2021 20:06:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=VnK4CqjrP/tqSC7BA9VprQcCacLXAGRlUC8b9O7Uy4M=;
-        b=45u4iAaqBpGU5eRpql0MwyRnAlIw3AYOWG9F3hZvyTqTvPgh/+EKDS3J406lFesMUu
-         XNbGZH3VDFAUl00efDX81XTf7Y1aEp2J0mr3d+5HRRcNWihLM2KqYobBB8cn5NudocwN
-         K7PxQ1eLu3V2n2Xgi9WgkVgUHswfxXen2HKNIEP+h613X9OPcoPTC15p6TB1zebPRSgj
-         8D7HTBKGzjQJmaffHrm+Ddkmee905jsHiUR+5TIHzkSHRk3qkmnNEBycdnfWxPNtvG1U
-         NoSMhh4xyPAOse9a9DgFwr0Y2kKBuyrajj3E7Rf6Fh9UN2HKNQhl2f1unGOihwgh0p9y
-         PwQw==
-X-Gm-Message-State: AOAM530kPR52JYL0yywzSeqXav39K8ttp7grEAxwMuLJLuzI7D3j1wTA
-        mHyCBrLjviOeMiigIvtvcQ==
-X-Google-Smtp-Source: ABdhPJwqFn7rKwZp6OnGXpSvQFrbwKnzY5Gjt/HWja7Pt9VDcz04tYmsi6lM2d+x4u61UsKiO9386w==
-X-Received: by 2002:a9d:8f2:: with SMTP id 105mr3483960otf.95.1636430801719;
-        Mon, 08 Nov 2021 20:06:41 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id m12sm3606861ots.59.2021.11.08.20.06.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 20:06:41 -0800 (PST)
-Received: (nullmailer pid 743043 invoked by uid 1000);
-        Tue, 09 Nov 2021 04:06:29 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     conor.dooley@microchip.com
-Cc:     robh+dt@kernel.org, gregkh@linuxfoundation.org,
-        linus.walleij@linaro.org, linux-riscv@lists.infradead.org,
-        aou@eecs.berkeley.edu, paul.walmsley@sifive.com,
-        linux-usb@vger.kernel.org, daire.mcnamara@microchip.com,
-        linux-spi@vger.kernel.org, geert@linux-m68k.org,
-        devicetree@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, broonie@kernel.org, palmer@dabbelt.com,
-        bgolaszewski@baylibre.com, jassisinghbrar@gmail.com,
-        linux-crypto@vger.kernel.org, ivan.griffin@microchip.com,
-        atish.patra@wdc.com, lewis.hanly@microchip.com,
-        bin.meng@windriver.com, alexandre.belloni@bootlin.com,
-        krzysztof.kozlowski@canonical.com, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, a.zummo@towertech.it
-In-Reply-To: <20211108150554.4457-11-conor.dooley@microchip.com>
-References: <20211108150554.4457-1-conor.dooley@microchip.com> <20211108150554.4457-11-conor.dooley@microchip.com>
-Subject: Re: [PATCH 10/13] dt-bindings: spi: add bindings for microchip mpfs spi
-Date:   Mon, 08 Nov 2021 22:06:29 -0600
-Message-Id: <1636430789.935637.743042.nullmailer@robh.at.kernel.org>
+        id S242811AbhKIEqk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Nov 2021 23:46:40 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:62176 "EHLO
+        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S242766AbhKIEqk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Nov 2021 23:46:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1636433035; x=1667969035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RPvJcJDPMdp7Swo0W51sy6DYmybCviFK4B196uJ5MtU=;
+  b=B4RJTFsVYUWnpLsLCLV9YTjlCqdSfTmFSJm7ZcxYJXKZ68rP+RA4lHZh
+   CIf2R60odjISVa7YAyXXTQFRCvMOOPxaTsGNlJASAODykVdjUwhr9oXWc
+   BFF3wctjiZpp5h1BqDX6c+dzwq6Q2bDNAjtejuCycOXIv/UpTONMH4CU9
+   8=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 08 Nov 2021 20:43:55 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2021 20:43:54 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
+ Mon, 8 Nov 2021 20:43:54 -0800
+Received: from qian-HP-Z2-SFF-G5-Workstation (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
+ Mon, 8 Nov 2021 20:43:52 -0800
+Date:   Mon, 8 Nov 2021 23:43:50 -0500
+From:   Qian Cai <quic_qiancai@quicinc.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [RFC PATCH] software node: Skip duplicated software_node sysfs
+Message-ID: <YYn8hpxxmAtw9z5S@qian-HP-Z2-SFF-G5-Workstation>
+References: <20211101200346.16466-1-quic_qiancai@quicinc.com>
+ <CAHp75VcrWPdR8EVGpcsniQedT0J4X700N7thFs6+srTP1MTgwQ@mail.gmail.com>
+ <52df4a97-1132-d594-0180-132d0ca714d5@quicinc.com>
+ <CAHp75VebOnrce-XZjOnZiivQPz-Cdgq6mor5oiLxK8Y49GiNNg@mail.gmail.com>
+ <1269258d-db4c-3922-776b-f11e6a1e338e@quicinc.com>
+ <YYlnIpGEmLH5GXft@smile.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YYlnIpGEmLH5GXft@smile.fi.intel.com>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 08 Nov 2021 15:05:51 +0000, conor.dooley@microchip.com wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> Add device tree bindings for the {q,}spi controller on
-> the Microchip PolarFire SoC.
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  .../bindings/spi/microchip,mpfs-spi.yaml      | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/spi/microchip,mpfs-spi.yaml
-> 
+On Mon, Nov 08, 2021 at 08:06:26PM +0200, Andy Shevchenko wrote:
+> Btw, what you can do in this case is to switch to use fwnode_create_software
+> node and switch them in drd.c. It will be much much easier to achieve then
+> full kernel refactoring.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+(Adding arm64 and dwc3 people since that iort_iommu_configure_id()
+path below to create a duplicated sysfs is arm64-specific. The
+original thread is here):
 
-yamllint warnings/errors:
+https://lore.kernel.org/lkml/20211101200346.16466-1-quic_qiancai@quicinc.com/
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/spi/microchip,mpfs-spi.example.dts:19:18: fatal error: dt-bindings/clock/microchip,mpfs-clock.h: No such file or directory
-   19 |         #include "dt-bindings/clock/microchip,mpfs-clock.h"
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/spi/microchip,mpfs-spi.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1441: dt_binding_check] Error 2
+Andy, did you mean host.c? I saw that the first time
+"/devices/platform/808622B7:01/xhci-hcd.3.auto/software_node" was
+created by dwc3_host_init(). Call trace:
 
-doc reference errors (make refcheckdocs):
+  sysfs_do_create_link_sd.isra.0
+  sysfs_create_link
+  software_node_notify
+  device_add
+  platform_device_add
+  dwc3_host_init
+  dwc3_probe
+  platform_probe
+  really_probe.part.0
+  really_probe
+  __driver_probe_device
+  driver_probe_device
+  __driver_attach
+  bus_for_each_dev
+  driver_attach
+  bus_add_driver
+  driver_register
+  __platform_driver_register
+  dwc3_driver_init
+  dwc3_driver_init at drivers/usb/dwc3/core.c:2072
+  do_one_initcall
+  kernel_init_freeable
+  kernel_init
+  ret_from_fork
 
-See https://patchwork.ozlabs.org/patch/1552385
+Then, which functions do you suggest to replace with
+fwnode_create_software_node()? In dwc3_host_init(),
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+int dwc3_host_init(struct dwc3 *dwc)
+{
+	...
+	xhci = platform_device_alloc("xhci-hcd", PLATFORM_DEVID_AUTO);
+	...
+	ret = platform_device_add(xhci);
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+I am wondering if that we could solve the problem by avoiding
+"xhci-hcd" string here which would unfortunately clash with
+xhci_plat_init() as mentioned before:
 
-pip3 install dtschema --upgrade
+  sysfs_create_link
+  software_node_notify
+  device_create_managed_software_node
+  iort_named_component_init
+  iort_iommu_configure_id
+  acpi_dma_configure_id
+  platform_dma_configure
+  really_probe.part.0
+  really_probe
+  __driver_probe_device
+  driver_probe_device
+  __driver_attach
+  bus_for_each_dev
+  driver_attach
+  bus_add_driver
+  driver_register
+  __platform_driver_register
+  xhci_plat_init
+  do_one_initcall
+  kernel_init_freeable
+  kernel_init
+  ret_from_fork
 
-Please check and re-submit.
+since the driver would also use "xhci-hcd".
 
+static struct platform_driver usb_xhci_driver = {
+	...
+	.driver	= {
+		.name = "xhci-hcd",
+
+static int __init xhci_plat_init(void)
+{
+       ...
+       return platform_driver_register(&usb_xhci_driver);
+
+
+BTW, "/sys/devices/platform/808622B7:01/software_node" was also
+created from the path:
+
+  sysfs_create_link
+  software_node_notify
+  device_create_managed_software_node
+  iort_named_component_init
+  iort_iommu_configure_id
+  acpi_dma_configure_id
+  platform_dma_configure
+  really_probe.part.0
+  really_probe
+  __driver_probe_device
+  driver_probe_device
+  __driver_attach
+  bus_for_each_dev
+  driver_attach
+  bus_add_driver
+  driver_register
+  __platform_driver_register
+  dwc3_driver_init
+  do_one_initcall
+  kernel_init_freeable
+  kernel_init
+  ret_from_fork
+
+# ls -l /sys//devices/platform/808622B7:01/xhci-hcd.3.auto/software_node
+lrwxrwxrwx 1 root root 0 Nov  9 03:18 /sys//devices/platform/808622B7:01/xhci-hcd.3.auto/software_node -> ../../../../kernel/software_nodes/node4
+
+# ls -l /sys//devices/platform/808622B7:01/software_node
+lrwxrwxrwx 1 root root 0 Nov  9 03:18 /sys//devices/platform/808622B7:01/software_node -> ../../../kernel/software_nodes/node4
