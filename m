@@ -2,42 +2,42 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DBE3C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7051C4332F
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:43:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47C6C60FDA
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:42:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C23F6105A
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:43:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346371AbhKIWoy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Nov 2021 17:44:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35026 "EHLO mail.kernel.org"
+        id S1346298AbhKIWps (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Nov 2021 17:45:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36040 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235273AbhKIWmP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Nov 2021 17:42:15 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9071261B50;
-        Tue,  9 Nov 2021 22:24:13 +0000 (UTC)
+        id S1346135AbhKIWnp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 9 Nov 2021 17:43:45 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F28F61A40;
+        Tue,  9 Nov 2021 22:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636496654;
+        s=k20201202; t=1636496674;
         bh=9L5S1wNQqgRAGnTg268+P/TH/VccBWxuhv9lCpuuxG8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i5E7SQxdEj3iDT4BVhMU1T0IJT8Ssw7ZCac23JIbAHliVSk92lrtTnrjkhBDkmKww
-         2ekl8ez/rDGmefJDI4Bd/LvOfXTc4hDBYrqY4hP0FtwOS1Wq1zwgQCSl53yfwyTN8h
-         i99TX6Sgv7ydp3V1T9sq2MYpNSgN5zzKKL6RswxCdb0hVJU3RGTUZp/5xjK100u8Ma
-         kdGs6hQBjJ6ZmuTx5UI5VLmU7Z4ulWI6nbyVSSehUCTbhyKatXmARc7dqsQGcZf5iN
-         qdom5aXOfPfi78qP3ldB6In30KHUCt64Q/H125Ds2gDJG+pnVzXxZHZyoQZ6e7BDfU
-         pT8O2UqfhPyYA==
+        b=TLVmEPJtQd7iVmRO46/j4y8RvGbh5B//LlOUSsmgP12odBFjOUk7kN5tDYW3c8QGE
+         1Rltp6EzOWZIweSfbeZd+3JwsFg/23r/LqQJORpOpX6ll+3OEZDTJzaC/XBNGuJOer
+         Bim/yo2uBdTF+oYLpGv0Q7vSsfbcg2i8mANaWIglNxNVsP/2ceDk7EDt2p2jjQTaIB
+         ywV5k17u8mdcbPnes2gSTu6dMwZkbhois4RSaGajooO0V0BEBoiZ/cpOphv8hh6uDJ
+         Ics3CzXls5/35Krmr+JJJXEZx0DRs8ptPYUQ9Gz++Xv+OPhZr8BAcaZk7mFZN92cmI
+         FMrriiXSQDbnA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yang Yingliang <yangyingliang@huawei.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 06/13] usb: host: ohci-tmio: check return value after calling platform_get_resource()
-Date:   Tue,  9 Nov 2021 17:23:57 -0500
-Message-Id: <20211109222405.1236040-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 05/12] usb: host: ohci-tmio: check return value after calling platform_get_resource()
+Date:   Tue,  9 Nov 2021 17:24:19 -0500
+Message-Id: <20211109222426.1236575-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211109222405.1236040-1-sashal@kernel.org>
-References: <20211109222405.1236040-1-sashal@kernel.org>
+In-Reply-To: <20211109222426.1236575-1-sashal@kernel.org>
+References: <20211109222426.1236575-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
