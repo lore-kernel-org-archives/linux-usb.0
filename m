@@ -2,81 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1565BC433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:43:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28CAC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Nov 2021 02:32:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 00C6661075
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Nov 2021 22:43:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90EFA6023F
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Nov 2021 02:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344905AbhKIWp4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Nov 2021 17:45:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36030 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1346107AbhKIWnn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 9 Nov 2021 17:43:43 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B4C1461881;
-        Tue,  9 Nov 2021 22:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1636496670;
-        bh=yskHZabqsvAjti3StZjV+B4KzqCQCGY0fwXULf/2qd4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lWBtg1mNptRRUO83e7z8OR4IN+GhdfBBUwKm2qSuv74mMhw3O+Fms/+07RbQqoSe3
-         r3Xn7rmIwbkRGLU4aFmXQb24p1ouO6hFqMRhyZvSi0oNRDb1u1kZXReK4cLKtnWeS9
-         koGFTxXCr8WYmerQppUP+GKw6GF34JFUZ39Dqb29XMSX7NbtyC5imgvSs0SkMj7MrZ
-         8vkuHZrauAp8cHIBVhmFcvu7bG0d/PfM5TzszDaMkIGIzzEekRVbgiZFsIeKX0jF2Y
-         x8bWSXY7qjwbdKbUBGiDKY+2ZJSnXgj+H/5/30m05BuCZ5Q9JfgulWh7xDxFvNloy9
-         cTV8BDgOCDEoA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@ti.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 02/12] usb: musb: tusb6010: check return value after calling platform_get_resource()
-Date:   Tue,  9 Nov 2021 17:24:16 -0500
-Message-Id: <20211109222426.1236575-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211109222426.1236575-1-sashal@kernel.org>
-References: <20211109222426.1236575-1-sashal@kernel.org>
+        id S229899AbhKJCfg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Nov 2021 21:35:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229717AbhKJCff (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Nov 2021 21:35:35 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A938C061764;
+        Tue,  9 Nov 2021 18:32:48 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id nh10-20020a17090b364a00b001a69adad5ebso332347pjb.2;
+        Tue, 09 Nov 2021 18:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZEwpuSt1yBiIjYpLPBsJFt6s3rbMX5bKS5GbakO7x30=;
+        b=OCX8Ml0Ev46RRm5TOXit5PsCU+sqbr24cVpdt+EV5lVRPYUksHcpCBOOlauVyYNtnx
+         1/hOCKdSdqK//YHQZd0M6S+0Qg/N/68RFpEHico/F5jVIQAq2Fpq4HkTQSbtbJsiCfXE
+         k71OXN5Oism8+BhvYzy2dv2MTETHSe8/r1h3DF3pm7bkSwO1Zhi1GJI4Up27ZYj/Ccsy
+         hs1ZSVWw08GTJhH5AhYLUI3h5L1pwaVQSsINmkghX7G0UEvM6SYRNGVFtk7UGv22M79j
+         aHI4zyDd1gi96bcmTJcxdkAoU2E90bCkXRNdklflQi/spOMc2qJMCbdCXqqH8d9sGNRy
+         kl2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZEwpuSt1yBiIjYpLPBsJFt6s3rbMX5bKS5GbakO7x30=;
+        b=lSNnyBGt/gw1ENfjtk76vFH+JL5Ac95Wc/89imWbA7iV2/sY0+OUwU5cGugrKgVuRN
+         MOyJAZZWWX95dAVg8tnR4cbPVENensTGeXlPh42O4oPbAnguHZdTgzBOz8pFQdI3w1QS
+         fFWxZsiJv8K8YNAfYNJa87yLXA1M++wSQqKxWubb4Q21kMITJrMHWcX1iAm/byXQLgrR
+         kUhCa8ehnq4Zu2uV1M1VOnenHQLkLYdgbxpVzA311NmTABj85zRSB0ZXQpmS+NwDWsTo
+         AUcWx4S/f2w9xDMDdTNcaVOlPavd6HAB0RXv7lG9AAyL+mIXRCIxaK7TtzNeuWcgyvBB
+         0QrQ==
+X-Gm-Message-State: AOAM533aHXFHf7uEiNATsNwxlK4BpXdDMx1TQ0v9I3rGkCZZWitZHY6V
+        yO9SxKoh1wKNtDGWzMRIvB4=
+X-Google-Smtp-Source: ABdhPJylO+oOtoUeHKlNYNhuXwCSwhrDGslaljnjVvvJYTcG5z6gxwIWaO48mjrgLmvA2ThG+la9Vg==
+X-Received: by 2002:a17:902:c404:b0:142:28c5:5416 with SMTP id k4-20020a170902c40400b0014228c55416mr12627173plk.62.1636511568486;
+        Tue, 09 Nov 2021 18:32:48 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id co4sm3842938pjb.2.2021.11.09.18.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Nov 2021 18:32:48 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yao.jing2@zte.com.cn
+To:     valentina.manea.m@gmail.com
+Cc:     shuah@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jing Yao <yao.jing2@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] usbip: vudc: Replace snprintf in show functions with  sysfs_emit
+Date:   Wed, 10 Nov 2021 02:32:44 +0000
+Message-Id: <20211110023244.135621-1-yao.jing2@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yang Yingliang <yangyingliang@huawei.com>
+From: Jing Yao <yao.jing2@zte.com.cn>
 
-[ Upstream commit 14651496a3de6807a17c310f63c894ea0c5d858e ]
+coccicheck complains about the use of snprintf() in sysfs show
+functions:
+WARNING use scnprintf or sprintf
 
-It will cause null-ptr-deref if platform_get_resource() returns NULL,
-we need check the return value.
+Use sysfs_emit instead of scnprintf, snprintf or sprintf makes more
+sense.
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-Link: https://lore.kernel.org/r/20210915034925.2399823-1-yangyingliang@huawei.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Jing Yao <yao.jing2@zte.com.cn>
 ---
- drivers/usb/musb/tusb6010.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/usbip/vudc_sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/musb/tusb6010.c b/drivers/usb/musb/tusb6010.c
-index 85a57385958fd..f4297e5495958 100644
---- a/drivers/usb/musb/tusb6010.c
-+++ b/drivers/usb/musb/tusb6010.c
-@@ -1120,6 +1120,11 @@ static int tusb_musb_init(struct musb *musb)
+diff --git a/drivers/usb/usbip/vudc_sysfs.c b/drivers/usb/usbip/vudc_sysfs.c
+index d1cf6b51bf85..6af594bd3d5e 100644
+--- a/drivers/usb/usbip/vudc_sysfs.c
++++ b/drivers/usb/usbip/vudc_sysfs.c
+@@ -242,7 +242,7 @@ static ssize_t usbip_status_show(struct device *dev,
+ 	status = udc->ud.status;
+ 	spin_unlock_irq(&udc->ud.lock);
  
- 	/* dma address for async dma */
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!mem) {
-+		pr_debug("no async dma resource?\n");
-+		ret = -ENODEV;
-+		goto done;
-+	}
- 	musb->async = mem->start;
+-	return snprintf(out, PAGE_SIZE, "%d\n", status);
++	return sysfs_emit(out, "%d\n", status);
+ }
+ static DEVICE_ATTR_RO(usbip_status);
  
- 	/* dma address for sync dma */
 -- 
-2.33.0
+2.25.1
 
