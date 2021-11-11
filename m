@@ -2,139 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9E8C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Nov 2021 20:27:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 284AFC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 06:28:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 92C8C6108E
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Nov 2021 20:27:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9B5D61267
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 06:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232287AbhKJUaT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Nov 2021 15:30:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230230AbhKJUaS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Nov 2021 15:30:18 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9D15C061764;
-        Wed, 10 Nov 2021 12:27:30 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id z200so3293233wmc.1;
-        Wed, 10 Nov 2021 12:27:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VCO5uvUOcT27e+DRykZRIen3xP0SFPGTd6Mp1JZTAsY=;
-        b=HThajDrDc6kB1OnizIXhqzZNZZvMfdEHMWtMO4M30i37Pl73wkt59s0uAsKI/RdkPF
-         1wk6JxgmAhSrbRsPWAIvz6B3dIzTqP1/gcXhrAg3Kw18a7B2hIY3mE0EgiG057B8KZUy
-         2r4dyL/l4YIrur+Kn5hq7L8zexNdXLUoevOaZRRL88bHNDHY//iJvBd2HxSsP/+sevHM
-         tY78m10uixmloXgSMDKdn29FiasKIn3plMw6EOexg0Mz5o2pMLWAK4GZFdnnyT0Wr1xo
-         31pw1Ol0dCl/18DjBGfMtfvKMD+VkFS36tRt/sMqI0UGRF8tV70VpN2eqyLFtlwLzfWL
-         U+nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VCO5uvUOcT27e+DRykZRIen3xP0SFPGTd6Mp1JZTAsY=;
-        b=aWsyzI4Qg7XmGLPdepe4Ej//TNIEU7C0N1HicsmVvKeNpN8NKEh91DZq++kTwJWNa/
-         9nLKjOzhAaW3ZDeYkfjGSoUnkDrvZnyQpvDy7m4Zf+7DaJtmkBvHjC51GbEatkuaZEnH
-         dd1kuRQDvEl3p4HckgIGqQVfJdIYTKR9dKMPrrDKtLuLhIBr2PNHIENasWcr3uj93haC
-         zixb0RNucRntybkqzWI51UqDBjuzydxgt0soSOECgslx341/cGySsfxPZeynTIwKY1ZN
-         mRKBwDfljoyrm0zMIdyk/wdXhp65tsyQAOIvp3HhNqEhxK7fsdel+cjAA7U6QObeqfUf
-         4ZJg==
-X-Gm-Message-State: AOAM532E2i5qpsTHZ5DayuOKgDU79SLAT8q0Kccsmt3MzPs5Sbopuvbj
-        hzs56tV7qOeXuzsvtSVlgE0=
-X-Google-Smtp-Source: ABdhPJw4KjDz2RofXLwp2G67jkwH49HdpJCT6V9QEt9aux7cGkvEY9V4DGLIjaCPxROLcjclfo3KDw==
-X-Received: by 2002:a1c:4d13:: with SMTP id o19mr2192192wmh.164.1636576049474;
-        Wed, 10 Nov 2021 12:27:29 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id q123sm6506007wma.30.2021.11.10.12.27.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 12:27:29 -0800 (PST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     linux-sunxi@lists.linux.dev,
-        Roman Stratiienko <r.stratiienko@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-usb@vger.kernel.org, wens@csie.org, mripard@kernel.org,
-        b-liu@ti.com, megous@megous.com,
-        Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH] usb: musb: sunxi: Don't print error on MUSB_ULPI_BUSCONTROL access
-Date:   Wed, 10 Nov 2021 21:27:23 +0100
-Message-ID: <7984413.T7Z3S40VBb@kista>
-In-Reply-To: <20211019131244.1568560-1-r.stratiienko@gmail.com>
-References: <20211019131244.1568560-1-r.stratiienko@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S229629AbhKKGbn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Nov 2021 01:31:43 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:36286 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229533AbhKKGbm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Nov 2021 01:31:42 -0500
+Received: from localhost.localdomain.localdomain (unknown [10.2.5.46])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxidEauIxh2SgCAA--.5061S2;
+        Thu, 11 Nov 2021 14:28:48 +0800 (CST)
+From:   Yinbo Zhu <zhuyinbo@loongson.cn>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     zhuyinbo@loongson.cn
+Subject: [PATCH v3] usb: xhci: add LWP quirk for ensuring uPD720201 into D3 state after S5
+Date:   Thu, 11 Nov 2021 14:28:38 +0800
+Message-Id: <1636612118-32481-1-git-send-email-zhuyinbo@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
+X-CM-TRANSID: AQAAf9CxidEauIxh2SgCAA--.5061S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7AF1kJw4kGF4DKr1UCrWruFg_yoW5JrWfpF
+        s8Xaya9rs5Kr4Iqr93Ar18Zas5G3ZrZryUKryIk3yqgrWjyrs5KFyUGFW3Ar9xWaykJr1a
+        9F1vgw15WFW7GaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkI14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+        6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE-syl42xK
+        82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+        C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+        MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+        IF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+        x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbrMaUUUUUU==
+X-CM-SenderInfo: 52kx5xhqerqz5rrqw2lrqou0/
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Roman,
+After S5, any pci device should into D3 state that if supported, but the
+uPD720201 was not and cause OSPM power consumption is more higher that
+S5 than S4. Due to that uPD720201 firmware behavior was unknown and the
+_PS3 method wasn't implemented in ACPI table which can make device into
+D3, I think xhci HCD can add a quirk ensure it into D3 state after S5
+that is appropriate and this patch was to add the XHCI_LWP_QURIK and set
+PCI_D3hot to uPD720201 pmsc register in xhci_pci_shutdown and
+xhci_pci_remove to fix xhci power consumption issue.
 
-sorry for late reply.
+Signed-off-by: Yinbo Zhu <zhuyinbo@loongson.cn>
+---
+Change in v3:
+		Add D3 set in xhci_pci_remove function.
 
-Dne torek, 19. oktober 2021 ob 15:12:44 CET je Roman Stratiienko napisal(a):
-> Error message appears during suspend, where musb driver is storing
-> the register state in musb_save_context():
-> ```
-> musb-sunxi 1c19000.usb: Error unknown readb offset 112
-> ```
-> 
-> Print warning instead to avoid confusion.
-> 
-> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> ---
->  drivers/usb/musb/sunxi.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-> index f3f76f2ac63f9b..961c858fb349e1 100644
-> --- a/drivers/usb/musb/sunxi.c
-> +++ b/drivers/usb/musb/sunxi.c
-> @@ -440,6 +440,10 @@ static u8 sunxi_musb_readb(void __iomem *addr, u32 
-offset)
->  				return 0xde;
->  
->  			return readb(addr + SUNXI_MUSB_CONFIGDATA);
-> +		case MUSB_ULPI_BUSCONTROL:
-> +			dev_warn(sunxi_musb->controller->parent,
-> +				"sunxi-musb does not have ULPI bus 
-control register\n");
+ drivers/usb/host/xhci-pci.c | 9 +++++++++
+ drivers/usb/host/xhci.h     | 1 +
+ 2 files changed, 10 insertions(+)
 
-Since this register doesn't exist, wouldn't be better to print only debug 
-message? Warning would imply something that's out of the ordinary, but in this 
-case it's benign.
-
-> +			return 0;
->  		/* Offset for these is fixed by sunxi_musb_busctl_offset() 
-*/
->  		case SUNXI_MUSB_TXFUNCADDR:
->  		case SUNXI_MUSB_TXHUBADDR:
-> @@ -494,6 +498,10 @@ static void sunxi_musb_writeb(void __iomem *addr, 
-unsigned offset, u8 data)
->  			return writeb(data, addr + 
-SUNXI_MUSB_TXFIFOSZ);
->  		case MUSB_RXFIFOSZ:
->  			return writeb(data, addr + 
-SUNXI_MUSB_RXFIFOSZ);
-> +		case MUSB_ULPI_BUSCONTROL:
-> +			dev_warn(sunxi_musb->controller->parent,
-> +				"sunxi-musb does not have ULPI bus 
-control register\n");
-> +			return;
->  		/* Offset for these is fixed by sunxi_musb_busctl_offset() 
-*/
-
-Same here.
-
-Best regards,
-Jernej
-
->  		case SUNXI_MUSB_TXFUNCADDR:
->  		case SUNXI_MUSB_TXHUBADDR:
-> -- 
-> 2.30.2
-> 
-> 
-
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 2c9f25c..6258a5a 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -265,6 +265,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	    pdev->device == 0x0014) {
+ 		xhci->quirks |= XHCI_TRUST_TX_LENGTH;
+ 		xhci->quirks |= XHCI_ZERO_64B_REGS;
++		xhci->quirks |= XHCI_LWP_QUIRK;
+ 	}
+ 	if (pdev->vendor == PCI_VENDOR_ID_RENESAS &&
+ 	    pdev->device == 0x0015) {
+@@ -466,6 +467,10 @@ static void xhci_pci_remove(struct pci_dev *dev)
+ 		pci_set_power_state(dev, PCI_D3hot);
+ 
+ 	usb_hcd_pci_remove(dev);
++
++	/* Workaround for decreasing power consumption after S5 */
++	if (xhci->quirks & XHCI_LWP_QUIRK)
++		pci_set_power_state(dev, PCI_D3hot);
+ }
+ 
+ #ifdef CONFIG_PM
+@@ -610,6 +615,10 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
+ 	/* Yet another workaround for spurious wakeups at shutdown with HSW */
+ 	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+ 		pci_set_power_state(pdev, PCI_D3hot);
++
++	/* Workaround for decreasing power consumption after S5 */
++	if (xhci->quirks & XHCI_LWP_QUIRK)
++		pci_set_power_state(pdev, PCI_D3hot);
+ }
+ #endif /* CONFIG_PM */
+ 
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index dca6181..bcd70d1 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1899,6 +1899,7 @@ struct xhci_hcd {
+ #define XHCI_SG_TRB_CACHE_SIZE_QUIRK	BIT_ULL(39)
+ #define XHCI_NO_SOFT_RETRY	BIT_ULL(40)
+ #define XHCI_BROKEN_D3COLD	BIT_ULL(41)
++#define XHCI_LWP_QUIRK		BIT_ULL(42)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
+-- 
+1.8.3.1
 
