@@ -2,104 +2,64 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA072C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 12:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3976AC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 13:12:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 99D4461057
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 12:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2105E603E8
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 13:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232818AbhKKMbA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Nov 2021 07:31:00 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:32313 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbhKKMa7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Nov 2021 07:30:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1636633691; x=1668169691;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=3KWMODyU440zctzw4TNkkavjfGZfH/lYVnKCK4rgua0=;
-  b=sDjzHJIKE3LU25xqijyBypid6Mg2EHkMT3uutFYlw6wOoGNM+keA5j3p
-   PYXDUjHlTwkG4sj+SQssATr9jrMTUld9VwNfmgx100ohGsMpzpZLAPFwq
-   qMY6WhlCYQNpky/Ue5yUtohOhcia2uQJQBZVHxJ8LWIkzi3QP2OY4Dw89
-   E=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 11 Nov 2021 04:28:10 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2021 04:28:10 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.7;
- Thu, 11 Nov 2021 04:28:09 -0800
-Received: from quicinc.com (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 11 Nov
- 2021 04:28:05 -0800
-From:   Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-CC:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Jens Axboe" <axboe@kernel.dk>, Jack Pham <jackp@codeaurora.org>,
+        id S233325AbhKKNPb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Nov 2021 08:15:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59760 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233191AbhKKNPb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Nov 2021 08:15:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 809B0603E8;
+        Thu, 11 Nov 2021 13:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1636636351;
+        bh=KcxpveW8nNs9jo6raqqZ7oRga3SQkAVo5CHjN2JDXv4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Zwm6jlo+X+u+DuSDzQtlvkwfFvY/hpb+sIHvN3NvQtpJz8wjidnsINfNqB2wF9JNY
+         sBpbQTGGXjhDS+HHWvn6r6N+22UtCMSPkpEZ8YFvPruSU7QZ0t4bW+0clh3xxeR+tz
+         GYroQ58/XoL0cOF5QGmhy5/mCxFb3UXg/agAstgQ=
+Date:   Thu, 11 Nov 2021 14:12:28 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+        Jack Pham <jackp@codeaurora.org>,
         Peter Chen <peter.chen@nxp.com>,
         Wesley Cheng <wcheng@codeaurora.org>,
         Andrew Gabbasov <andrew_gabbasov@mentor.com>,
         kernel test robot <lkp@intel.com>
-Subject: [PATCH v2] usb: gadget: f_fs: Use stream_open() for endpoint files
-Date:   Thu, 11 Nov 2021 17:45:56 +0530
-Message-ID: <1636632958-22802-1-git-send-email-quic_pkondeti@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20211111120636.GA11612@hu-pkondeti-hyd.qualcomm.com>
+Subject: Re: [PATCH v2] usb: gadget: f_fs: Use stream_open() for endpoint
+ files
+Message-ID: <YY0WvD57FGums0a8@kroah.com>
 References: <20211111120636.GA11612@hu-pkondeti-hyd.qualcomm.com>
+ <1636632958-22802-1-git-send-email-quic_pkondeti@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1636632958-22802-1-git-send-email-quic_pkondeti@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Function fs endpoint files does not have the notion of file position.
-So switch to stream like functionality. This allows concurrent threads
-to be blocked in the ffs read/write operations which use ffs_mutex_lock().
-The ffs mutex lock deploys interruptible wait. Otherwise, threads are
-blocking for the mutex lock in __fdget_pos(). For whatever reason, ff the
-host does not send/receive data for longer time, hung task warnings
-are observed.
+On Thu, Nov 11, 2021 at 05:45:56PM +0530, Pavankumar Kondeti wrote:
+> Function fs endpoint files does not have the notion of file position.
+> So switch to stream like functionality. This allows concurrent threads
+> to be blocked in the ffs read/write operations which use ffs_mutex_lock().
+> The ffs mutex lock deploys interruptible wait. Otherwise, threads are
+> blocking for the mutex lock in __fdget_pos(). For whatever reason, ff the
+> host does not send/receive data for longer time, hung task warnings
+> are observed.
 
-Signed-off-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
----
-V2:
-- Removed Change-Id tag
+So the current code is broken?  What commit caused it to break?
 
- drivers/usb/gadget/function/f_fs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Doesn't this change cause a change in behavior for existing userspace
+tools, or will they still work as-is?
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index e20c19a..3c584da 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -614,7 +614,7 @@ static int ffs_ep0_open(struct inode *inode, struct file *file)
- 	file->private_data = ffs;
- 	ffs_data_opened(ffs);
- 
--	return 0;
-+	return stream_open(inode, file);
- }
- 
- static int ffs_ep0_release(struct inode *inode, struct file *file)
-@@ -1154,7 +1154,7 @@ ffs_epfile_open(struct inode *inode, struct file *file)
- 	file->private_data = epfile;
- 	ffs_data_opened(epfile->ffs);
- 
--	return 0;
-+	return stream_open(inode, file);
- }
- 
- static int ffs_aio_cancel(struct kiocb *kiocb)
--- 
-2.7.4
+thanks,
 
+greg k-h
