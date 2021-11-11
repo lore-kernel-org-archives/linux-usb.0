@@ -2,64 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3976AC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 13:12:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C631FC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 14:53:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2105E603E8
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 13:12:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99E3761215
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Nov 2021 14:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233325AbhKKNPb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Nov 2021 08:15:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59760 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233191AbhKKNPb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Nov 2021 08:15:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 809B0603E8;
-        Thu, 11 Nov 2021 13:12:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1636636351;
-        bh=KcxpveW8nNs9jo6raqqZ7oRga3SQkAVo5CHjN2JDXv4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zwm6jlo+X+u+DuSDzQtlvkwfFvY/hpb+sIHvN3NvQtpJz8wjidnsINfNqB2wF9JNY
-         sBpbQTGGXjhDS+HHWvn6r6N+22UtCMSPkpEZ8YFvPruSU7QZ0t4bW+0clh3xxeR+tz
-         GYroQ58/XoL0cOF5QGmhy5/mCxFb3UXg/agAstgQ=
-Date:   Thu, 11 Nov 2021 14:12:28 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-        Jack Pham <jackp@codeaurora.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Wesley Cheng <wcheng@codeaurora.org>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] usb: gadget: f_fs: Use stream_open() for endpoint
- files
-Message-ID: <YY0WvD57FGums0a8@kroah.com>
-References: <20211111120636.GA11612@hu-pkondeti-hyd.qualcomm.com>
- <1636632958-22802-1-git-send-email-quic_pkondeti@quicinc.com>
+        id S233685AbhKKO4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Nov 2021 09:56:06 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:32795 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S232033AbhKKO4G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Nov 2021 09:56:06 -0500
+Received: (qmail 1760830 invoked by uid 1000); 11 Nov 2021 09:53:16 -0500
+Date:   Thu, 11 Nov 2021 09:53:16 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Haimin Zhang <tcs.kernel@gmail.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        TCS Robot <tcs_robot@tencent.com>
+Subject: Re: [PATCH v2] USB: ehci_brcm_hub_control: filter out invalid port
+ index
+Message-ID: <20211111145316.GA1760710@rowland.harvard.edu>
+References: <20211111121037.34713-1-tcs.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1636632958-22802-1-git-send-email-quic_pkondeti@quicinc.com>
+In-Reply-To: <20211111121037.34713-1-tcs.kernel@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Nov 11, 2021 at 05:45:56PM +0530, Pavankumar Kondeti wrote:
-> Function fs endpoint files does not have the notion of file position.
-> So switch to stream like functionality. This allows concurrent threads
-> to be blocked in the ffs read/write operations which use ffs_mutex_lock().
-> The ffs mutex lock deploys interruptible wait. Otherwise, threads are
-> blocking for the mutex lock in __fdget_pos(). For whatever reason, ff the
-> host does not send/receive data for longer time, hung task warnings
-> are observed.
+On Thu, Nov 11, 2021 at 08:10:37PM +0800, Haimin Zhang wrote:
+> Due to (wIndex & 0xff) - 1 can get an integer greater than 0xf, this
+> can cause array index to be out of bounds since the size of array
+> port_status is 0xf. Remove cases greater than 0xf, because such cases
+> are meaningless. It is reasonable to return -EPIPE, the caller
+> rh_call_control will check the return value and handle it properly.
+> The callee ehci_hub_control also doesn't need to deal with situations
+> greater than 0xf. The size of the array port_status determines that
+> such situations should not be handled.
+> 
+> Reported-by: TCS Robot <tcs_robot@tencent.com>
+> Signed-off-by: Haimin Zhang <tcs.kernel@gmail.com>
+> ---
+>  drivers/usb/host/ehci-brcm.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+> index d3626bfa966b..07e6df336a08 100644
+> --- a/drivers/usb/host/ehci-brcm.c
+> +++ b/drivers/usb/host/ehci-brcm.c
+> @@ -63,6 +63,9 @@ static int ehci_brcm_hub_control(
+>  	unsigned long flags;
+>  	int retval, irq_disabled = 0;
+>  
+> +	if (!wIndex || wIndex > ports)
+> +		return -EPIPE;
 
-So the current code is broken?  What commit caused it to break?
+This is just like your original version of the patch.  It won't work 
+right if wIndex is equal to 0x0101, for instance.
 
-Doesn't this change cause a change in behavior for existing userspace
-tools, or will they still work as-is?
+Alan Stern
 
-thanks,
-
-greg k-h
+> +
+>  	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
+>  
+>  	/*
+> @@ -70,7 +73,6 @@ static int ehci_brcm_hub_control(
+>  	 * of RESUME
+>  	 */
+>  	if ((typeReq == GetPortStatus) &&
+> -	    (wIndex && wIndex <= ports) &&
+>  	    ehci->reset_done[wIndex-1] &&
+>  	    time_after_eq(jiffies, ehci->reset_done[wIndex-1]) &&
+>  	    (ehci_readl(ehci, status_reg) & PORT_RESUME)) {
+> -- 
+> 2.30.1 (Apple Git-130)
+> 
