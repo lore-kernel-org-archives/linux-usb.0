@@ -2,123 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8887C433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Nov 2021 16:33:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 586D3C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Nov 2021 16:57:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C1F0E60524
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Nov 2021 16:33:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3226A610C8
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Nov 2021 16:57:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235457AbhKLQfu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Nov 2021 11:35:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41954 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235451AbhKLQfr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Nov 2021 11:35:47 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 041C5C06127A
-        for <linux-usb@vger.kernel.org>; Fri, 12 Nov 2021 08:32:56 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id t30so16463204wra.10
-        for <linux-usb@vger.kernel.org>; Fri, 12 Nov 2021 08:32:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EOnn36aeo16MhozSZgWuY/58jgLwvjCwwFTIYXWx3ds=;
-        b=sakY2AHeEjqZFhuR1Qn7v0LUV+9sK+o5s4j6b15GXchii6gy/AmyjpFjM40oBvSa3W
-         dG+l2iBOaCAbDXtharwfe9FlF4nu/LSUScGWTe0vFxBLbwxzMg68XdMZggC9DF8s5IjW
-         XCZz2dWhRLXl9+SLbDlwKRpWYvMEUEykj8KUL6apBshn3V44q7ULfumIdqUpWrl7u+XL
-         5amiri8sTYxGU4ASbEX5INr66OqInuAjYf0HwBMia/pRg9xQIr5gs//5Fa+n/QOjWRGi
-         ch2+fFtQDW7R8J4A3KWdI1Y0MwS1JJaPVO48uJIVIg7VJq9eu939Z5RtJZmSxo/Xd5SN
-         6QJQ==
+        id S235358AbhKLRAb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Nov 2021 12:00:31 -0500
+Received: from mail-oi1-f178.google.com ([209.85.167.178]:33356 "EHLO
+        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235142AbhKLRAa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Nov 2021 12:00:30 -0500
+Received: by mail-oi1-f178.google.com with SMTP id q25so13434771oiw.0;
+        Fri, 12 Nov 2021 08:57:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EOnn36aeo16MhozSZgWuY/58jgLwvjCwwFTIYXWx3ds=;
-        b=uTDnrPmZEEw2uCbUNCQAPnk5vKABq4Sj8EcYgomv51GYn0x/mQmTCVfBwhg3LIC703
-         m4q+SrNdqHNOkMmo9jWZx8s8+pX2WrvPpRmT0D7NET9rcwnyvG5ejI6Mtuzers5Fbu9O
-         hNxYul0fARi+gJH5A/9Q/CFjv1px5bl/V9PTAf5U7OZsH7v2IzU+tggLKJjUFh8gQHoB
-         dVm6LXp8tThYjdI8XbbGoYxoaqbMcvlVgm8CNhWAjX7inewDz8V6wwvEbZ9PJh9ZBvLm
-         aqpdIOSy9oYHa6I5IZi6VRTk1KB1zYjfCfbs/jgHiMj0gnn7U9vumCd0uwh0T9NKa9nb
-         XNNQ==
-X-Gm-Message-State: AOAM531otXDXB5JRnmNtY8qehAH6znj0DkF5+w10IAIwnqdG6w3L93QV
-        S6uQ2OI0hdd2X42Kh4n99s5JSA==
-X-Google-Smtp-Source: ABdhPJy3+UcYNBPyR34uuOLhM47GlKeQga5JGMrsFqE+xFIEv4G0dGAs8SpT0A2/2FT6JivlJG7PSw==
-X-Received: by 2002:a5d:6a4b:: with SMTP id t11mr20154451wrw.78.1636734774629;
-        Fri, 12 Nov 2021 08:32:54 -0800 (PST)
-Received: from amjad.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id h15sm6253796wml.9.2021.11.12.08.32.53
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n9OxRMPgp6pk93jZ1YlEjSWdjPyoXU189+XIXwiTYRw=;
+        b=RaBfxHI9CFSa3vWZ86mkjIwDShThJIdL7aIiUqNeXWqggHznkC4lc7yy0Cb93zgItD
+         f0VJ6l7Tn91qVeWsXtohuCn82fXO/PyQjGPtLZBdgRW1LznWwqoDn4fMv3y1VkRtdC4X
+         DwJEjJRci7cR+8bzH3/bTThc8UgYtKkredr+kQB85UvlmO0pgPb9gYLYm0II3eJdtjzg
+         ki+q+sYyaOsTOzO5PDDtxZJj5S+X5uHgt7q8shmA/ylPxV6S+p/Mc+SOyDrzNXeRrEwh
+         EkfXpajvRzHboNXNM+FymzUsO+v9gbgI5DNvGYwS+ogGZyJUw9/SsHYjgRIG95WGfFIX
+         0jow==
+X-Gm-Message-State: AOAM531PAFvsEVjwRmGJiVjMzrgsvsUD8JcYKy/LjDsQkig6Vtl5JNJu
+        dauZvrifQGWWVkeruoOAHw==
+X-Google-Smtp-Source: ABdhPJw55ryGR39q61JJpTyvJsied/FtWSJDgs9l5hCvlD+IouVp9dNd0acwh0y+I9393pbRkbSMFw==
+X-Received: by 2002:a54:4584:: with SMTP id z4mr27648506oib.158.1636736259168;
+        Fri, 12 Nov 2021 08:57:39 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id y203sm1407807oia.1.2021.11.12.08.57.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Nov 2021 08:32:54 -0800 (PST)
-From:   Amjad Ouled-Ameur <aouledameur@baylibre.com>
-To:     khilman@baylibre.com
-Cc:     Amjad Ouled-Ameur <aouledameur@baylibre.com>,
-        p.zabel@pengutronix.de, balbi@kernel.org, jbrunet@baylibre.com,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v3 3/3] phy: amlogic: meson8b-usb2: fix shared reset control use
-Date:   Fri, 12 Nov 2021 17:28:27 +0100
-Message-Id: <20211112162827.128319-4-aouledameur@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211112162827.128319-1-aouledameur@baylibre.com>
-References: <20211112162827.128319-1-aouledameur@baylibre.com>
+        Fri, 12 Nov 2021 08:57:38 -0800 (PST)
+Received: (nullmailer pid 3004958 invoked by uid 1000);
+        Fri, 12 Nov 2021 16:57:37 -0000
+Date:   Fri, 12 Nov 2021 10:57:37 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: usb: mtk-xhci: add support ip-sleep for
+ mt8195
+Message-ID: <YY6dAT3OHbu0CO/J@robh.at.kernel.org>
+References: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use reset_control_rearm() call if an error occurs in case
-phy_meson8b_usb2_power_on() fails after reset() has been called, or in
-case phy_meson8b_usb2_power_off() is called i.e the resource is no longer
-used and the reset line may be triggered again by other devices.
+On Tue, Nov 02, 2021 at 02:00:47PM +0800, Chunfeng Yun wrote:
+> There are 4 USB controllers on MT8195, each controller's wakeup control is
+> different, add some spicific versions for them.
 
-reset_control_rearm() keeps use of triggered_count sane in the reset
-framework, use of reset_control_reset() on shared reset line should
-be balanced with reset_control_rearm().
+specific
 
-Signed-off-by: Amjad Ouled-Ameur <aouledameur@baylibre.com>
-Reported-by: Jerome Brunet <jbrunet@baylibre.com>
----
- drivers/phy/amlogic/phy-meson8b-usb2.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/phy/amlogic/phy-meson8b-usb2.c b/drivers/phy/amlogic/phy-meson8b-usb2.c
-index cf10bed40528..a6e74288ca8f 100644
---- a/drivers/phy/amlogic/phy-meson8b-usb2.c
-+++ b/drivers/phy/amlogic/phy-meson8b-usb2.c
-@@ -154,6 +154,7 @@ static int phy_meson8b_usb2_power_on(struct phy *phy)
- 	ret = clk_prepare_enable(priv->clk_usb_general);
- 	if (ret) {
- 		dev_err(&phy->dev, "Failed to enable USB general clock\n");
-+		reset_control_rearm(priv->reset);
- 		return ret;
- 	}
- 
-@@ -161,6 +162,7 @@ static int phy_meson8b_usb2_power_on(struct phy *phy)
- 	if (ret) {
- 		dev_err(&phy->dev, "Failed to enable USB DDR clock\n");
- 		clk_disable_unprepare(priv->clk_usb_general);
-+		reset_control_rearm(priv->reset);
- 		return ret;
- 	}
- 
-@@ -199,6 +201,7 @@ static int phy_meson8b_usb2_power_on(struct phy *phy)
- 				dev_warn(&phy->dev, "USB ID detect failed!\n");
- 				clk_disable_unprepare(priv->clk_usb);
- 				clk_disable_unprepare(priv->clk_usb_general);
-+				reset_control_rearm(priv->reset);
- 				return -EINVAL;
- 			}
- 		}
-@@ -218,6 +221,7 @@ static int phy_meson8b_usb2_power_off(struct phy *phy)
- 
- 	clk_disable_unprepare(priv->clk_usb);
- 	clk_disable_unprepare(priv->clk_usb_general);
-+	reset_control_rearm(priv->reset);
- 
- 	/* power off the PHY by putting it into reset mode */
- 	regmap_update_bits(priv->regmap, REG_CTRL, REG_CTRL_POWER_ON_RESET,
--- 
-2.25.1
-
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  .../devicetree/bindings/usb/mediatek,mtk-xhci.yaml          | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> index 11f7bacd4e2b..41efb51638d1 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
+> @@ -146,7 +146,11 @@ properties:
+>              2 - used by mt2712 etc, revision 2 following IPM rule;
+>              101 - used by mt8183, specific 1.01;
+>              102 - used by mt8192, specific 1.02;
+> -          enum: [1, 2, 101, 102]
+> +            103 - used by mt8195, IP0, specific 1.03;
+> +            104 - used by mt8195, IP1, specific 1.04;
+> +            105 - used by mt8195, IP2, specific 1.05;
+> +            106 - used by mt8195, IP3, specific 1.06;
+> +          enum: [1, 2, 101, 102, 103, 104, 105, 106]
+>  
+>    mediatek,u3p-dis-msk:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -- 
+> 2.18.0
+> 
+> 
