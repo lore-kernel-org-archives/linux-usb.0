@@ -2,100 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BDA4C433EF
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 14:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F5FC433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 15:40:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F97C60F46
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 14:30:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2406361159
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Nov 2021 15:40:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231452AbhKMOc4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 13 Nov 2021 09:32:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbhKMOcz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Nov 2021 09:32:55 -0500
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2863BC061766;
-        Sat, 13 Nov 2021 06:30:03 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id x15so50065132edv.1;
-        Sat, 13 Nov 2021 06:30:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rsXtq5cT+PS6ZLC3AGn+ReW0dldy/MCAJ1syGaHgkg4=;
-        b=dleujFxy/lWRboStEM18XtEpfJtVeQ6+hTU3l7Aj0s1N6vxDnc6ynXeANDvRxk+05T
-         YmFeVzOULDXVrbEFAKnG3rtHLzXwQ5wQlhOa3vifz4RU6WWOrcqrhljjQuaBMIXtRLlc
-         IiPhVdAJcMab9BPT29tljlp3LnRotziMvhUSBGkhqMWwr3cr27T2dsTr1e1mn4NW/UCi
-         Qvs7mTMWrDGKNnwtps0HSpn3kOKovdJ9njoNDlctmSITaeiqXD7T1K0sOQ1CPJM8vCmo
-         mPAM1KqGtlVs0Zvy2k/3Yqn3tYR1lx46VtLDJJGe3CLYi3kPknCoshAWLP+81SMNtcPQ
-         cvew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rsXtq5cT+PS6ZLC3AGn+ReW0dldy/MCAJ1syGaHgkg4=;
-        b=niQltXwlzwTMZiYKhS8cuYAfAReWxkdRSLUXxStqDEqlpoFP+B3GQ8QfDpoor/xoAm
-         rMHtKmQMFBCvJ/VdDeRd82h8pjs8CC0CwKEW2n12Y8yGlxcCrPRcXzMPFSOpBXRBtM7Y
-         OxATueSeMfCo2N15ZkU0lrgFu6G7NpzBVIWM4gItyCHmpKIzW/6Xbx8KvD44chCJWM02
-         Fb+R66b/bdqa84fWzEE3LWxSl0DFfsy9Ga8/WFYvJldeEk+qHDaczGqRZbqpxKE4gaVv
-         1ebQNYw7bw62A9RHmCb5yfAzDbTc1dlh2fAy1e42Oz4AobVTDdRAn7L3X3KOO4+CTMd+
-         Jz5g==
-X-Gm-Message-State: AOAM531wp9K3W6vLDeg7pBN9tBq2IsMZornDjXGLHziPZFIDlIbSWi2O
-        t1IuYFE11x2fdUzJBM6T5ovF2rxc50C0WQ==
-X-Google-Smtp-Source: ABdhPJynddXZs31/tJaZG9DKhzJiY8hgFSr/ZBDe/1TOH6iCGOKDtiIJ5nqUhFwpA8AhHt3MeZFazA==
-X-Received: by 2002:a05:6402:3513:: with SMTP id b19mr33699457edd.351.1636813801749;
-        Sat, 13 Nov 2021 06:30:01 -0800 (PST)
-Received: from agape (77-32-6-129.dyn.eolo.it. [77.32.6.129])
-        by smtp.gmail.com with ESMTPSA id h10sm4561892edb.59.2021.11.13.06.30.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Nov 2021 06:30:01 -0800 (PST)
-From:   Fabio Aiuto <fabioaiuto83@gmail.com>
-To:     gregkh@linuxfoundation.org
-Cc:     balbi@kernel.org, arnd@arndb.de, hch@lst.de, sven@svenpeter.dev,
-        hdegoede@redhat.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Fabio Aiuto <fabioaiuto83@gmail.com>
-Subject: [PATCH] usb: dwc3: leave default DMA for PCI devices
-Date:   Sat, 13 Nov 2021 15:29:59 +0100
-Message-Id: <20211113142959.27191-1-fabioaiuto83@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        id S235852AbhKMPnn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 13 Nov 2021 10:43:43 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:48987 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S231880AbhKMPnm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Nov 2021 10:43:42 -0500
+Received: (qmail 58693 invoked by uid 1000); 13 Nov 2021 10:40:49 -0500
+Date:   Sat, 13 Nov 2021 10:40:49 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Haimin Zhang <tcs.kernel@gmail.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        TCS Robot <tcs_robot@tencent.com>
+Subject: Re: [PATCH v4] USB: ehci_brcm_hub_control: improve port index
+ sanitizing
+Message-ID: <20211113154049.GA58521@rowland.harvard.edu>
+References: <20211113045714.46373-1-tcs.kernel@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211113045714.46373-1-tcs.kernel@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-in case of a PCI dwc3 controller, leave the default DMA
-mask. Calling of a 64 bit DMA mask breaks the driver on
-cherrytrail based tablets like Cyberbook T116.
+On Sat, Nov 13, 2021 at 12:57:14PM +0800, Haimin Zhang wrote:
+> Due to (wIndex & 0xff) - 1 can get an integer greater than 0xf, this
+> can cause array index to be out of bounds since the size of array
+> port_status is 0xf. This change prevents a possible out-of-bounds
+> pointer computation by forcing the use of a valid port number.
 
-Fixes: 45d39448b4d0 ("usb: dwc3: support 64 bit DMA in platform driver")
-Reported-by: Hans De Goede <hdegoede@redhat.com>
-Tested-by: Fabio Aiuto <fabioaiuto83@gmail.com>
-Signed-off-by: Fabio Aiuto <fabioaiuto83@gmail.com>
----
- drivers/usb/dwc3/core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+I would write 15 instead of 0xf.  The size of the array is 15; see the 
+definition of HCS_N_PORTS_MAX.  (Yes, I realize the 0xf is equal to 15, 
+but why force people to go out of their way to translate a hex number 
+into decimal?)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 643239d7d370..f4c09951b517 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1594,9 +1594,11 @@ static int dwc3_probe(struct platform_device *pdev)
- 
- 	dwc3_get_properties(dwc);
- 
--	ret = dma_set_mask_and_coherent(dwc->sysdev, DMA_BIT_MASK(64));
--	if (ret)
--		return ret;
-+	if (!dwc->sysdev_is_parent) {
-+		ret = dma_set_mask_and_coherent(dwc->sysdev, DMA_BIT_MASK(64));
-+		if (ret)
-+			return ret;
-+	}
- 
- 	dwc->reset = devm_reset_control_array_get_optional_shared(dev);
- 	if (IS_ERR(dwc->reset))
--- 
-2.30.2
+> 
+> Reported-by: TCS Robot <tcs_robot@tencent.com>
+> Signed-off-by: Haimin Zhang <tcs.kernel@gmail.com>
+> ---
 
+You did not include the version change information here.
+
+>  drivers/usb/host/ehci-brcm.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/host/ehci-brcm.c b/drivers/usb/host/ehci-brcm.c
+> index d3626bfa966b..2e92918a14dd 100644
+> --- a/drivers/usb/host/ehci-brcm.c
+> +++ b/drivers/usb/host/ehci-brcm.c
+> @@ -62,8 +62,12 @@ static int ehci_brcm_hub_control(
+>  	u32 __iomem	*status_reg;
+>  	unsigned long flags;
+>  	int retval, irq_disabled = 0;
+> +	u32 temp;
+>  
+> -	status_reg = &ehci->regs->port_status[(wIndex & 0xff) - 1];
+> +	temp = (wIndex & 0xff) - 1;
+> +	if (temp >= HCS_N_PORTS_MAX)
+> +		temp = 0;
+
+There ought to be a comment explaining why you are doing this (namely, 
+to avoid an "index out of bounds" warning).  The reason isn't 
+automatically obvious.
+
+Alan Stern
+
+> +	status_reg = &ehci->regs->port_status[temp];
+>  
+>  	/*
+>  	 * RESUME is cleared when GetPortStatus() is called 20ms after start
+> -- 
+> 2.30.1 (Apple Git-130)
+> 
