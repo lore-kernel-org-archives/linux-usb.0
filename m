@@ -2,36 +2,36 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25091C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D79C4332F
 	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 12:24:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0CCD061260
+	by mail.kernel.org (Postfix) with ESMTP id 34AFC61AA7
 	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 12:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236879AbhKQM1t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S234308AbhKQM1t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 17 Nov 2021 07:27:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56266 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234196AbhKQM1p (ORCPT
+        with ESMTP id S234128AbhKQM1p (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Nov 2021 07:27:45 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53EAC061570
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C73D7C061767
         for <linux-usb@vger.kernel.org>; Wed, 17 Nov 2021 04:24:46 -0800 (PST)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mnJzZ-0005Wt-0l; Wed, 17 Nov 2021 13:24:45 +0100
+        id 1mnJzZ-0005Wq-0m; Wed, 17 Nov 2021 13:24:45 +0100
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mnJzY-00A6sB-0K; Wed, 17 Nov 2021 13:24:44 +0100
+        id 1mnJzX-00A6s2-U4; Wed, 17 Nov 2021 13:24:43 +0100
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH v3 4/7] usb: gadget: uvc: move structs to common header
-Date:   Wed, 17 Nov 2021 13:24:32 +0100
-Message-Id: <20211117122435.2409362-5-m.grzeschik@pengutronix.de>
+Subject: [PATCH v3 1/7] media: v4l: move helper functions for fractions from uvc to v4l2-common
+Date:   Wed, 17 Nov 2021 13:24:29 +0100
+Message-Id: <20211117122435.2409362-2-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117122435.2409362-1-m.grzeschik@pengutronix.de>
 References: <20211117122435.2409362-1-m.grzeschik@pengutronix.de>
@@ -45,348 +45,288 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The functions and structs of the configfs interface should also be used
-by the uvc gadget driver. This patch prepares the stack by moving the
-common structs and functions to the common header file.
+The functions uvc_simplify_fraction and uvc_fraction_to_interval are
+generic helpers which are also useful for other v4l2 drivers. This patch
+moves them to v4l2-common.
 
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
 
 ---
-v1 -> v2:
-   - moved uvcg_attach_configfs declaration to end of header file
-   - moved header uvc_configfs to beginning of uvc_configfs.c
-   - simplified call of to_uvcg_uncompressed
-   - simplified call of to_uvcg_mjpeg
-   - moved uvc_configfs.h to the beginning to show that the header is self-contained
-v2 -> v3:
-   - fixed include of uvcg_format_names back to uvc_configfs.c
+v1 -> v2: -
+v2 -> v3: -
 
- drivers/usb/gadget/function/f_uvc.c        |   1 -
- drivers/usb/gadget/function/uvc_configfs.c | 111 +-------------------
- drivers/usb/gadget/function/uvc_configfs.h | 114 ++++++++++++++++++++-
- 3 files changed, 115 insertions(+), 111 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c    | 80 --------------------------
+ drivers/media/usb/uvc/uvc_v4l2.c      | 14 ++---
+ drivers/media/usb/uvc/uvcvideo.h      |  3 -
+ drivers/media/v4l2-core/v4l2-common.c | 82 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           |  4 ++
+ 5 files changed, 93 insertions(+), 90 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index 71bb5e477dbad7..37fdf8b3495a48 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -24,7 +24,6 @@
- #include <media/v4l2-dev.h>
- #include <media/v4l2-event.h>
- 
--#include "u_uvc.h"
- #include "uvc.h"
- #include "uvc_configfs.h"
- #include "uvc_v4l2.h"
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index b6bb5706299951..05dc5764020006 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -10,17 +10,14 @@
-  * Author: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-  */
- 
--#include <linux/sort.h>
--
--#include "u_uvc.h"
- #include "uvc_configfs.h"
- 
-+#include <linux/sort.h>
-+
- /* -----------------------------------------------------------------------------
-  * Global Utility Structures and Macros
-  */
- 
--#define UVCG_STREAMING_CONTROL_SIZE	1
--
- #define UVC_ATTR(prefix, cname, aname) \
- static struct configfs_attribute prefix##attr_##cname = { \
- 	.ca_name	= __stringify(aname),				\
-@@ -49,12 +46,6 @@ static int uvcg_config_compare_u32(const void *l, const void *r)
- 	return li < ri ? -1 : li == ri ? 0 : 1;
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 7c007426e0827e..cdb92da0f56afd 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -324,86 +324,6 @@ static enum v4l2_ycbcr_encoding uvc_ycbcr_enc(const u8 matrix_coefficients)
+ 	return V4L2_YCBCR_ENC_DEFAULT;  /* Reserved */
  }
  
--static inline struct f_uvc_opts *to_f_uvc_opts(struct config_item *item)
+-/* Simplify a fraction using a simple continued fraction decomposition. The
+- * idea here is to convert fractions such as 333333/10000000 to 1/30 using
+- * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
+- * arbitrary parameters to remove non-significative terms from the simple
+- * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
+- * respectively seems to give nice results.
+- */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-		unsigned int n_terms, unsigned int threshold)
 -{
--	return container_of(to_config_group(item), struct f_uvc_opts,
--			    func_inst.group);
+-	u32 *an;
+-	u32 x, y, r;
+-	unsigned int i, n;
+-
+-	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
+-	if (an == NULL)
+-		return;
+-
+-	/* Convert the fraction to a simple continued fraction. See
+-	 * https://mathforum.org/dr.math/faq/faq.fractions.html
+-	 * Stop if the current term is bigger than or equal to the given
+-	 * threshold.
+-	 */
+-	x = *numerator;
+-	y = *denominator;
+-
+-	for (n = 0; n < n_terms && y != 0; ++n) {
+-		an[n] = x / y;
+-		if (an[n] >= threshold) {
+-			if (n < 2)
+-				n++;
+-			break;
+-		}
+-
+-		r = x - an[n] * y;
+-		x = y;
+-		y = r;
+-	}
+-
+-	/* Expand the simple continued fraction back to an integer fraction. */
+-	x = 0;
+-	y = 1;
+-
+-	for (i = n; i > 0; --i) {
+-		r = y;
+-		y = an[i-1] * y + x;
+-		x = r;
+-	}
+-
+-	*numerator = y;
+-	*denominator = x;
+-	kfree(an);
 -}
 -
- struct uvcg_config_group_type {
- 	struct config_item_type type;
- 	const char *name;
-@@ -125,19 +116,6 @@ static void uvcg_config_remove_children(struct config_group *group)
-  * control/header
+-/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
+- * to compute numerator / denominator * 10000000 using 32 bit fixed point
+- * arithmetic only.
+- */
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator)
+-{
+-	u32 multiplier;
+-
+-	/* Saturate the result if the operation would overflow. */
+-	if (denominator == 0 ||
+-	    numerator/denominator >= ((u32)-1)/10000000)
+-		return (u32)-1;
+-
+-	/* Divide both the denominator and the multiplier by two until
+-	 * numerator * multiplier doesn't overflow. If anyone knows a better
+-	 * algorithm please let me know.
+-	 */
+-	multiplier = 10000000;
+-	while (numerator > ((u32)-1)/multiplier) {
+-		multiplier /= 2;
+-		denominator /= 2;
+-	}
+-
+-	return denominator ? numerator * multiplier / denominator : 0;
+-}
+-
+ /* ------------------------------------------------------------------------
+  * Terminal and unit management
   */
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4e4aff8ddf771..9aa7ee9950c7b4 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -380,7 +380,7 @@ static int uvc_v4l2_get_streamparm(struct uvc_streaming *stream,
+ 	mutex_unlock(&stream->mutex);
  
--DECLARE_UVC_HEADER_DESCRIPTOR(1);
--
--struct uvcg_control_header {
--	struct config_item		item;
--	struct UVC_HEADER_DESCRIPTOR(1)	desc;
--	unsigned			linked;
--};
--
--static struct uvcg_control_header *to_uvcg_control_header(struct config_item *item)
--{
--	return container_of(item, struct uvcg_control_header, item);
--}
--
- #define UVCG_CTRL_HDR_ATTR(cname, aname, bits, limit)			\
- static ssize_t uvcg_control_header_##cname##_show(			\
- 	struct config_item *item, char *page)				\
-@@ -769,24 +747,6 @@ static const char * const uvcg_format_names[] = {
- 	"mjpeg",
- };
+ 	denominator = 10000000;
+-	uvc_simplify_fraction(&numerator, &denominator, 8, 333);
++	v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
  
--enum uvcg_format_type {
--	UVCG_UNCOMPRESSED = 0,
--	UVCG_MJPEG,
--};
--
--struct uvcg_format {
--	struct config_group	group;
--	enum uvcg_format_type	type;
--	unsigned		linked;
--	unsigned		num_frames;
--	__u8			bmaControls[UVCG_STREAMING_CONTROL_SIZE];
--};
--
--static struct uvcg_format *to_uvcg_format(struct config_item *item)
--{
--	return container_of(to_config_group(item), struct uvcg_format, group);
--}
--
- static ssize_t uvcg_format_bma_controls_show(struct uvcg_format *f, char *page)
+ 	memset(parm, 0, sizeof(*parm));
+ 	parm->type = stream->type;
+@@ -421,7 +421,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	else
+ 		timeperframe = parm->parm.output.timeperframe;
+ 
+-	interval = uvc_fraction_to_interval(timeperframe.numerator,
++	interval = v4l2_fraction_to_interval(timeperframe.numerator,
+ 		timeperframe.denominator);
+ 	uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
+ 		timeperframe.numerator, timeperframe.denominator, interval);
+@@ -475,7 +475,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	/* Return the actual frame period. */
+ 	timeperframe.numerator = probe.dwFrameInterval;
+ 	timeperframe.denominator = 10000000;
+-	uvc_simplify_fraction(&timeperframe.numerator,
++	v4l2_simplify_fraction(&timeperframe.numerator,
+ 		&timeperframe.denominator, 8, 333);
+ 
+ 	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+@@ -1267,7 +1267,7 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->discrete.numerator =
+ 			frame->dwFrameInterval[index];
+ 		fival->discrete.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->discrete.numerator,
++		v4l2_simplify_fraction(&fival->discrete.numerator,
+ 			&fival->discrete.denominator, 8, 333);
+ 	} else {
+ 		fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+@@ -1277,11 +1277,11 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->stepwise.max.denominator = 10000000;
+ 		fival->stepwise.step.numerator = frame->dwFrameInterval[2];
+ 		fival->stepwise.step.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->stepwise.min.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.min.numerator,
+ 			&fival->stepwise.min.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.max.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.max.numerator,
+ 			&fival->stepwise.max.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.step.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.step.numerator,
+ 			&fival->stepwise.step.denominator, 8, 333);
+ 	}
+ 
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 2e5366143b8144..a61cd0a459e88d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -906,9 +906,6 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ 		      struct uvc_xu_control_query *xqry);
+ 
+ /* Utility functions */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-			   unsigned int n_terms, unsigned int threshold);
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator);
+ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+ 					    u8 epaddr);
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc29..1d0b56249ca0e1 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -482,3 +482,85 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 	return freq > 0 ? freq : -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
++
++/* Simplify a fraction using a simple continued fraction decomposition. The
++ * idea here is to convert fractions such as 333333/10000000 to 1/30 using
++ * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
++ * arbitrary parameters to remove non-significative terms from the simple
++ * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
++ * respectively seems to give nice results.
++ */
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold)
++{
++	u32 *an;
++	u32 x, y, r;
++	unsigned int i, n;
++
++	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
++	if (an == NULL)
++		return;
++
++	/* Convert the fraction to a simple continued fraction. See
++	 * https://mathforum.org/dr.math/faq/faq.fractions.html
++	 * Stop if the current term is bigger than or equal to the given
++	 * threshold.
++	 */
++	x = *numerator;
++	y = *denominator;
++
++	for (n = 0; n < n_terms && y != 0; ++n) {
++		an[n] = x / y;
++		if (an[n] >= threshold) {
++			if (n < 2)
++				n++;
++			break;
++		}
++
++		r = x - an[n] * y;
++		x = y;
++		y = r;
++	}
++
++	/* Expand the simple continued fraction back to an integer fraction. */
++	x = 0;
++	y = 1;
++
++	for (i = n; i > 0; --i) {
++		r = y;
++		y = an[i-1] * y + x;
++		x = r;
++	}
++
++	*numerator = y;
++	*denominator = x;
++	kfree(an);
++}
++EXPORT_SYMBOL_GPL(v4l2_simplify_fraction);
++
++/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
++ * to compute numerator / denominator * 10000000 using 32 bit fixed point
++ * arithmetic only.
++ */
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator)
++{
++	u32 multiplier;
++
++	/* Saturate the result if the operation would overflow. */
++	if (denominator == 0 ||
++	    numerator/denominator >= ((u32)-1)/10000000)
++		return (u32)-1;
++
++	/* Divide both the denominator and the multiplier by two until
++	 * numerator * multiplier doesn't overflow. If anyone knows a better
++	 * algorithm please let me know.
++	 */
++	multiplier = 10000000;
++	while (numerator > ((u32)-1)/multiplier) {
++		multiplier /= 2;
++		denominator /= 2;
++	}
++
++	return denominator ? numerator * multiplier / denominator : 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_fraction_to_interval);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 3eb202259e8ccd..df4ad81251195e 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -540,6 +540,10 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 		       unsigned int div);
+ 
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold);
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator);
++
+ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
  {
- 	struct f_uvc_opts *opts;
-@@ -845,29 +805,11 @@ static ssize_t uvcg_format_bma_controls_store(struct uvcg_format *ch,
- 	return ret;
- }
- 
--struct uvcg_format_ptr {
--	struct uvcg_format	*fmt;
--	struct list_head	entry;
--};
--
- /* -----------------------------------------------------------------------------
-  * streaming/header/<NAME>
-  * streaming/header
-  */
- 
--struct uvcg_streaming_header {
--	struct config_item				item;
--	struct uvc_input_header_descriptor		desc;
--	unsigned					linked;
--	struct list_head				formats;
--	unsigned					num_fmt;
--};
--
--static struct uvcg_streaming_header *to_uvcg_streaming_header(struct config_item *item)
--{
--	return container_of(item, struct uvcg_streaming_header, item);
--}
--
- static void uvcg_format_set_indices(struct config_group *fmt);
- 
- static int uvcg_streaming_header_allow_link(struct config_item *src,
-@@ -1059,31 +1001,6 @@ static const struct uvcg_config_group_type uvcg_streaming_header_grp_type = {
-  * streaming/<mode>/<format>/<NAME>
-  */
- 
--struct uvcg_frame {
--	struct config_item	item;
--	enum uvcg_format_type	fmt_type;
--	struct {
--		u8	b_length;
--		u8	b_descriptor_type;
--		u8	b_descriptor_subtype;
--		u8	b_frame_index;
--		u8	bm_capabilities;
--		u16	w_width;
--		u16	w_height;
--		u32	dw_min_bit_rate;
--		u32	dw_max_bit_rate;
--		u32	dw_max_video_frame_buffer_size;
--		u32	dw_default_frame_interval;
--		u8	b_frame_interval_type;
--	} __attribute__((packed)) frame;
--	u32 *dw_frame_interval;
--};
--
--static struct uvcg_frame *to_uvcg_frame(struct config_item *item)
--{
--	return container_of(item, struct uvcg_frame, item);
--}
--
- #define UVCG_FRAME_ATTR(cname, aname, bits) \
- static ssize_t uvcg_frame_##cname##_show(struct config_item *item, char *page)\
- {									\
-@@ -1420,18 +1337,6 @@ static void uvcg_format_set_indices(struct config_group *fmt)
-  * streaming/uncompressed/<NAME>
-  */
- 
--struct uvcg_uncompressed {
--	struct uvcg_format		fmt;
--	struct uvc_format_uncompressed	desc;
--};
--
--static struct uvcg_uncompressed *to_uvcg_uncompressed(struct config_item *item)
--{
--	return container_of(
--		container_of(to_config_group(item), struct uvcg_format, group),
--		struct uvcg_uncompressed, fmt);
--}
--
- static struct configfs_group_operations uvcg_uncompressed_group_ops = {
- 	.make_item		= uvcg_frame_make,
- 	.drop_item		= uvcg_frame_drop,
-@@ -1675,18 +1580,6 @@ static const struct uvcg_config_group_type uvcg_uncompressed_grp_type = {
-  * streaming/mjpeg/<NAME>
-  */
- 
--struct uvcg_mjpeg {
--	struct uvcg_format		fmt;
--	struct uvc_format_mjpeg		desc;
--};
--
--static struct uvcg_mjpeg *to_uvcg_mjpeg(struct config_item *item)
--{
--	return container_of(
--		container_of(to_config_group(item), struct uvcg_format, group),
--		struct uvcg_mjpeg, fmt);
--}
--
- static struct configfs_group_operations uvcg_mjpeg_group_ops = {
- 	.make_item		= uvcg_frame_make,
- 	.drop_item		= uvcg_frame_drop,
-diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
-index 7e1d7ca29bf210..1ec8529ff1e4fe 100644
---- a/drivers/usb/gadget/function/uvc_configfs.h
-+++ b/drivers/usb/gadget/function/uvc_configfs.h
-@@ -12,7 +12,119 @@
- #ifndef UVC_CONFIGFS_H
- #define UVC_CONFIGFS_H
- 
--struct f_uvc_opts;
-+#include <linux/configfs.h>
-+
-+#include "u_uvc.h"
-+
-+static inline struct f_uvc_opts *to_f_uvc_opts(struct config_item *item)
-+{
-+	return container_of(to_config_group(item), struct f_uvc_opts,
-+			    func_inst.group);
-+}
-+
-+#define UVCG_STREAMING_CONTROL_SIZE	1
-+
-+DECLARE_UVC_HEADER_DESCRIPTOR(1);
-+
-+struct uvcg_control_header {
-+	struct config_item		item;
-+	struct UVC_HEADER_DESCRIPTOR(1)	desc;
-+	unsigned			linked;
-+};
-+
-+static inline struct uvcg_control_header *to_uvcg_control_header(struct config_item *item)
-+{
-+	return container_of(item, struct uvcg_control_header, item);
-+}
-+
-+enum uvcg_format_type {
-+	UVCG_UNCOMPRESSED = 0,
-+	UVCG_MJPEG,
-+};
-+
-+struct uvcg_format {
-+	struct config_group	group;
-+	enum uvcg_format_type	type;
-+	unsigned		linked;
-+	unsigned		num_frames;
-+	__u8			bmaControls[UVCG_STREAMING_CONTROL_SIZE];
-+};
-+
-+struct uvcg_format_ptr {
-+	struct uvcg_format	*fmt;
-+	struct list_head	entry;
-+};
-+
-+static inline struct uvcg_format *to_uvcg_format(struct config_item *item)
-+{
-+	return container_of(to_config_group(item), struct uvcg_format, group);
-+}
-+
-+struct uvcg_streaming_header {
-+	struct config_item				item;
-+	struct uvc_input_header_descriptor		desc;
-+	unsigned					linked;
-+	struct list_head				formats;
-+	unsigned					num_fmt;
-+};
-+
-+static inline struct uvcg_streaming_header *to_uvcg_streaming_header(struct config_item *item)
-+{
-+	return container_of(item, struct uvcg_streaming_header, item);
-+}
-+
-+struct uvcg_frame {
-+	struct config_item	item;
-+	enum uvcg_format_type	fmt_type;
-+	struct {
-+		u8	b_length;
-+		u8	b_descriptor_type;
-+		u8	b_descriptor_subtype;
-+		u8	b_frame_index;
-+		u8	bm_capabilities;
-+		u16	w_width;
-+		u16	w_height;
-+		u32	dw_min_bit_rate;
-+		u32	dw_max_bit_rate;
-+		u32	dw_max_video_frame_buffer_size;
-+		u32	dw_default_frame_interval;
-+		u8	b_frame_interval_type;
-+	} __attribute__((packed)) frame;
-+	u32 *dw_frame_interval;
-+};
-+
-+static inline struct uvcg_frame *to_uvcg_frame(struct config_item *item)
-+{
-+	return container_of(item, struct uvcg_frame, item);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * streaming/uncompressed/<NAME>
-+ */
-+
-+struct uvcg_uncompressed {
-+	struct uvcg_format		fmt;
-+	struct uvc_format_uncompressed	desc;
-+};
-+
-+static inline struct uvcg_uncompressed *to_uvcg_uncompressed(struct config_item *item)
-+{
-+	return container_of(to_uvcg_format(item), struct uvcg_uncompressed, fmt);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * streaming/mjpeg/<NAME>
-+ */
-+
-+struct uvcg_mjpeg {
-+	struct uvcg_format		fmt;
-+	struct uvc_format_mjpeg		desc;
-+};
-+
-+static inline struct uvcg_mjpeg *to_uvcg_mjpeg(struct config_item *item)
-+{
-+	return container_of(to_uvcg_format(item), struct uvcg_mjpeg, fmt);
-+}
- 
- int uvcg_attach_configfs(struct f_uvc_opts *opts);
- 
+ 	/*
 -- 
 2.30.2
 
