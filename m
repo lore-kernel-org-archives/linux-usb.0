@@ -2,36 +2,36 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAAAC4321E
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 00:44:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6D85C4167D
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 00:44:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 569396323D
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 00:44:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F0C5619FA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Nov 2021 00:44:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232317AbhKQArm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Nov 2021 19:47:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
+        id S232343AbhKQAro (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Nov 2021 19:47:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232241AbhKQArk (ORCPT
+        with ESMTP id S232237AbhKQArk (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Nov 2021 19:47:40 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90077C061764
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB4C0C061202
         for <linux-usb@vger.kernel.org>; Tue, 16 Nov 2021 16:44:42 -0800 (PST)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mn944-0000Yc-LJ; Wed, 17 Nov 2021 01:44:40 +0100
+        id 1mn944-0000YW-LI; Wed, 17 Nov 2021 01:44:40 +0100
 Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <mgr@pengutronix.de>)
-        id 1mn943-00Fn6N-UA; Wed, 17 Nov 2021 01:44:39 +0100
+        id 1mn943-00Fn65-PK; Wed, 17 Nov 2021 01:44:39 +0100
 From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
         paul.elder@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH v2 7/7] usb: gadget: uvc: add format/frame handling code
-Date:   Wed, 17 Nov 2021 01:44:32 +0100
-Message-Id: <20211117004432.3763306-8-m.grzeschik@pengutronix.de>
+Subject: [PATCH v2 1/7] media: v4l: move helper functions for fractions from uvc to v4l2-common
+Date:   Wed, 17 Nov 2021 01:44:26 +0100
+Message-Id: <20211117004432.3763306-2-m.grzeschik@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211117004432.3763306-1-m.grzeschik@pengutronix.de>
 References: <20211117004432.3763306-1-m.grzeschik@pengutronix.de>
@@ -45,480 +45,286 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Hostside format selection is currently only done in userspace, as
-the events for SET_CUR and GET_CUR are allways moved to the application
-layer. Since the v4l2 device parses the configfs data, the format
-negotiation can be done in the kernel. This patch adds the functions to
-set the current configuration while continuing to forward all unknown
-events to the userspace level.
+The functions uvc_simplify_fraction and uvc_fraction_to_interval are
+generic helpers which are also useful for other v4l2 drivers. This patch
+moves them to v4l2-common.
 
 Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+v1 -> v2: -
 
-Note:
-v1 - v2:
-   - fixed the commit message
-   - changed pr_debug to pr_err in events_process_data
-   - aligned many indentations
-   - simplified uvc_events_process_data
-   - fixed uvc_fill_streaming_control calls in uvcg_video_init
-   - added setup_subcribed to decide if userspace takes over on EOPNOTSUPP
-   - added data_subscribed to decide if userspace takes over on EOPNOTSUPP
-   - removed duplicate send_response
-   - wrting fmt and frm in full
+ drivers/media/usb/uvc/uvc_driver.c    | 80 --------------------------
+ drivers/media/usb/uvc/uvc_v4l2.c      | 14 ++---
+ drivers/media/usb/uvc/uvcvideo.h      |  3 -
+ drivers/media/v4l2-core/v4l2-common.c | 82 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           |  4 ++
+ 5 files changed, 93 insertions(+), 90 deletions(-)
 
- drivers/usb/gadget/function/f_uvc.c     | 232 +++++++++++++++++++++++-
- drivers/usb/gadget/function/uvc.h       |  16 ++
- drivers/usb/gadget/function/uvc_v4l2.c  |  33 +++-
- drivers/usb/gadget/function/uvc_video.c |   6 +
- 4 files changed, 279 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
-index a29ed9ef1d4b08..c62471ce57e790 100644
---- a/drivers/usb/gadget/function/f_uvc.c
-+++ b/drivers/usb/gadget/function/f_uvc.c
-@@ -16,7 +16,6 @@
- #include <linux/string.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
--#include <linux/usb/g_uvc.h>
- #include <linux/usb/video.h>
- #include <linux/vmalloc.h>
- #include <linux/wait.h>
-@@ -201,16 +200,228 @@ static const struct usb_descriptor_header * const uvc_ss_streaming[] = {
-  * Control requests
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 7c007426e0827e..cdb92da0f56afd 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -324,86 +324,6 @@ static enum v4l2_ycbcr_encoding uvc_ycbcr_enc(const u8 matrix_coefficients)
+ 	return V4L2_YCBCR_ENC_DEFAULT;  /* Reserved */
+ }
+ 
+-/* Simplify a fraction using a simple continued fraction decomposition. The
+- * idea here is to convert fractions such as 333333/10000000 to 1/30 using
+- * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
+- * arbitrary parameters to remove non-significative terms from the simple
+- * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
+- * respectively seems to give nice results.
+- */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-		unsigned int n_terms, unsigned int threshold)
+-{
+-	u32 *an;
+-	u32 x, y, r;
+-	unsigned int i, n;
+-
+-	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
+-	if (an == NULL)
+-		return;
+-
+-	/* Convert the fraction to a simple continued fraction. See
+-	 * https://mathforum.org/dr.math/faq/faq.fractions.html
+-	 * Stop if the current term is bigger than or equal to the given
+-	 * threshold.
+-	 */
+-	x = *numerator;
+-	y = *denominator;
+-
+-	for (n = 0; n < n_terms && y != 0; ++n) {
+-		an[n] = x / y;
+-		if (an[n] >= threshold) {
+-			if (n < 2)
+-				n++;
+-			break;
+-		}
+-
+-		r = x - an[n] * y;
+-		x = y;
+-		y = r;
+-	}
+-
+-	/* Expand the simple continued fraction back to an integer fraction. */
+-	x = 0;
+-	y = 1;
+-
+-	for (i = n; i > 0; --i) {
+-		r = y;
+-		y = an[i-1] * y + x;
+-		x = r;
+-	}
+-
+-	*numerator = y;
+-	*denominator = x;
+-	kfree(an);
+-}
+-
+-/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
+- * to compute numerator / denominator * 10000000 using 32 bit fixed point
+- * arithmetic only.
+- */
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator)
+-{
+-	u32 multiplier;
+-
+-	/* Saturate the result if the operation would overflow. */
+-	if (denominator == 0 ||
+-	    numerator/denominator >= ((u32)-1)/10000000)
+-		return (u32)-1;
+-
+-	/* Divide both the denominator and the multiplier by two until
+-	 * numerator * multiplier doesn't overflow. If anyone knows a better
+-	 * algorithm please let me know.
+-	 */
+-	multiplier = 10000000;
+-	while (numerator > ((u32)-1)/multiplier) {
+-		multiplier /= 2;
+-		denominator /= 2;
+-	}
+-
+-	return denominator ? numerator * multiplier / denominator : 0;
+-}
+-
+ /* ------------------------------------------------------------------------
+  * Terminal and unit management
   */
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index f4e4aff8ddf771..9aa7ee9950c7b4 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -380,7 +380,7 @@ static int uvc_v4l2_get_streamparm(struct uvc_streaming *stream,
+ 	mutex_unlock(&stream->mutex);
  
-+void uvc_fill_streaming_control(struct uvc_device *uvc,
-+			   struct uvc_streaming_control *ctrl,
-+			   int iframe, int iformat, unsigned int ival)
-+{
-+	struct uvcg_format *uformat;
-+	struct uvcg_frame *uframe;
+ 	denominator = 10000000;
+-	uvc_simplify_fraction(&numerator, &denominator, 8, 333);
++	v4l2_simplify_fraction(&numerator, &denominator, 8, 333);
+ 
+ 	memset(parm, 0, sizeof(*parm));
+ 	parm->type = stream->type;
+@@ -421,7 +421,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	else
+ 		timeperframe = parm->parm.output.timeperframe;
+ 
+-	interval = uvc_fraction_to_interval(timeperframe.numerator,
++	interval = v4l2_fraction_to_interval(timeperframe.numerator,
+ 		timeperframe.denominator);
+ 	uvc_dbg(stream->dev, FORMAT, "Setting frame interval to %u/%u (%u)\n",
+ 		timeperframe.numerator, timeperframe.denominator, interval);
+@@ -475,7 +475,7 @@ static int uvc_v4l2_set_streamparm(struct uvc_streaming *stream,
+ 	/* Return the actual frame period. */
+ 	timeperframe.numerator = probe.dwFrameInterval;
+ 	timeperframe.denominator = 10000000;
+-	uvc_simplify_fraction(&timeperframe.numerator,
++	v4l2_simplify_fraction(&timeperframe.numerator,
+ 		&timeperframe.denominator, 8, 333);
+ 
+ 	if (parm->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+@@ -1267,7 +1267,7 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->discrete.numerator =
+ 			frame->dwFrameInterval[index];
+ 		fival->discrete.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->discrete.numerator,
++		v4l2_simplify_fraction(&fival->discrete.numerator,
+ 			&fival->discrete.denominator, 8, 333);
+ 	} else {
+ 		fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+@@ -1277,11 +1277,11 @@ static int uvc_ioctl_enum_frameintervals(struct file *file, void *fh,
+ 		fival->stepwise.max.denominator = 10000000;
+ 		fival->stepwise.step.numerator = frame->dwFrameInterval[2];
+ 		fival->stepwise.step.denominator = 10000000;
+-		uvc_simplify_fraction(&fival->stepwise.min.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.min.numerator,
+ 			&fival->stepwise.min.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.max.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.max.numerator,
+ 			&fival->stepwise.max.denominator, 8, 333);
+-		uvc_simplify_fraction(&fival->stepwise.step.numerator,
++		v4l2_simplify_fraction(&fival->stepwise.step.numerator,
+ 			&fival->stepwise.step.denominator, 8, 333);
+ 	}
+ 
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 2e5366143b8144..a61cd0a459e88d 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -906,9 +906,6 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ 		      struct uvc_xu_control_query *xqry);
+ 
+ /* Utility functions */
+-void uvc_simplify_fraction(u32 *numerator, u32 *denominator,
+-			   unsigned int n_terms, unsigned int threshold);
+-u32 uvc_fraction_to_interval(u32 numerator, u32 denominator);
+ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
+ 					    u8 epaddr);
+ 
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc29..1d0b56249ca0e1 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -482,3 +482,85 @@ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 	return freq > 0 ? freq : -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
 +
-+	/* Restrict the iformat, iframe and ival to valid values. Negative
-+	 * values for ifrmat and iframe will result in the maximum valid value
-+	 * being selected
++/* Simplify a fraction using a simple continued fraction decomposition. The
++ * idea here is to convert fractions such as 333333/10000000 to 1/30 using
++ * 32 bit arithmetic only. The algorithm is not perfect and relies upon two
++ * arbitrary parameters to remove non-significative terms from the simple
++ * continued fraction decomposition. Using 8 and 333 for n_terms and threshold
++ * respectively seems to give nice results.
++ */
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold)
++{
++	u32 *an;
++	u32 x, y, r;
++	unsigned int i, n;
++
++	an = kmalloc_array(n_terms, sizeof(*an), GFP_KERNEL);
++	if (an == NULL)
++		return;
++
++	/* Convert the fraction to a simple continued fraction. See
++	 * https://mathforum.org/dr.math/faq/faq.fractions.html
++	 * Stop if the current term is bigger than or equal to the given
++	 * threshold.
 +	 */
-+	iformat = clamp((unsigned int)iformat, 1U,
-+			(unsigned int)uvc->header->num_fmt);
-+	uformat = find_format_by_index(uvc, iformat);
-+	if (!uformat)
-+		return;
++	x = *numerator;
++	y = *denominator;
 +
-+	iframe = clamp((unsigned int)iframe, 1U,
-+		       (unsigned int)uformat->num_frames);
-+	uframe = find_frame_by_index(uvc, uformat, iframe);
-+	if (!uframe)
-+		return;
-+
-+	ival = clamp((unsigned int)ival, 1U,
-+		     (unsigned int)uframe->frame.b_frame_interval_type);
-+	if (!uframe->dw_frame_interval[ival - 1])
-+		return;
-+
-+	memset(ctrl, 0, sizeof(*ctrl));
-+
-+	ctrl->bmHint = 1;
-+	ctrl->bFormatIndex = iformat;
-+	ctrl->bFrameIndex = iframe;
-+	ctrl->dwFrameInterval = uframe->dw_frame_interval[ival - 1];
-+	ctrl->dwMaxVideoFrameSize =
-+		uframe->frame.dw_max_video_frame_buffer_size;
-+
-+	if (uvc->video.ep->desc)
-+		ctrl->dwMaxPayloadTransferSize =
-+			uvc->video.ep->desc->wMaxPacketSize;
-+	ctrl->bmFramingInfo = 3;
-+	ctrl->bPreferedVersion = 1;
-+	ctrl->bMaxVersion = 1;
-+}
-+
-+static int uvc_events_process_data(struct uvc_device *uvc,
-+				   struct usb_request *req)
-+{
-+	struct uvc_video *video = &uvc->video;
-+	struct uvc_streaming_control *target;
-+	struct uvc_streaming_control *ctrl;
-+	struct uvcg_frame *uframe;
-+	struct uvcg_format *uformat;
-+
-+	switch (video->control) {
-+	case UVC_VS_PROBE_CONTROL:
-+		pr_debug("setting probe control, length = %d\n", req->actual);
-+		target = &video->probe;
-+		break;
-+
-+	case UVC_VS_COMMIT_CONTROL:
-+		pr_debug("setting commit control, length = %d\n", req->actual);
-+		target = &video->commit;
-+		break;
-+
-+	default:
-+		pr_err("setting unknown control, length = %d\n", req->actual);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	ctrl = (struct uvc_streaming_control *)req->buf;
-+
-+	uvc_fill_streaming_control(uvc, target, ctrl->bFormatIndex,
-+			   ctrl->bFrameIndex, ctrl->dwFrameInterval);
-+
-+	if (video->control == UVC_VS_COMMIT_CONTROL) {
-+		uformat = find_format_by_index(uvc, target->bFormatIndex);
-+		if (!uformat)
-+			return -EINVAL;
-+
-+		uframe = find_frame_by_index(uvc, uformat, ctrl->bFrameIndex);
-+		if (!uframe)
-+			return -EINVAL;
-+
-+		spin_lock(&video->frame_lock);
-+
-+		video->cur_frame = uframe;
-+		video->cur_format = uformat;
-+		video->cur_ival = ctrl->dwFrameInterval;
-+
-+		spin_unlock(&video->frame_lock);
-+	}
-+
-+	return 0;
-+}
-+
-+static void
-+uvc_events_process_streaming(struct uvc_device *uvc, uint8_t req, uint8_t cs,
-+			     struct uvc_request_data *resp)
-+{
-+	struct uvc_streaming_control *ctrl;
-+
-+	pr_debug("streaming request (req %02x cs %02x)\n", req, cs);
-+
-+	if (cs != UVC_VS_PROBE_CONTROL && cs != UVC_VS_COMMIT_CONTROL)
-+		return;
-+
-+	ctrl = (struct uvc_streaming_control *)&resp->data;
-+	resp->length = sizeof(*ctrl);
-+
-+	switch (req) {
-+	case UVC_SET_CUR:
-+		uvc->video.control = cs;
-+		resp->length = 34;
-+		break;
-+
-+	case UVC_GET_CUR:
-+		if (cs == UVC_VS_PROBE_CONTROL)
-+			memcpy(ctrl, &uvc->video.probe, sizeof(*ctrl));
-+		else
-+			memcpy(ctrl, &uvc->video.commit, sizeof(*ctrl));
-+		break;
-+
-+	case UVC_GET_MIN:
-+	case UVC_GET_MAX:
-+	case UVC_GET_DEF:
-+		if (req == UVC_GET_MAX)
-+			uvc_fill_streaming_control(uvc, ctrl, -1, -1, UINT_MAX);
-+		else
-+			uvc_fill_streaming_control(uvc, ctrl, 1, 1, 0);
-+		break;
-+
-+	case UVC_GET_RES:
-+		memset(ctrl, 0, sizeof(*ctrl));
-+		break;
-+
-+	case UVC_GET_LEN:
-+		resp->data[0] = 0x00;
-+		resp->data[1] = 0x22;
-+		resp->length = 2;
-+		break;
-+
-+	case UVC_GET_INFO:
-+		resp->data[0] = 0x03;
-+		resp->length = 1;
-+		break;
-+	}
-+}
-+
-+static int
-+uvc_events_process_class(struct uvc_device *uvc,
-+			 const struct usb_ctrlrequest *ctrl,
-+			 struct uvc_request_data *resp)
-+{
-+	if ((ctrl->bRequestType & USB_RECIP_MASK) != USB_RECIP_INTERFACE)
-+		return -EINVAL;
-+
-+	if ((ctrl->wIndex & 0xff) == uvc->control_intf)
-+		return -EOPNOTSUPP;
-+	else if ((ctrl->wIndex & 0xff) == uvc->streaming_intf)
-+		uvc_events_process_streaming(uvc, ctrl->bRequest,
-+					     ctrl->wValue >> 8, resp);
-+
-+	return 0;
-+}
-+
-+static int
-+uvc_events_process_setup(struct uvc_device *uvc,
-+			 const struct usb_ctrlrequest *ctrl,
-+			 struct uvc_request_data *resp)
-+{
-+	uvc->video.control = 0;
-+
-+	pr_debug("bRequestType %02x bRequest %02x wValue %04x wIndex %04x wLength %04x\n",
-+		ctrl->bRequestType, ctrl->bRequest, ctrl->wValue,
-+		ctrl->wIndex, ctrl->wLength);
-+
-+	switch (ctrl->bRequestType & USB_TYPE_MASK) {
-+	case USB_TYPE_STANDARD:
-+		return -EOPNOTSUPP;
-+
-+	case USB_TYPE_CLASS:
-+		return uvc_events_process_class(uvc, ctrl, resp);
-+
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static void
- uvc_function_ep0_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct uvc_device *uvc = req->context;
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct uvc_request_data resp;
-+	int ret;
- 
- 	if (uvc->event_setup_out) {
- 		uvc->event_setup_out = 0;
- 
-+		memset(&resp, 0, sizeof(resp));
-+		resp.length = -EL2HLT;
-+
-+		ret = uvc_events_process_data(uvc, req);
-+		/* If we have no error on process */
-+		if (!ret) {
-+			uvc_send_response(uvc, &resp);
-+			return;
++	for (n = 0; n < n_terms && y != 0; ++n) {
++		an[n] = x / y;
++		if (an[n] >= threshold) {
++			if (n < 2)
++				n++;
++			break;
 +		}
 +
-+		/* If we have a real error on process */
-+		if (ret != -EOPNOTSUPP)
-+			return;
++		r = x - an[n] * y;
++		x = y;
++		y = r;
++	}
 +
-+		/* If we have -EOPNOTSUPP */
-+		if (!uvc->data_subscribed)
-+			return;
++	/* Expand the simple continued fraction back to an integer fraction. */
++	x = 0;
++	y = 1;
 +
-+		/* If we have data subscribed */
- 		memset(&v4l2_event, 0, sizeof(v4l2_event));
- 		v4l2_event.type = UVC_EVENT_DATA;
- 		uvc_event->data.length = req->actual;
-@@ -225,6 +436,8 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	struct uvc_device *uvc = to_uvc(f);
- 	struct v4l2_event v4l2_event;
- 	struct uvc_event *uvc_event = (void *)&v4l2_event.u.data;
-+	struct uvc_request_data resp;
-+	int ret = 0;
- 
- 	if ((ctrl->bRequestType & USB_TYPE_MASK) != USB_TYPE_CLASS) {
- 		uvcg_info(f, "invalid request type\n");
-@@ -241,6 +454,23 @@ uvc_function_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
- 	uvc->event_setup_out = !(ctrl->bRequestType & USB_DIR_IN);
- 	uvc->event_length = le16_to_cpu(ctrl->wLength);
- 
-+	memset(&resp, 0, sizeof(resp));
-+	resp.length = -EL2HLT;
++	for (i = n; i > 0; --i) {
++		r = y;
++		y = an[i-1] * y + x;
++		x = r;
++	}
 +
-+	ret = uvc_events_process_setup(uvc, ctrl, &resp);
-+	/* If we have no error on process */
-+	if (!ret)
-+		return uvc_send_response(uvc, &resp);
++	*numerator = y;
++	*denominator = x;
++	kfree(an);
++}
++EXPORT_SYMBOL_GPL(v4l2_simplify_fraction);
 +
-+	/* If we have a real error on process */
-+	if (ret != -EOPNOTSUPP)
-+		return ret;
++/* Convert a fraction to a frame interval in 100ns multiples. The idea here is
++ * to compute numerator / denominator * 10000000 using 32 bit fixed point
++ * arithmetic only.
++ */
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator)
++{
++	u32 multiplier;
 +
-+	/* If we have -EOPNOTSUPP */
-+	if (!uvc->setup_subscribed)
-+		return uvc_send_response(uvc, &resp);
++	/* Saturate the result if the operation would overflow. */
++	if (denominator == 0 ||
++	    numerator/denominator >= ((u32)-1)/10000000)
++		return (u32)-1;
 +
-+	/* If we have setup subscribed */
- 	memset(&v4l2_event, 0, sizeof(v4l2_event));
- 	v4l2_event.type = UVC_EVENT_SETUP;
- 	memcpy(&uvc_event->req, ctrl, sizeof(uvc_event->req));
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 9d4db12f45fd30..2a850e694ec5ea 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -13,6 +13,8 @@
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/usb/composite.h>
-+#include <linux/usb/g_uvc.h>
-+#include <linux/usb/video.h>
- #include <linux/videodev2.h>
- 
- #include <media/v4l2-device.h>
-@@ -93,6 +95,12 @@ struct uvc_video {
- 	unsigned int cur_ival;
- 
- 	struct mutex mutex;	/* protects frame parameters */
-+	spinlock_t frame_lock;
++	/* Divide both the denominator and the multiplier by two until
++	 * numerator * multiplier doesn't overflow. If anyone knows a better
++	 * algorithm please let me know.
++	 */
++	multiplier = 10000000;
++	while (numerator > ((u32)-1)/multiplier) {
++		multiplier /= 2;
++		denominator /= 2;
++	}
 +
-+	struct uvc_streaming_control probe;
-+	struct uvc_streaming_control commit;
++	return denominator ? numerator * multiplier / denominator : 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_fraction_to_interval);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 3eb202259e8ccd..df4ad81251195e 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -540,6 +540,10 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+ s64 v4l2_get_link_freq(struct v4l2_ctrl_handler *handler, unsigned int mul,
+ 		       unsigned int div);
+ 
++void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
++		unsigned int n_terms, unsigned int threshold);
++u32 v4l2_fraction_to_interval(u32 numerator, u32 denominator);
 +
-+	int control;
- 
- 	unsigned int uvc_num_requests;
- 
-@@ -128,6 +136,8 @@ struct uvc_device {
- 	struct usb_function func;
- 	struct uvc_video video;
- 	bool func_connected;
-+	bool setup_subscribed;
-+	bool data_subscribed;
- 
- 	struct uvcg_streaming_header *header;
- 
-@@ -181,5 +191,11 @@ extern struct uvcg_format *find_format_by_index(struct uvc_device *uvc,
- extern struct uvcg_frame *find_frame_by_index(struct uvc_device *uvc,
- 					      struct uvcg_format *uformat,
- 					      int index);
-+extern void uvc_fill_streaming_control(struct uvc_device *uvc,
-+				       struct uvc_streaming_control *ctrl,
-+				       int iframe, int iformat,
-+				       unsigned int ival);
-+extern int uvc_send_response(struct uvc_device *uvc,
-+			     struct uvc_request_data *data);
- 
- #endif /* _UVC_GADGET_H_ */
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 17992c9c24506e..f01d3ff9bd214f 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -170,8 +170,7 @@ static struct uvcg_frame *find_closest_frame_by_size(struct uvc_device *uvc,
-  * Requests handling
-  */
- 
--static int
--uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
-+int uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
  {
- 	struct usb_composite_dev *cdev = uvc->func.config->cdev;
- 	struct usb_request *req = uvc->control_req;
-@@ -230,6 +229,7 @@ uvc_v4l2_get_format(struct file *file, void *fh, struct v4l2_format *fmt)
- }
- 
- static int _uvc_v4l2_try_fmt(struct uvc_video *video, struct v4l2_format *fmt,
-+			     struct uvc_streaming_control *probe,
- 			     struct uvcg_format **uvc_format,
- 			     struct uvcg_frame **uvc_frame)
- {
-@@ -270,6 +270,10 @@ static int _uvc_v4l2_try_fmt(struct uvc_video *video, struct v4l2_format *fmt,
- 		*uvc_format = uformat;
- 	if (uvc_frame)
- 		*uvc_frame = uframe;
-+	if (probe)
-+		uvc_fill_streaming_control(uvc, probe, i + 1,
-+					   uframe->frame.b_frame_index,
-+					   video->cur_ival);
- 
- 	return 0;
- }
-@@ -281,7 +285,7 @@ uvc_v4l2_try_fmt(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct uvc_device *uvc = video_get_drvdata(vdev);
- 	struct uvc_video *video = &uvc->video;
- 
--	return _uvc_v4l2_try_fmt(video, fmt, NULL, NULL);
-+	return _uvc_v4l2_try_fmt(video, fmt, NULL, NULL, NULL);
- }
- 
- static int
-@@ -290,17 +294,23 @@ uvc_v4l2_set_format(struct file *file, void *fh, struct v4l2_format *fmt)
- 	struct video_device *vdev = video_devdata(file);
- 	struct uvc_device *uvc = video_get_drvdata(vdev);
- 	struct uvc_video *video = &uvc->video;
-+	struct uvc_streaming_control probe;
- 	struct uvcg_format *uformat;
- 	struct uvcg_frame *uframe;
- 	int ret;
- 
--	ret = _uvc_v4l2_try_fmt(video, fmt, &uformat, &uframe);
-+	ret = _uvc_v4l2_try_fmt(video, fmt, &probe, &uformat, &uframe);
- 	if (ret)
- 		return ret;
- 
-+	spin_lock(&video->frame_lock);
-+
-+	video->commit = probe;
- 	video->cur_format = uformat;
- 	video->cur_frame = uframe;
- 
-+	spin_unlock(&video->frame_lock);
-+
- 	return ret;
- }
- 
-@@ -498,14 +508,20 @@ uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
- 	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
- 		return -EINVAL;
- 
--	if (sub->type == UVC_EVENT_SETUP && uvc->func_connected)
-+	if (sub->type == UVC_EVENT_STREAMON && uvc->func_connected)
- 		return -EBUSY;
- 
- 	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
- 	if (ret < 0)
- 		return ret;
- 
--	if (sub->type == UVC_EVENT_SETUP) {
-+	if (sub->type == UVC_EVENT_SETUP)
-+		uvc->setup_subscribed = true;
-+
-+	if (sub->type == UVC_EVENT_DATA)
-+		uvc->data_subscribed = true;
-+
-+	if (sub->type == UVC_EVENT_STREAMON) {
- 		uvc->func_connected = true;
- 		handle->is_uvc_app_handle = true;
- 		uvc_function_connect(uvc);
-@@ -534,7 +550,10 @@ uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
- 	if (ret < 0)
- 		return ret;
- 
--	if (sub->type == UVC_EVENT_SETUP && handle->is_uvc_app_handle) {
-+	if (sub->type == UVC_EVENT_SETUP)
-+		uvc->setup_subscribed = false;
-+
-+	if (sub->type == UVC_EVENT_STREAMON && handle->is_uvc_app_handle) {
- 		uvc_v4l2_disable(uvc);
- 		handle->is_uvc_app_handle = false;
- 	}
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index a700001caf3608..4aabed164484a5 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -523,6 +523,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 
- 	INIT_LIST_HEAD(&video->req_free);
- 	spin_lock_init(&video->req_lock);
-+	spin_lock_init(&video->frame_lock);
- 	INIT_WORK(&video->pump, uvcg_video_pump);
- 
- 	if (list_empty(&uvc->header->formats))
-@@ -546,6 +547,11 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 
- 	video->cur_ival = uvc_default_frame_interval(video);
- 
-+	uvc_fill_streaming_control(uvc, &video->probe, framedef, 1,
-+				   video->cur_ival);
-+	uvc_fill_streaming_control(uvc, &video->commit, framedef, 1,
-+				   video->cur_ival);
-+
- 	/* Initialize the video buffers queue. */
- 	uvcg_queue_init(&video->queue, uvc->v4l2_dev.dev->parent,
- 			V4L2_BUF_TYPE_VIDEO_OUTPUT, &video->mutex);
+ 	/*
 -- 
 2.30.2
 
