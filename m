@@ -2,29 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C54C4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Nov 2021 07:39:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E9D1C43217
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Nov 2021 15:26:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237060AbhKTHml (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 20 Nov 2021 02:42:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44046 "EHLO mail.kernel.org"
+        id S237654AbhKTP3J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 20 Nov 2021 10:29:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41470 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236392AbhKTHmd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 20 Nov 2021 02:42:33 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D4B960E94;
-        Sat, 20 Nov 2021 07:39:25 +0000 (UTC)
+        id S230038AbhKTP3I (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 20 Nov 2021 10:29:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E5B5B60EB6;
+        Sat, 20 Nov 2021 15:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637393970;
-        bh=ZyTVqjOSKrp5VXX+khXGou2v7HAND6IAqcRDKMOPn8Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:From;
-        b=ZNY8zejO7ZM9vSZU3k/3RhBSZVfY+X1xLg24jqzDlINwEMfwdsUpBy52yy39ph8U1
-         QkaFwY9aS9WTX+epYdzXdXkopMDOMC5k/M63z2LFT5JCZRmh3GqV92YIoZtqvG9MdB
-         GK7QyNq0MDqN2y5lCLEQUBZGiglKVPGjNgJAjNVnWcbYVdVGwnEBfn2Lh0Emtzd7fU
-         py4QIBzbJREgfjDafPxbqahs/TQX5uQRdLTtBH62NCYQXma+jnSEDADCW8yHP1mMfi
-         lmaDkgqZof3YJh3Sl4K+AQsiP5Q3DLStqZdCWXb5x7Egvya0m3h92NVSTyQjYVk13x
-         WJqcnz6aXuBfw==
-From:   SeongJae Park <sj@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
+        s=k20201202; t=1637421964;
+        bh=sL04+7/Tziaw15CHiE2bty/Bv6qeql7yB4oQSwHL8Rw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=N35/MX+Bk5IfQeZQiu16BeV4YuD31Ephij5WJvzDmZ2G+K+MjYa+HWqb1ahmMn5Hb
+         8nTHe95BsmdqkyFWylC9DLYJd5w68+maTSegSteQm994SJN2V2euBCo7o5awfS7MX1
+         1EqL1r1uDdGsdYVLkB0LepzAMd/DMg1DnO37cYnq/TOnx6T6gg4l1tr4VYZFrfdNBr
+         fu07uKG0PLQcKTAn5J7IOkR76pmhpIN6NdZJHm5NPKAY2SAGobyGEmgVfnmJURZZPl
+         Ncx/4o043Jc/OWEbZSwAM5dDl3KRkS71kl4wzNRFF/bIFRAmgFMC+aeEM6/O5rxXi9
+         UVuYgRSm1FojA==
+Date:   Sat, 20 Nov 2021 07:26:02 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Peter Chen <peter.chen@kernel.org>
 Cc:     bpf@vger.kernel.org, axboe@kernel.dk,
         maarten.lankhorst@linux.intel.com, mripard@kernel.org,
         tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch,
@@ -35,45 +36,52 @@ Cc:     bpf@vger.kernel.org, axboe@kernel.dk,
         hkelam@marvell.com, jingoohan1@gmail.com,
         lorenzo.pieralisi@arm.com, robh@kernel.org, kw@linux.com,
         bhelgaas@google.com, krzysztof.kozlowski@canonical.com,
-        mani@kernel.org, pawell@cadence.com, peter.chen@kernel.org,
-        rogerq@kernel.org, a-govindraju@ti.com, gregkh@linuxfoundation.org,
-        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sj@kernel.org,
-        akpm@linux-foundation.org, thomas.hellstrom@linux.intel.com,
-        matthew.auld@intel.com, colin.king@intel.com, geert@linux-m68k.org,
+        mani@kernel.org, pawell@cadence.com, rogerq@kernel.org,
+        a-govindraju@ti.com, gregkh@linuxfoundation.org, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
+        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, sj@kernel.org, akpm@linux-foundation.org,
+        thomas.hellstrom@linux.intel.com, matthew.auld@intel.com,
+        colin.king@intel.com, geert@linux-m68k.org,
         linux-block@vger.kernel.org, dri-devel@lists.freedesktop.org,
         intel-gfx@lists.freedesktop.org, lima@lists.freedesktop.org,
         linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
         linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-mm@kvack.org
-Subject: Re: [PATCH bpf] treewide: add missing includes masked by cgroup -> bpf dependency
-Date:   Sat, 20 Nov 2021 07:39:19 +0000
-Message-Id: <20211120073920.16261-1-sj@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211120035253.72074-1-kuba@kernel.org>
+Subject: Re: [PATCH bpf] treewide: add missing includes masked by cgroup ->
+ bpf dependency
+Message-ID: <20211120072602.22f9e722@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20211120073011.GA36650@Peter>
+References: <20211120035253.72074-1-kuba@kernel.org>
+        <20211120073011.GA36650@Peter>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Jakub,
+On Sat, 20 Nov 2021 15:30:11 +0800 Peter Chen wrote:
+> > diff --git a/drivers/usb/cdns3/host.c b/drivers/usb/cdns3/host.c
+> > index 84dadfa726aa..9643b905e2d8 100644
+> > --- a/drivers/usb/cdns3/host.c
+> > +++ b/drivers/usb/cdns3/host.c
+> > @@ -10,6 +10,7 @@
+> >   */
+> > =20
+> >  #include <linux/platform_device.h>
+> > +#include <linux/slab.h> =20
+>=20
+> Should be "#include <linux/module.h>"?
 
-On Fri, 19 Nov 2021 19:52:53 -0800 Jakub Kicinski <kuba@kernel.org> wrote:
+Why? Different files are missing different includes, this one needs
+slab.h:
 
-> cgroup.h (therefore swap.h, therefore half of the universe)
-> includes bpf.h which in turn includes module.h and slab.h.
-> Since we're about to get rid of that dependency we need
-> to clean things up.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-
-Acked-by: SeongJae Park <sj@kernel.org>
-
-for DAMON part.
-
-
-Thanks,
-SJ
-
-[...]
+../drivers/usb/cdns3/host.c: In function =E2=80=98__cdns_host_init=E2=80=99:
+../drivers/usb/cdns3/host.c:86:2: error: implicit declaration of function =
+=E2=80=98kfree=E2=80=99; did you mean =E2=80=98vfree=E2=80=99? [-Werror=3Di=
+mplicit-function-declaration]
+  kfree(cdns->xhci_plat_data);
+  ^~~~~
+  vfree
