@@ -2,78 +2,237 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88485C433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 21 Nov 2021 12:21:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FAACC433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 21 Nov 2021 22:55:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238186AbhKUMYI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Nov 2021 07:24:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42548 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235815AbhKUMYI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 21 Nov 2021 07:24:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D781560524;
-        Sun, 21 Nov 2021 12:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1637497263;
-        bh=mruXRUnIEZnUJhApjkXgnv/EukWxjl+fb3nCV/JuewY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vxf4Y8IcRe9k5SY3Ct5FRT6Gb2S/M4huG9+YmV0XFaYiUYu/iwph30mewbTK+fGOb
-         fX9FLWORrSzo/Db4IIW5YaO+VyZ/1UR/n2q8dPiYCJcGjLsKQq6xqZfksfhlQ9WrGN
-         Txm+JXlr42mP05dXd1DGdT098n/JbE9CjUqEBBUg=
-Date:   Sun, 21 Nov 2021 13:21:00 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alexandre Frade <kernel@xanmod.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: [xanmod/linux] 5.14.14 renders unusable all USB ports except one
- (Issue #207)
-Message-ID: <YZo5rEk9NkGk9SGg@kroah.com>
-References: <17d40042d3b.f54aeba22864166.9088645547283469156@xanmod.org>
+        id S232656AbhKUW6L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Nov 2021 17:58:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230039AbhKUW6K (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Nov 2021 17:58:10 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C41DC061574
+        for <linux-usb@vger.kernel.org>; Sun, 21 Nov 2021 14:55:05 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1movjg-0007rN-Kp; Sun, 21 Nov 2021 23:55:00 +0100
+Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1movjg-0003u4-9K; Sun, 21 Nov 2021 23:55:00 +0100
+Date:   Sun, 21 Nov 2021 23:55:00 +0100
+From:   Michael Grzeschik <mgr@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     balbi@kernel.org, paul.elder@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, kernel@pengutronix.de
+Subject: Re: [PATCH v3 7/7] usb: gadget: uvc: add format/frame handling code
+Message-ID: <20211121225500.GB8504@pengutronix.de>
+References: <20211117122435.2409362-1-m.grzeschik@pengutronix.de>
+ <20211117122435.2409362-8-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="OwLcNYc0lM97+oe1"
 Content-Disposition: inline
-In-Reply-To: <17d40042d3b.f54aeba22864166.9088645547283469156@xanmod.org>
+In-Reply-To: <20211117122435.2409362-8-m.grzeschik@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 23:52:07 up 277 days,  2:16, 119 users,  load average: 0.03, 0.08,
+ 0.08
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Nov 20, 2021 at 10:02:35PM -0300, Alexandre Frade wrote:
-> Dear USB Leadership Team,
-> 
-> Please, follow this issue: https://github.com/xanmod/linux/issues/207
-> 
-> kern.log:
-> -----
-> [   14.105940] usb 4-3: device not accepting address 2, error -108
-> [   14.106012] usb usb3-port2: couldn't allocate usb_device
-> [   14.106049] usb usb4-port3: couldn't allocate usb_device
-> -----
-> 
-> SoftExpert: Hello, I updated to 5.14.14-xanmod1-cacule and then to 5.14.14-xanmod2-cacule - both versions render unusable my USB ports except the one that has pass-through charging.
-> 
-> When booting in the previous version 5.14.13 all USB ports function normally.
-> Here are the requested files:
-> https://github.com/xanmod/linux/files/7391333/lshw5.14.13.log
-> https://github.com/xanmod/linux/files/7391334/lshw5.14.14.log
-> kern.log
-> I also performed a sudo lsusb -v under both versions:
-> https://github.com/xanmod/linux/files/7391339/lsusb_xanmod5.14.14.txt
-> https://github.com/xanmod/linux/files/7391340/lsusb_xanmod5.14.13.txt
-> 
-> SoftExpert: Hello, I installed 5.14.15 and I have the same issue ...
-> 
-> SoftExpert: Hello, I installed 5.14.15 and I have the same issue ...
-> 
-> SoftExpert: Hello, I confirm the same issue with 5.14.16 and with 5.15.0 ...
-> 
-> Vi: I'm using 5.14.20-xanmod1 #0~git20211118.f58acc8 and it indeed it broke something with USB interfaces, half of them doesn't work anymore.
-> 
-> Vi: Attached as requested. Note that I reverted back to 5.14.17 for now
-> https://github.com/xanmod/linux/files/7572385/kern.log
-> https://github.com/xanmod/linux/files/7572386/syslog.log
 
-Can you find the offending commit that caused this issue by using 'git
-bisect'?
+--OwLcNYc0lM97+oe1
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+On Wed, Nov 17, 2021 at 01:24:35PM +0100, Michael Grzeschik wrote:
+>The Hostside format selection is currently only done in userspace, as
+>the events for SET_CUR and GET_CUR are allways moved to the application
+>layer. Since the v4l2 device parses the configfs data, the format
+>negotiation can be done in the kernel. This patch adds the functions to
+>set the current configuration while continuing to forward all unknown
+>events to the userspace level.
+>
+>Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>
+>---
+>v1 -> v2:
+>   - fixed the commit message
+>   - changed pr_debug to pr_err in events_process_data
+>   - aligned many indentations
+>   - simplified uvc_events_process_data
+>   - fixed uvc_fill_streaming_control calls in uvcg_video_init
+>   - added setup_subcribed to decide if userspace takes over on EOPNOTSUPP
+>   - added data_subscribed to decide if userspace takes over on EOPNOTSUPP
+>   - removed duplicate send_response
+>   - wrting fmt and frm in full
+>v2 -> v3:
+>   - added find_format_index to set the right probe
+>
+> drivers/usb/gadget/function/f_uvc.c     | 232 +++++++++++++++++++++++-
+> drivers/usb/gadget/function/uvc.h       |  18 ++
+> drivers/usb/gadget/function/uvc_v4l2.c  |  52 +++++-
+> drivers/usb/gadget/function/uvc_video.c |  12 +-
+> 4 files changed, 305 insertions(+), 9 deletions(-)
+>
+>diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/func=
+tion/f_uvc.c
+>index f1fd44e6062980..62fef6e002271a 100644
+>--- a/drivers/usb/gadget/function/f_uvc.c
+>+++ b/drivers/usb/gadget/function/f_uvc.c
+>@@ -16,7 +16,6 @@
+> #include <linux/string.h>
+> #include <linux/usb/ch9.h>
+> #include <linux/usb/gadget.h>
+>-#include <linux/usb/g_uvc.h>
+> #include <linux/usb/video.h>
+> #include <linux/vmalloc.h>
+> #include <linux/wait.h>
+>@@ -200,16 +199,228 @@ static const struct usb_descriptor_header * const u=
+vc_ss_streaming[] =3D {
+>  * Control requests
+>  */
+>
+>+void uvc_fill_streaming_control(struct uvc_device *uvc,
+>+			   struct uvc_streaming_control *ctrl,
+>+			   int iframe, int iformat, unsigned int ival)
+>+{
+>+	struct uvcg_format *uformat;
+>+	struct uvcg_frame *uframe;
+>+
+>+	/* Restrict the iformat, iframe and ival to valid values. Negative
+>+	 * values for ifrmat and iframe will result in the maximum valid value
+>+	 * being selected
+>+	 */
+>+	iformat =3D clamp((unsigned int)iformat, 1U,
+>+			(unsigned int)uvc->header->num_fmt);
+>+	uformat =3D find_format_by_index(uvc, iformat);
+>+	if (!uformat)
+>+		return;
+>+
+>+	iframe =3D clamp((unsigned int)iframe, 1U,
+>+		       (unsigned int)uformat->num_frames);
+>+	uframe =3D find_frame_by_index(uvc, uformat, iframe);
+>+	if (!uframe)
+>+		return;
+>+
+>+	ival =3D clamp((unsigned int)ival, 1U,
+>+		     (unsigned int)uframe->frame.b_frame_interval_type);
+>+	if (!uframe->dw_frame_interval[ival - 1])
+>+		return;
+>+
+>+	memset(ctrl, 0, sizeof(*ctrl));
+>+
+>+	ctrl->bmHint =3D 1;
+>+	ctrl->bFormatIndex =3D iformat;
+>+	ctrl->bFrameIndex =3D iframe;
+>+	ctrl->dwFrameInterval =3D uframe->dw_frame_interval[ival - 1];
+>+	ctrl->dwMaxVideoFrameSize =3D
+>+		uframe->frame.dw_max_video_frame_buffer_size;
+>+
+>+	if (uvc->video.ep->desc)
+>+		ctrl->dwMaxPayloadTransferSize =3D
+>+			uvc->video.ep->desc->wMaxPacketSize;
+>+	ctrl->bmFramingInfo =3D 3;
+>+	ctrl->bPreferedVersion =3D 1;
+>+	ctrl->bMaxVersion =3D 1;
+>+}
+>+
+>+static int uvc_events_process_data(struct uvc_device *uvc,
+>+				   struct usb_request *req)
+>+{
+>+	struct uvc_video *video =3D &uvc->video;
+>+	struct uvc_streaming_control *target;
+>+	struct uvc_streaming_control *ctrl;
+>+	struct uvcg_frame *uframe;
+>+	struct uvcg_format *uformat;
+>+
+>+	switch (video->control) {
+>+	case UVC_VS_PROBE_CONTROL:
+>+		pr_debug("setting probe control, length =3D %d\n", req->actual);
+>+		target =3D &video->probe;
+>+		break;
+>+
+>+	case UVC_VS_COMMIT_CONTROL:
+>+		pr_debug("setting commit control, length =3D %d\n", req->actual);
+>+		target =3D &video->commit;
+>+		break;
+>+
+>+	default:
+>+		pr_err("setting unknown control, length =3D %d\n", req->actual);
+>+		return -EOPNOTSUPP;
+>+	}
+>+
+>+	ctrl =3D (struct uvc_streaming_control *)req->buf;
+>+
+>+	uvc_fill_streaming_control(uvc, target, ctrl->bFormatIndex,
+>+			   ctrl->bFrameIndex, ctrl->dwFrameInterval);
+>+
+>+	if (video->control =3D=3D UVC_VS_COMMIT_CONTROL) {
+>+		uformat =3D find_format_by_index(uvc, target->bFormatIndex);
+>+		if (!uformat)
+>+			return -EINVAL;
+>+
+>+		uframe =3D find_frame_by_index(uvc, uformat, ctrl->bFrameIndex);
+>+		if (!uframe)
+>+			return -EINVAL;
+>+
+>+		spin_lock(&video->frame_lock);
+>+
+>+		video->cur_frame =3D uframe;
+>+		video->cur_format =3D uformat;
+>+		video->cur_ival =3D ctrl->dwFrameInterval;
 
-greg k-h
+I just realized that this is broken. It obviously should return the
+index for the dwFrameInterval.
+
+I prepared an helper find_ival_index and will rework it in the next
+round after some further review.
+
+>+
+>+		spin_unlock(&video->frame_lock);
+>+	}
+>+
+>+	return 0;
+>+}
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--OwLcNYc0lM97+oe1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmGazkEACgkQC+njFXoe
+LGRhWA//ao6gYM9ho4fSWe6H2gLScbTrafpX35H4/th5CHLi+oln5FXPgjLuu60V
+9IqEepkEJamZ5dGkXvNmsbVfCvYuyy6NapOuEmtG52o5iMyQhaYmuJICx5CW7Hm3
+1uKt6b2NpmBV/Li2iXaNhFiJhv86QPoyxB7YlFwFHUcvvlWXK3ccYFM62yIjz0Fe
+FgPrZJmZUBN0PjEa8k6qppsQmRMcaPxMfBOIIk6t7Aq4HmSgKRpU7711ToclwuN0
+uO+8Mij4AKIl0GFMVtvHHcX8pClwogslkRtqgbf+1wL8twd+7wTm8MrJ7NSi9eSg
+KpnSXk7ElX19ZHnbWT6ngMiUUrezJIeyS+Y7/8w3V08KjKbIUIU07AMBQ5kdrGvm
+2pGbSd45ziHutCq6sEyIp1OIyZrusZxZcbp+/PEyR2UHTzoHShf7oIAN0BTRegjM
+vVeHs7rYQh0mpxvbxWjt7IZRtsMzFMAm0UqVPduFeiMdi2d+2pzexg8uQUvKAe0e
+tHganfBFag/+ZNxPIf5O3KTGIZNL7qpXktMNkVFx8OPQBeaAr29tRV6K7GENGUbW
+lyaHP7dyuewfF0kvgJqjPljQ5mIRzHS5IgbtBdx84rpYXTbkA1xVJ/rfpvCiSKe0
+guJQ8gD5891qEDVcUzrGzLcxyI6QhHzwOcXwIogSDgAhsgUI5Nk=
+=KTll
+-----END PGP SIGNATURE-----
+
+--OwLcNYc0lM97+oe1--
