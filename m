@@ -2,89 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F5AC4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Nov 2021 16:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F7C0C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Nov 2021 18:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349127AbhKXQoz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Nov 2021 11:44:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349120AbhKXQoy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Nov 2021 11:44:54 -0500
-Received: from osmtp.xiscosoft.net (osmtp.xiscosoft.net [IPv6:2001:41d0:8:c16c::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A7C5C061574;
-        Wed, 24 Nov 2021 08:41:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=klondike.es;
-        s=xiscosoft_net; t=1637771665; x=1638981265;
-        bh=69cR8EmxUIp8O1+eoqqaplEdIJjLKathdpdTv4vwMQU=;
-        h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Language:
-         Content-Type:Content-Transfer-Encoding:From:Subject:To:Cc:Date:
-         Reply-To:Content-Type:Sender:Message-ID:References:In-Reply-To:
-         Content-Base:Content-Location:Content-features:Content-Disposition:
-         Content-Alternative:Content-MD5:Content-Duration:
-         Content-Transfer-Encoding:Content-Language:MIME-Version:Content-ID:
-         Content-Description:Autocrypt:List-Id:List-Help:List-Unsubscribe:
-         List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-         List-Archive:Original-Message-ID:Require-Recipient-Valid-Since:
-         Solicitation:Organization:Jabber-ID:Auto-Submitted;
-        b=CZfFa/vPrZCyOYOpCjXEjtE1rSUAR9SxfUZtvXFuoPlpz9MeJZxexC/zckyx71g5/
-         rcfQrPYFUdkpVvikty7jVXxSFKS6r/ewY/OBAx9q9eMZs1FGLC6R+vbsX0pE36r3pV
-         bACwLmUig+7egrN8r+u+4D6nlYSdXoEUwacwHnlJ+XnhrfHGsR79OmS4V8wt1BLOqu
-         YA5DQeziRa9+tB0AAoJ8vJuLVGblJLhSF5eshGHEXP45mS4ZRK1E9cTfigyDFyxNcH
-         /CeMiamT2Tmz0HUMlmjF8fjN0yjRUTBF9eJYgNzr8OraztlqYG+9zVQ5t4z76Z1cgy
-         b0PbyTdr2Tyog==
-Message-ID: <8d29b41b-3590-c4b0-a2f8-fa34063bafb3@klondike.es>
-Date:   Wed, 24 Nov 2021 17:34:23 +0100
+        id S241571AbhKXSJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Nov 2021 13:09:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58932 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351552AbhKXSJW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 24 Nov 2021 13:09:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C53416102A;
+        Wed, 24 Nov 2021 18:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1637777172;
+        bh=Yd2zzwjkxvXr2lz7EPUopzKeueXmqiiyttONU7uA5bk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N/+OaFVRWIpV6LXo1I7SGELZaYlpiLjirLRnT+ZyYu2G/Yus9a7W35hx56LKI3Zv7
+         LKifUznPip3eAMf8mAMUC9sYimLzzvVzzI11DxLiLIm6Dk5LnR+E1McWKSNiO04Z4j
+         KAwWKPwWp5v3/AT2etAmQMg+LcELtQb/krbPTjeOSw2CszZflAIA26sseo3jNdl1aN
+         oaohsFfgHxa9M15e7voCdFo/MmDjnZpc+lyzhEL1EhdgXSF0Ueh8Xk45O1jhc/YxoJ
+         T9oCwKUTS3STJUYvxGg3IunqKkvbMaoaUbWsCQiMb3nXyW7Ho9sNPWhDDAnrVB/Ntl
+         5Ldvn9pMepY8A==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mpweY-00017I-6K; Wed, 24 Nov 2021 19:05:54 +0100
+Date:   Wed, 24 Nov 2021 19:05:54 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Mingjie Zhang <superzmj@fibocom.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] USB: serial: option: add Fibocom FM101-GL variants
+Message-ID: <YZ5/AvKK6lPFo/vm@hovoldconsulting.com>
+References: <20211123133757.37475-1-superzmj@fibocom.com>
 MIME-Version: 1.0
-From:   "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
-Subject: [PATCH 0/2] Thunderbolt: allow vendor ID override for NVM programming
-To:     linux-usb@vger.kernel.org
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Rajmohan Mani <rajmohan.mani@intel.com>,
-        Mario.Limonciello@dell.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lukas Wunner <lukas@wunner.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Francisco Blas Izquierdo Riera (klondike)" <klondike@klondike.es>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211123133757.37475-1-superzmj@fibocom.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently, the vendor ID reported by the chipset is checked before to
-avoid accidentally programming devices from unsupported vendors with
-a different NVM structure.
+On Tue, Nov 23, 2021 at 09:37:57PM +0800, Mingjie Zhang wrote:
+> Update the USB serial option driver support for the Fibocom
+> FM101-GL Cat.6
+> LTE modules as there are actually several different variants.
+> - VID:PID 2cb7:01a2, FM101-GL are laptop M.2 cards (with
+>   MBIM interfaces for /Linux/Chrome OS)
+> - VID:PID 2cb7:01a4, FM101-GL for laptop debug M.2 cards(with adb
+>   interface for /Linux/Chrome OS)
+> 
+> 0x01a2: mbim, tty, tty, diag, gnss
+> 0x01a4: mbim, diag, tty, adb, gnss, gnss
+> 
+> Here are the outputs of lsusb -v and usb-devices:
 
-Certain Thunderbolt devices store the vendor ID in the NVM, therefore
-if the NVM has become corrrupted the device will report an invalid
-vendor ID and reflashing will be impossible on GNU/Linux even if the
-device can boot in safe mode.
+> Signed-off-by: Mingjie Zhang <superzmj@fibocom.com>
+> ---
+> Changes in v3:
+>   - Add the usb device infomation
+>   - Make the entry in sort order (VID,PID)
+> 
+> Changes in v2:
+>   - Add the description of the corresponding interface
+>   - Blacklist the adb interface
 
-Such devices can still be programmed just fine if the vendor ID check
-is overridden. Nevertheless, overriding these checks introduces the
-risk of damaging controllers from other manufacturers which is a
-clearly undesirable result.
+Now applied, thanks!
 
-Instead we allow the user to make a concious choice to override the
-vendor ID by passing it as a parameter to this module. Currently,
-this is done by expanding the condition to validate the vendor ID
-to also check this parameter's value but, if new NVM structures
-are added and a choice has to be made, the code should prefer this
-parameter over the harrdware reported one when making the choice.
-
-This patch also updates the Thunderbolt documentation to explain
-how this parameter works.
-
-root (2):
-thunderbolt: allow vendor ID override for NVM programming
-Documentation: explain how to override Thunderbolt Vendor ID
-
-Documentation/admin-guide/thunderbolt.rst | 10 ++++++++++
-drivers/thunderbolt/switch.c | 9 ++++++++-
-2 files changed, 18 insertions(+), 1 deletion(-)
+Johan
