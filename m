@@ -2,98 +2,67 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF975C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Nov 2021 14:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AF89C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Nov 2021 16:15:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355487AbhKYOlh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Nov 2021 09:41:37 -0500
-Received: from mga09.intel.com ([134.134.136.24]:2371 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1355690AbhKYOjg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Nov 2021 09:39:36 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10178"; a="235345424"
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
-   d="scan'208";a="235345424"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2021 06:32:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,263,1631602800"; 
-   d="scan'208";a="741301397"
-Received: from ccdjpclinux26.jer.intel.com ([10.12.48.253])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2021 06:32:38 -0800
-From:   Gil Fine <gil.fine@intel.com>
-To:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
-Cc:     gil.fine@intel.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: [PATCH 7/7] thunderbolt: Add kernel param for CLx disabling
-Date:   Thu, 25 Nov 2021 16:38:21 +0200
-Message-Id: <20211125143821.16558-8-gil.fine@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211125143821.16558-1-gil.fine@intel.com>
-References: <20211125143821.16558-1-gil.fine@intel.com>
+        id S1356333AbhKYQSf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Nov 2021 11:18:35 -0500
+Received: from fieber.vanmierlo.com ([84.243.197.177]:57106 "EHLO
+        kerio9.vanmierlo.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S233555AbhKYQQe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Nov 2021 11:16:34 -0500
+X-Greylist: delayed 1819 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Nov 2021 11:16:31 EST
+X-Footer: dmFubWllcmxvLmNvbQ==
+Received: from roundcube.vanmierlo.com ([192.168.37.37])
+        (authenticated user m.brock@vanmierlo.com)
+        by kerio9.vanmierlo.com (Kerio Connect 9.3.1 patch 1) with ESMTPA;
+        Thu, 25 Nov 2021 16:42:27 +0100
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 25 Nov 2021 16:42:27 +0100
+From:   Maarten Brock <m.brock@vanmierlo.com>
+To:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: CP2105 gives kernel error -22 when in modem mode
+Message-ID: <5eb560c81d2ea1a2b4602a92d9f48a89@vanmierlo.com>
+X-Sender: m.brock@vanmierlo.com
+User-Agent: Roundcube Webmail/1.3.3
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a module parameter that allows user to completely disable CLx
-functionality in case problems are found.
+Hello all,
 
-Signed-off-by: Gil Fine <gil.fine@intel.com>
----
- drivers/thunderbolt/switch.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+When a uart of the CP2105 USB-serial chip is programmed to be in modem 
+mode, all its gpio pins are in alternate use and none are available for 
+gpio. Still the cp210x driver tries to add a gpiochip unconditionally, 
+which results in an error.
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 945672b8fa25..89868632932d 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -13,6 +13,7 @@
- #include <linux/sched/signal.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
-+#include <linux/module.h>
- 
- #include "tb.h"
- 
-@@ -26,6 +27,10 @@ struct nvm_auth_status {
- 	u32 status;
- };
- 
-+static bool clx_enabled = true;
-+module_param_named(clx, clx_enabled, bool, 0444);
-+MODULE_PARM_DESC(clx, "allow CLx on the High-Speed link (default: true)");
-+
- /*
-  * Hold NVM authentication failure status per switch This information
-  * needs to stay around even when the switch gets power cycled so we
-@@ -3478,6 +3483,9 @@ int tb_switch_enable_clx(struct tb_switch *sw, enum tb_clx clx)
- {
- 	struct tb_switch *root_sw = sw->tb->root_switch;
- 
-+	if (!clx_enabled)
+> cp210x 1-1.4.4:1.0: cp210x converter detected
+> usb 1-1.4.4: cp210x converter now attached to ttyUSB0
+> cp210x 1-1.4.4:1.1: cp210x converter detected
+> gpio gpiochip2: (cp210x): tried to insert a GPIO chip with zero lines
+> gpiochip_add_data_with_key: GPIOs 0..-1 (cp210x) failed to register, 
+> -22
+> cp210x 1-1.4.4:1.1: GPIO initialisation failed: -22
+> usb 1-1.4.4: cp210x converter now attached to ttyUSB1
+
+I propose to add something like the following to cp210x_gpio_init
+
++	unsigned long valid_mask, altfunc_mask;
+...
++	altfunc_mask = priv->gpio_altfunc;
++	bitmap_complement(&valid_mask, &altfunc_mask, priv->gc.ngpio);
++	if (bitmap_empty(&valid_mask, priv->gc.ngpio))
 +		return 0;
 +
- 	/* CLx is not enabled and validated on USB4 platforms before ADL */
- 	if (root_sw->generation < 4 ||
- 	    tb_switch_is_tiger_lake(root_sw))
-@@ -3538,6 +3546,9 @@ static int tb_switch_disable_cl0s(struct tb_switch *sw)
-  */
- int tb_switch_disable_clx(struct tb_switch *sw, enum tb_clx clx)
- {
-+	if (!clx_enabled)
-+		return 0;
-+
- 	switch (clx) {
- 	case TB_CL0S:
- 		return tb_switch_disable_cl0s(sw);
--- 
-2.17.1
+  	priv->gc.label = "cp210x";
+  	priv->gc.request = cp210x_gpio_request;
+  	priv->gc.get_direction = cp210x_gpio_direction_get;
 
----------------------------------------------------------------------
-Intel Israel (74) Limited
+I can write a proper patch, but am unsure if and what the Fixes tag 
+should be.
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+Maarten
 
