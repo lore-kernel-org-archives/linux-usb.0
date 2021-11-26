@@ -2,197 +2,170 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC63EC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:22:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0009C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240098AbhKZLZ1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 06:25:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240519AbhKZLXZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:23:25 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E7DC08EC23;
-        Fri, 26 Nov 2021 02:36:46 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 15A131F467C2
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637923005; bh=p544riZzn0zdZeLNWHq9SL3/SLvcyH1A0FpJe0Rsn+0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=hjtQtps9kXNuPLBmlY2WeaWZATca4V3B6fIKceWVsKTCWNsruDy5Oysk3SGd0tIMq
-         G1/tIKNrUy1kjGdscl7zaxgTsHv/1JCQkkZn2/oBFnSpaiIVHpJQE0Xog/vbubM6mi
-         +b2548o880QSYR+qBBGicZT0dAoFxfKe6VoXASBgCQPJG2MMVWEfTnda53DDkrAB6s
-         h3IMCa41Asvauoym98hreN7JIr2go+Ip7BFaWIDHyC9yN78J9W7sejMNRZ4hF7V9OF
-         H4/e1y+6pHJ8vKAS8zESl1TLlyn1UTlCxoupKazp/sfTtk8Zl3oEjKG4b0pMWfETNI
-         DijXYTGWQ/bCg==
-Subject: Re: [PATCH 3/3] arm64: dts: mediatek: Add USB xHCI controller for
- mt8195
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
- <20211102060049.1843-3-chunfeng.yun@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <9db3cb96-ac67-151d-5674-b56c5abbe348@collabora.com>
-Date:   Fri, 26 Nov 2021 11:36:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        id S1376939AbhKZLy6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 06:54:58 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:38388
+        "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1346898AbhKZLw5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:52:57 -0500
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CBF6C3F32E
+        for <linux-usb@vger.kernel.org>; Fri, 26 Nov 2021 11:49:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1637927380;
+        bh=tBgoSFpQX99Leb6xXitOBQwcXI6bgAJ6FI0dUd+cmr8=;
+        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+         To:Cc:Content-Type;
+        b=BxndOUhM0Pc3uxtbkEtZxjKl2JIlcs/l4SRQXyqXnsCBG/pEWz6AEg/k9aqn3hjsZ
+         luD40qRk7cWU/RBMjWMZBoBR6q77Ypb5mqUS7nqa5DYMa0LgZsBbHpvHgh22qz1dJk
+         0J029dbzFKKLgzohwgRAXT9KQr3J2uUbbgJ69b8an2QTNKP61rg94uvhyMaqsi3bXd
+         l4iVIXWOPAYBO/6cPS40ab1mcaNWFwyp5ErIGP8MW/KtvdyGGJOqhJIORQTenBtHgi
+         Ui91czS+8mtas+BcVznCqHPh9OIZBL1F25D42bU0u9hyhFTlKlrgEoCAryNALfVBYk
+         WBvcsJjpUgnLg==
+Received: by mail-oo1-f70.google.com with SMTP id t199-20020a4a3ed0000000b002c296d691c4so5629281oot.8
+        for <linux-usb@vger.kernel.org>; Fri, 26 Nov 2021 03:49:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=tBgoSFpQX99Leb6xXitOBQwcXI6bgAJ6FI0dUd+cmr8=;
+        b=yMbbmXkxIo4QFKZP/gxFphEjMlQ86sjC8iHqSZPJYvcBGZqu+rWyu/fLLcdt9AjJk7
+         Wk3YItWVyqjR5TKxGcbZ+iwKJ7jRSNDYS8M29UMnLryubItMOFLKNOSwbvGea6HKwdP1
+         q8EmTUZJP3zcgS8VuTClbcYn7C9SaFFAEWyDUO7kc9huuDuh8Vw5hEDuJw9renKGYksE
+         hrR1vQ6+Dxh24D68tIp901Ale6CbjqEzJiBlmPoiakgIFddnrRKMte0nlm7KL+XTHjJH
+         ly5faRthwb4p43DUyecs0ZXKZy2vwpsq4r4P7VUQLlLOyPnz1gOaKs8POs8G7j8a777a
+         Bvhg==
+X-Gm-Message-State: AOAM530hhocsyTomogYok5+XUgy4rV0kinsdh1J1gyh1SV2e2q7GFfOw
+        EsLUPX85DnYKfUrPNMxkgI2YS1sT6ZBe4M8DZgeL4CL24Wd+WOmbEnxOo0Z1QWq4tsTxxYylL7F
+        Qj8Li+t0HbsvvWzQV+Ak2McL2SWnt+bns106fKpyjYm3mwyk4tZJQaA==
+X-Received: by 2002:a05:6808:199c:: with SMTP id bj28mr23168900oib.98.1637927379630;
+        Fri, 26 Nov 2021 03:49:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwea8JDby1x5TQNnw270DFr+kvyjl8O1BHn6wP6utlk8y4YFpkUISyDUmWiVxf97p13uwjBXLDOUA7B90HuGYY=
+X-Received: by 2002:a05:6808:199c:: with SMTP id bj28mr23168869oib.98.1637927379309;
+ Fri, 26 Nov 2021 03:49:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211102060049.1843-3-chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20211126032622.1101448-1-kai.heng.feng@canonical.com> <YaCEUoB7C7hUiREv@kroah.com>
+In-Reply-To: <YaCEUoB7C7hUiREv@kroah.com>
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+Date:   Fri, 26 Nov 2021 19:49:27 +0800
+Message-ID: <CAAd53p4SzR8f36uAAvRc2qe50RMDFytSOUEJ+WKY8wQJi=a1yQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: core: Avoid doing warm reset on disconnect event
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stern@rowland.harvard.edu, mathias.nyman@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Bixuan Cui <cuibixuan@huawei.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Chris Chiu <chris.chiu@canonical.com>,
+        Rajat Jain <rajatja@google.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Il 02/11/21 07:00, Chunfeng Yun ha scritto:
-> Add all four USB xHCI controllers for MT8195
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
->   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 79 ++++++++++++++++++++++++
->   1 file changed, 79 insertions(+)
-> 
+On Fri, Nov 26, 2021 at 2:53 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Nov 26, 2021 at 11:26:21AM +0800, Kai-Heng Feng wrote:
+> > Unplugging USB device may cause an incorrect warm reset loop:
+> > [  143.039019] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, po=
+rtsc: 0x4202c0
+> > [  143.039025] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2=
+ port polling.
+> > [  143.039051] hub 2-0:1.0: state 7 ports 10 chg 0000 evt 0008
+> > [  143.039058] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x4202c=
+0, return 0x4102c0
+> > [  143.039092] xhci_hcd 0000:00:14.0: clear port3 connect change, ports=
+c: 0x4002c0
+> > [  143.039096] usb usb2-port3: link state change
+> > [  143.039099] xhci_hcd 0000:00:14.0: clear port3 link state change, po=
+rtsc: 0x2c0
+> > [  143.039101] usb usb2-port3: do warm reset
+> > [  143.096736] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2b0, =
+return 0x2b0
+> > [  143.096751] usb usb2-port3: not warm reset yet, waiting 50ms
+> > [  143.131500] xhci_hcd 0000:00:14.0: Can't queue urb, port error, link=
+ inactive
+> > [  143.138260] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, po=
+rtsc: 0x2802a0
+> > [  143.138263] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2=
+ port polling.
+> > [  143.160756] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2802a=
+0, return 0x3002a0
+> > [  143.160798] usb usb2-port3: not warm reset yet, waiting 200ms
+> >
+> > The warm reset is due to its PLS is in eSS.Inactive state. However, USB
+> > 3.2 spec table 10-13 mentions "Ports can be disabled by either a fault
+> > condition (disconnect event or other fault condition)", xHCI 1.2 spec
+> > table 5-27 also states that "This flag shall automatically be cleared t=
+o
+> > =E2=80=980=E2=80=99 by a disconnect event or other fault condition." on=
+ PED.
+> >
+> > So use CSC =3D 0 and PED =3D 0 as indication that device is disconnecti=
+ng to
+> > avoid doing warm reset.
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> > ---
+> >  drivers/usb/core/hub.c | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 86658a81d2844..abd5a83d194b0 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -5530,6 +5530,7 @@ static void port_event(struct usb_hub *hub, int p=
+ort1)
+> >               __must_hold(&port_dev->status_lock)
+> >  {
+> >       int connect_change;
+> > +     int disconnect =3D 0;
+>
+> bool?
 
-Hello!
-Thanks for the patch! However, there is something to improve...
+Will change.
 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> index a59c0e9d1fc2..263eebfd2ea1 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-> @@ -8,6 +8,7 @@
->   #include <dt-bindings/clock/mt8195-clk.h>
->   #include <dt-bindings/interrupt-controller/arm-gic.h>
->   #include <dt-bindings/interrupt-controller/irq.h>
-> +#include <dt-bindings/phy/phy.h>
->   #include <dt-bindings/power/mt8195-power.h>
->   
->   / {
-> @@ -823,6 +824,26 @@
->   			status = "disabled";
->   		};
->   
-> +		xhci0: usb@11200000 {
-> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
-> +			reg = <0 0x11200000 0 0x1000>, <0 0x11203e00 0 0x0100>;
-> +			reg-names = "mac", "ippc";
-> +			interrupts = <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH 0>;
+>
+> >       struct usb_port *port_dev =3D hub->ports[port1 - 1];
+> >       struct usb_device *udev =3D port_dev->child;
+> >       struct usb_device *hdev =3D hub->hdev;
+> > @@ -5545,6 +5546,9 @@ static void port_event(struct usb_hub *hub, int p=
+ort1)
+> >       if (portchange & USB_PORT_STAT_C_CONNECTION) {
+> >               usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNE=
+CTION);
+> >               connect_change =3D 1;
+> > +             if (!(portstatus & USB_PORT_STAT_CONNECTION) &&
+> > +                 !(portstatus & USB_PORT_STAT_ENABLE))
+> > +                     disconnect =3D 1;
+> >       }
+> >
+> >       if (portchange & USB_PORT_STAT_C_ENABLE) {
+> > @@ -5613,7 +5617,7 @@ static void port_event(struct usb_hub *hub, int p=
+ort1)
+> >        * Warm reset a USB3 protocol port if it's in
+> >        * SS.Inactive state.
+> >        */
+> > -     if (hub_port_warm_reset_required(hub, port1, portstatus)) {
+> > +     if (hub_port_warm_reset_required(hub, port1, portstatus) && !disc=
+onnect) {
+>
+> Why is this problem just showing up now?  What commit caused this
+> regression?
 
-Here, and on the other xhci nodes (from what I know, xhci{0,1,3}), you should use
-interrupts-extended and declare the wakeup interrupt on pio.
+It's not a regression, the issue happens on all kernels I tried.
+port_event() stays unchanged for a while.
 
-			interrupts-extended = <&gic GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH 0>,
+Kai-Heng
 
-					      <&pio 219 IRQ_TYPE_LEVEL_LOW>;
-
-			interrupt-names = "host", "wakeup";
-
-
-> +			phys = <&u2port0 PHY_TYPE_USB2>, <&u3port0 PHY_TYPE_USB3>;
-> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP>,
-> +					  <&topckgen CLK_TOP_SSUSB_XHCI>;
-> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
-> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
-> +			clocks = <&infracfg_ao CLK_INFRA_AO_SSUSB>,
-> +				 <&infracfg_ao CLK_INFRA_AO_SSUSB_XHCI>,
-> +				 <&topckgen CLK_TOP_SSUSB_REF>,
-> +				 <&apmixedsys CLK_APMIXED_USB1PLL>;
-> +			clock-names = "sys_ck", "xhci_ck", "ref_ck", "mcu_ck";
-> +			mediatek,syscon-wakeup = <&pericfg 0x400 103>;
-> +			wakeup-source;
-> +			status = "disabled";
-> +		};
-> +
->   		mmc0: mmc@11230000 {
->   			compatible = "mediatek,mt8195-mmc", "mediatek,mt8192-mmc";
->   			reg = <0 0x11230000 0 0x10000>,
-> @@ -843,6 +864,64 @@
->   			status = "disabled";
->   		};
->   
-> +		xhci1: usb@11290000 {
-> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
-> +			reg = <0 0x11290000 0 0x1000>, <0 0x11293e00 0 0x0100>;
-> +			reg-names = "mac", "ippc";
-> +			interrupts = <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH 0>;
-
-			interrupts-extended = <&gic GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH 0>,
-
-					      <&pio 218 IRQ_TYPE_LEVEL_LOW>;
-
-> +			phys = <&u2port1 PHY_TYPE_USB2>;
-> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_1P>,
-> +					  <&topckgen CLK_TOP_SSUSB_XHCI_1P>;
-> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
-> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
-> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_1P_BUS>,
-> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_1P_XHCI>,
-> +				 <&topckgen CLK_TOP_SSUSB_P1_REF>,
-> +				 <&apmixedsys CLK_APMIXED_USB1PLL>;
-> +			clock-names = "sys_ck", "xhci_ck", "ref_ck", "mcu_ck";
-> +			mediatek,syscon-wakeup = <&pericfg 0x400 104>;
-> +			wakeup-source;
-> +			status = "disabled";
-> +		};
-> +
-> +		xhci2: usb@112a0000 {
-> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
-> +			reg = <0 0x112a0000 0 0x1000>, <0 0x112a3e00 0 0x0100>;
-> +			reg-names = "mac", "ippc";
-> +			interrupts = <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			phys = <&u2port2 PHY_TYPE_USB2>;
-> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_2P>,
-> +					  <&topckgen CLK_TOP_SSUSB_XHCI_2P>;
-> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
-> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
-> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_2P_BUS>,
-> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_2P_XHCI>,
-> +				 <&topckgen CLK_TOP_SSUSB_P2_REF>;
-> +			clock-names = "sys_ck", "xhci_ck", "ref_ck";
-> +			mediatek,syscon-wakeup = <&pericfg 0x400 105>;
-> +			status = "disabled";
-> +		};
-> +
-> +		xhci3: usb@112b0000 {
-> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
-> +			reg = <0 0x112b0000 0 0x1000>, <0 0x112b3e00 0 0x0100>;
-> +			reg-names = "mac", "ippc";
-> +			interrupts = <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH 0>;
-
-			interrupts-extended = <&gic GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH 0>,
-
-					      <&pio 221 IRQ_TYPE_LEVEL_LOW>;
-
-			interrupts-names = "host", "wakeup";
-
-> +			phys = <&u2port3 PHY_TYPE_USB2>;
-> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_3P>,
-> +					  <&topckgen CLK_TOP_SSUSB_XHCI_3P>;
-> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
-> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
-> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_3P_BUS>,
-> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_3P_XHCI>,
-> +				 <&topckgen CLK_TOP_SSUSB_P3_REF>;
-> +			clock-names = "sys_ck", "xhci_ck", "ref_ck";
-> +			mediatek,syscon-wakeup = <&pericfg 0x400 106>;
-> +			wakeup-source;
-> +			usb2-lpm-disable;
-> +			status = "disabled";
-> +		};
-> +
->   		nor_flash: nor@1132c000 {
->   			compatible = "mediatek,mt8195-nor", "mediatek,mt8173-nor";
->   			reg = <0 0x1132c000 0 0x1000>;
-> 
-
-Regards,
-- Angelo
+>
+> thanks,
+>
+> greg k-h
