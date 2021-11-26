@@ -2,115 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9415C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11EB9C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 12:25:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377170AbhKZMC5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 07:02:57 -0500
-Received: from smtp-relay-canonical-0.canonical.com ([185.125.188.120]:37260
-        "EHLO smtp-relay-canonical-0.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1346217AbhKZMA5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 07:00:57 -0500
-Received: from localhost.localdomain (unknown [10.101.196.174])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 0D4683F1C0;
-        Fri, 26 Nov 2021 11:57:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1637927862;
-        bh=eV+QmyQswD4I2BWptekGk432GeDddqsdJec6l2n5sQw=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
-        b=LE2OtPLbKlcRrlT437XxQVG215Tract7e+8qbkDPxrZscZJtSKTR78HTm1qZ0Nkl6
-         sRr7cnAHOLYJ6AOKQYZH3ZK1D4D0hD2xnZX25zG/kZyUOUl0hRMo9G3Ey1pdR6E1vJ
-         NW5Eps1AD9AxU1AMIQqg9STN3uFzvwHNMp4JcyFooI8+pdgd0wMygl30w3JzCnhyOK
-         MCn2mPcojTovdO1FtOLsI5LQ4ba6mmBuijYpLb0/cTsCZUSuuBEN3yRpBSUZNQqdHD
-         JpcAkZsKR1U1sxUxBydfIHuuaC13sT8CYQ3eaLenGt7FiaKJQ4H7r1/J55IdVvDNzs
-         3fL/MxQd7jCiQ==
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     gregkh@linuxfoundation.org
-Cc:     stern@rowland.harvard.edu, mathias.nyman@linux.intel.com,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Andrew Lunn <andrew@lunn.ch>, Rajat Jain <rajatja@google.com>,
-        Chris Chiu <chris.chiu@canonical.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: core: Avoid doing warm reset on disconnect event
-Date:   Fri, 26 Nov 2021 19:56:51 +0800
-Message-Id: <20211126115652.1134230-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.32.0
+        id S232042AbhKZM2n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 07:28:43 -0500
+Received: from mga04.intel.com ([192.55.52.120]:43700 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233247AbhKZM0n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Nov 2021 07:26:43 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10179"; a="234388664"
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="234388664"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2021 04:22:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,265,1631602800"; 
+   d="scan'208";a="510623404"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
+  by orsmga008.jf.intel.com with ESMTP; 26 Nov 2021 04:22:16 -0800
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/1] xhci fix or usb-linus
+Date:   Fri, 26 Nov 2021 14:23:39 +0200
+Message-Id: <20211126122340.1193239-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Unplugging USB device may cause an incorrect warm reset loop:
-[  143.039019] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x4202c0
-[  143.039025] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
-[  143.039051] hub 2-0:1.0: state 7 ports 10 chg 0000 evt 0008
-[  143.039058] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x4202c0, return 0x4102c0
-[  143.039092] xhci_hcd 0000:00:14.0: clear port3 connect change, portsc: 0x4002c0
-[  143.039096] usb usb2-port3: link state change
-[  143.039099] xhci_hcd 0000:00:14.0: clear port3 link state change, portsc: 0x2c0
-[  143.039101] usb usb2-port3: do warm reset
-[  143.096736] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2b0, return 0x2b0
-[  143.096751] usb usb2-port3: not warm reset yet, waiting 50ms
-[  143.131500] xhci_hcd 0000:00:14.0: Can't queue urb, port error, link inactive
-[  143.138260] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x2802a0
-[  143.138263] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
-[  143.160756] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2802a0, return 0x3002a0
-[  143.160798] usb usb2-port3: not warm reset yet, waiting 200ms
+Hi Greg
 
-The warm reset is due to its PLS is in eSS.Inactive state. However, USB
-3.2 spec table 10-13 mentions "Ports can be disabled by either a fault
-condition (disconnect event or other fault condition)", xHCI 1.2 spec
-table 5-27 also states that "This flag shall automatically be cleared to
-‘0’ by a disconnect event or other fault condition." on PED.
+One small fix for usb-linus that has been pending for a while.
+Makes sure the 64 bit xhci command ring dequeue pointer stays valid
 
-So use CSC = 0 and PED = 0 as indication that device is disconnecting to
-avoid doing warm reset.
+-Mathias
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v2:
- - Change the variable type to bool.
+Mathias Nyman (1):
+  xhci: Fix commad ring abort, write all 64 bits to CRCR register.
 
- drivers/usb/core/hub.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci-ring.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index a9a04ea967019..4f081df70ecf2 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -5564,6 +5564,7 @@ static void port_event(struct usb_hub *hub, int port1)
- 		__must_hold(&port_dev->status_lock)
- {
- 	int connect_change;
-+	bool disconnect = false;
- 	struct usb_port *port_dev = hub->ports[port1 - 1];
- 	struct usb_device *udev = port_dev->child;
- 	struct usb_device *hdev = hub->hdev;
-@@ -5579,6 +5580,9 @@ static void port_event(struct usb_hub *hub, int port1)
- 	if (portchange & USB_PORT_STAT_C_CONNECTION) {
- 		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
- 		connect_change = 1;
-+		if (!(portstatus & USB_PORT_STAT_CONNECTION) &&
-+		    !(portstatus & USB_PORT_STAT_ENABLE))
-+			disconnect = true;
- 	}
- 
- 	if (portchange & USB_PORT_STAT_C_ENABLE) {
-@@ -5647,7 +5651,7 @@ static void port_event(struct usb_hub *hub, int port1)
- 	 * Warm reset a USB3 protocol port if it's in
- 	 * SS.Inactive state.
- 	 */
--	if (hub_port_warm_reset_required(hub, port1, portstatus)) {
-+	if (hub_port_warm_reset_required(hub, port1, portstatus) && !disconnect) {
- 		dev_dbg(&port_dev->dev, "do warm reset\n");
- 		if (!udev || !(portstatus & USB_PORT_STAT_CONNECTION)
- 				|| udev->state == USB_STATE_NOTATTACHED) {
 -- 
-2.32.0
+2.25.1
 
