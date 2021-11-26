@@ -2,93 +2,105 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE27FC433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 12:36:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 684F6C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 12:40:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377611AbhKZMjj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 07:39:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235185AbhKZMhi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 07:37:38 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1BD0C08EAEE
-        for <linux-usb@vger.kernel.org>; Fri, 26 Nov 2021 03:58:49 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id y7so6592666plp.0
-        for <linux-usb@vger.kernel.org>; Fri, 26 Nov 2021 03:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w3TeLcsAA8MSerIRK90mCY/GETm9H7iaGcCMB+3Akr0=;
-        b=LePXyX/P8fz5hHNibVVZB2r5tP2GuaCIlvDnec3AxoKvNQ+JZH7YatTggVHFQUmFeD
-         gdsmNb+e77CQtbHoszkT6g1OQWFp1rb7X/FVXVQ8DZYN6qdu4rLJNzZRl7YYAr4xbCcz
-         pFmup+uH0PnbCtcSncZ0lQVe/bDa+BsdiW6NV0+Ra/XuxljUrPeFH1GEpxalxRo8xegY
-         znELRTjAGsaHK4vdQ4gzWUFfNs1MdVxbHuki2Xo1bpAteVz7yWQRykvRHXW2pVCCbZ3x
-         gAqpCRYY/9ND/oH4rUhQZhdT0whr88/gG+cBZelmcdzeSEJQ8BMQx4pOQxKQUhJWaqdO
-         cltw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w3TeLcsAA8MSerIRK90mCY/GETm9H7iaGcCMB+3Akr0=;
-        b=2jU1/x3IYUVNeMmC5bHA0W66MTAUDK2pNiCU1zgdmGWoHSAZcTtUqhd5Cxawjy3qmu
-         VqoDVjBjMZCBfP316BRncnEb3vySMvcZElr1MR2HxWwBVUDG2x/80vi1WiqC+NIqi+mQ
-         O1YZTqa2EEb8F0Oejy34QazEArj9ac6nKAlvRAHbqdWWV01AEfQW1yVgdZdjRQdsr8v8
-         zt0/mWzqZAnj+LcTPiFEfXsGzqBdfpsUmOFfAvHFjcRXtVq8KLhH3bix6BdMeokljDns
-         +NDrVksR5dXoWvgczZnXg4G+kRRN7otlMjHA9cSuxpCdx3vny3iLpw18GZeR9jKRyvH+
-         amXA==
-X-Gm-Message-State: AOAM533v1fAFzQviDpNHBFh6ZCRN17jpvnIThXuV5QqNraSszraViOC5
-        WQDILKQ3/05LpmeCZfG+pR+xGsmLA3lIRvuRPNI=
-X-Google-Smtp-Source: ABdhPJzkdc0EcCxuLAfsqGiqaoeDNx2hDiDZ3H9tr3ypEGvXwiIYa63TSv/KEbwkdzgDMONW+e18Myony5swDp/M0S4=
-X-Received: by 2002:a17:90b:1bcf:: with SMTP id oa15mr15198809pjb.161.1637927929439;
- Fri, 26 Nov 2021 03:58:49 -0800 (PST)
+        id S1377502AbhKZMnx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 07:43:53 -0500
+Received: from fieber.vanmierlo.com ([84.243.197.177]:37831 "EHLO
+        kerio9.vanmierlo.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229760AbhKZMlw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 07:41:52 -0500
+X-Footer: dmFubWllcmxvLmNvbQ==
+Received: from roundcube.vanmierlo.com ([192.168.37.37])
+        (authenticated user m.brock@vanmierlo.com)
+        by kerio9.vanmierlo.com (Kerio Connect 9.3.1 patch 1) with ESMTPA;
+        Fri, 26 Nov 2021 13:37:55 +0100
 MIME-Version: 1.0
-References: <20211125143821.16558-1-gil.fine@intel.com> <20211125143821.16558-2-gil.fine@intel.com>
-In-Reply-To: <20211125143821.16558-2-gil.fine@intel.com>
-From:   Yehezkel Bernat <yehezkelshb@gmail.com>
-Date:   Fri, 26 Nov 2021 13:58:33 +0200
-Message-ID: <CA+CmpXuK0Z_cZFYJ9JwqqY_kjWXm9L5_jOZ1=S2ZR1buycWqFw@mail.gmail.com>
-Subject: Re: [PATCH 1/7] thunderbolt: Add TMU unidirectional mode
-To:     Gil Fine <gil.fine@intel.com>
-Cc:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Lukas Wunner <lukas@wunner.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 26 Nov 2021 13:37:55 +0100
+From:   Maarten Brock <m.brock@vanmierlo.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Karoly Pados <pados@pados.hu>
+Subject: Re: [PATCH] USB: serial: cp210x: fix CP2105 GPIO registration
+In-Reply-To: <20211126094348.31698-1-johan@kernel.org>
+References: <20211126094348.31698-1-johan@kernel.org>
+Message-ID: <bbc0c26db175ec8ec6c10cc695c45f6c@vanmierlo.com>
+X-Sender: m.brock@vanmierlo.com
+User-Agent: Roundcube Webmail/1.3.3
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> index 3fae40670b72..0205361ff89a 100644
-> --- a/drivers/thunderbolt/tb.h
-> +++ b/drivers/thunderbolt/tb.h
-> @@ -89,15 +89,24 @@ enum tb_switch_tmu_rate {
->   * @cap: Offset to the TMU capability (%0 if not found)
->   * @has_ucap: Does the switch support uni-directional mode
->   * @rate: TMU refresh rate related to upstream switch. In case of root
-> - *       switch this holds the domain rate.
-> + *       switch this holds the domain rate. Reflects the HW setting.
->   * @unidirectional: Is the TMU in uni-directional or bi-directional mode
-> - *                 related to upstream switch. Don't case for root switch.
-> + *                 related to upstream switch. Don't care for root switch.
-> + *                 Reflects the HW setting.
-> + * @rate_request: TMU new refresh rate related to upstream switch that is
-> + *               requested to be set. In case of root switch, this holds
-> + *               the new domain rate that is requested to be set.
-> + * @unidirect_request: Is the new TMU mode: uni-directional or bi-directional
-> + *                    that is requested to be set. Related to upstream switch.
-> + *                    Don't care for root switch.
->   */
->  struct tb_switch_tmu {
->         int cap;
->         bool has_ucap;
->         enum tb_switch_tmu_rate rate;
->         bool unidirectional;
-> +       bool unidirect_request;
-> +       enum tb_switch_tmu_rate rate_request;
->  };
+On 2021-11-26 10:43, Johan Hovold wrote:
+> When generalising GPIO support and adding support for CP2102N, the GPIO
+> registration for some CP2105 devices accidentally broke. Specifically,
+> when all the pins of a port are in "modem" mode, and thus unavailable
+> for GPIO use, the GPIO chip would now be registered without having
+> initialised the number of GPIO lines. This would in turn be rejected by
+> gpiolib and some errors messages would be printed (but importantly 
+> probe
+> would still succeed).
+> 
+> Fix this by initialising the number of GPIO lines before registering 
+> the
+> GPIO chip.
+> 
+> Note that as for the other device types, and as when all CP2105 pins 
+> are
+> muxed for LED function, the GPIO chip is registered also when no pins
+> are available for GPIO use.
+> 
+> Reported-by: Maarten Brock <m.brock@vanmierlo.com>
+> Link: 
+> https://lore.kernel.org/r/5eb560c81d2ea1a2b4602a92d9f48a89@vanmierlo.com
+> Fixes: c8acfe0aadbe ("USB: serial: cp210x: implement GPIO support for 
+> CP2102N")
+> Cc: stable@vger.kernel.org      # 4.19
+> Cc: Karoly Pados <pados@pados.hu>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/usb/serial/cp210x.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+> index 7705328034ca..8a60c0d56863 100644
+> --- a/drivers/usb/serial/cp210x.c
+> +++ b/drivers/usb/serial/cp210x.c
+> @@ -1635,6 +1635,8 @@ static int cp2105_gpioconf_init(struct usb_serial 
+> *serial)
+> 
+>  	/*  2 banks of GPIO - One for the pins taken from each serial port */
+>  	if (intf_num == 0) {
+> +		priv->gc.ngpio = 2;
+> +
+>  		if (mode.eci == CP210X_PIN_MODE_MODEM) {
+>  			/* mark all GPIOs of this interface as reserved */
+>  			priv->gpio_altfunc = 0xff;
+> @@ -1645,8 +1647,9 @@ static int cp2105_gpioconf_init(struct usb_serial 
+> *serial)
+>  		priv->gpio_pushpull = (u8)((le16_to_cpu(config.gpio_mode) &
+>  						CP210X_ECI_GPIO_MODE_MASK) >>
+>  						CP210X_ECI_GPIO_MODE_OFFSET);
+> -		priv->gc.ngpio = 2;
+>  	} else if (intf_num == 1) {
+> +		priv->gc.ngpio = 3;
+> +
+>  		if (mode.sci == CP210X_PIN_MODE_MODEM) {
+>  			/* mark all GPIOs of this interface as reserved */
+>  			priv->gpio_altfunc = 0xff;
+> @@ -1657,7 +1660,6 @@ static int cp2105_gpioconf_init(struct usb_serial 
+> *serial)
+>  		priv->gpio_pushpull = (u8)((le16_to_cpu(config.gpio_mode) &
+>  						CP210X_SCI_GPIO_MODE_MASK) >>
+>  						CP210X_SCI_GPIO_MODE_OFFSET);
+> -		priv->gc.ngpio = 3;
+>  	} else {
+>  		return -ENODEV;
+>  	}
 
-Match the order of the documentation and the struct members?
+Tested-by: Maarten Brock <m.brock@vanmierlo.com>
+
