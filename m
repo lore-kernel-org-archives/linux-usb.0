@@ -2,160 +2,197 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DECAC433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC63EC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:22:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237506AbhKZLPe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 06:15:34 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:36325 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230375AbhKZLNd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:13:33 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AQAjlvc048315;
-        Fri, 26 Nov 2021 18:45:47 +0800 (GMT-8)
-        (envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Nov
- 2021 19:10:03 +0800
-From:   Neal Liu <neal_liu@aspeedtech.com>
-To:     Felipe Balbi <balbi@kernel.org>,
+        id S240098AbhKZLZ1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 06:25:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50858 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S240519AbhKZLXZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:23:25 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6E7DC08EC23;
+        Fri, 26 Nov 2021 02:36:46 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 15A131F467C2
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1637923005; bh=p544riZzn0zdZeLNWHq9SL3/SLvcyH1A0FpJe0Rsn+0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=hjtQtps9kXNuPLBmlY2WeaWZATca4V3B6fIKceWVsKTCWNsruDy5Oysk3SGd0tIMq
+         G1/tIKNrUy1kjGdscl7zaxgTsHv/1JCQkkZn2/oBFnSpaiIVHpJQE0Xog/vbubM6mi
+         +b2548o880QSYR+qBBGicZT0dAoFxfKe6VoXASBgCQPJG2MMVWEfTnda53DDkrAB6s
+         h3IMCa41Asvauoym98hreN7JIr2go+Ip7BFaWIDHyC9yN78J9W7sejMNRZ4hF7V9OF
+         H4/e1y+6pHJ8vKAS8zESl1TLlyn1UTlCxoupKazp/sfTtk8Zl3oEjKG4b0pMWfETNI
+         DijXYTGWQ/bCg==
+Subject: Re: [PATCH 3/3] arm64: dts: mediatek: Add USB xHCI controller for
+ mt8195
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Tao Ren <rentao.bupt@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        "kernel test robot" <lkp@intel.com>,
-        Sasha Levin <sashal@kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>
-CC:     Neal Liu <neal_liu@aspeedtech.com>, <BMC-SW@aspeedtech.com>
-Subject: [PATCH 1/3] usb: aspeed-vhub: add qualifier descriptor
-Date:   Fri, 26 Nov 2021 19:09:52 +0800
-Message-ID: <20211126110954.2677627-2-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
-References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
+ <20211102060049.1843-3-chunfeng.yun@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <9db3cb96-ac67-151d-5674-b56c5abbe348@collabora.com>
+Date:   Fri, 26 Nov 2021 11:36:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AQAjlvc048315
+In-Reply-To: <20211102060049.1843-3-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Support qualifier descriptor to pass USB30CV compliance test.
+Il 02/11/21 07:00, Chunfeng Yun ha scritto:
+> Add all four USB xHCI controllers for MT8195
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>   arch/arm64/boot/dts/mediatek/mt8195.dtsi | 79 ++++++++++++++++++++++++
+>   1 file changed, 79 insertions(+)
+> 
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 29 ++++++++++++++++++++---
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  2 ++
- 2 files changed, 28 insertions(+), 3 deletions(-)
+Hello!
+Thanks for the patch! However, there is something to improve...
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index b9960fdd8a51..d76f83bc7762 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -68,6 +68,18 @@ static const struct usb_device_descriptor ast_vhub_dev_desc = {
- 	.bNumConfigurations	= 1,
- };
- 
-+static const struct usb_qualifier_descriptor ast_vhub_qual_desc = {
-+	.bLength = 0xA,
-+	.bDescriptorType = USB_DT_DEVICE_QUALIFIER,
-+	.bcdUSB = cpu_to_le16(0x0200),
-+	.bDeviceClass = USB_CLASS_HUB,
-+	.bDeviceSubClass = 0,
-+	.bDeviceProtocol = 0,
-+	.bMaxPacketSize0 = 64,
-+	.bNumConfigurations = 1,
-+	.bRESERVED = 0,
-+};
-+
- /*
-  * Configuration descriptor: same comments as above
-  * regarding handling USB1 mode.
-@@ -271,9 +283,11 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_dev_desc));
- 		BUILD_BUG_ON(USB_DT_DEVICE_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_OTHER_SPEED_CONFIG:
- 	case USB_DT_CONFIG:
- 		dsize = AST_VHUB_CONF_DESC_SIZE;
- 		memcpy(ep->buf, &vhub->vhub_conf_desc, dsize);
-+		((u8 *)ep->buf)[1] = desc_type;
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_conf_desc));
- 		BUILD_BUG_ON(AST_VHUB_CONF_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-@@ -283,6 +297,10 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_hub_desc));
- 		BUILD_BUG_ON(AST_VHUB_HUB_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_DEVICE_QUALIFIER:
-+		dsize = sizeof(vhub->vhub_qual_desc);
-+		memcpy(ep->buf, &vhub->vhub_qual_desc, dsize);
-+		break;
- 	default:
- 		return std_req_stall;
- 	}
-@@ -417,10 +435,9 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
- 
- 		/* GET/SET_CONFIGURATION */
- 	case DeviceRequest | USB_REQ_GET_CONFIGURATION:
--		return ast_vhub_simple_reply(ep, 1);
-+		return ast_vhub_simple_reply(ep, vhub->current_config);
- 	case DeviceOutRequest | USB_REQ_SET_CONFIGURATION:
--		if (wValue != 1)
--			return std_req_stall;
-+		vhub->current_config = wValue;
- 		return std_req_complete;
- 
- 		/* GET_DESCRIPTOR */
-@@ -428,6 +445,8 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
- 		switch (wValue >> 8) {
- 		case USB_DT_DEVICE:
- 		case USB_DT_CONFIG:
-+		case USB_DT_DEVICE_QUALIFIER:
-+		case USB_DT_OTHER_SPEED_CONFIG:
- 			return ast_vhub_rep_desc(ep, wValue >> 8,
- 						 wLength);
- 		case USB_DT_STRING:
-@@ -1033,6 +1052,10 @@ static int ast_vhub_init_desc(struct ast_vhub *vhub)
- 	else
- 		ret = ast_vhub_str_alloc_add(vhub, &ast_vhub_strings);
- 
-+	/* Initialize vhub Qualifier Descriptor. */
-+	memcpy(&vhub->vhub_qual_desc, &ast_vhub_qual_desc,
-+		sizeof(vhub->vhub_qual_desc));
-+
- 	return ret;
- }
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 87a5dea12d3c..e6a11a22422a 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -419,12 +419,14 @@ struct ast_vhub {
- 
- 	/* Upstream bus speed captured at bus reset */
- 	unsigned int			speed;
-+	u8				current_config;
- 
- 	/* Standard USB Descriptors of the vhub. */
- 	struct usb_device_descriptor	vhub_dev_desc;
- 	struct ast_vhub_full_cdesc	vhub_conf_desc;
- 	struct usb_hub_descriptor	vhub_hub_desc;
- 	struct list_head		vhub_str_desc;
-+	struct usb_qualifier_descriptor	vhub_qual_desc;
- };
- 
- /* Standard request handlers result codes */
--- 
-2.25.1
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> index a59c0e9d1fc2..263eebfd2ea1 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
+> @@ -8,6 +8,7 @@
+>   #include <dt-bindings/clock/mt8195-clk.h>
+>   #include <dt-bindings/interrupt-controller/arm-gic.h>
+>   #include <dt-bindings/interrupt-controller/irq.h>
+> +#include <dt-bindings/phy/phy.h>
+>   #include <dt-bindings/power/mt8195-power.h>
+>   
+>   / {
+> @@ -823,6 +824,26 @@
+>   			status = "disabled";
+>   		};
+>   
+> +		xhci0: usb@11200000 {
+> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
+> +			reg = <0 0x11200000 0 0x1000>, <0 0x11203e00 0 0x0100>;
+> +			reg-names = "mac", "ippc";
+> +			interrupts = <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH 0>;
 
+Here, and on the other xhci nodes (from what I know, xhci{0,1,3}), you should use
+interrupts-extended and declare the wakeup interrupt on pio.
+
+			interrupts-extended = <&gic GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH 0>,
+
+					      <&pio 219 IRQ_TYPE_LEVEL_LOW>;
+
+			interrupt-names = "host", "wakeup";
+
+
+> +			phys = <&u2port0 PHY_TYPE_USB2>, <&u3port0 PHY_TYPE_USB3>;
+> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP>,
+> +					  <&topckgen CLK_TOP_SSUSB_XHCI>;
+> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
+> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
+> +			clocks = <&infracfg_ao CLK_INFRA_AO_SSUSB>,
+> +				 <&infracfg_ao CLK_INFRA_AO_SSUSB_XHCI>,
+> +				 <&topckgen CLK_TOP_SSUSB_REF>,
+> +				 <&apmixedsys CLK_APMIXED_USB1PLL>;
+> +			clock-names = "sys_ck", "xhci_ck", "ref_ck", "mcu_ck";
+> +			mediatek,syscon-wakeup = <&pericfg 0x400 103>;
+> +			wakeup-source;
+> +			status = "disabled";
+> +		};
+> +
+>   		mmc0: mmc@11230000 {
+>   			compatible = "mediatek,mt8195-mmc", "mediatek,mt8192-mmc";
+>   			reg = <0 0x11230000 0 0x10000>,
+> @@ -843,6 +864,64 @@
+>   			status = "disabled";
+>   		};
+>   
+> +		xhci1: usb@11290000 {
+> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
+> +			reg = <0 0x11290000 0 0x1000>, <0 0x11293e00 0 0x0100>;
+> +			reg-names = "mac", "ippc";
+> +			interrupts = <GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH 0>;
+
+			interrupts-extended = <&gic GIC_SPI 530 IRQ_TYPE_LEVEL_HIGH 0>,
+
+					      <&pio 218 IRQ_TYPE_LEVEL_LOW>;
+
+> +			phys = <&u2port1 PHY_TYPE_USB2>;
+> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_1P>,
+> +					  <&topckgen CLK_TOP_SSUSB_XHCI_1P>;
+> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
+> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
+> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_1P_BUS>,
+> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_1P_XHCI>,
+> +				 <&topckgen CLK_TOP_SSUSB_P1_REF>,
+> +				 <&apmixedsys CLK_APMIXED_USB1PLL>;
+> +			clock-names = "sys_ck", "xhci_ck", "ref_ck", "mcu_ck";
+> +			mediatek,syscon-wakeup = <&pericfg 0x400 104>;
+> +			wakeup-source;
+> +			status = "disabled";
+> +		};
+> +
+> +		xhci2: usb@112a0000 {
+> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
+> +			reg = <0 0x112a0000 0 0x1000>, <0 0x112a3e00 0 0x0100>;
+> +			reg-names = "mac", "ippc";
+> +			interrupts = <GIC_SPI 533 IRQ_TYPE_LEVEL_HIGH 0>;
+> +			phys = <&u2port2 PHY_TYPE_USB2>;
+> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_2P>,
+> +					  <&topckgen CLK_TOP_SSUSB_XHCI_2P>;
+> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
+> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
+> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_2P_BUS>,
+> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_2P_XHCI>,
+> +				 <&topckgen CLK_TOP_SSUSB_P2_REF>;
+> +			clock-names = "sys_ck", "xhci_ck", "ref_ck";
+> +			mediatek,syscon-wakeup = <&pericfg 0x400 105>;
+> +			status = "disabled";
+> +		};
+> +
+> +		xhci3: usb@112b0000 {
+> +			compatible = "mediatek,mt8195-xhci", "mediatek,mtk-xhci";
+> +			reg = <0 0x112b0000 0 0x1000>, <0 0x112b3e00 0 0x0100>;
+> +			reg-names = "mac", "ippc";
+> +			interrupts = <GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH 0>;
+
+			interrupts-extended = <&gic GIC_SPI 536 IRQ_TYPE_LEVEL_HIGH 0>,
+
+					      <&pio 221 IRQ_TYPE_LEVEL_LOW>;
+
+			interrupts-names = "host", "wakeup";
+
+> +			phys = <&u2port3 PHY_TYPE_USB2>;
+> +			assigned-clocks = <&topckgen CLK_TOP_USB_TOP_3P>,
+> +					  <&topckgen CLK_TOP_SSUSB_XHCI_3P>;
+> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D5_D4>,
+> +						 <&topckgen CLK_TOP_UNIVPLL_D5_D4>;
+> +			clocks = <&pericfg_ao CLK_PERI_AO_SSUSB_3P_BUS>,
+> +				 <&pericfg_ao CLK_PERI_AO_SSUSB_3P_XHCI>,
+> +				 <&topckgen CLK_TOP_SSUSB_P3_REF>;
+> +			clock-names = "sys_ck", "xhci_ck", "ref_ck";
+> +			mediatek,syscon-wakeup = <&pericfg 0x400 106>;
+> +			wakeup-source;
+> +			usb2-lpm-disable;
+> +			status = "disabled";
+> +		};
+> +
+>   		nor_flash: nor@1132c000 {
+>   			compatible = "mediatek,mt8195-nor", "mediatek,mt8173-nor";
+>   			reg = <0 0x1132c000 0 0x1000>;
+> 
+
+Regards,
+- Angelo
