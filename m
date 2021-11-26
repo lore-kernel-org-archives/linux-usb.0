@@ -2,61 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89FD7C433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2820C433F5
 	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234549AbhKZLPX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S235916AbhKZLPX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 26 Nov 2021 06:15:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231475AbhKZLNW (ORCPT
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:58732 "EHLO
+        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231465AbhKZLNW (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:13:22 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AB5C08EB1F;
-        Fri, 26 Nov 2021 02:32:01 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: kholk11)
-        with ESMTPSA id 293091F4640A
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-        t=1637922720; bh=EuVPphaZZHTIORgNUJBNbSYK215LbmQjkprREz5uJ58=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=F4JId67VGNEu5LJXAn8aS9r/oXSoaWwzBv/o5EF0qKQczIe+/9s1MuPVHAg9itCth
-         4r1HdOPXA6PoqsXk7NYTkB77x6EeKhF29KY3DJYxqus+1cX1nKAdDq4jHXF/pX1P79
-         +fKoQgmtW/MmK9abf0he9VrSiD523i0u+vEnu8p1bKNg2XNCkFmiFPTDuXRbOFb8YZ
-         wfdoYD3R9jWPksp7AP/rk4Yi9SuhWk7AHU1d4OBAnkM8FGuuD+P7YMqq8lBLAc/hGU
-         w3v2ujn6sqaMdxe6nigJT8VOqhe2qMXccwwbZsQRcB7j9KlMSectJd5mNlAhru9ljE
-         UbxELATJrigqw==
-Subject: Re: [PATCH 2/3] usb: xhci-mtk: add support ip-sleep wakeup for mt8195
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+Received: from mail.aspeedtech.com ([192.168.0.24])
+        by twspam01.aspeedtech.com with ESMTP id 1AQAjlx1048317;
+        Fri, 26 Nov 2021 18:45:47 +0800 (GMT-8)
+        (envelope-from neal_liu@aspeedtech.com)
+Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Nov
+ 2021 19:10:03 +0800
+From:   Neal Liu <neal_liu@aspeedtech.com>
+To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
- <20211102060049.1843-2-chunfeng.yun@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-Message-ID: <c3e56137-7dee-9418-9d69-d583fa26b034@collabora.com>
-Date:   Fri, 26 Nov 2021 11:31:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Cai Huoqing <caihuoqing@baidu.com>,
+        Tao Ren <rentao.bupt@gmail.com>,
+        Julia Lawall <julia.lawall@inria.fr>,
+        "kernel test robot" <lkp@intel.com>,
+        Sasha Levin <sashal@kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-aspeed@lists.ozlabs.org>
+CC:     Neal Liu <neal_liu@aspeedtech.com>, <BMC-SW@aspeedtech.com>
+Subject: [PATCH 3/3] usb: aspeed-vhub: fix ep0 OUT ack received wrong length issue
+Date:   Fri, 26 Nov 2021 19:09:54 +0800
+Message-ID: <20211126110954.2677627-4-neal_liu@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
+References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
 MIME-Version: 1.0
-In-Reply-To: <20211102060049.1843-2-chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.10.10]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 1AQAjlx1048317
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Il 02/11/21 07:00, Chunfeng Yun ha scritto:
-> Add support ip-sleep wakeup for mt8195, it's a specific revision for
-> each USB controller, and not following IPM rule.
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
+If multiple devices in vhub are enumerated simultaneously, ep0 OUT
+ack might received wrong data length. Using expected data length
+instead.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+---
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+index 74ea36c19b1e..bea9cbb191a2 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+@@ -251,6 +251,13 @@ static void ast_vhub_ep0_do_receive(struct ast_vhub_ep *ep, struct ast_vhub_req
+ 		len = remain;
+ 		rc = -EOVERFLOW;
+ 	}
++
++	/* HW return wrong data len */
++	if (len < ep->ep.maxpacket && len != remain) {
++		EPDBG(ep, "using expected data len instead\n");
++		len = remain;
++	}
++
+ 	if (len && req->req.buf)
+ 		memcpy(req->req.buf + req->req.actual, ep->buf, len);
+ 	req->req.actual += len;
+-- 
+2.25.1
+
