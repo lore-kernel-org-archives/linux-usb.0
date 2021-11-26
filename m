@@ -2,151 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C673C433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:12:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89FD7C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 11:12:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234919AbhKZLPT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 06:15:19 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:20323 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237315AbhKZLNS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:13:18 -0500
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AQAjlFB048316;
-        Fri, 26 Nov 2021 18:45:47 +0800 (GMT-8)
-        (envelope-from neal_liu@aspeedtech.com)
-Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Nov
- 2021 19:10:03 +0800
-From:   Neal Liu <neal_liu@aspeedtech.com>
-To:     Felipe Balbi <balbi@kernel.org>,
+        id S234549AbhKZLPX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 06:15:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48210 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231475AbhKZLNW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 06:13:22 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15AB5C08EB1F;
+        Fri, 26 Nov 2021 02:32:01 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: kholk11)
+        with ESMTPSA id 293091F4640A
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+        t=1637922720; bh=EuVPphaZZHTIORgNUJBNbSYK215LbmQjkprREz5uJ58=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=F4JId67VGNEu5LJXAn8aS9r/oXSoaWwzBv/o5EF0qKQczIe+/9s1MuPVHAg9itCth
+         4r1HdOPXA6PoqsXk7NYTkB77x6EeKhF29KY3DJYxqus+1cX1nKAdDq4jHXF/pX1P79
+         +fKoQgmtW/MmK9abf0he9VrSiD523i0u+vEnu8p1bKNg2XNCkFmiFPTDuXRbOFb8YZ
+         wfdoYD3R9jWPksp7AP/rk4Yi9SuhWk7AHU1d4OBAnkM8FGuuD+P7YMqq8lBLAc/hGU
+         w3v2ujn6sqaMdxe6nigJT8VOqhe2qMXccwwbZsQRcB7j9KlMSectJd5mNlAhru9ljE
+         UbxELATJrigqw==
+Subject: Re: [PATCH 2/3] usb: xhci-mtk: add support ip-sleep wakeup for mt8195
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Tao Ren <rentao.bupt@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        "kernel test robot" <lkp@intel.com>,
-        Sasha Levin <sashal@kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-aspeed@lists.ozlabs.org>
-CC:     Neal Liu <neal_liu@aspeedtech.com>, <BMC-SW@aspeedtech.com>
-Subject: [PATCH 2/3] usb: aspeed-vhub: support remote wakeup feature
-Date:   Fri, 26 Nov 2021 19:09:53 +0800
-Message-ID: <20211126110954.2677627-3-neal_liu@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
-References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
+        Rob Herring <robh+dt@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20211102060049.1843-1-chunfeng.yun@mediatek.com>
+ <20211102060049.1843-2-chunfeng.yun@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+Message-ID: <c3e56137-7dee-9418-9d69-d583fa26b034@collabora.com>
+Date:   Fri, 26 Nov 2021 11:31:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [192.168.10.10]
-X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
- (192.168.0.24)
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AQAjlFB048316
+In-Reply-To: <20211102060049.1843-2-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Remote wakeup signaling will be automatically issued
-whenever any write commands has been received in suspend
-state.
+Il 02/11/21 07:00, Chunfeng Yun ha scritto:
+> Add support ip-sleep wakeup for mt8195, it's a specific revision for
+> each USB controller, and not following IPM rule.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> Reviewed-by: Matthias Brugger <matthias.bgg@gmail.com>
 
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
----
- drivers/usb/gadget/udc/aspeed-vhub/core.c |  3 +++
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 18 ++++++++++++++----
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 22 ++++++++++++++++------
- 3 files changed, 33 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-index 7a635c499777..122ee7ef0b03 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-@@ -240,6 +240,9 @@ void ast_vhub_init_hw(struct ast_vhub *vhub)
- 	if (vhub->force_usb1)
- 		ctrl |= VHUB_CTRL_FULL_SPEED_ONLY;
- 
-+	/* Enable auto remote wakeup */
-+	ctrl |= VHUB_CTRL_AUTO_REMOTE_WAKEUP;
-+
- 	ctrl |= VHUB_CTRL_UPSTREAM_CONNECT;
- 	writel(ctrl, vhub->regs + AST_VHUB_CTRL);
- 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index d918e8b2af3c..4462f4b73b04 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -110,15 +110,25 @@ static int ast_vhub_dev_feature(struct ast_vhub_dev *d,
- 				u16 wIndex, u16 wValue,
- 				bool is_set)
- {
-+	u32 val;
-+
- 	DDBG(d, "%s_FEATURE(dev val=%02x)\n",
- 	     is_set ? "SET" : "CLEAR", wValue);
- 
--	if (wValue != USB_DEVICE_REMOTE_WAKEUP)
--		return std_req_driver;
-+	if (wValue == USB_DEVICE_REMOTE_WAKEUP) {
-+		d->wakeup_en = is_set;
-+		return std_req_complete;
- 
--	d->wakeup_en = is_set;
-+	} else if (wValue == USB_DEVICE_TEST_MODE) {
-+		val = readl(d->vhub->regs + AST_VHUB_CTRL);
-+		val &= ~GENMASK(10, 8);
-+		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
-+		writel(val, d->vhub->regs + AST_VHUB_CTRL);
- 
--	return std_req_complete;
-+		return std_req_complete;
-+	}
-+
-+	return std_req_driver;
- }
- 
- static int ast_vhub_ep_feature(struct ast_vhub_dev *d,
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index d76f83bc7762..ac589d3ba7a2 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -212,17 +212,27 @@ static int ast_vhub_hub_dev_feature(struct ast_vhub_ep *ep,
- 				    u16 wIndex, u16 wValue,
- 				    bool is_set)
- {
-+	u32 val;
-+
- 	EPDBG(ep, "%s_FEATURE(dev val=%02x)\n",
- 	      is_set ? "SET" : "CLEAR", wValue);
- 
--	if (wValue != USB_DEVICE_REMOTE_WAKEUP)
--		return std_req_stall;
-+	if (wValue == USB_DEVICE_REMOTE_WAKEUP) {
-+		ep->vhub->wakeup_en = is_set;
-+		EPDBG(ep, "Hub remote wakeup %s\n",
-+		      is_set ? "enabled" : "disabled");
-+		return std_req_complete;
- 
--	ep->vhub->wakeup_en = is_set;
--	EPDBG(ep, "Hub remote wakeup %s\n",
--	      is_set ? "enabled" : "disabled");
-+	} else if (wValue == USB_DEVICE_TEST_MODE) {
-+		val = readl(ep->vhub->regs + AST_VHUB_CTRL);
-+		val &= ~GENMASK(10, 8);
-+		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
-+		writel(val, ep->vhub->regs + AST_VHUB_CTRL);
- 
--	return std_req_complete;
-+		return std_req_complete;
-+	}
-+
-+	return std_req_stall;
- }
- 
- static int ast_vhub_hub_ep_feature(struct ast_vhub_ep *ep,
--- 
-2.25.1
-
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
