@@ -2,137 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76ABC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 15:26:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90B4FC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Nov 2021 15:32:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345332AbhKZP3s (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Nov 2021 10:29:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377965AbhKZP1s (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 10:27:48 -0500
-X-Greylist: delayed 393 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 Nov 2021 07:21:37 PST
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8921DC061799;
-        Fri, 26 Nov 2021 07:21:37 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AEE8BB827FE;
-        Fri, 26 Nov 2021 15:15:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF96EC93056;
-        Fri, 26 Nov 2021 15:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1637939699;
-        bh=yg4VdOJC94cNcEe+lgB1DuRUh7T1fIAIuVACWKrp3h8=;
-        h=Date:From:To:Cc:Subject:From;
-        b=oC0qL6yyQMlUT+3XALCVMRKESV5TttJ9LZQipg6IYNFNZO+uUgl4PVvJNiREVlvCk
-         yr3NQtDNBMjJ4ev4LrZ2CsHiemLp46Jx/ynKprxy/LK6COa7cdOyTwDMY2l/lLhWwj
-         iWdDgYR3Jn6f5IxiSy6XtIUYRxBHzy2SpaMBKP5g=
-Date:   Fri, 26 Nov 2021 16:14:55 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB fixes for 5.16-rc3
-Message-ID: <YaD577+IUWacSYBm@kroah.com>
+        id S1351608AbhKZPf4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Nov 2021 10:35:56 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:41309 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1344509AbhKZPd4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Nov 2021 10:33:56 -0500
+Received: (qmail 218431 invoked by uid 1000); 26 Nov 2021 10:30:42 -0500
+Date:   Fri, 26 Nov 2021 10:30:42 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Andrew Lunn <andrew@lunn.ch>, Rajat Jain <rajatja@google.com>,
+        Chris Chiu <chris.chiu@canonical.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: core: Avoid doing warm reset on disconnect event
+Message-ID: <YaD9oubkHPzHtSY4@rowland.harvard.edu>
+References: <20211126115652.1134230-1-kai.heng.feng@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211126115652.1134230-1-kai.heng.feng@canonical.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit 8ab774587903771821b59471cc723bba6d893942:
+On Fri, Nov 26, 2021 at 07:56:51PM +0800, Kai-Heng Feng wrote:
+> Unplugging USB device may cause an incorrect warm reset loop:
+> [  143.039019] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x4202c0
+> [  143.039025] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
+> [  143.039051] hub 2-0:1.0: state 7 ports 10 chg 0000 evt 0008
+> [  143.039058] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x4202c0, return 0x4102c0
+> [  143.039092] xhci_hcd 0000:00:14.0: clear port3 connect change, portsc: 0x4002c0
+> [  143.039096] usb usb2-port3: link state change
+> [  143.039099] xhci_hcd 0000:00:14.0: clear port3 link state change, portsc: 0x2c0
+> [  143.039101] usb usb2-port3: do warm reset
+> [  143.096736] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2b0, return 0x2b0
+> [  143.096751] usb usb2-port3: not warm reset yet, waiting 50ms
+> [  143.131500] xhci_hcd 0000:00:14.0: Can't queue urb, port error, link inactive
+> [  143.138260] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x2802a0
+> [  143.138263] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
+> [  143.160756] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2802a0, return 0x3002a0
+> [  143.160798] usb usb2-port3: not warm reset yet, waiting 200ms
+> 
+> The warm reset is due to its PLS is in eSS.Inactive state. However, USB
+> 3.2 spec table 10-13 mentions "Ports can be disabled by either a fault
+> condition (disconnect event or other fault condition)", xHCI 1.2 spec
+> table 5-27 also states that "This flag shall automatically be cleared to
+> ‘0’ by a disconnect event or other fault condition." on PED.
+> 
+> So use CSC = 0 and PED = 0 as indication that device is disconnecting to
+> avoid doing warm reset.
+> 
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+> v2:
+>  - Change the variable type to bool.
+> 
+>  drivers/usb/core/hub.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index a9a04ea967019..4f081df70ecf2 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -5564,6 +5564,7 @@ static void port_event(struct usb_hub *hub, int port1)
+>  		__must_hold(&port_dev->status_lock)
+>  {
+>  	int connect_change;
+> +	bool disconnect = false;
+>  	struct usb_port *port_dev = hub->ports[port1 - 1];
+>  	struct usb_device *udev = port_dev->child;
+>  	struct usb_device *hdev = hub->hdev;
+> @@ -5579,6 +5580,9 @@ static void port_event(struct usb_hub *hub, int port1)
+>  	if (portchange & USB_PORT_STAT_C_CONNECTION) {
+>  		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
+>  		connect_change = 1;
+> +		if (!(portstatus & USB_PORT_STAT_CONNECTION) &&
+> +		    !(portstatus & USB_PORT_STAT_ENABLE))
+> +			disconnect = true;
+>  	}
 
-  Merge tag 'trace-v5.16-5' of git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace (2021-11-14 19:07:19 -0800)
+This looks a little strange.  Can there ever be a situation where 
+PORT_STAT_CONNECTION is off and PORT_STAT_ENABLE is on?  (It's not allowed in 
+USB-2.)
 
-are available in the Git repository at:
+>  	if (portchange & USB_PORT_STAT_C_ENABLE) {
+> @@ -5647,7 +5651,7 @@ static void port_event(struct usb_hub *hub, int port1)
+>  	 * Warm reset a USB3 protocol port if it's in
+>  	 * SS.Inactive state.
+>  	 */
+> -	if (hub_port_warm_reset_required(hub, port1, portstatus)) {
+> +	if (hub_port_warm_reset_required(hub, port1, portstatus) && !disconnect) {
+>  		dev_dbg(&port_dev->dev, "do warm reset\n");
+>  		if (!udev || !(portstatus & USB_PORT_STAT_CONNECTION)
+>  				|| udev->state == USB_STATE_NOTATTACHED) {
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.16-rc1
+Why is it correct to skip doing a warm reset on a disconnected port here, but not 
+correct to skip doing a warm reset on a disconnected port in all the other places 
+where hub_port_warm_reset_required() gets called?
 
-for you to fetch changes up to a88db2ecc2d2c11aa8744be9817d6d249d001cca:
-
-  Merge tag 'usb-serial-5.16-rc3' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus (2021-11-25 13:27:40 +0100)
-
-----------------------------------------------------------------
-USB fixes for 5.16-rc3
-
-Here are a number of small USB fixes for reported problems for 5.16-rc3
-
-Then include:
-	- typec driver fixes
-	- new usb-serial driver ids
-	- usb hub enumeration issues that were much reported
-	- gadget driver fixes
-	- dwc3 driver fix
-	- chipidea driver fixe
-
-All of these have been in linux-next with no reported problems.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Albert Wang (1):
-      usb: dwc3: gadget: Fix null pointer exception
-
-Christophe JAILLET (1):
-      usb: gadget: udc-xilinx: Fix an error handling path in 'xudc_probe()'
-
-Dan Carpenter (1):
-      usb: chipidea: ci_hdrc_imx: fix potential error pointer dereference in probe
-
-Daniele Palmas (1):
-      USB: serial: option: add Telit LE910S1 0x9200 composition
-
-Dmitry Osipenko (1):
-      usb: xhci: tegra: Check padctrl interrupt presence in device tree
-
-Fabio Aiuto (1):
-      usb: dwc3: leave default DMA for PCI devices
-
-Greg Kroah-Hartman (1):
-      Merge tag 'usb-serial-5.16-rc3' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
-
-Hector Martin (2):
-      usb: typec: tipd: Fix typo in cd321x_switch_power_state
-      usb: typec: tipd: Fix initialization sequence for cd321x
-
-Johan Hovold (1):
-      USB: serial: pl2303: fix GC type detection
-
-Mathias Nyman (2):
-      usb: hub: Fix usb enumeration issue due to address0 race
-      usb: hub: Fix locking issues with address0_mutex
-
-Minas Harutyunyan (1):
-      usb: dwc2: gadget: Fix ISOC flow for elapsed frames
-
-Mingjie Zhang (1):
-      USB: serial: option: add Fibocom FM101-GL variants
-
-Nathan Chancellor (1):
-      usb: dwc2: hcd_queue: Fix use of floating point literal
-
-Ondrej Jirman (1):
-      usb: typec: fusb302: Fix masking of comparator and bc_lvl interrupts
-
-Thinh Nguyen (3):
-      usb: dwc3: core: Revise GHWPARAMS9 offset
-      usb: dwc3: gadget: Ignore NoStream after End Transfer
-      usb: dwc3: gadget: Check for L1/L2/U3 for Start Transfer
-
- drivers/usb/chipidea/ci_hdrc_imx.c  | 18 ++++++++--------
- drivers/usb/core/hub.c              | 24 ++++++++++++++++------
- drivers/usb/dwc2/gadget.c           | 17 ++++++++++++---
- drivers/usb/dwc2/hcd_queue.c        |  2 +-
- drivers/usb/dwc3/core.c             |  8 +++++---
- drivers/usb/dwc3/core.h             |  2 +-
- drivers/usb/dwc3/gadget.c           | 39 +++++++++++++++++++++++++----------
- drivers/usb/gadget/udc/udc-xilinx.c |  5 ++++-
- drivers/usb/host/xhci-tegra.c       | 41 ++++++++++++++++++++++++++-----------
- drivers/usb/serial/option.c         |  5 +++++
- drivers/usb/serial/pl2303.c         |  1 +
- drivers/usb/typec/tcpm/fusb302.c    |  6 ++++--
- drivers/usb/typec/tipd/core.c       | 35 +++++++++++++++----------------
- 13 files changed, 136 insertions(+), 67 deletions(-)
+Alan Stern
