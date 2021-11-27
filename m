@@ -2,144 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1AADC433EF
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Nov 2021 05:22:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5095FC433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Nov 2021 09:09:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237386AbhK0F0F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Nov 2021 00:26:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241136AbhK0FYF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Nov 2021 00:24:05 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA66C061757
-        for <linux-usb@vger.kernel.org>; Fri, 26 Nov 2021 21:20:42 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3C068B829A7
-        for <linux-usb@vger.kernel.org>; Sat, 27 Nov 2021 05:20:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED7EC53FAD;
-        Sat, 27 Nov 2021 05:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1637990439;
-        bh=KELC9bBlyQkM4IO3xUc4ck0Rm9bP0tI/1/k2m+4Wq+4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DLBm5XLlf/cAM3mYLX71cxE7Ox+yBx3T5Nwngh8P8TqvGZt/a2ozpJ38Ljj3l+HlS
-         YEyRLedtY1QE7SrLM7yh61+4yLCJY+kg5sQ+SY4kaBNGIkl6J2f8HM3wUHoUJNUaPq
-         p6EGSJoz9+DKpmyeL0T9+afIgLwylcJZuu/T0FlxM7daUoby01tJ8jsHaThvm2xdWk
-         dNGO79lvEdJlAwRb5Kw+wTDm/83jmPUOxJor6d78d+Y0/FCUZT8vxIOK5a1jfRpoj4
-         cCqFEvaD1hMNjjTzE1y/AqxKF6ycERbKni/455Lf8luXCaHbG0A/HsD6fU8DL5BX24
-         76dw6azOHPekg==
-Date:   Sat, 27 Nov 2021 13:20:31 +0800
-From:   Peter Chen <peter.chen@kernel.org>
-To:     Florian Faber <faber@faberman.de>
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v4] usb: gadget: composite: req->complete not set, using
- wrong callback for complete
-Message-ID: <20211127052031.GA7285@Peter>
-References: <bded07a9-0549-569f-dcea-12e8bc7bf091@faberman.de>
- <e389b7e4-f8c5-1561-2fbc-e926270fc894@faberman.de>
+        id S1353307AbhK0JM4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Nov 2021 04:12:56 -0500
+Received: from mout.gmx.net ([212.227.17.20]:57213 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1352878AbhK0JK4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 27 Nov 2021 04:10:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1638004043;
+        bh=4Oa+4GBN8ZB387L7S1TaBU2khs42nwctWOZOddUDWu0=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=ArN6/GnhH8pypswOwvl2Yu2LQ96LK3o10AjeTSQqAuVL4ue88F0xHKfsyTe/Ob1pT
+         6ZaTeq/O5t2JGwXlAvziykYr7lyEdzERr2wmr3SLsT/nclO6SzW6IkpLd3FcaCqzVn
+         eiUEwokzAuiCQEowtVZ8Qu+npgnNq2ZIf5QF+1g4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from oleg-laptop.fritz.box ([87.159.241.123]) by mail.gmx.net
+ (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1MQe5u-1nESPV36YQ-00NhFJ; Sat, 27 Nov 2021 10:07:23 +0100
+From:   Ole Ernst <olebowle@gmx.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Hayes Wang <hayeswang@realtek.com>,
+        Takashi Iwai <tiwai@suse.de>,
+        Leon Schuermann <leon@is.currently.online>
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ole Ernst <olebowle@gmx.com>
+Subject: [PATCH] USB: NO_LPM quirk Lenovo Powered USB-C Travel Hub
+Date:   Sat, 27 Nov 2021 10:05:45 +0100
+Message-Id: <20211127090546.52072-1-olebowle@gmx.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e389b7e4-f8c5-1561-2fbc-e926270fc894@faberman.de>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ESfKZO9/3M7UuBJ/1NnmMVjDnCQGi1m3RmHq3ZyvIuZGS7a3Fp6
+ eZ7zNI5Didt4Q/YetWd6dniF/kvWvNNbNvEtqwrSRxnuPa6zPnBFyW54FA//P5ZFB3JSM2C
+ NNeGl3zUKPAkUUXq72IyyZ/vr4r5V5aelbK9oGTi/RL5Z+YuRDwJJYRKpyPKnCROhI//xUI
+ ADU3YQvjIJZGCV+Ec2kQA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8B/GuLltBQ0=:ls06svWVaeu5aySA1tTTwf
+ 1qb55nEvl2ZzADOEPcoSMa/bP9Om4PmFOa+XFolvo3J7NYoHLlHcUb9ybIh1Lym2KAqywHSg8
+ CJEvYnsY8dFfUZDeK30xVzPMDll14P0Ms9m6JYT2ueh+VmzKbaVsn3rXtm2HRAKS6kLiQGrOo
+ kjwneVs/rDPxQnKKVGcgYiRDAvYMZuA6Qt4iHsvE6iZdgch6HF8giTe/QND1cF5ioom5mJ7K0
+ SfJN+PtyYza8kc5Z4RsWBhNdcn7rjI2T9W6axGt6P7IxDQ5hohT+yBByvQoPd15lvRpN6VWhp
+ NOJQcEE08UhCLreuWOeXDm7MAw4HIjkl4odZl49Ese9ZR1QT8pHzul1+3pek6sDlMZuqhi8XA
+ JP60b4mg2xJIohnoQuQNh8j+Pj4DIv0iL0GmMJn+jgC1aKLg6x8RIIolvYT1Ajg/R1n1VJdYY
+ 4d+Sc9cvfh9HpbwGvkTg3O92Ju/2q1O/drzH2xn/iQ+2FWzZgLPZtoEt82MiqVG8UFn89aNam
+ bUUsscLurTWuVRCqYaZdEdx76zHPkj5rZ4CYPWwWy9AQ4dqif1U7OXn6nwmE/4HO0045XNYAW
+ cYad2Cq8vgO/RwFz745XGAHwPOQIJY86fg77VpFwMu6SHRTOmDJCgoOBKLf3RR0+Yq5MSqpMg
+ AjGG22gqjOPd8OlTDuwqStoJCTEc1U385zkuUD4BmBncntL5ueCSHiMHFNo2CILB1SZD9swke
+ kNSjy3cNP1ONUbUP6J64987KOD+PbqcJ6JX2MMhtxgguSu6Pr9wSGMZgu5e1qSDKeMPbx6apg
+ xttqPDmoBM7BmLskzHge8WmvjUoE8aXc+dbIqfFo7W9atPNM2/voRiaB1Pcvzl+HRJUDtO0Fm
+ IcXZN38oO4+Pt9JBXXj4s8imvEY91Bzm+BzOn7uKZZ0077L9phAaviG958xdAyjzu+k6YV6L8
+ wNgGdv0SwHt+sv/SUw1Q6LYdDdD9g699VF4ut3Ug4IJWulx1szA3f5qNsL7emmHXs+pbIOOjY
+ dQEwKe7bdoDhAKtk64VfauvR842sH9wZS3e7Q6Ml6USRU3VYnH2K2QxHwJUDtYHoOZuzoAwn0
+ GbCns1Ub17lYvk=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21-10-13 16:15:13, Florian Faber wrote:
-> In usb_composite_setup_continue, req->complete is not set, leaving the
-> previous value untouched. After completion of the ep0 transaction, the
-> UDC would then call whatever complete callback was set previously with
-> the composite cdev as context,
+This is another branded 8153 device that doesn't work well with LPM:
+r8152 2-2.1:1.0 enp0s13f0u2u1: Stop submitting intr, status -71
 
-Would you please explain more how ep0's req has changed? EP0's req
-should not be called by UDC driver.
-       
-> leading to all sorts of havoc.
-> 
-> A typical call trace looks like this: A setup packet for mass storage,
-> ending up in RNDIS's complete function:
+Disable LPM to resolve the issue.
 
-Sorry, I could not understand your back trace well, would you mind
-explaining more? Besides, what's your kernel version?
-> 
-> ---------------------------snip---------------------------------
-> [  183.795661] [<bf10b31c>] (rndis_response_complete [usb_f_rndis]) from [<bf0ec024>] (xgs_iproc_ep_enable+0x92c/0xd2c [xgs_iproc_udc])
-> [  183.795666]  r5:df5d73ac r4:df767c80
+Signed-off-by: Ole Ernst <olebowle@gmx.com>
+=2D--
+ drivers/usb/core/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-What is xgs_iproc_udc? It seems a downstream UDC driver.
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 8239fe7129dd..019351c0b52c 100644
+=2D-- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -434,6 +434,9 @@ static const struct usb_device_id usb_quirk_list[] =3D=
+ {
+ 	{ USB_DEVICE(0x1532, 0x0116), .driver_info =3D
+ 			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
 
-> [  183.795682] [<bf0ebf20>] (xgs_iproc_ep_enable [xgs_iproc_udc]) from [<bf0eca8c>] (xgs_iproc_ep_queue+0x384/0x5bc [xgs_iproc_udc])
-> [  183.795687]  r7:df767cb8 r6:df5d7380 r5:df767c80 r4:df5d73ac
-> [  183.795706] [<bf0ec708>] (xgs_iproc_ep_queue [xgs_iproc_udc]) from [<c0384fec>] (usb_ep_queue+0x1f0/0x238)
-> [  183.795713]  r10:43425355 r9:df767c80 r8:df767c80 r7:a00f0013 r6:df5d73ac r5:df767c80
-> [  183.795716]  r4:df65dea8
-> [  183.795743] [<c0384dfc>] (usb_ep_queue) from [<bf0f6910>] (usb_composite_overwrite_options+0x128/0x184 [libcomposite])
-
-How could usb_ep_queue is called in usb_composite_overwrite_options?
-> [  183.795750]  r9:00055302 r8:df767c80 r7:a00f0013 r6:df65df04 r5:df767c80 r4:df65dea8
-> [  183.795777] [<bf0f68e0>] (usb_composite_overwrite_options [libcomposite]) from [<bf0f69f4>] (usb_composite_setup_continue+0x88/0x138 [libcomposite])
-> [  183.795782]  r7:a00f0013 r6:df65df04 r5:00000000 r4:df65dea8
-> [  183.795812] [<bf0f696c>] (usb_composite_setup_continue [libcomposite]) from [<bf120cf8>] (fsg_alloc_inst+0xa5c/0xac8 [usb_f_mass_storage])
-
-How could usb_composite_setup_continue is called in fsg_alloc_inst? The
-usb_composite_setup_continue is usually called at the very late of
-enumeration.
-
-> [  183.795819]  r9:00055302 r8:00000003 r7:deca5800 r6:00000001 r5:df595a80 r4:deca5948
-> [  183.795840] [<bf120a68>] (fsg_alloc_inst [usb_f_mass_storage]) from [<bf120e00>] (fsg_main_thread+0x9c/0x15dc [usb_f_mass_storage])
-
-How fsg_alloc_inst is called at fsg_main_thread?
-
-Peter
-
-> [  183.795846]  r8:df770000 r7:df595a80 r6:deca1cc0 r5:df724000 r4:deca5800
-> [  183.795864] [<bf120d64>] (fsg_main_thread [usb_f_mass_storage]) from [<c0046cd0>] (kthread+0x14c/0x154)
-> [  183.795870]  r10:df785d14 r9:00000000 r8:deca5800 r7:df6c31b8 r6:df70f580 r5:df724000
-> [  183.795873]  r4:df6c3180
-> [  183.795881] [<c0046b84>] (kthread) from [<c000a67c>] (ret_from_fork+0x14/0x38)
-> [  183.795887]  r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:c0046b84
-> [  183.795889]  r4:df70f580
-> --------------------------snip-------------------------------------
-
-
-> 
-> Fixes: 57943716ff1b ("usb: gadget: composite: set our req->context to cdev")
-> Signed-off-by: Florian Faber <faber@faberman.de>
-> 
-> ---
-> Change in v4:
->   - Short commit hash
->   - Fix line wrap
-> 
-> Change in v3:
->   - Addes changes
-> 
-> Change in v2:
->   - More verbose explanation
->   - Added commit hash that introduced the bug
-> 
->  drivers/usb/gadget/composite.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-> index 504c1cbc255d..8d497be4be32 100644
-> --- a/drivers/usb/gadget/composite.c
-> +++ b/drivers/usb/gadget/composite.c
-> @@ -2518,6 +2518,7 @@ void usb_composite_setup_continue(struct usb_composite_dev *cdev)
->  		DBG(cdev, "%s: Completing delayed status\n", __func__);
->  		req->length = 0;
->  		req->context = cdev;
-> +		req->complete = composite_setup_complete;
->  		value = composite_ep0_queue(cdev, req, GFP_ATOMIC);
->  		if (value < 0) {
->  			DBG(cdev, "ep_queue --> %d\n", value);
-> -- 
-
--- 
-
-Thanks,
-Peter Chen
++	/* Lenovo Powered USB-C Travel Hub (4X90S92381, RTL8153 GigE) */
++	{ USB_DEVICE(0x17ef, 0x721e), .driver_info =3D USB_QUIRK_NO_LPM },
++
+ 	/* Lenovo ThinkCenter A630Z TI024Gen3 usb-audio */
+ 	{ USB_DEVICE(0x17ef, 0xa012), .driver_info =3D
+ 			USB_QUIRK_DISCONNECT_SUSPEND },
+=2D-
+2.34.1
 
