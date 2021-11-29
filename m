@@ -2,147 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12944C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 20:11:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFFFC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 22:30:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233370AbhK2UOO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Nov 2021 15:14:14 -0500
-Received: from mail-oi1-f179.google.com ([209.85.167.179]:34675 "EHLO
-        mail-oi1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233549AbhK2UMI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Nov 2021 15:12:08 -0500
-Received: by mail-oi1-f179.google.com with SMTP id t19so36815629oij.1;
-        Mon, 29 Nov 2021 12:08:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Z6xdOSQsfsaoPSj9BpA6Xmod/xwiCQkOb+qTA/iCb/o=;
-        b=mMamZOPZMcT6WNosUBYp4n0oFl4pn33lkbNiYL2v2y6B4/u2/owYEVJXz+LHXOi5Pd
-         2CFy4rszd1uh9pUDAtI8mtq4ICVebFJzEwIkEOxdYG/zQE3JoNNf3TnNiUG5sUXXHP5v
-         mUGaYr7rRa8Wz0KvhXfikXqvya9TU9gvm8+QowWOQYGNb4uR8QN/eK83g80bdzRptWxJ
-         2lx2uPGg8BWerrg8dpCv7IJVtbl9qaxDb+GZPKXKFpSY7hTPhE+0+ZalKLfWquFSWTDW
-         EnPCIG7L0qCcg7l3Uud00uJ01eQ3lBFBdHQrhZ70Py7R/Rald8zrXHM5/Hivb8MgnCCr
-         x0oA==
-X-Gm-Message-State: AOAM531xdmA4PNRTdrpeSH7i0VQkE+WqucNk1Z+YriLf6dZWJSC3prmv
-        U4LsHMhKaMspYayAXRq4KA==
-X-Google-Smtp-Source: ABdhPJy2T7U5QNpYE8mKhDs4Y0kpsY4X+RruhTn7EbB9g52UuWIuwRJoXI1gDNqGmpcZq9IEms65YQ==
-X-Received: by 2002:a05:6808:3c2:: with SMTP id o2mr241205oie.112.1638216529867;
-        Mon, 29 Nov 2021 12:08:49 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id n6sm2837920otj.78.2021.11.29.12.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 12:08:49 -0800 (PST)
-Received: (nullmailer pid 520021 invoked by uid 1000);
-        Mon, 29 Nov 2021 20:08:47 -0000
-Date:   Mon, 29 Nov 2021 14:08:47 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Conor.Dooley@microchip.com
-Cc:     krzysztof.kozlowski@canonical.com, broonie@kernel.org,
-        aou@eecs.berkeley.edu, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, palmer@dabbelt.com,
-        paul.walmsley@sifive.com, jassisinghbrar@gmail.com,
-        atish.patra@wdc.com, Daire.McNamara@microchip.com,
-        Lewis.Hanly@microchip.com, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, geert@linux-m68k.org,
-        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-crypto@vger.kernel.org, linux-usb@vger.kernel.org,
-        bin.meng@windriver.com, linux-i2c@vger.kernel.org,
-        alexandre.belloni@bootlin.com, Ivan.Griffin@microchip.com,
-        linux-rtc@vger.kernel.org, linux-spi@vger.kernel.org,
-        a.zummo@towertech.it, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 06/13] dt-bindings: rng: add bindings for microchip mpfs
- rng
-Message-ID: <YaUzT6+WvICiTk1q@robh.at.kernel.org>
-References: <20211108150554.4457-1-conor.dooley@microchip.com>
- <20211108150554.4457-7-conor.dooley@microchip.com>
- <f60cf7e0-4f67-f4b3-2596-01114cff6623@canonical.com>
- <71c6917e-1463-c708-550a-726e5fe1566d@microchip.com>
- <ca17d6ac-ef8e-b01c-3278-7cbb0d5745e3@canonical.com>
- <ea871add-bddc-c4ae-ac9d-e86b4fad5a02@microchip.com>
- <a0713a10-3409-4401-e612-0a9c06f88ea1@canonical.com>
- <9d6f2e66-860c-2b8a-0b45-7dc56dd5298f@microchip.com>
+        id S232138AbhK2Wdf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Nov 2021 17:33:35 -0500
+Received: from mail.mutex.one ([62.77.152.124]:37270 "EHLO mail.mutex.one"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231998AbhK2WdJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Nov 2021 17:33:09 -0500
+X-Greylist: delayed 1035 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Nov 2021 17:33:09 EST
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.mutex.one (Postfix) with ESMTP id CDC8A16DDFAF;
+        Tue, 30 Nov 2021 00:12:34 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+        by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id CgdqX3x226dP; Tue, 30 Nov 2021 00:12:33 +0200 (EET)
+Received:  [127.0.0.1] (localhost [127.0.0.1])nknown [79.112.88.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mutex.one (Postfix) with ESMTPSA id 21B8F16DDF17;
+        Tue, 30 Nov 2021 00:12:33 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+        t=1638223953; bh=6sv/YtC7HRNVTUOzq8MATmzCdYfyVXcxC85XY1WhJs8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ei0kKSGBhAJPjFIfsMrxMdqnDrUMcUYkca/dahv0dt0jIm1xVrlmCBIJ2VxCoOGSb
+         bfjKGG5+NlyW9vNVhiIVDECTHtLGT9w5eEdwPtLT1GX8tOeVOko4WM/OzCyWWb6+Kg
+         RPc/A7beXgHWJTZiCWNFxDmCJrssxhyIhkytYYNQ=
+From:   Marian Postevca <posteuca@mutex.one>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Marian Postevca <posteuca@mutex.one>
+Subject: [PATCH] usb: gadget: u_ether: fix race in setting MAC address in setup phase
+Date:   Tue, 30 Nov 2021 00:12:29 +0200
+Message-Id: <20211129221229.31845-1-posteuca@mutex.one>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d6f2e66-860c-2b8a-0b45-7dc56dd5298f@microchip.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 10, 2021 at 09:46:23AM +0000, Conor.Dooley@microchip.com wrote:
-> On 10/11/2021 07:43, Krzysztof Kozlowski wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> > On 09/11/2021 14:36, Conor.Dooley@microchip.com wrote:
-> >> On 09/11/2021 12:56, Krzysztof Kozlowski wrote:
-> >>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>
-> >>> On 09/11/2021 13:54, Conor.Dooley@microchip.com wrote:
-> >>>> On 08/11/2021 21:16, Krzysztof Kozlowski wrote:
-> >>>>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> >>>>>
-> >>>>> On 08/11/2021 16:05, conor.dooley@microchip.com wrote:
-> >>>>>> From: Conor Dooley <conor.dooley@microchip.com>
-> >>>>>>
-> >>>>>> Add device tree bindings for the hardware rng device accessed via
-> >>>>>> the system services on the Microchip PolarFire SoC.
-> >>>>>>
-> >>>>>> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> >>>>>> ---
-> >>>>>>     .../bindings/rng/microchip,mpfs-rng.yaml      | 31 +++++++++++++++++++
-> >>>>>>     1 file changed, 31 insertions(+)
-> >>>>>>     create mode 100644 Documentation/devicetree/bindings/rng/microchip,mpfs-rng.yaml
-> >>>>>>
-> >>>>>> diff --git a/Documentation/devicetree/bindings/rng/microchip,mpfs-rng.yaml b/Documentation/devicetree/bindings/rng/microchip,mpfs-rng.yaml
-> >>>>>> new file mode 100644
-> >>>>>> index 000000000000..e8ecb3538a86
-> >>>>>> --- /dev/null
-> >>>>>> +++ b/Documentation/devicetree/bindings/rng/microchip,mpfs-rng.yaml
-> >>>>>> @@ -0,0 +1,31 @@
-> >>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>>>> +%YAML 1.2
-> >>>>>> +---
-> >>>>>> +$id: "http://devicetree.org/schemas/rng/microchip,mpfs-rng.yaml#"
-> >>>>>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> >>>>>> +
-> >>>>>> +title: Microchip MPFS random number generator
-> >>>>>> +
-> >>>>>> +maintainers:
-> >>>>>> +  - Conor Dooley <conor.dooley@microchip.com>
-> >>>>>> +
-> >>>>>> +properties:
-> >>>>>> +  compatible:
-> >>>>>> +    const: microchip,polarfire-soc-rng
-> >>>>>> +
-> >>>>>> +  syscontroller:
-> >>>>>> +    maxItems: 1
-> >>>>>> +    description: name of the system controller device node
-> >>>>>
-> >>>>> There are several issues with this:
-> >>>>> 1. You need to describe the type.
-> >>>>> 2. Description is not helpful (just copying the name of property) and
-> >>>>> actually misleading because you do not put there the name of device node.
-> >>>>> 3. What is it? Looks like syscon (or sometimes called sysreg). If yes,
-> >>>>> please use existing syscon bindings.
-> >>>> 1 & 2 - Correct, it is bad & I'll write a better description for it.
-> >>>> 3 - Its a system controller implemented as a mailbox. The syscontroller
-> >>>> is the mailbox client, which the rng and generic drivers both use.
-> >>>
-> >>> I understood that pointed device node is a mailbox, not this node. But
-> >>> here, what is it here? How do you use it here?
-> >> The system controller is the means of access to the random number
-> >> generator. The phandle to the sys controller is provided here so that
-> >> the rng driver can locate the mailbox client through which it requests
-> >> random numbers.
-> > 
-> > I am asking this to understand whether there is a generic or existing
-> > property which should be used instead.
-> > 
-> > If I understand correctly, the rng driver needs a mailbox client?
-> Correct, it needs one. Binding for that is here:
-> Documentation/devicetree/bindings/soc/microchip/microchip,polarfire-soc-sys-controller.yaml
+When listening for notifications through netlink of a new interface being
+registered, sporadically, it is possible for the MAC to be read as zero.
+The zero MAC address lasts a short period of time and then switches to a
+valid random MAC address.
 
-The rng node and others should be a child of the sys controller node.
+This causes problems for netd in Android, which assumes that the interface
+is malfunctioning and will not use it.
 
-Rob
+In the good case we get this log:
+InterfaceController::getCfg() ifName usb0
+ hwAddr 92:a8:f0:73:79:5b ipv4Addr 0.0.0.0 flags 0x1002
+
+In the error case we get these logs:
+InterfaceController::getCfg() ifName usb0
+ hwAddr 00:00:00:00:00:00 ipv4Addr 0.0.0.0 flags 0x1002
+
+netd : interfaceGetCfg("usb0")
+netd : interfaceSetCfg() -> ServiceSpecificException
+ (99, "[Cannot assign requested address] : ioctl() failed")
+
+The reason for the issue is the order in which the interface is setup,
+it is first registered through register_netdev() and after the MAC
+address is set.
+
+Fixed by first setting the MAC address of the net_device and after that
+calling register_netdev().
+
+Signed-off-by: Marian Postevca <posteuca@mutex.one>
+---
+ drivers/usb/gadget/function/u_ether.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index e0ad5aed6ac9..6f5d45ef2e39 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -17,6 +17,7 @@
+ #include <linux/etherdevice.h>
+ #include <linux/ethtool.h>
+ #include <linux/if_vlan.h>
++#include <linux/etherdevice.h>
+ 
+ #include "u_ether.h"
+ 
+@@ -863,19 +864,23 @@ int gether_register_netdev(struct net_device *net)
+ {
+ 	struct eth_dev *dev;
+ 	struct usb_gadget *g;
+-	struct sockaddr sa;
+ 	int status;
+ 
+ 	if (!net->dev.parent)
+ 		return -EINVAL;
+ 	dev = netdev_priv(net);
+ 	g = dev->gadget;
++
++	net->addr_assign_type = NET_ADDR_RANDOM;
++	eth_hw_addr_set(net, dev->dev_mac);
++
+ 	status = register_netdev(net);
+ 	if (status < 0) {
+ 		dev_dbg(&g->dev, "register_netdev failed, %d\n", status);
+ 		return status;
+ 	} else {
+ 		INFO(dev, "HOST MAC %pM\n", dev->host_mac);
++		INFO(dev, "MAC %pM\n", dev->dev_mac);
+ 
+ 		/* two kinds of host-initiated state changes:
+ 		 *  - iff DATA transfer is active, carrier is "on"
+@@ -883,15 +888,6 @@ int gether_register_netdev(struct net_device *net)
+ 		 */
+ 		netif_carrier_off(net);
+ 	}
+-	sa.sa_family = net->type;
+-	memcpy(sa.sa_data, dev->dev_mac, ETH_ALEN);
+-	rtnl_lock();
+-	status = dev_set_mac_address(net, &sa, NULL);
+-	rtnl_unlock();
+-	if (status)
+-		pr_warn("cannot set self ethernet address: %d\n", status);
+-	else
+-		INFO(dev, "MAC %pM\n", dev->dev_mac);
+ 
+ 	return status;
+ }
+-- 
+2.32.0
+
