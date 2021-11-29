@@ -2,153 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 664A2C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 22:35:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C69BC433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 22:43:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233846AbhK2Wik (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Nov 2021 17:38:40 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:40415 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231501AbhK2WiF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Nov 2021 17:38:05 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailout.nyi.internal (Postfix) with ESMTP id E9A495C019E;
-        Mon, 29 Nov 2021 17:34:45 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute3.internal (MEProxy); Mon, 29 Nov 2021 17:34:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-         h=mime-version:message-id:in-reply-to:references:date:from:to
-        :cc:subject:content-type; s=fm3; bh=nak5LLj7hhbHiQ3bZxbtQxMEyoqm
-        oK2+u/U9XmUMMoc=; b=THtCY7wkN/LcNfZsiY6qA3Z5wl8SrUNoDQdhre1m32or
-        xXwFlPbIeq4T7sCxkvXWWqLU0wIndzQRo1e3w7X6TPxHrcmbdlN4s9+JP9D+uT+v
-        u5x/ef/5I2XDXd+kkfqh1c8KgGlq/gbEbOCtRFctyliNdfHGxr3kUcgbeGnrx914
-        BzWbLeVdSNNVcE5iAZsZGDCEC0nCMIeVNcctl0Dllk9l36YowjHlHgN5TUqqF1ta
-        ResCWamcVlEQ4k8HTJZLa3MIE3iJlwnmJoiXh8dNKkuMDVq/xW1m+/vhXEhUvJSH
-        jVmeMDwVM/P3a8Tb/2hcaiblzfVnK2V3wcQzW8mpGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nak5LL
-        j7hhbHiQ3bZxbtQxMEyoqmoK2+u/U9XmUMMoc=; b=ea2pzyNyhML2wK/z0O8odQ
-        6ude99ahq4hO3z6Kspo4G0O8LWGST+J62JO11HmqUp7CjYjmNFCUjn4Y+sTNJdLn
-        3UjWrq4krZjwSj2Lw1VBrMRloGxNyH3nDYybdfccJ/uYWObptf/OlrTQNimE1JZT
-        EkP1Bru+1a3cGKwBrjVRvIXkVQM4Hzahp651L0hUPTHXrERbGC9zcWjczgMo4T8h
-        nl6Ii051ICABSNgG3jQpj7YLcu71L38xr0Ky7e+LvxmpXbVWZsW79t3am3umfrUF
-        43FhB5ZyBaO0OK3T42FI/blnp8Q+5hdByyiaFBfo9e8OyUzfMnOoaxhGgyvPk4PA
-        ==
-X-ME-Sender: <xms:hVWlYYVr53cB3hUsRMEnoYkT3mph035pFKO1ZloTpfqIZzJTjJjkOQ>
-    <xme:hVWlYclhtLS9EXXK1DDxNQPtCVGB3ytwPjypfL9N_vdIpNlQWuRu6uQ2EaMce2_VK
-    F_THxC0rEAtiG2G77A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrheelgdduieefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
-    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpeehtdffledvffegveejgeegvdeujedtteefgfelffehtdetudekteethfet
-    keeuudenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvght
-    vghrrdguvghv
-X-ME-Proxy: <xmx:hVWlYcaQVGukXnjV1thivnYKbqj2kj_VF9BQWNV4mUBNeBEmi4jgug>
-    <xmx:hVWlYXX0fhxwE5auQvj3nId5W7diEzvBj4LmtcbR1vSb3z9gYdLONw>
-    <xmx:hVWlYSn4zj8upU9tYUZ4DZ1CBy_zfTBJWiy33GC_aZWeByA77_ZIkQ>
-    <xmx:hVWlYQa8SoRKcrKDWlE9VIg3rxbbH8S1CISuiDkLp00MAf7QoVIltQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 407A427407A2; Mon, 29 Nov 2021 17:34:45 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4409-g12559b250c-fm-20211129.001-g12559b25
-Mime-Version: 1.0
-Message-Id: <78db7a00-93a4-46de-8071-2801c84bc171@www.fastmail.com>
-In-Reply-To: <YaQseO5kF71vABji@robh.at.kernel.org>
-References: <20211108170946.49689-1-sven@svenpeter.dev>
- <YaQseO5kF71vABji@robh.at.kernel.org>
-Date:   Mon, 29 Nov 2021 23:34:24 +0100
-From:   "Sven Peter" <sven@svenpeter.dev>
-To:     "Rob Herring" <robh@kernel.org>
-Cc:     "Felipe Balbi" <balbi@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "Hector Martin" <marcan@marcan.st>,
-        "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
-        "Mark Kettenis" <mark.kettenis@xs4all.nl>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        id S235213AbhK2Wqm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Nov 2021 17:46:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235307AbhK2WqQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Nov 2021 17:46:16 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8779C09CE48;
+        Mon, 29 Nov 2021 12:21:55 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id d9so18570827wrw.4;
+        Mon, 29 Nov 2021 12:21:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Yr7Pm1zMDL+waiXGnmgDPUcvU9J11jTasCepYE2XOcI=;
+        b=LiiAhDbYWHpCwYtAa2MJumN97/cy1tI6b39nZ5sEpep8M7bmVXwMNhhnacI1jZh779
+         dglz9rJF/4h4heP1VBuF9fpEVK/B1WFEGD1SjlivBXiRrVLtsk6Lfcracj0nHg9w3F/k
+         fyuxa3wFU8MW5BuOzJTpZG5IKQpGXktpS1VAskhKFnbjbtAmX0aIAvh3KQ/S4Co6+8pO
+         +4sBr1SGcX0/rASd4P22u64snuSmRDGbM1QXs1qmf+SYhfMg+c1k3PcWbOtdiXNSmZaz
+         SY2rpLmC3ODQDruPCIMSqUTR01Rj5V+g3JiYpkDFBuXRFjKuJrICF5HDFCh5mpuFHgQC
+         CCBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Yr7Pm1zMDL+waiXGnmgDPUcvU9J11jTasCepYE2XOcI=;
+        b=047kRsTFYwCtvH07KvmbACY0msd3Zhh2Mq9IafPZtlx+4E49/VtzuUN7IlZ2YITJBx
+         m4+Qp6zZvr+5pmflsei0YGKktQ7fFvf5Y6GoHKvnkiUnUC9etLk8/ppO50lcLRv3Oj0+
+         Zl9vVyEQZFcZYlN+SiwNh+JLE8tgJkwkXbkwBOSY5jYjYPA5oTz25gMyMHwp0h0vnFCn
+         dLVEjzdiwvJNujSIxAIsiU2ZyM0wA+pGTGMTpqhF1oyt+Hz6+jS9kkkvYgOe2xy8EuOC
+         U6j/sk5BfZBFQxVHXgCqeDJ0OgMy7dTTnUJgE981ZEe9HXSTXxVChOGt5t7a2zA9CgUN
+         56oA==
+X-Gm-Message-State: AOAM532IOX2Ph31LBjUAgnjbwgfxuogGw0KnzQTv34CRCKa1AzDx5QgW
+        7wZtRSP7NcrTVn7wn8AB8R8=
+X-Google-Smtp-Source: ABdhPJx07ZTKQZSdjG2iCwY0lEujg0Naxur5L4l+SvNUdnLbUrbaNbWRNTlTwHTqXyH4JnDkNq/mcw==
+X-Received: by 2002:a05:6000:1acd:: with SMTP id i13mr36406501wry.398.1638217314493;
+        Mon, 29 Nov 2021 12:21:54 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e06460b103a790e4c64a8.dip0.t-ipconnect.de. [2003:c7:8f4e:646:b10:3a79:e4c:64a8])
+        by smtp.gmail.com with ESMTPSA id o9sm14710006wrs.4.2021.11.29.12.21.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Nov 2021 12:21:54 -0800 (PST)
+Date:   Mon, 29 Nov 2021 21:21:52 +0100
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add Apple dwc3 bindings
-Content-Type: text/plain
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH 3/4] Docs: usb: update comment and code of function
+ skel_delete
+Message-ID: <76757c4fc1f5001c3285a9a071055e8715985604.1638152984.git.philipp.g.hortmann@gmail.com>
+References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Put skel_delete function in the document typical form
+Update code according to usb-skeleton.c
 
-Thanks for the review!
+Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+---
+ .../driver-api/usb/writing_usb_driver.rst     | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-On Mon, Nov 29, 2021, at 02:27, Rob Herring wrote:
-> On Mon, Nov 08, 2021 at 06:09:45PM +0100, Sven Peter wrote:
->> Apple Silicon SoCs such as the M1 have multiple USB controllers based on
->> the Synopsys DesignWare USB3 controller.
->> References to the ATC PHY required for SuperSpeed are left out for now
->> until support has been upstreamed as well.
->> 
->> Signed-off-by: Sven Peter <sven@svenpeter.dev>
->> ---
->> v1 -> v2:
->>  - added apple,dwc3 bindings instead of a property for the reset quirk
->>    as requested by robh
->> 
->> I think I have to use GPL-2.0 for this binding since it's based
->> on and references snps,dwc3.yaml which is also only GPL-2.0.
->> Otherwise I'd be fine with the usual GPL/BSD dual license as well.
->> 
->>  .../devicetree/bindings/usb/apple,dwc3.yaml   | 64 +++++++++++++++++++
->>  MAINTAINERS                                   |  1 +
->>  2 files changed, 65 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/usb/apple,dwc3.yaml
->> 
->> diff --git a/Documentation/devicetree/bindings/usb/apple,dwc3.yaml b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
->> new file mode 100644
->> index 000000000000..fb3b3489e6b2
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/usb/apple,dwc3.yaml
->> @@ -0,0 +1,64 @@
->> +# SPDX-License-Identifier: GPL-2.0
->
-> Dual license please.
+diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
+index b16e4e76d472..74bb72a2f0ac 100644
+--- a/Documentation/driver-api/usb/writing_usb_driver.rst
++++ b/Documentation/driver-api/usb/writing_usb_driver.rst
+@@ -263,18 +263,17 @@ handle smoothly is the fact that the USB device may be removed from the
+ system at any point in time, even if a program is currently talking to
+ it. It needs to be able to shut down any current reads and writes and
+ notify the user-space programs that the device is no longer there. The
+-following code (function ``skel_delete``) is an example of how to do
+-this::
++`skel_delete` function is an example of how to do this::
+ 
+-    static inline void skel_delete (struct usb_skel *dev)
++    static void skel_delete(struct kref *kref)
+     {
+-	kfree (dev->bulk_in_buffer);
+-	if (dev->bulk_out_buffer != NULL)
+-	    usb_free_coherent (dev->udev, dev->bulk_out_size,
+-		dev->bulk_out_buffer,
+-		dev->write_urb->transfer_dma);
+-	usb_free_urb (dev->write_urb);
+-	kfree (dev);
++	struct usb_skel *dev = to_skel_dev(kref);
++
++	usb_free_urb(dev->bulk_in_urb);
++	usb_put_intf(dev->interface);
++	usb_put_dev(dev->udev);
++	kfree(dev->bulk_in_buffer);
++	kfree(dev);
+     }
+ 
+ 
+-- 
+2.25.1
 
-I'd like to but I'm not sure if I can do that. This binding is based on
-snps,dwc3.yaml and rockchip,dwc3.yaml which are both only GPL-2.0.
-
->
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/usb/apple,dwc3.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Apple Silicon DWC3 USB controller
->> +
->> +maintainers:
->> +  - Sven Peter <sven@svenpeter.dev>
->> +
->> +description:
->> +  On Apple Silicon SoCs such as the M1 each Type-C port has a corresponding
->> +  USB controller based on the Synopsys DesignWare USB3 controller.
->> +
->> +  The common content of this binding is defined in snps,dwc3.yaml.
->> +
->> +allOf:
->> +  - $ref: snps,dwc3.yaml#
->> +
->> +select:
->> +  properties:
->> +    compatible:
->> +      contains:
->> +        const: apple,dwc3
->
-> This needs to list all possible compatibles except snps,dwc3 so the 
-> schema is applied for any incorrect mixture of compatibles.
-
-Makes sense, will do that for the next version.
-
-
-
-Thanks,
-
-Sven
