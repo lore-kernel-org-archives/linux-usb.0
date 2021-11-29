@@ -2,20 +2,21 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84605C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 23:51:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAAFBC433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Nov 2021 23:54:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231430AbhK2Xy3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Nov 2021 18:54:29 -0500
-Received: from gate.crashing.org ([63.228.1.57]:34612 "EHLO gate.crashing.org"
+        id S229606AbhK2X5g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Nov 2021 18:57:36 -0500
+Received: from gate.crashing.org ([63.228.1.57]:58760 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231130AbhK2Xy3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Nov 2021 18:54:29 -0500
+        id S229470AbhK2X5g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Nov 2021 18:57:36 -0500
 Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1ATNjirY024975;
-        Mon, 29 Nov 2021 17:45:45 -0600
-Message-ID: <279c42970790787e928ed017149e300835085235.camel@kernel.crashing.org>
-Subject: Re: [PATCH 2/3] usb: aspeed-vhub: support remote wakeup feature
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1ATNmnMv025112;
+        Mon, 29 Nov 2021 17:48:49 -0600
+Message-ID: <12cf11dc4326922ceb67ede7b63a53fe1840b6fd.camel@kernel.crashing.org>
+Subject: Re: [PATCH 3/3] usb: aspeed-vhub: fix ep0 OUT ack received wrong
+ length issue
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     Neal Liu <neal_liu@aspeedtech.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -30,10 +31,10 @@ To:     Neal Liu <neal_liu@aspeedtech.com>,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-aspeed@lists.ozlabs.org
 Cc:     BMC-SW@aspeedtech.com
-Date:   Tue, 30 Nov 2021 10:45:44 +1100
-In-Reply-To: <20211126110954.2677627-3-neal_liu@aspeedtech.com>
+Date:   Tue, 30 Nov 2021 10:48:48 +1100
+In-Reply-To: <20211126110954.2677627-4-neal_liu@aspeedtech.com>
 References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
-         <20211126110954.2677627-3-neal_liu@aspeedtech.com>
+         <20211126110954.2677627-4-neal_liu@aspeedtech.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
@@ -43,35 +44,31 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On Fri, 2021-11-26 at 19:09 +0800, Neal Liu wrote:
-> Remote wakeup signaling will be automatically issued
-> whenever any write commands has been received in suspend
-> state.
-
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> @@ -240,6 +240,9 @@ void ast_vhub_init_hw(struct ast_vhub *vhub)
->  	if (vhub->force_usb1)
->  		ctrl |= VHUB_CTRL_FULL_SPEED_ONLY;
->  
-> +	/* Enable auto remote wakeup */
-> +	ctrl |= VHUB_CTRL_AUTO_REMOTE_WAKEUP;
+> 
+> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+> b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+> index 74ea36c19b1e..bea9cbb191a2 100644
+> --- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+> +++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+> @@ -251,6 +251,13 @@ static void ast_vhub_ep0_do_receive(struct
+> ast_vhub_ep *ep, struct ast_vhub_req
+>  		len = remain;
+>  		rc = -EOVERFLOW;
+>  	}
 > +
->  	ctrl |= VHUB_CTRL_UPSTREAM_CONNECT;
->  	writel(ctrl, vhub->regs + AST_VHUB_CTRL);
+> +	/* HW return wrong data len */
+> +	if (len < ep->ep.maxpacket && len != remain) {
+> +		EPDBG(ep, "using expected data len instead\n");
+> +		len = remain;
+> +	}
+> +
 
-Should this  be controlled by d->wakeup_en ? IE, we have a feature for
-the host to enable/disable remote wakeup, should we honor it ?
- 
-> +	} else if (wValue == USB_DEVICE_TEST_MODE) {
-> +		val = readl(d->vhub->regs + AST_VHUB_CTRL);
-> +		val &= ~GENMASK(10, 8);
-> +		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
-> +		writel(val, d->vhub->regs + AST_VHUB_CTRL);
+Wow, that is a nasty hw bug ! Patch looks good, I had to swap some of
+that logic back into my brain but it looks like it won't break any
+normal case :-)
 
-This is unrelated to remote wakeup is it ? In which case it should
-probably be a separate patch.
+Acked-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 
 Cheers,
 Ben.
-
 
