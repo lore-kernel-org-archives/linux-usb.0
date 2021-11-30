@@ -2,18 +2,18 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 221A7C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Nov 2021 11:39:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD70FC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Nov 2021 11:39:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240825AbhK3LnK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Nov 2021 06:43:10 -0500
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:54895 "EHLO
+        id S240849AbhK3LnR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Nov 2021 06:43:17 -0500
+Received: from twspam01.aspeedtech.com ([211.20.114.71]:63954 "EHLO
         twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236305AbhK3LnK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Nov 2021 06:43:10 -0500
+        with ESMTP id S240812AbhK3LnQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Nov 2021 06:43:16 -0500
 Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 1AUBEMLr082287;
-        Tue, 30 Nov 2021 19:14:22 +0800 (GMT-8)
+        by twspam01.aspeedtech.com with ESMTP id 1AUBENq1082290;
+        Tue, 30 Nov 2021 19:14:23 +0800 (GMT-8)
         (envelope-from neal_liu@aspeedtech.com)
 Received: from localhost.localdomain (192.168.10.10) by TWMBX02.aspeed.com
  (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 30 Nov
@@ -33,9 +33,9 @@ To:     Felipe Balbi <balbi@kernel.org>,
         <linux-aspeed@lists.ozlabs.org>
 CC:     Neal Liu <neal_liu@aspeedtech.com>, <benh@kernel.crashing.org>,
         <BMC-SW@aspeedtech.com>
-Subject: [PATCH v2 1/4] usb: aspeed-vhub: add qualifier descriptor
-Date:   Tue, 30 Nov 2021 19:38:44 +0800
-Message-ID: <20211130113847.1405873-2-neal_liu@aspeedtech.com>
+Subject: [PATCH v2 4/4] usb: aspeed-vhub: support test mode feature
+Date:   Tue, 30 Nov 2021 19:38:47 +0800
+Message-ID: <20211130113847.1405873-5-neal_liu@aspeedtech.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211130113847.1405873-1-neal_liu@aspeedtech.com>
 References: <20211130113847.1405873-1-neal_liu@aspeedtech.com>
@@ -46,7 +46,7 @@ X-Originating-IP: [192.168.10.10]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 1AUBEMLr082287
+X-MAIL: twspam01.aspeedtech.com 1AUBENq1082290
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -54,92 +54,86 @@ X-Mailing-List: linux-usb@vger.kernel.org
 +Ben.
 ---
 
-Support qualifier descriptor to pass USB30CV compliance test.
+Support aspeed usb vhub set feature to test mode.
 
 Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/hub.c  | 24 +++++++++++++++++++++++
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 2 files changed, 25 insertions(+)
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 18 ++++++++++++++----
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c | 22 ++++++++++++++++------
+ 2 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-index b9960fdd8a51..93f27a745760 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-@@ -68,6 +68,18 @@ static const struct usb_device_descriptor ast_vhub_dev_desc = {
- 	.bNumConfigurations	= 1,
- };
- 
-+static const struct usb_qualifier_descriptor ast_vhub_qual_desc = {
-+	.bLength = 0xA,
-+	.bDescriptorType = USB_DT_DEVICE_QUALIFIER,
-+	.bcdUSB = cpu_to_le16(0x0200),
-+	.bDeviceClass = USB_CLASS_HUB,
-+	.bDeviceSubClass = 0,
-+	.bDeviceProtocol = 0,
-+	.bMaxPacketSize0 = 64,
-+	.bNumConfigurations = 1,
-+	.bRESERVED = 0,
-+};
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index d918e8b2af3c..4462f4b73b04 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -110,15 +110,25 @@ static int ast_vhub_dev_feature(struct ast_vhub_dev *d,
+ 				u16 wIndex, u16 wValue,
+ 				bool is_set)
+ {
++	u32 val;
 +
- /*
-  * Configuration descriptor: same comments as above
-  * regarding handling USB1 mode.
-@@ -271,9 +283,11 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_dev_desc));
- 		BUILD_BUG_ON(USB_DT_DEVICE_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_OTHER_SPEED_CONFIG:
- 	case USB_DT_CONFIG:
- 		dsize = AST_VHUB_CONF_DESC_SIZE;
- 		memcpy(ep->buf, &vhub->vhub_conf_desc, dsize);
-+		((u8 *)ep->buf)[1] = desc_type;
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_conf_desc));
- 		BUILD_BUG_ON(AST_VHUB_CONF_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-@@ -283,6 +297,10 @@ static int ast_vhub_rep_desc(struct ast_vhub_ep *ep,
- 		BUILD_BUG_ON(dsize > sizeof(vhub->vhub_hub_desc));
- 		BUILD_BUG_ON(AST_VHUB_HUB_DESC_SIZE >= AST_VHUB_EP0_MAX_PACKET);
- 		break;
-+	case USB_DT_DEVICE_QUALIFIER:
-+		dsize = sizeof(vhub->vhub_qual_desc);
-+		memcpy(ep->buf, &vhub->vhub_qual_desc, dsize);
-+		break;
- 	default:
- 		return std_req_stall;
- 	}
-@@ -428,6 +446,8 @@ enum std_req_rc ast_vhub_std_hub_request(struct ast_vhub_ep *ep,
- 		switch (wValue >> 8) {
- 		case USB_DT_DEVICE:
- 		case USB_DT_CONFIG:
-+		case USB_DT_DEVICE_QUALIFIER:
-+		case USB_DT_OTHER_SPEED_CONFIG:
- 			return ast_vhub_rep_desc(ep, wValue >> 8,
- 						 wLength);
- 		case USB_DT_STRING:
-@@ -1033,6 +1053,10 @@ static int ast_vhub_init_desc(struct ast_vhub *vhub)
- 	else
- 		ret = ast_vhub_str_alloc_add(vhub, &ast_vhub_strings);
+ 	DDBG(d, "%s_FEATURE(dev val=%02x)\n",
+ 	     is_set ? "SET" : "CLEAR", wValue);
  
-+	/* Initialize vhub Qualifier Descriptor. */
-+	memcpy(&vhub->vhub_qual_desc, &ast_vhub_qual_desc,
-+		sizeof(vhub->vhub_qual_desc));
+-	if (wValue != USB_DEVICE_REMOTE_WAKEUP)
+-		return std_req_driver;
++	if (wValue == USB_DEVICE_REMOTE_WAKEUP) {
++		d->wakeup_en = is_set;
++		return std_req_complete;
+ 
+-	d->wakeup_en = is_set;
++	} else if (wValue == USB_DEVICE_TEST_MODE) {
++		val = readl(d->vhub->regs + AST_VHUB_CTRL);
++		val &= ~GENMASK(10, 8);
++		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
++		writel(val, d->vhub->regs + AST_VHUB_CTRL);
+ 
+-	return std_req_complete;
++		return std_req_complete;
++	}
 +
- 	return ret;
++	return std_req_driver;
  }
  
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 87a5dea12d3c..6b9dfa6e10eb 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -425,6 +425,7 @@ struct ast_vhub {
- 	struct ast_vhub_full_cdesc	vhub_conf_desc;
- 	struct usb_hub_descriptor	vhub_hub_desc;
- 	struct list_head		vhub_str_desc;
-+	struct usb_qualifier_descriptor	vhub_qual_desc;
- };
+ static int ast_vhub_ep_feature(struct ast_vhub_dev *d,
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+index 93f27a745760..e52805fbdebd 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
+@@ -212,17 +212,27 @@ static int ast_vhub_hub_dev_feature(struct ast_vhub_ep *ep,
+ 				    u16 wIndex, u16 wValue,
+ 				    bool is_set)
+ {
++	u32 val;
++
+ 	EPDBG(ep, "%s_FEATURE(dev val=%02x)\n",
+ 	      is_set ? "SET" : "CLEAR", wValue);
  
- /* Standard request handlers result codes */
+-	if (wValue != USB_DEVICE_REMOTE_WAKEUP)
+-		return std_req_stall;
++	if (wValue == USB_DEVICE_REMOTE_WAKEUP) {
++		ep->vhub->wakeup_en = is_set;
++		EPDBG(ep, "Hub remote wakeup %s\n",
++		      is_set ? "enabled" : "disabled");
++		return std_req_complete;
+ 
+-	ep->vhub->wakeup_en = is_set;
+-	EPDBG(ep, "Hub remote wakeup %s\n",
+-	      is_set ? "enabled" : "disabled");
++	} else if (wValue == USB_DEVICE_TEST_MODE) {
++		val = readl(ep->vhub->regs + AST_VHUB_CTRL);
++		val &= ~GENMASK(10, 8);
++		val |= VHUB_CTRL_SET_TEST_MODE((wIndex >> 8) & 0x7);
++		writel(val, ep->vhub->regs + AST_VHUB_CTRL);
+ 
+-	return std_req_complete;
++		return std_req_complete;
++	}
++
++	return std_req_stall;
+ }
+ 
+ static int ast_vhub_hub_ep_feature(struct ast_vhub_ep *ep,
 -- 
 2.25.1
 
