@@ -2,91 +2,119 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D9FAC433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Dec 2021 17:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A119C433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Dec 2021 19:29:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237927AbhLBReR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Dec 2021 12:34:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50450 "EHLO
+        id S1356092AbhLBTcp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Dec 2021 14:32:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233308AbhLBReR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Dec 2021 12:34:17 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EFAAC06174A;
-        Thu,  2 Dec 2021 09:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=sEWHIxjOWFg80SWER+urzfc9OekftWsOORvg2PEkR3Q=; b=QQGolphIZAwJ+ihBIQIIC1DMsz
-        8QQwZB0gHnsamiiaIhTdRmUs9Q5u4i9eJG4hYrL5Swz/id2UKHfcBprDMjrrvy6OoPTOJK8Ko4ece
-        Oq8zMlyoduL3KEGkk0MkvhXgQOQWqvGkX8fqy7WrE9kd1LHNb+Nf4H+XXLGIJmuoWcwBYrhdK7hxw
-        l95GWNNN9wL4ntvCQlPVRhQgnwfKCIcYOYJWTifhMz/juMaehJKNAY7wqlY4lZeZifIszmBlL15nm
-        pY5z9B5lYmiu7ftOV6v79WDiRj0OOQHExlBRGugq2vUnlR2D4CXz72219omHuatEA1NXRIiHvFqCA
-        SAapKL0Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1mspuv-001qkT-UQ; Thu, 02 Dec 2021 17:30:46 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8D061300728;
-        Thu,  2 Dec 2021 18:30:45 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 1537D200C72E7; Thu,  2 Dec 2021 16:22:55 +0100 (CET)
-Date:   Thu, 2 Dec 2021 16:22:55 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     baolu.lu@linux.intel.com
-Cc:     x86@kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Subject: earlyprintk=xdbc seems broken
-Message-ID: <YajkzwmWQua3Kh6A@hirez.programming.kicks-ass.net>
+        with ESMTP id S235859AbhLBTco (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Dec 2021 14:32:44 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B005C06174A
+        for <linux-usb@vger.kernel.org>; Thu,  2 Dec 2021 11:29:21 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id r130so544818pfc.1
+        for <linux-usb@vger.kernel.org>; Thu, 02 Dec 2021 11:29:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hqjfXVJglMFd2amgIPEC84S0uybWLeU6WuVwI57Usjk=;
+        b=BlczXAsQsvVkkQ+D5LzJ1NjVLMG/DbL5LmVIxD/0fwQ8A7WHQgaICDL/hAKaE+Fpv+
+         ygd/fTFvLIlrYAHoHDz+yySOrdgfc8iY6PguUzsKg+yjFkW7EPno2+c5T9clAdML1OVN
+         3rHKPtvfVnNL339B/F7U6W38OHSZME/X13EMo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hqjfXVJglMFd2amgIPEC84S0uybWLeU6WuVwI57Usjk=;
+        b=wxzwqUR4nXePOx1hln8ZeFHBwdWsmxlIuPatZIBv/OP1/jppO2cOF3xf+SGFqE7ANy
+         +lxzhonDeIXsmajTHQfu2LaroWzuQgHQrdMXamc9XWpKS2xq4vAngbBYnQGdB6jb4UXl
+         U/u1mHKhyf0CvrYELpfAVVKnexIDV0n2KSeROG/TD4xFPygHvTsSpczW3KtmX3MddyuK
+         AYI58bZlBKy4G/T28n3Jx77d+5fVcRURY6tg3gvDs7p5bHIBfLB/TSEwBG+3ZFfgvX3P
+         Lg11IxQ/eYMkk55u+SgKYBHmgHLTJsxNSDRBvNE+V8iu2H5uqdMQYHs79TZfp5/dGbhN
+         QBIA==
+X-Gm-Message-State: AOAM531ggUsxLNgUs5s/aW0fXCBk2PAFzX/ZN5ZZ5mxSyhCKc+RHMfeU
+        7LeKQY5HF8b8cjaAUOlTktIPIw==
+X-Google-Smtp-Source: ABdhPJzc6qoWc/2+7sb2nt26p984INtuKCo0EqmCZWkJljU74OHmriEsp9uYzbSFLZDNU2l4YyRMug==
+X-Received: by 2002:a63:f954:: with SMTP id q20mr899839pgk.13.1638473360874;
+        Thu, 02 Dec 2021 11:29:20 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:f780:259b:2241:cde0])
+        by smtp.gmail.com with ESMTPSA id j7sm3459929pjf.41.2021.12.02.11.29.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Dec 2021 11:29:20 -0800 (PST)
+Date:   Thu, 2 Dec 2021 11:29:19 -0800
+From:   Prashant Malani <pmalani@chromium.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tobias Schramm <t.schramm@manjaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        bleung@chromium.org
+Subject: Re: PATCH 0/4] usbd: typec: fusb302: Add support for specifying
+ supported alternate-modes through devicetree/fwnodes
+Message-ID: <Yakej0+7W+Lk9OWP@google.com>
+References: <20200714113617.10470-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20200714113617.10470-1-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Lu,
+Hi Hans,
 
-I was unfortunate enough to need xdbc and can't get my machine to boot
-with earlyprintk=xdbc on the cmdline.
+Sorry for posting on an old thread, but I was wondering if there was
+still a plan to submit this? This is something we'd like to use on
+Chrome OS too.
 
-When I boot the target without the earlyprintk=xdbc, but have the cable
-attached, it won't boot because boot gets stuck like:
+It sounded like the primary discussion was whether to have an "altmodes"
+property encaspulating the various alt modes, but not sure what the
+final consensus on that was (sounded to me like your current
+implementation was fine for now, and ACPI use cases would be handled
+later?).
 
-Dec  2 15:08:10 tigerlake kernel: [   42.043137] usb usb4-port3: Cannot enable. Maybe the USB cable is bad?
-Dec  2 15:08:10 tigerlake kernel: [   42.043227] usb usb4-port3: config error
+Best regards,
 
-However, when I boot without earlyprintk=xdbc, without the cable
-attached, then I can attach the cable and:
+-Prashant
 
-$ echo enable > /sys/bus/pci/devices/0000:00:14.0/dbc
-
-will actually work, and it shows up on my host system:
-
-[1023855.419430] usb usb2-port3: Cannot enable. Maybe the USB cable is bad?
-[1023855.419455] usb usb2-port3: config error
-[1023859.491476] usb usb2-port3: Cannot enable. Maybe the USB cable is bad?
-[1023859.491487] usb usb2-port3: config error
-[1023861.335436] usb usb2-port3: config error
-[1023861.607476] usb 2-3: new SuperSpeed USB device number 7 using xhci_hcd
-[1023861.627614] usb 2-3: LPM exit latency is zeroed, disabling LPM.
-[1023861.627853] usb 2-3: New USB device found, idVendor=1d6b, idProduct=0010, bcdDevice= 0.10
-[1023861.627855] usb 2-3: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[1023861.627856] usb 2-3: Product: Linux USB Debug Target
-[1023861.627857] usb 2-3: Manufacturer: Linux Foundation
-[1023861.627858] usb 2-3: SerialNumber: 0001
-[1023861.629344] usb_debug 2-3:1.0: xhci_dbc converter detected
-[1023861.629532] usb 2-3: xhci_dbc converter now attached to ttyUSB0
-
-
-Can you please see if you can repro and fix this?
-
-This all was with current 5.16-rc3 on a tigerlake nuc.
-
-Also, perhaps you can update the guide on what sort of setup/cables
-etc.. you need when either the host or the client is a usb3.1 usb-c only
-device.
+On Tue, Jul 14, 2020 at 01:36:13PM +0200, Hans de Goede wrote:
+> Hi All,
+> 
+> This is a replacement series for an earlier attempt by me for this
+> from quite a while ago:
+> 
+> https://patchwork.kernel.org/patch/11199517/
+> 
+> As discussed there, this series implements an altmodes devicetree-fwnode
+> under the usb-connector node which has 1 child-node per supported
+> altmode and in that child-node the svid and vdo for the supported
+> altmode are specified.
+> 
+> Note this patch-set does not contain any devicetree users of the
+> new bindings. The new support/binding is used on X86 Cherry Trail
+> devices with a fusb302 Type-C controller (special variant of the
+> INT33FE device in ACPI). But this patch should also help getting
+> Display Port altmode to work with the mainline kernel on boards
+> like the Pine RockPro64 and Pinebook Pro, which is why I've added
+> Tobias Schramm to the Cc since he has done mainline devicetree
+> work for the Pinebook Pro in the past.
+> 
+> The 1st patch adds the dt-bindings docs. I'm not sure if this one
+> should go upstream through the USB tree together with patches 2-3 or
+> if this should go upstream separately, Rob ?
+> 
+> Patches 2-3 add support for the new binding to Type-C controller drivers
+> using the tcpm framework, such as the fusb302 driver.
+> 
+> Patch 4 uses swnodes to add the altmode info on the earlier mentioned
+> X86 CHT devices, making DP-altmode work there for the first time.
+> 
+> Regards,
+> 
+> Hans
+> 
