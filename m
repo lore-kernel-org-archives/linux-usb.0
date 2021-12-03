@@ -2,104 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D120C433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Dec 2021 10:54:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B38A6C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Dec 2021 10:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380047AbhLCK5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Dec 2021 05:57:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237048AbhLCK5l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Dec 2021 05:57:41 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D98FC06173E;
-        Fri,  3 Dec 2021 02:54:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D0154B82673;
-        Fri,  3 Dec 2021 10:54:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 803FFC53FC7;
-        Fri,  3 Dec 2021 10:54:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638528854;
-        bh=2mYA88Tt1gC+TWZBEbzJlGAv7cZjcjuIuSOE7ZeDp7s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bREVVl7XYvdn+RgqY5hnwPUhWJfM/LBbKelBd4DafLH8DUh55CEhmMb5YF0TxFbaL
-         AzsSnzdc9pAG84n+gxfVHYuyxGnsOmwRGerrIwWy3gZghVMsVj5sUbY0QTY43RCEBg
-         Xf+wcIfR1ryPXxDbI84uxUKpdLDQjfh3YNg3wtn/rETyOIXxtnKaEKyhxUKdtSJc0e
-         QvE/Zjd7wgGSVSWRqE1PApz5xsZy+M6d91fzBzaDR+hMRWjWd+AwJFnJ9hUuvH7uOv
-         UIC60p6QCAP++NBkKh7vzLnmJB3mVkv+urlq/GTx5Dq02gR06gjaaXxqnYih8wwAyx
-         YehVu5e7fwdOw==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1mt6CS-0002Cw-TI; Fri, 03 Dec 2021 11:53:56 +0100
-Date:   Fri, 3 Dec 2021 11:53:56 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Zhou Qingyang <zhou1615@umn.edu>
-Cc:     kjlu@umn.edu, Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nadezda Lutovinova <lutovinova@ispras.ru>,
-        Yu Xu <yuxu@marvell.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: mv_u3d: Fix a NULL pointer dereference in
- mv_u3d_req_to_trb()
-Message-ID: <Yan3RHLH7UUjwSvE@hovoldconsulting.com>
-References: <20211130172919.207823-1-zhou1615@umn.edu>
+        id S1380183AbhLCK73 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Dec 2021 05:59:29 -0500
+Received: from mga04.intel.com ([192.55.52.120]:20484 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237898AbhLCK73 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 3 Dec 2021 05:59:29 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10186"; a="235690455"
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; 
+   d="scan'208";a="235690455"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2021 02:56:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,284,1631602800"; 
+   d="scan'208";a="655912586"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2021 02:56:03 -0800
+To:     Robert Munteanu <rombert@apache.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     tiwai@suse.com, regressions@lists.linux.dev,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <35f7428b39f996c793f5b4a6a314772681c73d7a.camel@apache.org>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: Regression: plugging in USB scanner breaks all USB functionality
+Message-ID: <a649395b-0b91-a0d2-c510-ea8ec4aef917@linux.intel.com>
+Date:   Fri, 3 Dec 2021 12:57:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211130172919.207823-1-zhou1615@umn.edu>
+In-Reply-To: <35f7428b39f996c793f5b4a6a314772681c73d7a.camel@apache.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Dec 01, 2021 at 01:29:17AM +0800, Zhou Qingyang wrote:
-> In mv_u3d_req_to_trb(), mv_u3d_build_trb_one() is assigned to trb and
-> there is a dereference of it in mv_u3d_req_to_trb(), which could lead
-> to a NULL pointer dereference on failure of mv_u3d_build_trb_one().
+On 2.12.2021 16.55, Robert Munteanu wrote:
+> Hi,
 > 
-> Fix this bug by adding a check of trb.
+> After updating from kernel 5.14.11 to 5.14.14 I am seeing the following
+> problem:
 > 
-> This bug was found by a static analyzer. The analysis employs
-> differential checking to identify inconsistent security operations
-> (e.g., checks or kfrees) between two code paths and confirms that the
-> inconsistent operations are not recovered in the current function or
-> the callers, so they constitute bugs.
+> When plugging in an USB scanner ( Brother DSMobile DS-740D ) to my
+> Lenovo P52 laptop I lose connection to all USB devices. Not only are
+> the devices no longer available on the host, but no power is drawn by
+> them. Only a reboot fixes the problem.
 > 
-> Note that, as a bug found by static analysis, it can be a false
-> positive or hard to trigger. Multiple researchers have cross-reviewed
-> the bug.
+> The scanner is the only device that triggers the problem, even when it
+> is the only device plugged in. I have a host of other devices,
+> connected either directly or via a USB hub in my monitor:
 > 
-> Builds with CONFIG_USB_MV_U3D=m show no new warnings,
-> and our static analyzer no longer warns about this code.
-> 
-> Fixes: 3d4eb9dfa3e8 ("usb: gadget: mv: Add USB 3.0 device driver for Marvell PXA2128 chip.")
-> Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
-> ---
->  drivers/usb/gadget/udc/mv_u3d_core.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/udc/mv_u3d_core.c b/drivers/usb/gadget/udc/mv_u3d_core.c
-> index a1057ddfbda3..e90ef4046a9d 100644
-> --- a/drivers/usb/gadget/udc/mv_u3d_core.c
-> +++ b/drivers/usb/gadget/udc/mv_u3d_core.c
-> @@ -417,6 +417,12 @@ static int mv_u3d_req_to_trb(struct mv_u3d_req *req)
->  	 */
->  	if (length <= (unsigned)MV_U3D_EP_MAX_LENGTH_TRANSFER) {
->  		trb = mv_u3d_build_trb_one(req, &count, &dma);
-> +		if (!trb) {
-> +			dev_err(u3d->dev, "%s, mv_u3d_build_trb_one fail\n",
-> +				__func__);
 
-This looks correct, but the error message isn't needed as failures would
-already have been logged by the helper (allocator).
+There is one xhci patch in that range that has caused other issues:
+ff0e50d3564f xhci: Fix command ring pointer corruption while aborting a command
 
-> +			return -ENOMEM;
-> +		}
-> +
->  		list_add_tail(&trb->trb_list, &req->trb_list);
->  		req->trb_head = trb;
->  		req->trb_count = 1;
+That patch has a fix that is not yet applied, fix can be found here:
+https://lore.kernel.org/linux-usb/20211126122340.1193239-2-mathias.nyman@linux.intel.com/
+or
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?h=for-usb-linus&id=385b5b09c3546c87cfb730b76abe5f8d73c579a2
 
-Johan
+Does reverting the original patch, or applying the fix help?
+
+Thanks
+-Mathias
+
+
+ 
