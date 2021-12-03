@@ -2,71 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C19C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Dec 2021 10:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 539E1C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Dec 2021 11:02:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380205AbhLCLAc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Dec 2021 06:00:32 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:37690 "EHLO
+        id S1352044AbhLCLGM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Dec 2021 06:06:12 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:40716 "EHLO
         ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237898AbhLCLAb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Dec 2021 06:00:31 -0500
+        with ESMTP id S232427AbhLCLGL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Dec 2021 06:06:11 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C5FA7B82673;
-        Fri,  3 Dec 2021 10:57:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6DA6C53FAD;
-        Fri,  3 Dec 2021 10:57:04 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C1449B82670
+        for <linux-usb@vger.kernel.org>; Fri,  3 Dec 2021 11:02:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED208C53FD2;
+        Fri,  3 Dec 2021 11:02:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1638529025;
-        bh=oYaJo1Ljpj1D25TR5IWvgEZUmozCy40bktxa1GNxoOQ=;
+        s=korg; t=1638529365;
+        bh=HLBaNUlaBpzVHLn7azaJVLOSO7rIcu9WUp0IIO4PY2Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LgEvRm6l7hODRETS9vKWL2VumlmoVkQq6LFOAsdg572/oDXnA2mkXO2g67Uhhs1tA
-         F80573jAk3nb6aY5N/lWRlK24TdZgt2nx2qNRtPeHVwaPpwno8F8D4NpirAHQGqVPT
-         dxoEY/V+xENz32WIIYl+90EZWMQuDNuG9QlHpTjw=
-Date:   Fri, 3 Dec 2021 11:57:02 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Philipp Hortmann <philipp.g.hortmann@gmail.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 3/4] Docs: usb: update comment and code of function
- skel_delete
-Message-ID: <Yan3/slVnl+tKk1o@kroah.com>
-References: <cover.1638152984.git.philipp.g.hortmann@gmail.com>
- <76757c4fc1f5001c3285a9a071055e8715985604.1638152984.git.philipp.g.hortmann@gmail.com>
+        b=BCh2qznfTYSsvYAcjNJp3Da0fwELMCEKFhLoUoLLkBFzPoAQZ5mx1BBp0+dif/feC
+         D5JW/dGU5zJjPeV7GG4KrkmtkVLmENT1LrI0LBonolN7G98FVY+44pJqvhYGD0TuwR
+         Y7IfysWKJnwIp7qskQR4MGOhfqGr7qC14EN5wkYE=
+Date:   Fri, 3 Dec 2021 12:02:42 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] usb: dwc3: drd: Add support for usb-conn-gpio
+ based usb-role-switch
+Message-ID: <Yan5Uhsi8q1MDfcn@kroah.com>
+References: <20211125141516.1668633-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <76757c4fc1f5001c3285a9a071055e8715985604.1638152984.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <20211125141516.1668633-1-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Nov 29, 2021 at 09:21:52PM +0100, Philipp Hortmann wrote:
-> Put skel_delete function in the document typical form
-> Update code according to usb-skeleton.c
+On Thu, Nov 25, 2021 at 03:15:16PM +0100, Alexander Stein wrote:
+> usb-conn-gpio devices are a subnode of the USB interface controller, which
+> needs to be populated.
+> This allows having a non-type-c connector providing dual-role.
 > 
-> Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  .../driver-api/usb/writing_usb_driver.rst     | 19 +++++++++----------
->  1 file changed, 9 insertions(+), 10 deletions(-)
+> Changes in v2:
+> * Added missing variable declaration
 > 
-> diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-> index b16e4e76d472..74bb72a2f0ac 100644
-> --- a/Documentation/driver-api/usb/writing_usb_driver.rst
-> +++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-> @@ -263,18 +263,17 @@ handle smoothly is the fact that the USB device may be removed from the
->  system at any point in time, even if a program is currently talking to
->  it. It needs to be able to shut down any current reads and writes and
->  notify the user-space programs that the device is no longer there. The
-> -following code (function ``skel_delete``) is an example of how to do
-> -this::
-> +`skel_delete` function is an example of how to do this::
+>  drivers/usb/dwc3/drd.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+> index d7f76835137f..8b5ac689b8da 100644
+> --- a/drivers/usb/dwc3/drd.c
+> +++ b/drivers/usb/dwc3/drd.c
+> @@ -9,6 +9,7 @@
+>  
+>  #include <linux/extcon.h>
+>  #include <linux/of_graph.h>
+> +#include "linux/of_platform.h"
+>  #include <linux/platform_device.h>
+>  #include <linux/property.h>
+>  
+> @@ -542,6 +543,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+>  {
+>  	struct usb_role_switch_desc dwc3_role_switch = {NULL};
+>  	u32 mode;
+> +	int ret;
+>  
+>  	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
+>  	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
+> @@ -559,6 +561,13 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+>  	if (IS_ERR(dwc->role_sw))
+>  		return PTR_ERR(dwc->role_sw);
+>  
+> +	/* populate connector entry */
+> +	ret = devm_of_platform_populate(dwc->dev);
+> +	if (ret) {
+> +		dev_err(dwc->dev, "DWC3 platform devices creation failed: %i\n", ret);
+> +		return ret;
+> +	}
 
-As pointed out elsewhere this should be:
+You do not have to unwind what usb_role_switch_register() did here if
+there is an error?
 
-	skel_delete() is an example of how to do this::
+And will ALL systems always succeed at the call to
+devm_of_platform_populate()?  Or will this break older systems that are
+running today?  What was this tested with?
 
 thanks,
 
