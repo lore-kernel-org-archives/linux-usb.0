@@ -2,115 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38005C433EF
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Dec 2021 14:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B1CEC433EF
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Dec 2021 16:35:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1385180AbhLDOSp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 4 Dec 2021 09:18:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27571 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1385174AbhLDOSp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 4 Dec 2021 09:18:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1638627319;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=MuNOE6doDTD9xk58xHfitiv3Mg1xzmIbHjTNaGd29lQ=;
-        b=W9/x/B1fEAXWbyErS10SRNjumbxsBhLkPDHmDZSe/wAkO6ndLPeqkZkKYpmPog3GqxCAHU
-        zITpAX9j06pfQW4kK5I3xRf1adtYfkGCjoIRe6zp9rxv/G1fCpE/S3S+66IlwfVg+SQJa8
-        b2AB0ihQoNquUgcvQJWTm5OlbJsquTM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-312-euAUY6PNMhetozjGDNz64w-1; Sat, 04 Dec 2021 09:15:18 -0500
-X-MC-Unique: euAUY6PNMhetozjGDNz64w-1
-Received: by mail-ed1-f69.google.com with SMTP id b15-20020aa7c6cf000000b003e7cf0f73daso4802900eds.22
-        for <linux-usb@vger.kernel.org>; Sat, 04 Dec 2021 06:15:18 -0800 (PST)
+        id S1355282AbhLDQid (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 4 Dec 2021 11:38:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239182AbhLDQid (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 4 Dec 2021 11:38:33 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36416C061751;
+        Sat,  4 Dec 2021 08:35:07 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id d9so12652700wrw.4;
+        Sat, 04 Dec 2021 08:35:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IFVu1PuPnhIt15rJ74uCpu5RJLk7jJ20O56jMrGMi24=;
+        b=NnTbwLUOLeauIl/AOA9bQhINPrSZoM5h3Oh0pQGZyt7EyZWOPAhZgLv0egY7uka2ol
+         xMP7kKFXtyEbcYOGZ6TdaqT+GA6m3CUqJ6+/+TdmsLD1mJEPahlsusDxCmM7RMVm7Y/A
+         NQLR0kmCa8HDfDMoXAKeArhZiRvBW3X2Ddc2QLtu7fM/tlE4iNhESjwEt9MOmlcqkaTj
+         KhJlj16dWfcHh9Z7OdnxMSd5rxMFli4R0IF9hjWE/iXfa2eER3Tk8Pe5gESCmtVFCHwD
+         IbmE/V6Zic9tqPtAJWqmnlDFpW2nAQRWdZURo6cbqXwOj84dWvXGWpd8Qv+rYhcLfSiP
+         RTfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:from:subject:cc:content-transfer-encoding;
-        bh=MuNOE6doDTD9xk58xHfitiv3Mg1xzmIbHjTNaGd29lQ=;
-        b=i4BPgniYLldPicaI6300UHxcWnpnaZIGwvZT8X5bSE2bw+shhpdnDgNbAVpemXczeG
-         im3W7TAsKMF/S7QN8Ok/oZXU/E5kuU1W8RvTM7TlMtk4nK/wcpNGc+ZVV38CIRA9mA6+
-         JcbBwyDiyO9+syWwCO1ek3Q+lQjtwSaiipSPjpn6HGxHDc3FWj8a/s5vpKcWzm6kwtFe
-         PEGlr0vCdIzV+7cLVYpzBvbtpn22DUYGQ+T5u1KFtYWkVencivAtw3LrxR2cX+wC6pAU
-         /hV9UHa/d5+uWMDrJXnQWEdutGSRySjOOyv4W+A3OR1BRWWBjvLF0BDSvUbMQS1nG5kK
-         AJqA==
-X-Gm-Message-State: AOAM531hvvTbmCiZBwuDP/Fk7m0jO/1icn0+zzFkCR5d7o2am3L0QqmH
-        pT9R5Zztej0qx5rDRSpGKu7pr0+SWXnQmWrCiPYSAW/gMJTuC6KoqAta3zeskn2AkJcnK33O7e7
-        yTEFR/064cXrOsA+Iyxaa
-X-Received: by 2002:a05:6402:4396:: with SMTP id o22mr35823856edc.263.1638627317102;
-        Sat, 04 Dec 2021 06:15:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvJ88FavGx64SZMwZjbj6ztN7tcENnzGlhhK3iOAORm84vb55xBpDZPUvEgK2+o38m2tmJKQ==
-X-Received: by 2002:a05:6402:4396:: with SMTP id o22mr35823827edc.263.1638627316894;
-        Sat, 04 Dec 2021 06:15:16 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1054:9d19:e0f0:8214? (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id u23sm3836068edi.88.2021.12.04.06.15.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Dec 2021 06:15:16 -0800 (PST)
-Message-ID: <0a4d723c-221f-a42a-434c-34283a4cdab7@redhat.com>
-Date:   Sat, 4 Dec 2021 15:15:15 +0100
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=IFVu1PuPnhIt15rJ74uCpu5RJLk7jJ20O56jMrGMi24=;
+        b=34BaR/ziyNlgiiMhOZLqZc7kjk20nWXqe2DdUVkNxivsFwxaKESeYYO4HcLgyiTzyr
+         4rDln0dXNB8tNggj5eI1hCk50Gp3cc+8TyC6cI63Wd75b8qKn4H+SxI8Fd1yWW/g4xmj
+         zFZVp7fTKn6uUDyxdVk/XT4mZWu4VOyKP1lXBJ1t9H9MkBc7Fv26/omi0xzig5jnFx8I
+         fib+H/6XRrIilc70C0/mYgKPnty6kDHc90zpL1y72W+VHozPw/zDptWveoGQWRlR0KJy
+         mHZuXColbL/XcuGkDJX28uS/G2t/xswg7Fky7CKQpBiGMMjbgnnDZRlxagVQat2vPpT/
+         G0BQ==
+X-Gm-Message-State: AOAM532QuSDIZDYd0e2RQkegjecZ4PW6x9+VpglIvEBD50jV/b7qIVM+
+        56RNcyu9g+9xfxfrk08sqnn+E+VBs7mS+Q==
+X-Google-Smtp-Source: ABdhPJybhJZg9DgLmgRtdfPsXwakZKlPE8uyKjdTz5vDl5CosgVARe48rXeUfLuHOZ7asdUZL7lH5w==
+X-Received: by 2002:a5d:4904:: with SMTP id x4mr30345787wrq.139.1638635705882;
+        Sat, 04 Dec 2021 08:35:05 -0800 (PST)
+Received: from matrix-ESPRIMO-P710 (p200300c78f4e0685b3447c22a42fc55e.dip0.t-ipconnect.de. [2003:c7:8f4e:685:b344:7c22:a42f:c55e])
+        by smtp.gmail.com with ESMTPSA id n14sm2908383wrf.69.2021.12.04.08.35.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Dec 2021 08:35:05 -0800 (PST)
+Date:   Sat, 4 Dec 2021 17:35:03 +0100
+From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH v2 0/4] Docs: usb: Code and text updates from usb-skeleton
+Message-ID: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Content-Language: en-US
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Pavankumar Kondeti <pkondeti@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Regression: "xhci: Fix command ring pointer corruption while aborting
- a command" breaks USB on Intel controllers
-Cc:     linux-usb <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi All,
+Explanation and example code updates from usb-skeleton
 
-There are several bug reports (arch and Fedora) about USB problems
-starting with kernel 5.14.14 (5.14.13 is ok):
+v2: update patch #1 to #4
+    - corrected format of function names like the following example:
+      "`usb_bulk_msg` function" to "usb_bulk_msg()"
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2019788
-https://bbs.archlinux.org/viewtopic.php?pid=2006862
+Philipp Hortmann (4):
+  Docs: usb: update usb_bulk_msg receiving example
+  Docs: usb: update comment and code near decrement our usage count for
+    the device
+  Docs: usb: update comment and code of function skel_delete
+  Docs: usb: update explanation for device_present to disconnected
 
-And 5.16.6, which has the hub address0_mutex fixes does not
-fix these problems for some users.
+ .../driver-api/usb/writing_usb_driver.rst     | 73 +++++++++----------
+ 1 file changed, 35 insertions(+), 38 deletions(-)
 
-Looking at the history between those 2 commit ff0e50d3564f
-("xhci: Fix command ring pointer corruption while aborting a command"):
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ff0e50d3564f
-
-stood out to me as a possible cause of this. So I've build
-a test 5.15.6 kernel for Fedora users with that commit reverted
-and 2 users have now reported that this fixes things for them
-(see https://bugzilla.redhat.com/show_bug.cgi?id=2019788).
-
-The reason why this stood out to me is because doing a 32 bit
-write over a possibly 64 bit databus to the xHCI controller may
-result in the hw doing a 64 bit read + modify 32 bit + 64 bit write,
-so I think that the following is happening after the commit:
-
-sw: read 32 bit
-hw: read 64 bit, return 32 bit
-sw: modify it
-sw: write 32 bit
-hw: read 64 bit
-hw: modify 32 bit of 64 bit wor5d
-hw: write 64 bit
-
-Which actually makes the chances of hitting the problem the commit
-tries to fix larger on controllers using a 64 bit data bus.
-
-Note this is just a theory, but it seems plausible to me.
-
-All problem reports are people using integrated Intel xHCI controllers
-which I believe are likely to use a 64 bit data-bus.
-
-Regards,
-
-Hans
+-- 
+2.25.1
 
