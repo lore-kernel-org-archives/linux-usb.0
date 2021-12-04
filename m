@@ -2,103 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A717C433EF
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Dec 2021 16:35:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F615C433F5
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Dec 2021 18:47:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355520AbhLDQjD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 4 Dec 2021 11:39:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33336 "EHLO
+        id S1345757AbhLDSvO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 4 Dec 2021 13:51:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355531AbhLDQjC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 4 Dec 2021 11:39:02 -0500
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BB5DC061A83;
-        Sat,  4 Dec 2021 08:35:36 -0800 (PST)
-Received: by mail-wr1-x42b.google.com with SMTP id l16so12585749wrp.11;
-        Sat, 04 Dec 2021 08:35:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DlUMJFNyNRj/XgYSHRvRQioo+7kkX6yRCyniuTQc4VM=;
-        b=jZr2sPuj+uvl+MV3O56PzBkPpoH5fkRGRfzTs5PbxVeFuwsCDTP5cdKWhYWLZ9SIRX
-         C39FECrQIlSwB8QcvVH45d2QrNw2bE4bjAmlLSBetZHiDsR7Df2nHk3q6WHG12ZsgRaB
-         Q9LB7jnKcJae5Ov0Ysjn22hYTZqel2pjQZ/hH/dU0GHS1NHC6ddF0jvvGKJv0p3e2w6G
-         Wrn+iyuGEYUTvrt4g1VgsY1L2nk6jqMW+WO30+t4P+qBmPQeRf4tUT0UCwnNh2b3+qgT
-         TA+FQ6CEgTEK9yeo7iGl4UljZfcCT46PlR4PE3mS89/RopdFTttHb/9g9SGJlasEKcRI
-         cNfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DlUMJFNyNRj/XgYSHRvRQioo+7kkX6yRCyniuTQc4VM=;
-        b=Lai526kqlWvUFpzVXGgEeepYuHNBSDz/9m9qp1Vk9CqCLs0kFfMEuLOOGJ4Un20Hlw
-         ysC+hZ9vggZ9HXNV+oj0SG55YHcRPewTPlp0rsDpycSTd3M76pGhjac5P/XRitbXvJJO
-         XKy1IGUSFhS32cmwD+yTXZQmEZkpvDsKN5tKniQNRVsmkkEcPOhfD3Oj9W8viaGOqs06
-         0d55D4DjVimhywAsEUfvOsruZzA1wRDVL7XzKWFkW1csfWKwo+9d/enQMhRHC/TqVQDZ
-         kwXFjuznciAxxMmikrIb7f49Yq9xEGGBUd14eF08ShT1OkvMSIH7cXs+28Bjq9aVI9GW
-         3YSg==
-X-Gm-Message-State: AOAM530RZKfnUGESAr0zWI0hYOOfppJLXMLjyBZvE+mjTfat34PqUuXW
-        oHRh03un26z/4RC7v1wG5gRvM7Bs+FJqCQ==
-X-Google-Smtp-Source: ABdhPJxLD784pITzSQYTE5Vbf4jwLGCG0AGUN3aGvj8DMKQz18NvHFEeh+AhUFEF/LNxrcrpnXcJpw==
-X-Received: by 2002:a5d:604b:: with SMTP id j11mr31016436wrt.22.1638635734714;
-        Sat, 04 Dec 2021 08:35:34 -0800 (PST)
-Received: from matrix-ESPRIMO-P710 (p200300c78f4e0685b3447c22a42fc55e.dip0.t-ipconnect.de. [2003:c7:8f4e:685:b344:7c22:a42f:c55e])
-        by smtp.gmail.com with ESMTPSA id j17sm7229172wmq.41.2021.12.04.08.35.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Dec 2021 08:35:33 -0800 (PST)
-Date:   Sat, 4 Dec 2021 17:35:32 +0100
-From:   Philipp Hortmann <philipp.g.hortmann@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        with ESMTP id S235259AbhLDSvN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 4 Dec 2021 13:51:13 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B45C061751;
+        Sat,  4 Dec 2021 10:47:47 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 8F7E4CE0F02;
+        Sat,  4 Dec 2021 18:47:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03D0FC341C2;
+        Sat,  4 Dec 2021 18:47:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1638643663;
+        bh=CnNRK5P/SuPxK21hCYDCHsvfDFSktd4FzF4FEV+llb4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dAAYwCA2T4PYpohFXUEYgL11Hi6cJK4dTvtDu7VBCNzq+cjHQcSyaE22duvNMOIVZ
+         L8+CLSzSqXq9hXZOLvck79WuTIa4+cGLAO7jXUosXyorlMe+qQzfg7YNDg+tai5Q2U
+         6AjSiNixz8MqfsU1+QfEs6wuK9WYveq+e703y6BA=
+Date:   Sat, 4 Dec 2021 19:47:40 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Marian Postevca <posteuca@mutex.one>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH v2 4/4] Docs: usb: update explanation for device_present to
- disconnected
-Message-ID: <41cc6dbe6a97b7e5bff08a81a6e2fec3561cda76.1638630342.git.philipp.g.hortmann@gmail.com>
-References: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_ether: fix race in setting MAC address in
+ setup phase
+Message-ID: <Yau3zDEdTiLZZkRp@kroah.com>
+References: <20211129221229.31845-1-posteuca@mutex.one>
+ <YaoSkbMBk90zr3N7@kroah.com>
+ <87ee6sxlcj.fsf@mutex.one>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1638630342.git.philipp.g.hortmann@gmail.com>
+In-Reply-To: <87ee6sxlcj.fsf@mutex.one>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Update text for `device_present` flag to `disconnected` flag
+On Sat, Dec 04, 2021 at 08:42:52PM +0200, Marian Postevca wrote:
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+> 
+> > On Tue, Nov 30, 2021 at 12:12:29AM +0200, Marian Postevca wrote:
+> >> When listening for notifications through netlink of a new interface being
+> >> registered, sporadically, it is possible for the MAC to be read as zero.
+> >> The zero MAC address lasts a short period of time and then switches to a
+> >> valid random MAC address.
+> >> 
+> >> This causes problems for netd in Android, which assumes that the interface
+> >> is malfunctioning and will not use it.
+> >> 
+> >> In the good case we get this log:
+> >> InterfaceController::getCfg() ifName usb0
+> >>  hwAddr 92:a8:f0:73:79:5b ipv4Addr 0.0.0.0 flags 0x1002
+> >> 
+> >> In the error case we get these logs:
+> >> InterfaceController::getCfg() ifName usb0
+> >>  hwAddr 00:00:00:00:00:00 ipv4Addr 0.0.0.0 flags 0x1002
+> >> 
+> >> netd : interfaceGetCfg("usb0")
+> >> netd : interfaceSetCfg() -> ServiceSpecificException
+> >>  (99, "[Cannot assign requested address] : ioctl() failed")
+> >> 
+> >> The reason for the issue is the order in which the interface is setup,
+> >> it is first registered through register_netdev() and after the MAC
+> >> address is set.
+> >> 
+> >> Fixed by first setting the MAC address of the net_device and after that
+> >> calling register_netdev().
+> >> 
+> >> Signed-off-by: Marian Postevca <posteuca@mutex.one>
+> >> ---
+> >>  drivers/usb/gadget/function/u_ether.c | 16 ++++++----------
+> >>  1 file changed, 6 insertions(+), 10 deletions(-)
+> >
+> > What commit does this fix?  Should it go to stable kernel releases?
+> >
+> > thanks,
+> >
+> > greg k-h
+> 
+> This fixes bcd4a1c40bee885e ("usb: gadget: u_ether: construct with
+> default values and add setters/getters").
+> 
+> I think it should go to stable kernel releases.
+> 
+> Should I send a second version of the patch with a Fixes tag?
 
-Signed-off-by: Philipp Hortmann <philipp.g.hortmann@gmail.com>
----
-V1 -> V2: Corrected format of function name to skel_disconnect()
----
- .../driver-api/usb/writing_usb_driver.rst          | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+Yes please, and a cc: stable on the line after the fixes tag.
 
-diff --git a/Documentation/driver-api/usb/writing_usb_driver.rst b/Documentation/driver-api/usb/writing_usb_driver.rst
-index b459f9e089e0..fa795b8d7eac 100644
---- a/Documentation/driver-api/usb/writing_usb_driver.rst
-+++ b/Documentation/driver-api/usb/writing_usb_driver.rst
-@@ -277,15 +277,13 @@ skel_delete() is an example of how to do this::
-     }
- 
- 
--If a program currently has an open handle to the device, we reset the
--flag ``device_present``. For every read, write, release and other
-+If the driver probed the device successfully, the flag ``disconnected``
-+is initialized and set to false. For every read, write and other
- functions that expect a device to be present, the driver first checks
--this flag to see if the device is still present. If not, it releases
--that the device has disappeared, and a ``-ENODEV`` error is returned to the
--user-space program. When the release function is eventually called, it
--determines if there is no device and if not, it does the cleanup that
--the ``skel_disconnect`` function normally does if there are no open files
--on the device (see Listing 5).
-+this flag to see if the device is still present. If not, a ``-ENODEV``
-+error is returned to the user-space program. When the device is
-+disconnected, skel_disconnect() is called. It sets ``disconnected``
-+to true and cleans up.
- 
- Isochronous Data
- ================
--- 
-2.25.1
+thanks,
 
+greg k-h
