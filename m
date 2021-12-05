@@ -2,65 +2,126 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A48C433EF
-	for <linux-usb@archiver.kernel.org>; Sun,  5 Dec 2021 17:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EECCBC433EF
+	for <linux-usb@archiver.kernel.org>; Sun,  5 Dec 2021 21:13:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236819AbhLERnj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Dec 2021 12:43:39 -0500
-Received: from sin.source.kernel.org ([145.40.73.55]:55290 "EHLO
-        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236689AbhLERnh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Dec 2021 12:43:37 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 5BC34CE125A;
-        Sun,  5 Dec 2021 17:40:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 83A50C341C5;
-        Sun,  5 Dec 2021 17:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1638726006;
-        bh=E8rsJPA4ubhwO/dBE/hsySoujk4nvixp1pWiuD1UUc0=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=liIyhmmZT4/hKiJqvUJ7QI2qqP4cw3bBqDOfD9GlocDvEx9sdTZjaU/hF+NxU2Fvq
-         Oi6wDuM1pQ3uAjkNq5WNtaaBzzR8JYXJFAxgcLzAIZZY34WKTTz7ZAvKlbtti96FFP
-         kVCXNeHn3TERqTtv1+6QTY/n2I2mhtgKMFuuXGX2tJJD5xapEgeBR3fhcRJxvko51D
-         PpP5Nvu1iEoFp8d6lhtzfR2WUsXYu8toKASv+j/UlmwO4awhT8AoRCKQvlrHuDJLDv
-         WyGhChdyMV0InhRupKnpme95uZMgbyXaWCobcxCC3WeNB3uxUlq//KceOSn65d2++n
-         Y88sDbNzKtFvg==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 7264B604EB;
-        Sun,  5 Dec 2021 17:40:06 +0000 (UTC)
-Subject: Re: [GIT PULL] USB fixes for 5.16-rc4
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <Yayq/Xdb/pHSS7/l@kroah.com>
-References: <Yayq/Xdb/pHSS7/l@kroah.com>
-X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <Yayq/Xdb/pHSS7/l@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.16-rc4
-X-PR-Tracked-Commit-Id: 37307f7020ab38dde0892a578249bf63d00bca64
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 944207047ca4dabe8e288f653e7ec6da05e70230
-Message-Id: <163872600645.987.7156724710444619664.pr-tracker-bot@kernel.org>
-Date:   Sun, 05 Dec 2021 17:40:06 +0000
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+        id S239236AbhLEVRO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Dec 2021 16:17:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38886 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235880AbhLEVRO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Dec 2021 16:17:14 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50185C061751
+        for <linux-usb@vger.kernel.org>; Sun,  5 Dec 2021 13:13:46 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id u1so18183688wru.13
+        for <linux-usb@vger.kernel.org>; Sun, 05 Dec 2021 13:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=K1Vdn/JoxogZaRppK4S12+mosVtDg1jUSJHdGkKbW1Q=;
+        b=m7maktx/a8S/6CrAWbajBZKS9o4+MbLvIMWsTlt2UiMnOBTuscnXGZstAl1nQsc/AZ
+         yeOzW8iw6OALCFcpN3fFWpJsah55MQqpeltmcUe0deKIun9WKUEQsWPVRunHkuz3dvQW
+         +RqviILL8skyYqXHfWwJ7gAICFIXdmydtAEKlVfqmObDhLrDwqfSgNrypym/Ghj+Dfbj
+         3tr7K6ZgE9fQxShLtP18Ocdlilx4BR1JOhHbQzobZn/8Qv2h7GO0rNs8KVB1B/LGaYyl
+         bpy4Wi6RUBFoBndx+yk1DBL7nYFQZiHCQcW5Lhy82wgODE/1qpCksek0omPLAz6lVJ8Y
+         9g9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=K1Vdn/JoxogZaRppK4S12+mosVtDg1jUSJHdGkKbW1Q=;
+        b=VAGeSb2/KJZ8l77p0gBZdahWFt1KElCGFPF8GL9x8m9majSAPx4pyAXBA9YW8rbYQS
+         hLt94kxPXMimXPH9oX5TplemyHR299xjfPcOS//dHboJcdkgOuvn941sB+pw0hDRQXHs
+         WQORDesa8PaVh4l02p0l1/pZg47fsUtScNPjasegGKikwdpoUnfZOZmBlS4qiWqnjx7b
+         C8N5m/5tphPLqa2Og01QHEFTr8vP/AKqCUE+C3PUGWFsGCbTLuYmAUOgoQ7WFSkoW0Ib
+         fna1mWrEjjaEXfPizpVn011j5bF5FWDKZlw12jEQDP9Z7lKhvGgnsXQs68gmsg1O3Yzb
+         qGag==
+X-Gm-Message-State: AOAM530UlKG7uX0zFKr0IquQjGy6NmSm1IuGc5rWd8NzgrNCUoi97Bqk
+        uiYAtiR6uohaKk5HapwgO14jjWDEkVUk0w==
+X-Google-Smtp-Source: ABdhPJxspRmpduQJv6xAihNQgqfTSKCpcGVgTRrsONSQ32mxBrBC0x0YeXNm9icFhIALyIjXz+DB3A==
+X-Received: by 2002:adf:a285:: with SMTP id s5mr39395128wra.468.1638738822494;
+        Sun, 05 Dec 2021 13:13:42 -0800 (PST)
+Received: from [192.168.1.24] (203.247.120.78.rev.sfr.net. [78.120.247.203])
+        by smtp.gmail.com with ESMTPSA id r7sm9211892wrq.29.2021.12.05.13.13.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Dec 2021 13:13:42 -0800 (PST)
+Subject: Re: [PATCH v3 1/3] phy: amlogic: phy-meson-gxl-usb2: fix shared reset
+ controller use
+To:     Philipp Zabel <p.zabel@pengutronix.de>, khilman@baylibre.com
+Cc:     balbi@kernel.org, jbrunet@baylibre.com,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20211112162827.128319-1-aouledameur@baylibre.com>
+ <20211112162827.128319-2-aouledameur@baylibre.com>
+ <44f6cc1f52e75cbbb8aebb0d4648c94ae479ef43.camel@pengutronix.de>
+From:   Amjad Ouled-Ameur <aouledameur@baylibre.com>
+Message-ID: <76927781-c420-b6f6-78e9-c6e91dec6ef4@baylibre.com>
+Date:   Sun, 5 Dec 2021 22:13:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <44f6cc1f52e75cbbb8aebb0d4648c94ae479ef43.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The pull request you sent on Sun, 5 Dec 2021 13:05:17 +0100:
+Hi Philipp,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.16-rc4
+Thank you for the review.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/944207047ca4dabe8e288f653e7ec6da05e70230
+On 22/11/2021 10:03, Philipp Zabel wrote:
+> Hi Amjad,
+>
+> On Fri, 2021-11-12 at 17:28 +0100, Amjad Ouled-Ameur wrote:
+>> Use reset_control_rearm() call if an error occurs in case
+>> phy_meson_gxl_usb2_init() fails after reset() has been called ; or in case
+>> phy_meson_gxl_usb2_exit() is called i.e the resource is no longer used
+>> and the reset line may be triggered again by other devices.
+>>
+>> reset_control_rearm() keeps use of triggered_count sane in the reset
+>> framework. Therefore, use of reset_control_reset() on shared reset line
+>> should be balanced with reset_control_rearm().
+>>
+>> Signed-off-by: Amjad Ouled-Ameur <aouledameur@baylibre.com>
+>> Reported-by: Jerome Brunet <jbrunet@baylibre.com>
+>> ---
+>>   drivers/phy/amlogic/phy-meson-gxl-usb2.c | 5 ++++-
+>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/phy/amlogic/phy-meson-gxl-usb2.c b/drivers/phy/amlogic/phy-meson-gxl-usb2.c
+>> index 2b3c0d730f20..9a9c769ecabc 100644
+>> --- a/drivers/phy/amlogic/phy-meson-gxl-usb2.c
+>> +++ b/drivers/phy/amlogic/phy-meson-gxl-usb2.c
+>> @@ -110,8 +110,10 @@ static int phy_meson_gxl_usb2_init(struct phy *phy)
+>>   	int ret;
+>>
+>>   	ret = reset_control_reset(priv->reset);
+>> -	if (ret)
+>> +	if (ret) {
+>> +		reset_control_rearm(priv->reset);
+> I don't understand this. If reset_control_reset() returns an error for a
+> shared reset, it should have either
+> - returned before incrementing triggered_count, or
+> - incremented triggered_count, got a failed reset op, decremented
+>    triggered_count again
+>
+> In both cases there should be no need to rearm.
+>
+I have checked this out and I agree with you, will remove this in next 
+version.
 
-Thank you!
+Thank you for spotting this.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+
+Regards,
+
+Amjad
+
+> regards
+> Philipp
