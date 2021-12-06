@@ -2,94 +2,264 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A913EC433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Dec 2021 00:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6019EC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Dec 2021 01:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241438AbhLFASL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Dec 2021 19:18:11 -0500
-Received: from gate.crashing.org ([63.228.1.57]:44188 "EHLO gate.crashing.org"
+        id S231517AbhLFBs1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Dec 2021 20:48:27 -0500
+Received: from mga18.intel.com ([134.134.136.126]:30059 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229567AbhLFASL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 5 Dec 2021 19:18:11 -0500
-Received: from ip6-localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 1B608gtt022162;
-        Sun, 5 Dec 2021 18:08:44 -0600
-Message-ID: <07472b315d6adecb874f29128e9b5fe3eadad590.camel@kernel.crashing.org>
-Subject: Re: [PATCH 2/3] usb: aspeed-vhub: support remote wakeup feature
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     Neal Liu <neal_liu@aspeedtech.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Cai Huoqing <caihuoqing@baidu.com>,
-        Tao Ren <rentao.bupt@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        kernel test robot <lkp@intel.com>,
-        Sasha Levin <sashal@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
-Cc:     BMC-SW <BMC-SW@aspeedtech.com>
-Date:   Mon, 06 Dec 2021 11:08:42 +1100
-In-Reply-To: <HK0PR06MB3202F55EEE02B9931D9CD4AD80699@HK0PR06MB3202.apcprd06.prod.outlook.com>
-References: <20211126110954.2677627-1-neal_liu@aspeedtech.com>
-         <20211126110954.2677627-3-neal_liu@aspeedtech.com>
-         <279c42970790787e928ed017149e300835085235.camel@kernel.crashing.org>
-         <HK0PR06MB3202A1F0710655B3E8EA709580679@HK0PR06MB3202.apcprd06.prod.outlook.com>
-         <5d234a400a89f64ad183020b93b68f478f1addc7.camel@kernel.crashing.org>
-         <HK0PR06MB3202F55EEE02B9931D9CD4AD80699@HK0PR06MB3202.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        id S231514AbhLFBs1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 5 Dec 2021 20:48:27 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="224097099"
+X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; 
+   d="scan'208";a="224097099"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2021 17:44:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.87,290,1631602800"; 
+   d="scan'208";a="599112333"
+Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Dec 2021 17:44:49 -0800
+Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1mu33g-000Kh8-Oz; Mon, 06 Dec 2021 01:44:48 +0000
+Date:   Mon, 06 Dec 2021 09:44:28 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 9899aa5ba525c293ea14f20891f3d98690661aea
+Message-ID: <61ad6afc.nM2dAGD6EHzt0VEm%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 2021-12-02 at 03:03 +0000, Neal Liu wrote:
-> > 
-> Let's me describe more details for our hardware behavior and hope you
-> understand.
-> 
-> HUB00[3]: MANUAL_REMOTE_WAKEUP
-> HUB00[4]: AUTO_REMOTE_WAKEUP
-> 
-> Set HUB00[3] implies USB device will do remote wakeup if any write
-> command to vhub register.
-> Set HUB00[4] implies USB device will do remote wakeup. It can only be
-> set in suspend state.
-> 
-> For current design, d->wakeup_en only controls whether HUB00[4] can
-> be set through usb_gadget_ops.wakeup().
-> If some applications (take KVM as example) want to wakeup host by
-> sending a packet, it won't go through sb_gadget_ops.wakeup().
-> We enable HUB00[3] to fix this problem. It won't override above
-> mentioned behavior.
-> If host has enabled the USB_DEVICE_REMOTE_WAKEUP feature, it has 2
-> ways to wakeup host.
-> 1. set srp 1 (/sys/device/platform/xxxxxxxxx/udc/xxxxxx/srp)
-> 2. emulated device has activity
-> If host has disabled the USB_DEVICE_REMOTE_WAKEUP feature, these 2
-> ways still cannot wakeup host even if USB bus is in resume state.
-> Thanks
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 9899aa5ba525c293ea14f20891f3d98690661aea  usb: core: Fix file path that does not exist
 
-So what you are saying is that currently, the various gadgets aren't
-calling usb_gadget_wakeup() ?
+elapsed time: 724m
 
-Ie. it should be a gadget policy to decide when to wake-up I suppose,
-but it's true that nothing in the core nor the existing gadgets seem to
-handle that.
+configs tested: 205
+configs skipped: 4
 
-I think what you propose is a band-aid. The real problem is that the
-gadget drivers should trigger wakeups (or the core should do so on
-activity).
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-That said, for now, I don't object to adding that "auto" bit, but I
-would prefer if that behaviour was use configurable.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                          pxa3xx_defconfig
+sh                          rsk7269_defconfig
+powerpc               mpc834x_itxgp_defconfig
+powerpc                      ppc64e_defconfig
+arm                         lubbock_defconfig
+arm                            hisi_defconfig
+arm                  colibri_pxa300_defconfig
+arm                           spitz_defconfig
+x86_64                              defconfig
+arc                          axs103_defconfig
+sparc                            allyesconfig
+powerpc                    klondike_defconfig
+arm                             rpc_defconfig
+nds32                            alldefconfig
+powerpc                     tqm8541_defconfig
+arm                        shmobile_defconfig
+h8300                    h8300h-sim_defconfig
+powerpc                    amigaone_defconfig
+arm                           h3600_defconfig
+arm                   milbeaut_m10v_defconfig
+arm                        mvebu_v7_defconfig
+ia64                            zx1_defconfig
+powerpc                      tqm8xx_defconfig
+m68k                         amcore_defconfig
+arm                        cerfcube_defconfig
+xtensa                          iss_defconfig
+powerpc                     kilauea_defconfig
+arm                     eseries_pxa_defconfig
+powerpc                 xes_mpc85xx_defconfig
+m68k                       m5208evb_defconfig
+powerpc                     pseries_defconfig
+powerpc                     sequoia_defconfig
+powerpc64                           defconfig
+arm                           stm32_defconfig
+arm                         palmz72_defconfig
+powerpc                mpc7448_hpc2_defconfig
+sh                  sh7785lcr_32bit_defconfig
+powerpc                     akebono_defconfig
+arm                            xcep_defconfig
+i386                                defconfig
+arm                           viper_defconfig
+powerpc                  iss476-smp_defconfig
+sh                           se7343_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                     rainier_defconfig
+m68k                             allmodconfig
+powerpc                   bluestone_defconfig
+powerpc                     asp8347_defconfig
+arc                        nsim_700_defconfig
+riscv             nommu_k210_sdcard_defconfig
+sh                          lboxre2_defconfig
+sh                 kfr2r09-romimage_defconfig
+openrisc                  or1klitex_defconfig
+powerpc                 linkstation_defconfig
+sparc                            alldefconfig
+arm                        oxnas_v6_defconfig
+sh                          r7780mp_defconfig
+csky                                defconfig
+arm                           tegra_defconfig
+h8300                            alldefconfig
+arm                         shannon_defconfig
+nios2                            alldefconfig
+arm                           sama5_defconfig
+arm                            mmp2_defconfig
+arm                          simpad_defconfig
+powerpc                      cm5200_defconfig
+sparc64                          alldefconfig
+powerpc                      ppc40x_defconfig
+arm                           corgi_defconfig
+mips                      bmips_stb_defconfig
+xtensa                    smp_lx200_defconfig
+arm                          exynos_defconfig
+powerpc                      makalu_defconfig
+s390                       zfcpdump_defconfig
+openrisc                         alldefconfig
+um                           x86_64_defconfig
+sh                        sh7757lcr_defconfig
+sh                           se7721_defconfig
+arm                        multi_v5_defconfig
+powerpc                    mvme5100_defconfig
+powerpc                        warp_defconfig
+arc                         haps_hs_defconfig
+powerpc                         wii_defconfig
+mips                      loongson3_defconfig
+powerpc                     pq2fads_defconfig
+nios2                         10m50_defconfig
+powerpc                 mpc832x_mds_defconfig
+powerpc                   currituck_defconfig
+sh                          rsk7201_defconfig
+sh                           se7712_defconfig
+arm                          pxa910_defconfig
+arm                          gemini_defconfig
+m68k                         apollo_defconfig
+powerpc                 mpc8313_rdb_defconfig
+riscv                          rv32_defconfig
+arm                  randconfig-c002-20211205
+arm                  randconfig-c002-20211206
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                               defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a001-20211205
+i386                 randconfig-a005-20211205
+i386                 randconfig-a003-20211205
+i386                 randconfig-a002-20211205
+i386                 randconfig-a006-20211205
+i386                 randconfig-a004-20211205
+x86_64               randconfig-a016-20211206
+x86_64               randconfig-a011-20211206
+x86_64               randconfig-a013-20211206
+x86_64               randconfig-a014-20211206
+x86_64               randconfig-a012-20211206
+x86_64               randconfig-a015-20211206
+i386                 randconfig-a016-20211206
+i386                 randconfig-a013-20211206
+i386                 randconfig-a011-20211206
+i386                 randconfig-a014-20211206
+i386                 randconfig-a012-20211206
+i386                 randconfig-a015-20211206
+x86_64               randconfig-a006-20211205
+x86_64               randconfig-a005-20211205
+x86_64               randconfig-a001-20211205
+x86_64               randconfig-a002-20211205
+x86_64               randconfig-a004-20211205
+x86_64               randconfig-a003-20211205
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+x86_64                           allyesconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                                  kexec
 
-Cheers,
-Ben.
+clang tested configs:
+x86_64               randconfig-c007-20211205
+arm                  randconfig-c002-20211205
+riscv                randconfig-c006-20211205
+mips                 randconfig-c004-20211205
+i386                 randconfig-c001-20211205
+powerpc              randconfig-c003-20211205
+s390                 randconfig-c005-20211205
+x86_64               randconfig-a006-20211206
+x86_64               randconfig-a005-20211206
+x86_64               randconfig-a001-20211206
+x86_64               randconfig-a002-20211206
+x86_64               randconfig-a004-20211206
+x86_64               randconfig-a003-20211206
+i386                 randconfig-a001-20211206
+i386                 randconfig-a005-20211206
+i386                 randconfig-a002-20211206
+i386                 randconfig-a003-20211206
+i386                 randconfig-a006-20211206
+i386                 randconfig-a004-20211206
+x86_64               randconfig-a016-20211205
+x86_64               randconfig-a011-20211205
+x86_64               randconfig-a013-20211205
+x86_64               randconfig-a015-20211205
+x86_64               randconfig-a012-20211205
+x86_64               randconfig-a014-20211205
+i386                 randconfig-a013-20211205
+i386                 randconfig-a016-20211205
+i386                 randconfig-a011-20211205
+i386                 randconfig-a014-20211205
+i386                 randconfig-a012-20211205
+i386                 randconfig-a015-20211205
+hexagon              randconfig-r045-20211205
+s390                 randconfig-r044-20211205
+riscv                randconfig-r042-20211205
+hexagon              randconfig-r041-20211205
+hexagon              randconfig-r045-20211206
+hexagon              randconfig-r041-20211206
 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
