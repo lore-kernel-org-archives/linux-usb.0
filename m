@@ -2,182 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B158AC433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Dec 2021 14:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE75DC433FE
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Dec 2021 16:01:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237080AbhLFOMh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Dec 2021 09:12:37 -0500
-Received: from mga02.intel.com ([134.134.136.20]:33001 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235350AbhLFOMh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 6 Dec 2021 09:12:37 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10189"; a="224570620"
-X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; 
-   d="scan'208";a="224570620"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2021 06:05:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.87,291,1631602800"; 
-   d="scan'208";a="461820677"
-Received: from lkp-server02.sh.intel.com (HELO 9e1e9f9b3bcb) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 06 Dec 2021 06:05:09 -0800
-Received: from kbuild by 9e1e9f9b3bcb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1muEc8-000LKH-Ea; Mon, 06 Dec 2021 14:05:08 +0000
-Date:   Mon, 6 Dec 2021 22:04:34 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-usb@vger.kernel.org
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v4 7/7] usb: gadget: uvc: add format/frame handling code
-Message-ID: <202112062124.HEJZJ0fR-lkp@intel.com>
-References: <20211205225803.268492-8-m.grzeschik@pengutronix.de>
+        id S1389234AbhLFQE4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Dec 2021 11:04:56 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:48600 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1444071AbhLFQCC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Dec 2021 11:02:02 -0500
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1B6AQR5W010379;
+        Mon, 6 Dec 2021 16:58:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=selector1;
+ bh=6j4JfF7PbNsMncG3LrQqk6YgpvQ6hOU4ElFAtx3ffEM=;
+ b=ZM9ZGLVdYE0/DUA5HJ3p9ahKRAbDyOel66t2LdNl1YNPuCcewhYtfNI4SLBXBZD5SyEB
+ p/M5p7cOE8qadKdsur5r389hh/m0as+etEIVgkQjSvjIqVRciYXsvJQDsT1x4bwbzU5l
+ YWhognaGjW22khtobrFlzCw83i5U9xcgB8pZG01Yyg3MUveK3DetQTnEEDE6PWVgMlcB
+ Acpasp71la5dl8R2ZYJrGpB8gta4AnIFJ/041lvvNL0kkzpY+zynQbiKn2tvU/xxUKag
+ FYon4hJx05n5GtaVL3Qfy7J3JT7VA9pnQtg2n4s7UzLnX11hcjs3l2mNeNVE2Zi4a43S 7w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3csb4j3dx1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Dec 2021 16:58:22 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2FA1510002A;
+        Mon,  6 Dec 2021 16:58:21 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 23E6820930D;
+        Mon,  6 Dec 2021 16:58:21 +0100 (CET)
+Received: from localhost (10.75.127.49) by SFHDAG2NODE2.st.com (10.75.127.5)
+ with Microsoft SMTP Server (TLS) id 15.0.1497.26; Mon, 6 Dec 2021 16:58:20
+ +0100
+From:   Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+To:     <hminas@synopsys.com>, <gregkh@linuxfoundation.org>,
+        <robh+dt@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <devicetree@vger.kernel.org>, <amelie.delaunay@foss.st.com>,
+        <fabrice.gasnier@foss.st.com>, <alexandre.torgue@foss.st.com>
+Subject: [PATCH 0/3] usb: dwc2: drd: add support for role-switch-default-mode
+Date:   Mon, 6 Dec 2021 16:56:40 +0100
+Message-ID: <1638806203-6624-1-git-send-email-fabrice.gasnier@foss.st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211205225803.268492-8-m.grzeschik@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-06_05,2021-12-06_02,2021-12-02_01
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Michael,
+This series adds support for the role-switch-default-mode binding, to configure
+the controller default mode, when the role is USB_ROLE_NONE.
 
-I love your patch! Yet something to improve:
+This has been tested on STM32MP15 DK2 board, with:
+ &usbotg_hs {
+ 	phys = <&usbphyc_port1 0>;
+ 	phy-names = "usb2-phy";
+ 	usb-role-switch;
+ 	dr_mode = "peripheral";
+ 	role-switch-default-mode = "peripheral";
+ 	status = "okay";
+ }
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on usb/usb-testing v5.16-rc4 next-20211206]
-[cannot apply to balbi-usb/testing/next peter-chen-usb/for-usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Fabrice Gasnier (3):
+  dt-bindings: usb: document role-switch-default-mode property in dwc2
+  usb: dwc2: drd: add role-switch-default-node support
+  usb: dwc2: drd: restore role and overrides upon resume
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Grzeschik/usb-gadget-uvc-use-configfs-entries-for-negotiation-and-v4l2-VIDIOCS/20211206-070014
-base:   git://linuxtv.org/media_tree.git master
-config: riscv-randconfig-r024-20211205 (https://download.01.org/0day-ci/archive/20211206/202112062124.HEJZJ0fR-lkp@intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6e8678903523019903222e4521a5e41af743cab0)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/8fdc5cd9a8845e9a061b42155d8d05ddb8514921
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Grzeschik/usb-gadget-uvc-use-configfs-entries-for-negotiation-and-v4l2-VIDIOCS/20211206-070014
-        git checkout 8fdc5cd9a8845e9a061b42155d8d05ddb8514921
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/usb/gadget/function/
+ Documentation/devicetree/bindings/usb/dwc2.yaml |  3 ++
+ drivers/usb/dwc2/core.h                         |  3 ++
+ drivers/usb/dwc2/drd.c                          | 51 ++++++++++++++++++++++++-
+ drivers/usb/dwc2/platform.c                     | 10 +++--
+ 4 files changed, 61 insertions(+), 6 deletions(-)
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+-- 
+2.7.4
 
-All errors (new ones prefixed by >>):
-
-   drivers/usb/gadget/function/uvc_v4l2.c:73:2: warning: variable 'uformat' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-           list_for_each_entry(format, &uvc->header->formats, entry) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:631:7: note: expanded from macro 'list_for_each_entry'
-                !list_entry_is_head(pos, head, member);                    \
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/uvc_v4l2.c:81:9: note: uninitialized use occurs here
-           return uformat;
-                  ^~~~~~~
-   drivers/usb/gadget/function/uvc_v4l2.c:73:2: note: remove the condition if it is always true
-           list_for_each_entry(format, &uvc->header->formats, entry) {
-           ^
-   include/linux/list.h:631:7: note: expanded from macro 'list_for_each_entry'
-                !list_entry_is_head(pos, head, member);                    \
-                ^
-   drivers/usb/gadget/function/uvc_v4l2.c:70:29: note: initialize the variable 'uformat' to silence this warning
-           struct uvcg_format *uformat;
-                                      ^
-                                       = NULL
-   drivers/usb/gadget/function/uvc_v4l2.c:139:2: warning: variable 'uformat' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-           list_for_each_entry(format, &uvc->header->formats, entry) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:631:7: note: expanded from macro 'list_for_each_entry'
-                !list_entry_is_head(pos, head, member);                    \
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/uvc_v4l2.c:148:9: note: uninitialized use occurs here
-           return uformat;
-                  ^~~~~~~
-   drivers/usb/gadget/function/uvc_v4l2.c:139:2: note: remove the condition if it is always true
-           list_for_each_entry(format, &uvc->header->formats, entry) {
-           ^
-   include/linux/list.h:631:7: note: expanded from macro 'list_for_each_entry'
-                !list_entry_is_head(pos, head, member);                    \
-                ^
-   drivers/usb/gadget/function/uvc_v4l2.c:137:29: note: initialize the variable 'uformat' to silence this warning
-           struct uvcg_format *uformat;
-                                      ^
-                                       = NULL
->> drivers/usb/gadget/function/uvc_v4l2.c:334:14: error: use of undeclared identifier 'video'
-                   spin_lock(&video->frame_lock);
-                              ^
-   drivers/usb/gadget/function/uvc_v4l2.c:339:16: error: use of undeclared identifier 'video'
-                   spin_unlock(&video->frame_lock);
-                                ^
-   2 warnings and 2 errors generated.
-
-
-vim +/video +334 drivers/usb/gadget/function/uvc_v4l2.c
-
-   305	
-   306	static int
-   307	uvc_v4l2_enum_frameintervals(struct file *file, void *fh,
-   308			struct v4l2_frmivalenum *fival)
-   309	{
-   310		struct video_device *vdev = video_devdata(file);
-   311		struct uvc_device *uvc = video_get_drvdata(vdev);
-   312		struct uvcg_format *uformat = NULL;
-   313		struct uvcg_frame *uframe = NULL;
-   314		struct uvcg_frame_ptr *frame;
-   315	
-   316		uformat = find_format_by_pix(uvc, fival->pixel_format);
-   317		if (!uformat)
-   318			return -EINVAL;
-   319	
-   320		list_for_each_entry(frame, &uformat->frames, entry) {
-   321			if (frame->frm->frame.w_width == fival->width &&
-   322			    frame->frm->frame.w_height == fival->height) {
-   323				uframe = frame->frm;
-   324				break;
-   325			}
-   326		}
-   327		if (!uframe)
-   328			return -EINVAL;
-   329	
-   330		if (uvc->streamon) {
-   331			if (fival->index >= 1)
-   332				return -EINVAL;
-   333	
- > 334			spin_lock(&video->frame_lock);
-   335	
-   336			fival->discrete.numerator =
-   337				uframe->dw_frame_interval[uvc->video.cur_ival - 1];
-   338	
-   339			spin_unlock(&video->frame_lock);
-   340		} else {
-   341			if (fival->index >= uframe->frame.b_frame_interval_type)
-   342				return -EINVAL;
-   343	
-   344			fival->discrete.numerator =
-   345				uframe->dw_frame_interval[fival->index];
-   346		}
-   347	
-   348		/* TODO: handle V4L2_FRMIVAL_TYPE_STEPWISE */
-   349		fival->type = V4L2_FRMIVAL_TYPE_DISCRETE;
-   350		fival->discrete.denominator = 10000000;
-   351		v4l2_simplify_fraction(&fival->discrete.numerator,
-   352			&fival->discrete.denominator, 8, 333);
-   353	
-   354		return 0;
-   355	}
-   356	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
