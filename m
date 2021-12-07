@@ -2,225 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50147C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Dec 2021 06:34:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 211A0C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Dec 2021 08:00:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236878AbhLGGhs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Dec 2021 01:37:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45024 "EHLO
+        id S231920AbhLGIEQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Dec 2021 03:04:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236561AbhLGGhr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Dec 2021 01:37:47 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F50AC061746
-        for <linux-usb@vger.kernel.org>; Mon,  6 Dec 2021 22:34:17 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id v19so8722222plo.7
-        for <linux-usb@vger.kernel.org>; Mon, 06 Dec 2021 22:34:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Emt2JkswUzgDqf8sxIuCj+2Zu8uEYoGq5UFr0+ay5HA=;
-        b=WbU7Bo1bBi+0M30NcQocYYFYvWJbyD2SKlgPg8opHPZE5xdf8ckwrc923/DyVSkxxz
-         wiHVA7Rl9qycdT4RA/ky6RYmzL57DkvsCI5LZjz5hs/uVFs2gDhpQo6KrhmTjozicHLe
-         iVaL/a87TfTZhcO+uoawWSqHwz0nXd84ny6wQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Emt2JkswUzgDqf8sxIuCj+2Zu8uEYoGq5UFr0+ay5HA=;
-        b=iwvh/NnBxLptWlhOfdZnyzdcC32lC5+31xcCt2XSSFfl5Sdua958dUBGoKBSzYkzPs
-         C3qyOOuDmuyBqICMyBFz3sGJLZ3krftdBvhdhRWT+aaj0OJ+4nK5WjXTZgBErtTzPr37
-         /tI6K3xnDttGxGdBZAPwjTTkwOiDFeik95mUpHlbAjPWCbwwuJFRzvQWvxrOiyTOT7S0
-         rdzmU/QxlAi3HuY4Ax37IlUaYHO7nLFdmLHey136OWmB1PH0HXDDOa76DKKFRXD6psaO
-         RvuN6h6LYgwkJ2YEEqe8Qjh2FO2eYa32lSqOLfv/TltnRm+BrYIoaWNH0KZ8iHigZyhh
-         g+hQ==
-X-Gm-Message-State: AOAM530zcJxIib6P6riOsesecg4iUap32Iixz8thOGG49myLtCjA23ys
-        IMcr9zNqHtpBB2KOjLmrSogX6g==
-X-Google-Smtp-Source: ABdhPJyiiwA2wiGhlQqwZM26X0WYC07uDsFWVWP0yM+rE9SWJ4ijWo4/kPswqvZNJ0M70dYFiLBURQ==
-X-Received: by 2002:a17:903:11cd:b0:143:d220:fdd8 with SMTP id q13-20020a17090311cd00b00143d220fdd8mr48711514plh.79.1638858856978;
-        Mon, 06 Dec 2021 22:34:16 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id e7sm9120984pfv.156.2021.12.06.22.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Dec 2021 22:34:16 -0800 (PST)
-From:   Kees Cook <keescook@chromium.org>
-To:     Andreas Noever <andreas.noever@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-hardening@vger.kernel.org
-Subject: [PATCH] thunderbolt: xdomain: Avoid potential stack OOB read
-Date:   Mon,  6 Dec 2021 22:34:13 -0800
-Message-Id: <20211207063413.2698788-1-keescook@chromium.org>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S231896AbhLGIEP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Dec 2021 03:04:15 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F321C061746
+        for <linux-usb@vger.kernel.org>; Tue,  7 Dec 2021 00:00:46 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1muVOQ-0007PQ-FL; Tue, 07 Dec 2021 09:00:06 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1muVOM-003B7k-DF; Tue, 07 Dec 2021 09:00:01 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1muVOL-00046X-3Z; Tue, 07 Dec 2021 09:00:01 +0100
+Date:   Tue, 7 Dec 2021 08:59:58 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     devicetree@vger.kernel.org,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Gregory Fong <gregory.0xf0@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Markus Mayer <mmayer@broadcom.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Cooper <alcooperx@gmail.com>,
+        Doug Berger <opendmb@gmail.com>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "moderated list:BROADCOM BCM7XXX ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:MULTIMEDIA CARD (MMC), SECURE DIGITAL (SD) AND..." 
+        <linux-mmc@vger.kernel.org>,
+        "open list:PWM SUBSYSTEM" <linux-pwm@vger.kernel.org>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+        kernel@pengutronix.de
+Subject: Re: [PATCH v2 03/14] dt-bindings: pwm: Convert BCM7038 PWM binding
+ to YAML
+Message-ID: <20211207075958.fsw6hcvpocnwokot@pengutronix.de>
+References: <20211206182616.2089677-1-f.fainelli@gmail.com>
+ <20211206182616.2089677-4-f.fainelli@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4387; h=from:subject; bh=BIm58zF4mV3fKF2Ss4EiT2c/TJ3cCjC0s1vkTlp0s78=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBhrwBl6bk7nUxAvxrQ05Ute7jLqPxYkReEtXtbE01y yQr7vwuJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYa8AZQAKCRCJcvTf3G3AJt85EA CZ6aWdb8Vi5rtu0wU4tbc5S5o1pxM40CH1bQQPMrwCGjpjH0T5QJRr2+YdSlOKFsbPWtbPA9ZCEiH0 rL0iuv6zLHJP+5C0HBDpd7PCM44cgKJ5/lzldXijI1gPJLfsJT0LLhFgnG7sdQG7XmyW+fxagC2ang Jd4Gu379X/vg5xDc6Mw3cbSKOYF7yA16LFAujWo2oBwGyYZV3g2iH1U2cW7Y9pfom+iVNyDpTG9fRr O1/mY2kPNh2qPrTtDkP5boz1L8AvwRpIs00yDdj2iKRGYb/etDreuuJetitWWsMGaPyaOdenaet4SC qZWxzWMe7nvxk/OUdkRwFpPUCCnxpO+RtE+EsI9K4fMHASEBnAo0cTbTfW2UxjhUkpKCBTgA2oYNBq vDsCY9x2SHZvtIjsUkZ05CEWysReRqtx2m/uI1xlkALWvtQ5nIra2aQuG2Lzgd01rFyBt1T9aQ+kud QHaZqP9torrBTIoOKsAH58k6ogl9HYd30p7Cu1B37ez6V+CXg32yEQV8Rhe+jATuXI+tEwnSQTvuLy jCZqnisF/79yqyTCLU8eWPbDaPsCaK2YlvmZmXynyb1VBu0x11KnHCwFjsaEoKIh7IadY6ibTQc06C TTniJcFECZx+greYyKuAgR1QVjHEozYUPdt9geTnc2cy8VJG+JvSTeEUt1Lg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="icyezc67xbpvw2hr"
+Content-Disposition: inline
+In-Reply-To: <20211206182616.2089677-4-f.fainelli@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tb_xdp_properties_changed_request() was calling tb_xdp_handle_error() with
-a struct tb_xdp_properties_changed_response on the stack, which does not
-have the "error" field present when cast to struct tb_xdp_error_response.
-This was detected when building with -Warray-bounds:
 
-drivers/thunderbolt/xdomain.c: In function 'tb_xdomain_properties_changed':
-drivers/thunderbolt/xdomain.c:226:22: error: array subscript 'const struct tb_xdp_error_response[0]' is partly outside array bounds of 'struct tb_xdp_properties_changed_response[1]' [-Werror=array-bounds]
-  226 |         switch (error->error) {
-      |                 ~~~~~^~~~~~~
-drivers/thunderbolt/xdomain.c:448:51: note: while referencing 'res'
-  448 |         struct tb_xdp_properties_changed_response res;
-      |                                                   ^~~
+--icyezc67xbpvw2hr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add union containing struct tb_xdp_error_response to structures passed
-to tb_xdp_handle_error(), so that the "error" field will be present.
+Hello,
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- drivers/thunderbolt/tb_msgs.h | 47 ++++++++++++++++++++++-------------
- drivers/thunderbolt/xdomain.c | 16 +++++-------
- 2 files changed, 36 insertions(+), 27 deletions(-)
+On Mon, Dec 06, 2021 at 10:26:05AM -0800, Florian Fainelli wrote:
+> Convert the Broadcom STB BCM7038 PWM Device Tree binding to YAML to help
+> with validation.
+>=20
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 
-diff --git a/drivers/thunderbolt/tb_msgs.h b/drivers/thunderbolt/tb_msgs.h
-index bcabfcb2fd03..fe1afa44c56d 100644
---- a/drivers/thunderbolt/tb_msgs.h
-+++ b/drivers/thunderbolt/tb_msgs.h
-@@ -535,15 +535,25 @@ struct tb_xdp_header {
- 	u32 type;
- };
- 
-+struct tb_xdp_error_response {
-+	struct tb_xdp_header hdr;
-+	u32 error;
-+};
-+
- struct tb_xdp_uuid {
- 	struct tb_xdp_header hdr;
- };
- 
- struct tb_xdp_uuid_response {
--	struct tb_xdp_header hdr;
--	uuid_t src_uuid;
--	u32 src_route_hi;
--	u32 src_route_lo;
-+	union {
-+		struct tb_xdp_error_response err;
-+		struct {
-+			struct tb_xdp_header hdr;
-+			uuid_t src_uuid;
-+			u32 src_route_hi;
-+			u32 src_route_lo;
-+		};
-+	};
- };
- 
- struct tb_xdp_properties {
-@@ -555,13 +565,18 @@ struct tb_xdp_properties {
- };
- 
- struct tb_xdp_properties_response {
--	struct tb_xdp_header hdr;
--	uuid_t src_uuid;
--	uuid_t dst_uuid;
--	u16 offset;
--	u16 data_length;
--	u32 generation;
--	u32 data[0];
-+	union {
-+		struct tb_xdp_error_response err;
-+		struct {
-+			struct tb_xdp_header hdr;
-+			uuid_t src_uuid;
-+			uuid_t dst_uuid;
-+			u16 offset;
-+			u16 data_length;
-+			u32 generation;
-+			u32 data[];
-+		};
-+	};
- };
- 
- /*
-@@ -580,7 +595,10 @@ struct tb_xdp_properties_changed {
- };
- 
- struct tb_xdp_properties_changed_response {
--	struct tb_xdp_header hdr;
-+	union {
-+		struct tb_xdp_error_response err;
-+		struct tb_xdp_header hdr;
-+	};
- };
- 
- enum tb_xdp_error {
-@@ -591,9 +609,4 @@ enum tb_xdp_error {
- 	ERROR_NOT_READY,
- };
- 
--struct tb_xdp_error_response {
--	struct tb_xdp_header hdr;
--	u32 error;
--};
--
- #endif
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index eff32499610f..01d6b724ca51 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -214,16 +214,12 @@ static inline void tb_xdp_fill_header(struct tb_xdp_header *hdr, u64 route,
- 	memcpy(&hdr->uuid, &tb_xdp_uuid, sizeof(tb_xdp_uuid));
- }
- 
--static int tb_xdp_handle_error(const struct tb_xdp_header *hdr)
-+static int tb_xdp_handle_error(const struct tb_xdp_error_response *res)
- {
--	const struct tb_xdp_error_response *error;
--
--	if (hdr->type != ERROR_RESPONSE)
-+	if (res->hdr.type != ERROR_RESPONSE)
- 		return 0;
- 
--	error = (const struct tb_xdp_error_response *)hdr;
--
--	switch (error->error) {
-+	switch (res->error) {
- 	case ERROR_UNKNOWN_PACKET:
- 	case ERROR_UNKNOWN_DOMAIN:
- 		return -EIO;
-@@ -257,7 +253,7 @@ static int tb_xdp_uuid_request(struct tb_ctl *ctl, u64 route, int retry,
- 	if (ret)
- 		return ret;
- 
--	ret = tb_xdp_handle_error(&res.hdr);
-+	ret = tb_xdp_handle_error(&res.err);
- 	if (ret)
- 		return ret;
- 
-@@ -329,7 +325,7 @@ static int tb_xdp_properties_request(struct tb_ctl *ctl, u64 route,
- 		if (ret)
- 			goto err;
- 
--		ret = tb_xdp_handle_error(&res->hdr);
-+		ret = tb_xdp_handle_error(&res->err);
- 		if (ret)
- 			goto err;
- 
-@@ -462,7 +458,7 @@ static int tb_xdp_properties_changed_request(struct tb_ctl *ctl, u64 route,
- 	if (ret)
- 		return ret;
- 
--	return tb_xdp_handle_error(&res.hdr);
-+	return tb_xdp_handle_error(&res.err);
- }
- 
- static int
--- 
-2.30.2
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
+I assume you intend to take these patches all together via the bcm tree?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--icyezc67xbpvw2hr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmGvFHsACgkQwfwUeK3K
+7Am9zgf9F6D7Bcmxx5leYwqjEfbY0JtJ3JTkZmn3TENEY7kofnBMDZ9DvgsvnamU
+9GlECGVZSlUN/w6jWu1AEVpchAWRj7R+rzlwLuACXqZuhAAQIanbu/OUm3hjyODa
+EsYa/UNfNYPRtb02YYMeMqSbWWHW7QLNahOTlCs0vPYZqY89qGOK3S4fLtPpxMMT
+CXYHUvAxBFFAXV1Vc63YYok++9FYu66Xwx2JAC71ETrejR/OfTQm9ZwHuzu5Fz73
+kSCtdWm96QyJFhkgrkHlon+KkZcFAmR3LG2E3Pe/AQeNZ2h4ZvQ6DAKHwgdOjfQD
+VY3xAxykgM6YmDnYURchttBrwq9bWw==
+=R7jM
+-----END PGP SIGNATURE-----
+
+--icyezc67xbpvw2hr--
