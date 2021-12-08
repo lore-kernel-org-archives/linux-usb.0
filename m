@@ -2,17 +2,17 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20E41C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Dec 2021 19:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3865C4167B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Dec 2021 19:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233344AbhLHTZR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Dec 2021 14:25:17 -0500
-Received: from mxout04.lancloud.ru ([45.84.86.114]:33746 "EHLO
-        mxout04.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239920AbhLHTY5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Dec 2021 14:24:57 -0500
+        id S232671AbhLHTZS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Dec 2021 14:25:18 -0500
+Received: from mxout03.lancloud.ru ([45.84.86.113]:44974 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239929AbhLHTY6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 Dec 2021 14:24:58 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 219C820A77B2
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 18130206004A
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
@@ -20,9 +20,9 @@ From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v2 05/10] usb: host: ehci-orion: fix deferred probing
-Date:   Wed, 8 Dec 2021 22:21:13 +0300
-Message-ID: <20211208192118.7483-6-s.shtylyov@omp.ru>
+Subject: [PATCH v2 07/10] usb: host: ohci-da8xx: fix deferred probing
+Date:   Wed, 8 Dec 2021 22:21:15 +0300
+Message-ID: <20211208192118.7483-8-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211208192118.7483-1-s.shtylyov@omp.ru>
 References: <20211208192118.7483-1-s.shtylyov@omp.ru>
@@ -36,33 +36,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver overrides the error codes and IRQ0 returned by platform_get_irq()
-to -ENODEV, so if it returns -EPROBE_DEFER, the driver will fail the probe
-permanently instead of the deferred probing. Switch to propagating the error
-codes upstream. IRQ0 is no longer returned by platform_get_irq(), so we now
-can safely ignore it...
+The driver overrides the error codes returned by platform_get_irq() to 
+-ENODEV for some strange reason, so if it returns -EPROBE_DEFER, the driver
+will fail the probe permanently instead of the deferred probing. Switch to
+propagating the error codes upstream.
 
-Fixes: e96ffe2f9deb ("USB: add Marvell Orion USB host support")
+Fixes: efe7daf2231a ("USB: OHCI: DA8xx/OMAP-L1x glue layer")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
-Changes in version 2:
-- removed the check for IRQ0, updated the patch description accordingly.
+ drivers/usb/host/ohci-da8xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/usb/host/ehci-orion.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/ehci-orion.c b/drivers/usb/host/ehci-orion.c
-index 3626758b3e2a..36ea4febe29b 100644
---- a/drivers/usb/host/ehci-orion.c
-+++ b/drivers/usb/host/ehci-orion.c
-@@ -222,8 +222,8 @@ static int ehci_orion_drv_probe(struct platform_device *pdev)
- 	pr_debug("Initializing Orion-SoC USB Host Controller\n");
+diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
+index 1371b0c249ec..d1326c6ccade 100644
+--- a/drivers/usb/host/ohci-da8xx.c
++++ b/drivers/usb/host/ohci-da8xx.c
+@@ -446,7 +446,7 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
  
- 	irq = platform_get_irq(pdev, 0);
--	if (irq <= 0) {
--		err = -ENODEV;
-+	if (irq < 0) {
-+		err = irq;
+ 	hcd_irq = platform_get_irq(pdev, 0);
+ 	if (hcd_irq < 0) {
+-		error = -ENODEV;
++		error = hcd_irq;
  		goto err;
  	}
  
