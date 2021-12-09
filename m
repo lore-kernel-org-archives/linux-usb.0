@@ -2,819 +2,188 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32961C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Dec 2021 08:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ADB0C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Dec 2021 08:46:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235092AbhLIIrD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Dec 2021 03:47:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235074AbhLIIrA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Dec 2021 03:47:00 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1B7C061A72
-        for <linux-usb@vger.kernel.org>; Thu,  9 Dec 2021 00:43:26 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1mvF1R-0003qy-1k; Thu, 09 Dec 2021 09:43:25 +0100
-Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1mvF1Q-00BCfe-2b; Thu, 09 Dec 2021 09:43:24 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, laurent.pinchart@ideasonboard.com,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de
-Subject: [PATCH v5 2/7] media: uvcvideo: move uvc_format_desc to common header
-Date:   Thu,  9 Dec 2021 09:43:17 +0100
-Message-Id: <20211209084322.2662616-3-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211209084322.2662616-1-m.grzeschik@pengutronix.de>
-References: <20211209084322.2662616-1-m.grzeschik@pengutronix.de>
+        id S229613AbhLIIuH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Dec 2021 03:50:07 -0500
+Received: from cable.insite.cz ([84.242.75.189]:55292 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229601AbhLIIuH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 Dec 2021 03:50:07 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id C6379A1A3D402;
+        Thu,  9 Dec 2021 09:46:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1639039592; bh=M3qwLUTcZQOvSfUmdbdrCnwU4AY9IxGtraIgvNzSiB8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=OBAXk8ALzH9apkp89TxvQgIxqKlLd/bVL2y3sLM2VIZpUw5jEGhLxlVu1ynfbZ2nH
+         3stEmfr711CUCbVK92JfCNGua+UPfBqMJwhSrbDMBmqouydbzrlPxGBdFZzJdXvRyZ
+         BUUjdbX8oop6QBTlefoMDQo/tP5RKIxlxiqZYrK8=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id AsokzKEiwVno; Thu,  9 Dec 2021 09:46:27 +0100 (CET)
+Received: from [192.168.105.22] (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id E42BEA1A3D400;
+        Thu,  9 Dec 2021 09:46:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1639039587; bh=M3qwLUTcZQOvSfUmdbdrCnwU4AY9IxGtraIgvNzSiB8=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=JOPu6rz7O3Gq3+Sn2p+ib6Eb1CwCA1OJrKvY6uqX6TFhvZrWKvjDUJ3oBOOpGCW52
+         VjikV9N+mMczvIhN9Yk+OIRWpZF9vWP1J68d3PJPtLXwdkJHyyXg0WTI90/4Y61xdD
+         kiM9nSHfAVlNMI7wpWBK+kPNPgcF83IESU3heeqc=
+Subject: Re: usb:core: possible bug in wMaxPacketSize validation in config.c?
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+References: <ce5ed936-4325-95a1-cd1c-eece35c4b613@ivitera.com>
+ <YbG4CvLEdf5CmYbc@kroah.com>
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+Message-ID: <65f8eaa8-5606-73da-acfb-4b7322b5b96a@ivitera.com>
+Date:   Thu, 9 Dec 2021 09:46:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+In-Reply-To: <YbG4CvLEdf5CmYbc@kroah.com>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The uvc_format_desc, GUID defines and the uvc_format_by_guid helper is
-also useful for the uvc gadget stack. This patch moves them to a common
-header.
+Hi Greg,
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+Dne 09. 12. 21 v 9:02 Greg KH napsal(a):
+> On Thu, Dec 09, 2021 at 08:53:37AM +0100, Pavel Hofman wrote:
+>> Hi,
+>>
+>> in
+>> https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/config.c#L409
+>> the initial value of maxp is obtained using function usb_endpoint_maxp.
+>>
+>> maxp = usb_endpoint_maxp(&endpoint->desc);
+>>
+>> This function https://elixir.bootlin.com/linux/latest/source/include/uapi/linux/usb/ch9.h#L647
+>> returns only the bits 0 - 10 of the wMaxPacketSize field, i.e. dropping the
+>> high-bandwidth bits 11 and 12. Yet the subsequent code extracts these bits
+>> from maxp into variable i
+>> https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/config.c#L427
+>> , clears them in maxp, and re-sets back in one of the further checks
+>> https://elixir.bootlin.com/linux/latest/source/drivers/usb/core/config.c#L445
+>>
+>> IMO that means the code requires that initial value of maxp contains the
+>> additional-transactions bits. IMO the code should be fixed with this trivial
+>> patch (tested on my build):
+>>
+>>
+>> ===================================================================
+>> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+>> --- a/drivers/usb/core/config.c	(revision
+>> 018dd9dd80ab5f3bd988911b1f10255029ffa52d)
+>> +++ b/drivers/usb/core/config.c	(date 1638972286064)
+>> @@ -406,7 +406,7 @@
+>>   	 * the USB-2 spec requires such endpoints to have wMaxPacketSize = 0
+>>   	 * (see the end of section 5.6.3), so don't warn about them.
+>>   	 */
+>> -	maxp = usb_endpoint_maxp(&endpoint->desc);
+>> +	maxp = endpoint->desc.wMaxPacketSize;
+>>   	if (maxp == 0 && !(usb_endpoint_xfer_isoc(d) && asnum == 0)) {
+>>   		dev_warn(ddev, "config %d interface %d altsetting %d endpoint 0x%X has
+>> invalid wMaxPacketSize 0\n",
+>>   		    cfgno, inum, asnum, d->bEndpointAddress);
+>>
+>>
+>> =========================
+>>
+>> I can send a proper patch should the change be approved.
+> 
+> Please always just send a real patch, that makes it easier to discuss.
 
----
-v1 -> v2: -
-v2 -> v3: -
-v3 -> v4: -
-v4 -> v5: -
+> 
+> Anyway, what problem is this solving?  
 
- drivers/media/usb/uvc/uvc_ctrl.c   |   1 +
- drivers/media/usb/uvc/uvc_driver.c | 201 +----------------
- drivers/media/usb/uvc/uvcvideo.h   | 141 ------------
- include/media/v4l2-uvc.h           | 351 +++++++++++++++++++++++++++++
- 4 files changed, 353 insertions(+), 341 deletions(-)
- create mode 100644 include/media/v4l2-uvc.h
+The config.c contains several verifications which modify wMaxPacketSize 
+values reported by a device to conform to USB specs. IMO there is a bug 
+in the validation code.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 30bfe9069a1fb4..20d1555cc174d0 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -18,6 +18,7 @@
- #include <linux/workqueue.h>
- #include <linux/atomic.h>
- #include <media/v4l2-ctrls.h>
-+#include <media/v4l2-uvc.h>
- 
- #include "uvcvideo.h"
- 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index cdb92da0f56afd..57e489f9df9e4b 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -20,6 +20,7 @@
- 
- #include <media/v4l2-common.h>
- #include <media/v4l2-ioctl.h>
-+#include <media/v4l2-uvc.h>
- 
- #include "uvcvideo.h"
- 
-@@ -34,193 +35,6 @@ static unsigned int uvc_quirks_param = -1;
- unsigned int uvc_dbg_param;
- unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
- 
--/* ------------------------------------------------------------------------
-- * Video formats
-- */
--
--static struct uvc_format_desc uvc_fmts[] = {
--	{
--		.name		= "YUV 4:2:2 (YUYV)",
--		.guid		= UVC_GUID_FORMAT_YUY2,
--		.fcc		= V4L2_PIX_FMT_YUYV,
--	},
--	{
--		.name		= "YUV 4:2:2 (YUYV)",
--		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
--		.fcc		= V4L2_PIX_FMT_YUYV,
--	},
--	{
--		.name		= "YUV 4:2:0 (NV12)",
--		.guid		= UVC_GUID_FORMAT_NV12,
--		.fcc		= V4L2_PIX_FMT_NV12,
--	},
--	{
--		.name		= "MJPEG",
--		.guid		= UVC_GUID_FORMAT_MJPEG,
--		.fcc		= V4L2_PIX_FMT_MJPEG,
--	},
--	{
--		.name		= "YVU 4:2:0 (YV12)",
--		.guid		= UVC_GUID_FORMAT_YV12,
--		.fcc		= V4L2_PIX_FMT_YVU420,
--	},
--	{
--		.name		= "YUV 4:2:0 (I420)",
--		.guid		= UVC_GUID_FORMAT_I420,
--		.fcc		= V4L2_PIX_FMT_YUV420,
--	},
--	{
--		.name		= "YUV 4:2:0 (M420)",
--		.guid		= UVC_GUID_FORMAT_M420,
--		.fcc		= V4L2_PIX_FMT_M420,
--	},
--	{
--		.name		= "YUV 4:2:2 (UYVY)",
--		.guid		= UVC_GUID_FORMAT_UYVY,
--		.fcc		= V4L2_PIX_FMT_UYVY,
--	},
--	{
--		.name		= "Greyscale 8-bit (Y800)",
--		.guid		= UVC_GUID_FORMAT_Y800,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 8-bit (Y8  )",
--		.guid		= UVC_GUID_FORMAT_Y8,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 8-bit (D3DFMT_L8)",
--		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "IR 8-bit (L8_IR)",
--		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
--		.fcc		= V4L2_PIX_FMT_GREY,
--	},
--	{
--		.name		= "Greyscale 10-bit (Y10 )",
--		.guid		= UVC_GUID_FORMAT_Y10,
--		.fcc		= V4L2_PIX_FMT_Y10,
--	},
--	{
--		.name		= "Greyscale 12-bit (Y12 )",
--		.guid		= UVC_GUID_FORMAT_Y12,
--		.fcc		= V4L2_PIX_FMT_Y12,
--	},
--	{
--		.name		= "Greyscale 16-bit (Y16 )",
--		.guid		= UVC_GUID_FORMAT_Y16,
--		.fcc		= V4L2_PIX_FMT_Y16,
--	},
--	{
--		.name		= "BGGR Bayer (BY8 )",
--		.guid		= UVC_GUID_FORMAT_BY8,
--		.fcc		= V4L2_PIX_FMT_SBGGR8,
--	},
--	{
--		.name		= "BGGR Bayer (BA81)",
--		.guid		= UVC_GUID_FORMAT_BA81,
--		.fcc		= V4L2_PIX_FMT_SBGGR8,
--	},
--	{
--		.name		= "GBRG Bayer (GBRG)",
--		.guid		= UVC_GUID_FORMAT_GBRG,
--		.fcc		= V4L2_PIX_FMT_SGBRG8,
--	},
--	{
--		.name		= "GRBG Bayer (GRBG)",
--		.guid		= UVC_GUID_FORMAT_GRBG,
--		.fcc		= V4L2_PIX_FMT_SGRBG8,
--	},
--	{
--		.name		= "RGGB Bayer (RGGB)",
--		.guid		= UVC_GUID_FORMAT_RGGB,
--		.fcc		= V4L2_PIX_FMT_SRGGB8,
--	},
--	{
--		.name		= "RGB565",
--		.guid		= UVC_GUID_FORMAT_RGBP,
--		.fcc		= V4L2_PIX_FMT_RGB565,
--	},
--	{
--		.name		= "BGR 8:8:8 (BGR3)",
--		.guid		= UVC_GUID_FORMAT_BGR3,
--		.fcc		= V4L2_PIX_FMT_BGR24,
--	},
--	{
--		.name		= "H.264",
--		.guid		= UVC_GUID_FORMAT_H264,
--		.fcc		= V4L2_PIX_FMT_H264,
--	},
--	{
--		.name		= "Greyscale 8 L/R (Y8I)",
--		.guid		= UVC_GUID_FORMAT_Y8I,
--		.fcc		= V4L2_PIX_FMT_Y8I,
--	},
--	{
--		.name		= "Greyscale 12 L/R (Y12I)",
--		.guid		= UVC_GUID_FORMAT_Y12I,
--		.fcc		= V4L2_PIX_FMT_Y12I,
--	},
--	{
--		.name		= "Depth data 16-bit (Z16)",
--		.guid		= UVC_GUID_FORMAT_Z16,
--		.fcc		= V4L2_PIX_FMT_Z16,
--	},
--	{
--		.name		= "Bayer 10-bit (SRGGB10P)",
--		.guid		= UVC_GUID_FORMAT_RW10,
--		.fcc		= V4L2_PIX_FMT_SRGGB10P,
--	},
--	{
--		.name		= "Bayer 16-bit (SBGGR16)",
--		.guid		= UVC_GUID_FORMAT_BG16,
--		.fcc		= V4L2_PIX_FMT_SBGGR16,
--	},
--	{
--		.name		= "Bayer 16-bit (SGBRG16)",
--		.guid		= UVC_GUID_FORMAT_GB16,
--		.fcc		= V4L2_PIX_FMT_SGBRG16,
--	},
--	{
--		.name		= "Bayer 16-bit (SRGGB16)",
--		.guid		= UVC_GUID_FORMAT_RG16,
--		.fcc		= V4L2_PIX_FMT_SRGGB16,
--	},
--	{
--		.name		= "Bayer 16-bit (SGRBG16)",
--		.guid		= UVC_GUID_FORMAT_GR16,
--		.fcc		= V4L2_PIX_FMT_SGRBG16,
--	},
--	{
--		.name		= "Depth data 16-bit (Z16)",
--		.guid		= UVC_GUID_FORMAT_INVZ,
--		.fcc		= V4L2_PIX_FMT_Z16,
--	},
--	{
--		.name		= "Greyscale 10-bit (Y10 )",
--		.guid		= UVC_GUID_FORMAT_INVI,
--		.fcc		= V4L2_PIX_FMT_Y10,
--	},
--	{
--		.name		= "IR:Depth 26-bit (INZI)",
--		.guid		= UVC_GUID_FORMAT_INZI,
--		.fcc		= V4L2_PIX_FMT_INZI,
--	},
--	{
--		.name		= "4-bit Depth Confidence (Packed)",
--		.guid		= UVC_GUID_FORMAT_CNF4,
--		.fcc		= V4L2_PIX_FMT_CNF4,
--	},
--	{
--		.name		= "HEVC",
--		.guid		= UVC_GUID_FORMAT_HEVC,
--		.fcc		= V4L2_PIX_FMT_HEVC,
--	},
--};
--
- /* ------------------------------------------------------------------------
-  * Utility functions
-  */
-@@ -240,19 +54,6 @@ struct usb_host_endpoint *uvc_find_endpoint(struct usb_host_interface *alts,
- 	return NULL;
- }
- 
--static struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
--{
--	unsigned int len = ARRAY_SIZE(uvc_fmts);
--	unsigned int i;
--
--	for (i = 0; i < len; ++i) {
--		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
--			return &uvc_fmts[i];
--	}
--
--	return NULL;
--}
--
- static enum v4l2_colorspace uvc_colorspace(const u8 primaries)
- {
- 	static const enum v4l2_colorspace colorprimaries[] = {
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a61cd0a459e88d..7ed229516dbbfb 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -41,141 +41,6 @@
- #define UVC_EXT_GPIO_UNIT		0x7ffe
- #define UVC_EXT_GPIO_UNIT_ID		0x100
- 
--/* ------------------------------------------------------------------------
-- * GUIDs
-- */
--#define UVC_GUID_UVC_CAMERA \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
--#define UVC_GUID_UVC_OUTPUT \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
--#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
--#define UVC_GUID_UVC_PROCESSING \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
--#define UVC_GUID_UVC_SELECTOR \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
--#define UVC_GUID_EXT_GPIO_CONTROLLER \
--	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
--	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
--
--#define UVC_GUID_FORMAT_MJPEG \
--	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YUY2 \
--	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YUY2_ISIGHT \
--	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_NV12 \
--	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_YV12 \
--	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_I420 \
--	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_UYVY \
--	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y800 \
--	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y8 \
--	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y10 \
--	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y12 \
--	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y16 \
--	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BY8 \
--	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BA81 \
--	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GBRG \
--	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GRBG \
--	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RGGB \
--	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BG16 \
--	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GB16 \
--	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RG16 \
--	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_GR16 \
--	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RGBP \
--	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_BGR3 \
--	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
--	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
--#define UVC_GUID_FORMAT_M420 \
--	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_H264 \
--	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y8I \
--	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Y12I \
--	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_Z16 \
--	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_RW10 \
--	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_INVZ \
--	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
--	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
--#define UVC_GUID_FORMAT_INZI \
--	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
--	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
--#define UVC_GUID_FORMAT_INVI \
--	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
--	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
--#define UVC_GUID_FORMAT_CNF4 \
--	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_D3DFMT_L8 \
--	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
--	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--#define UVC_GUID_FORMAT_HEVC \
--	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
--	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
--
--
- /* ------------------------------------------------------------------------
-  * Driver specific constants.
-  */
-@@ -280,12 +145,6 @@ struct uvc_control {
- 	struct uvc_fh *handle;	/* File handle that last changed the control. */
- };
- 
--struct uvc_format_desc {
--	char *name;
--	u8 guid[16];
--	u32 fcc;
--};
--
- /* The term 'entity' refers to both UVC units and UVC terminals.
-  *
-  * The type field is either the terminal type (wTerminalType in the terminal
-diff --git a/include/media/v4l2-uvc.h b/include/media/v4l2-uvc.h
-new file mode 100644
-index 00000000000000..f1b21e1ec7a1a9
---- /dev/null
-+++ b/include/media/v4l2-uvc.h
-@@ -0,0 +1,351 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ *  v4l2 uvc internal API header
-+ *
-+ *  Some commonly needed functions for uvc drivers
-+ */
-+
-+#ifndef __LINUX_V4L2_UVC_H
-+#define __LINUX_V4L2_UVC_H
-+
-+/* ------------------------------------------------------------------------
-+ * GUIDs
-+ */
-+#define UVC_GUID_UVC_CAMERA \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01}
-+#define UVC_GUID_UVC_OUTPUT \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02}
-+#define UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03}
-+#define UVC_GUID_UVC_PROCESSING \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01}
-+#define UVC_GUID_UVC_SELECTOR \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
-+#define UVC_GUID_EXT_GPIO_CONTROLLER \
-+	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
-+	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-+
-+#define UVC_GUID_FORMAT_MJPEG \
-+	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YUY2 \
-+	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YUY2_ISIGHT \
-+	{ 'Y',  'U',  'Y',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0x00, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_NV12 \
-+	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_YV12 \
-+	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_I420 \
-+	{ 'I',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_UYVY \
-+	{ 'U',  'Y',  'V',  'Y', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y800 \
-+	{ 'Y',  '8',  '0',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y8 \
-+	{ 'Y',  '8',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y10 \
-+	{ 'Y',  '1',  '0',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y12 \
-+	{ 'Y',  '1',  '2',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y16 \
-+	{ 'Y',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BY8 \
-+	{ 'B',  'Y',  '8',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BA81 \
-+	{ 'B',  'A',  '8',  '1', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GBRG \
-+	{ 'G',  'B',  'R',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GRBG \
-+	{ 'G',  'R',  'B',  'G', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RGGB \
-+	{ 'R',  'G',  'G',  'B', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BG16 \
-+	{ 'B',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GB16 \
-+	{ 'G',  'B',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RG16 \
-+	{ 'R',  'G',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_GR16 \
-+	{ 'G',  'R',  '1',  '6', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RGBP \
-+	{ 'R',  'G',  'B',  'P', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_BGR3 \
-+	{ 0x7d, 0xeb, 0x36, 0xe4, 0x4f, 0x52, 0xce, 0x11, \
-+	 0x9f, 0x53, 0x00, 0x20, 0xaf, 0x0b, 0xa7, 0x70}
-+#define UVC_GUID_FORMAT_M420 \
-+	{ 'M',  '4',  '2',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_H264 \
-+	{ 'H',  '2',  '6',  '4', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y8I \
-+	{ 'Y',  '8',  'I',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Y12I \
-+	{ 'Y',  '1',  '2',  'I', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_Z16 \
-+	{ 'Z',  '1',  '6',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_RW10 \
-+	{ 'R',  'W',  '1',  '0', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_INVZ \
-+	{ 'I',  'N',  'V',  'Z', 0x90, 0x2d, 0x58, 0x4a, \
-+	 0x92, 0x0b, 0x77, 0x3f, 0x1f, 0x2c, 0x55, 0x6b}
-+#define UVC_GUID_FORMAT_INZI \
-+	{ 'I',  'N',  'Z',  'I', 0x66, 0x1a, 0x42, 0xa2, \
-+	 0x90, 0x65, 0xd0, 0x18, 0x14, 0xa8, 0xef, 0x8a}
-+#define UVC_GUID_FORMAT_INVI \
-+	{ 'I',  'N',  'V',  'I', 0xdb, 0x57, 0x49, 0x5e, \
-+	 0x8e, 0x3f, 0xf4, 0x79, 0x53, 0x2b, 0x94, 0x6f}
-+#define UVC_GUID_FORMAT_CNF4 \
-+	{ 'C',  ' ',  ' ',  ' ', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_D3DFMT_L8 \
-+	{0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_KSMEDIA_L8_IR \
-+	{0x32, 0x00, 0x00, 0x00, 0x02, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+#define UVC_GUID_FORMAT_HEVC \
-+	{ 'H',  'E',  'V',  'C', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+
-+/* ------------------------------------------------------------------------
-+ * Video formats
-+ */
-+
-+struct uvc_format_desc {
-+	char *name;
-+	u8 guid[16];
-+	u32 fcc;
-+};
-+
-+static struct uvc_format_desc uvc_fmts[] = {
-+	{
-+		.name		= "YUV 4:2:2 (YUYV)",
-+		.guid		= UVC_GUID_FORMAT_YUY2,
-+		.fcc		= V4L2_PIX_FMT_YUYV,
-+	},
-+	{
-+		.name		= "YUV 4:2:2 (YUYV)",
-+		.guid		= UVC_GUID_FORMAT_YUY2_ISIGHT,
-+		.fcc		= V4L2_PIX_FMT_YUYV,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (NV12)",
-+		.guid		= UVC_GUID_FORMAT_NV12,
-+		.fcc		= V4L2_PIX_FMT_NV12,
-+	},
-+	{
-+		.name		= "MJPEG",
-+		.guid		= UVC_GUID_FORMAT_MJPEG,
-+		.fcc		= V4L2_PIX_FMT_MJPEG,
-+	},
-+	{
-+		.name		= "YVU 4:2:0 (YV12)",
-+		.guid		= UVC_GUID_FORMAT_YV12,
-+		.fcc		= V4L2_PIX_FMT_YVU420,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (I420)",
-+		.guid		= UVC_GUID_FORMAT_I420,
-+		.fcc		= V4L2_PIX_FMT_YUV420,
-+	},
-+	{
-+		.name		= "YUV 4:2:0 (M420)",
-+		.guid		= UVC_GUID_FORMAT_M420,
-+		.fcc		= V4L2_PIX_FMT_M420,
-+	},
-+	{
-+		.name		= "YUV 4:2:2 (UYVY)",
-+		.guid		= UVC_GUID_FORMAT_UYVY,
-+		.fcc		= V4L2_PIX_FMT_UYVY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (Y800)",
-+		.guid		= UVC_GUID_FORMAT_Y800,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (Y8  )",
-+		.guid		= UVC_GUID_FORMAT_Y8,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 8-bit (D3DFMT_L8)",
-+		.guid		= UVC_GUID_FORMAT_D3DFMT_L8,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "IR 8-bit (L8_IR)",
-+		.guid		= UVC_GUID_FORMAT_KSMEDIA_L8_IR,
-+		.fcc		= V4L2_PIX_FMT_GREY,
-+	},
-+	{
-+		.name		= "Greyscale 10-bit (Y10 )",
-+		.guid		= UVC_GUID_FORMAT_Y10,
-+		.fcc		= V4L2_PIX_FMT_Y10,
-+	},
-+	{
-+		.name		= "Greyscale 12-bit (Y12 )",
-+		.guid		= UVC_GUID_FORMAT_Y12,
-+		.fcc		= V4L2_PIX_FMT_Y12,
-+	},
-+	{
-+		.name		= "Greyscale 16-bit (Y16 )",
-+		.guid		= UVC_GUID_FORMAT_Y16,
-+		.fcc		= V4L2_PIX_FMT_Y16,
-+	},
-+	{
-+		.name		= "BGGR Bayer (BY8 )",
-+		.guid		= UVC_GUID_FORMAT_BY8,
-+		.fcc		= V4L2_PIX_FMT_SBGGR8,
-+	},
-+	{
-+		.name		= "BGGR Bayer (BA81)",
-+		.guid		= UVC_GUID_FORMAT_BA81,
-+		.fcc		= V4L2_PIX_FMT_SBGGR8,
-+	},
-+	{
-+		.name		= "GBRG Bayer (GBRG)",
-+		.guid		= UVC_GUID_FORMAT_GBRG,
-+		.fcc		= V4L2_PIX_FMT_SGBRG8,
-+	},
-+	{
-+		.name		= "GRBG Bayer (GRBG)",
-+		.guid		= UVC_GUID_FORMAT_GRBG,
-+		.fcc		= V4L2_PIX_FMT_SGRBG8,
-+	},
-+	{
-+		.name		= "RGGB Bayer (RGGB)",
-+		.guid		= UVC_GUID_FORMAT_RGGB,
-+		.fcc		= V4L2_PIX_FMT_SRGGB8,
-+	},
-+	{
-+		.name		= "RGB565",
-+		.guid		= UVC_GUID_FORMAT_RGBP,
-+		.fcc		= V4L2_PIX_FMT_RGB565,
-+	},
-+	{
-+		.name		= "BGR 8:8:8 (BGR3)",
-+		.guid		= UVC_GUID_FORMAT_BGR3,
-+		.fcc		= V4L2_PIX_FMT_BGR24,
-+	},
-+	{
-+		.name		= "H.264",
-+		.guid		= UVC_GUID_FORMAT_H264,
-+		.fcc		= V4L2_PIX_FMT_H264,
-+	},
-+	{
-+		.name		= "Greyscale 8 L/R (Y8I)",
-+		.guid		= UVC_GUID_FORMAT_Y8I,
-+		.fcc		= V4L2_PIX_FMT_Y8I,
-+	},
-+	{
-+		.name		= "Greyscale 12 L/R (Y12I)",
-+		.guid		= UVC_GUID_FORMAT_Y12I,
-+		.fcc		= V4L2_PIX_FMT_Y12I,
-+	},
-+	{
-+		.name		= "Depth data 16-bit (Z16)",
-+		.guid		= UVC_GUID_FORMAT_Z16,
-+		.fcc		= V4L2_PIX_FMT_Z16,
-+	},
-+	{
-+		.name		= "Bayer 10-bit (SRGGB10P)",
-+		.guid		= UVC_GUID_FORMAT_RW10,
-+		.fcc		= V4L2_PIX_FMT_SRGGB10P,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SBGGR16)",
-+		.guid		= UVC_GUID_FORMAT_BG16,
-+		.fcc		= V4L2_PIX_FMT_SBGGR16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SGBRG16)",
-+		.guid		= UVC_GUID_FORMAT_GB16,
-+		.fcc		= V4L2_PIX_FMT_SGBRG16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SRGGB16)",
-+		.guid		= UVC_GUID_FORMAT_RG16,
-+		.fcc		= V4L2_PIX_FMT_SRGGB16,
-+	},
-+	{
-+		.name		= "Bayer 16-bit (SGRBG16)",
-+		.guid		= UVC_GUID_FORMAT_GR16,
-+		.fcc		= V4L2_PIX_FMT_SGRBG16,
-+	},
-+	{
-+		.name		= "Depth data 16-bit (Z16)",
-+		.guid		= UVC_GUID_FORMAT_INVZ,
-+		.fcc		= V4L2_PIX_FMT_Z16,
-+	},
-+	{
-+		.name		= "Greyscale 10-bit (Y10 )",
-+		.guid		= UVC_GUID_FORMAT_INVI,
-+		.fcc		= V4L2_PIX_FMT_Y10,
-+	},
-+	{
-+		.name		= "IR:Depth 26-bit (INZI)",
-+		.guid		= UVC_GUID_FORMAT_INZI,
-+		.fcc		= V4L2_PIX_FMT_INZI,
-+	},
-+	{
-+		.name		= "4-bit Depth Confidence (Packed)",
-+		.guid		= UVC_GUID_FORMAT_CNF4,
-+		.fcc		= V4L2_PIX_FMT_CNF4,
-+	},
-+	{
-+		.name		= "HEVC",
-+		.guid		= UVC_GUID_FORMAT_HEVC,
-+		.fcc		= V4L2_PIX_FMT_HEVC,
-+	},
-+};
-+
-+static inline struct uvc_format_desc *uvc_format_by_guid(const u8 guid[16])
-+{
-+	unsigned int len = ARRAY_SIZE(uvc_fmts);
-+	unsigned int i;
-+
-+	for (i = 0; i < len; ++i) {
-+		if (memcmp(guid, uvc_fmts[i].guid, 16) == 0)
-+			return &uvc_fmts[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+#endif /* __LINUX_V4L2_UVC_H */
--- 
-2.30.2
+> Do you have a device where the > data is calculated incorrectly?
 
+No I don't, I noticed the issue while testing something which involved 
+that part of code.
+
+>  What value in a device is being
+> declared incorrect because of the existing code?
+Please look at the existing code with my comments starting ///////:
+
+
+====================
+
+	/*
+	 * Validate the wMaxPacketSize field.
+	 * Some devices have isochronous endpoints in altsetting 0;
+	 * the USB-2 spec requires such endpoints to have wMaxPacketSize = 0
+	 * (see the end of section 5.6.3), so don't warn about them.
+	 */
+
+////// Here only bits 0 - 10 from endpoint->desc.wMaxPacketSize
+////// are copied to maxp
+	maxp = usb_endpoint_maxp(&endpoint->desc);
+	if (maxp == 0 && !(usb_endpoint_xfer_isoc(d) && asnum == 0)) {
+		dev_warn(ddev, "config %d interface %d altsetting %d endpoint 0x%X has 
+invalid wMaxPacketSize 0\n",
+		    cfgno, inum, asnum, d->bEndpointAddress);
+	}
+
+	/* Find the highest legal maxpacket size for this endpoint */
+	i = 0;		/* additional transactions per microframe */
+	switch (udev->speed) {
+	case USB_SPEED_LOW:
+		maxpacket_maxes = low_speed_maxpacket_maxes;
+		break;
+	case USB_SPEED_FULL:
+		maxpacket_maxes = full_speed_maxpacket_maxes;
+		break;
+	case USB_SPEED_HIGH:
+		/* Bits 12..11 are allowed only for HS periodic endpoints */
+		if (usb_endpoint_xfer_int(d) || usb_endpoint_xfer_isoc(d)) {
+
+///////// Here bits 11 and 12 are extracted from maxp,
+///////// removed from maxp and stored in i.
+///////// They are always 0 due to the usb_endpoint_maxp call.
+			i = maxp & (BIT(12) | BIT(11));
+			maxp &= ~i;
+		}
+		fallthrough;
+	default:
+		maxpacket_maxes = high_speed_maxpacket_maxes;
+		break;
+	case USB_SPEED_SUPER:
+	case USB_SPEED_SUPER_PLUS:
+		maxpacket_maxes = super_speed_maxpacket_maxes;
+		break;
+	}
+	j = maxpacket_maxes[usb_endpoint_type(&endpoint->desc)];
+
+	if (maxp > j) {
+		dev_warn(ddev, "config %d interface %d altsetting %d endpoint 0x%X has 
+invalid maxpacket %d, setting to %d\n",
+		    cfgno, inum, asnum, d->bEndpointAddress, maxp, j);
+
+//////// If maxp > max allowed packet size (the device reports incorrect 
+//////// values in bits 0-10, wMaxPacketSize will use the max allowed 
+//////// packet size for bits 0-10, and the additional-transaction 
+//////// (high-bandwidth) bits stored in i will be set, to allow more 
+//////// packets per frame. But currently i is always = 0 due to the 
+//////// usb_endpoint_maxp call.
+		maxp = j;
+		endpoint->desc.wMaxPacketSize = cpu_to_le16(i | maxp);
+	}
+
+
+
+====================
+
+Thanks a lot for the review.
+
+Pavel.
