@@ -2,29 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB76AC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 20:46:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D87EC433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 20:46:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238956AbhLJUuP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Dec 2021 15:50:15 -0500
-Received: from mxout02.lancloud.ru ([45.84.86.82]:46956 "EHLO
-        mxout02.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235811AbhLJUuP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Dec 2021 15:50:15 -0500
+        id S242454AbhLJUuQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Dec 2021 15:50:16 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:46502 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231685AbhLJUuO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Dec 2021 15:50:14 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout02.lancloud.ru F079D20B2282
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2732B209B9A7
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH v3 0/6] Fix deferred probing in the USB host/gadget drivers
-Date:   Fri, 10 Dec 2021 23:46:28 +0300
-Message-ID: <20211210204634.8182-1-s.shtylyov@omp.ru>
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v3 4/6] usb: host: ohci-da8xx: fix deferred probing
+Date:   Fri, 10 Dec 2021 23:46:32 +0300
+Message-ID: <20211210204634.8182-5-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20211210204634.8182-1-s.shtylyov@omp.ru>
+References: <20211210204634.8182-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -35,31 +36,38 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Here are 6 patches against the 'usb-linus' branch of Greg KH's 'usb.git' repo.
-The affected host/gadget drivers call platform_get_irq() but override its result
-in case of error which prevents the deferred probing from working. These patches
-now logically depend on the previously posted patch:
+The driver overrides the error codes returned by platform_get_irq() to 
+-ENODEV for some strange reason, so if it returns -EPROBE_DEFER, the driver
+will fail the probe permanently instead of the deferred probing. Switch to
+propagating the error codes upstream.
 
-https://marc.info/?l=linux-kernel&m=163623041902285
+Fixes: 9ec36cafe43b ("of/irq: do irq resolution in platform_get_irq")
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+---
+Changes in version 3:
+- corrected the "Fixes:" tag;
+- added Alan's ACK.
 
-I've now removed 4 patches which didn't really fix anything from this series...
+Changes in version 2:
+- removed the wrong "From:" tag and wrong sign-off.
 
-Sergey Shtylyov (6):
-  usb: gadget: udc: gr: fix deferred probing
-  usb: host: ehci-atmel: fix deferred probing
-  usb: host: ehci-orion: fix deferred probing
-  usb: host: ohci-da8xx: fix deferred probing
-  usb: host: ohci-nxp: fix deferred probing
-  usb: musb: core: fix deferred probing
+ drivers/usb/host/ohci-da8xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/usb/gadget/udc/gr_udc.c      | 8 ++++----
- drivers/usb/host/ehci-atmel.c        | 4 ++--
- drivers/usb/host/ehci-orion.c        | 4 ++--
- drivers/usb/host/ohci-da8xx.c        | 2 +-
- drivers/usb/host/ohci-nxp.c          | 2 +-
- drivers/usb/musb/musb_core.c         | 4 ++--
- 10 files changed, 12 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
+index 1371b0c249ec..d1326c6ccade 100644
+--- a/drivers/usb/host/ohci-da8xx.c
++++ b/drivers/usb/host/ohci-da8xx.c
+@@ -446,7 +446,7 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
+ 
+ 	hcd_irq = platform_get_irq(pdev, 0);
+ 	if (hcd_irq < 0) {
+-		error = -ENODEV;
++		error = hcd_irq;
+ 		goto err;
+ 	}
+ 
 -- 
 2.26.3
 
