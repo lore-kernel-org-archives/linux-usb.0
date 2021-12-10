@@ -2,98 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 412C9C4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 14:16:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B31DC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 14:20:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238514AbhLJOTz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Dec 2021 09:19:55 -0500
-Received: from mga12.intel.com ([192.55.52.136]:31713 "EHLO mga12.intel.com"
+        id S239970AbhLJOYX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Dec 2021 09:24:23 -0500
+Received: from mga17.intel.com ([192.55.52.151]:62032 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234588AbhLJOTy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 10 Dec 2021 09:19:54 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="218372232"
+        id S229978AbhLJOYW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Dec 2021 09:24:22 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="219039683"
 X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; 
-   d="scan'208";a="218372232"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2021 06:16:05 -0800
+   d="scan'208";a="219039683"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2021 06:20:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; 
-   d="scan'208";a="463677540"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga006.jf.intel.com with ESMTP; 10 Dec 2021 06:16:03 -0800
+   d="scan'208";a="659588424"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Dec 2021 06:20:38 -0800
+Subject: Re: [PATCH] xhci: Remove CONFIG_USB_DEFAULT_PERSIST to prevent xHCI
+ from runtime suspending
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     mathias.nyman@intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20211119092628.677935-1-kai.heng.feng@canonical.com>
+ <CAAd53p4CpEQR0Y5XDN5E7xZ-iw2GG=gGMSm2Vd=V_M1LLEuuCA@mail.gmail.com>
+ <b7595524-1041-8b8b-dc61-9ee0acbc8307@linux.intel.com>
+ <CAAd53p4OOyrLJYbhYVqJSJ2NukmhM26GEf7rM7cV0=6_djhpxw@mail.gmail.com>
 From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        stable@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 1/2] xhci: Remove CONFIG_USB_DEFAULT_PERSIST to prevent xHCI from runtime suspending
-Date:   Fri, 10 Dec 2021 16:17:34 +0200
-Message-Id: <20211210141735.1384209-2-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211210141735.1384209-1-mathias.nyman@linux.intel.com>
-References: <20211210141735.1384209-1-mathias.nyman@linux.intel.com>
+Message-ID: <9e2f77e9-952c-de4d-6efc-3f5c75a6285b@linux.intel.com>
+Date:   Fri, 10 Dec 2021 16:22:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAd53p4OOyrLJYbhYVqJSJ2NukmhM26GEf7rM7cV0=6_djhpxw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+On 9.12.2021 8.42, Kai-Heng Feng wrote:
+> On Wed, Dec 1, 2021 at 5:00 PM Mathias Nyman
+> <mathias.nyman@linux.intel.com> wrote:
+>>
+>> On 1.12.2021 2.19, Kai-Heng Feng wrote:
+>>> On Fri, Nov 19, 2021 at 5:27 PM Kai-Heng Feng
+>>> <kai.heng.feng@canonical.com> wrote:
+>>>>
+>>>> When the xHCI is quirked with XHCI_RESET_ON_RESUME, runtime resume
+>>>> routine also resets the controller.
+>>>>
+>>>> This is bad for USB drivers without reset_resume callback, because
+>>>> there's no subsequent call of usb_dev_complete() ->
+>>>> usb_resume_complete() to force rebinding the driver to the device. For
+>>>> instance, btusb device stops working after xHCI controller is runtime
+>>>> resumed, if the controlled is quirked with XHCI_RESET_ON_RESUME.
+>>>>
+>>>> So always take XHCI_RESET_ON_RESUME into account to solve the issue.
+>>>>
+>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>
+>>> A gentle ping...
+>>
+>> Thanks
+>> Adding to queue
+> 
+> I haven't found this patch in your repo. Can you please push it so I
+> can backport it to downstream kernel?
 
-When the xHCI is quirked with XHCI_RESET_ON_RESUME, runtime resume
-routine also resets the controller.
+Patch got shuffled around a bit.
+It's now in my for-usb-linus branch, and sent to Greg
 
-This is bad for USB drivers without reset_resume callback, because
-there's no subsequent call of usb_dev_complete() ->
-usb_resume_complete() to force rebinding the driver to the device. For
-instance, btusb device stops working after xHCI controller is runtime
-resumed, if the controlled is quirked with XHCI_RESET_ON_RESUME.
-
-So always take XHCI_RESET_ON_RESUME into account to solve the issue.
-
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci.c | 4 ----
- 1 file changed, 4 deletions(-)
-
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 902f410874e8..af92a9f8ed67 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -3934,7 +3934,6 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	struct xhci_slot_ctx *slot_ctx;
- 	int i, ret;
- 
--#ifndef CONFIG_USB_DEFAULT_PERSIST
- 	/*
- 	 * We called pm_runtime_get_noresume when the device was attached.
- 	 * Decrement the counter here to allow controller to runtime suspend
-@@ -3942,7 +3941,6 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	 */
- 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
- 		pm_runtime_put_noidle(hcd->self.controller);
--#endif
- 
- 	ret = xhci_check_args(hcd, udev, NULL, 0, true, __func__);
- 	/* If the host is halted due to driver unload, we still need to free the
-@@ -4094,14 +4092,12 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 
- 	xhci_debugfs_create_slot(xhci, slot_id);
- 
--#ifndef CONFIG_USB_DEFAULT_PERSIST
- 	/*
- 	 * If resetting upon resume, we can't put the controller into runtime
- 	 * suspend if there is a device attached.
- 	 */
- 	if (xhci->quirks & XHCI_RESET_ON_RESUME)
- 		pm_runtime_get_noresume(hcd->self.controller);
--#endif
- 
- 	/* Is this a LS or FS device under a HS hub? */
- 	/* Hub or peripherial? */
--- 
-2.25.1
+Thanks
+-Mathias
 
