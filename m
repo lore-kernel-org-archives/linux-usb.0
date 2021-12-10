@@ -2,27 +2,27 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D87EC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 20:46:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 547DDC4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 20:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242454AbhLJUuQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Dec 2021 15:50:16 -0500
-Received: from mxout01.lancloud.ru ([45.84.86.81]:46502 "EHLO
-        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231685AbhLJUuO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Dec 2021 15:50:14 -0500
+        id S243024AbhLJUuR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Dec 2021 15:50:17 -0500
+Received: from mxout03.lancloud.ru ([45.84.86.113]:41040 "EHLO
+        mxout03.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238771AbhLJUuP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Dec 2021 15:50:15 -0500
 Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 2732B209B9A7
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 642A7208D325
 Received: from LanCloud
 Received: from LanCloud
 Received: from LanCloud
 From:   Sergey Shtylyov <s.shtylyov@omp.ru>
 To:     <linux-usb@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v3 4/6] usb: host: ohci-da8xx: fix deferred probing
-Date:   Fri, 10 Dec 2021 23:46:32 +0300
-Message-ID: <20211210204634.8182-5-s.shtylyov@omp.ru>
+        Felipe Balbi <balbi@kernel.org>
+Subject: [PATCH v3 1/6] usb: gadget: udc: gr: fix deferred probing
+Date:   Fri, 10 Dec 2021 23:46:29 +0300
+Message-ID: <20211210204634.8182-2-s.shtylyov@omp.ru>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20211210204634.8182-1-s.shtylyov@omp.ru>
 References: <20211210204634.8182-1-s.shtylyov@omp.ru>
@@ -36,38 +36,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver overrides the error codes returned by platform_get_irq() to 
--ENODEV for some strange reason, so if it returns -EPROBE_DEFER, the driver
-will fail the probe permanently instead of the deferred probing. Switch to
-propagating the error codes upstream.
+The driver overrides the error codes and IRQ0 returned by platform_get_irq()
+to -ENODEV, so if it returns -EPROBE_DEFER, the driver will fail the probe
+permanently instead of the deferred probing. Switch to propagating the error
+codes upstream. IRQ0 is no longer returned by platform_get_irq(), so we now
+can safely ignore it...
 
 Fixes: 9ec36cafe43b ("of/irq: do irq resolution in platform_get_irq")
 Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
 Changes in version 3:
-- corrected the "Fixes:" tag;
-- added Alan's ACK.
+- corrected the "Fixes:" tag.
 
 Changes in version 2:
-- removed the wrong "From:" tag and wrong sign-off.
+- updated the patch description on treating IRQ0.
 
- drivers/usb/host/ohci-da8xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/gadget/udc/gr_udc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
-index 1371b0c249ec..d1326c6ccade 100644
---- a/drivers/usb/host/ohci-da8xx.c
-+++ b/drivers/usb/host/ohci-da8xx.c
-@@ -446,7 +446,7 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
+index 4b35739d3695..4aa5246a77e5 100644
+--- a/drivers/usb/gadget/udc/gr_udc.c
++++ b/drivers/usb/gadget/udc/gr_udc.c
+@@ -2136,15 +2136,15 @@ static int gr_probe(struct platform_device *pdev)
+ 		return PTR_ERR(regs);
  
- 	hcd_irq = platform_get_irq(pdev, 0);
- 	if (hcd_irq < 0) {
--		error = -ENODEV;
-+		error = hcd_irq;
- 		goto err;
+ 	dev->irq = platform_get_irq(pdev, 0);
+-	if (dev->irq <= 0)
+-		return -ENODEV;
++	if (dev->irq < 0)
++		return dev->irq;
+ 
+ 	/* Some core configurations has separate irqs for IN and OUT events */
+ 	dev->irqi = platform_get_irq(pdev, 1);
+ 	if (dev->irqi > 0) {
+ 		dev->irqo = platform_get_irq(pdev, 2);
+-		if (dev->irqo <= 0)
+-			return -ENODEV;
++		if (dev->irqo < 0)
++			return dev->irqo;
+ 	} else {
+ 		dev->irqi = 0;
  	}
- 
 -- 
 2.26.3
 
