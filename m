@@ -2,73 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D15DC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 12:07:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E380DC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 10 Dec 2021 13:31:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240867AbhLJMLA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 Dec 2021 07:11:00 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:41850 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235331AbhLJMLA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 10 Dec 2021 07:11:00 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id BFEFEB827E9
-        for <linux-usb@vger.kernel.org>; Fri, 10 Dec 2021 12:07:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BDE0C341C6;
-        Fri, 10 Dec 2021 12:07:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1639138043;
-        bh=GNkCndZLKtbEnBTxpRrr1Lpw17bDArYTzU0DZUsVe+k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eaoUkgYlkmrkyq+qr4Hea7BZXJokhNg43zB6aIC9amTLjU2scts7usNyQrCMSzN9+
-         zqwFdUlrwNlhgHKI4Ne2OLpF7uxbhNYH6yLaxZyzjmLdW0eTxzwKOUzboMO8HPM4oZ
-         9y7UirOa0Mu6LDxuZI5zayctulgpUlTduDOR37hA=
-Date:   Fri, 10 Dec 2021 13:07:11 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-        Mark Pearson <markpearson@lenovo.com>
-Subject: Re: [PATCH] usb: hub: avoid warm port reset during USB3 disconnect
-Message-ID: <YbNC764D4ESw9cDN@kroah.com>
-References: <20211210111653.1378381-1-mathias.nyman@linux.intel.com>
+        id S241853AbhLJNfQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 Dec 2021 08:35:16 -0500
+Received: from mga06.intel.com ([134.134.136.31]:8143 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235759AbhLJNfQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 Dec 2021 08:35:16 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10193"; a="299132712"
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; 
+   d="scan'208";a="299132712"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2021 05:31:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,195,1635231600"; 
+   d="scan'208";a="659578144"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Dec 2021 05:31:38 -0800
+Subject: Re: [PATCH] usb: xhci: skip re-check pending port event if hibernated
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Eddie Hung <eddie.hung@mediatek.com>,
+        Yun-Chien Yu <yun-chien.yu@mediatek.com>
+References: <20211209072218.21651-1-chunfeng.yun@mediatek.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <c448da77-f2f3-8b79-fc4b-b9dcff727c6e@linux.intel.com>
+Date:   Fri, 10 Dec 2021 15:33:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211210111653.1378381-1-mathias.nyman@linux.intel.com>
+In-Reply-To: <20211209072218.21651-1-chunfeng.yun@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 10, 2021 at 01:16:53PM +0200, Mathias Nyman wrote:
-> During disconnect USB-3 ports often go via SS.Inactive link error state
-> before the missing terminations are noticed, and link finally goes to
-> RxDetect state
+On 9.12.2021 9.22, Chunfeng Yun wrote:
+> When xHCI controller hibernated, the root hub lost power, if controller
+> support Port Power Control (PPC), PP is not set at xhci_resume() and
+> set by hub_reset_resume() later, so no need check pending port event.
+> If PPC is not supported, device is disconneced, seems do not send out
+> U3 LFPS wake signal, no need re-check again and drop 120ms delay to
+> save resume time.
 > 
-> Avoid immediately warm-resetting ports in SS.Inactive state.
-> Let ports settle for a while and re-read the link status a few times 20ms
-> apart to see if the ports transitions out of SS.Inactive.
-> 
-> According to USB 3.x spec 7.5.2, a port in SS.Inactive should
-> automatically check for missing far-end receiver termination every
-> 12 ms (SSInactiveQuietTimeout)
-> 
-> The futile multiple warm reset retries of a disconnected device takes
-> a lot of time, also the resetting of a removed devices has caused cases
-> where the reset bit got stuck for a long time on xHCI roothub.
-> This lead to issues in detecting new devices connected to the same port
-> shortly after.
-> 
-> Tested-by: Mark Pearson <markpearson@lenovo.com>
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Reported-by: Yun-Chien Yu <yun-chien.yu@mediatek.com>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 > ---
->  drivers/usb/core/hub.c | 24 +++++++++++++++++++-----
->  1 file changed, 19 insertions(+), 5 deletions(-)
 
-Does this fix a specific commit, or has it always been this way?  And is
-this for 5.16-final or 5.17-rc1 and/or stable trees?
+Thanks, adding
 
-thanks,
-
-greg k-h
+-Mathias
