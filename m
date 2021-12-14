@@ -2,96 +2,64 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B58B5C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Dec 2021 08:00:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29091C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Dec 2021 08:39:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231625AbhLNIAs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Dec 2021 03:00:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55740 "EHLO
+        id S231875AbhLNIjZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Dec 2021 03:39:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229695AbhLNIAr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Dec 2021 03:00:47 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54799C061574;
-        Tue, 14 Dec 2021 00:00:47 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id t19so26388462oij.1;
-        Tue, 14 Dec 2021 00:00:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OCkr7HY+MiDuhLnjGtVsvlNgp0NXQsZibi1Zdq0qncY=;
-        b=glmMjJdkrGF/acVp9UHcZrXP7qcNlr7RiSmA7oM+CWZaNFO5YcKOxuSFWy0MikeuNi
-         qIhR//IQkvrFAwZ25DqbzH6TRE4vZUiaaVHH9ELQSr83ilpe1TByIHQMc7Q9b09ffsGo
-         24vSMAh3rfzWqv4ea+bWQYPqC3yApQFjeNq8ebx754IrYtDchIeRLT4skAa4ckkuSkii
-         DvMeQAEEZ4vB/kWjhtF+xWzohXL6vZHWpfzorzKc0yckajxf/vpEG2Nf9zBEtRjWAbMt
-         S6irSXfR4h6hdN1IyEYXED98Lcp62pufptCNQgnVLiJ1hJB4jV9KS4xrBP59Q7zy38m8
-         o/GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OCkr7HY+MiDuhLnjGtVsvlNgp0NXQsZibi1Zdq0qncY=;
-        b=hZhU9keJ49SQeRRC/AXwHGCQ1n0ncaU4CEiVCLoGfWZ87LKm4I8uj2BhfjKO9MBPsY
-         4R03M8EBlUvkxH5ZgVcIog7PI6JnLX1xNAXhtjLJPymkJ3o5eGZYZZw4aR9GnfKaVtU4
-         nrwQrASeLqEAs6+4HTrWja3N+4J8KZ+30v9NeJybUkys6ywfxemLH93tJxMvql40l6/V
-         n2P39IsneTLZKVWP4ksDlI/hW9DBkP9OzFskJSH0vlJ/Dopkdbs1Qt3d42EbHGj0FrxT
-         j1br2eYizu0gR51dMB4DOyEoR1W7CHXTqb+6T6JWwdSi0ken2w83Y3OgTdZZXqAVuuXG
-         4wIA==
-X-Gm-Message-State: AOAM532u/robHCsF1iwQFWXFFwWfdyf8wuWCAwt/t+nYCvt+f4heooxy
-        Y/jUcTF+sflfFGNvRzPUS/g535nC9V5zrXFlygUNU4Ml1fo=
-X-Google-Smtp-Source: ABdhPJwerNovIcT3UKklATUbw5xH3MDbWq0GscSVhskXzn3PhXJIo9HoMhhC/WtJtkPiaSK+XxHTe2FfLfeAsoMlPXY=
-X-Received: by 2002:a05:6808:68f:: with SMTP id k15mr30718975oig.5.1639468846715;
- Tue, 14 Dec 2021 00:00:46 -0800 (PST)
+        with ESMTP id S229806AbhLNIjZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Dec 2021 03:39:25 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C619FC061574
+        for <linux-usb@vger.kernel.org>; Tue, 14 Dec 2021 00:39:24 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 311C5CE16EC
+        for <linux-usb@vger.kernel.org>; Tue, 14 Dec 2021 08:39:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 631F4C34601;
+        Tue, 14 Dec 2021 08:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639471160;
+        bh=Pw3O5Pl8/NLfq3bge17kg/3NanAhxBpntB+MfixPbFA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lKGbf8vp1sJ3ASoqop/TVZN9jfIcZ0a+jv9tMLSf0w7PXhZZLpTJ2YdANnp9akMvI
+         sBcaUMV4mwvnDHaPra6fRtBlRNwWNSwO0KCLcrwMuEGvtOSQL5BrYvY8S06NSvBmyH
+         0yHiAq8WWn0XCqgdlIUc22jOQWXrk7XZ6FKQQx2tqIxQXRlluOrXVJq6Y00pPrticK
+         yRcslsQyYvXEptCMoFVKrO/agb3UYFjgwNdYYUtcBEwYYNJAo5+hKKnItdnoDF9tgz
+         K9Bw7d5zfQoziSNyCkZAoaFCOWZkr8+SrnJC0KcSZNMFqn6hpeAzc3lB229u0UptP2
+         TlMIKGyBbOuSw==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1mx3LA-000360-Sd; Tue, 14 Dec 2021 09:39:17 +0100
+Date:   Tue, 14 Dec 2021 09:39:16 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Daniele Palmas <dnlplm@gmail.com>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] USB: serial: option: add Telit FN990 compositions
+Message-ID: <YbhYNNTEtqyeTNle@hovoldconsulting.com>
+References: <20211210100714.22587-1-dnlplm@gmail.com>
 MIME-Version: 1.0
-References: <20211209072218.21651-1-chunfeng.yun@mediatek.com> <c448da77-f2f3-8b79-fc4b-b9dcff727c6e@linux.intel.com>
-In-Reply-To: <c448da77-f2f3-8b79-fc4b-b9dcff727c6e@linux.intel.com>
-From:   Jun Li <lijun.kernel@gmail.com>
-Date:   Tue, 14 Dec 2021 16:00:35 +0800
-Message-ID: <CAKgpwJXxtLwOjxjg3vFHiqS92j6rx_b1+C-bRwDnp+PBvXCMTg@mail.gmail.com>
-Subject: Re: [PATCH] usb: xhci: skip re-check pending port event if hibernated
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        lkml <linux-kernel@vger.kernel.org>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Yun-Chien Yu <yun-chien.yu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211210100714.22587-1-dnlplm@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Mathias Nyman <mathias.nyman@linux.intel.com> =E4=BA=8E2021=E5=B9=B412=E6=
-=9C=8811=E6=97=A5=E5=91=A8=E5=85=AD 01:56=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 9.12.2021 9.22, Chunfeng Yun wrote:
-> > When xHCI controller hibernated, the root hub lost power, if controller
-> > support Port Power Control (PPC), PP is not set at xhci_resume() and
-> > set by hub_reset_resume() later, so no need check pending port event.
-> > If PPC is not supported, device is disconneced, seems do not send out
-> > U3 LFPS wake signal, no need re-check again and drop 120ms delay to
-> > save resume time.
-> >
-> > Reported-by: Yun-Chien Yu <yun-chien.yu@mediatek.com>
-> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> > ---
->
-> Thanks, adding
+On Fri, Dec 10, 2021 at 11:07:14AM +0100, Daniele Palmas wrote:
+> Add the following Telit FN990 compositions:
+> 
+> 0x1070: tty, adb, rmnet, tty, tty, tty, tty
+> 0x1071: tty, adb, mbim, tty, tty, tty, tty
+> 0x1072: rndis, tty, adb, tty, tty, tty, tty
+> 0x1073: tty, adb, ecm, tty, tty, tty, tty
+> 
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-Hi Mathias, Chunfeng
+Now applied, thanks.
 
-I have a question on this, if there is no any usb devices connected
-before suspend, do we need this 120ms delay to check again?
-So do we need one more condition to limit this like?
-if (!pending_portevent && !hibernated && xhci_has_child_device())
-
-thanks
-Li Jun
->
-> -Mathias
+Johan
