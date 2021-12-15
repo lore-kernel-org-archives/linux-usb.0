@@ -2,86 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2F6C4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Dec 2021 08:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AEA1C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Dec 2021 09:16:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240985AbhLOIyr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Dec 2021 03:54:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
+        id S241073AbhLOJQP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Dec 2021 04:16:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240933AbhLOIyn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Dec 2021 03:54:43 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B62DC06173F;
-        Wed, 15 Dec 2021 00:54:43 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 12C20B81EB6;
-        Wed, 15 Dec 2021 08:54:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C3C8C34609;
-        Wed, 15 Dec 2021 08:54:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1639558480;
-        bh=fDAWfkLs5FXSzKRxO/wgG3KsNLmVUnspvUUbPXB+4yE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=X0Peyw7EYP0egTzB2GFsYgzMKXSCT9FFQFmONsJrjUn8bbD+OYf8cGQa947tMvO/9
-         TxtsG2bLG1jzJwDzZ6O9VxSlM1RqG+SAyfXRkpOVuj/GekBAdFeNRwwWZ7oHzS1o+e
-         qLJcEj5+oOL72/xvNMcWcjJMCIH7gzetsQBd5GpqMmPEogGz7NUVyDW4/kzOj/UJfE
-         h1UV17QUaM5ZbHHZL9b6K+GfzSeVJSFd3hUTeqhm07EdKrHXi5Cbs99mrNxrK4wiyF
-         WR/PUj3g/AE8UBjxMID3hO0hkFI2zJnaoyt2mxGmmvwYzcC4XCryzJG4IV5I1UhnKC
-         EgepCIth4bTrw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
-        (envelope-from <mchehab@kernel.org>)
-        id 1mxQ3Z-0054Hp-Jh; Wed, 15 Dec 2021 09:54:37 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Wei Xu <xuwei5@hisilicon.com>, Rob Herring <robh+dt@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH RESEND 0/7] DT bindings for Hikey960/970 USB/PCI
-Date:   Wed, 15 Dec 2021 09:54:26 +0100
-Message-Id: <cover.1639558366.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.33.1
+        with ESMTP id S241064AbhLOJQL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Dec 2021 04:16:11 -0500
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4635C061574;
+        Wed, 15 Dec 2021 01:16:10 -0800 (PST)
+Received: by mail-qt1-x831.google.com with SMTP id m25so21085895qtq.13;
+        Wed, 15 Dec 2021 01:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RYeDCzkTqR8w02XopW3NZUvoT3MLoXV0cjz/EK2A9Iw=;
+        b=LyhgNX0m0w54B7uxFXN0PQEdi83OE74cvQdMu1CpSURgFEfnj3+JXCfyKkhbRrNwHG
+         27PDPWkussW5k1com1s3FgGNXTUYogzJAQJ3RRP27iNlzCOz9HTfZ6MdStsANWBiX33e
+         I01R3z/ZfKOr7E69pKvFGdjbO+q4teTAiBaSXN6GtJdHDtwmDkqZCZKmA2ITdg4/kTgy
+         A8m8H8nq1g5n09jGi24CXSlmK4hpufKPCmu1X9QNAQlxo8z213jGOJ72M36uiV+/NbVj
+         Ekl5c25mvn2uowpfvKncG3nk7vcnm6iGo2Am5EnBblOYkSeB8Ni0uDnFX9iui0hcSoya
+         REvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RYeDCzkTqR8w02XopW3NZUvoT3MLoXV0cjz/EK2A9Iw=;
+        b=Vv52RehVCu3G4C1pZFiZGVW38Vy/D5syYhCjWRIYWySfc9OzwzPeiQlXxpD1xFycF7
+         Xf3UznvO3nKeQL3p4zMdzMX7HemuBcc9hBWXsMWYpBYJpy3Y/Gm9SVyCKkRdxmU+HVSJ
+         tzK9+K54tZnvILu5hwh2fDWXb48CWRExrRky0bFmsHcquAvPJNA17KQjqkPz09PKzJVl
+         rr/kh6X/49K2XwfdN6Bf3CQs/wVaWnte1uuNdGfAMn9GwlPDbUUcTPjMirTOJXk2E/I7
+         UF3g7xnbfFDS63duAPNTYc0UQ6lC3D+VvehDBi6O1HZIektGVgI46QMKszBOoLD4tpwm
+         ZhCw==
+X-Gm-Message-State: AOAM530pmB6XJCDQBy+Sj5go5Cz7EUR+vzMSaTUbKai2T8hjsweZGtdf
+        tR9Dl1LeKmrFDXzr7UOyL75bVbhKFuY=
+X-Google-Smtp-Source: ABdhPJyRpJn1IDfLHPbInYijMkz7jBmtKcQ9FRTV8c2pICByzL6wXTmOLOWQiwhCwLoUNogP06UKOw==
+X-Received: by 2002:ac8:5e07:: with SMTP id h7mr10946388qtx.422.1639559770037;
+        Wed, 15 Dec 2021 01:16:10 -0800 (PST)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id 196sm727407qkd.61.2021.12.15.01.16.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Dec 2021 01:16:09 -0800 (PST)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: deng.changcheng@zte.com.cn
+To:     mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Changcheng Deng <deng.changcheng@zte.com.cn>,
+        Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] xhci: use max() to make code cleaner
+Date:   Wed, 15 Dec 2021 09:16:02 +0000
+Message-Id: <20211215091602.445009-1-deng.changcheng@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Thosre are the only missing parts for PCI to work on HiKey970 and
-for USB on HiKey960 and HiKey 970 boards.
+From: Changcheng Deng <deng.changcheng@zte.com.cn>
 
-John Stultz (1):
-  arm64: dts: hisilicon: Add usb mux hub for hikey960
+Use max() in order to make code cleaner.
 
-Manivannan Sadhasivam (1):
-  arm64: dts: HiSilicon: Add support for HiKey 970 PCIe controller
-    hardware
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Changcheng Deng <deng.changcheng@zte.com.cn>
+---
+ drivers/usb/host/xhci.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Mauro Carvalho Chehab (4):
-  dt-bindings: clock: hi3670-clock.txt: add pmctrl compatible
-  dt-bindings: usb: hisilicon,hi3670-dwc3: add binding for Kirin970
-  arm64: dts: hisilicon: Add support for Hikey 970 USB3 PHY
-  arm64: dts: hisilicon: Add usb mux hub for hikey970
-
-Yu Chen (1):
-  dt-bindings: misc: add schema for USB hub on Kirin devices
-
- .../bindings/clock/hi3670-clock.txt           |   1 +
- .../bindings/misc/hisilicon,hikey-usb.yaml    |  87 ++++++++++
- .../bindings/usb/hisilicon,hi3670-dwc3.yaml   | 105 +++++++++++
- .../boot/dts/hisilicon/hi3660-hikey960.dts    |  35 +++-
- .../boot/dts/hisilicon/hi3670-hikey970.dts    | 106 ++++++++++++
- arch/arm64/boot/dts/hisilicon/hi3670.dtsi     | 163 ++++++++++++++++++
- 6 files changed, 495 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/misc/hisilicon,hikey-usb.yaml
- create mode 100644 Documentation/devicetree/bindings/usb/hisilicon,hi3670-dwc3.yaml
-
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index f5b1bcc875de..dc357cabb265 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4998,10 +4998,8 @@ static int calculate_max_exit_latency(struct usb_device *udev,
+ 			enabling_u2)
+ 		u2_mel_us = DIV_ROUND_UP(udev->u2_params.mel, 1000);
+ 
+-	if (u1_mel_us > u2_mel_us)
+-		mel_us = u1_mel_us;
+-	else
+-		mel_us = u2_mel_us;
++	mel_us = max(u1_mel_us, u2_mel_us);
++
+ 	/* xHCI host controller max exit latency field is only 16 bits wide. */
+ 	if (mel_us > MAX_EXIT) {
+ 		dev_warn(&udev->dev, "Link PM max exit latency of %lluus "
 -- 
-2.33.1
-
+2.25.1
 
