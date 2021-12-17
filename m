@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0BEEC4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 14:42:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33D4CC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 14:42:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237518AbhLQOl6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Dec 2021 09:41:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
+        id S237413AbhLQOlc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Dec 2021 09:41:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237491AbhLQOli (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 09:41:38 -0500
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE1DC06173F
-        for <linux-usb@vger.kernel.org>; Fri, 17 Dec 2021 06:41:37 -0800 (PST)
-Received: by mail-ed1-x52e.google.com with SMTP id z7so8559095edc.11
-        for <linux-usb@vger.kernel.org>; Fri, 17 Dec 2021 06:41:37 -0800 (PST)
+        with ESMTP id S237358AbhLQOlb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 09:41:31 -0500
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70624C061401
+        for <linux-usb@vger.kernel.org>; Fri, 17 Dec 2021 06:41:30 -0800 (PST)
+Received: by mail-ed1-x52a.google.com with SMTP id y13so8508640edd.13
+        for <linux-usb@vger.kernel.org>; Fri, 17 Dec 2021 06:41:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WJLLtim2zy2Cp+CHKaq9b1jzJ0TEP3xfBC/wmHNF3bg=;
-        b=RXAJP/Ljc7BKS562r7tAOgwR5c/8YjoX5CroBrwznu3Ai/i3VwkcpNTdjojdsGasoe
-         VWh1V7Mq9pBHdXIhwdz9NcWmSu3VVwlRXX2/jZx8nbvQZnZW/FZesH0iqN0JJjVZaLOG
-         YgkYab9zCaCpyjeTj/K5U3p5uuFSoPvWqtHV6/8QiUukzgtwLuio52DorRl3yodBU1gn
-         fHqVdmNb0VTTn16Lw/97jCIsXFgzfNSsSutHFt0wvP0tFnTaPIdQ2VgyXdhKjzSPXeKS
-         t0hBeV6VBZpzvwyywLsXXu5djw9f0VnvvxXYbmE6UlJeWApTc2mqc1syyEA0s6mTZZq3
-         R2xA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JWU5jrx8uzkoFd78Ys23ZOK1dm9ivQmIi4HaxP6dlv4=;
+        b=srPPgox/P4r9sfCVltI+UJtw85Ur7AFZ8AZRDLTGxMAk100H6kAK5Ftg3iXYEvXZQk
+         Me46k6XmXZC68vyWHLGa9eYmBrYBrmqoh08oeB5TnwfRLioU5Jf8IuHWIoZEVknT7TNT
+         wl8znefbBNhzi+k+7tkJr5SrnBd9N1cSNZ7V/0R0kV3bzZWMFolV32V4o/f85igw6MXu
+         AAqvxnAGLHnIqhX2zWHx2/cb1HBIVQZWTvpBUQidP79OmvLkjOnRbASsgGWsgwv9w4ni
+         hWoJ4MNsWDuKzeAjledCOt3f7M7bJEjcsvJtdj9scRpGPjFtQ0/vMt5YfG8xP0KSxsxz
+         5bAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WJLLtim2zy2Cp+CHKaq9b1jzJ0TEP3xfBC/wmHNF3bg=;
-        b=G1rXjd/EdeVDuRtHJZdRRWXVAX+FW0ZbxdWIfgyTO261LVQYEyZovsY0DW7utQb+sH
-         KHorD+9CQa1OzghsW0OasKmx5LZcQ/+QJZSuHVyqVKCubOI5ROoMelT521afh4hDAx7M
-         0Cz7VWaAy0HqUrIVDzR1GAnI78q3a5sMzB98Ba1/J3ZAWJxD9GI67GxtwoiWgtTcDpVX
-         tGOuNt+chS/Z6QE9pOwqnO4Z1Ixhr6i4ERPBM95ZkJA2UYmPzmd26Dr4JcolQy9av5N1
-         2qxqzXtQRlsbGtbf5U9qQaqvQkwVo6vNztAuJAq4CVXg3ZoDAMYHQfMrrhhurSzxk0hL
-         lY2A==
-X-Gm-Message-State: AOAM532niuGgDuIPSISkkvg1jBDtIM1SjN86wX/B77bUXk0Wr+ty4w0r
-        vkSzTgzwkBB3vCzIFlttc/t+yA==
-X-Google-Smtp-Source: ABdhPJyfryGUY2pGisS+WhHVurJ4oep8frNBDovNq/9Nj8nBpt/Y3r/uar2rNGTrerkS4bcf9jZyCw==
-X-Received: by 2002:aa7:dad0:: with SMTP id x16mr3251578eds.404.1639752096108;
-        Fri, 17 Dec 2021 06:41:36 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JWU5jrx8uzkoFd78Ys23ZOK1dm9ivQmIi4HaxP6dlv4=;
+        b=f2KRJopeBSkCMEVsX7CMwgl3n2EM+vmrZTTMy/KN8EYWyWWoIWbNknXQLxbfv9CMw8
+         qSSQCIzy6rRQui3k2vLD2uxsHZFq9ymHekz9+kmxJ5FWeWyePrd3n0waoXriPDPRNfVF
+         ZJ4JZSvB9Pw/ZrzCc46BXcj8kuF+xr2ebeY3tLF9654si7AirvQwOmvAOQDC071UzTBG
+         F06v2pDgnDx2TNGEjjIJkjkiNnGzOFzaSYBk2KPCzkWQMIHZ3A/8LrDY08pMpRSabzxN
+         ME+txIXc/4ax4SMZHeuM+6GwWBUI5HMFYSpI9lrSLnp+iDyo5pmqQynvNrVGALQ3sq3v
+         2e9g==
+X-Gm-Message-State: AOAM530GAyrsTmlbgIGLSuUhXPnrK0XVZi2FjVdLkGTdCuz6MVKqwwEx
+        QUOmMswAzQ2y15ozlvSyetHttg==
+X-Google-Smtp-Source: ABdhPJxtfTdSZePgXYvUJVdJibMGa/wzwmXarJ/4RQ28O0+SZzhzgxhTWq0yn7DSjpJVmywKNwTn4A==
+X-Received: by 2002:a50:fb98:: with SMTP id e24mr3196629edq.80.1639752088840;
+        Fri, 17 Dec 2021 06:41:28 -0800 (PST)
 Received: from localhost (c-9b28e555.07-21-73746f28.bbcust.telenor.se. [85.229.40.155])
-        by smtp.gmail.com with ESMTPSA id cs12sm2967751ejc.15.2021.12.17.06.41.34
+        by smtp.gmail.com with ESMTPSA id c12sm3864770edx.80.2021.12.17.06.41.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Dec 2021 06:41:35 -0800 (PST)
+        Fri, 17 Dec 2021 06:41:28 -0800 (PST)
 From:   Anders Roxell <anders.roxell@linaro.org>
 To:     stable@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, woojung.huh@microchip.com,
@@ -61,92 +61,127 @@ Cc:     linux-kernel@vger.kernel.org, woojung.huh@microchip.com,
         ndesaulniers@google.com, nathan@kernel.org,
         linux-input@vger.kernel.org,
         Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH 4.19 6/6] Input: touchscreen - avoid bitwise vs logical OR warning
-Date:   Fri, 17 Dec 2021 15:41:19 +0100
-Message-Id: <20211217144119.2538175-7-anders.roxell@linaro.org>
+Subject: [PATCH 4.19 0/6] fix warning and errors on arm built with clang
+Date:   Fri, 17 Dec 2021 15:41:13 +0100
+Message-Id: <20211217144119.2538175-1-anders.roxell@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211217144119.2538175-1-anders.roxell@linaro.org>
-References: <20211217144119.2538175-1-anders.roxell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nathan Chancellor <nathan@kernel.org>
+Hi,
 
-commit a02dcde595f7cbd240ccd64de96034ad91cffc40 upstream.
+Can this patchset be applied to linux-4.19.y. I've tried to build an arm
+kernel for these defconfigs:
 
-A new warning in clang points out a few places in this driver where a
-bitwise OR is being used with boolean types:
+mini2440_defconfig, mxs_defconfig, imx_v4_v5_defconfig,
+integrator_defconfig, lpc32xx_defconfig, s3c2410_defconfig,
+nhk8815_defconfig, imx_v6_v7_defconfig, at91_dt_defconfig,
+shmobile_defconfig, omap1_defconfig, multi_v5_defconfig,
+orion5x_defconfig, footbridge_defconfig, davinci_all_defconfig
 
-drivers/input/touchscreen.c:81:17: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
-        data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-x",
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Without this patchset these configs faild to build.
+Also I fixed a few warnings.
 
-This use of a bitwise OR is intentional, as bitwise operations do not
-short circuit, which allows all the calls to touchscreen_get_prop_u32()
-to happen so that the last parameter is initialized while coalescing the
-results of the calls to make a decision after they are all evaluated.
+There are still a few more warnings to fix.
+But this is a start.
 
-To make this clearer to the compiler, use the '|=' operator to assign
-the result of each touchscreen_get_prop_u32() call to data_present,
-which keeps the meaning of the code the same but makes it obvious that
-every one of these calls is expected to happen.
+I built the kernel with tuxmake and this is the command:
+tuxmake --runtime podman --target-arch arm --toolchain clang-nightly --kconfig tinyconfig LLVM=1 LLVM_IAS=0
 
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Reported-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Link: https://lore.kernel.org/r/20211014205757.3474635-1-nathan@kernel.org
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- drivers/input/touchscreen/of_touchscreen.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Similar results with clang-13.
 
-diff --git a/drivers/input/touchscreen/of_touchscreen.c b/drivers/input/touchscreen/of_touchscreen.c
-index 9642f103b726..b9baad7d34a7 100644
---- a/drivers/input/touchscreen/of_touchscreen.c
-+++ b/drivers/input/touchscreen/of_touchscreen.c
-@@ -80,8 +80,8 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
- 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-size-x",
- 						input_abs_get_max(input,
- 								  axis) + 1,
--						&maximum) |
--		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
-+						&maximum);
-+	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
- 						input_abs_get_fuzz(input, axis),
- 						&fuzz);
- 	if (data_present)
-@@ -91,8 +91,8 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
- 	data_present = touchscreen_get_prop_u32(dev, "touchscreen-size-y",
- 						input_abs_get_max(input,
- 								  axis) + 1,
--						&maximum) |
--		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
-+						&maximum);
-+	data_present |= touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
- 						input_abs_get_fuzz(input, axis),
- 						&fuzz);
- 	if (data_present)
-@@ -102,11 +102,11 @@ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
- 	data_present = touchscreen_get_prop_u32(dev,
- 						"touchscreen-max-pressure",
- 						input_abs_get_max(input, axis),
--						&maximum) |
--		       touchscreen_get_prop_u32(dev,
--						"touchscreen-fuzz-pressure",
--						input_abs_get_fuzz(input, axis),
--						&fuzz);
-+						&maximum);
-+	data_present |= touchscreen_get_prop_u32(dev,
-+						 "touchscreen-fuzz-pressure",
-+						 input_abs_get_fuzz(input, axis),
-+						 &fuzz);
- 	if (data_present)
- 		touchscreen_set_params(input, axis, maximum, fuzz);
- 
+
+Patch "net: lan78xx: Avoid unnecessary self assignment" fixes:
+
+drivers/net/usb/lan78xx.c:949:11: warning: explicitly assigning value of variable of type 'u32' (aka 'unsigned int') to itself [-Wself-assign]
+                        offset = offset;
+                        ~~~~~~ ^ ~~~~~~
+1 warning generated.
+
+
+Patch "ARM: 8805/2: remove unneeded naked function usage" fixes:
+
+arch/arm/mm/copypage-v4wb.c:47:9: error: parameter references not allowed in naked functions
+        : "r" (kto), "r" (kfrom), "I" (PAGE_SIZE / 64));
+               ^
+/builds/linux/arch/arm/mm/copypage-v4wb.c:25:13: note: attribute is here
+static void __naked
+            ^
+/builds/linux/include/linux/compiler_types.h:249:34: note: expanded from macro '__naked'
+#define __naked                 __attribute__((naked)) notrace
+                                               ^
+1 error generated.
+
+
+Patch "mwifiex: Remove unnecessary braces from HostCmd_SET_SEQ_NO_BSS_INFO" fixes:
+
+drivers/net/wireless/marvell/mwifiex/cmdevt.c:219:22: warning: '(' and '{' tokens introducing statement expression appear in different macro expansion contexts [-Wcompound-token-split-by-macro]
+        host_cmd->seq_num = cpu_to_le16(HostCmd_SET_SEQ_NO_BSS_INFO
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/builds/linux/include/linux/byteorder/generic.h:90:21: note: expanded from macro 'cpu_to_le16'
+#define cpu_to_le16 __cpu_to_le16
+                    ^
+
+
+Patch "Input: touchscreen - avoid bitwise vs logical OR warning" fixes:
+
+drivers/input/touchscreen/of_touchscreen.c:80:17: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+        data_present = touchscreen_get_prop_u32(dev, "touchscreen-size-x",
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Patch "ARM: 8788/1: ftrace: remove old mcount support" fixes:
+
+arch/arm/kernel/entry-ftrace.S:56:2: error: Ftrace requires CONFIG_FRAME_POINTER=y with GCC older than 4.4.0.
+#error Ftrace requires CONFIG_FRAME_POINTER=y with GCC older than 4.4.0.
+ ^
+1 error generated.
+
+
+Patch "ARM: 8800/1: use choice for kernel unwinders" fixes the build
+error:
+
+clang: error: unknown argument: '-mapcs'
+clang: error: unknown argument: '-mno-sched-prolog'
+
+
+Cheers,
+Anders
+
+Nathan Chancellor (3):
+  net: lan78xx: Avoid unnecessary self assignment
+  mwifiex: Remove unnecessary braces from HostCmd_SET_SEQ_NO_BSS_INFO
+  Input: touchscreen - avoid bitwise vs logical OR warning
+
+Nicolas Pitre (1):
+  ARM: 8805/2: remove unneeded naked function usage
+
+Stefan Agner (2):
+  ARM: 8800/1: use choice for kernel unwinders
+  ARM: 8788/1: ftrace: remove old mcount support
+
+ arch/arm/Kconfig.debug                        | 45 +++++----
+ arch/arm/include/asm/ftrace.h                 |  3 -
+ arch/arm/kernel/armksyms.c                    |  3 -
+ arch/arm/kernel/entry-ftrace.S                | 75 +-------------
+ arch/arm/kernel/ftrace.c                      | 51 ----------
+ arch/arm/mm/copypage-fa.c                     | 35 ++++---
+ arch/arm/mm/copypage-feroceon.c               | 98 +++++++++----------
+ arch/arm/mm/copypage-v4mc.c                   | 19 ++--
+ arch/arm/mm/copypage-v4wb.c                   | 41 ++++----
+ arch/arm/mm/copypage-v4wt.c                   | 37 ++++---
+ arch/arm/mm/copypage-xsc3.c                   | 71 ++++++--------
+ arch/arm/mm/copypage-xscale.c                 | 71 +++++++-------
+ drivers/input/touchscreen/of_touchscreen.c    | 18 ++--
+ drivers/net/usb/lan78xx.c                     |  6 +-
+ drivers/net/wireless/marvell/mwifiex/cmdevt.c |  4 +-
+ drivers/net/wireless/marvell/mwifiex/fw.h     |  8 +-
+ lib/Kconfig.debug                             |  6 +-
+ 17 files changed, 228 insertions(+), 363 deletions(-)
+
 -- 
 2.34.1
 
