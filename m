@@ -2,112 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C797EC433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 14:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7062AC41535
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 14:21:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236857AbhLQOMf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Dec 2021 09:12:35 -0500
-Received: from mga07.intel.com ([134.134.136.100]:40646 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229599AbhLQOMe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 17 Dec 2021 09:12:34 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="303135892"
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="303135892"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 06:12:34 -0800
-X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
-   d="scan'208";a="683401263"
-Received: from smile.fi.intel.com ([10.237.72.184])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 06:12:31 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1myDxQ-007Rmr-5V;
-        Fri, 17 Dec 2021 16:11:36 +0200
-Date:   Fri, 17 Dec 2021 16:11:35 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Prashant Malani <pmalani@chromium.org>,
-        linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] acpi: Store _PLD information and convert users
-Message-ID: <Ybyal+QmjEQWI+hh@smile.fi.intel.com>
-References: <20211217132415.39726-1-heikki.krogerus@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211217132415.39726-1-heikki.krogerus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        id S237091AbhLQOV1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Dec 2021 09:21:27 -0500
+Received: from mail-oo1-f49.google.com ([209.85.161.49]:36681 "EHLO
+        mail-oo1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232073AbhLQOVZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 09:21:25 -0500
+Received: by mail-oo1-f49.google.com with SMTP id g11-20020a4a754b000000b002c679a02b18so755304oof.3;
+        Fri, 17 Dec 2021 06:21:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=wkAFS0gqpntm7Rar5jEd8yMr1SM1y7rL2Y3F6yNnnb4=;
+        b=k935k5Anz7Xn7aGBCjSM8vAj+UCjUY0CB1Gf9zn5u6VQ9PaJQn9WQtcQlxNQUK7hW2
+         fxxsOVrxVUOBmbDJHOmIARH5GWfcoHlGsEqVfqzf01pSZq0dY1xJOsKMzaHgsHHt+lB1
+         r+ect8hQqRJBFy0sTQLl/Rzflv7WydU8xORiKpddH+UNHQT+jfrX+W1BxcFpjX9KXwL+
+         huSoY5WRkyGIAt02y4lpML51pZMgDX1zJGYZ9sLxlCD5mnXuUj/6bXFbrKBCavw0UFw1
+         sboXI7IpjV0zudEAVa/cZSBKR6O+G9f5j6BdYdoKKj+oUjzElSj99HwZSjpS8O//V2Y9
+         fcew==
+X-Gm-Message-State: AOAM531KQPIy7busCEZtXkHGho3c+L9zF4N7DUNQG/uEhjpYCO4EFDUJ
+        A+dI6z06UyLNUiIQSqjSkg==
+X-Google-Smtp-Source: ABdhPJwfsjVeZSJcEumwC7rI8OiKwXwCweJpgTsSim/Ubs2nJHyVI3S60NqCJLQl/ivrLxwO2ySB9A==
+X-Received: by 2002:a4a:cf12:: with SMTP id l18mr2047389oos.25.1639750884738;
+        Fri, 17 Dec 2021 06:21:24 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id q2sm1672622otg.64.2021.12.17.06.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Dec 2021 06:21:24 -0800 (PST)
+Received: (nullmailer pid 2814878 invoked by uid 1000);
+        Fri, 17 Dec 2021 14:21:22 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     conor.dooley@microchip.com
+Cc:     jassisinghbrar@gmail.com, alexandre.belloni@bootlin.com,
+        atish.patra@wdc.com, linux-rtc@vger.kernel.org,
+        a.zummo@towertech.it, lee.jones@linaro.org,
+        linux-i2c@vger.kernel.org, ivan.griffin@microchip.com,
+        devicetree@vger.kernel.org, daire.mcnamara@microchip.com,
+        palmer@dabbelt.com, robh+dt@kernel.org, bgolaszewski@baylibre.com,
+        heiko@sntech.de, linux-spi@vger.kernel.org,
+        linux-crypto@vger.kernel.org, thierry.reding@gmail.com,
+        linux-gpio@vger.kernel.org, broonie@kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linus.walleij@linaro.org, aou@eecs.berkeley.edu,
+        linux-usb@vger.kernel.org, bin.meng@windriver.com,
+        geert@linux-m68k.org, krzysztof.kozlowski@canonical.com,
+        lewis.hanly@microchip.com, paul.walmsley@sifive.com,
+        u.kleine-koenig@pengutronix.de, gregkh@linuxfoundation.org,
+        linux-riscv@lists.infradead.org
+In-Reply-To: <20211217093325.30612-3-conor.dooley@microchip.com>
+References: <20211217093325.30612-1-conor.dooley@microchip.com> <20211217093325.30612-3-conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 02/17] dt-bindings: soc/microchip: update syscontroller compatibles
+Date:   Fri, 17 Dec 2021 08:21:22 -0600
+Message-Id: <1639750882.632899.2814877.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 04:24:11PM +0300, Heikki Krogerus wrote:
-> Hi,
+On Fri, 17 Dec 2021 09:33:10 +0000, conor.dooley@microchip.com wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
 > 
-> The _PLD buffer is no longer stored as requested by Rafael, so the
-> drivers will need to continue to evaluate the _PLD if they need it.
+> The Polarfire SoC is currently using two different compatible string
+> prefixes. Fix this by changing "polarfire-soc-*" strings to "mpfs-*" in
+> its system controller in order to match the compatible string used in
+> the soc binding and device tree.
 > 
-> The stored locations will therefore only contain the list of other
-> devices that share the location, but that is most important, and in
-> practice the main goal of the series in any case.
-> 
-> 
-> v2 cover letter:
-> 
-> I'm now using the helpers device_match_acpi_dev() and
-> device_match_fwnode() like Andy suggested. No other changes.
-> 
-> 
-> The original cover letter:
-> 
-> This removes the need for the drivers to always separately evaluate
-> the _PLD. With the USB Type-C connector and USB port mapping this
-> allows us to start using the component framework and remove the custom
-> APIs.
-> 
-> So far the only users of the _PLD information have been the USB
-> drivers, but it seems it will be used also at least in some camera
-> drivers later. These nevertheless touch mostly USB drivers.
-> 
-> Rafael, is it still OK if Greg takes these?
-> 
-> Prashant, can you test these?
-
-I guess I have given tag, anyway here we are, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-
-P.S. AFAICS only the first patch was slightly changed.
-
-
-> Heikki Krogerus (4):
->   acpi: Store the known device locations
->   usb: Link the ports to the connectors they are attached to
->   usb: typec: port-mapper: Convert to the component framework
->   usb: Remove usb_for_each_port()
-> 
->  Documentation/ABI/testing/sysfs-bus-usb |   9 +
->  drivers/acpi/scan.c                     |  77 +++++++
->  drivers/usb/core/port.c                 |  32 +++
->  drivers/usb/core/usb.c                  |  46 ----
->  drivers/usb/typec/Makefile              |   3 +-
->  drivers/usb/typec/class.c               |   2 -
->  drivers/usb/typec/class.h               |  10 +-
->  drivers/usb/typec/port-mapper.c         | 280 +++---------------------
->  include/acpi/acpi_bus.h                 |  19 ++
->  include/linux/usb.h                     |   9 -
->  include/linux/usb/typec.h               |  12 -
->  11 files changed, 180 insertions(+), 319 deletions(-)
-> 
-> -- 
-> 2.34.1
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>  ...larfire-soc-mailbox.yaml => microchip,mpfs-mailbox.yaml} | 6 +++---
+>  ...s-controller.yaml => microchip,mpfs-sys-controller.yaml} | 6 +++---
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+>  rename Documentation/devicetree/bindings/mailbox/{microchip,polarfire-soc-mailbox.yaml => microchip,mpfs-mailbox.yaml} (82%)
+>  rename Documentation/devicetree/bindings/soc/microchip/{microchip,polarfire-soc-sys-controller.yaml => microchip,mpfs-sys-controller.yaml} (75%)
 > 
 
--- 
-With Best Regards,
-Andy Shevchenko
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/mailbox/microchip,mpfs-mailbox.example.dt.yaml:0:0: /example-0/soc/mailbox@37020000: failed to match any schema with compatible: ['mpfs-mailbox']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1569804
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
