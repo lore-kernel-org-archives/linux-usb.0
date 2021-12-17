@@ -2,84 +2,183 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F0A2C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 09:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA4A8C4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 10:12:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234648AbhLQJ6X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Dec 2021 04:58:23 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:57760 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234606AbhLQJ6X (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 04:58:23 -0500
+        id S234743AbhLQKM5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Dec 2021 05:12:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232647AbhLQKM4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 05:12:56 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58EE1C061574;
+        Fri, 17 Dec 2021 02:12:56 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 95A05620D3;
-        Fri, 17 Dec 2021 09:58:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ACDEC36AE5;
-        Fri, 17 Dec 2021 09:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1639735102;
-        bh=fulc/W776dWFoA7dIkj723RIpk0KZ9GyiQRx4gs6NwM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JzlETfY3wid1h1GcHWWxftqymRosrGD5d7bs6XIzsbhcenJlwQwzEOMPqJl/pDggZ
-         USrU4ZQy18Mtfimb42NbvulHcCvCRvf4t0cUTLn17mlMoikxCImJiKcnXF+ANq/EX3
-         MolPtFdyi2dXjj3bJuPN39RkOyw4mDai8iwY9NqA=
-Date:   Fri, 17 Dec 2021 10:58:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Baruch Siach <baruch@tkos.co.il>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Wesley Cheng <wcheng@codeaurora.org>
-Subject: Re: [PATCH] usb: dwc3: dwc3-qcom: Fix registration when
- tx-fifo-resize exists
-Message-ID: <YbxfO8MQtWrONKvh@kroah.com>
-References: <e7ee9012055a4ba9afcb1ffbbeda25f113f171b6.1638701145.git.baruch@tkos.co.il>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0076562070;
+        Fri, 17 Dec 2021 10:12:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A0BDC36AE9;
+        Fri, 17 Dec 2021 10:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1639735975;
+        bh=OMKIhVLZUPKdh2b5spfQ1xeI04TQ3VcvJwTnPxVdAGE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kZDwwESCTE5e1d2oB/a7RrnwmLOC6/S9BgtKCla+pvVOGAd8z+TCBuzNMh+O5zc2u
+         nXkpKjfKzR2YEPymyVyreeR1X7d0vnRVHFHF0xh3pks/1pMn5mKj9VGO5UbhE+NHEa
+         1ig3ZglSd8yQgC4FiUj6G8N16KVHtuODC9ETDH0nWEhGWmv0o7HhFp2vdgwHQzawwz
+         acXWxP0QQ1gGCQO4/K/bB0F0CXAMF4m23f3p0kFRjqUTDNpRWEvwUPA3EJ0LuPO3A3
+         N3Rzld0ZbJ6xuihJrW/HrwzAI9luzWlJwaUMq8T7klK5dCRX+oHjaNCCifkf8z0KBU
+         by0Ed0ghpvyyA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.94.2)
+        (envelope-from <mchehab@kernel.org>)
+        id 1myAEP-000g6E-8X; Fri, 17 Dec 2021 11:12:53 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Wei Xu <xuwei5@hisilicon.com>, Rob Herring <robh+dt@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2 3/7] dt-bindings: usb: hisilicon,hi3670-dwc3: add binding for Kirin970
+Date:   Fri, 17 Dec 2021 11:12:47 +0100
+Message-Id: <03023825dafd0c9ae3f99e650e14137f290bb377.1639735742.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <cover.1639735742.git.mchehab@kernel.org>
+References: <cover.1639735742.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e7ee9012055a4ba9afcb1ffbbeda25f113f171b6.1638701145.git.baruch@tkos.co.il>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Dec 05, 2021 at 12:45:45PM +0200, Baruch Siach wrote:
-> Commit cefdd52fa04 ("usb: dwc3: dwc3-qcom: Enable tx-fifo-resize
-> property by default") added the tx-fifo-resize property. But when this
-> property exists already, of_add_property() fails with -EEXIST, thus
-> breaking core registration. This regresses the IPQ6018 platform that has
-> tx-fifo-resize in its device-tree.
-> 
-> Don't fail when tx-fifo-resize exists.
-> 
-> Fixes: cefdd52fa045 ("usb: dwc3: dwc3-qcom: Enable tx-fifo-resize property by default")
-> Cc: Wesley Cheng <wcheng@codeaurora.org>
-> Signed-off-by: Baruch Siach <baruch@tkos.co.il>
-> ---
->  drivers/usb/dwc3/dwc3-qcom.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index 9abbd01028c5..bbd8e401a82c 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -667,7 +667,7 @@ static int dwc3_qcom_of_register_core(struct platform_device *pdev)
->  
->  	prop->name = "tx-fifo-resize";
->  	ret = of_add_property(dwc3_np, prop);
-> -	if (ret) {
-> +	if (ret && ret != -EEXIST) {
->  		dev_err(dev, "unable to add property\n");
->  		goto node_put;
->  	}
-> -- 
-> 2.33.0
-> 
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-This commit does not apply to my tree at all.  What tree/branch did you
-make it against?
+Add documentation for the DWC3 USB3 controller found on Kirin970
+CPUs.
 
-thanks,
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-greg k-h
+See [PATCH v2 0/7] at: https://lore.kernel.org/all/cover.1639735742.git.mchehab@kernel.org/
+
+ .../bindings/usb/hisilicon,hi3670-dwc3.yaml   | 105 ++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/hisilicon,hi3670-dwc3.yaml
+
+diff --git a/Documentation/devicetree/bindings/usb/hisilicon,hi3670-dwc3.yaml b/Documentation/devicetree/bindings/usb/hisilicon,hi3670-dwc3.yaml
+new file mode 100644
+index 000000000000..b38f3bfd9107
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/hisilicon,hi3670-dwc3.yaml
+@@ -0,0 +1,105 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/hisilicon,hi3670-dwc3.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: HiSilicon Kirin970 USB3 Controller
++
++maintainers:
++  - Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
++
++description:
++  Bindings for the USB3 DWC3 controller present on Kirin970.
++
++properties:
++  compatible:
++    const: hisilicon,hi3670-dwc3
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: abb
++      - const: hclk
++      - const: ref
++      - const: aclk
++
++  ranges: true
++
++  assigned-clocks:
++    maxItems: 1
++
++  assigned-clock-rates:
++    maxItems: 1
++
++  resets:
++    maxItems: 4
++
++  '#address-cells':
++    const: 2
++
++  '#size-cells':
++    const: 2
++
++# Required child node:
++
++patternProperties:
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
++
++required:
++  - compatible
++  - ranges
++  - clocks
++  - clock-names
++  - assigned-clocks
++  - assigned-clock-rates
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/hi3670-clock.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    bus {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      usb3: dwc3 {
++        compatible = "hisilicon,hi3670-dwc3";
++        #address-cells = <2>;
++        #size-cells = <2>;
++        ranges;
++
++        clocks = <&crg_ctrl HI3670_CLK_GATE_ABB_USB>,
++                 <&crg_ctrl HI3670_HCLK_GATE_USB3OTG>,
++                 <&crg_ctrl HI3670_CLK_GATE_USB3OTG_REF>,
++                 <&crg_ctrl HI3670_ACLK_GATE_USB3DVFS>;
++        clock-names = "abb",
++                      "hclk",
++                      "ref",
++                      "aclk";
++
++        assigned-clocks = <&crg_ctrl HI3670_ACLK_GATE_USB3DVFS>;
++        assigned-clock-rates = <238000000>;
++        resets = <&crg_rst 0x90 6>,
++                 <&crg_rst 0x90 7>,
++                 <&usb31_misc_rst 0xA0 8>,
++                 <&usb31_misc_rst 0xA0 9>;
++
++        dwc3: usb@ff100000 {
++          compatible = "snps,dwc3";
++          reg = <0x0 0xff100000 0x0 0x100000>;
++
++          interrupts = <0 159 IRQ_TYPE_LEVEL_HIGH>,
++                       <0 161 IRQ_TYPE_LEVEL_HIGH>;
++
++          phys = <&usb_phy>;
++          phy-names = "usb3-phy";
++        };
++      };
++    };
+-- 
+2.33.1
+
