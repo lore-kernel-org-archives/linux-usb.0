@@ -2,104 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4B83C4332F
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 13:24:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7183C4167E
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 13:24:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234093AbhLQNYZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S236680AbhLQNYZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 17 Dec 2021 08:24:25 -0500
-Received: from mail-ua1-f46.google.com ([209.85.222.46]:42996 "EHLO
-        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236677AbhLQNYU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 08:24:20 -0500
-Received: by mail-ua1-f46.google.com with SMTP id t13so4242479uad.9;
-        Fri, 17 Dec 2021 05:24:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UfQoARdnbkZAiC3vtgUpOeQLmZLNRjjpwLc9s5ZyHps=;
-        b=xYfAY7J7J9QffAykFLTch2fOSSEGskXuntYtMKlCX8maAZfgRC7qaeYbEYXEhHxAm9
-         hCprSbG7+WrIa9+7lPKf2Gnwb9ioX+R+RgibIbKM6PTk7hk7TRdYnQxFfz3Uvh2fnE43
-         5ilri1hg6O+NGD3LZ8i57+iYD9+vuULAmaDkvG/pbtchDhnnqYk1RCbUErtJ4g02beJy
-         sp8C7y21ZrvyE8OZIEfB7so4is2cjz7xSFk+9nrrb4lz0DmcaKUxl2uHmi4PuAI7Pxr/
-         NBCURrxkQyH90X6VZOJjiVOG8PMzyIp3PlqIt1SOL30ZCNF2eS0j3xxbqki04ANOps2S
-         773Q==
-X-Gm-Message-State: AOAM53375W3GmNivNzBMFfaktc7PL/pTXxza/phvxW5ZI9KeTC9Zl384
-        tUf4+AIs3aie7begwtfvMGNlEkC2jYYyOg==
-X-Google-Smtp-Source: ABdhPJwf9tK4F5rXipclTN8u7WMGEQYWyCzr93mNHr/EESAQDeztbJetl2fXnXAfihpEYTm5+KvDBw==
-X-Received: by 2002:ab0:449:: with SMTP id 67mr998976uav.46.1639747459373;
-        Fri, 17 Dec 2021 05:24:19 -0800 (PST)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id q9sm1804818vkn.44.2021.12.17.05.24.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Dec 2021 05:24:19 -0800 (PST)
-Received: by mail-ua1-f53.google.com with SMTP id p37so4282078uae.8;
-        Fri, 17 Dec 2021 05:24:18 -0800 (PST)
-X-Received: by 2002:a67:c106:: with SMTP id d6mr960485vsj.77.1639747458226;
- Fri, 17 Dec 2021 05:24:18 -0800 (PST)
+Received: from mga17.intel.com ([192.55.52.151]:36394 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236692AbhLQNYV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Dec 2021 08:24:21 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10200"; a="220433352"
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
+   d="scan'208";a="220433352"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2021 05:24:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,213,1635231600"; 
+   d="scan'208";a="662843773"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2021 05:24:19 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 4/4] usb: Remove usb_for_each_port()
+Date:   Fri, 17 Dec 2021 16:24:15 +0300
+Message-Id: <20211217132415.39726-5-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211217132415.39726-1-heikki.krogerus@linux.intel.com>
+References: <20211217132415.39726-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-References: <20211217093325.30612-1-conor.dooley@microchip.com> <20211217093325.30612-3-conor.dooley@microchip.com>
-In-Reply-To: <20211217093325.30612-3-conor.dooley@microchip.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Dec 2021 14:24:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXBm6PMnBTQDZY=3XkGBXsr4wXy8m+WbgHjA8SpctbVCA@mail.gmail.com>
-Message-ID: <CAMuHMdXBm6PMnBTQDZY=3XkGBXsr4wXy8m+WbgHjA8SpctbVCA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/17] dt-bindings: soc/microchip: update syscontroller compatibles
-To:     Conor Dooley <conor.dooley@microchip.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jassi Brar <jassisinghbrar@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux PWM List <linux-pwm@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-rtc@vger.kernel.org, linux-spi <linux-spi@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Bin Meng <bin.meng@windriver.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Lewis Hanly <lewis.hanly@microchip.com>,
-        daire.mcnamara@microchip.com, ivan.griffin@microchip.com,
-        Atish Patra <atish.patra@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 17, 2021 at 10:32 AM <conor.dooley@microchip.com> wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> The Polarfire SoC is currently using two different compatible string
-> prefixes. Fix this by changing "polarfire-soc-*" strings to "mpfs-*" in
-> its system controller in order to match the compatible string used in
-> the soc binding and device tree.
->
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+There are no more users for the function.
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/core/usb.c | 46 ------------------------------------------
+ include/linux/usb.h    |  9 ---------
+ 2 files changed, 55 deletions(-)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+index 62368c4ed37af..2ce3667ec6fae 100644
+--- a/drivers/usb/core/usb.c
++++ b/drivers/usb/core/usb.c
+@@ -398,52 +398,6 @@ int usb_for_each_dev(void *data, int (*fn)(struct usb_device *, void *))
+ }
+ EXPORT_SYMBOL_GPL(usb_for_each_dev);
+ 
+-struct each_hub_arg {
+-	void *data;
+-	int (*fn)(struct device *, void *);
+-};
+-
+-static int __each_hub(struct usb_device *hdev, void *data)
+-{
+-	struct each_hub_arg *arg = (struct each_hub_arg *)data;
+-	struct usb_hub *hub;
+-	int ret = 0;
+-	int i;
+-
+-	hub = usb_hub_to_struct_hub(hdev);
+-	if (!hub)
+-		return 0;
+-
+-	mutex_lock(&usb_port_peer_mutex);
+-
+-	for (i = 0; i < hdev->maxchild; i++) {
+-		ret = arg->fn(&hub->ports[i]->dev, arg->data);
+-		if (ret)
+-			break;
+-	}
+-
+-	mutex_unlock(&usb_port_peer_mutex);
+-
+-	return ret;
+-}
+-
+-/**
+- * usb_for_each_port - interate over all USB ports in the system
+- * @data: data pointer that will be handed to the callback function
+- * @fn: callback function to be called for each USB port
+- *
+- * Iterate over all USB ports and call @fn for each, passing it @data. If it
+- * returns anything other than 0, we break the iteration prematurely and return
+- * that value.
+- */
+-int usb_for_each_port(void *data, int (*fn)(struct device *, void *))
+-{
+-	struct each_hub_arg arg = {data, fn};
+-
+-	return usb_for_each_dev(&arg, __each_hub);
+-}
+-EXPORT_SYMBOL_GPL(usb_for_each_port);
+-
+ /**
+  * usb_release_dev - free a usb device structure when all users of it are finished.
+  * @dev: device that's been disconnected
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 7ccaa76a9a968..200b7b79acb56 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -875,15 +875,6 @@ extern struct usb_host_interface *usb_find_alt_setting(
+ 		unsigned int iface_num,
+ 		unsigned int alt_num);
+ 
+-#if IS_REACHABLE(CONFIG_USB)
+-int usb_for_each_port(void *data, int (*fn)(struct device *, void *));
+-#else
+-static inline int usb_for_each_port(void *data, int (*fn)(struct device *, void *))
+-{
+-	return 0;
+-}
+-#endif
+-
+ /* port claiming functions */
+ int usb_hub_claim_port(struct usb_device *hdev, unsigned port1,
+ 		struct usb_dev_state *owner);
+-- 
+2.34.1
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
