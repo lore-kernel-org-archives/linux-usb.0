@@ -2,94 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF5E9C433FE
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 16:02:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB81C4167D
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Dec 2021 16:26:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238806AbhLQQCe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Dec 2021 11:02:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235191AbhLQQCd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 11:02:33 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B863C061574;
-        Fri, 17 Dec 2021 08:02:33 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id z9-20020a17090a7b8900b001b13558eadaso4475705pjc.4;
-        Fri, 17 Dec 2021 08:02:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Gd9e5lJ9Xdrc0uDZFZ9we4a9UNXcjMLY1IV8r6XooqU=;
-        b=P/SaAriho7iCKhklzAF4N3rcbn4BTbLLOyk3nzchMsmBlnbpMzJP/FOTJNjiI86sef
-         T08XFDuGp7bGGrDGN7kWELynyg4wRP/M3xZR4ARCh5oWH7gBo+vzM/pxJ7D/R4nFhl/y
-         G//DWFZ6SI5FgPsRnGqGHtzwgaokBklcycF6NBUmsBwBeVCLEzQccEsreR6Mq5BQQEtz
-         5BbxhzsYuNmyQrxnztH+FwGXlP8JvKwFhJbTBGggTIwsMqITcFN7vWjWy3X+0A/hlIel
-         gcBztKtrVXpdisq6XPqJviDcSM3CsZz6SysItEShUAQf+HJB/dmZkI0x29HqKrcqan4A
-         ECIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Gd9e5lJ9Xdrc0uDZFZ9we4a9UNXcjMLY1IV8r6XooqU=;
-        b=pG43LPfCIRCdWtSYfg//NDxbPOdvxAAYInLSWJVQt+lezSYTIhibmSoLuktk8hRhEx
-         03MO+dDz6AlCET9Y6rNiiBm6EA+jtmOHNZbQUGoxzidAPHLIc7kZziGKZuYxjoy3rszv
-         6/zl2x3J5ws2M3kel9HoIDQGRekq/9WAcSuAMss8GotMlJ8h7B3R9ddHpuCTL3EaXIP3
-         ITWmfhNvY6hd4+L8CRExM8/6OWk8KsiSdmgxLqMlA/LkpK4uPc4PfeHoVlZamG5dzeWd
-         +dL2aNtQt+b1ceCJWlXeTfjPFHe83X31F1Locl+l+qdhESrWLIXXGhjDHPIBnDQlJpGe
-         61Nw==
-X-Gm-Message-State: AOAM5310opaz1yRGS5Y8fEtFOx94yWyWeBMpP9pgPQpuQsqSPU0DfiVJ
-        9aK6s9M+4XDnPdBiKXYm6Ro=
-X-Google-Smtp-Source: ABdhPJz+DvgJl6fTwktZZBFCFPYBoNTGmMphKjTjgzXookL36RCV9ukcFuP5K0oNcQ1NRbvXr50XDw==
-X-Received: by 2002:a17:902:6b47:b0:142:82e1:6cf5 with SMTP id g7-20020a1709026b4700b0014282e16cf5mr4125468plt.28.1639756952578;
-        Fri, 17 Dec 2021 08:02:32 -0800 (PST)
-Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id f21sm10691482pfc.85.2021.12.17.08.02.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Dec 2021 08:02:31 -0800 (PST)
-Message-ID: <23798061-647f-85fd-8e8e-fe50db09599e@gmail.com>
-Date:   Fri, 17 Dec 2021 08:02:27 -0800
+        id S239113AbhLQQ0b convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Dec 2021 11:26:31 -0500
+Received: from mail-0301.mail-europe.com ([188.165.51.139]:50599 "EHLO
+        mail-0301.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238005AbhLQQ0a (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Dec 2021 11:26:30 -0500
+Date:   Fri, 17 Dec 2021 16:26:24 +0000
+Authentication-Results: mail-4018.proton.ch; dkim=none
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+From:   conor dooley <mail@conchuod.ie>
+Cc:     Conor.Dooley@microchip.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, robh+dt@kernel.org,
+        jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
+        palmer@dabbelt.com, aou@eecs.berkeley.edu, a.zummo@towertech.it,
+        alexandre.belloni@bootlin.com, broonie@kernel.org,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-crypto@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        geert@linux-m68k.org, bin.meng@windriver.com, heiko@sntech.de,
+        Lewis.Hanly@microchip.com, Daire.McNamara@microchip.com,
+        Ivan.Griffin@microchip.com, atish.patra@wdc.com
+Reply-To: conor dooley <mail@conchuod.ie>
+Subject: Re: [PATCH v2 06/17] dt-bindings: rng: add bindings for microchip mpfs rng
+Message-ID: <r3tVOER8Xt_7UX5NRWualG_an6bcx-_uljhXh9_GUny45ZcO_G-dpv98jWXwKpuvSp-uTvNFSdqsLHFbYGl0Qdv_q7ZqegBHWWcgnAZUA5A=@conchuod.ie>
+In-Reply-To: <2e7588e5-9dc5-571f-d7e9-0ee5c89ab39e@canonical.com>
+References: <20211217093325.30612-1-conor.dooley@microchip.com> <20211217093325.30612-7-conor.dooley@microchip.com> <e59a60d5-4397-1f7f-66ab-3dd522e166a0@canonical.com> <19cbe2ba-7df5-7c7c-289f-6dc419d9f477@canonical.com> <422126ac-ce26-2940-5b4d-fe79a1fa89c5@microchip.com> <2e7588e5-9dc5-571f-d7e9-0ee5c89ab39e@canonical.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH v4 3/6] ARM: dts: NSP: Rename SATA unit name
-Content-Language: en-US
-To:     Florian Fainelli <f.fainelli@gmail.com>, devicetree@vger.kernel.org
-Cc:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        "maintainer:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Cooper <alcooperx@gmail.com>, Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
-        <linux-ide@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:BROADCOM BCM7XXX ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>
-References: <20211217042001.479577-1-f.fainelli@gmail.com>
- <20211217042001.479577-4-f.fainelli@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20211217042001.479577-4-f.fainelli@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+‐‐‐‐‐‐‐ Original Message ‐‐‐‐‐‐‐
 
+On Friday, December 17th, 2021 at 15:47, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com> wrote:
 
-On 12/16/2021 8:19 PM, Florian Fainelli wrote:
-> Rename the SATA controller unit name from ahci to sata in preparation
-> for adding the Broadcom SATA3 controller YAML binding which will bring
-> validation.
-> 
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-
-Applied to devicetree/next!
--- 
-Florian
+> On 17/12/2021 16:22, Conor.Dooley@microchip.com wrote:
+>
+> > On 17/12/2021 15:07, Krzysztof Kozlowski wrote:
+> >
+> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> > >
+> > > On 17/12/2021 15:53, Krzysztof Kozlowski wrote:
+> > >
+> > > > On 17/12/2021 10:33, conor.dooley@microchip.com wrote:
+> > > >
+> > > > > From: Conor Dooley conor.dooley@microchip.com
+> > > > >
+> > > > > Add device tree bindings for the hardware rng device accessed via
+> > > > >
+> > > > > the system services on the Microchip PolarFire SoC.
+> > > > >
+> > > > > Signed-off-by: Conor Dooley conor.dooley@microchip.com
+> > > > > ------------------------------------------------------
+> > > >
+> > > > Three topics:
+> > > >
+> > > > 1.  Node name (as most of others are using): rng
+> > > > 2.  skip the label, not helping in example.
+> > > > 3.  This looks very simple, so I wonder if the bindings are complete. No
+> > > >
+> > > >     IO space/address... How is it going to be instantiated?
+> > > OK, now I saw the usage in DTS. I have doubts this makes sense as
+> > > separate bindings. It looks like integrated part of syscontroller, so
+> > > maybe make it part of that binding? Or at least add ref to syscontroller
+> > > bindings that such child is expected.
+> > Acking the rest of this, re: adding the ref: is what is being done in
+> > patch 03/17 insufficient?
+> Ops, I missed the 03/17. Yeah, it looks it is sufficient and in such
+> case I think you do not need this patch. The compatible is documented in
+> 03/17. The same for sysserv.
+Grand, that makes things easier.
+Conor.
+>
+> Best regards,
+>
+> Krzysztof
+>
+> linux-riscv mailing list
+>
+> linux-riscv@lists.infradead.org
+>
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
