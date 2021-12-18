@@ -2,141 +2,125 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C27C5C433F5
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Dec 2021 11:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1EC2C433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Dec 2021 16:58:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbhLRLH1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Dec 2021 06:07:27 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:42738 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232910AbhLRLH0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Dec 2021 06:07:26 -0500
-Received: by mail-il1-f200.google.com with SMTP id 11-20020a056e0220cb00b002ac12986811so2927693ilq.9
-        for <linux-usb@vger.kernel.org>; Sat, 18 Dec 2021 03:07:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=Jj8s44uYX7evjsp1QT1NRjYGi4K6rKvghFsgqkyMv8Y=;
-        b=lCr/IE8Iezv05wFtPDsUFK/S3J1HJyCsGYdtCGq8d1nR+la6BNxXQGKomwKTnPzd/q
-         IrSlksfqvnObxv20G1Tffe2A7Y6Aj1KYB39hKI8/VnJ7kay+/wc0P0lUayZDh4Q28QWz
-         8q5fmkrBftSvvDfRMRuZshz7kjc6YiXkQl4pvDC/iufN+DeYd6j9+wbz+q8gkcRosECR
-         HceOBKu1X17hp4qhbd/jd54N6PtFtbPUzMq51U0MwyZnkfTvIwhDS3fg7TfPwPvASwy/
-         mRi0z3rtRgZzXoCZBPINtxYnDrXyp2TSywPGZyQk/ddTJERzs5mE1g7V26zt2PceOZDS
-         C/cw==
-X-Gm-Message-State: AOAM533s3CQGkfq9dbhbU2lgWXhlzxf5DuTV9urDRaXP3MvtaI5jT5rZ
-        B5DEOCGqt4838s396Z/sDCha/cGGyQr9+DRoSr8mxdvGpIkL
-X-Google-Smtp-Source: ABdhPJy+ma5yqJ118njLi7NzQw/CeFV5yOda75oKu6Rp6EVxoWnQHSFvjX4OVYzdF3nyEXxojHeNcYLOtIfzAexamB5OwdeXib0n
+        id S233685AbhLRQ6d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Dec 2021 11:58:33 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:37650 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229552AbhLRQ6c (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Dec 2021 11:58:32 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C7AC560B13;
+        Sat, 18 Dec 2021 16:58:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99499C36AE1;
+        Sat, 18 Dec 2021 16:58:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1639846711;
+        bh=P++GSd247vKL0+vUiunK84t91Cn/zwqebVvITnJJxl8=;
+        h=Date:From:To:Cc:Subject:From;
+        b=mxk/1GTW6nzLdAa1GZ22JGYG0iyb6UO+kBXSzka1BaGsyVHlG+tKcXYwu7N6BJt3Z
+         GRLWDbwNB3nlEvBgNd+gOBm3vE7k5d6fPJyCPSauIOCq5kvVV4Kfo85y+x23fanP8P
+         yzqK9bM506qDfUGdRafFUWXUPlrLtaS9NdJOZtqo=
+Date:   Sat, 18 Dec 2021 17:58:28 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.16-rc6
+Message-ID: <Yb4TNA/HoeI8NbTx@kroah.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:170d:: with SMTP id u13mr3819528ill.236.1639825646096;
- Sat, 18 Dec 2021 03:07:26 -0800 (PST)
-Date:   Sat, 18 Dec 2021 03:07:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000021160205d369a962@google.com>
-Subject: [syzbot] KMSAN: uninit-value in asix_mdio_read (2)
-From:   syzbot <syzbot+f44badb06036334e867a@syzkaller.appspotmail.com>
-To:     andrew@lunn.ch, davem@davemloft.net, glider@google.com,
-        kuba@kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux@rempel-privat.de,
-        netdev@vger.kernel.org, paskripkin@gmail.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+The following changes since commit 2585cf9dfaaddf00b069673f27bb3f8530e2039c:
 
-syzbot found the following issue on:
+  Linux 5.16-rc5 (2021-12-12 14:53:01 -0800)
 
-HEAD commit:    b0a8b5053e8b kmsan: core: add dependency on DEBUG_KERNEL
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=13a4d133b00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=46a956fc7a887c60
-dashboard link: https://syzkaller.appspot.com/bug?extid=f44badb06036334e867a
-compiler:       clang version 14.0.0 (/usr/local/google/src/llvm-git-monorepo 2b554920f11c8b763cd9ed9003f4e19b919b8e1f), GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=149fddcbb00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17baef25b00000
+are available in the Git repository at:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f44badb06036334e867a@syzkaller.appspotmail.com
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.16-rc6
 
-=====================================================
-BUG: KMSAN: uninit-value in asix_check_host_enable drivers/net/usb/asix_common.c:82 [inline]
-BUG: KMSAN: uninit-value in asix_check_host_enable drivers/net/usb/asix_common.c:82 [inline] drivers/net/usb/asix_common.c:497
-BUG: KMSAN: uninit-value in asix_mdio_read+0x3c1/0xb00 drivers/net/usb/asix_common.c:497 drivers/net/usb/asix_common.c:497
- asix_check_host_enable drivers/net/usb/asix_common.c:82 [inline]
- asix_check_host_enable drivers/net/usb/asix_common.c:82 [inline] drivers/net/usb/asix_common.c:497
- asix_mdio_read+0x3c1/0xb00 drivers/net/usb/asix_common.c:497 drivers/net/usb/asix_common.c:497
- asix_mdio_bus_read+0xba/0xe0 drivers/net/usb/asix_common.c:556 drivers/net/usb/asix_common.c:556
- __mdiobus_read+0xbf/0x4f0 drivers/net/phy/mdio_bus.c:755 drivers/net/phy/mdio_bus.c:755
- mdiobus_read+0xaa/0xf0 drivers/net/phy/mdio_bus.c:862 drivers/net/phy/mdio_bus.c:862
- get_phy_c22_id drivers/net/phy/phy_device.c:813 [inline]
- get_phy_c22_id drivers/net/phy/phy_device.c:813 [inline] drivers/net/phy/phy_device.c:890
- get_phy_device+0x218/0x8b0 drivers/net/phy/phy_device.c:890 drivers/net/phy/phy_device.c:890
- mdiobus_scan+0x1c7/0x940
- __mdiobus_register+0xe16/0x1200 drivers/net/phy/mdio_bus.c:583 drivers/net/phy/mdio_bus.c:583
- __devm_mdiobus_register+0x18f/0x2f0 drivers/net/phy/mdio_devres.c:87 drivers/net/phy/mdio_devres.c:87
- ax88772_init_mdio drivers/net/usb/asix_devices.c:676 [inline]
- ax88772_init_mdio drivers/net/usb/asix_devices.c:676 [inline] drivers/net/usb/asix_devices.c:786
- ax88772_bind+0x10b1/0x1770 drivers/net/usb/asix_devices.c:786 drivers/net/usb/asix_devices.c:786
- usbnet_probe+0x1284/0x4140 drivers/net/usb/usbnet.c:1747 drivers/net/usb/usbnet.c:1747
- usb_probe_interface+0xf19/0x1600 drivers/usb/core/driver.c:396 drivers/usb/core/driver.c:396
- really_probe+0x67d/0x1510 drivers/base/dd.c:596 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:751 drivers/base/dd.c:751
- driver_probe_device drivers/base/dd.c:781 [inline]
- driver_probe_device drivers/base/dd.c:781 [inline] drivers/base/dd.c:898
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:898 drivers/base/dd.c:898
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:969 drivers/base/dd.c:969
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1016 drivers/base/dd.c:1016
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487 drivers/base/bus.c:487
- device_add+0x1d3e/0x2400 drivers/base/core.c:3394 drivers/base/core.c:3394
- usb_set_configuration+0x37e9/0x3ed0 drivers/usb/core/message.c:2170 drivers/usb/core/message.c:2170
- usb_generic_driver_probe+0x13c/0x300 drivers/usb/core/generic.c:238 drivers/usb/core/generic.c:238
- usb_probe_device+0x309/0x570 drivers/usb/core/driver.c:293 drivers/usb/core/driver.c:293
- really_probe+0x67d/0x1510 drivers/base/dd.c:596 drivers/base/dd.c:596
- __driver_probe_device+0x3e9/0x530 drivers/base/dd.c:751 drivers/base/dd.c:751
- driver_probe_device drivers/base/dd.c:781 [inline]
- driver_probe_device drivers/base/dd.c:781 [inline] drivers/base/dd.c:898
- __device_attach_driver+0x79f/0x1120 drivers/base/dd.c:898 drivers/base/dd.c:898
- bus_for_each_drv+0x2d6/0x3f0 drivers/base/bus.c:427 drivers/base/bus.c:427
- __device_attach+0x593/0x8e0 drivers/base/dd.c:969 drivers/base/dd.c:969
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:1016 drivers/base/dd.c:1016
- bus_probe_device+0x17b/0x3e0 drivers/base/bus.c:487 drivers/base/bus.c:487
- device_add+0x1d3e/0x2400 drivers/base/core.c:3394 drivers/base/core.c:3394
- usb_new_device+0x1b8e/0x2950 drivers/usb/core/hub.c:2563 drivers/usb/core/hub.c:2563
- hub_port_connect drivers/usb/core/hub.c:5353 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline]
- port_event drivers/usb/core/hub.c:5643 [inline]
- hub_port_connect drivers/usb/core/hub.c:5353 [inline] drivers/usb/core/hub.c:5725
- hub_port_connect_change drivers/usb/core/hub.c:5497 [inline] drivers/usb/core/hub.c:5725
- port_event drivers/usb/core/hub.c:5643 [inline] drivers/usb/core/hub.c:5725
- hub_event+0x5ad2/0x8910 drivers/usb/core/hub.c:5725 drivers/usb/core/hub.c:5725
- process_one_work+0xdb9/0x1820 kernel/workqueue.c:2298 kernel/workqueue.c:2298
- process_scheduled_works kernel/workqueue.c:2361 [inline]
- process_scheduled_works kernel/workqueue.c:2361 [inline] kernel/workqueue.c:2447
- worker_thread+0x1735/0x21f0 kernel/workqueue.c:2447 kernel/workqueue.c:2447
- kthread+0x721/0x850 kernel/kthread.c:327 kernel/kthread.c:327
- ret_from_fork+0x1f/0x30
+for you to fetch changes up to c4d936efa46d8ea183df16c0f3fa4423327da51d:
 
-Local variable smsr.i created at:
- asix_mdio_read+0xbc/0xb00 drivers/net/usb/asix_common.c:497 drivers/net/usb/asix_common.c:497
- asix_mdio_bus_read+0xba/0xe0 drivers/net/usb/asix_common.c:556 drivers/net/usb/asix_common.c:556
+  Revert "usb: early: convert to readl_poll_timeout_atomic()" (2021-12-17 16:29:11 +0100)
 
-CPU: 0 PID: 3145 Comm: kworker/0:3 Not tainted 5.16.0-rc5-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
+----------------------------------------------------------------
+USB fixes for 5.16-rc6
 
-=====================================================
+Here are a number of small USB driver fixes for reported problems for
+5.16-rc6.  They include:
+	- dwc2 driver fixes
+	- xhci driver fixes
+	- cdnsp driver fixes
+	- typec driver fix
+	- gadget u_ether driver fix
+	- new quirk additions
+	- usb gadget endpoint calculation fix
+	- usb serial new device ids
+	- revert of a xhci-dbg change that broke early debug booting
 
+All changes, except for the revert, have been in linux-next with no
+reported problems.  The revert was from yesterday, and it was reported
+by the developers affected that it resolved their problem.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+----------------------------------------------------------------
+Amelie Delaunay (1):
+      usb: dwc2: fix STM ID/VBUS detection startup delay in dwc2_driver_probe
+
+Chunfeng Yun (1):
+      usb: xhci-mtk: fix list_del warning when enable list debug
+
+Daniele Palmas (1):
+      USB: serial: option: add Telit FN990 compositions
+
+Greg Kroah-Hartman (3):
+      USB: gadget: bRequestType is a bitfield, not a enum
+      Merge tag 'usb-serial-5.16-rc6' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
+      Revert "usb: early: convert to readl_poll_timeout_atomic()"
+
+Jimmy Wang (1):
+      USB: NO_LPM quirk Lenovo USB-C to Ethernet Adapher(RTL8153-04)
+
+Johan Hovold (1):
+      USB: serial: cp210x: fix CP2105 GPIO registration
+
+Marian Postevca (1):
+      usb: gadget: u_ether: fix race in setting MAC address in setup phase
+
+Nehal Bakulchandra Shah (1):
+      usb: xhci: Extend support for runtime power management for AMD's Yellow carp.
+
+Pawel Laszczak (4):
+      usb: cdnsp: Fix incorrect calling of cdnsp_died function
+      usb: cdnsp: Fix issue in cdnsp_log_ep trace event
+      usb: cdnsp: Fix incorrect status for control request
+      usb: cdnsp: Fix lack of spin_lock_irqsave/spin_lock_restore
+
+Xu Yang (1):
+      usb: typec: tcpm: fix tcpm unregister port but leave a pending timer
+
+ drivers/usb/cdns3/cdnsp-gadget.c      | 12 ++++++++++++
+ drivers/usb/cdns3/cdnsp-ring.c        | 11 ++++++++++-
+ drivers/usb/cdns3/cdnsp-trace.h       |  4 ++--
+ drivers/usb/core/quirks.c             |  3 +++
+ drivers/usb/dwc2/platform.c           |  3 +++
+ drivers/usb/early/xhci-dbc.c          | 15 +++++++++++----
+ drivers/usb/gadget/composite.c        |  6 +++---
+ drivers/usb/gadget/function/u_ether.c | 16 ++++++----------
+ drivers/usb/gadget/legacy/dbgp.c      |  6 +++---
+ drivers/usb/gadget/legacy/inode.c     |  6 +++---
+ drivers/usb/host/xhci-mtk-sch.c       |  2 +-
+ drivers/usb/host/xhci-pci.c           |  6 +++++-
+ drivers/usb/serial/cp210x.c           |  6 ++++--
+ drivers/usb/serial/option.c           |  8 ++++++++
+ drivers/usb/typec/tcpm/tcpm.c         | 18 +++++++++++++-----
+ 15 files changed, 87 insertions(+), 35 deletions(-)
