@@ -2,109 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE66C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 13:33:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36930C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 13:43:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbhLTNdI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Dec 2021 08:33:08 -0500
-Received: from mga01.intel.com ([192.55.52.88]:2146 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230176AbhLTNdH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Dec 2021 08:33:07 -0500
-X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="264348002"
-X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
-   d="scan'208";a="264348002"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 05:33:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
-   d="scan'208";a="547332616"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 20 Dec 2021 05:33:05 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 91449190; Mon, 20 Dec 2021 15:33:13 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     Jiri Slaby <jirislaby@kernel.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] tty: tty_io: Switch to vmalloc() fallback in case of TTY_NO_WRITE_SPLIT
-Date:   Mon, 20 Dec 2021 15:32:50 +0200
-Message-Id: <20211220133250.3070-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+        id S233013AbhLTNnH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 08:43:07 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:36982 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229539AbhLTNnH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Dec 2021 08:43:07 -0500
+Received: from localhost.localdomain (unknown [124.16.138.126])
+        by APP-01 (Coremail) with SMTP id qwCowACnrZ1ViMBh4K1uBA--.25001S2;
+        Mon, 20 Dec 2021 21:42:45 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     ok@artecdesign.ee, gregkh@linuxfoundation.org, s.shtylyov@omp.ru
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH v3] USB: host: Check for null res pointer
+Date:   Mon, 20 Dec 2021 21:42:44 +0800
+Message-Id: <20211220134244.930727-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowACnrZ1ViMBh4K1uBA--.25001S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFyDuFWfCr1DXrW7uF1kAFb_yoWkXFX_Cr
+        409395KryDCFn0ya18Arnxua92ywsxur4UZa1kta4avryUJr17J3yDurWfCr98Ww4DCryD
+        C34kZrZ3u343ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbcxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+        1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+        cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+        ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ry8MxAI
+        w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
+        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+        CI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
+        6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUU3CzJUUUUU==
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When TTY_NO_WRITE_SPLIT is set and 64 KiB chunks are used, allow
-vmalloc() fallback. Supply __GFP_RETRY_MAYFAIL to make kmalloc()
-preferable over vmalloc() since we may want a better performance.
+The return value of platform_get_resource() needs to be checked.
+To avoid use of error pointer in case that there is no suitable resource.
 
-Note, both current users copy data to another buffer anyway, so
-the type of our allocation doesn't affect their expectations.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Fixes: 4808a1c02611 ("[PATCH] USB: Add isp116x-hcd USB host controller driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
- drivers/tty/tty_io.c        | 9 +++------
- drivers/usb/class/cdc-acm.c | 4 ----
- 2 files changed, 3 insertions(+), 10 deletions(-)
+Changelog:
 
-diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-index 6616d4a0d41d..8fedfe88dff7 100644
---- a/drivers/tty/tty_io.c
-+++ b/drivers/tty/tty_io.c
-@@ -170,7 +170,7 @@ static void free_tty_struct(struct tty_struct *tty)
- {
- 	tty_ldisc_deinit(tty);
- 	put_device(tty->dev);
--	kfree(tty->write_buf);
-+	kvfree(tty->write_buf);
- 	tty->magic = 0xDEADDEAD;
- 	kfree(tty);
- }
-@@ -997,9 +997,6 @@ static inline ssize_t do_tty_write(
- 	 * layer has problems with bigger chunks. It will
- 	 * claim to be able to handle more characters than
- 	 * it actually does.
--	 *
--	 * FIXME: This can probably go away now except that 64K chunks
--	 * are too likely to fail unless switched to vmalloc...
- 	 */
- 	chunk = 2048;
- 	if (test_bit(TTY_NO_WRITE_SPLIT, &tty->flags))
-@@ -1014,12 +1011,12 @@ static inline ssize_t do_tty_write(
- 		if (chunk < 1024)
- 			chunk = 1024;
+v2 -> v3
+
+*Change 1. Correct the commit message.
+*CHange 2. Change the return code.
+---
+ drivers/usb/host/isp116x-hcd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 8835f6bd528e..addd2b43a14c 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1541,9 +1541,15 @@ static int isp116x_remove(struct platform_device *pdev)
  
--		buf_chunk = kmalloc(chunk, GFP_KERNEL);
-+		buf_chunk = kvmalloc(chunk, GFP_KERNEL | __GFP_RETRY_MAYFAIL);
- 		if (!buf_chunk) {
- 			ret = -ENOMEM;
- 			goto out;
- 		}
--		kfree(tty->write_buf);
-+		kvfree(tty->write_buf);
- 		tty->write_cnt = chunk;
- 		tty->write_buf = buf_chunk;
- 	}
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index b3ce7338cb6b..9b9aea24d58c 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -685,10 +685,6 @@ static int acm_port_activate(struct tty_port *port, struct tty_struct *tty)
- 	if (retval)
- 		goto error_get_interface;
+ 	iounmap(isp116x->data_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	if (!res)
++		return -ENODEV;
++
+ 	release_mem_region(res->start, 2);
+ 	iounmap(isp116x->addr_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENODEV;
++
+ 	release_mem_region(res->start, 2);
  
--	/*
--	 * FIXME: Why do we need this? Allocating 64K of physically contiguous
--	 * memory is really nasty...
--	 */
- 	set_bit(TTY_NO_WRITE_SPLIT, &tty->flags);
- 	acm->control->needs_remote_wakeup = 1;
- 
+ 	usb_put_hcd(hcd);
 -- 
-2.34.1
+2.25.1
 
