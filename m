@@ -2,84 +2,74 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF42C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 15:17:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C9EC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 15:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238392AbhLTPRZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Dec 2021 10:17:25 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:37494 "EHLO cstnet.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238345AbhLTPPt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Dec 2021 10:15:49 -0500
-Received: from localhost.localdomain (unknown [124.16.138.126])
-        by APP-05 (Coremail) with SMTP id zQCowACniRYNnsBhF25ABA--.41083S2;
-        Mon, 20 Dec 2021 23:15:25 +0800 (CST)
-From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To:     ok@artecdesign.ee, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH v2] USB: host: Check for null res pointer
-Date:   Mon, 20 Dec 2021 23:15:24 +0800
-Message-Id: <20211220151524.1001845-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+        id S237526AbhLTPXJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 10:23:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236118AbhLTPWY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Dec 2021 10:22:24 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE01C08C5D9;
+        Mon, 20 Dec 2021 07:02:29 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5BC8FB80ED3;
+        Mon, 20 Dec 2021 15:02:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B805C36AE8;
+        Mon, 20 Dec 2021 15:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640012547;
+        bh=U7/RAfWf0ohq7ORVC8vlxJx5oX8ogjWmNdFAhAij1a8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jb6EtDnKl0D7MlYBdIl1SwNI3F0D5bA4co4UKnqdArAQnI9nygtrkovHKCgnD9EkD
+         hlxfywsll1k7vD4hSdS655BaeVg8+Aook5YySHWS6TVl4/KNtGsedcwTDBVSMTwyJO
+         BS4RjVO63gIeVSefC4q0+b6I1nsecer6Mi08pJO8=
+Date:   Mon, 20 Dec 2021 15:45:27 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Cc:     ok@artecdesign.ee, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: host: Check for null res pointer
+Message-ID: <YcCXB0QMkkFYXMIY@kroah.com>
+References: <20211220064946.817004-1-jiasheng@iscas.ac.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowACniRYNnsBhF25ABA--.41083S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5ZF48KFyxZFWDCrWDXFb_yoWkuFb_Cw
-        409rs5Kr1DCFyYy3W8Ar13C392vrZxWr47uF1vya4avryUJr17G3yq9rZ5CryDWws8Cr98
-        GryDWr4fuw15ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-        Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
-        1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-        cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-        ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryrMxAI
-        w28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
-        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxG
-        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
-        CI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
-        cVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU8rc3UUUUU=
-X-Originating-IP: [124.16.138.126]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211220064946.817004-1-jiasheng@iscas.ac.cn>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The return value of platform_get_resource() needs to be checked.
-To avoid use of error pointer in case of the failure of alloc.
+On Mon, Dec 20, 2021 at 02:49:46PM +0800, Jiasheng Jiang wrote:
+> The return value of platform_get_resource() needs to be checked.
+> To avoid use of error pointer in case of the failure of alloc.
+> 
+> Fixes: 4808a1c02611 ("[PATCH] USB: Add isp116x-hcd USB host controller driver")
+> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+> ---
+>  drivers/usb/host/isp116x-hcd.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+> index 8835f6bd528e..addd2b43a14c 100644
+> --- a/drivers/usb/host/isp116x-hcd.c
+> +++ b/drivers/usb/host/isp116x-hcd.c
+> @@ -1541,9 +1541,15 @@ static int isp116x_remove(struct platform_device *pdev)
+>  
+>  	iounmap(isp116x->data_reg);
+>  	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> +	if (!res)
+> +		return -EINVAL;
 
-Fixes: 4808a1c02611 ("[PATCH] USB: Add isp116x-hcd USB host controller driver")
-Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
----
-Changelog:
+You really can not fail a remove call.  If you do so here, memory will
+leak.
 
-v1 -> v2
+Please make this work no matter what.
 
-*Change 1. Just skip the use of null pointer instead of directly return.
----
- drivers/usb/host/isp116x-hcd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+thanks,
 
-diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
-index 8835f6bd528e..8c7f0991c21b 100644
---- a/drivers/usb/host/isp116x-hcd.c
-+++ b/drivers/usb/host/isp116x-hcd.c
-@@ -1541,10 +1541,12 @@ static int isp116x_remove(struct platform_device *pdev)
- 
- 	iounmap(isp116x->data_reg);
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	release_mem_region(res->start, 2);
-+	if (res)
-+		release_mem_region(res->start, 2);
- 	iounmap(isp116x->addr_reg);
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	release_mem_region(res->start, 2);
-+	if (res)
-+		release_mem_region(res->start, 2);
- 
- 	usb_put_hcd(hcd);
- 	return 0;
--- 
-2.25.1
-
+greg k-h
