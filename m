@@ -2,152 +2,87 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B10B6C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 21:06:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DFF3C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 21:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230165AbhLTVGG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Dec 2021 16:06:06 -0500
-Received: from mail-qt1-f173.google.com ([209.85.160.173]:45856 "EHLO
-        mail-qt1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhLTVF7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Dec 2021 16:05:59 -0500
-Received: by mail-qt1-f173.google.com with SMTP id p19so11006836qtw.12;
-        Mon, 20 Dec 2021 13:05:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=fqRSjSjlVwMx3PCYB3pn/czslzADAGvnpT9c5YDGfOE=;
-        b=WsZua+6VjEG/N4cxVAQwCUoy1L5ukQg8G2mBkszOgwC4ot8hjEuaz1AEojko+IauJw
-         aGoLlJQchG0NntwBHzul+8ytgh82pF64BGQTsommjyRksJl9jUTbZe+V1prgWJysH/vx
-         Dnd35S8xEBCcHzRY2qQvR9/mSTt9HZc4SL3KWRcT1BpIex0pF+os/0VQj2M6NxWNu36f
-         6Nhl3rLkeNWjJASI9RgJDZolPjaeASKDb/7cJWC5sM3npkQX226niUG9RSJ8R2NGNmTO
-         xeKIYTlxOvlRF/pJZ/LP8svp1+BdMFWmG/0/VyeDnHMyQELpM0cbh1uAkhiEf7AB3A9c
-         N/3g==
-X-Gm-Message-State: AOAM532qxqUybUgR2Eo8o0CGJ3UuPW6xR4mq06w6XP3MFRrPImhOkUnT
-        w9pd1Q4lEFR5tRRIyWfKpRYAssvhw1/P
-X-Google-Smtp-Source: ABdhPJyR9q1EP5eXq8kXEDXWr5wln0geOO6zBx9YUws8l8NgUVUVoK5EDZDup9slQkQFdPdCqx91eQ==
-X-Received: by 2002:ac8:5811:: with SMTP id g17mr9286067qtg.535.1640034357899;
-        Mon, 20 Dec 2021 13:05:57 -0800 (PST)
-Received: from robh.at.kernel.org (adsl-72-50-0-33.prtc.net. [72.50.0.33])
-        by smtp.gmail.com with ESMTPSA id o1sm15956979qtw.24.2021.12.20.13.05.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 13:05:57 -0800 (PST)
-Received: (nullmailer pid 3900651 invoked by uid 1000);
-        Mon, 20 Dec 2021 21:05:52 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Yaqin Pan <akingchen@vivo.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>, kernel@vivo.com,
-        Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20211220141629.14282-3-akingchen@vivo.com>
-References: <20211220141629.14282-1-akingchen@vivo.com> <20211220141629.14282-3-akingchen@vivo.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: usb: document snps,dis_split_quirk property in dwc3
-Date:   Mon, 20 Dec 2021 16:05:52 -0500
-Message-Id: <1640034352.478511.3900650.nullmailer@robh.at.kernel.org>
+        id S230324AbhLTVLk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 16:11:40 -0500
+Received: from cable.insite.cz ([84.242.75.189]:54411 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230330AbhLTVLj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Dec 2021 16:11:39 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id 1FDD3A1A3D40C;
+        Mon, 20 Dec 2021 22:11:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1640034698; bh=4OReWYNWtGWkkIdlPU08sx5H+R+qLS85r9ZPvLOz62Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nfnEwSO7yHZSxgXpQenET45t9tTFGJM5jfY/75nVRZ3UVcH6E7bbbn07Hq+XKdLH6
+         kCxMjKy2dKol2x0GPFS0m7O7ZutABmmpCQtY6dLmUpDprP0RT3I/qwlsjvVVIHkznL
+         ZQ7Ms2hDl8UYdwN/GIJ5TsFTRO+d0yyS2+MIyla0=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id WKDC1fHDHq0a; Mon, 20 Dec 2021 22:11:32 +0100 (CET)
+Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id E0AA1A1A3D401;
+        Mon, 20 Dec 2021 22:11:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1640034692; bh=4OReWYNWtGWkkIdlPU08sx5H+R+qLS85r9ZPvLOz62Y=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=V/aK+/ZbdVL7UBln1jBi4OiMjqif/QNtW0yQsO/U9qKE/t8Lz6EvJSsIAXvKQ5pWe
+         xOuR17NFM3DRqD+5MdWmFaHkZQG9ge2kgZCqWx41Az9wx8JfaHl4K+xjfA7Fey1Usa
+         HvMnFtkkjFrWqnVaSXByk2mQNgWzzJfNoNt1ODpY=
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Julian Scheel <julian@jusst.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2 01/11] usb: gadget: u_audio: Subdevice 0 for capture ctls
+Date:   Mon, 20 Dec 2021 22:11:20 +0100
+Message-Id: <20211220211130.88590-2-pavel.hofman@ivitera.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211220211130.88590-1-pavel.hofman@ivitera.com>
+References: <20211220211130.88590-1-pavel.hofman@ivitera.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 20 Dec 2021 22:16:29 +0800, Yaqin Pan wrote:
-> Add snps,dis_split_quirk property for dwc3 controller
-> 
-> Signed-off-by: Yaqin Pan <akingchen@vivo.com>
-> ---
->  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
+Both capture and playback alsa devices use subdevice 0. Yet capture-side
+ctls are defined for subdevice 1. The patch sets subdevice 0 for them.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
+---
+ drivers/usb/gadget/function/u_audio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/usb/snps,dwc3.yaml:229:3: [error] duplication of key "snps,dis-split-quirk" in mapping (key-duplicates)
-
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/usb/snps,dwc3.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 121, in get_single_data
-    return self.construct_document(node)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 131, in construct_document
-    for _dummy in generator:
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 674, in construct_yaml_map
-    value = self.construct_mapping(node)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 445, in construct_mapping
-    return BaseConstructor.construct_mapping(self, node, deep=deep)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 263, in construct_mapping
-    if self.check_mapping_key(node, key_node, mapping, key, value):
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 294, in check_mapping_key
-    raise DuplicateKeyError(*args)
-ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
-  in "<unicode string>", line 32, column 3
-found duplicate key "snps,dis-split-quirk" with value "{}" (original value: "{}")
-  in "<unicode string>", line 229, column 3
-
-To suppress this check see:
-    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
-
-make[1]: *** [Documentation/devicetree/bindings/Makefile:25: Documentation/devicetree/bindings/usb/snps,dwc3.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-schemas/usb/snps,dwc3.yaml: ignoring, error parsing file
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
-    testtree = dtschema.load(filename, line_number=line_number)
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 656, in load
-    return yaml.load(f.read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 121, in get_single_data
-    return self.construct_document(node)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 131, in construct_document
-    for _dummy in generator:
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 674, in construct_yaml_map
-    value = self.construct_mapping(node)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 445, in construct_mapping
-    return BaseConstructor.construct_mapping(self, node, deep=deep)
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 263, in construct_mapping
-    if self.check_mapping_key(node, key_node, mapping, key, value):
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 294, in check_mapping_key
-    raise DuplicateKeyError(*args)
-ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
-  in "<unicode string>", line 32, column 3
-found duplicate key "snps,dis-split-quirk" with value "{}" (original value: "{}")
-  in "<unicode string>", line 229, column 3
-
-To suppress this check see:
-    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
-    ret = check_doc(f)
-  File "/usr/local/bin/dt-doc-validate", line 30, in check_doc
-    print(filename + ":", exc.path[-1], exc.message, file=sys.stderr)
-AttributeError: 'DuplicateKeyError' object has no attribute 'path'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-make: *** [Makefile:1413: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1571063
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
+index c46400be5464..4f6c0049c534 100644
+--- a/drivers/usb/gadget/function/u_audio.c
++++ b/drivers/usb/gadget/function/u_audio.c
+@@ -1145,7 +1145,7 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ 			}
+ 
+ 			kctl->id.device = pcm->device;
+-			kctl->id.subdevice = i;
++			kctl->id.subdevice = 0;
+ 
+ 			err = snd_ctl_add(card, kctl);
+ 			if (err < 0)
+@@ -1168,7 +1168,7 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ 			}
+ 
+ 			kctl->id.device = pcm->device;
+-			kctl->id.subdevice = i;
++			kctl->id.subdevice = 0;
+ 
+ 
+ 			kctl->tlv.c = u_audio_volume_tlv;
+-- 
+2.25.1
 
