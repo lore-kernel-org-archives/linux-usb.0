@@ -2,72 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 741FFC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 06:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45E76C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 14:32:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237580AbhLTGqf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Dec 2021 01:46:35 -0500
-Received: from mout.gmx.net ([212.227.15.15]:52147 "EHLO mout.gmx.net"
+        id S233674AbhLTOc5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 09:32:57 -0500
+Received: from mga18.intel.com ([134.134.136.126]:26946 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234258AbhLTGqf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 Dec 2021 01:46:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1639982794;
-        bh=2Nl2LaJ3AVazu4emdGuE6HEz4TfBVqejEGlFoWfUqT4=;
-        h=X-UI-Sender-Class:From:To:Date;
-        b=SQBWWvcELYJeAii2OteQpfxGOYjuYXyf+3Mnw8zO++rWCQMCHs7AuEdXC9EFdUV3y
-         W1597vuJgxoGBnfjxTtF/0+FHoSOJFyPa1J2Qk4gWuyAJlUfec8zr2ODIaOA8ZZ8Ev
-         fZ9jrLBNXb8JhD32pBR1leUPbMOTILQrQ39B142Y=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [194.140.113.242] ([194.140.113.242]) by web-mail.gmx.net
- (3c-app-gmx-bs07.server.lan [172.19.170.56]) (via HTTP); Mon, 20 Dec 2021
- 07:46:34 +0100
+        id S233666AbhLTOc5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Dec 2021 09:32:57 -0500
+X-IronPort-AV: E=McAfee;i="6200,9189,10203"; a="227031371"
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
+   d="scan'208";a="227031371"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2021 06:32:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,220,1635231600"; 
+   d="scan'208";a="616414489"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga004.jf.intel.com with ESMTP; 20 Dec 2021 06:32:54 -0800
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+References: <YajkzwmWQua3Kh6A@hirez.programming.kicks-ass.net>
+ <105f35d2-3c53-b550-bfb4-aa340d31128e@linux.intel.com>
+ <88f466ff-a065-1e9a-4226-0abe2e71b686@linux.intel.com>
+ <972a0e28-ad63-9766-88da-02743f80181b@intel.com> <Yao35lElOkwtBYEb@kroah.com>
+ <c2b5c9bb-1b75-bf56-3754-b5b18812d65e@linux.intel.com>
+ <YbyWuxoBSicFBGuv@hirez.programming.kicks-ass.net>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: earlyprintk=xdbc seems broken
+Message-ID: <3281618b-64df-711e-4360-c74e6165d7ed@linux.intel.com>
+Date:   Mon, 20 Dec 2021 16:34:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Message-ID: <trinity-09ddec50-a8ca-4663-ba91-4331ab43c9e4-1639982794116@3c-app-gmx-bs07>
-From:   Ralf Beck <musical_snake@gmx.de>
-To:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8
-Date:   Mon, 20 Dec 2021 07:46:34 +0100
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:zIKfgIMCSE36oRYZIEeaIrHtHCMhTf0Ft3eJMXXlQHI2B1q00AUdG+iREqaFM46tIxYhL
- F7GgUlG32cM9s6QsDyBQjnDeZ+K37MeUGCg3kC89sWzf2Yj1IBwSs+f2WNeZPhRjm5MvwjykFRCs
- NJ6MolB2QcPgUAetyJrVCYt/YO2uVKO6NL3ZqkKYSam5zQR4mXF6jkHeGb6j/n+8S/8zA2PmwPIW
- 3xmy26BSFGjbOnD+ColQS5ETpOpd/W4xKcZ5jjVWVn/NxbbkOFKqVsIeNcsMi4avskVjQahXKdr/
- 3o=
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AA+zFzPvssQ=:QNvnf21kW8FhiqoeaEdJn1
- pPFhjnzPd8x7p5f+p8sodoWR+O9EAIQTgwcRcNBSquzZOGYN+UM2d2RTY6u7zrZzTKx+rpx/N
- QrkSa9eBSSOxEap+7QTDqpedXuqCqz7ePJNLdda0w8usLoB0q3aQ34+GDW0FmVqMs5GvEfdXg
- lR1OAQCM7P253R6A/GwORJ+uNhwAOHzK6wTcPmnc3Rm9K676L5ktipOGo6UQDnM/Mojyqu8iB
- r9atgnUY7KsRN0Es2Yw8vjV9Aq8t+iIfRGyYZ/6PCTyd1a/h7FFgvJVAfSzKOGKT7ba0Ogz9W
- BFDd79Tgb87RQ3pO83I1b575Ozlw5uUokWUgZekHviWdT5xdCfRWILF+XGCUv4UyOGc+LVc7Z
- V9wPSQWaAwN18h0t/YDx6YddGGVirN/8xyxkisab49NMMRJ9Eu3aSRHt/s+fXS/ysdBWMFHRe
- /DloWcH6UZc/S8yUzAWr+DsXaNWQZmyoeK6JEGpfYok8CveMLKwlUhZQib4+wX8jKWa03Tw7Y
- y9tVtxHH1fk5Ls2Vrr7M2rPCsgPQiMMFXOlMm+riDigdTs3PregRcb5d0zcmSyg6Cc5JjbOYE
- IWw0HwP1Yh0/4CbMiU9//+zEWk04SwxeShsBcEQV25KrmKKeX0n7p9CouuUAulUbqgKabax0Y
- C0wc6s7j9Dk5giQdEVmpUMlAe/qPCmtdjCsft++BDS5V7+ADy3g4oCb9quZq4rOPHoHKlBP9H
- jTr6GokJMucrpTvmA2Rf2oiSQD3M+AzORzUXQPOTiGYtz8/WWxU/IVIgjBp0W7mYL+NIKoPKg
- l7OLz8/
+In-Reply-To: <YbyWuxoBSicFBGuv@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On 17.12.2021 15.55, Peter Zijlstra wrote:
+> On Fri, Dec 17, 2021 at 01:01:43PM +0200, Mathias Nyman wrote:
+>> I can reproduce this.
+>> Looks like problems started when driver converted to readl_poll_timeout_atomic() in:
+>>
+>> 796eed4b2342 usb: early: convert to readl_poll_timeout_atomic()
+> 
+> I can confirm, reverting that solves the boot hang, things aren't quite
+> working for me though.
+> 
+>> Seems to hang when read_poll_timeout_atomic() calls ktime_* functions.
+>> Maybe  it's too early for ktime.
+> 
+> It certainly is, using ktime for delay loops sounds daft to me anyhow.
+> 
+>> After reverting that patch it works again for me.
+> 
+> [    0.000000] Command line: BOOT_IMAGE=/boot/vmlinuz-5.16.0-rc3+ root=UUID=a652986c-fbc6-4341-85c3-b4ad4402f130 ro debug ignore_loglevel sysrq_always_enabled usbcore.autosuspend=-1 earlyprintk=xdbc force_early_printk sched_verbose ftrace=nop mitigations=off nokaslr
+> ...
+> [    0.000000] xhci_dbc:early_xdbc_parse_parameter: dbgp_num: 0
+> ...
+> [    3.161367] xhci_dbc:early_xdbc_setup_hardware: failed to setup the connection to host
 
-Currently the usb core is disabling the use of and endpoint, if the endpoint address is present in two different USB interface descriptors within the same USB configuration.
-This behaviour is obviously based on following passage in the USB specification:
+Ok, this is some other issue. I got the boot messages over USB
+(running minicom at the other end, listening to ttyUSB0)
+  
+> 
+> The machine does boot.. but I *am* getting tons of:
+> 
+> [  485.546898] usb usb4-port4: Cannot enable. Maybe the USB cable is bad?
+> [  485.546963] usb usb4-port4: config error
 
-"An endpoint is not shared among interfaces within a single configuration unless the endpoint is used by alternate settings of the same interface."
+This is expected when xhci driver takes over after the early dbc driver,
+xhci driver resets xHC controller, and all ports turn to normal host ports again.
 
-However, this behaviour prevents using some interfaces (in my case the Motu AVB audio devices) in their vendor specific mode.
+Because of the special cable you now have two hosts connected to each other,
+both trying to enumerate a device.
 
-They use a single USB configuration with tqo sets of interfaces, which use the same isochronous entpoint numbers.
+This whole transition from earlyprintk xdbc to normal xhci driver is 
+not very userfriendly.
 
-One set with audio class specific interfaces for use by an audi class driver.
-The other set with vendor specific interfaces for use by the vendor driver.
-Obviously the class specific interfaces and vendor specific interfaces are not intended to be use by a driver simultaniously.
+> 
+> However, when I do:
+> 
+> $ echo enable > /sys/bus/pci/devices/0000:00:14.0/dbc
+> 
 
-There must be another solution to deal with this. It is unacceptable to request a user of these devices to have to disablethe duplicate endpoint check and recompile the kernel on every update in order to be able to use their devices in vendor mode.
+Yes, this works as it turns on the DbC feature on in xHC hardware,
+which turns the first USB port into a usb device.
 
-Sincerly,
-Ralf Beck
+Thanks
+-Mathias
