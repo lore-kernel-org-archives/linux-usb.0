@@ -2,22 +2,22 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5E7C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 01:04:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34264C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 01:04:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237056AbhLTBEv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Dec 2021 20:04:51 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:1252 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S237029AbhLTBEj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Dec 2021 20:04:39 -0500
+        id S237097AbhLTBEw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 19 Dec 2021 20:04:52 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:59820 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S237091AbhLTBEs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Dec 2021 20:04:48 -0500
 X-IronPort-AV: E=Sophos;i="5.88,219,1635174000"; 
-   d="scan'208";a="104485876"
+   d="scan'208";a="104020246"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Dec 2021 10:04:38 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 20 Dec 2021 10:04:47 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B2318416745E;
-        Mon, 20 Dec 2021 10:04:35 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 33494416745E;
+        Mon, 20 Dec 2021 10:04:45 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -31,9 +31,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
 Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 3/6] usb: dwc3: Drop unneeded calls to platform_get_resource_byname()
-Date:   Mon, 20 Dec 2021 01:04:08 +0000
-Message-Id: <20211220010411.12075-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 6/6] usb: musb: dsps: Use platform_get_irq_byname() to get the interrupt
+Date:   Mon, 20 Dec 2021 01:04:11 +0000
+Message-Id: <20211220010411.12075-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211220010411.12075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20211220010411.12075-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
@@ -41,108 +41,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop unneeded calls to platform_get_resource_byname() from
-dwc3_host_init(). dwc3_host_init() already calls dwc3_host_get_irq()
-which gets the irq number, just use this to get the IRQ resource data
-and fill the xhci_resources[1]
+platform_get_resource_byname(pdev, IORESOURCE_IRQ, ..) relies on static
+allocation of IRQ resources in DT core code, this causes an issue
+when using hierarchical interrupt domains using "interrupts" property
+in the node as this bypasses the hierarchical setup and messes up the
+irq chaining.
+
+In preparation for removal of static setup of IRQ resource from DT core
+code use platform_get_irq_byname().
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/usb/dwc3/host.c | 45 ++++++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 19 deletions(-)
+ drivers/usb/musb/musb_dsps.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index f29a264635aa..eda871973d6c 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -8,32 +8,55 @@
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index b5935834f9d2..f75cde0f2b43 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -15,6 +15,7 @@
   */
  
- #include <linux/acpi.h>
+ #include <linux/io.h>
 +#include <linux/irq.h>
-+#include <linux/of.h>
+ #include <linux/err.h>
  #include <linux/platform_device.h>
+ #include <linux/dma-mapping.h>
+@@ -739,12 +740,14 @@ static int dsps_create_musb_pdev(struct dsps_glue *glue,
+ 	}
+ 	resources[0] = *res;
  
- #include "core.h"
- 
-+static void dwc3_host_fill_xhci_irq_res(struct dwc3 *dwc,
-+					int irq, char *name)
-+{
-+	struct platform_device *pdev = to_platform_device(dwc->dev);
-+	struct device_node *np = dev_of_node(&pdev->dev);
+-	res = platform_get_resource_byname(parent, IORESOURCE_IRQ, "mc");
+-	if (!res) {
+-		dev_err(dev, "failed to get irq.\n");
+-		return -EINVAL;
+-	}
+-	resources[1] = *res;
++	ret = platform_get_irq_byname(parent, "mc");
++	if (ret < 0)
++		return ret;
 +
-+	dwc->xhci_resources[1].start = irq;
-+	dwc->xhci_resources[1].end = irq;
-+	dwc->xhci_resources[1].flags = IORESOURCE_IRQ | irq_get_trigger_type(irq);
-+	if (!name && np)
-+		dwc->xhci_resources[1].name = of_node_full_name(pdev->dev.of_node);
-+	else
-+		dwc->xhci_resources[1].name = name;
-+}
-+
- static int dwc3_host_get_irq(struct dwc3 *dwc)
- {
- 	struct platform_device	*dwc3_pdev = to_platform_device(dwc->dev);
- 	int irq;
++	resources[1].start = ret;
++	resources[1].end = ret;
++	resources[1].flags = IORESOURCE_IRQ | irq_get_trigger_type(ret);
++	resources[1].name = "mc";
  
- 	irq = platform_get_irq_byname_optional(dwc3_pdev, "host");
--	if (irq > 0)
-+	if (irq > 0) {
-+		dwc3_host_fill_xhci_irq_res(dwc, irq, "host");
- 		goto out;
-+	}
- 
- 	if (irq == -EPROBE_DEFER)
- 		goto out;
- 
- 	irq = platform_get_irq_byname_optional(dwc3_pdev, "dwc_usb3");
--	if (irq > 0)
-+	if (irq > 0) {
-+		dwc3_host_fill_xhci_irq_res(dwc, irq, "dwc_usb3");
- 		goto out;
-+	}
- 
- 	if (irq == -EPROBE_DEFER)
- 		goto out;
- 
- 	irq = platform_get_irq(dwc3_pdev, 0);
--	if (irq > 0)
-+	if (irq > 0) {
-+		dwc3_host_fill_xhci_irq_res(dwc, irq, NULL);
- 		goto out;
-+	}
- 
- 	if (!irq)
- 		irq = -EINVAL;
-@@ -47,28 +70,12 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	struct property_entry	props[4];
- 	struct platform_device	*xhci;
- 	int			ret, irq;
--	struct resource		*res;
--	struct platform_device	*dwc3_pdev = to_platform_device(dwc->dev);
- 	int			prop_idx = 0;
- 
- 	irq = dwc3_host_get_irq(dwc);
- 	if (irq < 0)
- 		return irq;
- 
--	res = platform_get_resource_byname(dwc3_pdev, IORESOURCE_IRQ, "host");
--	if (!res)
--		res = platform_get_resource_byname(dwc3_pdev, IORESOURCE_IRQ,
--				"dwc_usb3");
--	if (!res)
--		res = platform_get_resource(dwc3_pdev, IORESOURCE_IRQ, 0);
--	if (!res)
--		return -ENOMEM;
--
--	dwc->xhci_resources[1].start = irq;
--	dwc->xhci_resources[1].end = irq;
--	dwc->xhci_resources[1].flags = res->flags;
--	dwc->xhci_resources[1].name = res->name;
--
- 	xhci = platform_device_alloc("xhci-hcd", PLATFORM_DEVID_AUTO);
- 	if (!xhci) {
- 		dev_err(dwc->dev, "couldn't allocate xHCI device\n");
+ 	/* allocate the child platform device */
+ 	musb = platform_device_alloc("musb-hdrc",
 -- 
 2.17.1
 
