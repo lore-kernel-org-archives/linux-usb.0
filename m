@@ -2,205 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3633CC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 12:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C63DEC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 12:39:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232683AbhLTMZz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Dec 2021 07:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232572AbhLTMZh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Dec 2021 07:25:37 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A71A5C06175E
-        for <linux-usb@vger.kernel.org>; Mon, 20 Dec 2021 04:25:28 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id o20so37454617eds.10
-        for <linux-usb@vger.kernel.org>; Mon, 20 Dec 2021 04:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Hl+ryow41wi2SaGEsd9ekcLiVIZ1XeLL/2x+u6A5DI4=;
-        b=ySXDbKpAQDvqd1KrQTCpKrrUdahL3ZhLdFVTEKN/Q2EKUyM05WYjpqrSUoJGpxmpjV
-         6IwEyq4mqK7OUfprSz7xlHYLVDBOanZrlb7dP0BqgCk1+mGUzrcChGv+KXCwGkV+5dm6
-         y3Rn78yADkPHO4MgtvQASZx53Ae6lGFDrEj+397ljnhlhvhsqeWZLv6/0xJ9aryUGN/q
-         RF/UR+BRbaCfazfb/NRQU8sJn2kzA5v6k1IAax8NCP6tIHxvkUHU1E1Sic8OKBBhf19H
-         nJu0cHsL9WM9sw6PCLhkR4i4cERgq1x4csGvShaKXZk+anad3qJcz/tz28LwHujjC08z
-         S6FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Hl+ryow41wi2SaGEsd9ekcLiVIZ1XeLL/2x+u6A5DI4=;
-        b=1SupUqqvp4O3Ic9YsvxtML6Ftqo8DsAJhEJyiLsl5sO1yfT/I0JD/3KJKMurnwFM3o
-         Cj/nJDJVV1knaHsxBpCZitEgAFQQh9gkIxw620yn3iDY5ghzihjCnJ1Q7Fi7Wl0osdx+
-         2x68uKcTrdcLdSUr/BX+KdtxZMHy+wysQgsozBCIXpgCo1gwYg/MgzrWMpgYCB0v71cY
-         qMf773ogUzZBVh6tM/69DSWtdCRbZteGVGRwLz6zDZhF9RBcgp9NxAqvayAUdfpQU320
-         kL7nA3x9zVO0ac7MUWOdrymdQSbEoZB9uW6G008K1VqQUfhl9t95It+o3HaJXalXGZwN
-         9jcg==
-X-Gm-Message-State: AOAM532ZE5BcYj42Uje2fwCOrEWqBbP7eOOJJ+MIUgpGq8Bcr2dVkRUo
-        4A3rmyrqG90CwnmnGibHWBVkgQ==
-X-Google-Smtp-Source: ABdhPJz8Er9dgu/RM1Q8UYWfCgZhMuHYfuPV3UUY5O/KX+SXO9evYAOe/OrFlAxOKtfwPpm4d1c4Zg==
-X-Received: by 2002:a17:906:6996:: with SMTP id i22mr13335152ejr.293.1640003127203;
-        Mon, 20 Dec 2021 04:25:27 -0800 (PST)
-Received: from localhost (c-9b28e555.07-21-73746f28.bbcust.telenor.se. [85.229.40.155])
-        by smtp.gmail.com with ESMTPSA id y5sm3044716edm.39.2021.12.20.04.25.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Dec 2021 04:25:26 -0800 (PST)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     stable@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, woojung.huh@microchip.com,
-        UNGLinuxDriver@microchip.com, davem@davemloft.net,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        clang-built-linux@googlegroups.com, ulli.kroll@googlemail.com,
-        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
-        amitkarwar@gmail.com, nishants@marvell.com, gbhat@marvell.com,
-        huxinming820@gmail.com, kvalo@codeaurora.org,
-        linux-wireless@vger.kernel.org, rostedt@goodmis.org,
-        mingo@redhat.com, dmitry.torokhov@gmail.com,
+        id S231143AbhLTMjW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 07:39:22 -0500
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:43765 "EHLO
+        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229820AbhLTMjV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Dec 2021 07:39:21 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.west.internal (Postfix) with ESMTP id D5FB92B000C1;
+        Mon, 20 Dec 2021 07:39:15 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 20 Dec 2021 07:39:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=UEKM6353gMtwbj5uogFb1YAwTYE
+        FzwELjSHU5Fnkdf8=; b=iIAdXOiq3/2RZ+MW8h/Q08xYleWGDB+LiyX4prk6Bv6
+        LzAdJhsSIbXe1+aSSuLNslV7ZMnraXfPYMBmotXtmpMuM0ydyS47oS7Fen84IBEv
+        +x1eaJbHzOPeWtLuv4C7HqUgpRj9VC1t3yEEo3eAEKPw7lyELdyXvhkgviWpZjsh
+        Kt+wEE3WkP5LZvXaZobaItNS+oI+v61c5VmTnoJ8sl3CXMbIRy9WTeqnYEPRuycs
+        fHymhPlOtzfUvt5/gIihvGHT44SrPEV3/8K8urCHwk7olWTqhaZGaicJxCeHEAl0
+        qovzHpXvpF76rxdBN5einCAHctLJ0PYItYqFNsr+hpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=UEKM63
+        53gMtwbj5uogFb1YAwTYEFzwELjSHU5Fnkdf8=; b=RS+LveO7MG3CQJt2y+3Oz/
+        BjiLK8cdwJUuZ8DeYJjBHGJP6Vc5hsaVJxKV3Aqo1k+6uu2bZKXYD99EipOhXECG
+        AOhA+M81AgTERl0O1Iz2sUKN0gONuS0DgQ6bQS51k7ym5R+ncHfuqrsTeJAZE6O6
+        sbNfgsBwTDNo3AIT57xZQ/t7JxmJSCXsBSc4sDI5Ph+3Z8kSAn5qOfZuKrUCdIur
+        oefqk9ZpYSlu19V1fBsACVHpBTXQyjvEY8hEYxJHrMwLEflXg2/sOiNdRoceARuu
+        Aq6De7UCTQYTxqblVlGmhVsyppBkthMmncb2GmWPqJRNzYckds/WpfQAczPVE3Gw
+        ==
+X-ME-Sender: <xms:cnnAYVTeIaz3W5-lKbZ4QsA87-e6sD8tfg5PGWAHqjhq3EYe3wm00g>
+    <xme:cnnAYew9kc3u4P0-FYddHrmgoc9os6LHwxcc_KJXnR3w9NxqDgiaukqxP1WjsUcUG
+    _YGUSpuQ1-HFw>
+X-ME-Received: <xmr:cnnAYa29abms16yQYDwTh_a-91-y7pf82VjsGgm6RWnXfROpBD81CumwZc1Kh59i_t6Jlo6uoJx8PxkcVJRc4OtfXnfjWSzS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtvddggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
+    vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+    drtghomh
+X-ME-Proxy: <xmx:cnnAYdCczhiKrP_qvxqIJ8jUmnIPab60PWh-JHnYf84tTQ35kficzQ>
+    <xmx:cnnAYeho31zb2JpAAllfw_cj09IXVsNEW3D2Fo24788vXuTRIqbVfw>
+    <xmx:cnnAYRq3Jqp1UQOCwEsIbZucbJLIhMDV1bprGLNhNH_uaY_fwC2hyQ>
+    <xmx:c3nAYUIp5PIKsl0Pm2qQWT3hoGvd0E3V22bmR-HxIkwLrL9gAwEWKtQKyf4>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Dec 2021 07:39:13 -0500 (EST)
+Date:   Mon, 20 Dec 2021 13:39:11 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Anders Roxell <anders.roxell@linaro.org>
+Cc:     stable@vger.kernel.org, linux-kernel@vger.kernel.org,
+        woojung.huh@microchip.com, UNGLinuxDriver@microchip.com,
+        davem@davemloft.net, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, clang-built-linux@googlegroups.com,
+        ulli.kroll@googlemail.com, linux@armlinux.org.uk,
+        linux-arm-kernel@lists.infradead.org, amitkarwar@gmail.com,
+        nishants@marvell.com, gbhat@marvell.com, huxinming820@gmail.com,
+        kvalo@codeaurora.org, linux-wireless@vger.kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, dmitry.torokhov@gmail.com,
         ndesaulniers@google.com, nathan@kernel.org,
         linux-input@vger.kernel.org, Stefan Agner <stefan@agner.ch>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH 4.14 4/6] ARM: 8800/1: use choice for kernel unwinders
-Date:   Mon, 20 Dec 2021 13:25:04 +0100
-Message-Id: <20211220122506.3631672-5-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20211220122506.3631672-1-anders.roxell@linaro.org>
+        Russell King <rmk+kernel@armlinux.org.uk>
+Subject: Re: [PATCH 4.14 5/6] ARM: 8788/1: ftrace: remove old mcount support
+Message-ID: <YcB5b65dVUIhzgIh@kroah.com>
 References: <20211220122506.3631672-1-anders.roxell@linaro.org>
+ <20211220122506.3631672-6-anders.roxell@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211220122506.3631672-6-anders.roxell@linaro.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Stefan Agner <stefan@agner.ch>
+On Mon, Dec 20, 2021 at 01:25:05PM +0100, Anders Roxell wrote:
+> From: Stefan Agner <stefan@agner.ch>
+> 
+> commit d3c61619568c88d48eccd5e74b4f84faa1440652 upstream.
+> 
+> Commit cafa0010cd51 ("Raise the minimum required gcc version to 4.6")
 
-commit f9b58e8c7d031b0daa5c9a9ee27f5a4028ba53ac upstream.
+That commit is in 4.19, not 4.14.  So are you SURE this is ok for 4.14
+and older kernels?
 
-While in theory multiple unwinders could be compiled in, it does
-not make sense in practise. Use a choice to make the unwinder
-selection mutually exclusive and mandatory.
+> raised the minimum GCC version to 4.6. Old mcount is only required for
+> GCC versions older than 4.4.0. Hence old mcount support can be dropped
+> too.
 
-Already before this commit it has not been possible to deselect
-FRAME_POINTER. Remove the obsolete comment.
+And as I asked on the 4.19 submission of this patch, what does this have
+to do with clang?
 
-Furthermore, to produce a meaningful backtrace with FRAME_POINTER
-enabled the kernel needs a specific function prologue:
-    mov    ip, sp
-    stmfd    sp!, {fp, ip, lr, pc}
-    sub    fp, ip, #4
+thanks,
 
-To get to the required prologue gcc uses apcs and no-sched-prolog.
-This compiler options are not available on clang, and clang is not
-able to generate the required prologue. Make the FRAME_POINTER
-config symbol depending on !clang.
-
-Suggested-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Stefan Agner <stefan@agner.ch>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Russell King <rmk+kernel@armlinux.org.uk>
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- arch/arm/Kconfig.debug | 44 +++++++++++++++++++++++++++---------------
- lib/Kconfig.debug      |  6 +++---
- 2 files changed, 31 insertions(+), 19 deletions(-)
-
-diff --git a/arch/arm/Kconfig.debug b/arch/arm/Kconfig.debug
-index b14f154919a5..d6cf18a0cb0a 100644
---- a/arch/arm/Kconfig.debug
-+++ b/arch/arm/Kconfig.debug
-@@ -16,30 +16,42 @@ config ARM_PTDUMP
- 	  kernel.
- 	  If in doubt, say "N"
- 
--# RMK wants arm kernels compiled with frame pointers or stack unwinding.
--# If you know what you are doing and are willing to live without stack
--# traces, you can get a slightly smaller kernel by setting this option to
--# n, but then RMK will have to kill you ;).
--config FRAME_POINTER
--	bool
--	depends on !THUMB2_KERNEL
--	default y if !ARM_UNWIND || FUNCTION_GRAPH_TRACER
-+choice
-+	prompt "Choose kernel unwinder"
-+	default UNWINDER_ARM if AEABI && !FUNCTION_GRAPH_TRACER
-+	default UNWINDER_FRAME_POINTER if !AEABI || FUNCTION_GRAPH_TRACER
-+	help
-+	  This determines which method will be used for unwinding kernel stack
-+	  traces for panics, oopses, bugs, warnings, perf, /proc/<pid>/stack,
-+	  livepatch, lockdep, and more.
-+
-+config UNWINDER_FRAME_POINTER
-+	bool "Frame pointer unwinder"
-+	depends on !THUMB2_KERNEL && !CC_IS_CLANG
-+	select ARCH_WANT_FRAME_POINTERS
-+	select FRAME_POINTER
- 	help
--	  If you say N here, the resulting kernel will be slightly smaller and
--	  faster. However, if neither FRAME_POINTER nor ARM_UNWIND are enabled,
--	  when a problem occurs with the kernel, the information that is
--	  reported is severely limited.
-+	  This option enables the frame pointer unwinder for unwinding
-+	  kernel stack traces.
- 
--config ARM_UNWIND
--	bool "Enable stack unwinding support (EXPERIMENTAL)"
-+config UNWINDER_ARM
-+	bool "ARM EABI stack unwinder"
- 	depends on AEABI
--	default y
-+	select ARM_UNWIND
- 	help
- 	  This option enables stack unwinding support in the kernel
- 	  using the information automatically generated by the
- 	  compiler. The resulting kernel image is slightly bigger but
- 	  the performance is not affected. Currently, this feature
--	  only works with EABI compilers. If unsure say Y.
-+	  only works with EABI compilers.
-+
-+endchoice
-+
-+config ARM_UNWIND
-+	bool
-+
-+config FRAME_POINTER
-+	bool
- 
- config OLD_MCOUNT
- 	bool
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 428eaf16a1d2..f63a4faf244e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1131,7 +1131,7 @@ config LOCKDEP
- 	bool
- 	depends on DEBUG_KERNEL && TRACE_IRQFLAGS_SUPPORT && STACKTRACE_SUPPORT && LOCKDEP_SUPPORT
- 	select STACKTRACE
--	select FRAME_POINTER if !MIPS && !PPC && !ARM_UNWIND && !S390 && !MICROBLAZE && !ARC && !SCORE && !X86
-+	select FRAME_POINTER if !MIPS && !PPC && !ARM && !S390 && !MICROBLAZE && !ARC && !SCORE && !X86
- 	select KALLSYMS
- 	select KALLSYMS_ALL
- 
-@@ -1566,7 +1566,7 @@ config FAULT_INJECTION_STACKTRACE_FILTER
- 	depends on FAULT_INJECTION_DEBUG_FS && STACKTRACE_SUPPORT
- 	depends on !X86_64
- 	select STACKTRACE
--	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM_UNWIND && !ARC && !SCORE && !X86
-+	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !SCORE && !X86
- 	help
- 	  Provide stacktrace filter for fault-injection capabilities
- 
-@@ -1575,7 +1575,7 @@ config LATENCYTOP
- 	depends on DEBUG_KERNEL
- 	depends on STACKTRACE_SUPPORT
- 	depends on PROC_FS
--	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM_UNWIND && !ARC && !X86
-+	select FRAME_POINTER if !MIPS && !PPC && !S390 && !MICROBLAZE && !ARM && !ARC && !X86
- 	select KALLSYMS
- 	select KALLSYMS_ALL
- 	select STACKTRACE
--- 
-2.34.1
-
+greg k-h
