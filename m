@@ -2,82 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD082C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 03:28:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8645C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Dec 2021 06:50:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234070AbhLTD2w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 19 Dec 2021 22:28:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233995AbhLTD2v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 19 Dec 2021 22:28:51 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10440C061574;
-        Sun, 19 Dec 2021 19:28:51 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id x21so10316591lfa.5;
-        Sun, 19 Dec 2021 19:28:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fRcTObY/+9A4hixoekg+KAnW7I8Bz5CnTH8eOyUtBR8=;
-        b=llE/Xtta9p8PDPP2HjgM4E2Fdmz/7/XHPUSymjov1e3QjqtwtDcQHM1zauXoPq2o3E
-         Uh5NBEB5UlM2cw6vu4gU8kHtlcFZzceFQ2JuH0psRovlJSJU5zIXLE7Ai4nb0fvIDSoL
-         NQwxtw7jHRxvUkNAIxhurHOhZd41+mOpcHzintP82eG9pc3OEydxz+XJAAwYHT40amR3
-         kX7YRkc/Lap7oSZ+t0EyEh4bLIqlEwb7FCKDk0qUO0GMXUzq0WRJpdL+yiAbB+MIk8h2
-         WQLP7hiXfZDpljJq3jUGi8nTGZt9GMoxtcEquDmE2K1dGsLBnHEIlaw2NUkrXhYm8m+K
-         TMMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fRcTObY/+9A4hixoekg+KAnW7I8Bz5CnTH8eOyUtBR8=;
-        b=LVuTZfFqfW2APKC9lqhYaYsJjWhGZrHakQzSe0UXBE6nCHK3vNXOT6pyGI2ITdUYu3
-         uT2crPa/iKRjC40kQt9RNCCpmKAx2z/Y3P691RDK1a/94ziLoN8fVyYZZfWuHmGBslCQ
-         BGIFTDpC+I44ugSUyEScQTsmJp+dKXqD8gylQUHeiAoSoB0V/aSa6/eHtyF3N/YmwTXb
-         ZJ/mPzmzGU/jrcDzMX8CL+zgbdAKIxfCnDQMr2wx8OBE2PHLuT0VlFnpxyAekbesgVPH
-         QnoN9N+BF5c4vM65r/25GTLGVdG52w/muIflG474DR9Q9mFDhtNqe3oxbSIVpGZ6wIvt
-         SWWw==
-X-Gm-Message-State: AOAM533JzogozXziwaD38yjvnsal3Q7mNAyP6k0B+FU/7Q/o2JsXymfS
-        HQuFfMLoe1oa0v8pUH0tO5gVsD0Roxn8x6ovVx5PUz81
-X-Google-Smtp-Source: ABdhPJx2BwtN5YBznRrSXCI2e7hzjlnUteNBIeZR4uHN5mmQ2tL3lJA8R5TRygaRR22/4cLFWEr0EEQ9p+Rr5MGpvMo=
-X-Received: by 2002:a05:6512:a8d:: with SMTP id m13mr13938249lfu.638.1639970929272;
- Sun, 19 Dec 2021 19:28:49 -0800 (PST)
+        id S237586AbhLTGuI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Dec 2021 01:50:08 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:39018 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234245AbhLTGuI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 20 Dec 2021 01:50:08 -0500
+Received: from localhost.localdomain (unknown [124.16.138.126])
+        by APP-01 (Coremail) with SMTP id qwCowADX3Z2LJ8BhM+lcBA--.36169S2;
+        Mon, 20 Dec 2021 14:49:49 +0800 (CST)
+From:   Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To:     ok@artecdesign.ee, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH] USB: host: Check for null res pointer
+Date:   Mon, 20 Dec 2021 14:49:46 +0800
+Message-Id: <20211220064946.817004-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211212115506.180629-1-gnurou@gmail.com> <9b20ae5d-be8f-59dd-3136-2a9f7ce216e9@suse.com>
- <CAAVeFu+sLzNUztnW4Vyr6ukCyjxTwCT-L4Y2xEWsRx=CPuarPw@mail.gmail.com> <c4b4aa34-12d9-7000-6398-d94a7ebffdfc@suse.com>
-In-Reply-To: <c4b4aa34-12d9-7000-6398-d94a7ebffdfc@suse.com>
-From:   Alexandre Courbot <gnurou@gmail.com>
-Date:   Mon, 20 Dec 2021 12:28:36 +0900
-Message-ID: <CAAVeFuJ+kSW9KNOwa_bTzbbeZ=-LfnvL4MR2hDqCsykkdqkKLQ@mail.gmail.com>
-Subject: Re: [usb-storage] Re: [PATCH] usb: storage: do not use UAS with
- Logitec LGB-4BNHUC
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: qwCowADX3Z2LJ8BhM+lcBA--.36169S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5ZF48KFyxCry3GFy8Krg_yoWDWFg_Cw
+        4F9rn5Kr1DCFn0ya18Ar13C392vwsrWr45u3W8ta4avryjqw17G3yDurWfAF98Xw4DAryD
+        GryDArs3Z345ZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+        jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8AwCF
+        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU24E_UUUUU=
+X-Originating-IP: [124.16.138.126]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Dec 15, 2021 at 11:03 PM Oliver Neukum <oneukum@suse.com> wrote:
->
->
-> On 15.12.21 12:41, Alexandre Courbot wrote:
-> > Unfortunately I am not familiar with the storage subsystem so I'm not
-> > sure which quirks would be good candidates to try, would you have
-> > suggestions? As for the command, reproduction is rather random and I
-> > did not keep traces of all instances.
->
-> Hi,
->
->
-> could you try "fgkm" ?
+The return value of platform_get_resource() needs to be checked.
+To avoid use of error pointer in case of the failure of alloc.
 
-Trying with this and will narrow down if it looks stable. Please
-expect a few weeks before the (hopefully more refined) patch.
+Fixes: 4808a1c02611 ("[PATCH] USB: Add isp116x-hcd USB host controller driver")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+ drivers/usb/host/isp116x-hcd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
-Alex.
+diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
+index 8835f6bd528e..addd2b43a14c 100644
+--- a/drivers/usb/host/isp116x-hcd.c
++++ b/drivers/usb/host/isp116x-hcd.c
+@@ -1541,9 +1541,15 @@ static int isp116x_remove(struct platform_device *pdev)
+ 
+ 	iounmap(isp116x->data_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	if (!res)
++		return -EINVAL;
++
+ 	release_mem_region(res->start, 2);
+ 	iounmap(isp116x->addr_reg);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -EINVAL;
++
+ 	release_mem_region(res->start, 2);
+ 
+ 	usb_put_hcd(hcd);
+-- 
+2.25.1
+
