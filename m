@@ -2,92 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EE6C433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Dec 2021 13:19:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC945C433FE
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Dec 2021 13:29:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbhLZNTQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Dec 2021 08:19:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32838 "EHLO
+        id S233573AbhLZN3n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Dec 2021 08:29:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232345AbhLZNTQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Dec 2021 08:19:16 -0500
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF4E5C06173E;
-        Sun, 26 Dec 2021 05:19:15 -0800 (PST)
-Received: by mail-il1-x130.google.com with SMTP id b1so10091973ilj.2;
-        Sun, 26 Dec 2021 05:19:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ca8Aisgix/GZk82j87aGdziJ5JrKmEcmyharhQENfZU=;
-        b=fRtqps8HnJ4GAGhNoR3nkUdmGGsyM40xM8FlmjRoKq/w8a8FGmOph5MPkMNqokZ2Rj
-         25D0ZYz8UKh4bZZ+YEmCCS08kJimOwvxO9uzrdCTyX9M7zNJTCcmXoI7/zeDtTseKe7m
-         ql/AWKN4YxM8vHPbH6e4WWECaeSuNQvI36WvZobJjq/Q0NZAKaBm+pQgs7HK7izrdO9/
-         2GyyCuBmJo9XWP9JtBSupK/tifqmoZPiatXwCWimT6uVsjqqR/PmisE98FPxOD8o26rP
-         jysnpXY/GA7TgOCmUGq4Dd/kPwmTUY4xN1HcLAVmu9Rcnxq2w+SBk+j02jrXL9Qura+F
-         BcQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ca8Aisgix/GZk82j87aGdziJ5JrKmEcmyharhQENfZU=;
-        b=mLo/iaHOCVku8zKqEDeP5ZdHEClYHCk2REdl390sHCnNJzwQH2QfijM3+wO5QxXw1D
-         OsRMkaHySGgnYbYI6PeXdNNvgvC8ER7erATOsCJKNPNe0rd3UL+Zf1TcDmJYh7cbQi7P
-         4RcBybNhNmaF0wfE5P5dZiE8XAIyLcsOGJ+h2OQNDj2CkCTjO8o6xp+qJiTYUFmfjSZP
-         XS7Zy1+1COQbyohCBkixn/aty2G8xq1Etb7GD/RCfRNMjJMh1AfmeCAqQkxIXi0qX5l0
-         bAUAp1qce+swr3kZzhM8mZjvZR42LgJCGCPYijAReDvKNATbfXgkW7HlesM7e0xixLIv
-         W3fg==
-X-Gm-Message-State: AOAM5302+Wtw5sHIY+WikhPNTIfK9WpJma4K0h6R8IPSK5+VAfK8d8Ht
-        x8kVBtdJlBOoyldvDmow4VO0eQx8oNq0gOK/C6fmJ3jAR/4=
-X-Google-Smtp-Source: ABdhPJyNz8OwBngtrRAlXpFx+cXCoXB9vy82xHQ64k8bUNqRL/UzBH5Jk7HtQTdTX7UTv2Q9lmQooNNiOtxzT4Ff1dY=
-X-Received: by 2002:a05:6e02:1bec:: with SMTP id y12mr6357024ilv.233.1640524755174;
- Sun, 26 Dec 2021 05:19:15 -0800 (PST)
+        with ESMTP id S232345AbhLZN3m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Dec 2021 08:29:42 -0500
+X-Greylist: delayed 254 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 26 Dec 2021 05:29:42 PST
+Received: from mirix.in-vpn.de (mirix.in-vpn.de [IPv6:2001:67c:1407:a0::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FE35C06173E;
+        Sun, 26 Dec 2021 05:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mirix.org;
+        s=43974b1a7d21b2cf; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+        Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=htuYveoisK6rglAz8iXUOUxqkcJZuLcbQvz/xoYi8kM=; b=P/A6jJjv0gkVDD+z5y10YSfPaS
+        1SAOT61mHF8RUIQlVxE+TdZNnssy2KBu9fHdxmUhjz9/lfNihojrzHjreU+GsNM6DoW8Pat/RD7ph
+        melBp0FWSfdaw2cly/OU8eOTTWq8Q7agFv9RUCpZ+fl8HAwdFjuROnMPxGRLUAdySJhGCDCvRb1Rw
+        WPyYXL/lyN+i/PwwD6osMuutYwpHv8DGZnU50nUos1NoxaNCa9+ypItfUmLWogg14yD5wAA1Qfrr4
+        25ftZCBqrRR0XIZXzw/R5RtmvZuez16SCW/n432lggFC6sMPJBnXEl6jbw6/3DHCoP+Ak+rEBGNyB
+        TLEzMv7Q==;
+Received: from [::1] (helo=localhost.localdomain)
+        by mirix.in-vpn.de with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim)
+        id 1n1Tal-0005oZ-OR; Sun, 26 Dec 2021 13:29:39 +0000
+From:   Matthias-Christian Ott <ott@mirix.org>
+To:     Petko Manolov <petkan@nucleusys.com>
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        Matthias-Christian Ott <ott@mirix.org>
+Subject: [PATCH] net: usb: pegasus: Do not drop long Ethernet frames
+Date:   Sun, 26 Dec 2021 14:29:30 +0100
+Message-Id: <20211226132930.7220-1-ott@mirix.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <f55721ade28b2715eaf54b28a1bbfaad7b5adc0d.1640471342.git.andreyknvl@gmail.com>
- <Ycgi7GiU2udbjF2f@kroah.com>
-In-Reply-To: <Ycgi7GiU2udbjF2f@kroah.com>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Sun, 26 Dec 2021 14:19:04 +0100
-Message-ID: <CA+fCnZeC8PbDg_E3WWtqGBAwUs65Y7=b5DG=whN-CaOEs5uS7g@mail.gmail.com>
-Subject: Re: [PATCH] usb: raw-gadget: upgrade license identifier
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     andrey.konovalov@linux.dev, Felipe Balbi <balbi@kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Dec 26, 2021 at 9:08 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Dec 25, 2021 at 11:32:36PM +0100, andrey.konovalov@linux.dev wrote:
-> > From: Andrey Konovalov <andreyknvl@gmail.com>
-> >
-> > Most of the USB gadget modules are licensed as GPL-2.0+. There is no
-> > reason not to allow using Raw Gadget code under a newer GPL version.
-> >
-> > Change SPDX identifier from GPL-2.0 to GPL-2.0+.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
-> >
-> > ---
-> >
-> > I don't know whether such license change is possible and what it
-> > requires.
->
-> It requires the copyright holder to agree to change the license, as well
-> as anyone who as contributed to it.  If you so desire to do this, please
-> work with them and get the lawyers for those entities to sign off on the
-> patch and I will be glad to take it.
+The D-Link DSB-650TX (2001:4002) is unable to receive Ethernet frames
+that are longer than 1518 octets, for example, Ethernet frames that
+contain 802.1Q VLAN tags.
 
-Ah, never mind this patch then. I don't care enough to bother with
-this. I'm not even sure what the difference is, but having less
-restrictions seems better.
+The frames are sent to the pegasus driver via USB but the driver
+discards them because they have the Long_pkt field set to 1 in the
+received status report. The function read_bulk_callback of the pegasus
+driver treats such received "packets" (in the terminology of the
+hardware) as errors but the field simply does just indicate that the
+Ethernet frame (MAC destination to FCS) is longer than 1518 octets.
 
-I wonder if checkpatch could alert about considering GPL-2.0+ when
-adding new files.
+It seems that in the 1990s there was a distinction between
+"giant" (> 1518) and "runt" (< 64) frames and the hardware includes
+flags to indicate this distinction. It seems that the purpose of the
+distinction "giant" frames was to not allow infinitely long frames due
+to transmission errors and to allow hardware to have an upper limit of
+the frame size. However, the hardware already has such limit with its
+2048 octet receive buffer and, therefore, Long_pkt is merely a
+convention and should not be treated as a receive error.
 
-Thanks!
+Actually, the hardware is even able to receive Ethernet frames with 2048
+octets which exceeds the claimed limit frame size limit of the driver of
+1536 octets (PEGASUS_MTU).
+
+Signed-off-by: Matthias-Christian Ott <ott@mirix.org>
+---
+ drivers/net/usb/pegasus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
+index 140d11ae6688..2582daf23015 100644
+--- a/drivers/net/usb/pegasus.c
++++ b/drivers/net/usb/pegasus.c
+@@ -499,11 +499,11 @@ static void read_bulk_callback(struct urb *urb)
+ 		goto goon;
+ 
+ 	rx_status = buf[count - 2];
+-	if (rx_status & 0x1e) {
++	if (rx_status & 0x1c) {
+ 		netif_dbg(pegasus, rx_err, net,
+ 			  "RX packet error %x\n", rx_status);
+ 		net->stats.rx_errors++;
+-		if (rx_status & 0x06)	/* long or runt	*/
++		if (rx_status & 0x04)	/* runt	*/
+ 			net->stats.rx_length_errors++;
+ 		if (rx_status & 0x08)
+ 			net->stats.rx_crc_errors++;
+-- 
+2.30.2
+
