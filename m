@@ -2,101 +2,159 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D225AC433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 26 Dec 2021 17:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33112C433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 26 Dec 2021 22:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232911AbhLZRSv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 26 Dec 2021 12:18:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232879AbhLZRSu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Dec 2021 12:18:50 -0500
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9E64C06173E;
-        Sun, 26 Dec 2021 09:18:49 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id v11so27985254wrw.10;
-        Sun, 26 Dec 2021 09:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=1EClICUpUVp7JRzRETO30oZAi2IbL/s2jOAI8KmoP/s=;
-        b=PVvdgG7/iAkFCiGqMvdM5biN6wEGYaD26FdaaEXPh7DT3bp0McXrj6meqDSXhKZhRo
-         fb23/cijTUNGNep4cS5vv69d+19mP/1AoSsItlutRXx20VKqCYSfEPXu+I+XXzBlGoxL
-         G+WlYT1G5TxrJcDRQfTMZ97pIV9/yoJUhecWmD0wf8Zsdwq8idGXA0oix2CDE8Rvh3mm
-         OigOSRDYMx9vGAm5sBPVr9LoXHzn/u79xA3BIzA+DmuSaU6FkHVSkYfZdGMvXyk/lWhn
-         YH7Sxu5IRZiuWtbcYmmuUbWNCLjIMvr72ul6+ZBMZbscmRSDn1jg68bWFULkYqgNBvrv
-         LQUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=1EClICUpUVp7JRzRETO30oZAi2IbL/s2jOAI8KmoP/s=;
-        b=WEg4pMz1U5JUMrmLVlhjo/W45Dkmm8OfkTglHeKHrFFjQga8PhbZzfhWMf4WgnSIpF
-         27XEEzgtptS4avvjGzXRo+CFkNXfE+6N4lYLY/ktHyF1+5TCDxvqZsLBDK4YRt4niOQz
-         7GHbEPftpMylFzVXgEI64UBATE8EnvCeVLb2LbuKatBB/uUGJUtERfBG8OP0xl0LUAEI
-         sFqL0RDavqYjqybqDS8kkgDux2aG2s/sdwC1noemxgoIJ2lNk4mRwplRXqpIlSuEBL5X
-         RK1VMZrPApI/wWfQ+v15PE1pz9F7KIAsuwDzKyWihodS/d3ewuSEqudqRZmrtUspYuPV
-         /F5Q==
-X-Gm-Message-State: AOAM532lt7M40nbfb8548afW27p1btOl7T9vgfEwL0nCRM/YvHG5YAIw
-        SI0UIsc5Z6k0a1SCIayszRc=
-X-Google-Smtp-Source: ABdhPJypH3Y45uPEWflKChXzACmOud0odMSb6aX+7dJIbQbMmLuw0zZ5j/8Op+0qMr/HN5obcQzyiw==
-X-Received: by 2002:adf:fe0f:: with SMTP id n15mr10152332wrr.705.1640539128035;
-        Sun, 26 Dec 2021 09:18:48 -0800 (PST)
-Received: from ?IPV6:2003:ea:8f24:fd00:c9a7:2d21:f9c0:60ee? (p200300ea8f24fd00c9a72d21f9c060ee.dip0.t-ipconnect.de. [2003:ea:8f24:fd00:c9a7:2d21:f9c0:60ee])
-        by smtp.googlemail.com with ESMTPSA id k31sm13665265wms.21.2021.12.26.09.18.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Dec 2021 09:18:47 -0800 (PST)
-Message-ID: <a82b56dc-8a74-cd6e-cfcb-9a16b858b21a@gmail.com>
-Date:   Sun, 26 Dec 2021 18:18:42 +0100
+        id S234694AbhLZWMW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 26 Dec 2021 17:12:22 -0500
+Received: from lan.nucleusys.com ([92.247.61.126]:46614 "EHLO
+        mail.nucleusys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231752AbhLZWMW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 26 Dec 2021 17:12:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=nucleusys.com; s=x; h=In-Reply-To:Content-Type:MIME-Version:References:
+        Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=ZVILQFOWbf1ty394RkPM2Kcc0SxzHvUAy/b09bHffYw=; b=UhId7hOrmdk89E+dXHI/rERY0a
+        P0k/+3b6Kt3/XkCXdgTbm/lCm2UtzANPx5WT5LUHq5u1ItV+a1LTiYSQ8P/Z6R0zyKAQHNWjGGL6A
+        NuThmqanXd+z/gvVTNvmewF3ymZOvx9adpjdFq0FoUHpK4txKvp7NZVGxHR1s6IDMT7I=;
+Received: from 78-83-68-78.spectrumnet.bg ([78.83.68.78] helo=karbon.k.g)
+        by mail.nucleusys.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <petkan@nucleusys.com>)
+        id 1n1bkW-001c4H-8l; Mon, 27 Dec 2021 00:12:18 +0200
+Date:   Mon, 27 Dec 2021 00:12:15 +0200
+From:   Petko Manolov <petkan@nucleusys.com>
+To:     Matthias-Christian Ott <ott@mirix.org>
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] net: usb: pegasus: Request Ethernet FCS from hardware
+Message-ID: <Ycjov4ulEM3HqV/9@karbon.k.g>
+Mail-Followup-To: Matthias-Christian Ott <ott@mirix.org>,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org
+References: <20211226132502.7056-1-ott@mirix.org>
+ <YciSJYMgyHtvyPc6@karbon.k.g>
+ <6029432c-5f85-b727-ed90-dca1a52b3775@mirix.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] asix: Use min() instead of doing it manually
-Content-Language: en-US
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        davem@davemloft.net
-Cc:     kuba@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-References: <20211225170847.115298-1-jiapeng.chong@linux.alibaba.com>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-In-Reply-To: <20211225170847.115298-1-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6029432c-5f85-b727-ed90-dca1a52b3775@mirix.org>
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: Spam detection software, running on the system "zztop",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ Content preview:  On 21-12-26 17:12:24, Matthias-Christian Ott wrote: > On 26/12/2021
+    17:02, Petko Manolov wrote: > > On 21-12-26 14:25:02, Matthias-Christian
+   Ott wrote: > >> Commit 1a8deec09d12 ("pegasus: fixes report [...] 
+ Content analysis details:   (-1.0 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+  0.0 TVD_RCVD_IP            Message was received from an IP address
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 25.12.2021 18:08, Jiapeng Chong wrote:
-> Fix following coccicheck warning:
+On 21-12-26 17:12:24, Matthias-Christian Ott wrote:
+> On 26/12/2021 17:02, Petko Manolov wrote:
+> > On 21-12-26 14:25:02, Matthias-Christian Ott wrote:
+> >> Commit 1a8deec09d12 ("pegasus: fixes reported packet length") tried to
+> >> configure the hardware to not include the FCS/CRC of Ethernet frames.
+> >> Unfortunately, this does not work with the D-Link DSB-650TX (USB IDs
+> >> 2001:4002 and 2001:400b): the transferred "packets" (in the terminology
+> >> of the hardware) still contain 4 additional octets. For IP packets in
+> >> Ethernet this is not a problem as IP packets contain their own lengths
+> >> fields but other protocols also see Ethernet frames that include the FCS
+> >> in the payload which might be a problem for some protocols.
+> >>
+> >> I was not able to open the D-Link DSB-650TX as the case is a very tight
+> >> press fit and opening it would likely destroy it. However, according to
+> >> the source code the earlier revision of the D-Link DSB-650TX (USB ID
+> >> 2001:4002) is a Pegasus (possibly AN986) and not Pegasus II (AN8511)
+> >> device. I also tried it with the later revision of the D-Link DSB-650TX
+> >> (USB ID 2001:400b) which is a Pegasus II device according to the source
+> >> code and had the same results. Therefore, I'm not sure whether the RXCS
+> >> (rx_crc_sent) field of the EC0 (Ethernet control_0) register has any
+> >> effect or in which revision of the hardware it is usable and has an
+> >> effect. As a result, it seems best to me to revert commit
+> >> 1a8deec09d12 ("pegasus: fixes reported packet length") and to set the
+> >> RXCS (rx_crc_sent) field of the EC0 (Ethernet control_0) register so
+> >> that the FCS/CRC is always included.
+> >>
+> >> Fixes: 1a8deec09d12 ("pegasus: fixes reported packet length")
+> >> Signed-off-by: Matthias-Christian Ott <ott@mirix.org>
+> >> ---
+> >>  drivers/net/usb/pegasus.c | 15 ++++++++++++++-
+> >>  1 file changed, 14 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
+> >> index c4cd40b090fd..140d11ae6688 100644
+> >> --- a/drivers/net/usb/pegasus.c
+> >> +++ b/drivers/net/usb/pegasus.c
+> >> @@ -422,7 +422,13 @@ static int enable_net_traffic(struct net_device *dev, struct usb_device *usb)
+> >>  	ret = read_mii_word(pegasus, pegasus->phy, MII_LPA, &linkpart);
+> >>  	if (ret < 0)
+> >>  		goto fail;
+> >> -	data[0] = 0xc8; /* TX & RX enable, append status, no CRC */
+> >> +	/* At least two hardware revisions of the D-Link DSB-650TX (USB IDs
+> >> +	 * 2001:4002 and 2001:400b) include the Ethernet FCS in the packets,
+> >> +	 * even if RXCS is set to 0 in the EC0 register and the hardware is
+> >> +	 * instructed to not include the Ethernet FCS in the packet.Therefore,
+> >> +	 * it seems best to set RXCS to 1 and later ignore the Ethernet FCS.
+> >> +	 */
+> >> +	data[0] = 0xc9; /* TX & RX enable, append status, CRC */
+> >>  	data[1] = 0;
+> >>  	if (linkpart & (ADVERTISE_100FULL | ADVERTISE_10FULL))
+> >>  		data[1] |= 0x20;	/* set full duplex */
+> >> @@ -513,6 +519,13 @@ static void read_bulk_callback(struct urb *urb)
+> >>  		pkt_len = buf[count - 3] << 8;
+> >>  		pkt_len += buf[count - 4];
+> >>  		pkt_len &= 0xfff;
+> >> +		/* The FCS at the end of the packet is ignored. So subtract
+> >> +		 * its length to ignore it.
+> >> +		 */
+> >> +		pkt_len -= ETH_FCS_LEN;
+> >> +		/* Subtract the length of the received status at the end of the
+> >> +		 * packet as it is not part of the Ethernet frame.
+> >> +		 */
+> >>  		pkt_len -= 4;
+> >>  	}
+> > 
+> > Nice catch.  However, changing these constants for all devices isn't such a
+> > good idea.  I'd rather use vendor and device IDs to distinguish these two
+> > cases in the above code.
 > 
-> ./drivers/net/usb/asix_common.c:545:12-13: WARNING opportunity for
-> min().
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/net/usb/asix_common.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-> index 71682970be58..da5a7df312d2 100644
-> --- a/drivers/net/usb/asix_common.c
-> +++ b/drivers/net/usb/asix_common.c
-> @@ -542,7 +542,7 @@ static int __asix_mdio_write(struct net_device *netdev, int phy_id, int loc,
->  out:
->  	mutex_unlock(&dev->phy_mutex);
->  
-> -	return ret < 0 ? ret : 0;
-> +	return min(ret, 0);
+> I don't think that it would hurt to include the FCS for all devices. I only
+> have the datasheets for the ADM8511/X and the ADM8513 but it seems that all
+> devices that are supported by the driver also include the RXCS field in EC0.
+> This was also the previous behaviour before commit 1a8deec09d12 and seemed to
+> have worked. It also only adds four octet that have to be transferred and it
+> seems to avoid exceptions for different devices which seems to be a good idea,
+> in particular, because it is not easy to acquire all of the supported devices
+> as they are no longer sold or manufactured.
 
-Same comment as for a previous such patch. It doesn't make sense.
-Also coccicheck isn't always right, please check whether a warning
-is justified before sending a "fix".
+The fix that commit 1a8deec09d12 introduces is real (the commit message makes
+sense) and i don't feel confident to revert it so lightly.  I think i have all
+relevant datasheets somewhere, along with a couple of old "pegasus I" devices,
+which i could use for testing. Not at home right now, the aforementioned testing
+will have to wait a couple of days.
+
+> That being said, if you are going to veto this change otherwise, I can of
+> course just add the FCS back for the two USB IDs, even though it likely
+> affects other devices as well.
+
+Like i said, i don't want to hurry up and revert something that looks like a
+valid fix.  Especially after five years worth of kernel releases and no
+complaints related to 1a8deec09d12.  This should mean two things: a) the driver
+isn't used anymore, or b) this commit fixes a real problem.
+
+However, if it turn out that your fix is the right one, it goes in without fuss.
+So lets see what it is...
 
 
->  }
->  
->  void asix_mdio_write(struct net_device *netdev, int phy_id, int loc, int val)
-
+cheers,
+Petko
