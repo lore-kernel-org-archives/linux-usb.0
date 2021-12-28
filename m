@@ -2,79 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24177C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Dec 2021 07:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEB73C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Dec 2021 08:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235435AbhL1HxR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Dec 2021 02:53:17 -0500
-Received: from mga02.intel.com ([134.134.136.20]:20929 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235425AbhL1HxR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 28 Dec 2021 02:53:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1640677996; x=1672213996;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5TZVoB+V/tX3qFpJap/fHz9uXseltn3wjrQURaeshFg=;
-  b=FKt+K2c4picFLcD0/aP5n8c68DC4uhuFarfzq2wo5F9nZZDgRndy9V0M
-   jRqI0q+BguXWFVCalqUa+P3KL70qAL1i+2naoYdhC0xIIE4YsCKMIbMce
-   1cSJVsSEFlQYiRHj+XOX8y5Ry/dLoeWZz5WnNi78gK7Zy7k87VNbC/6cp
-   jC0FLVuJKgxuKSLaCPwGjTmPd+5I2gwojh79+iu4AzxW0S5D46HmjMAJM
-   rPcoPILN4/9ed316xzp+l18sErcX3eMoY9AVysx3lzg2jfKNdjJVa9yN9
-   GC425mrzt/y5E/k12ZKcxbsKypAfDgD3yhfczZQ5neVmplMen988vhvtR
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10210"; a="228633475"
-X-IronPort-AV: E=Sophos;i="5.88,241,1635231600"; 
-   d="scan'208";a="228633475"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2021 23:53:16 -0800
-X-IronPort-AV: E=Sophos;i="5.88,241,1635231600"; 
-   d="scan'208";a="524481772"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2021 23:53:13 -0800
-Received: by lahna (sSMTP sendmail emulation); Tue, 28 Dec 2021 09:52:07 +0200
-Date:   Tue, 28 Dec 2021 09:52:07 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Gil Fine <gil.fine@intel.com>
-Cc:     andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: Re: [PATCH v2 0/7] thunderbolt: CLx support for USB4 and Titan Ridge
-Message-ID: <YcrCJ+WlUsqKFtsW@lahna>
-References: <20211217011644.21634-1-gil.fine@intel.com>
- <YcMzwjicgQlDYljP@lahna>
- <20211227161344.GJ24036@ccdjLinux26>
+        id S232566AbhL1I0o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Dec 2021 03:26:44 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:38692 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231670AbhL1I0n (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Dec 2021 03:26:43 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9CD97B80D97;
+        Tue, 28 Dec 2021 08:26:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D5D3C36AE8;
+        Tue, 28 Dec 2021 08:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640679996;
+        bh=Jm+D1iWBu7R1yzoXReCfMiYzW4DAqKUJ4JBX9vgR8oQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FLSklKthTjHedcZTLZXv14S8I4mJOCaIIAB0NdYQz8pqZXFFg+xO0CHNDGovd6Ecd
+         KVqqbaoLiwfCiwgbCVi9wiknkWdrF1QwNmUKALAs6THA2/YwdU4S+UEUXklhdiGHe7
+         NCvQYH3R2/u7y1DzWjMHnYR1zSyXAfhKrE9g5/WI=
+Date:   Tue, 28 Dec 2021 09:26:28 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Puma Hsu <pumahsu@google.com>
+Cc:     mathias.nyman@intel.com, albertccwang@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci: re-initialize the HC during resume if HCE was set
+Message-ID: <YcrKNP4TRXB6nsCI@kroah.com>
+References: <20211228060246.2958070-1-pumahsu@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211227161344.GJ24036@ccdjLinux26>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20211228060246.2958070-1-pumahsu@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Gil,
+On Tue, Dec 28, 2021 at 02:02:46PM +0800, Puma Hsu wrote:
+> When HCE(Host Controller Error) is set, it means an internal
+> error condition has been detected. It needs to re-initialize
+> the HC too.
+> 
+> Signed-off-by: Puma Hsu <pumahsu@google.com>
+> ---
+>  drivers/usb/host/xhci.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index dc357cabb265..c546d9533410 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -1146,8 +1146,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
+>  		temp = readl(&xhci->op_regs->status);
+>  	}
+>  
+> -	/* If restore operation fails, re-initialize the HC during resume */
+> -	if ((temp & STS_SRE) || hibernated) {
+> +	/* If restore operation fails or HC error is detected, re-initialize the HC during resume */
+> +	if ((temp & STS_SRE) || (temp & STS_HCE) || hibernated) {
+>  
+>  		if ((xhci->quirks & XHCI_COMP_MODE_QUIRK) &&
+>  				!(xhci_all_ports_seen_u0(xhci))) {
+> -- 
+> 2.34.1.448.ga2b2bfdf31-goog
+> 
 
-On Mon, Dec 27, 2021 at 06:13:44PM +0200, Gil Fine wrote:
-> Hi Mika,
-> About latest patches series adding CL0s in thunderbolt/next.git
-> 1.
-> Attached fix for CL0s enabled check - w/o it, the CL0s enabling fails
+What commit does this fix?  Does it need to be backported to older
+kernels as well?
 
-Thanks, I folded this to patch "thunderbolt: Enable CL0s for Intel
-Titan Ridge".
+thanks,
 
-> 2.
-> Maybe it is better not to mention "Intel limitation..." about the first-hop
-> router since I am not sure this is correct. Attached patch w/ my proposal.
-
-Well it is targeted only for Intel Titan Ridge so I think we can keep
-it for documentation purposes :)
-
-> 3.
-> Don't we prefer to stay with the name: "tb_switch_titan_ridge_pcie_l1_enable" ?
-> so that it is clear that the function is Titan Ridge specific?
-> If so, sending patch for this
-
-It works with any router (as it specifically checks for Titan Ridge
-before going further), I think we can keep the name more generic too.
+greg k-h
