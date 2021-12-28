@@ -2,109 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF541C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 28 Dec 2021 05:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1558EC433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 28 Dec 2021 06:03:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234943AbhL1FUe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 28 Dec 2021 00:20:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48732 "EHLO
+        id S235012AbhL1GDT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 28 Dec 2021 01:03:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232488AbhL1FUS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Dec 2021 00:20:18 -0500
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F41ABC061757
-        for <linux-usb@vger.kernel.org>; Mon, 27 Dec 2021 21:20:17 -0800 (PST)
-Received: by mail-oi1-x232.google.com with SMTP id be32so28344131oib.11
-        for <linux-usb@vger.kernel.org>; Mon, 27 Dec 2021 21:20:17 -0800 (PST)
+        with ESMTP id S234974AbhL1GDS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 28 Dec 2021 01:03:18 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E0DC061574
+        for <linux-usb@vger.kernel.org>; Mon, 27 Dec 2021 22:03:18 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id s7-20020a5b0447000000b005fb83901511so31385344ybp.11
+        for <linux-usb@vger.kernel.org>; Mon, 27 Dec 2021 22:03:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ByvL2Uf/cXpEPeJ2AJET+qvtgysLCEvhZPeq63DSw38=;
-        b=B4zhlUAr32kY5oZ8N53jC4N8hPIY76Y5v1jPJEOJ/8WQ/GGjZEEkjMyc62nzUR9fA+
-         iwn7SXOmsb3AMDCG7G2wARbdPuxKskTye7cWKkq7ezq1aFwZdRFDIvbp4aaDMdgev2mh
-         n7F1qLKmmQwyw5aKDR116G9iStrWa+eiY2wPMCHmXks6ElcXzV7rettiqdDEZ6+MqD6w
-         KQ75+fbrRwUTxPrV4tFrmnTSLRGx9+/YVu2ldIlYlJP93Pwva0AUASZGtPKEAvjFEI7U
-         0ljq2DhdsSpe3aUhVeYZoitZRvGXgDpIhWniyagk5LDACXH8GsQwmtBukZ0YqCumW61E
-         qzOQ==
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=Zn+A9HVWRK5K/dRlJI4tJZLeYf7dlCPThs0O3iIpY8w=;
+        b=UmnDHa76s6CWzJhDp5zeaRcHprWSXl+xXWXeqXjsEiZSVZieeUVf62Bmr/s/XbA47t
+         SxB8S+q589IyfEmUEyGyOnjv7IITchgd/Rc+lRQmgDfn5hw1tNkWFkXIFRG4RxL1nR8H
+         Y79vnFyNFvxiCsdhqHgD5lp6oh132+fKqZU8EImDXRfmTTvpw9UwPTHYQdURW8MbMPyr
+         ZXbWgJdhiPxAOMIVYsFoOzuSnRuRUFrqGsZ/iZEQ5wlgCeiORcTz2RqP2KMX4RHORT3s
+         J4BIpkTk807jg6m+Q6lC81E3m0xYDKkNWOpmLno3VtX8T0SxOPz6+wt4UX10qHBfLQ2T
+         P8tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ByvL2Uf/cXpEPeJ2AJET+qvtgysLCEvhZPeq63DSw38=;
-        b=z9zmqkrsg1rvkszcm1wgAOSUotvkqYLnmfq9Lh2GIQDBAragHL/7KVYQHNaj6RTau9
-         5SHpPRfAPv5xItuDhJpMW8e4NzDuhmE7JutrmAkK6OzLKWdftgInDqdHqh/vuR8UthJE
-         grPUhpesCCdTA65cPEPpbOF4E7NcDR6vqOMWsAkFvpHI/J87Y+7WlVb3S3/95T5tiqa+
-         YAnkklHzJeD0J28PmkzDlUUnBO6nPBFcNWUVTnA2wuXjWQsNhWELA7vj99/slI25qNHt
-         hPvl6WE+ZXF+alwkvuRLHA8UlDOteLRMOoGd9PG+zpdY/YS4QBBUZ5mUpObmJWEkvtKd
-         5X0w==
-X-Gm-Message-State: AOAM531hUm2BWR6JYX59WuaHik+X0p3LykkU5gH8S36BHn58/lBcT66h
-        NQAnjZfM7rlNeio0KmWZAmAGJw==
-X-Google-Smtp-Source: ABdhPJxct+CkbSvI41JFvkdLrfCsI0wdjHkYbiI93M8uVvOhwpL8J0QsaQ7QXmKuxWERI3iK92ZM+w==
-X-Received: by 2002:a05:6808:1408:: with SMTP id w8mr15463765oiv.54.1640668817343;
-        Mon, 27 Dec 2021 21:20:17 -0800 (PST)
-Received: from ripper.. (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id j5sm3002277oou.23.2021.12.27.21.20.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Dec 2021 21:20:17 -0800 (PST)
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 1/8] dt-bindings: phy: qcom,qmp-usb3-dp: Add altmode/switch properties
-Date:   Mon, 27 Dec 2021 21:21:09 -0800
-Message-Id: <20211228052116.1748443-2-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211228052116.1748443-1-bjorn.andersson@linaro.org>
-References: <20211228052116.1748443-1-bjorn.andersson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=Zn+A9HVWRK5K/dRlJI4tJZLeYf7dlCPThs0O3iIpY8w=;
+        b=WZmfoaod49UrvHnUQzT/VGMeSzxQ1tt5fSVI6vibK1HCz4CbusnxW1a2DLq1uDgDjT
+         QViFZqrZRk+D4q/4Cu+GQ/Rn4Sr/qOLfQcP3m1wLn6FhyBRXi3UDwP6x7CugJUeSq4tJ
+         veD4O9sgwpnLclKO8+ubrI5DGG51id1DTkaQN3Uc76vzDAAB+kXTymXB1ZeRdruR0p9O
+         2PTlePS2V1vEb93HRrfT5s7IiefREDA6l3EQOYoJ07Wj19KHrn32GlpEBwZ3qBO02lO9
+         62Rmx1c2QSOiTzofvA9blu2QGCASrseSFJuiPqAnVduyq4a+jwrMHX80A+RwJFDCA/RH
+         A8EQ==
+X-Gm-Message-State: AOAM531BNOwDm6wrl8D9hvTBFSSMH0bQwE8f1m5dBeGfVykzvtXOOwHi
+        ZALsvV3McP/cfeIwbjyBA5qEhSzr+6Yq
+X-Google-Smtp-Source: ABdhPJzbFuNpZudtTehw+vFnQNlHwReEVcccW/za68v0MmgNCYp2o46qLtj5skHRAIB9CbPBXzAneTwV0x7l
+X-Received: from pumahsu.ntc.corp.google.com ([2401:fa00:fc:202:2dc0:d0af:9576:e31])
+ (user=pumahsu job=sendgmr) by 2002:a25:8547:: with SMTP id
+ f7mr1217274ybn.659.1640671397304; Mon, 27 Dec 2021 22:03:17 -0800 (PST)
+Date:   Tue, 28 Dec 2021 14:02:46 +0800
+Message-Id: <20211228060246.2958070-1-pumahsu@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH] xhci: re-initialize the HC during resume if HCE was set
+From:   Puma Hsu <pumahsu@google.com>
+To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org
+Cc:     albertccwang@google.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Puma Hsu <pumahsu@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The QMP block deals with orientation switching and altmode switching
-between USB and DisplayPort. Add the necessary properties to the binding
-to allow it to be connected to a TypeC controller and trigger these
-operations.
+When HCE(Host Controller Error) is set, it means an internal
+error condition has been detected. It needs to re-initialize
+the HC too.
 
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Puma Hsu <pumahsu@google.com>
 ---
- .../bindings/phy/qcom,qmp-usb3-dp-phy.yaml         | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/usb/host/xhci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom,qmp-usb3-dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,qmp-usb3-dp-phy.yaml
-index 60dc27834e1d..f8a745ec479c 100644
---- a/Documentation/devicetree/bindings/phy/qcom,qmp-usb3-dp-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/qcom,qmp-usb3-dp-phy.yaml
-@@ -77,6 +77,20 @@ properties:
-     description:
-       Phandle to a regulator supply to any specific refclk pll block.
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index dc357cabb265..c546d9533410 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1146,8 +1146,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
+ 		temp = readl(&xhci->op_regs->status);
+ 	}
  
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description:
-+      A port node to link the QMP to a TypeC controller for the purpose of
-+      handling altmode muxing and orientation switching.
-+
-+  mode-switch:
-+    description: Flag the port as possible handle of altmode switching
-+    type: boolean
-+
-+  orientation-switch:
-+    description: Flag the port as possible handler of orientation switching
-+    type: boolean
-+
- #Required nodes:
- patternProperties:
-   "^usb3-phy@[0-9a-f]+$":
+-	/* If restore operation fails, re-initialize the HC during resume */
+-	if ((temp & STS_SRE) || hibernated) {
++	/* If restore operation fails or HC error is detected, re-initialize the HC during resume */
++	if ((temp & STS_SRE) || (temp & STS_HCE) || hibernated) {
+ 
+ 		if ((xhci->quirks & XHCI_COMP_MODE_QUIRK) &&
+ 				!(xhci_all_ports_seen_u0(xhci))) {
 -- 
-2.33.1
+2.34.1.448.ga2b2bfdf31-goog
 
