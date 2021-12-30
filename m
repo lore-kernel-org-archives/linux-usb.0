@@ -2,65 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B32EC433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Dec 2021 14:04:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB25C43217
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Dec 2021 14:04:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239787AbhL3OEs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Dec 2021 09:04:48 -0500
-Received: from mail-m17657.qiye.163.com ([59.111.176.57]:10712 "EHLO
+        id S239795AbhL3OEu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Dec 2021 09:04:50 -0500
+Received: from mail-m17657.qiye.163.com ([59.111.176.57]:10718 "EHLO
         mail-m17657.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239756AbhL3OEq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Dec 2021 09:04:46 -0500
-X-Greylist: delayed 333 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Dec 2021 09:04:43 EST
+        with ESMTP id S239777AbhL3OEr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Dec 2021 09:04:47 -0500
 DKIM-Signature: a=rsa-sha256;
-        b=AbM4daWnIb2IIN88LOepWnOIEAtiHpSsrnp51Yc6kEG0cR3RmWcPsGGIC9x+EhJafzqcDfJ6ChXjc9zmdPIvxz/scuNQ4QZCNruMM+ekiKYKlkRNfNJBDmHWuCZ6Y8I0z/GKFjpGaoc2D4EarhdQLmF+dTbjeEH4XLsAPT6fsus=;
+        b=KUEDStXckAtztTshgFDnh7jDmwNopP7UVG9mB2OULMJB25jtSA+9eNgAeP1+QK2xC6ww/GByqZ6fNeirXkGbjbO0Ccr1Ok4mYLcfXAPT87ydfvYM4SXJ+aCeGEWdvpqkR1h6MN//qO5OQsGSXq9J/SKwwLMnxBhIt6kmn0Uvw3E=;
         s=default; c=relaxed/relaxed; d=vivo.com; v=1;
-        bh=2Yp9DFSg8v3FvFJPhl/zrISfuB6wjKCS48VeStC+kds=;
+        bh=xpKKS0qqZkQyHog/qbonODBiKgIt7QbYO2CMS+1sO7I=;
         h=date:mime-version:subject:message-id:from;
 Received: from vivo-600-G6.vivo.xyz (unknown [58.251.74.232])
-        by mail-m17657.qiye.163.com (Hmail) with ESMTPA id D1F49280067;
-        Thu, 30 Dec 2021 21:59:08 +0800 (CST)
+        by mail-m17657.qiye.163.com (Hmail) with ESMTPA id 78B822802C1;
+        Thu, 30 Dec 2021 21:59:25 +0800 (CST)
 From:   Yaqin Pan <akingchen@vivo.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@vivo.com, Yaqin Pan <akingchen@vivo.com>
-Subject: [PATCH v3 0/2] usb: dwc3: Add a quirk to set GUCTL.SPRSCTRLTRANSEN bit
-Date:   Thu, 30 Dec 2021 21:58:29 +0800
-Message-Id: <20211230135832.23005-1-akingchen@vivo.com>
+Subject: [PATCH v3 2/2] dt-bindings: usb: document snps,sprs-ctrl-trans-quirk property in dwc3
+Date:   Thu, 30 Dec 2021 21:58:31 +0800
+Message-Id: <20211230135832.23005-3-akingchen@vivo.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211230135832.23005-1-akingchen@vivo.com>
+References: <20211230135832.23005-1-akingchen@vivo.com>
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-        kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWRofHkhWH0tMQxkdQ0oYGU
-        hKVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWVVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pgg6Phw6TD5PCxEXCR8IHy4w
-        AU9PCy1VSlVKTU9LQ0xJTE9CQ01DVTMWGhIXVRoQEhUcGBMeFTsNEg0UVRgUFkVZV1kSC1lBWU5D
-        VUlOSlVMT1VJSElZV1kIAVlBSk5CTzcG
-X-HM-Tid: 0a7e0ba3282fda03kuwsd1f49280067
+        kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWRoaSxpWHhhIHR9PTxoYSU
+        kdVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWVVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nio6MRw*PT5KNREtCR0oHyks
+        TQgwCR1VSlVKTU9LQ0xJTE1OQkNPVTMWGhIXVRoQEhUcGBMeFTsNEg0UVRgUFkVZV1kSC1lBWU5D
+        VUlOSlVMT1VJSElZV1kIAVlBSUlLTDcG
+X-HM-Tid: 0a7e0ba3691dda03kuws78b822802c1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Add snps,sprs-ctrl-trans-quirk property for dwc3 controller
 
-Sorry for the late reply.
-
-Changes in v3:
-modify Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-because the errors in dt-binding check.
-
-Changes in v2:
-modify Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-
-Yaqin Pan (2):
-  usb: dwc3: Add a quirk to set GUCTL.SPRSCTRLTRANSEN bit.
-  dt-bindings: usb: document snps,sprs-ctrl-trans-quirk property in dwc3
-
+Signed-off-by: Yaqin Pan <akingchen@vivo.com>
+---
  Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 6 ++++++
- drivers/usb/dwc3/core.c                              | 4 ++++
- drivers/usb/dwc3/core.h                              | 3 +++
- 3 files changed, 13 insertions(+)
+ 1 file changed, 6 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+index 41416fbd92aa..7a127f0cb530 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+@@ -226,6 +226,12 @@ properties:
+       avoid -EPROTO errors with usbhid on some devices (Hikey 970).
+     type: boolean
+ 
++  snps,sprs-ctrl-trans-quirk:
++    description:
++      When set, change the way host controller schedules transations for a Control transfer.
++      Avoid failing to enumerate some devices due to usb compatibility issues.
++    type: boolean
++
+   snps,is-utmi-l1-suspend:
+     description:
+       True when DWC3 asserts output signal utmi_l1_suspend_n, false when
 -- 
 2.17.1
 
