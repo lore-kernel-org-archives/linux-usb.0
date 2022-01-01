@@ -2,94 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04BA9C433F5
-	for <linux-usb@archiver.kernel.org>; Sat,  1 Jan 2022 02:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD01FC433EF
+	for <linux-usb@archiver.kernel.org>; Sat,  1 Jan 2022 10:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231920AbiAACHN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 31 Dec 2021 21:07:13 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:58063 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S231877AbiAACHN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 31 Dec 2021 21:07:13 -0500
-Received: (qmail 1142479 invoked by uid 1000); 31 Dec 2021 21:07:12 -0500
-Date:   Fri, 31 Dec 2021 21:07:12 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Greg KH <greg@kroah.com>
-Cc:     USB mailing list <linux-usb@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        syzkaller-bugs@googlegroups.com
-Subject: [PATCH] USB: Fix "slab-out-of-bounds Write" bug in
- usb_hcd_poll_rh_status
-Message-ID: <Yc+3UIQJ2STbxNua@rowland.harvard.edu>
-References: <Yc9odypVqqB2uMm/@rowland.harvard.edu>
- <00000000000060560805d4773ba0@google.com>
+        id S232241AbiAAKgo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 1 Jan 2022 05:36:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46698 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229624AbiAAKgo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 1 Jan 2022 05:36:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C93DFC061574
+        for <linux-usb@vger.kernel.org>; Sat,  1 Jan 2022 02:36:43 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 18BCEB81DE5
+        for <linux-usb@vger.kernel.org>; Sat,  1 Jan 2022 10:36:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C1142C36AE7
+        for <linux-usb@vger.kernel.org>; Sat,  1 Jan 2022 10:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641033400;
+        bh=6cKdgmmiUA1WTq2YBOPpxtxnPRuRx26Sv6l7MNlPi78=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=XDxvwzOzUEbEDDPod10ulK4jKxDAUY3mSIGRDkWTFVmRNCwb68S9iAx1Pb/3+8nhe
+         anwR6a/DTdB+SdAUsAYJmh0X4dajadsHcVaRTyyhmqT2LwZfniJq6C8Gr7FO5VXzRj
+         Wlo/EBeXbhX6+MbTX+BuP6eyHtPVE/BEhDxSF9SevktWRuLs1AQedi34BLzT0Y8nnQ
+         d7NNQuXwTYeS0KfdlDm9VlWYJSz6FkwNuwfSWuhzrkLxtKQOfFyWR+cZUrzfNEIgbI
+         s2VP5f6gx8x9pASoL72muhiFjUheLkvIYrqiF0WKPE7i+YRmMYxCLDoBeR7Ebp1mOC
+         G+MAMD6oAn27w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 9FC30CBF85E; Sat,  1 Jan 2022 10:36:40 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 213839] XHCI 7 port usb hub does not work correctly
+Date:   Sat, 01 Jan 2022 10:36:40 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: noodles@earth.li
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-213839-208809-4wxs0Fa6uN@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213839-208809@https.bugzilla.kernel.org/>
+References: <bug-213839-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00000000000060560805d4773ba0@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When the USB core code for getting root-hub status reports was
-originally written, it was assumed that the hub driver would be its
-only caller.  But this isn't true now; user programs can use usbfs to
-communicate with root hubs and get status reports.  When they do this,
-they may use a transfer_buffer that is smaller than the data returned
-by the HCD, which will lead to a buffer overflow error when
-usb_hcd_poll_rh_status() tries to store the status data.  This was
-discovered by syzbot:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213839
 
-BUG: KASAN: slab-out-of-bounds in memcpy include/linux/fortify-string.h:225 [inline]
-BUG: KASAN: slab-out-of-bounds in usb_hcd_poll_rh_status+0x5f4/0x780 drivers/usb/core/hcd.c:776
-Write of size 2 at addr ffff88801da403c0 by task syz-executor133/4062
+--- Comment #11 from Jonathan McDowell (noodles@earth.li) ---
+Autosuspend appears to be the issue; if I disable it using the echo command
+provided then the additional ports on the hub work ok and the flash drive is
+detected.
 
-This patch fixes the bug by reducing the amount of status data if it
-won't fit in the transfer_buffer.  If some data gets discarded then
-the URB's completion status is set to -EOVERFLOW rather than 0, to let
-the user know what happened.
+Looking at my kernel config (this is Debian 11/bullseye, their stock 5.10.7=
+0-1
+kernel) I see:
 
-Reported-and-tested-by: syzbot+3ae6a2b06f131ab9849f@syzkaller.appspotmail.com
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Cc: <stable@vger.kernel.org>
+CONFIG_USB_AUTOSUSPEND_DELAY=3D2
 
----
+Which according to drivers/usb/core/Kconfig is the default.
 
+However hub_probe in drivers/usb/core/hub.c forces the suspend delay for a =
+hub
+to 0ms as long as autosuspend is enabled.
 
-[as1966]
+As an experiment, theorising if the first hub chip didn't get put immediate=
+ly
+to sleep devices off the 2nd hub chip would be seen, I tried plugging in the
+hub, plugging a flash drive into a port on the first chip (which is seen, as
+expected) and then plugging a flash drive into a port on the second chip (w=
+hich
+would normally not be seen). Both drives are correctly detected.
 
+I'll attach all 3 dmesgs now but it seems like the 0 delay in hub.c is what=
+'s
+causing the problem.
 
- drivers/usb/core/hcd.c |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+--=20
+You may reply to this email to add a comment.
 
-Index: usb-devel/drivers/usb/core/hcd.c
-===================================================================
---- usb-devel.orig/drivers/usb/core/hcd.c
-+++ usb-devel/drivers/usb/core/hcd.c
-@@ -753,6 +753,7 @@ void usb_hcd_poll_rh_status(struct usb_h
- {
- 	struct urb	*urb;
- 	int		length;
-+	int		status;
- 	unsigned long	flags;
- 	char		buffer[6];	/* Any root hubs with > 31 ports? */
- 
-@@ -770,11 +771,17 @@ void usb_hcd_poll_rh_status(struct usb_h
- 		if (urb) {
- 			clear_bit(HCD_FLAG_POLL_PENDING, &hcd->flags);
- 			hcd->status_urb = NULL;
-+			if (urb->transfer_buffer_length >= length) {
-+				status = 0;
-+			} else {
-+				status = -EOVERFLOW;
-+				length = urb->transfer_buffer_length;
-+			}
- 			urb->actual_length = length;
- 			memcpy(urb->transfer_buffer, buffer, length);
- 
- 			usb_hcd_unlink_urb_from_ep(hcd, urb);
--			usb_hcd_giveback_urb(hcd, urb, 0);
-+			usb_hcd_giveback_urb(hcd, urb, status);
- 		} else {
- 			length = 0;
- 			set_bit(HCD_FLAG_POLL_PENDING, &hcd->flags);
+You are receiving this mail because:
+You are watching the assignee of the bug.=
