@@ -2,112 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 651EFC433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jan 2022 13:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 477CCC433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jan 2022 13:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233768AbiADNiu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jan 2022 08:38:50 -0500
-Received: from mga11.intel.com ([192.55.52.93]:44752 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233657AbiADNij (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Jan 2022 08:38:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1641303519; x=1672839519;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Dk8eR+nk6aw16X9+1NKLpwmWVQ9jkxr8X5sDpD7O+wM=;
-  b=ecSmSn/OQ8Ql0SMXgw4At0IhSq3BF/MzRnGIpSF1Rf3BjVAx9ONaHuaV
-   W0+cA6a/G8hS4eWvpSVvocgvqXfStqAs5uAWn650vq7JXtTBE51a2I9s+
-   2gelofG9x/wwL3ayY4FRVCsJe94j5iVZFXn/F9eUuCkPm8mLsSK7lfv0O
-   ohHJf1Z8A0S5trMZ0DvRAYLkAnQdbKSWRvL7x6EQQKUHtzvYTTbLSsUIX
-   liNmazfJ/pivPaG0lbKegvgPa6+j/RDHlwPb5sFXFolX3V1zd/BydBdRE
-   r965IV8YwAy4NngaXYdnE1wEkP/kiPAzi5fL04DJB7P9XL4e2JsrHeHpJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10216"; a="239765011"
-X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
-   d="scan'208";a="239765011"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2022 05:38:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,261,1635231600"; 
-   d="scan'208";a="472066537"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga006.jf.intel.com with ESMTP; 04 Jan 2022 05:38:35 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id EC8F449B; Tue,  4 Jan 2022 15:38:45 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+        id S231446AbiADN4x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jan 2022 08:56:53 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:46508 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229655AbiADN4w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Jan 2022 08:56:52 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8FCCD6144A
+        for <linux-usb@vger.kernel.org>; Tue,  4 Jan 2022 13:56:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB82C36AE9;
+        Tue,  4 Jan 2022 13:56:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1641304612;
+        bh=gszCFIseTbtxkOAiHU29UeC42/LXWvBXgWT5JvgYWRg=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=oQRY3DypzBLdJiWBMT6aymFdXJ9MN1djuYTyz2Kp5oPMHbpveyV+roxhvchs5MopF
+         H6tWcgEvb0bZ8Jiyh4FXWWYXGceCsmHb8isWu3hsuiXda9+BJ1D1jV3Trs0OP5xfao
+         EIqG/p/eASnkg1HIz/YvoBJ+j53UKQ8i98H+FxHwq84scyN8VlXeVWwTSsOWi/sYHM
+         HENlXokn+ci0IIs33gtsA4AQ0LANjzCUlZ+ltzJq5YYJ3p7p7YWClbqTXjy2C8LW2p
+         rkSjoWY0gJEJwSSyiREbrvKrz9mpOYc7hXH+4Fo6UqNmXXsWcXksry27E2bWSzgFVU
+         lwEfLo/5fgvsg==
+Subject: Re: [PATCH] usb: dwc2: do not gate off the hardware if it does not
+ support clock gating
+To:     Sergey Shtylyov <s.shtylyov@omp.ru>, Minas.Harutyunyan@synopsys.com
+Cc:     Arthur.Petrosyan@synopsys.com, gregkh@linuxfoundation.org,
         linux-usb@vger.kernel.org
-Cc:     Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [PATCH v1 4/5] mtd: core: Drop duplicate NULL checks around nvmem_unregister()
-Date:   Tue,  4 Jan 2022 15:38:42 +0200
-Message-Id: <20220104133843.44272-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220104133843.44272-1-andriy.shevchenko@linux.intel.com>
-References: <20220104133843.44272-1-andriy.shevchenko@linux.intel.com>
+References: <20220104022238.725195-1-dinguyen@kernel.org>
+ <22ca636d-acf8-d59f-ecd0-99702f826faf@omp.ru>
+From:   Dinh Nguyen <dinguyen@kernel.org>
+Message-ID: <d0ebab96-c0a7-8e16-07e8-e5b82559e5e0@kernel.org>
+Date:   Tue, 4 Jan 2022 07:56:50 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <22ca636d-acf8-d59f-ecd0-99702f826faf@omp.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since nvmem_unregister() checks for NULL, no need to repeat in
-the caller. Drop duplicate NULL checks.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/mtd/mtdcore.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-index 70f492dce158..010ffc34532a 100644
---- a/drivers/mtd/mtdcore.c
-+++ b/drivers/mtd/mtdcore.c
-@@ -742,8 +742,7 @@ int del_mtd_device(struct mtd_info *mtd)
- 		debugfs_remove_recursive(mtd->dbg.dfs_dir);
- 
- 		/* Try to remove the NVMEM provider */
--		if (mtd->nvmem)
--			nvmem_unregister(mtd->nvmem);
-+		nvmem_unregister(mtd->nvmem);
- 
- 		device_unregister(&mtd->dev);
- 
-@@ -921,8 +920,7 @@ static int mtd_otp_nvmem_add(struct mtd_info *mtd)
- 	return 0;
- 
- err:
--	if (mtd->otp_user_nvmem)
--		nvmem_unregister(mtd->otp_user_nvmem);
-+	nvmem_unregister(mtd->otp_user_nvmem);
- 	return err;
- }
- 
-@@ -1026,11 +1024,8 @@ int mtd_device_unregister(struct mtd_info *master)
- 		memset(&master->reboot_notifier, 0, sizeof(master->reboot_notifier));
- 	}
- 
--	if (master->otp_user_nvmem)
--		nvmem_unregister(master->otp_user_nvmem);
--
--	if (master->otp_factory_nvmem)
--		nvmem_unregister(master->otp_factory_nvmem);
-+	nvmem_unregister(master->otp_user_nvmem);
-+	nvmem_unregister(master->otp_factory_nvmem);
- 
- 	err = del_mtd_partitions(master);
- 	if (err)
--- 
-2.34.1
+On 1/4/22 3:39 AM, Sergey Shtylyov wrote:
+> Hello!
+> 
+> On 1/4/22 5:22 AM, Dinh Nguyen wrote:
+> 
+>> We should not be clearing the HCD_FLAG_HW_ACCESSIBLE bit if the hardware
+>> does not support clock gating.
+>>
+>> Fixes: 50fb0c128b6e ("usb: dwc2: Add clock gating entering flow by
+>> system suspend")
+> 
+>     Don't break up this line (perhaps could be fixed while applying).
+> 
 
+My bad! Let me re-send.
+
+Dinh
