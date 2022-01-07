@@ -2,130 +2,196 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C932AC433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jan 2022 09:25:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47328C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jan 2022 10:04:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346369AbiAGJZD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Jan 2022 04:25:03 -0500
-Received: from mail-mw2nam10on2048.outbound.protection.outlook.com ([40.107.94.48]:7936
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231910AbiAGJZC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 Jan 2022 04:25:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XgnZ8dzVVtza5+bfAvjKllUv+fsVqKwSMH+BIHiWRWGuaPur6dG7LVHvv7dJkfdq5D36hO4ESS4zmpk5KooXCzWNF7IT4OdevdWpO661esUeEuLA4AKCJVVXVJkWwjmmYsG98lcoRvdmBNuJfLkaIgn5bS0/bwmpVINuaBrtwuUDmzvuPeF4pjtqk8w1STyTP4VMWdp466YdcEpKmVhOwzeu1q6/F8I22+B+4Q9Z0s7eW0ihe80VwfuRBHPqL3h6ZlxuT+X+OLkQqCrUeZVaK37JOmlGy2o4Y1VBYFlY9JvcNb3tRNXIULYesBJhc22yhsn/BqIoLsWF/ESmhOxWnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5UwuX0j8RvF43HzX3RQep145T5Gk2v03/oeAeWU4T7M=;
- b=IeI1Cy8bu2EiC3aezPp0AvDpqSxEAVtQV53l3tkEaVSZgNcjmQDXjFmXskyoMXhPvXcrGlvImBSiUbbHPjGqrGkz3tcbM4DpXtDmRBbwBXDA0lpmkx+2dZ2euZj0o4QUkQvO6RGNyLjVk7CUs8cLwJ/grFJkj115PCijQ8VW272JGrTIGdAVCttPKELhRxSUSdM6IWx70z0F6rgM5n69RMGYl30GPEHUSq3nywmQuQZiqTel5aNAuIl9MPsfIyDRAdEl+s4jZacPFRsL6a0t5YkrT5JYsrcipKHKQR+jqCBrsBBVtCWilGRt4z1F3l9zfUdnfToaEqAm5MrErRwBMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5UwuX0j8RvF43HzX3RQep145T5Gk2v03/oeAeWU4T7M=;
- b=fLPGRIxkTpX+1fRQfKSonjbsyD6YwRWsbL1MGtF+3taOVSyRCa1qo4KHZV63VKVOUzcR/Q9wfWKFSnv7gud7UOoSQXWKl2xG4bGkRaM3q4KnMBt1ei7oi68oInxPxLMV7c6ODzxRrwlcreV7TZolMQlfhsYpygnLiaeaLlCcnoKlv9PJsBQXh/45lyKbRJRnCBX4JQycthSu8RHtLK7gXBA3oSBTXTvh3EFsKW7RSKml5kYhCEnA6wgrSdK5oQMOtDeaZUzf9ER0J0tqZmT/bAvjuFKKGHPVt/TughrHwlvn2o0lSTR9Ry2Oey+m2mIgnB3NF6X5J/Pb6dVkwACzLA==
-Received: from BN9PR03CA0970.namprd03.prod.outlook.com (2603:10b6:408:109::15)
- by DM5PR12MB1338.namprd12.prod.outlook.com (2603:10b6:3:71::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9; Fri, 7 Jan
- 2022 09:25:00 +0000
-Received: from BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:109:cafe::12) by BN9PR03CA0970.outlook.office365.com
- (2603:10b6:408:109::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9 via Frontend
- Transport; Fri, 7 Jan 2022 09:25:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT034.mail.protection.outlook.com (10.13.176.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4867.7 via Frontend Transport; Fri, 7 Jan 2022 09:25:00 +0000
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by DRHQMAIL105.nvidia.com
- (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 7 Jan
- 2022 09:24:59 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Fri, 7 Jan
- 2022 09:24:58 +0000
-Received: from waynec-Precision-5760.nvidia.com (172.20.187.5) by
- mail.nvidia.com (172.20.187.18) with Microsoft SMTP Server id 15.0.1497.18
- via Frontend Transport; Fri, 7 Jan 2022 09:24:57 +0000
-From:   Wayne Chang <waynec@nvidia.com>
-To:     <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
-CC:     <singhanc@nvidia.com>, <waynec@nvidia.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/1] ucsi_ccg: Check DEV_INT bit only when starting CCG4
-Date:   Fri, 7 Jan 2022 17:24:55 +0800
-Message-ID: <20220107092455.150504-1-waynec@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+        id S1346600AbiAGKEi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Jan 2022 05:04:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346595AbiAGKEh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Jan 2022 05:04:37 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D70C061245
+        for <linux-usb@vger.kernel.org>; Fri,  7 Jan 2022 02:04:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3373361EE7
+        for <linux-usb@vger.kernel.org>; Fri,  7 Jan 2022 10:04:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177DBC36AE0;
+        Fri,  7 Jan 2022 10:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1641549875;
+        bh=YHZxGaOuK6CLiJfEK3ytcySD08doTB2sKqj+2fLb8ZA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hLXLlwIaesbSjK58eczLK22SDlollE3hPM4vl4QV3+Vc32D/ecVINxeEPauIdRDCc
+         zCjI+tSuDSbKYI1UmcANkfBtiFgW30QhQgjt/nu+eL74skC8M15xl9sM26gPJgi64Y
+         WfWCYfg2AJMYjBruXSRxHM0Apzsx0ldemTNQCF2M=
+Date:   Fri, 7 Jan 2022 11:04:33 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Udipto Goswami <quic_ugoswami@quicinc.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, John Keeping <john@metanate.com>,
+        linux-usb@vger.kernel.org,
+        Pratham Pratap <quic_ppratap@quicinc.com>,
+        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+        Jack Pham <quic_jackp@quicinc.com>
+Subject: Re: [PATCH v8] usb: f_fs: Fix use-after-free for epfile
+Message-ID: <YdgQMaQtku6jkcHh@kroah.com>
+References: <1641391526-8737-1-git-send-email-quic_ugoswami@quicinc.com>
+ <Ydb9povYs6YDSIpW@kroah.com>
+ <a2ca96f8-ba41-e861-51f2-3aa051de04b5@quicinc.com>
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0087f02d-4cba-44e3-787f-08d9d1bf940a
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1338:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1338C9F10A182FD335ECBFD9AF4D9@DM5PR12MB1338.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aBLc92NP3CauRAz7xcp146N47VGRbh2TbszvJeZHClOwxGTHyJ84fhvGqxmn0KR9cYya+uCaU89hcs4eYK2UGCxhbOIsJVjAyF86YWCRlgRnung994zPJ3dKVdAEaGocjsxmn54KrKGoEGhTTk3xGYTQXV8ExaZFz+GEcZJtwoWJhTTeVE5yWYVSq1I/LzKK6FFKaTAMl+0ImGcct4HIzP2dLVd/r0SHknVshQNj3u2y2kO/EXhdTIScFhcny/35CiVckgRseuEAEXdn9mZ6HtLYdbPBT8InjRFDo8RnS+h19KX3zGQvplyOXrOdkp1H9TD14UNU+qeq4cqXLjwSVaHpR8UdlSMcxL2qC1alhrTp7uC6ksXmwcG4xFtul5V9S9BZzgjxbRQGjY5OHHBMjOCfY+IG4qtrXaYv5pm31UBU3YiQ6W8HBS7rRlW/RgmFd0X9xU0S3j88VJIrMx9LAvEJYDbeygxXX62SZHUUOyMDNGBNxVwY+S96p0xH64cN6OZ2JFpJxfpkoRuu/1IScRqMTSO7O5yg2B4eqciXwVZjbVaDq50Wgqn9q+Y1lhTCBnDy5pJX/Q1D+wO9rhXo9Ts21fpPNoMmvBKDC9tHSUBVSe3eoqjO3G9+h1wIncInp7l0tDycuyYFFGwTNeN0TwAgvUtuf+1ZBw7k7fBUjsJUEOhbnmP7wtBWniXNecHm5NvZdGNeptta2MDAkKQNPwaxRX8/kd3Teq7j8HGlvQg0nEzb+iG33vKZs2hBZqiK9Qhjv3vHNTbZaTwGJLwIpQBXSEK2K4NkR2yMgceAChw=
-X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(4636009)(36840700001)(40470700002)(46966006)(83380400001)(36756003)(54906003)(82310400004)(110136005)(336012)(81166007)(47076005)(508600001)(36860700001)(26005)(40460700001)(5660300002)(186003)(2616005)(356005)(1076003)(4326008)(426003)(2906002)(8676002)(86362001)(7696005)(70206006)(70586007)(316002)(8936002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2022 09:25:00.0590
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0087f02d-4cba-44e3-787f-08d9d1bf940a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT034.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1338
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2ca96f8-ba41-e861-51f2-3aa051de04b5@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sing-Han Chen <singhanc@nvidia.com>
+On Fri, Jan 07, 2022 at 01:52:05PM +0530, Udipto Goswami wrote:
+> Hi Greg,
+> 
+> On 06-01-2022 08:03 pm, Greg Kroah-Hartman wrote:
+> > On Wed, Jan 05, 2022 at 07:35:26PM +0530, Udipto Goswami wrote:
+> > > Consider a case where ffs_func_eps_disable is called from
+> > > ffs_func_disable as part of composition switch and at the
+> > > same time ffs_epfile_release get called from userspace.
+> > > ffs_epfile_release will free up the read buffer and call
+> > > ffs_data_closed which in turn destroys ffs->epfiles and
+> > > mark it as NULL. While this was happening the driver has
+> > > already initialized the local epfile in ffs_func_eps_disable
+> > > which is now freed and waiting to acquire the spinlock. Once
+> > > spinlock is acquired the driver proceeds with the stale value
+> > > of epfile and tries to free the already freed read buffer
+> > > causing use-after-free.
+> > > 
+> > > Following is the illustration of the race:
+> > > 
+> > >        CPU1                                  CPU2
+> > > 
+> > >     ffs_func_eps_disable
+> > >     epfiles (local copy)
+> > > 					ffs_epfile_release
+> > > 					ffs_data_closed
+> > > 					if (last file closed)
+> > > 					ffs_data_reset
+> > > 					ffs_data_clear
+> > > 					ffs_epfiles_destroy
+> > > spin_lock
+> > > dereference epfiles
+> > > 
+> > > Fix this races by taking epfiles local copy & assigning it under
+> > > spinlock and if epfiles(local) is null then update it in ffs->epfiles
+> > > then finally destroy it.
+> > > Extending the scope further from the race, protecting the ep related
+> > > structures, and concurrent accesses.
+> > > 
+> > > Fixes: a9e6f83c2df (usb: gadget: f_fs: stop sleeping in
+> > > ffs_func_eps_disable)
+> > No need to line-wrap this line, the scripts will complain about it :(
+> checkpatch didn't give any error for this though.
 
-after driver sending the UCSI_START cmd, CCGx would
-clear Bit 0:Device Interrupt in the INTR_REG if CCGX
-reset successfully.
+It's not a checkpatch error, it will show up in the scripts we run on
+commits in our trees.  linux-next will report a problem with this, and
+so I have the same scripts as well.  They were posted to the
+users@kernel.org mailing list a year or so ago if you are curious.  It's
+not a big deal.
 
-however, there might be a chance that other bits in
-INTR_REG are not cleared due to internal data queued
-in PPM and cause the driver thinks CCGx reset failed.
+> > > Reviewed-by: John Keeping <john@metanate.com>
+> > > Signed-off-by: Pratham Pratap <quic_ppratap@quicinc.com>
+> > > Co-developed-by: Udipto Goswami <quic_ugoswami@quicinc.com>
+> > > Signed-off-by: Udipto Goswami <quic_ugoswami@quicinc.com>
+> > > ---
+> > > v8: Fixed compilation errors from previous version.
+> > > 
+> > >   drivers/usb/gadget/function/f_fs.c | 60 ++++++++++++++++++++++++++++----------
+> > >   1 file changed, 45 insertions(+), 15 deletions(-)
+> > > 
+> > > diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> > > index 3c584da..541a4af 100644
+> > > --- a/drivers/usb/gadget/function/f_fs.c
+> > > +++ b/drivers/usb/gadget/function/f_fs.c
+> > > @@ -1711,16 +1711,24 @@ static void ffs_data_put(struct ffs_data *ffs)
+> > >   static void ffs_data_closed(struct ffs_data *ffs)
+> > >   {
+> > > +	struct ffs_epfile *epfiles;
+> > > +	unsigned long flags;
+> > > +
+> > >   	ENTER();
+> > >   	if (atomic_dec_and_test(&ffs->opened)) {
+> > >   		if (ffs->no_disconnect) {
+> > >   			ffs->state = FFS_DEACTIVATED;
+> > > -			if (ffs->epfiles) {
+> > > -				ffs_epfiles_destroy(ffs->epfiles,
+> > > -						   ffs->eps_count);
+> > > -				ffs->epfiles = NULL;
+> > > -			}
+> > > +			spin_lock_irqsave(&ffs->eps_lock, flags);
+> > > +			epfiles = ffs->epfiles;
+> > > +			ffs->epfiles = NULL;
+> > > +			spin_unlock_irqrestore(&ffs->eps_lock,
+> > > +							flags);
+> > > +
+> > > +			if (epfiles)
+> > > +				ffs_epfiles_destroy(epfiles,
+> > > +						 ffs->eps_count);
+> > > +
+> > >   			if (ffs->setup_state == FFS_SETUP_PENDING)
+> > >   				__ffs_ep0_stall(ffs);
+> > >   		} else {
+> > > @@ -1767,14 +1775,27 @@ static struct ffs_data *ffs_data_new(const char *dev_name)
+> > >   static void ffs_data_clear(struct ffs_data *ffs)
+> > >   {
+> > > +	struct ffs_epfile *epfiles;
+> > > +	unsigned long flags;
+> > > +
+> > >   	ENTER();
+> > >   	ffs_closed(ffs);
+> > >   	BUG_ON(ffs->gadget);
+> > > -	if (ffs->epfiles)
+> > > -		ffs_epfiles_destroy(ffs->epfiles, ffs->eps_count);
+> > > +	spin_lock_irqsave(&ffs->eps_lock, flags);
+> > > +	epfiles = ffs->epfiles;
+> > > +	ffs->epfiles = NULL;
+> > > +	spin_unlock_irqrestore(&ffs->eps_lock, flags);
+> > > +
+> > > +	/*
+> > > +	 * potential race possible between ffs_func_eps_disable
+> > > +	 * & ffs_epfile_release therefore maintaining a local
+> > > +	 * copy of epfile will save us from use-after-free.
+> > > +	 */
+> > > +	if (epfiles)
+> > > +		ffs_epfiles_destroy(epfiles, ffs->eps_count);
+> > >   	if (ffs->ffs_eventfd)
+> > >   		eventfd_ctx_put(ffs->ffs_eventfd);
+> > > @@ -1790,7 +1811,6 @@ static void ffs_data_reset(struct ffs_data *ffs)
+> > >   	ffs_data_clear(ffs);
+> > > -	ffs->epfiles = NULL;
+> > >   	ffs->raw_descs_data = NULL;
+> > >   	ffs->raw_descs = NULL;
+> > >   	ffs->raw_strings = NULL;
+> > > @@ -1870,6 +1890,7 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
+> > >   {
+> > >   	struct ffs_epfile *epfile, *epfiles;
+> > >   	unsigned i, count;
+> > > +	unsigned long flags;
+> > >   	ENTER();
+> > > @@ -1895,7 +1916,9 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
+> > >   		}
+> > >   	}
+> > > +	spin_lock_irqsave(&ffs->eps_lock, flags);
+> > >   	ffs->epfiles = epfiles;
+> > > +	spin_unlock_irqrestore(&ffs->eps_lock, flags);
+> > Why is this lock needed when you set this value?  What is that
+> > protecting?
+> 
+> Was making it uniform, protection ffs->epfiles all over. Here intention is
+> to protect the operation of epfiles getting assigned to ffs->epfiles so that
+> we protect the ffs->epfiles instance at the time of creation as well.
 
-the commit checks bit 0 in INTR_REG and ignore other
-bits. ucsi driver would reset PPM later.
+But it is not needed here, so no need to add it.
 
-Signed-off-by: Sing-Han Chen <singhanc@nvidia.com>
-Signed-off-by: WayneChang <waynec@nvidia.com>
----
- drivers/usb/typec/ucsi/ucsi_ccg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index bff96d64dddf..6db7c8ddd51c 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -325,7 +325,7 @@ static int ucsi_ccg_init(struct ucsi_ccg *uc)
- 		if (status < 0)
- 			return status;
- 
--		if (!data)
-+		if (!(data & DEV_INT))
- 			return 0;
- 
- 		status = ccg_write(uc, CCGX_RAB_INTR_REG, &data, sizeof(data));
--- 
-2.25.1
-
+greg k-h
