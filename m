@@ -2,82 +2,182 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CBF0C433EF
-	for <linux-usb@archiver.kernel.org>; Sun,  9 Jan 2022 02:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821FBC433F5
+	for <linux-usb@archiver.kernel.org>; Sun,  9 Jan 2022 11:59:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235085AbiAICoj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Jan 2022 21:44:39 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:43655 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S232210AbiAICoj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Jan 2022 21:44:39 -0500
-Received: (qmail 140417 invoked by uid 1000); 8 Jan 2022 21:44:38 -0500
-Date:   Sat, 8 Jan 2022 21:44:38 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     James <bjlockie@lockie.ca>, linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: why does my keyboard have 2 interfaces?
-Message-ID: <YdpMFv4vjT8CZ3UQ@rowland.harvard.edu>
-References: <01df8679-05fa-9728-c853-51576c49a7bb@lockie.ca>
- <6d26d56a-0572-f6b2-4895-c3fd7063276d@lockie.ca>
- <7d9c9c91-ae1b-47e5-0b5c-de0fd8f826b4@infradead.org>
+        id S233970AbiAIL74 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 9 Jan 2022 06:59:56 -0500
+Received: from cable.insite.cz ([84.242.75.189]:52249 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233739AbiAIL74 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 9 Jan 2022 06:59:56 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id BA05CA1A3D40F;
+        Sun,  9 Jan 2022 12:59:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1641729593; bh=GPcVcdFkqjEXbwzMoJHQc6JNsONk1lTO11d99kX4NsQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=rzvb7G0Az5czXtNodvSXjzXEfbfm0lywjllH4s72rVdBVt33aum6iU4kCeAVfAia9
+         sOSZ3hV2VwSjzgHuvRNf9r/44SqARqP/USMtTXucbKXLVlg58Uw20wW5O1spFB/rLz
+         r6dhgB5QmLqr2uHmynIkVSCc2VLqxlYYN2+m8Q1s=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id W0JM6C4t_xfO; Sun,  9 Jan 2022 12:59:48 +0100 (CET)
+Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 26E9CA1A3D401;
+        Sun,  9 Jan 2022 12:59:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1641729588; bh=GPcVcdFkqjEXbwzMoJHQc6JNsONk1lTO11d99kX4NsQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bDqGfqmX9zR/8ZDEU5ZWmxBY60z2tPkCmqfb4n/G/0e6y0Ql3BKcf7dm92v2FK7k6
+         EK1SiEuj7oPr1uwQnbU/K2tTwMwN2F5pZH+oK7inhxJoYFWuOfTi+KNyiLtvJjdc3U
+         5K9fj11Frde8F39V8v8OjXvUGIHDa4GUijEe37gs=
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Julian Scheel <julian@jusst.de>,
+        John Keeping <john@metanate.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v3 01/11] usb: gadget:audio: Replace deprecated macro S_IRUGO
+Date:   Sun,  9 Jan 2022 12:59:36 +0100
+Message-Id: <20220109115946.392818-2-pavel.hofman@ivitera.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220109115946.392818-1-pavel.hofman@ivitera.com>
+References: <20220109115946.392818-1-pavel.hofman@ivitera.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7d9c9c91-ae1b-47e5-0b5c-de0fd8f826b4@infradead.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jan 08, 2022 at 06:19:27PM -0800, Randy Dunlap wrote:
-> 
-> 
-> On 1/8/22 16:21, James wrote:
-> > 
-> > $ lsusb -tv
-> >  /:  Bus 03.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/4p, 480M
-> >      ID 1d6b:0002 Linux Foundation 2.0 root hub
-> >      |__ Port 1: Dev 5, If 0, Class=Human Interface Device, Driver=usbhid, 1.5M
-> >          ID 04d9:1503 Holtek Semiconductor, Inc. Keyboard
-> 
-> Interface 0 is the control interface, for setup/config/etc commands.
+Use octal digits as suggested by checkpatch instead of the deprecated
+macro.
 
-Or possibly it is the boot interface, for use by the BIOS before the 
-operating system is running.
+Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
+---
+v3: new patch
+---
+ drivers/usb/gadget/legacy/audio.c | 36 +++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-> >      |__ Port 1: Dev 5, If 1, Class=Human Interface Device, Driver=usbhid, 1.5M
-> >          ID 04d9:1503 Holtek Semiconductor, Inc. Keyboard
-> 
-> Interfaces 1..N are for function data transfer.
-> 
-> > 
-> > I tried my other computer and all the devices seem to have 2 interfaces.
+diff --git a/drivers/usb/gadget/legacy/audio.c b/drivers/usb/gadget/legacy/audio.c
+index a748ed0842e8..5ec477ffab7f 100644
+--- a/drivers/usb/gadget/legacy/audio.c
++++ b/drivers/usb/gadget/legacy/audio.c
+@@ -22,32 +22,32 @@ USB_GADGET_COMPOSITE_OPTIONS();
+ 
+ /* Playback(USB-IN) Default Stereo - Fl/Fr */
+ static int p_chmask = UAC2_DEF_PCHMASK;
+-module_param(p_chmask, uint, S_IRUGO);
++module_param(p_chmask, uint, 0444);
+ MODULE_PARM_DESC(p_chmask, "Playback Channel Mask");
+ 
+ /* Playback Default 48 KHz */
+ static int p_srate = UAC2_DEF_PSRATE;
+-module_param(p_srate, uint, S_IRUGO);
++module_param(p_srate, uint, 0444);
+ MODULE_PARM_DESC(p_srate, "Playback Sampling Rate");
+ 
+ /* Playback Default 16bits/sample */
+ static int p_ssize = UAC2_DEF_PSSIZE;
+-module_param(p_ssize, uint, S_IRUGO);
++module_param(p_ssize, uint, 0444);
+ MODULE_PARM_DESC(p_ssize, "Playback Sample Size(bytes)");
+ 
+ /* Capture(USB-OUT) Default Stereo - Fl/Fr */
+ static int c_chmask = UAC2_DEF_CCHMASK;
+-module_param(c_chmask, uint, S_IRUGO);
++module_param(c_chmask, uint, 0444);
+ MODULE_PARM_DESC(c_chmask, "Capture Channel Mask");
+ 
+ /* Capture Default 64 KHz */
+ static int c_srate = UAC2_DEF_CSRATE;
+-module_param(c_srate, uint, S_IRUGO);
++module_param(c_srate, uint, 0444);
+ MODULE_PARM_DESC(c_srate, "Capture Sampling Rate");
+ 
+ /* Capture Default 16bits/sample */
+ static int c_ssize = UAC2_DEF_CSSIZE;
+-module_param(c_ssize, uint, S_IRUGO);
++module_param(c_ssize, uint, 0444);
+ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ #else
+ #ifndef CONFIG_GADGET_UAC1_LEGACY
+@@ -55,58 +55,58 @@ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ 
+ /* Playback(USB-IN) Default Stereo - Fl/Fr */
+ static int p_chmask = UAC1_DEF_PCHMASK;
+-module_param(p_chmask, uint, S_IRUGO);
++module_param(p_chmask, uint, 0444);
+ MODULE_PARM_DESC(p_chmask, "Playback Channel Mask");
+ 
+ /* Playback Default 48 KHz */
+ static int p_srate = UAC1_DEF_PSRATE;
+-module_param(p_srate, uint, S_IRUGO);
++module_param(p_srate, uint, 0444);
+ MODULE_PARM_DESC(p_srate, "Playback Sampling Rate");
+ 
+ /* Playback Default 16bits/sample */
+ static int p_ssize = UAC1_DEF_PSSIZE;
+-module_param(p_ssize, uint, S_IRUGO);
++module_param(p_ssize, uint, 0444);
+ MODULE_PARM_DESC(p_ssize, "Playback Sample Size(bytes)");
+ 
+ /* Capture(USB-OUT) Default Stereo - Fl/Fr */
+ static int c_chmask = UAC1_DEF_CCHMASK;
+-module_param(c_chmask, uint, S_IRUGO);
++module_param(c_chmask, uint, 0444);
+ MODULE_PARM_DESC(c_chmask, "Capture Channel Mask");
+ 
+ /* Capture Default 48 KHz */
+ static int c_srate = UAC1_DEF_CSRATE;
+-module_param(c_srate, uint, S_IRUGO);
++module_param(c_srate, uint, 0444);
+ MODULE_PARM_DESC(c_srate, "Capture Sampling Rate");
+ 
+ /* Capture Default 16bits/sample */
+ static int c_ssize = UAC1_DEF_CSSIZE;
+-module_param(c_ssize, uint, S_IRUGO);
++module_param(c_ssize, uint, 0444);
+ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ #else /* CONFIG_GADGET_UAC1_LEGACY */
+ #include "u_uac1_legacy.h"
+ 
+ static char *fn_play = FILE_PCM_PLAYBACK;
+-module_param(fn_play, charp, S_IRUGO);
++module_param(fn_play, charp, 0444);
+ MODULE_PARM_DESC(fn_play, "Playback PCM device file name");
+ 
+ static char *fn_cap = FILE_PCM_CAPTURE;
+-module_param(fn_cap, charp, S_IRUGO);
++module_param(fn_cap, charp, 0444);
+ MODULE_PARM_DESC(fn_cap, "Capture PCM device file name");
+ 
+ static char *fn_cntl = FILE_CONTROL;
+-module_param(fn_cntl, charp, S_IRUGO);
++module_param(fn_cntl, charp, 0444);
+ MODULE_PARM_DESC(fn_cntl, "Control device file name");
+ 
+ static int req_buf_size = UAC1_OUT_EP_MAX_PACKET_SIZE;
+-module_param(req_buf_size, int, S_IRUGO);
++module_param(req_buf_size, int, 0444);
+ MODULE_PARM_DESC(req_buf_size, "ISO OUT endpoint request buffer size");
+ 
+ static int req_count = UAC1_REQ_COUNT;
+-module_param(req_count, int, S_IRUGO);
++module_param(req_count, int, 0444);
+ MODULE_PARM_DESC(req_count, "ISO OUT endpoint request count");
+ 
+ static int audio_buf_size = UAC1_AUDIO_BUF_SIZE;
+-module_param(audio_buf_size, int, S_IRUGO);
++module_param(audio_buf_size, int, 0444);
+ MODULE_PARM_DESC(audio_buf_size, "Audio buffer size");
+ #endif /* CONFIG_GADGET_UAC1_LEGACY */
+ #endif
+-- 
+2.25.1
 
-Not all of them.  Device 4 on port 7 has only one interface.
-
-> >  lsusb -tv
-> > /:  Bus 02.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/6p, 10000M
-> >     ID 1d6b:0003 Linux Foundation 3.0 root hub
-> > /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/12p, 480M
-> >     ID 1d6b:0002 Linux Foundation 2.0 root hub
-> >     |__ Port 4: Dev 9, If 1, Class=Human Interface Device, Driver=usbhid, 12M
-> >         ID 25a7:fa61 Areson Technology Corp Elecom Co., Ltd MR-K013 Multicard Reader
-> >     |__ Port 4: Dev 9, If 0, Class=Human Interface Device, Driver=usbhid, 12M
-> >         ID 25a7:fa61 Areson Technology Corp Elecom Co., Ltd MR-K013 Multicard Reader
-> >     |__ Port 5: Dev 3, If 1, Class=Video, Driver=uvcvideo, 480M
-> >         ID 0408:a061 Quanta Computer, Inc.
-> >     |__ Port 5: Dev 3, If 0, Class=Video, Driver=uvcvideo, 480M
-> >         ID 0408:a061 Quanta Computer, Inc.
-> >     |__ Port 7: Dev 4, If 0, Class=Vendor Specific Class, Driver=, 12M
-> >         ID 04f3:0c03 Elan Microelectronics Corp.
-> >     |__ Port 10: Dev 5, If 0, Class=Wireless, Driver=btusb, 12M
-> >         ID 8087:0026 Intel Corp.
-> >     |__ Port 10: Dev 5, If 1, Class=Wireless, Driver=btusb, 12M
-> >         ID 8087:0026 Intel Corp.
-> > 
-> 
-> -- 
-> ~Randy
-
-Alan Stern
