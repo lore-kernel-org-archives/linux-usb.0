@@ -2,161 +2,383 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E05A2C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 19:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1532C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 19:55:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243603AbiAJThQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Jan 2022 14:37:16 -0500
-Received: from mx0d-0054df01.pphosted.com ([67.231.150.19]:44601 "EHLO
-        mx0d-0054df01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241122AbiAJThP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Jan 2022 14:37:15 -0500
-Received: from pps.filterd (m0209000.ppops.net [127.0.0.1])
-        by mx0c-0054df01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 20AI5sEQ001635;
-        Mon, 10 Jan 2022 14:37:06 -0500
-Received: from can01-to1-obe.outbound.protection.outlook.com (mail-to1can01lp2052.outbound.protection.outlook.com [104.47.61.52])
-        by mx0c-0054df01.pphosted.com (PPS) with ESMTPS id 3dgp68r76n-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 Jan 2022 14:37:06 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GVOaaDj3lnMZsZUmABLQdBKO+I1Cqc8LIl+Vy6L44mIA//4gSF/dyMjhcA62Y8krXOePEHoUB1akXy1AjiIetSSIMni/BFQJz3NoBGo8atPmDBBcvlPFnMABYFxpxKaG/Ku61DSIZ7RPhJU7HWzdrDyksg2nbrApBOi9m1mMqwtcLxlcW5Ae0JLWBDtvSFOt4ngaAsOp673bWZGy9XptRKIfVGD1p2rqpedUvvDJhRDiuKLe6YzxVcmgKTetVxqkmzuDAE3Y3VpumMA4m1fU6D+4mvsUBmnjOPkWo1qwYRvK3Cxo4JQj5L8ZodJCB6vDSvcPG4fDfvwaVX++3fXKrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lYYoL8ENqXn8/yzpo6DmGcjV/PxdJYZrbStIiLXDXEE=;
- b=cwQDoL++fZtI5CuAOXK0JYoeoUxoSFWsRZVynIFb/sbo00zk+bUJg2taOE11lBw/L+5mt6aFaPTcBQ3jxjyfYrexcVVwjgpXUK04LwDECKsb8B8PO/SjMGt3rWD360QnnSj1Td266vOrW/2rDzj//f5fUezSjMofSf3oS8yG53Qya922CkoMhg7WS+Vc0psp+CML9Mv34q3VWrpJs6ciJA5Spc+mvyvwohYVO1alUpQMM/BDUZC/xSDFcTeAxA96qHeDViZryw9AHZs8CfUg7ZOj8ADN20aDXm7fqnmdN6R4N/bFo9horPdrtu/uSrcNEALHVkvY1uLdYBCMHsrV/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=calian.com; dmarc=pass action=none header.from=calian.com;
- dkim=pass header.d=calian.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=calian.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lYYoL8ENqXn8/yzpo6DmGcjV/PxdJYZrbStIiLXDXEE=;
- b=NeqAoeYTrnxFcgPvAJ382jYDCf0sEoLLqOhQCTtnCPcM3trGhVX/nx0UCqhERpDpcTrvmvz14eeGSgY8zX8tiUYnah+NVnIZOLgdFvN+TmkZ3Fx/dkEo8lKQtVBo/55TBdaPB20UpjkZkzMwK0GQ9fwS+O+Q4rvMxX3BqZh8bFE=
-Received: from YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:4d::14)
- by YTOPR0101MB2236.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:22::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9; Mon, 10 Jan
- 2022 19:37:05 +0000
-Received: from YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::4441:49c3:f6d1:65ec]) by YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::4441:49c3:f6d1:65ec%9]) with mapi id 15.20.4867.012; Mon, 10 Jan 2022
- 19:37:05 +0000
-From:   Robert Hancock <robert.hancock@calian.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Thinh.Nguyen@synopsys.com, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, michal.simek@xilinx.com,
-        balbi@kernel.org, gregkh@linuxfoundation.org,
-        mounika.grace.akula@xilinx.com, manish.narani@xilinx.com,
-        Robert Hancock <robert.hancock@calian.com>
-Subject: [PATCH v2 3/5] dt-bindings: usb: dwc3: add reference clock period fractional adjustment
-Date:   Mon, 10 Jan 2022 13:36:39 -0600
-Message-Id: <20220110193641.1368350-4-robert.hancock@calian.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220110193641.1368350-1-robert.hancock@calian.com>
-References: <20220110193641.1368350-1-robert.hancock@calian.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MWHPR12CA0025.namprd12.prod.outlook.com
- (2603:10b6:301:2::11) To YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:4d::14)
+        id S243696AbiAJTzI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Jan 2022 14:55:08 -0500
+Received: from mxout01.lancloud.ru ([45.84.86.81]:56060 "EHLO
+        mxout01.lancloud.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243733AbiAJTzA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Jan 2022 14:55:00 -0500
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 40192209A558
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Qiang Yu <yuq825@gmail.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jassi Brar <jassisinghbrar@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        "Wolfgang Grandegger" <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        "Vivien Didelot" <vivien.didelot@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jose Abreu <joabreu@synopsys.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        "Gustavo Pimentel" <gustavo.pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Rob Herring <robh@kernel.org>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Mark Brown <broonie@kernel.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <dri-devel@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+        <linux-tegra@vger.kernel.org>, <linux-can@vger.kernel.org>,
+        <netdev@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-pci@vger.kernel.org>, <linux-spi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH 2/2] platform: make platform_get_irq_byname_optional() optional
+Date:   Mon, 10 Jan 2022 22:54:49 +0300
+Message-ID: <20220110195449.12448-3-s.shtylyov@omp.ru>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20220110195449.12448-1-s.shtylyov@omp.ru>
+References: <20220110195449.12448-1-s.shtylyov@omp.ru>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5f15b8bb-f4b5-4413-5f30-08d9d47094e4
-X-MS-TrafficTypeDiagnostic: YTOPR0101MB2236:EE_
-X-Microsoft-Antispam-PRVS: <YTOPR0101MB223628BA9BF37E44F28AE074EC509@YTOPR0101MB2236.CANPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Wz+nEEm3sl9aBb/btpyGeaCQVf0nXaXmSNEH+aTD6Pn9OXV5oEEzGnfAoK40nLeoZRuKBZLy4s7gO87PwS84RCRwidhKhgHKYCmTrEI3h7nZ+NU0LhkWpMVJukTPKVDSNDrW7tIJdzgUw+QPOA9fpYLyuoAsk6bcUDjwSisCOIo0zokVk8pNPO17EnFNr3DxF7MkYyAikd7VPvgHoP5trDJ42PyXBVW8p7eOPqdB9K1aqnSev2B9E3ZIScM+PdmmnlI5w0sRNfh9qPb1BPsz9FVJ4hsTNKidJ/ZiO3gdGXbKAT9TqmQVaPOYcEK9YXi28Zvh0iKa3jf1yII2VOVWXlfyJX1CfuCzjDqV7zVb3lrFBO8Bi21fIF+l67ynWAQrSsJURj6u+rf5vMAVDS+71+kw2dWGAw2KNkZhcku6FyPyPgUCphVTx+MnpZNS55W2KpLIbNNGl6EvLp1GhMNBXVYe/48rmrg/3X/1o48xhrCV0NNpz2fNxK0wnNlgidSMgBkww1Nx+1OHePqVzz09qPGLeDozEchVy1VF0FvrymC8u3eGITx4nGstBXwssIbdr/uNbLHXxbsQkvGyG5kLwRiwrNPVKZ1Cad3acDPYitnKrUb93uBcBNO+mLxic20cyP9euF8mclvWbxjx5Oqe7VpLHCFkS5dq+KAPFpe8ujO66nr8rkVJBR8wvlehsbjYpxrn6BeEptsrLhQBnWkifQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(6512007)(5660300002)(83380400001)(2616005)(44832011)(508600001)(8936002)(8676002)(6486002)(2906002)(38350700002)(38100700002)(36756003)(6916009)(316002)(66476007)(66556008)(26005)(66946007)(1076003)(4326008)(6506007)(52116002)(186003)(107886003)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vcKHl/LXSy8WAOJaXXoNO+cuXxLrt53uKWaM1S7AV4ZZv85cqCgKBOg7s3/r?=
- =?us-ascii?Q?nDc5U6S0T4tLX9AhdH7EEHpjkXeWuk+KYFl5FBRpLLPl0tRZrr16F6CH4bRK?=
- =?us-ascii?Q?9k/sJ5IkBYj3VZkFJKjvIyp3NFAqihfdcaRUs9CMmXkHqmdy9yC5i6cpbaWf?=
- =?us-ascii?Q?/NFn6DfJ3hblhmgLaDQohQ2TgNF0nghGNHsufCu3fglSZg1aZx5nmVxX4wKa?=
- =?us-ascii?Q?miVbZRGFeEv9CoXYURBq3VrvucahLoNuWOCcr9rkeG/ghnUgTKZRcpS6+9lh?=
- =?us-ascii?Q?v8zJw3jYWzyftR02MMqdTWi/6JAUespxidkzT7vOIlcWJ0hBQBDvHR/EZLzN?=
- =?us-ascii?Q?hrNRIb5/ErXLT7dRur9A+aaR+0+gLBhxexJvrbLm4HExdxGFrwvM7UUnOuwA?=
- =?us-ascii?Q?OVtarj5Rz80V/bJY0zxIjhxEihqc0xC069HA162c1bp6KTOkfeEX1kPkvSCS?=
- =?us-ascii?Q?7d77Jv5WIMOAeDSm6LFsZdaDIUQV5AZqex8/HWVMMMIPiKqMmgKS0ZeXyQeH?=
- =?us-ascii?Q?oGo0ZBynUYvMqoIPAnTRTsB/NC4J/iWQgfC68gr0NrWTItx1msY9R2yFRfaP?=
- =?us-ascii?Q?HyAhipUn1+8gXQWSRzvDJXx6orWAtQ273ixQsA7N4kXtbmQETwZkZEYPkpvm?=
- =?us-ascii?Q?EQgg3K9OrEGkurFdKy0OfKuCIj/uiNXPp5hrKLw25djHqeFEwcps1PO+1rIN?=
- =?us-ascii?Q?PHkSRYhaJTwv9HXbeKfaQpYcfPomigwCxgIDnWq/QMp3Z9XSDr2Ek0RhOuD9?=
- =?us-ascii?Q?j6IhnxQqO5KD7iS8QCmYxzr//8EsOJucdbFpqkEl33n4+76Wzv04lHEjSe8D?=
- =?us-ascii?Q?Pc2InUu13CABsU1rrzTpDfki4b742jlw5rl387v2EymGzBpVwp2LWmfh9Cux?=
- =?us-ascii?Q?D4TQDuCwpaUqHYFecvxMi5vi/rhWRVHYUgKMztknE+LOozV51Vf+dOFEXk3X?=
- =?us-ascii?Q?+goZH3Bz0ECbfAjIPlm8VnxbxNPsxjVCHNIJKpP2TzAcTPpJCbatU5f3Hi+4?=
- =?us-ascii?Q?xUbFtrp5NcscqLvJzrpewRtKF/lfzae/eFiOkhy6u/5rpRqNap9fHP8yG2qw?=
- =?us-ascii?Q?AKA8GLPGSOd5O1uu3yi6AG6udPFKtHDTy4tPsZkja7rBnowMhMBI47OMNFe2?=
- =?us-ascii?Q?26WntCLs3AgAOOtTiSvFQ6zeSBdx/cQuYZAlfPPMoW292hs7fmEk7idm/l5n?=
- =?us-ascii?Q?7jSMJcJdQghHzV5fQvowTj1s7IhhOtYOFOzbJaZcq60VbweRCt4ASIOvuHEG?=
- =?us-ascii?Q?QRHTjKPFHpUuzX3qJjBDclJzUfVD7/thtPICy8FUsXclOCLHdS4R0fErCUSx?=
- =?us-ascii?Q?yanzv9KrYs/ns2R2mesgWnNb9T9l78iylil2LblSdqUFX38Ajt+11rkRbk8B?=
- =?us-ascii?Q?IlaTMBMxADD0QzOLOyNntxE0VNCQv38mN0dcVqTR6KYEgQKg1dGnCZFdtvK3?=
- =?us-ascii?Q?Y7N1EvjV/HaWwE/UGnXVW1oXlhKd/z+5eATyxFyK74SI2+kHuzjdnUibNzKG?=
- =?us-ascii?Q?tsFAReZwUS+VdpvmVJtm8xmjKelGUgQbY7KR6N6JPSla/QIJtdDkFELlIqb8?=
- =?us-ascii?Q?JpGgQyIxLHLqdzkc+41PY5vXUWfwMgepvV2lVTkGvjELhqP6A137hoHn4Ths?=
- =?us-ascii?Q?95+HihvutjdJQEnaO+9YBtNImG4PsNwpsC4eIqp8Cy89R/UxeDCaoKzUK9vq?=
- =?us-ascii?Q?HKSRZQ=3D=3D?=
-X-OriginatorOrg: calian.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f15b8bb-f4b5-4413-5f30-08d9d47094e4
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB6270.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2022 19:37:05.1711
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 23b57807-562f-49ad-92c4-3bb0f07a1fdf
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rE75mG8zKZw3YNaqzuqdlmKGAS9mEKWuCFVZxn8iOCBUUbg3Eo7vkEBH+BP46QYtn48Uo0RoZcpcUIE9AuOAbUnzax1qAOMsOQA/1ZQ0G8k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YTOPR0101MB2236
-X-Proofpoint-GUID: roYKhUTecjz7hU4LzOMpzlt2j8f1lPu7
-X-Proofpoint-ORIG-GUID: roYKhUTecjz7hU4LzOMpzlt2j8f1lPu7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-10_08,2022-01-10_02,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
- clxscore=1015 mlxscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 mlxlogscore=714 malwarescore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201100133
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the new snps,ref-clock-fladj property which can be used to set
-the fractional portion of the reference clock period.
+Currently platform_get_irq_byname_optional() returns an error code even
+if IRQ resource simply has not been found. It prevents the callers from
+being error code agnostic in their error handling:
 
-Signed-off-by: Robert Hancock <robert.hancock@calian.com>
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0 && ret != -ENXIO)
+		return ret; // respect deferred probe
+	if (ret > 0)
+		...we get an IRQ...
+
+All other *_optional() APIs seem to return 0 or NULL in case an optional
+resource is not available. Let's follow this good example, so that the
+callers would look like:
+
+	ret = platform_get_irq_byname_optional(...);
+	if (ret < 0)
+		return ret;
+	if (ret > 0)
+		...we get an IRQ...
+
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/base/platform.c                             | 13 ++++++++++---
+ drivers/gpu/drm/lima/lima_device.c                  |  2 +-
+ drivers/mailbox/tegra-hsp.c                         |  4 ++--
+ drivers/net/can/rcar/rcar_canfd.c                   |  4 ++--
+ drivers/net/dsa/b53/b53_srab.c                      |  2 +-
+ drivers/net/ethernet/freescale/fec_main.c           |  2 +-
+ drivers/net/ethernet/freescale/fec_ptp.c            |  2 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c   |  4 ++--
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c   |  4 ++--
+ drivers/pci/controller/dwc/pcie-designware-host.c   |  2 +-
+ drivers/spi/spi-bcm-qspi.c                          |  2 +-
+ drivers/spi/spi-rspi.c                              |  8 ++++----
+ drivers/usb/cdns3/cdns3-plat.c                      |  5 +----
+ drivers/usb/host/xhci-mtk.c                         |  2 +-
+ drivers/usb/mtu3/mtu3_core.c                        |  2 +-
+ 15 files changed, 31 insertions(+), 27 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index 25ac2c93dc6c..88d8d831e04a 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -260,6 +260,18 @@ properties:
-     minimum: 1
-     maximum: 0x3ff
- 
-+  snps,ref-clock-fladj:
-+    description:
-+      Value for GFLADJ_REFCLK_FLADJ field of GFLADJ register for the
-+      fractional portion of the reference clock period in nanoseconds,
-+      when the hardware set default does not match the actual
-+      clock. Calculated via
-+      ((125000/ref_clk_period_integer)-(125000/ref_clk_period)) * ref_clk_period
-+      where ref_clk_period_integer is the period specified in GUCTL_REFCLKPER and
-+      ref_clk_period is the period including fractional value.
-+    minimum: 0
-+    maximum: 124999
+diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+index 7c7b3638f02d..1d0ea635922b 100644
+--- a/drivers/base/platform.c
++++ b/drivers/base/platform.c
+@@ -495,14 +495,21 @@ EXPORT_SYMBOL_GPL(platform_get_irq_byname);
+  * @name: IRQ name
+  *
+  * Get an optional IRQ by name like platform_get_irq_byname(). Except that it
+- * does not print an error message if an IRQ can not be obtained.
++ * does not print an error message if an IRQ can not be obtained and returns
++ * 0 when IRQ resource has not been found.
+  *
+- * Return: non-zero IRQ number on success, negative error number on failure.
++ * Return: non-zero IRQ number on success, 0 if IRQ wasn't found, negative error
++ * number on failure.
+  */
+ int platform_get_irq_byname_optional(struct platform_device *dev,
+ 				     const char *name)
+ {
+-	return __platform_get_irq_byname(dev, name);
++	int ret;
 +
-   snps,rx-thr-num-pkt-prd:
-     description:
-       Periodic ESS RX packet threshold count (host mode only). Set this and
++	ret = __platform_get_irq_byname(dev, name);
++	if (ret == -ENXIO)
++		return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(platform_get_irq_byname_optional);
+ 
+diff --git a/drivers/gpu/drm/lima/lima_device.c b/drivers/gpu/drm/lima/lima_device.c
+index 65fdca366e41..e3659aa687c2 100644
+--- a/drivers/gpu/drm/lima/lima_device.c
++++ b/drivers/gpu/drm/lima/lima_device.c
+@@ -223,7 +223,7 @@ static int lima_init_ip(struct lima_device *dev, int index)
+ 	if (irq_name) {
+ 		err = must ? platform_get_irq_byname(pdev, irq_name) :
+ 			     platform_get_irq_byname_optional(pdev, irq_name);
+-		if (err < 0)
++		if (err <= 0)
+ 			goto out;
+ 		ip->irq = err;
+ 	}
+diff --git a/drivers/mailbox/tegra-hsp.c b/drivers/mailbox/tegra-hsp.c
+index acd0675da681..17aa88e31445 100644
+--- a/drivers/mailbox/tegra-hsp.c
++++ b/drivers/mailbox/tegra-hsp.c
+@@ -667,7 +667,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 	hsp->num_si = (value >> HSP_nSI_SHIFT) & HSP_nINT_MASK;
+ 
+ 	err = platform_get_irq_byname_optional(pdev, "doorbell");
+-	if (err >= 0)
++	if (err > 0)
+ 		hsp->doorbell_irq = err;
+ 
+ 	if (hsp->num_si > 0) {
+@@ -687,7 +687,7 @@ static int tegra_hsp_probe(struct platform_device *pdev)
+ 				return -ENOMEM;
+ 
+ 			err = platform_get_irq_byname_optional(pdev, name);
+-			if (err >= 0) {
++			if (err > 0) {
+ 				hsp->shared_irqs[i] = err;
+ 				count++;
+ 			}
+diff --git a/drivers/net/can/rcar/rcar_canfd.c b/drivers/net/can/rcar/rcar_canfd.c
+index ff9d0f5ae0dd..1d4794493c6a 100644
+--- a/drivers/net/can/rcar/rcar_canfd.c
++++ b/drivers/net/can/rcar/rcar_canfd.c
+@@ -1778,7 +1778,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 
+ 	if (chip_id == RENESAS_RCAR_GEN3) {
+ 		ch_irq = platform_get_irq_byname_optional(pdev, "ch_int");
+-		if (ch_irq < 0) {
++		if (ch_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			ch_irq = platform_get_irq(pdev, 0);
+ 			if (ch_irq < 0)
+@@ -1786,7 +1786,7 @@ static int rcar_canfd_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		g_irq = platform_get_irq_byname_optional(pdev, "g_int");
+-		if (g_irq < 0) {
++		if (g_irq <= 0) {
+ 			/* For backward compatibility get irq by index */
+ 			g_irq = platform_get_irq(pdev, 1);
+ 			if (g_irq < 0)
+diff --git a/drivers/net/dsa/b53/b53_srab.c b/drivers/net/dsa/b53/b53_srab.c
+index 4591bb1c05d2..80b7c8f053ad 100644
+--- a/drivers/net/dsa/b53/b53_srab.c
++++ b/drivers/net/dsa/b53/b53_srab.c
+@@ -420,7 +420,7 @@ static int b53_srab_irq_enable(struct b53_device *dev, int port)
+ 	/* Interrupt is optional and was not specified, do not make
+ 	 * this fatal
+ 	 */
+-	if (p->irq == -ENXIO)
++	if (!p->irq)
+ 		return ret;
+ 
+ 	ret = request_threaded_irq(p->irq, b53_srab_port_isr,
+diff --git a/drivers/net/ethernet/freescale/fec_main.c b/drivers/net/ethernet/freescale/fec_main.c
+index bc418b910999..fba36d09a6e0 100644
+--- a/drivers/net/ethernet/freescale/fec_main.c
++++ b/drivers/net/ethernet/freescale/fec_main.c
+@@ -3933,7 +3933,7 @@ fec_probe(struct platform_device *pdev)
+ 	for (i = 0; i < irq_cnt; i++) {
+ 		snprintf(irq_name, sizeof(irq_name), "int%d", i);
+ 		irq = platform_get_irq_byname_optional(pdev, irq_name);
+-		if (irq < 0)
++		if (irq <= 0)
+ 			irq = platform_get_irq(pdev, i);
+ 		if (irq < 0) {
+ 			ret = irq;
+diff --git a/drivers/net/ethernet/freescale/fec_ptp.c b/drivers/net/ethernet/freescale/fec_ptp.c
+index 158676eda48d..251863c2d5a4 100644
+--- a/drivers/net/ethernet/freescale/fec_ptp.c
++++ b/drivers/net/ethernet/freescale/fec_ptp.c
+@@ -615,7 +615,7 @@ void fec_ptp_init(struct platform_device *pdev, int irq_idx)
+ 	INIT_DELAYED_WORK(&fep->time_keep, fec_time_keep);
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "pps");
+-	if (irq < 0)
++	if (irq <= 0)
+ 		irq = platform_get_irq_optional(pdev, irq_idx);
+ 	/* Failure to get an irq is not fatal,
+ 	 * only the PTP_CLOCK_PPS clock events should stop
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+index 2b38a499a404..5519b5b35365 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+@@ -342,7 +342,7 @@ static int stm32mp1_parse_data(struct stm32_dwmac *dwmac,
+ 	if (dwmac->irq_pwr_wakeup == -EPROBE_DEFER)
+ 		return -EPROBE_DEFER;
+ 
+-	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup >= 0) {
++	if (!dwmac->clk_eth_ck && dwmac->irq_pwr_wakeup > 0) {
+ 		err = device_init_wakeup(&pdev->dev, true);
+ 		if (err) {
+ 			dev_err(&pdev->dev, "Failed to init wake up irq\n");
+@@ -426,7 +426,7 @@ static int stm32_dwmac_remove(struct platform_device *pdev)
+ 
+ 	stm32_dwmac_clk_disable(priv->plat->bsp_priv);
+ 
+-	if (dwmac->irq_pwr_wakeup >= 0) {
++	if (dwmac->irq_pwr_wakeup > 0) {
+ 		dev_pm_clear_wake_irq(&pdev->dev);
+ 		device_init_wakeup(&pdev->dev, false);
+ 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+index 232ac98943cd..dcfc04f7bfd4 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c
+@@ -679,7 +679,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 	 */
+ 	stmmac_res->wol_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_wake_irq");
+-	if (stmmac_res->wol_irq < 0) {
++	if (stmmac_res->wol_irq <= 0) {
+ 		if (stmmac_res->wol_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_wake_irq not found\n");
+@@ -688,7 +688,7 @@ int stmmac_get_platform_resources(struct platform_device *pdev,
+ 
+ 	stmmac_res->lpi_irq =
+ 		platform_get_irq_byname_optional(pdev, "eth_lpi");
+-	if (stmmac_res->lpi_irq < 0) {
++	if (stmmac_res->lpi_irq <= 0) {
+ 		if (stmmac_res->lpi_irq == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
+ 		dev_info(&pdev->dev, "IRQ eth_lpi not found\n");
+diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
+index f4755f3a03be..00e1a33fd06d 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-host.c
++++ b/drivers/pci/controller/dwc/pcie-designware-host.c
+@@ -364,7 +364,7 @@ int dw_pcie_host_init(struct pcie_port *pp)
+ 		} else if (pp->has_msi_ctrl) {
+ 			if (!pp->msi_irq) {
+ 				pp->msi_irq = platform_get_irq_byname_optional(pdev, "msi");
+-				if (pp->msi_irq < 0) {
++				if (pp->msi_irq <= 0) {
+ 					pp->msi_irq = platform_get_irq(pdev, 0);
+ 					if (pp->msi_irq < 0)
+ 						return pp->msi_irq;
+diff --git a/drivers/spi/spi-bcm-qspi.c b/drivers/spi/spi-bcm-qspi.c
+index f3de3305d0f5..40ca101e9875 100644
+--- a/drivers/spi/spi-bcm-qspi.c
++++ b/drivers/spi/spi-bcm-qspi.c
+@@ -1595,7 +1595,7 @@ int bcm_qspi_probe(struct platform_device *pdev,
+ 			irq = platform_get_irq(pdev, 0);
+ 		}
+ 
+-		if (irq  >= 0) {
++		if (irq > 0) {
+ 			ret = devm_request_irq(&pdev->dev, irq,
+ 					       qspi_irq_tab[val].irq_handler, 0,
+ 					       name,
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 41761f0d892a..b736b57f5ff2 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -1330,16 +1330,16 @@ static int rspi_probe(struct platform_device *pdev)
+ 	ctlr->max_native_cs = rspi->ops->num_hw_ss;
+ 
+ 	ret = platform_get_irq_byname_optional(pdev, "rx");
+-	if (ret < 0) {
++	if (ret <= 0) {
+ 		ret = platform_get_irq_byname_optional(pdev, "mux");
+-		if (ret < 0)
++		if (ret <= 0)
+ 			ret = platform_get_irq(pdev, 0);
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->rx_irq = rspi->tx_irq = ret;
+ 	} else {
+ 		rspi->rx_irq = ret;
+ 		ret = platform_get_irq_byname(pdev, "tx");
+-		if (ret >= 0)
++		if (ret > 0)
+ 			rspi->tx_irq = ret;
+ 	}
+ 
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index 4d0f027e5bd3..7379b6026f9f 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -108,10 +108,7 @@ static int cdns3_plat_probe(struct platform_device *pdev)
+ 	cdns->wakeup_irq = platform_get_irq_byname_optional(pdev, "wakeup");
+ 	if (cdns->wakeup_irq == -EPROBE_DEFER)
+ 		return cdns->wakeup_irq;
+-	else if (cdns->wakeup_irq == 0)
+-		return -EINVAL;
+-
+-	if (cdns->wakeup_irq < 0) {
++	if (cdns->wakeup_irq <= 0) {
+ 		dev_dbg(dev, "couldn't get wakeup irq\n");
+ 		cdns->wakeup_irq = 0x0;
+ 	}
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 58a0eae4f41b..e3071e7cb165 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -495,7 +495,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	irq = platform_get_irq_byname_optional(pdev, "host");
+-	if (irq < 0) {
++	if (irq <= 0) {
+ 		if (irq == -EPROBE_DEFER)
+ 			return irq;
+ 
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index c4a2c37abf62..08173c05a1d6 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -925,7 +925,7 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
+ 		return -ENOMEM;
+ 
+ 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
+-	if (mtu->irq < 0) {
++	if (mtu->irq <= 0) {
+ 		if (mtu->irq == -EPROBE_DEFER)
+ 			return mtu->irq;
+ 
 -- 
-2.31.1
+2.26.3
 
