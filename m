@@ -2,174 +2,356 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCAAC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 06:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02EC9C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 07:41:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235010AbiAJGaw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Jan 2022 01:30:52 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:42319 "EHLO
-        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234930AbiAJGas (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Jan 2022 01:30:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1641796248; x=1673332248;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OIz7WRfGpIudUOSp9YYe8BTOXV0+ho3E9LSlOaYrBis=;
-  b=csNOagkg1RCB+hU50TuRCje9zHiSCQyG+wuUBNq7RvLzNXj6p5ZOKYVn
-   JnZob8Gm+nlmZz6d0Coem/dC9TsQWbNoHiZY9xu+oke1gWVLC3sUnC5NT
-   Zz2PK0uikAJ63Ebtd8VWf7e0pszb9jOFCqZy0SwbjXP3eRxtrggdO/uWs
-   M=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 09 Jan 2022 22:30:48 -0800
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2022 22:30:48 -0800
-Received: from jackp-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Sun, 9 Jan 2022 22:30:48 -0800
-From:   Jack Pham <quic_jackp@quicinc.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Michal Nazarewicz <mina86@mina86.com>
-CC:     <linux-usb@vger.kernel.org>,
-        Roger Quadros <roger.quadros@nokia.com>,
-        "Jack Pham" <quic_jackp@quicinc.com>
-Subject: [PATCH v2] usb: gadget: f_mass_storage: Make CD-ROM emulation work with Mac OS-X
-Date:   Sun, 9 Jan 2022 22:30:30 -0800
-Message-ID: <20220110063030.12957-1-quic_jackp@quicinc.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20220110062359.5314-2-quic_jackp@quicinc.com>
-References: <20220110062359.5314-2-quic_jackp@quicinc.com>
+        id S241187AbiAJHlk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Jan 2022 02:41:40 -0500
+Received: from cable.insite.cz ([84.242.75.189]:53511 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241189AbiAJHhy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 10 Jan 2022 02:37:54 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id 01A9DA1A3D405;
+        Mon, 10 Jan 2022 08:37:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1641800271; bh=0aioZtgpTZks+hH8fKfUIYhcOvrNsrRafru6VT6lr24=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cZ2C1Fs60uUTcidgfYaVzqu6jD+eXXqCYKXFFuJ/BACHgbHrWpAiLEYqhUpMm3fqW
+         5FkxECD0XAUCLekOAWKst9Fgk9N2ioCIfxuoAD9IpDuZDqg2eqhAQOZjgpRbQ8puH7
+         LPPHkyUVt9NAmeRSCOP3MFEA4EAjmqhAVl0KO3V4=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fQdsCfLRuTkQ; Mon, 10 Jan 2022 08:37:44 +0100 (CET)
+Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id A19F0A1A3D403;
+        Mon, 10 Jan 2022 08:37:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1641800264; bh=0aioZtgpTZks+hH8fKfUIYhcOvrNsrRafru6VT6lr24=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kmGwBHm6Mr0EnOF1YjZWZjczfPuqFY9c5nYvW5lQ3nPX0WSGFc2+sUx7VWLEoGepu
+         /anPexbLqerf3cB737Ii8G6MJS8ppb6IaWn0y3dX1yyuF5lR71fqaic+zT+QFdgptS
+         u9F9PdPXo7R+fwLGL9VhtOecdiKW0xrL6/UYVFBE=
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Julian Scheel <julian@jusst.de>,
+        John Keeping <john@metanate.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 03/10] usb: gadget: u_audio: Move dynamic srate from params to rtd
+Date:   Mon, 10 Jan 2022 08:37:35 +0100
+Message-Id: <20220110073742.394237-4-pavel.hofman@ivitera.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220110073742.394237-1-pavel.hofman@ivitera.com>
+References: <20220110073742.394237-1-pavel.hofman@ivitera.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Roger Quadros <roger.quadros@nokia.com>
+Parameters uac_params.p_srate/c_srate are dynamic now and are not part
+of parametric configuration anymore. Move them to the
+runtime struct uac_rtd_params for each stream.
 
-Mac OS-X expects CD-ROM TOC in raw format (i.e. format:2). It also
-sends the READ_TOC CDB in old style SFF8020i format. i.e. 2 format bits
-are encoded in MSBs of CDB byte 9.
-
-This patch will enable CD-ROM emulation to work with Mac OS-X. Tested on
-Mac OS X v10.6.3.
-
-Signed-off-by: Roger Quadros <roger.quadros@nokia.com>
-Signed-off-by: Jack Pham <quic_jackp@quicinc.com>
+Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
+Suggested-by: John Keeping <john@metanate.com>
 ---
-v2: Removed Change-Id tag.
+v3: new patch
 
- drivers/usb/gadget/function/f_mass_storage.c | 73 +++++++++++++++++++++++-----
- 1 file changed, 61 insertions(+), 12 deletions(-)
+v4: added Suggested-by to commit msg
+---
+ drivers/usb/gadget/function/f_uac1.c  |  2 -
+ drivers/usb/gadget/function/f_uac2.c  |  2 -
+ drivers/usb/gadget/function/u_audio.c | 68 ++++++++++++++-------------
+ drivers/usb/gadget/function/u_audio.h |  4 +-
+ 4 files changed, 38 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-index 73a28f8..1f7f4dd6 100644
---- a/drivers/usb/gadget/function/f_mass_storage.c
-+++ b/drivers/usb/gadget/function/f_mass_storage.c
-@@ -1188,6 +1188,8 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
- 	int		msf = common->cmnd[1] & 0x02;
- 	int		start_track = common->cmnd[6];
- 	u8		*buf = (u8 *)bh->buf;
-+	u8		format;
-+	int		i, len;
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index ccb0e4f41e5d..0397b27df42e 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -1297,7 +1297,6 @@ static int f_audio_bind(struct usb_configuration *c, struct usb_function *f)
+ 	audio->out_ep_maxpsize = le16_to_cpu(as_out_ep_desc.wMaxPacketSize);
+ 	audio->in_ep_maxpsize = le16_to_cpu(as_in_ep_desc.wMaxPacketSize);
+ 	audio->params.c_chmask = audio_opts->c_chmask;
+-	audio->params.c_srate = audio_opts->c_srate;
+ 	audio->params.c_srates[0] = audio_opts->c_srate;
+ 	audio->params.c_ssize = audio_opts->c_ssize;
+ 	if (FUIN_EN(audio_opts)) {
+@@ -1310,7 +1309,6 @@ static int f_audio_bind(struct usb_configuration *c, struct usb_function *f)
+ 		audio->params.p_fu.volume_res = audio_opts->p_volume_res;
+ 	}
+ 	audio->params.p_chmask = audio_opts->p_chmask;
+-	audio->params.p_srate = audio_opts->p_srate;
+ 	audio->params.p_srates[0] = audio_opts->p_srate;
+ 	audio->params.p_ssize = audio_opts->p_ssize;
+ 	if (FUOUT_EN(audio_opts)) {
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 1334691073a0..e518f210968c 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -1209,7 +1209,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 	agdev->gadget = gadget;
  
- 	if ((common->cmnd[1] & ~0x02) != 0 ||	/* Mask away MSF */
- 			start_track > 1) {
-@@ -1195,18 +1197,65 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
- 		return -EINVAL;
+ 	agdev->params.p_chmask = uac2_opts->p_chmask;
+-	agdev->params.p_srate = uac2_opts->p_srate;
+ 	agdev->params.p_srates[0] = uac2_opts->p_srate;
+ 	agdev->params.p_ssize = uac2_opts->p_ssize;
+ 	if (FUIN_EN(uac2_opts)) {
+@@ -1221,7 +1220,6 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 		agdev->params.p_fu.volume_res = uac2_opts->p_volume_res;
+ 	}
+ 	agdev->params.c_chmask = uac2_opts->c_chmask;
+-	agdev->params.c_srate = uac2_opts->c_srate;
+ 	agdev->params.c_srates[0] = uac2_opts->c_srate;
+ 	agdev->params.c_ssize = uac2_opts->c_ssize;
+ 	if (FUOUT_EN(uac2_opts)) {
+diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
+index 50ccb36d22d7..dce894dcae07 100644
+--- a/drivers/usb/gadget/function/u_audio.c
++++ b/drivers/usb/gadget/function/u_audio.c
+@@ -64,6 +64,7 @@ struct uac_rtd_params {
+   int mute;
+ 
+ 	struct snd_kcontrol *snd_kctl_rate; /* read-only current rate */
++	int srate; /* selected samplerate */
+ 
+   spinlock_t lock; /* lock for control transfers */
+ 
+@@ -153,8 +154,6 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
+ 	struct snd_pcm_runtime *runtime;
+ 	struct uac_rtd_params *prm = req->context;
+ 	struct snd_uac_chip *uac = prm->uac;
+-	struct g_audio *audio_dev = uac->audio_dev;
+-	struct uac_params *params = &audio_dev->params;
+ 	unsigned int frames, p_pktsize;
+ 	unsigned long long pitched_rate_mil, p_pktsize_residue_mil,
+ 			residue_frames_mil, div_result;
+@@ -199,15 +198,14 @@ static void u_audio_iso_complete(struct usb_ep *ep, struct usb_request *req)
+ 		 */
+ 		unsigned long long p_interval_mil = uac->p_interval * 1000000ULL;
+ 
+-		pitched_rate_mil = (unsigned long long)
+-				params->p_srate * prm->pitch;
++		pitched_rate_mil = (unsigned long long) prm->srate * prm->pitch;
+ 		div_result = pitched_rate_mil;
+ 		do_div(div_result, uac->p_interval);
+ 		do_div(div_result, 1000000);
+ 		frames = (unsigned int) div_result;
+ 
+ 		pr_debug("p_srate %d, pitch %d, interval_mil %llu, frames %d\n",
+-				params->p_srate, prm->pitch, p_interval_mil, frames);
++				prm->srate, prm->pitch, p_interval_mil, frames);
+ 
+ 		p_pktsize = min_t(unsigned int,
+ 					uac->p_framesize * frames,
+@@ -284,7 +282,6 @@ static void u_audio_iso_fback_complete(struct usb_ep *ep,
+ 	struct uac_rtd_params *prm = req->context;
+ 	struct snd_uac_chip *uac = prm->uac;
+ 	struct g_audio *audio_dev = uac->audio_dev;
+-	struct uac_params *params = &audio_dev->params;
+ 	int status = req->status;
+ 
+ 	/* i/f shutting down */
+@@ -306,7 +303,7 @@ static void u_audio_iso_fback_complete(struct usb_ep *ep,
+ 			__func__, status, req->actual, req->length);
+ 
+ 	u_audio_set_fback_frequency(audio_dev->gadget->speed, audio_dev->out_ep,
+-				    params->c_srate, prm->pitch,
++				    prm->srate, prm->pitch,
+ 				    req->buf);
+ 
+ 	if (usb_ep_queue(ep, req, GFP_ATOMIC))
+@@ -390,16 +387,14 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct g_audio *audio_dev;
+ 	struct uac_params *params;
++	struct uac_rtd_params *prm;
+ 	int p_ssize, c_ssize;
+-	int p_srate, c_srate;
+ 	int p_chmask, c_chmask;
+ 
+ 	audio_dev = uac->audio_dev;
+ 	params = &audio_dev->params;
+ 	p_ssize = params->p_ssize;
+ 	c_ssize = params->c_ssize;
+-	p_srate = params->p_srate;
+-	c_srate = params->c_srate;
+ 	p_chmask = params->p_chmask;
+ 	c_chmask = params->c_chmask;
+ 	uac->p_residue_mil = 0;
+@@ -407,19 +402,18 @@ static int uac_pcm_open(struct snd_pcm_substream *substream)
+ 	runtime->hw = uac_pcm_hardware;
+ 
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-		runtime->hw.rate_min = p_srate;
+ 		runtime->hw.formats = uac_ssize_to_fmt(p_ssize);
+ 		runtime->hw.channels_min = num_channels(p_chmask);
+-		runtime->hw.period_bytes_min = 2 * uac->p_prm.max_psize
+-						/ runtime->hw.periods_min;
++		prm = &uac->p_prm;
+ 	} else {
+-		runtime->hw.rate_min = c_srate;
+ 		runtime->hw.formats = uac_ssize_to_fmt(c_ssize);
+ 		runtime->hw.channels_min = num_channels(c_chmask);
+-		runtime->hw.period_bytes_min = 2 * uac->c_prm.max_psize
+-						/ runtime->hw.periods_min;
++		prm = &uac->c_prm;
  	}
  
--	memset(buf, 0, 20);
--	buf[1] = (20-2);		/* TOC data length */
--	buf[2] = 1;			/* First track number */
--	buf[3] = 1;			/* Last track number */
--	buf[5] = 0x16;			/* Data track, copying allowed */
--	buf[6] = 0x01;			/* Only track is number 1 */
--	store_cdrom_address(&buf[8], msf, 0);
-+	format = common->cmnd[2] & 0xf;
-+	/*
-+	 * Check if CDB is old style SFF-8020i
-+	 * i.e. format is in 2 MSBs of byte 9
-+	 * Mac OS-X host sends us this.
-+	 */
-+	if (format == 0)
-+		format = (common->cmnd[9] >> 6) & 0x3;
-+
-+	switch (format) {
-+	case 0:
-+		/* Formatted TOC */
-+		len = 4 + 2*8;		/* 4 byte header + 2 descriptors */
-+		memset(buf, 0, len);
-+		len -= 2;		/* TOC Length excludes length field */
-+		buf[1] = len;		/* TOC data length */
-+		buf[2] = 1;		/* First track number */
-+		buf[3] = 1;		/* Last track number */
-+		buf[5] = 0x16;		/* Data track, copying allowed */
-+		buf[6] = 0x01;		/* Only track is number 1 */
-+		store_cdrom_address(&buf[8], msf, 0);
-+
-+		buf[13] = 0x16;		/* Lead-out track is data */
-+		buf[14] = 0xAA;		/* Lead-out track number */
-+		store_cdrom_address(&buf[16], msf, curlun->num_sectors);
-+		return len;
-+
-+	case 2:
-+		/* Raw TOC */
-+		len = 4 + 3*11;		/* 4 byte header + 3 descriptors */
-+		memset(buf, 0, len);	/* Header + A0, A1 & A2 descriptors */
-+		len -= 2;		/* TOC Length excludes length field */
-+		buf[1] = len;		/* TOC data length */
-+		buf[2] = 1;		/* First complete session */
-+		buf[3] = 1;		/* Last complete session */
-+
-+		buf += 4;
-+		/* fill in A0, A1 and A2 points */
-+		for (i = 0; i < 3; i++) {
-+			buf[0] = 1;	/* Session number */
-+			buf[1] = 0x16;	/* Data track, copying allowed */
-+			/* 2 - Track number 0 ->  TOC */
-+			buf[3] = 0xA0 + i; /* A0, A1, A2 point */
-+			/* 4, 5, 6 - Min, sec, frame is zero */
-+			buf[8] = 1;	/* Pmin: last track number */
-+			buf += 11;	/* go to next track descriptor */
-+		}
-+		buf -= 11;		/* go back to A2 descriptor */
-+
-+		/* For A2, 7, 8, 9, 10 - zero, Pmin, Psec, Pframe of Lead out */
-+		store_cdrom_address(&buf[7], msf, curlun->num_sectors);
++	runtime->hw.period_bytes_min = 2 * prm->max_psize
++					/ runtime->hw.periods_min;
++	runtime->hw.rate_min = prm->srate;
+ 	runtime->hw.rate_max = runtime->hw.rate_min;
+ 	runtime->hw.channels_max = runtime->hw.channels_min;
  
--	buf[13] = 0x16;			/* Lead-out track is data */
--	buf[14] = 0xAA;			/* Lead-out track number */
--	store_cdrom_address(&buf[16], msf, curlun->num_sectors);
--	return 20;
-+		return len;
-+
-+	default:
-+		/* Multi-session, PMA, ATIP, CD-TEXT not supported/required */
-+		curlun->sense_data = SS_INVALID_FIELD_IN_CDB;
-+		return -EINVAL;
-+	}
+@@ -499,12 +493,18 @@ static inline void free_ep_fback(struct uac_rtd_params *prm, struct usb_ep *ep)
+ int u_audio_set_capture_srate(struct g_audio *audio_dev, int srate)
+ {
+ 	struct uac_params *params = &audio_dev->params;
++	struct snd_uac_chip *uac = audio_dev->uac;
++	struct uac_rtd_params *prm;
+ 	int i;
++	unsigned long flags;
+ 
+ 	dev_dbg(&audio_dev->gadget->dev, "%s: srate %d\n", __func__, srate);
++	prm = &uac->c_prm;
+ 	for (i = 0; i < UAC_MAX_RATES; i++) {
+ 		if (params->c_srates[i] == srate) {
+-			params->c_srate = srate;
++			spin_lock_irqsave(&prm->lock, flags);
++			prm->srate = srate;
++			spin_unlock_irqrestore(&prm->lock, flags);
+ 			return 0;
+ 		}
+ 		if (params->c_srates[i] == 0)
+@@ -518,12 +518,18 @@ EXPORT_SYMBOL_GPL(u_audio_set_capture_srate);
+ int u_audio_set_playback_srate(struct g_audio *audio_dev, int srate)
+ {
+ 	struct uac_params *params = &audio_dev->params;
++	struct snd_uac_chip *uac = audio_dev->uac;
++	struct uac_rtd_params *prm;
+ 	int i;
++	unsigned long flags;
+ 
+ 	dev_dbg(&audio_dev->gadget->dev, "%s: srate %d\n", __func__, srate);
++	prm = &uac->p_prm;
+ 	for (i = 0; i < UAC_MAX_RATES; i++) {
+ 		if (params->p_srates[i] == srate) {
+-			params->p_srate = srate;
++			spin_lock_irqsave(&prm->lock, flags);
++			prm->srate = srate;
++			spin_unlock_irqrestore(&prm->lock, flags);
+ 			return 0;
+ 		}
+ 		if (params->p_srates[i] == 0)
+@@ -545,9 +551,9 @@ int u_audio_start_capture(struct g_audio *audio_dev)
+ 	struct uac_params *params = &audio_dev->params;
+ 	int req_len, i;
+ 
+-	dev_dbg(dev, "start capture with rate %d\n", params->c_srate);
+-	ep = audio_dev->out_ep;
+ 	prm = &uac->c_prm;
++	dev_dbg(dev, "start capture with rate %d\n", prm->srate);
++	ep = audio_dev->out_ep;
+ 	config_ep_by_speed(gadget, &audio_dev->func, ep);
+ 	req_len = ep->maxpacket;
+ 
+@@ -604,7 +610,7 @@ int u_audio_start_capture(struct g_audio *audio_dev)
+ 	 */
+ 	prm->pitch = 1000000;
+ 	u_audio_set_fback_frequency(audio_dev->gadget->speed, ep,
+-				    params->c_srate, prm->pitch,
++				    prm->srate, prm->pitch,
+ 				    req_fback->buf);
+ 
+ 	if (usb_ep_queue(ep_fback, req_fback, GFP_ATOMIC))
+@@ -638,9 +644,9 @@ int u_audio_start_playback(struct g_audio *audio_dev)
+ 	int req_len, i;
+ 	unsigned int p_pktsize;
+ 
+-	dev_dbg(dev, "start playback with rate %d\n", params->p_srate);
+-	ep = audio_dev->in_ep;
+ 	prm = &uac->p_prm;
++	dev_dbg(dev, "start playback with rate %d\n", prm->srate);
++	ep = audio_dev->in_ep;
+ 	config_ep_by_speed(gadget, &audio_dev->func, ep);
+ 
+ 	ep_desc = ep->desc;
+@@ -661,7 +667,7 @@ int u_audio_start_playback(struct g_audio *audio_dev)
+ 	uac->p_interval = factor / (1 << (ep_desc->bInterval - 1));
+ 	p_pktsize = min_t(unsigned int,
+ 				uac->p_framesize *
+-					(params->p_srate / uac->p_interval),
++					(prm->srate / uac->p_interval),
+ 				ep->maxpacket);
+ 
+ 	req_len = p_pktsize;
+@@ -1037,15 +1043,11 @@ static int u_audio_rate_get(struct snd_kcontrol *kcontrol,
+ 						 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct uac_rtd_params *prm = snd_kcontrol_chip(kcontrol);
+-	struct snd_uac_chip *uac = prm->uac;
+-	struct g_audio *audio_dev = uac->audio_dev;
+-	struct uac_params *params = &audio_dev->params;
+-
+-	if (prm == &uac->c_prm)
+-		ucontrol->value.integer.value[0] = params->c_srate;
+-	else
+-		ucontrol->value.integer.value[0] = params->p_srate;
++	unsigned long flags;
+ 
++	spin_lock_irqsave(&prm->lock, flags);
++	ucontrol->value.integer.value[0] = prm->srate;
++	spin_unlock_irqrestore(&prm->lock, flags);
+ 	return 0;
  }
  
- static int do_mode_sense(struct fsg_common *common, struct fsg_buffhd *bh)
-@@ -1933,7 +1982,7 @@ static int do_scsi_command(struct fsg_common *common)
- 		common->data_size_from_cmnd =
- 			get_unaligned_be16(&common->cmnd[7]);
- 		reply = check_command(common, 10, DATA_DIR_TO_HOST,
--				      (7<<6) | (1<<1), 1,
-+				      (0xf<<6) | (1<<1), 1,
- 				      "READ TOC");
- 		if (reply == 0)
- 			reply = do_read_toc(common, bh);
+@@ -1117,6 +1119,7 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+     spin_lock_init(&prm->lock);
+     uac->c_prm.uac = uac;
+ 		prm->max_psize = g_audio->out_ep_maxpsize;
++		prm->srate = params->c_srates[0];
+ 
+ 		prm->reqs = kcalloc(params->req_number,
+ 				    sizeof(struct usb_request *),
+@@ -1141,6 +1144,7 @@ int g_audio_setup(struct g_audio *g_audio, const char *pcm_name,
+ 		spin_lock_init(&prm->lock);
+ 		uac->p_prm.uac = uac;
+ 		prm->max_psize = g_audio->in_ep_maxpsize;
++		prm->srate = params->p_srates[0];
+ 
+ 		prm->reqs = kcalloc(params->req_number,
+ 				    sizeof(struct usb_request *),
+diff --git a/drivers/usb/gadget/function/u_audio.h b/drivers/usb/gadget/function/u_audio.h
+index 76b5b8169444..84579fe81b92 100644
+--- a/drivers/usb/gadget/function/u_audio.h
++++ b/drivers/usb/gadget/function/u_audio.h
+@@ -42,17 +42,17 @@ struct uac_params {
+ 	/* playback */
+ 	int p_chmask;	/* channel mask */
+ 	int p_srates[UAC_MAX_RATES];	/* available rates in Hz (0 terminated list) */
+-	int p_srate;	/* selected rate in Hz */
+ 	int p_ssize;	/* sample size */
+ 	struct uac_fu_params p_fu;	/* Feature Unit parameters */
+ 
+ 	/* capture */
+ 	int c_chmask;	/* channel mask */
+ 	int c_srates[UAC_MAX_RATES];	/* available rates in Hz (0 terminated list) */
+-	int c_srate;	/* selected rate in Hz */
+ 	int c_ssize;	/* sample size */
+ 	struct uac_fu_params c_fu;	/* Feature Unit parameters */
+ 
++	/* rates are dynamic, in uac_rtd_params */
++
+ 	int req_number; /* number of preallocated requests */
+ 	int fb_max;	/* upper frequency drift feedback limit per-mil */
+ };
 -- 
-2.7.4
+2.25.1
 
