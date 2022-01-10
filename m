@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A699C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 07:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F736C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Jan 2022 07:41:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241599AbiAJHls (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Jan 2022 02:41:48 -0500
-Received: from cable.insite.cz ([84.242.75.189]:51020 "EHLO cable.insite.cz"
+        id S240008AbiAJHlv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Jan 2022 02:41:51 -0500
+Received: from cable.insite.cz ([84.242.75.189]:58681 "EHLO cable.insite.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241193AbiAJHhz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S241379AbiAJHhz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Mon, 10 Jan 2022 02:37:55 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id C337AA1A3D400;
+        by cable.insite.cz (Postfix) with ESMTP id 64B16A1A3D40E;
         Mon, 10 Jan 2022 08:37:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1641800270; bh=MPGFCCGcjvZKbwxi1N2MzoBvur+SGxEp8yzsT+01Q4Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ovj3hTz1u8ZqcQqHfVPV1IslophNCWRvlCcfeKAdBSw+xIDK5kCszP5yoCNTYLWFm
-         dsiMnZTaOzwPJONMrKQOvc+eK1n6v00OVfzgzIwpdZB7apDK0cseVkGbBIpUV4KS2Y
-         7BwEEr3EhHg+9PPmK/kK5sMkFhNttRPlA64Jmx8M=
+        t=1641800270; bh=E4cuYGXjxJ4RBAN6lIKdf+fs5oP8Ii3xcXgGCs+moSg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=D7YpPZsbd1zFPzPNKjmVqoYoUAG/Kw5mQDuMIi8qccDCnCHOKIKmJEa9ztsBx/tD0
+         YVn91+pLocfddfA4OKBTUcZOT/UipN27gd6NTwKaoBvXVDbHvbnNaj418ozG1iwKvG
+         4OF9khjSRCpFuyICahd26nGA5zjLFITIShfJGv6o=
 Received: from cable.insite.cz ([84.242.75.189])
         by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id EFlQAmqHItCJ; Mon, 10 Jan 2022 08:37:45 +0100 (CET)
+        with ESMTP id RhIdFulj-vv4; Mon, 10 Jan 2022 08:37:43 +0100 (CET)
 Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
         (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id F366EA1A3D405;
-        Mon, 10 Jan 2022 08:37:44 +0100 (CET)
+        by cable.insite.cz (Postfix) with ESMTPSA id 78105A1A3D400;
+        Mon, 10 Jan 2022 08:37:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1641800265; bh=MPGFCCGcjvZKbwxi1N2MzoBvur+SGxEp8yzsT+01Q4Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oAwGEJF0EmS1LmjuZdQtd1ldCcN32YxgeRhYxG5T//VBuMqYj/lizLZYyweB1NQ6e
-         +jgjePlDr/qZ01xMhor6/LPdOJIn7W+TpuCBiymzi1Cq6r6eWHdsnw8Ydm6P1t/MNu
-         nzKJYXbSgfGQjMJOcYkkuAEfraqvM2RcMlpiv9ks=
+        t=1641800263; bh=E4cuYGXjxJ4RBAN6lIKdf+fs5oP8Ii3xcXgGCs+moSg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AQhgLD35UCHH4Qt+58o28tVCMm2g1U26S4kjZAgpgPoscFH34HJqa10Jyb7I7fKr0
+         EJfSR992N9S1FYoTHHJlvPr8HQuFwoTiAiJe2g0AuLbg4dToXAWY16k7KE3bSlXSfn
+         pbzlCFLTIpT/RjFgCoZEsHA+vdNZlSpg1tJkAOW8=
 From:   Pavel Hofman <pavel.hofman@ivitera.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
@@ -42,89 +42,93 @@ Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
         Julian Scheel <julian@jusst.de>,
         John Keeping <john@metanate.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v4 04/10] usb: gadget: u_audio: Add capture/playback srate getter
-Date:   Mon, 10 Jan 2022 08:37:36 +0100
-Message-Id: <20220110073742.394237-5-pavel.hofman@ivitera.com>
+Subject: [PATCH v4 00/10] usb: gadget: audio: Multiple rates, notify
+Date:   Mon, 10 Jan 2022 08:37:32 +0100
+Message-Id: <20220110073742.394237-1-pavel.hofman@ivitera.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220110073742.394237-1-pavel.hofman@ivitera.com>
-References: <20220110073742.394237-1-pavel.hofman@ivitera.com>
 MIME-Version: 1.0
+usb:    gadget: audio: Multiple rates, notify
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-UAC1/UAC2 functions will need to query u_audio about the currently set
-srate. Add the getter functions.
+This series implements:
+* Support for multiple rates in the audio gadget
+* Notification of gadget-side alsa processes about playback/capture
+  start/stop on the host side via Playback/Capture Rate controls.
+* Detection of the USB cable disconnection by handling SUSPEND call
+  in f_uac1/2. The disconnection generates a stop notification.
 
-Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
----
-v3: new patch
----
- drivers/usb/gadget/function/u_audio.c | 28 +++++++++++++++++++++++++++
- drivers/usb/gadget/function/u_audio.h |  2 ++
- 2 files changed, 30 insertions(+)
+Patches for the multirate support, originally authored by Julian Scheel,
+were rebased and modified for the current code base. Julian has
+acknowledged the presented patches.
 
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index dce894dcae07..283a449a9538 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -515,6 +515,20 @@ int u_audio_set_capture_srate(struct g_audio *audio_dev, int srate)
- }
- EXPORT_SYMBOL_GPL(u_audio_set_capture_srate);
- 
-+int u_audio_get_capture_srate(struct g_audio *audio_dev, u32 *val)
-+{
-+	struct snd_uac_chip *uac = audio_dev->uac;
-+	struct uac_rtd_params *prm;
-+	unsigned long flags;
-+
-+	prm = &uac->c_prm;
-+	spin_lock_irqsave(&prm->lock, flags);
-+	*val = prm->srate;
-+	spin_unlock_irqrestore(&prm->lock, flags);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(u_audio_get_capture_srate);
-+
- int u_audio_set_playback_srate(struct g_audio *audio_dev, int srate)
- {
- 	struct uac_params *params = &audio_dev->params;
-@@ -540,6 +554,20 @@ int u_audio_set_playback_srate(struct g_audio *audio_dev, int srate)
- }
- EXPORT_SYMBOL_GPL(u_audio_set_playback_srate);
- 
-+int u_audio_get_playback_srate(struct g_audio *audio_dev, u32 *val)
-+{
-+	struct snd_uac_chip *uac = audio_dev->uac;
-+	struct uac_rtd_params *prm;
-+	unsigned long flags;
-+
-+	prm = &uac->p_prm;
-+	spin_lock_irqsave(&prm->lock, flags);
-+	*val = prm->srate;
-+	spin_unlock_irqrestore(&prm->lock, flags);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(u_audio_get_playback_srate);
-+
- int u_audio_start_capture(struct g_audio *audio_dev)
- {
- 	struct snd_uac_chip *uac = audio_dev->uac;
-diff --git a/drivers/usb/gadget/function/u_audio.h b/drivers/usb/gadget/function/u_audio.h
-index 84579fe81b92..5e6ed0f31cc3 100644
---- a/drivers/usb/gadget/function/u_audio.h
-+++ b/drivers/usb/gadget/function/u_audio.h
-@@ -120,7 +120,9 @@ void u_audio_stop_capture(struct g_audio *g_audio);
- int u_audio_start_playback(struct g_audio *g_audio);
- void u_audio_stop_playback(struct g_audio *g_audio);
- 
-+int u_audio_get_capture_srate(struct g_audio *audio_dev, u32 *val);
- int u_audio_set_capture_srate(struct g_audio *audio_dev, int srate);
-+int u_audio_get_playback_srate(struct g_audio *audio_dev, u32 *val);
- int u_audio_set_playback_srate(struct g_audio *audio_dev, int srate);
- 
- int u_audio_get_volume(struct g_audio *g_audio, int playback, s16 *val);
+The detection of cable disconnection was discussed with dwc2 maintainer
+Minas Harutyunyan who confirmed that the suspend event can be used
+(https://lore.kernel.org/all/5aada8e3-f385-0589-8d58-187abd1a924d@synopsys.com/T/).
+Tests on dwc2 have confirmed reliable detection, the gadget correctly
+reports playback/capture stop at cable disconnection.
+
+The start/stop/current rate notification feature is accompanied by
+example implementation of audio gadget controller
+https://github.com/pavhofman/gaudio_ctl. The controller also handles
+debouncing fast start/stop events when USB host audio driver is loaded
+and/or audio daemon re/started.
+
+Changes:
+--------
+
+v2:
+* Fixed compilation of "usb: gadget: f_uac1: Support multiple sampling
+  rates" - added changes for CONFIG_GADGET_UAC1
+
+v3:
+* Implemented most of changes suggested by John Keeping
+* Patches for bInterval calculation moved to a separate patch series
+* Patches for stopping substreams moved to a separate patch series
+* audio: Replaced deprecated macro S_IRUGO
+* u_audio: Moved dynamic srate from params to rtd
+* f_uac2: removed current state srates from struct f_uac2_opts, using
+  u_audio_get_playback/capture_srate() instead.
+* f_uac2: Reworked macros for struct cntrl_ranges_lay3_xxx
+
+v4:
+* Fixed the unused-but-set-variable warnings
+* Patch "usb: gadget: f_uac2: Rename Clock Sources to fixed names"
+  squashed to patch "usb: gadget: f_uac2: Support multiple sampling
+  rates"
+
+
+Julian Scheel (3):
+  usb: gadget: u_audio: Support multiple sampling rates
+  usb: gadget: f_uac2: Support multiple sampling rates
+  usb: gadget: f_uac1: Support multiple sampling rates
+
+Pavel Hofman (7):
+  usb: gadget:audio: Replace deprecated macro S_IRUGO
+  usb: gadget: u_audio: Move dynamic srate from params to rtd
+  usb: gadget: u_audio: Add capture/playback srate getter
+  usb: gadget: u_audio: Rate ctl notifies about current srate
+    (0=stopped)
+  usb: gadget: u_audio: Add suspend call
+  usb: gadget: f_uac2: Add suspend callback
+  usb: gadget: f_uac1: Add suspend callback
+
+ .../ABI/testing/configfs-usb-gadget-uac1      |   4 +-
+ .../ABI/testing/configfs-usb-gadget-uac2      |   4 +-
+ Documentation/usb/gadget-testing.rst          |   8 +-
+ drivers/usb/gadget/function/f_uac1.c          | 190 ++++++++++++--
+ drivers/usb/gadget/function/f_uac2.c          | 207 ++++++++++++---
+ drivers/usb/gadget/function/u_audio.c         | 238 ++++++++++++++++--
+ drivers/usb/gadget/function/u_audio.h         |  14 +-
+ drivers/usb/gadget/function/u_uac1.h          |   5 +-
+ drivers/usb/gadget/function/u_uac2.h          |   5 +-
+ drivers/usb/gadget/function/uac_common.h      |   9 +
+ drivers/usb/gadget/legacy/audio.c             |  78 +++---
+ 11 files changed, 632 insertions(+), 130 deletions(-)
+ create mode 100644 drivers/usb/gadget/function/uac_common.h
+
 -- 
 2.25.1
 
