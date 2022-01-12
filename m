@@ -2,99 +2,170 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73C52C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 12 Jan 2022 19:52:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 348D1C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 12 Jan 2022 20:06:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357512AbiALTww (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 12 Jan 2022 14:52:52 -0500
-Received: from mail.z3ntu.xyz ([128.199.32.197]:33198 "EHLO mail.z3ntu.xyz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1356987AbiALTv6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 12 Jan 2022 14:51:58 -0500
-Received: from localhost.localdomain (ip-213-127-106-2.ip.prioritytelecom.net [213.127.106.2])
-        by mail.z3ntu.xyz (Postfix) with ESMTPSA id 99ECDCDF9F;
-        Wed, 12 Jan 2022 19:42:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=z3ntu.xyz; s=z3ntu;
-        t=1642016544; bh=0kWYHyQ+FdQZVfHCIbfLblrDXNannTFucaCQYt2r6LQ=;
-        h=From:To:Cc:Subject:Date;
-        b=miax10sWCxLcvuPulMRI9I8OxkGClnhZ7on8fnVVyuxu3eLoIzlmYgDUW+CcsPSnK
-         Cz95AHMYXfk4vBg0yIPTahxcsi7xikZlNOJK59DxWJKpylDH8bAjfHzKVFpB2OfNoy
-         ookhq+C83s4UtZgJGkb6zXdZKvG7GFw/47b1tpAI=
-From:   Luca Weiss <luca@z3ntu.xyz>
-To:     linux-arm-msm@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Luca Weiss <luca@z3ntu.xyz>, Amit Kucheria <amitk@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        Zhang Rui <rui.zhang@intel.com>, devicetree@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 00/15] Initial MSM8953 & Fairphone 3 support
-Date:   Wed, 12 Jan 2022 20:40:49 +0100
-Message-Id: <20220112194118.178026-1-luca@z3ntu.xyz>
-X-Mailer: git-send-email 2.34.1
+        id S1357271AbiALUGe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 12 Jan 2022 15:06:34 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:51667 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1357331AbiALUFh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 12 Jan 2022 15:05:37 -0500
+Received: (qmail 243238 invoked by uid 1000); 12 Jan 2022 15:05:35 -0500
+Date:   Wed, 12 Jan 2022 15:05:35 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Jack Pham <quic_jackp@quicinc.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Michal Nazarewicz <mina86@mina86.com>,
+        linux-usb@vger.kernel.org, Roger Quadros <roger.quadros@nokia.com>
+Subject: Re: [PATCH v2] usb: gadget: f_mass_storage: Make CD-ROM emulation
+ work with Mac OS-X
+Message-ID: <Yd80j0vjR0f9TCtN@rowland.harvard.edu>
+References: <20220110062359.5314-2-quic_jackp@quicinc.com>
+ <20220110063030.12957-1-quic_jackp@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220110063030.12957-1-quic_jackp@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds initial support for MSM8953 (and SDM632 which is based
-on MSM8953) and the Fairphone 3 smartphone.
+On Sun, Jan 09, 2022 at 10:30:30PM -0800, Jack Pham wrote:
+> From: Roger Quadros <roger.quadros@nokia.com>
+> 
+> Mac OS-X expects CD-ROM TOC in raw format (i.e. format:2). It also
+> sends the READ_TOC CDB in old style SFF8020i format. i.e. 2 format bits
+> are encoded in MSBs of CDB byte 9.
+> 
+> This patch will enable CD-ROM emulation to work with Mac OS-X. Tested on
+> Mac OS X v10.6.3.
+> 
+> Signed-off-by: Roger Quadros <roger.quadros@nokia.com>
+> Signed-off-by: Jack Pham <quic_jackp@quicinc.com>
+> ---
+> v2: Removed Change-Id tag.
+> 
+>  drivers/usb/gadget/function/f_mass_storage.c | 73 +++++++++++++++++++++++-----
+>  1 file changed, 61 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index 73a28f8..1f7f4dd6 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -1188,6 +1188,8 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
+>  	int		msf = common->cmnd[1] & 0x02;
+>  	int		start_track = common->cmnd[6];
+>  	u8		*buf = (u8 *)bh->buf;
+> +	u8		format;
+> +	int		i, len;
+>  
+>  	if ((common->cmnd[1] & ~0x02) != 0 ||	/* Mask away MSF */
+>  			start_track > 1) {
+> @@ -1195,18 +1197,65 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
+>  		return -EINVAL;
+>  	}
+>  
+> -	memset(buf, 0, 20);
+> -	buf[1] = (20-2);		/* TOC data length */
+> -	buf[2] = 1;			/* First track number */
+> -	buf[3] = 1;			/* Last track number */
+> -	buf[5] = 0x16;			/* Data track, copying allowed */
+> -	buf[6] = 0x01;			/* Only track is number 1 */
+> -	store_cdrom_address(&buf[8], msf, 0);
+> +	format = common->cmnd[2] & 0xf;
 
-Only relatively basic functionality is supported like storage, volume
-keys and USB.
+Hmmm.  According to this part later on:
 
-There is currently close-to-mainline support for other components for
-this SoC including GPU, WiFi and audio, this series adds only basic
-support so that the other components can start getting upstreamed
-easier.
+> @@ -1933,7 +1982,7 @@ static int do_scsi_command(struct fsg_common *common)
+>  		common->data_size_from_cmnd =
+>  			get_unaligned_be16(&common->cmnd[7]);
+>  		reply = check_command(common, 10, DATA_DIR_TO_HOST,
+> -				      (7<<6) | (1<<1), 1,
+> +				      (0xf<<6) | (1<<1), 1,
+>  				      "READ TOC");
 
-Luca Weiss (10):
-  dt-bindings: phy: qcom,qusb2: Document msm8953 compatible
-  phy: qcom-qusb2: Add compatible for MSM8953
-  dt-bindings: mfd: qcom,tcsr: Document msm8953 compatible
-  mfd: qcom-spmi-pmic: Add pm8953 compatible
-  dt-bindings: mmc: sdhci-msm: Add msm8953 compatible
-  dt-bindings: thermal: tsens: Add msm8953 compatible
-  dt-bindings: usb: qcom,dwc3: Add msm8953 compatible
-  dt-bindings: pinctrl: qcom: msm8953: allow gpio-reserved-ranges
-  dt-bindings: arm: qcom: Document sdm632 and fairphone,fp3 board
-  arm64: dts: qcom: sdm632: Add device tree for Fairphone 3
+common->cmnd[2] can never be anything other than 0.  So this computation 
+and the test immediately below are pointless -- unless you change the 
+argument to check_command().
 
-Vladimir Lypak (5):
-  rpmsg: smd: Drop unnecessary condition for channel creation
-  arm64: dts: qcom: Add MSM8953 device tree
-  arm64: dts: qcom: Add PM8953 PMIC
-  arm64: dts: qcom: Add SDM632 device tree
-  arm64: dts: qcom: Add MSM8953+PM8953 device tree
+Alan Stern
 
- .../devicetree/bindings/arm/qcom.yaml         |    6 +
- .../bindings/mfd/qcom,spmi-pmic.txt           |    1 +
- .../devicetree/bindings/mfd/qcom,tcsr.txt     |    1 +
- .../devicetree/bindings/mmc/sdhci-msm.txt     |    1 +
- .../bindings/phy/qcom,qusb2-phy.yaml          |    1 +
- .../pinctrl/qcom,msm8953-pinctrl.yaml         |    2 +
- .../bindings/thermal/qcom-tsens.yaml          |    1 +
- .../devicetree/bindings/usb/qcom,dwc3.yaml    |    1 +
- arch/arm64/boot/dts/qcom/Makefile             |    1 +
- arch/arm64/boot/dts/qcom/msm8953-pm8953.dtsi  |   50 +
- arch/arm64/boot/dts/qcom/msm8953.dtsi         | 1337 +++++++++++++++++
- arch/arm64/boot/dts/qcom/pm8953.dtsi          |   90 ++
- .../boot/dts/qcom/sdm632-fairphone-fp3.dts    |  189 +++
- arch/arm64/boot/dts/qcom/sdm632.dtsi          |  125 ++
- drivers/phy/qualcomm/phy-qcom-qusb2.c         |    3 +
- drivers/rpmsg/qcom_smd.c                      |    8 +-
- 16 files changed, 1810 insertions(+), 7 deletions(-)
- create mode 100644 arch/arm64/boot/dts/qcom/msm8953-pm8953.dtsi
- create mode 100644 arch/arm64/boot/dts/qcom/msm8953.dtsi
- create mode 100644 arch/arm64/boot/dts/qcom/pm8953.dtsi
- create mode 100644 arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts
- create mode 100644 arch/arm64/boot/dts/qcom/sdm632.dtsi
-
--- 
-2.34.1
-
+> +	/*
+> +	 * Check if CDB is old style SFF-8020i
+> +	 * i.e. format is in 2 MSBs of byte 9
+> +	 * Mac OS-X host sends us this.
+> +	 */
+> +	if (format == 0)
+> +		format = (common->cmnd[9] >> 6) & 0x3;
+> +
+> +	switch (format) {
+> +	case 0:
+> +		/* Formatted TOC */
+> +		len = 4 + 2*8;		/* 4 byte header + 2 descriptors */
+> +		memset(buf, 0, len);
+> +		len -= 2;		/* TOC Length excludes length field */
+> +		buf[1] = len;		/* TOC data length */
+> +		buf[2] = 1;		/* First track number */
+> +		buf[3] = 1;		/* Last track number */
+> +		buf[5] = 0x16;		/* Data track, copying allowed */
+> +		buf[6] = 0x01;		/* Only track is number 1 */
+> +		store_cdrom_address(&buf[8], msf, 0);
+> +
+> +		buf[13] = 0x16;		/* Lead-out track is data */
+> +		buf[14] = 0xAA;		/* Lead-out track number */
+> +		store_cdrom_address(&buf[16], msf, curlun->num_sectors);
+> +		return len;
+> +
+> +	case 2:
+> +		/* Raw TOC */
+> +		len = 4 + 3*11;		/* 4 byte header + 3 descriptors */
+> +		memset(buf, 0, len);	/* Header + A0, A1 & A2 descriptors */
+> +		len -= 2;		/* TOC Length excludes length field */
+> +		buf[1] = len;		/* TOC data length */
+> +		buf[2] = 1;		/* First complete session */
+> +		buf[3] = 1;		/* Last complete session */
+> +
+> +		buf += 4;
+> +		/* fill in A0, A1 and A2 points */
+> +		for (i = 0; i < 3; i++) {
+> +			buf[0] = 1;	/* Session number */
+> +			buf[1] = 0x16;	/* Data track, copying allowed */
+> +			/* 2 - Track number 0 ->  TOC */
+> +			buf[3] = 0xA0 + i; /* A0, A1, A2 point */
+> +			/* 4, 5, 6 - Min, sec, frame is zero */
+> +			buf[8] = 1;	/* Pmin: last track number */
+> +			buf += 11;	/* go to next track descriptor */
+> +		}
+> +		buf -= 11;		/* go back to A2 descriptor */
+> +
+> +		/* For A2, 7, 8, 9, 10 - zero, Pmin, Psec, Pframe of Lead out */
+> +		store_cdrom_address(&buf[7], msf, curlun->num_sectors);
+>  
+> -	buf[13] = 0x16;			/* Lead-out track is data */
+> -	buf[14] = 0xAA;			/* Lead-out track number */
+> -	store_cdrom_address(&buf[16], msf, curlun->num_sectors);
+> -	return 20;
+> +		return len;
+> +
+> +	default:
+> +		/* Multi-session, PMA, ATIP, CD-TEXT not supported/required */
+> +		curlun->sense_data = SS_INVALID_FIELD_IN_CDB;
+> +		return -EINVAL;
+> +	}
+>  }
+>  
+>  static int do_mode_sense(struct fsg_common *common, struct fsg_buffhd *bh)
+> @@ -1933,7 +1982,7 @@ static int do_scsi_command(struct fsg_common *common)
+>  		common->data_size_from_cmnd =
+>  			get_unaligned_be16(&common->cmnd[7]);
+>  		reply = check_command(common, 10, DATA_DIR_TO_HOST,
+> -				      (7<<6) | (1<<1), 1,
+> +				      (0xf<<6) | (1<<1), 1,
+>  				      "READ TOC");
+>  		if (reply == 0)
+>  			reply = do_read_toc(common, bh);
+> -- 
+> 2.7.4
+> 
