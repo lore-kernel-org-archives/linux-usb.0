@@ -2,61 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F86C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jan 2022 09:07:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 907CBC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jan 2022 09:16:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232414AbiAMJHW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jan 2022 04:07:22 -0500
-Received: from asav21.altibox.net ([109.247.116.8]:54480 "EHLO
-        asav21.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232404AbiAMJHW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jan 2022 04:07:22 -0500
-X-Greylist: delayed 535 seconds by postgrey-1.27 at vger.kernel.org; Thu, 13 Jan 2022 04:07:21 EST
-Received: from canardo.mork.no (207.51-175-193.customer.lyse.net [51.175.193.207])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bmork@altiboxmail.no)
-        by asav21.altibox.net (Postfix) with ESMTPSA id 2359A80146;
-        Thu, 13 Jan 2022 09:58:25 +0100 (CET)
-Received: from miraculix.mork.no ([IPv6:2a01:799:c9f:8602:8cd5:a7b0:d07:d516])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 20D8wODU374231
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Thu, 13 Jan 2022 09:58:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1642064304; bh=yl54sanNDUWMM+AQIqqbrLuI+gS3uSjsOTBkYc4iasQ=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=EVIM26CSPcEzIGBEUXhAABRkH+4CGL3T01Kx8lanZ+U3coHcbP6cnhsik96ZOgQ00
-         QQDxfFrVYJhBw+Gb1eVMsIj18u8Ej1cII98XBrVHJwYQsBZgITVxXuM9Y6Uz6w9Erz
-         jm9OFa5LUKFddcPQI6ckzgl61yhpwpQdpzH7ax+U=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.94.2)
-        (envelope-from <bjorn@mork.no>)
-        id 1n7vw8-001bMp-Et; Thu, 13 Jan 2022 09:58:24 +0100
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Pawel Dembicki <paweldembicki@gmail.com>
-Cc:     linux-usb@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        id S230449AbiAMJQe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jan 2022 04:16:34 -0500
+Received: from comms.puri.sm ([159.203.221.185]:47166 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230297AbiAMJQd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 Jan 2022 04:16:33 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 8CACFE04DF;
+        Thu, 13 Jan 2022 01:16:02 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 0h8TyHm8kzhB; Thu, 13 Jan 2022 01:16:02 -0800 (PST)
+Message-ID: <ab560610d70a4e3499255284b3170b0b16572bb8.camel@puri.sm>
+Subject: Re: [PATCH v1] usb: typec: tipd: keep default interrupts enabled
+ during probe()
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     Hector Martin <marcan@marcan.st>, heikki.krogerus@linux.intel.com,
+        gregkh@linuxfoundation.org, sven@svenpeter.dev, hdegoede@redhat.com
+Cc:     kernel@puri.sm, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: qmi_wwan: add ZTE MF286D modem 19d2:1485
-Organization: m
-References: <20220111221132.14586-1-paweldembicki@gmail.com>
-Date:   Thu, 13 Jan 2022 09:58:24 +0100
-In-Reply-To: <20220111221132.14586-1-paweldembicki@gmail.com> (Pawel
-        Dembicki's message of "Tue, 11 Jan 2022 23:11:32 +0100")
-Message-ID: <871r1cxb9r.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+Date:   Thu, 13 Jan 2022 10:15:56 +0100
+In-Reply-To: <f8b4606a-e3ec-e452-f291-7ac36c69f8cd@marcan.st>
+References: <20220110163559.711404-1-martin.kepplinger@puri.sm>
+         <f8b4606a-e3ec-e452-f291-7ac36c69f8cd@marcan.st>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.103.3 at canardo
-X-Virus-Status: Clean
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=ZLv5Z0zb c=1 sm=1 tr=0
-        a=XJwvrae2Z7BQDql8RrqA4w==:117 a=XJwvrae2Z7BQDql8RrqA4w==:17
-        a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=DghFqjY3_ZEA:10 a=M51BFTxLslgA:10
-        a=rWqaOqVXLpn30FgQbZwA:9 a=QEXdDO2ut3YA:10 a=3la3ztWH3XQaG4dFsChN:22
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+Am Dienstag, dem 11.01.2022 um 20:10 +0900 schrieb Hector Martin:
+> On 2022/01/11 1:35, Martin Kepplinger wrote:
+> > Commit 9990f2f6264c ("usb: typec: tipd: Enable event interrupts by
+> > default")
+> > writes a fixed set of interrupts to TPS_REG_INT_MASK1. In case
+> > interrupts
+> > had been enabled by the firmware by default, these get disabled now
+> > which can break use cases. Only append to what is already enabled
+> > instead.
+> > 
+> 
+> I'm confused. The kernel drives the hardware, it needs to enable only
+> the interrupts it can handle. Do you have some kind of firmware
+> trying
+> to share access to the same I2C port that needs other interrupts?
+> That
+> sounds like a recipe for trouble... or am I misunderstanding things?
+> 
+> If the *kernel* needs other interrupts enabled to make something
+> work,
+> then they should also be enabled unconditionally, and you'd have to
+> check the IRQ handler to make sure it actually handles it.
+> 
+
+true. sorry for the confusion. we need to submit the patches for the
+interrupt handler to handle what we need and then we'll extend the mask
+accordingly. please ignore this patch.
+
+thank you,
+                               martin
+
+
