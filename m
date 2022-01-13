@@ -2,188 +2,165 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3ACC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jan 2022 15:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F46C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jan 2022 16:37:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236067AbiAMPUS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jan 2022 10:20:18 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:37963 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S236053AbiAMPUS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jan 2022 10:20:18 -0500
-Received: (qmail 265338 invoked by uid 1000); 13 Jan 2022 10:20:16 -0500
-Date:   Thu, 13 Jan 2022 10:20:16 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Jack Pham <quic_jackp@quicinc.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Michal Nazarewicz <mina86@mina86.com>,
-        linux-usb@vger.kernel.org, Roger Quadros <roger.quadros@nokia.com>
-Subject: Re: [PATCH v2] usb: gadget: f_mass_storage: Make CD-ROM emulation
- work with Mac OS-X
-Message-ID: <YeBDMDfghatTGrI8@rowland.harvard.edu>
-References: <20220110062359.5314-2-quic_jackp@quicinc.com>
- <20220110063030.12957-1-quic_jackp@quicinc.com>
- <Yd80j0vjR0f9TCtN@rowland.harvard.edu>
- <20220113052253.GF3221@jackp-linux.qualcomm.com>
+        id S230403AbiAMQhw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jan 2022 11:37:52 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:52574 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229515AbiAMQhv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jan 2022 11:37:51 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 69407B822A8
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jan 2022 16:37:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C615C36AEB
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jan 2022 16:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642091869;
+        bh=K1X3TWriVYUjSKuXUxHtYhsCDG0qd93/8K+on3ZO3ks=;
+        h=From:To:Subject:Date:From;
+        b=k1w+3d/zV+RsMw+/COEWVY+9GX10rZMvgNeRSRRmOgI4bFsiYYYslG3+TjS3rem0x
+         ere8ev0ZHQZY4QKiZb3uyfvsQqyMWB12Yekb2RwbOKyFtKyXLSfLQx5IZ0nN3u+QEW
+         NaDPLrQe1jiltT7CI4Gq6Xspe1ynPPbsl2yHR89+JWiNJhBT1zD50h/Ymz9KneJyme
+         xEWF9Z0yF+xTxKk28nXIa0CO0AB/uwSCaseGL0Ty3v/zJOYiWveGDSnB5irB4LGarH
+         orGGZn3ayhp5uAx0witIv4lWv+4CbfZ+X1vP7ebdmUQcMtin1kt89tWPFrB5pdzWx0
+         6fOKznktMfJfg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id EF638CC13AA; Thu, 13 Jan 2022 16:37:48 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 215490] New: Logitech Brio doesn't initialise on USB 3.0 port
+ of Asus M5A97 Evo R2.0
+Date:   Thu, 13 Jan 2022 16:37:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: nouveau@spliet.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-215490-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220113052253.GF3221@jackp-linux.qualcomm.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 12, 2022 at 09:22:53PM -0800, Jack Pham wrote:
-> Hi Alan,
-> 
-> On Wed, Jan 12, 2022 at 03:05:35PM -0500, Alan Stern wrote:
-> > On Sun, Jan 09, 2022 at 10:30:30PM -0800, Jack Pham wrote:
-> > > From: Roger Quadros <roger.quadros@nokia.com>
-> > > 
-> > > Mac OS-X expects CD-ROM TOC in raw format (i.e. format:2). It also
-> > > sends the READ_TOC CDB in old style SFF8020i format. i.e. 2 format bits
-> > > are encoded in MSBs of CDB byte 9.
-> > > 
-> > > This patch will enable CD-ROM emulation to work with Mac OS-X. Tested on
-> > > Mac OS X v10.6.3.
-> > > 
-> > > Signed-off-by: Roger Quadros <roger.quadros@nokia.com>
-> > > Signed-off-by: Jack Pham <quic_jackp@quicinc.com>
-> > > ---
-> > > v2: Removed Change-Id tag.
-> > > 
-> > >  drivers/usb/gadget/function/f_mass_storage.c | 73 +++++++++++++++++++++++-----
-> > >  1 file changed, 61 insertions(+), 12 deletions(-)
-> > > 
-> > > diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-> > > index 73a28f8..1f7f4dd6 100644
-> > > --- a/drivers/usb/gadget/function/f_mass_storage.c
-> > > +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> > > @@ -1188,6 +1188,8 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
-> > >  	int		msf = common->cmnd[1] & 0x02;
-> > >  	int		start_track = common->cmnd[6];
-> > >  	u8		*buf = (u8 *)bh->buf;
-> > > +	u8		format;
-> > > +	int		i, len;
-> > >  
-> > >  	if ((common->cmnd[1] & ~0x02) != 0 ||	/* Mask away MSF */
-> > >  			start_track > 1) {
-> > > @@ -1195,18 +1197,65 @@ static int do_read_toc(struct fsg_common *common, struct fsg_buffhd *bh)
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > -	memset(buf, 0, 20);
-> > > -	buf[1] = (20-2);		/* TOC data length */
-> > > -	buf[2] = 1;			/* First track number */
-> > > -	buf[3] = 1;			/* Last track number */
-> > > -	buf[5] = 0x16;			/* Data track, copying allowed */
-> > > -	buf[6] = 0x01;			/* Only track is number 1 */
-> > > -	store_cdrom_address(&buf[8], msf, 0);
-> > > +	format = common->cmnd[2] & 0xf;
-> > 
-> > Hmmm.  According to this part later on:
-> > 
-> > > @@ -1933,7 +1982,7 @@ static int do_scsi_command(struct fsg_common *common)
-> > >  		common->data_size_from_cmnd =
-> > >  			get_unaligned_be16(&common->cmnd[7]);
-> > >  		reply = check_command(common, 10, DATA_DIR_TO_HOST,
-> > > -				      (7<<6) | (1<<1), 1,
-> > > +				      (0xf<<6) | (1<<1), 1,
-> > >  				      "READ TOC");
-> > 
-> > common->cmnd[2] can never be anything other than 0.
-> 
-> Ah, that is true.  So to allow for cmnd[2] (as well as cmnd[9] as
-> intended by the patch) to be non-zero, the "mask" argument should rather
-> be:
-> 
->  (0xf<<6) | (3<<1)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215490
 
-Indeed.
+            Bug ID: 215490
+           Summary: Logitech Brio doesn't initialise on USB 3.0 port of
+                    Asus M5A97 Evo R2.0
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.15.13
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: nouveau@spliet.org
+        Regression: No
 
-> In other words a bitmask of 0x3c6, corresponding to command data bytes
-> 1, 2, 6, 7, 8 and 9.  Is my understanding correct?
+Overview:
+When plugging in the Logitech Brio Pro (UVC-compatible) webcam into a USB 3=
+.0
+superspeed port, the device doesn't initialise properly. Dmesg contains the
+following:
 
-Yes, that's right.
+[ 8014.615870] usb 11-1: new SuperSpeed USB device number 2 using xhci_hcd
+[ 8019.973226] usb 11-1: unable to read config index 0 descriptor/all
+[ 8019.973237] usb 11-1: can't read configurations, error -110
+[ 8020.269331] usb 11-1: new SuperSpeed USB device number 3 using xhci_hcd
+[ 8025.644686] usb 11-1: unable to read config index 0 descriptor/all
+[ 8025.644697] usb 11-1: can't read configurations, error -110
+[ 8025.652808] usb usb11-port1: attempt power cycle
 
-> > So this computation and the test immediately below are pointless --
-> > unless you change the argument to check_command().
-> 
-> If you are referring to the "if (format == 0)" check, then I believe you
-> are right.
-> 
-> > > +	/*
-> > > +	 * Check if CDB is old style SFF-8020i
-> > > +	 * i.e. format is in 2 MSBs of byte 9
-> > > +	 * Mac OS-X host sends us this.
-> > > +	 */
-> > > +	if (format == 0)
-> > > +		format = (common->cmnd[9] >> 6) & 0x3;
-> 
-> It seems this is the gist of the patch.  Without changing the mask
-> parameter to check_command() above, we know we can only reach here if
-> format = common->cmnd[2] is 0.  However this snippet is then reassigning
-> format from the upper bits of the 9th byte which could be non-zero, at
-> least in the case of MacOS.
-> 
-> So this patch does seem a bit incomplete as you point out and maybe
-> updating the mask as above should help to allow both fields to determine
-> the format for any non-zero TOC type.
-> 
-> But I was trying to confirm these details from the SFF-8020i spec as
-> mentioned in the original comment above.  I was only able to find a
-> draft copy [1] from a web search which stated:
-> 
-> 	"Format field definition: When Format in Byte 2 is zero, then
-> 	Byte 9 is used. Other values for this field are reserved for
-> 	definition in MMC."
-> 
-> 	Note: The Format field in Byte 9 is a vendor-specific area and
-> 	will be removed in subsequent versions of this specification.
-> 	Functionality is moving to Byte 2."
-> 
-> However when trying to look up the latest official release of SFF-8020
-> the SNIA website [2] lists it as having been expired and incorporated
-> into the SCSI MMC specification.  Consequently, I haven't yet been able
-> to look further into the SCSI MMC spec itself as it seems it is only
-> available for a fee from the ANSI/INCITS website [3].  I'm hoping you or
-> maybe somebody on this list might have more knowledge on these details.
+The same camera works in any of the USB 2.0 ports, albeit without 4K suppor=
+t.
+On a different machine (Asus PN50), the camera works fine in a USB superspe=
+ed
+port:
 
-I thought I had a copy of the old SFF8020i spec somewhere, but now I 
-can't find it.  :-(
+[222114.302378] usb 3-1: new SuperSpeed USB device number 2 using xhci_hcd
+[222114.320421] usb 3-1: New USB device found, idVendor=3D046d, idProduct=
+=3D085e,
+bcdDevice=3D 3.17
+[222114.320431] usb 3-1: New USB device strings: Mfr=3D0, Product=3D2,
+SerialNumber=3D3
+[222114.320434] usb 3-1: Product: Logitech BRIO
+[222114.320437] usb 3-1: SerialNumber: 90A3845D
+[222114.328549] input: Logitech BRIO Consumer Control as
+/devices/pci0000:00/0000:00:01.2/0000:01:00.0/usb3/3-1/3-1:1.5/0003:046D:08=
+5E.000A/input/input24
+[222114.380587] hid-generic 0003:046D:085E.000A: input,hidraw2: USB HID v1.=
+11
+Device [Logitech BRIO] on usb-0000:01:00.0-1/input5
+[222114.409388] mc: Linux media interface: v0.10
+[222114.428046] videodev: Linux video capture interface: v2.00
+[222114.459729] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+24000
+[222114.469733] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+32000
+[222114.479730] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+48000
+[222114.531631] usbcore: registered new interface driver snd-usb-audio
+[222114.531771] usb 3-1: Found UVC 1.00 device Logitech BRIO (046d:085e)
+[222114.557894] input: Logitech BRIO as
+/devices/pci0000:00/0000:00:01.2/0000:01:00.0/usb3/3-1/3-1:1.0/input/input25
+[222114.558136] usbcore: registered new interface driver uvcvideo
+[222114.609743] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+48000
+[222114.629786] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+48000
+[222114.644731] usb 3-1: current rate 16000 is different from the runtime r=
+ate
+48000
 
-> So I'm left wondering whether the Format field in Byte 9 is even
-> standardized, or if it is a remnant of an older or possibly
-> draft/non-final specification.  Yet we clearly have a host that is
-> relying on this behavior, so there is utility in this patch.
-> 
-> FWIW, here are the raw bytes of the READ TOC request transaction as
-> issued by the MacOS host, obtained from a bus analyzer trace, which this
-> patch is purportedly fixing:
-> 
->  55 53 42 43 19 00 00 00 FE FF 00 00 80 00 0A 43
->                                               ^^
->                                               cmnd[0] i.e. OpCode
->  02 00 00 00 00 00 FF FE 80 00 00 00 00 00 00
->     ^^                   ^^
->     cmnd[2]==0           ||
->                          cmnd[9], upper 2 bits == 0x2
+Steps to Reproduce:
+- Plug the camera's USB cable into any USB 3.0 SS port on the Asus M5A97 Evo
+R2.0
 
-Well, there are really just two things we need to worry about:
+Actual Results:
+Error messages in the kernel log
 
-	The driver must continue to work properly on all the systems
-	that are using it now.
+Expected Results:
+A functioning webcam
 
-	The driver should be able to work with Mac OS-X.
+Build Date & Hardware:
+- kernel 5.15.13-200.fc35.x86_64
+- Asus M5A97 Evo R2.0
+- Logitech Brio Pro
 
-I think if you simply change the mask value then we'll be okay.
+Additional Information:
+Downstream bug report: https://bugzilla.redhat.com/show_bug.cgi?id=3D2040321
 
-Alan Stern
+--=20
+You may reply to this email to add a comment.
 
-> Thanks,
-> Jack
-> 
-> [1] https://www.bswd.com/sff8020i.pdf
-> [2] https://www.snia.org/technology-communities/sff/specifications
-> [3] https://webstore.ansi.org/standards/incits/ansiincits4302007
+You are receiving this mail because:
+You are watching the assignee of the bug.=
