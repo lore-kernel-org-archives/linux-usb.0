@@ -2,105 +2,96 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BD6C35264
-	for <linux-usb@archiver.kernel.org>; Sat, 15 Jan 2022 17:22:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C06BC433F5
+	for <linux-usb@archiver.kernel.org>; Sun, 16 Jan 2022 04:24:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233451AbiAORW4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 15 Jan 2022 12:22:56 -0500
-Received: from mail-ot1-f49.google.com ([209.85.210.49]:46730 "EHLO
-        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233367AbiAORWt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 15 Jan 2022 12:22:49 -0500
-Received: by mail-ot1-f49.google.com with SMTP id t4-20020a05683022e400b00591aaf48277so14122658otc.13;
-        Sat, 15 Jan 2022 09:22:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=tOd5PlmluudALXw25P1FUTpuTqmX0VJHEIDiSnDnSyQ=;
-        b=P8BNx1KyALy+oCKwvbY/SuZ2uLWvKlelb4y4x47ck3aZCtDH+QThu3OLj2rFKgwhhQ
-         tZ/dsopp4ZhQoFgvu5yNkXlMUQhpLrAuettIeKX0VoCAG6jyI69DV3+Pjh+4f1k6NITn
-         aqY0chnmNxqG4MaqwG9FVDkwLqVfCX+/dNz3L+5F+RrqL5vSqr7ophLGItHr7kEYZ9jr
-         +YQdTwmMtwuo/Ha7/1C8KPXfdq01fOmAeCRNXS8/O0J9lAChvUj213iFQrjtyGImWH+C
-         ckgyaCpUaCSpv6wXeF/zgB4ArCdbTyoJc970lvPEHljuDnE7DbAx96mcCs6YbcDmTOw0
-         KkzA==
-X-Gm-Message-State: AOAM533tH/JBKnjZQSSOoGH38yi96hVIvNTMgVUsG6ljYQi+fd68X3ub
-        M3KqLiF3ZiiXUHynX8mwTA==
-X-Google-Smtp-Source: ABdhPJwIybGqL+uwk2P4tWp5L19eVC71Jl+JwGpTzzBPt2XUw3/wznpGXkiPdKkv8jvQYIA+SGnISQ==
-X-Received: by 2002:a9d:7cc9:: with SMTP id r9mr10587481otn.202.1642267368079;
-        Sat, 15 Jan 2022 09:22:48 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id x13sm3251441oof.19.2022.01.15.09.22.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Jan 2022 09:22:47 -0800 (PST)
-Received: (nullmailer pid 119886 invoked by uid 1000);
-        Sat, 15 Jan 2022 17:22:30 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     conor.dooley@microchip.com
-Cc:     linus.walleij@linaro.org, heiko@sntech.de,
-        linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
-        aou@eecs.berkeley.edu, linux-spi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, atishp@rivosinc.com,
-        bgolaszewski@baylibre.com, palmer@dabbelt.com,
-        a.zummo@towertech.it, ivan.griffin@microchip.com,
-        u.kleine-koenig@pengutronix.de, devicetree@vger.kernel.org,
-        daire.mcnamara@microchip.com, thierry.reding@gmail.com,
-        bin.meng@windriver.com, robh+dt@kernel.org,
-        lewis.hanly@microchip.com, lee.jones@linaro.org,
-        linux-crypto@vger.kernel.org, linux-pwm@vger.kernel.org,
-        jassisinghbrar@gmail.com, linux-riscv@lists.infradead.org,
-        geert@linux-m68k.org, linux-rtc@vger.kernel.org,
-        krzysztof.kozlowski@canonical.com, paul.walmsley@sifive.com,
-        alexandre.belloni@bootlin.com, linux-i2c@vger.kernel.org,
-        broonie@kernel.org, gregkh@linuxfoundation.org
-In-Reply-To: <20220114151727.2319915-7-conor.dooley@microchip.com>
-References: <20220114151727.2319915-1-conor.dooley@microchip.com> <20220114151727.2319915-7-conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 06/15] dt-bindings: gpio: add bindings for microchip mpfs gpio
-Date:   Sat, 15 Jan 2022 11:22:30 -0600
-Message-Id: <1642267350.915591.119885.nullmailer@robh.at.kernel.org>
+        id S234249AbiAPEYA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 15 Jan 2022 23:24:00 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:45352 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230092AbiAPEX6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 15 Jan 2022 23:23:58 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0A609CE0B6D
+        for <linux-usb@vger.kernel.org>; Sun, 16 Jan 2022 04:23:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 46525C36AE9
+        for <linux-usb@vger.kernel.org>; Sun, 16 Jan 2022 04:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642307035;
+        bh=pgmf70FeaLTvfGfWGZ+XxCCSntaBR4hHoS2Ju3tNOWk=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=fBeBKPB8tIS5B/ZWW36vkOtB3xp2bu7oGSnESLp0loIdWwcUlQq9/55tSZSB/QDsJ
+         P2Y7Cc4K/vKBx9ounaaNjpyca8UlBFaH4PQT25tsGw+lRzf6vF/b3ZGANkLvD/XALs
+         0awC9dx1gOb9/YAdFogVpUwXNHDr3k2O5Pj/bgqxABtvJiWNGMZZJSb2i9tGEetWCC
+         x0rQYG22eJdP/W+9LUMVDIL/k3XMjA8Z60Hgwpm6xVDSspZNgZqJ7uuxpf4g11DV5O
+         MQlfC1s2McaAKao6rNtBYH92snmKOYPg9kTrel0yvMBqp7Xx1Lbz5ADejrqdYFXKkV
+         hiOEY3YJTX4vg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 2A660CC13AE; Sun, 16 Jan 2022 04:23:55 +0000 (UTC)
+From:   bugzilla-daemon@bugzilla.kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 215361] SL-6000 zaurus USB error - 'bad CDC descriptors'
+Date:   Sun, 16 Jan 2022 04:23:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: bids.7405@bigpond.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-215361-208809-e4bAGJUzcD@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215361-208809@https.bugzilla.kernel.org/>
+References: <bug-215361-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 14 Jan 2022 15:17:18 +0000, conor.dooley@microchip.com wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
-> 
-> Add device tree bindings for the gpio controller on
-> the Microchip PolarFire SoC.
-> 
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  .../bindings/gpio/microchip,mpfs-gpio.yaml    | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/microchip,mpfs-gpio.yaml
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215361
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+--- Comment #6 from Ross Maynard (bids.7405@bigpond.com) ---
+Hi Greg,
 
-yamllint warnings/errors:
+I found the patch:
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/gpio/microchip,mpfs-gpio.example.dts:19:18: fatal error: dt-bindings/clock/microchip,mpfs-clock.h: No such file or directory
-   19 |         #include "dt-bindings/clock/microchip,mpfs-clock.h"
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:373: Documentation/devicetree/bindings/gpio/microchip,mpfs-gpio.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1413: dt_binding_check] Error 2
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[16adf5d07987d93675945f3cecf0e33706566005] usbnet: Remove over-broad=20
+module alias from zaurus.
 
-doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/patch/1580118
+On 21/12/21 7:20 pm, bugzilla-daemon@bugzilla.kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D215361
+>
+> --- Comment #5 from Greg Kroah-Hartman (greg@kroah.com) ---
+> On Tue, Dec 21, 2021 at 08:07:37AM +0000, bugzilla-daemon@bugzilla.kernel=
+.org
+> wrote:
+>> I am wondering if there was a change in the cdc_ether or zaurus modules
+>> that caused it to stop working in 3.0.
+> There probably is.  Can you please use 'git bisect' between those two
+> versions to find the offending change?
+>
+> thanks,
+>
+> greg k-h
+>
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+--=20
+You may reply to this email to add a comment.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
