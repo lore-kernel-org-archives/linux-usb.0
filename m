@@ -2,122 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 899D2C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 11:52:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A79F2C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 12:20:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236688AbiAQLwO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 06:52:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58648 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233818AbiAQLwO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 06:52:14 -0500
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDD9C061574;
-        Mon, 17 Jan 2022 03:52:13 -0800 (PST)
-Received: by mail-qv1-xf2d.google.com with SMTP id k9so2663435qvv.9;
-        Mon, 17 Jan 2022 03:52:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=W6hXXL8mWv5GPh/P7bia7mTJEIDbamCBVNF8AerKYLU=;
-        b=IPLMgGuS+1UjluWsmuEHT2OaUU67wTfGSvPbx9hAcWXbS+enlwgTazh/02MniWvPHg
-         wtBft3uLM9tqgF5w76wxg1jxilmXKdE/R+i/a06kF2Gw3xgZYhMmM+SjF0ltxus3qfTx
-         Fr4h3NXjHIrKt21+UvuK1RdlIcJXWRIUQHD47LRAH531hbleEwQoMOqzeE0tyJuJCLH4
-         V1sAmhIQofFOG+GnxFrP2lDi5DRqhImENDCxyngQlx/+mnlN4NPvsz8z1/yTMGrU+ozt
-         o/IWAfHFCtyZAWVyxvr6BDA/2oO1HCq4ZUvk+pvqHSKa7ncoloT+AQ2AeUVvaRUbU5BL
-         Cy4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W6hXXL8mWv5GPh/P7bia7mTJEIDbamCBVNF8AerKYLU=;
-        b=YMkwuzqrcPHi5KjHeO0D5g07BXKYOIGrRyox0FORi64yaVpdE88csk/nFLRxGJcrpz
-         djAJi/zekPPpFnubSypGPkMlDR9tgYAahPaDN31yalydlr70hlUpuvbk98oJUXp+rGTm
-         vdGzj44RWMy/GlJoupSYk24vIwKX501SOvlLTwuv2UivXCCf6mWQsP97Y4uvPfoWBELZ
-         b6hozY2JeHReEkTgyd6ShiWCLnaBGwy3saPOavagFHoNT4y6wq4eZur/qDFHXb30vumH
-         NdjgjiAluciT9bD3ghX50Rm9SC9bJFLIHKS7wzdz4epyyLoId8zRDERAZX+O4kkj5gsY
-         XpDg==
-X-Gm-Message-State: AOAM533ofRXKBIib7/Uj/SOjEH3NNb9mhf8E3lbN8RBGP+DDEySScRB6
-        9ii9FakiMRTfLNZ8m/ITCr57YWg/gB8U4J17ghDoLP7L9V4=
-X-Google-Smtp-Source: ABdhPJwnjXgkRURCg4ZgaWtHhVV5jaYYzQ0xFci9AJZCm9KfbMKc/MQsnmT4DzE77FRogVfqa0jxFsosgHleT5QaXkU=
-X-Received: by 2002:a05:6214:2528:: with SMTP id gg8mr18130557qvb.62.1642420332804;
- Mon, 17 Jan 2022 03:52:12 -0800 (PST)
+        id S239830AbiAQMUr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 07:20:47 -0500
+Received: from mga14.intel.com ([192.55.52.115]:35821 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236978AbiAQMUr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jan 2022 07:20:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642422047; x=1673958047;
+  h=to:cc:references:from:subject:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=bDk7Xh2Uwl1ciemzd6BPTU50WsyNshlNM0SSyDlnoag=;
+  b=CRKKsHYyF+v8oymy98oBTrRI6yr92xUw29kMYaXvsZttR1fGZ7wa4yLq
+   zxw6wxn/zVxyul2VgdjsuDwH6xT5pqmIeYZLm58+tGtninn4yhJyx2kZ1
+   hdR63fYSxRTO7qeshT2xp8wvduXryrJFhTMXUxqUZcT/zI7XCEp4bgr0P
+   2OWg6oduV2gVqzo4kyz2xUwSQFcQMhBhYmKD4MONcXAamnYjnC8EN/C0f
+   hd8A11tjphepDXA7zh0+a+Qm/Oa18McbeCmajmKy1yjKM+SkS9qcIIs+J
+   0BhEWXpyMwruL9FhvInJnuVjxZoBQNIJZjtW/7eCyTJkI+pmdDQ+zrLFT
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="244810402"
+X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
+   d="scan'208";a="244810402"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 04:20:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
+   d="scan'208";a="625175556"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga004.jf.intel.com with ESMTP; 17 Jan 2022 04:20:43 -0800
+To:     Puma Hsu <pumahsu@google.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc:     mathias.nyman@intel.com, Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Albert Wang <albertccwang@google.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+References: <20211229112551.3483931-1-pumahsu@google.com>
+ <Yd1tUKhyZf26OVNQ@kroah.com>
+ <CAGCq0LZb8nQDvcz=LswWi4qKd-65ys6iPjTKh=46dVtYLDEUVw@mail.gmail.com>
+ <Yd/g/ywBWZG7gF8v@kroah.com>
+ <CAGCq0LZ3i8VaMfRWNKvH_-ms0TgNqKA6f+Zx7M=iz1t_-smW+g@mail.gmail.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v3] xhci: re-initialize the HC during resume if HCE was
+ set
+Message-ID: <fe411488-c67c-62ab-4709-98621b9f199b@linux.intel.com>
+Date:   Mon, 17 Jan 2022 14:22:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <CABXGCsNb22JCJ4AyR1sYqFtF4QUnvM3B2zQcc1svcm2mquWxoA@mail.gmail.com>
- <YeUvvIaVJnJrrpYe@kuha.fi.intel.com> <CABXGCsO5PYBuZ11YR16NLLa0H07Jom1JQhWHFuETfotfBfzkMw@mail.gmail.com>
- <YeVQsRp7aDMcQKs7@kuha.fi.intel.com>
-In-Reply-To: <YeVQsRp7aDMcQKs7@kuha.fi.intel.com>
-From:   Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date:   Mon, 17 Jan 2022 16:52:02 +0500
-Message-ID: <CABXGCsMWXFFQY3L8ixK9K-gYX41_gTjqHRBXNp6gDpUgdnvFfg@mail.gmail.com>
-Subject: Re: [Bug][5.17-rc0] Between commits daadb3bd0e8d and 455e73a07f6e,
- the kernel stops loading on my devices.
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        rafael.j.wysocki@intel.com, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAGCq0LZ3i8VaMfRWNKvH_-ms0TgNqKA6f+Zx7M=iz1t_-smW+g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 17 Jan 2022 at 16:19, Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
 
-> I don't know which tree you are working on top of, but the patch
-> applies just fine on top of Linus' latest master branch:
-> git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->
+>>> This seems like a big hammer for when the host controller throws an
+>>>> error.  Why is this the only place that it should be checked for?  What
+>>>> caused the error that can now allow it to be fixed?
+>>>
+>>> I believe this is not the only place that the host controller may set
+>>> HCE, the host controller may set HCE anytime it sees an error in my
+>>> opinion, not only in suspend or resume.
+>>
+>> Then where else should it be checked?  Where else will your silicon set
+>> this bit as part of the normal operating process?
+> 
+> We observed this flag while resume in our silicon so far. According to the XHCI
+> specification 4.24.1, “Software should implement an algorithm for checking the
+> HCE flag if the xHC is not responding.”, so maybe it would be better
+> to implement
+> a new API to recover host controller whenever the driver side finds no response
+> from host controller in the future.
+> 
 
-Same here.
+As all the code to reset the host during resume already exists, and is well tried
+due to issues in resume being so common, I think it makes sense to add the HCE case 
+here as well. It's a simple fix that makes the life of users better.
 
-$ git remote -v
-origin    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-(fetch)
-origin    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-(push)
+That said we shouldn't hide the reason for reset like this.
+Print a debug message telling about the HCE so that everybody working with xHCI
+can see it and start fixing the rootcause.
 
-$ git show
-commit 0c947b893d69231a9add855939da7c66237ab44f (HEAD -> master,
-origin/master, origin/HEAD)
-Merge: a6097180d884 9bbf8662a27b
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon Jan 17 09:53:21 2022 +0200
+Another HCE check could be added to command timeout code, but just to show a
+warning for now.
+Reset might not always clear HCE, and we don't want to be stuck in a reset loop.
+This check  could be a separate patch
 
-    Merge tag '5.17-rc-part1-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6
-
-    Pull cifs updates from Steve French:
-
-     - multichannel patches mostly related to improving reconnect behavior
-
-     - minor cleanup patches
-
-    * tag '5.17-rc-part1-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6:
-      cifs: fix FILE_BOTH_DIRECTORY_INFO definition
-      cifs: move superblock magic defitions to magic.h
-      cifs: Fix smb311_update_preauth_hash() kernel-doc comment
-      cifs: avoid race during socket reconnect between send and recv
-      cifs: maintain a state machine for tcp/smb/tcon sessions
-      cifs: fix hang on cifs_get_next_mid()
-      cifs: take cifs_tcp_ses_lock for status checks
-      cifs: reconnect only the connection and not smb session where possible
-      cifs: add WARN_ON for when chan_count goes below minimum
-      cifs: adjust DebugData to use chans_need_reconnect for conn status
-      cifs: use the chans_need_reconnect bitmap for reconnect status
-      cifs: track individual channel status using chans_need_reconnect
-      cifs: remove redundant assignment to pointer p
-
-$ cat 0001-usb-typec-Test-fix.patch | git apply
-error: patch failed: drivers/usb/typec/port-mapper.c:56
-error: drivers/usb/typec/port-mapper.c: patch does not apply
-
-> Thanks. I can see UCSI in your laptop dump, but not in the workstation
-> dump. The laptop has the device nodes also for the ports as expected.
->
-> Which machine is failing?
-
-Both.
-
--- 
-Best Regards,
-Mike Gavrilov.
+-Mathias
