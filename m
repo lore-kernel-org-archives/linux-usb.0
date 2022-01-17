@@ -2,71 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB07CC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 15:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EFA6C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 16:10:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240553AbiAQPkL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 10:40:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237314AbiAQPkK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 10:40:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7B4C061574;
-        Mon, 17 Jan 2022 07:40:10 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 34CD1B810F5;
-        Mon, 17 Jan 2022 15:40:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3063FC36AEF;
-        Mon, 17 Jan 2022 15:40:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1642434007;
-        bh=uX1Nzu6ud1l1C70Ts3ffEy/I1QZlKKPuL/lL0tIjKdQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qYBnWKV4AgjvJESWAfOjRKk5KGWyNBt9fAj+rhJzvIx08u8qTzS9ZGvhlQw+tNG52
-         xlX2Ngv7quLX26fT4VYiTAqfPx9n0dM2TJFtIuBIs6lkGiKZryObvKa6jmUA6yw7VF
-         BH7oO4EOxnY6XvuazDHedKVCXfYJDT2aiC9ccO9I=
-Date:   Mon, 17 Jan 2022 16:40:04 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V2] usb: common: ulpi: Fix crash in ulpi_match()
-Message-ID: <YeWN1Hb0tpjDzn+C@kroah.com>
-References: <20220117150039.44058-1-jonathanh@nvidia.com>
+        id S240885AbiAQQKG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 11:10:06 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:60483 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S240863AbiAQQKD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 11:10:03 -0500
+Received: (qmail 40593 invoked by uid 1000); 17 Jan 2022 11:10:02 -0500
+Date:   Mon, 17 Jan 2022 11:10:02 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Bixuan Cui <cuibixuan@huawei.com>,
+        Rajat Jain <rajatja@google.com>, Andrew Lunn <andrew@lunn.ch>,
+        Chris Chiu <chris.chiu@canonical.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: core: Bail out when port is stuck in reset loop
+Message-ID: <YeWU2ido11JzbDe6@rowland.harvard.edu>
+References: <20211230052811.650191-1-kai.heng.feng@canonical.com>
+ <CAAd53p6ev+yQT+jf32UrTMWQXwDPYtmZSrW0zCQnKuUaBbtXUg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220117150039.44058-1-jonathanh@nvidia.com>
+In-Reply-To: <CAAd53p6ev+yQT+jf32UrTMWQXwDPYtmZSrW0zCQnKuUaBbtXUg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 03:00:39PM +0000, Jon Hunter wrote:
-> Commit 7495af930835 ("ARM: multi_v7_defconfig: Enable drivers for
-> DragonBoard 410c") enables the CONFIG_PHY_QCOM_USB_HS for the ARM
-> multi_v7_defconfig. Enabling this Kconfig is causing the kernel to crash
-> on the Tegra20 Ventana platform in the ulpi_match() function.
+On Mon, Jan 17, 2022 at 11:00:05AM +0800, Kai-Heng Feng wrote:
+> On Thu, Dec 30, 2021 at 1:28 PM Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+> >
+> > Unplugging USB device may cause an incorrect warm reset loop and the
+> > port can no longer be used:
+> > [  143.039019] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x4202c0
+> > [  143.039025] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
+> > [  143.039051] hub 2-0:1.0: state 7 ports 10 chg 0000 evt 0008
+> > [  143.039058] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x4202c0, return 0x4102c0
+> > [  143.039092] xhci_hcd 0000:00:14.0: clear port3 connect change, portsc: 0x4002c0
+> > [  143.039096] usb usb2-port3: link state change
+> > [  143.039099] xhci_hcd 0000:00:14.0: clear port3 link state change, portsc: 0x2c0
+> > [  143.039101] usb usb2-port3: do warm reset
+> > [  143.096736] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2b0, return 0x2b0
+> > [  143.096751] usb usb2-port3: not warm reset yet, waiting 50ms
+> > [  143.131500] xhci_hcd 0000:00:14.0: Can't queue urb, port error, link inactive
+> > [  143.138260] xhci_hcd 0000:00:14.0: Port change event, 2-3, id 19, portsc: 0x2802a0
+> > [  143.138263] xhci_hcd 0000:00:14.0: handle_port_status: starting usb2 port polling.
+> > [  143.160756] xhci_hcd 0000:00:14.0: Get port status 2-3 read: 0x2802a0, return 0x3002a0
+> > [  143.160798] usb usb2-port3: not warm reset yet, waiting 200ms
+> >
+> > The port status is PP=1, CCS=0, PED=0, PLS=Inactive, which is Error
+> > state per "USB3 Root Hub Port State Machine". It's reasonable to perform
+> > warm reset several times, but if the port is still not enabled after
+> > many attempts, consider it's gone and treat it as disconnected.
+> >
+> > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 > 
-> The Qualcomm USB HS PHY driver that is enabled by CONFIG_PHY_QCOM_USB_HS,
-> registers a ulpi_driver but this driver does not provide an 'id_table',
-> so when ulpi_match() is called on the Tegra20 Ventana platform, it
-> crashes when attempting to deference the id_table pointer which is not
-> valid. The Qualcomm USB HS PHY driver uses device-tree for matching the
-> ULPI driver with the device and so fix this crash by using device-tree
-> for matching if the id_table is not valid.
+> A gentle ping...
 > 
-> Fixes: ef6a7bcfb01c ("usb: ulpi: Support device discovery via DT")
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> > ---
+> >  drivers/usb/core/hub.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 00070a8a65079..f618d86d526d1 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -2979,7 +2979,8 @@ static int hub_port_reset(struct usb_hub *hub, int port1,
+> >                 }
+> >
+> >                 /* Check for disconnect or reset */
+> > -               if (status == 0 || status == -ENOTCONN || status == -ENODEV) {
+> > +               if (status == 0 || status == -ENOTCONN || status == -ENODEV ||
+> > +                   (status == -EBUSY && i == PORT_RESET_TRIES - 1)) {
 
-No cc: of stable since this is a bug going back to 4.11?
+How about modifying the comment so that people will know what this 
+extra test is trying to do?  The original comment no longer gives an 
+accurate description of the test.
 
-thanks,
+Alan Stern
 
-greg k-h
+> >                         usb_clear_port_feature(hub->hdev, port1,
+> >                                         USB_PORT_FEAT_C_RESET);
+> >
+> > --
+> > 2.33.1
+> >
