@@ -2,108 +2,127 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 878E5C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 14:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0B8C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 14:38:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234456AbiAQOOd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 09:14:33 -0500
-Received: from mga09.intel.com ([134.134.136.24]:55398 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232040AbiAQOOb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Jan 2022 09:14:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642428871; x=1673964871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dpdDCUgIFGr2FuwMabXwCtN6FdEIwM7gKE2hLUmGplQ=;
-  b=I96sjmSgw4oe3wkv++h1RNQ9mKPLYX7q5I0SYBHqXU32XBhKecQKohLE
-   ipyANRe8K0C6FVAbSyDbdGHI5nZbJR8MyWId9SJHP8jNHM9edFEf1iXoi
-   NWDYUVIErlLyxvQaXxe72C6RzRZvGRwgqLIUZBdGA48vdpunxDDyTw0N9
-   8HoPVoT/wP+lz75mX8lfmlwzDBUWv1kWqb/yQXmAxBqCvw5D9R4KZwrmZ
-   rlnJXe1hYqsWHJEebo1nhYmCSAe/UUjv74caqBUR/VmG+gKgzw57ksJVp
-   bsQrmL77qOENiphhcy3U230ngljFMgsRkCu22+Q4/SHhKNgJyQX5eLMXu
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="244429786"
-X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
-   d="scan'208";a="244429786"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 06:10:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
-   d="scan'208";a="671568402"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 17 Jan 2022 06:10:52 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Jan 2022 16:10:51 +0200
-Date:   Mon, 17 Jan 2022 16:10:51 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Jon Hunter <jonathanh@nvidia.com>
-Cc:     Stephan Gerhold <stephan@gerhold.net>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] usb: common: ulpi: Fix crash in ulpi_match()
-Message-ID: <YeV466hTEyDwvmyL@kuha.fi.intel.com>
-References: <20220114100217.59541-1-jonathanh@nvidia.com>
+        id S237144AbiAQOiR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 09:38:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234918AbiAQOiP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 09:38:15 -0500
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1016EC061748
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jan 2022 06:38:11 -0800 (PST)
+Received: by mail-yb1-xb2b.google.com with SMTP id p5so46300861ybd.13
+        for <linux-usb@vger.kernel.org>; Mon, 17 Jan 2022 06:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4yoG+tbPsXSpDMKDwUX8KZJBB8Ohp9SGfL/6SEVjgzg=;
+        b=W3mDa6sjEPOJx5QAxtMq0Z44zj/Y5nm3IhtmFPnUgFZtPRAezL77AA7awZUdFR0LmO
+         0CITY8OV2OQRUvczsyeYtZWJhlfBI+JxiNatpsQzkyuRPYNseWTjVS1MFyJgLsGy3AUe
+         0MRUHIw/ot3/R782/LJcPOs4B+Knh+8eaLR/JaX5YHsjJRPxlSWwm+GmFdlvOe+8qQBU
+         lWnagOXyfRKPN6GA9pDN5iSDfvlqWNJ8/O3j+h9TSCNZQr9ZuOqEUHtBKKDQHWv+les6
+         uWv/alCwfDtH31QFO8eKFhbWMG4QjZ4uNTPoeaduqJrA5l1OupNo3rDqW/TvQJgC36rH
+         M6wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4yoG+tbPsXSpDMKDwUX8KZJBB8Ohp9SGfL/6SEVjgzg=;
+        b=eacDKH1+BCD4R1QT99lUqERzcPY11mUzS/4zudnJCAi3YyGGc4Uapd5KluF4qzWSEu
+         IblLChcpgJ2BXwUJVFjq7CzgFx7xTDpaJT3Hj4dBorbiGAdF8BMefEq5ySWOh/vBgXm6
+         SyqoyeN8JXbOFMQkeJo/0O4GKREJo3tNOnWfBNiqisgFplOv85sp2KGyOyj/ok9wVmuz
+         UZCxkogaSIlRBT7WHBe9fI1L3RtydY+nHATddinSOn4Kvn+Js5JwEOzHtkwymJES2BOv
+         3VmekMSwM/C8oOLIBZ1OcFWbRqFalijoMNb9kNJ+ypoOKxAjsHliH3hr982K9RDcLou4
+         6oQQ==
+X-Gm-Message-State: AOAM530WORttQ0gigvvWwWWqlfK7QACh//4QdXaAlHq3H+LX+C8bZ/q1
+        KYvIBdtJOtxS6z5DOBPeyvnq0nMZkfw1E7QgLvDXD0n/
+X-Google-Smtp-Source: ABdhPJzYHuqylkQE/ANp7RELXEbMvM89ZekusEkI0yu3SvE2MlAGIlVP+yPQbaR+b8v9+Ow5rYFOGqTauM9XmpURA3I=
+X-Received: by 2002:a05:6902:1c5:: with SMTP id u5mr7167400ybh.555.1642430290130;
+ Mon, 17 Jan 2022 06:38:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220114100217.59541-1-jonathanh@nvidia.com>
+References: <CAD039W71Hf06Bw4H_qjm7bRg__BjHfG=p-E7HXL62g0Yc7txBA@mail.gmail.com>
+ <YeUYQB4neDz8Z0Tb@kroah.com>
+In-Reply-To: <YeUYQB4neDz8Z0Tb@kroah.com>
+From:   Rajaram Regupathy <rajaram.regupathy@gmail.com>
+Date:   Mon, 17 Jan 2022 20:07:58 +0530
+Message-ID: <CAD039W5ZmTcYErXsnSpdksc6k2L3fNwry1uP2Kr96Uo04fO9PQ@mail.gmail.com>
+Subject: Re: [ANNOUNCE] libtypec_0.1/lstypec_0.1 is released
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com,
+        Benson Leung <bleung@google.com>,
+        Prashant Malani <pmalani@chromium.org>, jthies@google.com,
+        saranya.gopal@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Jon,
+On Mon, Jan 17, 2022 at 12:48 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Jan 16, 2022 at 08:49:47PM +0530, Rajaram Regupathy wrote:
+> > HI
+> >
+> > libtypec
+> > ++++++
+> >
+> > USB-Type C and USB Power Delivery systems are with multiple
+> > specification versions, platform designs and microcontroller vendors
+> > for managing  data, power and display.
+> >
+> > libtypec is aimed to provide a generic way for userspace System
+> > Software on Linux, Android, Chrome OS or Other OSes to build developer
+> > tools or
+> > other management applications for USB-Type C and USB Power Delivery
+> > class devices.
+>
+> Great, can we add this to the usbutils package, and `lsusb`?
+Thanks. Yes, the goal is to have it in usbutils package.  The thought
+to have  lstypec outside lsusb is as follows :
 
-On Fri, Jan 14, 2022 at 10:02:17AM +0000, Jon Hunter wrote:
-> Commit 7495af930835 ("ARM: multi_v7_defconfig: Enable drivers for
-> DragonBoard 410c") enables the CONFIG_PHY_QCOM_USB_HS for the ARM
-> multi_v7_defconfig. Enabling this Kconfig is causing the kernel to crash
-> on the Tegra20 Ventana platform in the ulpi_match() function.
-> 
-> The Qualcomm USB HS PHY driver that is enabled by CONFIG_PHY_QCOM_USB_HS,
-> registers a ulpi_driver but this driver does not provide an 'id_table',
-> so when ulpi_match() is called on the Tegra20 Ventana platform, it
-> crashes when attempting to deference the id_table pointer which is not
-> valid. The Qualcomm USB HS PHY driver uses device-tree for matching the
-> ULPI driver with the device and so fix this crash by using device-tree
-> for matching if the id_table is not valid.
-> 
-> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+"lsusb" displays USB device details based on the USB device's "descriptors'' .
+lstypec is for displaying usb-c "port capability" and the usb-c
+partner "port/plug capabilities' ' and
+the information is agnostic to USB descriptor topology or USB bus.
+Ex: usb-c power adapters or usb-c display dongle or a usb-c e-cable etc..
 
-So is this fixing commit 7495af930835, or perhaps commit ef6a7bcfb01c
-("usb: ulpi: Support device discovery via DT")?
+Open to hear your recommendations.
 
-I would assume ef6a7bcfb01c ("usb: ulpi: Support device discovery via
-DT"). Please include the appropriate Fixes tag.
+>
+> > Features
+> > ======
+> > - libtypec - get method for port and port-partner capabilities
+> > -  utils/lstypec -  displaying information about USB typec class
+> > devices in the system and the devices connected to them
+> >
+> > Release:
+> > =======
+> >
+> > Binary : https://github.com/Rajaram-Regupathy/libtypec/releases/download/libtypec_v0.1/libtypec_0.1.tar.xz
+> > Source : https://github.com/Rajaram-Regupathy/libtypec/archive/refs/tags/libtypec_v0.1.tar.gz
+>
+> Like was pointed out, there is no license listed for this code, so no
+> one can use it.
+>
+> Also, it doesn't build for me:
 
-> ---
->  drivers/usb/common/ulpi.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
-> index 4169cf40a03b..8f8405b0d608 100644
-> --- a/drivers/usb/common/ulpi.c
-> +++ b/drivers/usb/common/ulpi.c
-> @@ -39,8 +39,11 @@ static int ulpi_match(struct device *dev, struct device_driver *driver)
->  	struct ulpi *ulpi = to_ulpi_dev(dev);
->  	const struct ulpi_device_id *id;
->  
-> -	/* Some ULPI devices don't have a vendor id so rely on OF match */
-> -	if (ulpi->id.vendor == 0)
-> +	/*
-> +	 * Some ULPI devices don't have a vendor id
-> +	 * or provide an id_table so rely on OF match.
-> +	 */
-> +	if (ulpi->id.vendor == 0 || !drv->id_table)
->  		return of_driver_match_device(dev, driver);
->  
->  	for (id = drv->id_table; id->vendor; id++)
-> -- 
-> 2.25.1
+Could you please follow  the Readme steps..?
 
-thanks,
-
--- 
-heikki
+>         $ make
+>          50%] Building C object CMakeFiles/lstypec.dir/lstypec.c.o
+>         100%] Linking C executable lstypec
+>         usr/bin/ld: /home/gregkh/tmp/libtypec/bin/liblibtypec.a(libtypec.c.o):(.bss+0x0): multiple definition of `__packed'; CMakeFiles/lstypec.dir/lstypec.c.o:(.bss+0x0): first defined here
+>         usr/bin/ld: /home/gregkh/tmp/libtypec/bin/liblibtypec.a(libtypec_sysfs_ops.c.o):(.bss+0x0): multiple definition of `__packed'; CMakeFiles/lstypec.dir/lstypec.c.o:(.bss+0x0): first defined here
+>         ollect2: error: ld returned 1 exit status
+>         ake[2]: *** [CMakeFiles/lstypec.dir/build.make:98: lstypec] Error 1
+>         ake[1]: *** [CMakeFiles/Makefile2:839: CMakeFiles/lstypec.dir/all] Error 2
+>         ake: *** [Makefile:121: all] Error 2
+>
+> Why does this need to be a library at all?
+>
+> thanks,
+>
+> greg k-h
