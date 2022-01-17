@@ -2,128 +2,144 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 272B9C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 12:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6309C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 14:13:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239887AbiAQMaQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 07:30:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39328 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbiAQMaP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 07:30:15 -0500
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19D01C061574;
-        Mon, 17 Jan 2022 04:30:15 -0800 (PST)
-Received: by mail-ot1-x32c.google.com with SMTP id 60-20020a9d0142000000b0059103eb18d4so19509217otu.2;
-        Mon, 17 Jan 2022 04:30:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Xp4+4+Wf5tUKljhMRbkkPD6L+kcOJd/sxyMiSoMO1F8=;
-        b=OfdJFKiAlYwn1IT48NdRrcoE/gTwmk3XVMQFUqA2U8dTNaQ3/elLCLqDvlU2ojCIMa
-         L4E8269GygXEjsMK4aBgOBHW6TX9+T2vNFN5YHdkNz3TwOW+22AtOVfoWG1IA5JN2Mvz
-         scVHgGfrfq1LSUGg6ggMA0yJL7BVpjqChodCUmojEOW8lpgz0AYfbL2BKc3I7WrLZpb9
-         1NkCiiNxcOp9aeox2XZhcDqgJGS5hxs5D9jqylZ4hB9GSOTfiqglHBddjnSfonod+XmM
-         Q47X3ZmlC1pu6XqHKqsD4TPs/jmbAXvsCpDswjQVyQjbXN+Ft8XM0J5PgIpRD3ZTlcYQ
-         zG1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Xp4+4+Wf5tUKljhMRbkkPD6L+kcOJd/sxyMiSoMO1F8=;
-        b=N1AGXRB8k+J3CJhSZGa3LixdiSQLswXA96lqZ55ZbMSss1gyPpJZC8D8jHwHzxGZ+M
-         KkOzL1sCJheMz6XCknDsZLyrTCBxhu8NzIJCMXF9DJWy/IOiNsU0Ojyp/ZFo1H65EnmJ
-         0cgoCyjz0lSvhOytjHh1XT7kDxLtuHED3Gd6jcWpZFAyw8atdF/ZbWtufx6ufs/QqjXd
-         iIpXwHIeJHyER0/1EYd02xh5kYg7qhihNVowDarSHqGt2Q7RJJddSP/04UD6Wxa+Fnp9
-         wXrw0S3stzAT8LvSA/WlUT1iuE11O2jI94NJRHnsGbqerB7cj+0UoxCgCsQMbcrNlwoo
-         3C5g==
-X-Gm-Message-State: AOAM531/i5UzM9+PSKzxrPimthc8AZmHNLgVUfIGWx3E6hwE8J9Ossgs
-        tXJrR677PVEz1TvDYiRaBkgx3Ge2nSTDwJq0UW4r9/5UdUM=
-X-Google-Smtp-Source: ABdhPJz4HHHPGxTLEZqNI3Bi+FfcVyBZCrg7v/hyl0ovPK3zpRfgk4Sncfbh/+u+Jqouz2UpX4d5AOHo5YavyfgWfis=
-X-Received: by 2002:a9d:d08:: with SMTP id 8mr16850521oti.334.1642422614470;
- Mon, 17 Jan 2022 04:30:14 -0800 (PST)
+        id S236889AbiAQON2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 09:13:28 -0500
+Received: from mga14.intel.com ([192.55.52.115]:46362 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236343AbiAQON0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jan 2022 09:13:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1642428806; x=1673964806;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=43PV9bhBIFft5caO8yFZnYnnxjd0G1wvIsaDIEH2CDs=;
+  b=LoixF7NMGs4Frz5gKTI/kvL6idgAVH3mkKXllm/YT7emUHXT+dWDJzz6
+   GHKgMMAhcfSJskvyZLifSXPJgN+gP+Hzco7zrjG+y5xnl7RbiV7VVwF37
+   hTv8q+CJ6R7j6x1qbmtJ+qg6sktz1fZU1/EmMHtijv+McK+vlyv1FPtcD
+   D1fqhdVYDRmfLXO7vEjRi/sAcL7VXrhtGrpDXXh/QoyCpI8ryaYtioMo+
+   9JnhhXU0o1qGePQ3cDcnQGP0Vr4dHmKRNrZmF0WeCEQJFK2HgmX3UyHUR
+   TCJkqwosHUD+qH/vd4LN5A8+9Viw4mrfwKKUBzLT9rs++LB8lxIz4bUEY
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="244828196"
+X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
+   d="scan'208";a="244828196"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 06:11:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
+   d="scan'208";a="671568639"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 17 Jan 2022 06:11:44 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Jan 2022 16:11:43 +0200
+Date:   Mon, 17 Jan 2022 16:11:43 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Xu Yang <xu.yang_2@nxp.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, jun.li@nxp.com, linux-imx@nxp.com
+Subject: Re: [PATCH v3] usb: typec: tcpci: don't touch CC line if it's Vconn
+ source
+Message-ID: <YeV5H8AwoN59aP9g@kuha.fi.intel.com>
+References: <20220113092943.752372-1-xu.yang_2@nxp.com>
 MIME-Version: 1.0
-References: <20220114233904.907918-1-sean.anderson@seco.com>
-In-Reply-To: <20220114233904.907918-1-sean.anderson@seco.com>
-From:   Jun Li <lijun.kernel@gmail.com>
-Date:   Mon, 17 Jan 2022 20:30:03 +0800
-Message-ID: <CAKgpwJUMXk--4EaYOxAAtLJT85mDHRHMihr6n7y1HECN+gmBBw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] usb: dwc3: Calculate REFCLKPER et. al. from reference clock
-To:     Sean Anderson <sean.anderson@seco.com>, Li Jun <jun.li@nxp.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Robert Hancock <robert.hancock@calian.com>,
-        Baruch Siach <baruch@tkos.co.il>,
-        Felipe Balbi <balbi@kernel.org>,
-        Balaji Prakash J <bjagadee@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220113092943.752372-1-xu.yang_2@nxp.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Sean Anderson <sean.anderson@seco.com> =E4=BA=8E2022=E5=B9=B41=E6=9C=8815=
-=E6=97=A5=E5=91=A8=E5=85=AD 10:11=E5=86=99=E9=81=93=EF=BC=9A
->
-> This is a rework of patches 3-5 of [1]. It attempts to correctly program
-> REFCLKPER and REFCLK_FLADJ based on the reference clock frequency. Since
-> we no longer need a special property duplicating this configuration,
-> snps,ref-clock-period-ns is deprecated.
->
-> Please test this! Patches 3/4 in this series have the effect of
-> programming REFCLKPER and REFCLK_FLADJ on boards which already configure
-> the "ref" clock. I have build tested, but not much else.
+On Thu, Jan 13, 2022 at 05:29:43PM +0800, Xu Yang wrote:
+> With the AMS and Collision Avoidance, tcpm often needs to change the CC's
+> termination. When one CC line is sourcing Vconn, if we still change its
+> termination, the voltage of the another CC line is likely to be fluctuant
+> and unstable.
+> 
+> Therefore, we should verify whether a CC line is sourcing Vconn before
+> changing its termination and only change the termination that is not
+> a Vconn line. This can be done by reading the Vconn Present bit of
+> POWER_ STATUS register. To determine the polarity, we can read the
+> Plug Orientation bit of TCPC_CONTROL register. Since Vconn can only be
+> sourced if Plug Orientation is set.
+> 
+> Fixes: 0908c5aca31e ("usb: typec: tcpm: AMS and Collision Avoidance")
+> cc: <stable@vger.kernel.org>
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 
-DWC3 databook states a *condition* for program those settings:
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-This field must be programmed to a non-zero value only if
-GFLADJ_REFCLK_LPM_SEL is set to '1' or GCTL.SOFITPSYNC is set to '1'.
-The value is derived as follows:
-FLADJ_REF_CLK_FLADJ=3D((125000/ref_clk_period_integer)-(125000/ref_clk_peri=
-od))
-* ref_clk_period where
-=E2=96=A0 the ref_clk_period_integer is the integer value of the ref_clk
-period got by truncating the decimal (fractional) value that is
-programmed in the GUCTL.REF_CLK_PERIOD field.
-=E2=96=A0 the ref_clk_period is the ref_clk period including the fractional=
- value.
-
-So you may need a condition check, with that, only required users
-are effected even with "ref" clock specified.
-
-Li Jun
-
->
-> [1] https://lore.kernel.org/linux-usb/20220114044230.2677283-1-robert.han=
-cock@calian.com/
->
->
-> Sean Anderson (6):
->   dt-bindings: usb: dwc3: Deprecate snps,ref-clock-period-ns
->   usb: dwc3: Get clocks individually
->   usb: dwc3: Calculate REFCLKPER based on reference clock
->   usb: dwc3: Handle fractional reference clocks
->   arm64: dts: zynqmp: Move USB clocks to dwc3 node
->   arm64: dts: ipq6018: Use reference clock to set dwc3 period
->
->  .../devicetree/bindings/usb/snps,dwc3.yaml    |  7 +-
->  arch/arm64/boot/dts/qcom/ipq6018.dtsi         |  3 +-
->  .../arm64/boot/dts/xilinx/zynqmp-clk-ccf.dtsi |  4 +-
->  arch/arm64/boot/dts/xilinx/zynqmp.dtsi        |  4 +-
->  drivers/usb/dwc3/core.c                       | 98 ++++++++++++++++---
->  drivers/usb/dwc3/core.h                       |  6 +-
->  6 files changed, 98 insertions(+), 24 deletions(-)
->
-> --
+> ---
+> v2: changed subject line
+> v3: optimized the commit message and code according to Guenter's suggestions
+> ---
+>  drivers/usb/typec/tcpm/tcpci.c | 26 ++++++++++++++++++++++++++
+>  drivers/usb/typec/tcpm/tcpci.h |  1 +
+>  2 files changed, 27 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> index 35a1307349a2..e07d26a3cd8e 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -75,9 +75,25 @@ static int tcpci_write16(struct tcpci *tcpci, unsigned int reg, u16 val)
+>  static int tcpci_set_cc(struct tcpc_dev *tcpc, enum typec_cc_status cc)
+>  {
+>  	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
+> +	bool vconn_pres;
+> +	enum typec_cc_polarity polarity = TYPEC_POLARITY_CC1;
+>  	unsigned int reg;
+>  	int ret;
+>  
+> +	ret = regmap_read(tcpci->regmap, TCPC_POWER_STATUS, &reg);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	vconn_pres = !!(reg & TCPC_POWER_STATUS_VCONN_PRES);
+> +	if (vconn_pres) {
+> +		ret = regmap_read(tcpci->regmap, TCPC_TCPC_CTRL, &reg);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		if (reg & TCPC_TCPC_CTRL_ORIENTATION)
+> +			polarity = TYPEC_POLARITY_CC2;
+> +	}
+> +
+>  	switch (cc) {
+>  	case TYPEC_CC_RA:
+>  		reg = (TCPC_ROLE_CTRL_CC_RA << TCPC_ROLE_CTRL_CC1_SHIFT) |
+> @@ -112,6 +128,16 @@ static int tcpci_set_cc(struct tcpc_dev *tcpc, enum typec_cc_status cc)
+>  		break;
+>  	}
+>  
+> +	if (vconn_pres) {
+> +		if (polarity == TYPEC_POLARITY_CC2) {
+> +			reg &= ~(TCPC_ROLE_CTRL_CC1_MASK << TCPC_ROLE_CTRL_CC1_SHIFT);
+> +			reg |= (TCPC_ROLE_CTRL_CC_OPEN << TCPC_ROLE_CTRL_CC1_SHIFT);
+> +		} else {
+> +			reg &= ~(TCPC_ROLE_CTRL_CC2_MASK << TCPC_ROLE_CTRL_CC2_SHIFT);
+> +			reg |= (TCPC_ROLE_CTRL_CC_OPEN << TCPC_ROLE_CTRL_CC2_SHIFT);
+> +		}
+> +	}
+> +
+>  	ret = regmap_write(tcpci->regmap, TCPC_ROLE_CTRL, reg);
+>  	if (ret < 0)
+>  		return ret;
+> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> index 2be7a77d400e..b2edd45f13c6 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.h
+> +++ b/drivers/usb/typec/tcpm/tcpci.h
+> @@ -98,6 +98,7 @@
+>  #define TCPC_POWER_STATUS_SOURCING_VBUS	BIT(4)
+>  #define TCPC_POWER_STATUS_VBUS_DET	BIT(3)
+>  #define TCPC_POWER_STATUS_VBUS_PRES	BIT(2)
+> +#define TCPC_POWER_STATUS_VCONN_PRES	BIT(1)
+>  #define TCPC_POWER_STATUS_SINKING_VBUS	BIT(0)
+>  
+>  #define TCPC_FAULT_STATUS		0x1f
+> -- 
 > 2.25.1
->
+
+-- 
+heikki
