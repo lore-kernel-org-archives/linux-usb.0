@@ -2,122 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09253C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 12:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB8BC433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jan 2022 12:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239833AbiAQMV4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 07:21:56 -0500
-Received: from mga14.intel.com ([192.55.52.115]:35878 "EHLO mga14.intel.com"
+        id S239849AbiAQMXa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 07:23:30 -0500
+Received: from mga12.intel.com ([192.55.52.136]:27708 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239831AbiAQMV4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Jan 2022 07:21:56 -0500
+        id S239588AbiAQMX3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jan 2022 07:23:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1642422116; x=1673958116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7hL98B8VHA8BYC2ePlx10Jl7+f4j5WgTIvH4DR1v8/A=;
-  b=Dj2XJEjNH2WR1p0OE/MqIeNDn+vwwD+anX8ggMhtzdxvST7zO37PlwCC
-   qFZEgO2MVZjapuj9apO/0ZNvgicTXMwoT89Exv+8/7yrKLOtZ97nYzKSq
-   0Bn5KBX5tC/h1uHn3jfk/+fudF6UOd7WtRNt5IIRcgyNuUmC3m4lUNBzW
-   jwXLoHRknZPeKdvPhyDDwXvNwioOR9l+ciC8/Zgd3mTPVFh+DgnIbfNEo
-   o2C5zFC3RhggVoTJwtJVKAPaxC9Nopn4o82LGVuGXUBsNcNzCRwXXaJgJ
-   L3PwoMgNvz7tRaPAgbWBN9CpzjZHM+paMPJI2jGyK3sZSakTqcgGHG/tC
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="244810538"
+  t=1642422209; x=1673958209;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=7qgtDhFYqtyV75FVvzgVQnoln6aCvcYogDhoI1pjh38=;
+  b=Efc9uyYPULax0S2Jbs/xm4suxL/ND0mToRKvbLob+4cfmn7QUM8EJLsn
+   0rfRVvVnuRkAdH1gzL8kYptL8qc8CzS82bxX/s6LIVU7Xayn9IUs3uhQ4
+   YEd6FqsWVIV6s0rCFkKRctiOw7GpmsHOLHUZkEHRgNN8JdqwcZ9GYaKRe
+   pnpf9JmDJ+ihNm4y7bODBeo/lVGmz9jBT2nnN0RmLuRfu/tt4f1jrXivw
+   P8RvK7cRhpw7J7EiHl3OGQM3/kM6Px68Q01VsmmpFCUYaeZp8jnGC//Zo
+   wIdhfoAs+YZE5SA6is+u+4fWgV9vADUh3PnqmrMXcF4ydo816tXcqWLqH
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10229"; a="224592813"
 X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
-   d="scan'208";a="244810538"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 04:21:55 -0800
+   d="scan'208";a="224592813"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2022 04:23:28 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,295,1635231600"; 
-   d="scan'208";a="671544346"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 17 Jan 2022 04:21:53 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 17 Jan 2022 14:21:52 +0200
-Date:   Mon, 17 Jan 2022 14:21:52 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc:     Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        rafael.j.wysocki@intel.com, linux-usb@vger.kernel.org
-Subject: Re: [Bug][5.17-rc0] Between commits daadb3bd0e8d and 455e73a07f6e,
- the kernel stops loading on my devices.
-Message-ID: <YeVfYOhxGTgg8VpZ@kuha.fi.intel.com>
-References: <CABXGCsNb22JCJ4AyR1sYqFtF4QUnvM3B2zQcc1svcm2mquWxoA@mail.gmail.com>
- <YeUvvIaVJnJrrpYe@kuha.fi.intel.com>
- <CABXGCsO5PYBuZ11YR16NLLa0H07Jom1JQhWHFuETfotfBfzkMw@mail.gmail.com>
- <YeVQsRp7aDMcQKs7@kuha.fi.intel.com>
- <CABXGCsMWXFFQY3L8ixK9K-gYX41_gTjqHRBXNp6gDpUgdnvFfg@mail.gmail.com>
+   d="scan'208";a="625176278"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga004.jf.intel.com with ESMTP; 17 Jan 2022 04:23:26 -0800
+Subject: Re: [PATCH v4] xhci: re-initialize the HC during resume if HCE was
+ set
+To:     Puma Hsu <pumahsu@google.com>, mathias.nyman@intel.com,
+        gregkh@linuxfoundation.org
+Cc:     s.shtylyov@omp.ru, albertccwang@google.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+References: <20220117053918.671399-1-pumahsu@google.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <f6d19871-a9d0-85a8-d834-f8f8198cbe15@linux.intel.com>
+Date:   Mon, 17 Jan 2022 14:24:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABXGCsMWXFFQY3L8ixK9K-gYX41_gTjqHRBXNp6gDpUgdnvFfg@mail.gmail.com>
+In-Reply-To: <20220117053918.671399-1-pumahsu@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 17, 2022 at 04:52:02PM +0500, Mikhail Gavrilov wrote:
-> On Mon, 17 Jan 2022 at 16:19, Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
+On 17.1.2022 7.39, Puma Hsu wrote:
+> When HCE(Host Controller Error) is set, it means an internal
+> error condition has been detected. Software needs to re-initialize
+> the HC, so add this check in xhci resume.
 > 
-> > I don't know which tree you are working on top of, but the patch
-> > applies just fine on top of Linus' latest master branch:
-> > git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Puma Hsu <pumahsu@google.com>
+> ---
+> v2: Follow Sergey Shtylyov <s.shtylyov@omp.ru>'s comment.
+> v3: Add stable@vger.kernel.org for stable release.
+> v4: Refine the commit message.
 > 
-> Same here.
+>  drivers/usb/host/xhci.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> $ git remote -v
-> origin    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> (fetch)
-> origin    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> (push)
-> 
-> $ git show
-> commit 0c947b893d69231a9add855939da7c66237ab44f (HEAD -> master,
-> origin/master, origin/HEAD)
-> Merge: a6097180d884 9bbf8662a27b
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Mon Jan 17 09:53:21 2022 +0200
-> 
->     Merge tag '5.17-rc-part1-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6
-> 
->     Pull cifs updates from Steve French:
-> 
->      - multichannel patches mostly related to improving reconnect behavior
-> 
->      - minor cleanup patches
-> 
->     * tag '5.17-rc-part1-smb3-fixes' of git://git.samba.org/sfrench/cifs-2.6:
->       cifs: fix FILE_BOTH_DIRECTORY_INFO definition
->       cifs: move superblock magic defitions to magic.h
->       cifs: Fix smb311_update_preauth_hash() kernel-doc comment
->       cifs: avoid race during socket reconnect between send and recv
->       cifs: maintain a state machine for tcp/smb/tcon sessions
->       cifs: fix hang on cifs_get_next_mid()
->       cifs: take cifs_tcp_ses_lock for status checks
->       cifs: reconnect only the connection and not smb session where possible
->       cifs: add WARN_ON for when chan_count goes below minimum
->       cifs: adjust DebugData to use chans_need_reconnect for conn status
->       cifs: use the chans_need_reconnect bitmap for reconnect status
->       cifs: track individual channel status using chans_need_reconnect
->       cifs: remove redundant assignment to pointer p
-> 
-> $ cat 0001-usb-typec-Test-fix.patch | git apply
-> error: patch failed: drivers/usb/typec/port-mapper.c:56
-> error: drivers/usb/typec/port-mapper.c: patch does not apply
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index dc357cabb265..ab440ce8420f 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -1146,8 +1146,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
+>  		temp = readl(&xhci->op_regs->status);
+>  	}
+>  
+> -	/* If restore operation fails, re-initialize the HC during resume */
+> -	if ((temp & STS_SRE) || hibernated) {
+> +	/* If restore operation fails or HC error is detected, re-initialize the HC during resume */
+> +	if ((temp & (STS_SRE | STS_HCE)) || hibernated) {
 
-Have you modified the file, or something else that you have not
-committed yet?
+Add a debug message in case we reset due to HCE
 
-        % git status
-
-Checkout the file, and then try to apply the patch:
-
-        % git checkout drivers/usb/typec/port-mapper.c
-        % git apply -v 0001-usb-typec-Test-fix.patch
-
-thanks,
-
--- 
-heikki
+-Mathias  
