@@ -2,48 +2,46 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7236AC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 03:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA8DCC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 03:14:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349006AbiARDHR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 22:07:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37596 "EHLO
+        id S1348119AbiARDOX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 22:14:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353439AbiARDBs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 22:01:48 -0500
+        with ESMTP id S1354268AbiARDFl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 22:05:41 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2E9C08EA40;
-        Mon, 17 Jan 2022 18:47:15 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3D7C0219A9;
+        Mon, 17 Jan 2022 18:48:21 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0A2D06130D;
-        Tue, 18 Jan 2022 02:47:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2D70C36AE3;
-        Tue, 18 Jan 2022 02:47:12 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id BBF52612E8;
+        Tue, 18 Jan 2022 02:48:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF4CFC36AE3;
+        Tue, 18 Jan 2022 02:48:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642474034;
-        bh=+aGuwueJniqiioIn5b6jEmBIotGjO8kDhMbexpL+TjI=;
+        s=k20201202; t=1642474100;
+        bh=PIyLa4ELjeI5QQK5WZvLFj1ibfHS6JGeQe6jFV3Gj2g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bml8VLfsYr9QEZz5QcKetdRATpyDoQl2+IhS+7pnIoILl0UtQtjF8i7wVP3a0t+q3
-         5tZQLM6wnEs/d/ubzjNw+aKLvrPCywYegxWj0iC7k9XM5M3R1yuJZ/cxSP6zdg9QjI
-         9aVeQPvw96qbZEpDB2fNVPwjtXbOJj2ADE47xsUMtrUw5Pb2UdG/EnrRgAA9gBCnPn
-         gGF03KpTR1eIfEq/jywzWVKsl0Fnmwdl6KiiKsg8eDjAympYBgi6fm6mlQ7zO+uacv
-         yC5q/hUxmEy/3V9qKWVo7PjLgpvhANiLSagTiF4pHEwSdvnKKR1imPNSL70/RyZpxu
-         iuHS7B1mgj9ww==
+        b=kuw1Nd8oLRLH0QGGLYOQfRNFvMK/zUyLwHG5Bt7iovTL7nCxhxzqOxyRTLmfLVsze
+         TJ6J2agveEfDREjxXaAQQyc8ZnArymkyy3UbFM2Awgr8IFf0sngXbo4VbCay/02I+Y
+         Y6iD2fm38L/2PpOllJDYnY7IArS5Y8cDpNbk2D9dgRTYODbPY5sCd95UsQFTUYR7kj
+         RooAezxTtMH6QO57XZqcYK9mCw3nw9tss5I36b17ivIziCc1uKCZxdUV4Pej+h0RDQ
+         5Zh1ipZV6GzYLiaOFbjzfALayBYblVGRkK8yqRzY+GoOwTHhn8wMh3IkR+W0n713sL
+         6K/JqFRy74UWA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-        John Keeping <john@metanate.com>,
+Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        axboe@kernel.dk, jj251510319013@gmail.com, salah.triki@gmail.com,
-        plr.vincent@gmail.com, andrew_gabbasov@mentor.com,
-        dean@sensoray.com, lkp@intel.com, wcheng@codeaurora.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/59] usb: gadget: f_fs: Use stream_open() for endpoint files
-Date:   Mon, 17 Jan 2022 21:46:06 -0500
-Message-Id: <20220118024701.1952911-5-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, mathias.nyman@linux.intel.com,
+        Thinh.Nguyen@synopsys.com, chris.chiu@canonical.com,
+        cuibixuan@huawei.com, rajatja@google.com, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 35/59] usb: hub: Add delay for SuperSpeed hub resume to let links transit to U0
+Date:   Mon, 17 Jan 2022 21:46:36 -0500
+Message-Id: <20220118024701.1952911-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220118024701.1952911-1-sashal@kernel.org>
 References: <20220118024701.1952911-1-sashal@kernel.org>
@@ -55,63 +53,94 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
 
-[ Upstream commit c76ef96fc00eb398c8fc836b0eb2f82bcc619dc7 ]
+[ Upstream commit 00558586382891540c59c9febc671062425a6e47 ]
 
-Function fs endpoint file operations are synchronized via an interruptible
-mutex wait. However we see threads that do ep file operations concurrently
-are getting blocked for the mutex lock in __fdget_pos(). This is an
-uninterruptible wait and we see hung task warnings and kernel panic
-if hung_task_panic systcl is enabled if host does not send/receive
-the data for long time.
+When a new USB device gets plugged to nested hubs, the affected hub,
+which connects to usb 2-1.4-port2, doesn't report there's any change,
+hence the nested hubs go back to runtime suspend like nothing happened:
+[  281.032951] usb usb2: usb wakeup-resume
+[  281.032959] usb usb2: usb auto-resume
+[  281.032974] hub 2-0:1.0: hub_resume
+[  281.033011] usb usb2-port1: status 0263 change 0000
+[  281.033077] hub 2-0:1.0: state 7 ports 4 chg 0000 evt 0000
+[  281.049797] usb 2-1: usb wakeup-resume
+[  281.069800] usb 2-1: Waited 0ms for CONNECT
+[  281.069810] usb 2-1: finish resume
+[  281.070026] hub 2-1:1.0: hub_resume
+[  281.070250] usb 2-1-port4: status 0203 change 0000
+[  281.070272] usb usb2-port1: resume, status 0
+[  281.070282] hub 2-1:1.0: state 7 ports 4 chg 0010 evt 0000
+[  281.089813] usb 2-1.4: usb wakeup-resume
+[  281.109792] usb 2-1.4: Waited 0ms for CONNECT
+[  281.109801] usb 2-1.4: finish resume
+[  281.109991] hub 2-1.4:1.0: hub_resume
+[  281.110147] usb 2-1.4-port2: status 0263 change 0000
+[  281.110234] usb 2-1-port4: resume, status 0
+[  281.110239] usb 2-1-port4: status 0203, change 0000, 10.0 Gb/s
+[  281.110266] hub 2-1.4:1.0: state 7 ports 4 chg 0000 evt 0000
+[  281.110426] hub 2-1.4:1.0: hub_suspend
+[  281.110565] usb 2-1.4: usb auto-suspend, wakeup 1
+[  281.130998] hub 2-1:1.0: hub_suspend
+[  281.137788] usb 2-1: usb auto-suspend, wakeup 1
+[  281.142935] hub 2-0:1.0: state 7 ports 4 chg 0000 evt 0000
+[  281.177828] usb 2-1: usb wakeup-resume
+[  281.197839] usb 2-1: Waited 0ms for CONNECT
+[  281.197850] usb 2-1: finish resume
+[  281.197984] hub 2-1:1.0: hub_resume
+[  281.198203] usb 2-1-port4: status 0203 change 0000
+[  281.198228] usb usb2-port1: resume, status 0
+[  281.198237] hub 2-1:1.0: state 7 ports 4 chg 0010 evt 0000
+[  281.217835] usb 2-1.4: usb wakeup-resume
+[  281.237834] usb 2-1.4: Waited 0ms for CONNECT
+[  281.237845] usb 2-1.4: finish resume
+[  281.237990] hub 2-1.4:1.0: hub_resume
+[  281.238067] usb 2-1.4-port2: status 0263 change 0000
+[  281.238148] usb 2-1-port4: resume, status 0
+[  281.238152] usb 2-1-port4: status 0203, change 0000, 10.0 Gb/s
+[  281.238166] hub 2-1.4:1.0: state 7 ports 4 chg 0000 evt 0000
+[  281.238385] hub 2-1.4:1.0: hub_suspend
+[  281.238523] usb 2-1.4: usb auto-suspend, wakeup 1
+[  281.258076] hub 2-1:1.0: hub_suspend
+[  281.265744] usb 2-1: usb auto-suspend, wakeup 1
+[  281.285976] hub 2-0:1.0: hub_suspend
+[  281.285988] usb usb2: bus auto-suspend, wakeup 1
 
-The reason for threads getting blocked in __fdget_pos() is due to
-the file position protection introduced by the commit 9c225f2655e3
-("vfs: atomic f_pos accesses as per POSIX"). Since function fs
-endpoint files does not have the notion of the file position, switch
-to the stream mode. This will bypass the file position mutex and
-threads will be blocked in interruptible state for the function fs
-mutex.
+USB 3.2 spec, 9.2.5.4 "Changing Function Suspend State" says that "If
+the link is in a non-U0 state, then the device must transition the link
+to U0 prior to sending the remote wake message", but the hub only
+transits the link to U0 after signaling remote wakeup.
 
-It should not affects user space as we are only changing the task state
-changes the task state from UNINTERRUPTIBLE to INTERRUPTIBLE while waiting
-for the USB transfers to be finished. However there is a slight change to
-the O_NONBLOCK behavior. Earlier threads that are using O_NONBLOCK are also
-getting blocked inside fdget_pos(). Now they reach to function fs and error
-code is returned. The non blocking behavior is actually honoured now.
+So be more forgiving and use a 20ms delay to let the link transit to U0
+for remote wakeup.
 
-Reviewed-by: John Keeping <john@metanate.com>
-Signed-off-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-Link: https://lore.kernel.org/r/1636712682-1226-1-git-send-email-quic_pkondeti@quicinc.com
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Link: https://lore.kernel.org/r/20211215120108.336597-1-kai.heng.feng@canonical.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/f_fs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/core/hub.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index f070082124742..9271a7009a00f 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -607,7 +607,7 @@ static int ffs_ep0_open(struct inode *inode, struct file *file)
- 	file->private_data = ffs;
- 	ffs_data_opened(ffs);
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 73ad4af487039..5db778ed0b437 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -1082,7 +1082,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 		} else {
+ 			hub_power_on(hub, true);
+ 		}
+-	}
++	/* Give some time on remote wakeup to let links to transit to U0 */
++	} else if (hub_is_superspeed(hub->hdev))
++		msleep(20);
++
+  init2:
  
--	return 0;
-+	return stream_open(inode, file);
- }
- 
- static int ffs_ep0_release(struct inode *inode, struct file *file)
-@@ -1071,7 +1071,7 @@ ffs_epfile_open(struct inode *inode, struct file *file)
- 	file->private_data = epfile;
- 	ffs_data_opened(epfile->ffs);
- 
--	return 0;
-+	return stream_open(inode, file);
- }
- 
- static int ffs_aio_cancel(struct kiocb *kiocb)
+ 	/*
 -- 
 2.34.1
 
