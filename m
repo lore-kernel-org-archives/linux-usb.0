@@ -2,44 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC07BC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78651C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351202AbiARCxs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 21:53:48 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:58426 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349736AbiARCuK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:50:10 -0500
+        id S1351197AbiARCxr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:53:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34416 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349368AbiARCte (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:49:34 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B794C0613EF;
+        Mon, 17 Jan 2022 18:42:05 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 97C58B81132;
-        Tue, 18 Jan 2022 02:50:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8684AC36AE3;
-        Tue, 18 Jan 2022 02:50:06 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1165CB8124F;
+        Tue, 18 Jan 2022 02:42:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22486C36AEB;
+        Tue, 18 Jan 2022 02:42:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642474207;
-        bh=hX05DE8qEpcQDsWFeRFg+CgRqppCEqZHdVOmfan5VdQ=;
+        s=k20201202; t=1642473722;
+        bh=Wz1PAbR8+iIe/jPfTcBbjPHkLNB0RxFEi0fK8+Aossk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rqavVZqmmCfFJ5jzljXN3/2sYEMFLTy8YVyv4D0itT89sGhehthCMFS8dsfcHgtxO
-         6xgYB3OdCrRpN/d9DdOsLPOmtcmFiTbwQedTA6UfTa/AG+kk3UNQLnBpe4G5aDC9Dx
-         6HLC6oT6MQwBvpt6oujVKH3Npp6FrZFMparkiNTXmik/m7k/25BJ1rEhfM0PzWb+yK
-         RTxOqKob8WVG2wLQ3ewPacakgrK+h8P1ZUl84JnGlU30wNrNBkOvpVDvjYxxxhYXcV
-         qMEPbMZD21B2emrGo/4LytX977Bxd8BFXOWXgsDQCIK3p6euT25w7AqiOlfmcQyVPO
-         gD7KQpIerUf3g==
+        b=nbKitrq1ciyk2uwlLdQ/WRrWJeP7goABdUeNDwY5EnwmbOABXAe8jrMr7fbJ9i1EN
+         4Dpn7jzGrYDvorsgSCvvIiUj81svPSFTWqLhof9n6alE4gOn7SzDKwSKA7hNvcq7uw
+         wJnKA1jWiLzm4hih1w0WzrNn6LBsK4a35ldPNqYtRQJfMuTfKR5QUQo7qNBo8KQqt5
+         j/0h2XOCmv+fxKHDYMUylOJU0tWG+iI4D9sYHnsyw4TDuY4SLMuloDkOpvUix7zEER
+         lqrYKxrrBq9td68bzjbbY/ElWvv1cHRVsRxzJY2KQqC2Vj6b9fGBsmgq2OCQB1s2qZ
+         2AJ/OqyyOq6Tg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Neal Liu <neal_liu@aspeedtech.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, stern@rowland.harvard.edu,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 4.14 22/56] usb: uhci: add aspeed ast2600 uhci support
-Date:   Mon, 17 Jan 2022 21:48:34 -0500
-Message-Id: <20220118024908.1953673-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 041/116] usb: uhci: add aspeed ast2600 uhci support
+Date:   Mon, 17 Jan 2022 21:38:52 -0500
+Message-Id: <20220118024007.1950576-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118024908.1953673-1-sashal@kernel.org>
-References: <20220118024908.1953673-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,7 +66,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/host/uhci-platform.c b/drivers/usb/host/uhci-platform.c
-index 6cb16d4b22578..4e91f7b21a796 100644
+index 70dbd95c3f063..be9e9db7cad10 100644
 --- a/drivers/usb/host/uhci-platform.c
 +++ b/drivers/usb/host/uhci-platform.c
 @@ -113,7 +113,8 @@ static int uhci_hcd_platform_probe(struct platform_device *pdev)
