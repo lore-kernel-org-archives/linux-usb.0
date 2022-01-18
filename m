@@ -2,49 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FDFDC433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4B47C43217
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351165AbiARCxm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 21:53:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348163AbiARCo5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:44:57 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEDDAC08E8A9;
-        Mon, 17 Jan 2022 18:37:49 -0800 (PST)
+        id S1346193AbiARCxq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:53:46 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:55116 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348820AbiARCqP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:46:15 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A3544B811CB;
-        Tue, 18 Jan 2022 02:37:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7E9C36AEB;
-        Tue, 18 Jan 2022 02:37:46 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7FB2AB8124B;
+        Tue, 18 Jan 2022 02:46:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10ABC36AF2;
+        Tue, 18 Jan 2022 02:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473467;
-        bh=/X7H+u8MpxjAE34NavQ2xREoohniDEZDAobyYJsgxb8=;
+        s=k20201202; t=1642473971;
+        bh=Zcm4xn7b53g1wVG0c2nGNl78wCV3Uj4Nt9EoFnSI2e0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L7OKTeKcV82FlUxFZMgs+QdD5D8YGxTfIpSflQGYERlyRds8dofXDtHspNvJ0fmoA
-         WjtU5RrMxpR1E9BuErpC6d4WiHGXXY0fmDB95nmRQvCsmLB1X3B/S6LDONWMWi55xI
-         TsTxNPBb1akW7lHmXZOO1VsyRSa2mMxeQ0Q6Y3PCwCOKxO/EVoKyPrv0a7phPQwysA
-         HSyiA2KU+0f3//8QHRdMg6GD9zN5yDCpt/H6s2Gcnk0eFlWqP+5hpDta+5ylrRNcqa
-         PQvFotsP4JNRQn1oFOWyawLSJuH3zY3YbWbOk8HYDCtXnzvh4ong91j6brRsUDwBFq
-         /a0YtmLTvzSTQ==
+        b=W+r8ZXXCmjcl2Fsl0ilrbmgCHsvhhGqO/LIJm5LzsCgkR9TJIru9csVW/zYd3tP/Q
+         yJtOgPyph3KkDDTs3MEfrwLUYzzxYG6SnfbyS54+Uj1Py43wtfNtCgI9UB2/fMujFO
+         dXUItuFYfFUWlNBW47TV9OPTz7erkLSN+2nyAjpkNgnOX5Y9LOVeQ5Hpmm2NaKiTiM
+         egJtayFWs5jnTvmwMTcw1WbA46J2Yg/wSbptzJzRiKKLBN+hha+wTYaYyJQ2x+N9h2
+         OXo6aEfZhrc7LvlXieUV0yTt2dREqi7aCU5qLMxSCoOsACyG3aH9cuUWmoWfc92quu
+         4kqPTtzgE5M6Q==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, mathias.nyman@linux.intel.com,
-        Thinh.Nguyen@synopsys.com, andrew@lunn.ch, rajatja@google.com,
-        chris.chiu@canonical.com, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 129/188] usb: hub: Add delay for SuperSpeed hub resume to let links transit to U0
-Date:   Mon, 17 Jan 2022 21:30:53 -0500
-Message-Id: <20220118023152.1948105-129-sashal@kernel.org>
+        Thinh.Nguyen@synopsys.com, dan.carpenter@oracle.com,
+        andrew@lunn.ch, chris.chiu@canonical.com, rajatja@google.com,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 47/73] usb: hub: Add delay for SuperSpeed hub resume to let links transit to U0
+Date:   Mon, 17 Jan 2022 21:44:06 -0500
+Message-Id: <20220118024432.1952028-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
-References: <20220118023152.1948105-1-sashal@kernel.org>
+In-Reply-To: <20220118024432.1952028-1-sashal@kernel.org>
+References: <20220118024432.1952028-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -126,10 +124,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 00070a8a65079..576fdf2c9f3c8 100644
+index d7ab2e88631a0..0328188c1321d 100644
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -1110,7 +1110,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+@@ -1108,7 +1108,10 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
  		} else {
  			hub_power_on(hub, true);
  		}
