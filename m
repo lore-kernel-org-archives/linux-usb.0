@@ -2,35 +2,32 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D7BAC433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4171C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346401AbiARCxg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 21:53:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33026 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346650AbiARCjj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:39:39 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F859C0619D2;
-        Mon, 17 Jan 2022 18:36:09 -0800 (PST)
+        id S1346792AbiARCxk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:53:40 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:60933 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347626AbiARCmW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:42:22 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B9D486127D;
-        Tue, 18 Jan 2022 02:36:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35610C36AEF;
-        Tue, 18 Jan 2022 02:36:07 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 344FB6093C;
+        Tue, 18 Jan 2022 02:42:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7A69C36AF9;
+        Tue, 18 Jan 2022 02:42:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1642473368;
-        bh=b1kuycPtIuGNh9eiV5SiIWKNRLWLaFZgezxgdv7TYmM=;
+        s=k20201202; t=1642473740;
+        bh=ogkFxolfQWRQxJZn/Tdu72Ih6tdiWRo2xRIJQtxu78g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Szgn+gYWmFXdpGYAuCm0V5VLKIWmPc4NEzaBylAz6J6ad6uF+ceGtxm5jaW104ZuR
-         DOHAS5Lq2p7xgMgemWiQe97069cQgxOZN1Jz6PgK2c8T5eGoT1KWFrqBxwqoceBzaM
-         BycufcnsSlTPM7RiAlKPpMPx8AaOcj19NlTOwgpna07s8gyjKWZfNa19Tq1BYoAWnB
-         OogL7kzjx1PSlOqx5TIBGruPej7WEMHlXU0J2DGP121TKs9eI/jAC5+QE3H+M0tMS1
-         atN4zsT3GHwNMWtoxkYuVPdxcwrlYOMBsNth1Oq8EwVpceEjA5eT9dplKjtH8BF5Kw
-         erR9AZlLabklQ==
+        b=ejuvokdzxhUr4oAhO/E81ppb1RIOr0VAaFpGjKNR2OO7nR3C9NNeirB8u5qrdT/2y
+         uu6wyuFtJoY+NwH1UHQq/7JMZ5sEnph/gdJBhLvfV0998W477Ms0D3PHq8etDUeAH1
+         jTLS8SRKUwohMGTgp7WRVBaVYQtbnbJ1GuCc65VClNMkp8BOvHi1nvhhaRHDgQPka3
+         uAi1e+f3tiuQXRVy4fJPcEY4/VTZI5UcxfBTppeScfJ3sgdepPJzU9VzB2HMvMnNes
+         FltzYecZgOcY2retY42cEZrlhXT3soO8eOtgiP1aoPeBuIdsWwereCPr4rSd68HacR
+         GYa/Q0IWu+xqw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
@@ -38,12 +35,12 @@ Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, andreas.noever@gmail.com,
         michael.jamet@intel.com, YehezkelShB@gmail.com,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 088/188] thunderbolt: Runtime PM activate both ends of the device link
-Date:   Mon, 17 Jan 2022 21:30:12 -0500
-Message-Id: <20220118023152.1948105-88-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 049/116] thunderbolt: Runtime PM activate both ends of the device link
+Date:   Mon, 17 Jan 2022 21:39:00 -0500
+Message-Id: <20220118024007.1950576-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220118023152.1948105-1-sashal@kernel.org>
-References: <20220118023152.1948105-1-sashal@kernel.org>
+In-Reply-To: <20220118024007.1950576-1-sashal@kernel.org>
+References: <20220118024007.1950576-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 13 insertions(+)
 
 diff --git a/drivers/thunderbolt/acpi.c b/drivers/thunderbolt/acpi.c
-index b67e72d5644b3..7c9597a339295 100644
+index b5442f979b4d0..6355fdf7d71a3 100644
 --- a/drivers/thunderbolt/acpi.c
 +++ b/drivers/thunderbolt/acpi.c
 @@ -7,6 +7,7 @@
