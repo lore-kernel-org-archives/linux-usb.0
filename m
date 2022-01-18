@@ -2,199 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 084ECC433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 00:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98B4DC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jan 2022 02:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238561AbiARAtJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jan 2022 19:49:09 -0500
-Received: from mail.nrtc.syn-alias.com ([129.213.214.220]:45586 "EHLO
-        mail.nrtc.syn-alias.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiARAtI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 19:49:08 -0500
-X-Authed-Username: Y2thbWFzQGluZm9ybW5ldC5jb20=
-Authentication-Results:  smtp01.nrtc.email-ash1.sync.lan smtp.user=<hidden>; auth=pass (LOGIN)
-Received: from [99.92.213.82] ([99.92.213.82:36196] helo=[192.168.70.216])
-        by mail.informnet.com (envelope-from <ckamas@dslextreme.com>)
-        (ecelerity 4.3.1.69410 r(Core:4.3.1.0)) with ESMTPA
-        id 36/EF-09894-38E06E16; Mon, 17 Jan 2022 19:49:08 -0500
-Subject: Debugging crash in kernel module usbip-host
-From:   Chuck Kamas <ckamas@dslextreme.com>
-To:     linux-usb@vger.kernel.org
-References: <04f3e890-3e6f-4ad2-bfa8-f4cb0e672487@dslextreme.com>
-Message-ID: <5700736a-1ba4-9752-e73e-9d54829ce7bf@dslextreme.com>
-Date:   Mon, 17 Jan 2022 16:49:06 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        id S245021AbiARCXS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jan 2022 21:23:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244767AbiARCVd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jan 2022 21:21:33 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A093DC06175E;
+        Mon, 17 Jan 2022 18:21:33 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 28120612CD;
+        Tue, 18 Jan 2022 02:21:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F219BC36AEF;
+        Tue, 18 Jan 2022 02:21:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1642472492;
+        bh=/8vqTdehX2rFsIR81hlKJ31cDN856d4O4/Em5efcq6Q=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=eXHZOYRGB5I/f92r8KVs7lNZYJxG6yjZCUxJDRPqsTcpteXZGnAAhKh64EkNAQaQg
+         kc1Q28rtNrSokCmih1XGfWoZdNV1BxOTpJD52ok1ECYxty2/McEXsJVjL2KKfM/JqE
+         +nMItY0j8/MSGzBeKv+UvlyqCiPqkNexZzshkV2mh92qw8VS0micMx4yiDwCeugSda
+         V4JSc6XJLiPUbxfcqWZR+T8b6lsHHfZ1JYkuXIx4tOzlZcvLu/P/3VK6PWAZUB828V
+         6KhoGtzi8jhW2DwTeCq1cu/BbLGIOyz5yKF+8UzVKytCioK+F+mmTHge9l3nbe1LIM
+         T87aSp2r5AYZA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
+        John Keeping <john@metanate.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
+        axboe@kernel.dk, wcheng@codeaurora.org, djwong@kernel.org,
+        dean@sensoray.com, andrew_gabbasov@mentor.com,
+        salah.triki@gmail.com, plr.vincent@gmail.com, lkp@intel.com,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 031/217] usb: gadget: f_fs: Use stream_open() for endpoint files
+Date:   Mon, 17 Jan 2022 21:16:34 -0500
+Message-Id: <20220118021940.1942199-31-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220118021940.1942199-1-sashal@kernel.org>
+References: <20220118021940.1942199-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <04f3e890-3e6f-4ad2-bfa8-f4cb0e672487@dslextreme.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Vade-Verdict: clean
-X-Vade-Analysis-1: gggruggvucftvghtrhhoucdtuddrgedvvddruddvgddvjecutefuodetggdotefrodftvfcurfhrohhf
-X-Vade-Analysis-2: ihhlvgemucfujgfpteevqfftpdfptffvvedpgffpggdqpfftvfevpdfqfgfvnecuuegrihhlohhuthem
-X-Vade-Analysis-3: uceftddunecunecujfgurhepuffhvfhfkffffgggjggtgfesthekredttdefjeenucfhrhhomhepvehh
-X-Vade-Analysis-4: uhgtkhcumfgrmhgrshcuoegtkhgrmhgrshesughslhgvgihtrhgvmhgvrdgtohhmqeenucggtffrrght
-X-Vade-Analysis-5: thgvrhhnpeeguedvleeghfetteefgeffkeefledvveffffevkefhieehtdegffevleffleeivdenucfk
-X-Vade-Analysis-6: phepleelrdelvddrvddufedrkedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgv
-X-Vade-Analysis-7: thepleelrdelvddrvddufedrkedvpdhhvghloheplgduledvrdduieekrdejtddrvdduiegnpdhmrghi
-X-Vade-Analysis-8: lhhfrhhomheptghkrghmrghssegushhlvgigthhrvghmvgdrtghomhdprhgtphhtthhopehlihhnuhig
-X-Vade-Analysis-9: qdhushgssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhmthgrhhhoshhtpehsmhhtphdrnhhrthgtrdgv
-X-Vade-Analysis-10: mhgrihhlqdgrshhhuddrshihnhgtrdhlrghnpdhnsggprhgtphhtthhopedupdgruhhthhgpuhhsvghr
-X-Vade-Analysis-11: pegtkhgrmhgrshesughslhgvgihtrhgvmhgvrdgtohhm
-X-Vade-Client: NRTC
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi all,
+From: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
 
-My USBIP host is crashing while sharing my FTDI quad RS485 to usb 
-converter on a raspberry pi CM3. I managed to crash into KDG. I have 
-instrumented the kernel and enabled ftrace on the USBIP host kernel 
-module. I see that it is crashing when the module tries to access a NULL 
-pointer inside stub_free_priv_and_urb in stub_rxloop.
+[ Upstream commit c76ef96fc00eb398c8fc836b0eb2f82bcc619dc7 ]
 
+Function fs endpoint file operations are synchronized via an interruptible
+mutex wait. However we see threads that do ep file operations concurrently
+are getting blocked for the mutex lock in __fdget_pos(). This is an
+uninterruptible wait and we see hung task warnings and kernel panic
+if hung_task_panic systcl is enabled if host does not send/receive
+the data for long time.
 
-My assumption for the NULL pointer dereference is from the stack back 
-trace having DataAbort in it.
+The reason for threads getting blocked in __fdget_pos() is due to
+the file position protection introduced by the commit 9c225f2655e3
+("vfs: atomic f_pos accesses as per POSIX"). Since function fs
+endpoint files does not have the notion of the file position, switch
+to the stream mode. This will bypass the file position mutex and
+threads will be blocked in interruptible state for the function fs
+mutex.
 
+It should not affects user space as we are only changing the task state
+changes the task state from UNINTERRUPTIBLE to INTERRUPTIBLE while waiting
+for the USB transfers to be finished. However there is a slight change to
+the O_NONBLOCK behavior. Earlier threads that are using O_NONBLOCK are also
+getting blocked inside fdget_pos(). Now they reach to function fs and error
+code is returned. The non blocking behavior is actually honoured now.
 
-I setup ftrace to filter on the usbip kernel module. What I don't 
-understand, and would love your help with is what are all these "stub" 
-functions? I can not find them in the source code. Where do they come from?
+Reviewed-by: John Keeping <john@metanate.com>
+Signed-off-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
+Link: https://lore.kernel.org/r/1636712682-1226-1-git-send-email-quic_pkondeti@quicinc.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/gadget/function/f_fs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-Chuck
-
-
-
-  last lines of ftrace:
-
-   stub_tx-403       1d... 1611874480us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611874485us!: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611874623us+: stub_complete 
-<-__usb_hcd_giveback_urb
-   stub_tx-403       1.... 1611874660us+: stub_send_ret_submit 
-<-stub_tx_loop
-   stub_tx-403       1d... 1611874738us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611874743us!: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611874942us+: stub_complete 
-<-__usb_hcd_giveback_urb
-   stub_tx-403       1.... 1611874977us+: stub_send_ret_submit 
-<-stub_tx_loop
-   stub_tx-403       1d... 1611875053us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611875058us!: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611875481us+: stub_complete 
-<-__usb_hcd_giveback_urb
-   stub_tx-403       1.... 1611875516us+: stub_send_ret_submit 
-<-stub_tx_loop
-   stub_tx-403       1d... 1611875617us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611875621us!: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611875777us+: stub_complete 
-<-__usb_hcd_giveback_urb
-   stub_tx-403       1.... 1611875811us!: stub_send_ret_submit 
-<-stub_tx_loop
-   stub_tx-403       1d... 1611875914us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611875921us+: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611875945us+: stub_complete 
-<-__usb_hcd_giveback_urb
-   stub_tx-403       1.... 1611876012us+: stub_send_ret_submit 
-<-stub_tx_loop
-   stub_tx-403       1d... 1611876091us : stub_free_priv_and_urb 
-<-stub_send_ret_submit
-   stub_tx-403       1.... 1611876101us!: stub_send_ret_unlink 
-<-stub_tx_loop
-    <idle-0         0..s. 1611876945us+: stub_complete 
-<-__usb_hcd_giveback_urb
-    <idle-0         0..s. 1611876958us : stub_complete 
-<-__usb_hcd_giveback_urb
-    <idle-0         0d.s. 1611876961us : stub_enqueue_ret_unlink 
-<-stub_complete
-    <idle-0         0d.s. 1611876965us : stub_free_priv_and_urb 
-<-stub_complete
-  ---------------------------------
-
-
-
-
-  Relevant stack back trace:
-
-  [<801166e0] (__do_kernel_fault.part.0) from [<80951db4] 
-(do_translation_fault+0x0/0xc0)
-   r7:b6778000 r4:af88fe30
-
-  [<80951a28] (do_page_fault) from [<80951e70] 
-(do_translation_fault+0xbc/0xc0)
-   r10:7f300550 r9:af88e000 r8:af88fe30 r7:80951db4 r6:000000b0 r5:00000005
-   r4:80e0be8c
-
-  [<80951db4] (do_translation_fault) from [<80116858] 
-(do_DataAbort+0x4c/0xd0)
-   r7:80951db4 r6:000000b0 r5:00000005 r4:80e0be8c
-
-  [<8011680c] (do_DataAbort) from [<801019b4] (__dabt_svc+0x54/0x80)
-  Exception stack(0xaf88fe30 to 0xaf88fe78)
-  fe20:                                     80bc9e34 80bc9e34 af88fe9c 
-af88fe98
-  fe40: b5ee2ec0 00000001 00000000 7f30130c af84d5c0 b2f7d204 7f300550 
-af88fe94
-  fe60: 00000078 af88fe80 af88fe9c 8066cd4c 20070013 ffffffff
-   r8:af84d5c0 r7:af88fe64 r6:ffffffff r5:20070013 r4:8066cd4c
-
-  [<8066cd24] (__dev_printk) from [<8066d00c] (_dev_err+0x5c/0x80)
-
-  [<8066cfb0] (_dev_err) from [<7f2ff588] (stub_rx_loop+0x4ec/0xc18 
-[usbip_host])
-   r3:00000001 r2:00000001 r1:7f30130c
-
-  [<7f2ff09c] (stub_rx_loop [usbip_host]) from [<801462d0] 
-(kthread+0x144/0x170)
-   r10:b6781d8c r9:b1c3fe5c r8:b2f7d204 r7:af88e000 r6:00000000 r5:b6406700
-   r4:b1c3fe40
-
-  [<8014618c] (kthread) from [<801010ac] (ret_from_fork+0x14/0x28)
-  Exception stack(0xaf88ffb0 to 0xaf88fff8)
-  ffa0:                                     00000000 00000000 00000000 
-00000000
-  ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
-00000000
-  ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
-   r10:00000000 r9:00000000 r8:00000000 r7:00000000 r6:00000000 r5:8014618c
-   r4:b6406700
-
-
-
-
-  [dumpcommon]kdb   -summary
-
-  sysname    Linux
-  release    5.4.72-v7
-  version    #1 SMP Mon Oct 19 11:12:20 UTC 2020
-  machine    armv7l
-  nodename   raspberrypi-cm3
-  domainname (none)
-  date       2020-09-20 11:48:10 tz_minuteswest 0
-  uptime     01:10
-  load avg   2.70 2.49 2.26
-
-  MemTotal:         946992 kB
-  MemFree:          788836 kB
-  Buffers:            5596 kB
-  [dumpcommon]kdb   -cpu
-
-  Currently on cpu 1
-  Available cpus: 0(I), 1, 2-3(I)
-
-
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index a7e069b185448..25ad1e97a4585 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -614,7 +614,7 @@ static int ffs_ep0_open(struct inode *inode, struct file *file)
+ 	file->private_data = ffs;
+ 	ffs_data_opened(ffs);
+ 
+-	return 0;
++	return stream_open(inode, file);
+ }
+ 
+ static int ffs_ep0_release(struct inode *inode, struct file *file)
+@@ -1154,7 +1154,7 @@ ffs_epfile_open(struct inode *inode, struct file *file)
+ 	file->private_data = epfile;
+ 	ffs_data_opened(epfile->ffs);
+ 
+-	return 0;
++	return stream_open(inode, file);
+ }
+ 
+ static int ffs_aio_cancel(struct kiocb *kiocb)
+-- 
+2.34.1
 
