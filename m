@@ -2,109 +2,145 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DED0C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Jan 2022 08:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4899C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Jan 2022 09:43:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352461AbiASI2K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Jan 2022 03:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46492 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350447AbiASI2H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Jan 2022 03:28:07 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAB62C061574
-        for <linux-usb@vger.kernel.org>; Wed, 19 Jan 2022 00:28:06 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 77E3E61447
-        for <linux-usb@vger.kernel.org>; Wed, 19 Jan 2022 08:28:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45715C004E1;
-        Wed, 19 Jan 2022 08:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1642580885;
-        bh=vg0ymns1lhOX8VazK7xuSFllvE018HiEtIFtrwVk3pI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ajqYcA4mujEDsMt2WWy+ZZ8qNa60BZSmTVw/35HlqNNInT0qPcCYTapUFWM+P2kNl
-         pwgTX64KAbo4sBZXkVpoymwu/WLRHEAnVAl8R0ARd+FEp00uhy4BjVvZc1/X31HWDj
-         /UOlsfycgGLzE7e0ikLSudcXPViJxXYz1ySQzyiU=
-Date:   Wed, 19 Jan 2022 09:28:03 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benson Leung <bleung@google.com>
-Cc:     Rajaram Regupathy <rajaram.regupathy@gmail.com>,
-        linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com,
-        Prashant Malani <pmalani@chromium.org>, jthies@google.com,
-        saranya.gopal@intel.com
-Subject: Re: [ANNOUNCE] libtypec_0.1/lstypec_0.1 is released
-Message-ID: <YefLk+hmEfg6Tp6F@kroah.com>
-References: <CAD039W71Hf06Bw4H_qjm7bRg__BjHfG=p-E7HXL62g0Yc7txBA@mail.gmail.com>
- <YeUYQB4neDz8Z0Tb@kroah.com>
- <CAD039W5ZmTcYErXsnSpdksc6k2L3fNwry1uP2Kr96Uo04fO9PQ@mail.gmail.com>
- <YeWNYUkOYBWXjBFw@kroah.com>
- <CAD039W41ds-1xi0owBTRPCweB-tt=7gL7uH4FmUSOyEdgrq77g@mail.gmail.com>
- <YecIA5hEYqrZo+6G@kroah.com>
- <YecSDHXscl4LX5g9@google.com>
+        id S1353177AbiASJnX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Jan 2022 04:43:23 -0500
+Received: from mail-vk1-f170.google.com ([209.85.221.170]:37799 "EHLO
+        mail-vk1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1353101AbiASJnH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Jan 2022 04:43:07 -0500
+Received: by mail-vk1-f170.google.com with SMTP id v192so1145095vkv.4;
+        Wed, 19 Jan 2022 01:43:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dbd6K2EXZQ3nddK61UlQKh6WscvPVU8DNsk9wwBVt84=;
+        b=CdpmIfi33wXFvj6oI3MxXGL+FxzZpJx2O4Bh8b/I7vQz6YBlG8hQaoseqpSUd+xhyh
+         51nHp3MgcAGh4ksYKj30x2uNkAu0AllR81Jn+csdOnbVYGC5khg9AJnalqS7TRmpP1WV
+         lKhCucCe6AeWWhtzK7WP25kUyZLLHTzL7qydbVfk87NxFvCtugyPiCTVex26eICglrqP
+         j/GpB0Bij8gYXbleMIaabYXNuqyEAtZ3xdxTluPsvNp0ltL8IRuUIqE/YWbOPEAayFyZ
+         v73XzUgP2YnS6q2vlHtuK16hbq67OhkwaQK4T1is6aboUqssGVKNQty1o7yaJx4UU+Xr
+         +dvg==
+X-Gm-Message-State: AOAM532k5oVd8oHrFJ1+dbjpDdCU95yB0aP4bv7xHhDKx87u9sE/MDPq
+        JQGejnSYa0EoKItvHxK55VobS+Vv9SdsGdeh
+X-Google-Smtp-Source: ABdhPJzCPMW4zH5y1Y5cNilAV02ZCJKMDBENeXiX1EkWR3rcLe9IH033mhRn+oDaSuzTE3AAm5il8g==
+X-Received: by 2002:a1f:a6d7:: with SMTP id p206mr11805978vke.31.1642585386061;
+        Wed, 19 Jan 2022 01:43:06 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id p142sm1584040vkp.2.2022.01.19.01.43.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jan 2022 01:43:04 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id w5so1120624vke.12;
+        Wed, 19 Jan 2022 01:43:04 -0800 (PST)
+X-Received: by 2002:a1f:384b:: with SMTP id f72mr11960099vka.0.1642585384422;
+ Wed, 19 Jan 2022 01:43:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YecSDHXscl4LX5g9@google.com>
+References: <20220119015038.2433585-1-robh@kernel.org>
+In-Reply-To: <20220119015038.2433585-1-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 19 Jan 2022 10:42:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
+Message-ID: <CAMuHMdVdja+XaXGP7YFfSgFCTHzOHQkuV5EF_9AFWY2tppyRWA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Improve phandle-array schemas
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Georgi Djakov <djakov@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, dmaengine@vger.kernel.org,
+        linux-pm@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jan 18, 2022 at 11:16:28AM -0800, Benson Leung wrote:
-> Hi Greg,
-> 
-> On Tue, Jan 18, 2022 at 07:33:39PM +0100, Greg KH wrote:
-> > On Tue, Jan 18, 2022 at 10:01:02PM +0530, Rajaram Regupathy wrote:
-> > > > Again, why does this have to be a library?
-> > > >
-> > > The aim of having a library is to abstract application(s) from OS,
-> > > platform, PD Controller or Embedded Controller protocols ambiguities
-> > > and provide common methods. The methods will be similar/closer to UCSI
-> > > standard.
-> > 
-> > What methods are needed by an operating system that your library is
-> > going to provide?  How will it be done in a unified way that the current
-> > user/kernel api isn't providing already today?
-> > 
-> 
-> A unified libtypec would be useful because the USB Type-C and USB PD
-> specifications are evolving, and continue to change. Spec changes affect the
-> decoding of the objects that are exposed by the connector class (the existing
-> API), and we are at a point where if we left it as-is, you'd have multiple
-> userspace implementations that would have to independently be updated and
-> fixed every time there's a new USB PD spec revision or version update.
-> 
-> Just as a concrete example, Jameson (jthies@google.com), who works on my team,
-> recently put together a little helper utility to decode the typec connector
-> class in order to print it to our feedback report collector. This was all
-> done before libtypec:
-> 
-> https://chromium.googlesource.com/chromiumos/platform2/+/749621a6288cc5e80b31a9e6050437a419209fb9/debugd/src/helpers/typec_connector_class_helper.cc
-> 
-> A problem we ran into almost immediately was that the utility was based on
-> the most recent USB PD specification documents (USB PD R2.0 and USB PD R3.1),
-> and had definitions on how to decode PD 2.0 and PD 3.1 objects that it would
-> read from the typec connector class, however, it was missing definitions for
-> USB PD R3.0 (a spec revision which is not obvious how to find in USB-IF's
-> document archive).
-> 
-> So, we added it: https://chromium.googlesource.com/chromiumos/platform2/+/eb1efefc187feab1182a7680f42fcec6bb14c618
-> 
-> Now, every other hypothetical type-c connector class user application or daemon
-> could potentially make this mistake, and would have to duplicate the work
-> to fix it.
-> 
-> If we had libtypec, it would be the unified place to make such a change, and
-> we'd reduce the burden of new typec apps from having to do all this decode
-> in the future.
+Hi Rob,
 
-Ok, that's fine, but please work to create a library that can handle
-such changes in non-breaking ways.  The first version of this library
-does not look like it would do that at all as it is exporting way too
-many things in a "public" interface.
+On Wed, Jan 19, 2022 at 2:50 AM Rob Herring <robh@kernel.org> wrote:
 
-thanks,
+> The 'phandle-array' type is a bit ambiguous. It can be either just an
+> array of phandles or an array of phandles plus args. Many schemas for
+> phandle-array properties aren't clear in the schema which case applies
+> though the description usually describes it.
+>
+> The array of phandles case boils down to needing:
+>
+> items:
+>   maxItems: 1
+>
+> The phandle plus args cases should typically take this form:
+>
+> items:
+>   - items:
+>       - description: A phandle
+>       - description: 1st arg cell
+>       - description: 2nd arg cell
+>
+> With this change, some examples need updating so that the bracketing of
+> property values matches the schema.
 
-greg k-h
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+The Renesas parts look good to me.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
