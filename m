@@ -2,133 +2,129 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A5D3C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jan 2022 09:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C14C9C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jan 2022 10:31:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359709AbiATJ7z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jan 2022 04:59:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238429AbiATJ7v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Jan 2022 04:59:51 -0500
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D118C061401
-        for <linux-usb@vger.kernel.org>; Thu, 20 Jan 2022 01:59:51 -0800 (PST)
-Received: by mail-yb1-xb2b.google.com with SMTP id o80so16155151yba.6
-        for <linux-usb@vger.kernel.org>; Thu, 20 Jan 2022 01:59:51 -0800 (PST)
+        id S1376301AbiATKbw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Jan 2022 05:31:52 -0500
+Received: from mail-bn7nam10on2119.outbound.protection.outlook.com ([40.107.92.119]:53603
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1376298AbiATKbp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 20 Jan 2022 05:31:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KbsSg6FB9rW5V1MoPpn5s3m39HunPOz4/7NrCzCMcDn7ijJLpafETs0tsofmykS/Pcrsoyq6ACNB70kAl9h451aYqwNkATP3Heinai6Pk2Vzx3CLNlJcDObwobL6UadcsAzhlELleEk00wNt64S6AeI7/p5rUWfOyW50UiY0TxpU+nOLRUMC5XpV18ro4fy9gzan5WuI4nX5PuCLhUrBPGJIyEPJta0mDRxMXKdTweWNlaNGIj6tVcgFNwPBBA/xNXHOgTmxLLnbvVXlM/XaePIPO4bb07z3ha3z/t42qKQnurkZINUcjt8TyFrn235UcEa0GBrC8D20Nt/eMLqRFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DLVgJiqBtDVu+n73vedbFvwM9rTaeenVyScoVllJ+6c=;
+ b=a3nXeXKxrC9QJPSbWFCJUtdWtbB1Hro5O0osH2fWaj/nQvK6E4my7xsUKAouyItetB/m6lvuUeZYS6A03l748J7/VbtYIEE5sGHRzkn0EodG/f+vDpwnwqE4yQOiasQGcl6T/OSf/6ZTgX0SSSonG29mVsrjSznrr5Je39tNaIo35m+8u/1S6INKS+yq8UfRaafS2ey0Of7I+2f0N0sYOd47bu3TZywM5tq/VCo0L8bmpyUWr1JrKOBosvxY4JlZ/t7lPqFe/XvBQu6dBex/tXRmvfGhktf1RQnFW0QjfDhILArqtaz5OzgwKjJxDp0UqirwI90z29WKD/OQEOccsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DU6SDCJ2do9YUkvc0ElI01ddyt5tZD7x1b+apC8NmYg=;
-        b=MVXGAVJJOdMD5Pig/F5T5Mr2bGv9JV/EBWkCJOfvfaRp9fdH6xccckBTtv418xUiKi
-         3Hd34nunt4esTT6lVOpG1wXfnO3mJBFrhgauScukO7hX0gzcPZnRYtfcPGNieRn/OSDp
-         xK7bclR8r0+rxFZM+q/X5hod+fnoN/ucExL4anX/4XdTnvs2AMKeEyijOHhdIfrAsYY/
-         w68Cis8ZISE9nEAxN3SdF2N0Ru/YeXcbSNuMIleYDZ8TF9Bx5wP/Ym7YaUdNk0j9W5QW
-         4XMVEHqM5JkTPsgtqWWdTNklB2B3Acp+KGKH7zAsfwUFWTRCqeskN1DkrJ8SSw2mB+wq
-         9rQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DU6SDCJ2do9YUkvc0ElI01ddyt5tZD7x1b+apC8NmYg=;
-        b=btDyoD1ZlR0VaYT2wipAgKIceSwnDQLPjw69gvXau4bflcBkvmRRQNxU1OijxgiTrl
-         7ewTzVEeZdMvfVLU8fWm7a2tuz8uVhDPj9EaYTGQBDhYJruf+xpUYSHibuRcroYPrt6l
-         REq29lkbS90BUVzJgzd2HoZexK0iQ0MDHf2xLcZo+nmQUS3/hTXPn2Gf97hgbaP4iLyP
-         plcR6/YhAuoLx9vF2+7RrvUMGa3R7U1pTGZf3edygfcPuiLgM3BV3RQvtfSE0ROVZvN/
-         8TDSiQaCZcMg+xj1D2YX/v7EFpuLQMug+U8tHpH+iYYvYKbKDZcx8a/nc04XLRLeF2J5
-         ftKA==
-X-Gm-Message-State: AOAM532NyglTpf023IAvsDoUO/T2JxRk++KV5QgkJZ/tHrLI1B6zdhJV
-        j9wKimXHSmpnT7ntCi1zrAlfVLpzSc+Gf6/ZwjA=
-X-Google-Smtp-Source: ABdhPJx/sdPLChz6lByFZW8Onx2cFN+qRqNm6U+TVWdHGEtrmx8dIxWNd+EZbtS3juCkYabcZyFpo234Kh61XPYzBG4=
-X-Received: by 2002:a25:908e:: with SMTP id t14mr2990589ybl.636.1642672790806;
- Thu, 20 Jan 2022 01:59:50 -0800 (PST)
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DLVgJiqBtDVu+n73vedbFvwM9rTaeenVyScoVllJ+6c=;
+ b=doeUo5BT3sG1TOJ771NHLSrjDteq0eXQt+6SOl+zhUeB0jCJQYpJ52FDqEjqx7nqtCM4/tkzkSG48i0dAsbe2Eemzec5BqXS5jSUQEjESZ+Orb3QT3INl1opPo9qBCfbK5ZalaJRw4xvU6iqyv/GfQmRI0UshU6Rml0PANpVdI0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by MN2PR04MB5887.namprd04.prod.outlook.com (2603:10b6:208:3b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4909.8; Thu, 20 Jan
+ 2022 10:31:42 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::8c2c:1b0f:8516:a941]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::8c2c:1b0f:8516:a941%7]) with mapi id 15.20.4909.010; Thu, 20 Jan 2022
+ 10:31:42 +0000
+Date:   Thu, 20 Jan 2022 18:31:37 +0800
+From:   Xin Ji <xji@analogixsemi.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        bliang@analogixsemi.com, qwen@analogixsemi.com,
+        jli@analogixsemi.com, kernel test robot <lkp@intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] usb: typec: anx7411: Add Analogix PD ANX7411
+ support
+Message-ID: <20220120103137.GA2026944@anxtwsw-Precision-3640-Tower>
+References: <20220120093615.2026590-1-xji@analogixsemi.com>
+ <20220120093615.2026590-2-xji@analogixsemi.com>
+ <YekyOVAjI0EE7VYz@kroah.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YekyOVAjI0EE7VYz@kroah.com>
+X-ClientProxiedBy: HK2PR04CA0050.apcprd04.prod.outlook.com
+ (2603:1096:202:14::18) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-References: <CAD039W71Hf06Bw4H_qjm7bRg__BjHfG=p-E7HXL62g0Yc7txBA@mail.gmail.com>
- <YeUYQB4neDz8Z0Tb@kroah.com> <CAD039W5ZmTcYErXsnSpdksc6k2L3fNwry1uP2Kr96Uo04fO9PQ@mail.gmail.com>
- <YeWNYUkOYBWXjBFw@kroah.com> <CAD039W41ds-1xi0owBTRPCweB-tt=7gL7uH4FmUSOyEdgrq77g@mail.gmail.com>
- <YecIA5hEYqrZo+6G@kroah.com> <YecSDHXscl4LX5g9@google.com> <YefLk+hmEfg6Tp6F@kroah.com>
-In-Reply-To: <YefLk+hmEfg6Tp6F@kroah.com>
-From:   Rajaram Regupathy <rajaram.regupathy@gmail.com>
-Date:   Thu, 20 Jan 2022 15:29:38 +0530
-Message-ID: <CAD039W4US=SSbk63wVa0oTkHJjyes03QU5BbGvAgjommLdfpjg@mail.gmail.com>
-Subject: Re: [ANNOUNCE] libtypec_0.1/lstypec_0.1 is released
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Benson Leung <bleung@google.com>, linux-usb@vger.kernel.org,
-        heikki.krogerus@linux.intel.com,
-        Prashant Malani <pmalani@chromium.org>, jthies@google.com,
-        saranya.gopal@intel.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f97d7f83-9d15-4ae0-a9eb-08d9dc000cc9
+X-MS-TrafficTypeDiagnostic: MN2PR04MB5887:EE_
+X-Microsoft-Antispam-PRVS: <MN2PR04MB58876BD456CB13896A14ACCDC75A9@MN2PR04MB5887.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:510;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: H0cWC46PYK2hfIp0GEeAlnu4qMH03MkW/0MmRnVRQKbl4pzccy7InnmdyVhZA365mf2hyWGjkmySLK5bBIXMlQniTt43zoXsKp4Rbd8SQHayYmjcMZemw15NwO0C+Et2VhBkJ3JQNje4kqzMXlDbbWubLx7rk8NjnWB2RK/CcZYBCKEQp7iO0N5CJo3PLeFAV3Oz5ewLmodsUBfCzBwHGJK0FcCLBqJUp2SRVgEuJlR7vCkt6AxNkrnzvQNk6niRiCF6/uKKXO/UATryfPzn2RLeSe95l6h/T1jIz1+VwQuSjS9juqHsF02pwEr+E5l67ukkmuFZKQ3Cb8jkcAYafwKLz5bF+wlzjHNhzup2tPfyLjgzyZTdrszoSKHe9CpyMl1zaCpEFUYaaBYA0CdXR4rmUSCNsruACAzl/W6gEHZurqQfTMAwaE+6ygvxgZAaKNO0QqzKM9AegdH3BswoH0Wke0LSuEb/Wd5UwftPCJcf1TLgdTFYbH1HizSGKLwiKDuRSmoFJhV6yzwZk+Kz8A3wlGdkBck5JQ7mPvOASwy3yxn+0SF5/OM8Y++IPoTKJlprindczShxtsS1s2GicSspKELd6YB4OujLc0IiHZqvlMltyX9ZKRdt578FpYumGM+LQupwvm4V6OAYK5jmk4hK5ubcAVEfrKupG4f0KwuLzr3AyRc3jNpK6ybD6v121muw0ntSOiHA+K9hNsY1T5VwoIKxEx0rnT6wieZbubWtvCvBcGrkr5KBurubP7Op67muHx0P2UkARcNUnDeyXFRgyol89UNWragRPM5LnzE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6739.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(7916004)(366004)(9686003)(8676002)(83380400001)(55236004)(6512007)(86362001)(6506007)(52116002)(38100700002)(26005)(6666004)(966005)(8936002)(54906003)(33656002)(2906002)(38350700002)(66556008)(66476007)(1076003)(316002)(5660300002)(4326008)(66946007)(6486002)(186003)(33716001)(508600001)(4744005)(6916009);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?o59ir8ZKadhKk2NxNlT1EBM8RjUc6FHbMGtB4mewvrqK3NunMxtDD7sFfDLH?=
+ =?us-ascii?Q?xzbOrmOZan2H4GAmEqclrCStL7nwXB4y3cLvIk2pclRMT2q4Ryrj+M2zzoad?=
+ =?us-ascii?Q?S2QOu+Qg6EJCcwV7i7ENH6Dudt0U2W7tktkrlYuNURi8qsc0viMQBiPhGsrv?=
+ =?us-ascii?Q?ddzpeHHF3rPlSGZQPN3Q08rvyh2YXq1sIPgKGBxRRllcpVDXNnEWw9VCtt4N?=
+ =?us-ascii?Q?Z20owlVPY/N+W7YAIs7oOLK0y840BL1xoibGXdls+yAC8AEzL2cPZ6koWSwM?=
+ =?us-ascii?Q?vS4ThfE+Cao1n9/M0kLJEtTzajpVnXo9y5wf2LEDkNQ9I9xX/9HRu1uuo6AV?=
+ =?us-ascii?Q?kK6mVxOG8bDS+jo+zRj+FK6JRx1j/4VqTyuy9Hghk+MSK8mkfI6iR5jJhJig?=
+ =?us-ascii?Q?1wLvEFG64b8bsmmbBvsGgn4WNmEEzepN5D93tzCqPmU3t24LGQS9Wz7XSMwp?=
+ =?us-ascii?Q?uCuqhE0Qmjcisook1Z3/J71p528xaPSEfWe4Zca7TNmkvDMGHmw1zr8lQdfL?=
+ =?us-ascii?Q?OoINOZX774n0pkdfg5ya2jmeNEABeQuEvM1VLQwwgDAx/KDauA2A/2QD7waR?=
+ =?us-ascii?Q?YrmMcqe+nbk89W27UPoqMeW60BuhkRiZFUyq1+HwWyDV34r68+G8L5mn6a/t?=
+ =?us-ascii?Q?5S38ABeeRLGFcBg0yk98p9uW1GM4vCqloS1ZLT3U8X6kbYyEQ2hk7EndBBuU?=
+ =?us-ascii?Q?xWZCoY0bpalq9IteDYyIDueG8b9fXivfedTRWN8kBdMKgG5938fmBUgLcngQ?=
+ =?us-ascii?Q?sEtTeo7THdA91atrdLPs2mVWwrY4lfpixJ4jTWAVEFG7jKiCeLbOI25tlFz4?=
+ =?us-ascii?Q?h8pISzzpvv4t0Su3CiYuaeSVEke+lgatwYeQuZgHj4uUSUJSAohCE4Ye5i0b?=
+ =?us-ascii?Q?9L4shHdJ9cNfTWBHzs4nFEiOKFSUsTK58mzfBRQHggFLVQiRSTrFcLQQbgdk?=
+ =?us-ascii?Q?QqrCOu5r1qjTO9vupf5nF9YDQI7rTWtWaI2IDhKb1nrbPlHA18SCXRb3eys5?=
+ =?us-ascii?Q?eXlj7FsKZFSM3H/eHKowYJaGL8CXZzZ4hW0rtkuHi0D+XOSrt3wL9TlieH7j?=
+ =?us-ascii?Q?dIaRG53FhmFZB07ILjIZ31VaXBqhlEvMkY3t3E8K3TquLl7zVTxIktO7nGpb?=
+ =?us-ascii?Q?Ax3TirS+LSp7WPJXOyTCxAg83l5DQBFxA/x31Bf9FGS/BuBeRx4wCwV7rwVr?=
+ =?us-ascii?Q?+iGFNSYS5A/pWH9KyWQjCNopVOPp/096I/yDlZETkIMqF3dXvKxILyvdoHXF?=
+ =?us-ascii?Q?UUliVhMNfkjKyN8kQA5w2oZxaVPa9eZWCtzZhwuRf8N8jVah0nNsQEVCtmKm?=
+ =?us-ascii?Q?GwExvkW7zcZXKobsmtV/F3z7BHMUNz25t8+eNFiTYPJArFBd3k29h6QtEDqQ?=
+ =?us-ascii?Q?/gmNEPzRkoDlszCNvSq13Lyldm6bxOsfZiS4+oNpAxd23g5ftVc6LNC3UVXU?=
+ =?us-ascii?Q?ddhKpoi/l7aDaXXJMhVEDR5mngzJszYyClgSTq9VrE/Gc/ND7UbuVvlghUJo?=
+ =?us-ascii?Q?jIwJDc9o3KBFngomxT3HyJMYN9Y2DLLVp+/H8zVI0Xl9ktXufU5pmS4gXUdO?=
+ =?us-ascii?Q?dpIyXhcYsnH1TLkScTiMrzbXy0E2wzowipBkOFoq/V3pdCzJH3QGbWIxJka0?=
+ =?us-ascii?Q?Q/GbaJPzofzLCq7BCr350k4=3D?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f97d7f83-9d15-4ae0-a9eb-08d9dc000cc9
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2022 10:31:42.4945
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gp2IRlZ+evDoaMibe1lPvhbHaLByCjFjN6EocBI9IyzKvO0Ons6E9UlD+n2mD1rJ/1sfofD9EfKb2Y+YkUeYIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB5887
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 19, 2022 at 1:58 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jan 18, 2022 at 11:16:28AM -0800, Benson Leung wrote:
-> > Hi Greg,
-> >
-> > On Tue, Jan 18, 2022 at 07:33:39PM +0100, Greg KH wrote:
-> > > On Tue, Jan 18, 2022 at 10:01:02PM +0530, Rajaram Regupathy wrote:
-> > > > > Again, why does this have to be a library?
-> > > > >
-> > > > The aim of having a library is to abstract application(s) from OS,
-> > > > platform, PD Controller or Embedded Controller protocols ambiguities
-> > > > and provide common methods. The methods will be similar/closer to UCSI
-> > > > standard.
-> > >
-> > > What methods are needed by an operating system that your library is
-> > > going to provide?  How will it be done in a unified way that the current
-> > > user/kernel api isn't providing already today?
-> > >
-> >
-> > A unified libtypec would be useful because the USB Type-C and USB PD
-> > specifications are evolving, and continue to change. Spec changes affect the
-> > decoding of the objects that are exposed by the connector class (the existing
-> > API), and we are at a point where if we left it as-is, you'd have multiple
-> > userspace implementations that would have to independently be updated and
-> > fixed every time there's a new USB PD spec revision or version update.
-> >
-> > Just as a concrete example, Jameson (jthies@google.com), who works on my team,
-> > recently put together a little helper utility to decode the typec connector
-> > class in order to print it to our feedback report collector. This was all
-> > done before libtypec:
-> >
-> > https://chromium.googlesource.com/chromiumos/platform2/+/749621a6288cc5e80b31a9e6050437a419209fb9/debugd/src/helpers/typec_connector_class_helper.cc
-> >
-> > A problem we ran into almost immediately was that the utility was based on
-> > the most recent USB PD specification documents (USB PD R2.0 and USB PD R3.1),
-> > and had definitions on how to decode PD 2.0 and PD 3.1 objects that it would
-> > read from the typec connector class, however, it was missing definitions for
-> > USB PD R3.0 (a spec revision which is not obvious how to find in USB-IF's
-> > document archive).
-> >
-> > So, we added it: https://chromium.googlesource.com/chromiumos/platform2/+/eb1efefc187feab1182a7680f42fcec6bb14c618
-> >
-> > Now, every other hypothetical type-c connector class user application or daemon
-> > could potentially make this mistake, and would have to duplicate the work
-> > to fix it.
-> >
-> > If we had libtypec, it would be the unified place to make such a change, and
-> > we'd reduce the burden of new typec apps from having to do all this decode
-> > in the future.
->
-> Ok, that's fine, but please work to create a library that can handle
-> such changes in non-breaking ways.  The first version of this library
-> does not look like it would do that at all as it is exporting way too
-> many things in a "public" interface.
+On Thu, Jan 20, 2022 at 10:58:17AM +0100, Greg Kroah-Hartman wrote:
+> On Thu, Jan 20, 2022 at 05:36:15PM +0800, Xin Ji wrote:
+> > Add driver for analogix ANX7411 USB Type-C DRP port controller.
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> The test robot did not report this to ask for a new driver :(
+Hi Greg, test robot ask me to fix the compile warning issue,
+https://patchwork.kernel.org/project/linux-usb/patch/20220119110141.1020452-2-xji@analogixsemi.com/
+so I think need upstream v2 after fixed the issue. I'll remove the test
+robot tag in the next serial.
 
-- Fixed compile error caused due to new version of compiler
-- Fixed license details.
+BTW, your robot ask me to add more log at commit message, do I need
+upstream v3 after do that?
 
-The library provides interfaces very similar/same as the UCSI standard
-from USB.org.
-Additionally the library uses what is available in the existing
-framework and  acts as a wrapper between
-lower layers and the applications and not a self reliant entity.
-Could you please help better understand your concern ?
-
->n
-> thanks,
->
-> greg k-h
+Thanks,
+Xin
