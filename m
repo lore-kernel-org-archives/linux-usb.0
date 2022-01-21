@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D5A1C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88649C4332F
 	for <linux-usb@archiver.kernel.org>; Fri, 21 Jan 2022 15:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381719AbiAUPxZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Jan 2022 10:53:25 -0500
-Received: from cable.insite.cz ([84.242.75.189]:46024 "EHLO cable.insite.cz"
+        id S1381721AbiAUPx0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Jan 2022 10:53:26 -0500
+Received: from cable.insite.cz ([84.242.75.189]:39078 "EHLO cable.insite.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1381703AbiAUPxY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1381701AbiAUPxY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Fri, 21 Jan 2022 10:53:24 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id C4E5AA1A3D409;
+        by cable.insite.cz (Postfix) with ESMTP id CA5F1A1A3D40B;
         Fri, 21 Jan 2022 16:53:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1642780402; bh=Azt+NgYvHftO8GMykcHOEWSYOSyRIy4YxvjOBrcevJY=;
+        t=1642780402; bh=Kdv0naRxb7M8NzaoViDKR1YD2IHC8/Sx0jHEGDf47rA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JYARj3680+Feaaz+h/j2RmIWjXqZUTFgYNxwqze3o6RamPXFIM0u5gyt7twjBt+W1
-         A1BnMOahq8qhUpcJXZ4vPmQTPk6Y7w5JFX5PjFjEultxqFHzAgh3AYij9l7rgTWXzt
-         WIfgeOIkMvSGH5H94NVIHkIOWErnXAtKiW1f3xNw=
+        b=eOV34ctSRGsglJxbJqkZtLtcQylrp29souqSXHXjy12VEygIQEimazOYO+0kzRUno
+         vIX2YKaTJ6M7URO/iB6P6fssErSCh4kyflQagHS4ADj4idWxM4lWzny/27k0DEud/Q
+         igw2xHvlmyZuyrRL9aIyJC1ohqstPn4s371ElXbY=
 Received: from cable.insite.cz ([84.242.75.189])
         by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id QXm_lpvbbUd9; Fri, 21 Jan 2022 16:53:17 +0100 (CET)
+        with ESMTP id tMZ1dGSSn33T; Fri, 21 Jan 2022 16:53:17 +0100 (CET)
 Received: from precision.insite.cz (dustin.pilsfree.net [81.201.58.138])
         (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 4CC79A1A3D40A;
-        Fri, 21 Jan 2022 16:53:13 +0100 (CET)
+        by cable.insite.cz (Postfix) with ESMTPSA id 1386FA1A3D40C;
+        Fri, 21 Jan 2022 16:53:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1642780393; bh=Azt+NgYvHftO8GMykcHOEWSYOSyRIy4YxvjOBrcevJY=;
+        t=1642780394; bh=Kdv0naRxb7M8NzaoViDKR1YD2IHC8/Sx0jHEGDf47rA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Sie+DpMWV9v8afEDjAWD0o4s3B9gIiCtvoXn98r+oLMpsgNY+Kpjr3mzOpG8JVJ/g
-         mRAkR+rsCL+zq/a3md9aRng/5kdFOhF3OueXzwIYNw0NteJuuZC5b0WSMVGA/t+5ee
-         xZ/bdnLWmIoe4c+yvmBG542wxodYMZTIott6rg00=
+        b=aYddEvDJe7GRu9PR8uTro3gb9adCYIMCISQogNHFUJ1hY+MYQpOERFpMvB1Ysq3wN
+         4cSCnldlj6BL3piSsmZrYlEGIS+xOnAPMHibY98vhe1uC4kKi0RSQg4uBbAltmLveU
+         SdlwVe9DenEkJWIEVyMTlp9jlwuu402ZdSQBpd6o=
 From:   Pavel Hofman <pavel.hofman@ivitera.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
@@ -42,9 +42,9 @@ Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
         Julian Scheel <julian@jusst.de>,
         John Keeping <john@metanate.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v5 08/10] usb: gadget: u_audio: Add suspend call
-Date:   Fri, 21 Jan 2022 16:53:06 +0100
-Message-Id: <20220121155308.48794-9-pavel.hofman@ivitera.com>
+Subject: [PATCH v5 10/10] usb: gadget: f_uac1: Add suspend callback
+Date:   Fri, 21 Jan 2022 16:53:08 +0100
+Message-Id: <20220121155308.48794-11-pavel.hofman@ivitera.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220121155308.48794-1-pavel.hofman@ivitera.com>
 References: <20220121155308.48794-1-pavel.hofman@ivitera.com>
@@ -54,53 +54,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add exported method u_audio_suspend which sets stream status to
-inactive and sends notifications. The method does not free any
-resources.
+Add suspend callback to f_uac1 function, calling corresponding method
+of u_audio in order to stop the respective PCM streams and to notify
+subscribed clients about the stop.
 
 Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
 ---
-v3:
-* fixed commit title
-* removed stopping substreams (moved to a separate patch series)
-* calling set_active(false) instead of the removed set_srate(0)
-* updated commit msg
+v3: fixed commit title and msg
 ---
- drivers/usb/gadget/function/u_audio.c | 9 +++++++++
- drivers/usb/gadget/function/u_audio.h | 2 ++
- 2 files changed, 11 insertions(+)
+ drivers/usb/gadget/function/f_uac1.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index fab1bc439002..2bb569895a90 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -757,6 +757,15 @@ void u_audio_stop_playback(struct g_audio *audio_dev)
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index 73df76a6fbe0..1484e5c231d3 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -961,6 +961,14 @@ static void f_audio_disable(struct usb_function *f)
+ 		usb_ep_disable(uac1->int_ep);
  }
- EXPORT_SYMBOL_GPL(u_audio_stop_playback);
  
-+void u_audio_suspend(struct g_audio *audio_dev)
++static void
++f_audio_suspend(struct usb_function *f)
 +{
-+	struct snd_uac_chip *uac = audio_dev->uac;
++	struct f_uac1 *uac1 = func_to_uac1(f);
 +
-+	set_active(&uac->p_prm, false);
-+	set_active(&uac->c_prm, false);
++	u_audio_suspend(&uac1->g_audio);
 +}
-+EXPORT_SYMBOL_GPL(u_audio_suspend);
 +
- int u_audio_get_volume(struct g_audio *audio_dev, int playback, s16 *val)
+ /*-------------------------------------------------------------------------*/
+ static struct uac_feature_unit_descriptor *build_fu_desc(int chmask)
  {
- 	struct snd_uac_chip *uac = audio_dev->uac;
-diff --git a/drivers/usb/gadget/function/u_audio.h b/drivers/usb/gadget/function/u_audio.h
-index 5e6ed0f31cc3..9512b8fccfaa 100644
---- a/drivers/usb/gadget/function/u_audio.h
-+++ b/drivers/usb/gadget/function/u_audio.h
-@@ -130,4 +130,6 @@ int u_audio_set_volume(struct g_audio *g_audio, int playback, s16 val);
- int u_audio_get_mute(struct g_audio *g_audio, int playback, int *val);
- int u_audio_set_mute(struct g_audio *g_audio, int playback, int val);
+@@ -1691,6 +1699,7 @@ static struct usb_function *f_audio_alloc(struct usb_function_instance *fi)
+ 	uac1->g_audio.func.get_alt = f_audio_get_alt;
+ 	uac1->g_audio.func.setup = f_audio_setup;
+ 	uac1->g_audio.func.disable = f_audio_disable;
++	uac1->g_audio.func.suspend = f_audio_suspend;
+ 	uac1->g_audio.func.free_func = f_audio_free;
  
-+void u_audio_suspend(struct g_audio *g_audio);
-+
- #endif /* __U_AUDIO_H */
+ 	return &uac1->g_audio.func;
 -- 
 2.25.1
 
