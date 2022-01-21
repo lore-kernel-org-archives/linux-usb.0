@@ -2,74 +2,182 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CB4FC433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Jan 2022 15:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59CB7C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jan 2022 15:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351332AbiAUPVO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Jan 2022 10:21:14 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:49393 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S243029AbiAUPVL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 21 Jan 2022 10:21:11 -0500
-Received: (qmail 18098 invoked by uid 1000); 21 Jan 2022 10:21:10 -0500
-Date:   Fri, 21 Jan 2022 10:21:10 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Pratham Pratap <quic_ppratap@quicinc.com>
-Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org, quic_pkondeti@quicinc.com,
-        quic_jackp@quicinc.com, quic_mrana@quicinc.com
-Subject: Re: [PATCH v1] usb: hub: Power cycle root hub if CSC is set during
- hub_port_reset
-Message-ID: <YerPZh1IpFi9xn+a@rowland.harvard.edu>
-References: <1642607498-8458-1-git-send-email-quic_ppratap@quicinc.com>
- <YehKeTcpa1mxDHbG@rowland.harvard.edu>
- <6fbf149a-52d7-c348-3d52-61c6f9820481@quicinc.com>
+        id S1381698AbiAUPxS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Jan 2022 10:53:18 -0500
+Received: from cable.insite.cz ([84.242.75.189]:35102 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1351413AbiAUPxS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 21 Jan 2022 10:53:18 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id C6128A1A3D40D;
+        Fri, 21 Jan 2022 16:53:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1642780395; bh=GPcVcdFkqjEXbwzMoJHQc6JNsONk1lTO11d99kX4NsQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YAKc9vKKQnKqkfGX9g+3HaWH6dVNI85/25PjWN/InMOeH3Hc8K9m8zQe2Ap7d1DPO
+         rrbQTHjRdJtuPoxOGDSZuibrPdKKk3/RnqOE2D+pHPWR4HLeBJQjF206qWHOR40RVx
+         nF+vG605vWNoe+g2DAtY8GZckMv8LLwAqkcm1MCs=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fs33Gscx8awC; Fri, 21 Jan 2022 16:53:10 +0100 (CET)
+Received: from precision.insite.cz (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 359EBA1A3D402;
+        Fri, 21 Jan 2022 16:53:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1642780390; bh=GPcVcdFkqjEXbwzMoJHQc6JNsONk1lTO11d99kX4NsQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JBy0PvRlE8Yl4l+eGGWrQonDxIXTI725KoWeDH1qnKVWi+mX+oNVrFPCBSCc0ldPG
+         jcdAk3oOJnbjUIKaYOWwwAzF58EeWDqWWzsNwcdbgPQkB7obAt4yB11kBam+2R5Ktr
+         7c7ZLuhTEsAMYx0bgu4ImRyXttscJb61fx7NIL4k=
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Julian Scheel <julian@jusst.de>,
+        John Keeping <john@metanate.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v5 01/10] usb: gadget:audio: Replace deprecated macro S_IRUGO
+Date:   Fri, 21 Jan 2022 16:52:59 +0100
+Message-Id: <20220121155308.48794-2-pavel.hofman@ivitera.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220121155308.48794-1-pavel.hofman@ivitera.com>
+References: <20220121155308.48794-1-pavel.hofman@ivitera.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6fbf149a-52d7-c348-3d52-61c6f9820481@quicinc.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 06:39:59PM +0530, Pratham Pratap wrote:
-> Hi Alan,
-> 
-> Thanks for reviewing.
-> 
-> On 1/19/2022 10:59 PM, Alan Stern wrote:
-> > On Wed, Jan 19, 2022 at 09:21:38PM +0530, Pratham Pratap wrote:
-> > > When a FS device is following a suspend-reset-enumeration-data
-> > > transfer sequence,
-> > Such a sequence never happens.  The kernel always does a resume before a
-> > reset, if the port is suspended.
-> > 
-> > I seem to recall reading something in the USB-2 spec saying that this was
-> > required (i.e., a suspended port should never be reset without being
-> > resumed first), but now I can't find it.
-> What if resume failed and the driver ends up in reset resume path?
+Use octal digits as suggested by checkpatch instead of the deprecated
+macro.
 
-Use The Source, Luke.  If the resume fails then 
-usb_reset_and_verify_device() will return -EINVAL immediately, without 
-performing a reset:
+Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
+---
+v3: new patch
+---
+ drivers/usb/gadget/legacy/audio.c | 36 +++++++++++++++----------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-	if (udev->state == USB_STATE_NOTATTACHED ||
-			udev->state == USB_STATE_SUSPENDED) {
-		dev_dbg(&udev->dev, "device reset not allowed in state %d\n",
-				udev->state);
-		return -EINVAL;
-	}
+diff --git a/drivers/usb/gadget/legacy/audio.c b/drivers/usb/gadget/legacy/audio.c
+index a748ed0842e8..5ec477ffab7f 100644
+--- a/drivers/usb/gadget/legacy/audio.c
++++ b/drivers/usb/gadget/legacy/audio.c
+@@ -22,32 +22,32 @@ USB_GADGET_COMPOSITE_OPTIONS();
+ 
+ /* Playback(USB-IN) Default Stereo - Fl/Fr */
+ static int p_chmask = UAC2_DEF_PCHMASK;
+-module_param(p_chmask, uint, S_IRUGO);
++module_param(p_chmask, uint, 0444);
+ MODULE_PARM_DESC(p_chmask, "Playback Channel Mask");
+ 
+ /* Playback Default 48 KHz */
+ static int p_srate = UAC2_DEF_PSRATE;
+-module_param(p_srate, uint, S_IRUGO);
++module_param(p_srate, uint, 0444);
+ MODULE_PARM_DESC(p_srate, "Playback Sampling Rate");
+ 
+ /* Playback Default 16bits/sample */
+ static int p_ssize = UAC2_DEF_PSSIZE;
+-module_param(p_ssize, uint, S_IRUGO);
++module_param(p_ssize, uint, 0444);
+ MODULE_PARM_DESC(p_ssize, "Playback Sample Size(bytes)");
+ 
+ /* Capture(USB-OUT) Default Stereo - Fl/Fr */
+ static int c_chmask = UAC2_DEF_CCHMASK;
+-module_param(c_chmask, uint, S_IRUGO);
++module_param(c_chmask, uint, 0444);
+ MODULE_PARM_DESC(c_chmask, "Capture Channel Mask");
+ 
+ /* Capture Default 64 KHz */
+ static int c_srate = UAC2_DEF_CSRATE;
+-module_param(c_srate, uint, S_IRUGO);
++module_param(c_srate, uint, 0444);
+ MODULE_PARM_DESC(c_srate, "Capture Sampling Rate");
+ 
+ /* Capture Default 16bits/sample */
+ static int c_ssize = UAC2_DEF_CSSIZE;
+-module_param(c_ssize, uint, S_IRUGO);
++module_param(c_ssize, uint, 0444);
+ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ #else
+ #ifndef CONFIG_GADGET_UAC1_LEGACY
+@@ -55,58 +55,58 @@ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ 
+ /* Playback(USB-IN) Default Stereo - Fl/Fr */
+ static int p_chmask = UAC1_DEF_PCHMASK;
+-module_param(p_chmask, uint, S_IRUGO);
++module_param(p_chmask, uint, 0444);
+ MODULE_PARM_DESC(p_chmask, "Playback Channel Mask");
+ 
+ /* Playback Default 48 KHz */
+ static int p_srate = UAC1_DEF_PSRATE;
+-module_param(p_srate, uint, S_IRUGO);
++module_param(p_srate, uint, 0444);
+ MODULE_PARM_DESC(p_srate, "Playback Sampling Rate");
+ 
+ /* Playback Default 16bits/sample */
+ static int p_ssize = UAC1_DEF_PSSIZE;
+-module_param(p_ssize, uint, S_IRUGO);
++module_param(p_ssize, uint, 0444);
+ MODULE_PARM_DESC(p_ssize, "Playback Sample Size(bytes)");
+ 
+ /* Capture(USB-OUT) Default Stereo - Fl/Fr */
+ static int c_chmask = UAC1_DEF_CCHMASK;
+-module_param(c_chmask, uint, S_IRUGO);
++module_param(c_chmask, uint, 0444);
+ MODULE_PARM_DESC(c_chmask, "Capture Channel Mask");
+ 
+ /* Capture Default 48 KHz */
+ static int c_srate = UAC1_DEF_CSRATE;
+-module_param(c_srate, uint, S_IRUGO);
++module_param(c_srate, uint, 0444);
+ MODULE_PARM_DESC(c_srate, "Capture Sampling Rate");
+ 
+ /* Capture Default 16bits/sample */
+ static int c_ssize = UAC1_DEF_CSSIZE;
+-module_param(c_ssize, uint, S_IRUGO);
++module_param(c_ssize, uint, 0444);
+ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
+ #else /* CONFIG_GADGET_UAC1_LEGACY */
+ #include "u_uac1_legacy.h"
+ 
+ static char *fn_play = FILE_PCM_PLAYBACK;
+-module_param(fn_play, charp, S_IRUGO);
++module_param(fn_play, charp, 0444);
+ MODULE_PARM_DESC(fn_play, "Playback PCM device file name");
+ 
+ static char *fn_cap = FILE_PCM_CAPTURE;
+-module_param(fn_cap, charp, S_IRUGO);
++module_param(fn_cap, charp, 0444);
+ MODULE_PARM_DESC(fn_cap, "Capture PCM device file name");
+ 
+ static char *fn_cntl = FILE_CONTROL;
+-module_param(fn_cntl, charp, S_IRUGO);
++module_param(fn_cntl, charp, 0444);
+ MODULE_PARM_DESC(fn_cntl, "Control device file name");
+ 
+ static int req_buf_size = UAC1_OUT_EP_MAX_PACKET_SIZE;
+-module_param(req_buf_size, int, S_IRUGO);
++module_param(req_buf_size, int, 0444);
+ MODULE_PARM_DESC(req_buf_size, "ISO OUT endpoint request buffer size");
+ 
+ static int req_count = UAC1_REQ_COUNT;
+-module_param(req_count, int, S_IRUGO);
++module_param(req_count, int, 0444);
+ MODULE_PARM_DESC(req_count, "ISO OUT endpoint request count");
+ 
+ static int audio_buf_size = UAC1_AUDIO_BUF_SIZE;
+-module_param(audio_buf_size, int, S_IRUGO);
++module_param(audio_buf_size, int, 0444);
+ MODULE_PARM_DESC(audio_buf_size, "Audio buffer size");
+ #endif /* CONFIG_GADGET_UAC1_LEGACY */
+ #endif
+-- 
+2.25.1
 
-> Also, there can be a possibility of some class driver preforming
-> reset-resume(based on quirks).
-
-Despite its name, reset-resume involves performing a resume first and a 
-reset second.  You can tell from the fact that the reset isn't performed 
-until finish_port_resume() tests the udev->reset_resume flag, which 
-occurs after the port has been resumed.
-
-(Furthermore, the reset part of a reset-resume is carried out by calling 
-usb_reset_and_verify_device(), which as pointed out above, won't do 
-anything if the device is still suspended.)
-
-Alan Stern
