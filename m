@@ -2,57 +2,57 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29495C4321E
-	for <linux-usb@archiver.kernel.org>; Sun, 23 Jan 2022 11:17:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04243C4167B
+	for <linux-usb@archiver.kernel.org>; Sun, 23 Jan 2022 11:17:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236251AbiAWLRO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jan 2022 06:17:14 -0500
-Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:56024
+        id S236419AbiAWLRR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jan 2022 06:17:17 -0500
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:56150
         "EHLO smtp-relay-internal-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236243AbiAWLQ5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jan 2022 06:16:57 -0500
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+        by vger.kernel.org with ESMTP id S236305AbiAWLRD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jan 2022 06:17:03 -0500
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com [209.85.128.72])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id D313E3F1D8
-        for <linux-usb@vger.kernel.org>; Sun, 23 Jan 2022 11:16:55 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 493313FFE9
+        for <linux-usb@vger.kernel.org>; Sun, 23 Jan 2022 11:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1642936615;
-        bh=QYyBjWAtA9OxXQVLH0xTxaZYjqCQLqUUnu7YMm/h3UM=;
+        s=20210705; t=1642936620;
+        bh=66G1PF8Q0lr5LRIbEYZW0Tv4PnJMOlbJQ4z7W8Ayj8M=;
         h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
          MIME-Version;
-        b=mz9a/NY9CVID5y9aJrsGA511VpWjcdNvXy1PEw9IRup6SXMuQpKSlv4qdyAl4SkiL
-         T0Ucqooz8hK+x7h8OyLwBy7J1Bg6HM8cNAZH8COlaREgn9RykB4oOwjsQ31NPEqAbp
-         JyikkxL/BKIdor/wPpz5WBJ5Tdk8o2RQDP1n73vQsKJTyPWoiw25OzCPfd0q/U8GJP
-         Zm4fM6Pec4PdnTThrYHRbAsmWNwWisfHEEGn1accj6T7R2f1yLAxdJx0QdnZUq29nN
-         ksty8q4KU85vCNhSJQ5RaIl3eUwO8RgjZ4sWxD4QDC09B0FMR7gPXsakETzEzdqtnE
-         4Vmr0pCvaSxZw==
-Received: by mail-wm1-f71.google.com with SMTP id z2-20020a05600c220200b0034d2eb95f27so9002129wml.1
-        for <linux-usb@vger.kernel.org>; Sun, 23 Jan 2022 03:16:55 -0800 (PST)
+        b=KXT4tz7eF8PKj+bhl/hXQJUTGu00Iqkag+J2XnbqvjV1PyHAXL/IScVjuFCrOTIzj
+         3ach7cVA+yhMIpcVZ+ZeukEe9iFeJE+MPsnVkm/NAA6qtk4Vvf5NkrBuTHwrWoZPzx
+         aX0UxESzIdM/qiMsr9gLP8/9d7WiF/RSqOovsHXjh5KTKR5OW+pKyuxRup8aPBQAjI
+         FFqrUrtwVqJAeXmfi9obc2RNlYoMIpZ0lQonOHL39jGj4jGSvRmYylplNAYQx350f/
+         U/LailLxmGhKttsmzDzxcOykvs+ukaQoaoLqefJZm0e4YfnPx5zoUEMqBe7Mpvayfg
+         PWG9ag8erZpsg==
+Received: by mail-wm1-f72.google.com with SMTP id d140-20020a1c1d92000000b0034edefd55caso2639589wmd.4
+        for <linux-usb@vger.kernel.org>; Sun, 23 Jan 2022 03:17:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QYyBjWAtA9OxXQVLH0xTxaZYjqCQLqUUnu7YMm/h3UM=;
-        b=gnqxWffKGMAxvZ5xlzDqwBZqDK4FaJHQ0Y/C9OKj0qAx/kyKNbWgYfaGrnd98qpU0V
-         iA3vjzElvjZz3I8JULZUrkjUl54onSSHQSWP0c6Ljl1ykWuVrpJgWBC//iFAWqWE+7V3
-         7cwu9jlVD7HMwfsDU84+XlcoLqIGoEXgDwP7hVEFkX4z1O1F58/aKXa6fRDyq+yAvjhs
-         VvqJymEYYoQ7plmC/wjTg313llJprurJkUoDmpMUbYusqe9oaX7YXlY+L3TtKw1Mvgzm
-         DAgQlpStb8BPOcjeonGYPaCzu9SaQpbXD2IW7gcc772y+sTt7Pgq0ODpTegoHYCZU6pm
-         wcQg==
-X-Gm-Message-State: AOAM532BQjE6Omm7CywTK3cZqKlno0m+XTEXdiOKQMvWQYNTR46tSHuP
-        lEWUj47TJe/DTnpr2vhM/Y8jI1/6F5x3acv8n9S5uOQ+Xl8OpMG4Avg7dFo+NAtkOqyAnm852To
-        xNQd2oPpytdQICOFfIi4fHvrwxiE1F42LeJtgQA==
-X-Received: by 2002:a7b:cd02:: with SMTP id f2mr7650483wmj.68.1642936611893;
-        Sun, 23 Jan 2022 03:16:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBpH9pPJ+LM0El76Z0koYfHiM9syIgi7ocm+JAQM3ZbsaChUMb8L30RzWfa7hIIqOsAqEd9w==
-X-Received: by 2002:a7b:cd02:: with SMTP id f2mr7650468wmj.68.1642936611756;
-        Sun, 23 Jan 2022 03:16:51 -0800 (PST)
+        bh=66G1PF8Q0lr5LRIbEYZW0Tv4PnJMOlbJQ4z7W8Ayj8M=;
+        b=tqwO1m9ilkm8HizzXHOjoPLi+GW66yhxk+LZOg8ITzlX87Q6mEYJA/MqMgY9xKjq5X
+         yZbo8SDW+Ln+MWsUBUi3HQQhHoMP7ho9tKP3JFsLGGR885w8DbCQsKnWUfspXwsUHS1T
+         53r6jdq5HVnJdKSXx0fwzLi9ONwQGf1+cHPkIHUFdfU+DjIUcHhEraxY/vHAa2wtNUrK
+         5Gb4PQKntE/rzTPq4M57euXyqLc+tIqZSdhE8dzJJPiqJHEVS392v3zDT6zzgoCqeC3w
+         sw6OKn5hGYuVHsC5SPGSIHGUM8plKSXpVZhhBBsoOd9S2VUemMXbgOOQnQNjcGvuFBs7
+         xAgg==
+X-Gm-Message-State: AOAM530Da7pjqkb9418fMbPOsXGKW+1BXTvBNWE9zBlCVYjbBOgpRSKv
+        D/VTTxoV8ZNu2UYoNBeYpbtxOpchfLmMunjx5ldiKlIhWoHyXnVry2wtPdF08haR9ckKcQmYPn1
+        2jPvxYvRdM1K/HP4uURVO9FCj2A9PmCtZtOO3bA==
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr7689625wmk.191.1642936619325;
+        Sun, 23 Jan 2022 03:16:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyEem2eKrggZGWq3zOh3tVCEin/9AMSkAxLad8GyWyumd6SS0jXIESrFaTiCvb+wPkBmGYPsw==
+X-Received: by 2002:a7b:c4da:: with SMTP id g26mr7689615wmk.191.1642936619200;
+        Sun, 23 Jan 2022 03:16:59 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id m5sm10143729wms.4.2022.01.23.03.16.50
+        by smtp.gmail.com with ESMTPSA id m5sm10143729wms.4.2022.01.23.03.16.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 03:16:51 -0800 (PST)
+        Sun, 23 Jan 2022 03:16:58 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -60,9 +60,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 03/12] ARM: dts: exynos: add USB DWC3 supplies to SMDK5250
-Date:   Sun, 23 Jan 2022 12:16:35 +0100
-Message-Id: <20220123111644.25540-4-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 09/12] ARM: dts: exynos: add USB DWC3 supplies to SMDK5420
+Date:   Sun, 23 Jan 2022 12:16:41 +0100
+Message-Id: <20220123111644.25540-10-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220123111644.25540-1-krzysztof.kozlowski@canonical.com>
 References: <20220123111644.25540-1-krzysztof.kozlowski@canonical.com>
@@ -72,28 +72,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add required voltage regulators for USB DWC3 block on Exynos5250
-SMDK5250 board.  Due to lack of board schematics, use same regulators as
-on Arndale board.
+Add required voltage regulators for USB DWC3 block on Exynos5420
+SMDK5420 board.  Due to lack of board schematics, use same
+regulators as on ArndaleOcta board.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- arch/arm/boot/dts/exynos5250-smdk5250.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm/boot/dts/exynos5420-smdk5420.dts | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/arch/arm/boot/dts/exynos5250-smdk5250.dts b/arch/arm/boot/dts/exynos5250-smdk5250.dts
-index 39bbe18145cf..53670383d607 100644
---- a/arch/arm/boot/dts/exynos5250-smdk5250.dts
-+++ b/arch/arm/boot/dts/exynos5250-smdk5250.dts
-@@ -417,3 +417,8 @@ max77686_irq: max77686-irq {
- 		samsung,pin-drv = <EXYNOS4_PIN_DRV_LV1>;
- 	};
+diff --git a/arch/arm/boot/dts/exynos5420-smdk5420.dts b/arch/arm/boot/dts/exynos5420-smdk5420.dts
+index a4f0e3ffedbd..69ce3e430863 100644
+--- a/arch/arm/boot/dts/exynos5420-smdk5420.dts
++++ b/arch/arm/boot/dts/exynos5420-smdk5420.dts
+@@ -407,6 +407,16 @@ &rtc {
+ 	clock-names = "rtc", "rtc_src";
  };
-+
-+&usbdrd {
-+	vdd10-supply = <&ldo15_reg>;
-+	vdd33-supply = <&ldo12_reg>;
+ 
++&usbdrd3_0 {
++	vdd10-supply = <&ldo11_reg>;
++	vdd33-supply = <&ldo9_reg>;
 +};
++
++&usbdrd3_1 {
++	vdd10-supply = <&ldo11_reg>;
++	vdd33-supply = <&ldo9_reg>;
++};
++
+ &usbdrd_phy0 {
+ 	vbus-supply = <&usb300_vbus_reg>;
+ };
 -- 
 2.32.0
 
