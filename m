@@ -2,121 +2,130 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4CC8C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jan 2022 12:16:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FE8CC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jan 2022 12:21:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242110AbiAXMQV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jan 2022 07:16:21 -0500
-Received: from mga05.intel.com ([192.55.52.43]:4341 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242216AbiAXMPc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Jan 2022 07:15:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643026532; x=1674562532;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sYibUVZxAIos3Y+42FqhQ+3de5FeeBaOdC4uBXCfPlA=;
-  b=dsS6CZC2d7qvYf3myzizZqybidQonlAEtIPCOA8eU5fBppxGWOaj4JTy
-   tCejUrjUgA6i79NHUp8rpgI98pa6SUcZmaSo54BEC3DBX3BlGWqbUEAOz
-   U/XEdmSOkcGie9OLIGqa2XPVli4HNFlCwX1OEeYw8FDdqiaQNUepaEob/
-   PiuJVlHe8JenpfE+vsZyx1WZaNRQYUgYONEW9wcU35onD5aQCvzCh4qe3
-   oLM+LOln10pwiT9xXCej0MrOWiNd2tkZ3rtYQeJ8yMUT7zTgGEi4upJgb
-   X3eIsS4Uo4FE25y9XhNWw4D3ZPBnMV3HWV8H/OjeLnKhv9Nkl0YYgrCvg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10236"; a="332385123"
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="332385123"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2022 04:14:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,311,1635231600"; 
-   d="scan'208";a="766378082"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Jan 2022 04:14:39 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nByF5-000IHz-1N; Mon, 24 Jan 2022 12:14:39 +0000
-Date:   Mon, 24 Jan 2022 20:14:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Xin Ji <xji@analogixsemi.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     kbuild-all@lists.01.org, bliang@analogixsemi.com,
-        qwen@analogixsemi.com, jli@analogixsemi.com,
-        Xin Ji <xji@analogixsemi.com>, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] usb: typec: anx7411: Add Analogix PD ANX7411
- support
-Message-ID: <202201242014.N4URst2I-lkp@intel.com>
-References: <20220121061856.2038958-2-xji@analogixsemi.com>
+        id S239179AbiAXMU7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jan 2022 07:20:59 -0500
+Received: from mta-p6.oit.umn.edu ([134.84.196.206]:43908 "EHLO
+        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238400AbiAXMUw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jan 2022 07:20:52 -0500
+X-Greylist: delayed 393 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Jan 2022 07:20:52 EST
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 4Jj86b45p7z9vK0n
+        for <linux-usb@vger.kernel.org>; Mon, 24 Jan 2022 12:14:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id w2G1TBSrideh for <linux-usb@vger.kernel.org>;
+        Mon, 24 Jan 2022 06:14:15 -0600 (CST)
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 4Jj86b1tlhz9vK0r
+        for <linux-usb@vger.kernel.org>; Mon, 24 Jan 2022 06:14:15 -0600 (CST)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 4Jj86b1tlhz9vK0r
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 4Jj86b1tlhz9vK0r
+Received: by mail-pf1-f199.google.com with SMTP id i6-20020a626d06000000b004c0abfd53b3so9135526pfc.12
+        for <linux-usb@vger.kernel.org>; Mon, 24 Jan 2022 04:14:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=bcoDGYv5WbGoY7EVxjd/aG/krLpaD/QwL/X8pTR3VUk=;
+        b=I9K1ey0NhGpNev5axEpQwfCr7zcPte2LN+htxeiycK6t56WT4om0xTQeVf5ij4PBd8
+         mcTOSD2Mkui15OuZYRuN2iDXVWOJ/2bsWFyJQs3u96aGJpBQqUIx9AXy67FKGAF9g9c8
+         tN6fzvCZuHeInuZKtq6p0rki6LhTW3I2o/prlUQQIlouqS4WRfBUhAC1MauNatB1WyhX
+         6eMHmcyiJqjHGZLa7+Rx0u+wUUQLjlZCx3gkxxMY7w29+LS+UfFwxdtOLMJ+3CfM42Ez
+         K2AdD3u/IjP9llrpNtJalHxwk0TL4DN0f5MmwdHJf0SwUDlxneyUPsoOF60EGQSoBpHq
+         ig4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bcoDGYv5WbGoY7EVxjd/aG/krLpaD/QwL/X8pTR3VUk=;
+        b=YEykgWB6tBKDd/dLEtbxx8F8l287lX2dI1XdHIPGtqoh1B4XzF/M/CDkva9GEAkmZO
+         XnGEFNsR46u+CnWimqsFGbK9/+wc/F7vopOqoHH1MNb8UnIFN1fBrnL1qdofOM6nImCd
+         O6+ZSa1+T7DHJ9OTnPCEpe2SUExKnSgc+jg8iDh3FwVkNLt4a/AT1hxKdGnyXHArx1r2
+         fgmkmuKAbEZaVIYDFAz/usqUatIOGQ+kEAvn+BPUyzPICMEI8gOyYCXE443xIRbhTSwN
+         1iP3q/e9vOWJ0Sz62t7m+scUuwCG08835MyeBR7/umSqROiIO2plsIKI4qBaI5CnHwi7
+         fTSw==
+X-Gm-Message-State: AOAM533IA6gcDiywyOhmLNbR997ENLDL0L8/uIcCmhlNVuBPD+anrBzA
+        4UXil8sep5TooqqwaCGUoGh5+SgV4VYy5ye+3OdgFHDl55h2vob5n99p0OltZGGogbHQM9L7vF5
+        Iwip49AwvMfUWEyQ/JDGc+W7K
+X-Received: by 2002:a05:6a00:cc5:b0:4c3:832a:1180 with SMTP id b5-20020a056a000cc500b004c3832a1180mr14103248pfv.10.1643026454439;
+        Mon, 24 Jan 2022 04:14:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzkPpY5o+pwP/MpYJFNoBFr9G8QoFt755MIYhSaRAtEQ74j4Dp4tq5YxTU7Ff5MZDdXIDiHSg==
+X-Received: by 2002:a05:6a00:cc5:b0:4c3:832a:1180 with SMTP id b5-20020a056a000cc500b004c3832a1180mr14103233pfv.10.1643026454188;
+        Mon, 24 Jan 2022 04:14:14 -0800 (PST)
+Received: from zqy787-GE5S.lan ([36.4.61.248])
+        by smtp.gmail.com with ESMTPSA id b21sm11546359pgi.51.2022.01.24.04.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jan 2022 04:14:13 -0800 (PST)
+From:   Zhou Qingyang <zhou1615@umn.edu>
+To:     zhou1615@umn.edu
+Cc:     kjlu@umn.edu, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        Nadezda Lutovinova <lutovinova@ispras.ru>,
+        Yu Xu <yuxu@marvell.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: mv_u3d: Fix a NULL pointer dereference in mv_u3d_req_to_trb()
+Date:   Mon, 24 Jan 2022 20:12:33 +0800
+Message-Id: <20220124121236.19761-1-zhou1615@umn.edu>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <Yan3RHLH7UUjwSvE@hovoldconsulting.com>
+References: <Yan3RHLH7UUjwSvE@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220121061856.2038958-2-xji@analogixsemi.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Xin,
+In mv_u3d_req_to_trb(), mv_u3d_build_trb_one() is assigned to trb and
+there is a dereference of it in mv_u3d_req_to_trb(), which could lead
+to a NULL pointer dereference on failure of mv_u3d_build_trb_one().
 
-Thank you for the patch! Perhaps something to improve:
+Fix this bug by adding a check of trb.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on robh/for-next peter-chen-usb/for-usb-next v5.17-rc1 next-20220124]
-[cannot apply to balbi-usb/testing/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+This bug was found by a static analyzer.
 
-url:    https://github.com/0day-ci/linux/commits/Xin-Ji/dt-bindings-usb-Add-analogix-anx7411-PD-binding/20220121-142000
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-config: s390-randconfig-s031-20220124 (https://download.01.org/0day-ci/archive/20220124/202201242014.N4URst2I-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/f75d15d4f011dabf8a702d85fb788f9aefb326e2
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Xin-Ji/dt-bindings-usb-Add-analogix-anx7411-PD-binding/20220121-142000
-        git checkout f75d15d4f011dabf8a702d85fb788f9aefb326e2
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash drivers/irqchip/ drivers/usb/typec/
+Builds with CONFIG_USB_MV_U3D=m show no new warnings,
+and our static analyzer no longer warns about this code.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/typec/anx7411.c:636:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
-   drivers/usb/typec/anx7411.c:636:28: sparse:     expected unsigned int [usertype]
-   drivers/usb/typec/anx7411.c:636:28: sparse:     got restricted __le32 [usertype]
-
-vim +636 drivers/usb/typec/anx7411.c
-
-   621	
-   622	static void anx7411_translate_payload(struct device *dev, u32 *payload,
-   623					      u32 *pdo, int nr, const char *type)
-   624	{
-   625		int i;
-   626	
-   627		dev_info(dev, "convert %s pdos to little endian format\n", type);
-   628		if (nr > PDO_MAX_OBJECTS) {
-   629			dev_err(dev, "nr(%d) exceed PDO_MAX_OBJECTS(%d)\n",
-   630				nr, PDO_MAX_OBJECTS);
-   631	
-   632			return;
-   633		}
-   634	
-   635		for (i = 0; i < nr; i++)
- > 636			payload[i] = cpu_to_le32(pdo[i]);
-   637	}
-   638	
-
+Fixes: 3d4eb9dfa3e8 ("usb: gadget: mv: Add USB 3.0 device driver for Marvell PXA2128 chip.")
+Signed-off-by: Zhou Qingyang <zhou1615@umn.edu>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+The analysis employs differential checking to identify inconsistent
+security operations (e.g., checks or kfrees) between two code paths 
+and confirms that the inconsistent operations are not recovered in 
+the current function or the callers, so they constitute bugs.
+
+Note that, as a bug found by static analysis, it can be a false
+positive or hard to trigger. Multiple researchers have cross-reviewed
+the bug.
+
+Changes in v2:
+  -  Remove unnecessary error message
+
+ drivers/usb/gadget/udc/mv_u3d_core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/gadget/udc/mv_u3d_core.c b/drivers/usb/gadget/udc/mv_u3d_core.c
+index a1057ddfbda3..4573233f2835 100644
+--- a/drivers/usb/gadget/udc/mv_u3d_core.c
++++ b/drivers/usb/gadget/udc/mv_u3d_core.c
+@@ -417,6 +417,9 @@ static int mv_u3d_req_to_trb(struct mv_u3d_req *req)
+ 	 */
+ 	if (length <= (unsigned)MV_U3D_EP_MAX_LENGTH_TRANSFER) {
+ 		trb = mv_u3d_build_trb_one(req, &count, &dma);
++		if (!trb)
++			return -ENOMEM;
++
+ 		list_add_tail(&trb->trb_list, &req->trb_list);
+ 		req->trb_head = trb;
+ 		req->trb_count = 1;
+-- 
+2.25.1
+
