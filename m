@@ -2,88 +2,129 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 860F3C433EF
-	for <linux-usb@archiver.kernel.org>; Sun, 23 Jan 2022 18:41:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1923C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jan 2022 05:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239833AbiAWSk6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jan 2022 13:40:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239625AbiAWSkn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 23 Jan 2022 13:40:43 -0500
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30E1BC061744;
-        Sun, 23 Jan 2022 10:40:38 -0800 (PST)
-Received: by mail-wm1-x330.google.com with SMTP id bg19-20020a05600c3c9300b0034565e837b6so10686219wmb.1;
-        Sun, 23 Jan 2022 10:40:38 -0800 (PST)
+        id S240955AbiAXF2M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jan 2022 00:28:12 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:42789 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240794AbiAXF2J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jan 2022 00:28:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q/0EoSGGxiZheENQx8vu+lEDidbqKZoQ7scM3xHmiOA=;
-        b=O+Kf5RiyxUVhGdsbQVZkzdwZxWyWQcgnYMidtGRdVSKwvn9hsvnL26XNnfUOEx0t6P
-         vLngeNLWKbOgtvxDbU9J0UpLObOekcz1gGjK4ROw1uXnyaienlOHg2DFyK5OUjNKgLZC
-         bo/mPjBkwfYqVFXiW9lHLj65C55ugenwZ6TcjgQgb0EKFlPh29aSXJsv+f2QVZ9q7Gxf
-         EGMCxxqCdw01ov7xwhV2nSQUCMrDbLf218+7eNcpPPtz4ngZfAK+gL8DVnMcM1RArTu8
-         lAz8Om1roMz9czYHZQ7iRPRjrsBYAXS+jZq0sVlplhR7VKUw5PxMJwgu1exr04tjHmI7
-         Wh6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q/0EoSGGxiZheENQx8vu+lEDidbqKZoQ7scM3xHmiOA=;
-        b=FADSu6GiYBWPpTr9T8taL8q6/u6ragO5HmbOMG9P8ANWESQxsGOIpGOabKDFehYYoJ
-         uv4tPJfw5cTfm495FuT0IouwQf1ENe4ope6ZgrqVrEa4y+HGqibpNuBvtqu1Pb2bZ1VI
-         RaQLyy6MNdz2hfHOydABA9OJzV9KfhePegvYuz7mYd3oPPqinlXl2wzsK+4sSsHYB/VD
-         9b5UnSHP8Is47RM3lTy6hDaObLgJVXSQTYPe6X83NkU7WXWCk9IEsjRUUQyk5rzlFYhU
-         862x+PXh/fJnOeHtBPa57sgP4Okdym7f1OJpzTuyPTzSNUfrS6l9VubsF4ufFxDhw/Xj
-         BRLQ==
-X-Gm-Message-State: AOAM531zM4CQvBJIcFtz3ijllUNfHr0+htIYkoMeOAigqzU8RmLbtAgS
-        9OdfNlqSZTYlkTUEG4uf/gw=
-X-Google-Smtp-Source: ABdhPJwwrWFNQAMgjIlpLcOihRvDCG3iOlaR6bE951uOm6yRBbo5Oyhd8NWqdd0Ip6SYmqGCCaZo5Q==
-X-Received: by 2002:a7b:cf31:: with SMTP id m17mr8741032wmg.183.1642963236844;
-        Sun, 23 Jan 2022 10:40:36 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id n15sm9938604wrf.37.2022.01.23.10.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Jan 2022 10:40:36 -0800 (PST)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] net: usb: asix: remove redundant assignment to variable reg
-Date:   Sun, 23 Jan 2022 18:40:35 +0000
-Message-Id: <20220123184035.112785-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1643002089; x=1674538089;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=nq++dEOUvOPQNL9JX+JAyJ8bodZJyUToDpB6A9Q7Iks=;
+  b=Dvy7ppxbGSroGQlBKz9zYhH1O+p+FEJU01mFELbx1UXQ1bk9BfFR7Tg6
+   BiExvIQ6FSUBPXbtusbqOur1a7mftSorh9j1fMSx4CFfPNQ5lJTcJShTU
+   85Bku9/v7VrbAd7NyVFmS5JCDDErqvFAm7dolzoVQCtgkjAKmhK2n+7fr
+   c=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 23 Jan 2022 21:28:08 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2022 21:28:07 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Sun, 23 Jan 2022 21:28:07 -0800
+Received: from [10.216.10.243] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Sun, 23 Jan
+ 2022 21:28:02 -0800
+Message-ID: <eaca1146-666d-2b1f-637d-7a5f3e2ad989@quicinc.com>
+Date:   Mon, 24 Jan 2022 10:57:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 2/6] usb: dwc3: core: Host wake up support from system
+ suspend
+Content-Language: en-US
+To:     Jun Li <lijun.kernel@gmail.com>, Li Jun <jun.li@nxp.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        <linux-arm-msm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>
+References: <1642398248-21753-1-git-send-email-quic_c_sanm@quicinc.com>
+ <1642398248-21753-3-git-send-email-quic_c_sanm@quicinc.com>
+ <CAKgpwJUpMZTUKRbuWye8Qxjw6odqTS=ZLFLnPfunc=iA79ckew@mail.gmail.com>
+From:   Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+In-Reply-To: <CAKgpwJUpMZTUKRbuWye8Qxjw6odqTS=ZLFLnPfunc=iA79ckew@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Variable reg is being masked however the variable is never read
-after this. The assignment is redundant and can be removed.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/net/usb/asix_devices.c | 1 -
- 1 file changed, 1 deletion(-)
+On 1/18/2022 2:27 PM, Jun Li wrote:
+> Sandeep Maheswaram <quic_c_sanm@quicinc.com> 于2022年1月17日周一 22:03写道：
+>> Avoiding phy powerdown when wakeup capable devices are connected
+>> by checking wakeup property of xhci plat device.
+>> Phy should be on to wake up the device from suspend using wakeup capable
+>> devices such as keyboard and mouse.
+>>
+>> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+>> Tested-by: Brian Norris <briannorris@chromium.org>
+>> ---
+>> Remove redundant else part in dwc3_resume_common. This will not be
+>> required if GDSC is always on during suspend/resume.
+>>
+>>
+>>   drivers/usb/dwc3/core.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+>> index f4c0995..e7a5e3f 100644
+>> --- a/drivers/usb/dwc3/core.c
+>> +++ b/drivers/usb/dwc3/core.c
+>> @@ -1789,7 +1789,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+>>                  dwc3_core_exit(dwc);
+>>                  break;
+>>          case DWC3_GCTL_PRTCAP_HOST:
+>> -               if (!PMSG_IS_AUTO(msg)) {
+>> +               if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(&dwc->xhci->dev)) {
+>>                          dwc3_core_exit(dwc);
+>>                          break;
+>>                  }
+>> @@ -1850,7 +1850,7 @@ static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
+>>                  spin_unlock_irqrestore(&dwc->lock, flags);
+>>                  break;
+>>          case DWC3_GCTL_PRTCAP_HOST:
+>> -               if (!PMSG_IS_AUTO(msg)) {
+>> +               if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(&dwc->xhci->dev)) {
+> If XHCI_SKIP_PHY_INIT is not set, I see the usb core will help to
+> handle phy power on/off and init/exit via drivers/usb/core/phy.c, so
+> if the wakeup is enabled for controller, then finally the phy will not
+> be power off/exit. I am wondering if this change is actually required if
+> that is the case.
+>
+> Sorry for the late comment.
+>
+> Li Jun
+>
+The patch is to avoid phy power off in case only if some wakeup capable 
+devices are connected.
 
-diff --git a/drivers/net/usb/asix_devices.c b/drivers/net/usb/asix_devices.c
-index 4514d35ef4c4..9b72334aabb6 100644
---- a/drivers/net/usb/asix_devices.c
-+++ b/drivers/net/usb/asix_devices.c
-@@ -858,7 +858,6 @@ static int marvell_phy_init(struct usbnet *dev)
- 		reg = asix_mdio_read(dev->net, dev->mii.phy_id,
- 			MII_MARVELL_LED_CTRL);
- 		netdev_dbg(dev->net, "MII_MARVELL_LED_CTRL (2) = 0x%04x\n", reg);
--		reg &= 0xfc0f;
- 	}
- 
- 	return 0;
--- 
-2.33.1
+Regarding  XHCI_SKIP_PHY_INIT we are setting  in this patch
 
+https://patchwork.kernel.org/project/linux-arm-msm/patch/1640153383-21036-1-git-send-email-quic_c_sanm@quicinc.com/
+
+>
+>>                          ret = dwc3_core_init_for_resume(dwc);
+>>                          if (ret)
+>>                                  return ret;
+>> --
+>> 2.7.4
+>>
