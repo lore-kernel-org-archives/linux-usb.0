@@ -2,98 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19092C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jan 2022 06:25:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB78C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jan 2022 08:48:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244415AbiAYGZG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jan 2022 01:25:06 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:33226 "EHLO
-        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245084AbiAYGVB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Jan 2022 01:21:01 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F61A60C93;
-        Tue, 25 Jan 2022 06:20:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24DE2C340E0;
-        Tue, 25 Jan 2022 06:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1643091658;
-        bh=BcObeviqTy0B6wg1HUmcu48JYW3Eu5vvKYtvo99BDqE=;
-        h=References:From:To:Cc:Subject:Date:In-reply-to:From;
-        b=VezWADmaDVDLLtoJUyT0723WAMg6y6/C4ZGN5+Pjuk5ZOxbZwOtmjJE2Lexlc7IHo
-         eDfhe31XBOMvaGOO1InP6qJRT+H7IdEvDmFSYcTjFoCiIyU9fxMf8wkTf55lVTJgfC
-         9vMNzKxaNqJg1swtaPpttFM7mpG1nwrK20mBkitp8HyiKau1LbrdtDwByh7WgxJHfF
-         y1c6mrzPTcyrXCwGRpXcETqxWzkeQ7xZy7zSs7tb+0qsiNO3r/u083Ter3e5WW5rA4
-         S0mXZCS98ka5spZ37pNNwoeCHEuu7hu8TF1VOBkZdvcCONSbBbE7P8Ece3c7mrWTig
-         hqxjY62S0+Elg==
-References: <20220119002438.106079-1-sean.anderson@seco.com>
- <20220119002438.106079-5-sean.anderson@seco.com>
- <4696c5a4-5921-f7cb-196c-5ad956e696f9@synopsys.com>
- <f528aeb5-6155-a75e-9d35-9bf473e0bbc7@seco.com>
- <3ca6fb9e-94cf-6483-26a6-ae2682d1f55e@synopsys.com>
-User-agent: mu4e 1.6.10; emacs 28.0.90
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Sean Anderson <sean.anderson@seco.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Balaji Prakash J <bjagadee@codeaurora.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Robert Hancock <robert.hancock@calian.com>,
-        Baruch Siach <baruch@tkos.co.il>
-Subject: Re: [PATCH v2 4/7] usb: dwc3: Program GFLADJ
-Date:   Tue, 25 Jan 2022 08:17:37 +0200
-In-reply-to: <3ca6fb9e-94cf-6483-26a6-ae2682d1f55e@synopsys.com>
-Message-ID: <87r18w72uy.fsf@kernel.org>
+        id S1379397AbiAYIsT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jan 2022 03:48:19 -0500
+Received: from mga05.intel.com ([192.55.52.43]:3576 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1452098AbiAYIpa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Jan 2022 03:45:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643100329; x=1674636329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yQ7GGbQ6YDW3oSMj6icbaNxTlAvHdxcNnTTpnvf2jR4=;
+  b=Es1WmWid8Rpq1a6pCTF8Z0mC+fJUYkPhWSfA0ku9RE5yVp6HF65ykT/U
+   dzLUKzkSvdrdIaNgjnZF5fjrZp/cEQpj0DfUKjFk3YAjJ1fFDBuLvDJgX
+   QEHDzWrTCNtX4ZTNJIcdfwCdkttV0l7Wp7aA5ouH/ZkHU+bnIAj/+xl2/
+   nwWzMRv7DgHVJJah2p8M0DnzzsQ7R/t+ZpmnA8Pg9FXxYNxUyYDCDCSBK
+   cwnoEVdDeJXpBs5tCefFJMiKzpwoip0spkUDGsAVX2EaoeK8OC1DVwr4H
+   lkCMNP44YaPNBrBcNcDzka2dRT2n5XS9L6qRU9lYMzZqmk9md/PzJdYYJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="332609112"
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="332609112"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 00:43:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
+   d="scan'208";a="673923145"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 25 Jan 2022 00:43:31 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 25 Jan 2022 10:43:30 +0200
+Date:   Tue, 25 Jan 2022 10:43:30 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Len Brown <lenb@kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        rafael.j.wysocki@intel.com, linux-usb@vger.kernel.org,
+        YongQin Liu <yongqin.liu@linaro.org>
+Subject: Re: [Bug][5.17-rc0] Between commits daadb3bd0e8d and 455e73a07f6e,
+ the kernel stops loading on my devices.
+Message-ID: <Ye+4MpCFeWScLBEr@kuha.fi.intel.com>
+References: <YeUvvIaVJnJrrpYe@kuha.fi.intel.com>
+ <CABXGCsO5PYBuZ11YR16NLLa0H07Jom1JQhWHFuETfotfBfzkMw@mail.gmail.com>
+ <YeVQsRp7aDMcQKs7@kuha.fi.intel.com>
+ <CABXGCsMWXFFQY3L8ixK9K-gYX41_gTjqHRBXNp6gDpUgdnvFfg@mail.gmail.com>
+ <YeVfYOhxGTgg8VpZ@kuha.fi.intel.com>
+ <CABXGCsOwsP7NJ67oyK3HPs2EarSJKLB9EVW7oEh+8bAFihSa8g@mail.gmail.com>
+ <Yea8p1b/sZYKNGaB@kuha.fi.intel.com>
+ <YebBq/WDeYCIvwYw@kuha.fi.intel.com>
+ <CANcMJZDrs418aUoVS4CijQFqgAW3pCbfm_NUCmx+T7HNoiMVnQ@mail.gmail.com>
+ <CAJvTdKnMKdQ6KJe63phZ87kJz2SjeQoNTHqajSfv4RJo6+Y6jw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJvTdKnMKdQ6KJe63phZ87kJz2SjeQoNTHqajSfv4RJo6+Y6jw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Mon, Jan 24, 2022 at 06:00:24PM -0500, Len Brown wrote:
+> Tested-by: Len Brown <len.brown@intelcom>
+> 
+> The typec_link_ports crash goes away w/ the 2nd patch.
+> 
+> https://bugzilla.kernel.org/show_bug.cgi?id=215529
 
-Hi,
+That patch was already sent out:
+https://lore.kernel.org/linux-usb/20220124090228.41396-3-heikki.krogerus@linux.intel.com/
 
-Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
->> On 1/24/22 5:46 PM, Thinh Nguyen wrote:
->>> Sean Anderson wrote:
->>>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>>> index 5214daceda86..883e119377f0 100644
->>>> --- a/drivers/usb/dwc3/core.c
->>>> +++ b/drivers/usb/dwc3/core.c
->>>> @@ -348,7 +348,7 @@ static void dwc3_frame_length_adjustment(struct dwc3 *dwc)
->>>>  static void dwc3_ref_clk_period(struct dwc3 *dwc)
->>>>  {
->>>>  	u32 reg;
->>>> -	unsigned long rate, period;
->>>> +	unsigned long decr, fladj, rate, period;
->>>
->>> Minor style nit: Felipe prefers to keep the declaration on separate
->>> lines, let's keep it consistent with the rest in this driver.
->> 
->> So 
->> 
->> unsigned int decr;
->> unsigned int fladj;
->> unsigned int rate;
->> unsigned int period;
->> 
->> ?
->> 
->> Frankly that seems rather verbose.
->
-> A couple of the benefits of having it like this is to help with viewing
-> git-blame if we introduce new variables and help with backporting fix
+thanks,
 
-it also prevents single lines from being constantly modified just
-because we're adding a new variable. In the diff, adding a new variable
-should look like a new line being added, rather than modified.
-
-> patch a bit simpler. Mainly I'm just following Felipe's style and keep
-
-it's part of the kernel coding style, actually :-)
+> On Fri, Jan 21, 2022 at 4:33 PM John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Thu, Jan 20, 2022 at 3:27 AM Heikki Krogerus
+> > <heikki.krogerus@linux.intel.com> wrote:
+> > > On Tue, Jan 18, 2022 at 03:12:10PM +0200, Heikki Krogerus wrote:
+> > > > I can reproduce this one by simply not creating the component list in
+> > > > the code. That function - component_master_add_with_match() - can't
+> > > > handle situation where the list is empty. I'll prepare the fix.
+> > >
+> > > I'm again attaching the proposed fix, just to see if it also gets
+> > > corrupted. Can you test does it fix this issue?
+> > > You need to apply it on top of the previous one.
+> >
+> > We've been hitting the null pointer crash from
+> > component_master_add_with_match() regression as well on the hikey960
+> > board.
+> >
+> > The patch you attached resolves the issue. It would be great to see it
+> > merged upstream soon!
+> >
+> > Tested-by: John Stultz <john.stultz@linaro.org>
+> >
+> > thanks
+> > -john
+> 
+> -- 
+> Len Brown, Intel Open Source Technology Center
 
 -- 
-balbi
+heikki
