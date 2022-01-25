@@ -2,107 +2,191 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69DF2C3525A
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jan 2022 09:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98FD7C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jan 2022 09:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355252AbiAYJ0F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jan 2022 04:26:05 -0500
-Received: from mga01.intel.com ([192.55.52.88]:12212 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1456817AbiAYJNI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 Jan 2022 04:13:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643101984; x=1674637984;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hPcnFwQ5EIleBYS17H6mw711aNUx7ZkEMpr7D4Wkijw=;
-  b=adiD69KokN6cxOfHDI0hKZURYKj04JmfqyDvxJE4VnQeZYQOzNkExs4u
-   btOaPfnEmuG2eS5uAyQnVxCvPMfUSf7yLB9mQiCH6sAFwVxc2oqXoPki6
-   AUg31hU5s91fHIx2me7/UPLlEHIan5Oxp8fGcE/buBBzvquyMpK9YiwKH
-   kEsbO8kAkLWsM9jwpd4DBRhHAvacUTKpdqxP9BS1PzEpus3uN11bkO1Qh
-   TnbU+U1p0oDY7kEyVXSdcuX1qkzV0KT8wvGcF79EuXmLcps2e2uAS1dXE
-   pd0bwcx74/X8kugy6/NJvSow4kWCF5oZI6SsrnMW8S+pONRXdIuvdPNJ6
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10237"; a="270703135"
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
-   d="scan'208";a="270703135"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 01:01:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,314,1635231600"; 
-   d="scan'208";a="673927372"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 25 Jan 2022 01:01:48 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 25 Jan 2022 11:01:47 +0200
-Date:   Tue, 25 Jan 2022 11:01:47 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Badhri Jagan Sridharan <badhri@google.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kyle Tso <kyletso@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] usb: typec: tcpm: Do not disconnect while
- receiving VBUS off
-Message-ID: <Ye+8exwtqAqs4bNg@kuha.fi.intel.com>
-References: <20220122015520.332507-1-badhri@google.com>
+        id S1444809AbiAYJ0G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jan 2022 04:26:06 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:48570 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1572950AbiAYJS3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Jan 2022 04:18:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1643102309; x=1674638309;
+  h=message-id:date:mime-version:subject:from:to:cc:
+   references:in-reply-to:content-transfer-encoding;
+  bh=WCMvfojpGnDDo8OwfSsHCxCIjz0cLdSHACcu8tv3ne8=;
+  b=u7BL6raKVH4FwjsXKh9ua5fsPiKXpfBM82QrlcdI0VeMcGM2c2d1HIbw
+   rpIXO6gPhLy8PwjYlQJpn1jT5yoJEAoGndmC27tbmWu5etRyJPO1ds2Jl
+   5zHH8RrscTuxbnbGQaNYYanvMcqQuGGPeK9frLPZIrdRRf9XRHhlXSPBv
+   A=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Jan 2022 01:18:06 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2022 01:18:06 -0800
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.922.19; Tue, 25 Jan 2022 01:18:06 -0800
+Received: from [10.216.59.162] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Tue, 25 Jan
+ 2022 01:18:02 -0800
+Message-ID: <601cdc74-392f-dd4f-7ea0-8e65c6b6d7e2@quicinc.com>
+Date:   Tue, 25 Jan 2022 14:47:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220122015520.332507-1-badhri@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v10 6/6] usb: dwc3: qcom: Enable the interrupts during
+ probe
+Content-Language: en-US
+From:   Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+To:     Pavan Kondeti <quic_pkondeti@quicinc.com>,
+        Steev Klimaszewski <steev@kali.org>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_ppratap@quicinc.com>
+References: <1642398248-21753-1-git-send-email-quic_c_sanm@quicinc.com>
+ <1642398248-21753-7-git-send-email-quic_c_sanm@quicinc.com>
+ <93b68251-7e7e-ac92-fb47-346c410744b2@kali.org>
+ <20220118095255.GB11385@hu-pkondeti-hyd.qualcomm.com>
+ <78c90e46-666b-bc9b-235d-ae4c69e19929@quicinc.com>
+In-Reply-To: <78c90e46-666b-bc9b-235d-ae4c69e19929@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jan 21, 2022 at 05:55:19PM -0800, Badhri Jagan Sridharan wrote:
-> With some chargers, vbus might momentarily raise above VSAFE5V and fall
-> back to 0V before tcpm gets to read port->tcpc->get_vbus. This will
-> will report a VBUS off event causing TCPM to transition to
-> SNK_UNATTACHED where it should be waiting in either SNK_ATTACH_WAIT
-> or SNK_DEBOUNCED state. This patch makes TCPM avoid vbus off events
-> while in SNK_ATTACH_WAIT or SNK_DEBOUNCED state.
-> 
-> Stub from the spec:
->     "4.5.2.2.4.2 Exiting from AttachWait.SNK State
->     A Sink shall transition to Unattached.SNK when the state of both
->     the CC1 and CC2 pins is SNK.Open for at least tPDDebounce.
->     A DRP shall transition to Unattached.SRC when the state of both
->     the CC1 and CC2 pins is SNK.Open for at least tPDDebounce."
-> 
-> [23.194131] CC1: 0 -> 0, CC2: 0 -> 5 [state SNK_UNATTACHED, polarity 0, connected]
-> [23.201777] state change SNK_UNATTACHED -> SNK_ATTACH_WAIT [rev3 NONE_AMS]
-> [23.209949] pending state change SNK_ATTACH_WAIT -> SNK_DEBOUNCED @ 170 ms [rev3 NONE_AMS]
-> [23.300579] VBUS off
-> [23.300668] state change SNK_ATTACH_WAIT -> SNK_UNATTACHED [rev3 NONE_AMS]
-> [23.301014] VBUS VSAFE0V
-> [23.301111] Start toggling
-> 
-> Fixes: f0690a25a140b8 ("staging: typec: USB Type-C Port Manager (tcpm)")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+Hi Steev,
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+On 1/20/2022 10:52 AM, Sandeep Maheswaram wrote:
+> Hi Pavan,
+>
+> On 1/18/2022 3:22 PM, Pavan Kondeti wrote:
+>> On Tue, Jan 18, 2022 at 12:12:30AM -0600, Steev Klimaszewski wrote:
+>>> On 1/16/22 11:44 PM, Sandeep Maheswaram wrote:
+>>>> Enable the interrupts during probe and remove the disable interrupts
+>>>> function.
+>>>>
+>>>> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+>>>> ---
+>>>>   drivers/usb/dwc3/dwc3-qcom.c | 28 ++++------------------------
+>>>>   1 file changed, 4 insertions(+), 24 deletions(-)
+>>>>
+>>>> diff --git a/drivers/usb/dwc3/dwc3-qcom.c 
+>>>> b/drivers/usb/dwc3/dwc3-qcom.c
+>>>> index 54dc3d3..7c5e636 100644
+>>>> --- a/drivers/usb/dwc3/dwc3-qcom.c
+>>>> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+>>>> @@ -306,25 +306,7 @@ static void dwc3_qcom_enable_wakeup_irq(int irq)
+>>>>       enable_irq_wake(irq);
+>>>>   }
+>>>> -static void dwc3_qcom_disable_wakeup_irq(int irq)
+>>>> -{
+>>>> -    if (!irq)
+>>>> -        return;
+>>>> -
+>>>> -    disable_irq_wake(irq);
+>>>> -    disable_irq_nosync(irq);
+>>>> -}
+>>>> -static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+>>>> -{
+>>>> -    dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
+>>>> -
+>>>> -    dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
+>>>> -
+>>>> -    dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
+>>>> -
+>>>> -    dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
+>>>> -}
+>>>>   static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+>>>>   {
+>>>> @@ -356,9 +338,6 @@ static int dwc3_qcom_suspend(struct dwc3_qcom 
+>>>> *qcom)
+>>>>       if (ret)
+>>>>           dev_warn(qcom->dev, "failed to disable interconnect: 
+>>>> %d\n", ret);
+>>>> -    if (device_may_wakeup(qcom->dev))
+>>>> -        dwc3_qcom_enable_interrupts(qcom);
+>>>> -
+>>>>       qcom->is_suspended = true;
+>>>>       return 0;
+>>>> @@ -372,9 +351,6 @@ static int dwc3_qcom_resume(struct dwc3_qcom 
+>>>> *qcom)
+>>>>       if (!qcom->is_suspended)
+>>>>           return 0;
+>>>> -    if (device_may_wakeup(qcom->dev))
+>>>> -        dwc3_qcom_disable_interrupts(qcom);
+>>>> -
+>>>>       for (i = 0; i < qcom->num_clocks; i++) {
+>>>>           ret = clk_prepare_enable(qcom->clks[i]);
+>>>>           if (ret < 0) {
+>>>> @@ -832,6 +808,10 @@ static int dwc3_qcom_probe(struct 
+>>>> platform_device *pdev)
+>>>>       genpd->flags |= GENPD_FLAG_ALWAYS_ON;
+>>>>       device_init_wakeup(&pdev->dev, 1);
+>>>> +
+>>>> +    if (device_may_wakeup(qcom->dev))
+>>>> +        dwc3_qcom_enable_interrupts(qcom);
+>>>> +
+>>>>       qcom->is_suspended = false;
+>>>>       pm_runtime_set_active(dev);
+>>>>       pm_runtime_enable(dev);
+>>> Hi Sandeep,
+>>>
+>>> I was testing this series on my Lenovo Yoga C630, and with this 
+>>> patch in
+>>> particular applied, my system will no longer boot. Unfortunately I 
+>>> don't get
+>>> any sort of good output at all, I just get hung tasks when trying to 
+>>> probe
+>>> things it would seem.
+>>>
+>>>
+>>> With the other 5 patches in the series applied, the system still 
+>>> boots and
+>>> works correctly.
+>>>
+>>>
+>> Sandeep,
+>>
+>> Enable DP/DM interrupts all the time might be creating a storm of 
+>> interrupts.
+>> calling enable_irq_wake() during probe is okay, but not the 
+>> enable_irq().
+>>
+>> Did you verify your change with a Highspeed/Fullspeed device connected?
+>>
+>> Thanks,
+>> Pavan
+>
+> I didn't face any such issue with devices connected.
+>
+> I think this is because I used IRQ_TYPE_EDGE_BOTH in device tree and 
+> Steev has IRQ_TYPE_LEVEL_HIGH in his device tree.
+>
+> When i changed to IRQ_TYPE_LEVEL_HIGH I also observed a storm of 
+> interrupts in my device though it booted .
+>
+> Regards
+>
+> Sandeep
+>
+Can you try with IRQ_TYPE_EDGE_BOTH in your device tree and see if you 
+are getting the issue.
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 59d4fa2443f2..b8afe3d8c882 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -5156,7 +5156,8 @@ static void _tcpm_pd_vbus_off(struct tcpm_port *port)
->  	case SNK_TRYWAIT_DEBOUNCE:
->  		break;
->  	case SNK_ATTACH_WAIT:
-> -		tcpm_set_state(port, SNK_UNATTACHED, 0);
-> +	case SNK_DEBOUNCED:
-> +		/* Do nothing, as TCPM is still waiting for vbus to reaach VSAFE5V to connect */
->  		break;
->  
->  	case SNK_NEGOTIATE_CAPABILITIES:
-> -- 
-> 2.35.0.rc0.227.g00780c9af4-goog
+Regards
 
--- 
-heikki
+Sandeep
+
