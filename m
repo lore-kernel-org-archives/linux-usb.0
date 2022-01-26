@@ -2,118 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88A00C63684
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jan 2022 14:13:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A71C2BA4C
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jan 2022 14:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241998AbiAZON6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jan 2022 09:13:58 -0500
-Received: from mx1.tq-group.com ([93.104.207.81]:61280 "EHLO mx1.tq-group.com"
+        id S235558AbiAZOQm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jan 2022 09:16:42 -0500
+Received: from mga01.intel.com ([192.55.52.88]:39082 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242003AbiAZON4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 26 Jan 2022 09:13:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643206436; x=1674742436;
+        id S235491AbiAZOQm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Jan 2022 09:16:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643206602; x=1674742602;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WWiIdXtyw56Rqfds2qB4Yd2Fj1coCEHLkEHNeGkzWGg=;
-  b=IBHw6C6plVEfso3f4lLlK8OIOBY8kbI8eawOUZslES8xdTGM6nrAvHpz
-   WinpFisKj/V92Ts5kYS72QZJzx9qIDfcSc9Mdqo9/UXx1Jlrm20oAWn6y
-   jbiH/1h2DTtvm2YV7dLfg/rs5zxGHKdAQ6C/a6OtJcXMgYpq/MhL7Vz3G
-   YlqwTqTMG4vlo3osA7h73nOr5fLgzHAOWxTX1Ttpy6hosqVILLnED8rJS
-   QDKNce47sK8M3b3reZ5arBwQdOStBoYBTGDzG/nJXx3qjGUjz52RD8tZe
-   QzXFGZviXpmnioyJRr9qSoeaefkwZTc9BcLQ99EZyVFDek/SxoBHFArxy
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,318,1635199200"; 
-   d="scan'208";a="21725572"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 26 Jan 2022 15:13:51 +0100
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Wed, 26 Jan 2022 15:13:51 +0100
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Wed, 26 Jan 2022 15:13:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1643206431; x=1674742431;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=WWiIdXtyw56Rqfds2qB4Yd2Fj1coCEHLkEHNeGkzWGg=;
-  b=AHSU8Gu7R6pE3wBOrrAKkpr+EJFy68F25TJSemeRgQfMgqG37EGotUWv
-   e5kwPpcEefUGoTx6k/4tj71iHuzNY/3TBDUg4uUyK4i8NYWtZmFs9vlA5
-   QepEkKJub7k60Chkaqfpxwpu7czdZH8uhynJ+arfWNAf6fKOBwFrT3RKX
-   eAeNRwMFienJit2vJ4NN+nFYSJVOl0UfaxswUQDpZ4jrQ/kTfuLBwJknK
-   vf+alctqwECV/CrvxLS1S/9uJP3fIEHR+kKzrCJVkndskZYNaNnApznVq
-   GjOVGDIxvjgU+ZDhWSGsZ7JCfCDpAaesJgMTcOGH5CUJni6aaErEbE8cj
-   g==;
-X-IronPort-AV: E=Sophos;i="5.88,318,1635199200"; 
-   d="scan'208";a="21725570"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 26 Jan 2022 15:13:51 +0100
-Received: from steina-w.tq-net.de (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 9ACE0280065;
-        Wed, 26 Jan 2022 15:13:51 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, Li Jun <jun.li@nxp.com>
-Subject: [PATCH v4 4/4] arm64: dts: imx8mp: Add memory for USB3 glue layer to usb3 nodes
-Date:   Wed, 26 Jan 2022 15:13:40 +0100
-Message-Id: <20220126141340.234125-5-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220126141340.234125-1-alexander.stein@ew.tq-group.com>
-References: <20220126141340.234125-1-alexander.stein@ew.tq-group.com>
+  bh=4BN6xQ+3xVnsiWcfq4MqqngDGMog2DrMg4CU1FpwaGI=;
+  b=EPgvcTvgs7SoCItShnsmUF5y1IJCJmSq6x1A/GbEJw9Na0bCcyBF2q4z
+   jY4mvpGek9RDI2NShKcOPLkyD5RAUhb4aSk0Vd73IahGGQbipchxexX1v
+   v+XcD8+gEY5q/Ll4ecm62kIka0uoQnpVNjEJTN9mCbu4ROporXSyACh73
+   NSoxYhMgtjlV4cG7M8L99Q752V+cjuVh3vLLMjnyfQFY+kNGIIJo8+xCs
+   SJZDH7u5/d5nzl9jxuWABniMFwYG54qyFSEhs0hoDMhns9RuspVMR0oUN
+   I+r8rpnWACEXjTiLUORpsMhB7ymOk4WkvulrzwqwnUoGB3b8ltm/mtgsV
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10238"; a="271008864"
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="271008864"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2022 06:16:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,318,1635231600"; 
+   d="scan'208";a="597473899"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga004.fm.intel.com with ESMTP; 26 Jan 2022 06:16:39 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 24FA715C; Wed, 26 Jan 2022 16:16:53 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/3] thunderbolt: Add missing device ID to tb_switch_is_alpine_ridge()
+Date:   Wed, 26 Jan 2022 17:16:51 +0300
+Message-Id: <20220126141653.28092-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220126141653.28092-1-mika.westerberg@linux.intel.com>
+References: <20220126141653.28092-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The USB3 glue layer has 2 areas in the register set, see RM Rev.1
-section 11.2.5.2.1 GLUE_usb3 memory map:
-* USB3 control/status
-* PHY control/status
+tb_switch_is_alpine_ridge() is missing device ID for Intel Alpine Ridge
+dual port version so add this.
 
-Provide the memory area to the usb3 nodes for accessing the features
-in the USB3 control area.
-
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/tb.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index e61ac5f136ad..d4aadb434d36 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1030,7 +1030,8 @@ usb3_phy0: usb-phy@381f0040 {
- 
- 		usb3_0: usb@32f10100 {
- 			compatible = "fsl,imx8mp-dwc3";
--			reg = <0x32f10100 0x8>;
-+			reg = <0x32f10100 0x8>,
-+			      <0x381f0000 0x20>;
- 			clocks = <&clk IMX8MP_CLK_HSIO_ROOT>,
- 				 <&clk IMX8MP_CLK_USB_ROOT>;
- 			clock-names = "hsio", "suspend";
-@@ -1070,7 +1071,8 @@ usb3_phy1: usb-phy@382f0040 {
- 
- 		usb3_1: usb@32f10108 {
- 			compatible = "fsl,imx8mp-dwc3";
--			reg = <0x32f10108 0x8>;
-+			reg = <0x32f10108 0x8>,
-+			      <0x382f0000 0x20>;
- 			clocks = <&clk IMX8MP_CLK_HSIO_ROOT>,
- 				 <&clk IMX8MP_CLK_USB_ROOT>;
- 			clock-names = "hsio", "suspend";
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 74d3b14f004e..44e36498b261 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -855,6 +855,7 @@ static inline bool tb_switch_is_alpine_ridge(const struct tb_switch *sw)
+ 	if (sw->config.vendor_id == PCI_VENDOR_ID_INTEL) {
+ 		switch (sw->config.device_id) {
+ 		case PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_2C_BRIDGE:
++		case PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_BRIDGE:
+ 		case PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_LP_BRIDGE:
+ 		case PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_BRIDGE:
+ 		case PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_2C_BRIDGE:
 -- 
-2.25.1
+2.34.1
 
