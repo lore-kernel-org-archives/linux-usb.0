@@ -2,130 +2,165 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07351C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:41:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB0CC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:49:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239431AbiA0Kld (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Jan 2022 05:41:33 -0500
-Received: from smtp-relay-canonical-1.canonical.com ([185.125.188.121]:33258
-        "EHLO smtp-relay-canonical-1.canonical.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232804AbiA0Kld (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:41:33 -0500
-Received: from localhost.localdomain (unknown [222.129.35.96])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 83FAB3F131;
-        Thu, 27 Jan 2022 10:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1643280091;
-        bh=7jJ2YW3SFFqaAmAarOJGscPOA+9KiH3eMmsHQ1TJANM=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=Qup1gY/hR5d7oiEx0HgpVFDRkFlL3cOr8Mf1T71DjFIq2ajkl3P1TXekuTeqzU2Uo
-         Qb8ZC7QoAxzV5xrLKQpXjjw8Y1AQXiEjwvFcQC8tTK1aZgM/NGKJXzldlFmXl0Baox
-         PSbqxeEMfwuBJkL46MFkjsjwy1P5NPSh3gOaQCohWd12EYRIzhvU36DS+nWTBj8JNc
-         RpQWaOTLSnzPdWEX1f53liw1vx0x2jE73r3NRfHL4J9qh9YRLJtrOLZAq87G3Jgie2
-         iGprM4nfevQkibM5E7EXhNUIMnOYSq3v//RGKY987aLpN6seP2CqGIHlhOw4kofCgE
-         xprM/5gNhscSQ==
-From:   Aaron Ma <aaron.ma@canonical.com>
-To:     Mario.Limonciello@amd.com, aaron.ma@canonical.com, kuba@kernel.org,
-        henning.schild@siemens.com, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     davem@davemloft.net, hayeswang@realtek.com, tiwai@suse.de
-Subject: [PATCH v2] net: usb: r8152: Add MAC passthrough support for RTL8153BL
-Date:   Thu, 27 Jan 2022 18:41:12 +0800
-Message-Id: <20220127104112.13288-1-aaron.ma@canonical.com>
-X-Mailer: git-send-email 2.34.1
+        id S239676AbiA0KtU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Jan 2022 05:49:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239651AbiA0KtR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:49:17 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306E6C061714
+        for <linux-usb@vger.kernel.org>; Thu, 27 Jan 2022 02:49:17 -0800 (PST)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1nD2Kz-0007kk-2z; Thu, 27 Jan 2022 11:49:09 +0100
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ore@pengutronix.de>)
+        id 1nD2Kx-003lyx-FC; Thu, 27 Jan 2022 11:49:07 +0100
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Oliver Neukum <oneukum@suse.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH net-next v1 1/4] dt-bindings: net: add schema for ASIX USB Ethernet controllers
+Date:   Thu, 27 Jan 2022 11:49:02 +0100
+Message-Id: <20220127104905.899341-2-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220127104905.899341-1-o.rempel@pengutronix.de>
+References: <20220127104905.899341-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-RTL8153-BL is used in Lenovo Thunderbolt4 dock.
-Add the support of MAC passthrough.
-This is ported from Realtek Outbox driver r8152.53.56-2.15.0.
+Create initial schema for ASIX USB Ethernet controllers and import all
+currently supported USB IDs form drivers/net/usb/asix_devices.c
 
-There are 2 kinds of rules for MAC passthrough of Lenovo products,
-1st USB vendor ID belongs to Lenovo, 2nd the chip of RTL8153-BL
-is dedicated for Lenovo. Check the ocp data first then set ACPI object
-names.
-
-Suggested-by: Hayes Wang <hayeswang@realtek.com>
-Signed-off-by: Aaron Ma <aaron.ma@canonical.com>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
-v1 -> v2: fix whitespace in definition.
- drivers/net/usb/r8152.c | 44 ++++++++++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 20 deletions(-)
+ .../devicetree/bindings/net/asix,ax88178.yaml | 100 ++++++++++++++++++
+ 1 file changed, 100 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/asix,ax88178.yaml
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index ee41088c5251..5812d52bf694 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -718,6 +718,7 @@ enum spd_duplex {
- #define AD_MASK			0xfee0
- #define BND_MASK		0x0004
- #define BD_MASK			0x0001
-+#define BL_MASK			BIT(3)
- #define EFUSE			0xcfdb
- #define PASS_THRU_MASK		0x1
- 
-@@ -1606,31 +1607,34 @@ static int vendor_mac_passthru_addr_read(struct r8152 *tp, struct sockaddr *sa)
- 	acpi_object_type mac_obj_type;
- 	int mac_strlen;
- 
-+	/* test for -AD variant of RTL8153 */
-+	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-+	if ((ocp_data & AD_MASK) == 0x1000) {
-+		/* test for MAC address pass-through bit */
-+		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, EFUSE);
-+		if ((ocp_data & PASS_THRU_MASK) != 1) {
-+			netif_dbg(tp, probe, tp->netdev,
-+					"No efuse for RTL8153-AD MAC pass through\n");
-+			return -ENODEV;
-+		}
-+	} else {
-+		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_1);
-+		if (tp->version == RTL_VER_09 && (ocp_data & BL_MASK)) {
-+			/* test for RTL8153BL for Lenovo */
-+			tp->lenovo_macpassthru = 1;
-+		} else if ((ocp_data & BND_MASK) == 0 && (ocp_data & BD_MASK) == 0) {
-+			/* test for RTL8153-BND and RTL8153-BD */
-+			netif_dbg(tp, probe, tp->netdev,
-+					"Invalid variant for MAC pass through\n");
-+			return -ENODEV;
-+		}
-+	}
+diff --git a/Documentation/devicetree/bindings/net/asix,ax88178.yaml b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+new file mode 100644
+index 000000000000..74b6806006e3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
+@@ -0,0 +1,100 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/asix,ax88178.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	if (tp->lenovo_macpassthru) {
- 		mac_obj_name = "\\MACA";
- 		mac_obj_type = ACPI_TYPE_STRING;
- 		mac_strlen = 0x16;
- 	} else {
--		/* test for -AD variant of RTL8153 */
--		ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
--		if ((ocp_data & AD_MASK) == 0x1000) {
--			/* test for MAC address pass-through bit */
--			ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, EFUSE);
--			if ((ocp_data & PASS_THRU_MASK) != 1) {
--				netif_dbg(tp, probe, tp->netdev,
--						"No efuse for RTL8153-AD MAC pass through\n");
--				return -ENODEV;
--			}
--		} else {
--			/* test for RTL8153-BND and RTL8153-BD */
--			ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_1);
--			if ((ocp_data & BND_MASK) == 0 && (ocp_data & BD_MASK) == 0) {
--				netif_dbg(tp, probe, tp->netdev,
--						"Invalid variant for MAC pass through\n");
--				return -ENODEV;
--			}
--		}
--
- 		mac_obj_name = "\\_SB.AMAC";
- 		mac_obj_type = ACPI_TYPE_BUFFER;
- 		mac_strlen = 0x17;
++title: The device tree bindings for the USB Ethernet controllers
++
++maintainers:
++  - Oleksij Rempel <o.rempel@pengutronix.de>
++
++description: |
++  Device tree properties for hard wired USB Ethernet devices.
++
++allOf:
++  - $ref: ethernet-controller.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - usb411,3d     # Buffalo LUA-U2-KTX
++          - usb411,6e     # Buffalo LUA-U2-GT 10/100/1000
++          - usb4bb,930    # IO-DATA ETG-US2
++          - usb4f1,3008   # JVC MP-PRX1 Port Replicator
++          - usb50d,5055   # Belkin F5D5055
++          - usb557,2009   # ATEN UC210T
++          - usb5ac,1402   # Apple USB Ethernet Adapter
++          - usb66b,20f9   # USBLINK HG20F9
++          - usb77b,2226   # Linksys USB200M
++          - usb789,160    # Logitec LAN-GTJ/U2A
++          - usb7aa,17     # corega FEther USB2-TX
++          - usb7b8,420a   # Hawking UF200, TrendNet TU2-ET100
++          - usb7d1,3c05   # DLink DUB-E100 H/W Ver B1
++          - usb846,1040   # Netgear FA120
++          - usb8dd,114    # Billionton Systems, GUSB2AM-1G-B
++          - usb8dd,90ff   # Billionton Systems, USB2AR
++          - usbb95,1720   # Intellinet, ST Lab USB Ethernet
++          - usbb95,172a   # ASIX 88172a demo board
++          - usbb95,1780   # ASIX AX88178 10/100/1000
++          - usbb95,7720   # ASIX AX88772 10/100
++          - usbb95,772a   # Cables-to-Go USB Ethernet Adapter
++          - usbb95,772b   # ASIX AX88772B 10/100
++          - usbb95,7e2b   # Asus USB Ethernet Adapter
++          - usbdb0,a877   # ASIX 88772a
++          - usbdf6,56     # Sitecom LN-031
++          - usbdf6,61c    # Sitecom LN-028
++          - usb1189,893   # Surecom EP-1427X-2
++          - usb13b1,18    # Linksys USB200M Rev 2
++          - usb14ea,ab11  # ABOCOM for pci
++          - usb1557,7720  # 0Q0 cable ethernet
++          - usb1631,6200  # goodway corp usb gwusb2e
++          - usb1737,39    # Linksys USB1000
++          - usb17ef,7203  # Lenovo U2L100P 10/100
++          - usb2001,1a00  # DLink DUB-E100
++          - usb2001,1a02  # DLink DUB-E100 H/W Ver C1
++          - usb2001,3c05  # DLink DUB-E100 H/W Ver B1 Alternate
++          - usb6189,182d  # Sitecom LN-029
++
++  reg: true
++  local-mac-address: true
++  mac-address: true
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    usb@11270000 {
++        reg = <0x11270000 0x1000>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ethernet@1 {
++            compatible = "usbdb0,a877";
++            reg = <1>;
++            local-mac-address = [00 00 00 00 00 00];
++        };
++    };
++  - |
++    usb@11270000 {
++        reg = <0x11270000 0x1000>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        usb1@1 {
++            compatible = "usb1234,5678";
++            reg = <1>;
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ethernet@1 {
++               compatible = "usbdb0,a877";
++               reg = <1>;
++            };
++        };
++    };
 -- 
-2.32.0
+2.30.2
 
