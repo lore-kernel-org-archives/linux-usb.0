@@ -2,94 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4005FC433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 11:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F4CC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 11:43:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240594AbiA0LdY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Jan 2022 06:33:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240493AbiA0LdT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 06:33:19 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6110C061747;
-        Thu, 27 Jan 2022 03:33:18 -0800 (PST)
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1643283197;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kVlPTMDntv41BuaIBVh4q/kKYYaaoCfGMJweU6kQ6GM=;
-        b=1lx9niiI8RRioyHNdrmVhjrW1KCB/zoquFCf9TJgs2Uq21WSsw28rWdIvFUxceQvO6pJKF
-        UiFUea6uHg2UdxjqRDa0qej1X8oQAfysrkyvWiYfq+TQgc2jWSXssQJm7sdYqPOj+n9oVD
-        NajTw7lyWg33dfO29HLLLi3oSNpQMwI3rDam34WHPjIrnEuVJ/12Qys7Z0dn7PCA5iXbjx
-        7KmYPa05CPQLX6xcxxXjcWGUk+twV/+l24UZN68nisyKE/CFXdCyuxwFKgA8+pooy32TSs
-        Zme9QX79lV694NSsLuR8bWGZhEXT/AUxl2H/QOvKEi7eXWOSw+7VroIIIZjndQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1643283197;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kVlPTMDntv41BuaIBVh4q/kKYYaaoCfGMJweU6kQ6GM=;
-        b=Ez758sB8dJOJPOxiDBVk13iEEcMxNSfJ4V1ID+WIb76mNC9VLRRakMKQoXDdneK8cXd8R5
-        UT5PsJEZNEqX3FBA==
-To:     greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        id S240714AbiA0Lnl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Jan 2022 06:43:41 -0500
+Received: from cable.insite.cz ([84.242.75.189]:36234 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232316AbiA0Lnl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 27 Jan 2022 06:43:41 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id EA1EEA1A3D408;
+        Thu, 27 Jan 2022 12:43:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1643283817; bh=Z9n/0NScHJX+w+2MKsi2LzgtIVsBJ5oF4JV1D39IxBk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bXyZJcRI2W/c+Qrtw4FrsSCJMiDycsR99ihPXnP5ieKYxP8yF8cxDnWJH11Lk1urN
+         DLQe6RivC0MD9BsSc+/atmiMRitERqhIav7X+73luzi+Hr5og6pEFF2hNkD2t12wmM
+         9zbX5iUQ0NUkAPHbOLy8qmWb2quOM3ZmOVi4bT0k=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id EtoMYbf6nngr; Thu, 27 Jan 2022 12:43:32 +0100 (CET)
+Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 8D3CCA1A3D402;
+        Thu, 27 Jan 2022 12:43:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1643283812; bh=Z9n/0NScHJX+w+2MKsi2LzgtIVsBJ5oF4JV1D39IxBk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=b6/xO+If4t43DzLr9eM0b1XV21wLAgmc+x6sdpxG7GGcppzKZ3FozsvJq9syeBo55
+         mgVTntu4cbulublC32JkrGwkIW1SgTytNSvVaFjY2rbLQU8FPZH7LCQ54HcOaf2P/c
+         5v7m/Lz8tPo3QE3FHOtNIvihVkVoLciYEDQ4A8ms=
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
+        Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Julian Scheel <julian@jusst.de>,
+        John Keeping <john@metanate.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 6/7] net: usb: lan78xx: Use generic_handle_irq_safe().
-Date:   Thu, 27 Jan 2022 12:33:02 +0100
-Message-Id: <20220127113303.3012207-7-bigeasy@linutronix.de>
-In-Reply-To: <20220127113303.3012207-1-bigeasy@linutronix.de>
-References: <20220127113303.3012207-1-bigeasy@linutronix.de>
+        Yunhao Tian <t123yh.xyz@gmail.com>
+Subject: [PATCH 2/4] usb: gadget: audio: Add HS/SS bInterval params for UAC2
+Date:   Thu, 27 Jan 2022 12:43:29 +0100
+Message-Id: <20220127114331.41367-3-pavel.hofman@ivitera.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220127114331.41367-1-pavel.hofman@ivitera.com>
+References: <20220127114331.41367-1-pavel.hofman@ivitera.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Instead of manually disabling interrupts before invoking use
-generic_handle_irq() which can be invoked with enabled and disabled
-interrupts.
+Allow configuring the existing f_uac2 configfs bInterval params through
+parameters of the gaudio module.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
 ---
- drivers/net/usb/lan78xx.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/usb/gadget/legacy/audio.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index b8e20a3f2b84e..415f16662f88e 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1537,11 +1537,8 @@ static void lan78xx_status(struct lan78xx_net *dev, =
-struct urb *urb)
- 		netif_dbg(dev, link, dev->net, "PHY INTR: 0x%08x\n", intdata);
- 		lan78xx_defer_kevent(dev, EVENT_LINK_RESET);
-=20
--		if (dev->domain_data.phyirq > 0) {
--			local_irq_disable();
--			generic_handle_irq(dev->domain_data.phyirq);
--			local_irq_enable();
--		}
-+		if (dev->domain_data.phyirq > 0)
-+			generic_handle_irq_safe(dev->domain_data.phyirq);
- 	} else {
- 		netdev_warn(dev->net,
- 			    "unexpected interrupt: 0x%08x\n", intdata);
---=20
-2.34.1
+diff --git a/drivers/usb/gadget/legacy/audio.c b/drivers/usb/gadget/legacy/audio.c
+index c89c777a1aa3..76ea6decf7b6 100644
+--- a/drivers/usb/gadget/legacy/audio.c
++++ b/drivers/usb/gadget/legacy/audio.c
+@@ -36,6 +36,12 @@ static int p_ssize = UAC2_DEF_PSSIZE;
+ module_param(p_ssize, uint, 0444);
+ MODULE_PARM_DESC(p_ssize, "Playback Sample Size(bytes)");
+ 
++/* Playback bInterval for HS/SS (1-4: fixed, 0: auto) */
++static u8 p_hs_bint = UAC2_DEF_PHSBINT;
++module_param(p_hs_bint, byte, 0444);
++MODULE_PARM_DESC(p_hs_bint,
++		"Playback bInterval for HS/SS (1-4: fixed, 0: auto)");
++
+ /* Capture(USB-OUT) Default Stereo - Fl/Fr */
+ static int c_chmask = UAC2_DEF_CCHMASK;
+ module_param(c_chmask, uint, 0444);
+@@ -51,6 +57,13 @@ MODULE_PARM_DESC(c_srate, "Capture Sampling Rates (array)");
+ static int c_ssize = UAC2_DEF_CSSIZE;
+ module_param(c_ssize, uint, 0444);
+ MODULE_PARM_DESC(c_ssize, "Capture Sample Size(bytes)");
++
++/* capture bInterval for HS/SS (1-4: fixed, 0: auto) */
++static u8 c_hs_bint = UAC2_DEF_CHSBINT;
++module_param(c_hs_bint, byte, 0444);
++MODULE_PARM_DESC(c_hs_bint,
++		"Capture bInterval for HS/SS (1-4: fixed, 0: auto)");
++
+ #else
+ #ifndef CONFIG_GADGET_UAC1_LEGACY
+ #include "u_uac1.h"
+@@ -274,12 +287,14 @@ static int audio_bind(struct usb_composite_dev *cdev)
+ 		uac2_opts->p_srates[i] = p_srates[i];
+ 
+ 	uac2_opts->p_ssize = p_ssize;
++	uac2_opts->p_hs_bint = p_hs_bint;
+ 	uac2_opts->c_chmask = c_chmask;
+ 
+ 	for (i = 0; i < c_srates_cnt; ++i)
+ 		uac2_opts->c_srates[i] = c_srates[i];
+ 
+ 	uac2_opts->c_ssize = c_ssize;
++	uac2_opts->c_hs_bint = c_hs_bint;
+ 	uac2_opts->req_number = UAC2_DEF_REQ_NUM;
+ #else
+ #ifndef CONFIG_GADGET_UAC1_LEGACY
+-- 
+2.25.1
 
