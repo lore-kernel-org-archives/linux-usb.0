@@ -2,26 +2,26 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FB0CC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:49:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B34C4332F
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:49:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239676AbiA0KtU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Jan 2022 05:49:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53720 "EHLO
+        id S239685AbiA0KtW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Jan 2022 05:49:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239651AbiA0KtR (ORCPT
+        with ESMTP id S239650AbiA0KtR (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:49:17 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306E6C061714
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37A4BC061747
         for <linux-usb@vger.kernel.org>; Thu, 27 Jan 2022 02:49:17 -0800 (PST)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1nD2Kz-0007kk-2z; Thu, 27 Jan 2022 11:49:09 +0100
+        id 1nD2Kz-0007ko-3G; Thu, 27 Jan 2022 11:49:09 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1nD2Kx-003lyx-FC; Thu, 27 Jan 2022 11:49:07 +0100
+        id 1nD2Kx-003lzO-RJ; Thu, 27 Jan 2022 11:49:07 +0100
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Oliver Neukum <oneukum@suse.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -30,9 +30,9 @@ To:     Oliver Neukum <oneukum@suse.com>,
 Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH net-next v1 1/4] dt-bindings: net: add schema for ASIX USB Ethernet controllers
-Date:   Thu, 27 Jan 2022 11:49:02 +0100
-Message-Id: <20220127104905.899341-2-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v1 4/4] usbnet: add support for label from device tree
+Date:   Thu, 27 Jan 2022 11:49:05 +0100
+Message-Id: <20220127104905.899341-5-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220127104905.899341-1-o.rempel@pengutronix.de>
 References: <20220127104905.899341-1-o.rempel@pengutronix.de>
@@ -46,121 +46,52 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Create initial schema for ASIX USB Ethernet controllers and import all
-currently supported USB IDs form drivers/net/usb/asix_devices.c
+Similar to the option to set a netdev name in device tree for switch
+ports by using the property "label" in the DSA framework, this patch
+adds this functionality to the usbnet infrastructure.
+
+This will help to name the interfaces properly throughout supported
+devices. This provides stable interface names which are useful
+especially in embedded use cases.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- .../devicetree/bindings/net/asix,ax88178.yaml | 100 ++++++++++++++++++
- 1 file changed, 100 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/asix,ax88178.yaml
+ drivers/net/usb/usbnet.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/net/asix,ax88178.yaml b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
-new file mode 100644
-index 000000000000..74b6806006e3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/asix,ax88178.yaml
-@@ -0,0 +1,100 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/asix,ax88178.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 9a6450f796dc..3fdca0cfda88 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -33,6 +33,7 @@
+ #include <linux/slab.h>
+ #include <linux/kernel.h>
+ #include <linux/pm_runtime.h>
++#include <linux/of.h>
+ 
+ /*-------------------------------------------------------------------------*/
+ 
+@@ -1762,6 +1763,20 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+ 		if ((dev->driver_info->flags & FLAG_WWAN) != 0)
+ 			strscpy(net->name, "wwan%d", sizeof(net->name));
+ 
++		if (IS_ENABLED(CONFIG_OF)) {
++			const char *label = NULL;
 +
-+title: The device tree bindings for the USB Ethernet controllers
++			/* try reading label from device tree node */
++			if (xdev->dev.of_node)
++				label = of_get_property(xdev->dev.of_node,
++							"label", NULL);
++			if (label) {
++				strscpy(net->name, label, sizeof(net->name));
++				dev_info(&udev->dev, "netdev name from dt: %s\n",
++					 net->name);
++			}
++		}
 +
-+maintainers:
-+  - Oleksij Rempel <o.rempel@pengutronix.de>
-+
-+description: |
-+  Device tree properties for hard wired USB Ethernet devices.
-+
-+allOf:
-+  - $ref: ethernet-controller.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - usb411,3d     # Buffalo LUA-U2-KTX
-+          - usb411,6e     # Buffalo LUA-U2-GT 10/100/1000
-+          - usb4bb,930    # IO-DATA ETG-US2
-+          - usb4f1,3008   # JVC MP-PRX1 Port Replicator
-+          - usb50d,5055   # Belkin F5D5055
-+          - usb557,2009   # ATEN UC210T
-+          - usb5ac,1402   # Apple USB Ethernet Adapter
-+          - usb66b,20f9   # USBLINK HG20F9
-+          - usb77b,2226   # Linksys USB200M
-+          - usb789,160    # Logitec LAN-GTJ/U2A
-+          - usb7aa,17     # corega FEther USB2-TX
-+          - usb7b8,420a   # Hawking UF200, TrendNet TU2-ET100
-+          - usb7d1,3c05   # DLink DUB-E100 H/W Ver B1
-+          - usb846,1040   # Netgear FA120
-+          - usb8dd,114    # Billionton Systems, GUSB2AM-1G-B
-+          - usb8dd,90ff   # Billionton Systems, USB2AR
-+          - usbb95,1720   # Intellinet, ST Lab USB Ethernet
-+          - usbb95,172a   # ASIX 88172a demo board
-+          - usbb95,1780   # ASIX AX88178 10/100/1000
-+          - usbb95,7720   # ASIX AX88772 10/100
-+          - usbb95,772a   # Cables-to-Go USB Ethernet Adapter
-+          - usbb95,772b   # ASIX AX88772B 10/100
-+          - usbb95,7e2b   # Asus USB Ethernet Adapter
-+          - usbdb0,a877   # ASIX 88772a
-+          - usbdf6,56     # Sitecom LN-031
-+          - usbdf6,61c    # Sitecom LN-028
-+          - usb1189,893   # Surecom EP-1427X-2
-+          - usb13b1,18    # Linksys USB200M Rev 2
-+          - usb14ea,ab11  # ABOCOM for pci
-+          - usb1557,7720  # 0Q0 cable ethernet
-+          - usb1631,6200  # goodway corp usb gwusb2e
-+          - usb1737,39    # Linksys USB1000
-+          - usb17ef,7203  # Lenovo U2L100P 10/100
-+          - usb2001,1a00  # DLink DUB-E100
-+          - usb2001,1a02  # DLink DUB-E100 H/W Ver C1
-+          - usb2001,3c05  # DLink DUB-E100 H/W Ver B1 Alternate
-+          - usb6189,182d  # Sitecom LN-029
-+
-+  reg: true
-+  local-mac-address: true
-+  mac-address: true
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    usb@11270000 {
-+        reg = <0x11270000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        ethernet@1 {
-+            compatible = "usbdb0,a877";
-+            reg = <1>;
-+            local-mac-address = [00 00 00 00 00 00];
-+        };
-+    };
-+  - |
-+    usb@11270000 {
-+        reg = <0x11270000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        usb1@1 {
-+            compatible = "usb1234,5678";
-+            reg = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ethernet@1 {
-+               compatible = "usbdb0,a877";
-+               reg = <1>;
-+            };
-+        };
-+    };
+ 		/* devices that cannot do ARP */
+ 		if ((dev->driver_info->flags & FLAG_NOARP) != 0)
+ 			net->flags |= IFF_NOARP;
 -- 
 2.30.2
 
