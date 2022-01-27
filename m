@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A56FDC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 11:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B3C8C43217
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 11:43:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240694AbiA0Lnm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S240720AbiA0Lnm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 27 Jan 2022 06:43:42 -0500
-Received: from cable.insite.cz ([84.242.75.189]:36880 "EHLO cable.insite.cz"
+Received: from cable.insite.cz ([84.242.75.189]:36816 "EHLO cable.insite.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235790AbiA0Lnl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S235918AbiA0Lnl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 27 Jan 2022 06:43:41 -0500
 Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id E16F5A1A3D400;
-        Thu, 27 Jan 2022 12:43:37 +0100 (CET)
+        by cable.insite.cz (Postfix) with ESMTP id A5C4AA1A3D402;
+        Thu, 27 Jan 2022 12:43:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1643283817; bh=386iu8Cry8GecKMnHRI/QCgIuv0u8VObhgMHH4OCnsY=;
+        t=1643283818; bh=QEbe/TAzdMNrHPD60tJe2Z/9qgGgeBw6tGhTSdBqRoA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eAhJRHSAK8p58wGJL5qq1KNYvYryF6H5g6/QAmREugMYH0T5blcerOQuPxklrEl2O
-         ic3alfvkWyDSP+aDLleYJEiBP9KNT/+WhAlDBxExX+r52Us8zZjJaxFgtVJp/TI0AA
-         hxqYMm1wGW7cQhjaVc82qoMTpwK9voKDWIVEb0oM=
+        b=FGD7oA+httVKspNHCa/0LTuK4M/Q5vJUHwVblpdVw/keqPTWdCzpuhaN4XbZeZv0+
+         2ug8TuENNG7r1mm7ShFsHfSMbcc0XXvxkO+esXGJOm+9Em/YNBDbhqgrd07ChclJaS
+         Q1EkG03kBPuTFXn+lZPxjIwS52QfDoNPD51s/AaA=
 Received: from cable.insite.cz ([84.242.75.189])
         by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id XClEMCOYBjgJ; Thu, 27 Jan 2022 12:43:32 +0100 (CET)
+        with ESMTP id bejPxS6TfQ6a; Thu, 27 Jan 2022 12:43:33 +0100 (CET)
 Received: from precision.doma (dustin.pilsfree.net [81.201.58.138])
         (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 282D6A1A3D401;
+        by cable.insite.cz (Postfix) with ESMTPSA id ED065A1A3D403;
         Thu, 27 Jan 2022 12:43:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1643283812; bh=386iu8Cry8GecKMnHRI/QCgIuv0u8VObhgMHH4OCnsY=;
+        t=1643283813; bh=QEbe/TAzdMNrHPD60tJe2Z/9qgGgeBw6tGhTSdBqRoA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TwuJXO9exhPL1o791ac77taGJLJN5cfPJlddLoryazKzOIprDBisxZpdFftNIYRjH
-         x2kvhzIf+TtcBbve9labFC6P6SiuKKEqWgDVWpAb3rjxc13rJzKEAaekvNp27Aq/wf
-         s+7PHfuTGE3RbHMJI/cOJf8qzz6ZawnfJZm8L07E=
+        b=jZPd2HfWBeBwzQPIHvZQ/KOaV9zDCcE4dA4ZdpXTroFFpuVaVtLIVaXzqDoA/FluR
+         ijC+Ak97qQ69bYIgqOKK2euV6aMF4CStKexhdIL1UxbhXY7jRi8PwQzolaj1VkamRo
+         kdX16zop231PCq7HsSI/fU2cjaXEJS2WBoEa75d4=
 From:   Pavel Hofman <pavel.hofman@ivitera.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
@@ -43,9 +43,9 @@ Cc:     Pavel Hofman <pavel.hofman@ivitera.com>,
         John Keeping <john@metanate.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Yunhao Tian <t123yh.xyz@gmail.com>
-Subject: [PATCH 1/4] usb: gadget: f_uac2: Add HS/SS bInterval to configfs
-Date:   Thu, 27 Jan 2022 12:43:28 +0100
-Message-Id: <20220127114331.41367-2-pavel.hofman@ivitera.com>
+Subject: [PATCH 3/4] usb: gadget: f_uac2: Optionally determine bInterval for HS and SS
+Date:   Thu, 27 Jan 2022 12:43:30 +0100
+Message-Id: <20220127114331.41367-4-pavel.hofman@ivitera.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220127114331.41367-1-pavel.hofman@ivitera.com>
 References: <20220127114331.41367-1-pavel.hofman@ivitera.com>
@@ -55,208 +55,279 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Allow configuring the HS/SS bInterval through configfs, via
-parameters p_hs_bint/c_hs_bint separately for playback/capture.
+Allow setting configfs params p_hs_bint/c_hs_bint to 0. If they are set
+to 0, determine the largest bInterval (4 to 1) for which the required
+bandwidth of the max samplerate fits the max allowed packet size. If the
+required bandwidth exceeds max bandwidth for single-packet mode
+(ep->mc=1), keep bInterval at 1.
 
-The default param values are left at the original 4.
+The FS speed is left at fixed bInterval=1.
+
+If for any speed the required bandwidth exceeds the max bandwidth
+corresponding to the selected/determined bInterval, print a warning.
 
 Signed-off-by: Pavel Hofman <pavel.hofman@ivitera.com>
-Suggested-by: John Keeping <john@metanate.com>
 ---
- .../ABI/testing/configfs-usb-gadget-uac2      |  2 ++
- Documentation/usb/gadget-testing.rst          |  2 ++
- drivers/usb/gadget/function/f_uac2.c          | 31 ++++++++++++++++---
- drivers/usb/gadget/function/u_uac2.h          |  4 +++
- 4 files changed, 35 insertions(+), 4 deletions(-)
+ .../ABI/testing/configfs-usb-gadget-uac2      |   4 +-
+ Documentation/usb/gadget-testing.rst          |   4 +-
+ drivers/usb/gadget/function/f_uac2.c          | 126 ++++++++++++------
+ drivers/usb/gadget/function/u_uac2.h          |   4 +-
+ 4 files changed, 91 insertions(+), 47 deletions(-)
 
 diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac2 b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-index 4c6bf63fcb22..33fb237b3ca5 100644
+index 33fb237b3ca5..3371c39f651d 100644
 --- a/Documentation/ABI/testing/configfs-usb-gadget-uac2
 +++ b/Documentation/ABI/testing/configfs-usb-gadget-uac2
-@@ -8,6 +8,7 @@ Description:
+@@ -8,7 +8,7 @@ Description:
  		c_chmask		capture channel mask
  		c_srate			list of capture sampling rates (comma-separated)
  		c_ssize			capture sample size (bytes)
-+		c_hs_bint		capture bInterval for HS/SS (1-4)
+-		c_hs_bint		capture bInterval for HS/SS (1-4)
++		c_hs_bint		capture bInterval for HS/SS (1-4: fixed, 0: auto)
  		c_sync			capture synchronization type
  					(async/adaptive)
  		c_mute_present		capture mute control enable
-@@ -22,6 +23,7 @@ Description:
+@@ -23,7 +23,7 @@ Description:
  		p_chmask		playback channel mask
  		p_srate			list of playback sampling rates (comma-separated)
  		p_ssize			playback sample size (bytes)
-+		p_hs_bint		playback bInterval for HS/SS (1-4)
+-		p_hs_bint		playback bInterval for HS/SS (1-4)
++		p_hs_bint		playback bInterval for HS/SS (1-4: fixed, 0: auto)
  		p_mute_present		playback mute control enable
  		p_volume_present	playback volume control enable
  		p_volume_min		playback volume control min value
 diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index 6e8fdfaf19e7..bd91191683be 100644
+index bd91191683be..c6d034abce3a 100644
 --- a/Documentation/usb/gadget-testing.rst
 +++ b/Documentation/usb/gadget-testing.rst
-@@ -734,6 +734,7 @@ The uac2 function provides these attributes in its function directory:
+@@ -734,7 +734,7 @@ The uac2 function provides these attributes in its function directory:
  	c_volume_min     capture volume control min value (in 1/256 dB)
  	c_volume_max     capture volume control max value (in 1/256 dB)
  	c_volume_res     capture volume control resolution (in 1/256 dB)
-+	c_hs_bint        capture bInterval for HS/SS (1-4)
+-	c_hs_bint        capture bInterval for HS/SS (1-4)
++	c_hs_bint        capture bInterval for HS/SS (1-4: fixed, 0: auto)
  	fb_max           maximum extra bandwidth in async mode
  	p_chmask         playback channel mask
  	p_srate          list of playback sampling rates (comma-separated)
-@@ -743,6 +744,7 @@ The uac2 function provides these attributes in its function directory:
+@@ -744,7 +744,7 @@ The uac2 function provides these attributes in its function directory:
  	p_volume_min     playback volume control min value (in 1/256 dB)
  	p_volume_max     playback volume control max value (in 1/256 dB)
  	p_volume_res     playback volume control resolution (in 1/256 dB)
-+	p_hs_bint        playback bInterval for HS/SS (1-4)
+-	p_hs_bint        playback bInterval for HS/SS (1-4)
++	p_hs_bint        playback bInterval for HS/SS (1-4: fixed, 0: auto)
  	req_number       the number of pre-allocated request for both capture
  	                 and playback
  	function_name    name of the interface
 diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index d874e0d34188..34bb6c9a9023 100644
+index 34bb6c9a9023..48d6fb26bb19 100644
 --- a/drivers/usb/gadget/function/f_uac2.c
 +++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -343,7 +343,7 @@ static struct usb_endpoint_descriptor hs_epout_desc = {
+@@ -664,29 +664,11 @@ static int get_max_srate(const int *srates)
+ 	return max_srate;
+ }
  
- 	/* .bmAttributes = DYNAMIC */
- 	/* .wMaxPacketSize = DYNAMIC */
--	.bInterval = 4,
-+	/* .bInterval = DYNAMIC */
- };
+-static int set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
+-	struct usb_endpoint_descriptor *ep_desc,
+-	enum usb_device_speed speed, bool is_playback)
++static int get_max_bw_for_bint(const struct f_uac2_opts *uac2_opts,
++	u8 bint, unsigned int factor, bool is_playback)
+ {
+ 	int chmask, srate, ssize;
+-	u16 max_size_bw, max_size_ep;
+-	unsigned int factor;
+-
+-	switch (speed) {
+-	case USB_SPEED_FULL:
+-		max_size_ep = 1023;
+-		factor = 1000;
+-		break;
+-
+-	case USB_SPEED_HIGH:
+-	case USB_SPEED_SUPER:
+-		max_size_ep = 1024;
+-		factor = 8000;
+-		break;
+-
+-	default:
+-		return -EINVAL;
+-	}
++	u16 max_size_bw;
  
- static struct usb_endpoint_descriptor ss_epout_desc = {
-@@ -353,7 +353,7 @@ static struct usb_endpoint_descriptor ss_epout_desc = {
- 	.bEndpointAddress = USB_DIR_OUT,
- 	/* .bmAttributes = DYNAMIC */
- 	/* .wMaxPacketSize = DYNAMIC */
--	.bInterval = 4,
-+	/* .bInterval = DYNAMIC */
- };
+ 	if (is_playback) {
+ 		chmask = uac2_opts->p_chmask;
+@@ -704,14 +686,76 @@ static int set_ep_max_packet_size(const struct f_uac2_opts *uac2_opts,
+ 		srate = srate * (1000 + uac2_opts->fb_max) / 1000;
+ 		// updated srate is always bigger, therefore DIV_ROUND_UP always yields +1
+ 		max_size_bw = num_channels(chmask) * ssize *
+-			(DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1))));
++			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))));
+ 	} else {
+ 		// adding 1 frame provision for Win10
+ 		max_size_bw = num_channels(chmask) * ssize *
+-			(DIV_ROUND_UP(srate, factor / (1 << (ep_desc->bInterval - 1))) + 1);
++			(DIV_ROUND_UP(srate, factor / (1 << (bint - 1))) + 1);
+ 	}
+-	ep_desc->wMaxPacketSize = cpu_to_le16(min_t(u16, max_size_bw,
+-						    max_size_ep));
++	return max_size_bw;
++}
++
++static int set_ep_max_packet_size_bint(struct device *dev, const struct f_uac2_opts *uac2_opts,
++	struct usb_endpoint_descriptor *ep_desc,
++	enum usb_device_speed speed, bool is_playback)
++{
++	u16 max_size_bw, max_size_ep;
++	u8 bint, opts_bint;
++	char *dir;
++
++	switch (speed) {
++	case USB_SPEED_FULL:
++		max_size_ep = 1023;
++		// fixed
++		bint = ep_desc->bInterval;
++		max_size_bw = get_max_bw_for_bint(uac2_opts, bint, 1000, is_playback);
++		break;
++
++	case USB_SPEED_HIGH:
++	case USB_SPEED_SUPER:
++		max_size_ep = 1024;
++		if (is_playback)
++			opts_bint = uac2_opts->p_hs_bint;
++		else
++			opts_bint = uac2_opts->c_hs_bint;
++
++		if (opts_bint > 0) {
++			/* fixed bint */
++			bint = opts_bint;
++			max_size_bw = get_max_bw_for_bint(uac2_opts, bint, 8000, is_playback);
++		} else {
++			/* checking bInterval from 4 to 1 whether the required bandwidth fits */
++			for (bint = 4; bint > 0; --bint) {
++				max_size_bw = get_max_bw_for_bint(
++					uac2_opts, bint, 8000, is_playback);
++				if (max_size_bw <= max_size_ep)
++					break;
++			}
++		}
++		break;
++
++	default:
++		return -EINVAL;
++	}
++
++	if (is_playback)
++		dir = "Playback";
++	else
++		dir = "Capture";
++
++	if (max_size_bw <= max_size_ep)
++		dev_dbg(dev,
++			"%s: Will use maxpctksize %d and bInterval %d\n",
++			dir, max_size_bw, bint);
++	else {
++		dev_warn(dev,
++			"%s: Req. maxpcktsize %d at bInterval %d > max ISOC %d, may drop data!\n",
++			dir, max_size_bw, bint, max_size_ep);
++		max_size_bw = max_size_ep;
++	}
++
++	ep_desc->wMaxPacketSize = cpu_to_le16(max_size_bw);
++	ep_desc->bInterval = bint;
  
- static struct usb_ss_ep_comp_descriptor ss_epout_desc_comp = {
-@@ -477,7 +477,7 @@ static struct usb_endpoint_descriptor hs_epin_desc = {
- 
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
- 	/* .wMaxPacketSize = DYNAMIC */
--	.bInterval = 4,
-+	/* .bInterval = DYNAMIC */
- };
- 
- static struct usb_endpoint_descriptor ss_epin_desc = {
-@@ -487,7 +487,7 @@ static struct usb_endpoint_descriptor ss_epin_desc = {
- 	.bEndpointAddress = USB_DIR_IN,
- 	.bmAttributes = USB_ENDPOINT_XFER_ISOC | USB_ENDPOINT_SYNC_ASYNC,
- 	/* .wMaxPacketSize = DYNAMIC */
--	.bInterval = 4,
-+	/* .bInterval = DYNAMIC */
- };
- 
- static struct usb_ss_ep_comp_descriptor ss_epin_desc_comp = {
-@@ -965,6 +965,16 @@ static int afunc_validate_opts(struct g_audio *agdev, struct device *dev)
+ 	return 0;
+ }
+@@ -965,13 +1009,13 @@ static int afunc_validate_opts(struct g_audio *agdev, struct device *dev)
  			return -EINVAL;
  	}
  
-+	if ((opts->p_hs_bint < 1) || (opts->p_hs_bint > 4)) {
-+		dev_err(dev, "Error: incorrect playback HS/SS bInterval (1-4)\n");
-+		return -EINVAL;
-+	}
-+
-+	if ((opts->c_hs_bint < 1) || (opts->c_hs_bint > 4)) {
-+		dev_err(dev, "Error: incorrect capture HS/SS bInterval (1-4)\n");
-+		return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
-@@ -1125,6 +1135,11 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
- 		std_ac_if_desc.bNumEndpoints = 1;
+-	if ((opts->p_hs_bint < 1) || (opts->p_hs_bint > 4)) {
+-		dev_err(dev, "Error: incorrect playback HS/SS bInterval (1-4)\n");
++	if ((opts->p_hs_bint < 0) || (opts->p_hs_bint > 4)) {
++		dev_err(dev, "Error: incorrect playback HS/SS bInterval (1-4: fixed, 0: auto)\n");
+ 		return -EINVAL;
  	}
  
-+	hs_epin_desc.bInterval = uac2_opts->p_hs_bint;
-+	ss_epin_desc.bInterval = uac2_opts->p_hs_bint;
-+	hs_epout_desc.bInterval = uac2_opts->c_hs_bint;
-+	ss_epout_desc.bInterval = uac2_opts->c_hs_bint;
-+
+-	if ((opts->c_hs_bint < 1) || (opts->c_hs_bint > 4)) {
+-		dev_err(dev, "Error: incorrect capture HS/SS bInterval (1-4)\n");
++	if ((opts->c_hs_bint < 0) || (opts->c_hs_bint > 4)) {
++		dev_err(dev, "Error: incorrect capture HS/SS bInterval (1-4: fixed, 0: auto)\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -1141,43 +1185,43 @@ afunc_bind(struct usb_configuration *cfg, struct usb_function *fn)
+ 	ss_epout_desc.bInterval = uac2_opts->c_hs_bint;
+ 
  	/* Calculate wMaxPacketSize according to audio bandwidth */
- 	ret = set_ep_max_packet_size(uac2_opts, &fs_epin_desc, USB_SPEED_FULL,
- 				     true);
-@@ -1801,10 +1816,12 @@ static struct configfs_item_operations f_uac2_item_ops = {
- 	.release	= f_uac2_attr_release,
- };
+-	ret = set_ep_max_packet_size(uac2_opts, &fs_epin_desc, USB_SPEED_FULL,
+-				     true);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &fs_epin_desc,
++					USB_SPEED_FULL, true);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
+ 	}
  
-+#define uac2_kstrtou8 kstrtou8
- #define uac2_kstrtou32 kstrtou32
- #define uac2_kstrtos16 kstrtos16
- #define uac2_kstrtobool(s, base, res) kstrtobool((s), (res))
+-	ret = set_ep_max_packet_size(uac2_opts, &fs_epout_desc, USB_SPEED_FULL,
+-				     false);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &fs_epout_desc,
++					USB_SPEED_FULL, false);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
+ 	}
  
-+static const char *u8_fmt = "%u\n";
- static const char *u32_fmt = "%u\n";
- static const char *s16_fmt = "%hd\n";
- static const char *bool_fmt = "%u\n";
-@@ -2004,10 +2021,12 @@ CONFIGFS_ATTR(f_uac2_opts_, name)
- UAC2_ATTRIBUTE(u32, p_chmask);
- UAC2_RATE_ATTRIBUTE(p_srate);
- UAC2_ATTRIBUTE(u32, p_ssize);
-+UAC2_ATTRIBUTE(u8, p_hs_bint);
- UAC2_ATTRIBUTE(u32, c_chmask);
- UAC2_RATE_ATTRIBUTE(c_srate);
- UAC2_ATTRIBUTE_SYNC(c_sync);
- UAC2_ATTRIBUTE(u32, c_ssize);
-+UAC2_ATTRIBUTE(u8, c_hs_bint);
- UAC2_ATTRIBUTE(u32, req_number);
+-	ret = set_ep_max_packet_size(uac2_opts, &hs_epin_desc, USB_SPEED_HIGH,
+-				     true);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &hs_epin_desc,
++					USB_SPEED_HIGH, true);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
+ 	}
  
- UAC2_ATTRIBUTE(bool, p_mute_present);
-@@ -2028,9 +2047,11 @@ static struct configfs_attribute *f_uac2_attrs[] = {
- 	&f_uac2_opts_attr_p_chmask,
- 	&f_uac2_opts_attr_p_srate,
- 	&f_uac2_opts_attr_p_ssize,
-+	&f_uac2_opts_attr_p_hs_bint,
- 	&f_uac2_opts_attr_c_chmask,
- 	&f_uac2_opts_attr_c_srate,
- 	&f_uac2_opts_attr_c_ssize,
-+	&f_uac2_opts_attr_c_hs_bint,
- 	&f_uac2_opts_attr_c_sync,
- 	&f_uac2_opts_attr_req_number,
- 	&f_uac2_opts_attr_fb_max,
-@@ -2083,9 +2104,11 @@ static struct usb_function_instance *afunc_alloc_inst(void)
- 	opts->p_chmask = UAC2_DEF_PCHMASK;
- 	opts->p_srates[0] = UAC2_DEF_PSRATE;
- 	opts->p_ssize = UAC2_DEF_PSSIZE;
-+	opts->p_hs_bint = UAC2_DEF_PHSBINT;
- 	opts->c_chmask = UAC2_DEF_CCHMASK;
- 	opts->c_srates[0] = UAC2_DEF_CSRATE;
- 	opts->c_ssize = UAC2_DEF_CSSIZE;
-+	opts->c_hs_bint = UAC2_DEF_CHSBINT;
- 	opts->c_sync = UAC2_DEF_CSYNC;
+-	ret = set_ep_max_packet_size(uac2_opts, &hs_epout_desc, USB_SPEED_HIGH,
+-				     false);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &hs_epout_desc,
++					USB_SPEED_HIGH, false);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
+ 	}
  
- 	opts->p_mute_present = UAC2_DEF_MUTE_PRESENT;
+-	ret = set_ep_max_packet_size(uac2_opts, &ss_epin_desc, USB_SPEED_SUPER,
+-				     true);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &ss_epin_desc,
++					USB_SPEED_SUPER, true);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
+ 	}
+ 
+-	ret = set_ep_max_packet_size(uac2_opts, &ss_epout_desc, USB_SPEED_SUPER,
+-				     false);
++	ret = set_ep_max_packet_size_bint(dev, uac2_opts, &ss_epout_desc,
++					USB_SPEED_SUPER, false);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
+ 		return ret;
 diff --git a/drivers/usb/gadget/function/u_uac2.h b/drivers/usb/gadget/function/u_uac2.h
-index ed96c7c853e4..733a0e0945fb 100644
+index 733a0e0945fb..0510c9bad58d 100644
 --- a/drivers/usb/gadget/function/u_uac2.h
 +++ b/drivers/usb/gadget/function/u_uac2.h
-@@ -19,9 +19,11 @@
+@@ -19,11 +19,11 @@
  #define UAC2_DEF_PCHMASK 0x3
  #define UAC2_DEF_PSRATE 48000
  #define UAC2_DEF_PSSIZE 2
-+#define UAC2_DEF_PHSBINT 4
+-#define UAC2_DEF_PHSBINT 4
++#define UAC2_DEF_PHSBINT 0
  #define UAC2_DEF_CCHMASK 0x3
  #define UAC2_DEF_CSRATE 64000
  #define UAC2_DEF_CSSIZE 2
-+#define UAC2_DEF_CHSBINT 4
+-#define UAC2_DEF_CHSBINT 4
++#define UAC2_DEF_CHSBINT 0
  #define UAC2_DEF_CSYNC		USB_ENDPOINT_SYNC_ASYNC
  
  #define UAC2_DEF_MUTE_PRESENT	1
-@@ -38,10 +40,12 @@ struct f_uac2_opts {
- 	int				p_chmask;
- 	int				p_srates[UAC_MAX_RATES];
- 	int				p_ssize;
-+	u8				p_hs_bint;
- 	int				c_chmask;
- 	int				c_srates[UAC_MAX_RATES];
- 	int				c_ssize;
- 	int				c_sync;
-+	u8				c_hs_bint;
- 
- 	bool			p_mute_present;
- 	bool			p_volume_present;
 -- 
 2.25.1
 
