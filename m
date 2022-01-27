@@ -2,147 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9785EC4321E
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B448C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239720AbiA0KtZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Jan 2022 05:49:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
+        id S239780AbiA0K5u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Jan 2022 05:57:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239655AbiA0KtR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:49:17 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53691C061749
-        for <linux-usb@vger.kernel.org>; Thu, 27 Jan 2022 02:49:17 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nD2Kz-0007kl-3I; Thu, 27 Jan 2022 11:49:09 +0100
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nD2Kx-003lz6-J3; Thu, 27 Jan 2022 11:49:07 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Oliver Neukum <oneukum@suse.com>,
+        with ESMTP id S239773AbiA0K5i (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:57:38 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8658C06173B;
+        Thu, 27 Jan 2022 02:57:37 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7CB50B821EE;
+        Thu, 27 Jan 2022 10:57:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE7DC340E4;
+        Thu, 27 Jan 2022 10:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643281055;
+        bh=gbW+XTNZXr9hGyQb+2cyWJjlqaEnavG1SF4dDnxcuVI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=btVtwLIntJO6tkL3JKU7gbqQ9LN+0exFu0/1DBbxsFef+RuCqQzQ9mWR954qGAIit
+         z60Pb47rocP0pc4n6smGTCdkIh0RvA3UpNKdmB3EemOhUXZ41/sTtBqYh5P7d0q1QU
+         +WLYS/eXZ/7Ow0p0ZIr2AmWDU+NuBx4eNtQShQAQ=
+Date:   Thu, 27 Jan 2022 11:57:26 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Oliver Neukum <oneukum@suse.com>,
         "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        Rob Herring <robh+dt@kernel.org>, kernel@pengutronix.de,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH net-next v1 2/4] dt-bindings: net: add schema for Microchip/SMSC LAN95xx USB Ethernet controllers
-Date:   Thu, 27 Jan 2022 11:49:03 +0100
-Message-Id: <20220127104905.899341-3-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220127104905.899341-1-o.rempel@pengutronix.de>
+Subject: Re: [PATCH net-next v1 4/4] usbnet: add support for label from
+ device tree
+Message-ID: <YfJ6lhZMAEmetdad@kroah.com>
 References: <20220127104905.899341-1-o.rempel@pengutronix.de>
+ <20220127104905.899341-5-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220127104905.899341-5-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Create initial schema for Microchip/SMSC LAN95xx USB Ethernet controllers and
-import all currently supported USB IDs form drivers/net/usb/smsc95xx.c
+On Thu, Jan 27, 2022 at 11:49:05AM +0100, Oleksij Rempel wrote:
+> Similar to the option to set a netdev name in device tree for switch
+> ports by using the property "label" in the DSA framework, this patch
+> adds this functionality to the usbnet infrastructure.
+> 
+> This will help to name the interfaces properly throughout supported
+> devices. This provides stable interface names which are useful
+> especially in embedded use cases.
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- .../bindings/net/microchip,lan95xx.yaml       | 82 +++++++++++++++++++
- 1 file changed, 82 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
+Stable interface names are for userspace to set, not the kernel.
 
-diff --git a/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
-new file mode 100644
-index 000000000000..b185c7068a8a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/microchip,lan95xx.yaml
-@@ -0,0 +1,82 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/microchip,lan95xx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: The device tree bindings for the USB Ethernet controllers
-+
-+maintainers:
-+  - Oleksij Rempel <o.rempel@pengutronix.de>
-+
-+description: |
-+  Device tree properties for hard wired SMSC95xx compatible USB Ethernet
-+  controller.
-+
-+allOf:
-+  - $ref: ethernet-controller.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - usb424,9500   # SMSC9500 USB Ethernet Device
-+          - usb424,9505   # SMSC9505 USB Ethernet Device
-+          - usb424,9530   # SMSC LAN9530 USB Ethernet Device
-+          - usb424,9730   # SMSC LAN9730 USB Ethernet Device
-+          - usb424,9900   # SMSC9500 USB Ethernet Device (SAL10)
-+          - usb424,9901   # SMSC9505 USB Ethernet Device (SAL10)
-+          - usb424,9902   # SMSC9500A USB Ethernet Device (SAL10)
-+          - usb424,9903   # SMSC9505A USB Ethernet Device (SAL10)
-+          - usb424,9904   # SMSC9512/9514 USB Hub & Ethernet Device (SAL10)
-+          - usb424,9905   # SMSC9500A USB Ethernet Device (HAL)
-+          - usb424,9906   # SMSC9505A USB Ethernet Device (HAL)
-+          - usb424,9907   # SMSC9500 USB Ethernet Device (Alternate ID)
-+          - usb424,9908   # SMSC9500A USB Ethernet Device (Alternate ID)
-+          - usb424,9909   # SMSC9512/9514 USB Hub & Ethernet Devic.  ID)
-+          - usb424,9e00   # SMSC9500A USB Ethernet Device
-+          - usb424,9e01   # SMSC9505A USB Ethernet Device
-+          - usb424,9e08   # SMSC LAN89530 USB Ethernet Device
-+          - usb424,ec00   # SMSC9512/9514 USB Hub & Ethernet Device
-+
-+  reg: true
-+  local-mac-address: true
-+  mac-address: true
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    usb@11270000 {
-+        reg = <0x11270000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        ethernet@1 {
-+            compatible = "usb424,ec00";
-+            reg = <1>;
-+            local-mac-address = [00 00 00 00 00 00];
-+        };
-+    };
-+  - |
-+    usb@11270000 {
-+        reg = <0x11270000 0x1000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        usb1@1 {
-+            compatible = "usb424,9514";
-+            reg = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            ethernet@1 {
-+               compatible = "usb424,ec00";
-+               reg = <1>;
-+            };
-+        };
-+    };
--- 
-2.30.2
+Why would USB care about this?  If you need something like this, get it
+from the USB device itself, not DT, which should have nothing to do with
+USB as USB is a dynamic, self-describing, bus.  Unlike DT.
 
+So I do not think this is a good idea.
+
+greg k-h
