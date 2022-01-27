@@ -2,96 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 824A8C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:06:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FCAEC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jan 2022 10:09:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238909AbiA0KGa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 27 Jan 2022 05:06:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238228AbiA0KG3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:06:29 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B681BC06173B
-        for <linux-usb@vger.kernel.org>; Thu, 27 Jan 2022 02:06:28 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id k18so3685621wrg.11
-        for <linux-usb@vger.kernel.org>; Thu, 27 Jan 2022 02:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iCPc9S/xqKutjtG576RySPC5c4MhlsxdAcWvoCriPRI=;
-        b=UXS0cNb0r6A21/Yr+t8ULc7eUWYnKfSr2Xz7F/W4kBv4PxDY2V8IiKS9AVKzoL/A4c
-         2QXelZZmI0IvcYButMcGhtQiIwQeVSto8F0tLQS/0i6E39oVBJb4ONuB1wxShRLVAjEd
-         qBQfBDs5FDzwXhh+3CWdQE+EinE2wHefcKrMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=iCPc9S/xqKutjtG576RySPC5c4MhlsxdAcWvoCriPRI=;
-        b=2JkTwPpLonB5qR9WTrO7syaf4rTR5B6PYsXwQkTgN0dl9cMVpfcaF0weymY33V7rYG
-         Thhcho9j+sHG9++B5bAN84lwdczpHmibBHkR9cKxWOM4Q0rDuOvB+dfZhcqb/KSNvTOd
-         P35cVK10kohNNt0LG3CqCyX0phQ2r7aRNgl8Sr0g+nMeC2p1FSI9tgYX/U1/yP+maILx
-         rkFhSb51qCAU+UcmnHASe1x7pYrgEmiz9Qmg9huxH+JYgYI66jQgpa8Q3zZUQOWySWLP
-         7j3hXmOwUNYBD1V9jZOvnUdXwEk5pZeUV4q/WAENPOiFbNtpRqkLfLbbMc/Vx+iLz38D
-         ESBA==
-X-Gm-Message-State: AOAM531RsbnZkVSf/I8+6QsKzCefNSrEF7mFFwjdG57Hux0EFyVRndms
-        X9gpH+/Bu3kYpiwwJ+ZiRmQ58w==
-X-Google-Smtp-Source: ABdhPJxbmhEnlOI80raqLeqmBjMueB3L0ut5WVsnvXgW4cJU2nUFg7KyFIWNlDJldrhPELeM37AAEQ==
-X-Received: by 2002:adf:fe01:: with SMTP id n1mr2448712wrr.141.1643277987361;
-        Thu, 27 Jan 2022 02:06:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id d6sm1681780wrs.85.2022.01.27.02.06.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Jan 2022 02:06:26 -0800 (PST)
-Date:   Thu, 27 Jan 2022 11:06:24 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     tangmeng <tangmeng@uniontech.com>, alexander.deucher@amd.com,
-        christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-        jsarha@ti.com, tomi.valkeinen@ti.com, linux@dominikbrodowski.net,
-        Peter.Chen@nxp.com, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] drivers: Fix typo in comment
-Message-ID: <YfJuoHfKnwm6LmuY@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
-        tangmeng <tangmeng@uniontech.com>, alexander.deucher@amd.com,
-        christian.koenig@amd.com, airlied@linux.ie, jsarha@ti.com,
-        tomi.valkeinen@ti.com, linux@dominikbrodowski.net,
-        Peter.Chen@nxp.com, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20220127065156.22372-1-tangmeng@uniontech.com>
- <YfJCBZuc9mOZkIVJ@kroah.com>
+        id S238941AbiA0KJG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 27 Jan 2022 05:09:06 -0500
+Received: from bmailout1.hostsharing.net ([83.223.95.100]:42947 "EHLO
+        bmailout1.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238940AbiA0KJF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 27 Jan 2022 05:09:05 -0500
+X-Greylist: delayed 533 seconds by postgrey-1.27 at vger.kernel.org; Thu, 27 Jan 2022 05:09:05 EST
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout1.hostsharing.net (Postfix) with ESMTPS id A7CBF30006180;
+        Thu, 27 Jan 2022 11:00:10 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 9D90A30A8F2; Thu, 27 Jan 2022 11:00:10 +0100 (CET)
+Date:   Thu, 27 Jan 2022 11:00:10 +0100
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Andreas Noever <andreas.noever@gmail.com>
+Subject: Re: [PATCH 2/3] thunderbolt: Add internal xHCI connect flows for
+ Thunderbolt 3 devices
+Message-ID: <20220127100010.GA6500@wunner.de>
+References: <20220126141653.28092-1-mika.westerberg@linux.intel.com>
+ <20220126141653.28092-3-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YfJCBZuc9mOZkIVJ@kroah.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20220126141653.28092-3-mika.westerberg@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 07:56:05AM +0100, Greg KH wrote:
-> On Thu, Jan 27, 2022 at 02:51:56PM +0800, tangmeng wrote:
-> > Replace disbale with disable and replace unavaibale with unavailable.
-> > 
-> > Signed-off-by: tangmeng <tangmeng@uniontech.com>
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/mxgpu_vi.c | 2 +-
-> >  drivers/gpu/drm/tilcdc/tilcdc_crtc.c  | 2 +-
-> >  drivers/pcmcia/rsrc_nonstatic.c       | 2 +-
-> >  drivers/usb/chipidea/udc.c            | 2 +-
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> This needs to be broken up per-subsystem, thanks.
+On Wed, Jan 26, 2022 at 05:16:52PM +0300, Mika Westerberg wrote:
+> +/**
+> + * tb_lc_xhci_connect() - Connect internal xHCI
+> + * @port: Device router lane 0 adapter
+> + *
+> + * Tells LC to connect the internal xHCI to @port. Returns %0 in success
+                                                                 ^^
+								 on
 
-For drm please also split it per-driver, so one patch per file you change
-here.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> + * and negative errno in case of failure. Can be called for Thunderbolt 3
+> + * routers only.
+> + */
