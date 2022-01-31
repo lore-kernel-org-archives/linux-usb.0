@@ -2,73 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF1E4C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 31 Jan 2022 11:11:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA59C43217
+	for <linux-usb@archiver.kernel.org>; Mon, 31 Jan 2022 11:11:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359205AbiAaLLD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Jan 2022 06:11:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377588AbiAaLKN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Jan 2022 06:10:13 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDE0C06175B;
-        Mon, 31 Jan 2022 03:10:05 -0800 (PST)
-Date:   Mon, 31 Jan 2022 12:10:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1643627404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VU/JLz6tZsfDSK1NGHlZJZDBKesuKZckLqSjhO2EaU4=;
-        b=MlRIySoABztrXXhRXSWmvo2UV3/cD+W5Hip49G7RuhEGWfXMve9+967C7hina7NbgL0gsA
-        aUsyVHVYqGGLzEAbCDnSBVARPcsyU62kssRd0FSyDb89J9lITtt7CgXLZ0DSZlUdLN5T/w
-        qHNlm/789QXdfRSQ37F2M6KewwXuqn/+0LdECa+8B6SFUBy6IZuEV8ZmutujHGlddT6mSy
-        LNUV9GJiEmtcb0UHeocT/ZyR7a+euq531BP7TAhXOFfSViefgJbswq1Ben8f0CIQKhfO4J
-        DX/KxI7Aj22VxGxM8DU0CabHTBLnbrQsayoEQ4Y/4pFVta2+UVm6Q+TlXVYbSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1643627404;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VU/JLz6tZsfDSK1NGHlZJZDBKesuKZckLqSjhO2EaU4=;
-        b=EsmtkMsJP6d5SP/mA+91F7XriKaPzaz7coj7QQMGILO4ncBzqs3VZj2EY51lcXyjhTegar
-        UlifgoPYSZH9lYAA==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Wolfram Sang <wsa@kernel.org>, greybus-dev@lists.linaro.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        UNGLinuxDriver@microchip.com,
-        Woojung Huh <woojung.huh@microchip.com>
-Subject: Re: [PATCH 3/7] i2c: cht-wc: Use generic_handle_irq_safe().
-Message-ID: <YffDiv+NNWYFXJkX@linutronix.de>
-References: <20220127113303.3012207-1-bigeasy@linutronix.de>
- <20220127113303.3012207-4-bigeasy@linutronix.de>
- <YfLThZsBwAucs2vp@shikoro>
+        id S1359249AbiAaLLE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Jan 2022 06:11:04 -0500
+Received: from mga17.intel.com ([192.55.52.151]:43467 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1377760AbiAaLK0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 31 Jan 2022 06:10:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643627426; x=1675163426;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MTbZzQ/DP2PxsKTY28GWtpAfua/z0STB6221mcyAUO8=;
+  b=D0xKtBN3yddUCw0tMOvBKW51d09x8R5KDZSnbC3YR+nogE0YtuaJZ01a
+   edS2LHp+3PYcX0TVW5k+5Nq4XEsCVkzB+toyzqWOT9wxLSHyINzf1IT91
+   KoLEIA46ELGTuy+psz0fhnptyn7Mq6Z3YfsIGivqsrVrY4bHMB0jr/4Yn
+   EobEzfZQJt7o5L4i97AZYAlfVYMtvkgPDjSgFM8G92mDvH5qzQreE3NXm
+   G8cUYOBbTdRs3S9D73pNgDNAD757gD7B0382FXf5R9BbMLI7+mvD7wNlD
+   wAT4tkLbCkDYf+IPQGmQqVbFOUqJlsjiCH0ibmhBRGdpSB1+140ClWTQf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10243"; a="228101803"
+X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
+   d="scan'208";a="228101803"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 03:07:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,330,1635231600"; 
+   d="scan'208";a="675694134"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 31 Jan 2022 03:07:14 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 31 Jan 2022 13:07:13 +0200
+Date:   Mon, 31 Jan 2022 13:07:13 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb: ulpi: Move of_node_put to ulpi_dev_release
+Message-ID: <YffC4a1GUVp4wk+g@kuha.fi.intel.com>
+References: <20220127190004.1446909-1-sean.anderson@seco.com>
+ <20220127190004.1446909-2-sean.anderson@seco.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YfLThZsBwAucs2vp@shikoro>
+In-Reply-To: <20220127190004.1446909-2-sean.anderson@seco.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2022-01-27 18:16:53 [+0100], Wolfram Sang wrote:
-> On Thu, Jan 27, 2022 at 12:32:59PM +0100, Sebastian Andrzej Siewior wrote:
-> > Instead of manually disabling interrupts before invoking use
-> > generic_handle_irq() which can be invoked with enabled and disabled
+On Thu, Jan 27, 2022 at 02:00:02PM -0500, Sean Anderson wrote:
+> Drivers are not unbound from the device when ulpi_unregister_interface
+> is called. Move of_node-freeing code to ulpi_dev_release which is called
+> only after all users are gone.
 > 
-> generic_handle_irq_safe()
+> Fixes: ef6a7bcfb01c ("usb: ulpi: Support device discovery via DT")
+> Signed-off-by: Sean Anderson <sean.anderson@seco.com>
 
-Yes, thank you.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Sebastian
+> ---
+> 
+> Changes in v3:
+> - Use separate patch for moving of_node_put from unregister to release
+> 
+>  drivers/usb/common/ulpi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
+> index 4169cf40a03b..c90a1ab705a3 100644
+> --- a/drivers/usb/common/ulpi.c
+> +++ b/drivers/usb/common/ulpi.c
+> @@ -127,6 +127,7 @@ static const struct attribute_group *ulpi_dev_attr_groups[] = {
+>  
+>  static void ulpi_dev_release(struct device *dev)
+>  {
+> +	of_node_put(dev->of_node);
+>  	kfree(to_ulpi_dev(dev));
+>  }
+>  
+> @@ -296,7 +297,6 @@ EXPORT_SYMBOL_GPL(ulpi_register_interface);
+>   */
+>  void ulpi_unregister_interface(struct ulpi *ulpi)
+>  {
+> -	of_node_put(ulpi->dev.of_node);
+>  	device_unregister(&ulpi->dev);
+>  }
+>  EXPORT_SYMBOL_GPL(ulpi_unregister_interface);
+> -- 
+> 2.25.1
+
+thanks,
+
+-- 
+heikki
