@@ -2,81 +2,124 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB6F3C433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 19:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8282C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 21:10:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242261AbiBATMe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Feb 2022 14:12:34 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:59334 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230158AbiBATMd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Feb 2022 14:12:33 -0500
-Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
- by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP (IdeaSmtpServer 4.0.0)
- id 413eb53da59d4c8b; Tue, 1 Feb 2022 20:12:32 +0100
-Received: from kreacher.localnet (unknown [213.134.162.64])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by v370.home.net.pl (Postfix) with ESMTPSA id 8288C66B3BC;
-        Tue,  1 Feb 2022 20:12:31 +0100 (CET)
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc:     Linux ACPI <linux-acpi@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH] thunderbolt: Replace acpi_bus_get_device()
-Date:   Tue, 01 Feb 2022 20:12:30 +0100
-Message-ID: <1883502.PYKUYFuaPT@kreacher>
+        id S241145AbiBAVKN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Feb 2022 16:10:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229923AbiBAVKM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Feb 2022 16:10:12 -0500
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [IPv6:2a0a:51c0:0:12e:520::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A8F5C061714;
+        Tue,  1 Feb 2022 13:10:12 -0800 (PST)
+Received: from localhost ([127.0.0.1] helo=flow.W.breakpoint.cc)
+        by Chamillionaire.breakpoint.cc with esmtp (Exim 4.92)
+        (envelope-from <sebastian@breakpoint.cc>)
+        id 1nF0Pg-0006wn-Uh; Tue, 01 Feb 2022 22:10:09 +0100
+From:   Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+To:     linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net
+Cc:     "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+Subject: [PATCH 1/2] scsi: Add scsi_done_direct() for immediate completion.
+Date:   Tue,  1 Feb 2022 22:09:53 +0100
+Message-Id: <20220201210954.570896-2-sebastian@breakpoint.cc>
+In-Reply-To: <20220201210954.570896-1-sebastian@breakpoint.cc>
+References: <20220201210954.570896-1-sebastian@breakpoint.cc>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="UTF-8"
-X-CLIENT-IP: 213.134.162.64
-X-CLIENT-HOSTNAME: 213.134.162.64
-X-VADE-SPAMSTATE: clean
-X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvvddrgeefgdduvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecujffqoffgrffnpdggtffipffknecuuegrihhlohhuthemucduhedtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkggfgtgesthfuredttddtjeenucfhrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqeenucggtffrrghtthgvrhhnpefhgedtffejheekgeeljeevvedtuefgffeiieejuddutdekgfejvdehueejjeetvdenucfkphepvddufedrudefgedrudeivddrieegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddufedrudefgedrudeivddrieegpdhhvghlohepkhhrvggrtghhvghrrdhlohgtrghlnhgvthdpmhgrihhlfhhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqpdhnsggprhgtphhtthhopeejpdhrtghpthhtoheprghnughrvggrshdrnhhovghvvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhhitghhrggvlhdrjhgrmhgvthesihhnthgvlhdrtghomhdprhgtphhtthhopehmihhkrgdrfigvshhtvghrsggvrhhgsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepjggvhhgviihkvghlufhhueesghhmrghilhdrtghomhdprhgtphhtthhopehl
- ihhnuhigqdgrtghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhushgssehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-DCC--Metrics: v370.home.net.pl 1024; Body=7 Fuz1=7 Fuz2=7
+Content-Transfer-Encoding: quoted-printable
+X-Breakpoint-Spam-Score: -1.0
+X-Breakpoint-Spam-Level: -
+X-Breakpoint-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Add scsi_done_direct() which behaves like scsi_done() except that it
+invokes blk_mq_complete_request_direct() in order to complete the
+request.
+Callers from process context can complete the request directly instead
+waking ksoftirqd.
 
-Replace acpi_bus_get_device() that is going to be dropped with
-acpi_fetch_acpi_dev().
-
-No intentional functional impact.
-
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Signed-off-by: Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
 ---
- drivers/thunderbolt/acpi.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/scsi/scsi_lib.c  | 27 +++++++++++++++++++++++----
+ include/scsi/scsi_cmnd.h |  1 +
+ 2 files changed, 24 insertions(+), 4 deletions(-)
 
-Index: linux-pm/drivers/thunderbolt/acpi.c
-===================================================================
---- linux-pm.orig/drivers/thunderbolt/acpi.c
-+++ linux-pm/drivers/thunderbolt/acpi.c
-@@ -14,15 +14,15 @@
- static acpi_status tb_acpi_add_link(acpi_handle handle, u32 level, void *data,
- 				    void **return_value)
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 0a70aa763a961..778ef6d09616f 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1625,26 +1625,45 @@ static blk_status_t scsi_prepare_cmd(struct request=
+ *req)
+ 	return scsi_cmd_to_driver(cmd)->init_command(cmd);
+ }
+=20
+-void scsi_done(struct scsi_cmnd *cmd)
++static bool scsi_done_need_blk_compl(struct scsi_cmnd *cmd)
  {
-+	struct acpi_device *adev = acpi_fetch_acpi_dev(handle);
- 	struct fwnode_reference_args args;
- 	struct fwnode_handle *fwnode;
- 	struct tb_nhi *nhi = data;
--	struct acpi_device *adev;
- 	struct pci_dev *pdev;
- 	struct device *dev;
- 	int ret;
- 
--	if (acpi_bus_get_device(handle, &adev))
-+	if (!adev)
- 		return AE_OK;
- 
- 	fwnode = acpi_fwnode_handle(adev);
-
-
+ 	switch (cmd->submitter) {
+ 	case SUBMITTED_BY_BLOCK_LAYER:
+ 		break;
+ 	case SUBMITTED_BY_SCSI_ERROR_HANDLER:
+-		return scsi_eh_done(cmd);
++		scsi_eh_done(cmd);
++		return false;
+ 	case SUBMITTED_BY_SCSI_RESET_IOCTL:
+-		return;
++		return false;
+ 	}
+=20
+ 	if (unlikely(blk_should_fake_timeout(scsi_cmd_to_rq(cmd)->q)))
+-		return;
++		return false;
+ 	if (unlikely(test_and_set_bit(SCMD_STATE_COMPLETE, &cmd->state)))
++		return false;
++	return true;
++}
++
++void scsi_done(struct scsi_cmnd *cmd)
++{
++	if (!scsi_done_need_blk_compl(cmd))
+ 		return;
++
+ 	trace_scsi_dispatch_cmd_done(cmd);
+ 	blk_mq_complete_request(scsi_cmd_to_rq(cmd));
+ }
+ EXPORT_SYMBOL(scsi_done);
+=20
++void scsi_done_direct(struct scsi_cmnd *cmd)
++{
++	if (!scsi_done_need_blk_compl(cmd))
++		return;
++
++	trace_scsi_dispatch_cmd_done(cmd);
++	blk_mq_complete_request_direct(scsi_cmd_to_rq(cmd), scsi_complete);
++}
++EXPORT_SYMBOL(scsi_done_direct);
++
+ static void scsi_mq_put_budget(struct request_queue *q, int budget_token)
+ {
+ 	struct scsi_device *sdev =3D q->queuedata;
+diff --git a/include/scsi/scsi_cmnd.h b/include/scsi/scsi_cmnd.h
+index 6794d7322cbde..ff1c4b51f7aef 100644
+--- a/include/scsi/scsi_cmnd.h
++++ b/include/scsi/scsi_cmnd.h
+@@ -168,6 +168,7 @@ static inline struct scsi_driver *scsi_cmd_to_driver(st=
+ruct scsi_cmnd *cmd)
+ }
+=20
+ void scsi_done(struct scsi_cmnd *cmd);
++void scsi_done_direct(struct scsi_cmnd *cmd);
+=20
+ extern void scsi_finish_command(struct scsi_cmnd *cmd);
+=20
+--=20
+2.34.1
 
