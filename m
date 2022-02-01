@@ -2,218 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DEC6C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 02:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A453BC433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 03:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232577AbiBACkG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 31 Jan 2022 21:40:06 -0500
-Received: from mga17.intel.com ([192.55.52.151]:61778 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232574AbiBACkF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 31 Jan 2022 21:40:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1643683205; x=1675219205;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=56n50xudwjsZKNNlNlAM5agdD5HeI7mpB+bMAriIZuk=;
-  b=G7O2GZMJFEAnie2ZYgzVGSOVAvTX+Y0xkG9hpbgp1qagbcgR/KFsva1o
-   HBGuGB8MaUdiFaGLo4PDFM8tDDS2jyW78U4kP2TKHQk19y4QOsHsF21Xo
-   P92ntwS/seGNZsj4gX5HU0gsCGftW4+AT+CDjMwtimOkgjGGDhjpS7vmt
-   VWkvvyeui5FE1NxL71SE0oQ6NbPcG1/I8RsZ981G9vOsywLfZp8wRFG9/
-   N4qgGCXWQeiTReY3vzIhgkY3527BsL33PhthHkH+S5ATK+R3Bwf+LwwrT
-   m/iv2ztuMHbzgSk2XrXCto1BCUi4M9XmwDJx6SQbvUjNCCxLh5xmKQM3T
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10244"; a="228269284"
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
-   d="scan'208";a="228269284"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2022 18:39:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,332,1635231600"; 
-   d="scan'208";a="482032965"
-Received: from lkp-server01.sh.intel.com (HELO 276f1b88eecb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 31 Jan 2022 18:39:09 -0800
-Received: from kbuild by 276f1b88eecb with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nEj4X-000Sdy-5r; Tue, 01 Feb 2022 02:39:09 +0000
-Date:   Tue, 01 Feb 2022 10:38:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 554237f2bb62c4fcf01372e4c63d3e0062f27bac
-Message-ID: <61f89d12.MmSr09V7Wz4nUwDi%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232981AbiBADYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 31 Jan 2022 22:24:44 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:50193 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232452AbiBADYn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 31 Jan 2022 22:24:43 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id C876C5C019D;
+        Mon, 31 Jan 2022 22:24:42 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 31 Jan 2022 22:24:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm1; bh=7FSuDaDzR81uLtJIhPlJACDFNI1bq2SOe6pRmMUgCx4=; b=A1oSO
+        4brHQCEGnbs1HOXG6Di2bNi49Kgp1/TQxmjDz+wl1EbmCvUZjMvOkTWF1i0WjSIP
+        TzihiQlTOqV1Oqx9PpBFs+Hl9UbfvkTgQiJMaACCSSYNj999GwBIJ3amPz5/tjpm
+        MBP8/yV7uLjsykcd2uwur43xwY27uDclDhPTuvxcMdesw1IhFJBc08QY/ohDU9RL
+        uMaSJ5SM14d5BJ7SJbH65ax89GE0hKJ5rKiyRdZRPcFVkawRHj/hozcpuQVCKZ3h
+        TLcpp6A9RAWnhjJSxNJRDC3kRm8U7U+MGU+7v3gipNaJYJSXfSHjtfX/ISGxIGX2
+        pFX31ZjXb4tbFIQRA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm2; bh=7FSuDaDzR81uLtJIhPlJACDFNI1bq
+        2SOe6pRmMUgCx4=; b=hWYli7brubuBHXevr3n3LghwH1bRKAvRIS7SPfTbSQzDg
+        5/ujTyukWDh6OJIQfQJyRtUTApVf1ojg64Co0heZybVZ95sQ3fiDjK5mEghTqngY
+        r/v4qjHwOPBcZ/t/v/9J37YtrmYOjaY+ZNZ2O8MRaSwRZprL30JQMdOCctjQ87zN
+        1sdEveVktXQJ4fIej19Eb2genuBCPhSw0wgAW/oiXuPmGPczyvrxQM3USEQQNieE
+        P/R2lNuoSdVIa0zu3G/dbqT+f/Ui8M8zlHsdR35AioaNu1yEFd6S8pNoeu9KC2Hr
+        NzVPFKMPHkykgf6OS37+D1O1F92ZB3iiDQ/++23mQ==
+X-ME-Sender: <xms:-qf4YS35Dwo_kE35TgSi8v0RbSI1EuSkCDNyr-KQg7q1p4mrtpbWmA>
+    <xme:-qf4YVGiHaY_vocZe7Y4pnqtLE9kGwHMvxowII8Xj2NJw6af8sH8U0NMZniy2T3Le
+    3S6dH1yPnA3h4SlKQ>
+X-ME-Received: <xmr:-qf4Ya46fzKwdTa1QDb_EMXSLNE6wDg8hmWau818D23CspLWihFjm_16NY8LNOUJ0zAus733Gq4AO4E1-JDv675vErmcJ2yIgCmVV7CptN-_-EFgzPuldSJAaQMaJtnqO-4CUw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgedvgdehkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepuefguedukeegjeefvdeuvedvgeetleehjeeuledtheeigfelvedttdeiffdu
+    veelnecuffhomhgrihhnpeifihhllhhsvghmihdrtghomhenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:-qf4YT28LxD3J5XL2GTp_YC9NwUzc73GLWisn5CwuXLTnmaRFE-Yyw>
+    <xmx:-qf4YVG48XH3PMC92nHR61UtegeVIIq_6Jx5sN8te22OCfn75BJMlg>
+    <xmx:-qf4Yc_cFlm1_fXYKVMjabwwwiXGZJY8NbaRa6rNprbOoFAmEpyP6g>
+    <xmx:-qf4Ya4D0iEZbR9KE0vPnW6aqWbYvPSQ4UIJPbeRwb2xYuQ9EYlDnA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 Jan 2022 22:24:41 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 1/4] dt-bindings: vendor-prefixes: Add willsemi
+Date:   Mon, 31 Jan 2022 21:24:37 -0600
+Message-Id: <20220201032440.5196-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 554237f2bb62c4fcf01372e4c63d3e0062f27bac  usb: gadget: f_uac2: Add speed names to bInterval dbg/warn
+Add prefix for Will Semiconductor Co. Ltd. (http://www.willsemi.com/)
 
-elapsed time: 727m
-
-configs tested: 145
-configs skipped: 4
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-i386                 randconfig-c001-20220131
-sh                          rsk7203_defconfig
-mips                           xway_defconfig
-um                               alldefconfig
-powerpc                 mpc834x_mds_defconfig
-sh                          urquell_defconfig
-arm                       imx_v6_v7_defconfig
-arc                            hsdk_defconfig
-powerpc                     taishan_defconfig
-mips                             allmodconfig
-m68k                       m5475evb_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                        sh7763rdp_defconfig
-mips                         mpc30x_defconfig
-sh                 kfr2r09-romimage_defconfig
-sh                               alldefconfig
-arm                          pxa910_defconfig
-arm                          lpd270_defconfig
-m68k                       m5208evb_defconfig
-mips                 decstation_r4k_defconfig
-powerpc                        warp_defconfig
-arm                        oxnas_v6_defconfig
-sh                          rsk7269_defconfig
-powerpc                    klondike_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                 mpc837x_rdb_defconfig
-parisc                           alldefconfig
-xtensa                           allyesconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                 mpc837x_mds_defconfig
-arm                           stm32_defconfig
-sh                  sh7785lcr_32bit_defconfig
-powerpc                     asp8347_defconfig
-arm                      footbridge_defconfig
-mips                         cobalt_defconfig
-sh                          lboxre2_defconfig
-arc                                 defconfig
-m68k                          sun3x_defconfig
-mips                      maltasmvp_defconfig
-openrisc                         alldefconfig
-mips                         db1xxx_defconfig
-arm                       omap2plus_defconfig
-mips                       capcella_defconfig
-sh                        apsh4ad0a_defconfig
-arm                            mps2_defconfig
-arm                  randconfig-c002-20220131
-arm                  randconfig-c002-20220130
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a004-20220131
-x86_64               randconfig-a003-20220131
-x86_64               randconfig-a001-20220131
-x86_64               randconfig-a002-20220131
-x86_64               randconfig-a006-20220131
-x86_64               randconfig-a005-20220131
-i386                 randconfig-a006-20220131
-i386                 randconfig-a005-20220131
-i386                 randconfig-a003-20220131
-i386                 randconfig-a002-20220131
-i386                 randconfig-a001-20220131
-i386                 randconfig-a004-20220131
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-8.3-kselftests
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-x86_64                                  kexec
-
-clang tested configs:
-riscv                randconfig-c006-20220130
-x86_64                        randconfig-c007
-arm                  randconfig-c002-20220130
-powerpc              randconfig-c003-20220130
-mips                 randconfig-c004-20220130
-i386                          randconfig-c001
-powerpc                          allyesconfig
-arm                             mxs_defconfig
-arm                        spear3xx_defconfig
-arm                           sama7_defconfig
-powerpc                     kilauea_defconfig
-mips                           ip22_defconfig
-powerpc                  mpc866_ads_defconfig
-arm                          pcm027_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64               randconfig-a013-20220131
-x86_64               randconfig-a015-20220131
-x86_64               randconfig-a014-20220131
-x86_64               randconfig-a016-20220131
-x86_64               randconfig-a011-20220131
-x86_64               randconfig-a012-20220131
-i386                 randconfig-a011-20220131
-i386                 randconfig-a013-20220131
-i386                 randconfig-a014-20220131
-i386                 randconfig-a012-20220131
-i386                 randconfig-a015-20220131
-i386                 randconfig-a016-20220131
-riscv                randconfig-r042-20220131
-hexagon              randconfig-r045-20220130
-hexagon              randconfig-r045-20220131
-hexagon              randconfig-r041-20220130
-hexagon              randconfig-r041-20220131
-
+Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 294093d45a23..a8ab97717a46 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1340,6 +1340,8 @@ patternProperties:
+     description: Wi2Wi, Inc.
+   "^wiligear,.*":
+     description: Wiligear, Ltd.
++  "^willsemi,.*":
++    description: Will Semiconductor Ltd.
+   "^winbond,.*":
+     description: Winbond Electronics corp.
+   "^wingtech,.*":
+-- 
+2.33.1
+
