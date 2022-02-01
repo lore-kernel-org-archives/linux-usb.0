@@ -2,123 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6801AC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 10:30:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E007C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Feb 2022 10:44:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236521AbiBAKaK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Feb 2022 05:30:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55146 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234907AbiBAKaJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Feb 2022 05:30:09 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE25C061714;
-        Tue,  1 Feb 2022 02:30:09 -0800 (PST)
+        id S235104AbiBAKoM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Feb 2022 05:44:12 -0500
+Received: from sin.source.kernel.org ([145.40.73.55]:40168 "EHLO
+        sin.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229752AbiBAKoL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Feb 2022 05:44:11 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 58848614B0;
-        Tue,  1 Feb 2022 10:29:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D86C340EB;
-        Tue,  1 Feb 2022 10:29:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1643711394;
-        bh=DO/5tto/KvRThhB0CnZdPqXUn59sr1UuCm6ArhhNsTs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ixMSL+V+zo9kSzBuZPGUCXcz2dhn2Z0YFFm+AO9nzGhNWFHp/AdJukECx9y91/Nxc
-         qWaJAN2QjmorKA9qdZWJ/V733Qs1isW1kUvxT4q1acH6L/Hmin8h0eJbsaRBS9CrUR
-         ulfo87sI9e/jlEqDXFG0mpLobrKkPAXPgs/Fvk5o=
-Date:   Tue, 1 Feb 2022 11:29:51 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] usb: typec: Support the WUSB3801 port controller
-Message-ID: <YfkLn4UTjAea22wL@kroah.com>
-References: <20220201032440.5196-1-samuel@sholland.org>
- <20220201032440.5196-4-samuel@sholland.org>
+        by sin.source.kernel.org (Postfix) with ESMTPS id 26442CE17D8;
+        Tue,  1 Feb 2022 10:44:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A19BC340EB;
+        Tue,  1 Feb 2022 10:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643712247;
+        bh=Yk+UtAtINcb8fBUEs7TwV7zT7+wbtfW/rCBydpitFdI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=jP/06+A9SOj6+fzgLr9lzRIOppVS2cYIHpKqZVQBD28tRBC0Br1+CaLW/HdEoG7Ct
+         p3iB0Qb1Bc8LnqQbyvgbhAxIz/tsm4fYnpZrSRO8EGMUNDPw67QXb2D77sxClVUkUV
+         PZUkUVS+g95VR/G1H22s0hdrLKiOEQ02EhjgBMjTl63h2U9OjqIqPEwkipgp0/tC6n
+         zbqEGVDfbMvQGrkR2Kng1WcBh5CMwrCen57rcr4MFkiZd/qeNxu1RM/QdrwScfzlt/
+         dqRu1VCB/ZiZu25SXc7US3WORMcN0yluiAqvsZ9nSddckIv9TyN5LYyKK8n80jAHNM
+         sBp4qvDn0uJfA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1nEqdb-0002hS-KF; Tue, 01 Feb 2022 11:43:51 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     "Russell, Scott" <Scott.Russell2@ncr.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: [PATCH 1/2] USB: serial: cp210x: add NCR Retail IO box id
+Date:   Tue,  1 Feb 2022 11:42:52 +0100
+Message-Id: <20220201104253.10345-2-johan@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220201104253.10345-1-johan@kernel.org>
+References: <20220201104253.10345-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220201032440.5196-4-samuel@sholland.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 31, 2022 at 09:24:40PM -0600, Samuel Holland wrote:
-> +static enum typec_role wusb3801_get_default_role(struct wusb3801 *wusb3801)
-> +{
-> +	switch (wusb3801->port_type) {
-> +	case TYPEC_PORT_SRC:
-> +		return TYPEC_SOURCE;
-> +	case TYPEC_PORT_SNK:
-> +		return TYPEC_SINK;
-> +	case TYPEC_PORT_DRP:
-> +	default:
-> +		if (wusb3801->cap.prefer_role == TYPEC_SOURCE)
-> +			return TYPEC_SOURCE;
-> +		return TYPEC_SINK;
-> +	}
-> +}
-> +
-> +static int wusb3801_map_port_type(enum typec_port_type type)
-> +{
-> +	switch (type) {
-> +	case TYPEC_PORT_SRC:
-> +		return WUSB3801_CTRL0_ROLE_SRC;
-> +	case TYPEC_PORT_SNK:
-> +		return WUSB3801_CTRL0_ROLE_SNK;
-> +	case TYPEC_PORT_DRP:
-> +	default:
-> +		return WUSB3801_CTRL0_ROLE_DRP;
-> +	}
-> +}
-> +
-> +static int wusb3801_map_pwr_opmode(enum typec_pwr_opmode mode)
-> +{
-> +	switch (mode) {
-> +	case TYPEC_PWR_MODE_USB:
-> +	default:
-> +		return WUSB3801_CTRL0_CURRENT_DEFAULT;
-> +	case TYPEC_PWR_MODE_1_5A:
-> +		return WUSB3801_CTRL0_CURRENT_1_5A;
-> +	case TYPEC_PWR_MODE_3_0A:
-> +		return WUSB3801_CTRL0_CURRENT_3_0A;
-> +	}
-> +}
-> +
-> +static unsigned int wusb3801_map_try_role(int role)
-> +{
-> +	switch (role) {
-> +	case TYPEC_NO_PREFERRED_ROLE:
-> +	default:
-> +		return WUSB3801_CTRL0_TRY_NONE;
-> +	case TYPEC_SINK:
-> +		return WUSB3801_CTRL0_TRY_SNK;
-> +	case TYPEC_SOURCE:
-> +		return WUSB3801_CTRL0_TRY_SRC;
-> +	}
-> +}
-> +
-> +static enum typec_orientation wusb3801_unmap_orientation(unsigned int status)
-> +{
-> +	switch (status & WUSB3801_STAT_ORIENTATION) {
-> +	case WUSB3801_STAT_ORIENTATION_NONE:
-> +	case WUSB3801_STAT_ORIENTATION_BOTH:
-> +		return TYPEC_ORIENTATION_NONE;
-> +	case WUSB3801_STAT_ORIENTATION_CC1:
-> +		return TYPEC_ORIENTATION_NORMAL;
-> +	case WUSB3801_STAT_ORIENTATION_CC2:
-> +		return TYPEC_ORIENTATION_REVERSE;
-> +	}
-> +
-> +	unreachable();
+Add the device id for NCR's Retail IO box (CP2105) used in NCR FastLane
+SelfServ Checkout - R6C:
 
-Some of these functions use use unreachable() and others you do not.
-Pick one style and stick with it please.
+	https://www.ncr.com/product-catalog/ncr-fastlane-selfserv-checkout-r6c
 
-thanks,
+Reported-by: Scott Russell <Scott.Russell2@ncr.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/cp210x.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-greg k-h
+diff --git a/drivers/usb/serial/cp210x.c b/drivers/usb/serial/cp210x.c
+index 8a60c0d56863..5172e7ac16fd 100644
+--- a/drivers/usb/serial/cp210x.c
++++ b/drivers/usb/serial/cp210x.c
+@@ -51,6 +51,7 @@ static void cp210x_enable_event_mode(struct usb_serial_port *port);
+ static void cp210x_disable_event_mode(struct usb_serial_port *port);
+ 
+ static const struct usb_device_id id_table[] = {
++	{ USB_DEVICE(0x0404, 0x034C) },	/* NCR Retail IO Box */
+ 	{ USB_DEVICE(0x045B, 0x0053) }, /* Renesas RX610 RX-Stick */
+ 	{ USB_DEVICE(0x0471, 0x066A) }, /* AKTAKOM ACE-1001 cable */
+ 	{ USB_DEVICE(0x0489, 0xE000) }, /* Pirelli Broadband S.p.A, DP-L10 SIP/GSM Mobile */
+-- 
+2.34.1
+
