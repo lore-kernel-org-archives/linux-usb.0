@@ -2,58 +2,70 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 426D8C43219
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Feb 2022 11:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7771C43217
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Feb 2022 11:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343639AbiBBLCL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Feb 2022 06:02:11 -0500
-Received: from mail.profitfirm24.com.pl ([212.237.10.110]:58644 "EHLO
-        mail.profitfirm24.com.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343627AbiBBLCJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Feb 2022 06:02:09 -0500
-Received: by mail.profitfirm24.com.pl (Postfix, from userid 1001)
-        id 8F5D3AA14A; Tue,  1 Feb 2022 09:17:41 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitfirm24.com.pl;
-        s=mail; t=1643707344;
-        bh=M1ZVeu3q6Upppe+FUx/3rgI7MKJXh389NZDbgCK1SX4=;
-        h=Date:From:To:Subject:From;
-        b=j/YfYAunY1aVQjdze/75YmgYdxMyZ51QpYxv6sZV/ADav4aisBo77N60bVLahmn5T
-         Nh/0c1CBPi2wvXk5K0Tb/3pK9JvlKgVFqC3OK697gGh7d2fHUFr7d/pinDy+fTPv7I
-         Z2VeGSRCMYmIw4brmZcyxr7qnFZoLrgfU2k+Rx4Tj2zCO6ZqUAr1pt5SrpsyBnJrjv
-         aSoaiR+MloZiesHo5SHf2NaZW7PYSfL8N9q8RhpjFVHK4NmSCoOZR3JLMF8jqjF06f
-         XcwF2E74XkcE1J6f0K8u4vC92VbKzqJboQO/L2wXQ1eQ6N1A2RKpalin64mCVi0hY2
-         Bel6y6jdOFUmQ==
-Received: by profitfirm24.com.pl for <linux-usb@vger.kernel.org>; Tue,  1 Feb 2022 09:17:20 GMT
-Message-ID: <20220201074652-0.1.b.2zaq.0.85d6i9607o@profitfirm24.com.pl>
-Date:   Tue,  1 Feb 2022 09:17:20 GMT
-From:   =?UTF-8?Q? "Arkadiusz_Soko=C5=82owski" ?= 
-        <arkadiusz.sokolowski@profitfirm24.com.pl>
-To:     <linux-usb@vger.kernel.org>
-Subject: Koszty instalacji fotowoltaicznej
-X-Mailer: mail.profitfirm24.com.pl
+        id S1343643AbiBBLCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Feb 2022 06:02:10 -0500
+Received: from mga17.intel.com ([192.55.52.151]:35186 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1343632AbiBBLCJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Feb 2022 06:02:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1643799729; x=1675335729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EAq08HSGiQ6pIJJAMlN5vhb3L/MWH6Lf/XUFM0/SaAk=;
+  b=UzhhIe4vWc5nzlHmu9J9OGplGo96SKu8bCPwO0qOmSEFLmlHJyeRTx30
+   3Dwy/6l3wROOSJCqCUcGOGMhIml+G0JsHxDl0XpLqBgaaiFCB0MHl8lLL
+   g4zHbX7w9sxiPpXKj/UhyOIG25jFEyvq9Ms+Ee2LkFKSsgWZ8NInP1w+M
+   RhLI7WSTT55zf39Y7VFe+UYkqMhDaooCMQ7cBCqi9wFsLTxrtnKbbexk5
+   7bVY2UmodP2J6cFU6Vsm/SJGmNbU+qAYVLMLarf4oaNy6wHLfNQ2ebsRW
+   CM3e9Ty8uVDNVUIJs/0x/i4Zm61BjL6MCppQV7C/FM7rpHsoJxtHeGR9Q
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10245"; a="228547147"
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="228547147"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 03:02:09 -0800
+X-IronPort-AV: E=Sophos;i="5.88,336,1635231600"; 
+   d="scan'208";a="480066111"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2022 03:02:06 -0800
+Received: by lahna (sSMTP sendmail emulation); Wed, 02 Feb 2022 12:59:55 +0200
+Date:   Wed, 2 Feb 2022 12:59:55 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>
+Subject: Re: [PATCH 0/3] thunderbolt: Improvements for Alpine and Titan Ridge
+ devices
+Message-ID: <YfpkK7o1aDV5fZI3@lahna>
+References: <20220126141653.28092-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220126141653.28092-1-mika.westerberg@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Wed, Jan 26, 2022 at 05:16:50PM +0300, Mika Westerberg wrote:
+> Hi all,
+> 
+> The first two patches implement flows that are needed to bring up the
+> internal xHCI controller when there is USB device connected to the
+> downstream Thunderbolt port of the the router. The last patch disables
+> LTTPR (LT-tunable PHY Repeater, DisplayPort term) when Titan Ridge device
+> router is connected to avoid tunneling issues.
+> 
+> Mika Westerberg (3):
+>   thunderbolt: Add missing device ID to tb_switch_is_alpine_ridge()
+>   thunderbolt: Add internal xHCI connect flows for Thunderbolt 3 devices
+>   thunderbolt: Disable LTTPR on Intel Titan Ridge
 
-stworzyli=C5=9Bmy specjaln=C4=85 ofert=C4=99 dla firm, na kompleksow=C4=85=
- obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99. =20
-
-Specjalizujemy si=C4=99 w zakresie doboru, monta=C5=BCu i serwisie instal=
-acji fotowoltaicznych, dysponujemy najnowocze=C5=9Bniejszymi rozwi=C4=85z=
-ania, kt=C3=B3re zapewni=C4=85 Pa=C5=84stwu oczekiwane rezultaty.
-
-Mo=C5=BCemy przygotowa=C4=87 dla Pa=C5=84stwa wst=C4=99pn=C4=85 kalkulacj=
-=C4=99 i przeanalizowa=C4=87 efekty mo=C5=BCliwe do osi=C4=85gni=C4=99cia=
-=2E
-
-Czy s=C4=85 Pa=C5=84stwo otwarci na wst=C4=99pn=C4=85 rozmow=C4=99 w tym =
-temacie?
-
-
-Pozdrawiam
-Arkadiusz Soko=C5=82owski
+Fixed the typo pointed out by Lukas and applied to thunderbolt.git/next.
