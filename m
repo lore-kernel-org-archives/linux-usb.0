@@ -2,165 +2,190 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BFC3C43217
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Feb 2022 22:23:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A549C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Feb 2022 00:13:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244848AbiBBWXa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Feb 2022 17:23:30 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:60067 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232942AbiBBWX2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Feb 2022 17:23:28 -0500
-Received: from mail-ej1-f51.google.com ([209.85.218.51]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MnItm-1mYepm17R6-00jFOg; Wed, 02 Feb 2022 23:23:26 +0100
-Received: by mail-ej1-f51.google.com with SMTP id ah7so1728899ejc.4;
-        Wed, 02 Feb 2022 14:23:26 -0800 (PST)
-X-Gm-Message-State: AOAM532G35q5il8XjWGIpZYJt2sFuru+4dhzT3lf99/ws3d5dB3ijosO
-        Drh5+mwdNb7HxNk68qN/0BYjt63q19GzptWkr4U=
-X-Google-Smtp-Source: ABdhPJyS0pXYjoI1KSj8v4HS5DRpiR5z8Z+MmivHV59Rfz0qHTXBAOHLhOORnhnqrVG7qMP59ls3cQTx3h8P+oStNX4=
-X-Received: by 2002:a05:6000:3c6:: with SMTP id b6mr26662700wrg.12.1643836901999;
- Wed, 02 Feb 2022 13:21:41 -0800 (PST)
+        id S1348367AbiBCANN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Feb 2022 19:13:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35300 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239650AbiBCANF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Feb 2022 19:13:05 -0500
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 291F8C061714;
+        Wed,  2 Feb 2022 16:13:05 -0800 (PST)
+Received: by mail-ua1-x92b.google.com with SMTP id 60so2323956uae.1;
+        Wed, 02 Feb 2022 16:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WE3FYXRTMr8gOJmLUsaEWHu/a3/TwrsQlzVcgzMphfA=;
+        b=mg64niYcH127JPOcCpr/FR82HX1axSD6dL7JzoCRYuBJcm0VQEAJeGSU1Mb1DesEJQ
+         WM8mR0zhLSzRyCJwkGK+DFHPPh6fgmqJgSt9E08MxdvM0xhklwFted6V92Vd5DC2gz8L
+         LJbAF+HvKXm5+Qroi+fmxdVrxG+aTpqkvu4M85V8XIysZlibR49kH0xhXGRx+nc+lELw
+         2W0gWKgzOQGrBbEz9HZM21IjGIZYihG1ZGlLr0EyWUqbfu6Iyzkh25jqSRkujJCn72mM
+         nw/d1iSXciQ8V+E0SJGVTB9tq12QBjy1XIjhcV+grA45ArrF8F3enV0TazJX3nPKHxZ/
+         +shw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WE3FYXRTMr8gOJmLUsaEWHu/a3/TwrsQlzVcgzMphfA=;
+        b=qeEt/Geb9sSX22L94Mhx8eqaFNpOiiOjitlN3r0ZZgHUUxqU7CFmIxjpNDkl5NFAWD
+         Krpykhg6HohflkCczjAGwflQ+Wyv4Ez30HiuP/cgNCjKEgPrPfqZTR/FCNfhCYxt77AR
+         wByGp1ZVp4a5N86UVHz/0VodQA2xojyU+l/jUdiwQD04nx0yILUKQZT4sdCgEWJcGV4W
+         37GxJgznNlAawzP2FFdL8jfQlaOOW+Mcmr6Xy8jXgxIlm1tKyeVzrybG8oG3rNCDWQrd
+         RTSShkkPaaUhKGBx9u7+m4+keR+4nRsnwrgBg5jcEgBHWfhZdKpM+C7JQO4Roh7cGV2b
+         0t3Q==
+X-Gm-Message-State: AOAM532z/6NCc0QMrNdxlsHAyVL16QTrt58/vUID9nrQZJswP0jEYHd6
+        XEjtGsfiKFbba/2rfzqwql67BiRRuKJylcDpvK0=
+X-Google-Smtp-Source: ABdhPJyJgz7aszskFOJordkOXOc3LoKIsu4htlxuiMFEfWJ7zH6EvyBkVNZnK1cz2/3ItBmbkr0afZdBGim1OcU5ubE=
+X-Received: by 2002:a05:6102:2e3:: with SMTP id j3mr12767824vsj.32.1643847184135;
+ Wed, 02 Feb 2022 16:13:04 -0800 (PST)
 MIME-Version: 1.0
-References: <nick.hawkins@hpe.com> <20220202165315.18282-1-nick.hawkins@hpe.com>
- <20220202175635.GC2091156@minyard.net> <3E9905F2-1576-4826-ADC2-85796DE0F4DB@hpe.com>
-In-Reply-To: <3E9905F2-1576-4826-ADC2-85796DE0F4DB@hpe.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 2 Feb 2022 22:21:25 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3itj=nshdRCoFQQh5fg-RsEaqj1PdBxfeN2-TzqmoPpQ@mail.gmail.com>
-Message-ID: <CAK8P3a3itj=nshdRCoFQQh5fg-RsEaqj1PdBxfeN2-TzqmoPpQ@mail.gmail.com>
-Subject: Re: [PATCH] HPE BMC GXP SUPPORT
-To:     "Verdun, Jean-Marie" <verdun@hpe.com>
-Cc:     "minyard@acm.org" <minyard@acm.org>,
-        "Hawkins, Nick" <nick.hawkins@hpe.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "David S. Miller" <davem@davemloft.net>,
+References: <20220127104905.899341-1-o.rempel@pengutronix.de>
+ <20220127104905.899341-5-o.rempel@pengutronix.de> <YfJ6lhZMAEmetdad@kroah.com>
+ <20220127112305.GC9150@pengutronix.de> <YfKCTG7N86yy74q+@kroah.com>
+ <20220127120039.GE9150@pengutronix.de> <YfKcYXjfhVKUKfzY@kroah.com> <6ef3a2bbae4ae92943cc66972c945a6543706883.camel@pengutronix.de>
+In-Reply-To: <6ef3a2bbae4ae92943cc66972c945a6543706883.camel@pengutronix.de>
+From:   Sergey Ryazanov <ryazanov.s.a@gmail.com>
+Date:   Thu, 3 Feb 2022 03:12:59 +0300
+Message-ID: <CAHNKnsR_Hr3WUVoUy1YZeYqJmOduH8c4OcLdkEzV3=UumXk1Sw@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 4/4] usbnet: add support for label from device tree
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-usb@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        netdev@vger.kernel.org, Oliver Neukum <oneukum@suse.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, kernel@pengutronix.de,
         Jakub Kicinski <kuba@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        "soc@kernel.org" <soc@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-        Stanislav Jakubek <stano.jakubek@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Hao Fang <fanghao11@huawei.com>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Wang Kefeng <wangkefeng.wang@huawei.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "openipmi-developer@lists.sourceforge.net" 
-        <openipmi-developer@lists.sourceforge.net>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
+        Vladimir Oltean <olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:eHZ+/p82ioH8uVkEKDxI8wmvf5/VFWaDWr4RRIk/y6sIysPpszd
- wGlRCsc9m/dJ0xxE9RWBvVW32bGcJ0diIECHUYZVFt4SH/TLkdohXbnOre3nFphAblpa2Ul
- Ui/0u4ekH1YnFaHpkAyNL7wltP2xNo8XYiCGi4RLRoEA58Om6p79KS3zzlxNy58H9MvN9E2
- o1pkdVW6gSK6OQiDScZoQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X5EY0W3ufyQ=:DlIXCv0bRUN/weL9WzbSdm
- A+3vSRl8O1hLqdIb9jklxlxAMI8foeI5osuJByX0WoVIBj1iQq6vEjKqyGkO78ofeP3adxDn7
- xGbL9Nu7gg/uSY+eVir2/+RGiu44j7Sv6q8bIdx+bPAVx/GmW6oFKErWxFS5oaPMLpkwqzlbx
- d36PeXSrjJGxuPwIE4FPvfJsWGvx9yfs6nx9x7w+CWYzwHNZ2ZcJP3P80S0N2Ny9DxC51nlkj
- CmI0rKTDH1BusAllcB/OEJjUxL+1h9CM+B9SvyAKWLjTbUtVZy6kFZzg3tXa1KDbJLucZAcZd
- f2DPIOFqb4f1SaBDINsrRRYrgaBTt3O3x/HzcuxE5BGCi274TSy4GKFOYSRyqqwyLn+HhNd/M
- 6UKUEzozHDRyumUe7OEL14vq7NqcyqD7Mvd+up+hCTjfToTNvztqFpPCgM6ir9Nt5ieGPuEWn
- q0wTv/5xlSvwMDM00hyzpBVw+/mcRVNLJG8hfO7C7Hp4xtlQ/j+3r3w33HZJA7tsh7wMr8iFz
- z4YKhWQ9L/LEuT0C+5PhOPYRMRyPkJ4vbhEQOoVc2FPgeh557jX1fJHqWBW1gLFdnCa10qOjj
- 343uTyhDrDVi6F9q54OF/OUbb1OnKEl9iK0Lr94ovD0l/+cAfEIlQKor6v1yUQFUTNRd1qwDV
- AF8Vdib5YXTIx4jMQvOiHIsRucVFESPexorGwCmR/DyuOSdFKE6Nd9gtFqDob5Z8oloayj577
- swErGVWR/tZk2dU4EeEhqvLUHGwo1FU9aP6khQUWHV16YDRWGS6qSTeEux/rK+ycJWuv40Jzu
- GUZp0ajxVPRPdvTjvZY07gmDw8ILY3COlw6RpyE/PhfEs6SGl0=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Feb 2, 2022 at 7:14 PM Verdun, Jean-Marie <verdun@hpe.com> wrote:
->
-> > This is far too big for a single patch.  It needs to be broken into
-> > functional chunks that can be reviewed individually.  Each driver and
-> > each device tree change along with it's accompanying code need to be
-> > done in individual patches.  The way it is it can't be reviewed in any
-> > sane manner.
->
-> > -corey
->
-> Thanks for your feedback. We are getting a little bit lost here, as our plan was to submit initial
->
-> - bindings
-> - dts for SoC and 1 board
-> - initial platform init code
->
-> Then drivers code avoiding to send many dts updates which might complexify the
-> review. We wanted to send all drivers code to relevant reviewers by tomorrow.
->
-> So, what you are asking ( do not worry I am not trying to negotiate, I just want
-> to avoid English misunderstandings as I am French) is to send per driver
->
-> - binding
-> - dts update
-> - driver code
->
-> For each driver through different submission (with each of them containing the
-> 3 associated parts) ?
->
-> What shall be the initial one in our case as we are introducing a platform ?
-> An empty dts infrastructure and then we make it grow one step at a time ?
+Hello,
 
-Ideally, what I prefer to see is a series of patches for all "essential" drivers
-and the platform code that includes:
+On Fri, Jan 28, 2022 at 5:57 AM Lucas Stach <l.stach@pengutronix.de> wrote:
+> Am Donnerstag, dem 27.01.2022 um 14:21 +0100 schrieb Greg KH:
+>> On Thu, Jan 27, 2022 at 01:00:39PM +0100, Oleksij Rempel wrote:
+>>> On Thu, Jan 27, 2022 at 12:30:20PM +0100, Greg KH wrote:
+>>>> On Thu, Jan 27, 2022 at 12:23:05PM +0100, Oleksij Rempel wrote:
+>>>>> On Thu, Jan 27, 2022 at 11:57:26AM +0100, Greg KH wrote:
+>>>>>> On Thu, Jan 27, 2022 at 11:49:05AM +0100, Oleksij Rempel wrote:
+>>>>>>> Similar to the option to set a netdev name in device tree for switch
+>>>>>>> ports by using the property "label" in the DSA framework, this patch
+>>>>>>> adds this functionality to the usbnet infrastructure.
+>>>>>>>
+>>>>>>> This will help to name the interfaces properly throughout supported
+>>>>>>> devices. This provides stable interface names which are useful
+>>>>>>> especially in embedded use cases.
+>>>>>>
+>>>>>> Stable interface names are for userspace to set, not the kernel.
+>>>>>>
+>>>>>> Why would USB care about this?  If you need something like this, get it
+>>>>>> from the USB device itself, not DT, which should have nothing to do with
+>>>>>> USB as USB is a dynamic, self-describing, bus.  Unlike DT.
+>>>>>>
+>>>>>> So I do not think this is a good idea.
+>>>>>
+>>>>> This is needed for embedded devices with integrated USB Ethernet
+>>>>> controller. Currently I have following use cases to solve:
+>>>>> - Board with one or multiple USB Ethernet controllers with external PHY.
+>>>>>   The PHY need devicetree to describe IRQ, clock sources, label on board, etc.
+>>>>
+>>>> The phy is for the USB controller, not the Ethernet controller, right?
+>>>> If for the ethernet controller, ugh, that's a crazy design and I would
+>>>> argue a broken one.  But whatever, DT should not be used to describe a
+>>>> USB device itself.
+>>>>
+>>>>> - Board with USB Ethernet controller with DSA switch. The USB ethernet
+>>>>>   controller is attached to the CPU port of DSA switch. In this case,
+>>>>>   DSA switch is the sub-node of the USB device.
+>>>>
+>>>> What do you mean exactly by "sub node"?  USB does not have such a term.
+>>>
+>>> Here are some examples:
+>>>
+>>>   - |
+>>>     usb@11270000 {
+>>>         reg = <0x11270000 0x1000>;
+>>
+>> How can a USB device have a register?
+>>
+>> And what does 11270000 mean?
+>>
+>>
+>>>         #address-cells = <1>;
+>>>         #size-cells = <0>;
+>>>
+>>>         ethernet@1 {
+>>>             compatible = "usb424,ec00";
+>>>             reg = <1>;
+>>>             label = "LAN0";
+>>
+>> Where did that come from?  That should be added in userspace, not from
+>> the kernel.
+>>
+>>>         // there is no internal eeprom, so MAC address is taken from
+>>>         // NVMEM of the SoC.
+>>>             local-mac-address = [00 00 00 00 00 00];
+>>>
+>>>             mdio {
+>>>             ethernet-phy@4 {
+>>>                     reg = <4>;
+>>>                     // Interrupt is attached to the SoC or the GPIO
+>>>                     // controller of the same USB devices.
+>>>                     interrupts-extended = <&gpio1 28 IRQ_TYPE_LEVEL_LOW>;
+>>>                     // same about reset. It is attached to the SoC
+>>>                     // or GPIO controller of the USB device.
+>>>                     reset-gpios = <&gpio3 31 GPIO_ACTIVE_LOW>;
+>>>                     reset-assert-us = <10000>;
+>>>                     reset-deassert-us = <1000>;
+>>>                     // some external clock provider
+>>>                     clocks = <&clk>
+>>>                     qca,smarteee-tw-us-1g = <24>;
+>>>                     qca,clk-out-frequency = <125000000>;
+>>
+>> So this device does not follow the spec for this driver in that you have
+>> to get the values for the phy from DT and not the device itself?  Why
+>> not fix the firmware in the device to report this?
+>>
+>> Anyway, this feels really wrong, USB should not be involved in DT by
+>> virtue of how the bus was designed.
+>
+> While one can argue about the kind of information provided here, it is
+> well defined how DT can augment the information about a device on a
+> runtime discoverable bus like USB. There is even a DT binding that
+> lists you as the maintainer of this standard:
+> Documentation/devicetree/bindings/usb/usb-device.yaml
+>
+> USB is not special here, PCI has the same way for DT to augment runtime
+> discovered device information and that is even covered by the ancient
+> IEEE 1275 Open Firmware standard.
 
-- one patch for each new binding
-- one patch for each new driver
-- one patch that hooks up arch/arm/mach-hpe/, MAINTAINERS
-  and any other changes to arch/arm/ other than dts
-- one patch that adds the initial .dts and .dtsi files, with all the
-  devices added that have a valid binding, no need to split this
-  up any further
+Not to defend this particular patch, but to talk about USB in general.
 
-This should include everything you need to boot into an initramfs
-shell, typically cpu, serial, timer, clk, pinctrl,  gpio, irqchip. We will
-merge these as a git branch in the soc tree.
+USB is not stable at all in terms of the run-time device number, but
+USB is perfectly stable in terms of connection ports. If you traverse
+from a host controller through a sequence of connection ports then you
+reach the same device. As for PCI or any other bus. The document
+referenced by Lucas shows this.
 
-In parallel, you can work with subsystem maintainers for the
-"non-essential" drivers to review any other driver and binding,
-e.g. drm/kms, network, i2c, pci, usb, etc. The patches for
-the corresponding .dts additions also go through the soc tree,
-but to make things simpler, you can send those in for a later
-release.
+Moreover, USB specification even allows you to mark a device connected
+to a particular hub port as non-detachable. What means that such a
+device will be just a block on a PCB. And in this case, FDT becomes a
+good (only?) option to store a subordinated device configuration.
+E.g. as in Oleksij's example with a DSA switch that is connected to an
+Ethernet MAC controller with the USB interface.
 
-          Arnd
+-- 
+BR,
+Sergey
