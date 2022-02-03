@@ -2,86 +2,77 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CE4C43217
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Feb 2022 10:36:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE73CC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Feb 2022 11:14:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350106AbiBCKgO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Feb 2022 05:36:14 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:12391 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350066AbiBCKgK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Feb 2022 05:36:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1643884570; x=1675420570;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=ngqJhiJ5tdkhcY5b0/X08HsrS6YJqNRHbW0yKlAp4sU=;
-  b=kuM5ayVEUZGLdLz0+//omhmq9b4mU1GKyfCc3WdkPA1QLl2YWGE7fatc
-   yzSQWYSdsoAf95h4fMU9xO/HpoyIWzbtyHZejWdZKCxK/gTGbWqBcfuje
-   lm9Eo4RQVBO+qfYWOFdy/l2950VlEEAIFF9QQkbgqHZhHDEMmrb/sH6YP
-   8=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 03 Feb 2022 02:36:09 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 02:36:08 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 3 Feb 2022 02:36:02 -0800
-Received: from blr-ubuntu-525.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 3 Feb 2022 02:35:58 -0800
-From:   Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-To:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <pure.logic@nexus-software.ie>,
-        <bjorn.andersson@linaro.org>, <greg@kroah.com>, <robh@kernel.org>
-CC:     <linux-kernel@vger.kernel.org>, <quic_tsoni@quicinc.com>,
-        <quic_psodagud@quicinc.com>, <quic_satyap@quicinc.com>,
-        <quic_pheragu@quicinc.com>, <quic_rjendra@quicinc.com>,
-        <quic_sibis@quicinc.com>, <quic_saipraka@quicinc.com>,
-        <quic_schowdhu@quicinc.com>
-Subject: [PATCH V5 5/6] arm64: dts: qcom: sc7280: Set the default dr_mode for usb2
-Date:   Thu, 3 Feb 2022 16:04:34 +0530
-Message-ID: <19f0683c897b4eb73e1c5d6ff3debfffc51050f0.1643880577.git.quic_schowdhu@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1643880577.git.quic_schowdhu@quicinc.com>
+        id S1350131AbiBCLOS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Feb 2022 06:14:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229819AbiBCLOR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Feb 2022 06:14:17 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B30C061714;
+        Thu,  3 Feb 2022 03:14:16 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AB9A1B8339D;
+        Thu,  3 Feb 2022 11:14:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 972EEC340E4;
+        Thu,  3 Feb 2022 11:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1643886853;
+        bh=xxX4dF6cL1yEzfRoG5JgXgyt5SDxjS+u7/4N/BpW34M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ImqxT46rAnVZrt5hcN/zy2mlvNnko3+3zMKU27gPdgKtrPGhdX0rweY5FIWulSzr8
+         1Sz80hxI4579YtYsbpSDl3H50NiAJCcljmJ1YmrT5ocgB135k3S5GyNGwKhy++yR7S
+         Xh1OlybGBPf7Grq8JwelBa0IJBvre8wjz6uPf0XE=
+Date:   Thu, 3 Feb 2022 12:14:10 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, pure.logic@nexus-software.ie,
+        bjorn.andersson@linaro.org, robh@kernel.org,
+        linux-kernel@vger.kernel.org, quic_tsoni@quicinc.com,
+        quic_psodagud@quicinc.com, quic_satyap@quicinc.com,
+        quic_pheragu@quicinc.com, quic_rjendra@quicinc.com,
+        quic_sibis@quicinc.com, quic_saipraka@quicinc.com
+Subject: Re: [PATCH V5 3/6] usb: common: eud: Add driver support for Embedded
+ USB Debugger(EUD)
+Message-ID: <Yfu5Aq7U6ZT1KzcJ@kroah.com>
 References: <cover.1643880577.git.quic_schowdhu@quicinc.com>
+ <8dab5fd0df59e057793ac0f2264be31f561b07c3.1643880577.git.quic_schowdhu@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8dab5fd0df59e057793ac0f2264be31f561b07c3.1643880577.git.quic_schowdhu@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Set the default dr_mode for usb2 node to "otg" to enable
-role-switch for EUD(Embedded USB Debugger) connector node.
+On Thu, Feb 03, 2022 at 04:04:32PM +0530, Souradeep Chowdhury wrote:
+> Add support for control peripheral of EUD (Embedded USB Debugger) to
+> listen to events such as USB attach/detach, pet EUD to indicate software
+> is functional.Reusing the platform device kobj, sysfs entry 'enable' is
+> created to enable or disable EUD.
+> 
+> To enable the eud the following needs to be done
+> echo 1 > /sys/bus/platform/.../enable
+> 
+> To disable eud, following is the command
+> echo 0 > /sys/bus/platform/.../enable
+> 
+> Signed-off-by: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+> ---
+>  Documentation/ABI/testing/sysfs-driver-eud |   9 ++
+>  drivers/usb/common/Kconfig                 |  10 ++
+>  drivers/usb/common/Makefile                |   1 +
+>  drivers/usb/common/qcom_eud.c              | 251 +++++++++++++++++++++++++++++
 
-Signed-off-by: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- arch/arm64/boot/dts/qcom/sc7280-idp.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+This really should be drivers/usb/misc/ right?  No other code uses
+anything from this driver which is what "common" is for.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc7280-idp.dts b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-index 9b991ba..f40eaa5 100644
---- a/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-+++ b/arch/arm64/boot/dts/qcom/sc7280-idp.dts
-@@ -61,6 +61,10 @@
- 	modem-init;
- };
- 
-+&usb_2_dwc3 {
-+	dr_mode = "otg";
-+};
-+
- &pmk8350_rtc {
- 	status = "okay";
- };
--- 
-2.7.4
+thanks,
 
+greg k-h
