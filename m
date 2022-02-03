@@ -2,280 +2,296 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9A5C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Feb 2022 08:00:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD41C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Feb 2022 08:37:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244141AbiBCIAk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Feb 2022 03:00:40 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59011 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S242436AbiBCIAe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Feb 2022 03:00:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1643875234; x=1675411234;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=QXOmxEMVPU6vevHf2GfW4l11m4U80TCpw621pvpOI6M=;
-  b=aev+30TdNgD48TwkHkrjaHni/nY76ffHTPfnHReGjgUuwa82cCHK5+nR
-   SmAMdCKarTWFpTbVq6j2lycR0fVlWzwlGo2iucRl/2sLSzKPWl7ainO1c
-   UbjreA8FlQhTh1hxQ7cWRf+FG2wO2CEj9oO+RNBsdmVWQ54+IO3LzvGmr
-   Q=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 03 Feb 2022 00:00:34 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 00:00:33 -0800
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 3 Feb 2022 00:00:33 -0800
-Received: from wcheng-linux.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 3 Feb 2022 00:00:32 -0800
-From:   Wesley Cheng <quic_wcheng@quicinc.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_jackp@quicinc.com>, <Thinh.Nguyen@synopsys.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [RFC PATCH 1/3] usb: dwc3: Flush pending SETUP data during stop active xfers
-Date:   Thu, 3 Feb 2022 00:00:15 -0800
-Message-ID: <20220203080017.27339-2-quic_wcheng@quicinc.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220203080017.27339-1-quic_wcheng@quicinc.com>
-References: <20220203080017.27339-1-quic_wcheng@quicinc.com>
+        id S1349519AbiBCIhK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Feb 2022 03:37:10 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:38050 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1349511AbiBCIhJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Feb 2022 03:37:09 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6CA4E61857;
+        Thu,  3 Feb 2022 08:37:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBD76C340E4;
+        Thu,  3 Feb 2022 08:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1643877428;
+        bh=tKF+x+jnytPxbLdDjGbdWLPzI9Cb2JI12V6ZvMG8p40=;
+        h=From:To:Cc:Subject:Date:From;
+        b=P7MusFJKo2H4m0VI1APhjwM+eziY1mUA4u1ge2OJ/37EHPSKyOSLUVnc1cqgotRu+
+         JarFCwrPKI7unnqq4yNz0Q0CN+ydq8Y/r2mSNUR8+TS57vwyHxb67WYDRWviZmrmJa
+         76v+nAwMfA981I114yEdM4fskcWkWRNBQH5ffXGEmGfUkEgPZRIXpHIloM3GoA6QL1
+         ZR9jVbpCTBDqz4vL6Ngye+iK6+RIwFTc3ytlslDX1Ofv8yaGpZbHBm0VH1DnuYZBph
+         EpMo27+yXQHpLnAXbP3P6rkr69/xYc8HUfX2W8Ciq/C7nbkaFqq33cwdYpEYdP6c7h
+         gzp3ksVxDPoeg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Russell King <linux@armlinux.org.uk>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] ARM: sa1100/assabet: move dmabounce hack to ohci driver
+Date:   Thu,  3 Feb 2022 09:36:33 +0100
+Message-Id: <20220203083658.559803-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While running the pullup disable sequence, if there are pending SETUP
-transfers stored in the controller, then the endxfer commands will
-fail w/ ETIMEDOUT.  As a suggestion from SNPS, in order to drain the
-SETUP packets, SW needs to issue a STARTXFER command.  After issuing
-the STARTXFER, and retrying the ENDXFER, the command should succeed.
-Else, if the endpoints are not properly stopped, the controller halt
-sequence will fail as well.
+From: Arnd Bergmann <arnd@arndb.de>
 
-One limitation is that the current logic will drop the SETUP data
-being received (ie dropping the SETUP packet), however, it should be
-acceptable in the pullup disable case, as the device is eventually
-going to disconnect from the host.
+The sa1111 platform is one of the two remaining users of the old Arm
+specific "dmabounce" code, which is an earlier implementation of the
+generic swiotlb.
 
-Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+Linus Walleij submitted a patch that removes dmabounce support from
+the ixp4xx, and I had a look at the other user, which is the sa1111
+companion chip.
+
+Looking at how dmabounce is used, I could narrow it down to one driver
+one three machines:
+
+ - dmabounce is only initialized on assabet/neponset, jornada720 and
+   badge4, which are the platforms that have an sa1111 and support
+   DMA on it.
+
+ - All three of these suffer from "erratum #7" that requires only
+   doing DMA to half the memory sections based on one of the address
+   lines, in addition, the neponset also can't DMA to the RAM that
+   is connected to sa1111 itself.
+
+ - the pxa lubbock machine also has sa1111, but does not support DMA
+   on it and does not set dmabounce.
+
+ - only the OHCI and audio devices on sa1111 support DMA, but as
+   there is no audio driver for this hardware, only OHCI remains.
+
+In the OHCI code, I noticed that two other platforms already have
+a local bounce buffer support in the form of the "local_mem"
+allocator. Specifically, TMIO and SM501 use this on a few other ARM
+boards with 16KB or 128KB of local SRAM that can be accessed from the
+OHCI and from the CPU.
+
+While this is not the same problem as on sa1111, I could not find a
+reason why we can't re-use the existing implementation but replace the
+physical SRAM address mapping with a locally allocated DMA buffer.
+
+There are two main downsides:
+
+ - rather than using a dynamically sized pool, this buffer needs
+   to be allocated at probe time using a fixed size. Without
+   having any idea of what it should be, I picked a size of
+   64KB, which is between what the other two OHCI front-ends use
+   in their SRAM. If anyone has a better idea what that size
+   is reasonable, this can be trivially changed.
+
+ - Previously, only USB transfers to unaddressable memory needed
+   to go through the bounce buffer, now all of them do, which may
+   impact runtime performance for USB endpoints that do a lot of
+   transfers.
+
+On the upside, the local_mem support uses write-combining buffers,
+which should be a bit faster for transfers to the device compared to
+normal uncached coherent memory as used in dmabounce.
+
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Christoph Hellwig <hch@infradead.org>
+Cc: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Cc: linux-usb@vger.kernel.org
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/usb/dwc3/core.h   |  7 +++++++
- drivers/usb/dwc3/ep0.c    | 21 ++++++++++++--------
- drivers/usb/dwc3/gadget.c | 42 ++++++++++++++++++++++++++++++++++-----
- 3 files changed, 57 insertions(+), 13 deletions(-)
+Changes in v2:
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index e1cc3f7398fb..a124694c0038 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1546,6 +1546,8 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
- int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
- 		u32 param);
- void dwc3_gadget_clear_tx_fifos(struct dwc3 *dwc);
-+void dwc3_ep0_stall_and_restart(struct dwc3 *dwc);
-+void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep);
- #else
- static inline int dwc3_gadget_init(struct dwc3 *dwc)
- { return 0; }
-@@ -1567,6 +1569,11 @@ static inline int dwc3_send_gadget_generic_command(struct dwc3 *dwc,
- { return 0; }
- static inline void dwc3_gadget_clear_tx_fifos(struct dwc3 *dwc)
- { }
-+static inline void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
-+{ }
-+static inline void dwc3_ep0_end_control_data(struct dwc3 *dwc,
-+					     struct dwc3_ep *dep)
-+{ }
- #endif
+ - drop check for assabet, as bounce buffers are required on
+   all sa1100 machines
+ - select CONFIG_ZONE_DMA again
+ - update comments and changelog text based on discussion
+---
+ arch/arm/common/Kconfig        |  2 +-
+ arch/arm/common/sa1111.c       | 64 ----------------------------------
+ drivers/usb/core/hcd.c         | 17 +++++++--
+ drivers/usb/host/ohci-sa1111.c | 25 +++++++++++++
+ 4 files changed, 40 insertions(+), 68 deletions(-)
+
+diff --git a/arch/arm/common/Kconfig b/arch/arm/common/Kconfig
+index c8e198631d41..bc158fd227e1 100644
+--- a/arch/arm/common/Kconfig
++++ b/arch/arm/common/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ config SA1111
+ 	bool
+-	select DMABOUNCE if !ARCH_PXA
++	select ZONE_DMA if ARCH_SA1100
  
- #if IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
-diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
-index 658739410992..eb677b888610 100644
---- a/drivers/usb/dwc3/ep0.c
-+++ b/drivers/usb/dwc3/ep0.c
-@@ -197,7 +197,7 @@ int dwc3_gadget_ep0_queue(struct usb_ep *ep, struct usb_request *request,
- 	int				ret;
+ config DMABOUNCE
+ 	bool
+diff --git a/arch/arm/common/sa1111.c b/arch/arm/common/sa1111.c
+index 7df003b149c6..a00915883f78 100644
+--- a/arch/arm/common/sa1111.c
++++ b/arch/arm/common/sa1111.c
+@@ -1391,70 +1391,9 @@ void sa1111_driver_unregister(struct sa1111_driver *driver)
+ }
+ EXPORT_SYMBOL(sa1111_driver_unregister);
  
- 	spin_lock_irqsave(&dwc->lock, flags);
--	if (!dep->endpoint.desc || !dwc->pullups_connected) {
-+	if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->connected) {
- 		dev_err(dwc->dev, "%s: can't queue to disabled endpoint\n",
- 				dep->name);
- 		ret = -ESHUTDOWN;
-@@ -218,19 +218,21 @@ int dwc3_gadget_ep0_queue(struct usb_ep *ep, struct usb_request *request,
+-#ifdef CONFIG_DMABOUNCE
+-/*
+- * According to the "Intel StrongARM SA-1111 Microprocessor Companion
+- * Chip Specification Update" (June 2000), erratum #7, there is a
+- * significant bug in the SA1111 SDRAM shared memory controller.  If
+- * an access to a region of memory above 1MB relative to the bank base,
+- * it is important that address bit 10 _NOT_ be asserted. Depending
+- * on the configuration of the RAM, bit 10 may correspond to one
+- * of several different (processor-relative) address bits.
+- *
+- * This routine only identifies whether or not a given DMA address
+- * is susceptible to the bug.
+- *
+- * This should only get called for sa1111_device types due to the
+- * way we configure our device dma_masks.
+- */
+-static int sa1111_needs_bounce(struct device *dev, dma_addr_t addr, size_t size)
+-{
+-	/*
+-	 * Section 4.6 of the "Intel StrongARM SA-1111 Development Module
+-	 * User's Guide" mentions that jumpers R51 and R52 control the
+-	 * target of SA-1111 DMA (either SDRAM bank 0 on Assabet, or
+-	 * SDRAM bank 1 on Neponset). The default configuration selects
+-	 * Assabet, so any address in bank 1 is necessarily invalid.
+-	 */
+-	return (machine_is_assabet() || machine_is_pfs168()) &&
+-		(addr >= 0xc8000000 || (addr + size) >= 0xc8000000);
+-}
+-
+-static int sa1111_notifier_call(struct notifier_block *n, unsigned long action,
+-	void *data)
+-{
+-	struct sa1111_dev *dev = to_sa1111_device(data);
+-
+-	switch (action) {
+-	case BUS_NOTIFY_ADD_DEVICE:
+-		if (dev->dev.dma_mask && dev->dma_mask < 0xffffffffUL) {
+-			int ret = dmabounce_register_dev(&dev->dev, 1024, 4096,
+-					sa1111_needs_bounce);
+-			if (ret)
+-				dev_err(&dev->dev, "failed to register with dmabounce: %d\n", ret);
+-		}
+-		break;
+-
+-	case BUS_NOTIFY_DEL_DEVICE:
+-		if (dev->dev.dma_mask && dev->dma_mask < 0xffffffffUL)
+-			dmabounce_unregister_dev(&dev->dev);
+-		break;
+-	}
+-	return NOTIFY_OK;
+-}
+-
+-static struct notifier_block sa1111_bus_notifier = {
+-	.notifier_call = sa1111_notifier_call,
+-};
+-#endif
+-
+ static int __init sa1111_init(void)
+ {
+ 	int ret = bus_register(&sa1111_bus_type);
+-#ifdef CONFIG_DMABOUNCE
+-	if (ret == 0)
+-		bus_register_notifier(&sa1111_bus_type, &sa1111_bus_notifier);
+-#endif
+ 	if (ret == 0)
+ 		platform_driver_register(&sa1111_device_driver);
  	return ret;
+@@ -1463,9 +1402,6 @@ static int __init sa1111_init(void)
+ static void __exit sa1111_exit(void)
+ {
+ 	platform_driver_unregister(&sa1111_device_driver);
+-#ifdef CONFIG_DMABOUNCE
+-	bus_unregister_notifier(&sa1111_bus_type, &sa1111_bus_notifier);
+-#endif
+ 	bus_unregister(&sa1111_bus_type);
  }
  
--static void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
-+void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
- {
- 	struct dwc3_ep		*dep;
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index 3c7c64ff3c0a..8417baedc89c 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1260,7 +1260,8 @@ void usb_hcd_unlink_urb_from_ep(struct usb_hcd *hcd, struct urb *urb)
+ EXPORT_SYMBOL_GPL(usb_hcd_unlink_urb_from_ep);
  
- 	/* reinitialize physical ep1 */
- 	dep = dwc->eps[1];
- 	dep->flags = DWC3_EP_ENABLED;
-+	dep->trb_enqueue = 0;
+ /*
+- * Some usb host controllers can only perform dma using a small SRAM area.
++ * Some usb host controllers can only perform dma using a small SRAM area,
++ * or have restrictions on addressable DRAM.
+  * The usb core itself is however optimized for host controllers that can dma
+  * using regular system memory - like pci devices doing bus mastering.
+  *
+@@ -3095,8 +3096,18 @@ int usb_hcd_setup_local_mem(struct usb_hcd *hcd, phys_addr_t phys_addr,
+ 	if (IS_ERR(hcd->localmem_pool))
+ 		return PTR_ERR(hcd->localmem_pool);
  
- 	/* stall is always issued on EP0 */
- 	dep = dwc->eps[0];
- 	__dwc3_gadget_ep_set_halt(dep, 1, false);
- 	dep->flags = DWC3_EP_ENABLED;
- 	dwc->delayed_status = false;
-+	dep->trb_enqueue = 0;
+-	local_mem = devm_memremap(hcd->self.sysdev, phys_addr,
+-				  size, MEMREMAP_WC);
++	/*
++	 * if a physical SRAM address was passed, map it, otherwise
++	 * allocate system memory as a buffer.
++	 */
++	if (phys_addr)
++		local_mem = devm_memremap(hcd->self.sysdev, phys_addr,
++					  size, MEMREMAP_WC);
++	else
++		local_mem = dmam_alloc_attrs(hcd->self.sysdev, size, &dma,
++					     GFP_KERNEL,
++					     DMA_ATTR_WRITE_COMBINE);
++
+ 	if (IS_ERR(local_mem))
+ 		return PTR_ERR(local_mem);
  
- 	if (!list_empty(&dep->pending_list)) {
- 		struct dwc3_request	*req;
-@@ -240,7 +242,9 @@ static void dwc3_ep0_stall_and_restart(struct dwc3 *dwc)
+diff --git a/drivers/usb/host/ohci-sa1111.c b/drivers/usb/host/ohci-sa1111.c
+index 137f66f6977f..0da2badf0658 100644
+--- a/drivers/usb/host/ohci-sa1111.c
++++ b/drivers/usb/host/ohci-sa1111.c
+@@ -206,6 +206,31 @@ static int ohci_hcd_sa1111_probe(struct sa1111_dev *dev)
+ 		goto err1;
  	}
  
- 	dwc->ep0state = EP0_SETUP_PHASE;
--	dwc3_ep0_out_start(dwc);
-+	complete(&dwc->ep0_in_setup);
-+	if (dwc->softconnect)
-+		dwc3_ep0_out_start(dwc);
- }
- 
- int __dwc3_gadget_ep0_set_halt(struct usb_ep *ep, int value)
-@@ -272,8 +276,6 @@ void dwc3_ep0_out_start(struct dwc3 *dwc)
- 	struct dwc3_ep			*dep;
- 	int				ret;
- 
--	complete(&dwc->ep0_in_setup);
--
- 	dep = dwc->eps[0];
- 	dwc3_ep0_prepare_one_trb(dep, dwc->ep0_trb_addr, 8,
- 			DWC3_TRBCTL_CONTROL_SETUP, false);
-@@ -922,7 +924,9 @@ static void dwc3_ep0_complete_status(struct dwc3 *dwc,
- 		dwc->setup_packet_pending = true;
- 
- 	dwc->ep0state = EP0_SETUP_PHASE;
--	dwc3_ep0_out_start(dwc);
-+	complete(&dwc->ep0_in_setup);
-+	if (dwc->softconnect)
-+		dwc3_ep0_out_start(dwc);
- }
- 
- static void dwc3_ep0_xfer_complete(struct dwc3 *dwc,
-@@ -1073,7 +1077,7 @@ void dwc3_ep0_send_delayed_status(struct dwc3 *dwc)
- 	__dwc3_ep0_do_control_status(dwc, dwc->eps[direction]);
- }
- 
--static void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep)
-+void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep)
- {
- 	struct dwc3_gadget_ep_cmd_params params;
- 	u32			cmd;
-@@ -1083,7 +1087,8 @@ static void dwc3_ep0_end_control_data(struct dwc3 *dwc, struct dwc3_ep *dep)
- 		return;
- 
- 	cmd = DWC3_DEPCMD_ENDTRANSFER;
--	cmd |= DWC3_DEPCMD_CMDIOC;
-+	cmd |= dwc->connected ? 0 : DWC3_DEPCMD_HIPRI_FORCERM;
-+	cmd |= dwc->connected ? DWC3_DEPCMD_CMDIOC : 0;
- 	cmd |= DWC3_DEPCMD_PARAM(dep->resource_index);
- 	memset(&params, 0, sizeof(params));
- 	ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 520031ba38aa..19b8d837e9d0 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -885,12 +885,13 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
- 		reg |= DWC3_DALEPENA_EP(dep->number);
- 		dwc3_writel(dwc->regs, DWC3_DALEPENA, reg);
- 
--		if (usb_endpoint_xfer_control(desc))
--			goto out;
--
- 		/* Initialize the TRB ring */
- 		dep->trb_dequeue = 0;
- 		dep->trb_enqueue = 0;
++	/*
++	 * According to the "Intel StrongARM SA-1111 Microprocessor Companion
++	 * Chip Specification Update" (June 2000), erratum #7, there is a
++	 * significant bug in the SA1111 SDRAM shared memory controller.  If
++	 * an access to a region of memory above 1MB relative to the bank base,
++	 * it is important that address bit 10 _NOT_ be asserted. Depending
++	 * on the configuration of the RAM, bit 10 may correspond to one
++	 * of several different (processor-relative) address bits.
++	 *
++	 * Section 4.6 of the "Intel StrongARM SA-1111 Development Module
++	 * User's Guide" mentions that jumpers R51 and R52 control the
++	 * target of SA-1111 DMA (either SDRAM bank 0 on Assabet, or
++	 * SDRAM bank 1 on Neponset). The default configuration selects
++	 * Assabet, so any address in bank 1 is necessarily invalid.
++	 *
++	 * As a workaround, use a bounce buffer in addressable memory
++	 * as local_mem, relying on ZONE_DMA to provide an area that
++	 * fits within the above constraints.
++	 *
++	 * SZ_64K is an estimate for what size this might need.
++	 */
++	ret = usb_hcd_setup_local_mem(hcd, 0, 0, SZ_64K);
++	if (ret)
++		goto err1;
 +
-+		if (usb_endpoint_xfer_control(desc))
-+			goto out;
-+
- 		memset(dep->trb_pool, 0,
- 		       sizeof(struct dwc3_trb) * DWC3_TRB_NUM);
- 
-@@ -2463,7 +2464,8 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 	 * Per databook, when we want to stop the gadget, if a control transfer
- 	 * is still in process, complete it and get the core into setup phase.
- 	 */
--	if (!is_on && dwc->ep0state != EP0_SETUP_PHASE) {
-+	if ((!is_on && (dwc->ep0state != EP0_SETUP_PHASE ||
-+	     dwc->ep0_next_event != DWC3_EP0_COMPLETE))) {
- 		reinit_completion(&dwc->ep0_in_setup);
- 
- 		ret = wait_for_completion_timeout(&dwc->ep0_in_setup,
-@@ -2506,6 +2508,17 @@ static int dwc3_gadget_pullup(struct usb_gadget *g, int is_on)
- 		u32 count;
- 
- 		dwc->connected = false;
-+
-+		/*
-+		 * Ensure no pending data/setup stages, and disable ep0 to
-+		 * block further EP0 transactions before stopping pending
-+		 * transfers.
-+		 */
-+		dwc3_ep0_end_control_data(dwc, dwc->eps[1]);
-+		dwc3_ep0_stall_and_restart(dwc);
-+		__dwc3_gadget_ep_disable(dwc->eps[0]);
-+		__dwc3_gadget_ep_disable(dwc->eps[1]);
-+
- 		/*
- 		 * In the Synopsis DesignWare Cores USB3 Databook Rev. 3.30a
- 		 * Section 4.1.8 Table 4-7, it states that for a device-initiated
-@@ -3587,8 +3600,10 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	bool interrupt)
- {
- 	struct dwc3_gadget_ep_cmd_params params;
-+	struct dwc3 *dwc = dep->dwc;
- 	u32 cmd;
- 	int ret;
-+	int retries = 1;
- 
- 	if (!(dep->flags & DWC3_EP_TRANSFER_STARTED) ||
- 	    (dep->flags & DWC3_EP_END_TRANSFER_PENDING))
-@@ -3620,7 +3635,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	 *
- 	 * This mode is NOT available on the DWC_usb31 IP.
- 	 */
--
-+retry:
- 	cmd = DWC3_DEPCMD_ENDTRANSFER;
- 	cmd |= force ? DWC3_DEPCMD_HIPRI_FORCERM : 0;
- 	cmd |= interrupt ? DWC3_DEPCMD_CMDIOC : 0;
-@@ -3628,6 +3643,23 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	memset(&params, 0, sizeof(params));
- 	ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
- 	WARN_ON_ONCE(ret);
-+	if (ret == -ETIMEDOUT) {
-+		if (!dwc->connected) {
-+			/*
-+			 * While the controller is in an active setup/control
-+			 * transfer, the HW is unable to service other eps
-+			 * potentially leading to an endxfer command timeout.
-+			 * It was recommended to ensure that there are no
-+			 * pending/cached setup packets stored in internal
-+			 * memory.  Only way to achieve this is to issue another
-+			 * start transfer, and retry.
-+			 */
-+			if (retries--) {
-+				dwc3_ep0_out_start(dwc);
-+				goto retry;
-+			}
-+		}
-+	}
- 	dep->resource_index = 0;
- 
- 	if (!interrupt)
+ 	if (!request_mem_region(hcd->rsrc_start, hcd->rsrc_len, hcd_name)) {
+ 		dev_dbg(&dev->dev, "request_mem_region failed\n");
+ 		ret = -EBUSY;
+-- 
+2.29.2
+
