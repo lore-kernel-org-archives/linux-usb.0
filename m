@@ -2,92 +2,178 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F140C433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Feb 2022 07:04:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 600D8C433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Feb 2022 08:52:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348080AbiBDHEO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Feb 2022 02:04:14 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:43954 "EHLO
-        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347683AbiBDHEN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Feb 2022 02:04:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1643958253; x=1675494253;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SXVd4S8bE3teYbIWM81qv90z0xH1B1evYSMVHt82/K0=;
-  b=OMGsRCrEUS6b4rzewT/cr4xeZnPV7EXcx1EiKAIcTEomf/6yIoLTroxB
-   uXe5H4tBOQ4+LV5XaVPVWT+9gBLE2JenPyjKHIgnK2mx4p3a4N+guGBt+
-   8TFZFgbOJiCE53NDLzfdecPHkrcdFI/LSS99YljQZcbzpRMMQiDF6tKmX
-   k=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 03 Feb 2022 23:04:13 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2022 23:04:13 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Thu, 3 Feb 2022 23:04:12 -0800
-Received: from [10.50.21.95] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Thu, 3 Feb 2022
- 23:04:07 -0800
-Message-ID: <c9c1bcb8-74d6-9049-f4ab-e3fdb8a0ae5e@quicinc.com>
-Date:   Fri, 4 Feb 2022 12:33:30 +0530
+        id S1353461AbiBDIw2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Feb 2022 03:52:28 -0500
+Received: from smtp-relay-internal-0.canonical.com ([185.125.188.122]:36910
+        "EHLO smtp-relay-internal-0.canonical.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232586AbiBDIwZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Feb 2022 03:52:25 -0500
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 36F9440327
+        for <linux-usb@vger.kernel.org>; Fri,  4 Feb 2022 08:52:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+        s=20210705; t=1643964744;
+        bh=iqZrLHxxMKYXcwDk+JH/xBRKoG0uPSeGw2pYz3/v6kY=;
+        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+         In-Reply-To:Content-Type;
+        b=qnPp9d4xFaxTg3mjbDdwampcBXqqfo8DgkBf3yT/Edg/I4LN6PG/4BlRLSTKOk+yL
+         iMlPX/FYl0tcjL790Q2ZD8tAn8JF4m4GJo2fMB4GVQg4DDH0dFtu0Le3/tE3FBel/5
+         AKBrh1u8NG9PLNOvZOWPZHfsb8YJtRl7G4w3fDgf+gFCAntwq26Ef43atxjovTutxJ
+         wEc7NH1a5pVVQ59uIG1n7f840Ywhyr6HeOuQ68NyCo+ziLdt8raXl9UVhQmAC+jrSF
+         TXTsfNhWA28SR38YNHj26zj03cekT0C9/iwbiBx4c+qcvQXtWF85t/v+dt5swWFz5G
+         CY8qwSYtILxkw==
+Received: by mail-lf1-f71.google.com with SMTP id i28-20020a056512007c00b00437f0f6da15so2802605lfo.16
+        for <linux-usb@vger.kernel.org>; Fri, 04 Feb 2022 00:52:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=iqZrLHxxMKYXcwDk+JH/xBRKoG0uPSeGw2pYz3/v6kY=;
+        b=FwZLoHGfTVXF4GSGFvH86z/r3gAD+t1imtWiJ5e1DvmkANunh8iCoc3bm5BEonNW96
+         Sf171rO9vSwMPHWRFXr9XGSrvOKKgkAi2uxdL8T0X5yC8gSroOAEUNksekkmmEpAIufW
+         7VShL0MfqmND2/aGdDiUtY7T1KdoPq0TAV0c85zcvvFVR9TDUSha3slVAd0IrTsva85G
+         Z1xZ4bzMeDrm/rZbHGgpFt0WnXXPmreWy6tO8kE/cwNYB4xiN+s4g1j/SfuqQrtznp+G
+         nzxXwh30WED589Rb8kccCQUFyNlCsG3LhCuPwsoL73txC78ctbcYpvvb/fm1EtKCUvWt
+         Giig==
+X-Gm-Message-State: AOAM533t9X1sBz+r0hwA/2VhtbuZzlADxqdmByxKLtdLjpf1dBCKHcds
+        CuAJIE+UBcLoF3g+zYBhmwtc8aXBCryo/ymhruNiCdb5/iKDGds4AD4V9MAE9UJpN2IXkvF6CD1
+        w4K+xNO3zBdGoez+wO7u8AbEEnO+GZEKRZ735lg==
+X-Received: by 2002:a05:6402:3492:: with SMTP id v18mr1976640edc.345.1643964732824;
+        Fri, 04 Feb 2022 00:52:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwVcZDvspQCzKUyW5YG8zjDVQmYqY/DEAG3sfjKSfnQIzLHqmc3NlVf9LlkkFskfuUgLPJavA==
+X-Received: by 2002:a05:6402:3492:: with SMTP id v18mr1976597edc.345.1643964732578;
+        Fri, 04 Feb 2022 00:52:12 -0800 (PST)
+Received: from [192.168.0.81] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id z8sm418238ejc.197.2022.02.04.00.52.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Feb 2022 00:52:11 -0800 (PST)
+Message-ID: <ed615fdb-5c30-697e-f197-a3a93c5336b9@canonical.com>
+Date:   Fri, 4 Feb 2022 09:52:10 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH V5 3/6] usb: common: eud: Add driver support for Embedded
- USB Debugger(EUD)
-Content-Language: en-CA
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <pure.logic@nexus-software.ie>,
-        <bjorn.andersson@linaro.org>, <robh@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_tsoni@quicinc.com>,
-        <quic_psodagud@quicinc.com>, <quic_satyap@quicinc.com>,
-        <quic_pheragu@quicinc.com>, <quic_rjendra@quicinc.com>,
-        <quic_sibis@quicinc.com>, <quic_saipraka@quicinc.com>
-References: <cover.1643880577.git.quic_schowdhu@quicinc.com>
- <8dab5fd0df59e057793ac0f2264be31f561b07c3.1643880577.git.quic_schowdhu@quicinc.com>
- <Yfu5Aq7U6ZT1KzcJ@kroah.com>
-From:   Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-In-Reply-To: <Yfu5Aq7U6ZT1KzcJ@kroah.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] HPE BMC GXP SUPPORT
+Content-Language: en-US
+To:     "Verdun, Jean-Marie" <verdun@hpe.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Hawkins, Nick" <nick.hawkins@hpe.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Corey Minyard <minyard@acm.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+        SoC Team <soc@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+        Stanislav Jakubek <stano.jakubek@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Hao Fang <fanghao11@huawei.com>,
+        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Wang Kefeng <wangkefeng.wang@huawei.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "openipmi-developer@lists.sourceforge.net" 
+        <openipmi-developer@lists.sourceforge.net>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        LINUX-WATCHDOG <linux-watchdog@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
+References: <nick.hawkins@hpe.com>
+ <20220202165315.18282-1-nick.hawkins@hpe.com>
+ <CAL_Jsq+K2t5WYE056so1iZgZr7CBKvDEjAwnJVTyUFQcK-VFSA@mail.gmail.com>
+ <e79133f2-f872-3ed6-4038-526e94e84909@canonical.com>
+ <1FEAAC19-1DD7-40D7-98FD-30C2659E7C0F@hpe.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <1FEAAC19-1DD7-40D7-98FD-30C2659E7C0F@hpe.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On 03/02/2022 18:07, Verdun, Jean-Marie wrote:
+> 
+>    > Maybe it does not look like, but this is actually a v2. Nick was asked
+>    > to change the naming for the nodes already in v1. Unfortunately it did
+>    > not happen, so we have vuart, spifi, vic and more.
+> 
+>    > It is a waste of reviewers' time to ask them to perform the same review
+>    > twice or to ignore their comments.
+> 
+>     Hi Krysztof,
+> 
+>     Accept our apologies if you think you lose your time, it is clearly not our
+>     intent. 
+> 
+>     This is the first time that we (I mean the team) introduce a new arch into
+>     the linux kernel and I must admit that we had hard time to understand
+>     from which angle we needed to start.
+> 
+>     I will probably write a Documentation afterward, as it is easy to find doc
+>     on how to introduce a patch or a driver, but not when you want to 
+>     introduce a new chip. 
+> 
+>     We are trying to do our best, and clearly want to follow all of your inputs.
+>     Mistakes happen and they are clearly not intentional and not driven in 
+>     a way to make you lose your time.
+> 
+>     Helping others, and teaching something new is definitely a way to 
+>     optimize your time and this is what you are currently doing with us.
+> 
+>     We appreciate it and hope you will too.
 
-On 2/3/2022 4:44 PM, Greg KH wrote:
-> On Thu, Feb 03, 2022 at 04:04:32PM +0530, Souradeep Chowdhury wrote:
->> Add support for control peripheral of EUD (Embedded USB Debugger) to
->> listen to events such as USB attach/detach, pet EUD to indicate software
->> is functional.Reusing the platform device kobj, sysfs entry 'enable' is
->> created to enable or disable EUD.
->>
->> To enable the eud the following needs to be done
->> echo 1 > /sys/bus/platform/.../enable
->>
->> To disable eud, following is the command
->> echo 0 > /sys/bus/platform/.../enable
->>
->> Signed-off-by: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
->> ---
->>   Documentation/ABI/testing/sysfs-driver-eud |   9 ++
->>   drivers/usb/common/Kconfig                 |  10 ++
->>   drivers/usb/common/Makefile                |   1 +
->>   drivers/usb/common/qcom_eud.c              | 251 +++++++++++++++++++++++++++++
-> This really should be drivers/usb/misc/ right?  No other code uses
-> anything from this driver which is what "common" is for.
-Ack
->
-> thanks,
->
-> greg k-h
+I understand, I also maybe over-reacted on this. Just please go through
+the comments you got for first submission and either apply them or
+respond why you disagree.
+
+The next submissions (patchset split into several commits) should be a
+v3, preferably with cover letter (git format-patch --cover-letter -v3
+...) where you can document also changes you did to the patchset.
+
+It looks for example like this:
+https://lore.kernel.org/linux-samsung-soc/31da451b-a36c-74fb-5667-d4193284c6cd@canonical.com/T/#mf98d2ac27a8481dc69dd110f9861c8318cade252
+
+or like this (where changelogs are in each patch, although ordering is
+not correct because dt-bindings should be the first in the series):
+https://lore.kernel.org/all/20220103233948.198119-1-Mr.Bossman075@gmail.com/
+
+
+Best regards,
+Krzysztof
