@@ -2,134 +2,170 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 061AAC43217
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Feb 2022 18:29:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CF09C4332F
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Feb 2022 18:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377531AbiBDS3M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Feb 2022 13:29:12 -0500
-Received: from mail-bn8nam12on2046.outbound.protection.outlook.com ([40.107.237.46]:46689
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S1377662AbiBDShD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Feb 2022 13:37:03 -0500
+Received: from mail-bn7nam10on2087.outbound.protection.outlook.com ([40.107.92.87]:7815
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1377511AbiBDS3K (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 4 Feb 2022 13:29:10 -0500
+        id S1377578AbiBDSg5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Feb 2022 13:36:57 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mIWmcYsbY0CKhsaHgAiEzAIHlJ1kWrkuARxzwupU2WlXzw5Wgb1/hnV6wbKVZ1+QYnrrBIMXnpIGsVFhF6OG70w301lgBwgY73p5lToTAncD3W2PXZDe+eqQFWk30uqiGJwZsuRkvYiDoUjuXUqDik9VUjZjuCkMRY/jrQcDVrsOp+3qTCQIJXpjBvfRBzYtsqhDv9JoGmrg+Zab0e9mzm3SnazTjRCH3HCDXUfhd3DZcv4FcsPslpQ4ZyZBPUbGl95W6gF67etWL+5aUhDFxzGn6Obh6abVYHKq1IgP91vH/NILiQ2RMig+QtdnPuIHiXv0Dhn21ozJpz4q/3W1FQ==
+ b=QuThBcNSMHXgxX5o/x4DInRajdu4+JRdRJf/ClDlsqJYGjPQo5fDLZNO5BXdlL9bg6EUhZ3RM8aASpUi1WjioUgNZ7qgZjr2VrgLCFfcYKrMsPXOOX9iYRA4Nvz3WWZDhwTMMjRq67pCVaYHfgtVkXlW0eMVN4ENPeSlx0LBWALIJ2R409AF4cABJiYTOb/ckDxEGrIDc+NT/pquVtCF9mS6MKC9UhJS/Wa6eq1SqsmiaeW/IKR4NrK1tgsr7ZtPA7Bn4mh5N1GQQtJBIni2pcOEa6BK1ZuFpcyGY/7yTf5WsD/Ze34mlKFaBL0sdrz5dh9wAGe/+LESjYZ0gnFUAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2rKIF1fpsn4PKDC5NrB4Sqvqq2Mvj2Q7uc9T29UOur8=;
- b=brzBXpJ8+YVL7JHnSjvkm3U5YKW4dVovAXvUbUfovVNSD9E5vbR0uVdnyucV+bc64NPjF3avCT6ShfIqZH1AfZ6AjUhy3gDtyzfJfhft0cMq5/xFj1W4G3Mhu74WMB3+Cb+YpAjT2nnZ2DQmejl01G5Bqe7PNarz9RPZr1K27V58WvS5p3DpMTxXOmDPrKI1qzOuJrIEX4/wudhvFA2JX5fes84Y/TZwLkO/uL7ms7MUcKpSW9HPVZMYGd+ReclWb5vgma91SnHzIa7ohNjDTY826iMW78s7e+8/kEa4MIKrFoTqTmKlLu0vUlwgBqCjkjReA+EMosHBTx/+y5IUqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
+ bh=C0OHNYXkviAC7mH2HlkqzXP+1ZyGQdRGgVv+us+IPq8=;
+ b=g/mMEycKH2G9l2gzuDaOaRGlkUpoWf8fc2DOUwrmdhfQn1MSl8B6a3AJ2i6BQfEGJ4TMFbvsEQCGTUO/hDaKeqHYMkPk3HifXQaZjuzdFq9f0V7TX9DEEQTsS7pAScCdB5T/h766LlwUWnbxT379yTdRlkOElICLlQuGwESAwy9AEBIEbsPmfDvUAAqZhaVN7GaZxhDkEoqPNBMuf16K641R3zh2ayj4C0+MzhBTZF/s+GLlPyZVYnL7iwQJ6Ilb9fJxqKJrqLlL23ZRoEtfOy8WxsYqXH/fAMKaVIGUkADJ8rRYq4amw6jrfS6Gr/rGgl6p4egin19ULR8X+8mkCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2rKIF1fpsn4PKDC5NrB4Sqvqq2Mvj2Q7uc9T29UOur8=;
- b=XzyGrJwqn0XPIEpUohs6/H9hOrMWWUhFo73XulusbkAy36dcfMzIKreK0aJqjIs1Wogim2ixTebBNOOTbv2878wFjxJShfvu6hyGQWInKBwucqQucxvtG5kMNavDYAsfh1p13GjrZ4vmf47TGjFqJ5rpBTq9fAF8EoQrr9008Uc=
-Received: from BN9PR03CA0803.namprd03.prod.outlook.com (2603:10b6:408:13f::28)
- by BL0PR12MB2561.namprd12.prod.outlook.com (2603:10b6:207:3e::12) with
+ bh=C0OHNYXkviAC7mH2HlkqzXP+1ZyGQdRGgVv+us+IPq8=;
+ b=gIdb92YLqbH9s6Gs21Oim3lbcJt8FmsDpjFyfQYWWqhYKDJIBWzbTACtd463tt3/syYeEACpsVfs6kcUVcuo/N8iEBcDslCSv7U5BxBkNbauySAvGJbYQaAzfh4C+CGYaQP/yWQcfsJEMOvIYTwTJWzvF7bv9EsLe2S8w7EgFEI=
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com (2603:10b6:208:316::6)
+ by MN2PR12MB3742.namprd12.prod.outlook.com (2603:10b6:208:16a::28) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4930.18; Fri, 4 Feb
- 2022 18:29:07 +0000
-Received: from BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13f:cafe::be) by BN9PR03CA0803.outlook.office365.com
- (2603:10b6:408:13f::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12 via Frontend
- Transport; Fri, 4 Feb 2022 18:29:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT047.mail.protection.outlook.com (10.13.177.220) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4951.12 via Frontend Transport; Fri, 4 Feb 2022 18:29:07 +0000
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Fri, 4 Feb
- 2022 12:29:06 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4951.12; Fri, 4 Feb
+ 2022 18:36:56 +0000
+Received: from BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::99d4:4d4f:653f:61be]) by BL1PR12MB5144.namprd12.prod.outlook.com
+ ([fe80::99d4:4d4f:653f:61be%5]) with mapi id 15.20.4951.014; Fri, 4 Feb 2022
+ 18:36:56 +0000
+From:   "Deucher, Alexander" <Alexander.Deucher@amd.com>
+To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
         "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>
 CC:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        <Alexander.Deucher@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 1/2] thunderbolt: move definition of PCI_CLASS_SERIAL_USB_USB4
-Date:   Fri, 4 Feb 2022 12:28:19 -0600
-Message-ID: <20220204182820.130339-2-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220204182820.130339-1-mario.limonciello@amd.com>
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+Subject: RE: [PATCH 0/2] Mark USB4 controllers as is_thunderbolt
+Thread-Topic: [PATCH 0/2] Mark USB4 controllers as is_thunderbolt
+Thread-Index: AQHYGfUZ8uN1dYeam0W687TAa8QHVqyDuD8w
+Date:   Fri, 4 Feb 2022 18:36:55 +0000
+Message-ID: <BL1PR12MB51448980EDF4ED5CAF1BE64BF7299@BL1PR12MB5144.namprd12.prod.outlook.com>
 References: <20220204182820.130339-1-mario.limonciello@amd.com>
+In-Reply-To: <20220204182820.130339-1-mario.limonciello@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-02-04T18:36:22Z;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=003d7b25-ccdc-493e-8529-c27875d0bf9d;
+ MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_enabled: true
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_setdate: 2022-02-04T18:36:52Z
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_method: Privileged
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_name: Public-AIP 2.0
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_actionid: a6238ea4-2aa3-4d9a-a97c-63a08eb2fde6
+msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_contentbits: 0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2b2c0500-6c2b-4db6-abc8-08d9e80d5228
+x-ms-traffictypediagnostic: MN2PR12MB3742:EE_
+x-microsoft-antispam-prvs: <MN2PR12MB37422955883343250A0B1D2CF7299@MN2PR12MB3742.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KW4DLvP7ohNkOPVkkHeXDeEg9bYETlFcHqDlj/Uy/zdPaUSSGjC0sC3g4AQ12+7svnX2LNLaAo2ogEuxSrVSSP6lTPl+gWlMCJW3y4QVKmHiNfPOQ1dMTliJ4MkWr9oF+6IsQYqo1f+L9tW18k6DsXO8nRyp07ibkrv1HZOThIUxznYlXqDeCs0Xn2GGxiOiUnVAxlXNnXRSbRfCJm10AyKQkRfHTxZqwdboogFNsI9P1FQjSr+9QpYOZrQeoVuf/Qws7L69p86VNlKX4dmcKeM60aY8XJgnejCTD6wyl77v35MGglnA+PWt4O6PmLMavKXDh1gzkv6IqOJZYa57lsi9Jy+f5kAg5OFc5PWf7AV/hWFzKBNpWJT0swvivR790k0uSw4biVrVt1a6gYl1mr3UF20PNDoqzdhXXSeO5lmwluATkIUSqMREyS8v+yI9yJqqz3F9KETkX0jLRwucfVWCvCKt8tgkHQdWXC1Uunv9mAf4qGcQLiXuM+rXySPq47Vr77MY8nB5eVDroCkXrSBXPWt5/+PkhBXKtHEWOoyFkMZCLNBhXoCRaE/6x+ciMUj+SC41iqLs0CuAgwSoKRPnu2rAce1t73TWXEvJwGLCEQf/LSQFWEGpOG10ZS5l3ff0FHzJA7y8+UEohtCOjH2w+U0IcAExoDjZvP0JG6LxvL9FninST6RuNMRH1KAbuWSB9JR/GYOMJKl/v8YcEw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5144.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38070700005)(110136005)(26005)(186003)(122000001)(38100700002)(54906003)(8936002)(64756008)(66446008)(8676002)(4326008)(66556008)(66476007)(6506007)(7696005)(86362001)(316002)(53546011)(52536014)(76116006)(66946007)(2906002)(33656002)(71200400001)(5660300002)(83380400001)(55016003)(508600001)(9686003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7Mo4g0NqDm2GIuIdbRzcN2Qbjl93CGEA5b2/BuRIgEmTAsq1RsYf2e1CirWD?=
+ =?us-ascii?Q?8CgHejubRUwM3lNB5Xbsr0JMqDm7OVbVB24sBorOfpK0M8oSP2eRqr+Xo4+w?=
+ =?us-ascii?Q?/TgyT3Nb6Wgk2/FqPjkRJXD30L0/XDkbymZb159RghFWlFJlq3eu6x4pTc3F?=
+ =?us-ascii?Q?NMuHyjr7hjmSlYrDQEenO1rO8VpAl5Yl7HBkZkRuO2Qhb+359J3/QWN+pBM9?=
+ =?us-ascii?Q?sCJEDTM0useU2CKWQ2cavr6+P5GwZSBR33F1KqlaijAKP/m3RvY287zk9jMn?=
+ =?us-ascii?Q?QCzntIttjKEyP1X0kSk9Sm0DL2Od+jjmn6exu+yPjNvBgSKUp4JQJrvlUqJd?=
+ =?us-ascii?Q?+kNAv/K97cX7383NvpqW7hI7WboylLiaeArhRKHokir+ope+HqByRQDtA92s?=
+ =?us-ascii?Q?7N/Xdrxvyu7RT6QJAp1NCF0LG6/bbSl4DMs9r+CLoIBVqh9v/8D/oa4iWu+S?=
+ =?us-ascii?Q?67xQRML4isYjusICt0dm0XO8fmBwiJ0xd33SZL9WKoClc0ouvuVFyMvMd1Cx?=
+ =?us-ascii?Q?rXC7kFrLUPgtvBCbp2uv+todZvwnSYMsZGeaVV2LDtlfdC+Jzl3aU1p88X9U?=
+ =?us-ascii?Q?WzL7+6K7KNAU31AOKzVPIqW6c4dbnXPSxljVTFiZ7/ezTzrD/U0wVoNMK6wp?=
+ =?us-ascii?Q?jg9+1LF7M4fEJTtGo9t4X+hoUK4jW9ZTRBcd7To/gB8PWXlI+p2hGRthSlzJ?=
+ =?us-ascii?Q?GBIjBByOojRQpag0GP1UR8UlUqvnouP8vXwC+gyJdMTVS6zoHi5bFSE8VQRD?=
+ =?us-ascii?Q?0gK4DYRNLDm5QdbhoC0nkJWz5MYp/Sy4hBPIm8Tp3ZGrJHUfKBoWBH7jMQW9?=
+ =?us-ascii?Q?WJKuSnTTQ2dnAeo605TiSnyXeID59yi06WFExcMNJi6DwqXC21PsvMLpo76j?=
+ =?us-ascii?Q?tG28dlMk+hkanVNNGig2ligiFilVGiMusEhEjS+AqOeoH+f0F+8faUCL3y5y?=
+ =?us-ascii?Q?qRxZgLg/SOXSr5AFVQeD/aaFJvvG+Nc7xuJl/8va6RduSivP8idHQ2vYUoLW?=
+ =?us-ascii?Q?gXOwux/FGC8zk3l/qm2Hnr4hcmZhVwNDHCXgqvLLIYSH2jhcv2mtjqH3exv/?=
+ =?us-ascii?Q?wbAC5yIk8Xc5f2QthYPp6l53c9xbuMp3fdzK93Wg5xRWl0AAyU5h0dnuaMpC?=
+ =?us-ascii?Q?ffcvHHp/oNWldfeAXcTwj+JoaShzNOT8O0o+GKMbx23SGG3GEGd6XKdoSZBS?=
+ =?us-ascii?Q?FkEwXjn4BQ3sCGkcjYXLLuMEgZkH/Fk0rRhMGzrsRCCPbRa4ANwaNJIk8ntY?=
+ =?us-ascii?Q?o1NR0RlrvHq3w8MODH4jnRB2iYichHWrR9+OGvI84vF7kVMePWEDMLpwBvQc?=
+ =?us-ascii?Q?18YrQWqNxnf2Vs3qX+X9nseY769pdb63n6aj9gBPI8N9T6h1/nWj5D6vV9Kl?=
+ =?us-ascii?Q?/oonNdJRCXsROlBnYtQ6jIzSQO/F0aGOmCTUA2dPgoqcpOxtSE4+XOrZvcnJ?=
+ =?us-ascii?Q?fOSYpnseB9/2T0vDLTHN6yIAS9M21CUvpIiK0bu/pN6Ku08ozoTwLkY2mtgk?=
+ =?us-ascii?Q?5EBtfzXQSgvNftmeoXMM12/mC/LfxCwpi5mgb5O4UVSaOBiX3QNek/oqEiLq?=
+ =?us-ascii?Q?P/DcEhfKqKmeYou7t9bXuaHbHzGURkOiKylteMyoKVl4hRjH8EYJB8dO3hRo?=
+ =?us-ascii?Q?aCaaF3A0bhHhbPN4dgDBbcY=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5209e531-d0e2-44b1-6af8-08d9e80c3b15
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2561:EE_
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2561676CD1814CF43A93FC0AE2299@BL0PR12MB2561.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: T9/zyk48gOmXaYA+gahuhnW28AJUrs1XiihfAC5nz5UgzSZb89a8o374+aHeKpaPsqKz9dVk476KkkLXTmXsvA0Yboso46r+CFgbk/+ni0S3nYqulTuSgWkhxcsJUc1b4C62hEbaRo4uFt5Fhud6KcHE7BubKrobkWqxbAJ+mGCxggVkfLkRYVDnDAkjyLJ1/OAGP7ZQ7XgGJl2y1xxRZ0bQoz+fzCMA16N2n0/K3/a33GqBhlDQGkj2CuPN7CMTS/SJIMLd6JcAtOsb11yjOaxW1Lm3zT0KQli+bB4x+SoygoIwyTD15uK6HO99R2dHwbXRLPoJ7ceTXudcPk/GbZzGCd8wHVxXkWPQDxLe+DaG8BYe9ZkTfFTFxg6LHOAumKH4gHbYWFiKuUHLN1bSaFuzfKSTh1Knc9+d/tgkECaPqTgylThY/kMMbJZE0bJWpSDEZ3g358gHTIbPKeZHowGiyuRu91QyMhVILYAM9aA5U4GQQojA6nteIh1jHcgS0eEyFp9qyjFVWua0ZI4tiIL+hFW9eDzhyjIajCark0PMXJds5ajY8uPt0zQSZwChdwatrQyhzFvqpOmu7gnOO1M61rTbPLmAbsYm+Z18hupVr0cWAEjtFRBJrk+Ze9JD8PaqwGXoHzyxXWdyV01oPAaDO5Llq1+7HSxfHQx96Njt48ZBYShpUY+BbwpI+9GVcq+OaPGXejuhVOPrZUGzug==
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(316002)(508600001)(36756003)(16526019)(1076003)(2906002)(40460700003)(6666004)(54906003)(110136005)(336012)(186003)(44832011)(2616005)(26005)(426003)(86362001)(82310400004)(4326008)(36860700001)(70586007)(8936002)(8676002)(70206006)(356005)(5660300002)(81166007)(83380400001)(47076005)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2022 18:29:07.7521
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5144.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b2c0500-6c2b-4db6-abc8-08d9e80d5228
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2022 18:36:55.8845
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5209e531-d0e2-44b1-6af8-08d9e80c3b15
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2561
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BDlyzG3W06mvlOkTQ6+mY5Bap1K4eqSJbPquZ+0mbEYM8eDdUDqbqiiN3QmWnETaICWnf1+KD6/EjDEE6us2bg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3742
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This definition will be needed by a pci core for upcoming
-changes.  Move it into common include file.
+[Public]
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/thunderbolt/nhi.h | 2 --
- include/linux/pci_ids.h   | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
+> -----Original Message-----
+> From: Limonciello, Mario <Mario.Limonciello@amd.com>
+> Sent: Friday, February 4, 2022 1:28 PM
+> To: Bjorn Helgaas <bhelgaas@google.com>; Andreas Noever
+> <andreas.noever@gmail.com>; Mika Westerberg
+> <mika.westerberg@linux.intel.com>; open list:PCI SUBSYSTEM <linux-
+> pci@vger.kernel.org>; open list:THUNDERBOLT DRIVER <linux-
+> usb@vger.kernel.org>
+> Cc: Michael Jamet <michael.jamet@intel.com>; Yehezkel Bernat
+> <YehezkelShB@gmail.com>; Deucher, Alexander
+> <Alexander.Deucher@amd.com>; Limonciello, Mario
+> <Mario.Limonciello@amd.com>
+> Subject: [PATCH 0/2] Mark USB4 controllers as is_thunderbolt
+>=20
+> Various drivers in the kernel use `pci_is_thunderbolt_attached` to design=
+ate
+> behaving differently from a device that is internally in the machine. Thi=
+s
+> function relies upon the `is_thunderbolt` designation which checks for a
+> specific capability only set on Intel controllers.
+>=20
+> Non-Intel USB4 designs should also match this designation so that they ca=
+n
+> be treated the same regardless of the host they're connected to.
+>=20
+> Mario Limonciello (2):
+>   thunderbolt: move definition of PCI_CLASS_SERIAL_USB_USB4
+>   pci: mark USB4 devices as "is_thunderbolt"
 
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index 69083aab2736..79e980b51f94 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -81,6 +81,4 @@ extern const struct tb_nhi_ops icl_nhi_ops;
- #define PCI_DEVICE_ID_INTEL_TGL_H_NHI0			0x9a1f
- #define PCI_DEVICE_ID_INTEL_TGL_H_NHI1			0x9a21
- 
--#define PCI_CLASS_SERIAL_USB_USB4			0x0c0340
--
- #endif
-diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index aad54c666407..61b161d914f0 100644
---- a/include/linux/pci_ids.h
-+++ b/include/linux/pci_ids.h
-@@ -116,6 +116,7 @@
- #define PCI_CLASS_SERIAL_USB_OHCI	0x0c0310
- #define PCI_CLASS_SERIAL_USB_EHCI	0x0c0320
- #define PCI_CLASS_SERIAL_USB_XHCI	0x0c0330
-+#define PCI_CLASS_SERIAL_USB_USB4	0x0c0340
- #define PCI_CLASS_SERIAL_USB_DEVICE	0x0c03fe
- #define PCI_CLASS_SERIAL_FIBER		0x0c04
- #define PCI_CLASS_SERIAL_SMBUS		0x0c05
--- 
-2.34.1
+Series is:
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 
+>=20
+>  drivers/pci/probe.c       | 4 ++--
+>  drivers/thunderbolt/nhi.h | 2 --
+>  include/linux/pci_ids.h   | 1 +
+>  3 files changed, 3 insertions(+), 4 deletions(-)
+>=20
+> --
+> 2.34.1
