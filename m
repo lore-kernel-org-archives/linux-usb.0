@@ -2,38 +2,38 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E730C433FE
-	for <linux-usb@archiver.kernel.org>; Sat,  5 Feb 2022 16:45:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E39C433F5
+	for <linux-usb@archiver.kernel.org>; Sat,  5 Feb 2022 16:45:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380487AbiBEQps (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 5 Feb 2022 11:45:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20647 "EHLO
+        id S1380488AbiBEQpw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 5 Feb 2022 11:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26191 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1380484AbiBEQpr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Feb 2022 11:45:47 -0500
+        by vger.kernel.org with ESMTP id S1380490AbiBEQpv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 5 Feb 2022 11:45:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644079547;
+        s=mimecast20190719; t=1644079551;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VTtksw/kNF8G+OAAAdw+cff6C6rBjpvCwfNWJ3xDNTA=;
-        b=NE1FI6rMLr9Ml/2M/viTyVTLiDX5hqB36XjeMRP4CkG27G9MthTsKWMpAvM8cV345EZ6T2
-        i/7UCskJ4oOqfN8CxXlevWvU8RCpzWZMaonUtrstkgQQ+nn3FfZ7schPQ/u21VJAv1RJi7
-        IQ+LKRomlBnUk69cO9WoOLZ7K6mksVk=
+        bh=Z6WAh0cLbaV+DuQjckj1L6hLSWsngwI8qpPCgBJQSdQ=;
+        b=RI871zp5coDeIHz/Hzf6qWoaBh1EEQVdFfVNplEtR+oDGro8RtYS0YkteymkzSwNDsY0Ek
+        CgbM0xX4NorUFPszS2bG4CUlrtnjUiEBga0qtUHshjNUyQdL/Oo7vRd7DrrMhwxjsVFgAq
+        eziBIVqOvJ2ijSJduwumF7YQEgxKKHY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-waUDACR4PUyUJyv7B8rY4g-1; Sat, 05 Feb 2022 11:45:44 -0500
-X-MC-Unique: waUDACR4PUyUJyv7B8rY4g-1
+ us-mta-356-z0SFdiSiOoC51j3gkU8DLg-1; Sat, 05 Feb 2022 11:45:50 -0500
+X-MC-Unique: z0SFdiSiOoC51j3gkU8DLg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D837764083;
-        Sat,  5 Feb 2022 16:45:42 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF782100C660;
+        Sat,  5 Feb 2022 16:45:48 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.37])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id B8D332B4D2;
-        Sat,  5 Feb 2022 16:45:40 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DC5062B4D2;
+        Sat,  5 Feb 2022 16:45:46 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -41,11 +41,10 @@ To:     Felipe Balbi <balbi@kernel.org>,
         Vinod Koul <vkoul@kernel.org>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
         Stephan Gerhold <stephan@gerhold.net>,
-        linux-phy@lists.infradead.org,
-        Serge Semin <Sergey.Semin@baikalelectronics.ru>
-Subject: [PATCH 1/9] usb: dwc3: pci: Add "snps,dis_u2_susphy_quirk" for Intel Bay Trail
-Date:   Sat,  5 Feb 2022 17:45:27 +0100
-Message-Id: <20220205164535.179231-2-hdegoede@redhat.com>
+        linux-phy@lists.infradead.org
+Subject: [PATCH 4/9] usb: dwc3: pci: Set "linux,phy_charger_detect" property on some Bay Trail boards
+Date:   Sat,  5 Feb 2022 17:45:30 +0100
+Message-Id: <20220205164535.179231-5-hdegoede@redhat.com>
 In-Reply-To: <20220205164535.179231-1-hdegoede@redhat.com>
 References: <20220205164535.179231-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -55,42 +54,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Commit e0082698b689 ("usb: dwc3: ulpi: conditionally resume ULPI PHY")
-fixed an issue where ULPI transfers would timeout if any requests where
-send to the phy sometime after init, giving it enough time to auto-suspend.
+Some Android x86 tablets with a Bay Trail (BYT) SoC and a Crystal Cove
+PMIC, which does not support charger-detection, rely on the TUSB1211 phy
+for charger-detection.
 
-Commit e5f4ca3fce90 ("usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend
-regression") changed the behavior to instead of clearing the
-DWC3_GUSB2PHYCFG_SUSPHY bit, add an extra sleep when it is set.
+Windows tablets with the same SoC + PMIC often use an extra chip for
+charger-detection like the FSA831A. But since on Android tablets
+the designers already need to add a TUSB1211 phy to support device/gadget
+mode the phy is used to do charger-detection instead.
 
-But on Bay Trail devices, when phy_set_mode() gets called during init,
-this leads to errors like these:
-[   28.451522] tusb1210 dwc3.ulpi: error -110 writing val 0x01 to reg 0x0a
-[   28.464089] tusb1210 dwc3.ulpi: error -110 writing val 0x01 to reg 0x0a
+These Android x86 tablets can be identified by the unique combination of
+a Bay Trail SoC (already checked for by PCI-ids) + a Crystal Cove PMIC +
+not using the standard ACPI battery and ac drivers. Where as on Windows
+tablets the standard ACPI battery and ac drivers will be used on BYT
+boards with a Crystal Cove PMIC.
 
-Add "snps,dis_u2_susphy_quirk" to the settings for Bay Trail devices to
-fix this. This restores the old behavior for Bay Trail devices, since
-previously the DWC3_GUSB2PHYCFG_SUSPHY bit would get cleared on the first
-ulpi_read/_write() and then was never set again.
+Set a special kernel-internal (so not part of the dt-bindings)
+"linux,phy_charger_detect" property on these boards, which tells the
+tusb1210 driver to enable charger-detection.
 
-Fixes: e5f4ca3fce90 ("usb: dwc3: ulpi: Fix USB2.0 HS/FS/LS PHY suspend regression")
-Cc: Serge Semin <Sergey.Semin@baikalelectronics.ru>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/dwc3-pci.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 7ff8fc8f79a9..022341aef400 100644
+index 40a3a1b114e9..8deccf0aa5e7 100644
 --- a/drivers/usb/dwc3/dwc3-pci.c
 +++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -119,6 +119,13 @@ static const struct property_entry dwc3_pci_intel_properties[] = {
+@@ -126,6 +126,14 @@ static const struct property_entry dwc3_pci_intel_byt_properties[] = {
  	{}
  };
  
-+static const struct property_entry dwc3_pci_intel_byt_properties[] = {
++static const struct property_entry dwc3_pci_intel_phy_charger_detect_properties[] = {
 +	PROPERTY_ENTRY_STRING("dr_mode", "peripheral"),
 +	PROPERTY_ENTRY_BOOL("snps,dis_u2_susphy_quirk"),
++	PROPERTY_ENTRY_BOOL("linux,phy_charger_detect"),
 +	PROPERTY_ENTRY_BOOL("linux,sysdev_is_parent"),
 +	{}
 +};
@@ -98,26 +97,36 @@ index 7ff8fc8f79a9..022341aef400 100644
  static const struct property_entry dwc3_pci_mrfld_properties[] = {
  	PROPERTY_ENTRY_STRING("dr_mode", "otg"),
  	PROPERTY_ENTRY_STRING("linux,extcon-name", "mrfld_bcove_pwrsrc"),
-@@ -161,6 +168,10 @@ static const struct software_node dwc3_pci_intel_swnode = {
- 	.properties = dwc3_pci_intel_properties,
+@@ -172,6 +180,10 @@ static const struct software_node dwc3_pci_intel_byt_swnode = {
+ 	.properties = dwc3_pci_intel_byt_properties,
  };
  
-+static const struct software_node dwc3_pci_intel_byt_swnode = {
-+	.properties = dwc3_pci_intel_byt_properties,
++static const struct software_node dwc3_pci_intel_phy_charger_detect_swnode = {
++	.properties = dwc3_pci_intel_phy_charger_detect_properties,
 +};
 +
  static const struct software_node dwc3_pci_intel_mrfld_swnode = {
  	.properties = dwc3_pci_mrfld_properties,
  };
-@@ -344,7 +355,7 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
- 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
+@@ -239,6 +251,18 @@ static int dwc3_pci_quirks(struct dwc3_pci *dwc,
+ 				gpiod_put(gpio);
+ 				usleep_range(10000, 11000);
+ 			}
++
++			/*
++			 * Some Android tablets with a Crystal Cove PMIC
++			 * (INT33FD), rely on the TUSB1211 phy for charger
++			 * detection. These can be identified by them _not_
++			 * using the standard ACPI battery and ac drivers.
++			 */
++			if (acpi_dev_present("INT33FD", "1", 2) &&
++			    acpi_quirk_skip_acpi_ac_and_battery()) {
++				dev_info(&pdev->dev, "Using TUSB1211 phy for charger detection\n");
++				swnode = &dwc3_pci_intel_phy_charger_detect_swnode;
++			}
+ 		}
+ 	}
  
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_BYT),
--	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
-+	  (kernel_ulong_t) &dwc3_pci_intel_byt_swnode, },
- 
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MRFLD),
- 	  (kernel_ulong_t) &dwc3_pci_intel_mrfld_swnode, },
 -- 
 2.33.1
 
