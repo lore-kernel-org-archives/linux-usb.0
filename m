@@ -2,108 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31421C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Feb 2022 06:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8C6C4167B
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Feb 2022 07:04:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232867AbiBGGNW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Feb 2022 01:13:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45950 "EHLO
+        id S238582AbiBGHEb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Feb 2022 02:04:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239559AbiBGE2S (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Feb 2022 23:28:18 -0500
-X-Greylist: delayed 122 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 20:28:17 PST
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489A9C043181;
-        Sun,  6 Feb 2022 20:28:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1644208097; x=1675744097;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=fderG4Gz8z+WaznEGhLQ9NMtlL+AgXDhS7nYzmK/IC8=;
-  b=GI1IwDBcDB/T/wFTAbD3moQWyNUK4MgJ4LeQ2coHlliDaQW1vOZ+Idwd
-   cNkHNy6RaKe+Sft1eyw2stKts4Q3YIFKK14jP9Td/xFYEA++dgKPyRRIg
-   GeZvk8jKxAKYM/WnUOd4enFkKZ519/hCRvQKL/9JlnQhQiFnHwVY69ZP0
-   w=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 06 Feb 2022 20:26:14 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2022 20:26:13 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Sun, 6 Feb 2022 20:26:13 -0800
-Received: from ugoswami-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Sun, 6 Feb 2022 20:26:09 -0800
-From:   Udipto Goswami <quic_ugoswami@quicinc.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Pratham Pratap <quic_ppratap@quicinc.com>,
-        Pavankumar Kondeti <quic_pkondeti@quicinc.com>,
-        Jack Pham <quic_jackp@quicinc.com>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Udipto Goswami <quic_ugoswami@quicinc.com>
-Subject: [PATCH] usb: dwc3: gadget: Prevent core from processing stale TRBs
-Date:   Mon, 7 Feb 2022 09:55:58 +0530
-Message-ID: <1644207958-18287-1-git-send-email-quic_ugoswami@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+        with ESMTP id S1357576AbiBGGoK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Feb 2022 01:44:10 -0500
+X-Greylist: delayed 63 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 22:44:10 PST
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D8D2C043186;
+        Sun,  6 Feb 2022 22:44:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644216250; x=1675752250;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jjr159qcmU+ae4vSTxa2jFhmRo7RXE82RnhWyfc7SDU=;
+  b=Dly9fqcIGxAxJbV+IpmKFMxmvIJi/hx/XAcV4dF+WdIqMqplNiCbdrMt
+   vle/pfamEhA+r0gtqWvl88/v/ixO9wxRSV7wGHUmchbg7KZU2m1/B/4FC
+   7Kc9ejFNXTmqf+45ZF8JaaA4Q9Ghpi4EfSyL0GfqwTkW69cl48pSNlPCV
+   4Cc3N+h3VMR4/wAEXRCfw6UBxcK1c5p/AAARJ9Ch0X4sH3fd1RX01QOHp
+   +ZIcwIEgQFirtALa0n8Ap+hQFh7snDPfoYjBXPJmH3SZrgNy1RtMG+awn
+   FyUDBVXI0JVne1koCFuhGjHjOmX7G+lK6YCtvLyxNwMO57XAjfAc/rSOL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10250"; a="229300725"
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
+   d="scan'208";a="229300725"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2022 22:43:07 -0800
+X-IronPort-AV: E=Sophos;i="5.88,349,1635231600"; 
+   d="scan'208";a="584743018"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2022 22:43:04 -0800
+Received: by lahna (sSMTP sendmail emulation); Mon, 07 Feb 2022 08:41:57 +0200
+Date:   Mon, 7 Feb 2022 08:41:57 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Mario Limonciello <mario.limonciello@amd.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Alexander.Deucher@amd.com
+Subject: Re: [PATCH 0/2] Mark USB4 controllers as is_thunderbolt
+Message-ID: <YgC/NQFN7yOffKv3@lahna>
+References: <20220204182820.130339-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220204182820.130339-1-mario.limonciello@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-With CPU re-ordering on write instructions, there might
-be a chance that the HWO is set before the TRB is updated
-with the new mapped buffer address.
-And in the case where core is processing a list of TRBs
-it is possible that it fetched the TRBs when the HWO is set
-but before the buffer address is updated.
-Prevent this by adding a memory barrier before the HWO
-is updated to ensure that the core always process the
-updated TRBs.
+Hi Mario,
 
-Fixes: f6bafc6a1c9 ("usb: dwc3: convert TRBs into bitshifts")
-Signed-off-by: Udipto Goswami <quic_ugoswami@quicinc.com>
----
-v1: For an ep the trbs can be reused, and if cpu re-ordering also
-takes place, there is a change that the HWO will get set even before
-the trb bpl/bph are updated which will lead controller to access a
-stale buffer address from the previous transactions.
+On Fri, Feb 04, 2022 at 12:28:18PM -0600, Mario Limonciello wrote:
+> Various drivers in the kernel use `pci_is_thunderbolt_attached` to
+> designate behaving differently from a device that is internally in
+> the machine. This function relies upon the `is_thunderbolt` designation
+> which checks for a specific capability only set on Intel controllers.
+> 
+> Non-Intel USB4 designs should also match this designation so that they
+> can be treated the same regardless of the host they're connected to.
 
- drivers/usb/dwc3/gadget.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Not objecting this if really needed but since USB4 is supposed to be
+transparent to the native (tunneled) protocol, I would rather try to
+figure out if there is really need to change driver behaviour whether it
+is connected over USB4 or plugged natively on the PCIe slot.
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 520031b..183b909 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1291,6 +1291,19 @@ static void __dwc3_prepare_one_trb(struct dwc3_ep *dep, struct dwc3_trb *trb,
- 	if (usb_endpoint_xfer_bulk(dep->endpoint.desc) && dep->stream_capable)
- 		trb->ctrl |= DWC3_TRB_CTRL_SID_SOFN(stream_id);
- 
-+	/*
-+	 * As per data book 4.2.3.2TRB Control Bit Rules section
-+	 *
-+	 * The controller autonomously checks the HWO field of a TRB to determine if the
-+	 * entire TRB is valid. Therefore, software must ensure that the rest of the TRB
-+	 * is valid before setting the HWO field to '1'. In most systems, this means that
-+	 * software must update the fourth DWORD of a TRB last.
-+	 *
-+	 * However there is a possibility of CPU re-ordering here which can cause
-+	 * controller to observe the HWO bit set prematurely.
-+	 * Add a write memory barrier to prevent CPU re-ordering.
-+	 */
-+	wmb();
- 	trb->ctrl |= DWC3_TRB_CTRL_HWO;
- 
- 	dwc3_ep_inc_enq(dep);
--- 
-2.7.4
+Can you elaborate a bit what kind of functionality needs this? Perhaps
+we can figure a better alternative?
 
+Thanks!
