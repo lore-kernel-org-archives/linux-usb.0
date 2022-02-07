@@ -2,90 +2,237 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B8FC433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Feb 2022 06:13:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A39BC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Feb 2022 06:14:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233281AbiBGGMV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Feb 2022 01:12:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38110 "EHLO
+        id S239294AbiBGGNU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Feb 2022 01:13:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239294AbiBGDxO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Feb 2022 22:53:14 -0500
-X-Greylist: delayed 305 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 06 Feb 2022 19:53:09 PST
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B93C061A73
-        for <linux-usb@vger.kernel.org>; Sun,  6 Feb 2022 19:53:09 -0800 (PST)
-X-UUID: 3f2e744b2750484ea08f7544dcb35fcc-20220207
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:CC:To:Subject; bh=NgS5Z68GQOLnfRkUxlxi5corvWei8pAm2FGb8qrHoTk=;
-        b=gVUcUlsJKcZwkO8V3RXBxVhB53youXBtsrB51W7EWN/se/oBZjU938JZkvbl0+ZEU4CsDwgMdPL9uCRE6QuR9bkOviKZxoKfnNpCTe/nuzqaw+evU+DuBubp9XgI/nT9rIJIEE3cHY5Re3gdQPGCCvl+q83y6QDrYMi8vKDYJBs=;
-X-UUID: 3f2e744b2750484ea08f7544dcb35fcc-20220207
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
-        (envelope-from <macpaul.lin@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 1101263638; Mon, 07 Feb 2022 11:48:01 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 7 Feb 2022 11:48:00 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 7 Feb 2022 11:48:00 +0800
-Subject: Re: [PATCH 0/3] support USB offload feature
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Daehwan Jung <dh10.jung@samsung.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
+        with ESMTP id S1351844AbiBGEjR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Feb 2022 23:39:17 -0500
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F600C043186
+        for <linux-usb@vger.kernel.org>; Sun,  6 Feb 2022 20:39:16 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3-20020a250103000000b0061d99b7d0b8so5342145ybb.13
+        for <linux-usb@vger.kernel.org>; Sun, 06 Feb 2022 20:39:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=fvjMeqmS7YAThM14Nr6hWHQ1rky2oX1fyAm+Zs01zKU=;
+        b=dX+tFNmXNa6mZWGOfqwibUN9WltV9vHGJJRY5AFwriAxK+mtAijgyVAGd0wre//BOS
+         049UmTSvQrgxrV6f1Gw26FOXVLXemOunLaJPXkgxBlbrvuJwNo//EYmCh6DAJol6Hlf3
+         8TTqRMfAQUtoTugTw5TjfCq4L/gc9I9DQCHuHHLVKXMqFmUEExPCnsuyUfQ551ajcY/D
+         2vGc0XSaOKJSRZGHNGWBPn6UBiHQ1NVjWvUFY6O66yRsFa5MDLZpw0rFZbmc/a6bvKX9
+         ZZl7yup1nNZGj8jiswbWSaDBNLApFxAepHC8Afl6F6t3EaNw6Or4N8Lp4zQXng+oB9tc
+         lHGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=fvjMeqmS7YAThM14Nr6hWHQ1rky2oX1fyAm+Zs01zKU=;
+        b=CDiRdKLUJUFtbShQBrZD3TB+IJE9W48xYBCVs3CSTd8jX3iUBXEPLhwJLX+M2V3nBv
+         J/hTmednfsUaizqPbDQYRqPHy+1Mg7kuX51lWynPWYbghRRYcZ8ze5OmlUK9URt0DIhW
+         Xoi6RKLciQIg+96odvyWi065FM4t7k8d34MLhiMoGPWvmDkVxzptSC+hT0j3428k3ZsZ
+         kM03Fjwp1LqEDMWTBme8xgb//chGsho+e0TVuQru1fG0figM63aopQ1Pbn/YDsMFYTa/
+         wCJL55UVrEmSmIMhM9xZMkFlBxBUdNgD9KUn7DRYuS70s04j0dIyWVkEc3UNAU+CaqkB
+         B+Lg==
+X-Gm-Message-State: AOAM530ZS3U/g5ju745HC4xCn08VU/fFLJQXPX64fAsyMR3qZiQzI1/J
+        HFmKQqV65892NehnoCsve+BMEXbMg5U=
+X-Google-Smtp-Source: ABdhPJzrC2+QNecsePbDSgJYh4Pk9KseHmfPtb16eAYPVWEGR/YoKcDueljCvUXSLi7OZ9RXXf2u/XBfEeo=
+X-Received: from badhri.mtv.corp.google.com ([2620:15c:211:201:55d1:a045:9816:1433])
+ (user=badhri job=sendgmr) by 2002:a25:7d45:: with SMTP id y66mr8077570ybc.376.1644208755165;
+ Sun, 06 Feb 2022 20:39:15 -0800 (PST)
+Date:   Sun,  6 Feb 2022 20:39:07 -0800
+In-Reply-To: <20220207043907.2758424-1-badhri@google.com>
+Message-Id: <20220207043907.2758424-2-badhri@google.com>
+Mime-Version: 1.0
+References: <20220207043907.2758424-1-badhri@google.com>
+X-Mailer: git-send-email 2.35.0.263.gb82422642f-goog
+Subject: [PATCH v1 2/2] usb: typec: tcpm: Enable limit_src_current_set callback
+From:   Badhri Jagan Sridharan <badhri@google.com>
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Jack Pham <jackp@codeaurora.org>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>,
-        Eddie Hung <eddie.hung@mediatek.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>
-References: <CGME20220203030000epcas2p2a924a55a5ae60e8685cd62b66a5482f3@epcas2p2.samsung.com>
- <1643857054-112415-1-git-send-email-dh10.jung@samsung.com>
- <27337aa9-2bfd-18d5-cded-7f8ae0f053d9@linux.intel.com>
-From:   Macpaul Lin <macpaul.lin@mediatek.com>
-Message-ID: <df83f981-8146-576a-c7a5-420aa2dd4b72@mediatek.com>
-Date:   Mon, 7 Feb 2022 11:48:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <27337aa9-2bfd-18d5-cded-7f8ae0f053d9@linux.intel.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: base64
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kyle Tso <kyletso@google.com>,
+        Badhri Jagan Sridharan <badhri@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-T24gMi8zLzIyIDU6MzMgUE0sIE1hdGhpYXMgTnltYW4gd3JvdGU6DQo+IE9uIDMuMi4yMDIyIDQu
-NTcsIERhZWh3YW4gSnVuZyB3cm90ZToNCj4+IFRoaXMgcGF0Y2hzZXQgaXMgZm9yIFVTQiBvZmZs
-b2FkIGZlYXR1cmUsIHdoaWNoIG1ha2VzIENvLXByb2Nlc3NvciB0byB1c2UNCj4+IHNvbWUgbWVt
-b3JpZXMgb2YgeGhjaS4gRXNwZWNpYWxseSBpdCdzIHVzZWZ1bCBmb3IgVVNCIEF1ZGlvIHNjZW5h
-cmlvLg0KPj4gQXVkaW8gc3RyZWFtIHdvdWxkIGdldCBzaG9ydGN1dCBiZWNhdXNlIENvLXByb2Nl
-c3NvciBkaXJlY3RseSB3cml0ZS9yZWFkDQo+PiBkYXRhIGluIHhoY2kgbWVtb3JpZXMuIEl0IGNv
-dWxkIGdldCBzcGVlZC11cCB1c2luZyBmYXN0ZXIgbWVtb3J5IGxpa2UgU1JBTS4NCj4+IFRoYXQn
-cyB3aHkgdGhpcyBhbHNvIGdpdmVzIHZlbmRvcnMgZmxleGliaWx0eSBvZiBtZW1vcnkgbWFuYWdl
-bWVudC4NCj4+IEJlbG93IHBhdGhjaGVzIGhhdmUgYmVlbiBtZXJnZWQgaW4gQU9TUCBrZXJuZWwo
-YW5kcm9pZDEyLTUuMTApIGFuZCBJIHB1dA0KPj4gdG9nZXRoZXIgYW5kIHNwbGl0IGludG8gMyBw
-YXRjaGVzLg0KPiANCj4gQ2FuIHlvdSBzaGFyZSB0aGUgZnVsbCBVU0Igb2ZmbG9hZCBzdXBwb3J0
-IHNlcmllcz8NCj4gDQo+IEknZCBsaWtlIHRvIHNlZSB0aGUgYmlnIHBpY3R1cmUgYmVmb3JlIHRh
-a2luZyBhbnkgZXhwb3J0aW5nIGFuZCBvdmVycmlkZQ0KPiBwYXRjaGVzLg0KPiANCj4gVGhhbmtz
-DQo+IC1NYXRoaWFzDQo+ICAgDQo+IA0KDQpEZWFyIERhZWh3YW4sDQoNCkknbSB2ZXJ5IGFwcHJl
-Y2lhdGUgZm9yIHlvdXIgdXBzdHJlYW0gd29yay4NCg0KV2Uga25vdyB0aGF0LCBVU0Igb2ZmbG9h
-ZCAoZXNwZWNpYWxseSBmb3IgaGVhZHNldCAtIFVTQiBBdWRpbykgaXMgYSB2ZXJ5IA0KaW1wb3J0
-YW50IGZlYXR1cmUgaW4gY3VycmVudCBzbWFydCBwaG9uZSBkZXZpY2VzLiBJdCBpcyBhYmxlIHRv
-IGltcHJvdmUgDQpib3RoIGF1ZGlvIGxhdGVuY3kgYW5kIHBvd2VyIGNvbnN1bXB0aW9uIHVuZGVy
-IG11c2ljIHBsYXlpbmcgb3IgcGhvbmUgDQpjYWxsIHNjZW5hcmlvcy4gSG93ZXZlciwgdGhlIHNv
-bHV0aW9uIHZhcmllcyBiZXR3ZWVuIGRpZmZlcmVudCBTT0MgDQp2ZW5kb3JzLCBiZWNhdXNlIHRo
-ZSBpbXBsZW1lbnRhdGlvbnMgYXJlIGRpZmZlcmVudCBpbiBib3RoIHNvZnR3YXJlIGFuZCANCmhh
-cmR3YXJlIGludGVyZmFjZXMuDQoNCkkgdGhpbmsgYSBkZXNpZ24gZGVzY3JpcHRpb24gKGRvY3Vt
-ZW50KSB0byB5b3VyIGltcGxlbWVudGF0aW9uIGlzIA0KaW1wb3J0YW50IGZvciBpbnRyb2R1Y2lu
-ZyB0aGlzIGZlYXR1cmUgdG8gTGludXggY29tbXVuaXR5LiBNYXliZSBhIA0KY29uZmlndXJhdGlv
-biBob3ctdG8gaXMgcmVxdWlyZWQgZm9yIG5vdCBvbmx5IG1haW50YWluZXJzIGJ1dCBhbHNvIA0K
-ZGV2ZWxvcGVycyB0byB1bmRlcnN0YW5kIHRoZXNlIG1vZGlmaWNhdGlvbnMuIEFuZCBJIHRoaW5r
-IG90aGVyIHZlbmRvcnMgDQpzaG91bGQgZm9sbG93IHVwIGlmIHRoZXkgbGlrZXMgdG8gdXBzdHJl
-YW0gdGhlaXIgc29sdXRpb25zLiA6KQ0KDQpUaGFua3MhDQpNQWNwYXVsIExpbg==
+This change allows TCPM to support limit_src_current_set
+callback. When limit_src_current_set is enabled, tcpm
+updates the local source capabilities to only publish
+vSafe5V fixed pdo with the current limit passed through
+limit_src_current_set callback. When limit_src_current_set
+is disabled, tcpm revert back to publishing the default
+source caps.
+
+This patch is co-authored with kyletso@google.com and
+also uses some of parts of the code that was reverted
+by c17c7cf147ac56312156eaaaf8b2e19c9a59a71a.
+
+Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 108 ++++++++++++++++++++++++++++++----
+ include/linux/usb/tcpm.h      |   4 ++
+ 2 files changed, 102 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 5fce795b69c7..491ad6621671 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -475,6 +475,15 @@ struct tcpm_port {
+ 	 * SNK_READY for non-pd link.
+ 	 */
+ 	bool slow_charger_loop;
++
++	/*
++	 * Max current published in vSafe5V fixed pdo when limit_src_current_enabled
++	 * is active.
++	 */
++	u32 limit_src_current_ma;
++	/* True when source current limiting is enabled */
++	bool limit_src_current_enabled;
++
+ #ifdef CONFIG_DEBUG_FS
+ 	struct dentry *dentry;
+ 	struct mutex logbuffer_lock;	/* log buffer access lock */
+@@ -5907,12 +5916,99 @@ static int tcpm_port_type_set(struct typec_port *p, enum typec_port_type type)
+ 	return 0;
+ }
+ 
++int tcpm_update_source_capabilities_locked(struct tcpm_port *port)
++{
++	int ret = 0;
++
++	switch (port->state) {
++	case SRC_UNATTACHED:
++	case SRC_ATTACH_WAIT:
++	case SRC_TRYWAIT:
++		tcpm_set_cc(port, tcpm_rp_cc(port));
++		break;
++	case SRC_SEND_CAPABILITIES:
++	case SRC_NEGOTIATE_CAPABILITIES:
++	case SRC_READY:
++	case SRC_WAIT_NEW_CAPABILITIES:
++		port->upcoming_state = SRC_SEND_CAPABILITIES;
++		ret = tcpm_ams_start(port, POWER_NEGOTIATION);
++		if (ret == -EAGAIN) {
++			port->upcoming_state = INVALID_STATE;
++			break;
++		}
++		break;
++	default:
++		break;
++	}
++	return ret;
++}
++
++static int tcpm_fw_get_src_pdo(struct tcpm_port *port, struct fwnode_handle *fwnode, u32 *src_pdo,
++			       unsigned int *nr_src_pdo)
++{
++	int ret;
++
++	ret = fwnode_property_count_u32(fwnode, "source-pdos");
++	if (ret == 0)
++		return -EINVAL;
++	else if (ret < 0)
++		return ret;
++
++	*nr_src_pdo = min(ret, PDO_MAX_OBJECTS);
++	ret = fwnode_property_read_u32_array(fwnode, "source-pdos", src_pdo, *nr_src_pdo);
++
++	return ret;
++}
++
++static int tcpm_limit_src_current_set(struct typec_port *p, u32 limit_src_current_ma, bool enable)
++{
++	struct tcpm_port *port = typec_get_drvdata(p);
++	int ret = 0;
++
++	mutex_lock(&port->lock);
++	if (limit_src_current_ma == port->limit_src_current_ma &&
++	    enable == port->limit_src_current_enabled)
++		goto port_unlock;
++
++	ret = tcpm_fw_get_src_pdo(port, port->tcpc->fwnode, port->src_pdo, &port->nr_src_pdo);
++	if (ret)
++		return ret;
++
++	if (enable) {
++		u32 current_vSafe5V_max_current_ma =
++			((port->src_pdo[0] & (PDO_CURR_MASK << PDO_FIXED_CURR_SHIFT)) >>
++			 PDO_FIXED_CURR_SHIFT) * 10;
++		/*
++		 * Check to see if limited source current does not exceed the
++		 * max current published in default source cap.
++		 */
++		if (limit_src_current_ma > current_vSafe5V_max_current_ma) {
++			ret = -EINVAL;
++			goto port_unlock;
++		}
++		port->src_pdo[0] &= ~(PDO_CURR_MASK << PDO_FIXED_CURR_SHIFT);
++		port->src_pdo[0] |= PDO_FIXED_CURR(limit_src_current_ma);
++		port->nr_src_pdo = 1;
++	}
++
++	ret = tcpm_update_source_capabilities_locked(port);
++	if (!ret) {
++		port->limit_src_current_ma = limit_src_current_ma;
++		port->limit_src_current_enabled = enable;
++	}
++
++port_unlock:
++	mutex_unlock(&port->lock);
++	return ret;
++}
++
+ static const struct typec_operations tcpm_ops = {
+ 	.try_role = tcpm_try_role,
+ 	.dr_set = tcpm_dr_set,
+ 	.pr_set = tcpm_pr_set,
+ 	.vconn_set = tcpm_vconn_set,
+-	.port_type_set = tcpm_port_type_set
++	.port_type_set = tcpm_port_type_set,
++	.limit_src_current_set = tcpm_limit_src_current_set
+ };
+ 
+ void tcpm_tcpc_reset(struct tcpm_port *port)
+@@ -5970,15 +6066,7 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 
+ 	/* Get Source PDOs for the PD port or Source Rp value for the non-PD port */
+ 	if (port->pd_supported) {
+-		ret = fwnode_property_count_u32(fwnode, "source-pdos");
+-		if (ret == 0)
+-			return -EINVAL;
+-		else if (ret < 0)
+-			return ret;
+-
+-		port->nr_src_pdo = min(ret, PDO_MAX_OBJECTS);
+-		ret = fwnode_property_read_u32_array(fwnode, "source-pdos",
+-						     port->src_pdo, port->nr_src_pdo);
++		ret = tcpm_fw_get_src_pdo(port, fwnode, port->src_pdo, &port->nr_src_pdo);
+ 		if (ret)
+ 			return ret;
+ 		ret = tcpm_validate_caps(port, port->src_pdo, port->nr_src_pdo);
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index bffc8d3e14ad..18372d34a9f4 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -165,5 +165,9 @@ void tcpm_pd_transmit_complete(struct tcpm_port *port,
+ 			       enum tcpm_transmit_status status);
+ void tcpm_pd_hard_reset(struct tcpm_port *port);
+ void tcpm_tcpc_reset(struct tcpm_port *port);
++bool tcpm_is_debouncing(struct tcpm_port *tcpm);
++bool tcpm_is_toggling(struct tcpm_port *port);
++int tcpm_update_source_capabilities(struct tcpm_port *port, const u32 *pdo,
++				    unsigned int nr_pdo);
+ 
+ #endif /* __LINUX_USB_TCPM_H */
+-- 
+2.35.0.263.gb82422642f-goog
 
