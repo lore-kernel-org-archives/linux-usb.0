@@ -2,41 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3DEBC4332F
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 17:56:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EEBDC433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 17:57:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1384476AbiBHR4W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 12:56:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40950 "EHLO
+        id S1384531AbiBHR5k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 12:57:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1384589AbiBHRzy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 12:55:54 -0500
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E46EC03FEDC;
-        Tue,  8 Feb 2022 09:55:48 -0800 (PST)
+        with ESMTP id S1384473AbiBHRz5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 12:55:57 -0500
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88E67C03FEE8;
+        Tue,  8 Feb 2022 09:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1644342948; x=1675878948;
+  t=1644342952; x=1675878952;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=0DBJMX6CN9Q62n1+xR/XbkjpUIrkdnw82/25SwLtiv4=;
-  b=hiD/yWCgIvGiKRDHG4bKLmLr5BXj0W+/OylJiCqroNaCH6sxYPuEQ8Mj
-   qf/iaKOoWojFy+qBYUKm3MNvLoRbsN0GQS8/CNPdrjFzBX4eQTm4NElWJ
-   kaK4solylmprWpI2lhNPRBX/1kUNzHjhZMc67/WM9b60CkGB+AkA58evs
+  bh=sQYj8BI3pdUAV5Nor9CGrZ5tasEBi1/5E/39PYFxV/c=;
+  b=j6gPMUT6d3oi1xbVI2dbKFhIHzYrbMtWL+pE+Mmsya6VqPpFu1SQ5qmX
+   Fc+Kmqi2p95fQ81ERIGyuBsZg+ZnCkjqALO1EU98Psgva85Yfr5wlVGTB
+   xmXukhvzyYQUc2tskZx1cnXN+J9HXEDu26L96HGmvqVgIjnTmbqE2c7WX
    w=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 08 Feb 2022 09:55:48 -0800
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 08 Feb 2022 09:55:45 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 09:55:47 -0800
+  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2022 09:55:44 -0800
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 09:55:47 -0800
+ 15.2.922.19; Tue, 8 Feb 2022 09:55:37 -0800
 Received: from blr-ubuntu-525.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 8 Feb 2022 09:55:42 -0800
+ 15.2.922.19; Tue, 8 Feb 2022 09:55:33 -0800
 From:   Souradeep Chowdhury <quic_schowdhu@quicinc.com>
 To:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <pure.logic@nexus-software.ie>,
@@ -46,9 +46,9 @@ CC:     <linux-kernel@vger.kernel.org>, <quic_tsoni@quicinc.com>,
         <quic_pheragu@quicinc.com>, <quic_rjendra@quicinc.com>,
         <quic_sibis@quicinc.com>, <quic_saipraka@quicinc.com>,
         <quic_schowdhu@quicinc.com>
-Subject: [PATCH V6 6/6] MAINTAINERS: Add maintainer entry for EUD
-Date:   Tue, 8 Feb 2022 23:24:29 +0530
-Message-ID: <50cc73b4432c3d118361e6c9d47a9b0f7682e8ae.1644339918.git.quic_schowdhu@quicinc.com>
+Subject: [PATCH V6 4/6] arm64: dts: qcom: sc7280: Add EUD dt node and dwc3 connector
+Date:   Tue, 8 Feb 2022 23:24:27 +0530
+Message-ID: <b2b6bdf0e7589a7b6a6f9b390b227339636e0da9.1644339918.git.quic_schowdhu@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1644339918.git.quic_schowdhu@quicinc.com>
 References: <cover.1644339918.git.quic_schowdhu@quicinc.com>
@@ -61,34 +61,72 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add the entry for maintainer for EUD driver
-and other associated files.
+Add the Embedded USB Debugger(EUD) device tree node. The
+node contains EUD base register region and EUD mode
+manager register regions along with the interrupt entry.
+Also add the typec connector node for EUD which is attached to
+EUD node via port. EUD is also attached to DWC3 node via port.
+Also add the role-switch property to dwc3 node.
 
 Signed-off-by: Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b84e2d5..f86ec0e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7227,6 +7227,14 @@ F:	include/uapi/linux/mdio.h
- F:	include/uapi/linux/mii.h
- F:	net/core/of_net.c
-
-+QCOM EMBEDDED USB DEBUGGER(EUD)
-+M:	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-+L:	linux-arm-msm@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/ABI/testing/sysfs-driver-eud
-+F:	Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
-+F:	drivers/usb/misc/qcom_eud.c
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 937c2e0..96917fe 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -2583,6 +2583,12 @@
+ 				phys = <&usb_2_hsphy>;
+ 				phy-names = "usb2-phy";
+ 				maximum-speed = "high-speed";
++				usb-role-switch;
++				port {
++					usb2_role_switch: endpoint {
++						remote-endpoint = <&eud_ep>;
++					};
++				};
+ 			};
+ 		};
+ 
+@@ -2624,6 +2630,36 @@
+ 			interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		eud: eud@88e0000 {
++			compatible = "qcom,sc7280-eud","qcom,eud";
++			reg = <0 0x88e0000 0 0x2000>,
++			      <0 0x88e2000 0 0x1000>;
++			interrupts-extended = <&pdc 11 IRQ_TYPE_LEVEL_HIGH>;
++			ports {
++				port@0 {
++					eud_ep: endpoint {
++						remote-endpoint = <&usb2_role_switch>;
++					};
++				};
++				port@1 {
++					eud_con: endpoint {
++						remote-endpoint = <&con_eud>;
++					};
++				};
++			};
++		};
 +
- EXEC & BINFMT API
- R:	Eric Biederman <ebiederm@xmission.com>
- R:	Kees Cook <keescook@chromium.org>
---
++		eud_typec: connector {
++			compatible = "usb-c-connector";
++			ports {
++				port@0 {
++					con_eud: endpoint {
++						remote-endpoint = <&eud_con>;
++					};
++				};
++			};
++		};
++
+ 		nsp_noc: interconnect@a0c0000 {
+ 			reg = <0 0x0a0c0000 0 0x10000>;
+ 			compatible = "qcom,sc7280-nsp-noc";
+-- 
 2.7.4
 
