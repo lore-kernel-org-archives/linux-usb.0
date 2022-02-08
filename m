@@ -2,70 +2,65 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B0FDC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 22:29:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58BF6C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 22:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241960AbiBHWYM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 17:24:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54646 "EHLO
+        id S1387453AbiBHWYP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 17:24:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1386435AbiBHUcg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 15:32:36 -0500
-Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8786DC0613CB
-        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 12:32:32 -0800 (PST)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 5845020AD36D
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-To:     Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: [PATCH] usb: common: usb-otg-fsm: drop unreachable code in
- otg_statemachine()
-Organization: Open Mobile Platform
-Message-ID: <5c923258-67c3-bae1-80d1-87a187202a4c@omp.ru>
-Date:   Tue, 8 Feb 2022 23:32:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+        with ESMTP id S1386517AbiBHUtI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 15:49:08 -0500
+Received: from smtp1.lauterbach.com (smtp1.lauterbach.com [62.154.241.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D2AC0613CB
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 12:49:06 -0800 (PST)
+Received: (qmail 7480 invoked by uid 484); 8 Feb 2022 20:49:04 -0000
+X-Qmail-Scanner-Diagnostics: from ingpc2.intern.lauterbach.com by smtp1.lauterbach.com (envelope-from <ingo.rohloff@lauterbach.com>, uid 484) with qmail-scanner-2.11 
+ (mhr: 1.0. clamdscan: 0.99/21437. spamassassin: 3.4.0.  
+ Clear:RC:1(10.2.10.44):. 
+ Processed in 0.06411 secs); 08 Feb 2022 20:49:04 -0000
+Received: from ingpc2.intern.lauterbach.com (Authenticated_SSL:irohloff@[10.2.10.44])
+          (envelope-sender <ingo.rohloff@lauterbach.com>)
+          by smtp1.lauterbach.com (qmail-ldap-1.03) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <gregkh@linuxfoundation.org>; 8 Feb 2022 20:49:04 -0000
+From:   Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org,
+        Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH 0/1] USB: usbfs: replace atomic64 accesses by spinlock
+Date:   Tue,  8 Feb 2022 21:48:57 +0100
+Message-Id: <20220208204858.3406-1-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The *switch* statement in otg_statemachine() does handle all possible OTG
-states explicitly, so the *default* label is unreachable.
+patch for f_fs.c:
+> > > > + atomic64_sub(amount, &ffs->mmap_mem_usage);    
 
-Found by Linux Verification Center (linuxtesting.org) with the SVACE static
-analysis tool.
+Greg KH:
+> > > Why not use a real lock instead of trying to do a fake one with
+> > > this atomic variable?
 
-Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Ingo:
+> > I just took the code from "drivers/usb/core/devio.c",
+> > "usbfs_increase_memory_usage()".
+> > ...
+> > You are of course right: You can easily use a lock here and this
+> > makes the intention of the code a lot clearer I guess.
+> > 
+> > I will modify the patch accordingly.  
 
----
-This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
-Peter Chen's 'usb.git' repo seems outdated, so I chose to ignore it...
+Alan Stern:
+> If you also feel like making a similar change to the code in devio.c,
+> it would be welcome.
 
- drivers/usb/common/usb-otg-fsm.c |    2 --
- 1 file changed, 2 deletions(-)
+Ingo Rohloff (1):
+  USB: usbfs: Use a spinlock instead of atomic accesses to tally used
+    memory.
 
-Index: usb/drivers/usb/common/usb-otg-fsm.c
-===================================================================
---- usb.orig/drivers/usb/common/usb-otg-fsm.c
-+++ usb/drivers/usb/common/usb-otg-fsm.c
-@@ -440,8 +440,6 @@ int otg_statemachine(struct otg_fsm *fsm
- 		if (fsm->id || fsm->a_bus_drop || fsm->a_clr_err)
- 			otg_set_state(fsm, OTG_STATE_A_WAIT_VFALL);
- 		break;
--	default:
--		break;
- 	}
- 	mutex_unlock(&fsm->lock);
- 
+ drivers/usb/core/devio.c | 35 ++++++++++++++++++++++++-----------
+ 1 file changed, 24 insertions(+), 11 deletions(-)
+
+-- 
+2.17.1
