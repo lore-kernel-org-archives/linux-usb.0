@@ -2,111 +2,151 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24874C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 11:55:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F6C8C433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 12:06:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353066AbiBHLzE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:55:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
+        id S237023AbiBHMGB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 07:06:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343656AbiBHLzD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 06:55:03 -0500
-X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 03:55:01 PST
-Received: from smtp1.lauterbach.com (smtp1.lauterbach.com [62.154.241.196])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F3DC03FEC0
-        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 03:55:00 -0800 (PST)
-Received: (qmail 3260 invoked by uid 484); 8 Feb 2022 11:48:17 -0000
-X-Qmail-Scanner-Diagnostics: from ingpc2.intern.lauterbach.com by smtp1.lauterbach.com (envelope-from <ingo.rohloff@lauterbach.com>, uid 484) with qmail-scanner-2.11 
- (mhr: 1.0. clamdscan: 0.99/21437. spamassassin: 3.4.0.  
- Clear:RC:1(10.2.10.44):. 
- Processed in 0.063407 secs); 08 Feb 2022 11:48:17 -0000
-Received: from ingpc2.intern.lauterbach.com (HELO ingpc2) (Authenticated_SSL:irohloff@[10.2.10.44])
-          (envelope-sender <ingo.rohloff@lauterbach.com>)
-          by smtp1.lauterbach.com (qmail-ldap-1.03) with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP
-          for <gregkh@linuxfoundation.org>; 8 Feb 2022 11:48:17 -0000
-Date:   Tue, 8 Feb 2022 12:48:17 +0100
-From:   Ingo Rohloff <ingo.rohloff@lauterbach.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] usb: gadget: f_fs: Support zerocopy transfers
- via mmap.
-Message-ID: <20220208124817.3bd884ba@ingpc2>
-In-Reply-To: <YgJJi0q+/oV9SRq8@kroah.com>
-References: <20220202172056.44722-1-ingo.rohloff@lauterbach.com>
-        <20220202172056.44722-2-ingo.rohloff@lauterbach.com>
-        <YgJJi0q+/oV9SRq8@kroah.com>
-Organization: Lauterbach GmbH
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        with ESMTP id S233096AbiBHMF7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 07:05:59 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 04:05:58 PST
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42006C03FEC0
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 04:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1644321956;
+        bh=As8Vv71Lk+9rDs/5goyLjQeSzZPJ2w3FhseNRrvhZhU=;
+        h=X-UI-Sender-Class:Date:From:To:Subject;
+        b=iwbsQp3eMMjgT4iDk3z1WgkYS+G4wUwc42OITKqkWaiP8chAfXh5csCwheub+LLHk
+         m87RHORKpP4oyLW6jEpJWpBGnNzNE0taIuv7vAgQdmDi4a9ziGipgZALtMMJSjA8PQ
+         HVmwVT2cH+a6Nhaz5CUhKZBloaP2X0i4ub8K4rmA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from felics-pocket.localdomain ([2.247.249.60]) by mail.gmx.net
+ (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1Mof9F-1o6QEm2qSn-00p5GY for <linux-usb@vger.kernel.org>; Tue, 08 Feb 2022
+ 13:00:53 +0100
+Received: from localhost.localdomain (localhost.localdomain [IPv6:::1])
+        by felics-pocket.localdomain (Elektropostamt) with ESMTP id A79BA58D8772
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 13:00:51 +0100 (CET)
+Date:   Tue, 8 Feb 2022 13:00:48 +0100
+From:   Felix Becker <linux.felixbecker2@gmx.de>
+To:     linux-usb@vger.kernel.org
+Subject: [usbserial] device 0421:069a is supported, in fact.
+Message-ID: <20220208125958.295e8a0b@gmx.de>
+X-Mailer: Claws Mail 3.18.0git303 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/tyZQL.+o9DIf4zMViIPrjW4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:h/b5Xu+SCrjW+74MXZFw2SLZcliYZIHy6rLtA9+z3Ey832YJnzR
+ PUqW9hdS4ZjemaYdJNWf6VWd3o2jhITTtBC7UtrpPBGqz0W0ip46vw7KdNXIGzqPmsD3ST1
+ JHQQW5y5FNrktCG8G/yXaeYvNLb0VDUB0aPi1LdpDP5KSB7NIpTVhOeCRVeWSd22R+B049u
+ UdmuCbIDnEaR+OEWaSonw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:JP8f9kNIi6U=:IisbE7fw/c8qL9hH7iRzg+
+ R1Xkkxn4ep6Q/Fw6RU6YIfThr+F40OROmthwMxbkWnPt8PnnT4AsgC6DyMBJ0gXkfvKMRcRBL
+ 5YvQ/e0CGWygF2NZ/NkTAZrbjiRCuqGGvSbgpJPiUl/7bwXkaMiLDEl46J53ZjkGShcUdf9BC
+ nU+yG9TagHNNMFeLIHTENzATtxmvbIA6E6Xpb6ZgYCeXriVvHtSQyyq/nLD+KzlJz65JtjYVj
+ YChObUecr72I+Ai5IpwXa1+/a0PZGrsAz6SHKdMYKtUWr7O5Df8/tM/4cTIv6GpwjB6xahg9k
+ P2zw0QZ1iE7NTDCMNS9xzYdRHMYTikNUx4m4Df0NGBhd5s/oPI4goc7CK7c6ivzQoBL669wIn
+ GV2S1CSL7W3SAwZRU4MxDtt+NNKI86WAvbT2sZWMVx9lZAaEY38d3Bqt/+izEGxSmDuZChwp8
+ bbMYx8qC9DxzLAR7Je/gKyUK3yw7C8+nTMx+tqpYey2uYBdAcAHw9nT9Y07265Q4C7OeE/kAO
+ /xen3D1ybPwa4Rqr3+VnZJrJlPgwoy7TRGzIOjCH1z0gSawUIqk5iGIFtOYCyAChFr75WhTK5
+ biVVn0Q5taTJFM1EbfLLMyfsAqFyBYNkgolXOokn1B1HIP3Mew0hAa/ijyRMthYsH+Pw8ZK7u
+ u/R3WjjiU0k/BxqU8fMUzODgAIIhT3Y9ZdfCWc88ngGSjAs4SBcYV4HMWF7NGyUdXsKFvpxyh
+ jyTicUhIKmGHo/qKswOO8L5DDDUkCG0+nvTqSfRmoS4ECps/v7uEjlmTz6kJS/PfyO+Tm2d2F
+ q3UOUbgrWq6GksFoZB/1nA7RvGmrL/CSPTtfK2MyeyJoU8Da+mEs150teKzyVHnSh/k/SwkyW
+ ddKriE6aV6Yv/6c8uwaKAmu1Ye6v3NKSgnNz1TjFZCsDwrWLiRuIrsowC13ve0CC+iZfxcxUi
+ zdgLgszjYqRoSWfxes+f4OKpRpYbIwZSFLWMv5ds3Bbc67uPo6ZBnFSc/hJlHsKY/QOD9YrqG
+ VbDCFvlRhhgJ5motEeKz0/VX+VqamrZfG8/k3cos0luqReD7uxRX/Mzs9nGbwpupNZfX9rUNb
+ xPAueJTrN2+tHM=
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Greg,
+--Sig_/tyZQL.+o9DIf4zMViIPrjW4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 8 Feb 2022 11:44:27 +0100
-Greg KH <gregkh@linuxfoundation.org> wrote:
+Dear "linux-usb" mailing list people,
 
-> On Wed, Feb 02, 2022 at 06:20:56PM +0100, Ingo Rohloff wrote:
-> > This patch implements the same functionality for FunctionFS as
-> > commit f7d34b445abc00e979b7 ("USB: Add support for usbfs zerocopy.")
-> > did for USB host devio.c
+I was directed here by the email-bot of Greg Kroah-Hartman.
 
-> ...
-
-> > +/* Check whether it's okay to allocate more memory for mmap */
-> > +static int ffsm_increase_mmap_mem_usage(struct ffs_data *ffs, u64 amount)
-> > +{
-> > +	u64 lim;
-> > +
-> > +	lim = READ_ONCE(ffs->mmap_memory_mb);
-> > +	lim <<= 20;
-> > +
-> > +	atomic64_add(amount, &ffs->mmap_mem_usage);
-> > +
-> > +	if (lim > 0 && atomic64_read(&ffs->mmap_mem_usage) > lim) {  
-> 
-> What prevents it from changing right after you read this?
-
-Nothing.
-
-First of all: I just used the same code as in "drivers/usb/core/devio.c"
-functions "usbfs_increase_memory_usage()" and "usbfs_decrease_memory_usage()".
-
-As far as I understand the code of these two functions, this code to imposes a
-limit on the amount of kernel space memory, a user might allocate via "mmap"
-calls.
-
-The construction makes sure that when "ffsm_increase_mmap_mem_usage()" returns
-successfully, it is guaranteed, that "mmap_mem_usage" *was* smaller/equal than 
-"lim" at the time the atomic64_read() call was done.
-
-Of course "mmap_mem_usage" might change immediately after the atomic64_read().
-But as far as I analyzed, this still limits the total amount of memory
-allocated, as long as you make sure that you do the allocation of memory
-*after* "ffsm_increase_mmap_mem_usage()" returned successfully and you
-deallocate the memory *before* you call "ffsm_decrease_mmap_mem_usage()".
+First I was contactim him directly, since at [1] it is written that
+things regarding the `usbserial` driver should be directed to him,
+which in turn I was getting from a question on where-to-address-this
+which I asked here [2].
 
 
-> > +		atomic64_sub(amount, &ffs->mmap_mem_usage);  
-> 
-> Why not use a real lock instead of trying to do a fake one with this
-> atomic variable?
+Here the issue I want to address:
 
-I don't think there is a good reason using the "atomic" stuff:
-I think this code path anyway is not hit that often (only when you mmap or
-munmap buffers), so this should not have any noticeable impact on performance.
 
-I just took the code from "drivers/usb/core/devio.c",
-"usbfs_increase_memory_usage()".
-I am still convinced it is correct.
+I have a device which is ignored by any in-kernel driver, but when I
+tell `usbserial` manually to drive that device (via
+`modprobe usbserial vendor=3D0x0421 product=3D0x069a`), it provides two
+serial ports where useful things can be made via the second.
 
-You are of course right: You can easily use a lock here and this makes the
-intention of the code a lot clearer I guess.
+It is a Nokia 130 mobile phone, and it provides an "AT"-style serial
+interface where things like address book synchronisation can be made.
 
-I will modify the patch accordingly.
+It has the following vendor:product number 0421:069a.
 
-so long
-  Ingo
+So I suggest to you to add that device as a supported device to
+`usbserial`, so that hotplug works.
+
+In `lsusb` it shows up as
+`Nokia Mobile Phones 130 [RM-1035] (Charging only)`, so the string
+`(Charging only)` should be removed then, too.
+
+(The phone itself has two USB modes: "Memory card" (which will make it
+behave as mass storage with access to the microSD-card) and a mode
+which is called in the phone's menu as "Charging only", which is the
+mode interesting here and which in fact is more than "carging only").
+
+
+I have also made a Linux bugtracker issue out of this [3], but my
+experience is that issues posted there are sometimes very unreliably
+noticed (depending on the subsystem, some parts of the bugtracker seem
+to not get attention at all). That's why I followed the suggestion in
+[1] instead at first. I am still confused about what is the correct way
+to give this information to the people able to deal with it properly.
+
+
+
+[1] Linux kernel documentation "USB serial": =20
+http://kernel.org/doc/html/latest/usb/usb-serial.html#generic-serial-driver
+
+> For any questions or problems with this driver, please contact Greg =20
+> Kroah-Hartman at greg@kroah.com
+
+[2] Answer to the question where to address this on stackexchange: =20
+http://unix.stackexchange.com/a/689577/133286
+
+[3] Enhancement-Issue of this at the Linux bugtracker: =20
+http://bugzilla.kernel.org/show_bug.cgi?id=3D215579
+
+--=20
+| sed 's/\([Mm]\)an[n]*/\1ensch/g'
+
+--Sig_/tyZQL.+o9DIf4zMViIPrjW4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEoQC1DtG8M9RevkfXW6j9HlIpTekFAmICW3AACgkQW6j9HlIp
+TemEfBAApbSVDFtuWC3klougPWGoAz50bZWtULVJu2P+TeHdlppUJgr6Oz5YssSE
+W81ytLEMC6j+EhtsIq/ZIDd00xOMCgLcwDJHfBi501XYGgB8mSQ+COGFf7G74vdi
+mUYQjjItOW8jpVxeDU2eAK2C//Zmfh5kxwa56Fq8F8tuh9mnMsuYveWpqz4GBy4J
+lfB+dpSg/dzTe3fiBdXVLnMOClsKv5WSXvy6+TSH1LbFSgUL5kcCtpBWid2//7Zg
+Ivc4VYBhHTPQNVVPMcXDyZQaGoyBdbQsY44MO89yZRLFn9ftiJNaol4l7L+tfbnU
+WENMEXJbS3woX9Dy8leffmAc/AUkPd6IvZW5Z7Qbe/AXGNk/BzbX1WFyBFSi1ORA
+X3RykQWFazO8fNHUJ1RIDxqiZLsm1SOntzOcRLs+7bsh7br+9tqLUr6wdwfbASqx
+nc5WmEPe2KwlRuzlRzAH4yZa8SL5WdRl3192Bc8RLjMtCgxlYLCSL2bLVugsw+Et
+Sg4JhjI+xvsOZHSfijTQopRXQfIFMTApUCH9OPe+zk7RNaJFd2Dch04mH7pvsQPk
+0bwRBOWwiaVcWh08T/uJcwh6LYlcHTqU60RE7cs0gfdIb7jTutSD+G3vQXhJDhNE
+z/p2yQDdqtOiAev+CDNYjoihamA4w1winQE4wwfQSapR+ymTEGM=
+=3rZg
+-----END PGP SIGNATURE-----
+
+--Sig_/tyZQL.+o9DIf4zMViIPrjW4--
