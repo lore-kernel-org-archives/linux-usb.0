@@ -2,213 +2,533 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F8AC3525C
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 11:31:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3535BC433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 11:31:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1356073AbiBHLbi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:31:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58176 "EHLO
+        id S1359515AbiBHLbl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 06:31:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244947AbiBHKjK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 05:39:10 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63875C03FEC0;
-        Tue,  8 Feb 2022 02:39:09 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2F96FB81990;
-        Tue,  8 Feb 2022 10:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3ADC340ED;
-        Tue,  8 Feb 2022 10:39:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644316746;
-        bh=DhYrhVV0rhkeYgs8i86fDL5i6IUbr00I2qxJJPVyviw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hDHEA2k1rtgqThwWijxMFT+gR1N3I11PmBaK4CzVCM9QgSAyBycnB/xSLTnvwxRM7
-         +PH+wQH8aI66O9q+KH+0GTVOao9THoISx2Q3lU8MlugrCLK5lQBkE+j52HuGsdxSSy
-         5+Plqq3c09303KWWgOzFm6kX77XadIqVnsiKIh20=
-Date:   Tue, 8 Feb 2022 11:39:04 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Rob Clark <robdclark@gmail.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm: Add HPD state to
- drm_connector_oob_hotplug_event()
-Message-ID: <YgJISIIacBnFyTLq@kroah.com>
-References: <20220208044328.588860-1-bjorn.andersson@linaro.org>
+        with ESMTP id S1356862AbiBHLKC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 06:10:02 -0500
+X-Greylist: delayed 456 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 03:10:00 PST
+Received: from mxout03.lancloud.ru (mxout03.lancloud.ru [45.84.86.113])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14818C03FEC0
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 03:09:59 -0800 (PST)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout03.lancloud.ru 677F020EE50D
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] usb: core: use sysfs_emit() instead of sprintf()
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+Organization: Open Mobile Platform
+Message-ID: <4248804f-d9eb-5e00-563f-28815cd42b65@omp.ru>
+Date:   Tue, 8 Feb 2022 14:02:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220208044328.588860-1-bjorn.andersson@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 07, 2022 at 08:43:27PM -0800, Bjorn Andersson wrote:
-> In some implementations, such as the Qualcomm platforms, the display
-> driver has no way to query the current HPD state and as such it's
-> impossible to distinguish between disconnect and attention events.
-> 
-> Add a parameter to drm_connector_oob_hotplug_event() to pass the HPD
-> state.
-> 
-> Also push the test for unchanged state in the displayport altmode driver
-> into the i915 driver, to allow other drivers to act upon each update.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
-> 
-> Note that the Intel driver has only been compile tested with this patch.
-> 
->  drivers/gpu/drm/drm_connector.c          |  6 ++++--
->  drivers/gpu/drm/i915/display/intel_dp.c  | 14 +++++++++++---
->  drivers/gpu/drm/i915/i915_drv.h          |  3 +++
->  drivers/usb/typec/altmodes/displayport.c |  9 ++-------
->  include/drm/drm_connector.h              |  5 +++--
->  5 files changed, 23 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index a50c82bc2b2f..ad7295597c0f 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -2825,6 +2825,7 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
->  /**
->   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
->   * @connector_fwnode: fwnode_handle to report the event on
-> + * @hpd_state: number of data lanes available
+sprintf() (still used in the USB core for the sysfs output) is vulnerable
+to the buffer overflow.  Use the new-fangled sysfs_emit() instead.
 
-"number"?
+Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+analysis tool.
 
->   *
->   * On some hardware a hotplug event notification may come from outside the display
->   * driver / device. An example of this is some USB Type-C setups where the hardware
-> @@ -2834,7 +2835,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
->   * This function can be used to report these out-of-band events after obtaining
->   * a drm_connector reference through calling drm_connector_find_by_fwnode().
->   */
-> -void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
-> +void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-> +				     bool hpd_state)
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-This is a boolean, how can it be a number?
+---
+This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
 
-And having a "flag" like this is a pain, how do you know what the
-parameter really means?
+ drivers/usb/core/endpoint.c        |   11 ++---
+ drivers/usb/core/ledtrig-usbport.c |    3 -
+ drivers/usb/core/port.c            |   11 ++---
+ drivers/usb/core/sysfs.c           |   77 ++++++++++++++++++-------------------
+ 4 files changed, 53 insertions(+), 49 deletions(-)
 
->  {
->  	struct drm_connector *connector;
->  
-> @@ -2843,7 +2845,7 @@ void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode)
->  		return;
->  
->  	if (connector->funcs->oob_hotplug_event)
-> -		connector->funcs->oob_hotplug_event(connector);
-> +		connector->funcs->oob_hotplug_event(connector, hpd_state);
->  
->  	drm_connector_put(connector);
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 146b83916005..00520867d37b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -4816,15 +4816,23 @@ static int intel_dp_connector_atomic_check(struct drm_connector *conn,
->  	return intel_modeset_synced_crtcs(state, conn);
->  }
->  
-> -static void intel_dp_oob_hotplug_event(struct drm_connector *connector)
-> +static void intel_dp_oob_hotplug_event(struct drm_connector *connector, bool hpd_state)
->  {
->  	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
->  	struct drm_i915_private *i915 = to_i915(connector->dev);
-> +	bool need_work = false;
->  
->  	spin_lock_irq(&i915->irq_lock);
-> -	i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
-> +	if (hpd_state != i915->hotplug.oob_hotplug_state) {
-> +		i915->hotplug.event_bits |= BIT(encoder->hpd_pin);
-> +
-> +		i915->hotplug.oob_hotplug_state = hpd_state;
-> +		need_work = true;
-> +	}
->  	spin_unlock_irq(&i915->irq_lock);
-> -	queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
-> +
-> +	if (need_work)
-> +		queue_delayed_work(system_wq, &i915->hotplug.hotplug_work, 0);
->  }
->  
->  static const struct drm_connector_funcs intel_dp_connector_funcs = {
-> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-> index 8c1706fd81f9..543ebf1cfcf4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.h
-> +++ b/drivers/gpu/drm/i915/i915_drv.h
-> @@ -149,6 +149,9 @@ struct i915_hotplug {
->  	/* Whether or not to count short HPD IRQs in HPD storms */
->  	u8 hpd_short_storm_enabled;
->  
-> +	/* Last state reported by oob_hotplug_event */
-> +	bool oob_hotplug_state;
-> +
->  	/*
->  	 * if we get a HPD irq from DP and a HPD irq from non-DP
->  	 * the non-DP HPD could block the workqueue on a mode config
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> index c1d8c23baa39..a4596be4d34a 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -59,7 +59,6 @@ struct dp_altmode {
->  	struct typec_displayport_data data;
->  
->  	enum dp_state state;
-> -	bool hpd;
->  
->  	struct mutex lock; /* device lock */
->  	struct work_struct work;
-> @@ -143,10 +142,7 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
->  		if (!ret)
->  			dp->state = DP_STATE_CONFIGURE;
->  	} else {
-> -		if (dp->hpd != hpd) {
-> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
-> -			dp->hpd = hpd;
-> -		}
-> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, hpd);
->  	}
->  
->  	return ret;
-> @@ -573,8 +569,7 @@ void dp_altmode_remove(struct typec_altmode *alt)
->  	cancel_work_sync(&dp->work);
->  
->  	if (dp->connector_fwnode) {
-> -		if (dp->hpd)
-> -			drm_connector_oob_hotplug_event(dp->connector_fwnode);
-> +		drm_connector_oob_hotplug_event(dp->connector_fwnode, false);
+Index: usb/drivers/usb/core/endpoint.c
+===================================================================
+--- usb.orig/drivers/usb/core/endpoint.c
++++ usb/drivers/usb/core/endpoint.c
+@@ -14,6 +14,7 @@
+ #include <linux/kernel.h>
+ #include <linux/spinlock.h>
+ #include <linux/slab.h>
++#include <linux/sysfs.h>
+ #include <linux/usb.h>
+ #include "usb.h"
+ 
+@@ -39,7 +40,7 @@ static ssize_t field##_show(struct devic
+ 			       char *buf)			\
+ {								\
+ 	struct ep_device *ep = to_ep_device(dev);		\
+-	return sprintf(buf, format_string, ep->desc->field);	\
++	return sysfs_emit(buf, format_string, ep->desc->field);	\
+ }								\
+ static DEVICE_ATTR_RO(field)
+ 
+@@ -52,7 +53,7 @@ static ssize_t wMaxPacketSize_show(struc
+ 				   struct device_attribute *attr, char *buf)
+ {
+ 	struct ep_device *ep = to_ep_device(dev);
+-	return sprintf(buf, "%04x\n", usb_endpoint_maxp(ep->desc));
++	return sysfs_emit(buf, "%04x\n", usb_endpoint_maxp(ep->desc));
+ }
+ static DEVICE_ATTR_RO(wMaxPacketSize);
+ 
+@@ -76,7 +77,7 @@ static ssize_t type_show(struct device *
+ 		type = "Interrupt";
+ 		break;
+ 	}
+-	return sprintf(buf, "%s\n", type);
++	return sysfs_emit(buf, "%s\n", type);
+ }
+ static DEVICE_ATTR_RO(type);
+ 
+@@ -95,7 +96,7 @@ static ssize_t interval_show(struct devi
+ 		interval /= 1000;
+ 	}
+ 
+-	return sprintf(buf, "%d%cs\n", interval, unit);
++	return sysfs_emit(buf, "%d%cs\n", interval, unit);
+ }
+ static DEVICE_ATTR_RO(interval);
+ 
+@@ -111,7 +112,7 @@ static ssize_t direction_show(struct dev
+ 		direction = "in";
+ 	else
+ 		direction = "out";
+-	return sprintf(buf, "%s\n", direction);
++	return sysfs_emit(buf, "%s\n", direction);
+ }
+ static DEVICE_ATTR_RO(direction);
+ 
+Index: usb/drivers/usb/core/ledtrig-usbport.c
+===================================================================
+--- usb.orig/drivers/usb/core/ledtrig-usbport.c
++++ usb/drivers/usb/core/ledtrig-usbport.c
+@@ -10,6 +10,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/slab.h>
++#include <linux/sysfs.h>
+ #include <linux/usb.h>
+ #include <linux/usb/of.h>
+ 
+@@ -87,7 +88,7 @@ static ssize_t usbport_trig_port_show(st
+ 						      struct usbport_trig_port,
+ 						      attr);
+ 
+-	return sprintf(buf, "%d\n", port->observed) + 1;
++	return sysfs_emit(buf, "%d\n", port->observed) + 1;
+ }
+ 
+ static ssize_t usbport_trig_port_store(struct device *dev,
+Index: usb/drivers/usb/core/port.c
+===================================================================
+--- usb.orig/drivers/usb/core/port.c
++++ usb/drivers/usb/core/port.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/slab.h>
++#include <linux/sysfs.h>
+ #include <linux/pm_qos.h>
+ #include <linux/component.h>
+ 
+@@ -22,7 +23,7 @@ static ssize_t location_show(struct devi
+ {
+ 	struct usb_port *port_dev = to_usb_port(dev);
+ 
+-	return sprintf(buf, "0x%08x\n", port_dev->location);
++	return sysfs_emit(buf, "0x%08x\n", port_dev->location);
+ }
+ static DEVICE_ATTR_RO(location);
+ 
+@@ -47,7 +48,7 @@ static ssize_t connect_type_show(struct
+ 		break;
+ 	}
+ 
+-	return sprintf(buf, "%s\n", result);
++	return sysfs_emit(buf, "%s\n", result);
+ }
+ static DEVICE_ATTR_RO(connect_type);
+ 
+@@ -56,7 +57,7 @@ static ssize_t over_current_count_show(s
+ {
+ 	struct usb_port *port_dev = to_usb_port(dev);
+ 
+-	return sprintf(buf, "%u\n", port_dev->over_current_count);
++	return sysfs_emit(buf, "%u\n", port_dev->over_current_count);
+ }
+ static DEVICE_ATTR_RO(over_current_count);
+ 
+@@ -65,7 +66,7 @@ static ssize_t quirks_show(struct device
+ {
+ 	struct usb_port *port_dev = to_usb_port(dev);
+ 
+-	return sprintf(buf, "%08x\n", port_dev->quirks);
++	return sysfs_emit(buf, "%08x\n", port_dev->quirks);
+ }
+ 
+ static ssize_t quirks_store(struct device *dev, struct device_attribute *attr,
+@@ -100,7 +101,7 @@ static ssize_t usb3_lpm_permit_show(stru
+ 			p = "0";
+ 	}
+ 
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+ 
+ static ssize_t usb3_lpm_permit_store(struct device *dev,
+Index: usb/drivers/usb/core/sysfs.c
+===================================================================
+--- usb.orig/drivers/usb/core/sysfs.c
++++ usb/drivers/usb/core/sysfs.c
+@@ -14,6 +14,7 @@
+ 
+ #include <linux/kernel.h>
+ #include <linux/string.h>
++#include <linux/sysfs.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+ #include <linux/usb/quirks.h>
+@@ -35,7 +36,7 @@ static ssize_t field##_show(struct devic
+ 		return -EINTR;						\
+ 	actconfig = udev->actconfig;					\
+ 	if (actconfig)							\
+-		rc = sprintf(buf, format_string,			\
++		rc = sysfs_emit(buf, format_string,			\
+ 				actconfig->desc.field);			\
+ 	usb_unlock_device(udev);					\
+ 	return rc;							\
+@@ -61,7 +62,8 @@ static ssize_t bMaxPower_show(struct dev
+ 		return -EINTR;
+ 	actconfig = udev->actconfig;
+ 	if (actconfig)
+-		rc = sprintf(buf, "%dmA\n", usb_get_max_power(udev, actconfig));
++		rc = sysfs_emit(buf, "%dmA\n",
++				usb_get_max_power(udev, actconfig));
+ 	usb_unlock_device(udev);
+ 	return rc;
+ }
+@@ -80,7 +82,7 @@ static ssize_t configuration_show(struct
+ 		return -EINTR;
+ 	actconfig = udev->actconfig;
+ 	if (actconfig && actconfig->string)
+-		rc = sprintf(buf, "%s\n", actconfig->string);
++		rc = sysfs_emit(buf, "%s\n", actconfig->string);
+ 	usb_unlock_device(udev);
+ 	return rc;
+ }
+@@ -114,7 +116,7 @@ static ssize_t devspec_show(struct devic
+ {
+ 	struct device_node *of_node = dev->of_node;
+ 
+-	return sprintf(buf, "%pOF\n", of_node);
++	return sysfs_emit(buf, "%pOF\n", of_node);
+ }
+ static DEVICE_ATTR_RO(devspec);
+ #endif
+@@ -131,7 +133,7 @@ static ssize_t  name##_show(struct devic
+ 	retval = usb_lock_device_interruptible(udev);			\
+ 	if (retval < 0)							\
+ 		return -EINTR;						\
+-	retval = sprintf(buf, "%s\n", udev->name);			\
++	retval = sysfs_emit(buf, "%s\n", udev->name);			\
+ 	usb_unlock_device(udev);					\
+ 	return retval;							\
+ }									\
+@@ -175,7 +177,7 @@ static ssize_t speed_show(struct device
+ 	default:
+ 		speed = "unknown";
+ 	}
+-	return sprintf(buf, "%s\n", speed);
++	return sysfs_emit(buf, "%s\n", speed);
+ }
+ static DEVICE_ATTR_RO(speed);
+ 
+@@ -185,7 +187,7 @@ static ssize_t rx_lanes_show(struct devi
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->rx_lanes);
++	return sysfs_emit(buf, "%d\n", udev->rx_lanes);
+ }
+ static DEVICE_ATTR_RO(rx_lanes);
+ 
+@@ -195,7 +197,7 @@ static ssize_t tx_lanes_show(struct devi
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->tx_lanes);
++	return sysfs_emit(buf, "%d\n", udev->tx_lanes);
+ }
+ static DEVICE_ATTR_RO(tx_lanes);
+ 
+@@ -205,7 +207,7 @@ static ssize_t busnum_show(struct device
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->bus->busnum);
++	return sysfs_emit(buf, "%d\n", udev->bus->busnum);
+ }
+ static DEVICE_ATTR_RO(busnum);
+ 
+@@ -215,7 +217,7 @@ static ssize_t devnum_show(struct device
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->devnum);
++	return sysfs_emit(buf, "%d\n", udev->devnum);
+ }
+ static DEVICE_ATTR_RO(devnum);
+ 
+@@ -225,7 +227,7 @@ static ssize_t devpath_show(struct devic
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%s\n", udev->devpath);
++	return sysfs_emit(buf, "%s\n", udev->devpath);
+ }
+ static DEVICE_ATTR_RO(devpath);
+ 
+@@ -237,7 +239,7 @@ static ssize_t version_show(struct devic
+ 
+ 	udev = to_usb_device(dev);
+ 	bcdUSB = le16_to_cpu(udev->descriptor.bcdUSB);
+-	return sprintf(buf, "%2x.%02x\n", bcdUSB >> 8, bcdUSB & 0xff);
++	return sysfs_emit(buf, "%2x.%02x\n", bcdUSB >> 8, bcdUSB & 0xff);
+ }
+ static DEVICE_ATTR_RO(version);
+ 
+@@ -247,7 +249,7 @@ static ssize_t maxchild_show(struct devi
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->maxchild);
++	return sysfs_emit(buf, "%d\n", udev->maxchild);
+ }
+ static DEVICE_ATTR_RO(maxchild);
+ 
+@@ -257,7 +259,7 @@ static ssize_t quirks_show(struct device
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "0x%x\n", udev->quirks);
++	return sysfs_emit(buf, "0x%x\n", udev->quirks);
+ }
+ static DEVICE_ATTR_RO(quirks);
+ 
+@@ -267,7 +269,7 @@ static ssize_t avoid_reset_quirk_show(st
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", !!(udev->quirks & USB_QUIRK_RESET));
++	return sysfs_emit(buf, "%d\n", !!(udev->quirks & USB_QUIRK_RESET));
+ }
+ 
+ static ssize_t avoid_reset_quirk_store(struct device *dev,
+@@ -297,7 +299,7 @@ static ssize_t urbnum_show(struct device
+ 	struct usb_device *udev;
+ 
+ 	udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", atomic_read(&udev->urbnum));
++	return sysfs_emit(buf, "%d\n", atomic_read(&udev->urbnum));
+ }
+ static DEVICE_ATTR_RO(urbnum);
+ 
+@@ -305,8 +307,8 @@ static ssize_t ltm_capable_show(struct d
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	if (usb_device_supports_ltm(to_usb_device(dev)))
+-		return sprintf(buf, "%s\n", "yes");
+-	return sprintf(buf, "%s\n", "no");
++		return sysfs_emit(buf, "%s\n", "yes");
++	return sysfs_emit(buf, "%s\n", "no");
+ }
+ static DEVICE_ATTR_RO(ltm_capable);
+ 
+@@ -317,7 +319,7 @@ static ssize_t persist_show(struct devic
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+ 
+-	return sprintf(buf, "%d\n", udev->persist_enabled);
++	return sysfs_emit(buf, "%d\n", udev->persist_enabled);
+ }
+ 
+ static ssize_t persist_store(struct device *dev, struct device_attribute *attr,
+@@ -372,7 +374,7 @@ static ssize_t connected_duration_show(s
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+ 
+-	return sprintf(buf, "%u\n",
++	return sysfs_emit(buf, "%u\n",
+ 			jiffies_to_msecs(jiffies - udev->connect_time));
+ }
+ static DEVICE_ATTR_RO(connected_duration);
+@@ -394,14 +396,14 @@ static ssize_t active_duration_show(stru
+ 		duration = jiffies_to_msecs(jiffies + udev->active_duration);
+ 	else
+ 		duration = jiffies_to_msecs(udev->active_duration);
+-	return sprintf(buf, "%u\n", duration);
++	return sysfs_emit(buf, "%u\n", duration);
+ }
+ static DEVICE_ATTR_RO(active_duration);
+ 
+ static ssize_t autosuspend_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+-	return sprintf(buf, "%d\n", dev->power.autosuspend_delay / 1000);
++	return sysfs_emit(buf, "%d\n", dev->power.autosuspend_delay / 1000);
+ }
+ 
+ static ssize_t autosuspend_store(struct device *dev,
+@@ -442,7 +444,7 @@ static ssize_t level_show(struct device
+ 	warn_level();
+ 	if (udev->state != USB_STATE_SUSPENDED && !udev->dev.power.runtime_auto)
+ 		p = on_string;
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+ 
+ static ssize_t level_store(struct device *dev, struct device_attribute *attr,
+@@ -490,7 +492,7 @@ static ssize_t usb2_hardware_lpm_show(st
+ 	else
+ 		p = "disabled";
+ 
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+ 
+ static ssize_t usb2_hardware_lpm_store(struct device *dev,
+@@ -529,7 +531,7 @@ static ssize_t usb2_lpm_l1_timeout_show(
+ 					char *buf)
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->l1_params.timeout);
++	return sysfs_emit(buf, "%d\n", udev->l1_params.timeout);
+ }
+ 
+ static ssize_t usb2_lpm_l1_timeout_store(struct device *dev,
+@@ -552,7 +554,7 @@ static ssize_t usb2_lpm_besl_show(struct
+ 				  struct device_attribute *attr, char *buf)
+ {
+ 	struct usb_device *udev = to_usb_device(dev);
+-	return sprintf(buf, "%d\n", udev->l1_params.besl);
++	return sysfs_emit(buf, "%d\n", udev->l1_params.besl);
+ }
+ 
+ static ssize_t usb2_lpm_besl_store(struct device *dev,
+@@ -589,7 +591,7 @@ static ssize_t usb3_hardware_lpm_u1_show
+ 
+ 	usb_unlock_device(udev);
+ 
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+ static DEVICE_ATTR_RO(usb3_hardware_lpm_u1);
+ 
+@@ -611,7 +613,7 @@ static ssize_t usb3_hardware_lpm_u2_show
+ 
+ 	usb_unlock_device(udev);
+ 
+-	return sprintf(buf, "%s\n", p);
++	return sysfs_emit(buf, "%s\n", p);
+ }
+ static DEVICE_ATTR_RO(usb3_hardware_lpm_u2);
+ 
+@@ -694,7 +696,7 @@ field##_show(struct device *dev, struct
+ 	struct usb_device *udev;					\
+ 									\
+ 	udev = to_usb_device(dev);					\
+-	return sprintf(buf, format_string, 				\
++	return sysfs_emit(buf, format_string,				\
+ 			le16_to_cpu(udev->descriptor.field));		\
+ }									\
+ static DEVICE_ATTR_RO(field)
+@@ -711,7 +713,7 @@ field##_show(struct device *dev, struct
+ 	struct usb_device *udev;					\
+ 									\
+ 	udev = to_usb_device(dev);					\
+-	return sprintf(buf, format_string, udev->descriptor.field);	\
++	return sysfs_emit(buf, format_string, udev->descriptor.field);	\
+ }									\
+ static DEVICE_ATTR_RO(field)
+ 
+@@ -957,7 +959,7 @@ static ssize_t interface_authorized_defa
+ 	struct usb_device *usb_dev = to_usb_device(dev);
+ 	struct usb_hcd *hcd = bus_to_hcd(usb_dev->bus);
+ 
+-	return sprintf(buf, "%u\n", !!HCD_INTF_AUTHORIZED(hcd));
++	return sysfs_emit(buf, "%u\n", !!HCD_INTF_AUTHORIZED(hcd));
+ }
+ 
+ /*
+@@ -1066,7 +1068,7 @@ iad_##field##_show(struct device *dev, s
+ {									\
+ 	struct usb_interface *intf = to_usb_interface(dev);		\
+ 									\
+-	return sprintf(buf, format_string,				\
++	return sysfs_emit(buf, format_string,				\
+ 			intf->intf_assoc->field); 			\
+ }									\
+ static DEVICE_ATTR_RO(iad_##field)
+@@ -1085,7 +1087,7 @@ field##_show(struct device *dev, struct
+ {									\
+ 	struct usb_interface *intf = to_usb_interface(dev);		\
+ 									\
+-	return sprintf(buf, format_string,				\
++	return sysfs_emit(buf, format_string,				\
+ 			intf->cur_altsetting->desc.field); 		\
+ }									\
+ static DEVICE_ATTR_RO(field)
+@@ -1107,7 +1109,7 @@ static ssize_t interface_show(struct dev
+ 	string = READ_ONCE(intf->cur_altsetting->string);
+ 	if (!string)
+ 		return 0;
+-	return sprintf(buf, "%s\n", string);
++	return sysfs_emit(buf, "%s\n", string);
+ }
+ static DEVICE_ATTR_RO(interface);
+ 
+@@ -1122,8 +1124,7 @@ static ssize_t modalias_show(struct devi
+ 	udev = interface_to_usbdev(intf);
+ 	alt = READ_ONCE(intf->cur_altsetting);
+ 
+-	return sprintf(buf, "usb:v%04Xp%04Xd%04Xdc%02Xdsc%02Xdp%02X"
+-			"ic%02Xisc%02Xip%02Xin%02X\n",
++	return sysfs_emit(buf, "usb:v%04Xp%04Xd%04Xdc%02Xdsc%02Xdp%02Xic%02Xisc%02Xip%02Xin%02X\n",
+ 			le16_to_cpu(udev->descriptor.idVendor),
+ 			le16_to_cpu(udev->descriptor.idProduct),
+ 			le16_to_cpu(udev->descriptor.bcdDevice),
+@@ -1150,7 +1151,7 @@ static ssize_t supports_autosuspend_show
+ 	s = (!dev->driver || to_usb_driver(dev->driver)->supports_autosuspend);
+ 	device_unlock(dev);
+ 
+-	return sprintf(buf, "%u\n", s);
++	return sysfs_emit(buf, "%u\n", s);
+ }
+ static DEVICE_ATTR_RO(supports_autosuspend);
+ 
+@@ -1163,7 +1164,7 @@ static ssize_t interface_authorized_show
+ {
+ 	struct usb_interface *intf = to_usb_interface(dev);
+ 
+-	return sprintf(buf, "%u\n", intf->authorized);
++	return sysfs_emit(buf, "%u\n", intf->authorized);
+ }
+ 
+ /*
 
-See, what does "false" here mean?
-
-Name the function for what it does, do not have random flags as
-parameters, that makes it impossible to understand what the code is
-doing when you are reading it, without having to jump around and figure
-out what the flags are saying.
-
-And here they just don't even seem to be right :(
-
-thanks,
-
-greg k-h
