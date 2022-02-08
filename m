@@ -2,130 +2,78 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1244C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 11:32:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 128E9C4321E
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Feb 2022 11:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376313AbiBHLb5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 06:31:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59360 "EHLO
+        id S1357627AbiBHLb7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 06:31:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1356415AbiBHKoc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 05:44:32 -0500
+        with ESMTP id S1349055AbiBHKey (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 05:34:54 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A16C03FEC0
-        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 02:44:31 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED055C03FEC0
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 02:34:50 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 40CB36156F
-        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 10:44:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED230C004E1;
-        Tue,  8 Feb 2022 10:44:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7CEF361562
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 10:34:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E6D1C004E1;
+        Tue,  8 Feb 2022 10:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644317070;
-        bh=JcYAKVeym09gnYUzyTheahVOrpS5X8Mb7Vq+R4lyd2Y=;
+        s=korg; t=1644316487;
+        bh=tpnD5ProEcoCxpcedaIL/JDOI9oCt3z6+CGq3zlZPw8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A2hFXzR+ci2ZTOV3pflUJ4bsU7zD8aAAKbcaaQv5wim448s7D4jPtNN4QZOoy9MbE
-         q2v2/oMOaARhATdcmPSuxLuig6OzsmAINnJvXa+bVQREXJvwTErmBbGJIq/CQYRABB
-         IqkAXJb3P/fWahGHLJ2YYnR0LKPW+aMBiz2FbTx4=
-Date:   Tue, 8 Feb 2022 11:44:27 +0100
+        b=ItL5R4sDnGoUjQCjsyaHPW1Vh9xJKb6yH6YLmbDXk/yO6cmF7daNDFZQ+xmzaTtlX
+         RdQDqxJru8qjjaEiC4Uxo4W/zGXViheB5/Fcon849mbyl+QOzkwNKQ4xx8tmPcq63c
+         Vx72hhzeAI7Bo2fZilIN0TO5i3SixIoFTdr+6c2k=
+Date:   Tue, 8 Feb 2022 11:34:44 +0100
 From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ingo Rohloff <ingo.rohloff@lauterbach.com>
-Cc:     balbi@kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] usb: gadget: f_fs: Support zerocopy transfers via
- mmap.
-Message-ID: <YgJJi0q+/oV9SRq8@kroah.com>
-References: <20220202172056.44722-1-ingo.rohloff@lauterbach.com>
- <20220202172056.44722-2-ingo.rohloff@lauterbach.com>
+To:     Jan-Niklas Burfeind <kernel@aiyionpri.me>,
+        Dmytro Bagrii <dimich.dmb@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] Revert "USB: serial: ch341: add new Product ID for
+ CH341A"
+Message-ID: <YgJHRKQHQheKTwjU@kroah.com>
+References: <20220207000822.697343-1-dimich.dmb@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220202172056.44722-2-ingo.rohloff@lauterbach.com>
+In-Reply-To: <20220207000822.697343-1-dimich.dmb@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Feb 02, 2022 at 06:20:56PM +0100, Ingo Rohloff wrote:
-> This patch implements the same functionality for FunctionFS as
-> commit f7d34b445abc00e979b7 ("USB: Add support for usbfs zerocopy.")
-> did for USB host devio.c
-> 
-> For FunctionFS, each "struct file *" for an endpoint (except EP0), keeps
-> a list of mmapped buffers. User space might use these buffers to avoid
-> copying of data by the kernel, by employing Linux native AsyncIO via
-> libaio.
-> 
-> Standard read() and write() operations will NOT be zerocopy.
-> Especially for reads, the expected USB transfer length is unclear;
-> whereas an AIO request clearly specifies the maximum transfer length.
-> 
-> Signed-off-by: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-> ---
->  drivers/usb/gadget/function/f_fs.c | 269 ++++++++++++++++++++++++++++-
->  drivers/usb/gadget/function/u_fs.h |   4 +
->  2 files changed, 267 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 7461d27e9604..a2e46704426f 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -201,6 +201,23 @@ struct ffs_epfile {
->  	unsigned char			_pad;
->  };
->  
-> +struct ffs_ep_listener {
-> +	struct ffs_epfile *epfile;
-> +	struct list_head ffsm_list;
-> +	spinlock_t       ffsm_lock;
-> +};
-> +
-> +struct ffs_memory {
-> +	struct list_head memlist;
-> +	struct ffs_ep_listener *listener;
-> +	char *kmem;
-> +	unsigned long vm_start;
-> +	u32 size;
-> +
-> +	int vma_use_count;
-> +	int aio_use_count;
-> +};
-> +
->  struct ffs_buffer {
->  	size_t length;
->  	char *data;
-> @@ -227,6 +244,7 @@ struct ffs_io_data {
->  	bool use_sg;
->  
->  	struct ffs_data *ffs;
-> +	struct ffs_memory *ffsm;
->  };
->  
->  struct ffs_desc_helper {
-> @@ -702,6 +720,200 @@ static const struct file_operations ffs_ep0_operations = {
->  	.poll =		ffs_ep0_poll,
->  };
->  
-> +/* Handling of mmapped transfers *******************************/
-> +
-> +/* Check whether it's okay to allocate more memory for mmap */
-> +static int ffsm_increase_mmap_mem_usage(struct ffs_data *ffs, u64 amount)
-> +{
-> +	u64 lim;
-> +
-> +	lim = READ_ONCE(ffs->mmap_memory_mb);
-> +	lim <<= 20;
-> +
-> +	atomic64_add(amount, &ffs->mmap_mem_usage);
-> +
-> +	if (lim > 0 && atomic64_read(&ffs->mmap_mem_usage) > lim) {
+On Mon, Feb 07, 2022 at 02:08:23AM +0200, Dmytro Bagrii wrote:
+> This reverts commit 46ee4abb10a07bd8f8ce910ee6b4ae6a947d7f63.
 
-What prevents it from changing right after you read this?
+You forgot to cc: the author of that commit, why?
 
-> +		atomic64_sub(amount, &ffs->mmap_mem_usage);
+Also forgot to cc: the maintainer of the driver/subsytem?
 
-Why not use a real lock instead of trying to do a fake one with this
-atomic variable?  You are not really protecting anything here correctly
-from what I can tell.
+> CH341A has three different modes of operation selectable either by
+> hardware pin connections or by external EEPROM configuration. Each
+> mode is represented by corresponding product ID:
+> 
+> 0x5523: Asyncronous Serial Interface
+> 0x5584: Parallel Printer Interface
+> 0x5512: EPP/MEM Interface
+
+That does not corrispond with what Jan-Niklas said in the original
+commit.
+
+> 
+> (See "5.3.Function configuration" in datasheet at wch-ic.com/downloads/CH341DS1_PDF.html)
+> 
+> When CH341A is configured as EPP/MEM Interface it appears as 1a86:5512 and being mistakenly
+> handled by ch341 USB serial driver.
+> 
+> It is possible to use CH341A in EPP/MEM mode only if ch341 module is blacklisted, but it must be
+> unblacklisted every time to use CH341A as a serial converter. Also obviously it is impossible
+> to use two CH341A boards in different modes simoultaneously.
+
+Please wrap your lines at 72 columns.
 
 thanks,
 
