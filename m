@@ -2,68 +2,182 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49866C433F5
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 12:07:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE5FC433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 12:31:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230355AbiBIMHG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 07:07:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39660 "EHLO
+        id S233023AbiBIMbb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 07:31:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232146AbiBIMDz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 07:03:55 -0500
-X-Greylist: delayed 64 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 03:31:51 PST
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF7BE00ED04
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 03:31:51 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.88,355,1635199200"; 
-   d="scan'208";a="5431508"
-Received: from 173.121.68.85.rev.sfr.net (HELO hadrien) ([85.68.121.173])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 12:30:46 +0100
-Date:   Wed, 9 Feb 2022 12:30:45 +0100 (CET)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-cc:     kbuild-all@lists.01.org
-Subject: [PATCH] usb: xhci: fix minmax.cocci warnings
-Message-ID: <alpine.DEB.2.22.394.2202091228320.52266@hadrien>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S229701AbiBIMba (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 07:31:30 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DAB8C0613CA;
+        Wed,  9 Feb 2022 04:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1644409893; x=1675945893;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=soo0nB22WJPviBpDRfEsLQcVnBjoM627TI0/ktDLbTA=;
+  b=DIJvvN1fahCLSOlJKbUbt7CYREFfjB8FFrh0GhrgYu3pS0H0AntDOr/n
+   UJKll2uyur+6Fp2DMwjiTCT55WJ+/Xa7Hd6W8dr7ICJLaG8A7ctGNOSg/
+   3CeHCkZd/E+d2L0VCBK9Nm96juLZvKpPIMeSw1I3g57PDAA52OO4McLpF
+   owT/Dcg353xM+perKlvEoBpGUMOp8s2+0MO+U4YT+dZAhNpNLYXAPpX7b
+   s74rukMfa+Oeq90J0v1c3UjAPBkv6qisqyn5CNXlCZg4hSv6KRpOYAcT9
+   vHFrpTgL3fEXH1OcU7CPb/4Sbzo+F5ZX9IL4OwsramGMyfAR8q/QTLiOe
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="248026147"
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
+   d="scan'208";a="248026147"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 04:31:33 -0800
+X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
+   d="scan'208";a="622261908"
+Received: from smile.fi.intel.com ([10.237.72.61])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 04:31:30 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nHm7E-002bvg-8W;
+        Wed, 09 Feb 2022 14:30:32 +0200
+Date:   Wed, 9 Feb 2022 14:30:32 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/6] device property: Helper to match multiple
+ connections
+Message-ID: <YgOz6K55Oi2Si4pU@smile.fi.intel.com>
+References: <20220208031944.3444-1-bjorn.andersson@linaro.org>
+ <20220208031944.3444-2-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220208031944.3444-2-bjorn.andersson@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: kernel test robot <lkp@intel.com>
+On Mon, Feb 07, 2022 at 07:19:39PM -0800, Bjorn Andersson wrote:
+> In some cases multiple connections with the same connection id
+> needs to be resolved from a fwnode graph.
+> 
+> One such example is when separate hardware is used for performing muxing
+> and/or orientation switching of the SuperSpeed and SBU lines in a USB-C
 
-Simplify the code using max().
+USB Type-C ?
 
-Generated by: scripts/coccinelle/misc/minmax.cocci
+> connector. In this case the connector needs to belong to a graph with
+> multiple matching remote endpoints, and the TypeC controller needs to be
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
----
+Type-C ?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e6251ab4551f51fa4cee03523e08051898c3ce82
-commit: 5f66f73b9ff4dcabd4e2405ba9c32e80e02f9408 coccinelle: misc: add minmax script
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 months ago
+> able to resolve them both.
+> 
+> Add a new API that allows this kind of lookup.
+> 
+> Given that the match() callback returns an opaque reference to something
+> provided by the client it's not possible for the implementation to
+> release the returned object and as such it's not possible to handle
+> errors, which in turn means that it's not possible to query the number
+> of elements or dynamically grow the results array. It's however expected
+> that the number of matches will be reasonably low and that the worst
+> case is known by the caller before hand.
 
- xhci-mem.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+...
 
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -433,8 +433,7 @@ int xhci_ring_expansion(struct xhci_hcd
- 				(TRBS_PER_SEGMENT - 1);
+> +	fwnode_graph_for_each_endpoint(fwnode, ep) {
+> +		if (count >= matches_len) {
+> +			fwnode_handle_put(ep);
+> +			return count;
+> +		}
+> +
+> +		node = fwnode_graph_get_remote_port_parent(ep);
+> +		if (!fwnode_device_is_available(node)) {
+> +			fwnode_handle_put(node);
+> +			continue;
+> +		}
+> +
+> +		ret = match(node, con_id, data);
+> +		fwnode_handle_put(node);
 
- 	/* Allocate number of segments we needed, or double the ring size */
--	num_segs = ring->num_segs > num_segs_needed ?
--			ring->num_segs : num_segs_needed;
-+	num_segs = max(ring->num_segs, num_segs_needed);
+> +
 
- 	ret = xhci_alloc_segments_for_ring(xhci, &first, &last,
- 			num_segs, ring->cycle_state, ring->type,
+Redundant blank line (it seems the current style w/o this).
+Ditto for the below function.
+
+> +		if (ret)
+> +			matches[count++] = ret;
+> +	}
+
+...
+
+> +/**
+> + * fwnode_connection_find_matches - Find connections from a device node
+> + * @fwnode: Device node with the connection
+> + * @con_id: Identifier for the connection
+> + * @data: Data for the match function
+> + * @match: Function to check and convert the connection description
+> + * @matches: Array of pointers to fill with matches
+> + * @matches_len: Length of @matches
+> + *
+> + * Find up to @matches_len connections with unique identifier @con_id between
+> + * @fwnode and other device nodes. @match will be used to convert the
+> + * connection description to data the caller is expecting to be returned
+> + * through the @matches array.
+> + *
+> + * Return: Number of matches resolved, of negative errno.
+
+s/of/or/ ?
+
+> + */
+> +int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
+> +				   const char *con_id, void *data,
+> +				   devcon_match_fn_t match,
+> +				   void **matches, unsigned int matches_len)
+> +{
+> +	unsigned int count;
+> +
+> +	if (!fwnode || !match || !matches)
+
+!matches case may be still useful to get the count and allocate memory by
+caller. Please, consider this case.
+
+> +		return -EINVAL;
+> +
+> +	count = fwnode_graph_devcon_matches(fwnode, con_id, data, match,
+> +					    matches, matches_len);
+> +
+> +	return count + fwnode_devcon_matches(fwnode, con_id, data, match,
+> +					     matches + count,
+> +					     matches_len - count);
+
+I haven't found any explanation what the difference between two counts. Also
+can you define two count variables with distinct names and do something like
+
+	count_A = ...
+
+	matches += count;
+	matches_len -= count;
+
+	count_B = ...
+
+	return count_A + count_B;
+
+?
+
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
