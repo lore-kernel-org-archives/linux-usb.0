@@ -2,117 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8748AC433F5
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 17:15:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B52BDC433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 17:25:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233404AbiBIROz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 12:14:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
+        id S238126AbiBIRZP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 12:25:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231834AbiBIROy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 12:14:54 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0136C05CB87
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 09:14:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=XIhmtydogLh6cg1l/ZLk8sisI41jnSzC1z46gs9JEjw=; b=uSkqM7cpeFyyxnZ2sIJ5dpgmR6
-        pbGjg7hDtO/C1WzUw2yUSpfqYjs2h5XRaujMYOwV9wCZQj5r4U3m2+jSIcQ43PrybQRr5vA3d4Wfm
-        AXouUw7feee4KTRC+Mzpw92NVx8y/iBjNPyOaItMjB678KtSjiNrJoWOuKIVtO9xS4WQBYbdJ6VHL
-        7S6IZWGvmLn/pgyB17vvTe70cZRVbIvQBnXcmCFdam4k5xOMh/JCLI6xQgrtwNPzycCtXcoc0NFuX
-        0nVnOGOm3bcXMgUGYhXllwoImv03n/l94RDDBtVpvhP9cr+AxUjPuVzH4rA+LMIusx6w2HEvL94eQ
-        vLXz6dUQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nHqYQ-008E02-GT; Wed, 09 Feb 2022 17:14:54 +0000
-Message-ID: <4c7bb41f-2639-2acc-1b35-e16c0fb9dad2@infradead.org>
-Date:   Wed, 9 Feb 2022 09:14:51 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: long ucsi_acpi_platform_driver_init
-Content-Language: en-US
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     linux-usb <linux-usb@vger.kernel.org>
-References: <b9993432-0192-f546-bf67-bb462f51e209@infradead.org>
- <YgED7x4tylyFzvsR@kuha.fi.intel.com>
- <7702d384-a0ce-51a5-221d-9241a9453d5e@infradead.org>
- <YgPROWZkZlIo0ZnU@kuha.fi.intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <YgPROWZkZlIo0ZnU@kuha.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S237350AbiBIRZN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 12:25:13 -0500
+Received: from smtp1.lauterbach.com (smtp1.lauterbach.com [62.154.241.196])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBFC9C05CB86
+        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 09:25:15 -0800 (PST)
+Received: (qmail 6855 invoked by uid 484); 9 Feb 2022 17:25:14 -0000
+X-Qmail-Scanner-Diagnostics: from ingpc2.intern.lauterbach.com by smtp1.lauterbach.com (envelope-from <ingo.rohloff@lauterbach.com>, uid 484) with qmail-scanner-2.11 
+ (mhr: 1.0. clamdscan: 0.99/21437. spamassassin: 3.4.0.  
+ Clear:RC:1(10.2.10.44):. 
+ Processed in 0.362476 secs); 09 Feb 2022 17:25:14 -0000
+Received: from ingpc2.intern.lauterbach.com (Authenticated_SSL:irohloff@[10.2.10.44])
+          (envelope-sender <ingo.rohloff@lauterbach.com>)
+          by smtp1.lauterbach.com (qmail-ldap-1.03) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <gregkh@linuxfoundation.org>; 9 Feb 2022 17:25:12 -0000
+From:   Ingo Rohloff <ingo.rohloff@lauterbach.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org,
+        Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Subject: [PATCH v3 0/1] Zerocopy for USB Gadget FunctionFS
+Date:   Wed,  9 Feb 2022 18:25:06 +0100
+Message-Id: <20220209172507.97659-1-ingo.rohloff@lauterbach.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+The commit f7d34b445abc00e979b7 ("USB: Add support for usbfs zerocopy.")
+added support for zerocopy operations for an USB Host via devio.c
 
-On 2/9/22 06:35, Heikki Krogerus wrote:
-> On Mon, Feb 07, 2022 at 09:01:50AM -0800, Randy Dunlap wrote:
->>
->>
->> On 2/7/22 03:35, Heikki Krogerus wrote:
->>> On Sun, Feb 06, 2022 at 05:28:48PM -0800, Randy Dunlap wrote:
->>>> Hi,
->>>>
->>>> On my custom 5.16, 5.17-rc1, and 5.17-rc2 kernels I am seeing
->>>> ucsi_acpi_platform_driver_init() take around 60 seconds.
->>>>
->>>> [    2.733138] calling  ucsi_acpi_platform_driver_init+0x0/0x1000 [ucsi_acpi] @ 470
->>>> [   64.603126] initcall ucsi_acpi_platform_driver_init+0x0/0x1000 [ucsi_acpi] returned 0 after 58690601 usecs
->>>
->>> I don't have any ideas what could be causing it to take that long?
->>> That driver does not really do anything else except it queues a work
->>> that then actually initialises the UCSI interface. The probe() in that
->>> driver (ucsi_acpi) does not stay and wait for the initialisation to
->>> finish.
->>>
->>> Can you check are the USB Type-C devices appearing under
->>> /sys/class/typec faster then that?
->>
->> One entry there:
->>
->> lrwxrwxrwx 1 root root 0 Feb  7 08:57 port0 -> ../../devices/platform/USBC000:00/typec/port0/
->>
->> Do you want more than that?
-> 
-> You should have a port there for every physical USB Type-C
-> port on you system.
+The idea is to mmap buffers into user space, which are then filled
+with data (either by the kernel for reads or by the user for writes).
 
-Yes, I have only one Type-C port.
+Using these mmapped buffers avoids copying data between kernel space
+and user space.
 
-> I can't really tell from that was the port registered before
-> ucsi_acpi_platform_driver_init() finished or not.
+The patch proposed here, tries to do the same for a USB Gadget and a
+user space application using USB Gaget FunctionFS.
 
-Sorry, I didn't understand the first time...
+Note: As long as you do not use mmap and/or libaio, FunctionFS should
+behave exactly as before.
 
-I rebooted and checked /sys/class/typec multiple times. It was empty until
-the end of ucsi_acpi_platform_driver_init() roughly 55 seconds later.
+If you want to try out, user space demonstration code is here:
+
+   https://github.com/trace32/test_usb_ffs
 
 
->>> Also, if the driver is a module, can you check does it always take
->>> that long if you unload and the reload the module (ucsi_acpi.ko)?
->>>
->>>> Did I miss some other (needed) Kconfig option or is something missing in
->>>> my system's ACPI tables e.g.?
->>>
->>> There shouldn't be any dependencies that are missing, but it would not
->>> hurt to take a look at your acpi tables. Can you send acpidump?
->>>
->>> Though, I doubt there is anything missing from there either.
->>>
->>>> DMI: Dell Inc. Inspiron 15 5510/076F7Y, BIOS 2.4.1 11/05/2021
->>
->> The (large) acpidump output is here:
->>   http://www.infradead.org/~rdunlap/doc/dell15-acpidump.out.gz
-> 
-> Thanks!
-> 
-> Br,
-> 
+
+V3:
+As requested: Use a spinlock instead of atomic64 to
+tally the amount of used kernel memory by mmap calls.
+
+ADDITIONALLY (compared to V2, meaning of limit == 0 changed):
+The amount of memory user space processes might mmap, is per default
+limited to 16 MiB per FunctionFS mount point.
+
+This limit can be modified at the time FunctionFS is mounted, by using
+the mount option "mmap_memory_mb=<value>", specifying the allowed mmap
+space in MiB.  Example:
+
+   mount -t functionfs -ommap_memory_mb=1 usb0 /usbfunc
+
+In V3, a value of 0 for "mmap_memory_mb", means that mmap functionality
+is DISABLED: All calls to mmap will return with -ENOMEM.
+
+Rationale:
+I can't think of a reason, why you should ever want to have UNLIMITED
+mmap calls (this just means user-space can easily force the kernel to
+kmalloc all space available).
+Additionally: If you want a real high limit, just use
+  mmap_memory_mb=1000000
+or some similar big number.
+
+In contrast: I think being able to forbid mmap might be useful.
+So for V3: "mmap_memory_mb=0" means no mmap allowed (will always return
+-ENOMEM).
+
+
+
+
+V2:
+The mmapped buffers are now associated with a "struct file *".
+
+This is achieved by adding another in-between 
+"struct ffs_ep_listener", which is allocated per "struct file *".
+
+I believe I botched that up in the previous V1 proposal;
+
+It seems using a list of mmapped segments associated to a 
+"struct file *" is the right approach?
+
+
+
+Ingo Rohloff (1):
+  usb: gadget: f_fs: Support zerocopy transfers via mmap.
+
+ drivers/usb/gadget/function/f_fs.c | 280 ++++++++++++++++++++++++++++-
+ drivers/usb/gadget/function/u_fs.h |   7 +
+ 2 files changed, 281 insertions(+), 6 deletions(-)
 
 -- 
-~Randy
+2.17.1
+
