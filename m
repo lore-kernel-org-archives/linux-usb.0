@@ -2,85 +2,145 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08109C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 10:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 857EBC433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 11:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229525AbiBIKzt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 05:55:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46196 "EHLO
+        id S230440AbiBIL3w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 06:29:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229747AbiBIKzr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 05:55:47 -0500
-Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF343E16FC98
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 02:33:56 -0800 (PST)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru C7C4F20D1C67
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH] usb: common: usb-otg-fsm: drop unreachable code in
- otg_statemachine()
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Peter Chen <peter.chen@kernel.org>, <linux-usb@vger.kernel.org>
-References: <5c923258-67c3-bae1-80d1-87a187202a4c@omp.ru>
- <YgNSkY/Hd811Vhu1@kroah.com>
-Organization: Open Mobile Platform
-Message-ID: <aa29a5b5-f45a-c08c-a955-4f48bd9e4920@omp.ru>
-Date:   Wed, 9 Feb 2022 13:33:53 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S229502AbiBIL3v (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 06:29:51 -0500
+X-Greylist: delayed 520 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 09 Feb 2022 02:23:15 PST
+Received: from mpx1.rcs-rds.ro (mpx1.rcs-rds.ro [212.54.120.16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30F80E04EC3E
+        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 02:23:14 -0800 (PST)
+Received: from webmail.rcs-rds.ro (unknown [212.54.120.11])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mpx1.rcs-rds.ro (Postfix) with ESMTPSA id 5D27B1E1C4E;
+        Wed,  9 Feb 2022 12:13:28 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rcs-rds.ro;
+        s=MailProxy; t=1644401610;
+        bh=9Y3CivBiJoLyuOCRpJ4DPiWQfWvG+gKtkvMn0jb4Y4E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References;
+        b=TsW3xOPEHh7Mcb2EcEzHTuKGQdiWTKuJYT241djZZcNDyIy9mnro2RZ755cFfPbIj
+         YFW9uHI1FJ433AN8gn9N5U38NOa495P5Rdbwtv1XP0NLxkF/3hAdi7U442WcgTlN1G
+         UuU4W7XufLinRRXxnDewr2rB1ylVPPjqYtj4YjeY=
+Received: from 82-76-245-177.rdsnet.ro ([82.76.245.177])
+ via 82-76-245-177.rdsnet.ro ([82.76.245.177])
+ by webmail.rcs-rds.ro
+ with HTTP (HTTP/1.1 POST); Wed, 09 Feb 2022 12:13:28 +0200
 MIME-Version: 1.0
-In-Reply-To: <YgNSkY/Hd811Vhu1@kroah.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Date:   Wed, 09 Feb 2022 12:13:28 +0200
+From:   Eduard-Bogdan Budai <eduard.budai@rcs-rds.ro>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: Bug report for pl2303 converter (ATEN USB to serial Bridge,
+ idVendor=067b, idProduct=23a3, bcdDevice= 1.05)
+Organization: RCS&RDS Cluj
+In-Reply-To: <YgJCwn5s1Cv/LT5I@kroah.com>
+References: <10d4dbe9-4b17-aeb5-0abe-bf0829173c1d@rcs-rds.ro>
+ <e85bac58-6d40-b61a-b217-8c4ee3c5853e@rcs-rds.ro>
+ <YgJCwn5s1Cv/LT5I@kroah.com>
+Message-ID: <35338b26-41db-e772-235a-502caa30e00f@rcs-rds.ro>
+X-Sender: eduard.budai@rcs-rds.ro
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2/9/22 8:35 AM, Greg Kroah-Hartman wrote:
+  Thank you very much for your answer.
 
->> The *switch* statement in otg_statemachine() does handle all possible OTG
->> states explicitly, so the *default* label is unreachable.
->>
->> Found by Linux Verification Center (linuxtesting.org) with the SVACE static
->> analysis tool.
->>
->> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>
->> ---
->> This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
->> Peter Chen's 'usb.git' repo seems outdated, so I chose to ignore it...
->>
->>  drivers/usb/common/usb-otg-fsm.c |    2 --
->>  1 file changed, 2 deletions(-)
->>
->> Index: usb/drivers/usb/common/usb-otg-fsm.c
->> ===================================================================
->> --- usb.orig/drivers/usb/common/usb-otg-fsm.c
->> +++ usb/drivers/usb/common/usb-otg-fsm.c
->> @@ -440,8 +440,6 @@ int otg_statemachine(struct otg_fsm *fsm
->>  		if (fsm->id || fsm->a_bus_drop || fsm->a_clr_err)
->>  			otg_set_state(fsm, OTG_STATE_A_WAIT_VFALL);
->>  		break;
->> -	default:
->> -		break;
->>  	}
->>  	mutex_unlock(&fsm->lock);
->>  
+The newest kernel that is in the standard Ubuntu 20.04 repositories is
+today Linux 5.13.0-28-generic #31~20.04.1-Ubuntu SMP Wed Jan 19 14:08:10
+UTC 2022 x86_64). After moving from 5.13.0-27-generic #29~20.04.1-Ubuntu
+to the newest 5.13.0-28-generic #31~20.04.1-Ubuntu, the dmesg showed:
+
+[Wed Feb  9 11:38:51 2022] usb 3-2: new full-speed USB device number 4
+using xhci_hcd
+[Wed Feb  9 11:38:51 2022] usb 3-2: New USB device found, idVendor=067b,
+idProduct=23a3, bcdDevice= 1.05
+[Wed Feb  9 11:38:51 2022] usb 3-2: New USB device strings: Mfr=1,
+Product=2, SerialNumber=0
+[Wed Feb  9 11:38:51 2022] usb 3-2: Product: ATEN USB to Serial Bridge
+[Wed Feb  9 11:38:51 2022] usb 3-2: Manufacturer: Prolific Technology
+Inc.
+[Wed Feb  9 11:38:51 2022] usbcore: registered new interface driver
+usbserial_generic
+[Wed Feb  9 11:38:51 2022] usbserial: USB Serial support registered for
+generic
+[Wed Feb  9 11:38:51 2022] usbcore: registered new interface driver
+pl2303
+[Wed Feb  9 11:38:51 2022] usbserial: USB Serial support registered for
+pl2303
+[Wed Feb  9 11:38:51 2022] pl2303 3-2:1.0: unknown device type, please
+report to linux-usb@vger.kernel.org
+
+A 5.4.0-99-generic #112~18.04.1-Ubuntu SMP Thu Feb 3 14:09:57 UTC 2022
+x86_64 from a Ubuntu 18.04 recognizes the same adapter as a ttyUSB0
+(which is what is needed to be used).
+
+Unfortunately, the environment in which happened what I described below
+has certain restrictions that don't allow me to try a newer kernel than
+the newest that is in the standard Ubuntu repositories...
+
+So, in my humble opinion, we will just have to wait for the 5.16 to
+appear in the standard Ubuntu repositories.
+
+Thank you again. Very much.
+
+On 08.02.2022 12:15, Greg KH wrote:
+
+> On Thu, Jan 20, 2022 at 05:08:15PM +0200, Eduard-Bogdan Budai wrote:
 > 
-> There is nothing wrong with leaving lines like this in the code to
-> handle any potential bugs.
-> Why do you think it needs to be removed?  What benefit does this patch
-> have?
+>> Dear Sirs,
+>> 
+>> Today, when a USB-RJ45 adapter was conected to a computer running
+>> Ubuntu
+>> 20.04.3 in its dmesg appeared:
+>> 
+>> [Thu Jan 20 15:24:17 2022] usb 1-3.1: new full-speed USB device
+>> number 7
+>> using xhci_hcd
+>> [Thu Jan 20 15:24:17 2022] usb 1-3.1: New USB device found,
+>> idVendor=067b,
+>> idProduct=23a3, bcdDevice= 1.05
+>> [Thu Jan 20 15:24:17 2022] usb 1-3.1: New USB device strings: Mfr=1,
+>> Product=2, SerialNumber=0
+>> [Thu Jan 20 15:24:17 2022] usb 1-3.1: Product: ATEN USB to Serial
+>> Bridge
+>> [Thu Jan 20 15:24:17 2022] usb 1-3.1: Manufacturer: Prolific
+>> Technology Inc.
+>> [Thu Jan 20 15:24:17 2022] pl2303 1-3.1:1.0: pl2303 converter
+>> detected
+>> [Thu Jan 20 15:24:17 2022] pl2303 1-3.1:1.0: unknown device type,
+>> please
+>> report to linux-usb@vger.kernel.org
+>> 
+>> The kernel version is 5.13.0-27-generic #29~20.04.1-Ubuntu.
+> 
+> Should be fixed in newer kernel versions, this is a quite old and
+> obsolete kernel version.  Can you try 5.16?
+> 
+> thanks,
+> 
+> greg k-h
 
-   These lines as they are bring no value at all.
-   Note that (as I said)  all the values of 'enum usb_otg_state' are
-already handled with explicit *case* label...
-
-MBR, Sergey
+-- 
+Eduard-Bogdan Budai
+IT Hardware Cluj
+it.cluj@rcs-rds.ro
+.............................................................................
+mobile: 0770/064481
+office: 0364/400427
+e-mail: eduard.budai@rcs-rds.ro
+.............................................................................
+Privileged/Confidential Information may be contained in this message. If
+you are not in the addresses indicated in this message (or responsible
+for delivery of the message to such person), you may not copy or deliver
+this message to anyone. In such a case, you should destroy this message
+and kindly notify the sender by reply e-mail.
+.............................................................................
