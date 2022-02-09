@@ -2,97 +2,157 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD223C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 11:57:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C93C433FE
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 11:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231706AbiBIL5m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 06:57:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
+        id S231683AbiBIL6H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 06:58:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231818AbiBIL4G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 06:56:06 -0500
+        with ESMTP id S231688AbiBIL5l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 06:57:41 -0500
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3AAEE03E231;
-        Wed,  9 Feb 2022 02:56:41 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29828C0068AD;
+        Wed,  9 Feb 2022 02:59:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644404201; x=1675940201;
-  h=to:cc:references:from:subject:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=W/ACr337dCWxZ64atnDXrvUA4xLsoa1IEFVrCd8GQkg=;
-  b=Gzx/SQzb6dbXgj88lUo6DajTK4slC/uXScqj3biG0Vge3JEzC98lC3uk
-   RM2GYo5571PRBN9RwVtx0VD/Zu7WiRloIPkNoFeRlN8JtljFAx198I6VW
-   ltHWBkLe0aK2sufNjV0tqLSV4rcvQfcRWdNOG1tf+kfBSLuwSeORYeEem
-   87bOw3zvNE9OKWgM8SCJ6Ucw/ssvF98WbuN4qrkfgHBRC6xTGvuWBULcq
-   rDqZBigRTrB4jItnlnqMfnOkjgi6co1gMqefMDPQKoIdVkle1ce2CkT3m
-   MhOtr35XzYIpObiBcynOqcF/wtnighFDJA4JVEk9D3mAVo0raJ425kCUd
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229135463"
+  t=1644404343; x=1675940343;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nzol2qAJ2pcwfsSlTz2txXFSTnV1hNw5G1nXpEt7930=;
+  b=iCZIZYBmq870bjyaIZewxEfZggcM8iOkwREt+PT9d45U1YXd5KFhnyI7
+   XFuhLE4z5kz5RKpSymQfiQM3BKrbZ67bv/k8c7WJJ1hWVrPo9V2jwtTbC
+   skRibFj7AAGxJ4zLNn1BLUlobSTf9gddtLnOmbO4rR5T5isg6SllELiSf
+   QD02wNiKt4t640XxPr5m5lok04p5OUAWG5e+PASK9NJC2hPFAB7WEgAJn
+   BGqiJlVTX7eitRf9WzTOxXMg6tQgwtwTUWGVblJKmniy6qdial2EyQ5ds
+   sw1bV8L3o/lST9Wd6Vk1GlZeXOXqJ6zuFICL/3cSxXUgIn0JGbw95G9ng
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="229148803"
 X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
-   d="scan'208";a="229135463"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 01:27:50 -0800
+   d="scan'208";a="229148803"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 02:59:03 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
-   d="scan'208";a="568178958"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orsmga001.jf.intel.com with ESMTP; 09 Feb 2022 01:27:47 -0800
-To:     Hongyu Xie <xy521521@gmail.com>, gregkh@linuxfoundation.org,
-        mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hongyu Xie <xiehongyu1@kylinos.cn>, stable@vger.kernel.org
-References: <20220209025234.25230-1-xy521521@gmail.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH -next v2] xhci: fix two places when dealing with return
- value of function xhci_check_args
-Message-ID: <89d59749-8ca3-b30b-4da6-a6e567528d1b@linux.intel.com>
-Date:   Wed, 9 Feb 2022 11:29:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
+   d="scan'208";a="678505057"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 09 Feb 2022 02:59:00 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Feb 2022 12:58:59 +0200
+Date:   Wed, 9 Feb 2022 12:58:59 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] usb: typec: Factor out non-PD fwnode properties
+Message-ID: <YgOecxgyaMN+/3sN@kuha.fi.intel.com>
+References: <20220202221948.5690-1-samuel@sholland.org>
+ <20220202221948.5690-4-samuel@sholland.org>
 MIME-Version: 1.0
-In-Reply-To: <20220209025234.25230-1-xy521521@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220202221948.5690-4-samuel@sholland.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 9.2.2022 4.52, Hongyu Xie wrote:
-> From: Hongyu Xie <xiehongyu1@kylinos.cn>
+Hi,
+
+On Wed, Feb 02, 2022 at 04:19:46PM -0600, Samuel Holland wrote:
+> Basic programmable non-PD Type-C port controllers do not need the full
+> TCPM library, but they share the same devicetree binding and the same
+> typec_capability structure. Factor out a helper for parsing those
+> properties which map to fields in struct typec_capability, so the code
+> can be shared between TCPM and basic non-TCPM drivers.
 > 
-> xhci_check_args returns 4 types of value, -ENODEV, -EINVAL, 1 and 0.
-> xhci_urb_enqueue and xhci_check_streams_endpoint return -EINVAL if
-> the return value of xhci_check_args <= 0.
-> This will cause a problem.
-> For example, r8152_submit_rx calling usb_submit_urb in
-> drivers/net/usb/r8152.c.
-> r8152_submit_rx will never get -ENODEV after submiting an urb
-> when xHC is halted,
-> because xhci_urb_enqueue returns -EINVAL in the very beginning.
-> 
-> Fixes: 203a86613fb3 ("xhci: Avoid NULL pointer deref when host dies.")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
+> 
+> Changes in v2:
+>  - Always put the return values from typec_find_* in a signed variable
+>    for error checking.
+> 
+>  drivers/usb/typec/class.c     | 52 +++++++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tcpm/tcpm.c | 32 +--------------------
+>  include/linux/usb/typec.h     |  3 ++
+>  3 files changed, 56 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 45a6f0c807cb..b67ba9478c82 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -1894,6 +1894,58 @@ void *typec_get_drvdata(struct typec_port *port)
+>  }
+>  EXPORT_SYMBOL_GPL(typec_get_drvdata);
+>  
+> +int typec_get_fw_cap(struct typec_capability *cap,
+> +		     struct fwnode_handle *fwnode)
+> +{
+> +	const char *cap_str;
+> +	int ret;
+> +
+> +	/*
+> +	 * This fwnode has a "compatible" property, but is never populated as a
+> +	 * struct device. Instead we simply parse it to read the properties.
+> +	 * This it breaks fw_devlink=on. To maintain backward compatibility
+> +	 * with existing DT files, we work around this by deleting any
+> +	 * fwnode_links to/from this fwnode.
+> +	 */
+> +	fw_devlink_purge_absent_suppliers(fwnode);
 
-Thanks, added to queue.
-Changed the commit message and header a bit:
+Let's not put that call here. That function is broken. I think it in
+practice assumes that there can only be one device linked to fwnode,
+but that's not true. The fwnodes can be, and are, shared. So by using
+it we may end up doing things to some completely wrong devices.
 
-"xhci: Prevent futile URB re-submissions due to incorrect return value.
-    
-The -ENODEV return value from xhci_check_args() is incorrectly changed
-to -EINVAL in a couple places before propagated further.
-    
-xhci_check_args() returns 4 types of value, -ENODEV, -EINVAL, 1 and 0.
-xhci_urb_enqueue and xhci_check_streams_endpoint return -EINVAL if
-the return value of xhci_check_args <= 0.
-This causes problems for example r8152_submit_rx, calling usb_submit_urb
-in drivers/net/usb/r8152.c.
-r8152_submit_rx will never get -ENODEV after submiting an urb when xHC
-is halted because xhci_urb_enqueue returns -EINVAL in the very beginning."
+So let's keep that call in the drivers that really have to have it for
+now. I think that function - fw_devlink_purge_absent_suppliers() -
+needs some serious rethinking.
 
-Let me know if you disagree with this.
+There is some deeper problem. I have a feeling that all the functions
+that rely on the fwnode->dev member are broken. We need a proper
+reverce search mechanism that can be used to find the devices linked
+to fwnodes. But I have no idea how to that could be done.
 
-Thanks
--Mathias
+> +	cap->fwnode = fwnode;
+> +
+> +	ret = fwnode_property_read_string(fwnode, "power-role", &cap_str);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = typec_find_port_power_role(cap_str);
+> +	if (ret < 0)
+> +		return ret;
+> +	cap->type = ret;
+> +
+> +	/* USB data support is optional */
+> +	ret = fwnode_property_read_string(fwnode, "data-role", &cap_str);
+> +	if (ret == 0) {
+> +		ret = typec_find_port_data_role(cap_str);
+> +		if (ret < 0)
+> +			return ret;
+> +		cap->data = ret;
+> +	}
+> +
+> +	/* Get the preferred power role for a DRP */
+> +	if (cap->type == TYPEC_PORT_DRP) {
+> +		cap->prefer_role = TYPEC_NO_PREFERRED_ROLE;
+> +
+> +		ret = fwnode_property_read_string(fwnode, "try-power-role", &cap_str);
+> +		if (ret == 0) {
+> +			ret = typec_find_power_role(cap_str);
+> +			if (ret < 0)
+> +				return ret;
+> +			cap->prefer_role = ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(typec_get_fw_cap);
+
+thanks,
+
+-- 
+heikki
