@@ -2,80 +2,58 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BE1C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 05:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D1E3C4167B
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 05:38:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230368AbiBIFiY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 00:38:24 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:50112 "EHLO
+        id S231720AbiBIFig (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 00:38:36 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:47706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234689AbiBIFfl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 00:35:41 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2147AC02B5DF
-        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 21:35:27 -0800 (PST)
+        with ESMTP id S230335AbiBIFep (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 00:34:45 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2204DF28ACF
+        for <linux-usb@vger.kernel.org>; Tue,  8 Feb 2022 21:34:49 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BDBD361599
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 05:35:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C936C340E7;
-        Wed,  9 Feb 2022 05:35:15 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 00270B81E10
+        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 05:34:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE84C340E7;
+        Wed,  9 Feb 2022 05:34:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644384916;
-        bh=LG65VMxKxNDbqS9602sbJaOISOYTNkjiJdcMp75HfY4=;
+        s=korg; t=1644384865;
+        bh=XP0CMziFpRo1rY4aI+vMtMuVmobTX6u1KrU1Ut1o2FM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iF1d2J0i13GuSrcSsiXSyINgsjfukd128KC5qYm3mKuGjA//xg6HJFufXUN/eIlb8
-         02DVOOehvchkKCubOMi0ZmaPYONl/PE6ouqas2a5QUD7iszSFc264lG+y6mLcMaiSE
-         dvwMX3cfhNEFLYliXWNMt7nzToiEIEdSBKq9qFr4=
-Date:   Wed, 9 Feb 2022 06:35:13 +0100
+        b=IedDpCmJAqqvnkvcs34yqyI5h8iTkVq3GdlqdNYNryQDJnsXlrgcfklOkaReeQ4el
+         eHByfV9TXF3rUpD5SvJSoiyLsmtF3Hlu9ehnex65u5p0MzH+wlSDn2tBcTUHMTlz1s
+         fKHbIxGPuOXZRY2aJTyrDSXaVzZT0oi8MZ0RHap8=
+Date:   Wed, 9 Feb 2022 06:34:22 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     Peter Chen <peter.chen@kernel.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: common: usb-otg-fsm: drop unreachable code in
- otg_statemachine()
-Message-ID: <YgNSkY/Hd811Vhu1@kroah.com>
-References: <5c923258-67c3-bae1-80d1-87a187202a4c@omp.ru>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: core: devices: drop unreachable code in
+ usb_dump_endpoint_descriptor()
+Message-ID: <YgNSXs3v3Re6mYKF@kroah.com>
+References: <dac675d4-2dbd-e16d-622a-0471f31f2aca@omp.ru>
+ <7a352b9b-0073-ad61-cbbf-256ec90e3ba3@omp.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5c923258-67c3-bae1-80d1-87a187202a4c@omp.ru>
+In-Reply-To: <7a352b9b-0073-ad61-cbbf-256ec90e3ba3@omp.ru>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 08, 2022 at 11:32:28PM +0300, Sergey Shtylyov wrote:
-> The *switch* statement in otg_statemachine() does handle all possible OTG
-> states explicitly, so the *default* label is unreachable.
+On Tue, Feb 08, 2022 at 11:01:09PM +0300, Sergey Shtylyov wrote:
+> On 2/8/22 10:58 PM, Sergey Shtylyov wrote:
 > 
-> Found by Linux Verification Center (linuxtesting.org) with the SVACE static
-> analysis tool.
+> > The *switch* statement in usb_dump_endpoint_descriptor() does handle all
+> > possible endpoint types expilictly, so the *defaut* label is unreachable.
 > 
-> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> 
-> ---
-> This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
-> Peter Chen's 'usb.git' repo seems outdated, so I chose to ignore it...
-> 
->  drivers/usb/common/usb-otg-fsm.c |    2 --
->  1 file changed, 2 deletions(-)
-> 
-> Index: usb/drivers/usb/common/usb-otg-fsm.c
-> ===================================================================
-> --- usb.orig/drivers/usb/common/usb-otg-fsm.c
-> +++ usb/drivers/usb/common/usb-otg-fsm.c
-> @@ -440,8 +440,6 @@ int otg_statemachine(struct otg_fsm *fsm
->  		if (fsm->id || fsm->a_bus_drop || fsm->a_clr_err)
->  			otg_set_state(fsm, OTG_STATE_A_WAIT_VFALL);
->  		break;
-> -	default:
-> -		break;
->  	}
->  	mutex_unlock(&fsm->lock);
->  
+>    It's *default*. :-) Please fix when/if merging! 
 
-There is nothing wrong with leaving lines like this in the code to
-handle any potential bugs.
+I can not easily change changelog texts when applying patches as the
+tools suck the patch in from the public archive, sorry.
 
-Why do you think it needs to be removed?  What benefit does this patch
-have?
+Please resend.
