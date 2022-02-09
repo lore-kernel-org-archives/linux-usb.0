@@ -2,98 +2,66 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA9AC433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 04:07:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D5ECC4332F
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 04:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345704AbiBIEHs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 23:07:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49322 "EHLO
+        id S1345792AbiBIEHv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 23:07:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347515AbiBIDvD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 22:51:03 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A910C061578;
-        Tue,  8 Feb 2022 19:51:00 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id n32so1991213pfv.11;
-        Tue, 08 Feb 2022 19:51:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:subject:to:cc:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=HRdPwXuWMTu44Hbd31o0zplR0BavrSo2F1orInPcfp8=;
-        b=cW5KWjK/tnZxVtckN0ujtQlJnhull6OIFZNKosetMnPdwE3H1iHp35lk8pXmEtdHEV
-         byHtfb+A8nHQgRGmpr9C5QwBE9eSRLSNK/To89h9+2xa9GU3cCWOwhWOXxgPjzdfEio/
-         V/WaMj8/bN97MTF7j8qqtR0b1SBdJV/acCBcSu42VfIMtqqf3EZGZmnDw+fs36NLdQ2O
-         pH09il0jwei6t2ONP3qNwmZODxET3tkPE753IrZxdnJdFqUhuusWZyl40Dz2LLV1cqzL
-         42iei88+m0MEnaDOgLqP7erD8jxup0bFVLWS5+Fyv0OyGSTgCJKLAxOTyPldsxOMPlzv
-         Pj9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=HRdPwXuWMTu44Hbd31o0zplR0BavrSo2F1orInPcfp8=;
-        b=W1ntQnitLKzXp1YglWH0S7k49Dz5nHeLkjuocS3RN5hJ2MLlYm78TnxBnDy08REkBS
-         oWipfeJIkD+y623aQuLlXR/E0WWPt0qbn4tfpclWzav65b07oHgsx4wjzZsU+ovukO+z
-         fSXb8QolqCrqWQJbyccUYfjuerdg5af8k10/BvmGh+OKCZ4pqAKk1Ywr4NhRf0gHuFry
-         W4gBzCtdWtserL08wZG3lV/4A2xLOJRKCL7HzidpLXSilY4XrVofIwp95RsZ0YSkQOhT
-         g/oyDsFZkXVvZaDuzuhna6w5ZWBU69iNj6x9X0IZKNIIZBSZsMQj+fkokA7iEs77kdRM
-         RZ7g==
-X-Gm-Message-State: AOAM531EknoYgk+qEVSHEXSTkA9TA1dnvVM37+c31J03IurShDiRUygg
-        1U27BYA6WoMj8q3+Pr0/ikcecxvaBJY=
-X-Google-Smtp-Source: ABdhPJymSo30+5Ud2M4FxOnfKpR4Yr9Ce08b2ReafFmvyQjEDUryhQkWvhHck/SXLVaOE/vnQBaFVQ==
-X-Received: by 2002:a63:2c05:: with SMTP id s5mr430675pgs.106.1644378660080;
-        Tue, 08 Feb 2022 19:51:00 -0800 (PST)
-Received: from [10.73.0.6] ([45.128.198.44])
-        by smtp.gmail.com with ESMTPSA id l2sm4216426pju.52.2022.02.08.19.50.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Feb 2022 19:50:59 -0800 (PST)
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Subject: [BUG] usb: typec: ucsi: possible deadlock in ucsi_pr_swap() and
- ucsi_handle_connector_change()
-To:     heikki.krogerus@linux.intel.com,
-        Greg KH <gregkh@linuxfoundation.org>, kyletso@google.com,
-        jackp@codeaurora.org, andy.shevchenko@gmail.com,
-        unixbhaskar@gmail.com, subbaram@codeaurora.org,
-        mrana@codeaurora.org
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Message-ID: <037de7ac-e210-bdf5-ec7a-8c0c88a0be20@gmail.com>
-Date:   Wed, 9 Feb 2022 11:50:57 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        with ESMTP id S1346430AbiBID2n (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 22:28:43 -0500
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E5DC061576;
+        Tue,  8 Feb 2022 19:28:42 -0800 (PST)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1644377321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lYo3QBxWEb3sYyyC7Y9NvFdCKKAa/0p/ymIbiLeV3GM=;
+        b=CxvWoM55y35IoPBK2TZ3q/r3Fh5yCltzB9yW8/NO19GCZHVFtbTP6g46t3dIO7oV2kBUq1
+        P67jRa2ipAgZew930/4C1mU/8IQDpFZeCCFQfzTJh/cKbxz7tEhf4gv6xNo+BArZNpY6zF
+        HOaXBlKteMCX9mjeOjce1WYiXSOxB4c=
+From:   Cai Huoqing <cai.huoqing@linux.dev>
+To:     cai.huoqing@linux.dev
+Cc:     Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usbip: vudc: Make use of the helper macro LIST_HEAD()
+Date:   Wed,  9 Feb 2022 11:28:13 +0800
+Message-Id: <20220209032813.38703-1-cai.huoqing@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Replace "struct list_head head = LIST_HEAD_INIT(head)" with
+"LIST_HEAD(head)" to simplify the code.
 
-My static analysis tool reports a possible deadlock in the ucsi driver 
-in Linux 5.16:
+Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+---
+ drivers/usb/usbip/vudc_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ucsi_pr_swap()
-   mutex_lock(&con->lock); --> Line 962 (Lock A)
-   wait_for_completion_timeout(&con->complete, ...) --> Line 981 (Wait X)
+diff --git a/drivers/usb/usbip/vudc_main.c b/drivers/usb/usbip/vudc_main.c
+index 678faa82598c..d43252b77efd 100644
+--- a/drivers/usb/usbip/vudc_main.c
++++ b/drivers/usb/usbip/vudc_main.c
+@@ -26,7 +26,7 @@ static struct platform_driver vudc_driver = {
+ 	},
+ };
+ 
+-static struct list_head vudc_devices = LIST_HEAD_INIT(vudc_devices);
++static LIST_HEAD(vudc_devices);
+ 
+ static int __init init(void)
+ {
+-- 
+2.25.1
 
-ucsi_handle_connector_change()
-   mutex_lock(&con->lock); --> Line 763 (Lock A)
-   complete(&con->complete); --> Line 782 (Wake X)
-   complete(&con->complete); --> Line 807 (Wake X)
-
-When ucsi_pr_swap() is executed, "Wait X" is performed by holding "Lock 
-A". If ucsi_handle_connector_change() is executed at this time, "Wake X" 
-cannot be performed to wake up "Wait X" in 
-ucsi_handle_connector_change(), because "Lock A" has been already held 
-by ucsi_handle_connector_change(), causing a possible deadlock.
-I find that "Wait X" is performed with a timeout, to relieve the 
-possible deadlock; but I think this timeout can cause inefficient execution.
-
-I am not quite sure whether this possible problem is real.
-Any feedback would be appreciated, thanks :)
-
-
-Best wishes,
-Jia-Ju Bai
