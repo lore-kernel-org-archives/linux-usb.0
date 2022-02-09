@@ -2,112 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03AEFC433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 14:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D2A4C433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 14:54:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233202AbiBIOfh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 09:35:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34348 "EHLO
+        id S235266AbiBIOyK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 09:54:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231747AbiBIOfg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 09:35:36 -0500
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3ACAC06157B
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 06:35:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644417339; x=1675953339;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R5Dd+VLpDPxT6H4D3AQzioCVCsJZ0lg4if0+PTOUxvA=;
-  b=am6MNoXykhXTbP5ugyhK8C6X6wVbl0gjz1sIpNF/F4Nhedjf240DQqSZ
-   +54Mbb9kD8yEV7ENxKnTztkKqkRx132k1wf9aCv6aGVPd0V2qVhE02uC9
-   RslEacM8KPqTWijnjVs9WEFxUDyd6zItcpJ045914tj669eLZL3buuRsp
-   BBos7oDZ8Cm/fE10tqpOTTZlaxn/PYNIOol1ZcHMe27sPjgIB+8XtKz5W
-   R0xMztbW+Nvb4U4HDSgchLXDOVtOtnekFLYL9MtjTL4RHmpMDBcRvAhus
-   tun+a4cW13/n+Rcg4YMHkViO80VSnRZ9JOjhJnezK/pLU1Blp3lmyDH7F
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10252"; a="246799218"
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
-   d="scan'208";a="246799218"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2022 06:35:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,355,1635231600"; 
-   d="scan'208";a="678610809"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 09 Feb 2022 06:35:37 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 09 Feb 2022 16:35:37 +0200
-Date:   Wed, 9 Feb 2022 16:35:37 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: long ucsi_acpi_platform_driver_init
-Message-ID: <YgPROWZkZlIo0ZnU@kuha.fi.intel.com>
-References: <b9993432-0192-f546-bf67-bb462f51e209@infradead.org>
- <YgED7x4tylyFzvsR@kuha.fi.intel.com>
- <7702d384-a0ce-51a5-221d-9241a9453d5e@infradead.org>
+        with ESMTP id S231990AbiBIOyK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 09:54:10 -0500
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 8BB50C06157B
+        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 06:54:08 -0800 (PST)
+Received: (qmail 563326 invoked by uid 1000); 9 Feb 2022 09:54:08 -0500
+Date:   Wed, 9 Feb 2022 09:54:08 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Ingo Rohloff <ingo.rohloff@lauterbach.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 0/1] USB: usbfs: replace atomic64 accesses by spinlock
+Message-ID: <YgPVkOF6H2D0UD4p@rowland.harvard.edu>
+References: <20220209123303.103340-1-ingo.rohloff@lauterbach.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7702d384-a0ce-51a5-221d-9241a9453d5e@infradead.org>
+In-Reply-To: <20220209123303.103340-1-ingo.rohloff@lauterbach.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 07, 2022 at 09:01:50AM -0800, Randy Dunlap wrote:
+On Wed, Feb 09, 2022 at 01:33:02PM +0100, Ingo Rohloff wrote:
+> V2: 
+> Incorporated Alan Sterns review comments: 
+> Thanks for mentioning the READ_ONCE() semantics; I really had no clue.
 > 
+> Note: 
+> I think it's also correct to NOT use the "irqsave" variants
+> of spin_lock_irq/spin_unlock_irq in "usbfs_increase_memory_usage()".
 > 
-> On 2/7/22 03:35, Heikki Krogerus wrote:
-> > On Sun, Feb 06, 2022 at 05:28:48PM -0800, Randy Dunlap wrote:
-> >> Hi,
-> >>
-> >> On my custom 5.16, 5.17-rc1, and 5.17-rc2 kernels I am seeing
-> >> ucsi_acpi_platform_driver_init() take around 60 seconds.
-> >>
-> >> [    2.733138] calling  ucsi_acpi_platform_driver_init+0x0/0x1000 [ucsi_acpi] @ 470
-> >> [   64.603126] initcall ucsi_acpi_platform_driver_init+0x0/0x1000 [ucsi_acpi] returned 0 after 58690601 usecs
-> > 
-> > I don't have any ideas what could be causing it to take that long?
-> > That driver does not really do anything else except it queues a work
-> > that then actually initialises the UCSI interface. The probe() in that
-> > driver (ucsi_acpi) does not stay and wait for the initialisation to
-> > finish.
-> > 
-> > Can you check are the USB Type-C devices appearing under
-> > /sys/class/typec faster then that?
-> 
-> One entry there:
-> 
-> lrwxrwxrwx 1 root root 0 Feb  7 08:57 port0 -> ../../devices/platform/USBC000:00/typec/port0/
-> 
-> Do you want more than that?
+> I am not sure if it's worth it?
 
-You should have a port there for every physical USB Type-C
-port on you system.
+I checked the file, and it does look as though these routines are called 
+only in contexts that can sleep.  But using the _irq variants doesn't 
+hurt much, so you might as well keep it that way.
 
-I can't really tell from that was the port registered before
-ucsi_acpi_platform_driver_init() finished or not.
-
-> > Also, if the driver is a module, can you check does it always take
-> > that long if you unload and the reload the module (ucsi_acpi.ko)?
-> > 
-> >> Did I miss some other (needed) Kconfig option or is something missing in
-> >> my system's ACPI tables e.g.?
-> > 
-> > There shouldn't be any dependencies that are missing, but it would not
-> > hurt to take a look at your acpi tables. Can you send acpidump?
-> > 
-> > Though, I doubt there is anything missing from there either.
-> > 
-> >> DMI: Dell Inc. Inspiron 15 5510/076F7Y, BIOS 2.4.1 11/05/2021
-> 
-> The (large) acpidump output is here:
->   http://www.infradead.org/~rdunlap/doc/dell15-acpidump.out.gz
-
-Thanks!
-
-Br,
-
--- 
-heikki
+Alan Stern
