@@ -2,130 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73249C3527B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1C91C3527A
 	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 03:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343636AbiBIDDf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 22:03:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58474 "EHLO
+        id S244784AbiBIDDc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 22:03:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243525AbiBIDC1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 22:02:27 -0500
-X-Greylist: delayed 306 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 19:02:22 PST
-Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30527C0612B8;
-        Tue,  8 Feb 2022 19:02:19 -0800 (PST)
-X-UUID: 1c6fefd360b84325acd0c6a5b21f4fbf-20220209
-X-CPASD-INFO: a079444d41a24f238cb4d3f7f296489f@qoBxWWFmYpRgUaN-g6l9bViUkmSUX4a
-        GqGxZZmJoZYaVhH5xTWJsXVKBfG5QZWNdYVN_eGpQYl9gZFB5i3-XblBgXoZgUZB3sHJxWWRiZA==
-X-CPASD-FEATURE: 0.0
-X-CLOUD-ID: a079444d41a24f238cb4d3f7f296489f
-X-CPASD-SUMMARY: SIP:-1,APTIP:-2.0,KEY:0.0,FROMBLOCK:1,EXT:0.0,OB:0.0,URL:-5,T
-        VAL:143.0,ESV:0.0,ECOM:-5.0,ML:0.0,FD:0.0,CUTS:189.0,IP:-2.0,MAL:0.0,ATTNUM:0
-        .0,PHF:-5.0,PHC:-5.0,SPF:4.0,EDMS:-3,IPLABEL:-2.0,FROMTO:0,AD:0,FFOB:0.0,CFOB
-        :0.0,SPC:0.0,SIG:-5,AUF:14,DUF:32487,ACD:189,DCD:291,SL:0,AG:0,CFC:0.22,CFSR:
-        0.104,UAT:0,RAF:2,VERSION:2.3.4
-X-CPASD-ID: 1c6fefd360b84325acd0c6a5b21f4fbf-20220209
-X-CPASD-BLOCK: 1000
-X-CPASD-STAGE: 1, 1
-X-UUID: 1c6fefd360b84325acd0c6a5b21f4fbf-20220209
-X-User: xiehongyu1@kylinos.cn
-Received: from [192.168.123.123] [(111.48.58.12)] by nksmu.kylinos.cn
-        (envelope-from <xiehongyu1@kylinos.cn>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
-        with ESMTP id 1336843540; Wed, 09 Feb 2022 10:59:31 +0800
-Message-ID: <4f1bd7fb-050b-ddb3-da69-1e6d32a5a7a1@kylinos.cn>
-Date:   Wed, 9 Feb 2022 10:47:04 +0800
+        with ESMTP id S232662AbiBICwr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 21:52:47 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F17C0613CC;
+        Tue,  8 Feb 2022 18:52:47 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id v5-20020a17090a4ec500b001b8b702df57so3792263pjl.2;
+        Tue, 08 Feb 2022 18:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2whpxl+iWHDZgmDT6i5bR2ewH2KRNqLgWWFYpzHxiLY=;
+        b=dDW0LZ7dNOnFLGGCp0CcwhMtoHjLcJvd3dOUCh6PqTWY4vDWMz1UvdZNN2iDb38cyE
+         KwDnG8zRHUI9812Fu4fXDo/H2NVXQowotVvnIjgPeRC9UeQM04otNeSj3fQhuUwUMlt1
+         fH6k2QIqg+Q53spcCa+gTlrdk9CS9+7GvDQlAMr4CfkTeySC4o9nOIi6WMgxBo1z4+yk
+         J2L6URa37qwD9pKz8IeXHL0WUDxuWMSfxgnN/2G427QdBhAGXiBi5hWWxhH2L5MQNldi
+         ME0bb3BvP2lT09b5ir6raQ9bDxoGGYV5tQg1SwGskEIf+8cC76k8R7YEnk4J6ZehSa1R
+         wYMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2whpxl+iWHDZgmDT6i5bR2ewH2KRNqLgWWFYpzHxiLY=;
+        b=vvIs8eqVbjwpTw3uhgGiJOew7hUoyg2SEoCuZPmPFh27XDiPmvxB+WUXOMSv/m/FOr
+         fxdjXeiztrqI41aSGVZEdz2KfGXceQlWz1m338IQiXw14SSXxG5C29dxEVO5bCrE0qR7
+         jo8CTCLu8HDrqDlrpS2zrad2IPihNU5fpqXGBbJf2kf1YaKoMwvV0uP17JhzLm+ygv5h
+         UTudZ0PzlIibwwX+e2vsi4GVhx68CVsx4OhYyqddE3VfiMOj1NEozv62WcmaJiU2Ucw6
+         LjFKlVK64TeIJ4B4Uo/CPsj9J1Xv6tvZKeBe8Ei1rCth9V1AXYmao8nKMB1NiUgiMShM
+         uFNQ==
+X-Gm-Message-State: AOAM532SWV56bqml1oZBg4EBESfNaik457+6bPPixLDNoUm5e/zWVnuN
+        j/z1o7RN4YGpMSZTf/eE6Gw/JjmA2dSgr9vvh7s=
+X-Google-Smtp-Source: ABdhPJzQHsBfd4wlS1+EyrLw3I0I8GL3iXcN+u4lP4qQem2tMb0q6+WSy0DY+8e/CKm4fmL3rOWc1g==
+X-Received: by 2002:a17:902:ea06:: with SMTP id s6mr92442plg.163.1644375166589;
+        Tue, 08 Feb 2022 18:52:46 -0800 (PST)
+Received: from jason-ThinkPad-T14-Gen-1.lan ([66.187.5.142])
+        by smtp.gmail.com with ESMTPSA id q2sm4017176pjj.32.2022.02.08.18.52.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 18:52:46 -0800 (PST)
+From:   Hongyu Xie <xy521521@gmail.com>
+To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hongyu Xie <xiehongyu1@kylinos.cn>, stable@vger.kernel.org
+Subject: [PATCH -next v2] xhci: fix two places when dealing with return value of function xhci_check_args
+Date:   Wed,  9 Feb 2022 10:52:34 +0800
+Message-Id: <20220209025234.25230-1-xy521521@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH -next] xhci: fix two places when dealing with return value
- of function xhci_check_args
-Content-Language: en-US
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Cc:     Hongyu Xie <xy521521@gmail.com>, mathias.nyman@intel.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        125707942@qq.com, stable@vger.kernel.org
-References: <20220126094126.923798-1-xy521521@gmail.com>
- <YfEZFtf9K8pFC8Mw@kroah.com>
- <c7f6a8bb-76b6-cd2d-7551-b599a8276f5c@kylinos.cn>
- <YfEnbRW3oU0ouGqH@kroah.com>
- <e86972d3-e4a0-ad81-45ea-21137e3bfcb6@kylinos.cn>
- <7af5b318-b1ac-0c74-1782-04ba50a3b5fa@linux.intel.com>
- <ce40f4cd-a110-80b1-f766-e94dd8cedc7e@kylinos.cn>
- <6da59964-ce0e-c202-8a9c-a753a1908f3e@linux.intel.com>
-From:   =?UTF-8?B?6LCi5rOT5a6H?= <xiehongyu1@kylinos.cn>
-In-Reply-To: <6da59964-ce0e-c202-8a9c-a753a1908f3e@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Mathias,
+From: Hongyu Xie <xiehongyu1@kylinos.cn>
 
-On 2022/1/28 17:48, Mathias Nyman wrote:
-> Hi
->
-> On 28.1.2022 5.48, 谢泓宇 wrote:
->> Hi Mathias,
->>
->>> xhci_urb_enqueue() shouldn't be called for roothub urbs, but if it is then we
->>> should continue to return -EINVAL
->> xhci_urb_enqueue() won't be called for roothub urbs, only for none roothub urbs(see usb_hcd_submit_urb()).>
->> So xhci_urb_enqueue() will not get 0 from xhci_check_args().
->>
->> Still return -EINVAL if xhci_check_args() returns 0 in xhci_urb_enqueue()?
->>
-> Yes. That is what it used to return.
-> This is more about code maintaining practice than this specific patch.
->
-> Only make the necessary change to fix a bug, especially if the patch is going
-> to stable kernels.
-> The change to return success ("0") instead of -EINVAL in xhci_urb_enqueue() for
-> roothub URBs is irrelevant in fixing your issue.
->
-> Debugging future issues is a lot harder when there are small undocumented
-> unrelated functional changes scattered around bugfixing patches.
->
-> Other reason is that even if you can be almost certain xhci_urb_enqueue() won't
-> be called for roothub urbs for this kernel version, it's possible some old stable
-> kernel code looks very different, and this change can break that stable version.
->
-> Seemingly odd checks in code can indicate the old original code was flawed, and
-> quickly worked around by adding the odd check.
-> That kernel version might still depend on this odd check even if newer versions
-> are fixed properly.
->
->>> xhci_check_args() should be rewritten later, but first we want a targeted fix
->>> that can go to stable.
->>>
->>> Your original patch would be ok after following modification:
->>> if (ret <= 0)
->>>      return ret ? ret : -EINVAL;
->> I have two questions:
->>
->>      1) Why return -EINVAL for roothub urbs?
-> - For all reasons stated above
-> - Because it used to, and changing it doesn't fix anything
-> - Because urbs sent to xhci_urb_enqueue() should have a valid urb->dev->parent,
->    if they don't have it then they are INVALID
->
->>      2) Should I change all the return statements about xhci_check_args() in drivers/usb/host/xhci.c?
->>
->>      There are 6 of them.
-> Only make sure your patch doesn't change the functionality unnecessarily.
-> There are two places where we return -EINVAL if xhci_check_args() returns 0:
-> xhci_urb_enqueue() and xhci_check_streams_endpoint()
-> Keep that functionality.
->
-> Thanks
-> Mathias
+xhci_check_args returns 4 types of value, -ENODEV, -EINVAL, 1 and 0.
+xhci_urb_enqueue and xhci_check_streams_endpoint return -EINVAL if
+the return value of xhci_check_args <= 0.
+This will cause a problem.
+For example, r8152_submit_rx calling usb_submit_urb in
+drivers/net/usb/r8152.c.
+r8152_submit_rx will never get -ENODEV after submiting an urb
+when xHC is halted,
+because xhci_urb_enqueue returns -EINVAL in the very beginning.
 
-I'll fix these in v2.
+Fixes: 203a86613fb3 ("xhci: Avoid NULL pointer deref when host dies.")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+---
 
-Thanks
+v2: keep return value to -EINVAL for roothub urbs
 
-Hongyu Xie
+ drivers/usb/host/xhci.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index dc357cabb265..948546b98af0 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1604,9 +1604,12 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 	struct urb_priv	*urb_priv;
+ 	int num_tds;
+ 
+-	if (!urb || xhci_check_args(hcd, urb->dev, urb->ep,
+-					true, true, __func__) <= 0)
++	if (!urb)
+ 		return -EINVAL;
++	ret = xhci_check_args(hcd, urb->dev, urb->ep,
++					true, true, __func__);
++	if (ret <= 0)
++		return ret ? ret : -EINVAL;
+ 
+ 	slot_id = urb->dev->slot_id;
+ 	ep_index = xhci_get_endpoint_index(&urb->ep->desc);
+@@ -3323,7 +3326,7 @@ static int xhci_check_streams_endpoint(struct xhci_hcd *xhci,
+ 		return -EINVAL;
+ 	ret = xhci_check_args(xhci_to_hcd(xhci), udev, ep, 1, true, __func__);
+ 	if (ret <= 0)
+-		return -EINVAL;
++		return ret ? ret : -EINVAL;
+ 	if (usb_ss_max_streams(&ep->ss_ep_comp) == 0) {
+ 		xhci_warn(xhci, "WARN: SuperSpeed Endpoint Companion"
+ 				" descriptor for ep 0x%x does not support streams\n",
+-- 
+2.25.1
 
