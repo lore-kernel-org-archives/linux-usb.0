@@ -2,100 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BF4C433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 16:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C3BC433FE
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 16:30:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236407AbiBIQAi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Feb 2022 11:00:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37192 "EHLO
+        id S236980AbiBIQa1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Feb 2022 11:30:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232587AbiBIQAh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 11:00:37 -0500
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD80AC0613C9
-        for <linux-usb@vger.kernel.org>; Wed,  9 Feb 2022 08:00:40 -0800 (PST)
-Received: by mail-oo1-xc2d.google.com with SMTP id p190-20020a4a2fc7000000b0031820de484aso2912355oop.9
-        for <linux-usb@vger.kernel.org>; Wed, 09 Feb 2022 08:00:40 -0800 (PST)
+        with ESMTP id S236981AbiBIQa0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Feb 2022 11:30:26 -0500
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2AD4C0612BE;
+        Wed,  9 Feb 2022 08:30:29 -0800 (PST)
+Received: by mail-wr1-x42e.google.com with SMTP id f17so5077864wrx.1;
+        Wed, 09 Feb 2022 08:30:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=1YePSlQ5EwpZBNMyDNsyYlHPfN4e3TfbrJwBxdB39JQ=;
-        b=NgnKy7LBcwpLnybKELxuQOm1oeOGsUO/FUJ2vhXTYjCSE/ojTU1W+yJxBMOxEk0Py6
-         kzBhjAxpRUrCyR3qZw5Rskh7lLELlRoYCGuZjsQ3ZRNf6dJMI9eEjc+1b5cKOuI6L7M+
-         VhxnUyw0s4+r8ucHBuUSYau3tai3DNdOWxFhY=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TCekoNAsz0CKcPwcVF/KWz963J+qSXSU1YJ6x+zUwaM=;
+        b=qh+PJYTJ5oyXPzeL3E+0rzGxo+DHUp8jHmCfBnUKrl6PG9xlEQ25rYzA2jk1QPOukq
+         +I+EibDd6oMU7hK4k+RRuf0eTvc5gEPc0G+8oVZHX1caq94TIhDCviljMlnXB1QJuN0c
+         0aYxJVQly/6XnjB3b9u9OlOw0lOBhQnpL4unuv0Z394CNxDTt1DXm1IycCS+tcwVTtFu
+         UApfxpTYtTmbLPHYngbjvg1g3RTL8G0jeK+IInbnUIPf56JY7DVOZH04ZuWOgDQ/vkiD
+         MVM4x49Rcc5JDhMqdvwcC3iJhA+B3CmXPLxfgzJ1qHY2858YRx8AnACnUtL4ZsH65rw+
+         PD8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=1YePSlQ5EwpZBNMyDNsyYlHPfN4e3TfbrJwBxdB39JQ=;
-        b=NSJSkdzQFDyqHEqu2JZacxFEUAIA/agWcqShNn307VLazY9aGZiMRKPpqPq2bL4e1r
-         RV4E76s6cZ0XHfTIIwkKi44UubYRVhTDWXzMVG9qFnfB4LwFnHsZZrp6Mtbsz31FulKv
-         54vK2kg70fUDj24BjXPd0bQgPXG2SCz3u62lonVgCGGF6QzLG0xTI2g5GgJjZoIwftCo
-         lh3Olg7nYGSNfLRWN2bXrISrIafFNnA33ggfkMyLJVLwZ7FXpiuJS/swUVBXepV04lUD
-         mFONeqJeMb3cOnR3PJLFLu5+C2Cf5D+GzbHVeLIdTRNw1aYGtpqru9swHIvqVbaN6+XM
-         CsSA==
-X-Gm-Message-State: AOAM531mNJ7U8DP2jq+5oLrv7Xud9zm+iiTnQ7P4RQ6O2T/yB6wCFjZ5
-        CyGKANcZFqp+Kgq3u1hb/lSHag==
-X-Google-Smtp-Source: ABdhPJw6jBlqUuKldGND4hrHbvy0UVWDs4h1q2Fee93ioDMqgj7258+KfYdD+dLRrUBZnnn3P410ZQ==
-X-Received: by 2002:a4a:9723:: with SMTP id u32mr1116247ooi.5.1644422439602;
-        Wed, 09 Feb 2022 08:00:39 -0800 (PST)
-Received: from [192.168.1.128] ([71.205.29.0])
-        by smtp.gmail.com with ESMTPSA id t13sm1613361oai.37.2022.02.09.08.00.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Feb 2022 08:00:39 -0800 (PST)
-Subject: Re: [PATCH] usbip: vudc: Make use of the helper macro LIST_HEAD()
-To:     Cai Huoqing <cai.huoqing@linux.dev>
-Cc:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TCekoNAsz0CKcPwcVF/KWz963J+qSXSU1YJ6x+zUwaM=;
+        b=NoSSFCw/olXR2C45lciqO6Hc9YEwNlyA/+YzKbXjdi5i9UxkUsR9mSuAdv4tseB0E5
+         Bq7IbOIB0TnM8UHMUS+DplyB7amN+92W4uMDzEGPyOTnHpzI4N6brg78niAtwv4UGLgG
+         nvCkchQJLeqSt18gQbmCmeGAIix2XVBNqV1bhaRDc3fK4vuDi+GOm/89Bh/yhDhMsXFM
+         LpIFeH+Z2iMB1W5YSt2OlW9blvyIPU6MwtOw8SHtPh37HVM8ySP/D2TJKDhtE8swoa/O
+         1sPNvGReevL4iLpCpDPHvygfhKFWxBvkRKw+NXLzNg+R6Dln6weRUNRUlE2ZYnDLX+NB
+         twSQ==
+X-Gm-Message-State: AOAM531QvuXvAdPFmL3pkOfNJtEpuliz4TO3s4lBFe6hgospQAdD4JyF
+        HtlUslvej2tQq50UMW7Vvd8=
+X-Google-Smtp-Source: ABdhPJxWLblgDOqQhOcUPkMpyv6/T7RSuVsXksjpUA3MctF2Nhiv8NtQEHbPtDFW2x4ojiq8ZRbr8g==
+X-Received: by 2002:adf:dd50:: with SMTP id u16mr2776373wrm.696.1644424228349;
+        Wed, 09 Feb 2022 08:30:28 -0800 (PST)
+Received: from leap.localnet (host-95-245-2-16.retail.telecomitalia.it. [95.245.2.16])
+        by smtp.gmail.com with ESMTPSA id p7sm5228901wmq.20.2022.02.09.08.30.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Feb 2022 08:30:27 -0800 (PST)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220209032813.38703-1-cai.huoqing@linux.dev>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <8c8bcf5b-bbda-55e0-6a61-35bfafbafb78@linuxfoundation.org>
-Date:   Wed, 9 Feb 2022 09:00:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: core: Unregister device on component_add() failure
+Date:   Wed, 09 Feb 2022 17:30:24 +0100
+Message-ID: <2094517.irdbgypaU6@leap>
+In-Reply-To: <YgPI6RQd/9I4/51p@kuha.fi.intel.com>
+References: <20220208170048.24718-1-fmdefrancesco@gmail.com> <YgPI6RQd/9I4/51p@kuha.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20220209032813.38703-1-cai.huoqing@linux.dev>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2/8/22 8:28 PM, Cai Huoqing wrote:
-> Replace "struct list_head head = LIST_HEAD_INIT(head)" with
-> "LIST_HEAD(head)" to simplify the code.
-> 
-> Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> ---
->   drivers/usb/usbip/vudc_main.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/usbip/vudc_main.c b/drivers/usb/usbip/vudc_main.c
-> index 678faa82598c..d43252b77efd 100644
-> --- a/drivers/usb/usbip/vudc_main.c
-> +++ b/drivers/usb/usbip/vudc_main.c
-> @@ -26,7 +26,7 @@ static struct platform_driver vudc_driver = {
->   	},
->   };
->   
-> -static struct list_head vudc_devices = LIST_HEAD_INIT(vudc_devices);
-> +static LIST_HEAD(vudc_devices);
->   
->   static int __init init(void)
->   {
+On mercoled? 9 febbraio 2022 15:00:09 CET Heikki Krogerus wrote:
+> On Tue, Feb 08, 2022 at 06:00:48PM +0100, Fabio M. De Francesco wrote:
+> > Commit 8c67d06f3fd9 ("usb: Link the ports to the connectors they are
+> > attached to") creates a link to the USB Type-C connector for every new
+> > port that is added when possible. If component_add() fails,
+> > usb_hub_create_port_device() prints a warning but does not unregister
+> > the device and does not return errors to the callers.
+> > 
+> > Syzbot reported a "WARNING in component_del()".
+> > 
+> > Fix this issue in usb_hub_create_port_device by calling device_unregister()
+> > and returning the errors from component_add().
+> > 
+> > Reported-by: syzbot+60df062e1c41940cae0f@syzkaller.appspotmail.com
+> > Fixes: 8c67d06f3fd9 ("usb: Link the ports to the connectors they are attached to")
+> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> > ---
+> >  drivers/usb/core/port.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > [...]
+> >
+> You didn't remove the peer links. Either remove them here separately,
+> or alternatively you can also just shuffle the code so that you only
+> create those links after the component_add() call:
+>
+> [...]
 > 
 
-Explain why this change simplifies the code and also add a comment
-above LIST_HEAD
+Hello Heikki,
 
-LIST_HEAD_INIT clearly states what it does, as a result it is easier
-to understand the code.
+Thanks for your review and suggestion. I think that I'll use the second of the
+two possible solutions (shuffle the code).
 
-thanks,
--- Shuah
+I had to spend some time to understand the code of usb_hub_create_port_device(),
+component_add() and component_del(). Unfortunately, the USB core is very far from
+the usual things I look at or care of. Therefore I missed that find_and_link_peer()
+does some work that must be either unwound or simply postponed. I agree with you 
+that the latter is the best solution.
+
+I need some minutes to submit v2.
+
+Again, thanks,
+
+Fabio
+
+> thanks,
+> 
+> -- 
+> heikki
+> 
+
+
+
+
