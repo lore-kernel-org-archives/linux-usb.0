@@ -2,74 +2,151 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9524DC433FE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04312C4321E
 	for <linux-usb@archiver.kernel.org>; Wed,  9 Feb 2022 04:07:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345473AbiBIEHr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Feb 2022 23:07:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
+        id S1345349AbiBIEHq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Feb 2022 23:07:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347645AbiBIEAV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 23:00:21 -0500
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23900C061578;
-        Tue,  8 Feb 2022 20:00:20 -0800 (PST)
-Received: by mail-ot1-f45.google.com with SMTP id d18-20020a9d51d2000000b005a09728a8c2so717527oth.3;
-        Tue, 08 Feb 2022 20:00:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9ITXoQHdukMg0AJwxVtuQyXqF9fERtFBbwIwqVY93pw=;
-        b=H6S7rODUEJIOuBsLYJnf+JxpHclx16NiSPiTNvDqaiDs35NBGGq2KpPvBJrGYZ4ZLH
-         NN4QnjOkf9QakBE5N6SpJuoSg/TwJdLDxyMSt4j1tw5G8OOAbi3o3IERNSQ/7oVy8Z4W
-         hHxOhIKi+768GK3yv8PvHnI3Gbtx3396MmZ0uGVIitlSRNYsQOuxzfHkJutep7Kx+Ycw
-         7pvRtIcBMj2m6qkVm9U65LfDpnvWKQEkAGyjcsexEFbD7TeBJwCKzaUFS0DR91zN7lYJ
-         aS4atEorSsFBL+HoFrmIFJgWkYKlU7CzJxL74DkGua2oe+Z1ZET4WOFOjvRKg+BqYUXt
-         CsNw==
-X-Gm-Message-State: AOAM532yujHmolIeTNlwhThbqchvgf6s2tKz88WPqN8Qiv3BefFkHzCd
-        I6G8Ac6L5TQqo34H/pHM8Q==
-X-Google-Smtp-Source: ABdhPJzIyhK7aV/i0m589xp+U8+nFS4mUwYqlnKAbjLef/sAxW2NoG7YmHxD48+bxfUz+DAd1jLJJQ==
-X-Received: by 2002:a9d:7e88:: with SMTP id m8mr196111otp.123.1644379219434;
-        Tue, 08 Feb 2022 20:00:19 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id bi41sm6246421oib.39.2022.02.08.20.00.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Feb 2022 20:00:17 -0800 (PST)
-Received: (nullmailer pid 3626148 invoked by uid 1000);
-        Wed, 09 Feb 2022 04:00:16 -0000
-Date:   Tue, 8 Feb 2022 22:00:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v1 4/4] usbnet: add support for label from
- device tree
-Message-ID: <YgM8UIEfw+UbDwrE@robh.at.kernel.org>
-References: <20220127104905.899341-1-o.rempel@pengutronix.de>
- <20220127104905.899341-5-o.rempel@pengutronix.de>
+        with ESMTP id S1347076AbiBIDjC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Feb 2022 22:39:02 -0500
+X-Greylist: delayed 915 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 08 Feb 2022 19:31:08 PST
+Received: from mail-m973.mail.163.com (mail-m973.mail.163.com [123.126.97.3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4327DC0612BC;
+        Tue,  8 Feb 2022 19:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=9NMrH
+        xwinKdj28Z/amVmmd+HO6U+Pm3/AzXhpfyXTY4=; b=CuqdUUAmLGCCjc6jfIyie
+        NB++RxkZnHIYJEukXqOm6Dep0Ih/Zrgb+863KEkalIdjck1d9oy5aZFapapzsP5P
+        tvo9xlenWR7SBmTns61aIPyehV9J819Xz2t0qDjv8WqKhfVQbUD5IfnasmU1KydT
+        PDIilLbIwNy+0ZBrMkQwUA=
+Received: from localhost.localdomain (unknown [112.97.82.107])
+        by smtp3 (Coremail) with SMTP id G9xpCgA3ZyvZMQNiWNlsBg--.9103S2;
+        Wed, 09 Feb 2022 11:15:40 +0800 (CST)
+From:   Slark Xiao <slark_xiao@163.com>
+To:     johan@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Slark Xiao <slark_xiao@163.com>
+Subject: [PATCH] USB: serial: option: add support for DW5829e
+Date:   Wed,  9 Feb 2022 11:15:35 +0800
+Message-Id: <20220209031535.9668-1-slark_xiao@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220127104905.899341-5-o.rempel@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: G9xpCgA3ZyvZMQNiWNlsBg--.9103S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3WF13ur43ZFyUZrWUWFW3KFg_yoW7Grykpr
+        y5AF17XFyDJFWrZF97tFn7AryfuwsaqFy7G3ZruanxWFWIvrs7t34ayasrZFna9ws3KrnF
+        yrs8G3y7Ka4kGrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRfWrZUUUUU=
+X-Originating-IP: [112.97.82.107]
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBrRyiZF75dkpDygAAsl
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 27, 2022 at 11:49:05AM +0100, Oleksij Rempel wrote:
-> Similar to the option to set a netdev name in device tree for switch
-> ports by using the property "label" in the DSA framework, this patch
-> adds this functionality to the usbnet infrastructure.
-> 
-> This will help to name the interfaces properly throughout supported
-> devices. This provides stable interface names which are useful
-> especially in embedded use cases.
+Dell DW5829e same as DW5821e except CAT level.
+DW5821e supports CAT16 but DW5829e supports CAT9.
+There are 2 types product of DW5829e: normal and eSIM.
+So we will add 2 PID for DW5829e.
+And for each PID, it support MBIM or RMNET.
+Let's see test evidence as below:
 
-I'll pile on... The purpose of 'label' is to describe a human readable 
-label on a port of a box. It should otherwise be opaque to s/w. Yes, 
-there are abuses of that in the kernel, but don't add more.
+DW5829e MBIM mode:
+T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  4 Spd=5000 MxCh= 0
+D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  2
+P:  Vendor=413c ProdID=81e6 Rev=03.18
+S:  Manufacturer=Dell Inc.
+S:  Product=DW5829e Snapdragon X20 LTE
+S:  SerialNumber=0123456789ABCDEF
+C:  #Ifs= 7 Cfg#= 2 Atr=a0 MxPwr=896mA
+I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
+I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+I:  If#=0x6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
 
-Rob
+DW5829e RMNET mode:
+T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  5 Spd=5000 MxCh= 0
+D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
+P:  Vendor=413c ProdID=81e6 Rev=03.18
+S:  Manufacturer=Dell Inc.
+S:  Product=DW5829e Snapdragon X20 LTE
+S:  SerialNumber=0123456789ABCDEF
+C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+
+DW5829e-eSIM MBIM mode:
+T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  6 Spd=5000 MxCh= 0
+D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  2
+P:  Vendor=413c ProdID=81e4 Rev=03.18
+S:  Manufacturer=Dell Inc.
+S:  Product=DW5829e-eSIM Snapdragon X20 LTE
+S:  SerialNumber=0123456789ABCDEF
+C:  #Ifs= 7 Cfg#= 2 Atr=a0 MxPwr=896mA
+I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
+I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+I:  If#=0x6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+
+DW5829e-eSIM RMNET mode:
+T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  7 Spd=5000 MxCh= 0
+D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
+P:  Vendor=413c ProdID=81e4 Rev=03.18
+S:  Manufacturer=Dell Inc.
+S:  Product=DW5829e-eSIM Snapdragon X20 LTE
+S:  SerialNumber=0123456789ABCDEF
+C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
+I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+
+BTW, the interface 0x6 of MBIM mode is GNSS port, which not same as NMEA
+port. So it's banned from serial option driver.
+The remaining interfaces 0x2-0x5 are: MODEM, MODEM, NMEA, DIAG.
+
+Signed-off-by: Slark Xiao <slark_xiao@163.com>
+---
+ drivers/usb/serial/option.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 962e9943fc20..b47bad810eec 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -198,6 +198,8 @@ static void option_instat_callback(struct urb *urb);
+ 
+ #define DELL_PRODUCT_5821E			0x81d7
+ #define DELL_PRODUCT_5821E_ESIM			0x81e0
++#define DELL_PRODUCT_5829E			0x81e6
++#define DELL_PRODUCT_5829E_ESIM			0x81e4
+ 
+ #define KYOCERA_VENDOR_ID			0x0c88
+ #define KYOCERA_PRODUCT_KPC650			0x17da
+@@ -1063,6 +1065,10 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
+ 	{ USB_DEVICE(DELL_VENDOR_ID, DELL_PRODUCT_5821E_ESIM),
+ 	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
++	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_5829E, 0xff),
++	  .driver_info = RSVD(6) },
++	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_5829E_ESIM, 0xff),
++	  .driver_info = RSVD(6) },
+ 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_E100A) },	/* ADU-E100, ADU-310 */
+ 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_500A) },
+ 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_620UW) },
+-- 
+2.25.1
+
