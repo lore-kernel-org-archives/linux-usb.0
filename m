@@ -2,128 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4842FC433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Feb 2022 15:59:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B282DC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Feb 2022 16:42:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243892AbiBJP7O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Feb 2022 10:59:14 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55154 "EHLO
+        id S244599AbiBJQme (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Feb 2022 11:42:34 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243877AbiBJP7O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Feb 2022 10:59:14 -0500
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 795C9E5D;
-        Thu, 10 Feb 2022 07:59:15 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 33A2E1F391;
-        Thu, 10 Feb 2022 15:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1644508754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=YOI5IXCChR4iS9iMg/60P0pB3y6d34dpo7NowlPvL2M=;
-        b=DNoTXdIg1t3T2A4tawxZehKP6lDR7yhLCwrT0LXExc89l/T7URVAB6GDN3jvEn4iVPJR5A
-        LZV6aGISH5DLv6VeD1eNQRUC73t5I/V7IcC9Q/yKk+Yuf51PGG3ri8/dBLu/PXpMIlhyj0
-        /7txhUtZ0wdx6BR5gWMYE1XDogEp3Jc=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D11B813BEF;
-        Thu, 10 Feb 2022 15:59:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id FJpiMVE2BWJdIwAAMHmgww
-        (envelope-from <oneukum@suse.com>); Thu, 10 Feb 2022 15:59:13 +0000
-From:   Oliver Neukum <oneukum@suse.com>
-To:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, kuba@kernel.org, gregKH@linuxfoundation.org
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Ross Maynard <bids.7405@bigpond.com>
-Subject: [PATCHv2] USB: zaurus: support another broken Zaurus
-Date:   Thu, 10 Feb 2022 16:59:11 +0100
-Message-Id: <20220210155911.15973-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.34.1
+        with ESMTP id S244605AbiBJQmd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Feb 2022 11:42:33 -0500
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80645EB3
+        for <linux-usb@vger.kernel.org>; Thu, 10 Feb 2022 08:42:15 -0800 (PST)
+Received: by mail-lf1-x135.google.com with SMTP id k13so11517224lfg.9
+        for <linux-usb@vger.kernel.org>; Thu, 10 Feb 2022 08:42:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=lh4ofncWXT6TD1R3xVW4trQeOONfJi5pHo5hLIr/Iq0=;
+        b=VBrDoXqyzSH1F+EPhcikZrT01VBce5i99sJ0D6FN+Nr934UZ9a0r/t7EDJENSVU4dR
+         hV+b+EN/CL9CD5cEGzsiVdyU2sZg67WLt4yrCNy4K6aLGa8MUdVVt5hnGXV3sN8mUjBQ
+         Wz5V8hqrrmjA2GuITDCksHLnP8r6PCjsrS+bPUjoCQYFhsq87SN86jI6cJ31+JuGL3wo
+         9uxM6mdyAfHZwJ+IfYh/K6NwYPwJS3MsIByyeANxIuGL0SzxAWap7vMCNoKwnK6SLcRF
+         0fKMa6hlRCLKPtunis3iRQv1j87Op2PyQ0LZAsl+ZORi1qg7gX/80bvaVbrSCCgfywGJ
+         5uBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lh4ofncWXT6TD1R3xVW4trQeOONfJi5pHo5hLIr/Iq0=;
+        b=6SvQE+1sSWG9sDSFNLdUFV7GdQgpI4ST0uhSUD7uShatsmE+zsqdUyvIPLs6/JZiV4
+         nMcLSrUwXYVlNbBDfbmPW6PPY4e/MOWO0zp5FE7Jtba4e6oayM0pZkw/9B2Iegin/4qN
+         HQR80YDopjA0ZjYkeeeAH7Errwytm+R8cOvR/vdy9hGm82cC1XgqlGT/xjyqlWy4x1wu
+         8d8mqS2/LyBP1mVFKom1S/WG6Tk0LPS0LyLlgTigchdnIILs5xaEA/DR7ymo7Hgmq9gP
+         fOE4H71yZEP8W5O946QvTxCSjeb1cJUvwpPr7xZJyoaAvAcTAaUrxO/lLaEJ1CZrkstF
+         BIdA==
+X-Gm-Message-State: AOAM531jeuMYVxXa/HKWtb3qm2bLEESSLd0r9dVe2mCqvU5OWeIyFBeY
+        Y9/qcnXST7SOgHfeQ4s+Ve/C1xmQemaenw==
+X-Google-Smtp-Source: ABdhPJzcLYKUj8hWUDrbd+LptZF//ECtRI2uMa1S6jepSBD+Eku1168wcEcIdiGE5t7rd4WSMer/VA==
+X-Received: by 2002:a05:6512:3b27:: with SMTP id f39mr5892198lfv.659.1644511324013;
+        Thu, 10 Feb 2022 08:42:04 -0800 (PST)
+Received: from dimich.home ([159.224.14.39])
+        by smtp.gmail.com with ESMTPSA id s26sm2941622ljo.117.2022.02.10.08.42.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Feb 2022 08:42:03 -0800 (PST)
+From:   Dmytro Bagrii <dimich.dmb@gmail.com>
+To:     linux-usb@vger.kernel.org, johan@kernel.org
+Cc:     gregkh@linuxfoundation.org, kernel@aiyionpri.me,
+        Dmytro Bagrii <dimich.dmb@gmail.com>
+Subject: [PATCH v2] Revert "USB: serial: ch341: add new Product ID for CH341A"
+Date:   Thu, 10 Feb 2022 18:41:37 +0200
+Message-Id: <20220210164137.4376-1-dimich.dmb@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <YgJHRKQHQheKTwjU@kroah.com>
+References: <YgJHRKQHQheKTwjU@kroah.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This SL-6000 says Direct Line, not Ethernet
+This reverts commit 46ee4abb10a07bd8f8ce910ee6b4ae6a947d7f63.
 
-v2: added Reporter and Link
+CH341 has Product ID 0x5512 in EPP/MEM mode which is used for
+I2C/SPI/GPIO interfaces. In asynchronous serial interface mode
+CH341 has PID 0x5523 which is already in the table.
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Reported-by: Ross Maynard <bids.7405@bigpond.com>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=215361
+Mode is selected by corresponding jumper setting.
+
+Signed-off-by: Dmytro Bagrii <dimich.dmb@gmail.com>
 ---
- drivers/net/usb/cdc_ether.c | 12 ++++++++++++
- drivers/net/usb/zaurus.c    | 12 ++++++++++++
- 2 files changed, 24 insertions(+)
+ drivers/usb/serial/ch341.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index eb3817d70f2b..9b4dfa3001d6 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -583,6 +583,11 @@ static const struct usb_device_id	products[] = {
- 	.bInterfaceSubClass	= USB_CDC_SUBCLASS_ETHERNET, \
- 	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
+diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
+index 29f4b87a9e74..65f1286f7905 100644
+--- a/drivers/usb/serial/ch341.c
++++ b/drivers/usb/serial/ch341.c
+@@ -81,7 +81,6 @@
+ #define CH341_QUIRK_SIMULATE_BREAK	BIT(1)
  
-+#define ZAURUS_FAKE_INTERFACE \
-+	.bInterfaceClass	= USB_CLASS_COMM, \
-+	.bInterfaceSubClass	= USB_CDC_SUBCLASS_MDLM, \
-+	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
-+
- /* SA-1100 based Sharp Zaurus ("collie"), or compatible;
-  * wire-incompatible with true CDC Ethernet implementations.
-  * (And, it seems, needlessly so...)
-@@ -636,6 +641,13 @@ static const struct usb_device_id	products[] = {
- 	.idProduct              = 0x9032,	/* SL-6000 */
- 	ZAURUS_MASTER_INTERFACE,
- 	.driver_info		= 0,
-+}, {
-+	.match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
-+		 | USB_DEVICE_ID_MATCH_DEVICE,
-+	.idVendor               = 0x04DD,
-+	.idProduct              = 0x9032,	/* SL-6000 */
-+	ZAURUS_FAKE_INTERFACE,
-+	.driver_info		= 0,
- }, {
- 	.match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
- 		 | USB_DEVICE_ID_MATCH_DEVICE,
-diff --git a/drivers/net/usb/zaurus.c b/drivers/net/usb/zaurus.c
-index 8e717a0b559b..5289b6e31713 100644
---- a/drivers/net/usb/zaurus.c
-+++ b/drivers/net/usb/zaurus.c
-@@ -256,6 +256,11 @@ static const struct usb_device_id	products [] = {
- 	.bInterfaceSubClass	= USB_CDC_SUBCLASS_ETHERNET, \
- 	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
- 
-+#define ZAURUS_FAKE_INTERFACE \
-+	.bInterfaceClass	= USB_CLASS_COMM, \
-+	.bInterfaceSubClass	= USB_CDC_SUBCLASS_MDLM, \
-+	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
-+
- /* SA-1100 based Sharp Zaurus ("collie"), or compatible. */
- {
- 	.match_flags	=   USB_DEVICE_ID_MATCH_INT_INFO
-@@ -313,6 +318,13 @@ static const struct usb_device_id	products [] = {
- 	.idProduct              = 0x9032,	/* SL-6000 */
- 	ZAURUS_MASTER_INTERFACE,
- 	.driver_info = ZAURUS_PXA_INFO,
-+}, {
-+        .match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
-+                 | USB_DEVICE_ID_MATCH_DEVICE,
-+        .idVendor		= 0x04DD,
-+        .idProduct		= 0x9032,	/* SL-6000 */
-+        ZAURUS_FAKE_INTERFACE,
-+        .driver_info = (unsigned long) &bogus_mdlm_info,
- }, {
- 	.match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
- 		 | USB_DEVICE_ID_MATCH_DEVICE,
+ static const struct usb_device_id id_table[] = {
+-	{ USB_DEVICE(0x1a86, 0x5512) },
+ 	{ USB_DEVICE(0x1a86, 0x5523) },
+ 	{ USB_DEVICE(0x1a86, 0x7522) },
+ 	{ USB_DEVICE(0x1a86, 0x7523) },
 -- 
-2.34.1
+2.35.1
 
