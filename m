@@ -2,94 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85836C4167B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Feb 2022 18:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D3EC433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Feb 2022 19:05:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352564AbiBKSP1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Feb 2022 13:15:27 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55408 "EHLO
+        id S239867AbiBKTF2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Feb 2022 14:05:28 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:36882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352508AbiBKSPT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Feb 2022 13:15:19 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 880C8CF5;
-        Fri, 11 Feb 2022 10:15:18 -0800 (PST)
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1644603317;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=An8sejACWdvpFe+0xRHo7AseACg3JQzOaIfRXUshpP4=;
-        b=NARq7CRKp2oDkLGnfeobnnJ29QT7pRs0iM8vCshdXDiq2e6YjM9Y1ieee/G3eZ3xDSy03b
-        F7xRV+u0zfjsqL7bncoA90wNQSCqyI3dSDldvxTEBLZehwnQkIsXv+HIUqHgdw8BGUN0U/
-        YuNahORbgMxr/bxomwhFwhIHf0MQKyRibsi3wynm6uOKURGzNxOP2O08WQ+uQlKkVdb8u7
-        +DLPxuacNsZbex48IUoHVoRablVzvRbOBZMw/Mg29mwevrXD/shpZTp9icWuTYdYGZFZXa
-        zTPGSV0V8ZhhnfSncBba9laxo4/vd56AgZpD0Y8PdwvD0crQCrnL5LZEvkTFxA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1644603317;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=An8sejACWdvpFe+0xRHo7AseACg3JQzOaIfRXUshpP4=;
-        b=0CgFF1kBSfhzXy7ccJmZkN1Vgek7S1AU9/rKcNKYR3KliKVCxVgRh/3fPhp897170McYhC
-        M0I2VN41cyQJh0DQ==
-To:     greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johan Hovold <johan@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v4 6/7] net: usb: lan78xx: Use generic_handle_irq_safe().
-Date:   Fri, 11 Feb 2022 19:14:59 +0100
-Message-Id: <20220211181500.1856198-7-bigeasy@linutronix.de>
-In-Reply-To: <20220211181500.1856198-1-bigeasy@linutronix.de>
-References: <20220211181500.1856198-1-bigeasy@linutronix.de>
+        with ESMTP id S234187AbiBKTF1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Feb 2022 14:05:27 -0500
+Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA1ECE9
+        for <linux-usb@vger.kernel.org>; Fri, 11 Feb 2022 11:05:23 -0800 (PST)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru 3D73D20A4D2A
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] usb: host: xhci-hub: drop redundant port register reads
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        <linux-usb@vger.kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Organization: Open Mobile Platform
+Message-ID: <5ea9b08b-38a5-498b-8312-c64ad782318a@omp.ru>
+Date:   Fri, 11 Feb 2022 22:05:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Instead of manually disabling interrupts before invoking use
-generic_handle_irq_safe() which can be invoked with enabled and disabled
-interrupts.
+In xhci_hub_control(), there are many port register readbacks in several
+branches of the *switch* statement which get duplicated right after that
+*switch* by reading back the port register once more -- which is done to
+flush the posted writes. Remove the redundant reads inside that *switch*.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+analysis tool.
+
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
 ---
- drivers/net/usb/lan78xx.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index b8e20a3f2b84e..415f16662f88e 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1537,11 +1537,8 @@ static void lan78xx_status(struct lan78xx_net *dev, =
-struct urb *urb)
- 		netif_dbg(dev, link, dev->net, "PHY INTR: 0x%08x\n", intdata);
- 		lan78xx_defer_kevent(dev, EVENT_LINK_RESET);
-=20
--		if (dev->domain_data.phyirq > 0) {
--			local_irq_disable();
--			generic_handle_irq(dev->domain_data.phyirq);
--			local_irq_enable();
--		}
-+		if (dev->domain_data.phyirq > 0)
-+			generic_handle_irq_safe(dev->domain_data.phyirq);
- 	} else {
- 		netdev_warn(dev->net,
- 			    "unexpected interrupt: 0x%08x\n", intdata);
---=20
-2.34.1
+ drivers/usb/host/xhci-hub.c |    8 --------
+ 1 file changed, 8 deletions(-)
 
+Index: usb/drivers/usb/host/xhci-hub.c
+===================================================================
+--- usb.orig/drivers/usb/host/xhci-hub.c
++++ usb/drivers/usb/host/xhci-hub.c
+@@ -1323,7 +1323,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 			msleep(10); /* wait device to enter */
+ 			spin_lock_irqsave(&xhci->lock, flags);
+ 
+-			temp = readl(ports[wIndex]->addr);
+ 			bus_state->suspended_ports |= 1 << wIndex;
+ 			break;
+ 		case USB_PORT_FEAT_LINK_STATE:
+@@ -1341,7 +1340,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 					PORT_OCC | PORT_RC | PORT_PLC |
+ 					PORT_CEC;
+ 				writel(temp | PORT_PE, ports[wIndex]->addr);
+-				temp = readl(ports[wIndex]->addr);
+ 				break;
+ 			}
+ 
+@@ -1351,7 +1349,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 					 hcd->self.busnum, wIndex + 1);
+ 				xhci_set_link_state(xhci, ports[wIndex],
+ 							link_state);
+-				temp = readl(ports[wIndex]->addr);
+ 				break;
+ 			}
+ 
+@@ -1384,8 +1381,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 					 hcd->self.busnum, wIndex + 1);
+ 				xhci_set_link_state(xhci, ports[wIndex],
+ 						link_state);
+-
+-				temp = readl(ports[wIndex]->addr);
+ 				break;
+ 			}
+ 			/* Port must be enabled */
+@@ -1435,7 +1430,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 					xhci_dbg(xhci, "missing U0 port change event for port %d-%d\n",
+ 						 hcd->self.busnum, wIndex + 1);
+ 				spin_lock_irqsave(&xhci->lock, flags);
+-				temp = readl(ports[wIndex]->addr);
+ 				break;
+ 			}
+ 
+@@ -1460,7 +1454,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 						break;
+ 				}
+ 				spin_lock_irqsave(&xhci->lock, flags);
+-				temp = readl(ports[wIndex]->addr);
+ 				bus_state->suspended_ports |= 1 << wIndex;
+ 			}
+ 			break;
+@@ -1491,7 +1484,6 @@ int xhci_hub_control(struct usb_hcd *hcd
+ 		case USB_PORT_FEAT_BH_PORT_RESET:
+ 			temp |= PORT_WR;
+ 			writel(temp, ports[wIndex]->addr);
+-			temp = readl(ports[wIndex]->addr);
+ 			break;
+ 		case USB_PORT_FEAT_U1_TIMEOUT:
+ 			if (hcd->speed < HCD_USB3)
