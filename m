@@ -2,40 +2,40 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B92C4167B
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Feb 2022 18:15:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90944C4332F
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Feb 2022 18:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352522AbiBKSPU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Feb 2022 13:15:20 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55390 "EHLO
+        id S1352546AbiBKSPZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Feb 2022 13:15:25 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:55416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352497AbiBKSPS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Feb 2022 13:15:18 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796EACF5;
-        Fri, 11 Feb 2022 10:15:17 -0800 (PST)
+        with ESMTP id S1352511AbiBKSPU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Feb 2022 13:15:20 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 018D6D41;
+        Fri, 11 Feb 2022 10:15:19 -0800 (PST)
 From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1644603316;
+        s=2020; t=1644603317;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xJWvr65dKavzLpT9wk8poZEoprQ5XoEoPP+pD1dTjoU=;
-        b=b8xcZVhynx0YzX1QkTuiSq4wf+LVdbR0mr6P/8fDoBklAuGc1vgwgTN475BwIjVSi5aFfX
-        2dGgw9xqMgsSf3UGlDOYhb/GPbv/CLAJ2Nzd6bGsuVOrS3pAEvKW6yes1GRHpjSFh5w3xG
-        CsYPS031tUpr0sPSDO/wdjHrWFO5M4vk1LXjZ50DxwXDaHjpsG8db94llYIq/fhW3wb9pJ
-        ekVk1lyaZmkvKuwMU2Mpbj6FAcJ0h6BJsXjqI4H1CfD6NOxhSkyW/laQLAmq1sjJxJVm9K
-        /z52zw8xUZkOLEROsRMDnFi1OCje9NQGt2tZcQWzN3Q0U+W2rJn5RuFzSkAA2g==
+        bh=7IuoNc+UWwZXKcOsPOEqlxYI2AFgB+PxAmhNQBVvZYk=;
+        b=tyfJGhse34IHkzEJRWlrJtA0Oc15FsGnW/DrJdsSpNXgvVyC7vvKnwuUZYvTPDv794z5g5
+        WLuMa6u70ITvCipSrElXENioDEaAx7PVop0wggJM6jsohFCdAXOMm6qB9Ag+JYIblUSA2L
+        25RgKRbGSe/8cox8BoPaA+UaUOgNlBKIh6KKa65xAxIP1CnvQqh3lCIN2u9LIatLH+8s5p
+        V0717GDsVTZGKvYSwBRYY/zVEGqPUkj+t+ZklV2ziSZOv5U5jdBttfDwJONGkqAv+DuOJi
+        coHTW8ECPDIflGcHETGrs0L5Xikum3UdKB+l6lno/1G5jmbqChKarRUHgGD1iw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1644603316;
+        s=2020e; t=1644603317;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xJWvr65dKavzLpT9wk8poZEoprQ5XoEoPP+pD1dTjoU=;
-        b=Aderu7RgpRVmmkejmzwVyLsyAQo1/uRQHSS7ZjEu0gydYtCa95N+0dClOSogK5drdDOk3S
-        JyLoEGColsi1RRCw==
+        bh=7IuoNc+UWwZXKcOsPOEqlxYI2AFgB+PxAmhNQBVvZYk=;
+        b=3WNFUDrYJCRoKYi7lRw4iOjzlkKKK/mibHyET6iEg04XS8vM5eFyRgH+jWbWuEX09LCekS
+        jR7gqSHUktVV+1Cw==
 To:     greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
         linux-usb@vger.kernel.org, netdev@vger.kernel.org
@@ -51,9 +51,9 @@ Cc:     "David S. Miller" <davem@davemloft.net>,
         UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
         Woojung Huh <woojung.huh@microchip.com>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v4 4/7] misc: hi6421-spmi-pmic: Use generic_handle_irq_safe().
-Date:   Fri, 11 Feb 2022 19:14:57 +0100
-Message-Id: <20220211181500.1856198-5-bigeasy@linutronix.de>
+Subject: [PATCH v4 7/7] staging: greybus: gpio: Use generic_handle_irq_safe().
+Date:   Fri, 11 Feb 2022 19:15:00 +0100
+Message-Id: <20220211181500.1856198-8-bigeasy@linutronix.de>
 In-Reply-To: <20220211181500.1856198-1-bigeasy@linutronix.de>
 References: <20220211181500.1856198-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
@@ -62,46 +62,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-generic_handle_irq() is invoked from a regular interrupt service
-routine. This handler will become a forced-threaded handler on
-PREEMPT_RT and will be invoked with enabled interrupts. The
-generic_handle_irq() must be invoked with disabled interrupts in order
-to avoid deadlocks.
-
 Instead of manually disabling interrupts before invoking use
 generic_handle_irq_safe() which can be invoked with enabled and disabled
 interrupts.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/misc/hi6421v600-irq.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/greybus/gpio.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/misc/hi6421v600-irq.c b/drivers/misc/hi6421v600-irq.c
-index 1c763796cf1fa..caa3de37698b0 100644
---- a/drivers/misc/hi6421v600-irq.c
-+++ b/drivers/misc/hi6421v600-irq.c
-@@ -117,8 +117,8 @@ static irqreturn_t hi6421v600_irq_handler(int irq, void=
- *__priv)
- 			 * If both powerkey down and up IRQs are received,
- 			 * handle them at the right order
- 			 */
--			generic_handle_irq(priv->irqs[POWERKEY_DOWN]);
--			generic_handle_irq(priv->irqs[POWERKEY_UP]);
-+			generic_handle_irq_safe(priv->irqs[POWERKEY_DOWN]);
-+			generic_handle_irq_safe(priv->irqs[POWERKEY_UP]);
- 			pending &=3D ~HISI_IRQ_POWERKEY_UP_DOWN;
- 		}
-=20
-@@ -126,7 +126,7 @@ static irqreturn_t hi6421v600_irq_handler(int irq, void=
- *__priv)
- 			continue;
-=20
- 		for_each_set_bit(offset, &pending, BITS_PER_BYTE) {
--			generic_handle_irq(priv->irqs[offset + i * BITS_PER_BYTE]);
-+			generic_handle_irq_safe(priv->irqs[offset + i * BITS_PER_BYTE]);
- 		}
+diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
+index 7e6347fe93f99..8a7cf1d0e9688 100644
+--- a/drivers/staging/greybus/gpio.c
++++ b/drivers/staging/greybus/gpio.c
+@@ -391,10 +391,7 @@ static int gb_gpio_request_handler(struct gb_operation=
+ *op)
+ 		return -EINVAL;
  	}
+=20
+-	local_irq_disable();
+-	ret =3D generic_handle_irq(irq);
+-	local_irq_enable();
+-
++	ret =3D generic_handle_irq_safe(irq);
+ 	if (ret)
+ 		dev_err(dev, "failed to invoke irq handler\n");
 =20
 --=20
 2.34.1
