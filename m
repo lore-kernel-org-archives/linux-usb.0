@@ -2,41 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8258C433FE
-	for <linux-usb@archiver.kernel.org>; Sun, 13 Feb 2022 13:05:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 334A7C4332F
+	for <linux-usb@archiver.kernel.org>; Sun, 13 Feb 2022 13:05:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236169AbiBMNF6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 13 Feb 2022 08:05:58 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34908 "EHLO
+        id S236175AbiBMNGA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 13 Feb 2022 08:06:00 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:34938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236161AbiBMNF5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 13 Feb 2022 08:05:57 -0500
+        with ESMTP id S236161AbiBMNF7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 13 Feb 2022 08:05:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 40D175B88E
-        for <linux-usb@vger.kernel.org>; Sun, 13 Feb 2022 05:05:52 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 72A2E5B890
+        for <linux-usb@vger.kernel.org>; Sun, 13 Feb 2022 05:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1644757551;
+        s=mimecast20190719; t=1644757553;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=MdaT+Ez5YT/CHAs9bbKyNuiCjdqbvspAYl8e3zW7vf0=;
-        b=a5m7A3EYDtJSVZhRoqZ9E8oNYqqf3MqZKwJHSCGpxTRw7IJNAFrq9bDZnXJN9Zyxq5tVux
-        7QTRVjW2yOdIqV8Or1+HcqLrVXmLyfl0jIxvNSwUN+ikc1tipYAVjZ7xblVeKPaygDgtBY
-        drWmb8B0MPVmThI2mmjciz1LhkfNgD0=
+        bh=oubBtTGlA5uh6It3RfAlzAI69zaV5D9sEzGpMWX75XU=;
+        b=MkfWq4uL8mDmOJ2JLv5dNO6UDwMsaX9tNbPCJ9skrbIS9+YohxiS5yzhDpYkk/1h8bQcV2
+        QZPP0PcDQT1VFozxjJok3DTco4rxezwbkinXz+QCghKAKTGEWpGO6w/nMj/61pWAFn2k8h
+        WF3EGW86dKklzMA9uEEvH7vUAYkFeGY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-244-GoDPmHT8O1uZxfp7lql-kg-1; Sun, 13 Feb 2022 08:05:45 -0500
-X-MC-Unique: GoDPmHT8O1uZxfp7lql-kg-1
+ us-mta-442-Q9vnycTZP9WlwCxvU9Bftg-1; Sun, 13 Feb 2022 08:05:49 -0500
+X-MC-Unique: Q9vnycTZP9WlwCxvU9Bftg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A354A1091DA1;
-        Sun, 13 Feb 2022 13:05:44 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E4D8814245;
+        Sun, 13 Feb 2022 13:05:48 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.39.192.92])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 150A47B9F7;
-        Sun, 13 Feb 2022 13:05:42 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id EBC837B9DD;
+        Sun, 13 Feb 2022 13:05:46 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -45,9 +45,9 @@ To:     Felipe Balbi <balbi@kernel.org>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Stephan Gerhold <stephan@gerhold.net>,
         linux-usb@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: [PATCH v2 6/9] phy: ti: tusb1210: Improve ulpi_read()/_write() error checking
-Date:   Sun, 13 Feb 2022 14:05:21 +0100
-Message-Id: <20220213130524.18748-7-hdegoede@redhat.com>
+Subject: [PATCH v2 8/9] phy: ti: tusb1210: Add a delay between power-on and restoring the phy-parameters
+Date:   Sun, 13 Feb 2022 14:05:23 +0100
+Message-Id: <20220213130524.18748-9-hdegoede@redhat.com>
 In-Reply-To: <20220213130524.18748-1-hdegoede@redhat.com>
 References: <20220213130524.18748-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -57,153 +57,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ulpi_read() and ulpi_write() calls can fail. Add wrapper functions to log
-errors when this happens and add error checking to the read + write of
-the phy parameters from the TUSB1210_VENDOR_SPECIFIC2 register.
+Now that we actually log errors on ulpi_write failures it becomes clear
+that the ulpi_write() restoring the phy-parameters on power-on is failing
+after a suspend/resume add a short delay after driving the cs line high
+to fix this.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/phy/ti/phy-tusb1210.c | 62 +++++++++++++++++++++++++++--------
- 1 file changed, 48 insertions(+), 14 deletions(-)
+ drivers/phy/ti/phy-tusb1210.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/phy/ti/phy-tusb1210.c b/drivers/phy/ti/phy-tusb1210.c
-index 15c1c79e5c29..bf7793afdc84 100644
+index 04baed24469f..9ef4c5f79b75 100644
 --- a/drivers/phy/ti/phy-tusb1210.c
 +++ b/drivers/phy/ti/phy-tusb1210.c
-@@ -26,6 +26,33 @@ struct tusb1210 {
- 	u8 vendor_specific2;
- };
+@@ -8,6 +8,7 @@
+  */
+ #include <linux/module.h>
+ #include <linux/bitfield.h>
++#include <linux/delay.h>
+ #include <linux/ulpi/driver.h>
+ #include <linux/ulpi/regs.h>
+ #include <linux/gpio/consumer.h>
+@@ -18,6 +19,8 @@
+ #define TUSB1210_VENDOR_SPECIFIC2_ZHSDRV_MASK	GENMASK(5, 4)
+ #define TUSB1210_VENDOR_SPECIFIC2_DP_MASK	BIT(6)
  
-+static int tusb1210_ulpi_write(struct tusb1210 *tusb, u8 reg, u8 val)
-+{
-+	int ret;
++#define TUSB1210_RESET_TIME_MS				30
 +
-+	ret = ulpi_write(tusb->ulpi, reg, val);
-+	if (ret)
-+		dev_err(&tusb->ulpi->dev, "error %d writing val 0x%02x to reg 0x%02x\n",
-+			ret, val, reg);
-+
-+	return ret;
-+}
-+
-+static int tusb1210_ulpi_read(struct tusb1210 *tusb, u8 reg, u8 *val)
-+{
-+	int ret;
-+
-+	ret = ulpi_read(tusb->ulpi, reg);
-+	if (ret >= 0) {
-+		*val = ret;
-+		ret = 0;
-+	} else {
-+		dev_err(&tusb->ulpi->dev, "error %d reading reg 0x%02x\n", ret, reg);
-+	}
-+
-+	return ret;
-+}
-+
- static int tusb1210_power_on(struct phy *phy)
- {
- 	struct tusb1210 *tusb = phy_get_drvdata(phy);
-@@ -35,8 +62,8 @@ static int tusb1210_power_on(struct phy *phy)
+ struct tusb1210 {
+ 	struct ulpi *ulpi;
+ 	struct phy *phy;
+@@ -60,6 +63,8 @@ static int tusb1210_power_on(struct phy *phy)
+ 	gpiod_set_value_cansleep(tusb->gpio_reset, 1);
+ 	gpiod_set_value_cansleep(tusb->gpio_cs, 1);
  
++	msleep(TUSB1210_RESET_TIME_MS);
++
  	/* Restore the optional eye diagram optimization value */
- 	if (tusb->vendor_specific2)
--		ulpi_write(tusb->ulpi, TUSB1210_VENDOR_SPECIFIC2,
--			   tusb->vendor_specific2);
-+		return tusb1210_ulpi_write(tusb, TUSB1210_VENDOR_SPECIFIC2,
-+					   tusb->vendor_specific2);
- 
- 	return 0;
- }
-@@ -55,33 +82,34 @@ static int tusb1210_set_mode(struct phy *phy, enum phy_mode mode, int submode)
- {
- 	struct tusb1210 *tusb = phy_get_drvdata(phy);
- 	int ret;
-+	u8 reg;
- 
--	ret = ulpi_read(tusb->ulpi, ULPI_OTG_CTRL);
-+	ret = tusb1210_ulpi_read(tusb, ULPI_OTG_CTRL, &reg);
- 	if (ret < 0)
- 		return ret;
- 
- 	switch (mode) {
- 	case PHY_MODE_USB_HOST:
--		ret |= (ULPI_OTG_CTRL_DRVVBUS_EXT
-+		reg |= (ULPI_OTG_CTRL_DRVVBUS_EXT
- 			| ULPI_OTG_CTRL_ID_PULLUP
- 			| ULPI_OTG_CTRL_DP_PULLDOWN
- 			| ULPI_OTG_CTRL_DM_PULLDOWN);
--		ulpi_write(tusb->ulpi, ULPI_OTG_CTRL, ret);
--		ret |= ULPI_OTG_CTRL_DRVVBUS;
-+		tusb1210_ulpi_write(tusb, ULPI_OTG_CTRL, reg);
-+		reg |= ULPI_OTG_CTRL_DRVVBUS;
- 		break;
- 	case PHY_MODE_USB_DEVICE:
--		ret &= ~(ULPI_OTG_CTRL_DRVVBUS
-+		reg &= ~(ULPI_OTG_CTRL_DRVVBUS
- 			 | ULPI_OTG_CTRL_DP_PULLDOWN
- 			 | ULPI_OTG_CTRL_DM_PULLDOWN);
--		ulpi_write(tusb->ulpi, ULPI_OTG_CTRL, ret);
--		ret &= ~ULPI_OTG_CTRL_DRVVBUS_EXT;
-+		tusb1210_ulpi_write(tusb, ULPI_OTG_CTRL, reg);
-+		reg &= ~ULPI_OTG_CTRL_DRVVBUS_EXT;
- 		break;
- 	default:
- 		/* nothing */
- 		return 0;
- 	}
- 
--	return ulpi_write(tusb->ulpi, ULPI_OTG_CTRL, ret);
-+	return tusb1210_ulpi_write(tusb, ULPI_OTG_CTRL, reg);
- }
- 
- static const struct phy_ops phy_ops = {
-@@ -95,11 +123,14 @@ static int tusb1210_probe(struct ulpi *ulpi)
- {
- 	struct tusb1210 *tusb;
- 	u8 val, reg;
-+	int ret;
- 
- 	tusb = devm_kzalloc(&ulpi->dev, sizeof(*tusb), GFP_KERNEL);
- 	if (!tusb)
- 		return -ENOMEM;
- 
-+	tusb->ulpi = ulpi;
-+
- 	tusb->gpio_reset = devm_gpiod_get_optional(&ulpi->dev, "reset",
- 						   GPIOD_OUT_LOW);
- 	if (IS_ERR(tusb->gpio_reset))
-@@ -119,7 +150,9 @@ static int tusb1210_probe(struct ulpi *ulpi)
- 	 * diagram optimization and DP/DM swap.
- 	 */
- 
--	reg = ulpi_read(ulpi, TUSB1210_VENDOR_SPECIFIC2);
-+	ret = tusb1210_ulpi_read(tusb, TUSB1210_VENDOR_SPECIFIC2, &reg);
-+	if (ret)
-+		return ret;
- 
- 	/* High speed output drive strength configuration */
- 	if (!device_property_read_u8(&ulpi->dev, "ihstx", &val))
-@@ -133,15 +166,16 @@ static int tusb1210_probe(struct ulpi *ulpi)
- 	if (!device_property_read_u8(&ulpi->dev, "datapolarity", &val))
- 		u8p_replace_bits(&reg, val, (u8)TUSB1210_VENDOR_SPECIFIC2_DP_MASK);
- 
--	ulpi_write(ulpi, TUSB1210_VENDOR_SPECIFIC2, reg);
-+	ret = tusb1210_ulpi_write(tusb, TUSB1210_VENDOR_SPECIFIC2, reg);
-+	if (ret)
-+		return ret;
-+
- 	tusb->vendor_specific2 = reg;
- 
- 	tusb->phy = ulpi_phy_create(ulpi, &phy_ops);
- 	if (IS_ERR(tusb->phy))
- 		return PTR_ERR(tusb->phy);
- 
--	tusb->ulpi = ulpi;
--
- 	phy_set_drvdata(tusb->phy, tusb);
- 	ulpi_set_drvdata(ulpi, tusb);
- 	return 0;
+ 	return tusb1210_ulpi_write(tusb, TUSB1210_VENDOR_SPECIFIC2,
+ 				   tusb->vendor_specific2);
 -- 
 2.33.1
 
