@@ -2,93 +2,150 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC3ABC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 11:32:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA1BC433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 11:32:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351380AbiBNLcL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:32:11 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56464 "EHLO
+        id S1351515AbiBNLcM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 06:32:12 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:57472 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351619AbiBNLaT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 06:30:19 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6447066AF7;
-        Mon, 14 Feb 2022 03:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1644837121; x=1676373121;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uhliuFcKaGT4XB0ts+0U1iHxKFUOKpgSPOQ3kJVrBqw=;
-  b=UlwnlLd7Kt5onKh/gt6YHt4vaeoAv2mfWKHqiMKJlm0XTlFhmNw8farZ
-   smdR5+QtyKGbtW7hRkyBc22mcd9/nIIHf5jjH0joZJH4gBnydiSdGudJm
-   e614cm02q6eDo8QYtwzHc4S5SCG1ww1tqv0Tkzz0xUe/k2gUBPYRglBOR
-   Rclx2Besk9IKaDHTaKfKSdo9sVIpJN6vYMOQ6LU92vGA/ROQaQ21LKE+1
-   +Y+zyeUxZPv9lVyADmfhMUC+FV8fxGe6Jy6HhhNJbLIbtf4sJWUYt1LRT
-   8qD3jX5Q8Sx2De/8GCD90ncDaPmjz/QVITQLazrUSAHprVIp0OPE1MGI8
-   Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10257"; a="248901060"
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
-   d="scan'208";a="248901060"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 03:12:01 -0800
-X-IronPort-AV: E=Sophos;i="5.88,367,1635231600"; 
-   d="scan'208";a="538542216"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 03:11:56 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 14 Feb 2022 13:11:54 +0200
-Date:   Mon, 14 Feb 2022 13:11:54 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Lukas Wunner <lukas@wunner.de>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Mario Limonciello <mario.limonciello@amd.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
-        "open list:RADEON and AMDGPU DRM DRIVERS" 
-        <amd-gfx@lists.freedesktop.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" 
-        <nouveau@lists.freedesktop.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Alexander.Deucher@amd.com,
-        Andreas Noever <andreas.noever@gmail.com>
-Subject: Re: [PATCH v3 05/12] PCI: Detect root port of internal USB4 devices
- by `usb4-host-interface`
-Message-ID: <Ygo4+sfeHhQeSUEa@lahna>
-References: <20220211193250.1904843-6-mario.limonciello@amd.com>
- <20220211214546.GA737137@bhelgaas>
- <YgoGAkjZgCob8Mdl@lahna>
- <20220214085202.GA21533@wunner.de>
- <Ygo1eoVe8D0b80QF@lahna>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ygo1eoVe8D0b80QF@lahna>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        with ESMTP id S1351707AbiBNLaN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 06:30:13 -0500
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8817C40A30
+        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 03:11:54 -0800 (PST)
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220214111152epoutp03561ca359e34b22ed6bb999a8dd3d70a3~ToqOKizPc1792517925epoutp03S
+        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 11:11:52 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220214111152epoutp03561ca359e34b22ed6bb999a8dd3d70a3~ToqOKizPc1792517925epoutp03S
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1644837112;
+        bh=14Me7vBAMhBKZ9NdNtxty8qye+T9cXqjuVsFOurxFrM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tQEO/Gp8g3/bHvzxBJ6256Js102TytdMHHaKyCF1c8FXlTYezaZoVJ2KBKYprudyf
+         CA1lf5YlanIm5Di9PdG5lDlAzA5iYrMTZ4IjGtDZYxREXy54WJtzP/T3ciTiBZa963
+         oY3molFFEuiUNbriQ2v7CCCexwheSaftxAlfRKpE=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+        20220214111151epcas2p25ebfa707162dc228e7abdbff6a596582~ToqNkrAc80249502495epcas2p2l;
+        Mon, 14 Feb 2022 11:11:51 +0000 (GMT)
+Received: from epsmges2p2.samsung.com (unknown [182.195.36.88]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4Jy1ks6SN6z4x9Px; Mon, 14 Feb
+        2022 11:11:49 +0000 (GMT)
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+        epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        2C.3F.35137.6583A026; Mon, 14 Feb 2022 20:09:10 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
+        20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5~ToqLfFI331425414254epcas2p1Y;
+        Mon, 14 Feb 2022 11:11:49 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220214111149epsmtrp2be83b3b6ba35f490fccafb4ff3695997~ToqLeYaqf0758607586epsmtrp2U;
+        Mon, 14 Feb 2022 11:11:49 +0000 (GMT)
+X-AuditID: b6c32a46-da1ff70000018941-f5-620a385652ce
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        6E.A6.29871.5F83A026; Mon, 14 Feb 2022 20:11:49 +0900 (KST)
+Received: from ubuntu.dsn.sec.samsung.com (unknown [12.36.155.120]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20220214111149epsmtip1d1ec519cd8f46524a04ce85c38ff0762~ToqLU_wcj2931329313epsmtip1a;
+        Mon, 14 Feb 2022 11:11:49 +0000 (GMT)
+From:   Daehwan Jung <dh10.jung@samsung.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org (open list),
+        Daehwan Jung <dh10.jung@samsung.com>, quic_wcheng@quicinc.com,
+        quic_jackp@quicinc.com, Thinh.Nguyen@synopsys.com
+Subject: [PATCH v2 1/2] usb: dwc3: Not set DWC3_EP_END_TRANSFER_PENDING in
+ ep cmd fails
+Date:   Mon, 14 Feb 2022 20:08:52 +0900
+Message-Id: <1644836933-141376-2-git-send-email-dh10.jung@samsung.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1644836933-141376-1-git-send-email-dh10.jung@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKKsWRmVeSWpSXmKPExsWy7bCmhW6YBVeSwa+zYhbH2p6wW9xZMI3J
+        onnxejaLy7vmsFksWtbKbLHr3yImi027+1gtVi04wO7A4bFpVSebx/65a9g9Ju6p8+jbsorR
+        Y8v+z4wenzfJBbBFZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5
+        +AToumXmAN2jpFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwL9ArTswtLs1L18tL
+        LbEyNDAwMgUqTMjOWHdmBWtBA3fF8RuPGBsY+zi7GDk5JARMJC7s/cvaxcjFISSwg1Fi2skj
+        7BDOJ0aJGceesUA43xgl7vU9Y4RpaZr1ihkisZdRYvn0tYwQzg9GicsP9gMN4+BgE9CS+L4Q
+        rEFEIExi4rJ9YJOYQRqa9t1lBUkIC0RKfOz7xgZiswioSjycdgDM5hVwkzi0YgITxDY5iZvn
+        OplBbE4Bd4muO+vAlkkIXGOXeHW3hRWiyEXizPrlUOcJS7w6voUdwpaS+PxuLxuEXSyx61Mr
+        E0RzA6NE44MTzBAJY4lZz9oZQa5mFtCUWL9LH8SUEFCWOHKLBaSCWYBPouPwX3aIMK9ER5sQ
+        RKOyxPTLE6AukJQ4+Poc1EAPid+9i8DOFxKYxShx7Uj6BEa5WQjzFzAyrmIUSy0ozk1PLTYq
+        MILHWHJ+7iZGcHrTctvBOOXtB71DjEwcjIcYJTiYlUR4485yJgnxpiRWVqUW5ccXleakFh9i
+        NAWG3URmKdHkfGCCzSuJNzSxNDAxMzM0NzI1MFcS5/VK2ZAoJJCeWJKanZpakFoE08fEwSnV
+        wKQnvy32cva0M2d0j1lMUlLkZV24fI/S9bjLCl5iuw+1VRco9u37Hvt72QsTLe0kpsDgXz/n
+        dV0u9L/awvTl0pSNtdsv3onV39Lqq+S1rtP6lkNrh3ld2OMlXbce997J6Si9fHSaT91JkW9+
+        h/XnrTQvPyK2X6HJXyf52NvZUfwuZSklpnnbC66k6zJLfy698avO42XRx17hzws0Vp6W/trk
+        +2Tt30PsQaf2rLvSb9R8O7z21ZNlX3zeTX1bLf/ihnrplnkMbj2T2Pz++L5cFhdZ3hgbec7f
+        y0rkp9jiSwqibGWeIWrW/GtKZ6gFp+6+nvE389XB6qYnEWHspey7Q+I0v/Pf/ihzLETm1jF1
+        YSWW4oxEQy3mouJEAFG0rP34AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrALMWRmVeSWpSXmKPExsWy7bCSnO5XC64kgzvXBCyOtT1ht7izYBqT
+        RfPi9WwWl3fNYbNYtKyV2WLXv0VMFpt297FarFpwgN2Bw2PTqk42j/1z17B7TNxT59G3ZRWj
+        x5b9nxk9Pm+SC2CL4rJJSc3JLEst0rdL4MpYd2YFa0EDd8XxG48YGxj7OLsYOTkkBEwkmma9
+        Yu5i5OIQEtjNKHH/w3Y2iISkxNK5N9ghbGGJ+y1HWCGKvjFKXH81CaiIg4NNQEvi+0JGkBoR
+        gTCJf48usoDUMAscZpRoebsLbJCwQLjEzikHwAaxCKhKPJx2ACzOK+AmcWjFBCaIBXISN891
+        MoPYnALuEl131oENFQKqebP3NvsERr4FjAyrGCVTC4pz03OLDQsM81LL9YoTc4tL89L1kvNz
+        NzGCA1FLcwfj9lUf9A4xMnEwHmKU4GBWEuGNO8uZJMSbklhZlVqUH19UmpNafIhRmoNFSZz3
+        QtfJeCGB9MSS1OzU1ILUIpgsEwenVANTf3RX8CrRC+nTJz0uipsg+E3EQnFB7E8F1qbyVbpn
+        hcpi/1vPkq6Ma18bxvlCo8g2YdLazaEWZ09YmXJc2R0h8ZFhusXCmWm3prHvvbquhWvVoowm
+        oTelP88uPvxkk+Nek57PBuYyj+KMK0TW1Ew59Gub1eodz9I5n3iavLkhzrVtjbKizO7Ij2v7
+        Fr91tbg83UHNWn3u6ZrX6Qdyp6ziudS5PlnoutLu7/OTSxdc+7l2mXb/5sw9r+UidH/X8Nxg
+        3RDGePy/2gK9S28FGyS3ztikvGfRTrFIz61/DnGUc2u/WXfI933kzrrn3yX+MZ6IWr6qWFit
+        qmPdmgkl1qu9AplnCzXEcXA9m3L6W8mNaiWW4oxEQy3mouJEABuIuRuzAgAA
+X-CMS-MailID: 20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5
+References: <1644836933-141376-1-git-send-email-dh10.jung@samsung.com>
+        <CGME20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5@epcas2p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 01:11:05PM +0200, Mika Westerberg wrote:
-> > > It is used to identify "tunneled" ports (whether PCIe, USB 3.x or
-> > > DisplayPort). Tunnels are created by software (in Linux it is the
-> > > Thunderbolt driver) and are dynamic in nature. The USB4 links go over
-> > > USB Type-C cable which also is something user can plug/unplug freely.
-> > > 
-> > > I would say it is reasonable expectation that anything behind these
-> > > ports can be assumed as "removable".
-> > 
-> > USB gadgets may be soldered to the mainboard.  Those cannot be
-> > unplugged freely.  It is common practice to solder USB Ethernet
-> > or USB FTDI serial ports and nothing's preventing a vendor to solder
-> > USB4/Thunderbolt gadgets.
-> 
-> Right, that's why I say it is "reasonable expectation" that anything
-> behind these ports can be assumed "removable" :) Of course they don't
-> have to be but if we assume that in the driver where this actually
-> matters we should be on the safe side, no?
+It always sets DWC3_EP_END_TRANSFER_PENDING in dwc3_stop_active_transfer
+even if dwc3_send_gadget_ep_cmd fails. It can cause some problems like
+skipping clear stall commmand or giveback from dequeue. We fix to set it
+only when ep cmd success. Additionally, We clear DWC3_EP_TRANSFER_STARTED
+for next trb to start transfer not update transfer.
 
-Also the tunnels are not permanent anyway.
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+---
+ drivers/usb/dwc3/gadget.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 183b90923f51..3ad3bc5813ca 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2044,6 +2044,12 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ 				dwc3_gadget_move_cancelled_request(r,
+ 						DWC3_REQUEST_STATUS_DEQUEUED);
+ 
++			/* If ep cmd fails, then force to giveback cancelled requests here */
++			if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING)) {
++				dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
++				dwc3_gadget_ep_cleanup_cancelled_requests(dep);
++			}
++
+ 			dep->flags &= ~DWC3_EP_WAIT_TRANSFER_COMPLETE;
+ 
+ 			goto out;
+@@ -3645,7 +3651,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
+ 
+ 	if (!interrupt)
+ 		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
+-	else
++	else if (!ret)
+ 		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
+ }
+ 
+-- 
+2.31.1
+
