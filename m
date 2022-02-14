@@ -2,94 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24142C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 11:44:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F8FC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 11:47:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237760AbiBNLok (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Feb 2022 06:44:40 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:45246 "EHLO
+        id S1351947AbiBNLsB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 06:48:01 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:42232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349397AbiBNLoE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 06:44:04 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA176476;
-        Mon, 14 Feb 2022 03:36:52 -0800 (PST)
+        with ESMTP id S1351970AbiBNLjk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 06:39:40 -0500
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDDD414086;
+        Mon, 14 Feb 2022 03:30:38 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2306FB80E63;
-        Mon, 14 Feb 2022 11:36:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 346BFC340E9;
-        Mon, 14 Feb 2022 11:36:49 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 1ADEECE130F;
+        Mon, 14 Feb 2022 11:30:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC5D7C340E9;
+        Mon, 14 Feb 2022 11:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644838609;
-        bh=TlEzTKDzz5YLQbPZsQhzfVGSadqt4B9CIscYLj+LK0g=;
+        s=korg; t=1644838235;
+        bh=h/tLqKI+kSgP4V2Ob7fIJ54EMGn25h4EBw9QAxLYA9I=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kugVbjDXHW+279ffyykAIl+lm4lroL1fP+sYFb5z/GkuL+jLxnZCzK674q5/Wn6C2
-         xjUNWDD19u30ntzVU9q9KxkAOE/zR2OxqMnT0xcEPJwLjnF29KIH0D9ip0npLUDbGW
-         R3XlYJIIsEZ2ipmVcjVXYSMxP6KajNa5BHU9VzG0=
-Date:   Mon, 14 Feb 2022 12:36:47 +0100
+        b=MV9CfUo4SJgnR3hhU1XdAnESN3u1XnC6Ufn1cSDCy0OgfnG7r8o4b9gg9Q/JXvOjr
+         ZB4+Rpopl+Y4rrOQTuhciz3DRsrXterdGxLI6GmAkBPqb1BSir/MFCia1wJl89luIz
+         3P8EI0JNeI79zOWWRDn7XkCXzYjxMydF7EbgENnI=
+Date:   Mon, 14 Feb 2022 12:30:32 +0100
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Pavankumar Kondeti <quic_pkondeti@quicinc.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Sarah Sharp <sarah.a.sharp@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_ugoswami@quicinc.com, Jung Daehwan <dh10.jung@samsung.com>
-Subject: Re: [PATCH] xhci: reduce xhci_handshake timeout in xhci_reset
-Message-ID: <Ygo+zxEu0gVh4THE@kroah.com>
-References: <1644836663-29220-1-git-send-email-quic_pkondeti@quicinc.com>
+To:     Daehwan Jung <dh10.jung@samsung.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+        Thinh.Nguyen@synopsys.com
+Subject: Re: [PATCH v2 2/2] usb: dwc3: Prevent cleanup cancelled requests at
+ the same time.
+Message-ID: <Ygo9WMCVRNp/4/Ry@kroah.com>
+References: <1644836933-141376-1-git-send-email-dh10.jung@samsung.com>
+ <CGME20220214111149epcas2p29b9e39b84d7203572422531beb3c39ed@epcas2p2.samsung.com>
+ <1644836933-141376-3-git-send-email-dh10.jung@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1644836663-29220-1-git-send-email-quic_pkondeti@quicinc.com>
+In-Reply-To: <1644836933-141376-3-git-send-email-dh10.jung@samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 14, 2022 at 04:34:23PM +0530, Pavankumar Kondeti wrote:
-> From: Daehwan Jung <dh10.jung@samsung.com>
+On Mon, Feb 14, 2022 at 08:08:53PM +0900, Daehwan Jung wrote:
+> We added cleanup cancelled requests when ep cmd timeout on ep dequeue
+> because there's no complete interrupt then. But, we find out new case
+> that complete interrupt comes up later. list_for_each_entry_safe is
+> used when cleanup cancelled requests and it has vulnerabilty on multi-core
+> environment. dwc3_gadget_giveback unlocks dwc->lock temporarily and other
+> core(ISR) can get lock and try to cleanup them again. It could cause
+> list_del corruption and we use DWC3_EP_END_TRANSFER_PENDING to prevent it.
 > 
-> xhci_reset() is called with interrupts disabled. Waiting 10 seconds for
-> controller reset and controller ready operations can be fatal to the
-> system when controller is timed out. Reduce the timeout to 1 second
-> and print a error message when the time out happens.
+> 1. MTP server cancels -> ep dequeue -> ep cmd timeout(END_TRANSFER)
+> 	-> cleanup cancelled requests -> dwc3_gadget_giveback ->
+> 	list_del -> release lock temporarily
+> 2. Complete with END_TRANSFER -> ISR(dwc3_gadget_endpoint_command_complete)
+> 	gets lock -> cleanup cancelled requests -> dwc3_gadget_giveback
+> 	-> list_del
+> 3. MTP server process gets lock again
+> 	-> tries to access POISON list(list_del corruption)
 > 
-> Fixes: 22ceac191211 ("xhci: Increase reset timeout for Renesas 720201 host.")
+> [2: MtpServer: 5032] dwc3 10b00000.dwc3: request cancelled
+> 						with wrong reason:5
+> [2: MtpServer: 5032] list_del corruption,
+> 		ffffff88b6963968->next is LIST_POISON1 (dead000000000100)
+> 
 > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> Signed-off-by: Pavankumar Kondeti <quic_pkondeti@quicinc.com>
 > ---
->  drivers/usb/host/xhci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index dc357ca..ec4df72 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -196,7 +196,7 @@ int xhci_reset(struct xhci_hcd *xhci)
->  		udelay(1000);
->  
->  	ret = xhci_handshake(&xhci->op_regs->command,
-> -			CMD_RESET, 0, 10 * 1000 * 1000);
-> +			CMD_RESET, 0, 1 * 1000 * 1000);
->  	if (ret)
->  		return ret;
->  
-> @@ -210,7 +210,7 @@ int xhci_reset(struct xhci_hcd *xhci)
->  	 * than status until the "Controller Not Ready" flag is cleared.
->  	 */
->  	ret = xhci_handshake(&xhci->op_regs->status,
-> -			STS_CNR, 0, 10 * 1000 * 1000);
-> +			STS_CNR, 0, 1 * 1000 * 1000);
->  
->  	xhci->usb2_rhub.bus_state.port_c_suspend = 0;
->  	xhci->usb2_rhub.bus_state.suspended_ports = 0;
-> -- 
-> 2.7.4
-> 
+>  drivers/usb/dwc3/gadget.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
-I do not see any "print an error message" change here.  Where is that
-addition?
+What commit id does this fix?
 
-confused,
+thanks,
 
 greg k-h
