@@ -2,151 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3344C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 09:50:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA4CC43219
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 10:00:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245224AbiBNJuU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Feb 2022 04:50:20 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43850 "EHLO
+        id S1344538AbiBNKAP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 05:00:15 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245379AbiBNJtY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 04:49:24 -0500
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 894531AD90
-        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 01:41:00 -0800 (PST)
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220214094046epoutp0338619592c3d043463ea0287e88eaeaaa~TnarqPjCA0387703877epoutp03c
-        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 09:40:46 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220214094046epoutp0338619592c3d043463ea0287e88eaeaaa~TnarqPjCA0387703877epoutp03c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1644831646;
-        bh=4Xbhnx9uNz2JBzthPzEn/bH0Hr1fueiRHSuJySip1XI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cmcgtXPM6HvMsm8KW62JOvHXi+U2HcJEdEfJdI0SZYCbf+Ou2P6SIxUUIsi19lUer
-         YQGwNe8wmuOBq38OjwlLXHMgs7/gvrrU2Ohx0Nq+d91wWCl44lfi94Wi5nT73KMMk6
-         FmG8kMIWF52hvuvVThuFqHNsd1r6/cZYwlm40rLc=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas2p1.samsung.com (KnoxPortal) with ESMTP id
-        20220214094045epcas2p18e0e821c5236e8ab61f01dacd790b957~TnarKScNJ2905329053epcas2p14;
-        Mon, 14 Feb 2022 09:40:45 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.36.92]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4Jxzjl6hJvz4x9QK; Mon, 14 Feb
-        2022 09:40:43 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-        epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        B5.DA.10014.8C12A026; Mon, 14 Feb 2022 18:32:56 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20220214094041epcas2p2ec37c252dd5f9508454e9449c95e6c7a~Tnam8rKG51973219732epcas2p24;
-        Mon, 14 Feb 2022 09:40:41 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220214094041epsmtrp130f8c9a1cd381b11e8e5d9564332e1cd~Tnam786tO2649526495epsmtrp1i;
-        Mon, 14 Feb 2022 09:40:41 +0000 (GMT)
-X-AuditID: b6c32a47-489ff7000000271e-76-620a21c8a84b
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        DE.B1.08738.9932A026; Mon, 14 Feb 2022 18:40:41 +0900 (KST)
-Received: from ubuntu.dsn.sec.samsung.com (unknown [12.36.155.120]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220214094041epsmtip16bbeab070593c1ac6b2d8efe43af3ef0~TnamySefG0561905619epsmtip19;
-        Mon, 14 Feb 2022 09:40:41 +0000 (GMT)
-From:   Daehwan Jung <dh10.jung@samsung.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org (open list),
-        Daehwan Jung <dh10.jung@samsung.com>, quic_wcheng@quicinc.com,
-        quic_jackp@quicinc.com, Thinh.Nguyen@synopsys.com
-Subject: [PATCH v1 1/2] usb: dwc3: Not set DWC3_EP_END_TRANSFER_PENDING in
- ep cmd fails
-Date:   Mon, 14 Feb 2022 18:37:17 +0900
-Message-Id: <1644831438-125403-2-git-send-email-dh10.jung@samsung.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644831438-125403-1-git-send-email-dh10.jung@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7bCmue4JRa4kgw/3jSyOtT1ht7izYBqT
-        RfPi9WwWl3fNYbNYtKyV2WLXv0VMFpt297FarFpwgN2Bw2PTqk42j/1z17B7TNxT59G3ZRWj
-        x5b9nxk9Pm+SC2CLyrbJSE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy
-        8QnQdcvMAbpHSaEsMacUKBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNgXqBXnJhbXJqXrpeX
-        WmJlaGBgZApUmJCdse1URsE27oqL224xNjAe5Oxi5OSQEDCR+Danm72LkYtDSGAHo0TTlV4m
-        kISQwCdGiWfXpCESnxklPvYtYobpeNB2mwkisYtRYtK9t1DtPxgl+k6BzOLgYBPQkvi+kBGk
-        QUQgTGLisn0sIDXMAnuBVuy7ywqSEBaIlNj7byrYVBYBVYmuS+/BGngF3CTeTFwHtU1O4ua5
-        TjCbU8Bd4s7+4+wQ8UvsEp9/ZEDYLhJvn/SzQdjCEq+Ob4GqkZJ42d8GZRdL7PrUCna1hEAD
-        o0TjgxNQC4wlZj1rZwQ5mllAU2L9Ln0QU0JAWeLILRaQCmYBPomOw3/ZIcK8Eh1tQhCNyhLT
-        L09ghbAlJQ6+Pgc10EPi+/w/bJAgmcUocX7qZtYJjHKzEBYsYGRcxSiWWlCcm55abFRgDI+v
-        5PzcTYzg1KblvoNxxtsPeocYmTgYDzFKcDArifDGneVMEuJNSaysSi3Kjy8qzUktPsRoCgy7
-        icxSosn5wOSaVxJvaGJpYGJmZmhuZGpgriTO65WyIVFIID2xJDU7NbUgtQimj4mDU6qBKTB7
-        r0P13a9Hn9bIzvk760j7DMai+R+n/3IOc5S7uM7xX8a9XlUF//aT1XFLvlo0nl1VeDPlVsY8
-        n3MFQRtMohJ1nPlPTOnoeJ8rs7s/mVEvReFt/Yanx5+Z9jVKvRbTUI19+nTuxykv8taZprYu
-        9k+v3XlopmrPlG+zPUzZKhr3nlaUnynP/NCivlnDomRrgPnDxs3HzFlfVhTM+7Sv/OHjObl3
-        E5Z/N5pgHJe+9NOCY9WXdl/o8rR4raoiqGPRXe11f/vr+rm1Lic+9jdaf5qgu0nwjodcPQef
-        z3W9Ep9Vh4vPPdbhlb4/T9Qk3aLttnteisWHkMgVx23czXfksM/55qE+bevl6RVvG9Q8lViK
-        MxINtZiLihMBJqdt5/YDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprPLMWRmVeSWpSXmKPExsWy7bCSnO5MZa4kg0WvuSyOtT1ht7izYBqT
-        RfPi9WwWl3fNYbNYtKyV2WLXv0VMFpt297FarFpwgN2Bw2PTqk42j/1z17B7TNxT59G3ZRWj
-        x5b9nxk9Pm+SC2CL4rJJSc3JLEst0rdL4MrYdiqjYBt3xcVttxgbGA9ydjFyckgImEg8aLvN
-        1MXIxSEksINRYvWyLcwQCUmJpXNvsEPYwhL3W46wQhR9Y5RYc3wrkMPBwSagJfF9ISNIjYhA
-        mMS/RxdZQGqYBQ4zSrS83cUGkhAWCJc4fus7K4jNIqAq0XXpPVgDr4CbxJuJ66CWyUncPNcJ
-        ZnMKuEvc2X8cbLEQUE3Pg+XMExj5FjAyrGKUTC0ozk3PLTYsMMpLLdcrTswtLs1L10vOz93E
-        CA5DLa0djHtWfdA7xMjEwXiIUYKDWUmEN+4sZ5IQb0piZVVqUX58UWlOavEhRmkOFiVx3gtd
-        J+OFBNITS1KzU1MLUotgskwcnFINTJ5z94e6vA85Gv6s95fUysSpzee/yxvXucqnXsjn1Ob6
-        Z6evoXtrxR5j1o/3bvLOOvF/8+sbOz+KH/MM6HzX09K0hvNTVfSqhrsMJoZF5kklzSv+eRq7
-        zqnh87iruj7obfaGOS3L8j+0sXqHTHRtzKicvlnz+Q4T1XMv+bSLxa8yHJkfr8ZrMKv2wN0i
-        AfUJ9ZMnPA7eeXTymd8W7BFcE04v/ZLs+Xg28/lFd/N8JindC6tqfsuhFad5XnlLT8pB95a5
-        W+0UXjgKfm7pYT6c8+lST4Bwk7aNq/ONeVbB/Y+LS1dcDX1hGFxy5/K6pXq6HU0bjFUMnu5N
-        SH0tYcHSwCInslnqdL0TE/+djg1lSizFGYmGWsxFxYkAakU/xbICAAA=
-X-CMS-MailID: 20220214094041epcas2p2ec37c252dd5f9508454e9449c95e6c7a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220214094041epcas2p2ec37c252dd5f9508454e9449c95e6c7a
-References: <1644831438-125403-1-git-send-email-dh10.jung@samsung.com>
-        <CGME20220214094041epcas2p2ec37c252dd5f9508454e9449c95e6c7a@epcas2p2.samsung.com>
+        with ESMTP id S1343946AbiBNJ7X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 04:59:23 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF584BE0;
+        Mon, 14 Feb 2022 01:46:42 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id u6so29409972lfc.3;
+        Mon, 14 Feb 2022 01:46:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=JX7AEWXC7VEIWY52t5bRvWiW+LKItzN9Fx20I+DVf7Q=;
+        b=YsRhlT93NM4dfLaeDzZGwO6e3gwuFU7eMUUlBmryc8SBCwRenDL7W7byp1JbzHcitS
+         o2k41NNVTSpvEnFlHj9WtfPIQYYzxrRh3ueitTIMJ1u0SOK8qBCVjHIG/3D4S6PnptmI
+         GT8TSd0KTiqSumJRryLTqSp0yKtbN0M5N/y8TfHGqD7LZ3bXsvkdOQEZ5d9WDz2fxJYq
+         X2jlfLaQJcP7aEKAh1WNmJF5lfJr36BNn81O0vh5Cxtl14jrL1xl9bwDiq51kqcSAM0Q
+         BEShCQiU7QTjmJ2tB7TLqGPxbXzgT0vdi1d9K3CEwK7BPZpZLFKVov9K7MJ0j9q48zbf
+         iiHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JX7AEWXC7VEIWY52t5bRvWiW+LKItzN9Fx20I+DVf7Q=;
+        b=jTvOUcIj5NT4FsI/iQ/Uz59IPJ6KDQjwN8l99Uoc8lT9g8jwYWkaME4iKlU4ryj3sy
+         McUogGOEqiEO/mG3w70y12e4P6fh9ColC+/YhZ56TrMcFtZbyUpVAQrAdz4EbqTi+Ptz
+         H7ruIZEm4E+wmN3gEOSrqD3fXcQ7cMPCbrh3CpQPIARftQCkVkb/GC7eigza0LiGnwkE
+         bEPeV1InqrfdMkgu5GmVzfsz1Rgb4hjubgoVEze9W0cG92c4vDWH0e4bi88ukTnXh/hs
+         qLx1eNl4veFadPxlWhjbUiLUpZWJEscgpL9vxWQ+ybIIXAR1A7QWvBE+3CNGSBJ2v6As
+         5yRA==
+X-Gm-Message-State: AOAM530Xp4D5rOx0FwhwrYkhgjn4I74yKQOMF+cv0GHdgp49R8/B8pbQ
+        Q1S7OHsSkEHGsePVVCcsG6HdwvhgWjPyVJisqGc=
+X-Google-Smtp-Source: ABdhPJwB0ChPiWBxcQQTBEF/ccpfXCeN7CcbUvlTAUZiXeIJ2StOJ+hk1DsIM7X47AewXPzXDEWa/IldeHH3bjzC4e8=
+X-Received: by 2002:a05:6512:130f:: with SMTP id x15mr5145474lfu.651.1644832001032;
+ Mon, 14 Feb 2022 01:46:41 -0800 (PST)
+MIME-Version: 1.0
+References: <1644827562-17244-1-git-send-email-vincent.sunplus@gmail.com>
+ <1644827562-17244-2-git-send-email-vincent.sunplus@gmail.com>
+ <YgoVBv/z1uCsR1Y0@kroah.com> <CAPvp3Rhtb-g1A5FG6_1irzX2fG-VACU3T4tST1Xo99cnnL==MQ@mail.gmail.com>
+ <Ygodd+TFQGnhki6A@kroah.com>
+In-Reply-To: <Ygodd+TFQGnhki6A@kroah.com>
+From:   =?UTF-8?B?5pa96YyV6bS7?= <vincent.sunplus@gmail.com>
+Date:   Mon, 14 Feb 2022 17:48:20 +0800
+Message-ID: <CAPvp3RiPVkonTtAdTcLqQuPggg6zw8yNEPf-mR0+1bbtSsdtEg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] usb: host: ehci-sunplus: Add driver for ehci in
+ Sunplus SP7021
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     stern@rowland.harvard.edu, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, wells.lu@sunplus.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It always sets DWC3_EP_END_TRANSFER_PENDING in dwc3_stop_active_transfer
-even if dwc3_send_gadget_ep_cmd fails. It can cause some problems like
-skipping clear stall commmand or giveback from dequeue. We fix to set it
-only when ep cmd success. Additionally, We clear DWC3_EP_TRANSFER_STARTED
-for next trb to start transfer not update transfer.
+Greg KH <gregkh@linuxfoundation.org> =E6=96=BC 2022=E5=B9=B42=E6=9C=8814=E6=
+=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=885:14=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Mon, Feb 14, 2022 at 05:03:00PM +0800, =E6=96=BD=E9=8C=95=E9=B4=BB wro=
+te:
+> > Hi, Greg
+> >     About this issue, my colleague Hammer Hsieh has explained it to
+> > you recently in the mail of "[PATCH v7 2/2] serial: sunplus-uart: Add
+> > Sunplus
+> > SoC UART Driver". The ehci driver and uart one are in the same Sunplus =
+Soc.
+>
+> I do not know what you are referring to, sorry.  Remember we get
+> thousands of emails a week.
+>
+> Please be explicit and make the code work properly for each patch you
+> submit.
+>
+> thanks,
+>
+> greg k-h
 
-Change-Id: I2e6b58acc99f385e467e8b639a3792a5e5f4d2bb
-Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
----
- drivers/usb/dwc3/gadget.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 183b90923f51..3ad3bc5813ca 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2044,6 +2044,12 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 				dwc3_gadget_move_cancelled_request(r,
- 						DWC3_REQUEST_STATUS_DEQUEUED);
- 
-+			/* If ep cmd fails, then force to giveback cancelled requests here */
-+			if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING)) {
-+				dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
-+				dwc3_gadget_ep_cleanup_cancelled_requests(dep);
-+			}
-+
- 			dep->flags &= ~DWC3_EP_WAIT_TRANSFER_COMPLETE;
- 
- 			goto out;
-@@ -3645,7 +3651,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 
- 	if (!interrupt)
- 		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
--	else
-+	else if (!ret)
- 		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
- }
- 
--- 
-2.31.1
-
+Hi, Greg
+    About data incoherence issue between memory bus and peripheral bus.
+In case of AXI bus, use non-posted write can avoid data incoherence issue.
+    What if in case of post write:
+Send a specific command after last write command. SDCTRL identify specific
+command, means previous write command done. Then send the interrupt
+signal to interrupt controller. And then interrupt controller sends done si=
+gnal
+to Master. Master receives done signal, means write command done. Then
+issue a interrupt or proceed next write command.
+    Thanks for your review.
