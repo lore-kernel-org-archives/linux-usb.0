@@ -2,148 +2,224 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA30EC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 04:08:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B8AC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 05:11:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240170AbiBNEIx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 13 Feb 2022 23:08:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53272 "EHLO
+        id S235289AbiBNFLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 00:11:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229994AbiBNEIx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 13 Feb 2022 23:08:53 -0500
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B004EA3F;
-        Sun, 13 Feb 2022 20:08:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1644811726; x=1676347726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u+W1tN9usZWjsj5/mAQPYbtm+xXSxWfMP0GXHrsmeik=;
-  b=oomvviUnZgpSLb/Px2S6ydX6siTh9GmAOGB+kb3HJdTHYelRywb/vm9F
-   s4ZcwSCfDC4n0X2KXdj/zx/+qLb7gIfavLHSPc8vbS2V7W79Yh2SbT/7L
-   SGElqIvZY+6qaytmfrWaS9KK1C4Tpzf6D18NZLWKYkBfXHUgNb1IM8A7i
-   M=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 13 Feb 2022 20:08:46 -0800
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2022 20:08:45 -0800
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Sun, 13 Feb 2022 20:08:45 -0800
-Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Sun, 13 Feb 2022 20:08:42 -0800
-Date:   Mon, 14 Feb 2022 09:38:38 +0530
-From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        Jung Daehwan <dh10.jung@samsung.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <quic_ugoswami@quicinc.com>
-Subject: Re: usb: host: Reduce xhci_handshake timeout in xhci_reset
-Message-ID: <20220214040838.GA8039@hu-pkondeti-hyd.qualcomm.com>
-References: <CGME20210622113915epcas2p284c61291fc9d83487f6dfebb65fd4e9b@epcas2p2.samsung.com>
- <1624361096-41282-1-git-send-email-dh10.jung@samsung.com>
- <YNJAZDwuFmEoTJHe@kroah.com>
- <20210628022548.GA69289@ubuntu>
- <YNlxzj7KXG43Uyrp@kroah.com>
- <20210628065553.GA83203@ubuntu>
- <496c9d86-70d7-1050-5bbb-9f841e4b464a@intel.com>
- <20220211064630.GA20567@hu-pkondeti-hyd.qualcomm.com>
- <20220211074331.GA12625@hu-pkondeti-hyd.qualcomm.com>
+        with ESMTP id S234025AbiBNFLR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 00:11:17 -0500
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D474D62F
+        for <linux-usb@vger.kernel.org>; Sun, 13 Feb 2022 21:11:07 -0800 (PST)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id 320E3320024A;
+        Mon, 14 Feb 2022 00:01:28 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 14 Feb 2022 00:01:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; bh=dU8UWEWsFE7FhtMSk7XoqjsqtGAURy
+        8zRWRk2DFxHlw=; b=s4myWKLYLGpYHNE24mjhPbhjeKUwYPYq1/cUDKRuHOViUR
+        s89tnwBW92utXEgdpOq/9s2Cf/yY0u+j+H+VLrUYV8lJPieWaTSbxn7ot0ywc7Ng
+        d/r1feAPTbtH1Za55Em5e3kNSKE7x2tpUgQnfm5wqZqnfhnUZBIqPJ7if0Um/fTd
+        e2gnqsk/OIRVivCeNWrn6MVSVZni9OGe08aUG2GxGF1Rbx0Bwk9d5CqhJdWHkNlO
+        uFCvwwd6NzpC1LaOjea377srhx0QCpg+YD4xUvTlD/gJE41fCHLqTg8m6OxzT0bW
+        TjqBzCtv53hZHaNIalFv4n9k0E7yw5pDOlFXNP+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dU8UWE
+        WsFE7FhtMSk7XoqjsqtGAURy8zRWRk2DFxHlw=; b=ZNqziKM/AuUvmLCnip6La5
+        WgfEscaPTIGiW2zlw3FASQvH340qTeoGMlFMG11fAf5pphzQzWP4F6TBnoK85qh7
+        lXiCOwe+o3MLMLTsZaK4ZYM/iyCCzYG9oVFy/0DuJwLcmg/KecR2xg8teVOGx/Vq
+        255zakkKxiG1zkxcB8BolQS7mX0O1PbdCYqd0JQ2GtC54vS5J9AtKk5Y4a1SdkVv
+        TDsH35jSvZ1DCPHPJisTt8PzfCBf6+nWVY/lf1SbugzXco/z9IBQ4j8o8rYEPEbB
+        UzBkzgv/xbvXbZGebNLq23n8l2nLXgSDL/KrHszXOu7CfQg4E4Bi7ukzt1LE1dxA
+        ==
+X-ME-Sender: <xms:J-IJYjU3MU95ANDvSPC9PvKIBIVbROAiZCcV4hH43RqRpWhTWAhjQw>
+    <xme:J-IJYrk7YBL8NXcPbzpwNGmKOGH_fQvXEcpI4p3nOVRlzNyP2sxTuliVSvGy2U51b
+    Ds7epSHFE4iIgQd6A>
+X-ME-Received: <xmr:J-IJYvb7jbyWCtK-7hJ7JrUDjmFyHvSE9g09XlKAPO_GvpFMnSaXGT1kwjk_6BqXSu-reY-OEwV4KxUCwh3ZGq1la0fjjZUaZeKO1WMpH_P3Gl8rky1jgGDoQ-O3FVMudu1ZZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedugdejkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepudfhjeefvdfhgfefheetgffhieeigfefhefgvddvveefgeejheejvdfg
+    jeehueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:J-IJYuW3friZNHtZenOR5_8hLEIGUhUPYR0XU8MQmpssqjn3UrKqkQ>
+    <xmx:J-IJYtnOi8AZbKJZp8cxC-lHQ3mCBn48xEButla1F30ZI4hzurnVJA>
+    <xmx:J-IJYrekUPYEEbNjgzWyR0IjSwWTrS1oR2gZrsLJ9aDugM4MewfdFQ>
+    <xmx:J-IJYmCJtzmVpTFwAUr_aLPquQLUBlr_A4sQf74rtoST40QogEq3RA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 14 Feb 2022 00:01:27 -0500 (EST)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v3 3/4] usb: typec: Factor out non-PD fwnode properties
+Date:   Sun, 13 Feb 2022 23:01:16 -0600
+Message-Id: <20220214050118.61015-4-samuel@sholland.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220214050118.61015-1-samuel@sholland.org>
+References: <20220214050118.61015-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220211074331.GA12625@hu-pkondeti-hyd.qualcomm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+Basic programmable non-PD Type-C port controllers do not need the full
+TCPM library, but they share the same devicetree binding and the same
+typec_capability structure. Factor out a helper for parsing those
+properties which map to fields in struct typec_capability, so the code
+can be shared between TCPM and basic non-TCPM drivers.
 
-On Fri, Feb 11, 2022 at 01:13:31PM +0530, Pavan Kondeti wrote:
-> Sorry for the spam. I have added an incorrect email address in my previous
-> email.
-> 
-> On Fri, Feb 11, 2022 at 12:16:30PM +0530, Pavan Kondeti wrote:
-> > On Mon, Jun 28, 2021 at 10:49:00AM +0300, Mathias Nyman wrote:
-> > > On 28.6.2021 9.55, Jung Daehwan wrote:
-> > > > On Mon, Jun 28, 2021 at 08:53:02AM +0200, Greg Kroah-Hartman wrote:
-> > > >> On Mon, Jun 28, 2021 at 11:25:48AM +0900, Jung Daehwan wrote:
-> > > >>> On Tue, Jun 22, 2021 at 09:56:20PM +0200, Greg Kroah-Hartman wrote:
-> > > >>>> On Tue, Jun 22, 2021 at 08:24:56PM +0900, Daehwan Jung wrote:
-> > > >>>>> It seems 10 secs timeout is too long in general case. A core would wait for
-> > > >>>>> 10 secs without doing other task and it can be happended on every device.
-> > > >>>>
-> > > >>>> Only if the handshake does not come back sooner, right?
-> > > >>>
-> > > >>> Yes, right.
-> > > >>>
-> > > >>>> What is causing your device to timeout here?
-> > > >>>
-> > > >>> Host Controller doesn't respond handshake. I don't know why and I ask HW team
-> > > >>> to debug it.
-> > > >>
-> > > >> Please work to fix your hardware, that feels like the root of the
-> > > >> problem here.  If you require the timeout for xhci_reset() to happen,
-> > > >> then how do you know that the hardware really did reset properly in the
-> > > >> reduced amount of time you just provided?
-> > > >>
-> > > > 
-> > > > I continue fixing this issue with hardware engineer, but currently just
-> > > > host controller can crash whole system and that's why I want to fix it.
-> > > > How about adding some error logs in this situation for recognizing this issue?
-> > > > We can add error log in xhci_stop as xhci_reset can returns error like below.
-> > > > 
-> > > > static void xhci_stop(struct usb_hcd *hcd)
-> > > > {
-> > > >         u32 temp;
-> > > >         struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-> > > > +       int ret;
-> > > > 
-> > > >         mutex_lock(&xhci->mutex);
-> > > > 
-> > > > @@ -733,6 +734,9 @@ static void xhci_stop(struct usb_hcd *hcd)
-> > > >         xhci->cmd_ring_state = CMD_RING_STATE_STOPPED;
-> > > >         xhci_halt(xhci);
-> > > >         xhci_reset(xhci);
-> > > > +       if (ret)
-> > > > +               xhci_err(xhci, "%s: Error while reset xhci Host controller - ret = %d\n"
-> > > > +                       , __func__, ret);
-> > > >         spin_unlock_irq(&xhci->lock);
-> > > > 
-> > > 
-> > > We can check the xhci_reset() return value here and print a message, makes sense.
-> > > 
-> > > The original reason for the 10 second timeout was because a host actually took 9 seconds:
-> > > 
-> > > commit 22ceac191211cf6688b1bf6ecd93c8b6bf80ed9b
-> > > 
-> > >     xhci: Increase reset timeout for Renesas 720201 host.
-> > >     
-> > >     The NEC/Renesas 720201 xHCI host controller does not complete its reset
-> > >     within 250 milliseconds.  In fact, it takes about 9 seconds to reset the
-> > >     host controller, and 1 second for the host to be ready for doorbell
-> > >     rings.  Extend the reset and CNR polling timeout to 10 seconds each.
-> > > 
-> > Agreed.
-> > 
-> > We also run into the similar issue (very very rarely reproduced) on
-> > our platforms like SM8450. The issue happens when host mode is de-activated
-> > (type-c cable disconnected). Since xhci_reset() is called with interrupts
-> > disabled, a timeout of 10 seconds is fatal to the system.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Can you please consider including this change? Let us know if you want this
-patch to be resent again with error message and Fixes tag included.
+Changes in v3:
+ - Leave the call to fw_devlink_purge_absent_suppliers in its original
+   place in the TCPM code. It is not needed by the new driver.
+ - Remove unused variable from TCPM function.
 
-Thanks,
-Pavan
+Changes in v2:
+ - Always put the return values from typec_find_* in a signed variable
+   for error checking.
+
+ drivers/usb/typec/class.c     | 43 +++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tcpm/tcpm.c | 24 +------------------
+ include/linux/usb/typec.h     |  3 +++
+ 3 files changed, 47 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 45a6f0c807cb..ee0e520707dd 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1894,6 +1894,49 @@ void *typec_get_drvdata(struct typec_port *port)
+ }
+ EXPORT_SYMBOL_GPL(typec_get_drvdata);
+ 
++int typec_get_fw_cap(struct typec_capability *cap,
++		     struct fwnode_handle *fwnode)
++{
++	const char *cap_str;
++	int ret;
++
++	cap->fwnode = fwnode;
++
++	ret = fwnode_property_read_string(fwnode, "power-role", &cap_str);
++	if (ret < 0)
++		return ret;
++
++	ret = typec_find_port_power_role(cap_str);
++	if (ret < 0)
++		return ret;
++	cap->type = ret;
++
++	/* USB data support is optional */
++	ret = fwnode_property_read_string(fwnode, "data-role", &cap_str);
++	if (ret == 0) {
++		ret = typec_find_port_data_role(cap_str);
++		if (ret < 0)
++			return ret;
++		cap->data = ret;
++	}
++
++	/* Get the preferred power role for a DRP */
++	if (cap->type == TYPEC_PORT_DRP) {
++		cap->prefer_role = TYPEC_NO_PREFERRED_ROLE;
++
++		ret = fwnode_property_read_string(fwnode, "try-power-role", &cap_str);
++		if (ret == 0) {
++			ret = typec_find_power_role(cap_str);
++			if (ret < 0)
++				return ret;
++			cap->prefer_role = ret;
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(typec_get_fw_cap);
++
+ /**
+  * typec_port_register_altmode - Register USB Type-C Port Alternate Mode
+  * @port: USB Type-C Port that supports the alternate mode
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 5fce795b69c7..3bc2f4ebd1fe 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -5928,7 +5928,6 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 			    struct fwnode_handle *fwnode)
+ {
+ 	const char *opmode_str;
+-	const char *cap_str;
+ 	int ret;
+ 	u32 mw, frs_current;
+ 
+@@ -5944,23 +5943,10 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 	 */
+ 	fw_devlink_purge_absent_suppliers(fwnode);
+ 
+-	/* USB data support is optional */
+-	ret = fwnode_property_read_string(fwnode, "data-role", &cap_str);
+-	if (ret == 0) {
+-		ret = typec_find_port_data_role(cap_str);
+-		if (ret < 0)
+-			return ret;
+-		port->typec_caps.data = ret;
+-	}
+-
+-	ret = fwnode_property_read_string(fwnode, "power-role", &cap_str);
++	ret = typec_get_fw_cap(&port->typec_caps, fwnode);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = typec_find_port_power_role(cap_str);
+-	if (ret < 0)
+-		return ret;
+-	port->typec_caps.type = ret;
+ 	port->port_type = port->typec_caps.type;
+ 	port->pd_supported = !fwnode_property_read_bool(fwnode, "pd-disable");
+ 
+@@ -5997,14 +5983,6 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
+ 	if (port->port_type == TYPEC_PORT_SRC)
+ 		return 0;
+ 
+-	/* Get the preferred power role for DRP */
+-	ret = fwnode_property_read_string(fwnode, "try-power-role", &cap_str);
+-	if (ret < 0)
+-		return ret;
+-
+-	port->typec_caps.prefer_role = typec_find_power_role(cap_str);
+-	if (port->typec_caps.prefer_role < 0)
+-		return -EINVAL;
+ sink:
+ 	port->self_powered = fwnode_property_read_bool(fwnode, "self-powered");
+ 
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 7ba45a97eeae..fdf737d48b3b 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -295,6 +295,9 @@ int typec_set_mode(struct typec_port *port, int mode);
+ 
+ void *typec_get_drvdata(struct typec_port *port);
+ 
++int typec_get_fw_cap(struct typec_capability *cap,
++		     struct fwnode_handle *fwnode);
++
+ int typec_find_pwr_opmode(const char *name);
+ int typec_find_orientation(const char *name);
+ int typec_find_port_power_role(const char *name);
+-- 
+2.33.1
+
