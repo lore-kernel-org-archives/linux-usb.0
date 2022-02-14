@@ -2,177 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E928EC433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6137C433F5
 	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 05:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235629AbiBNFLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Feb 2022 00:11:18 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56700 "EHLO
+        id S237091AbiBNFLU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 00:11:20 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:56694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232340AbiBNFLR (ORCPT
+        with ESMTP id S231872AbiBNFLR (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 00:11:17 -0500
+X-Greylist: delayed 586 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 13 Feb 2022 21:11:07 PST
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB6813F0E
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB2D13D4B
         for <linux-usb@vger.kernel.org>; Sun, 13 Feb 2022 21:11:07 -0800 (PST)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 9A4313200D18;
-        Mon, 14 Feb 2022 00:01:25 -0500 (EST)
+        by mailout.west.internal (Postfix) with ESMTP id 803A33200C14;
+        Mon, 14 Feb 2022 00:01:20 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 14 Feb 2022 00:01:26 -0500
+  by compute1.internal (MEProxy); Mon, 14 Feb 2022 00:01:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
         cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; bh=N7CnZt7oQOTzeliuU4eCrxvS5b8SqG
-        uKh8IM26cZztc=; b=YitHkN7OqwKeYSq7kXWoiXePBTpUcxD2HQUUxThzlWn7p+
-        iSVcrAaOFLpWMb7pILHGDqMmeErxw6Pfh1BzxnkS/u+3m9wQ7HGAVjU7Qi0KtM7s
-        n+KwYCLo5vhbn9alsquxGtm6Q5R8Om9thPcweJr378ImIEEh9hWWBrvG84+nDlE0
-        yhaUxyL8kRlC6eZl47PFJKkyPHpYM1/FvMzwBe95deMIxpyJwYOZ8yuAma90WNS6
-        ZOMUZOjCBDNUye/PM6701m34atV/PgdYMXEIBnCckSDtOQyBzEeH1TDSKM1SF4Hk
-        RVObUEHE5/9I65VhH+VuFEP/KilfRqAllBWtOnWg==
+        :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+         s=fm2; bh=P8ny0glPIbzXvv8K/3CaR5QyxbAhzVqg86FprJZW2OY=; b=HrjtF
+        zbFtZVMBbvBl1WkukQh9pKnGjuvx8S83wsDZBHbDizdi+BaKnGtiw9AVs1RcDHbQ
+        cpnqM0frDb0JG9vBq0rXNlxvrBW2gguiaQO1GHQalL3ZvtkYY3dGUb60xZe6L/DL
+        dGF31DNz7GD/Nt9aZRMVGK0IRPkADFqUovS+rjaZi9l+87SRonDoeTI0V4mMq3T8
+        6qj3J0aO0hM+pwySjfcw6VxlS0cU0z/iu6VB/s7vIk66DbGJPzrGHU1xr4UmxHBm
+        u5ehqfGeMw6jXjY7Kz09qFhbTi1cI/PQU08MhrCIrJACtlEqmdg4uUwATP3JbHAw
+        xGO1ExVPk0p5kVhGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=N7CnZt
-        7oQOTzeliuU4eCrxvS5b8SqGuKh8IM26cZztc=; b=BJj9PHmYngolB9Y0lEOvJ9
-        AlAzw42r7gEt2ZwrQTAWN0l1pbF22kHWzC8tKNSI/sMVWgTHLa8jSGLOptPT+aWc
-        jG4/4XdrhMUPTs/LZeMAgiF4bDhwsaoYEKyDbMMHZ2yWNetpR1iBZTld2mFqIBxl
-        opoHGSQq/IzB6NZkGm51SdwxAdlS6HuW4E7tbocNLkveI+qt5aI6ETpUZ+z58rxx
-        dU/40vMWJBKOuhF43W5dpDIcD9CQ8FauAKRUkzxD6Kfv1Gkl8T2TDjbgPDBDqma+
-        AkxebVnPMsb5il87xz99SfMkGi+B/aVqMjvgezRMFK3eqwEK2TRuhOgDxfUgTgBw
-        ==
-X-ME-Sender: <xms:JeIJYpICnhVMMFxc_ZU8D2JeAaybDvIc2ifR_ZPzWi5FNBAqELZZdg>
-    <xme:JeIJYlJgJG0fl_kgPElQfJYyfruMN9NQUArEVLefghkPWAoiyBgKR1h4Oc9DS3ysh
-    QC5NS5WSZPakBhL_w>
-X-ME-Received: <xmr:JeIJYhsH_wVb4V18RmhExWyLeRQvg1wnM6JNCuzsuqTUUtGAnU9ksY4BjKGsX1hVPcsXzEm5xHVEdyRPdOlJQR0MPp_6NeGTWMWBee1ylTKFu7fcLr4_Oe0cozJAP5qrrF4xzw>
+        :from:from:in-reply-to:message-id:mime-version:reply-to:sender
+        :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm2; bh=P8ny0glPIbzXvv8K/3CaR5QyxbAhz
+        Vqg86FprJZW2OY=; b=YjoyhXLgIod/mI8Bm2IY3DDStW4fn/mi0x2r5IP3ACNap
+        D4625rTKMn44UWhxRTV25tC1cOpb/b3AI+DoDaD8UXQwUgjcqMAUozNVJNv8VXp8
+        4FPbMVZKgCTTV1grcd1kKmqXTAFWp3MCUqLcvKtmMjVS/gN6ErO4W9UpLuG+YX4A
+        ymRZKyaksJ+Mf9thQ+uToTV15tT85vka1wXd5KMKUublBqPz1QyqONlBpAxrR9Nd
+        0oH81WVhx2BYfJ4CLYPncRr2RTMV7wVWGZHXOxxXe6p9ohzkLK/1s1tXNC40JBim
+        H6J9sloVcsjr0FPD7GJwCvdJ5bMvkY5Vd4xO4LSKQ==
+X-ME-Sender: <xms:H-IJYryh9mGueuqbIfZxv0vfpY0uLmcJvD7eUwMIxI5Y3fT5Utdl2g>
+    <xme:H-IJYjThl7SLS6eN22sgi76xWaKmDhaUumxfv3-tj0_iu5cj9wAUkExGRw880TXN5
+    oMJWnPTEXMFEQRE5w>
+X-ME-Received: <xmr:H-IJYlXzTwRZ72_Tndpss9iBqP9x5kPawh3kllkCD7B3AL9teh2wg8388I7yQeRb0ybXMJhQfN4J0XleRYO39ew5c_aG6ro-jpSv1n9l9uY_pTc6cALtTROsJ2pXxYCS5SqAzg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjedugdejkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepleeuleegtedtgffgueffveekhfdutdetiefgvefhtdfftdejgfetgeel
-    geegvddunecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
-    lhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:JeIJYqa0v-nRVLfuUCu9MpK-8QfEAbZZHzjqac_YhIqL2iroFgJgRg>
-    <xmx:JeIJYgbTOHxzf_x0TvgHYwXQYviwk9dzotePxpFKsE9GPKUJcGn6nw>
-    <xmx:JeIJYuDZNzCdHTDUI8-fdKOaQcwC5eDuYz4d8CVjtzyVhugZIE5TlA>
-    <xmx:JeIJYvzkX04F4cg5RAxNqCHQmMNnI3wQSQkP9NjXAW9g2Y_bywEXow>
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:H-IJYlhl6PeSJpP4xOAuXOmVs_BiYIK3CsXkwTLsQHnAPlDWJraFww>
+    <xmx:H-IJYtD6Y1I9V4wMu8u5QCAhfqnsFjkzyby2pLCTEudsq8i71XiLDw>
+    <xmx:H-IJYuJGjwBD7NtXNLPL5QZI4T0DC_YSB6kjWf5guyeHdedIoczS_Q>
+    <xmx:IOIJYo8SnXN4JX4hAMbY77twR3hVwqr-5Aft45a_3qqDisI_s5Ox4w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 14 Feb 2022 00:01:24 -0500 (EST)
+ 14 Feb 2022 00:01:19 -0500 (EST)
 From:   Samuel Holland <samuel@sholland.org>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Samuel Holland <samuel@sholland.org>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v3 2/4] dt-bindings: usb: Add WUSB3801 Type-C Port Controller
-Date:   Sun, 13 Feb 2022 23:01:15 -0600
-Message-Id: <20220214050118.61015-3-samuel@sholland.org>
+        Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v3 0/4] usb: typec: WUSB3801 devicetree bindings and driver
+Date:   Sun, 13 Feb 2022 23:01:13 -0600
+Message-Id: <20220214050118.61015-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220214050118.61015-1-samuel@sholland.org>
-References: <20220214050118.61015-1-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add devicetree support for the Will Semiconductor WUSB3801. This is a
-basic non-PD Type-C port controller.
+This series adds bindings and a driver for the Willsemi WUSB3801. This
+chip's bindings use the standard USB Type-C connector bindings, but the
+driver does not use the TCPM library, so a refactoring patch is included
+to avoid duplicating some fwnode parsing code.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Changes in v3:
+ - Leave the call to fw_devlink_purge_absent_suppliers in its original
+   place in the TCPM code. It is not needed by the new driver.
+ - Remove unused variable from TCPM function.
+ - Remove version info printout
 
-(no changes since v1)
+Changes in v2:
+ - Always put the return values from typec_find_* in a signed variable
+   for error checking.
+ - License the driver as GPL 2 only; probably best anyway as I used a
+   lot of other drivers/usb/typec code as inspiration
+ - Don't try to be clever; use `default` instead of `unreachable`
+ - Free the IRQ before unregistering the partner/port
 
- .../bindings/usb/willsemi,wusb3801.yaml       | 75 +++++++++++++++++++
- 1 file changed, 75 insertions(+)
+Samuel Holland (4):
+  dt-bindings: vendor-prefixes: Add willsemi
+  dt-bindings: usb: Add WUSB3801 Type-C Port Controller
+  usb: typec: Factor out non-PD fwnode properties
+  usb: typec: Support the WUSB3801 port controller
+
+ .../bindings/usb/willsemi,wusb3801.yaml       |  75 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/usb/typec/Kconfig                     |  10 +
+ drivers/usb/typec/Makefile                    |   1 +
+ drivers/usb/typec/class.c                     |  43 ++
+ drivers/usb/typec/tcpm/tcpm.c                 |  24 +-
+ drivers/usb/typec/wusb3801.c                  | 437 ++++++++++++++++++
+ include/linux/usb/typec.h                     |   3 +
+ 8 files changed, 572 insertions(+), 23 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
+ create mode 100644 drivers/usb/typec/wusb3801.c
 
-diff --git a/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml b/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
-new file mode 100644
-index 000000000000..c2b2243c7892
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/willsemi,wusb3801.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/willsemi,wusb3801.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: WUSB3801 Type-C port controller DT bindings
-+
-+description:
-+  The Will Semiconductor WUSB3801 is a USB Type-C port controller which
-+  supports role and plug orientation detection using the CC pins. It is
-+  compatible with the USB Type-C Cable and Connector Specification v1.2.
-+
-+maintainers:
-+  - Samuel Holland <samuel@sholland.org>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - willsemi,wusb3801
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  connector:
-+    type: object
-+    $ref: ../connector/usb-connector.yaml#
-+    description:
-+      The managed USB Type-C connector. Since WUSB3801 does not support
-+      Power Delivery, the node should have the "pd-disable" property.
-+
-+    properties:
-+      compatible:
-+        const: usb-c-connector
-+
-+    required:
-+      - pd-disable
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - connector
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      tcpc@60 {
-+        compatible = "willsemi,wusb3801";
-+        reg = <0x60>;
-+        interrupt-parent = <&gpio0>;
-+        interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
-+
-+        connector {
-+          compatible = "usb-c-connector";
-+          label = "USB-C";
-+          vbus-supply = <&otg_switch>;
-+          power-role = "dual";
-+          try-power-role = "sink";
-+          data-role = "dual";
-+          typec-power-opmode = "default";
-+          pd-disable;
-+        };
-+      };
-+    };
 -- 
 2.33.1
 
