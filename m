@@ -2,63 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FA1C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 18:45:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62894C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Feb 2022 18:59:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbiBNSpf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Feb 2022 13:45:35 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:39496 "EHLO
+        id S229567AbiBNS7T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Feb 2022 13:59:19 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:52750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiBNSpe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 13:45:34 -0500
-Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2C16E8D2
-        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 10:45:16 -0800 (PST)
-Received: from LanCloud
-DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru EFCE720730E6
-Received: from LanCloud
-Received: from LanCloud
-Received: from LanCloud
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH] usb: host: xhci-hub: drop redundant port register reads
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>
-References: <5ea9b08b-38a5-498b-8312-c64ad782318a@omp.ru>
- <Ygdbs5A/v/9rrdiX@kroah.com>
-Organization: Open Mobile Platform
-Message-ID: <521a9f16-3c34-b8ce-2020-87ec6fc9f983@omp.ru>
-Date:   Mon, 14 Feb 2022 21:44:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        with ESMTP id S229880AbiBNS7J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Feb 2022 13:59:09 -0500
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23301D227A;
+        Mon, 14 Feb 2022 10:58:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1644865131; x=1676401131;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=hqUWCkwFgLNSlm3+0KgS55gIZECqY05ZG+GhSPxmO5Y=;
+  b=x+ESaLuY55jFioNmD/65//hsgoxCcZuiwXKpY+HZB5NGZdhJ/d4QHtZV
+   e1Vnjwpj2soCiPvNcRDRJqtKQ86736VqdVx45oXDavnKVMcao9PVfHuTb
+   5QS7BvRkwNPtu2Fte086U3a/qNynCVh3b/uGKHT3XohIE/SKPTua+DVwq
+   g=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 14 Feb 2022 10:53:37 -0800
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2022 10:53:37 -0800
+Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Mon, 14 Feb 2022 10:53:16 -0800
+Received: from [10.110.117.25] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.922.19; Mon, 14 Feb
+ 2022 10:53:16 -0800
+Message-ID: <e4b18b77-ab33-bd70-c239-b009210c3864@quicinc.com>
+Date:   Mon, 14 Feb 2022 10:53:14 -0800
 MIME-Version: 1.0
-In-Reply-To: <Ygdbs5A/v/9rrdiX@kroah.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 1/2] usb: dwc3: Not set DWC3_EP_END_TRANSFER_PENDING in
+ ep cmd fails
 Content-Language: en-US
+To:     Daehwan Jung <dh10.jung@samsung.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        <quic_jackp@quicinc.com>, <Thinh.Nguyen@synopsys.com>
+References: <1644831438-125403-1-git-send-email-dh10.jung@samsung.com>
+ <CGME20220214094041epcas2p2ec37c252dd5f9508454e9449c95e6c7a@epcas2p2.samsung.com>
+ <1644831438-125403-2-git-send-email-dh10.jung@samsung.com>
+From:   Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <1644831438-125403-2-git-send-email-dh10.jung@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.11.198]
-X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
- LFEX1907.lancloud.ru (fd00:f066::207)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2/12/22 10:03 AM, Greg Kroah-Hartman wrote:
+Hi Daehwan,
 
->> In xhci_hub_control(), there are many port register readbacks in several
->> branches of the *switch* statement which get duplicated right after that
->> *switch* by reading back the port register once more -- which is done to
->> flush the posted writes. Remove the redundant reads inside that *switch*.
+On 2/14/2022 1:37 AM, Daehwan Jung wrote:
+> It always sets DWC3_EP_END_TRANSFER_PENDING in dwc3_stop_active_transfer
+> even if dwc3_send_gadget_ep_cmd fails. It can cause some problems like
+> skipping clear stall commmand or giveback from dequeue. We fix to set it
+> only when ep cmd success. Additionally, We clear DWC3_EP_TRANSFER_STARTED
+> for next trb to start transfer not update transfer.
 > 
-> Doing a read right after a write is good, perhaps the one after the
-> switch should be removed instead?
-
-   OK, hoping that the PORTPMSC writes don't need the PORTSC readbacks...
-   Looking a the git history, the readback after *switch* was redudant from the start... 
-
-> thanks,
+> Change-Id: I2e6b58acc99f385e467e8b639a3792a5e5f4d2bb
+> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+> ---
+>  drivers/usb/dwc3/gadget.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> greg k-h
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index 183b90923f51..3ad3bc5813ca 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -2044,6 +2044,12 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+>  				dwc3_gadget_move_cancelled_request(r,
+>  						DWC3_REQUEST_STATUS_DEQUEUED);
+>  
+> +			/* If ep cmd fails, then force to giveback cancelled requests here */
+> +			if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING)) {
+> +				dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
+> +				dwc3_gadget_ep_cleanup_cancelled_requests(dep);
+> +			}
+> +
+What I realized when looking at the endxfer command fail due to TIMEOUT,
+was that it would lead to subsequent controller halt failures as well
+(during pullup disable case).  It might not be safe to forcefully unmap
+the request buffers if the controller may still be "working" on it.
 
-MBR, Sergey
+I found some interesting quirks with regards to endxfer timeouts as
+well, which I'm trying to get some more feedback on [1].  What is the
+end issue being seen that requires this change? (we may have run into
+the same issue as well.
 
+[1] -
+https://lore.kernel.org/linux-usb/20220203080017.27339-1-quic_wcheng@quicinc.com/
+
+Thanks
+Wesley Cheng
+>  			dep->flags &= ~DWC3_EP_WAIT_TRANSFER_COMPLETE;
+>  
+>  			goto out;
+> @@ -3645,7 +3651,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
+>  
+>  	if (!interrupt)
+>  		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
+> -	else
+> +	else if (!ret)
+>  		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
+>  }
+>  
