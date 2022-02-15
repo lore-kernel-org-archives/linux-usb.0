@@ -2,113 +2,117 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 796C2C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 17:55:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6B27C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 18:03:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237145AbiBORzT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 12:55:19 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41448 "EHLO
+        id S242806AbiBOSDb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 13:03:31 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:38642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233741AbiBORzT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 12:55:19 -0500
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EB3FEB34
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 09:55:08 -0800 (PST)
-Received: by mail-il1-x12d.google.com with SMTP id z7so15420080ilb.6
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 09:55:08 -0800 (PST)
+        with ESMTP id S241492AbiBOSDZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 13:03:25 -0500
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D8FE108199
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:03:14 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id z22so813223edd.1
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:03:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=11TTvYS0k6LfV7xNa4WvisJePciPnHEL/Fmk4Jio8z8=;
-        b=YVwlmBEkCqlHds72W2w+Ed9UWX2W0ynjWOpTRpsb9s5aVJwsy2f6rrbyAKW+J1Kp1C
-         KeBT2Io2ki5FzrhBGgcdXM/NKYi+KkaPKbJ+mfqBh4A5ygDXUhxw5OAi80283QibccE1
-         XhL2vQCq4WOt4NhC0nHObNEEhCpKVGMdUybN8=
+        bh=BJ0o1LbbbPkL3ONTf+eFHsJYmd8V+bgTcEocoTANRFw=;
+        b=sW/IrqynFA4NS3qFxuwjep2QjFIVuJ33y6ChTHuc6kVIXABimZ4MoSThEc+lCmAYkF
+         QdBLi392Bjy1xxJne1bvdyh8kk9bvXNN5TA2zQkMu+HmuX6ov2GmhuZFc9cWapiJT90B
+         OrGl5Nn8/Vi4i4T0fhwr9Lj0ubO1UeSL1sq78Q7k+i5GsyeAO0XqClla1z/wu7nGi65O
+         KRlcYKptA68Jn2UTBDy52hewCJiWdvQo8DtOcj0s7RJ5yi09JHD5BUhWHzLdmz5PWAdp
+         XDJPuuvcRinWOM7vqOFBGflJQ+TBI3cu38sdgeh/my2E4byQuZc6c9pSipkYqKu7oXFH
+         hvWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=11TTvYS0k6LfV7xNa4WvisJePciPnHEL/Fmk4Jio8z8=;
-        b=mtAxXMcdgMsZgG/jwuoQ5P4Loq9CMhNGELWmBRSuEljIsGsbZ55GCIMpAWqdVb+iIJ
-         nXW93eUPFkAKxAV+zFI+f7er38ZxAO7d91+ZDjMN48qC0IVJOZgG07mHVxNE3YOmam1g
-         H6DvM/sVm7WCfPuLrdrMP/Eiy/1ltEHIF3n+C1/1L6bNj9Pxv6O4g+FObC5YSw4gRh8i
-         nv57gg/aXsNHJsEQ1MLYon0Cn02hOtZaGv2uY0jMAQMx5if51iUoq6GWciT94e3HynQw
-         8lSaV3g2uHviA+O1151UmPV/RKMS8GB9T3bFcAGZ51BHSAHvAD7SRpeyn2YXJi6uFvTw
-         8rxg==
-X-Gm-Message-State: AOAM531qBZOQJ2L2TupFn3DYK1Nkkxmfhu9f+YdkWi6iHTbFzxXNhGDa
-        VdZQSJtS6aiCwO4wCF6VXcNwmN09ppni+A==
-X-Google-Smtp-Source: ABdhPJwcuFBeXHrguZxtvTwasWl5EJmZDkGHWQx6XBcgz0rRQCJQdh9hViLjdy+csLflAx9pTpl0eA==
-X-Received: by 2002:a05:6e02:198d:: with SMTP id g13mr147032ilf.274.1644947707481;
-        Tue, 15 Feb 2022 09:55:07 -0800 (PST)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com. [209.85.166.174])
-        by smtp.gmail.com with ESMTPSA id i17sm19382759ilq.19.2022.02.15.09.55.06
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Feb 2022 09:55:06 -0800 (PST)
-Received: by mail-il1-f174.google.com with SMTP id z7so15420014ilb.6
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 09:55:06 -0800 (PST)
-X-Received: by 2002:a05:6e02:1bed:: with SMTP id y13mr141154ilv.27.1644947705606;
- Tue, 15 Feb 2022 09:55:05 -0800 (PST)
+        bh=BJ0o1LbbbPkL3ONTf+eFHsJYmd8V+bgTcEocoTANRFw=;
+        b=Nv+cBL+l/hJmiiWLymjC5sH66n2PbKHDdYqL/X/BKu7A0y+aQO1tsmxWAQAh+fSolE
+         202xjEOOBX/4Xarcxc+3MceH/eKbRMJbSbKpJS4wmhy15pbLDVNlaqj6q5tnMjGDW9tE
+         Xbo0zMUG/uSxbzC266QxYI/AKbuRjzsXSXUGTpz4/D7LJWac1rBq5GmWqf0zbBBS6AIK
+         HxQxIZAq5pUqeHZhHC7rsggfU4wFLjzAso3c14Qo4z0tnXX1blvYQfWLJIIpc8hUpjBC
+         2sHkOHmFGP6eFNYUX50q0CINPM1darAC0DaBL8Oa2qjG8MbP94bo6CflQweDBPLxBdji
+         SRIg==
+X-Gm-Message-State: AOAM530YzZL6orn2d7830dNYVSoddTtjjfH9Jo2VHczVFOwfwb5uX/1Z
+        d9MaZ6V0yBOB/epzbJfo2d4kZJ+VVRFfowMTQJeVhg==
+X-Google-Smtp-Source: ABdhPJzrv1k7qz2tLrhupOb2QFbnLukBkVNPs6DNVFLv+e/UrsDCFpiMzzQDBNpQf+dfSAlyaAAfxGsGDq9kgl1HFgo=
+X-Received: by 2002:a05:6402:22cf:: with SMTP id dm15mr83839edb.327.1644948192404;
+ Tue, 15 Feb 2022 10:03:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20220119204345.3769662-1-mka@chromium.org> <20220119124327.v20.5.Ie0d2c1214b767bb5551dd4cad38398bd40e4466f@changeid>
- <YgJMkFAxjazkUDZd@kroah.com> <YgLCswtX/0THkzXT@google.com>
-In-Reply-To: <YgLCswtX/0THkzXT@google.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 15 Feb 2022 09:54:54 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WMP8M5HTRNv9_scvrytbpE0iBdUack=XaHoypGNLJeVA@mail.gmail.com>
-Message-ID: <CAD=FV=WMP8M5HTRNv9_scvrytbpE0iBdUack=XaHoypGNLJeVA@mail.gmail.com>
-Subject: Re: [PATCH v20 5/5] arm64: dts: qcom: sc7180-trogdor: Add nodes for
- onboard USB hub
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+References: <20220214184104.1710107-1-dlatypov@google.com> <CAGS_qxomM_mGzvFokZH5dnf7L3kCitB3dWD8JH56fPcDSb6PeA@mail.gmail.com>
+ <YgtLFwORwGggQ7M2@lahna>
+In-Reply-To: <YgtLFwORwGggQ7M2@lahna>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Tue, 15 Feb 2022 10:03:01 -0800
+Message-ID: <CAGS_qxrHUaCWNZ_sbTkhZvM9=BMN-ZH1LpMXCzxz=FbEeSx+Pg@mail.gmail.com>
+Subject: Re: [PATCH] thunderbolt: test: get running under UML, add kunitconfig
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     brendanhiggins@google.com, davidgow@google.com,
+        linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
-
-On Tue, Feb 8, 2022 at 11:21 AM Matthias Kaehlcke <mka@chromium.org> wrote:
+On Mon, Feb 14, 2022 at 10:41 PM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
 >
-> On Tue, Feb 08, 2022 at 11:57:20AM +0100, Greg Kroah-Hartman wrote:
-> > On Wed, Jan 19, 2022 at 12:43:45PM -0800, Matthias Kaehlcke wrote:
-> > > Add nodes for the onboard USB hub on trogdor devices. Remove the
-> > > 'always-on' property from the hub regulator, since the regulator
-> > > is now managed by the onboard_usb_hub driver.
+> Hi Daniel,
+>
+> On Mon, Feb 14, 2022 at 06:39:25PM -0800, Daniel Latypov wrote:
+> > On Mon, Feb 14, 2022 at 10:41 AM Daniel Latypov <dlatypov@google.com> wrote:
 > > >
-> > > Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
+> > > These tests didn't work under the normal `kunit.py run` command since
+> > > they require CONFIG_PCI=y, which could not be set on ARCH=um.
+> > >
+> > > Commit 68f5d3f3b654 ("um: add PCI over virtio emulation driver") lets us
+> > > do so. To make it so people don't have to figure out how to do so, we
+> > > add a drivers/thunderbolt/.kunitconfig.
+> > >
+> > > Can now run these tests using
+> > > $ ./tools/testing/kunit/kunit.py run --kunitconfig=drivers/thunderbolt
+> > >
+> > > Potentially controversial bits:
+> > > 1. this .kunitconfig is UML-specific, can't do this for example
+> > > $ ./tools/testing/kunit/kunit.py run --arch=x86_64 --kunitconfig=drivers/thunderbolt
+> > > 2. this removes the manual call to __kunit_test_suites_init(), which
+> > >    allowed us to control exactly when the tests got run.
 > >
-> > No DT maintainer approval yet?  :(
+> > kernel-test-robot points out something I had forgotten.
+> > Doing this prevents us from being able to build this test as a module.
+> >
+> > kunit_test_suites() defines an init_module() which conflicts with the
+> > existing ones.
+> >
+> > There's some relevant discussion about reworking how kunit modules
+> > work here, https://lore.kernel.org/linux-kselftest/e5fa413ed59083ca63f3479d507b972380da0dcf.camel@codeconstruct.com.au/
+> >
+> > So I think we have two options for this patch:
+> > a) proceed, but disable building the test as a module for now (tristate => bool)
+> > b) wait on this patch until kunit module support is refactored
+> >
+> > Basically the question is: does this slightly easier way of running
+> > the test seem worth losing the ability to test as a module in the
+> > short-term?
 >
-> Bjorn usually just picks DT changes into the QCOM tree when they are
-> ready, so I wouldn't interpret anything into the lack of an explicit
-> Ack.
+> I would like to keep the module option available.
+>
+> For me, I can just continue running this under QEMU for now so let's
+> wait until the reworking has been done. Thanks for looking into this,
+> though! :)
 
-Right, so the expectation is that this patch wouldn't land through the
-USB tree but would instead land through the Qualcomm tree, probably a
-revision after the code lands in the USB tree to avoid dependency
-problems.
+Sounds good.
+We can treat this patch as just an example of what people can manually
+do if they want to run tests under UML.
 
--Doug
+And I'll also look to this when I inevitably forget how to enable
+CONFIG_PCI=y on UML again.
+
+Thanks!
+Daniel
