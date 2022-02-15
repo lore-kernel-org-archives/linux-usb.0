@@ -2,207 +2,211 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D84C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 06:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0339C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 06:57:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234600AbiBOGmA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 01:42:00 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52074 "EHLO
+        id S234646AbiBOG5c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 01:57:32 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:51046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234583AbiBOGl7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 01:41:59 -0500
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830F8C24B1
-        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 22:41:49 -0800 (PST)
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20220215064147epoutp01755789525e1a6448947d7ab09758ec68~T4nsi1EzC2543225432epoutp01G
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 06:41:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20220215064147epoutp01755789525e1a6448947d7ab09758ec68~T4nsi1EzC2543225432epoutp01G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1644907307;
-        bh=uYuVoc8TLG5pnyaXF/S+/Ss83yCwqhKJwuUxsFkXcD4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=OZOGjYPbRrM1u60ro5V+x1GJI2VYxsqRqqk667N16j9+bLu1bLE39wuNW7kX2+4TM
-         5w+46K9FrCP4IjF5dU9LubU6A6nuNASsSKEKUlkdRyejXaoFj3/c6CSSC+twaSAZQX
-         w+so1Q/0jbwhUuytDQijuqPFg5SZlAi+7/FA2di4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
-        20220215064147epcas2p2ad99f62b76f65789911defc7de98304a~T4nsKogGf2025620256epcas2p2Y;
-        Tue, 15 Feb 2022 06:41:47 +0000 (GMT)
-Received: from epsmges2p2.samsung.com (unknown [182.195.36.69]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 4JyWhm1XXqz4x9Q3; Tue, 15 Feb
-        2022 06:41:44 +0000 (GMT)
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-        epsmges2p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        1A.52.35137.16A4B026; Tue, 15 Feb 2022 15:38:25 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-        20220215064139epcas2p4669383cd1a2937ce5884335856be457d~T4nlaJU6z2843428434epcas2p4N;
-        Tue, 15 Feb 2022 06:41:39 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20220215064139epsmtrp20c7fd16c90eb1427795db762e37dc096~T4nlYtDWi1742317423epsmtrp2D;
-        Tue, 15 Feb 2022 06:41:39 +0000 (GMT)
-X-AuditID: b6c32a46-da1ff70000018941-18-620b4a612069
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        80.53.08738.32B4B026; Tue, 15 Feb 2022 15:41:39 +0900 (KST)
-Received: from ubuntu (unknown [12.36.155.120]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20220215064139epsmtip14d824f0e0cbc8c6cd20bd524ae674f66~T4nlPr6Di1847318473epsmtip1k;
-        Tue, 15 Feb 2022 06:41:39 +0000 (GMT)
-Date:   Tue, 15 Feb 2022 15:39:25 +0900
-From:   Jung Daehwan <dh10.jung@samsung.com>
-To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "quic_wcheng@quicinc.com" <quic_wcheng@quicinc.com>,
-        "quic_jackp@quicinc.com" <quic_jackp@quicinc.com>
-Subject: Re: [PATCH v2 1/2] usb: dwc3: Not set DWC3_EP_END_TRANSFER_PENDING
- in ep cmd fails
-Message-ID: <20220215063925.GC144890@ubuntu>
+        with ESMTP id S234636AbiBOG5b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 01:57:31 -0500
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46979FCD
+        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 22:57:21 -0800 (PST)
+Received: by mail-il1-f197.google.com with SMTP id m3-20020a056e02158300b002b6e3d1f97cso12827682ilu.19
+        for <linux-usb@vger.kernel.org>; Mon, 14 Feb 2022 22:57:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=0jdDKbuvs/SS6olnThggif8FOrGf5IWxmYLpjOqcz4o=;
+        b=ow1LulhZEgvzB02eWLLCsXYqnhsnxboeOUgamrWaD4gJefROsGxrXvuvSIJa3Z3Ikl
+         UCLXISRFbBtC3wih53n8dGJssV6grP4/t0X7DCXHC1U0AVdb60OMqhye2o+bZKK9Fg8t
+         HY0V9PLbLMzeGjkUoLigUVtlbng83Y5+2DL4TgqgEFgk1Vk1/gqtoQosqRnI3jvngx7B
+         OG/tKJGqgBjpbemuf/KxYfXZ3fF2Q6UR6Lcu2AwDMY35tJfB/Ve6CdgPa3a0EaJajs51
+         kL0gqwPc5mTlikgpJg4o5XSL5YhomWLmuvXmLcrXkFOwfCM6TFCnaZInbNMS4odpzcZu
+         5haA==
+X-Gm-Message-State: AOAM530KGW9fwVhrq7aabsy580bZB6d1Rg8d6mBEWbMA7SBPOyFZ4bUV
+        AWigw8RsFsSmDNtb9wUOE1SaPsI315NPjUc5UtwkeqglYwOG
+X-Google-Smtp-Source: ABdhPJwPY5C2tzqo3GvpPosiWN5JAbGP4DoKyvBGTpASipkz5orT4YqHnRocS2wnGaBgPpG6CG75Ik3QQmiVwMoFSx6bnpIJgCEb
 MIME-Version: 1.0
-In-Reply-To: <ff604504-00df-0c1b-673e-892e42737f7a@synopsys.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOJsWRmVeSWpSXmKPExsWy7bCmmW6iF3eSwcE1JhbH2p6wWzQvXs9m
-        cXnXHDaLRctamS12/VvEZLFpdx+rxaoFB9gd2D02repk89g/dw27x8Q9dR5b9n9m9Pi8SS6A
-        NSrbJiM1MSW1SCE1Lzk/JTMv3VbJOzjeOd7UzMBQ19DSwlxJIS8xN9VWycUnQNctMwfoCiWF
-        ssScUqBQQGJxsZK+nU1RfmlJqkJGfnGJrVJqQUpOgXmBXnFibnFpXrpeXmqJlaGBgZEpUGFC
-        dsadCZ+YCuZJVPTsvsDWwHhTuIuRk0NCwETi3/mnTF2MXBxCAjsYJW7f3MEI4XxilPi/4xAb
-        SJWQwGdGiWsXA2A6eqZfhCraxSjxfksjK4TzhFGi4fBOsA4WAVWJN1c/MYLYbAJaEvd+nGAG
-        sUUEdCQOnDgPto9ZYDmTRMf5k2AJYYFYiQvb2sCaeYGKJrVMYIawBSVOznzCAmJzCjhITOh9
-        ARTn4BAVUJF4dbAeZI6EwF92iTOHDzNDnOcisffmKlYIW1ji1fEt7BC2lMTnd3vZIOxiiV2f
-        WpkgmhsYJRofnIBqNpaY9awd7GpmgQyJvoZpLCDLJASUJY7cYoEI80l0HP7LDhHmlehoE4Lo
-        VJaYfnkC1FpJiYOvz0FN9JD43bsIGr69TBIrrvYyT2CUn4XktVlItkHYOhILdn9imwW0gllA
-        WmL5Pw4IU1Ni/S79BYysqxjFUguKc9NTi40KjOCxnZyfu4kRnEK13HYwTnn7Qe8QIxMH4yFG
-        CQ5mJRHeuLOcSUK8KYmVValF+fFFpTmpxYcYTYERNZFZSjQ5H5jE80riDU0sDUzMzAzNjUwN
-        zJXEeb1SNiQKCaQnlqRmp6YWpBbB9DFxcEo1MO22a/eaFWxumpoUcWmBsoP7dVNehS8L5opo
-        XZh6t8fqhIl94oSbE670Ch7+tUrjB+fEsz4LXD3LOj8oLxTV5X2ttGtHaJOqgPlEnn0dL223
-        8/XFb77j/jvog8rJ1abd7zco//vOv9rS/FHZ5xVPJJqXX9uzjDXhzzxlpfqoNbc2/Stwc5Ey
-        W7U7YFX0FMuiqJmcX3wiAgQm9JYf/nOyI97XRXLJO5XAzbZRdhqXerwfbgmcZinKsZir5dL+
-        yV1FaUq1J9tYNCX2/lKWeRFiEh3w7Y75N+dNUnvZlsZuVGu6Iq+W9uU+pwNfg/1MBvOPz1LC
-        X26YkLI79O2yuSlxBR1eMXfCf8vfl5GsvqfwUImlOCPRUIu5qDgRAMUnHnMqBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWy7bCSnK6yN3eSwZ8jGhbH2p6wWzQvXs9m
-        cXnXHDaLRctamS12/VvEZLFpdx+rxaoFB9gd2D02repk89g/dw27x8Q9dR5b9n9m9Pi8SS6A
-        NYrLJiU1J7MstUjfLoErY/LKS4wF90QrVvz/xNTAuEmwi5GTQ0LARKJn+kXGLkYuDiGBHYwS
-        Hx+9Y4RISEosnXuDHcIWlrjfcoQVougRo8SxfavAEiwCqhJvrn4Ca2AT0JK49+MEM4gtIqAj
-        ceDEeSaQBmaBlUwSU7vmsoIkhAViJS5sa2MDsXmBiia1TGCGmNrLJLH+1ERWiISgxMmZT1hA
-        bGagqTf+vQSaxAFkS0ss/8cBEuYUcJCY0PuCGSQsKqAi8epg/QRGwVlImmchaZ6F0LyAkXkV
-        o2RqQXFuem6xYYFRXmq5XnFibnFpXrpecn7uJkZwDGhp7WDcs+qD3iFGJg7GQ4wSHMxKIrxx
-        ZzmThHhTEiurUovy44tKc1KLDzFKc7AoifNe6DoZLySQnliSmp2aWpBaBJNl4uCUamDKYLP9
-        Oql3YtYdKdOEW73hXAfVd8lNemW5vdBnJ4PJpzdN5f29Yq0r+z8qduzk1VZgtPoUuM5Lep78
-        Fkdjb9FrqtbNmxTmf91dUj7ft4iRcVYyixrr+pnPJGOlBP5+4Tqo5nXQWnST1TTXe0L/62Zf
-        jNtneH3bruD1XE4/Ol6wab+sYeX1LDytbHCvW2bXujt7SqPD1wl3d6/L9DCJmPzV4uapQ9VL
-        n+efWh4TPnft440dzzwZzLae1tdStd6yfc3DkxOX5S2SYrTQe8Qhyvn4XtLE49f5HBbsSLGr
-        2Ko77+JRC8PfTY5rn59MzvT4KLq5KKloZUxnd+fEwv6f3h23Fj79lKHx+/x6pVyxFR+VWIoz
-        Eg21mIuKEwFJTdE08AIAAA==
-X-CMS-MailID: 20220215064139epcas2p4669383cd1a2937ce5884335856be457d
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_e8880_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5
-References: <1644836933-141376-1-git-send-email-dh10.jung@samsung.com>
-        <CGME20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5@epcas2p1.samsung.com>
-        <1644836933-141376-2-git-send-email-dh10.jung@samsung.com>
-        <ff604504-00df-0c1b-673e-892e42737f7a@synopsys.com>
+X-Received: by 2002:a92:680b:: with SMTP id d11mr1628582ilc.74.1644908240998;
+ Mon, 14 Feb 2022 22:57:20 -0800 (PST)
+Date:   Mon, 14 Feb 2022 22:57:20 -0800
+In-Reply-To: <00000000000006b92e05d6ee4fce@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000064956605d8090bd5@google.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in ath9k_hif_usb_reg_in_cb (3)
+From:   syzbot <syzbot+b05dabaed0b1f0b0a5e4@syzkaller.appspotmail.com>
+To:     ath9k-devel@qca.qualcomm.com, davem@davemloft.net, kuba@kernel.org,
+        kvalo@kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_e8880_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+syzbot has found a reproducer for the following issue on:
 
-Hi Thinh,
+HEAD commit:    4378e427f705 usbip: vudc: Make use of the helper macro LIS..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1565305a700000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=83e40899a8923e35
+dashboard link: https://syzkaller.appspot.com/bug?extid=b05dabaed0b1f0b0a5e4
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13a352f2700000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=162e878c700000
 
-On Mon, Feb 14, 2022 at 06:44:33PM +0000, Thinh Nguyen wrote:
-> Hi,
-> 
-> Daehwan Jung wrote:
-> > It always sets DWC3_EP_END_TRANSFER_PENDING in dwc3_stop_active_transfer
-> > even if dwc3_send_gadget_ep_cmd fails. It can cause some problems like
-> 
-> How does it fail? Timed out?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b05dabaed0b1f0b0a5e4@syzkaller.appspotmail.com
 
-Yes, timed out.
-> 
-> > skipping clear stall commmand or giveback from dequeue. We fix to set it
-> > only when ep cmd success. Additionally, We clear DWC3_EP_TRANSFER_STARTED
-> > for next trb to start transfer not update transfer.
-> 
-> We shouldn't do this. Things will be out of sync. It may work for 1
-> scenario, but it won't work for others.
-> 
-> Please help me understand a few things:
-> 
-> 1) What is the scenario that triggers this? Is it random?
-> 
-ep cmd timeout occurs on dequeue request from user side. End Transfer command
-would be sent in dwc3_stop_active transfer.
+usb 1-1: ath: unknown panic pattern!
+==================================================================
+BUG: KASAN: use-after-free in instrument_atomic_read include/linux/instrumented.h:71 [inline]
+BUG: KASAN: use-after-free in atomic_read include/linux/atomic/atomic-instrumented.h:27 [inline]
+BUG: KASAN: use-after-free in refcount_read include/linux/refcount.h:147 [inline]
+BUG: KASAN: use-after-free in skb_unref include/linux/skbuff.h:1098 [inline]
+BUG: KASAN: use-after-free in kfree_skb_reason+0x33/0x400 net/core/skbuff.c:772
+Read of size 4 at addr ffff888118b6be9c by task syz-executor056/1278
 
-> 2) Are there other traffics pending while issuing the End Transfer
-> command? If so, what transfer type(s)?
-> 
-I haven't checked it yet. 
+CPU: 1 PID: 1278 Comm: syz-executor056 Not tainted 5.17.0-rc4-syzkaller-00061-g4378e427f705 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ print_address_description.constprop.0.cold+0x8d/0x336 mm/kasan/report.c:255
+ __kasan_report mm/kasan/report.c:442 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:459
+ check_region_inline mm/kasan/generic.c:183 [inline]
+ kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
+ instrument_atomic_read include/linux/instrumented.h:71 [inline]
+ atomic_read include/linux/atomic/atomic-instrumented.h:27 [inline]
+ refcount_read include/linux/refcount.h:147 [inline]
+ skb_unref include/linux/skbuff.h:1098 [inline]
+ kfree_skb_reason+0x33/0x400 net/core/skbuff.c:772
+ kfree_skb include/linux/skbuff.h:1114 [inline]
+ ath9k_hif_usb_reg_in_cb+0x4c2/0x630 drivers/net/wireless/ath/ath9k/hif_usb.c:771
+ __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1670
+ usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1747
+ dummy_timer+0x11f9/0x32b0 drivers/usb/gadget/udc/dummy_hcd.c:1987
+ call_timer_fn+0x1a5/0x6b0 kernel/time/timer.c:1421
+ expire_timers kernel/time/timer.c:1466 [inline]
+ __run_timers.part.0+0x67c/0xa30 kernel/time/timer.c:1734
+ __run_timers kernel/time/timer.c:1715 [inline]
+ run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1747
+ __do_softirq+0x288/0x9a5 kernel/softirq.c:558
+ invoke_softirq kernel/softirq.c:432 [inline]
+ __irq_exit_rcu+0x113/0x170 kernel/softirq.c:637
+ irq_exit_rcu+0x5/0x20 kernel/softirq.c:649
+ sysvec_apic_timer_interrupt+0x40/0xc0 arch/x86/kernel/apic/apic.c:1097
+ asm_sysvec_apic_timer_interrupt+0x12/0x20 arch/x86/include/asm/idtentry.h:638
+RIP: 0033:0x7f65f5afb6ca
+Code: 83 ff 03 74 3b 48 83 ec 28 b8 fa ff ff ff 83 ff 02 49 89 ca 0f 44 f8 64 8b 04 25 18 00 00 00 85 c0 75 2d b8 e6 00 00 00 0f 05 <89> c2 f7 da 3d 00 f0 ff ff b8 00 00 00 00 0f 47 c2 48 83 c4 28 c3
+RSP: 002b:00007ffd489cd250 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 000000000002e7e7 RCX: 00007f65f5afb6ca
+RDX: 00007ffd489cd290 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000008 R08: 00000000000000c0 R09: 00007ffd489f0080
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffd489cd2e0
+R13: 00007ffd489cd340 R14: 0000000000000002 R15: 431bde82d7b634db
+ </TASK>
 
-> 3) Have you tried increasing the timeout?
-> 
-No, I haven't.
-> BR,
-> Thinh
-> 
+Allocated by task 69:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:45 [inline]
+ set_alloc_info mm/kasan/common.c:436 [inline]
+ __kasan_slab_alloc+0x66/0x80 mm/kasan/common.c:469
+ kasan_slab_alloc include/linux/kasan.h:260 [inline]
+ slab_post_alloc_hook mm/slab.h:732 [inline]
+ slab_alloc_node mm/slub.c:3230 [inline]
+ kmem_cache_alloc_node+0x25e/0x4b0 mm/slub.c:3266
+ __alloc_skb+0x215/0x340 net/core/skbuff.c:414
+ alloc_skb include/linux/skbuff.h:1158 [inline]
+ ath9k_hif_usb_alloc_reg_in_urbs drivers/net/wireless/ath/ath9k/hif_usb.c:964 [inline]
+ ath9k_hif_usb_alloc_urbs+0x91d/0x1040 drivers/net/wireless/ath/ath9k/hif_usb.c:1023
+ ath9k_hif_usb_dev_init drivers/net/wireless/ath/ath9k/hif_usb.c:1109 [inline]
+ ath9k_hif_usb_firmware_cb+0x148/0x530 drivers/net/wireless/ath/ath9k/hif_usb.c:1242
+ request_firmware_work_func+0x12c/0x230 drivers/base/firmware_loader/main.c:1022
+ process_one_work+0x9ac/0x1650 kernel/workqueue.c:2307
+ worker_thread+0x657/0x1110 kernel/workqueue.c:2454
+ kthread+0x2ef/0x3a0 kernel/kthread.c:377
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
 
-This issue occurs very rarely on customer. I only have restricted
-information. That's why I've been trying to reproduce it.
+Freed by task 1278:
+ kasan_save_stack+0x1e/0x40 mm/kasan/common.c:38
+ kasan_set_track+0x21/0x30 mm/kasan/common.c:45
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:370
+ ____kasan_slab_free mm/kasan/common.c:366 [inline]
+ ____kasan_slab_free+0x102/0x150 mm/kasan/common.c:328
+ kasan_slab_free include/linux/kasan.h:236 [inline]
+ slab_free_hook mm/slub.c:1728 [inline]
+ slab_free_freelist_hook mm/slub.c:1754 [inline]
+ slab_free mm/slub.c:3509 [inline]
+ kmem_cache_free+0xd5/0x400 mm/slub.c:3526
+ kfree_skbmem+0xef/0x1b0 net/core/skbuff.c:700
+ __kfree_skb net/core/skbuff.c:757 [inline]
+ kfree_skb_reason net/core/skbuff.c:776 [inline]
+ kfree_skb_reason+0x145/0x400 net/core/skbuff.c:770
+ kfree_skb include/linux/skbuff.h:1114 [inline]
+ ath9k_htc_rx_msg+0x1ed/0xb70 drivers/net/wireless/ath/ath9k/htc_hst.c:451
+ ath9k_hif_usb_reg_in_cb+0x1ac/0x630 drivers/net/wireless/ath/ath9k/hif_usb.c:740
+ __usb_hcd_giveback_urb+0x2b0/0x5c0 drivers/usb/core/hcd.c:1670
+ usb_hcd_giveback_urb+0x367/0x410 drivers/usb/core/hcd.c:1747
+ dummy_timer+0x11f9/0x32b0 drivers/usb/gadget/udc/dummy_hcd.c:1987
+ call_timer_fn+0x1a5/0x6b0 kernel/time/timer.c:1421
+ expire_timers kernel/time/timer.c:1466 [inline]
+ __run_timers.part.0+0x67c/0xa30 kernel/time/timer.c:1734
+ __run_timers kernel/time/timer.c:1715 [inline]
+ run_timer_softirq+0xb3/0x1d0 kernel/time/timer.c:1747
+ __do_softirq+0x288/0x9a5 kernel/softirq.c:558
 
-Wesley may have run into same issue and you can see this issue in detail.
-https://protect2.fireeye.com/v1/url?k=9d423b69-fc3fd32e-9d43b026-74fe485fff30-77a099b52659410d&q=1&e=20b4d9f5-2599-4f57-8b6a-7c4ec167d228&u=https%3A%2F%2Flore.kernel.org%2Flinux-usb%2F20220203080017.27339-1-quic_wcheng%40quicinc.com%2F
+The buggy address belongs to the object at ffff888118b6bdc0
+ which belongs to the cache skbuff_head_cache of size 232
+The buggy address is located 220 bytes inside of
+ 232-byte region [ffff888118b6bdc0, ffff888118b6bea8)
+The buggy address belongs to the page:
+page:ffffea000462dac0 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x118b6b
+flags: 0x200000000000200(slab|node=0|zone=2)
+raw: 0200000000000200 0000000000000000 dead000000000001 ffff8881003d3640
+raw: 0000000000000000 00000000000c000c 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0x12cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY), pid 1170, ts 8677100351, free_ts 0
+ prep_new_page mm/page_alloc.c:2434 [inline]
+ get_page_from_freelist+0x122d/0x2940 mm/page_alloc.c:4165
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5389
+ alloc_pages+0x1aa/0x310 mm/mempolicy.c:2271
+ alloc_slab_page mm/slub.c:1799 [inline]
+ allocate_slab+0x27f/0x3e0 mm/slub.c:1944
+ new_slab mm/slub.c:2004 [inline]
+ ___slab_alloc+0xc12/0x1450 mm/slub.c:3018
+ __slab_alloc.constprop.0+0x4d/0xa0 mm/slub.c:3105
+ slab_alloc_node mm/slub.c:3196 [inline]
+ kmem_cache_alloc_node+0x397/0x4b0 mm/slub.c:3266
+ __alloc_skb+0x215/0x340 net/core/skbuff.c:414
+ alloc_skb include/linux/skbuff.h:1158 [inline]
+ alloc_uevent_skb+0x7b/0x210 lib/kobject_uevent.c:290
+ uevent_net_broadcast_untagged lib/kobject_uevent.c:326 [inline]
+ kobject_uevent_net_broadcast lib/kobject_uevent.c:409 [inline]
+ kobject_uevent_env+0xadf/0x1600 lib/kobject_uevent.c:593
+ kobject_synth_uevent+0x701/0x850 lib/kobject_uevent.c:208
+ store_uevent+0x12/0x20 kernel/module.c:1166
+ module_attr_store+0x50/0x80 kernel/params.c:919
+ sysfs_kf_write+0x110/0x160 fs/sysfs/file.c:136
+ kernfs_fop_write_iter+0x3f8/0x610 fs/kernfs/file.c:296
+ call_write_iter include/linux/fs.h:2074 [inline]
+ new_sync_write+0x431/0x660 fs/read_write.c:503
+page_owner free stack trace missing
 
-Best Regards,
-Jung Daehwan
-> 
-> > 
-> > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> > ---
-> >  drivers/usb/dwc3/gadget.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> > index 183b90923f51..3ad3bc5813ca 100644
-> > --- a/drivers/usb/dwc3/gadget.c
-> > +++ b/drivers/usb/dwc3/gadget.c
-> > @@ -2044,6 +2044,12 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
-> >  				dwc3_gadget_move_cancelled_request(r,
-> >  						DWC3_REQUEST_STATUS_DEQUEUED);
-> >  
-> > +			/* If ep cmd fails, then force to giveback cancelled requests here */
-> > +			if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING)) {
-> > +				dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
-> > +				dwc3_gadget_ep_cleanup_cancelled_requests(dep);
-> > +			}
-> > +
-> >  			dep->flags &= ~DWC3_EP_WAIT_TRANSFER_COMPLETE;
-> >  
-> >  			goto out;
-> > @@ -3645,7 +3651,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
-> >  
-> >  	if (!interrupt)
-> >  		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
-> > -	else
-> > +	else if (!ret)
-> >  		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
-> >  }
-> >  
-> 
+Memory state around the buggy address:
+ ffff888118b6bd80: fc fc fc fc fc fc fc fc fa fb fb fb fb fb fb fb
+ ffff888118b6be00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888118b6be80: fb fb fb fb fb fc fc fc fc fc fc fc fc fc fc fc
+                            ^
+ ffff888118b6bf00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888118b6bf80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_e8880_
-Content-Type: text/plain; charset="utf-8"
-
-
-------.rW42XXn7_Ji6OxwuAF4RAMbP.qed.OeqKlvEhSLhB3noATS=_e8880_--
