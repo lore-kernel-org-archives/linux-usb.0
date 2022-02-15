@@ -2,116 +2,88 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF57C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 15:37:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 540F1C4332F
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 15:42:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240802AbiBOPhx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 10:37:53 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43742 "EHLO
+        id S239489AbiBOPmZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 10:42:25 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:43630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240674AbiBOPfg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 10:35:36 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC08B52;
-        Tue, 15 Feb 2022 07:31:22 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 60CE8B8185B;
-        Tue, 15 Feb 2022 15:31:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E485C340EB;
-        Tue, 15 Feb 2022 15:31:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644939080;
-        bh=DFsLvK0i3BObqF26aZZdRrDS2/spMsYEUdcIUmBugTU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iLyC01idrBolzeqAy6JoE2pvaZ8glDcT35nwH0wU5MGdtfEMAhlvDHgplfhDrYHXR
-         6iF44/7x7KBfr4Ns8wxUSFGnCyEuEDBAgmGwPY2j5j3e5Dpw2HD0+vWNyVBnOeAAha
-         2jDC8Y4EMAw4gyFj8MJExbJ7+W69Apsd/BD4tRBD8BSINwsrerT3pRjh36r5dWom5v
-         LJTzeqXqrpMpJuWCuksgXWv1V+8/B+Y21slSHsXTJdKYIJK6j0iEPXOC0xGC3bJhLt
-         /SG2f7TKWSy103BJSDXGmLVz964pasfWkFuPDL22nOtE7fTMq9VxWf0s2DzamuTKe8
-         BNGx5YyFbUGEg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Slark Xiao <slark_xiao@163.com>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        with ESMTP id S239153AbiBOPkZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 10:40:25 -0500
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C85BA122F58;
+        Tue, 15 Feb 2022 07:33:56 -0800 (PST)
+Date:   Tue, 15 Feb 2022 16:33:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1644939235;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fo3G255rStH8Du8K9gC/4Oh74dENohOh6rR9zxNrm7k=;
+        b=XUlLU3y8E7KMImLqhqzV4hl9D+jJ9rjIrS+mUfV5bV0v5J2CRECN+P3KG/vjZD7sSoaYsk
+        GY5LSWdSZjpGWh76k4nF1Onmv9A6XCGLbQL0QYJVeDRjTonCcIOUPninA0ulfxFM/hVNSg
+        ENch2bFq2JnUN5XMpsY2wU+SQMfqJhD+a7PLZB/+cnLDxhXwsnZY1ioGfrcoq5hoJoFmnU
+        MRS9p+efKSnsj73i2n2cTObxd3+PNgnL3f5SJe/USqyKkjbGLL/E12Rupg15tkLrPoWeVa
+        gtf8ingSKcqdI3Evhjdj6dR6MeZKGsoyWRe11dtBSMAouuG+26XXfOS6Nvn2+w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1644939235;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Fo3G255rStH8Du8K9gC/4Oh74dENohOh6rR9zxNrm7k=;
+        b=UIMOEVLl4BOgnwWtzIvKmG/pUXYmNgTYSRB16jg5vzp7F8ph7KiVCrzNBEaPZ7fz/HkQpN
+        ai9g52CGNZvW22CA==
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     greybus-dev@lists.linaro.org, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Alex Elder <elder@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/11] net: usb: qmi_wwan: Add support for Dell DW5829e
-Date:   Tue, 15 Feb 2022 10:31:03 -0500
-Message-Id: <20220215153104.581786-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215153104.581786-1-sashal@kernel.org>
-References: <20220215153104.581786-1-sashal@kernel.org>
+        Johan Hovold <johan@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        UNGLinuxDriver@microchip.com, Wolfram Sang <wsa@kernel.org>,
+        Woojung Huh <woojung.huh@microchip.com>
+Subject: Re: [PATCH v4 0/7] Provide and use generic_handle_irq_safe() where
+ appropriate.
+Message-ID: <YgvH4ROUQVgusBdA@linutronix.de>
+References: <20220211181500.1856198-1-bigeasy@linutronix.de>
+ <Ygu6UewoPbYC9yPa@google.com>
+ <Ygu9xtrMxxq36FRH@linutronix.de>
+ <YgvD1HpN2oyalDmj@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YgvD1HpN2oyalDmj@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Slark Xiao <slark_xiao@163.com>
+On 2022-02-15 15:16:36 [+0000], Lee Jones wrote:
+> On Tue, 15 Feb 2022, Sebastian Andrzej Siewior wrote:
+> 
+> > On 2022-02-15 14:36:01 [+0000], Lee Jones wrote:
+> > > Do we really need to coordinate this series cross-subsystem?
+> > 
+> > I would suggest to merge it via irq subsystem but I leave the logistics
+> > to tglx.
+> 
+> Could you answer by other questions too please?
 
-[ Upstream commit 8ecbb179286cbc91810c16caeb3396e06305cd0c ]
+I don't think that I can answer them. I said I leave the logistics to
+tglx.
 
-Dell DW5829e same as DW5821e except the CAT level.
-DW5821e supports CAT16 but DW5829e supports CAT9.
-Also, DW5829e includes normal and eSIM type.
-Please see below test evidence:
+This can go via one merge via irq. This can also go differently i.e.
+feature branch on top of 5.17-rc1 (with 1/7) which is merge into each
+subsystem and then the "feature" on top.
 
-T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  5 Spd=5000 MxCh= 0
-D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
-P:  Vendor=413c ProdID=81e6 Rev=03.18
-S:  Manufacturer=Dell Inc.
-S:  Product=DW5829e Snapdragon X20 LTE
-S:  SerialNumber=0123456789ABCDEF
-C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+Either way it remains bisect-able since each driver is changed
+individually. There is no need to merge them in one go but since it is
+that small it probably makes sense. But I don't do the logistics here.
 
-T:  Bus=04 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  7 Spd=5000 MxCh= 0
-D:  Ver= 3.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS= 9 #Cfgs=  1
-P:  Vendor=413c ProdID=81e4 Rev=03.18
-S:  Manufacturer=Dell Inc.
-S:  Product=DW5829e-eSIM Snapdragon X20 LTE
-S:  SerialNumber=0123456789ABCDEF
-C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-
-Signed-off-by: Slark Xiao <slark_xiao@163.com>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Link: https://lore.kernel.org/r/20220209024717.8564-1-slark_xiao@163.com
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/qmi_wwan.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 54b37a30df18b..c2e872f926f1c 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1358,6 +1358,8 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
- 	{QMI_FIXED_INTF(0x413c, 0x81d7, 1)},	/* Dell Wireless 5821e preproduction config */
- 	{QMI_FIXED_INTF(0x413c, 0x81e0, 0)},	/* Dell Wireless 5821e with eSIM support*/
-+	{QMI_FIXED_INTF(0x413c, 0x81e4, 0)},	/* Dell Wireless 5829e with eSIM support*/
-+	{QMI_FIXED_INTF(0x413c, 0x81e6, 0)},	/* Dell Wireless 5829e */
- 	{QMI_FIXED_INTF(0x03f0, 0x4e1d, 8)},	/* HP lt4111 LTE/EV-DO/HSPA+ Gobi 4G Module */
- 	{QMI_FIXED_INTF(0x03f0, 0x9d1d, 1)},	/* HP lt4120 Snapdragon X5 LTE */
- 	{QMI_FIXED_INTF(0x22de, 0x9061, 3)},	/* WeTelecom WPD-600N */
--- 
-2.34.1
-
+Sebastian
