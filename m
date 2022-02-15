@@ -2,89 +2,95 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BF5C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 07:37:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEBA7C43217
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 08:10:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234857AbiBOHh2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 02:37:28 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59918 "EHLO
+        id S234606AbiBOIKL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 03:10:11 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:52438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbiBOHh0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 02:37:26 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 501E7657A1;
-        Mon, 14 Feb 2022 23:37:17 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id ECF55B817DF;
-        Tue, 15 Feb 2022 07:37:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29254C340EC;
-        Tue, 15 Feb 2022 07:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1644910634;
-        bh=MS4a2sCHLZDfgiTN71t3s65oVZd6bxNMNM0atcJwRWY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pS+1F9Sj4fbMu0Y2QNh0UNCUsswFlNNCkvOQCsYb86ZoSrdbKstuOh/vHEnPYQ6N5
-         KuBooyEaeTAaFvi/dqpcY6FEHzIRR0/K3BYlCekjIP398Q3y9OIiQ9ngiiWLFGF1ku
-         HNB67wXhckx/Ila2/JHhITi6G7iQ7nRk+FkdPtg8=
-Date:   Tue, 15 Feb 2022 08:37:11 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jung Daehwan <dh10.jung@samsung.com>
-Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
-        Thinh.Nguyen@synopsys.com
-Subject: Re: [PATCH v2 1/2] usb: dwc3: Not set DWC3_EP_END_TRANSFER_PENDING
- in ep cmd fails
-Message-ID: <YgtYJ544YsvKTaxS@kroah.com>
-References: <1644836933-141376-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220214111149epcas2p1a1faeda037991885fd6f2f026fa44ec5@epcas2p1.samsung.com>
- <1644836933-141376-2-git-send-email-dh10.jung@samsung.com>
- <Ygo9LZg8lxitTE8J@kroah.com>
- <20220215065826.GD144890@ubuntu>
+        with ESMTP id S235140AbiBOIKL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 03:10:11 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCA352DAB9
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 00:10:00 -0800 (PST)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1nJsu4-0002EH-59; Tue, 15 Feb 2022 09:09:40 +0100
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ore@pengutronix.de>)
+        id 1nJsu2-009UlC-7R; Tue, 15 Feb 2022 09:09:38 +0100
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Ray Jui <rjui@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Tony Lindgren <tony@atomide.com>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
+        bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH v3 4/8] ARM: dts: bcm283x: fix ethernet node name
+Date:   Tue, 15 Feb 2022 09:09:33 +0100
+Message-Id: <20220215080937.2263111-4-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220215080937.2263111-1-o.rempel@pengutronix.de>
+References: <20220215080937.2263111-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220215065826.GD144890@ubuntu>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 03:58:26PM +0900, Jung Daehwan wrote:
-> On Mon, Feb 14, 2022 at 12:29:49PM +0100, Greg Kroah-Hartman wrote:
-> > On Mon, Feb 14, 2022 at 08:08:52PM +0900, Daehwan Jung wrote:
-> > > It always sets DWC3_EP_END_TRANSFER_PENDING in dwc3_stop_active_transfer
-> > > even if dwc3_send_gadget_ep_cmd fails. It can cause some problems like
-> > > skipping clear stall commmand or giveback from dequeue. We fix to set it
-> > > only when ep cmd success. Additionally, We clear DWC3_EP_TRANSFER_STARTED
-> > > for next trb to start transfer not update transfer.
-> > 
-> > So is this two different changes?
-> > 
-> > > 
-> > > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> > 
-> > What commit id does this fix?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> 
-> Hi greg,
-> 
-> Below is commit id to fix.
-> 
-> commit c58d8bfc77a2c7f6ff6339b58c9fca7ae6f57e70
-> Author: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Date:   Wed Dec 18 18:14:44 2019 -0800
+It should be "ethernet@x" instead of "usbether@x"
 
-<snip>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi | 2 +-
+ arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Then please properly put that as a "Fixes:" tag in the signed-off-by
-area when you resubmit this.
+diff --git a/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi b/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
+index 967e081cb9c2..882b13807075 100644
+--- a/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
++++ b/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
+@@ -12,7 +12,7 @@ usb1@1 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+-		ethernet: usbether@1 {
++		ethernet: ethernet@1 {
+ 			compatible = "usb424,ec00";
+ 			reg = <1>;
+ 		};
+diff --git a/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi b/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
+index dc7ae776db5f..4273b90b53cc 100644
+--- a/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
++++ b/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
+@@ -11,7 +11,7 @@ usb1@1 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+-		ethernet: usbether@1 {
++		ethernet: ethernet@1 {
+ 			compatible = "usb424,ec00";
+ 			reg = <1>;
+ 		};
+-- 
+2.30.2
 
-thanks,
-
-greg k-h
