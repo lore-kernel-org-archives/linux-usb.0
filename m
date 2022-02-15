@@ -2,173 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7AF5C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 18:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97B0CC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 18:22:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242910AbiBOSKF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 13:10:05 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58018 "EHLO
+        id S239292AbiBOSWS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 13:22:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242898AbiBOSKA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 13:10:00 -0500
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD6CA11942F
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:09:49 -0800 (PST)
-Received: by mail-qk1-x729.google.com with SMTP id b35so18052764qkp.6
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:09:49 -0800 (PST)
+        with ESMTP id S236762AbiBOSWR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 13:22:17 -0500
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ADAB119433
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:22:06 -0800 (PST)
+Received: by mail-io1-xd30.google.com with SMTP id i62so24992027ioa.1
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vHlV/LtgGXNiZ7zK5zIyGJOfGAkSpkjLSX123D9TpgA=;
-        b=lZlLqVCF5x50Bw2WI0EmXhOEjbmCR23f3VzzrlMJALYbhC7MgI5zF3t2kRSeFNXgm/
-         rDDMLTaPP0dhqmJLiYSNIqgNUUb+sVxvFZnMVM65kctrFrm+2wfIdNizm8DuNZ7Ndxu9
-         +T0TtFxp1mv9GBEgCqd/+joe9Uwyn5DSCKRbM=
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=N8lffARva8AUjhNmcIem8/yhryRPGbgPr4I4vKv4iZU=;
+        b=xoqOuEmlurEBAh7hsyg3JdbuYdQBDxBQPCxuZ4GYuEkH08WiMo4Mnj5Q9gOffupNVs
+         C+XFSN4fQPBzBueTh5typDjXEZ1hqwlgP/CSApofsKYfoB+9pc4f0uA8pR5bBAGx7RUD
+         u9A+Unbkiu7+7T5zJj7vonzxIQELIm0xGxbzQMQfAySVSjszzCoTF4UfykYDvrqUtnx3
+         9vZ55DBn78FdwRuGKa4hwgCrkjZyHP0M1DUq2BiP+zwmE3mmRiuxZ8Ohtwcm596KVmzi
+         bc7kOj3lzQwb425MtvheHM2SfbCwYPPZis7aA/B7qOGp5XNjZvK0Q3B0sFtyXFZdpe2z
+         OFSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vHlV/LtgGXNiZ7zK5zIyGJOfGAkSpkjLSX123D9TpgA=;
-        b=KOwVCd04AbbDNganLfSiPCrMq3vUUpLrhdbrzgB2u41is6gGkcJKcWHJrb0q3MmKFQ
-         98fS0aAKS94JVI58yUXvgDH93VyGE+fKTjeg+wax7KVsXtQclVEpdNYPaD0iWLOiYIaD
-         lVc29KyzOC88fXVttMT0uUDYnvE0n2KwG+wxCKsC6AOCprSR8UtJuMSPOdrQHL4odD6k
-         fdM6NWgS8KfMD4evb3aDNvNbLwpPUWyqfqayefApOt7TOwdLKH39oDMUo5T7wZw6ApQB
-         ZfLFIR6Aqp8+Z+BirP6C0Wl7rscU6K8B6JhL0Esfe6yOoYo+Xm7qS6SC+B5pSFxBZ8Dy
-         3b9A==
-X-Gm-Message-State: AOAM533E+ZfeumaJNcyTdPFKAKvFUgYAkW34o87A4LFfnZGHviys3KIa
-        t7glFmKUHzgT2iXIPxYV0Q99jHQK4uZV5g==
-X-Google-Smtp-Source: ABdhPJwOtFY3pBFhAAZ+zJKmgFLC6TK8a/+kr+5XMtvLCsXJue0mLWoAGTjD7hXZkM1rEZRg9gkOZw==
-X-Received: by 2002:a37:aac7:: with SMTP id t190mr117526qke.391.1644948588231;
-        Tue, 15 Feb 2022 10:09:48 -0800 (PST)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
-        by smtp.gmail.com with ESMTPSA id d23sm545690qka.50.2022.02.15.10.09.47
-        for <linux-usb@vger.kernel.org>
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=N8lffARva8AUjhNmcIem8/yhryRPGbgPr4I4vKv4iZU=;
+        b=UO6luWpcO8V/WBdybXMhpJogf04Gvg6oPLKSTOfxn9tvN+PVHkmf+HycVugoKVPTVf
+         ohnAwaRAd06gAko1jA5d+zNWgH8HEGbr0xLHjr8MVzX8cEnLmIKXbn3z+ATKr5J4yWKk
+         RPrJELzXmOjdrm0AJFZIs/u0m+QMQCKcjVK3LHGG3pqATZz2xpylHCLqh0GneOcZnMTK
+         CiCOCU7XT6N52aSC7WImL5GKhQfe0o1a1V04fJTmsVQ9RW7/1W9M3OpHqvygrqmpu4IP
+         IDp+IpLLcXZRAHDnxnrj7sXYxWG+d+GrtjjG47tpGZ5YSM3OgP3Z2hNTelT2nP3ZfHmp
+         HpKQ==
+X-Gm-Message-State: AOAM530Z2u0ImdkNmeeeKG8V4p9/QOgBKeUtPdeWa+E27EQ4P0uv6f14
+        GOoyvz1UEQWFjXrdsWrFwjyRAA==
+X-Google-Smtp-Source: ABdhPJxCNsT+FRKu3WkM4M10HW1yuVivlwF5YmW3Q74Xigt7ShW2zoGcGwH1pzGCzQ4byStd7q6+xg==
+X-Received: by 2002:a02:3f42:: with SMTP id c2mr104978jaf.161.1644949325774;
+        Tue, 15 Feb 2022 10:22:05 -0800 (PST)
+Received: from [192.168.1.30] ([207.135.234.126])
+        by smtp.gmail.com with ESMTPSA id q18sm18761446ils.78.2022.02.15.10.22.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Feb 2022 10:09:48 -0800 (PST)
-Received: by mail-qt1-f175.google.com with SMTP id r14so19373198qtt.5
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 10:09:47 -0800 (PST)
-X-Received: by 2002:a05:6638:4810:: with SMTP id cp16mr51427jab.207.1644948168679;
- Tue, 15 Feb 2022 10:02:48 -0800 (PST)
+        Tue, 15 Feb 2022 10:22:05 -0800 (PST)
+To:     heikki.krogerus@linux.intel.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Sven Peter <sven@svenpeter.dev>
+From:   Jens Axboe <axboe@kernel.dk>
+Subject: [PATCH] tps6598x: clear int mask on probe failure
+Message-ID: <e6b80669-20f3-06e7-9ed5-8951a9c6db6f@kernel.dk>
+Date:   Tue, 15 Feb 2022 11:22:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20220119204345.3769662-1-mka@chromium.org> <20220119124327.v20.3.I7c9a1f1d6ced41dd8310e8a03da666a32364e790@changeid>
- <YgJMX0QK9Koyu/uv@kroah.com> <YgLB0/aJJvGm3oYR@google.com>
-In-Reply-To: <YgLB0/aJJvGm3oYR@google.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Tue, 15 Feb 2022 10:02:36 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VJmb_P9Rnn0ooNAkf3ese-BEWZr8z-Vc0RMdF=gHmNvw@mail.gmail.com>
-Message-ID: <CAD=FV=VJmb_P9Rnn0ooNAkf3ese-BEWZr8z-Vc0RMdF=gHmNvw@mail.gmail.com>
-Subject: Re: [PATCH v20 3/5] usb: misc: Add onboard_usb_hub driver
-To:     Matthias Kaehlcke <mka@chromium.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Peter Chen <peter.chen@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Ravi Chandra Sadineni <ravisadineni@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+The interrupt mask is enabled before any potential failure points in
+the driver, which can leave a failure path where we exit with
+interrupts enabled but the device not live. This causes an infinite
+stream of interrupts on an Apple M1 Pro laptop on USB-C.
 
-On Tue, Feb 8, 2022 at 11:17 AM Matthias Kaehlcke <mka@chromium.org> wrote:
-> > > +/*
-> > > + * Returns the onboard_hub platform device that is associated with the USB
-> > > + * device passed as parameter.
-> > > + */
-> > > +static struct onboard_hub *_find_onboard_hub(struct device *dev)
-> > > +{
-> > > +   struct platform_device *pdev;
-> > > +   struct device_node *np;
-> > > +   struct onboard_hub *hub;
-> > > +
-> > > +   pdev = of_find_device_by_node(dev->of_node);
-> > > +   if (!pdev) {
-> > > +           np = of_parse_phandle(dev->of_node, "companion-hub", 0);
-> > > +           if (!np) {
-> > > +                   dev_err(dev, "failed to find device node for companion hub\n");
-> > > +                   return ERR_PTR(-EINVAL);
-> > > +           }
-> > > +
-> > > +           pdev = of_find_device_by_node(np);
-> > > +           of_node_put(np);
-> > > +
-> > > +           if (!pdev || !device_is_bound(&pdev->dev)) {
-> >
-> > I don't understand why you need to call device_is_bound() here.  What
-> > are you wanting to find here?
->
-> Whether the platform driver actually probed.
->
-> > You found the hub device associated to this usb device, based on the
-> > of_find_device_by_node() call, so why check it again?  What could have
-> > happened that this isn't the correct device?
->
-> It is the correct platform device, however it might not have finished
-> probing (this function is called from the USB driver). It's an unlikely
-> case, but it might happen, especially if the bootloader left the hub
-> regulator enabled (otherwise it would only be enabled by the platform
-> driver).
->
-> If device_is_bound() is a no-go (as it seems) the function could check
-> the drvdata instead.
+Add a failure label that's used post enabling interrupts, where we
+mask them again before returning an error.
 
-So IMO the answer here is to send a v21:
+Suggested-by: Sven Peter <sven@svenpeter.dev>
+Signed-off-by: Jens Axboe <axboe@kernel.dk>
+---
+ drivers/usb/typec/tipd/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-1. Switch to use drvdata just to you can avoid the controversial
-device_is_bound() export.
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 6d27a5b5e3ca..7ffcda94d323 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -761,12 +761,12 @@ static int tps6598x_probe(struct i2c_client *client)
+ 
+ 	ret = tps6598x_read32(tps, TPS_REG_STATUS, &status);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clear_mask;
+ 	trace_tps6598x_status(status);
+ 
+ 	ret = tps6598x_read32(tps, TPS_REG_SYSTEM_CONF, &conf);
+ 	if (ret < 0)
+-		return ret;
++		goto err_clear_mask;
+ 
+ 	/*
+ 	 * This fwnode has a "compatible" property, but is never populated as a
+@@ -855,7 +855,8 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	usb_role_switch_put(tps->role_sw);
+ err_fwnode_put:
+ 	fwnode_handle_put(fwnode);
+-
++err_clear_mask:
++	tps6598x_write64(tps, TPS_REG_INT_MASK1, 0);
+ 	return ret;
+ }
+ 
+-- 
+2.34.1
 
-2. Add a comment here explaining _why_ you are checking the drvdata
-and return -EPROBE_DEFER. In general if it's confusing to someone
-during a code review it will be confusing to someone later and so
-deserves a comment. Something along the lines of: "Just to be
-paranoid, we check that the drvdata is set which indicates that the
-platform driver has finished probing. This handles the case where
-(conceivably) we could be running at the exact same time as the
-platform driver's probe. If we detect the race we request probe
-deferral and we'll come back and try again."
+-- 
+Jens Axboe
 
-
-> > > +   err = onboard_hub_add_usbdev(hub, udev);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   err = sysfs_create_link(&udev->dev.kobj, &hub->dev->kobj, "onboard_hub_dev");
-> >
-> > What is this link for?  Messing with sysfs links is a pain and drivers
-> > really shouldn't be doing them if at all possible.
->
-> Alan asked me to add them. It's not strictly needed. I'm fine with removing
-> them as long as there is no strong opposition to that :)
-
-I don't personally care either way. I'd say remove them and they can
-be added back later?
-
-
-> > > +   if (err)
-> > > +           dev_warn(&udev->dev, "failed to create symlink to platform device '%s'): %d\n",
-> > > +                    dev_name(hub->dev), err);
-> > > +
-> > > +   return 0;
-> >
-> > So you ignore the error?  That's fine, just odd.
->
-> Yes, the links aren't critical for the functioning of the driver.
-
-If you keep the links in, this is another good place for a comment,
-even something as simple as what you just said above about the links
-not being critical for the driver to function.
-
--Doug
