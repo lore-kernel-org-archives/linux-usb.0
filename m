@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76DD8C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 15:36:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B8ACC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 15:36:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240528AbiBOPg3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 10:36:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46176 "EHLO
+        id S240625AbiBOPgb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 10:36:31 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240887AbiBOPfu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 10:35:50 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7E7446650;
-        Tue, 15 Feb 2022 07:31:31 -0800 (PST)
+        with ESMTP id S240696AbiBOPf1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 10:35:27 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43E91275E3;
+        Tue, 15 Feb 2022 07:31:03 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 458E1B81AEA;
-        Tue, 15 Feb 2022 15:31:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DDCC340F4;
-        Tue, 15 Feb 2022 15:31:27 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5C237B81AEF;
+        Tue, 15 Feb 2022 15:31:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E2F9C340EB;
+        Tue, 15 Feb 2022 15:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1644939088;
-        bh=lSyjfXtPqQO6yz2qHh+3wtUT8EE8nz1LI470o25f28g=;
+        s=k20201202; t=1644939061;
+        bh=rojVUV0GG1fSvXX88QZI35YPMHRuRihnLfELbps2iD4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ij7xzSegnKeZsRl1+BsiLZHriLdVLIosG4IZg6x97EIn7LUrJ0UsJHni2Qz/YhEa6
-         6oiToqFLwbLkpiVhb9GBYFjeX/GkMYN8/es9uNpnfAR/SdileLaMZAqQ6QstCTFNDt
-         LK34dleFWjP3ZtKsBMImeRlTtDs5H8wu0l5WM+cGBBt5txy0XehCwacFW0d31bkj/+
-         8DyTOfFGVw3VZlfh4wfdixnfCy8lM5GqjTMhWTkTSXBHNxYjzAeBVRlB6N1cAjH/2q
-         bUU8pJwH4BTshsC8dlMcWHXU/6q9Gnuvros6gUguq9Sf/hNm5bNdxEyuTkWQsYM+5q
-         4E5qnwAeUWCNw==
+        b=Zk8Nkl4ar6TRyOvCPRpkI0thZT2s+rDV77y1vKIrBfu1XnQLfCNhuOkO4R9d0XWYo
+         sssrmU/Xl1CRngBveMJNXvLtuRsgjcISqlywCMl1+3IwsaYEW4EwVbsDxzvCY3uVgq
+         ZLc+qr2Y168l2zfz6moX+fZB3YXa0kVqBvlx+lakjouZFzlq4WYuQC+9tUxUOQtwRF
+         S3qEdOxyPwfpCGhMNnk0bFIkehbsvr1o6h4JtESLOuIfhe+Oa9J0qulmkhDTxCAy4x
+         DDcaaOvvFyDdr0iMMmnA8I6vs0Idqs6YeiQAQfJCDKfoMqhJWqftTmUMjtQ0WbiDex
+         5EJUBJMvcnNXg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Slark Xiao <slark_xiao@163.com>,
@@ -38,12 +38,12 @@ Cc:     Slark Xiao <slark_xiao@163.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Sasha Levin <sashal@kernel.org>, davem@davemloft.net,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 4/5] net: usb: qmi_wwan: Add support for Dell DW5829e
-Date:   Tue, 15 Feb 2022 10:31:21 -0500
-Message-Id: <20220215153122.581930-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 15/17] net: usb: qmi_wwan: Add support for Dell DW5829e
+Date:   Tue, 15 Feb 2022 10:30:35 -0500
+Message-Id: <20220215153037.581579-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220215153122.581930-1-sashal@kernel.org>
-References: <20220215153122.581930-1-sashal@kernel.org>
+In-Reply-To: <20220215153037.581579-1-sashal@kernel.org>
+References: <20220215153037.581579-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -100,10 +100,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 928219ab09128..e8d57954596d2 100644
+index 6508d70056b3a..566ea48fd6078 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1347,6 +1347,8 @@ static const struct usb_device_id products[] = {
+@@ -1355,6 +1355,8 @@ static const struct usb_device_id products[] = {
  	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
  	{QMI_FIXED_INTF(0x413c, 0x81d7, 1)},	/* Dell Wireless 5821e preproduction config */
  	{QMI_FIXED_INTF(0x413c, 0x81e0, 0)},	/* Dell Wireless 5821e with eSIM support*/
