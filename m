@@ -2,26 +2,26 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F562C43217
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 10:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC8CC4332F
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 10:00:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236263AbiBOKAz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 05:00:55 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35908 "EHLO
+        id S236246AbiBOKAx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 05:00:53 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236216AbiBOKAy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 05:00:54 -0500
+        with ESMTP id S236199AbiBOKAq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 05:00:46 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2602C10E06C
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 02:00:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9E210E06C
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 02:00:36 -0800 (PST)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1nJudB-0001tH-OY; Tue, 15 Feb 2022 11:00:21 +0100
+        id 1nJudB-0001tJ-OP; Tue, 15 Feb 2022 11:00:21 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1nJud9-009fwM-Eq; Tue, 15 Feb 2022 11:00:19 +0100
+        id 1nJud9-009fwi-HM; Tue, 15 Feb 2022 11:00:19 +0100
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -41,9 +41,9 @@ Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
         linux-tegra@vger.kernel.org
-Subject: [PATCH v4 4/8] ARM: dts: bcm283x: fix ethernet node name
-Date:   Tue, 15 Feb 2022 11:00:14 +0100
-Message-Id: <20220215100018.2306046-5-o.rempel@pengutronix.de>
+Subject: [PATCH v4 6/8] ARM: dts: omap3/4/5: fix ethernet node name for different OMAP boards
+Date:   Tue, 15 Feb 2022 11:00:16 +0100
+Message-Id: <20220215100018.2306046-7-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220215100018.2306046-1-o.rempel@pengutronix.de>
 References: <20220215100018.2306046-1-o.rempel@pengutronix.de>
@@ -57,21 +57,23 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It should be "ethernet@x" instead of "usbether@x" as required by Ethernet
-controller devicetree schema:
+The node name of Ethernet controller should be "ethernet" instead of
+"usbether" as required by Ethernet controller devicetree schema:
  Documentation/devicetree/bindings/net/ethernet-controller.yaml
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi | 2 +-
- arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/omap3-beagle-xm.dts     | 2 +-
+ arch/arm/boot/dts/omap4-panda-common.dtsi | 2 +-
+ arch/arm/boot/dts/omap5-igep0050.dts      | 2 +-
+ arch/arm/boot/dts/omap5-uevm.dts          | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi b/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
-index 967e081cb9c2..882b13807075 100644
---- a/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
-+++ b/arch/arm/boot/dts/bcm283x-rpi-smsc9512.dtsi
-@@ -12,7 +12,7 @@ usb1@1 {
+diff --git a/arch/arm/boot/dts/omap3-beagle-xm.dts b/arch/arm/boot/dts/omap3-beagle-xm.dts
+index a858ebfa1500..35eced6521ef 100644
+--- a/arch/arm/boot/dts/omap3-beagle-xm.dts
++++ b/arch/arm/boot/dts/omap3-beagle-xm.dts
+@@ -370,7 +370,7 @@ hub@2 {
  		#address-cells = <1>;
  		#size-cells = <0>;
  
@@ -80,11 +82,11 @@ index 967e081cb9c2..882b13807075 100644
  			compatible = "usb424,ec00";
  			reg = <1>;
  		};
-diff --git a/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi b/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
-index dc7ae776db5f..4273b90b53cc 100644
---- a/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
-+++ b/arch/arm/boot/dts/bcm283x-rpi-smsc9514.dtsi
-@@ -11,7 +11,7 @@ usb1@1 {
+diff --git a/arch/arm/boot/dts/omap4-panda-common.dtsi b/arch/arm/boot/dts/omap4-panda-common.dtsi
+index 609a8dea946b..518652a599bd 100644
+--- a/arch/arm/boot/dts/omap4-panda-common.dtsi
++++ b/arch/arm/boot/dts/omap4-panda-common.dtsi
+@@ -558,7 +558,7 @@ hub@1 {
  		#address-cells = <1>;
  		#size-cells = <0>;
  
@@ -93,6 +95,32 @@ index dc7ae776db5f..4273b90b53cc 100644
  			compatible = "usb424,ec00";
  			reg = <1>;
  		};
+diff --git a/arch/arm/boot/dts/omap5-igep0050.dts b/arch/arm/boot/dts/omap5-igep0050.dts
+index 76e499d89d24..3851120857d7 100644
+--- a/arch/arm/boot/dts/omap5-igep0050.dts
++++ b/arch/arm/boot/dts/omap5-igep0050.dts
+@@ -128,7 +128,7 @@ hub@2 {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 
+-		ethernet: usbether@3 {
++		ethernet: ethernet@3 {
+ 			compatible = "usb424,7500";
+ 			reg = <3>;
+ 		};
+diff --git a/arch/arm/boot/dts/omap5-uevm.dts b/arch/arm/boot/dts/omap5-uevm.dts
+index 51d5fcae5081..453da9f18a99 100644
+--- a/arch/arm/boot/dts/omap5-uevm.dts
++++ b/arch/arm/boot/dts/omap5-uevm.dts
+@@ -209,7 +209,7 @@ hub@2 {
+ 		#size-cells = <0>;
+ 	};
+ 
+-	ethernet: usbether@3 {
++	ethernet: ethernet@3 {
+ 		compatible = "usb424,9730";
+ 		reg = <3>;
+ 	};
 -- 
 2.30.2
 
