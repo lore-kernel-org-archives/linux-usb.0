@@ -2,88 +2,81 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F2C8C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 21:28:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FE0C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Feb 2022 22:49:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243661AbiBOV2e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Feb 2022 16:28:34 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:37054 "EHLO
+        id S243497AbiBOWuD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Feb 2022 17:50:03 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:58498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233069AbiBOV2d (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 16:28:33 -0500
-X-Greylist: delayed 1885 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 15 Feb 2022 13:28:21 PST
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA51CC24A9;
-        Tue, 15 Feb 2022 13:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=keg/iMk+UdaNfyy0BZm+iDOzuvq0G4cjTusXA9Hp92k=; b=CAkseX/Qyh+FIx8oj8t3veXNKf
-        UKyx6v1rPPeE7gNSMBgBfKGoC0Yi6enZ8NhlM1sTilCU+NodZ4d8ft4POAS992JSNuPDdt6ZG8am+
-        w+FwWzbH0q1dp0OqCSHkFnaLXFtmo/c81EZlMzbsdwPVNZ/IfR35QWsvVNInmaVq9sSE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nK4sU-0067XH-Bw; Tue, 15 Feb 2022 21:56:50 +0100
-Date:   Tue, 15 Feb 2022 21:56:50 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Marc Kleine-Budde <mkl@pengutronix.de>,
-        Tony Lindgren <tony@atomide.com>,
-        linux-samsung-soc@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Scott Branden <sbranden@broadcom.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v3 5/8] ARM: dts: exynos: fix ethernet node name for
- different odroid boards
-Message-ID: <YgwTkr1UIGH6hgJ6@lunn.ch>
-References: <20220215080937.2263111-1-o.rempel@pengutronix.de>
- <20220215080937.2263111-5-o.rempel@pengutronix.de>
- <20220215081240.hhie4niqnc5tuka2@pengutronix.de>
- <20220215081645.GD672@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220215081645.GD672@pengutronix.de>
+        with ESMTP id S236941AbiBOWuC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Feb 2022 17:50:02 -0500
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26855D5F4D
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 14:49:52 -0800 (PST)
+Received: from mailhost.synopsys.com (sv1-mailhost1.synopsys.com [10.205.2.131])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id BFE3042165;
+        Tue, 15 Feb 2022 22:49:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1644965392; bh=qNVtGEGsNSUZgmZS0YARhqrD6TkH8GNPHnxVaBqLtK4=;
+        h=Date:From:Subject:To:Cc:From;
+        b=FgcBZ/aOaHBBqNR+hcpdOsZxg96+pWP6Yuy9AaFFcuCTFW0Wl27iVYFvG0CxnP0xq
+         JQhjQr1MlaO9JPnRHKt1bbFSB0wiOzFy8xWXCNrhJSEf+n/w8nGXIkkR1OjuyufClR
+         WWRRjXA2jnjN+sRv+JX3Z9uGegr+koXc5hpJZ52aEX38lMkcrYyMQ5fYmOuTV1rTu6
+         yZeCjgj0FnnAR+8slfQc1Krr9Kl1eVRFLx8k4cByVqWRu5eXg6n871iiObUN3KCAqY
+         aCfhxAJICWX2k6/4nWq2gVIbIVjsG3lS5PihXXH8jsGxBREcxO73QIwkj8fqQjGVP5
+         RSPxQ1xtxIrTQ==
+Received: from te-lab16-v2 (nanobot.internal.synopsys.com [10.204.48.11])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 22AF0A0062;
+        Tue, 15 Feb 2022 22:49:48 +0000 (UTC)
+Received: by te-lab16-v2 (sSMTP sendmail emulation); Tue, 15 Feb 2022 14:49:48 -0800
+Date:   Tue, 15 Feb 2022 14:49:48 -0800
+Message-Id: <9f15580ad5810b1e5f31c241b35ebedfbfc30a3f.1644964864.git.Thinh.Nguyen@synopsys.com>
+X-SNPS-Relay: synopsys.com
+From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Subject: [PATCH] usb: dwc3: drd: Don't check against CONFIG_OF
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc:     John Youn <John.Youn@synopsys.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> > > -	ethernet: usbether@2 {
-> > > -		compatible = "usb0424,9730";
-> > > +	ethernet: ethernet@2 {
-> > > +		compatible = "usb424,9730";
-> > 
-> > The change of the compatible is not mentioned in the patch description.
-> > Is this intentional?
-> 
-> No, I forgot to mentione it. According to the USB schema 0 should be
-> removed. So, this compatible was incorrect as well. With leading zero
-> present yaml schema was not able to detect and validate this node.
+The CONFIG_OF maybe set, but it may not be applicable to a device. In
+such case, checking against that can cause the device fail to
+initialize. Check against the device node (device->of_node) instead.
 
-Does the current code not actually care about a leading 0? It will
-match with or without it? It would be good to mention that as well in
-the commit message, otherwise somebody like me is going to ask if this
-breaks backwards compatibility, since normally compatible is an exact
-string match.
+Fixes: a102f07e4edf ("usb: dwc3: drd: Add support for usb-conn-gpio based usb-role-switch")
+Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+---
+Note: This patch should go on Greg's "usb-testing" branch as the commit it
+fixes is not in mainline yet.
 
-And i actually think this is the sort of change which should be as a
-patch of its own. If this causes a regression, a git bisect would then
-tell you if it is the change of usbether -> ethernet, or 0424 to
-424. That is part of why we ask for lots of small changes.
+ drivers/usb/dwc3/drd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 25f322e62d3f..b60b5f7b6dff 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -560,7 +560,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 	if (IS_ERR(dwc->role_sw))
+ 		return PTR_ERR(dwc->role_sw);
+ 
+-	if (IS_ENABLED(CONFIG_OF)) {
++	if (dwc->dev->of_node) {
+ 		/* populate connector entry */
+ 		int ret = devm_of_platform_populate(dwc->dev);
+ 
 
-       Andrew
+base-commit: 9902951f536c00b7f20c26fd98baa5432bb3c731
+-- 
+2.28.0
+
