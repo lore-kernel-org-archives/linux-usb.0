@@ -2,86 +2,198 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E027C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 09:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80DDBC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 09:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232520AbiBPJvf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Feb 2022 04:51:35 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:49000 "EHLO
+        id S232556AbiBPJwa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Feb 2022 04:52:30 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:52582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232478AbiBPJvb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 04:51:31 -0500
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA19A29C103
-        for <linux-usb@vger.kernel.org>; Wed, 16 Feb 2022 01:51:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1645005068; x=1676541068;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=99YnMQbApcc0QAzHaMFoAdEXgK/fCyyygtJXRBUm/tc=;
-  b=WQXsblzsf6t+Hq6tYh8HLLlZVruf6bilJBq+OXERPCd2LghY+S+mMUkj
-   Dqn/ut3g4SrnKa3IqBbcC+C90+v/w2d9NV5FzQ6Ed+19ObNP6xwXC3B2j
-   p3Foz/QJpOhD+7DlbFK9uMYQQQJilEYl8qzKBchznl5S/2u7y3oiYH1Ty
-   LbUCmHiHTTMQB1uC3fsi5vuYzxIsvK3uh4b1OsbCRnl2i+ZAulTpTM9bq
-   lM343t5BqYOVhoedQStpmEJ+p8hyZFEr3cI31oB/dhdFMKrhBrOAUZpHl
-   QdMEhwlDHYEm4ZMIGFRWvvhCcIc1QdyadXTv/E8oBRBhvRd38L/4fqz8D
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10259"; a="249396978"
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; 
-   d="scan'208";a="249396978"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2022 01:50:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,373,1635231600"; 
-   d="scan'208";a="636410414"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by orsmga004.jf.intel.com with ESMTP; 16 Feb 2022 01:50:34 -0800
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>, kernel test robot <lkp@intel.com>,
-        Julia Lawall <julia.lawall@inria.fr>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v2 9/9] usb: xhci: fix minmax.cocci warnings
-Date:   Wed, 16 Feb 2022 11:51:53 +0200
-Message-Id: <20220216095153.1303105-10-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220216095153.1303105-1-mathias.nyman@linux.intel.com>
-References: <20220216095153.1303105-1-mathias.nyman@linux.intel.com>
+        with ESMTP id S232583AbiBPJw0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 04:52:26 -0500
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A8A13EA6
+        for <linux-usb@vger.kernel.org>; Wed, 16 Feb 2022 01:51:59 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id i5so1874803oih.1
+        for <linux-usb@vger.kernel.org>; Wed, 16 Feb 2022 01:51:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kali.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=idK/WPsNn9ovkHFdsU7Sif7/eTWJW74G0kzJx4BCAZk=;
+        b=oWhRr51VmZU2S2gYaR5kbbLcR2oXecbmfKsZjko7tJ8FT7VDZbsbDpzlXUSHGGZE2R
+         OCD3N5//IxagJbjaThbI3lobLqGexsB2KenC9HSrf4i9MBD65cK/kpSzy2HWdrqNZ5Is
+         Nu62dR40mf/Edvdo7eW3xe2jHPksS/QIpKevTsyiNmGKhTguFs17sCXWQ5J3/+mhtLa+
+         9PKQQLnuQn/H790sO1tDsu5Yr1lBmLXa7HP54dfazNtxFOCfMRMXx1MxO4pWhehIRlIr
+         Yb4DmxqjB9nD+wHD/KEZlpoiCFlEK6aUVt6Tt1nivmpzvrC17wOYBnpIf4dIoR0ni0Cy
+         fhTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=idK/WPsNn9ovkHFdsU7Sif7/eTWJW74G0kzJx4BCAZk=;
+        b=UaBBDOSwnGSd6whjYXtu9Jps6R656rY8BFaSkEYHp6R6XR7nTdWnC14+T8WIyeVgB4
+         8YY7+tYiB5duQpHaC6bioUx43aSjYSQCgMi/FRU89djzPVOR1CChDPxmrGynJs5IJR5S
+         /zcqt/DXV4XozJdt87+EBfl4fcFfZq8tHS6yzxKrR1Gq54bk+hMWyu08FP8+ehm1fqGI
+         aRPLvFH29RbcfN/EVb5T/D5JqmrSvSqhLku+loXwLVe6U8i+BBqaAZJq3C0KuS7yhpeD
+         dj+hwyWHxF7EdQJ4Bql+1qFfk9z0xII2W94B8YzvwXFJnDiwp1Zl67ZJTFW1fwrRsafM
+         wpBA==
+X-Gm-Message-State: AOAM530cisedKB1t/QXCw5aZTGTiw8meqdyWXp88qKfdFl12kDYBtA+f
+        RNsi0/RQcbGny0MN8NfeOYiU7A==
+X-Google-Smtp-Source: ABdhPJwIrThB4NcxBobY13FmQry+UoAcN8imJp73VfgJGon0wEf9Bswt2u/KdjQIAJpntb8vjP7PSw==
+X-Received: by 2002:aca:b585:0:b0:2ca:e90c:3b59 with SMTP id e127-20020acab585000000b002cae90c3b59mr286602oif.80.1645005101046;
+        Wed, 16 Feb 2022 01:51:41 -0800 (PST)
+Received: from [192.168.11.51] (cpe-173-173-107-246.satx.res.rr.com. [173.173.107.246])
+        by smtp.gmail.com with ESMTPSA id t192sm1520931oie.14.2022.02.16.01.51.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Feb 2022 01:51:40 -0800 (PST)
+Message-ID: <55aa0436-64f5-1ecb-d95d-721e45f6fb95@kali.org>
+Date:   Wed, 16 Feb 2022 03:51:38 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.6.0
+Subject: Re: [PATCH v10 6/6] usb: dwc3: qcom: Enable the interrupts during
+ probe
+Content-Language: en-US
+To:     Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
+        Pavan Kondeti <quic_pkondeti@quicinc.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, quic_ppratap@quicinc.com
+References: <1642398248-21753-1-git-send-email-quic_c_sanm@quicinc.com>
+ <1642398248-21753-7-git-send-email-quic_c_sanm@quicinc.com>
+ <93b68251-7e7e-ac92-fb47-346c410744b2@kali.org>
+ <20220118095255.GB11385@hu-pkondeti-hyd.qualcomm.com>
+ <78c90e46-666b-bc9b-235d-ae4c69e19929@quicinc.com>
+ <601cdc74-392f-dd4f-7ea0-8e65c6b6d7e2@quicinc.com>
+ <52b37547-3e78-b18c-307d-7eedf5baab0d@kali.org>
+ <0e006cc0-2760-195a-35b9-0a2f6e8452c5@quicinc.com>
+ <47ae3e73-5880-bfb7-fc14-7dd95a75ce14@kali.org>
+ <bb36a205-fbfe-536e-5bf6-4a717ffd4e6e@quicinc.com>
+From:   Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <bb36a205-fbfe-536e-5bf6-4a717ffd4e6e@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: kernel test robot <lkp@intel.com>
+Hi Sandeep,
 
-Simplify the code using max().
+On 2/16/22 12:27 AM, Sandeep Maheswaram wrote:
+> Hi Steev
+>
+> On 2/16/2022 8:52 AM, Steev Klimaszewski wrote:
+>> Hi Sandeep,
+>>
+>> On 2/15/22 3:40 AM, Sandeep Maheswaram wrote:
+>>> Hi Steev,
+>>>
+>>>>>>
+>>>>> Can you try with IRQ_TYPE_EDGE_BOTH in your device tree and see if 
+>>>>> you are getting the issue.
+>>>>>
+>>>>> Regards
+>>>>>
+>>>>> Sandeep
+>>>>>
+>>>> I just tested here, changing both of the IRQ_TYPE_LEVEL_HIGH in the 
+>>>> yoga's dts to EDGE_BOTH and I still do not get a booting system.
+>>>>
+>>>> -- Steev
+>>>>
+>>> Please let us know what devices are connected to your setup and 
+>>> share the device tree file you are using.
+>>>
+>>> Please share the failure logs also,
+>>>
+>>> Regards
+>>>
+>>> Sandeep
+>>>
+>> The setup is a Lenovo Yoga C630 (Windows on ARM laptop).  I do not 
+>> have any sort of serial console access to the device, unfortunately.  
+>> Even when taking it apart, it seems to have some sort of 26pin debug 
+>> adapter port that I've never seen before which you can see on the far 
+>> right in this picture of the motherboard at 
+>> https://i.ebayimg.com/images/g/a2EAAOSwwzZiCxPM/s-l1600.jpg
+>>
+>> I do not have anything plugged in to the USB ports (sometimes the 
+>> power adapter, but I have tried both on mains as well as off.)
+>>
+>> Which I added as a commit to my kernel tree, and pushed so you can 
+>> see the full dts here: 
+>> https://github.com/steev/linux/blob/c8234e664491e35e3edcd211f3b78c04436402b0/arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts
+>>
+>> I am booting with the command line arguments of
+>>
+>> clk_ignore_unused verbose module_blacklist=msm video=efifb 
+>> earlyconsole=efifb
+>>
+>> I can't provide a boot log, because I'm not actually getting 
+>> anything.  Booting a different kernel, and it doesn't appear that 
+>> anything is logged at all.
+>>
+>>
+>> -- steev
+>>
+> Can you try with below change
+>
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi 
+> b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> index 0d6286d..0a9c0f7 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> @@ -3796,8 +3796,8 @@
+>
+>                         interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
+>                                      <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
+> -                                    <GIC_SPI 488 IRQ_TYPE_LEVEL_HIGH>,
+> -                                    <GIC_SPI 489 IRQ_TYPE_LEVEL_HIGH>;
+> +                                    <GIC_SPI 488 IRQ_TYPE_EDGE_BOTH>,
+> +                                    <GIC_SPI 489 IRQ_TYPE_EDGE_BOTH>;
+>                         interrupt-names = "hs_phy_irq", "ss_phy_irq",
+>                                           "dm_hs_phy_irq", 
+> "dp_hs_phy_irq";
+>
+> @@ -3844,8 +3844,8 @@
+>
+>                         interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
+>                                      <GIC_SPI 487 IRQ_TYPE_LEVEL_HIGH>,
+> -                                    <GIC_SPI 490 IRQ_TYPE_LEVEL_HIGH>,
+> -                                    <GIC_SPI 491 IRQ_TYPE_LEVEL_HIGH>;
+> +                                    <GIC_SPI 490 IRQ_TYPE_EDGE_BOTH>,
+> +                                    <GIC_SPI 491 IRQ_TYPE_EDGE_BOTH>;
+>                         interrupt-names = "hs_phy_irq", "ss_phy_irq",
+>                                           "dm_hs_phy_irq", 
+> "dp_hs_phy_irq";
+>
+> Regards
+>
+> Sandeep
 
-Generated by: scripts/coccinelle/misc/minmax.cocci
+That does allow it to boot, however.... it breaks USB.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-mem.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+[    2.013325] genirq: Setting trigger mode 3 for irq 35 failed 
+(gic_set_type+0x0/0x1b0)
+[    2.014063] dwc3-qcom a6f8800.usb: dp_hs_phy_irq failed: -22
+[    2.014134] dwc3-qcom a6f8800.usb: failed to setup IRQs, err=-22
+[    2.014351] dwc3-qcom: probe of a6f8800.usb failed with error -22
+[    2.018496] genirq: Setting trigger mode 3 for irq 39 failed 
+(gic_set_type+0x0/0x1b0)
+[    2.019124] dwc3-qcom a8f8800.usb: dp_hs_phy_irq failed: -22
+[    2.019193] dwc3-qcom a8f8800.usb: failed to setup IRQs, err=-22
+[    2.019372] dwc3-qcom: probe of a8f8800.usb failed with error -22
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 7a2dce730e9a..f8c2b6c79543 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -433,8 +433,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct xhci_ring *ring,
- 				(TRBS_PER_SEGMENT - 1);
- 
- 	/* Allocate number of segments we needed, or double the ring size */
--	num_segs = ring->num_segs > num_segs_needed ?
--			ring->num_segs : num_segs_needed;
-+	num_segs = max(ring->num_segs, num_segs_needed);
- 
- 	ret = xhci_alloc_segments_for_ring(xhci, &first, &last,
- 			num_segs, ring->cycle_state, ring->type,
--- 
-2.25.1
+steev@limitless:~$ lsusb
+steev@limitless:~$
+
+
+-- steev
 
