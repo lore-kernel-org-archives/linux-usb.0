@@ -2,114 +2,134 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F276C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 07:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8ED8C4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 07:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbiBPHRW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Feb 2022 02:17:22 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:33630 "EHLO
+        id S230321AbiBPHhw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Feb 2022 02:37:52 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:47406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiBPHRP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 02:17:15 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 835EDC3323
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 23:17:00 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nKEYJ-0007Pg-NX; Wed, 16 Feb 2022 08:16:39 +0100
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1nKEYE-0000vr-0Z; Wed, 16 Feb 2022 08:16:34 +0100
-Date:   Wed, 16 Feb 2022 08:16:33 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     =?utf-8?Q?Beno=C3=AEt?= Cousson <bcousson@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Nicolas Saenz Julienne <nsaenz@kernel.org>,
-        Ray Jui <rjui@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Tony Lindgren <tony@atomide.com>, kernel@pengutronix.de,
-        bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v3 4/8] ARM: dts: bcm283x: fix ethernet node name
-Message-ID: <20220216071633.GB19299@pengutronix.de>
-References: <20220215080937.2263111-1-o.rempel@pengutronix.de>
- <20220215080937.2263111-4-o.rempel@pengutronix.de>
- <f5ea3375-0306-e37f-5847-e1472164d7b7@gmail.com>
+        with ESMTP id S230273AbiBPHhu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 02:37:50 -0500
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C03E1174D5E;
+        Tue, 15 Feb 2022 23:37:16 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id m126-20020a1ca384000000b0037bb8e379feso3047147wme.5;
+        Tue, 15 Feb 2022 23:37:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=fcjsuPNQ/ElKKZzWhCUTEeBa9hiEJc7LibQjJR9rEeU=;
+        b=5N719t1feMXZOgvg84T9FuHEPutLoMBmmUZsxUQD0kDpTkHHZ4Ty6oGtKxqmbIWGWR
+         WDSNOwQsgHIdF08F+ZoALZEzyhvSVtLJyK+LtWzpRYJKdOXS0m1Wu3OWJ/+NQWlB8fVS
+         bVyL1qvMEGzltoKFvfSCth7oyd0DkXYaRM2+03EL4h2tRz8tYZyZsGLF7SB/6SsCRpgA
+         amV4IL2h51nMNZQjhUlLev+qXVEKs0mfKEgoSDRRI30KFNulkwMC7FyF5Hdb2vIkIrUI
+         y0Aa8K2c0icBjYHu8UOtCWElD0w9/t93KBde8VE3AB7lDuJuYzar+xfPaHjeIz6NqLAB
+         r9gw==
+X-Gm-Message-State: AOAM530VmqNSl3/dxc4C8d7monoeo3o5Skl2LSwGefLZCzQbQh3i6dny
+        8f2SS1zeRW6H1USeNyaSpx8=
+X-Google-Smtp-Source: ABdhPJxbJNyEQzvIiDNrzD+g+pa+pXUcVq/akn8wbE/JG08QWrXf4nvoSo157dY8BbsGvojheUtgow==
+X-Received: by 2002:a05:600c:414c:b0:37b:c80e:e3dc with SMTP id h12-20020a05600c414c00b0037bc80ee3dcmr314007wmm.116.1644997009856;
+        Tue, 15 Feb 2022 23:36:49 -0800 (PST)
+Received: from [192.168.0.110] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.googlemail.com with ESMTPSA id z5sm21400842wmp.10.2022.02.15.23.36.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Feb 2022 23:36:48 -0800 (PST)
+Message-ID: <99b0e568-ee2d-bbd0-dfd0-fb0953cd556c@kernel.org>
+Date:   Wed, 16 Feb 2022 08:36:47 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f5ea3375-0306-e37f-5847-e1472164d7b7@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:10:05 up 67 days, 15:55, 56 users,  load average: 0.27, 0.23,
- 0.18
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v20 5/5] arm64: dts: qcom: sc7180-trogdor: Add nodes for
+ onboard USB hub
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Doug Anderson <dianders@chromium.org>
+Cc:     Matthias Kaehlcke <mka@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+        Peter Chen <peter.chen@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Ravi Chandra Sadineni <ravisadineni@chromium.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>
+References: <20220119204345.3769662-1-mka@chromium.org>
+ <20220119124327.v20.5.Ie0d2c1214b767bb5551dd4cad38398bd40e4466f@changeid>
+ <YgJMkFAxjazkUDZd@kroah.com> <YgLCswtX/0THkzXT@google.com>
+ <CAD=FV=WMP8M5HTRNv9_scvrytbpE0iBdUack=XaHoypGNLJeVA@mail.gmail.com>
+ <Ygv3FSDS/fq1oePy@kroah.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <Ygv3FSDS/fq1oePy@kroah.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 01:01:06PM -0800, Florian Fainelli wrote:
-> On 2/15/22 12:09 AM, Oleksij Rempel wrote:
-> > It should be "ethernet@x" instead of "usbether@x"
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+On 15/02/2022 19:55, Greg Kroah-Hartman wrote:
+> On Tue, Feb 15, 2022 at 09:54:54AM -0800, Doug Anderson wrote:
+>> Hi,
+>>
+>> On Tue, Feb 8, 2022 at 11:21 AM Matthias Kaehlcke <mka@chromium.org> wrote:
+>>>
+>>> On Tue, Feb 08, 2022 at 11:57:20AM +0100, Greg Kroah-Hartman wrote:
+>>>> On Wed, Jan 19, 2022 at 12:43:45PM -0800, Matthias Kaehlcke wrote:
+>>>>> Add nodes for the onboard USB hub on trogdor devices. Remove the
+>>>>> 'always-on' property from the hub regulator, since the regulator
+>>>>> is now managed by the onboard_usb_hub driver.
+>>>>>
+>>>>> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
+>>>>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>>> ---
+>>>>
+>>>> No DT maintainer approval yet?  :(
+>>>
+>>> Bjorn usually just picks DT changes into the QCOM tree when they are
+>>> ready, so I wouldn't interpret anything into the lack of an explicit
+>>> Ack.
+>>
+>> Right, so the expectation is that this patch wouldn't land through the
+>> USB tree but would instead land through the Qualcomm tree, probably a
+>> revision after the code lands in the USB tree to avoid dependency
+>> problems.
 > 
-> This looks like, a quick grep on the u-boot source code seems to suggest
-> that only one file is assuming that 'usbether@1' is to be used as a node
-> name and the error message does not even match the code it is patching:
-> 
-> board/liebherr/xea/xea.c:
->   #ifdef CONFIG_OF_BOARD_SETUP
->   static int fdt_fixup_l2switch(void *blob)
->   {
->           u8 ethaddr[6];
->           int ret;
-> 
->           if (eth_env_get_enetaddr("ethaddr", ethaddr)) {
->                   ret = fdt_find_and_setprop(blob,
-> 
-> "/ahb@80080000/switch@800f0000",
->                                              "local-mac-address",
-> ethaddr, 6, 1);
->                   if (ret < 0)
->                           printf("%s: can't find usbether@1 node: %d\n",
->                                  __func__, ret);
->           }
+> But our tools pick up the whole series.  I can't just do "i will pick
+> patches 1-4 only" easily, and neither can any other maintainer.
 
-\o/ :)
+I don't have problems picking individual patches - either b4 am on each
+patch or on entire series and dropping later unneeded commits.
 
->           return 0;
->   }
 > 
-> I will wait for the other maintainers on the other patches to provide
-> some feedback, but if all is well, will apply this one soon.
+> Why not just get their ack so that I know it can come through the USB
+> tree?  That's what normally happens for other changes like this where a
+> driver change is required first.
 
-Full path fdt matching has proven to be not stable enough. Especially on
-chips with early DT adaptation like iMX. It is better to use aliases
-where possible. 
+DTS is a description of the hardware and we take it via separate
+branches of SoC-fami0ly repositories. These are always separated from
+the driver changes. Always. For several reasons:
+1. By convention,
+2. To be sure there is no dependency on driver code thus an ABI break,
+3. To have a nice and clean history of DTS changes, properly organized.
 
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+What is more, if this was coming via my Samsung SoC tree towards SoC
+folks, I could not take it in one branch. I would need to physically
+split it, otherwise Arnd/Olof would bounce back my pull request saying I
+am mixing DTS with driver. Of course you do not have such requirement -
+I am just saying that splitting DTS is quite common and proper way.
+
+
+Best regards,
+Krzysztof
