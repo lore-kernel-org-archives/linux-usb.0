@@ -2,52 +2,50 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E23C6C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 07:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16B1C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Feb 2022 07:09:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbiBPHJU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Feb 2022 02:09:20 -0500
-Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:45450 "EHLO
+        id S229707AbiBPHJX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Feb 2022 02:09:23 -0500
+Received: from gmail-smtp-in.l.google.com ([23.128.96.19]:45602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiBPHJT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 02:09:19 -0500
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2741F140B0
-        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 23:08:49 -0800 (PST)
+        with ESMTP id S229495AbiBPHJV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Feb 2022 02:09:21 -0500
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9ABE24F39
+        for <linux-usb@vger.kernel.org>; Tue, 15 Feb 2022 23:08:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1644995329; x=1676531329;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1V+StDcIv360i0ePbLQdHffbkZPNky93+P6CKeGfQ/Q=;
-  b=XSj8Q05gw8GkUNqcimxVAUenzCTxWAGWeqbMXm03PjmjrXAkYb7Q4fai
-   c/Hi8t54aA/3N5lFQ/MIlZmVayIt12v0ink61cWXwIZo6hwmzGAamaMjl
-   M/ubCWr1Lk5q+Cny/sz+eYzCgMVvj4m74GDJB0TLnh42TTWxVP/hZuz2B
-   k=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 15 Feb 2022 22:59:35 -0800
+  t=1644995330; x=1676531330;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=R6EVFUcpopQYS9lBRiXEJbFGIdfpQl10UvIq0aotlD0=;
+  b=AEWyMRFZ7LuUonlPuvg6cDI/G3em0SrbTCXrCKewtS4NTUigCsdtQ1HH
+   FbWMhcDd3980KILVjayvh421+6zhbd6PHQR3ux3YkhGjZeR1+NWVnGi4O
+   P7CroCTUBDt6Tfvx1NGCKc0hGkeX1cJPGrr953r08V6I3YaZhPQON+s63
+   U=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 15 Feb 2022 22:59:21 -0800
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 22:59:34 -0800
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2022 22:59:21 -0800
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.15; Tue, 15 Feb 2022 22:59:34 -0800
+ 15.2.986.15; Tue, 15 Feb 2022 22:59:21 -0800
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.922.19; Tue, 15 Feb 2022 22:59:32 -0800
+ 15.2.922.19; Tue, 15 Feb 2022 22:59:19 -0800
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH 3/5] usb: host: xhci: update hci_version operation in xhci_gen_setup()
-Date:   Wed, 16 Feb 2022 14:59:13 +0800
-Message-ID: <1644994755-12975-4-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH 0/5] usb: xhci: fix of some code/comment
+Date:   Wed, 16 Feb 2022 14:59:10 +0800
+Message-ID: <1644994755-12975-1-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1644994755-12975-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1644994755-12975-1-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
@@ -58,27 +56,19 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is no need to store temperary value in hcc_params.
+Only samll change, no description here.
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
- drivers/usb/host/xhci.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Linyu Yuan (5):
+  usb: host: xhci: use ffs() in xhci_mem_init()
+  usb: host: xhci: fix a comment typo in xhci_mem_init()
+  usb: host: xhci: update hci_version operation in xhci_gen_setup()
+  usb: host: xhci: add blank line in xhci_halt()
+  usb: host: xhci: remove init to some ret/retval
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index dc357ca..857a9c6 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -5280,8 +5280,7 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	xhci->hcs_params1 = readl(&xhci->cap_regs->hcs_params1);
- 	xhci->hcs_params2 = readl(&xhci->cap_regs->hcs_params2);
- 	xhci->hcs_params3 = readl(&xhci->cap_regs->hcs_params3);
--	xhci->hcc_params = readl(&xhci->cap_regs->hc_capbase);
--	xhci->hci_version = HC_VERSION(xhci->hcc_params);
-+	xhci->hci_version = HC_VERSION(readl(&xhci->cap_regs->hc_capbase));
- 	xhci->hcc_params = readl(&xhci->cap_regs->hcc_params);
- 	if (xhci->hci_version > 0x100)
- 		xhci->hcc_params2 = readl(&xhci->cap_regs->hcc_params2);
+ drivers/usb/host/xhci-mem.c |  9 ++-------
+ drivers/usb/host/xhci.c     | 14 ++++++++------
+ 2 files changed, 10 insertions(+), 13 deletions(-)
+
 -- 
 2.7.4
 
