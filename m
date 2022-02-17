@@ -2,125 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BD43C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 14:54:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABAAEC433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 15:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242211AbiBQOy0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Feb 2022 09:54:26 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59820 "EHLO
+        id S242291AbiBQPAb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Feb 2022 10:00:31 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:53870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242227AbiBQOyY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 09:54:24 -0500
-X-Greylist: delayed 4340 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Feb 2022 06:54:09 PST
-Received: from titan58.planetwebservers.net (titan58.planetwebservers.net [51.79.1.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1DA22B1ABA
-        for <linux-usb@vger.kernel.org>; Thu, 17 Feb 2022 06:54:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lockie.ca;
-        s=default; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-        References:In-Reply-To:Message-ID:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=WgY8r7I5Tt9PUL+CU2A9cEQxzGIe4rFuqRrE+HpzTHo=; b=LFP8QwMS0TeHFkg+9w10cseFj0
-        z36af7bwp3vGYoaLeWtNyV43Lo2y5eJ1jO0og+Ouh6KOnodWgYJXREhmnR8FFhnPbDVvAfVnCy0/t
-        CXDAEC4jaKhNuQB7fTjcj/Li8/Skqgv1j6WgeUY5wyQ/977rH4pCHMzAJRB75sfRu0Ar5fAJLbUhq
-        VjokIxo24SdiV7ebQtj7TBido3jHCPM7huxmZva0CdDJCAOGxz8/j8lFpGTZBubwOhTWKIHyWfve1
-        zKu/XWy4TcfZT+3w1nwpeEYsBUpUJfKgEV23luF1kEvs7kkFPvR31NPxtXLNrXOZ3z5q5lQvWqlaX
-        DHzwV8nA==;
-Received: from [37.19.212.25] (port=45688 helo=dummy.faircode.eu)
-        by titan.planetwebservers.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94.2)
-        (envelope-from <bjlockie@lockie.ca>)
-        id 1nKh2Z-0000MJ-Is; Fri, 18 Feb 2022 00:41:44 +1100
-Date:   Thu, 17 Feb 2022 13:41:42 +0000 (UTC)
-From:   James <bjlockie@lockie.ca>
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Message-ID: <82b1c7ae-1755-4f15-979a-490b07de124d@lockie.ca>
-In-Reply-To: <734b8412-1e93-19ac-b7f5-24d703302a4d@molgen.mpg.de>
-References:  <734b8412-1e93-19ac-b7f5-24d703302a4d@molgen.mpg.de>
-Subject: Re: Linux logs error `3:3: cannot set freq 24000 to ep 0x82`
+        with ESMTP id S238532AbiBQPA2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 10:00:28 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DFC63B9;
+        Thu, 17 Feb 2022 07:00:12 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3B9ADB821FA;
+        Thu, 17 Feb 2022 15:00:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 046F7C340EC;
+        Thu, 17 Feb 2022 15:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645110010;
+        bh=7g5K1tyQnpYpzj8EjNVVkumgeZTHpZWDqLo+7Cv7jL0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=sbBz2r9YUUg8qn6HEQgAKgBgfqj/ThCkWpoN4HRI7J9S1SwzNMjM/gMKXdiuLXvfW
+         As5UfKEiYs0SP2SMF9C0a15i9lFuFK9qPYh5rqD5kAvhT7sGliy1iXh0AFpsvyoGlU
+         Ro9WUocNib3Y2tdcpiyx4kqYiM/K2DK29gBs9USRvgbWKxA7D8Ue8OdveRWCpA7eim
+         TWRGI3K65bsKPbGMmtyOkQrCCM/YzcC1+I7PUZzYu0Q/hxMEMMxTqm0lb6i/zv90g/
+         1vqXHmIabxetooC3IXxJsUP31hnCjsFU6Y5j9m06rhq7tBGC6q2AhoPDCAvxQAB0NL
+         qwy3Li+8v9AQA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E1006E7BB07;
+        Thu, 17 Feb 2022 15:00:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Correlation-ID: <82b1c7ae-1755-4f15-979a-490b07de124d@lockie.ca>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - titan.planetwebservers.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lockie.ca
-X-Get-Message-Sender-Via: titan.planetwebservers.net: authenticated_id: bjlockie@lockie.ca
-X-Authenticated-Sender: titan.planetwebservers.net: bjlockie@lockie.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-From-Rewrite: unmodified, already matched
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 1/1] net: usb: cdc_mbim: avoid altsetting toggling for Telit
+ FN990
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <164511000991.15414.17501136834263839066.git-patchwork-notify@kernel.org>
+Date:   Thu, 17 Feb 2022 15:00:09 +0000
+References: <20220215111335.26703-1-dnlplm@gmail.com>
+In-Reply-To: <20220215111335.26703-1-dnlplm@gmail.com>
+To:     Daniele Palmas <dnlplm@gmail.com>
+Cc:     oliver@neukum.org, davem@davemloft.net, kuba@kernel.org,
+        netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hello:
 
-Feb. 17, 2022 06:07:16 Paul Menzel <pmenzel@molgen.mpg.de>:
+This patch was applied to netdev/net.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-> Dear Linux folks,
->
->
-> On the Dell OptiPlex 5055 connect a Logitech Webcam C270 over USB, Linux =
-5.10.93 reports the error below:
->
-> =C2=A0=C2=A0=C2=A0=C2=A0 $ dmesg --level=3Derr
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 13.739837] usb 3-2: 3:3: cannot se=
-t freq 24000 to ep 0x82
-What problem do you experience?
+On Tue, 15 Feb 2022 12:13:35 +0100 you wrote:
+> Add quirk CDC_MBIM_FLAG_AVOID_ALTSETTING_TOGGLE for Telit FN990
+> 0x1071 composition in order to avoid bind error.
+> 
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
+> ---
+>  drivers/net/usb/cdc_mbim.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-https://www.techytalk.info/logitech-e3500-webcam-and-cannot-set-freq-16000-=
-to-ep-0x86/
+Here is the summary with links:
+  - [1/1] net: usb: cdc_mbim: avoid altsetting toggling for Telit FN990
+    https://git.kernel.org/netdev/net/c/21e8a96377e6
 
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-> =C2=A0=C2=A0=C2=A0=C2=A0 $ dmesg | grep -e 'usb 3-2' -e input10
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0=C2=A0 4.682834] usb 3-2: new high-=
-speed USB device number 2 using xhci_hcd
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 12.268308] input: C270 HD WEBCAM a=
-s /devices/pci0000:00/0000:00:07.1/0000:05:00.3/usb3/3-2/3-2:1.0/input/inpu=
-t10
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 13.709847] usb 3-2: current rate 1=
-6000 is different from the runtime rate 32000
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 13.725839] usb 3-2: current rate 2=
-4000 is different from the runtime rate 16000
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 13.739837] usb 3-2: 3:3: cannot se=
-t freq 24000 to ep 0x82
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 13.864837] usb 3-2: set resolution=
- quirk: cval->res =3D 384
-> =C2=A0=C2=A0=C2=A0=C2=A0 [=C2=A0=C2=A0 59.598714] usb 3-2: reset high-spe=
-ed USB device number 2 using xhci_hcd
-> =C2=A0=C2=A0=C2=A0=C2=A0 [ 3921.003081] usb 3-2: reset high-speed USB dev=
-ice number 2 using xhci_hcd
-> =C2=A0=C2=A0=C2=A0=C2=A0 [ 3926.523106] usb 3-2: reset high-speed USB dev=
-ice number 2 using xhci_hcd
->
-> =C2=A0=C2=A0=C2=A0=C2=A0 $ lsusb
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 004 Device 001: ID 1d6b:0003 Linux Foundatio=
-n 3.0 root hub
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 003 Device 002: ID 046d:0825 Logitech, Inc. =
-Webcam C270
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 003 Device 001: ID 1d6b:0002 Linux Foundatio=
-n 2.0 root hub
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 002 Device 001: ID 1d6b:0003 Linux Foundatio=
-n 3.0 root hub
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 001 Device 002: ID 413c:301a Dell Computer C=
-orp.
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 001 Device 003: ID 413c:2113 Dell Computer C=
-orp.
-> =C2=A0=C2=A0=C2=A0=C2=A0 Bus 001 Device 001: ID 1d6b:0002 Linux Foundatio=
-n 2.0 root hub
->
-> What does that error mean exactly, and what can be done about it? Could t=
-he message be extended like =E2=80=9CReport that problem to the USB device =
-vendor to fix the firmware to be spec compliant.=E2=80=9D or something like=
- that? (If that is the case.)
->
->
-> Kind regards
->
-> Paul
 
