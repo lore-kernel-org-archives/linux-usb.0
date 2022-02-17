@@ -2,88 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F8BC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 15:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C403AC433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 17:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242444AbiBQPgM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Feb 2022 10:36:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:50360 "EHLO
+        id S243732AbiBQRao (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Feb 2022 12:30:44 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiBQPgL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 10:36:11 -0500
-X-Greylist: delayed 364 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 17 Feb 2022 07:35:56 PST
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3BA2B2C6F;
-        Thu, 17 Feb 2022 07:35:56 -0800 (PST)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id A1B112B00557;
-        Thu, 17 Feb 2022 10:29:47 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 17 Feb 2022 10:29:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm3; bh=vPxH7aW8wFaF6FXxK1Tw28k9hOtTqlkQkEM3+5
-        o6jE0=; b=SKicWjolSaPozz4NfRffQADKTRa8SEffMe5aQcKtd5lFyBpLDt9rpx
-        lRP2rE4ApYRhmgKVpBfH7BUfvPtPeaJqlUxO7tea12zpdpDY04X0Rk4Wzvm/0ZoS
-        bM9ZPdq+YzX2qwCpaqoxi8rUS8mWLsHS3RlcExLv5/3ezauOwd/jsbJecAE12du8
-        t0TwYYglg+xQPo2d4HFvarzzsJZS79QlNHYHbKk7DjiHpaPyDAjibY/lwvxKNOrP
-        2mTuYEEbdEr9xbkt4ABKNRgumz+7xR3u2AvNV/WpV81e6RdcsqN7YcjuSf0aSA+E
-        OFfXdUGkZgDjeaCidXwp22AujZB4RykA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:from:from
-        :in-reply-to:in-reply-to:message-id:mime-version:references
-        :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vPxH7aW8wFaF6FXxK
-        1Tw28k9hOtTqlkQkEM3+5o6jE0=; b=oJYseGpVhw6dopA1gjS4mMuicF/26jeNc
-        jTj1bCOqJtkD1BhBSWRNk9gTswXHBj7WJriUFIpasbTYniqKRPPi0h5uz56Fw2eA
-        zYu/fU9u5WfyghNUJA7eYYayFsjBWEJaGwKBwGGuAXcFfyHhcKjvW3Qzu8pXCkaU
-        Hmvpkve1IT5oBvwaa84AllJ/sL+fLiiSXeCJ58FNYn913ZMxq6ozepcxzKBGUS+7
-        GG2QQlI+7fOUC8SLI7L8Cw1gleON+e9EJQh3QOC72pG4QUlK6XxgSolAd6D2KQ4m
-        i0hZYhkaSQqnDvquoNuNotHLEGJcZ3oIhXiWP9VqwaCgSDG3yBRqQ==
-X-ME-Sender: <xms:6mkOYlse3lyINLCZgOGstWHLrrOqs40UFtvdUFY263AwJZ-zPmjnng>
-    <xme:6mkOYufKskfIV7amhqoAKjXRah1-kcUfPnn3LhN1XFp2JpzkNt0wQYfdd0HySmjeF
-    GuSn9bVDhMsNw>
-X-ME-Received: <xmr:6mkOYoxGwH-ylT7PGvPu8_tuSXwwsL6U-WT7_ZAty5oZP_FxuDsKxAxvp2Nd557noGnntn5I9zhXcpXsg3Z-f3PIQtWQiM-g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrjeekgdejhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttdertd
-    dttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeen
-    ucggtffrrghtthgvrhhnpeevueehjefgfffgiedvudekvdektdelleelgefhleejieeuge
-    egveeuuddukedvteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:6mkOYsM9M9puVPWvhJy0JQlkQpq5OhzTFeFQLlqLUQ-BVYTV4TRmWw>
-    <xmx:6mkOYl9CVjfu6xx8VC6Nr-bu-ghoA49QksuqCsEOTZVF3TgfF8VzZg>
-    <xmx:6mkOYsU41iGpazbSrPqas-haUyoVCHVL8UxnAHkDsxP3oaOLjKOfyg>
-    <xmx:62kOYo0cg8oz0wLBN43MwFWvllnjYuYMP_AUuaVxt_aKFTi8CJNgWErSeqU>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Feb 2022 10:29:46 -0500 (EST)
-Date:   Thu, 17 Feb 2022 16:29:39 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Souradeep Chowdhury <quic_schowdhu@quicinc.com>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, pure.logic@nexus-software.ie,
-        bjorn.andersson@linaro.org, robh@kernel.org,
-        linux-kernel@vger.kernel.org, quic_rjendra@quicinc.com,
-        quic_saipraka@quicinc.com
-Subject: Re: [PATCH V1] arm64: dts: qcom: sc7280: Set the default dr_mode for
- usb2 to enable EUD.
-Message-ID: <Yg5p45LkdsAtFFKV@kroah.com>
-References: <1644903488-20557-1-git-send-email-quic_schowdhu@quicinc.com>
+        with ESMTP id S234264AbiBQRae (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 12:30:34 -0500
+Received: from mxout04.lancloud.ru (mxout04.lancloud.ru [45.84.86.114])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89DFF2731C2
+        for <linux-usb@vger.kernel.org>; Thu, 17 Feb 2022 09:30:17 -0800 (PST)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout04.lancloud.ru EA35C209D4F2
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH v2] usb: host: ehci-q: make qtd_fill() return *unsigned int*
+To:     <linux-usb@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Organization: Open Mobile Platform
+Message-ID: <8c64fdeb-5857-8cb3-cfd8-0c248a14b909@omp.ru>
+Date:   Thu, 17 Feb 2022 20:30:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1644903488-20557-1-git-send-email-quic_schowdhu@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT02.lancloud.ru (fd00:f066::142) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Feb 15, 2022 at 11:08:08AM +0530, Souradeep Chowdhury wrote:
-> Update the dr_mode for usb2 to 'otg' from 'host' to enable role switch for Embedded USB
-> Debugger(EUD) Node.
+At the end of qtd_fill(), we assign the 'int count' variable to the 'size_t
+length' field of 'struct ehci_qtd' -- which implies a problematic type cast.
+Let's make that variable and the function's result *unsigned int* instead...
 
-Please properly wrap your changelog at 72 columns.
+Found by Linux Verification Center (linuxtesting.org) with the SVACE static
+analysis tool.
 
-thanks,
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-greg k-h
+---
+This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
+
+Changes in version 2:
+- changed 'u16' to *unsigned int* everywhere, repordering the declarations;
+- updated the type of the 'this_qtd_len' local variable qh_urb_transaction();
+- rewrote the patch description.
+
+ drivers/usb/host/ehci-q.c |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+Index: usb/drivers/usb/host/ehci-q.c
+===================================================================
+--- usb.orig/drivers/usb/host/ehci-q.c
++++ usb/drivers/usb/host/ehci-q.c
+@@ -33,12 +33,13 @@
+ 
+ /* fill a qtd, returning how much of the buffer we were able to queue up */
+ 
+-static int
++static unsigned int
+ qtd_fill(struct ehci_hcd *ehci, struct ehci_qtd *qtd, dma_addr_t buf,
+ 		  size_t len, int token, int maxpacket)
+ {
+-	int	i, count;
++	unsigned int count;
+ 	u64	addr = buf;
++	int	i;
+ 
+ 	/* one buffer entry per 4K ... first might be short or unaligned */
+ 	qtd->hw_buf[0] = cpu_to_hc32(ehci, (u32)addr);
+@@ -652,7 +653,7 @@ qh_urb_transaction (
+ 	 * and may serve as a control status ack
+ 	 */
+ 	for (;;) {
+-		int this_qtd_len;
++		unsigned int this_qtd_len;
+ 
+ 		this_qtd_len = qtd_fill(ehci, qtd, buf, this_sg_len, token,
+ 				maxpacket);
