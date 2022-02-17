@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E2DC433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 10:29:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCBF2C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Feb 2022 10:31:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235108AbiBQK33 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Feb 2022 05:29:29 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:48068 "EHLO
+        id S237274AbiBQKbS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Feb 2022 05:31:18 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231827AbiBQK3Z (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 05:29:25 -0500
+        with ESMTP id S233399AbiBQKbQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Feb 2022 05:31:16 -0500
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A9991356;
-        Thu, 17 Feb 2022 02:29:09 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17D94279937;
+        Thu, 17 Feb 2022 02:31:02 -0800 (PST)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 767E32198B;
-        Thu, 17 Feb 2022 10:29:08 +0000 (UTC)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id CCA38210E1;
+        Thu, 17 Feb 2022 10:31:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1645093748; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1645093860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
         bh=oe4+isgvvxx9QbIn+cKcFDXBth0DabkkXTbAF0d4F9U=;
-        b=UDe+90c5osVd82PQcCkKYFk+uPECnw4gsXyqkk6GUdOa65yqqBhQ0DUbFqZEpDMlBbNlHB
-        8NuAWyQ7AVwwjypDY4J50wdKv9R3tnAjzHiz7ZdpSmSrf1JsZD5JSsyelBGkXVTp5xEvTy
-        5gfuqgDkKitR7moGmw4PKXL3gyNSg8E=
+        b=XvdMwb+yA5lR8UIea8h/zRDsqJNBiWEP//jCgTFki8K16Q2rUHhBapO9aJgQ4UhE9O4tk8
+        WWbjFH8frtDtnvKVuIP2RO2ypqFSIqyYSN+iNrFjo4+8FN/rCrbgdPd+L1r//kMrd8wo5c
+        TI+AaeAL6FSGfFr6nf3QnJRcthpPqGo=
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4688113DD8;
-        Thu, 17 Feb 2022 10:29:08 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9DBE813DD8;
+        Thu, 17 Feb 2022 10:31:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id R6B1D3QjDmJHQAAAMHmgww
-        (envelope-from <oneukum@suse.com>); Thu, 17 Feb 2022 10:29:08 +0000
+        id sXazJOQjDmJ2QQAAMHmgww
+        (envelope-from <oneukum@suse.com>); Thu, 17 Feb 2022 10:31:00 +0000
 From:   Oliver Neukum <oneukum@suse.com>
-To:     steve.glendinning@shawell.ne, linux-usb@vger.kernel.org,
+To:     steve.glendinning@shawell.net, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
 Subject: [RFC] sierra: avoid trailing bytes leading to garbage parsing
-Date:   Thu, 17 Feb 2022 11:29:00 +0100
-Message-Id: <20220217102900.10102-1-oneukum@suse.com>
+Date:   Thu, 17 Feb 2022 11:30:57 +0100
+Message-Id: <20220217103057.10184-1-oneukum@suse.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
