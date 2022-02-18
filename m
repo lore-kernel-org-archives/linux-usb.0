@@ -2,107 +2,209 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBDC3C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Feb 2022 17:32:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22256C433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Feb 2022 18:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238625AbiBRRdH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Feb 2022 12:33:07 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:46132 "EHLO
+        id S231911AbiBRS67 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Feb 2022 13:58:59 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:59086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236830AbiBRRdG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Feb 2022 12:33:06 -0500
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFAFC2B4D9A;
-        Fri, 18 Feb 2022 09:32:49 -0800 (PST)
-Date:   Fri, 18 Feb 2022 18:32:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1645205567;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=g2CWKBvUgnW8+rhv+YuxoDA1gTBduF4DcHc2yTMdEzA=;
-        b=0Q0L8bxs+BmGckvx/nkNo81zL4oRAgOtitETMEuGBvmyUbb/N9wBwRdnZS/sIsH8Rm5ddM
-        fZ6xQ2gbq6pPc202A9jbw6/tIZ1ZZsnyoIGJeUudZ3X8YZLN4R0IrmG4oYaStVgkwNoVXA
-        TV29qJdP6Jcp4NOe3d91G7sQCdqUZ/AbbOPLR+IglVXAFf5igATeCG58d7Wes+Hb1Hx73P
-        UT78YS9aPGwD2bVGlbkMaLKaW/hkDugyeixWQiE8Oh6dJ1mZgjbkmD6NkNE2hJL+/KVA2r
-        lGJOM1JE25ZgDoQtgmhFc9A5XDF7NDIqz7YgJhKe6sDm6BRDCbamOCnUlmrMQA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1645205567;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=g2CWKBvUgnW8+rhv+YuxoDA1gTBduF4DcHc2yTMdEzA=;
-        b=zOTVEQFe+owllU86mgiL+jBSRUVoYjZY/iNPrDE0Y1+oHyWl4kCbVc3/kb0vhd+fHCj42Q
-        Mry87Li7RjxKFLDA==
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     bpf@vger.kernel.org, netdev@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
-        Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH] usb: dwc3: gadget: Let the interrupt handler disable bottom
- halves.
-Message-ID: <Yg/YPejVQH3KkRVd@linutronix.de>
+        with ESMTP id S234789AbiBRS66 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Feb 2022 13:58:58 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A89463F897
+        for <linux-usb@vger.kernel.org>; Fri, 18 Feb 2022 10:58:40 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id j2so4067935oie.7
+        for <linux-usb@vger.kernel.org>; Fri, 18 Feb 2022 10:58:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KpCzVne1Gz58N6SARjxbFTCJz302oRTwstbeXMAdM6Q=;
+        b=bdbTuvm8EhR7ibTXIWua4NuoDT4JYpbH8sHlb7TYbrfJ/Mixb7A27r726gOZ7bY/Be
+         un3LIIxds0kLC/KCIlmd5Z6CEs3qEymVveKT4xTZo0WX9LqbaLGyWPj8swHeQNp5tIFW
+         gW71m8qGKsRhYqBfU/l59Ng2TFw1bupL4Q+t+FX9eBpIC/uKfIKSPHYj2s1MQ4GSz5qS
+         0+nLY4RYnyGM5N9ajfP8pPIEAKsEyVcH6zU4JBVPnj3lh3s5H9u4uj0vX9aZ2bJCumC4
+         sUNKYQHDQKDNoVup872h/87P5kvDLrcI5U81XFM368cBTGqsQPiKa44939zeM1btmRy7
+         R+eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KpCzVne1Gz58N6SARjxbFTCJz302oRTwstbeXMAdM6Q=;
+        b=DGoKyYIRnIHohjjbkKoHklx7XxlDSjwvl7Kh4ntmAW4dLiRp2jyYJAqwkXG998idab
+         dsCVZftlIj3GgeXE5yLRAmYH2+ZDEHhsRelTsqJXL+zLfVeyc6WY7LE+0DKqx/SwFBxB
+         4LIWeUL28FXOTjN49qQaIaQmDFA5WSLA1G9w9qB0g+LKMx7vol3mwzK6c/hAoItn2Cb8
+         DXfvuMV2ZwMluu/FU2mqJvL+tawq6BeauGkg5FyrGfxJ6NbFbwiWrqdjjgo/fZmIRhxC
+         9HK9MqxL7w2T3qSFq02wzGsQYw3yL87DRxzr9sKdQS0hQyx/YbMG8Xx6abH9G0L3kkAI
+         Z6OA==
+X-Gm-Message-State: AOAM533qZV4twIsTYRlqDn3kl/8F7fbh5v1z1YDZB0Pn8Eyq8P0bJwBY
+        1bmV1n2u/XrCFn/hH52Y84QLzPGzSTcF3A==
+X-Google-Smtp-Source: ABdhPJyJJ0FUxp/4FKsJBvxsI8qBwR+/9DIHJHiIGkTECSA06MCw5JbT7Xw12pC7tWwnJNkgXJC6kg==
+X-Received: by 2002:a05:6808:209f:b0:2cd:f37:c722 with SMTP id s31-20020a056808209f00b002cd0f37c722mr4195900oiw.45.1645210719989;
+        Fri, 18 Feb 2022 10:58:39 -0800 (PST)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id be19sm2749956oib.31.2022.02.18.10.58.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 10:58:39 -0800 (PST)
+Date:   Fri, 18 Feb 2022 11:00:45 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v2 1/6] device property: Helper to match multiple
+ connections
+Message-ID: <Yg/s3eKB2wLEQTgY@ripper>
+References: <20220208031944.3444-1-bjorn.andersson@linaro.org>
+ <20220208031944.3444-2-bjorn.andersson@linaro.org>
+ <YgOz6K55Oi2Si4pU@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <YgOz6K55Oi2Si4pU@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The interrupt service routine registered for the gadget is a primary
-handler which mask the interrupt source and a threaded handler which
-handles the source of the interrupt. Since the threaded handler is
-voluntary threaded, the IRQ-core does not disable bottom halves before
-invoke the handler like it does for the forced-threaded handler.
+On Wed 09 Feb 04:30 PST 2022, Andy Shevchenko wrote:
 
-Due to changes in networking it became visible that a network gadget's
-completions handler may schedule a softirq which remains unprocessed.
-The gadget's completion handler is usually invoked either in hard-IRQ or
-soft-IRQ context. In this context it is enough to just raise the softirq
-because the softirq itself will be handled once that context is left.
-In the case of the voluntary threaded handler, there is nothing that
-will process pending softirqs. Which means it remain queued until
-another random interrupt (on this CPU) fires and handles it on its exit
-path or another thread locks and unlocks a lock with the bh suffix.
-Worst case is that the CPU goes idle and the NOHZ complains about
-unhandled softirqs.
+> On Mon, Feb 07, 2022 at 07:19:39PM -0800, Bjorn Andersson wrote:
+> > In some cases multiple connections with the same connection id
+> > needs to be resolved from a fwnode graph.
+> > 
+> > One such example is when separate hardware is used for performing muxing
+> > and/or orientation switching of the SuperSpeed and SBU lines in a USB-C
+> 
+> USB Type-C ?
+> 
+> > connector. In this case the connector needs to belong to a graph with
+> > multiple matching remote endpoints, and the TypeC controller needs to be
+> 
+> Type-C ?
+> 
+> > able to resolve them both.
+> > 
+> > Add a new API that allows this kind of lookup.
+> > 
+> > Given that the match() callback returns an opaque reference to something
+> > provided by the client it's not possible for the implementation to
+> > release the returned object and as such it's not possible to handle
+> > errors, which in turn means that it's not possible to query the number
+> > of elements or dynamically grow the results array. It's however expected
+> > that the number of matches will be reasonably low and that the worst
+> > case is known by the caller before hand.
+> 
+> ...
+> 
+> > +	fwnode_graph_for_each_endpoint(fwnode, ep) {
+> > +		if (count >= matches_len) {
+> > +			fwnode_handle_put(ep);
+> > +			return count;
+> > +		}
+> > +
+> > +		node = fwnode_graph_get_remote_port_parent(ep);
+> > +		if (!fwnode_device_is_available(node)) {
+> > +			fwnode_handle_put(node);
+> > +			continue;
+> > +		}
+> > +
+> > +		ret = match(node, con_id, data);
+> > +		fwnode_handle_put(node);
+> 
+> > +
+> 
+> Redundant blank line (it seems the current style w/o this).
+> Ditto for the below function.
+> 
+> > +		if (ret)
+> > +			matches[count++] = ret;
+> > +	}
+> 
+> ...
+> 
+> > +/**
+> > + * fwnode_connection_find_matches - Find connections from a device node
+> > + * @fwnode: Device node with the connection
+> > + * @con_id: Identifier for the connection
+> > + * @data: Data for the match function
+> > + * @match: Function to check and convert the connection description
+> > + * @matches: Array of pointers to fill with matches
+> > + * @matches_len: Length of @matches
+> > + *
+> > + * Find up to @matches_len connections with unique identifier @con_id between
+> > + * @fwnode and other device nodes. @match will be used to convert the
+> > + * connection description to data the caller is expecting to be returned
+> > + * through the @matches array.
+> > + *
+> > + * Return: Number of matches resolved, of negative errno.
+> 
+> s/of/or/ ?
+> 
+> > + */
+> > +int fwnode_connection_find_matches(struct fwnode_handle *fwnode,
+> > +				   const char *con_id, void *data,
+> > +				   devcon_match_fn_t match,
+> > +				   void **matches, unsigned int matches_len)
+> > +{
+> > +	unsigned int count;
+> > +
+> > +	if (!fwnode || !match || !matches)
+> 
+> !matches case may be still useful to get the count and allocate memory by
+> caller. Please, consider this case.
+> 
 
-Disable bottom halves before acquiring the lock (and disabling
-interrupts) and enable them after dropping the lock. This ensures that
-any pending softirqs will handled right away.
+As discussed in previous version, and described in the commit message,
+the returned value of "match" is a opaque pointer to something which
+has to be passed back to the caller in order to be cleaned up.
 
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Link: https://lkml.kernel.org/r/c2a64979-73d1-2c22-e048-c275c9f81558@samsung.com
-Fixes: e5f68b4a3e7b0 ("Revert "usb: dwc3: gadget: remove unnecessary _irqsave()"")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/usb/dwc3/gadget.c | 2 ++
- 1 file changed, 2 insertions(+)
+E.g. the typec mux code returns a pointer to a typec_mux/switch object
+with a refcounted struct device within, or an ERR_PTR().
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 183b90923f51b..a0c883f19a417 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -4160,9 +4160,11 @@ static irqreturn_t dwc3_thread_interrupt(int irq, void *_evt)
- 	unsigned long flags;
- 	irqreturn_t ret = IRQ_NONE;
- 
-+	local_bh_disable();
- 	spin_lock_irqsave(&dwc->lock, flags);
- 	ret = dwc3_process_event_buf(evt);
- 	spin_unlock_irqrestore(&dwc->lock, flags);
-+	local_bh_enable();
- 
- 	return ret;
- }
--- 
-2.34.1
+So unfortunately we can must gather the results into matches and pass it
+back to the caller to take consume or clean up.
 
+
+Thanks for your review, I'll update the patches according to the
+other feedback.
+
+Regards,
+Bjorn
+
+> > +		return -EINVAL;
+> > +
+> > +	count = fwnode_graph_devcon_matches(fwnode, con_id, data, match,
+> > +					    matches, matches_len);
+> > +
+> > +	return count + fwnode_devcon_matches(fwnode, con_id, data, match,
+> > +					     matches + count,
+> > +					     matches_len - count);
+> 
+> I haven't found any explanation what the difference between two counts. Also
+> can you define two count variables with distinct names and do something like
+> 
+> 	count_A = ...
+> 
+> 	matches += count;
+> 	matches_len -= count;
+> 
+> 	count_B = ...
+> 
+> 	return count_A + count_B;
+> 
+> ?
+> 
+> > +}
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
