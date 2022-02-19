@@ -2,54 +2,85 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D645C433F5
-	for <linux-usb@archiver.kernel.org>; Sat, 19 Feb 2022 10:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDDCC433F5
+	for <linux-usb@archiver.kernel.org>; Sat, 19 Feb 2022 11:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241990AbiBSKTM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 19 Feb 2022 05:19:12 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:54336 "EHLO
+        id S236333AbiBSLLs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 19 Feb 2022 06:11:48 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234152AbiBSKTL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 19 Feb 2022 05:19:11 -0500
-X-Greylist: delayed 1143 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 19 Feb 2022 02:18:49 PST
-Received: from akvi.tarhely.eu (akvi.tarhely.eu [79.172.211.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D4F74E3B0
-        for <linux-usb@vger.kernel.org>; Sat, 19 Feb 2022 02:18:49 -0800 (PST)
-Received: from tarsandl by k25249.tarhely.eu with local (Exim 4.94.2)
-        (envelope-from <tarsandl@k25249.tarhely.eu>)
-        id 1nLMWl-0005PY-Cw
-        for linux-usb@vger.kernel.org; Sat, 19 Feb 2022 10:59:43 +0100
+        with ESMTP id S229657AbiBSLLr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 19 Feb 2022 06:11:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7B65340E5
+        for <linux-usb@vger.kernel.org>; Sat, 19 Feb 2022 03:11:27 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7A7DDB8013B
+        for <linux-usb@vger.kernel.org>; Sat, 19 Feb 2022 11:11:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D512C340EB
+        for <linux-usb@vger.kernel.org>; Sat, 19 Feb 2022 11:11:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1645269085;
+        bh=WzTiSPFimVNPZFvAns0vGg2jSgQs4+Y9rbI0bV8X0sk=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=Z6HlDDrdkOSTJUIabTJxHBukA8CanWknGew/1QPHfVgpTkQufkd5frHa1dIlaxFMz
+         Mi5FQ2OUM6Obl00H3OKzkKfkQs4UvxdL0peBp/VxcB7LunaNLv0AnWpDKt3EDPb029
+         3hFkoC29OxccYv6YOpO5ZmGCHMF2MU8jtclQ02Thea+zksRFZoxzuk16XcApDh8uia
+         bLJEzwTUjeqCvsAY/oWTcdvyz4WUghUC3oXR+4zbb5M693n+obfuAXhjjHxz0wP9Tc
+         HS+wjNi8e1vUMXNjEuVtHUbXiTztdYzTbUCOaZCy8nEPMhF6RmFrxbMYirm38tPBJh
+         frpmwAwDts3vQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 20F5CC05FD2; Sat, 19 Feb 2022 11:11:25 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
 To:     linux-usb@vger.kernel.org
-Subject: =?UTF-8?B?S8OpcGVzbGFwamEgbcOhc29sYXRh?=
-X-PHP-Script: adorans.hu/index.php for 45.153.160.139
-X-PHP-Originating-Script: 1027:mail.inc
+Subject: [Bug 209555] dwc2 driver stops working after sudden disconnect
+Date:   Sat, 19 Feb 2022 11:11:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: t123yh@outlook.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209555-208809-q9vNW3qWMy@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209555-208809@https.bugzilla.kernel.org/>
+References: <bug-209555-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed; delsp=yes
-Content-Transfer-Encoding: 8Bit
-X-Mailer: Drupal
-From:   adorans.hu@gmail.com
-Message-Id: <E1nLMWl-0005PY-Cw@k25249.tarhely.eu>
-Date:   Sat, 19 Feb 2022 10:59:43 +0100
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - k25249.tarhely.eu
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [1027 994] / [47 12]
-X-AntiAbuse: Sender Address Domain - k25249.tarhely.eu
-X-Get-Message-Sender-Via: k25249.tarhely.eu: authenticated_id: tarsandl/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: k25249.tarhely.eu: tarsandl
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Üdvözöljük!
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209555
 
-  Ez az Ön által küldött üzenet másolata
-  http://adorans.hu/ecard/view/7b6b086a14ca6437daf88de5490eeec6
+--- Comment #32 from Yunhao Tian (t123yh@outlook.com) ---
+Hi,
 
-  (ha nem tud a linkre kattintani, másolja be azt a böngészője  
-címsorába)
+Just discovered the real issue of my case. dwc2_gadget_enter_clock_gating
+doesn't seem to be working for my RK3308, so disabling clock_gating does the
+trick for me.=20
 
-Üdvözlettel: Adorans
+Specifically, I added=20
+
+  p->no_clock_gating =3D true;=20
+
+in dwc2_set_rk_params, and everything now works.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
