@@ -2,108 +2,112 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38466C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Feb 2022 08:22:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C7CC433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Feb 2022 08:22:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243060AbiBUIXC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S243679AbiBUIXC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Mon, 21 Feb 2022 03:23:02 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35858 "EHLO
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242676AbiBUIXA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Feb 2022 03:23:00 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E91D3E6D
-        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 00:22:34 -0800 (PST)
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+        with ESMTP id S243202AbiBUIXB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Feb 2022 03:23:01 -0500
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0BC0219B
+        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 00:22:37 -0800 (PST)
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com [209.85.128.69])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id AA3C63F4B4
-        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 08:22:33 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 9613E4003F
+        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 08:22:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1645431753;
-        bh=hlIj3vhV71SSbB5w21H5u6H9YDo8YKgOZoNaxfo50oc=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-        b=tWuQMxuDLtOko3MVlZFpEAluxgt4GdeT8Hxbp7mNL6TwPjkG9p1wzQOs8a0ndnXZU
-         deFoH2rBYOcMtLeiFTl54NX3ZnR1v9qY8SZVX8rI2Fi4JpCCrBWEydIUJD7aS9in9i
-         t34tHGWaxP8vfncI8rfPDaAhSQMZq2tRT7pxdARCjnYdd1u7tJMJjdAS/jdv0Fb9al
-         EXA1xmEyr6mS2PEc1SJx9AglT21Zc708Xc4y9ViYQm6ukUwbmAHQ+jYXwh69Y3vC2D
-         oAy6vsUVLdI+moRkr5WqJmhk8hijbytmZToTA3YbQby/baDPolTKwTibNehfrwjSxx
-         9Oe7/TrHTosEg==
-Received: by mail-wr1-f69.google.com with SMTP id u9-20020adfae49000000b001e89793bcb0so5588573wrd.17
-        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 00:22:33 -0800 (PST)
+        s=20210705; t=1645431756;
+        bh=fspCJLtE7LEYQw6XkHye8Kq07ah4N6vXGNGBhm+7ar4=;
+        h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+         MIME-Version;
+        b=l1CFdi2vGfFWFzZh/vA6J2090OeCzxs6J0i3IpzU4TCuHx2YySZFTSZ+ls7uPPpe/
+         b8A9iAJk/tt9x1hamcdImsgGiemFnjX6v1BFnIvEMrv6oHj8JMcjSp4CCZaAX6eY2e
+         885DIhczgvviGofWdDNT/v9jw5cK6FNOkECDZXE7Pu7QHV9bzC2C/cyGq9/8cTKnjp
+         FEGSRh1NmaSZvgMWyrPZA94+NIYcNLjFiHI5gMx+opos+45JYP2f1GhM1q5keL3E9C
+         dW4+318EGfBRqiG8UpKWq+6iD0SupJx3bwl5YpTg8GDZKY4pz50W6p7hTsX/rWM8Sz
+         zXLBN3jELOMRQ==
+Received: by mail-wm1-f69.google.com with SMTP id k30-20020a05600c1c9e00b0037d1bee4847so7700325wms.9
+        for <linux-usb@vger.kernel.org>; Mon, 21 Feb 2022 00:22:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hlIj3vhV71SSbB5w21H5u6H9YDo8YKgOZoNaxfo50oc=;
-        b=ZuJYOFY89hScQq1xtKBCbA9OzCL9RiUU3wOO4F3tLjmY2CE8sEgCVEGq9taxTU5yq1
-         PnNCrj3eBqztdC0+xlqXYKARCJVHibUTMD1/VM5tLRZMipV0JYrvItpgM7ZsNrSxD5p+
-         k297MDrA8DLqNFSz1gL86TI7saYXNjuNc/+yhb4sgWk1xKgS/Luq6j0amrsSxGf/9lTv
-         owUZOrcJdWsJAL0wRUiT428h7D54yCHAvaoDfXVTp6rSQIEsf2p0XO5nJncvwEeaRV7Z
-         fFe0AKpE2xohZUJffva7ZAkHN3ncO8VPSugSrsK1/qHnDAEFoCJAJhgzUsJrXxOsw2kz
-         rutg==
-X-Gm-Message-State: AOAM532MwTXsyud7z5TFgTkjDIcrJh0qJ+LOOyfTJoAQlubfbWLCLD+x
-        bDgmpvd/qqsCl/G5umZpePYzDQslhyTgrfkRFDdP92+zxWPk+Oy8aYfTHx8nTOo23yxGufEBZ0T
-        czxLwE293VG3ujP4pOrJgU8dqKk+sTpqbfgDmzg==
-X-Received: by 2002:a5d:64cc:0:b0:1e8:f4ad:bf85 with SMTP id f12-20020a5d64cc000000b001e8f4adbf85mr13862938wri.630.1645431753282;
-        Mon, 21 Feb 2022 00:22:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJykaiGNU5Li3aG1FyjXURj4iFwPk3GA+YI6LrQsfKHNOWgUmrUefkO9/8NaVDTBak7lyE72kw==
-X-Received: by 2002:a5d:64cc:0:b0:1e8:f4ad:bf85 with SMTP id f12-20020a5d64cc000000b001e8f4adbf85mr13862922wri.630.1645431753107;
-        Mon, 21 Feb 2022 00:22:33 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fspCJLtE7LEYQw6XkHye8Kq07ah4N6vXGNGBhm+7ar4=;
+        b=e1mRLy/2VZOJXQa8jMwJ5Cp+xiLOtsChiYhJJLNlyuwtJvI4AnyIoDUZfEFY2RMT4Q
+         Lxu1LgP0mXlD8OQzL256BZiRN/y0rNOBC4PZc/5YJoZ30VmWs+zNuNk3pMoY0uJo5VI+
+         FWAOJNmvfiJDbWgPAMYHDqtPZ6eeJN2T43Lm8W/CGMDAEkN0Quj83SNlr5mqHxOARvRq
+         EmHS2JVacxuPEIva4Q6QiPQ2KJASpkbOwpdgh+Dmwr57KLqv3oPWrWmqqYTTK4KJ/6Fl
+         yHMqTr7rnOVU9fiGyRJBgv7j6XqCxwf4+o3KrwtkcJ88lpqcdUOAWyblrbt2tByFdIUV
+         vNYQ==
+X-Gm-Message-State: AOAM5333PmbmBVjsPWtDbu3EmcCwiCCXAAredz4b0EGntuq6zpPsWq+m
+        uIU//cv5p17TNGR7MzQZF1nELdB+CZs0Ors0FiW6dOlGZOQSbrTlUsxRpgvALXx+A5v5ZODVajC
+        9e6fwajxFqoKK5nsvRFV66OY6ieuKTSnu35O0ug==
+X-Received: by 2002:a5d:452e:0:b0:1e2:e3df:5933 with SMTP id j14-20020a5d452e000000b001e2e3df5933mr15938212wra.158.1645431755557;
+        Mon, 21 Feb 2022 00:22:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz77IEo/QTGJFbeIF9OrxTWGYJqcHKNN51p3fYxQmGEuSBNmMUKYmATuYBwKgois8ytkRw3rA==
+X-Received: by 2002:a5d:452e:0:b0:1e2:e3df:5933 with SMTP id j14-20020a5d452e000000b001e2e3df5933mr15938201wra.158.1645431755417;
+        Mon, 21 Feb 2022 00:22:35 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
-        by smtp.gmail.com with ESMTPSA id j5-20020a05600c410500b0037bc3e4b526sm6727615wmi.7.2022.02.21.00.22.32
+        by smtp.gmail.com with ESMTPSA id j5-20020a05600c410500b0037bc3e4b526sm6727615wmi.7.2022.02.21.00.22.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Feb 2022 00:22:32 -0800 (PST)
+        Mon, 21 Feb 2022 00:22:34 -0800 (PST)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
         Roger Quadros <rogerq@ti.com>, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Wei Xu <xuwei5@hisilicon.com>, David Heidelberg <david@ixit.cz>
-Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: add second HiSilicon prefix
-Date:   Mon, 21 Feb 2022 09:22:26 +0100
-Message-Id: <20220221082228.34407-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 3/3] dt-bindings: usb: do not use deprecated synopsys prefix
+Date:   Mon, 21 Feb 2022 09:22:28 +0100
+Message-Id: <20220221082228.34407-3-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220221082228.34407-1-krzysztof.kozlowski@canonical.com>
+References: <20220221082228.34407-1-krzysztof.kozlowski@canonical.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There are few boards DTS using "hisi,rst-syscon" property -
-undocumented "hisi" prefix.  The property will not be changed in DTS to
-non-deprecated one, because of compatibility reasons.  Add deprecated
-"hisi" prefix to silence DT schema warnings.
+The "synopsys" prefix and "synopsys,dwc3" compatible are deprecated.
 
-Cc: Wei Xu <xuwei5@hisilicon.com>
-Cc: David Heidelberg <david@ixit.cz>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-
 ---
+ Documentation/devicetree/bindings/usb/dwc3-cavium.txt       | 2 +-
+ Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-See:
-https://lore.kernel.org/all/61AF1E3B.5060706@hisilicon.com/
-https://www.spinics.net/lists/arm-kernel/msg887577.html
----
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index ebe294516937..79a172eaaaee 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -505,6 +505,9 @@ patternProperties:
-     description: Himax Technologies, Inc.
-   "^hirschmann,.*":
-     description: Hirschmann Automation and Control GmbH
-+  "^hisi,.*":
-+    description: HiSilicon Limited (deprecated, use hisilicon)
-+    deprecated: true
-   "^hisilicon,.*":
-     description: HiSilicon Limited.
-   "^hit,.*":
+diff --git a/Documentation/devicetree/bindings/usb/dwc3-cavium.txt b/Documentation/devicetree/bindings/usb/dwc3-cavium.txt
+index 710b782ccf65..171df79360ff 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3-cavium.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3-cavium.txt
+@@ -20,7 +20,7 @@ Example device node:
+ 			    refclk-type-hs = "dlmc_ref_clk0";
+ 			    power = <0x00000002 0x00000002 0x00000001>;
+ 			    xhci@1690000000000 {
+-				    compatible = "cavium,octeon-7130-xhci", "synopsys,dwc3";
++				    compatible = "cavium,octeon-7130-xhci", "snps,dwc3";
+ 				    reg = <0x00016900 0x00000000 0x00000010 0x00000000>;
+ 				    interrupt-parent = <0x00000010>;
+ 				    interrupts = <0x00000009 0x00000004>;
+diff --git a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+index f6e91a5fd8fe..b1f65a656528 100644
+--- a/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,keystone-dwc3.yaml
+@@ -92,7 +92,7 @@ examples:
+       ranges;
+ 
+       usb@2690000 {
+-        compatible = "synopsys,dwc3";
++        compatible = "snps,dwc3";
+         reg = <0x2690000 0x70000>;
+         interrupts = <GIC_SPI 393 IRQ_TYPE_EDGE_RISING>;
+         usb-phy = <&usb_phy>, <&usb_phy>;
 -- 
 2.32.0
 
