@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3386C433FE
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Feb 2022 02:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B32D9C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Feb 2022 02:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237537AbiBWCjH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Feb 2022 21:39:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58208 "EHLO
+        id S233106AbiBWCob (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Feb 2022 21:44:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237910AbiBWCie (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Feb 2022 21:38:34 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD8F60D90;
-        Tue, 22 Feb 2022 18:33:15 -0800 (PST)
+        with ESMTP id S237786AbiBWCmo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Feb 2022 21:42:44 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE44C13E08;
+        Tue, 22 Feb 2022 18:36:42 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 986CF615C4;
-        Wed, 23 Feb 2022 02:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22ADC36AED;
-        Wed, 23 Feb 2022 02:33:13 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1C912B81DD2;
+        Wed, 23 Feb 2022 02:31:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0415C340E8;
+        Wed, 23 Feb 2022 02:31:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645583595;
-        bh=1gqekEeT2EVQ5k7J7M1oUytgB0KaLNWYqYC6oHl4YM4=;
+        s=k20201202; t=1645583496;
+        bh=OSlMQc/xL1e7EgNgKDZtIfU3RCKD6yqrk/tH2HsHpqM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=meIWi8/fK6PabjPBoN5KJZiX0THKMJiyPL/AbHgA0T5nX77VyGP1L90AYhlwQu3Ih
-         AYI4OwQwG11dwP+VlqHio6REAvTS/Xp+xm9xHeGIfZp2EGpuqwuxSMVIABEWFFQBvj
-         sq+j3ulJCs3S7Q/oVz8Skj4vOITsrFTZAIHbrgoxzlCGVM7PjNo9uSu3j10LBqLKNv
-         9AId3BnBOw17lpiRGs+axeC72OwXqtc32Q4izsPcNgfA97OnPyiVrA6BTrfmvgC8Eq
-         B2vr72wEjsZEXWFHc3Kh+ioh4WyA8H4MFiZ/0T6iQb2g8bDti1HUE1oCBAbZDSC4LA
-         DEXRsX3eMihrA==
+        b=NnMqPuIG80I7dzYy/kxwXzA9iqOiy2QH2/DnVqfbvMzKykpfbklM6+PhwJ6ueIhS6
+         RL/yzLwhMu5Qvu7GfrefsvfdflK31sXMkE8cMmSDKQOaEEqKzAu5E95aXmkb6N95fZ
+         aPU7/UPBM5NL4wcxIbqTpfAH+Za0gwqKxV871l1LnFoefhDN5YOnYKuUVVqsJPhZCW
+         arDrQFxwP+ZG+DGdb+QaWo8FVuMy5szr6Rqz7Tt6P2FAK8/Sc+ASrRjjI8AfaegO8Q
+         N4ZXNAAuhHaAVSGf+gThSKV8Ti+qFz4pqr52T2FAFp6kPUnHzFEcrrDc/qgEQlt7nS
+         SJIGyAiOF1CWQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
@@ -38,12 +38,12 @@ Cc:     Oliver Neukum <oneukum@suse.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, oliver@neukum.org,
         kuba@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 6/9] USB: zaurus: support another broken Zaurus
-Date:   Tue, 22 Feb 2022 21:32:57 -0500
-Message-Id: <20220223023300.242616-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 08/13] USB: zaurus: support another broken Zaurus
+Date:   Tue, 22 Feb 2022 21:31:12 -0500
+Message-Id: <20220223023118.241815-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220223023300.242616-1-sashal@kernel.org>
-References: <20220223023300.242616-1-sashal@kernel.org>
+In-Reply-To: <20220223023118.241815-1-sashal@kernel.org>
+References: <20220223023118.241815-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 24 insertions(+)
 
 diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index 8f03cc52ddda2..1819b104418c4 100644
+index 8325f6d65dccc..eee402a59f6da 100644
 --- a/drivers/net/usb/cdc_ether.c
 +++ b/drivers/net/usb/cdc_ether.c
-@@ -555,6 +555,11 @@ static const struct usb_device_id	products[] = {
+@@ -571,6 +571,11 @@ static const struct usb_device_id	products[] = {
  	.bInterfaceSubClass	= USB_CDC_SUBCLASS_ETHERNET, \
  	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
  
@@ -86,7 +86,7 @@ index 8f03cc52ddda2..1819b104418c4 100644
  /* SA-1100 based Sharp Zaurus ("collie"), or compatible;
   * wire-incompatible with true CDC Ethernet implementations.
   * (And, it seems, needlessly so...)
-@@ -608,6 +613,13 @@ static const struct usb_device_id	products[] = {
+@@ -624,6 +629,13 @@ static const struct usb_device_id	products[] = {
  	.idProduct              = 0x9032,	/* SL-6000 */
  	ZAURUS_MASTER_INTERFACE,
  	.driver_info		= 0,
@@ -101,10 +101,10 @@ index 8f03cc52ddda2..1819b104418c4 100644
  	.match_flags    =   USB_DEVICE_ID_MATCH_INT_INFO
  		 | USB_DEVICE_ID_MATCH_DEVICE,
 diff --git a/drivers/net/usb/zaurus.c b/drivers/net/usb/zaurus.c
-index 6aaa6eb9df72a..3d126761044f5 100644
+index 8e717a0b559b3..7984f2157d222 100644
 --- a/drivers/net/usb/zaurus.c
 +++ b/drivers/net/usb/zaurus.c
-@@ -268,6 +268,11 @@ static const struct usb_device_id	products [] = {
+@@ -256,6 +256,11 @@ static const struct usb_device_id	products [] = {
  	.bInterfaceSubClass	= USB_CDC_SUBCLASS_ETHERNET, \
  	.bInterfaceProtocol	= USB_CDC_PROTO_NONE
  
@@ -116,7 +116,7 @@ index 6aaa6eb9df72a..3d126761044f5 100644
  /* SA-1100 based Sharp Zaurus ("collie"), or compatible. */
  {
  	.match_flags	=   USB_DEVICE_ID_MATCH_INT_INFO
-@@ -325,6 +330,13 @@ static const struct usb_device_id	products [] = {
+@@ -313,6 +318,13 @@ static const struct usb_device_id	products [] = {
  	.idProduct              = 0x9032,	/* SL-6000 */
  	ZAURUS_MASTER_INTERFACE,
  	.driver_info = ZAURUS_PXA_INFO,
