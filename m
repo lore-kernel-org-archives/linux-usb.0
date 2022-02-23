@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6A5C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Feb 2022 02:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9568EC4167E
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Feb 2022 02:38:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237556AbiBWCjE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Feb 2022 21:39:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35666 "EHLO
+        id S237964AbiBWCi7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Feb 2022 21:38:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57954 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237756AbiBWCiB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Feb 2022 21:38:01 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E0E5E741;
-        Tue, 22 Feb 2022 18:33:01 -0800 (PST)
+        with ESMTP id S237589AbiBWChP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Feb 2022 21:37:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A8AB5AEEC;
+        Tue, 22 Feb 2022 18:32:33 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 44AD2B81E14;
-        Wed, 23 Feb 2022 02:33:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F8FAC340F1;
-        Wed, 23 Feb 2022 02:32:58 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1FC856157F;
+        Wed, 23 Feb 2022 02:32:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91C4C340F1;
+        Wed, 23 Feb 2022 02:32:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645583579;
+        s=k20201202; t=1645583552;
         bh=VKj7xlrRFbcxioWHBRFh2u0Z7Dc86o9b0hoFi2dJGaI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P6FTPzRRfrsRraBk+/PEFi2jtEiRoYipdUzazlTyirYdjkWEp066VHF8N3gAqjSXh
-         zaoVKwgSZPZZcRKE2Wii7CoEAQ1bH4viJYyeSq2lsczlmRr2MIC1pl4bT3hQOz9Vuw
-         vhDPVt1FoyB++O0DBG2jehJFUSTjJAUn/NeGx2W5qKO8Adcp0wsMWgANYUnioBREFT
-         N0ewtKmoyIOe3FvpdL5sLlwrF2FB6+HEDNNW6wwVQlrj2diltelQ8FonnW8VLo0k7w
-         +i6/erCdyOnDVUD9VbEtzXCWTihRPT77xef6u/4wMGGUTqw7YmB6heXJdCdQ4T+tjt
-         wWNcn0elqgw+g==
+        b=qOp+MTf23JsVvDI+Zj3StN4UnCzrmjaiCV85csnk51FJAB6FFznl72Ly88FcHodVO
+         H+039INNjDa8T66GR5rzoBL8U2gW02AbSpQOPkQR6Lyv96DKTKecuAsb3IqbLpzpI3
+         wpiVCrp0QS8POLBcPWMKSkdLPPaNK0iQKiTSatsFL7LedbMkmzDpMY+O26tby5qTjs
+         YkRxBQqHRDSIdLbYP8/zIrKyPqvO8FiriqW+ZkJ7/95KCerW4OkVsQQQy9Btb/GuWe
+         DLc/0YW28KPoBMR++ChVrYNLHyN3GjUCRYWlI9/mI0an55o8zipitxtcifa5yO5Q3a
+         eAJfJ3YWoSpTw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniele Palmas <dnlplm@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, oliver@neukum.org,
         kuba@kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 10/10] net: usb: cdc_mbim: avoid altsetting toggling for Telit FN990
-Date:   Tue, 22 Feb 2022 21:32:33 -0500
-Message-Id: <20220223023233.242468-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 13/13] net: usb: cdc_mbim: avoid altsetting toggling for Telit FN990
+Date:   Tue, 22 Feb 2022 21:31:52 -0500
+Message-Id: <20220223023152.242065-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220223023233.242468-1-sashal@kernel.org>
-References: <20220223023233.242468-1-sashal@kernel.org>
+In-Reply-To: <20220223023152.242065-1-sashal@kernel.org>
+References: <20220223023152.242065-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
