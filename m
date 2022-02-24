@@ -2,115 +2,89 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51D05C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 15:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DA0C43217
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 17:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236418AbiBXPfg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Feb 2022 10:35:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34944 "EHLO
+        id S230523AbiBXRNz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Feb 2022 12:13:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236421AbiBXPfe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 10:35:34 -0500
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EA41C60F0;
-        Thu, 24 Feb 2022 07:35:04 -0800 (PST)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 21OFF6Xu017214;
-        Thu, 24 Feb 2022 15:34:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=RJpb8ihEyDFjR4Ch0tdM9KeE3pbxKuOWANmT8T6aFW4=;
- b=e0f56xWycHRQVvgAS/QSvx17un9slwJRqOskIVavCzOwKWGHoWPFZK7d41duZlNGVfcA
- 89Ncg0tSg55ug7Ge4fSzy4K9pRPkRVNaQT+yV9pNt33SeZ3GviHIZOaxYjbMpEWKjwTA
- FjPRgjzuWVLRMwxLW/lAQ3+JdXsjQNZoJSU+bqyrqqONNLsT5qbLV014LJPu+8k7nTq5
- nR4sIe/N2IWT3CmFUQn4ZCL/ZXUdLiaQAWhYVkTHyF0vnsF280WgxIVjRQLoYiOie2Km
- fPsvRXAhqmHv1j50a5XhIW/ApNkxGTPcfChnZZ39H5Syd95wM71R07HOz0nHVwGPZWaP qw== 
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3edtyjf8tf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 24 Feb 2022 15:34:54 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 21OFCVUP011979;
-        Thu, 24 Feb 2022 15:34:53 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
-        by ppma05wdc.us.ibm.com with ESMTP id 3edr92sfw6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 24 Feb 2022 15:34:53 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 21OFYq0k25887194
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 24 Feb 2022 15:34:52 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 576D5124052;
-        Thu, 24 Feb 2022 15:34:52 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C7216124054;
-        Thu, 24 Feb 2022 15:34:50 +0000 (GMT)
-Received: from v0005c16.aus.stglabs.ibm.com (unknown [9.163.20.50])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Thu, 24 Feb 2022 15:34:50 +0000 (GMT)
-From:   Eddie James <eajames@linux.ibm.com>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        johan@kernel.org, Eddie James <eajames@linux.ibm.com>,
-        Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] USB: serial: pl2303: Add IBM device IDs
-Date:   Thu, 24 Feb 2022 09:34:44 -0600
-Message-Id: <20220224153444.10893-1-eajames@linux.ibm.com>
-X-Mailer: git-send-email 2.27.0
+        with ESMTP id S229559AbiBXRNw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 12:13:52 -0500
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 166661AEEFF;
+        Thu, 24 Feb 2022 09:13:23 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id j8-20020a056830014800b005ad00ef6d5dso1774152otp.0;
+        Thu, 24 Feb 2022 09:13:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+ZX27TrioUK0w9RGeSuhrt2+KeVxOCfnnAKkSXg0Y28=;
+        b=fas3EfMMo9gKu51kaEbeb4SyG6jOL4W2Qqg39ispmcu2rdfUUSdqXTMwt4pPXahJwf
+         wvCgucb+El6sghc8QPCF0QigRlBAdkYmiKLDMYnYe6r/zENy3sVYIIMHaeEVCo5FsKKX
+         Kbct7ABSlXAoD20RTcbM9v8c/Ragv5qMkc0b23cuJagk6CadASCq5MPWu1WBIheEzJEu
+         3UtAzKUqKX8Hweg+Pdn7/qm7mjw4n/fRyA0tP0d7XMgB0a3lyUFFobwW+hcicihMzXba
+         6OJeTXRRyRw57ZEHcsU9Pu5MxWtnW95AyfkhbgbSuGzDaIzHc/twOAbSA2Kq00wUdTle
+         nb0Q==
+X-Gm-Message-State: AOAM532k+cvIC2psPh+6NwqcT4UYFenHXHvoGB8RVbxxoDCDjCXYF+Jb
+        mkN4/wjt5+oWpx5PlEGxbA==
+X-Google-Smtp-Source: ABdhPJx9dXKdja8XTbBg2/bLvMZID1GMmU5Hnt+lvFxh5MqDE25B95ZmXREQdNQ0X9yYv6+ivnGGwA==
+X-Received: by 2002:a05:6830:1c62:b0:5ad:364d:5e9c with SMTP id s2-20020a0568301c6200b005ad364d5e9cmr1296986otg.164.1645722802376;
+        Thu, 24 Feb 2022 09:13:22 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id m18sm1383094otq.31.2022.02.24.09.13.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Feb 2022 09:13:21 -0800 (PST)
+Received: (nullmailer pid 3257244 invoked by uid 1000);
+        Thu, 24 Feb 2022 17:13:19 -0000
+Date:   Thu, 24 Feb 2022 11:13:19 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+        Ray Jui <rjui@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>, kernel@pengutronix.de,
+        linux-tegra@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+        Jakub Kicinski <kuba@kernel.org>, devicetree@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        linux-samsung-soc@vger.kernel.org,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH v5 1/9] dt-bindings: net: add schema for ASIX USB
+ Ethernet controllers
+Message-ID: <Yhe8r5dGmSvwJeY6@robh.at.kernel.org>
+References: <20220216074927.3619425-1-o.rempel@pengutronix.de>
+ <20220216074927.3619425-2-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: oVAgC1v5B63svGMp4CKmZlCibv3ksmZK
-X-Proofpoint-GUID: oVAgC1v5B63svGMp4CKmZlCibv3ksmZK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.816,Hydra:6.0.425,FMLib:17.11.64.514
- definitions=2022-02-24_03,2022-02-24_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 clxscore=1011 phishscore=0 impostorscore=0 mlxscore=0
- mlxlogscore=999 lowpriorityscore=0 malwarescore=0 bulkscore=0
- suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2201110000 definitions=main-2202240092
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216074927.3619425-2-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-IBM manufactures a PL2303 device for UPS communications. Add the vendor
-and product IDs so that the PL2303 driver binds to the device.
+On Wed, 16 Feb 2022 08:49:19 +0100, Oleksij Rempel wrote:
+> Create schema for ASIX USB Ethernet controllers and import some of
+> currently supported USB IDs form drivers/net/usb/asix_devices.c
+> 
+> These devices are already used in some of DTs. So, this schema makes it official.
+> NOTE: there was no previously documented txt based DT binding for this
+> controllers.
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  .../devicetree/bindings/net/asix,ax88178.yaml | 68 +++++++++++++++++++
+>  1 file changed, 68 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/asix,ax88178.yaml
+> 
 
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/usb/serial/pl2303.c | 1 +
- drivers/usb/serial/pl2303.h | 3 +++
- 2 files changed, 4 insertions(+)
-
-diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
-index a70fd86f735c..e2ef761ed39c 100644
---- a/drivers/usb/serial/pl2303.c
-+++ b/drivers/usb/serial/pl2303.c
-@@ -116,6 +116,7 @@ static const struct usb_device_id id_table[] = {
- 	{ USB_DEVICE(ADLINK_VENDOR_ID, ADLINK_ND6530GC_PRODUCT_ID) },
- 	{ USB_DEVICE(SMART_VENDOR_ID, SMART_PRODUCT_ID) },
- 	{ USB_DEVICE(AT_VENDOR_ID, AT_VTKIT3_PRODUCT_ID) },
-+	{ USB_DEVICE(IBM_VENDOR_ID, IBM_PRODUCT_ID) },
- 	{ }					/* Terminating entry */
- };
- 
-diff --git a/drivers/usb/serial/pl2303.h b/drivers/usb/serial/pl2303.h
-index 6097ee8fccb2..c5406452b774 100644
---- a/drivers/usb/serial/pl2303.h
-+++ b/drivers/usb/serial/pl2303.h
-@@ -35,6 +35,9 @@
- #define ATEN_PRODUCT_UC232B	0x2022
- #define ATEN_PRODUCT_ID2	0x2118
- 
-+#define IBM_VENDOR_ID		0x04b3
-+#define IBM_PRODUCT_ID		0x4016
-+
- #define IODATA_VENDOR_ID	0x04bb
- #define IODATA_PRODUCT_ID	0x0a03
- #define IODATA_PRODUCT_ID_RSAQ5	0x0a0e
--- 
-2.27.0
-
+Reviewed-by: Rob Herring <robh@kernel.org>
