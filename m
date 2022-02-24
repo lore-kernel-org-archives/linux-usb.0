@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7433CC4332F
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 21:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB398C4167B
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 21:51:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234529AbiBXVv7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Feb 2022 16:51:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35404 "EHLO
+        id S234828AbiBXVwC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Feb 2022 16:52:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231298AbiBXVv6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 16:51:58 -0500
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam07on2075.outbound.protection.outlook.com [40.107.95.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DA122A2AE;
-        Thu, 24 Feb 2022 13:51:27 -0800 (PST)
+        with ESMTP id S234542AbiBXVwB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 16:52:01 -0500
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2067.outbound.protection.outlook.com [40.107.94.67])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EEE822A2AE;
+        Thu, 24 Feb 2022 13:51:29 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KGd4v1xA5cAtf4yHlT6yZf1jiKZOwrryHN9W27dWo1P+fQ8q/4gG8qUizvJePf2VA7NEYKDDGooCYsvs5sB2eOHK/nGxTQMS9JHNg+lo6YIXnkhQNtxX9s+ymXsDUYDmwDVwtGlRYcHA8tIIhTqxXmzRDKmxNdUocX/HbvoDHN4J1NknqRfCtNFtgAO1keYb6D2qQqo+nZ0mT02lKXC1ctk7DO1FlhR1cORkUOz5GqnAjhsHOWzXJNrsQljRmdh1DA2K0BYnexiFKU9qxaxZGVQyDQ5z2PcG+qupwXLfCaW6aiz30p+EmsWoclu0KacHMYzn3rkE9tL7GcqnKOa4cQ==
+ b=EbdDDt9agbHD22uyJPM7iU9YXaCevuWJE0iRJ9XfzZd+WOJfcC13UKsq4S7AFUqyirQQyF53ZJLorHm+F/jNnQKcl+Xc+/5NUQn0YCXYb433Fi4zZAwCCeFcT5Oqie1N3fHWfkTy+Gb9ykF7lj0BmYR/2iVw6wcXEEGHhL9m+WSqjhVVWoGzxuQQ4SKswSMVEvA7T15HWWNwVftqnWaWQ0JAUuxi3++E61Q7STtjTeO/yTJFahlHPyn/TnkIQqNiBlsRqairbfNpQ5kOKPJd91rTXPilghJ0iOG6Hd4TMQC3jdsCMG9W/m9PiWZLjZ0mVNqOpugysdalnofzYFqLOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nVPlYNG6piZmMsY8iC7zTDshd96rfyvJ89O18cYprFQ=;
- b=PnEDrF42gu8ss2u+jA8rIhgjhuyyGh0d7LcXBLseVf1Huju61Nb1l1DAJCTiIN4zAswXxpmZrCYi7VmToE+M5KWlW+EkW+7n2Bx5DTVif2Xb6M0SjTE5Spgugws7yUCqcpGN0NG9vlzpKN5F8yPLpk1dUAufSmk+C9hbt8EyPYg4ba2W80gxfhw8/SdW/GPCAtkwN8WXvHiznUL90EpgNTmisSe5jQv9e9w9mOq69a2ej1wt1OLgT8bBdl98wgEN4rHEha2TBouCe6B25/xwEidVnLZSgrAuLsOdSFxdd8CjO6IYxKPOZo4aFjX4KeKfaI0PV7j34y0DeIRek64gEg==
+ bh=ue1NSYQUIHWl7bv8ClwslJxFKCM05VXIAWbywmqWr+0=;
+ b=Y8ThABSPnr9Pem8EMS4yIQp3qb4KuRCYi48MEcgVDhG29n0O9vH9uiGM+rZFgidlePa3I/lBqkslRkhHyZryCMeEZwISza59vlUhOkLSQ1+Wycre4NgVAwNTkQESV1VH3BhfWDSHQcyKvd06R+m1EQMPKh3zxuaf1HwXn1qoJSBMVWw7F36iOeQa/laUHUCxmcYv21M//69MjPnrAeUJ+kMOBYynAoIz0MLRqTKOX1X20Cv/pIZXyxnHCwWIUjfUYaF/RrZ6Qy7/5CY7XCRVHIrghnPiR0YQoiCSowrU3BtGzdsW9hk6B/wKWGKaVhHVtQEoVBOPdTvY5FOzY4cxYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nVPlYNG6piZmMsY8iC7zTDshd96rfyvJ89O18cYprFQ=;
- b=DPLwvdB+UODrQBHVdNxQq5Ey8bIFnQXBiDWbk9HwSZzusgABqL85Xf2x8uqcqLNYVU8O4luplYMJv9GJxsNcUAGkxgJuDbI2WHqu9haJNrBS2wH00YpE+obfxo87xZSYbSmVlayp7ng9T/mYB2KURgyp7hOeBEsEs4a8Ko8SHUQ=
-Received: from MW4PR04CA0179.namprd04.prod.outlook.com (2603:10b6:303:85::34)
- by MN2PR12MB4640.namprd12.prod.outlook.com (2603:10b6:208:38::29) with
+ bh=ue1NSYQUIHWl7bv8ClwslJxFKCM05VXIAWbywmqWr+0=;
+ b=0K3tCqPGUjQ6m7b+IMaGktd0jaBDUkQyqLs2lisoWCqpkI3x3B3VGwH0zhN9LkDKWvZvOEIGKV420QUMgTTult98yySEBFH7GwbDx3mpwCToFSF8fynF9lmppuXqkE03E3/oNj2du7xAZKCXkpdGa7sALpdNYIIBd3zdShqtfDM=
+Received: from MW4PR04CA0167.namprd04.prod.outlook.com (2603:10b6:303:85::22)
+ by MWHPR1201MB2526.namprd12.prod.outlook.com (2603:10b6:300:ec::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Thu, 24 Feb
- 2022 21:51:24 +0000
+ 2022 21:51:27 +0000
 Received: from CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:85:cafe::78) by MW4PR04CA0179.outlook.office365.com
- (2603:10b6:303:85::34) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:303:85:cafe::5d) by MW4PR04CA0167.outlook.office365.com
+ (2603:10b6:303:85::22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.23 via Frontend
- Transport; Thu, 24 Feb 2022 21:51:24 +0000
+ Transport; Thu, 24 Feb 2022 21:51:27 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,11 +48,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  CO1NAM11FT037.mail.protection.outlook.com (10.13.174.91) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5017.22 via Frontend Transport; Thu, 24 Feb 2022 21:51:23 +0000
+ 15.20.5017.22 via Frontend Transport; Thu, 24 Feb 2022 21:51:27 +0000
 Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 24 Feb
- 2022 15:51:21 -0600
+ 2022 15:51:25 -0600
 From:   Mario Limonciello <mario.limonciello@amd.com>
 To:     Bjorn Helgaas <bhelgaas@google.com>,
         Andreas Noever <andreas.noever@gmail.com>,
@@ -70,10 +70,12 @@ CC:     Michael Jamet <michael.jamet@intel.com>,
         Yehezkel Bernat <YehezkelShB@gmail.com>,
         Lukas Wunner <lukas@wunner.de>, <Alexander.Deucher@amd.com>,
         Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 0/7] Overhaul `is_thunderbolt`
-Date:   Thu, 24 Feb 2022 15:51:09 -0600
-Message-ID: <20220224215116.7138-1-mario.limonciello@amd.com>
+Subject: [PATCH v5 3/7] PCI: Drop the `is_thunderbolt` attribute from PCI core
+Date:   Thu, 24 Feb 2022 15:51:12 -0600
+Message-ID: <20220224215116.7138-4-mario.limonciello@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220224215116.7138-1-mario.limonciello@amd.com>
+References: <20220224215116.7138-1-mario.limonciello@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -82,107 +84,94 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40131935-5b6e-44e3-d439-08d9f7dfcd27
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4640:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4640C3711820F21147800908E23D9@MN2PR12MB4640.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 94f8e944-d3eb-4206-04ef-08d9f7dfcf07
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB2526:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB2526FF8B14D00D2FE2D0FFA6E23D9@MWHPR1201MB2526.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 03bi4AqP/2PRhu4IpWctKwcN2LzStj11TEEVHsSSjgPOmIE/xutWdNKYOHOh8+gko1qVZeaaCXNZdk/a1R2TfubxomZML3ug7E9KmtVO6E054KCNhzUI1EQ3gZwaO8StNFzKg2x11PjSAa+zIRJLlDzRsxSpWpMYZrqb5xONuarQelM4z/sinJ0Mro+q9lDVDQpDPr1RSfX2N+YSS61newRw6cYH5f4TuFRAr0pvVSC50TRz6TLdKZE/aIUiFsHp8Oiz5A+9ce93XCgiakMECq0kxX8lOkztgl2jnz+ct8rx1cP0v8Rc3FCuWT44Wg6vp0PqN2vpcVbdfVAD6Vn7PbXve1BDob0zQxTyETIrozzcBsuftek/gMpPgQjGVW9Wteh3G0yFFgnXWyKYCJMA0CzGHGB9eCYW1wb+UQx6trwZ/xucm0dB4PrlBK3lWjdphD06O4Bt+fnHZDT7zTM1qMigfDM50M3WR9/MRKQ5MjMdcJhkwsf6+NJOxQyJwaewSgu9vD+yoLkMgtyB63AXTIKUqbpRpvbb9v7u885Jfpnrj2eoY7ATuFh/M0IdF91R0dCnT0JN95bl8Mrhtil8q4l+DJu3vxZ3mAs1yzBk3yD7bu8nHbNAKjUDzww68QF4+dxWL/eqVBBIuRRW4bs8xUjms3VJQuhI8wN9YXzUOVPn+LdlmU9X4WkAidqf3NIguFBujHt1Q00M9/p/Q9nNNr2+7bOqRUYxelea6T4Zquc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(82310400004)(8936002)(86362001)(70586007)(7416002)(81166007)(2906002)(70206006)(508600001)(356005)(44832011)(40460700003)(36860700001)(4326008)(316002)(110136005)(5660300002)(54906003)(83380400001)(8676002)(47076005)(6666004)(7696005)(26005)(1076003)(2616005)(426003)(336012)(16526019)(36756003)(186003)(81973001)(36900700001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: QZnTnUtaHW4TQo9QlU79Aw2j9fOJP49DYtSt1F4KZNkn4ObAdLlIhPFEzLqfE6sTY18r+IxJMvsB4zsBdTAyf/KltuD0RSvbX/Pm+eZ5Ghgg5DSHfbZRsFGihfPOPceny4PTqOvmrJbS85NZhSY5ojhjHERRfdo5meaEtiMfueOPdp2CRDVpM3JvJn541SApbHS4ROeCf4MeHyP84bQgnEP1fvsai9oWXG/CR0/6Llv65BXrvwC2JHVm0G91VyJTp77M6EgkgteanpXpcS6hHj2w/o1O9jJSJ+y5WR1bFxn+T3W5sZa1sFfo/QAlKpr7RQ4QGBMONECzFM9vUaqL7TTO7689iUDeo9cJQde8L5fpRA0zZB06GAG8enw1+SshMDWsrKmx8w2BbP2glXI8Qgo01CKvLNsly6cbY8UiwwhOLs9cYhhETCKQvFH9Hsl0xDW9jWOfZEl+nx1A48id3zJ6EX9DMVzFfnYDNpT06oKG+Gjit+K/bA9Vn17ACdJf1uagIJ2eci3r2ntwusZ2leGu9xS/FgAdLoNmbI9Fcu26LVCqcXB935JepOZGQZWuQiwOvzkBcJSjico8uJC3fSBWxhtDpQuXyJAKqLJU2zRLq8Tvhrqahea6Pogzfu234QVA1gTp23zwUu81i3tpYAPzkBQ0ANt//+cCHu2WQ0/HRdCLgCzRYxzToryNYID+3rvRypAsHQeitjNEMCRC5izf84CyNf6SI9wkZ4Kl5QA=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(46966006)(36840700001)(40470700004)(16526019)(186003)(26005)(426003)(82310400004)(336012)(83380400001)(8936002)(508600001)(1076003)(6666004)(47076005)(7416002)(2906002)(356005)(7696005)(8676002)(110136005)(40460700003)(70206006)(70586007)(36860700001)(36756003)(4326008)(2616005)(81166007)(5660300002)(316002)(54906003)(86362001)(44832011)(81973001)(36900700001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 21:51:23.9468
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 21:51:27.1028
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40131935-5b6e-44e3-d439-08d9f7dfcd27
+X-MS-Exchange-CrossTenant-Network-Message-Id: 94f8e944-d3eb-4206-04ef-08d9f7dfcf07
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT037.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4640
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB2526
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Various drivers in the kernel use `is_thunderbolt` or
-`pci_is_thunderbolt_attached` to designate behaving differently
-from a device that is internally in the machine. This currently works
-by an attribute in PCI core "is_thunderbolt" which makes those drivers
-only apply differences when Intel Thunderbolt controllers are encountered.
+The `is_thunderbolt` attribute originally had a well defined list of
+quirks that it existed for, but it has been overloaded with more
+meaning.
 
-In each of these drivers' cases the code should apply whether it's another
-vendor's USB4 controller or an Intel USB4/TBT3 controller.
+Instead use the driver core removable attribute to indicate the
+detail a device is attached to a thunderbolt or USB4 chain.
 
-As such, overhaul the use of "is_thunderbolt" in the PCI core to instead rally
-around the device core "external" attribute. This means dropping the extra PCI
-core attribute and the extra function designation to indicate thunderbolt attached.
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ drivers/pci/probe.c               | 2 +-
+ drivers/platform/x86/apple-gmux.c | 2 +-
+ include/linux/pci.h               | 5 ++---
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-Changes from v4->v5:
-- Drop USB4 related patches.  Thoes may come at a later time if they're proven to be needed.
-  At least in the integrated case vendors should be setting the _DSD to indicate the port is
-  externally facing.
-  For the discrete case we may bring it back later.
-
-Changes from v3->v4:
-- Add tags from last review where applicable
-- Update titles of different patches
-- Add more comments and commit messages to various patches to address
-  comments raised in review
-- Re-order the patch series, moving more contentious patches later
-- Drop patch marking NHI removable
-- Drop patch changing gmux on it's own, roll into patch to drop
-  `is_thunderbolt`
-- Modify patch to mark integrated USB4 tunnel PCIe root ports as
-  "external" instead of removable.
-- Modify patch to mark discrete USB4 tunnel root ports as "external"
-  instead of removable.
-- Fix bit mask error in discrete USB4 tunnel patch
-- Fix USB IF vendor designation location in pci_ids.h
-
-Changes from v2->v3:
-- Add various tags for patches that haven't changed from v2->v3
-- Add new patches for Mika's suggestions:
-  * Moving Apple Thunderbolt D3 declaration into quirks
-  * Detect PCIe root port used for PCIe tunneling on integrated
-    controllers using `usb4-host-interface`
-  * Detect PCIe root port used for PCIe tunneling on discrete
-    controllers using the USB4 DVSEC specification
-
-Changes from v1->v2:
-- Add Alex's tag to first patch
-- Move lack of command completion into a quirk (Lukas)
-- Drop `is_thunderbolt` attribute and `pci_is_thunderbolt_attached` and
-  use device core removable attribute instead
-- Adjust all consumers of old attribute to use removable
-
-Note: this spans USB/DRM/platform-x86/PCI trees.
-As a majority of the changes are in PCI, it should probably come through
-that tree if possible.
-
-
-Mario Limonciello (7):
-  PCI: Move `is_thunderbolt` check for lack of command completed to a
-    quirk
-  PCI: Move check for old Apple Thunderbolt controllers into a quirk
-  PCI: Drop the `is_thunderbolt` attribute from PCI core
-  drm/amd: drop the use of `pci_is_thunderbolt_attached`
-  drm/nouveau: drop the use of `pci_is_thunderbolt_attached`
-  drm/radeon: drop the use of `pci_is_thunderbolt_attached`
-  PCI: drop `pci_is_thunderbolt_attached`
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c  |  2 +-
- drivers/gpu/drm/nouveau/nouveau_vga.c   |  4 +-
- drivers/gpu/drm/radeon/radeon_device.c  |  4 +-
- drivers/gpu/drm/radeon/radeon_kms.c     |  2 +-
- drivers/pci/hotplug/pciehp_hpc.c        |  6 +-
- drivers/pci/pci.c                       | 17 +++--
- drivers/pci/probe.c                     |  2 +-
- drivers/pci/quirks.c                    | 84 +++++++++++++++++++++++++
- drivers/platform/x86/apple-gmux.c       |  2 +-
- include/linux/pci.h                     | 25 +-------
- 11 files changed, 108 insertions(+), 42 deletions(-)
-
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 17a969942d37..1b752d425c47 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1584,7 +1584,7 @@ static void set_pcie_thunderbolt(struct pci_dev *dev)
+ 	/* Is the device part of a Thunderbolt controller? */
+ 	vsec = pci_find_vsec_capability(dev, PCI_VENDOR_ID_INTEL, PCI_VSEC_ID_INTEL_TBT);
+ 	if (vsec)
+-		dev->is_thunderbolt = 1;
++		dev->external_facing = true;
+ }
+ 
+ static void set_pcie_untrusted(struct pci_dev *dev)
+diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+index 57553f9b4d1d..4444da0c39b0 100644
+--- a/drivers/platform/x86/apple-gmux.c
++++ b/drivers/platform/x86/apple-gmux.c
+@@ -596,7 +596,7 @@ static int gmux_resume(struct device *dev)
+ 
+ static int is_thunderbolt(struct device *dev, void *data)
+ {
+-	return to_pci_dev(dev)->is_thunderbolt;
++	return to_pci_dev(dev)->external_facing;
+ }
+ 
+ static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 1e5b769e42fc..d9719eb14654 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -442,7 +442,6 @@ struct pci_dev {
+ 	unsigned int	is_virtfn:1;
+ 	unsigned int	is_hotplug_bridge:1;
+ 	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
+-	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
+ 	unsigned int	no_cmd_complete:1;	/* Lies about command completed events */
+ 
+ 	/*
+@@ -2447,11 +2446,11 @@ static inline bool pci_is_thunderbolt_attached(struct pci_dev *pdev)
+ {
+ 	struct pci_dev *parent = pdev;
+ 
+-	if (pdev->is_thunderbolt)
++	if (dev_is_removable(&pdev->dev))
+ 		return true;
+ 
+ 	while ((parent = pci_upstream_bridge(parent)))
+-		if (parent->is_thunderbolt)
++		if (dev_is_removable(&parent->dev))
+ 			return true;
+ 
+ 	return false;
 -- 
 2.34.1
 
