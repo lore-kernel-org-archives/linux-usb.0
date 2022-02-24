@@ -2,157 +2,182 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DAFC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 21:51:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4275C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Feb 2022 23:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234813AbiBXVwM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Feb 2022 16:52:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35742 "EHLO
+        id S233045AbiBXX0K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Feb 2022 18:26:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234987AbiBXVwH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 16:52:07 -0500
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2047.outbound.protection.outlook.com [40.107.236.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0969211C2F;
-        Thu, 24 Feb 2022 13:51:36 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OK4pNmLU8xlq3XpRRHVa83FoKbPLITsTve3kbBdjSBUQnW0Gq4x+/4wR6+3WxqL97dniMvleHikcc4w56eaGUYdKhEKZLvuc0pnFeXj61ae8vJ3kw2Zi6f3r0/vst7hb0hroNZWQDy1VBEUB9DQOSkaPaEy8gpQWV/SFAomdJavTpSi/l2wgZa6RhrqTE5PjQsyZADOLB953D7wPGZCopXKQE2UXResCJHIqiT8XoKqLGHP+ycEY1sHUN73V3Qw5R2fEl9euxWXDNQSiy8mO9Lz1t42gtURY1b+/d/beBoF7W9LzS0zyGHiqAO9TxI+TZv6+IjYKyzFpnN6BJZh9NA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=neyootgBRunSQAJPnXb1dPCfoyhMOxPxpCnyWraQL7E=;
- b=ao3t+18q3Seaqi85VO2OCTQ82gyVgcHpKOWB5eBRnmvs/5/a0dZdczxNcm2x8a3WATBa8XklaGjleRoOnhl3/E6DBUIdC+fI8ZvTU71c7fkuvxbTv82mig+udE6mFSUvtNaZTzXayZzRTUt7pEFdnHl4jdunoBDXkWmJpVC0aOciJBFbDWfvv4NVpgg/nuLYL/oq5lHgoDG6P4Dodxc1PVDXa/X9f2PKxqVCd4DLrXl6zedtcHFP6M37ltMbKcCu71TPhirYObzjMc7EfdrD4psyPsSLZcvD7FIxpsPbGQNbZS3VOsShB7wsqWVL9Cqr9W2Tl21++7eaw3YQM1jioQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=neyootgBRunSQAJPnXb1dPCfoyhMOxPxpCnyWraQL7E=;
- b=u9WGQ1dZ6H8jO4/tvnMx5hmiuIbxbyZ4AblqGr/MZomAFWZToMw0KJ3/DHV/71SydavqY9QteVUOeHMjBbU7CSn6Jpt3wC0W3dMMyVwxjSP4CTmA0jV2k8NsY7FWbrgey+c0Ka8gbzmFSNuXneRJf65dpqo/7hULCJW8zOXoePI=
-Received: from MWHPR14CA0010.namprd14.prod.outlook.com (2603:10b6:300:ae::20)
- by BYAPR12MB2806.namprd12.prod.outlook.com (2603:10b6:a03:70::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.22; Thu, 24 Feb
- 2022 21:51:33 +0000
-Received: from CO1NAM11FT031.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ae:cafe::16) by MWHPR14CA0010.outlook.office365.com
- (2603:10b6:300:ae::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.23 via Frontend
- Transport; Thu, 24 Feb 2022 21:51:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT031.mail.protection.outlook.com (10.13.174.118) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5017.22 via Frontend Transport; Thu, 24 Feb 2022 21:51:32 +0000
-Received: from AUS-LX-MLIMONCI.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.18; Thu, 24 Feb
- 2022 15:51:28 -0600
-From:   Mario Limonciello <mario.limonciello@amd.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
-        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
-        "open list:RADEON and AMDGPU DRM DRIVERS" 
-        <amd-gfx@lists.freedesktop.org>,
-        "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS" 
-        <nouveau@lists.freedesktop.org>,
-        "open list:X86 PLATFORM DRIVERS" 
-        <platform-driver-x86@vger.kernel.org>
-CC:     Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>, <Alexander.Deucher@amd.com>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 6/7] drm/radeon: drop the use of `pci_is_thunderbolt_attached`
-Date:   Thu, 24 Feb 2022 15:51:15 -0600
-Message-ID: <20220224215116.7138-7-mario.limonciello@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220224215116.7138-1-mario.limonciello@amd.com>
-References: <20220224215116.7138-1-mario.limonciello@amd.com>
+        with ESMTP id S230339AbiBXX0J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Feb 2022 18:26:09 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A17892757B7
+        for <linux-usb@vger.kernel.org>; Thu, 24 Feb 2022 15:25:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1645745138; x=1677281138;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=une3uOtEQ/rvTc4vboHRP8j44F2MCl039f8MaWJjOsk=;
+  b=f80WZRQtLbDWZGTR2G2P2vFNe6GYW3N3wKpvgHtmDeFyyzdoKXG3RiuS
+   wE/HS/NeMF0R6VNgBsynOKbznWqjNhH6V//b1QwbONmlQf+EoQUnQ5PsQ
+   bdqrpPYkhz2U951hWqFij/g7aIU+Yv/ggou4WW3rQ+tb76k1Zh6uhUiQk
+   Z0mPb5v5BWPNTvT5efFWH9U+PZIqEzGRrBQ6fB7P/k+HKTp8CLYLX30CH
+   aVkiNt3le++76q+8RSspZ23EGkzBc4DXlFgzyitnCeJrG0TSt8KvEqIb2
+   uKuODwkNG/A+JyNvwEHfKHyuQYcmVzEXQVzSEGNK+pX48ly7K4XQZtdZv
+   w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10268"; a="252104216"
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
+   d="scan'208";a="252104216"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2022 15:25:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,134,1643702400"; 
+   d="scan'208";a="533343614"
+Received: from lkp-server01.sh.intel.com (HELO 788b1cd46f0d) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 24 Feb 2022 15:25:37 -0800
+Received: from kbuild by 788b1cd46f0d with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nNNUO-0003ZG-7N; Thu, 24 Feb 2022 23:25:36 +0000
+Date:   Fri, 25 Feb 2022 07:24:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ a352fa58c0ee5c91714cd31a36b5cd308085fcbf
+Message-ID: <621813c1.Hwwe5FggyOx/gSHY%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: baeaf2d3-bb47-4151-548e-08d9f7dfd27e
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2806:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2806C72D064B0832911D27F3E23D9@BYAPR12MB2806.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ytElrkUYemFdosgRe9RAyd9IPlzZ3dHPoqWQZyuy2cr2qvcZNl4NvpYZzYFPAHn6wF5QZTbNcLei443UA1WLHyZSaYuXwrJ60ukIZRnm0qU52l2eliK1MhT/PqdhqgXC1R1nE9ZBLWb0UfGbNRgkacwlhGO8A4huZRp//IXrEz+/w3xp3/zHEfILBl9L++Xkq+18irNZslsFGHS/EkagpwelLpVtZw8XycTtDB25kAQy56BwSoKfyee/T38BHO90Ge7Vus2hc+0IqSnm5gpn9M89vcgBVgXflI6GNcW4bolNDJmyZa2nCR3Nm7EAJSemHyS6BAEZxvutLu8Dr3cGAoXm6lPyqs0T/5VAcaYYx/xrXnmrW7vucFa5Rgf971j27zGA5HCjV+sZayk5SUXGzaf7c8o2VAQjQDEo32rf37jjotiFX8VEKu3zIdJbb3FuSd0rpXsOoHaWlRUBu275k2fEkcn4zWiGhlADNi2g6vfn//5AfCNu5N4kdRyPUE5RaD7jyW7VLpqhK3eHIhC1FFNY135DblPSNeV/oHp0ldG0dxfTLEtqBViIxi6LsPbKQiraESGODYNrmYqQi18l8VjHnztzVupy9iP3/Br/kNZC7FWPOV9nf/HLkxieU8VzvhwlKv9RnGBYoqSh01eIrZvfYrFeO3bKfcEMWGPWGQmMI6oHmeoUqf8RFmJJMdx4Ivd1J9Qrdy0y/PWR5vO2idmD4fZ5+lWt5plXwiu60X8=
-X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(47076005)(316002)(426003)(1076003)(16526019)(186003)(336012)(82310400004)(36860700001)(508600001)(110136005)(2616005)(86362001)(70206006)(83380400001)(36756003)(44832011)(7416002)(4326008)(26005)(7696005)(8676002)(8936002)(5660300002)(2906002)(356005)(70586007)(54906003)(40460700003)(6666004)(81166007)(81973001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2022 21:51:32.9023
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: baeaf2d3-bb47-4151-548e-08d9f7dfd27e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT031.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2806
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently `pci_is_thunderbolt_attached` is used to indicate a device
-is connected externally.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: a352fa58c0ee5c91714cd31a36b5cd308085fcbf  usb: misc: USB_QCOM_EUD should depend on ARCH_QCOM
 
-The PCI core now marks such devices as removable and downstream drivers
-can use this instead.
+elapsed time: 724m
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+configs tested: 108
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allmodconfig
+arm                              allyesconfig
+arm64                               defconfig
+i386                          randconfig-c001
+arm                            zeus_defconfig
+powerpc                       maple_defconfig
+powerpc                     mpc83xx_defconfig
+ia64                            zx1_defconfig
+powerpc                     stx_gp3_defconfig
+sh                   sh7724_generic_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                        cell_defconfig
+powerpc                      bamboo_defconfig
+sh                           se7712_defconfig
+arm                          iop32x_defconfig
+powerpc                       eiger_defconfig
+arm                  randconfig-c002-20220223
+arm                  randconfig-c002-20220224
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                             allnoconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                                defconfig
+parisc64                            defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+i386                          randconfig-a003
+i386                          randconfig-a001
+i386                          randconfig-a005
+x86_64                        randconfig-a015
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220223
+arc                  randconfig-r043-20220224
+riscv                randconfig-r042-20220224
+s390                 randconfig-r044-20220224
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                           allyesconfig
+x86_64                          rhel-8.3-func
+
+clang tested configs:
+arm                          pcm027_defconfig
+arm                         palmz72_defconfig
+powerpc                    gamecube_defconfig
+arm                       spear13xx_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a011
+i386                          randconfig-a013
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220223
+hexagon              randconfig-r045-20220224
+riscv                randconfig-r042-20220223
+hexagon              randconfig-r041-20220224
+hexagon              randconfig-r041-20220223
+s390                 randconfig-r044-20220223
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+
 ---
- drivers/gpu/drm/radeon/radeon_device.c | 4 ++--
- drivers/gpu/drm/radeon/radeon_kms.c    | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
-index 4f0fbf667431..5117fce23b3f 100644
---- a/drivers/gpu/drm/radeon/radeon_device.c
-+++ b/drivers/gpu/drm/radeon/radeon_device.c
-@@ -1439,7 +1439,7 @@ int radeon_device_init(struct radeon_device *rdev,
- 
- 	if (rdev->flags & RADEON_IS_PX)
- 		runtime = true;
--	if (!pci_is_thunderbolt_attached(rdev->pdev))
-+	if (!dev_is_removable(&rdev->pdev->dev))
- 		vga_switcheroo_register_client(rdev->pdev,
- 					       &radeon_switcheroo_ops, runtime);
- 	if (runtime)
-@@ -1527,7 +1527,7 @@ void radeon_device_fini(struct radeon_device *rdev)
- 	/* evict vram memory */
- 	radeon_bo_evict_vram(rdev);
- 	radeon_fini(rdev);
--	if (!pci_is_thunderbolt_attached(rdev->pdev))
-+	if (!dev_is_removable(&rdev->pdev->dev))
- 		vga_switcheroo_unregister_client(rdev->pdev);
- 	if (rdev->flags & RADEON_IS_PX)
- 		vga_switcheroo_fini_domain_pm_ops(rdev->dev);
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 11ad210919c8..e01ee7a5cf5d 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -139,7 +139,7 @@ int radeon_driver_load_kms(struct drm_device *dev, unsigned long flags)
- 	if ((radeon_runtime_pm != 0) &&
- 	    radeon_has_atpx() &&
- 	    ((flags & RADEON_IS_IGP) == 0) &&
--	    !pci_is_thunderbolt_attached(pdev))
-+	    !dev_is_removable(&pdev->dev))
- 		flags |= RADEON_IS_PX;
- 
- 	/* radeon_device_init should report only fatal error
--- 
-2.34.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
