@@ -2,88 +2,93 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 470B5C4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 14:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 063A4C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 15:08:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237185AbiB1OkN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Feb 2022 09:40:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40800 "EHLO
+        id S237447AbiB1PJ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Feb 2022 10:09:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236629AbiB1OkN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 09:40:13 -0500
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE547EB30;
-        Mon, 28 Feb 2022 06:39:31 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id w4so13203433vsq.1;
-        Mon, 28 Feb 2022 06:39:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NgPIIS3M2iTi6HGFIRcC5El8608r4c/KqNVPec9SSG4=;
-        b=ffmocanYAypu5L+ic6J4Ofg+rMeCmubsQkdIU4eiZPn6NIVFxkZMts/h5/a8JJltFU
-         QOmGFQf+6STnU1ndj11APO1Vx1qA/RYd4rZ554Cdx7dhnzv8AUIjrN2s6padSHy/Dm3g
-         RQ1K9/cA6PPU0XLrOlF1cyyPMb18IGsreaQ1OyUFiGzkbb+oYYmnxd9bWdFrAXJsXueJ
-         Jn9+61dtJbblTv2XxbjmeR8Wqludz0GBoMOqJIHZvhcx6x7WhUrPg+ascfMjUyrqCs88
-         MiWKdaNey7GbiqLJNaxkxfOhOSNonXm0gwQRXfD+fUeST7Eh4sXBE++sAMVlssWYlm6h
-         rddA==
-X-Gm-Message-State: AOAM530MsidFvP3VUJhw4V+hSyJdm2JLidEqV0uOIbdMgr/OYAsONsBG
-        5NQRrZeJwVkh4Ksfq3SdlxnQLccOgGJAvA==
-X-Google-Smtp-Source: ABdhPJxy2QXChRRRWCURNZDdchQO0wgb0eFxxABpB3l0RqxmsL2eGT98L6xaShVkxMBpC0ndRXro0w==
-X-Received: by 2002:a67:cc19:0:b0:31b:b3be:a32a with SMTP id q25-20020a67cc19000000b0031bb3bea32amr7907335vsl.80.1646059170808;
-        Mon, 28 Feb 2022 06:39:30 -0800 (PST)
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com. [209.85.221.169])
-        by smtp.gmail.com with ESMTPSA id g21-20020a056102245500b0031b6426f679sm1332980vss.26.2022.02.28.06.39.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 06:39:30 -0800 (PST)
-Received: by mail-vk1-f169.google.com with SMTP id l10so5259609vki.9;
-        Mon, 28 Feb 2022 06:39:30 -0800 (PST)
-X-Received: by 2002:a05:6122:ca1:b0:330:b95b:e048 with SMTP id
- ba33-20020a0561220ca100b00330b95be048mr8242679vkb.39.1646059170224; Mon, 28
- Feb 2022 06:39:30 -0800 (PST)
+        with ESMTP id S231941AbiB1PJZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 10:09:25 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A26D452B07
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 07:08:46 -0800 (PST)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nOhdl-0001d6-0w; Mon, 28 Feb 2022 16:08:45 +0100
+Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <mgr@pengutronix.de>)
+        id 1nOhdk-003eZ7-AS; Mon, 28 Feb 2022 16:08:44 +0100
+From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, kernel@pengutronix.de
+Subject: [PATCH 3/3] usb: dwc3: gadget: EP_DELAY_START is only handled for non isoc eps
+Date:   Mon, 28 Feb 2022 16:08:43 +0100
+Message-Id: <20220228150843.870809-4-m.grzeschik@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220228150843.870809-1-m.grzeschik@pengutronix.de>
+References: <20220228150843.870809-1-m.grzeschik@pengutronix.de>
 MIME-Version: 1.0
-References: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20220227231531.32279-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 28 Feb 2022 15:39:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVzMFwHnfmybZAoqqa0sW1QiHYSYvKoS68m_y0+BjB=rA@mail.gmail.com>
-Message-ID: <CAMuHMdVzMFwHnfmybZAoqqa0sW1QiHYSYvKoS68m_y0+BjB=rA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/V2L bindings
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        USB list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 12:15 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
-> Document RZ/V2L (R9A07G054) SoC bindings. USBHS block is identical to one
-> found on RZ/A2 SoC. No driver changes are required as generic compatible
-> string "renesas,rza2-usbhs" will be used as a fallback.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+Refactor the codepath for handling DWC3_EP_DELAY_START condition
+only being checked on non isoc endpoints.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+---
+ drivers/usb/dwc3/gadget.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-Gr{oetje,eeting}s,
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index b89dadaef4db9d..d09bd66f498a69 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1901,17 +1901,6 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+ 	if (dep->flags & DWC3_EP_WAIT_TRANSFER_COMPLETE)
+ 		return 0;
+ 
+-	/*
+-	 * Start the transfer only after the END_TRANSFER is completed
+-	 * and endpoint STALL is cleared.
+-	 */
+-	if ((dep->flags & DWC3_EP_END_TRANSFER_PENDING) ||
+-	    (dep->flags & DWC3_EP_WEDGE) ||
+-	    (dep->flags & DWC3_EP_STALL)) {
+-		dep->flags |= DWC3_EP_DELAY_START;
+-		return 0;
+-	}
+-
+ 	/*
+ 	 * NOTICE: Isochronous endpoints should NEVER be prestarted. We must
+ 	 * wait for a XferNotReady event so we will know what's the current
+@@ -1927,6 +1916,17 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+ 
+ 			return 0;
+ 		}
++	} else {
++		/*
++		 * Start the transfer only after the END_TRANSFER is completed
++		 * and endpoint STALL is cleared.
++		 */
++		if ((dep->flags & DWC3_EP_END_TRANSFER_PENDING) ||
++		    (dep->flags & DWC3_EP_WEDGE) ||
++		    (dep->flags & DWC3_EP_STALL)) {
++			dep->flags |= DWC3_EP_DELAY_START;
++			return 0;
++		}
+ 	}
+ 
+ 	__dwc3_gadget_kick_transfer(dep);
+-- 
+2.30.2
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
