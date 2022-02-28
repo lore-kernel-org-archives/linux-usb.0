@@ -2,100 +2,231 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C32C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 20:59:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5753C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 21:06:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229745AbiB1VAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Feb 2022 16:00:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43468 "EHLO
+        id S229838AbiB1VG5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Feb 2022 16:06:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229733AbiB1VAf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 16:00:35 -0500
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A98624F464
-        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:59:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646081994; x=1677617994;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9xl2b40hzO4JRtT5sjr752FQcYhwowPk6zQQxSWYUDk=;
-  b=Q1+A7N/QWdKM2bw2DQpDuth4r7XR68k6XDMDgKD+gGsehGqUr/Vnx6N4
-   +Pg/56DM/29DcdSJZyp90SqsGQQgziwMNEocGRDYCObEkTTj/0agYE+ba
-   MGYAEBkeby7u3th2aMFywLdrpZz+bm2FbpGmV9wTjDYvhmtvbdZ+YWlSk
-   H9UIctsgGVwcsgZ9rjJDUFIIz4quOgHW24lXZlSF3jsl+E+OCAq/35SKZ
-   uV9h6THPoLkY9HGPlga4r658F+wt/jIuY6Rr8knigUMAgsKL8N2jcO2t2
-   i1YGoL9F28UmpqElyBQ3vvJf+hIyXJoBYi3KK8LatNqxdKtvO39p7+OuQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10272"; a="253178587"
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
-   d="scan'208";a="253178587"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 12:59:54 -0800
-X-IronPort-AV: E=Sophos;i="5.90,144,1643702400"; 
-   d="scan'208";a="593358352"
-Received: from smile.fi.intel.com ([10.237.72.59])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2022 12:59:52 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1nOn6m-009b5a-T9;
-        Mon, 28 Feb 2022 22:59:04 +0200
-Date:   Mon, 28 Feb 2022 22:59:04 +0200
-From:   "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>
-To:     micklorain <micklorain@protonmail.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-Subject: Re: [PATCH v1] usb: hcd: Try MSI interrupts on PCI devices
-Message-ID: <Yh03mFSESvwT8Wt0@smile.fi.intel.com>
-References: <PxIByDyBRcsbpcmVhGSNDFAoUcMmb78ctXCkw6fbpx25TGlCHvA6SJjjFkNr1FfQZMntYPTNyvEnblxzAZ8a6jP9ddLpKeCN6Chi_2FuexU=@protonmail.com>
+        with ESMTP id S229582AbiB1VG5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 16:06:57 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BBD8642A;
+        Mon, 28 Feb 2022 13:06:17 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E0FD8B81651;
+        Mon, 28 Feb 2022 21:06:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1A58C340F1;
+        Mon, 28 Feb 2022 21:06:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1646082374;
+        bh=h+Vr0xa4sw719cfJKXXdkWPHmnkmCz7iKEofpmYZuls=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ryUW/hps6zMY2vq+o6aVRQ7JS3au1jKNlMCz3lmBRnlpzyglulPdiNzhNLbp/b7uk
+         63eOc+hu8s+YtgOZUEWtlzJOTx/Wh8tFGtWhzQgATAUOKjkvvleDmkx4KJvCWKvyKz
+         b+FW1S2jAaEdxRoD6xwqhO0I62pHvacfENCPpHaM=
+Date:   Mon, 28 Feb 2022 22:06:10 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Won Chung <wonchung@google.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb:typec: Add sysfs support for Type C connector's
+ physical location
+Message-ID: <Yh05QgVw5htyGj+X@kroah.com>
+References: <20220228190649.362070-1-wonchung@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <PxIByDyBRcsbpcmVhGSNDFAoUcMmb78ctXCkw6fbpx25TGlCHvA6SJjjFkNr1FfQZMntYPTNyvEnblxzAZ8a6jP9ddLpKeCN6Chi_2FuexU=@protonmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220228190649.362070-1-wonchung@google.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 08:12:47PM +0000, micklorain wrote:
-> Hi,
+On Mon, Feb 28, 2022 at 07:06:49PM +0000, Won Chung wrote:
+> When ACPI table includes _PLD field for a Type C connector, share _PLD
+> values in its sysfs. _PLD stands for physical location of device.
 > 
-> This patch breaks USB for me. I noticed when I upgraded from debian's 4.19.0-18 (working) to 5.10.0-10 (broken). I git bisect'ed until I found that this patch is the culprit. Upstream 5.17.0-rc2 is still broken, but 5.17.0-rc2 with this patch reverted works.
+> Currently without connector's location information, when there are
+> multiple Type C ports, it is hard to distinguish which connector
+> corresponds to which physical port at which location. For example, when
+> there are two Type C connectors, it is hard to find out which connector
+> corresponds to the Type C port on the left panel versus the Type C port
+> on the right panel. With location information provided, we can determine
+> which specific device at which location is doing what.
 > 
-> lsusb when things work :
-> https://paste.debian.net/hidden/2a964425/
+> _PLD output includes much more fields, but only generic fields are added
+> and exposed to sysfs, so that non-ACPI devices can also support it in
+> the future. The minimal generic fields needed for locating a port are
+> the following.
+> - panel
+> - horizontal_position
+> - vertical_position
+> - dock
+> - lid
 > 
-> lsusb when things are broken :
-> https://paste.debian.net/hidden/0376920c/
+> Signed-off-by: Won Chung <wonchung@google.com>
+> ---
+>  Documentation/ABI/testing/sysfs-class-typec | 43 +++++++++++++++++
+>  drivers/usb/typec/class.c                   | 52 +++++++++++++++++++++
+>  drivers/usb/typec/class.h                   |  3 ++
+>  3 files changed, 98 insertions(+)
 > 
-> dmesg when things are broken :
-> https://paste.debian.net/hidden/780ca112/
-> 
-> dmesg when things work :
-> https://paste.debian.net/hidden/4d1bfc0f/
-> 
-> Let me know if you need anything else from me.
+> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
+> index 75088ecad202..2879bc6e6ad2 100644
+> --- a/Documentation/ABI/testing/sysfs-class-typec
+> +++ b/Documentation/ABI/testing/sysfs-class-typec
+> @@ -141,6 +141,49 @@ Description:
+>  		- "reverse": CC2 orientation
+>  		- "unknown": Orientation cannot be determined.
+>  
+> +What:		/sys/class/typec/<port>/location/panel
+> +Date:		February 2022
+> +Contact:	Won Chung <wonchung@google.com>
+> +Description:
+> +		Describes which panel surface of the system’s housing the
+> +		Type C port resides on:
+> +		0 - Top
+> +		1 - Bottom
+> +		2 - Left
+> +		3 - Right
+> +		4 - Front
+> +		5 - Back
+> +		6 - Unknown (Vertical Position and Horizontal Position will be
+> +		ignored)
 
-Thanks for your report!
-
-Last time I have got something similar it becomes that PCI bridge which is used
-to connect USB controller to the PCI Root Bridge was not capable of MSI, while
-advertising that capability. I.o.w. HW bug.
-
-To understand if it's something similar, please run (under the root) each of
-the following commands:
-
-	lspci -nk -vvv
-	cat /proc/interrupts
-
-in both cases, i.e. working and non-working.
-
-And then share the output (all 4 files).
-
--- 
-With Best Regards,
-Andy Shevchenko
+This is text files, why not say "top", "bottom", and so on?  Why use a
+number that means nothing?
 
 
+> +
+> +What:		/sys/class/typec/<port>/location/vertical_position
+> +Date:		February 2022
+> +Contact:	Won Chung <wonchung@google.com>
+> +Description:
+> +		0 - Upper
+> +		1 - Center
+> +		2 - Lower
+
+Same here.
+
+
+> +
+> +What:		/sys/class/typec/<port>/location/horizontal_position
+> +Date:		Feb, 2022
+> +Contact:	Won Chung <wonchung@google.com>
+> +Description:
+> +		0 - Left
+> +		1 - Center
+> +		2 - Right
+
+And here.
+
+> +
+> +What:		/sys/class/typec/<port>/location/dock
+> +Date:		Feb, 2022
+
+Note that date ends in a few hours :(
+
+> +Contact:	Won Chung <wonchung@google.com>
+> +Description:
+> +		Set if the port resides in a docking station or a port replicator.
+> +
+> +What:		/sys/class/typec/<port>/location/lid
+> +Date:		Feb, 2022
+> +Contact:	Won Chung <wonchung@google.com>
+> +Description:
+> +		Set if the port resides on the lid of laptop system.
+
+"set"?  What does that mean?
+
+
+
+> +
+>  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
+>  
+>  What:		/sys/class/typec/<port>-partner/accessory_mode
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 45a6f0c807cb..43b23c221f95 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -1579,8 +1579,40 @@ static const struct attribute_group typec_group = {
+>  	.attrs = typec_attrs,
+>  };
+>  
+> +#define DEV_ATTR_LOCATION_PROP(prop) \
+> +	static ssize_t prop##_show(struct device *dev, struct device_attribute *attr, \
+> +		char *buf) \
+> +	{ \
+> +		struct typec_port *port = to_typec_port(dev); \
+> +		if (port->pld) \
+> +			return sprintf(buf, "%u\n", port->pld->prop); \
+> +		return 0; \
+> +	}; \
+> +static DEVICE_ATTR_RO(prop)
+> +
+> +DEV_ATTR_LOCATION_PROP(panel);
+> +DEV_ATTR_LOCATION_PROP(vertical_position);
+> +DEV_ATTR_LOCATION_PROP(horizontal_position);
+> +DEV_ATTR_LOCATION_PROP(dock);
+> +DEV_ATTR_LOCATION_PROP(lid);
+> +
+> +static struct attribute *typec_location_attrs[] = {
+> +	&dev_attr_panel.attr,
+> +	&dev_attr_vertical_position.attr,
+> +	&dev_attr_horizontal_position.attr,
+> +	&dev_attr_dock.attr,
+> +	&dev_attr_lid.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group typec_location_group = {
+> +	.name = "location",
+> +	.attrs = typec_location_attrs,
+> +};
+> +
+>  static const struct attribute_group *typec_groups[] = {
+>  	&typec_group,
+> +	&typec_location_group,
+>  	NULL
+>  };
+>  
+> @@ -1614,6 +1646,24 @@ const struct device_type typec_port_dev_type = {
+>  	.release = typec_release,
+>  };
+>  
+> +void *get_pld(struct device *dev)
+
+That is a horrible global function name :(
+
+And why a void pointer?  We have real types in the kernel, please use
+them.
+
+> +{
+> +#ifdef CONFIG_ACPI
+
+No #ifdefs in .c files please.
+
+> +	struct acpi_pld_info *pld;
+> +	acpi_status status;
+> +
+> +	if (!has_acpi_companion(dev))
+> +		return NULL;
+> +
+> +	status = acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld);
+> +	if (ACPI_FAILURE(status))
+> +		return NULL;
+> +	return pld;
+
+See, you return a real type, don't throw that information away.  This
+isn't Windows :)
+
+thanks,
+
+gre gk-h
