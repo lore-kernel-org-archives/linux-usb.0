@@ -2,90 +2,254 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDBCFC433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 18:41:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40805C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 19:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240912AbiB1Sm3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Feb 2022 13:42:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43080 "EHLO
+        id S229680AbiB1THe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Feb 2022 14:07:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240699AbiB1SmV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 13:42:21 -0500
-X-Greylist: delayed 599 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Feb 2022 10:36:57 PST
-Received: from relay4.hostedemail.com (relay4.hostedemail.com [64.99.140.36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 745EFD95;
-        Mon, 28 Feb 2022 10:36:57 -0800 (PST)
-Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay11.hostedemail.com (Postfix) with ESMTP id 8480C81766;
-        Mon, 28 Feb 2022 18:20:49 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf09.hostedemail.com (Postfix) with ESMTPA id 5C4272002A;
-        Mon, 28 Feb 2022 18:20:29 +0000 (UTC)
-Message-ID: <0be9de3920442df490f01b6fb1c42521c3de6190.camel@perches.com>
-Subject: Re: [PATCH 1/6] drivers: usb: remove usage of list iterator past
- the loop body
-From:   Joe Perches <joe@perches.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Jakob Koschel <jakobkoschel@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Arnd Bergman <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
-        Cristiano Giuffrida <c.giuffrida@vu.nl>,
-        "Bos, H.J." <h.j.bos@vu.nl>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Nathan Chancellor <nathan@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sgx@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-block@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-crypto@vger.kernel.org,
-        dmaengine@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-usb@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        bcm-kernel-feedback-list@broadcom.com, linux-tegra@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, kvm@vger.kernel.org,
-        linux-cifs@vger.kernel.org, samba-technical@lists.samba.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-fsdevel@vger.kernel.org,
-        kgdb-bugreport@lists.sourceforge.net,
-        v9fs-developer@lists.sourceforge.net,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Date:   Mon, 28 Feb 2022 10:20:28 -0800
-In-Reply-To: <20220228112413.GA2812@kadam>
-References: <20220228110822.491923-1-jakobkoschel@gmail.com>
-         <20220228110822.491923-2-jakobkoschel@gmail.com>
-         <20220228112413.GA2812@kadam>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.40.4-1ubuntu2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 1e1i8ombnsc3cdkptu3anccezjc89zox
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 5C4272002A
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+i6vY6IDwHpNq++UEo/5hqvP4PvgQNb4E=
-X-HE-Tag: 1646072429-12569
+        with ESMTP id S229509AbiB1THd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 14:07:33 -0500
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3366FB189A
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 11:06:54 -0800 (PST)
+Received: by mail-pj1-x1049.google.com with SMTP id m3-20020a17090a3f8300b001bd33af55f2so15873pjc.1
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 11:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=o/agACgJ9p2D2Sf7n3omy9IGAy/5Dg0bQ6zDKzz3oek=;
+        b=sGiVz9m8sT5ze1LctY0q5FaRAOLS/76JAbjZVzYDCVh6r7z7j+l9scY7ZE1HDSoboD
+         b9L7y3nC7hrhChSeGOcQ0V5rnQG+A2wPVqEAVjc9j4nX71CcdoMJWZ7YQV+pCcZB4jk1
+         kaRireYFNfq4h5HvJ5jdlEIl9b5D7kWRlw0eEm31R10ZgSRbuIaCS4ErkYT4YNykfkyE
+         wm3L73idQjP8J4O+63QT7LwdZpaT7SIg2cCW69L3ReZ8Xr6XfhggW9oX+dBQzhRs7zdt
+         QNZXPaUoR5fdPceXWdhJSx098cJjO+rzEXY2XeIhu/qGiVJv4vSA3Qc6+fxNhjxeaJUy
+         L7Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=o/agACgJ9p2D2Sf7n3omy9IGAy/5Dg0bQ6zDKzz3oek=;
+        b=L16Co/5IfVO5JSKX/vZBqSec6rvQ5s28WSdVCj4ZNFUdy1TnnXY/MwrcTvRmyX7h7q
+         UqzGuQYDmRch3OFJo1IyMZndvQyvbk2bCFsH1mWKTLFC6F2UT63CURsKE8xuCRk5MiGO
+         PO6iVOgHN+DhOujz7ttm2cihnix6LFoc8WW0/XgldHgHWaZBYApwso1vpwtXkm39I7BW
+         yjp2qaLcVtK+CIvH84LXMV8S4QIVtAeah+KKnKR5+YeZhj0PjxXKGzUWRpSoPqLRqwr8
+         tqp315rqb77SRY4QD7ISqJgKBlzdtN7/IZ/dw+ZuFWQcUT19P1MYBS8NC5DxeVJf+FSq
+         o9oQ==
+X-Gm-Message-State: AOAM532/Q0nWMMftkbBL3QHzWFR+wFywwo/MgM+9/RQ6mnSkf+N3A7c0
+        kxqR6Ce8GV2yh/MTZPXojlfOjSR/f/n7Zg==
+X-Google-Smtp-Source: ABdhPJzAe6JgYbk8fIQAb2HlfOncs7GdJ4J5652n7FhKH2N0YldJoYyV4WBCk57+aVuf9ttltxemR9Q1yoyssA==
+X-Received: from wonchungspecialist.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:1440])
+ (user=wonchung job=sendgmr) by 2002:a17:90a:2e04:b0:1bc:a5db:bcdb with SMTP
+ id q4-20020a17090a2e0400b001bca5dbbcdbmr18258335pjd.116.1646075213654; Mon,
+ 28 Feb 2022 11:06:53 -0800 (PST)
+Date:   Mon, 28 Feb 2022 19:06:49 +0000
+Message-Id: <20220228190649.362070-1-wonchung@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.35.1.574.g5d30c73bfb-goog
+Subject: [PATCH] usb:typec: Add sysfs support for Type C connector's physical location
+From:   Won Chung <wonchung@google.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Won Chung <wonchung@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 2022-02-28 at 14:24 +0300, Dan Carpenter wrote:
+When ACPI table includes _PLD field for a Type C connector, share _PLD
+values in its sysfs. _PLD stands for physical location of device.
 
-> a multi-line indent gets curly braces for readability even though
-> it's not required by C.  And then both sides would get curly braces.
+Currently without connector's location information, when there are
+multiple Type C ports, it is hard to distinguish which connector
+corresponds to which physical port at which location. For example, when
+there are two Type C connectors, it is hard to find out which connector
+corresponds to the Type C port on the left panel versus the Type C port
+on the right panel. With location information provided, we can determine
+which specific device at which location is doing what.
 
-That's more your personal preference than a coding style guideline.
+_PLD output includes much more fields, but only generic fields are added
+and exposed to sysfs, so that non-ACPI devices can also support it in
+the future. The minimal generic fields needed for locating a port are
+the following.
+- panel
+- horizontal_position
+- vertical_position
+- dock
+- lid
 
+Signed-off-by: Won Chung <wonchung@google.com>
+---
+ Documentation/ABI/testing/sysfs-class-typec | 43 +++++++++++++++++
+ drivers/usb/typec/class.c                   | 52 +++++++++++++++++++++
+ drivers/usb/typec/class.h                   |  3 ++
+ 3 files changed, 98 insertions(+)
+
+diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/AB=
+I/testing/sysfs-class-typec
+index 75088ecad202..2879bc6e6ad2 100644
+--- a/Documentation/ABI/testing/sysfs-class-typec
++++ b/Documentation/ABI/testing/sysfs-class-typec
+@@ -141,6 +141,49 @@ Description:
+ 		- "reverse": CC2 orientation
+ 		- "unknown": Orientation cannot be determined.
+=20
++What:		/sys/class/typec/<port>/location/panel
++Date:		February 2022
++Contact:	Won Chung <wonchung@google.com>
++Description:
++		Describes which panel surface of the system=E2=80=99s housing the
++		Type C port resides on:
++		0 - Top
++		1 - Bottom
++		2 - Left
++		3 - Right
++		4 - Front
++		5 - Back
++		6 - Unknown (Vertical Position and Horizontal Position will be
++		ignored)
++
++What:		/sys/class/typec/<port>/location/vertical_position
++Date:		February 2022
++Contact:	Won Chung <wonchung@google.com>
++Description:
++		0 - Upper
++		1 - Center
++		2 - Lower
++
++What:		/sys/class/typec/<port>/location/horizontal_position
++Date:		Feb, 2022
++Contact:	Won Chung <wonchung@google.com>
++Description:
++		0 - Left
++		1 - Center
++		2 - Right
++
++What:		/sys/class/typec/<port>/location/dock
++Date:		Feb, 2022
++Contact:	Won Chung <wonchung@google.com>
++Description:
++		Set if the port resides in a docking station or a port replicator.
++
++What:		/sys/class/typec/<port>/location/lid
++Date:		Feb, 2022
++Contact:	Won Chung <wonchung@google.com>
++Description:
++		Set if the port resides on the lid of laptop system.
++
+ USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
+=20
+ What:		/sys/class/typec/<port>-partner/accessory_mode
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 45a6f0c807cb..43b23c221f95 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1579,8 +1579,40 @@ static const struct attribute_group typec_group =3D =
+{
+ 	.attrs =3D typec_attrs,
+ };
+=20
++#define DEV_ATTR_LOCATION_PROP(prop) \
++	static ssize_t prop##_show(struct device *dev, struct device_attribute *a=
+ttr, \
++		char *buf) \
++	{ \
++		struct typec_port *port =3D to_typec_port(dev); \
++		if (port->pld) \
++			return sprintf(buf, "%u\n", port->pld->prop); \
++		return 0; \
++	}; \
++static DEVICE_ATTR_RO(prop)
++
++DEV_ATTR_LOCATION_PROP(panel);
++DEV_ATTR_LOCATION_PROP(vertical_position);
++DEV_ATTR_LOCATION_PROP(horizontal_position);
++DEV_ATTR_LOCATION_PROP(dock);
++DEV_ATTR_LOCATION_PROP(lid);
++
++static struct attribute *typec_location_attrs[] =3D {
++	&dev_attr_panel.attr,
++	&dev_attr_vertical_position.attr,
++	&dev_attr_horizontal_position.attr,
++	&dev_attr_dock.attr,
++	&dev_attr_lid.attr,
++	NULL,
++};
++
++static const struct attribute_group typec_location_group =3D {
++	.name =3D "location",
++	.attrs =3D typec_location_attrs,
++};
++
+ static const struct attribute_group *typec_groups[] =3D {
+ 	&typec_group,
++	&typec_location_group,
+ 	NULL
+ };
+=20
+@@ -1614,6 +1646,24 @@ const struct device_type typec_port_dev_type =3D {
+ 	.release =3D typec_release,
+ };
+=20
++void *get_pld(struct device *dev)
++{
++#ifdef CONFIG_ACPI
++	struct acpi_pld_info *pld;
++	acpi_status status;
++
++	if (!has_acpi_companion(dev))
++		return NULL;
++
++	status =3D acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld);
++	if (ACPI_FAILURE(status))
++		return NULL;
++	return pld;
++#else
++	return NULL;
++#endif
++}
++
+ /* --------------------------------------- */
+ /* Driver callbacks to report role updates */
+=20
+@@ -2073,6 +2123,8 @@ struct typec_port *typec_register_port(struct device =
+*parent,
+ 		return ERR_PTR(ret);
+ 	}
+=20
++	port->pld =3D get_pld(&port->dev);
++
+ 	ret =3D device_add(&port->dev);
+ 	if (ret) {
+ 		dev_err(parent, "failed to register port (%d)\n", ret);
+diff --git a/drivers/usb/typec/class.h b/drivers/usb/typec/class.h
+index 0f1bd6d19d67..1b52633400c8 100644
+--- a/drivers/usb/typec/class.h
++++ b/drivers/usb/typec/class.h
+@@ -3,6 +3,7 @@
+ #ifndef __USB_TYPEC_CLASS__
+ #define __USB_TYPEC_CLASS__
+=20
++#include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/usb/typec.h>
+=20
+@@ -54,6 +55,8 @@ struct typec_port {
+=20
+ 	const struct typec_capability	*cap;
+ 	const struct typec_operations   *ops;
++
++	struct acpi_pld_info		*pld;
+ };
+=20
+ #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
+--=20
+2.35.1.574.g5d30c73bfb-goog
 
