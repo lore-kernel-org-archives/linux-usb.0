@@ -2,63 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15287C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 20:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95B17C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Feb 2022 20:10:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbiB1UJv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Feb 2022 15:09:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45646 "EHLO
+        id S230040AbiB1ULg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Feb 2022 15:11:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230103AbiB1UJt (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 15:09:49 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F71B6E4DE
-        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:09:09 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id h15so19185393edv.7
-        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:09:08 -0800 (PST)
+        with ESMTP id S230046AbiB1ULf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Feb 2022 15:11:35 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 221858AE54
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:10:55 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id qk11so27200374ejb.2
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
-        b=Y+K+LAchMzIcesbCiqrzhisJgvbUIKYh3oFG/AlZJTKul1K9rRfHylHsN/EgM8hdwz
-         P3hABFpC0Wcw+/0V4cKR5X0P787Wy9QwMeL5ORY50P9+oNZqmMp6NkFq4yV6NAIkP79C
-         0bvk8ZnwfFSPqzKfD7Qqea+fs2YLRTaNcLanw=
+        bh=LeZ8UzRXrDw4d1M4BG6ctt9COK0EF5j9qtOsLWtMfJg=;
+        b=Jhdls+DdmLi+4DWS7o2GehQ/Yg8vWPth9HxY0ymuDsFhiEF5hlRLzgd1PV4wJ4dLVJ
+         JdRWd6PhVxu3cPtesSY0XREEgjw/sVhI1zgx2ECNJUHRlykk7MmbqhfMtkifVM/LmgYS
+         6chNfwYqW0eu75y5MSRY9nnHOEZnFkvhMXNYc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uod9R4vPcpqIjzHofeC96qXcIXUlGW+U5alvKq7K0ZA=;
-        b=BYnDsloloz5OarV/gja1qlln3pTS7egXWLH5wrPgeJXBNg1vDRsfHxxl6mF1ahNJUI
-         iHM7e20laeyKMyuSkLeDENFZYKMg6MsxqiYlANpWmGnCZLdt8Z8KqZdsMvHOzLBN0xW+
-         VEFeMQRn/7QU0Oiu+L/tHh6dsvtRQ/ckWUdyGXNW8prX0CTK0oSQ53OI24XshamuIihk
-         Ge7OKIkFuC9LDBHJ0/Y7A44tUrLJrPknbtlyEtxH0dEDny56WY/Y9y+W+c4HPxljRhGj
-         FZ+EwrB2dMo1Xi/Wx/1L1dUlkcBuQymxYCjpz9y4a0mqzgXI8TfTjeT2OAejvQABHj/H
-         NUEQ==
-X-Gm-Message-State: AOAM530AJ4lDgUVcnKtMJxbuKbyKPufubTXXhZxH/cmyhYn67E395IDa
-        TZahHM8MwnCv5v/pt2So421tzNkRlAq2Y9/ET5s=
-X-Google-Smtp-Source: ABdhPJwXfBwBrC9aHEkj95n/9F3VhZjn1PyoynGkuseF9j46qleSsdBFgjX6Dm2Kf+A8O92DSQb5bQ==
-X-Received: by 2002:a50:ee90:0:b0:40f:349f:7368 with SMTP id f16-20020a50ee90000000b0040f349f7368mr20815447edr.236.1646078947467;
-        Mon, 28 Feb 2022 12:09:07 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id cf10-20020a0564020b8a00b00412b19c1aaesm6366893edb.12.2022.02.28.12.09.07
+        bh=LeZ8UzRXrDw4d1M4BG6ctt9COK0EF5j9qtOsLWtMfJg=;
+        b=q56NetoqOV5HGBpuN2BR1JuODlAOegBJ9wjM0zb1k0k1UjnUpDAou1Sdhea7ooatLF
+         y/s3Im7X1QTaEb1niyeKOgN39STgyrjfaPkocOP2jQzLmwEjbQ3IZNERAnc4PKXd/Wrm
+         LjWSN5pOciPb20QkwxUxE6h+/uIZhGaYGNj0WciSh2jCuxvZkEJP9WAGCQUU4bFPLqPc
+         lGfD80ventPNmWMa2CXie89AdlEnwTi2brYMclvBVolW+LXcfutmf/59TYV3Scs1Tawc
+         N0seF6bk6mhqAKPGZ7snUUSEbyvVie670q4WnqgbtRaeBwl0330aSe37fUiUchpODWH8
+         xZeQ==
+X-Gm-Message-State: AOAM5332sYM6CM8EnMrP8hOxwgWRdjs6pxHzgCDV1bU8Hpj2EY7ytwhs
+        SFyWAxS0yaiuSBNk6LSjdHhuwrheuaWxDnk1ewU=
+X-Google-Smtp-Source: ABdhPJx9FTTKtxS/iFUE1DzQKoqT6Cs3xL4f71aMSdePLqHqTEHmlmo3mAy5umf9XtlNlbZ49WenXg==
+X-Received: by 2002:a17:906:53c3:b0:6cf:742d:84de with SMTP id p3-20020a17090653c300b006cf742d84demr15923068ejo.576.1646079053419;
+        Mon, 28 Feb 2022 12:10:53 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id fu31-20020a170907b01f00b006ce70b64b85sm4595983ejc.126.2022.02.28.12.10.51
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Feb 2022 12:09:07 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id d3so17232560wrf.1
-        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:09:07 -0800 (PST)
-X-Received: by 2002:ac2:44a4:0:b0:445:8fc5:a12a with SMTP id
- c4-20020ac244a4000000b004458fc5a12amr7653619lfm.27.1646078630855; Mon, 28 Feb
- 2022 12:03:50 -0800 (PST)
+        Mon, 28 Feb 2022 12:10:51 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id qk11so27200185ejb.2
+        for <linux-usb@vger.kernel.org>; Mon, 28 Feb 2022 12:10:51 -0800 (PST)
+X-Received: by 2002:ac2:4d91:0:b0:443:127b:558a with SMTP id
+ g17-20020ac24d91000000b00443127b558amr14027806lfe.542.1646079041191; Mon, 28
+ Feb 2022 12:10:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20220228110822.491923-1-jakobkoschel@gmail.com>
  <20220228110822.491923-3-jakobkoschel@gmail.com> <2e4e95d6-f6c9-a188-e1cd-b1eae465562a@amd.com>
- <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
-In-Reply-To: <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com>
+ <CAHk-=wgQps58DPEOe4y5cTh5oE9EdNTWRLXzgMiETc+mFX7jzw@mail.gmail.com> <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+In-Reply-To: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 28 Feb 2022 12:03:34 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
-Message-ID: <CAHk-=wj8fkosQ7=bps5K+DDazBXk=ypfn49A0sEq+7-nZnyfXA@mail.gmail.com>
+Date:   Mon, 28 Feb 2022 12:10:24 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
+Message-ID: <CAHk-=wiTCvLQkHcJ3y0hpqH7FEk9D28LDvZZogC6OVLk7naBww@mail.gmail.com>
 Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
  as a ptr
 To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
@@ -111,39 +111,81 @@ Cc:     Jakob Koschel <jakobkoschel@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
         Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="0000000000008601b205d919a4ad"
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Feb 28, 2022 at 11:56 AM Linus Torvalds
+--0000000000008601b205d919a4ad
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Feb 28, 2022 at 12:03 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
 >
-> I do wish we could actually poison the 'pos' value after the loop
-> somehow - but clearly the "might be uninitialized" I was hoping for
-> isn't the way to do it.
+> Side note: we do need *some* way to do it.
 
-Side note: we do need *some* way to do it.
+Ooh.
 
-Because if we make that change, and only set it to another pointer
-when not the head, then we very much change the semantics of
-"list_for_each_head()". The "list was empty" case would now exit with
-'pos' not set at all (or set to NULL if we add that). Or it would be
-set to the last entry.
+This patch is a work of art.
 
-And regardless, that means that all the
+And I mean that in the worst possible way.
 
-        if (pos == head)
+We can do
 
-kinds of checks after the loop would be fundamentally broken.
+        typeof(pos) pos
 
-Darn. I really hoped for (and naively expected) that we could actually
-have the compiler warn about the use-after-loop case. That whole
-"compiler will now complain about bad use" was integral to my clever
-plan to use the C99 feature of declaring the iterator inside the loop.
+in the 'for ()' loop, and never use __iter at all.
 
-But my "clever plan" was apparently some ACME-level Wile E. Coyote sh*t.
+That means that inside the for-loop, we use a _different_ 'pos' than outside.
 
-Darn.
+And then the compiler will not see some "might be uninitialized", but
+the outer 'pos' *will* be uninitialized.
 
-                   Linus
+Unless, of course, the outer 'pos' had that pointless explicit initializer.
+
+Here - can somebody poke holes in this "work of art" patch?
+
+                     Linus
+
+--0000000000008601b205d919a4ad
+Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_l074y7ca0>
+X-Attachment-Id: f_l074y7ca0
+
+IE1ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIGFyY2gveDg2L2tlcm5lbC9j
+cHUvc2d4L2VuY2wuYyB8IDIgKy0KIGluY2x1ZGUvbGludXgvbGlzdC5oICAgICAgICAgICB8IDYg
+KysrLS0tCiAzIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkK
+CmRpZmYgLS1naXQgYS9NYWtlZmlsZSBiL01ha2VmaWxlCmluZGV4IGRhZWI1Yzg4YjUwYi4uY2M0
+YjBhMjY2YWYwIDEwMDY0NAotLS0gYS9NYWtlZmlsZQorKysgYi9NYWtlZmlsZQpAQCAtNTE1LDcg
+KzUxNSw3IEBAIEtCVUlMRF9DRkxBR1MgICA6PSAtV2FsbCAtV3VuZGVmIC1XZXJyb3I9c3RyaWN0
+LXByb3RvdHlwZXMgLVduby10cmlncmFwaHMgXAogCQkgICAtZm5vLXN0cmljdC1hbGlhc2luZyAt
+Zm5vLWNvbW1vbiAtZnNob3J0LXdjaGFyIC1mbm8tUElFIFwKIAkJICAgLVdlcnJvcj1pbXBsaWNp
+dC1mdW5jdGlvbi1kZWNsYXJhdGlvbiAtV2Vycm9yPWltcGxpY2l0LWludCBcCiAJCSAgIC1XZXJy
+b3I9cmV0dXJuLXR5cGUgLVduby1mb3JtYXQtc2VjdXJpdHkgXAotCQkgICAtc3RkPWdudTg5CisJ
+CSAgIC1zdGQ9Z251MTEKIEtCVUlMRF9DUFBGTEFHUyA6PSAtRF9fS0VSTkVMX18KIEtCVUlMRF9B
+RkxBR1NfS0VSTkVMIDo9CiBLQlVJTERfQ0ZMQUdTX0tFUk5FTCA6PQpkaWZmIC0tZ2l0IGEvYXJj
+aC94ODYva2VybmVsL2NwdS9zZ3gvZW5jbC5jIGIvYXJjaC94ODYva2VybmVsL2NwdS9zZ3gvZW5j
+bC5jCmluZGV4IDQ4YWZlOTZhZTBmMC4uODdkYjJmMzkzNmIwIDEwMDY0NAotLS0gYS9hcmNoL3g4
+Ni9rZXJuZWwvY3B1L3NneC9lbmNsLmMKKysrIGIvYXJjaC94ODYva2VybmVsL2NwdS9zZ3gvZW5j
+bC5jCkBAIC00NTAsNyArNDUwLDcgQEAgc3RhdGljIHZvaWQgc2d4X21tdV9ub3RpZmllcl9yZWxl
+YXNlKHN0cnVjdCBtbXVfbm90aWZpZXIgKm1uLAogCQkJCSAgICAgc3RydWN0IG1tX3N0cnVjdCAq
+bW0pCiB7CiAJc3RydWN0IHNneF9lbmNsX21tICplbmNsX21tID0gY29udGFpbmVyX29mKG1uLCBz
+dHJ1Y3Qgc2d4X2VuY2xfbW0sIG1tdV9ub3RpZmllcik7Ci0Jc3RydWN0IHNneF9lbmNsX21tICp0
+bXAgPSBOVUxMOworCXN0cnVjdCBzZ3hfZW5jbF9tbSAqdG1wOwogCiAJLyoKIAkgKiBUaGUgZW5j
+bGF2ZSBpdHNlbGYgY2FuIHJlbW92ZSBlbmNsX21tLiAgTm90ZSwgb2JqZWN0cyBjYW4ndCBiZSBt
+b3ZlZApkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9saXN0LmggYi9pbmNsdWRlL2xpbnV4L2xp
+c3QuaAppbmRleCBkZDZjMjA0MWQwOWMuLjcwODA3OGIyZjI0ZCAxMDA2NDQKLS0tIGEvaW5jbHVk
+ZS9saW51eC9saXN0LmgKKysrIGIvaW5jbHVkZS9saW51eC9saXN0LmgKQEAgLTYzNCw5ICs2MzQs
+OSBAQCBzdGF0aWMgaW5saW5lIHZvaWQgbGlzdF9zcGxpY2VfdGFpbF9pbml0KHN0cnVjdCBsaXN0
+X2hlYWQgKmxpc3QsCiAgKiBAaGVhZDoJdGhlIGhlYWQgZm9yIHlvdXIgbGlzdC4KICAqIEBtZW1i
+ZXI6CXRoZSBuYW1lIG9mIHRoZSBsaXN0X2hlYWQgd2l0aGluIHRoZSBzdHJ1Y3QuCiAgKi8KLSNk
+ZWZpbmUgbGlzdF9mb3JfZWFjaF9lbnRyeShwb3MsIGhlYWQsIG1lbWJlcikJCQkJXAotCWZvciAo
+cG9zID0gbGlzdF9maXJzdF9lbnRyeShoZWFkLCB0eXBlb2YoKnBvcyksIG1lbWJlcik7CVwKLQkg
+ICAgICFsaXN0X2VudHJ5X2lzX2hlYWQocG9zLCBoZWFkLCBtZW1iZXIpOwkJCVwKKyNkZWZpbmUg
+bGlzdF9mb3JfZWFjaF9lbnRyeShwb3MsIGhlYWQsIG1lbWJlcikJCQkJCVwKKwlmb3IgKHR5cGVv
+Zihwb3MpIHBvcyA9IGxpc3RfZmlyc3RfZW50cnkoaGVhZCwgdHlwZW9mKCpwb3MpLCBtZW1iZXIp
+OwlcCisJICAgICAhbGlzdF9lbnRyeV9pc19oZWFkKHBvcywgaGVhZCwgbWVtYmVyKTsJXAogCSAg
+ICAgcG9zID0gbGlzdF9uZXh0X2VudHJ5KHBvcywgbWVtYmVyKSkKIAogLyoqCg==
+--0000000000008601b205d919a4ad--
