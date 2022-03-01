@@ -2,48 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CE0EC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Mar 2022 20:15:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9CFC3526E
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Mar 2022 20:18:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237790AbiCAUQ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Mar 2022 15:16:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50982 "EHLO
+        id S237978AbiCAUSp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Mar 2022 15:18:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237850AbiCAUQB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Mar 2022 15:16:01 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C5D87DE19;
-        Tue,  1 Mar 2022 12:15:12 -0800 (PST)
+        with ESMTP id S238260AbiCAUSP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Mar 2022 15:18:15 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC52923BCA;
+        Tue,  1 Mar 2022 12:17:31 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1620461638;
-        Tue,  1 Mar 2022 20:15:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8DCDC340EF;
-        Tue,  1 Mar 2022 20:15:06 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77C5B61715;
+        Tue,  1 Mar 2022 20:17:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FEB7C340EE;
+        Tue,  1 Mar 2022 20:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646165711;
-        bh=4N2J2oR8S/J4fVumM5U4WBjdvr38F3mQKilEvTjAQq8=;
+        s=k20201202; t=1646165850;
+        bh=FTSM6DSbiOxEW6wNuPkqXpYZ5oFWR17UYBbYYSmZ1tk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gUNaar6GUcdLc/7DRJk4kt9kVbXl7qSD0x3FEct/r4QjXgmoEYzPw4csF8lVp4fpT
-         qwdUuDjn4Iy+FVAVtMk5aWe5LxNzQt8Pbtjj/MQd4WY6o9KFi4ZwVvsfpFmvq7Ek50
-         xog6Z/uwpOCvd0Xx3NZqnueRq1DUSSbvEtDPPz1z1FDdOa4LHncfyKnx/P+Q3gvDGS
-         +7fccYf1ILqZPdISk2qC2iHU4zzwFcrFHKB+UJbBAmm1Km6hnPStfyuOeCtRidpnXG
-         BaNjzSh6vB8vgh+yVKBB8Srt+nwtRwZ5kBbFKwp3Fml33YRPP0QX9fe7mOn8NnBY3h
-         JE2qN+bexWDUA==
+        b=kywwQhQ0Wska5Q7OhxQVA9CZqTBaMoRzQ4POiv5cTVzFEEdriSKR+ZELKIsYpaUcQ
+         NgdV4NqCn6QqxNH085Ig3icsQeHSZolDk80/VDEKVW3tDSOw/kpoSMIf4PXrEpcsag
+         1TtIx6KKFzwOV5N4kFjo60vHo6/3G7/+5cbKQF3siAoBCPt2QIaLhKVHTB+mPqwtyM
+         vwW518iJ31NaLE5227pQenlkIIa891Hq2unZ5wQo2i6JqJJF6+E1SC9xkov2hcK6en
+         4GkUdhr37dfKR6AcEZamz4wzPgnK+KcrIjkL8YqE2tnyD1LOGBzPL62tBOmevBcHyL
+         riQ9BQkyHhFGw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
         Grant Grundler <grundler@chromium.org>,
         "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, kuba@kernel.org, jgg@ziepe.ca,
-        arnd@arndb.de, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 15/28] sr9700: sanity check for packet length
-Date:   Tue,  1 Mar 2022 15:13:20 -0500
-Message-Id: <20220301201344.18191-15-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, kuba@kernel.org,
+        andrew@lunn.ch, arnd@arndb.de, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 12/23] sr9700: sanity check for packet length
+Date:   Tue,  1 Mar 2022 15:16:11 -0500
+Message-Id: <20220301201629.18547-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220301201344.18191-1-sashal@kernel.org>
-References: <20220301201344.18191-1-sashal@kernel.org>
+In-Reply-To: <20220301201629.18547-1-sashal@kernel.org>
+References: <20220301201629.18547-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -68,10 +69,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/sr9700.c b/drivers/net/usb/sr9700.c
-index b658510cc9a42..5a53e63d33a60 100644
+index 6516a37893e27..0c50f24671da3 100644
 --- a/drivers/net/usb/sr9700.c
 +++ b/drivers/net/usb/sr9700.c
-@@ -413,7 +413,7 @@ static int sr9700_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+@@ -410,7 +410,7 @@ static int sr9700_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
  		/* ignore the CRC length */
  		len = (skb->data[1] | (skb->data[2] << 8)) - 4;
  
