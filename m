@@ -2,287 +2,184 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 110D8C4332F
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Mar 2022 19:10:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C54C433FE
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Mar 2022 20:07:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244951AbiCBTKl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Mar 2022 14:10:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54512 "EHLO
+        id S242983AbiCBUIF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Mar 2022 15:08:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244896AbiCBTKb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Mar 2022 14:10:31 -0500
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92267CA701
-        for <linux-usb@vger.kernel.org>; Wed,  2 Mar 2022 11:09:47 -0800 (PST)
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 65A363F611
-        for <linux-usb@vger.kernel.org>; Wed,  2 Mar 2022 19:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1646248185;
-        bh=+ix6D6CD66t0elYK19u+3Q/64q1OEoVuJh2pl4hMuNY=;
-        h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-         MIME-Version;
-        b=JcfHF4JdIg2G3t7FM0eJjqU7k4GoOJp2GRSrLQL6qCYF3OIGe8TNs1uI803Ez6t1i
-         fkNI6lafislkhmAtM3RRvPgyCf5EWHuZms7VrzAPSDpwTvWgGGq243VqjjKemnLOnD
-         kiWHHtiwURK7YmGZMu07ktI8ShIltOMhubhRMSgwngsncaAW1Ld6omm+0Lb8t/nwEA
-         kqnSvwlx+DIRheFWw+J5J79rbbEpdEYW9XPBeu4li6HymG017+fL4uTxJ+LkruiVkw
-         MfhdTubPIxZCDn3GriC0l4QmJmXCeOQerMIsnVDppUwM01ZpNrdIBchx3OozzLbGM/
-         KhEaaMJuDpNfA==
-Received: by mail-ej1-f72.google.com with SMTP id 13-20020a170906328d00b006982d0888a4so1457121ejw.9
-        for <linux-usb@vger.kernel.org>; Wed, 02 Mar 2022 11:09:45 -0800 (PST)
+        with ESMTP id S231693AbiCBUIA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Mar 2022 15:08:00 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43E0DD1991
+        for <linux-usb@vger.kernel.org>; Wed,  2 Mar 2022 12:07:06 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id z2so2520194plg.8
+        for <linux-usb@vger.kernel.org>; Wed, 02 Mar 2022 12:07:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=9llME+iRL2iH9L07jwvbWbmbHLr47Rbz7WJ4fOgTlZc=;
+        b=IvpJRwG7ynxkReEE85KaN5rJUYtD4xKNHA+hy6TwBmoQ8B3uYeJI+QViQcnaGiWq86
+         F88M3HTERkoil1v4VBpPtCvYuei+/tfueI2kCXzM7ddvcotxLyWZwiewhTHLUCy28lRK
+         BraqPBOXvwYRthhpbxTgJWS9pGCc3zSZJBqHk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+ix6D6CD66t0elYK19u+3Q/64q1OEoVuJh2pl4hMuNY=;
-        b=ZQdZSI2w0yxfT8Of0N9x5X7pPGkXMf/hOVFufQah7A+JyA9JnbM8o0c9A1siUn7nV/
-         Dfdhez1u58JKyNKYCaAKpUyOxibAhHrBHTHxrMd3fgNTDjbtvHxq85FN2fRNB4N80DZ1
-         d8MrMRhu3l3MKumCzaNUApLDQUuZIVd3W3VRRkJYbjD2zNRJsn17mh5HS6seumxw6C2W
-         DuA0uX6SWvt4X1So0Y4d8JZqr6AMQfdCtxkjwt3WGcPrWSUAiO/m+U9p6VfSjUm1THSp
-         WLQPveUStmc1iH3/qgEpvxfe6ZU1v+0EB+y7f/MWRNrr7iEaKMHDgSkis2yCbnYmGyKt
-         RKUQ==
-X-Gm-Message-State: AOAM530fo6G42t/Op9pWCnh+wLRZk8puv9UA3v7/wJfMlg/WB5rmJsIo
-        ojIasI3sl4eFD2BqVITWrS4vwBl7NPgui8aGOP3boyfRdB2J8tXyLCPUak9Y5AF9fVc4++EMsKn
-        LLsZn5TwMbBqVHT1PAYMneO0yt7YPRFE9Yr5qyg==
-X-Received: by 2002:a50:d097:0:b0:415:cec5:3b31 with SMTP id v23-20020a50d097000000b00415cec53b31mr1313766edd.377.1646248184912;
-        Wed, 02 Mar 2022 11:09:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwyzzw3WeGg9KUbPHGQtz+Yl8jQt3D3ZCq0CDIYK4ChRt1a5zuypCDtRTnUImYuRW4UJHRt0Q==
-X-Received: by 2002:a50:d097:0:b0:415:cec5:3b31 with SMTP id v23-20020a50d097000000b00415cec53b31mr1313746edd.377.1646248184686;
-        Wed, 02 Mar 2022 11:09:44 -0800 (PST)
-Received: from localhost.localdomain (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
-        by smtp.gmail.com with ESMTPSA id u9-20020aa7db89000000b0041372781e69sm8216383edt.52.2022.03.02.11.09.43
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9llME+iRL2iH9L07jwvbWbmbHLr47Rbz7WJ4fOgTlZc=;
+        b=dVXuFAY7WRGezeqdBW9JPvBoJQ6z+ZEpHP3x6SpLxrwWG5bGpKCyD/T31OPmqX1U5/
+         arc97+QEKEo/5otdnnH5ED0YWBdD6gw3FBpXmzrPd6HSUjW/yWn8KVluI1veK6RLa5LP
+         la7wQUs2UGeS9VkyZKtpR5jdoFUsw25qCEUx86XctrSiHld6T1GmVoMLi4yrB4vOFRgr
+         1bk+ld36Q8BJbIua9Lfx2qM24L65wwvo3vtNXED63UepSdLr/JFoMHgNekvYUKQ7SHre
+         UjvTrg2JAGZifGPmtZmyeif66pZFEWzQjRJ69paot7q38mEeU/efZ5jgCLmBw72XnnL3
+         6moA==
+X-Gm-Message-State: AOAM531TOlhh7A0uW6RE2dfBF/r33nXw3/DfPSfvhn55KmlKo60iXsjX
+        8qa18b40TkPBT8S1Onk9qXRYrw==
+X-Google-Smtp-Source: ABdhPJyalZw/yElDAQSdRYusWOxjkvZUrvn+e5j/jboS/+hXUtUpvVb6mMnbBbqlv1j/a0ygzQBPkQ==
+X-Received: by 2002:a17:90b:94e:b0:1bc:c99f:ede1 with SMTP id dw14-20020a17090b094e00b001bcc99fede1mr1518926pjb.49.1646251625762;
+        Wed, 02 Mar 2022 12:07:05 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d25-20020a637359000000b0037843afb785sm6664pgn.25.2022.03.02.12.07.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Mar 2022 11:09:43 -0800 (PST)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Rob Herring <robh@kernel.org>
-Subject: [PATCH v2 2/2] dt-bindings: usb: samsung,exynos-usb2: convert to dtschema
-Date:   Wed,  2 Mar 2022 20:09:38 +0100
-Message-Id: <20220302190938.6195-3-krzysztof.kozlowski@canonical.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220302190938.6195-1-krzysztof.kozlowski@canonical.com>
-References: <20220302190938.6195-1-krzysztof.kozlowski@canonical.com>
+        Wed, 02 Mar 2022 12:07:05 -0800 (PST)
+Date:   Wed, 2 Mar 2022 12:07:04 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        David Laight <David.Laight@aculab.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+        KVM list <kvm@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>,
+        "linux1394-devel@lists.sourceforge.net" 
+        <linux1394-devel@lists.sourceforge.net>,
+        "drbd-dev@lists.linbit.com" <drbd-dev@lists.linbit.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        CIFS <linux-cifs@vger.kernel.org>,
+        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "kgdb-bugreport@lists.sourceforge.net" 
+        <kgdb-bugreport@lists.sourceforge.net>,
+        "bcm-kernel-feedback-list@broadcom.com" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Arnd Bergman <arnd@arndb.de>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Brian Johannesmeyer <bjohannesmeyer@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        dma <dmaengine@vger.kernel.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Jakob Koschel <jakobkoschel@gmail.com>,
+        "v9fs-developer@lists.sourceforge.net" 
+        <v9fs-developer@lists.sourceforge.net>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-sgx@vger.kernel.org" <linux-sgx@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Netdev <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux F2FS Dev Mailing List 
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        "tipc-discussion@lists.sourceforge.net" 
+        <tipc-discussion@lists.sourceforge.net>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH 2/6] treewide: remove using list iterator after loop body
+ as a ptr
+Message-ID: <202203021158.DB5204A0@keescook>
+References: <282f0f8d-f491-26fc-6ae0-604b367a5a1a@amd.com>
+ <b2d20961dbb7533f380827a7fcc313ff849875c1.camel@HansenPartnership.com>
+ <7D0C2A5D-500E-4F38-AD0C-A76E132A390E@kernel.org>
+ <73fa82a20910c06784be2352a655acc59e9942ea.camel@HansenPartnership.com>
+ <CAHk-=wiT5HX6Kp0Qv4ZYK_rkq9t5fZ5zZ7vzvi6pub9kgp=72g@mail.gmail.com>
+ <7dc860874d434d2288f36730d8ea3312@AcuMS.aculab.com>
+ <CAHk-=whKqg89zu4T95+ctY-hocR6kDArpo2qO14-kV40Ga7ufw@mail.gmail.com>
+ <0ced2b155b984882b39e895f0211037c@AcuMS.aculab.com>
+ <CAHk-=wix0HLCBs5sxAeW3uckg0YncXbTjMsE-Tv8WzmkOgLAXQ@mail.gmail.com>
+ <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <78ccb184-405e-da93-1e02-078f90d2b9bc@rasmusvillemoes.dk>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert the Samsung Exynos SoC USB 2.0 EHCI and OHCI Controller bindings
-to DT schema format.
+On Wed, Mar 02, 2022 at 10:29:31AM +0100, Rasmus Villemoes wrote:
+> This won't help the current issue (because it doesn't exist and might
+> never), but just in case some compiler people are listening, I'd like to
+> have some sort of way to tell the compiler "treat this variable as
+> uninitialized from here on". So one could do
+> 
+> #define kfree(p) do { __kfree(p); __magic_uninit(p); } while (0)
+> 
+> with __magic_uninit being a magic no-op that doesn't affect the
+> semantics of the code, but could be used by the compiler's "[is/may be]
+> used uninitialized" machinery to flag e.g. double frees on some odd
+> error path etc. It would probably only work for local automatic
+> variables, but it should be possible to just ignore the hint if p is
+> some expression like foo->bar or has side effects. If we had that, the
+> end-of-loop test could include that to "uninitialize" the iterator.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/usb/exynos-usb.txt    |  66 ----------
- .../bindings/usb/samsung,exynos-usb2.yaml     | 117 ++++++++++++++++++
- 2 files changed, 117 insertions(+), 66 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/exynos-usb.txt
- create mode 100644 Documentation/devicetree/bindings/usb/samsung,exynos-usb2.yaml
+I've long wanted to change kfree() to explicitly set pointers to NULL on
+free. https://github.com/KSPP/linux/issues/87
 
-diff --git a/Documentation/devicetree/bindings/usb/exynos-usb.txt b/Documentation/devicetree/bindings/usb/exynos-usb.txt
-deleted file mode 100644
-index 61c03c0ef19f..000000000000
---- a/Documentation/devicetree/bindings/usb/exynos-usb.txt
-+++ /dev/null
-@@ -1,66 +0,0 @@
--Samsung Exynos SoC USB controller
--
--The USB devices interface with USB controllers on Exynos SOCs.
--The device node has following properties.
--
--EHCI
--Required properties:
-- - compatible: should be "samsung,exynos4210-ehci" for USB 2.0
--   EHCI controller in host mode.
-- - reg: physical base address of the controller and length of memory mapped
--   region.
-- - interrupts: interrupt number to the cpu.
-- - clocks: from common clock binding: handle to usb clock.
-- - clock-names: from common clock binding: Shall be "usbhost".
-- - phys: from the *Generic PHY* bindings; array specifying phy(s) used
--   by the root port.
-- - phy-names: from the *Generic PHY* bindings; array of the names for
--   each phy for the root ports, must be a subset of the following:
--   "host", "hsic0", "hsic1".
--
--Optional properties:
-- - samsung,vbus-gpio:  if present, specifies the GPIO that
--   needs to be pulled up for the bus to be powered.
--
--Example:
--
--	usb@12110000 {
--		compatible = "samsung,exynos4210-ehci";
--		reg = <0x12110000 0x100>;
--		interrupts = <0 71 0>;
--		samsung,vbus-gpio = <&gpx2 6 1 3 3>;
--
--		clocks = <&clock 285>;
--		clock-names = "usbhost";
--
--		phys = <&usb2phy 1>;
--		phy-names = "host";
--	};
--
--OHCI
--Required properties:
-- - compatible: should be "samsung,exynos4210-ohci" for USB 2.0
--   OHCI companion controller in host mode.
-- - reg: physical base address of the controller and length of memory mapped
--   region.
-- - interrupts: interrupt number to the cpu.
-- - clocks: from common clock binding: handle to usb clock.
-- - clock-names: from common clock binding: Shall be "usbhost".
-- - phys: from the *Generic PHY* bindings; array specifying phy(s) used
--   by the root port.
-- - phy-names: from the *Generic PHY* bindings; array of the names for
--   each phy for the root ports, must be a subset of the following:
--   "host", "hsic0", "hsic1".
--
--Example:
--	usb@12120000 {
--		compatible = "samsung,exynos4210-ohci";
--		reg = <0x12120000 0x100>;
--		interrupts = <0 71 0>;
--
--		clocks = <&clock 285>;
--		clock-names = "usbhost";
--
--		phys = <&usb2phy 1>;
--		phy-names = "host";
--	};
-diff --git a/Documentation/devicetree/bindings/usb/samsung,exynos-usb2.yaml b/Documentation/devicetree/bindings/usb/samsung,exynos-usb2.yaml
-new file mode 100644
-index 000000000000..fbf07d6e707a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/samsung,exynos-usb2.yaml
-@@ -0,0 +1,117 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/samsung,exynos-usb2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Samsung Exynos SoC USB 2.0 EHCI/OHCI Controller
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - samsung,exynos4210-ehci
-+      - samsung,exynos4210-ohci
-+
-+  '#address-cells':
-+    const: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: usbhost
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  phys:
-+    minItems: 1
-+    maxItems: 3
-+
-+  phy-names:
-+    items:
-+      enum: [host, hsic0, hsic1]
-+    minItems: 1
-+    maxItems: 3
-+
-+  reg:
-+    maxItems: 1
-+
-+  samsung,vbus-gpio:
-+    description:
-+      Only for controller in EHCI mode, if present, specifies the GPIO that
-+      needs to be pulled up for the bus to be powered.
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^.*@[0-9a-f]{1,2}$":
-+    description: The hard wired USB devices
-+    type: object
-+    $ref: /usb/usb-device.yaml
-+
-+required:
-+  - compatible
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - phys
-+  - phy-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: samsung,exynos4210-ohci
-+    then:
-+      properties:
-+        samsung,vbus-gpio: false
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/exynos5420.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    usb@12110000 {
-+        compatible = "samsung,exynos4210-ehci";
-+        reg = <0x12110000 0x100>;
-+        interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clock CLK_USBH20>;
-+        clock-names = "usbhost";
-+        phys = <&usb2_phy 0>;
-+        phy-names = "host";
-+
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        hub@1 {
-+            compatible = "usb0424,9514";
-+            reg = <1>;
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            usbether@1 {
-+                compatible = "usb0424,ec00";
-+                reg = <1>;
-+                local-mac-address = [00 00 00 00 00 00];
-+            };
-+        };
-+    };
-+
-+    usb@12120000 {
-+        compatible = "samsung,exynos4210-ohci";
-+        reg = <0x12120000 0x100>;
-+        interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&clock CLK_USBH20>;
-+        clock-names = "usbhost";
-+        phys = <&usb2_phy 0>;
-+        phy-names = "host";
-+    };
+The thing stopping a trivial transformation of kfree() is:
+
+	kfree(get_some_pointer());
+
+I would argue, though, that the above is poor form: the thing holding
+the pointer should be the thing freeing it, so these cases should be
+refactored and kfree() could do the NULLing by default.
+
+Quoting myself in the above issue:
+
+
+Without doing massive tree-wide changes, I think we need compiler
+support. If we had something like __builtin_is_lvalue(), we could
+distinguish function returns from lvalues. For example, right now a
+common case are things like:
+
+	kfree(get_some_ptr());
+
+But if we could at least gain coverage of the lvalue cases, and detect
+them statically at compile-time, we could do:
+
+#define __kfree_and_null(x) do { __kfree(*x); *x = NULL; } while (0)
+#define kfree(x) __builtin_choose_expr(__builtin_is_lvalue(x),
+			__kfree_and_null(&(x)), __kfree(x))
+
+Alternatively, we could do a tree-wide change of the former case (findable
+with Coccinelle) and change them into something like kfree_no_null()
+and redefine kfree() itself:
+
+#define kfree_no_null(x) do { void *__ptr = (x); __kfree(__ptr); } while (0)
+#define kfree(x) do { __kfree(x); x = NULL; } while (0)
+
 -- 
-2.32.0
-
+Kees Cook
