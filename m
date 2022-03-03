@@ -2,275 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7DA7C43219
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Mar 2022 11:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A37BC4332F
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Mar 2022 12:18:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232999AbiCCLtY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Mar 2022 06:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37574 "EHLO
+        id S233157AbiCCMTW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Mar 2022 07:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232984AbiCCLtW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 06:49:22 -0500
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C60C4B60;
-        Thu,  3 Mar 2022 03:48:36 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-2d07ae0b1c4so52079717b3.11;
-        Thu, 03 Mar 2022 03:48:36 -0800 (PST)
+        with ESMTP id S233159AbiCCMTU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 07:19:20 -0500
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5586CDF4B3
+        for <linux-usb@vger.kernel.org>; Thu,  3 Mar 2022 04:18:30 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id m6so7535112wrr.10
+        for <linux-usb@vger.kernel.org>; Thu, 03 Mar 2022 04:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=W95klwG+EWnuJlXqfneyIPG4bMJIpYFCGfgCPBAo/s4=;
+        b=BVoUYAMy6igzOx7YCxgmD2obGVeA4FBbFy39UaDXpcyotfQj1WSs4cD2dBmZ3jehpH
+         Xv0H27JfD7LtNc3KTOYt5JsPQaESLbVZdrRIjVdCS/EqEN+LtHV3OI92ZhbhaxnOPsMB
+         zwIbvmQMtvcWtqQz/AOpNYfJzkMTFsv4hojr0PuJEFUbZHgxYNi3BKpDV1mgkUzm+fR0
+         4lMaaRE5yh5PGutSdpreHiYAqhMDl6KUHTvi2q6aV5S93rhbYz2wGWOzwPq3hB3YVbYG
+         uAhL64o8wkOM/gpLUr2Hb7oB/DraMZLkoBj2jGHmKGFPjyxdoWyrLbd/6WyXGtmMO48w
+         vp2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hYl/mNf+w5fPQx4NW4yDU1ca51yy0LEnu1TE2GKOtJQ=;
-        b=74O0gYQV5QgA2LpKEbAxu6NIpRvvUsGaY7gVP5lTggXFZiP3yCRzn2Mi1EqXMi9tRa
-         7K+XOogKB+KWJUNCfgkTUghp01cST4DJ/Bir6eqYrf07kV6W4T5HPEL044v4O46GQDQo
-         FiM/eyb6MPkvxhv+cYy4NzMhO7+LT6K9evp5Wt1w5rmw7ZmSf1IDrBIe/vKbvmbZeq46
-         rjYB4tbrCiUSag/WPjv9a0OHEsqME0KdiG+2ITu5PfKRmpN5WyYtkDdMSOZ7u4HG3Qb7
-         oXnFtzrUFO8QlzC264y8exU0u1af/dWJkTOEOfY2P+PVsXW4bjwOHKiGGJp6HaiYI+/B
-         osIQ==
-X-Gm-Message-State: AOAM53117xrY/42FV5qlJupG9CpMkKDZFqh/LoUnxUld2Jd8cA8bNOnr
-        JxR5XnTh5fkWEiqy8onkbadAmhFZJRmw0qRMThA=
-X-Google-Smtp-Source: ABdhPJzUu+VrIeTC4i61kXqLHB5KJNa5hkcJuzhvLhKW30WmAONe7VQ86Py1AQ0vvVbpEUihjiQOraVrrT7M8RMge7o=
-X-Received: by 2002:a81:f008:0:b0:2d0:cd72:74e5 with SMTP id
- p8-20020a81f008000000b002d0cd7274e5mr35729505ywm.301.1646308115481; Thu, 03
- Mar 2022 03:48:35 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=W95klwG+EWnuJlXqfneyIPG4bMJIpYFCGfgCPBAo/s4=;
+        b=LhEPIVbOmzZIPsRa1RTqGEcz6tIdtOqQdLJn7Bq2tE/qyAKFDZ/p58rJsoxyG5a4L+
+         daoS7vZdTLDTjDPHWy5xFDfNwyF2XESnwW4Y6d3Eo28GECpGMtkgm7+dW1dV+A6yBU9f
+         fg/wm2zI0GVC8iwvg5FWNBcdsESSwMS2ojU7SPEjFB10dRWqnMveZN5vNjNmkibtNsJ6
+         enWj/7VQc/PRxC+0XjYfrBnFoRNLdO0VA3h5mOdhfQ7M7xIHocx6aT2LfuRbQEASHhdW
+         U/7gDqS2N9ptczPyrKqD11I5rlwSUU8B5KBQ3rGyJs0bV0enGMUtppWlUldC9lTyfnLE
+         uf2Q==
+X-Gm-Message-State: AOAM533qe9JX9L9+15H4TEJFNSq/lC0/9XerA++huv8bgngyqExyEiJe
+        WpS/lK399ERRLyWXTCQhfFToEg==
+X-Google-Smtp-Source: ABdhPJwgYeUN7RS9hQRShRziePljKQd/1cMutSSEkk4MeQ2QRRtTjZSLz5QSndDd2pML49XlqkHAqw==
+X-Received: by 2002:a5d:6d0d:0:b0:1e8:7b6a:38e7 with SMTP id e13-20020a5d6d0d000000b001e87b6a38e7mr26568054wrq.625.1646309908722;
+        Thu, 03 Mar 2022 04:18:28 -0800 (PST)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net. [80.7.220.175])
+        by smtp.gmail.com with ESMTPSA id p6-20020a5d4586000000b001f0436cb325sm1774600wrq.52.2022.03.03.04.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 04:18:28 -0800 (PST)
+Date:   Thu, 3 Mar 2022 12:18:24 +0000
+From:   Daniel Thompson <daniel.thompson@linaro.org>
+To:     Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Cc:     david.laight@aculab.com, alsa-devel@alsa-project.org,
+        kvm@vger.kernel.org, gustavo@embeddedor.com,
+        linux-iio@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        linux@rasmusvillemoes.dk, dri-devel@lists.freedesktop.org,
+        c.giuffrida@vu.nl, amd-gfx@lists.freedesktop.org,
+        torvalds@linux-foundation.org, samba-technical@lists.samba.org,
+        linux1394-devel@lists.sourceforge.net, drbd-dev@lists.linbit.com,
+        linux-arch@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-scsi@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-staging@lists.linux.dev,
+        h.j.bos@vu.nl, jgg@ziepe.ca, intel-wired-lan@lists.osuosl.org,
+        nouveau@lists.freedesktop.org,
+        bcm-kernel-feedback-list@broadcom.com, dan.carpenter@oracle.com,
+        linux-media@vger.kernel.org, keescook@chromium.org, arnd@arndb.de,
+        linux-pm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        bjohannesmeyer@gmail.com, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+        jakobkoschel@gmail.com, v9fs-developer@lists.sourceforge.net,
+        linux-tegra@vger.kernel.org, tglx@linutronix.de,
+        andriy.shevchenko@linux.intel.com,
+        linux-arm-kernel@lists.infradead.org, linux-sgx@vger.kernel.org,
+        nathan@kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net,
+        tipc-discussion@lists.sourceforge.net,
+        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, akpm@linux-foundation.org,
+        linuxppc-dev@lists.ozlabs.org, christian.koenig@amd.com,
+        rppt@kernel.org
+Subject: Re: [Kgdb-bugreport] [PATCH 2/6] treewide: remove using list
+ iterator after loop body as a ptr
+Message-ID: <20220303121824.qdyrognluik74iph@maple.lan>
+References: <39404befad5b44b385698ff65465abe5@AcuMS.aculab.com>
+ <20220303072657.11124-1-xiam0nd.tong@gmail.com>
 MIME-Version: 1.0
-References: <CGME20220303094334epcas1p256f56793abe1984803caf11ef76bfc0f@epcas1p2.samsung.com>
- <20220303093907.515129-1-yj84.jang@samsung.com>
-In-Reply-To: <20220303093907.515129-1-yj84.jang@samsung.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 3 Mar 2022 12:48:24 +0100
-Message-ID: <CAJZ5v0gYyarNWiERd_yf0DxmtukbsBCxX62h2TcUu5bPTn6SyA@mail.gmail.com>
-Subject: Re: [PATCH v2] PM: Add device name to suspend_report_result()
-To:     Youngjin Jang <yj84.jang@samsung.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>, js07.lee@samsung.com,
-        Todd Brandt <todd.e.brandt@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220303072657.11124-1-xiam0nd.tong@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+Todd
+On Thu, Mar 03, 2022 at 03:26:57PM +0800, Xiaomeng Tong wrote:
+> On Thu, 3 Mar 2022 04:58:23 +0000, David Laight wrote:
+> > on 3 Mar 2022 10:27:29 +0800, Xiaomeng Tong wrote:
+> > > The problem is the mis-use of iterator outside the loop on exit, and
+> > > the iterator will be the HEAD's container_of pointer which pointers
+> > > to a type-confused struct. Sidenote: The *mis-use* here refers to
+> > > mistakely access to other members of the struct, instead of the
+> > > list_head member which acutally is the valid HEAD.
+> >
+> > The problem is that the HEAD's container_of pointer should never
+> > be calculated at all.
+> > This is what is fundamentally broken about the current definition.
+> 
+> Yes, the rule is "the HEAD's container_of pointer should never be
+> calculated at all outside the loop", but how do you make sure everyone
+> follows this rule?
 
-On Thu, Mar 3, 2022 at 10:43 AM Youngjin Jang <yj84.jang@samsung.com> wrote:
->
-> From: "Youngjin Jang" <yj84.jang@samsung.com>
->
-> currently, suspend_report_result() prints only function information.
-> If any driver uses common pm function, nobody knows who called
-> failed function exactly.
->
-> So, device is needed to recognize specific wrong driver.
->
-> e.g.)
-> PM: dpm_run_callback(): pm_generic_suspend+0x0/0x48 returns 0
-> PM: dpm_run_callback(): platform_pm_suspend+0x0/0x68 returns 0
-> after patch,
-> amba 1740000.etm: dpm_run_callback(): pm_generic_suspend+0x0/0x48
-> returns 0
-> armv7-pmu soc:pmu: dpm_run_callback(): platform_pm_suspend+0x0/0x68
-> returns 0
+Your formulation of the rule is correct: never run container_of() on HEAD
+pointer.
 
-The PM prefix would still be useful IMO.
+However the rule that is introduced by list_for_each_entry_inside() is
+*not* this rule. The rule it introduces is: never access the iterator
+variable outside the loop.
 
-@Todd: Would this change affect pm-graph in any way?
+Making the iterator NULL on loop exit does follow the rule you proposed
+but using a different technique: do not allow HEAD to be stored in the
+iterator variable after loop exit. This also makes it impossible to run
+container_of() on the HEAD pointer.
 
->
-> Signed-off-by: Youngjin Jang <yj84.jang@samsung.com>
-> ---
-> Changes since v1:
->  - Use dev_err() to print out device name
->  - Use real name on email sender
->
->  drivers/base/power/main.c  | 10 +++++-----
->  drivers/pci/pci-driver.c   | 14 +++++++-------
->  drivers/pnp/driver.c       |  2 +-
->  drivers/usb/core/hcd-pci.c |  4 ++--
->  include/linux/pm.h         |  8 ++++----
->  5 files changed, 19 insertions(+), 19 deletions(-)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index 04ea92cbd9cf..41e17b8c2c20 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -485,7 +485,7 @@ static int dpm_run_callback(pm_callback_t cb, struct device *dev,
->         trace_device_pm_callback_start(dev, info, state.event);
->         error = cb(dev);
->         trace_device_pm_callback_end(dev, error);
-> -       suspend_report_result(cb, error);
-> +       suspend_report_result(dev, cb, error);
->
->         initcall_debug_report(dev, calltime, cb, error);
->
-> @@ -1568,7 +1568,7 @@ static int legacy_suspend(struct device *dev, pm_message_t state,
->         trace_device_pm_callback_start(dev, info, state.event);
->         error = cb(dev, state);
->         trace_device_pm_callback_end(dev, error);
-> -       suspend_report_result(cb, error);
-> +       suspend_report_result(dev, cb, error);
->
->         initcall_debug_report(dev, calltime, cb, error);
->
-> @@ -1855,7 +1855,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
->         device_unlock(dev);
->
->         if (ret < 0) {
-> -               suspend_report_result(callback, ret);
-> +               suspend_report_result(dev, callback, ret);
->                 pm_runtime_put(dev);
->                 return ret;
->         }
-> @@ -1960,10 +1960,10 @@ int dpm_suspend_start(pm_message_t state)
->  }
->  EXPORT_SYMBOL_GPL(dpm_suspend_start);
->
-> -void __suspend_report_result(const char *function, void *fn, int ret)
-> +void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret)
->  {
->         if (ret)
-> -               pr_err("%s(): %pS returns %d\n", function, fn, ret);
-> +               dev_err(dev, "%s(): %pS returns %d\n", function, fn, ret);
->  }
->  EXPORT_SYMBOL_GPL(__suspend_report_result);
->
-> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-> index 588588cfda48..415f7664b010 100644
-> --- a/drivers/pci/pci-driver.c
-> +++ b/drivers/pci/pci-driver.c
-> @@ -596,7 +596,7 @@ static int pci_legacy_suspend(struct device *dev, pm_message_t state)
->                 int error;
->
->                 error = drv->suspend(pci_dev, state);
-> -               suspend_report_result(drv->suspend, error);
-> +               suspend_report_result(dev, drv->suspend, error);
->                 if (error)
->                         return error;
->
-> @@ -775,7 +775,7 @@ static int pci_pm_suspend(struct device *dev)
->                 int error;
->
->                 error = pm->suspend(dev);
-> -               suspend_report_result(pm->suspend, error);
-> +               suspend_report_result(dev, pm->suspend, error);
->                 if (error)
->                         return error;
->
-> @@ -821,7 +821,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
->                 int error;
->
->                 error = pm->suspend_noirq(dev);
-> -               suspend_report_result(pm->suspend_noirq, error);
-> +               suspend_report_result(dev, pm->suspend_noirq, error);
->                 if (error)
->                         return error;
->
-> @@ -1010,7 +1010,7 @@ static int pci_pm_freeze(struct device *dev)
->                 int error;
->
->                 error = pm->freeze(dev);
-> -               suspend_report_result(pm->freeze, error);
-> +               suspend_report_result(dev, pm->freeze, error);
->                 if (error)
->                         return error;
->         }
-> @@ -1030,7 +1030,7 @@ static int pci_pm_freeze_noirq(struct device *dev)
->                 int error;
->
->                 error = pm->freeze_noirq(dev);
-> -               suspend_report_result(pm->freeze_noirq, error);
-> +               suspend_report_result(dev, pm->freeze_noirq, error);
->                 if (error)
->                         return error;
->         }
-> @@ -1116,7 +1116,7 @@ static int pci_pm_poweroff(struct device *dev)
->                 int error;
->
->                 error = pm->poweroff(dev);
-> -               suspend_report_result(pm->poweroff, error);
-> +               suspend_report_result(dev, pm->poweroff, error);
->                 if (error)
->                         return error;
->         }
-> @@ -1154,7 +1154,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
->                 int error;
->
->                 error = pm->poweroff_noirq(dev);
-> -               suspend_report_result(pm->poweroff_noirq, error);
-> +               suspend_report_result(dev, pm->poweroff_noirq, error);
->                 if (error)
->                         return error;
->         }
-> diff --git a/drivers/pnp/driver.c b/drivers/pnp/driver.c
-> index cc6757dfa3f1..c02e7bf643a6 100644
-> --- a/drivers/pnp/driver.c
-> +++ b/drivers/pnp/driver.c
-> @@ -171,7 +171,7 @@ static int __pnp_bus_suspend(struct device *dev, pm_message_t state)
->
->         if (pnp_drv->driver.pm && pnp_drv->driver.pm->suspend) {
->                 error = pnp_drv->driver.pm->suspend(dev);
-> -               suspend_report_result(pnp_drv->driver.pm->suspend, error);
-> +               suspend_report_result(dev, pnp_drv->driver.pm->suspend, error);
->                 if (error)
->                         return error;
->         }
-> diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
-> index d630cccd2e6e..dd44e37a454a 100644
-> --- a/drivers/usb/core/hcd-pci.c
-> +++ b/drivers/usb/core/hcd-pci.c
-> @@ -446,7 +446,7 @@ static int suspend_common(struct device *dev, bool do_wakeup)
->                                 HCD_WAKEUP_PENDING(hcd->shared_hcd))
->                         return -EBUSY;
->                 retval = hcd->driver->pci_suspend(hcd, do_wakeup);
-> -               suspend_report_result(hcd->driver->pci_suspend, retval);
-> +               suspend_report_result(dev, hcd->driver->pci_suspend, retval);
->
->                 /* Check again in case wakeup raced with pci_suspend */
->                 if ((retval == 0 && do_wakeup && HCD_WAKEUP_PENDING(hcd)) ||
-> @@ -556,7 +556,7 @@ static int hcd_pci_suspend_noirq(struct device *dev)
->                 dev_dbg(dev, "--> PCI %s\n",
->                                 pci_power_name(pci_dev->current_state));
->         } else {
-> -               suspend_report_result(pci_prepare_to_sleep, retval);
-> +               suspend_report_result(dev, pci_prepare_to_sleep, retval);
->                 return retval;
->         }
->
-> diff --git a/include/linux/pm.h b/include/linux/pm.h
-> index e1e9402180b9..cdccbb9cef2c 100644
-> --- a/include/linux/pm.h
-> +++ b/include/linux/pm.h
-> @@ -745,11 +745,11 @@ extern int dpm_suspend_late(pm_message_t state);
->  extern int dpm_suspend(pm_message_t state);
->  extern int dpm_prepare(pm_message_t state);
->
-> -extern void __suspend_report_result(const char *function, void *fn, int ret);
-> +extern void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret);
->
-> -#define suspend_report_result(fn, ret)                                 \
-> +#define suspend_report_result(dev, fn, ret)                            \
->         do {                                                            \
-> -               __suspend_report_result(__func__, fn, ret);             \
-> +               __suspend_report_result(__func__, dev, fn, ret);        \
->         } while (0)
->
->  extern int device_pm_wait_for_dev(struct device *sub, struct device *dev);
-> @@ -789,7 +789,7 @@ static inline int dpm_suspend_start(pm_message_t state)
->         return 0;
->  }
->
-> -#define suspend_report_result(fn, ret)         do {} while (0)
-> +#define suspend_report_result(dev, fn, ret)    do {} while (0)
->
->  static inline int device_pm_wait_for_dev(struct device *a, struct device *b)
->  {
-> --
-> 2.25.1
->
+
+> Everyone makes mistakes, but we can eliminate them all from the beginning
+> with the help of compiler which can catch such use-after-loop things.
+
+Indeed but if we introduce new interfaces then we don't have to worry
+about existing usages and silent regressions. Code will have been
+written knowing the loop can exit with the iterator set to NULL.
+
+Sure it is still possible for programmers to make mistakes and
+dereference the NULL pointer but C programmers are well training w.r.t.
+NULL pointer checking so such mistakes are much less likely than with
+the current list_for_each_entry() macro. This risk must be offset
+against the way a NULLify approach can lead to more elegant code when we
+are doing a list search.
+
+
+Daniel.
