@@ -2,153 +2,80 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8122C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Mar 2022 13:11:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49BEFC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Mar 2022 13:13:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233589AbiCCNMO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Mar 2022 08:12:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52788 "EHLO
+        id S233424AbiCCNO2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Mar 2022 08:14:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbiCCNMO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 08:12:14 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22CD186B9F
-        for <linux-usb@vger.kernel.org>; Thu,  3 Mar 2022 05:11:28 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1nPlEt-0004ws-1x; Thu, 03 Mar 2022 14:11:27 +0100
-Received: from mgr by dude.hi.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1nPlEs-00Evbs-Dh; Thu, 03 Mar 2022 14:11:26 +0100
-From:   Michael Grzeschik <m.grzeschik@pengutronix.de>
-To:     linux-usb@vger.kernel.org
-Cc:     balbi@kernel.org, gregkh@linuxfoundation.org, kernel@pengutronix.de
-Subject: [PATCH v2] usb: dwc3: gadget: move cmd_endtransfer to extra function
-Date:   Thu,  3 Mar 2022 14:11:21 +0100
-Message-Id: <20220303131121.3557729-1-m.grzeschik@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <85e85927-82cc-fa8f-86a1-d9a5205bb7cc@synopsys.com>
-References: <85e85927-82cc-fa8f-86a1-d9a5205bb7cc@synopsys.com>
+        with ESMTP id S233602AbiCCNOW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 08:14:22 -0500
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E626C1704CD;
+        Thu,  3 Mar 2022 05:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646313216; x=1677849216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ma2qRpZmEUOKw4dAaXn2anSNBJxLgIsqf7L4gdroyXc=;
+  b=IT/ALg5Of+VrwgELoruyecOXbnwlFf/A3uA1oNh5PRKAbG9KBPFbdT5t
+   ZYhoq+aBzV3jjF5uyifWO2gTIV0VNBt++MHBNwSCWSpZI3f5hW2RPv4zN
+   q1KVI6UskcK3Zcm02kQNLuhyE9DP2Ms9v1H1MJhyGOC9+SY8CCw7utPl4
+   YKeC6tWbnzX2ZAcllKWL1YDZvdJqPPGxnZchX8Lba4Yqcsgt079AWH75w
+   wDOUhoLxDt78sBP22T3lO2lHBEUmamsMLZYUeEXrtFbtQ+RclOXGxVlLZ
+   kDLaAbbP1zll7oALUdbwQRIB/x6cV7fstrFtSagNy9XtU7M+uBoIMXozG
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10274"; a="340102488"
+X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; 
+   d="scan'208";a="340102488"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 05:13:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,151,1643702400"; 
+   d="scan'208";a="686498504"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 03 Mar 2022 05:13:33 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 03 Mar 2022 15:13:33 +0200
+Date:   Thu, 3 Mar 2022 15:13:33 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Xin Ji <xji@analogixsemi.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        bliang@analogixsemi.com, qwen@analogixsemi.com,
+        jli@analogixsemi.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] usb: typec: anx7411: Add Analogix PD ANX7411
+ support
+Message-ID: <YiC+/ccRvR/+mAkT@kuha.fi.intel.com>
+References: <20220223102353.3833578-1-xji@analogixsemi.com>
+ <20220223102353.3833578-2-xji@analogixsemi.com>
+ <Yh9dBlrWm3OicQWa@kuha.fi.intel.com>
+ <20220303024757.GA4159259@anxtwsw-Precision-3640-Tower>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220303024757.GA4159259@anxtwsw-Precision-3640-Tower>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds the extra function __dwc3_stop_active_transfer to
-consolidate the same codepath.
+On Thu, Mar 03, 2022 at 10:47:57AM +0800, Xin Ji wrote:
+> On Wed, Mar 02, 2022 at 02:03:18PM +0200, Heikki Krogerus wrote:
+> > Hi,
+> > 
+> > This does not apply on top of Greg's latest usb-next branch. You need
+> > to rebase this. There are also a few more nitpicks below.
+> 
+> Hi, I didn't found tcpci.h in include/linux/usb/
 
-Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
----
- drivers/usb/dwc3/gadget.c | 68 +++++++++++++++++++++------------------
- 1 file changed, 36 insertions(+), 32 deletions(-)
+I'm asking you to create the file.
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 37dbf6132731b7..baddf6196ceee2 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1673,6 +1673,39 @@ static int __dwc3_gadget_get_frame(struct dwc3 *dwc)
- 	return DWC3_DSTS_SOFFN(reg);
- }
- 
-+/**
-+ * __dwc3_stop_active_transfer - stop the current active transfer
-+ * @dep: isoc endpoint
-+ * @force: set forcerm bit in the command
-+ * @interrupt: command complete interrupt after End Transfer command
-+ *
-+ * When setting force, the ForceRM bit will be set. In that case
-+ * the controller won't update the TRB progress on command
-+ * completion. It also won't clear the HWO bit in the TRB.
-+ * The command will also not complete immediatly in that case.
-+ */
-+
-+static void __dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force, bool interrupt)
-+{
-+	struct dwc3_gadget_ep_cmd_params params;
-+	u32 cmd;
-+	int ret;
-+
-+	cmd = DWC3_DEPCMD_ENDTRANSFER;
-+	cmd |= force ? DWC3_DEPCMD_HIPRI_FORCERM : 0;
-+	cmd |= interrupt ? DWC3_DEPCMD_CMDIOC : 0;
-+	cmd |= DWC3_DEPCMD_PARAM(dep->resource_index);
-+	memset(&params, 0, sizeof(params));
-+	ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
-+	WARN_ON_ONCE(ret);
-+	dep->resource_index = 0;
-+
-+	if (!interrupt)
-+		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
-+	else if (!ret)
-+		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
-+}
-+
- /**
-  * dwc3_gadget_start_isoc_quirk - workaround invalid frame number
-  * @dep: isoc endpoint
-@@ -1842,21 +1875,8 @@ static int __dwc3_gadget_start_isoc(struct dwc3_ep *dep)
- 	 * status, issue END_TRANSFER command and retry on the next XferNotReady
- 	 * event.
- 	 */
--	if (ret == -EAGAIN) {
--		struct dwc3_gadget_ep_cmd_params params;
--		u32 cmd;
--
--		cmd = DWC3_DEPCMD_ENDTRANSFER |
--			DWC3_DEPCMD_CMDIOC |
--			DWC3_DEPCMD_PARAM(dep->resource_index);
--
--		dep->resource_index = 0;
--		memset(&params, 0, sizeof(params));
--
--		ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
--		if (!ret)
--			dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
--	}
-+	if (ret == -EAGAIN)
-+		__dwc3_stop_active_transfer(dep, false, true);
- 
- 	return ret;
- }
-@@ -3597,10 +3617,6 @@ static void dwc3_reset_gadget(struct dwc3 *dwc)
- static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	bool interrupt)
- {
--	struct dwc3_gadget_ep_cmd_params params;
--	u32 cmd;
--	int ret;
--
- 	if (!(dep->flags & DWC3_EP_TRANSFER_STARTED) ||
- 	    (dep->flags & DWC3_EP_END_TRANSFER_PENDING))
- 		return;
-@@ -3632,19 +3648,7 @@ static void dwc3_stop_active_transfer(struct dwc3_ep *dep, bool force,
- 	 * This mode is NOT available on the DWC_usb31 IP.
- 	 */
- 
--	cmd = DWC3_DEPCMD_ENDTRANSFER;
--	cmd |= force ? DWC3_DEPCMD_HIPRI_FORCERM : 0;
--	cmd |= interrupt ? DWC3_DEPCMD_CMDIOC : 0;
--	cmd |= DWC3_DEPCMD_PARAM(dep->resource_index);
--	memset(&params, 0, sizeof(params));
--	ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
--	WARN_ON_ONCE(ret);
--	dep->resource_index = 0;
--
--	if (!interrupt)
--		dep->flags &= ~DWC3_EP_TRANSFER_STARTED;
--	else
--		dep->flags |= DWC3_EP_END_TRANSFER_PENDING;
-+	__dwc3_stop_active_transfer(dep, force, interrupt);
- }
- 
- static void dwc3_clear_stall_all_ep(struct dwc3 *dwc)
+So create a separate patch where you move the register definitions and
+command definitions from drivers/usb/typec/tcpm/tcpci.h to
+include/linux/usb/tcpci.h
+
+thanks,
+
 -- 
-2.30.2
-
+heikki
