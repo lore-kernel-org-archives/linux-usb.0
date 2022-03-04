@@ -2,77 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA46EC433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 14:51:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FE7C433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 15:22:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237187AbiCDOw0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Mar 2022 09:52:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39114 "EHLO
+        id S240232AbiCDPXT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Mar 2022 10:23:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37776 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236484AbiCDOwZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Mar 2022 09:52:25 -0500
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD32B1B84E8
-        for <linux-usb@vger.kernel.org>; Fri,  4 Mar 2022 06:51:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=ZpQYjJVb5Q5t4rxaTiNuxOlcx1Ws3Ns75BctvSgeJ0k=; b=UCYgiU8do0Pjso4Y1pMj/Jwpv0
-        u124wJwXITlWxXi9e0iDQAFheiHVXePLsTtjdL7cDK7BLMH4CXoLMXMI3lomY7p5Ao6qbZN9crc5x
-        qcqzc3iYiJJh/3aPNq1iUjQkKJnlvuXmeJyUaXoxzve9WWm2scw0Vua/D73R60WhQtpg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1nQ9HJ-009FBQ-LE; Fri, 04 Mar 2022 15:51:33 +0100
-Date:   Fri, 4 Mar 2022 15:51:33 +0100
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Schrempf Frieder <frieder.schrempf@kontron.de>,
-        Martyn Welch <martyn.welch@collabora.com>,
-        Marek Vasut <marex@denx.de>,
-        USB list <linux-usb@vger.kernel.org>, oneukum@suse.com,
-        Adam Ford <aford173@gmail.com>, peter.chen@kernel.org,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        fntoth@gmail.com
-Subject: Re: smsc9511: Register access happens after unregistration
-Message-ID: <YiIndfh0B87LRYnI@lunn.ch>
-References: <CAOMZO5AJ3j0-LUHX9MNdHQotrG+chPhQgB15xiHTm9r9wuvdLw@mail.gmail.com>
- <CAOMZO5A4zQM1dLhL7+Qa2GEW52eb2PbGjBXRKZfvA279k6Pemg@mail.gmail.com>
- <YiIeEHMc+tWE0coi@lunn.ch>
- <CAOMZO5CioYoddT0kqtf+wOTvvxArm9ipW2bAj84qKM_eQgMcjg@mail.gmail.com>
+        with ESMTP id S240223AbiCDPXR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Mar 2022 10:23:17 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C33DF10A6;
+        Fri,  4 Mar 2022 07:22:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Type:MIME-Version:References:
+        Subject:Cc:To:From:Date:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To;
+        bh=h4FCNEPQwTG4sN1msaWa8+oYY6eRjb1lItZHTcbmJsA=; b=HvjqSCmDT7NxHR1WfgWeLckGZK
+        s73J8y0wubGQnoJWwN6ER55IZfO7cqLKAftOn3ALwvg0oIGaOryZQG26pNdtpwyZx4VY8FMmY3vW5
+        KPXPlgxRNhb/qmKCryj91ARhfy5LOz5I0HUv+WDfUh6860r5CcxNCiHYR+qGrJxgkzNPaZB0Xw0Gi
+        sKyMVMfxowaDNGZQVRCKeflnSpNeQeJCfyo0icU5nCDBh0pIH9ZusbfP/0qqPXOp+zenbIShSiVW3
+        LcxFzOpce8iFuWXXHVrWhadr0XOzFhZR1xTsIRw9AH/76SaaKxGVVXojt4JxrATBJ0exwvfc6Cp+7
+        YmJL5LUQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nQ9l4-00FEIl-SV; Fri, 04 Mar 2022 15:22:18 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 86444300454;
+        Fri,  4 Mar 2022 16:22:17 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id 6E1D72C546F73; Fri,  4 Mar 2022 16:22:17 +0100 (CET)
+Message-ID: <20220304152135.975568860@infradead.org>
+User-Agent: quilt/0.66
+Date:   Fri, 04 Mar 2022 16:19:55 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     x86@kernel.org, mathias.nyman@linux.intel.com,
+        gregkh@linuxfoundation.org
+Cc:     linux-kernel@vger.kernel.org, peterz@infradead.org,
+        rdunlap@infradead.org, linux-usb@vger.kernel.org
+Subject: [PATCH 2/3] usb: early: xhci-dbc: Remove duplicate keep parsing
+References: <20220304151953.830111479@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOMZO5CioYoddT0kqtf+wOTvvxArm9ipW2bAj84qKM_eQgMcjg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
->  # echo -n "2-1" > /sys/bus/usb/drivers/usb/unbind
-> usb 2-1.1: USB disconnect, device number 3
-> smsc95xx 2-1.1:1.0 eth1: unregister 'smsc95xx' usb-ci_hdrc.1-1.1,
-> smsc95xx USB 2.0 Ethernet
-> smsc95xx 2-1.1:1.0 eth1: Failed to read reg index 0x00000114: -19
-> smsc95xx 2-1.1:1.0 eth1: Error reading MII_ACCESS
-> *********** smsc95xx_unbind: calling phy_disconnect
-> smsc95xx 2-1.1:1.0 eth1: __smsc95xx_mdio_read: MII is busy
-> libphy: *********** phy_disconnect: 1
-> libphy: *********** phy_disconnect: 2
-> *************** phy_stop
-> smsc95xx 2-1.1:1.0 eth1: Failed to read reg index 0x00000114: -19
-> smsc95xx 2-1.1:1.0 eth1: Error reading MII_ACCESS
-> smsc95xx 2-1.1:1.0 eth1: __smsc95xx_mdio_read: MII is busy
-> smsc95xx 2-1.1:1.0 eth1: Failed to read reg index 0x00000114: -19
-> smsc95xx 2-1.1:1.0 eth1: Error reading MII_ACCESS
-> smsc95xx 2-1.1:1.0 eth1: __smsc95xx_mdio_read: MII is busy
-> *********** smsc95xx_stop
-> smsc95xx 2-1.1:1.0 eth1: hardware isn't capable of remote wakeup
-> usb 2-1.4: USB disconnect, device number 4
-> 
-> Maybe the -19 errors should be ignored?
+The generic earlyprintk= parsing already parses the optional ",keep",
+no need to duplicate that in the xdbc driver.
 
-But why does it return ENODEV? It seems to me, ignoring it is papering
-over the cracks. Why cannot we access to the PHY?
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+ arch/x86/kernel/early_printk.c |    2 +-
+ drivers/usb/early/xhci-dbc.c   |    5 ++---
+ include/linux/usb/xhci-dbgp.h  |    2 +-
+ 3 files changed, 4 insertions(+), 5 deletions(-)
 
-     Andrew
+--- a/arch/x86/kernel/early_printk.c
++++ b/arch/x86/kernel/early_printk.c
+@@ -387,7 +387,7 @@ static int __init setup_early_printk(cha
+ #endif
+ #ifdef CONFIG_EARLY_PRINTK_USB_XDBC
+ 		if (!strncmp(buf, "xdbc", 4))
+-			early_xdbc_parse_parameter(buf + 4);
++			early_xdbc_parse_parameter(buf + 4, keep);
+ #endif
+ 
+ 		buf++;
+--- a/drivers/usb/early/xhci-dbc.c
++++ b/drivers/usb/early/xhci-dbc.c
+@@ -599,7 +599,7 @@ static int __init xdbc_early_setup(void)
+ 	return 0;
+ }
+ 
+-int __init early_xdbc_parse_parameter(char *s)
++int __init early_xdbc_parse_parameter(char *s, int keep_early)
+ {
+ 	unsigned long dbgp_num = 0;
+ 	u32 bus, dev, func, offset;
+@@ -608,8 +608,7 @@ int __init early_xdbc_parse_parameter(ch
+ 	if (!early_pci_allowed())
+ 		return -EPERM;
+ 
+-	if (strstr(s, "keep"))
+-		early_console_keep = true;
++	early_console_keep = keep_early;
+ 
+ 	if (xdbc.xdbc_reg)
+ 		return 0;
+--- a/include/linux/usb/xhci-dbgp.h
++++ b/include/linux/usb/xhci-dbgp.h
+@@ -15,7 +15,7 @@
+ #define __LINUX_XHCI_DBGP_H
+ 
+ #ifdef CONFIG_EARLY_PRINTK_USB_XDBC
+-int __init early_xdbc_parse_parameter(char *s);
++int __init early_xdbc_parse_parameter(char *s, int keep_early);
+ int __init early_xdbc_setup_hardware(void);
+ void __init early_xdbc_register_console(void);
+ #else
+
+
