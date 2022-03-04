@@ -2,145 +2,152 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A6CC433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 02:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41FB8C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 06:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237704AbiCDCaf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Mar 2022 21:30:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58442 "EHLO
+        id S238379AbiCDGa4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Mar 2022 01:30:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233036AbiCDCae (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 21:30:34 -0500
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2114.outbound.protection.outlook.com [40.107.94.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0923108198;
-        Thu,  3 Mar 2022 18:29:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TMfGQXWvYDPuHa2P6yVdodex7mklBEz/5oZrLVGA25JV2WyQVoSJkLMGvN1pwRLapQq1VVlrazcKGGSW0k/WzrHVdEuKkr8CW8xlz/HVn8U8ynkUvSJCe1hNsOXj1mxVHqnpLp/UBk6FNofIctjOKl/nC8PjA0ePRnF8uE+g4PYcFrGXo/K6/d2aGUNLxUs0g3v0ccBTJhu06IlfJmIP/YKVLNDJkgTim9uXd+MntbY3hEss/7hcQmQimj7shxTOxE+TINQpHBBm125ONX7w/Fs/91S8M99JPpyFCc+aeVroGP6NNGAAi8Kf2Fgo7mr79WLz4W5wpHBxrkBdGULxLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uS3sk6gyFp7CBC1YI/+GDQlN6KpmWhsnlOs36Q6eI3Y=;
- b=XQ+fT6osdjDsbiFK5xzT4DYFiitvRquqrpXVdUBHp0YVxuGr5j4nWOKiNaTUSG5rAS6Ywx7D3jNGsQjsqG7ESBsTT7Hu7elJCq2ln2YwU/D5cgav3XS8PS0/5S2fHAu4OTPSgV1aMmjaq3r7H2rQSVj0KoyoqzjLOpdTMxGgUQHxxBmLrQNjuQEVH7QEjEMA+xP7iO811o00snuZeuHFO9yTcXxdD/0MaGZHGOU4wiy5oJPJR6KYuFmwAqTbto5Fhvq7+ZsynzlSrFC2HyeKJghScNF8GFiaaOCrCax0OvJCrZsDzFbaKPul4ThyFrjW86P0yG4GZO3vBl1e4+dWug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
- header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uS3sk6gyFp7CBC1YI/+GDQlN6KpmWhsnlOs36Q6eI3Y=;
- b=ZUxST9XNoVDaNKWcX1lCesEKCjLvAHQWSCMebr6fW7MRSoG7i/twGJn1eG2dJHpRmswwRJvHG7IuG4fY9xObkYxA3BxpmYXamRi42W/VuBqAIec4ekEm/Lc8Gxxuzz3wrarmP6bxd3HRAhtflGbFVWj4BfTl5nt78FXMbV+tN8A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=analogixsemi.com;
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
- by CY4PR04MB0841.namprd04.prod.outlook.com (2603:10b6:903:e2::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5017.26; Fri, 4 Mar
- 2022 02:29:43 +0000
-Received: from BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142]) by BY5PR04MB6739.namprd04.prod.outlook.com
- ([fe80::a865:6d10:c4a9:1142%9]) with mapi id 15.20.5038.014; Fri, 4 Mar 2022
- 02:29:43 +0000
-Date:   Fri, 4 Mar 2022 10:29:36 +0800
-From:   Xin Ji <xji@analogixsemi.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        bliang@analogixsemi.com, qwen@analogixsemi.com,
-        jli@analogixsemi.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] usb: typec: anx7411: Add Analogix PD ANX7411
- support
-Message-ID: <20220304022936.GA4164495@anxtwsw-Precision-3640-Tower>
-References: <20220223102353.3833578-1-xji@analogixsemi.com>
- <20220223102353.3833578-2-xji@analogixsemi.com>
- <Yh9dBlrWm3OicQWa@kuha.fi.intel.com>
- <20220303024757.GA4159259@anxtwsw-Precision-3640-Tower>
- <YiC+/ccRvR/+mAkT@kuha.fi.intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YiC+/ccRvR/+mAkT@kuha.fi.intel.com>
-X-ClientProxiedBy: HK2PR06CA0023.apcprd06.prod.outlook.com
- (2603:1096:202:2e::35) To BY5PR04MB6739.namprd04.prod.outlook.com
- (2603:10b6:a03:229::8)
+        with ESMTP id S232071AbiCDGa4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Mar 2022 01:30:56 -0500
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C81B187BBA
+        for <linux-usb@vger.kernel.org>; Thu,  3 Mar 2022 22:30:07 -0800 (PST)
+Received: from epcas3p2.samsung.com (unknown [182.195.41.20])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220304063004epoutp04598ca3a7aead66d0cad8ceaf7d2ba6fd~ZGbUn4GXE2215322153epoutp04k
+        for <linux-usb@vger.kernel.org>; Fri,  4 Mar 2022 06:30:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220304063004epoutp04598ca3a7aead66d0cad8ceaf7d2ba6fd~ZGbUn4GXE2215322153epoutp04k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1646375404;
+        bh=t16gVV9oSQaljRySboqrBl6RazZm32K+h93uwF0rvx0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=mf3z2CPaiPXMsWBLD7qMf3+68ws13l0ZiUCupiICqOt11Li4vt/OLPvmUyWxpK+Ol
+         HZlCxhBGXJNEPM8KXLqpbNqXn+udDkMfMqetbAHYnTr0KmEoVEnYwfuBl8+hHC4DcX
+         2Lrp0T5KQd7MAnMHYUFS4knl2Xp1IPE1F73l1q1k=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas3p1.samsung.com (KnoxPortal) with ESMTP id
+        20220304063003epcas3p18edac2709d3bb605e50bf2413a757682~ZGbUCCo1x2721227212epcas3p1n;
+        Fri,  4 Mar 2022 06:30:03 +0000 (GMT)
+Received: from epcpadp3 (unknown [182.195.40.17]) by epsnrtp3.localdomain
+        (Postfix) with ESMTP id 4K8ydR6q2Lz4x9Px; Fri,  4 Mar 2022 06:30:03 +0000
+        (GMT)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
+        20220304062617epcas2p1ccc051a6d931d4151a7c9e2bb545bd47~ZGYBjXU7N1392713927epcas2p1X;
+        Fri,  4 Mar 2022 06:26:17 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20220304062617epsmtrp1b45eca2a481a613393a8970de57fb3e7~ZGYBiaugu1455714557epsmtrp1L;
+        Fri,  4 Mar 2022 06:26:17 +0000 (GMT)
+X-AuditID: b6c32a29-41fff700000074af-4b-6221b1096024
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        9F.B3.29871.901B1226; Fri,  4 Mar 2022 15:26:17 +0900 (KST)
+Received: from ubuntu.dsn.sec.samsung.com (unknown [12.36.155.120]) by
+        epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20220304062617epsmtip2941d034ecd4dd9128568de9efdb0fc17~ZGYBXMRaE1747117471epsmtip2y;
+        Fri,  4 Mar 2022 06:26:17 +0000 (GMT)
+From:   Daehwan Jung <dh10.jung@samsung.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org (open list:USB XHCI DRIVER),
+        linux-kernel@vger.kernel.org (open list),
+        Howard Yen <howardyen@google.com>,
+        Jack Pham <jackp@codeaurora.org>,
+        Puma Hsu <pumahsu@google.com>,
+        "J . Avila" <elavila@google.com>,
+        "chihhao . chen" <chihhao.chen@mediatek.com>,
+        Daehwan Jung <dh10.jung@samsung.com>, sc.suh@samsung.com,
+        cpgs@samsung.com, cpgsproxy5@samsung.com
+Subject: [PATCH v1 3/4] usb: host: add some to xhci overrides for USB
+ offload
+Date:   Fri,  4 Mar 2022 15:23:57 +0900
+Message-Id: <252651381.41646375403959.JavaMail.epsvc@epcpadp3>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1646375038-72082-1-git-send-email-dh10.jung@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNLMWRmVeSWpSXmKPExsWy7bCSvC7nRsUkg+kfzSxWHJ7HaPHykKbF
+        5odX2CzuLJjGZPHkyCJ2i+bF69ksrv95z2jR/vwCm8XlXXPYLBYta2W2aN40hdVi5lpli667
+        NxgdeD0u9/UyeSzYVOqxeM9LJo/9c9ewe7Sc3M/i0bdlFaPH501yAexRXDYpqTmZZalF+nYJ
+        XBkvFjxiLbgrWHHi/GfWBsb/fF2MnBwSAiYS6+fOYO1i5OIQEtjNKHFl2RYmiISkxNK5N9gh
+        bGGJ+y1HoIq+MUo0b7nB3MXIwcEmoCXxfSEjSI2IQJzEist7WEBqmAX6mSU2NN9iBakRFvCV
+        OHVYBaSGRUBV4vSU18wgNq+Aq8TGzt/MEPPlJG6e6wSzOQXcJLbcP8IGYgsB1TxofcQ4gZFv
+        ASPDKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4PDV0tzBuH3VB71DjEwcjIcYJTiY
+        lUR4LTUVkoR4UxIrq1KL8uOLSnNSiw8xSnOwKInzXug6GS8kkJ5YkpqdmlqQWgSTZeLglGpg
+        ypWVjb82wcFXUeeu9B6Fm22lLxWif9fx7EipYXYuWL954WZ7nzcKk5rbGu7GiC5Jt/1de+BL
+        TeEhub1FO9IT5wmza7yW01r79FfNdt25b5/nNKUlv4iZ84jVqc389kPr6/sC7679/DNcI33V
+        /cKF2ypfFMcfDc6VeGj9yL3b9s6Vr5xFUb+3Zm+VC/HQ8V0Utkm5cfsSe6O2dYvVORe6Waub
+        XbycNXsad3jJmeNzbmm4XnGyvHdk87GLf//6Rfecn9B+pidRroyT5TmDVBr79QV1not7tOo3
+        7Tm+39L/oOZVcS+Fr0+kv+2rsfzk/nNHj5iEpd63/5/LNuyfttc21T5Vxtt+AtsDZc4spgdt
+        SizFGYmGWsxFxYkAboDB+84CAAA=
+X-CMS-MailID: 20220304062617epcas2p1ccc051a6d931d4151a7c9e2bb545bd47
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+X-CPGSPASS: Y
+X-Hop-Count: 3
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 28eb0f48-3d1b-433f-84cf-08d9fd86d76a
-X-MS-TrafficTypeDiagnostic: CY4PR04MB0841:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR04MB08413C4936E45E276B54A627C7059@CY4PR04MB0841.namprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: TcqF64HTAHxcWO2eAXS1LNPe9UXLYVeXOn1g8Fr2YFAuZYqkjav7ahJh6LhEsZAPjVwkLhFf5xsVPFF/BxFrt8kHiWA1HB7iQTgpOzNcj/JEQnnyho8ATUQokd83l8HGnkjlPzgR5f3QMSa9VpHl25/qZ/JUFHvYAzxGECZMWbuNYO7Jik6+v2TkOmRfMJ/hQVcbxeIQRiXV8aZjdQJDEosfKZ7WfvV+GZl4nSlu8nF+8sC8u4E8Pa6lEcMbBI09cgtbFTumlpcv4AWMTGtJg07+WcCTN7f6Q3vApxR+OLLV8oCcH/TV6DDiuiU0b28iDrGp+CKdXPPfcxl3NpMYrt1sGVIdDaEvwG/fJcjJvMSEZI4ke+SJX1Gqvm44CDtmXOc6dQqvzPgRCArwfm4JFsf39DD+AjalyLb2cZXJ9Lz0pY+NVLks0pcaphHNm6GxIXoTLvrje+RD1GLQPmvX/YTUxJWbyKswMfgsrDDz1+z2S+YJU1oiJ7GGgDqnGY1UYsAOjv3zeWZGr+UyfPcog3/Ei/t3odFogKZxKFITjcn8pA1RcBvnt9YMz3w9ZGiaJgCCjs8BL4DqZEt8CWr18pO9Zcq5L/9Xwt8Nj4B/0NOdIZ3YMpGy/DQHzOEHMeEZs5j8qjSm3JwrkP1CnOcZkrzjMGMvyZEQhcP0aYJpjY6L79UWolOXonPHJcwkwaArBlpMmoYFbxRhRsXnXWwTfg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6739.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6506007)(6486002)(52116002)(55236004)(498600001)(38350700002)(33716001)(6916009)(4744005)(38100700002)(5660300002)(9686003)(1076003)(33656002)(2906002)(6512007)(8936002)(4326008)(66946007)(66556008)(8676002)(66476007)(86362001)(6666004)(186003)(26005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KcIXb3mKp8HrxTzcs9ZJQ2oamPvuRd9fSyhN8FfYynIuPdZQwtfKRt8ypc3A?=
- =?us-ascii?Q?/z2AUoJHqXhWCtRiInuOHAS6w+TVRYlNivGXoJnkPpowh+Yeganu4aKTBoHY?=
- =?us-ascii?Q?xmzGK/k9XllQTB2e60tPAJ3M05gTJZVAulKZUsCuQSFIZPIgPvMOid58xi1R?=
- =?us-ascii?Q?fNuOlLOiNDsTk4HxCCY2kWBwMcAYKx87NPBKYg3SIdXlsptW/YgS+ltdssKm?=
- =?us-ascii?Q?PPB7fNOKyqlF1TLiPM1YIZAKmC4B+BpBdw+Q0siN5AKlrJMT32n0OpbvzUa+?=
- =?us-ascii?Q?NmS2OU86XihVUAIy8bpXCugiMnonLAi+5/P+KRn2xw8nhpNtrk5Nfnp13GQq?=
- =?us-ascii?Q?HHsXfWPgmIIYahDoA6sy5tOkj1jsb2xC2Qx3GHJRu2ZgxWl/9m/Akpe0kQ8g?=
- =?us-ascii?Q?Ft1FsUEv1ld4dO0CCLpviJKOJ76mEWw7Xa7JSz0Kl9BNS9q/9ZCKgmqpClKL?=
- =?us-ascii?Q?TFoGmLqvNSXOEwEVpWGfHe5mMCSe4UbGqljlB+axiVg1ItJFMmM3lsu/tNV7?=
- =?us-ascii?Q?fdpuINkeHKAG8T04gGvMSdXa+6RlnuTXShZmyNqfDdB28CVy4hs7Yl/Xsk07?=
- =?us-ascii?Q?KtKMCX+saJ7ZI8wtIcz13InLUNLZgb//7nHt5UL4g0HbMyEoHdA8QnF68KIL?=
- =?us-ascii?Q?fmXdHC89zfzJyy7J00okyzGoy5JoigiH4OsZZYQ71x/IRIttXwjNUn5tb3Pw?=
- =?us-ascii?Q?SUR0Z+tfc8TxdNG9UYRFzIzXMso3KZy5wSJ4zfy8ZAjROqvzhbuK6M76d+2n?=
- =?us-ascii?Q?5rEeCjSEWdBSPnHVciXGYqO0pZIjrxb2ASPtqomXmdRqYBeiZ7OvW0a5/Jh+?=
- =?us-ascii?Q?vULERkllP37MelQ5cRDA2CKoGNSw7GRL5RhmZ2FGjGReJozOcPj0RzCqki+7?=
- =?us-ascii?Q?z13S+3zWT3SmxAGdDphAs6R19mZRrWccXRqseIhCvqqFp7U91i6kUoR1yuh/?=
- =?us-ascii?Q?j7vyuvgX+UbCM3nem/BGb1Pusv3xLkB4qK72DjlrfQRJh6YVLsz8NVgPg2Zz?=
- =?us-ascii?Q?DGlr2u5w8T81ACBn/N/tQ9AFJBqH14frCuSum6aRwSSC99uXR1Y4zrrlDIQD?=
- =?us-ascii?Q?zlhhzNBwG2Lc4r7Ac59DczawmDL6Y63J8eV+YDHB02KSLYnGaqK4FbQH3cAL?=
- =?us-ascii?Q?fnrh7hh6IAfvA1VfKmiyPVjKjINWMcRj3TWj1FzEsrsO2iqHgA1fkx1SYJl8?=
- =?us-ascii?Q?cYajxDy/PtTxPvw+U+mEYkCkcjIxuMA78v0DmJqTu9WQWRzTHuH1tj6HYZHI?=
- =?us-ascii?Q?scJlWPe0wIdcVJwg4ykaxuyY1NGJyfjF0O9INOJ6oEd8BAQ/waw5Ct0AUIik?=
- =?us-ascii?Q?zz/pE8ItDF8tTAPXRV0GPX9r2lq7FS2m5kCoyJCGgBo/pt1gHKeWnfFrFbbT?=
- =?us-ascii?Q?oID9H+CPeTdp13AfdG6YSeMnE/0wpQDazV83TlIlfT71WZMWsvggyEqLmZyT?=
- =?us-ascii?Q?aPAWzHI2n4Z7k5eKR5jbnjwGiVPOLFMA3A+o4tx3GwaAuSuO7TNoWbnqln6d?=
- =?us-ascii?Q?oLrBJBDWneU/FAXaPaxa9PJQlPWwyq7AcCqmtTQSgJuZbVAA7Mfopd8onanT?=
- =?us-ascii?Q?DjIrqF/FFs+oVJPzseZ6KkBCKZHRr+ZcluPqbLQ4S1lQ5GwrgGuFBYebUyNT?=
- =?us-ascii?Q?AjOzzriLwJiKgAVvlC47MLI=3D?=
-X-OriginatorOrg: analogixsemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28eb0f48-3d1b-433f-84cf-08d9fd86d76a
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2022 02:29:43.3350
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5a0xjABRwgP2IB0dLl57fQkxbKOkD1J7UoVjRij64bR7eZPY3WZIg9prEC+dtEhAfESDPLhAKIxvBoWKX21TpQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR04MB0841
+X-CMS-RootMailID: 20220304062617epcas2p1ccc051a6d931d4151a7c9e2bb545bd47
+References: <1646375038-72082-1-git-send-email-dh10.jung@samsung.com>
+        <CGME20220304062617epcas2p1ccc051a6d931d4151a7c9e2bb545bd47@epcas2p1.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Mar 03, 2022 at 03:13:33PM +0200, Heikki Krogerus wrote:
-> On Thu, Mar 03, 2022 at 10:47:57AM +0800, Xin Ji wrote:
-> > On Wed, Mar 02, 2022 at 02:03:18PM +0200, Heikki Krogerus wrote:
-> > > Hi,
-> > > 
-> > > This does not apply on top of Greg's latest usb-next branch. You need
-> > > to rebase this. There are also a few more nitpicks below.
-> > 
-> > Hi, I didn't found tcpci.h in include/linux/usb/
-> 
-> I'm asking you to create the file.
-> 
-> So create a separate patch where you move the register definitions and
-> command definitions from drivers/usb/typec/tcpm/tcpci.h to
-> include/linux/usb/tcpci.h
-Hi heikki, I'm confused, do you mean move total tcpci.h to
-include/linux/usb/ directory or just move our driver patch used register
-definitions and command to "include/linux/usb/tcpci.h"?
+Co-processor needs some information about connected usb device.
+It's proper to pass information after usb device gets address when
+getting "Set Address" command. It supports vendors to implement it
+using xhci overrides. There're several power scenarios depending
+on vendors. It gives vendors flexibilty to meet their power requirement.
+They can override suspend and resume of root hub.
 
-And I think the other way is, our driver patch just include
-"tcpm/tcpci.h" is better(no need to create new file). What do you think?
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+---
+ drivers/usb/host/xhci.c | 6 ++++++
+ drivers/usb/host/xhci.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-Thanks,
-Xin
-> 
-> thanks,
-> 
-> -- 
-> heikki
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 10d5e20b710d..7789bf277c8e 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5557,6 +5557,12 @@ void xhci_init_driver(struct hc_driver *drv,
+ 			drv->check_bandwidth = over->check_bandwidth;
+ 		if (over->reset_bandwidth)
+ 			drv->reset_bandwidth = over->reset_bandwidth;
++		if (over->address_device)
++			drv->address_device = over->address_device;
++		if (over->bus_suspend)
++			drv->bus_suspend = over->bus_suspend;
++		if (over->bus_resume)
++			drv->bus_resume = over->bus_resume;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(xhci_init_driver);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 2efe8ddaab5f..2c7d0e403424 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1944,6 +1944,9 @@ struct xhci_driver_overrides {
+ 			     struct usb_host_endpoint *ep);
+ 	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+ 	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
++	int (*address_device)(struct usb_hcd *hcd, struct usb_device *udev);
++	int (*bus_suspend)(struct usb_hcd *hcd);
++	int (*bus_resume)(struct usb_hcd *hcd);
+ };
+ 
+ #define	XHCI_CFC_DELAY		10
+@@ -2100,6 +2103,7 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 		       struct usb_host_endpoint *ep);
+ int xhci_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
+ void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
++int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev);
+ int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id);
+ int xhci_ext_cap_init(struct xhci_hcd *xhci);
+ 
+-- 
+2.31.1
+
+
