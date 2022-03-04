@@ -2,134 +2,263 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93B35C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 00:26:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC500C43219
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 01:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237382AbiCDA07 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Mar 2022 19:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
+        id S233785AbiCDBH2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Mar 2022 20:07:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232429AbiCDA06 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 19:26:58 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2132.outbound.protection.outlook.com [40.107.113.132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA1111DC6;
-        Thu,  3 Mar 2022 16:26:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jysDOBqEtOBtOfJvpmnPCKTEovwNB2GPZ/ioaH0kmfuqnhw2Vbfwf88eVjOS7+KXF4aN3NLVO/kG6kjZ8GrZqdXwcS5B5BRvr198G2fe1ElNR1u1fJgV6aafpsaoBoRo3+ZbMbK0nCPMBcHbqeok7jXTySygR3S/FDqCclihmEnUz+hqU1AeZbE9CCXd5dR+gfZ2N/z2qGuKovU6CBvNUwdT4CYLNH5ZbeJpSQnIk0Q4q+cd+dnJ/OZGE545NLhVNweGd6jnJFDL8gBTytKeZEbA1dRrcgOReqkxA0iCjmrUwxdjFxm64AvVtCNn1FaZ8/wEM0JBEtvQT/zmQHRMew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UGyNyI5nCDrHvS8NFN2J52/P7Y9o0TkLRepnVl8TGd4=;
- b=cd6/IdNlWa65sIX5KiQtbClXaqvq5+DeIugwfv7RDeo/Qw+fi953iRN5jFwlg7VHSXc/+vYzOil46NK/rU3dmjrxXLC8y9UnRJz0LTaMh8cV3oV8AuLuERVUCdAl8mI9q0MJVxEUTf5BiYKIoYxRk8o4pJMx7UaoFj19/xFBm4JhGufB6RwexbapSi3XYy011rBhg5QIDCH+J47WtvdI0oXD+w9EGng6iWRSxF2ugWA4cNQzKAB6lEIaJH+umzpvv7H0mowOMqifvmq3UkaGg+D/xRaeuiIDQ/jke63JRzxZO8qGMJxxtggOu9tByDjdRUAwjkPTzB4WTjm1qF0RPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UGyNyI5nCDrHvS8NFN2J52/P7Y9o0TkLRepnVl8TGd4=;
- b=O8D9WPdA1Cx5wZNBBUYZD5LnFOzPytWR8r+RaDQJuE6z4Vmldizq8D8CLnsYCe7s/2Ee1bjEcFLyQufdOBb+e7MXD1hH0bo/6lX5PebcA84TLbhS3/4qCkc1LCM5iiBmRRVp802yA825C2JEAFlJcWfMwm7e5xVjYOHJ5YhLozc=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OS3PR01MB8905.jpnprd01.prod.outlook.com
- (2603:1096:604:17d::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Fri, 4 Mar
- 2022 00:26:09 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::458:e316:da3:511a]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::458:e316:da3:511a%5]) with mapi id 15.20.5038.016; Fri, 4 Mar 2022
- 00:26:09 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Felipe Balbi <balbi@kernel.org>,
+        with ESMTP id S230272AbiCDBH1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Mar 2022 20:07:27 -0500
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ADC117AED1
+        for <linux-usb@vger.kernel.org>; Thu,  3 Mar 2022 17:06:40 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id x193so6508236oix.0
+        for <linux-usb@vger.kernel.org>; Thu, 03 Mar 2022 17:06:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=t3nWe6fM1HVkjBUMHf+CEsn0gIjJiNshvBUlw4zjlyA=;
+        b=i5APB157kDLH4uugQLkW+WkhLxdZwPfQVwcwK501fx9upDZvwwlFYv8llMCQHJJ+Q1
+         kVyKqLvBaFvvnD0ftWnH9Ve/tEv68SUr988i3iLC4T//ZgB6H+2FI+qV8odSfMb9wYHU
+         PmoKw9idfKa67meyFAm0sWAOJiBuMXWR72dEziYskZbAbsyRJeLfWfDnoD6ccf8nfpPv
+         w1G6QDXFJ9CX/l3s8dTaZjwMuzQtvVSprZUGzdZDLyJOCnB1YNz+qCjNoQ9ubv/OrpwO
+         cGGK1+MUeKgoFiysDeOAd1SHgKpHAxCKG6daaWnvRUR7SMwplRMQ8359+XCjsCULbduy
+         0jpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=t3nWe6fM1HVkjBUMHf+CEsn0gIjJiNshvBUlw4zjlyA=;
+        b=sNNo4yVxkgOit9v8XAnjtuRgzQO0SIxCliETNW9cl+/GwwL/JzVd0L7tOv+NuaZS7a
+         CF0ioBaQQqGesnxjZe092+jWsoF4l6wqSlkORBLzR+762vsLyzErcr6ggBZVxWrHCWbM
+         KpOCTqFGLKjUU16pcMszmONN4JfxAa4r24NiDvlK3ofKj4yIZABrlqO84g8dAELKdceL
+         IWAKFQLpCwpFdiYf3U2gwIa7EKq2LVUDPiN1aRfhud4Gaf3S+Zo9o3KIK0bI5vMK+MtN
+         sF5jIfNo1Ivrb+Aab0CVDiUNTeQZUhuQp/N49opNLgvJjXIo5ow7p8roVvLXAKSEU2Ny
+         bWrQ==
+X-Gm-Message-State: AOAM531WcLJk9VsfiFaYaP0H73GNAqT3MznzWy6CP75HqGq4+1GoRlz6
+        cSuggB3+CzHEploMi4IQCJwVjA==
+X-Google-Smtp-Source: ABdhPJzBW6NhSImLIQGWIXESHt/Soyu/H4xnVElo6ZgoPx6e1MiwPxrDZcYL/A+g7+o36t3OX+tdjw==
+X-Received: by 2002:aca:1807:0:b0:2cf:216:3d5b with SMTP id h7-20020aca1807000000b002cf02163d5bmr7220144oih.18.1646355999802;
+        Thu, 03 Mar 2022 17:06:39 -0800 (PST)
+Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id l14-20020a4ac60e000000b002e0e75dcb82sm1709080ooq.12.2022.03.03.17.06.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Mar 2022 17:06:39 -0800 (PST)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Rob Clark <robdclark@gmail.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, Sean Paul <sean@poorly.run>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] usb: Drop commas after SoC match table sentinels
-Thread-Topic: [PATCH] usb: Drop commas after SoC match table sentinels
-Thread-Index: AQHYLv1Bjfx4xU4aO0WtIxf092Zun6yuXq4g
-Date:   Fri, 4 Mar 2022 00:26:09 +0000
-Message-ID: <TYBPR01MB534166BB0BE207A6A7215E38D8059@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <5cae409f647272a5679291ebc0000bfeccc14160.1646311762.git.geert+renesas@glider.be>
-In-Reply-To: <5cae409f647272a5679291ebc0000bfeccc14160.1646311762.git.geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2867a85b-c756-43e7-4d9f-08d9fd75949b
-x-ms-traffictypediagnostic: OS3PR01MB8905:EE_
-x-microsoft-antispam-prvs: <OS3PR01MB890501C732FE5F0665361C88D8059@OS3PR01MB8905.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: CgpYX6lNMPqOnJSTapGU650cnq8dA4fauM5R7NoS0M/kmyuDvD30VBtZJc8ZaABw/m1PaGWpZ6R58i49XqLNkD0wMS6A80XawLLd5mV4Z83zebMtk/w932RAx8jCHIr3DkYcOEkKVUcRz4+ZI4hcgc5kfINSJrjoFFij83aoqLAG1rdwWslyl2oOM2dcbAVJfF9s7H0CRGQ5S5cxl+grdaC/l6/8FTCnbMxV1YBsWC5DJ51QgxaL0lFbms+z+52sEW0+fUtfUGGao0Wym7AMFPtoU8P6f37quw/OQUlvtdt2acF2DRpO5x7RpS0QpNs8LCMRbxG4oi1hcFu6F/M1oRG3oOXGQV5AEgkkeZia/rg2JqVK0jaJBFjW26oUOTjXRbRJhLvhzXVJvnkw4Sv6Avv4J9PJabH+s6l9nJix7asVZoZrw+VRFYsubJjVBURnt2F0cgJyddoSN0jl5u6HbLMtKxrELyzvvC+eueOKL1otE0B18d8h0ghtQOOZUN+VLvkfXcCBc7lvtAoXdXAjxqhewvTMFoy2vK9i1QYLhuXvvoAamUyORLLqejKe7QWJHU3ASDy8IYnWxSmQo3JDXQ2Mesxe/C9hkS+Hn6eUZXjXaQclAOJ5Z245BuVyNzr9A3TWfIvyk9Xyn4neev3KtrUTTfzsmZ6UVqJzj57XtA/98km6f/Ly4YSr2ZKKbbFlPkEMW/i3tUbD4FJ/NqcRxA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(38070700005)(33656002)(71200400001)(86362001)(52536014)(4744005)(8936002)(316002)(122000001)(54906003)(2906002)(76116006)(66556008)(55016003)(66446008)(66476007)(4326008)(66946007)(110136005)(8676002)(64756008)(9686003)(38100700002)(7696005)(186003)(5660300002)(508600001)(6506007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Qs/l0SHfZEBx4+Z/fbUpUY8bQfRYE9rKN52O33zGe4icSZSCklGtjD9nH1SI?=
- =?us-ascii?Q?JbXupkhn3INrZkQF5ZDpnyaUITZC2YpFHRPzAXFgjosjtcf0ivvSvyo0mkDN?=
- =?us-ascii?Q?kt2TaFD2J4bDyP0FHvUx9fXy9ua5tBVHXf8niFR3iXPTOEsk+nI0RxCr03VD?=
- =?us-ascii?Q?7IL+Il6j+XSxR6JnqsXuVkQmBAHpITLcnodfcsGWR8dGoAjbwnaa3SW/OkMc?=
- =?us-ascii?Q?kwCTAxIiiJz0nQQ+yn7tJPEIn+gk9onyLtxnSMV1qvHz+QMn6CMp4JTFj2yW?=
- =?us-ascii?Q?GQEmdIv2sfdg4nqUVtCGR433OMN7gJQMOBPNofYS95fvGxlLUYjJc9B1vE/d?=
- =?us-ascii?Q?j9lT6EymQDGLHg419b/X5zHm6lkw1Z6yA33b8CY20gUENpPWyvi8o9d4IJPu?=
- =?us-ascii?Q?LgVJuzBIw5BbCZ3tFiztbEMPnC7pUZjYzWxHquGwnMLKlaUtPm6Blw1KkM1O?=
- =?us-ascii?Q?5Z/DNB/WEopFrIYrbDBLisa4ow8IoFu070OIhza6LadEyhfcIAsVsjXleBV1?=
- =?us-ascii?Q?3FddbCtF/f3pcV5RcetMBvQWGSMYWtwVs7eJ3XAFr4I3nk/W7EsaZ2Aimcw4?=
- =?us-ascii?Q?OvH7rmDbOIKJP6mSZifzSCpbi25UEw6kUybkS6vmrW1mMh+7Prycofe0juN6?=
- =?us-ascii?Q?SCBIS4PvkUg6VaTCZhtRH7Vpjw0F13ggtFUkWCXQRg5hWSGWwB6id2G4fngA?=
- =?us-ascii?Q?OGqKYoGObZjFBQgxmjA6RbTqYkbRpM/XewKeb56MKWlFp9jmdbCfsE8VKn+G?=
- =?us-ascii?Q?H7O5q8u0UvovHL7na+TXZTKXWjINLmZA8teSBdxa2irVm5ZO6F/JwgaMJ1mb?=
- =?us-ascii?Q?h0rPRS3A1ThfEu75JqCjjcasjWbvtidijwOdIzFzg91Ai6zgk/6VeeEYgY6C?=
- =?us-ascii?Q?WVAWr6ASTpcDkaH8AWcd07vaHojntKjmVkZpZ0vwlOGSb2STSo4I1TUDa1AE?=
- =?us-ascii?Q?gNPvaoRLjP2K7BUVW0iPTTLgA72zLIoAQUc7/DpOXrCS9t7+0KIvftmJG886?=
- =?us-ascii?Q?RuMFq0VJbkpYA8y/upsss9UrJAL6fV0YSjmQ5WcYKL0W3XCERS8qe4LDgGgL?=
- =?us-ascii?Q?SHZNZbRzh1gD8NIrtO7UuWK2JzkOc8acpyYV2ThEmsyycLi8nKrDpjitst+y?=
- =?us-ascii?Q?jeWEBiPqQMGJn76SuqAIbd7Z9hpThe5TeMFZ2wKvHkWL1zBZNsUzF4AZABHI?=
- =?us-ascii?Q?xl66dwnT9mfzRBgF2OCMpmqZrHetsN5NW1nhevG/Fl5UpPcrhTofRy6YgtM2?=
- =?us-ascii?Q?HDcljY+KTEnflwg80sHBC+awoEbAPWnSwIrVWFegik/MvUnTfp23C5eFI7ya?=
- =?us-ascii?Q?h7VdjcTpIm+C4nOe/GzQhD/+r9emcQT6Bai+j1P6sWAbfBpPsG59HXgc7xnL?=
- =?us-ascii?Q?JBbUt+sDO64JBnXyXvpX7Vp5KlZWqeD0yMyJQD/d7CJ3B0QEfuDdIX0O4I5g?=
- =?us-ascii?Q?YL85yhD3B+506t4HSkE35umtu+Y5ZVF9MoIyXO2xF96XJJwjKq1IFHt2rkOo?=
- =?us-ascii?Q?Lrqk9R9zrAOed1XLz67Kyn/SqSLjsnmFy1/KcvBgVL6iL0vtNpR4Cv8Qkx9O?=
- =?us-ascii?Q?ihHdz9bubyxfgFRC3b56y9ylIYj2Y4qwsN9g/uzcxYZ3i76/7j2XpJHTSR+X?=
- =?us-ascii?Q?vJNYd3PV4TSb9AddJfRoqJ/tAUpe9HA5jzrwz7VcnXFY+059IhdxT2oFDJXx?=
- =?us-ascii?Q?Iu1XRjf22ibRfOtKoNKKFjJXgyTwrlzZctVeETF7omkrkObXpd/46lFYfSxE?=
- =?us-ascii?Q?flJJWpL1YLkI3noTH4oTXQybYLxU0n3rZ8z/GFbwHa6gwwRn+QZd?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Stephen Boyd <swboyd@chromium.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-usb@vger.kernel.org
+Subject: [PATCH v2 2/2] drm/msm/dp: Implement oob_hotplug_event()
+Date:   Thu,  3 Mar 2022 17:08:27 -0800
+Message-Id: <20220304010827.998080-2-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220304010827.998080-1-bjorn.andersson@linaro.org>
+References: <20220304010827.998080-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2867a85b-c756-43e7-4d9f-08d9fd75949b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2022 00:26:09.5374
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mO1D9f6Yfxs3FSnlJcxbfcSxdl4BP8jZvxRo9nZ/5zCVlp0UAtxdvfdiBpBkRa1WIAVRtQHg6OGRti2SnIRtt5ucVFkX8MrsIUmylbOY1eYsp+TDRbdA0o7jsZw5Jcdc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8905
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Geert-san,
+The Qualcomm DisplayPort driver contains traces of the necessary
+plumbing to hook up USB HPD, in the form of the dp_hpd module and the
+dp_usbpd_cb struct. Use this as basis for implementing the
+oob_hotplug_event() callback, by amending the dp_hpd module with the
+missing logic.
 
-> From: Geert Uytterhoeven, Sent: Thursday, March 3, 2022 9:50 PM
->=20
-> It does not make sense to have a comma after a sentinel, as any new
-> elements must be added before the sentinel.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Overall the solution is similar to what's done downstream, but upstream
+all the code to disect the HPD notification lives on the calling side of
+drm_connector_oob_hotplug_event().
 
-Thank you for the patch!
+drm_connector_oob_hotplug_event() performs the lookup of the
+drm_connector based on fwnode, hence the need to assign the fwnode in
+dp_drm_connector_init().
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Changes in v2:
+- Adopt enum drm_connector_hpd_state
 
-Best regards,
-Yoshihiro Shimoda
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c |  9 +++++++++
+ drivers/gpu/drm/msm/dp/dp_display.h |  3 +++
+ drivers/gpu/drm/msm/dp/dp_drm.c     | 11 +++++++++++
+ drivers/gpu/drm/msm/dp/dp_hpd.c     | 21 +++++++++++++++++++++
+ drivers/gpu/drm/msm/dp/dp_hpd.h     |  5 +++++
+ 5 files changed, 49 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 178b774a5fbd..3d9d754a75f3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -449,6 +449,14 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
+ 	return dp_display_process_hpd_high(dp);
+ }
+ 
++void dp_display_oob_hotplug_event(struct msm_dp *dp_display,
++				  enum drm_connector_hpd_state hpd_state)
++{
++	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
++
++	dp->usbpd->oob_event(dp->usbpd, hpd_state);
++}
++
+ static int dp_display_usbpd_disconnect_cb(struct device *dev)
+ {
+ 	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+@@ -1296,6 +1304,7 @@ static int dp_display_probe(struct platform_device *pdev)
+ 	dp->pdev = pdev;
+ 	dp->name = "drm_dp";
+ 	dp->dp_display.connector_type = desc->connector_type;
++	dp->dp_display.dev = &pdev->dev;
+ 
+ 	rc = dp_init_sub_modules(dp);
+ 	if (rc) {
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
+index 7af2b186d2d9..16658270df2c 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.h
++++ b/drivers/gpu/drm/msm/dp/dp_display.h
+@@ -11,6 +11,7 @@
+ #include "disp/msm_disp_snapshot.h"
+ 
+ struct msm_dp {
++	struct device *dev;
+ 	struct drm_device *drm_dev;
+ 	struct device *codec_dev;
+ 	struct drm_bridge *bridge;
+@@ -40,5 +41,7 @@ bool dp_display_check_video_test(struct msm_dp *dp_display);
+ int dp_display_get_test_bpp(struct msm_dp *dp_display);
+ void dp_display_signal_audio_start(struct msm_dp *dp_display);
+ void dp_display_signal_audio_complete(struct msm_dp *dp_display);
++void dp_display_oob_hotplug_event(struct msm_dp *dp_display,
++				  enum drm_connector_hpd_state hpd_state);
+ 
+ #endif /* _DP_DISPLAY_H_ */
+diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
+index 80f59cf99089..76904b1601b1 100644
+--- a/drivers/gpu/drm/msm/dp/dp_drm.c
++++ b/drivers/gpu/drm/msm/dp/dp_drm.c
+@@ -123,6 +123,14 @@ static enum drm_mode_status dp_connector_mode_valid(
+ 	return dp_display_validate_mode(dp_disp, mode->clock);
+ }
+ 
++static void dp_oob_hotplug_event(struct drm_connector *connector,
++				 enum drm_connector_hpd_state hpd_state)
++{
++	struct msm_dp *dp_disp = to_dp_connector(connector)->dp_display;
++
++	dp_display_oob_hotplug_event(dp_disp, hpd_state);
++}
++
+ static const struct drm_connector_funcs dp_connector_funcs = {
+ 	.detect = dp_connector_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+@@ -130,6 +138,7 @@ static const struct drm_connector_funcs dp_connector_funcs = {
+ 	.reset = drm_atomic_helper_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
++	.oob_hotplug_event = dp_oob_hotplug_event,
+ };
+ 
+ static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
+@@ -160,6 +169,8 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	connector->fwnode = fwnode_handle_get(dev_fwnode(dp_display->dev));
++
+ 	drm_connector_helper_add(connector, &dp_connector_helper_funcs);
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.c b/drivers/gpu/drm/msm/dp/dp_hpd.c
+index db98a1d431eb..cdb1feea5ebf 100644
+--- a/drivers/gpu/drm/msm/dp/dp_hpd.c
++++ b/drivers/gpu/drm/msm/dp/dp_hpd.c
+@@ -7,6 +7,8 @@
+ 
+ #include <linux/slab.h>
+ #include <linux/device.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_print.h>
+ 
+ #include "dp_hpd.h"
+ 
+@@ -45,6 +47,24 @@ int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
+ 	return rc;
+ }
+ 
++static void dp_hpd_oob_event(struct dp_usbpd *dp_usbpd,
++			     enum drm_connector_hpd_state hpd_state)
++{
++	struct dp_hpd_private *hpd_priv = container_of(dp_usbpd, struct dp_hpd_private, dp_usbpd);
++
++	DRM_DEBUG_DP("hpd_state: %d connected: %d\n", hpd_state, dp_usbpd->connected);
++
++	if (!dp_usbpd->connected && hpd_state == DRM_CONNECTOR_HPD_HIGH) {
++		dp_usbpd->connected = true;
++		hpd_priv->dp_cb->configure(hpd_priv->dev);
++	} else if (hpd_state == DRM_CONNECTOR_HPD_LOW) {
++		dp_usbpd->connected = false;
++		hpd_priv->dp_cb->disconnect(hpd_priv->dev);
++	} else {
++		hpd_priv->dp_cb->attention(hpd_priv->dev);
++	}
++}
++
+ struct dp_usbpd *dp_hpd_get(struct device *dev, struct dp_usbpd_cb *cb)
+ {
+ 	struct dp_hpd_private *dp_hpd;
+@@ -62,6 +82,7 @@ struct dp_usbpd *dp_hpd_get(struct device *dev, struct dp_usbpd_cb *cb)
+ 	dp_hpd->dp_cb = cb;
+ 
+ 	dp_hpd->dp_usbpd.connect = dp_hpd_connect;
++	dp_hpd->dp_usbpd.oob_event = dp_hpd_oob_event;
+ 
+ 	return &dp_hpd->dp_usbpd;
+ }
+diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.h b/drivers/gpu/drm/msm/dp/dp_hpd.h
+index 8feec5aa5027..4166e5fd3156 100644
+--- a/drivers/gpu/drm/msm/dp/dp_hpd.h
++++ b/drivers/gpu/drm/msm/dp/dp_hpd.h
+@@ -29,7 +29,9 @@ enum plug_orientation {
+  * @hpd_irq: Change in the status since last message
+  * @alt_mode_cfg_done: bool to specify alt mode status
+  * @debug_en: bool to specify debug mode
++ * @connected: cable currently connected
+  * @connect: simulate disconnect or connect for debug mode
++ * @oob_event: deliver oob event to the usbpd code
+  */
+ struct dp_usbpd {
+ 	enum plug_orientation orientation;
+@@ -41,8 +43,11 @@ struct dp_usbpd {
+ 	bool hpd_irq;
+ 	bool alt_mode_cfg_done;
+ 	bool debug_en;
++	bool connected;
+ 
+ 	int (*connect)(struct dp_usbpd *dp_usbpd, bool hpd);
++	void (*oob_event)(struct dp_usbpd *dp_usbpd,
++			  enum drm_connector_hpd_state hpd_state);
+ };
+ 
+ /**
+-- 
+2.33.1
 
