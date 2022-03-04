@@ -2,57 +2,61 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97C70C433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 18:33:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B178C433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Mar 2022 18:37:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241776AbiCDSeR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Mar 2022 13:34:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52976 "EHLO
+        id S241330AbiCDSiV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Mar 2022 13:38:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238993AbiCDSd5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Mar 2022 13:33:57 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0621115A209
-        for <linux-usb@vger.kernel.org>; Fri,  4 Mar 2022 10:33:05 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id o1so10807918edc.3
-        for <linux-usb@vger.kernel.org>; Fri, 04 Mar 2022 10:33:04 -0800 (PST)
+        with ESMTP id S241817AbiCDSiN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Mar 2022 13:38:13 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 801F21D5290
+        for <linux-usb@vger.kernel.org>; Fri,  4 Mar 2022 10:37:24 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id qt6so19201478ejb.11
+        for <linux-usb@vger.kernel.org>; Fri, 04 Mar 2022 10:37:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=pYtIzIXjkV/30U+YOHDMSLeoGHeOM7B85ouGOmUno+o=;
-        b=Fi7v9Z3Hdb3vWTrpckKu0kv5AKYx03orRBhbCVw134YKAcsjlQ24ZBwwBEvciJLgS4
-         oiY6qKQwYYb/A2NgQfadnhOP0iidKwRpdr+LtVrZnbaBnOvhcswk1cacWwzYVHkzX/pU
-         QMKt0D123sPmQW1WRSOGt0xEOXUhzwhzb1lFaPOO1/JzBLLYGyx5bORqMWSE4w8YvPQm
-         Hzg6W6VBtpWzoEgZgCEKP/2geeJ3nD16l5T9GipFbSQ7E0t1gzvue0xZ26OhcRRAlxuO
-         3Z7ttDJR1DNioToq2gaiTyCrv8m3aGw76qaAeKV07sm53sksI0HULnTqVtZUjEk+Tzc7
-         o+Lg==
+        h=message-id:date:mime-version:user-agent:subject:content-language
+         :from:to:cc:references:in-reply-to:content-transfer-encoding;
+        bh=5cKpBLN6W/XTLPaS2O2YVfEK3xn2DNe6RJKVM5hTxZg=;
+        b=crn697PXvGDcdsA8ZF/+tfvWfLcgTa2PQ3T6bOmCREqzBTXNwlyqbKXsvWmK835X0E
+         FAnw96zAEqlgSvZSGVf950J9tMqAyNbmovm8JHu0aJu3lHgcMjFzMC7ruW3+M8InO9jG
+         8xu6aSVB5QvMk5m61TuDiNz1gtWVK8z9h4igPggWmLQl6iEEyhDRi0cEF0Us8FsYcUCb
+         DrWLRWq2uB258ubJdNOIzoc0TSUTtTH8/Xk7I6JSdPH5CAHU9W4ZY3iTZTANLsbWhsTR
+         UfGSXKmTiRdedoNn9Yij0mSMzl6XMN9V16NQqzAC7M/zQgHyWS7xvjy3Q3n0TMmFEZBi
+         Wf0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=pYtIzIXjkV/30U+YOHDMSLeoGHeOM7B85ouGOmUno+o=;
-        b=nSUwL6+ErV2sIW7ErQVA0SPzMtog/So/lCDUxUIAQ6iihyW6czFSKBfGcXE4XAAlS6
-         j9MAVU4ZWNrMX5j0TH9W2U2BGw9rHvgK7Xfx3wTK+GsChXBvB67XW1CQLIhR8v0PI//N
-         oHAfWXBDE7gd/dgUsKfUPj8q1rEZZMogWROcqhW0MxSnAGsAFpHIxyDNjtsrft5Rcl8b
-         7gsJSzyACxY+o26HW8ibvdGAmXhnonAJh7KE8nSui1xlQpGHwQ4o6uSCHERf9QAtcAyB
-         2YLHwjqw526L+1ZWkZaU70sCxRI0e82XaLSRj8bYgKbcRKPBUlpPITOBaAaMjhoBzeeS
-         JRbw==
-X-Gm-Message-State: AOAM531j29RDruUEai0txqVpY3I+b++VnV6YuzQwCxufXD1nUcQqP+iu
-        d6XOgqkzeX6zsXH1DQ6zu7U=
-X-Google-Smtp-Source: ABdhPJwTgsCXP3ed8BuspF9LH6wx/80bS8q5RbLh7etQzuDyN05OJSGyWT7H5LbLUteD/oCQBPYKUA==
-X-Received: by 2002:a05:6402:1908:b0:412:ee38:4186 with SMTP id e8-20020a056402190800b00412ee384186mr40436449edz.221.1646418783479;
-        Fri, 04 Mar 2022 10:33:03 -0800 (PST)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:from:to:cc:references:in-reply-to
+         :content-transfer-encoding;
+        bh=5cKpBLN6W/XTLPaS2O2YVfEK3xn2DNe6RJKVM5hTxZg=;
+        b=1m43jU5uD0rQcpKdI3gq/hVjnH3pQjbZpUbSeeYpysOvuea2TyTBLlj9t71L65h9oT
+         Icg5zwszWZdAaJ1GZk1eRs+i6FREtU72SU3wYjsxVyNZZjVS7xx7O7UI6fXJTYp9PVsH
+         FPgFktmi6IZxDJ8GfpJivcg9rtH1zra++ragRf9rqUQC51lO/eA3L68sgetTdDlcZtqN
+         HoqUFiiP4OJgnOk/uVopHp1ENqKeSpeYnZr/GUQzF/NZySXweueJQOAtHSADExxhpWx7
+         QCog6peItl+4hkVMhPWA8r7QCkpia3QTUqiea4mIxTTigDIkRoYsatD7SIl8QDQWRSS6
+         hO/g==
+X-Gm-Message-State: AOAM532qUz5EnyPrxwJk9tfgkrIBXLBfzRYNlWzmlRbypKRftYeQR2CT
+        f6ZzdflGxKV0VNHCqTIsREr6l1Bj+9c=
+X-Google-Smtp-Source: ABdhPJyhy15uyUHHV4DHsA6OB66mWbELtC59alSCH1i8obW5MTpGlW2YCGdKgn25veJJgNTSPwaawA==
+X-Received: by 2002:a17:906:4c4b:b0:6da:a5d9:7af9 with SMTP id d11-20020a1709064c4b00b006daa5d97af9mr70026ejw.336.1646419043044;
+        Fri, 04 Mar 2022 10:37:23 -0800 (PST)
 Received: from ?IPV6:2a01:c23:b9fb:2800:c56d:9b34:f61c:e318? (dynamic-2a01-0c23-b9fb-2800-c56d-9b34-f61c-e318.c23.pool.telefonica.de. [2a01:c23:b9fb:2800:c56d:9b34:f61c:e318])
-        by smtp.googlemail.com with ESMTPSA id s15-20020a056402520f00b00415e50f8ce1sm2184787edd.54.2022.03.04.10.33.02
+        by smtp.googlemail.com with ESMTPSA id vl11-20020a17090730cb00b006d8121d0fc4sm1989783ejb.138.2022.03.04.10.37.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Mar 2022 10:33:03 -0800 (PST)
-Message-ID: <18a93669-7f7a-dad8-38f4-44819fc3b64a@gmail.com>
-Date:   Fri, 4 Mar 2022 19:32:58 +0100
+        Fri, 04 Mar 2022 10:37:22 -0800 (PST)
+Message-ID: <e73bc0c1-e530-7419-0197-1b7de02c87c5@gmail.com>
+Date:   Fri, 4 Mar 2022 19:37:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.6.1
+Subject: [PATCH 5/5] xhci: support omitting shared hcd if either of the root
+ hubs has no ports
 Content-Language: en-US
+From:   Heiner Kallweit <hkallweit1@gmail.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Linux USB Mailing List <linux-usb@vger.kernel.org>,
@@ -60,41 +64,74 @@ Cc:     Linux USB Mailing List <linux-usb@vger.kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         Jack Pham <quic_jackp@quicinc.com>,
         Tung Nguyen <tunguyen@apm.com>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH 0/5] usb: host: xhci-plat: omit shared hcd if either of the
- root hubs has no ports
+References: <18a93669-7f7a-dad8-38f4-44819fc3b64a@gmail.com>
+In-Reply-To: <18a93669-7f7a-dad8-38f4-44819fc3b64a@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I have a system with a low-cost Amlogic S905W SoC that supports USB3
-but has a USB3 root hub with no ports. This results in an error
-message and a hcd that is good for nothing. The USB2 root hub has
-ports and works normally.
-I think we can do better and omit creating a shared hcd if either of
-the root hubs has no ports. This series is based on discussion [0].
+If either of the root hubs has no ports, then we can get rid of
+overhead like the shared hcd. A major internal change is that now
+the main hcd can be USB2 or USB3.
 
-The series works as intended for me. What I couldn't test is the case
-of the USB2 root hub having no ports.
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+ drivers/usb/host/xhci-mem.c | 11 +++++------
+ drivers/usb/host/xhci.c     |  9 ++++++---
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-[0] https://www.spinics.net/lists/linux-usb/msg223416.html
-
-Heiner Kallweit (5):
-  usb: host: xhci-plat: create shared hcd after having added main hcd
-  xhci: factor out parts of xhci_gen_setup()
-  xhci: prepare for operation w/o shared hcd
-  usb: host: xhci-plat: prepare operation w/o shared hcd
-  xhci: support omitting shared hcd if either of the root hubs has no ports
-
- drivers/usb/host/xhci-hub.c  |   3 +-
- drivers/usb/host/xhci-mem.c  |  11 +--
- drivers/usb/host/xhci-plat.c |  43 ++++++----
- drivers/usb/host/xhci.c      | 155 ++++++++++++++++++++---------------
- drivers/usb/host/xhci.h      |  20 +++++
- 5 files changed, 140 insertions(+), 92 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index a1a17713a..ced139583 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2362,12 +2362,11 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
+ 		xhci->usb2_rhub.num_ports = USB_MAXCHILDREN;
+ 	}
+ 
+-	xhci->needs_shared_hcd = 1;
+-
+-	/*
+-	 * Note we could have all USB 3.0 ports, or all USB 2.0 ports.
+-	 * Not sure how the USB core will handle a hub with no ports...
+-	 */
++	if (xhci->usb2_rhub.num_ports && xhci->usb3_rhub.num_ports)
++		xhci->needs_shared_hcd = 1;
++	else
++		xhci_info(xhci, "USB%u root hub has no ports\n",
++			  xhci->usb2_rhub.num_ports ? 3 : 2);
+ 
+ 	xhci_create_rhub_port_array(xhci, &xhci->usb2_rhub, flags);
+ 	xhci_create_rhub_port_array(xhci, &xhci->usb3_rhub, flags);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 83a54a566..623901890 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5279,9 +5279,7 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 
+ 	xhci = hcd_to_xhci(hcd);
+ 
+-	if (usb_hcd_is_primary_hcd(hcd)) {
+-		xhci_hcd_init_usb2_data(xhci, hcd);
+-	} else {
++	if (!usb_hcd_is_primary_hcd(hcd)) {
+ 		xhci_hcd_init_usb3_data(xhci, hcd);
+ 		return 0;
+ 	}
+@@ -5363,6 +5361,11 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 		return retval;
+ 	xhci_dbg(xhci, "Called HCD init\n");
+ 
++	if (xhci_hcd_is_usb3(hcd))
++		xhci_hcd_init_usb3_data(xhci, hcd);
++	else
++		xhci_hcd_init_usb2_data(xhci, hcd);
++
+ 	xhci_info(xhci, "hcc params 0x%08x hci version 0x%x quirks 0x%016llx\n",
+ 		  xhci->hcc_params, xhci->hci_version, xhci->quirks);
+ 
 -- 
 2.35.1
+
 
