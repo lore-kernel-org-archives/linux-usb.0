@@ -2,159 +2,175 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8AA6C433FE
-	for <linux-usb@archiver.kernel.org>; Sun,  6 Mar 2022 06:10:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F2AC433EF
+	for <linux-usb@archiver.kernel.org>; Sun,  6 Mar 2022 07:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232973AbiCFGLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 6 Mar 2022 01:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53318 "EHLO
+        id S231987AbiCFH5K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 6 Mar 2022 02:57:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232965AbiCFGLP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Mar 2022 01:11:15 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7E6447571;
-        Sat,  5 Mar 2022 22:10:23 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id t14so10955245pgr.3;
-        Sat, 05 Mar 2022 22:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IFP0n3aR1KLrugHWvaTBlE8oeqir0qwrjSN1W4oR8A4=;
-        b=LutdSF7TOGs9m0nw/abVQLroRBIkivCxvs6RTvSJbASkCA5qJ/eA67aCcCtwtTjQJx
-         DX35hdPLW3DY/whBS9xo8PGCJqxym+u83naFZoF7W7dgBq4JYzh/y+keHZGnqISOI5FD
-         ieAbgQRDiHj15tFxN1Q2730SAIGpme19UhzBG+hEVwADld6q/zCb/ugFLljw4401FIyG
-         WS7UmejkwMMrib6R5PZGyo0hq1jYrX8TumfCSuLmnzHMGzmQPLR7mm3jDQEODvcjXmbu
-         4VLRZ00c0vOloumUhVGXP/5SWnRrE2KYNUqkXf8iumu34xdm4uFrqwmIK7nv89CTXfb0
-         nkSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=IFP0n3aR1KLrugHWvaTBlE8oeqir0qwrjSN1W4oR8A4=;
-        b=vzGv2iFq9OljeM53ppkeELn4MwVMk/Yt2tHfqGnqFYNHj2RHTneEe8rvc1ybhmpW9V
-         FzXzpgR4SrYBuBnbM62KJo8+50xn2nScQf2IOmHMTFBxGC9ex0/cRmxegSwl/AIvDltU
-         GXBqRPuvj2YWi3elz3PaIaAf7hp6t39zj7fNFUYH7+v9gu4z2QqeDdn4TnMnv9I0YcbR
-         bB8BO9mvF/wi2J8CFI4a4mD6xWpOAOIs6jYFHwOBnVDRB0g0BPVLbWyPMBb9ghiGUj39
-         /rpR6CihMmMeZMpeE5YulQ3to4iwZSp/tbAMw0lzjjtiPUJK9UXoQ1ew1z4l8G5rqUsy
-         Yjpg==
-X-Gm-Message-State: AOAM531QpAhZWv02cQNc5oMlR9q/0nAyDgfNOp7IALY81ztsKNOIWyVA
-        cgzk/FfrX1Q8q93oKp5q0Yc=
-X-Google-Smtp-Source: ABdhPJxV26u+wQtug7E3G5n/M1Gwls9RdmZzpeT486WpZCawBt9nzrdidxecQW//rxYRhRK9jIvbWg==
-X-Received: by 2002:a63:2c53:0:b0:373:7234:adf2 with SMTP id s80-20020a632c53000000b003737234adf2mr5141415pgs.111.1646547023418;
-        Sat, 05 Mar 2022 22:10:23 -0800 (PST)
-Received: from scdiu3.sunplus.com ([113.196.136.192])
-        by smtp.googlemail.com with ESMTPSA id q13-20020aa7982d000000b004cb98a2ca35sm11994907pfl.211.2022.03.05.22.10.21
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 05 Mar 2022 22:10:22 -0800 (PST)
-From:   Vincent Shih <vincent.sunplus@gmail.com>
-To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-        p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, wells.lu@sunplus.com
-Cc:     Vincent Shih <vincent.sunplus@gmail.com>
-Subject: [PATCH v3 2/2] dt-bindings: usb: Add bindings doc for Sunplus EHCI driver
-Date:   Sun,  6 Mar 2022 14:10:36 +0800
-Message-Id: <1646547036-14885-3-git-send-email-vincent.sunplus@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1646547036-14885-1-git-send-email-vincent.sunplus@gmail.com>
-References: <1646547036-14885-1-git-send-email-vincent.sunplus@gmail.com>
+        with ESMTP id S231179AbiCFH5J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Mar 2022 02:57:09 -0500
+Received: from smtp.smtpout.orange.fr (smtp01.smtpout.orange.fr [80.12.242.123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9DB50B22
+        for <linux-usb@vger.kernel.org>; Sat,  5 Mar 2022 23:56:17 -0800 (PST)
+Received: from localhost.localdomain ([106.133.32.90])
+        by smtp.orange.fr with ESMTPA
+        id Qljkni9jQu3WEQljsnB7li; Sun, 06 Mar 2022 08:56:15 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: MDU0YmViZGZmMDIzYiBlMiM2NTczNTRjNWZkZTMwOGRiOGQ4ODf3NWI1ZTMyMzdiODlhOQ==
+X-ME-Date: Sun, 06 Mar 2022 08:56:15 +0100
+X-ME-IP: 106.133.32.90
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ville Syrjala <syrjala@sci.fi>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henk Vergonet <Henk.Vergonet@gmail.com>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Oliver Neukum <oliver@neukum.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Felix Fietkau <nbd@nbd.name>,
+        Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Kalle Valo <kvalo@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stanislaw Gruszka <stf_xl@wp.pl>,
+        Helmut Schaa <helmut.schaa@googlemail.com>,
+        Duncan Sands <duncan.sands@free.fr>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Olav Kongas <ok@artecdesign.ee>,
+        Rui Miguel Silva <rui.silva@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Clemens Ladisch <clemens@ladisch.de>
+Subject: [PATCH v2 00/10] usb: rework usb_maxpacket() and remove its third argument
+Date:   Sun,  6 Mar 2022 16:55:14 +0900
+Message-Id: <20220306075524.706660-1-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
+References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add bindings doc for Sunplus EHCI driver
+This series rework usb_maxpacket() to change its prototype from:
+| static inline __u16
+| usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
 
-Signed-off-by: Vincent Shih <vincent.sunplus@gmail.com>
----
-Changes in v2:
-  - Address the comments by Rob Herring.
+into:
+| static inline u16 usb_maxpacket(struct usb_device *dev, int pipe)
 
- .../bindings/usb/sunplus,sp7021-usb-ehci.yaml      | 63 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ehci.yaml
+and rewrite the function.
 
-diff --git a/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ehci.yaml b/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ehci.yaml
-new file mode 100644
-index 0000000..905f68c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ehci.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) Sunplus Co., Ltd. 2021
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/sunplus,sp7021-usb-ehci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sunplus SP7021 EHCI Controller Device Tree bindings
-+
-+allOf:
-+  - $ref: usb-hcd.yaml#
-+
-+maintainers:
-+  - Vincent Shih <vincent.sunplus@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: sunplus,sp7021-usb2-ehci
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    minItems: 1
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - clocks
-+  - resets
-+  - reg
-+  - interrupts
-+  - phys
-+  - phy-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    sp_ehci0: usb@9c102100 {
-+      compatible = "sunplus,sp7021-usb-ehci";
-+      clocks = <&clkc 0x3a>;
-+      resets = <&rstc 0x2a>;
-+      reg = <0x9c102100 0x68>;
-+      interrupt-parent = <&intc>;
-+      interrupts = <14 IRQ_TYPE_LEVEL_HIGH>;
-+      phys = <&sp_uphy0>;
-+      phy-names = "uphy";
-+    };
-+    ...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6c2faf3..4e66993 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17951,6 +17951,7 @@ SUNPLUS USB EHCI DRIVER
- M:	Vincent Shih <vincent.sunplus@gmail.com>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ehci.yaml
- F:	drivers/usb/host/ehci-sunplus.c
- 
- SUPERH
+Rationale:
+
+  * The third argument of usb_maxpacket(): is_out can be derived from
+    its second one: pipe using usb_pipeout(pipe). Furthermore,
+    usb_pipeout(pipe) is being called within usb_maxpacket()
+    regardless to confirm the input.
+
+  * This function is not exposed to the UAPI so return type should be
+    u16, not __u16.
+
+  * Let's not reinvent the wheel and rely on usb_endpoint_maxp() to
+    make this a one liner function.
+
+In order to do so, usb_maxpacket() is temporarily changed into a variadic
+function to ignore its third argument.
+
+The series goes as follow:
+
+    * Patches 1 and 2: preparation, remove a redundant call to the
+      local macro max_packet() in two drivers
+
+    * Patch 3: reword usb_maxpacket() and make it variadic to
+      accommodate during the migration
+
+    * Patch 4 to 9: migrate all the users of usb_maxpacket() (one
+      patch per tree)
+
+    * Patch 10: remove the third argument of usb_maxpacket() now that
+      everyone is migrated
+
+
+
+** Changelog: **
+
+  v1 -> v2:
+
+    * v1 contained a single patch, split it into a series. c.f.:
+    https://lore.kernel.org/linux-usb/YiIgGOkNntEiu78O@kroah.com/T/#m6d25529f1cab1332b45e3e24480d541963684446
+
+Vincent Mailhol (10):
+  usb: oxu210hp-hcd: remove redundant call to max_packet() macro
+  usb: isp1760: remove redundant max_packet() macro
+  usb: rework usb_maxpacket() and deprecate its third argument
+  HID: usbhid: remove third argument of usb_maxpacket()
+  Input: remove third argument of usb_maxpacket()
+  media: remove third argument of usb_maxpacket()
+  net: remove third argument of usb_maxpacket()
+  usb: remove third argument of usb_maxpacket()
+  sound: usb: remove third argument of usb_maxpacket()
+  usb: remove third argument of usb_maxpacket()
+
+ drivers/hid/usbhid/hid-core.c                 |  2 +-
+ drivers/hid/usbhid/usbkbd.c                   |  2 +-
+ drivers/hid/usbhid/usbmouse.c                 |  2 +-
+ drivers/input/misc/ati_remote2.c              |  2 +-
+ drivers/input/misc/cm109.c                    |  2 +-
+ drivers/input/misc/powermate.c                |  2 +-
+ drivers/input/misc/yealink.c                  |  2 +-
+ drivers/input/tablet/acecad.c                 |  2 +-
+ drivers/input/tablet/pegasus_notetaker.c      |  2 +-
+ drivers/media/rc/ati_remote.c                 |  4 ++--
+ drivers/media/rc/mceusb.c                     |  2 +-
+ drivers/media/rc/streamzap.c                  |  2 +-
+ drivers/media/rc/xbox_remote.c                |  2 +-
+ drivers/media/usb/tm6000/tm6000-dvb.c         |  2 +-
+ drivers/media/usb/tm6000/tm6000-input.c       |  2 +-
+ drivers/media/usb/tm6000/tm6000-video.c       |  2 +-
+ drivers/net/usb/cdc_ncm.c                     |  4 ++--
+ drivers/net/usb/lan78xx.c                     |  4 ++--
+ drivers/net/usb/rndis_host.c                  |  2 +-
+ drivers/net/usb/usbnet.c                      |  4 ++--
+ drivers/net/wireless/mediatek/mt76/usb.c      |  2 +-
+ .../net/wireless/ralink/rt2x00/rt2x00usb.c    |  4 ++--
+ drivers/usb/atm/usbatm.c                      |  2 +-
+ drivers/usb/c67x00/c67x00-sched.c             |  4 ++--
+ drivers/usb/core/hub.c                        |  2 +-
+ drivers/usb/host/ehci-q.c                     |  4 ++--
+ drivers/usb/host/fhci-hcd.c                   |  3 +--
+ drivers/usb/host/fotg210-hcd.c                |  2 +-
+ drivers/usb/host/isp116x-hcd.c                |  5 ++--
+ drivers/usb/host/isp1362-hcd.c                |  6 ++---
+ drivers/usb/host/max3421-hcd.c                |  6 ++---
+ drivers/usb/host/ohci-hcd.c                   |  3 +--
+ drivers/usb/host/oxu210hp-hcd.c               |  4 ++--
+ drivers/usb/host/r8a66597-hcd.c               |  3 +--
+ drivers/usb/host/sl811-hcd.c                  |  6 ++---
+ drivers/usb/isp1760/isp1760-hcd.c             |  7 ++----
+ drivers/usb/misc/ftdi-elan.c                  | 15 ++++--------
+ drivers/usb/misc/lvstest.c                    |  2 +-
+ drivers/usb/storage/onetouch.c                |  2 +-
+ drivers/usb/storage/transport.c               |  2 +-
+ include/linux/usb.h                           | 23 ++-----------------
+ sound/usb/line6/pcm.c                         |  4 ++--
+ sound/usb/midi.c                              |  4 ++--
+ sound/usb/usx2y/usb_stream.c                  |  6 ++---
+ sound/usb/usx2y/usbusx2yaudio.c               |  2 +-
+ sound/usb/usx2y/usx2yhwdeppcm.c               |  2 +-
+ 46 files changed, 71 insertions(+), 102 deletions(-)
+
 -- 
-2.7.4
+2.34.1
 
