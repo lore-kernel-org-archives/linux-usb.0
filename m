@@ -2,144 +2,121 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F29C4321E
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 10:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55939C433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 10:57:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240451AbiCGKuM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 05:50:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39396 "EHLO
+        id S241665AbiCGK5p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 05:57:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241665AbiCGKr6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 05:47:58 -0500
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54D1926AFA;
-        Mon,  7 Mar 2022 02:07:44 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id kt27so30814400ejb.0;
-        Mon, 07 Mar 2022 02:07:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=G+EB4AFFggnOrILvZ54WrATwjsSqh5U/oFtHwdFDjNI=;
-        b=K9gAwwYl408q54rxkD1td/0UhPqIUuKqcnkmti32Rr8Zkzr9gJcXhh6w0S/Kdx34AD
-         Jn62Y3lq+i/zPAeP4/6hEYfhMQf3Y6vvRcewF31grKVvsUbbQhYurVxAGg9eZqgAZ4jD
-         Gv32MmlMsWN7pG/ktSjsXEFiis3m/Qs7foAKWxl3r5L4hg0q1sGrHdRxX1B9WX9oZ06O
-         ChL8PRujG2+5Lzfiefi2Wo/nHwh5F9vPjjwh0RGBM5RgYdko0tln6tJlu/9b+Lurm5bk
-         bCrgTFyOSjb3ojVrzcpCWVMzyNnvBA9EnP2cmvcXnVjNrTxi5d0pf/ewtDYkAUGE0vRF
-         7EbQ==
-X-Gm-Message-State: AOAM531be3so1qG4lzYrukpUBw/6Mk0MirEoEoTuLDXRwQFNOT+MKyYg
-        WgdJ5fM7UBIxSdeTHpXg5lKA2qE+/w4=
-X-Google-Smtp-Source: ABdhPJxHr9JJBLHk0ehHjtgsScZD3zqslWKk6tyAugnkbdNvtf7SfIi6l8BrB33uqcUBr3UUUQh4Cw==
-X-Received: by 2002:a17:906:314b:b0:6d6:da31:e545 with SMTP id e11-20020a170906314b00b006d6da31e545mr8769492eje.125.1646647626072;
-        Mon, 07 Mar 2022 02:07:06 -0800 (PST)
-Received: from [192.168.0.141] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
-        by smtp.googlemail.com with ESMTPSA id lw3-20020a170906bcc300b006db3e2aa7c9sm254733ejb.171.2022.03.07.02.07.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Mar 2022 02:07:05 -0800 (PST)
-Message-ID: <32e72657-a43d-0ae1-1bf2-d15b7426765f@kernel.org>
-Date:   Mon, 7 Mar 2022 11:07:04 +0100
+        with ESMTP id S240532AbiCGK5f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 05:57:35 -0500
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5692EB1522;
+        Mon,  7 Mar 2022 02:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646648244; x=1678184244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=si1sMMOIuj0tjRYqoqqM1BVIAKXdTNzOoiPtZdEOJlQ=;
+  b=Lx1jXqBBY85/QjZT8IuI/c97sGhk6L2Wil5dUnHEiZK2AvFbPnuAQUQj
+   EdGtaKHhAkbyi5DoNGspMdvRkK11qO2epZjkNVRaF4Gzw2jhh2DbuatfU
+   eQmhdnmTYwXvGKNCC+nakOXWNf5o8rsgP6NHILWq5zduJBK0pY3EXG1kt
+   Kd/QP/rDfZ5J3tOBWRBeNmrPnUg57rKAbihKejcjroAtxDUjzIcw6Phug
+   nHSn4PyTGNvawnpVk6t37MC4rbRczbFrsY+fbwuheLyiJvPLwycDpAFyL
+   bZqNYXjP/nOQPuDaAyGViD98h7vr8PRZ8JaZz2c+gmdnP/Jcb60V35HKr
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="279058866"
+X-IronPort-AV: E=Sophos;i="5.90,161,1643702400"; 
+   d="scan'208";a="279058866"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 02:17:23 -0800
+X-IronPort-AV: E=Sophos;i="5.90,161,1643702400"; 
+   d="scan'208";a="643192228"
+Received: from smile.fi.intel.com ([10.237.72.59])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 02:17:20 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.95)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1nRAPr-00Chm6-TC;
+        Mon, 07 Mar 2022 12:16:35 +0200
+Date:   Mon, 7 Mar 2022 12:16:35 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 7/7] usb: typec: mux: Add On Semi fsa4480 driver
+Message-ID: <YiXbg4QwgIgLh3LW@smile.fi.intel.com>
+References: <20220307034040.1111107-1-bjorn.andersson@linaro.org>
+ <20220307034040.1111107-7-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v1 4/4] usb: host: add xhci-exynos module
-Content-Language: en-US
-To:     Daehwan Jung <dh10.jung@samsung.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Jack Pham <jackp@codeaurora.org>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>,
-        "chihhao . chen" <chihhao.chen@mediatek.com>, sc.suh@samsung.com,
-        cpgs@samsung.com, cpgsproxy5@samsung.com
-References: <1646375038-72082-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220304062618epcas2p2e3c73b5c4ed0c9bc0ca0c02aa658d3fb@epcas2p2.samsung.com>
- <1027007693.21646375582736.JavaMail.epsvc@epcpadp4>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <1027007693.21646375582736.JavaMail.epsvc@epcpadp4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220307034040.1111107-7-bjorn.andersson@linaro.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 04/03/2022 07:23, Daehwan Jung wrote:
-> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-
-+Cc Randy,
-I guess here is the rest of the patches.
-
-> ---
->  drivers/usb/host/xhci-exynos.c | 2025 ++++++++++++++++++++++++++++++++
->  drivers/usb/host/xhci-exynos.h |  150 +++
->  2 files changed, 2175 insertions(+)
->  create mode 100644 drivers/usb/host/xhci-exynos.c
->  create mode 100644 drivers/usb/host/xhci-exynos.h
+On Sun, Mar 06, 2022 at 07:40:40PM -0800, Bjorn Andersson wrote:
+> The ON Semiconductor FSA4480 is a USB Type-C port multimedia switch with
+> support for analog audio headsets. It allows sharing a common USB Type-C
+> port to pass USB2.0 signal, analog audio, sideband use wires and analog
+> microphone signal.
 > 
-> diff --git a/drivers/usb/host/xhci-exynos.c b/drivers/usb/host/xhci-exynos.c
-> new file mode 100644
-> index 000000000000..3913c48d4b20
-> --- /dev/null
-> +++ b/drivers/usb/host/xhci-exynos.c
-> @@ -0,0 +1,2025 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * xhci-exynos.c - xHCI host controller driver platform Bus Glue for Exynos.
-> + *
-> + * Copyright (C) 2022 Samsung Electronics Incorporated - http://www.samsung.com
-> + * Author: Daehwan Jung <dh10.jung@samsung.com>
-> + *
-> + * A lot of code borrowed from the Linux xHCI driver.
+> Due to lacking upstream audio support for testing, the audio muxing is
+> left untouched, but implementation of muxing the SBU lines is provided
+> as a pair of Type-C mux and switch devices. This provides the necessary
+> support for enabling the DisplayPort altmode on devices with this
+> circuit.
 
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/usb/phy.h>
-> +#include <linux/slab.h>
-> +#include <linux/phy/phy.h>
-> +#include <linux/acpi.h>
-> +#include <linux/usb/of.h>
-> +#ifdef CONFIG_SND_EXYNOS_USB_AUDIO
+...
 
-This does not exist.
+> +static const struct regmap_config fsa4480_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.max_register = FSA4480_MAX_REGISTER,
+> +};
 
-Please do not add dead code to Linux kernel.
+You are using mutex for accessing hardware. Do you still need a regmap lock?
+If so, add a comment to explain why.
 
-> +#include "../../../sound/usb/exynos_usb_audio.h"
-> +#include <linux/types.h>
-> +#include "xhci-trace.h"
-> +#endif
-> +
-> +#include "../core/hub.h"
-> +#include "../core/phy.h"
-> +#include "xhci.h"
-> +#include "xhci-plat.h"
-> +#include "xhci-mvebu.h"
-> +#include "xhci-rcar.h"
-> +#include "../dwc3/dwc3-exynos.h"
-> +#include "../dwc3/exynos-otg.h"
+...
 
-No, how XHCI is related to dwc3? What if different block provides XHCI,
-not DWC3?
+> +		/* 15us to allow the SBU switch to turn off */
+> +		usleep_range(15, 1000);
 
-> +#include "xhci-exynos.h"
-> +#include <soc/samsung/exynos-cpupm.h>
+This is quite unusual range.
 
-This does not exist and does not even compile.
+If you are fine with the long delay, why to stress the system on it?
+Otherwise the use of 1000 is unclear.
 
-Please do not send code which does not compile... Also, just in case -
-do not send code which compiles but does not work. :)
+That said, I would expect one of the below:
+
+		usleep_range(15, 30);
+		usleep_range(500, 1000);
+
+...
+
+> +	sw_desc.fwnode = dev->fwnode;
+
+Please, don't dereference for fwnode explicitly. Use dev_fwnode().
+
+...
+
+> +	mux_desc.fwnode = dev->fwnode;
+
+Ditto.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Best regards,
-Krzysztof
