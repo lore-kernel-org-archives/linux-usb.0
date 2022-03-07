@@ -2,55 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 814C7C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 11:10:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99EEDC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 11:25:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238855AbiCGLLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 06:11:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
+        id S241951AbiCGL0e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 06:26:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237849AbiCGLK6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 06:10:58 -0500
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 137E3554B1
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 02:33:04 -0800 (PST)
-Received: from epcas3p4.samsung.com (unknown [182.195.41.22])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220307103302epoutp043690f51ff3481855b4f001b77e9cc21c~aErUGeg3k1750017500epoutp04j
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 10:33:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220307103302epoutp043690f51ff3481855b4f001b77e9cc21c~aErUGeg3k1750017500epoutp04j
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1646649182;
-        bh=fZlgU1nbX7F2XKQr2SixygYb5L+8CKc3dsNWy01m7+E=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BwywJxE5cAHxdgkDe+Q7HVQB3HTd9zIxpyq8h6f53x65JUbhTut77M1ov6CMcfj1d
-         mMN5RlOhrayzcwXdEwcf2WFQ9i0GCNG6MUFxs/Aj6uSQVMXlCUjAriFCVCE1WsNG9Q
-         BmdhyFy9vROKkIIbwj5J0C2Xk/9ISQsqM33KFbA8=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas3p4.samsung.com (KnoxPortal) with ESMTP id
-        20220307103301epcas3p42a0d12ad0ab318c6b3df330fe90e526f~aErTh6_l22736127361epcas3p4A;
-        Mon,  7 Mar 2022 10:33:01 +0000 (GMT)
-Received: from epcpadp4 (unknown [182.195.40.18]) by epsnrtp4.localdomain
-        (Postfix) with ESMTP id 4KBvtP5ltVz4x9Q6; Mon,  7 Mar 2022 10:33:01 +0000
-        (GMT)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-        20220307102715epcas2p3dbe8b3cd5683daa900849e208bb6406e~aEmRUI9fZ3131931319epcas2p3F;
-        Mon,  7 Mar 2022 10:27:15 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20220307102715epsmtrp2c799d1036d4f3796c5e0405e400d20b7~aEmRTIPQs3120831208epsmtrp2L;
-        Mon,  7 Mar 2022 10:27:15 +0000 (GMT)
-X-AuditID: b6c32a29-41fff700000074af-a4-6225de039ad9
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        F1.32.29871.30ED5226; Mon,  7 Mar 2022 19:27:15 +0900 (KST)
-Received: from ubuntu (unknown [12.36.155.120]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20220307102715epsmtip285bb1fbbb799031fc22ac7835679adae~aEmRFvutL1012810128epsmtip2Q;
-        Mon,  7 Mar 2022 10:27:15 +0000 (GMT)
-Date:   Mon, 7 Mar 2022 19:26:11 +0900
-From:   Jung Daehwan <dh10.jung@samsung.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
+        with ESMTP id S240166AbiCGL0W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 06:26:22 -0500
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C050A7B576;
+        Mon,  7 Mar 2022 02:59:26 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id d10so30972440eje.10;
+        Mon, 07 Mar 2022 02:59:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=r5VXslgP94xhLV5io8KJ01AqHztBTaI4x6W9LXcGA90=;
+        b=adaCimCEapoeMYpC/ZE2NLgvStFiaW0VcbYV3GwhSoqjEeBraZzqFoRcIjXsjP4gqy
+         cMssg5boVXUWj6spHFArGC0GdpcZ/uTNoHfPrIHUEnTGpFVreJf85nq+j0AknJNJJwE0
+         2gs5xOWbbSbzpTjB/4ekFu/5SrlKgTpiKJO0R+wR9RH23tYealJ46s4tJSSmxbkJhFwF
+         BJDEDc/4o2KS8/BsgatU7cu9bHuO5QUK0ocp/oqp35xzfE0EioyB6y8YtjrMFT27/eij
+         XRNVg76PUimdQXhWRO9YOhQM7Y4BRz7a6HBRZcStpXaEb/y51zDidyCYcW2qImMxOVCz
+         yBVQ==
+X-Gm-Message-State: AOAM532/bynPl6pG+6uDVSMGysauFyf32yoDWhlSCFhBn5MOIwEJQ9Wk
+        owAJjMLNBq3YFWElBxBGj8A=
+X-Google-Smtp-Source: ABdhPJzgorhzP42AxP+JSuvqOu+8dKd4gFe+NvN34jFpSiNFvrBV+ToNj4a4mEKPhuTh+iMqHgGtZA==
+X-Received: by 2002:a17:906:4796:b0:6d6:dd04:147b with SMTP id cw22-20020a170906479600b006d6dd04147bmr8736146ejc.80.1646650765283;
+        Mon, 07 Mar 2022 02:59:25 -0800 (PST)
+Received: from [192.168.0.142] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
+        by smtp.googlemail.com with ESMTPSA id c5-20020a170906d18500b006ce371f09d4sm4656903ejz.57.2022.03.07.02.59.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Mar 2022 02:59:24 -0800 (PST)
+Message-ID: <ee5ad930-7b48-5b7c-f810-76fe497595f3@kernel.org>
+Date:   Mon, 7 Mar 2022 11:59:23 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 4/4] usb: host: add xhci-exynos module
+Content-Language: en-US
+To:     Jung Daehwan <dh10.jung@samsung.com>
 Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -62,138 +56,105 @@ Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         "J . Avila" <elavila@google.com>,
         "chihhao . chen" <chihhao.chen@mediatek.com>, sc.suh@samsung.com,
         cpgs@samsung.com, cpgsproxy5@samsung.com
-Subject: Re: [PATCH v1 4/4] usb: host: add xhci-exynos module
-Message-ID: <1983025922.01646649181793.JavaMail.epsvc@epcpadp4>
-MIME-Version: 1.0
-In-Reply-To: <32e72657-a43d-0ae1-1bf2-d15b7426765f@kernel.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupnkeLIzCtJLcpLzFFi42LZdlhJXpf5nmqSwabfuhYrDs9jtHh5SNNi
-        88MrbBZPjixit2hevJ7N4vqf94wW7c8vsFmcP7+B3eLyrjlsFouWtTJbNG+awmoxc62yxds7
-        01ksuu7eYHTg87jc18vksWBTqcfmFVoei/e8ZPLYtKqTzWP/3DXsHi0n97N49G1ZxejxeZNc
-        AGcUl01Kak5mWWqRvl0CV8auU7+ZCxpEK15uVG9g/CLQxcjJISFgInFnwxvGLkYuDiGB3YwS
-        19tesUEkJCWWzr3BDmELS9xvOcIKUfSIUWLTvOPMXYwcHCwCKhKTLpeB1LAJaEnc+3GCGcQW
-        EdCUuP73O1g9s8BzZonOG5eZQBLCArYSy46/BCviFdCR2HJ2NwvE0GYmib+dIBtAEoISJ2c+
-        YQGxmYGm3vj3kglkGbOAtMTyfxwgYU4BO4k9n5exgoRFgW54dbB+AqPgLCTNs5A0z0JoXsDI
-        vIpRMrWgODc9t9iwwDAvtVyvODG3uDQvXS85P3cTIzjOtDR3MG5f9UHvECMTB+MhRgkOZiUR
-        3vvnVZKEeFMSK6tSi/Lji0pzUosPMUpzsCiJ817oOhkvJJCeWJKanZpakFoEk2Xi4JRqYBJb
-        3bFq4RQLzkjFsqZPT615ejvjrd4p77ydbNrtk6jc8SfVmq9BxlV4wq5/X1mzVEwjDpUw2Cdv
-        q/TSWpb++e6rpJznuo5FnhMcxcUtbUMrzzLJV+srKM3fFHDr8seKg3Xs/HwOhXenCKvXB52S
-        mHBvxu5fBgYxH6exCCfU9Z5L5pzlyyllur75rzD/ij9lBvP7jrzXTnAXEvrDl2E142u++P/5
-        Sa8ZdyzpqDKUbo7dHy9S1ii8jH+PddvxmY3s39Y8Vn19Kuj67ysGoQE2JqeXCEy7Es1mqfn+
-        6y2WuE//j74QZ3j5Nu9o5e6cB+cvbli5pO/U3kdMSc9/S39aeqvB79UWP44qleqnIWY7lViK
-        MxINtZiLihMBuSdceyIDAAA=
-X-CMS-MailID: 20220307102715epcas2p3dbe8b3cd5683daa900849e208bb6406e
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----CUqsqxLmMDErsaokmqc0SEMtAD8UUZAtQ-YfwGBggeHIq32N=_19fca8_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-X-CPGSPASS: Y
-X-Hop-Count: 3
-X-CMS-RootMailID: 20220304062618epcas2p2e3c73b5c4ed0c9bc0ca0c02aa658d3fb
 References: <1646375038-72082-1-git-send-email-dh10.jung@samsung.com>
-        <CGME20220304062618epcas2p2e3c73b5c4ed0c9bc0ca0c02aa658d3fb@epcas2p2.samsung.com>
-        <1027007693.21646375582736.JavaMail.epsvc@epcpadp4>
-        <32e72657-a43d-0ae1-1bf2-d15b7426765f@kernel.org>
+ <CGME20220304062618epcas2p2e3c73b5c4ed0c9bc0ca0c02aa658d3fb@epcas2p2.samsung.com>
+ <1027007693.21646375582736.JavaMail.epsvc@epcpadp4>
+ <32e72657-a43d-0ae1-1bf2-d15b7426765f@kernel.org>
+ <1983025922.01646649181793.JavaMail.epsvc@epcpadp4>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <1983025922.01646649181793.JavaMail.epsvc@epcpadp4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-------CUqsqxLmMDErsaokmqc0SEMtAD8UUZAtQ-YfwGBggeHIq32N=_19fca8_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+On 07/03/2022 11:26, Jung Daehwan wrote:
+> On Mon, Mar 07, 2022 at 11:07:04AM +0100, Krzysztof Kozlowski wrote:
+>> On 04/03/2022 07:23, Daehwan Jung wrote:
+>>> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+>>
+>> +Cc Randy,
+>> I guess here is the rest of the patches.
+>>
+>>> ---
+>>>  drivers/usb/host/xhci-exynos.c | 2025 ++++++++++++++++++++++++++++++++
+>>>  drivers/usb/host/xhci-exynos.h |  150 +++
+>>>  2 files changed, 2175 insertions(+)
+>>>  create mode 100644 drivers/usb/host/xhci-exynos.c
+>>>  create mode 100644 drivers/usb/host/xhci-exynos.h
+>>>
+>>> diff --git a/drivers/usb/host/xhci-exynos.c b/drivers/usb/host/xhci-exynos.c
+>>> new file mode 100644
+>>> index 000000000000..3913c48d4b20
+>>> --- /dev/null
+>>> +++ b/drivers/usb/host/xhci-exynos.c
+>>> @@ -0,0 +1,2025 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * xhci-exynos.c - xHCI host controller driver platform Bus Glue for Exynos.
+>>> + *
+>>> + * Copyright (C) 2022 Samsung Electronics Incorporated - http://www.samsung.com
+>>> + * Author: Daehwan Jung <dh10.jung@samsung.com>
+>>> + *
+>>> + * A lot of code borrowed from the Linux xHCI driver.
+>>
+>>> + */
+>>> +
+>>> +#include <linux/clk.h>
+>>> +#include <linux/dma-mapping.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/pci.h>
+>>> +#include <linux/of.h>
+>>> +#include <linux/of_device.h>
+>>> +#include <linux/platform_device.h>
+>>> +#include <linux/usb/phy.h>
+>>> +#include <linux/slab.h>
+>>> +#include <linux/phy/phy.h>
+>>> +#include <linux/acpi.h>
+>>> +#include <linux/usb/of.h>
+>>> +#ifdef CONFIG_SND_EXYNOS_USB_AUDIO
+>>
+>> This does not exist.
+>>
+>> Please do not add dead code to Linux kernel.
+>>
+>>> +#include "../../../sound/usb/exynos_usb_audio.h"
+>>> +#include <linux/types.h>
+>>> +#include "xhci-trace.h"
+>>> +#endif
+>>> +
+>>> +#include "../core/hub.h"
+>>> +#include "../core/phy.h"
+>>> +#include "xhci.h"
+>>> +#include "xhci-plat.h"
+>>> +#include "xhci-mvebu.h"
+>>> +#include "xhci-rcar.h"
+>>> +#include "../dwc3/dwc3-exynos.h"
+>>> +#include "../dwc3/exynos-otg.h"
+>>
+>> No, how XHCI is related to dwc3? What if different block provides XHCI,
+>> not DWC3?
+>>
+>>> +#include "xhci-exynos.h"
+>>> +#include <soc/samsung/exynos-cpupm.h>
+>>
+>> This does not exist and does not even compile.
+>>
+>> Please do not send code which does not compile... Also, just in case -
+>> do not send code which compiles but does not work. :)
+>>
+> 
+> Hi Krzysztof
+> 
+> I'm sorry to confuse you. But, it's just for reference module to introduce
+> new feature. That's why I just submitted source code and header without
+> makefile. It's not going to compiled at all now.
 
-On Mon, Mar 07, 2022 at 11:07:04AM +0100, Krzysztof Kozlowski wrote:
-> On 04/03/2022 07:23, Daehwan Jung wrote:
-> > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> 
-> +Cc Randy,
-> I guess here is the rest of the patches.
-> 
-> > ---
-> >  drivers/usb/host/xhci-exynos.c | 2025 ++++++++++++++++++++++++++++++++
-> >  drivers/usb/host/xhci-exynos.h |  150 +++
-> >  2 files changed, 2175 insertions(+)
-> >  create mode 100644 drivers/usb/host/xhci-exynos.c
-> >  create mode 100644 drivers/usb/host/xhci-exynos.h
-> > 
-> > diff --git a/drivers/usb/host/xhci-exynos.c b/drivers/usb/host/xhci-exynos.c
-> > new file mode 100644
-> > index 000000000000..3913c48d4b20
-> > --- /dev/null
-> > +++ b/drivers/usb/host/xhci-exynos.c
-> > @@ -0,0 +1,2025 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * xhci-exynos.c - xHCI host controller driver platform Bus Glue for Exynos.
-> > + *
-> > + * Copyright (C) 2022 Samsung Electronics Incorporated - http://www.samsung.com
-> > + * Author: Daehwan Jung <dh10.jung@samsung.com>
-> > + *
-> > + * A lot of code borrowed from the Linux xHCI driver.
-> 
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/dma-mapping.h>
-> > +#include <linux/module.h>
-> > +#include <linux/pci.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/usb/phy.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/phy/phy.h>
-> > +#include <linux/acpi.h>
-> > +#include <linux/usb/of.h>
-> > +#ifdef CONFIG_SND_EXYNOS_USB_AUDIO
-> 
-> This does not exist.
-> 
-> Please do not add dead code to Linux kernel.
-> 
-> > +#include "../../../sound/usb/exynos_usb_audio.h"
-> > +#include <linux/types.h>
-> > +#include "xhci-trace.h"
-> > +#endif
-> > +
-> > +#include "../core/hub.h"
-> > +#include "../core/phy.h"
-> > +#include "xhci.h"
-> > +#include "xhci-plat.h"
-> > +#include "xhci-mvebu.h"
-> > +#include "xhci-rcar.h"
-> > +#include "../dwc3/dwc3-exynos.h"
-> > +#include "../dwc3/exynos-otg.h"
-> 
-> No, how XHCI is related to dwc3? What if different block provides XHCI,
-> not DWC3?
-> 
-> > +#include "xhci-exynos.h"
-> > +#include <soc/samsung/exynos-cpupm.h>
-> 
-> This does not exist and does not even compile.
-> 
-> Please do not send code which does not compile... Also, just in case -
-> do not send code which compiles but does not work. :)
-> 
+Thanks for explanation. Such of tree code must be clearly marked in
+commit title and subject (e.g. RFC). Additionally this out of tree
+module does not solve the problem of lack of users. For all your sound
+hooks you need in-tree user.
 
-Hi Krzysztof
-
-I'm sorry to confuse you. But, it's just for reference module to introduce
-new feature. That's why I just submitted source code and header without
-makefile. It's not going to compiled at all now.
-
-Best Regards,
-Jung Deahwan
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
-------CUqsqxLmMDErsaokmqc0SEMtAD8UUZAtQ-YfwGBggeHIq32N=_19fca8_
-Content-Type: text/plain; charset="utf-8"
-
-
-------CUqsqxLmMDErsaokmqc0SEMtAD8UUZAtQ-YfwGBggeHIq32N=_19fca8_--
-
+Best regards,
+Krzysztof
