@@ -2,60 +2,153 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A43D4C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 14:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BA88C433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 14:46:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237157AbiCGOlq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:41:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49744 "EHLO
+        id S243359AbiCGOri (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:47:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbiCGOlq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 09:41:46 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E50865D38
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 06:40:52 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BD0FD61353
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 14:40:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 245F8C340EB;
-        Mon,  7 Mar 2022 14:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1646664051;
-        bh=nkM1tIk/o+fP7yDr3KgBsDtgWDKgFboHCYO4CYRVs/E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bPchw8EbidVne+/xjnO4D/MuzqnPDJf12oNkBGVzutNw++C7SllhDYmiw7rUzkqCo
-         0nBpW/dIX7iDDBQgj+NezGqbr11atfHCO1hEmpn5k+2PEGNlXHcXr822ut4K2WAKwr
-         5TDCKWScKIOu/ajc93agIAsgijwTt0wO4JzlODpecIXamaNVKrO8c5VJ0mVuK7vq0n
-         /Fo35FiGiYL/CEfFz95m/qza7DqU5OySkDgqJ0lPsfUMnWJtkSF4/4dVlWZWhXTnnJ
-         IPeUhQegue1lUCQZcgnB41SVsmMy9DGhrtUqfVxt7TGFD367smuyEILXYufIRAmQLm
-         t60DyYx6saKug==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-        (envelope-from <johan@kernel.org>)
-        id 1nREXV-0005MJ-Rt; Mon, 07 Mar 2022 15:40:46 +0100
-Date:   Mon, 7 Mar 2022 15:40:45 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     =?utf-8?B?TWF0ecOhxaE=?= Kroupa <kroupa.matyas@gmail.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: Another PL2303
-Message-ID: <YiYZbfKDovInvSiB@hovoldconsulting.com>
-References: <165de6a0-43e9-092c-2916-66b115c7fbf4@gmail.com>
- <YiYWrhe4w5iC/Hm0@hovoldconsulting.com>
- <04428d68-256f-559b-6f1c-9397b7a43bfc@gmail.com>
+        with ESMTP id S235849AbiCGOrh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 09:47:37 -0500
+Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D7FA7D029
+        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 06:46:43 -0800 (PST)
+Received: by mail-oo1-xc30.google.com with SMTP id x26-20020a4a9b9a000000b003211029e80fso1416599ooj.5
+        for <linux-usb@vger.kernel.org>; Mon, 07 Mar 2022 06:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KDUUimts6AqirSdFxQZxJc3Z8d63h2WyuY2dc6ec1xM=;
+        b=v0oPXHKPdG97ZiajP9+g855l62P2OtPqchjCprouvcANCLm0sAYzyhvtfEfDaaeEtp
+         I2gUVvRRRwamr5QX5UJyVLMUgDAhMUV/qDPOlCzdrYNNGhwUWxMYQ0knBtln9ryIMznJ
+         jNv8zmgV+lQHtlyUKb0y0JBPZXFmklYBfvsg2FKsq82eiRS28yQ/FPkyz5b3Vqy3WEdQ
+         y/zc9at6u/VIFLL7SKT/q06kDEukdWXcudtgPXiSnb2oF9ZVWClc192CSJ2M1Ztsz1By
+         5CpKGCxpckbpGiN6cSbWNnOzfKRiHMLR2BaPrR+fpsR9zOZD80vuUUCjymTbAi/yRdaZ
+         v0PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KDUUimts6AqirSdFxQZxJc3Z8d63h2WyuY2dc6ec1xM=;
+        b=qGGYKpQzfy9FbB8V2ucFvlCwcWr+gfhc8+UkExI9/i+5PCMz5wNYo3dFOnq5f5ZqwR
+         qrpe49+DKf7lQaTqKlqEkJrcr6XAXNk4lDd1nwLB9k02H1elt4MPoTg/Qv0BVs14ENST
+         7HAws0RS6ETqD8qzuBkKV6zmgjFphWhKsEhE2D+euEuukFUeLQDCh4NNA5JkAnhcq6OA
+         JUwJ/bFmE0outwwvG+p/OtqsfNVt4m7MX9xzpB53ohh3jIjDVo78u/cm9wkMigt4GBeI
+         curiQd4v7yqPhPuhwUXAh4hM8Go+YMZhRHSr2UTCUfe8HPYCyzWGIMxS8z/2hL0bp2B8
+         ZkfQ==
+X-Gm-Message-State: AOAM530khpDFg7NilJSIyT7dAokyyi8T7omRhsG/kXKqeuGY+LXjZWCb
+        eTY4duMbV4nsLRnZ7/YIluKnEYHBjMAxjA==
+X-Google-Smtp-Source: ABdhPJyhwg8VQ2NoQPu24oSN1H1Xsf1l7yrTZwrLXKHeFCrr/teOAsQ82MtY6y4LP4tvH/pSaxsJfA==
+X-Received: by 2002:a05:6870:d250:b0:da:b3f:2b29 with SMTP id h16-20020a056870d25000b000da0b3f2b29mr5976338oac.200.1646664402377;
+        Mon, 07 Mar 2022 06:46:42 -0800 (PST)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+        by smtp.gmail.com with ESMTPSA id s62-20020aca4541000000b002d7823c8328sm6465095oia.4.2022.03.07.06.46.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Mar 2022 06:46:41 -0800 (PST)
+Date:   Mon, 7 Mar 2022 06:48:25 -0800
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 7/7] usb: typec: mux: Add On Semi fsa4480 driver
+Message-ID: <YiYbOQpX4+fP8S1W@ripper>
+References: <20220307034040.1111107-1-bjorn.andersson@linaro.org>
+ <20220307034040.1111107-7-bjorn.andersson@linaro.org>
+ <YiXbg4QwgIgLh3LW@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <04428d68-256f-559b-6f1c-9397b7a43bfc@gmail.com>
+In-Reply-To: <YiXbg4QwgIgLh3LW@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Mar 07, 2022 at 03:38:39PM +0100, Matyáš Kroupa wrote:
-> Yes, it is PL2023GS. I wasn't able to read it but now that I know what 
-> to look for, I can confirm it.
+On Mon 07 Mar 02:16 PST 2022, Andy Shevchenko wrote:
 
-Perfect, thanks again!
+> On Sun, Mar 06, 2022 at 07:40:40PM -0800, Bjorn Andersson wrote:
+> > The ON Semiconductor FSA4480 is a USB Type-C port multimedia switch with
+> > support for analog audio headsets. It allows sharing a common USB Type-C
+> > port to pass USB2.0 signal, analog audio, sideband use wires and analog
+> > microphone signal.
+> > 
+> > Due to lacking upstream audio support for testing, the audio muxing is
+> > left untouched, but implementation of muxing the SBU lines is provided
+> > as a pair of Type-C mux and switch devices. This provides the necessary
+> > support for enabling the DisplayPort altmode on devices with this
+> > circuit.
+> 
+> ...
+> 
+> > +static const struct regmap_config fsa4480_regmap_config = {
+> > +	.reg_bits = 8,
+> > +	.val_bits = 8,
+> > +	.max_register = FSA4480_MAX_REGISTER,
+> > +};
+> 
+> You are using mutex for accessing hardware. Do you still need a regmap lock?
+> If so, add a comment to explain why.
+> 
 
-Johan
+I've not considered that before, but you're right, there doesn't seem to
+be any reason to keep the locking in the regmap.
+
+> ...
+> 
+> > +		/* 15us to allow the SBU switch to turn off */
+> > +		usleep_range(15, 1000);
+> 
+> This is quite unusual range.
+> 
+> If you are fine with the long delay, why to stress the system on it?
+> Otherwise the use of 1000 is unclear.
+> 
+> That said, I would expect one of the below:
+> 
+> 		usleep_range(15, 30);
+> 		usleep_range(500, 1000);
+> 
+
+Glad you asked about that, as you say the typical form is to keep the
+range within 2x of the lower value, or perhaps lower + 5.
+
+But if the purpose is to specify a minimum time and then give a max to
+give the system some flexibility in it's decision of when to wake up.
+And in situations such as this, we're talking about someone connecting a
+cable, so we're in "no rush" and I picked the completely arbitrary 1ms
+as the max.
+
+Do you see any drawback of this much higher number? (Other than it
+looking "wrong")
+
+> ...
+> 
+> > +	sw_desc.fwnode = dev->fwnode;
+> 
+> Please, don't dereference for fwnode explicitly. Use dev_fwnode().
+> 
+
+Okay, will update accordingly.
+
+Thanks,
+Bjorn
+
+> ...
+> 
+> > +	mux_desc.fwnode = dev->fwnode;
+> 
+> Ditto.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
