@@ -2,94 +2,163 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 606F5C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 14:49:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9FC0C433EF
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 14:53:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243378AbiCGOuY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 09:50:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42734 "EHLO
+        id S243593AbiCGOyN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 09:54:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240377AbiCGOuU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 09:50:20 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702728595F
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 06:49:25 -0800 (PST)
+        with ESMTP id S243551AbiCGOxs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 09:53:48 -0500
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92DED35DED;
+        Mon,  7 Mar 2022 06:52:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646664565; x=1678200565;
+  t=1646664773; x=1678200773;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YnJc8PJVcXC5ezDzv5t1TmRTEjbIAJ3VsMxrPt65XtQ=;
-  b=LSiYfM8RLJya01+JEIGKtvDnjjk0IRFma6OuYatAPlc7WVLp5p/69WCR
-   PK3EHzetbjPjufUbXDfL3MeC8fuJgnAa04iguvX7J/tzQ28AcnQCUpMft
-   k72LOBp7O00J7+E17qeLlawC38EqZffOOKhURIU2b4UALEr3OzCa3OoZP
-   Wq0gCp1AldnP0uTVR4/0YnOrQvV9EZrLV14EQs6955QkFT9c7CK7d3WTM
-   oUMJcG+R75YSviVus2f4PWwvgg0G9P6w5bHZr8nsYiZbY94m3V4bFlSd1
-   V2nVARGHxmt1gyLPPbqerTyGG+H+5uHx6LJE9oZNXAof9TuorTavaHdCY
+  bh=d/3k4mHvlZwTsHccmScqQ+aEtnwgFzJWdq9diAD46iw=;
+  b=EW+xC8wu/RN1SOmZiDloMXefskH/qZxfu2Fk1duvFJQIA2UOupxz29aW
+   faXtvtArfoWkdspdYTIbRU58P/mlJQunIdPsm4/gqKoNhth8vM8jJp0WG
+   MjdBSEQ/K/KQ6jwT2skTgk7cPPiQNN+Gs+ywuHCDV07bHWzCuwW8o47Mq
+   U6GmI0fiSk/M4SAG9s0WXgo61/J1lXtATwZKBYDkZ48HJrnVN/aYgTJW5
+   vHZrPjl+240/A45NGd5h2iJiFW60iTXNbm83zpZ5acloPbvaLAx2z/K+4
+   RkEM17MhfKaWIcUYF82+Mrhf7QvoAKsTk7gRNDVDdhTHHiG2NjKi3Bg28
    w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="235014529"
+X-IronPort-AV: E=McAfee;i="6200,9189,10278"; a="254136272"
 X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
-   d="scan'208";a="235014529"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 06:49:25 -0800
+   d="scan'208";a="254136272"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 06:52:50 -0800
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,162,1643702400"; 
-   d="scan'208";a="495082040"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2022 06:49:21 -0800
-Received: by lahna (sSMTP sendmail emulation); Mon, 07 Mar 2022 16:46:43 +0200
-Date:   Mon, 7 Mar 2022 16:46:43 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Sanjay R Mehta <sanmehta@amd.com>
-Cc:     Sanjay R Mehta <Sanju.Mehta@amd.com>, andreas.noever@gmail.com,
-        michael.jamet@intel.com, YehezkelShB@gmail.com,
-        Basavaraj.Natikar@amd.com, mario.limonciello@amd.com,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: handle runtime pm for tunnelled pci root
- port
-Message-ID: <YiYa0wCfGi39D8t5@lahna>
-References: <1646658319-59532-1-git-send-email-Sanju.Mehta@amd.com>
- <YiYKBe7ogL5uacWt@lahna>
- <ade3f693-118b-369d-8dcb-8cc9c78fa39c@amd.com>
+   d="scan'208";a="687559044"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 07 Mar 2022 06:52:46 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 07 Mar 2022 16:52:45 +0200
+Date:   Mon, 7 Mar 2022 16:52:45 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v4 3/7] usb: typec: mux: Check dev_set_name() return value
+Message-ID: <YiYcPa2XE2MlKVQU@kuha.fi.intel.com>
+References: <20220307034040.1111107-1-bjorn.andersson@linaro.org>
+ <20220307034040.1111107-3-bjorn.andersson@linaro.org>
+ <YiXZkqPQxqQ9I0VH@smile.fi.intel.com>
+ <YiYXywEEz7WZQhfd@ripper>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ade3f693-118b-369d-8dcb-8cc9c78fa39c@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YiYXywEEz7WZQhfd@ripper>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
-
-On Mon, Mar 07, 2022 at 08:00:46PM +0530, Sanjay R Mehta wrote:
+On Mon, Mar 07, 2022 at 06:33:47AM -0800, Bjorn Andersson wrote:
+> On Mon 07 Mar 02:08 PST 2022, Andy Shevchenko wrote:
 > 
-> 
-> On 3/7/2022 7:05 PM, Mika Westerberg wrote:
-> > Hi Sanjay,
+> > On Sun, Mar 06, 2022 at 07:40:36PM -0800, Bjorn Andersson wrote:
+> > > It's possible that dev_set_name() returns -ENOMEM, catch and handle this.
 > > 
-> > On Mon, Mar 07, 2022 at 07:05:19AM -0600, Sanjay R Mehta wrote:
-> >> From: Sanjay R Mehta <sanju.mehta@amd.com>
-> >>
-> >> Carry out runtime-resume of PCI tunnelled root port to handle
-> >> hotplug interrupts synchronously.
+> > Thanks!
+> > Shouldn't we have a Fixes tag and be sent separately for this cycle?
 > > 
-> > What problem does this solve?
+> 
+> It seems appropriate to add:
+> 
+> Fixes: 3370db35193b ("usb: typec: Registering real device entries for the muxes")
+> 
+> 
+> If the maintainer would prefer to get this into v5.18, it could either
+> be picked ahead of the rest of the series, or I can resubmit it on its
+> own. I don't think it's a critical fix though.
+
+Me neither.
+
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> > > Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > ---
+> > > 
+> > > Changes since v3:
+> > > - New patch
+> > > 
+> > >  drivers/usb/typec/mux.c | 14 ++++++++++----
+> > >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+> > > index c8340de0ed49..d2aaf294b649 100644
+> > > --- a/drivers/usb/typec/mux.c
+> > > +++ b/drivers/usb/typec/mux.c
+> > > @@ -131,8 +131,11 @@ typec_switch_register(struct device *parent,
+> > >  	sw->dev.class = &typec_mux_class;
+> > >  	sw->dev.type = &typec_switch_dev_type;
+> > >  	sw->dev.driver_data = desc->drvdata;
+> > > -	dev_set_name(&sw->dev, "%s-switch",
+> > > -		     desc->name ? desc->name : dev_name(parent));
+> > > +	ret = dev_set_name(&sw->dev, "%s-switch", desc->name ? desc->name : dev_name(parent));
 > > 
-> > Typically the root ports should be able to wake from D3 when the PCIe
-> > tunnel gets established. Is it not the case here?
+> > We may use shorten form of the ternary
+> > 
+> > 	ret = dev_set_name(&sw->dev, "%s-switch", desc->name ?: dev_name(parent));
+> > 
+> > at the same time, but it's up to you.
+> > 
 > 
-> Yes Mika, its not waking from D3 in this case on our hardware.
+> I looked at it, but felt it was an unrelated change and decided to leave
+> it as is.
 > 
-> Hence I have kept a check to execute this code only if root port still
-> in D3 after PCIe tunnel is setup.
+> > Either way code looks good to me,
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > 
+> 
+> Thanks,
+> Bjorn
+> 
+> > > +	if (ret) {
+> > > +		put_device(&sw->dev);
+> > > +		return ERR_PTR(ret);
+> > > +	}
+> > >  
+> > >  	ret = device_add(&sw->dev);
+> > >  	if (ret) {
+> > > @@ -338,8 +341,11 @@ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
+> > >  	mux->dev.class = &typec_mux_class;
+> > >  	mux->dev.type = &typec_mux_dev_type;
+> > >  	mux->dev.driver_data = desc->drvdata;
+> > > -	dev_set_name(&mux->dev, "%s-mux",
+> > > -		     desc->name ? desc->name : dev_name(parent));
+> > > +	ret = dev_set_name(&mux->dev, "%s-mux", desc->name ? desc->name : dev_name(parent));
+> > 
+> > Ditto.
+> > 
+> > > +	if (ret) {
+> > > +		put_device(&mux->dev);
+> > > +		return ERR_PTR(ret);
+> > > +	}
+> > >  
+> > >  	ret = device_add(&mux->dev);
+> > >  	if (ret) {
+> > > -- 
+> > > 2.33.1
+> > > 
+> > 
+> > -- 
+> > With Best Regards,
+> > Andy Shevchenko
+> > 
+> > 
 
-OK, I see.
-
-> Do you think should this patch go as a quirk?
-
-I think in that case we should prevent the port from entering D3.  Does
-it have the ACPI "HotPlugSupportInD3" property:
-
-  https://docs.microsoft.com/en-us/windows-hardware/drivers/pci/dsd-for-pcie-root-ports#identifying-pcie-root-ports-supporting-hot-plug-in-d3
-
-If yes, then simply removing that should work.
+-- 
+heikki
