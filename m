@@ -2,173 +2,318 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF985C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 10:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82407C4332F
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 10:40:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345831AbiCHKMN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Mar 2022 05:12:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42818 "EHLO
+        id S1345919AbiCHKlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Mar 2022 05:41:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345852AbiCHKLz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 05:11:55 -0500
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C1743AF5;
-        Tue,  8 Mar 2022 02:10:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646734250; x=1678270250;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7ejrIRDi0eLEWqSUSsS80pzyQyiNB/5BCzaO1wi9Cco=;
-  b=GwzXJMdSRjynlRZ0qhbw+W+QjBQr9Nj0VLSkvtPPsuwiHvvRL/37LfR+
-   jev5OHH3ucKBHj67VtNN64Xdixz/oQnkyJKNoOPw/HwZFgi0+z8/gB+Ho
-   OeEAlJ+GhO70nWX5P18eB7Et/8NEKkFqYDXpdlT6ygOTy0RyswOeYQ0/t
-   V51Z62Y+tp5qYhPwbQs9nnnCp1l3vmBAEyQCM4YJgo8w7BKeLx4Pzflf3
-   dgukn9SjkOohixlceSEOi+taBfo/J9oECvNVQUZoCmI+Jnhm4qacEoCZ3
-   wFZWej+8DFEGLnZYclzzBatFAVa96BJJA6vghowOP6owACbJi6WpFntgK
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254587409"
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
-   d="scan'208";a="254587409"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 02:10:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
-   d="scan'208";a="687874826"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 08 Mar 2022 02:10:46 -0800
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 08 Mar 2022 12:10:45 +0200
-Date:   Tue, 8 Mar 2022 12:10:45 +0200
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Xin Ji <xji@analogixsemi.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
+        with ESMTP id S1345880AbiCHKlQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 05:41:16 -0500
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7D442A06
+        for <linux-usb@vger.kernel.org>; Tue,  8 Mar 2022 02:40:18 -0800 (PST)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220308104015epoutp04cb185e4d1918d51c27a66a06f405bea9~aYa6GSbXN2272222722epoutp04A
+        for <linux-usb@vger.kernel.org>; Tue,  8 Mar 2022 10:40:15 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220308104015epoutp04cb185e4d1918d51c27a66a06f405bea9~aYa6GSbXN2272222722epoutp04A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1646736016;
+        bh=znDm2AI5FslVsoBW4T9mXUXJAfpjj8kbAAxkSJOckrM=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=BOoCouKsr0yIUvJg+tBS07CzLPidr6sK4GSNoKQ/YF0lfz2qH4NUJ1jSMXkOSo3Ht
+         5pV1gC23VveuOJJescTEJerdZ215dQt6IHA6LvgxrH8cLMpZ4Pn2SifY3hR1zDRTIb
+         zNFzFvBylIZR0GvojINd602hocWrxDgE4IW3RHkM=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20220308104015epcas1p2bba22fb992b0ebd19b82f20a5a3a291b~aYa5lN5r_3112331123epcas1p25;
+        Tue,  8 Mar 2022 10:40:15 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.36.225]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4KCX0G0Ck3z4x9Pp; Tue,  8 Mar
+        2022 10:40:14 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+        B6.E1.09592.D8237226; Tue,  8 Mar 2022 19:40:13 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+        20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994~aYa326zlB1216412164epcas1p4j;
+        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20220308104013epsmtrp12f9c60733c89b3ad4512ab7fb9616a3a~aYa32DBji1804118041epsmtrp1_;
+        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
+X-AuditID: b6c32a37-2a5ff70000002578-49-6227328d1fa3
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        52.0C.03370.D8237226; Tue,  8 Mar 2022 19:40:13 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.88.97.211]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20220308104013epsmtip1443265e8c6ee15eadead1c71415acd85~aYa3pjkCn2587225872epsmtip1h;
+        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
+From:   Youngjin Jang <yj84.jang@samsung.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        bliang@analogixsemi.com, qwen@analogixsemi.com,
-        jli@analogixsemi.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v8 1/3] usb: typec: tcpci: move tcpci.h to
- include/linux/usb/ directory
-Message-ID: <YicrpWig4kwdh2lg@kuha.fi.intel.com>
-References: <20220308073431.1217890-1-xji@analogixsemi.com>
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
+        todd.e.brandt@linux.intel.com
+Cc:     Youngjin Jang <yj84.jang@samsung.com>, js07.lee@samsung.com
+Subject: [PATCH v3] PM: Add device name to suspend_report_result()
+Date:   Tue,  8 Mar 2022 04:07:39 +0900
+Message-Id: <20220307190739.659955-1-yj84.jang@samsung.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220308073431.1217890-1-xji@analogixsemi.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmrm6vkXqSweVVFhZLmjIsmhevZ7N4
+        dPM3q8WsKXuZLJbv62e0uLxrDpvF2XnH2Sw+9x5htFi0rJXZ4u6po2wWc79MZbZ4u+UBq0XX
+        ocWsDrweCzaVeize85LJY9OqTjaPeScDPfbPXcPu0bdlFaPHitXf2T0+b5IL4IjKtslITUxJ
+        LVJIzUvOT8nMS7dV8g6Od443NTMw1DW0tDBXUshLzE21VXLxCdB1y8wBOlhJoSwxpxQoFJBY
+        XKykb2dTlF9akqqQkV9cYquUWpCSU2BWoFecmFtcmpeul5daYmVoYGBkClSYkJ2x8O421oKX
+        FhVnL35lb2Ccrd/FyMEhIWAiseRRcRcjF4eQwA5Gif99H1ggnE+MEj1rz7BBOJ8ZJfo+TWTq
+        YuQE69j5dRpUYhejxNOnfxnhWlr+rWQBqWIT0JZYtWUeO4gtIvCJSeLKKjkQm1nAXuL33Qlg
+        cWEBJ4ntayYxg9zBIqAqselRKEiYV8BaYlHbCnaIZfISMy99Z4eIC0qcnPmEBWKMvETz1tnM
+        IHslBCZySDy91ckK0eAicXHiUTYIW1ji1fEtUIOkJF72t0HZ6RITH7+Fsgsk/j5ewgxhG0u8
+        e7sW7B5mAU2J9bv0IcKKEjt/z2WE2Msn8e5rDysk6HglOtqEIEqUJR6fXw21VVJi/e/90LDy
+        kDi38SZYq5BArMTfzw8ZJzDKz0LyzSwk38xCWLyAkXkVo1hqQXFuemqxYYExPE6T83M3MYKT
+        rJb5DsZpbz/oHWJk4mA8xCjBwawkwnv/vEqSEG9KYmVValF+fFFpTmrxIUZTYPBOZJYSTc4H
+        pvm8knhDE0sDEzMjEwtjS2MzJXHeVdNOJwoJpCeWpGanphakFsH0MXFwSjUwPa62ufnY42Cs
+        N5vOcYsz3TU7zHXjX5ZYbDvza4VQCN8E48h5nm85/Tcnugcub30e/SKywaRI5NdznY1cMdlP
+        LjkL3GcP/met/XuvTs3d59Nt78obzNVaMyv7uuuiQJeNyXNFpxyUc343Tzy9f1dT1r7SjckN
+        8U6LFHdvnGjOetT3l1flfZuWCZKabL0Tppxe+PXz0QX3RKsubq3Qmr39xJ0NL3s9L87Tmqfj
+        /3d1ama5tW88t7j37Lx9cpYym0yU/wj3z5i3nDljh4gNy4ftbKnbz13U4XPaZPbfSUNVIjFw
+        +jSXXo01B2u1th26Kl5z/o12avFslXyzxd/4Ly713PHyv1yHTWXbosZNKx+tU2Ipzkg01GIu
+        Kk4EAKTAPx07BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsWy7bCSnG6vkXqSwa/D0hZLmjIsmhevZ7N4
+        dPM3q8WsKXuZLJbv62e0uLxrDpvF2XnH2Sw+9x5htFi0rJXZ4u6po2wWc79MZbZ4u+UBq0XX
+        ocWsDrweCzaVeize85LJY9OqTjaPeScDPfbPXcPu0bdlFaPHitXf2T0+b5IL4IjisklJzcks
+        Sy3St0vgylh4dxtrwUuLirMXv7I3MM7W72Lk5JAQMJHY+XUaG4gtJLCDUeJldzZEXFLi66fP
+        QHEOIFtY4vDh4i5GLqCSD4wSF952MYHUsAloS6zaMo8dJCEi8IdJ4uPuh0wgDcwCjhJdH6tA
+        aoQFnCS2r5nEDBJmEVCV2PQoFCTMK2AtsahtBTvEKnmJmZe+s0PEBSVOznzCAmIzA8Wbt85m
+        nsDINwtJahaS1AJGplWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMFBr6W1g3HPqg96
+        hxiZOBgPMUpwMCuJ8N4/r5IkxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTU
+        gtQimCwTB6dUA5Nmr9oDfdusyyIf/9xrPHguf+tjHRUPv4JvTf//7rV4sMmrbtLSZPYW30Wn
+        O8/J3m9kuPa/2Sb3/WtDoQrJ9n/M2Ucby4VPem7T83Zdn8p0WK2DZ8mrlRULw3hVOTNNH/1O
+        FVx9yqd98ZSHWtc8PfTk9lx+eVz9/CGVNUdSGSWMrFQ/rPi8gmn+ygtRfsbTmNtl/91KfM17
+        41jTx4t3ZHlM3ff+5L+wedn7vmUTnVTE220TbC/FJwZ/MFyZ9YP3j8bJ+y0fZrReC5vcdUt4
+        t5NY6hx31+N3Qw2zrNbVuW9iO9zlfdgjrP52UcL+ZfP3nng2T2rSZI2HWvEnf3b6PlNMOJd5
+        fJpH2FzfLY6cLB5KLMUZiYZazEXFiQA9zg3x6QIAAA==
+X-CMS-MailID: 20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994
+References: <CGME20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994@epcas1p4.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Mar 08, 2022 at 03:34:28PM +0800, Xin Ji wrote:
-> As for convenience use TCPCI register definition, move tcpci.h to
-> include/linux/usb/ directory.
+currently, suspend_report_result() prints only function information.
+If any driver uses common pm function, nobody knows who called
+failed function exactly.
 
-To be honest, I was still hoping for a better explanation here.
+So, device is needed to recognize specific wrong driver.
 
-The reason why this header is made global is because some USB PD
-controllers - PD controllers consisting of a microcontroller
-(acting as the TCPM) and a port controller (TCPC) - may require that
-the driver for the PD controller accesses directly also the on-chip
-port controller in some cases.
+e.g.)
+PM: dpm_run_callback(): pnp_bus_suspend+0x0/0x10 returns 0
+PM: dpm_run_callback(): pci_pm_suspend+0x0/0x150 returns 0
+after patch,
+serial 00:05: PM: dpm_run_callback(): pnp_bus_suspend+0x0/0x10 returns 0
+pci 0000:00:01.3: PM: dpm_run_callback(): pci_pm_suspend+0x0/0x150 returns 0
 
-I was hoping that that was explained in the commit message somehow.
+Signed-off-by: Youngjin Jang <yj84.jang@samsung.com>
+---
+Changes since v2:
+ - Update commit message, example logs
+Changes since v1:
+ - Use dev_err() to print out device name
+ - Use real name on email sender
+ 
+ drivers/base/power/main.c  | 10 +++++-----
+ drivers/pci/pci-driver.c   | 14 +++++++-------
+ drivers/pnp/driver.c       |  2 +-
+ drivers/usb/core/hcd-pci.c |  4 ++--
+ include/linux/pm.h         |  8 ++++----
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> 
-> ---
-> V7 -> V8: Fix Guanter's comment, remove unnecessary explain.
-> ---
->  drivers/usb/typec/tcpm/tcpci.c                        | 3 +--
->  drivers/usb/typec/tcpm/tcpci_maxim.c                  | 3 +--
->  drivers/usb/typec/tcpm/tcpci_mt6360.c                 | 3 +--
->  drivers/usb/typec/tcpm/tcpci_rt1711h.c                | 2 +-
->  {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h | 1 +
->  5 files changed, 5 insertions(+), 7 deletions(-)
->  rename {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h (99%)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> index e07d26a3cd8e..9c907296596f 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.c
-> +++ b/drivers/usb/typec/tcpm/tcpci.c
-> @@ -13,11 +13,10 @@
->  #include <linux/property.h>
->  #include <linux/regmap.h>
->  #include <linux/usb/pd.h>
-> +#include <linux/usb/tcpci.h>
->  #include <linux/usb/tcpm.h>
->  #include <linux/usb/typec.h>
->  
-> -#include "tcpci.h"
-> -
->  #define	PD_RETRY_COUNT_DEFAULT			3
->  #define	PD_RETRY_COUNT_3_0_OR_HIGHER		2
->  #define	AUTO_DISCHARGE_DEFAULT_THRESHOLD_MV	3500
-> diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> index df2505570f07..4b6705f3d7b7 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
-> @@ -11,11 +11,10 @@
->  #include <linux/module.h>
->  #include <linux/regmap.h>
->  #include <linux/usb/pd.h>
-> +#include <linux/usb/tcpci.h>
->  #include <linux/usb/tcpm.h>
->  #include <linux/usb/typec.h>
->  
-> -#include "tcpci.h"
-> -
->  #define PD_ACTIVITY_TIMEOUT_MS				10000
->  
->  #define TCPC_VENDOR_ALERT				0x80
-> diff --git a/drivers/usb/typec/tcpm/tcpci_mt6360.c b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> index f1bd9e09bc87..9e0338bce7ef 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_mt6360.c
-> @@ -11,10 +11,9 @@
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/regmap.h>
-> +#include <linux/usb/tcpci.h>
->  #include <linux/usb/tcpm.h>
->  
-> -#include "tcpci.h"
-> -
->  #define MT6360_REG_VCONNCTRL1	0x8C
->  #define MT6360_REG_MODECTRL2	0x8F
->  #define MT6360_REG_SWRESET	0xA0
-> diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> index b56a0880a044..3291ca4948da 100644
-> --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> @@ -10,9 +10,9 @@
->  #include <linux/i2c.h>
->  #include <linux/interrupt.h>
->  #include <linux/gpio/consumer.h>
-> +#include <linux/usb/tcpci.h>
->  #include <linux/usb/tcpm.h>
->  #include <linux/regmap.h>
-> -#include "tcpci.h"
->  
->  #define RT1711H_VID		0x29CF
->  #define RT1711H_PID		0x1711
-> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/include/linux/usb/tcpci.h
-> similarity index 99%
-> rename from drivers/usb/typec/tcpm/tcpci.h
-> rename to include/linux/usb/tcpci.h
-> index b2edd45f13c6..20c0bedb8ec8 100644
-> --- a/drivers/usb/typec/tcpm/tcpci.h
-> +++ b/include/linux/usb/tcpci.h
-> @@ -9,6 +9,7 @@
->  #define __LINUX_USB_TCPCI_H
->  
->  #include <linux/usb/typec.h>
-> +#include <linux/usb/tcpm.h>
->  
->  #define TCPC_VENDOR_ID			0x0
->  #define TCPC_PRODUCT_ID			0x2
-> -- 
-> 2.25.1
-
+diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+index 04ea92cbd9cf..41e17b8c2c20 100644
+--- a/drivers/base/power/main.c
++++ b/drivers/base/power/main.c
+@@ -485,7 +485,7 @@ static int dpm_run_callback(pm_callback_t cb, struct device *dev,
+ 	trace_device_pm_callback_start(dev, info, state.event);
+ 	error = cb(dev);
+ 	trace_device_pm_callback_end(dev, error);
+-	suspend_report_result(cb, error);
++	suspend_report_result(dev, cb, error);
+ 
+ 	initcall_debug_report(dev, calltime, cb, error);
+ 
+@@ -1568,7 +1568,7 @@ static int legacy_suspend(struct device *dev, pm_message_t state,
+ 	trace_device_pm_callback_start(dev, info, state.event);
+ 	error = cb(dev, state);
+ 	trace_device_pm_callback_end(dev, error);
+-	suspend_report_result(cb, error);
++	suspend_report_result(dev, cb, error);
+ 
+ 	initcall_debug_report(dev, calltime, cb, error);
+ 
+@@ -1855,7 +1855,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
+ 	device_unlock(dev);
+ 
+ 	if (ret < 0) {
+-		suspend_report_result(callback, ret);
++		suspend_report_result(dev, callback, ret);
+ 		pm_runtime_put(dev);
+ 		return ret;
+ 	}
+@@ -1960,10 +1960,10 @@ int dpm_suspend_start(pm_message_t state)
+ }
+ EXPORT_SYMBOL_GPL(dpm_suspend_start);
+ 
+-void __suspend_report_result(const char *function, void *fn, int ret)
++void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret)
+ {
+ 	if (ret)
+-		pr_err("%s(): %pS returns %d\n", function, fn, ret);
++		dev_err(dev, "%s(): %pS returns %d\n", function, fn, ret);
+ }
+ EXPORT_SYMBOL_GPL(__suspend_report_result);
+ 
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index f61c40a47891..4ceeb75fc899 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -607,7 +607,7 @@ static int pci_legacy_suspend(struct device *dev, pm_message_t state)
+ 		int error;
+ 
+ 		error = drv->suspend(pci_dev, state);
+-		suspend_report_result(drv->suspend, error);
++		suspend_report_result(dev, drv->suspend, error);
+ 		if (error)
+ 			return error;
+ 
+@@ -786,7 +786,7 @@ static int pci_pm_suspend(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->suspend(dev);
+-		suspend_report_result(pm->suspend, error);
++		suspend_report_result(dev, pm->suspend, error);
+ 		if (error)
+ 			return error;
+ 
+@@ -832,7 +832,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->suspend_noirq(dev);
+-		suspend_report_result(pm->suspend_noirq, error);
++		suspend_report_result(dev, pm->suspend_noirq, error);
+ 		if (error)
+ 			return error;
+ 
+@@ -1021,7 +1021,7 @@ static int pci_pm_freeze(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->freeze(dev);
+-		suspend_report_result(pm->freeze, error);
++		suspend_report_result(dev, pm->freeze, error);
+ 		if (error)
+ 			return error;
+ 	}
+@@ -1041,7 +1041,7 @@ static int pci_pm_freeze_noirq(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->freeze_noirq(dev);
+-		suspend_report_result(pm->freeze_noirq, error);
++		suspend_report_result(dev, pm->freeze_noirq, error);
+ 		if (error)
+ 			return error;
+ 	}
+@@ -1127,7 +1127,7 @@ static int pci_pm_poweroff(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->poweroff(dev);
+-		suspend_report_result(pm->poweroff, error);
++		suspend_report_result(dev, pm->poweroff, error);
+ 		if (error)
+ 			return error;
+ 	}
+@@ -1165,7 +1165,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
+ 		int error;
+ 
+ 		error = pm->poweroff_noirq(dev);
+-		suspend_report_result(pm->poweroff_noirq, error);
++		suspend_report_result(dev, pm->poweroff_noirq, error);
+ 		if (error)
+ 			return error;
+ 	}
+diff --git a/drivers/pnp/driver.c b/drivers/pnp/driver.c
+index cc6757dfa3f1..c02e7bf643a6 100644
+--- a/drivers/pnp/driver.c
++++ b/drivers/pnp/driver.c
+@@ -171,7 +171,7 @@ static int __pnp_bus_suspend(struct device *dev, pm_message_t state)
+ 
+ 	if (pnp_drv->driver.pm && pnp_drv->driver.pm->suspend) {
+ 		error = pnp_drv->driver.pm->suspend(dev);
+-		suspend_report_result(pnp_drv->driver.pm->suspend, error);
++		suspend_report_result(dev, pnp_drv->driver.pm->suspend, error);
+ 		if (error)
+ 			return error;
+ 	}
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index 784466117c92..8176bc81a635 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -446,7 +446,7 @@ static int suspend_common(struct device *dev, bool do_wakeup)
+ 				HCD_WAKEUP_PENDING(hcd->shared_hcd))
+ 			return -EBUSY;
+ 		retval = hcd->driver->pci_suspend(hcd, do_wakeup);
+-		suspend_report_result(hcd->driver->pci_suspend, retval);
++		suspend_report_result(dev, hcd->driver->pci_suspend, retval);
+ 
+ 		/* Check again in case wakeup raced with pci_suspend */
+ 		if ((retval == 0 && do_wakeup && HCD_WAKEUP_PENDING(hcd)) ||
+@@ -556,7 +556,7 @@ static int hcd_pci_suspend_noirq(struct device *dev)
+ 		dev_dbg(dev, "--> PCI %s\n",
+ 				pci_power_name(pci_dev->current_state));
+ 	} else {
+-		suspend_report_result(pci_prepare_to_sleep, retval);
++		suspend_report_result(dev, pci_prepare_to_sleep, retval);
+ 		return retval;
+ 	}
+ 
+diff --git a/include/linux/pm.h b/include/linux/pm.h
+index f7d2be686359..e65b3ab28377 100644
+--- a/include/linux/pm.h
++++ b/include/linux/pm.h
+@@ -770,11 +770,11 @@ extern int dpm_suspend_late(pm_message_t state);
+ extern int dpm_suspend(pm_message_t state);
+ extern int dpm_prepare(pm_message_t state);
+ 
+-extern void __suspend_report_result(const char *function, void *fn, int ret);
++extern void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret);
+ 
+-#define suspend_report_result(fn, ret)					\
++#define suspend_report_result(dev, fn, ret)				\
+ 	do {								\
+-		__suspend_report_result(__func__, fn, ret);		\
++		__suspend_report_result(__func__, dev, fn, ret);	\
+ 	} while (0)
+ 
+ extern int device_pm_wait_for_dev(struct device *sub, struct device *dev);
+@@ -814,7 +814,7 @@ static inline int dpm_suspend_start(pm_message_t state)
+ 	return 0;
+ }
+ 
+-#define suspend_report_result(fn, ret)		do {} while (0)
++#define suspend_report_result(dev, fn, ret)	do {} while (0)
+ 
+ static inline int device_pm_wait_for_dev(struct device *a, struct device *b)
+ {
 -- 
-heikki
+2.25.1
+
