@@ -2,178 +2,151 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADD80C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 05:26:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9DAEC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 05:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234237AbiCGF1K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 00:27:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40536 "EHLO
+        id S235424AbiCGF7m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 00:59:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbiCGF1J (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 00:27:09 -0500
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C60F31AD94
-        for <linux-usb@vger.kernel.org>; Sun,  6 Mar 2022 21:26:15 -0800 (PST)
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220307052610epoutp04754123124ba9d899200783334c0837d6~aAfYLl9P30984009840epoutp04Z
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 05:26:10 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220307052610epoutp04754123124ba9d899200783334c0837d6~aAfYLl9P30984009840epoutp04Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1646630770;
-        bh=9tjq2zNlTSzLqr3qckKG9tmOLZlxb8W7Esn7UKQRyV0=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=lWlax/Hau5sbfWnYBPT1sgA9Hu/pcFW47J5vmrN7hoJPuGR4Phwk2GYNGztu5E2zB
-         TGGj9ShVnOD6kXdWuA9jkibZwuSBCDM+B0YuH9yJbl1ndCb7eznb3INl5Ku499Gjv0
-         c9BpuldZY+lZdQakrso7a7/58x31ThpcFINfAYxk=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
-        20220307052609epcas2p25bc106c55f44992c76ba6489993e4e2e~aAfXiihYj1775517755epcas2p2R;
-        Mon,  7 Mar 2022 05:26:09 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.36.88]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 4KBn4H2vwrz4x9QP; Mon,  7 Mar
-        2022 05:26:07 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        50.4C.51767.D6795226; Mon,  7 Mar 2022 14:26:05 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20220307052605epcas2p2b84f6db2642863ed61373070f508e200~aAfTw8EZd2036320363epcas2p2K;
-        Mon,  7 Mar 2022 05:26:05 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220307052605epsmtrp175691b06cd1275ed69afb439f3a7f8c2~aAfTwJ1Ui1024710247epsmtrp1d;
-        Mon,  7 Mar 2022 05:26:05 +0000 (GMT)
-X-AuditID: b6c32a45-447ff7000000ca37-d5-6225976d1f84
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        87.5C.29871.D6795226; Mon,  7 Mar 2022 14:26:05 +0900 (KST)
-Received: from ubuntu.dsn.sec.samsung.com (unknown [12.36.155.120]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220307052605epsmtip11291b6c3684732bf2275c54f6d7f48e0~aAfTlCOcX0030500305epsmtip1_;
-        Mon,  7 Mar 2022 05:26:05 +0000 (GMT)
-From:   JaeHun Jung <jh0801.jung@samsung.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org (open list:USB XHCI DRIVER),
-        linux-kernel@vger.kernel.org (open list),
-        Seungchull Suh <sc.suh@samsung.com>,
-        Daehwan Jung <dh10.jung@samsung.com>,
-        JaeHun Jung <jh0801.jung@samsung.com>
-Subject: [PATCH] usb: dwc3: Add dwc3 lock for blocking interrupt storming
-Date:   Mon,  7 Mar 2022 14:24:39 +0900
-Message-Id: <1646630679-121585-1-git-send-email-jh0801.jung@samsung.com>
-X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrJKsWRmVeSWpSXmKPExsWy7bCmuW7udNUkg5m3dCyOtT1ht7izYBqT
-        RfPi9WwWdx/+YLG4vGsOm8WiZa3MFl13bzA6sHtsWtXJ5rF/7hp2j74tqxg9Pm+SC2CJyrbJ
-        SE1MSS1SSM1Lzk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQdcvMAbpASaEsMacU
-        KBSQWFyspG9nU5RfWpKqkJFfXGKrlFqQklNgXqBXnJhbXJqXrpeXWmJlaGBgZApUmJCdsfXF
-        W7aC78IV+7dPYG1gvCLQxcjBISFgIvH7LGsXIxeHkMAORom+r4/ZIZxPjBKrtt5hgXC+MUrc
-        vNzM3MXICdbRvHYzE0RiL6PEw8WroKp+MEpsWHWPCaSKTUBbYt+cRewgtohAmMTEZfvAipgF
-        bjNKrJh3gREkISzgKbG2YSoriM0ioCrx9tkksGZeAQ+JXwteskCsk5O4ea4TavUqdom3V5Ig
-        bBeJV9/vsELYwhKvjm9hh7ClJF72t0HZxRKdmw4xgiyWEGhglPh2oIMJImEsMetZOyMoBJgF
-        NCXW79KHBIayxJFbYGuZBfgkOg7/ZYcI80p0tAlBNKpKHGy8CXWZtMS33neMECUeEtuOcYOE
-        hQRiJW5tbmOewCg7C2H8AkbGVYxiqQXFuempxUYFhvA4Ss7P3cQITlNarjsYJ7/9oHeIkYmD
-        8RCjBAezkgjv/fMqSUK8KYmVValF+fFFpTmpxYcYTYGhNZFZSjQ5H5go80riDU0sDUzMzAzN
-        jUwNzJXEeb1SNiQKCaQnlqRmp6YWpBbB9DFxcEo1MB23tRXefbSoQlol3H6qeAuTlHnJYst4
-        RtXJi2sLlnh7ZpV5Bfz7JqpYP6X6hlDDEabWg1K86llCb+8fj7l3bpre88Mz5YRk5yq/ufBC
-        W2dV0BufHw7P+Op1LpkKqWvvD5OYbVL30+DmdcudL3xnntHxWrwzc5XJWla3hTtid0i/VH+9
-        yZMzZrt2eWL6vqCPTNnKIf8sQlU+ato0nvResVj0u+vPd+LmypssNprn6S492dJ++tna47ef
-        69jMX72Gsaskz4D7ZmcMr9Dcpfu2+80M/tR1/fSxzPWPSjvfB/js823+LXA36+GquzMmr8zg
-        jP//7MNSY3Fbqc6LYs+8Hb4Grf8h/LprzSJ+L8UTj5RYijMSDbWYi4oTAdTDuQbcAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNJMWRmVeSWpSXmKPExsWy7bCSnG7udNUkg9O/uCyOtT1ht7izYBqT
-        RfPi9WwWdx/+YLG4vGsOm8WiZa3MFl13bzA6sHtsWtXJ5rF/7hp2j74tqxg9Pm+SC2CJ4rJJ
-        Sc3JLEst0rdL4MrY+uItW8F34Yr92yewNjBeEehi5OSQEDCRaF67mamLkYtDSGA3o8SKvlnM
-        EAlpiZ2dU5kgbGGJ+y1HWCGKvjFK3H85nR0kwSagLbFvziIwW0QgTOLfo4ssIEXMAncZJZpO
-        TGQDSQgLeEqsbZjKCmKzCKhKvH02CWwqr4CHxK8FL1kgNshJ3DzXyTyBkWcBI8MqRsnUguLc
-        9NxiwwLDvNRyveLE3OLSvHS95PzcTYzg8NHS3MG4fdUHvUOMTByMhxglOJiVRHjvn1dJEuJN
-        SaysSi3Kjy8qzUktPsQozcGiJM57oetkvJBAemJJanZqakFqEUyWiYNTqoEpVHNV1YZqX7bz
-        Lk7Lru3Sd8us2Dil4Pk+rYmpzqIrD2Z4Ns3hO7howYTnlRNOOiRYKP4W13zFJ6JcKrQ2MUU9
-        osHkfMz8Wws6r26QYn8j2Npy11+oVrlm3WWf3WVp6W7bDUyM9TZLNixfFLkiaNHa06o+B1Ry
-        zvQJ1t17snXPu7m5qWEV99X1ZfNu2sv9PPIg65tBehiDJsOmiruXl2VnLTNa/Dw8eUG3wr3N
-        t456zVHw3n9G931t8tFD+jGmBnfkOJSv1D/pSDjXFWV5hWPN9ZeN117NSFK5c3ySQrsFS9yp
-        5L4zu9fypElkpn9RemEnIfTUVdBsrUnprs+GxdIX5e7Jziq99e7oUV6tbaVKLMUZiYZazEXF
-        iQDjvkCnjgIAAA==
-X-CMS-MailID: 20220307052605epcas2p2b84f6db2642863ed61373070f508e200
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220307052605epcas2p2b84f6db2642863ed61373070f508e200
-References: <CGME20220307052605epcas2p2b84f6db2642863ed61373070f508e200@epcas2p2.samsung.com>
+        with ESMTP id S234713AbiCGF7l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 00:59:41 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2111.outbound.protection.outlook.com [40.107.223.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7844A50063;
+        Sun,  6 Mar 2022 21:58:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YMZsFUMw+RFQvSDuj2yYlhF10BMf1JSZho7jOh9IF6NxIM3o5kX5ZQduPg/5NlM5K74KFJTRz9wJJYxJztpneKtIo8IiBT8MD8YIxORo/Bqi9+2TI7R+BCgVMgfU++4MKRLmGyk8PI8ByWleMdQ4WHv0ruOwRW7wEzwjgqEkhbwD0bmDNwRmXWLpEri2fHMWwjOTP6oMQrHxV5SV8maAYFgSlSIkBV7Rwi3Oq+VUxK3M9nELdWxhCKwmdmHaSsUeXEEn0McBb9FDpqc/9Ooh/WTQm5I7YvlUn4itYP1aWPhIAw8+SS5z+oSd05T3MAXlRWKEygQ9UolOLY9m2QUW6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K50aV1pr4oK1b3L/8sGPRxO5qZTrvTy7DG/KdXbj6ks=;
+ b=jS2sWu2w6Gb9m0Nhot1ZgkGojcdMLQCdZrapf02BhE8gViVyyXUtHhmNHbg6dUOBIe+HNme5XurAvTzCRkGkedLXn4zypvp4RmYFVq0EWfBfzORNj1p0yzFLwmo9DwC8owlCX1osb7r7/RP/zRayOPxgL6lXjpzuoDn0PIt/MT4dIXJteu3W6QfDROyaqM4G+ek7lwwmahtgb0SmqMVsarPy/lI57OiP3JJkZ9TIV21g3qO4cTtSWZc+Tq/HvBVrhMMckEO3eqDpE2YVFoaHVUUE/VXHYMBck3fz7iulu/jA0p07CHmLY/JNUCyZiRWhDngtfX5tvAD26Y/flmJi7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K50aV1pr4oK1b3L/8sGPRxO5qZTrvTy7DG/KdXbj6ks=;
+ b=FX0+EoB8r9eg1XuI8MiWrcYOt4caZ23FAh/qNuyk6AENFQmkIQWL8w3Xx9HnXvuEv5n7jF750zj505PxjLR+hS2ZA1bTxNbwBnce3sWYqeRi7iUUN/LTcx0HaNwS1ZNlDCY/X1E4gRUowe2PmCJkaK5/4oxxj0oKesfLS3HwR6k=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from CH2PR04MB6741.namprd04.prod.outlook.com (2603:10b6:610:96::19)
+ by SN6PR04MB3966.namprd04.prod.outlook.com (2603:10b6:805:48::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.15; Mon, 7 Mar
+ 2022 05:58:43 +0000
+Received: from CH2PR04MB6741.namprd04.prod.outlook.com
+ ([fe80::ddb7:9604:5e6d:af43]) by CH2PR04MB6741.namprd04.prod.outlook.com
+ ([fe80::ddb7:9604:5e6d:af43%5]) with mapi id 15.20.5038.026; Mon, 7 Mar 2022
+ 05:58:43 +0000
+Date:   Mon, 7 Mar 2022 13:58:32 +0800
+From:   Xin Ji <xji@analogixsemi.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        bliang@analogixsemi.com, qwen@analogixsemi.com,
+        jli@analogixsemi.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] usb: typec: anx7411: Add Analogix PD ANX7411
+ support
+Message-ID: <20220307055832.GB4174271@anxtwsw-Precision-3640-Tower>
+References: <20220223102353.3833578-1-xji@analogixsemi.com>
+ <20220223102353.3833578-2-xji@analogixsemi.com>
+ <Yh9dBlrWm3OicQWa@kuha.fi.intel.com>
+ <20220303024757.GA4159259@anxtwsw-Precision-3640-Tower>
+ <YiC+/ccRvR/+mAkT@kuha.fi.intel.com>
+ <20220304022936.GA4164495@anxtwsw-Precision-3640-Tower>
+ <YiIF+PpuIeJMY+/T@kuha.fi.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YiIF+PpuIeJMY+/T@kuha.fi.intel.com>
+X-ClientProxiedBy: SGAP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::32)
+ To CH2PR04MB6741.namprd04.prod.outlook.com (2603:10b6:610:96::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 809b8882-4e46-47a7-62f2-08d9ffff8935
+X-MS-TrafficTypeDiagnostic: SN6PR04MB3966:EE_
+X-Microsoft-Antispam-PRVS: <SN6PR04MB396652F456B7AD83938C10B4C7089@SN6PR04MB3966.namprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: icBz3in/ZgIN2xJJ/haR+fL8ASbQ5kw6BVCasv8+Si/F1REI4mqgecq6qSVtFRKuTB7iT/ubERUP4G8H9CulfdQYxRVRShERfBzw2CpgCUF1YHemzzOSL+pUC5EamLMKW/7HiEu4EWQ6aZB6Ui7Ekj01QQ5A/LKndTHl4NS8c7v1aTyBMXxOVPUIGZVQWmXkYenznF9n0ONH75ApTHU91yqOlB8GnDs8RHZj8bmt6DfIehiRgkJ0qY1otKFH86kxMvRfuQjhkcywV8SKJBTwjFybB7WJd8laYiYbeft7eiBrwKlIElipsuVnmXIjBPvrEXzGFo8mMsNmQd5SePo78byfdRz9Iv2hbBDMJXl+lvlkPootIc6jNfVVvxoVcg/oCv3DmX/BxsrTPWbOcG0jn4zv0DNRd/rVcZ5Pgrc+6HKF2+C/bGHARj7MJOqvBmVYg56ccwe38Ur1TMMo5bjgV3Vv6nahI4v0stJrs34SaflV3a95yVMSD42nvwi/uTfMKS3GvBUPGROyKOhixp9THm/Yygz9jEfqXObOQ8pZqjP7MmfWIvef64nubA42j/lJnh9S1U1/JXJUdyRKGNKKTDoG9gWSgHAwF7nzDK4B3v1kYS6wNzlN8zGTxt52JmWSo5lUXPVTfzeFD6kcVGmAqvvMqBMnoj4OKS1ujy1/VZYwuvUu5GAgklujOGO/erAa58CAz1qGJn0udKgJqjBdww==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR04MB6741.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6916009)(498600001)(33716001)(86362001)(186003)(1076003)(33656002)(26005)(38100700002)(38350700002)(9686003)(6512007)(55236004)(2906002)(6666004)(52116002)(6506007)(6486002)(8936002)(5660300002)(4326008)(66946007)(66476007)(8676002)(66556008);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EglJmQjZTyJDVVVnDrNFBf8WgwLNFQyx0vlqV64gJbgwwWaS/AdaVNdbVv7V?=
+ =?us-ascii?Q?joYLLd1tXPZo6Q3pknnNTmWYo9nE/TGJsSxLrkvF0yEbwE5kIpl6CyIdJbpv?=
+ =?us-ascii?Q?4LwS31GUFJXGYYzYFdhMII9mlgLxr2aUauVrLmfdva+rsns/68lfVVbkpiMN?=
+ =?us-ascii?Q?mcNwMZM0plHRs72SKiylZIMFpwp4/qDbI3pp/DXLhNlmS6Jd7EAE1L2lVs/G?=
+ =?us-ascii?Q?HQkEL237RXaknAaDAeCqBnmcvxHThVs2MfQsV86rr21hjaCGCiPP8l9TZgqy?=
+ =?us-ascii?Q?CetsGtXxR8AOWDIebNPv1wVg9Ut2Zy+HN+5iY3LlhUhN2WK/9WcZ9RwiUdxR?=
+ =?us-ascii?Q?1mAzhB3rzjU3JP2smloRzDQJjiLsfsj6DtWx4ad8weg5qmwLnaqBBzTloaH2?=
+ =?us-ascii?Q?zb2LsK3+Tg0OQdpH7r/Cz8ownqAew2DmVGAZufniIhxkel+6PXUlHPH6beds?=
+ =?us-ascii?Q?kLob6z+F3WWT+jfIq2jomZ+HnKp0jlZ80HiEB9rO2y7AjEcwBsdEOie0z+FH?=
+ =?us-ascii?Q?Q4OrTtEQOu04d6mEgRKRbh3tfrKsPHPg0kAmk2FXSABcfWNOjPcDcOWI0/U2?=
+ =?us-ascii?Q?H+zAiR6MRrOoNvvhd5BLtOQBgYxA2Mf0S5cLCgSXxt26HrfvQzkspWzzJ7Tr?=
+ =?us-ascii?Q?4sFjAZC02SmjgyhkS6boqAewY99H7L0AoeTzc5o/WH9bsb/UjkCjaJ6tGgcG?=
+ =?us-ascii?Q?OO8t65HngvWp9WneiTk8I7aEQlani90uHISRx15xN8Mre3JyOXd8Im8f6e+q?=
+ =?us-ascii?Q?dP1+kfwTiYCWgCZrUj1NVPe9ABJu/92ixErOJpqC4+q+wSWlPhpraxN0grRg?=
+ =?us-ascii?Q?jRYT5Lhkpeom+bQBOplZBZPyz7gXCw3/4EZ8KIC21V6cUk6K2P+sS0mrzw9Z?=
+ =?us-ascii?Q?ddcfO3u9XehI/VpCyuqoytjt6buxFYUB+n8goTCaVHC/k0UONIBmJlq5ppbk?=
+ =?us-ascii?Q?Y2M7BWz1JfWQ/IgQmm203eB7XVE7SRjUrFJgzKVDsr4H/l6uJpgYjZN/exMg?=
+ =?us-ascii?Q?OipoOS6g2IHme1z1Vf9Nn3RqN9Ldv9oYTUDOHDjMAi3YWNcMDKy9+veW1bqz?=
+ =?us-ascii?Q?20BZUnEd8jxfr2wFBloeXnhxQ3NybK10iI3MJFWvULjKcOlRF78qCG2atNaV?=
+ =?us-ascii?Q?uJ9RB9XvihpTUzk6kcw7nuRRbvXVrvrRmP6dqowogAUz0z4QYSOrA6G1W4X3?=
+ =?us-ascii?Q?DSTiugEfyDNlByFgIhQCPb9pd6uutxGu39/xppJnT5WRFwZVp0q31WI1B2Q6?=
+ =?us-ascii?Q?PLMgn1elMr1E3rPOZcN+6zoKQ2hr8h+4/IPzF0y8TSBOmtYXAwL6yU6cUF07?=
+ =?us-ascii?Q?rumhlZwY9EbEPgazPheSoKx11AufgQUr+NkT26PMr7yxsr2514MiRJKJ/kvo?=
+ =?us-ascii?Q?xS5ilgezMkL5ojaTcYl0f/L4U750lWaca6VRRI9Knu5OGu6oujVyYNCQgg/i?=
+ =?us-ascii?Q?zRuLoi+yT7/CNL1vjdxCsvNlu9B91uyXxHadxrdlqt068orjxMvejAXkHkrW?=
+ =?us-ascii?Q?rZYeSfOza/zon5D5+sU/JLXxf4t3YSPnSc+UgpW+5E4SJmb7hDm2jk95tH4j?=
+ =?us-ascii?Q?/7NVuTqcuwepcyEidjEqJOoiKGwrDpOcqnewogkx72YP6h5OuKdh77Rm/3oM?=
+ =?us-ascii?Q?qNHLyTBaEDSQzb/r4BhCEfU=3D?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 809b8882-4e46-47a7-62f2-08d9ffff8935
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR04MB6741.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2022 05:58:43.7983
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5dO6k2jqrwX/r12NbfJfKo3YB7gA/lDjev1nwLvUoVkTnP3DsHLgovBg7Zv0H7Opkypm8yH24L5uSQdJYJLW3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB3966
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Interrupt Storming occurred with a very low probability of occurrence.
-The occurrence of the problem is estimated to be caused by a race condition
-between the top half and bottom half of the interrupt service routine.
-It was confirmed that variables have values that cannot be held
-when ISR occurs through normal H / W irq.
-=====================================================================
-(struct dwc3_event_buffer *) ev_buf = 0xFFFFFF88DE6A0380 (
-	(void *) buf = 0xFFFFFFC01594E000,
-	(void *) cache = 0xFFFFFF88DDC14080,
-	(unsigned int) length = 4096,
-	(unsigned int) lpos = 0,
-	(unsigned int) count = 0, <<
-	(unsigned int) flags = 1, <<
-=====================================================================
-"evt->count=0" and "evt->flags=DWC3_EVENT_PENDING" cannot be set
-at the same time.
+On Fri, Mar 04, 2022 at 02:28:40PM +0200, Heikki Krogerus wrote:
+> On Fri, Mar 04, 2022 at 10:29:36AM +0800, Xin Ji wrote:
+> > On Thu, Mar 03, 2022 at 03:13:33PM +0200, Heikki Krogerus wrote:
+> > > On Thu, Mar 03, 2022 at 10:47:57AM +0800, Xin Ji wrote:
+> > > > On Wed, Mar 02, 2022 at 02:03:18PM +0200, Heikki Krogerus wrote:
+> > > > > Hi,
+> > > > > 
+> > > > > This does not apply on top of Greg's latest usb-next branch. You need
+> > > > > to rebase this. There are also a few more nitpicks below.
+> > > > 
+> > > > Hi, I didn't found tcpci.h in include/linux/usb/
+> > > 
+> > > I'm asking you to create the file.
+> > > 
+> > > So create a separate patch where you move the register definitions and
+> > > command definitions from drivers/usb/typec/tcpm/tcpci.h to
+> > > include/linux/usb/tcpci.h
+> > Hi heikki, I'm confused, do you mean move total tcpci.h to
+> > include/linux/usb/ directory or just move our driver patch used register
+> > definitions and command to "include/linux/usb/tcpci.h"?
+> > 
+> > And I think the other way is, our driver patch just include
+> > "tcpm/tcpci.h" is better(no need to create new file). What do you think?
+> 
+> I would prefer that you just introduce the global header for them.
+Hi heikki, I'll try to move the tcpci.h as global header.
 
-We estimate that a race condition occurred
-between dwc3_interrupt() and dwc3_process_event_buf()
-called by dwc3_gadget_process_pending_events().
-So I try to block the race condition through spin_lock.
-
-Signed-off-by: JaeHun Jung <jh0801.jung@samsung.com>
----
- drivers/usb/dwc3/gadget.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index a0c883f19a41..88f9ecf8cbfe 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -4172,6 +4172,7 @@ static irqreturn_t dwc3_thread_interrupt(int irq, void *_evt)
- static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
- {
- 	struct dwc3 *dwc = evt->dwc;
-+	unsigned long flags;
- 	u32 amount;
- 	u32 count;
- 
-@@ -4188,13 +4189,18 @@ static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
- 	 * irq event handler completes before caching new event to prevent
- 	 * losing events.
- 	 */
--	if (evt->flags & DWC3_EVENT_PENDING)
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	if (evt->flags & DWC3_EVENT_PENDING) {
-+		spin_unlock_irqrestore(&dwc->lock, flags);
- 		return IRQ_HANDLED;
-+	}
- 
- 	count = dwc3_readl(dwc->regs, DWC3_GEVNTCOUNT(0));
- 	count &= DWC3_GEVNTCOUNT_MASK;
--	if (!count)
-+	if (!count) {
-+		spin_unlock_irqrestore(&dwc->lock, flags);
- 		return IRQ_NONE;
-+	}
- 
- 	evt->count = count;
- 	evt->flags |= DWC3_EVENT_PENDING;
-@@ -4210,6 +4216,7 @@ static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
- 		memcpy(evt->cache, evt->buf, count - amount);
- 
- 	dwc3_writel(dwc->regs, DWC3_GEVNTCOUNT(0), count);
-+	spin_unlock_irqrestore(&dwc->lock, flags);
- 
- 	return IRQ_WAKE_THREAD;
- }
--- 
-2.31.1
-
+Thanks,
+Xin
+> 
+> thanks,
+> 
+> -- 
+> heikki
