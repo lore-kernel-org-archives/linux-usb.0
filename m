@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DED06C4332F
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 03:39:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54D59C433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Mar 2022 03:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235125AbiCGDj5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 6 Mar 2022 22:39:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59950 "EHLO
+        id S235128AbiCGDj7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 6 Mar 2022 22:39:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234412AbiCGDju (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Mar 2022 22:39:50 -0500
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FAC44DF5A
-        for <linux-usb@vger.kernel.org>; Sun,  6 Mar 2022 19:38:57 -0800 (PST)
-Received: by mail-oi1-x229.google.com with SMTP id z8so10541351oix.3
-        for <linux-usb@vger.kernel.org>; Sun, 06 Mar 2022 19:38:57 -0800 (PST)
+        with ESMTP id S235100AbiCGDjx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 6 Mar 2022 22:39:53 -0500
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5586750E0C
+        for <linux-usb@vger.kernel.org>; Sun,  6 Mar 2022 19:38:59 -0800 (PST)
+Received: by mail-oi1-x235.google.com with SMTP id i5so13919472oih.1
+        for <linux-usb@vger.kernel.org>; Sun, 06 Mar 2022 19:38:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3GmDZYi4u1qi2UI5mnbc01oOxaZZdXpA01oXVaEo5vQ=;
-        b=gnQFlufok1ukyNwqUHMx6eGHCZiKYgu2I5hjM9u4WIaIcnZus1X+uVPa+/6wAueX4G
-         DQKwVTlhL/G4fI6VDNTiy+HHJZk4N0pz22fHR+kLmGUxsJo9Rd1q5r3HHYkJ4/GdXo5K
-         XfkZf5i6nsfZvTZoZAvu0wzGMdZ53cjpOGp2XSXJTDVbJMit7H53GQnTFkD/iyItHosJ
-         vJi2PeRS8k7pkWM4ppzPIADSIrqHCq5cty66Q87sYbc1y5nfnvfvdVoZKeJ2ZUdntizH
-         ZKztB8nX42X0bx00EQ1kQb6t5UbLf47AF0L/QYGx6qyDhtyZYuJ/MsKGDY84HaouCRmu
-         je3Q==
+        bh=VheSCVj8Yl31dXKqa/0FM4m2FeHwlfejig1mIBA1w1E=;
+        b=oBplwgeSvfZ9viMxpHAHaWotY7E+yY4DVfU9bBgVlxQVaprUr5RgKg/9UhyWDBCV7j
+         M7VOCULKGFBFwdY+aTSOAUd0oTVUNJuLpqdwvNcnYK7XgTgmd08WZ3kvYwBACSslDeLz
+         0aNTNKJqg8mhQhspQZa1jBHFgL9XT+c7t02iuif/ig5lpfqvk0xvxiPXI0pIk1C+DKSK
+         6LwUXR7GhAHJYdCfwQ0S6i0cnNRZEFpx1X921yVrm4+vtYlc+MWpSC9FyxAFcT49I581
+         LlC7WP4LiRq1PW3WxQVQW4HPNVHWt/fXVDn7Esl+cyHMEQWRdk9YwDAnJD5axH7exrbp
+         jEcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3GmDZYi4u1qi2UI5mnbc01oOxaZZdXpA01oXVaEo5vQ=;
-        b=NQforP2EDxmgnKkamLgDAozf3F5+AQ3UstVsUF+CD4fjw60IGJwlQWkzP8h4OC2sMg
-         QbNe7pQWDtTgO5GTEAJUN4bOd/IeTx9ddMijBpCe/uFgKMU1GSJsWNxXrwu3B394MxnC
-         plAaG/J8dqrmokYJzjQHQA6BZB+EpVbiJfomx2yMgBH+LTHQxNgjRL/yQe+3/+QJ8jVF
-         c8YNsFe0cl7FruL2xQTFGtHJvQf8QIGA3mOm/Q9Our3D8u2yytHh0sbvRB+Je6NfEd9G
-         P4LMe4iwV7f5yVG7xY8Rm+Ut4RCQczo1fGlm2WBYU2MZvf3NhETZr4rgSdsT5/5tmHoY
-         uwWA==
-X-Gm-Message-State: AOAM533TYlVjUcTCla8DRcEBQ4NsxVmpXd+IUpYj9Zjvv0DZk2wn2EC0
-        1noMknaw2WYn4yEKWNEhz29PsQ==
-X-Google-Smtp-Source: ABdhPJzUq02KTLVUtsr+9h+MDIT1LRo1KLp30IoSrtUdIlHlXcnBT3PBK/jna4VOieqJ6TtS4/VPrA==
-X-Received: by 2002:a05:6808:11cd:b0:2d5:3f90:b9e with SMTP id p13-20020a05680811cd00b002d53f900b9emr5968578oiv.113.1646624336821;
-        Sun, 06 Mar 2022 19:38:56 -0800 (PST)
+        bh=VheSCVj8Yl31dXKqa/0FM4m2FeHwlfejig1mIBA1w1E=;
+        b=mBKqht5edVPhjfIzeMGJeTQahrqCn5fWH0iNG8xUdQZ1E6kwvOid/3ekSDrqPRkFZ4
+         5MxGW0vwk05jn/No25090ANSzgCtxCGUvS0+oktR6GpWURha+wxPnR10bVIEaY5vMmOg
+         cDf6XoJNM8ujOs558EeVgnO0LSuyTUsqppmnhVz/E0GG00MxRCld7Jx0JOmMGLubIW93
+         UaBYachzNlSTBZ8vbBjSbdppTTmGr3rj/2V/gsQHHs5su06MZeWaWuUVil8RKpLei5tv
+         4HXU1DssH9bcspMhLD+Wg8M2V247qMe+u3RkV6Sx0E0JQgwbJBHdHa6F4MkltbbOikt2
+         1lew==
+X-Gm-Message-State: AOAM532gbJuW7c6W0QMgWbJuLlbjEVYUTAWHVBM9LVXJNWqWuUhCC4hm
+        K8tq9mrrd+ZmQc+K0scd6uOTGA==
+X-Google-Smtp-Source: ABdhPJwguLhW08OhxFvcnXI4yRuJOXzeYAHh+Zgz/ARnf6C0vUsB+Ra7sqWXQDAepF6jrEfuBiVv7w==
+X-Received: by 2002:aca:f241:0:b0:2cd:92b7:5640 with SMTP id q62-20020acaf241000000b002cd92b75640mr16575690oih.75.1646624338680;
+        Sun, 06 Mar 2022 19:38:58 -0800 (PST)
 Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
-        by smtp.gmail.com with ESMTPSA id o2-20020a05687072c200b000d9ae3e1fabsm5005172oak.12.2022.03.06.19.38.56
+        by smtp.gmail.com with ESMTPSA id o2-20020a05687072c200b000d9ae3e1fabsm5005172oak.12.2022.03.06.19.38.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Mar 2022 19:38:56 -0800 (PST)
+        Sun, 06 Mar 2022 19:38:58 -0800 (PST)
 From:   Bjorn Andersson <bjorn.andersson@linaro.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -58,9 +58,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
 Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
         Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v4 3/7] usb: typec: mux: Check dev_set_name() return value
-Date:   Sun,  6 Mar 2022 19:40:36 -0800
-Message-Id: <20220307034040.1111107-3-bjorn.andersson@linaro.org>
+Subject: [PATCH v4 5/7] usb: typec: mux: Allow multiple mux_devs per mux
+Date:   Sun,  6 Mar 2022 19:40:38 -0800
+Message-Id: <20220307034040.1111107-5-bjorn.andersson@linaro.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220307034040.1111107-1-bjorn.andersson@linaro.org>
 References: <20220307034040.1111107-1-bjorn.andersson@linaro.org>
@@ -70,50 +70,269 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It's possible that dev_set_name() returns -ENOMEM, catch and handle this.
+In the Qualcomm platforms the USB/DP PHY handles muxing and orientation
+switching of the SuperSpeed lines, but the SBU lines needs to be
+connected and switched by external (to the SoC) hardware.
 
-Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+It's therefor necessary to be able to have the TypeC controller operate
+multiple TypeC muxes and switches. Use the newly introduced indirection
+object to handle this, to avoid having to taint the TypeC controllers
+with knowledge about the downstream hardware configuration.
+
+The max number of devs per indirection is set to 3, which account for
+being able to mux/switch the USB HS, SS and SBU lines, as per defined
+defined in the usb-c-connector binding. This number could be grown if
+need arrises at a later point in time.
+
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
 
 Changes since v3:
-- New patch
+- Added "usb:" prefix to subject
 
- drivers/usb/typec/mux.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Changes since v2:
+- Picked up Heikki's ack.
+
+Changes since v1:
+- Improved the motivation for the 3 in the commit message.
+- kfree sw and mux in error paths
+
+ drivers/usb/typec/mux.c | 128 ++++++++++++++++++++++++++++++++--------
+ 1 file changed, 102 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
-index c8340de0ed49..d2aaf294b649 100644
+index bb6c095b4af9..fd55c2c516a5 100644
 --- a/drivers/usb/typec/mux.c
 +++ b/drivers/usb/typec/mux.c
-@@ -131,8 +131,11 @@ typec_switch_register(struct device *parent,
- 	sw->dev.class = &typec_mux_class;
- 	sw->dev.type = &typec_switch_dev_type;
- 	sw->dev.driver_data = desc->drvdata;
--	dev_set_name(&sw->dev, "%s-switch",
--		     desc->name ? desc->name : dev_name(parent));
-+	ret = dev_set_name(&sw->dev, "%s-switch", desc->name ? desc->name : dev_name(parent));
-+	if (ret) {
-+		put_device(&sw->dev);
-+		return ERR_PTR(ret);
+@@ -17,8 +17,11 @@
+ #include "class.h"
+ #include "mux.h"
+ 
++#define TYPEC_MUX_MAX_DEVS	3
++
+ struct typec_switch {
+-	struct typec_switch_dev *sw_dev;
++	struct typec_switch_dev *sw_devs[TYPEC_MUX_MAX_DEVS];
++	unsigned int num_sw_devs;
+ };
+ 
+ static int switch_fwnode_match(struct device *dev, const void *fwnode)
+@@ -67,25 +70,50 @@ static void *typec_switch_match(struct fwnode_handle *fwnode, const char *id,
+  */
+ struct typec_switch *fwnode_typec_switch_get(struct fwnode_handle *fwnode)
+ {
+-	struct typec_switch_dev *sw_dev;
++	struct typec_switch_dev *sw_devs[TYPEC_MUX_MAX_DEVS];
+ 	struct typec_switch *sw;
++	int count;
++	int err;
++	int i;
+ 
+ 	sw = kzalloc(sizeof(*sw), GFP_KERNEL);
+ 	if (!sw)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	sw_dev = fwnode_connection_find_match(fwnode, "orientation-switch", NULL,
+-					      typec_switch_match);
+-	if (IS_ERR_OR_NULL(sw_dev)) {
++	count = fwnode_connection_find_matches(fwnode, "orientation-switch", NULL,
++					       typec_switch_match,
++					       (void **)sw_devs,
++					       ARRAY_SIZE(sw_devs));
++	if (count <= 0) {
+ 		kfree(sw);
+-		return ERR_CAST(sw_dev);
++		return NULL;
+ 	}
+ 
+-	WARN_ON(!try_module_get(sw_dev->dev.parent->driver->owner));
++	for (i = 0; i < count; i++) {
++		if (IS_ERR(sw_devs[i])) {
++			err = PTR_ERR(sw_devs[i]);
++			goto put_sw_devs;
++		}
 +	}
  
- 	ret = device_add(&sw->dev);
- 	if (ret) {
-@@ -338,8 +341,11 @@ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
- 	mux->dev.class = &typec_mux_class;
- 	mux->dev.type = &typec_mux_dev_type;
- 	mux->dev.driver_data = desc->drvdata;
--	dev_set_name(&mux->dev, "%s-mux",
--		     desc->name ? desc->name : dev_name(parent));
-+	ret = dev_set_name(&mux->dev, "%s-mux", desc->name ? desc->name : dev_name(parent));
-+	if (ret) {
-+		put_device(&mux->dev);
-+		return ERR_PTR(ret);
+-	sw->sw_dev = sw_dev;
++	for (i = 0; i < count; i++) {
++		WARN_ON(!try_module_get(sw_devs[i]->dev.parent->driver->owner));
++		sw->sw_devs[i] = sw_devs[i];
++	}
++
++	sw->num_sw_devs = count;
+ 
+ 	return sw;
++
++put_sw_devs:
++	for (i = 0; i < count; i++) {
++		if (!IS_ERR(sw_devs[i]))
++			put_device(&sw_devs[i]->dev);
++	}
++
++	kfree(sw);
++
++	return ERR_PTR(err);
+ }
+ EXPORT_SYMBOL_GPL(fwnode_typec_switch_get);
+ 
+@@ -98,14 +126,17 @@ EXPORT_SYMBOL_GPL(fwnode_typec_switch_get);
+ void typec_switch_put(struct typec_switch *sw)
+ {
+ 	struct typec_switch_dev *sw_dev;
++	unsigned int i;
+ 
+ 	if (IS_ERR_OR_NULL(sw))
+ 		return;
+ 
+-	sw_dev = sw->sw_dev;
++	for (i = 0; i < sw->num_sw_devs; i++) {
++		sw_dev = sw->sw_devs[i];
+ 
+-	module_put(sw_dev->dev.parent->driver->owner);
+-	put_device(&sw_dev->dev);
++		module_put(sw_dev->dev.parent->driver->owner);
++		put_device(&sw_dev->dev);
++	}
+ 	kfree(sw);
+ }
+ EXPORT_SYMBOL_GPL(typec_switch_put);
+@@ -173,13 +204,21 @@ int typec_switch_set(struct typec_switch *sw,
+ 		     enum typec_orientation orientation)
+ {
+ 	struct typec_switch_dev *sw_dev;
++	unsigned int i;
++	int ret;
+ 
+ 	if (IS_ERR_OR_NULL(sw))
+ 		return 0;
+ 
+-	sw_dev = sw->sw_dev;
++	for (i = 0; i < sw->num_sw_devs; i++) {
++		sw_dev = sw->sw_devs[i];
++
++		ret = sw_dev->set(sw_dev, orientation);
++		if (ret)
++			return ret;
 +	}
  
- 	ret = device_add(&mux->dev);
- 	if (ret) {
+-	return sw_dev->set(sw_dev, orientation);
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(typec_switch_set);
+ 
+@@ -211,7 +250,8 @@ EXPORT_SYMBOL_GPL(typec_switch_get_drvdata);
+ /* ------------------------------------------------------------------------- */
+ 
+ struct typec_mux {
+-	struct typec_mux_dev *mux_dev;
++	struct typec_mux_dev *mux_devs[TYPEC_MUX_MAX_DEVS];
++	unsigned int num_mux_devs;
+ };
+ 
+ static int mux_fwnode_match(struct device *dev, const void *fwnode)
+@@ -294,25 +334,50 @@ static void *typec_mux_match(struct fwnode_handle *fwnode, const char *id,
+ struct typec_mux *fwnode_typec_mux_get(struct fwnode_handle *fwnode,
+ 				       const struct typec_altmode_desc *desc)
+ {
+-	struct typec_mux_dev *mux_dev;
++	struct typec_mux_dev *mux_devs[TYPEC_MUX_MAX_DEVS];
+ 	struct typec_mux *mux;
++	int count;
++	int err;
++	int i;
+ 
+ 	mux = kzalloc(sizeof(*mux), GFP_KERNEL);
+ 	if (!mux)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-	mux_dev = fwnode_connection_find_match(fwnode, "mode-switch", (void *)desc,
+-					       typec_mux_match);
+-	if (IS_ERR_OR_NULL(mux_dev)) {
++	count = fwnode_connection_find_matches(fwnode, "mode-switch",
++					       (void *)desc, typec_mux_match,
++					       (void **)mux_devs,
++					       ARRAY_SIZE(mux_devs));
++	if (count <= 0) {
+ 		kfree(mux);
+-		return ERR_CAST(mux_dev);
++		return NULL;
+ 	}
+ 
+-	WARN_ON(!try_module_get(mux_dev->dev.parent->driver->owner));
++	for (i = 0; i < count; i++) {
++		if (IS_ERR(mux_devs[i])) {
++			err = PTR_ERR(mux_devs[i]);
++			goto put_mux_devs;
++		}
++	}
++
++	for (i = 0; i < count; i++) {
++		WARN_ON(!try_module_get(mux_devs[i]->dev.parent->driver->owner));
++		mux->mux_devs[i] = mux_devs[i];
++	}
+ 
+-	mux->mux_dev = mux_dev;
++	mux->num_mux_devs = count;
+ 
+ 	return mux;
++
++put_mux_devs:
++	for (i = 0; i < count; i++) {
++		if (!IS_ERR(mux_devs[i]))
++			put_device(&mux_devs[i]->dev);
++	}
++
++	kfree(mux);
++
++	return ERR_PTR(err);
+ }
+ EXPORT_SYMBOL_GPL(fwnode_typec_mux_get);
+ 
+@@ -325,13 +390,16 @@ EXPORT_SYMBOL_GPL(fwnode_typec_mux_get);
+ void typec_mux_put(struct typec_mux *mux)
+ {
+ 	struct typec_mux_dev *mux_dev;
++	unsigned int i;
+ 
+ 	if (IS_ERR_OR_NULL(mux))
+ 		return;
+ 
+-	mux_dev = mux->mux_dev;
+-	module_put(mux_dev->dev.parent->driver->owner);
+-	put_device(&mux_dev->dev);
++	for (i = 0; i < mux->num_mux_devs; i++) {
++		mux_dev = mux->mux_devs[i];
++		module_put(mux_dev->dev.parent->driver->owner);
++		put_device(&mux_dev->dev);
++	}
+ 	kfree(mux);
+ }
+ EXPORT_SYMBOL_GPL(typec_mux_put);
+@@ -339,13 +407,21 @@ EXPORT_SYMBOL_GPL(typec_mux_put);
+ int typec_mux_set(struct typec_mux *mux, struct typec_mux_state *state)
+ {
+ 	struct typec_mux_dev *mux_dev;
++	unsigned int i;
++	int ret;
+ 
+ 	if (IS_ERR_OR_NULL(mux))
+ 		return 0;
+ 
+-	mux_dev = mux->mux_dev;
++	for (i = 0; i < mux->num_mux_devs; i++) {
++		mux_dev = mux->mux_devs[i];
++
++		ret = mux_dev->set(mux_dev, state);
++		if (ret)
++			return ret;
++	}
+ 
+-	return mux_dev->set(mux_dev, state);
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(typec_mux_set);
+ 
 -- 
 2.33.1
 
