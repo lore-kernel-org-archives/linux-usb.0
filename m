@@ -2,193 +2,226 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D3FC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 01:23:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09777C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 02:26:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244398AbiCHBYp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Mar 2022 20:24:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58908 "EHLO
+        id S240739AbiCHC1o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Mar 2022 21:27:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243937AbiCHBYl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 20:24:41 -0500
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDD75369D6
-        for <linux-usb@vger.kernel.org>; Mon,  7 Mar 2022 17:23:45 -0800 (PST)
-Received: from mailhost.synopsys.com (us03-mailhost1.synopsys.com [10.4.17.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A1B1EC0A26;
-        Tue,  8 Mar 2022 01:23:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1646702625; bh=lBwgZIy9PRqjWzxM81PyByQgHaeJSr97phJc0F9HujE=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=a9Ii0iZTQvRaWboW9S5YhYjWj8IzT6SiVbjsHWTpDY4Dz2iSFwxa04Mq/Qv3FG8rA
-         9MG1I6ma3NxTRzrDllFfjak3lVBJURTE7nwj+zjDb1lgvQxspe4fsrB034GOg4Rmcf
-         weYVXqcmTYv6AB85YOdiot3Swgvm1ukkX9HqzT0UHMSSwQJYAFwaiozwCuiPEA27sC
-         CCEMunxeNXOIJA8ho86gg2NmVlqKOh6UAD2jhdhgdFXRvcz+Kkj9mb3bFn3xFAoghT
-         rAgnVP3pZvYLd0PYiJKXLktgY/swtJKj5cjlOkb/Oby9MryL2/bkoyOHk9cGfPQJnn
-         YdVNZsJxJFGHg==
-Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client CN "o365relay-in.synopsys.com", Issuer "Entrust Certification Authority - L1K" (verified OK))
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 6E18BA0083;
-        Tue,  8 Mar 2022 01:23:43 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
-        by o365relay-in.synopsys.com (Postfix) with ESMTPS id DDB9A400C5;
-        Tue,  8 Mar 2022 01:23:41 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=thinhn@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-        dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="tCuQbQ7B";
-        dkim-atps=neutral
+        with ESMTP id S231658AbiCHC1n (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Mar 2022 21:27:43 -0500
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2111.outbound.protection.outlook.com [40.107.243.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A6834662;
+        Mon,  7 Mar 2022 18:26:47 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LC2fxnLgGwUkRCzBfHLgOZREy1+VvgsRDwdMEeHw2JaWifUPO2wkgOL2ewXycf6SbCmiAkSXzmJZk0HIp9GJ3okiwu+OJh+zpI4HUYDiY9I6dQPfA/BGbFFmRKimOTpvag1Owavmr6ba7/N0BOIHoq0tEA5R2LW93w3mkdk75QFNSp1vhGtcnhFPW3fQiC14ti2bMro72yH3W8Knp7XPL78bmHgV8OFA+Qq1z//x9R6niBwv60xtIlRMUod7VASyIePm0/yckwUYLknk2csrcezH0g3s2Ctf4GpYtoJbkS6URZzfVa2K9m0vrUqFehB2O9zTVXOjl0rsMdx+VuWtYg==
+ b=Wyq76JhD3FbRdozEszk0DBFKNHVselIz+fFyVhftbjPn8Ua1LOMz/NK7hJG4+f5XmX1L8O4CknX7fFSYmp2q2p9qM04UGKK2ZeSFwGiM9lWoJDqnoikcjK0gxZmS05yvI5bOn7fv72dKavtz8l/OT11yu1UUWuPAYVj6pDKyTfHiH2YDci/juKeE/gmbZ6KhxagOLGhCPzhMyg/TgV3BGQkM7+5WfZocZx9BuSE/P5FMU0KC/xaPcHFYoyBMHgVhVygM9OvpuTNT2CbSs2shxlS+hjlVBrcs4VQbGITXPQcCU8QxA7kePWrNGCSx52ZcgnbMD+6Bu8jFmF679F5wSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lBwgZIy9PRqjWzxM81PyByQgHaeJSr97phJc0F9HujE=;
- b=E6tHgBMI5a4EQqpahBAiMn/zuIakiKWsKU6dXjnCGUVcJBBmm2Uc4z4Y+Sq9z6heMiTx7DZr0nq1fkuphqGwDHS1of7vAi4IXfRkc4q3yLco5l7YWoAR7RfpXNCq4e9x2ZVpctfEdwZGLhpM5/kRpIXvfhm09xNT/zsPgpKIn9CjSpc54mz1+W42/XLkQzjkFU4tn2USc0V+67PHS8kzRyUdmmw1fn8t11P18tYU6nqdYimVd8De1P8dqkMumfjm2xJlREOYfLDbtyJkGAx+2I1lKKpBGdbl6yCDw/L13gf9dHLrvvbiW00pY1UeLGMs3dgSTQGoBAcnq0SLxUAqGw==
+ bh=xxBExJ/Iqd4wyH4lYm97eDvVbSFCai5mKbK/4JuBqzg=;
+ b=B2/pQ36tODrzM2lB6N6ufvqCdDiwEfZ1oTDGAVffv8LSkx3X/vyx69t/cZzoCsUa8z8VdBMOVeOSOyx0Uq0ocqCU/TaDjl2vuFlxr7EitRlJMVA7pmqqM7xL9G+j78/TxJOY7kERd+sfEc9WpNkd/Yy2SOKzgplKhaO3CLIkhZQQ6dOXZBTPqyGNZJRw+ey/aJFGmkGTESVuBTydMWav8p1hUzDuOPejJwR4G4NRn8qSaQMIV/1RN8nQNcTx6to4OuPUTutVXnw93x6hvNvpxM+veKhHXwIkq3+WsNvjL8v1yPCVJRmkNxFHFKO02EwF8dqDyd6TfI3DosJoTKjCyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=Analogixsemi.onmicrosoft.com; s=selector2-Analogixsemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lBwgZIy9PRqjWzxM81PyByQgHaeJSr97phJc0F9HujE=;
- b=tCuQbQ7BepaBZ7sht8sVE/YmWROnDzH3IJO44gWsF84uXHBgfkCip/MzVAnS5Uk1rY+xpfxIkFA74qRRnHsKJPTSp8cI3ucBCtYy37SKrkTXdSQ5PSMZHLEcpvLh46zqxz9nujVA9geFilrKB5eTVauKF0A7ACreEqrAEmhnDgQ=
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com (2603:10b6:a03:10a::12)
- by DM6PR12MB4299.namprd12.prod.outlook.com (2603:10b6:5:223::9) with
+ bh=xxBExJ/Iqd4wyH4lYm97eDvVbSFCai5mKbK/4JuBqzg=;
+ b=fZ3+H87JHtvwz6JmfAbfDZwdBeXAUG4CFEqeIwv9RtH+ZS4APjKA+APtwV6twUAqLgWIdg2V/wicR4xx/TdQjMYNj8KP4gBn0WqetuQjv8w6ABHir1idUcuPHrdo/Z0EHZ5IB+Qna3Ugyw3AKZGhZKd4TzfR+xqHaUygEHcJGqU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by SN4PR0401MB3551.namprd04.prod.outlook.com (2603:10b6:803:45::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.14; Tue, 8 Mar
- 2022 01:23:38 +0000
-Received: from BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::141:3edf:164a:857b]) by BYAPR12MB4791.namprd12.prod.outlook.com
- ([fe80::141:3edf:164a:857b%4]) with mapi id 15.20.5038.026; Tue, 8 Mar 2022
- 01:23:38 +0000
-X-SNPS-Relay: synopsys.com
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC:     "balbi@kernel.org" <balbi@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>
-Subject: Re: [PATCH] usb: dwc3: gadget: set status of request on every
- completed trb
-Thread-Topic: [PATCH] usb: dwc3: gadget: set status of request on every
- completed trb
-Thread-Index: AQHYMmzu6jgxboKnRUS4uY5ERl4Qm6y0sWuA
-Date:   Tue, 8 Mar 2022 01:23:37 +0000
-Message-ID: <1be4dcd5-c9df-6d09-e3da-ee3654ae89ba@synopsys.com>
-References: <20220307214639.4164547-1-m.grzeschik@pengutronix.de>
-In-Reply-To: <20220307214639.4164547-1-m.grzeschik@pengutronix.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=synopsys.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 41ba8a58-504c-4be1-6d95-08da00a245ba
-x-ms-traffictypediagnostic: DM6PR12MB4299:EE_
-x-microsoft-antispam-prvs: <DM6PR12MB4299C968F2229B262639D025AA099@DM6PR12MB4299.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: yu1LVkK+sx54l38w/u10/B8sKgNsArMfki+HdMUCHE0bwek1P01eOaGFz5SUvrzMKtymHR612gKpMipONB13srw9W7fpDq88nXfPISLJ2/15wsb5Ab5Lo1HHFEbZ3NWz52rXusnIvhNx7BAEG21pxYSI27zYGSxfF1UbBLn2TjiII6PkKpy1A+Fd4i7aLeZ4y26g3SmYMJbfJjL25F4gwVKTHtgXzZwY8V7wVRBpc1qy39N8IdEBDz7lmDN4rxaWxCK4/JaUL/ygrJkoarYc/a+AoX1LD50B/Vzs6rt86iatxC0AGY0WHHnG5oEJ4J2HhmpDwpG4k9cdLyp+FgotxQ2iFJSeaGQ+yuzTQs9NwYTyq5/NtuQ0B0A05dT3WEabXiQR1VptaQuptd+OlZfmeE3Ti+pwxBukeEtP6wzefYaONTDvIfmo1QP2uttTFM5ljgGc98/+WU6kYzqy8+dnwcLQVRNQiD2SjaPd3RXwHXY4Tn4vg/xwVQx7rtRPZde9Pu1xzp/SCPQWFYeETyjMh7Yu0DJeHvB8A3XehtTK6kfHj1nISpx/pv34B30mLIcUeywSNi0h+Zz9o8J2w6G3D9ylxubSLRYv2k/BN2rwhx1RJ/Ta5/MCI8aNw3KDD/t1MowxJgdO/gtpCYkVXTAu6i3CjUcq4ujdYHxTnvq3SsTLOXoz6CoK54Dv1kKMBwLZWBMT04imIegXySRcq9zaFOYVYPrvkksbNkx7D4fpz/OyGMUhYgy8++zuVnT9fnymLbeYAiUl0U4p4HomtncX1A==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4791.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(38100700002)(2906002)(508600001)(66476007)(6512007)(122000001)(2616005)(26005)(186003)(8936002)(6506007)(83380400001)(71200400001)(316002)(86362001)(38070700005)(31696002)(36756003)(31686004)(54906003)(110136005)(76116006)(6486002)(4326008)(8676002)(66556008)(66446008)(64756008)(5660300002)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R0dXSm4vWXFSNVB5RWVDaU1vY1VWYkkyWDNxY3VYV0hML3VqK3NvdDRUVnNm?=
- =?utf-8?B?UGVITWZVSWh0MWw3V1BwV1Rwcy81emVsb0RwZ3BaZW9aRkRSVXlFK3gzb0pO?=
- =?utf-8?B?c1IrOTVhOURMRUs3QWRETW9tUXFJOG54dnV2aG9ybDk2Q3k2VitZNXZrTHlx?=
- =?utf-8?B?SDdlTHpqM3JiQlI0UU84T2ZUVUJRMUVqNTVrYTllbUdOejU2ajhqZ1QxTG53?=
- =?utf-8?B?djNFdkJvY0tWekp1djFtRkZkQXJTUDFhVWszclF6VzVDaUU1TjVCU3pmY2lG?=
- =?utf-8?B?YWMzNFlXdnJmaWIzUzNEYlJjcTU5ZGRhaEhzNytIRVF1b1FOSzhGVC90TXcr?=
- =?utf-8?B?eFNZWGxZY2tMajRrOHQ0VXdTZjNXN0UrL0QxOWZUVEdBN3JxakdMT2dLQ2ZW?=
- =?utf-8?B?aGRIYWFsMHFsTWQ2SVVsS3JkZytRWnVTQ3ZzNDBncEJDVkg1MXhtaEJzU29X?=
- =?utf-8?B?aGU0MFZzKzM0WjdGQVduYUhzMzBESXdNSkxVbWZROGRpMzJHaWgyOVRyZW1Q?=
- =?utf-8?B?UVQ0dXFoWWpmVndmSGFXTlBjV2NRaDVyNFVPTm1LN0U4eWttRks4aUVidjdp?=
- =?utf-8?B?UDE0dkEzQ2x0QUk1QVdKVG9zK0QzTDB2ZkdHdW45N2gxY3hiaFVTTElpLyt4?=
- =?utf-8?B?dEIvRElGSjJEN3VoNEppODZhWnRmbXYwS1pLSHN2bkphWnZFSjJhd0xESlZh?=
- =?utf-8?B?ODczL2hpUGlvWnhHSVY0REhzMDJiT0NBUTBKMktzUCszdHpSdXMwVFNRN2Yy?=
- =?utf-8?B?QmlsNjdLWGJpSGNYZVR1MFZNVlZFemo2RGhMN2p2Z2E5TE9Xbk8xVTcwTmZT?=
- =?utf-8?B?dWVLbDhueDRTTmFsR3BXaE5SQ0EveUw2T0dXZ1p2ZGZvdHZVdW1wOUxmVFlZ?=
- =?utf-8?B?TUVGZ09INVk1N1M5SkxGU1BlZkxkSGpUR0kwSVlJc0FIdHh3cDBzTnFtbmxO?=
- =?utf-8?B?cnlrcXJNdlhqaUc5SzNhb3AvYXNTSVdtTGoxbFNPZXdvbTFKVTMra3crNzN5?=
- =?utf-8?B?MnBrb0g0Y09oTEZiN3pqcVlBZjVIc1RkK2tnYytDcVFOM3llK2srWkJnZzU2?=
- =?utf-8?B?Tkk3S0trUmRmMmhYUmRUSlJGazY1ODRKVzNvUzdFL0F0ZHFGVmRJVXNtcmxR?=
- =?utf-8?B?S2RpbSt0WkZZWXVQZlRmaWNTZWpaUzZOMkFJUjBmNGYxdmhZa2tyd0RBWEM4?=
- =?utf-8?B?M0IwYXFSSzFoNXpMcks5a1QxdmhDK1JvRzUyQU9rN3FRK2hTS1VmQ3grek1h?=
- =?utf-8?B?ZDYrK2lybm42VGhRcUdxVXByN0x5OW84R2pMUW0zeGJhWThtRVFjSXhVVEtY?=
- =?utf-8?B?SE1QMHlhN2NpQlVQY2g2REpXcy9yZ2lmMlBFdVYzQ0Z0Nnp3NmZjMml1eFlS?=
- =?utf-8?B?LzVnRytSLytiQk8zbm5VSFMxL3QyRTNHcEJEVTY5NzljVWloUHh2MUkzNFdp?=
- =?utf-8?B?anVHS1BJazlybFVHRlJFOGp3bUVFYlFEemJsK1NyVFVQTkw4L1hJUG1Jb1pT?=
- =?utf-8?B?c2o1Z0pXcCt0ZTVBVjZ6VUpneG9CNWVkVjJkbWZQUXBBeldSQlNrRzRjRk5H?=
- =?utf-8?B?czFrUTc2UlBvTnhzdWpRZnJVQ0cwMFJHTGRnZk5uZnJWU0tFS3NrTi8raS8w?=
- =?utf-8?B?alh4MDByOGs5UmpacENNSGtvQ3A3TnZnb0hJRFk4TDR4N2tId3RaNnF3UDNh?=
- =?utf-8?B?cFNURmxpanVuMW5tcUJaNnVoaTZaUzJPSkhaMTV0WVhTTHVlcmZpa0t6S1Ev?=
- =?utf-8?B?WTBSQnhTOVpmUUVWeHZYajg5SE1KVkFsUHZZK1hweGRjajR6UUZxTTE2M0xW?=
- =?utf-8?B?eFM3SmNCU1B4RjkyYWxzUDB1WG92Mkg4Zysrd0YrMGEzQmU0UWM4Uldtb1dn?=
- =?utf-8?B?bUFPemZnc0ZMaElhVGlkNk9TclZvVThlTVhxbUd0R2FKQzdSR1NSYUtIcGFU?=
- =?utf-8?B?amRQRnMrZGhwNWZ5SDI2Yi8zVkhZbW1LQlptVUpaUGJESTNMbkZTUmtUbjRI?=
- =?utf-8?B?aE5sWGt5R25MSTFRNjM3KzJpdWpVMGdTVit5S0pQb1BzWE5naGtLUjFjdkE0?=
- =?utf-8?B?WExFWi9TeXNCbEV6bDkzV3ZkV2dHY2IvbHV1U3luMU9NdGcwdUd2SC9qRkJ6?=
- =?utf-8?B?eXM2MWtHVHZYczFGNWFnOFFqQ29JWGlmemQrazB3REtseWlvcmNXQ3VMQ0Vr?=
- =?utf-8?B?L3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B6967E85AA32F042A5B04506D3536C94@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5038.25; Tue, 8 Mar
+ 2022 02:26:44 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::a865:6d10:c4a9:1142]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::a865:6d10:c4a9:1142%9]) with mapi id 15.20.5038.027; Tue, 8 Mar 2022
+ 02:26:43 +0000
+Date:   Tue, 8 Mar 2022 10:26:38 +0800
+From:   Xin Ji <xji@analogixsemi.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        bliang@analogixsemi.com, qwen@analogixsemi.com,
+        jli@analogixsemi.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v7 1/3] usb: typec: tcpci: move tcpci.h to
+ include/linux/usb/ directory
+Message-ID: <20220308022638.GA964343@anxtwsw-Precision-3640-Tower>
+References: <20220307090929.701137-1-xji@analogixsemi.com>
+ <4252cd9d-a761-e064-58cf-eebc3b9d0bb7@roeck-us.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4252cd9d-a761-e064-58cf-eebc3b9d0bb7@roeck-us.net>
+X-ClientProxiedBy: HK2PR02CA0161.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::21) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ae1c30c0-8f1d-4cb1-3629-08da00ab15f4
+X-MS-TrafficTypeDiagnostic: SN4PR0401MB3551:EE_
+X-Microsoft-Antispam-PRVS: <SN4PR0401MB3551D83B19FF1596197BA2C3C7099@SN4PR0401MB3551.namprd04.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WK2+ew0DMthmJY7xduNQN2ypuYy6VGrCeM5+2tm3BcZZ71XBt21zly2OhvCxYFMI9WUGeEJGu5FaaDh0XFNKAFKE8XSSRRowoit+XZBYZQ+gU8xNiMdHShTYXaR9D9bTq0PVcrM8Wg6g2MOyIVx9X1cu5G9cd8FfvPpZCbMoYaryVhj/biKJzHOt6OIRYI83T0kUG10If8Hz59lXPYVn6w2BMa4/xchZ2nEGeXili1Ycwl07I9jaO6BueTKoBk4fCMNQ/4sG+Lukt1AAYFslkGwaQjSQZh6Tik1XvmNge61aAR6tCHEE3HjTZleKpNOSq7bB0iDt13F3sUaRK4QqRkc7Zqz9jDC9MK1HhODm9ZdOkfGMmrzwKh6cfyr2CLF9uVewQNXpvduQnC86LxuW03WzGv5cooje5U7aDcAm7aflf6P3gza0ORyhWKnn8fyJdyvoCS886dPDTp5vUm845A1ht9KSL6wUiqEJ4ZMSytrkZC7KbuvA19ZwPdUTQxCcQH6LSqMcKuWXVSqYYIiSFMl3JrlWP+f6jjwsYDiSAk7KhtCVHLZuyV0+7D1pKeJYtK31sEr569OgWJDXRwTfFiWtANLYC6R5bigJbNqdbVl7/ETOF3lq3Zs/vKiT+K50JhX6tvZL7tYprzQnImgTVDotFFsXCwYcWVabslBy+B9uMHaPRd67Z9MYi7L5nHRkGJ2NnALXkWIeF70SvugDOA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR04MB6739.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(9686003)(6512007)(38350700002)(83380400001)(1076003)(186003)(86362001)(26005)(38100700002)(8936002)(6916009)(66476007)(54906003)(33656002)(4326008)(8676002)(66556008)(66946007)(6666004)(498600001)(53546011)(6506007)(55236004)(52116002)(2906002)(6486002)(5660300002)(33716001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q0JNWVcG3YHIWZ+ozR/dZZQmA7aqzA1AhhKQKJFf5xb4cx0TcyKrkdiTy5wU?=
+ =?us-ascii?Q?WPs6aF3dMU9yQSyEEqNcQDUsZNGBCLj9omM+BfNdHWoUxFAUSWkK5k3WKq2s?=
+ =?us-ascii?Q?fENrYlJm5lsJhWnxHDzwNCJG6GS+9rgPY0RounuOVNXXzf//Zc90kfWDZ5jU?=
+ =?us-ascii?Q?Rq0GJdm4Msabw3WtLepN8G5OHcqjRwbGU7H0Ov1n6pJlqHZ9tdsenjDhD5Tb?=
+ =?us-ascii?Q?EQiTpCvTBsHpU3qGDXyEUMR14gz6E9NsfhYY46Tt7FEBJb7a2EEmZxt8g1em?=
+ =?us-ascii?Q?YggfP3Zh3bOyPjePGqrE+dcRqBbv7+6CEEugBd3ObrYZbJc+7k3+mM2EvrW6?=
+ =?us-ascii?Q?yRzMdzLrMXTS5DlBypIyoMBOwb8rEo1tvVn33k41JgdFlN2Hzl11HyyUoJFM?=
+ =?us-ascii?Q?KgvbLMspsVDyEzaIPBnioIp49dxaP23IbbNH1Wc2uda1E5U6VTMU16HsFc8Y?=
+ =?us-ascii?Q?NkD7XULG7oWgzLZGGniyrfoN+sp72NtxRp+Q+mM0ljnFm6e9HdE1rSBCBy4o?=
+ =?us-ascii?Q?Ow/0S6knZzoBFNGQro1corfClbbf/H7OLk4iDg9jP76OaMPQwP0lalLA69XR?=
+ =?us-ascii?Q?pzoPgkHZWSf5SeZxw/SDF8YWNvXWizNSsS+e0awGQEgYJrDNuAy+Wm5FOayq?=
+ =?us-ascii?Q?+uksxenoEfraqd3LH6yi2NUwYv8ChIQ8i+g6kC8anxRjbC5sp/uT99TopDfb?=
+ =?us-ascii?Q?apmc+F2fHLTq+oia8gapPUCwVwiLG2oBiDVUTpwgnRhAqqan/AhgExMV96Yf?=
+ =?us-ascii?Q?vCaL+pZLycyabdpITNCGYY5IvgeipGoB98WA/u1PDARDVvGB8zMkmnhCpKFX?=
+ =?us-ascii?Q?nPU5zywW9hiWkSWFfySyYPa7tD64ipy5m7FIW0emrwRx3Dnr8Z6IseClDUqA?=
+ =?us-ascii?Q?uR8B5E5FVdpDyC7F6DtCvkasRlz2yKruM36T27hFx5h44OEQSzC8vrI9uhGc?=
+ =?us-ascii?Q?9Up0/8UVEQeR6usjJy6aunmhs+4/2li0J7n61YFbi8su5g/qs8FfYqgWkl98?=
+ =?us-ascii?Q?eJ8RvOTjdLDwX5Yy+V2G3duU9xUFrcZKN7umTznVu6rpVTPzLU0o3VyZiv4H?=
+ =?us-ascii?Q?YAO0ouZ/QSL2B94cPUOc/JyjPuIju5tBBkKOgM1H5dlF05MVsBkFVjyTQefU?=
+ =?us-ascii?Q?koglmBn4SXuq0LmygRhSt7EkscyeS1jlNjrudXsnIdhoXp8eosByflwBDhQf?=
+ =?us-ascii?Q?1Jo1GRvNmfa4lRH90HP8fMhn0KCFzwbUk6ZGo9L2nGl+muZ/E++ex0zmHw8L?=
+ =?us-ascii?Q?rocHC/KWty/2FMaChvicL4LHmWtOhlOjkiJPwEtWMNVnQCBjZ9ZcEawMc5om?=
+ =?us-ascii?Q?aMcutnmzWzptmZsLaRX5EEKxuYZnYYdGGdh8UApF/wI07uSnPJlLhwepgFFV?=
+ =?us-ascii?Q?FJqShSj9SDFKakRZ9LN6mYmlbdyCpHlyRr5hvGwW+SvKdT/HGlOItw89TBt1?=
+ =?us-ascii?Q?xhPRmvG6W+la3SCXZmIfAirg4MyZ1ES31sVww1XYEto1j4jYygrAhId8/TvY?=
+ =?us-ascii?Q?DjudBsCWTGiUebKdLxnFvhAKD3+GxqGLW8FowoseQa4UYZUV1aZYmVETgrVT?=
+ =?us-ascii?Q?IR+N5+RnEQJFMnw5quu/tq+2U7hFEcQC57bswQp6tkbCk79JUs6TqItCs9wq?=
+ =?us-ascii?Q?LeMQaB3+LQTGJBZT0xADJa0=3D?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae1c30c0-8f1d-4cb1-3629-08da00ab15f4
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4791.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41ba8a58-504c-4be1-6d95-08da00a245ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2022 01:23:37.8394
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2022 02:26:43.6736
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g6/MXH3XAEOWvAZbJW6sCkxgjGh+dTs2AnXz+8iKppocYLnyZc61dzeF0ffuM+K8UPutXA0xOqRHQ04Da3uqoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4299
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gqmVQY1IZotZlcmS1bHJc+8cCfRrzKKiHzua84eQPnYUjUBmYt2RfNdv/UU0ye1QeEHxGWDoPq34vKBPSNP/kA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0401MB3551
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-TWljaGFlbCBHcnplc2NoaWsgd3JvdGU6DQo+IEN1cnJlbnRseSB0aGUgc3RhdHVzIG9mIHRoZSBy
-ZXF1ZXN0IGJlaW5nIGNvbXBsZXRlZCBjb21lcyBmcm9tIHRoZQ0KPiBkd2MzX2V2ZW50X2RlcGV2
-dCBzdGF0dXMuIFRoZSByZXN1bHRpbmcgc3RhdHVzIHdpbGwgdGhlbiBiZSBhcHBsaWVkIHRvDQo+
-IHRoZSByZXF1ZXN0IG9uIGR3YzNfZ2FkZ2V0X2RlbF9hbmRfdW5tYXBfcmVxdWVzdC4NCj4gDQo+
-IFRoaXMgYXNzaWduZWQgc3RhdHVzIGlzIG5vdCByaWdodCBpbiBldmVyeSBjYXNlLiBTaW5jZSBp
-dCBpcyBwb3NzaWJsZQ0KPiB0aGF0IG1vcmUgcmVxdWVzdHMgY2FuIGJlIHJlYWR5IG9uIHRoZSBp
-bnRlcnJ1cHQgaGFuZGxlciB3ZSBoYXZlIHRvIHNldA0KPiB0aGUgYWN0dWFsIHN0YXR1cyBmb3Ig
-ZXZlcnkgcmVxdWVzdCBmcm9tIHRoZSB0cmJzdGF0dXMgaW5zdGVhZC4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IE1pY2hhZWwgR3J6ZXNjaGlrIDxtLmdyemVzY2hpa0BwZW5ndXRyb25peC5kZT4NCj4g
-LS0tDQo+ICBkcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIHwgNSArKysrKw0KPiAgMSBmaWxlIGNo
-YW5nZWQsIDUgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3
-YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jDQo+IGluZGV4IGEwYzg4M2Yx
-OWE0MTdjLi43NjBhZjA5ZDZkOGVmNyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2IvZHdjMy9n
-YWRnZXQuYw0KPiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jDQo+IEBAIC0zMTcxLDYg
-KzMxNzEsMTEgQEAgc3RhdGljIGludCBkd2MzX2dhZGdldF9lcF9yZWNsYWltX2NvbXBsZXRlZF90
-cmIoc3RydWN0IGR3YzNfZXAgKmRlcCwNCj4gIAljb3VudCA9IHRyYi0+c2l6ZSAmIERXQzNfVFJC
-X1NJWkVfTUFTSzsNCj4gIAlyZXEtPnJlbWFpbmluZyArPSBjb3VudDsNCj4gIA0KPiArCWlmIChE
-V0MzX1RSQl9TSVpFX1RSQlNUUyh0cmItPnNpemUpID09IERXQzNfVFJCU1RTX01JU1NFRF9JU09D
-KQ0KPiArCQlyZXEtPnJlcXVlc3Quc3RhdHVzID0gLUVYREVWOw0KPiArCWVsc2UgaWYgKERXQzNf
-VFJCX1NJWkVfVFJCU1RTKHRyYi0+c2l6ZSkgPT0gRFdDM19UUkJTVFNfT0spDQo+ICsJCXJlcS0+
-cmVxdWVzdC5zdGF0dXMgPSAwOw0KPiArDQo+ICAJaWYgKCh0cmItPmN0cmwgJiBEV0MzX1RSQl9D
-VFJMX0hXTykgJiYgc3RhdHVzICE9IC1FU0hVVERPV04pDQo+ICAJCXJldHVybiAxOw0KPiAgDQoN
-CnJlcS0+cmVxdWVzdC5zdGF0dXMgc2hvdWxkIG9ubHkgYmUgc2V0IGF0IG9uZSBwbGFjZSwgYW5k
-IGN1cnJlbnRseSBpdCdzDQppbiBkd2MzX2dhZGdldF9kZWxfYW5kX3VubWFwX3JlcXVlc3QoKSB3
-aGVuIHdlIGdpdmUgYmFjayB0aGUgcmVxdWVzdC4NCg0KWW91IG5lZWQgdG8gZml4IGR3YzNfZ2Fk
-Z2V0X2VwX3JlY2xhaW1fY29tcGxldGVkX3RyYigpIHRvIG5vdCB1c2UgdGhlDQoic3RhdHVzIiBm
-cm9tIHRoZSBldmVudC4NCg0KQ2hlY2sgYW5kIHNhdmUgdGhlIGZpcnN0IFRSQiBlcnJvciBhbmQg
-cmVwb3J0IHRvIHRoZSByZXF1ZXN0J3Mgc3RhdHVzLg0KRG9uJ3Qgb3ZlcndyaXRlIGl0IHdpdGgg
-c29tZXRoaW5nIG5ldyBpZiB0aGVyZSBhcmUgY2hhaW5lZCBUUkJzIGluIHRoZQ0KcmVxdWVzdC4N
-Cg0KSSBhbHNvIG5vdGljZSB0aGF0IERFUEVWVF9TVEFUVVNfQlVTRVJSIGlzIG5vdCBhcHBsaWNh
-YmxlIHRvIFRyYW5zZmVyIGluDQpQcm9ncmVzcyBhbmQgVHJhbnNmZXIgQ29tcGxldGUgZXZlbnRz
-ICh0aGF0IGJpdCBpcyByZXNlcnZlZCBmb3IgdGhvc2UNCmV2ZW50cykuIFdoaWxlIHlvdSdyZSB3
-b3JraW5nIG9uIHRoaXMsIG1heWJlIGNyZWF0ZSBhIHNlcGFyYXRlIHBhdGNoIHRvDQpyZW1vdmUg
-dGhhdCBjaGVjayBhbHNvLg0KDQpUaGFua3MsDQpUaGluaA0K
+On Mon, Mar 07, 2022 at 06:49:03AM -0800, Guenter Roeck wrote:
+> On 3/7/22 01:09, Xin Ji wrote:
+> > Move tcpci.h as a global file, better for other USB Type-C driver
+> > access.
+> > 
+> 
+> The idea was to have tcpci compliant drivers in the tcpm/ subdirectory.
+> If I recall correctly, the reason for having this driver elsewhere is
+> that it doesn't support tcpm. That should be explained here.
+> "better for other USB Type-C driver" is not a reason for moving
+> a header file.
+> 
+> > Fix compiling error after moving tcpci.h to include/linux/usb/.
+> > 
+> I don't think this should be part of the commit description.
+> 
+> Guenter
+
+Hi Guenter, OK, got it, this patch is recommended by Heikki, as our
+driver will refer some TCPCI registers, he prefer to move tcpci.h in to
+global directory.
+
+Hi Heikki, please help to give your opinion, thanks!
+
+Thanks,
+Xin
+> 
+> > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > ---
+> >   drivers/usb/typec/tcpm/tcpci.c                        | 3 +--
+> >   drivers/usb/typec/tcpm/tcpci_maxim.c                  | 3 +--
+> >   drivers/usb/typec/tcpm/tcpci_mt6360.c                 | 3 +--
+> >   drivers/usb/typec/tcpm/tcpci_rt1711h.c                | 2 +-
+> >   {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h | 1 +
+> >   5 files changed, 5 insertions(+), 7 deletions(-)
+> >   rename {drivers/usb/typec/tcpm => include/linux/usb}/tcpci.h (99%)
+> > 
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> > index e07d26a3cd8e..9c907296596f 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci.c
+> > @@ -13,11 +13,10 @@
+> >   #include <linux/property.h>
+> >   #include <linux/regmap.h>
+> >   #include <linux/usb/pd.h>
+> > +#include <linux/usb/tcpci.h>
+> >   #include <linux/usb/tcpm.h>
+> >   #include <linux/usb/typec.h>
+> > -#include "tcpci.h"
+> > -
+> >   #define	PD_RETRY_COUNT_DEFAULT			3
+> >   #define	PD_RETRY_COUNT_3_0_OR_HIGHER		2
+> >   #define	AUTO_DISCHARGE_DEFAULT_THRESHOLD_MV	3500
+> > diff --git a/drivers/usb/typec/tcpm/tcpci_maxim.c b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> > index df2505570f07..4b6705f3d7b7 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci_maxim.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci_maxim.c
+> > @@ -11,11 +11,10 @@
+> >   #include <linux/module.h>
+> >   #include <linux/regmap.h>
+> >   #include <linux/usb/pd.h>
+> > +#include <linux/usb/tcpci.h>
+> >   #include <linux/usb/tcpm.h>
+> >   #include <linux/usb/typec.h>
+> > -#include "tcpci.h"
+> > -
+> >   #define PD_ACTIVITY_TIMEOUT_MS				10000
+> >   #define TCPC_VENDOR_ALERT				0x80
+> > diff --git a/drivers/usb/typec/tcpm/tcpci_mt6360.c b/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> > index f1bd9e09bc87..9e0338bce7ef 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci_mt6360.c
+> > @@ -11,10 +11,9 @@
+> >   #include <linux/of.h>
+> >   #include <linux/platform_device.h>
+> >   #include <linux/regmap.h>
+> > +#include <linux/usb/tcpci.h>
+> >   #include <linux/usb/tcpm.h>
+> > -#include "tcpci.h"
+> > -
+> >   #define MT6360_REG_VCONNCTRL1	0x8C
+> >   #define MT6360_REG_MODECTRL2	0x8F
+> >   #define MT6360_REG_SWRESET	0xA0
+> > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > index b56a0880a044..3291ca4948da 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > @@ -10,9 +10,9 @@
+> >   #include <linux/i2c.h>
+> >   #include <linux/interrupt.h>
+> >   #include <linux/gpio/consumer.h>
+> > +#include <linux/usb/tcpci.h>
+> >   #include <linux/usb/tcpm.h>
+> >   #include <linux/regmap.h>
+> > -#include "tcpci.h"
+> >   #define RT1711H_VID		0x29CF
+> >   #define RT1711H_PID		0x1711
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.h b/include/linux/usb/tcpci.h
+> > similarity index 99%
+> > rename from drivers/usb/typec/tcpm/tcpci.h
+> > rename to include/linux/usb/tcpci.h
+> > index b2edd45f13c6..20c0bedb8ec8 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.h
+> > +++ b/include/linux/usb/tcpci.h
+> > @@ -9,6 +9,7 @@
+> >   #define __LINUX_USB_TCPCI_H
+> >   #include <linux/usb/typec.h>
+> > +#include <linux/usb/tcpm.h>
+> >   #define TCPC_VENDOR_ID			0x0
+> >   #define TCPC_PRODUCT_ID			0x2
