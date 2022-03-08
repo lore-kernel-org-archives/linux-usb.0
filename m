@@ -2,318 +2,219 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82407C4332F
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 10:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44734C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 10:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345919AbiCHKlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Mar 2022 05:41:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51150 "EHLO
+        id S1346011AbiCHKxU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Mar 2022 05:53:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345880AbiCHKlQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 05:41:16 -0500
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7D442A06
-        for <linux-usb@vger.kernel.org>; Tue,  8 Mar 2022 02:40:18 -0800 (PST)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20220308104015epoutp04cb185e4d1918d51c27a66a06f405bea9~aYa6GSbXN2272222722epoutp04A
-        for <linux-usb@vger.kernel.org>; Tue,  8 Mar 2022 10:40:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20220308104015epoutp04cb185e4d1918d51c27a66a06f405bea9~aYa6GSbXN2272222722epoutp04A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1646736016;
-        bh=znDm2AI5FslVsoBW4T9mXUXJAfpjj8kbAAxkSJOckrM=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=BOoCouKsr0yIUvJg+tBS07CzLPidr6sK4GSNoKQ/YF0lfz2qH4NUJ1jSMXkOSo3Ht
-         5pV1gC23VveuOJJescTEJerdZ215dQt6IHA6LvgxrH8cLMpZ4Pn2SifY3hR1zDRTIb
-         zNFzFvBylIZR0GvojINd602hocWrxDgE4IW3RHkM=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20220308104015epcas1p2bba22fb992b0ebd19b82f20a5a3a291b~aYa5lN5r_3112331123epcas1p25;
-        Tue,  8 Mar 2022 10:40:15 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.36.225]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 4KCX0G0Ck3z4x9Pp; Tue,  8 Mar
-        2022 10:40:14 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        B6.E1.09592.D8237226; Tue,  8 Mar 2022 19:40:13 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
-        20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994~aYa326zlB1216412164epcas1p4j;
-        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220308104013epsmtrp12f9c60733c89b3ad4512ab7fb9616a3a~aYa32DBji1804118041epsmtrp1_;
-        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
-X-AuditID: b6c32a37-2a5ff70000002578-49-6227328d1fa3
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        52.0C.03370.D8237226; Tue,  8 Mar 2022 19:40:13 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.88.97.211]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20220308104013epsmtip1443265e8c6ee15eadead1c71415acd85~aYa3pjkCn2587225872epsmtip1h;
-        Tue,  8 Mar 2022 10:40:13 +0000 (GMT)
-From:   Youngjin Jang <yj84.jang@samsung.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
-        todd.e.brandt@linux.intel.com
-Cc:     Youngjin Jang <yj84.jang@samsung.com>, js07.lee@samsung.com
-Subject: [PATCH v3] PM: Add device name to suspend_report_result()
-Date:   Tue,  8 Mar 2022 04:07:39 +0900
-Message-Id: <20220307190739.659955-1-yj84.jang@samsung.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1346010AbiCHKxT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 05:53:19 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EAD143AD0;
+        Tue,  8 Mar 2022 02:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646736743; x=1678272743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Zk3clbFlUlJ7Oe1mWROvit8ti6FKGIp6FYYxamndiUE=;
+  b=HHKKWMrZGlr863qtuzsoFM5ZJPvRJF2EXPJqKJUyVk33XGlSe9y0X9l5
+   I8uc1Aq0mzUyx6mOrcfNibzCFIdZb0Vl+2WJO0jv0BXZ518WABbd0QogF
+   gDkHyECUZqP10kN5OIn7V5kP/0BFylLefEvBWdufsAAHnIvxZb8kDRFOr
+   YS6pI17EblnG5GMQxESDBsH9yyqlgK/oweZw+3zqcWE88qKeWTyub+juu
+   lboDY6vRTyx+X3+cgA9F891Aq634R0yVjtN/aZq2N7wOu4s0E+THSvIMa
+   CDBslh3gw73Q9prGJ4/HYA2ojLkp+BhluArWUygqGP1Xmr+mwQpNlmWDv
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254845101"
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
+   d="scan'208";a="254845101"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 02:52:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,164,1643702400"; 
+   d="scan'208";a="632195958"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Mar 2022 02:52:19 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nRXRy-0001I5-Vm; Tue, 08 Mar 2022 10:52:18 +0000
+Date:   Tue, 8 Mar 2022 18:51:52 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daehwan Jung <dh10.jung@samsung.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Howard Yen <howardyen@google.com>,
+        Jack Pham <jackp@codeaurora.org>,
+        Puma Hsu <pumahsu@google.com>,
+        "J . Avila" <elavila@google.com>,
+        "chihhao . chen" <chihhao.chen@mediatek.com>,
+        Daehwan Jung <dh10.jung@samsung.com>, sc.suh@samsung.com,
+        cpgs@samsung.com, cpgsproxy5@samsung.com
+Subject: Re: [PATCH v1 2/4] usb: host: add xhci hooks for USB offload
+Message-ID: <202203081848.5KEiXYSo-lkp@intel.com>
+References: <891095110.61646375404257.JavaMail.epsvc@epcpadp3>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmrm6vkXqSweVVFhZLmjIsmhevZ7N4
-        dPM3q8WsKXuZLJbv62e0uLxrDpvF2XnH2Sw+9x5htFi0rJXZ4u6po2wWc79MZbZ4u+UBq0XX
-        ocWsDrweCzaVeize85LJY9OqTjaPeScDPfbPXcPu0bdlFaPHitXf2T0+b5IL4IjKtslITUxJ
-        LVJIzUvOT8nMS7dV8g6Od443NTMw1DW0tDBXUshLzE21VXLxCdB1y8wBOlhJoSwxpxQoFJBY
-        XKykb2dTlF9akqqQkV9cYquUWpCSU2BWoFecmFtcmpeul5daYmVoYGBkClSYkJ2x8O421oKX
-        FhVnL35lb2Ccrd/FyMEhIWAiseRRcRcjF4eQwA5Gif99H1ggnE+MEj1rz7BBOJ8ZJfo+TWTq
-        YuQE69j5dRpUYhejxNOnfxnhWlr+rWQBqWIT0JZYtWUeO4gtIvCJSeLKKjkQm1nAXuL33Qlg
-        cWEBJ4ntayYxg9zBIqAqselRKEiYV8BaYlHbCnaIZfISMy99Z4eIC0qcnPmEBWKMvETz1tnM
-        IHslBCZySDy91ckK0eAicXHiUTYIW1ji1fEtUIOkJF72t0HZ6RITH7+Fsgsk/j5ewgxhG0u8
-        e7sW7B5mAU2J9bv0IcKKEjt/z2WE2Msn8e5rDysk6HglOtqEIEqUJR6fXw21VVJi/e/90LDy
-        kDi38SZYq5BArMTfzw8ZJzDKz0LyzSwk38xCWLyAkXkVo1hqQXFuemqxYYExPE6T83M3MYKT
-        rJb5DsZpbz/oHWJk4mA8xCjBwawkwnv/vEqSEG9KYmVValF+fFFpTmrxIUZTYPBOZJYSTc4H
-        pvm8knhDE0sDEzMjEwtjS2MzJXHeVdNOJwoJpCeWpGanphakFsH0MXFwSjUwPa62ufnY42Cs
-        N5vOcYsz3TU7zHXjX5ZYbDvza4VQCN8E48h5nm85/Tcnugcub30e/SKywaRI5NdznY1cMdlP
-        LjkL3GcP/met/XuvTs3d59Nt78obzNVaMyv7uuuiQJeNyXNFpxyUc343Tzy9f1dT1r7SjckN
-        8U6LFHdvnGjOetT3l1flfZuWCZKabL0Tppxe+PXz0QX3RKsubq3Qmr39xJ0NL3s9L87Tmqfj
-        /3d1ama5tW88t7j37Lx9cpYym0yU/wj3z5i3nDljh4gNy4ftbKnbz13U4XPaZPbfSUNVIjFw
-        +jSXXo01B2u1th26Kl5z/o12avFslXyzxd/4Ly713PHyv1yHTWXbosZNKx+tU2Ipzkg01GIu
-        Kk4EAKTAPx07BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGLMWRmVeSWpSXmKPExsWy7bCSnG6vkXqSwa/D0hZLmjIsmhevZ7N4
-        dPM3q8WsKXuZLJbv62e0uLxrDpvF2XnH2Sw+9x5htFi0rJXZ4u6po2wWc79MZbZ4u+UBq0XX
-        ocWsDrweCzaVeize85LJY9OqTjaPeScDPfbPXcPu0bdlFaPHitXf2T0+b5IL4IjisklJzcks
-        Sy3St0vgylh4dxtrwUuLirMXv7I3MM7W72Lk5JAQMJHY+XUaG4gtJLCDUeJldzZEXFLi66fP
-        QHEOIFtY4vDh4i5GLqCSD4wSF952MYHUsAloS6zaMo8dJCEi8IdJ4uPuh0wgDcwCjhJdH6tA
-        aoQFnCS2r5nEDBJmEVCV2PQoFCTMK2AtsahtBTvEKnmJmZe+s0PEBSVOznzCAmIzA8Wbt85m
-        nsDINwtJahaS1AJGplWMkqkFxbnpucWGBUZ5qeV6xYm5xaV56XrJ+bmbGMFBr6W1g3HPqg96
-        hxiZOBgPMUpwMCuJ8N4/r5IkxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTU
-        gtQimCwTB6dUA5Nmr9oDfdusyyIf/9xrPHguf+tjHRUPv4JvTf//7rV4sMmrbtLSZPYW30Wn
-        O8/J3m9kuPa/2Sb3/WtDoQrJ9n/M2Ucby4VPem7T83Zdn8p0WK2DZ8mrlRULw3hVOTNNH/1O
-        FVx9yqd98ZSHWtc8PfTk9lx+eVz9/CGVNUdSGSWMrFQ/rPi8gmn+ygtRfsbTmNtl/91KfM17
-        41jTx4t3ZHlM3ff+5L+wedn7vmUTnVTE220TbC/FJwZ/MFyZ9YP3j8bJ+y0fZrReC5vcdUt4
-        t5NY6hx31+N3Qw2zrNbVuW9iO9zlfdgjrP52UcL+ZfP3nng2T2rSZI2HWvEnf3b6PlNMOJd5
-        fJpH2FzfLY6cLB5KLMUZiYZazEXFiQA9zg3x6QIAAA==
-X-CMS-MailID: 20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994
-References: <CGME20220308104013epcas1p4c096ed0065700f2f1f8b5ea1ae4ed994@epcas1p4.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <891095110.61646375404257.JavaMail.epsvc@epcpadp3>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-currently, suspend_report_result() prints only function information.
-If any driver uses common pm function, nobody knows who called
-failed function exactly.
+Hi Daehwan,
 
-So, device is needed to recognize specific wrong driver.
+Thank you for the patch! Yet something to improve:
 
-e.g.)
-PM: dpm_run_callback(): pnp_bus_suspend+0x0/0x10 returns 0
-PM: dpm_run_callback(): pci_pm_suspend+0x0/0x150 returns 0
-after patch,
-serial 00:05: PM: dpm_run_callback(): pnp_bus_suspend+0x0/0x10 returns 0
-pci 0000:00:01.3: PM: dpm_run_callback(): pci_pm_suspend+0x0/0x150 returns 0
+[auto build test ERROR on krzk/for-next]
+[also build test ERROR on char-misc/char-misc-testing v5.17-rc7]
+[cannot apply to usb/usb-testing next-20220308]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Signed-off-by: Youngjin Jang <yj84.jang@samsung.com>
+url:    https://github.com/0day-ci/linux/commits/Daehwan-Jung/usb-host-export-symbols-for-xhci-hooks-usage/20220304-143406
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+config: arm-hisi_defconfig (https://download.01.org/0day-ci/archive/20220308/202203081848.5KEiXYSo-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/2b6a5d700c2bbb0a3ccfcd6e83a7f7b2ea049db9
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Daehwan-Jung/usb-host-export-symbols-for-xhci-hooks-usage/20220304-143406
+        git checkout 2b6a5d700c2bbb0a3ccfcd6e83a7f7b2ea049db9
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm SHELL=/bin/bash drivers/usb/host/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/usb/host/xhci.c:4361:5: warning: no previous prototype for 'xhci_address_device' [-Wmissing-prototypes]
+    4361 | int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/xhci.c: In function 'xhci_vendor_get_ops':
+>> drivers/usb/host/xhci.c:4459:20: error: 'struct xhci_hcd' has no member named 'vendor_ops'
+    4459 |         return xhci->vendor_ops;
+         |                    ^~
+   drivers/usb/host/xhci.c:4460:1: error: control reaches end of non-void function [-Werror=return-type]
+    4460 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +4459 drivers/usb/host/xhci.c
+
+  4360	
+> 4361	int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev)
+  4362	{
+  4363		return xhci_setup_device(hcd, udev, SETUP_CONTEXT_ADDRESS);
+  4364	}
+  4365	EXPORT_SYMBOL_GPL(xhci_address_device);
+  4366	
+  4367	static int xhci_enable_device(struct usb_hcd *hcd, struct usb_device *udev)
+  4368	{
+  4369		return xhci_setup_device(hcd, udev, SETUP_CONTEXT_ONLY);
+  4370	}
+  4371	
+  4372	/*
+  4373	 * Transfer the port index into real index in the HW port status
+  4374	 * registers. Caculate offset between the port's PORTSC register
+  4375	 * and port status base. Divide the number of per port register
+  4376	 * to get the real index. The raw port number bases 1.
+  4377	 */
+  4378	int xhci_find_raw_port_number(struct usb_hcd *hcd, int port1)
+  4379	{
+  4380		struct xhci_hub *rhub;
+  4381	
+  4382		rhub = xhci_get_rhub(hcd);
+  4383		return rhub->ports[port1 - 1]->hw_portnum + 1;
+  4384	}
+  4385	
+  4386	/*
+  4387	 * Issue an Evaluate Context command to change the Maximum Exit Latency in the
+  4388	 * slot context.  If that succeeds, store the new MEL in the xhci_virt_device.
+  4389	 */
+  4390	static int __maybe_unused xhci_change_max_exit_latency(struct xhci_hcd *xhci,
+  4391				struct usb_device *udev, u16 max_exit_latency)
+  4392	{
+  4393		struct xhci_virt_device *virt_dev;
+  4394		struct xhci_command *command;
+  4395		struct xhci_input_control_ctx *ctrl_ctx;
+  4396		struct xhci_slot_ctx *slot_ctx;
+  4397		unsigned long flags;
+  4398		int ret;
+  4399	
+  4400		spin_lock_irqsave(&xhci->lock, flags);
+  4401	
+  4402		virt_dev = xhci->devs[udev->slot_id];
+  4403	
+  4404		/*
+  4405		 * virt_dev might not exists yet if xHC resumed from hibernate (S4) and
+  4406		 * xHC was re-initialized. Exit latency will be set later after
+  4407		 * hub_port_finish_reset() is done and xhci->devs[] are re-allocated
+  4408		 */
+  4409	
+  4410		if (!virt_dev || max_exit_latency == virt_dev->current_mel) {
+  4411			spin_unlock_irqrestore(&xhci->lock, flags);
+  4412			return 0;
+  4413		}
+  4414	
+  4415		/* Attempt to issue an Evaluate Context command to change the MEL. */
+  4416		command = xhci->lpm_command;
+  4417		ctrl_ctx = xhci_get_input_control_ctx(command->in_ctx);
+  4418		if (!ctrl_ctx) {
+  4419			spin_unlock_irqrestore(&xhci->lock, flags);
+  4420			xhci_warn(xhci, "%s: Could not get input context, bad type.\n",
+  4421					__func__);
+  4422			return -ENOMEM;
+  4423		}
+  4424	
+  4425		ret = xhci_vendor_sync_dev_ctx(xhci, udev->slot_id);
+  4426		if (ret) {
+  4427			spin_unlock_irqrestore(&xhci->lock, flags);
+  4428			xhci_warn(xhci, "%s: Failed to sync device context failed, err=%d",
+  4429				  __func__, ret);
+  4430			return ret;
+  4431		}
+  4432	
+  4433		xhci_slot_copy(xhci, command->in_ctx, virt_dev->out_ctx);
+  4434		spin_unlock_irqrestore(&xhci->lock, flags);
+  4435	
+  4436		ctrl_ctx->add_flags |= cpu_to_le32(SLOT_FLAG);
+  4437		slot_ctx = xhci_get_slot_ctx(xhci, command->in_ctx);
+  4438		slot_ctx->dev_info2 &= cpu_to_le32(~((u32) MAX_EXIT));
+  4439		slot_ctx->dev_info2 |= cpu_to_le32(max_exit_latency);
+  4440		slot_ctx->dev_state = 0;
+  4441	
+  4442		xhci_dbg_trace(xhci, trace_xhci_dbg_context_change,
+  4443				"Set up evaluate context for LPM MEL change.");
+  4444	
+  4445		/* Issue and wait for the evaluate context command. */
+  4446		ret = xhci_configure_endpoint(xhci, udev, command,
+  4447				true, true);
+  4448	
+  4449		if (!ret) {
+  4450			spin_lock_irqsave(&xhci->lock, flags);
+  4451			virt_dev->current_mel = max_exit_latency;
+  4452			spin_unlock_irqrestore(&xhci->lock, flags);
+  4453		}
+  4454		return ret;
+  4455	}
+  4456	
+  4457	struct xhci_vendor_ops *xhci_vendor_get_ops(struct xhci_hcd *xhci)
+  4458	{
+> 4459		return xhci->vendor_ops;
+  4460	}
+  4461	EXPORT_SYMBOL_GPL(xhci_vendor_get_ops);
+  4462	
+
 ---
-Changes since v2:
- - Update commit message, example logs
-Changes since v1:
- - Use dev_err() to print out device name
- - Use real name on email sender
- 
- drivers/base/power/main.c  | 10 +++++-----
- drivers/pci/pci-driver.c   | 14 +++++++-------
- drivers/pnp/driver.c       |  2 +-
- drivers/usb/core/hcd-pci.c |  4 ++--
- include/linux/pm.h         |  8 ++++----
- 5 files changed, 19 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index 04ea92cbd9cf..41e17b8c2c20 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -485,7 +485,7 @@ static int dpm_run_callback(pm_callback_t cb, struct device *dev,
- 	trace_device_pm_callback_start(dev, info, state.event);
- 	error = cb(dev);
- 	trace_device_pm_callback_end(dev, error);
--	suspend_report_result(cb, error);
-+	suspend_report_result(dev, cb, error);
- 
- 	initcall_debug_report(dev, calltime, cb, error);
- 
-@@ -1568,7 +1568,7 @@ static int legacy_suspend(struct device *dev, pm_message_t state,
- 	trace_device_pm_callback_start(dev, info, state.event);
- 	error = cb(dev, state);
- 	trace_device_pm_callback_end(dev, error);
--	suspend_report_result(cb, error);
-+	suspend_report_result(dev, cb, error);
- 
- 	initcall_debug_report(dev, calltime, cb, error);
- 
-@@ -1855,7 +1855,7 @@ static int device_prepare(struct device *dev, pm_message_t state)
- 	device_unlock(dev);
- 
- 	if (ret < 0) {
--		suspend_report_result(callback, ret);
-+		suspend_report_result(dev, callback, ret);
- 		pm_runtime_put(dev);
- 		return ret;
- 	}
-@@ -1960,10 +1960,10 @@ int dpm_suspend_start(pm_message_t state)
- }
- EXPORT_SYMBOL_GPL(dpm_suspend_start);
- 
--void __suspend_report_result(const char *function, void *fn, int ret)
-+void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret)
- {
- 	if (ret)
--		pr_err("%s(): %pS returns %d\n", function, fn, ret);
-+		dev_err(dev, "%s(): %pS returns %d\n", function, fn, ret);
- }
- EXPORT_SYMBOL_GPL(__suspend_report_result);
- 
-diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
-index f61c40a47891..4ceeb75fc899 100644
---- a/drivers/pci/pci-driver.c
-+++ b/drivers/pci/pci-driver.c
-@@ -607,7 +607,7 @@ static int pci_legacy_suspend(struct device *dev, pm_message_t state)
- 		int error;
- 
- 		error = drv->suspend(pci_dev, state);
--		suspend_report_result(drv->suspend, error);
-+		suspend_report_result(dev, drv->suspend, error);
- 		if (error)
- 			return error;
- 
-@@ -786,7 +786,7 @@ static int pci_pm_suspend(struct device *dev)
- 		int error;
- 
- 		error = pm->suspend(dev);
--		suspend_report_result(pm->suspend, error);
-+		suspend_report_result(dev, pm->suspend, error);
- 		if (error)
- 			return error;
- 
-@@ -832,7 +832,7 @@ static int pci_pm_suspend_noirq(struct device *dev)
- 		int error;
- 
- 		error = pm->suspend_noirq(dev);
--		suspend_report_result(pm->suspend_noirq, error);
-+		suspend_report_result(dev, pm->suspend_noirq, error);
- 		if (error)
- 			return error;
- 
-@@ -1021,7 +1021,7 @@ static int pci_pm_freeze(struct device *dev)
- 		int error;
- 
- 		error = pm->freeze(dev);
--		suspend_report_result(pm->freeze, error);
-+		suspend_report_result(dev, pm->freeze, error);
- 		if (error)
- 			return error;
- 	}
-@@ -1041,7 +1041,7 @@ static int pci_pm_freeze_noirq(struct device *dev)
- 		int error;
- 
- 		error = pm->freeze_noirq(dev);
--		suspend_report_result(pm->freeze_noirq, error);
-+		suspend_report_result(dev, pm->freeze_noirq, error);
- 		if (error)
- 			return error;
- 	}
-@@ -1127,7 +1127,7 @@ static int pci_pm_poweroff(struct device *dev)
- 		int error;
- 
- 		error = pm->poweroff(dev);
--		suspend_report_result(pm->poweroff, error);
-+		suspend_report_result(dev, pm->poweroff, error);
- 		if (error)
- 			return error;
- 	}
-@@ -1165,7 +1165,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
- 		int error;
- 
- 		error = pm->poweroff_noirq(dev);
--		suspend_report_result(pm->poweroff_noirq, error);
-+		suspend_report_result(dev, pm->poweroff_noirq, error);
- 		if (error)
- 			return error;
- 	}
-diff --git a/drivers/pnp/driver.c b/drivers/pnp/driver.c
-index cc6757dfa3f1..c02e7bf643a6 100644
---- a/drivers/pnp/driver.c
-+++ b/drivers/pnp/driver.c
-@@ -171,7 +171,7 @@ static int __pnp_bus_suspend(struct device *dev, pm_message_t state)
- 
- 	if (pnp_drv->driver.pm && pnp_drv->driver.pm->suspend) {
- 		error = pnp_drv->driver.pm->suspend(dev);
--		suspend_report_result(pnp_drv->driver.pm->suspend, error);
-+		suspend_report_result(dev, pnp_drv->driver.pm->suspend, error);
- 		if (error)
- 			return error;
- 	}
-diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
-index 784466117c92..8176bc81a635 100644
---- a/drivers/usb/core/hcd-pci.c
-+++ b/drivers/usb/core/hcd-pci.c
-@@ -446,7 +446,7 @@ static int suspend_common(struct device *dev, bool do_wakeup)
- 				HCD_WAKEUP_PENDING(hcd->shared_hcd))
- 			return -EBUSY;
- 		retval = hcd->driver->pci_suspend(hcd, do_wakeup);
--		suspend_report_result(hcd->driver->pci_suspend, retval);
-+		suspend_report_result(dev, hcd->driver->pci_suspend, retval);
- 
- 		/* Check again in case wakeup raced with pci_suspend */
- 		if ((retval == 0 && do_wakeup && HCD_WAKEUP_PENDING(hcd)) ||
-@@ -556,7 +556,7 @@ static int hcd_pci_suspend_noirq(struct device *dev)
- 		dev_dbg(dev, "--> PCI %s\n",
- 				pci_power_name(pci_dev->current_state));
- 	} else {
--		suspend_report_result(pci_prepare_to_sleep, retval);
-+		suspend_report_result(dev, pci_prepare_to_sleep, retval);
- 		return retval;
- 	}
- 
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index f7d2be686359..e65b3ab28377 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -770,11 +770,11 @@ extern int dpm_suspend_late(pm_message_t state);
- extern int dpm_suspend(pm_message_t state);
- extern int dpm_prepare(pm_message_t state);
- 
--extern void __suspend_report_result(const char *function, void *fn, int ret);
-+extern void __suspend_report_result(const char *function, struct device *dev, void *fn, int ret);
- 
--#define suspend_report_result(fn, ret)					\
-+#define suspend_report_result(dev, fn, ret)				\
- 	do {								\
--		__suspend_report_result(__func__, fn, ret);		\
-+		__suspend_report_result(__func__, dev, fn, ret);	\
- 	} while (0)
- 
- extern int device_pm_wait_for_dev(struct device *sub, struct device *dev);
-@@ -814,7 +814,7 @@ static inline int dpm_suspend_start(pm_message_t state)
- 	return 0;
- }
- 
--#define suspend_report_result(fn, ret)		do {} while (0)
-+#define suspend_report_result(dev, fn, ret)	do {} while (0)
- 
- static inline int device_pm_wait_for_dev(struct device *a, struct device *b)
- {
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
