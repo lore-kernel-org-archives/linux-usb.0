@@ -2,115 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8657AC433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 13:03:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BB0FC433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 14:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347000AbiCHNEv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Mar 2022 08:04:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44394 "EHLO
+        id S1347406AbiCHOba (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Mar 2022 09:31:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346893AbiCHNEu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 08:04:50 -0500
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [85.215.255.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C503A72F;
-        Tue,  8 Mar 2022 05:03:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1646744618;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
-    bh=l1dgMSGICGJL3G77F/MPWlIsjBwTBpqOBLaKyLXW79w=;
-    b=DmqrWWPHGZ8QJ4BswwQFN7jzgi05Pb8UnZ/RgxewGrLoUgORkbaOzhaOAuX0r/t0S6
-    TZvDK8VF4xDrgBN35MWNaCs2pHbQ9eARMTI//y7m5UjxKgc48zXUtyVA5n3uFgHV4EFH
-    vRP4fJdxRN/4+yCXpqXxwfxFCDOOCefu1pzJPWyymCy2uisk7vaB36hfbyOKrcrDyXf+
-    nTgTzmg8Vf12SEVI/JwsiXncQfD5ZKDtiP4qpKX1NrryTaS/ZwKUMiM0zhkaYnkoP1Bk
-    fITk2JtEpe8S0fW+v6W1KTCi5Tcoj8uY/fMkLb9R3PBAhkPktpdGEyDcpzxokx29KcZZ
-    X/PQ==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1OAA2UMf2MwPVbpc9Y="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box
-    by smtp.strato.de (RZmta 47.40.1 DYNA|AUTH)
-    with ESMTPSA id n729cey28D3cSKb
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Tue, 8 Mar 2022 14:03:38 +0100 (CET)
-From:   "H. Nikolaus Schaller" <hns@goldelico.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        tony@atomide.com
-Cc:     linux-omap@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
-        kernel@pyra-handheld.com,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: [PATCH] usb: dwc3: omap: fix "unbalanced disables for smps10_out1" on omap5evm
-Date:   Tue,  8 Mar 2022 14:03:37 +0100
-Message-Id: <af3b750dc2265d875deaabcf5f80098c9645da45.1646744616.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.33.0
+        with ESMTP id S240963AbiCHOb3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 09:31:29 -0500
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B57E4BFD8
+        for <linux-usb@vger.kernel.org>; Tue,  8 Mar 2022 06:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646749832; x=1678285832;
+  h=to:cc:references:from:subject:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=2Sps8X1HSq/Qaa9m9NyJst+99og+nqY0X6PFuAEuS8I=;
+  b=FPBe8d6ZJ5k0Xkh3sLXmIdUqfDvQtbPul7SbaxlunhzuTkEcKmqRoSnL
+   /b7MlMojn8DLcHY1sar8KkYHJj0RYoLnSymmM3j37M1zwLfwciKDO+vt+
+   ssteYh5R4nEnnsGRUSpJdhoLzHVoGy+C/VDf24ruokQAWS5Ta85IMNEYJ
+   jhj3/R2NqvdOOUYANiogSD4SagyIjc6UnJwMV95SXcC4fe3EAaB75Kx79
+   +jexHHaJeF8Lv4chTNo9phhX8qetr1fjnvpcH2jPf2hPZ3Hs7uqyClSg1
+   eHCl7iDSzkIUkN0VPPszFvyYVww04NOfYuG1ym0SUAoySM53MGOsBupJY
+   A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10279"; a="254884507"
+X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
+   d="scan'208";a="254884507"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 06:29:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
+   d="scan'208";a="578005703"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga001.jf.intel.com with ESMTP; 08 Mar 2022 06:29:55 -0800
+To:     Heiner Kallweit <hkallweit1@gmail.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jack Pham <quic_jackp@quicinc.com>,
+        Tung Nguyen <tunguyen@apm.com>
+References: <18a93669-7f7a-dad8-38f4-44819fc3b64a@gmail.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH 0/5] usb: host: xhci-plat: omit shared hcd if either of
+ the root hubs has no ports
+Message-ID: <475816a5-8349-67c4-1d1f-c1b64149bab5@linux.intel.com>
+Date:   Tue, 8 Mar 2022 16:31:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <18a93669-7f7a-dad8-38f4-44819fc3b64a@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Usually, the vbus_regulator (smps10 on omap5evm) boots up disabled.
+On 4.3.2022 20.32, Heiner Kallweit wrote:
+> I have a system with a low-cost Amlogic S905W SoC that supports USB3
+> but has a USB3 root hub with no ports. This results in an error
+> message and a hcd that is good for nothing. The USB2 root hub has
+> ports and works normally.
+> I think we can do better and omit creating a shared hcd if either of
+> the root hubs has no ports. This series is based on discussion [0].
+> 
+> The series works as intended for me. What I couldn't test is the case
+> of the USB2 root hub having no ports.
+> 
+> [0] https://www.spinics.net/lists/linux-usb/msg223416.html
+> 
 
-Hence calling regulator_disable() indirectly through dwc3_omap_set_mailbox()
-during probe leads to:
+Thanks for the series. Big picture looks good.
 
-[   10.332764] WARNING: CPU: 0 PID: 1628 at drivers/regulator/core.c:2853 _regulator_disable+0x40/0x164
-[   10.351919] unbalanced disables for smps10_out1
-[   10.361298] Modules linked in: dwc3_omap(+) clk_twl6040 at24 gpio_twl6040 palmas_gpadc palmas_pwrbutton
-industrialio snd_soc_omap_mcbsp(+) snd_soc_ti_sdma display_connector ti_tpd12s015 drm leds_gpio
-drm_panel_orientation_quirks ip_tables x_tables ipv6 autofs4
-[   10.387818] CPU: 0 PID: 1628 Comm: systemd-udevd Not tainted 5.17.0-rc1-letux-lpae+ #8139
-[   10.405129] Hardware name: Generic OMAP5 (Flattened Device Tree)
-[   10.411455]  unwind_backtrace from show_stack+0x10/0x14
-[   10.416970]  show_stack from dump_stack_lvl+0x40/0x4c
-[   10.422313]  dump_stack_lvl from __warn+0xb8/0x170
-[   10.427377]  __warn from warn_slowpath_fmt+0x70/0x9c
-[   10.432595]  warn_slowpath_fmt from _regulator_disable+0x40/0x164
-[   10.439037]  _regulator_disable from regulator_disable+0x30/0x64
-[   10.445382]  regulator_disable from dwc3_omap_set_mailbox+0x8c/0xf0 [dwc3_omap]
-[   10.453116]  dwc3_omap_set_mailbox [dwc3_omap] from dwc3_omap_probe+0x2b8/0x394 [dwc3_omap]
-[   10.467021]  dwc3_omap_probe [dwc3_omap] from platform_probe+0x58/0xa8
-[   10.481762]  platform_probe from really_probe+0x168/0x2fc
-[   10.481782]  really_probe from __driver_probe_device+0xc4/0xd8
-[   10.481782]  __driver_probe_device from driver_probe_device+0x24/0xa4
-[   10.503762]  driver_probe_device from __driver_attach+0xc4/0xd8
-[   10.510018]  __driver_attach from bus_for_each_dev+0x64/0xa0
-[   10.516001]  bus_for_each_dev from bus_add_driver+0x148/0x1a4
-[   10.524880]  bus_add_driver from driver_register+0xb4/0xf8
-[   10.530678]  driver_register from do_one_initcall+0x90/0x1c4
-[   10.536661]  do_one_initcall from do_init_module+0x4c/0x200
-[   10.536683]  do_init_module from load_module+0x13dc/0x1910
-[   10.551159]  load_module from sys_finit_module+0xc8/0xd8
-[   10.561319]  sys_finit_module from __sys_trace_return+0x0/0x18
-[   10.561336] Exception stack(0xc344bfa8 to 0xc344bff0)
-[   10.561341] bfa0:                   b6fb5778 b6fab8d8 00000007 b6ecfbb8 00000000 b6ed0398
-[   10.561341] bfc0: b6fb5778 b6fab8d8 855c0500 0000017b 00020000 b6f9a3cc 00000000 b6fb5778
-[   10.595500] bfe0: bede18f8 bede18e8 b6ec9aeb b6dda1c2
-[   10.601345] ---[ end trace 0000000000000000 ]---
+Some minor concerns, for example how the generic xhci code now assumes
+we can start the controller (run) after adding the primary hcd if only
+one roothub has ports, and assumes the secondary hcd won't be added.
 
-Fix this unnecessary warning by checking if the regulator is enabled.
+After this series this is true for controllers using xhci-plat.c,
+but not for mediatek, tegra and all PCI xhci controllers.
+I'll comment that patch with more info.
 
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/usb/dwc3/dwc3-omap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'll see if I can try to fake a pci xhci controller to try this series out.
 
-diff --git a/drivers/usb/dwc3/dwc3-omap.c b/drivers/usb/dwc3/dwc3-omap.c
-index e196673f5c64..efaf0db595f4 100644
---- a/drivers/usb/dwc3/dwc3-omap.c
-+++ b/drivers/usb/dwc3/dwc3-omap.c
-@@ -242,7 +242,7 @@ static void dwc3_omap_set_mailbox(struct dwc3_omap *omap,
- 		break;
- 
- 	case OMAP_DWC3_ID_FLOAT:
--		if (omap->vbus_reg)
-+		if (omap->vbus_reg && regulator_is_enabled(omap->vbus_reg))
- 			regulator_disable(omap->vbus_reg);
- 		val = dwc3_omap_read_utmi_ctrl(omap);
- 		val |= USBOTGSS_UTMI_OTG_CTRL_IDDIG;
--- 
-2.33.0
+Thanks
+-Mathias
 
