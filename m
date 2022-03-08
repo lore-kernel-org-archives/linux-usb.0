@@ -2,91 +2,136 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DE30C433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 17:08:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34E2DC433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Mar 2022 17:19:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241529AbiCHRJt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Mar 2022 12:09:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37256 "EHLO
+        id S1348929AbiCHRUc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Mar 2022 12:20:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230093AbiCHRJs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 12:09:48 -0500
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C2636305;
-        Tue,  8 Mar 2022 09:08:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646759332; x=1678295332;
-  h=from:to:cc:subject:date:message-id;
-  bh=R0CDGnvApoSO1gfn9j+YZMCQMFxsSEmVfmtBoWiu+Qw=;
-  b=S5ceqGltaeFtsuLCkCWcq1CU6lm58G8qp3DcNfKNZe2xngHbgFXK+Vzb
-   YOxt3IJwein2lAKXqMsOe1a/yCqcf87Ud6CWKxlgLSL51XXxNnYXeItDk
-   Im4kbNNa25FkUyu0QgHTblfapkjQY8M6p2MMthC84g7QR1UIX1uFXUGvD
-   Rq8BMLaUfuGh80VcRWyyD6lTr46hhVONpGmiO3yZ8zEZmigZsllJX9+M2
-   egta+QvEcoje0c6k2fjnvkYZhd26zvq6ZAWTWAmSVeoaZ6/YwRR5sqXuJ
-   lY0M2QOrhudGFu7JGGKmMljaWm0qKw+HiWJ5TJm/UuIc7U/ft4EPnGyFU
-   A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10280"; a="235352219"
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
-   d="scan'208";a="235352219"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2022 09:08:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,165,1643702400"; 
-   d="scan'208";a="641822768"
-Received: from gio-01395267462.iind.intel.com ([10.49.4.124])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Mar 2022 09:08:49 -0800
-From:   shruthi.sanil@intel.com
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     heikki.krogerus@intel.com, srikanth.thokala@intel.com,
-        mallikarjunappa.sangannavar@intel.com, shruthi.sanil@intel.com
-Subject: [PATCH] usb: dwc3: pci: Add support for Intel Alder Lake
-Date:   Tue,  8 Mar 2022 22:38:48 +0530
-Message-Id: <20220308170848.30722-1-shruthi.sanil@intel.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S1348891AbiCHRU0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Mar 2022 12:20:26 -0500
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F85554196;
+        Tue,  8 Mar 2022 09:19:09 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id h13so13272650ede.5;
+        Tue, 08 Mar 2022 09:19:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NKBqq8H8G0r7u4YOEB6Uo0ujE9phZkj1yTyESdTdeCM=;
+        b=ZFc9SayGmZuwBLkbiqoy2iDFk5f3qgEhdtJj3Dv7GHS2ypdaZTjxauZ+hlp0trYtJa
+         6M4QEG5riT1if7unqpPROovPT4iZy7DxsyzKiO2keZ0zP9SCUfH7za56UNf4yhEYiR1W
+         Zv+nf4lMjwR3fkHJjnmEWcK2WW460qfUBwPOMjkzv3eCkyDQyykoDbItDltUuRcTwrJr
+         pG4CP1bXQLDtWdHmUqjSgKORnsAbOU39eGOAbT2p8g3172LnhTr91WyaVlTWNbKBB2zn
+         NIRM0BhkmF4hLKwhkuY7VdmK0q5FKA7xmA8wUQfGsEiCXrWBclx4AShbCuvx1pPHky0J
+         VNgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NKBqq8H8G0r7u4YOEB6Uo0ujE9phZkj1yTyESdTdeCM=;
+        b=CWBilmSslu5Oi2bneCx+AoGqfJSYyp8V7Lf/icZlvFCqEJhe8083qF0+zt99X8tnHo
+         52GUpid3dd8RrMX+L+ZydDd3ZsqvdHopharXixVHwCO7C8g9ij0Ehp1JC7qQZtwG8qD7
+         VEOftuHA8tBw8jmXUl1gXkvHz8/qcXkUXPy5AFXd77accdXNlJorPMZvZcoRrtyN4X0D
+         HRTsh2hvPpXnQ6AOXBrjh9vJ2tLhONjHQQk3JyQuwkruYOnwyLfH1QZkMqcp6M6s+FL/
+         gh/FAENHMhziuBDTM4r5qVYkP1THtvFVLxJiGjaJAjTQEdKfrMwcPqMXWZpetNtfTZvS
+         lGng==
+X-Gm-Message-State: AOAM530SPcdggP13rsXv/yvz2e8xryZgKd9OZUzkkCwJ5Jb41bbUEmnB
+        PlRvzLoiMBHrR0SqsLq0vZU=
+X-Google-Smtp-Source: ABdhPJyM1gC52QuGTeL8TtyGBMOIEOKlyECvrtuFR/2dTrbGjWxPBGFVVbIaUboCG3sJrNF8ZedJPg==
+X-Received: by 2002:a05:6402:40c4:b0:416:3e66:1825 with SMTP id z4-20020a05640240c400b004163e661825mr12232139edb.284.1646759947785;
+        Tue, 08 Mar 2022 09:19:07 -0800 (PST)
+Received: from localhost.localdomain (i130160.upc-i.chello.nl. [62.195.130.160])
+        by smtp.googlemail.com with ESMTPSA id rv11-20020a17090710cb00b006d5c0cd5e0dsm6085044ejb.82.2022.03.08.09.19.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Mar 2022 09:19:07 -0800 (PST)
+From:   Jakob Koschel <jakobkoschel@gmail.com>
+To:     Greg Kroah-Hartman <greg@kroah.com>
+Cc:     Jakob Koschel <jakobkoschel@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Felipe Balbi <balbi@kernel.org>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Al Cooper <alcooperx@gmail.com>, Li Yang <leoyang.li@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        linux-usb@vger.kernel.org (open list:USB GADGET/PERIPHERAL SUBSYSTEM),
+        Mike Rapoport <rppt@kernel.org>,
+        "Brian Johannesmeyer" <bjohannesmeyer@gmail.com>,
+        Cristiano Giuffrida <c.giuffrida@vu.nl>,
+        "Bos, H.J." <h.j.bos@vu.nl>
+Subject: [PATCH v2 02/26] usb: gadget: bdc: remove usage of list iterator past the loop body
+Date:   Tue,  8 Mar 2022 18:17:54 +0100
+Message-Id: <20220308171818.384491-3-jakobkoschel@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220308171818.384491-1-jakobkoschel@gmail.com>
+References: <20220308171818.384491-1-jakobkoschel@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Shruthi Sanil <shruthi.sanil@intel.com>
+If the list representing the request queue does not contain the expected
+request, the value of the list_for_each_entry() iterator will not point
+to a valid structure. To avoid type confusion in such case, the list
+iterator scope will be limited to the list_for_each_entry() loop.
 
-Add the PCI device ID and update the dwc3_pci_id_table
-for Intel Alder Lake SoC.
+In preparation to limiting scope of the list iterator to the list traversal
+loop, use a dedicated pointer to point to the found request object [1].
 
-The DWC3 controllor in the CPU block handles the USB3 traffic
-and the device ID is common across the Alder Lake platforms.
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Shruthi Sanil <shruthi.sanil@intel.com>
+Link: https://lore.kernel.org/all/YhdfEIwI4EdtHdym@kroah.com/
+Signed-off-by: Jakob Koschel <jakobkoschel@gmail.com>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/gadget/udc/bdc/bdc_ep.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 06d0e88ec8af..d8b9798fc7d4 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -40,6 +40,7 @@
- #define PCI_DEVICE_ID_INTEL_TGPLP		0xa0ee
- #define PCI_DEVICE_ID_INTEL_TGPH		0x43ee
- #define PCI_DEVICE_ID_INTEL_JSP			0x4dee
-+#define PCI_DEVICE_ID_INTEL_ADL			0x465e
- #define PCI_DEVICE_ID_INTEL_ADLP		0x51ee
- #define PCI_DEVICE_ID_INTEL_ADLM		0x54ee
- #define PCI_DEVICE_ID_INTEL_ADLS		0x7ae1
-@@ -412,6 +413,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_JSP),
- 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
- 
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ADL),
-+	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+index 8e2f20b12519..fa88f210ecd5 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
+@@ -1757,6 +1757,7 @@ static int bdc_gadget_ep_dequeue(struct usb_ep *_ep,
+ 				  struct usb_request *_req)
+ {
+ 	struct bdc_req *req;
++	struct bdc_req *iter;
+ 	unsigned long flags;
+ 	struct bdc_ep *ep;
+ 	struct bdc *bdc;
+@@ -1771,12 +1772,16 @@ static int bdc_gadget_ep_dequeue(struct usb_ep *_ep,
+ 	dev_dbg(bdc->dev, "%s ep:%s req:%p\n", __func__, ep->name, req);
+ 	bdc_dbg_bd_list(bdc, ep);
+ 	spin_lock_irqsave(&bdc->lock, flags);
 +
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_ADLP),
- 	  (kernel_ulong_t) &dwc3_pci_intel_swnode, },
- 
-
-base-commit: ea4424be16887a37735d6550cfd0611528dbe5d9
++	req = NULL;
+ 	/* make sure it's still queued on this endpoint */
+-	list_for_each_entry(req, &ep->queue, queue) {
+-		if (&req->usb_req == _req)
+-			break;
++	list_for_each_entry(iter, &ep->queue, queue) {
++		if (&iter->usb_req != _req)
++			continue;
++		req = iter;
++		break;
+ 	}
+-	if (&req->usb_req != _req) {
++	if (!req) {
+ 		spin_unlock_irqrestore(&bdc->lock, flags);
+ 		dev_err(bdc->dev, "usb_req !=req n");
+ 		return -EINVAL;
 -- 
-2.17.1
+2.25.1
 
