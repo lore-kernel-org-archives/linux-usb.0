@@ -2,89 +2,159 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC828C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Mar 2022 22:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EC7CC433EF
+	for <linux-usb@archiver.kernel.org>; Sat, 12 Mar 2022 05:38:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229942AbiCKW6t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Mar 2022 17:58:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35206 "EHLO
+        id S230412AbiCLFjg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 12 Mar 2022 00:39:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231428AbiCKW6i (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Mar 2022 17:58:38 -0500
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 53A5A78918
-        for <linux-usb@vger.kernel.org>; Fri, 11 Mar 2022 14:48:23 -0800 (PST)
-Received: (qmail 1595351 invoked by uid 1000); 11 Mar 2022 16:01:40 -0500
-Date:   Fri, 11 Mar 2022 16:01:40 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     syzbot <syzbot+f0fae482604e6d9a87c9@syzkaller.appspotmail.com>
-Cc:     gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, pavel.hofman@ivitera.com,
-        rob@robgreener.com, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] memory leak in usb_get_configuration
-Message-ID: <Yiu4tCONfHVH1Qfv@rowland.harvard.edu>
-References: <000000000000351b8605d9d1d1bf@google.com>
+        with ESMTP id S229570AbiCLFje (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 12 Mar 2022 00:39:34 -0500
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C520142ECF
+        for <linux-usb@vger.kernel.org>; Fri, 11 Mar 2022 21:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647063506; x=1678599506;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=kHlRHpP95zAt+5aWFmC5Wd/H3dkt2r2suivImfzFuOY=;
+  b=ll18kLFsIIGgTST0XY8ueRH6WMu+QyTuSrlN6tmNBXpF1RRdFVBxnDhE
+   lE0pf/1Me+tWnLxs5tMBkxGjUjvw8+iSXLFY/Ujnc5mwvl2dGeS9G9xbu
+   HvSO9QYog8pNLffTT9eaywO/lJwTFhwZpMa9SDWnHy10RTO4vFUA6jju3
+   FiCBTxPRKlMCZsfgoIHw5ev9BT9hnMbtYy1B6B9XcZ9bovYmxbN2PRK3V
+   T81RUooNCq3GZKFFQvcqRv63uBsw/q6OiCTcD/94sbUNXVLj9OJddGkXj
+   wzWknMCcb37IIhnCPDrsIy0Sq69sadP6bvf72Aq0jSHo6mfpUzY1HnD/j
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10283"; a="254592346"
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; 
+   d="scan'208";a="254592346"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2022 21:38:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,175,1643702400"; 
+   d="scan'208";a="689313977"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Mar 2022 21:38:25 -0800
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1nSuSO-0007YG-Oc; Sat, 12 Mar 2022 05:38:24 +0000
+Date:   Sat, 12 Mar 2022 13:38:15 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 7d2c8a13c925403b5d4e3d121c00e2b25c0cd715
+Message-ID: <622c31c7.5QZDiNDY+EAoNII5%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <000000000000351b8605d9d1d1bf@google.com>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 09, 2022 at 03:54:24PM -0800, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    0014404f9c18 Merge branch 'akpm' (patches from Andrew)
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=15864216700000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3f0a704147ec8e32
-> dashboard link: https://syzkaller.appspot.com/bug?extid=f0fae482604e6d9a87c9
-> compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13a63dbe700000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10e150a1700000
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+f0fae482604e6d9a87c9@syzkaller.appspotmail.com
-> 
-> BUG: memory leak
-> unreferenced object 0xffff88810c0289e0 (size 32):
->   comm "kworker/1:2", pid 139, jiffies 4294947862 (age 15.910s)
->   hex dump (first 32 bytes):
->     09 02 12 00 01 00 00 00 00 09 04 00 00 00 d0 bb  ................
->     3a 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  :...............
->   backtrace:
->     [<ffffffff82c98127>] kmalloc include/linux/slab.h:586 [inline]
->     [<ffffffff82c98127>] usb_get_configuration+0x1c7/0x1cd0 drivers/usb/core/config.c:919
->     [<ffffffff82c863f9>] usb_enumerate_device drivers/usb/core/hub.c:2398 [inline]
->     [<ffffffff82c863f9>] usb_new_device+0x1a9/0x2e0 drivers/usb/core/hub.c:2536
->     [<ffffffff82c88ea4>] hub_port_connect drivers/usb/core/hub.c:5358 [inline]
->     [<ffffffff82c88ea4>] hub_port_connect_change drivers/usb/core/hub.c:5502 [inline]
->     [<ffffffff82c88ea4>] port_event drivers/usb/core/hub.c:5660 [inline]
->     [<ffffffff82c88ea4>] hub_event+0x1364/0x21a0 drivers/usb/core/hub.c:5742
->     [<ffffffff8126a41f>] process_one_work+0x2bf/0x600 kernel/workqueue.c:2307
->     [<ffffffff8126ad49>] worker_thread+0x59/0x5b0 kernel/workqueue.c:2454
->     [<ffffffff81274705>] kthread+0x125/0x160 kernel/kthread.c:377
->     [<ffffffff810021ef>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 7d2c8a13c925403b5d4e3d121c00e2b25c0cd715  Merge tag 'thunderbolt-for-v5.18-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-next
 
-The console log shows that this is connected to gspca_dev_probe.  Let's 
-see who's calling it...
+elapsed time: 731m
 
-Alan Stern
+configs tested: 85
+configs skipped: 3
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/  0014404f9c18
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Index: usb-devel/drivers/media/usb/gspca/gspca.c
-===================================================================
---- usb-devel.orig/drivers/media/usb/gspca/gspca.c
-+++ usb-devel/drivers/media/usb/gspca/gspca.c
-@@ -1599,6 +1599,7 @@ int gspca_dev_probe(struct usb_interface
- 	if (dev->descriptor.bNumConfigurations != 1) {
- 		pr_err("%04x:%04x too many config\n",
- 		       id->idVendor, id->idProduct);
-+		dump_stack();
- 		return -ENODEV;
- 	}
- 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                   sh7724_generic_defconfig
+m68k                          amiga_defconfig
+sh                            migor_defconfig
+m68k                        mvme16x_defconfig
+arc                           tb10x_defconfig
+arm                           viper_defconfig
+arm                  randconfig-c002-20220312
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc64                            defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+powerpc                          allyesconfig
+arc                  randconfig-r043-20220310
+arc                  randconfig-r043-20220311
+riscv                randconfig-r042-20220311
+s390                 randconfig-r044-20220311
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                    rhel-8.3-kselftests
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                           allyesconfig
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                          rhel-8.3-func
+x86_64                         rhel-8.3-kunit
+x86_64                                  kexec
+
+clang tested configs:
+arm                  randconfig-c002-20220310
+x86_64                        randconfig-c007
+powerpc              randconfig-c003-20220310
+riscv                randconfig-c006-20220310
+mips                 randconfig-c004-20220310
+i386                          randconfig-c001
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+riscv                randconfig-r042-20220310
+hexagon              randconfig-r041-20220310
+hexagon              randconfig-r045-20220310
+s390                 randconfig-r044-20220310
+hexagon              randconfig-r045-20220311
+hexagon              randconfig-r041-20220311
+
+---
+0-DAY CI Kernel Test Service
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
