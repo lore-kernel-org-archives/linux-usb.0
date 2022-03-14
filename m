@@ -2,162 +2,140 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28C4EC433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 05:31:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CD31C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 07:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236175AbiCNFdD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Mar 2022 01:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44970 "EHLO
+        id S236676AbiCNHg4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Mar 2022 03:36:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236202AbiCNFdA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 01:33:00 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F90C3D48B;
-        Sun, 13 Mar 2022 22:31:50 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id o23so12760642pgk.13;
-        Sun, 13 Mar 2022 22:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1DPJ7SGMvyfoUwo9X/vu4UVhU1Tx4WkS35X+VF/0EP4=;
-        b=cxtaKnregLaKLEDwWc84/IFvfdvNCRhQOdQ8cvcoQ0tXPxGr/jUXgrg2IgCcNZc4FX
-         uIli+ny1cThyTt0ySnrFHlkQYXsmvFWKeDHNyp6vW/XqFvmDATYyB4jB2yQD0ybHT9SF
-         RVWiAzwSIT/egVxAsfXWDaZ1Lz5XKQj5xSL2daoE+7r8CcvzFqWyaWffeupnz3hiVOCv
-         ownT4/Zxdz8yUXeN4uA3HJW2e0SIksfFWkb1RYc9dZTWPNsvX0GwGrjicf6ikBK+Ohc4
-         x7LEA3piKgrRpxHblffWw0F9Coe6z/vHgNd6r/FxFimyPcCfkmM3U7DijzOyF4qfuu58
-         rEXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=1DPJ7SGMvyfoUwo9X/vu4UVhU1Tx4WkS35X+VF/0EP4=;
-        b=3H6YllHj13TBmYQLULretUBT7mj0zPfvLB5pa9mOtGMzNiZVFJJmPTmrnt3fYX2qoa
-         +fc1Ww9Mp976fashEKfZETc30fBRKZCjFPf8b8W2MGaWFnOy9E5AXQ3E5nrnoBVhwyas
-         yKTO2X7hJ0FrqxuWZRRTC+C10AQwf35OhEGeHzY798SbkMdlaQbSNuhA9qww4ppH31ru
-         SVqvtcBISKCCJ1bZn7+kIjlN7XlmLeA/dosWqYRQMQa8CCf2FjUoLL0vMZ7xcOlQrxGR
-         u2HaEGdd+8Aq/IKoW6nzacXnJCCmSXCeqp/6/8a3LB62i0XCl6g05LUyUxnTB6Rw7lfP
-         pb6Q==
-X-Gm-Message-State: AOAM531Ie7h86Fu5A8i+lI1248/qbbGR8H2Wo9FAY6rEG5I8Bvs83XGx
-        R1dotXJohEwDT2oK9t+iPRs=
-X-Google-Smtp-Source: ABdhPJx3Q6EI395hKYFkDb0FwvhVKPS9olsiL4DX1R3h+KmPrDlCz6ZwH3PJj7ki9UbGPZr9Ln3Cbw==
-X-Received: by 2002:a63:485e:0:b0:380:2ff5:d0c0 with SMTP id x30-20020a63485e000000b003802ff5d0c0mr18929734pgk.493.1647235909751;
-        Sun, 13 Mar 2022 22:31:49 -0700 (PDT)
-Received: from scdiu3.sunplus.com ([113.196.136.192])
-        by smtp.googlemail.com with ESMTPSA id c7-20020aa78e07000000b004f6e4d8ccc8sm18116376pfr.163.2022.03.13.22.31.47
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Mar 2022 22:31:49 -0700 (PDT)
-From:   Vincent Shih <vincent.sunplus@gmail.com>
-To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-        p.zabel@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, wells.lu@sunplus.com
-Cc:     Vincent Shih <vincent.sunplus@gmail.com>
-Subject: [PATCH v1 2/2] dt-bindings: usb: Add bindings doc for Sunplus USB HOST OHCI driver
-Date:   Mon, 14 Mar 2022 13:32:04 +0800
-Message-Id: <1647235924-15572-3-git-send-email-vincent.sunplus@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1647235924-15572-1-git-send-email-vincent.sunplus@gmail.com>
-References: <1647235924-15572-1-git-send-email-vincent.sunplus@gmail.com>
+        with ESMTP id S235688AbiCNHgy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 03:36:54 -0400
+X-Greylist: delayed 613 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 14 Mar 2022 00:35:44 PDT
+Received: from ZXSHCAS2.zhaoxin.com (ZXSHCAS2.zhaoxin.com [203.148.12.82])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE6BC40E55;
+        Mon, 14 Mar 2022 00:35:44 -0700 (PDT)
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS2.zhaoxin.com
+ (10.28.252.162) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 14 Mar
+ 2022 15:35:42 +0800
+Received: from [192.168.43.174] (124.64.16.6) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 14 Mar
+ 2022 15:35:39 +0800
+To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+Subject: [PATCH] USB:Fix ehci infinite suspend-resume loop issue in zhaoxin
+CC:     <CobeChen@zhaoxin.com>, <TimGuo@zhaoxin.com>,
+        <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>
+Message-ID: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
+Date:   Mon, 14 Mar 2022 15:35:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [124.64.16.6]
+X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add bindings doc for Sunplus USB HOST OHCI driver
+In zhaoxin platform, some ehci projects will latch a wakeup signal
+internal when plug in a device on port during system S0. This wakeup
+signal will turn on when ehci runtime suspend, which will trigger a
+system control interrupt that will resume ehci back to D0. As no
+device connect, ehci will be set to runtime suspend and turn on the
+internal latched wakeup signal again. It will cause a suspend-resume
+loop and generate system control interrupt continuously.
 
-Signed-off-by: Vincent Shih <vincent.sunplus@gmail.com>
+Fixed this issue by clear wakeup signal latched in ehci internal when
+ehci resume callback is called.
+
+Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
 ---
- .../bindings/usb/sunplus,sp7021-usb-ohci.yaml      | 69 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ohci.yaml
+  drivers/usb/host/ehci-hcd.c | 26 ++++++++++++++++++++++++++
+  drivers/usb/host/ehci-pci.c |  4 ++++
+  drivers/usb/host/ehci.h     |  1 +
+  3 files changed, 31 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ohci.yaml b/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ohci.yaml
-new file mode 100644
-index 0000000..7583b68
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ohci.yaml
-@@ -0,0 +1,69 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) Sunplus Co., Ltd. 2021
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/sunplus,sp7021-usb-ohci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+index 3d82e0b..e4840ef 100644
+--- a/drivers/usb/host/ehci-hcd.c
++++ b/drivers/usb/host/ehci-hcd.c
+@@ -1103,6 +1103,30 @@ static void ehci_remove_device(struct usb_hcd 
+*hcd, struct usb_device *udev)
+
+  #ifdef CONFIG_PM
+
++/* Clear wakeup signal locked in zhaoxin platform when device plug in. */
++static void ehci_zx_wakeup_clear(struct ehci_hcd *ehci)
++{
++       u32 __iomem     *reg = &ehci->regs->port_status[4];
++       u32     t1 = ehci_readl(ehci, reg);
 +
-+title: Sunplus SP7021 OHCI Controller Device Tree Bindings
++       t1 &= (u32)~0xf0000;
++       t1 |= PORT_TEST_FORCE;
++       ehci_writel(ehci, t1, reg);
++       t1 = ehci_readl(ehci, reg);
++       msleep(1);
++       t1 &= (u32)~0xf0000;
++       ehci_writel(ehci, t1, reg);
++       ehci_readl(ehci, reg);
++       msleep(1);
++       t1 = ehci_readl(ehci, reg);
++       ehci_writel(ehci, t1 | PORT_CSC, reg);
++       ehci_readl(ehci, reg);
++       udelay(500);
++       t1 = ehci_readl(ehci, &ehci->regs->status);
++       ehci_writel(ehci, t1 & STS_PCD, &ehci->regs->status);
++       ehci_readl(ehci, &ehci->regs->status);
++}
 +
-+allOf:
-+  - $ref: usb-hcd.yaml#
-+
-+maintainers:
-+  - Vincent Shih <vincent.sunplus@gmail.com>
-+
-+description:
-+  Sunplus SP7021 USB HOST IP is a USB2.0 Host Controller. It supports both
-+  Enhanced Host Controller Interface (EHCI) and Open Host Controller Interface
-+  (OHCI).
-+
-+  It supports 32-bits address bus and 64bit data bus interface, compliant
-+  to AMBA AXI interface for data transfer.
-+
-+  It supports 32-bits address and data bus interface, compliant to AMBA
-+  AHB interface for register configurations.
-+
-+  It supports 32-bits address and data bus interface, compliant to AMBA
-+  AXI interface for register alternative configurations.
-+
-+  The UTM Interface block generates PHY control signals, compliant to
-+  USB2.0 Transceiver Macrocell Interface Specification Revision 1.0.
-+
-+properties:
-+  compatible:
-+    const: sunplus,sp7021-usb-ohci
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - resets
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    sp_ohci0: usb@9c102080 {
-+      compatible = "sunplus,sp7021-usb-ohci";
-+      reg = <0x9c102080 0x68>;
-+      clocks = <&clkc 0x3a>;
-+      resets = <&rstc 0x2a>;
-+      interrupt-parent = <&intc>;
-+      interrupts = <15 IRQ_TYPE_LEVEL_HIGH>;
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f7a9ed7..4c80c39 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17949,6 +17949,7 @@ SUNPLUS USB OHCI DRIVER
- M:	Vincent Shih <vincent.sunplus@gmail.com>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/sunplus,sp7021-usb-ohci.yaml
- F:	drivers/usb/host/ohci-sunplus.c
- 
- SUPERH
+  /* suspend/resume, section 4.3 */
+
+  /* These routines handle the generic parts of controller suspend/resume */
+@@ -1154,6 +1178,8 @@ int ehci_resume(struct usb_hcd *hcd, bool force_reset)
+         if (ehci->shutdown)
+                 return 0;               /* Controller is dead */
+
++       if (ehci->zx_wakeup_clear == 1)
++               ehci_zx_wakeup_clear(ehci);
+         /*
+          * If CF is still set and reset isn't forced
+          * then we maintained suspend power.
+diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
+index e87cf3a..a5e27de 100644
+--- a/drivers/usb/host/ehci-pci.c
++++ b/drivers/usb/host/ehci-pci.c
+@@ -222,6 +222,10 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
+                         ehci->has_synopsys_hc_bug = 1;
+                 }
+                 break;
++       case PCI_VENDOR_ID_ZHAOXIN:
++               if (pdev->device == 0x3104 && (pdev->revision & 0xf0) == 
+0x90)
++                       ehci->zx_wakeup_clear = 1;
++               break;
+         }
+
+         /* optional debug port, normally in the first BAR */
+diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+index fdd073c..712fdd0 100644
+--- a/drivers/usb/host/ehci.h
++++ b/drivers/usb/host/ehci.h
+@@ -220,6 +220,7 @@ struct ehci_hcd {                   /* one per 
+controller */
+         unsigned                imx28_write_fix:1; /* For Freescale 
+i.MX28 */
+         unsigned                spurious_oc:1;
+         unsigned                is_aspeed:1;
++       unsigned                zx_wakeup_clear:1;
+
+         /* required for usb32 quirk */
+         #define OHCI_CTRL_HCFS          (3 << 6)
 -- 
 2.7.4
-
