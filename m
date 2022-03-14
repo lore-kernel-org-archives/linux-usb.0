@@ -2,103 +2,158 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 580BDC4332F
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 12:47:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1222C433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 14:24:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235888AbiCNMtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Mar 2022 08:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56410 "EHLO
+        id S238271AbiCNOZr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Mar 2022 10:25:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238520AbiCNMr5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 08:47:57 -0400
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCBD387A8;
-        Mon, 14 Mar 2022 05:41:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=41PUcU9tzULCiIgb8Uibh/5DuRgn44vcqHlit9be1ys=;
-  b=da5ZDADTYjfUb4CkZvv1ifI5i+2sUHWvJw+dkr6l96rFI9+3qCoi3gnv
-   q0ycGdD5ccrm59796HzJuglqTi/Zn7sM07eq2eqJ7FQY8P7GtUxL24J6z
-   5W/zcd3/E6fo/TuVnTzoYm6lik0f+KcMTza69NkDCls6kpW1/h8PdxP5f
-   k=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; 
-   d="scan'208";a="25997332"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     linux-can@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        linux-spi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        linux-leds@vger.kernel.org, Shayne Chen <shayne.chen@mediatek.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-clk@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-rdma@vger.kernel.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        linux-s390@vger.kernel.org,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        linux-power@fi.rohmeurope.com, Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-perf-users@vger.kernel.org
-Subject: [PATCH 00/30] fix typos in comments
-Date:   Mon, 14 Mar 2022 12:53:24 +0100
-Message-Id: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+        with ESMTP id S234872AbiCNOZr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 10:25:47 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 305A927FC1
+        for <linux-usb@vger.kernel.org>; Mon, 14 Mar 2022 07:24:35 -0700 (PDT)
+Received: (qmail 1680880 invoked by uid 1000); 14 Mar 2022 10:24:34 -0400
+Date:   Mon, 14 Mar 2022 10:24:34 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, CobeChen@zhaoxin.com,
+        TimGuo@zhaoxin.com, tonywwang@zhaoxin.com, weitaowang@zhaoxin.com
+Subject: Re: [PATCH] USB:Fix ehci infinite suspend-resume loop issue in
+ zhaoxin
+Message-ID: <Yi9QIk+6VIWW6V/W@rowland.harvard.edu>
+References: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Various spelling mistakes in comments.
-Detected with the help of Coccinelle.
+On Mon, Mar 14, 2022 at 03:35:37PM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+> In zhaoxin platform, some ehci projects will latch a wakeup signal
+> internal when plug in a device on port during system S0. This wakeup
+> signal will turn on when ehci runtime suspend, which will trigger a
+> system control interrupt that will resume ehci back to D0. As no
+> device connect, ehci will be set to runtime suspend and turn on the
+> internal latched wakeup signal again. It will cause a suspend-resume
+> loop and generate system control interrupt continuously.
+> 
+> Fixed this issue by clear wakeup signal latched in ehci internal when
+> ehci resume callback is called.
+> 
+> Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+> ---
+>  drivers/usb/host/ehci-hcd.c | 26 ++++++++++++++++++++++++++
+>  drivers/usb/host/ehci-pci.c |  4 ++++
+>  drivers/usb/host/ehci.h     |  1 +
+>  3 files changed, 31 insertions(+)
+> 
+> diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
+> index 3d82e0b..e4840ef 100644
+> --- a/drivers/usb/host/ehci-hcd.c
+> +++ b/drivers/usb/host/ehci-hcd.c
+> @@ -1103,6 +1103,30 @@ static void ehci_remove_device(struct usb_hcd *hcd,
+> struct usb_device *udev)
+> 
+>  #ifdef CONFIG_PM
+> 
+> +/* Clear wakeup signal locked in zhaoxin platform when device plug in. */
+> +static void ehci_zx_wakeup_clear(struct ehci_hcd *ehci)
+> +{
+> +       u32 __iomem     *reg = &ehci->regs->port_status[4];
+> +       u32     t1 = ehci_readl(ehci, reg);
 
----
+The "t1" in this line should start in the same column as the "*reg" in 
+the line above, to match the style of other variable declarations in 
+this file (see ehci_init() as an example).
 
- drivers/base/devres.c                               |    4 ++--
- drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
- drivers/clk/ti/clkctrl.c                            |    2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
- drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
- drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
- drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
- drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
- drivers/leds/leds-pca963x.c                         |    2 +-
- drivers/media/i2c/ov5695.c                          |    2 +-
- drivers/mfd/rohm-bd9576.c                           |    2 +-
- drivers/mtd/ubi/block.c                             |    2 +-
- drivers/net/can/usb/ucan.c                          |    4 ++--
- drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
- drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
- drivers/net/wireless/cisco/airo.c                   |    2 +-
- drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
- drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
- drivers/platform/x86/uv_sysfs.c                     |    2 +-
- drivers/s390/crypto/pkey_api.c                      |    2 +-
- drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
- drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
- drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
- drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
- drivers/spi/spi-sun4i.c                             |    2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
- drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
- fs/kernfs/file.c                                    |    2 +-
- kernel/events/core.c                                |    2 +-
- 30 files changed, 39 insertions(+), 39 deletions(-)
+> +
+> +       t1 &= (u32)~0xf0000;
+> +       t1 |= PORT_TEST_FORCE;
+> +       ehci_writel(ehci, t1, reg);
+> +       t1 = ehci_readl(ehci, reg);
+> +       msleep(1);
+> +       t1 &= (u32)~0xf0000;
+> +       ehci_writel(ehci, t1, reg);
+> +       ehci_readl(ehci, reg);
+> +       msleep(1);
+> +       t1 = ehci_readl(ehci, reg);
+> +       ehci_writel(ehci, t1 | PORT_CSC, reg);
+> +       ehci_readl(ehci, reg);
+> +       udelay(500);
+> +       t1 = ehci_readl(ehci, &ehci->regs->status);
+> +       ehci_writel(ehci, t1 & STS_PCD, &ehci->regs->status);
+> +       ehci_readl(ehci, &ehci->regs->status);
+
+You should not clear the STS_PCD bit.  What if some other port had a 
+status change at the same time?  Then because you cleared the 
+port-change-detect bit, the system would not realize that the other port 
+needed to be handled.
+
+Leaving the STS_PCD bit turned on will cause the driver to do a little 
+extra work, but it shouldn't cause any harm.
+
+> +}
+> +
+>  /* suspend/resume, section 4.3 */
+> 
+>  /* These routines handle the generic parts of controller suspend/resume */
+> @@ -1154,6 +1178,8 @@ int ehci_resume(struct usb_hcd *hcd, bool force_reset)
+>         if (ehci->shutdown)
+>                 return 0;               /* Controller is dead */
+> 
+> +       if (ehci->zx_wakeup_clear == 1)
+
+You don't need to check that the value is equal to 1.  Treat this 
+more like a Boolean flag and just write:
+
+	if (ehci->zx_wakeup_clear)
+
+Also, to make the flag's meaning more obvious, you might want to name 
+it "zx_wakeup_clear_needed" or "zx_clear_latched_wakeup".
+
+Otherwise this patch looks okay.  Please submit a revised version, 
+without the whitespace damage.
+
+Alan Stern
+
+> +               ehci_zx_wakeup_clear(ehci);
+>         /*
+>          * If CF is still set and reset isn't forced
+>          * then we maintained suspend power.
+> diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
+> index e87cf3a..a5e27de 100644
+> --- a/drivers/usb/host/ehci-pci.c
+> +++ b/drivers/usb/host/ehci-pci.c
+> @@ -222,6 +222,10 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
+>                         ehci->has_synopsys_hc_bug = 1;
+>                 }
+>                 break;
+> +       case PCI_VENDOR_ID_ZHAOXIN:
+> +               if (pdev->device == 0x3104 && (pdev->revision & 0xf0) ==
+> 0x90)
+> +                       ehci->zx_wakeup_clear = 1;
+> +               break;
+>         }
+> 
+>         /* optional debug port, normally in the first BAR */
+> diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+> index fdd073c..712fdd0 100644
+> --- a/drivers/usb/host/ehci.h
+> +++ b/drivers/usb/host/ehci.h
+> @@ -220,6 +220,7 @@ struct ehci_hcd {                   /* one per
+> controller */
+>         unsigned                imx28_write_fix:1; /* For Freescale i.MX28
+> */
+>         unsigned                spurious_oc:1;
+>         unsigned                is_aspeed:1;
+> +       unsigned                zx_wakeup_clear:1;
+> 
+>         /* required for usb32 quirk */
+>         #define OHCI_CTRL_HCFS          (3 << 6)
+> -- 
+> 2.7.4
