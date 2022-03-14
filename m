@@ -2,143 +2,69 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C82AC43217
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 11:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDF83C4332F
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Mar 2022 11:54:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237703AbiCNLXC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Mar 2022 07:23:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60866 "EHLO
+        id S239741AbiCNLz3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Mar 2022 07:55:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236077AbiCNLXB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 07:23:01 -0400
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DCD23A5CE
-        for <linux-usb@vger.kernel.org>; Mon, 14 Mar 2022 04:21:50 -0700 (PDT)
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com [209.85.218.71])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 10DBF3FCA0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Mar 2022 11:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1647256906;
-        bh=W9VMt9fitOMhu9PbN4y31ZgV44fBSNG49uwM8HTR7CI=;
-        h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-         In-Reply-To:Content-Type;
-        b=C6eXvayj7U/WIeKlnazwo1Ju8ONqN2yw0jBJPDHDP+MSB8ggJad/EXesuuSTrRJNy
-         6VYiQlzHNCxZlqFgGv0SxI11hIWb+Ts4H5JoE07GomrOYWQ0XhBMMbObFdDI/3M9/s
-         WUi9cUcQKfQbkR7FeVkCioLc5CJvZlJWUnlH156VTtaSj4kZwatUczXXkVIfBNX+iz
-         T6IUof1STRJGMiJKevZKiM+XJ1nVdJ9at97oioLPYFM56nsnVft/2aKlPXH0Xbk0re
-         hwVYq/BRHrQcHimlAFZPoiJ58e+OO5T3Amezbx10nYXL2sxkcsKyFAc7dxBO/S1sOW
-         l2IuhoToRj3yQ==
-Received: by mail-ej1-f71.google.com with SMTP id ga31-20020a1709070c1f00b006cec400422fso7765767ejc.22
-        for <linux-usb@vger.kernel.org>; Mon, 14 Mar 2022 04:21:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=W9VMt9fitOMhu9PbN4y31ZgV44fBSNG49uwM8HTR7CI=;
-        b=zS08AaDz2ykdTvjWbVKpUEyGQt8rFMEJc8oIhCm+iwmVgyFlv4Egy9y3n71b509Hd7
-         9I4pNZjQPOKvXY6Wnk/aQTgELnQ2+JszfzbnbBxxI4L+5tRmG8QjNHk1LB03UmMP8Nct
-         QbMSABwXRoXwUzeBupNb4OuQCKNmdJFaZJxwwcWXuD5fAEAGp+Kcrp4OLuuuBlXf8NjS
-         J/h6Ote3/9d/3Div/EKmj5iCVjFE0B25qeXc0SQESGbkfza9PTrCKAdRdjcJ2+Ae2dNr
-         XWINfiVjuqPCOhv2Dvf/FyIcJgCW4Uujn9l4rUrw75SQAJLgOqdhtr58ecaYZx8orlJi
-         CZ4A==
-X-Gm-Message-State: AOAM532TKsdqXlSkWASwFG1ERwYyFhJ7jAqxseBlOGNnhjHKm2ZGi+LE
-        fWwdtl79PEiCvul1xMXyuFHp/TL3wf6FNbm+aosxfVh5q20H6XGAPoPUeWcBfQWfnt5cpvCwmGU
-        5UAY3FNx6J9fZsBhut6I9eo/Kpr6+BR+cYhzKqg==
-X-Received: by 2002:a17:907:6da2:b0:6da:94a9:b7f3 with SMTP id sb34-20020a1709076da200b006da94a9b7f3mr18346494ejc.692.1647256904341;
-        Mon, 14 Mar 2022 04:21:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznZeSz7ppOk/V81jFboc957xuTXOB6UgvnwgrPV/5NzFrdaVAXBT1SidK5IOuXKNsAyX8TzA==
-X-Received: by 2002:a17:907:6da2:b0:6da:94a9:b7f3 with SMTP id sb34-20020a1709076da200b006da94a9b7f3mr18346474ejc.692.1647256904099;
-        Mon, 14 Mar 2022 04:21:44 -0700 (PDT)
-Received: from [192.168.0.152] (xdsl-188-155-174-239.adslplus.ch. [188.155.174.239])
-        by smtp.googlemail.com with ESMTPSA id y18-20020aa7ca12000000b0041677910461sm7859672eds.53.2022.03.14.04.21.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 04:21:43 -0700 (PDT)
-Message-ID: <1a43277a-94b9-4f95-314a-876291227982@canonical.com>
-Date:   Mon, 14 Mar 2022 12:21:42 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 1/3] dt-bindings: phy: qcom,usb-snps-femto-v2: Add phy
- override params bindings
-Content-Language: en-US
-To:     Pavan Kondeti <quic_pkondeti@quicinc.com>
-Cc:     Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
+        with ESMTP id S239738AbiCNLzY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Mar 2022 07:55:24 -0400
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7ED65CF;
+        Mon, 14 Mar 2022 04:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Z43P+J6/5TKaFsUOdg2hvihfeuRd7BJiaiR6yegy1rQ=;
+  b=mIS74DeiJvgx0sal4xZYqB5/htAhoojW9dD0u2wvcpdCjrRoL5hdjMfY
+   Xk29pwf2x99mOvSRPytiRd7XwJIU2TLO7Qjqre816LalxqStnUZlCNqDh
+   F0qE6E66sjshR6LxQIaMJH08jvuI84gyR/uTdJG6OKLOUDVOd8i5SnSON
+   0=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; 
+   d="scan'208";a="25997344"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     kernel-janitors@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Wesley Cheng <wcheng@codeaurora.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-usb@vger.kernel.org, quic_ppratap@quicinc.com,
-        quic_kriskura@quicinc.com
-References: <1646288011-32242-2-git-send-email-quic_c_sanm@quicinc.com>
- <b793195b-1d3d-63b2-19d2-72ae2aec8c0f@canonical.com>
- <20220314032952.GA27561@hu-pkondeti-hyd.qualcomm.com>
- <f1621a67-a0ff-f111-c4da-9401924e7f4a@canonical.com>
- <20220314081613.GA28402@hu-pkondeti-hyd.qualcomm.com>
- <c88396f4-4cfe-d375-1dcd-b34a6496cb06@canonical.com>
- <20220314094054.GB28402@hu-pkondeti-hyd.qualcomm.com>
- <b45b3b7e-e1c0-79b6-81c0-53c70427dd10@canonical.com>
- <20220314103045.GA31533@hu-pkondeti-hyd.qualcomm.com>
- <fadbc93f-8741-58c6-d0e5-dc740e0f0724@canonical.com>
- <20220314111313.GA6889@hu-pkondeti-hyd.qualcomm.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220314111313.GA6889@hu-pkondeti-hyd.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 11/30] usb: gadget: udc: fix typos in comments
+Date:   Mon, 14 Mar 2022 12:53:35 +0100
+Message-Id: <20220314115354.144023-12-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 14/03/2022 12:13, Pavan Kondeti wrote:
-> Hi Krzysztof,
-> 
-> On Mon, Mar 14, 2022 at 11:41:27AM +0100, Krzysztof Kozlowski wrote:
->> On 14/03/2022 11:30, Pavan Kondeti wrote:
->>> Hi Krzysztof,
->>>
->>>>
->>>> Ah, I did not get it. That's not the solution for this case. defines in
->>>> dt-bindings are for constants which already can be in DT, e.g. IDs. Your
->>>> register values should not be stored in DT.
->>>>
->>> These are again not register definitions. These are encodings that dT and
->>> driver can use. These would be constants only, no?
->>
->> What do you mean it is not a register value? I don't have access to
->> datasheet/manual but I can clearly see code:
->>
->> +	if (or->hs_disconnect.override)
->> +		qcom_snps_hsphy_write_mask(hsphy->base,
->> +			USB2_PHY_USB_PHY_HS_PHY_OVERRIDE_X0,
->> +			HS_DISCONNECT_MASK,
->> +			or->hs_disconnect.value << HS_DISCONNECT_SHIFT);
->>
->> You read the value from DT (e.g. "3" which means 6.3% for hs-disconnect)
->> and you write it to a register. Directly. 3 is a value for the hardware,
->> meaningless outside of it. It has meaning only in this one hardware
->> programming model. For humans it means nothing. For humans 6.3% means
->> something.
->>
-> 
-> Right, This is what I have been saying will change. we don't pass the direct
-> register values anymore. Instead I am saying, we pass the percentage
-> multiplied by 100. For 6.3%, user will be passing 630 in device tree. for
-> -2.75% user will pass (-275).
-> 
-> Are we on the same page now?
+Various spelling mistakes in comments.
+Detected with the help of Coccinelle.
 
-Yes, it sounds good. Thanks!
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Best regards,
-Krzysztof
+---
+ drivers/usb/gadget/udc/snps_udc_core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/snps_udc_core.c b/drivers/usb/gadget/udc/snps_udc_core.c
+index d046c09fa566..52ea4dcf6a92 100644
+--- a/drivers/usb/gadget/udc/snps_udc_core.c
++++ b/drivers/usb/gadget/udc/snps_udc_core.c
+@@ -80,7 +80,7 @@ static int stop_timer;
+  * This cannot be solved by letting the RX DMA disabled until a
+  * request gets queued because there may be other OUT packets
+  * in the FIFO (important for not blocking control traffic).
+- * The value of set_rde controls the correspondig timer.
++ * The value of set_rde controls the corresponding timer.
+  *
+  * set_rde -1 == not used, means it is alloed to be set to 0 or 1
+  * set_rde  0 == do not touch RDE, do no start the RDE timer
+
