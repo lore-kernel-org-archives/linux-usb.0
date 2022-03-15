@@ -2,129 +2,100 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 635A2C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Mar 2022 17:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A822C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Mar 2022 18:08:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350702AbiCORqp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Mar 2022 13:46:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40034 "EHLO
+        id S1350972AbiCOSJK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Mar 2022 14:09:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238809AbiCORqo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Mar 2022 13:46:44 -0400
-Received: from mail1.bemta31.messagelabs.com (mail1.bemta31.messagelabs.com [67.219.246.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C72E4F9DF;
-        Tue, 15 Mar 2022 10:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
-        s=Selector; t=1647366330; i=@motorola.com;
-        bh=5E5zxINeV0hdwni5VHVJAAVrPJoXGXxiqslzNvn1vRQ=;
-        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-         Content-Transfer-Encoding;
-        b=S/7dLSZKO7q9C3Drqhco+gKO2kfp9BF+Svlq8G0SdZgsZJHJc1GVToJRqEI1bZCRY
-         YlXH9bzphBxkPhNhwTDg/m6nGOOjoRwTWPNLsGrEtb0oF1QHVIn4QY0teNXI7ON8+G
-         pOTy/kP1gij4k4TCAVbGLB7r13CnOy+wWBloO05N7sqIgJ2SHUcoTgRJvNQ0yJgJFN
-         HvwntMXi6NjggcENRzR/Mil/u7X8/iAyxZGbV7HNOi9BHMm1dNovMJ8KHpxJLnibmU
-         eoPeE17kes2hYWZqCy9SVOz/6iYt0rfHsZAOYwXfByFqoLZoXUdduA77l66UsrhdJp
-         0Ve/mYzI7zaig==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIIsWRWlGSWpSXmKPExsUyYU+Ds+6uCwZ
-  JBuuULI61PWG3aF68ns2ic+ISdovLu+awWSxa1spssWDjI0YHNo/ZHTNZPTat6mTz2D93DbvH
-  501yASxRrJl5SfkVCawZixcXF3zjr5i/4SdbA+Mn3i5GLg4hgWlMEjcP9LBCOEuYJO62r2XvY
-  uTkYBNQk1jwehUziC0iICtx+MpvMJtZ4DmjxO9+ZRBbWMBfYseJmYwgNouAqkT77FUsIDavgI
-  XEvG9PwOISAvISp5YdZIKIC0qcnPmEBWKOvETz1tnMExi5ZyFJzUKSWsDItIrRIqkoMz2jJDc
-  xM0fX0MBA19DQRNdE11wvsUo3Ua+0WDc1sbhE11AvsbxYL7W4WK+4Mjc5J0UvL7VkEyMw9FKK
-  WNh3MK7t+al3iFGSg0lJlLew3CBJiC8pP6UyI7E4I76oNCe1+BCjDAeHkgTv7rNAOcGi1PTUi
-  rTMHGAcwKQlOHiURHhXHgNK8xYXJOYWZ6ZDpE4x6nI8vXplL7MQS15+XqqUOG/PeaAiAZCijN
-  I8uBGwmLzEKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZj3EsgUnsy8ErhNr4COYAI6Yp60Hsg
-  RJYkIKakGprXfGR7mGBgIzH9fvaX6u6PWlnB/2wkpH1yXhxR8/i2hMeEVq/ZOsUcSh+53JJ0s
-  trbk/yTyTEZHbIszT+DfcNOtnewRVaVi775Mrf417f7Tg+l9ikuizes+SDUdr/078/GM2G3zS
-  tN7S8I371wwjy3svcRSsaoNnzfbuplI27WZvfn44Iee8aQpMkLmjAvail762ovl+YSszxUt5z
-  /vdfvjNj1jfraNQXsf8bpmWpXJs/vtWbXmsqlUFqfX5durYp81ewW5pkrsLVmwZf30yQpJc24
-  e9/p9OFPQ/EdBAKvGKaanfUt22cz0UrAOfHamNFrYlL8hWTtNNWaNata7St3XOrIqjCtrwyZd
-  K21XYinOSDTUYi4qTgQAkRt2mUQDAAA=
-X-Env-Sender: w36195@motorola.com
-X-Msg-Ref: server-5.tower-706.messagelabs.com!1647366329!9570!1
-X-Originating-IP: [144.188.128.67]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.81.9; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 9506 invoked from network); 15 Mar 2022 17:45:29 -0000
-Received: from unknown (HELO ilclpfpp01.lenovo.com) (144.188.128.67)
-  by server-5.tower-706.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Mar 2022 17:45:29 -0000
-Received: from va32lmmrp02.lenovo.com (va32lmmrp02.mot.com [10.62.176.191])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by ilclpfpp01.lenovo.com (Postfix) with ESMTPS id 4KJ15j41nvzfBZq;
-        Tue, 15 Mar 2022 17:45:29 +0000 (UTC)
-Received: from p1g3.. (unknown [10.45.4.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: w36195)
-        by va32lmmrp02.lenovo.com (Postfix) with ESMTPSA id 4KJ15j0VzSzf6Wf;
-        Tue, 15 Mar 2022 17:45:29 +0000 (UTC)
-From:   Dan Vacura <w36195@motorola.com>
-To:     linux-usb@vger.kernel.org
-Cc:     stable@vger.kernel.org, Dan Vacura <w36195@motorola.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: uvc: Fix crash when encoding data for usb request
-Date:   Tue, 15 Mar 2022 12:41:46 -0500
-Message-Id: <20220315174146.27155-1-w36195@motorola.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S1350970AbiCOSJI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Mar 2022 14:09:08 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 94A0F6373;
+        Tue, 15 Mar 2022 11:07:54 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A3A41474;
+        Tue, 15 Mar 2022 11:07:54 -0700 (PDT)
+Received: from [10.57.42.204] (unknown [10.57.42.204])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B68B3F73D;
+        Tue, 15 Mar 2022 11:07:52 -0700 (PDT)
+Message-ID: <21d33a75-8c0e-7734-b3d1-dbe33cfe0ab0@arm.com>
+Date:   Tue, 15 Mar 2022 18:07:47 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 2/2] thunderbolt: Use pre-boot DMA protection on AMD
+ systems
+Content-Language: en-GB
+To:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        "open list:AMD IOMMU (AMD-VI)" <iommu@lists.linux-foundation.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Will Deacon <will@kernel.org>
+References: <20220315162455.5190-1-mario.limonciello@amd.com>
+ <20220315162455.5190-2-mario.limonciello@amd.com>
+ <YjDDUUeZ/dvUZoDN@infradead.org>
+ <BL1PR12MB5157D7B7734122684D47923AE2109@BL1PR12MB5157.namprd12.prod.outlook.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <BL1PR12MB5157D7B7734122684D47923AE2109@BL1PR12MB5157.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-During the uvcg_video_pump() process, if an error occurs and
-uvcg_queue_cancel() is called, the buffer queue will be cleared out, but
-the current marker (queue->buf_used) of the active buffer (no longer
-active) is not reset. On the next iteration of uvcg_video_pump() the
-stale buf_used count will be used and the logic of min((unsigned
-int)len, buf->bytesused - queue->buf_used) may incorrectly calculate a
-nbytes size, causing an invalid memory access.
+On 2022-03-15 16:54, Limonciello, Mario via iommu wrote:
+> [Public]
+> 
+> 
+>> On Tue, Mar 15, 2022 at 11:24:55AM -0500, Mario Limonciello wrote:
+>>> -	 * handled natively using IOMMU. It is enabled when IOMMU is
+>>> -	 * enabled and ACPI DMAR table has DMAR_PLATFORM_OPT_IN set.
+>>> +	 * handled natively using IOMMU. It is enabled when the IOMMU is
+>>> +	 * enabled and either:
+>>> +	 * ACPI DMAR table has DMAR_PLATFORM_OPT_IN set
+>>> +	 * or
+>>> +	 * ACPI IVRS table has DMA_REMAP bitset
+>>>   	 */
+>>>   	return sprintf(buf, "%d\n",
+>>> -		       iommu_present(&pci_bus_type) &&
+>> dmar_platform_optin());
+>>> +		       iommu_present(&pci_bus_type) &&
+>>> +		       (dmar_platform_optin() || amd_ivrs_remap_support()));
+>>
+>> Yikes.  No, the thunderbot code does not have any business poking into
+>> either dmar_platform_optin or amd_ivrs_remap_support.  This needs
+>> a proper abstration from the IOMMU code.
+> 
+> To make sure I follow your ask - it's to make a new generic iommu function
+> That would check dmar/ivrs, and switch out thunderbolt domain.c to use the
+> symbol?
+> 
+> I'm happy to rework that if that is what you want.
+> Do you have a preferred proposed function name for that?
 
-[80802.185460][  T315] configfs-gadget gadget: uvc: VS request completed
-with status -18.
-[80802.185519][  T315] configfs-gadget gadget: uvc: VS request completed
-with status -18.
-...
-uvcg_queue_cancel() is called and the queue is cleared out, but the
-marker queue->buf_used is not reset.
-...
-[80802.262328][ T8682] Unable to handle kernel paging request at virtual
-address ffffffc03af9f000
-...
-...
-[80802.263138][ T8682] Call trace:
-[80802.263146][ T8682]  __memcpy+0x12c/0x180
-[80802.263155][ T8682]  uvcg_video_pump+0xcc/0x1e0
-[80802.263165][ T8682]  process_one_work+0x2cc/0x568
-[80802.263173][ T8682]  worker_thread+0x28c/0x518
-[80802.263181][ T8682]  kthread+0x160/0x170
-[80802.263188][ T8682]  ret_from_fork+0x10/0x18
-[80802.263198][ T8682] Code: a8c12829 a88130cb a8c130
+But why? Either IOMMU translation is enabled or it isn't, and if it is, 
+what's to gain from guessing at *why* it might have been? And even if 
+the IOMMU's firmware table did tell the IOMMU driver to enable the 
+IOMMU, why should that be Thunderbolt's business?
 
-Signed-off-by: Dan Vacura <w36195@motorola.com>
----
- drivers/usb/gadget/function/uvc_queue.c | 2 ++
- 1 file changed, 2 insertions(+)
+Furthermore, looking at patch #1 I can only conclude that this is 
+entirely meaningless anyway. AFAICS it's literally reporting whether the 
+firmware flag was set or not. Not whether it's actually been honoured 
+and the IOMMU is enforcing any kind of DMA protection at all. Even on 
+Intel where the flag does at least have some effect on the IOMMU driver, 
+that can still be overridden.
 
-diff --git a/drivers/usb/gadget/function/uvc_queue.c b/drivers/usb/gadget/function/uvc_queue.c
-index d852ac9e47e7..2cda982f3765 100644
---- a/drivers/usb/gadget/function/uvc_queue.c
-+++ b/drivers/usb/gadget/function/uvc_queue.c
-@@ -264,6 +264,8 @@ void uvcg_queue_cancel(struct uvc_video_queue *queue, int disconnect)
- 		buf->state = UVC_BUF_STATE_ERROR;
- 		vb2_buffer_done(&buf->buf.vb2_buf, VB2_BUF_STATE_ERROR);
- 	}
-+	queue->buf_used = 0;
-+
- 	/* This must be protected by the irqlock spinlock to avoid race
- 	 * conditions between uvc_queue_buffer and the disconnection event that
- 	 * could result in an interruptible wait in uvc_dequeue_buffer. Do not
--- 
-2.32.0
+I already have a patch refactoring this to get rid of iommu_present(), 
+but at the time I wasn't looking to closely at what it's trying to *do* 
+with the information. If it's supposed to accurately reflect whether the 
+Thunderbolt device is subject to IOMMU translation and not bypassed, I 
+can fix that too (and unexport dmar_platform_optin() in the process...)
 
+Robin.
