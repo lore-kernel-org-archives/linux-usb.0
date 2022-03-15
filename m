@@ -2,67 +2,84 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFAADC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Mar 2022 14:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0803C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Mar 2022 14:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243091AbiCOO0w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Mar 2022 10:26:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58390 "EHLO
+        id S1348271AbiCOObl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Mar 2022 10:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233770AbiCOO0v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Mar 2022 10:26:51 -0400
+        with ESMTP id S241818AbiCOObk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Mar 2022 10:31:40 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3930C527C1
-        for <linux-usb@vger.kernel.org>; Tue, 15 Mar 2022 07:25:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE36954FA5;
+        Tue, 15 Mar 2022 07:30:28 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B9E7860A3C
-        for <linux-usb@vger.kernel.org>; Tue, 15 Mar 2022 14:25:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A501C340E8;
-        Tue, 15 Mar 2022 14:25:37 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B5FD60C03;
+        Tue, 15 Mar 2022 14:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E51C340E8;
+        Tue, 15 Mar 2022 14:30:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1647354339;
-        bh=QkU1WeTUPrfe96/JdrUeonej5ndwjxOK4za66gOqdiI=;
+        s=korg; t=1647354627;
+        bh=qn40PxdprBVCzXkn3epsHFdxxB8KZMbmh7d5IAVdaUo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zkh+9XLnqkNcvzjEMeCzPN12aSEAxU+LYL2rwGKXPeoypfLRHnS1B+0PKboFBmdMU
-         IQ7o4VKx8JQ3Bc+hqG+NhlRhF1eqWoICXToxU2JH9lsdOf+ASx31zwOZDYWaOBWCqv
-         xSLnqYPQf8zhMBDUR8xFU73u5EL0AAdxDPhWAeJ0=
-Date:   Tue, 15 Mar 2022 15:25:32 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-usb@vger.kernel.org, balbi@kernel.org,
-        laurent.pinchart@ideasonboard.com, paul.elder@ideasonboard.com,
-        kernel@pengutronix.de
-Subject: Re: [PATCH v6 1/7] media: v4l: move helper functions for fractions
- from uvc to v4l2-common
-Message-ID: <YjCh3Eu821f4FKhO@kroah.com>
-References: <20220105115527.3592860-1-m.grzeschik@pengutronix.de>
- <20220105115527.3592860-2-m.grzeschik@pengutronix.de>
+        b=uOazfgLJCw4W0MGwYP9/uXu5w1/mb6AAPrFCqWGxYaudvPtvJdNyEr1Pt1GWx7Yxb
+         wjv2kfvC9y7VTq3O5ES6GCWa2l82rTodrd/mcacsbNlqQhxjgpEaK2+e67CYl99sx2
+         nZdM3OZfosKXHu5ZfBzle3Y1QlELhKEHsRyMS+6Q=
+Date:   Tue, 15 Mar 2022 15:30:21 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     frank zago <frank@zago.net>
+Cc:     linux-kernel@vger.kernel.org,
+        Jan-Niklas Burfeind <kernel@aiyionpri.me>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Wolfram Sang <wsa@kernel.org>, Johan Hovold <johan@kernel.org>,
+        linux-usb@vger.kernel.org, gunar@schorcht.net,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v3] mfd: ch341: add driver for the WCH CH341 in I2C/GPIO
+ mode
+Message-ID: <YjCi/cRY51tYUowD@kroah.com>
+References: <20220314030937.22762-1-frank@zago.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220105115527.3592860-2-m.grzeschik@pengutronix.de>
+In-Reply-To: <20220314030937.22762-1-frank@zago.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 05, 2022 at 12:55:21PM +0100, Michael Grzeschik wrote:
-> The functions uvc_simplify_fraction and uvc_fraction_to_interval are
-> generic helpers which are also useful for other v4l2 drivers. This patch
-> moves them to v4l2-common.
-> 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> 
-> ---
-> v1 -> v2: -
-> v2 -> v3: -
-> v3 -> v4: -
-> v4 -> v5: -
-> v5 -> v6: -
+On Sun, Mar 13, 2022 at 10:09:37PM -0500, frank zago wrote:
+> +static int ch341_usb_probe(struct usb_interface *iface,
+> +			   const struct usb_device_id *usb_id)
+> +{
+> +	struct usb_host_endpoint *endpoints;
+> +	struct ch341_device *dev;
+> +	int rc;
+> +
+> +	dev = kzalloc(sizeof(struct ch341_device), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +
+> +	dev->usb_dev = usb_get_dev(interface_to_usbdev(iface));
+> +	dev->iface = iface;
+> +	mutex_init(&dev->usb_lock);
+> +
+> +	if (iface->cur_altsetting->desc.bNumEndpoints != 3) {
+> +		rc = -EIO;
 
-What ever happened to this series?  Should it be rebased and
-resubmitted?
+-ENODEV is the proper one here.
+
+> +		goto free_dev;
+> +	}
+> +
+> +	endpoints = iface->cur_altsetting->endpoint;
+> +	if (!usb_endpoint_is_bulk_in(&endpoints[0].desc) ||
+> +	    !usb_endpoint_is_bulk_out(&endpoints[1].desc) ||
+> +	    !usb_endpoint_xfer_int(&endpoints[2].desc)) {
+> +		rc = -EIO;
+
+Same here.
 
 thanks,
 
