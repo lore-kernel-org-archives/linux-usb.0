@@ -2,31 +2,31 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 163C7C4167E
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Mar 2022 19:20:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03259C4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Mar 2022 19:20:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357901AbiCPTVp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Mar 2022 15:21:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51102 "EHLO
+        id S1357903AbiCPTVt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Mar 2022 15:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352938AbiCPTVj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Mar 2022 15:21:39 -0400
+        with ESMTP id S231927AbiCPTVh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Mar 2022 15:21:37 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CA440A3F;
-        Wed, 16 Mar 2022 12:20:24 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7029C40A3F;
+        Wed, 16 Mar 2022 12:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=xtNRe1xty6FQQPFuledRJUXSwUairNMM4kORWxmQYV8=; b=t84D6OIOwke7941Ipke874O+qb
-        aGBsnQhRO4EXcylH7PbZ6WwWeCmIP4gE/9nv3vDdhD6Os6XtG70EyG1KDkHTNG6ABB0g9QcjpdI0J
-        6N/hmx6YYf+6oZ/gr4ycnfMFPal+Dige9a+w8PggP2gPGgVIZzFbB96HtwvXzZx0mJE3frVq+3ZoH
-        GqAwo3vDUKUFX67ZKegrnZ9P2I9r8/CCabOZh4Q2zU/aeqxkW7pHJ39DGMYNLyBiGPINg7GoFQeGX
-        gTQQQGxpmdVzC4R5jza4poDTlmba5GZouKH8tZYaUsEpaWIqAzRdgk4s8ssWMJ1Zj/YQW+S+dYFbZ
-        wOWrix6Q==;
+        bh=zlk0pYgeFrBRJtw/N83n4t+jmPWdRVlr1V46qxOWdnE=; b=OWH0M3YCDaaUvZNoeBhNPzIFL8
+        1mOFKNuRVgUQ5Iogx2eIIw9Mj4dmnKQHT/rvRLaYy7YEu6qwyj9iN55WNZ72jUQfmwyzy+g3ArdCm
+        oAlJIiC2gYZhXLC3XI/4G2V7k/3WrVQQ9xcFl2aKGM3A7RWgmcYT7G0VSZg8WJdKy0+mxV2KWtRsb
+        ktMgcdtXuN9OVRcoh5mBRUTWlMiuU5Qx+f4y4gp+RBIP8e7Iy76TUNOOuokZ0LmtPn+WZG5E5NN0r
+        p36ObkoHZue3Sl2dvNTwt8OBP6UCI2pSUL01GUxoDuJWsfMKFSZ0CcV2BnY/gDeVhh+wmf2T+ajBI
+        rw5JcjiA==;
 Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nUZC3-00EArp-Q1; Wed, 16 Mar 2022 19:20:23 +0000
+        id 1nUZBw-00EArp-Ge; Wed, 16 Mar 2022 19:20:16 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
@@ -73,9 +73,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
         linux-usb@vger.kernel.org, nouveau@lists.freedesktop.org,
         virtualization@lists.linux-foundation.org, x86@kernel.org
-Subject: [PATCH 5/9] virtio-scsi: eliminate anonymous module_init & module_exit
-Date:   Wed, 16 Mar 2022 12:20:06 -0700
-Message-Id: <20220316192010.19001-6-rdunlap@infradead.org>
+Subject: [PATCH 1/9] virtio_blk: eliminate anonymous module_init & module_exit
+Date:   Wed, 16 Mar 2022 12:20:02 -0700
+Message-Id: <20220316192010.19001-2-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220316192010.19001-1-rdunlap@infradead.org>
 References: <20220316192010.19001-1-rdunlap@infradead.org>
@@ -105,46 +105,45 @@ Example 2: (initcall_debug log)
  calling  init+0x0/0x9a @ 1
  initcall init+0x0/0x9a returned 0 after 74 usecs
 
-Fixes: 4fe74b1cb051 ("[SCSI] virtio-scsi: SCSI driver for QEMU based virtual machines")
+Fixes: e467cde23818 ("Block driver using virtio.")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Jason Wang <jasowang@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: linux-scsi@vger.kernel.org
 Cc: virtualization@lists.linux-foundation.org
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org
 ---
- drivers/scsi/virtio_scsi.c |    8 ++++----
+ drivers/block/virtio_blk.c |    8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
---- lnx-517-rc8.orig/drivers/scsi/virtio_scsi.c
-+++ lnx-517-rc8/drivers/scsi/virtio_scsi.c
-@@ -988,7 +988,7 @@ static struct virtio_driver virtio_scsi_
- 	.remove = virtscsi_remove,
+--- lnx-517-rc8.orig/drivers/block/virtio_blk.c
++++ lnx-517-rc8/drivers/block/virtio_blk.c
+@@ -1058,7 +1058,7 @@ static struct virtio_driver virtio_blk =
+ #endif
  };
  
 -static int __init init(void)
-+static int __init virtio_scsi_init(void)
++static int __init virtio_blk_init(void)
  {
- 	int ret = -ENOMEM;
+ 	int error;
  
-@@ -1020,14 +1020,14 @@ error:
- 	return ret;
+@@ -1084,14 +1084,14 @@ out_destroy_workqueue:
+ 	return error;
  }
  
 -static void __exit fini(void)
-+static void __exit virtio_scsi_fini(void)
++static void __exit virtio_blk_fini(void)
  {
- 	unregister_virtio_driver(&virtio_scsi_driver);
- 	mempool_destroy(virtscsi_cmd_pool);
- 	kmem_cache_destroy(virtscsi_cmd_cache);
+ 	unregister_virtio_driver(&virtio_blk);
+ 	unregister_blkdev(major, "virtblk");
+ 	destroy_workqueue(virtblk_wq);
  }
 -module_init(init);
 -module_exit(fini);
-+module_init(virtio_scsi_init);
-+module_exit(virtio_scsi_fini);
++module_init(virtio_blk_init);
++module_exit(virtio_blk_fini);
  
  MODULE_DEVICE_TABLE(virtio, id_table);
- MODULE_DESCRIPTION("Virtio SCSI HBA driver");
+ MODULE_DESCRIPTION("Virtio block driver");
