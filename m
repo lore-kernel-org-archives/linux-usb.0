@@ -2,232 +2,190 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC639C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 03:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F12C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 05:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231135AbiCQDfb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Mar 2022 23:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50566 "EHLO
+        id S229613AbiCQFRh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 01:17:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbiCQDf0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Mar 2022 23:35:26 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D815EBCF;
-        Wed, 16 Mar 2022 20:34:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647488041; x=1679024041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=fvSysYrUKMfGk8/VVxHhcMOBMFAuiZiHLOX32nrDtbU=;
-  b=ijtUhERXG3Cy/OyvJ+RNLnnZ5+yQSuWExjPEYB6Uya4KUqOLlGBlfy4n
-   VokXRrEApHQCN8C9fgZVoqSGqMVIDMlzdK1vJpDj4d60B5c8GD7YINXuQ
-   /ap/w+IUoRT0L8EUC2eRakgNkOtMwpgefpIGaHH8IzbYT5p1++4a1q/+q
-   uMZbG7GFB7Jh7y7Mgds5Cjj6g2JZ0DqL7RdfVsVhPCTfHWM8FAXdXtjZ9
-   qk+aw/9gi3GGCXlsWJeSu8EcHsvVsDLnbEeVqJj8gPQ8i+iVOdgT26ZUE
-   wOmnRv5brtQ/iJ88qhIomSeXO8CfnfHLexCjAAOWxuHyBuTlS3KopbNyx
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10288"; a="238935622"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="238935622"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 20:32:55 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="613867506"
-Received: from mbhanuva-mobl.amr.corp.intel.com (HELO localhost) ([10.212.30.158])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 20:32:54 -0700
-Date:   Wed, 16 Mar 2022 20:32:54 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jens Axboe <axboe@kernel.dk>, Amit Shah <amit@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Eli Cohen <eli@mellanox.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Krzysztof Opasiak <k.opasiak@samsung.com>,
-        Igor Kotrasinski <i.kotrasinsk@samsung.com>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Jussi Kivilinna <jussi.kivilinna@mbnet.fi>,
-        Joachim Fritschi <jfritschi@freenet.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Karol Herbst <karolherbst@gmail.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org, x86@kernel.org
-Subject: Re: [PATCH 0/9] treewide: eliminate anonymous module_init &
- module_exit
-Message-ID: <YjKr5vU6Vu8iW8VL@iweiny-desk3>
-References: <20220316192010.19001-1-rdunlap@infradead.org>
+        with ESMTP id S229609AbiCQFRe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 01:17:34 -0400
+Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D10232104
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:02:20 -0700 (PDT)
+Received: by mail-oo1-xc31.google.com with SMTP id u30-20020a4a6c5e000000b00320d8dc2438so5181456oof.12
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NavN5PfG0SoH7IP8V9kbX5XfpZ3HZw9He6gkjWERkCU=;
+        b=qtWmzkS+MbsvdEN49AkaqqVHCU4OivQT2IM/YQx19Ui8pQvjGwCl2gerX4eY8jN4Xz
+         eta+HJDU6usM+zn0aVi4c2Cxve4bDz8VMyi0mIga7ub4Nxis8Hg9QpGe8tRrjFRiovUZ
+         RpCaOQIjY/aGfRWOfAA5eXgsrfKH/XL/aNwBysT5xwnhnX/lJj7WrCL7mDkpWJgRMOXx
+         jkkaPVv5POeb86VP/cVFUVR7ORwx6cYvV8sRJ0fdmX2FsRB443GrjnTxDA45+QGy/9Ca
+         G+zj5iVjEkcE9EsZqjnh0KmrI7ErnXS/BR40aBNMwUHPZ8FpB8vRkF55uBZ6kc78+gx4
+         I3Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=NavN5PfG0SoH7IP8V9kbX5XfpZ3HZw9He6gkjWERkCU=;
+        b=UINDzjIDA85fGHOp1ey+dq5DUp+iu5GKkY5Z7jgoO3AkImPK7lkNmOnBUIYsLOs4LG
+         0A6eCRAtX6gpJfNEDesvXHdXRO3JFyd5zrbymYk2msSfNV8ihBWSzFmLA+gOaLz50zfJ
+         iL+2+H38Qrt8qxZZurB9zqEKWeEHt0kwk4aj4p1IVo57KU2V+AqnRTPQnpBC2YH29FfA
+         /i+gzytmXpGhaiCCYqMBNEyhOGZ4naYKNr0LjgxLp/TpCGjK3iMz4IWNI/zA7RQlXdGz
+         wSXfY2H1XDc3qAIhc0XUNuEv6+wFmeHKG3SriM3ffBh03wyyjp4+M0wVnB0mFwQUyVB6
+         cP7w==
+X-Gm-Message-State: AOAM533lbN5VwjHpQA8z+et061XmOOBR0Qt4nZV0AdunSzRB6O01SIVT
+        wJrOD3OH2V8vmfPf6cScspZsa4YKlwg+MA==
+X-Google-Smtp-Source: ABdhPJzyMuFf8xSvVZDsDQH2hBQGuE9Lvas0y9oGjv0VKJIy7ivAW9dg/qpKooxSURcRzQvhfOxTfg==
+X-Received: by 2002:a17:90a:9ab:b0:1c6:34bd:3d96 with SMTP id 40-20020a17090a09ab00b001c634bd3d96mr3054092pjo.25.1647489347274;
+        Wed, 16 Mar 2022 20:55:47 -0700 (PDT)
+Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
+        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 20:55:46 -0700 (PDT)
+Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Clemens Ladisch <clemens@ladisch.de>
+Subject: [PATCH v4 7/9] sound: usb: remove third argument of usb_maxpacket()
+Date:   Thu, 17 Mar 2022 12:55:12 +0900
+Message-Id: <20220317035514.6378-8-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
+References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
+ <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220316192010.19001-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 16, 2022 at 12:20:01PM -0700, Randy Dunlap wrote:
-> There are a number of drivers that use "module_init(init)" and
-> "module_exit(exit)", which are anonymous names and can lead to
-> confusion or ambiguity when reading System.map, crashes/oops/bugs,
-> or an initcall_debug log.
-> 
-> Give each of these init and exit functions unique driver-specific
-> names to eliminate the anonymous names.
+The third argument of usb_maxpacket(): in_out has been deprecated
+because it could be derived from the second argument (e.g. using
+usb_pipeout(pipe)).
 
-I'm not fully sure about the Fixes tags but I don't see that it hurts anything.
+N.B. function usb_maxpacket() was made variadic to accommodate the
+transition from the old prototype with three arguments to the new one
+with only two arguments (so that no renaming is needed). The variadic
+argument is to be removed once all users of usb_maxpacket() get
+migrated.
 
-For the series:
+CC: Jaroslav Kysela <perex@perex.cz>
+CC: Takashi Iwai <tiwai@suse.com>
+CC: Clemens Ladisch <clemens@ladisch.de>
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ sound/usb/line6/pcm.c           | 4 ++--
+ sound/usb/midi.c                | 4 ++--
+ sound/usb/usx2y/usb_stream.c    | 6 +++---
+ sound/usb/usx2y/usbusx2yaudio.c | 2 +-
+ sound/usb/usx2y/usx2yhwdeppcm.c | 2 +-
+ 5 files changed, 9 insertions(+), 9 deletions(-)
 
-Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
+index fdbdfb7bce92..6a4af725aedd 100644
+--- a/sound/usb/line6/pcm.c
++++ b/sound/usb/line6/pcm.c
+@@ -552,10 +552,10 @@ int line6_init_pcm(struct usb_line6 *line6,
+ 
+ 	line6pcm->max_packet_size_in =
+ 		usb_maxpacket(line6->usbdev,
+-			usb_rcvisocpipe(line6->usbdev, ep_read), 0);
++			usb_rcvisocpipe(line6->usbdev, ep_read));
+ 	line6pcm->max_packet_size_out =
+ 		usb_maxpacket(line6->usbdev,
+-			usb_sndisocpipe(line6->usbdev, ep_write), 1);
++			usb_sndisocpipe(line6->usbdev, ep_write));
+ 	if (!line6pcm->max_packet_size_in || !line6pcm->max_packet_size_out) {
+ 		dev_err(line6pcm->line6->ifcdev,
+ 			"cannot get proper max packet size\n");
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index 2c01649c70f6..fba498f9e7dc 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -1285,7 +1285,7 @@ static int snd_usbmidi_in_endpoint_create(struct snd_usb_midi *umidi,
+ 		pipe = usb_rcvintpipe(umidi->dev, ep_info->in_ep);
+ 	else
+ 		pipe = usb_rcvbulkpipe(umidi->dev, ep_info->in_ep);
+-	length = usb_maxpacket(umidi->dev, pipe, 0);
++	length = usb_maxpacket(umidi->dev, pipe);
+ 	for (i = 0; i < INPUT_URBS; ++i) {
+ 		buffer = usb_alloc_coherent(umidi->dev, length, GFP_KERNEL,
+ 					    &ep->urbs[i]->transfer_dma);
+@@ -1374,7 +1374,7 @@ static int snd_usbmidi_out_endpoint_create(struct snd_usb_midi *umidi,
+ 		pipe = usb_sndbulkpipe(umidi->dev, ep_info->out_ep);
+ 	switch (umidi->usb_id) {
+ 	default:
+-		ep->max_transfer = usb_maxpacket(umidi->dev, pipe, 1);
++		ep->max_transfer = usb_maxpacket(umidi->dev, pipe);
+ 		break;
+ 		/*
+ 		 * Various chips declare a packet size larger than 4 bytes, but
+diff --git a/sound/usb/usx2y/usb_stream.c b/sound/usb/usx2y/usb_stream.c
+index 9d0e44793896..a4d32e8a1d36 100644
+--- a/sound/usb/usx2y/usb_stream.c
++++ b/sound/usb/usx2y/usb_stream.c
+@@ -51,7 +51,7 @@ static int init_pipe_urbs(struct usb_stream_kernel *sk,
+ {
+ 	int u, p;
+ 	int maxpacket = use_packsize ?
+-		use_packsize : usb_maxpacket(dev, pipe, usb_pipeout(pipe));
++		use_packsize : usb_maxpacket(dev, pipe);
+ 	int transfer_length = maxpacket * sk->n_o_ps;
+ 
+ 	for (u = 0; u < USB_STREAM_NURBS;
+@@ -171,7 +171,7 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	out_pipe = usb_sndisocpipe(dev, out_endpoint);
+ 
+ 	max_packsize = use_packsize ?
+-		use_packsize : usb_maxpacket(dev, in_pipe, 0);
++		use_packsize : usb_maxpacket(dev, in_pipe);
+ 
+ 	/*
+ 		t_period = period_frames / sample_rate
+@@ -187,7 +187,7 @@ struct usb_stream *usb_stream_new(struct usb_stream_kernel *sk,
+ 	read_size += packets * USB_STREAM_URBDEPTH *
+ 		(max_packsize + sizeof(struct usb_stream_packet));
+ 
+-	max_packsize = usb_maxpacket(dev, out_pipe, 1);
++	max_packsize = usb_maxpacket(dev, out_pipe);
+ 	write_size = max_packsize * packets * USB_STREAM_URBDEPTH;
+ 
+ 	if (read_size >= 256*PAGE_SIZE || write_size >= 256*PAGE_SIZE) {
+diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudio.c
+index cfc1ea53978d..9cd5e3aae4f7 100644
+--- a/sound/usb/usx2y/usbusx2yaudio.c
++++ b/sound/usb/usx2y/usbusx2yaudio.c
+@@ -421,7 +421,7 @@ static int usx2y_urbs_allocate(struct snd_usx2y_substream *subs)
+ 
+ 	pipe = is_playback ? usb_sndisocpipe(dev, subs->endpoint) :
+ 			usb_rcvisocpipe(dev, subs->endpoint);
+-	subs->maxpacksize = usb_maxpacket(dev, pipe, is_playback);
++	subs->maxpacksize = usb_maxpacket(dev, pipe);
+ 	if (!subs->maxpacksize)
+ 		return -EINVAL;
+ 
+diff --git a/sound/usb/usx2y/usx2yhwdeppcm.c b/sound/usb/usx2y/usx2yhwdeppcm.c
+index db83522c1b49..240349b644f3 100644
+--- a/sound/usb/usx2y/usx2yhwdeppcm.c
++++ b/sound/usb/usx2y/usx2yhwdeppcm.c
+@@ -321,7 +321,7 @@ static int usx2y_usbpcm_urbs_allocate(struct snd_usx2y_substream *subs)
+ 
+ 	pipe = is_playback ? usb_sndisocpipe(dev, subs->endpoint) :
+ 			usb_rcvisocpipe(dev, subs->endpoint);
+-	subs->maxpacksize = usb_maxpacket(dev, pipe, is_playback);
++	subs->maxpacksize = usb_maxpacket(dev, pipe);
+ 	if (!subs->maxpacksize)
+ 		return -EINVAL;
+ 
+-- 
+2.34.1
 
-> 
-> Example 1: (System.map)
->  ffffffff832fc78c t init
->  ffffffff832fc79e t init
->  ffffffff832fc8f8 t init
->  ffffffff832fca05 t init
->  ffffffff832fcbd2 t init
->  ffffffff83328f0e t init
->  ffffffff8332c5b1 t init
->  ffffffff8332d9eb t init
->  ffffffff8332f0aa t init
->  ffffffff83330e25 t init
->  ffffffff833317a5 t init
->  ffffffff8333dd6b t init
-> 
-> Example 2: (initcall_debug log)
->  calling  init+0x0/0x12 @ 1
->  initcall init+0x0/0x12 returned 0 after 15 usecs
->  calling  init+0x0/0x60 @ 1
->  initcall init+0x0/0x60 returned 0 after 2 usecs
->  calling  init+0x0/0x9a @ 1
->  initcall init+0x0/0x9a returned 0 after 74 usecs
->  calling  init+0x0/0x73 @ 1
->  initcall init+0x0/0x73 returned 0 after 6 usecs
->  calling  init+0x0/0x73 @ 1
->  initcall init+0x0/0x73 returned 0 after 4 usecs
->  calling  init+0x0/0xf5 @ 1
->  initcall init+0x0/0xf5 returned 0 after 27 usecs
->  calling  init+0x0/0x7d @ 1
->  initcall init+0x0/0x7d returned 0 after 11 usecs
->  calling  init+0x0/0xc9 @ 1
->  initcall init+0x0/0xc9 returned 0 after 19 usecs
->  calling  init+0x0/0x9d @ 1
->  initcall init+0x0/0x9d returned 0 after 37 usecs
->  calling  init+0x0/0x63f @ 1
->  initcall init+0x0/0x63f returned 0 after 411 usecs
->  calling  init+0x0/0x171 @ 1
->  initcall init+0x0/0x171 returned 0 after 61 usecs
->  calling  init+0x0/0xef @ 1
->  initcall init+0x0/0xef returned 0 after 3 usecs
-> 
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> Cc: Amit Shah <amit@kernel.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Eli Cohen <eli@mellanox.com>
-> Cc: Saeed Mahameed <saeedm@nvidia.com>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
-> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
-> Cc: Florian Westphal <fw@strlen.de>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
-> Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
-> Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
-> Cc: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Krzysztof Opasiak <k.opasiak@samsung.com>
-> Cc: Igor Kotrasinski <i.kotrasinsk@samsung.com>
-> Cc: Valentina Manea <valentina.manea.m@gmail.com>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Jussi Kivilinna <jussi.kivilinna@mbnet.fi>
-> Cc: Joachim Fritschi <jfritschi@freenet.de>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@kernel.org>
-> Cc: Karol Herbst <karolherbst@gmail.com>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: netfilter-devel@vger.kernel.org
-> Cc: coreteam@netfilter.org
-> Cc: netdev@vger.kernel.org
-> Cc: linux-block@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: linux-scsi@vger.kernel.org
-> Cc: linux-usb@vger.kernel.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: virtualization@lists.linux-foundation.org
-> Cc: x86@kernel.org
-> 
-> patches:
->  [PATCH 1/9] virtio_blk: eliminate anonymous module_init & module_exit
->  [PATCH 2/9] virtio_console: eliminate anonymous module_init & module_exit
->  [PATCH 3/9] net: mlx5: eliminate anonymous module_init & module_exit
->  [PATCH 4/9] netfilter: h323: eliminate anonymous module_init & module_exit
->  [PATCH 5/9] virtio-scsi: eliminate anonymous module_init & module_exit
->  [PATCH 6/9] usb: gadget: eliminate anonymous module_init & module_exit
->  [PATCH 7/9] usb: usbip: eliminate anonymous module_init & module_exit
->  [PATCH 8/9] x86/crypto: eliminate anonymous module_init & module_exit
->  [PATCH 9/9] testmmiotrace: eliminate anonymous module_init & module_exit
-> 
-> diffstat:
->  arch/x86/crypto/blowfish_glue.c                |    8 ++++----
->  arch/x86/crypto/camellia_glue.c                |    8 ++++----
->  arch/x86/crypto/serpent_avx2_glue.c            |    8 ++++----
->  arch/x86/crypto/twofish_glue.c                 |    8 ++++----
->  arch/x86/crypto/twofish_glue_3way.c            |    8 ++++----
->  arch/x86/mm/testmmiotrace.c                    |    8 ++++----
->  drivers/block/virtio_blk.c                     |    8 ++++----
->  drivers/char/virtio_console.c                  |    8 ++++----
->  drivers/net/ethernet/mellanox/mlx5/core/main.c |    8 ++++----
->  drivers/scsi/virtio_scsi.c                     |    8 ++++----
->  drivers/usb/gadget/legacy/inode.c              |    8 ++++----
->  drivers/usb/gadget/legacy/serial.c             |   10 +++++-----
->  drivers/usb/gadget/udc/dummy_hcd.c             |    8 ++++----
->  drivers/usb/usbip/vudc_main.c                  |    8 ++++----
->  net/ipv4/netfilter/nf_nat_h323.c               |    8 ++++----
->  15 files changed, 61 insertions(+), 61 deletions(-)
