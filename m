@@ -2,62 +2,59 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DEAC433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 05:35:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B12C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:04:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbiCQFgY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 01:36:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49770 "EHLO
+        id S229498AbiCQGGG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 02:06:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbiCQFgR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 01:36:17 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38C625514F
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:05:11 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id kd12so3498152qvb.1
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:05:11 -0700 (PDT)
+        with ESMTP id S229590AbiCQGF4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:05:56 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7859CDCA8F
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:37:40 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id b188so4600189oia.13
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:37:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=f0m2uZXk20PdTOX8X4iHJpxmoZkDdwnaHqyVWbQ8Vag=;
-        b=XaZZWMyFr4uVkDPH/w9n+ZZADx4KcRFl9mxserld2Viy3glIMITLbeh1znXs+Q5wW2
-         RCg8P7tjTnrxLdf6yTSi2sjid4bV5ZPCzFXin3HZ4KTWiXr1DQXHSpdb0KpZR6ClLHN+
-         vNnwkqQ8QwRBV9kZjHSfdGN6lkGrYJ0H2HFtKM7EbNut6afdcw20lAXTAJOmjT0bBz6h
-         jDtJz3p1B/JHv22GkZqN1y7D66tkDzQlbccUpRinvpdPG0S8gW2ZZzYziSuD9DjI5XyQ
-         pNpksmFQgq2TsDPSxwm7Ypt1GE9TTUDdNExBXmnQTaumajq8wOJUh8PISNmtCxgfB1sc
-         6ojA==
+        bh=ceem6RmP/yEqjGNLoTEsmJ4aPRMMWZNmndo0Vukg9II=;
+        b=Uh0pYOZ0PGTaA5tApNxJCok5Q0c5eO0syIRU2q354Kx2FYqXqS3HLNn3A2YY9ZeTLU
+         5vwuslGlonqzGPngcr+DCrbVbvbHb3+URilfVGiXCKBFysFhCQzeGG/JKd/X1Uv1QPHC
+         +Qpwfi8rB4pvGMNhTDWLXtROEOMlaYwyzNrSYmDTmqAXfavwiytTsS7YNpl6wf4+CLCY
+         WdRlAcrnFlIyv5VVLLbMxPS0uhXQuts5qTHWg4re2BtsKOGFkZRq2vRyfewm3Q7zM//g
+         aj5K2a6DWylFJvDs/GKpyUaTHKYhwQ+5TPubLWUEbsGTIgHfVcls6OOEyYS/AtdqKnU0
+         gRZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=f0m2uZXk20PdTOX8X4iHJpxmoZkDdwnaHqyVWbQ8Vag=;
-        b=kgNUYXblZfXbE6M7xWvth4vUACejqH0xbicYTqFle/r3Xiq0fo89WAgFEWuM8whCeR
-         t1NrQpgLfyX3ELDgfwneeDVMENIerVuGYEc5CCDARlpTQZcznporM9/yNt7mkjntneKI
-         GFOII4cr9yDjbjIZoHUmoy/1OoT/BjL2fRfK7TOG7gbjNxYB//4l8hvOGaeXWzTEuax5
-         Z5poY3z5yTxZb2/+YjEeN1xX831uqa1Mhh8kRcXEd4nYRoTma0seEViD6S6g7uy8pI3r
-         08BvTnSXoeJzqhN3gdEw5XmmuA8dIpsqiWNaWWgURi7NvD91Yn2UY7qw1sRqZUJQeU/N
-         xpdQ==
-X-Gm-Message-State: AOAM5312ZYUidDnmjpBztD0AnmMx9trCDN8j1t5Wq0NGfMgCYHWMEqAN
-        RPVtlKHMzhKjVBfPUoFFzfMBYqsZQNcyPg==
-X-Google-Smtp-Source: ABdhPJxqfk77R42LMVMKcN2JUjsEY++xS3EfPZSx5b+Oo8O/jR6XhUG5Pgf4ZPeD0hXgwExWCZzcKg==
-X-Received: by 2002:a17:903:11cc:b0:151:71e4:dadc with SMTP id q12-20020a17090311cc00b0015171e4dadcmr3046602plh.78.1647489338157;
-        Wed, 16 Mar 2022 20:55:38 -0700 (PDT)
+        bh=ceem6RmP/yEqjGNLoTEsmJ4aPRMMWZNmndo0Vukg9II=;
+        b=ZPvW/SRDSyDIGbO88DCvLm4ceWSogIYpQWWoZMunvglaDYG6jNhOgNZKnecF0buEUs
+         z6spErKNQicQ1xxy15Fiy+KCeqKOfNCGagpLANrBd7fmh8JXSIx8/kfINHf/QnZ7bHCz
+         CLKukr/dTYK0rrR/Lr6pndhyamX1vlHGMgf80gWWWW5qMdr6XHZIb8mffk6V0N3iFJxq
+         XeLGOYCWoDQARU5QyxjjQPzUec3urNYSges+qNVdtMRE2nXg2jCnn964hxJZk5boepMt
+         S0g2URct3KfZJlfAlIVMQhjEArti1DNN1UEIqUTMSnm2RXQBbnEV60hrJvBGyf1UJCTd
+         gAtw==
+X-Gm-Message-State: AOAM532UKC0K+h2pk2phIoqeRaLLdKJAIuDh+g9JZY43KGnIyMtjSIVi
+        MOpw39gIeOteIF4PNtgV8QYSFOXUalU2qg==
+X-Google-Smtp-Source: ABdhPJzFBH8+ijIomMbZc5BqEdet4RmW3hQyc7e4TumYZZ90DTAH8P5feGg76Fpkamg1aSrh9AVqnA==
+X-Received: by 2002:a17:90a:5797:b0:1bc:56a9:f6c8 with SMTP id g23-20020a17090a579700b001bc56a9f6c8mr13853390pji.12.1647489350433;
+        Wed, 16 Mar 2022 20:55:50 -0700 (PDT)
 Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
-        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.36
+        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 20:55:37 -0700 (PDT)
+        Wed, 16 Mar 2022 20:55:49 -0700 (PDT)
 Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
 From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org
-Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Ville Syrjala <syrjala@sci.fi>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henk Vergonet <Henk.Vergonet@gmail.com>
-Subject: [PATCH v4 3/9] Input: remove third argument of usb_maxpacket()
-Date:   Thu, 17 Mar 2022 12:55:08 +0900
-Message-Id: <20220317035514.6378-4-mailhol.vincent@wanadoo.fr>
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: [PATCH v4 9/9] usb: rework usb_maxpacket() using usb_pipe_endpoint()
+Date:   Thu, 17 Mar 2022 12:55:14 +0900
+Message-Id: <20220317035514.6378-10-mailhol.vincent@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
 References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
@@ -68,107 +65,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The third argument of usb_maxpacket(): in_out has been deprecated
-because it could be derived from the second argument (e.g. using
-usb_pipeout(pipe)).
+Rework the body of usb_maxpacket() and just rely on the
+usb_pipe_endpoint() helper function to retrieve the host endpoint
+instead of doing it by hand.
 
-N.B. function usb_maxpacket() was made variadic to accommodate the
-transition from the old prototype with three arguments to the new one
-with only two arguments (so that no renaming is needed). The variadic
-argument is to be removed once all users of usb_maxpacket() get
-migrated.
-
-CC: Ville Syrjala <syrjala@sci.fi>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Henk Vergonet <Henk.Vergonet@gmail.com>
 Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 ---
- drivers/input/misc/ati_remote2.c         | 2 +-
- drivers/input/misc/cm109.c               | 2 +-
- drivers/input/misc/powermate.c           | 2 +-
- drivers/input/misc/yealink.c             | 2 +-
- drivers/input/tablet/acecad.c            | 2 +-
- drivers/input/tablet/pegasus_notetaker.c | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ include/linux/usb.h | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/input/misc/ati_remote2.c b/drivers/input/misc/ati_remote2.c
-index 8a36d78fed63..946bf75aa106 100644
---- a/drivers/input/misc/ati_remote2.c
-+++ b/drivers/input/misc/ati_remote2.c
-@@ -639,7 +639,7 @@ static int ati_remote2_urb_init(struct ati_remote2 *ar2)
- 			return -ENOMEM;
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 8127782aa7a1..60bee864d897 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1971,13 +1971,7 @@ usb_pipe_endpoint(struct usb_device *dev, unsigned int pipe)
  
- 		pipe = usb_rcvintpipe(udev, ar2->ep[i]->bEndpointAddress);
--		maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
-+		maxp = usb_maxpacket(udev, pipe);
- 		maxp = maxp > 4 ? 4 : maxp;
+ static inline u16 usb_maxpacket(struct usb_device *udev, int pipe)
+ {
+-	struct usb_host_endpoint	*ep;
+-	unsigned			epnum = usb_pipeendpoint(pipe);
+-
+-	if (usb_pipeout(pipe))
+-		ep = udev->ep_out[epnum];
+-	else
+-		ep = udev->ep_in[epnum];
++	struct usb_host_endpoint *ep = usb_pipe_endpoint(udev, pipe);
  
- 		usb_fill_int_urb(ar2->urb[i], udev, pipe, ar2->buf[i], maxp,
-diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
-index f515fae465c3..728325a2d574 100644
---- a/drivers/input/misc/cm109.c
-+++ b/drivers/input/misc/cm109.c
-@@ -745,7 +745,7 @@ static int cm109_usb_probe(struct usb_interface *intf,
- 
- 	/* get a handle to the interrupt data pipe */
- 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
--	ret = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
-+	ret = usb_maxpacket(udev, pipe);
- 	if (ret != USB_PKT_LEN)
- 		dev_err(&intf->dev, "invalid payload size %d, expected %d\n",
- 			ret, USB_PKT_LEN);
-diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
-index c4e0e1886061..c1c733a9cb89 100644
---- a/drivers/input/misc/powermate.c
-+++ b/drivers/input/misc/powermate.c
-@@ -374,7 +374,7 @@ static int powermate_probe(struct usb_interface *intf, const struct usb_device_i
- 
- 	/* get a handle to the interrupt data pipe */
- 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
--	maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(udev, pipe);
- 
- 	if (maxp < POWERMATE_PAYLOAD_SIZE_MIN || maxp > POWERMATE_PAYLOAD_SIZE_MAX) {
- 		printk(KERN_WARNING "powermate: Expected payload of %d--%d bytes, found %d bytes!\n",
-diff --git a/drivers/input/misc/yealink.c b/drivers/input/misc/yealink.c
-index 8ab01c7601b1..69420781db30 100644
---- a/drivers/input/misc/yealink.c
-+++ b/drivers/input/misc/yealink.c
-@@ -905,7 +905,7 @@ static int usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 
- 	/* get a handle to the interrupt data pipe */
- 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
--	ret = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
-+	ret = usb_maxpacket(udev, pipe);
- 	if (ret != USB_PKT_LEN)
- 		dev_err(&intf->dev, "invalid payload size %d, expected %zd\n",
- 			ret, USB_PKT_LEN);
-diff --git a/drivers/input/tablet/acecad.c b/drivers/input/tablet/acecad.c
-index a38d1fe97334..56c7e471ac32 100644
---- a/drivers/input/tablet/acecad.c
-+++ b/drivers/input/tablet/acecad.c
-@@ -130,7 +130,7 @@ static int usb_acecad_probe(struct usb_interface *intf, const struct usb_device_
- 		return -ENODEV;
- 
- 	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
--	maxp = usb_maxpacket(dev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(dev, pipe);
- 
- 	acecad = kzalloc(sizeof(struct usb_acecad), GFP_KERNEL);
- 	input_dev = input_allocate_device();
-diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
-index 749edbdb7ffa..c608ac505d1b 100644
---- a/drivers/input/tablet/pegasus_notetaker.c
-+++ b/drivers/input/tablet/pegasus_notetaker.c
-@@ -296,7 +296,7 @@ static int pegasus_probe(struct usb_interface *intf,
- 	pegasus->intf = intf;
- 
- 	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
--	pegasus->data_len = usb_maxpacket(dev, pipe, usb_pipeout(pipe));
-+	pegasus->data_len = usb_maxpacket(dev, pipe);
- 
- 	pegasus->data = usb_alloc_coherent(dev, pegasus->data_len, GFP_KERNEL,
- 					   &pegasus->data_dma);
+ 	if (!ep)
+ 		return 0;
 -- 
 2.34.1
 
