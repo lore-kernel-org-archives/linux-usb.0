@@ -2,163 +2,146 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B49C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 14:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5BE9C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 15:47:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235059AbiCQOY7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 10:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55042 "EHLO
+        id S236058AbiCQPtL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 11:49:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231233AbiCQOY4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 10:24:56 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F71549FA2;
-        Thu, 17 Mar 2022 07:23:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647527020; x=1679063020;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CRwG4aY4JJ4LjAE7lBFW8th+dS3FJs6IUGzKssvwkes=;
-  b=b/5rUZ+jPBKWx28C5Avm2VD+DjWyNwXmm4mwWbaznz1vTpasv5cIpAdj
-   b5QGVf8n+5OchGnEVtvSaYwdhD0NtN+6Q4nvfQ/Gc5dFaK2S0shfOZ5h4
-   3oTFsv5QnUKkNcYw4BIg6MGKao/RDIiJxxWtd06UqxPGWTiHV/43jql4j
-   APDF2QeW+uUnX1KWPi+rV6VEl6GFYLOL01WnShUaZtr0RbMQHon5cj/RV
-   WeYv0lfHh6xmCBLmc0F98sHEniQxNwbuL/VVihusk0JwdRNjxeLHU4nsH
-   d7MYT17P7jlhW07k5AeEnXeNGg8NBjMJyRq18ROFKfkMhdQ3t0ULY9BLK
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10289"; a="254434487"
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="254434487"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 07:23:40 -0700
-X-IronPort-AV: E=Sophos;i="5.90,188,1643702400"; 
-   d="scan'208";a="581306413"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2022 07:23:36 -0700
-Received: by lahna (sSMTP sendmail emulation); Thu, 17 Mar 2022 16:21:22 +0200
-Date:   Thu, 17 Mar 2022 16:21:22 +0200
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     "michael.jamet@intel.com" <michael.jamet@intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-        "hch@lst.de" <hch@lst.de>
-Subject: Re: [PATCH] thunderbolt: Stop using iommu_present()
-Message-ID: <YjND4iZaLZbhJhbg@lahna>
-References: <YjIb+XOGZbWKpQDa@lahna>
- <BL1PR12MB515762E68F3A48A97EB2DC89E2119@BL1PR12MB5157.namprd12.prod.outlook.com>
- <YjIgQfmcw6fydkXd@lahna>
- <3bb6a2f8-005b-587a-7d7a-7a9a5391ec05@arm.com>
- <BL1PR12MB5157DA58C3BDAFB5736676F6E2119@BL1PR12MB5157.namprd12.prod.outlook.com>
- <5ef1c30a-1740-00cc-ad16-4b1c1b02fca4@arm.com>
- <BL1PR12MB5157380CD6FD9EB83E76CBB0E2119@BL1PR12MB5157.namprd12.prod.outlook.com>
- <0709e994-1c8b-56fe-7743-8fdbf3ba748b@arm.com>
- <YjLsfhUmhjOiy6G8@lahna>
- <23f232a1-f511-d2fe-b1f8-5fd32b3a1a8f@arm.com>
+        with ESMTP id S234278AbiCQPtK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 11:49:10 -0400
+Received: from comms.puri.sm (comms.puri.sm [159.203.221.185])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E9713EB7;
+        Thu, 17 Mar 2022 08:47:53 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id DD5ACE0139;
+        Thu, 17 Mar 2022 08:47:52 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id T1hfA1Qg9heb; Thu, 17 Mar 2022 08:47:52 -0700 (PDT)
+From:   Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Cc:     Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sven Peter <sven@svenpeter.dev>,
+        =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+        Angus Ainslie <angus@akkea.ca>,
+        Hector Martin <marcan@marcan.st>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-kernel@vger.kernel.org, kernel@puri.sm
+Subject: [PATCH 1/7] usb: typec: tipd: Only update power status on IRQ
+Date:   Thu, 17 Mar 2022 16:45:12 +0100
+Message-Id: <20220317154518.4082046-2-sebastian.krzyszkowiak@puri.sm>
+In-Reply-To: <20220317154518.4082046-1-sebastian.krzyszkowiak@puri.sm>
+References: <20220317154518.4082046-1-sebastian.krzyszkowiak@puri.sm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23f232a1-f511-d2fe-b1f8-5fd32b3a1a8f@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Robin,
+From: Guido Günther <agx@sigxcpu.org>
 
-On Thu, Mar 17, 2022 at 01:42:56PM +0000, Robin Murphy wrote:
-> On 2022-03-17 08:08, Mika Westerberg wrote:
-> > Hi Robin,
-> > 
-> > On Wed, Mar 16, 2022 at 07:17:57PM +0000, Robin Murphy wrote:
-> > > The feeling I'm getting from all this is that if we've got as far as
-> > > iommu_dma_protection_show() then it's really too late to meaningfully
-> > > mitigate bad firmware.
-> > 
-> > Note, these are requirements from Microsoft in order for the system to
-> > use the "Kernel DMA protection". Because of this, likelyhood of "bad
-> > firmware" should be quite low since these systems ship with Windows
-> > installed so they should get at least some soft of validation that this
-> > actually works.
-> > 
-> > > We should be able to detect missing
-> > > untrusted/external-facing properties as early as nhi_probe(), and if we
-> > > could go into "continue at your own risk" mode right then *before* anything
-> > > else happens, it all becomes a lot easier to reason about.
-> > 
-> > I think what we want is that the DMAR opt-in bit is set in the ACPI
-> > tables and that we know the full IOMMU translation is happening for the
-> > devices behind "external facing ports". If that's not the case the
-> > iommu_dma_protection_show() should return 0 meaning the userspace can
-> > ask the user whether the connected device is allowed to use DMA (e.g
-> > PCIe is tunneled or not).
-> 
-> Ah, if it's safe to just say "no protection" in the case that we don't know
-> for sure, that's even better. Clearly I hadn't quite grasped that aspect of
-> the usage model, thanks for the nudge!
+Instead of refetching power status cache it and only update it when a
+change is signalled via irq. This simplifies tracing and adding more
+supply properties in follow up patches.
 
-There is some documentation here too, hope it is helpful:
+Signed-off-by: Guido Günther <agx@sigxcpu.org>
+Signed-off-by: Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>
+---
+ drivers/usb/typec/tipd/core.c | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
-https://docs.kernel.org/admin-guide/thunderbolt.html
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index 16b4560216ba..dfbba5ae9487 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -93,6 +93,8 @@ struct tps6598x {
+ 	struct power_supply *psy;
+ 	struct power_supply_desc psy_desc;
+ 	enum power_supply_usb_type usb_type;
++
++	u16 pwr_status;
+ };
+ 
+ static enum power_supply_property tps6598x_psy_props[] = {
+@@ -230,17 +232,12 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
+ {
+ 	struct typec_partner_desc desc;
+ 	enum typec_pwr_opmode mode;
+-	u16 pwr_status;
+ 	int ret;
+ 
+ 	if (tps->partner)
+ 		return 0;
+ 
+-	ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
+-	if (ret < 0)
+-		return ret;
+-
+-	mode = TPS_POWER_STATUS_PWROPMODE(pwr_status);
++	mode = TPS_POWER_STATUS_PWROPMODE(tps->pwr_status);
+ 
+ 	desc.usb_pd = mode == TYPEC_PWR_MODE_PD;
+ 	desc.accessory = TYPEC_ACCESSORY_NONE; /* XXX: handle accessories */
+@@ -455,6 +452,7 @@ static bool tps6598x_read_power_status(struct tps6598x *tps)
+ 		dev_err(tps->dev, "failed to read power status: %d\n", ret);
+ 		return false;
+ 	}
++	tps->pwr_status = pwr_status;
+ 	trace_tps6598x_power_status(pwr_status);
+ 
+ 	return true;
+@@ -601,15 +599,8 @@ static const struct regmap_config tps6598x_regmap_config = {
+ static int tps6598x_psy_get_online(struct tps6598x *tps,
+ 				   union power_supply_propval *val)
+ {
+-	int ret;
+-	u16 pwr_status;
+-
+-	ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (TPS_POWER_STATUS_CONNECTION(pwr_status) &&
+-	    TPS_POWER_STATUS_SOURCESINK(pwr_status)) {
++	if (TPS_POWER_STATUS_CONNECTION(tps->pwr_status) &&
++	    TPS_POWER_STATUS_SOURCESINK(tps->pwr_status)) {
+ 		val->intval = 1;
+ 	} else {
+ 		val->intval = 0;
+@@ -622,15 +613,11 @@ static int tps6598x_psy_get_prop(struct power_supply *psy,
+ 				 union power_supply_propval *val)
+ {
+ 	struct tps6598x *tps = power_supply_get_drvdata(psy);
+-	u16 pwr_status;
+ 	int ret = 0;
+ 
+ 	switch (psp) {
+ 	case POWER_SUPPLY_PROP_USB_TYPE:
+-		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &pwr_status);
+-		if (ret < 0)
+-			return ret;
+-		if (TPS_POWER_STATUS_PWROPMODE(pwr_status) == TYPEC_PWR_MODE_PD)
++		if (TPS_POWER_STATUS_PWROPMODE(tps->pwr_status) == TYPEC_PWR_MODE_PD)
+ 			val->intval = POWER_SUPPLY_USB_TYPE_PD;
+ 		else
+ 			val->intval = POWER_SUPPLY_USB_TYPE_C;
+@@ -837,6 +824,11 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	fwnode_handle_put(fwnode);
+ 
+ 	if (status & TPS_STATUS_PLUG_PRESENT) {
++		ret = tps6598x_read16(tps, TPS_REG_POWER_STATUS, &tps->pwr_status);
++		if (ret < 0) {
++			dev_err(tps->dev, "failed to read power status: %d\n", ret);
++			goto err_role_put;
++		}
+ 		ret = tps6598x_connect(tps, status);
+ 		if (ret)
+ 			dev_err(&client->dev, "failed to register partner\n");
+-- 
+2.35.1
 
-> > We do check for the DMAR bit in the Intel IOMMU code and we also do
-> > check that there actually are PCIe ports marked external facing but we
-> > could issue warning there if that's not the case. Similarly if the user
-> > explicitly disabled the IOMMU translation. This can be done inside a new
-> > IOMMU API that does something like the below pseudo-code:
-> > 
-> > #if IOMMU_ENABLED
-> > bool iommu_dma_protected(struct device *dev)
-> > {
-> > 	if (dmar_platform_optin() /* or the AMD equivalent */) {
-> > 		if (!iommu_present(...)) /* whatever is needed to check that the full translation is enabled */
-> > 			dev_warn(dev, "IOMMU protection disabled!");
-> > 		/*
-> > 		 * Look for the external facing ports. Should be at
-> > 		 * least 1 or issue warning.
-> > 		 */
-> > 		 ...
-> > 
-> > 		return true;
-> > 	}
-> > 
-> > 	return false;
-> > }
-> > #else
-> > static inline bool iommu_dma_protected(struct device *dev)
-> > {
-> > 	return false;
-> > }
-> > #endif
-> > 
-> > Then we can make iommu_dma_protection_show() to call this function.
-> 
-> The problem that I've been trying to nail down here is that
-> dmar_platform_optin() really doesn't mean much for us - I don't know how
-> Windows' IOMMU drivers work, but there's every chance it's not the same way
-> as ours. The only material effect that dmar_platform_optin() has for us is
-> to prevent the user from disabling the IOMMU driver altogether, and thus
-> ensure that iommu_present() is true. Whether or not we can actually trust
-> the IOMMU driver to provide reliable protection depends entirely on whether
-> it knows the PCIe ports are external-facing. If not, we can only
-> *definitely* know what the IOMMU driver will do for a given endpoint once
-> that endpoint has appeared behind the port and iommu_probe_device() has
-> decided what its default domain should be, and as far as I now understand,
-> that's not an option for Thunderbolt since it can only happen *after* the
-> tunnel has been authorised and created.
-
-That's correct. We do know the PCIe root/downstream ports (the external
-facing ones) that host the tunneled PCIe topology but rest will appear
-dynamically after the connection manager established the protocol
-tunnel.
-
-> Much as I'm tempted to de-scope back to my IOMMU API cleanup and run away
-> from the rest of the issue, I think I can crib enough from the existing code
-> to attempt a reasonable complete fix, so let me give that a go...
-
-Sure ;-)
