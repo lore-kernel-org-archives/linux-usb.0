@@ -2,103 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B98A4C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:08:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D47C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:09:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229882AbiCQGKH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 02:10:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
+        id S229594AbiCQGKj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 02:10:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229931AbiCQGJm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:09:42 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73810FDE27;
-        Wed, 16 Mar 2022 22:47:27 -0700 (PDT)
+        with ESMTP id S229934AbiCQGKZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:10:25 -0400
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B55628BC0E
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:48:23 -0700 (PDT)
+Received: by mail-qv1-xf2e.google.com with SMTP id 13so3518002qvq.8
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:48:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1647496047; x=1679032047;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=6KoLxshBUSQgrxvXs8rBJCOuvua+PRWtt1ALGtU2HME=;
-  b=HzHP9vgaYIFl8WMMD8iNuDaTzi6cZ6Z92SNxYh+IDv2dDQK2oez2bxeU
-   ro2VlrAiO2MSJHZYkwBKsFGk8KhZx2k8yZ4I+Ssc1UEGFCmrOx9EMP6eX
-   e4X5P/kwjhBKdBb6/xSDlM/tuzE++eQODx8dJXWcywFT5fcq0y01c1PPT
-   g=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 16 Mar 2022 22:47:27 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 22:47:26 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 16 Mar 2022 22:47:26 -0700
-Received: from [10.216.39.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 16 Mar
- 2022 22:47:21 -0700
-Subject: Re: [PATCH v2 0/3] Refactor xhci quirks and plat private data
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IYm0xrEfQCLBvqWht5ahAv+lSz1UlH3ACTq5MZ064P0=;
+        b=Asb/OGG6z6LgqCY1/QHCrenmF+fttJgehUYa8spTVlahGvRUcdCQScStm+FdZnX4OL
+         zHfH5cRL5beGgYV7dFniAO88x9LF0aBZ7KJA7/MgVpVvY2qaweXcmQvTyBieQ55Jjx9H
+         KclR20Dffv3dnW43HsdT2p1YducpRqmY8xWxgsMe0f0ojeciebrp7NFoKe+yeKPpKBSB
+         iPHZa8N7PEDwR2oFG3egBnH4eKWB2faaaE/p6eqbrXyATFmCHmcaDK8EUjmT0ZxVGQTe
+         liOgpfps43Sv2Hhj3vwk6XI0kJYYMEkDWcNzyVtegbc3K5ZUxsV04WpWQ+q3UZerxlph
+         SFxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=IYm0xrEfQCLBvqWht5ahAv+lSz1UlH3ACTq5MZ064P0=;
+        b=Iz4JuycmJ2q2wxy55bKbvYNj+wW7CW3Mjk+/M0uWRda1emhy0MyXm4/5/OtLbdhgVT
+         Nc53LODtKt1lastUa8HYPR+LFNouL/8x/PKZtJ2ecaeah5tLSHOcoPWcXcd77pevxuUQ
+         zatI0xTWhPCOpdJNq+l4e3c/whLQfyi7ztmfa7lSsL0drHtUQazlYwER2jD62FsrxDdt
+         1J4VGZUM8FMyol1YalGKf2JVvbQ5sCn/r/HC7EBBhqubR4Dst9YLGbSQv4qTI11i8miR
+         6jLBccib7dJ/rNRWWYz4/jmkDfXRmiGi8wrZ9teyF4WcARJZnIl/PmctMHt/wZFAamUC
+         cuAw==
+X-Gm-Message-State: AOAM531Lq60t7aO5bkoNnlrSLWfQvJzwCqiJ/yNIInhWY9iXgqGrHc4L
+        j411cuesKnplMi2YQWTx6+7FpnW1NGUZuQ==
+X-Google-Smtp-Source: ABdhPJy7B32pblCApiKkAOzLiApuuudNBtu1mpTgziskeRiR46aXmlZBLe6vmSdCGysgqjRkPinmDw==
+X-Received: by 2002:a17:903:1206:b0:151:7d67:2924 with SMTP id l6-20020a170903120600b001517d672924mr2635105plh.45.1647489348716;
+        Wed, 16 Mar 2022 20:55:48 -0700 (PDT)
+Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
+        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 20:55:48 -0700 (PDT)
+Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Pawel Laszczak <pawell@cadence.com>,
-        Peter Chen <peter.chen@kernel.org>,
-        Roger Quadros <rogerq@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>
-CC:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>
-References: <1646130507-26796-1-git-send-email-quic_c_sanm@quicinc.com>
-From:   "Sandeep Maheswaram (Temp)" <quic_c_sanm@quicinc.com>
-Message-ID: <ddc86a4f-8d1c-c02c-5600-4fa851568557@quicinc.com>
-Date:   Thu, 17 Mar 2022 11:17:17 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.1
+        linux-usb@vger.kernel.org
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: [PATCH v4 8/9] usb: remove third argument of usb_maxpacket()
+Date:   Thu, 17 Mar 2022 12:55:13 +0900
+Message-Id: <20220317035514.6378-9-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
+References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
+ <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
-In-Reply-To: <1646130507-26796-1-git-send-email-quic_c_sanm@quicinc.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+Now that all users of usb_maxpacket() have been migrated to only use
+two arguments, remove the third variadic argument which was introduced
+for the transition.
 
-On 3/1/2022 3:58 PM, Sandeep Maheswaram wrote:
-> changes in v2:
-> Added a PATCH 2/3 to remove unwanted header inclusion.
-> Fixed minor nitpicks in PATCH 3/3.
->
-> Pavankumar Kondeti (1):
->    usb: xhci: refactor quirks and plat private data
->
-> Sandeep Maheswaram (2):
->    usb: xhci: Remove unwanted header inclusion
->    usb: dwc: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
->
->   drivers/usb/cdns3/host.c        |  2 +-
->   drivers/usb/dwc3/host.c         | 13 ++++++++
->   drivers/usb/host/xhci-plat.c    |  3 +-
->   drivers/usb/host/xhci-plat.h    | 24 ---------------
->   drivers/usb/host/xhci-rcar.c    |  3 +-
->   drivers/usb/host/xhci.h         | 60 ++++--------------------------------
->   include/linux/usb/xhci-plat.h   | 24 +++++++++++++++
->   include/linux/usb/xhci-quirks.h | 67 +++++++++++++++++++++++++++++++++++++++++
->   8 files changed, 115 insertions(+), 81 deletions(-)
->   delete mode 100644 drivers/usb/host/xhci-plat.h
->   create mode 100644 include/linux/usb/xhci-plat.h
->   create mode 100644 include/linux/usb/xhci-quirks.h
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ include/linux/usb.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Please let me know your opinion about this patch series.
-
-Regards
-
-Sandeep
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index 572e136f6314..8127782aa7a1 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1969,8 +1969,7 @@ usb_pipe_endpoint(struct usb_device *dev, unsigned int pipe)
+ 	return eps[usb_pipeendpoint(pipe)];
+ }
+ 
+-static inline u16 usb_maxpacket(struct usb_device *udev, int pipe,
+-				/* int is_out deprecated */ ...)
++static inline u16 usb_maxpacket(struct usb_device *udev, int pipe)
+ {
+ 	struct usb_host_endpoint	*ep;
+ 	unsigned			epnum = usb_pipeendpoint(pipe);
+-- 
+2.34.1
 
