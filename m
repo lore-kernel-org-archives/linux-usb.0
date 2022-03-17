@@ -2,139 +2,103 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC8C2C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:06:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B98A4C433FE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229891AbiCQGHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 02:07:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54404 "EHLO
+        id S229882AbiCQGKH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 02:10:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229793AbiCQGH2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:07:28 -0400
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com [IPv6:2607:f8b0:4864:20::c2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA131877DD
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:41:38 -0700 (PDT)
-Received: by mail-oo1-xc2d.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so5308859ooj.2
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:41:38 -0700 (PDT)
+        with ESMTP id S229931AbiCQGJm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:09:42 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73810FDE27;
+        Wed, 16 Mar 2022 22:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=eKWoLdilS/xkKbSS5GySewhiz9ZErVZagSWCzPknuLE=;
-        b=FqXuQMOFnqBE6bBsSlhdI9alOQYxAXLxS1CVr9WBBV27+wmlxvyiJAJsuCOVNCEvTI
-         OiRVsBxxfskJhw4mp8BDrpBVgGNBmdRWuoFVZzS1SXVXRef0/9Zb/LLZaaFw3qymSu9U
-         IYFQU4OuToy939E5Uth2ceMjbFEBOKYv+VuH0is529E0CuqukhqXdGN3hIGx3E0XPb/d
-         nCcOaDQwL1Ykp0CVfJNd6RAxgp1XTYRLCoMllt1FHHI7qWiltBzXR7xNQVHHHMPaMSk2
-         fyznGvU76N8NeDz8EjluTiI3hb3dRlmNTpocoPJP+tCfKdXmjwS8oSKehgur/dxw0OvQ
-         YHjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=eKWoLdilS/xkKbSS5GySewhiz9ZErVZagSWCzPknuLE=;
-        b=iKQriGID8RGuFHrOFCwGZIgKpb/QOXX0OETagAd/LdFv7RQM/o/K0Y9iyyVY5cHdTe
-         2KS0H7iri3KAnorcTzuC+ZBr6XjOa0jCMyzeru0X2kPJMuFDbCVi/iftZToHQyr6U2X2
-         WgWVJLy6YBGCW77lt4DhXgoNMwKKMfN0xCgGz6fP6Jv+tefvu4GOkXKojHEHnCEqdM9+
-         iKODSyA/7uSXrIYY0YRd0/bcappAm60W7iIx2CKDO3YDoFYCr8791cW+r8aP1LsOmKqp
-         /0OobDCcmp+n6gwmfXdlDW3IG3lPMn+dLlDlVmFEd3uCSfvHA2wHluL+iWiUp91m22Sh
-         Pxow==
-X-Gm-Message-State: AOAM530wCMrB1N4pcg3y66lolH7hnbhOXDP6D1swnzmmVOqGIOxcUaUq
-        REITCFi4ux1I0xGro966kF1+n5di0AI=
-X-Google-Smtp-Source: ABdhPJyPbBaLrJCUcNtWWIB1eRklnVSjmo82iUkp9BVVNv/0J7Whh7i/mwE4q0vX4tyeUVsDuoAsKw==
-X-Received: by 2002:a17:90a:6c02:b0:1c6:1173:6880 with SMTP id x2-20020a17090a6c0200b001c611736880mr13731401pjj.171.1647489334552;
-        Wed, 16 Mar 2022 20:55:34 -0700 (PDT)
-Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
-        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 20:55:34 -0700 (PDT)
-Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
-From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1647496047; x=1679032047;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=6KoLxshBUSQgrxvXs8rBJCOuvua+PRWtt1ALGtU2HME=;
+  b=HzHP9vgaYIFl8WMMD8iNuDaTzi6cZ6Z92SNxYh+IDv2dDQK2oez2bxeU
+   ro2VlrAiO2MSJHZYkwBKsFGk8KhZx2k8yZ4I+Ssc1UEGFCmrOx9EMP6eX
+   e4X5P/kwjhBKdBb6/xSDlM/tuzE++eQODx8dJXWcywFT5fcq0y01c1PPT
+   g=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 16 Mar 2022 22:47:27 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2022 22:47:26 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 16 Mar 2022 22:47:26 -0700
+Received: from [10.216.39.133] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 16 Mar
+ 2022 22:47:21 -0700
+Subject: Re: [PATCH v2 0/3] Refactor xhci quirks and plat private data
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Subject: [PATCH v4 1/9] usb: deprecate the third argument of usb_maxpacket()
-Date:   Thu, 17 Mar 2022 12:55:06 +0900
-Message-Id: <20220317035514.6378-2-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
-References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
- <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Pawel Laszczak <pawell@cadence.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>
+CC:     <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>
+References: <1646130507-26796-1-git-send-email-quic_c_sanm@quicinc.com>
+From:   "Sandeep Maheswaram (Temp)" <quic_c_sanm@quicinc.com>
+Message-ID: <ddc86a4f-8d1c-c02c-5600-4fa851568557@quicinc.com>
+Date:   Thu, 17 Mar 2022 11:17:17 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1646130507-26796-1-git-send-email-quic_c_sanm@quicinc.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a transitional patch with the ultimate goal of changing the
-prototype of usb_maxpacket() from:
-| static inline __u16
-| usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
+Hi Greg,
 
-into:
-| static inline u16 usb_maxpacket(struct usb_device *udev, int pipe)
+On 3/1/2022 3:58 PM, Sandeep Maheswaram wrote:
+> changes in v2:
+> Added a PATCH 2/3 to remove unwanted header inclusion.
+> Fixed minor nitpicks in PATCH 3/3.
+>
+> Pavankumar Kondeti (1):
+>    usb: xhci: refactor quirks and plat private data
+>
+> Sandeep Maheswaram (2):
+>    usb: xhci: Remove unwanted header inclusion
+>    usb: dwc: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
+>
+>   drivers/usb/cdns3/host.c        |  2 +-
+>   drivers/usb/dwc3/host.c         | 13 ++++++++
+>   drivers/usb/host/xhci-plat.c    |  3 +-
+>   drivers/usb/host/xhci-plat.h    | 24 ---------------
+>   drivers/usb/host/xhci-rcar.c    |  3 +-
+>   drivers/usb/host/xhci.h         | 60 ++++--------------------------------
+>   include/linux/usb/xhci-plat.h   | 24 +++++++++++++++
+>   include/linux/usb/xhci-quirks.h | 67 +++++++++++++++++++++++++++++++++++++++++
+>   8 files changed, 115 insertions(+), 81 deletions(-)
+>   delete mode 100644 drivers/usb/host/xhci-plat.h
+>   create mode 100644 include/linux/usb/xhci-plat.h
+>   create mode 100644 include/linux/usb/xhci-quirks.h
 
-The third argument of usb_maxpacket(): is_out gets removed because it
-can be derived from its second argument: pipe using
-usb_pipeout(pipe). Furthermore, in the current version,
-ubs_pipeout(pipe) is called regardless in order to sanitize the is_out
-parameter.
+Please let me know your opinion about this patch series.
 
-In order to make a smooth change, we first deprecate the is_out
-parameter by simply ignoring it (using a variadic function) and will
-remove it later, once all the callers get updated.
+Regards
 
-The body of the function is reworked accordingly and is_out is
-replaced by usb_pipeout(pipe). The WARN_ON() calls become unnecessary
-and get removed.
-
-Finally, the return type is changed from __u16 to u16 because this is
-not a UAPI function.
-
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
- include/linux/usb.h | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 200b7b79acb5..572e136f6314 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1969,21 +1969,17 @@ usb_pipe_endpoint(struct usb_device *dev, unsigned int pipe)
- 	return eps[usb_pipeendpoint(pipe)];
- }
- 
--/*-------------------------------------------------------------------------*/
--
--static inline __u16
--usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
-+static inline u16 usb_maxpacket(struct usb_device *udev, int pipe,
-+				/* int is_out deprecated */ ...)
- {
- 	struct usb_host_endpoint	*ep;
- 	unsigned			epnum = usb_pipeendpoint(pipe);
- 
--	if (is_out) {
--		WARN_ON(usb_pipein(pipe));
-+	if (usb_pipeout(pipe))
- 		ep = udev->ep_out[epnum];
--	} else {
--		WARN_ON(usb_pipeout(pipe));
-+	else
- 		ep = udev->ep_in[epnum];
--	}
-+
- 	if (!ep)
- 		return 0;
- 
-@@ -1991,8 +1987,6 @@ usb_maxpacket(struct usb_device *udev, int pipe, int is_out)
- 	return usb_endpoint_maxp(&ep->desc);
- }
- 
--/* ----------------------------------------------------------------------- */
--
- /* translate USB error codes to codes user space understands */
- static inline int usb_translate_errors(int error_code)
- {
--- 
-2.34.1
+Sandeep
 
