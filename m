@@ -2,475 +2,242 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B16D6C433F5
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE98C433F5
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 06:19:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229616AbiCQGQL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 02:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47402 "EHLO
+        id S229784AbiCQGUS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 02:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229672AbiCQGQB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:16:01 -0400
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668BE2A7B8B
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:53:31 -0700 (PDT)
-Received: by mail-qv1-xf2a.google.com with SMTP id jq9so3588526qvb.0
-        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BGLMVpDJCfbvI46YpeEfxiqUDE51DatI+wXn6VaqxxY=;
-        b=AfwAJy5jEeC3xB+jqHNltE16aj6GjW5KQr11dI55SZ4MWPsVfcoVrlalL4LrpatbR2
-         M1uzFXHFsbssnebwiWhXxSbczmUhCFspUdokk/zbCdM2Jwz1WKSPqvcsjGyZ8rPiqV2Q
-         pwJtn5sZ+LjZpg6TOvvFXjT7oXXHZZrkzBkZsyV9+oW3g8IgrToNGs50Y08lK8aV8Xc7
-         wArEmajL9r3AgENweJiMpx5NAUf49Ga/8vxEOadpBwtx/nIwVAU8P7AGDXFfsc08H430
-         /go2LxZobbjM9pszeV86lI4zVo2tYBF9kmXYawK5HOQ87/VbO2GotPkqwTvJD0PIir8E
-         SdYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=BGLMVpDJCfbvI46YpeEfxiqUDE51DatI+wXn6VaqxxY=;
-        b=ck1mneeK3qfvKnk9KOyo980cyqSAbpHb6MTQ7+El+aJJMvOYT7S4NiRtH0I1uGYFKD
-         gkqhQvk/UHUSQDpLZr00h86LH+NraJXzvZFsBUe8OmDDSTiLlcgaGuNCCxtAI4G9Xnjr
-         Ju3JMh0n7e+7LuVOjQtGgmbrRMKKCfhPZtlMqCHLtyjEkaOf2MGaq9WJKxHDKWM54Vez
-         rJDYXBmNk6Dw/XsCG4Vpv6mA6VXcBKcj5U/dmMZbddQ65qZkE/tz9gWdmj2LkGXmZYfu
-         l5apY3/M3K0ymx21DTXYFKgPOIytKu7P89hyy27Sq8w1/E/dBVu6oiUby7gInMWICj3z
-         CErA==
-X-Gm-Message-State: AOAM532mx65tSreZpvRHgu0M6gvQdMRiuQ/yW0eeOgE/Z+mJdzR3lfPT
-        VzFr6+/XOoqPKASx/O75XtY6ROjCcsC1lA==
-X-Google-Smtp-Source: ABdhPJx/oVsey1F5zOwjVUTU4qv427FcZwaH3WLTckHB2wMpJynZP/JxUMJWbLNRVjJ1ImoSgbvT1A==
-X-Received: by 2002:a17:902:8308:b0:153:59db:f867 with SMTP id bd8-20020a170902830800b0015359dbf867mr3099399plb.106.1647489345306;
-        Wed, 16 Mar 2022 20:55:45 -0700 (PDT)
-Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
-        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Mar 2022 20:55:45 -0700 (PDT)
-Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
-From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-        Duncan Sands <duncan.sands@free.fr>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Olav Kongas <ok@artecdesign.ee>,
-        Rui Miguel Silva <rui.silva@linaro.org>
-Subject: [PATCH v4 6/9] usb: remove third argument of usb_maxpacket()
-Date:   Thu, 17 Mar 2022 12:55:11 +0900
-Message-Id: <20220317035514.6378-7-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
-References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
- <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
+        with ESMTP id S229600AbiCQGUH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 02:20:07 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F164AFA233;
+        Wed, 16 Mar 2022 23:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=bTtyCTv8jHiRySjv+joBkY5T4kiLsInhhDpfMbwTL1s=; b=os+6uLP+YQvzPOsl13Jv5guvuH
+        c88qjXZH5IySVlxqAYUihC2hbNJHZhERaN/9M1O+TRZA8WFEmSQGTv+E/uOHf9IEu5y58HmvUView
+        tJqv1oexE/7GCbLX/RqjjjPHc0Nz4QT1PCSUsF7D8Jb/EYTGiFjELEvWYE7Gu9MYUTFHov/uRCRY7
+        /x9sJUmFziSe300ACpWlnZupzoQCtmqCqtEMV0UdvwGyry98Nfw5QdyjOvLJ0JePVDhb/0YX8qdJT
+        w7vRAVMjNtBdhuXSlAfQdRkRsVo81YE8w/5mlAJkMGGTpqeQHzUxEbTrcOVom5D0PCqAQ3d5CQPbP
+        DH34JIfA==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nUiEF-001mlP-TU; Thu, 17 Mar 2022 04:59:16 +0000
+Message-ID: <5db1feea-f630-79e6-15cc-77babf58a429@infradead.org>
+Date:   Wed, 16 Mar 2022 21:59:01 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 6/9] usb: gadget: eliminate anonymous module_init &
+ module_exit
+Content-Language: en-US
+To:     Ira Weiny <ira.weiny@intel.com>
+Cc:     linux-kernel@vger.kernel.org,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>, Amit Shah <amit@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Eli Cohen <eli@mellanox.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Krzysztof Opasiak <k.opasiak@samsung.com>,
+        Igor Kotrasinski <i.kotrasinsk@samsung.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Jussi Kivilinna <jussi.kivilinna@mbnet.fi>,
+        Joachim Fritschi <jfritschi@freenet.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Karol Herbst <karolherbst@gmail.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, netdev@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-usb@vger.kernel.org, nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org, x86@kernel.org,
+        Felipe Balbi <balbi@kernel.org>
+References: <20220316192010.19001-1-rdunlap@infradead.org>
+ <20220316192010.19001-7-rdunlap@infradead.org>
+ <YjKrMyRvHh7nzHwW@iweiny-desk3>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <YjKrMyRvHh7nzHwW@iweiny-desk3>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The third argument of usb_maxpacket(): in_out has been deprecated
-because it could be derived from the second argument (e.g. using
-usb_pipeout(pipe)).
 
-N.B. function usb_maxpacket() was made variadic to accommodate the
-transition from the old prototype with three arguments to the new one
-with only two arguments (so that no renaming is needed). The variadic
-argument is to be removed once all users of usb_maxpacket() get
-migrated.
 
-CC: Duncan Sands <duncan.sands@free.fr>
-CC: Alan Stern <stern@rowland.harvard.edu>
-CC: Olav Kongas <ok@artecdesign.ee>
-CC: Rui Miguel Silva <rui.silva@linaro.org>
-Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
----
- drivers/usb/atm/usbatm.c          |  2 +-
- drivers/usb/c67x00/c67x00-sched.c |  4 ++--
- drivers/usb/core/hub.c            |  2 +-
- drivers/usb/host/ehci-q.c         |  4 ++--
- drivers/usb/host/fhci-hcd.c       |  3 +--
- drivers/usb/host/fotg210-hcd.c    |  2 +-
- drivers/usb/host/isp116x-hcd.c    |  5 ++---
- drivers/usb/host/isp1362-hcd.c    |  6 +++---
- drivers/usb/host/max3421-hcd.c    |  6 +++---
- drivers/usb/host/ohci-hcd.c       |  3 +--
- drivers/usb/host/oxu210hp-hcd.c   |  4 ++--
- drivers/usb/host/r8a66597-hcd.c   |  3 +--
- drivers/usb/host/sl811-hcd.c      |  6 +++---
- drivers/usb/isp1760/isp1760-hcd.c |  6 ++----
- drivers/usb/misc/ftdi-elan.c      | 15 +++++----------
- drivers/usb/misc/lvstest.c        |  2 +-
- drivers/usb/storage/onetouch.c    |  2 +-
- drivers/usb/storage/transport.c   |  2 +-
- 18 files changed, 33 insertions(+), 44 deletions(-)
+On 3/16/22 20:29, Ira Weiny wrote:
+> On Wed, Mar 16, 2022 at 12:20:07PM -0700, Randy Dunlap wrote:
+>> Eliminate anonymous module_init() and module_exit(), which can lead to
+>> confusion or ambiguity when reading System.map, crashes/oops/bugs,
+>> or an initcall_debug log.
+>>
+>> Give each of these init and exit functions unique driver-specific
+>> names to eliminate the anonymous names.
+>>
+>> Example 1: (System.map)
+>>  ffffffff832fc78c t init
+>>  ffffffff832fc79e t init
+>>  ffffffff832fc8f8 t init
+>>
+>> Example 2: (initcall_debug log)
+>>  calling  init+0x0/0x12 @ 1
+>>  initcall init+0x0/0x12 returned 0 after 15 usecs
+>>  calling  init+0x0/0x60 @ 1
+>>  initcall init+0x0/0x60 returned 0 after 2 usecs
+>>  calling  init+0x0/0x9a @ 1
+>>  initcall init+0x0/0x9a returned 0 after 74 usecs
+>>
+>> Fixes: bd25a14edb75 ("usb: gadget: legacy/serial: allow dynamic removal")
+>> Fixes: 7bb5ea54be47 ("usb gadget serial: use composite gadget framework")
+>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> 
+> I continue to be confused about the latest rules for the Fixes tag but this one
+> in particular seems completely useless.  This is the 'beginning of time' commit
+> by Linus AFAICT.  So do any of these Fixes tags need to be in this series?
 
-diff --git a/drivers/usb/atm/usbatm.c b/drivers/usb/atm/usbatm.c
-index e3a49d837609..362217189ef3 100644
---- a/drivers/usb/atm/usbatm.c
-+++ b/drivers/usb/atm/usbatm.c
-@@ -1091,7 +1091,7 @@ int usbatm_usb_probe(struct usb_interface *intf, const struct usb_device_id *id,
- 			snd_buf_bytes - (snd_buf_bytes % instance->tx_channel.stride));
- 
- 	/* rx buffer size must be a positive multiple of the endpoint maxpacket */
--	maxpacket = usb_maxpacket(usb_dev, instance->rx_channel.endpoint, 0);
-+	maxpacket = usb_maxpacket(usb_dev, instance->rx_channel.endpoint);
- 
- 	if ((maxpacket < 1) || (maxpacket > UDSL_MAX_BUF_SIZE)) {
- 		dev_err(dev, "%s: invalid endpoint %02x!\n", __func__,
-diff --git a/drivers/usb/c67x00/c67x00-sched.c b/drivers/usb/c67x00/c67x00-sched.c
-index c7d3e907be81..a09fa68a6ce7 100644
---- a/drivers/usb/c67x00/c67x00-sched.c
-+++ b/drivers/usb/c67x00/c67x00-sched.c
-@@ -655,7 +655,7 @@ static int c67x00_add_data_urb(struct c67x00_hcd *c67x00, struct urb *urb)
- 			       usb_pipeout(urb->pipe));
- 	remaining = urb->transfer_buffer_length - urb->actual_length;
- 
--	maxps = usb_maxpacket(urb->dev, urb->pipe, usb_pipeout(urb->pipe));
-+	maxps = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	need_empty = (urb->transfer_flags & URB_ZERO_PACKET) &&
- 	    usb_pipeout(urb->pipe) && !(remaining % maxps);
-@@ -866,7 +866,7 @@ static inline int c67x00_end_of_data(struct c67x00_td *td)
- 	if (unlikely(!act_bytes))
- 		return 1;	/* This was an empty packet */
- 
--	maxps = usb_maxpacket(td_udev(td), td->pipe, usb_pipeout(td->pipe));
-+	maxps = usb_maxpacket(td_udev(td), td->pipe);
- 
- 	if (unlikely(act_bytes < maxps))
- 		return 1;	/* Smaller then full packet */
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 1460857026e0..7781b2d31473 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -1635,7 +1635,7 @@ static int hub_configure(struct usb_hub *hub,
- 	 * maxpktsize is defined in hcd.c's fake endpoint descriptors
- 	 * to be big enough for at least USB_MAXCHILDREN ports. */
- 	pipe = usb_rcvintpipe(hdev, endpoint->bEndpointAddress);
--	maxp = usb_maxpacket(hdev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(hdev, pipe);
- 
- 	if (maxp > sizeof(*hub->buffer))
- 		maxp = sizeof(*hub->buffer);
-diff --git a/drivers/usb/host/ehci-q.c b/drivers/usb/host/ehci-q.c
-index a2a5c2996350..1163af6fad77 100644
---- a/drivers/usb/host/ehci-q.c
-+++ b/drivers/usb/host/ehci-q.c
-@@ -645,7 +645,7 @@ qh_urb_transaction (
- 		token |= (1 /* "in" */ << 8);
- 	/* else it's already initted to "out" pid (0 << 8) */
- 
--	maxpacket = usb_maxpacket(urb->dev, urb->pipe, !is_input);
-+	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	/*
- 	 * buffer gets wrapped in one or more qtds;
-@@ -1218,7 +1218,7 @@ static int ehci_submit_single_step_set_feature(
- 
- 	token |= (1 /* "in" */ << 8);  /*This is IN stage*/
- 
--	maxpacket = usb_maxpacket(urb->dev, urb->pipe, 0);
-+	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	qtd_fill(ehci, qtd, buf, len, token, maxpacket);
- 
-diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
-index a8e1048278d0..2ba09c3fbc2f 100644
---- a/drivers/usb/host/fhci-hcd.c
-+++ b/drivers/usb/host/fhci-hcd.c
-@@ -408,8 +408,7 @@ static int fhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb,
- 			size++;
- 		else if ((urb->transfer_flags & URB_ZERO_PACKET) != 0
- 			 && (urb->transfer_buffer_length
--			     % usb_maxpacket(urb->dev, pipe,
--					     usb_pipeout(pipe))) != 0)
-+			     % usb_maxpacket(urb->dev, pipe)) != 0)
- 			size++;
- 		break;
- 	case PIPE_ISOCHRONOUS:
-diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
-index c3fd375b4778..f8c111e08a0d 100644
---- a/drivers/usb/host/fotg210-hcd.c
-+++ b/drivers/usb/host/fotg210-hcd.c
-@@ -2596,7 +2596,7 @@ static struct list_head *qh_urb_transaction(struct fotg210_hcd *fotg210,
- 		token |= (1 /* "in" */ << 8);
- 	/* else it's already initted to "out" pid (0 << 8) */
- 
--	maxpacket = usb_maxpacket(urb->dev, urb->pipe, !is_input);
-+	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	/*
- 	 * buffer gets wrapped in one or more qtds;
-diff --git a/drivers/usb/host/isp116x-hcd.c b/drivers/usb/host/isp116x-hcd.c
-index 8835f6bd528e..70ce03d01435 100644
---- a/drivers/usb/host/isp116x-hcd.c
-+++ b/drivers/usb/host/isp116x-hcd.c
-@@ -726,7 +726,7 @@ static int isp116x_urb_enqueue(struct usb_hcd *hcd,
- 		INIT_LIST_HEAD(&ep->schedule);
- 		ep->udev = udev;
- 		ep->epnum = epnum;
--		ep->maxpacket = usb_maxpacket(udev, urb->pipe, is_out);
-+		ep->maxpacket = usb_maxpacket(udev, urb->pipe);
- 		usb_settoggle(udev, epnum, is_out, 0);
- 
- 		if (type == PIPE_CONTROL) {
-@@ -757,8 +757,7 @@ static int isp116x_urb_enqueue(struct usb_hcd *hcd,
- 			ep->load = usb_calc_bus_time(udev->speed,
- 						     !is_out,
- 						     (type == PIPE_ISOCHRONOUS),
--						     usb_maxpacket(udev, pipe,
--								   is_out)) /
-+						     usb_maxpacket(udev, pipe)) /
- 			    1000;
- 		}
- 		hep->hcpriv = ep;
-diff --git a/drivers/usb/host/isp1362-hcd.c b/drivers/usb/host/isp1362-hcd.c
-index d8610ce8f2ec..0e14d1d07709 100644
---- a/drivers/usb/host/isp1362-hcd.c
-+++ b/drivers/usb/host/isp1362-hcd.c
-@@ -1279,7 +1279,7 @@ static int isp1362_urb_enqueue(struct usb_hcd *hcd,
- 		ep->udev = usb_get_dev(udev);
- 		ep->hep = hep;
- 		ep->epnum = epnum;
--		ep->maxpacket = usb_maxpacket(udev, urb->pipe, is_out);
-+		ep->maxpacket = usb_maxpacket(udev, urb->pipe);
- 		ep->ptd_offset = -EINVAL;
- 		ep->ptd_index = -EINVAL;
- 		usb_settoggle(udev, epnum, is_out, 0);
-@@ -1299,8 +1299,8 @@ static int isp1362_urb_enqueue(struct usb_hcd *hcd,
- 			ep->interval = urb->interval;
- 			ep->branch = PERIODIC_SIZE;
- 			ep->load = usb_calc_bus_time(udev->speed, !is_out,
--						     (type == PIPE_ISOCHRONOUS),
--						     usb_maxpacket(udev, pipe, is_out)) / 1000;
-+						     type == PIPE_ISOCHRONOUS,
-+						     usb_maxpacket(udev, pipe)) / 1000;
- 			break;
- 		}
- 		hep->hcpriv = ep;
-diff --git a/drivers/usb/host/max3421-hcd.c b/drivers/usb/host/max3421-hcd.c
-index 30de85a707fe..3a48f544dcdf 100644
---- a/drivers/usb/host/max3421-hcd.c
-+++ b/drivers/usb/host/max3421-hcd.c
-@@ -546,7 +546,7 @@ max3421_transfer_out(struct usb_hcd *hcd, struct urb *urb, int fast_retransmit)
- 		return MAX3421_HXFR_BULK_OUT(epnum);
- 	}
- 
--	max_packet = usb_maxpacket(urb->dev, urb->pipe, 1);
-+	max_packet = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	if (max_packet > MAX3421_FIFO_SIZE) {
- 		/*
-@@ -952,7 +952,7 @@ max3421_transfer_in_done(struct usb_hcd *hcd, struct urb *urb)
- 	 * USB 2.0 Section 5.3.2 Pipes: packets must be full size
- 	 * except for last one.
- 	 */
--	max_packet = usb_maxpacket(urb->dev, urb->pipe, 0);
-+	max_packet = usb_maxpacket(urb->dev, urb->pipe);
- 	if (max_packet > MAX3421_FIFO_SIZE) {
- 		/*
- 		 * We do not support isochronous transfers at this
-@@ -998,7 +998,7 @@ max3421_transfer_out_done(struct usb_hcd *hcd, struct urb *urb)
- 		 * max_packet as an indicator that the end of the
- 		 * packet has been reached).
- 		 */
--		u32 max_packet = usb_maxpacket(urb->dev, urb->pipe, 1);
-+		u32 max_packet = usb_maxpacket(urb->dev, urb->pipe);
- 
- 		if (max3421_hcd->curr_len == max_packet)
- 			return 0;
-diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-index 666b1c665188..c4c821c2288c 100644
---- a/drivers/usb/host/ohci-hcd.c
-+++ b/drivers/usb/host/ohci-hcd.c
-@@ -181,8 +181,7 @@ static int ohci_urb_enqueue (
- 				size++;
- 			else if ((urb->transfer_flags & URB_ZERO_PACKET) != 0
- 				&& (urb->transfer_buffer_length
--					% usb_maxpacket (urb->dev, pipe,
--						usb_pipeout (pipe))) == 0)
-+					% usb_maxpacket(urb->dev, pipe)) == 0)
- 				size++;
- 			break;
- 		case PIPE_ISOCHRONOUS: /* number of packets from URB */
-diff --git a/drivers/usb/host/oxu210hp-hcd.c b/drivers/usb/host/oxu210hp-hcd.c
-index b741670525e3..aaedf55d3c62 100644
---- a/drivers/usb/host/oxu210hp-hcd.c
-+++ b/drivers/usb/host/oxu210hp-hcd.c
-@@ -1685,7 +1685,7 @@ static struct list_head *qh_urb_transaction(struct oxu_hcd *oxu,
- 		token |= (1 /* "in" */ << 8);
- 	/* else it's already initted to "out" pid (0 << 8) */
- 
--	maxpacket = usb_maxpacket(urb->dev, urb->pipe, !is_input);
-+	maxpacket = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	/*
- 	 * buffer gets wrapped in one or more qtds;
-@@ -1796,7 +1796,7 @@ static struct ehci_qh *qh_make(struct oxu_hcd *oxu,
- 
- 	is_input = usb_pipein(urb->pipe);
- 	type = usb_pipetype(urb->pipe);
--	maxp = usb_maxpacket(urb->dev, urb->pipe, !is_input);
-+	maxp = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	/* Compute interrupt scheduling parameters just once, and save.
- 	 * - allowing for high bandwidth, how many nsec/uframe are used?
-diff --git a/drivers/usb/host/r8a66597-hcd.c b/drivers/usb/host/r8a66597-hcd.c
-index 63719cdf6a4e..abb88dd40d4e 100644
---- a/drivers/usb/host/r8a66597-hcd.c
-+++ b/drivers/usb/host/r8a66597-hcd.c
-@@ -1867,8 +1867,7 @@ static struct r8a66597_td *r8a66597_make_td(struct r8a66597 *r8a66597,
- 	td->pipe = hep->hcpriv;
- 	td->urb = urb;
- 	td->address = get_urb_to_r8a66597_addr(r8a66597, urb);
--	td->maxpacket = usb_maxpacket(urb->dev, urb->pipe,
--				      !usb_pipein(urb->pipe));
-+	td->maxpacket = usb_maxpacket(urb->dev, urb->pipe);
- 	if (usb_pipecontrol(urb->pipe))
- 		td->type = USB_PID_SETUP;
- 	else if (usb_pipein(urb->pipe))
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index 85623731a516..d206bd95c7bb 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -842,7 +842,7 @@ static int sl811h_urb_enqueue(
- 		INIT_LIST_HEAD(&ep->schedule);
- 		ep->udev = udev;
- 		ep->epnum = epnum;
--		ep->maxpacket = usb_maxpacket(udev, urb->pipe, is_out);
-+		ep->maxpacket = usb_maxpacket(udev, urb->pipe);
- 		ep->defctrl = SL11H_HCTLMASK_ARM | SL11H_HCTLMASK_ENABLE;
- 		usb_settoggle(udev, epnum, is_out, 0);
- 
-@@ -878,8 +878,8 @@ static int sl811h_urb_enqueue(
- 			if (type == PIPE_ISOCHRONOUS)
- 				ep->defctrl |= SL11H_HCTLMASK_ISOCH;
- 			ep->load = usb_calc_bus_time(udev->speed, !is_out,
--				(type == PIPE_ISOCHRONOUS),
--				usb_maxpacket(udev, pipe, is_out))
-+						     type == PIPE_ISOCHRONOUS,
-+						     usb_maxpacket(udev, pipe))
- 					/ 1000;
- 			break;
- 		}
-diff --git a/drivers/usb/isp1760/isp1760-hcd.c b/drivers/usb/isp1760/isp1760-hcd.c
-index 893becb077d3..76862ba40f35 100644
---- a/drivers/usb/isp1760/isp1760-hcd.c
-+++ b/drivers/usb/isp1760/isp1760-hcd.c
-@@ -825,8 +825,7 @@ static void create_ptd_atl(struct isp1760_qh *qh,
- 	memset(ptd, 0, sizeof(*ptd));
- 
- 	/* according to 3.6.2, max packet len can not be > 0x400 */
--	maxpacket = usb_maxpacket(qtd->urb->dev, qtd->urb->pipe,
--						usb_pipeout(qtd->urb->pipe));
-+	maxpacket = usb_maxpacket(qtd->urb->dev, qtd->urb->pipe);
- 	multi =  1 + ((maxpacket >> 11) & 0x3);
- 	maxpacket &= 0x7ff;
- 
-@@ -1808,8 +1807,7 @@ static void packetize_urb(struct usb_hcd *hcd,
- 			packet_type = IN_PID;
- 	}
- 
--	maxpacketsize = usb_maxpacket(urb->dev, urb->pipe,
--				      usb_pipeout(urb->pipe));
-+	maxpacketsize = usb_maxpacket(urb->dev, urb->pipe);
- 
- 	/*
- 	 * buffer gets wrapped in one or more qtds;
-diff --git a/drivers/usb/misc/ftdi-elan.c b/drivers/usb/misc/ftdi-elan.c
-index 6c38c62d29b2..b2f980409d0b 100644
---- a/drivers/usb/misc/ftdi-elan.c
-+++ b/drivers/usb/misc/ftdi-elan.c
-@@ -1449,8 +1449,7 @@ wait:if (ftdi->disconnected > 0) {
- 			command->length = 0x8007;
- 			command->address = (toggle_bits << 6) | (ep_number << 2)
- 				| (address << 0);
--			command->width = usb_maxpacket(urb->dev, urb->pipe,
--						       usb_pipeout(urb->pipe));
-+			command->width = usb_maxpacket(urb->dev, urb->pipe);
- 			command->follows = 8;
- 			command->value = 0;
- 			command->buffer = urb->setup_packet;
-@@ -1514,8 +1513,7 @@ wait:if (ftdi->disconnected > 0) {
- 							    1);
- 			command->address = (toggle_bits << 6) | (ep_number << 2)
- 				| (address << 0);
--			command->width = usb_maxpacket(urb->dev, urb->pipe,
--						       usb_pipeout(urb->pipe));
-+			command->width = usb_maxpacket(urb->dev, urb->pipe);
- 			command->follows = 0;
- 			command->value = 0;
- 			command->buffer = NULL;
-@@ -1571,8 +1569,7 @@ wait:if (ftdi->disconnected > 0) {
- 			command->length = 0x0000;
- 			command->address = (toggle_bits << 6) | (ep_number << 2)
- 				| (address << 0);
--			command->width = usb_maxpacket(urb->dev, urb->pipe,
--						       usb_pipeout(urb->pipe));
-+			command->width = usb_maxpacket(urb->dev, urb->pipe);
- 			command->follows = 0;
- 			command->value = 0;
- 			command->buffer = NULL;
-@@ -1634,8 +1631,7 @@ wait:if (ftdi->disconnected > 0) {
- 			command->header = 0x81 | (ed << 5);
- 			command->address = (toggle_bits << 6) | (ep_number << 2)
- 				| (address << 0);
--			command->width = usb_maxpacket(urb->dev, urb->pipe,
--						       usb_pipeout(urb->pipe));
-+			command->width = usb_maxpacket(urb->dev, urb->pipe);
- 			command->follows = min_t(u32, 1024,
- 						 urb->transfer_buffer_length -
- 						 urb->actual_length);
-@@ -1715,8 +1711,7 @@ wait:if (ftdi->disconnected > 0) {
- 							    1);
- 			command->address = (toggle_bits << 6) | (ep_number << 2)
- 				| (address << 0);
--			command->width = usb_maxpacket(urb->dev, urb->pipe,
--						       usb_pipeout(urb->pipe));
-+			command->width = usb_maxpacket(urb->dev, urb->pipe);
- 			command->follows = 0;
- 			command->value = 0;
- 			command->buffer = NULL;
-diff --git a/drivers/usb/misc/lvstest.c b/drivers/usb/misc/lvstest.c
-index f8686139d6f3..25ec5666a75e 100644
---- a/drivers/usb/misc/lvstest.c
-+++ b/drivers/usb/misc/lvstest.c
-@@ -437,7 +437,7 @@ static int lvs_rh_probe(struct usb_interface *intf,
- 	INIT_WORK(&lvs->rh_work, lvs_rh_work);
- 
- 	pipe = usb_rcvintpipe(hdev, endpoint->bEndpointAddress);
--	maxp = usb_maxpacket(hdev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(hdev, pipe);
- 	usb_fill_int_urb(lvs->urb, hdev, pipe, &lvs->buffer[0], maxp,
- 			lvs_rh_irq, lvs, endpoint->bInterval);
- 
-diff --git a/drivers/usb/storage/onetouch.c b/drivers/usb/storage/onetouch.c
-index a989fe930e21..1db2eefeea22 100644
---- a/drivers/usb/storage/onetouch.c
-+++ b/drivers/usb/storage/onetouch.c
-@@ -180,7 +180,7 @@ static int onetouch_connect_input(struct us_data *ss)
- 		return -ENODEV;
- 
- 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
--	maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(udev, pipe);
- 	maxp = min(maxp, ONETOUCH_PKT_LEN);
- 
- 	onetouch = kzalloc(sizeof(struct usb_onetouch), GFP_KERNEL);
-diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-index 1928b3918242..64d96d210e02 100644
---- a/drivers/usb/storage/transport.c
-+++ b/drivers/usb/storage/transport.c
-@@ -363,7 +363,7 @@ static int usb_stor_intr_transfer(struct us_data *us, void *buf,
- 	usb_stor_dbg(us, "xfer %u bytes\n", length);
- 
- 	/* calculate the max packet size */
--	maxp = usb_maxpacket(us->pusb_dev, pipe, usb_pipeout(pipe));
-+	maxp = usb_maxpacket(us->pusb_dev, pipe);
- 	if (maxp > length)
- 		maxp = length;
- 
+I guess it mostly depends on whether they get applied to stable trees, but
+it's entirely fine with me if they don't.
+
+{I also corrected Felipe's email address here.}
+
+> Regardless:
+> 
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+
+Thanks.
+
+> 
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
+>> Cc: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+>> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> Cc: linux-usb@vger.kernel.org
+>> ---
+>>  drivers/usb/gadget/legacy/inode.c  |    8 ++++----
+>>  drivers/usb/gadget/legacy/serial.c |   10 +++++-----
+>>  drivers/usb/gadget/udc/dummy_hcd.c |    8 ++++----
+>>  3 files changed, 13 insertions(+), 13 deletions(-)
+>>
+>> --- lnx-517-rc8.orig/drivers/usb/gadget/legacy/serial.c
+>> +++ lnx-517-rc8/drivers/usb/gadget/legacy/serial.c
+>> @@ -273,7 +273,7 @@ static struct usb_composite_driver gseri
+>>  static int switch_gserial_enable(bool do_enable)
+>>  {
+>>  	if (!serial_config_driver.label)
+>> -		/* init() was not called, yet */
+>> +		/* gserial_init() was not called, yet */
+>>  		return 0;
+>>  
+>>  	if (do_enable)
+>> @@ -283,7 +283,7 @@ static int switch_gserial_enable(bool do
+>>  	return 0;
+>>  }
+>>  
+>> -static int __init init(void)
+>> +static int __init gserial_init(void)
+>>  {
+>>  	/* We *could* export two configs; that'd be much cleaner...
+>>  	 * but neither of these product IDs was defined that way.
+>> @@ -314,11 +314,11 @@ static int __init init(void)
+>>  
+>>  	return usb_composite_probe(&gserial_driver);
+>>  }
+>> -module_init(init);
+>> +module_init(gserial_init);
+>>  
+>> -static void __exit cleanup(void)
+>> +static void __exit gserial_cleanup(void)
+>>  {
+>>  	if (enable)
+>>  		usb_composite_unregister(&gserial_driver);
+>>  }
+>> -module_exit(cleanup);
+>> +module_exit(gserial_cleanup);
+>> --- lnx-517-rc8.orig/drivers/usb/gadget/udc/dummy_hcd.c
+>> +++ lnx-517-rc8/drivers/usb/gadget/udc/dummy_hcd.c
+>> @@ -2765,7 +2765,7 @@ static struct platform_driver dummy_hcd_
+>>  static struct platform_device *the_udc_pdev[MAX_NUM_UDC];
+>>  static struct platform_device *the_hcd_pdev[MAX_NUM_UDC];
+>>  
+>> -static int __init init(void)
+>> +static int __init dummy_hcd_init(void)
+>>  {
+>>  	int	retval = -ENOMEM;
+>>  	int	i;
+>> @@ -2887,9 +2887,9 @@ err_alloc_udc:
+>>  		platform_device_put(the_hcd_pdev[i]);
+>>  	return retval;
+>>  }
+>> -module_init(init);
+>> +module_init(dummy_hcd_init);
+>>  
+>> -static void __exit cleanup(void)
+>> +static void __exit dummy_hcd_cleanup(void)
+>>  {
+>>  	int i;
+>>  
+>> @@ -2905,4 +2905,4 @@ static void __exit cleanup(void)
+>>  	platform_driver_unregister(&dummy_udc_driver);
+>>  	platform_driver_unregister(&dummy_hcd_driver);
+>>  }
+>> -module_exit(cleanup);
+>> +module_exit(dummy_hcd_cleanup);
+>> --- lnx-517-rc8.orig/drivers/usb/gadget/legacy/inode.c
+>> +++ lnx-517-rc8/drivers/usb/gadget/legacy/inode.c
+>> @@ -2101,7 +2101,7 @@ MODULE_ALIAS_FS("gadgetfs");
+>>  
+>>  /*----------------------------------------------------------------------*/
+>>  
+>> -static int __init init (void)
+>> +static int __init gadgetfs_init (void)
+>>  {
+>>  	int status;
+>>  
+>> @@ -2111,12 +2111,12 @@ static int __init init (void)
+>>  			shortname, driver_desc);
+>>  	return status;
+>>  }
+>> -module_init (init);
+>> +module_init (gadgetfs_init);
+>>  
+>> -static void __exit cleanup (void)
+>> +static void __exit gadgetfs_cleanup (void)
+>>  {
+>>  	pr_debug ("unregister %s\n", shortname);
+>>  	unregister_filesystem (&gadgetfs_type);
+>>  }
+>> -module_exit (cleanup);
+>> +module_exit (gadgetfs_cleanup);
+>>  
+
 -- 
-2.34.1
-
+~Randy
