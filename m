@@ -2,104 +2,173 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BE03C433FE
-	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 05:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40DEAC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Mar 2022 05:35:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229529AbiCQFgI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 17 Mar 2022 01:36:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49018 "EHLO
+        id S229542AbiCQFgY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 17 Mar 2022 01:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiCQFgG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 01:36:06 -0400
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [IPv6:2a0a:51c0:0:12e:520::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EA391A94B3;
-        Wed, 16 Mar 2022 22:04:19 -0700 (PDT)
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-        (envelope-from <fw@strlen.de>)
-        id 1nUh2L-0002UJ-Gp; Thu, 17 Mar 2022 04:42:53 +0100
-Date:   Thu, 17 Mar 2022 04:42:53 +0100
-From:   Florian Westphal <fw@strlen.de>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Jens Axboe <axboe@kernel.dk>, Amit Shah <amit@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Eli Cohen <eli@mellanox.com>,
-        Saeed Mahameed <saeedm@nvidia.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Krzysztof Opasiak <k.opasiak@samsung.com>,
-        Igor Kotrasinski <i.kotrasinsk@samsung.com>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Jussi Kivilinna <jussi.kivilinna@mbnet.fi>,
-        Joachim Fritschi <jfritschi@freenet.de>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Karol Herbst <karolherbst@gmail.com>,
-        Pekka Paalanen <ppaalanen@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, netdev@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org, x86@kernel.org
-Subject: Re: [PATCH 4/9] netfilter: h323: eliminate anonymous module_init &
- module_exit
-Message-ID: <20220317034253.GI9936@breakpoint.cc>
-References: <20220316192010.19001-1-rdunlap@infradead.org>
- <20220316192010.19001-5-rdunlap@infradead.org>
+        with ESMTP id S229546AbiCQFgR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 17 Mar 2022 01:36:17 -0400
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38C625514F
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:05:11 -0700 (PDT)
+Received: by mail-qv1-xf35.google.com with SMTP id kd12so3498152qvb.1
+        for <linux-usb@vger.kernel.org>; Wed, 16 Mar 2022 22:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=f0m2uZXk20PdTOX8X4iHJpxmoZkDdwnaHqyVWbQ8Vag=;
+        b=XaZZWMyFr4uVkDPH/w9n+ZZADx4KcRFl9mxserld2Viy3glIMITLbeh1znXs+Q5wW2
+         RCg8P7tjTnrxLdf6yTSi2sjid4bV5ZPCzFXin3HZ4KTWiXr1DQXHSpdb0KpZR6ClLHN+
+         vNnwkqQ8QwRBV9kZjHSfdGN6lkGrYJ0H2HFtKM7EbNut6afdcw20lAXTAJOmjT0bBz6h
+         jDtJz3p1B/JHv22GkZqN1y7D66tkDzQlbccUpRinvpdPG0S8gW2ZZzYziSuD9DjI5XyQ
+         pNpksmFQgq2TsDPSxwm7Ypt1GE9TTUDdNExBXmnQTaumajq8wOJUh8PISNmtCxgfB1sc
+         6ojA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=f0m2uZXk20PdTOX8X4iHJpxmoZkDdwnaHqyVWbQ8Vag=;
+        b=kgNUYXblZfXbE6M7xWvth4vUACejqH0xbicYTqFle/r3Xiq0fo89WAgFEWuM8whCeR
+         t1NrQpgLfyX3ELDgfwneeDVMENIerVuGYEc5CCDARlpTQZcznporM9/yNt7mkjntneKI
+         GFOII4cr9yDjbjIZoHUmoy/1OoT/BjL2fRfK7TOG7gbjNxYB//4l8hvOGaeXWzTEuax5
+         Z5poY3z5yTxZb2/+YjEeN1xX831uqa1Mhh8kRcXEd4nYRoTma0seEViD6S6g7uy8pI3r
+         08BvTnSXoeJzqhN3gdEw5XmmuA8dIpsqiWNaWWgURi7NvD91Yn2UY7qw1sRqZUJQeU/N
+         xpdQ==
+X-Gm-Message-State: AOAM5312ZYUidDnmjpBztD0AnmMx9trCDN8j1t5Wq0NGfMgCYHWMEqAN
+        RPVtlKHMzhKjVBfPUoFFzfMBYqsZQNcyPg==
+X-Google-Smtp-Source: ABdhPJxqfk77R42LMVMKcN2JUjsEY++xS3EfPZSx5b+Oo8O/jR6XhUG5Pgf4ZPeD0hXgwExWCZzcKg==
+X-Received: by 2002:a17:903:11cc:b0:151:71e4:dadc with SMTP id q12-20020a17090311cc00b0015171e4dadcmr3046602plh.78.1647489338157;
+        Wed, 16 Mar 2022 20:55:38 -0700 (PDT)
+Received: from localhost.localdomain (124x33x176x97.ap124.ftth.ucom.ne.jp. [124.33.176.97])
+        by smtp.gmail.com with ESMTPSA id e6-20020a056a001a8600b004f78e446ff5sm5096734pfv.15.2022.03.16.20.55.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Mar 2022 20:55:37 -0700 (PDT)
+Sender: Vincent Mailhol <vincent.mailhol@gmail.com>
+From:   Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Cc:     Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+        Ville Syrjala <syrjala@sci.fi>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henk Vergonet <Henk.Vergonet@gmail.com>
+Subject: [PATCH v4 3/9] Input: remove third argument of usb_maxpacket()
+Date:   Thu, 17 Mar 2022 12:55:08 +0900
+Message-Id: <20220317035514.6378-4-mailhol.vincent@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
+References: <20220304105420.1059585-1-mailhol.vincent@wanadoo.fr>
+ <20220317035514.6378-1-mailhol.vincent@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220316192010.19001-5-rdunlap@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> wrote:
-> Eliminate anonymous module_init() and module_exit(), which can lead to
-> confusion or ambiguity when reading System.map, crashes/oops/bugs,
-> or an initcall_debug log.
-> 
-> Give each of these init and exit functions unique driver-specific
-> names to eliminate the anonymous names.
-> 
-> Example 1: (System.map)
->  ffffffff832fc78c t init
->  ffffffff832fc79e t init
->  ffffffff832fc8f8 t init
-> 
-> Example 2: (initcall_debug log)
->  calling  init+0x0/0x12 @ 1
->  initcall init+0x0/0x12 returned 0 after 15 usecs
->  calling  init+0x0/0x60 @ 1
->  initcall init+0x0/0x60 returned 0 after 2 usecs
->  calling  init+0x0/0x9a @ 1
->  initcall init+0x0/0x9a returned 0 after 74 usecs
-> 
-> Fixes: f587de0e2feb ("[NETFILTER]: nf_conntrack/nf_nat: add H.323 helper port")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+The third argument of usb_maxpacket(): in_out has been deprecated
+because it could be derived from the second argument (e.g. using
+usb_pipeout(pipe)).
 
-Acked-by: Florian Westphal <fw@strlen.de>
+N.B. function usb_maxpacket() was made variadic to accommodate the
+transition from the old prototype with three arguments to the new one
+with only two arguments (so that no renaming is needed). The variadic
+argument is to be removed once all users of usb_maxpacket() get
+migrated.
+
+CC: Ville Syrjala <syrjala@sci.fi>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: Henk Vergonet <Henk.Vergonet@gmail.com>
+Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+---
+ drivers/input/misc/ati_remote2.c         | 2 +-
+ drivers/input/misc/cm109.c               | 2 +-
+ drivers/input/misc/powermate.c           | 2 +-
+ drivers/input/misc/yealink.c             | 2 +-
+ drivers/input/tablet/acecad.c            | 2 +-
+ drivers/input/tablet/pegasus_notetaker.c | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/input/misc/ati_remote2.c b/drivers/input/misc/ati_remote2.c
+index 8a36d78fed63..946bf75aa106 100644
+--- a/drivers/input/misc/ati_remote2.c
++++ b/drivers/input/misc/ati_remote2.c
+@@ -639,7 +639,7 @@ static int ati_remote2_urb_init(struct ati_remote2 *ar2)
+ 			return -ENOMEM;
+ 
+ 		pipe = usb_rcvintpipe(udev, ar2->ep[i]->bEndpointAddress);
+-		maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
++		maxp = usb_maxpacket(udev, pipe);
+ 		maxp = maxp > 4 ? 4 : maxp;
+ 
+ 		usb_fill_int_urb(ar2->urb[i], udev, pipe, ar2->buf[i], maxp,
+diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
+index f515fae465c3..728325a2d574 100644
+--- a/drivers/input/misc/cm109.c
++++ b/drivers/input/misc/cm109.c
+@@ -745,7 +745,7 @@ static int cm109_usb_probe(struct usb_interface *intf,
+ 
+ 	/* get a handle to the interrupt data pipe */
+ 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
+-	ret = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
++	ret = usb_maxpacket(udev, pipe);
+ 	if (ret != USB_PKT_LEN)
+ 		dev_err(&intf->dev, "invalid payload size %d, expected %d\n",
+ 			ret, USB_PKT_LEN);
+diff --git a/drivers/input/misc/powermate.c b/drivers/input/misc/powermate.c
+index c4e0e1886061..c1c733a9cb89 100644
+--- a/drivers/input/misc/powermate.c
++++ b/drivers/input/misc/powermate.c
+@@ -374,7 +374,7 @@ static int powermate_probe(struct usb_interface *intf, const struct usb_device_i
+ 
+ 	/* get a handle to the interrupt data pipe */
+ 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
+-	maxp = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
++	maxp = usb_maxpacket(udev, pipe);
+ 
+ 	if (maxp < POWERMATE_PAYLOAD_SIZE_MIN || maxp > POWERMATE_PAYLOAD_SIZE_MAX) {
+ 		printk(KERN_WARNING "powermate: Expected payload of %d--%d bytes, found %d bytes!\n",
+diff --git a/drivers/input/misc/yealink.c b/drivers/input/misc/yealink.c
+index 8ab01c7601b1..69420781db30 100644
+--- a/drivers/input/misc/yealink.c
++++ b/drivers/input/misc/yealink.c
+@@ -905,7 +905,7 @@ static int usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 
+ 	/* get a handle to the interrupt data pipe */
+ 	pipe = usb_rcvintpipe(udev, endpoint->bEndpointAddress);
+-	ret = usb_maxpacket(udev, pipe, usb_pipeout(pipe));
++	ret = usb_maxpacket(udev, pipe);
+ 	if (ret != USB_PKT_LEN)
+ 		dev_err(&intf->dev, "invalid payload size %d, expected %zd\n",
+ 			ret, USB_PKT_LEN);
+diff --git a/drivers/input/tablet/acecad.c b/drivers/input/tablet/acecad.c
+index a38d1fe97334..56c7e471ac32 100644
+--- a/drivers/input/tablet/acecad.c
++++ b/drivers/input/tablet/acecad.c
+@@ -130,7 +130,7 @@ static int usb_acecad_probe(struct usb_interface *intf, const struct usb_device_
+ 		return -ENODEV;
+ 
+ 	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
+-	maxp = usb_maxpacket(dev, pipe, usb_pipeout(pipe));
++	maxp = usb_maxpacket(dev, pipe);
+ 
+ 	acecad = kzalloc(sizeof(struct usb_acecad), GFP_KERNEL);
+ 	input_dev = input_allocate_device();
+diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
+index 749edbdb7ffa..c608ac505d1b 100644
+--- a/drivers/input/tablet/pegasus_notetaker.c
++++ b/drivers/input/tablet/pegasus_notetaker.c
+@@ -296,7 +296,7 @@ static int pegasus_probe(struct usb_interface *intf,
+ 	pegasus->intf = intf;
+ 
+ 	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
+-	pegasus->data_len = usb_maxpacket(dev, pipe, usb_pipeout(pipe));
++	pegasus->data_len = usb_maxpacket(dev, pipe);
+ 
+ 	pegasus->data = usb_alloc_coherent(dev, pegasus->data_len, GFP_KERNEL,
+ 					   &pegasus->data_dma);
+-- 
+2.34.1
+
