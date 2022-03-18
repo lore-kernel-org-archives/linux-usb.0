@@ -2,108 +2,90 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C58C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Mar 2022 15:17:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A1E9C433FE
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Mar 2022 15:25:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237895AbiCRPSv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Mar 2022 11:18:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S237937AbiCRP0Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Mar 2022 11:26:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237893AbiCRPSu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Mar 2022 11:18:50 -0400
-X-Greylist: delayed 1450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Mar 2022 08:17:31 PDT
-Received: from gateway34.websitewelcome.com (gateway34.websitewelcome.com [192.185.148.109])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D141019F200
-        for <linux-usb@vger.kernel.org>; Fri, 18 Mar 2022 08:17:31 -0700 (PDT)
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway34.websitewelcome.com (Postfix) with ESMTP id A6E39162E3B
-        for <linux-usb@vger.kernel.org>; Fri, 18 Mar 2022 09:53:05 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-        by cmsmtp with SMTP
-        id VDyTnSrLcRnrrVDyTnuZsZ; Fri, 18 Mar 2022 09:53:05 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=RWX714/jDCCOsaw7lp0A5+LmDt+hl3N9VB86DpnpeYs=; b=WQ7Fnc39x44QGuivKi5K7oCRae
-        2aY4PQj66g3pVUe41yXRgcJES+Duj1AUzbUTV5msWJ/R2HubkBMNKI0CZZtgIqMU4kBmNUT+aLU3L
-        yJVSFsxFIsHJSdYIOo5YBURPMIn1qUuVHOnYmoAb1LOPhR7blVugER+rbuL36Ui38cXSCXFUThXXi
-        ZccEkcDSMUK/1213b+XhZ/1kuKvorwTyGY/c9uxzui9ryWDn+4mSafEkU6ku4EUOTn8xH+4r5Mm0j
-        EDWFQMoq+A56KRkJuFKmr3uaCgbIugLmCazf+7c+nk6tFH2SMdOqHoFIpCFlc6zoQwPV2KMFIJljy
-        h1XQQBtw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54326)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@roeck-us.net>)
-        id 1nVDyT-003h93-60; Fri, 18 Mar 2022 14:53:05 +0000
-Message-ID: <1649b585-3030-a8a2-f4e7-91e0bf0eb1a1@roeck-us.net>
-Date:   Fri, 18 Mar 2022 07:53:02 -0700
+        with ESMTP id S237831AbiCRP0X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Mar 2022 11:26:23 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 776B3A5E91;
+        Fri, 18 Mar 2022 08:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1647617105; x=1679153105;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LlOEVehLpDxPQcChYnPKlnsRrBtAlMMFuCk3HXvGY80=;
+  b=Oh9+WeOWgT8HjzHe4TLar2R07De2kG9HBq5u3YbVFLW1Aq9hbVrXufjB
+   yTRpGFMknifNHKY706SaVvcpzt8OTEhdIKiz0SoFgcbpCZzE3JMonsd1W
+   HpiS1LF8xQPg8k4DkJmJNfzdcwwYf1H6stiY+V7XotJb7o1h22Q6wOvHw
+   LJtmpTvYbC6GOePCxW+nVbQX1sBQHGO79TiQh8AvJL2szHjb7Se/yXOiU
+   DQMwSQwyJVG925oLHnaJM1NQ8C1GaXRvQl4junbxnHiG+kSD+MBwKZsO/
+   khLw/7oSH6gqbij+DjBXDtuByiPx5+k3OXcFOPvM6wuudYxs6TOvNN8jp
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10290"; a="343590069"
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
+   d="scan'208";a="343590069"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 08:25:02 -0700
+X-IronPort-AV: E=Sophos;i="5.90,192,1643702400"; 
+   d="scan'208";a="715521623"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 08:24:57 -0700
+Received: by lahna (sSMTP sendmail emulation); Fri, 18 Mar 2022 17:23:45 +0200
+Date:   Fri, 18 Mar 2022 17:23:45 +0200
+From:   "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+        "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+        "michael.jamet@intel.com" <michael.jamet@intel.com>,
+        "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH] thunderbolt: Make iommu_dma_protection more accurate
+Message-ID: <YjSkAcxLDFmVdhEq@lahna>
+References: <2d01fa50c2650c730b0244929097737918e302e7.1647533152.git.robin.murphy@arm.com>
+ <BL1PR12MB515783C0F998169D49D92A55E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
+ <BL1PR12MB51573F55B3C2B3922BAAA7F1E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
+ <YjRvMk1kcbMwJvx+@lahna>
+ <65207fdf-c4ab-5165-dbda-8ab55b51adb7@arm.com>
+ <YjSCWaq7Ej/2iJPp@lahna>
+ <78fc0426-c22a-ec62-f92b-0019bea5947e@arm.com>
+ <YjSbfScU0Ssuca3y@lahna>
+ <73e25ee3-c2f3-0a72-e5cc-04e51f650f2e@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Content-Language: en-US
-To:     qianfan <qianfanguijin@163.com>, Bin Liu <b-liu@ti.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc:     linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-References: <8cea8d54-bd3c-5892-96d3-4d16e07ba457@163.com>
- <fabca0f0-c901-9cb0-a8ca-974604491d1b@163.com>
- <309dee6d-8c04-7f4f-c2d5-a7e23445e532@163.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Subject: Re: dev_WARN_ONCE cause gpio-watchdog reset
-In-Reply-To: <309dee6d-8c04-7f4f-c2d5-a7e23445e532@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nVDyT-003h93-60
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54326
-X-Source-Auth: linux@roeck-us.net
-X-Email-Count: 8
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <73e25ee3-c2f3-0a72-e5cc-04e51f650f2e@arm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 3/17/22 23:05, qianfan wrote:
-[ ... ]
+Hi Robin,
 
+On Fri, Mar 18, 2022 at 03:15:19PM +0000, Robin Murphy wrote:
+> > IMHO we should just trust the firmare provided information here
+> > (otherwise we are screwed anyway as there is no way to tell if the
+> > devices connected prior the OS can still do DMA), and use the external
+> > facing port indicator to idenfity the ports that need DMA protection.
 > 
-> So I think it's a bug of MUSB, not caused by dev_WARN_ONCE. But I can't check which stop hrtimer.
-> 
+> Indeed that's exactly what I want to do, but it begs the question of how we
+> *find* the firmware-provided information in the first place!
 
-Correct. Look at the code:
+Oh, right :) Its the combination of ACPI _DSD "ExternalFacingPort"
+(which we already set, dev->external_facing, dev->untrusted for the
+devices behind these ports IIRC) and the DMAR opt-in bit. All these are
+already read by the kernel.
 
-static void musb_h_tx_flush_fifo(struct musb_hw_ep *ep)
-{
-...
-	int             retries = 1000;
-...
-	while (csr & MUSB_TXCSR_FIFONOTEMPTY) {
-		...
-		if (dev_WARN_ONCE(musb->controller, retries-- < 1,
-                                 "Could not flush host TX%d fifo: csr: %04x\n",
-                                 ep->epnum, csr))
-                         return;
-                 mdelay(1);
-	}
+> I seem to have already started writing the dumb version that will walk the
+> whole PCI segment and assume the presence of any external-facing port
+> implies that we're good. Let me know if I should stop ;)
 
-This is where the one second comes from. The function is called from
-musb_urb_dequeue() which disables interrupts. This forces a hard stall
-of the kernel for a full second.
-
-There is nothing we can do about that in the watchdog driver.
-
-Guenter
+That sounds good to me, so don't stop just yet ;-)
