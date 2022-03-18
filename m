@@ -2,140 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10DA8C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Mar 2022 15:15:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C58C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Mar 2022 15:17:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237875AbiCRPQp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Mar 2022 11:16:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47926 "EHLO
+        id S237895AbiCRPSv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Mar 2022 11:18:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237869AbiCRPQo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Mar 2022 11:16:44 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DFBC83D494;
-        Fri, 18 Mar 2022 08:15:25 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 799461515;
-        Fri, 18 Mar 2022 08:15:25 -0700 (PDT)
-Received: from [10.57.43.230] (unknown [10.57.43.230])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B748D3F7D7;
-        Fri, 18 Mar 2022 08:15:23 -0700 (PDT)
-Message-ID: <73e25ee3-c2f3-0a72-e5cc-04e51f650f2e@arm.com>
-Date:   Fri, 18 Mar 2022 15:15:19 +0000
+        with ESMTP id S237893AbiCRPSu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Mar 2022 11:18:50 -0400
+X-Greylist: delayed 1450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 18 Mar 2022 08:17:31 PDT
+Received: from gateway34.websitewelcome.com (gateway34.websitewelcome.com [192.185.148.109])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D141019F200
+        for <linux-usb@vger.kernel.org>; Fri, 18 Mar 2022 08:17:31 -0700 (PDT)
+Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
+        by gateway34.websitewelcome.com (Postfix) with ESMTP id A6E39162E3B
+        for <linux-usb@vger.kernel.org>; Fri, 18 Mar 2022 09:53:05 -0500 (CDT)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+        by cmsmtp with SMTP
+        id VDyTnSrLcRnrrVDyTnuZsZ; Fri, 18 Mar 2022 09:53:05 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:Subject:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=RWX714/jDCCOsaw7lp0A5+LmDt+hl3N9VB86DpnpeYs=; b=WQ7Fnc39x44QGuivKi5K7oCRae
+        2aY4PQj66g3pVUe41yXRgcJES+Duj1AUzbUTV5msWJ/R2HubkBMNKI0CZZtgIqMU4kBmNUT+aLU3L
+        yJVSFsxFIsHJSdYIOo5YBURPMIn1qUuVHOnYmoAb1LOPhR7blVugER+rbuL36Ui38cXSCXFUThXXi
+        ZccEkcDSMUK/1213b+XhZ/1kuKvorwTyGY/c9uxzui9ryWDn+4mSafEkU6ku4EUOTn8xH+4r5Mm0j
+        EDWFQMoq+A56KRkJuFKmr3uaCgbIugLmCazf+7c+nk6tFH2SMdOqHoFIpCFlc6zoQwPV2KMFIJljy
+        h1XQQBtw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:54326)
+        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@roeck-us.net>)
+        id 1nVDyT-003h93-60; Fri, 18 Mar 2022 14:53:05 +0000
+Message-ID: <1649b585-3030-a8a2-f4e7-91e0bf0eb1a1@roeck-us.net>
+Date:   Fri, 18 Mar 2022 07:53:02 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] thunderbolt: Make iommu_dma_protection more accurate
-Content-Language: en-GB
-To:     "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-Cc:     "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-        "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-        "michael.jamet@intel.com" <michael.jamet@intel.com>,
-        "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-References: <2d01fa50c2650c730b0244929097737918e302e7.1647533152.git.robin.murphy@arm.com>
- <BL1PR12MB515783C0F998169D49D92A55E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
- <BL1PR12MB51573F55B3C2B3922BAAA7F1E2129@BL1PR12MB5157.namprd12.prod.outlook.com>
- <YjRvMk1kcbMwJvx+@lahna> <65207fdf-c4ab-5165-dbda-8ab55b51adb7@arm.com>
- <YjSCWaq7Ej/2iJPp@lahna> <78fc0426-c22a-ec62-f92b-0019bea5947e@arm.com>
- <YjSbfScU0Ssuca3y@lahna>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <YjSbfScU0Ssuca3y@lahna>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     qianfan <qianfanguijin@163.com>, Bin Liu <b-liu@ti.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc:     linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+References: <8cea8d54-bd3c-5892-96d3-4d16e07ba457@163.com>
+ <fabca0f0-c901-9cb0-a8ca-974604491d1b@163.com>
+ <309dee6d-8c04-7f4f-c2d5-a7e23445e532@163.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Subject: Re: dev_WARN_ONCE cause gpio-watchdog reset
+In-Reply-To: <309dee6d-8c04-7f4f-c2d5-a7e23445e532@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nVDyT-003h93-60
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:54326
+X-Source-Auth: linux@roeck-us.net
+X-Email-Count: 8
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 2022-03-18 14:47, mika.westerberg@linux.intel.com wrote:
-> On Fri, Mar 18, 2022 at 02:08:16PM +0000, Robin Murphy wrote:
->> On 2022-03-18 13:25, mika.westerberg@linux.intel.com wrote:
->>> Hi Robin,
->>>
->>> On Fri, Mar 18, 2022 at 12:01:42PM +0000, Robin Murphy wrote:
->>>>> This adds quite a lot code and complexity, and honestly I would like to
->>>>> keep it as simple as possible (and this is not enough because we need to
->>>>> make sure the DMAR bit is there so that none of the possible connected
->>>>> devices were able to overwrite our memory already).
->>>>
->>>> Shall we forget the standalone sibling check and just make the
->>>> pdev->untrusted check directly in tb_acpi_add_link() then?
->>>
->>> I think we should leave tb_acpi_add_link() untouched if possible ;-)
->>> This is because it is used to add the device links from firmware
->>> description that we need for proper power management of the tunneled
->>> devices. It has little to do with the identification of the external
->>> facing DMA-capable PCIe ports.
->>>
->>> Furthermore these links only exists in USB4 software connection manager
->>> systems so we do not have those in the existing Thunderbolt 3/4 systems
->>> that use firmware based connection manager (pretty much all out there).
->>>
->>>> On reflection I guess the DMAR bit makes iommu_dma_protection
->>>> functionally dependent on ACPI already, so we don't actually lose
->>>> anything (and anyone can come back and revisit firmware-agnostic
->>>> methods later if a need appears).
->>>
->>> I agree.
->>
->> OK, so do we have any realistic options for identifying the correct PCI
->> devices, if USB4 PCIe adapters might be anywhere relative to their
->> associated NHI? Short of maintaining a list of known IDs, the only thought I
->> have left is that if we walk the whole PCI segment looking specifically for
->> hotplug-capable Gen1 ports, any system modern enough to have Thunderbolt is
->> *probably* not going to have any real PCIe Gen1 hotplug slots, so maybe
->> false negatives might be tolerable, but it still feels like a bit of a
->> sketchy heuristic.
-> 
-> Indeed.
-> 
->> I suppose we could just look to see if any device anywhere is marked as
->> external-facing, and hope that if firmware's done that much then it's done
->> everything right. That's still at least slightly better than what we have
->> today, but AFAICS still carries significant risk of a false positive for an
->> add-in card that firmware didn't recognise.
-> 
-> The port in this case, that is marked as external facing, is the PCIe
-> root port that the add-in-card is connected to and that is known for the
-> firmware in advance.
-> 
->> I'm satisfied that we've come round to the right conclusion on the DMAR
->> opt-in - I'm in the middle or writing up patches for that now - but even
->> Microsoft's spec gives that as a separate requirement from the flagging of
->> external ports, with both being necessary for Kernel DMA Protection.
-> 
-> Is the problem that we are here trying to solve the fact that user can
-> disable the IOMMU protection from the command line? Or the fact that the
-> firmware might not declare all the ports properly so we may end up in a
-> situation that some of the ports do not get the full IOMMU protection.
+On 3/17/22 23:05, qianfan wrote:
+[ ... ]
 
-It's about knowing whether or not firmware has declared the ports at 
-all. If it hasn't then the system is vulnerable to *some* degree of DMA 
-attacks regardless of anything else (the exact degree depending on 
-kernel config and user overrides). Complete mitigation is simply too 
-expensive to apply by default to every device the IOMMU layer is unsure 
-about. The Thunderbolt driver cannot be confident that protection is in 
-place unless it can somehow know that the IOMMU layer has seen that 
-untrusted property on the relevant ports.
-
-> These are Microsoft requirements for the OEMs in order to pass their
-> firmware test suite so here I would not expect to have issues. Otherwise
-> they simply cannot ship the thing with Windows installed.
 > 
-> IMHO we should just trust the firmare provided information here
-> (otherwise we are screwed anyway as there is no way to tell if the
-> devices connected prior the OS can still do DMA), and use the external
-> facing port indicator to idenfity the ports that need DMA protection.
+> So I think it's a bug of MUSB, not caused by dev_WARN_ONCE. But I can't check which stop hrtimer.
+> 
 
-Indeed that's exactly what I want to do, but it begs the question of how 
-we *find* the firmware-provided information in the first place!
+Correct. Look at the code:
 
-I seem to have already started writing the dumb version that will walk 
-the whole PCI segment and assume the presence of any external-facing 
-port implies that we're good. Let me know if I should stop ;)
+static void musb_h_tx_flush_fifo(struct musb_hw_ep *ep)
+{
+...
+	int             retries = 1000;
+...
+	while (csr & MUSB_TXCSR_FIFONOTEMPTY) {
+		...
+		if (dev_WARN_ONCE(musb->controller, retries-- < 1,
+                                 "Could not flush host TX%d fifo: csr: %04x\n",
+                                 ep->epnum, csr))
+                         return;
+                 mdelay(1);
+	}
 
-Cheers,
-Robin.
+This is where the one second comes from. The function is called from
+musb_urb_dequeue() which disables interrupts. This forces a hard stall
+of the kernel for a full second.
+
+There is nothing we can do about that in the watchdog driver.
+
+Guenter
