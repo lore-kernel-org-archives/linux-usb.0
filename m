@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 579D1C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6768FC433EF
 	for <linux-usb@archiver.kernel.org>; Sun, 20 Mar 2022 04:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244699AbiCTEgm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Mar 2022 00:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48928 "EHLO
+        id S244700AbiCTEgn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 20 Mar 2022 00:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235846AbiCTEgi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Mar 2022 00:36:38 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99D7AE0A3
-        for <linux-usb@vger.kernel.org>; Sat, 19 Mar 2022 21:35:13 -0700 (PDT)
+        with ESMTP id S244697AbiCTEgj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Mar 2022 00:36:39 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70FFB47AE3
+        for <linux-usb@vger.kernel.org>; Sat, 19 Mar 2022 21:35:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1647750914; x=1679286914;
+  t=1647750917; x=1679286917;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qlJGwixuBamASEt+ES5RBWBibSXNH3GVmGQuEGVYlr4=;
-  b=jVEXA8zayupfwzED6R4RQA/wDDnZQBm18m44eJ/B8p+s9H5ax8Pogn5G
-   KcSklaJCHfatIPak6toqG3burTvqESuVdTGwgTA0dV1+ajkroLraDRG9N
-   6YdC0A/iCEwvdWcKci0+Dcs7G3JgHml3kHFYqxg0Hh/y7OYFJ+Fv0/p9s
-   w=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 19 Mar 2022 21:35:13 -0700
+  bh=WIkUobeuKjo9dCJeepOW7jT+K9eFKjzOT9xmxgseI/Y=;
+  b=qLlwtg3J8iCArpd7IcTOWMGjaNMvHAvcVwvTzEp1WUnpByJJxberoC1p
+   9cCQBz0MkYZwiPk8My/MzZQDKnYuhqcbd7WTw9xbFsCLu5KmkBu6/1iwp
+   /GkSxlHlJ9ptWykxb6aMk2lbLv+93eb6UPguDd943R1rbuE9IjXPN9sY1
+   8=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 19 Mar 2022 21:35:17 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2022 21:35:13 -0700
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2022 21:35:16 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 19 Mar 2022 21:35:13 -0700
+ 15.2.986.22; Sat, 19 Mar 2022 21:35:16 -0700
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 19 Mar 2022 21:35:11 -0700
+ 15.2.986.22; Sat, 19 Mar 2022 21:35:14 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH 1/4] usb: gadget: add trace event of configfs operation
-Date:   Sun, 20 Mar 2022 12:35:01 +0800
-Message-ID: <1647750904-6524-2-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH 3/4] usb: gadget: add trace event of configfs link/unlink operation
+Date:   Sun, 20 Mar 2022 12:35:03 +0800
+Message-ID: <1647750904-6524-4-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1647750904-6524-1-git-send-email-quic_linyyuan@quicinc.com>
 References: <1647750904-6524-1-git-send-email-quic_linyyuan@quicinc.com>
@@ -57,90 +57,184 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a common trace event entry which have only one __string field,
-the following patch will add global function base on it to allow
-usb gadget and function layer use them, it will cover all user input like
-make configfs group/item, drop item, write attribute, allow/drop link.
+Add API trace_usb_configfs_link_group() and trace_usb_configfs_unlink_group()
+to trace user link/unlink a function to gadget configuration,
+if a specific function need link/unlink, it also can be used.
 
 Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- drivers/usb/gadget/Makefile   |  1 +
- drivers/usb/gadget/configfs.c |  3 +++
- drivers/usb/gadget/trace.h    | 39 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 43 insertions(+)
- create mode 100644 drivers/usb/gadget/trace.h
+ drivers/usb/gadget/configfs.c              | 50 ++++++++++++++++++++++++++++++
+ drivers/usb/gadget/function/uvc_configfs.c | 12 +++++++
+ include/linux/usb/composite.h              |  6 ++++
+ 3 files changed, 68 insertions(+)
 
-diff --git a/drivers/usb/gadget/Makefile b/drivers/usb/gadget/Makefile
-index 33f1ef9..e072a11 100644
---- a/drivers/usb/gadget/Makefile
-+++ b/drivers/usb/gadget/Makefile
-@@ -5,6 +5,7 @@
- subdir-ccflags-$(CONFIG_USB_GADGET_DEBUG)	:= -DDEBUG
- subdir-ccflags-$(CONFIG_USB_GADGET_VERBOSE)	+= -DVERBOSE_DEBUG
- 
-+CFLAGS_configfs.o		:= -I$(src)
- obj-$(CONFIG_USB_LIBCOMPOSITE)	+= libcomposite.o
- libcomposite-y			:= usbstring.o config.o epautoconf.o
- libcomposite-y			+= composite.o functions.o configfs.o u_f.o
 diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-index 1fb837d..f35a226 100644
+index be9e70a..0f85290 100644
 --- a/drivers/usb/gadget/configfs.c
 +++ b/drivers/usb/gadget/configfs.c
-@@ -123,6 +123,9 @@ static int usb_string_copy(const char *s, char **s_copy)
- 	return 0;
- }
+@@ -425,6 +425,8 @@ static int config_usb_cfg_link(
+ 	struct usb_function *f;
+ 	int ret;
  
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
++	trace_usb_configfs_link_group(usb_cfg_ci, usb_func_ci);
 +
- #define GI_DEVICE_DESC_SIMPLE_R_u8(__name)	\
- static ssize_t gadget_dev_desc_##__name##_show(struct config_item *item, \
- 			char *page)	\
-diff --git a/drivers/usb/gadget/trace.h b/drivers/usb/gadget/trace.h
-new file mode 100644
-index 0000000..d556580
---- /dev/null
-+++ b/drivers/usb/gadget/trace.h
-@@ -0,0 +1,39 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
+ 	mutex_lock(&gi->lock);
+ 	/*
+ 	 * Make sure this function is from within our _this_ gadget and not
+@@ -474,6 +476,8 @@ static void config_usb_cfg_unlink(
+ 			to_usb_function_instance(usb_func_ci);
+ 	struct usb_function *f;
+ 
++	trace_usb_configfs_unlink_group(usb_cfg_ci, usb_func_ci);
 +
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM gadget_configfs
+ 	/*
+ 	 * ideally I would like to forbid to unlink functions while a gadget is
+ 	 * bound to an UDC. Since this isn't possible at the moment, we simply
+@@ -896,6 +900,8 @@ static int os_desc_link(struct config_item *os_desc_ci,
+ 	struct usb_configuration *c = NULL, *iter;
+ 	int ret;
+ 
++	trace_usb_configfs_link_group(os_desc_ci, usb_cfg_ci);
 +
+ 	mutex_lock(&gi->lock);
+ 	list_for_each_entry(iter, &cdev->configs, list) {
+ 		if (iter != &c_target->c)
+@@ -927,6 +933,8 @@ static void os_desc_unlink(struct config_item *os_desc_ci,
+ 	struct gadget_info *gi = os_desc_item_to_gadget_info(os_desc_ci);
+ 	struct usb_composite_dev *cdev = &gi->cdev;
+ 
++	trace_usb_configfs_unlink_group(os_desc_ci, usb_cfg_ci);
 +
-+#if !defined(_GADGET_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _GADGET_TRACE_H
+ 	mutex_lock(&gi->lock);
+ 	if (gi->composite.gadget_driver.udc_name)
+ 		unregister_gadget(gi);
+@@ -1756,6 +1764,48 @@ void trace_usb_configfs_drop_group(struct config_item *pitem,
+ 	trace_usb_configfs_make_drop_group(pitem, item, "rmdir");
+ }
+ EXPORT_SYMBOL(trace_usb_configfs_drop_group);
 +
-+#include <linux/tracepoint.h>
++static void trace_usb_configfs_link_unlink_group(struct config_item *dest,
++		struct config_item *src, char *link_unlink)
++{
++	char *group = kzalloc(4 * GROUP_LEN, GFP_KERNEL);
++	char *group1, *group2;
++	int ret;
 +
-+TRACE_EVENT(gadget_configfs,
-+	TP_PROTO(char *info),
-+	TP_ARGS(info),
-+	TP_STRUCT__entry(
-+		__string(info, info)
-+	),
++	if (!group)
++		goto out;
 +
-+	TP_fast_assign(
-+		__assign_str(info, info);
-+	),
++	group1 = group + 2 * GROUP_LEN;
++	ret = gadget_configfs_group(group1, dest);
++	if (ret)
++		goto out;
 +
-+	TP_printk("%s", __get_str(info))
-+);
++	group2 = group + 3 * GROUP_LEN;
++	ret = gadget_configfs_group(group2, src);
++	if (ret)
++		goto out;
 +
-+#endif /* _GADGET_TRACE_H */
++	snprintf(group, 2 * GROUP_LEN, "%s %s %s", link_unlink, group1, group2);
 +
-+/* this part has to be here */
++	trace_gadget_configfs(group);
 +
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
++out:
++	kfree(group);
++}
 +
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace
++void trace_usb_configfs_link_group(struct config_item *dest,
++		struct config_item *src)
++{
++	trace_usb_configfs_link_unlink_group(dest, src, "link");
++}
++EXPORT_SYMBOL(trace_usb_configfs_link_group);
 +
-+#include <trace/define_trace.h>
++void trace_usb_configfs_unlink_group(struct config_item *dest,
++		struct config_item *src)
++{
++	trace_usb_configfs_link_unlink_group(dest, src, "unlink");
++}
++EXPORT_SYMBOL(trace_usb_configfs_unlink_group);
+ #endif
+ 
+ static int __init gadget_cfs_init(void)
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index cc0f2eb..fc139f3 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -598,6 +598,8 @@ static int uvcg_control_class_allow_link(struct config_item *src,
+ 	struct uvcg_control_header *target_hdr;
+ 	int ret = -EINVAL;
+ 
++	trace_usb_configfs_link_group(src, target);
++
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+ 	control = src->ci_parent->ci_parent;
+@@ -639,6 +641,8 @@ static void uvcg_control_class_drop_link(struct config_item *src,
+ 	struct uvc_descriptor_header **class_array;
+ 	struct uvcg_control_header *target_hdr;
+ 
++	trace_usb_configfs_unlink_group(src, target);
++
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+ 	control = src->ci_parent->ci_parent;
+@@ -883,6 +887,8 @@ static int uvcg_streaming_header_allow_link(struct config_item *src,
+ 	struct uvcg_format_ptr *format_ptr;
+ 	int i, ret = -EINVAL;
+ 
++	trace_usb_configfs_link_group(src, target);
++
+ 	src_hdr = to_uvcg_streaming_header(src);
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+@@ -946,6 +952,8 @@ static void uvcg_streaming_header_drop_link(struct config_item *src,
+ 	struct uvcg_format *target_fmt = NULL;
+ 	struct uvcg_format_ptr *format_ptr, *tmp;
+ 
++	trace_usb_configfs_unlink_group(src, target);
++
+ 	src_hdr = to_uvcg_streaming_header(src);
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+@@ -2171,6 +2179,8 @@ static int uvcg_streaming_class_allow_link(struct config_item *src,
+ 	size_t size = 0, count = 0;
+ 	int ret = -EINVAL;
+ 
++	trace_usb_configfs_link_group(src, target);
++
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+ 	streaming = src->ci_parent->ci_parent;
+@@ -2242,6 +2252,8 @@ static void uvcg_streaming_class_drop_link(struct config_item *src,
+ 	struct uvc_descriptor_header ***class_array;
+ 	struct uvcg_streaming_header *target_hdr;
+ 
++	trace_usb_configfs_unlink_group(src, target);
++
+ 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
+ 
+ 	streaming = src->ci_parent->ci_parent;
+diff --git a/include/linux/usb/composite.h b/include/linux/usb/composite.h
+index 611029d..a90e626 100644
+--- a/include/linux/usb/composite.h
++++ b/include/linux/usb/composite.h
+@@ -608,9 +608,15 @@ void trace_usb_configfs_make_group(struct config_item *pitem,
+ 		struct config_item *item);
+ void trace_usb_configfs_drop_group(struct config_item *pitem,
+ 		struct config_item *item);
++void trace_usb_configfs_link_group(struct config_item *pitem,
++		struct config_item *item);
++void trace_usb_configfs_unlink_group(struct config_item *pitem,
++		struct config_item *item);
+ #else
+ #define trace_usb_configfs_make_group(pitem, item) do {} while(0)
+ #define trace_usb_configfs_drop_group(pitem, item) do {} while(0)
++#define trace_usb_configfs_link_group(pitem, item) do {} while(0)
++#define trace_usb_configfs_unlink_group(pitem, item) do {} while(0)
+ #endif
+ 
+ struct usb_configuration *usb_get_config(struct usb_composite_dev *cdev,
 -- 
 2.7.4
 
