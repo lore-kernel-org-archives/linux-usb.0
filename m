@@ -2,148 +2,184 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 102E6C433F5
-	for <linux-usb@archiver.kernel.org>; Sun, 20 Mar 2022 04:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 432C3C433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 20 Mar 2022 12:04:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244719AbiCTEpz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Mar 2022 00:45:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49642 "EHLO
+        id S244987AbiCTMFm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 20 Mar 2022 08:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244713AbiCTEpy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Mar 2022 00:45:54 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92B4E3152F
-        for <linux-usb@vger.kernel.org>; Sat, 19 Mar 2022 21:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1647751472; x=1679287472;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hAFlH0mZPMZ00fznWWA0Z1bl9twao3a/eNKjQVXHPwY=;
-  b=FqL8qADeGWBxP5a3tWNUjFpwZjT4FT4jnaANnEv94FFZdaY3DUs30zGw
-   +KQ2HCuEEl+uNp3rU9P4fsDS/Vm7WEv7nu/y5pFy49/4VJxmuRpbLSclR
-   24f5C9ERJGsnOA+9njE0ygyyjlJnoSneDdOBVUWi7gQS4qtcHcxvKeKh7
-   s=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 19 Mar 2022 21:44:32 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2022 21:44:32 -0700
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 19 Mar 2022 21:43:31 -0700
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sat, 19 Mar 2022 21:43:30 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
-        "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH v2 1/4] usb: gadget: add trace event of configfs operation
-Date:   Sun, 20 Mar 2022 12:43:21 +0800
-Message-ID: <1647751404-6841-2-git-send-email-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1647751404-6841-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1647751404-6841-1-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S244988AbiCTMFi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Mar 2022 08:05:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C63E3700D
+        for <linux-usb@vger.kernel.org>; Sun, 20 Mar 2022 05:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1647777854;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9OfrrvJ+JSNxjBs8qAJPKPxz/pmLtZ2ITjpHEArPw5E=;
+        b=RNM2hDPx/BuydcEGMaDPuIaI2BD33giuOYfEV6AIYnkPJcwIUzDFtdoLqcM196GMiiYXie
+        fsR6ecLotW6stPnE40yLWRCsxB7cM4329NQ3ELfBZ8aegmWwpK/MHPjtLxIoZyzQfrKLEv
+        OVS4dIDn/qxWT1EUxoErDFf8VqEPKc0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-486-xGeC-OyXOyetfNyjtt524A-1; Sun, 20 Mar 2022 08:04:12 -0400
+X-MC-Unique: xGeC-OyXOyetfNyjtt524A-1
+Received: by mail-ej1-f70.google.com with SMTP id h22-20020a1709060f5600b006b11a2d3dcfso5964369ejj.4
+        for <linux-usb@vger.kernel.org>; Sun, 20 Mar 2022 05:04:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9OfrrvJ+JSNxjBs8qAJPKPxz/pmLtZ2ITjpHEArPw5E=;
+        b=rrY5I6Xj59UntWjCd9tT6FfxmoBHOqZfv0/9aPOqDM97a1FlrIUbZRdat+R5Cwrbsa
+         rPnNPcLawv5wKDcNqtKofj876NO44q0SohaBu5FXVkkRet5RHWU964ij+r3wcMxOtqhh
+         HRkQe2oZLSzQPYUU5ISCvton1qIzLd6vhafMLZG2n+cwrgB9dMB/oNdQDGly61C/c44D
+         36dcR1U/FffjatT9tpXkhpOSMsE22rC0AxOSB09cFargfgpPaO9EPUBy9fRB7yZbv23A
+         s4T6wVY4ohnM9aGBc/Xxah9XVEfFe1JOYg+TIl/adzY/96GUY8USR47UgPRBsVmhv3du
+         ckKA==
+X-Gm-Message-State: AOAM532KnDi1HiLk102WLsPWuD5Y1L9mHdM6axZRQsYjE+7FL92H8lOu
+        WoL/qvvgZW8/tnyUjs4exxs//A7ijMwcivfns/Pe08vidw1TtVatkllmVTKDILcR+LnINj1UanE
+        lWfQF31HyE5y8+guQtO6t
+X-Received: by 2002:a17:907:7e88:b0:6db:ad88:2294 with SMTP id qb8-20020a1709077e8800b006dbad882294mr16017813ejc.371.1647777851499;
+        Sun, 20 Mar 2022 05:04:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybuaY3RTwLFhNmn8ph3qfEMlXOeFvtOmTr+FUYne4h/XgSMGx9RwM3ZmeWDHdWHYLvNIiqSA==
+X-Received: by 2002:a17:907:7e88:b0:6db:ad88:2294 with SMTP id qb8-20020a1709077e8800b006dbad882294mr16017754ejc.371.1647777851178;
+        Sun, 20 Mar 2022 05:04:11 -0700 (PDT)
+Received: from redhat.com ([2.55.132.0])
+        by smtp.gmail.com with ESMTPSA id hb6-20020a170907160600b006dff6a979fdsm856220ejc.51.2022.03.20.05.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Mar 2022 05:04:10 -0700 (PDT)
+Date:   Sun, 20 Mar 2022 08:04:00 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Jason Wang <jasowang@redhat.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>, Amit Shah <amit@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Eli Cohen <eli@mellanox.com>,
+        Saeed Mahameed <saeedm@nvidia.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Krzysztof Opasiak <k.opasiak@samsung.com>,
+        Igor Kotrasinski <i.kotrasinsk@samsung.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Jussi Kivilinna <jussi.kivilinna@mbnet.fi>,
+        Joachim Fritschi <jfritschi@freenet.de>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Karol Herbst <karolherbst@gmail.com>,
+        Pekka Paalanen <ppaalanen@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, netdev@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-usb@vger.kernel.org, nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org, x86@kernel.org
+Subject: Re: [PATCH 1/9] virtio_blk: eliminate anonymous module_init &
+ module_exit
+Message-ID: <20220320080242-mutt-send-email-mst@kernel.org>
+References: <20220316192010.19001-1-rdunlap@infradead.org>
+ <20220316192010.19001-2-rdunlap@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220316192010.19001-2-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a common trace event entry which have only one __string field,
-the following patch will add global function base on it to allow
-usb gadget and function layer use them, it will cover all user input like
-make configfs group/item, drop item, write attribute, allow/drop link.
+On Wed, Mar 16, 2022 at 12:20:02PM -0700, Randy Dunlap wrote:
+> Eliminate anonymous module_init() and module_exit(), which can lead to
+> confusion or ambiguity when reading System.map, crashes/oops/bugs,
+> or an initcall_debug log.
+> 
+> Give each of these init and exit functions unique driver-specific
+> names to eliminate the anonymous names.
+> 
+> Example 1: (System.map)
+>  ffffffff832fc78c t init
+>  ffffffff832fc79e t init
+>  ffffffff832fc8f8 t init
+> 
+> Example 2: (initcall_debug log)
+>  calling  init+0x0/0x12 @ 1
+>  initcall init+0x0/0x12 returned 0 after 15 usecs
+>  calling  init+0x0/0x60 @ 1
+>  initcall init+0x0/0x60 returned 0 after 2 usecs
+>  calling  init+0x0/0x9a @ 1
+>  initcall init+0x0/0x9a returned 0 after 74 usecs
+> 
+> Fixes: e467cde23818 ("Block driver using virtio.")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: linux-block@vger.kernel.org
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
-v2: no change
 
- drivers/usb/gadget/Makefile   |  1 +
- drivers/usb/gadget/configfs.c |  3 +++
- drivers/usb/gadget/trace.h    | 39 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 43 insertions(+)
- create mode 100644 drivers/usb/gadget/trace.h
+If this is done tree-wide, it's ok to do it for virtio too.
 
-diff --git a/drivers/usb/gadget/Makefile b/drivers/usb/gadget/Makefile
-index 33f1ef9..e072a11 100644
---- a/drivers/usb/gadget/Makefile
-+++ b/drivers/usb/gadget/Makefile
-@@ -5,6 +5,7 @@
- subdir-ccflags-$(CONFIG_USB_GADGET_DEBUG)	:= -DDEBUG
- subdir-ccflags-$(CONFIG_USB_GADGET_VERBOSE)	+= -DVERBOSE_DEBUG
- 
-+CFLAGS_configfs.o		:= -I$(src)
- obj-$(CONFIG_USB_LIBCOMPOSITE)	+= libcomposite.o
- libcomposite-y			:= usbstring.o config.o epautoconf.o
- libcomposite-y			+= composite.o functions.o configfs.o u_f.o
-diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-index 1fb837d..f35a226 100644
---- a/drivers/usb/gadget/configfs.c
-+++ b/drivers/usb/gadget/configfs.c
-@@ -123,6 +123,9 @@ static int usb_string_copy(const char *s, char **s_copy)
- 	return 0;
- }
- 
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
-+
- #define GI_DEVICE_DESC_SIMPLE_R_u8(__name)	\
- static ssize_t gadget_dev_desc_##__name##_show(struct config_item *item, \
- 			char *page)	\
-diff --git a/drivers/usb/gadget/trace.h b/drivers/usb/gadget/trace.h
-new file mode 100644
-index 0000000..d556580
---- /dev/null
-+++ b/drivers/usb/gadget/trace.h
-@@ -0,0 +1,39 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM gadget_configfs
-+
-+
-+#if !defined(_GADGET_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _GADGET_TRACE_H
-+
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(gadget_configfs,
-+	TP_PROTO(char *info),
-+	TP_ARGS(info),
-+	TP_STRUCT__entry(
-+		__string(info, info)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(info, info);
-+	),
-+
-+	TP_printk("%s", __get_str(info))
-+);
-+
-+#endif /* _GADGET_TRACE_H */
-+
-+/* this part has to be here */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace
-+
-+#include <trace/define_trace.h>
--- 
-2.7.4
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+No real opinion on whether it's a good idea.
+
+> ---
+>  drivers/block/virtio_blk.c |    8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> --- lnx-517-rc8.orig/drivers/block/virtio_blk.c
+> +++ lnx-517-rc8/drivers/block/virtio_blk.c
+> @@ -1058,7 +1058,7 @@ static struct virtio_driver virtio_blk =
+>  #endif
+>  };
+>  
+> -static int __init init(void)
+> +static int __init virtio_blk_init(void)
+>  {
+>  	int error;
+>  
+> @@ -1084,14 +1084,14 @@ out_destroy_workqueue:
+>  	return error;
+>  }
+>  
+> -static void __exit fini(void)
+> +static void __exit virtio_blk_fini(void)
+>  {
+>  	unregister_virtio_driver(&virtio_blk);
+>  	unregister_blkdev(major, "virtblk");
+>  	destroy_workqueue(virtblk_wq);
+>  }
+> -module_init(init);
+> -module_exit(fini);
+> +module_init(virtio_blk_init);
+> +module_exit(virtio_blk_fini);
+>  
+>  MODULE_DEVICE_TABLE(virtio, id_table);
+>  MODULE_DESCRIPTION("Virtio block driver");
 
