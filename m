@@ -2,129 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C3AC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Mar 2022 02:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB9DC433EF
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Mar 2022 04:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344220AbiCUCzX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Mar 2022 22:55:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
+        id S243062AbiCUEQr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Mar 2022 00:16:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344196AbiCUCzV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Mar 2022 22:55:21 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCEB858E64;
-        Sun, 20 Mar 2022 19:53:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1647831237; x=1679367237;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d7KQds5beDpM3p/NihgSSHXqAj0QSPvdkhy43Lf5WgE=;
-  b=iHGQ6iHcK3UJrw+Dwh63qkjDNWkB3gz3zQNwTq+e09QavipjBPtb5ZHg
-   uK20fKcpyKG0y/M1tl5RC/8VjnSdI+sJmSp8u9dzr1Xr/z8mtOVAGVODz
-   3NJW/RG5XD10pW6pW/kGi5vQvAtF6C+dEuIc1haamubi62sxG0HZ+w4nq
-   W4rhB3Jj6RkueOBHKlvXHxZEEPI4ct6I5O1lp1nXcMZDMhYqfUjR46z4D
-   G4gfzKnoIf4IT5nFq14T3W5IbbbKx1hsm2o4E8z4lzNvK3Bm4RCKsyktr
-   TqYEYYyUHNzIi5ZbMElQf3qk71pdFE/Sb+fSbRGTixqqZGY7FVD3wPu06
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10292"; a="255020822"
-X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; 
-   d="scan'208";a="255020822"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2022 19:53:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,197,1643702400"; 
-   d="scan'208";a="784852173"
-Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Mar 2022 19:53:54 -0700
-Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1nW8B7-000HOp-TC; Mon, 21 Mar 2022 02:53:53 +0000
-Date:   Mon, 21 Mar 2022 10:52:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mario Limonciello <mario.limonciello@amd.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     kbuild-all@lists.01.org, Will Deacon <will@kernel.org>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        "open list:AMD IOMMU (AMD-VI)" <iommu@lists.linux-foundation.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2] iommu/amd: Add support to indicate whether DMA remap
- support is enabled
-Message-ID: <202203211032.FSaAOkQt-lkp@intel.com>
-References: <20220318223104.7049-1-mario.limonciello@amd.com>
+        with ESMTP id S239857AbiCUEQq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Mar 2022 00:16:46 -0400
+Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9EE00102416;
+        Sun, 20 Mar 2022 21:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=r66vK
+        MgnGWgxcZ0j7uvp8OxxfxEfdRUlFO0G3u2DyxY=; b=WuH98Y0L7JVO0c/Cow7gk
+        FEEWuEyNTSWgvFQ7unVPoCWTvatCGDODM64Wbs+TBVsX1Mk0x6rozyhDoTpPhzq2
+        kH9a+BkykFjQmFy/Ycu+T2xBDmlMj1yc5KMR/F2xqoFBXTfQSI6NIsnmdLgT7D/E
+        znTABHt8r80TLBCFNua0LM=
+Received: from [172.20.10.3] (unknown [112.224.136.231])
+        by smtp2 (Coremail) with SMTP id GtxpCgC3xD21+zdiPLMiCw--.687S2;
+        Mon, 21 Mar 2022 12:14:47 +0800 (CST)
+Message-ID: <752077fe-4622-5de7-760c-29b21051abf9@163.com>
+Date:   Mon, 21 Mar 2022 12:14:38 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220318223104.7049-1-mario.limonciello@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: dev_WARN_ONCE cause gpio-watchdog reset
+To:     Guenter Roeck <linux@roeck-us.net>, Bin Liu <b-liu@ti.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        "Schmid, Carsten" <Carsten_Schmid@mentor.com>
+Cc:     linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+References: <8cea8d54-bd3c-5892-96d3-4d16e07ba457@163.com>
+ <fabca0f0-c901-9cb0-a8ca-974604491d1b@163.com>
+ <309dee6d-8c04-7f4f-c2d5-a7e23445e532@163.com>
+ <1649b585-3030-a8a2-f4e7-91e0bf0eb1a1@roeck-us.net>
+From:   qianfan <qianfanguijin@163.com>
+In-Reply-To: <1649b585-3030-a8a2-f4e7-91e0bf0eb1a1@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GtxpCgC3xD21+zdiPLMiCw--.687S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AFyrCrykJrWfJw45Ww4xCrg_yoW8ZFy8pF
+        WfG3WUCF4DX3yYyrnFva1F9345Cws3Gr13GFyfXFyvvr15uF9IgFWftryF9Fy3Crs8JrW7
+        tFW2qaykJ3WkA37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U-TmDUUUUU=
+X-Originating-IP: [112.224.136.231]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQhfK7VaEBNSkRQAAsR
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Mario,
 
-Thank you for the patch! Yet something to improve:
+在 2022/3/18 22:53, Guenter Roeck 写道:
+> On 3/17/22 23:05, qianfan wrote:
+> [ ... ]
+>
+>>
+>> So I think it's a bug of MUSB, not caused by dev_WARN_ONCE. But I 
+>> can't check which stop hrtimer.
+>>
+>
+> Correct. Look at the code:
+>
+> static void musb_h_tx_flush_fifo(struct musb_hw_ep *ep)
+> {
+> ...
+>     int             retries = 1000;
+> ...
+>     while (csr & MUSB_TXCSR_FIFONOTEMPTY) {
+>         ...
+>         if (dev_WARN_ONCE(musb->controller, retries-- < 1,
+>                                 "Could not flush host TX%d fifo: csr: 
+> %04x\n",
+>                                 ep->epnum, csr))
+>                         return;
+>                 mdelay(1);
+>     }
+>
+> This is where the one second comes from. The function is called from
+> musb_urb_dequeue() which disables interrupts. This forces a hard stall
+> of the kernel for a full second.
 
-[auto build test ERROR on joro-iommu/next]
-[also build test ERROR on v5.17 next-20220318]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Hi, thanks for your's guide. the one second delay plus the times for 
+dev_WARN_ON is about 1.5s, it's not friendly for most of all gpio-watchdog.
 
-url:    https://github.com/0day-ci/linux/commits/Mario-Limonciello/iommu-amd-Add-support-to-indicate-whether-DMA-remap-support-is-enabled/20220319-063131
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220321/202203211032.FSaAOkQt-lkp@intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
-reproduce (this is a W=1 build):
-        # https://github.com/0day-ci/linux/commit/105690537e561d997e376617aa6a7d6d7b74a6a6
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Mario-Limonciello/iommu-amd-Add-support-to-indicate-whether-DMA-remap-support-is-enabled/20220319-063131
-        git checkout 105690537e561d997e376617aa6a7d6d7b74a6a6
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+@Bin Liu
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+"mdelay(1)" in musb_h_tx_fifo is removed in commit 
+68fe05e2a45181ce02ab2698930b37f20487bd24 and adding back in commit 
+45d73860530a14c608f410b91c6c341777bfa85d
 
-All errors (new ones prefixed by >>):
+could we remove mdelay(1) again and and find another way to resolv the 
+problem mention in:
 
-   drivers/iommu/amd/iommu.c: In function 'amd_iommu_capable':
->> drivers/iommu/amd/iommu.c:2165:7: error: 'IOMMU_CAP_PRE_BOOT_PROTECTION' undeclared (first use in this function)
-    2165 |  case IOMMU_CAP_PRE_BOOT_PROTECTION:
-         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/amd/iommu.c:2165:7: note: each undeclared identifier is reported only once for each function it appears in
+commit 45d73860530a14c608f410b91c6c341777bfa85d
+Author: Bin Liu <b-liu@ti.com>
+Date:   Tue Jul 25 09:31:34 2017 -0500
 
+     usb: musb: fix tx fifo flush handling again
 
-vim +/IOMMU_CAP_PRE_BOOT_PROTECTION +2165 drivers/iommu/amd/iommu.c
+     commit 68fe05e2a451 ("usb: musb: fix tx fifo flush handling") drops the
+     1ms delay trying to solve the long disconnect time issue when
+     application queued many tx urbs. However, the 1ms delay is needed for
+     some use cases, for example, without the delay, reconnecting AR9271 
+WIFI
+     dongle no longer works if the connection is dropped from the AP.
 
-  2155	
-  2156	static bool amd_iommu_capable(enum iommu_cap cap)
-  2157	{
-  2158		switch (cap) {
-  2159		case IOMMU_CAP_CACHE_COHERENCY:
-  2160			return true;
-  2161		case IOMMU_CAP_INTR_REMAP:
-  2162			return (irq_remapping_enabled == 1);
-  2163		case IOMMU_CAP_NOEXEC:
-  2164			return false;
-> 2165		case IOMMU_CAP_PRE_BOOT_PROTECTION:
-  2166			return amdr_ivrs_remap_support;
-  2167		default:
-  2168			break;
-  2169		}
-  2170	
-  2171		return false;
-  2172	}
-  2173	
+     So let's add back the 1ms delay in musb_h_tx_flush_fifo(), and 
+solve the
+     long disconnect time problem with a separate patch for
+     usb_hcd_flush_endpoint().
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+     Cc: stable@vger.kernel.org # v4.4+
+     Signed-off-by: Bin Liu <b-liu@ti.com>
+     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+> There is nothing we can do about that in the watchdog driver.
+>
+> Guenter
+
