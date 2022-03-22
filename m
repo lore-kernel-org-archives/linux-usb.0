@@ -2,95 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83D4BC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Mar 2022 14:08:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74739C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Mar 2022 14:35:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236322AbiCVOJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Mar 2022 10:09:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37016 "EHLO
+        id S237637AbiCVOgn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Mar 2022 10:36:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236345AbiCVOJm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Mar 2022 10:09:42 -0400
-Received: from ZXSHCAS1.zhaoxin.com (ZXSHCAS1.zhaoxin.com [203.148.12.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4278167C1;
-        Tue, 22 Mar 2022 07:07:56 -0700 (PDT)
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
- (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.27; Tue, 22 Mar
- 2022 22:07:23 +0800
-Received: from L440.zhaoxin.com (10.29.8.49) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Tue, 22 Mar
- 2022 22:07:23 +0800
-From:   WeitaoWangoc <WeitaoWang-oc@zhaoxin.com>
-To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <hzpeterchen@gmail.com>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <tonywwang@zhaoxin.com>, <weitaowang@zhaoxin.com>,
-        <CobeChen@zhaoxin.com>, Weitao Wang <WeitaoWang-oc@zhaoxin.com>
-Subject: [PATCH v2] USB: Fix xhci ERDP update issue
-Date:   Tue, 22 Mar 2022 22:07:23 +0800
-Message-ID: <20220322140723.9554-1-WeitaoWang-oc@zhaoxin.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.29.8.49]
-X-ClientProxiedBy: zxbjmbx1.zhaoxin.com (10.29.252.163) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
+        with ESMTP id S237585AbiCVOgm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Mar 2022 10:36:42 -0400
+X-Greylist: delayed 288 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 22 Mar 2022 07:35:10 PDT
+Received: from fx403.security-mail.net (smtpout140.security-mail.net [85.31.212.143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C4E6A060
+        for <linux-usb@vger.kernel.org>; Tue, 22 Mar 2022 07:35:10 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx403.security-mail.net (Postfix) with ESMTP id 93BF74FE6F9
+        for <linux-usb@vger.kernel.org>; Tue, 22 Mar 2022 15:30:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1647959423;
+        bh=6/vdjKdj3TBAacD39r/JYj7DZ/ZJcRrY8/Jra+61PTU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=u3yHab9b++YiVwoxxmMfdFIC9f97gIF1w3yAg91I5af363HCUGoQ3Rgl2TfgTyNbg
+         /T4tS6eNVxlNRL1Yx7MLyi4dd9SYwKOCy8tjQWnoSYVT/L5KscEDpXK1RfeimCQph3
+         PjiVBirtK9C8tUu13lhgZwIpv30lpLTBHmxFHapY=
+Received: from fx403 (localhost [127.0.0.1])
+        by fx403.security-mail.net (Postfix) with ESMTP id 383E14FE695;
+        Tue, 22 Mar 2022 15:30:22 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <90bf.6239dd7c.7b214.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+        by fx403.security-mail.net (Postfix) with ESMTPS id 2DD554FE638;
+        Tue, 22 Mar 2022 15:30:20 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id 448AE27E043B;
+        Tue, 22 Mar 2022 15:30:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 2EAC627E0439;
+        Tue, 22 Mar 2022 15:30:20 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 2EAC627E0439
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1647959420;
+        bh=xBNbec84HSSpoeLNL9eQD9nc7AhHGc6JxV8Ln5sjJUk=;
+        h=From:To:Date:Message-Id;
+        b=R6qfCWaaFuZ2xQAGLUKK8VyELAKqUdtu8vp062E3Dch26xKFFpLwkQxPV215/jj7Y
+         BD+mkHpO4EC6wibc2uq8o69mQ0dxRf5WY197QgndP1X4rqpTt7QQwA97nvbXolMxtp
+         hWUPexmmvwq6RjkbbpZlFWajVxLDzRV2VEUXpO00=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id LkN_4kkowPbE; Tue, 22 Mar 2022 15:30:20 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 1D70827E0436;
+        Tue, 22 Mar 2022 15:30:20 +0100 (CET)
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     linux-usb@vger.kernel.org
+Cc:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Yann Sionneau <ysionneau@kalray.eu>,
+        Michael Grzeschik <mgr@pengutronix.de>,
+        Jules Maselbas <jmaselbas@kalray.eu>
+Subject: [PATCH 2/2] phy: core: Warn when phy_power_on is called before phy_init
+Date:   Tue, 22 Mar 2022 15:30:11 +0100
+Message-Id: <20220322143011.16580-3-jmaselbas@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220322143011.16580-1-jmaselbas@kalray.eu>
+References: <20220322143011.16580-1-jmaselbas@kalray.eu>
+X-Virus-Scanned: by Secumail
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some situations, software handles TRB events slower than adding TRBs.
-If the number of TRB events to be processed in a given interrupt is 256.
-The local variable "event_ring_deq" that records in interrupt handler
-is equal to software_dequeue. It will cause driver not update ERDP,then
-software dequeue pointer is out of sync with ERDP on interrupt exit.
-On the next interrupt, the event ring may full but driver will not
-update ERDP as software_dequeue is equal to ERDP.
+A warning when the order of phy operation is mixed up by drivers,
+this is an atempt to make the phy usage more uniform across (usb)
+drivers.
 
-[  536.377115] xhci_hcd 0000:00:12.0: ERROR unknown event type 37
-[  566.933173] sd 8:0:0:0: [sdb] tag#27 uas_eh_abort_handler 0 uas-tag 7
-inflight: CMD OUT
-[  566.933181] sd 8:0:0:0: [sdb] tag#27 CDB: Write(10) 2a 00 17 71 e6 78
-00 00 08 00
-[  572.041186] xhci_hcd On some situataions,the 0000:00:12.0: xHCI host
-not responding to stop endpoint command.
-[  572.057193] xhci_hcd 0000:00:12.0: Host halt failed, -110
-[  572.057196] xhci_hcd 0000:00:12.0: xHCI host controller not
-responding, assume dead
-[  572.057236] sd 8:0:0:0: [sdb] tag#26 uas_eh_abort_handler 0 uas-tag 6
-inflight: CMD
-[  572.057240] sd 8:0:0:0: [sdb] tag#26 CDB: Write(10) 2a 00 38 eb cc d8
-00 00 08 00
-[  572.057244] sd 8:0:0:0: [sdb] tag#25 uas_eh_abort_handler 0 uas-tag 5
-inflight: CMD
-
-Fixed this issue by update software record local variable when
-handles 128 TRB events.
-
-Fixes: dc0ffbea5729 ("usb: host: xhci: update event ring dequeue pointer on purpose")
-Signed-off-by: Weitao Wang <WeitaoWang-oc@zhaoxin.com>
+CC: Ahmad Fatoum <a.fatoum@pengutronix.de>
+CC: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 ---
-v1->v2:
- - Add fixes information with improved commit messages.
- - Fix "tabs converted to spaces" issue.
+ drivers/phy/phy-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
- drivers/usb/host/xhci-ring.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index d0b6806275e0..f9707997969d 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3141,6 +3141,7 @@ irqreturn_t xhci_irq(struct usb_hcd *hcd)
- 		if (event_loop++ < TRBS_PER_SEGMENT / 2)
- 			continue;
- 		xhci_update_erst_dequeue(xhci, event_ring_deq);
-+		event_ring_deq = xhci->event_ring->dequeue;
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index ed10cbb24b08..2c2c0f073080 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -252,6 +252,9 @@ int phy_init(struct phy *phy)
+ 		return ret;
+ 	ret = 0; /* Override possible ret == -ENOTSUPP */
  
- 		/* ring is half-full, force isoc trbs to interrupt more often */
- 		if (xhci->isoc_bei_interval > AVOID_BEI_INTERVAL_MIN)
++	if (phy->power_count > phy->init_count)
++		dev_warn(&phy->dev, "phy_power_on was called before phy_init\n");
++
+ 	mutex_lock(&phy->mutex);
+ 	if (phy->init_count == 0 && phy->ops->init) {
+ 		ret = phy->ops->init(phy);
 -- 
-2.32.0
+2.17.1
+
