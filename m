@@ -2,110 +2,108 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE1AC433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 10:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E714C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 11:07:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243540AbiCWKcX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Mar 2022 06:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48966 "EHLO
+        id S243739AbiCWLI7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Mar 2022 07:08:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229786AbiCWKcW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Mar 2022 06:32:22 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E83E6EB0A;
-        Wed, 23 Mar 2022 03:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1648031451; x=1679567451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SV0+1VOXq+yxYQQCFdKG0nZadXPiB8XCijjjUS7LwI4=;
-  b=MvHPNDY+0MNQM4fPyPTgPVAxo+zI3eqAeFin9sfkcNlh2BvYHvzrE+/o
-   8HJ22J20aLHSNkzUz2/DRlKPjdJkijHYIQVUT8dXTE2dDc+5QWfUUQ0KV
-   ham8QzQ0iJlx6By9IWOSrkahnQWeLgK6ow98qh/KEe4gYQhU0KTVfutJ7
-   tUCtAG99kEKcp0C9xob6EWyCNyAYr/cwKXbYu8+jlBhzeblTeM5V3cSc0
-   KsO8d5kUqiSA2NVl8GUoy0NyFRKW3FHy45aUFxHJR3QQbZicEyOuoDd0S
-   1nYqActMOtfh2cO9CZ1L5irMod2llowrZ4vDJE2yT+MLx7tSg9vjM+VHr
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10294"; a="240238208"
-X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; 
-   d="scan'208";a="240238208"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 03:30:51 -0700
-X-IronPort-AV: E=Sophos;i="5.90,203,1643702400"; 
-   d="scan'208";a="515731387"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2022 03:30:47 -0700
-Received: by lahna (sSMTP sendmail emulation); Wed, 23 Mar 2022 12:30:45 +0200
-Date:   Wed, 23 Mar 2022 12:30:45 +0200
-From:   "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To:     "Khandelwal, Rajat" <rajat.khandelwal@intel.com>
-Cc:     "bleung@google.com" <bleung@google.com>,
-        "Malani, Prashant" <pmalani@google.com>,
-        "jthies@google.com" <jthies@google.com>,
-        "Rao, Abhijeet" <abhijeet.rao@intel.com>,
-        "Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] USB4/TBT device routers should wake up during S0ix when
- something gets connected/disconnected or a DP monitor gets plugged in
-Message-ID: <Yjr21UzWmj4NjItA@lahna>
-References: <20220323101818.3503-1-rajat.khandelwal@intel.com>
- <CO1PR11MB48357FE72D34818360D2105E96189@CO1PR11MB4835.namprd11.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CO1PR11MB48357FE72D34818360D2105E96189@CO1PR11MB4835.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        with ESMTP id S235590AbiCWLI5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Mar 2022 07:08:57 -0400
+Received: from fx601.security-mail.net (smtpout140.security-mail.net [85.31.212.146])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7156678077
+        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 04:07:27 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx601.security-mail.net (Postfix) with ESMTP id 11AD83AD0F5
+        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 12:07:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1648033646;
+        bh=69zZpxa6rBNXrUgok6kJ+TKqaxhS4oyp57/az67O4W8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=sImvwxBjq6c/FGiAOl4UKHrlZU1jqAkqmVJusn58306XmoqE788E19YFZjYx5HTt0
+         UaIlSG9BEyga9fDJXCQ1RhVBlv9C4r2Mxczs3cRSWiehBofRbnwsWY/EjxdtH3cvji
+         wVBb8XbhQWrUE7ISwbB0+QZCaZZa1mYXE3PbnLGI=
+Received: from fx601 (localhost [127.0.0.1])
+        by fx601.security-mail.net (Postfix) with ESMTP id BA9803AD04C;
+        Wed, 23 Mar 2022 12:07:24 +0100 (CET)
+X-Virus-Scanned: E-securemail
+Secumail-id: <9ab4.623aff6a.98f3e.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+        by fx601.security-mail.net (Postfix) with ESMTPS id 9A2FD3AD034;
+        Wed, 23 Mar 2022 12:07:22 +0100 (CET)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id 7C7AD27E0444;
+        Wed, 23 Mar 2022 12:07:22 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id 66AF927E0443;
+        Wed, 23 Mar 2022 12:07:22 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 66AF927E0443
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1648033642;
+        bh=lkXmp8lv2v2HiLj/LZtFQoiXYObR1expOxg9dvyWFfo=;
+        h=From:To:Date:Message-Id;
+        b=D3/EWoIWOfLH52PaI873zcLsIBgSg54V93HL1oTICcogFX27728Wp9lYRrBq8KNsR
+         r+gvGRGcaa+RlKDCAatR2KHypy/uwJcP2KZylmMliPSL5TR/5QnQ5pqFxHQmBanbEa
+         jBn+kZknXQqdeILBmEJBsXc2gxTrvUa55fQxQq80=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id x62y_ZpYuTpT; Wed, 23 Mar 2022 12:07:22 +0100 (CET)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 5487E27E0425;
+        Wed, 23 Mar 2022 12:07:22 +0100 (CET)
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     linux-usb@vger.kernel.org
+Cc:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Amelie DELAUNAY <amelie.delaunay@foss.st.com>,
+        Yann Sionneau <ysionneau@kalray.eu>,
+        Michael Grzeschik <mgr@pengutronix.de>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jules Maselbas <jmaselbas@kalray.eu>
+Subject: [PATCH v2 3/3] phy: core: Warn when phy_power_on is called before phy_init
+Date:   Wed, 23 Mar 2022 12:07:08 +0100
+Message-Id: <20220323110708.8254-4-jmaselbas@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220323110708.8254-1-jmaselbas@kalray.eu>
+References: <20220323110708.8254-1-jmaselbas@kalray.eu>
+X-Virus-Scanned: by Secumail
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+A warning when the order of phy operation is mixed up by drivers,
+this is an atempt to make the phy usage more uniform across (usb)
+drivers.
 
-If you want it to be woken up when something is plugged to the USB4 port
-then I suggest to add this to the "wakeup" capability of the usb4_port
-itself (see drivers/thunderbolt/usb4_port.c). And make it disabled by
-default too.
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Amelie DELAUNAY <amelie.delaunay@foss.st.com>
+Cc: Minas Harutyunyan <hminas@synopsys.com>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>
+---
+change in v2:
+  - no changes
 
-On Wed, Mar 23, 2022 at 10:26:37AM +0000, Khandelwal, Rajat wrote:
-> +Mika
-> @Malani, Prashant @bleung@google.com This is the patch which fixes the partner issue. Kindly escalate your thoughts. 
-> 
-> Thanks
-> Rajat
-> 
-> -----Original Message-----
-> From: Khandelwal, Rajat <rajat.khandelwal@intel.com> 
-> Sent: Wednesday, March 23, 2022 3:48 PM
-> To: mika.westerberg@linux.intel.com
-> Cc: Khandelwal, Rajat <rajat.khandelwal@intel.com>; bleung@google.com; jthies@google.com; Malani, Prashant <pmalani@google.com>; Rao, Abhijeet <abhijeet.rao@intel.com>; Regupathy, Rajaram <rajaram.regupathy@intel.com>; linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH] USB4/TBT device routers should wake up during S0ix when something gets connected/disconnected or a DP monitor gets plugged in
-> 
-> Device routers don't wake up during S0ix when something is plugged in/out or if a DP monitor gets connected. This causes the linux device to not wake up during S0ix cycling as the host router didn't wake up because the device router didn't. This patch adds a new functionality to linux.
-> 
-> Signed-off-by: Rajat-Khandelwal <rajat.khandelwal@intel.com>
-> ---
->  drivers/thunderbolt/switch.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c index d026e305fe5d..4f8056724aa4 100644
-> --- a/drivers/thunderbolt/switch.c
-> +++ b/drivers/thunderbolt/switch.c
-> @@ -3067,13 +3067,11 @@ void tb_switch_suspend(struct tb_switch *sw, bool runtime)
->  			tb_switch_suspend(port->remote->sw, runtime);
->  	}
->  
-> -	if (runtime) {
-> +	if (runtime || device_may_wakeup(&sw->dev)) {
->  		/* Trigger wake when something is plugged in/out */
->  		flags |= TB_WAKE_ON_CONNECT | TB_WAKE_ON_DISCONNECT;
->  		flags |= TB_WAKE_ON_USB4;
->  		flags |= TB_WAKE_ON_USB3 | TB_WAKE_ON_PCIE | TB_WAKE_ON_DP;
-> -	} else if (device_may_wakeup(&sw->dev)) {
-> -		flags |= TB_WAKE_ON_USB4 | TB_WAKE_ON_USB3 | TB_WAKE_ON_PCIE;
->  	}
->  
->  	tb_switch_set_wake(sw, flags);
-> --
-> 2.17.1
+ drivers/phy/phy-core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index cbdad65d2caa..0cb4da62577e 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -252,6 +252,9 @@ int phy_init(struct phy *phy)
+ 		return ret;
+ 	ret = 0; /* Override possible ret == -ENOTSUPP */
+ 
++	if (phy->power_count > phy->init_count)
++		dev_warn(&phy->dev, "phy_power_on was called before phy_init\n");
++
+ 	mutex_lock(&phy->mutex);
+ 	if (phy->init_count == 0 && phy->ops->init) {
+ 		ret = phy->ops->init(phy);
+-- 
+2.17.1
+
