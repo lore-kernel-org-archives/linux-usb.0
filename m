@@ -2,170 +2,133 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF928C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 02:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F72C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 03:08:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240211AbiCWCh1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Mar 2022 22:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48880 "EHLO
+        id S232115AbiCWDJb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Mar 2022 23:09:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236699AbiCWCh0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Mar 2022 22:37:26 -0400
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35C0470857
-        for <linux-usb@vger.kernel.org>; Tue, 22 Mar 2022 19:35:56 -0700 (PDT)
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220323023550epoutp03c74d8f6a1164d35ccca49adcd73355ee~e4fO_lBKJ0073900739epoutp032
-        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 02:35:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220323023550epoutp03c74d8f6a1164d35ccca49adcd73355ee~e4fO_lBKJ0073900739epoutp032
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1648002950;
-        bh=kTdxCSWu756/9f4L7Oul+Zy4lVBh7YkiDuX6jGayiRg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KiTLlxbvkOuqPOcG2dpE4On5A63Jsiq7QJAp7+a5Bag++xSiWlWxDnSaqO2z4urfp
-         UaP2q8z2NlQbiA+dIaYtkR7B3El+boUQJrNabKQXc8PfgjeB0XloG+9JurSFSH4GX/
-         SOvfEAyjwaFnBoXfn78xljTAl7qIuTqz1Kv3pOg8=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-        20220323023550epcas2p490947caf70cc3d27de7d4c583ba2a237~e4fOhNV860188801888epcas2p4N;
-        Wed, 23 Mar 2022 02:35:50 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.36.101]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 4KNXXF6Lfgz4x9Q1; Wed, 23 Mar
-        2022 02:35:41 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-        epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        8A.CA.25540.B778A326; Wed, 23 Mar 2022 11:35:39 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20220323023539epcas2p298f2d10dfe2b83662fe93e9188b07948~e4fEWQLkd0136601366epcas2p2P;
-        Wed, 23 Mar 2022 02:35:39 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20220323023539epsmtrp23886a97a7905f20ae3b076c5f503f6ae~e4fEVZTwe0057700577epsmtrp2S;
-        Wed, 23 Mar 2022 02:35:39 +0000 (GMT)
-X-AuditID: b6c32a47-81bff700000063c4-77-623a877b3277
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        0C.8A.29871.B778A326; Wed, 23 Mar 2022 11:35:39 +0900 (KST)
-Received: from ubuntu (unknown [12.36.155.120]) by epsmtip2.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20220323023539epsmtip2c2bca59b81ffa7f30729ad0bcc6ccf48~e4fEJ4K4W1597415974epsmtip2P;
-        Wed, 23 Mar 2022 02:35:39 +0000 (GMT)
-Date:   Wed, 23 Mar 2022 11:34:20 +0900
-From:   Jung Daehwan <dh10.jung@samsung.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        with ESMTP id S231250AbiCWDJ3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Mar 2022 23:09:29 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00DC3BE15;
+        Tue, 22 Mar 2022 20:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1648004880; x=1679540880;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=EF/JQuQvjXcqaoJAFGbUy4VuBPt0HhFRN25fJmoeJlk=;
+  b=ME6+DSaAh/SFqD9UbBXJLD0Vl7gOfpOWeslWTTRVgsgC+nnQdj9Scr/3
+   q1yaV7XKOTo07v+P6EqRa7uJo4XXqJ5AcBSNLyLYJf78xMlOJKBBlpYL8
+   XWgsmTR+TIVhtlwIX42YYLbEyzGbLPQYAdlJx5DwTfCPOJl7DKW3/YRNS
+   o=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 22 Mar 2022 20:07:59 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2022 20:07:58 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 22 Mar 2022 20:07:58 -0700
+Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 22 Mar 2022 20:07:52 -0700
+Date:   Wed, 23 Mar 2022 08:37:49 +0530
+From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+CC:     "Sandeep Maheswaram (Temp)" <quic_c_sanm@quicinc.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Jack Pham <jackp@codeaurora.org>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>, sc.suh@samsung.com
-Subject: Re: [PATCH v3 4/4] usb: host: add xhci-exynos driver
-Message-ID: <20220323023420.GC19041@ubuntu>
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "Doug Anderson" <dianders@chromium.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        "Pawel Laszczak" <pawell@cadence.com>,
+        Peter Chen <peter.chen@kernel.org>,
+        "Roger Quadros" <rogerq@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
+        <quic_ppratap@quicinc.com>
+Subject: Re: [PATCH v2 0/3] Refactor xhci quirks and plat private data
+Message-ID: <20220323030749.GO23316@hu-pkondeti-hyd.qualcomm.com>
+References: <1646130507-26796-1-git-send-email-quic_c_sanm@quicinc.com>
+ <ddc86a4f-8d1c-c02c-5600-4fa851568557@quicinc.com>
+ <YjR0Ne3BDxxMfrxt@kroah.com>
+ <b38ddfcc-68c3-d99f-816b-8b9f788aa88a@quicinc.com>
+ <29ba84fb-1db2-1d84-cf9e-191e9bcbf739@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <ad877924-68bb-f029-258a-0cf9094265eb@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <29ba84fb-1db2-1d84-cf9e-191e9bcbf739@linux.intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDJsWRmVeSWpSXmKPExsWy7bCmuW51u1WSwcTHGhZPjixit2hevJ7N
-        4vqf94wW7c8vsFmcP7+B3eLyrjlsFouWtTJbNG+awmoxc62yRdfdG4wOXB6X+3qZPBZsKvVY
-        vOclk8emVZ1sHvvnrmH36NuyitHj8ya5APaobJuM1MSU1CKF1Lzk/JTMvHRbJe/geOd4UzMD
-        Q11DSwtzJYW8xNxUWyUXnwBdt8wcoOuUFMoSc0qBQgGJxcVK+nY2RfmlJakKGfnFJbZKqQUp
-        OQXmBXrFibnFpXnpenmpJVaGBgZGpkCFCdkZ124dYC7Ywl/x/v0ftgbG0zxdjJwcEgImEuvf
-        z2DtYuTiEBLYwSjxae8kZgjnE6PE3t1n2CGcb4wSb9omssG0zJh2Ayqxl1Hi4KLPYAkhgSeM
-        Elf/iIDYLAKqEo2Lt7KA2GwCWhL3fpxgBrFFBDQlrv/9DraPWeAxk0TLu+nsIAlhAVuJ6zfv
-        AdkcHLwC2hJ3/kWAhHkFBCVOznzCAhLmFLCT2DrZFsQUFVCReHWwHmSKhMBcDonJt7+zgcQl
-        BFwk1n2whDhTWOLV8S3sELaUxOd3e6HOL5bY9amVCaK3gVGi8QHEaRICxhKznrUzgtjMApkS
-        yx++h5qpLHHkFgtEmE+i4/Bfdogwr0RHmxBEp7LE9MsTWCFsSYmDr89BTfSQmP7tOAskpDqZ
-        JE6+7mSfwCg/C8ljs5Bsg7B1JBbs/gRkcwDZ0hLL/3FAmJoS63fpL2BkXcUollpQnJueWmxU
-        YAyP6uT83E2M4GSr5b6DccbbD3qHGJk4GA8xSnAwK4nwLv5gniTEm5JYWZValB9fVJqTWnyI
-        0RQYSxOZpUST84HpPq8k3tDE0sDEzMzQ3MjUwFxJnNcrZUOikEB6YklqdmpqQWoRTB8TB6dU
-        A5Nj2XyD1I+L5c8w3Vg0+aLKgXaH9c4mz129PrPvvMIpNZNNwNZh0+lVaXWcAptXn1Kb/DQs
-        msmIKb3PjeEI4231abdvVh/Rrjv/gGuxENu9g93qB1OP/2RZedbixozUUkN/hjOF3Maflj2a
-        zecycceHvvuHBA8FKNamb/hd2bkm5vXeM83G8nN/qmivV4/e2zzp/L3/m2I+VWeuv7hS0mf+
-        T4d3c169En25z/fl+oDl1/ubShIFNU7V/VjTuvPWvS2XPk1uM2BgONi8I8GbOe0Z68uuX1zh
-        C31uTHHLMerUe+F6TcfhyZ0TeqyzkvOUV/Ym39BMtvlfL3RtX+OafOnfS3lqG3ftDS7/3cr8
-        7Cq7EktxRqKhFnNRcSIAYrACDD8EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrELMWRmVeSWpSXmKPExsWy7bCSvG51u1WSwbOVXBZPjixit2hevJ7N
-        4vqf94wW7c8vsFmcP7+B3eLyrjlsFouWtTJbNG+awmoxc62yRdfdG4wOXB6X+3qZPBZsKvVY
-        vOclk8emVZ1sHvvnrmH36NuyitHj8ya5APYoLpuU1JzMstQifbsErozehhcsBR95Ktb/aGRq
-        YFzI1cXIySEhYCIxY9oNdhBbSGA3o8TGF9EQcUmJpXMh4hICwhL3W46wdjFyAdU8YpS48PcH
-        E0iCRUBVonHxVhYQm01AS+LejxPMILaIgKbE9b/fwRqYBZ4ySSze2AbWICxgK3H95j2gqRwc
-        vALaEnf+RUAM7WSS2DN7NSNIDa+AoMTJmU/AhjIDDb3x7yUTSD2zgLTE8n8cICangJ3E1sm2
-        IKaogIrEq4P1ExgFZyHpnYWkdxZC7wJG5lWMkqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmb
-        GMHRoqW5g3H7qg96hxiZOBgPMUpwMCuJ8C7+YJ4kxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC
-        18l4IYH0xJLU7NTUgtQimCwTB6dUA9OcsivMOyWnKNyyvVuRs/F0jNnOI3yi8ZH2/jNO3/LN
-        3O/6JLK8e/fT5ZuOX2v+MElErLUg/ve1GNO4ZV/vcMx52rbF7f2LVvvAWsn1BilZSYkxHWw/
-        FA8za396K/NH+uqdy9Yer515dknMeyrYMP3L1j72wht/DihvNdsfK7172fqZmX9/zH5+Oq7x
-        kK61yYz9ltvYLGuPzL8qcfJiWHCua7tDQOSpkMQ3j/tP7OM4K2a6z03n5Qo3lj5h+0SHe6H+
-        cu80gwwlbLJuMJwqLJQQ2jxhQVs0h7JFZoK84/uk9zMZLQXFW7ifHXFZaG283Zdt+fydxvLm
-        S8X4FjfvO5Wf/7NNpWdmGGfPl6JNzkosxRmJhlrMRcWJAH/eqPYFAwAA
-X-CMS-MailID: 20220323023539epcas2p298f2d10dfe2b83662fe93e9188b07948
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-        boundary="----2fH_v7u-qooQo7zMtxxTw1wUndVpTJhY--Wv6pszNQmaZVXq=_23895e_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220321090205epcas2p15ac16f281554b663062e0e31666defab
-References: <1647853194-62147-1-git-send-email-dh10.jung@samsung.com>
-        <CGME20220321090205epcas2p15ac16f281554b663062e0e31666defab@epcas2p1.samsung.com>
-        <1647853194-62147-5-git-send-email-dh10.jung@samsung.com>
-        <ad877924-68bb-f029-258a-0cf9094265eb@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-------2fH_v7u-qooQo7zMtxxTw1wUndVpTJhY--Wv6pszNQmaZVXq=_23895e_
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+Hi Mathias,
 
-On Tue, Mar 22, 2022 at 06:10:00PM +0100, Krzysztof Kozlowski wrote:
-> On 21/03/2022 09:59, Daehwan Jung wrote:
-> > This driver supports USB Audio offload with Co-processor.
-> 
-> One do you need one more XHCI driver? How does it differ from existing
-> and why existing cannot be extended?
-
-I have some exynos specific features and that's because need own driver.
-It's not good to modify other XHCI driver for my features.
-
-Additinally, I've been developing some features with other IP or Co-Processors.
-Extending is not enough to cover them and I think owning driver is also better
-on structural view.
-
-Best Regards,
-Jung Daehwan
-
-> 
-> > It only cares DCBAA, Device Context, Transfer Ring, Event Ring, and ERST.
-> > They are allocated on specific address with xhci hooks.
-> > Co-processor could use them directly without xhci driver after then.
+On Tue, Mar 22, 2022 at 05:53:42PM +0200, Mathias Nyman wrote:
+> On 21.3.2022 8.21, Sandeep Maheswaram (Temp) wrote:
+> > Hi Mathias,
 > > 
-> > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> > ---
-> >  drivers/usb/host/Kconfig       |   9 +
-> >  drivers/usb/host/Makefile      |   1 +
-> >  drivers/usb/host/xhci-exynos.c | 982 +++++++++++++++++++++++++++++++++
-> >  drivers/usb/host/xhci-exynos.h |  63 +++
-> >  4 files changed, 1055 insertions(+)
-> >  create mode 100644 drivers/usb/host/xhci-exynos.c
-> >  create mode 100644 drivers/usb/host/xhci-exynos.h
+> > On 3/18/2022 5:29 PM, Greg Kroah-Hartman wrote:
+> >> On Thu, Mar 17, 2022 at 11:17:17AM +0530, Sandeep Maheswaram (Temp) wrote:
+> >>> Hi Greg,
+> >>>
+> >>> On 3/1/2022 3:58 PM, Sandeep Maheswaram wrote:
+> >>>> changes in v2:
+> >>>> Added a PATCH 2/3 to remove unwanted header inclusion.
+> >>>> Fixed minor nitpicks in PATCH 3/3.
+> >>>>
+> >>>> Pavankumar Kondeti (1):
+> >>>>     usb: xhci: refactor quirks and plat private data
+> >>>>
+> >>>> Sandeep Maheswaram (2):
+> >>>>     usb: xhci: Remove unwanted header inclusion
+> >>>>     usb: dwc: host: add xhci_plat_priv quirk XHCI_SKIP_PHY_INIT
+> >>>>
+> >>>>    drivers/usb/cdns3/host.c        |  2 +-
+> >>>>    drivers/usb/dwc3/host.c         | 13 ++++++++
+> >>>>    drivers/usb/host/xhci-plat.c    |  3 +-
+> >>>>    drivers/usb/host/xhci-plat.h    | 24 ---------------
+> >>>>    drivers/usb/host/xhci-rcar.c    |  3 +-
+> >>>>    drivers/usb/host/xhci.h         | 60 ++++--------------------------------
+> >>>>    include/linux/usb/xhci-plat.h   | 24 +++++++++++++++
+> >>>>    include/linux/usb/xhci-quirks.h | 67 +++++++++++++++++++++++++++++++++++++++++
+> >>>>    8 files changed, 115 insertions(+), 81 deletions(-)
+> >>>>    delete mode 100644 drivers/usb/host/xhci-plat.h
+> >>>>    create mode 100644 include/linux/usb/xhci-plat.h
+> >>>>    create mode 100644 include/linux/usb/xhci-quirks.h
+> >>> Please let me know your opinion about this patch series.
+> >> I need the xhci maintainer to review it...
+> >>
+> >> thanks,
+> >>
+> >> greg k-h
+> > 
+> > 
+> > Can you please review this patch series.
 > > 
 > 
-> Please address all the questions I raised in your v1, do not ignore them.
+> I don't have a better solution than this.
 > 
-> Please use get_maintainers.pl to CC all necessary people and lists. It
-> makes me very sad that you do not follow the kernel development process
-> (as mentioned in submitting-patches.rst and other documents).
+> So neither devicetree or ACPI entries exists for the xHC part of this dwc3 controller?
 > 
-> Best regards,
-> Krzysztof
+> A pure platform device is created, and it matches and binds to xhci-plat driver by "xhci-hcd" name.
+> I guess we have no way to identify this dwc3 xhci controller in xhci-plat.c, and set quirks there,
+> like all those devicetree xhci devices that we set quirks based on .compatibility. 
 > 
+Thanks for the review. Yes, xhci-plat platform device is created by the DWC3
+driver for the controllers that needs to be operated in the host.
 
-------2fH_v7u-qooQo7zMtxxTw1wUndVpTJhY--Wv6pszNQmaZVXq=_23895e_
-Content-Type: text/plain; charset="utf-8"
-
-
-------2fH_v7u-qooQo7zMtxxTw1wUndVpTJhY--Wv6pszNQmaZVXq=_23895e_--
+Thanks,
+Pavan
