@@ -2,56 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3F72C433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 11:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BA01C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Mar 2022 11:07:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235607AbiCWLJM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Mar 2022 07:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
+        id S242752AbiCWLJN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Mar 2022 07:09:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230331AbiCWLJL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Mar 2022 07:09:11 -0400
+        with ESMTP id S230331AbiCWLJN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Mar 2022 07:09:13 -0400
 Received: from fx308.security-mail.net (smtpout30.security-mail.net [85.31.212.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C203278057
-        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 04:07:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 951337806E
+        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 04:07:43 -0700 (PDT)
 Received: from localhost (localhost [127.0.0.1])
-        by fx308.security-mail.net (Postfix) with ESMTP id BD11581C481
-        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 12:07:40 +0100 (CET)
+        by fx308.security-mail.net (Postfix) with ESMTP id 44AD181C50B
+        for <linux-usb@vger.kernel.org>; Wed, 23 Mar 2022 12:07:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1648033660;
-        bh=v9g7DsSlFogJyv3ZLABnERl4LylzS13BZ7QkOZDwmL8=;
-        h=From:To:Cc:Subject:Date;
-        b=US4JTqihEgeufVQs0aDOwjRhcRDOloqrOJZFpWTvLfJvWUkU2m/ufisErb+/yBK5y
-         RjowHUDpHS3tmZyDOFicZARf/K4gpm1Yz8ilw997mwQjRyTZOKaLwUbrd4pRaHZwKW
-         //wrm6SIEspB4lS1peE54/0+gYk3UlKA/ZXqqne0=
+        s=sec-sig-email; t=1648033662;
+        bh=cmxsWVENngI8AG3RFKrkxT2nJQtlNf9zKwwrZjY0kJY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=5qhrcwRy+h/VlRLPoYo84MqbdKEesTXR8NX7AdE+9bTT1jYRqhZNi7cp9rhYBsH/Y
+         enj0iVgZMgVR2yt9W0r4r3ammeRS+d9qyptXDPaFrYudoD9yoR/VvccJu3RJqN3ss/
+         spKFma+ylcm7eKwL1A1t2SeEi3YqvLKeOejPGZ3U=
 Received: from fx308 (localhost [127.0.0.1])
-        by fx308.security-mail.net (Postfix) with ESMTP id 54C2B81C406;
-        Wed, 23 Mar 2022 12:07:39 +0100 (CET)
+        by fx308.security-mail.net (Postfix) with ESMTP id 1A66681C443;
+        Wed, 23 Mar 2022 12:07:40 +0100 (CET)
 X-Virus-Scanned: E-securemail
-Secumail-id: <9bf1.623aff68.52346.0>
+Secumail-id: <cf64.623aff69.e5980.0>
 Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
-        by fx308.security-mail.net (Postfix) with ESMTPS id 52DE381C3C6;
-        Wed, 23 Mar 2022 12:07:20 +0100 (CET)
+        by fx308.security-mail.net (Postfix) with ESMTPS id E762281C3CF;
+        Wed, 23 Mar 2022 12:07:21 +0100 (CET)
 Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTPS id 35E4F27E0425;
-        Wed, 23 Mar 2022 12:07:20 +0100 (CET)
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id CB14F27E0444;
+        Wed, 23 Mar 2022 12:07:21 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 1AF2827E0443;
-        Wed, 23 Mar 2022 12:07:20 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 1AF2827E0443
+        by zimbra2.kalray.eu (Postfix) with ESMTP id B554127E0443;
+        Wed, 23 Mar 2022 12:07:21 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu B554127E0443
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1648033640;
-        bh=O83eUvONSacsYz8f+A0wiZQO9msOmZgqo3/7OCab0aA=;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1648033641;
+        bh=Is5Op+yf2jLp8LVzNyoyPvTTzZW0Vq4RhBV0HSyWYtg=;
         h=From:To:Date:Message-Id;
-        b=emEtCNXJjYmRbbSVSa1jzKO/xPOcQWCNcNu6j5sE0Lc83MhcjRzVIaD7D1MlPs7uM
-         5RdlHkAEaQ+YJJGSKvzV8QoIH9d1oDkkXYdc6L1CnCYFzd1ePSGuDe2iDOwinKkmXp
-         pO4JJCPxTsKye79GbpNad2MNJcR4MkXnsJcaUjXA=
+        b=Ph8yGGqbCORv4YWj0pOXU6ZeEy6TuDIBlzBQeHeQOSjqGfNx7bz1vi0mKx8/uejPy
+         UefEYzlKyYgteYfOft3iPWIqhGgo2IpgzH9pMSbVOUPzw23fgSml7C/uh7ZeZbxLbR
+         BrqnpOJ06Hp3hjf4ca4xx7SwP3RQOY146WXkJ4Fw=
 Received: from zimbra2.kalray.eu ([127.0.0.1])
         by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mxBrwjpK59jW; Wed, 23 Mar 2022 12:07:20 +0100 (CET)
+        with ESMTP id utvgyQvDC_cS; Wed, 23 Mar 2022 12:07:21 +0100 (CET)
 Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 00DC627E0425;
-        Wed, 23 Mar 2022 12:07:19 +0100 (CET)
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id A304F27E0425;
+        Wed, 23 Mar 2022 12:07:21 +0100 (CET)
 From:   Jules Maselbas <jmaselbas@kalray.eu>
 To:     linux-usb@vger.kernel.org
 Cc:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
@@ -63,45 +63,59 @@ Cc:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
         Randy Dunlap <rdunlap@infradead.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Jules Maselbas <jmaselbas@kalray.eu>
-Subject: [PATCH v2 0/3] Cleanup the call ordering of phy_init and phy_power_on
-Date:   Wed, 23 Mar 2022 12:07:05 +0100
-Message-Id: <20220323110708.8254-1-jmaselbas@kalray.eu>
+Subject: [PATCH v2 2/3] phy: core: Update documentation syntax
+Date:   Wed, 23 Mar 2022 12:07:07 +0100
+Message-Id: <20220323110708.8254-3-jmaselbas@kalray.eu>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220323110708.8254-1-jmaselbas@kalray.eu>
+References: <20220323110708.8254-1-jmaselbas@kalray.eu>
 X-Virus-Scanned: by Secumail
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Update the syntax used by the documentation of phy operation functions.
+This is to unify the syntax with the newly added documentation.
 
-Last year Ahmad asked what is the correct order when calling phy_init
-and phy_power_on. Since then, I didn't see the situation improve much
-and I am once again toying around with usb phy driver.
-
-The following two patches were in my tree for a year... Last year i
-previously tried to change the call order in the dwc2 driver but this
-requires the relevent phy to be also compatible with the "new" ordering.
-The stm32-usbphyc driver wasn't compatible, I am not sure if that is
-still is the case.
-
-For now simply add documentation, hopefully correct, but I am not an
-expert on actual phy sementics or usage in the kernel. And add warning
-when the order is not what's expected.
-
-Best,
-
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 ---
-changes in v2:
-  - Update the documentation syntax for returned value
+change in v2:
+  - New patch
 
-Jules Maselbas (3):
-  phy: core: Add documentation of phy operation order
-  phy: core: Update documentation syntax
-  phy: core: Warn when phy_power_on is called before phy_init
+ drivers/phy/phy-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/phy/phy-core.c | 44 +++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 41 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index 2f32f999445f..cbdad65d2caa 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -467,7 +467,7 @@ EXPORT_SYMBOL_GPL(phy_reset);
+  * runtime, which are otherwise lost after host controller reset and cannot
+  * be applied in phy_init() or phy_power_on().
+  *
+- * Returns: 0 if successful, an negative error code otherwise
++ * Return: %0 if successful, a negative error code otherwise
+  */
+ int phy_calibrate(struct phy *phy)
+ {
+@@ -493,7 +493,7 @@ EXPORT_SYMBOL_GPL(phy_calibrate);
+  * on the phy. The configuration will be applied on the current phy
+  * mode, that can be changed using phy_set_mode().
+  *
+- * Returns: 0 if successful, an negative error code otherwise
++ * Return: %0 if successful, a negative error code otherwise
+  */
+ int phy_configure(struct phy *phy, union phy_configure_opts *opts)
+ {
+@@ -527,7 +527,7 @@ EXPORT_SYMBOL_GPL(phy_configure);
+  * PHY, so calling it as many times as deemed fit will have no side
+  * effect.
+  *
+- * Returns: 0 if successful, an negative error code otherwise
++ * Return: %0 if successful, a negative error code otherwise
+  */
+ int phy_validate(struct phy *phy, enum phy_mode mode, int submode,
+ 		 union phy_configure_opts *opts)
 -- 
 2.17.1
 
