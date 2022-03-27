@@ -2,115 +2,114 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 620A2C4332F
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Mar 2022 21:17:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D248C433EF
+	for <linux-usb@archiver.kernel.org>; Sun, 27 Mar 2022 00:05:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235364AbiCZVTd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Mar 2022 17:19:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39160 "EHLO
+        id S230237AbiC0AGf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Mar 2022 20:06:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229921AbiCZVTc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Mar 2022 17:19:32 -0400
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AC662FF;
-        Sat, 26 Mar 2022 14:17:55 -0700 (PDT)
-Received: by mail-lf1-x136.google.com with SMTP id m3so18776847lfj.11;
-        Sat, 26 Mar 2022 14:17:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dorKyWKnXy7IlU5rrn/oj/4eomYs0ghYVJYTP+RQhwU=;
-        b=YRqFWEWAZ28v076CK4im5SsXJvYcIfTGKam4+0bSK2o/aS6vIDYE9Y18URClNg/GqB
-         RCIrT5/7wf+CDsHlQvI4o8cs9ZDgVgyG09UsPOCxV7FV/be8bWIFNAdFHLt232AT/u/R
-         9tApWuES+tn6MKrH+Rd0XeuBjp3pfNrH9xiShEbuRChEEcxs22tXOEpjgP9sHh12IhF7
-         pyRZ7G5XJCDBc28A619jRNMmcBnapRF4g8eyBhjm8NHdarSvsB1s9EOVtGA7U+e2x7Z+
-         SqPOCtfjyDxdl+qszxJZ2uetnejw9VLLWyenYM/+BHW6jmXH/0j8qsRyJ0oRFmob/5Oz
-         E37g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dorKyWKnXy7IlU5rrn/oj/4eomYs0ghYVJYTP+RQhwU=;
-        b=OWtiosIj/h7OB969mbqPDwL32NnFGh+IdR5T+kFRrgdcDsCPaYcBF2jaw1TVndYTI1
-         gI6Zz/2j8a9NWwLkqi/riLMGSqwqbWH1VPnM5/KDzf+J0GUTkpKImYqNDB+gS2Erz2uS
-         Nc9ZP8ahIcEheGpLr8oIUivl2nw5pQEDU1b/S+WtwoKMy1krKIKr/GCDPhR2mcvUDa3N
-         KV1+N0UpLYZG6SL8LeMgfGtTPHDAlbG5+0b4djxAvVigIm4JaU+rwkWJhYD+p/xXL6IH
-         3FzxUyMmlChbgLE+uYPNG2K+5SfTbgkVue/bDu/XBwGC/+hg7VWXs8uOr1tnBK50RDBw
-         Dphg==
-X-Gm-Message-State: AOAM533wnbmlWFwTFFPbwpbCK8kPmcrR3BMNlkNZDboD+y/BlxtKDJoQ
-        FwqVkJWRKPgiYxAqTzoOlPS2rTYWiyvaEg==
-X-Google-Smtp-Source: ABdhPJwR/+ymjQZpTMAtiHGRcZti14dQruOjPpTxdcJTz7Y/Kj/+bGyN0Cae9N+tEUxHtv4Zv8OG9Q==
-X-Received: by 2002:ac2:434a:0:b0:443:e48d:50b7 with SMTP id o10-20020ac2434a000000b00443e48d50b7mr13484093lfl.45.1648329472824;
-        Sat, 26 Mar 2022 14:17:52 -0700 (PDT)
-Received: from dell.intranet (178235254230.gdansk.vectranet.pl. [178.235.254.230])
-        by smtp.gmail.com with ESMTPSA id h8-20020ac25d68000000b00447b5cad2a7sm1174015lft.228.2022.03.26.14.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Mar 2022 14:17:52 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Aaro Koskinen <aaro.koskinen@iki.fi>
-Cc:     Tony Lindgren <tony@atomide.com>, Paul Walmsley <paul@pwsan.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Helge Deller <deller@gmx.de>, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Felipe Balbi <balbi@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, linux-mmc@vger.kernel.org,
-        alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2] ARM: OMAP1: Prepare for conversion of OMAP1 clocks to CCF
-Date:   Sat, 26 Mar 2022 22:17:49 +0100
-Message-ID: <1810824.tdWV9SEqCh@dell>
-In-Reply-To: <20220322190753.GF297526@darkstar.musicnaut.iki.fi>
-References: <20220310233307.99220-3-jmkrzyszt@gmail.com> <20220322163646.GD297526@darkstar.musicnaut.iki.fi> <20220322190753.GF297526@darkstar.musicnaut.iki.fi>
+        with ESMTP id S230047AbiC0AGf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 26 Mar 2022 20:06:35 -0400
+X-Greylist: delayed 133 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 26 Mar 2022 17:04:57 PDT
+Received: from devnull.tasossah.com (devnull.tasossah.com [IPv6:2001:41d0:1:e60e::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23024369DB
+        for <linux-usb@vger.kernel.org>; Sat, 26 Mar 2022 17:04:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=devnull.tasossah.com; s=vps; h=Content-Transfer-Encoding:Content-Type:
+        Subject:Cc:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=8xkGnK29QDhVgR2y9snCPokmvRU3AUxcvu3RzTWgOqg=; b=KeuvurEIkXfBqxxPxvRXu6KltU
+        +owibL/umly2h7OplmGnFKqF6c0sOA9GyTrwi+BJxwFpHChBuKfSo4WHaKl8Zi8LsIkUHyvAs70OF
+        URS58xPtxCUh9jGEORWrBbXDY/h0MTIkLNnF9FjJKpQIDEXBt/U/WvYWC8KD7x+ZxAWM=;
+Received: from [2a02:587:6a16:2a00::298]
+        by devnull.tasossah.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <tasos@tasossah.com>)
+        id 1nYGMY-009RbV-OM; Sun, 27 Mar 2022 02:02:30 +0200
+Message-ID: <b8ed7a8e-f4da-696f-cbbf-6f675a13aea4@tasossah.com>
+Date:   Sun, 27 Mar 2022 02:02:19 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+From:   Tasos Sahanidis <tasos@tasossah.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        tasos@tasossah.com
+Content-Language: en-US
+Subject: [PATCH] usb: core: Don't block while sleeping in do_proc_control()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Aaro,
+Since commit ae8709b296d8 ("USB: core: Make do_proc_control() and
+do_proc_bulk() killable") if a device has the USB_QUIRK_DELAY_CTRL_MSG
+quirk set, it will temporarily block all other URBs (e.g. interrupts)
+while sleeping due to a control.
 
-Dnia wtorek, 22 marca 2022 20:07:53 CET Aaro Koskinen pisze:
-> Hi,
-> 
-> On Tue, Mar 22, 2022 at 06:36:48PM +0200, Aaro Koskinen wrote:
-> > On Mon, Mar 21, 2022 at 10:54:16PM +0100, Janusz Krzysztofik wrote:
-> > > In preparation for conversion of OMAP1 clocks to common clock framework,
-> > > identify users of those clocks which don't call clk_prepare/unprepare()
-> > > and update them to call clk_prepare_enable/clk_disable_unprepare() instead
-> > > of just clk_enable/disable(), as required by CCF implementation of clock
-> > > API.
-> > > 
-> > > v2: update still a few more OMAP specific drivers missed in v1,
-> > >   - call clk_prepare/unprepare() just after/before clk_get/put() where it
-> > >     can make more sense than merging prepare/unprepare with enable/disable.
-> > 
-> > Something is still broken. When doing kexec (using CCF kernel), the
-> > kexec'ed kernel now hangs early (on 770):
-> [...]
-> > [    0.928863] calling  omap1_init_devices+0x0/0x2c @ 1
-> 
-> It hangs in omap_sram_reprogram_clock() (<- omap1_select_table_rate()
-> <- omap1_clk_late_init()).
+This results in noticeable delays when, for example, a userspace usbfs
+application is sending URB interrupts at a high rate to a keyboard and
+simultaneously updates the lock indicators using controls. Interrupts
+with direction set to IN are also affected by this, meaning that
+delivery of HID reports (containing scancodes) to the usbfs application
+is delayed as well.
 
-I've reviewed my changes but haven't found anything suspicious.  Could you 
-please provide:
-- dmesg from both cold start and kexec, both non-CCF and CCF version, 
-- contents of /sys/kernel/debug/clock/summary (non-CCF) after boot/kexec,
-- contents of /sys/kernel/debug/clk/clk_summary (CCF) after boot?
+This patch fixes the regression by calling msleep() while the device
+mutex is unlocked, as was the case originally with usb_control_msg().
 
-Thanks,
-Janusz
+Fixes: ae8709b296d8 ("USB: core: Make do_proc_control() and do_proc_bulk() killable")
+Signed-off-by: Tasos Sahanidis <tasos@tasossah.com>
+---
+ drivers/usb/core/devio.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-> 
-> A.
-> 
-
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 6abb7294e919..b5b85bf80329 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -1209,12 +1209,16 @@ static int do_proc_control(struct usb_dev_state *ps,
+  		usb_unlock_device(dev);
+ 		i = usbfs_start_wait_urb(urb, tmo, &actlen);
++
++		/* Linger a bit, prior to the next control message. */
++		if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
++			msleep(200);
+ 		usb_lock_device(dev);
+ 		snoop_urb(dev, NULL, pipe, actlen, i, COMPLETE, tbuf, actlen);
+ 		if (!i && actlen) {
+ 			if (copy_to_user(ctrl->data, tbuf, actlen)) {
+ 				ret = -EFAULT;
+-				goto recv_fault;
++				goto done;
+ 			}
+ 		}
+ 	} else {
+@@ -1231,6 +1235,10 @@ static int do_proc_control(struct usb_dev_state *ps,
+  		usb_unlock_device(dev);
+ 		i = usbfs_start_wait_urb(urb, tmo, &actlen);
++
++		/* Linger a bit, prior to the next control message. */
++		if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
++			msleep(200);
+ 		usb_lock_device(dev);
+ 		snoop_urb(dev, NULL, pipe, actlen, i, COMPLETE, NULL, 0);
+ 	}
+@@ -1242,10 +1250,6 @@ static int do_proc_control(struct usb_dev_state *ps,
+ 	}
+ 	ret = (i < 0 ? i : actlen);
+ - recv_fault:
+-	/* Linger a bit, prior to the next control message. */
+-	if (dev->quirks & USB_QUIRK_DELAY_CTRL_MSG)
+-		msleep(200);
+  done:
+ 	kfree(dr);
+ 	usb_free_urb(urb);
+-- 
+2.25.1
 
 
 
