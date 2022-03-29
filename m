@@ -2,157 +2,105 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34141C433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Mar 2022 08:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F26C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Mar 2022 09:08:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233355AbiC2IQ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Mar 2022 04:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40462 "EHLO
+        id S234455AbiC2JKX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Mar 2022 05:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232879AbiC2IQZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Mar 2022 04:16:25 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F857EA16
-        for <linux-usb@vger.kernel.org>; Tue, 29 Mar 2022 01:14:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648541681; x=1680077681;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8ynEFQsC8hbL57VrTSrxKWhCNhcRSSU9o87WmR6LjsI=;
-  b=fMQhqJdrRkzTq/Y1JyOrlzy9FdFbb22xsDySZ1oelUy5hRl2WX5rap1v
-   sHeKJLg3tnLVD4kaVGVdm+K7+GBpuuCsiaiHEgNH7sOnIOm1oxBnvdOOv
-   rvmUyPCl9FWILmVIJrJzUKLQiSjeiLRU8jjK1NbjyZ8EmeM+mI2pVHemh
-   02M6D6ftIAyysm5KzgqA4EK/2RvED8oBg8nbrD9x3y08yW9Cr5Ynzh7Em
-   m7Nc6+VoRkMh1s07nFe4heJ22RbvTHsuflMdBNXvYYEBBb/A+jDhtCUt5
-   DZfptE47feSZPKY6GtLgQM0DcextbN8IRc7nslPfNtldkRTfY1umbYyn6
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,219,1643670000"; 
-   d="scan'208";a="22952252"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 29 Mar 2022 10:14:39 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Tue, 29 Mar 2022 10:14:39 +0200
-X-PGP-Universal: processed;
-        by tq-pgp-pr1.tq-net.de on Tue, 29 Mar 2022 10:14:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648541679; x=1680077679;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=8ynEFQsC8hbL57VrTSrxKWhCNhcRSSU9o87WmR6LjsI=;
-  b=DyNOriQ8xNoiPX04hq2gOmXCeQ9ilxAfIVpqdhvhD9s7Rg0BYtoYc/ju
-   aGQEdz01NBbgLK6WPC8WDJv7lGG4aTLa384GhP5wFqnJ4ixWuLA1ZsN5S
-   Fgu4MsxZ21Z0rauJDruCAiohTWt0HsoeL/9vJoo4cHHtldyVZNusbNqcs
-   xbzh1BB9AmwC2qrjNEojbcvCFAwbO/dBD6OltPzrCE8KarkndzDq3Dumh
-   shy8JDKZzg/ktWrf8w4WWmJH+F9EgpX487hXmk40O73dtgpR/CVifrh8q
-   9uU+16tzaXF/e0RVqzwGhsszRSNxj0OvHchlgW0erNMMVBRyMWi+TQ8MS
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,219,1643670000"; 
-   d="scan'208";a="22952251"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 29 Mar 2022 10:14:39 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id E94F9280065;
-        Tue, 29 Mar 2022 10:14:38 +0200 (CEST)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Peter Chen <hzpeterchen@gmail.com>
-Cc:     Peter Chen <peter.chen@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: (EXT) Re: [RFC 1/1] usb: chipidea: ci_hdrc_imx: disable runtime pm for HSIC interface
-Date:   Tue, 29 Mar 2022 10:14:36 +0200
-Message-ID: <1891703.PYKUYFuaPT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAL411-o8TPNv8vAfdPtzTaFkOGc7EmwNJv1Jxc-YUv1wc_vq0g@mail.gmail.com>
-References: <20220302094239.3075014-1-alexander.stein@ew.tq-group.com> <CAL411-o8TPNv8vAfdPtzTaFkOGc7EmwNJv1Jxc-YUv1wc_vq0g@mail.gmail.com>
+        with ESMTP id S233938AbiC2JKV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Mar 2022 05:10:21 -0400
+Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id E306D1A821;
+        Tue, 29 Mar 2022 02:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=D42xy
+        7+yLkaYpKU3vck1zzruTxb/f4x0p/TZLmiRNTo=; b=kisq2YePN3sT38yovDcv3
+        O7bsjf9e4RlccTQzf+5tfX+pvkEqLh9izPhtYzwp0uCoYtVkSQP6CugAgW1UFRre
+        1JGKTqfHjzLHLOjb4MZIQNxDB0BXtkk6ZAPzV8hBM7/3NMM0kL1mVl4Oa7dIc9gs
+        5lvsTktXEl9/CmfzCkGNig=
+Received: from [192.168.3.109] (unknown [218.201.129.19])
+        by smtp11 (Coremail) with SMTP id D8CowAA3+mR9zEJioe8DAA--.82S2;
+        Tue, 29 Mar 2022 17:08:15 +0800 (CST)
+Message-ID: <e69813b2-9b60-02de-dbec-414c2baf42c8@163.com>
+Date:   Tue, 29 Mar 2022 17:08:10 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: linux resetting when the usb storage was removed while copying
+Content-Language: en-US
+To:     OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Cc:     Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-usb@vger.kernel.org
+References: <1cc135e3-741f-e7d6-5d0a-fef319832a4c@163.com>
+ <87pmmee9kr.fsf@mail.parknet.co.jp>
+ <06ebc7fb-e7eb-b994-78fd-df07155ef4b5@163.com>
+ <15b83842-60d9-78b8-54e9-3a27211caded@roeck-us.net>
+ <87pmm6hbk9.fsf@mail.parknet.co.jp>
+From:   qianfan <qianfanguijin@163.com>
+In-Reply-To: <87pmm6hbk9.fsf@mail.parknet.co.jp>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: D8CowAA3+mR9zEJioe8DAA--.82S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww1xtFy5tFyxuw48ZF48tFb_yoW8uF4fpr
+        WxJFs2k3yqqry3uF12yF1kCr4Fq39FyF98Gr1rZw13uas0vw1rAr48JFyI9ay7Grs8J3Wr
+        K3WUWa9rZwsrX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j0XdbUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbCqQzS7V0DefSsPgAAsb
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello Peter,
 
-Am Dienstag, 15. M=E4rz 2022, 02:23:23 CEST schrieb Peter Chen:
-> On Wed, Mar 2, 2022 at 5:42 PM Alexander Stein
->=20
-> <alexander.stein@ew.tq-group.com> wrote:
-> > With the add of power-domain support in commit 02f8eb40ef7b ("ARM: dts:
-> > imx7s: Add power domain for imx7d HSIC") runtime suspend will disable
-> > the power-domain. This prevents IRQs to occur when a new device is
-> > attached
-> > on a downstream hub.
-> >=20
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> > Our board TQMa7x + MBa7x (i.MX7 based) uses a HSIC link to mounted USB =
-HUB
-> > on usbh device. Cold plugging an USB mass storage device is working fin=
-e.
-> > But once the last non-HUB device is disconnected the ci_hdrc device goes
-> > into runtime suspend.
->=20
-> Would you please show the difference between cold boot and runtime
-> suspend after disconnecting
-> the last USB device?
->=20
-> - Power domain on/off status for HUB device
-> - Runtime suspend status at /sys entry for HUB device
-> - "/sys/..power/wakeup" /sys entry  for HUB device
+在 2022/3/28 13:48, OGAWA Hirofumi 写道:
+>>> I had changed console to ttynull and the system doesn't reset again.  kernel driver generate lots of error messages when usb storage is disconnected:
+>>>
+>>> $ dmesg | grep 'FAT read failed' | wc -l
+>>>
+>>> 608
+>>>
+>>> usb storage can work again when reconnected.
+>>>
+>>> The gpio watchdog depends on hrtimer, maybe printk in ISR delayed hrtimer that cause watchdog reset.
+> This limits the rate of messages. Can you try if a this patch fixes behavior?
 
-I hope I got all entries you requested.
+Yes, this patch fixed the problem and watchdog doesn't reset again.
 
-=46or reference this is the bus topology:
-lsusb -t
-/:  Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dci_hdrc/1p, 480M
-/:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dci_hdrc/1p, 480M
-    |__ Port 1: Dev 2, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
-        |__ Port 2: Dev 3, If 0, Class=3DMass Storage, Driver=3Dusb-storage=
-, 480M
+Next is the console log when usb storage disconnected:
 
-Bus 2 is a different connector and doesn't matter here. I'm disconnecting '=
-Dev=20
-3' in this scenario.
+[  217.265033] musb-hdrc musb-hdrc.0: ep2 RX three-strikes error
+[  218.085454] sd 0:0:0:0: [sda] tag#0 UNKNOWN(0x2003) Result: hostbyte=0x07 
+driverbyte=DRIVER_OK cmd_age=0s
+[  218.095658] sd 0:0:0:0: [sda] tag#0 CDB: opcode=0x28 28 00 00 04 81 d6 00 00 
+f0 00
+[  218.103611] blk_update_request: I/O error, dev sda, sector 295382 op 
+0x0:(READ) flags 0x84700 phys_seg 2 prio class 0
+[  218.116414] sd 0:0:0:0: [sda] tag#0 UNKNOWN(0x2003) Result: hostbyte=0x07 
+driverbyte=DRIVER_OK cmd_age=0s
+[  218.126576] sd 0:0:0:0: [sda] tag#0 CDB: opcode=0x28 28 00 00 04 82 c6 00 00 
+10 00
+[  218.134582] blk_update_request: I/O error, dev sda, sector 295622 op 
+0x0:(READ) flags 0x80700 phys_seg 1 prio class 0
+[  218.146542] usb 1-1: USB disconnect, device number 4
+[  218.166668] sd 0:0:0:0: [sda] tag#0 UNKNOWN(0x2003) Result: hostbyte=0x07 
+driverbyte=DRIVER_OK cmd_age=0s
+[  218.176831] sd 0:0:0:0: [sda] tag#0 CDB: opcode=0x28 28 00 00 04 82 d6 00 00 
+f0 00
+[  218.184864] blk_update_request: I/O error, dev sda, sector 295638 op 
+0x0:(READ) flags 0x84700 phys_seg 2 prio class 0
+[  218.196996] blk_update_request: I/O error, dev sda, sector 295878 op 
+0x0:(READ) flags 0x80700 phys_seg 1 prio class 0
+[  218.208339] blk_update_request: I/O error, dev sda, sector 295382 op 
+0x0:(READ) flags 0x0 phys_seg 1 prio class 0
+cp: read error: Input/output error
+# [  218.253995] FAT-fs (sda1): FAT read failed (blocknr 1130)
 
-After boot up with the bus as shown above:
-$ cat /sys/bus/usb/devices/1-1/power/wakeup
-disabled
-$ cat /sys/bus/usb/devices/1-1/power/runtime_status
-active
-$ cat /sys/kernel/debug/pm_genpd/usb-hsic-phy/current_state
-on
+'FAT read failed' error message printed only once.
 
-After disconnecting Dev 3 from the bus ('usb 1-1.2: USB disconnect, device=
-=20
-number 3' in dmesg) the status changes as follows (without the patch):
-$ cat /sys/bus/usb/devices/1-1/power/wakeup
-disabled
-$ cat /sys/bus/usb/devices/1-1/power/runtime_status
-suspended
-$ cat /sys/kernel/debug/pm_genpd/usb-hsic-phy/current_state
-off-0
+Interesting.
 
-=46or the record, when applying the posted patch this changes into:
-$ cat /sys/bus/usb/devices/1-1/power/wakeup
-disabled
-$ cat /sys/bus/usb/devices/1-1/power/runtime_status
-suspended
-$ cat /sys/kernel/debug/pm_genpd/usb-hsic-phy/current_state
-on
-
-Regards,
-Alexander
-
-
+>
+> Thanks.
 
