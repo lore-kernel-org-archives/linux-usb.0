@@ -2,77 +2,111 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 908E7C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Mar 2022 10:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F15ADC433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Mar 2022 14:34:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235162AbiC2Ke2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Mar 2022 06:34:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55596 "EHLO
+        id S237899AbiC2Ofr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Mar 2022 10:35:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231154AbiC2Ke1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Mar 2022 06:34:27 -0400
-Received: from mail.parknet.co.jp (mail.parknet.co.jp [210.171.160.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A6DBC2B1B0;
-        Tue, 29 Mar 2022 03:32:44 -0700 (PDT)
-Received: from ibmpc.myhome.or.jp (server.parknet.ne.jp [210.171.168.39])
-        by mail.parknet.co.jp (Postfix) with ESMTPSA id 9E51815F939;
-        Tue, 29 Mar 2022 19:32:42 +0900 (JST)
-Received: from devron.myhome.or.jp (foobar@devron.myhome.or.jp [192.168.0.3])
-        by ibmpc.myhome.or.jp (8.16.1/8.16.1/Debian-2) with ESMTPS id 22TAWea8133078
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Tue, 29 Mar 2022 19:32:42 +0900
-Received: from devron.myhome.or.jp (foobar@localhost [127.0.0.1])
-        by devron.myhome.or.jp (8.16.1/8.16.1/Debian-2) with ESMTPS id 22TAWeeK502767
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Tue, 29 Mar 2022 19:32:40 +0900
-Received: (from hirofumi@localhost)
-        by devron.myhome.or.jp (8.16.1/8.16.1/Submit) id 22TAWeH6502766;
-        Tue, 29 Mar 2022 19:32:40 +0900
-From:   OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-To:     qianfan <qianfanguijin@163.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: linux resetting when the usb storage was removed while copying
-References: <1cc135e3-741f-e7d6-5d0a-fef319832a4c@163.com>
-        <87pmmee9kr.fsf@mail.parknet.co.jp>
-        <06ebc7fb-e7eb-b994-78fd-df07155ef4b5@163.com>
-        <15b83842-60d9-78b8-54e9-3a27211caded@roeck-us.net>
-        <87pmm6hbk9.fsf@mail.parknet.co.jp>
-        <e69813b2-9b60-02de-dbec-414c2baf42c8@163.com>
-Date:   Tue, 29 Mar 2022 19:32:40 +0900
-In-Reply-To: <e69813b2-9b60-02de-dbec-414c2baf42c8@163.com> (qianfan's message
-        of "Tue, 29 Mar 2022 17:08:10 +0800")
-Message-ID: <87ilrxgibb.fsf@mail.parknet.co.jp>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+        with ESMTP id S238006AbiC2Oed (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Mar 2022 10:34:33 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB071D0CF
+        for <linux-usb@vger.kernel.org>; Tue, 29 Mar 2022 07:32:50 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id z7so21185158iom.1
+        for <linux-usb@vger.kernel.org>; Tue, 29 Mar 2022 07:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qSTrUL6WlyOgAbYd80glH9hQCFNO5qIECH8QC7MsZz0=;
+        b=BzP5Vs5piewGOcMGK+PbvKkzV47OGA/ob4vuN1NMspDx8Y39MtQLR3PC5d1JDBTYoB
+         GaboRGeOd2ntywJe32ct9vlJTtMx9t3x0SXCZDIUElARJwvkRP17EtlgC26exdZVuSiR
+         jk0U7rd0yJPJP+H8mPYNbV6HpQo6OhNp1+aDc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qSTrUL6WlyOgAbYd80glH9hQCFNO5qIECH8QC7MsZz0=;
+        b=lml3Ov13bxiDv25Pg4GoSNaDgpD21VH02B9otfw8uCFxDDZJ+kzKfDu7V+mBGwAoQx
+         GleukBXkdbfb/fPrwxWrSGeETh0RJQGd8E2eILvHtf8wh30IdrXCsQLw3M5EHQo60ize
+         KoprqPBYMPAg5orMXdZRxiDGDxy8s60bG807YuoOpYltlVYhLBPV/xLEFWqqs2ezbwTi
+         ZP+fFqJKc61DUEsSBNQWJSXAWXCzdJrICazMZ3QRznaakyFMxQN18rY1TktMEYVbVKYe
+         fR7tyb00X40kOebvbFmawKH4QXps5/dC6FWIXkOVHJjO2bovn7Zs3XIqVT9+Oht2Ox2o
+         2ePw==
+X-Gm-Message-State: AOAM531vXd454TVF1nuTRfUuLdau14rM+qrXgnXvaiHfcN15t64QR0Oh
+        4l/kZm1nh+L+d8ME2BgV9jw3Nw==
+X-Google-Smtp-Source: ABdhPJz9sAJRWgIir4HFvWl6YO/q2eo3ky5z8M8Vi7tTknpv4sKuYPaYlOmwcyj0LGnEZvi4JXjehQ==
+X-Received: by 2002:a02:604f:0:b0:30f:e6f1:3883 with SMTP id d15-20020a02604f000000b0030fe6f13883mr16742779jaf.266.1648564369340;
+        Tue, 29 Mar 2022 07:32:49 -0700 (PDT)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id n4-20020a92d9c4000000b002c886034defsm6932289ilq.62.2022.03.29.07.32.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Mar 2022 07:32:48 -0700 (PDT)
+Subject: Re: [PATCH] usb: gadget: udc: add NULL pointer check
+To:     cgel.zte@gmail.com, balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, peter.chen@kernel.or,
+        christophe.jaillet@wanadoo.fr, lv.ruyi@zte.com.cn,
+        johan@kernel.org, jakobkoschel@gmail.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zeal Robot <zealci@zte.com.cn>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220329055407.2375626-1-lv.ruyi@zte.com.cn>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <adab4546-632b-ae73-f3bc-b7fd306eedca@linuxfoundation.org>
+Date:   Tue, 29 Mar 2022 08:32:47 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220329055407.2375626-1-lv.ruyi@zte.com.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-qianfan <qianfanguijin@163.com> writes:
+On 3/28/22 11:54 PM, cgel.zte@gmail.com wrote:
+> From: Lv Ruyi <lv.ruyi@zte.com.cn>
+> 
+> kzalloc() is a memory allocation function which can return NULL when some
+> internal memory errors happen. It is safer to check NULL pointer.
+> 
 
->> This limits the rate of messages. Can you try if a this patch fixes behavior?
->
-> Yes, this patch fixed the problem and watchdog doesn't reset again.
->
-> Next is the console log when usb storage disconnected:
+Please add information on how this problem was found, including the
+tool used and warn message.
 
-[...]
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+> ---
+>   drivers/usb/gadget/udc/mv_udc_core.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/udc/mv_udc_core.c b/drivers/usb/gadget/udc/mv_udc_core.c
+> index fdb17d86cd65..f52eb3f2420a 100644
+> --- a/drivers/usb/gadget/udc/mv_udc_core.c
+> +++ b/drivers/usb/gadget/udc/mv_udc_core.c
+> @@ -2231,6 +2231,10 @@ static int mv_udc_probe(struct platform_device *pdev)
+>   
+>   	/* allocate a small amount of memory to get valid address */
+>   	udc->status_req->req.buf = kzalloc(8, GFP_KERNEL);
+> +	if (!udc->status_req->req.buf) {
+> +		retval = -ENOMEM;
+> +		goto err_destroy_dma;
+> +	}
 
-> cp: read error: Input/output error
-> # [  218.253995] FAT-fs (sda1): FAT read failed (blocknr 1130)
->
-> 'FAT read failed' error message printed only once.
->
-> Interesting.
+Looks good to me.
 
-Hm, message should print 10 times, then is suppressed. So this time, the
-test may not reproduced. Can your test reproduces the issue reliably?
+>   	udc->status_req->req.dma = DMA_ADDR_INVALID;
+>   
+>   	udc->resume_state = USB_STATE_NOTATTACHED;
+> 
 
-Well, anyway, the patch looks like working.
+With that change to the commit log
 
-Thanks.
--- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
