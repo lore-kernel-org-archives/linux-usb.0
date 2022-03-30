@@ -2,50 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DBDC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2374C433FE
 	for <linux-usb@archiver.kernel.org>; Wed, 30 Mar 2022 04:36:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242605AbiC3EiU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Mar 2022 00:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44574 "EHLO
+        id S242615AbiC3EiW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Mar 2022 00:38:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242658AbiC3EiQ (ORCPT
+        with ESMTP id S242660AbiC3EiQ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 30 Mar 2022 00:38:16 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 359532253B
-        for <linux-usb@vger.kernel.org>; Tue, 29 Mar 2022 21:36:28 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DA0C22B18
+        for <linux-usb@vger.kernel.org>; Tue, 29 Mar 2022 21:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1648614989; x=1680150989;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pxbJoZ3BpvuAzHyWwdRp7ex5qa5f8m7AM508o+M6jNE=;
-  b=b3UuKfQ1iaXxKLofuXwHklSjfKm4teVj4lIIYjS7IhInh1qlwhgJljlp
-   4bPQc9G8zwGEsbaA9eKtWgEYALktcFMhBkRKj+umJZmZs55KJmQsRTxQv
-   xnrCkuBFhvnbAcZM6enJCD6vYMmGoQDBWL0R4IdqhFzXCiU3cJqeCc5tT
-   I=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 29 Mar 2022 21:36:28 -0700
+  t=1648614992; x=1680150992;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oNyAYn2iRB9DghlnpbxutG5HqEHxLidQEAxBj35aa9A=;
+  b=hBSQyf2nn+NBRdpmaaveugVL5dyrHZlY4TreZUvWTamtAjD9XGy29gk3
+   XIP5wETCfuC8wZvI/+DZ2xTD2+bpuBZHYz+Y+MDF+Qat9vxzn6Nm+BIe5
+   rC59/bN6MWCMq48Wn5kSx+mOaCfpORXGNQL0/1c70tydvl8TLrT2KBU0X
+   E=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 29 Mar 2022 21:36:32 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 21:36:28 -0700
+  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2022 21:36:31 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 29 Mar 2022 21:36:27 -0700
+ 15.2.986.22; Tue, 29 Mar 2022 21:36:31 -0700
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 29 Mar 2022 21:36:26 -0700
+ 15.2.986.22; Tue, 29 Mar 2022 21:36:29 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH v3 0/5] usb: gadget: configfs: new trace events
-Date:   Wed, 30 Mar 2022 12:36:15 +0800
-Message-ID: <1648614980-25024-1-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH v3 2/5] usb: gadget: add trace event of configfs operation
+Date:   Wed, 30 Mar 2022 12:36:17 +0800
+Message-ID: <1648614980-25024-3-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1648614980-25024-1-git-send-email-quic_linyyuan@quicinc.com>
+References: <1648614980-25024-1-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
@@ -56,76 +58,94 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Last year I try to add trace event support for usb gadget configfs [1],
-this time the idea is change a lot, the purpose is trace all user space
-operation to gadget configuration, include gadget and it's function.
+Add a common trace event entry which have only one __string field,
+it allow create APIs base on it to add trace events for
+usb gadget and function layer, then it will cover all user input
+like make configfs group/item, drop item, write attribute, allow/drop link.
 
-In usb gadget configfs, mainly user can do mkdir/rmdir a group,
-link/unlink a function, change gadget/function attributes,
-each operation will touch a struct config_item.
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+v2: no change
+v3: add trace.c and configfs.c will not include trace.h
 
-It only have one trace event entry which store string,
-provide several API which represent user operation and generate string
-from  struct config_item.
-
-example output,
-   mkdir-80      [000] .....    44.555106: gadget_configfs: mkdir dummy
-      sh-76      [000] .....    44.562609: gadget_configfs: echo dummy/idVendor 0x05C6
-
-   mkdir-81      [000] .....    44.569795: gadget_configfs: mkdir dummy/functions/eem.0
-      sh-76      [000] .....    44.600221: gadget_configfs: echo dummy/functions/eem.0/dev_addr 1e:77:46:4b:1e:96
-
-   mkdir-82      [000] .....    44.615542: gadget_configfs: mkdir dummy/configs/dummy.1
-      ln-83      [000] .....    44.628997: gadget_configfs: link dummy/configs/dummy.1 dummy/functions/eem.0
-      sh-76      [000] .....    44.634506: gadget_configfs: echo dummy/configs/dummy.1/MaxPower 500
-
-   mkdir-84      [000] .....    44.642265: gadget_configfs: mkdir dummy/configs/dummy.1/strings/0x409
-      sh-76      [000] .....    44.663886: gadget_configfs: echo dummy/configs/dummy.1/strings/0x409/configuration dummy
-
-   rmdir-85      [000] .....    64.255507: gadget_configfs: rmdir dummy/configs/dummy.1/strings/0x409
-      rm-86      [000] .....    64.263926: gadget_configfs: unlink dummy/configs/dummy.1 dummy/functions/eem.0
-   rmdir-87      [000] .....    64.279768: gadget_configfs: rmdir dummy/configs/dummy.1
-   rmdir-88      [000] .....    64.328124: gadget_configfs: rmdir dummy/functions/eem.0
-   rmdir-89      [000] .....    64.992085: gadget_configfs: rmdir dummy
-
-
-As it is different from last year change, start a new thread.
-
-[1] https://lore.kernel.org/linux-usb/1635229309-2821-1-git-send-email-quic_linyyuan@quicinc.com/
-
-V2: add example output
-V3: add trace.c and move all APIs to it
-
-Linyu Yuan (5):
-  usb: gadget: remove gadgets_type storage type 'static'
-  usb: gadget: add trace event of configfs operation
-  usb: gadget: add trace event of configfs group operation
-  usb: gadget: add trace event of configfs link/unlink operation
-  usb: gadget: add trace event of configfs write attributes operation
-
- drivers/usb/gadget/Makefile                    |   2 +
- drivers/usb/gadget/configfs.c                  |  45 ++++++-
- drivers/usb/gadget/function/f_acm.c            |   1 +
- drivers/usb/gadget/function/f_hid.c            |   4 +
- drivers/usb/gadget/function/f_loopback.c       |   4 +
- drivers/usb/gadget/function/f_mass_storage.c   |  20 ++++
- drivers/usb/gadget/function/f_midi.c           |   6 +
- drivers/usb/gadget/function/f_printer.c        |   4 +
- drivers/usb/gadget/function/f_serial.c         |   1 +
- drivers/usb/gadget/function/f_sourcesink.c     |  16 +++
- drivers/usb/gadget/function/f_uac1.c           |   6 +
- drivers/usb/gadget/function/f_uac1_legacy.c    |   4 +
- drivers/usb/gadget/function/f_uac2.c           |   8 ++
- drivers/usb/gadget/function/u_ether_configfs.h |  10 ++
- drivers/usb/gadget/function/uvc_configfs.c     |  42 +++++++
- drivers/usb/gadget/trace.c                     | 156 +++++++++++++++++++++++++
- drivers/usb/gadget/trace.h                     |  39 +++++++
- include/linux/usb/composite.h                  |  18 +++
- include/linux/usb/gadget_configfs.h            |   4 +
- 19 files changed, 389 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/Makefile |  2 ++
+ drivers/usb/gadget/trace.c  |  8 ++++++++
+ drivers/usb/gadget/trace.h  | 39 +++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+)
  create mode 100644 drivers/usb/gadget/trace.c
  create mode 100644 drivers/usb/gadget/trace.h
 
+diff --git a/drivers/usb/gadget/Makefile b/drivers/usb/gadget/Makefile
+index 33f1ef9..b426f5c 100644
+--- a/drivers/usb/gadget/Makefile
++++ b/drivers/usb/gadget/Makefile
+@@ -8,5 +8,7 @@ subdir-ccflags-$(CONFIG_USB_GADGET_VERBOSE)	+= -DVERBOSE_DEBUG
+ obj-$(CONFIG_USB_LIBCOMPOSITE)	+= libcomposite.o
+ libcomposite-y			:= usbstring.o config.o epautoconf.o
+ libcomposite-y			+= composite.o functions.o configfs.o u_f.o
++CFLAGS_trace.o			:= -I$(src)
++libcomposite-y			+= trace.o
+ 
+ obj-$(CONFIG_USB_GADGET)	+= udc/ function/ legacy/
+diff --git a/drivers/usb/gadget/trace.c b/drivers/usb/gadget/trace.c
+new file mode 100644
+index 0000000..8b4b1db
+--- /dev/null
++++ b/drivers/usb/gadget/trace.c
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#define CREATE_TRACE_POINTS
++#include "trace.h"
++
+diff --git a/drivers/usb/gadget/trace.h b/drivers/usb/gadget/trace.h
+new file mode 100644
+index 0000000..d556580
+--- /dev/null
++++ b/drivers/usb/gadget/trace.h
+@@ -0,0 +1,39 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM gadget_configfs
++
++
++#if !defined(_GADGET_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _GADGET_TRACE_H
++
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(gadget_configfs,
++	TP_PROTO(char *info),
++	TP_ARGS(info),
++	TP_STRUCT__entry(
++		__string(info, info)
++	),
++
++	TP_fast_assign(
++		__assign_str(info, info);
++	),
++
++	TP_printk("%s", __get_str(info))
++);
++
++#endif /* _GADGET_TRACE_H */
++
++/* this part has to be here */
++
++#undef TRACE_INCLUDE_PATH
++#define TRACE_INCLUDE_PATH .
++
++#undef TRACE_INCLUDE_FILE
++#define TRACE_INCLUDE_FILE trace
++
++#include <trace/define_trace.h>
 -- 
 2.7.4
 
