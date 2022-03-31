@@ -2,105 +2,71 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B11C3C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Mar 2022 15:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE92DC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Mar 2022 16:08:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238844AbiCaPtw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 31 Mar 2022 11:49:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46132 "EHLO
+        id S239554AbiCaQKk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 31 Mar 2022 12:10:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239787AbiCaPs0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 31 Mar 2022 11:48:26 -0400
-Received: from devnull.tasossah.com (devnull.tasossah.com [IPv6:2001:41d0:1:e60e::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6998B1D12F1
-        for <linux-usb@vger.kernel.org>; Thu, 31 Mar 2022 08:45:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=devnull.tasossah.com; s=vps; h=Content-Type:In-Reply-To:Subject:From:
-        References:Cc:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ZXlsLW3EJE7DG9gwEBPT8eJm0fAlaUb/FzeBzpQ82og=; b=VdQ0bojc/uM7+y/5gYlXZbNGA
-        uTmaDJCq5wQ1gnxPHt0Vl+HrMg8wDVmxpuAfI5pd010GtF1hxujo7Eapdb6UOaaCsDqABMsDW1G19
-        VJHanxQZCyzFcgzVrOv+wDdN1dzDmbbPCxUXAbOa0z289O+D4N56lsjm+xSqNC3gn5Oz8=;
-Received: from [2a02:587:6a16:2a00::298]
-        by devnull.tasossah.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <tasos@tasossah.com>)
-        id 1nZwzL-00AVJl-AV; Thu, 31 Mar 2022 18:45:31 +0300
-Message-ID: <caa2826c-3ac4-dbea-50d0-929db47b02d4@tasossah.com>
-Date:   Thu, 31 Mar 2022 18:45:19 +0300
+        with ESMTP id S239322AbiCaQKj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 31 Mar 2022 12:10:39 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9835A6414
+        for <linux-usb@vger.kernel.org>; Thu, 31 Mar 2022 09:08:50 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id a1so421379wrh.10
+        for <linux-usb@vger.kernel.org>; Thu, 31 Mar 2022 09:08:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:from:to:subject
+         :content-transfer-encoding;
+        bh=o2Yn/h3KAaawz9BBLTR9h83EJKTs0GPzz+wLbE97qA8=;
+        b=mgecW7VPRXyFFVWedQodlSHuF0bUIPwgbP6kn4nBUTQ9idFqLZvP6X1937NHYmR9wr
+         pl52P+bLvmtton5Z5NSxQFndc1euRI5t4iPYe7CM7Gp2FOlOfpan7oXzCKvWzUq42w8r
+         WcC7nE26jNEzO6HcyIgl1AL6OUYsYCkhmXJyTrV1YfD4tzQI+awbAK2LA+l7F4UOXN0Q
+         pHrPStATV11jubSQ+/wtUqTIOiPAY/BnyS2OyYKNZrfaehyqu/oDXlijQ/UGBYUcXfU3
+         DmBD0DrKJ3RilUYsOxzbHuANVHH4vPdK2Fg5jmqBYyGxRdixCL2PISzE/8+HIbFrHan7
+         kHtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:from:to:subject
+         :content-transfer-encoding;
+        bh=o2Yn/h3KAaawz9BBLTR9h83EJKTs0GPzz+wLbE97qA8=;
+        b=3VJacqnlEB8JfQY7BBRDDUl60Rt5Ut3PUrTXPgAmWBBvL109fpJNqpBU5eLy5lWe5c
+         9lI3snha2FWowGn+vf+5ML4pQxGUnbozQbj1grGPXY0ilEcV5iLnaojxqammaVVnKG0P
+         xS5au7LYQfgo6UH7/RJOpIVloR/Y9i/DriY52EcZuc2dQDmg5OqeE7l6+vJ5UcnYJswd
+         Nj3JvXCONG/foErxgVzPfaKYYzEsqNQOWcyMDfrCUOiB8alrfZuLQZ7DXiHmNVfMNeZz
+         JYXP554iRbefcaDwoxlvDg1PUIUhEldC/qvoZCYRfVcgK9ZBcobsvT1NAqvCaBjLMDmN
+         dS3w==
+X-Gm-Message-State: AOAM531HoiCUmzsgRCICckMk2OabJ8HN0h4840R6v/OdLgFGuYG1vCx7
+        YNl7drGDTgALNAFL0tDn3urusJISfnA=
+X-Google-Smtp-Source: ABdhPJweFISNVyBuAhwYRALUSjixMPVQMZO8kSUipxHqwJN+X9EwQt95EZhC33AYLxLDBSvDNTYNGA==
+X-Received: by 2002:adf:a497:0:b0:203:d9cd:4c94 with SMTP id g23-20020adfa497000000b00203d9cd4c94mr4781024wrb.368.1648742929386;
+        Thu, 31 Mar 2022 09:08:49 -0700 (PDT)
+Received: from DESKTOP-R5VBAL5 ([39.53.224.185])
+        by smtp.gmail.com with ESMTPSA id b10-20020a05600018aa00b002042a98168csm23746766wri.15.2022.03.31.09.08.48
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Thu, 31 Mar 2022 09:08:49 -0700 (PDT)
+Message-ID: <6245d211.1c69fb81.3dc3a.eedc@mx.google.com>
+Date:   Thu, 31 Mar 2022 09:08:49 -0700 (PDT)
+X-Google-Original-Date: 31 Mar 2022 12:08:48 -0400
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-References: <2450973f-d665-82b9-6734-4b57f95a2be3@tasossah.com>
- <YkB94MnkBhadLVi8@rowland.harvard.edu>
-From:   Tasos Sahanidis <tasos@tasossah.com>
-Subject: Re: [PATCH v2] usb: core: Don't block while sleeping in
- do_proc_control()
-In-Reply-To: <YkB94MnkBhadLVi8@rowland.harvard.edu>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------97ZcnvvEKoMDChRbQSEHwLMQ"
+From:   royceldreamlandestimation@gmail.com
+To:     linux-usb@vger.kernel.org
+Subject: Estimating Services
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------97ZcnvvEKoMDChRbQSEHwLMQ
-Content-Type: multipart/mixed; boundary="------------n0nA4if2MNfQL07H5Deadcbw";
- protected-headers="v1"
-From: Tasos Sahanidis <tasos@tasossah.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-Message-ID: <caa2826c-3ac4-dbea-50d0-929db47b02d4@tasossah.com>
-Subject: Re: [PATCH v2] usb: core: Don't block while sleeping in
- do_proc_control()
-References: <2450973f-d665-82b9-6734-4b57f95a2be3@tasossah.com>
- <YkB94MnkBhadLVi8@rowland.harvard.edu>
-In-Reply-To: <YkB94MnkBhadLVi8@rowland.harvard.edu>
+Hi,=0D=0A=0D=0AWe provide estimation & quantities takeoff service=
+s. We are providing 98-100 accuracy in our estimates and take-off=
+s. Please tell us if you need any estimating services regarding y=
+our projects.=0D=0A=0D=0ASend over the plans and mention the exac=
+t scope of work and shortly we will get back with a proposal on w=
+hich our charges and turnaround time will be mentioned=0D=0A=0D=0A=
+You may ask for sample estimates and take-offs. Thanks.=0D=0A=0D=0A=
+Kind Regards=0D=0ARoycel Wahl=0D=0ADreamland Estimation, LLC
 
---------------n0nA4if2MNfQL07H5Deadcbw
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 2022-03-27 18:08, Alan Stern wrote:
-> You might want to change the patch name, however.  "Block" usually mean=
-s=20
-> pretty much the same thing as "sleep"; i.e., a process is blocked if it=
-=20
-> can't move forward.  The name should be something like "Don't hold the =
-
-> device lock while sleeping in do_proc_control()".
-
-The name does indeed need improvement, thank you for the explanation. I
-was unable to come up with a better one, so I will submit v3 with the
-name you suggested.
-
---------------n0nA4if2MNfQL07H5Deadcbw--
-
---------------97ZcnvvEKoMDChRbQSEHwLMQ
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEEsXLJ1Ds+HVUj+TWiAaHcuiLgBcQFAmJFzI8FAwAAAAAACgkQAaHcuiLgBcRK
-Jw/+OyLdWtU2d+Fu7bPZ0a02oZz+s54b71V9af8eg2XgCmWErzVL84WgsLhJ9yKVcmNbe19s1C3V
-XJNoA8oC4QgW9yrRr1UosipblWSl5A/PmlsRGur7deMyeTikUZgcPURgwCHE2e9RAFvsDe9CKPSP
-cNfhWFYk7xUWuiCNh/IbPvi9oWFuHL6IniS+HNZOmS5wqoan+GJIkWH6buQ1hHUM8erbydUtOjM0
-uQiHMhZ3nRUjBZAuFxzMBjiZ+v80hdaHK/TWJcDNifoYPf0yL/HQ/mIHF5/e6RlLzM1CTzicJ6e1
-kKffb8zYBfG6WaSXdg6LPP1ospOUHm4uDm7WFw8zzJkUZAIFTQbjLUzNMOvyjzP3WRTdWelEttrz
-JtCfHkboHqeRmOCoN7o5tuEEgxhBe2MEaouodD6UglIEw4902FNv2Stn2VAPR59pVYWxUXWWpedK
-IsuMKhOZ35OaChKjFVMjJkKCAqj4prvJaeNGVVOt1ZyKLIv7nAZmaXMQOOxiW9LcBbM0S/PUfDfH
-qqLJNK4aPB2NzoJK8mt3YX+BV9innxuurxdpK7q8YCwX+/qOppPHerXndqWD8JpX9lwp+qBK9spo
-0T14GE8ezYuWe4ksfPsBipUxz9aLRI9CHRB5Wy/92yNPCHhS9piRHzieUhxktmlp9bN50TQDdsTT
-hKQ=
-=rUQ5
------END PGP SIGNATURE-----
-
---------------97ZcnvvEKoMDChRbQSEHwLMQ--
