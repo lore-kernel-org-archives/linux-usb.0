@@ -2,99 +2,83 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC131C433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44425C433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244973AbiDAPxr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 11:53:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
+        id S241765AbiDAPx4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 11:53:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350277AbiDAO7b (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:59:31 -0400
+        with ESMTP id S1354649AbiDAPMO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 11:12:14 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C955A165;
-        Fri,  1 Apr 2022 07:46:50 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE5D02AFA0A;
+        Fri,  1 Apr 2022 07:55:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 141BBB823EB;
-        Fri,  1 Apr 2022 14:46:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2A9C3410F;
-        Fri,  1 Apr 2022 14:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648824407;
-        bh=HhAeJn9PBDRm3J9JXYWaLlj64/pxS/OzDk22/bbn644=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K+N1Yqem41xmgcbCJHE1KpUWAbibFaKt6FQygz1P1KJt0brr7AmqBZteo/ShPIelc
-         eoL9hJwR05HxaFR2GQsfuMQI63CfSmCSk+zGUSlb7Mkx9h4Zp+KNiLvE7tcBRWulA8
-         l/I3rBmz4JpkjpyAuMWDzvBy3O197IxluLKBJy+gieSIlW8RbPKvbk1Q8/Fxjx17gz
-         qGoLvFIHEtMUtGsG+s5vC60CxeS6Q1/AW9CQZyL2A+oswOB3sbos6EnLSdu8kM5ZoD
-         4f9bx/xesqlu1tlnJohZwB0we/G1YZhr9JhgaErLXvhzzgikChzWcjI9lj57xAkY1v
-         lGorKGgYRT9Kg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Neal Liu <neal_liu@aspeedtech.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 12/29] usb: ehci: add pci device support for Aspeed platforms
-Date:   Fri,  1 Apr 2022 10:45:55 -0400
-Message-Id: <20220401144612.1955177-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401144612.1955177-1-sashal@kernel.org>
-References: <20220401144612.1955177-1-sashal@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7FD89B824FC;
+        Fri,  1 Apr 2022 14:55:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF63C2BBE4;
+        Fri,  1 Apr 2022 14:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1648824930;
+        bh=XCmTIOXK1YIHSJwxCWXOIB9CkJ+9xoNLRuagr76eCMk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FoSt0Ah8YdHJpPRyLvrPAhj06RFciymYJmGAJokHpi78ihCu03TNQpUP2zJT/F98S
+         RzfYleFTdNj25DLbaye1kQS5D5OWg9REvqOlgUeTERgOXGzhLBuotyL0PchqnZFH1n
+         /vv+qLfQ3JCsZCmlhbfEydN0HJsMXdAUJtLD4ggM=
+Date:   Fri, 1 Apr 2022 16:55:27 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Dan Vacura <w36195@motorola.com>
+Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YkcSX5P2KKj9qnWe@kroah.com>
+References: <20220331211155.412906-1-w36195@motorola.com>
+ <YkaZcSsadjHp1yJZ@kroah.com>
+ <YkcQmrm30D7cNPDo@p1g3>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkcQmrm30D7cNPDo@p1g3>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Neal Liu <neal_liu@aspeedtech.com>
+On Fri, Apr 01, 2022 at 09:47:54AM -0500, Dan Vacura wrote:
+> On Fri, Apr 01, 2022 at 08:19:29AM +0200, Greg Kroah-Hartman wrote:
+> > On Thu, Mar 31, 2022 at 04:11:50PM -0500, Dan Vacura wrote:
+> > > Add a configfs entry, "function_name", to change the iInterface field
+> > > for VideoControl. This name is used on host devices for user selection,
+> > > useful when multiple cameras are present. The default will remain "UVC
+> > > Camera".
+> > > 
+> > > Cc: <stable@vger.kernel.org> # 5.10+
+> > 
+> > Why is adding a new feature a stable kernel issue?
+> > 
+> > confused,
+> > 
+> > greg k-h
+> 
+> The intention is to get this change integrated into the Android GKI 5.10
+> and 5.15 release lines.
 
-[ Upstream commit c3c9cee592828528fd228b01d312c7526c584a42 ]
+Android and "GKI" has nothing to do with the stable kernel trees or us
+at all.
 
-Enable Aspeed quirks in commit 7f2d73788d90 ("usb: ehci:
-handshake CMD_RUN instead of STS_HALT") to support Aspeed
-ehci-pci device.
+Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for what patches are acceptable to them.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Link: https://lore.kernel.org/r/20220208101657.76459-1-neal_liu@aspeedtech.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/ehci-pci.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+thanks,
 
-diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
-index 56e6fd0f0482..42ace9f92ce9 100644
---- a/drivers/usb/host/ehci-pci.c
-+++ b/drivers/usb/host/ehci-pci.c
-@@ -21,6 +21,9 @@ static const char hcd_name[] = "ehci-pci";
- /* defined here to avoid adding to pci_ids.h for single instance use */
- #define PCI_DEVICE_ID_INTEL_CE4100_USB	0x2e70
- 
-+#define PCI_VENDOR_ID_ASPEED		0x1a03
-+#define PCI_DEVICE_ID_ASPEED_EHCI	0x2603
-+
- /*-------------------------------------------------------------------------*/
- #define PCI_DEVICE_ID_INTEL_QUARK_X1000_SOC		0x0939
- static inline bool is_intel_quark_x1000(struct pci_dev *pdev)
-@@ -223,6 +226,12 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
- 			ehci->has_synopsys_hc_bug = 1;
- 		}
- 		break;
-+	case PCI_VENDOR_ID_ASPEED:
-+		if (pdev->device == PCI_DEVICE_ID_ASPEED_EHCI) {
-+			ehci_info(ehci, "applying Aspeed HC workaround\n");
-+			ehci->is_aspeed = 1;
-+		}
-+		break;
- 	}
- 
- 	/* optional debug port, normally in the first BAR */
--- 
-2.34.1
-
+greg k-h
