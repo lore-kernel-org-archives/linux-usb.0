@@ -2,99 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76514C433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B93B5C433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:51:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349698AbiDAO5c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 10:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
+        id S240308AbiDAPww (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 11:52:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349344AbiDAOzT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:55:19 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD56296D09;
-        Fri,  1 Apr 2022 07:43:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S1350581AbiDAPAM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 11:00:12 -0400
+Received: from mail1.bemta33.messagelabs.com (mail1.bemta33.messagelabs.com [67.219.247.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F359185444;
+        Fri,  1 Apr 2022 07:48:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com;
+        s=Selector; t=1648824482; i=@motorola.com;
+        bh=WROaxWWWhA/Ka6VGT9NzyKO1Nh1SHOr11ZyLRrXkfR8=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Type:In-Reply-To;
+        b=YT9MHsIuTMP2sKtPAnUbU0aitOxqst3UA6DNHLU8FJfIZhJs2z5MLzgJ36d//TE0D
+         Dy9bSmjDl8rJQzHru+mHwo/wtYC6H+jpOW05rfNoS9FtUx6I9VBQujTMrKWykQ6D0N
+         UaiZKF9Omck/NXOkcKnss+ieA6tdETflC9/37mtxr/881LKMNdpb+66GjZBQnCkRD7
+         b5OAniYpPD0ev5qRTg/Bzq5S41jlf8wtF+/9OzhH2L2oUGjOAZVe3qkBqtaVflDO4E
+         0tjqPvHJpHo5gVJAqFwbGDI712b2GHLfeBmJUqvByMIbAgxz4nZmZ5snLvaIc7/I1h
+         KCz6tnMYj/hPg==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRWlGSWpSXmKPExsWS8eKJqO5CAfc
+  kgwm7dS2OtT1ht5izOdriyYF2RovmxevZLDonLmG3WNi2hMXi8q45bBaLlrUyWzycfZXR4u2d
+  6SwWCzY+YnTg9pjdMZPVY/MKLY9NqzrZPPbPXcPusbhvMqvH501yHoe2v2ELYI9izcxLyq9IY
+  M248+w1U8F01orOT/+ZGhins3QxcnEICUxnknh4o4sZwlnEJLFrx1Egh5ODRUBF4s7MnywgNp
+  uAmsSC16vA4iICxhL9Z2exg9jMAk+ZJCbO4gOxhQWCJNq6/4LFeQWUJZ58W8YIYgsJhEv8XbC
+  cFSIuKHFy5hMWiF4tiRv/XjJ1MXIA2dISy/9xgIQ5BTQl2hdvY5nAyDsLSccsJB2zEDoWMDKv
+  YrROKspMzyjJTczM0TU0MNA1NDTRNTfUNTI00kus0k3UKy3WTU0sLtEFcsuL9VKLi/WKK3OTc
+  1L08lJLNjECoyKlyP3KDsb7K3/qHWKU5GBSEuW9vMEtSYgvKT+lMiOxOCO+qDQntfgQowwHh5
+  IELx+fe5KQYFFqempFWmYOMEJh0hIcPEoivIasQGne4oLE3OLMdIjUKUZFKXHeIyB9AiCJjNI
+  8uDZYUrjEKCslzMvIwMAgxFOQWpSbWYIq/4pRnINRSZh3Ez/QFJ7MvBK46a+AFjMBLda/4Qqy
+  uCQRISXVwORdufPntCVVDsll+msvc+y9vsjfK4PbbNZirX3zFCsbJxjkGiilrNDWq2334HJ2m
+  2CatKWG5dX9i3UNqQwOOVGPeL01X7sc7fS2Kjgc4nb7/KK1EzTn2zRbr7z6I3C+6SMla9WtlR
+  YvbnoYvZDXSlx+pum74VqtTf338s6GGwQz3n42L8+M+c90/d7oNNFTWzbO2WbYz/BP68/T0B+
+  /X3S+O3xG4/qDSy2eAcVXtvmo3nl9pi972yU5P+uUE8mPs/bnhNa+MggS0pv39MbaRMXbK6Vu
+  V3XpP+D89tyZnyHuynT5gy4u8c4sgfYyZb1Klvdvn3hoJJ/QmrG85SN7Sk74ufXi9gc4mi9yV
+  nwOV2Ipzkg01GIuKk4EALAcgk2FAwAA
+X-Env-Sender: w36195@motorola.com
+X-Msg-Ref: server-8.tower-715.messagelabs.com!1648824481!21610!1
+X-Originating-IP: [104.232.228.21]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.85.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 20062 invoked from network); 1 Apr 2022 14:48:01 -0000
+Received: from unknown (HELO va32lpfpp01.lenovo.com) (104.232.228.21)
+  by server-8.tower-715.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Apr 2022 14:48:01 -0000
+Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4KVNM52X3GzgNVf;
+        Fri,  1 Apr 2022 14:48:01 +0000 (UTC)
+Received: from p1g3 (unknown [10.45.5.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5B2BFB8240F;
-        Fri,  1 Apr 2022 14:43:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BAE7C3410F;
-        Fri,  1 Apr 2022 14:43:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648824194;
-        bh=DhyRSmYkqVp0mD9tp8xB/iWyiPaIGIOPXQyeKGIgjq8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n0gEXG/5Pm8jd3itDCXie8uFubHocODTihS+sAK53stC6mLHspS7quAnRnk8HxNAa
-         eUcChCt8+T0fC6tskwVbu4SivBklhJcdJvulX6++hLFznxkvX6cd3B7QqbjwbgpojY
-         MLYdlhe8k85Y4Zsn7HQYQ59oMyXS4ern0OUBOoW0bs+5aZi8a7Erov0hnRk7qPWgqv
-         aFA7M9tz2Y7qRj/qchPtx3vSUo1C2crmR/QSj4P5WQTXWTeioeqCx0m6J/70LUsDdp
-         mzgBKEdb0Od4tqGNTtjqxAXGyw5BqYlJ6boJ0/4y8MQVrYR5prB2vBqpTaaboJDUrr
-         gHxjrIh0wVOSw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Neal Liu <neal_liu@aspeedtech.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 23/65] usb: ehci: add pci device support for Aspeed platforms
-Date:   Fri,  1 Apr 2022 10:41:24 -0400
-Message-Id: <20220401144206.1953700-23-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401144206.1953700-1-sashal@kernel.org>
-References: <20220401144206.1953700-1-sashal@kernel.org>
+        (Authenticated sender: w36195)
+        by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4KVNM46W96zf6f8;
+        Fri,  1 Apr 2022 14:48:00 +0000 (UTC)
+Date:   Fri, 1 Apr 2022 09:47:54 -0500
+From:   Dan Vacura <w36195@motorola.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, stable@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: allow changing interface name via
+ configfs
+Message-ID: <YkcQmrm30D7cNPDo@p1g3>
+References: <20220331211155.412906-1-w36195@motorola.com>
+ <YkaZcSsadjHp1yJZ@kroah.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YkaZcSsadjHp1yJZ@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Neal Liu <neal_liu@aspeedtech.com>
+On Fri, Apr 01, 2022 at 08:19:29AM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Mar 31, 2022 at 04:11:50PM -0500, Dan Vacura wrote:
+> > Add a configfs entry, "function_name", to change the iInterface field
+> > for VideoControl. This name is used on host devices for user selection,
+> > useful when multiple cameras are present. The default will remain "UVC
+> > Camera".
+> > 
+> > Cc: <stable@vger.kernel.org> # 5.10+
+> 
+> Why is adding a new feature a stable kernel issue?
+> 
+> confused,
+> 
+> greg k-h
 
-[ Upstream commit c3c9cee592828528fd228b01d312c7526c584a42 ]
+The intention is to get this change integrated into the Android GKI 5.10
+and 5.15 release lines.
 
-Enable Aspeed quirks in commit 7f2d73788d90 ("usb: ehci:
-handshake CMD_RUN instead of STS_HALT") to support Aspeed
-ehci-pci device.
+Sorry for the confusion or if I misunderstood the process,
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
-Link: https://lore.kernel.org/r/20220208101657.76459-1-neal_liu@aspeedtech.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/ehci-pci.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
-index e87cf3a00fa4..638f03b89739 100644
---- a/drivers/usb/host/ehci-pci.c
-+++ b/drivers/usb/host/ehci-pci.c
-@@ -21,6 +21,9 @@ static const char hcd_name[] = "ehci-pci";
- /* defined here to avoid adding to pci_ids.h for single instance use */
- #define PCI_DEVICE_ID_INTEL_CE4100_USB	0x2e70
- 
-+#define PCI_VENDOR_ID_ASPEED		0x1a03
-+#define PCI_DEVICE_ID_ASPEED_EHCI	0x2603
-+
- /*-------------------------------------------------------------------------*/
- #define PCI_DEVICE_ID_INTEL_QUARK_X1000_SOC		0x0939
- static inline bool is_intel_quark_x1000(struct pci_dev *pdev)
-@@ -222,6 +225,12 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
- 			ehci->has_synopsys_hc_bug = 1;
- 		}
- 		break;
-+	case PCI_VENDOR_ID_ASPEED:
-+		if (pdev->device == PCI_DEVICE_ID_ASPEED_EHCI) {
-+			ehci_info(ehci, "applying Aspeed HC workaround\n");
-+			ehci->is_aspeed = 1;
-+		}
-+		break;
- 	}
- 
- 	/* optional debug port, normally in the first BAR */
--- 
-2.34.1
+Dan
 
