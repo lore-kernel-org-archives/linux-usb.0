@@ -2,47 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5752C433EF
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4AB3C4321E
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349674AbiDAO5X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 10:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54912 "EHLO
+        id S1349681AbiDAO51 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 10:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349154AbiDAOph (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:45:37 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D41299A46;
-        Fri,  1 Apr 2022 07:35:27 -0700 (PDT)
+        with ESMTP id S1348869AbiDAOw7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:52:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F922B5187;
+        Fri,  1 Apr 2022 07:42:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id EDC02B82507;
-        Fri,  1 Apr 2022 14:35:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE838C340EE;
-        Fri,  1 Apr 2022 14:35:21 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id C3D1A60AC0;
+        Fri,  1 Apr 2022 14:42:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69D4C2BBE4;
+        Fri,  1 Apr 2022 14:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648823722;
-        bh=BajCV1XP1yu2fNsxTPAu527PA7vDUg5dFLjTlsjP+bE=;
+        s=k20201202; t=1648824147;
+        bh=QsLGF1AfyUMyqSOnet8s4XlUWwiSjJOJzE+S82WR1sM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aT3bb40XXxiWlHGpQ9NUrhwFsSGWNzN8ZbPumib98ieuDO6gkGtSIVnDlMFeZil9e
-         j3KdW2XcRGlYqCnoj1bj1z6tBzMP8xvNkJsnuX7ULwFUNhFSu1DFWU8axDW1jF2whv
-         pTLdo7Ga2VViksu6NdeheqClTrWDib9SdFNx9Hhz3QFtv3A01D6UeEOaeMYfVqSmlI
-         7HTcmbr56FOw9s4DPX8DNOPQg0D8+/zkNA7tGTVp6Dd83K70mymovgYKdq0YPCAybp
-         /EPmyPDdTJeeVx9uhGxb3MhG28/J9tE4eTSIBxDB3FwYlfsWjLBCfIXrbe9pbggsfn
-         8+9HRmTS1TiDg==
+        b=Jk7buF+y2hA5sGfZ7CpoYNT8paj93IGGEhY6e9fQmL88TYjzaBPsfYl/g9W5Yn61J
+         xOk0JhKQ8AVRZA3ieKRkC3I0D3omOqZptFtfSDTp0mwQGK0Jva5WW1tCr9S2Juse/d
+         JGGzjNm+J1LGDmDBR162Kw2OfJTemUsKO0f6RNvkk4I8rA3Pv2SW8fxnMK2G6BEynF
+         ZyJMNayAT3FuvHq1kJF9JfqFZwupYlalRnbgOKnTwgUM22kK5kkxXIHq7rzf+UF6rb
+         YH69D6rCX3ZN3MXmxutiwths78pfIQnu/Fgtm+8803Ft8J6ysJYFYPkFBcGSSYgxyi
+         JeIX9GcJKeExg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+Cc:     Wayne Chang <waynec@nvidia.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 052/109] usb: dwc3: pci: Set the swnode from inside dwc3_pci_quirks()
-Date:   Fri,  1 Apr 2022 10:31:59 -0400
-Message-Id: <20220401143256.1950537-52-sashal@kernel.org>
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        zhangqilong3@huawei.com, rikard.falkeborn@gmail.com,
+        yangyingliang@huawei.com, jakobkoschel@gmail.com,
+        chunfeng.yun@mediatek.com, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 05/65] usb: gadget: tegra-xudc: Do not program SPARAM
+Date:   Fri,  1 Apr 2022 10:41:06 -0400
+Message-Id: <20220401144206.1953700-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401143256.1950537-1-sashal@kernel.org>
-References: <20220401143256.1950537-1-sashal@kernel.org>
+In-Reply-To: <20220401144206.1953700-1-sashal@kernel.org>
+References: <20220401144206.1953700-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -51,59 +55,50 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Wayne Chang <waynec@nvidia.com>
 
-[ Upstream commit e285cb403994419e997749c9a52b9370884ae0c8 ]
+[ Upstream commit 62fb61580eb48fc890b7bc9fb5fd263367baeca8 ]
 
-The quirk handling may need to set some different properties
-which means using a different swnode, move the setting of the swnode
-to inside dwc3_pci_quirks() so that the quirk handling can choose
-a different swnode.
+According to the Tegra Technical Reference Manual, SPARAM
+is a read-only register and should not be programmed in
+the driver.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20220213130524.18748-4-hdegoede@redhat.com
+The change removes the wrong SPARAM usage.
+
+Signed-off-by: Wayne Chang <waynec@nvidia.com>
+Link: https://lore.kernel.org/r/20220107090443.149021-1-waynec@nvidia.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/usb/gadget/udc/tegra-xudc.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 06d0e88ec8af..4d9608cc55f7 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -185,7 +185,8 @@ static const struct software_node dwc3_pci_amd_mr_swnode = {
- 	.properties = dwc3_pci_mr_properties,
- };
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 57ee72fead45..1dd0d50c6b56 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -32,9 +32,6 @@
+ #include <linux/workqueue.h>
  
--static int dwc3_pci_quirks(struct dwc3_pci *dwc)
-+static int dwc3_pci_quirks(struct dwc3_pci *dwc,
-+			   const struct software_node *swnode)
- {
- 	struct pci_dev			*pdev = dwc->pci;
+ /* XUSB_DEV registers */
+-#define SPARAM 0x000
+-#define  SPARAM_ERSTMAX_MASK GENMASK(20, 16)
+-#define  SPARAM_ERSTMAX(x) (((x) << 16) & SPARAM_ERSTMAX_MASK)
+ #define DB 0x004
+ #define  DB_TARGET_MASK GENMASK(15, 8)
+ #define  DB_TARGET(x) (((x) << 8) & DB_TARGET_MASK)
+@@ -3295,11 +3292,6 @@ static void tegra_xudc_init_event_ring(struct tegra_xudc *xudc)
+ 	unsigned int i;
+ 	u32 val;
  
-@@ -242,7 +243,7 @@ static int dwc3_pci_quirks(struct dwc3_pci *dwc)
- 		}
- 	}
- 
--	return 0;
-+	return device_add_software_node(&dwc->dwc3->dev, swnode);
- }
- 
- #ifdef CONFIG_PM
-@@ -307,11 +308,7 @@ static int dwc3_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
- 	dwc->dwc3->dev.parent = dev;
- 	ACPI_COMPANION_SET(&dwc->dwc3->dev, ACPI_COMPANION(dev));
- 
--	ret = device_add_software_node(&dwc->dwc3->dev, (void *)id->driver_data);
--	if (ret < 0)
--		goto err;
+-	val = xudc_readl(xudc, SPARAM);
+-	val &= ~(SPARAM_ERSTMAX_MASK);
+-	val |= SPARAM_ERSTMAX(XUDC_NR_EVENT_RINGS);
+-	xudc_writel(xudc, val, SPARAM);
 -
--	ret = dwc3_pci_quirks(dwc);
-+	ret = dwc3_pci_quirks(dwc, (void *)id->driver_data);
- 	if (ret)
- 		goto err;
- 
+ 	for (i = 0; i < ARRAY_SIZE(xudc->event_ring); i++) {
+ 		memset(xudc->event_ring[i], 0, XUDC_EVENT_RING_SIZE *
+ 		       sizeof(*xudc->event_ring[i]));
 -- 
 2.34.1
 
