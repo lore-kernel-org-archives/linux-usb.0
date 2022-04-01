@@ -2,506 +2,190 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38329C433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 02:44:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2704BC433EF
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 05:04:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244225AbiDACpv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 31 Mar 2022 22:45:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32830 "EHLO
+        id S234372AbiDAFGD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 01:06:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244194AbiDACpq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 31 Mar 2022 22:45:46 -0400
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F8801459AE;
-        Thu, 31 Mar 2022 19:43:57 -0700 (PDT)
-Received: from relay1-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::221])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id ED04AC54D9;
-        Fri,  1 Apr 2022 02:33:49 +0000 (UTC)
-Received: (Authenticated sender: frank@zago.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 4DC72240006;
-        Fri,  1 Apr 2022 02:33:26 +0000 (UTC)
-From:   frank zago <frank@zago.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Wolfram Sang <wsa@kernel.org>, Johan Hovold <johan@kernel.org>,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        frank zago <frank@zago.net>
-Subject: [PATCH v5 2/3] gpio: ch341: add GPIO MFD cell driver for the CH341
-Date:   Thu, 31 Mar 2022 21:33:05 -0500
-Message-Id: <20220401023306.79532-3-frank@zago.net>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220401023306.79532-1-frank@zago.net>
-References: <20220401023306.79532-1-frank@zago.net>
+        with ESMTP id S233411AbiDAFGB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 01:06:01 -0400
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4627512E77C;
+        Thu, 31 Mar 2022 22:04:11 -0700 (PDT)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 231547da086462;
+        Fri, 1 Apr 2022 00:04:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1648789447;
+        bh=pdOte0r4buZls7OnQjcRXzHmqGaFLMm2LPj/7uZYXPs=;
+        h=Date:Subject:To:CC:References:From:In-Reply-To;
+        b=Cy8sIj06UcND2JtGwRgSpICAq45rrQP9fQJxNECIsUwAX6cWsTsrXkUYZOoBs7Qxx
+         kv3EzG+Hl49Bmk8MOzVHahdEd8RGZNbxo+Vm21bZmml3FQ6w2yQN+GyyvubVnFHI1i
+         5Sqd0i6vvcEncprMD2gTHSQBq9vYZmQ5H9RM+33A=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 231547ts047177
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 1 Apr 2022 00:04:07 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 1
+ Apr 2022 00:04:06 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
+ Frontend Transport; Fri, 1 Apr 2022 00:04:06 -0500
+Received: from [10.24.69.236] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 231542Bb017599;
+        Fri, 1 Apr 2022 00:04:03 -0500
+Message-ID: <1fcac9c3-4b84-6572-ebc6-4d6a50f0132a@ti.com>
+Date:   Fri, 1 Apr 2022 10:34:02 +0530
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Add documentation for AM62 USB
+ Wrapper module
+Content-Language: en-US
+To:     Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Roger Quadros <rogerq@kernel.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+References: <20220324073425.18607-1-a-govindraju@ti.com>
+ <20220324073425.18607-2-a-govindraju@ti.com>
+ <93fe6a41-3b59-2fbc-6f95-833f337815ee@kernel.org>
+ <41f79aa5-1e04-53f8-ab21-85fe6039e24e@ti.com>
+ <2b33798e-23c2-d4a5-171a-55c28bc40c40@kernel.org>
+ <YkZFV4h/vvmKg6iw@robh.at.kernel.org>
+From:   Aswath Govindraju <a-govindraju@ti.com>
+In-Reply-To: <YkZFV4h/vvmKg6iw@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The GPIO interface offers 16 GPIOs. 6 are read/write, and 10 are
-read-only.
+Hi Rob,
 
-Signed-off-by: frank zago <frank@zago.net>
----
- MAINTAINERS               |   1 +
- drivers/gpio/Kconfig      |  10 +
- drivers/gpio/Makefile     |   1 +
- drivers/gpio/gpio-ch341.c | 383 ++++++++++++++++++++++++++++++++++++++
- drivers/mfd/ch341-core.c  |   3 +
- 5 files changed, 398 insertions(+)
- create mode 100644 drivers/gpio/gpio-ch341.c
+On 01/04/22 05:50, Rob Herring wrote:
+> On Thu, Mar 24, 2022 at 12:53:08PM +0100, Krzysztof Kozlowski wrote:
+>> On 24/03/2022 12:40, Aswath Govindraju wrote:
+>>> Hi Krzysztof,
+>>>
+>>> On 24/03/22 16:37, Krzysztof Kozlowski wrote:
+>>>> On 24/03/2022 08:34, Aswath Govindraju wrote:
+>>>>> Add bindings for the TI's AM62 wrapper module for the Synopsys USBSS-DRD
+>>>>> controller.
+>>>>>
+>>>>> Signed-off-by: Aswath Govindraju <a-govindraju@ti.com>
+>>>>> ---
+>>>>>
+>>>>> Changes since v1:
+>>>>> - made correction in grammer of clocks property description
+>>>>>   and added maxItems in the interrupts property based on comments
+>>>>>   received from Roger
+>>>>> - corrected the title, fixed the description of
+>>>>>   ti,syscon-phy-pll-refclk, added pattern properties and child node
+>>>>>   in the example based on the comments from Krzysztof.
+>>>>>
+>>>>>  .../devicetree/bindings/usb/ti,am62-usb.yaml  | 117 ++++++++++++++++++
+>>>>>  1 file changed, 117 insertions(+)
+>>>>>  create mode 100644 Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+>>>>> new file mode 100644
+>>>>> index 000000000000..452bfdc6fb09
+>>>>> --- /dev/null
+>>>>> +++ b/Documentation/devicetree/bindings/usb/ti,am62-usb.yaml
+>>>>> @@ -0,0 +1,117 @@
+>>>>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+>>>>> +%YAML 1.2
+>>>>> +---
+>>>>> +$id: http://devicetree.org/schemas/usb/ti,am62-usb.yaml#
+>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>> +
+>>>>> +title: TI's AM62 wrapper module for the Synopsys USBSS-DRD controller
+>>>>> +
+>>>>> +maintainers:
+>>>>> +  - Aswath Govindraju <a-govindraju@ti.com>
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    const: ti,am62-usb
+>>>>> +
+>>>>> +  reg:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  ranges: true
+>>>>> +
+>>>>> +  power-domains:
+>>>>> +    description:
+>>>>> +      PM domain provider node and an args specifier containing
+>>>>> +      the USB ISO device id value. See,
+>>>>> +      Documentation/devicetree/bindings/soc/ti/sci-pm-domain.yaml
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  clocks:
+>>>>> +    description: Clock phandle to usb2_refclk
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  clock-names:
+>>>>> +    items:
+>>>>> +      - const: ref
+>>>>> +
+>>>>> +  id-gpio:
+>>>>> +    description:
+>>>>> +      GPIO to be used as ID pin
+>>>>> +    maxItems: 1
+>>>>
+>>>> I have doubts about this. If you USB controller handles the ID pin, then
+>>>> probably this should be moved to usb-connector.yaml. I did not see
+>>>> id-gpio in any other USB controller blocks.
+>>>>
+>>>
+>>> Yes, the USB wrapper handles the ID pin operation only. It also reads
+>>> the status of VBUS by reading a register from its MMR and not using a
+>>> gpio. After evaluating the role the based on the states if id pin and
+>>> VBUS, this role is communicated to the dwc3 core driver using extcon.
+>>> There is no way for the dwc3 driver to detect the role on its own.
+>>>
+>>>
+>>> The usb-connector(drivers/usb/common/usb-conn-gpio.c) driver, seems to
+>>> be implemented for driving the VBUS, based on ID and VBUS pin status.
+>>> However, in case of the above implementation we need to communicate the
+>>> detected role to the dwc3 core driver. Also, the wrapper does not
+>>> control VBUS but it is the dwc3 core driver that drives the VBUS.
+>>> Therefore, I think the usb-connector implementation cannot be used here.
+>>
+>> I don't think about usb-conn-gpio.c but using the binding generic
+>> binding for usb-X-connector and define a connector with ID.
+>>
+>> Actually Rob could help here.
+>>
+>> Rob,
+>> Should the id-gpio be modeled as a property in this glue/wrapper driver
+>> or rather as part of usb-connector child node?
+> 
+> That's a simple question. Where does the ID GPIO signal go to? The 
+> connector, so it goes in the connector node.
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b61af813fb9f..757ab4f6f9f6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21215,6 +21215,7 @@ WINCHIPHEAD CH341 I2C/GPIO MFD DRIVER
- M:	Frank Zago <frank@zago.net>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
-+F:	drivers/gpio/gpio-ch341.c
- F:	drivers/mfd/ch341-core.c
- F:	include/linux/mfd/ch341.h
- 
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index 45764ec3b2eb..0e868c26daf6 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -1652,6 +1652,16 @@ endmenu
- menu "USB GPIO expanders"
- 	depends on USB
- 
-+config GPIO_CH341
-+	tristate "CH341 USB to GPIO support"
-+	select MFD_CH341
-+	help
-+	  If you say yes to this option, GPIO support will be included for the
-+	  WCH CH341, a USB to I2C/SPI/GPIO interface.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called gpio-ch341.
-+
- config GPIO_VIPERBOARD
- 	tristate "Viperboard GPIO a & b support"
- 	depends on MFD_VIPERBOARD
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 14352f6dfe8e..beef802cbfb1 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -44,6 +44,7 @@ obj-$(CONFIG_GPIO_BD9571MWV)		+= gpio-bd9571mwv.o
- obj-$(CONFIG_GPIO_BRCMSTB)		+= gpio-brcmstb.o
- obj-$(CONFIG_GPIO_BT8XX)		+= gpio-bt8xx.o
- obj-$(CONFIG_GPIO_CADENCE)		+= gpio-cadence.o
-+obj-$(CONFIG_GPIO_CH341)		+= gpio-ch341.o
- obj-$(CONFIG_GPIO_CLPS711X)		+= gpio-clps711x.o
- obj-$(CONFIG_GPIO_SNPS_CREG)		+= gpio-creg-snps.o
- obj-$(CONFIG_GPIO_CRYSTAL_COVE)		+= gpio-crystalcove.o
-diff --git a/drivers/gpio/gpio-ch341.c b/drivers/gpio/gpio-ch341.c
-new file mode 100644
-index 000000000000..8e81ccf93d71
---- /dev/null
-+++ b/drivers/gpio/gpio-ch341.c
-@@ -0,0 +1,383 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * GPIO cell driver for the CH341A and CH341B chips.
-+ *
-+ * Copyright 2022, Frank Zago
-+ * Copyright (c) 2017 Gunar Schorcht (gunar@schorcht.net)
-+ * Copyright (c) 2016 Tse Lun Bien
-+ * Copyright (c) 2014 Marco Gittler
-+ * Copyright (c) 2006-2007 Till Harbaum (Till@Harbaum.org)
-+ */
-+
-+/*
-+ * Notes.
-+ *
-+ * For the CH341, 0=IN, 1=OUT, but for the GPIO subsystem, 1=IN and
-+ * 0=OUT. Translation happens in a couple places.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/types.h>
-+#include <linux/usb.h>
-+
-+#include <linux/gpio/driver.h>
-+
-+#include <linux/mfd/ch341.h>
-+
-+#define CH341_GPIO_NUM_PINS         16    /* Number of GPIO pins */
-+
-+/* GPIO chip commands */
-+#define CH341_PARA_CMD_STS          0xA0  /* Get pins status */
-+#define CH341_CMD_UIO_STREAM        0xAB  /* pin IO stream command */
-+
-+#define CH341_CMD_UIO_STM_OUT       0x80  /* pin IO interface OUT command (D0~D5) */
-+#define CH341_CMD_UIO_STM_DIR       0x40  /* pin IO interface DIR command (D0~D5) */
-+#define CH341_CMD_UIO_STM_END       0x20  /* pin IO interface END command */
-+
-+#define CH341_USB_MAX_INTR_SIZE 8
-+
-+struct ch341_gpio {
-+	struct gpio_chip gpio;
-+	struct mutex gpio_lock;
-+	u16 gpio_dir;		/* 1 bit per pin, 0=IN, 1=OUT. */
-+	u16 gpio_last_read;	/* last GPIO values read */
-+	u16 gpio_last_written;	/* last GPIO values written */
-+	union {
-+		u8 gpio_buf[SEG_SIZE];
-+		__le16 gpio_buf_status;
-+	};
-+
-+	struct urb *irq_urb;
-+	struct usb_anchor irq_urb_out;
-+	u8 irq_buf[CH341_USB_MAX_INTR_SIZE];
-+	struct irq_chip irq_chip;
-+
-+	struct ch341_device *ch341;
-+};
-+
-+/*
-+ * Masks to describe the 16 GPIOs. Pins D0 to D5 (mapped to GPIOs 0 to
-+ * 5) can do input/output, but the other pins are input-only.
-+ */
-+static const u16 pin_can_output = 0b111111;
-+
-+/* Only GPIO 10 (INT# line) has hardware interrupt */
-+#define CH341_GPIO_INT_LINE 10
-+
-+/* Send a command and get a reply if requested */
-+static int gpio_transfer(struct ch341_gpio *dev, int out_len, int in_len)
-+{
-+	struct ch341_device *ch341 = dev->ch341;
-+	int actual;
-+	int rc;
-+
-+	mutex_lock(&ch341->usb_lock);
-+
-+	rc = usb_bulk_msg(ch341->usb_dev,
-+			  usb_sndbulkpipe(ch341->usb_dev, ch341->ep_out),
-+			  dev->gpio_buf, out_len,
-+			  &actual, DEFAULT_TIMEOUT_MS);
-+	if (rc < 0)
-+		goto out_unlock;
-+
-+	if (in_len == 0)
-+		goto out_unlock;
-+
-+	rc = usb_bulk_msg(ch341->usb_dev,
-+			  usb_rcvbulkpipe(ch341->usb_dev, ch341->ep_in),
-+			  dev->gpio_buf, SEG_SIZE, &actual, DEFAULT_TIMEOUT_MS);
-+
-+out_unlock:
-+	mutex_unlock(&ch341->usb_lock);
-+
-+	if (rc < 0)
-+		return rc;
-+
-+	return actual;
-+}
-+
-+/* Read the GPIO line status. */
-+static int read_inputs(struct ch341_gpio *dev)
-+{
-+	int rc;
-+
-+	mutex_lock(&dev->gpio_lock);
-+
-+	dev->gpio_buf[0] = CH341_PARA_CMD_STS;
-+
-+	rc = gpio_transfer(dev, 1, 1);
-+
-+	/*
-+	 * The status command returns 6 bytes of data. Byte 0 has
-+	 * status for lines 0 to 7, and byte 1 is lines 8 to 15. The
-+	 * 3rd has the status for the SCL/SDA/SCK pins. The 4th byte
-+	 * might have some remaining pin status. Byte 5 and 6 content
-+	 * is unknown.
-+	 */
-+	if (rc == 6)
-+		dev->gpio_last_read = le16_to_cpu(dev->gpio_buf_status);
-+	else
-+		rc = -EIO;
-+
-+	mutex_unlock(&dev->gpio_lock);
-+
-+	if (rc < 0)
-+		return rc;
-+
-+	return 0;
-+}
-+
-+static int ch341_gpio_get(struct gpio_chip *chip, unsigned int offset)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+	int rc;
-+
-+	rc = read_inputs(dev);
-+	if (rc)
-+		return rc;
-+
-+	return !!(dev->gpio_last_read & BIT(offset));
-+}
-+
-+static int ch341_gpio_get_multiple(struct gpio_chip *chip,
-+				   unsigned long *mask, unsigned long *bits)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+	int rc;
-+
-+	rc = read_inputs(dev);
-+	if (rc)
-+		return rc;
-+
-+	*bits = dev->gpio_last_read & *mask;
-+
-+	return 0;
-+}
-+
-+static void write_outputs(struct ch341_gpio *dev)
-+{
-+	mutex_lock(&dev->gpio_lock);
-+
-+	/* Only the first 6 lines can output. */
-+	dev->gpio_buf[0] = CH341_CMD_UIO_STREAM;
-+	dev->gpio_buf[1] = CH341_CMD_UIO_STM_DIR | (dev->gpio_dir & pin_can_output);
-+	dev->gpio_buf[2] = CH341_CMD_UIO_STM_OUT |
-+		(dev->gpio_last_written & dev->gpio_dir & pin_can_output);
-+	dev->gpio_buf[3] = CH341_CMD_UIO_STM_END;
-+
-+	gpio_transfer(dev, 4, 0);
-+
-+	mutex_unlock(&dev->gpio_lock);
-+}
-+
-+static void ch341_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+
-+	if (value)
-+		dev->gpio_last_written |= BIT(offset);
-+	else
-+		dev->gpio_last_written &= ~BIT(offset);
-+
-+	write_outputs(dev);
-+}
-+
-+static void ch341_gpio_set_multiple(struct gpio_chip *chip,
-+				    unsigned long *mask, unsigned long *bits)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+
-+	dev->gpio_last_written = (dev->gpio_last_written & ~*mask) | (*bits & *mask);
-+
-+	write_outputs(dev);
-+}
-+
-+static int ch341_gpio_get_direction(struct gpio_chip *chip,
-+				    unsigned int offset)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+
-+	return !(dev->gpio_dir & BIT(offset));
-+}
-+
-+static int ch341_gpio_direction_input(struct gpio_chip *chip,
-+				      unsigned int offset)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+
-+	dev->gpio_dir &= ~BIT(offset);
-+
-+	write_outputs(dev);
-+
-+	return 0;
-+}
-+
-+static int ch341_gpio_direction_output(struct gpio_chip *chip,
-+				       unsigned int offset, int value)
-+{
-+	struct ch341_gpio *dev = gpiochip_get_data(chip);
-+	u16 mask = BIT(offset);
-+
-+	if (!(pin_can_output & mask))
-+		return -EINVAL;
-+
-+	dev->gpio_dir |= mask;
-+
-+	ch341_gpio_set(chip, offset, value);
-+
-+	return 0;
-+}
-+
-+static void ch341_complete_intr_urb(struct urb *urb)
-+{
-+	struct ch341_gpio *dev = urb->context;
-+	int rc;
-+
-+	if (urb->status) {
-+		usb_unanchor_urb(dev->irq_urb);
-+	} else {
-+		/*
-+		 * Data is 8 bytes. Byte 0 might be the length of
-+		 * significant data, which is 3 more bytes. Bytes 1
-+		 * and 2, and possibly 3, are the pin status. The byte
-+		 * order is different than for the GET_STATUS
-+		 * command. Byte 1 is GPIOs 8 to 15, and byte 2 is
-+		 * GPIOs 0 to 7.
-+		 */
-+
-+		handle_nested_irq(irq_find_mapping(dev->gpio.irq.domain,
-+						   CH341_GPIO_INT_LINE));
-+
-+		rc = usb_submit_urb(dev->irq_urb, GFP_ATOMIC);
-+		if (rc)
-+			usb_unanchor_urb(dev->irq_urb);
-+	}
-+}
-+
-+static int ch341_gpio_irq_set_type(struct irq_data *data, unsigned int flow_type)
-+{
-+	const unsigned long offset = irqd_to_hwirq(data);
-+
-+	if (offset != CH341_GPIO_INT_LINE || flow_type != IRQ_TYPE_EDGE_RISING)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void ch341_gpio_irq_enable(struct irq_data *data)
-+{
-+	struct ch341_gpio *dev = irq_data_get_irq_chip_data(data);
-+	int rc;
-+
-+	/*
-+	 * The URB might have just been unlinked in
-+	 * ch341_gpio_irq_disable, but the completion handler hasn't
-+	 * been called yet.
-+	 */
-+	if (!usb_wait_anchor_empty_timeout(&dev->irq_urb_out, 5000))
-+		usb_kill_anchored_urbs(&dev->irq_urb_out);
-+
-+	usb_anchor_urb(dev->irq_urb, &dev->irq_urb_out);
-+	rc = usb_submit_urb(dev->irq_urb, GFP_ATOMIC);
-+	if (rc)
-+		usb_unanchor_urb(dev->irq_urb);
-+}
-+
-+static void ch341_gpio_irq_disable(struct irq_data *data)
-+{
-+	struct ch341_gpio *dev = irq_data_get_irq_chip_data(data);
-+
-+	usb_unlink_urb(dev->irq_urb);
-+}
-+
-+static int ch341_gpio_remove(struct platform_device *pdev)
-+{
-+	struct ch341_gpio *dev = platform_get_drvdata(pdev);
-+
-+	usb_kill_anchored_urbs(&dev->irq_urb_out);
-+	gpiochip_remove(&dev->gpio);
-+	usb_free_urb(dev->irq_urb);
-+
-+	return 0;
-+}
-+
-+static int ch341_gpio_probe(struct platform_device *pdev)
-+{
-+	struct ch341_device *ch341 = dev_get_drvdata(pdev->dev.parent);
-+	struct gpio_irq_chip *girq;
-+	struct ch341_gpio *dev;
-+	struct gpio_chip *gpio;
-+	int rc;
-+
-+	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-+	if (dev == NULL)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, dev);
-+	dev->ch341 = ch341;
-+	mutex_init(&dev->gpio_lock);
-+
-+	gpio = &dev->gpio;
-+	gpio->label = dev_name(&pdev->dev);
-+	gpio->parent = &pdev->dev;
-+	gpio->owner = THIS_MODULE;
-+	gpio->get_direction = ch341_gpio_get_direction;
-+	gpio->direction_input = ch341_gpio_direction_input;
-+	gpio->direction_output = ch341_gpio_direction_output;
-+	gpio->get = ch341_gpio_get;
-+	gpio->get_multiple = ch341_gpio_get_multiple;
-+	gpio->set = ch341_gpio_set;
-+	gpio->set_multiple = ch341_gpio_set_multiple;
-+	gpio->base = -1;
-+	gpio->ngpio = CH341_GPIO_NUM_PINS;
-+	gpio->can_sleep = true;
-+
-+	dev->irq_chip.name = dev_name(&pdev->dev);
-+	dev->irq_chip.irq_set_type = ch341_gpio_irq_set_type;
-+	dev->irq_chip.irq_enable = ch341_gpio_irq_enable;
-+	dev->irq_chip.irq_disable = ch341_gpio_irq_disable;
-+
-+	girq = &gpio->irq;
-+	girq->chip = &dev->irq_chip;
-+	girq->handler = handle_simple_irq;
-+	girq->default_type = IRQ_TYPE_NONE;
-+
-+	/* Create an URB for handling interrupt */
-+	dev->irq_urb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (!dev->irq_urb)
-+		return dev_err_probe(&pdev->dev, -ENOMEM, "Cannot allocate the int URB\n");
-+
-+	usb_fill_int_urb(dev->irq_urb, ch341->usb_dev,
-+			 usb_rcvintpipe(ch341->usb_dev, ch341->ep_intr),
-+			 dev->irq_buf, CH341_USB_MAX_INTR_SIZE,
-+			 ch341_complete_intr_urb, dev, ch341->ep_intr_interval);
-+
-+	init_usb_anchor(&dev->irq_urb_out);
-+
-+	rc = gpiochip_add_data(gpio, dev);
-+	if (rc) {
-+		rc = dev_err_probe(&pdev->dev, rc, "Could not add GPIO\n");
-+		goto release_urb;
-+	}
-+
-+	return 0;
-+
-+release_urb:
-+	usb_free_urb(dev->irq_urb);
-+
-+	return rc;
-+}
-+
-+static struct platform_driver ch341_gpio_driver = {
-+	.driver.name	= "ch341-gpio",
-+	.probe		= ch341_gpio_probe,
-+	.remove		= ch341_gpio_remove,
-+};
-+module_platform_driver(ch341_gpio_driver);
-+
-+MODULE_AUTHOR("Various");
-+MODULE_DESCRIPTION("CH341 USB to GPIO");
-+MODULE_LICENSE("GPL");
-+MODULE_ALIAS("platform:ch341-gpio");
-diff --git a/drivers/mfd/ch341-core.c b/drivers/mfd/ch341-core.c
-index 0bb6eb8057e9..e919f6901a14 100644
---- a/drivers/mfd/ch341-core.c
-+++ b/drivers/mfd/ch341-core.c
-@@ -19,6 +19,9 @@
- #include <linux/usb.h>
- 
- static const struct mfd_cell ch341_devs[] = {
-+	{
-+		.name = "ch341-gpio",
-+	},
- };
- 
- static int ch341_usb_probe(struct usb_interface *iface,
--- 
-2.32.0
+Thank you for the clarification. Here ID-gpio is directly read by the
+wrapper and hence, I have modeled it as a property in the wrapper dt
+node. May I know if this wrong and should the modelling be looked at
+differently?
+
+Thanks,
+Aswath
+
+> If we have a driver for the usb-connector node, that's news to me. Not 
+> that we couldn't, but that has nothing to do with designing the binding.
+> 
+> Rob
 
