@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5F9BC433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC131C433F5
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233562AbiDAPxp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 11:53:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48048 "EHLO
+        id S244973AbiDAPxr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 11:53:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349916AbiDAO6S (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:58:18 -0400
+        with ESMTP id S1350277AbiDAO7b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:59:31 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D04E16CE6F;
-        Fri,  1 Apr 2022 07:45:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61C955A165;
+        Fri,  1 Apr 2022 07:46:50 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A28DEB823EB;
-        Fri,  1 Apr 2022 14:45:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C29C34114;
-        Fri,  1 Apr 2022 14:45:24 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 141BBB823EB;
+        Fri,  1 Apr 2022 14:46:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF2A9C3410F;
+        Fri,  1 Apr 2022 14:46:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648824325;
-        bh=Z0RYCsS8nt4/+zW13jfmCso5zRjttb6hNY1XXbjACOE=;
+        s=k20201202; t=1648824407;
+        bh=HhAeJn9PBDRm3J9JXYWaLlj64/pxS/OzDk22/bbn644=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RRzX6rNAl0er2M1mSA23ByLi3i/VV1MY9b825qjT/ruWA+fYhb2M/rEPyjAIG5XfJ
-         t2UExYul0QaDBz1ZkaDa73TwBEkWPDEV89hG/frCAS0kc6H53xxnjXGpJ3fznygrze
-         wtyAWVITY+Bfgix68CVUTZ9X5Ob9e5rUVbLu3L1UgOl1wZNeYU5qynUaRRcIXs2FSJ
-         1sFiBCs/ax1BMhTFZ2paUIqd6W6/gUQsMv4ud8zMzG3koZEbIt9q5sIY51DaXBPmlC
-         5iOdciPBwrdKoNDXeNjc3vBZlie+iUBPzvTif+b1b7PtyT/icGQ48expc16wzFoVcx
-         uIDVv8fYWQDIw==
+        b=K+N1Yqem41xmgcbCJHE1KpUWAbibFaKt6FQygz1P1KJt0brr7AmqBZteo/ShPIelc
+         eoL9hJwR05HxaFR2GQsfuMQI63CfSmCSk+zGUSlb7Mkx9h4Zp+KNiLvE7tcBRWulA8
+         l/I3rBmz4JpkjpyAuMWDzvBy3O197IxluLKBJy+gieSIlW8RbPKvbk1Q8/Fxjx17gz
+         qGoLvFIHEtMUtGsG+s5vC60CxeS6Q1/AW9CQZyL2A+oswOB3sbos6EnLSdu8kM5ZoD
+         4f9bx/xesqlu1tlnJohZwB0we/G1YZhr9JhgaErLXvhzzgikChzWcjI9lj57xAkY1v
+         lGorKGgYRT9Kg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Neal Liu <neal_liu@aspeedtech.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 15/37] usb: ehci: add pci device support for Aspeed platforms
-Date:   Fri,  1 Apr 2022 10:44:24 -0400
-Message-Id: <20220401144446.1954694-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 12/29] usb: ehci: add pci device support for Aspeed platforms
+Date:   Fri,  1 Apr 2022 10:45:55 -0400
+Message-Id: <20220401144612.1955177-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401144446.1954694-1-sashal@kernel.org>
-References: <20220401144446.1954694-1-sashal@kernel.org>
+In-Reply-To: <20220401144612.1955177-1-sashal@kernel.org>
+References: <20220401144612.1955177-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -69,7 +69,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+)
 
 diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
-index 774ccaa5acee..1962140a59f2 100644
+index 56e6fd0f0482..42ace9f92ce9 100644
 --- a/drivers/usb/host/ehci-pci.c
 +++ b/drivers/usb/host/ehci-pci.c
 @@ -21,6 +21,9 @@ static const char hcd_name[] = "ehci-pci";
