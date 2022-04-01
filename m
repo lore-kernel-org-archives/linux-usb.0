@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D6FBC433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC722C433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 15:52:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245539AbiDAPyB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 11:54:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54398 "EHLO
+        id S1344790AbiDAPyH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 11:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350641AbiDAPAX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 11:00:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B980EDB4;
-        Fri,  1 Apr 2022 07:48:19 -0700 (PDT)
+        with ESMTP id S1349612AbiDAO5F (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:57:05 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9F714DFE7;
+        Fri,  1 Apr 2022 07:44:32 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5724A60E9A;
-        Fri,  1 Apr 2022 14:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D66D1C340F2;
-        Fri,  1 Apr 2022 14:48:17 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 731E1B8240E;
+        Fri,  1 Apr 2022 14:44:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503EFC2BBE4;
+        Fri,  1 Apr 2022 14:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648824498;
-        bh=n+rE01s+/8O2L7jzI45gABDwGcoB8/yGkrb5U85S+Ps=;
+        s=k20201202; t=1648824270;
+        bh=BQ+000fsdHVkiRIowF2xgMLddbyFXjMD5fDA8h5TuYY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MiZUBYmmXWYwf3AhVvxtLBsMOyVKWAOQLMqqYHFkgpilIboIeE2Uf2NDn3uYim3Da
-         dL8c1miIx2cmhlyivLVaU9Gm3buZQPg02VLe7qBF+bnHY6Ey3I96KtcXSP5Cwsha3s
-         xJhsVFVe2NyHdBamQ1j2FxLiPTECrEuprHwg0pcRP7g8QJBg3QwZdjwCUHfeeX9Bs+
-         YGPQy4CnG00PylqTHCjgO500KXQc1TE11tFavj8smz3LSxTLMtUjA2hQQUoK1cdd4x
-         sdFNfXE6yS5nj7T9YgXxUOSzU24xBG0XHPSOx2v/kSG8keeQEwzXSV5YkJ89p3Aojy
-         mvAe0lfw5z4SA==
+        b=O9aXRS2NoKd41fGJxIAsspisiWiIgVThEdVfAI2QE/4nxVWllpPqNHAjQ178dChzh
+         TjLXW5pDkQDC9u4qd4Y5IPUul5DroRxvcKFQXGNjtTNQtMqwvjHsQvSIfKY2qlNWNq
+         TCRvnK0qe0KP4OVjkDbielbDcMfnlFNhbbx4BwK/pMHhu/8pbqGzUtukRGFDO/iPhx
+         wlj1sQIg3dcF2Jf2eDqdgLDP5kvj/WTZRqs20AkKe4YYEM3zecCKz+pDKSs879kjOI
+         LlkjMSP9Dot3w3hQNh+lZr9Q5EWajgJKvhbOVOaoSlo15bZz6CQprrRsr9xHjoIvpP
+         IpFZkEwcgR9xA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     "H. Nikolaus Schaller" <hns@goldelico.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
         linux-usb@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 19/22] usb: dwc3: omap: fix "unbalanced disables for smps10_out1" on omap5evm
-Date:   Fri,  1 Apr 2022 10:47:26 -0400
-Message-Id: <20220401144729.1955554-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 58/65] usb: dwc3: omap: fix "unbalanced disables for smps10_out1" on omap5evm
+Date:   Fri,  1 Apr 2022 10:41:59 -0400
+Message-Id: <20220401144206.1953700-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401144729.1955554-1-sashal@kernel.org>
-References: <20220401144729.1955554-1-sashal@kernel.org>
+In-Reply-To: <20220401144206.1953700-1-sashal@kernel.org>
+References: <20220401144206.1953700-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -105,10 +105,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/dwc3/dwc3-omap.c b/drivers/usb/dwc3/dwc3-omap.c
-index 830ef7333750..6fbaa0d1bcd2 100644
+index e196673f5c64..efaf0db595f4 100644
 --- a/drivers/usb/dwc3/dwc3-omap.c
 +++ b/drivers/usb/dwc3/dwc3-omap.c
-@@ -245,7 +245,7 @@ static void dwc3_omap_set_mailbox(struct dwc3_omap *omap,
+@@ -242,7 +242,7 @@ static void dwc3_omap_set_mailbox(struct dwc3_omap *omap,
  		break;
  
  	case OMAP_DWC3_ID_FLOAT:
