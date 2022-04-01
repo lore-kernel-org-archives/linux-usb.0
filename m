@@ -2,50 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1030AC433FE
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D98C4332F
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349635AbiDAO5G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 10:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55162 "EHLO
+        id S1349661AbiDAO5L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 10:57:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351077AbiDAOsX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:48:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E323F53A65;
-        Fri,  1 Apr 2022 07:38:50 -0700 (PDT)
+        with ESMTP id S1348554AbiDAOne (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:43:34 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E142963CC;
+        Fri,  1 Apr 2022 07:34:53 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 419DB60E9A;
-        Fri,  1 Apr 2022 14:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C57C340F2;
-        Fri,  1 Apr 2022 14:38:13 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id AB9E5B8251E;
+        Fri,  1 Apr 2022 14:34:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8EEC36AE7;
+        Fri,  1 Apr 2022 14:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648823894;
-        bh=SyTOn7y6nyPh5CZweMHgg1YlsPXWzamM40RkWEELlmY=;
+        s=k20201202; t=1648823691;
+        bh=DhyRSmYkqVp0mD9tp8xB/iWyiPaIGIOPXQyeKGIgjq8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Gt2jCrElkE84zA750pU7JCuyEhWvpZFAkBpt9+Zn5rr8YWsQ2XVsvtj089iYETYct
-         ZYTLwmmKXy8N8YnFZM/4nzigjIpdB2Tbl2h5PESj6SMaFTzMh1k+Vv/IL6Zu8jPMbz
-         QtWQovoSxp0zlSrlPIM03bltdY78mWDXnKrB0aJPhmwv0LAgbvMQqmpllWrVRSmI8d
-         EuToyUDFI0NEfoTy5eR5BsdZuJvvmCvvhiNQ+/wQl42vI40mvaNgUa6oCd5gXGQhRv
-         cd0Dua4paZUteJ6Xxia0Qs+5ddqFYAV4PV3l19eiHLoI3SFUO6MVfgGu1N1ODSFdtI
-         hPZ+XL9wTx/7g==
+        b=j+aJXGfaeLzP7i3hjB2g73J5bHg0MoZYqUDxiJGui7yOs/iZQmEg/v+CF5gLO6m+S
+         wv8nhy/fTTcox670OfFfwkbjeS01lIR+Zal6MDPJGhEF68pnzFn32SkyxVVddsJqyw
+         Ljv8fuQewwOzIjupUcKdC74UTpthU/J0RMmD2inn69HB1iLPabFN0J/3wtK/xSVjP2
+         5UXiBV4kzMxSJSRugD+omEceCSlEdg/fXRQ/1+wY/Eh6YLUv4XvbjMmGLA3wiMzq8A
+         DoaiapG445Bn/yB9Bo62t/Yz55KPqU9VoPXu+BfvT5klGtcMWD+yNm5hzWXHKjkiQ0
+         7cqk5d7HC1AVw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wayne Chang <waynec@nvidia.com>,
+Cc:     Neal Liu <neal_liu@aspeedtech.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, balbi@kernel.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        jakobkoschel@gmail.com, rikard.falkeborn@gmail.com,
-        chunfeng.yun@mediatek.com, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 07/98] usb: gadget: tegra-xudc: Do not program SPARAM
-Date:   Fri,  1 Apr 2022 10:36:11 -0400
-Message-Id: <20220401143742.1952163-7-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.16 041/109] usb: ehci: add pci device support for Aspeed platforms
+Date:   Fri,  1 Apr 2022 10:31:48 -0400
+Message-Id: <20220401143256.1950537-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401143742.1952163-1-sashal@kernel.org>
-References: <20220401143742.1952163-1-sashal@kernel.org>
+In-Reply-To: <20220401143256.1950537-1-sashal@kernel.org>
+References: <20220401143256.1950537-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -54,50 +51,50 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Wayne Chang <waynec@nvidia.com>
+From: Neal Liu <neal_liu@aspeedtech.com>
 
-[ Upstream commit 62fb61580eb48fc890b7bc9fb5fd263367baeca8 ]
+[ Upstream commit c3c9cee592828528fd228b01d312c7526c584a42 ]
 
-According to the Tegra Technical Reference Manual, SPARAM
-is a read-only register and should not be programmed in
-the driver.
+Enable Aspeed quirks in commit 7f2d73788d90 ("usb: ehci:
+handshake CMD_RUN instead of STS_HALT") to support Aspeed
+ehci-pci device.
 
-The change removes the wrong SPARAM usage.
-
-Signed-off-by: Wayne Chang <waynec@nvidia.com>
-Link: https://lore.kernel.org/r/20220107090443.149021-1-waynec@nvidia.com
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Neal Liu <neal_liu@aspeedtech.com>
+Link: https://lore.kernel.org/r/20220208101657.76459-1-neal_liu@aspeedtech.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/tegra-xudc.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/usb/host/ehci-pci.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 43f1b0d461c1..716d9ab2d2ff 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -32,9 +32,6 @@
- #include <linux/workqueue.h>
+diff --git a/drivers/usb/host/ehci-pci.c b/drivers/usb/host/ehci-pci.c
+index e87cf3a00fa4..638f03b89739 100644
+--- a/drivers/usb/host/ehci-pci.c
++++ b/drivers/usb/host/ehci-pci.c
+@@ -21,6 +21,9 @@ static const char hcd_name[] = "ehci-pci";
+ /* defined here to avoid adding to pci_ids.h for single instance use */
+ #define PCI_DEVICE_ID_INTEL_CE4100_USB	0x2e70
  
- /* XUSB_DEV registers */
--#define SPARAM 0x000
--#define  SPARAM_ERSTMAX_MASK GENMASK(20, 16)
--#define  SPARAM_ERSTMAX(x) (((x) << 16) & SPARAM_ERSTMAX_MASK)
- #define DB 0x004
- #define  DB_TARGET_MASK GENMASK(15, 8)
- #define  DB_TARGET(x) (((x) << 8) & DB_TARGET_MASK)
-@@ -3295,11 +3292,6 @@ static void tegra_xudc_init_event_ring(struct tegra_xudc *xudc)
- 	unsigned int i;
- 	u32 val;
++#define PCI_VENDOR_ID_ASPEED		0x1a03
++#define PCI_DEVICE_ID_ASPEED_EHCI	0x2603
++
+ /*-------------------------------------------------------------------------*/
+ #define PCI_DEVICE_ID_INTEL_QUARK_X1000_SOC		0x0939
+ static inline bool is_intel_quark_x1000(struct pci_dev *pdev)
+@@ -222,6 +225,12 @@ static int ehci_pci_setup(struct usb_hcd *hcd)
+ 			ehci->has_synopsys_hc_bug = 1;
+ 		}
+ 		break;
++	case PCI_VENDOR_ID_ASPEED:
++		if (pdev->device == PCI_DEVICE_ID_ASPEED_EHCI) {
++			ehci_info(ehci, "applying Aspeed HC workaround\n");
++			ehci->is_aspeed = 1;
++		}
++		break;
+ 	}
  
--	val = xudc_readl(xudc, SPARAM);
--	val &= ~(SPARAM_ERSTMAX_MASK);
--	val |= SPARAM_ERSTMAX(XUDC_NR_EVENT_RINGS);
--	xudc_writel(xudc, val, SPARAM);
--
- 	for (i = 0; i < ARRAY_SIZE(xudc->event_ring); i++) {
- 		memset(xudc->event_ring[i], 0, XUDC_EVENT_RING_SIZE *
- 		       sizeof(*xudc->event_ring[i]));
+ 	/* optional debug port, normally in the first BAR */
 -- 
 2.34.1
 
