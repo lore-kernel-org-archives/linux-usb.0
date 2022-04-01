@@ -2,47 +2,47 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96131C41535
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76514C433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Apr 2022 14:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348393AbiDAO53 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Apr 2022 10:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60560 "EHLO
+        id S1349698AbiDAO5c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Apr 2022 10:57:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351442AbiDAOsz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:48:55 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A73E6004D;
-        Fri,  1 Apr 2022 07:39:44 -0700 (PDT)
+        with ESMTP id S1349344AbiDAOzT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Apr 2022 10:55:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD56296D09;
+        Fri,  1 Apr 2022 07:43:16 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 201DC60C8B;
-        Fri,  1 Apr 2022 14:39:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA653C34112;
-        Fri,  1 Apr 2022 14:39:26 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 5B2BFB8240F;
+        Fri,  1 Apr 2022 14:43:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BAE7C3410F;
+        Fri,  1 Apr 2022 14:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1648823967;
+        s=k20201202; t=1648824194;
         bh=DhyRSmYkqVp0mD9tp8xB/iWyiPaIGIOPXQyeKGIgjq8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GabFQgBNjXvoMaMWtr/GnokIhKsCOquKZ93zN0sH87joGZwMLlM+YqFm5ubCs/pZK
-         QS9LcB/KZMgH55iC9cRtr8XMfzWWoJtuP7hIllt3KzRcUwrJx3NfouFeLoc6lRaEkZ
-         vXDN8ZAnVOQ/UaooZLdJjkxOCjCgHKeL1vVi2Ee2xOoGK25I78oltrf02ZwpBDwgRG
-         3m8Vff0IRIb6QRVZhXqscVr9Blc0ZYwVhkx32H/PI9Xw0TuTY4to81wrAbDeXp9ibk
-         ilrHDw3Y0A/vuZ5xjby84nNnYAITq3Jpsmrbmd2hqUYEnZA0tOPI6LrZG3+eDWHtPN
-         kjKLvUKTH/e0w==
+        b=n0gEXG/5Pm8jd3itDCXie8uFubHocODTihS+sAK53stC6mLHspS7quAnRnk8HxNAa
+         eUcChCt8+T0fC6tskwVbu4SivBklhJcdJvulX6++hLFznxkvX6cd3B7QqbjwbgpojY
+         MLYdlhe8k85Y4Zsn7HQYQ59oMyXS4ern0OUBOoW0bs+5aZi8a7Erov0hnRk7qPWgqv
+         aFA7M9tz2Y7qRj/qchPtx3vSUo1C2crmR/QSj4P5WQTXWTeioeqCx0m6J/70LUsDdp
+         mzgBKEdb0Od4tqGNTtjqxAXGyw5BqYlJ6boJ0/4y8MQVrYR5prB2vBqpTaaboJDUrr
+         gHxjrIh0wVOSw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Neal Liu <neal_liu@aspeedtech.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 34/98] usb: ehci: add pci device support for Aspeed platforms
-Date:   Fri,  1 Apr 2022 10:36:38 -0400
-Message-Id: <20220401143742.1952163-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 23/65] usb: ehci: add pci device support for Aspeed platforms
+Date:   Fri,  1 Apr 2022 10:41:24 -0400
+Message-Id: <20220401144206.1953700-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401143742.1952163-1-sashal@kernel.org>
-References: <20220401143742.1952163-1-sashal@kernel.org>
+In-Reply-To: <20220401144206.1953700-1-sashal@kernel.org>
+References: <20220401144206.1953700-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
