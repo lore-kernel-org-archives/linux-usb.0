@@ -2,120 +2,109 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A87AC433EF
-	for <linux-usb@archiver.kernel.org>; Sat,  2 Apr 2022 21:12:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B143C433EF
+	for <linux-usb@archiver.kernel.org>; Sun,  3 Apr 2022 06:13:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230195AbiDBVOp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 2 Apr 2022 17:14:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34126 "EHLO
+        id S1347666AbiDCGPF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 3 Apr 2022 02:15:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230163AbiDBVOo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 2 Apr 2022 17:14:44 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E85A4BF2
-        for <linux-usb@vger.kernel.org>; Sat,  2 Apr 2022 14:12:51 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id c15so8235251ljr.9
-        for <linux-usb@vger.kernel.org>; Sat, 02 Apr 2022 14:12:51 -0700 (PDT)
+        with ESMTP id S232663AbiDCGPE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 3 Apr 2022 02:15:04 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2AAD32ED5;
+        Sat,  2 Apr 2022 23:13:10 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id s8so6104398pfk.12;
+        Sat, 02 Apr 2022 23:13:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:subject:to:cc:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=/CsZAmpO0XrU711+MySx4TZ4692BiQKBX5G9tt8o2yQ=;
-        b=KSpCN5ImfnG9LJ1RmzLizAlndzuVcJwMUf1HHMH+waJuCQ74DYunKp+Idq3f1Ds6kz
-         jTAVy/E5VSQHWH4i5wk8SNh+koANAOjePjxbCF2BnNGF+xj7AM3bLQrUKzZTXSEAFak8
-         dszP5gUcJOBxRP196jyt9j8DwPu5/OIL9J4Vspiz81oBPMJvGttqFpLOZhWDbGqPcr+P
-         agXqkfVsJK0QnXdWI+vQpYyRtDkV7prC0exIroNy9yTnekr5ulkof6VvaiVdW+wJ5YcX
-         xj1ZwNCILwnLWa8eQCLVE1RsPc6LgozQmkcAReUGB/oxQfR7H6MAeEbkOjTYpTP4WIKd
-         LrWQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=iqcYjJqeAGHOxk9rC6rzT/4cJTQjLiPEBtPtNallgoU=;
+        b=Ai6HzXtHc0uKlmt9INXqJSUeKr9EH33Q2j4WBafh/MJdcKXtU0DsIuf5qXLmcGjIr+
+         J/x/VNKPKCXAhvRydsIj90akhWtP1MHD0J7XBlSOtYsl6q2uceHO0ylFipwZn1ZjngDk
+         Mm/wuon+Aa+5OxEfI0iWet/706W/9GsH5T4CXKCASsAd/D39tnslez+5IiuZMNcPKt6k
+         kbSqOuEhUZ+57C8ZP7eOyaVYaRXZ4Cmqa0pbeMrcfURj0WDwEOZiUAnDFBV5dNiIPDA2
+         nr7zN6ZoAmkxiOoYgBIBgN3hDVDknq92mwhWLwh3kzcU0lhiyITzQWqwIaSCS2cUoF1K
+         ORYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=/CsZAmpO0XrU711+MySx4TZ4692BiQKBX5G9tt8o2yQ=;
-        b=5Cv8ADAEvNxJH3OgMRcRs+epm6tLR3wWOsYOGGnSkxtxZR0eBzCXRVv5q8k1vooCVL
-         OhdOChKAAQYj2Pk8iHHgD8X2K8rZuPAhUsiYv6hjwy95ooSIiS7zD9T6ojiIeqUv0vMb
-         uoQJ5BzVGPrepuM/zAgaAzuupuJGeaJIt2ecUwE6uT4OgDW5+LKcqEvSqMzSwO+T5uAz
-         FPivz1Ml0YLkhxS/EQ2YliHG4KRF0yb/vuQqOs5Jmcq0RIYHJczJItct3LO6osqG88pt
-         bPjzdR+9Ex4FrgZ3xxS0FeULtK6wmocpD4w8hY0OeQ8GB9Q1xLQlhch41Lmu6G/7kuMk
-         vpeQ==
-X-Gm-Message-State: AOAM533oanxC3jsKaZKAcCwtPb/3dygSd88tjvy1WE7e2aDnLteRIUVM
-        NJw931cDqBieBxpk2lTt0YzEd81H0c4=
-X-Google-Smtp-Source: ABdhPJyxroFiNdB2xFV2OJYNHyVAUFOqpflLPGbLz+sIbRs3wsW9MkT3ozOYZ06knQaruP8Z649BcA==
-X-Received: by 2002:a2e:a905:0:b0:24a:fed2:d12e with SMTP id j5-20020a2ea905000000b0024afed2d12emr7289683ljq.255.1648933969760;
-        Sat, 02 Apr 2022 14:12:49 -0700 (PDT)
-Received: from [192.168.1.103] ([178.176.79.7])
-        by smtp.gmail.com with ESMTPSA id v10-20020a2ea44a000000b002493831631csm598839ljn.14.2022.04.02.14.12.48
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=iqcYjJqeAGHOxk9rC6rzT/4cJTQjLiPEBtPtNallgoU=;
+        b=nOoJH+JcFfGfvASEwIt+UZMBT2zVZcDtDMVhVmatwYgYLtBHhnnHusGctxVsOwjeVK
+         cvWK6vhF5CpC+lnEoaH/bc3ZgFI8xOjcVNJes4exuUjLy8PUqK/Zdyqr7VGLxieH6Chm
+         LlpYwX1waBnfcx0nlqjl8VZmeGdlIdQ+wvh8kfiH1ERQx+yIeBBfixTc/biCsm9f+RCX
+         YyxvlHHko41s2xMOdnfXWZjB5VvcEkKOLm1mtRl1YoDT3skPKvr6NkaI83yJuwu+WJud
+         k87XQZEQ4AtPpcjJ7z6yoPxoz0IW3UFuetHzms4djBHqHLe1AiHYJphqkauiO/2peyOS
+         zePw==
+X-Gm-Message-State: AOAM531FWAatauy9FcdAJBuYM5zU2wQmbd9zWQBBdZ/7AsHgyRvPfQDz
+        5uiglf+uuCIYP8L0V1ApICI=
+X-Google-Smtp-Source: ABdhPJyRIpXteTf1cloPvJlVcVw9JuXei83O10GMNROZ3VtoU9KoPyHLol5rNJHhPhQscANAd70X3A==
+X-Received: by 2002:a05:6a00:1581:b0:4fa:e6d4:c3e6 with SMTP id u1-20020a056a00158100b004fae6d4c3e6mr18173399pfk.84.1648966390229;
+        Sat, 02 Apr 2022 23:13:10 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-68.three.co.id. [180.214.232.68])
+        by smtp.gmail.com with ESMTPSA id c63-20020a624e42000000b004fa9ee41b7bsm7720108pfb.217.2022.04.02.23.13.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Apr 2022 14:12:49 -0700 (PDT)
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: Buffer overflow in drivers/usb/host/ehci-sched.c?
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Message-ID: <2f9e5b99-c527-9c54-7fd3-0f052be982dc@gmail.com>
-Date:   Sun, 3 Apr 2022 00:12:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sat, 02 Apr 2022 23:13:09 -0700 (PDT)
+Message-ID: <f4377408-ace7-a041-084f-5863bcfb7184@gmail.com>
+Date:   Sun, 3 Apr 2022 13:13:02 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] usb: gadget: uvc: allow changing interface name via
+ configfs
 Content-Language: en-US
+To:     Dan Vacura <w36195@motorola.com>, linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Carlos Bilbao <bilbao@vt.edu>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220401160447.5919-1-w36195@motorola.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220401160447.5919-1-w36195@motorola.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello!
+On 01/04/22 23.04, Dan Vacura wrote:
+> Add a configfs entry, "function_name", to change the iInterface field
+> for VideoControl. This name is used on host devices for user selection,
+> useful when multiple cameras are present. The default will remain "UVC
+> Camera".
+> 
+> Signed-off-by: Dan Vacura <w36195@motorola.com>
+> ---
+> Changes in v2:
+> - remove stable cc
+> 
+>   .../ABI/testing/configfs-usb-gadget-uvc       |  1 +
+>   Documentation/usb/gadget-testing.rst          |  1 +
+>   drivers/usb/gadget/function/f_uvc.c           |  4 +-
+>   drivers/usb/gadget/function/u_uvc.h           |  1 +
+>   drivers/usb/gadget/function/uvc_configfs.c    | 41 +++++++++++++++++++
+>   5 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uvc b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> index 889ed45be4ca..611b23e6488d 100644
+> --- a/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uvc
+> @@ -7,6 +7,7 @@ Description:	UVC function directory
+>   		streaming_maxburst	0..15 (ss only)
+>   		streaming_maxpacket	1..1023 (fs), 1..3072 (hs/ss)
+>   		streaming_interval	1..16
+> +		function_name		string [32]
+>   		===================	=============================
 
-   The following function in the EHCI scheduling code causes the SVACE static analyzer to
-report possible buffer overflow (see the last assignment below), e.g.:
+Since you mention that default function_name is "UVC Camera", why don't you
+mention it in the documentation?
 
-Buffer 'ehci->bandwidth' of size 64 accessed at ehci-sched.c:240 can overflow, since its
-index 'i + j' can have value 66 that is out of range, as indicated by preceding conditional
-expression at ehci-sched.c:240.
-
-   I tried hard to analyze this code but couldn't quite figure out whether an overflow could
-actually happen... Maybe Alan (or Greg?) could please help me out?
-
-static void reserve_release_intr_bandwidth(struct ehci_hcd *ehci,
-		struct ehci_qh *qh, int sign)
-{
-	unsigned		start_uf;
-	unsigned		i, j, m;
-	int			usecs = qh->ps.usecs;
-	int			c_usecs = qh->ps.c_usecs;
-	int			tt_usecs = qh->ps.tt_usecs;
-	struct ehci_tt		*tt;
-
-	if (qh->ps.phase == NO_FRAME)	/* Bandwidth wasn't reserved */
-		return;
-	start_uf = qh->ps.bw_phase << 3;
-
-	bandwidth_dbg(ehci, sign, "intr", &qh->ps);
-
-	if (sign < 0) {		/* Release bandwidth */
-		usecs = -usecs;
-		c_usecs = -c_usecs;
-		tt_usecs = -tt_usecs;
-	}
-
-	/* Entire transaction (high speed) or start-split (full/low speed) */
-	for (i = start_uf + qh->ps.phase_uf; i < EHCI_BANDWIDTH_SIZE;
-			i += qh->ps.bw_uperiod)
-		ehci->bandwidth[i] += usecs;
-
-	/* Complete-split (full/low speed) */
-	if (qh->ps.c_usecs) {
-		/* NOTE: adjustments needed for FSTN */
-		for (i = start_uf; i < EHCI_BANDWIDTH_SIZE;
-				i += qh->ps.bw_uperiod) {
-			for ((j = 2, m = 1 << (j+8)); j < 8; (++j, m <<= 1)) {
-				if (qh->ps.cs_mask & m)
-					ehci->bandwidth[i+j] += c_usecs;
-			}
-		}
-	}
-[...]
-
-   There shouldn't be a buffer overflow iff qh->ps.bw_uperiod is a multiple of 8, right?
-
-MBR, Sergey
+-- 
+An old man doll... just what I always wanted! - Clara
