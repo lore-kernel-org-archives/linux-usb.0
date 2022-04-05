@@ -2,49 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B301EC433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D71E3C433EF
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:26:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233563AbiDEXES (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Apr 2022 19:04:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52826 "EHLO
+        id S234334AbiDEXEW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 19:04:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442944AbiDEPio (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 11:38:44 -0400
+        with ESMTP id S1442935AbiDEPim (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 11:38:42 -0400
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A16F9F97;
-        Tue,  5 Apr 2022 06:53:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF55F94E4;
+        Tue,  5 Apr 2022 06:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649166834; x=1680702834;
+  t=1649166832; x=1680702832;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mMVBDbCjUN9rOkC+keFVtKh5CLrcACEJ46Jmwn4fanQ=;
-  b=ZAuKlWp8Ep1/UMxO9SvtQBHcZX7J8Ujq0KIsbpQku/H5CG7cJFpotDMh
-   z2Wkx519GkqWhPCLjxsIAjIDO731ei/XOGO+CL4OiOqxD3zQB3hMN5yMD
-   4wF2ddulkXq8jAhp0O7nvCKqFzGEaxpBWBpHJXcdZxUGoTMcS4s+e9mxS
-   th3V8zvdzPOs659Ikz5VrHtD0nBD3sWndbyahNWy2YhCehAif5Jgwu08s
-   SpkfMIhgdEY7N5lB3b0xi3szGAouplz0SfXSiYNOHazLhMuXxaHW0wMJv
-   AOHvzNpbgY0GjzBw0djlYZBcNBurQbEr85/D15KLwH72QLnEQO7z4zy31
-   w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="259583361"
+  bh=SaiqlB+LlGtj1lMotqQPMQSwVEwcf6O9FoBb7YiUMiY=;
+  b=eYf/56QUeJbjiSDbvQVHVmnX6X2f1SVBFMSh/yUYl2fpV337RxWTltun
+   H/T6JxgM0u0AikoISHw2nti+tFqD33TSz6I7HdVhIBf0sVEo9yvYXhhhd
+   WGvQVC9c6pzdapaLG3tYu8Q6Jtm7FQgtOe0CK/oSaux1r40eE8bQNEb6A
+   AaNU9Bfp3+uk8ZJI3JzLttbOhFI7Fbjp5VW8u1XmGzzYr22frveyoXizG
+   B4sgtS4Bpog8fJeaev4jE+z9dyKzxoc6SBNSwtscBgSrPakX8A+TYZb9l
+   cmbsjc6xRkh/4zgJ+YnAFz0SPWEzHrJLCmG0xsEjnpLxaRx7GVkYYbG1C
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="259583358"
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="259583361"
+   d="scan'208";a="259583358"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 06:53:54 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 06:53:51 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="696938409"
+   d="scan'208";a="696938401"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2022 06:53:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2022 06:53:49 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
         Jack Pham <quic_jackp@quicinc.com>, linux-usb@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [PATCH v1 2/2] usb: typec: ucsi: Fix role swapping
-Date:   Tue,  5 Apr 2022 16:48:24 +0300
-Message-Id: <20220405134824.68067-3-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v1 1/2] usb: typec: ucsi: Fix reuse of completion structure
+Date:   Tue,  5 Apr 2022 16:48:23 +0300
+Message-Id: <20220405134824.68067-2-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220405134824.68067-1-heikki.krogerus@linux.intel.com>
 References: <20220405134824.68067-1-heikki.krogerus@linux.intel.com>
@@ -54,64 +54,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-All attempts to swap the roles timed out because the
-completion was done without releasing the port lock. Fixing
-that by releasing the lock before starting to wait for the
-completion.
+The role swapping completion variable is reused, so it needs
+to be reinitialised every time. Otherwise it will be marked
+as done after the first time it's used and completing
+immediately.
 
-Link: https://lore.kernel.org/linux-usb/037de7ac-e210-bdf5-ec7a-8c0c88a0be20@gmail.com/
-Fixes: ad74b8649bea ("usb: typec: ucsi: Preliminary support for alternate modes")
-Reported-and-tested-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+Link: https://lore.kernel.org/linux-usb/20220325203959.GA19752@jackp-linux.qualcomm.com/
+Fixes: 6df475f804e6 ("usb: typec: ucsi: Start using struct typec_operations")
+Reported-and-suggested-by: Jack Pham <quic_jackp@quicinc.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ drivers/usb/typec/ucsi/ucsi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 576cb0e68596f..a6045aef0d04f 100644
+index f0c2fa19f3e0f..576cb0e68596f 100644
 --- a/drivers/usb/typec/ucsi/ucsi.c
 +++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -958,14 +958,18 @@ static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
- 	if (ret < 0)
+@@ -949,6 +949,8 @@ static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
+ 	     role == TYPEC_HOST))
  		goto out_unlock;
  
-+	mutex_unlock(&con->lock);
++	reinit_completion(&con->complete);
 +
- 	if (!wait_for_completion_timeout(&con->complete,
--					msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
--		ret = -ETIMEDOUT;
-+					 msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
-+		return -ETIMEDOUT;
-+
-+	return 0;
- 
- out_unlock:
- 	mutex_unlock(&con->lock);
- 
--	return ret < 0 ? ret : 0;
-+	return ret;
- }
- 
- static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
-@@ -996,11 +1000,13 @@ static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
- 	if (ret < 0)
+ 	command = UCSI_SET_UOR | UCSI_CONNECTOR_NUMBER(con->num);
+ 	command |= UCSI_SET_UOR_ROLE(role);
+ 	command |= UCSI_SET_UOR_ACCEPT_ROLE_SWAPS;
+@@ -985,6 +987,8 @@ static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
+ 	if (cur_role == role)
  		goto out_unlock;
  
-+	mutex_unlock(&con->lock);
++	reinit_completion(&con->complete);
 +
- 	if (!wait_for_completion_timeout(&con->complete,
--				msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS))) {
--		ret = -ETIMEDOUT;
--		goto out_unlock;
--	}
-+					 msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
-+		return -ETIMEDOUT;
-+
-+	mutex_lock(&con->lock);
- 
- 	/* Something has gone wrong while swapping the role */
- 	if (UCSI_CONSTAT_PWR_OPMODE(con->status.flags) !=
+ 	command = UCSI_SET_PDR | UCSI_CONNECTOR_NUMBER(con->num);
+ 	command |= UCSI_SET_PDR_ROLE(role);
+ 	command |= UCSI_SET_PDR_ACCEPT_ROLE_SWAPS;
 -- 
 2.35.1
 
