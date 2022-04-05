@@ -2,88 +2,107 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC2FC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 14:59:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7378CC433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234056AbiDEPA4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Apr 2022 11:00:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44384 "EHLO
+        id S236003AbiDEW4w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 18:56:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379485AbiDENNo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 09:13:44 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4577D10782B;
-        Tue,  5 Apr 2022 05:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649160956; x=1680696956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eLlXIWgzT4jg7igfmDa9mpSj+r1W/DMEJ9zt2e+BDk4=;
-  b=BROFxVoaMdJ9K3TW78g89ECva9COhsR+KZdSIpNuB+CplyS31FqpO7KS
-   f+Zm8dbgsvviWO1GUchRhbsi/1kokykUjP1y4U/EyTtDEw42dYU75wCu3
-   3X5Ptdp6q1WLlWcrqBe32i5YI1H9KD68oIkJLwql2cLkbqBSRi8mKkK6b
-   0nPcCcdUzoSG91pJYUKZu161QQ24tTkQX3sZC+RlsRxN/PZKY9fh7QPq0
-   IVsopk/QFZ/K/+32GBkMd1ifAu9XYmQE9/ioSSCBc+yzhWPhx500Ml1cR
-   NMAMur2fpbInQJex6lxim03Np6JG9U1SrmDYabBz4JwP8nZf9+TN1ntpT
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="248249151"
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="248249151"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 05:15:55 -0700
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="505260917"
-Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.162])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 05:15:51 -0700
-Received: by lahna (sSMTP sendmail emulation); Tue, 05 Apr 2022 15:09:07 +0300
-Date:   Tue, 5 Apr 2022 15:09:07 +0300
-From:   Mika Westerberg <mika.westerberg@linux.intel.com>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     joro@8bytes.org, baolu.lu@linux.intel.com,
-        andreas.noever@gmail.com, michael.jamet@intel.com,
-        YehezkelShB@gmail.com, iommu@lists.linux-foundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mario.limonciello@amd.com, hch@lst.de
-Subject: Re: [PATCH v3 3/4] thunderbolt: Make iommu_dma_protection more
- accurate
-Message-ID: <YkwxY59ACqFF9jer@lahna>
-References: <cover.1649089693.git.robin.murphy@arm.com>
- <b1f89ea2ad38221e0b75783357b9afb53087061d.1649089693.git.robin.murphy@arm.com>
+        with ESMTP id S1457529AbiDEQEh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 12:04:37 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id CF13BCA
+        for <linux-usb@vger.kernel.org>; Tue,  5 Apr 2022 09:02:38 -0700 (PDT)
+Received: (qmail 155879 invoked by uid 1000); 5 Apr 2022 12:02:37 -0400
+Date:   Tue, 5 Apr 2022 12:02:37 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, CobeChen@zhaoxin.com,
+        TimGuo@zhaoxin.com, tonywwang@zhaoxin.com, weitaowang@zhaoxin.com
+Subject: Re: [PATCH] USB:Fix ehci infinite suspend-resume loop issue in
+ zhaoxin
+Message-ID: <YkxoHY2SVomGwGdh@rowland.harvard.edu>
+References: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
+ <Yi9QIk+6VIWW6V/W@rowland.harvard.edu>
+ <320584eb-ef89-3759-509c-e7e9cb10f983@zhaoxin.com>
+ <YjCuOXRFZ8CjK9SD@rowland.harvard.edu>
+ <ac40c227-ea26-bccd-d254-5a2034103184@zhaoxin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b1f89ea2ad38221e0b75783357b9afb53087061d.1649089693.git.robin.murphy@arm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <ac40c227-ea26-bccd-d254-5a2034103184@zhaoxin.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 05, 2022 at 11:41:03AM +0100, Robin Murphy wrote:
-> Between me trying to get rid of iommu_present() and Mario wanting to
-> support the AMD equivalent of DMAR_PLATFORM_OPT_IN, scrutiny has shown
-> that the iommu_dma_protection attribute is being far too optimistic.
-> Even if an IOMMU might be present for some PCI segment in the system,
-> that doesn't necessarily mean it provides translation for the device(s)
-> we care about. Furthermore, all that DMAR_PLATFORM_OPT_IN really does
-> is tell us that memory was protected before the kernel was loaded, and
-> prevent the user from disabling the intel-iommu driver entirely. While
-> that lets us assume kernel integrity, what matters for actual runtime
-> DMA protection is whether we trust individual devices, based on the
-> "external facing" property that we expect firmware to describe for
-> Thunderbolt ports.
-> 
-> It's proven challenging to determine the appropriate ports accurately
-> given the variety of possible topologies, so while still not getting a
-> perfect answer, by putting enough faith in firmware we can at least get
-> a good bit closer. If we can see that any device near a Thunderbolt NHI
-> has all the requisites for Kernel DMA Protection, chances are that it
-> *is* a relevant port, but moreover that implies that firmware is playing
-> the game overall, so we'll use that to assume that all Thunderbolt ports
-> should be correctly marked and thus will end up fully protected.
-> 
-> CC: Mario Limonciello <mario.limonciello@amd.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+On Wed, Mar 16, 2022 at 10:18:39AM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+> On 2022/3/15 11:18, Alan Stern wrote:
+> > On Tue, Mar 15, 2022 at 08:39:09PM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+> > > I have encountered the following situation if EHCI runtime suspend is
+> > > enabled by default.
 
-Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Some things about this still confuse me...
+
+> > > 1.Wake from system to disk and boot OS.
+> > 
+> > You're talking about resuming after hibernation, right?
+> 
+> You're right.
+> > > 2.EHCI will entry runtime suspend after enumerated by driver during boot
+> > > phase of suspend to disk
+> > 
+> > I'm not sure what you mean by "boot phase of suspend to disk".  This is
+> > while the restore kernel is starting up at the beginning of resume from
+> > hibernation, right?
+> > 
+> You understood exactly what I was saying.
+
+Okay, so we're waking up from hibernation.
+
+> > > 3.EHCI will be placed to freeze state and ehci_resume is called after image
+> > > is loaded.
+> > 
+> > ehci_resume is called to leave runtime suspend.  Going into the freeze
+> > state doesn't require any changes.
+
+In fact, the resume kernel doesn't call ehci_resume at all.  Here's what 
+it does:
+
+	The resume kernel boots;
+
+	If your patch causes STS_PCD to be set at this point, the flag 
+	should get cleared shortly afterward by ehci_irq;
+
+	ehci-hcd goes into runtime suspend;
+
+	The kernel reads the system image that was stored earlier when
+	hibernation began;
+
+	After the image is loaded, the system goes into the freeze
+	state (this does not call any routines in ehci-hcd);
+
+	The resume kernel transfers control to the image kernel;
+
+Now the image kernel is running.  It goes into the restore state, which 
+involves calling ehci_resume.  Presumably your patch cases the STS_PCD 
+flag to get set at this point.
+
+But that's all!  The system is now back up, out of hibernation, and 
+running normally.  There are no more calls to check_root_hub_suspended
+
+> > > 4.If PCD flag is set(caused by patch), then HCD_FLAG_RH_RUNNING will be set.
+> > > 
+> > > 5.Pci_pm_freeze_noirq is called to check ehci root hub state and return
+> > > value is -EBUSY. which will cause
+> > >   quiesce phase of suspend to disk fail.
+> > 
+> > You're talking about check_root_hub_suspended() in hcd-pci.c, right?
+> > 
+> It's right.
+
+So how can this happen, given that the image kernel doesn't call 
+pci_pm_freeze_noirq?
+
+Alan Stern
