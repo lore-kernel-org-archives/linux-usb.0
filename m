@@ -2,107 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7378CC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:18:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C874C433FE
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:26:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236003AbiDEW4w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Apr 2022 18:56:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
+        id S231466AbiDEXD6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 19:03:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1457529AbiDEQEh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 12:04:37 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id CF13BCA
-        for <linux-usb@vger.kernel.org>; Tue,  5 Apr 2022 09:02:38 -0700 (PDT)
-Received: (qmail 155879 invoked by uid 1000); 5 Apr 2022 12:02:37 -0400
-Date:   Tue, 5 Apr 2022 12:02:37 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, CobeChen@zhaoxin.com,
-        TimGuo@zhaoxin.com, tonywwang@zhaoxin.com, weitaowang@zhaoxin.com
-Subject: Re: [PATCH] USB:Fix ehci infinite suspend-resume loop issue in
- zhaoxin
-Message-ID: <YkxoHY2SVomGwGdh@rowland.harvard.edu>
-References: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
- <Yi9QIk+6VIWW6V/W@rowland.harvard.edu>
- <320584eb-ef89-3759-509c-e7e9cb10f983@zhaoxin.com>
- <YjCuOXRFZ8CjK9SD@rowland.harvard.edu>
- <ac40c227-ea26-bccd-d254-5a2034103184@zhaoxin.com>
+        with ESMTP id S1454028AbiDEP5t (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 11:57:49 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D545167F87;
+        Tue,  5 Apr 2022 08:03:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DEB3C6179F;
+        Tue,  5 Apr 2022 15:02:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB57BC385A4;
+        Tue,  5 Apr 2022 15:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1649170979;
+        bh=qNv9WCGw+H4LJDj4fT2rA98UYD02WLOHpYP7c+6zAxU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Jxc7Wj5dW0eM8sgkO1wX3113Q5/56VIuZs3gNSexvnbVAgzV2iDk7oiXCV9x/jAOr
+         Hbs1KRTXzrpGvuCd9gnbxAURMYmfjIW6T7bkvOG2sZqHPkX8ZFEGRekFM1VFcOc9Sy
+         x8qkS/8jN/R2vWMCk8/RlnYuB3Xs1y2A1cZKBJcI=
+Date:   Tue, 5 Apr 2022 17:02:56 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sean Anderson <sean.anderson@seco.com>
+Cc:     linux-usb@vger.kernel.org, Robert Jarzmik <robert.jarzmik@free.fr>,
+        Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/4] usb: phy: generic: Support enabling/disabling VBUS
+Message-ID: <YkxaIK/y+7H8HgwZ@kroah.com>
+References: <20220114170941.800068-1-sean.anderson@seco.com>
+ <ffee044a-d34f-6be5-1fa9-c14cf3bb30de@seco.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ac40c227-ea26-bccd-d254-5a2034103184@zhaoxin.com>
+In-Reply-To: <ffee044a-d34f-6be5-1fa9-c14cf3bb30de@seco.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Mar 16, 2022 at 10:18:39AM +0800, WeitaoWang-oc@zhaoxin.com wrote:
-> On 2022/3/15 11:18, Alan Stern wrote:
-> > On Tue, Mar 15, 2022 at 08:39:09PM +0800, WeitaoWang-oc@zhaoxin.com wrote:
-> > > I have encountered the following situation if EHCI runtime suspend is
-> > > enabled by default.
-
-Some things about this still confuse me...
-
-> > > 1.Wake from system to disk and boot OS.
-> > 
-> > You're talking about resuming after hibernation, right?
+On Tue, Apr 05, 2022 at 10:51:34AM -0400, Sean Anderson wrote:
 > 
-> You're right.
-> > > 2.EHCI will entry runtime suspend after enumerated by driver during boot
-> > > phase of suspend to disk
+> 
+> On 1/14/22 12:09 PM, Sean Anderson wrote:
+> > The generic USB phy has had VBUS-related code for a long time, but it
+> > has always been broken, since the regulator was never gotten from the
+> > device tree. However, the support itself seems not very useful, since
+> > e.g.  usb_phy_vbus_on/off has no users and usb_phy_set_power is only
+> > used by gadgets to make sure they don't draw too much current. Instead,
+> > use the VBUS regulator to implement otg_set_vbus, which is called from
+> > several drivers. This results in a change in semantics of VBUS, but
+> > since support was always broken I don't think this will have any affect.
 > > 
-> > I'm not sure what you mean by "boot phase of suspend to disk".  This is
-> > while the restore kernel is starting up at the beginning of resume from
-> > hibernation, right?
 > > 
-> You understood exactly what I was saying.
-
-Okay, so we're waking up from hibernation.
-
-> > > 3.EHCI will be placed to freeze state and ehci_resume is called after image
-> > > is loaded.
+> > Sean Anderson (4):
+> >   dt-bindings: usb: usb-nop-xceiv: Repurpose vbus-regulator
+> >   usb: phy: generic: Get the vbus supply
+> >   usb: phy: generic: Implement otg->set_vbus
+> >   usb: phy: generic: Disable vbus on removal
 > > 
-> > ehci_resume is called to leave runtime suspend.  Going into the freeze
-> > state doesn't require any changes.
-
-In fact, the resume kernel doesn't call ehci_resume at all.  Here's what 
-it does:
-
-	The resume kernel boots;
-
-	If your patch causes STS_PCD to be set at this point, the flag 
-	should get cleared shortly afterward by ehci_irq;
-
-	ehci-hcd goes into runtime suspend;
-
-	The kernel reads the system image that was stored earlier when
-	hibernation began;
-
-	After the image is loaded, the system goes into the freeze
-	state (this does not call any routines in ehci-hcd);
-
-	The resume kernel transfers control to the image kernel;
-
-Now the image kernel is running.  It goes into the restore state, which 
-involves calling ehci_resume.  Presumably your patch cases the STS_PCD 
-flag to get set at this point.
-
-But that's all!  The system is now back up, out of hibernation, and 
-running normally.  There are no more calls to check_root_hub_suspended
-
-> > > 4.If PCD flag is set(caused by patch), then HCD_FLAG_RH_RUNNING will be set.
-> > > 
-> > > 5.Pci_pm_freeze_noirq is called to check ehci root hub state and return
-> > > value is -EBUSY. which will cause
-> > >   quiesce phase of suspend to disk fail.
+> >  .../bindings/usb/usb-nop-xceiv.yaml           |  8 +--
+> >  drivers/usb/phy/phy-generic.c                 | 55 +++++++++----------
+> >  2 files changed, 31 insertions(+), 32 deletions(-)
 > > 
-> > You're talking about check_root_hub_suspended() in hcd-pci.c, right?
-> > 
-> It's right.
+> 
+> ping?
+> 
+> When this was submitted I got an email saying that the merge window was
+> closed... but I think it has opened and closed again during the
+> intervening time.
 
-So how can this happen, given that the image kernel doesn't call 
-pci_pm_freeze_noirq?
+It opened yesterday.  Please give us a chance to catch up.
 
-Alan Stern
+While that happens, please take the time to review other changes on the
+mailing lists, we can always use the help.
+
+thanks,
+
+greg k-h
