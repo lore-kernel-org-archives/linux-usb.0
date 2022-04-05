@@ -2,33 +2,33 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A67C433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 12:43:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A92BC433F5
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 12:53:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242019AbiDEMpk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Apr 2022 08:45:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
+        id S242215AbiDEMpx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 08:45:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357362AbiDELQV (ORCPT
+        with ESMTP id S1357369AbiDELQV (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 07:16:21 -0400
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 31ACF2D1E7;
-        Tue,  5 Apr 2022 03:41:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B28172DAAA;
+        Tue,  5 Apr 2022 03:41:19 -0700 (PDT)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1976D6E;
-        Tue,  5 Apr 2022 03:41:13 -0700 (PDT)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7EBA11515;
+        Tue,  5 Apr 2022 03:41:19 -0700 (PDT)
 Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.40])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8A8D83F5A1;
-        Tue,  5 Apr 2022 03:41:12 -0700 (PDT)
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 15C4E3F5A1;
+        Tue,  5 Apr 2022 03:41:17 -0700 (PDT)
 From:   Robin Murphy <robin.murphy@arm.com>
 To:     joro@8bytes.org, baolu.lu@linux.intel.com,
         andreas.noever@gmail.com, michael.jamet@intel.com,
         mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
 Cc:     iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, mario.limonciello@amd.com, hch@lst.de
-Subject: [PATCH v3 2/4] iommu: Add capability for pre-boot DMA protection
-Date:   Tue,  5 Apr 2022 11:41:02 +0100
-Message-Id: <2b5dc62a6325075cb5bd1ceec31ebad1833acf83.1649089693.git.robin.murphy@arm.com>
+Subject: [PATCH v3 4/4] iommu/amd: Indicate whether DMA remap support is enabled
+Date:   Tue,  5 Apr 2022 11:41:04 +0100
+Message-Id: <674846bcefe8d85c1c4675cabaf507f09ab45514.1649089693.git.robin.murphy@arm.com>
 X-Mailer: git-send-email 2.28.0.dirty
 In-Reply-To: <cover.1649089693.git.robin.murphy@arm.com>
 References: <cover.1649089693.git.robin.murphy@arm.com>
@@ -38,50 +38,83 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VT-d's dmar_platform_optin() actually represents a combination of
-properties fairly well standardised by Microsoft as "Pre-boot DMA
-Protection" and "Kernel DMA Protection"[1]. As such, we can provide
-interested consumers with an abstracted capability rather than
-driver-specific interfaces that won't scale. We name it for the former
-aspect since that's what external callers are most likely to be
-interested in; the latter is for the IOMMU layer to handle itself.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[1] https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-kernel-dma-protection
+Bit 1 of the IVFS IVInfo field indicates that IOMMU has been used for
+pre-boot DMA protection.
 
-Suggested-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Export this capability to allow other places in the kernel to be able to
+check for it on AMD systems.
+
+Link: https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 ---
- drivers/iommu/intel/iommu.c | 2 ++
- include/linux/iommu.h       | 2 ++
- 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 255304eb3b1f..49d552a96098 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -4550,6 +4550,8 @@ static bool intel_iommu_capable(struct device *dev, enum iommu_cap cap)
- 		return domain_update_iommu_snooping(NULL);
- 	if (cap == IOMMU_CAP_INTR_REMAP)
- 		return irq_remapping_enabled == 1;
-+	if (cap == IOMMU_CAP_PRE_BOOT_PROTECTION)
-+		return dmar_platform_optin();
+v4: Added to series from previous posting here:
+https://lore.kernel.org/linux-iommu/20220318223104.7049-1-mario.limonciello@amd.com/
+
+ drivers/iommu/amd/amd_iommu_types.h | 4 ++++
+ drivers/iommu/amd/init.c            | 3 +++
+ drivers/iommu/amd/iommu.c           | 2 ++
+ 3 files changed, 9 insertions(+)
+
+diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
+index 47108ed44fbb..72d0f5e2f651 100644
+--- a/drivers/iommu/amd/amd_iommu_types.h
++++ b/drivers/iommu/amd/amd_iommu_types.h
+@@ -407,6 +407,7 @@
+ /* IOMMU IVINFO */
+ #define IOMMU_IVINFO_OFFSET     36
+ #define IOMMU_IVINFO_EFRSUP     BIT(0)
++#define IOMMU_IVINFO_DMA_REMAP  BIT(1)
  
- 	return false;
+ /* IOMMU Feature Reporting Field (for IVHD type 10h */
+ #define IOMMU_FEAT_GASUP_SHIFT	6
+@@ -449,6 +450,9 @@ extern struct irq_remap_table **irq_lookup_table;
+ /* Interrupt remapping feature used? */
+ extern bool amd_iommu_irq_remap;
+ 
++/* IVRS indicates that pre-boot remapping was enabled */
++extern bool amdr_ivrs_remap_support;
++
+ /* kmem_cache to get tables with 128 byte alignement */
+ extern struct kmem_cache *amd_iommu_irq_cache;
+ 
+diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
+index b4a798c7b347..0467918bf7fd 100644
+--- a/drivers/iommu/amd/init.c
++++ b/drivers/iommu/amd/init.c
+@@ -182,6 +182,7 @@ u32 amd_iommu_max_pasid __read_mostly = ~0;
+ 
+ bool amd_iommu_v2_present __read_mostly;
+ static bool amd_iommu_pc_present __read_mostly;
++bool amdr_ivrs_remap_support __read_mostly;
+ 
+ bool amd_iommu_force_isolation __read_mostly;
+ 
+@@ -326,6 +327,8 @@ static void __init early_iommu_features_init(struct amd_iommu *iommu,
+ {
+ 	if (amd_iommu_ivinfo & IOMMU_IVINFO_EFRSUP)
+ 		iommu->features = h->efr_reg;
++	if (amd_iommu_ivinfo & IOMMU_IVINFO_DMA_REMAP)
++		amdr_ivrs_remap_support = true;
  }
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 1fa927e6f1c6..64c02f472f7b 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -107,6 +107,8 @@ enum iommu_cap {
- 					   transactions */
- 	IOMMU_CAP_INTR_REMAP,		/* IOMMU supports interrupt isolation */
- 	IOMMU_CAP_NOEXEC,		/* IOMMU_NOEXEC flag */
-+	IOMMU_CAP_PRE_BOOT_PROTECTION,	/* Firmware says it used the IOMMU for
-+					   DMA protection and we should too */
- };
  
- /* These are the possible reserved region types */
+ /* Access to l1 and l2 indexed register spaces */
+diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+index e412a50dce59..81305c076de1 100644
+--- a/drivers/iommu/amd/iommu.c
++++ b/drivers/iommu/amd/iommu.c
+@@ -2141,6 +2141,8 @@ static bool amd_iommu_capable(struct device *dev, enum iommu_cap cap)
+ 		return (irq_remapping_enabled == 1);
+ 	case IOMMU_CAP_NOEXEC:
+ 		return false;
++	case IOMMU_CAP_PRE_BOOT_PROTECTION:
++		return amdr_ivrs_remap_support;
+ 	default:
+ 		break;
+ 	}
 -- 
 2.28.0.dirty
 
