@@ -2,94 +2,97 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D71E3C433EF
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:26:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C80C43217
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 23:26:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234334AbiDEXEW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Apr 2022 19:04:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41558 "EHLO
+        id S234794AbiDEXE3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 19:04:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442935AbiDEPim (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 11:38:42 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF55F94E4;
-        Tue,  5 Apr 2022 06:53:52 -0700 (PDT)
+        with ESMTP id S1455462AbiDEQAD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 12:00:03 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D3C57485;
+        Tue,  5 Apr 2022 08:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649166832; x=1680702832;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=SaiqlB+LlGtj1lMotqQPMQSwVEwcf6O9FoBb7YiUMiY=;
-  b=eYf/56QUeJbjiSDbvQVHVmnX6X2f1SVBFMSh/yUYl2fpV337RxWTltun
-   H/T6JxgM0u0AikoISHw2nti+tFqD33TSz6I7HdVhIBf0sVEo9yvYXhhhd
-   WGvQVC9c6pzdapaLG3tYu8Q6Jtm7FQgtOe0CK/oSaux1r40eE8bQNEb6A
-   AaNU9Bfp3+uk8ZJI3JzLttbOhFI7Fbjp5VW8u1XmGzzYr22frveyoXizG
-   B4sgtS4Bpog8fJeaev4jE+z9dyKzxoc6SBNSwtscBgSrPakX8A+TYZb9l
-   cmbsjc6xRkh/4zgJ+YnAFz0SPWEzHrJLCmG0xsEjnpLxaRx7GVkYYbG1C
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="259583358"
+  t=1649171743; x=1680707743;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=3lIdhrvOWJSsLIjp6xNITFKNThnKqW6h1bviJyyMAjg=;
+  b=XMsqnVXGGgjbW6EuHpdbyhCpKFuITO/nxpf3iEkNb6e+6NDE80pQECpw
+   cZNO8EQGS6nPdT6oyYasZBtkuvRn2bYm/CaRVb0lHu2t/tM11hg5UoFSx
+   5UESQwr7rZnaXioNiarXLzKpcwkUINi569qkSGNha9xtXL7Ry2BSOt5Ps
+   qFVlu3cdSRQrUj5Q5iI6eGRmBm/OBbKQHAt4xRpTDGmq+aTx9NU+dBSm1
+   CLh722SWKlXDr2PK+YgW53l4ASy2tQ/vr5Y1pveszMYif/8jzHOQWxlJW
+   wRtjkHqA3FbWSTU9isMETkTGZawc1SYlVqGLVaUpTS7oGEwM5INF/n9N7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="260765093"
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="259583358"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 06:53:51 -0700
+   d="scan'208";a="260765093"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2022 08:13:41 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; 
-   d="scan'208";a="696938401"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Apr 2022 06:53:49 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
-        Jack Pham <quic_jackp@quicinc.com>, linux-usb@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: [PATCH v1 1/2] usb: typec: ucsi: Fix reuse of completion structure
-Date:   Tue,  5 Apr 2022 16:48:23 +0300
-Message-Id: <20220405134824.68067-2-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220405134824.68067-1-heikki.krogerus@linux.intel.com>
-References: <20220405134824.68067-1-heikki.krogerus@linux.intel.com>
+   d="scan'208";a="657974108"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orsmga004.jf.intel.com with ESMTP; 05 Apr 2022 08:13:39 -0700
+Subject: Re: [PATCH] xhci: stop polling roothubs after shutdown
+To:     Henry Lin <henryl@nvidia.com>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220401115916.104527-1-henryl@nvidia.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <e4796a11-7571-b54e-cb82-87bb749709f1@linux.intel.com>
+Date:   Tue, 5 Apr 2022 18:15:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220401115916.104527-1-henryl@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The role swapping completion variable is reused, so it needs
-to be reinitialised every time. Otherwise it will be marked
-as done after the first time it's used and completing
-immediately.
+On 1.4.2022 14.59, Henry Lin wrote:
+> While rebooting, XHCI controller and its bus device will be shut down
+> in order by .shutdown callback. Stopping roothubs polling in
+> xhci_shutdown() can prevent XHCI driver from accessing port status
+> after its bus device shutdown.
+> 
+> Take PCIe XHCI controller as example, if XHCI driver doesn't stop roothubs
+> polling, XHCI driver may access PCIe BAR register for port status after
+> parent PCIe root port driver is shutdown and cause PCIe bus error.
+> 
+> Signed-off-by: Henry Lin <henryl@nvidia.com>
+> ---
+>  drivers/usb/host/xhci.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 2d378543bc3a..e7ae6766220e 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -780,6 +780,14 @@ void xhci_shutdown(struct usb_hcd *hcd)
+>  	if (xhci->quirks & XHCI_SPURIOUS_REBOOT)
+>  		usb_disable_xhci_ports(to_pci_dev(hcd->self.sysdev));
+>  
+> +	/* Don't poll the roothubs after shutdown. */
+> +	xhci_dbg(xhci, "%s: stopping usb%d port polling.\n",
+> +			__func__, hcd->self.busnum);
+> +	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+> +	del_timer_sync(&hcd->rh_timer);
+> +	clear_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
+> +	del_timer_sync(&xhci->shared_hcd->rh_timer);
+> +
+>  	spin_lock_irq(&xhci->lock);
+>  	xhci_halt(xhci);
+>  	/* Workaround for spurious wakeups at shutdown with HSW */
+> 
 
-Link: https://lore.kernel.org/linux-usb/20220325203959.GA19752@jackp-linux.qualcomm.com/
-Fixes: 6df475f804e6 ("usb: typec: ucsi: Start using struct typec_operations")
-Reported-and-suggested-by: Jack Pham <quic_jackp@quicinc.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks, adding to queue
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index f0c2fa19f3e0f..576cb0e68596f 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -949,6 +949,8 @@ static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
- 	     role == TYPEC_HOST))
- 		goto out_unlock;
- 
-+	reinit_completion(&con->complete);
-+
- 	command = UCSI_SET_UOR | UCSI_CONNECTOR_NUMBER(con->num);
- 	command |= UCSI_SET_UOR_ROLE(role);
- 	command |= UCSI_SET_UOR_ACCEPT_ROLE_SWAPS;
-@@ -985,6 +987,8 @@ static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
- 	if (cur_role == role)
- 		goto out_unlock;
- 
-+	reinit_completion(&con->complete);
-+
- 	command = UCSI_SET_PDR | UCSI_CONNECTOR_NUMBER(con->num);
- 	command |= UCSI_SET_PDR_ROLE(role);
- 	command |= UCSI_SET_PDR_ACCEPT_ROLE_SWAPS;
--- 
-2.35.1
-
+-Mathias
