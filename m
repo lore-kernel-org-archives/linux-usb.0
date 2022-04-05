@@ -2,153 +2,101 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4976EC433FE
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 02:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 259C6C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Apr 2022 05:00:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiDECuf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Apr 2022 22:50:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44718 "EHLO
+        id S229654AbiDEFB6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Apr 2022 01:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbiDECuZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Apr 2022 22:50:25 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E87E0AD8
-        for <linux-usb@vger.kernel.org>; Mon,  4 Apr 2022 19:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649125635; x=1680661635;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=fD1gGEWM45xv7kUIrWyPSZHM1juOQASdSZQoLYzUCIA=;
-  b=QllrUsFslZvMrVYLSi2uN5WWS/gNyC0IsnyZpMdFepPb8klKyRiIQ817
-   ur2BCZWsSpJkracexvPaMjDejf+QUWGtH+g7avf3b/FCISK/4UsZJ3gqa
-   wDJOSwWJ6EoCtfRYxFMJ5jDlPKDQBWH4Nbz8h4OKSs+4KlXHoyOyxlk4v
-   s=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Apr 2022 19:27:15 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2022 19:27:15 -0700
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 4 Apr 2022 19:27:15 -0700
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 4 Apr 2022 19:27:13 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
-        "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH v5 2/5] usb: gadget: add trace event of configfs operation
-Date:   Tue, 5 Apr 2022 10:27:02 +0800
-Message-ID: <1649125625-7003-3-git-send-email-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1649125625-7003-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1649125625-7003-1-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S229482AbiDEFBp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Apr 2022 01:01:45 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A5855B2;
+        Mon,  4 Apr 2022 21:59:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9C0C7B818F8;
+        Tue,  5 Apr 2022 04:59:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92B5CC340EE;
+        Tue,  5 Apr 2022 04:59:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1649134761;
+        bh=hQ6crrbeRkUVyd50CCzPbUas+awrOppZgAoYpwGZNKc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xS31rscFR9ifHj5xO13B4MyYRkbzdHVkHpmUSR1w1xJwFyZCtULWor+NCb2pi734h
+         3lAUM6rEnu99Gs9JRUkfZZ3yrzWyVbHingsCSe0Czar6yJ0fWjca4olmskJ645/T/p
+         /QmdZatgn5GWkFT/76lkquARMIpU5IzXI24ptkbg=
+Date:   Tue, 5 Apr 2022 06:59:17 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Richard Gong <richard.gong@amd.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mario.limonciello@amd.com,
+        amit.bhutani@amd.com
+Subject: Re: [PATCH] HID: usbhid: set mouse as a wakeup resource
+Message-ID: <YkvMpWYMhgtDI7aN@kroah.com>
+References: <20220404214557.3329796-1-richard.gong@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220404214557.3329796-1-richard.gong@amd.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a common trace event entry which have only one __string field,
-it allow create APIs base on it to add trace events for
-usb gadget and function layer, then it will cover all user input
-like make configfs group/item, drop item, write attribute, allow/drop link.
+On Mon, Apr 04, 2022 at 04:45:57PM -0500, Richard Gong wrote:
+> USB HID transport layer doesn't set mouse as a wakeup resource by default
+> so user can't wake system from s0i3 using wired USB mouse. However, users
+> can wake the same system from s0i3 with the same wired USB mouse
+> on Windows.
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
-v2: no change
-v3: add trace.c and configfs.c will not include trace.h
-v4: no change
-v5: no change
+Is that because of the huge good/bad list that Windows has for USB mice?
+Or is it this way now on Windows for _ALL_ USB mice?
 
- drivers/usb/gadget/Makefile |  2 ++
- drivers/usb/gadget/trace.c  |  8 ++++++++
- drivers/usb/gadget/trace.h  | 40 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+)
- create mode 100644 drivers/usb/gadget/trace.c
- create mode 100644 drivers/usb/gadget/trace.h
+We have been loath to make this change because not all USB mice could
+support this, as well as the "wake up a laptop in a backpack that gets
+the touchpad touched" issue.
 
-diff --git a/drivers/usb/gadget/Makefile b/drivers/usb/gadget/Makefile
-index 33f1ef9..b426f5c 100644
---- a/drivers/usb/gadget/Makefile
-+++ b/drivers/usb/gadget/Makefile
-@@ -8,5 +8,7 @@ subdir-ccflags-$(CONFIG_USB_GADGET_VERBOSE)	+= -DVERBOSE_DEBUG
- obj-$(CONFIG_USB_LIBCOMPOSITE)	+= libcomposite.o
- libcomposite-y			:= usbstring.o config.o epautoconf.o
- libcomposite-y			+= composite.o functions.o configfs.o u_f.o
-+CFLAGS_trace.o			:= -I$(src)
-+libcomposite-y			+= trace.o
- 
- obj-$(CONFIG_USB_GADGET)	+= udc/ function/ legacy/
-diff --git a/drivers/usb/gadget/trace.c b/drivers/usb/gadget/trace.c
-new file mode 100644
-index 0000000..8b4b1db
---- /dev/null
-+++ b/drivers/usb/gadget/trace.c
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#define CREATE_TRACE_POINTS
-+#include "trace.h"
-+
-diff --git a/drivers/usb/gadget/trace.h b/drivers/usb/gadget/trace.h
-new file mode 100644
-index 0000000..20d190d
---- /dev/null
-+++ b/drivers/usb/gadget/trace.h
-@@ -0,0 +1,40 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM gadget_configfs
-+
-+
-+#if !defined(_GADGET_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _GADGET_TRACE_H
-+
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(gadget_configfs,
-+	TP_PROTO(char *info),
-+	TP_ARGS(info),
-+	TP_STRUCT__entry(
-+		__string(info, info)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(info, info);
-+	),
-+
-+	TP_printk("%s", __get_str(info))
-+);
-+
-+#endif /* _GADGET_TRACE_H */
-+
-+/* this part has to be here */
-+
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE trace
-+
-+#include <trace/define_trace.h>
-+
--- 
-2.7.4
+> 
+> To work around this wakeup issue on Linux, the user must manually enable
+> wakeup via the following command:
+> 	echo enabled > /sys/bus/usb/device/*/power/wakeup
+> 
+> The mouse is set to wake resource by default to ensure the same behavior
+> across operating systems.
+> 
+> Signed-off-by: Richard Gong <richard.gong@amd.com>
+> ---
+>  drivers/hid/usbhid/hid-core.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+> index 54752c85604b..571dded02b3d 100644
+> --- a/drivers/hid/usbhid/hid-core.c
+> +++ b/drivers/hid/usbhid/hid-core.c
+> @@ -1183,8 +1183,10 @@ static int usbhid_start(struct hid_device *hid)
+>  	 * devices supporting the boot protocol.
+>  	 */
+>  	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
+> -			interface->desc.bInterfaceProtocol ==
+> -				USB_INTERFACE_PROTOCOL_KEYBOARD) {
+> +			((interface->desc.bInterfaceProtocol ==
+> +				USB_INTERFACE_PROTOCOL_KEYBOARD)
+> +			|| (interface->desc.bInterfaceProtocol ==
+> +				USB_INTERFACE_PROTOCOL_MOUSE))) {
 
+This is a big change, how many different systems and devices did you
+test it on?  What about userspace tools that previously assumed the old
+behavior?
+
+Why change this now 20 years later?  What changed to require this now?
+
+In short, unless there is a really good reason now to make this change,
+we shouldn't for all the reasons we never did so in the past.  Oh, and
+proof of loads of testing will be required as well.
+
+thanks,
+
+greg k-h
