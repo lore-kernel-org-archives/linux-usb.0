@@ -2,88 +2,131 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 408BFC433F5
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 11:47:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A16C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 12:07:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230390AbiDFLtq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Apr 2022 07:49:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39858 "EHLO
+        id S229828AbiDFMJY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Apr 2022 08:09:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230399AbiDFLtd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 07:49:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C2485A6284
-        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 01:47:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id AA788B8218E
-        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 08:47:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5F724C385A1
-        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 08:47:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649234857;
-        bh=GtAodZEEbnaBXpx28tmVn+XHQvCIdnZTtLnY+kvT7jQ=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=Ias5MCYsnWzo9408z1jssGH6LHlPESOZ7NdJZz4vOdUre6/ekELEq+2HoYNiXpd/u
-         TX6dJW1getPl2ulj5IpneDJB6cikRbDeN4ThC6ASaQW2wiVxLpmAJdGG7PvLzihVX+
-         1Rf1HtYCAMi71+U8gI/XHKGS9we5hbWlWkZkBVndIgzjiCeg9CujsVaWdW76m4AwpJ
-         ZAD8XS+it7Ka3KLr/fxwNzydi2YEDxkJnA5Dwfq4r90TajkWd6UVQdsw15sngRxKuN
-         Ph9ZbF1i+cTGHboA3hehNgGbZJ9AvdyvpPZQwHcJ+vzHZGaVFVS392/59vE3F805+I
-         OVfBqYEpHVLXg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-        id 4D130C05FE2; Wed,  6 Apr 2022 08:47:37 +0000 (UTC)
-From:   bugzilla-daemon@kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 215799] apple-mfi-fastcharge causes automatic pm hibernation
- entry, when iPhone gets attached
-Date:   Wed, 06 Apr 2022 08:47:37 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: oliver@neukum.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-215799-208809-SEX9Mt2x0B@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215799-208809@https.bugzilla.kernel.org/>
-References: <bug-215799-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        with ESMTP id S232469AbiDFMI3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 08:08:29 -0400
+Received: from ZXSHCAS1.zhaoxin.com (ZXSHCAS1.zhaoxin.com [203.148.12.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0A11A3949;
+        Tue,  5 Apr 2022 19:38:34 -0700 (PDT)
+Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHCAS1.zhaoxin.com
+ (10.28.252.161) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.27; Wed, 6 Apr
+ 2022 10:38:30 +0800
+Received: from [10.29.8.49] (10.29.8.49) by zxbjmbx1.zhaoxin.com
+ (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.27; Wed, 6 Apr
+ 2022 10:38:29 +0800
+Message-ID: <bbd9148d-5970-2233-6ee9-625e961cd2f5@zhaoxin.com>
+Date:   Wed, 6 Apr 2022 10:38:28 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH] USB:Fix ehci infinite suspend-resume loop issue in
+ zhaoxin
+Content-Language: en-US
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <CobeChen@zhaoxin.com>,
+        <TimGuo@zhaoxin.com>, <tonywwang@zhaoxin.com>,
+        <weitaowang@zhaoxin.com>
+References: <3d0ae3ca-9dad-bb8f-5c41-45bdcb07b9cd@zhaoxin.com>
+ <Yi9QIk+6VIWW6V/W@rowland.harvard.edu>
+ <320584eb-ef89-3759-509c-e7e9cb10f983@zhaoxin.com>
+ <YjCuOXRFZ8CjK9SD@rowland.harvard.edu>
+ <ac40c227-ea26-bccd-d254-5a2034103184@zhaoxin.com>
+ <YkxoHY2SVomGwGdh@rowland.harvard.edu>
+From:   "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
+In-Reply-To: <YkxoHY2SVomGwGdh@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.29.8.49]
+X-ClientProxiedBy: ZXSHCAS2.zhaoxin.com (10.28.252.162) To
+ zxbjmbx1.zhaoxin.com (10.29.252.163)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215799
+On 2022/4/6 00:02, Alan Stern wrote:
+> On Wed, Mar 16, 2022 at 10:18:39AM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+>> On 2022/3/15 11:18, Alan Stern wrote:
+>>> On Tue, Mar 15, 2022 at 08:39:09PM +0800, WeitaoWang-oc@zhaoxin.com wrote:
+>>>> I have encountered the following situation if EHCI runtime suspend is
+>>>> enabled by default.
+> 
+> Some things about this still confuse me...
+> 
+>>>> 1.Wake from system to disk and boot OS.
+>>>
+>>> You're talking about resuming after hibernation, right?
+>>
+>> You're right.
+>>>> 2.EHCI will entry runtime suspend after enumerated by driver during boot
+>>>> phase of suspend to disk
+>>>
+>>> I'm not sure what you mean by "boot phase of suspend to disk".  This is
+>>> while the restore kernel is starting up at the beginning of resume from
+>>> hibernation, right?
+>>>
+>> You understood exactly what I was saying.
+> 
+> Okay, so we're waking up from hibernation.
+> 
+>>>> 3.EHCI will be placed to freeze state and ehci_resume is called after image
+>>>> is loaded.
+>>>
+>>> ehci_resume is called to leave runtime suspend.  Going into the freeze
+>>> state doesn't require any changes.
+> 
+> In fact, the resume kernel doesn't call ehci_resume at all.  Here's what
+> it does:
+> 
+> 	The resume kernel boots;
+> 
+> 	If your patch causes STS_PCD to be set at this point, the flag
+> 	should get cleared shortly afterward by ehci_irq;
+> 
+> 	ehci-hcd goes into runtime suspend;
+> 
+> 	The kernel reads the system image that was stored earlier when
+> 	hibernation began;
+> 
+> 	After the image is loaded, the system goes into the freeze
+> 	state (this does not call any routines in ehci-hcd);
+On this phase, pci_pm_freeze will be called for pci device. In this
+function, pm_runtime_resume will be called to resume already
+runtime-suspend devices. which will cause ehci_resume to be called.
+Thus STS_PCD flag will be set in ehci_resume function.
 
---- Comment #5 from Oliver Neukum (oliver@neukum.org) ---
-(In reply to Manuel Ullmann from comment #4)
-
->=20
-> Thank you for looking into this and for the patch. laptop-mode-tools is in
-> Bash, so I can send the PR myself. It would be nice, if it could be
-> backported, since it fixes a bug, but laptop-mode-tools could also use a
-> better check for battery nodes.
-
-Hi,
-
-just to make this clear. We seem to have two bugs. Do both need to be fixed=
- to
-remedy this issue, or do we have two independent bugs?
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks
+Weitao Wang
+> 
+> 	The resume kernel transfers control to the image kernel;
+> 
+> Now the image kernel is running.  It goes into the restore state, which
+> involves calling ehci_resume.  Presumably your patch cases the STS_PCD
+> flag to get set at this point.
+> o
+> But that's all!  The system is now back up, out of hibernation, and
+> running normally.  There are no more calls to check_root_hub_suspended
+> 
+>>>> 4.If PCD flag is set(caused by patch), then HCD_FLAG_RH_RUNNING will be set.
+>>>>
+>>>> 5.Pci_pm_freeze_noirq is called to check ehci root hub state and return
+>>>> value is -EBUSY. which will cause
+>>>>    quiesce phase of suspend to disk fail.
+>>>
+>>> You're talking about check_root_hub_suspended() in hcd-pci.c, right?
+>>>
+>> It's right.
+> 
+> So how can this happen, given that the image kernel doesn't call
+> pci_pm_freeze_noirq?
+> 
+> Alan Stern
+> .
