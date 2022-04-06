@@ -2,77 +2,118 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A945C433FE
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 17:05:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60EE0C4332F
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 17:24:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238512AbiDFRHE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Apr 2022 13:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60682 "EHLO
+        id S239009AbiDFR0F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Apr 2022 13:26:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238381AbiDFRGv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 13:06:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77DC74BEF19;
-        Wed,  6 Apr 2022 07:30:14 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 16E2761A35;
-        Wed,  6 Apr 2022 14:30:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C203C385A9;
-        Wed,  6 Apr 2022 14:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649255413;
-        bh=b+Jn04l7J+92NIm/oLXywT4M2+LZAPg9gjG3dxBRhAc=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=FNtLxxWtrEPrA0lRhvpokbYAVdtth3ABiOwFLmVQdT6iioShyLzf1gjf2M3Geeu7B
-         7mLSvsQ62gUa4mGQ4F5opq153IYHFBm4k2S+MOcL72dJo/S1OSNHYwOVT/mU0PlZve
-         i2AuEROItMLB6xhWZdk3Atp0KrkNBEH5N3y2sTylV/snVLSHKB8wzBnw1CY4dLFDL4
-         OBxb81qUQjDro6w3XPzOLEKa78VAOegm9AB4XO/ZcIky/H0DkdncyQ1uLNQuwMhBCQ
-         CI4b34Mks3eVX9f9epfp4pwhPLn9MpcMNjgTZ0HX/BSpSOUia7aS5wjTiltjnryQBP
-         UBW4hica35p2w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6495DE8DBDD;
-        Wed,  6 Apr 2022 14:30:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH RESEND] net: usb: remove duplicate assignment
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <164925541340.21938.4564814458141656979.git-patchwork-notify@kernel.org>
-Date:   Wed, 06 Apr 2022 14:30:13 +0000
-References: <1649236624-4208-1-git-send-email-wangqing@vivo.com>
-In-Reply-To: <1649236624-4208-1-git-send-email-wangqing@vivo.com>
-To:     Qing Wang <wangqing@vivo.com>
-Cc:     bjorn@mork.no, davem@davemloft.net, kuba@kernel.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        with ESMTP id S238668AbiDFRZt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 13:25:49 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 22A013BF891
+        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 08:24:46 -0700 (PDT)
+Received: (qmail 190547 invoked by uid 1000); 6 Apr 2022 11:24:46 -0400
+Date:   Wed, 6 Apr 2022 11:24:46 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Maxim Devaev <mdevaev@gmail.com>
+Cc:     linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Cai Huoqing <caihuoqing@baidu.com>,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_mass_storage: break IO operations via
+ configfs
+Message-ID: <Yk2wvhSTMKTLFK6c@rowland.harvard.edu>
+References: <20220406092445.215288-1-mdevaev@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220406092445.215288-1-mdevaev@gmail.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
+On Wed, Apr 06, 2022 at 12:24:45PM +0300, Maxim Devaev wrote:
+> Using the SIGUSR1 signal sent to the "file-storage" thread
+> from the userspace, it is possible to break IO operations
+> that block the gadget. Thus, it is possible to implement
+> "force eject" without stopping the gadget and umounting
+> it from the host side.
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+It's not clear to me how breaking I/O operations allows you to do a 
+"force eject".  It seems that what you would need is something like 
+fsg_store_file() that omits the curlun->prevent_medium_removal check.
+Interrupting a lengthy I/O operation doesn't really have anything to do 
+with this.
 
-On Wed,  6 Apr 2022 02:17:03 -0700 you wrote:
-> From: Wang Qing <wangqing@vivo.com>
+> There are two problems here:
 > 
-> netdev_alloc_skb() has assigned ssi->netdev to skb->dev if successed,
-> no need to repeat assignment.
+>   - In order to send a signal, we need to find the thread
+>     in procfs, but if several mass storage gadgets are created
+>     in the system, each process has the same name and it is
+>     impossible to distinguish one gadget from another.
 > 
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
+>   - Root privileges are required to send the signal.
 > 
-> [...]
+> The proposed "break_io" interface solves both problems.
+> It allows us to get rid of the procfs search and delegate
+> sending the signal to a regular user.
 
-Here is the summary with links:
-  - [RESEND] net: usb: remove duplicate assignment
-    https://git.kernel.org/netdev/net-next/c/207d924dcf32
+Or to keep this ability restricted to the superuser, if that is desired.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
+> ---
+>  drivers/usb/gadget/function/f_mass_storage.c | 22 ++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index 6ad669dde41c..e9b7c59e1dc4 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -3239,6 +3239,27 @@ static ssize_t fsg_opts_stall_store(struct config_item *item, const char *page,
+>  
+>  CONFIGFS_ATTR(fsg_opts_, stall);
+>  
+> +static ssize_t fsg_opts_break_io_store(struct config_item *item,
+> +				       const char *page, size_t len)
+> +{
+> +	struct fsg_opts *opts = to_fsg_opts(item);
+> +	unsigned long flags;
+> +
+> +	mutex_lock(&opts->lock);
+> +	spin_lock_irqsave(&opts->common->lock, flags);
+> +
+> +	if (opts->common->thread_task)
+> +		send_sig_info(SIGUSR1, SEND_SIG_PRIV,
+> +			      opts->common->thread_task);
 
+You should not call send_sig_info() directly; instead call 
+raise_exception().  It already does the work you need (including some 
+things you left out).
 
+Alan Stern
+
+> +
+> +	spin_unlock_irqrestore(&opts->common->lock, flags);
+> +	mutex_unlock(&opts->lock);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR_WO(fsg_opts_, break_io);
+> +
+>  #ifdef CONFIG_USB_GADGET_DEBUG_FILES
+>  static ssize_t fsg_opts_num_buffers_show(struct config_item *item, char *page)
+>  {
+> @@ -3283,6 +3304,7 @@ CONFIGFS_ATTR(fsg_opts_, num_buffers);
+>  
+>  static struct configfs_attribute *fsg_attrs[] = {
+>  	&fsg_opts_attr_stall,
+> +	&fsg_opts_attr_break_io,
+>  #ifdef CONFIG_USB_GADGET_DEBUG_FILES
+>  	&fsg_opts_attr_num_buffers,
+>  #endif
+> -- 
+> 2.35.1
+> 
