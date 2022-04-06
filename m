@@ -2,101 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BFE6C433F5
-	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 13:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF364C433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  6 Apr 2022 13:24:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232120AbiDFNHG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Apr 2022 09:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
+        id S233298AbiDFN0V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Apr 2022 09:26:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231766AbiDFNGa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 09:06:30 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D9D5DF587
-        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 02:40:47 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id d5so3055635lfj.9
-        for <linux-usb@vger.kernel.org>; Wed, 06 Apr 2022 02:40:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PR+Km4YLcZXlqmUi9lkzc6K6GOxz4IvMsue7BL5r6fQ=;
-        b=OAUNRxqoJWzE9xLjZsSE/gs2Urn5QkXOQWsE2IgwfB7YKsjX2UFvvgc+vgpYxtoS1A
-         7uMJtP+CkrLEkDAilH210sCPGkeGADmp1A2Q/WdchVZ3sh56bE7Y0vtfcp1hqNeY/JoX
-         VPEOMNsfLBhgTcpCRBbBNttWC0xIp11ZCDBjDyUxJD8DlZbwbcy14bQytzma0hWousjj
-         G6qsGL5tvAkTuejfMzJ853TGUN4/2luZvLIVi5ZD/ZsrvKAfg+oanDjsfWCmWwsdRzD7
-         gznwK9MPxTDmgbn7YN84FwS3FzcQfqXK3lBtb64z/LwovfdN8dXAgqO4aGpxErWasPBF
-         Ktxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PR+Km4YLcZXlqmUi9lkzc6K6GOxz4IvMsue7BL5r6fQ=;
-        b=hB+4Ql6i3Smhjf6puQtLTYQkRfiIW9Ps874QUMyw8rQSRg4RyWcqWVqErq0vXBIPEY
-         FI2J82ZbngPSp1dfIES2vRuE+eQNfP2HESuuRTRE7vSRy0Ln/Ng5IXsZhT955md9rekX
-         QXzOzHy8/DYH83pL76w6fgS4Xvte6xbGwIiPAjjfopA4iGJkWBx8iWJB5nSbCSrGY81R
-         Y/gPP2pNjh8sw9oFghRWSe5AlGRTmOambQQ4qFP/nPsZsRfsUsrkzcy1kQl5RqcZv6AV
-         GeJQHHAeB1suwcL5E+8vpKUi9/fQxmJMbyGyoFKEEwycTH3BoxEdwjKP01VQ9U6yYoDt
-         92Rw==
-X-Gm-Message-State: AOAM532o7AQ6NnMfYfD6JCvZQTVjW2PmeqCVhQlRiOG7hWiFKwWJWES1
-        aBX1IU0IriNxVPeA6BD0Z/z2YfMvKILqRET1
-X-Google-Smtp-Source: ABdhPJxbyYOGB52IQLElvPdwFofRincpwWAGMVhVb0PtHogdrNQyO21d93+VO/a4aLgyMJf/syxvlg==
-X-Received: by 2002:a05:6512:a8b:b0:44a:7b68:69d0 with SMTP id m11-20020a0565120a8b00b0044a7b6869d0mr5293864lfu.578.1649237908061;
-        Wed, 06 Apr 2022 02:38:28 -0700 (PDT)
-Received: from reki (broadband-95-84-198-152.ip.moscow.rt.ru. [95.84.198.152])
-        by smtp.gmail.com with ESMTPSA id 11-20020a2e154b000000b0024967cd674esm1556303ljv.35.2022.04.06.02.38.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 02:38:26 -0700 (PDT)
-Date:   Wed, 6 Apr 2022 12:38:26 +0300
-From:   Maxim Devaev <mdevaev@gmail.com>
-To:     Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Subject: Re: usb: dwc2: Problem with remote wakeup implementation
-Message-ID: <20220406123826.3065963c@reki>
-In-Reply-To: <04a5b3ac-8d38-d033-89be-371716873b4c@synopsys.com>
-References: <20220324012439.65ef4823@reki>
-        <04a5b3ac-8d38-d033-89be-371716873b4c@synopsys.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233291AbiDFNZw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 09:25:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF84386A89;
+        Tue,  5 Apr 2022 18:13:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 67F2F61923;
+        Wed,  6 Apr 2022 01:13:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D82AC385A1;
+        Wed,  6 Apr 2022 01:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649207598;
+        bh=XhrRwaJr766BJcr+zRvpxYXxBy6jna9TGrTSweXCY1Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=g8Oqp0wSAhnciHM0lfhuzwuROBlAV0QXRuF062IwHGhpgOFIKfLzrVHCccbzRkOin
+         7R0C0T2xEWGUUREEo79Ws2luDtk97Bcv5Ix1hjIqwDgbv7+de+7BD6E+WqzDBDPNRe
+         WLEMFqAz1mSdFu+lYXB/7w2enU5on5KfevctBaZCzti1J+5FSBMla8KL9U+coMTrDc
+         PT9TDJs3mvxU1JWtZW7ZFa0n0gCUnxc2cb75v7MSxLS7xP52BBXPpbMrZorpTWBtNy
+         bV7obvFWjwnCmzqkA00ARtjNoz8YawBqMbRpjx+OerzeqhQ4pFZPyamnWaUQCXhzGN
+         Efl3Qn+Ia+nGA==
+Date:   Wed, 6 Apr 2022 09:13:10 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc:     =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+        Nicolas Saenz Julienne <nsaenz@kernel.org>,
+        Ray Jui <rjui@broadcom.com>, Rob Herring <robh+dt@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Scott Branden <sbranden@broadcom.com>,
+        Tony Lindgren <tony@atomide.com>, kernel@pengutronix.de,
+        bcm-kernel-feedback-list@broadcom.com, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v5 9/9] arm64: dts: imx8mm-kontron: fix ethernet node name
+Message-ID: <20220406011310.GC129381@dragon>
+References: <20220216074927.3619425-1-o.rempel@pengutronix.de>
+ <20220216074927.3619425-10-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216074927.3619425-10-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-=D0=92 Mon, 4 Apr 2022 07:30:25 +0000
-Minas Harutyunyan <Minas.Harutyunyan@synopsys.com> =D0=BF=D0=B8=D1=88=D0=B5=
-=D1=82:
++ Frieder Schrempf who is the board owner.
 
-> Hi Maxim,
->=20
-> According databook RmtWkUpSig bit description below. You should also=20
-> consider LPM state.
->=20
-> Remote Wakeup Signaling (RmtWkUpSig)
-> When the application sets this bit, the core initiates remote
-> signaling to wake up the USB host. The application must Set this bit
-> to instruct the core to exit the Suspend state. As specified in the
-> USB 2.0 specification, the application must clear this bit 1-15 ms
-> after setting it.
-> If LPM is enabled and the core is in the L1 (Sleep) state, when the
-> application sets this bit, the core initiates L1 remote signaling to
-> wake up the USB host. The application must set this bit to instruct
-> the core to exit the Sleep state. As specified in the LPM
-> specification, the hardware automatically clears this bit 50
-> microseconds (TL1DevDrvResume) after being set by the
-> application. The application must not set this bit when GLPMCFG
-> bRemoteWake from the previous LPM transaction is zero.
->=20
-> If it will not help, please check power status of core while resuming:=20
-> hibernated, in partial power down, etc.
->=20
-> Thanks,
-> Minas
->=20
+On Wed, Feb 16, 2022 at 08:49:27AM +0100, Oleksij Rempel wrote:
+> The node name of Ethernet controller should be "ethernet" instead of
+> "usbether" as required by Ethernet controller devicetree schema:
+>  Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> 
+> This patch can potentially affect boot loaders patching against full
+> node path instead of using device aliases.
 
-Thank you so much! This is very useful.
-I fixed the problem, it was related with the new clock gating code.
+Frieder,
 
-I'll try to make a clear patch and submit it to the kernel.
+Are you okay with that?
+
+Shawn
+
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts b/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
+> index d40caf14ac4a..23be1ec538ba 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8mm-kontron-n801x-s.dts
+> @@ -182,7 +182,7 @@ usb1@1 {
+>  		#address-cells = <1>;
+>  		#size-cells = <0>;
+>  
+> -		usbnet: usbether@1 {
+> +		usbnet: ethernet@1 {
+>  			compatible = "usb424,ec00";
+>  			reg = <1>;
+>  			local-mac-address = [ 00 00 00 00 00 00 ];
+> -- 
+> 2.30.2
+> 
