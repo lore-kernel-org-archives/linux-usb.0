@@ -2,37 +2,37 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D5AC433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Apr 2022 07:50:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93925C433FE
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Apr 2022 07:54:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237090AbiDGHwj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Apr 2022 03:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55118 "EHLO
+        id S242362AbiDGH4T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Apr 2022 03:56:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242212AbiDGHwO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Apr 2022 03:52:14 -0400
+        with ESMTP id S242354AbiDGH4Q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Apr 2022 03:56:16 -0400
 Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CFC4EB088;
-        Thu,  7 Apr 2022 00:50:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F04D1E7458;
+        Thu,  7 Apr 2022 00:54:16 -0700 (PDT)
 From:   sven@svenschwermer.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
-        s=mail; t=1649317811;
-        bh=3vnYXunnwsjra87JGFly/T5vCA+N+UHqOcvOR5YBwro=;
+        s=mail; t=1649317671;
+        bh=Ut064C6RS4PDAbd5Ahi4RtYZYMmrVcZFHFSa7j3qPUA=;
         h=From:To:Cc:Subject:In-Reply-To:References;
-        b=eRg7IXkgkeAQgF5Lu/7wwJxX6tckFcNhjQJK4WGOXL/Sf/F14NODKfDfwpSqhE4HI
-         cLr9JbsZ3wcPIM+jchPKMUbkOmZzFC911uiRKXi/Dl3OfIBWTj2iUleG8fOU5fXtHz
-         q4IjluasifG1HSreIGM4mkP5qq396M8dxe30o3z4Sf4iwU2AYV6IWks8n4xuEwJOag
-         lfy10GnCGzN4Xhuis6KzNn0rave1bJ2LDfudhh/ovcLZNEzOaaOp/Y6WKiq7KjFKXY
-         rF9seiwiCm26YIbE9voXG6WATdmTIVjiqwtJdMIBbDybbgCXlso1DBVcv7R29oSDsc
-         i0RPCGZ1/Dzgw==
+        b=KGnKHsfSaZlfeD0clS0a23EfpLOWbGj93tVYofXOWJh6M4J6TqOakCuFw/NElrEm5
+         cRqMmku6SeuJR2WwiMLNfbTkGYkDbXTwt0yPmKDMdo+hX1ZlMRGNciz8TwYk9hMNEf
+         wAoRHmyd0YUcw3IUuU4dGPmEFpgUesZtsREdNXVrTMqMwNKR34mi6fl9jLafpXaLGm
+         KZTyA/Ri85S9KaKLTC6Ed66LlS0J9kQDxMw0dxnaYFSdrp34ETMnfgLw5uxqNCkuvW
+         59vBE73e/DvQDSH+TROARFumDdssUNglY92eE/rIKA+M6cG+OYx1g4B1BEhQ4rJoRs
+         wWhWUG7V0s4SQ==
 To:     linux-usb@vger.kernel.org
 Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
-        linux-kernel@vger.kernel.org, johan@kernel.org
-Subject: [PATCH v1 2/2] usb: serial: option: Add Fibocom MA510 modem
-Date:   Thu,  7 Apr 2022 09:49:45 +0200
-Message-Id: <20220407074945.74449-2-sven@svenschwermer.de>
-In-Reply-To: <20220407074945.74449-1-sven@svenschwermer.de>
-References: <20220407074945.74449-1-sven@svenschwermer.de>
+        linux-kernel@vger.kernel.org, oliver@neukum.org
+Subject: [PATCH v1 2/2] net: usb: cdc_ether: Add Fibocom MA510 modem
+Date:   Thu,  7 Apr 2022 09:47:45 +0200
+Message-Id: <20220407074745.74195-2-sven@svenschwermer.de>
+In-Reply-To: <20220407074745.74195-1-sven@svenschwermer.de>
+References: <20220407074745.74195-1-sven@svenschwermer.de>
 Mime-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -96,24 +96,32 @@ E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
 Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 ---
- drivers/usb/serial/option.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/net/usb/cdc_ether.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 75b62e08b82f..01a12c5d469f 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -2118,6 +2118,10 @@ static const struct usb_device_id option_ids[] = {
- 	  .driver_info = RSVD(4) | RSVD(5) },
- 	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x0105, 0xff),			/* Fibocom NL678 series */
- 	  .driver_info = RSVD(6) },
-+	{ USB_DEVICE(0x2cb7, 0x0106),						/* Fibocom MA510 (+GTUSBMODE=31) */
-+	  .driver_info = RSVD(3) | RSVD(4) },
-+	{ USB_DEVICE(0x2cb7, 0x010a),						/* Fibocom MA510 (+GTUSBMODE=32) */
-+	  .driver_info = RSVD(2) | RSVD(3) },
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x010b, 0xff, 0xff, 0x30) },	/* Fibocom FG150 Diag */
- 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x010b, 0xff, 0, 0) },		/* Fibocom FG150 AT */
- 	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x01a0, 0xff) },			/* Fibocom NL668-AM/NL652-EU (laptop MBIM) */
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index b09b5567aea2..c9367587698e 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -1005,6 +1005,18 @@ static const struct usb_device_id	products[] = {
+ 				      USB_CDC_SUBCLASS_ETHERNET,
+ 				      USB_CDC_PROTO_NONE),
+ 	.driver_info = (unsigned long)&wwan_info,
++}, {
++	/* Fibocom MA510 (+GTUSBMODE=31) */
++	USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x0106, USB_CLASS_COMM,
++				      USB_CDC_SUBCLASS_ETHERNET,
++				      USB_CDC_PROTO_NONE),
++	.driver_info = (unsigned long)&wwan_info,
++}, {
++	/* Fibocom MA510 (+GTUSBMODE=32) */
++	USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x010a, USB_CLASS_COMM,
++				      USB_CDC_SUBCLASS_ETHERNET,
++				      USB_CDC_PROTO_NONE),
++	.driver_info = (unsigned long)&wwan_info,
+ }, {
+ 	USB_INTERFACE_INFO(USB_CLASS_COMM, USB_CDC_SUBCLASS_ETHERNET,
+ 			USB_CDC_PROTO_NONE),
 -- 
 2.35.1
 
