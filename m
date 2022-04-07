@@ -2,106 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D58AC433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Apr 2022 02:21:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95315C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Apr 2022 02:22:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238765AbiDGCXW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 6 Apr 2022 22:23:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42122 "EHLO
+        id S238798AbiDGCYf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 6 Apr 2022 22:24:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237953AbiDGCXU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 22:23:20 -0400
-Received: from zju.edu.cn (mail.zju.edu.cn [61.164.42.155])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 302CF12A8D2
-        for <linux-usb@vger.kernel.org>; Wed,  6 Apr 2022 19:21:21 -0700 (PDT)
-Received: from localhost.localdomain (unknown [222.205.11.114])
-        by mail-app2 (Coremail) with SMTP id by_KCgC3LxeaSk5i9aRCAQ--.13077S4;
-        Thu, 07 Apr 2022 10:21:14 +0800 (CST)
-From:   Lin Ma <linma@zju.edu.cn>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        mdharm-usb@one-eyed-alien.net
-Cc:     Lin Ma <linma@zju.edu.cn>
-Subject: [PATCH v0 2/3] usb-storage: isd200: fix initFunction error return
-Date:   Thu,  7 Apr 2022 10:21:10 +0800
-Message-Id: <20220407022110.3757-1-linma@zju.edu.cn>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S231181AbiDGCYd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 6 Apr 2022 22:24:33 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20362133D92;
+        Wed,  6 Apr 2022 19:22:36 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id n18so3634930plg.5;
+        Wed, 06 Apr 2022 19:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PT2+6h3Z7LL18dILG70CDaDDS1P956FJu0P0TdT2+Ds=;
+        b=GclcoK1d9Bj08EvCcuxxwoNGyIhWAzM7p9KQhaYzX55q8V9v7RfMVaTa3qrHX43VUS
+         D0lSL8YyRUYbhiKNBZLsAzoev4EIb5ub2ueAtu+CHleS+GFl85lMdKQJXi0JmSE9PwgJ
+         Cw8LZMBcr+CaGG7I4xY0DRNM+5gA8LX5daj1nKyeIrTyg8oQOFZPer2ejv9t740XSZwB
+         5kvgZc82foSi+/19giPQF1hw9NSqiht9skkxmwj+5HOpX+mqymb4+/8H1GyPRsP+02+U
+         WceQ2UcU8KuSmznUIEfDA2FdJFgNvftxARQQatNjiTYdRIc4LSa0yEMU+Vy+8qFkxQJD
+         vKrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PT2+6h3Z7LL18dILG70CDaDDS1P956FJu0P0TdT2+Ds=;
+        b=OdvgTruUqOD41tYVI/7fpSgmqEUA+VehQM+2M1V8UgnYt8oRfPnJ1M6IMzp1uxyjEl
+         3ApE29dDnphqF6K/gWIsJaAqs5FRIV6Sl1EWL78XAR4DXYJhsIY+tCQS9NjRAycwJjfS
+         r5edCZT+c8c29pZ3TQZN3D6JGzdJxms98UXCgsJCSwfye64N1IFycFjvrsj0RHeLBxrh
+         2rM+769gmpnWsEMfF89SP6ExbdvU0Xt0LHRm//T2d67CHXiXiw9gh5ABW9tDAGpv2rYq
+         9Dx3UC4ZLq+c79lC3JDK6dDYO7vXPtaGaIT7nDgx8xQsJllVtnj0izIyxnfnxf20FN4q
+         1jVg==
+X-Gm-Message-State: AOAM532Da80rkkJDXsCA0T+zZbsDHoIG7V+6+IbhmftbXGlnc1d5GlgB
+        OtrzRn5MaVFGYEXpF7if9Tw=
+X-Google-Smtp-Source: ABdhPJwMTQExK8XAvWiC+fyo/Evg+fV9vj0Z2tl+ht3PZb5NaB9DgdPjo1wYrlVnMo2rZNb1Wk5yWQ==
+X-Received: by 2002:a17:90a:6402:b0:1c9:9377:dd0e with SMTP id g2-20020a17090a640200b001c99377dd0emr12949103pjj.211.1649298155639;
+        Wed, 06 Apr 2022 19:22:35 -0700 (PDT)
+Received: from slim.das-security.cn ([103.84.139.54])
+        by smtp.gmail.com with ESMTPSA id z8-20020a6553c8000000b0039cc5c3e284sm386409pgr.48.2022.04.06.19.22.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 19:22:35 -0700 (PDT)
+From:   Hangyu Hua <hbh25y@gmail.com>
+To:     valentina.manea.m@gmail.com, shuah@kernel.org,
+        gregkh@linuxfoundation.org, khoroshilov@ispras.ru,
+        skhan@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hangyu Hua <hbh25y@gmail.com>
+Subject: [PATCH v2] usb: usbip: fix a refcount leak in stub_probe()
+Date:   Thu,  7 Apr 2022 10:22:04 +0800
+Message-Id: <20220407022204.10730-1-hbh25y@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: by_KCgC3LxeaSk5i9aRCAQ--.13077S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw1kZFyfJr4xtr1kZw18Krg_yoW8Ww1Upa
-        n7G3yjkF4UJr1UGr1DJrZYvF1Syas7Gry7Kry7t34Fqr1rJ3yjvFW5CryF9rWUtryfKr1f
-        tF4Dtry3uF1xJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv01xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wA2z4x0Y4vEx4A2
-        jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52
-        x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWU
-        XwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-        8JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gr1l42xK82IYc2Ij64vIr41l
-        42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWU
-        twCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-        0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-        Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1
-        sYFtUUUUU==
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The initFunction is called when probing a new device, its call relation
-is like:
+usb_get_dev() is called in stub_device_alloc(). When stub_probe() fails
+after that, usb_put_dev() needs to be called to release the reference.
 
-USB core: probe() -> usb_stor_probe2() -> usb_stor_acquire_resources()
--> isd200_init_info()
+Fix this by moving usb_put_dev() to sdev_free error path handling.
 
-That is, the error return of the initFunction should tell USB core what
-happened instead of using custom error code like ISD200_ERROR.
-
-Signed-off-by: Lin Ma <linma@zju.edu.cn>
+Fixes: 3ff67445750a ("usbip: fix error handling in stub_probe()")
+Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- drivers/usb/storage/isd200.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/storage/isd200.c b/drivers/usb/storage/isd200.c
-index 05429f1f69f9..4e0eef1440b7 100644
---- a/drivers/usb/storage/isd200.c
-+++ b/drivers/usb/storage/isd200.c
-@@ -1449,7 +1449,7 @@ static void isd200_free_info_ptrs(void *info_)
-  * Allocates (if necessary) and initializes the driver structure.
-  *
-  * RETURNS:
-- *    ISD status code
-+ *    error status code
-  */
- static int isd200_init_info(struct us_data *us)
- {
-@@ -1457,7 +1457,7 @@ static int isd200_init_info(struct us_data *us)
+v2: add more description of this patch.
+
+ drivers/usb/usbip/stub_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
+index d8d3892e5a69..3c6d452e3bf4 100644
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -393,7 +393,6 @@ static int stub_probe(struct usb_device *udev)
  
- 	info = kzalloc(sizeof(struct isd200_info), GFP_KERNEL);
- 	if (!info)
--		return ISD200_ERROR;
-+		return -ENOMEM;
+ err_port:
+ 	dev_set_drvdata(&udev->dev, NULL);
+-	usb_put_dev(udev);
  
- 	info->id = kzalloc(ATA_ID_WORDS * 2, GFP_KERNEL);
- 	info->RegsBuf = kmalloc(sizeof(info->ATARegs), GFP_KERNEL);
-@@ -1466,13 +1466,13 @@ static int isd200_init_info(struct us_data *us)
- 	if (!info->id || !info->RegsBuf || !info->srb.sense_buffer) {
- 		isd200_free_info_ptrs(info);
- 		kfree(info);
--		return ISD200_ERROR;
-+		return -ENOMEM;
- 	}
+ 	/* we already have busid_priv, just lock busid_lock */
+ 	spin_lock(&busid_priv->busid_lock);
+@@ -408,6 +407,7 @@ static int stub_probe(struct usb_device *udev)
+ 	put_busid_priv(busid_priv);
  
- 	us->extra = info;
- 	us->extra_destructor = isd200_free_info_ptrs;
+ sdev_free:
++	usb_put_dev(udev);
+ 	stub_device_free(sdev);
  
--	return ISD200_GOOD;
-+	return 0;
- }
- 
- /**************************************************************************
+ 	return rc;
 -- 
-2.35.1
+2.25.1
 
