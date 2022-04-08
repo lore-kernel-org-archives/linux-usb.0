@@ -2,99 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E46C433F5
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Apr 2022 13:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9A9CC433FE
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Apr 2022 14:29:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236483AbiDHNsq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Apr 2022 09:48:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52786 "EHLO
+        id S236908AbiDHObV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Apr 2022 10:31:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236478AbiDHNso (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Apr 2022 09:48:44 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DFE460CEF;
-        Fri,  8 Apr 2022 06:46:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649425601; x=1680961601;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2RsBxvZgX52mmyvnnY0IE8cn0uckQN1XXAvC+D/+vJU=;
-  b=PGinHrV924gbEGL2gBBl0MGxH4PC4nRwU4fRJQtfze28igfPHDevDBt9
-   QswiQ2Hvbfc0yCphj5uTQdtdJBMfhe4tGWC3SSQpmMUnclk/D1MnwXxHw
-   uDCssu5m9m0AcZNKLiTFY3Z4vq7WwSvJuP3YyshI+kffWURGFjZm4RE4U
-   8lXiVtRpRYozGb+uokoBTdpFkEI7uyjLJAM/MPuomtnCVoSOunXH5YlRX
-   IzfhCtNw7LhwCyujsmbvDVE+bhaAFBtjKTvjW43gp0XUO3qMXpAol58my
-   4rrpUtqhyHHrAdNectONvJtq5SvD09v+PqNOmYsjAKBHTgbLqeYj/aWXo
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="260432091"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="260432091"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2022 06:46:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; 
-   d="scan'208";a="653263290"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.199])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Apr 2022 06:46:39 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>, Henry Lin <henryl@nvidia.com>,
-        stable@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 2/3] xhci: stop polling roothubs after shutdown
-Date:   Fri,  8 Apr 2022 16:48:22 +0300
-Message-Id: <20220408134823.2527272-3-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220408134823.2527272-1-mathias.nyman@linux.intel.com>
-References: <20220408134823.2527272-1-mathias.nyman@linux.intel.com>
+        with ESMTP id S236894AbiDHObV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 8 Apr 2022 10:31:21 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id 1B9D8362202
+        for <linux-usb@vger.kernel.org>; Fri,  8 Apr 2022 07:29:17 -0700 (PDT)
+Received: (qmail 257248 invoked by uid 1000); 8 Apr 2022 10:29:16 -0400
+Date:   Fri, 8 Apr 2022 10:29:16 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rajat Jain <rajatja@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Youngjin Jang <yj84.jang@samsung.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: hcd-pci: Fully suspend across freeze/thaw cycle
+Message-ID: <YlBGvFFSp/R2CBmh@rowland.harvard.edu>
+References: <20220407115918.1.I8226c7fdae88329ef70957b96a39b346c69a914e@changeid>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220407115918.1.I8226c7fdae88329ef70957b96a39b346c69a914e@changeid>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Henry Lin <henryl@nvidia.com>
+On Thu, Apr 07, 2022 at 11:59:55AM -0700, Evan Green wrote:
+> The documentation for the freeze() method says that it "should quiesce
+> the device so that it doesn't generate IRQs or DMA". The unspoken
+> consequence of not doing this is that MSIs aimed at non-boot CPUs may
+> get fully lost if they're sent during the period where the target CPU is
+> offline.
+> 
+> The current callbacks for USB HCD do not fully quiesce interrupts,
+> specifically on XHCI. Change to use the full suspend/resume flow for
+> freeze/thaw to ensure interrupts are fully quiesced. This fixes issues
+> where USB devices fail to thaw during hibernation because XHCI misses
+> its interrupt and fails to recover.
 
-While rebooting, XHCI controller and its bus device will be shut down
-in order by .shutdown callback. Stopping roothubs polling in
-xhci_shutdown() can prevent XHCI driver from accessing port status
-after its bus device shutdown.
+I don't think your interpretation is quite right.  The problem doesn't lie 
+in the HCD callbacks but rather in the root-hub callbacks.
 
-Take PCIe XHCI controller as example, if XHCI driver doesn't stop roothubs
-polling, XHCI driver may access PCIe BAR register for port status after
-parent PCIe root port driver is shutdown and cause PCIe bus error.
+Correct me if I'm wrong about xHCI, but AFAIK the host controller doesn't 
+issue any interrupt requests on its own behalf; it issues IRQs only on 
+behalf of its root hubs.  Given that the root hubs should be suspended 
+(i.e., frozen) at this point, and hence not running, the only IRQs they 
+might make would be for wakeup requests.
 
-[check shared hcd exist before stopping its roothub polling -Mathias]
-Cc: stable@vger.kernel.org
-Signed-off-by: Henry Lin <henryl@nvidia.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+So during freeze, wakeups should be disabled on root hubs.  Currently I 
+believe we don't do this; if a root hub was already runtime suspended when 
+asked to go into freeze, its wakeup setting will remain unchanged.  _That_ 
+is the bug which needs to be fixed.  (Consider what would happen if a root 
+hub wakes up after it is frozen but before the host controller is frozen: 
+The attempt to freeze the host controller would fail, causing the entire 
+hibernation transition to fail.)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 642610c78f58..25b87e99b4dd 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -781,6 +781,17 @@ void xhci_shutdown(struct usb_hcd *hcd)
- 	if (xhci->quirks & XHCI_SPURIOUS_REBOOT)
- 		usb_disable_xhci_ports(to_pci_dev(hcd->self.sysdev));
- 
-+	/* Don't poll the roothubs after shutdown. */
-+	xhci_dbg(xhci, "%s: stopping usb%d port polling.\n",
-+			__func__, hcd->self.busnum);
-+	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-+	del_timer_sync(&hcd->rh_timer);
-+
-+	if (xhci->shared_hcd) {
-+		clear_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
-+		del_timer_sync(&xhci->shared_hcd->rh_timer);
-+	}
-+
- 	spin_lock_irq(&xhci->lock);
- 	xhci_halt(xhci);
- 	/* Workaround for spurious wakeups at shutdown with HSW */
--- 
-2.25.1
+The whole issue of how wakeup requests should be handled during hibernation 
+is a difficult one.  I don't think we have any good protection against cases 
+where a wakeup request races with the system entering hibernation.  For 
+instance, if a wakeup event occurs after we go into the thaw state, it won't 
+even be recognized as such because the system will be running normally and 
+will handle it as an ordinary event.  But then it will be consumed, so the 
+wakeup signal won't remain on to reactivate the system once it has shut 
+down, and when the stored kernel image is eventually restored it won't 
+remember that the event ever happened.
 
+Alan Stern
+
+> Signed-off-by: Evan Green <evgreen@chromium.org> ---
+> 
+> You may be able to reproduce this issue on your own machine via the
+> following:
+> 1. Disable runtime PM on your XHCI controller
+> 2. Aim your XHCI IRQ at a non-boot CPU (replace 174): echo 2 >
+>    /proc/irq/174/smp_affinity
+> 3. Attempt to hibernate (no need to actually go all the way down).
+> 
+> I run 2 and 3 in a loop, and can usually hit a hang or dead XHCI
+> controller within 1-2 iterations. I happened to notice this on an
+> Alderlake system where runtime PM is accidentally disabled for one of
+> the XHCI controllers. Some more discussion and debugging can be found at
+> [1].
+> 
+> [1] https://lore.kernel.org/linux-pci/CAE=gft4a-QL82iFJE_xRQ3JrMmz-KZKWREtz=MghhjFbJeK=8A@mail.gmail.com/T/#u
+> 
+> ---
+>  drivers/usb/core/hcd-pci.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+> index 8176bc81a635d6..e02506807ffc6c 100644
+> --- a/drivers/usb/core/hcd-pci.c
+> +++ b/drivers/usb/core/hcd-pci.c
+> @@ -616,10 +616,10 @@ const struct dev_pm_ops usb_hcd_pci_pm_ops = {
+>  	.suspend_noirq	= hcd_pci_suspend_noirq,
+>  	.resume_noirq	= hcd_pci_resume_noirq,
+>  	.resume		= hcd_pci_resume,
+> -	.freeze		= check_root_hub_suspended,
+> -	.freeze_noirq	= check_root_hub_suspended,
+> -	.thaw_noirq	= NULL,
+> -	.thaw		= NULL,
+> +	.freeze		= hcd_pci_suspend,
+> +	.freeze_noirq	= hcd_pci_suspend_noirq,
+> +	.thaw_noirq	= hcd_pci_resume_noirq,
+> +	.thaw		= hcd_pci_resume,
+>  	.poweroff	= hcd_pci_suspend,
+>  	.poweroff_noirq	= hcd_pci_suspend_noirq,
+>  	.restore_noirq	= hcd_pci_resume_noirq,
+> -- 
+> 2.31.0
+> 
