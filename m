@@ -2,43 +2,43 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E12EC433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Apr 2022 13:01:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF859C433FE
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Apr 2022 13:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346316AbiDKNDN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Apr 2022 09:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
+        id S1346321AbiDKNDP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Apr 2022 09:03:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346329AbiDKNDM (ORCPT
+        with ESMTP id S1346331AbiDKNDM (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 09:03:12 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F062C112
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE171BEAB
         for <linux-usb@vger.kernel.org>; Mon, 11 Apr 2022 06:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1649682057; x=1681218057;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ioZBE8hHg87s6nHLr10yJiq5tbQQUlK0KDyDtiLfQM8=;
-  b=Oez3v0KcyQneVKsU6wHz3bd9r0v3KrPCT0hc9jhUJ+8JfryCfNKZ+VQ8
-   Ny0u66+mNnkxYro02okJH8kfjQ+oqj7oy5rLpKYDkhOsDTiaWnHw4xIuE
-   nAZvaPpJW72LmxCi6FGhLhQy5KHRI0n2xGEh3MpBH/08XmCfHFMgQ+Nq1
-   hKjmnvMtxmrCE6kXcptdMZultWw/sAvrh7h3mhXl3nrDNo2X0nhZ5cRvj
-   LKFRKEwoWd6PgfFffk0m6udE3IXK3crj5tGCKp9WGL69wEAnq7dX/j5ow
-   TpwRaHuM8osKpUKkIhQ2XQHZxG98pS34ttTYR0vEceKpVnEMSykmHiIyx
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="242044374"
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GEb4tiamGofVY4xPXxg4RpuXf0QK2/hb7uAd9n4xN+Q=;
+  b=Ipns+Xe9sVNhlE60ZhppJlNdUJVxHebS1Pncu6NiwCozbZ3uw+pnymfv
+   C1pcLcUZWfYztoM9IFjZ4+pCPoKl+Rm4JDZj9IEFfVF5DmaYjgWDDdtSM
+   l9JPaopoFOKKAju8mwnTZBXBxEfAJikWzBWD2xYpRtTsos22/uc+mN+Gl
+   VmzAQZUCIgcnLoRKZxW/lvk0Pr+6qHoNXahg/wK3KbVQwYIMoUM4xtB9f
+   oI8zODYates8d6lek8q7AJO5lzNg3ygEhmX0DT0HpDOWLvBIRhbtEM0QE
+   ztlJInmnJN9s70ODiSSPA55EdHraM08AzEYFozXhMuUVZHMlmy8VhZDIj
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="242695525"
 X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="242044374"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 06:00:51 -0700
+   d="scan'208";a="242695525"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 06:00:51 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="654611224"
+   d="scan'208";a="558889995"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Apr 2022 06:00:49 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Apr 2022 06:00:49 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 6496A3D5; Mon, 11 Apr 2022 16:00:49 +0300 (EEST)
+        id 4F6DA18E; Mon, 11 Apr 2022 16:00:49 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -46,53 +46,36 @@ Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
         Andreas Noever <andreas.noever@gmail.com>,
         Lukas Wunner <lukas@wunner.de>,
         Brad Campbell <lists2009@fnarfbargle.com>
-Subject: [PATCH 3/4] thunderbolt: Dump path config space entries during discovery
-Date:   Mon, 11 Apr 2022 16:00:48 +0300
-Message-Id: <20220411130049.53656-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH 1/4] thunderbolt: Fix typo in comment
+Date:   Mon, 11 Apr 2022 16:00:46 +0300
+Message-Id: <20220411130049.53656-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220411130049.53656-1-mika.westerberg@linux.intel.com>
-References: <20220411130049.53656-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is useful when debugging possible issues during tunnel discovery.
+Should be 'in' instead of 'bin'. Fix it.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/path.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/thunderbolt/nhi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index 299712accfe9..ee03fd75a472 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -166,6 +166,9 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
- 		return NULL;
- 	}
+diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+index 4a582183f675..6221ca4ea287 100644
+--- a/drivers/thunderbolt/nhi.c
++++ b/drivers/thunderbolt/nhi.c
+@@ -1207,7 +1207,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  
-+	tb_dbg(path->tb, "discovering %s path starting from %llx:%u\n",
-+	       path->name, tb_route(src->sw), src->port);
-+
- 	p = src;
- 	h = src_hopid;
- 
-@@ -198,10 +201,13 @@ struct tb_path *tb_path_discover(struct tb_port *src, int src_hopid,
- 		path->hops[i].out_port = out_port;
- 		path->hops[i].next_hop_index = next_hop;
- 
-+		tb_dump_hop(&path->hops[i], &hop);
-+
- 		h = next_hop;
- 		p = out_port->remote;
- 	}
- 
-+	tb_dbg(path->tb, "path discovery complete\n");
- 	return path;
- 
- err:
+ 	nhi->pdev = pdev;
+ 	nhi->ops = (const struct tb_nhi_ops *)id->driver_data;
+-	/* cannot fail - table is allocated bin pcim_iomap_regions */
++	/* cannot fail - table is allocated in pcim_iomap_regions */
+ 	nhi->iobase = pcim_iomap_table(pdev)[0];
+ 	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
+ 	dev_dbg(&pdev->dev, "total paths: %d\n", nhi->hop_count);
 -- 
 2.35.1
 
