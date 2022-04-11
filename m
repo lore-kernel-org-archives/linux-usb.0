@@ -2,41 +2,41 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A47E0C433FE
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Apr 2022 19:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FAF5C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Apr 2022 19:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349542AbiDKTTt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Apr 2022 15:19:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37124 "EHLO
+        id S1349581AbiDKTT4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Apr 2022 15:19:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349544AbiDKTTm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 15:19:42 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2311C36E0D;
-        Mon, 11 Apr 2022 12:17:22 -0700 (PDT)
+        with ESMTP id S1349555AbiDKTTw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 15:19:52 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2D836B7E;
+        Mon, 11 Apr 2022 12:17:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649704642; x=1681240642;
+  t=1649704653; x=1681240653;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version;
-  bh=6O92DemDqu3mHgnJea4Xz+uvpPl7gsIZDNPlB6Vz3ms=;
-  b=rAcTW542Lw0FdpPtgi2W1xh+2MDw13Hn0r41SFjW0hLYtioAjRbHRINS
-   TDnPx0aktupbMz7xLFkCbOt9TNjOwa7g2w/YT6a6hIPsoAicUXH+KJfkK
-   9CM3uvyaFS0MqH/9di0m0j8Sn4KFmrD7N+gXBhGitoQkHqn6vI3SeRa15
-   g=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 11 Apr 2022 12:17:22 -0700
+  bh=dZ4qdIHawZkU6fiaRAkBGEP+XutjgAITMv4DeCK5r7c=;
+  b=YUS6S4OHp06ZgpVnRcc56tRoGRG/0V75bbPSv9AivuQ9N0nnVmGgK/fz
+   LBULIxE5O/sEBEhsnmrr6fNgaBmzhdycGWQz/1tzCJkfbPqZCbEb6omv4
+   cFexbhDTVsi7tXpct0NMTSQvCcy7GtILwt8HZFl8cigg1x1bRrVo+KdKU
+   8=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 11 Apr 2022 12:17:33 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 12:17:21 -0700
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 12:17:33 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 12:17:20 -0700
+ 15.2.986.22; Mon, 11 Apr 2022 12:17:32 -0700
 Received: from c-sanm-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 12:17:14 -0700
+ 15.2.986.22; Mon, 11 Apr 2022 12:17:26 -0700
 From:   Sandeep Maheswaram <quic_c_sanm@quicinc.com>
 To:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
         "Bjorn Andersson" <bjorn.andersson@linaro.org>,
@@ -52,9 +52,9 @@ CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <quic_pkondeti@quicinc.com>, <quic_ppratap@quicinc.com>,
         <quic_kriskura@quicinc.com>, <quic_vpulyala@quicinc.com>,
         Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Subject: [PATCH v13 1/6] dt-bindings: usb: dwc3: Add wakeup-source property support
-Date:   Tue, 12 Apr 2022 00:46:49 +0530
-Message-ID: <1649704614-31518-2-git-send-email-quic_c_sanm@quicinc.com>
+Subject: [PATCH v13 3/6] usb: dwc3: qcom: Add helper functions to enable,disable wake irqs
+Date:   Tue, 12 Apr 2022 00:46:51 +0530
+Message-ID: <1649704614-31518-4-git-send-email-quic_c_sanm@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649704614-31518-1-git-send-email-quic_c_sanm@quicinc.com>
 References: <1649704614-31518-1-git-send-email-quic_c_sanm@quicinc.com>
@@ -67,32 +67,96 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Added support for wakeup-source property. This property can be
-used to check and power down the phy during system suspend if
-wake up is not supported.
+Adding helper functions to enable,disable wake irqs to make
+the code simple and readable.
 
 Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
 Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- Documentation/devicetree/bindings/usb/snps,dwc3.yaml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/dwc3/dwc3-qcom.c | 58 ++++++++++++++++++++------------------------
+ 1 file changed, 26 insertions(+), 32 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-index f4471f8..4d4de2f 100644
---- a/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
-@@ -341,6 +341,11 @@ properties:
-       This port is used with the 'usb-role-switch' property  to connect the
-       dwc3 to type C connector.
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 6cba990..7352124 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -296,50 +296,44 @@ static void dwc3_qcom_interconnect_exit(struct dwc3_qcom *qcom)
+ 	icc_put(qcom->icc_path_apps);
+ }
  
-+  wakeup-source:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Enable USB remote wakeup.
++static void dwc3_qcom_enable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
 +
- unevaluatedProperties: false
++	enable_irq(irq);
++	enable_irq_wake(irq);
++}
++
++static void dwc3_qcom_disable_wakeup_irq(int irq)
++{
++	if (!irq)
++		return;
++
++	disable_irq_wake(irq);
++	disable_irq_nosync(irq);
++}
++
+ static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		disable_irq_wake(qcom->hs_phy_irq);
+-		disable_irq_nosync(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
  
- required:
+-	if (qcom->dp_hs_phy_irq) {
+-		disable_irq_wake(qcom->dp_hs_phy_irq);
+-		disable_irq_nosync(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		disable_irq_wake(qcom->dm_hs_phy_irq);
+-		disable_irq_nosync(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		disable_irq_wake(qcom->ss_phy_irq);
+-		disable_irq_nosync(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
+ {
+-	if (qcom->hs_phy_irq) {
+-		enable_irq(qcom->hs_phy_irq);
+-		enable_irq_wake(qcom->hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
+ 
+-	if (qcom->dp_hs_phy_irq) {
+-		enable_irq(qcom->dp_hs_phy_irq);
+-		enable_irq_wake(qcom->dp_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
+ 
+-	if (qcom->dm_hs_phy_irq) {
+-		enable_irq(qcom->dm_hs_phy_irq);
+-		enable_irq_wake(qcom->dm_hs_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
+ 
+-	if (qcom->ss_phy_irq) {
+-		enable_irq(qcom->ss_phy_irq);
+-		enable_irq_wake(qcom->ss_phy_irq);
+-	}
++	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
+ }
+ 
+ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom)
 -- 
 2.7.4
 
