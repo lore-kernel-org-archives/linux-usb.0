@@ -2,142 +2,104 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EA60C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Apr 2022 21:13:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDCDC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 00:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350120AbiDKVPt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Apr 2022 17:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
+        id S243165AbiDLAsY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Apr 2022 20:48:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350150AbiDKVPp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 17:15:45 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CBC2BB1B
-        for <linux-usb@vger.kernel.org>; Mon, 11 Apr 2022 14:13:26 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id t13so15253473pgn.8
-        for <linux-usb@vger.kernel.org>; Mon, 11 Apr 2022 14:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YKAYMKKcSN6w/x99fPnQm5TkOR6xo+gMRiTH6ZYG4Ro=;
-        b=EhR7QpOZ0HnE4rK5R9d0GxRj98mteeaRTItJIa6EJKU2EEGKdAvwcfi6lrILXJYsHJ
-         Fe+doXlqcFFqdNwpAUThfV36GNrU385i6+ZEIurapg8Hf5gEChmCWLZkWC0AdlETBoIE
-         nb8QW/fT0q6lxGQJ3Zit+MVsN33ry+N1Lmuo8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YKAYMKKcSN6w/x99fPnQm5TkOR6xo+gMRiTH6ZYG4Ro=;
-        b=DWYXT5k3ZP7I7LCRXxQYXmPi3v3cxpFyu61VOIQOHnHdugmh0xnKvLAL+mMjFOqjo7
-         FyLIfD39KkmbW7YCQLY4HbJDPplFPlHNL0o+UOEB/o1hXfLKDOOx4ZrrqbCiUF3gZWzV
-         RHBOWqYiR6Ar6agB6dlYYwnHUO0TtqVpTGu2iSj75Whd8sqMTYshQhcmDBoQh3CEIIjF
-         KYCfMkYlLBtat5QVFu0m1BnObZbOgQPurxCW6Zb2ytU/NeU+yJNUc1+ArxIjMvortKxK
-         m2lKVRXjdBStGzfpFsXaD5sPpA1Ah5cLl+S4e4frwr0DdYgfNUSiP+jdatIIGTUa0J6K
-         2+tg==
-X-Gm-Message-State: AOAM5331kxmPPOpSGFS7oeyi4w9+QjQvAZxzqGDerS2OIA3MDNNHr9O4
-        EGYv3Qta8KmH2zmbYBW4Si4pbw==
-X-Google-Smtp-Source: ABdhPJzl8rfg8ySS5Ytnevu8E/f/F9vTdYrGegE0Oef11S5yT3t9PqIHOQ2qCbAfFdF2WkI3wjs0Nw==
-X-Received: by 2002:a63:e5c:0:b0:39d:8460:4708 with SMTP id 28-20020a630e5c000000b0039d84604708mr1977629pgo.401.1649711604530;
-        Mon, 11 Apr 2022 14:13:24 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:eb96:76ba:e2a1:2442])
-        by smtp.gmail.com with UTF8SMTPSA id d4-20020a17090ad3c400b001c65ba76911sm392429pjw.3.2022.04.11.14.13.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Apr 2022 14:13:24 -0700 (PDT)
-Date:   Mon, 11 Apr 2022 14:13:22 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
-        quic_kriskura@quicinc.com, quic_vpulyala@quicinc.com
-Subject: Re: [PATCH v13 5/6] usb: dwc3: qcom: Keep power domain on to retain
- controller status
-Message-ID: <YlSZ8uk8MjygY7uf@google.com>
-References: <1649704614-31518-1-git-send-email-quic_c_sanm@quicinc.com>
- <1649704614-31518-6-git-send-email-quic_c_sanm@quicinc.com>
+        with ESMTP id S242887AbiDLAsG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 20:48:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9860B2ED5C;
+        Mon, 11 Apr 2022 17:45:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 21B5B617F3;
+        Tue, 12 Apr 2022 00:45:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 686A2C385AD;
+        Tue, 12 Apr 2022 00:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1649724349;
+        bh=Bcm/L4B9jJWb+jV5TvnT5U/PTAjme2W/RGdOOBuZDt8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QZOkFu1e6B7vGBK+a0X7vUxMUGLheKeypelhJb+TyGu3TytzMeDB9B8wqBazeZnMJ
+         cvurx3zLXW+AuTvd0q89yT+MEswJbtvg033W/GvQ44AhgBOwLnvtLSv4NlQCn/GUbi
+         WhZCuPFj6pBZ6pclhKJiUlS2JFbHUgMwLHxV//fG1YEm+aO7Syiwz3P0lgezHo9LUd
+         W1aUXbDqZrynzH3LZRLv8DgKFTcmeuOc+e3kvEGbXxIc0tMiRuWok0YupC9wKAEsKN
+         Jg2JY8rBKyOORcV7waPaF20BcrdwrCPYKXPGtTdDVsDPOWHtqg4uBvLk9n7q8F+ZA6
+         UMeWKD1L0BL+Q==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Marcin Kozlowski <marcinguy@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, kuba@kernel.org,
+        pabeni@redhat.com, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.17 32/49] net: usb: aqc111: Fix out-of-bounds accesses in RX fixup
+Date:   Mon, 11 Apr 2022 20:43:50 -0400
+Message-Id: <20220412004411.349427-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220412004411.349427-1-sashal@kernel.org>
+References: <20220412004411.349427-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1649704614-31518-6-git-send-email-quic_c_sanm@quicinc.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 12, 2022 at 12:46:53AM +0530, Sandeep Maheswaram wrote:
-> Keep the power domain always on during runtime suspend or if the
-> controller supports wakeup in order to retain controller status
-> and to support wakeup from devices.
-> 
-> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-> ---
->  drivers/usb/dwc3/dwc3-qcom.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index 9804a19..9747be6 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -17,6 +17,7 @@
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/phy/phy.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/usb/of.h>
->  #include <linux/reset.h>
->  #include <linux/iopoll.h>
-> @@ -724,6 +725,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->  	struct resource		*res, *parent_res = NULL;
->  	int			ret, i;
->  	bool			ignore_pipe_clk;
-> +	struct generic_pm_domain *genpd;
+From: Marcin Kozlowski <marcinguy@gmail.com>
 
-nit: I'm not really a fan of gazillions of whitespaces between the type
-and the variable name, but if they are kept all variable names above
-should move a tab to the right. In any case the style in this file isn't
-consistent, so an alternative would be to just get rid of the alignment
-completely.
+[ Upstream commit afb8e246527536848b9b4025b40e613edf776a9d ]
 
->  	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
->  	if (!qcom)
-> @@ -732,6 +734,8 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, qcom);
->  	qcom->dev = &pdev->dev;
->  
-> +	genpd = pd_to_genpd(qcom->dev->pm_domain);
-> +
->  	if (has_acpi_companion(dev)) {
->  		qcom->acpi_pdata = acpi_device_get_match_data(dev);
->  		if (!qcom->acpi_pdata) {
-> @@ -839,7 +843,12 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->  	if (ret)
->  		goto interconnect_exit;
->  
-> -	device_init_wakeup(&pdev->dev, 1);
-> +	genpd->flags |= GENPD_FLAG_RPM_ALWAYS_ON;
-> +
-> +	if (device_may_wakeup(&qcom->dwc3->dev))
-> +		genpd->flags |= GENPD_FLAG_ALWAYS_ON;
+aqc111_rx_fixup() contains several out-of-bounds accesses that can be
+triggered by a malicious (or defective) USB device, in particular:
 
-In v12 only GENPD_FLAG_ALWAYS_ON was set, not GENPD_FLAG_RPM_ALWAYS_ON.
-I asked a few times for a change log, in this instance it would be
-useful to explain why GENPD_FLAG_RPM_ALWAYS_ON is now set.
+ - The metadata array (desc_offset..desc_offset+2*pkt_count) can be out of bounds,
+   causing OOB reads and (on big-endian systems) OOB endianness flips.
+ - A packet can overlap the metadata array, causing a later OOB
+   endianness flip to corrupt data used by a cloned SKB that has already
+   been handed off into the network stack.
+ - A packet SKB can be constructed whose tail is far beyond its end,
+   causing out-of-bounds heap data to be considered part of the SKB's
+   data.
 
-> +
-> +	device_init_wakeup(&pdev->dev, device_may_wakeup(&qcom->dwc3->dev));
+Found doing variant analysis. Tested it with another driver (ax88179_178a), since
+I don't have a aqc111 device to test it, but the code looks very similar.
 
-device_may_wakeup() isn't an expensive operation, but it's still not nice to
-call it twice in three lines of code. Instead you could do this:
+Signed-off-by: Marcin Kozlowski <marcinguy@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/usb/aqc111.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-	if (device_may_wakeup(&qcom->dwc3->dev)) {
-		genpd->flags |= GENPD_FLAG_ALWAYS_ON;
-		device_init_wakeup(&pdev->dev, true);
-	}
+diff --git a/drivers/net/usb/aqc111.c b/drivers/net/usb/aqc111.c
+index ea06d10e1c21..ca409d450a29 100644
+--- a/drivers/net/usb/aqc111.c
++++ b/drivers/net/usb/aqc111.c
+@@ -1102,10 +1102,15 @@ static int aqc111_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 	if (start_of_descs != desc_offset)
+ 		goto err;
+ 
+-	/* self check desc_offset from header*/
+-	if (desc_offset >= skb_len)
++	/* self check desc_offset from header and make sure that the
++	 * bounds of the metadata array are inside the SKB
++	 */
++	if (pkt_count * 2 + desc_offset >= skb_len)
+ 		goto err;
+ 
++	/* Packets must not overlap the metadata array */
++	skb_trim(skb, desc_offset);
++
+ 	if (pkt_count == 0)
+ 		goto err;
+ 
+-- 
+2.35.1
+
