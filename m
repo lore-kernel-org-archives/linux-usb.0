@@ -2,49 +2,49 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86412C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 11:48:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2FDC4332F
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 11:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346652AbiDLLum (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Apr 2022 07:50:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39034 "EHLO
+        id S1348057AbiDLLuu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Apr 2022 07:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354291AbiDLLsy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Apr 2022 07:48:54 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B91DF58820
-        for <linux-usb@vger.kernel.org>; Tue, 12 Apr 2022 03:30:19 -0700 (PDT)
+        with ESMTP id S1354159AbiDLLsw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Apr 2022 07:48:52 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDFE58803
+        for <linux-usb@vger.kernel.org>; Tue, 12 Apr 2022 03:30:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649759424; x=1681295424;
+  t=1649759419; x=1681295419;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bsMqqf+cXnqMNrYtCzlDQAdlx/HUYIaenc51tfgZo7Q=;
-  b=p2p27GYTPJxINVk3f2TOxf2S9kdg73/xkGgENmCulqGRyRUZuxx5Q0Aa
-   kt5+XNBudUPUmufKEc5yVU8GXJUaF/luub9rVIpr1vyklYURM6xEP54Je
-   0elALyxI1DDzgfrmt6sqnCAWkaSeWt6gBenoRUnQfQ279pfg769Na2iKm
-   k=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 12 Apr 2022 03:30:19 -0700
+  bh=DOfxNkE3njSwLaeZVCWTdpHq2g+IuIQki3TYJcnLF4w=;
+  b=GvuFC5cZeJAvkm7vqCsH84kxVpqWEqoCHrdPxHqHEZmw8xaIDW78I/ED
+   JcCuXijevGSptC0KQIGFy12ye5H3AUcAhpYmqZsFqhSlHKmr/tsBl5NTS
+   4iUrs1FhaJPMZXoLV3SzBUzVvXpggCMMh/xA4tE33SqIvM/3InrtO76bw
+   8=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 12 Apr 2022 03:30:18 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 03:30:19 -0700
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 03:30:17 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Apr 2022 03:30:18 -0700
+ 15.2.986.22; Tue, 12 Apr 2022 03:30:17 -0700
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Apr 2022 03:30:17 -0700
+ 15.2.986.22; Tue, 12 Apr 2022 03:30:15 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH 3/3] usb: typec: ucsi: retry find role swithch when module load late
-Date:   Tue, 12 Apr 2022 18:30:07 +0800
-Message-ID: <1649759407-24049-4-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH 2/3] usb: typec: ucsi: add a common function ucsi_connector_clean()
+Date:   Tue, 12 Apr 2022 18:30:06 +0800
+Message-ID: <1649759407-24049-3-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1649759407-24049-1-git-send-email-quic_linyyuan@quicinc.com>
 References: <1649759407-24049-1-git-send-email-quic_linyyuan@quicinc.com>
@@ -58,117 +58,100 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When role switch enabled, return -EAGAIN if fail to find it due to
-module load ordering issue, then restart ucsi init work to find
-it again every 100ms.
-
-It also means change ucsi init work to delayed_work.
+In error path of ucsi_init(), it will clean all valid ucsi connector,
+and samiliar operation also happen in ucsi_unregister(),
+add a common function for two places.
 
 Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 28 ++++++++++++++++------------
- drivers/usb/typec/ucsi/ucsi.h |  2 +-
- 2 files changed, 17 insertions(+), 13 deletions(-)
+ drivers/usb/typec/ucsi/ucsi.c | 46 +++++++++++++++++++++----------------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 684fc4f..fabd4df 100644
+index 77ac0b7..684fc4f 100644
 --- a/drivers/usb/typec/ucsi/ucsi.c
 +++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1053,6 +1053,14 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	con->num = index + 1;
- 	con->ucsi = ucsi;
+@@ -1187,6 +1187,27 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 	return ret;
+ }
  
-+	cap->fwnode = ucsi_find_fwnode(con);
-+	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
-+	if (IS_ERR(con->usb_role_sw)) {
-+		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n",
-+			index + 1);
-+		return -EAGAIN;
++static void ucsi_connector_clean(struct ucsi *ucsi)
++{
++	struct ucsi_connector *con;
++
++	if (!ucsi->connector)
++		return;
++
++	for (con = ucsi->connector; con->port; con++) {
++		cancel_work_sync(&con->work);
++		ucsi_unregister_partner(con);
++		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
++		ucsi_unregister_port_psy(con);
++		if (con->wq)
++			destroy_workqueue(con->wq);
++		typec_unregister_port(con->port);
 +	}
 +
- 	/* Delay other interactions with the con until registration is complete */
- 	mutex_lock(&con->lock);
- 
-@@ -1088,7 +1096,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	if (con->cap.op_mode & UCSI_CONCAP_OPMODE_DEBUG_ACCESSORY)
- 		*accessory = TYPEC_ACCESSORY_DEBUG;
- 
--	cap->fwnode = ucsi_find_fwnode(con);
- 	cap->driver_data = con;
- 	cap->ops = &ucsi_ops;
- 
-@@ -1147,13 +1154,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 		ucsi_port_psy_changed(con);
- 	}
- 
--	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
--	if (IS_ERR(con->usb_role_sw)) {
--		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n",
--			con->num);
--		con->usb_role_sw = NULL;
--	}
--
- 	/* Only notify USB controller if partner supports USB data */
- 	if (!(UCSI_CONSTAT_PARTNER_FLAGS(con->status.flags) & UCSI_CONSTAT_PARTNER_FLAG_USB))
- 		u_role = USB_ROLE_NONE;
-@@ -1281,12 +1281,16 @@ static int ucsi_init(struct ucsi *ucsi)
- 
- static void ucsi_init_work(struct work_struct *work)
- {
--	struct ucsi *ucsi = container_of(work, struct ucsi, work);
-+	struct ucsi *ucsi = container_of(work, struct ucsi, work.work);
- 	int ret;
- 
- 	ret = ucsi_init(ucsi);
- 	if (ret)
- 		dev_err(ucsi->dev, "PPM init failed (%d)\n", ret);
++	kfree(ucsi->connector);
++	ucsi->connector = NULL;
++}
 +
-+
-+	if (ret == -EAGAIN)
-+		queue_delayed_work(system_long_wq, &ucsi->work, HZ/10);
- }
- 
  /**
-@@ -1326,7 +1330,7 @@ struct ucsi *ucsi_create(struct device *dev, const struct ucsi_operations *ops)
- 	if (!ucsi)
- 		return ERR_PTR(-ENOMEM);
- 
--	INIT_WORK(&ucsi->work, ucsi_init_work);
-+	INIT_DELAYED_WORK(&ucsi->work, ucsi_init_work);
- 	mutex_init(&ucsi->ppm_lock);
- 	ucsi->dev = dev;
- 	ucsi->ops = ops;
-@@ -1361,7 +1365,7 @@ int ucsi_register(struct ucsi *ucsi)
- 	if (!ucsi->version)
- 		return -ENODEV;
- 
--	queue_work(system_long_wq, &ucsi->work);
-+	queue_delayed_work(system_long_wq, &ucsi->work, 0);
- 
+  * ucsi_init - Initialize UCSI interface
+  * @ucsi: UCSI to be initialized
+@@ -1195,7 +1216,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+  */
+ static int ucsi_init(struct ucsi *ucsi)
+ {
+-	struct ucsi_connector *con;
+ 	u64 command;
+ 	int ret;
+ 	int i;
+@@ -1250,15 +1270,7 @@ static int ucsi_init(struct ucsi *ucsi)
  	return 0;
- }
-@@ -1378,7 +1382,7 @@ void ucsi_unregister(struct ucsi *ucsi)
+ 
+ err_unregister:
+-	for (con = ucsi->connector; con->port; con++) {
+-		ucsi_unregister_partner(con);
+-		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+-		ucsi_unregister_port_psy(con);
+-		if (con->wq)
+-			destroy_workqueue(con->wq);
+-		typec_unregister_port(con->port);
+-		con->port = NULL;
+-	}
++	ucsi_connector_clean(ucsi);
+ 
+ err_reset:
+ 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+@@ -1364,7 +1376,6 @@ EXPORT_SYMBOL_GPL(ucsi_register);
+ void ucsi_unregister(struct ucsi *ucsi)
+ {
  	u64 cmd = UCSI_SET_NOTIFICATION_ENABLE;
+-	int i;
  
  	/* Make sure that we are not in the middle of driver initialization */
--	cancel_work_sync(&ucsi->work);
-+	cancel_delayed_work_sync(&ucsi->work);
- 
+ 	cancel_work_sync(&ucsi->work);
+@@ -1372,18 +1383,7 @@ void ucsi_unregister(struct ucsi *ucsi)
  	/* Disable notifications */
  	ucsi->ops->async_write(ucsi, UCSI_CONTROL, &cmd, sizeof(cmd));
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 280f1e1..3812017 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -287,7 +287,7 @@ struct ucsi {
- 	struct ucsi_capability cap;
- 	struct ucsi_connector *connector;
  
--	struct work_struct work;
-+	struct delayed_work work;
+-	for (i = 0; i < ucsi->cap.num_connectors; i++) {
+-		cancel_work_sync(&ucsi->connector[i].work);
+-		ucsi_unregister_partner(&ucsi->connector[i]);
+-		ucsi_unregister_altmodes(&ucsi->connector[i],
+-					 UCSI_RECIPIENT_CON);
+-		ucsi_unregister_port_psy(&ucsi->connector[i]);
+-		if (ucsi->connector[i].wq)
+-			destroy_workqueue(ucsi->connector[i].wq);
+-		typec_unregister_port(ucsi->connector[i].port);
+-	}
+-
+-	kfree(ucsi->connector);
++	ucsi_connector_clean(ucsi);
+ }
+ EXPORT_SYMBOL_GPL(ucsi_unregister);
  
- 	/* PPM Communication lock */
- 	struct mutex ppm_lock;
 -- 
 2.7.4
 
