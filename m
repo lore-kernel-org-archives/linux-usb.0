@@ -2,52 +2,50 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D2FDC4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 11:48:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F041FC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 11:48:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348057AbiDLLuu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Apr 2022 07:50:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47034 "EHLO
+        id S1348674AbiDLLuy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Apr 2022 07:50:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354159AbiDLLsw (ORCPT
+        with ESMTP id S1354156AbiDLLsw (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Apr 2022 07:48:52 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCDFE58803
-        for <linux-usb@vger.kernel.org>; Tue, 12 Apr 2022 03:30:18 -0700 (PDT)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37FE75838E
+        for <linux-usb@vger.kernel.org>; Tue, 12 Apr 2022 03:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1649759419; x=1681295419;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=DOfxNkE3njSwLaeZVCWTdpHq2g+IuIQki3TYJcnLF4w=;
-  b=GvuFC5cZeJAvkm7vqCsH84kxVpqWEqoCHrdPxHqHEZmw8xaIDW78I/ED
-   JcCuXijevGSptC0KQIGFy12ye5H3AUcAhpYmqZsFqhSlHKmr/tsBl5NTS
-   4iUrs1FhaJPMZXoLV3SzBUzVvXpggCMMh/xA4tE33SqIvM/3InrtO76bw
-   8=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 12 Apr 2022 03:30:18 -0700
+  t=1649759417; x=1681295417;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FppnTsoZl9F3KLtLqc+75wscQ7KZJdmCl7xdELoBx8c=;
+  b=dZ6xIpdIdIInVWUrLh1mGxV4UW0MsCEU4X3e7C/KjbfROd885o5p5jNu
+   AopMj2hoPhrt8qv7w5gPvrN/vz4YJWVDFLQLO4C5zeEB+ITKmZ/vloNNH
+   C7BHZGx0RQsEzFgWtEszHPxaNhh5c02cI2/6LwPOl5h29GQrJfOnkCZeL
+   c=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Apr 2022 03:30:14 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 03:30:17 -0700
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 03:30:14 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Apr 2022 03:30:17 -0700
+ 15.2.986.22; Tue, 12 Apr 2022 03:30:13 -0700
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 12 Apr 2022 03:30:15 -0700
+ 15.2.986.22; Tue, 12 Apr 2022 03:30:11 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH 2/3] usb: typec: ucsi: add a common function ucsi_connector_clean()
-Date:   Tue, 12 Apr 2022 18:30:06 +0800
-Message-ID: <1649759407-24049-3-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH 0/3] usb: typec: ucsi: allow retry to find role switch
+Date:   Tue, 12 Apr 2022 18:30:04 +0800
+Message-ID: <1649759407-24049-1-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1649759407-24049-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1649759407-24049-1-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
@@ -58,100 +56,18 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In error path of ucsi_init(), it will clean all valid ucsi connector,
-and samiliar operation also happen in ucsi_unregister(),
-add a common function for two places.
+when one role switch module built as module, it may load later then
+ucsi, this change series allow retry from ucsi.
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 46 +++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+Linyu Yuan (3):
+  usb: typec: ucsi: set con->port to NULL when register port fail
+  usb: typec: ucsi: add a common function ucsi_connector_clean()
+  usb: typec: ucsi: retry find role swithch when module load late
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 77ac0b7..684fc4f 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1187,6 +1187,27 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	return ret;
- }
- 
-+static void ucsi_connector_clean(struct ucsi *ucsi)
-+{
-+	struct ucsi_connector *con;
-+
-+	if (!ucsi->connector)
-+		return;
-+
-+	for (con = ucsi->connector; con->port; con++) {
-+		cancel_work_sync(&con->work);
-+		ucsi_unregister_partner(con);
-+		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-+		ucsi_unregister_port_psy(con);
-+		if (con->wq)
-+			destroy_workqueue(con->wq);
-+		typec_unregister_port(con->port);
-+	}
-+
-+	kfree(ucsi->connector);
-+	ucsi->connector = NULL;
-+}
-+
- /**
-  * ucsi_init - Initialize UCSI interface
-  * @ucsi: UCSI to be initialized
-@@ -1195,7 +1216,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
-  */
- static int ucsi_init(struct ucsi *ucsi)
- {
--	struct ucsi_connector *con;
- 	u64 command;
- 	int ret;
- 	int i;
-@@ -1250,15 +1270,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 	return 0;
- 
- err_unregister:
--	for (con = ucsi->connector; con->port; con++) {
--		ucsi_unregister_partner(con);
--		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
--		ucsi_unregister_port_psy(con);
--		if (con->wq)
--			destroy_workqueue(con->wq);
--		typec_unregister_port(con->port);
--		con->port = NULL;
--	}
-+	ucsi_connector_clean(ucsi);
- 
- err_reset:
- 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
-@@ -1364,7 +1376,6 @@ EXPORT_SYMBOL_GPL(ucsi_register);
- void ucsi_unregister(struct ucsi *ucsi)
- {
- 	u64 cmd = UCSI_SET_NOTIFICATION_ENABLE;
--	int i;
- 
- 	/* Make sure that we are not in the middle of driver initialization */
- 	cancel_work_sync(&ucsi->work);
-@@ -1372,18 +1383,7 @@ void ucsi_unregister(struct ucsi *ucsi)
- 	/* Disable notifications */
- 	ucsi->ops->async_write(ucsi, UCSI_CONTROL, &cmd, sizeof(cmd));
- 
--	for (i = 0; i < ucsi->cap.num_connectors; i++) {
--		cancel_work_sync(&ucsi->connector[i].work);
--		ucsi_unregister_partner(&ucsi->connector[i]);
--		ucsi_unregister_altmodes(&ucsi->connector[i],
--					 UCSI_RECIPIENT_CON);
--		ucsi_unregister_port_psy(&ucsi->connector[i]);
--		if (ucsi->connector[i].wq)
--			destroy_workqueue(ucsi->connector[i].wq);
--		typec_unregister_port(ucsi->connector[i].port);
--	}
--
--	kfree(ucsi->connector);
-+	ucsi_connector_clean(ucsi);
- }
- EXPORT_SYMBOL_GPL(ucsi_unregister);
- 
+ drivers/usb/typec/ucsi/ucsi.c | 75 +++++++++++++++++++++++--------------------
+ drivers/usb/typec/ucsi/ucsi.h |  2 +-
+ 2 files changed, 41 insertions(+), 36 deletions(-)
+
 -- 
 2.7.4
 
