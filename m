@@ -2,82 +2,113 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 058A7C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 01:03:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B718FC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Apr 2022 01:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344531AbiDLBF2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Apr 2022 21:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47476 "EHLO
+        id S232828AbiDLB2o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Apr 2022 21:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351244AbiDLBBO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 21:01:14 -0400
-X-Greylist: delayed 1084 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Apr 2022 17:56:53 PDT
-Received: from ns3.fnarfbargle.com (ns3.fnarfbargle.com [103.4.19.87])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE49425E8A
-        for <linux-usb@vger.kernel.org>; Mon, 11 Apr 2022 17:56:53 -0700 (PDT)
-Received: from [10.8.0.1] (helo=srv.home)
-        by ns3.fnarfbargle.com with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <lists2009@fnarfbargle.com>)
-        id 1ne4YE-0002Dz-Go; Tue, 12 Apr 2022 10:38:34 +1000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=fnarfbargle.com; s=mail; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=75zc1CLHBd74vMtirgEpPu7dForNVXaMUs389xOB3TU=; b=D+eIObny/lMzhDF42M+zs+Qa3r
-        +1gZYN6y7UHoongUgNeKrGgnvtl6mXherfXjbdQz6Lgmfyt8ZTf4sB94SlXQVwSz/6vFLvfZhq6JC
-        uOP03bxUPp2Z8P/x1FissDQiw6XiaS4qJCKiM0SLcSiXWr1i0X7yLOzAOH8DV1ioiT/s=;
-Message-ID: <aec54314-6e6a-e295-610e-bbcae98eb709@fnarfbargle.com>
-Date:   Tue, 12 Apr 2022 08:38:29 +0800
+        with ESMTP id S230259AbiDLB2n (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Apr 2022 21:28:43 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11DF21A838;
+        Mon, 11 Apr 2022 18:26:28 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id j8so15372092pll.11;
+        Mon, 11 Apr 2022 18:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=VxXbudBApxhZGcBQ0qzcnlkDnqM7YeuExCtSNL/Eqvw=;
+        b=gPhy/sTiFvw/el2eqjcLE3TmNLvKNHw98liUoLS8thb8poOFSm9QDgb6iOhhapdJzg
+         mg9Pf39+pqsq6GDIdkohKFMvHKXqtprbKumJnV3K8haL06rSMJcsOBeIV2hk8EnkFVMn
+         3PyRytXFHGJZyLNYWk4sUtKxlQiTZcwygYcoQmMwaeukeTocT7K67IZNXs4PmDVcWzBn
+         /kk8ZVM32CNsJffpyVClMspjMBE/yhh3W4h6kpYMQShY4pwVjV6SmYpqazYU+3a1SwOr
+         f9jX84jqYaVdRnxNCUMzV8icUYaZHKpVnCHGTS10ToIx71Ne93GZ15kqdGkiry/aDmHQ
+         6cSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=VxXbudBApxhZGcBQ0qzcnlkDnqM7YeuExCtSNL/Eqvw=;
+        b=UxklTdzcfN0AU9kFu+7twsV+sd7Hq8PAE/9vFb2JzIxfyKiGl/km6wgTeRZDJNEcHd
+         WSpQ8CWO5pPhzc7tg+eYd3iJOTsVgSbv6mTp8XWpf/+a+5V/DJzHBFdr6d/xMjH4hhvP
+         pRd+S0v3QlHqf+ntmRujE7vb69C4pyIVIx7wFMTT2nqN/rR5xK3kqS+41avON7TM9GDx
+         +eh9+WetT0VCknMe0tR32cWKkT7U+7+LLIGTzucFmqRzViqxRMpdiWWPuAKZ3zZ9bJbX
+         ixrjW7MOJwl9oaAmEX32J8lmOmDLEyevqYbVRJ1VZxbka0kczpdwe4Gq5Qr6BtlPYxOk
+         cXFQ==
+X-Gm-Message-State: AOAM5303za7nUxwmx10IiU+RZLymTQuaa2khtrknWbOApL1Rfcuvteq5
+        JF/lCZOlOSUSqxB5VyKaH04=
+X-Google-Smtp-Source: ABdhPJwhEMQKP7S6/uyBvYw37FlDMIqUEsk1tQugjoKXwy2sj+PiM58nGoeWK2Ox8uN97L91Q0uBuA==
+X-Received: by 2002:a17:902:a9c2:b0:156:1859:2d05 with SMTP id b2-20020a170902a9c200b0015618592d05mr35878669plr.86.1649726787534;
+        Mon, 11 Apr 2022 18:26:27 -0700 (PDT)
+Received: from [10.11.37.162] ([103.84.139.53])
+        by smtp.gmail.com with ESMTPSA id d16-20020a17090ad99000b001bcbc4247a0sm665768pjv.57.2022.04.11.18.26.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Apr 2022 18:26:27 -0700 (PDT)
+Message-ID: <992417be-97f1-09bd-f847-b279460d595b@gmail.com>
+Date:   Tue, 12 Apr 2022 09:26:21 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 1/4] thunderbolt: Fix typo in comment
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] usb: usbip: fix a refcount leak in stub_probe()
 Content-Language: en-US
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-usb@vger.kernel.org
-Cc:     Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Michael Jamet <michael.jamet@intel.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Lukas Wunner <lukas@wunner.de>
-References: <20220411130049.53656-1-mika.westerberg@linux.intel.com>
-From:   Brad Campbell <lists2009@fnarfbargle.com>
-In-Reply-To: <20220411130049.53656-1-mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Shuah Khan <skhan@linuxfoundation.org>,
+        valentina.manea.m@gmail.com, shuah@kernel.org,
+        gregkh@linuxfoundation.org, khoroshilov@ispras.ru
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220407022204.10730-1-hbh25y@gmail.com>
+ <7c584e2d-1c23-3df9-7e4e-c4d9a9014224@linuxfoundation.org>
+ <d40cb8cf-a92d-3f87-3af1-0422f8d8264f@gmail.com>
+ <91089407-cc21-ba05-5346-4f546cca7555@linuxfoundation.org>
+ <55d22e24-09ad-20b8-e1de-8d7c2f8ab1a8@gmail.com>
+ <16876455-ed60-65c6-1375-ac88e4209cb2@linuxfoundation.org>
+From:   Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <16876455-ed60-65c6-1375-ac88e4209cb2@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 11/4/22 21:00, Mika Westerberg wrote:
-> Should be 'in' instead of 'bin'. Fix it.
+On 2022/4/12 03:38, Shuah Khan wrote:
+> On 4/10/22 11:29 PM, Hangyu Hua wrote:
+>> On 2022/4/8 23:04, Shuah Khan wrote:
+>>> On 4/7/22 7:59 PM, Hangyu Hua wrote:
+>>>> Hi Shuah,
+>>>>
+>>>> I find this by code review. Do i really need to add this to commit 
+>>>> log? This look like a little weird.
+>>>>
+>>>
+>>> Great. Good find.
+>>>
+>>> It is important to understand how the problem is found. Please add it
+>>> the change log. We usually expect dmesg or such info. that revealed
+>>> refcount leak, since this one is found during code review, we would
+>>> like to see that information the commit log.
+>>>
+>>> Also please remember to avoid top posting.
+>>
+>> I get what you meant now. But i don't know how to get a clear dmesg or 
+>> any other log. The kernel will not crash because of this. I just used 
+>> gdb to find that udev->dev->kobj->kref gets bigger and bigger whenever 
+>> I call stub_probe with busid_priv->status = STUB_BUSID_REMOV.
+>>
+>> Thanks for telling me the rules.
+>>
 > 
-> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> ---
->  drivers/thunderbolt/nhi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> There is no need to gather dmesg etc. Just add a note that you found
+> the problem during code review. Having complete information about why
+> a change is made will be helpful for future changes to this code and
+> somebody new trying understand the changes made to this file/routine
+> and why.
 > 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index 4a582183f675..6221ca4ea287 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -1207,7 +1207,7 @@ static int nhi_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  
->  	nhi->pdev = pdev;
->  	nhi->ops = (const struct tb_nhi_ops *)id->driver_data;
-> -	/* cannot fail - table is allocated bin pcim_iomap_regions */
-> +	/* cannot fail - table is allocated in pcim_iomap_regions */
->  	nhi->iobase = pcim_iomap_table(pdev)[0];
->  	nhi->hop_count = ioread32(nhi->iobase + REG_HOP_COUNT) & 0x3ff;
->  	dev_dbg(&pdev->dev, "total paths: %d\n", nhi->hop_count);
+> thanks,
+> -- Shuah
 
-You can add 
+I get it. I will submit a v3.
 
-Tested-by: Brad Campbell <lists2009@fnarfbargle.com> 
-
-to the whole series.
-
-Regards,
-Brad
+Thanks.
