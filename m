@@ -2,87 +2,79 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A407DC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Apr 2022 11:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7137BC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Apr 2022 11:37:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232192AbiDMLeQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Apr 2022 07:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
+        id S232533AbiDMLkB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Apr 2022 07:40:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231624AbiDMLeO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Apr 2022 07:34:14 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB38635A9C
-        for <linux-usb@vger.kernel.org>; Wed, 13 Apr 2022 04:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649849513; x=1681385513;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2IqD00BH0ojPpWlLnE71dHRQcdrJhKM/efzL9IivP9k=;
-  b=HDag/XrZq3jKaA6kKg9uwodJfCkzhZADvoYjdAx3QnhobgNnr4KTF9PG
-   oyG4iY2VhcQ7Hr1gn5EWBp4cPRES0DzrE+ttlSV317APopat/YVgQsfzn
-   FgLDTEkFckpo3hCh8uAY646mDvvnheEa3cxoAiIO8uM251iGCj71IrhU6
-   PfWyIgSrjn44qn72zBMydM1Jfq3BlL39FHex3iFKZdSO8E4SBSqMeXwKS
-   yULLmesJGTmb4BYXU51zxt6/SAEkcaHzTxZJUptbzwqWpvGFGzkdVheYA
-   Bi+2EOIoNW2qXkiKqXCyQZYNBJ6HRRhZ0uhxHUolHneoxXvWSQipxiB5U
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="260239312"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="260239312"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 04:31:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; 
-   d="scan'208";a="700212886"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 13 Apr 2022 04:31:51 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 13 Apr 2022 14:31:50 +0300
-Date:   Wed, 13 Apr 2022 14:31:50 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Linyu Yuan <quic_linyyuan@quicinc.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Jack Pham <quic_jackp@quicinc.com>
-Subject: Re: [PATCH v3 1/4] usb: typec: ucsi: set con->port to NULL when
- register port fail
-Message-ID: <Yla0pvOElW+Voh8G@kuha.fi.intel.com>
-References: <1649843891-15554-1-git-send-email-quic_linyyuan@quicinc.com>
- <1649843891-15554-2-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S229667AbiDMLkA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Apr 2022 07:40:00 -0400
+X-Greylist: delayed 433 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 13 Apr 2022 04:37:38 PDT
+Received: from cable.insite.cz (cable.insite.cz [84.242.75.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27B858822
+        for <linux-usb@vger.kernel.org>; Wed, 13 Apr 2022 04:37:38 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id CCC7EA1A3D402;
+        Wed, 13 Apr 2022 13:30:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1649849422; bh=5TxTZuuOqvG9Vr2VUljnQJ2UfPtJ8iNy0rdzom4YkkA=;
+        h=Date:To:From:Subject:From;
+        b=IWu4i9m8NfR8aIUFKX+KD5A+UcFsiZYNjbu4yHwLbgy7n5/uxsD1uYAiUXFvXThTU
+         VgCj6u4SSn9m+BDuopAVN7tVv250N6kN+eVNTdu82QqWIvI1RcDIRpcAj5Q1kRsxS9
+         RhOY7ADbhT6Rvb5poP1LUtol3xz/hNWLVT8yBdnE=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id nWjygIzqQTt8; Wed, 13 Apr 2022 13:30:17 +0200 (CEST)
+Received: from [192.168.105.22] (dustin.pilsfree.net [81.201.58.138])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 590D8A1A3D400;
+        Wed, 13 Apr 2022 13:30:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1649849417; bh=5TxTZuuOqvG9Vr2VUljnQJ2UfPtJ8iNy0rdzom4YkkA=;
+        h=Date:To:From:Subject:From;
+        b=JIE7Sm4Ziq2oXPFud0myAVcKPiXUE7FIAxgjFSLo6xM1Kj+zoJWpEa2z7tHBE7CSk
+         SAUyvdoQzebw/2bEY3TDFOjzN3bzQo1SeP6Re4QPxm4RObBhfm67UtGA+4kCMR4C1Z
+         0Cn3u+6C0cFEvU7/qb2Z6Fq/4jKRjSQaqYLoyUU4=
+Message-ID: <bcd1a2a7-c8cc-948a-a6dd-5fdf2b9bb79c@ivitera.com>
+Date:   Wed, 13 Apr 2022 13:30:16 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1649843891-15554-2-git-send-email-quic_linyyuan@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Content-Language: en-US
+To:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+Subject: usb:dwc2: '-EPROBE_DEFER: supplier soc:power not ready' in RPi4
+ 5.18-rc2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Apr 13, 2022 at 05:58:08PM +0800, Linyu Yuan wrote:
-> As con->port will be used in error path of ucsi_init(),
-> it should be NULL or valid.
-> 
-> Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
-> ---
-> v2: no change
-> v3: no change
-> 
->  drivers/usb/typec/ucsi/ucsi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index f0c2fa1..77ac0b7 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -1100,6 +1100,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
->  	con->port = typec_register_port(ucsi->dev, cap);
->  	if (IS_ERR(con->port)) {
->  		ret = PTR_ERR(con->port);
-> +		con->port = NULL;
->  		goto out;
->  	}
+Hi,
 
-Please merge this into the next patch.
+In 5.18 RC2 module dwc2 (gadget mode) quits when being probed on RPi4 
+with message
 
-thanks,
+-EPROBE_DEFER: supplier soc:power not ready
 
--- 
-heikki
+5.17 works fine, with identical .config setup.
+
+I am testing on RPi-patched repo 
+https://github.com/raspberrypi/linux/tree/rpi-5.18.y. RPi devs say they 
+have pushed all their platform-specific patches to their 5.18 tree 
+already 
+https://github.com/raspberrypi/linux/issues/4992#issuecomment-1097896392
+
+Perhaps some newly-added DTS node missing, being required by the new 
+dwc2 version?
+
+Thanks a lot for any help.
+
+Best regards,
+
+Pavel.
+
