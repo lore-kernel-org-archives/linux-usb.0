@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F13F1C4332F
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:46:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F779C433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352655AbiDSNsz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 09:48:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43178 "EHLO
+        id S1351369AbiDSNs5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 09:48:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352864AbiDSNpY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:45:24 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8183939173;
-        Tue, 19 Apr 2022 06:41:42 -0700 (PDT)
+        with ESMTP id S1353004AbiDSNru (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:47:50 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31BD239839;
+        Tue, 19 Apr 2022 06:42:06 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 238BDB8198B;
-        Tue, 19 Apr 2022 13:41:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85ADEC385B0;
-        Tue, 19 Apr 2022 13:41:32 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 88111B81986;
+        Tue, 19 Apr 2022 13:42:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D256C385A5;
+        Tue, 19 Apr 2022 13:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650375699;
-        bh=UESTNhRpqCdmOp1XFvzi39fpM7sULzK7+yHauqukJgM=;
+        s=k20201202; t=1650375722;
+        bh=b8M7Htp8PC1M3UqN4COpkh3W696Svq9K1vaNWm/6ehg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qN9Y+eXIXoBe7y4TGwmSZZVExIPvDiGiWQet4fH81EnPncUzwHNWtwJGsY0JYakO5
-         ieE4QfHwXAynpvZYZ8I/rORqxFxxcrHC8uhh9dPC5cMy5EFTa1VMfxpra8+tJNdEGG
-         y/nxkofQTm0FspP0LVUYlssfbUKsMywSyPappcPTyOe/CcTltiL0WCa18tUiJ5htqe
-         P7yjD5xk7TGFmi/cCP8q3ujCRWlK/rt27yUduttq75nsmlB26koCVmVI39ToEeDgJ3
-         4QYMXy9PKlQiS9e/fHPi6ZUa8bAMf16ReuxZRt8ni4Y+YGTV+WxebK/v6W2sjZcyA9
-         IDq9aNHMe6VJg==
+        b=WO+hx1jvcO8sNvVYXwtk9yzViyIi/AeD0vyEdyCzAJ0epFG3OGq2Fn7Q2EGQVFZtL
+         lxuUOfpn5uHFQi9GsZUgd6pDtHMGP4raATiMUNW5ZDgt1Mx2Nw3Wma2I/LO2HpIx7E
+         xUcwEuvzj7umr7FkY4CRlMIXjMQvfrB/eUY+gzYzcxeP8V0TSSePzn/s5Bzv+cR+NL
+         E7plBnP5gpO17xOQMhGm9BvxgJ5ifb3qFbpNxGlNnaeWblY970wnie8dXu9AYsKFAH
+         ZR4rCJZff8i/YehkU19EDTDNz/bmaatCQOWZ7ZUnBrKD8BeNNfnxpY761tWUDxDIY6
+         FSC+791LABy0A==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
         jmkrzyszt@gmail.com
@@ -57,9 +57,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 32/41] ARM: OMAP1: clock: Fix UART rate reporting algorithm
-Date:   Tue, 19 Apr 2022 15:37:14 +0200
-Message-Id: <20220419133723.1394715-33-arnd@kernel.org>
+Subject: [PATCH 35/41] usb: host: ohci-omap: Make it CCF clk API compatible
+Date:   Tue, 19 Apr 2022 15:37:17 +0200
+Message-Id: <20220419133723.1394715-36-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -71,29 +71,78 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-Since its introduction to the mainline kernel, omap1_uart_recalc() helper
-makes incorrect use of clk->enable_bit as a ready to use bitmap mask while
-it only provides the bit number.  Fix it.
+The driver, OMAP1 specific, now omits clk_prepare/unprepare() steps, not
+supported by OMAP1 custom implementation of clock API.  However, non-CCF
+stubs of those functions exist for use on such platforms until converted
+to CCF.
+
+Update the driver to be compatible with CCF implementation of clock API.
 
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-omap1/clock.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/host/ohci-omap.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/mach-omap1/clock.c b/arch/arm/mach-omap1/clock.c
-index 44877554eb41..42e094e781ce 100644
---- a/arch/arm/mach-omap1/clock.c
-+++ b/arch/arm/mach-omap1/clock.c
-@@ -41,7 +41,7 @@ static DEFINE_SPINLOCK(clockfw_lock);
- unsigned long omap1_uart_recalc(struct clk *clk)
- {
- 	unsigned int val = __raw_readl(clk->enable_reg);
--	return val & clk->enable_bit ? 48000000 : 12000000;
-+	return val & 1 << clk->enable_bit ? 48000000 : 12000000;
- }
+diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+index 069791d25abb..f5bc9c8bdc9a 100644
+--- a/drivers/usb/host/ohci-omap.c
++++ b/drivers/usb/host/ohci-omap.c
+@@ -259,6 +259,10 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 		goto err_put_hcd;
+ 	}
  
- unsigned long omap1_sossi_recalc(struct clk *clk)
++	retval = clk_prepare(priv->usb_host_ck);
++	if (retval)
++		goto err_put_host_ck;
++
+ 	if (!cpu_is_omap15xx())
+ 		priv->usb_dc_ck = clk_get(&pdev->dev, "usb_dc_ck");
+ 	else
+@@ -266,13 +270,17 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 
+ 	if (IS_ERR(priv->usb_dc_ck)) {
+ 		retval = PTR_ERR(priv->usb_dc_ck);
+-		goto err_put_host_ck;
++		goto err_unprepare_host_ck;
+ 	}
+ 
++	retval = clk_prepare(priv->usb_dc_ck);
++	if (retval)
++		goto err_put_dc_ck;
++
+ 	if (!request_mem_region(hcd->rsrc_start, hcd->rsrc_len, hcd_name)) {
+ 		dev_dbg(&pdev->dev, "request_mem_region failed\n");
+ 		retval = -EBUSY;
+-		goto err_put_dc_ck;
++		goto err_unprepare_dc_ck;
+ 	}
+ 
+ 	hcd->regs = ioremap(hcd->rsrc_start, hcd->rsrc_len);
+@@ -297,8 +305,12 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	iounmap(hcd->regs);
+ err2:
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
++err_unprepare_dc_ck:
++	clk_unprepare(priv->usb_dc_ck);
+ err_put_dc_ck:
+ 	clk_put(priv->usb_dc_ck);
++err_unprepare_host_ck:
++	clk_unprepare(priv->usb_host_ck);
+ err_put_host_ck:
+ 	clk_put(priv->usb_host_ck);
+ err_put_hcd:
+@@ -333,7 +345,9 @@ static int ohci_hcd_omap_remove(struct platform_device *pdev)
+ 	}
+ 	iounmap(hcd->regs);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
++	clk_unprepare(priv->usb_dc_ck);
+ 	clk_put(priv->usb_dc_ck);
++	clk_unprepare(priv->usb_host_ck);
+ 	clk_put(priv->usb_host_ck);
+ 	usb_put_hcd(hcd);
+ 	return 0;
 -- 
 2.29.2
 
