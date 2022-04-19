@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A082C38A2C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C43C38A2D
 	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347686AbiDSQrW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 12:47:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55338 "EHLO
+        id S1350909AbiDSQrY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 12:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244970AbiDSQqK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:46:10 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB69239692;
-        Tue, 19 Apr 2022 09:43:26 -0700 (PDT)
+        with ESMTP id S1355040AbiDSQnS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:43:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEF228E0E;
+        Tue, 19 Apr 2022 09:40:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6AB4D61877;
-        Tue, 19 Apr 2022 16:43:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A3AC385AE;
-        Tue, 19 Apr 2022 16:43:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E336E60B34;
+        Tue, 19 Apr 2022 16:40:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E156C385AD;
+        Tue, 19 Apr 2022 16:40:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650386605;
-        bh=jVLr/dnEKwuj3c1vrZ91YoCk9HDGqp70ixnIySjnCzk=;
+        s=k20201202; t=1650386434;
+        bh=Me5Zax9Cglx1LkHOlA8xV8JEJklryJyWSe6dcCjrrgY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mWT14rZK6S8SuCBdSeUZzPrc9E19Tfk5z+4e9Xxz5EV84KlZjRCrsV4OOzxS7dHS6
-         4iexBwIyE7R2Bpu6+i2RCf1afkBlvNseI9hOFpc1KtSAzBYh231hgSqMVDhA681sMd
-         tSc90K1WjgKGfBNbN2rCf9UAT41xofayQcYjRr5RlfcxKZzE9DwCXzhkkSatqU7rJA
-         Txl8iVGB3rULKEKOFMBXqDJviTOWOEw+/wfcvwIbK1jtrAzCoSC461ZPz5HedxyzbB
-         zEfwanqzKNV6A15RBOC7RVLcka+KDcF2taZlmtRD7tt/hSaNrcpYJnLCOHouG9UN5P
-         xWRdDk2j4rGQQ==
+        b=sakbeqPI29Om+/FQz0qrFAi7y4JGvalfYfkXPgEmDAHQE5JutGOtnitKMdhD/p0lN
+         DhEAF01KwxuyAz3UGi3jwRt2GxBEtmj4vxHkA3PItSOKP3X54DH90IyriUJPKRYV1X
+         BIAvtuns7tePi7NLdUUzAV57aLC7hbjqxyX7AZDclAvUdWuFIT078ADdlzcICL/9+M
+         wgI5g6kwYoVtQAA0Eymt32oBHJZSCTUcWvhwf1aLMMuBWcXT5wyS3qq8oCJZh/mBF4
+         UDot9x1fEXjfgm7bXqg4vfaXPFcwtqapRVe3zSRHwo/Vvq34alxLUDf9aCVWAxKea7
+         RZ4Ev5Hjil72g==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
@@ -58,10 +58,11 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 35/48] ARM: pxa: remove get_clk_frequency_khz()
-Date:   Tue, 19 Apr 2022 18:37:57 +0200
-Message-Id: <20220419163810.2118169-36-arnd@kernel.org>
+        alsa-devel@alsa-project.org, Jens Axboe <axboe@kernel.dk>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH 13/48] ARM: pxa: use pdev resource for palmld mmio
+Date:   Tue, 19 Apr 2022 18:37:35 +0200
+Message-Id: <20220419163810.2118169-14-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -73,87 +74,108 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-get_clk_frequency_khz() is not a proper name for a global function,
-and there is only one caller.
+The palmld header is almost unused in drivers, the only
+remaining thing now is the PATA device address, which should
+really be passed as a resource.
 
-Convert viper to use the properly namespaced
-pxa25x_get_clk_frequency_khz() and remove the other references.
-
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-ide@vger.kernel.org
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: linux-pm@vger.kernel.org
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/generic.c      | 15 ---------------
- arch/arm/mach-pxa/generic.h      |  1 -
- arch/arm/mach-pxa/viper.c        |  2 +-
- drivers/cpufreq/pxa2xx-cpufreq.c |  2 --
- 4 files changed, 1 insertion(+), 19 deletions(-)
+ arch/arm/mach-pxa/palmld-pcmcia.c             |  3 ++-
+ arch/arm/mach-pxa/palmld.c                    | 12 +++++++++---
+ arch/arm/mach-pxa/{include/mach => }/palmld.h |  2 +-
+ drivers/ata/pata_palmld.c                     |  3 +--
+ 4 files changed, 13 insertions(+), 7 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/palmld.h (98%)
 
-diff --git a/arch/arm/mach-pxa/generic.c b/arch/arm/mach-pxa/generic.c
-index fe1d55d328e5..2c2c82fcf9cb 100644
---- a/arch/arm/mach-pxa/generic.c
-+++ b/arch/arm/mach-pxa/generic.c
-@@ -55,21 +55,6 @@ void __init pxa_timer_init(void)
- 	pxa_timer_nodt_init(IRQ_OST0, io_p2v(0x40a00000));
- }
+diff --git a/arch/arm/mach-pxa/palmld-pcmcia.c b/arch/arm/mach-pxa/palmld-pcmcia.c
+index 07e0f7438db1..720294a50864 100644
+--- a/arch/arm/mach-pxa/palmld-pcmcia.c
++++ b/arch/arm/mach-pxa/palmld-pcmcia.c
+@@ -13,9 +13,10 @@
+ #include <linux/gpio.h>
  
--/*
-- * Get the clock frequency as reflected by CCCR and the turbo flag.
-- * We assume these values have been applied via a fcs.
-- * If info is not 0 we also display the current settings.
-- */
--unsigned int get_clk_frequency_khz(int info)
--{
--	if (cpu_is_pxa25x())
--		return pxa25x_get_clk_frequency_khz(info);
--	else if (cpu_is_pxa27x())
--		return pxa27x_get_clk_frequency_khz(info);
--	return 0;
--}
--EXPORT_SYMBOL(get_clk_frequency_khz);
--
- void pxa_smemc_set_pcmcia_timing(int sock, u32 mcmem, u32 mcatt, u32 mcio)
- {
- 	__raw_writel(mcmem, MCMEM(sock));
-diff --git a/arch/arm/mach-pxa/generic.h b/arch/arm/mach-pxa/generic.h
-index 67925d3ea026..2f706ef97357 100644
---- a/arch/arm/mach-pxa/generic.h
-+++ b/arch/arm/mach-pxa/generic.h
-@@ -11,7 +11,6 @@
+ #include <asm/mach-types.h>
+-#include <mach/palmld.h>
+ #include <pcmcia/soc_common.h>
  
- struct irq_data;
++#include "palmld.h"
++
+ static struct gpio palmld_pcmcia_gpios[] = {
+ 	{ GPIO_NR_PALMLD_PCMCIA_POWER,	GPIOF_INIT_LOW,	"PCMCIA Power" },
+ 	{ GPIO_NR_PALMLD_PCMCIA_RESET,	GPIOF_INIT_HIGH,"PCMCIA Reset" },
+diff --git a/arch/arm/mach-pxa/palmld.c b/arch/arm/mach-pxa/palmld.c
+index d85146957004..d821606ce0b5 100644
+--- a/arch/arm/mach-pxa/palmld.c
++++ b/arch/arm/mach-pxa/palmld.c
+@@ -29,8 +29,8 @@
+ #include <asm/mach/map.h>
  
--extern unsigned int get_clk_frequency_khz(int info);
- extern void __init pxa_dt_irq_init(int (*fn)(struct irq_data *,
- 					     unsigned int));
- extern void __init pxa_map_io(void);
-diff --git a/arch/arm/mach-pxa/viper.c b/arch/arm/mach-pxa/viper.c
-index 600d9e80b00c..0782f0ed5a6e 100644
---- a/arch/arm/mach-pxa/viper.c
-+++ b/arch/arm/mach-pxa/viper.c
-@@ -851,7 +851,7 @@ static void __init viper_init_vcore_gpios(void)
- 		goto err_dir;
+ #include "pxa27x.h"
++#include "palmld.h"
+ #include <linux/platform_data/asoc-pxa.h>
+-#include <mach/palmld.h>
+ #include <linux/platform_data/mmc-pxamci.h>
+ #include <linux/platform_data/video-pxafb.h>
+ #include <linux/platform_data/irda-pxaficp.h>
+@@ -279,9 +279,15 @@ static inline void palmld_leds_init(void) {}
+  * HDD
+  ******************************************************************************/
+ #if defined(CONFIG_PATA_PALMLD) || defined(CONFIG_PATA_PALMLD_MODULE)
++static struct resource palmld_ide_resources[] = {
++	DEFINE_RES_MEM(PALMLD_IDE_PHYS, 0x1000),
++};
++
+ static struct platform_device palmld_ide_device = {
+-	.name	= "pata_palmld",
+-	.id	= -1,
++	.name		= "pata_palmld",
++	.id		= -1,
++	.resource	= palmld_ide_resources,
++	.num_resources	= ARRAY_SIZE(palmld_ide_resources),
+ };
  
- 	/* c/should assume redboot set the correct level ??? */
--	viper_set_core_cpu_voltage(get_clk_frequency_khz(0), 1);
-+	viper_set_core_cpu_voltage(pxa25x_get_clk_frequency_khz(0), 1);
+ static struct gpiod_lookup_table palmld_ide_gpio_table = {
+diff --git a/arch/arm/mach-pxa/include/mach/palmld.h b/arch/arm/mach-pxa/palmld.h
+similarity index 98%
+rename from arch/arm/mach-pxa/include/mach/palmld.h
+rename to arch/arm/mach-pxa/palmld.h
+index 99a6d8b3a1e3..ee3bc15b71a2 100644
+--- a/arch/arm/mach-pxa/include/mach/palmld.h
++++ b/arch/arm/mach-pxa/palmld.h
+@@ -9,7 +9,7 @@
+ #ifndef _INCLUDE_PALMLD_H_
+ #define _INCLUDE_PALMLD_H_
  
- 	return;
+-#include "irqs.h" /* PXA_GPIO_TO_IRQ */
++#include <mach/irqs.h> /* PXA_GPIO_TO_IRQ */
  
-diff --git a/drivers/cpufreq/pxa2xx-cpufreq.c b/drivers/cpufreq/pxa2xx-cpufreq.c
-index 0f0e676ff781..e74d36d6f78d 100644
---- a/drivers/cpufreq/pxa2xx-cpufreq.c
-+++ b/drivers/cpufreq/pxa2xx-cpufreq.c
-@@ -107,8 +107,6 @@ static struct pxa_freqs pxa27x_freqs[] = {
- static struct cpufreq_frequency_table
- 	pxa27x_freq_table[NUM_PXA27x_FREQS+1];
+ /** HERE ARE GPIOs **/
  
--extern unsigned get_clk_frequency_khz(int info);
--
- #ifdef CONFIG_REGULATOR
+diff --git a/drivers/ata/pata_palmld.c b/drivers/ata/pata_palmld.c
+index 2448441571ed..400e65190904 100644
+--- a/drivers/ata/pata_palmld.c
++++ b/drivers/ata/pata_palmld.c
+@@ -25,7 +25,6 @@
+ #include <linux/gpio/consumer.h>
  
- static int pxa_cpufreq_change_voltage(const struct pxa_freqs *pxa_freq)
+ #include <scsi/scsi_host.h>
+-#include <mach/palmld.h>
+ 
+ #define DRV_NAME "pata_palmld"
+ 
+@@ -63,7 +62,7 @@ static int palmld_pata_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	/* remap drive's physical memory address */
+-	mem = devm_ioremap(dev, PALMLD_IDE_PHYS, 0x1000);
++	mem = devm_platform_ioremap_resource(pdev, 0);
+ 	if (!mem)
+ 		return -ENOMEM;
+ 
 -- 
 2.29.2
 
