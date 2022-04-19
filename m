@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A02BC41535
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D79C3527C
 	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354961AbiDSQrd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 12:47:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53888 "EHLO
+        id S1355172AbiDSQrk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 12:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1355069AbiDSQnv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:43:51 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CC223BF4;
-        Tue, 19 Apr 2022 09:41:08 -0700 (PDT)
+        with ESMTP id S243093AbiDSQqm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:46:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A49ED3AA45;
+        Tue, 19 Apr 2022 09:43:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E6505B81BBE;
-        Tue, 19 Apr 2022 16:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D13C385AB;
-        Tue, 19 Apr 2022 16:40:58 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 39FE4B81BEF;
+        Tue, 19 Apr 2022 16:43:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EC2BC385A5;
+        Tue, 19 Apr 2022 16:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650386465;
-        bh=U6UXkGiba+IWPQ84YTVH8JdmB9ez+oeADVDoBoSMAeA=;
+        s=k20201202; t=1650386637;
+        bh=qlaYFyobKEQjnzQZM9MNp5qNQqkRYezyfa1kDOn31O4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Dx+/8hWSqP54Qj1bLqmbcjy7EOlZLK7fehRxrCDudwV6M9Fy7SO9kbeCNChaDPtyq
-         nsffbT6io+sZXH1/7PSZ5lArW4jYfo9IEA5PA3ZHDbrheUIW4wgeNtLX6XxzXMp7NU
-         dcGLlN+W9BezzkCXSsS0Z38Bztbsq5Tl/AIm+XmzC4ZeRrzAQBlu7Gz95MmYpNBKUO
-         +zYF0K/ue6uCvMR2BqEUgUOzd4ohj0vXKRplH8aesj7MKBVuUE0XKQbk8x9Ts6ZZtj
-         bQk4zfxsOkvz3MM9GolbI20rGgZi2As8q/AuQe5U6ARsz3ojSijMOH4RPSyzfZLrvr
-         P0YR74cjlR93A==
+        b=IfCx1sYsItrvvOhd62OVGq73m59nNboCQp/gH4IxEBVU5zCvpQPCNPA7TuLYFXC6C
+         LwaFif0SpZk4iKNSuUv5XERVH3Itoh7apK3zIBcowiSB/8aMiJR+86E55VqZMRViGM
+         vxBgMMnsawZno/joMpTCd+ep1ROboUpME3CMorprNKBdA5wmg9bbhuyypuFsCjLW8G
+         yE/u4h18EsDdKvT5ABnu1pHVnRKTIiK1fqnwH6cD1Nj0kuQJNcwzeZUE12odIw17Nr
+         I4FoURlNeI1+CxCMlSZX0Yt4E6U9SjEz7W8MiBWwtf7IWB7ooRCN+I7IGpKqWmgJa2
+         GROrW1/+TSmQA==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
@@ -58,10 +58,10 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
         linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        alsa-devel@alsa-project.org
-Subject: [PATCH 17/48] ARM: pxa: corgi: use gpio descriptors for audio
-Date:   Tue, 19 Apr 2022 18:37:39 +0200
-Message-Id: <20220419163810.2118169-18-arnd@kernel.org>
+        alsa-devel@alsa-project.org, Sebastian Reichel <sre@kernel.org>
+Subject: [PATCH 39/48] power: tosa: simplify probe function
+Date:   Tue, 19 Apr 2022 18:38:01 +0200
+Message-Id: <20220419163810.2118169-40-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -73,209 +73,96 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The audio driver should not use a hardwired gpio number
-from the header. Change it to use a lookup table.
+We have three power supplies that need similar initialization.
+As a preparation for the gpio lookup table conversion, split
+out the initialization into a separate function.
 
-Acked-by: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Reviewed-by: Sebastian Reichel <sre@kernel.org>
+Acked-by: Sebastian Reichel <sre@kernel.org>
+Cc: linux-pm@vger.kernel.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/corgi.c                    | 22 ++++++++++-
- arch/arm/mach-pxa/{include/mach => }/corgi.h |  2 +-
- arch/arm/mach-pxa/corgi_pm.c                 |  2 +-
- sound/soc/pxa/corgi.c                        | 41 +++++++++++++-------
- 4 files changed, 51 insertions(+), 16 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/corgi.h (98%)
+ drivers/power/supply/tosa_battery.c | 50 ++++++++++++++---------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/corgi.c b/arch/arm/mach-pxa/corgi.c
-index f897762c8b58..c546356d0f02 100644
---- a/arch/arm/mach-pxa/corgi.c
-+++ b/arch/arm/mach-pxa/corgi.c
-@@ -49,7 +49,7 @@
- #include <linux/platform_data/irda-pxaficp.h>
- #include <linux/platform_data/mmc-pxamci.h>
- #include "udc.h"
--#include <mach/corgi.h>
-+#include "corgi.h"
- #include "sharpsl_pm.h"
+diff --git a/drivers/power/supply/tosa_battery.c b/drivers/power/supply/tosa_battery.c
+index 32cc31cd4761..b26b0eca33e1 100644
+--- a/drivers/power/supply/tosa_battery.c
++++ b/drivers/power/supply/tosa_battery.c
+@@ -343,12 +343,24 @@ static int tosa_bat_resume(struct platform_device *dev)
+ #define tosa_bat_resume NULL
+ #endif
  
- #include <asm/mach/sharpsl_param.h>
-@@ -472,6 +472,25 @@ static struct platform_device corgiled_device = {
- 	},
- };
- 
-+static struct gpiod_lookup_table corgi_audio_gpio_table = {
-+	.dev_id = "corgi-audio",
-+	.table = {
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MUTE_L - CORGI_SCOOP_GPIO_BASE,
-+			    "mute-l", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MUTE_R - CORGI_SCOOP_GPIO_BASE,
-+			    "mute-r", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_APM_ON - CORGI_SCOOP_GPIO_BASE,
-+			    "apm-on", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MIC_BIAS - CORGI_SCOOP_GPIO_BASE,
-+			    "mic-bias", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
++static int tosa_power_supply_register(struct device *dev,
++			struct tosa_bat *bat,
++			const struct power_supply_desc *desc)
++{
++	struct power_supply_config cfg = {
++		.drv_data = bat,
++	};
 +
- /*
-  * Corgi Audio
-  */
-@@ -744,6 +763,7 @@ static void __init corgi_init(void)
- 
-  	pxa_set_udc_info(&udc_info);
- 	gpiod_add_lookup_table(&corgi_mci_gpio_table);
-+	gpiod_add_lookup_table(&corgi_audio_gpio_table);
- 	pxa_set_mci_info(&corgi_mci_platform_data);
- 	pxa_set_ficp_info(&corgi_ficp_platform_data);
- 	pxa_set_i2c_info(NULL);
-diff --git a/arch/arm/mach-pxa/include/mach/corgi.h b/arch/arm/mach-pxa/corgi.h
-similarity index 98%
-rename from arch/arm/mach-pxa/include/mach/corgi.h
-rename to arch/arm/mach-pxa/corgi.h
-index b565ca7b8cda..fe2fcf6532b9 100644
---- a/arch/arm/mach-pxa/include/mach/corgi.h
-+++ b/arch/arm/mach-pxa/corgi.h
-@@ -9,7 +9,7 @@
- #ifndef __ASM_ARCH_CORGI_H
- #define __ASM_ARCH_CORGI_H  1
- 
--#include "irqs.h" /* PXA_NR_BUILTIN_GPIO */
-+#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO */
- 
- /*
-  * Corgi (Non Standard) GPIO Definitions
-diff --git a/arch/arm/mach-pxa/corgi_pm.c b/arch/arm/mach-pxa/corgi_pm.c
-index ff1ac9bf37cb..c6ddfc737644 100644
---- a/arch/arm/mach-pxa/corgi_pm.c
-+++ b/arch/arm/mach-pxa/corgi_pm.c
-@@ -20,7 +20,7 @@
- #include <asm/irq.h>
- #include <asm/mach-types.h>
- 
--#include <mach/corgi.h>
-+#include "corgi.h"
- #include <mach/pxa2xx-regs.h>
- #include "sharpsl_pm.h"
- 
-diff --git a/sound/soc/pxa/corgi.c b/sound/soc/pxa/corgi.c
-index 8b83709431cb..4489d2c8b124 100644
---- a/sound/soc/pxa/corgi.c
-+++ b/sound/soc/pxa/corgi.c
-@@ -21,7 +21,6 @@
- #include <sound/soc.h>
- 
- #include <asm/mach-types.h>
--#include <mach/corgi.h>
- #include <linux/platform_data/asoc-pxa.h>
- 
- #include "../codecs/wm8731.h"
-@@ -41,6 +40,9 @@
- static int corgi_jack_func;
- static int corgi_spk_func;
- 
-+static struct gpio_desc *gpiod_mute_l, *gpiod_mute_r,
-+			*gpiod_apm_on, *gpiod_mic_bias;
++	mutex_init(&bat->work_lock);
++	bat->psy = power_supply_register(dev, desc, &cfg);
 +
- static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- {
- 	snd_soc_dapm_mutex_lock(dapm);
-@@ -49,8 +51,8 @@ static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- 	switch (corgi_jack_func) {
- 	case CORGI_HP:
- 		/* set = unmute headphone */
--		gpio_set_value(CORGI_GPIO_MUTE_L, 1);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+		gpiod_set_value(gpiod_mute_l, 1);
-+		gpiod_set_value(gpiod_mute_r, 1);
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Headphone Jack");
-@@ -58,24 +60,24 @@ static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- 		break;
- 	case CORGI_MIC:
- 		/* reset = mute headphone */
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 0);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 0);
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
- 		break;
- 	case CORGI_LINE:
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 0);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 0);
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
- 		break;
- 	case CORGI_HEADSET:
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 1);
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
-@@ -108,8 +110,8 @@ static int corgi_startup(struct snd_pcm_substream *substream)
- static void corgi_shutdown(struct snd_pcm_substream *substream)
- {
- 	/* set = unmute headphone */
--	gpio_set_value(CORGI_GPIO_MUTE_L, 1);
--	gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+	gpiod_set_value(gpiod_mute_l, 1);
-+	gpiod_set_value(gpiod_mute_r, 1);
- }
- 
- static int corgi_hw_params(struct snd_pcm_substream *substream,
-@@ -199,14 +201,14 @@ static int corgi_set_spk(struct snd_kcontrol *kcontrol,
- static int corgi_amp_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *k, int event)
- {
--	gpio_set_value(CORGI_GPIO_APM_ON, SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_apm_on, SND_SOC_DAPM_EVENT_ON(event));
- 	return 0;
- }
- 
- static int corgi_mic_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *k, int event)
- {
--	gpio_set_value(CORGI_GPIO_MIC_BIAS, SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_mic_bias, SND_SOC_DAPM_EVENT_ON(event));
- 	return 0;
- }
- 
-@@ -293,6 +295,19 @@ static int corgi_probe(struct platform_device *pdev)
- 
- 	card->dev = &pdev->dev;
- 
-+	gpiod_mute_l = devm_gpiod_get(&pdev->dev, "mute-l", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpiod_mute_l))
-+		return PTR_ERR(gpiod_mute_l);
-+	gpiod_mute_r = devm_gpiod_get(&pdev->dev, "mute-r", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpiod_mute_r))
-+		return PTR_ERR(gpiod_mute_r);
-+	gpiod_apm_on = devm_gpiod_get(&pdev->dev, "apm-on", GPIOD_OUT_LOW);
-+	if (IS_ERR(gpiod_apm_on))
-+		return PTR_ERR(gpiod_apm_on);
-+	gpiod_mic_bias = devm_gpiod_get(&pdev->dev, "mic-bias", GPIOD_OUT_LOW);
-+	if (IS_ERR(gpiod_mic_bias))
-+		return PTR_ERR(gpiod_mic_bias);
++	return PTR_ERR_OR_ZERO(bat->psy);
++}
 +
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
++
+ static int tosa_bat_probe(struct platform_device *dev)
+ {
+ 	int ret;
+-	struct power_supply_config main_psy_cfg = {},
+-				   jacket_psy_cfg = {},
+-				   bu_psy_cfg = {};
+ 
+ 	if (!machine_is_tosa())
+ 		return -ENODEV;
+@@ -357,36 +369,22 @@ static int tosa_bat_probe(struct platform_device *dev)
  	if (ret)
- 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
+ 		return ret;
+ 
+-	mutex_init(&tosa_bat_main.work_lock);
+-	mutex_init(&tosa_bat_jacket.work_lock);
+-
+ 	INIT_WORK(&bat_work, tosa_bat_work);
+ 
+-	main_psy_cfg.drv_data = &tosa_bat_main;
+-	tosa_bat_main.psy = power_supply_register(&dev->dev,
+-						  &tosa_bat_main_desc,
+-						  &main_psy_cfg);
+-	if (IS_ERR(tosa_bat_main.psy)) {
+-		ret = PTR_ERR(tosa_bat_main.psy);
++	ret = tosa_power_supply_register(&dev->dev, &tosa_bat_main,
++					 &tosa_bat_main_desc);
++	if (ret)
+ 		goto err_psy_reg_main;
+-	}
+ 
+-	jacket_psy_cfg.drv_data = &tosa_bat_jacket;
+-	tosa_bat_jacket.psy = power_supply_register(&dev->dev,
+-						    &tosa_bat_jacket_desc,
+-						    &jacket_psy_cfg);
+-	if (IS_ERR(tosa_bat_jacket.psy)) {
+-		ret = PTR_ERR(tosa_bat_jacket.psy);
++	ret = tosa_power_supply_register(&dev->dev, &tosa_bat_jacket,
++					 &tosa_bat_jacket_desc);
++	if (ret)
+ 		goto err_psy_reg_jacket;
+-	}
+ 
+-	bu_psy_cfg.drv_data = &tosa_bat_bu;
+-	tosa_bat_bu.psy = power_supply_register(&dev->dev, &tosa_bat_bu_desc,
+-						&bu_psy_cfg);
+-	if (IS_ERR(tosa_bat_bu.psy)) {
+-		ret = PTR_ERR(tosa_bat_bu.psy);
++	ret = tosa_power_supply_register(&dev->dev, &tosa_bat_bu,
++					 &tosa_bat_bu_desc);
++	if (ret)
+ 		goto err_psy_reg_bu;
+-	}
+ 
+ 	ret = request_irq(gpio_to_irq(TOSA_GPIO_BAT0_CRG),
+ 				tosa_bat_gpio_isr,
 -- 
 2.29.2
 
