@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 449CCC433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:42:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B85C43217
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:42:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352608AbiDSNpB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 09:45:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40050 "EHLO
+        id S239330AbiDSNpF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 09:45:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234497AbiDSNn2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:43:28 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5885324F;
-        Tue, 19 Apr 2022 06:40:46 -0700 (PDT)
+        with ESMTP id S1352642AbiDSNmf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:42:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2698A3818F;
+        Tue, 19 Apr 2022 06:39:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id EA3C661693;
-        Tue, 19 Apr 2022 13:40:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F781C385AF;
-        Tue, 19 Apr 2022 13:40:38 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BD100B81980;
+        Tue, 19 Apr 2022 13:39:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB547C385A5;
+        Tue, 19 Apr 2022 13:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650375645;
-        bh=LP9bbU3MqE1mo0qlsHP17AGtQ9utDR1mCwd3GRyFRr4=;
+        s=k20201202; t=1650375563;
+        bh=e/6LwBQRyYsqoQ1/3hfke8Tr/1qpFFXXNWHXWvPRr1U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=M/YHCSpeMYgwnnRYACPWzb5HEoTcv0Uo+NjAgUJua+1h56xSW2dsYBRjZfK1E2BdW
-         ufGtCxWaK9OFsPZeVaEUcov5M3hta5Q+TJb3cdQu3RTCCHtk2DsusHYPyQF7LJHnTI
-         IL8FxI+oDR/0/IzsSioLFjIlnMk2NFJMoFJ3B6APAiFOTW85BTHE0LXGnXdGVfGd13
-         wCsvqkLvGaTKrsfN+TZgA0RrRTWoDmZBdsDJObGLaggZ6D5MCMY5yAp86WDvGn4KIc
-         1iB23i3dMqJKuazzVP/9pqxdegdyW0H0DLYhyKg4JgYtwpC2ocseM+UbPIVSebgCgU
-         9Edk9oMYpOBkA==
+        b=iV3cqgxsdj2upxQIoK91L/txRXqfjq76PvDRmkXJrWp/FZGP3UwajNZc3LzYUXwep
+         Wpjx5B2mgf8pPs8V3T9NF38UepMlWko7fW3ElDUkn1L39NbypTyjb4e3cTF2YtXtQM
+         rZZBrb0moVxeTXaoNCmPZjxeZFc2BxdRbHQTb85h/EtHpKNmkXtvFfU3G1YcCDbWMG
+         CVWPbZyeLymL8KTq6UQjFFxy8H40arcYLX9BtcjX8Nx5GCgnb/7f2+XzLLpVS0D1gI
+         fGuz9dkWZKrYHjDKwJ8ucl3hOEywWE023+f3G2C7nEhMm4yp70/BMqYBIQ5am0gbGx
+         IBMrD0Q8dumig==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
         jmkrzyszt@gmail.com
@@ -57,9 +57,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 25/41] ARM: omap: remove empty plat-omap directory
-Date:   Tue, 19 Apr 2022 15:37:07 +0200
-Message-Id: <20220419133723.1394715-26-arnd@kernel.org>
+Subject: [PATCH 14/41] serial: 8250/omap1: include linux/soc/ti/omap1-soc.h
+Date:   Tue, 19 Apr 2022 15:36:56 +0200
+Message-Id: <20220419133723.1394715-15-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -71,42 +71,27 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The last file in this directory is gone, and it can be removed as well.
+As a preparation for cleaning up the omap1 headers, start
+including linux/soc/ti/omap1-soc.h directly so we can
+keep calling cpu_is_omap1510().
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/Makefile           | 1 -
- arch/arm/plat-omap/Makefile | 9 ---------
- 2 files changed, 10 deletions(-)
- delete mode 100644 arch/arm/plat-omap/Makefile
+ drivers/tty/serial/8250/8250.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index a2391b8de5a5..7bcf59d0d315 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -228,7 +228,6 @@ machine-$(CONFIG_PLAT_SPEAR)		+= spear
+diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+index db784ace25d8..a8830e15a22c 100644
+--- a/drivers/tty/serial/8250/8250.h
++++ b/drivers/tty/serial/8250/8250.h
+@@ -259,6 +259,7 @@ static inline int fintek_8250_probe(struct uart_8250_port *uart) { return 0; }
+ #endif
  
- # Platform directory name.  This list is sorted alphanumerically
- # by CONFIG_* macro name.
--plat-$(CONFIG_ARCH_OMAP)	+= omap
- plat-$(CONFIG_PLAT_ORION)	+= orion
- plat-$(CONFIG_PLAT_PXA)		+= pxa
- plat-$(CONFIG_PLAT_VERSATILE)	+= versatile
-diff --git a/arch/arm/plat-omap/Makefile b/arch/arm/plat-omap/Makefile
-deleted file mode 100644
-index fefce2e1eaf3..000000000000
---- a/arch/arm/plat-omap/Makefile
-+++ /dev/null
-@@ -1,9 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--#
--# Makefile for the linux kernel.
--#
--
--ccflags-$(CONFIG_ARCH_MULTIPLATFORM) := -I$(srctree)/arch/arm/plat-omap/include
--
--# Common support
--obj-y :=
+ #ifdef CONFIG_ARCH_OMAP1
++#include <linux/soc/ti/omap1-soc.h>
+ static inline int is_omap1_8250(struct uart_8250_port *pt)
+ {
+ 	int res;
 -- 
 2.29.2
 
