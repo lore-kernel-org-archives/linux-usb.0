@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E4BC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFB2C43217
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352630AbiDSNpS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 09:45:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40140 "EHLO
+        id S1352687AbiDSNp3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 09:45:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352699AbiDSNnh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:43:37 -0400
+        with ESMTP id S1352663AbiDSNpI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:45:08 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102ED24F;
-        Tue, 19 Apr 2022 06:40:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D63C387A5;
+        Tue, 19 Apr 2022 06:41:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C68D6B8197F;
-        Tue, 19 Apr 2022 13:40:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD49CC385AA;
-        Tue, 19 Apr 2022 13:40:45 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 40DD4B81980;
+        Tue, 19 Apr 2022 13:41:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD10C385A5;
+        Tue, 19 Apr 2022 13:41:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650375652;
-        bh=++wgzzP18IgZjv9gq3IHjeFk3mw3AxMESGKM1bss8GE=;
+        s=k20201202; t=1650375683;
+        bh=Lqql5jJ2TjMR0BVNQRp5+3ddwljyuhELVCm/kXj+7ik=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=t77plAsS6dzi52zALntxTrIsGvlZ7TVWnBbbBL6BHh9HDB22Vsg+GSU1TUGr/L7yo
-         4VED/jnUp/m/iprQbhEzkF/oCLBhn5mjye8/COB4ccOhKBk+sJixyUn/j4z5hhYvAS
-         fOMPXYC1p6lswgiO83CT8qRkpbcih1isQSb5qwxzvrTQT+MaBaR+iH3FJlzRpZeFL+
-         xLv4MH8XhKivg2WwM9SJ6+BOtF2fIbLSMuGDS0PC2ZNc4r0d6HSPSj40prxX3RgJXN
-         wDqi6ESmFTYAF/uvoZWrHFUtV7uChc7cszyCFCMHFQ8dub8SswJUKqRzrKaa1+D2F9
-         cs9GhVWEGvR5A==
+        b=JIoRCZ5P7nywKXcKjFEeDGGEvckH/ddxelOi4sgLLOtXOcDjoGje3+bE947Tyfmia
+         404OQdFoYPFkbzMHBsltzemOp8kG1cXvkIXl73jYoerRI3ggoObRe7dclw+jMSy9H8
+         F+o3O5viIo54fVXJj2D8nfZNTbQ86aaDw5H9fg3Kd6DLTGBA7lJG4+V5LTJULF9e+r
+         tvfzzSP4zoEJRSSCciMSDW0M3yqyLWUuAL26tBfmvTvd3LCp7oXzclqlFOfsHHkqez
+         QdbmAWEIjwpUIeKE0k/ZBNkPe/Zdvsshi18aHuPRwsuSu3oIE5fxAI7S7/ls1bYkDQ
+         VWwgVS/Bp5Amw==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
         jmkrzyszt@gmail.com
@@ -57,9 +57,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 26/41] ARM: omap1: relocate static I/O mapping
-Date:   Tue, 19 Apr 2022 15:37:08 +0200
-Message-Id: <20220419133723.1394715-27-arnd@kernel.org>
+Subject: [PATCH 30/41] ARM: OMAP1: Prepare for conversion of OMAP1 clocks to CCF
+Date:   Tue, 19 Apr 2022 15:37:12 +0200
+Message-Id: <20220419133723.1394715-31-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -69,51 +69,117 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-The address range 0xfee00000-0xfeffffff is used for PCI and
-PCMCIA I/O port mappings, but OMAP1 has its static mappings
-there as well.
+In preparation for conversion of OMAP1 clocks to common clock framework,
+identify arch/arm/mach-omap1 local users of those clocks and update them
+to call clk_prepare_enable/clk_disable_unprepare() instead of just
+clk_enable/disable(), as required by CCF implementation of clock API.
 
-Move the OMAP1 addresses a little higher to avoid crashing
-at boot.
-
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/Kconfig.debug                      | 6 +++---
- arch/arm/mach-omap1/include/mach/hardware.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ arch/arm/mach-omap1/mcbsp.c    | 8 ++++----
+ arch/arm/mach-omap1/ocpi.c     | 4 ++--
+ arch/arm/mach-omap1/serial.c   | 6 +++---
+ arch/arm/mach-omap1/timer32k.c | 2 +-
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm/Kconfig.debug b/arch/arm/Kconfig.debug
-index 0c9497d549e3..f57b449000f7 100644
---- a/arch/arm/Kconfig.debug
-+++ b/arch/arm/Kconfig.debug
-@@ -1837,9 +1837,9 @@ config DEBUG_UART_VIRT
- 	default 0xfec00000 if ARCH_IXP4XX && !CPU_BIG_ENDIAN
- 	default 0xfec00003 if ARCH_IXP4XX && CPU_BIG_ENDIAN
- 	default 0xfef36000 if DEBUG_HIGHBANK_UART
--	default 0xfefb0000 if DEBUG_OMAP1UART1 || DEBUG_OMAP7XXUART1
--	default 0xfefb0800 if DEBUG_OMAP1UART2 || DEBUG_OMAP7XXUART2
--	default 0xfefb9800 if DEBUG_OMAP1UART3 || DEBUG_OMAP7XXUART3
-+	default 0xff000000 if DEBUG_OMAP1UART1 || DEBUG_OMAP7XXUART1
-+	default 0xff000800 if DEBUG_OMAP1UART2 || DEBUG_OMAP7XXUART2
-+	default 0xff009800 if DEBUG_OMAP1UART3 || DEBUG_OMAP7XXUART3
- 	default 0xffd01000 if DEBUG_HIP01_UART
- 	default DEBUG_UART_PHYS if !MMU
- 	depends on DEBUG_LL_UART_8250 || DEBUG_LL_UART_PL01X || \
-diff --git a/arch/arm/mach-omap1/include/mach/hardware.h b/arch/arm/mach-omap1/include/mach/hardware.h
-index 05c5cd3e95f4..e3522e601ccd 100644
---- a/arch/arm/mach-omap1/include/mach/hardware.h
-+++ b/arch/arm/mach-omap1/include/mach/hardware.h
-@@ -63,7 +63,7 @@ static inline u32 omap_cs3_phys(void)
+diff --git a/arch/arm/mach-omap1/mcbsp.c b/arch/arm/mach-omap1/mcbsp.c
+index b7bc7e4b426c..05c25c432449 100644
+--- a/arch/arm/mach-omap1/mcbsp.c
++++ b/arch/arm/mach-omap1/mcbsp.c
+@@ -43,8 +43,8 @@ static void omap1_mcbsp_request(unsigned int id)
+ 			api_clk = clk_get(NULL, "api_ck");
+ 			dsp_clk = clk_get(NULL, "dsp_ck");
+ 			if (!IS_ERR(api_clk) && !IS_ERR(dsp_clk)) {
+-				clk_enable(api_clk);
+-				clk_enable(dsp_clk);
++				clk_prepare_enable(api_clk);
++				clk_prepare_enable(dsp_clk);
  
- #endif	/* ifndef __ASSEMBLER__ */
+ 				/*
+ 				 * DSP external peripheral reset
+@@ -62,11 +62,11 @@ static void omap1_mcbsp_free(unsigned int id)
+ 	if (id == 0 || id == 2) {
+ 		if (--dsp_use == 0) {
+ 			if (!IS_ERR(api_clk)) {
+-				clk_disable(api_clk);
++				clk_disable_unprepare(api_clk);
+ 				clk_put(api_clk);
+ 			}
+ 			if (!IS_ERR(dsp_clk)) {
+-				clk_disable(dsp_clk);
++				clk_disable_unprepare(dsp_clk);
+ 				clk_put(dsp_clk);
+ 			}
+ 		}
+diff --git a/arch/arm/mach-omap1/ocpi.c b/arch/arm/mach-omap1/ocpi.c
+index c4a33ace4a8b..d48f726571a4 100644
+--- a/arch/arm/mach-omap1/ocpi.c
++++ b/arch/arm/mach-omap1/ocpi.c
+@@ -73,7 +73,7 @@ static int __init omap_ocpi_init(void)
+ 	if (IS_ERR(ocpi_ck))
+ 		return PTR_ERR(ocpi_ck);
  
--#define OMAP1_IO_OFFSET		0x01000000	/* Virtual IO = 0xfefb0000 */
-+#define OMAP1_IO_OFFSET		0x00fb0000	/* Virtual IO = 0xff000000 */
- #define OMAP1_IO_ADDRESS(pa)	IOMEM((pa) - OMAP1_IO_OFFSET)
+-	clk_enable(ocpi_ck);
++	clk_prepare_enable(ocpi_ck);
+ 	ocpi_enable();
+ 	pr_info("OMAP OCPI interconnect driver loaded\n");
  
- #include <mach/serial.h>
+@@ -87,7 +87,7 @@ static void __exit omap_ocpi_exit(void)
+ 	if (!cpu_is_omap16xx())
+ 		return;
+ 
+-	clk_disable(ocpi_ck);
++	clk_disable_unprepare(ocpi_ck);
+ 	clk_put(ocpi_ck);
+ }
+ 
+diff --git a/arch/arm/mach-omap1/serial.c b/arch/arm/mach-omap1/serial.c
+index d6d1843337a5..299ae1106187 100644
+--- a/arch/arm/mach-omap1/serial.c
++++ b/arch/arm/mach-omap1/serial.c
+@@ -142,7 +142,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart1_ck))
+ 				printk("Could not get uart1_ck\n");
+ 			else {
+-				clk_enable(uart1_ck);
++				clk_prepare_enable(uart1_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart1_ck, 12000000);
+ 			}
+@@ -152,7 +152,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart2_ck))
+ 				printk("Could not get uart2_ck\n");
+ 			else {
+-				clk_enable(uart2_ck);
++				clk_prepare_enable(uart2_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart2_ck, 12000000);
+ 				else
+@@ -164,7 +164,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart3_ck))
+ 				printk("Could not get uart3_ck\n");
+ 			else {
+-				clk_enable(uart3_ck);
++				clk_prepare_enable(uart3_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart3_ck, 12000000);
+ 			}
+diff --git a/arch/arm/mach-omap1/timer32k.c b/arch/arm/mach-omap1/timer32k.c
+index 23952a85ac79..560cd16568a7 100644
+--- a/arch/arm/mach-omap1/timer32k.c
++++ b/arch/arm/mach-omap1/timer32k.c
+@@ -270,7 +270,7 @@ int __init omap_32k_timer_init(void)
+ 
+ 		sync32k_ick = clk_get(NULL, "omap_32ksync_ick");
+ 		if (!IS_ERR(sync32k_ick))
+-			clk_enable(sync32k_ick);
++			clk_prepare_enable(sync32k_ick);
+ 
+ 		ret = omap_init_clocksource_32k(base);
+ 	}
 -- 
 2.29.2
 
