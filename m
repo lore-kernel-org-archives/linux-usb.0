@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BE16C35295
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:46:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2D7C433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:47:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352671AbiDSQr1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 12:47:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55402 "EHLO
+        id S1346264AbiDSQuT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 12:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354977AbiDSQqR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:46:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9682039692;
-        Tue, 19 Apr 2022 09:43:34 -0700 (PDT)
+        with ESMTP id S1346769AbiDSQrO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:47:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D446039692;
+        Tue, 19 Apr 2022 09:44:30 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 277516145C;
-        Tue, 19 Apr 2022 16:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C435C385A5;
-        Tue, 19 Apr 2022 16:43:26 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 635EAB81BEF;
+        Tue, 19 Apr 2022 16:44:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D40C0C385A5;
+        Tue, 19 Apr 2022 16:44:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650386613;
-        bh=1CznP/IcfkJndLnXKlEqV7YtwAE/0IZ23NVP7Os5Lbk=;
+        s=k20201202; t=1650386668;
+        bh=hFaUfBHHZyua9/0SIUVCF7GfRjXY8twBhb6ozCWe2ig=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gkyeNvpegI/KQIRWnjwkEYCied4Du61ntShcs66DzkQFnJHkJWp70dBzOiTP/ZG6j
-         n96w9hkpW3grm9KvPbPA2R8JMHGs0B28jY9iQ2TtUgdW5V+XoN0ZLiqkWwVdMXxfJ1
-         g4lG/kC3swRcBOnkw50SSbGy5I/KjmkMOKQ/SlEhuKtrq2jtmRtW2c5FwToKh8BGwy
-         tQTv4ia+QOAVOVszdbwIbLvRCF+TpW81A0z+kf9LYr2Zgm++jGTXkxtLEd4wDmJIYw
-         XmyDe5w2feEiHmwvkFrvwJr16KElh9yxIpw5HNExil/VCLxaA6PWzlCybRgA8G+uZe
-         V5QDp19UieVxQ==
+        b=Fo/tKcUroKIiRisEELy+Quhv3E8Useos/6dFZnWrT0uevB2S46HiM7GoogmEpRySA
+         bDcDcRDtP9O6a9u5D33IHltlhiammHzC7GF2SDnzFHXvXnuXIUSzwDhpuo1jO5Gz0P
+         ClrMmdWLuCqC1z0YjcwVHVnX5Z9gzl+nUlu0FeQj08vu9jzopfFFz4FL5eECm7RAuY
+         ZZnyMXTBeUQSFy8p9Mptsd2e6ZImS2jV5cNayGF6QWNDOzx1yetY2gGClWhEb/tHjZ
+         HIvMbgIPWC5wXvKwPJXPhpoTLr0+ZUb12OFRhVWafG0AiuetotoT6K/V2ymNZOPWy4
+         luzaLbrzw3CFQ==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
@@ -59,9 +59,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 36/48] cpufreq: pxa3: move clk register access to clk driver
-Date:   Tue, 19 Apr 2022 18:37:58 +0200
-Message-Id: <20220419163810.2118169-37-arnd@kernel.org>
+Subject: [PATCH 43/48] ARM: mmp: rename pxa_register_device
+Date:   Tue, 19 Apr 2022 18:38:05 +0200
+Message-Id: <20220419163810.2118169-44-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -73,230 +73,435 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The driver needs some low-level register access for setting
-the core and bus frequencies. These registers are owned
-by the clk driver, so move the low-level access into that
-driver with a slightly higher-level interface and avoid
-any machine header file dependencies.
+In a multiplatform kernel that includes both pxa and mmp, we get a link
+failure from the clash of two pxa_register_device functions.
 
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-clk@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
+Rename the one in mach-mmp to mmp_register_device, along with with the
+rename of pxa_device_desc.
+
+Acked-by: Lubomir Rintel <lkundrak@v3.sk>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/generic.h              |  1 -
- arch/arm/mach-pxa/include/mach/generic.h |  5 --
- arch/arm/mach-pxa/pxa3xx.c               |  1 +
- drivers/clk/pxa/clk-pxa3xx.c             | 16 ++++++
- drivers/cpufreq/pxa2xx-cpufreq.c         |  3 --
- drivers/cpufreq/pxa3xx-cpufreq.c         | 64 +++++++++++++-----------
- include/linux/clk/pxa.h                  |  9 ++++
- 7 files changed, 62 insertions(+), 37 deletions(-)
- delete mode 100644 arch/arm/mach-pxa/include/mach/generic.h
- create mode 100644 include/linux/clk/pxa.h
+ arch/arm/mach-mmp/devices.c |  2 +-
+ arch/arm/mach-mmp/devices.h | 10 +++----
+ arch/arm/mach-mmp/mmp2.h    | 48 ++++++++++++++---------------
+ arch/arm/mach-mmp/pxa168.h  | 60 ++++++++++++++++++-------------------
+ arch/arm/mach-mmp/pxa910.h  | 38 +++++++++++------------
+ arch/arm/mach-mmp/ttc_dkb.c |  6 ++--
+ 6 files changed, 82 insertions(+), 82 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/generic.h b/arch/arm/mach-pxa/generic.h
-index 2f706ef97357..487eadb0fc2a 100644
---- a/arch/arm/mach-pxa/generic.h
-+++ b/arch/arm/mach-pxa/generic.h
-@@ -7,7 +7,6 @@
-  */
+diff --git a/arch/arm/mach-mmp/devices.c b/arch/arm/mach-mmp/devices.c
+index 18bee66a671f..79f4a2aa5475 100644
+--- a/arch/arm/mach-mmp/devices.c
++++ b/arch/arm/mach-mmp/devices.c
+@@ -14,7 +14,7 @@
+ #include <linux/soc/mmp/cputype.h>
+ #include "regs-usb.h"
  
- #include <linux/reboot.h>
--#include <mach/generic.h>
+-int __init pxa_register_device(struct pxa_device_desc *desc,
++int __init mmp_register_device(struct mmp_device_desc *desc,
+ 				void *data, size_t size)
+ {
+ 	struct platform_device *pdev;
+diff --git a/arch/arm/mach-mmp/devices.h b/arch/arm/mach-mmp/devices.h
+index 4df596c5c201..d4920ebfebc5 100644
+--- a/arch/arm/mach-mmp/devices.h
++++ b/arch/arm/mach-mmp/devices.h
+@@ -7,7 +7,7 @@
+ #define MAX_RESOURCE_DMA	2
  
- struct irq_data;
+ /* structure for describing the on-chip devices */
+-struct pxa_device_desc {
++struct mmp_device_desc {
+ 	const char	*dev_name;
+ 	const char	*drv_name;
+ 	int		id;
+@@ -18,7 +18,7 @@ struct pxa_device_desc {
+ };
  
-diff --git a/arch/arm/mach-pxa/include/mach/generic.h b/arch/arm/mach-pxa/include/mach/generic.h
-deleted file mode 100644
-index 613f6a299d0d..000000000000
---- a/arch/arm/mach-pxa/include/mach/generic.h
-+++ /dev/null
-@@ -1,5 +0,0 @@
--#ifdef CONFIG_PXA3xx
--extern unsigned	pxa3xx_get_clk_frequency_khz(int);
--#else
--#define pxa3xx_get_clk_frequency_khz(x)		(0)
--#endif
-diff --git a/arch/arm/mach-pxa/pxa3xx.c b/arch/arm/mach-pxa/pxa3xx.c
-index 7881888107c7..f4657f4edb3b 100644
---- a/arch/arm/mach-pxa/pxa3xx.c
-+++ b/arch/arm/mach-pxa/pxa3xx.c
-@@ -25,6 +25,7 @@
- #include <linux/platform_data/i2c-pxa.h>
- #include <linux/platform_data/mmp_dma.h>
- #include <linux/soc/pxa/cpu.h>
-+#include <linux/clk/pxa.h>
+ #define PXA168_DEVICE(_name, _drv, _id, _irq, _start, _size, _dma...)	\
+-struct pxa_device_desc pxa168_device_##_name __initdata = {		\
++struct mmp_device_desc pxa168_device_##_name __initdata = {		\
+ 	.dev_name	= "pxa168-" #_name,				\
+ 	.drv_name	= _drv,						\
+ 	.id		= _id,						\
+@@ -29,7 +29,7 @@ struct pxa_device_desc pxa168_device_##_name __initdata = {		\
+ };
  
- #include <asm/mach/map.h>
- #include <asm/suspend.h>
-diff --git a/drivers/clk/pxa/clk-pxa3xx.c b/drivers/clk/pxa/clk-pxa3xx.c
-index 027b78183565..60a0db4f3790 100644
---- a/drivers/clk/pxa/clk-pxa3xx.c
-+++ b/drivers/clk/pxa/clk-pxa3xx.c
-@@ -16,6 +16,7 @@
- #include <linux/of.h>
- #include <linux/soc/pxa/cpu.h>
- #include <mach/smemc.h>
-+#include <linux/clk/pxa.h>
- #include <mach/pxa3xx-regs.h>
+ #define PXA910_DEVICE(_name, _drv, _id, _irq, _start, _size, _dma...)	\
+-struct pxa_device_desc pxa910_device_##_name __initdata = {		\
++struct mmp_device_desc pxa910_device_##_name __initdata = {		\
+ 	.dev_name	= "pxa910-" #_name,				\
+ 	.drv_name	= _drv,						\
+ 	.id		= _id,						\
+@@ -40,7 +40,7 @@ struct pxa_device_desc pxa910_device_##_name __initdata = {		\
+ };
  
- #include <dt-bindings/clock/pxa-clock.h>
-@@ -79,6 +80,21 @@ unsigned int pxa3xx_get_clk_frequency_khz(int info)
- 	return (unsigned int)clks[0] / KHz;
+ #define MMP2_DEVICE(_name, _drv, _id, _irq, _start, _size, _dma...)	\
+-struct pxa_device_desc mmp2_device_##_name __initdata = {		\
++struct mmp_device_desc mmp2_device_##_name __initdata = {		\
+ 	.dev_name	= "mmp2-" #_name,				\
+ 	.drv_name	= _drv,						\
+ 	.id		= _id,						\
+@@ -50,7 +50,7 @@ struct pxa_device_desc mmp2_device_##_name __initdata = {		\
+ 	.dma		= { _dma },					\
  }
  
-+void pxa3xx_clk_update_accr(u32 disable, u32 enable, u32 xclkcfg, u32 mask)
-+{
-+	u32 accr = ACCR;
-+
-+	accr &= ~disable;
-+	accr |= enable;
-+
-+	ACCR = accr;
-+	if (xclkcfg)
-+		__asm__("mcr p14, 0, %0, c6, c0, 0\n" : : "r"(xclkcfg));
-+
-+	while ((ACSR & mask) != (accr & mask))
-+		cpu_relax();
-+}
-+
- static unsigned long clk_pxa3xx_ac97_get_rate(struct clk_hw *hw,
- 					     unsigned long parent_rate)
+-extern int pxa_register_device(struct pxa_device_desc *, void *, size_t);
++extern int mmp_register_device(struct mmp_device_desc *, void *, size_t);
+ extern int pxa_usb_phy_init(void __iomem *phy_reg);
+ extern void pxa_usb_phy_deinit(void __iomem *phy_reg);
+ 
+diff --git a/arch/arm/mach-mmp/mmp2.h b/arch/arm/mach-mmp/mmp2.h
+index adafc4fba8f4..3ebc1bb13f71 100644
+--- a/arch/arm/mach-mmp/mmp2.h
++++ b/arch/arm/mach-mmp/mmp2.h
+@@ -15,28 +15,28 @@ extern void mmp2_clear_pmic_int(void);
+ 
+ #include "devices.h"
+ 
+-extern struct pxa_device_desc mmp2_device_uart1;
+-extern struct pxa_device_desc mmp2_device_uart2;
+-extern struct pxa_device_desc mmp2_device_uart3;
+-extern struct pxa_device_desc mmp2_device_uart4;
+-extern struct pxa_device_desc mmp2_device_twsi1;
+-extern struct pxa_device_desc mmp2_device_twsi2;
+-extern struct pxa_device_desc mmp2_device_twsi3;
+-extern struct pxa_device_desc mmp2_device_twsi4;
+-extern struct pxa_device_desc mmp2_device_twsi5;
+-extern struct pxa_device_desc mmp2_device_twsi6;
+-extern struct pxa_device_desc mmp2_device_sdh0;
+-extern struct pxa_device_desc mmp2_device_sdh1;
+-extern struct pxa_device_desc mmp2_device_sdh2;
+-extern struct pxa_device_desc mmp2_device_sdh3;
+-extern struct pxa_device_desc mmp2_device_asram;
+-extern struct pxa_device_desc mmp2_device_isram;
++extern struct mmp_device_desc mmp2_device_uart1;
++extern struct mmp_device_desc mmp2_device_uart2;
++extern struct mmp_device_desc mmp2_device_uart3;
++extern struct mmp_device_desc mmp2_device_uart4;
++extern struct mmp_device_desc mmp2_device_twsi1;
++extern struct mmp_device_desc mmp2_device_twsi2;
++extern struct mmp_device_desc mmp2_device_twsi3;
++extern struct mmp_device_desc mmp2_device_twsi4;
++extern struct mmp_device_desc mmp2_device_twsi5;
++extern struct mmp_device_desc mmp2_device_twsi6;
++extern struct mmp_device_desc mmp2_device_sdh0;
++extern struct mmp_device_desc mmp2_device_sdh1;
++extern struct mmp_device_desc mmp2_device_sdh2;
++extern struct mmp_device_desc mmp2_device_sdh3;
++extern struct mmp_device_desc mmp2_device_asram;
++extern struct mmp_device_desc mmp2_device_isram;
+ 
+ extern struct platform_device mmp2_device_gpio;
+ 
+ static inline int mmp2_add_uart(int id)
  {
-diff --git a/drivers/cpufreq/pxa2xx-cpufreq.c b/drivers/cpufreq/pxa2xx-cpufreq.c
-index e74d36d6f78d..ed1ae061a687 100644
---- a/drivers/cpufreq/pxa2xx-cpufreq.c
-+++ b/drivers/cpufreq/pxa2xx-cpufreq.c
-@@ -27,9 +27,6 @@
- #include <linux/soc/pxa/cpu.h>
- #include <linux/io.h>
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
  
--#include <mach/pxa2xx-regs.h>
--#include <mach/smemc.h>
--
- #ifdef DEBUG
- static unsigned int freq_debug;
- module_param(freq_debug, uint, 0);
-diff --git a/drivers/cpufreq/pxa3xx-cpufreq.c b/drivers/cpufreq/pxa3xx-cpufreq.c
-index d3b398b4aa6a..4afa48d172db 100644
---- a/drivers/cpufreq/pxa3xx-cpufreq.c
-+++ b/drivers/cpufreq/pxa3xx-cpufreq.c
-@@ -9,12 +9,10 @@
- #include <linux/init.h>
- #include <linux/cpufreq.h>
- #include <linux/soc/pxa/cpu.h>
-+#include <linux/clk/pxa.h>
- #include <linux/slab.h>
- #include <linux/io.h>
+ 	switch (id) {
+ 	case 1: d = &mmp2_device_uart1; break;
+@@ -47,13 +47,13 @@ static inline int mmp2_add_uart(int id)
+ 		return -EINVAL;
+ 	}
  
--#include <mach/generic.h>
--#include <mach/pxa3xx-regs.h>
--
- #define HSS_104M	(0)
- #define HSS_156M	(1)
- #define HSS_208M	(2)
-@@ -35,6 +33,28 @@
- #define DMCFS_26M	(0)
- #define DMCFS_260M	(3)
- 
-+#define ACCR_XPDIS		(1 << 31)	/* Core PLL Output Disable */
-+#define ACCR_SPDIS		(1 << 30)	/* System PLL Output Disable */
-+#define ACCR_D0CS		(1 << 26)	/* D0 Mode Clock Select */
-+#define ACCR_PCCE		(1 << 11)	/* Power Mode Change Clock Enable */
-+#define ACCR_DDR_D0CS		(1 << 7)	/* DDR SDRAM clock frequency in D0CS (PXA31x only) */
-+
-+#define ACCR_SMCFS_MASK		(0x7 << 23)	/* Static Memory Controller Frequency Select */
-+#define ACCR_SFLFS_MASK		(0x3 << 18)	/* Frequency Select for Internal Memory Controller */
-+#define ACCR_XSPCLK_MASK	(0x3 << 16)	/* Core Frequency during Frequency Change */
-+#define ACCR_HSS_MASK		(0x3 << 14)	/* System Bus-Clock Frequency Select */
-+#define ACCR_DMCFS_MASK		(0x3 << 12)	/* Dynamic Memory Controller Clock Frequency Select */
-+#define ACCR_XN_MASK		(0x7 << 8)	/* Core PLL Turbo-Mode-to-Run-Mode Ratio */
-+#define ACCR_XL_MASK		(0x1f)		/* Core PLL Run-Mode-to-Oscillator Ratio */
-+
-+#define ACCR_SMCFS(x)		(((x) & 0x7) << 23)
-+#define ACCR_SFLFS(x)		(((x) & 0x3) << 18)
-+#define ACCR_XSPCLK(x)		(((x) & 0x3) << 16)
-+#define ACCR_HSS(x)		(((x) & 0x3) << 14)
-+#define ACCR_DMCFS(x)		(((x) & 0x3) << 12)
-+#define ACCR_XN(x)		(((x) & 0x7) << 8)
-+#define ACCR_XL(x)		((x) & 0x1f)
-+
- struct pxa3xx_freq_info {
- 	unsigned int cpufreq_mhz;
- 	unsigned int core_xl : 5;
-@@ -112,41 +132,29 @@ static int setup_freqs_table(struct cpufreq_policy *policy,
- 
- static void __update_core_freq(struct pxa3xx_freq_info *info)
- {
--	uint32_t mask = ACCR_XN_MASK | ACCR_XL_MASK;
--	uint32_t accr = ACCR;
--	uint32_t xclkcfg;
--
--	accr &= ~(ACCR_XN_MASK | ACCR_XL_MASK | ACCR_XSPCLK_MASK);
--	accr |= ACCR_XN(info->core_xn) | ACCR_XL(info->core_xl);
-+	u32 mask, disable, enable, xclkcfg;
- 
-+	mask	= ACCR_XN_MASK | ACCR_XL_MASK;
-+	disable = mask | ACCR_XSPCLK_MASK;
-+	enable  = ACCR_XN(info->core_xn) | ACCR_XL(info->core_xl);
- 	/* No clock until core PLL is re-locked */
--	accr |= ACCR_XSPCLK(XSPCLK_NONE);
--
-+	enable |= ACCR_XSPCLK(XSPCLK_NONE);
- 	xclkcfg = (info->core_xn == 2) ? 0x3 : 0x2;	/* turbo bit */
- 
--	ACCR = accr;
--	__asm__("mcr p14, 0, %0, c6, c0, 0\n" : : "r"(xclkcfg));
--
--	while ((ACSR & mask) != (accr & mask))
--		cpu_relax();
-+	pxa3xx_clk_update_accr(disable, enable, xclkcfg, mask);
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
  }
  
- static void __update_bus_freq(struct pxa3xx_freq_info *info)
+ static inline int mmp2_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 				  struct i2c_board_info *info, unsigned size)
  {
--	uint32_t mask;
--	uint32_t accr = ACCR;
--
--	mask = ACCR_SMCFS_MASK | ACCR_SFLFS_MASK | ACCR_HSS_MASK |
--		ACCR_DMCFS_MASK;
--
--	accr &= ~mask;
--	accr |= ACCR_SMCFS(info->smcfs) | ACCR_SFLFS(info->sflfs) |
--		ACCR_HSS(info->hss) | ACCR_DMCFS(info->dmcfs);
-+	u32 mask, disable, enable;
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 	int ret;
  
--	ACCR = accr;
-+	mask	= ACCR_SMCFS_MASK | ACCR_SFLFS_MASK | ACCR_HSS_MASK |
-+		  ACCR_DMCFS_MASK;
-+	disable = mask;
-+	enable	= ACCR_SMCFS(info->smcfs) | ACCR_SFLFS(info->sflfs) |
-+		  ACCR_HSS(info->hss) | ACCR_DMCFS(info->dmcfs);
+ 	switch (id) {
+@@ -71,12 +71,12 @@ static inline int mmp2_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 	if (ret)
+ 		return ret;
  
--	while ((ACSR & mask) != (accr & mask))
--		cpu_relax();
-+	pxa3xx_clk_update_accr(disable, enable, 0, mask);
+-	return pxa_register_device(d, data, sizeof(*data));
++	return mmp_register_device(d, data, sizeof(*data));
  }
  
- static unsigned int pxa3xx_cpufreq_get(unsigned int cpu)
-diff --git a/include/linux/clk/pxa.h b/include/linux/clk/pxa.h
-new file mode 100644
-index 000000000000..e5516c608c99
---- /dev/null
-+++ b/include/linux/clk/pxa.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifdef CONFIG_PXA3xx
-+extern unsigned	pxa3xx_get_clk_frequency_khz(int);
-+extern void pxa3xx_clk_update_accr(u32 disable, u32 enable, u32 xclkcfg, u32 mask);
-+#else
-+#define pxa3xx_get_clk_frequency_khz(x)		(0)
-+#define pxa3xx_clk_update_accr(disable, enable, xclkcfg, mask) do { } while (0)
-+#endif
+ static inline int mmp2_add_sdhost(int id, struct sdhci_pxa_platdata *data)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 0: d = &mmp2_device_sdh0; break;
+@@ -87,17 +87,17 @@ static inline int mmp2_add_sdhost(int id, struct sdhci_pxa_platdata *data)
+ 		return -EINVAL;
+ 	}
+ 
+-	return pxa_register_device(d, data, sizeof(*data));
++	return mmp_register_device(d, data, sizeof(*data));
+ }
+ 
+ static inline int mmp2_add_asram(struct sram_platdata *data)
+ {
+-	return pxa_register_device(&mmp2_device_asram, data, sizeof(*data));
++	return mmp_register_device(&mmp2_device_asram, data, sizeof(*data));
+ }
+ 
+ static inline int mmp2_add_isram(struct sram_platdata *data)
+ {
+-	return pxa_register_device(&mmp2_device_isram, data, sizeof(*data));
++	return mmp_register_device(&mmp2_device_isram, data, sizeof(*data));
+ }
+ 
+ #endif /* __ASM_MACH_MMP2_H */
+diff --git a/arch/arm/mach-mmp/pxa168.h b/arch/arm/mach-mmp/pxa168.h
+index dff651b9f252..34f907cd165a 100644
+--- a/arch/arm/mach-mmp/pxa168.h
++++ b/arch/arm/mach-mmp/pxa168.h
+@@ -21,24 +21,24 @@ extern void pxa168_clear_keypad_wakeup(void);
+ 
+ #include "devices.h"
+ 
+-extern struct pxa_device_desc pxa168_device_uart1;
+-extern struct pxa_device_desc pxa168_device_uart2;
+-extern struct pxa_device_desc pxa168_device_uart3;
+-extern struct pxa_device_desc pxa168_device_twsi0;
+-extern struct pxa_device_desc pxa168_device_twsi1;
+-extern struct pxa_device_desc pxa168_device_pwm1;
+-extern struct pxa_device_desc pxa168_device_pwm2;
+-extern struct pxa_device_desc pxa168_device_pwm3;
+-extern struct pxa_device_desc pxa168_device_pwm4;
+-extern struct pxa_device_desc pxa168_device_ssp1;
+-extern struct pxa_device_desc pxa168_device_ssp2;
+-extern struct pxa_device_desc pxa168_device_ssp3;
+-extern struct pxa_device_desc pxa168_device_ssp4;
+-extern struct pxa_device_desc pxa168_device_ssp5;
+-extern struct pxa_device_desc pxa168_device_nand;
+-extern struct pxa_device_desc pxa168_device_fb;
+-extern struct pxa_device_desc pxa168_device_keypad;
+-extern struct pxa_device_desc pxa168_device_eth;
++extern struct mmp_device_desc pxa168_device_uart1;
++extern struct mmp_device_desc pxa168_device_uart2;
++extern struct mmp_device_desc pxa168_device_uart3;
++extern struct mmp_device_desc pxa168_device_twsi0;
++extern struct mmp_device_desc pxa168_device_twsi1;
++extern struct mmp_device_desc pxa168_device_pwm1;
++extern struct mmp_device_desc pxa168_device_pwm2;
++extern struct mmp_device_desc pxa168_device_pwm3;
++extern struct mmp_device_desc pxa168_device_pwm4;
++extern struct mmp_device_desc pxa168_device_ssp1;
++extern struct mmp_device_desc pxa168_device_ssp2;
++extern struct mmp_device_desc pxa168_device_ssp3;
++extern struct mmp_device_desc pxa168_device_ssp4;
++extern struct mmp_device_desc pxa168_device_ssp5;
++extern struct mmp_device_desc pxa168_device_nand;
++extern struct mmp_device_desc pxa168_device_fb;
++extern struct mmp_device_desc pxa168_device_keypad;
++extern struct mmp_device_desc pxa168_device_eth;
+ 
+ /* pdata can be NULL */
+ extern int __init pxa168_add_usb_host(struct mv_usb_platform_data *pdata);
+@@ -48,7 +48,7 @@ extern struct platform_device pxa168_device_gpio;
+ 
+ static inline int pxa168_add_uart(int id)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 1: d = &pxa168_device_uart1; break;
+@@ -59,13 +59,13 @@ static inline int pxa168_add_uart(int id)
+ 	if (d == NULL)
+ 		return -EINVAL;
+ 
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
+ }
+ 
+ static inline int pxa168_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 				  struct i2c_board_info *info, unsigned size)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 	int ret;
+ 
+ 	switch (id) {
+@@ -79,12 +79,12 @@ static inline int pxa168_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 	if (ret)
+ 		return ret;
+ 
+-	return pxa_register_device(d, data, sizeof(*data));
++	return mmp_register_device(d, data, sizeof(*data));
+ }
+ 
+ static inline int pxa168_add_pwm(int id)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 1: d = &pxa168_device_pwm1; break;
+@@ -95,12 +95,12 @@ static inline int pxa168_add_pwm(int id)
+ 		return -EINVAL;
+ 	}
+ 
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
+ }
+ 
+ static inline int pxa168_add_ssp(int id)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 1: d = &pxa168_device_ssp1; break;
+@@ -111,17 +111,17 @@ static inline int pxa168_add_ssp(int id)
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
+ }
+ 
+ static inline int pxa168_add_nand(struct pxa3xx_nand_platform_data *info)
+ {
+-	return pxa_register_device(&pxa168_device_nand, info, sizeof(*info));
++	return mmp_register_device(&pxa168_device_nand, info, sizeof(*info));
+ }
+ 
+ static inline int pxa168_add_fb(struct pxa168fb_mach_info *mi)
+ {
+-	return pxa_register_device(&pxa168_device_fb, mi, sizeof(*mi));
++	return mmp_register_device(&pxa168_device_fb, mi, sizeof(*mi));
+ }
+ 
+ static inline int pxa168_add_keypad(struct pxa27x_keypad_platform_data *data)
+@@ -129,11 +129,11 @@ static inline int pxa168_add_keypad(struct pxa27x_keypad_platform_data *data)
+ 	if (cpu_is_pxa168())
+ 		data->clear_wakeup_event = pxa168_clear_keypad_wakeup;
+ 
+-	return pxa_register_device(&pxa168_device_keypad, data, sizeof(*data));
++	return mmp_register_device(&pxa168_device_keypad, data, sizeof(*data));
+ }
+ 
+ static inline int pxa168_add_eth(struct pxa168_eth_platform_data *data)
+ {
+-	return pxa_register_device(&pxa168_device_eth, data, sizeof(*data));
++	return mmp_register_device(&pxa168_device_eth, data, sizeof(*data));
+ }
+ #endif /* __ASM_MACH_PXA168_H */
+diff --git a/arch/arm/mach-mmp/pxa910.h b/arch/arm/mach-mmp/pxa910.h
+index 2dfe38e4acc1..6ace5a8aa15b 100644
+--- a/arch/arm/mach-mmp/pxa910.h
++++ b/arch/arm/mach-mmp/pxa910.h
+@@ -13,28 +13,28 @@ extern void __init pxa910_init_irq(void);
+ 
+ #include "devices.h"
+ 
+-extern struct pxa_device_desc pxa910_device_uart1;
+-extern struct pxa_device_desc pxa910_device_uart2;
+-extern struct pxa_device_desc pxa910_device_twsi0;
+-extern struct pxa_device_desc pxa910_device_twsi1;
+-extern struct pxa_device_desc pxa910_device_pwm1;
+-extern struct pxa_device_desc pxa910_device_pwm2;
+-extern struct pxa_device_desc pxa910_device_pwm3;
+-extern struct pxa_device_desc pxa910_device_pwm4;
+-extern struct pxa_device_desc pxa910_device_nand;
++extern struct mmp_device_desc pxa910_device_uart1;
++extern struct mmp_device_desc pxa910_device_uart2;
++extern struct mmp_device_desc pxa910_device_twsi0;
++extern struct mmp_device_desc pxa910_device_twsi1;
++extern struct mmp_device_desc pxa910_device_pwm1;
++extern struct mmp_device_desc pxa910_device_pwm2;
++extern struct mmp_device_desc pxa910_device_pwm3;
++extern struct mmp_device_desc pxa910_device_pwm4;
++extern struct mmp_device_desc pxa910_device_nand;
+ extern struct platform_device pxa168_device_usb_phy;
+ extern struct platform_device pxa168_device_u2o;
+ extern struct platform_device pxa168_device_u2ootg;
+ extern struct platform_device pxa168_device_u2oehci;
+-extern struct pxa_device_desc pxa910_device_disp;
+-extern struct pxa_device_desc pxa910_device_fb;
+-extern struct pxa_device_desc pxa910_device_panel;
++extern struct mmp_device_desc pxa910_device_disp;
++extern struct mmp_device_desc pxa910_device_fb;
++extern struct mmp_device_desc pxa910_device_panel;
+ extern struct platform_device pxa910_device_gpio;
+ extern struct platform_device pxa910_device_rtc;
+ 
+ static inline int pxa910_add_uart(int id)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 1: d = &pxa910_device_uart1; break;
+@@ -44,13 +44,13 @@ static inline int pxa910_add_uart(int id)
+ 	if (d == NULL)
+ 		return -EINVAL;
+ 
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
+ }
+ 
+ static inline int pxa910_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 				  struct i2c_board_info *info, unsigned size)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 	int ret;
+ 
+ 	switch (id) {
+@@ -64,12 +64,12 @@ static inline int pxa910_add_twsi(int id, struct i2c_pxa_platform_data *data,
+ 	if (ret)
+ 		return ret;
+ 
+-	return pxa_register_device(d, data, sizeof(*data));
++	return mmp_register_device(d, data, sizeof(*data));
+ }
+ 
+ static inline int pxa910_add_pwm(int id)
+ {
+-	struct pxa_device_desc *d = NULL;
++	struct mmp_device_desc *d = NULL;
+ 
+ 	switch (id) {
+ 	case 1: d = &pxa910_device_pwm1; break;
+@@ -80,11 +80,11 @@ static inline int pxa910_add_pwm(int id)
+ 		return -EINVAL;
+ 	}
+ 
+-	return pxa_register_device(d, NULL, 0);
++	return mmp_register_device(d, NULL, 0);
+ }
+ 
+ static inline int pxa910_add_nand(struct pxa3xx_nand_platform_data *info)
+ {
+-	return pxa_register_device(&pxa910_device_nand, info, sizeof(*info));
++	return mmp_register_device(&pxa910_device_nand, info, sizeof(*info));
+ }
+ #endif /* __ASM_MACH_PXA910_H */
+diff --git a/arch/arm/mach-mmp/ttc_dkb.c b/arch/arm/mach-mmp/ttc_dkb.c
+index 4f240760d4aa..345b2e6d5c7e 100644
+--- a/arch/arm/mach-mmp/ttc_dkb.c
++++ b/arch/arm/mach-mmp/ttc_dkb.c
+@@ -253,12 +253,12 @@ static struct spi_board_info spi_board_info[] __initdata = {
+ 
+ static void __init add_disp(void)
+ {
+-	pxa_register_device(&pxa910_device_disp,
++	mmp_register_device(&pxa910_device_disp,
+ 		&dkb_disp_info, sizeof(dkb_disp_info));
+ 	spi_register_board_info(spi_board_info, ARRAY_SIZE(spi_board_info));
+-	pxa_register_device(&pxa910_device_fb,
++	mmp_register_device(&pxa910_device_fb,
+ 		&dkb_fb_info, sizeof(dkb_fb_info));
+-	pxa_register_device(&pxa910_device_panel,
++	mmp_register_device(&pxa910_device_panel,
+ 		&dkb_tpo_panel_info, sizeof(dkb_tpo_panel_info));
+ }
+ #endif
 -- 
 2.29.2
 
