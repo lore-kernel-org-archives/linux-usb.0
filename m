@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D5EC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:45:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6DFC388F3
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 16:46:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235266AbiDSQsZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 12:48:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57106 "EHLO
+        id S244799AbiDSQrJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 12:47:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349580AbiDSQry (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:47:54 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93E967658;
-        Tue, 19 Apr 2022 09:45:09 -0700 (PDT)
+        with ESMTP id S1354823AbiDSQnf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 12:43:35 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BECA8286FB;
+        Tue, 19 Apr 2022 09:40:52 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 28068B81BFE;
-        Tue, 19 Apr 2022 16:45:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DAF6C385AD;
-        Tue, 19 Apr 2022 16:44:59 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 646A7B81BB5;
+        Tue, 19 Apr 2022 16:40:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8675C385AD;
+        Tue, 19 Apr 2022 16:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650386706;
-        bh=oNd2jzd1ZgiC1U71slXEuF0Jw0poX3XVV+5BeDbbYa8=;
+        s=k20201202; t=1650386450;
+        bh=jhDfr1ZWF3PO87dsTFnhjEgY7CrgFIhStoxQAjgbO8c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eVv/JxXnBMI8H1rNYcDgRe1YKiI3MroWqCXwupYAZyfp6Y8ukHiHF/5kn5Mx/+I5y
-         j/799pOJ+F/pj3wyOtKsICgAU+YeAfXm1ukGhaRazluTHJ4IcIEdlRxQPgmpSCuPm1
-         ogEIbzAt5lZDtm97mHkQdDrFBzdy9VafLDkJLSKgUTURMmhufcftKDQ+baPjnPexl2
-         8jHrEZ02A8VZOBE9lEopc2ie/OYNHyzj/pLzbIv452shuanbP3xk00G5QWu60CjSRY
-         NBgn+0C1lnZL16WegiUAVIjrVxIf8VVvn8wl8O1aHfsK4yRsJmWPebcAU9BlGYxb27
-         ad7YKwZ1K48JQ==
+        b=IQZbCphc2aVG/7nQPc8i6SmaXQBHDLcd8lu8VCmzfuxTE9zQ1fttSmG7EuqkoEKfV
+         +AijdqGUGVaVV7Gc6JQtpvmfbM8oJLiqSVhH1EBaliC1N03xEc1T1smfyTfNlPQ+ci
+         g7D2ubLO4DZSZbQ1S7mLLZAjhkr/Lf9nzpyNW7rUgW2JoDBYVacKhRiIFK/VFk/Xdk
+         UDw/LuEvBj9xe6IYc/bXh3fl9uuuA9b3Lcl7FHH7ZpoOjUIFEYceuWcUa/cIuAsEha
+         DxLdKbU1RVdss4xqHuQUN0IBiEAqCfNSmrZdnpLyeTBHr4KtQrWshWX4LLED0dDmoN
+         GxgomaIMHhKEQ==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     robert.jarzmik@free.fr, linux-arm-kernel@lists.infradead.org
 Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
@@ -59,9 +59,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
         linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
         alsa-devel@alsa-project.org
-Subject: [PATCH 48/48] ARM: pxa: convert to multiplatform
-Date:   Tue, 19 Apr 2022 18:38:10 +0200
-Message-Id: <20220419163810.2118169-49-arnd@kernel.org>
+Subject: [PATCH 15/48] ARM: pxa: tosa: use gpio descriptor for audio
+Date:   Tue, 19 Apr 2022 18:37:37 +0200
+Message-Id: <20220419163810.2118169-16-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -73,456 +73,115 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-PXA is now ready to be built into a single kernel with all the
-other ARMv5 platforms, so change the Kconfig bit to finish it
-off. The mach/uncompress.h support is the last bit that goes away,
-getting replaced with the normal DEBUG_LL based approach.
+The audio driver should not use a hardwired gpio number
+from the header. Change it to use a lookup table.
 
+Acked-by: Mark Brown <broonie@kernel.org>
+Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: alsa-devel@alsa-project.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/Kconfig                            | 17 -----
- arch/arm/configs/am200epdkit_defconfig      |  1 +
- arch/arm/configs/cm_x300_defconfig          |  1 +
- arch/arm/configs/colibri_pxa270_defconfig   |  1 +
- arch/arm/configs/colibri_pxa300_defconfig   |  1 +
- arch/arm/configs/corgi_defconfig            |  1 +
- arch/arm/configs/eseries_pxa_defconfig      |  1 +
- arch/arm/configs/ezx_defconfig              |  1 +
- arch/arm/configs/h5000_defconfig            |  1 +
- arch/arm/configs/imote2_defconfig           |  1 +
- arch/arm/configs/lpd270_defconfig           |  1 +
- arch/arm/configs/lubbock_defconfig          |  1 +
- arch/arm/configs/magician_defconfig         |  1 +
- arch/arm/configs/mainstone_defconfig        |  1 +
- arch/arm/configs/palmz72_defconfig          |  1 +
- arch/arm/configs/pcm027_defconfig           |  1 +
- arch/arm/configs/pxa255-idp_defconfig       |  1 +
- arch/arm/configs/pxa3xx_defconfig           |  1 +
- arch/arm/configs/pxa_defconfig              |  1 +
- arch/arm/configs/spitz_defconfig            |  1 +
- arch/arm/configs/trizeps4_defconfig         |  1 +
- arch/arm/configs/viper_defconfig            |  1 +
- arch/arm/configs/xcep_defconfig             |  1 +
- arch/arm/configs/zeus_defconfig             |  1 +
- arch/arm/mach-pxa/Kconfig                   | 14 +++++
- arch/arm/mach-pxa/Makefile.boot             |  3 -
- arch/arm/mach-pxa/include/mach/uncompress.h | 70 ---------------------
- 27 files changed, 37 insertions(+), 90 deletions(-)
- delete mode 100644 arch/arm/mach-pxa/Makefile.boot
- delete mode 100644 arch/arm/mach-pxa/include/mach/uncompress.h
+ arch/arm/mach-pxa/tosa.c | 12 ++++++++++++
+ sound/soc/pxa/tosa.c     | 16 +++++++---------
+ 2 files changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index ace6c08c8ae2..001f77e0058c 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -411,23 +411,6 @@ config ARCH_DOVE
- 	help
- 	  Support for the Marvell Dove SoC 88AP510
+diff --git a/arch/arm/mach-pxa/tosa.c b/arch/arm/mach-pxa/tosa.c
+index 9476ed0f55e9..5a16a025192c 100644
+--- a/arch/arm/mach-pxa/tosa.c
++++ b/arch/arm/mach-pxa/tosa.c
+@@ -887,6 +887,17 @@ static struct platform_device wm9712_device = {
+ 	.id	= -1,
+ };
  
--config ARCH_PXA
--	bool "PXA2xx/PXA3xx-based"
--	select ARM_CPU_SUSPEND if PM
--	select AUTO_ZRELADDR
--	select COMMON_CLK
--	select CLKSRC_PXA
--	select CLKSRC_MMIO
--	select TIMER_OF
--	select CPU_XSCALE if !CPU_XSC3
--	select GPIO_PXA
--	select GPIOLIB
--	select IRQ_DOMAIN
--	select PLAT_PXA
--	select SPARSE_IRQ
--	help
--	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
--
- config ARCH_RPC
- 	bool "RiscPC"
- 	depends on !CC_IS_CLANG && GCC_VERSION < 90100 && GCC_VERSION >= 60000
-diff --git a/arch/arm/configs/am200epdkit_defconfig b/arch/arm/configs/am200epdkit_defconfig
-index 4e49d6cb2f62..9252ce0e722b 100644
---- a/arch/arm/configs/am200epdkit_defconfig
-+++ b/arch/arm/configs/am200epdkit_defconfig
-@@ -10,6 +10,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_GUMSTIX=y
- CONFIG_PCCARD=y
-diff --git a/arch/arm/configs/cm_x300_defconfig b/arch/arm/configs/cm_x300_defconfig
-index 45769d0ddd4e..bb0fcd82d2a7 100644
---- a/arch/arm/configs/cm_x300_defconfig
-+++ b/arch/arm/configs/cm_x300_defconfig
-@@ -10,6 +10,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_MACH_CM_X300=y
-diff --git a/arch/arm/configs/colibri_pxa270_defconfig b/arch/arm/configs/colibri_pxa270_defconfig
-index 52bad9a544a0..b29898fd6a12 100644
---- a/arch/arm/configs/colibri_pxa270_defconfig
-+++ b/arch/arm/configs/colibri_pxa270_defconfig
-@@ -16,6 +16,7 @@ CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_COLIBRI=y
- CONFIG_PREEMPT=y
-diff --git a/arch/arm/configs/colibri_pxa300_defconfig b/arch/arm/configs/colibri_pxa300_defconfig
-index 26e5a67f8e2d..f9d110294644 100644
---- a/arch/arm/configs/colibri_pxa300_defconfig
-+++ b/arch/arm/configs/colibri_pxa300_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_COLIBRI300=y
- CONFIG_AEABI=y
-diff --git a/arch/arm/configs/corgi_defconfig b/arch/arm/configs/corgi_defconfig
-index 15b749f6996d..96c677c98bc7 100644
---- a/arch/arm/configs/corgi_defconfig
-+++ b/arch/arm/configs/corgi_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_SHARPSL=y
- CONFIG_MACH_POODLE=y
-diff --git a/arch/arm/configs/eseries_pxa_defconfig b/arch/arm/configs/eseries_pxa_defconfig
-index 046f4dc2e18e..2146adc1825e 100644
---- a/arch/arm/configs/eseries_pxa_defconfig
-+++ b/arch/arm/configs/eseries_pxa_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_ESERIES=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/ezx_defconfig b/arch/arm/configs/ezx_defconfig
-index 0788a892e160..5d000c8be44e 100644
---- a/arch/arm/configs/ezx_defconfig
-+++ b/arch/arm/configs/ezx_defconfig
-@@ -14,6 +14,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_EZX=y
- CONFIG_NO_HZ=y
-diff --git a/arch/arm/configs/h5000_defconfig b/arch/arm/configs/h5000_defconfig
-index f5a338fefda8..a67d6020aee5 100644
---- a/arch/arm/configs/h5000_defconfig
-+++ b/arch/arm/configs/h5000_defconfig
-@@ -10,6 +10,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_H5000=y
- CONFIG_AEABI=y
-diff --git a/arch/arm/configs/imote2_defconfig b/arch/arm/configs/imote2_defconfig
-index 015b7ef237de..c056fe29d300 100644
---- a/arch/arm/configs/imote2_defconfig
-+++ b/arch/arm/configs/imote2_defconfig
-@@ -13,6 +13,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_INTELMOTE2=y
- CONFIG_NO_HZ=y
-diff --git a/arch/arm/configs/lpd270_defconfig b/arch/arm/configs/lpd270_defconfig
-index 3a4d0e64cd6e..5c0a671ed294 100644
---- a/arch/arm/configs/lpd270_defconfig
-+++ b/arch/arm/configs/lpd270_defconfig
-@@ -2,6 +2,7 @@ CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_SLAB=y
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_LOGICPD_PXA270=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/lubbock_defconfig b/arch/arm/configs/lubbock_defconfig
-index 4ce2da2e76fa..cf49dc1629a7 100644
---- a/arch/arm/configs/lubbock_defconfig
-+++ b/arch/arm/configs/lubbock_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_LUBBOCK=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/magician_defconfig b/arch/arm/configs/magician_defconfig
-index abde1fb23b20..13da808ffa13 100644
---- a/arch/arm/configs/magician_defconfig
-+++ b/arch/arm/configs/magician_defconfig
-@@ -9,6 +9,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_H4700=y
- CONFIG_MACH_MAGICIAN=y
-diff --git a/arch/arm/configs/mainstone_defconfig b/arch/arm/configs/mainstone_defconfig
-index 26499b697f9f..03b4c61bdadd 100644
---- a/arch/arm/configs/mainstone_defconfig
-+++ b/arch/arm/configs/mainstone_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_MAINSTONE=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/palmz72_defconfig b/arch/arm/configs/palmz72_defconfig
-index b47c8abe85bc..e6acb1d588e2 100644
---- a/arch/arm/configs/palmz72_defconfig
-+++ b/arch/arm/configs/palmz72_defconfig
-@@ -7,6 +7,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_PALM=y
- # CONFIG_MACH_PALMTX is not set
-diff --git a/arch/arm/configs/pcm027_defconfig b/arch/arm/configs/pcm027_defconfig
-index e97a158081fc..106d5bef48e2 100644
---- a/arch/arm/configs/pcm027_defconfig
-+++ b/arch/arm/configs/pcm027_defconfig
-@@ -13,6 +13,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_PCM027=y
- CONFIG_MACH_PCM990_BASEBOARD=y
-diff --git a/arch/arm/configs/pxa255-idp_defconfig b/arch/arm/configs/pxa255-idp_defconfig
-index 4a383afa5e87..5663245e9534 100644
---- a/arch/arm/configs/pxa255-idp_defconfig
-+++ b/arch/arm/configs/pxa255-idp_defconfig
-@@ -1,6 +1,7 @@
- CONFIG_SYSVIPC=y
- CONFIG_LOG_BUF_SHIFT=14
- CONFIG_MODULES=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_PXA_IDP=y
- # CONFIG_ARM_THUMB is not set
-diff --git a/arch/arm/configs/pxa3xx_defconfig b/arch/arm/configs/pxa3xx_defconfig
-index f0c34017f2aa..228d4271748b 100644
---- a/arch/arm/configs/pxa3xx_defconfig
-+++ b/arch/arm/configs/pxa3xx_defconfig
-@@ -6,6 +6,7 @@ CONFIG_KALLSYMS_ALL=y
- CONFIG_SLAB=y
- CONFIG_MODULES=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_LITTLETON=y
- CONFIG_MACH_TAVOREVB=y
-diff --git a/arch/arm/configs/pxa_defconfig b/arch/arm/configs/pxa_defconfig
-index 29b1f192afbb..1db70dfd32d2 100644
---- a/arch/arm/configs/pxa_defconfig
-+++ b/arch/arm/configs/pxa_defconfig
-@@ -23,6 +23,7 @@ CONFIG_MODULE_SRCVERSION_ALL=y
- CONFIG_PARTITION_ADVANCED=y
- CONFIG_LDM_PARTITION=y
- CONFIG_CMDLINE_PARTITION=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_LUBBOCK=y
- CONFIG_MACH_MAINSTONE=y
-diff --git a/arch/arm/configs/spitz_defconfig b/arch/arm/configs/spitz_defconfig
-index f42c7a502b6e..43d079ee342a 100644
---- a/arch/arm/configs/spitz_defconfig
-+++ b/arch/arm/configs/spitz_defconfig
-@@ -9,6 +9,7 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_PXA_SHARPSL=y
- CONFIG_MACH_AKITA=y
-diff --git a/arch/arm/configs/trizeps4_defconfig b/arch/arm/configs/trizeps4_defconfig
-index d66f0c287d41..baeba4667e9b 100644
---- a/arch/arm/configs/trizeps4_defconfig
-+++ b/arch/arm/configs/trizeps4_defconfig
-@@ -14,6 +14,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_TRIZEPS_PXA=y
- CONFIG_MACH_TRIZEPS4=y
-diff --git a/arch/arm/configs/viper_defconfig b/arch/arm/configs/viper_defconfig
-index c28539bfd128..7c1029716ea5 100644
---- a/arch/arm/configs/viper_defconfig
-+++ b/arch/arm/configs/viper_defconfig
-@@ -9,6 +9,7 @@ CONFIG_SLAB=y
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_ARCH_VIPER=y
- CONFIG_IWMMXT=y
-diff --git a/arch/arm/configs/xcep_defconfig b/arch/arm/configs/xcep_defconfig
-index 4d8e7f2eaef7..3752672f980e 100644
---- a/arch/arm/configs/xcep_defconfig
-+++ b/arch/arm/configs/xcep_defconfig
-@@ -19,6 +19,7 @@ CONFIG_MODULE_UNLOAD=y
- CONFIG_MODVERSIONS=y
- CONFIG_MODULE_SRCVERSION_ALL=y
- # CONFIG_BLOCK is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_XCEP=y
- CONFIG_IWMMXT=y
-diff --git a/arch/arm/configs/zeus_defconfig b/arch/arm/configs/zeus_defconfig
-index 25bb6995f105..03a12fb51259 100644
---- a/arch/arm/configs/zeus_defconfig
-+++ b/arch/arm/configs/zeus_defconfig
-@@ -4,6 +4,7 @@ CONFIG_LOG_BUF_SHIFT=13
- CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_PXA=y
- CONFIG_MACH_ARCOM_ZEUS=y
- CONFIG_PCCARD=m
-diff --git a/arch/arm/mach-pxa/Kconfig b/arch/arm/mach-pxa/Kconfig
-index 57f0be4065c1..d2cea239fe13 100644
---- a/arch/arm/mach-pxa/Kconfig
-+++ b/arch/arm/mach-pxa/Kconfig
-@@ -1,4 +1,18 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+menuconfig ARCH_PXA
-+	bool "PXA2xx/PXA3xx-based"
-+	depends on ARCH_MULTI_V5
-+	select ARM_CPU_SUSPEND if PM
-+	select CLKSRC_PXA
-+	select CLKSRC_MMIO
-+	select TIMER_OF
-+	select CPU_XSCALE if !CPU_XSC3
-+	select GPIO_PXA
-+	select GPIOLIB
-+	select PLAT_PXA
-+	help
-+	  Support for Intel/Marvell's PXA2xx/PXA3xx processor line.
++static struct gpiod_lookup_table tosa_audio_gpio_table = {
++	.dev_id = "tosa-audio",
++	.table = {
++		GPIO_LOOKUP("tc6393xb",
++			    TOSA_GPIO_L_MUTE - TOSA_TC6393XB_GPIO_BASE,
++			    "l-mute", GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
 +
- if ARCH_PXA
++
+ static struct platform_device tosa_audio_device = {
+ 	.name	= "tosa-audio",
+ 	.id	= -1,
+@@ -944,6 +955,7 @@ static void __init tosa_init(void)
+ 	PMCR = 0x01;
  
- menu "Intel PXA2xx/PXA3xx Implementations"
-diff --git a/arch/arm/mach-pxa/Makefile.boot b/arch/arm/mach-pxa/Makefile.boot
-deleted file mode 100644
-index bb6e353ecf06..000000000000
---- a/arch/arm/mach-pxa/Makefile.boot
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--   zreladdr-y	+= 0xa0008000
--
-diff --git a/arch/arm/mach-pxa/include/mach/uncompress.h b/arch/arm/mach-pxa/include/mach/uncompress.h
-deleted file mode 100644
-index 1ed629e38ce6..000000000000
---- a/arch/arm/mach-pxa/include/mach/uncompress.h
-+++ /dev/null
-@@ -1,70 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * arch/arm/mach-pxa/include/mach/uncompress.h
-- *
-- * Author:	Nicolas Pitre
-- * Copyright:	(C) 2001 MontaVista Software Inc.
-- */
--
--#include <linux/serial_reg.h>
--#include <asm/mach-types.h>
--
--#define FFUART_BASE	(0x40100000)
--#define BTUART_BASE	(0x40200000)
--#define STUART_BASE	(0x40700000)
--
--unsigned long uart_base;
--unsigned int uart_shift;
--unsigned int uart_is_pxa;
--
--static inline unsigned char uart_read(int offset)
--{
--	return *(volatile unsigned char *)(uart_base + (offset << uart_shift));
--}
--
--static inline void uart_write(unsigned char val, int offset)
--{
--	*(volatile unsigned char *)(uart_base + (offset << uart_shift)) = val;
--}
--
--static inline int uart_is_enabled(void)
--{
--	/* assume enabled by default for non-PXA uarts */
--	return uart_is_pxa ? uart_read(UART_IER) & UART_IER_UUE : 1;
--}
--
--static inline void putc(char c)
--{
--	if (!uart_is_enabled())
--		return;
--
--	while (!(uart_read(UART_LSR) & UART_LSR_THRE))
--		barrier();
--
--	uart_write(c, UART_TX);
--}
--
--/*
-- * This does not append a newline
-- */
--static inline void flush(void)
--{
--}
--
--static inline void arch_decomp_setup(void)
--{
--	/* initialize to default */
--	uart_base = FFUART_BASE;
--	uart_shift = 2;
--	uart_is_pxa = 1;
--
--	if (machine_is_littleton() ||  machine_is_csb726() ||
--	    machine_is_cm_x300() || machine_is_balloon3())
--		uart_base = STUART_BASE;
--
--	if (machine_is_arcom_zeus()) {
--		uart_base = 0x10000000;	/* nCS4 */
--		uart_shift = 1;
--		uart_is_pxa = 0;
+ 	gpiod_add_lookup_table(&tosa_mci_gpio_table);
++	gpiod_add_lookup_table(&tosa_audio_gpio_table);
+ 	pxa_set_mci_info(&tosa_mci_platform_data);
+ 	pxa_set_ficp_info(&tosa_ficp_platform_data);
+ 	pxa_set_i2c_info(NULL);
+diff --git a/sound/soc/pxa/tosa.c b/sound/soc/pxa/tosa.c
+index 06226f9b863e..157e6bcacffd 100644
+--- a/sound/soc/pxa/tosa.c
++++ b/sound/soc/pxa/tosa.c
+@@ -16,14 +16,13 @@
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/device.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ 
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+ #include <sound/soc.h>
+ 
+ #include <asm/mach-types.h>
+-#include <mach/tosa.h>
+ #include <linux/platform_data/asoc-pxa.h>
+ 
+ #define TOSA_HP        0
+@@ -35,6 +34,7 @@
+ 
+ static int tosa_jack_func;
+ static int tosa_spk_func;
++static struct gpio_desc *l_mute_gpio;
+ 
+ static void tosa_ext_control(struct snd_soc_dapm_context *dapm)
+ {
+@@ -128,7 +128,7 @@ static int tosa_set_spk(struct snd_kcontrol *kcontrol,
+ static int tosa_hp_event(struct snd_soc_dapm_widget *w,
+ 	struct snd_kcontrol *k, int event)
+ {
+-	gpio_set_value(TOSA_GPIO_L_MUTE, SND_SOC_DAPM_EVENT_ON(event) ? 1 : 0);
++	gpiod_set_value(l_mute_gpio, SND_SOC_DAPM_EVENT_ON(event) ? 1 : 0);
+ 	return 0;
+ }
+ 
+@@ -222,25 +222,23 @@ static int tosa_probe(struct platform_device *pdev)
+ 	struct snd_soc_card *card = &tosa;
+ 	int ret;
+ 
+-	ret = gpio_request_one(TOSA_GPIO_L_MUTE, GPIOF_OUT_INIT_LOW,
+-			       "Headphone Jack");
++	l_mute_gpio = devm_gpiod_get(&pdev->dev, "l-mute", GPIOD_OUT_LOW);
++	ret = PTR_ERR_OR_ZERO(l_mute_gpio);
+ 	if (ret)
+ 		return ret;
+ 
+ 	card->dev = &pdev->dev;
+ 
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	if (ret) {
++	if (ret)
+ 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
+ 			ret);
+-		gpio_free(TOSA_GPIO_L_MUTE);
 -	}
--}
++
+ 	return ret;
+ }
+ 
+ static int tosa_remove(struct platform_device *pdev)
+ {
+-	gpio_free(TOSA_GPIO_L_MUTE);
+ 	return 0;
+ }
+ 
 -- 
 2.29.2
 
