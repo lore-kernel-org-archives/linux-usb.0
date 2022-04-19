@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC4DDC43219
-	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:46:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDFCDC4167B
+	for <linux-usb@archiver.kernel.org>; Tue, 19 Apr 2022 13:46:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245341AbiDSNsw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 19 Apr 2022 09:48:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43844 "EHLO
+        id S1352656AbiDSNsy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 19 Apr 2022 09:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352930AbiDSNri (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:47:38 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D35396A3;
-        Tue, 19 Apr 2022 06:41:57 -0700 (PDT)
+        with ESMTP id S1353182AbiDSNsL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 19 Apr 2022 09:48:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F816F6A;
+        Tue, 19 Apr 2022 06:42:26 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4D927B81989;
-        Tue, 19 Apr 2022 13:41:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BEDAC385A7;
-        Tue, 19 Apr 2022 13:41:47 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 390B8B81986;
+        Tue, 19 Apr 2022 13:42:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C17C385B1;
+        Tue, 19 Apr 2022 13:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650375715;
-        bh=G7R/+rDcrqJrNt8dUwADm5Egv0xkIUTxO8ciErqFtk0=;
+        s=k20201202; t=1650375744;
+        bh=W3qNGAAX2ECL+9vJh3xisWUOh4fEYqZMZtajKR6sclM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YHGoZlohuS2JgLOhYhCZMFxaUN1Y+HHoJ/YVPLZp7vCduTgmqkayQKXajDhUPyzKd
-         Zw+VuabZI/Z/zUnS9e+NNz9Ez4+ZtPDkOL4OLlhLrloQ+AJvPS0QO1iYDv8tI5bLRf
-         nuSKDdKTYFPVL4xbBFv9TGc44BTfEff9oQ5RrIpvKqT0SOIjiF7Dfl3kq0BalXCprk
-         NWFSU4pjGWpfaAp9OzYmoO11yKu8KADVKnLEUwtNUeAGga8OA9KsCxXCO6pNJmXp3Z
-         cjM+2jNEsAjQu5ecXU/0xHR8UqdU5JPwhpNVuo62gjAo3uWz7YFbqRe7SKVD5IsdtH
-         qbq82O/KVjaWw==
+        b=SKr7WyMGRCWl7v/bvtIsgn5/V3JSlMflq4Q/DrYtsnDWWlhOP2f/QZz/mAStrQbfv
+         OSwRVbecQTirW0bkg8ct8ZX3ZvidG0fdpIIrdb2ikG6e1iNCk3oIpODN2KEsBn4jaL
+         iL1TEBzQNkc83ablhzvNcTWLRxSQzhIsMUM2UfvRw82yolwxFIjf4Y+jmK8MZi28dA
+         ifEP8JGP4wd2T+YWPd4y4nvn8O71HicpNzx1mj7AHN8SDPpjQNwTaZ+3S7klD2C0Uk
+         BJ3IJCwHBlprKwQ/njIgRCNqvECW/GFDYnEeMMMA/9HeNtfHcZKV7YKlqEhQpUs3u3
+         p4wr3YRVJnM7w==
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
         jmkrzyszt@gmail.com
@@ -57,9 +57,9 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
         linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: [PATCH 34/41] ARM: OMAP1: clock: Remove noop code
-Date:   Tue, 19 Apr 2022 15:37:16 +0200
-Message-Id: <20220419133723.1394715-35-arnd@kernel.org>
+Subject: [PATCH 38/41] [MERGED] mmc: omap: Make it CCF clk API compatible
+Date:   Tue, 19 Apr 2022 15:37:20 +0200
+Message-Id: <20220419133723.1394715-39-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -71,135 +71,90 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-There are some OMAP1 clock code bits that have no effect:
-- crystal_type variable is set to 0 but never changed, then
-  crystal_type == 2 condition is never true and ck_ref.rate never set to
-  19200000,
-- clk->ops->allow_idle() is called from omap_clk_enable_autoidle_all() but
-  that op is not configured for any clock, then the function does nothing
-  and the op field is not needed,
-- ENABLE_ON_INIT flag is set for some clocks but is never checked by any
-  code, then not needed.
-Drop that code.
+The driver, OMAP specific, now omits clk_prepare/unprepare() steps, not
+supported by OMAP custom implementation of clock API.  However, non-CCF
+stubs of those functions exist for use on such platforms until converted
+to CCF.
+
+Update the driver to be compatible with CCF implementation of clock API.
 
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-omap1/clock.c      | 17 -----------------
- arch/arm/mach-omap1/clock.h      |  3 ---
- arch/arm/mach-omap1/clock_data.c |  8 +-------
- 3 files changed, 1 insertion(+), 27 deletions(-)
+ drivers/mmc/host/omap.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/mach-omap1/clock.c b/arch/arm/mach-omap1/clock.c
-index 5ea8ec026a85..e5bd4d3b742d 100644
---- a/arch/arm/mach-omap1/clock.c
-+++ b/arch/arm/mach-omap1/clock.c
-@@ -798,22 +798,6 @@ void clk_unregister(struct clk *clk)
+diff --git a/drivers/mmc/host/omap.c b/drivers/mmc/host/omap.c
+index 5e5af34090f1..57d39283924d 100644
+--- a/drivers/mmc/host/omap.c
++++ b/drivers/mmc/host/omap.c
+@@ -1374,7 +1374,7 @@ static int mmc_omap_probe(struct platform_device *pdev)
+ 	host->iclk = clk_get(&pdev->dev, "ick");
+ 	if (IS_ERR(host->iclk))
+ 		return PTR_ERR(host->iclk);
+-	clk_enable(host->iclk);
++	clk_prepare_enable(host->iclk);
+ 
+ 	host->fclk = clk_get(&pdev->dev, "fck");
+ 	if (IS_ERR(host->fclk)) {
+@@ -1382,16 +1382,18 @@ static int mmc_omap_probe(struct platform_device *pdev)
+ 		goto err_free_iclk;
+ 	}
+ 
++	ret = clk_prepare(host->fclk);
++	if (ret)
++		goto err_put_fclk;
++
+ 	host->dma_tx_burst = -1;
+ 	host->dma_rx_burst = -1;
+ 
+ 	host->dma_tx = dma_request_chan(&pdev->dev, "tx");
+ 	if (IS_ERR(host->dma_tx)) {
+ 		ret = PTR_ERR(host->dma_tx);
+-		if (ret == -EPROBE_DEFER) {
+-			clk_put(host->fclk);
+-			goto err_free_iclk;
+-		}
++		if (ret == -EPROBE_DEFER)
++			goto err_free_fclk;
+ 
+ 		host->dma_tx = NULL;
+ 		dev_warn(host->dev, "TX DMA channel request failed\n");
+@@ -1403,8 +1405,7 @@ static int mmc_omap_probe(struct platform_device *pdev)
+ 		if (ret == -EPROBE_DEFER) {
+ 			if (host->dma_tx)
+ 				dma_release_channel(host->dma_tx);
+-			clk_put(host->fclk);
+-			goto err_free_iclk;
++			goto err_free_fclk;
+ 		}
+ 
+ 		host->dma_rx = NULL;
+@@ -1454,9 +1455,12 @@ static int mmc_omap_probe(struct platform_device *pdev)
+ 		dma_release_channel(host->dma_tx);
+ 	if (host->dma_rx)
+ 		dma_release_channel(host->dma_rx);
++err_free_fclk:
++	clk_unprepare(host->fclk);
++err_put_fclk:
+ 	clk_put(host->fclk);
+ err_free_iclk:
+-	clk_disable(host->iclk);
++	clk_disable_unprepare(host->iclk);
+ 	clk_put(host->iclk);
+ 	return ret;
  }
- EXPORT_SYMBOL(clk_unregister);
+@@ -1476,8 +1480,9 @@ static int mmc_omap_remove(struct platform_device *pdev)
  
--int omap_clk_enable_autoidle_all(void)
--{
--	struct clk *c;
--	unsigned long flags;
--
--	spin_lock_irqsave(&clockfw_lock, flags);
--
--	list_for_each_entry(c, &clocks, node)
--		if (c->ops->allow_idle)
--			c->ops->allow_idle(c);
--
--	spin_unlock_irqrestore(&clockfw_lock, flags);
--
--	return 0;
--}
--
- /*
-  * Low level helpers
-  */
-@@ -871,7 +855,6 @@ static int __init clk_disable_unused(void)
- 	return 0;
- }
- late_initcall(clk_disable_unused);
--late_initcall(omap_clk_enable_autoidle_all);
- #endif
+ 	mmc_omap_fclk_enable(host, 0);
+ 	free_irq(host->irq, host);
++	clk_unprepare(host->fclk);
+ 	clk_put(host->fclk);
+-	clk_disable(host->iclk);
++	clk_disable_unprepare(host->iclk);
+ 	clk_put(host->iclk);
  
- #if defined(CONFIG_PM_DEBUG) && defined(CONFIG_DEBUG_FS)
-diff --git a/arch/arm/mach-omap1/clock.h b/arch/arm/mach-omap1/clock.h
-index 7bebd488f1be..8025e4a22469 100644
---- a/arch/arm/mach-omap1/clock.h
-+++ b/arch/arm/mach-omap1/clock.h
-@@ -53,7 +53,6 @@ struct omap_clk {
- struct clkops {
- 	int			(*enable)(struct clk *);
- 	void			(*disable)(struct clk *);
--	void			(*allow_idle)(struct clk *);
- };
- 
- /*
-@@ -64,7 +63,6 @@ struct clkops {
- #define ENABLE_REG_32BIT	(1 << 0)	/* Use 32-bit access */
- #define CLOCK_IDLE_CONTROL	(1 << 1)
- #define CLOCK_NO_IDLE_PARENT	(1 << 2)
--#define ENABLE_ON_INIT		(1 << 3)	/* Enable upon framework init */
- 
- /**
-  * struct clk - OMAP struct clk
-@@ -135,7 +133,6 @@ extern void clk_unregister(struct clk *clk);
- extern void propagate_rate(struct clk *clk);
- extern unsigned long followparent_recalc(struct clk *clk);
- unsigned long omap_fixed_divisor_recalc(struct clk *clk);
--extern int omap_clk_enable_autoidle_all(void);
- 
- extern const struct clkops clkops_null;
- 
-diff --git a/arch/arm/mach-omap1/clock_data.c b/arch/arm/mach-omap1/clock_data.c
-index 57d3752babf8..9b9c9fcc61c2 100644
---- a/arch/arm/mach-omap1/clock_data.c
-+++ b/arch/arm/mach-omap1/clock_data.c
-@@ -92,8 +92,7 @@ static struct arm_idlect1_clk ck_dpll1out = {
- 		.name		= "ck_dpll1out",
- 		.ops		= &clkops_generic,
- 		.parent		= &ck_dpll1,
--		.flags		= CLOCK_IDLE_CONTROL | ENABLE_REG_32BIT |
--				  ENABLE_ON_INIT,
-+		.flags		= CLOCK_IDLE_CONTROL | ENABLE_REG_32BIT,
- 		.enable_reg	= OMAP1_IO_ADDRESS(ARM_IDLECT2),
- 		.enable_bit	= EN_CKOUT_ARM,
- 		.recalc		= &followparent_recalc,
-@@ -146,7 +145,6 @@ static struct clk arm_gpio_ck = {
- 	.name		= "ick",
- 	.ops		= &clkops_generic,
- 	.parent		= &ck_dpll1,
--	.flags		= ENABLE_ON_INIT,
- 	.enable_reg	= OMAP1_IO_ADDRESS(ARM_IDLECT2),
- 	.enable_bit	= EN_GPIOCK,
- 	.recalc		= &followparent_recalc,
-@@ -316,7 +314,6 @@ static struct clk tc2_ck = {
- 	.name		= "tc2_ck",
- 	.ops		= &clkops_generic,
- 	.parent		= &tc_ck.clk,
--	.flags		= ENABLE_ON_INIT,
- 	.enable_reg	= OMAP1_IO_ADDRESS(ARM_IDLECT3),
- 	.enable_bit	= EN_TC2_CK,
- 	.recalc		= &followparent_recalc,
-@@ -762,7 +759,6 @@ u32 cpu_mask;
- int __init omap1_clk_init(void)
- {
- 	struct omap_clk *c;
--	int crystal_type = 0; /* Default 12 MHz */
- 	u32 reg;
- 
- #ifdef CONFIG_DEBUG_LL
-@@ -810,8 +806,6 @@ int __init omap1_clk_init(void)
- 
- 	if (cpu_is_omap7xx())
- 		ck_ref.rate = 13000000;
--	if (cpu_is_omap16xx() && crystal_type == 2)
--		ck_ref.rate = 19200000;
- 
- 	pr_info("Clocks: ARM_SYSST: 0x%04x DPLL_CTL: 0x%04x ARM_CKCTL: 0x%04x\n",
- 		omap_readw(ARM_SYSST), omap_readw(DPLL_CTL),
+ 	if (host->dma_tx)
 -- 
 2.29.2
 
