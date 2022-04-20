@@ -2,150 +2,122 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92EFEC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Apr 2022 15:00:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4626EC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Apr 2022 15:10:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379919AbiDTPDC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Apr 2022 11:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58570 "EHLO
+        id S1380028AbiDTPNS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Apr 2022 11:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1379881AbiDTPC4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Apr 2022 11:02:56 -0400
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com [148.163.143.35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9877E11A20;
-        Wed, 20 Apr 2022 08:00:09 -0700 (PDT)
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 23KETO8K024773;
-        Wed, 20 Apr 2022 14:59:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : subject :
- date : message-id; s=pps0720;
- bh=SrJ1s9ybwVbdOOH7gaX0781T69f23uJScMgAQXx2D9s=;
- b=mVF4jgUb+ooe5pMgvTeUB8D2IRz/uWHiglputfztkKAkwk6gsaEwG7oS6upmuSAJYrZC
- mRfEWStqBrfn7UfCC1Hkk4ZwoJjL/NddIwX58nxUWasnE4DzlZFoKqqN7KtY7SFn6i7O
- ZyyU49dZzCjy7/k13YU7u0/BiUb4cPgkjl2iHV+hr2+cz6yC4u8akKmVK2UnKZUn/yo7
- XPQjmMzexasVeotZmsUxRgRaToSjYjK1zG8W+qodNuWZ+cYXHDMw1Gj5rTt4sehGTcct
- 0UnZinGKVaYO6VVwAKA3PLjMwP60njxIfyEIE4otZ2EVXQ/2SBaooxc/hVVaU3P07gjR 2Q== 
-Received: from g9t5009.houston.hpe.com (g9t5009.houston.hpe.com [15.241.48.73])
-        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3fjkypr8t3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 20 Apr 2022 14:59:15 +0000
-Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
-        by g9t5009.houston.hpe.com (Postfix) with ESMTP id F03E255;
-        Wed, 20 Apr 2022 14:59:13 +0000 (UTC)
-Received: from hpe.com (cigateway-dev.us.rdlabs.hpecorp.net [10.14.73.30])
-        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id 711514A;
-        Wed, 20 Apr 2022 14:59:12 +0000 (UTC)
-From:   nick.hawkins@hpe.com
-To:     verdun@hpe.com, nick.hawkins@hpe.com, robh+dt@kernel.org,
-        daniel.lezcano@linaro.org, tglx@linutronix.de,
-        gregkh@linuxfoundation.org, wim@linux-watchdog.org,
-        linux@roeck-us.net, linux@armlinux.org.uk, arnd@arndb.de,
-        olof@lixom.net, joel@jms.id.au, soc@kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 00/11] ARM: Introduce HPE GXP Architecture
-Date:   Wed, 20 Apr 2022 10:01:14 -0500
-Message-Id: <20220420150114.47356-1-nick.hawkins@hpe.com>
-X-Mailer: git-send-email 2.17.1
-X-Proofpoint-ORIG-GUID: HaEgkcqBFgiSzCPe6r6przRCKLH88dHH
-X-Proofpoint-GUID: HaEgkcqBFgiSzCPe6r6przRCKLH88dHH
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
- definitions=2022-04-20_04,2022-04-20_01,2022-02-23_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 spamscore=0 clxscore=1011 adultscore=0
- impostorscore=0 mlxlogscore=851 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204200089
+        with ESMTP id S1380077AbiDTPMp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Apr 2022 11:12:45 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1E081BEB8;
+        Wed, 20 Apr 2022 08:09:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 5B4A1210E4;
+        Wed, 20 Apr 2022 15:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1650467398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+        bh=E9Za1fy7SJZVuU3gsJHYcUnfUQspR3rknfU8bXQql9Y=;
+        b=s7o4aJsXllglxjEicM+le/pE5Q4+nZsQh1+qkc+l1wMXB8I5KM8EXHpK9vVJQBopp4olwE
+        /0eL2tvJFzr8/5F+QMy5ysfmCp4A5ramqeRsMJKSZCtFDWgeFHKh6l0oEFDWWCNJk0EhzP
+        yXIHNy0QuiJkmeTPgRibcNpvjDS2yuo=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 96AE513AD5;
+        Wed, 20 Apr 2022 15:09:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id QAKAI0UiYGJILQAAMHmgww
+        (envelope-from <jgross@suse.com>); Wed, 20 Apr 2022 15:09:57 +0000
+From:   Juergen Gross <jgross@suse.com>
+To:     xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-integrity@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Cc:     Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Stefano Stabellini <sstabellini@kernel.org>,
+        =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH 00/18] xen: simplify frontend side ring setup
+Date:   Wed, 20 Apr 2022 17:09:24 +0200
+Message-Id: <20220420150942.31235-1-jgross@suse.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nick Hawkins <nick.hawkins@hpe.com>
+Many Xen PV frontends share similar code for setting up a ring page
+(allocating and granting access for the backend) and for tearing it
+down.
 
-Changes since v3:
- *Completely redid the dtsi file to represent architecture
- *Reduced device tree size
- *Rewrote the timer driver to start the watchdog driver due
- to similar register region
- *Made adjustments to timer
- *Made adjustments to watchdog
- *Changed gxp.yaml to hpe,gxp.yaml with changes
- *Updated Maintainers to represent new file names
- *Added hpe bindings to generic-ehci and generic-ohci
- *Fixed clock architecture to be accurate
+Create new service functions doing all needed steps in one go.
 
-Changes since v2:
- *Reduced size of changes, put them into patchset format
+This requires all frontends to use a common value for an invalid
+grant reference in order to make the functions idempotent.
 
-Changes since v1:
- *Fixed compiler warnings
+Juergen Gross (18):
+  xen/blkfront: switch blkfront to use INVALID_GRANT_REF
+  xen/netfront: switch netfront to use INVALID_GRANT_REF
+  xen/scsifront: remove unused GRANT_INVALID_REF definition
+  xen/usb: switch xen-hcd to use INVALID_GRANT_REF
+  xen/drm: switch xen_drm_front to use INVALID_GRANT_REF
+  xen/sound: switch xen_snd_front to use INVALID_GRANT_REF
+  xen/dmabuf: switch gntdev-dmabuf to use INVALID_GRANT_REF
+  xen/shbuf: switch xen-front-pgdir-shbuf to use INVALID_GRANT_REF
+  xen/xenbus: add xenbus_setup_ring() service function
+  xen/blkfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/netfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/tpmfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/drmfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/pcifront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/scsifront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/usbfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/sndfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/xenbus: eliminate xenbus_grant_ring()
 
-The GXP is the HPE BMC SoC that is used in the majority
-of HPE Generation 10 servers. Traditionally the asic will
-last multiple generations of server before being replaced.
-
-Info about SoC:
-
- HPE GXP is the name of the HPE Soc. This SoC is used to implement
- many BMC features at HPE. It supports ARMv7 architecture based on
- the Cortex A9 core. It is capable of using an AXI bus to which
- a memory controller is attached. It has multiple SPI interfaces
- to connect boot flash and BIOS flash. It uses a 10/100/1000 MAC
- for network connectivity. It has multiple i2c engines to drive
- connectivity with a host infrastructure. The initial patches
- enable the watchdog and timer enabling the host to be able to
- boot. Based on feedback from the device tree gxp-timer now
- creates a gxp-wdt child because of similar register region.
-
-Nick Hawkins (11):
-  arch: arm: mach-hpe: Introduce the HPE GXP architecture
-  arch: arm: configs: multi_v7_defconfig
-  drivers: wdt: Introduce HPE GXP SoC Watchdog
-  clocksource/drivers: Add HPE GXP timer
-  dt-bindings: timer: Add HPE GXP Timer Binding
-  dt-bindings: watchdog: Add HPE GXP Watchdog timer binding
-  dt-bindings: arm: Add HPE GXP Binding
-  dt-bindings: usb: generic-echi:  Add HPE GXP echi binding
-  dt-bindings: usb: generic-ochi:  Add HPE GXP ochi binding
-  arch: arm: boot: dts: Introduce HPE GXP Device tree
-  maintainers: Introduce HPE GXP Architecture
-
- .../devicetree/bindings/arm/hpe,gxp.yaml      |  22 +++
- .../bindings/timer/hpe,gxp-timer.yaml         |  49 +++++
- .../devicetree/bindings/usb/generic-ehci.yaml |   1 +
- .../devicetree/bindings/usb/generic-ohci.yaml |   1 +
- .../bindings/watchdog/hpe,gxp-wdt.yaml        |  30 +++
- MAINTAINERS                                   |  13 ++
- arch/arm/Kconfig                              |   2 +
- arch/arm/Makefile                             |   1 +
- arch/arm/boot/dts/Makefile                    |   2 +
- arch/arm/boot/dts/hpe-bmc-dl360gen10.dts      |  13 ++
- arch/arm/boot/dts/hpe-gxp.dtsi                | 128 ++++++++++++
- arch/arm/configs/multi_v7_defconfig           |   3 +
- arch/arm/mach-hpe/Kconfig                     |  17 ++
- arch/arm/mach-hpe/Makefile                    |   1 +
- arch/arm/mach-hpe/gxp.c                       |  16 ++
- drivers/clocksource/Kconfig                   |   8 +
- drivers/clocksource/Makefile                  |   1 +
- drivers/clocksource/timer-gxp.c               | 183 ++++++++++++++++++
- drivers/watchdog/Kconfig                      |   8 +
- drivers/watchdog/Makefile                     |   1 +
- drivers/watchdog/gxp-wdt.c                    | 166 ++++++++++++++++
- 21 files changed, 666 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/arm/hpe,gxp.yaml
- create mode 100644 Documentation/devicetree/bindings/timer/hpe,gxp-timer.yaml
- create mode 100644 Documentation/devicetree/bindings/watchdog/hpe,gxp-wdt.yaml
- create mode 100644 arch/arm/boot/dts/hpe-bmc-dl360gen10.dts
- create mode 100644 arch/arm/boot/dts/hpe-gxp.dtsi
- create mode 100644 arch/arm/mach-hpe/Kconfig
- create mode 100644 arch/arm/mach-hpe/Makefile
- create mode 100644 arch/arm/mach-hpe/gxp.c
- create mode 100644 drivers/clocksource/timer-gxp.c
- create mode 100644 drivers/watchdog/gxp-wdt.c
+ drivers/block/xen-blkfront.c                | 54 ++++----------
+ drivers/char/tpm/xen-tpmfront.c             | 18 +----
+ drivers/gpu/drm/xen/xen_drm_front.h         |  9 ---
+ drivers/gpu/drm/xen/xen_drm_front_evtchnl.c | 40 +++-------
+ drivers/net/xen-netfront.c                  | 77 ++++++--------------
+ drivers/pci/xen-pcifront.c                  | 19 +----
+ drivers/scsi/xen-scsifront.c                | 30 ++------
+ drivers/usb/host/xen-hcd.c                  | 59 ++++-----------
+ drivers/xen/gntdev-dmabuf.c                 | 13 +---
+ drivers/xen/xen-front-pgdir-shbuf.c         | 17 +----
+ drivers/xen/xenbus/xenbus_client.c          | 81 ++++++++++++++++-----
+ include/xen/xenbus.h                        |  4 +-
+ sound/xen/xen_snd_front_evtchnl.c           | 41 +++--------
+ sound/xen/xen_snd_front_evtchnl.h           |  9 ---
+ 14 files changed, 156 insertions(+), 315 deletions(-)
 
 -- 
-2.17.1
+2.34.1
 
