@@ -2,114 +2,56 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 832A2C4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 20 Apr 2022 15:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E69F0C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 20 Apr 2022 15:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1380041AbiDTPNT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Apr 2022 11:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43340 "EHLO
+        id S1380284AbiDTPh6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Apr 2022 11:37:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1380085AbiDTPMq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Apr 2022 11:12:46 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9B1B1BEB8;
-        Wed, 20 Apr 2022 08:10:00 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        with ESMTP id S1380317AbiDTPhs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Apr 2022 11:37:48 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FB2A19B;
+        Wed, 20 Apr 2022 08:35:01 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 6714C2112B;
-        Wed, 20 Apr 2022 15:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1650467399; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=P9m9SWnGsWjRx9ANR0XSy+QMtPG0e3QupiRUzE89rSY=;
-        b=FqRfpSvFwPYNTbSEb+BczfXaG/PTZ/jawRTYZIcGfRVWCFx/hIuhAVbgCyF6TW7nx10JYF
-        FhE/gNjXdum/2VeRLcck0wNBZhBe41TwRXa/Uxr/OaE4aGv16cRpLtTDb3XaaCaQsxUm2+
-        ubqyrMN6DY0Ttw/z5+7IZWwzUAbuaTo=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3E37713AD5;
-        Wed, 20 Apr 2022 15:09:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id SGcBDkciYGJILQAAMHmgww
-        (envelope-from <jgross@suse.com>); Wed, 20 Apr 2022 15:09:59 +0000
-From:   Juergen Gross <jgross@suse.com>
-To:     xen-devel@lists.xenproject.org, linux-usb@vger.kernel.org,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 04BB161935;
+        Wed, 20 Apr 2022 15:35:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99049C385A1;
+        Wed, 20 Apr 2022 15:34:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1650468900;
+        bh=uDbXPsQLU9tElHGZJOcUaYQxeuzg8LGzzXxfnfZ3DUk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2XUPnrrd1R/EP512qBRWnWZ0CQzmEE6Dw1iC59OeDJXdfO3GGWuRLKz6WcqoeDl5D
+         ktQyyZiQMLceQAGZedyyRmhJKRXY6OJaEc4CrysGnOOyPPwAqL1T0Nl7QeGyvTwzTw
+         /8GKcnxqRD8SZj/o8/zLVJkX/GPJSmuHrvdGtQuU=
+Date:   Wed, 20 Apr 2022 17:34:56 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     xen-devel@lists.xenproject.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Juergen Gross <jgross@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 04/18] xen/usb: switch xen-hcd to use INVALID_GRANT_REF
-Date:   Wed, 20 Apr 2022 17:09:28 +0200
-Message-Id: <20220420150942.31235-5-jgross@suse.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220420150942.31235-1-jgross@suse.com>
+Subject: Re: [PATCH 04/18] xen/usb: switch xen-hcd to use INVALID_GRANT_REF
+Message-ID: <YmAoIPJYoq65uybr@kroah.com>
 References: <20220420150942.31235-1-jgross@suse.com>
+ <20220420150942.31235-5-jgross@suse.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220420150942.31235-5-jgross@suse.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Instead of using a private macro for an invalid grant reference use
-the common one.
+On Wed, Apr 20, 2022 at 05:09:28PM +0200, Juergen Gross wrote:
+> Instead of using a private macro for an invalid grant reference use
+> the common one.
+> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> ---
+>  drivers/usb/host/xen-hcd.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- drivers/usb/host/xen-hcd.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/usb/host/xen-hcd.c b/drivers/usb/host/xen-hcd.c
-index 3e487baf8422..9cbc7c2dab02 100644
---- a/drivers/usb/host/xen-hcd.c
-+++ b/drivers/usb/host/xen-hcd.c
-@@ -87,8 +87,6 @@ struct xenhcd_info {
- 	bool error;
- };
- 
--#define GRANT_INVALID_REF 0
--
- #define XENHCD_RING_JIFFIES (HZ/200)
- #define XENHCD_SCAN_JIFFIES 1
- 
-@@ -1100,17 +1098,17 @@ static void xenhcd_destroy_rings(struct xenhcd_info *info)
- 		unbind_from_irqhandler(info->irq, info);
- 	info->irq = 0;
- 
--	if (info->urb_ring_ref != GRANT_INVALID_REF) {
-+	if (info->urb_ring_ref != INVALID_GRANT_REF) {
- 		gnttab_end_foreign_access(info->urb_ring_ref,
- 					  (unsigned long)info->urb_ring.sring);
--		info->urb_ring_ref = GRANT_INVALID_REF;
-+		info->urb_ring_ref = INVALID_GRANT_REF;
- 	}
- 	info->urb_ring.sring = NULL;
- 
--	if (info->conn_ring_ref != GRANT_INVALID_REF) {
-+	if (info->conn_ring_ref != INVALID_GRANT_REF) {
- 		gnttab_end_foreign_access(info->conn_ring_ref,
- 					  (unsigned long)info->conn_ring.sring);
--		info->conn_ring_ref = GRANT_INVALID_REF;
-+		info->conn_ring_ref = INVALID_GRANT_REF;
- 	}
- 	info->conn_ring.sring = NULL;
- }
-@@ -1123,8 +1121,8 @@ static int xenhcd_setup_rings(struct xenbus_device *dev,
- 	grant_ref_t gref;
- 	int err;
- 
--	info->urb_ring_ref = GRANT_INVALID_REF;
--	info->conn_ring_ref = GRANT_INVALID_REF;
-+	info->urb_ring_ref = INVALID_GRANT_REF;
-+	info->conn_ring_ref = INVALID_GRANT_REF;
- 
- 	urb_sring = (struct xenusb_urb_sring *)get_zeroed_page(
- 							GFP_NOIO | __GFP_HIGH);
--- 
-2.34.1
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
