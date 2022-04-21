@@ -2,76 +2,102 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C3C9C433EF
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Apr 2022 19:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B993CC433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Apr 2022 19:19:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1386619AbiDUTGL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Apr 2022 15:06:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
+        id S1387589AbiDUTWs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Apr 2022 15:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244316AbiDUTGK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 15:06:10 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0E34C422
-        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 12:03:20 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id f17so10397409ybj.10
-        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 12:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=unnM4fXSMJiSpgzSnbjZz/++wfkdNxCsxaJNQt54SI8=;
-        b=yYOJAm4NGLIM7VhPfoM0A7UQlxtEAXOJ5Za+zj3E+xbN5syIkkj2m+fituMnbqpqbj
-         MAiDcU2LdLTMxmLpV0AKC0h/NbvsMeDpzZgxGjbjWsKQPMZgaKP9BIJDVQd0zMPYF9po
-         Vin2Od6SxsI63H8+mR9FZkeZAgbUt390qhzMJ9L9VZglAp21KMC75thGdhMQ1B/aHqYS
-         JHgmzlaJBQfQHcw6bMyAtY2KogmKKIQN5yTLCjgmdRSeFobyeCCjcO+9mQ4aXUcqs74N
-         9pdTeqIqkQGDgy1DRsyG6X3HORECTQ/njdqXVjfcy3maBanaXCuvlLBjXy9yoTbWWI7Y
-         BNuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=unnM4fXSMJiSpgzSnbjZz/++wfkdNxCsxaJNQt54SI8=;
-        b=7Y7tz19o2AA3JXF5RNhiT5PD8bDgq0h7ehD3y/BwMe7EKLtqiYi1xq+T8m5HyoprPs
-         0WlHthEb3CUShdaD2MMr30Nvmc6OwwFh9yY4fGfERfZPLhk0e1rPv5ZkBVUW4FOqiphp
-         jUyZ8fiLIo44XXFWeBAsEnCU44lYKiEC5GmWJXbz6tQeN3u8MXW/6uYenw41x+DcIebl
-         xbrmUOOrsRC4QRLaeOdZogcPIqeVdUZBn7xDaQsNPLBPinDwk9AScdb9D4FJP/sYFubR
-         YvX5VgjEVjp6/ZzCfKppWa2MmLdE8cUcfVycvkaTPm4dMt5hJl/Kfa447R9/bpy6+Mo5
-         n3zg==
-X-Gm-Message-State: AOAM531KU30F0gtjWHsObI67WaPVlFchBzwVKnP4wa0APlaeOTNEKqtP
-        4xfQ31hrLI6EBBjMoCTMh8nZH1L3ABWPtJqjdjFT9Q==
-X-Google-Smtp-Source: ABdhPJyHzNIYg5C4PJ/cejBQRmSKW/dyS0OVtZsBDIZ2e0UwpSgBZ6Gk8wH3JAqmB8QausXlAat9W0SAdbIea4rEv4c=
-X-Received: by 2002:a25:ae45:0:b0:641:ba5c:7745 with SMTP id
- g5-20020a25ae45000000b00641ba5c7745mr1147553ybe.537.1650567799668; Thu, 21
- Apr 2022 12:03:19 -0700 (PDT)
-MIME-Version: 1.0
-From:   Naresh Kamboju <naresh.kamboju@linaro.org>
-Date:   Fri, 22 Apr 2022 00:33:08 +0530
-Message-ID: <CA+G9fYvdfYBq+Q=-XUJcKHSYXdubdoqhExRpjrqCgf_N3pPpHQ@mail.gmail.com>
-Subject: drivers/usb/typec/tcpm/tcpm.c:4724:3: error: case label does not
- reduce to an integer constant
-To:     Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        lkft-triage@lists.linaro.org, linux-usb@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        heikki.krogerus@linux.intel.com, Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S1387874AbiDUTWj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 15:22:39 -0400
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F624B41D;
+        Thu, 21 Apr 2022 12:19:49 -0700 (PDT)
+Received: from pps.filterd (m0150242.ppops.net [127.0.0.1])
+        by mx0a-002e3701.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 23LIWFsP016452;
+        Thu, 21 Apr 2022 19:19:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : in-reply-to : references; s=pps0720;
+ bh=dZWiEVD/xZ1urA5n2y9hX5aRJN3VFiV7YiaKIlXZI9o=;
+ b=FAURZotp4fSHTDgZa6wTEfplw3s0UwLjSanj1X5qBowVpXRR2bn3OJFNSc50mlH79Fdf
+ krFFQYJKBKh1ec2kgzWnkEbJynbr6k6Rft9/SSi1mJLWjCfyrhHIDqYBDp+sad7kAghT
+ hRJM79H5s1Xf0vIYGbrUD4nDGsB0Srbj4qBmqbpuUnXfv8fVrs4aU2QTXPQXhWHP0HhT
+ rMSGFUsV9IE+0REhsTjOTRGanbFR0/9Ia1qiuJqHgNwrCVu6ArMXvGzIaORaFjrWcfDa
+ FLh3pah8QqxjnksSTvgLuD0mjMgSjEsTF0Cs8Pvt1sCweNARTQhQhcVQ+Q3HPCw/LY4s jA== 
+Received: from g4t3427.houston.hpe.com (g4t3427.houston.hpe.com [15.241.140.73])
+        by mx0a-002e3701.pphosted.com (PPS) with ESMTPS id 3fk9h1j4e3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 21 Apr 2022 19:19:41 +0000
+Received: from g9t2301.houston.hpecorp.net (g9t2301.houston.hpecorp.net [16.220.97.129])
+        by g4t3427.houston.hpe.com (Postfix) with ESMTP id 8664566;
+        Thu, 21 Apr 2022 19:19:40 +0000 (UTC)
+Received: from hpe.com (cigateway-dev.us.rdlabs.hpecorp.net [10.14.73.30])
+        by g9t2301.houston.hpecorp.net (Postfix) with ESMTP id 34D3C48;
+        Thu, 21 Apr 2022 19:19:40 +0000 (UTC)
+From:   nick.hawkins@hpe.com
+To:     verdun@hpe.com, nick.hawkins@hpe.com, joel@jms.id.au,
+        arnd@arndb.de, openbmc@lists.ozlabs.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 08/11] dt-bindings: usb: generic-ehci:  Add HPE GXP ehci binding
+Date:   Thu, 21 Apr 2022 14:21:29 -0500
+Message-Id: <20220421192132.109954-9-nick.hawkins@hpe.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220421192132.109954-1-nick.hawkins@hpe.com>
+References: <20220421192132.109954-1-nick.hawkins@hpe.com>
+X-Proofpoint-ORIG-GUID: hHUBP9NRYJbUp-cp8REO9QeIpZl6aBeh
+X-Proofpoint-GUID: hHUBP9NRYJbUp-cp8REO9QeIpZl6aBeh
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-21_04,2022-04-21_01,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 mlxlogscore=714
+ phishscore=0 bulkscore=0 impostorscore=0 clxscore=1015 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204210102
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Linux mainline and linux next arm64 builds failed with gcc-7.3.x.
+From: Nick Hawkins <nick.hawkins@hpe.com>
 
-drivers/usb/typec/tcpm/tcpm.c: In function 'run_state_machine':
-drivers/usb/typec/tcpm/tcpm.c:4724:3: error: case label does not
-reduce to an integer constant
-   case BDO_MODE_TESTDATA:
-   ^~~~
-make[4]: *** [scripts/Makefile.build:288: drivers/usb/typec/tcpm/tcpm.o] Error 1
-                                      ^
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+Add hpe,gxp-ehci to the generic-ehci list. This is to
+enable the device tree.
 
---
-Linaro LKFT
-https://lkft.linaro.org
+Signed-off-by: Nick Hawkins <nick.hawkins@hpe.com>
 
-https://ci.linaro.org/view/lkft/job/openembedded-lkft-linux-mainline/DISTRO=lkft,MACHINE=hikey,label=docker-buster-lkft/4259/consoleText
+---
+v5:
+* Fixed previous change log
+* Fixed typo with echi -> ehci
+v4:
+* Based on previous feedback the hpe,gxp-ehci has been
+  added to the list of devices
+v3:
+* No change
+v2:
+* No change
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 8913497624de..0b4524b6409e 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -55,6 +55,7 @@ properties:
+               - brcm,bcm7420-ehci
+               - brcm,bcm7425-ehci
+               - brcm,bcm7435-ehci
++              - hpe,gxp-ehci
+               - ibm,476gtr-ehci
+               - nxp,lpc1850-ehci
+               - qca,ar7100-ehci
+-- 
+2.17.1
+
