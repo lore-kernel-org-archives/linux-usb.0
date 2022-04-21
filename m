@@ -2,123 +2,398 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD05EC3527C
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Apr 2022 15:29:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1C6C433EF
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Apr 2022 16:24:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1390072AbiDUPcN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Apr 2022 11:32:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58464 "EHLO
+        id S231972AbiDUQ1g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Apr 2022 12:27:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1390087AbiDUPcL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 11:32:11 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772EB33A32;
-        Thu, 21 Apr 2022 08:29:21 -0700 (PDT)
-Received: from mail-wr1-f41.google.com ([209.85.221.41]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MkYLW-1oBuQD30Nq-00m5ng; Thu, 21 Apr 2022 17:29:19 +0200
-Received: by mail-wr1-f41.google.com with SMTP id x18so7248616wrc.0;
-        Thu, 21 Apr 2022 08:29:19 -0700 (PDT)
-X-Gm-Message-State: AOAM532F1OQBCsQtktVjZKRSJK64LtqU9nFHY6KcFd2iVZkNYZEmagbp
-        C3L8OX7rHNS0jY7BBOIrve6JXjLvwveEHNE0VcU=
-X-Google-Smtp-Source: ABdhPJxKpospiPlAgrLUewrHWmh0snRbQc7E1OFrJMr7NkFWoVWNdjC/+qxZuhyVxJOjyOGXkiqrvZW6ZgPa03gRamE=
-X-Received: by 2002:adf:e106:0:b0:20a:b31b:213d with SMTP id
- t6-20020adfe106000000b0020ab31b213dmr199757wrz.219.1650554959163; Thu, 21 Apr
- 2022 08:29:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
-In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 21 Apr 2022 17:29:03 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1s_8_hfZdFN9-H_PoCMQSjhYcaS3peDqc7LWBUj_YqbA@mail.gmail.com>
-Message-ID: <CAK8P3a1s_8_hfZdFN9-H_PoCMQSjhYcaS3peDqc7LWBUj_YqbA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To:     Robert Jarzmik <robert.jarzmik@free.fr>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Philipp Zabel <philipp.zabel@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Paul Parsons <lost.distance@yahoo.com>,
-        Sergey Lapin <slapin@ossfans.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Helge Deller <deller@gmx.de>, Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        IDE-ML <linux-ide@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        patches@opensource.cirrus.com, linux-leds@vger.kernel.org,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mtd <linux-mtd@lists.infradead.org>,
-        linux-rtc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:VpvU5C0aiwrphWSBK+To00JHYs2UD49gYqNafJvfmZ6SA8ouFSO
- Y6orZvpb50igM1GRNMF7jP4c1XA3zImGl9kE7VRPtd6EnE6T3xvEgBnF455ZBSFYazNTVSu
- ix0ABxZLwEjWNNGvv65fRXWFI9L2Qgko/G/zLwyoU3QLdq0N/zn0kEXH2OtVT4MWwTRl0B5
- ZKm4Y5B08EkUvTiozMtdA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8YtkNir8MkE=:4uPl7TslyU5ucHsASQ+olD
- pZLSr3VniYuw2pteQB/wHqdtkRjP1q0ozN13VXFJUZ36ue+Ltx/Iv1QdPhcgFDjhWyftQZAyi
- QbrRHd8Icn26U2FsiJGuhKxZ5Zl4grMoxjbaUlWo3HIt/BYxzif5nSCj1vsUvEAKJfmQFPqtg
- zEy7uiZSDhTJ/u8AqlWQyOwNk2cIe9c98NAlZYCcaa2p3fBn4HlP0XbujgUpvw3P0NUKq3Pj6
- wFcAHbgLdroT0seYpCaXaCdG3qsd5c1FtSLYVMVYLJdwdHs5b6aO7AbexVik6YF5Z4KeTsuYr
- h/mtpp/IAwIDEpKKwe1tNHxMmq8On5foB5wV9p6KIQ5fkKnArVVoOoUWBlG4mv6jYFQFXvKdL
- PAe3fkzncoHT9mw0vlt05SzEVb+UXvHCwZlwmYnmzYRt9g19u0X9ojfjMIRUUc9usnI3gtUPf
- 4J4YlT2TrS2S0W13C2GDXNvaqhN0pBWiAVNVj+tIefAcedlxCxp9FXvaxn97FXDOX798qwNI7
- WFo6pfGwkguGVV0nmlAmtvgaQz9j7jZ5vsOeYy9IktMajvrt6LfAYATxKdGAoTpYE2c1eZZzE
- kVWJZ2233QpTxSpWIqQXnVj8ubPhZqC8iwicuam/2v++KSX6S8SL+RswyTSEJagejDCkUXrwT
- XcqgF7UdkZZQaJ95peTH6t+xJ3aLKZOMt2cEd4H4rKgHvVSJ3PQQytl7NaxTZpJPpvF7tYXLF
- OJhYozDyLF42ds0ozPclYzSVNPW1V4xeupHCw10USUu41VHVUzPivTF7ztkRcO9RE+SbFv1NB
- T86l3zXv563Min5axBE9nVemp+mM1mTcppUh3rQbcwnFexQtrI=
+        with ESMTP id S229561AbiDUQY5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 12:24:57 -0400
+Received: from fx403.security-mail.net (smtpout140.security-mail.net [85.31.212.143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C390621E39
+        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 09:22:05 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by fx403.security-mail.net (Postfix) with ESMTP id 3C1CB99D247
+        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 18:22:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
+        s=sec-sig-email; t=1650558124;
+        bh=tj8i4TVvS/HCKko4aWZMtkRdcatK082SIgrkqjMkpDQ=;
+        h=From:To:Cc:Subject:Date;
+        b=Hly3ZqWjd2Ptb0wXtiGeF8aGNxPpBMdpeYRa3hbkXowMlc6yIssWFv3qbXqDfbB2O
+         jy//D7W6dS93ptac31Ap2PlseBu0/PMJEMda82wMBe6Vq297ij73+uO/1Fb5Pfgcgq
+         k8tbX5jcf9D5UMFPByq4bP2M8b9hLk1H2TDNS03I=
+Received: from fx403 (localhost [127.0.0.1])
+        by fx403.security-mail.net (Postfix) with ESMTP id DEF8D99D206;
+        Thu, 21 Apr 2022 18:22:02 +0200 (CEST)
+X-Virus-Scanned: E-securemail
+Secumail-id: <2bb2.626184aa.271f9.0>
+Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
+        by fx403.security-mail.net (Postfix) with ESMTPS id 2874B99D1E8;
+        Thu, 21 Apr 2022 18:22:02 +0200 (CEST)
+Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTPS id 02E0127E0457;
+        Thu, 21 Apr 2022 18:22:02 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra2.kalray.eu (Postfix) with ESMTP id DD3CD27E0456;
+        Thu, 21 Apr 2022 18:22:01 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu DD3CD27E0456
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
+        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1650558121;
+        bh=LflrGUYlsm8UQp1TacL+Qq10ExNuNTFJ1al770Q/+u0=;
+        h=From:To:Date:Message-Id;
+        b=MwebgSvcXcDuC6oJZ8UVm6PCkRnQ7vtFPLjEoKlU1YctnWkTdRMAe1kc+xxxqd/4M
+         Or+c/8cvSavmzA9qAsK8qbAiJWW7KDvVFy6H24KVJ63gPCM6O5D6LRUCUP05TyG1UA
+         m0rIhCgDkkdE1s5BkEr8x1ErBynG792u2J6P5qI4=
+Received: from zimbra2.kalray.eu ([127.0.0.1])
+        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id ioz485KrBp_I; Thu, 21 Apr 2022 18:22:01 +0200 (CEST)
+Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
+        by zimbra2.kalray.eu (Postfix) with ESMTPSA id B966527E0444;
+        Thu, 21 Apr 2022 18:22:01 +0200 (CEST)
+From:   Jules Maselbas <jmaselbas@kalray.eu>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jules Maselbas <jmaselbas@kalray.eu>
+Subject: [RFC PATCH] phy: Convert usb-nop-xceiv to the generic phy subsystem
+Date:   Thu, 21 Apr 2022 18:21:58 +0200
+Message-Id: <20220421162158.31364-1-jmaselbas@kalray.eu>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: by Secumail
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 6:37 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This revisits a series I sent a few years ago:
->
-> https://lore.kernel.org/lkml/20191018154052.1276506-1-arnd@arndb.de/
->
-> All the other ARMv5 conversions are under way now, with
-> OMAP1 being the only one still not in linux-next yet,
-> and PXA completing the set.
->
-> Most of the patches are unchanged from before, furtunately
-> the PXA code is fairly stable. I addressed Robert's comments,
-> pulled in two patches from Dmitry, and added the last a the
-> final four patches to finish off the multiplatform conversion.
->
-> I hope someone is left to test these on PXA: if this works,
-> I'd like to merge it for 5.19. A git tree with these is available
-> for testing at
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=pxa-multiplatform-5.18
+I recently encountered some limitations when using the usb-nop-xceiv
+driver using the usb-phy subsystem. The situation is: I have a board
+with two external usb phys (ULPI) that only needs to be reset by the
+USB controller. However both phys shares the same reset line, which
+will get toggled twice by the USB driver, once by controller.
 
-I have updated the branch based on the feedback I got, and
-done a preliminary merge into the for-next branch, so this work
-should show up in linux-next. I expect to rebase this particular
-branch before the merge window, to add further Acks or
-fix regressions in place. (I don't do this for the other branches).
+This is what I observed with the current Linux usb-nop-xceiv driver:
+          _______                            ___      _________
+   RESET:        \__________________________/   \____/
+                1^                         2^  3^   4^
+ 1. and 2. first controller toggle the reset
+ 3. and 4. second controller toggle the reset
 
-Let me know if there are any show-stoppers or patches that need
-more work. I realize that this is a lot to review and that there is
-limited reviewer bandwidth as most of the original developers
-have moved on from PXA a long time ago.
+After the second toggle the first driver didn't expected the reset and
+causing issues, but I don't recall what exactly, it is maybe a driver
+that simply fail to get probed.
 
-       Arnd
+The following is what I observed when using the "usb-nop-xceiv"
+driver in Barebox, which is a bit different than the Linux one.
+
+           _______                            _________________
+    RESET:        \__________________________/
+                 1^                         2^
+
+In this case the reset is only toggled once, this is because the phy
+driver count the number of time it has called init and power_on, which
+is exactly what is done by the generic phy subsystem in Linux, but not
+by the "legacy" usb-nop-xceiv usb-phy driver.
+
+This difference in behavior is what motivated to "port" the existing
+usb-nop-xceiv driver to the generic phy subsystem. However this is far
+from being complete... I've only tested the reset function for this nop
+phy, and it lack a lot of features from the original driver to be a
+valid replacement for it.
+
+I would like to know if there is an interest in converting the current
+usb-nop-xceiv driver to the generic phy subsystem?
+
+I would like to keep the usb-nop-xceiv compatible as it used by Barebox
+and it works OK. If a new compatible is added then device-tree nodes
+shouldn't have both, the new and usb-nop-xceiv, compatible because of
+the specific check in phy-core.c which will always return ENODEV.
+
+Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+---
+ drivers/phy/Makefile          |   1 +
+ drivers/phy/phy-core.c        |   4 -
+ drivers/phy/phy-usb-generic.c | 241 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 242 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/phy/phy-usb-generic.c
+
+diff --git a/drivers/phy/Makefile b/drivers/phy/Makefile
+index 6eb2916773c5..8eeecf6d6f74 100644
+--- a/drivers/phy/Makefile
++++ b/drivers/phy/Makefile
+@@ -4,6 +4,7 @@
+ #
+ 
+ obj-$(CONFIG_GENERIC_PHY)		+= phy-core.o
++obj-$(CONFIG_GENERIC_PHY)		+= phy-usb-generic.o
+ obj-$(CONFIG_GENERIC_PHY_MIPI_DPHY)	+= phy-core-mipi-dphy.o
+ obj-$(CONFIG_PHY_LPC18XX_USB_OTG)	+= phy-lpc18xx-usb-otg.o
+ obj-$(CONFIG_PHY_XGENE)			+= phy-xgene.o
+diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+index 71cb10826326..e09fd1cb4455 100644
+--- a/drivers/phy/phy-core.c
++++ b/drivers/phy/phy-core.c
+@@ -506,10 +506,6 @@ static struct phy *_of_phy_get(struct device_node *np, int index)
+ 	if (ret)
+ 		return ERR_PTR(-ENODEV);
+ 
+-	/* This phy type handled by the usb-phy subsystem for now */
+-	if (of_device_is_compatible(args.np, "usb-nop-xceiv"))
+-		return ERR_PTR(-ENODEV);
+-
+ 	mutex_lock(&phy_provider_mutex);
+ 	phy_provider = of_phy_provider_lookup(args.np);
+ 	if (IS_ERR(phy_provider) || !try_module_get(phy_provider->owner)) {
+diff --git a/drivers/phy/phy-usb-generic.c b/drivers/phy/phy-usb-generic.c
+new file mode 100644
+index 000000000000..fdd05bbd98f2
+--- /dev/null
++++ b/drivers/phy/phy-usb-generic.c
+@@ -0,0 +1,241 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * derived from driver/usb/phy/phy-generic.c
++ *
++ * Generic USB PHY driver for all USB "nop" transceiver which are mostly
++ * autonomous. This driver is derived from the usb-nop-xceiv driver, but
++ * this one use the new generic phy api.
++ *
++ * Copyright (c) 2022 Kalray Inc.
++ * Author(s): Jules Maselbas
++ */
++
++#include <linux/clk.h>
++#include <linux/err.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/phy/phy.h>
++#include <linux/platform_device.h>
++#include <linux/regulator/consumer.h>
++#include <linux/gpio/consumer.h>
++#include <linux/delay.h>
++#include <linux/usb/otg.h>
++
++struct phy_usb_generic {
++	struct device *dev;
++	struct clk *clk;
++	struct regulator *vcc;
++	struct gpio_desc *gpiod_reset;
++	unsigned long mA;
++	unsigned int vbus;
++	enum usb_dr_mode dr_mode;
++};
++
++static int phy_usb_generic_init(struct phy *phy)
++{
++	struct phy_usb_generic *priv = phy_get_drvdata(phy);
++
++	if (priv->clk)
++		clk_prepare(priv->clk);
++
++	return 0;
++}
++
++static int phy_usb_generic_exit(struct phy *phy)
++{
++	struct phy_usb_generic *priv = phy_get_drvdata(phy);
++
++	if (priv->clk)
++		clk_unprepare(priv->clk);
++
++	return 0;
++}
++
++static int phy_usb_generic_power_on(struct phy *phy)
++{
++	struct phy_usb_generic *priv = phy_get_drvdata(phy);
++	int ret;
++
++	if (priv->vcc) {
++		ret = regulator_enable(priv->vcc);
++		if (ret) {
++			dev_err(priv->dev, "Failed to enable power\n");
++			return ret;
++		}
++	}
++
++	if (priv->clk) {
++		ret = clk_enable(priv->clk);
++		if (ret) {
++			dev_err(priv->dev, "Failed to enable clock\n");
++			return ret;
++		}
++	}
++
++	if (priv->gpiod_reset) {
++		dev_dbg(priv->dev, "Reset toggle\n");
++		gpiod_set_value_cansleep(priv->gpiod_reset, 1);
++		usleep_range(10000, 20000);
++		gpiod_set_value_cansleep(priv->gpiod_reset, 0);
++	}
++
++	return 0;
++}
++
++static int phy_usb_generic_power_off(struct phy *phy)
++{
++	struct phy_usb_generic *priv = phy_get_drvdata(phy);
++	int ret;
++
++	if (priv->gpiod_reset)
++		gpiod_set_value_cansleep(priv->gpiod_reset, 1);
++
++	if (priv->clk)
++		clk_disable_unprepare(priv->clk);
++
++	if (priv->vcc) {
++		ret = regulator_disable(priv->vcc);
++		if (ret) {
++			dev_err(priv->dev, "Failed to disable power\n");
++			return ret;
++		}
++	}
++
++	return 0;
++}
++
++static int phy_usb_generic_set_mode(struct phy *phy,
++				    enum phy_mode mode, int submode)
++{
++	struct phy_usb_generic *priv = phy_get_drvdata(phy);
++	enum usb_dr_mode new_mode;
++	const char *s = "";
++
++	switch (mode) {
++	case PHY_MODE_USB_HOST:
++	case PHY_MODE_USB_HOST_LS:
++	case PHY_MODE_USB_HOST_HS:
++	case PHY_MODE_USB_HOST_FS:
++		new_mode = USB_DR_MODE_HOST;
++		s = "host";
++		break;
++	case PHY_MODE_USB_DEVICE:
++	case PHY_MODE_USB_DEVICE_LS:
++	case PHY_MODE_USB_DEVICE_HS:
++	case PHY_MODE_USB_DEVICE_FS:
++		new_mode = USB_DR_MODE_PERIPHERAL;
++		s = "peripheral";
++		break;
++	case PHY_MODE_USB_OTG:
++		new_mode = USB_DR_MODE_OTG;
++		s = "otg";
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (new_mode != priv->dr_mode) {
++		dev_info(priv->dev, "Changing dr_mode to %s\n", s);
++		priv->dr_mode = new_mode;
++	}
++
++	return 0;
++}
++
++static const struct phy_ops phy_usb_generic_ops = {
++	.init = phy_usb_generic_init,
++	.exit = phy_usb_generic_exit,
++	.power_on = phy_usb_generic_power_on,
++	.power_off = phy_usb_generic_power_off,
++	.set_mode  = phy_usb_generic_set_mode,
++	.owner = THIS_MODULE,
++};
++
++static int phy_usb_generic_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	struct phy_usb_generic *priv;
++	struct phy_provider *provider;
++	struct phy *phy;
++	int err;
++	u32 clk_rate = 0;
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	priv->dev = &pdev->dev;
++	platform_set_drvdata(pdev, priv);
++
++	priv->gpiod_reset = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
++	if (IS_ERR(priv->gpiod_reset)) {
++		err = PTR_ERR(priv->gpiod_reset);
++		dev_err(dev, "Failed to get reset gpio: %d\n", err);
++		return err;
++	}
++
++	if (np && of_property_read_u32(np, "clock-frequency", &clk_rate))
++		clk_rate = 0;
++
++	priv->clk = devm_clk_get_optional(dev, "main_clk");
++	if (IS_ERR(priv->clk)) {
++		err = PTR_ERR(priv->clk);
++		dev_err(dev, "Can't get phy clock: %d\n", err);
++		return err;
++	}
++	if (priv->clk && clk_rate) {
++		err = clk_set_rate(priv->clk, clk_rate);
++		if (err) {
++			dev_err(dev, "Error setting clock rate\n");
++			return err;
++		}
++	}
++
++	priv->vcc = devm_regulator_get_optional(dev, "vcc");
++	if (IS_ERR(priv->vcc)) {
++		err = PTR_ERR(priv->vcc);
++		if (err == -ENODEV || err == -ENOENT) {
++			priv->vcc = NULL;
++		} else {
++			dev_err(dev, "Error getting vcc regulator: %d\n", err);
++			return err;
++		}
++	}
++
++	phy = devm_phy_create(dev, NULL, &phy_usb_generic_ops);
++	if (IS_ERR(phy)) {
++		err = PTR_ERR(phy);
++		dev_err(dev, "Failed to create PHY: %d\n", err);
++		return err;
++	}
++	phy_set_drvdata(phy, priv);
++
++	provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++	if (IS_ERR(provider)) {
++		err = PTR_ERR(provider);
++		dev_err(dev, "Failed to register PHY provider: %d\n", err);
++		return err;
++	}
++
++	return 0;
++}
++
++static const struct of_device_id phy_usb_nop_dt_ids[] = {
++	{ .compatible = "phy-usb-generic" },
++	{ .compatible = "usb-nop-xceiv" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, phy_usb_nop_dt_ids);
++
++static struct platform_driver phy_usb_generic_driver = {
++	.probe		= phy_usb_generic_probe,
++	.driver		= {
++		.name	= "phy_usb_generic",
++		.of_match_table = phy_usb_nop_dt_ids,
++	},
++};
++module_platform_driver(phy_usb_generic_driver);
++
++MODULE_AUTHOR("Kalray Inc");
++MODULE_DESCRIPTION("Generic USB PHY driver");
++MODULE_LICENSE("GPL");
+-- 
+2.17.1
+
