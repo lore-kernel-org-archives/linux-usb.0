@@ -2,92 +2,94 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC24C433EF
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 22:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E38AEC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 22:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232695AbiDVWZy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Apr 2022 18:25:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48594 "EHLO
+        id S232447AbiDVW0T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Apr 2022 18:26:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232909AbiDVWZd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 18:25:33 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0C9CE49B
-        for <linux-usb@vger.kernel.org>; Fri, 22 Apr 2022 14:17:33 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id b95so16719254ybi.1
-        for <linux-usb@vger.kernel.org>; Fri, 22 Apr 2022 14:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AEXINFBxuSdD+7ajNy/LTJwAuKduMs79L1VZw5ckLgw=;
-        b=YPX9uaDWm6FyszcIeSL6VLxMtHjGpipQS1CT+MROq+lyzWSXP9zeOJilU3YTuHeADl
-         gVfMx7CZ/Bp1jpwp63gKAwhhwytpJb+IeqrtAMVC6/5CIX3Ky3jzzBWpPocZ+B2rJ9pI
-         PgEIW9H0Q9RYS8itMZnvFXFkypugEZSo8611na4wlf1KUSbzAXaq0bn4IBI2vWmwvmzi
-         ZjMTjnLJ/JnM5ssLK+3n8M1QfuhPVPFT3dG+jYE+WDQrXqIlmNh4BZ1B+i/NoNMbs6mm
-         95AoR8XauXSPoozrjT+qgPfex9J2yOUOUBCjKAmESZZaYT5LSsVsU3MUjXU0rxnlGpAD
-         tC6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AEXINFBxuSdD+7ajNy/LTJwAuKduMs79L1VZw5ckLgw=;
-        b=vgNKYYZdGBUmw9hmsFIAQwX4/d6/JG1c7JVfts3kQJAeQrY4+kA4ImtIQhLGOVC6pX
-         gBBNhu46JmfzDfS5vTUp2ezTAMyhuOJUfRBbrIAsqpR9GY9tg8DC4MSG0U5hI6bgBuZk
-         baQWA13+pi8jD1Vkwg7ksYiZgb2Ty/B525bNP+tfecjh9m6umJHcXsCw+30OM8CGNyUo
-         kBpxXBX0CPo6fjaqElKIU1qpt0yNsfs7q7ppp4sP4pg56k9vBGQqpM/Ou8OTTgGP6PN9
-         bDy/cIucZ4Pda3Kf2dGWJLLsb3IPurSZ5H8emM579b1NRxdbFQTGUodI82JRj8jSIlH7
-         zdIg==
-X-Gm-Message-State: AOAM5324vEd4XoqMS9TE2MdDQwC2bXbA4R6/FTQjGCQhpXxEq59JXqg/
-        iBqHVEX6BSj+dNyCUSSfvXuruCDWCKryShbqHkSN9CubTZU=
-X-Google-Smtp-Source: ABdhPJwEMor42osEuSk1UZ2FnNZS/vcpuI9uXKIDxgV1q2FGoggt/IKFaagXtPhObqlqNzaaHAXkGaXNYoZps1VvbDQ=
-X-Received: by 2002:a25:e6d5:0:b0:645:7257:8271 with SMTP id
- d204-20020a25e6d5000000b0064572578271mr6674251ybh.291.1650662252356; Fri, 22
- Apr 2022 14:17:32 -0700 (PDT)
+        with ESMTP id S232800AbiDVW0J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 18:26:09 -0400
+Received: from mxout01.lancloud.ru (mxout01.lancloud.ru [45.84.86.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83C0E1D1192
+        for <linux-usb@vger.kernel.org>; Fri, 22 Apr 2022 14:17:58 -0700 (PDT)
+Received: from LanCloud
+DKIM-Filter: OpenDKIM Filter v2.11.0 mxout01.lancloud.ru 20D5E20D567C
+Received: from LanCloud
+Received: from LanCloud
+Received: from LanCloud
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] usb: core: devices: drop redundant buffer overflow checks
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+Organization: Open Mobile Platform
+Message-ID: <0453cb0d-7b2b-25e6-50e3-091610951e58@omp.ru>
+Date:   Fri, 22 Apr 2022 22:23:55 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20220421074204.1284072-1-hch@lst.de>
-In-Reply-To: <20220421074204.1284072-1-hch@lst.de>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 22 Apr 2022 23:17:20 +0200
-Message-ID: <CACRpkdbdKBfmXGdyTm3T-MFAK30N-z4KH0k8eD8F7xaYUbDDhA@mail.gmail.com>
-Subject: Re: fully convert arm to use dma-direct
-To:     Christoph Hellwig <hch@lst.de>, Marc Zyngier <maz@kernel.org>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Andre Przywara <andre.przywara@arm.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        iommu@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [192.168.11.198]
+X-ClientProxiedBy: LFEXT01.lancloud.ru (fd00:f066::141) To
+ LFEX1907.lancloud.ru (fd00:f066::207)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 21, 2022 at 9:42 AM Christoph Hellwig <hch@lst.de> wrote:
+The USB device dump code often checks for the buffer overflow just before
+calling the functions that do that first thing anyways.  Such checks are
+redundant and may be dropped...
 
-> arm is the last platform not using the dma-direct code for directly
-> mapped DMA.  With the dmaboune removal from Arnd we can easily switch
-> arm to always use dma-direct now (it already does for LPAE configs
-> and nommu).  I'd love to merge this series through the dma-mapping tree
-> as it gives us the opportunity for additional core dma-mapping
-> improvements.
-(...)
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
->  b/arch/arm/mach-footbridge/Kconfig                   |    1
->  b/arch/arm/mach-footbridge/common.c                  |   19
->  b/arch/arm/mach-footbridge/include/mach/dma-direct.h |    8
->  b/arch/arm/mach-footbridge/include/mach/memory.h     |    4
+---
+This patch is against the 'usb-next' branch of Greg KH's 'usb.git' repo.
 
-I think Marc Z has a Netwinder that he can test this on. Marc?
-I have one too, just not much in my office because of parental leave.
+ drivers/usb/core/devices.c |   12 ------------
+ 1 file changed, 12 deletions(-)
 
-Yours,
-Linus Walleij
+Index: usb/drivers/usb/core/devices.c
+===================================================================
+--- usb.orig/drivers/usb/core/devices.c
++++ usb/drivers/usb/core/devices.c
+@@ -228,8 +228,6 @@ static char *usb_dump_interface(int spee
+ 
+ 	start = usb_dump_interface_descriptor(start, end, intfc, iface, setno);
+ 	for (i = 0; i < desc->desc.bNumEndpoints; i++) {
+-		if (start > end)
+-			return start;
+ 		start = usb_dump_endpoint_descriptor(speed,
+ 				start, end, &desc->endpoint[i].desc);
+ 	}
+@@ -302,8 +300,6 @@ static char *usb_dump_config(int speed,
+ 		intfc = config->intf_cache[i];
+ 		interface = config->interface[i];
+ 		for (j = 0; j < intfc->num_altsetting; j++) {
+-			if (start > end)
+-				return start;
+ 			start = usb_dump_interface(speed,
+ 				start, end, intfc, interface, j);
+ 		}
+@@ -369,19 +365,11 @@ static char *usb_dump_desc(char *start,
+ {
+ 	int i;
+ 
+-	if (start > end)
+-		return start;
+-
+ 	start = usb_dump_device_descriptor(start, end, &dev->descriptor);
+ 
+-	if (start > end)
+-		return start;
+-
+ 	start = usb_dump_device_strings(start, end, dev);
+ 
+ 	for (i = 0; i < dev->descriptor.bNumConfigurations; i++) {
+-		if (start > end)
+-			return start;
+ 		start = usb_dump_config(dev->speed,
+ 				start, end, dev->config + i,
+ 				/* active ? */
