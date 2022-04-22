@@ -2,50 +2,52 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44D45C433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 03:10:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75108C433EF
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 03:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1443687AbiDVDNZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Apr 2022 23:13:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58426 "EHLO
+        id S233349AbiDVDN1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Apr 2022 23:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1443711AbiDVDNV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 23:13:21 -0400
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4F914C789
-        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 20:10:28 -0700 (PDT)
+        with ESMTP id S1443713AbiDVDNX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 21 Apr 2022 23:13:23 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 227404CD59
+        for <linux-usb@vger.kernel.org>; Thu, 21 Apr 2022 20:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650597029; x=1682133029;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yQT4Yhe1yYQ74V8uQQq6ck22PH5SnEJXar5bttdSMJ4=;
-  b=R+/hfGhpSxL54PVRMbIE1IbqExYCv4jqabWOyuJOOo2MqEQR1fFfMJMc
-   6/U4VBr99fSMQ5sULsZ+F9xDwGWqEc5vCxe0CkICgwwZy4eQbIIVM078i
-   jgvQkwcP2mKh4AwYcPHYy/zaSJWcMnvHfZDTj1d7BlN50whqDlx9EHCi8
-   o=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
-  by alexa-out.qualcomm.com with ESMTP; 21 Apr 2022 20:10:28 -0700
+  t=1650597032; x=1682133032;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=qftaKpSpgMHH5cWk9to8eHDalpd4uHeFlG2mcfgzt7U=;
+  b=tUAWXoCIBh1JD4FDvdeq0p3x+ItdW9jg6wd8QgQPHK9H3nnzuQe3ylFn
+   ah3UwN/+XEieJgGPI0AtaTsYnWEy+kGbnjRat5ukW11TbwtUBi3n4eVn/
+   Vkns1TjAoXCoaVy9e4zHBmRaSDRcgS9Iidw+UwEcoAh7ab+KDHITJIGWz
+   0=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 21 Apr 2022 20:10:31 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2022 20:10:28 -0700
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2022 20:10:31 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 21 Apr 2022 20:10:27 -0700
+ 15.2.986.22; Thu, 21 Apr 2022 20:10:31 -0700
 Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 21 Apr 2022 20:10:26 -0700
+ 15.2.986.22; Thu, 21 Apr 2022 20:10:29 -0700
 From:   Linyu Yuan <quic_linyyuan@quicinc.com>
 To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
         "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH v5 0/3] usb: typec: ucsi: allow retry to find role switch
-Date:   Fri, 22 Apr 2022 11:10:19 +0800
-Message-ID: <1650597022-19793-1-git-send-email-quic_linyyuan@quicinc.com>
+Subject: [PATCH v5 2/3] usb: typec: ucsi: do not allocate one extra unused connector
+Date:   Fri, 22 Apr 2022 11:10:21 +0800
+Message-ID: <1650597022-19793-3-git-send-email-quic_linyyuan@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1650597022-19793-1-git-send-email-quic_linyyuan@quicinc.com>
+References: <1650597022-19793-1-git-send-email-quic_linyyuan@quicinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
@@ -56,30 +58,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-when one role switch module built as module, it may load late than
-ucsi, this change series allow retry from ucsi.
+In ucsi_init(), it allocate number of (ucsi->cap.num_connectors + 1)
+connectors, there is one extra as the ending.
+ucsi_unregister_connectors() is safe to unregister all ucsi connectors
+according ucsi->cap.num_connectors.
 
-v2: improve ucsi_connector_clean() to cover all condition,
-    and add one new change to avoid allocate one unused connector.
+Let's remove the extra one connector to save memory.
 
-v3: fix comment from ucsi maintainer.
+Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
+---
+v2: new change
+v3: no change
+v4: fix a typo extral -> extra in commit description
+v5: update commit description
 
-v4: fix review comment from Heikki Krogerus,
-    merge patch#1 and patch#2 in V3 into one patch,
-    add counter for retry limit,
-    and some other minor fix.
+ drivers/usb/typec/ucsi/ucsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v5: only update commit description of two patches
-
-Linyu Yuan (3):
-  usb: typec: ucsi: add a common function ucsi_unregister_connectors()
-  usb: typec: ucsi: do not allocate one extra unused connector
-  usb: typec: ucsi: Wait for the USB role switches
-
- drivers/usb/typec/ucsi/ucsi.c | 86 +++++++++++++++++++++++++------------------
- drivers/usb/typec/ucsi/ucsi.h |  6 ++-
- 2 files changed, 55 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index af9a2a1..ce9192e 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1251,7 +1251,7 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	}
+ 
+ 	/* Allocate the connectors. Released in ucsi_unregister() */
+-	ucsi->connector = kcalloc(ucsi->cap.num_connectors + 1,
++	ucsi->connector = kcalloc(ucsi->cap.num_connectors,
+ 				  sizeof(*ucsi->connector), GFP_KERNEL);
+ 	if (!ucsi->connector) {
+ 		ret = -ENOMEM;
 -- 
 2.7.4
 
