@@ -2,144 +2,82 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B7AC43217
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 11:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C4EC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 12:17:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447239AbiDVMAW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Apr 2022 08:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57620 "EHLO
+        id S1447281AbiDVMT6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Apr 2022 08:19:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1447214AbiDVMAV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 08:00:21 -0400
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF7154FB5;
-        Fri, 22 Apr 2022 04:57:28 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id x9so6947421ybe.11;
-        Fri, 22 Apr 2022 04:57:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mo2gwYWJ7v3j2YMx6bxMzq/oePOXwNlGXJmLNbBcYNw=;
-        b=SPO+V7r6R/A+hJFfGn+eHiAq018UQgd9LrDiLxOPcg7r75J3PkVoN1f6NZUmKgZ1/0
-         Z1hii1ChUnKDQ7ujmbWSmQWVauk7knxbX6SUeY+RxbeaX/c9I5RVEcLK1kJfnkoLvSJn
-         Q9slWt+QAh1iV1aW0ZNXI5V9BWJJAL2W46bGoTDtCaIl+1MmubLIRhA/nRgtAVd1Yijy
-         +uNy5sfZWzr7IlfCk6RiYBYI1vYr8hAD5RFTmyCeaWBzSVkGvfIm8WInc3Q4ypnxXReP
-         F/Lvi+n3j1yx6FOOUERBYriB7ESSH8Vm3OFYL1y+8x478q6j7tNIMoHWLnqDuYt6nFzx
-         XubA==
-X-Gm-Message-State: AOAM533FUBZvtTuNUYD6tSb/zdMTNp4l/IXzWITVzcCG6zpuZZnE0YuU
-        0AV/bkHjGT0BuYdg4lW76IKAfG/nlUmMSQ6KyLE=
-X-Google-Smtp-Source: ABdhPJww0e7Q1osgVBWbiQpEUtZNSNKNM2OqFsD//h3jvx8Gu911m2tDMHkzJSveus4EHFgb0GUefU88XPyf4wwFDzQ=
-X-Received: by 2002:a25:3cc3:0:b0:63e:6ee9:4840 with SMTP id
- j186-20020a253cc3000000b0063e6ee94840mr4222715yba.153.1650628648089; Fri, 22
- Apr 2022 04:57:28 -0700 (PDT)
+        with ESMTP id S237402AbiDVMT6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 08:19:58 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E4055222
+        for <linux-usb@vger.kernel.org>; Fri, 22 Apr 2022 05:17:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E490861FE0
+        for <linux-usb@vger.kernel.org>; Fri, 22 Apr 2022 12:17:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D216C385A8;
+        Fri, 22 Apr 2022 12:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1650629824;
+        bh=4ODAIy2t2wfbuEeetD4Uzk1Zj9Wlbds8/DsGr0qST14=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FPHJa/hn52EbD2H/EtrsijTyp5v1H1aS+gpGsdtlrCVbND/7vEDkSOvaRgl/oJ8cf
+         6HvaIqdb+xWdbvB58dTww8ycj4C2cssKT2aXLcU1dAn2o1bQyqeWA0OeytSt9sFnBc
+         5sh/OJgYCRJAnw33cYy9aUmEfit5w4R+FhClA6H8=
+Date:   Fri, 22 Apr 2022 14:17:00 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     "Linyu Yuan (QUIC)" <quic_linyyuan@quicinc.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "Jack Pham (QUIC)" <quic_jackp@quicinc.com>
+Subject: Re: [PATCH v6 0/5] usb: gadget: configfs: new trace events
+Message-ID: <YmKcvKTQ/UP7VQas@kroah.com>
+References: <1649294865-4388-1-git-send-email-quic_linyyuan@quicinc.com>
+ <YmJqfzmz5N0I3n87@kroah.com>
+ <DM8PR02MB81988A02C692B0760A73AF23E3F79@DM8PR02MB8198.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-References: <1650395470-31333-1-git-send-email-quic_c_sanm@quicinc.com> <1650395470-31333-3-git-send-email-quic_c_sanm@quicinc.com>
-In-Reply-To: <1650395470-31333-3-git-send-email-quic_c_sanm@quicinc.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 22 Apr 2022 13:57:17 +0200
-Message-ID: <CAJZ5v0h2ZKPN6SERPnASPywZfeOWXWncJgNZ1WZa80+=M4DCiQ@mail.gmail.com>
-Subject: Re: [PATCH v14 2/7] PM / wakeup: Add device_children_wakeup_capable()
-To:     Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:" 
-        <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        quic_pkondeti@quicinc.com, quic_ppratap@quicinc.com,
-        quic_kriskura@quicinc.com, quic_vpulyala@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR02MB81988A02C692B0760A73AF23E3F79@DM8PR02MB8198.namprd02.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 19, 2022 at 9:11 PM Sandeep Maheswaram
-<quic_c_sanm@quicinc.com> wrote:
->
-> From: Matthias Kaehlcke <mka@chromium.org>
->
-> Add device_children_wakeup_capable() which checks whether the device itself
-> or one if its descendants is wakeup capable.
+On Fri, Apr 22, 2022 at 09:01:13AM +0000, Linyu Yuan (QUIC) wrote:
+> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Sent: Friday, April 22, 2022 4:43 PM
+> > To: Linyu Yuan (QUIC) <quic_linyyuan@quicinc.com>
+> > Cc: Felipe Balbi <balbi@kernel.org>; linux-usb@vger.kernel.org; Jack Pham
+> > (QUIC) <quic_jackp@quicinc.com>
+> > Subject: Re: [PATCH v6 0/5] usb: gadget: configfs: new trace events
+> > 
+> > On Thu, Apr 07, 2022 at 09:27:40AM +0800, Linyu Yuan wrote:
+> > > Last year I try to add trace event support for usb gadget configfs [1],
+> > > this time the idea is change a lot, the purpose is trace all user space
+> > > operation to gadget configuration, include gadget and it's function.
+> > 
+> > But why?  Who will use this, and what for?
+> 
+> Thanks for review it.
+> It is not used by user space, just for kernel gadget issue debugging.
 
-device_wakeup_path() exists for a very similar purpose.
+So you use it in userspace?  How can you use a tracepoint from somewhere
+else in the kernel?
 
-Is it not usable for whatever you need the new function introduced here?
+> Like android, the user space is complicate to kernel developers,
+> With this trace events, kernel development will understand
+> What is simplified action happen from user space.
 
-> Suggested-by: Felipe Balbi <balbi@kernel.org>
-> Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
->  drivers/base/power/wakeup.c | 18 ++++++++++++++++++
->  include/linux/pm_wakeup.h   |  7 +++++++
->  2 files changed, 25 insertions(+)
->
-> diff --git a/drivers/base/power/wakeup.c b/drivers/base/power/wakeup.c
-> index a57d469..1900637 100644
-> --- a/drivers/base/power/wakeup.c
-> +++ b/drivers/base/power/wakeup.c
-> @@ -541,6 +541,24 @@ int device_set_wakeup_enable(struct device *dev, bool enable)
->  }
->  EXPORT_SYMBOL_GPL(device_set_wakeup_enable);
->
-> +static int __device_children_wakeup_capable(struct device *dev, void *dummy)
-> +{
-> +       return device_may_wakeup(dev) ||
-> +               device_for_each_child(dev, NULL, __device_children_wakeup_capable);
-> +}
-> +
-> +/**
-> + * device_children_wakeup_capable - Check whether a device or one of its descendants is
-> + *                                  wakeup capable.
-> + * @dev: Device to handle.
-> + */
-> +bool device_children_wakeup_capable(struct device *dev)
-> +{
-> +       return __device_children_wakeup_capable(dev, NULL);
-> +}
-> +EXPORT_SYMBOL_GPL(device_children_wakeup_capable);
-> +
-> +
->  /**
->   * wakeup_source_not_registered - validate the given wakeup source.
->   * @ws: Wakeup source to be validated.
-> diff --git a/include/linux/pm_wakeup.h b/include/linux/pm_wakeup.h
-> index 196a157..9a3005b 100644
-> --- a/include/linux/pm_wakeup.h
-> +++ b/include/linux/pm_wakeup.h
-> @@ -109,6 +109,7 @@ extern struct wakeup_source *wakeup_sources_walk_next(struct wakeup_source *ws);
->  extern int device_wakeup_enable(struct device *dev);
->  extern int device_wakeup_disable(struct device *dev);
->  extern void device_set_wakeup_capable(struct device *dev, bool capable);
-> +extern bool device_children_wakeup_capable(struct device *dev);
->  extern int device_init_wakeup(struct device *dev, bool val);
->  extern int device_set_wakeup_enable(struct device *dev, bool enable);
->  extern void __pm_stay_awake(struct wakeup_source *ws);
-> @@ -186,6 +187,12 @@ static inline bool device_wakeup_path(struct device *dev)
->
->  static inline void device_set_wakeup_path(struct device *dev) {}
->
-> +static inline bool device_children_wakeup_capable(struct device *dev)
-> +{
-> +       return false;
-> +}
-> +
-> +
->  static inline void __pm_stay_awake(struct wakeup_source *ws) {}
->
->  static inline void pm_stay_awake(struct device *dev) {}
-> --
-> 2.7.4
->
+They do not need this, they can just use ftrace today.  Most of these
+tracepoints you are putting in here are just for a "got to this
+function!" type of thing, which ftrace can show you already.
+
+What is the added benefit of these over ftrace?
+
+thanks,
+
+greg k-h
