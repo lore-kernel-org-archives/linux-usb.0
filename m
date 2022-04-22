@@ -2,79 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8023AC433F5
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 11:50:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2FFC433F5
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Apr 2022 11:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447242AbiDVLxI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Apr 2022 07:53:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53130 "EHLO
+        id S1447221AbiDVMAA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Apr 2022 08:00:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1447229AbiDVLxG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 07:53:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C6C5620B;
-        Fri, 22 Apr 2022 04:50:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E6AB61FAA;
-        Fri, 22 Apr 2022 11:50:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B2785C385A4;
-        Fri, 22 Apr 2022 11:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1650628211;
-        bh=PcOw9NQ5C+DnDyFKtqNAXsbbphJJFP39CACPGGQ2kPI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=VLijD5h0N6yKyMZMFcvK/7sWmsVH6/KJyPrl0cZQwcGL64rg6m1cWvd+BpsDTf/dq
-         kbOfxtiTIHFLWvIlpAmf0LRUu1IZbfwpLZkp1Y74pA24FApj3IF3OK0E2BiFO+Dw+L
-         6U3LtvzrI0+1+L7a33rUCDdrdD+dIfisCOkOfDfEGGjc8eydJItwH60xn5vzXPnHVx
-         kE+FhMh+w2d/nZL4wPngW0zli7R7krjCQD4t/4f0VPlN+VNsFon1r9lU/jKTUKdsmN
-         sE2TFcoDvM3DzqEta/6vaLGY4vihu7OIE8ifrhLemQxSxLt4VeFhk5C01JObGa8czS
-         /YsGxb7T9F1NQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 92D7CE8DBDA;
-        Fri, 22 Apr 2022 11:50:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1447214AbiDVL77 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Apr 2022 07:59:59 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753863ED01;
+        Fri, 22 Apr 2022 04:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650628626; x=1682164626;
+  h=to:cc:references:from:subject:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=una0KHCh52R2HL+UriGbWNcELDP4ksfAOACMj6FtIPs=;
+  b=kRseLUuWngxFvBJCbWGiM35dNTXkOKhkUrVXVTgVBZ/QQPoGv0jqgqp6
+   hmi9dZ2KS83qD8uwC1Y6Z91ZbgqICtj9dfcxFh5pfj/oBzm6CmmhJCbbM
+   Kr+RLADYQeDAeC9cftg3pwWNEmfPb9MiP9uTiiEhr6O6TAKfvMrfk9PCs
+   H986E/mkaD/YlpHoHUAIkleJE7rj3UmF0hunziFAW3hEUPvRJyxZpYaK4
+   vsBMQIyCvDwwLbn2VvuKsDUyCtWvpdUNp1f7B3bsAbEPzZWNMYfAp4TvQ
+   qwkkJg6o32XmUwBkACT6AYfvYs0mNKKvrAO2dSNLXJuB50ypJk46aDzD2
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="264132747"
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; 
+   d="scan'208";a="264132747"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 04:57:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; 
+   d="scan'208";a="867560850"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga005.fm.intel.com with ESMTP; 22 Apr 2022 04:57:04 -0700
+To:     surong pang <surong.pang@gmail.com>
+Cc:     mathias.nyman@intel.com, Greg KH <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Orson.Zhai@unisoc.com, yunguo.wu@unisoc.com
+References: <20220412122524.26966-1-surong.pang@gmail.com>
+ <610871b2-1707-dfba-868f-4ddecc4d554d@linux.intel.com>
+ <CAEDbmAT=fZ-kpn13sW4KjB9RuFb_6T4j_eripR54NZ3UciZfqA@mail.gmail.com>
+ <d6df23a0-6539-f955-5241-5cdfcaa4eca4@linux.intel.com>
+ <CAEDbmAT3SoSsEmTkELSYoykGN+AuPgi2N11V2YwKuaC3nKMEmQ@mail.gmail.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH V1 1/1] usb/host: Let usb phy shutdown later
+Message-ID: <e05ec742-c3dc-df7c-c5d7-29358d0a7081@linux.intel.com>
+Date:   Fri, 22 Apr 2022 14:59:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <CAEDbmAT3SoSsEmTkELSYoykGN+AuPgi2N11V2YwKuaC3nKMEmQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] USB2NET : SR9800 : change SR9800_BULKIN_SIZE from global to
- static
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165062821159.27289.12403848172811597562.git-patchwork-notify@kernel.org>
-Date:   Fri, 22 Apr 2022 11:50:11 +0000
-References: <20220419140625.2886328-1-trix@redhat.com>
-In-Reply-To: <20220419140625.2886328-1-trix@redhat.com>
-To:     Tom Rix <trix@redhat.com>
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello:
-
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Tue, 19 Apr 2022 10:06:25 -0400 you wrote:
-> Smatch reports this issue
-> sr9800.h:166:53: warning: symbol 'SR9800_BULKIN_SIZE' was not declared. Should it be static?
+On 22.4.2022 13.43, surong pang wrote:
+>>>> @@ -398,6 +397,7 @@ static int xhci_plat_remove(struct platform_device *dev)
+>>>>       clk_disable_unprepare(clk);
+>>>>       clk_disable_unprepare(reg_clk);
+>>>> +    usb_phy_shutdown(hcd->usb_phy);
+>>>>       usb_put_hcd(hcd);
 > 
-> Global variables should not be defined in header files.
-> This only works because sr9800.h in only included by sr9800.c
-> Change the storage-class specifier to static.
-> And since it does not change add type qualifier const.
+> Is it ok to put usb_phy_shutdown before usb_put_hcd(hcd)? hcd is
+> released at usb_put_hcd.
+
+yes, above looks good.
+
 > 
-> [...]
+> UNISOC DWC3 phy is not divided  USB 2.0/3.0 phy clearly.  Yes, it's
+> UNISOC's issue.
+> It UNISOC's dtsi: phys = <&ssphy>, <&ssphy>;
+> If to shutdown phy too earlier,  it will cost 10s timeout to do xhci_reset.
+> usb_remmove_hcd  --> usb_stop_hcd --> xhci_stop --> xhci_reset  -->
+> xhci_handshake(&xhci->op_regs->command, CMD_RESET, 0, 10 * 1000 *1000)
+> 
+> I want to know this change is acceptable or not?
+> 
+> hcd->usb_phy = devm_usb_get_phy_by_phandle(sysdev, "usb-phy", 0);
+> Why in xhci_plat_remove, just to shutdown "usb-phy"[0], not to
+> shutdown "usb-phy"[1] ?
 
-Here is the summary with links:
-  - USB2NET : SR9800 : change SR9800_BULKIN_SIZE from global to static
-    https://git.kernel.org/netdev/net-next/c/0844d36f771d
+xhci-plat.c only takes one phy at index 0, so we only shutdowns that one.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Looks like usb core hcd code has better phy handling when adding and
+removing hcds. It supports multiple phys.
+If possible use that instead.
 
+See drivers/usb/core/hcd.c usb_add_hcd()
 
+Thanks
+-Mathias
