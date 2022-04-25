@@ -2,184 +2,187 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBA80C433F5
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Apr 2022 09:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEE4BC433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Apr 2022 09:20:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbiDYJJf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Apr 2022 05:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45670 "EHLO
+        id S232528AbiDYJX3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Apr 2022 05:23:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241591AbiDYJHg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Apr 2022 05:07:36 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7BF3193C5
-        for <linux-usb@vger.kernel.org>; Mon, 25 Apr 2022 02:02:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1650877349; x=1682413349;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ntSvY/F5il28Tmp1+7fRTiVkkRnV7bV16mSGAYPLWow=;
-  b=zO1yzNFAmf6i/vwJx1FcFKB+dgNRZZcIPF2qiXjl0eq4pnPfdxVFZ/pM
-   098sS8gNTwJBtt9n4QjLzQcSsXes+jg2ZEuHmX2A5vwQ4o62F99QGhgPW
-   zfDW5oVvOvSmM2Wd3NdMJXjHCT7s976PsG4JReZ5wTASKGpDIbQ4Y+zqY
-   Q=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Apr 2022 02:01:03 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2022 02:01:02 -0700
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Apr 2022 02:01:01 -0700
-Received: from linyyuan-gv.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Apr 2022 02:00:59 -0700
-From:   Linyu Yuan <quic_linyyuan@quicinc.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, Jack Pham <quic_jackp@quicinc.com>,
-        "Linyu Yuan" <quic_linyyuan@quicinc.com>
-Subject: [PATCH v6 1/2] usb: typec: ucsi: add a common function ucsi_unregister_connectors()
-Date:   Mon, 25 Apr 2022 17:00:51 +0800
-Message-ID: <1650877252-10401-2-git-send-email-quic_linyyuan@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650877252-10401-1-git-send-email-quic_linyyuan@quicinc.com>
-References: <1650877252-10401-1-git-send-email-quic_linyyuan@quicinc.com>
+        with ESMTP id S236323AbiDYJXW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Apr 2022 05:23:22 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6223766B;
+        Mon, 25 Apr 2022 02:20:14 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 06FDC1002D8; Mon, 25 Apr 2022 10:20:11 +0100 (BST)
+Date:   Mon, 25 Apr 2022 10:20:11 +0100
+From:   Sean Young <sean@mess.org>
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Jarod Wilson <jarod@redhat.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzbot <syzbot+c558267ad910fc494497@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: possible deadlock in display_open
+Message-ID: <YmZny7mzugFe0t+X@gofer.mess.org>
+References: <00000000000043b599058faf0145@google.com>
+ <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a06c7f1-9a29-99e4-c700-fec3f09509d2@I-love.SAKURA.ne.jp>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In error path of ucsi_init(), it will unregister all valid ucsi connectors,
-and similar operation also happen in ucsi_unregister(),
-add a common function ucsi_unregister_connectors() for two places.
+Hello,
 
-Also in ucsi_init(), it allocate number of (ucsi->cap.num_connectors + 1)
-connectors, there is one extra as the ending,
-ucsi_unregister_connectors() is safe to unregister all ucsi connectors
-according ucsi->cap.num_connectors,
-remove the extra one connector to save memory.
+On Mon, Apr 25, 2022 at 02:29:26PM +0900, Tetsuo Handa wrote:
+> Since usb_register_dev() from imon_init_display() from imon_probe() holds
+> minor_rwsem while display_open() which holds driver_lock and ictx->lock is
+> called with minor_rwsem held from usb_open(), holding driver_lock or
+> ictx->lock when calling usb_register_dev() causes circular locking
+> dependency problem.
+> 
+> Since usb_deregister_dev() from imon_disconnect() holds minor_rwsem while
+> display_open() which holds driver_lock is called with minor_rwsem held,
+> holding driver_lock when calling usb_deregister_dev() also causes circular
+> locking dependency problem.
+> 
+> But actually do we need to hold these locks?
+> Could you explain possible race scenario if we do below?
 
-Signed-off-by: Linyu Yuan <quic_linyyuan@quicinc.com>
----
-v2: improve ucsi_connector_clean(), check total number of connector.
-v3: rename to ucsi_unregister_connectors(), suggest by maintainer
-v4: merge patch#1 in V3, fix a typo samiliar -> similar in commit description
-v5: no change
-v6: merge patch#2 in v5 to this one,
-    remove con->port = NULL; and change break condition
-    in ucsi_unregister_connectors().
+The problem is there are imon devices which have two usb interfaces, even
+though it is one device. The probe and disconnect function of both usb
+interfaces can run concurrently.
 
- drivers/usb/typec/ucsi/ucsi.c | 53 +++++++++++++++++++++++--------------------
- 1 file changed, 29 insertions(+), 24 deletions(-)
+If the imon_probe is running for interface 1, and the probe for interface 0
+has not completed yet, then the driver may erronously think the probe for
+interface 0 failed at `if (!first_if_ctx) {` on line 2442.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index f0c2fa1..981b561 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1186,6 +1186,32 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	return ret;
- }
- 
-+static void ucsi_unregister_connectors(struct ucsi *ucsi)
-+{
-+	struct ucsi_connector *con;
-+	int i;
-+
-+	if (!ucsi->connector)
-+		return;
-+
-+	for (i = 0; i < ucsi->cap.num_connectors; i++) {
-+		con = &ucsi->connector[i];
-+		if (IS_ERR_OR_NULL(con->port))
-+			break;
-+
-+		cancel_work_sync(&con->work);
-+		ucsi_unregister_partner(con);
-+		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-+		ucsi_unregister_port_psy(con);
-+		if (con->wq)
-+			destroy_workqueue(con->wq);
-+		typec_unregister_port(con->port);
-+	}
-+
-+	kfree(ucsi->connector);
-+	ucsi->connector = NULL;
-+}
-+
- /**
-  * ucsi_init - Initialize UCSI interface
-  * @ucsi: UCSI to be initialized
-@@ -1194,7 +1220,6 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
-  */
- static int ucsi_init(struct ucsi *ucsi)
- {
--	struct ucsi_connector *con;
- 	u64 command;
- 	int ret;
- 	int i;
-@@ -1225,7 +1250,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 	}
- 
- 	/* Allocate the connectors. Released in ucsi_unregister() */
--	ucsi->connector = kcalloc(ucsi->cap.num_connectors + 1,
-+	ucsi->connector = kcalloc(ucsi->cap.num_connectors,
- 				  sizeof(*ucsi->connector), GFP_KERNEL);
- 	if (!ucsi->connector) {
- 		ret = -ENOMEM;
-@@ -1249,15 +1274,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 	return 0;
- 
- err_unregister:
--	for (con = ucsi->connector; con->port; con++) {
--		ucsi_unregister_partner(con);
--		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
--		ucsi_unregister_port_psy(con);
--		if (con->wq)
--			destroy_workqueue(con->wq);
--		typec_unregister_port(con->port);
--		con->port = NULL;
--	}
-+	ucsi_unregister_connectors(ucsi);
- 
- err_reset:
- 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
-@@ -1363,7 +1380,6 @@ EXPORT_SYMBOL_GPL(ucsi_register);
- void ucsi_unregister(struct ucsi *ucsi)
- {
- 	u64 cmd = UCSI_SET_NOTIFICATION_ENABLE;
--	int i;
- 
- 	/* Make sure that we are not in the middle of driver initialization */
- 	cancel_work_sync(&ucsi->work);
-@@ -1371,18 +1387,7 @@ void ucsi_unregister(struct ucsi *ucsi)
- 	/* Disable notifications */
- 	ucsi->ops->async_write(ucsi, UCSI_CONTROL, &cmd, sizeof(cmd));
- 
--	for (i = 0; i < ucsi->cap.num_connectors; i++) {
--		cancel_work_sync(&ucsi->connector[i].work);
--		ucsi_unregister_partner(&ucsi->connector[i]);
--		ucsi_unregister_altmodes(&ucsi->connector[i],
--					 UCSI_RECIPIENT_CON);
--		ucsi_unregister_port_psy(&ucsi->connector[i]);
--		if (ucsi->connector[i].wq)
--			destroy_workqueue(ucsi->connector[i].wq);
--		typec_unregister_port(ucsi->connector[i].port);
--	}
--
--	kfree(ucsi->connector);
-+	ucsi_unregister_connectors(ucsi);
- }
- EXPORT_SYMBOL_GPL(ucsi_unregister);
- 
--- 
-2.7.4
+Of course, this depends on probe/disconnect functions being allowed to run
+concurrently on different interfaces of the same usb device.
 
+This code is rather tricky, and I'm sure there must be a better way of
+dealing with multiple interfaces for a usb driver than what imon.c does.
+
+Thanks
+Sean
+
+> 
+>  drivers/media/rc/imon.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
+> 
+> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> index 54da6f60079b..e0e893d96cf3 100644
+> --- a/drivers/media/rc/imon.c
+> +++ b/drivers/media/rc/imon.c
+> @@ -439,9 +439,6 @@ static struct usb_driver imon_driver = {
+>  	.id_table	= imon_usb_id_table,
+>  };
+>  
+> -/* to prevent races between open() and disconnect(), probing, etc */
+> -static DEFINE_MUTEX(driver_lock);
+> -
+>  /* Module bookkeeping bits */
+>  MODULE_AUTHOR(MOD_AUTHOR);
+>  MODULE_DESCRIPTION(MOD_DESC);
+> @@ -499,9 +496,6 @@ static int display_open(struct inode *inode, struct file *file)
+>  	int subminor;
+>  	int retval = 0;
+>  
+> -	/* prevent races with disconnect */
+> -	mutex_lock(&driver_lock);
+> -
+>  	subminor = iminor(inode);
+>  	interface = usb_find_interface(&imon_driver, subminor);
+>  	if (!interface) {
+> @@ -534,7 +528,6 @@ static int display_open(struct inode *inode, struct file *file)
+>  	mutex_unlock(&ictx->lock);
+>  
+>  exit:
+> -	mutex_unlock(&driver_lock);
+>  	return retval;
+>  }
+>  
+> @@ -2416,9 +2409,6 @@ static int imon_probe(struct usb_interface *interface,
+>  	dev_dbg(dev, "%s: found iMON device (%04x:%04x, intf%d)\n",
+>  		__func__, vendor, product, ifnum);
+>  
+> -	/* prevent races probing devices w/multiple interfaces */
+> -	mutex_lock(&driver_lock);
+> -
+>  	first_if = usb_ifnum_to_if(usbdev, 0);
+>  	if (!first_if) {
+>  		ret = -ENODEV;
+> @@ -2456,8 +2446,6 @@ static int imon_probe(struct usb_interface *interface,
+>  	usb_set_intfdata(interface, ictx);
+>  
+>  	if (ifnum == 0) {
+> -		mutex_lock(&ictx->lock);
+> -
+>  		if (product == 0xffdc && ictx->rf_device) {
+>  			sysfs_err = sysfs_create_group(&interface->dev.kobj,
+>  						       &imon_rf_attr_group);
+> @@ -2468,21 +2456,17 @@ static int imon_probe(struct usb_interface *interface,
+>  
+>  		if (ictx->display_supported)
+>  			imon_init_display(ictx, interface);
+> -
+> -		mutex_unlock(&ictx->lock);
+>  	}
+>  
+>  	dev_info(dev, "iMON device (%04x:%04x, intf%d) on usb<%d:%d> initialized\n",
+>  		 vendor, product, ifnum,
+>  		 usbdev->bus->busnum, usbdev->devnum);
+>  
+> -	mutex_unlock(&driver_lock);
+>  	usb_put_dev(usbdev);
+>  
+>  	return 0;
+>  
+>  fail:
+> -	mutex_unlock(&driver_lock);
+>  	usb_put_dev(usbdev);
+>  	dev_err(dev, "unable to register, err %d\n", ret);
+>  
+> @@ -2498,9 +2482,6 @@ static void imon_disconnect(struct usb_interface *interface)
+>  	struct device *dev;
+>  	int ifnum;
+>  
+> -	/* prevent races with multi-interface device probing and display_open */
+> -	mutex_lock(&driver_lock);
+> -
+>  	ictx = usb_get_intfdata(interface);
+>  	dev = ictx->dev;
+>  	ifnum = interface->cur_altsetting->desc.bInterfaceNumber;
+> @@ -2545,8 +2526,6 @@ static void imon_disconnect(struct usb_interface *interface)
+>  	if (!ictx->dev_present_intf0 && !ictx->dev_present_intf1)
+>  		free_imon_context(ictx);
+>  
+> -	mutex_unlock(&driver_lock);
+> -
+>  	dev_dbg(dev, "%s: iMON device (intf%d) disconnected\n",
+>  		__func__, ifnum);
+>  }
+> -- 
+> 2.34.1
+> 
+> On 2019/08/09 22:18, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following crash on:
+> > 
+> > HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
+> > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=13b29b26600000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=c558267ad910fc494497
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15427002600000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=111cb61c600000
+> > 
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+c558267ad910fc494497@syzkaller.appspotmail.com
