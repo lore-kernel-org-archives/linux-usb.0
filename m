@@ -2,94 +2,156 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38AF9C433EF
-	for <linux-usb@archiver.kernel.org>; Mon, 25 Apr 2022 14:28:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BF6C433F5
+	for <linux-usb@archiver.kernel.org>; Mon, 25 Apr 2022 14:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232230AbiDYObt convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 25 Apr 2022 10:31:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39620 "EHLO
+        id S235702AbiDYOiO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 25 Apr 2022 10:38:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229648AbiDYObs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Apr 2022 10:31:48 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE292E6AA
-        for <linux-usb@vger.kernel.org>; Mon, 25 Apr 2022 07:28:43 -0700 (PDT)
-Received: (Authenticated sender: hadess@hadess.net)
-        by mail.gandi.net (Postfix) with ESMTPSA id 2138560008;
-        Mon, 25 Apr 2022 14:28:40 +0000 (UTC)
-Message-ID: <e73035d1bae5d0c355166fb46f0f5f2f07752b3c.camel@hadess.net>
-Subject: Re: [RFC v1] USB: core: add USBDEVFS_REVOKE ioctl
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Date:   Mon, 25 Apr 2022 16:28:40 +0200
-In-Reply-To: <YmarwaNQYn1GwFbQ@kroah.com>
-References: <20220425132315.924477-1-hadess@hadess.net>
-         <YmarwaNQYn1GwFbQ@kroah.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
-MIME-Version: 1.0
+        with ESMTP id S238379AbiDYOiE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 25 Apr 2022 10:38:04 -0400
+Received: from mail.schwermer.no (mail.schwermer.no [49.12.228.226])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C32233631A;
+        Mon, 25 Apr 2022 07:34:59 -0700 (PDT)
+X-Virus-Scanned: Yes
+From:   sven@svenschwermer.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=svenschwermer.de;
+        s=mail; t=1650897296;
+        bh=humBVDNeJg14jQhy4NBo4Q8G+u7MIV1Sxoojg3R95Ns=;
+        h=From:To:Cc:Subject:In-Reply-To:References;
+        b=Pxdn+/FgUje67Ls7RDXwUFHIi1UkSfbKH60J7mfr36M1TKVk58JuTEVijiJRSy58U
+         EfpgBm2ND+BjIaX9OGM5lNRhsryebaKMdox+DfpbrdKRBX+ZiEUd6OATaxc7kVA5/n
+         JW2uvuGoQHaM0YR9EYuDdRmv1WAR/qGrYQR4fqFnJ4CCccVeFoPwaflBIlYlkv1Gl6
+         HZCLu6Ktu8M91rJXVtJgob/L6MB6fG5OUHkuGNJQ0ZG26u16dwlatj8gEW8KUsSCtK
+         k2jjVfYz/UwjuTXjVeNspy2IzXTfE8XTaJU+11rVJCqxmnxL2UBB7P/77+BGHM3NaK
+         bBz2CI3vgkxiQ==
+To:     linux-usb@vger.kernel.org
+Cc:     Sven Schwermer <sven.schwermer@disruptive-technologies.com>,
+        linux-kernel@vger.kernel.org, johan@kernel.org
+Subject: [PATCH v3 2/2] usb: serial: option: Add Fibocom MA510 modem
+Date:   Mon, 25 Apr 2022 16:34:50 +0200
+Message-Id: <20220425143450.44886-2-sven@svenschwermer.de>
+In-Reply-To: <20220425143450.44886-1-sven@svenschwermer.de>
+References: <20220425143450.44886-1-sven@svenschwermer.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 2022-04-25 at 16:10 +0200, Greg Kroah-Hartman wrote:
-> On Mon, Apr 25, 2022 at 03:23:15PM +0200, Bastien Nocera wrote:
-> > There is a need for userspace applications to open USB devices
-> > directly,
-> > for all the USB devices without a kernel-level class driver, and
-> > implemented in user-space.
-> > 
-> > End-user access is usually handled by the uaccess tag in systemd,
-> > shipping application-specific udev rules that implement this
-> > without too
-> > much care for sandboxed applications, or overall security, or just
-> > sudo.
-> > 
-> > A better approach is what we already have for evdev devices: give
-> > the
-> > application a file descriptor and revoke it when it may no longer
-> > access
-> > that device.
-> 
-> Who is going to use this "better" approach?  Is there support in
-> libusb
-> for it?  Who talks raw usbfs other than libusb these days?
+From: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
 
-Did you read the follow-up mail with the links to example code for the
-hid revoke support?
+The MA510 modem has 3 USB configurations that are configurable via the AT
+command AT+GTUSBMODE={30,31,32} which make the modem enumerate with the
+following interfaces, respectively:
 
-> 
-> > 
-> > This patch is the USB equivalent to the EVIOCREVOKE ioctl, see
-> > commit c7dc65737c9a607d3e6f8478659876074ad129b8 for full details.
-> 
-> c7dc65737c9a ("Input: evdev - add EVIOCREVOKE ioctl") is how I
-> thought
-> we were supposed to write out commits in changelogs these days :)
-> 
-> > 
-> > Note that this variant needs to do a few things that the evdev
-> > revoke
-> > doesn't need to handle, particular:
-> > - cancelling pending async transfers
-> > - making sure to release claimed interfaces on revoke so they can
-> > be
-> >   opened by another process/user, as USB interfaces require being
-> >   exclusively claimed to be used.
-> 
-> I love the idea of a real revoke() someday, but can't you just do the
-> "unbind/bind" hack instead if you really want to do this?  Who wants
-> to
-> pass usbfs file descriptors around these days?
+30: Diag + QDSS + Modem + RMNET
+31: Diag + Modem + AT + ECM
+32: Modem + AT + ECM
 
-Again, please read the follow-up mail where I talk of the BPF support
-patch that would allow revoking USB fds without relying on a service in
-the middle to access devices (although that's eventually going to be
-the way to do things to allow elevating access to devices).
+The first configuration (30) reuses u-blox R410M's VID/PID with
+identical interface configuration.
 
-Cheers
+A detailed description of the USB configuration for each mode follows:
+
++GTUSBMODE: 30
+--------------
+T:  Bus=03 Lev=01 Prnt=01 Port=06 Cnt=04 Dev#= 19 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=05c6 ProdID=90b2 Rev= 0.00
+S:  Manufacturer=Fibocom MA510 Modem
+S:  Product=Fibocom MA510 Modem
+S:  SerialNumber=55e2695b
+C:* #Ifs= 4 Cfg#= 1 Atr=e0 MxPwr=500mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+E:  Ad=85(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+
++GTUSBMODE: 31
+--------------
+T:  Bus=03 Lev=01 Prnt=01 Port=06 Cnt=04 Dev#= 99 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=2cb7 ProdID=0106 Rev= 0.00
+S:  Manufacturer=Fibocom MA510 Modem
+S:  Product=Fibocom MA510 Modem
+S:  SerialNumber=55e2695b
+C:* #Ifs= 5 Cfg#= 1 Atr=e0 MxPwr=500mA
+A:  FirstIf#= 3 IfCount= 2 Cls=02(comm.) Sub=00 Prot=00
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=82(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=fe Prot=ff Driver=option
+E:  Ad=84(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=cdc_ether
+E:  Ad=86(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+I:  If#= 4 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+I:* If#= 4 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+
++GTUSBMODE: 32
+--------------
+T:  Bus=03 Lev=01 Prnt=01 Port=06 Cnt=04 Dev#=100 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=2cb7 ProdID=010a Rev= 0.00
+S:  Manufacturer=Fibocom MA510 Modem
+S:  Product=Fibocom MA510 Modem
+S:  SerialNumber=55e2695b
+C:* #Ifs= 4 Cfg#= 1 Atr=e0 MxPwr=500mA
+A:  FirstIf#= 2 IfCount= 2 Cls=02(comm.) Sub=00 Prot=00
+I:* If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+E:  Ad=81(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=fe Prot=ff Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=06 Prot=00 Driver=cdc_ether
+E:  Ad=85(I) Atr=03(Int.) MxPS=  64 Ivl=2ms
+I:  If#= 3 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+I:* If#= 3 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=cdc_ether
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+
+Signed-off-by: Sven Schwermer <sven.schwermer@disruptive-technologies.com>
+---
+V2 -> V3: Add this changelog
+V1 -> V2: Use USB_DEVICE_INTERFACE_CLASS, add comments
+
+ drivers/usb/serial/option.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index e0af45e3a6f7..d9c2eaf09901 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2117,6 +2117,8 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(4) | RSVD(5) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x0105, 0xff),			/* Fibocom NL678 series */
+ 	  .driver_info = RSVD(6) },
++	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x0106, 0xff) },			/* Fibocom MA510 (ECM mode w/ diag intf.) */
++	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x010a, 0xff) },			/* Fibocom MA510 (ECM mode) */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x010b, 0xff, 0xff, 0x30) },	/* Fibocom FG150 Diag */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2cb7, 0x010b, 0xff, 0, 0) },		/* Fibocom FG150 AT */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x01a0, 0xff) },			/* Fibocom NL668-AM/NL652-EU (laptop MBIM) */
+-- 
+2.36.0
+
