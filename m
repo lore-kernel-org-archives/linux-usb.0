@@ -2,180 +2,246 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F33C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 13:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5268DC4167B
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 13:13:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350628AbiDZNJu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 09:09:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52362 "EHLO
+        id S1350738AbiDZNQS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 09:16:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350563AbiDZNJs (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 09:09:48 -0400
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2128.outbound.protection.outlook.com [40.107.21.128])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB760630E;
-        Tue, 26 Apr 2022 06:06:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XsP+a5cDGK+QvipVzcYHCzZY47wN3w7Dl6EvIsCk+K6/SSJHKxxNzg24kRwECdKBHd/KC+/JBDvb5OI16vbWA9N4nhWWs48QZo21bLhMh9+PvI0TeplSrxLKS2xn0K+j5q49F09R9XMbKD0QnBRJOFaKDwqcmApkg+GWIFDAlAyOquR9HP/JyzFAhRIUzb2KOACaLVWU4h5zBvbxScgkP5HXDDuJ4FQ4FhTlNBda94k7AaX81VLtei/4mTif6itPeiMFgQhYr+ieHiFfRdhULDc6OIDPAz5tUJb23A89ZsPjqPK2wUnLxcIUklNU7diPihZy2fHsoeoAW5KVccDLgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LDP2pv74fGTwg445akTQbC9oKsXEXwFJqPPlVk2DsxU=;
- b=QDEh0cck/vSJRearGToRHdtXp0MgKiqlPJbyrHq7iqKx3OKYj2OnHDJQqEDzQh0gBY8wpbGYDmBcTc5dZj/qxZgAWy5soHuf2+ZhWi4CQpHt3RvJeXmYI3gUYUPGAdB0FaHgA7+iTdbWNuexF6J1ZHFzmg0Lu8uFSjlL8GL0mNdTmX+AygKuGNJS29glcYS7uq83N7AbaPlwv7L0LUbH8wFkdnuuzhBilMQeDFoS4gE9i935I18WUNMhvLQDcuWDrkV1uOKRx3/jHJHQMXno+0YB53AD0Ll2gGvMy5AcNvQALPcN7WtgI6FhIi8QQW4F0EpLMM/Bxi3GwWs0LHqXYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LDP2pv74fGTwg445akTQbC9oKsXEXwFJqPPlVk2DsxU=;
- b=oD/J9PVfnEPOYnojW2q/ki5/1gcc8GtkrcOB6pWr25fcjm4Vmxu8ASM+vISaYOVSxJl7wvFaa69p9iDWdCxrVQJHRgr5VE4RGw5MIJ92rtzmih2FQJeqy2jdCbQZX5Ll6wiZjmbHK06pkDyCqriJsJlQkSYilsii59Xo8wOSWEU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axentia.se;
-Received: from DU0PR02MB8737.eurprd02.prod.outlook.com (2603:10a6:10:3ed::8)
- by AS8PR02MB8736.eurprd02.prod.outlook.com (2603:10a6:20b:54f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.21; Tue, 26 Apr
- 2022 13:06:36 +0000
-Received: from DU0PR02MB8737.eurprd02.prod.outlook.com
- ([fe80::95e5:ffea:aa24:21f5]) by DU0PR02MB8737.eurprd02.prod.outlook.com
- ([fe80::95e5:ffea:aa24:21f5%2]) with mapi id 15.20.5186.014; Tue, 26 Apr 2022
- 13:06:36 +0000
-Subject: Re: [PATCH 2/2] usb: usb251xb: make power-up reset delay configurable
- in device tree
+        with ESMTP id S234550AbiDZNQQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 09:16:16 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A81566F9D;
+        Tue, 26 Apr 2022 06:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1650978787; x=1682514787;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=4mkD7GLX3iLI2eXfIKWZSJugD5xfyLr658aN5QzAUA4=;
+  b=ADYLKnMtbizfbSF1o/kD2nPu5m/Ui0WFrU3lFWaWpeyldIqtefsCMvPT
+   7Lf1JBD5qTLueW1Bg0xoML6zG3vXEb5/rEPz5xOQYqUNpw/8aTn7w7V7B
+   vVKwHhoPnG4DEnNs74Dv3XaWAihV3wOk2X4ned7F849JrnXI0ZyHh7UPu
+   NDeK9NaNglDebUGrE0fGpdI7Ckwj7B7nwAY4aUKUr8NVGUGt7thzVSyBU
+   RRG1T9oqMduxu6E9+OtiYehqk89tvY8r15Dv4qRU2TSXMDGrSsJQURRGP
+   dB6BQwQ/WQYOEvvH8303zUdcWuulUQnfyZ1lUa3aqxcjG3wzn70Ql9SQ/
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="263166228"
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; 
+   d="scan'208";a="263166228"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 06:13:07 -0700
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; 
+   d="scan'208";a="579884765"
+Received: from mmilkovx-mobl.amr.corp.intel.com ([10.249.47.245])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2022 06:12:59 -0700
+Date:   Tue, 26 Apr 2022 16:12:57 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     richard.leitner@skidata.com, linux-usb@vger.kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-References: <20220426123329.775-1-du@axentia.se>
- <20220426123329.775-3-du@axentia.se> <YmfpmJfWQwjLGCSF@kroah.com>
-From:   Daniels Umanovskis <du@axentia.se>
-Message-ID: <f3db0547-571c-d765-359e-8e84d34bffed@axentia.se>
-Date:   Tue, 26 Apr 2022 15:06:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <YmfpmJfWQwjLGCSF@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-ClientProxiedBy: GV3P280CA0082.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:a::10) To DU0PR02MB8737.eurprd02.prod.outlook.com
- (2603:10a6:10:3ed::8)
+cc:     linux-serial <linux-serial@vger.kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Lukas Wunner <lukas@wunner.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Vicente Bergas <vicencb@gmail.com>,
+        Johan Hovold <johan@kernel.org>, heiko@sntech.de,
+        giulio.benetti@micronovasrl.com,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-api@vger.kernel.org,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        linux-arch@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v5 05/10] serial: termbits: ADDRB to indicate 9th bit
+ addressing mode
+In-Reply-To: <Ymfq+jUXfZcNM/P/@kroah.com>
+Message-ID: <b667479-fb27-8712-cec8-938eed179240@linux.intel.com>
+References: <20220426122448.38997-1-ilpo.jarvinen@linux.intel.com> <20220426122448.38997-6-ilpo.jarvinen@linux.intel.com> <Ymfq+jUXfZcNM/P/@kroah.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3feca047-1de5-4ea5-5a70-08da278597ed
-X-MS-TrafficTypeDiagnostic: AS8PR02MB8736:EE_
-X-Microsoft-Antispam-PRVS: <AS8PR02MB873686943EF980D97E31AEE1BDFB9@AS8PR02MB8736.eurprd02.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rs2HR56uduQCZQGKkVupEBAUje2RBwVxfgqIFQLw1G3ZIUu94wj2FBuLIF7NmUNi24YXIyku6mI7Mr0y4YqCoELhU13lYsuyN9ujlaF5EvdDHnPObZWLrJxwnXy7yfMaXvByIz6FnoE7pghbArk70+b8b+3myPkI3vd0ys6VnVSSvG/+i7jMKYI4t14dVKj8NEcOJ4HyNkc0tgnTS6WYxZxTxHoy3+f5dBd8le5ptbtjtVDoXan+JxCBsyUi2BRZSHF+k4tEGb0slhM6SapoGuBiNDS7ZryU00KlSGdq0JHPYJyv8uGLLc/XOthBvb40kdZ81R21rVyaeCGa/F/WxDwKfpEsyt1s4smkoTWTunWIEW8341SoHRdBSzZ/NqUFUbGTCFL2aEzqmFaUhfB+PxePB7EbWZny4nB2Wke5oPQZK8lWB/gLn08baqVN1PVTGICLFnEmxwZ4FGlEVCndsexK1lo3HOWO3owikNubScJcDUSYUBYiMDOBVR0Fvi3QSMajBmEoPoRh5ss6MPGKONae6pmNIfJruwEwWQZ410d8FXSm6b8/wt7gTIoutgYIKG5BPnlwzmQG0GVw+NS6iv45bLnxADsTGMoscwUCSarpAooTvSs2d+6beygEkydc6yef+Z2rN+KmFso2uNxOlWTOTFD3UXGiBtaLnme9dStC9bsVrWYl7PV4Ce34cWy0pg9xk96ZG4u+qMgoinEVGRtI6Yrl6r4ICl6+1uR8sSY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR02MB8737.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(39840400004)(396003)(346002)(136003)(376002)(2616005)(66476007)(66556008)(2906002)(38100700002)(4326008)(66946007)(8676002)(83380400001)(31696002)(86362001)(6506007)(6512007)(186003)(53546011)(26005)(36756003)(508600001)(6916009)(316002)(31686004)(5660300002)(8936002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2VvYW9oT2FLamwzSDlRZVAvSjY3bkdOT2lScVFPSHRqWG1xSXZzd0hUY2Ux?=
- =?utf-8?B?MEtzcHVLeFRhNldrWnJib2xWZkZtY1RqYUNDUmJEdEE5WnBQMHFrQWIxR3F6?=
- =?utf-8?B?YktCREtuemozYW1hUWdSZTZzOE0wa3hSVWFLMmFHVUVCeWppeEVibFdIVlN2?=
- =?utf-8?B?Nit3bE1idm9tRmdBbFovM3pwRE1abmVLRnpHeVYxWmduOWNhdjJDOThjK3Jr?=
- =?utf-8?B?Qmc4VEUzQXFhRFNRaUxEaExWdWVEL1JVTWdBVzhmYXlCSGFCaVNvbDlTZGVx?=
- =?utf-8?B?WW1GMXE5alpRRUczQU4yL25HZm8vcWpReVRSY0JnRlhvS0hxZnBUa0ZyT1VY?=
- =?utf-8?B?TnQwQjVoVjF2cWJPNTJUWnBqNEdkS09kWTNqOHZPYmhvZGRkbDFiTUsyS3ZW?=
- =?utf-8?B?aUlQZXNleFNaZnJhZERxSEZuQlZJbldiQXNaRHdZL3FESVNyMnVnbm9OMGlB?=
- =?utf-8?B?azFlRUdiT2F3V1NDWGNIb2FqeTY0aGJkZXlLQ3ZFa0lUSWd6d3cvK05wQ0tO?=
- =?utf-8?B?M0R5U0R6QmNtVER6Mk9UOGFWT3VpYmlnTklOL0gxUnRaSEg3eWFodVRmdEZD?=
- =?utf-8?B?VndXMkF3VDVKV2NXUGg3OGk3bHozT1I4NENzdGFwbnIyS0dSL1I1ZlJnNW00?=
- =?utf-8?B?RjJDNGlsYUhNYWFWY3ljV0hmZjJrbFBOMG9TVkpDQVRBZzRMSXZUWEthMjQ3?=
- =?utf-8?B?SEtmUnNJdWNWb1BQdTZoRXhsc3BzZlhDOUNuVGp0TFltTlRGbUh3M0ozaElB?=
- =?utf-8?B?T0ZFL0oxZHZnMDIzMnFObVBkSkM2eHpnenU2RGhwNTc4SElsN3NHSXNQTklF?=
- =?utf-8?B?cEJveHZhT25rSFY4TkdvekhHYU0rYXBXZ2FuNkIyKytWY3NDUGJ2V0h4NkhC?=
- =?utf-8?B?U2NaY0crSTJLVXN0dS9ITEFqZXdvam5LMzhrZXBwbDhyd1lHM05yK2V0Vytl?=
- =?utf-8?B?clJucERDV2tKd3JKYjdYSDkrQURTZ2h5RERTRS9RRTFoNEwwcUF5ZUg3Qzhy?=
- =?utf-8?B?ZkJlallkNnBsc1NCdGMxRVVKdENGSlQrUnkra1lMM1BYTG13djBXWUt5em5h?=
- =?utf-8?B?NTEwSkhjYW5lV0ZnaEZHNjJrL0dTUStOclVKc05UL3dLd2N6b05PZEtuN2hQ?=
- =?utf-8?B?Q2JYWlV4bTdwYW9aeE51Mm9MUEk4bHI2encva0JudDI2QXRORTRMQWdmcVRQ?=
- =?utf-8?B?bzNqelI5cmlJMzhsMUxpWGcrMzZURjA2NWJzbllUYWprSGwrTVhmZEVUeGFD?=
- =?utf-8?B?cXdqNytmemFaalJYc0FOdzhVSWN5Tml2YkJVU3Y4NnhiZDZUZEZLOWk1YlN6?=
- =?utf-8?B?aGE3bUJEazZhVlVOSnFtSmZQeVZBRlMzVSt3cDdubWNnNW1KbFNLOXFpcEVp?=
- =?utf-8?B?OWhZd2NHYTlsTGtjTGZNRVlaSTRuMEJBZEt2RWxsN1VwSmttK3pYSldEKzBk?=
- =?utf-8?B?dmlDQXRsekZnVnZlTWZNU1RZc0I1MGlWUkR0MlRMeG5DSkRQUXlQcUpyRU9B?=
- =?utf-8?B?QnZJWTZIMnJaTWxzMmM0WTZCOGk4eER6VE5zWXBWNTBMM2pWZFlGY25IL1dl?=
- =?utf-8?B?TncrWFVicmhrOE5ka0g4U3hLaFB0dFBXQlpObUZpd2U3VVBZTVpFVTVsUlVh?=
- =?utf-8?B?SHFQRHA1UDE4M041dEw1ZXRBM2N6TUtMUkFHdjZWOW90ZzhKMmRHektEdE55?=
- =?utf-8?B?Y3dOU3ZOaStjbmpDdmtsTy95VzB0bDl0R3RNQjgvdy9JUEZ0NDdOWlhIR1pC?=
- =?utf-8?B?NFgyQ3BXSVN3eVVhZVRWUnBRZFpSc0tpbFNsNktPa2kvWHluVjcvYnpWUllQ?=
- =?utf-8?B?RzVTQ25JRW5JeTM3aU1taXZ4VUMyQlhlTUFNc28raVFVUlFmaWFGb3cvYzBP?=
- =?utf-8?B?c2pGd1pGOE9SVW4zK2ltdk1pcEpXMzdicXY2Z0tvTC96cnBnNXAxK24rbHJV?=
- =?utf-8?B?MHo2QkdybEtaZ1I4ZHk3OVNDWVlWZS95Q1RkOGVEbzRCejlncDJUd3MwTHNr?=
- =?utf-8?B?Z2I3TTVaV2t5Znl0UGc0QUVZWFVTdDJUNUZNcTBTUnZuTEo2N216N3IyTDFk?=
- =?utf-8?B?MEJGNGhwYkRPeVhEc2M2RERLWmtkWG9YemFQZzM4SUxpL2x3R0ppUXlGdFlL?=
- =?utf-8?B?TmNjbGl3eTB1Ujg0NVRYY08zdmxjR0UrVXA4T2h5dnFMOFBXSGQwQStiRnZk?=
- =?utf-8?B?cEM4TTZEMVlsOGkydXR5cVh4Z0Fkd2ZyZnM2Y2ptZ3FobUh3dW1OZ2pTbElW?=
- =?utf-8?B?QlhaRlBQQ0trRFRMZDF5K0pQS08yRzFaT2ZON050OHg2YUo2Wkp0UXcvbUMx?=
- =?utf-8?Q?QeZR9zfXIdjFeeOnlW?=
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3feca047-1de5-4ea5-5a70-08da278597ed
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR02MB8737.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 13:06:36.4887
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6UTE+5AeuErbiEt4EfUTHG9SdZoXPsnEId4g2pZXBEvNZe/F3itT4NtJ86ELkF3O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB8736
+Content-Type: multipart/mixed; BOUNDARY="8323329-1902298920-1650977784=:1644"
+Content-ID: <9e9c7513-c53e-c92d-85d3-28ac5a3a7a22@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 4/26/22 2:46 PM, Greg KH wrote:
-> On Tue, Apr 26, 2022 at 12:34:13PM +0000, Daniels Umanovskis wrote:
->> According to the datasheet, the hub should be operational 500us after
->> the reset has been deasserted. Some individual circuits have been
->> observed not to reset within the specified 500us and require a longer
->> wait for subsequent configuration to succeed.
->>
->> Signed-off-by: Daniels Umanovskis <du@axentia.se>
->> ---
->>   drivers/usb/misc/usb251xb.c | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
->> index 04c4e3fed094..e287e241ef96 100644
->> --- a/drivers/usb/misc/usb251xb.c
->> +++ b/drivers/usb/misc/usb251xb.c
->> @@ -115,6 +115,7 @@ struct usb251xb {
->>   	struct regulator *vdd;
->>   	u8 skip_config;
->>   	struct gpio_desc *gpio_reset;
->> +	u32 reset_delay_us;
->>   	u16 vendor_id;
->>   	u16 product_id;
->>   	u16 device_id;
->> @@ -278,7 +279,7 @@ static void usb251xb_reset(struct usb251xb *hub)
->>   	gpiod_set_value_cansleep(hub->gpio_reset, 0);
->>   
->>   	/* wait for hub recovery/stabilization */
->> -	usleep_range(500, 750);	/* >=500us after RESET_N deasserted */
->> +	fsleep(hub->reset_delay_us);
->>   
->>   	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
->>   }
->> @@ -424,6 +425,9 @@ static int usb251xb_get_ofdata(struct usb251xb *hub,
->>   		return err;
->>   	}
->>   
->> +	if (of_property_read_u32(np, "reset-delay-us", &hub->reset_delay_us))
->> +		hub->reset_delay_us = 500;
-> So if this fails the delay is 0?
-of_property_read_u32 can fail with -EINVAL or -ENODATA, then delay is 
-500, unless I'm missing something more obvious.
-> And what commit id does this fix?
-No Fixes: tag because this isn't a bug or regression, just a new 
-workaround for a hardware issue nobody's (presumably) 
-encountered/bothered with.
-> And any reason why you didn't cc: the people you get when running
-> scripts/get_maintainer.pl on the patch?
-get_maintainer showed Richard as the maintainer. You showed as a 
-supporter, if supporters should also be CCed by default then it's my bad 
-- perhaps that should be clarified in submitting-patches.rst.
-> thanks,
->
-> greg k-h
-/Daniels
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323329-1902298920-1650977784=:1644
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <cd9fe5-9b4f-51fb-d37a-75d923e2ccc1@linux.intel.com>
+
+On Tue, 26 Apr 2022, Greg KH wrote:
+
+> On Tue, Apr 26, 2022 at 03:24:43PM +0300, Ilpo Järvinen wrote:
+> > Add ADDRB to termbits to indicate 9th bit addressing mode. This change
+> > is necessary for supporting devices with RS485 multipoint addressing
+> > [*]. A later patch in the patch series adds support for Synopsys
+> > Designware UART capable for 9th bit addressing mode. In this mode, 9th
+> > bit is used to indicate an address (byte) within the communication
+> > line. The 9th bit addressing mode is selected using ADDRB introduced by
+> > an earlier patch.
+> > 
+> > [*] Technically, RS485 is just an electronic spec and does not itself
+> > specify the 9th bit addressing mode but 9th bit seems at least
+> > "semi-standard" way to do addressing with RS485.
+> > 
+> > Cc: linux-api@vger.kernel.org
+> > Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> > Cc: Matt Turner <mattst88@gmail.com>
+> > Cc: linux-alpha@vger.kernel.org
+> > Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+> > Cc: linux-mips@vger.kernel.org
+> > Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+> > Cc: Helge Deller <deller@gmx.de>
+> > Cc: linux-parisc@vger.kernel.org
+> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> > Cc: Paul Mackerras <paulus@samba.org>
+> > Cc: linuxppc-dev@lists.ozlabs.org
+> > Cc: "David S. Miller" <davem@davemloft.net>
+> > Cc: sparclinux@vger.kernel.org
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: linux-arch@vger.kernel.org
+> > Cc: linux-usb@vger.kernel.org
+> > Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+> > ---
+> >  arch/alpha/include/uapi/asm/termbits.h   | 1 +
+> >  arch/mips/include/uapi/asm/termbits.h    | 1 +
+> >  arch/parisc/include/uapi/asm/termbits.h  | 1 +
+> >  arch/powerpc/include/uapi/asm/termbits.h | 1 +
+> >  arch/sparc/include/uapi/asm/termbits.h   | 1 +
+> >  drivers/char/pcmcia/synclink_cs.c        | 2 ++
+> >  drivers/ipack/devices/ipoctal.c          | 2 ++
+> >  drivers/mmc/core/sdio_uart.c             | 2 ++
+> >  drivers/net/usb/hso.c                    | 3 ++-
+> >  drivers/s390/char/tty3270.c              | 3 +++
+> >  drivers/staging/greybus/uart.c           | 2 ++
+> >  drivers/tty/amiserial.c                  | 6 +++++-
+> >  drivers/tty/moxa.c                       | 1 +
+> >  drivers/tty/mxser.c                      | 1 +
+> >  drivers/tty/serial/serial_core.c         | 2 ++
+> >  drivers/tty/synclink_gt.c                | 2 ++
+> >  drivers/tty/tty_ioctl.c                  | 2 ++
+> >  drivers/usb/class/cdc-acm.c              | 2 ++
+> >  drivers/usb/serial/usb-serial.c          | 6 ++++--
+> >  include/uapi/asm-generic/termbits.h      | 1 +
+> >  net/bluetooth/rfcomm/tty.c               | 2 ++
+> >  21 files changed, 40 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/alpha/include/uapi/asm/termbits.h b/arch/alpha/include/uapi/asm/termbits.h
+> > index 4575ba34a0ea..0c123e715486 100644
+> > --- a/arch/alpha/include/uapi/asm/termbits.h
+> > +++ b/arch/alpha/include/uapi/asm/termbits.h
+> > @@ -180,6 +180,7 @@ struct ktermios {
+> >  #define HUPCL	00040000
+> >  
+> >  #define CLOCAL	00100000
+> > +#define ADDRB	004000000000		/* address bit */
+> >  #define CMSPAR	  010000000000		/* mark or space (stick) parity */
+> >  #define CRTSCTS	  020000000000		/* flow control */
+> >  
+> > diff --git a/arch/mips/include/uapi/asm/termbits.h b/arch/mips/include/uapi/asm/termbits.h
+> > index dfeffba729b7..4732d31b0e4e 100644
+> > --- a/arch/mips/include/uapi/asm/termbits.h
+> > +++ b/arch/mips/include/uapi/asm/termbits.h
+> > @@ -182,6 +182,7 @@ struct ktermios {
+> >  #define	 B3500000 0010016
+> >  #define	 B4000000 0010017
+> >  #define CIBAUD	  002003600000	/* input baud rate */
+> > +#define ADDRB	  004000000000	/* address bit */
+> >  #define CMSPAR	  010000000000	/* mark or space (stick) parity */
+> >  #define CRTSCTS	  020000000000	/* flow control */
+> >  
+> > diff --git a/arch/parisc/include/uapi/asm/termbits.h b/arch/parisc/include/uapi/asm/termbits.h
+> > index 40e920f8d683..d6bbd10d92ba 100644
+> > --- a/arch/parisc/include/uapi/asm/termbits.h
+> > +++ b/arch/parisc/include/uapi/asm/termbits.h
+> > @@ -159,6 +159,7 @@ struct ktermios {
+> >  #define  B3500000 0010016
+> >  #define  B4000000 0010017
+> >  #define CIBAUD    002003600000		/* input baud rate */
+> > +#define ADDRB	  004000000000		/* address bit */
+> 
+> tabs where the rest were not?
+> 
+> >  #define CMSPAR    010000000000          /* mark or space (stick) parity */
+> >  #define CRTSCTS   020000000000          /* flow control */
+> >  
+> > diff --git a/arch/powerpc/include/uapi/asm/termbits.h b/arch/powerpc/include/uapi/asm/termbits.h
+> > index ed18bc61f63d..c6a033732f39 100644
+> > --- a/arch/powerpc/include/uapi/asm/termbits.h
+> > +++ b/arch/powerpc/include/uapi/asm/termbits.h
+> > @@ -171,6 +171,7 @@ struct ktermios {
+> >  #define HUPCL	00040000
+> >  
+> >  #define CLOCAL	00100000
+> > +#define ADDRB	004000000000		/* address bit */
+> >  #define CMSPAR	  010000000000		/* mark or space (stick) parity */
+> >  #define CRTSCTS	  020000000000		/* flow control */
+> >  
+> > diff --git a/arch/sparc/include/uapi/asm/termbits.h b/arch/sparc/include/uapi/asm/termbits.h
+> > index ce5ad5d0f105..5eb1d547b5c4 100644
+> > --- a/arch/sparc/include/uapi/asm/termbits.h
+> > +++ b/arch/sparc/include/uapi/asm/termbits.h
+> > @@ -201,6 +201,7 @@ struct ktermios {
+> >  #define B3500000  0x00001012
+> >  #define B4000000  0x00001013  */
+> >  #define CIBAUD	  0x100f0000  /* input baud rate (not used) */
+> > +#define ADDRB	  0x20000000  /* address bit */
+> >  #define CMSPAR	  0x40000000  /* mark or space (stick) parity */
+> >  #define CRTSCTS	  0x80000000  /* flow control */
+> 
+> Why all the different values?  Can't we pick one and use it for all
+> arches?  Having these be different in different arches and userspace
+> should not be a thing for new fields, right?
+> 
+> > diff --git a/drivers/char/pcmcia/synclink_cs.c b/drivers/char/pcmcia/synclink_cs.c
+> > index 78baba55a8b5..d179b9b57a25 100644
+> > --- a/drivers/char/pcmcia/synclink_cs.c
+> > +++ b/drivers/char/pcmcia/synclink_cs.c
+> > @@ -2287,6 +2287,8 @@ static void mgslpc_set_termios(struct tty_struct *tty, struct ktermios *old_term
+> >  		== RELEVANT_IFLAG(old_termios->c_iflag)))
+> >  	  return;
+> >  
+> > +	tty->termios.c_cflag &= ~ADDRB;
+> 
+> Having to do this for all drivers feels wrong.  It isn't needed for any
+> other flag, right?
+
+My understanding is that it would be needed for other flags too, it's just 
+that many drivers probably haven't cared enough. Some drivers certainly 
+clear a few flags they don't support while others don't clear any but
+it's also challenging to determine it which flags which driver supports. 
+How bad the impact is per flag varies.
+
+> That makes me really not like this change as it
+> feels very ackward and
+> yet-another-thing-a-serial-driver-has-to-remember.
+
+It would be nice to have some mask for supported bits per driver. But it
+will be challenging to add at this point and I'm far from sure I could get 
+them right per driver even if carefully trying to.
+
+> And as you are wanting to pass this bit to userspace, where is that
+> documented?
+
+Ah, I probably should add it to driver-api/serial/driver.rst too but ADDRB
+is certainly mentioned alongside with other addressing mode documentation
+I wrote for the later changes in this series.
+
+-- 
+ i.
+--8323329-1902298920-1650977784=:1644--
