@@ -2,49 +2,45 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A857C433FE
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 12:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A3BC433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 12:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349987AbiDZMhy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 08:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36644 "EHLO
+        id S1350014AbiDZMi2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 08:38:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347241AbiDZMhx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 08:37:53 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 26 Apr 2022 05:34:45 PDT
+        with ESMTP id S1347148AbiDZMi0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 08:38:26 -0400
 Received: from pnkfpffh.outbound-mail.sendgrid.net (pnkfpffh.outbound-mail.sendgrid.net [50.31.63.240])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FE615F59E
-        for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 05:34:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD92261F
+        for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 05:35:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
-        h=from:subject:in-reply-to:references:mime-version:to:cc:
-        content-transfer-encoding:content-type;
-        s=s1; bh=tKivB06jD0vEN4LSj525+NdsXpl479kkX9c86GXrax8=;
-        b=LC8TGohw80eHDqceyKT9VqUQsUYWM8KERYXcR7JTdPMJ1Dw15nFc0LpPHTfIXDfhDMkI
-        Kfc2hhpFA8TXI/zW0ReKXkRs1X5ufJkGLHY2ZyQrlwV96k+R5bmgu8oHOTSyUMG/V6HvTc
-        AzrV4PfeIjw/Zh8tyi1JGSPzuGHNhtq5tirfvBObaBI3wNBgOkcHN0+5BOO7WDz1RoyOjQ
-        dTA9cGFyVbkKfTPobcmD4L/QjpnPP1n2MGApbEAwq/bRxKV2TluML9/G4tf+w0TigQDYF7
-        sPt7wEbIYA7fKYhMES6pQLCnN94CFmovS2fT545gwIjySN2o8O/DWfwnmSDOQb4Q==
-Received: by filterdrecv-5645d9c87f-rl4kk with SMTP id filterdrecv-5645d9c87f-rl4kk-1-6267E6C5-7
-        2022-04-26 12:34:13.158990696 +0000 UTC m=+1694995.255317925
+        h=from:subject:mime-version:to:cc:content-transfer-encoding:
+        content-type;
+        s=s1; bh=UM3WO5Rdk0FcgGPqPdNTy1fKqZIy1X8oS4grG46SWpM=;
+        b=Uj27L54v5UJZd+nIrTr4gHzf7s2/JOP14jrNhg0FOkAJt84Tp4DSavGlIui9gubu/PHH
+        h1Zl7dPGVR00Rm82sbBjBZD8fpDrwRrmRzgDASQ6QhS5zVfg1z0+kDA6yRzbiKQ2dwLezV
+        D9vp7JYlDeWICRSY8HeY3WMr+wDEU0aIKdAp9IgukkT4V+zGBYAhNIJmxAFlWD1Jzq+vbE
+        6Vx182UVIPekWLCtjcThw4C1SiWJKRjW1DyJa4lUOjSY2V/hb9Yr8xzqyDyD/i3/DdgZvE
+        97WxDGvoCtZ+uZ5E6qEcRhTP+bV2cERaGGG5N2niMNPmMxFhOuCqDS/gNRNvBiBA==
+Received: by filterdrecv-5645d9c87f-64zxs with SMTP id filterdrecv-5645d9c87f-64zxs-1-6267E6A6-2B
+        2022-04-26 12:33:42.514119269 +0000 UTC m=+1694971.141824537
 Received: from midgard.internal.axentia.se (unknown)
         by geopod-ismtpd-3-0 (SG) with ESMTP
-        id YmmnWkn5RoaUPX8JGydl6A
-        Tue, 26 Apr 2022 12:34:12.849 +0000 (UTC)
+        id Mn_eKhEkRuKJd9Z74ebuYQ
+        Tue, 26 Apr 2022 12:33:42.128 +0000 (UTC)
 From:   Daniels Umanovskis <du@axentia.se>
-Subject: [PATCH 2/2] usb: usb251xb: make power-up reset delay configurable in
- device tree
-Date:   Tue, 26 Apr 2022 12:34:13 +0000 (UTC)
-Message-Id: <20220426123329.775-3-du@axentia.se>
+Subject: [PATCH 0/2] usb: usb251xb: configurable reset delay
+Date:   Tue, 26 Apr 2022 12:33:42 +0000 (UTC)
+Message-Id: <20220426123329.775-1-du@axentia.se>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220426123329.775-1-du@axentia.se>
-References: <20220426123329.775-1-du@axentia.se>
 MIME-Version: 1.0
 X-SG-EID: =?us-ascii?Q?Q0J120W4ZU2dvxvzBhStZcyp23eAYLPzAz2fSUg6MjfeWGicT4FGxyT7O14zxp?=
- =?us-ascii?Q?kiRPCLaCzZjS7wquF0+OL7XlA=2FA0u2lbOaVeFrt?=
- =?us-ascii?Q?lD1uXfRKoi74EoVwe9Jh7i2To+txtFBnL0ybB98?=
- =?us-ascii?Q?MmLW8ASRnB43Iph3B8fpRZ+B1iuf+QITdPhfl4t?=
- =?us-ascii?Q?Sp54EXWdLGDq3DRiFGR1vmJJTtjkd+yE=2Frodrvt?=
- =?us-ascii?Q?WlqvgKMYt9vJfe=2F+APJcMyH3wLBgbmIdsGsNvh?=
+ =?us-ascii?Q?kiRPCLaCzZjS7wquF0+OL7XucdVdgT6qp07OX2r?=
+ =?us-ascii?Q?vbce6gwmHuPZm5HUQjLGS+z18dTumHYZcrqhLKO?=
+ =?us-ascii?Q?Ho=2FXSnbo7U2PM5Ou4ZBNeIE0FjZC=2FfvVYtcTG+3?=
+ =?us-ascii?Q?fxBz7p7sTCpSGmAghK=2FVO8CSrgoqhe6iyPVM4Gh?=
+ =?us-ascii?Q?E95wkyeJiZot7NirTtSbVq8tVNvuqprydLDHpf?=
 To:     richard.leitner@skidata.com, linux-usb@vger.kernel.org,
         robh+dt@kernel.org, devicetree@vger.kernel.org
 Cc:     Daniels Umanovskis <du@axentia.se>
@@ -55,47 +51,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-According to the datasheet, the hub should be operational 500us after
-the reset has been deasserted. Some individual circuits have been
-observed not to reset within the specified 500us and require a longer
-wait for subsequent configuration to succeed.
+The Microchip USB251xB hub, according to its datasheet, is operational
+500us after deasserting reset on startup and can then be attached or
+configured.
 
-Signed-off-by: Daniels Umanovskis <du@axentia.se>
----
- drivers/usb/misc/usb251xb.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I ran into a batch of such hubs, of the 2512Bi variant,
+that didn't appear to work or only worked sporadically. Debugging the
+issue revealed that these specific hubs do not typically manage to
+reset within 500us. Instead they become operational 800us
+or so after deasserting the RESET_N signal.
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 04c4e3fed094..e287e241ef96 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -115,6 +115,7 @@ struct usb251xb {
- 	struct regulator *vdd;
- 	u8 skip_config;
- 	struct gpio_desc *gpio_reset;
-+	u32 reset_delay_us;
- 	u16 vendor_id;
- 	u16 product_id;
- 	u16 device_id;
-@@ -278,7 +279,7 @@ static void usb251xb_reset(struct usb251xb *hub)
- 	gpiod_set_value_cansleep(hub->gpio_reset, 0);
- 
- 	/* wait for hub recovery/stabilization */
--	usleep_range(500, 750);	/* >=500us after RESET_N deasserted */
-+	fsleep(hub->reset_delay_us);
- 
- 	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
- }
-@@ -424,6 +425,9 @@ static int usb251xb_get_ofdata(struct usb251xb *hub,
- 		return err;
- 	}
- 
-+	if (of_property_read_u32(np, "reset-delay-us", &hub->reset_delay_us))
-+		hub->reset_delay_us = 500;
-+
- 	if (of_property_read_u16_array(np, "vendor-id", &hub->vendor_id, 1))
- 		hub->vendor_id = USB251XB_DEF_VENDOR_ID;
- 
+This is probably a faulty batch of the chips but making the reset delay
+configurable through dt bindings allows these chips to be used.
+
+Daniels Umanovskis (2):
+  dt-bindings: usb: usb251xb: add documentation for reset-delay-us
+  usb: usb251xb: make power-up reset delay configurable in device tree
+
+ Documentation/devicetree/bindings/usb/usb251xb.txt | 2 ++
+ drivers/usb/misc/usb251xb.c                        | 6 +++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
 -- 
 2.30.2
 
