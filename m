@@ -2,101 +2,66 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08B6AC43217
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:22:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0393EC433FE
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:28:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240821AbiDZKZp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 06:25:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56858 "EHLO
+        id S1348933AbiDZKbF convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 06:31:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36160 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348835AbiDZKX2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:23:28 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABB3340D6;
-        Tue, 26 Apr 2022 02:54:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 04B68B81D43;
-        Tue, 26 Apr 2022 09:54:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DFE9C385A4;
-        Tue, 26 Apr 2022 09:54:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650966860;
-        bh=dgZLzHPox+J+i5Ksh1CcZ3C8j6e4jGpAgkA7LMle0ME=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IHzpt6bZh9xKCjuCxn89GOm1pLinNuvXh2c5ZRsm2+sDH4KUK9TG93MtfpcRuR8OU
-         JzE0dWvLvgMVOCc4RRzPzpilvDdVxVOF9z0qKpmbGarVh1ZynncQiAy4kjdXGsawOK
-         EcRjRVZzafDnrOBU1S74oY9X+/AEHKYG5ZL3ZxeU=
-Date:   Tue, 26 Apr 2022 11:54:16 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Daehwan Jung <dh10.jung@samsung.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Jack Pham <jackp@codeaurora.org>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>, sc.suh@samsung.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v4 1/5] usb: host: export symbols for xhci-exynos to use
- xhci hooks
-Message-ID: <YmfBSLDiZGkvu3sG@kroah.com>
-References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220426092021epcas2p4071f2b7621558a015579131990486a3c@epcas2p4.samsung.com>
- <1650964728-175347-2-git-send-email-dh10.jung@samsung.com>
+        with ESMTP id S1348807AbiDZKaf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:30:35 -0400
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086E5EDB44
+        for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 03:07:31 -0700 (PDT)
+Received: (Authenticated sender: hadess@hadess.net)
+        by mail.gandi.net (Postfix) with ESMTPSA id ADE4D24000D;
+        Tue, 26 Apr 2022 10:07:28 +0000 (UTC)
+Message-ID: <65edbf6e81f0f1109fe2de01ca12cf14353d2307.camel@hadess.net>
+Subject: Re: [RFC v1] USB: core: add USBDEVFS_REVOKE ioctl
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Peter Hutterer <peter.hutterer@who-t.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 26 Apr 2022 12:07:27 +0200
+In-Reply-To: <YmdYfK5Vi+lEl7FX@quokka>
+References: <20220425132315.924477-1-hadess@hadess.net>
+         <YmarwaNQYn1GwFbQ@kroah.com>
+         <e73035d1bae5d0c355166fb46f0f5f2f07752b3c.camel@hadess.net>
+         <Yma3k3lRMIEFypMN@kroah.com>
+         <1d82343a5987a308ac9bd3f6fd481bc12a608a24.camel@hadess.net>
+         <YmbCBwEMvKO5z0Dh@kroah.com> <YmdYfK5Vi+lEl7FX@quokka>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1650964728-175347-2-git-send-email-dh10.jung@samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 06:18:44PM +0900, Daehwan Jung wrote:
-> Export symbols for xhci hooks usage:
->     xhci_get_slot_ctx
->     xhci_get_endpoint_address
->     - Allow xhci hook to get ep_ctx from the xhci_container_ctx for
->       getting the ep_ctx information to know which ep is offloading and
->       comparing the context in remote subsystem memory if needed.
-> 
->     xhci_ring_alloc
->     - Allow xhci hook to allocate vendor specific ring. Vendors could
->       alloc additional event ring.
-> 
->     xhci_trb_virt_to_dma
->     - Used to retrieve the DMA address of vendor specific ring. Vendors
->       could get dequeue address of event ring.
-> 
->     xhci_segment_free
->     xhci_link_segments
->     - Allow xhci hook to handle vendor specific segment. Vendors could
->       directly free or link segments of vendor specific ring.
-> 
->     xhci_initialize_ring_info
->     - Allow xhci hook to initialize vendor specific ring.
-> 
->     xhci_check_trb_in_td_math
->     - Allow xhci hook to Check TRB math for validation. Vendors could
->       check trb when allocating vendor specific ring.
-> 
->     xhci_address_device
->     - Allow override to give configuration info to Co-processor.
-> 
->     xhci_bus_suspend
->     xhci_bus_resume
->     - Allow override of suspend and resume for power scenario.
-> 
->     xhci_remove_stream_mapping
->     - Allow to xhci hook to remove stream mapping. Vendors need to do it
->       when free-ing vendor specific ring if it's stream type.
-> 
+On Tue, 2022-04-26 at 12:27 +1000, Peter Hutterer wrote:
+> The primary focus of all this are joystick devices (unless I missed
+> some other
+> grand plans Bastien had that I'm not aware of), that should put
+> things in
+> context a bit. 
 
-For the static functions that you are now exporting, they need to have
-their functions declared in a .h file.  If not, you now get warnings
-when you run sparse after applying this commit, right?
+It's for every USB device out there:
+https://github.com/flatpak/xdg-desktop-portal/issues/227
+https://github.com/flatpak/xdg-desktop-portal/pull/559
+including support for Chrome's WebUSB:
 
-thanks,
+https://wicg.github.io/webusb/
 
-greg k-h
+The end goal (with the portals and the revoke support) is sandboxed
+applications being able to enumerate USB devices, access them, and
+revoke access to them without full devices access, or overly broad user
+access.
+
+> I have a very simple hidraw tester here:
+> https://github.com/whot/hidiocrevoke-test/blob/master/revoke.c
+> Updating that to take usb devices can't be that hard :)
+
+It just requires me finding the right device to test with ;)
