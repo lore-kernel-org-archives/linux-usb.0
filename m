@@ -2,75 +2,86 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C728AC433EF
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:35:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CAAAC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:38:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349207AbiDZKiI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 06:38:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57678 "EHLO
+        id S1346360AbiDZKlQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 06:41:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349175AbiDZKhY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:37:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F1F93B7;
-        Tue, 26 Apr 2022 03:21:00 -0700 (PDT)
+        with ESMTP id S1350268AbiDZKkU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:40:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9908DB6
+        for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 03:30:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id DEDEC615AB;
-        Tue, 26 Apr 2022 10:20:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23B3C385A0;
-        Tue, 26 Apr 2022 10:20:58 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 267FCB81D52
+        for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 10:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4067FC385A4;
+        Tue, 26 Apr 2022 10:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650968459;
-        bh=upRt5cWmk45sKqQhG085JLpi7qzRTD4ZA5fWWha7b9A=;
+        s=korg; t=1650969009;
+        bh=CU/HBoNB92rU0rmf7epvx4Utj0M89EKDnvgARZdup2U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2IvDGzM7d6NMwW8m92qobOdm0KxYklDlSURqj6xlGZ0Lip7LGAnU2Fpks5QkSrft4
-         sASZeINeZGJUxM4cpu/oZrFdKN0962p2fvAgOqkUzmgArFQNca0JSbPF7qTKRuQR6a
-         eKgsPIxgjxGnv46EGxVygB2m+AiB2KNXn5o0unmQ=
-Date:   Tue, 26 Apr 2022 12:20:56 +0200
+        b=i5gMoioC5cSOtGR+PAPOqoSQahcu7r70Hyrl5b8JAmK8G+iu7JkbFXg6XX4wxrEPc
+         Kh50ae+xb5znmIzwny4lnCU9JtKafhUqT2hNYw63rYN5BCXD772cUAYfWjmT4a5klp
+         gd+lWVLyZ+lfLUZey2RrYYf2ckIrzlAPOngbITwg=
+Date:   Tue, 26 Apr 2022 12:30:07 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Daehwan Jung <dh10.jung@samsung.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Jack Pham <jackp@codeaurora.org>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>, sc.suh@samsung.com,
-        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v4 5/5] usb: host: add xhci-exynos driver
-Message-ID: <YmfHiEneCRlnJA3e@kroah.com>
-References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220426092023epcas2p32946c087135ca4b7e63b03915060c55d@epcas2p3.samsung.com>
- <1650964728-175347-6-git-send-email-dh10.jung@samsung.com>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [RFC v1] USB: core: add USBDEVFS_REVOKE ioctl
+Message-ID: <YmfJr46kLZ3MtiCU@kroah.com>
+References: <YmarwaNQYn1GwFbQ@kroah.com>
+ <e73035d1bae5d0c355166fb46f0f5f2f07752b3c.camel@hadess.net>
+ <Yma3k3lRMIEFypMN@kroah.com>
+ <1d82343a5987a308ac9bd3f6fd481bc12a608a24.camel@hadess.net>
+ <YmbCBwEMvKO5z0Dh@kroah.com>
+ <YmdYfK5Vi+lEl7FX@quokka>
+ <7def25c7-0870-accc-c689-4d8eef1b7acf@suse.com>
+ <YmedlsENjNjc8yML@kroah.com>
+ <fcb10f35-3064-851b-8f53-e88a3b51c930@suse.com>
+ <d49aeb3cd8f67674eb87bf4bc93f617937649bc7.camel@hadess.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1650964728-175347-6-git-send-email-dh10.jung@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d49aeb3cd8f67674eb87bf4bc93f617937649bc7.camel@hadess.net>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 06:18:48PM +0900, Daehwan Jung wrote:
-> This driver is for Samsung Exynos xhci host conroller. It uses xhci-plat
-> driver mainly and extends some functions by xhci hooks and overrides.
+On Tue, Apr 26, 2022 at 12:07:32PM +0200, Bastien Nocera wrote:
+> On Tue, 2022-04-26 at 10:46 +0200, Oliver Neukum wrote:
+> > 
+> > 
+> > On 26.04.22 09:21, Greg Kroah-Hartman wrote:
+> > > Yes, but, it's not so simple.  Many people have asked for revoke()
+> > > to be
+> > > added as a syscall like is in the BSDs, but the BSDs only allow
+> > > that for
+> > > a very small subset of file descriptor types, and doing it in a
+> > > generic
+> > > fashion seems very difficult (I tried a few years ago and gave up,
+> > > but
+> > > my knowledge of the vfs layer is minimal.)
+> > Well, then we should go for the minimalist approach and just
+> > add a hook to VFS. Multiple different ioctl()s are definitely a bad
+> > idea.
+> > An frevoke() looks much easier to do than one based on paths.
+> > If I understand the issue behind the proposal correctly the caller
+> > has opened the device.
 > 
-> It supports USB Audio offload with Co-processor. It only cares DCBAA,
-> Device Context, Transfer Ring, Event Ring, and ERST. They are allocated
-> on specific address with xhci hooks. Co-processor could use them directly
-> without xhci driver after then.
-> 
-> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> ---
->  drivers/usb/host/Kconfig       |   8 +
->  drivers/usb/host/Makefile      |   1 +
->  drivers/usb/host/xhci-exynos.c | 567 +++++++++++++++++++++++++++++++++
->  drivers/usb/host/xhci-exynos.h |  50 +++
+> Doesn't look like FreeBSD at least has an frevoke() syscall anymore, it
+> had an FREVOKE flag, which is now a define for the O_VERIFY option
+> which has quite different semantics:
+> https://www.freebsd.org/cgi/man.cgi?sektion=2&query=open
 
-Why do you need a .h file for a simple single driver like this?  Just
-put it all into the .c file please.
+Take a look at this implementation:
+	https://man.openbsd.org/revoke.2
 
-thanks,
-
-greg k-h
