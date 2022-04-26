@@ -2,55 +2,55 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86C1BC433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 09:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 421BFC433EF
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 09:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344020AbiDZKBw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 06:01:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        id S1345186AbiDZKBz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 06:01:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347854AbiDZKBe (ORCPT
+        with ESMTP id S1348171AbiDZKBe (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:01:34 -0400
 Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF13DF22
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F8733E91
         for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 02:20:28 -0700 (PDT)
 Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220426092025epoutp03b0e28c9ce7a2aabc5db13cab713f8700~pZ8MTkzO70050500505epoutp030
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20220426092025epoutp039c814c7463fe51918dd88be9f22d6400~pZ8MG1vun3263332633epoutp03G
         for <linux-usb@vger.kernel.org>; Tue, 26 Apr 2022 09:20:25 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220426092025epoutp03b0e28c9ce7a2aabc5db13cab713f8700~pZ8MTkzO70050500505epoutp030
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20220426092025epoutp039c814c7463fe51918dd88be9f22d6400~pZ8MG1vun3263332633epoutp03G
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
         s=mail20170921; t=1650964825;
-        bh=6J4ihhsPsB5BL31c5ThtRphFZfjCPfVkfFHzf+KlIJo=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=EsW4DIdv+Xl0fiaLhqDFjM6MxxAUIvXIQBeC4ktYAPzWnh5AdejwQ8VxBCZwGolm6
-         kSblix20rzsAopEk5BYtQ0S7yzxJ5IsR0tyCddrTiFUvKiunfCUbC3tBbDtNJYSby4
-         yW4cCWkSSrQZ8jzolQ1MfO28woaGMSD/OHHNxuUg=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        bh=gtJAxLOQgrMmX0jWzFakONkF7P6sHoAQWH61J9RzsI8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bgu5Bgf4OyBF4N0aJBlcQfpYZiB0YEXsu9hVZwunyIvZc0i+E3Zx/r1RqK5VmoMNa
+         jeVIqiLrRGJftWceNMStCc1Yk6zkTsl8eizQe2f2U/KVvvtpcfKf/u3egblj0jM8Ak
+         HLtsUM+BttcvHf/i2QCSjd1vFpCuDthllX8Qx5mU=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
         epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-        20220426092025epcas2p36ee5e4fb4c5603e8c43ebd0ae1fa1703~pZ8L6GMwG1096610966epcas2p3h;
+        20220426092025epcas2p3d14f3e24838f8a8d88c8bf0acfe656df~pZ8Lg1Q3S0586405864epcas2p3D;
         Tue, 26 Apr 2022 09:20:25 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.36.88]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 4KnbvT6VSMz4x9Pt; Tue, 26 Apr
-        2022 09:20:21 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+Received: from epsmges2p3.samsung.com (unknown [182.195.36.89]) by
+        epsnrtp2.localdomain (Postfix) with ESMTP id 4KnbvW100Sz4x9Q1; Tue, 26 Apr
+        2022 09:20:23 +0000 (GMT)
+Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
         epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        72.27.10028.459B7626; Tue, 26 Apr 2022 18:20:20 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        B7.27.10028.659B7626; Tue, 26 Apr 2022 18:20:23 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
         epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20220426092019epcas2p2ef5dfde273edaaadc2ff74414f1b2c7a~pZ8GoDg-v1542715427epcas2p2X;
-        Tue, 26 Apr 2022 09:20:19 +0000 (GMT)
+        20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0~pZ8JPwIwa1542715427epcas2p2g;
+        Tue, 26 Apr 2022 09:20:22 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20220426092019epsmtrp1ea43592b25a40d170811b03f5c45b950~pZ8GnFaGg2051720517epsmtrp1L;
-        Tue, 26 Apr 2022 09:20:19 +0000 (GMT)
-X-AuditID: b6c32a47-573ff7000000272c-5e-6267b9540d79
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20220426092022epsmtrp2b8129b54ca939ed0c966fdb4b2b8809f~pZ8JOcLlR1198711987epsmtrp2E;
+        Tue, 26 Apr 2022 09:20:22 +0000 (GMT)
+X-AuditID: b6c32a47-589ff7000000272c-61-6267b956c9f2
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
         epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        AC.53.08853.359B7626; Tue, 26 Apr 2022 18:20:19 +0900 (KST)
+        3A.63.08853.659B7626; Tue, 26 Apr 2022 18:20:22 +0900 (KST)
 Received: from ubuntu.dsn.sec.samsung.com (unknown [10.229.95.128]) by
         epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20220426092019epsmtip2844f06ca701d179ba95f37b53a64324e~pZ8GdL6RZ2735027350epsmtip2k;
-        Tue, 26 Apr 2022 09:20:19 +0000 (GMT)
+        20220426092022epsmtip2bc7ea80debbb111994c4354b8e3a6851~pZ8JFUHWS2696726967epsmtip2A;
+        Tue, 26 Apr 2022 09:20:22 +0000 (GMT)
 From:   Daehwan Jung <dh10.jung@samsung.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -62,102 +62,110 @@ Cc:     linux-usb@vger.kernel.org (open list:USB XHCI DRIVER),
         "J . Avila" <elavila@google.com>,
         Daehwan Jung <dh10.jung@samsung.com>, sc.suh@samsung.com,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: [PATCH v4 0/5] add xhci-exynos driver
-Date:   Tue, 26 Apr 2022 18:18:43 +0900
-Message-Id: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
+Subject: [PATCH v4 4/5] usb: host: add some to xhci overrides for
+ xhci-exynos
+Date:   Tue, 26 Apr 2022 18:18:47 +0900
+Message-Id: <1650964728-175347-5-git-send-email-dh10.jung@samsung.com>
 X-Mailer: git-send-email 2.7.4
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJKsWRmVeSWpSXmKPExsWy7bCmhW7IzvQkg7c7eS3uLJjGZPHkyCJ2
+In-Reply-To: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrBKsWRmVeSWpSXmKPExsWy7bCmmW74zvQkg4O7mCzuLJjGZPHkyCJ2
         i+bF69ksrv95z2jR/vwCm8XGtz+YLC7vmsNmsWhZK7NF86YprBYz1ypbdN29wejA7TGroZfN
         43JfL5PHgk2lHov3vGTy2D93DbtH35ZVjB6fN8kFsEdl22SkJqakFimk5iXnp2TmpdsqeQfH
         O8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAnaikUJaYUwoUCkgsLlbSt7Mpyi8tSVXIyC8u
-        sVVKLUjJKTAv0CtOzC0uzUvXy0stsTI0MDAyBSpMyM6YuvMnY8EHgYp1U46yNDDu5+1i5OSQ
-        EDCROPnuK3sXIxeHkMAORol7R5pYIZxPjBLtDbMYIZxvjBJTu3ezwLTc/DSTGcQWEtjLKNEy
-        0w3C/sEosfNveBcjBwebgJbE94WMIGERgTiJpZ2XmEDmMAs8YZLY8e4WE0hCWEBP4vn1CWBz
-        WARUJd637WQG6eUVcJM4v18EYpWcxM1zncwgvRIC19glVj06AXWDi8S8x2eZIWxhiVfHt7BD
-        2FISL/vboOxiiV2fWpkgmhsYJRofnIBqMJaY9aydEWQZs4CmxPpd+iCmhICyxJFbYOOZBfgk
-        Og7/ZYcI80p0tAlBNCpLTL88gRXClpQ4+Poc1EAPiYvLlrJDQiFWYl3XPuYJjLKzEOYvYGRc
-        xSiWWlCcm55abFRgDI+i5PzcTYzgNKflvoNxxtsPeocYmTgYDzFKcDArifBOVU1LEuJNSays
-        Si3Kjy8qzUktPsRoCgyuicxSosn5wESbVxJvaGJpYGJmZmhuZGpgriTO65WyIVFIID2xJDU7
-        NbUgtQimj4mDU6qBydyvO2Le933brn/vvi+9q4zzQL6f1YZFrvXbBLcfO21gVhmussC4nUPz
-        m+TTnTnevTt55p46xHX6mK2P3Et/l6xI8fv//807PZO7ofP6ybD4L8YHmLlu+65aonxK9t79
-        R863uhJWzVrw+5T2Ib1jVZvitqnMaZ295eObg9sDojfXvL8492/xzYslL1PzRWY/lt1iKnTd
-        QlVG0lzmdfzVu5yiTE9n98T1Wz/cqzg1bOWkXb4ac1fmtx3jP2Xgdss9b9bvsh/HSj/mZ8kf
-        +zS9ryyp/t4ef5e5/W6sm29HbHDea5SqkSrhPJ1n6cIVUQGujs8SC/Xnx7pPaTZ8drWqZWeN
-        5KyJpR9kHIzq9/UdK1ZiKc5INNRiLipOBAAhKGyM/AMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBLMWRmVeSWpSXmKPExsWy7bCSvG7wzvQkg81T9S3uLJjGZPHkyCJ2
+        sVVKLUjJKTAv0CtOzC0uzUvXy0stsTI0MDAyBSpMyM54/qKVveCuYMXxObtYGxj/83UxcnJI
+        CJhI7Dt4hbmLkYtDSGAHo8Tlgx8YIZxPjBLzH/6Hcr4xSvxf1coO03L3xFsWiMReRonZn16y
+        Qzg/GCWOLjwN1MLBwSagJfF9ISNIg4hAnMTSzktMIDXMAk+YJHa8u8UEkhAW8Jf42DeLFaSe
+        RUBV4ttKW5Awr4CbxIwZj9gglslJ3DzXyQxicwq4S7zoWQS2S0LgK7vEtv9zoC5ykWh6uJ4J
+        whaWeHV8C1RcSuLzu71Qg4oldn1qZYJobmCUaHxwghkiYSwx61k72NHMApoS63fpg5gSAsoS
+        R26xgFQwC/BJdBz+yw4R5pXoaBOCaFSWmH55AiuELSlx8PU5qIEeEge/T4IG3CxGifYJF1gn
+        MMrNQliwgJFxFaNYakFxbnpqsVGBMTzGkvNzNzGCk6CW+w7GGW8/6B1iZOJgPMQowcGsJMI7
+        VTUtSYg3JbGyKrUoP76oNCe1+BCjKTDsJjJLiSbnA9NwXkm8oYmlgYmZmaG5kamBuZI4r1fK
+        hkQhgfTEktTs1NSC1CKYPiYOTqkGpq1e5rNvua6QOlt/6fLUd4H3Z3/wa1BK8TXO+f1F9EV5
+        8KI5kx1fr027u2zy4Q8PP+q+3rH007ZyPs2wwrNdFmmy7I9Yz3l+bFtRnnsjU+mAR8HyIxpM
+        ynJZUtYryvutNZkXbGC/InJfNcNXckLnjZVrGxfKiIdkrZ8Uyn1RQVir//GBzN/Za0qmXT50
+        7+gs3xlx2x5Uf9n3JETJOD2XMcLkz95aI3lWf5E/ogHcFsf+8GaUfXMtevxxZ+hZhfpPLIzn
+        761Sj5DtmWfloXowpjDl8Q9OSQGeefcfJx69vs9mb82K3zu/rZTZ8Sfo5qJ3fVtOWCyN2rXc
+        97KxptKTJo/lfyeKulz4efQp68L5b/cosRRnJBpqMRcVJwIA8rkpfAsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrALMWRmVeSWpSXmKPExsWy7bCSvG7YzvQkg4nnlS3uLJjGZPHkyCJ2
         i+bF69ksrv95z2jR/vwCm8XGtz+YLC7vmsNmsWhZK7NF86YprBYz1ypbdN29wejA7TGroZfN
-        43JfL5PHgk2lHov3vGTy2D93DbtH35ZVjB6fN8kFsEdx2aSk5mSWpRbp2yVwZUzd+ZOx4INA
-        xbopR1kaGPfzdjFyckgImEjc/DSTGcQWEtjNKDFhbzBEXFJi6dwb7BC2sMT9liOsXYxcQDXf
-        GCW6+i4CJTg42AS0JL4vZASpERGIk1hxeQ8LiM0s8IZJ4uruJBBbWEBP4vn1CWDzWQRUJd63
-        7WQGaeUVcJM4v18EYrycxM1zncwTGHkWMDKsYpRMLSjOTc8tNiwwzEst1ytOzC0uzUvXS87P
-        3cQIDjwtzR2M21d90DvEyMTBeIhRgoNZSYR3qmpakhBvSmJlVWpRfnxRaU5q8SFGaQ4WJXHe
-        C10n44UE0hNLUrNTUwtSi2CyTBycUg1MEycbX1tdzm642onrCLN8u0zIjIRXRyP3l+WtWsLa
-        dd1LvSCLbUY9k8bcyqnb5rTOLFwowX0jYMbxw++3tW68sMGq4+9M1utNzBs+LS7uf/b7eKpt
-        WeP+rKOtnUk100IKzgQuFzM6JnReckK7sY7It+9bet8p3+4PaSg+36Xu+v2/WueW6xv3neVu
-        5Mv7HDpH/Lm97WXF7qPSwpZaLE58QrktKzO7DxWoz6qo6+OtT72qaR3fflv8HsNTJ/Zzm4vb
-        /Wf6n9v5Tca6Quz8mffBx86ZfF/4PPPYxWee1oXnvsRXmAt0pKaKv1syY4qo1NbT/s/mr7c7
-        Ib6O733ivwnv1mhqpPFofjbXv/bl1X9PJZbijERDLeai4kQAiJYql6sCAAA=
-X-CMS-MailID: 20220426092019epcas2p2ef5dfde273edaaadc2ff74414f1b2c7a
+        43JfL5PHgk2lHov3vGTy2D93DbtH35ZVjB6fN8kFsEdx2aSk5mSWpRbp2yVwZTx/0cpecFew
+        4vicXawNjP/5uhg5OSQETCTunnjLAmILCexmlJj+pAAiLimxdO4NdghbWOJ+yxHWLkYuoJpv
+        jBIvv58BSnBwsAloSXxfyAhSIyIQJ7Hi8h6wOcwCb5gkru5OArGFBXwl/pzazApSziKgKvFt
+        pS1ImFfATWLGjEdsEOPlJG6e62QGsTkF3CVe9CxihzjHTWLyiutMExj5FjAyrGKUTC0ozk3P
+        LTYsMMxLLdcrTswtLs1L10vOz93ECA5ULc0djNtXfdA7xMjEwXiIUYKDWUmEd6pqWpIQb0pi
+        ZVVqUX58UWlOavEhRmkOFiVx3gtdJ+OFBNITS1KzU1MLUotgskwcnFINTFHv25MMz6+4M11f
+        Iv47U3f2KblPwo3uL+d29RlZ2ib0nznVtHC7+k/e8G0pHy6bHuaqUBa2MHjGeahCzk2UO/bS
+        qwIt/6PscpNKul8yKZ/cFyx97tD8bZwxhu0rlyx/qPKJ9yWbzjX5x8fLftt8Vb+ZJhj0TG3v
+        Sa6TRvxMjw5P37J1JuOCeu7eu1+L/9bpTPnTsvjtD79NlzhfTV8scOrc4s2bLfYxyxz68Mwk
+        6K//pbmT2w+65AsVJhqv6Zrd1cNhkL4s74tixFmui1YvT3080v7liMOPl9lCoaxusfYCge+Z
+        V6xtsEm6mBW0Osdk15uyOxabAs7rZWVuEM8OW+nfPSuZ5ewZv+DfZzfMKlZiKc5INNRiLipO
+        BADwruL+wwIAAA==
+X-CMS-MailID: 20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
 CMS-TYPE: 102P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20220426092019epcas2p2ef5dfde273edaaadc2ff74414f1b2c7a
-References: <CGME20220426092019epcas2p2ef5dfde273edaaadc2ff74414f1b2c7a@epcas2p2.samsung.com>
+X-CMS-RootMailID: 20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0
+References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
+        <CGME20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0@epcas2p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset is for Samsung Exynos xhci host conroller. It uses xhci-plat
-driver mainly and extends some functions by xhci hooks and overrides.
+Co-processor needs some information about connected usb device.
+It's proper to pass information after usb device gets address when
+getting "Set Address" command. It supports vendors to implement it
+using xhci overrides. There're several power scenarios depending
+on vendors. It gives vendors flexibilty to meet their power requirement.
+They can override suspend and resume of root hub.
 
-This driver supports USB offload which makes Co-processor to use
-some memories of xhci. Especially it's useful for USB Audio scenario.
-Audio stream would get shortcut because Co-processor directly write/read
-data in xhci memories. It could get speed-up using faster memory like SRAM.
-That's why this gives vendors flexibilty of memory management. This feature
-is done with xhci hooks and overrides.
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+---
+ drivers/usb/host/xhci.c | 6 ++++++
+ drivers/usb/host/xhci.h | 4 ++++
+ 2 files changed, 10 insertions(+)
 
-Changes in v2 :
-- Fix commit message by adding Signed-off-by in each patch.
-- Fix conflict on latest.
-
-Changes in v3 :
-- Remove export symbols and xhci hooks which xhci-exynos don't need.
-- Modify commit message to clarify why it needs to export symbols.
-- Check compiling of xhci-exynos.
-
-Changes in v4 :
-- Modify commit message to clarify why it needs to export symbols.
-- Add a function for override of hc driver in xhci-plat.
-- Make xhci-exynos extending xhci-plat by xhci hooks and overrides.
-  (vendor_init / vendor_cleanup hooks are useful from here v4)
-- Change the term (USB offload -> xhci-exynos) on subject of patches.
-
-Daehwan Jung (5):
-  usb: host: export symbols for xhci-exynos to use xhci hooks
-  usb: host: add xhci hooks for xhci-exynos
-  usb: host: xhci-plat: support override of hc driver
-  usb: host: add some to xhci overrides for xhci-exynos
-  usb: host: add xhci-exynos driver
-
- drivers/usb/host/Kconfig       |   8 +
- drivers/usb/host/Makefile      |   1 +
- drivers/usb/host/xhci-exynos.c | 567 +++++++++++++++++++++++++++++++++
- drivers/usb/host/xhci-exynos.h |  50 +++
- drivers/usb/host/xhci-hub.c    |   7 +
- drivers/usb/host/xhci-mem.c    | 150 +++++++--
- drivers/usb/host/xhci-plat.c   |  50 ++-
- drivers/usb/host/xhci-plat.h   |   9 +
- drivers/usb/host/xhci-ring.c   |   1 +
- drivers/usb/host/xhci.c        |  90 +++++-
- drivers/usb/host/xhci.h        |  50 +++
- 11 files changed, 958 insertions(+), 25 deletions(-)
- create mode 100644 drivers/usb/host/xhci-exynos.c
- create mode 100644 drivers/usb/host/xhci-exynos.h
-
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 5ccf1bbe8732..8b3df1302650 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5555,6 +5555,12 @@ void xhci_init_driver(struct hc_driver *drv,
+ 			drv->check_bandwidth = over->check_bandwidth;
+ 		if (over->reset_bandwidth)
+ 			drv->reset_bandwidth = over->reset_bandwidth;
++		if (over->address_device)
++			drv->address_device = over->address_device;
++		if (over->bus_suspend)
++			drv->bus_suspend = over->bus_suspend;
++		if (over->bus_resume)
++			drv->bus_resume = over->bus_resume;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(xhci_init_driver);
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 3a414a2f41f0..5bc621e77762 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1947,6 +1947,9 @@ struct xhci_driver_overrides {
+ 			     struct usb_host_endpoint *ep);
+ 	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
+ 	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
++	int (*address_device)(struct usb_hcd *hcd, struct usb_device *udev);
++	int (*bus_suspend)(struct usb_hcd *hcd);
++	int (*bus_resume)(struct usb_hcd *hcd);
+ };
+ 
+ #define	XHCI_CFC_DELAY		10
+@@ -2103,6 +2106,7 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 		       struct usb_host_endpoint *ep);
+ int xhci_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
+ void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
++int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev);
+ int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id);
+ int xhci_ext_cap_init(struct xhci_hcd *xhci);
+ 
 -- 
 2.31.1
 
