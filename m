@@ -2,35 +2,35 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DF57C433F5
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:38:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EED8C433F5
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Apr 2022 10:38:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349308AbiDZKl2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Apr 2022 06:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33886 "EHLO
+        id S1345239AbiDZKln (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Apr 2022 06:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349129AbiDZKiY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:38:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7250C205D6;
-        Tue, 26 Apr 2022 03:23:35 -0700 (PDT)
+        with ESMTP id S1349078AbiDZKkz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Apr 2022 06:40:55 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF2B4132C;
+        Tue, 26 Apr 2022 03:31:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A6FC3615E6;
-        Tue, 26 Apr 2022 10:23:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C616C385AC;
-        Tue, 26 Apr 2022 10:23:33 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id ACF18CE1C05;
+        Tue, 26 Apr 2022 10:31:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A002CC385AF;
+        Tue, 26 Apr 2022 10:31:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1650968614;
-        bh=GAFHWrRIu1P19LIfbXyeLRj1eBKZa239YK7sEvIi+RY=;
+        s=korg; t=1650969097;
+        bh=G2ZTitD/EVuSTT3gVi8lMCMvmV58yHmWi/5BPeES7+k=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VGnUSzvpzGg8dDdMMQB1U5MvLq3h5EHltXkDwYKYHmIjVRLRWmMc5r31xP4zVkX95
-         mHkVDDg6AjveWQzJ17ieUFn1cjNdWbQFZpyhGtTWEJrwLBl5B5uH8YuPHW5P/YSj5V
-         vx/1hknF7Ko9e71Doz7JXBZJpgAtq0jsn4wNnzh8=
-Date:   Tue, 26 Apr 2022 12:23:30 +0200
+        b=X1WQLUkMilXrPy39ia/9XBYPW9CMsQjHGtM0E5Dj0GyRNEsSqjxH31Ue7zn7yrS1e
+         IeOgXhppFmG97EkS1zzuSWuzgvW0iJ2M85P8r2n68hv0ek8p2kdeJ1N2TeejcSf4Dk
+         GjOjLGtCxMZlmp2E3hK9Wodh0VOiVuorh1SYmiAw=
+Date:   Tue, 26 Apr 2022 12:31:33 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Daehwan Jung <dh10.jung@samsung.com>
+To:     Jung Daehwan <dh10.jung@samsung.com>
 Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
@@ -39,77 +39,76 @@ Cc:     Mathias Nyman <mathias.nyman@intel.com>,
         Puma Hsu <pumahsu@google.com>,
         "J . Avila" <elavila@google.com>, sc.suh@samsung.com,
         Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Subject: Re: [PATCH v4 4/5] usb: host: add some to xhci overrides for
- xhci-exynos
-Message-ID: <YmfIIo6d1CkhkQS3@kroah.com>
+Subject: Re: [PATCH v4 1/5] usb: host: export symbols for xhci-exynos to use
+ xhci hooks
+Message-ID: <YmfKBX2m+vOznq5h@kroah.com>
 References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0@epcas2p2.samsung.com>
- <1650964728-175347-5-git-send-email-dh10.jung@samsung.com>
+ <CGME20220426092021epcas2p4071f2b7621558a015579131990486a3c@epcas2p4.samsung.com>
+ <1650964728-175347-2-git-send-email-dh10.jung@samsung.com>
+ <YmfBSLDiZGkvu3sG@kroah.com>
+ <20220426102709.GA175152@ubuntu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1650964728-175347-5-git-send-email-dh10.jung@samsung.com>
+In-Reply-To: <20220426102709.GA175152@ubuntu>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Apr 26, 2022 at 06:18:47PM +0900, Daehwan Jung wrote:
-> Co-processor needs some information about connected usb device.
-> It's proper to pass information after usb device gets address when
-> getting "Set Address" command. It supports vendors to implement it
-> using xhci overrides. There're several power scenarios depending
-> on vendors. It gives vendors flexibilty to meet their power requirement.
-> They can override suspend and resume of root hub.
+On Tue, Apr 26, 2022 at 07:27:09PM +0900, Jung Daehwan wrote:
+> On Tue, Apr 26, 2022 at 11:54:16AM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Apr 26, 2022 at 06:18:44PM +0900, Daehwan Jung wrote:
+> > > Export symbols for xhci hooks usage:
+> > >     xhci_get_slot_ctx
+> > >     xhci_get_endpoint_address
+> > >     - Allow xhci hook to get ep_ctx from the xhci_container_ctx for
+> > >       getting the ep_ctx information to know which ep is offloading and
+> > >       comparing the context in remote subsystem memory if needed.
+> > > 
+> > >     xhci_ring_alloc
+> > >     - Allow xhci hook to allocate vendor specific ring. Vendors could
+> > >       alloc additional event ring.
+> > > 
+> > >     xhci_trb_virt_to_dma
+> > >     - Used to retrieve the DMA address of vendor specific ring. Vendors
+> > >       could get dequeue address of event ring.
+> > > 
+> > >     xhci_segment_free
+> > >     xhci_link_segments
+> > >     - Allow xhci hook to handle vendor specific segment. Vendors could
+> > >       directly free or link segments of vendor specific ring.
+> > > 
+> > >     xhci_initialize_ring_info
+> > >     - Allow xhci hook to initialize vendor specific ring.
+> > > 
+> > >     xhci_check_trb_in_td_math
+> > >     - Allow xhci hook to Check TRB math for validation. Vendors could
+> > >       check trb when allocating vendor specific ring.
+> > > 
+> > >     xhci_address_device
+> > >     - Allow override to give configuration info to Co-processor.
+> > > 
+> > >     xhci_bus_suspend
+> > >     xhci_bus_resume
+> > >     - Allow override of suspend and resume for power scenario.
+> > > 
+> > >     xhci_remove_stream_mapping
+> > >     - Allow to xhci hook to remove stream mapping. Vendors need to do it
+> > >       when free-ing vendor specific ring if it's stream type.
+> > > 
+> > 
+> > For the static functions that you are now exporting, they need to have
+> > their functions declared in a .h file.  If not, you now get warnings
+> > when you run sparse after applying this commit, right?
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > 
 > 
-> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> ---
->  drivers/usb/host/xhci.c | 6 ++++++
->  drivers/usb/host/xhci.h | 4 ++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 5ccf1bbe8732..8b3df1302650 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -5555,6 +5555,12 @@ void xhci_init_driver(struct hc_driver *drv,
->  			drv->check_bandwidth = over->check_bandwidth;
->  		if (over->reset_bandwidth)
->  			drv->reset_bandwidth = over->reset_bandwidth;
-> +		if (over->address_device)
-> +			drv->address_device = over->address_device;
-> +		if (over->bus_suspend)
-> +			drv->bus_suspend = over->bus_suspend;
-> +		if (over->bus_resume)
-> +			drv->bus_resume = over->bus_resume;
->  	}
->  }
->  EXPORT_SYMBOL_GPL(xhci_init_driver);
-> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> index 3a414a2f41f0..5bc621e77762 100644
-> --- a/drivers/usb/host/xhci.h
-> +++ b/drivers/usb/host/xhci.h
-> @@ -1947,6 +1947,9 @@ struct xhci_driver_overrides {
->  			     struct usb_host_endpoint *ep);
->  	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
->  	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
-> +	int (*address_device)(struct usb_hcd *hcd, struct usb_device *udev);
-> +	int (*bus_suspend)(struct usb_hcd *hcd);
-> +	int (*bus_resume)(struct usb_hcd *hcd);
->  };
->  
->  #define	XHCI_CFC_DELAY		10
-> @@ -2103,6 +2106,7 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
->  		       struct usb_host_endpoint *ep);
->  int xhci_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
->  void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
-> +int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev);
+> I didn't get warnings in my environment. I tested to build default config +
+> xhci_exynos by make command. Is there compile option to check it?
 
-You do not use this function in this change, why include it in here?
+make "C=1"
 
-Please reorganize your patch series to only include what you need for
-each step, as-is it's kind of out-of-order and might not build at each
-step along the way (or it might, it's hard to determine...)
 
-thanks,
-
-greg k-h
