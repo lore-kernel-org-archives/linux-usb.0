@@ -2,52 +2,60 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4523C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3FFC4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242172AbiD0QKZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 12:10:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52452 "EHLO
+        id S242380AbiD0QMz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 12:12:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242712AbiD0QJv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:09:51 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54AB848AA53
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:05:56 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id j6so4302108ejc.13
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:05:56 -0700 (PDT)
+        with ESMTP id S242253AbiD0QMD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:12:03 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B683ECCA3
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:08:24 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id g20so2503757edw.6
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:08:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CJ0Q0VIVseR/Xb4PlIow7xAWcCO8wMqCFaxsrqIqI0E=;
-        b=CyT86LbMuLmP2a0EUvz1E/PXFMHcggaxNvy/RctILZfaRgIleePezM7eCYc9bvPz0g
-         gjkXCHknC9dwuDLoQN6MsTBqPjn01f+gMaZbjDMDxsBDcLbYdJC5ECFNOy4pu7fL9aeN
-         VYK4S12SW7tfyTixOcbJ/KEeUDDDFQ2Pjgwx27I31oV9lSh9vglu7Mu6jkmTDcEaHy8K
-         qPuLraY+hgE5Kwzv/WynE+wxNUKCsNUKSTh+iWiwyidHONoJsJOQfh2eHLuIqvOf/JYX
-         8idt0SmjiUrJI2GLMHgqS2P/EVvsJ/Tcc4T/1KRoYUsiHwldOLFaEs2AbZhhrz7aYI6W
-         sAng==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :references:from:in-reply-to:content-transfer-encoding;
+        bh=EH19v7uRS5y35PzgKTDX53x9j+gtyqhUDRdsKb/IaUM=;
+        b=ybse66WgmNsBI29z+NNV6x8EFLgtMxe6qFw8I8vTnLFgoYkWXlVyNDekvdljpmae8Q
+         dWx62rAf7xRwXPxV2X1FxO0/4/DGvPc3zYbb7OBAkhzjuut4c1v1tt7ty/2dghm+TWlj
+         YvTykt8HW80i/plhDgwxbKz2P3lgZwGSamHjUBUgkqlc8X/LxHQQf0tzR7dKt8P8/VNs
+         YSLddjait6XwavUyJTWWmCHCZKqdJQ9hl3Lc5bizgtcR9SM/6pV82NuKUZurRSj2xVa+
+         rUNNtTz4LyQdK8OVzomJzlLjGro0iItms1bu/vXzchVgW0jMPG/NVM0TqpQKodPoJCZM
+         yeAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CJ0Q0VIVseR/Xb4PlIow7xAWcCO8wMqCFaxsrqIqI0E=;
-        b=6itlCW+y3WultT26jm6hVyr7YicoiDXQlEQqg+oCBdL3f7MsV45pmLTEm7Ik/sO/TV
-         puPmKbczbM4c/sYNvoew/JVgosM0vQVaA65pnCT/WzcsR2AbPb4u332fNBucZ0U+QH2s
-         ROK2UT/+Fxb+nwgJH7Uo9A2OBRoLe1eICPj93kNb4OkqLAQ/nNXg9lnDiDmWfngPCa0+
-         wcCi87iPvi2amGm4z78wsUvA/e+x7l9auLChI1r8450RvHL7u3uRn5DWOMvgqE6i1ZTN
-         87bdXUgs/vyQCvQtRL97XlUANiYfLe40LxCEMXKzXVwKdmMtcZM85HxLO+gyZAekSFrf
-         LFnQ==
-X-Gm-Message-State: AOAM532zWCasiQC7eUaDeNs2MleKwgay42/QvvfCZhpheiZPsqRBE88i
-        dGOGdvxTEGmNB/aW7shwL+qsag==
-X-Google-Smtp-Source: ABdhPJwWxW3RPJbnXbqUc4FtIVtMXsr0fm3DFLB6KBeF9ALk49qujynev18Dega95cbb3zdyazAEjQ==
-X-Received: by 2002:a17:906:2753:b0:6f0:22ba:92d3 with SMTP id a19-20020a170906275300b006f022ba92d3mr28539217ejd.655.1651075549434;
-        Wed, 27 Apr 2022 09:05:49 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id b17-20020aa7dc11000000b00412ae7fda95sm8571437edu.44.2022.04.27.09.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 09:05:48 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=EH19v7uRS5y35PzgKTDX53x9j+gtyqhUDRdsKb/IaUM=;
+        b=OjqdLazUxM5YlUeXP7i6WKH1UrFMyY2IjCAhuIwsG8ZbO9yLFuHTF2l22ukK8yILID
+         gqAgpDiX/TXi5NYlttz5+P11jrBFyzB2lqamfPQ4aRJfohjvLXo/2A+eFTZpRO/Fwy1o
+         HgUKYBXV9cM3tAteLyN9Fc9zBaEKKb6n/V0/mAdl7wDK7v/uWGXjKd0ESa9X3onAj80K
+         ROfn9Y61TYKgPS2SO484Vx/ES9rXPFZ7dA+MTTepQ/IrkSiIAs8aNzQl2LVsJ6+B2VN8
+         MVQ+DCtgeu8xPpZyPaGciMxjNhryNe0mHK06oVJ0b9dKfoWgEjPYTO3kw19r94cCpKRA
+         4omw==
+X-Gm-Message-State: AOAM533OVpAx/99mFG6h/n3k2sr264wIaL8tyKjy74K77KUkLfzWWxhD
+        LDaKazL9v5cYkXG//zr8ekbkXQ==
+X-Google-Smtp-Source: ABdhPJx/S8bwtVp+agXtCpxr/09KbDVlmln3NcFIhrjgot+hU0xUEJktlvNVH4ZgcBbXYGegOatVTQ==
+X-Received: by 2002:a05:6402:400b:b0:425:f59a:c221 with SMTP id d11-20020a056402400b00b00425f59ac221mr13269412eda.307.1651075652996;
+        Wed, 27 Apr 2022 09:07:32 -0700 (PDT)
+Received: from [192.168.0.155] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id e17-20020a170906505100b006f3beab8af8sm2074452ejk.204.2022.04.27.09.07.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Apr 2022 09:07:32 -0700 (PDT)
+Message-ID: <a8472edd-388c-7bcf-de6a-9924dee6f959@linaro.org>
+Date:   Wed, 27 Apr 2022 18:07:31 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 00/0x] dmaengine/ARM: use proper 'dma-channels/requests'
+ properties
+Content-Language: en-US
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -55,40 +63,28 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bartosz Golaszewski <brgl@bgdev.pl>, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 2/3] ARM: dts: da850: use new 'dma-channels' property
-Date:   Wed, 27 Apr 2022 18:05:37 +0200
-Message-Id: <20220427160538.646044-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220427160538.646044-1-krzysztof.kozlowski@linaro.org>
 References: <20220427160538.646044-1-krzysztof.kozlowski@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220427160538.646044-1-krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The '#dma-channels' property was deprecated in favor of one defined by
-generic dma-common DT bindings.
+On 27/04/2022 18:05, Krzysztof Kozlowski wrote:
+> Hi,
+> 
+> The core DT schema defines generic 'dma-channels' and 'dma-requests'
+> properties, so in preparation to moving bindings to DT schema, convert
+> existing users of '#dma-channels' and '#dma-requests' to the generic
+> variant.
+> 
+> Not tested on hardware.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/da850.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry for the mess, but I missed here one patch.
 
-diff --git a/arch/arm/boot/dts/da850.dtsi b/arch/arm/boot/dts/da850.dtsi
-index c3942b4e82ad..0e8b42a95ba4 100644
---- a/arch/arm/boot/dts/da850.dtsi
-+++ b/arch/arm/boot/dts/da850.dtsi
-@@ -679,7 +679,7 @@ cppi41dma: dma-controller@201000 {
- 					    "scheduler", "queuemgr";
- 				interrupts = <58>;
- 				#dma-cells = <2>;
--				#dma-channels = <4>;
-+				dma-channels = <4>;
- 				power-domains = <&psc1 1>;
- 				status = "okay";
- 			};
--- 
-2.32.0
+I will resend.
 
+Best regards,
+Krzysztof
