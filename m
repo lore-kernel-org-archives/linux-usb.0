@@ -2,107 +2,208 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57BBEC433F5
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:14:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53650C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242640AbiD0QR6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 12:17:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
+        id S243507AbiD0QcR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 12:32:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243857AbiD0QPb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:15:31 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 659B43BD077
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:49 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id g6so4426179ejw.1
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TVilUoRevfZDW2H5vRfurHd/Fm2AVNqP5L2gftL/36g=;
-        b=HFE74/sy74Ts9hOtHQkpkkhIGjvp71P78ebNvVgzzwuV/A0o0Ik9eQbvh/8R1FyiL0
-         ywd8UQvKTYLmRNCskg/d09oPajbA1Aa09AUygozHoZIntMLTSgWr9soMislFB6k/4gVn
-         nY5jwfLX2bk2gXaTd1vxd3KjOwLnHJMBM5Pgo37uYSKqm7ARBi1qeYqaN3C+MQ5q+Wo4
-         9g3s5sh2s9my7tLUpmjeXNwDPz4QsxDf8PtZ6lloeN45TsypWiopzPu173xCFsL+DXYr
-         v2BToql5KzZ08cMthVU/bx3zssRX8IXhD8I38m7P+VudT2i7yjyWNQyuhg9kZ7c3R11j
-         Ykxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TVilUoRevfZDW2H5vRfurHd/Fm2AVNqP5L2gftL/36g=;
-        b=CeSRWBED3agpJ9LHVJKSwMP32fEIqs6Hsf/7V11rkm7VxPerfURsH8kiWdgT1mLNpN
-         dbhhmh+6J38SSyax4epr/rdUS3unexD6nfqp9A/BGdG1WJ+PdnSf1DcAZNLg+76iAbTU
-         iCT4Dv+6oRLdJrawIHmtCOmQf3Zti3yNYt0s3zJxKxsUPqoV1CUcfCHGf9mHY+KY1OUt
-         4Xz6lae+PDdu63oSLs8j9HLWb2M7dAuFQE67EBc+kcgTGGIOANbqt0S/dX7FpE/Q8WCm
-         obNpd8Rcu1U6GN3REWq02AwP0dWcZZO9WG/MlGNZzZYQFRCo4XdAxkU05HId6L6QukA6
-         pisQ==
-X-Gm-Message-State: AOAM530+AE6nEQusmSxMV4AlT267JOnh6k0G53EJbEo2cFvTOvfpz3zL
-        rgbBdSNtexZCy+XOjQH3EYTjlU3ey5Y4tA==
-X-Google-Smtp-Source: ABdhPJzawuxVKwUV1aVJsaz89L6ORSEr8BOw8peEovEn4hzo9tavQ039MLdrmVJCwy8CjjMef9zlQg==
-X-Received: by 2002:a17:907:86a8:b0:6f0:1f97:d7da with SMTP id qa40-20020a17090786a800b006f01f97d7damr27532206ejc.663.1651075903799;
-        Wed, 27 Apr 2022 09:11:43 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id m1-20020a170906234100b006ef83025804sm7124610eja.87.2022.04.27.09.11.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 09:11:42 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Vinod Koul <vkoul@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        dmaengine@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 2/6] dt-bindings: usb: da8xx-usb: deprecate '#dma-channels'
-Date:   Wed, 27 Apr 2022 18:11:22 +0200
-Message-Id: <20220427161126.647073-3-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
-References: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
+        with ESMTP id S243385AbiD0QcK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:32:10 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51373F320;
+        Wed, 27 Apr 2022 09:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651076866; x=1682612866;
+  h=to:cc:references:from:subject:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=CPMjo6U9PUtaGVa14pO3sunqUrDh79MQUPdvmaVu8cw=;
+  b=jU0eryoMSnwcYapAxLMjSKRkRC3kQQS7YfZGBMI2pApcKN8IbGoXiG4D
+   GB2leEQdH8+jU2kNx06EHwOwbPPcHVtlaEwtTFf0s4cRUeaCFFvlR00lx
+   FHHEu9N0aVlSO/fWg1uLD5JnVTJIypV/UvUJqQ0uo2Z5kfhM4qKT37+Jr
+   7+FXZpCt53t4awT6mTRekMbAq51f/duCHKJsqZgvJhWf4f63IfP+s6jHd
+   9TXyzHc5taI87pG23dgH2KaijOFUOx+XOe8HZ0/rXOgU/Njnj5U/oah1e
+   XDO27ggkrHirf4MN3z+cc4sy8hNgLZbPpVW2qlXqkf1LyEkycPgxAxSUA
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="253372372"
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; 
+   d="scan'208";a="253372372"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 09:23:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; 
+   d="scan'208";a="876729017"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Apr 2022 09:23:22 -0700
+To:     Daehwan Jung <dh10.jung@samsung.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Howard Yen <howardyen@google.com>,
+        Jack Pham <jackp@codeaurora.org>,
+        Puma Hsu <pumahsu@google.com>,
+        "J . Avila" <elavila@google.com>, sc.suh@samsung.com,
+        Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
+ <CGME20220426092023epcas2p32946c087135ca4b7e63b03915060c55d@epcas2p3.samsung.com>
+ <1650964728-175347-6-git-send-email-dh10.jung@samsung.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v4 5/5] usb: host: add xhci-exynos driver
+Message-ID: <b9fcc518-cc0d-d346-774e-3a9472e664bc@linux.intel.com>
+Date:   Wed, 27 Apr 2022 19:25:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <1650964728-175347-6-git-send-email-dh10.jung@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The generic property, used in most of the drivers and defined in generic
-dma-common DT bindings, is 'dma-channels'.
+On 26.4.2022 12.18, Daehwan Jung wrote:
+> This driver is for Samsung Exynos xhci host conroller. It uses xhci-plat
+> driver mainly and extends some functions by xhci hooks and overrides.
+> 
+> It supports USB Audio offload with Co-processor. It only cares DCBAA,
+> Device Context, Transfer Ring, Event Ring, and ERST. They are allocated
+> on specific address with xhci hooks. Co-processor could use them directly
+> without xhci driver after then.
+> 
+> Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- Documentation/devicetree/bindings/usb/da8xx-usb.txt | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I have to agree with Krzysztof's comments, this is an odd driver stub.
 
-diff --git a/Documentation/devicetree/bindings/usb/da8xx-usb.txt b/Documentation/devicetree/bindings/usb/da8xx-usb.txt
-index 9ce22551b2b3..fb2027a7d80d 100644
---- a/Documentation/devicetree/bindings/usb/da8xx-usb.txt
-+++ b/Documentation/devicetree/bindings/usb/da8xx-usb.txt
-@@ -36,7 +36,8 @@ DMA
- - #dma-cells: should be set to 2. The first number represents the
-   channel number (0 … 3 for endpoints 1 … 4).
-   The second number is 0 for RX and 1 for TX transfers.
--- #dma-channels: should be set to 4 representing the 4 endpoints.
-+- dma-channels: should be set to 4 representing the 4 endpoints.
-+- #dma-channels: deprecated
- 
- Example:
- 	usb_phy: usb-phy {
-@@ -74,7 +75,7 @@ Example:
- 			reg-names = "controller", "scheduler", "queuemgr";
- 			interrupts = <58>;
- 			#dma-cells = <2>;
--			#dma-channels = <4>;
-+			dma-channels = <4>;
- 		};
- 
- 	};
--- 
-2.32.0
+Perhaps open up a bit how the Exynos offloading works so we can figure out
+in more detail what the hardware needs from software.  
 
+(...)
+
+> +
+> +static void xhci_exynos_alloc_container_ctx(struct xhci_hcd *xhci, struct xhci_container_ctx *ctx,
+> +						int type, gfp_t flags)
+> +{
+> +	/* Only first Device Context uses URAM */
+> +	int i;
+> +
+> +	ctx->bytes = ioremap(EXYNOS_URAM_DEVICE_CTX_ADDR, EXYNOS_URAM_CTX_SIZE);
+> +	if (!ctx->bytes)
+> +		return;
+> +
+> +	for (i = 0; i < EXYNOS_URAM_CTX_SIZE; i++)
+> +		ctx->bytes[i] = 0;
+> +
+> +	ctx->dma = EXYNOS_URAM_DEVICE_CTX_ADDR;
+
+This can't work with more than one USB device.
+This hardcodes the same context address for every usb device.
+
+
+> +static void xhci_exynos_parse_endpoint(struct xhci_hcd *xhci, struct usb_device *udev,
+> +		struct usb_endpoint_descriptor *desc, struct xhci_container_ctx *ctx)
+> +{
+> +	struct xhci_plat_priv *priv = xhci_to_priv(xhci);
+> +	struct xhci_hcd_exynos *xhci_exynos = priv->vendor_priv;
+> +	struct usb_endpoint_descriptor *d = desc;
+> +	unsigned int ep_index;
+> +	struct xhci_ep_ctx *ep_ctx;
+> +
+> +	ep_index = xhci_get_endpoint_index(d);
+> +	ep_ctx = xhci_get_ep_ctx(xhci, ctx, ep_index);
+> +
+> +	if ((d->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK) ==
+> +				USB_ENDPOINT_XFER_ISOC) {
+> +		if (d->bEndpointAddress & USB_ENDPOINT_DIR_MASK)
+> +			xhci_exynos->in_ep = d->bEndpointAddress;
+> +		else
+> +			xhci_exynos->out_ep = d->bEndpointAddress;
+> +	}
+
+This won't work if more than one device that has isoc endpoints, or even 
+if that device has more than one in/out isoc endpoint pair.
+
+
+> +static int xhci_alloc_segments_for_ring_uram(struct xhci_hcd *xhci,
+> +		struct xhci_segment **first, struct xhci_segment **last,
+> +		unsigned int num_segs, unsigned int cycle_state,
+> +		enum xhci_ring_type type, unsigned int max_packet, gfp_t flags,
+> +		u32 endpoint_type)
+> +{
+> +	struct xhci_segment *prev;
+> +	bool chain_links = false;
+> +
+> +	while (num_segs > 0) {
+> +		struct xhci_segment *next = NULL;
+> +
+> +		if (!next) {
+> +			prev = *first;
+> +			while (prev) {
+> +				next = prev->next;
+> +				xhci_segment_free(xhci, prev);
+> +				prev = next;
+> +			}
+> +			return -ENOMEM;
+
+This always return -ENOMEM
+
+Also this whole function never allocates or remaps any memory.
+
+> +		}
+> +		xhci_link_segments(prev, next, type, chain_links);
+> +
+> +		prev = next;
+> +		num_segs--;
+> +	}
+> +	xhci_link_segments(prev, *first, type, chain_links);
+> +	*last = prev;
+> +
+> +	return 0;
+> +}
+> +
+> +static struct xhci_ring *xhci_ring_alloc_uram(struct xhci_hcd *xhci,
+> +		unsigned int num_segs, unsigned int cycle_state,
+> +		enum xhci_ring_type type, unsigned int max_packet, gfp_t flags,
+> +		u32 endpoint_type)
+> +{
+> +	struct xhci_ring	*ring;
+> +	int ret;
+> +	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
+> +
+> +	ring = kzalloc_node(sizeof(*ring), flags, dev_to_node(dev));
+> +	if (!ring)
+> +		return NULL;
+> +
+> +	ring->num_segs = num_segs;
+> +	ring->bounce_buf_len = max_packet;
+> +	INIT_LIST_HEAD(&ring->td_list);
+> +	ring->type = type;
+> +	if (num_segs == 0)
+> +		return ring;
+> +
+> +	ret = xhci_alloc_segments_for_ring_uram(xhci, &ring->first_seg,
+> +			&ring->last_seg, num_segs, cycle_state, type,
+> +			max_packet, flags, endpoint_type);
+> +	if (ret)
+> +		goto fail;
+> +
+> +	/* Only event ring does not use link TRB */
+> +	if (type != TYPE_EVENT) {
+> +		/* See section 4.9.2.1 and 6.4.4.1 */
+> +		ring->last_seg->trbs[TRBS_PER_SEGMENT - 1].link.control |=
+> +			cpu_to_le32(LINK_TOGGLE);
+
+No memory was allocated for trbs
+
+A lot of this code seems to exists just to avoid xhci driver from allocating
+dma capable memory, we can refactor the existing xhci_mem_init() and move
+dcbaa and event ring allocation and other code to their own overridable
+functions.
+
+This way we can probably get rid of a lot of the code in this series.
+
+Thanks
+Mathias
