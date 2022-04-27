@@ -2,139 +2,115 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 882A5C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 11:06:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E66C433EF
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 11:16:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232066AbiD0LKC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 07:10:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34346 "EHLO
+        id S232265AbiD0LUE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 07:20:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232792AbiD0LId (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 07:08:33 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 834EE2E97BE;
-        Wed, 27 Apr 2022 04:04:47 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9D6BDB825C9;
-        Wed, 27 Apr 2022 09:37:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71E6EC385A7;
-        Wed, 27 Apr 2022 09:37:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651052236;
-        bh=FaaTt9JdhlJnKcF7blPYJLnYl5SWCRiX+UvFNXe8R6c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vkf8G3wXUTN1QsedhJ45hr3IatTk0lTNSy+w9IF++SO4fwGvpCMFQfQa7Gv0w+FuF
-         rfn6jmjKUIuOGMM0YF2i7S+62XuK5vpD7CAE/D+cqXXEDBIcB3XALWOvFlQb17h/y6
-         8wHLoIgD2G2qSpGSdFDmXZKG3E+yhfJmofQpsThM=
-Date:   Wed, 27 Apr 2022 11:37:12 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jung Daehwan <dh10.jung@samsung.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        "open list:USB XHCI DRIVER" <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Howard Yen <howardyen@google.com>,
-        Puma Hsu <pumahsu@google.com>,
-        "J . Avila" <elavila@google.com>, sc.suh@samsung.com,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v4 4/5] usb: host: add some to xhci overrides for
- xhci-exynos
-Message-ID: <YmkOyDT+ejWMHB7k@kroah.com>
-References: <1650964728-175347-1-git-send-email-dh10.jung@samsung.com>
- <CGME20220426092022epcas2p2c016c83b21e41c7bcd4bdfbb95e464c0@epcas2p2.samsung.com>
- <1650964728-175347-5-git-send-email-dh10.jung@samsung.com>
- <YmfIIo6d1CkhkQS3@kroah.com>
- <20220427091901.GC145620@ubuntu>
+        with ESMTP id S232100AbiD0LUD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 07:20:03 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B84165A3;
+        Wed, 27 Apr 2022 04:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1651058212; x=1682594212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HIRF5W5o/gV3DIQXa4xMa+ibJZeT9Xrw34R4dA4zxYo=;
+  b=B7o9vEFrJCS65f5xHiQWVGGAYQxaHrCOLKifntW21gPsPdFDeolQcxSN
+   +aR2ugrsv5ZnxFCisIUa0mlCt7HW9nvMPT6IRFlCK3F8GVBJnTrS322DU
+   3ffrpeUBKwG+6feTZeUB0ogkPE4Lz58S6AzFLYa14VjSSsoD3ZsQ9wuaw
+   w129/zZ6e0d5iPQubJOwVZpU9XBTZbIMBHhLkFM3XCCTJ21QoV8JWeq9F
+   9iQH3IZjHnkp9fnsLXKOADivJnsUFca9hxrBVsR5FBepY8RVrkbbTw7jW
+   K/nwgc4JPkn+LhgcdIqX/aOL/vgarfssuAelZiyEzXxumSxOK9nRK3Zax
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="291045239"
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="291045239"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 04:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; 
+   d="scan'208";a="705498756"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 27 Apr 2022 04:16:49 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 27 Apr 2022 14:16:48 +0300
+Date:   Wed, 27 Apr 2022 14:16:48 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Benson Leung <bleung@google.com>,
+        Prashant Malani <pmalani@chromium.org>,
+        Jameson Thies <jthies@google.com>,
+        "Regupathy, Rajaram" <rajaram.regupathy@intel.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Won Chung <wonchung@google.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] usb: typec: Separate USB Power Delivery from USB
+ Type-C
+Message-ID: <YmkmILWlbvoZaXKZ@kuha.fi.intel.com>
+References: <20220425124946.13064-1-heikki.krogerus@linux.intel.com>
+ <20220425124946.13064-2-heikki.krogerus@linux.intel.com>
+ <YmfgfRA1ecJwf12i@kroah.com>
+ <YmjlyxLk8wfziq9l@kuha.fi.intel.com>
+ <YmjxFkpCwxz4fgqb@kroah.com>
+ <Ymj8LWUgk6X/Alze@kuha.fi.intel.com>
+ <YmkD2/r1imDT5qTz@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220427091901.GC145620@ubuntu>
+In-Reply-To: <YmkD2/r1imDT5qTz@kroah.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 06:19:01PM +0900, Jung Daehwan wrote:
-> On Tue, Apr 26, 2022 at 12:23:30PM +0200, Greg Kroah-Hartman wrote:
-> > On Tue, Apr 26, 2022 at 06:18:47PM +0900, Daehwan Jung wrote:
-> > > Co-processor needs some information about connected usb device.
-> > > It's proper to pass information after usb device gets address when
-> > > getting "Set Address" command. It supports vendors to implement it
-> > > using xhci overrides. There're several power scenarios depending
-> > > on vendors. It gives vendors flexibilty to meet their power requirement.
-> > > They can override suspend and resume of root hub.
+On Wed, Apr 27, 2022 at 10:50:35AM +0200, Greg Kroah-Hartman wrote:
+> On Wed, Apr 27, 2022 at 11:17:49AM +0300, Heikki Krogerus wrote:
+> > On Wed, Apr 27, 2022 at 09:30:30AM +0200, Greg Kroah-Hartman wrote:
+> > > > > "struct pd" is just about the shortest structure name I've seen in the
+> > > > > kernel so far.  How about using some more letters?  :)
+> > > > 
+> > > > Okay, I'll make it usbpd.
 > > > 
-> > > Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
-> > > ---
-> > >  drivers/usb/host/xhci.c | 6 ++++++
-> > >  drivers/usb/host/xhci.h | 4 ++++
-> > >  2 files changed, 10 insertions(+)
-> > > 
-> > > diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> > > index 5ccf1bbe8732..8b3df1302650 100644
-> > > --- a/drivers/usb/host/xhci.c
-> > > +++ b/drivers/usb/host/xhci.c
-> > > @@ -5555,6 +5555,12 @@ void xhci_init_driver(struct hc_driver *drv,
-> > >  			drv->check_bandwidth = over->check_bandwidth;
-> > >  		if (over->reset_bandwidth)
-> > >  			drv->reset_bandwidth = over->reset_bandwidth;
-> > > +		if (over->address_device)
-> > > +			drv->address_device = over->address_device;
-> > > +		if (over->bus_suspend)
-> > > +			drv->bus_suspend = over->bus_suspend;
-> > > +		if (over->bus_resume)
-> > > +			drv->bus_resume = over->bus_resume;
-> > >  	}
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(xhci_init_driver);
-> > > diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> > > index 3a414a2f41f0..5bc621e77762 100644
-> > > --- a/drivers/usb/host/xhci.h
-> > > +++ b/drivers/usb/host/xhci.h
-> > > @@ -1947,6 +1947,9 @@ struct xhci_driver_overrides {
-> > >  			     struct usb_host_endpoint *ep);
-> > >  	int (*check_bandwidth)(struct usb_hcd *, struct usb_device *);
-> > >  	void (*reset_bandwidth)(struct usb_hcd *, struct usb_device *);
-> > > +	int (*address_device)(struct usb_hcd *hcd, struct usb_device *udev);
-> > > +	int (*bus_suspend)(struct usb_hcd *hcd);
-> > > +	int (*bus_resume)(struct usb_hcd *hcd);
-> > >  };
-> > >  
-> > >  #define	XHCI_CFC_DELAY		10
-> > > @@ -2103,6 +2106,7 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
-> > >  		       struct usb_host_endpoint *ep);
-> > >  int xhci_check_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
-> > >  void xhci_reset_bandwidth(struct usb_hcd *hcd, struct usb_device *udev);
-> > > +int xhci_address_device(struct usb_hcd *hcd, struct usb_device *udev);
+> > > How about some more vowels: "struct usb_power_delivery" please.  This
+> > > isn't the 1980's :)
 > > 
-> > You do not use this function in this change, why include it in here?
-> > 
-> > Please reorganize your patch series to only include what you need for
-> > each step, as-is it's kind of out-of-order and might not build at each
-> > step along the way (or it might, it's hard to determine...)
-> > 
+> > "struct usb_power_delivery" is fine, but I would still really really
+> > want to use "struct usbpd_capabilities" instead of
+> > "struct usb_power_delivery_capabilities" - it's just too long.
+> > Is that okay?
 > 
-> This patch is to add function pointers. xhci-exynos or other user could use it.
+> Nah, spell it out please, we don't use "usbpd" anywhere, and again, we
+> don't have a limit of characters.  Most editors should auto-complete
+> anyway :)
 
-But this commit has nothing to do with xhci_address_device(), why add it
-to the .h file here?
+Very well.
 
-> If I reorganize them as you said, all patches depend on xhci-exynos.
+> > > > > The kobject question above goes to the code as well.  You are creating a
+> > > > > bunch of raw kobjects still, why?  This should all fit into the driver
+> > > > > model and kobjects shouldn't be needed.  Are you trying to nest too deep
+> > > > > in the attributes?  If so, kobjects will not work as userspace tools
+> > > > > will not realize they are there and are attributes at all.
+> > > > 
+> > > > They are not raw kobjects, they are all devices now. That header just
+> > > > needs to be fixed.
+> > > 
+> > > You have loads of kobject attributes in the .c file.  Either I read it
+> > > wrong, or you are doing something wrong, as that should never be the
+> > > case for a driver or device.
+> > 
+> > Hmm, I'm probable still doing something wrong...
+> 
+> All of your sysfs callbacks should have a struct device, not a kobject.
+> You might just be getting lucky in that we are casting around a pointer
+> of the correct layout.  But the compiler should have caught that
+> somewhere, please look into it.
 
-Of course, we need real users of the functions you export, otherwise
-they do not need to be exported.
-
-You can export them in one commit, and then use them in the next, but
-that's not what you are doing here at all.  You have a mix of .c and .h
-changes across different commits that are not coordinated at all.
-
-> That's because hooks and override are only used in xhci-exynos for now.
-> I don't want user driver effects common files like xhci platform.
-> I've tried removing dependancies.. That's why I split patches like that.
-
-Splitting patches is the correct way, just do it so that it makes sense.
-As you can see by the kbuild reports, what you have here is not correct.
+I'll fix this.
 
 thanks,
 
-greg k-h
+-- 
+heikki
