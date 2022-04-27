@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C56FC4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:13:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F43CC4332F
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:14:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242404AbiD0QRE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 12:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49688 "EHLO
+        id S242807AbiD0QRQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 12:17:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243898AbiD0QPe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:15:34 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C3C43F3D63
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:56 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id dk23so4384276ejb.8
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:56 -0700 (PDT)
+        with ESMTP id S242327AbiD0QQz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:16:55 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8D5887BA
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:13:33 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id bv19so4399245ejb.6
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:13:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1p5Gf/ZzMBda/+Dyw0bd70cBiwm1tqXf7hCWQtWqsEE=;
-        b=smFD5V6J9pPL6PEJv25+/3PFL2X+WQ3Kyn12ozctaStrdNKV5sG6aqFI8JCZ5ddHCE
-         ECQCPe/hY0ENMJzK8NjAefYL1znjAJ4MC0z1veVjm+99Lhv2bilZNlhaRLpH6+C0/lXu
-         XEqzIKVhXU0tE3DPOvCEFtlpxfU0OysHyIPl0jFQczRGCf3kmrLen7e9QYBaPdxYH7P2
-         66rd4jZu47gMnjCXc4UhX8wxezYzOrgLwYJJhsL+BiSRNlaUep00H2hYHjn5RV/6yzoT
-         zosfmLTcVVMmTWTu9hBDTeN9YP40ueo8rpZldzL7wxzQ59cl7iMDrXlYTo5PoJgjmWpn
-         MEng==
+        bh=7ILgIEY7wMcCopOsdlDifUioNzWZT1dVF0DliY6j2xA=;
+        b=aIRUrWNUAkLkKyCC66gt5pLcQDgoAUTdfKXeiO38cltao7py5UUmLVpJW2tNRpUE0D
+         J+dVbGxVwviCWKm1GP7hRS2MRdonCbEEzgwnz9GMEGxkvLPTigFDmvsjIzjMca5wcRT7
+         Ft9SFx6/iVm/fzNy1woKLM9uTpF289KptlTwC07P5LaG1hYm/hUDOXWcObH0JluHcchH
+         hZ289HYXtnwop32bGsjH7SXdKfNpPb6Dv2er5BnTAFIGRqxTQ3edKlMSLb/vzsybWv3I
+         Zji4X2nzxdA2T6ygP/7XYyHiGLcBoquC2t5a3U4wWYIojsZ2GZnXbO9Y4GE4g4/c0h+a
+         QBeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1p5Gf/ZzMBda/+Dyw0bd70cBiwm1tqXf7hCWQtWqsEE=;
-        b=DHzihFmmuS0xTbbEMbOYET+lGVqNUPDRCu1QuWmzCNxdC/FxO8AizUb0NemVNsCFbb
-         puMbWqmR1h9di0Jtzhdv68qCcoNjGZG04pWinkHcQixMtN+69qKZW+PdjPioLqLRy67P
-         xfvBOVKFeP21hNGAPGalszcz1YF9wACUJS9bCk5Win2jXjTWqeuYC03HlY8R5T3ERvB+
-         OuRk45n1+6oxxk4OOaOi1+dP4fckjAKVVs2UbNY3fYKbGcvShrYrxueo9IA2COaylJ47
-         M14iHZzy/nlct1ARUcYAHfI6cwCesef4VNQLvT42HCLBlOz7KV1Cihmakso8VXnM9Czb
-         jzcA==
-X-Gm-Message-State: AOAM531TcqcHMYL8Xwk9WJicoZybD1GZhCRGJ3OOSBOO1xe7clcvZck2
-        R5EoxZuQhaWpjd8p0XKh1Lfwbw==
-X-Google-Smtp-Source: ABdhPJwXKEYcbdCdmGX9YcKJChevv92DETVDL64z5HohA/FFcRgldB5wG73bsS8XPMg1i6ElPuKMIQ==
-X-Received: by 2002:a17:907:629a:b0:6d7:b33e:43f4 with SMTP id nd26-20020a170907629a00b006d7b33e43f4mr27742808ejc.149.1651075910203;
-        Wed, 27 Apr 2022 09:11:50 -0700 (PDT)
+        bh=7ILgIEY7wMcCopOsdlDifUioNzWZT1dVF0DliY6j2xA=;
+        b=s7oUAM4UJ+cmIW43T6FlhRfGm0ohpz0Oh0/r3CrKfD0Gig5okSjJGQocRBFOl9KKRl
+         e2ogampRV6zCuEQ1kZaiBQqncJ6ojntnujsd62nK7/OQf8469LnJKb2C44u0+fv8z3Mn
+         LEWfdha3kX0ydG/eMB3UPUVo3Wz+iL9nWi2pbEmyI7pwL6X9zcLxU3LFA9s12dtSbUck
+         zF/y3mzy3tfx99nE7fI29JxjrKexAhZUyAUMr11gyjg04shKRKp0ielgJ7Psc9STrrl7
+         lZSqY5FtU+PlaEHMivEijpXArCKEAJ6OOs1gcETlU4YXXamvz4Q3APBhqS2I/5XJoQGz
+         2lsw==
+X-Gm-Message-State: AOAM533ijartdKZ3wQCC5e0uPa7d9hDx4cid8hUAFjNvM2h8uJHn40HW
+        EYeZ70JhyUJlJ9uRW6h5yeSaFA==
+X-Google-Smtp-Source: ABdhPJxyYdTqOLTvKkm/hVt8i19D/M2C638flWnCVKtx8surt5LeV7HAhzrc1Ww5KjpHznVXTZKHWg==
+X-Received: by 2002:a17:906:5d11:b0:6f3:722a:1fee with SMTP id g17-20020a1709065d1100b006f3722a1feemr21315677ejt.9.1651076006737;
+        Wed, 27 Apr 2022 09:13:26 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id m1-20020a170906234100b006ef83025804sm7124610eja.87.2022.04.27.09.11.46
+        by smtp.gmail.com with ESMTPSA id n5-20020a170906378500b006efb4ab6f59sm6991197ejc.86.2022.04.27.09.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 09:11:47 -0700 (PDT)
+        Wed, 27 Apr 2022 09:13:25 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,9 +59,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         dmaengine@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 4/6] ARM: dts: am33xx: use new 'dma-channels/requests' properties
-Date:   Wed, 27 Apr 2022 18:11:24 +0200
-Message-Id: <20220427161126.647073-5-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 6/6] ARM: dts: dm81xx: use new 'dma-channels/requests' properties
+Date:   Wed, 27 Apr 2022 18:13:19 +0200
+Message-Id: <20220427161319.647342-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
 References: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
@@ -76,14 +76,30 @@ favor of these defined by generic dma-common DT bindings.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm/boot/dts/am33xx.dtsi | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/dm814x.dtsi | 4 ++--
+ arch/arm/boot/dts/dm816x.dtsi | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/am33xx.dtsi b/arch/arm/boot/dts/am33xx.dtsi
-index f6ec85d58dd1..55ffb0813ded 100644
---- a/arch/arm/boot/dts/am33xx.dtsi
-+++ b/arch/arm/boot/dts/am33xx.dtsi
-@@ -461,8 +461,8 @@ cppi41dma: dma-controller@2000 {
+diff --git a/arch/arm/boot/dts/dm814x.dtsi b/arch/arm/boot/dts/dm814x.dtsi
+index 7702e048e110..ab2572482ba9 100644
+--- a/arch/arm/boot/dts/dm814x.dtsi
++++ b/arch/arm/boot/dts/dm814x.dtsi
+@@ -167,8 +167,8 @@ cppi41dma: dma-controller@47402000 {
+ 				interrupts = <17>;
+ 				interrupt-names = "glue";
+ 				#dma-cells = <2>;
+-				#dma-channels = <30>;
+-				#dma-requests = <256>;
++				dma-channels = <30>;
++				dma-requests = <256>;
+ 			};
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/dm816x.dtsi b/arch/arm/boot/dts/dm816x.dtsi
+index a9e7274806f4..317b7c74e32c 100644
+--- a/arch/arm/boot/dts/dm816x.dtsi
++++ b/arch/arm/boot/dts/dm816x.dtsi
+@@ -655,8 +655,8 @@ cppi41dma: dma-controller@47402000 {
  				interrupts = <17>;
  				interrupt-names = "glue";
  				#dma-cells = <2>;
