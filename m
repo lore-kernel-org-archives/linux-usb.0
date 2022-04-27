@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A7BBC4332F
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57BBEC433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 16:14:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242634AbiD0QRf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 12:17:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43572 "EHLO
+        id S242640AbiD0QR6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 12:17:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242445AbiD0QRI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:17:08 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE15081FCE
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:13:32 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id z19so2502992edx.9
-        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:13:32 -0700 (PDT)
+        with ESMTP id S243857AbiD0QPb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 12:15:31 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 659B43BD077
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:49 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id g6so4426179ejw.1
+        for <linux-usb@vger.kernel.org>; Wed, 27 Apr 2022 09:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CJ0Q0VIVseR/Xb4PlIow7xAWcCO8wMqCFaxsrqIqI0E=;
-        b=z36uwV2biMuX7aEOYbj+qX86qD6s9FGt0SQ37STxHrtt4/vndOieapuTz7F7UCWZAW
-         aiwA6CYM5/L0ZrALS2ikzoY2VbWvevf7pcQB9Jm0//GioGOqRtZH6zP29/BT9dvzuD52
-         D3jNBi60NuVf30cZBAEIpS9Z/geexHVdwE4af7qnjwziiMnCGBAW2xJPx4RkjZSxfEX9
-         T3cy7syL04bfGoPPIOIZz7hds3otV7gzlMEtSH7Q9wcbLUSeXsY2Gm61PIN8E+g4p2lL
-         khBtS+fkTqh/o7EwWcaTD/tqYtsC6foBHUXUaDE0GpoXuwK2Uzowv6jKIAnBp/gisIuM
-         UZ6A==
+        bh=TVilUoRevfZDW2H5vRfurHd/Fm2AVNqP5L2gftL/36g=;
+        b=HFE74/sy74Ts9hOtHQkpkkhIGjvp71P78ebNvVgzzwuV/A0o0Ik9eQbvh/8R1FyiL0
+         ywd8UQvKTYLmRNCskg/d09oPajbA1Aa09AUygozHoZIntMLTSgWr9soMislFB6k/4gVn
+         nY5jwfLX2bk2gXaTd1vxd3KjOwLnHJMBM5Pgo37uYSKqm7ARBi1qeYqaN3C+MQ5q+Wo4
+         9g3s5sh2s9my7tLUpmjeXNwDPz4QsxDf8PtZ6lloeN45TsypWiopzPu173xCFsL+DXYr
+         v2BToql5KzZ08cMthVU/bx3zssRX8IXhD8I38m7P+VudT2i7yjyWNQyuhg9kZ7c3R11j
+         Ykxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CJ0Q0VIVseR/Xb4PlIow7xAWcCO8wMqCFaxsrqIqI0E=;
-        b=zVK3rJm1gETwI2Dh20BRSwqqgLLAOxrGJo4VjDQ+Y9gEkAkAjVHeWMAvNktIlt+P4W
-         J38A7LgrHMrzPey3+0EBjS93Cnw5cfH5aDaHCi6HtuR2X8Qp8emt2uNMOmtmWSNKQNJ1
-         pWyJG9LJTyAwzpAjGzgz5Nq1ED9GiFO74hrijbn5lJ8dZL9zC3lBGctY5EoOB3JtwwJT
-         CMbNDNkM57U9OMRjpOej/LmtbltSnFtLTNA42kC7z3Am4dY8LJPlOvBvShoVcILSM5zO
-         IB7jwppyKceyd922eb872drXPFSKtB/Iev5cU38K8w3KX3fvHy5XUYpJwtduEhvXFiad
-         pVNg==
-X-Gm-Message-State: AOAM530ztWi+eQQEVchZJUHfnugbBx2ekX3d/oc54dzAmmrrpEE1SUPo
-        XCjInkljg/sq+bxqCXQ1Q+QU6w==
-X-Google-Smtp-Source: ABdhPJzSn0FYas1QV4SMn40wPscL93D8P1JanFGmr+WWiNVuEvgQMnwABPrQW4yIKtaPwlnhry7ubw==
-X-Received: by 2002:a05:6402:34cd:b0:424:793:9f65 with SMTP id w13-20020a05640234cd00b0042407939f65mr31284723edc.88.1651076005315;
-        Wed, 27 Apr 2022 09:13:25 -0700 (PDT)
+        bh=TVilUoRevfZDW2H5vRfurHd/Fm2AVNqP5L2gftL/36g=;
+        b=CeSRWBED3agpJ9LHVJKSwMP32fEIqs6Hsf/7V11rkm7VxPerfURsH8kiWdgT1mLNpN
+         dbhhmh+6J38SSyax4epr/rdUS3unexD6nfqp9A/BGdG1WJ+PdnSf1DcAZNLg+76iAbTU
+         iCT4Dv+6oRLdJrawIHmtCOmQf3Zti3yNYt0s3zJxKxsUPqoV1CUcfCHGf9mHY+KY1OUt
+         4Xz6lae+PDdu63oSLs8j9HLWb2M7dAuFQE67EBc+kcgTGGIOANbqt0S/dX7FpE/Q8WCm
+         obNpd8Rcu1U6GN3REWq02AwP0dWcZZO9WG/MlGNZzZYQFRCo4XdAxkU05HId6L6QukA6
+         pisQ==
+X-Gm-Message-State: AOAM530+AE6nEQusmSxMV4AlT267JOnh6k0G53EJbEo2cFvTOvfpz3zL
+        rgbBdSNtexZCy+XOjQH3EYTjlU3ey5Y4tA==
+X-Google-Smtp-Source: ABdhPJzawuxVKwUV1aVJsaz89L6ORSEr8BOw8peEovEn4hzo9tavQ039MLdrmVJCwy8CjjMef9zlQg==
+X-Received: by 2002:a17:907:86a8:b0:6f0:1f97:d7da with SMTP id qa40-20020a17090786a800b006f01f97d7damr27532206ejc.663.1651075903799;
+        Wed, 27 Apr 2022 09:11:43 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id n5-20020a170906378500b006efb4ab6f59sm6991197ejc.86.2022.04.27.09.13.23
+        by smtp.gmail.com with ESMTPSA id m1-20020a170906234100b006ef83025804sm7124610eja.87.2022.04.27.09.11.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 09:13:24 -0700 (PDT)
+        Wed, 27 Apr 2022 09:11:42 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,39 +59,50 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         dmaengine@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 5/6] ARM: dts: da850: use new 'dma-channels' property
-Date:   Wed, 27 Apr 2022 18:13:18 +0200
-Message-Id: <20220427161319.647342-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v2 2/6] dt-bindings: usb: da8xx-usb: deprecate '#dma-channels'
+Date:   Wed, 27 Apr 2022 18:11:22 +0200
+Message-Id: <20220427161126.647073-3-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
 References: <20220427161126.647073-1-krzysztof.kozlowski@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The '#dma-channels' property was deprecated in favor of one defined by
-generic dma-common DT bindings.
+The generic property, used in most of the drivers and defined in generic
+dma-common DT bindings, is 'dma-channels'.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm/boot/dts/da850.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/usb/da8xx-usb.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/da850.dtsi b/arch/arm/boot/dts/da850.dtsi
-index c3942b4e82ad..0e8b42a95ba4 100644
---- a/arch/arm/boot/dts/da850.dtsi
-+++ b/arch/arm/boot/dts/da850.dtsi
-@@ -679,7 +679,7 @@ cppi41dma: dma-controller@201000 {
- 					    "scheduler", "queuemgr";
- 				interrupts = <58>;
- 				#dma-cells = <2>;
--				#dma-channels = <4>;
-+				dma-channels = <4>;
- 				power-domains = <&psc1 1>;
- 				status = "okay";
- 			};
+diff --git a/Documentation/devicetree/bindings/usb/da8xx-usb.txt b/Documentation/devicetree/bindings/usb/da8xx-usb.txt
+index 9ce22551b2b3..fb2027a7d80d 100644
+--- a/Documentation/devicetree/bindings/usb/da8xx-usb.txt
++++ b/Documentation/devicetree/bindings/usb/da8xx-usb.txt
+@@ -36,7 +36,8 @@ DMA
+ - #dma-cells: should be set to 2. The first number represents the
+   channel number (0 … 3 for endpoints 1 … 4).
+   The second number is 0 for RX and 1 for TX transfers.
+-- #dma-channels: should be set to 4 representing the 4 endpoints.
++- dma-channels: should be set to 4 representing the 4 endpoints.
++- #dma-channels: deprecated
+ 
+ Example:
+ 	usb_phy: usb-phy {
+@@ -74,7 +75,7 @@ Example:
+ 			reg-names = "controller", "scheduler", "queuemgr";
+ 			interrupts = <58>;
+ 			#dma-cells = <2>;
+-			#dma-channels = <4>;
++			dma-channels = <4>;
+ 		};
+ 
+ 	};
 -- 
 2.32.0
 
