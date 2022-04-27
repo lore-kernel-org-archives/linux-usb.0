@@ -2,132 +2,92 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A573C433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 06:12:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2805C433FE
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 06:12:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343513AbiD0GPm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 02:15:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60462 "EHLO
+        id S1357981AbiD0GQE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 02:16:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbiD0GPk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 02:15:40 -0400
-Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [IPv6:2a01:37:3000::53df:4ee9:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4065275D4;
-        Tue, 26 Apr 2022 23:12:30 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-         client-signature RSA-PSS (4096 bits) client-digest SHA256)
-        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
-        by mailout2.hostsharing.net (Postfix) with ESMTPS id 3C06C10321188;
-        Wed, 27 Apr 2022 08:12:29 +0200 (CEST)
-Received: from localhost (unknown [89.246.108.87])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by h08.hostsharing.net (Postfix) with ESMTPSA id 081F661ABA99;
-        Wed, 27 Apr 2022 08:12:28 +0200 (CEST)
-X-Mailbox-Line: From 7603f74ddc32bbaa55e9f1bea5d4024b6e376035 Mon Sep 17 00:00:00 2001
-Message-Id: <7603f74ddc32bbaa55e9f1bea5d4024b6e376035.1651037513.git.lukas@wunner.de>
-In-Reply-To: <cover.1651037513.git.lukas@wunner.de>
-References: <cover.1651037513.git.lukas@wunner.de>
-From:   Lukas Wunner <lukas@wunner.de>
-Date:   Wed, 27 Apr 2022 07:48:06 +0200
-Subject: [PATCH net-next 6/7] net: phy: smsc: Cache interrupt mask
-To:     Steve Glendinning <steve.glendinning@shawell.net>,
-        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Andre Edich <andre.edich@microchip.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Martyn Welch <martyn.welch@collabora.com>,
-        Gabriel Hojda <ghojda@yo2urs.ro>,
-        Christoph Fritz <chf.fritz@googlemail.com>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Philipp Rosenberger <p.rosenberger@kunbus.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>
+        with ESMTP id S1346600AbiD0GQD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 02:16:03 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDA42ED55;
+        Tue, 26 Apr 2022 23:12:52 -0700 (PDT)
+X-UUID: bcb223134db64a99a0e5761233fc96a7-20220427
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4,REQID:0ed2a96d-3fc0-4192-87b4-874d8ccf779a,OB:0,LO
+        B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+        ION:release,TS:45
+X-CID-INFO: VERSION:1.1.4,REQID:0ed2a96d-3fc0-4192-87b4-874d8ccf779a,OB:0,LOB:
+        0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+        N:release,TS:45
+X-CID-META: VersionHash:faefae9,CLOUDID:8d0adb2e-6199-437e-8ab4-9920b4bc5b76,C
+        OID:IGNORED,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil,QS:0
+        ,BEC:nil
+X-UUID: bcb223134db64a99a0e5761233fc96a7-20220427
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <macpaul.lin@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 950839163; Wed, 27 Apr 2022 14:12:46 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3;
+ Wed, 27 Apr 2022 14:12:46 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 27 Apr 2022 14:12:46 +0800
+Message-ID: <eb7bb44279b5036c8b5aff65c2977b16039fa4d1.camel@mediatek.com>
+Subject: Re: [PATCH 1/7] dt-bindings: usb: mediatek, mtu3: add binding for
+ MT8195 SoC
+From:   Macpaul Lin <macpaul.lin@mediatek.com>
+To:     Fabien Parent <fparent@baylibre.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Date:   Wed, 27 Apr 2022 14:12:45 +0800
+In-Reply-To: <20220426134106.242353-2-fparent@baylibre.com>
+References: <20220426134106.242353-1-fparent@baylibre.com>
+         <20220426134106.242353-2-fparent@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK:  N
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Cache the interrupt mask to avoid re-reading it from the PHY upon every
-interrupt.  The PHY may be located on a USB device, so the additional
-read may unnecessarily increase interrupt overhead and latency.
+On Tue, 2022-04-26 at 15:40 +0200, Fabien Parent wrote:
+> Add binding to support the mtu3 driver on the MT8195 SoC.
+> 
+> Signed-off-by: Fabien Parent <fparent@baylibre.com>
+> ---
+>  Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> index df766f8de872..37b02a841dc4 100644
+> --- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> +++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
+> @@ -25,6 +25,7 @@ properties:
+>            - mediatek,mt8173-mtu3
+>            - mediatek,mt8183-mtu3
+>            - mediatek,mt8192-mtu3
+> +          - mediatek,mt8195-mtu3
+>        - const: mediatek,mtu3
+>  
+>    reg:
 
-Signed-off-by: Lukas Wunner <lukas@wunner.de>
----
- drivers/net/phy/smsc.c | 24 +++++++++++-------------
- 1 file changed, 11 insertions(+), 13 deletions(-)
+Reviewed-by: Macpaul Lin <macpaul.lin@mediatek.com>
 
-diff --git a/drivers/net/phy/smsc.c b/drivers/net/phy/smsc.c
-index d8cac02a79b9..a521d48b22a7 100644
---- a/drivers/net/phy/smsc.c
-+++ b/drivers/net/phy/smsc.c
-@@ -44,6 +44,7 @@ static struct smsc_hw_stat smsc_hw_stats[] = {
- };
- 
- struct smsc_phy_priv {
-+	u16 intmask;
- 	bool energy_enable;
- 	struct clk *refclk;
- };
-@@ -58,7 +59,6 @@ static int smsc_phy_ack_interrupt(struct phy_device *phydev)
- static int smsc_phy_config_intr(struct phy_device *phydev)
- {
- 	struct smsc_phy_priv *priv = phydev->priv;
--	u16 intmask = 0;
- 	int rc;
- 
- 	if (phydev->interrupts == PHY_INTERRUPT_ENABLED) {
-@@ -66,12 +66,15 @@ static int smsc_phy_config_intr(struct phy_device *phydev)
- 		if (rc)
- 			return rc;
- 
--		intmask = MII_LAN83C185_ISF_INT4 | MII_LAN83C185_ISF_INT6;
-+		priv->intmask = MII_LAN83C185_ISF_INT4 | MII_LAN83C185_ISF_INT6;
- 		if (priv->energy_enable)
--			intmask |= MII_LAN83C185_ISF_INT7;
--		rc = phy_write(phydev, MII_LAN83C185_IM, intmask);
-+			priv->intmask |= MII_LAN83C185_ISF_INT7;
-+
-+		rc = phy_write(phydev, MII_LAN83C185_IM, priv->intmask);
- 	} else {
--		rc = phy_write(phydev, MII_LAN83C185_IM, intmask);
-+		priv->intmask = 0;
-+
-+		rc = phy_write(phydev, MII_LAN83C185_IM, 0);
- 		if (rc)
- 			return rc;
- 
-@@ -83,13 +86,8 @@ static int smsc_phy_config_intr(struct phy_device *phydev)
- 
- static irqreturn_t smsc_phy_handle_interrupt(struct phy_device *phydev)
- {
--	int irq_status, irq_enabled;
--
--	irq_enabled = phy_read(phydev, MII_LAN83C185_IM);
--	if (irq_enabled < 0) {
--		phy_error(phydev);
--		return IRQ_NONE;
--	}
-+	struct smsc_phy_priv *priv = phydev->priv;
-+	int irq_status;
- 
- 	irq_status = phy_read(phydev, MII_LAN83C185_ISF);
- 	if (irq_status < 0) {
-@@ -97,7 +95,7 @@ static irqreturn_t smsc_phy_handle_interrupt(struct phy_device *phydev)
- 		return IRQ_NONE;
- 	}
- 
--	if (!(irq_status & irq_enabled))
-+	if (!(irq_status & priv->intmask))
- 		return IRQ_NONE;
- 
- 	phy_trigger_machine(phydev);
--- 
-2.35.2
+Regards,
+Macpaul Lin
 
