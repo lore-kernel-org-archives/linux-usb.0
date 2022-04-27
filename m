@@ -2,32 +2,30 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 863FCC433EF
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 15:25:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7737C433F5
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Apr 2022 15:38:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239697AbiD0P21 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Apr 2022 11:28:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60538 "EHLO
+        id S239945AbiD0PmG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Apr 2022 11:42:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239573AbiD0P2U (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 11:28:20 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A93BF31ED60;
-        Wed, 27 Apr 2022 08:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=f5CQYKHGPQAXOM4+HTY6bUhY3XHwoWllAgkeyCISNuw=; b=iOnsFc3n/CedGvAVbG/MCJG+aw
-        BA7V+T8jDObpjLaRAI7tXLMAy89oc2KX9N6acHg1RT0hDgiwcU8g9OiQUREsgeES+NoInx0EaUXe2
-        qcfPIdqA8zwnK7gekPaE97IlBVH0ScZaSguB/z11rMSCoGnNBP8w/2SeXtfL2qcqThZQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1njjX8-0008Oi-1c; Wed, 27 Apr 2022 17:24:50 +0200
-Date:   Wed, 27 Apr 2022 17:24:50 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Lukas Wunner <lukas@wunner.de>
+        with ESMTP id S239893AbiD0PmE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Apr 2022 11:42:04 -0400
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [IPv6:2a01:37:1000::53df:5f64:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E95722AC50;
+        Wed, 27 Apr 2022 08:38:52 -0700 (PDT)
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+         client-signature RSA-PSS (4096 bits) client-digest SHA256)
+        (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
+        by bmailout1.hostsharing.net (Postfix) with ESMTPS id 8270E3000034F;
+        Wed, 27 Apr 2022 17:38:51 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 7700B118753; Wed, 27 Apr 2022 17:38:51 +0200 (CEST)
+Date:   Wed, 27 Apr 2022 17:38:51 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Andrew Lunn <andrew@lunn.ch>
 Cc:     Steve Glendinning <steve.glendinning@shawell.net>,
         UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -43,30 +41,49 @@ Cc:     Steve Glendinning <steve.glendinning@shawell.net>,
         Heiner Kallweit <hkallweit1@gmail.com>,
         Russell King <linux@armlinux.org.uk>
 Subject: Re: [PATCH net] usbnet: smsc95xx: Fix deadlock on runtime resume
-Message-ID: <YmlgQhauzZ/tkX/v@lunn.ch>
+Message-ID: <20220427153851.GA15329@wunner.de>
 References: <6710d8c18ff54139cdc538763ba544187c5a0cee.1651041411.git.lukas@wunner.de>
+ <YmlgQhauzZ/tkX/v@lunn.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6710d8c18ff54139cdc538763ba544187c5a0cee.1651041411.git.lukas@wunner.de>
+In-Reply-To: <YmlgQhauzZ/tkX/v@lunn.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Apr 27, 2022 at 08:41:49AM +0200, Lukas Wunner wrote:
-> Commit 05b35e7eb9a1 ("smsc95xx: add phylib support") amended
-> smsc95xx_resume() to call phy_init_hw().  That function waits for the
-> device to runtime resume even though it is placed in the runtime resume
-> path, causing a deadlock.
+On Wed, Apr 27, 2022 at 05:24:50PM +0200, Andrew Lunn wrote:
+> On Wed, Apr 27, 2022 at 08:41:49AM +0200, Lukas Wunner wrote:
+> > Commit 05b35e7eb9a1 ("smsc95xx: add phylib support") amended
+> > smsc95xx_resume() to call phy_init_hw().  That function waits for the
+> > device to runtime resume even though it is placed in the runtime resume
+> > path, causing a deadlock.
+> 
+> You have looked at this code, tried a few different things, so this is
+> probably a dumb question.
+> 
+> Do you actually need to call phy_init_hw()?
+> 
+> mdio_bus_phy_resume() will call phy_init_hw(). So long as you first
+> resume the MAC and then the PHY, shouldn't this just work?
 
-Hi Lukas
+mdio_bus_phy_resume() is only called for system sleep.  But this is about
+*runtime* PM.
 
-You have looked at this code, tried a few different things, so this is
-probably a dumb question.
+mdio_bus_phy_pm_ops does not define runtime PM callbacks.  So runtime PM
+is disabled on PHYs, no callback is invoked for them when the MAC runtime
+suspends, hence the onus is on the MAC to runtime suspend the PHY (which
+is a child of the MAC).  Same on runtime resume.
 
-Do you actually need to call phy_init_hw()?
+Let's say I enable runtime PM on the PHY and use pm_runtime_force_suspend()
+to suspend the PHY from the MAC's ->runtime_suspend callback.  At that
+point the MAC already has status RPM_SUSPENDING.  Boom, deadlock.
 
-mdio_bus_phy_resume() will call phy_init_hw(). So long as you first
-resume the MAC and then the PHY, shouldn't this just work?
+The runtime PM core lacks the capability to declare that children should
+be force runtime suspended before a device can runtime suspend, that's
+the problem.
 
-       Andrew
+Thanks,
+
+Lukas
