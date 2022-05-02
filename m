@@ -2,108 +2,76 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90303C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  2 May 2022 09:00:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E575C433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  2 May 2022 09:07:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381121AbiEBJDf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 May 2022 05:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53914 "EHLO
+        id S1355336AbiEBJKe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 May 2022 05:10:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1383985AbiEBJDe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 May 2022 05:03:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 417C058381
-        for <linux-usb@vger.kernel.org>; Mon,  2 May 2022 02:00:06 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1nlRuW-0002z8-L8; Mon, 02 May 2022 11:00:04 +0200
-Received: from mgr by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mgr@pengutronix.de>)
-        id 1nlRuV-000570-Dp; Mon, 02 May 2022 11:00:03 +0200
-Date:   Mon, 2 May 2022 11:00:03 +0200
-From:   Michael Grzeschik <mgr@pengutronix.de>
-To:     Dan Vacura <w36195@motorola.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-usb@vger.kernel.org, balbi@kernel.org,
-        paul.elder@ideasonboard.com, kernel@pengutronix.de,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 3/5] usb: gadget: uvc: increase worker prio to WQ_HIGHPRI
-Message-ID: <20220502090003.GH7671@pengutronix.de>
-References: <20220402233914.3625405-1-m.grzeschik@pengutronix.de>
- <20220402233914.3625405-4-m.grzeschik@pengutronix.de>
- <Yl8fwdOuxYDVrujW@pendragon.ideasonboard.com>
- <YmwzxIV5/a+ZNLXI@p1g3>
- <20220429200137.GE7671@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fmEUq8M7S0s+Fl0V"
-Content-Disposition: inline
-In-Reply-To: <20220429200137.GE7671@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:51:06 up 32 days, 21:20, 91 users,  load average: 0.24, 0.20,
- 0.21
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+        with ESMTP id S1354638AbiEBJKc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 May 2022 05:10:32 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7F07657;
+        Mon,  2 May 2022 02:07:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1651482423; x=1683018423;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=qOf4Essn/sKdi29v8yTKqm2ReRXAKUxF5Ksbl/DCHTA=;
+  b=dMXZ48HCJAOU5GUjbz00Funkh07MbukvUI3h2OUk+dVm0wxc79152EDt
+   uy/73V2N+coozRSQFeydMzWl4zXuTpLhJ+/nb1GX1W8NKOEDoLr5T/nmN
+   H6VtR1DMdRIkrpTX0dH2jE6AjyAyL95W3XWB0PB6B2MLMUHF2JyRdpEaG
+   k=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 02 May 2022 02:07:03 -0700
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 02 May 2022 02:06:57 -0700
+X-QCInternal: smtphost
+Received: from hu-rohiagar-hyd.qualcomm.com (HELO hu-sgudaval-hyd.qualcomm.com) ([10.213.106.138])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 02 May 2022 14:36:44 +0530
+Received: by hu-sgudaval-hyd.qualcomm.com (Postfix, from userid 3970568)
+        id 22A923BE9; Mon,  2 May 2022 14:36:43 +0530 (+0530)
+From:   Rohit Agarwal <quic_rohiagar@quicinc.com>
+To:     agross@kernel.org, bjorn.andersson@linaro.org,
+        gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org
+Cc:     manivannan.sadhasivam@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Rohit Agarwal <quic_rohiagar@quicinc.com>
+Subject: [PATCH v2 2/4] dt-bindings: usb: qcom,dwc3: Add binding for SDX65
+Date:   Mon,  2 May 2022 14:36:33 +0530
+Message-Id: <1651482395-29443-3-git-send-email-quic_rohiagar@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1651482395-29443-1-git-send-email-quic_rohiagar@quicinc.com>
+References: <1651482395-29443-1-git-send-email-quic_rohiagar@quicinc.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Add devicetree binding for SDX65 USB controller based on
+Qcom designware IP.
 
---fmEUq8M7S0s+Fl0V
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Rohit Agarwal <quic_rohiagar@quicinc.com>
+---
+ Documentation/devicetree/bindings/usb/qcom,dwc3.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Hi Dan,
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index ce252db..2d73b03 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -24,6 +24,7 @@ properties:
+           - qcom,sdm660-dwc3
+           - qcom,sdm845-dwc3
+           - qcom,sdx55-dwc3
++          - qcom,sdx65-dwc3
+           - qcom,sm4250-dwc3
+           - qcom,sm6115-dwc3
+           - qcom,sm6350-dwc3
+-- 
+2.7.4
 
-On Fri, Apr 29, 2022 at 10:01:37PM +0200, Michael Grzeschik wrote:
->On Fri, Apr 29, 2022 at 01:51:48PM -0500, Dan Vacura wrote:
->>Thanks for this change it improves the performance with the DWC3
->>controller on QCOM chips in an Android 5.10 kernel. I haven't tested the
->>scatter/gather path, so memcpy was used here via
->>uvc_video_encode_isoc(). I was able to get around 30% improvement (fps
->>on host side). I did modify the alloc to only set the WQ_HIGHPRI flag.
-
-I missed to ask you to try the WQ_CPU_INTENSIVE flag. It would be
-interesting if you can see further improvement.
-
-Regards,
-Michael
-
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---fmEUq8M7S0s+Fl0V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmJvnZAACgkQC+njFXoe
-LGQZoA//YWrpLSjXqB/O2zsGF9l6/pya2egg2gUfdoYxJMyU2FtogmLiGltvOK+c
-nEYa78nihT+NadT7pBsUBPRx2RrZ/45lg55crPlRQL9TEOYFVPcEG0hoffbiiuup
-4Qs6TkUeadTdJuIdy9p6klqCu/Butu0CrkMjx2mLfWlpCquNoNOhIxQ6LeE5jcgP
-fpagLD2uAzo1lzX5JaIQXMtAkCZ/2WVjHY7ON5Aor8lf+Rw2DwtEEjX7SAk8spW6
-UQibfM+yOyKuSAvTjD5lFV4hBw9lRboTcZ3UH7GUm/4MHJGgXDkzOhneUvbIjCw/
-gzan4NrvmBjl5gXSYdq6TZRuBN1gMd/a5k0YXemxCkgMuriwXk5T6pk0GaUjfNQt
-U1TiBZM0ADMU1VMeQYzjni+Jn3Nd+vY4dq9WErSnxuzIYDp35onafkNw+NzzAMLE
-2IJn1rqhmvHdqFRFHiltHlktCBki8WXylRNVtpFDxtq734EToEKxTPBLHuRmNqWj
-ksoa4LHVq/NluDNOO95oqn5nH0janCJ3kze2DO0jghgsTup0P51X9TahYplZDo8A
-gBJKOCf3urovWSjzchmMBWF7ILhN0wxEZl96zoEDaLBGnaHlKG8MgR63OWtvat1e
-ikWPprdn5ETVLpyGM06lhSxZPzE8+p4GEuqc+YP7q2p01KWLfko=
-=8bUQ
------END PGP SIGNATURE-----
-
---fmEUq8M7S0s+Fl0V--
