@@ -2,88 +2,116 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA75DC433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  3 May 2022 14:38:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACEE6C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  3 May 2022 14:54:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237158AbiECOlb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 May 2022 10:41:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36262 "EHLO
+        id S237465AbiECO5q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 May 2022 10:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236366AbiECOl3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 May 2022 10:41:29 -0400
-X-Greylist: delayed 657 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 03 May 2022 07:37:57 PDT
-Received: from radex-web.radex.nl (smtp.radex.nl [178.250.146.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3C99B3467F;
-        Tue,  3 May 2022 07:37:57 -0700 (PDT)
-Received: from [192.168.1.35] (cust-178-250-146-69.breedbanddelft.nl [178.250.146.69])
-        by radex-web.radex.nl (Postfix) with ESMTPS id AB2AA24071;
-        Tue,  3 May 2022 16:26:58 +0200 (CEST)
-Message-ID: <2a436486-a54d-a9b3-d839-232a38653af3@gmail.com>
-Date:   Tue, 3 May 2022 16:26:58 +0200
+        with ESMTP id S236357AbiECO5p (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 May 2022 10:57:45 -0400
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+        by lindbergh.monkeyblade.net (Postfix) with SMTP id CE2FF38D8F
+        for <linux-usb@vger.kernel.org>; Tue,  3 May 2022 07:54:11 -0700 (PDT)
+Received: (qmail 1087789 invoked by uid 1000); 3 May 2022 10:54:10 -0400
+Date:   Tue, 3 May 2022 10:54:10 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        USB mailing list <linux-usb@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] USB: gadget: Add a new bus for gadgets
+Message-ID: <YnFCEn45XwDWM/9Y@rowland.harvard.edu>
+References: <YjeEbHL8ITkW692W@rowland.harvard.edu>
+ <YmKt3kH+85kjzdbL@kroah.com>
+ <YmSc29YZvxgT5fEJ@rowland.harvard.edu>
+ <YmSo6fU1FlNq8cOZ@rowland.harvard.edu>
+ <YmSpKpnWR8WWEk/p@rowland.harvard.edu>
+ <YmSpdxaDNeC2BBOf@rowland.harvard.edu>
+ <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH net-next 0/7] Polling be gone on LAN95xx
-Content-Language: en-US
-To:     Lukas Wunner <lukas@wunner.de>
-Cc:     Steve Glendinning <steve.glendinning@shawell.net>,
-        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, Andre Edich <andre.edich@microchip.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>,
-        Martyn Welch <martyn.welch@collabora.com>,
-        Gabriel Hojda <ghojda@yo2urs.ro>,
-        Christoph Fritz <chf.fritz@googlemail.com>,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
-        Philipp Rosenberger <p.rosenberger@kunbus.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>
-References: <cover.1651037513.git.lukas@wunner.de>
- <a9fcc952-a55f-1eae-c584-d58644bae00d@gmail.com>
- <20220503082612.GA21515@wunner.de>
-From:   Ferry Toth <fntoth@gmail.com>
-In-Reply-To: <20220503082612.GA21515@wunner.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2205031209030.681336@ramsan.of.borg>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+On Tue, May 03, 2022 at 12:14:30PM +0200, Geert Uytterhoeven wrote:
+> 	Hi Alan,
+> 
+> On Sat, 23 Apr 2022, Alan Stern wrote:
+> > This patch adds a "gadget" bus and uses it for registering gadgets and
+> > their drivers.  From now on, bindings will be managed by the driver
+> > core rather than through ad-hoc manipulations in the UDC core.
+> > 
+> > As part of this change, the driver_pending_list is removed.  The UDC
+> > core won't need to keep track of unbound drivers for later binding,
+> > because the driver core handles all of that for us.
+> > 
+> > However, we do need one new feature: a way to prevent gadget drivers
+> > from being bound to more than one gadget at a time.  The existing code
+> > does this automatically, but the driver core doesn't -- it's perfectly
+> > happy to bind a single driver to all the matching devices on the bus.
+> > The patch adds a new bitflag to the usb_gadget_driver structure for
+> > this purpose.
+> > 
+> > A nice side effect of this change is a reduction in the total lines of
+> > code, since now the driver core will do part of the work that the UDC
+> > used to do.
+> > 
+> > A possible future patch could add udc devices to the gadget bus, say
+> > as a separate device type.
+> > 
+> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> 
+> Thanks for your patch, which is now commit fc274c1e997314bf ("USB:
+> gadget: Add a new bus for gadgets") in usb-next.
+> 
+> This patch cause a regression on the Renesas Salvator-XS development
+> board, as R-Car H3 has multiple USB gadget devices:
 
-On 03-05-2022 10:26, Lukas Wunner wrote:
-> On Mon, May 02, 2022 at 10:33:06PM +0200, Ferry Toth wrote:
->> Op 27-04-2022 om 07:48 schreef Lukas Wunner:
->>> Do away with link status polling on LAN95XX USB Ethernet
->>> and rely on interrupts instead, thereby reducing bus traffic,
->>> CPU overhead and improving interface bringup latency.
->> Tested-by: Ferry Toth <fntoth@gmail.com> (Intel Edison-Arduino)
-> Thank you!
->
->> While testing I noted another problem. I have "DMA-API: debugging enabled by
->> kernel config" and this (I guess) shows me before and after the patches:
->>
->> ------------[ cut here ]------------
->> DMA-API: xhci-hcd xhci-hcd.1.auto: cacheline tracking EEXIST, overlapping
->> mappings aren't supported
-> That is under investigation here:
-> https://bugzilla.kernel.org/show_bug.cgi?id=215740
->
-> It's apparently a long-standing bug in the USB core which was exposed
-> by a new WARN() check introduced in 5.14.
+Then these gadgets ought to have distinct names in order to avoid the 
+conflict below:
 
-I'm not sure this is correct. The issue happens for me only when 
-connecting the SMSC9414.
+>     sysfs: cannot create duplicate filename '/bus/gadget/devices/gadget'
+>     CPU: 2 PID: 1 Comm: swapper/0 Not tainted 5.18.0-rc1-arm64-renesas-00074-gfc274c1e9973 #1587
+>     Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+>     Call trace:
+>      dump_backtrace+0xcc/0xd8
+>      show_stack+0x14/0x30
+>      dump_stack_lvl+0x88/0xb0
+>      dump_stack+0x14/0x2c
+>      sysfs_warn_dup+0x60/0x78
+>      sysfs_do_create_link_sd.isra.0+0xe4/0xf0
+>      sysfs_create_link+0x20/0x40
+>      bus_add_device+0x64/0x110
+>      device_add+0x31c/0x850
+>      usb_add_gadget+0x124/0x1a0
+>      usb_add_gadget_udc_release+0x1c/0x50
+>      usb_add_gadget_udc+0x10/0x18
+>      renesas_usb3_probe+0x450/0x728
+...
 
-Other usb devices I have (memory sticks, wifi, bluetooth) do not trigger 
-this.
+Having three gadget devices, all named "gadget", doesn't seem like a 
+good idea.
 
-I think we need to consider it might be a valid warning. It seems to be 
-originating from the same "Workqueue: usb_hub_wq hub_event" though.
+> After boot-up, only one gadget device is visible:
 
-> Thanks,
->
-> Lukas
+Naturally, since the first registration succeeds and the later ones fail 
+because they can't reuse the same name.
+
+>     root@h3-salvator-xs:~# ls -l /sys/bus/gadget/devices/
+>     total 0
+>     lrwxrwxrwx 1 root root 0 Feb 14  2019 gadget -> ../../../devices/platform/soc/e659c000.usb/gadget
+>     root@h3-salvator-xs:~#
+> 
+> Reverting this patch fixes the issue.
+
+This doesn't seem like it should be too hard to fix, although I'm not 
+at all familiar with the renesas-usb3 driver.  Do you know who maintains 
+that driver?  Is it you?
+
+Alan Stern
