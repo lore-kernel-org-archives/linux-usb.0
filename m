@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 506F4C433F5
-	for <linux-usb@archiver.kernel.org>; Tue,  3 May 2022 06:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DF2C433EF
+	for <linux-usb@archiver.kernel.org>; Tue,  3 May 2022 06:53:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbiECG45 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 May 2022 02:56:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47014 "EHLO
+        id S231128AbiECG5B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 May 2022 02:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230488AbiECG43 (ORCPT
+        with ESMTP id S230466AbiECG43 (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 3 May 2022 02:56:29 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 435301A80F
-        for <linux-usb@vger.kernel.org>; Mon,  2 May 2022 23:52:15 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id g6so31692435ejw.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 May 2022 23:52:15 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7BF81A394
+        for <linux-usb@vger.kernel.org>; Mon,  2 May 2022 23:52:12 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id p4so18903360edx.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 May 2022 23:52:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uPBTkDisPWIPiz4fbigxN/qpqS0KGaulp0SsPCNcau0=;
-        b=t4KrqEJ/h15gUWJSLYY3MUKbfEd3VUaK4JAv+p+reF9rOqJN7S/TAk5YJmCAYrsPXo
-         aDXMb7O4vMFgvjBgSMfIDxqx9wTP4D12JkvtMXEeiMyfxBJ+69V3sq5/KeoA982vFadm
-         tVQByYanFDMF2PGYCASFU9rvxredPLcyOzN1h9o7B0Cosl2F17GXfnzDaN7dZdhnRXsv
-         T+1LIIJC0Wqs2yJ0TOhzO4UkU44cRmZqX5KSLjxRbo62gJynSOygw26jWuL1WZD04AFo
-         SFG+Hl7AavHFmalQ2zWGwyLlohQBuJtweUS46QntjrAeC8YmBCQKhxzrgKLgaw3W5Z8V
-         nWaA==
+        bh=u61yPu9p/YKGWVl2XMy7UEGngVuz5P2bHwgLF3BABl0=;
+        b=ZRXcv6YSmEvRmCVFJwfEr6fleKYTm2R1OONnZYRwhEMLP9vNMY2nIhZlHZ2BA9SjE1
+         MZ/TpYXpI8JWbhZTtk5qva6Y0jkaE1SdrLm/GEQTeEXu7n8rREQn5AZzavTJVWbvLhS7
+         YP1bsdoJsKhsP75u33rDf+ZVr2pWtINPoe+1ooHVVfBO9OS4tWhP18A21hwKyUS+5t+P
+         CT98xRBbgwK16T0RMVt1PDtB5xonMkdYyrJFbvg/fJedIfYvCvICWND/trR+I4ixdIQy
+         l4sh7NbVOihryTMiY9qBhUFUnwBM6yQO9DPmQXaSEfq1gxkuDnHxyZ/TnhwPkFSPaMIJ
+         Uv5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uPBTkDisPWIPiz4fbigxN/qpqS0KGaulp0SsPCNcau0=;
-        b=5n5ncj/Ej7au0Mb+J/ecuYX7cEuLP0sayfDDd//HQnF3ZSUzI8vyLNRUBo1k2smK4F
-         rLMUOHLqJi7cXBiULYfmGe52JaXdGJfbdOUk7hm9i3uyrUaQe08SgIpmHfGVBhnqbr7b
-         xWShLWvHAxLDStGLzdPrsF5XwYBicyrKlWxGLLPrWdpyPpZAtCUhDbpOOinrHhyeO8fn
-         1svrHDRAmQnVKjnDihtRHcbK6z91DISo+wUYRAoeVdNEXNlkK+DOxGgooP8QS/8ue40H
-         8bTb4R8SvDb6ckyDFAtjwq7s6g9xhJe7iYAGm4ZsWGYetmjEnHPePKJFT4Wkadw78MHf
-         EuPw==
-X-Gm-Message-State: AOAM53185vLi/Lmkxkn9kAXMdi5jKj1iF1q7Gy/Dx5c5Xlk5jYiaWoRS
-        HD4uEEOZJxc1xxpmLydsTMZPNQ==
-X-Google-Smtp-Source: ABdhPJzz8whStayZ25mFT6CP6vZmwkhtis9sMlNq/kcPbjhYCFLFPFfntTVW7/VQLhuzRFEYgArCzw==
-X-Received: by 2002:a17:906:9c82:b0:6df:baa2:9f75 with SMTP id fj2-20020a1709069c8200b006dfbaa29f75mr14079537ejc.762.1651560733885;
-        Mon, 02 May 2022 23:52:13 -0700 (PDT)
+        bh=u61yPu9p/YKGWVl2XMy7UEGngVuz5P2bHwgLF3BABl0=;
+        b=SAnO1a7oTbbnojwzW/QSX4YVqx/8I9bydPYmtaNinJbOU2jwfUq97TcRjj5FBfLoYR
+         hRuovzup+QXv7yFX240hle+MCCZjsAMZS2oChh0/tuMt/3KDnotgwZ0uPgPyuIMORI6U
+         QB/Y1tt6WtfO83pSnHRuQbQz3VFpAcO1GTaQfb5uAtYodoRsyhRMEqQrgJ7t1hMP05QC
+         hZL7HuPJF7SZw6ukBIE9EQSVULHdbfidxpWpbrGQ0LEk5bF1TPzkqRxxhwtgdk2bNoQZ
+         vL3U7xHgL8uW2+8OLJlJDuNbjyjnolahlrl76FvJB//t6Ogf960RCSvvLM2bncxoDsJt
+         i7Ow==
+X-Gm-Message-State: AOAM533iuJUiGRh01vDgEINjB7jme9FS+4AsXhklkQb9vDezWrjN6XFK
+        U8+06usClMQu6XL2vurZB/3b5w==
+X-Google-Smtp-Source: ABdhPJzr8EYgv5A8SheIp2cUb2kVt9iDDZlxcitkaL/fJe4IIiGKBPncMBgEN2y4lFu9VSbLHbqbiQ==
+X-Received: by 2002:a05:6402:50a:b0:426:16c3:4283 with SMTP id m10-20020a056402050a00b0042616c34283mr16722700edv.371.1651560731133;
+        Mon, 02 May 2022 23:52:11 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id hf27-20020a1709072c5b00b006f3ef214e2fsm4382915ejc.149.2022.05.02.23.52.12
+        by smtp.gmail.com with ESMTPSA id hf27-20020a1709072c5b00b006f3ef214e2fsm4382915ejc.149.2022.05.02.23.52.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 23:52:13 -0700 (PDT)
+        Mon, 02 May 2022 23:52:10 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,9 +59,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         dmaengine@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 6/6] ARM: dts: dm81xx: use new 'dma-channels/requests' properties
-Date:   Tue,  3 May 2022 08:52:01 +0200
-Message-Id: <20220503065201.51818-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 4/6] ARM: dts: am33xx: use new 'dma-channels/requests' properties
+Date:   Tue,  3 May 2022 08:51:59 +0200
+Message-Id: <20220503065201.51818-5-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220503065201.51818-1-krzysztof.kozlowski@linaro.org>
 References: <20220503065201.51818-1-krzysztof.kozlowski@linaro.org>
@@ -77,31 +77,14 @@ properties while keeping old ones for backwards compatibility.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm/boot/dts/dm814x.dtsi | 3 +++
- arch/arm/boot/dts/dm816x.dtsi | 3 +++
- 2 files changed, 6 insertions(+)
+ arch/arm/boot/dts/am33xx.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm/boot/dts/dm814x.dtsi b/arch/arm/boot/dts/dm814x.dtsi
-index 7702e048e110..a92630113f57 100644
---- a/arch/arm/boot/dts/dm814x.dtsi
-+++ b/arch/arm/boot/dts/dm814x.dtsi
-@@ -167,8 +167,11 @@ cppi41dma: dma-controller@47402000 {
- 				interrupts = <17>;
- 				interrupt-names = "glue";
- 				#dma-cells = <2>;
-+				/* For backwards compatibility: */
- 				#dma-channels = <30>;
-+				dma-channels = <30>;
- 				#dma-requests = <256>;
-+				dma-requests = <256>;
- 			};
- 		};
- 
-diff --git a/arch/arm/boot/dts/dm816x.dtsi b/arch/arm/boot/dts/dm816x.dtsi
-index a9e7274806f4..eb0a95da94b2 100644
---- a/arch/arm/boot/dts/dm816x.dtsi
-+++ b/arch/arm/boot/dts/dm816x.dtsi
-@@ -655,8 +655,11 @@ cppi41dma: dma-controller@47402000 {
+diff --git a/arch/arm/boot/dts/am33xx.dtsi b/arch/arm/boot/dts/am33xx.dtsi
+index f6ec85d58dd1..9a8698bd2852 100644
+--- a/arch/arm/boot/dts/am33xx.dtsi
++++ b/arch/arm/boot/dts/am33xx.dtsi
+@@ -461,8 +461,11 @@ cppi41dma: dma-controller@2000 {
  				interrupts = <17>;
  				interrupt-names = "glue";
  				#dma-cells = <2>;
