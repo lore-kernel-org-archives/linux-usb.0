@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E48F9C43217
-	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:20:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DF68C433EF
+	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:20:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350519AbiEDNXh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 May 2022 09:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34004 "EHLO
+        id S1350535AbiEDNXi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 May 2022 09:23:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350421AbiEDNXQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:16 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A790F192A4
-        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:34 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id i19so2819283eja.11
-        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:34 -0700 (PDT)
+        with ESMTP id S1350414AbiEDNXP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:15 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FB603DDCD
+        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:33 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id l7so2864774ejn.2
+        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=J6S+HSLj2lOjLFyHSsTGoc9llbySR0mUOnbz2m/3gyM=;
-        b=s/YY9IAU6+ETYvVK7KOX3MnnlFyvyaA360NXjFal1nVW7nSlKfPvuI/ryD7a9iqUlO
-         HtPSdI2LTYZXu59m7pYBvCIfEouWYraS8gWE4uW8IidxDxbaTTG2+LCwYs4Bz4lzE7sN
-         mSNJjGIkKjGvIgl3xXb/26vNFOt0VKIrAgTyRZPkdkJyWLP4NmbO6K4u9hPCKwKPYudy
-         HWbvxb8ED9ZAZ3vptt0gdJPctozdFZtlOy41SLxfvDUx2QGqkAkj6F33x7zK5d0Jmt/z
-         u45ZjCoUfB0yxzl+JeLI44BlZK0b7tx6qiCKqQ/3yiV6nUi0dVgisczYlZhgvpR9OBqY
-         WyTw==
+        bh=geJ1oCMfHvrwrPUcn2CBZQZQvkPEsJJFNL12XqUDXCM=;
+        b=eXCGt2ajshLobHOIJRX+d5yT3wL9OfZmJInYcSe/ETxQ72pQJIFe62eQYgmFP1pPPJ
+         kw8FYnmaF3rxOURKKA5S6VccS8E75IY1RlhJFP2oNZdXW1wP4RBFEHs6XilEinPW6vrj
+         Isc5hh11tqC1fdg1dc0MFa+ynH1gH0R//ndqg72N390E1LRiLtRwgk/EeW3psHNxc7du
+         SkwoD4sQ6Fgwv2wkNc6Xqd5moC3kSbCRMVEDmZWulqR+nCAAeae8kel9LtInwG32vPDE
+         /TIRLmnOfb7bc9M1ARp0XWGsPNH7DB20OxcANoK8jqJVhvVM/a6UYme2PxNOZRjwWP0+
+         K3ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=J6S+HSLj2lOjLFyHSsTGoc9llbySR0mUOnbz2m/3gyM=;
-        b=FeCRjtaSKRsrvq2PXrKbdMAQ5wc09pQOt4elUiDTbl6qDxX6VqZWqSgxIqw4llJscy
-         bQftUEHU3gTNxQtKAtOYDycBpKjzbhGlAB9SvFFaaCQgtzYpZcEEfU2WVzcOhIdYwhkh
-         hteB/NU40cKwih3JVrf0sMAv72gEzFC2EPQpFTT5MHAUYE1mB3IiCxwC5FbFMYepylOg
-         2fGrKhkT6neUN/e5RqxWuihX/zWGe4B7YXpfsp+AvtLO+an828AbRvpXztDRxy7t/s++
-         Fyq4VP44pTPCvdoU9qLijKZnIbRq4slsaO8TrsqUSj14q0ymzEaMRcQf97ef6h6CSK8U
-         wEzA==
-X-Gm-Message-State: AOAM532osLsl97Sz7oc/LWVDg04/NRADpfr/c3qg1PG6E3PYK4JpSr0A
-        AgCULvfHk0kgV3oaKQV/F/66mw==
-X-Google-Smtp-Source: ABdhPJwhVllXOstmoh8625gM/aXrZ6grJik93kV6nqg8dv5utJXlBtK64FvCuppfpVyGtTAHOP04mw==
-X-Received: by 2002:a17:907:9690:b0:6f3:bf14:4c68 with SMTP id hd16-20020a170907969000b006f3bf144c68mr19831577ejc.584.1651670374242;
-        Wed, 04 May 2022 06:19:34 -0700 (PDT)
+        bh=geJ1oCMfHvrwrPUcn2CBZQZQvkPEsJJFNL12XqUDXCM=;
+        b=ey5o36JT3ruMj+dZY3sEUZPlO3rrwObstOYqcbGkoj73ZHiXE6pyZL5rEbonszYmmF
+         hTAZIJTj1Co1yWmbQTUrTh0BpcWQJ+8Gc0YHFJ0amWHM6WthIJCWE3NZjKjPhZJI+mLD
+         8Cntr+bDuzQffpbxDYpOJK/gcoX1ErUQIhxoypXnFjjPtjMuX34ybVYR0i+ssARpvjqq
+         JaJM6KVdc6MKzvQdg8qTXums6V6TfmXPYb7xQGm9VudH4WylDGwlVuaQo5jeg0IyWAQi
+         1mhpVq6HVoRQ/tEOweBiSjmXSVg/YbJE5y/BMYushWR1e8Ah0WWlBpIpYvMef94T3bKQ
+         2POQ==
+X-Gm-Message-State: AOAM531hltD6SVxnobTMI3BURmbvycf7IQepba1v2TFbHCdkDYcN4ZaH
+        vSCulZ+zUMWfrjZZ/jzrUkh8Ig==
+X-Google-Smtp-Source: ABdhPJyfY9xuMVGc8LsmWl5zLun+0BP87d5iqcnXk5tyahzJRG6mgYGf6XihuoXxleN8KGqlPLo2LA==
+X-Received: by 2002:a17:907:8a06:b0:6f4:922b:4b91 with SMTP id sc6-20020a1709078a0600b006f4922b4b91mr7152726ejc.670.1651670372039;
+        Wed, 04 May 2022 06:19:32 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.33
+        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 06:19:33 -0700 (PDT)
+        Wed, 04 May 2022 06:19:31 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -57,9 +57,9 @@ To:     Andy Gross <agross@kernel.org>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 06/13] arm64: dts: qcom: correct DWC3 node names and unit addresses
-Date:   Wed,  4 May 2022 15:19:16 +0200
-Message-Id: <20220504131923.214367-7-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 04/13] dt-bindings: usb: qcom,dwc3: fix clock matching
+Date:   Wed,  4 May 2022 15:19:14 +0200
+Message-Id: <20220504131923.214367-5-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
 References: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
@@ -69,271 +69,265 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Align DWC3 USB node names with DT schema ("usb" is expected) and correct
-the unit addresses to match the "reg" property.  This also implies
-overriding nodes by label, instead of full path.
+The bindings defined strict clocks but several variants do not use them
+in such order.  Split the clocks and clock-names per variants to match
+current DTS usage.  In few cases this might not be complete match, due
+to incomplete DTS.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/apq8096-db820c.dts   | 18 ++++++++---------
- arch/arm64/boot/dts/qcom/ipq6018.dtsi         |  6 +++---
- arch/arm64/boot/dts/qcom/ipq8074.dtsi         |  4 ++--
- .../boot/dts/qcom/msm8996-xiaomi-common.dtsi  | 20 +++++++++----------
- arch/arm64/boot/dts/qcom/msm8996.dtsi         |  4 ++--
- arch/arm64/boot/dts/qcom/msm8998.dtsi         |  2 +-
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi      |  7 ++++---
- arch/arm64/boot/dts/qcom/qcs404.dtsi          |  4 ++--
- arch/arm64/boot/dts/qcom/sc7180.dtsi          |  2 +-
- arch/arm64/boot/dts/qcom/sdm845.dtsi          |  4 ++--
- arch/arm64/boot/dts/qcom/sm8150.dtsi          |  2 +-
- 11 files changed, 37 insertions(+), 36 deletions(-)
+ .../devicetree/bindings/usb/qcom,dwc3.yaml    | 222 ++++++++++++++++--
+ 1 file changed, 200 insertions(+), 22 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/apq8096-db820c.dts b/arch/arm64/boot/dts/qcom/apq8096-db820c.dts
-index 56e54ce4d10e..49afbb1a066a 100644
---- a/arch/arm64/boot/dts/qcom/apq8096-db820c.dts
-+++ b/arch/arm64/boot/dts/qcom/apq8096-db820c.dts
-@@ -1052,22 +1052,22 @@ &ufshc {
- &usb2 {
- 	status = "okay";
- 	extcon = <&usb2_id>;
-+};
+diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+index 03f93f25cba4..5047ca31657c 100644
+--- a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
++++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+@@ -54,26 +54,22 @@ properties:
+     maxItems: 1
  
--	dwc3@7600000 {
--		extcon = <&usb2_id>;
--		dr_mode = "otg";
--		maximum-speed = "high-speed";
--	};
-+&usb2_dwc3 {
-+	extcon = <&usb2_id>;
-+	dr_mode = "otg";
-+	maximum-speed = "high-speed";
- };
+   clocks:
+-    description:
+-      A list of phandle and clock-specifier pairs for the clocks
+-      listed in clock-names.
+-    items:
+-      - description: System Config NOC clock.
+-      - description: Master/Core clock, has to be >= 125 MHz
+-          for SS operation and >= 60MHz for HS operation.
+-      - description: System bus AXI clock.
+-      - description: Mock utmi clock needed for ITP/SOF generation
+-          in host mode. Its frequency should be 19.2MHz.
+-      - description: Sleep clock, used for wakeup when
+-          USB3 core goes into low power mode (U3).
++    description: |
++      Several clocks are used, depending on the variant. Typical ones are::
++       - cfg_noc:: System Config NOC clock.
++       - core:: Master/Core clock, has to be >= 125 MHz for SS operation and >=
++                60MHz for HS operation.
++       - iface:: System bus AXI clock.
++       - sleep:: Sleep clock, used for wakeup when USB3 core goes into low
++                 power mode (U3).
++       - mock_utmi:: Mock utmi clock needed for ITP/SOF generation in host
++                     mode. Its frequency should be 19.2MHz.
++    minItems: 1
++    maxItems: 6
  
- &usb3 {
- 	status = "okay";
- 	extcon = <&usb3_id>;
-+};
+   clock-names:
+-    items:
+-      - const: cfg_noc
+-      - const: core
+-      - const: iface
+-      - const: mock_utmi
+-      - const: sleep
++    minItems: 1
++    maxItems: 6
  
--	dwc3@6a00000 {
--		extcon = <&usb3_id>;
--		dr_mode = "otg";
--	};
-+&usb3_dwc3 {
-+	extcon = <&usb3_id>;
-+	dr_mode = "otg";
- };
+   assigned-clocks:
+     items:
+@@ -136,6 +132,185 @@ required:
+   - interrupts
+   - interrupt-names
  
- &usb3phy {
-diff --git a/arch/arm64/boot/dts/qcom/ipq6018.dtsi b/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-index a4d363c187fc..835de9834833 100644
---- a/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-+++ b/arch/arm64/boot/dts/qcom/ipq6018.dtsi
-@@ -653,7 +653,7 @@ qusb_phy_1: qusb@59000 {
- 			status = "disabled";
- 		};
- 
--		usb2: usb2@7000000 {
-+		usb2: usb@70f8800 {
- 			compatible = "qcom,ipq6018-dwc3", "qcom,dwc3";
- 			reg = <0x0 0x070F8800 0x0 0x400>;
- 			#address-cells = <2>;
-@@ -730,7 +730,7 @@ qusb_phy_0: qusb@79000 {
- 			status = "disabled";
- 		};
- 
--		usb3: usb3@8A00000 {
-+		usb3: usb@8af8800 {
- 			compatible = "qcom,ipq6018-dwc3", "qcom,dwc3";
- 			reg = <0x0 0x8AF8800 0x0 0x400>;
- 			#address-cells = <2>;
-@@ -756,7 +756,7 @@ usb3: usb3@8A00000 {
- 			resets = <&gcc GCC_USB0_BCR>;
- 			status = "disabled";
- 
--			dwc_0: usb@8A00000 {
-+			dwc_0: usb@8a00000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x0 0x8A00000 0x0 0xcd00>;
- 				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/ipq8074.dtsi b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-index 943243d5515b..519938530c35 100644
---- a/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-+++ b/arch/arm64/boot/dts/qcom/ipq8074.dtsi
-@@ -578,7 +578,7 @@ usb_0: usb@8af8800 {
- 			resets = <&gcc GCC_USB0_BCR>;
- 			status = "disabled";
- 
--			dwc_0: dwc3@8a00000 {
-+			dwc_0: usb@8a00000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x8a00000 0xcd00>;
- 				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-@@ -618,7 +618,7 @@ usb_1: usb@8cf8800 {
- 			resets = <&gcc GCC_USB1_BCR>;
- 			status = "disabled";
- 
--			dwc_1: dwc3@8c00000 {
-+			dwc_1: usb@8c00000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x8c00000 0xcd00>;
- 				interrupts = <GIC_SPI 99 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi b/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
-index be4f643b1fd1..a7090befc16f 100644
---- a/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8996-xiaomi-common.dtsi
-@@ -308,19 +308,19 @@ &usb3 {
- 	extcon = <&typec>;
- 
- 	qcom,select-utmi-as-pipe-clk;
-+};
- 
--	dwc3@6a00000 {
--		extcon = <&typec>;
-+&usb3_dwc3 {
-+	extcon = <&typec>;
- 
--		/* usb3-phy is not used on this device */
--		phys = <&hsusb_phy1>;
--		phy-names = "usb2-phy";
-+	/* usb3-phy is not used on this device */
-+	phys = <&hsusb_phy1>;
-+	phy-names = "usb2-phy";
- 
--		maximum-speed = "high-speed";
--		snps,is-utmi-l1-suspend;
--		snps,usb2-gadget-lpm-disable;
--		snps,hird-threshold = /bits/ 8 <0>;
--	};
-+	maximum-speed = "high-speed";
-+	snps,is-utmi-l1-suspend;
-+	snps,usb2-gadget-lpm-disable;
-+	snps,hird-threshold = /bits/ 8 <0>;
- };
- 
- &hsusb_phy1 {
-diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-index 205af7b479a8..fc2e026d4c07 100644
---- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-@@ -2731,7 +2731,7 @@ usb3: usb@6af8800 {
- 			power-domains = <&gcc USB30_GDSC>;
- 			status = "disabled";
- 
--			usb3_dwc3: dwc3@6a00000 {
-+			usb3_dwc3: usb@6a00000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x06a00000 0xcc00>;
- 				interrupts = <0 131 IRQ_TYPE_LEVEL_HIGH>;
-@@ -3059,7 +3059,7 @@ usb2: usb@76f8800 {
- 			qcom,select-utmi-as-pipe-clk;
- 			status = "disabled";
- 
--			dwc3@7600000 {
-+			usb2_dwc3: usb@7600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x07600000 0xcc00>;
- 				interrupts = <0 138 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/msm8998.dtsi b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-index 4a84de6cee1e..0200d532b531 100644
---- a/arch/arm64/boot/dts/qcom/msm8998.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8998.dtsi
-@@ -2040,7 +2040,7 @@ usb3: usb@a8f8800 {
- 
- 			resets = <&gcc GCC_USB_30_BCR>;
- 
--			usb3_dwc3: dwc3@a800000 {
-+			usb3_dwc3: usb@a800000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x0a800000 0xcd00>;
- 				interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-index a80c578484ba..2f3104a84417 100644
---- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-+++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-@@ -337,9 +337,10 @@ &usb2_phy_sec {
- &usb3 {
- 	status = "okay";
- 
--	dwc3@7580000 {
--		dr_mode = "host";
--	};
-+};
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq4019-dwc3
++    then:
++      properties:
++        clocks:
++          maxItems: 3
++        clock-names:
++          items:
++            - const: core
++            - const: sleep
++            - const: mock_utmi
 +
-+&usb3_dwc3 {
-+	dr_mode = "host";
- };
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq8064-dwc3
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Master/Core clock, has to be >= 125 MHz
++                for SS operation and >= 60MHz for HS operation.
++        clock-names:
++          items:
++            - const: core
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,msm8953-dwc3
++              - qcom,msm8996-dwc3
++              - qcom,msm8998-dwc3
++              - qcom,sc7180-dwc3
++              - qcom,sc7280-dwc3
++              - qcom,sdm845-dwc3
++              - qcom,sdx55-dwc3
++              - qcom,sm6350-dwc3
++    then:
++      properties:
++        clocks:
++          maxItems: 5
++        clock-names:
++          items:
++            - const: cfg_noc
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq6018-dwc3
++    then:
++      properties:
++        clocks:
++          minItems: 3
++          maxItems: 4
++        clock-names:
++          oneOf:
++            - items:
++                - const: core
++                - const: sleep
++                - const: mock_utmi
++            - items:
++                - const: cfg_noc
++                - const: core
++                - const: sleep
++                - const: mock_utmi
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,ipq8074-dwc3
++    then:
++      properties:
++        clocks:
++          maxItems: 4
++        clock-names:
++          items:
++            - const: cfg_noc
++            - const: core
++            - const: sleep
++            - const: mock_utmi
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,msm8994-dwc3
++              - qcom,qcs404-dwc3
++    then:
++      properties:
++        clocks:
++          maxItems: 4
++        clock-names:
++          items:
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sdm660-dwc3
++    then:
++      properties:
++        clocks:
++          minItems: 6
++        clock-names:
++          items:
++            - const: cfg_noc
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++            - const: bus
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sm6125-dwc3
++              - qcom,sm8150-dwc3
++              - qcom,sm8250-dwc3
++              - qcom,sm8450-dwc3
++    then:
++      properties:
++        clocks:
++          minItems: 6
++        clock-names:
++          items:
++            - const: cfg_noc
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++            - const: xo
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sm8350-dwc3
++    then:
++      properties:
++        clocks:
++          minItems: 5
++          maxItems: 6
++        clock-names:
++          minItems: 5
++          items:
++            - const: cfg_noc
++            - const: core
++            - const: iface
++            - const: sleep
++            - const: mock_utmi
++            - const: xo
++
++
+ additionalProperties: false
  
- &usb2_phy_prim {
-diff --git a/arch/arm64/boot/dts/qcom/qcs404.dtsi b/arch/arm64/boot/dts/qcom/qcs404.dtsi
-index bc446c6002d0..568821259f11 100644
---- a/arch/arm64/boot/dts/qcom/qcs404.dtsi
-+++ b/arch/arm64/boot/dts/qcom/qcs404.dtsi
-@@ -544,7 +544,7 @@ usb3: usb@7678800 {
- 			assigned-clock-rates = <19200000>, <200000000>;
- 			status = "disabled";
+ examples:
+@@ -157,10 +332,13 @@ examples:
+             clocks = <&gcc GCC_CFG_NOC_USB3_PRIM_AXI_CLK>,
+                      <&gcc GCC_USB30_PRIM_MASTER_CLK>,
+                      <&gcc GCC_AGGRE_USB3_PRIM_AXI_CLK>,
+-                     <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
+-                     <&gcc GCC_USB30_PRIM_SLEEP_CLK>;
+-            clock-names = "cfg_noc", "core", "iface", "mock_utmi",
+-                      "sleep";
++                     <&gcc GCC_USB30_PRIM_SLEEP_CLK>,
++                     <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>;
++            clock-names = "cfg_noc",
++                          "core",
++                          "iface",
++                          "sleep",
++                          "mock_utmi";
  
--			dwc3@7580000 {
-+			usb3_dwc3: usb@7580000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x07580000 0xcd00>;
- 				interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-@@ -573,7 +573,7 @@ usb2: usb@79b8800 {
- 			assigned-clock-rates = <19200000>, <133333333>;
- 			status = "disabled";
- 
--			dwc3@78c0000 {
-+			usb@78c0000 {
- 				compatible = "snps,dwc3";
- 				reg = <0x078c0000 0xcc00>;
- 				interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-index 925340fbbb59..e9f834361660 100644
---- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
-@@ -2786,7 +2786,7 @@ usb_1: usb@a6f8800 {
- 					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3 0>;
- 			interconnect-names = "usb-ddr", "apps-usb";
- 
--			usb_1_dwc3: dwc3@a600000 {
-+			usb_1_dwc3: usb@a600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a600000 0 0xe000>;
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 692cf4be4eef..6af80a627c3a 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -3868,7 +3868,7 @@ usb_1: usb@a6f8800 {
- 					<&gladiator_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_0 0>;
- 			interconnect-names = "usb-ddr", "apps-usb";
- 
--			usb_1_dwc3: dwc3@a600000 {
-+			usb_1_dwc3: usb@a600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a600000 0 0xcd00>;
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-@@ -3916,7 +3916,7 @@ usb_2: usb@a8f8800 {
- 					<&gladiator_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_USB3_1 0>;
- 			interconnect-names = "usb-ddr", "apps-usb";
- 
--			usb_2_dwc3: dwc3@a800000 {
-+			usb_2_dwc3: usb@a800000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a800000 0 0xcd00>;
- 				interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-index 90a4c09e67f1..a57a13486c6c 100644
---- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
-@@ -3635,7 +3635,7 @@ usb_1: usb@a6f8800 {
- 
- 			resets = <&gcc GCC_USB30_PRIM_BCR>;
- 
--			usb_1_dwc3: dwc3@a600000 {
-+			usb_1_dwc3: usb@a600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a600000 0 0xcd00>;
- 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+             assigned-clocks = <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
+                           <&gcc GCC_USB30_PRIM_MASTER_CLK>;
 -- 
 2.32.0
 
