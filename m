@@ -2,64 +2,63 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0A5FC4321E
-	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 01:50:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F401C4332F
+	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 01:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245525AbiEDByZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 May 2022 21:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56758 "EHLO
+        id S245214AbiEDBzO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 May 2022 21:55:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245564AbiEDBw0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 May 2022 21:52:26 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B34377C5
-        for <linux-usb@vger.kernel.org>; Tue,  3 May 2022 18:47:38 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id e24so16903080pjt.2
-        for <linux-usb@vger.kernel.org>; Tue, 03 May 2022 18:47:38 -0700 (PDT)
+        with ESMTP id S245557AbiEDByv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 May 2022 21:54:51 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44DC23337A
+        for <linux-usb@vger.kernel.org>; Tue,  3 May 2022 18:48:57 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d17so192777plg.0
+        for <linux-usb@vger.kernel.org>; Tue, 03 May 2022 18:48:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xU+lft0xYFj1fS1yuTZSbozxjgBGk0a+m2yFd6VoFH8=;
-        b=a+tRkUtoblEDLjvFId++UphGjoZEaQCYI3Vk83Wii7jOQPjtu5Lszr9szx/ri1HX51
-         wV1jt/Of6XxA4HH6Vf9VLVYuUYeTQ2uz41Vd4xndvpOP8cB9qurXZHACinwkcuuAVoNS
-         S4kXDV6k7pYw97SFuBD/SAZ91ynDl2QAdaG/0=
+        bh=RgEz4A26uAC0tPMSdTdWzcdcPMkc9MyjUZa57zGhp5c=;
+        b=THMBXiotwI/HtB6w2vZ4AUJ2BjQh4hIPsHX7+RZwOa1PHLlgiT/9TXJjWzKZ2YkERx
+         +jSME8ruQzJrkosl9qqzWHjBRc3gpjhe8YYA4SgiQV2fs5uQIJ4ItuKhnxn0qRtTRwig
+         4dauL4e9jCHwc/wxp5WYhLqZAsMtRYdbGk0Nk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xU+lft0xYFj1fS1yuTZSbozxjgBGk0a+m2yFd6VoFH8=;
-        b=ZJb/EX4ZrKc+HCX1PFY/5lWjPzpNC4sxy9yV/aTdCfXfhl/k4T/+PVX03mT6Z74V4R
-         lRMe6i38PT7fEIUCIuo1JgcdS4aerXYZb8Xmi3BnGhFyzbjjLB/BGEKeUq/ldUB/ZpUv
-         OvA2K1XFksn4OXqNoTt1D31vS846KBKnQ3j2+JAr23zFm4eaHb+tAkWTZQbJLZBEz+z4
-         S4YykuJvm0G/2kTOYFkWpQTjuO9xzVGotoD1TaaGXRaI9TTyVWvJqEeh7wQ3+vn3EeN9
-         MAx+tiqqFFCXcNw+HWnKyHi3aVQYgt5Wyc0EkBg9gZdKWuZ2v8CZTTxP27vgB/1CAlWL
-         lvJA==
-X-Gm-Message-State: AOAM531h2vzF/TFeXG6950X04vOUSBI4hmU3WDsc7s65kC3EQ81qqeMl
-        PhyEeSBNh0hcFbxE+11KFjrydOD4cyuo4Q==
-X-Google-Smtp-Source: ABdhPJym7M+DImW/Jqb3OQWBvYlyqklXqWcPP05A/qCeDGaoGZArCRBHN6sBE2ZReqB74PMUZr0+qw==
-X-Received: by 2002:a17:90a:730c:b0:1da:4630:518e with SMTP id m12-20020a17090a730c00b001da4630518emr7902816pjk.239.1651628857841;
-        Tue, 03 May 2022 18:47:37 -0700 (PDT)
+        bh=RgEz4A26uAC0tPMSdTdWzcdcPMkc9MyjUZa57zGhp5c=;
+        b=CpCPt0NB/rfiQlzbkDyNn9BaswgE1LDesWijJP10uXUZFsK6nU0SMAJJig9nzFZPbQ
+         1o5lLUgZciZfLbY00x2Kr4KUjmI00cgzz65QlFXJd4IT/qTnxzPD+kWnAiO8FKMrqqVF
+         LvrJSdhQYRAfsBcQDRXjSXeaFXS6QXt5wonKMUrQx7tvXpDojrNBuuJ1cHYmeDOYn8P3
+         E37SxmsdOVYChLYHmckyxViFCWK74hai7DXkNPTj6ifMOvydsl45ORWNbL0gp/7y7Dnf
+         5CqCLqN4rQ5I82ml4DSW369gbXWy9SZ9Njq+OPezhMwx/MMbW/bUht0eyHTLjN6YD2ZG
+         FTSg==
+X-Gm-Message-State: AOAM530/j/h3F4bKkeFZW1Qm6/fpXyPu412LjlEcK8Ihg4cHOFpC0yZ2
+        kMBxIW/sdgo9Vd5uf+81iQShMA==
+X-Google-Smtp-Source: ABdhPJxzrexxW/yf0eI3tzcv3meb1lpVecV0BZq4fTM2Rm6r9dsZwj3LUHAp+WFhmr0b7U1/sntV2Q==
+X-Received: by 2002:a17:902:da8b:b0:15e:aba7:43fe with SMTP id j11-20020a170902da8b00b0015eaba743femr10560505plx.9.1651628869143;
+        Tue, 03 May 2022 18:47:49 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c21-20020aa781d5000000b0050dc7628163sm6917221pfn.61.2022.05.03.18.47.36
+        by smtp.gmail.com with ESMTPSA id n21-20020aa78a55000000b0050dc76281c2sm6940054pfa.156.2022.05.03.18.47.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 18:47:37 -0700 (PDT)
+        Tue, 03 May 2022 18:47:47 -0700 (PDT)
 From:   Kees Cook <keescook@chromium.org>
 To:     "Gustavo A . R . Silva" <gustavoars@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Gregory Greenman <gregory.greenman@intel.com>,
-        Eric Dumazet <edumazet@google.com>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+Cc:     Kees Cook <keescook@chromium.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
         Alexei Starovoitov <ast@kernel.org>,
         alsa-devel@alsa-project.org, Al Viro <viro@zeniv.linux.org.uk>,
         Andrew Gabbasov <andrew_gabbasov@mentor.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Andy Gross <agross@kernel.org>,
+        Andy Lavr <andy.lavr@gmail.com>,
         Arend van Spriel <aspriel@gmail.com>,
         Baowen Zheng <baowen.zheng@corigine.com>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -76,10 +75,11 @@ Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
         Dan Williams <dan.j.williams@intel.com>,
         David Gow <davidgow@google.com>,
         David Howells <dhowells@redhat.com>,
+        "David S. Miller" <davem@davemloft.net>,
         Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
         devicetree@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
-        Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
         Eli Cohen <elic@nvidia.com>,
+        Eric Dumazet <edumazet@google.com>,
         Eric Paris <eparis@parisplace.org>,
         Eugeniu Rosca <erosca@de.adit-jv.com>,
         Felipe Balbi <balbi@kernel.org>,
@@ -87,13 +87,14 @@ Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
         Frank Rowand <frowand.list@gmail.com>,
         Franky Lin <franky.lin@broadcom.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Greenman <gregory.greenman@intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Hante Meuleman <hante.meuleman@broadcom.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
         Hulk Robot <hulkci@huawei.com>,
+        Jakub Kicinski <kuba@kernel.org>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        James Morris <jmorris@namei.org>,
         Jarkko Sakkinen <jarkko@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>,
         Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
@@ -101,7 +102,7 @@ Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
         Johannes Berg <johannes.berg@intel.com>,
         Johannes Berg <johannes@sipsolutions.net>,
         John Keeping <john@metanate.com>,
-        Juergen Gross <jgross@suse.com>,
+        Juergen Gross <jgross@suse.com>, Kalle Valo <kvalo@kernel.org>,
         Keith Packard <keithp@keithp.com>, keyrings@vger.kernel.org,
         kunit-dev@googlegroups.com,
         Kuniyuki Iwashima <kuniyu@amazon.co.jp>,
@@ -115,27 +116,27 @@ Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-arm-msm@vger.kernel.org, linux-bluetooth@vger.kernel.org,
         linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        llvm@lists.linux.dev, Loic Poulain <loic.poulain@linaro.org>,
+        linux-rdma@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, llvm@lists.linux.dev,
+        Loic Poulain <loic.poulain@linaro.org>,
         Louis Peens <louis.peens@corigine.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
         Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
         Marc Dionne <marc.dionne@auristor.com>,
         Marcel Holtmann <marcel@holtmann.org>,
         Mark Brown <broonie@kernel.org>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Max Filippov <jcmvbkbc@gmail.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
         Muchun Song <songmuchun@bytedance.com>,
-        Nathan Chancellor <nathan@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>, netdev@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
         =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+        Paolo Abeni <pabeni@redhat.com>,
         Paul Moore <paul@paul-moore.com>,
         Rich Felker <dalias@aerifal.cx>,
         Rob Herring <robh+dt@kernel.org>,
         Russell King <linux@armlinux.org.uk>, selinux@vger.kernel.org,
-        "Serge E. Hallyn" <serge@hallyn.com>,
         SHA-cyfmac-dev-list@infineon.com,
         Simon Horman <simon.horman@corigine.com>,
         Stefano Stabellini <sstabellini@kernel.org>,
@@ -151,14 +152,14 @@ Cc:     Kees Cook <keescook@chromium.org>, Andy Lavr <andy.lavr@gmail.com>,
         xen-devel@lists.xenproject.org,
         Xiu Jianfeng <xiujianfeng@huawei.com>,
         Yang Yingliang <yangyingliang@huawei.com>
-Subject: [PATCH 07/32] iwlwifi: calib: Use mem_to_flex_dup() with struct iwl_calib_result
-Date:   Tue,  3 May 2022 18:44:16 -0700
-Message-Id: <20220504014440.3697851-8-keescook@chromium.org>
+Subject: [PATCH 26/32] ima: Use mem_to_flex_dup() with struct modsig
+Date:   Tue,  3 May 2022 18:44:35 -0700
+Message-Id: <20220504014440.3697851-27-keescook@chromium.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220504014440.3697851-1-keescook@chromium.org>
 References: <20220504014440.3697851-1-keescook@chromium.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2309; h=from:subject; bh=WpodBqq01jqwxM1KRcJO62uugaWovPAJ5k8Asd34efc=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBicdqCGKNTo/e4rYqRS6JHFIWEcMsPl6ZUWQBFBFL/ Wqla2nSJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYnHaggAKCRCJcvTf3G3AJvqCD/ 9KMmQRVL3p5s+EO2ziT+OnA/bWRcfyVrpdD2apYiZrAvV6jv+ChcK5o9LNvgU6liqmGQvBK56XO3bQ qrNnEnu62KEpY0aEShwY6YNXdwdTLw3FEMK42jV6f34XbajiPo0MoQoS/x/QSbL1eIG6JO5d4TRjIe 0/Q48qkArPdlLvI5pKeSr1lsEVPndfc9NGHCI6nA2+bBonwbXOWfAC7HZPfrpPcmTgLfoKTkBLXai4 ePDPJtwC3/jzsxtTC7J9DHOmQvRPHeYKpPXefkrkgeOaZf2ToPQ3uG49rEHXnkAeJVNemhQ1DJPNcQ HudzUsakTefZTR7ato8r+9r+0+ie8aFfQEAagdWcpPFVR9EyXHXbSWIWZPdHaXSsvv+zcH2BVwp+lX PHt2bIY0X/x3Uouh1It3/uSZlg30A1qnqeXxqNsMc6p4qaHY4pJywV1EkrsZwZd1PdBaiWc6LsdWnm g/rpEfcleSaFr5QGOmd7i7ErfwdtNTNDj5n6eo7f/rD6qfq1dEAIa3IkdH7xRECGPpT/2qd+a747A7 vm2gjfh13/ghhPAbVTSZORt9oZN46upeJxwm83wHp0XHC4gVbEH+bjDqXYQAWbhNyUaOA8Ua7uIonu l7HgMXAQ7eoMMallt3TbHeAxvHxkwxcyt1LUHi517rK5CcCYO26DROhVZXYw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2212; h=from:subject; bh=0OJGwcsHhKZ90NmLpvzscbvuHwuTm4ffAc9aRODTTVY=; b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBicdqG62vfnuT12WKQv0IVuyRZyZzMX4U3Y+bYmap0 sx6VNCCJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCYnHahgAKCRCJcvTf3G3AJp8HEA CsjdGpDagpIubOZwh4SIwzLI0mQ71SVDOmeVgjaMH3wCaEUbVyUbQcZCwMkSSQkmaYi0JHdt186r90 KEdAes66ANgHJSwIbVxb19utRynHoJDFwO5gfVuTp2sVSu0AKP3KnJZajTXsyucbZynSVAJNanMloi v43qXD0nlRXkU0gX5ADpraYNTEc4DmC1I4QdBks60+U4wHFdhcjQvwo5U7V+5dzuva3RK7ldVtXJrB VeE5PpJQ5Xc1tmru3dEvFHv9MKipcoi+cf2u17BgJcgfDnUcb/oIr/jZVk1w2GF8Ilp5rtUyr0DM8m Na/yIL9jeaPARJok7fgLZP9afaRB6ZwWwE4H2uMjCy1cT6gasjHiZsGre3gXlWVcsFQqLjohy6kCxW rBj7pLN4d++yrxKprYmKAt3zeatf5EMTvrLIgqFUOrk/sAwpHwlXmgGTkAeWNhT8J5VVKpaeshrS8f gKI9RgmhD5seOLoAZLEOSns1PPAdryQb5THkD3O+72gLN08L6etoAPODJ68wd7fcwq7Wg5n5/+AkF2 1jkeaI8b1sgNrwkPOtdnKDQm4yxesI//AmfFdH7EEjbVd52gAVu+rbz7yhcBh1dHRczes2IJW3soaR v4zCatjhXz33SY1+Zru2qRrDvhgaoAqzqRxMbwi9eNYoszXDTRyDKQ8NgEFg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -170,63 +171,61 @@ replace the open-coded a deserialization of bytes out of memory into a
 trailing flexible array by using a flex_array.h helper to perform the
 allocation, bounds checking, and copying.
 
-Avoids future false-positive warning when strict run-time memcpy()
-bounds checking is enabled:
-
-memcpy: detected field-spanning write (size 8) of single field "&res->hdr" (size 4)
-
-Adds an additional size check since the minimum isn't 0.
-
-Reported-by: Andy Lavr <andy.lavr@gmail.com>
-Cc: Luca Coelho <luciano.coelho@intel.com>
-Cc: Kalle Valo <kvalo@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Gregory Greenman <gregory.greenman@intel.com>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
+Cc: Mimi Zohar <zohar@linux.ibm.com>
+Cc: Dmitry Kasatkin <dmitry.kasatkin@gmail.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>
+Cc: linux-integrity@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/net/wireless/intel/iwlwifi/dvm/calib.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ security/integrity/ima/ima_modsig.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/net/wireless/intel/iwlwifi/dvm/calib.c b/drivers/net/wireless/intel/iwlwifi/dvm/calib.c
-index ae1f0cf560e2..7480c19d7af0 100644
---- a/drivers/net/wireless/intel/iwlwifi/dvm/calib.c
-+++ b/drivers/net/wireless/intel/iwlwifi/dvm/calib.c
-@@ -18,8 +18,11 @@
- /* Opaque calibration results */
- struct iwl_calib_result {
- 	struct list_head list;
--	size_t cmd_len;
--	struct iwl_calib_cmd cmd;
-+	DECLARE_FLEX_ARRAY_ELEMENTS_COUNT(size_t, cmd_len);
-+	union {
-+		struct iwl_calib_cmd cmd;
-+		DECLARE_FLEX_ARRAY_ELEMENTS(u8, data);
-+	};
- 	/* data follows */
+diff --git a/security/integrity/ima/ima_modsig.c b/security/integrity/ima/ima_modsig.c
+index fb25723c65bc..200c080d36de 100644
+--- a/security/integrity/ima/ima_modsig.c
++++ b/security/integrity/ima/ima_modsig.c
+@@ -28,8 +28,8 @@ struct modsig {
+ 	 * This is what will go to the measurement list if the template requires
+ 	 * storing the signature.
+ 	 */
+-	int raw_pkcs7_len;
+-	u8 raw_pkcs7[];
++	DECLARE_FLEX_ARRAY_ELEMENTS_COUNT(int, raw_pkcs7_len);
++	DECLARE_FLEX_ARRAY_ELEMENTS(u8, raw_pkcs7);
  };
  
-@@ -59,14 +62,10 @@ int iwl_send_calib_results(struct iwl_priv *priv)
- int iwl_calib_set(struct iwl_priv *priv,
- 		  const struct iwl_calib_cmd *cmd, int len)
+ /*
+@@ -42,7 +42,7 @@ int ima_read_modsig(enum ima_hooks func, const void *buf, loff_t buf_len,
  {
--	struct iwl_calib_result *res, *tmp;
-+	struct iwl_calib_result *res = NULL, *tmp;
+ 	const size_t marker_len = strlen(MODULE_SIG_STRING);
+ 	const struct module_signature *sig;
+-	struct modsig *hdr;
++	struct modsig *hdr = NULL;
+ 	size_t sig_len;
+ 	const void *p;
+ 	int rc;
+@@ -65,8 +65,7 @@ int ima_read_modsig(enum ima_hooks func, const void *buf, loff_t buf_len,
+ 	buf_len -= sig_len + sizeof(*sig);
  
--	res = kmalloc(sizeof(*res) + len - sizeof(struct iwl_calib_hdr),
--		      GFP_ATOMIC);
--	if (!res)
-+	if (len < sizeof(*cmd) || mem_to_flex_dup(&res, cmd, len, GFP_ATOMIC))
+ 	/* Allocate sig_len additional bytes to hold the raw PKCS#7 data. */
+-	hdr = kzalloc(sizeof(*hdr) + sig_len, GFP_KERNEL);
+-	if (!hdr)
++	if (mem_to_flex_dup(&hdr, buf + buf_len, sig_len, GFP_KERNEL))
  		return -ENOMEM;
--	memcpy(&res->hdr, cmd, len);
--	res->cmd_len = len;
  
- 	list_for_each_entry(tmp, &priv->calib_results, list) {
- 		if (tmp->cmd.hdr.op_code == res->cmd.hdr.op_code) {
+ 	hdr->pkcs7_msg = pkcs7_parse_message(buf + buf_len, sig_len);
+@@ -76,9 +75,6 @@ int ima_read_modsig(enum ima_hooks func, const void *buf, loff_t buf_len,
+ 		return rc;
+ 	}
+ 
+-	memcpy(hdr->raw_pkcs7, buf + buf_len, sig_len);
+-	hdr->raw_pkcs7_len = sig_len;
+-
+ 	/* We don't know the hash algorithm yet. */
+ 	hdr->hash_algo = HASH_ALGO__LAST;
+ 
 -- 
 2.32.0
 
