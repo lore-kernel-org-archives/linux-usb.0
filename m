@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD2AC433EF
-	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:20:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEFFC433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:20:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350467AbiEDNXl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 May 2022 09:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34842 "EHLO
+        id S1350471AbiEDNXp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 May 2022 09:23:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350471AbiEDNXg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:36 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ED6440921
-        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:38 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id y3so2805030ejo.12
-        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:37 -0700 (PDT)
+        with ESMTP id S1350422AbiEDNXQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:16 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2DF2FFF5
+        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:34 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id l18so2834509ejc.7
+        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0LP0boZM960tMKw61ptITfkUb9H0O0vIQhKa4zQvzjA=;
-        b=w4cyYNikfx+UmgSVEYJzPHrYaFIQ8UoeyCgqKpZqtkQQF721o37eqZTwgGepliwWHt
-         wTPgTZSBH0hvlEsdfzTw+z/O4TAlfJuRt5VaVPpMMCI6vWEQuMWVZ3SfvpKA2QWl3eaP
-         mNsS0HUuQQ5nU8yCWVlirenVEdBjP3sWDUSVQOrYUVBxb1cQ9pNnVkGwK+nAfax4vNo/
-         nR5nzIJOAXY53+1gsPp7o6r03uJI8YK/SVjdAViilHgChP6O/oMvoTg2ScDhRxrY68xv
-         8M2Ku6bHGlxsblC5vVqdUqROE/R6V/o0cvBmwr3nAs1geAdyFzXU5SxZijIETZJYGJmT
-         YKfQ==
+        bh=A1CSj58CI9HvjxPtoHk1cXMAe4tONDfDlnbs+TC55zs=;
+        b=kjacRVN950U92kCKYjh6vcjIuJgk83hQ7cHYHqdPwrxYeKCtcs84ow3r1re0g6EmQr
+         JDAwe+O6El425hOeYz0ur1YK1e8bWDdGFb94A918Ia3bHwd2ik4e2yGazvfzZmoMPvmF
+         Rq3UxMYMb+JeNrvOvvtTEfV1V0tI3pCgd67zIgX4rxVpmZxAIqGgMRqEJ/lhJ1trTvti
+         NlD+i237pmP7QLNm9OgJ59XskxD3GWV+MlM8TUg6iuSePzGqLjaKqA1BQiPUorLxj2RU
+         j3rzpXZTDv5XpWV5F1x0GAvcyWzphvGeNyhdQBRjIVkruBWl6Gy2T6E75CbhxZDHvy+J
+         A9hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0LP0boZM960tMKw61ptITfkUb9H0O0vIQhKa4zQvzjA=;
-        b=g5V2RDgKhnbCmIb2tbsqPX8NN+4oKFFjHkPfOp9oL4kdncr4aZKiNsKtkmlKYc2rlJ
-         ris2S5c7nR+UsWsZUGyIZYvCPuxmAAuZLOuKJExnCtkRYSGAltiWG9DP6pgQ7cEVYzMI
-         dV8wat9Acv2Nk7dZ1FOwjNNMG01ojCkrlbZzweGs0jzwJ8XAuM/AYvod73LvRyjJStoy
-         0hzygAcehG4jwnfbmE85I0FbSJnW1DsLlBQmIifVTJOevKme0kEjog5Hv2EHj/86lESX
-         +s1UNrBSXNL5BtaASMULT+jmE6T0Gvomoni92bgH478aD9QLTddhJEp9a5kK/1Ly+DG5
-         hL3A==
-X-Gm-Message-State: AOAM533SQ9e/phcMXh5XYxe2xy3yy6PrTSpP46N4bDWeUuKQNtcNHB82
-        r6vNwsojT4J5cDvh6dNDFooYtg==
-X-Google-Smtp-Source: ABdhPJw+EEGLGalZ/eEwWqsNp7BUw8GjNWPpmOoHcPJ1kmrbxMj4PJ4PTT5WNehpyVr4w4SLufDq0g==
-X-Received: by 2002:a17:907:7216:b0:6f4:70d4:a3c4 with SMTP id dr22-20020a170907721600b006f470d4a3c4mr10253408ejc.529.1651670377591;
-        Wed, 04 May 2022 06:19:37 -0700 (PDT)
+        bh=A1CSj58CI9HvjxPtoHk1cXMAe4tONDfDlnbs+TC55zs=;
+        b=slQOSEge/nVeAycAQaea7CiS07WOsawXz9TDnGWAekoERAjsMeEGSEfpIkDak5+ZtK
+         dnyaU9qzYWokGwiSrBLzVO6ARuX5xXaN59ZvRe7b1VHYDsik1nMFtHB2LzjuEJkid5Hb
+         V+dtJCj3u7pMgYg73orRt+HohP2pD9wrAPQuq0CRD0fdSBk+WOI0+CoDr0Oh03df4mN/
+         QTnd481ToTGz0OsX08//F2r1kGGgLqvUzxd5Ola2xje6/in6IAbtRSnJ9qAU2QMOub7c
+         PL4BUyCTVF2sHp1ZxL8vBgtaEqVdKFxC05LgZxbwObgK+8OIM9Qpr+wAoOcbbAzBUZYm
+         MCsg==
+X-Gm-Message-State: AOAM5339CYlESM1OsMn3svNvvtgE6N7kh2SOzatfCdIObtghAIoD6a9Y
+        WXvv/GX+Co1w3Zexch1Tys8Ruw==
+X-Google-Smtp-Source: ABdhPJx2JP6mkZEtJMs4lGWXhQ6kj+yqnH8vIwhbyTZOBYJo5IEphJ2I+6gA8wvQ0UU6rFx4eqa4Lg==
+X-Received: by 2002:a17:907:6da3:b0:6f4:6b70:33d4 with SMTP id sb35-20020a1709076da300b006f46b7033d4mr10793697ejc.51.1651670373199;
+        Wed, 04 May 2022 06:19:33 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.36
+        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 06:19:37 -0700 (PDT)
+        Wed, 04 May 2022 06:19:32 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -57,9 +57,9 @@ To:     Andy Gross <agross@kernel.org>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 09/13] arm64: dts: qcom: sm6125: add dedicated qcom,sm6125-dwc3 compatible
-Date:   Wed,  4 May 2022 15:19:19 +0200
-Message-Id: <20220504131923.214367-10-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 05/13] arm64: dts: qcom: add missing AOSS QMP compatible fallback
+Date:   Wed,  4 May 2022 15:19:15 +0200
+Message-Id: <20220504131923.214367-6-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
 References: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
@@ -69,27 +69,86 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add dedicated compatible for DWC3 USB node name to allow more accurate
-DT schema matching.
+The AOSS QMP bindings expect all compatibles to be followed by fallback
+"qcom,aoss-qmp" because all of these are actually compatible with each
+other.  This fixes dtbs_check warnings like:
+
+  sm8250-hdk.dtb: power-controller@c300000: compatible: ['qcom,sm8250-aoss-qmp'] is too short
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sm6125.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/sc7180.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sm8150.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sm8250.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/sm8350.dtsi | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sm6125.dtsi b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-index e81b2a7794fb..50def880bc87 100644
---- a/arch/arm64/boot/dts/qcom/sm6125.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6125.dtsi
-@@ -481,7 +481,7 @@ sdhc_2: sdhci@4784000 {
+diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+index 86175d257b1e..925340fbbb59 100644
+--- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+@@ -3219,7 +3219,7 @@ aoss_reset: reset-controller@c2a0000 {
  		};
  
- 		usb3: usb@4ef8800 {
--			compatible = "qcom,msm8996-dwc3", "qcom,dwc3";
-+			compatible = "qcom,sm6125-dwc3", "qcom,dwc3";
- 			reg = <0x04ef8800 0x400>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
+ 		aoss_qmp: power-controller@c300000 {
+-			compatible = "qcom,sc7180-aoss-qmp";
++			compatible = "qcom,sc7180-aoss-qmp", "qcom,aoss-qmp";
+ 			reg = <0 0x0c300000 0 0x400>;
+ 			interrupts = <GIC_SPI 389 IRQ_TYPE_EDGE_RISING>;
+ 			mboxes = <&apss_shared 0>;
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index ccf5e95071f9..e2857d3393ef 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3835,7 +3835,7 @@ aoss_reset: reset-controller@c2a0000 {
+ 		};
+ 
+ 		aoss_qmp: power-controller@c300000 {
+-			compatible = "qcom,sc7280-aoss-qmp";
++			compatible = "qcom,sc7280-aoss-qmp", "qcom,aoss-qmp";
+ 			reg = <0 0x0c300000 0 0x400>;
+ 			interrupts-extended = <&ipcc IPCC_CLIENT_AOP
+ 						     IPCC_MPROC_SIGNAL_GLINK_QMP
+diff --git a/arch/arm64/boot/dts/qcom/sm8150.dtsi b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+index 2700a8145cb9..90a4c09e67f1 100644
+--- a/arch/arm64/boot/dts/qcom/sm8150.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8150.dtsi
+@@ -3710,7 +3710,7 @@ pdc: interrupt-controller@b220000 {
+ 		};
+ 
+ 		aoss_qmp: power-controller@c300000 {
+-			compatible = "qcom,sm8150-aoss-qmp";
++			compatible = "qcom,sm8150-aoss-qmp", "qcom,aoss-qmp";
+ 			reg = <0x0 0x0c300000 0x0 0x400>;
+ 			interrupts = <GIC_SPI 389 IRQ_TYPE_EDGE_RISING>;
+ 			mboxes = <&apss_shared 0>;
+diff --git a/arch/arm64/boot/dts/qcom/sm8250.dtsi b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+index dc2562070336..881550cf7557 100644
+--- a/arch/arm64/boot/dts/qcom/sm8250.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8250.dtsi
+@@ -3726,7 +3726,7 @@ tsens1: thermal-sensor@c265000 {
+ 		};
+ 
+ 		aoss_qmp: power-controller@c300000 {
+-			compatible = "qcom,sm8250-aoss-qmp";
++			compatible = "qcom,sm8250-aoss-qmp", "qcom,aoss-qmp";
+ 			reg = <0 0x0c300000 0 0x400>;
+ 			interrupts-extended = <&ipcc IPCC_CLIENT_AOP
+ 						     IPCC_MPROC_SIGNAL_GLINK_QMP
+diff --git a/arch/arm64/boot/dts/qcom/sm8350.dtsi b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+index c0137bdcf94b..e1eba30dc7ad 100644
+--- a/arch/arm64/boot/dts/qcom/sm8350.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8350.dtsi
+@@ -1718,7 +1718,7 @@ tsens1: thermal-sensor@c265000 {
+ 		};
+ 
+ 		aoss_qmp: power-controller@c300000 {
+-			compatible = "qcom,sm8350-aoss-qmp";
++			compatible = "qcom,sm8350-aoss-qmp", "qcom,aoss-qmp";
+ 			reg = <0 0x0c300000 0 0x400>;
+ 			interrupts-extended = <&ipcc IPCC_CLIENT_AOP IPCC_MPROC_SIGNAL_GLINK_QMP
+ 						     IRQ_TYPE_EDGE_RISING>;
 -- 
 2.32.0
 
