@@ -2,94 +2,98 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6D1C4332F
-	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:22:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53EACC433F5
+	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:58:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350488AbiEDNZk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 May 2022 09:25:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34306 "EHLO
+        id S1351023AbiEDOCU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 May 2022 10:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350485AbiEDNXg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:36 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3FB40937
-        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:38 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id m20so2816383ejj.10
-        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:38 -0700 (PDT)
+        with ESMTP id S1350974AbiEDOCT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 10:02:19 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78D3D2180A;
+        Wed,  4 May 2022 06:58:43 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id l62-20020a1c2541000000b0038e4570af2fso878705wml.5;
+        Wed, 04 May 2022 06:58:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2xS+3Wq/qARvDYZ495/QJzgQMFIcqN5BlqQIo6Nwqu0=;
-        b=Xv2tW6s0n6YZ8iVchnpOyt+jsm7rAsv5nm12e8wVrOiE76NhrNAykn3GsR+abcbwee
-         j8q1fdVKvAY03NUuxp3OouylVW/2muBkZMDCPMGZMNBSnRkUkXvxZq01/FT2nlfK5ZgQ
-         DljrEqSK8KnUd3yks7KZVG9X8A2UYSxpXHXKnDse/VVJD3sfm1MoACL3Ke1vNBVgbLaE
-         3XPpEgWSTEyZ84IZQoBtueEtnp5lEvIm9f0fI5O4xPlXQCBYiHa3YWlnE1nrKmbCrmI5
-         XVrmklD0pJ9OAWtBvq/rbaDP2M+xie/SA3yWzeGi1VOokfWA7bphD+dUi5u1sEcudgiw
-         4SfQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cjx7gNEvj9OasAKbfNVg4zchWMg/Q6EBH67Oa2e8OLQ=;
+        b=OdUGB1XVP71W0cC4X4Q6lqf1SU6b0l6Ls2EWYZWP4GK4EvVZiA0ptOKnxIgnuJuJkm
+         eWcEB9UH13dZVCJtOPIw0kIqIR/JOuC6pj7rO8nA2fxr3ejgN7FUwh5nNKOy+77flgY7
+         qLCWKnd9Jv3Tsg4ARKNL2te0UvHpQ4kxC2SeLcE18/y5d3jiDoqgoqu43QITjXR3M7zT
+         4ub1lWe+D+tLpqCEuRdBTbjhPX+IkcYkVbEmRThUFgCmfHxnW+qGH3zfOEEsGz2rTfS6
+         TKtcdThjM5FmEsO7/A9mSaoNZ0wlZfXSGgonTVhfoYf1IVpYjwJ2HEkLlxYlkPSbEszC
+         oO/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2xS+3Wq/qARvDYZ495/QJzgQMFIcqN5BlqQIo6Nwqu0=;
-        b=euDSoxUxkoF2SSjhqGkJfiX3vYyKW1211os3E37l/qGtyvTjBAmqngQ9B701T7SOA1
-         utlbtY12MxDNvDndCAkypmeNDn5fkiU5OA340nvBLQb6ENoyhSE+7IOoj+oThbxj/yZF
-         ohDmfeS0xS1Qn4W4/vCp/cVZVHqA8Fv+IId6KLPiLc4XU8z+JdwOZugxhcpLZPDEd5J2
-         RN1bn7ssD2XMBakdRI8Boxe1zvtqtoy31GzAmq6CFuvmwO6AJO1pb0PMvemQ9chJu/XJ
-         36pEOs7cNZE8cR9DepmvZDHjW/gSSjymfjnl0bDU8cGCPfE644Lcsi22M4cNKx1gmpqW
-         VgoA==
-X-Gm-Message-State: AOAM532PEQBUdnU4ANZzYVbbM1Ya1Cp8KIV/13fvTHa8YDuVLmjg//+Q
-        HfgBDFj6fNcphouJN5n3zA5KXdj3x3x6+g==
-X-Google-Smtp-Source: ABdhPJw5+CyL4NjX2j/bsZp3+/uT3m87qFXb6CjbQGBrCcBokpRX6U0WSVDj7IdHjP2m5JHP+hYmNA==
-X-Received: by 2002:a17:907:1b28:b0:6f0:836:89b0 with SMTP id mp40-20020a1709071b2800b006f0083689b0mr19282474ejc.379.1651670376494;
-        Wed, 04 May 2022 06:19:36 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cjx7gNEvj9OasAKbfNVg4zchWMg/Q6EBH67Oa2e8OLQ=;
+        b=te6pQQbq3ZVwjZ3O9nafV9fnETlggVBC5aQ4F0LdlpI1SGku7HHvD/Al3rNTunMg4J
+         l/VpgjWct5dXh6J8K9KwnVlpjsXCf56sZUIXH3YD92z5GLv74k93KXELSpuuJXZrXNs9
+         bfBBNO6SgFpCM7gA75/S58rgz/vdlSv1X/hkUQSM/e5qfSTWwaNSeJi3U9Jmht/M0ldm
+         jhVOk4PCPxb8SEfYbm3cs4EBfY4Frfq9JtkL2tLZaAU0a9G+STpLc8z6+XX4tEzz8ke1
+         Q/XL84aNJWvohGehpGsKPV4mFwnx4eekJNnIznr+VgHyQ+DoP4YwgNuoLC9xJCIHyqei
+         m1Cg==
+X-Gm-Message-State: AOAM530y8LOP6B52gNGdcqh+DIwD3Nt4bCca72gOdIGacUVVRYcjLfaY
+        32pFG4LK4ckXOcLU/4VLttE=
+X-Google-Smtp-Source: ABdhPJxucinJz7AG3WirWMPy2Bpa+F0RiANyvK6kdoFCDRcm9ss19mURFInD1kiisZ60NlfKF6DOIw==
+X-Received: by 2002:a05:600c:3584:b0:394:5870:2c44 with SMTP id p4-20020a05600c358400b0039458702c44mr3173325wmq.4.1651672721856;
+        Wed, 04 May 2022 06:58:41 -0700 (PDT)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id j30-20020adfb31e000000b0020c5253d8bfsm11431814wrd.11.2022.05.04.06.58.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 06:19:36 -0700 (PDT)
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Wed, 04 May 2022 06:58:41 -0700 (PDT)
+From:   Colin Ian King <colin.i.king@gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 08/13] arm64: dts: qcom: msm8994: add dedicated qcom,msm8994-dwc3 compatible
-Date:   Wed,  4 May 2022 15:19:18 +0200
-Message-Id: <20220504131923.214367-9-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
-References: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, llvm@lists.linux.dev
+Subject: [PATCH][next] USB: gadget: Fix return of -EBUSY
+Date:   Wed,  4 May 2022 14:58:40 +0100
+Message-Id: <20220504135840.232209-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add dedicated compatible for DWC3 USB node name to allow more accurate
-DT schema matching.
+Currently when driver->match_existing_only is true, the error return is
+set to -EBUSY however ret is then set to 0 at the end of the if/else
+statement. I believe the ret = 0 statement should be set in the else
+part of the if statement and not at the end to ensure -EBUSY is being
+returned correctly.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Detected by clang scan:
+drivers/usb/gadget/udc/core.c:1558:4: warning: Value stored to 'ret' is
+never read [deadcode.DeadStores]
+
+Fixes: fc274c1e9973 ("USB: gadget: Add a new bus for gadgets")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 ---
- arch/arm64/boot/dts/qcom/msm8994.dtsi | 2 +-
+ drivers/usb/gadget/udc/core.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8994.dtsi b/arch/arm64/boot/dts/qcom/msm8994.dtsi
-index 367ed913902c..10c1cce74dad 100644
---- a/arch/arm64/boot/dts/qcom/msm8994.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8994.dtsi
-@@ -428,7 +428,7 @@ frame@f9028000 {
- 		};
+diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
+index 61790592b2c8..3281d8a3dae7 100644
+--- a/drivers/usb/gadget/udc/core.c
++++ b/drivers/usb/gadget/udc/core.c
+@@ -1559,8 +1559,8 @@ int usb_gadget_register_driver_owner(struct usb_gadget_driver *driver,
+ 		} else {
+ 			pr_info("%s: couldn't find an available UDC\n",
+ 					driver->function);
++			ret = 0;
+ 		}
+-		ret = 0;
+ 	}
+ 	mutex_unlock(&udc_lock);
  
- 		usb3: usb@f92f8800 {
--			compatible = "qcom,msm8996-dwc3", "qcom,dwc3";
-+			compatible = "qcom,msm8994-dwc3", "qcom,dwc3";
- 			reg = <0xf92f8800 0x400>;
- 			#address-cells = <1>;
- 			#size-cells = <1>;
 -- 
-2.32.0
+2.35.1
 
