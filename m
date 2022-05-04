@@ -2,51 +2,51 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B4E7C433F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B3A9C433EF
 	for <linux-usb@archiver.kernel.org>; Wed,  4 May 2022 13:20:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348749AbiEDNYS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 May 2022 09:24:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34876 "EHLO
+        id S1350726AbiEDNYW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 May 2022 09:24:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350508AbiEDNXg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:36 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 566BD40E4E
-        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:41 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id be20so1649274edb.12
-        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:41 -0700 (PDT)
+        with ESMTP id S1350558AbiEDNXv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 May 2022 09:23:51 -0400
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C22E41301
+        for <linux-usb@vger.kernel.org>; Wed,  4 May 2022 06:19:43 -0700 (PDT)
+Received: by mail-ed1-x530.google.com with SMTP id g20so1668479edw.6
+        for <linux-usb@vger.kernel.org>; Wed, 04 May 2022 06:19:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ADNyDG2DBGoI4aNwBUTKAtbwSm7KSpl3k1qLdQ+eNVc=;
-        b=jWzS0esi1guJympagVAcA3QTh3pWmFIg059YzKQUR43O1SsyuAePGn1+b179PJujHl
-         /XO4EoffzIkbOtmFoXliLccdVP0GlgC6lSYieM9AMLcGFkBaq9vW7qNq39lUKFgxWM94
-         GvAHZgvyT7N/eDJpbbM1oEnaF/+GBRDy9MgWx2iOzkf24u6oh9o18VYgNeSSjEl2PGam
-         Dx5khFSWL5HHKbSVFbdPpDNSmeHON7JFCeOHFIeS2S1bjZkiqGst+ysnyLCOy0nGNqNj
-         XotVUY5gJigxDEgGhHKGSY0e7aY/3+SYMsBJkclQNygDnW1klMdpaH31KUZNx5qVBBzM
-         +yvA==
+        bh=RRL36JMn5+lxomD6rxYAHBa4kgFK3m97JiXVWGmZ0W0=;
+        b=x8MPezr9ln8FX6Sb+NYzJkzCXzID9H8Mq7OgSnQFfS7LrYG+o5yhksHy2D7D/vQ5BI
+         Mxv2LKf2vZfqCzI7HZ0pJ/uuuHd7GVHd0NGoflpmSlmgL5yL3KuxaP9HMlZG1y7eA63X
+         WBZI3eCig3y/oeD2joJYAPe7Xrvmk4V6uKrsg6VCCo6UXy9IULxne3siBTg8QuOe8s25
+         FbfLpUE99r7lIaIHNtJlr6mdnP91EfKr7ED1bOE3qophPs+GST6YZRY29+ZkU3xYRzyf
+         X95z6jPZYLJZ7qbZBLhbh68CBUNb7G3p9bJDFFGnj+l/qN1XdhqS4gVuaG2jBfR8amse
+         VZFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ADNyDG2DBGoI4aNwBUTKAtbwSm7KSpl3k1qLdQ+eNVc=;
-        b=UoStxwyjWqNfdouaDORUXgV0QIL3LABjdTdn2gHUK8+Q0sKf3VvrGtvohRHXjtaWfQ
-         3byoCvD6ErNMuB52q2cLrvnjXInwTZraFkAMfHWBsG1CAFsNu3SIWydjlmcSis34dPBe
-         j5A7Id8+hbx+lY6YWbr/Ugc4ITaok1XDlt1qYahMjx/u4kuvAJqIh/HV9ZkuEWZez5/3
-         0Q0RDimWRonCdDjEFzYFNib71aQgP2kgHISBCvO9XI93auTx8VoO2TkJwpB9TEWmV/S/
-         jtuM65Mef+gKic08o8HxxpxMSzQzfmdHS+tXlceUvcTKkgnNEKHQ23yhCs810OPct1xG
-         N1+g==
-X-Gm-Message-State: AOAM531T9LcuUdv7iKrVKeBv2kjkJkZPg+pZu3bNMyqjN3bzq0Y8n5ET
-        GMQJofm118VSl4MCTtz7WG/Rtw==
-X-Google-Smtp-Source: ABdhPJzi0UFBk+U8jgTCaeO7i9cpBHQDLvfub0EZ5Bf6vo5Ltzx5N8wg/f9zEiZuAimbgXJnuku/eg==
-X-Received: by 2002:aa7:cd0a:0:b0:425:bc13:4ccb with SMTP id b10-20020aa7cd0a000000b00425bc134ccbmr22949498edw.229.1651670379824;
-        Wed, 04 May 2022 06:19:39 -0700 (PDT)
+        bh=RRL36JMn5+lxomD6rxYAHBa4kgFK3m97JiXVWGmZ0W0=;
+        b=v6G8JGLrRacQhxkZpsLrq43hQfradzFJiqJHeknfg7ea4g6UbFvhwxHAKPPKEIj2N1
+         Yjp1qo/d6zeL2f1tM5Q9Amu+6ovT7Z5TNrpZfvkYDpttR9LRBt+jBRPb6jJYCokI2yY7
+         UE6tETd1NcI7PmRAlnEMCOiWIk9VDEPBUie9fnA6nz+w5iIR1nVNuG1qEqyPps0z/WG/
+         6UfTJ6Q6hEDFL/sKxnUi7mJPdUmQTxngdcFigE/skKB0dJ1h68KdfbqNPl0u+0KMexPx
+         k4D8gVxtHzG5/gNhbIaTuBRc5vApB3OUihzIq+u9nOoWFkmlyeRyaOr+T+zFSzFVfLLS
+         1KMA==
+X-Gm-Message-State: AOAM533nTW0QfsejXAFxHpQ4lEMOPw6+tL+AKvCLz9puh8ittlT4ZUEM
+        3EEIzCCMTGT+8y4XHSmCirfo3g==
+X-Google-Smtp-Source: ABdhPJyLZ81r1bjDKTFjrp6N4nX7FaGiOpiHS919ZFKMq06jKAjhMyWh81OxXnULjmKdJHbQ9ewcgw==
+X-Received: by 2002:a05:6402:90e:b0:425:a4bc:db86 with SMTP id g14-20020a056402090e00b00425a4bcdb86mr5730243edz.98.1651670382007;
+        Wed, 04 May 2022 06:19:42 -0700 (PDT)
 Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.38
+        by smtp.gmail.com with ESMTPSA id gx3-20020a1709068a4300b006f3ef214dc4sm5660924ejc.42.2022.05.04.06.19.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 May 2022 06:19:39 -0700 (PDT)
+        Wed, 04 May 2022 06:19:41 -0700 (PDT)
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
@@ -57,9 +57,9 @@ To:     Andy Gross <agross@kernel.org>,
         linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 11/13] arm64: dts: qcom: msm8996: add clock-names to DWC3 USB node
-Date:   Wed,  4 May 2022 15:19:21 +0200
-Message-Id: <20220504131923.214367-12-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH 13/13] arm64: dts: qcom: align DWC3 USB interrupts with DT schema
+Date:   Wed,  4 May 2022 15:19:23 +0200
+Message-Id: <20220504131923.214367-14-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
 References: <20220504131923.214367-1-krzysztof.kozlowski@linaro.org>
@@ -69,29 +69,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The clock-names is a required property of DWC3 USB node.
+Align order of interrupts with Qualcomm DWC3 USB DT schema.  No
+functional impact expected.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/msm8996.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/qcom/sc7280.dtsi | 10 ++++++----
+ arch/arm64/boot/dts/qcom/sm8450.dtsi | 10 ++++++----
+ 2 files changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-index fc2e026d4c07..b717c01d87e8 100644
---- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
-+++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
-@@ -3050,6 +3050,11 @@ usb2: usb@76f8800 {
- 				<&gcc GCC_USB20_MOCK_UTMI_CLK>,
- 				<&gcc GCC_USB20_SLEEP_CLK>,
- 				<&gcc GCC_USB_PHY_CFG_AHB2PHY_CLK>;
-+			clock-names = "cfg_noc",
-+				      "core",
-+				      "iface",
-+				      "sleep",
-+				      "mock_utmi";
+diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+index 5d51b6ce45ef..3eafc50b6abd 100644
+--- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
++++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+@@ -3265,11 +3265,13 @@ usb_1: usb@a6f8800 {
+ 			assigned-clock-rates = <19200000>, <200000000>;
  
- 			assigned-clocks = <&gcc GCC_USB20_MOCK_UTMI_CLK>,
- 					  <&gcc GCC_USB20_MASTER_CLK>;
+ 			interrupts-extended = <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
+-					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
++					      <&pdc 17 IRQ_TYPE_EDGE_BOTH>,
+ 					      <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
+-					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "hs_phy_irq", "dp_hs_phy_irq",
+-					  "dm_hs_phy_irq", "ss_phy_irq";
++					      <&pdc 14 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "hs_phy_irq",
++					  "ss_phy_irq",
++					  "dm_hs_phy_irq",
++					  "dp_hs_phy_irq";
+ 
+ 			power-domains = <&gcc GCC_USB30_PRIM_GDSC>;
+ 
+diff --git a/arch/arm64/boot/dts/qcom/sm8450.dtsi b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+index e8c19b37ca0e..7d08fad76371 100644
+--- a/arch/arm64/boot/dts/qcom/sm8450.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm8450.dtsi
+@@ -3122,11 +3122,13 @@ usb_1: usb@a6f8800 {
+ 			assigned-clock-rates = <19200000>, <200000000>;
+ 
+ 			interrupts-extended = <&intc GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
+-					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>,
++					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>,
+ 					      <&pdc 15 IRQ_TYPE_EDGE_BOTH>,
+-					      <&pdc 17 IRQ_TYPE_LEVEL_HIGH>;
+-			interrupt-names = "hs_phy_irq", "dp_hs_phy_irq",
+-					  "dm_hs_phy_irq", "ss_phy_irq";
++					      <&pdc 14 IRQ_TYPE_EDGE_BOTH>;
++			interrupt-names = "hs_phy_irq",
++					  "ss_phy_irq",
++					  "dm_hs_phy_irq",
++					  "dp_hs_phy_irq";
+ 
+ 			power-domains = <&gcc USB30_PRIM_GDSC>;
+ 
 -- 
 2.32.0
 
