@@ -2,110 +2,75 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83838C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 17:04:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71CC6C433F5
+	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 17:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243295AbiEERIP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 May 2022 13:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58024 "EHLO
+        id S1382757AbiEERng (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 May 2022 13:43:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240110AbiEERIO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 13:08:14 -0400
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-        by lindbergh.monkeyblade.net (Postfix) with SMTP id 62E5B2BA
-        for <linux-usb@vger.kernel.org>; Thu,  5 May 2022 10:04:34 -0700 (PDT)
-Received: (qmail 12271 invoked by uid 1000); 5 May 2022 13:04:33 -0400
-Date:   Thu, 5 May 2022 13:04:33 -0400
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Jose Ignacio Tornos Martinez <jtornosm@redhat.com>,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4] USB: core: skip unconfiguration if device doesn't
- support it
-Message-ID: <YnQDoc0JETR3KA8A@rowland.harvard.edu>
-References: <20220504083612.143463-1-jtornosm@redhat.com>
- <6A6E8A20-1994-44AD-981A-C8CF472541AC@holtmann.org>
- <15f82796-fa82-fa26-ed38-f0785f39f87e@suse.com>
- <87levgkyjy.fsf@miraculix.mork.no>
- <YnPb04ynkSTlhg4H@rowland.harvard.edu>
- <875ymkknqy.fsf@miraculix.mork.no>
+        with ESMTP id S1382758AbiEERnf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 13:43:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33695C877;
+        Thu,  5 May 2022 10:39:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 715DF61EFF;
+        Thu,  5 May 2022 17:39:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA8BC385A4;
+        Thu,  5 May 2022 17:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1651772393;
+        bh=9rmHzPlhZSBR/Nd84HkVwuqBYbzPc1wFE/i+OrPsMbo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sIFMIAQZ6DkfJh6A+B2PH83sZoeu2XWrgfPx7nCognD/tN0/G4TZDawEZUvOrfZCB
+         0b7W2ve4tiIvNAFc1/Mrpsx+Zp/earkU7XMa7zP4Zy4yhoberA0Eu0mLaiDv1e8/MY
+         HM9KmuhRGGbQGHBXL6IYt/QGtXhZThz6SsvadZDk=
+Date:   Thu, 5 May 2022 14:17:09 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     monish.kumar.r@intel.com
+Cc:     olebowle@gmx.com, oneukum@suse.com, vpalatin@chromium.org,
+        wangjm221@gmail.com, chris.chiu@canonical.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        abhijeet.rao@intel.com
+Subject: Re: [PATCH] Add USB_QUIRK_NO_LPM USB_QUIRK_RESET_RESUME quirks for
+ Dell usb gen 2 device to not fail during enumeration.
+Message-ID: <YnPARed/HKdnwPKV@kroah.com>
+References: <20220505101459.7804-1-monish.kumar.r@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <875ymkknqy.fsf@miraculix.mork.no>
+In-Reply-To: <20220505101459.7804-1-monish.kumar.r@intel.com>
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, May 05, 2022 at 05:22:45PM +0200, Bjørn Mork wrote:
-> Alan Stern <stern@rowland.harvard.edu> writes:
+On Thu, May 05, 2022 at 03:44:59PM +0530, monish.kumar.r@intel.com wrote:
+> From: Monish Kumar R <monish.kumar.r@intel.com>
 > 
-> > Please pardon me for butting in, but I don't see how this tests the 
-> > condition that Jose is worried about.
-> ..
-> > And presumably the device is working again.  However, none of this shows 
-> > what happens when the device is unconfigured.  To test that, you would 
-> > have to do:
-> >
-> > 	echo 0 >/sys/bus/usb/devices/1-8/bConfigurationValue
-> > 	echo 1 >/sys/bus/usb/devices/1-8/bConfigurationValue
-> >
-> > and then see if the device continues to work.
+> Signed-off-by: Monish Kumar R <monish.kumar.r@intel.com>
+> ---
+>  drivers/usb/core/quirks.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Ah, sorry. Scanned briefly, saw "bind", and assumed too much.  Making an
-> ass out of... you know.
-> 
-> Actually I didn't understand the part about unconfiguration since I
-> can't see how that would happen during normal usage?  Anyway,
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 97b44a68668a..257ac37464e8 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -515,6 +515,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+>  
+>  	/* INTEL VALUE SSD */
+>  	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
+>         
+> +	/*DELL USB GEN2 */
+> +	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_NO_LPM },
+> +	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_RESET_RESUME },
 
-Jose was exporting his device over usbip, which perhaps does not count 
-as "normal" usage.
+Are you sure you need both?  How was this tested that both are actually
+set?
 
-> unconfiguring also works for me:
-> 
-> canardo:/tmp# hciconfig hci0
-> hci0:   Type: Primary  Bus: USB
->         BD Address: 00:1A:7D:DA:71:15  ACL MTU: 310:10  SCO MTU: 64:8
->         UP RUNNING 
->         RX bytes:660 acl:0 sco:0 events:43 errors:0
->         TX bytes:2178 acl:0 sco:0 commands:43 errors:0
-> 
-> canardo:/tmp# echo 0 >/sys/bus/usb/devices/1-8/bConfigurationValue
-> canardo:/tmp# hciconfig hci0
-> Can't get device info: No such device
-> canardo:/tmp# echo 1 >/sys/bus/usb/devices/1-8/bConfigurationValue
-> 
-> 
-> Not entirely sure how to validate that "everything" works at this point?
+thanks,
 
-If it weren't, you would know.  Error messages would have shown up at 
-this point.
-
-> I can use the rfcomm session the adapter usually handles and also run
-> lescan after this.  So I guess both BLE and BDR works.
-> 
-> And the counters count something:
-> 
-> canardo:/tmp# hciconfig hci0
-> hci0:   Type: Primary  Bus: USB
->         BD Address: 00:1A:7D:DA:71:15  ACL MTU: 310:10  SCO MTU: 64:8
->         UP RUNNING 
->         RX bytes:3883 acl:40 sco:0 events:81 errors:0
->         TX bytes:2518 acl:19 sco:0 commands:50 errors:0
-> 
-> 
-> I can see an error like this logged every time I unconfigure the device:
-> 
-> Bluetooth: hci0: urb 00000000e66a2492 failed to resubmit (2)
-
-That's normal.  The driver probably could avoid giving that error 
-message under these circumstances, but it's not a big deal.
-
-> There is nothing else logged in kernel log
-
-Okay, thanks for testing.
-
-Alan Stern
+greg k-h
