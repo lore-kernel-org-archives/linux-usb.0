@@ -2,75 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71CC6C433F5
-	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 17:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D8F5C433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 18:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1382757AbiEERng (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 May 2022 13:43:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34102 "EHLO
+        id S1384261AbiEESnQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 May 2022 14:43:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382758AbiEERnf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 13:43:35 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D33695C877;
-        Thu,  5 May 2022 10:39:54 -0700 (PDT)
+        with ESMTP id S1384705AbiEESmr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 14:42:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F22B67D2A;
+        Thu,  5 May 2022 11:32:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 715DF61EFF;
-        Thu,  5 May 2022 17:39:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA8BC385A4;
-        Thu,  5 May 2022 17:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1651772393;
-        bh=9rmHzPlhZSBR/Nd84HkVwuqBYbzPc1wFE/i+OrPsMbo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sIFMIAQZ6DkfJh6A+B2PH83sZoeu2XWrgfPx7nCognD/tN0/G4TZDawEZUvOrfZCB
-         0b7W2ve4tiIvNAFc1/Mrpsx+Zp/earkU7XMa7zP4Zy4yhoberA0Eu0mLaiDv1e8/MY
-         HM9KmuhRGGbQGHBXL6IYt/QGtXhZThz6SsvadZDk=
-Date:   Thu, 5 May 2022 14:17:09 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     monish.kumar.r@intel.com
-Cc:     olebowle@gmx.com, oneukum@suse.com, vpalatin@chromium.org,
-        wangjm221@gmail.com, chris.chiu@canonical.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        abhijeet.rao@intel.com
-Subject: Re: [PATCH] Add USB_QUIRK_NO_LPM USB_QUIRK_RESET_RESUME quirks for
- Dell usb gen 2 device to not fail during enumeration.
-Message-ID: <YnPARed/HKdnwPKV@kroah.com>
-References: <20220505101459.7804-1-monish.kumar.r@intel.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2356DB82E13;
+        Thu,  5 May 2022 18:32:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE37C385A4;
+        Thu,  5 May 2022 18:32:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651775529;
+        bh=saevwTVtK1oIhp5X1KAe86QQJ9Jdw5Oayt67KKcTRqQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=f24ERZau8AWQ9b6FxKPAlCB3MpdjnpMvJP3G4vuzN0Yca5vWOSA24AABXIrqhDHEM
+         WAJyJ730bE4GnGbzfvb0holCfr+J+k/Yu5MVHE/wBPc7RnLsNm0fxY23+NsTRNiImf
+         V4DgIi9XFVVKxu0HLzb9756d+CdFM82ikrD2O1nBBSV39x26jHUxdhQOZuHbQrblGL
+         M/2RNOdrOO49sgtYcWuteQCszW8Cj959zrF1IYMdh9BeI3Or8PRmYr/VEsQVdQP/1k
+         ndnPRDkJp7EsF+GYSIdhuJ9VIvD7HAvwDBLvTJJuF2esJSEmonAZ+BK9HlW4wH2vlJ
+         8HjKbKzQvkJhw==
+Date:   Thu, 5 May 2022 11:32:07 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>
+Cc:     Lukas Wunner <lukas@wunner.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        UNGLinuxDriver@microchip.com, Oliver Neukum <oneukum@suse.com>,
+        Andre Edich <andre.edich@microchip.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Martyn Welch <martyn.welch@collabora.com>,
+        Gabriel Hojda <ghojda@yo2urs.ro>,
+        Christoph Fritz <chf.fritz@googlemail.com>,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Philipp Rosenberger <p.rosenberger@kunbus.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Ferry Toth <fntoth@gmail.com>
+Subject: Re: [PATCH net-next v2 5/7] usbnet: smsc95xx: Forward PHY
+ interrupts to PHY driver to avoid polling
+Message-ID: <20220505113207.487861b2@kernel.org>
+In-Reply-To: <c6b7f4e4a17913d2f2bc4fe722df0804c2d6fea7.1651574194.git.lukas@wunner.de>
+References: <cover.1651574194.git.lukas@wunner.de>
+        <c6b7f4e4a17913d2f2bc4fe722df0804c2d6fea7.1651574194.git.lukas@wunner.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220505101459.7804-1-monish.kumar.r@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, May 05, 2022 at 03:44:59PM +0530, monish.kumar.r@intel.com wrote:
-> From: Monish Kumar R <monish.kumar.r@intel.com>
-> 
-> Signed-off-by: Monish Kumar R <monish.kumar.r@intel.com>
-> ---
->  drivers/usb/core/quirks.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 97b44a68668a..257ac37464e8 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -515,6 +515,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+On Tue, 3 May 2022 15:15:05 +0200 Lukas Wunner wrote:
+> @@ -608,11 +618,20 @@ static void smsc95xx_status(struct usbnet *dev, struct urb *urb)
+>  	intdata = get_unaligned_le32(urb->transfer_buffer);
+>  	netif_dbg(dev, link, dev->net, "intdata: 0x%08X\n", intdata);
 >  
->  	/* INTEL VALUE SSD */
->  	{ USB_DEVICE(0x8086, 0xf1a5), .driver_info = USB_QUIRK_RESET_RESUME },
->         
-> +	/*DELL USB GEN2 */
-> +	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_NO_LPM },
-> +	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_RESET_RESUME },
+> +	/* USB interrupts are received in softirq (tasklet) context.
+> +	 * Switch to hardirq context to make genirq code happy.
+> +	 */
+> +	local_irq_save(flags);
+> +	__irq_enter_raw();
+> +
+>  	if (intdata & INT_ENP_PHY_INT_)
+> -		;
+> +		generic_handle_domain_irq(pdata->irqdomain, PHY_HWIRQ);
+>  	else
+>  		netdev_warn(dev->net, "unexpected interrupt, intdata=0x%08X\n",
+>  			    intdata);
+> +
+> +	__irq_exit_raw();
+> +	local_irq_restore(flags);
 
-Are you sure you need both?  How was this tested that both are actually
-set?
+IRQ maintainers could you cast your eyes over this?
 
-thanks,
+Full patch:
 
-greg k-h
+https://lore.kernel.org/all/c6b7f4e4a17913d2f2bc4fe722df0804c2d6fea7.1651574194.git.lukas@wunner.de/
