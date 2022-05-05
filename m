@@ -2,134 +2,91 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 538D6C433FE
-	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 08:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FABDC433EF
+	for <linux-usb@archiver.kernel.org>; Thu,  5 May 2022 09:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351773AbiEEJBT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 May 2022 05:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41882 "EHLO
+        id S1348604AbiEEJnr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 May 2022 05:43:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351253AbiEEJAx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 05:00:53 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD03E4C404;
-        Thu,  5 May 2022 01:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1651741014; x=1683277014;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=wbPSwTWKs4eXkxIn4y3Us29ei2iTX+Mu5DDySjzbpls=;
-  b=EYnOjG1v3t+Eazru5UBOhwpQXhBFgcgtR5bM8IXMeX87m9jgY+ish5MH
-   bmEDeOX+QDpxn9r4w+yatdJdIdAMp3xsyPqJFC9oDtquHChn0pGgHQEMD
-   HcFAD5xrQLYCpDj1hvqWWd35WTRDvT49PwBfyuOL0N3t9AfsjSSadDj1x
-   0=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 05 May 2022 01:56:54 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2022 01:56:54 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 5 May 2022 01:56:53 -0700
-Received: from hu-kriskura-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 5 May 2022 01:56:47 -0700
-From:   Krishna Kurapati <quic_kriskura@quicinc.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        "Matthias Kaehlcke" <mka@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-CC:     <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>,
-        Sandeep Maheswaram <quic_c_sanm@quicinc.com>,
-        Krishna Kurapati <quic_kriskura@quicinc.com>
-Subject: [v15 5/6] usb: dwc3: qcom: Configure wakeup interrupts during suspend
-Date:   Thu, 5 May 2022 14:26:12 +0530
-Message-ID: <1651740973-7944-6-git-send-email-quic_kriskura@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1651740973-7944-1-git-send-email-quic_kriskura@quicinc.com>
-References: <1651740973-7944-1-git-send-email-quic_kriskura@quicinc.com>
+        with ESMTP id S240726AbiEEJnq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 May 2022 05:43:46 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1B52B1BC
+        for <linux-usb@vger.kernel.org>; Thu,  5 May 2022 02:40:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id ED4026119C
+        for <linux-usb@vger.kernel.org>; Thu,  5 May 2022 09:40:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DF45C385A4
+        for <linux-usb@vger.kernel.org>; Thu,  5 May 2022 09:40:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1651743606;
+        bh=9F189vkMhVx8NOx1qOodw7tuc8NDlgHY+VeKmKI6e1c=;
+        h=From:To:Subject:Date:In-Reply-To:References:From;
+        b=oMzh+YPuVWqCsfTPFjq/uaJc6QLZ9Ycw3Oprt7lUbK6sjkYNxeGYJeXMQhpp8d683
+         0dTfrZRYNXw3WXJQGhL1/UZ8g6Im+LejCgce03WacSj+G1rXrZuveuklRfatv4EgFH
+         J8o7Xt+MIRH02A4ZYfCOVcy3EvOD3rCx0vkvYrCqKgjqi9GHP7TXrofgMHXe/LI0VJ
+         FezaVrmYnwu4+hSbgpQlExikPewKq8u6d2SOeiUSABt2iA8q1bFby1XBs8DPYO5gU3
+         Ynafwnpq98GxzyilaeWt8G5zHISkB5R81xYZTiGqQd5Yz2Doq55A5JRHtM34ifb7x6
+         ayrbGD4++sFzw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+        id 28283C05FD5; Thu,  5 May 2022 09:40:06 +0000 (UTC)
+From:   bugzilla-daemon@kernel.org
+To:     linux-usb@vger.kernel.org
+Subject: [Bug 215906] DMAR fault when connected usb hub (xhci_hcd)
+Date:   Thu, 05 May 2022 09:40:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: regressions@leemhuis.info
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215906-208809-Zb7Q5gXvYB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215906-208809@https.bugzilla.kernel.org/>
+References: <bug-215906-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215906
 
-Configure DP/DM interrupts to detect line state changes based on
-hs_phy_mode. Enable the triggers opposite of what the current
-DP, DM levels. For HS/FS mode enable DM interrupt and for LS enable DP
-interrupt.
+The Linux kernel's regression tracker (Thorsten Leemhuis) (regressions@leem=
+huis.info) changed:
 
-Signed-off-by: Sandeep Maheswaram <quic_c_sanm@quicinc.com>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
----
- drivers/usb/dwc3/dwc3-qcom.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |regressions@leemhuis.info
 
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 7352124..9804a19 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -316,22 +316,36 @@ static void dwc3_qcom_disable_wakeup_irq(int irq)
- 
- static void dwc3_qcom_disable_interrupts(struct dwc3_qcom *qcom)
- {
--	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
- 
--	dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
-+	dwc3_qcom_disable_wakeup_irq(qcom->hs_phy_irq);
- 
--	dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	if (dwc->hs_phy_mode & PHY_MODE_USB_HOST_LS) {
-+		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
-+	} else if (dwc->hs_phy_mode & PHY_MODE_USB_HOST_HS) {
-+		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	} else {
-+		dwc3_qcom_disable_wakeup_irq(qcom->dp_hs_phy_irq);
-+		dwc3_qcom_disable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	}
- 
- 	dwc3_qcom_disable_wakeup_irq(qcom->ss_phy_irq);
- }
- 
- static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- {
--	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
-+	struct dwc3 *dwc = platform_get_drvdata(qcom->dwc3);
- 
--	dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
-+	dwc3_qcom_enable_wakeup_irq(qcom->hs_phy_irq);
- 
--	dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	if (dwc->hs_phy_mode & PHY_MODE_USB_HOST_LS) {
-+		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
-+	} else if (dwc->hs_phy_mode & PHY_MODE_USB_HOST_HS) {
-+		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	} else {
-+		dwc3_qcom_enable_wakeup_irq(qcom->dp_hs_phy_irq);
-+		dwc3_qcom_enable_wakeup_irq(qcom->dm_hs_phy_irq);
-+	}
- 
- 	dwc3_qcom_enable_wakeup_irq(qcom->ss_phy_irq);
- }
--- 
-2.7.4
+--- Comment #2 from The Linux kernel's regression tracker (Thorsten Leemhui=
+s) (regressions@leemhuis.info) ---
+I wanted to add this issue to the regression tracking and poke the maintain=
+ers,
+but noticed there is a patch that is being backported right now that might =
+or
+might not be related (not my area of expertise):
+https://lore.kernel.org/all/20220504153117.726462014@linuxfoundation.org/
 
+It's already in 5.18-rc5; could somebody please give it a quick try before I
+proceed with my initial plan?
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
