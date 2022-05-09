@@ -2,134 +2,179 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABD05C433EF
-	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 03:45:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 751FAC433F5
+	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 03:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232677AbiEIDsc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 8 May 2022 23:48:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43898 "EHLO
+        id S230136AbiEIDtZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 8 May 2022 23:49:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbiEIDm6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 8 May 2022 23:42:58 -0400
+        with ESMTP id S233304AbiEIDgi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 8 May 2022 23:36:38 -0400
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8608AD11F;
-        Sun,  8 May 2022 20:39:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B31D43F33C
+        for <linux-usb@vger.kernel.org>; Sun,  8 May 2022 20:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1652067541; x=1683603541;
+  t=1652067165; x=1683603165;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Eec18//IsPwyC++u7RUnbqlmOOXMwJSxguy1wuaYhpw=;
-  b=we78HVW9HlOQ/CHVIvPONMrWOEGsHpG9ajgN3+52cChGpxoq7sE2QWfd
-   2tZuSSPTFCrPxCTZD5mGFfA47RMAmrtnxhSLio9EKj+2wmPbvv2F4RBht
-   /xuSguEi6tos0JA23AJfVDJHOnADtepgXVed+iRan6Y3Bd+7lv/EaipsR
-   U=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 08 May 2022 20:38:53 -0700
+  bh=Z2vYOf1r8ngCg6t/cVD2yMurXnlebgzMdjIhU87DdiI=;
+  b=CVtGxoNKjR67oe1PtBwPxghpybCCPIDqWMezLEv2z+Olp7kO+S0gxBbe
+   U+PGkJAeTJDxLkwQJHlY5eGp0KB0f8m7Z+62dCYXQ8KfvN9qKiREhFVWS
+   VJcvYopekI9E6LFs1kwk0PYMsHrs/SagP0erh/1Q6LdZMLSxHA/EctKtX
+   w=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 08 May 2022 20:32:45 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 20:38:53 -0700
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2022 20:32:44 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 8 May 2022 20:38:53 -0700
+ 15.2.986.22; Sun, 8 May 2022 20:32:44 -0700
 Received: from hu-pkondeti-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 8 May 2022 20:38:47 -0700
-Date:   Mon, 9 May 2022 09:08:43 +0530
+ 15.2.986.22; Sun, 8 May 2022 20:32:42 -0700
+Date:   Mon, 9 May 2022 09:02:38 +0530
 From:   Pavan Kondeti <quic_pkondeti@quicinc.com>
-To:     Matthias Kaehlcke <mka@chromium.org>
-CC:     Krishna Kurapati <quic_kriskura@quicinc.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Andy Gross" <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <quic_pkondeti@quicinc.com>,
-        <quic_ppratap@quicinc.com>, <quic_vpulyala@quicinc.com>
-Subject: Re: [v15 2/6] usb: host: xhci-plat: Enable wakeup based on children
- wakeup status
-Message-ID: <20220509033843.GB9170@hu-pkondeti-hyd.qualcomm.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     Matthias Kaehlcke <mka@chromium.org>,
+        USB mailing list <linux-usb@vger.kernel.org>
+Subject: Re: [v15 3/6] usb: dwc3: core: Host wake up support from system
+ suspend
+Message-ID: <20220509033238.GA9170@hu-pkondeti-hyd.qualcomm.com>
 References: <1651740973-7944-1-git-send-email-quic_kriskura@quicinc.com>
- <1651740973-7944-3-git-send-email-quic_kriskura@quicinc.com>
- <YnVAZSZYQvIJxOHv@google.com>
+ <1651740973-7944-4-git-send-email-quic_kriskura@quicinc.com>
+ <YnRUPxBZB55TPmf2@google.com>
+ <a83dea08-0920-17e6-ec1c-f9d8a490a08d@quicinc.com>
+ <20220506051448.GE4640@hu-pkondeti-hyd.qualcomm.com>
+ <YnVD+ltiQhKE+jPf@google.com>
+ <YnVSIvwXsKySg33M@google.com>
+ <YnVmXmG+6emL4nxv@rowland.harvard.edu>
+ <YnVs7kSkpjUBWc5w@google.com>
+ <YnWFaSXJJ8T7IYtl@rowland.harvard.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <YnVAZSZYQvIJxOHv@google.com>
+In-Reply-To: <YnWFaSXJJ8T7IYtl@rowland.harvard.edu>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 06, 2022 at 08:36:31AM -0700, Matthias Kaehlcke wrote:
-> On Thu, May 05, 2022 at 02:26:09PM +0530, Krishna Kurapati wrote:
-> > device_wakeup_path() tells if any of the children devices needs
-> > wakeup. Use this hint to enable/disable wakeup of our device. This
-> > helps the parent device of xhci-plat (like sysdev) to retrieve
-> > the wakeup setting via device_wakeup_path().
+On Fri, May 06, 2022 at 04:30:33PM -0400, Alan Stern wrote:
+> On Fri, May 06, 2022 at 11:46:06AM -0700, Matthias Kaehlcke wrote:
+> > On Fri, May 06, 2022 at 02:18:06PM -0400, Alan Stern wrote:
+> > > [CC: list drastically reduced]
+> > > 
+> > > On Fri, May 06, 2022 at 09:51:46AM -0700, Matthias Kaehlcke wrote:
+> > > > I found this, as I commented on the other thread:
+> > > > 
+> > > >   commit c4a5153e87fdf6805f63ff57556260e2554155a5
+> > > >   Author: Manu Gautam <mgautam@codeaurora.org>
+> > > >   Date:   Thu Jan 18 16:54:30 2018 +0530
+> > > > 
+> > > >   usb: dwc3: core: Power-off core/PHYs on system_suspend in host mode
+> > > > 
+> > > >   Commit 689bf72c6e0d ("usb: dwc3: Don't reinitialize core during
+> > > >   host bus-suspend/resume") updated suspend/resume routines to not
+> > > >   power_off and reinit PHYs/core for host mode.
+> > > >   It broke platforms that rely on DWC3 core to power_off PHYs to
+> > > >   enter low power state on system suspend.
+> > > > 
+> > > >   Perform dwc3_core_exit/init only during host mode system_suspend/
+> > > >   resume to addresses power regression from above mentioned patch
+> > > >   and also allow USB session to stay connected across
+> > > >   runtime_suspend/resume in host mode. While at it also replace
+> > > >   existing checks for HOST only dr_mode with current_dr_role to
+> > > >   have similar core driver behavior for both Host-only and DRD+Host
+> > > >   configurations.
+> > > > 
+> > > >   Fixes: 689bf72c6e0d ("usb: dwc3: Don't reinitialize core during host bus-suspend/resume")
+> > > >   Reviewed-by: Roger Quadros <rogerq@ti.com>
+> > > >   Signed-off-by: Manu Gautam <mgautam@codeaurora.org>
+> > > >   Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+> > > > 
+> > > > 
+> > > > So apparently powering off the core and PHYs is needed on some
+> > > > platforms.
+> > > > 
+> > > > Let's move forward with the core/PHYs off for now and try to
+> > > > come up with a solution (e.g. a DT property that indicates
+> > > > that the core/PHYs can remain powererd) in a separate
+> > > > patch/series.
+> > > 
+> > > Isn't it true that if you power off the PHY, the controller will be 
+> > > unable to detect resume requests from attached devices? Similarly, won't 
+> > > the controller will be unable to detect plug and unplug events on the 
+> > > root hub?
+> > > 
+> > > Doesn't this mean that if wakeup is enabled on the root hub or any of 
+> > > the devices downstream from a root-hub port, the port's PHY must remain 
+> > > powered during suspend?
 > > 
-> > Signed-off-by: Krishna Kurapati <quic_kriskura@quicinc.com>
-> > ---
-> >  drivers/usb/host/xhci-plat.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
+> > Yes.
 > > 
-> > diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-> > index 649ffd8..ad585fa 100644
-> > --- a/drivers/usb/host/xhci-plat.c
-> > +++ b/drivers/usb/host/xhci-plat.c
-> > @@ -415,6 +415,14 @@ static int __maybe_unused xhci_plat_suspend(struct device *dev)
-> >  	if (pm_runtime_suspended(dev))
-> >  		pm_runtime_resume(dev);
-> >  
-> > +	if (device_wakeup_path(dev)) {
-> > +		if (!device_may_wakeup(dev))
-> > +			device_wakeup_enable(dev);
-> > +	} else {
-> > +		if (device_may_wakeup(dev))
-> > +			device_wakeup_disable(dev);
-> > +	}
+> > Currently the core/PHYs are always powered off during suspend in host mode:
+> > 
+> > static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
+> > {
+> > 	...
+> > 
+> > 	switch (dwc->current_dr_role) {
+> > 	case DWC3_GCTL_PRTCAP_HOST:
+> > 		if (!PMSG_IS_AUTO(msg)) {
+> > 			dwc3_core_exit(dwc);
+> > 			break;
+> > 		}
+> > 
+> > 	...
+> > }
+> > 
+> > With that I would expect wakeup to be broken for all dwc3. I'm a bit confused
+> > though, since dwc3-imx8mp.c seems to support wakeup and the driver landed
+> > after the above patch ...
+> > 
+> > This series intends to change the above code to something like this:
+> > 
+> > 	if (!PMSG_IS_AUTO(msg)) {
+> > 	       if (device_may_wakeup(dwc->dev) &&
+> > 	                       device_wakeup_path(dwc->dev)) {
+> > 	               dwc->phy_power_off = false;
+> > 	       } else {
+> > 	               dwc->phy_power_off = true;
+> > 	               dwc3_core_exit(dwc);
+> > 	       }
+> > 	}
 > 
-> This code is not self-explantatory and deserves a comment.
+> > i.e. the core/PHYs would only be powered down if wakeup is disabled or no
+> > wakeup capable devices are connected. With that plug/unplug events still
+> > wouldn't be detected.
 > 
-> Enabling/disabling wakeup for the purpose if signalling is a bit of a
-> hack. It might be an acceptable hack as long as it has no side effects.
-> However with the current implementation the wakeup state of the xHCI can
-> be different after resuming than it was before going to suspend:
+> Indeed.  Shouldn't the "&&" and "||"?  That is, don't you want to leave 
+> the core and PHY powered if wakeup is enabled for the root hub or for 
+> any devices beneath it?
 > 
-> after boot
->   grep -h xhci /sys/class/wakeup/*/name
->     => xhci-hcd.14.auto
+> It would be simpler to leave the core and PHY powered whenever wakeup is 
+> enabled for the controller itself, regardless of the status of the root 
+> hub and downstream devices.  Users might not like this so much if the 
+> default setting is to enable wakeup for the controller always.  Still, 
+> it's an easy solution.
 > 
-> after suspend w/o wakeup capable device
->   grep -h xhci /sys/class/wakeup/*/name
->     => no results
-> 
-> after suspend with wakeup capable device
->   grep -h xhci /sys/class/wakeup/*/name
->     => xhci-hcd.14.auto
-> 
-> The hack shouldn't alter the wakeup state 'persistently', i.e. you'll have
-> to restore it on resume, as in Pavan does in his reply to '[PATCH v14 2/7]
-> PM / wakeup: Add device_children_wakeup_capable()' (it needs to be done
-> conditionally though).
+At this point it is not clear if all boards that has DWC3 controller can
+support wakeup capability or not. Thats why we have introduced a wakeup device
+tree property based on which we advertise our wakeup capability.
 
-I am worried that we are not doing the right thing here. why should the
-xhci-plat goes against the wishes of the user space policy here? Can we NOT
-just do anything here? If some one wants xhci-plat to wakeup all the time,
-dwc3 will be configured to wakeup the system provided that the support is
-available. This way we don't break any existing users of xhci-plat i.e not
-enabling wakeup from the kernel.
+device_init_wakeup(&pdev->dev, of_property_read_bool(dev->of_node,
+"wakeup-source"));
+
+Hence the && condition to make sure that we support wakeup and our children
+needs it.
 
 Thanks,
 Pavan
