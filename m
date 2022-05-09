@@ -2,48 +2,48 @@ Return-Path: <linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4921C433F5
-	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 20:21:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE4EC433FE
+	for <linux-usb@archiver.kernel.org>; Mon,  9 May 2022 20:21:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbiEIUYz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 9 May 2022 16:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46082 "EHLO
+        id S229504AbiEIUZK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 9 May 2022 16:25:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbiEIUYg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 16:24:36 -0400
+        with ESMTP id S229690AbiEIUYa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 9 May 2022 16:24:30 -0400
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B03AE24DC53
-        for <linux-usb@vger.kernel.org>; Mon,  9 May 2022 13:07:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C36924DC2D
+        for <linux-usb@vger.kernel.org>; Mon,  9 May 2022 13:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652126867; x=1683662867;
+  t=1652126861; x=1683662861;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=tJ5iWQ6NMhVxpk1xivim5DEY7YBLb9RD8AZG6WZfYEA=;
-  b=iLLN4C4IESGCSjqidtM5RdjU2cMOLWj2HXT1uHZh93OpGixGUPHJJAbb
-   dbjD+YmL0bm3RwHdoNA/T3MifryboD1JbFdIRbKXpkrkqjfu+wMi/LB5x
-   3ooJQrFhjqBTZQ4Y/lJFJUrNFiXsw0dXGlyCzx89P5RLgefM1WhHTczVQ
-   8h2naE+FdWhIJzY0clz6oz8wM1LBJObhrbxFal7YlxyCxZfGGNM6O53eJ
-   Ug+NUXMuhKqnszQbxQQwDM9wSxUgdfQOcb0Q8SdAGxGN7tYO2eoAfdw1q
-   cX53aXmDN2ui/t0kQRgJ3pixbxlAKZAVpkMx5eiinG+HOHsGrkp+EKdgj
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249692955"
+  bh=g34ni762V7ZNpKT1kr6emy3LlL/db6fdQrXnmpTZEYw=;
+  b=L18ci3rMVvipkJZk6kVYb+9eJM8EsKIidyv3p+4+BAUjlPRReCrYR7NJ
+   KvJEq+kirVJUhKoBQNae8hEk/e1TAFTKbdDJAL0oiXwgOi6ZfO191A5c5
+   Ynqvw2gV4FdprdMCA/t3QA8puZaQaTQ6ZLtGvzf17DOQYjimjrSU+UfBy
+   07mCWmR5xpKktqJhw6RhmQmXNATE9mdluV+j0Xg+DVOeqyi5Mq/A6BzTK
+   n6dSX/E4kIkLslz7ZcR5CdEgiaHKZH8L9BNw9M9GbvMQ4HBvKPZtUdsMR
+   ushpL/RJ47XHkd9fb8KmukEMTaSbcnqt37hlpXh0eYxB6rUiO6m6/yCls
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10342"; a="249692930"
 X-IronPort-AV: E=Sophos;i="5.91,212,1647327600"; 
-   d="scan'208";a="249692955"
+   d="scan'208";a="249692930"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 13:07:47 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2022 13:07:40 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,212,1647327600"; 
-   d="scan'208";a="710688914"
+   d="scan'208";a="710688882"
 Received: from ccdjpclinux26.jer.intel.com ([10.12.48.253])
-  by fmsmga001.fm.intel.com with ESMTP; 09 May 2022 13:07:45 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 09 May 2022 13:07:39 -0700
 From:   Gil Fine <gil.fine@intel.com>
 To:     andreas.noever@gmail.com, michael.jamet@intel.com,
         mika.westerberg@linux.intel.com, YehezkelShB@gmail.com
 Cc:     gil.fine@intel.com, linux-usb@vger.kernel.org, lukas@wunner.de
-Subject: [PATCH 6/6] thunderbolt: Change TMU mode to HiFi uni-directional once DisplayPort tunneled
-Date:   Mon,  9 May 2022 23:16:56 +0300
-Message-Id: <20220509201656.502-7-gil.fine@intel.com>
+Subject: [PATCH 3/6] thunderbolt: Fix typos in CLx enabling
+Date:   Mon,  9 May 2022 23:16:53 +0300
+Message-Id: <20220509201656.502-4-gil.fine@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220509201656.502-1-gil.fine@intel.com>
 References: <20220509201656.502-1-gil.fine@intel.com>
@@ -51,128 +51,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Here we configure TMU mode to HiFi uni-directional once DP tunnel
-is created. This is due to accuracy requirement for DP tunneling
-as appears in CM guide 1.0, section 7.3.2.
-Due to Intel hardware limitation, once we changed the TMU mode to HiFi
-uni-directional (when DP tunnel exists), we don't change TMU mode back to
-normal uni-directional, even if DP tunnel is torn down later.
+Fix few typos in CLx enabling.
 
 Signed-off-by: Gil Fine <gil.fine@intel.com>
 ---
- drivers/thunderbolt/tb.c  | 28 ++++++++++++++++++++++++++++
- drivers/thunderbolt/tb.h  |  5 +++++
- drivers/thunderbolt/tmu.c | 14 ++++++++++++++
- 3 files changed, 47 insertions(+)
+ drivers/thunderbolt/switch.c | 2 +-
+ drivers/thunderbolt/tmu.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 4f74789dd1be..bedabc407ab2 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -50,6 +50,8 @@ struct tb_hotplug_event {
- };
- 
- static void tb_handle_hotplug(struct work_struct *work);
-+static void tb_enable_tmu_1st_child(struct tb *tb,
-+				    enum tb_switch_tmu_rate rate);
- 
- static void tb_queue_hotplug(struct tb *tb, u64 route, u8 port, bool unplug)
- {
-@@ -118,6 +120,13 @@ static void tb_switch_discover_tunnels(struct tb_switch *sw,
- 		switch (port->config.type) {
- 		case TB_TYPE_DP_HDMI_IN:
- 			tunnel = tb_tunnel_discover_dp(tb, port, alloc_hopids);
-+			/*
-+			 * In case of DP tunnel exists, change TMU mode to
-+			 * HiFi for CL0s to work.
-+			 */
-+			if (tunnel)
-+				tb_enable_tmu_1st_child(tb,
-+						TB_SWITCH_TMU_RATE_HIFI);
- 			break;
- 
- 		case TB_TYPE_PCIE_DOWN:
-@@ -235,6 +244,19 @@ static int tb_enable_tmu(struct tb_switch *sw)
- 	return tb_switch_tmu_enable(sw);
- }
- 
-+/*
-+ * Once a DP tunnel exists in the domain, we set the TMU mode so that
-+ * it meets the accuracy requirements and also enables CLx entry (CL0s).
-+ * We set the TMU mode of the first depth router(s) for CL0s to work.
-+ */
-+static void tb_enable_tmu_1st_child(struct tb *tb, enum tb_switch_tmu_rate rate)
-+{
-+	struct tb_sw_tmu_config tmu = { .rate = rate };
-+
-+	device_for_each_child(&tb->root_switch->dev, &tmu,
-+			      tb_switch_tmu_config_enable);
-+}
-+
- /**
-  * tb_find_unused_port() - return the first inactive port on @sw
-  * @sw: Switch to find the port on
-@@ -985,6 +1007,12 @@ static void tb_tunnel_dp(struct tb *tb)
- 
- 	list_add_tail(&tunnel->list, &tcm->tunnel_list);
- 	tb_reclaim_usb3_bandwidth(tb, in, out);
-+	/*
-+	 * In case of DP tunnel exists, change TMU mode to
-+	 * HiFi for CL0s to work.
-+	 */
-+	tb_enable_tmu_1st_child(tb, TB_SWITCH_TMU_RATE_HIFI);
-+
- 	return;
- 
- err_free:
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index a16fffba9dd2..3dbd9d919d5f 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -110,6 +110,10 @@ struct tb_switch_tmu {
- 	enum tb_switch_tmu_rate rate_request;
- };
- 
-+struct tb_sw_tmu_config {
-+	enum tb_switch_tmu_rate rate;
-+};
-+
- enum tb_clx {
- 	TB_CLX_DISABLE,
- 	/* CL0s and CL1 are enabled and supported together */
-@@ -934,6 +938,7 @@ int tb_switch_tmu_enable(struct tb_switch *sw);
- void tb_switch_tmu_configure(struct tb_switch *sw,
- 			     enum tb_switch_tmu_rate rate,
- 			     bool unidirectional);
-+int tb_switch_tmu_config_enable(struct device *dev, void *data);
- /**
-  * tb_switch_tmu_is_enabled() - Checks if the specified TMU mode is enabled
-  * @sw: Router whose TMU mode to check
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 549523c9a543..42b7daaf9c4d 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -3485,7 +3485,7 @@ static int tb_switch_enable_cl0s(struct tb_switch *sw)
+  * to improve performance. CLx is enabled only if both sides of the link
+  * support CLx, and if both sides of the link are not configured as two
+  * single lane links and only if the link is not inter-domain link. The
+- * complete set of conditions is descibed in CM Guide 1.0 section 8.1.
++ * complete set of conditions is described in CM Guide 1.0 section 8.1.
+  *
+  * Return: Returns 0 on success or an error code on failure.
+  */
 diff --git a/drivers/thunderbolt/tmu.c b/drivers/thunderbolt/tmu.c
-index e822ab90338b..b8ff9f64a71e 100644
+index e4a07a26f693..b656659d02fb 100644
 --- a/drivers/thunderbolt/tmu.c
 +++ b/drivers/thunderbolt/tmu.c
-@@ -727,6 +727,20 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
- 	return tb_switch_tmu_set_time_disruption(sw, false);
- }
- 
-+int tb_switch_tmu_config_enable(struct device *dev, void *data)
-+{
-+	if (tb_is_switch(dev)) {
-+		struct tb_switch *sw = tb_to_switch(dev);
-+		struct tb_sw_tmu_config *tmu = data;
-+
-+		tb_switch_tmu_configure(sw, tmu->rate, tb_switch_is_clx_enabled(sw, TB_CL1));
-+		if (tb_switch_tmu_enable(sw))
-+			tb_sw_dbg(sw, "Fail switching TMU to HiFi for 1st depth router\n");
-+	}
-+
-+	return 0;
-+}
-+
+@@ -606,7 +606,7 @@ int tb_switch_tmu_enable(struct tb_switch *sw)
  /**
   * tb_switch_tmu_configure() - Configure the TMU rate and directionality
   * @sw: Router whose mode to change
+- * @rate: Rate to configure Off/LowRes/HiFi
++ * @rate: Rate to configure Off/Normal/HiFi
+  * @unidirectional: If uni-directional (bi-directional otherwise)
+  *
+  * Selects the rate of the TMU and directionality (uni-directional or
 -- 
 2.17.1
 
